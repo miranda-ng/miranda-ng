@@ -1,0 +1,653 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>chat</ProjectName>
+    <ProjectGuid>{268BD296-8DD3-4715-A386-CF120398EC98}</ProjectGuid>
+    <RootNamespace>chat</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30128.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</IgnoreImportLibrary>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>shlwapi.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <BaseAddress>0x54110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>shlwapi.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <BaseAddress>0x54110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\chat___Win32_Debug_Unicode/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>Version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\chat___Win32_Debug_Unicode/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>Version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release_Unicode/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>Version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release_Unicode/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>Version.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>shlwapi.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <SubSystem>NotSet</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <NoEntryPoint>false</NoEntryPoint>
+      <BaseAddress>0x54110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/chat.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CHAT_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>chat.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x041d</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/DLL %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>shlwapi.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <SubSystem>NotSet</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <NoEntryPoint>false</NoEntryPoint>
+      <BaseAddress>0x54110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="clist.c" />
+    <ClCompile Include="colorchooser.c" />
+    <ClCompile Include="log.c" />
+    <ClCompile Include="main.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="manager.c" />
+    <ClCompile Include="message.c" />
+    <ClCompile Include="options.c" />
+    <ClCompile Include="richutil.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="services.c" />
+    <ClCompile Include="tools.c" />
+    <ClCompile Include="window.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="chat.h" />
+    <ClInclude Include="richutil.h" />
+    <ClInclude Include="m_smileyadd.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\1.ico" />
+    <None Include="Icons\2.ico" />
+    <None Include="Icons\3.ico" />
+    <None Include="Icons\4.ico" />
+    <None Include="Icons\5.ico" />
+    <None Include="Icons\6.ico" />
+    <None Include="Icons\action.ico" />
+    <None Include="Icons\addmode.ico" />
+    <None Include="Icons\bkgcolor.ico" />
+    <None Include="Icons\blank.ico" />
+    <None Include="Icons\bold.ico" />
+    <None Include="Icons\close.ico" />
+    <None Include="Icons\color.ico" />
+    <None Include="Icons\filter.ico" />
+    <None Include="Icons\filter2.ico" />
+    <None Include="Icons\highlight.ico" />
+    <None Include="Icons\history.ico" />
+    <None Include="Icons\info.ico" />
+    <None Include="Icons\italics.ico" />
+    <None Include="Icons\join.ico" />
+    <None Include="Icons\kick.ico" />
+    <None Include="Icons\message.ico" />
+    <None Include="Icons\messageout.ico" />
+    <None Include="Icons\nick.ico" />
+    <None Include="Icons\nicklist.ico" />
+    <None Include="Icons\nicklist2.ico" />
+    <None Include="Icons\notice.ico" />
+    <None Include="Icons\overlay.ico" />
+    <None Include="Icons\part.ico" />
+    <None Include="Icons\quit.ico" />
+    <None Include="Icons\removestatus.ico" />
+    <None Include="Icons\smiley.ico" />
+    <None Include="Icons\tag1.ico" />
+    <None Include="Icons\tag2.ico" />
+    <None Include="Icons\topic.ico" />
+    <None Include="Icons\topicbut.ico" />
+    <None Include="Icons\underline.ico" />
+    <None Include="Icons\window.ico" />
+    <None Include="Docs\Chat_license.txt" />
+    <None Include="Docs\Chat_Readme.txt" />
+    <None Include="Docs\Chat_Translate.txt" />
+    <None Include="..\..\..\..\CVS upload\to do.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Chat.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,152 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+    IDD_SPLASH_OPT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 307
+        VERTGUIDE, 32
+        VERTGUIDE, 39
+        VERTGUIDE, 58
+        VERTGUIDE, 101
+        VERTGUIDE, 130
+        VERTGUIDE, 172
+        HORZGUIDE, 119
+        HORZGUIDE, 136
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SPLASH_OPT DIALOGEX 0, 0, 314, 240
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Splash Options",IDC_STATIC,20,7,275,81
+    CONTROL         "Show splash",IDC_ACTIVE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,58,26,64,10
+    CONTROL         "Show random splash",IDC_RANDOM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,26,163,10
+    EDITTEXT        IDC_SPLASHPATH,69,39,145,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_CHOOSESPLASH,222,40,22,11
+    CONTROL         "Play sound",IDC_PLAYSND,"Button",BS_AUTO3STATE | 
+                    WS_TABSTOP,58,55,64,10
+    CONTROL         "Loop sound",IDC_LOOPSOUND,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,130,55,137,10
+    EDITTEXT        IDC_SNDPATH,69,67,145,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_CHOOSESND,222,68,22,11
+    GROUPBOX        "Show Miranda Version",IDC_STATIC,20,90,275,42
+    CONTROL         "Enable",IDC_SHOWVERSION,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,109,63,8
+    LTEXT           "Prefix:",IDC_STATIC,130,108,42,10
+    EDITTEXT        IDC_VERSIONPREFIX,180,106,85,13,ES_AUTOHSCROLL
+    GROUPBOX        "Appearance",IDC_STATIC,20,135,275,72
+    LTEXT           "Display time:",IDC_STATIC,40,150,77,8
+    EDITTEXT        IDC_SHOWTIME,130,149,39,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_ST_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | 
+                    UDS_NOTHOUSANDS,171,149,10,10
+    LTEXT           "msec",IDC_STATIC,175,150,95,9
+    CONTROL         "Fade in:",IDC_FADEIN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,169,80,8
+    EDITTEXT        IDC_FISTEP,130,168,39,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_FI_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,170,167,
+                    10,10
+    LTEXT           "steps",IDC_STATIC,176,169,95,9
+    CONTROL         "Fade out:",IDC_FADEOUT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,188,82,8
+    EDITTEXT        IDC_FOSTEP,130,186,39,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_FO_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,173,186,
+                    10,10
+    LTEXT           "steps",IDC_STATIC,176,187,95,9
+    LTEXT           "Advaimg library not found. Please get it from nigtlies to be able to use images.",
+                    IDC_PNG2DIBWARN,24,210,185,17,NOT WS_VISIBLE
+    PUSHBUTTON      "Preview...",IDC_PREVIEW,218,211,75,19
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Unknown language: 0x22, 0x1 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
+#ifdef _WIN32
+LANGUAGE 0x22, 0x1
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "\r\n"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Unknown language: 0x22, 0x1 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

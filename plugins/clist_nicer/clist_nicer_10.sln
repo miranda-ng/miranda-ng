@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "clist_nicer", "clist_nicer_10.vcxproj", "{3C42510C-A29E-4A53-899C-203BFA874E0B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cln_skinedit", "skineditor\skinedit_10.vcxproj", "{987F026D-EB1F-4013-ADA8-2406ACCDA526}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unicode|Win32 = Debug Unicode|Win32
+		Debug Unicode|x64 = Debug Unicode|x64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release Unicode|x64 = Release Unicode|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|Win32.Build.0 = Debug|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|x64.ActiveCfg = Debug|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|x64.Build.0 = Debug|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release|Win32.ActiveCfg = Release|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release|Win32.Build.0 = Release|Win32
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release|x64.ActiveCfg = Release|x64
+		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Release|x64.Build.0 = Release|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug|Win32.ActiveCfg = Debug|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug|Win32.Build.0 = Debug|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug|x64.ActiveCfg = Debug|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Debug|x64.Build.0 = Debug|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|Win32.ActiveCfg = Release|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|Win32.Build.0 = Release|Win32
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|x64.ActiveCfg = Release|x64
+		{987F026D-EB1F-4013-ADA8-2406ACCDA526}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,4 @@
+Jabber Protocol Plugin for Miranda IM
+
+Copyright ( C ) 2002-04 Santithorn Bunchua
+Copyright ( C ) 2005-07 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura

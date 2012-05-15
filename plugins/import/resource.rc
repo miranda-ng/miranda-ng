@@ -1,0 +1,390 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.K.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_IMPORTTYPE DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Choose how you would like to import:",IDC_STATIC,5,16,
+                    210,8
+    CONTROL         "From a Miranda IM database.",IDC_MIRANDA,"Button",
+                    BS_AUTORADIOBUTTON,11,31,204,10
+    CONTROL         "From a Mirabilis ICQ (99a - 2003a) database.",
+                    IDC_MIRABILIS,"Button",BS_AUTORADIOBUTTON,11,46,204,10
+    CONTROL         "Use the Find/Add contacts tool to populate my contact list.",
+                    IDC_USEFINDADD,"Button",BS_AUTORADIOBUTTON,11,61,204,10
+END
+
+IDD_WIZARDINTRO DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "This wizard will help you import contacts and message history from Mirabilis ICQ, as well as letting you import from other Miranda IM profiles.",
+                    IDC_STATIC,33,12,182,32
+    ICON            IDI_IMPORT,IDC_STATIC,5,12,20,20
+    LTEXT           "Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.",
+                    IDC_STATIC,33,49,182,25
+    CTEXT           "It is recommended that you create a backup of your current Miranda profile before importing.",
+                    IDC_STATIC,30,81,182,21
+END
+
+IDD_FINISHED DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "If you wish to import more information, click ""Next"" to return to the start of the wizard, otherwise click ""Finish"" to start using Miranda.",
+                    IDC_STATIC,5,20,210,16
+    LTEXT           "You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.",
+                    IDC_STATIC,5,41,210,24
+    CONTROL         "Do not load the import plugin at startup again",
+                    IDC_DONTLOADPLUGIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    6,97,210,10
+    LTEXT           "Import completed",IDC_STATIC,5,7,210,8
+    LTEXT           "If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.",
+                    IDC_STATIC,5,69,210,24
+END
+
+IDD_MIRABILISDB DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Miranda has found Mirabilis ICQ databases corresponding to the following ICQ numbers. Please select the one you wish to import, or click ""Other Database"" if your database is not listed.",
+                    IDC_STATIC,5,5,210,24
+    LISTBOX         IDC_LIST,5,31,210,36,LBS_SORT | LBS_NOINTEGRALHEIGHT |
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Other Database...",IDC_OTHER,149,69,66,14
+    RTEXT           "&Filename:",IDC_STATIC,5,88,34,8
+    EDITTEXT        IDC_FILENAME,42,86,173,12,ES_AUTOHSCROLL
+    CTEXT           "Warning: Mirabilis ICQ running. Import may not be reliable.",
+                    IDC_MIRABILISRUNNING,5,101,210,8
+    RTEXT           "&Account:",IDC_STATIC,6,74,34,8
+    COMBOBOX        IDC_MIRABILISACCOUNT,42,71,102,30,CBS_DROPDOWNLIST |
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_MIRANDADB DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click ""Other Profile"" if your profile is not listed, or if the list is empty.",
+                    IDC_STATIC,5,10,210,24
+    LISTBOX         IDC_LIST,5,36,210,36,LBS_SORT | LBS_NOINTEGRALHEIGHT |
+                    WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Other Profile...",IDC_OTHER,149,74,66,14
+    RTEXT           "&Filename:",IDC_STATIC,5,93,34,8
+    EDITTEXT        IDC_FILENAME,41,91,174,12,ES_AUTOHSCROLL
+END
+
+IDD_PROGRESS DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Now importing...",IDC_STATIC,5,11,62,8
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",PBS_SMOOTH |
+                    WS_BORDER,5,24,210,10
+    LISTBOX         IDC_STATUS,5,38,210,61,NOT LBS_NOTIFY |
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | LBS_NOSEL |
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_WIZARD DIALOGEX 0, 0, 220, 143
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CAPTION | WS_SYSMENU
+CAPTION "Import Information Wizard"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Next >",IDOK,120,124,45,13
+    PUSHBUTTON      "Cancel",IDCANCEL,170,124,45,13
+    PUSHBUTTON      "< &Back",IDC_BACK,75,124,45,13
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,-7,115,234,1
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Import all contacts and all messages",IDC_RADIO_ALL,
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP | BS_LEFT | BS_TOP,7,10,206,
+                    11
+    CONTROL         "Only import contacts",IDC_RADIO_CONTACTS,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP,7,42,206,10
+    CONTROL         "Custom import",IDC_RADIO_CUSTOM,"Button",
+                    BS_AUTORADIOBUTTON | WS_TABSTOP | WS_DISABLED,7,74,206,10
+    LTEXT           "Select this if you want to import as much data as possible. This is the recommended option.",
+                    IDC_STATIC_ALL,26,20,187,16
+    LTEXT           "Select this if you want to import contacts but don't want to import any message history.",
+                    IDC_STATIC_CONTACTS,26,52,187,16
+    LTEXT           "Select this if you want to cutomize what to import.",
+                    IDC_STATIC_CUSTOM,26,84,187,16,WS_DISABLED
+END
+
+IDD_ICQSERVER DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Miranda has now been configured to automatically download the contacts in your server-side contact list the next time you connect to ICQ.",
+                    IDC_STATIC,7,9,206,31
+    LTEXT           "If you want to change the way Miranda handles server-side contacts at a later time, you can do this in the ""ICQ Contacts"" page in the Miranda options.",
+                    IDC_STATIC,7,44,206,37
+END
+
+IDD_ADVOPTIONS DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "New contacts && groups",IDC_CONTACTS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,10,16,100,10
+    CONTROL         "System history",IDC_SYSTEM,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,120,16,98,10
+    LTEXT           "Select items to import:",IDC_ALL,10,3,201,10,SS_NOTIFY
+    CTEXT           "Incoming",IDC_INCOMING,2,34,86,10,SS_NOTIFY
+    CTEXT           "Outgoing",IDC_OUTGOING,132,34,86,10,SS_NOTIFY
+    CONTROL         "",IDC_IN_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
+                    44,10,10
+    CONTROL         "",IDC_IN_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
+                    56,10,10
+    CONTROL         "",IDC_IN_FT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,68,
+                    10,10
+    CONTROL         "",IDC_IN_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,
+                    80,10,10
+    CONTROL         "",IDC_OUT_MSG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,
+                    44,10,10
+    CONTROL         "",IDC_OUT_URL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,
+                    56,10,10
+    CONTROL         "",IDC_OUT_FT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,
+                    68,10,10
+    CONTROL         "",IDC_OUT_OTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    170,80,10,10
+    CONTROL         "Only since:",IDC_SINCE,"Button",BS_AUTOCHECKBOX |
+                    WS_TABSTOP,10,99,100,10
+    CONTROL         "",IDC_DATETIMEPICKER,"SysDateTimePick32",DTS_RIGHTALIGN |
+                    WS_DISABLED | WS_TABSTOP,120,97,81,15
+    CTEXT           "Messages",IDC_MSG,54,44,112,8,SS_NOTIFY
+    CTEXT           "URLs",IDC_URL,54,56,112,8,SS_NOTIFY
+    CTEXT           "File Transfers",IDC_FT,54,68,112,8,SS_NOTIFY
+    CTEXT           "Other",IDC_OTHER,54,80,112,8,SS_NOTIFY
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,93,222,1
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,0,31,223,1
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_IMPORTTYPE, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 215
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_WIZARDINTRO, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 215
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_FINISHED, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 215
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_MIRABILISDB, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 215
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_MIRANDADB, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 216
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 113
+    END
+
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 215
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_WIZARD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 137
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 213
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 111
+    END
+
+    IDD_ICQSERVER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 213
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 107
+    END
+
+    IDD_ADVOPTIONS, DIALOG
+    BEGIN
+        VERTGUIDE, 10
+        VERTGUIDE, 45
+        VERTGUIDE, 110
+        VERTGUIDE, 120
+        VERTGUIDE, 175
+        TOPMARGIN, 3
+        HORZGUIDE, 16
+        HORZGUIDE, 34
+        HORZGUIDE, 104
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.K.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_IMPORT              ICON                    "import.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,8,0,1
+ PRODUCTVERSION 0,8,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
+            VALUE "CompanyName", " "
+            VALUE "FileDescription", "Miranda IM Import Plugin"
+            VALUE "FileVersion", "0.8.0.1"
+            VALUE "InternalName", "import"
+            VALUE "LegalCopyright", "Copyright © 2000-2009,  Martin Öberg, Richard Hughes, Dmitry Kuzkin, George Hazan"
+            VALUE "OriginalFilename", "import.dll"
+            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductVersion", "0.8.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

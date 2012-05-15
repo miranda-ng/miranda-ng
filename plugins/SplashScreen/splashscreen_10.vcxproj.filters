@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{76360dd5-cc6d-4d5d-b034-eacc85210c07}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{4f8b92ac-9157-49e1-86e1-89b6a5bedd06}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{4cf2f797-4e6e-41e0-9836-39dbe0da6295}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Docs">
+      <UniqueIdentifier>{3457019d-5df6-405d-82d6-4a50c482396a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="API">
+      <UniqueIdentifier>{2bc381f4-bd10-4393-9bdd-e2a1ecc95d8d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bitmap_funcs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\splash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bitmap_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\splash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\m_folders.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="src\m_splash.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="src\m_updater.h">
+      <Filter>API</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\splash.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="src\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="doc\splash_readme.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="doc\splash_translate.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="doc\todo.txt">
+      <Filter>Docs</Filter>
+    </None>
+  </ItemGroup>
+</Project>

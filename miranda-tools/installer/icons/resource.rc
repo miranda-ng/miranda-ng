@@ -1,0 +1,150 @@
+#include <windows.h>
+
+#define IDI_OFFLINE                     105
+#define IDI_ONLINE                      104
+#define IDI_AWAY                        128
+#define IDI_INVISIBLE                   130
+#define IDI_NA                          131
+#define IDI_DND                         158
+#define IDI_OCCUPIED                    159
+#define IDI_FREE4CHAT                   129
+#define IDI_OUTTOLUNCH                  1003
+#define IDI_ONTHEPHONE                  1002
+
+#ifdef ICO_AIMHI
+IDI_OFFLINE     ICON DISCARDABLE "res\\AIM\\32_aim_Offline.ico"
+IDI_ONLINE      ICON DISCARDABLE "res\\AIM\\32_aim_Online.ico"
+IDI_AWAY        ICON DISCARDABLE "res\\AIM\\32_aim_Away.ico"
+IDI_INVISIBLE   ICON DISCARDABLE "res\\AIM\\32_aim_Invisible.ico"
+IDI_ONTHEPHONE  ICON DISCARDABLE "res\\AIM\\32_aim_Phone.ico"
+#endif
+
+#ifdef ICO_AIMLO
+IDI_OFFLINE     ICON DISCARDABLE "res\\AIM\\8_aim_Offline.ico"
+IDI_ONLINE      ICON DISCARDABLE "res\\AIM\\8_aim_Online.ico"
+IDI_AWAY        ICON DISCARDABLE "res\\AIM\\8_aim_Away.ico"
+IDI_INVISIBLE   ICON DISCARDABLE "res\\AIM\\8_aim_Invisible.ico"
+IDI_ONTHEPHONE  ICON DISCARDABLE "res\\AIM\\8_aim_Phone.ico"
+#endif
+
+#ifdef ICO_GGHI
+IDI_OFFLINE      ICON DISCARDABLE "res\\GG\\32_gg_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\GG\\32_gg_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\GG\\32_gg_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\GG\\32_gg_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\GG\\32_gg_NA.ico"
+IDI_DND          ICON DISCARDABLE "res\\GG\\32_gg_DND.ico"
+IDI_FREE4CHAT    ICON DISCARDABLE "res\\GG\\32_gg_FFC.ico"
+#endif
+
+#ifdef ICO_GGLO
+IDI_OFFLINE      ICON DISCARDABLE "res\\GG\\8_gg_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\GG\\8_gg_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\GG\\8_gg_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\GG\\8_gg_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\GG\\8_gg_NA.ico"
+IDI_DND          ICON DISCARDABLE "res\\GG\\8_gg_DND.ico"
+IDI_FREE4CHAT    ICON DISCARDABLE "res\\GG\\8_gg_FFC.ico"
+#endif
+
+#ifdef ICO_ICQHI
+IDI_OFFLINE      ICON DISCARDABLE "res\\ICQ\\32_icq_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\ICQ\\32_icq_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\ICQ\\32_icq_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\ICQ\\32_icq_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\ICQ\\32_icq_Na.ico"
+IDI_DND          ICON DISCARDABLE "res\\ICQ\\32_icq_Dnd.ico"
+IDI_OCCUPIED     ICON DISCARDABLE "res\\ICQ\\32_icq_Occupied.ico"
+IDI_FREE4CHAT    ICON DISCARDABLE "res\\ICQ\\32_icq_FFC.ico"
+IDI_ONTHEPHONE   ICON DISCARDABLE "res\\ICQ\\32_icq_Phone.ico"
+#endif
+
+#ifdef ICO_ICQLO
+IDI_OFFLINE      ICON DISCARDABLE "res\\ICQ\\8_icq_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\ICQ\\8_icq_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\ICQ\\8_icq_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\ICQ\\8_icq_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\ICQ\\8_icq_Na.ico"
+IDI_DND          ICON DISCARDABLE "res\\ICQ\\8_icq_Dnd.ico"
+IDI_OCCUPIED     ICON DISCARDABLE "res\\ICQ\\8_icq_Occupied.ico"
+IDI_FREE4CHAT    ICON DISCARDABLE "res\\ICQ\\8_icq_FFC.ico"
+IDI_ONTHEPHONE   ICON DISCARDABLE "res\\ICQ\\8_icq_Phone.ico"
+#endif
+
+#ifdef ICO_IRCHI
+IDI_OFFLINE ICON DISCARDABLE "res\\IRC\\32_irc_Offline.ico"
+IDI_ONLINE  ICON DISCARDABLE "res\\IRC\\32_irc_Online.ico"
+IDI_AWAY    ICON DISCARDABLE "res\\IRC\\32_irc_Away.ico"
+#endif
+
+#ifdef ICO_IRCLO
+IDI_OFFLINE ICON DISCARDABLE "res\\IRC\\8_irc_Offline.ico"
+IDI_ONLINE  ICON DISCARDABLE "res\\IRC\\8_irc_Online.ico"
+IDI_AWAY    ICON DISCARDABLE "res\\IRC\\8_irc_Away.ico"
+#endif
+
+#ifdef ICO_JABBERHI
+IDI_OFFLINE      ICON DISCARDABLE "res\\JABBER\\32_jabber_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\JABBER\\32_jabber_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\JABBER\\32_jabber_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\JABBER\\32_jabber_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\JABBER\\32_jabber_NA.ico"
+IDI_DND          ICON DISCARDABLE "res\\JABBER\\32_jabber_DND.ico"
+IDI_FREE4CHAT    ICON DISCARDABLE "res\\JABBER\\32_jabber_FFC.ico"
+#endif
+
+#ifdef ICO_JABBERLO
+IDI_OFFLINE      ICON DISCARDABLE "res\\JABBER\\8_jabber_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\JABBER\\8_jabber_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\JABBER\\8_jabber_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\JABBER\\8_jabber_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\JABBER\\8_jabber_NA.ico"
+IDI_DND          ICON DISCARDABLE "res\\JABBER\\8_jabber_DND.ico"
+IDI_FREE4CHAT    ICON DISCARDABLE "res\\JABBER\\8_jabber_FFC.ico"
+#endif
+
+#ifdef ICO_MSNHI
+IDI_OFFLINE      ICON DISCARDABLE "res\\MSN\\32_msn_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\MSN\\32_msn_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\MSN\\32_msn_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\MSN\\32_msn_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\MSN\\32_msn_NA.ico"
+IDI_OCCUPIED     ICON DISCARDABLE "res\\MSN\\32_msn_Occupied.ico"
+IDI_OUTTOLUNCH   ICON DISCARDABLE "res\\MSN\\32_msn_Lunch.ico"
+IDI_ONTHEPHONE   ICON DISCARDABLE "res\\MSN\\32_msn_Phone.ico"
+#endif
+
+#ifdef ICO_MSNLO
+IDI_OFFLINE      ICON DISCARDABLE "res\\MSN\\8_msn_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\MSN\\8_msn_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\MSN\\8_msn_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\MSN\\8_msn_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\MSN\\8_msn_NA.ico"
+IDI_OCCUPIED     ICON DISCARDABLE "res\\MSN\\8_msn_Occupied.ico"
+IDI_OUTTOLUNCH   ICON DISCARDABLE "res\\MSN\\8_msn_Lunch.ico"
+IDI_ONTHEPHONE   ICON DISCARDABLE "res\\MSN\\8_msn_Phone.ico"
+#endif
+
+#ifdef ICO_YAHOOHI
+IDI_OFFLINE      ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\YAHOO\\32_yahoo_NA.ico"
+IDI_DND          ICON DISCARDABLE "res\\YAHOO\\32_yahoo_DND.ico"
+IDI_OCCUPIED     ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Occupied.ico"
+IDI_OUTTOLUNCH   ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Lunch.ico"
+IDI_ONTHEPHONE   ICON DISCARDABLE "res\\YAHOO\\32_yahoo_Phone.ico"
+#endif
+
+#ifdef ICO_YAHOOLO
+IDI_OFFLINE      ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Offline.ico"
+IDI_ONLINE       ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Online.ico"
+IDI_AWAY         ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Away.ico"
+IDI_INVISIBLE    ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Invisible.ico"
+IDI_NA	         ICON DISCARDABLE "res\\YAHOO\\8_yahoo_NA.ico"
+IDI_DND          ICON DISCARDABLE "res\\YAHOO\\8_yahoo_DND.ico"
+IDI_OCCUPIED     ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Occupied.ico"
+IDI_OUTTOLUNCH   ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Lunch.ico"
+IDI_ONTHEPHONE   ICON DISCARDABLE "res\\YAHOO\\8_yahoo_Phone.ico"
+#endif

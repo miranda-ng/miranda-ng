@@ -1,0 +1,148 @@
+//////////////////////////////////////////////////////////////////////////
+//        This is brief description of skin engine xml format           //
+//////////////////////////////////////////////////////////////////////////
+
+
+/************************************************************************\
+				Common object description format:
+--------------------------------------------------------------------------
+
+...
+	<object.name type='glyph'>
+		<fonts>
+			<main effort='255' color='0x000000' alpha='255' effect='none' effect.color='0x000000' effect.alpha='255' />
+			<second effort='255' color='0x000000' alpha='255' effect='none' effect.color='0x000000' effect.alpha='255' />
+			<third effort='255' color='0x000000' alpha='255' effect='none' effect.color='0x000000' effect.alpha='255' />
+		</fonts>
+		<....>
+	</object.name>
+...
+
+Attributes:
+
+ type - the type of object: possible values are 'glyph', 'solid', 'gradient', 'none'
+		default is 'none'
+
+
+ The 'fonts' section describes modifiers of user font. if specific attribute is not 
+specified - means do not change user setted one. E.g if only 'color' attribute is 
+specified - this color will be used instead of user requested.
+
+ If several painting are occurs before text rendering - the settings will be accumulated. 
+ If several same settings are will be accumulated - the last one will be used as result.
+But 'effort' attribute is show the '255'-based effort of specified value (for color only) 
+to be combined the old color and new one like: 
+    result_color=(old_color*(255-effort)+newcolor*(effort))/255;
+the resultet color will be same like this opacity effect.
+
+Subsections:
+
+	main - info regarding main font: Nick for contacts or groupname for groups.
+	second - info about second font: Second row line for contacts or group counter
+	third - info about third font:	Third row line for contacts, top color of group divider
+	fourth - info about fourth font: Time for contacts or bottom color of group divider
+
+Attributes:
+ 
+
+
+
+
+/************************************************************************\
+				Glyph object description format:
+--------------------------------------------------------------------------
+
+...
+	<object.name type='glyph' opacity='255'>
+		<image file="filename.png" x='0' y='0' width='0' height='0' />
+		<resize top='0' left='0' bottom='0' right='0' mode='tile' />
+		<....>
+	</object.name>
+...
+
+The Glyph Object is described within <object.name> node. 
+ Attributes: 
+
+	opacity - object opacity, numeric, [0..255], default is 255.
+
+The image is described in <image> subnode. 
+ Attributes:
+
+	file -	image file name relative to skin root folder, 
+			default is empty - mean internal clist modern skin image.
+	x, y -	top left corner of fragment on image map - default are (0,0)
+	width, height - width and height of fragment image, default
+			are image size minus top-left corner coordinate.
+
+The second subnode is <resize> - describe how to fill requested area 
+if glyph image is too small:
+ Attributes:
+	
+	top, bottom, left, right- the constant margins on sides, default are 0
+	mode -	the how to fill mode, 
+			possible values: tile, vtile, htile, stretch - (tile both 
+			directions, tile vertical, tile horizontal, stretch 
+			both directions), default is 'stretch'
+
+
+	
+	
+********** Example of skin ***************
+
+<skin>
+<!-- Skin Info (about, author, etc.) -->
+		.....
+		
+<!-- Properties (margins, db settings) -->
+	<skin.properties>
+	....
+	</skin.properties>
+	
+	<? include="./xml_file_to_be_included.xml" ?>
+	
+<!-- Objects (objects to be drawn) -->
+	<skin.objects>		
+		<object.name type='glyph' opacity='255'>
+			<image file="filename.png" x='0' y='0' width='0' height='0' />
+			<resize top='0' left='0' bottom='0' right='0' mode='tile' />		
+			<fonts>
+				<main effort='255' color='0x000000' alpha='255' effect='none' effect.color='0x000000' effect.alpha='255' />
+				<second effort='255' color='0x000000' alpha='255' effect='none' effect.color='0x000000' effect.alpha='255' />
+				<third effort='255' color='0x000000' alpha='255' effect='none' effect.color='0x000000' effect.alpha='255' />
+			</fonts>
+		</object.name>
+		.....
+		
+	</skin.objects>	
+
+<!-- Selectors (selector what need to be drawn) -->
+	<skin.selectors>
+	....
+	</skin.selectors>
+
+<!-- Buttons -->
+	<skin.buttons>
+	....
+	</skin.buttons>
+	
+<!-- Row Layout (layout of row) -->
+	<skin.rowlayout>
+		<tr>	
+			<tc valign='vcenter'>
+		    		<tr valign='vcenter' halign='hcenter'>
+	      				<tc valign='vcenter' halign='hcenter' draw='avatar' /> 
+	      				<tc mode='layer' valign='bottom' halign='right' draw='icon' />
+	      			</tr>  
+		      	</rc> 
+		      	<tc valign='vcenter'>
+		      		<tr draw='text' />
+	      			<tr draw='text2' />
+      				<tr draw='text3' />
+	      		</tc> 
+	      		<tc mode='layer' valign='top' halign='right' draw='extra' />
+		</tr>
+	</skin.rowlayout>	
+...
+</skin>
+
+\************************************************************************/	

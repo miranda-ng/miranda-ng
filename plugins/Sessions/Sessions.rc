@@ -1,0 +1,237 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+    "version.rc\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 303, 246
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Action on Startup",IDC_STATIC,6,11,157,75
+    CONTROL         "Open Sessions Manager dialog",IDC_STARTDIALOG,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,21,144,10
+    CONTROL         "Restore Last Session",IDC_RLOADLAST,"Button",BS_AUTORADIOBUTTON,9,42,144,10
+    CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON,9,54,144,10
+    CONTROL         "Only if last session present",IDC_CHECKLAST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,31,126,10
+    EDITTEXT        IDC_STARTDELAY,105,70,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Startup delay",IDC_STATICOP,51,72,54,8
+    LTEXT           "ms",IDC_STATICMS,136,72,16,8
+    GROUPBOX        "User Sessions Management",IDC_STATIC,6,96,157,129
+    PUSHBUTTON      "Edit",IDC_EDIT,119,132,42,13,WS_DISABLED
+    COMBOBOX        IDC_LIST,9,107,107,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_OPCLIST,9,122,107,100,LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL
+    PUSHBUTTON      "Delete",IDC_DEL,119,107,42,13
+    PUSHBUTTON      "Save",IDC_SAVE,119,145,42,13,WS_DISABLED
+    GROUPBOX        "Action on Exit",IDC_STATIC,170,11,128,75
+    CONTROL         "Ask",IDC_REXASK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,173,23,122,10
+    CONTROL         "Save Current Session",IDC_REXSAVE,"Button",BS_AUTORADIOBUTTON,173,37,122,10
+    CONTROL         "Do nothing",IDC_REXDSAVE,"Button",BS_AUTORADIOBUTTON,173,50,122,10
+    EDITTEXT        IDC_TRACK,224,70,27,12,ES_AUTOHSCROLL | ES_READONLY | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_TABSTOP,241,62,10,14
+    LTEXT           "Save only last",IDC_EXSTATIC1,173,72,48,8
+    LTEXT           "Sessions",IDC_EXSTATIC2,253,72,28,8
+    GROUPBOX        "Misc",IDC_STATIC,170,96,128,95
+    CONTROL         "Exclude hidden contacts from session on exit",IDC_EXCLHIDDEN,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,104,122,16
+    CONTROL         "Warn, when some of LastSession contacts are hidden",IDC_LASTHIDDENWARN,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,121,122,20
+    CONTROL         "Show other warnings (""session already opened"" etc...)",IDC_WARNINGS,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,143,122,17
+    CONTROL         "Crash Recovery mode",IDC_CRASHRECOVERY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,173,162,122,17
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 298
+        VERTGUIDE, 9
+        VERTGUIDE, 116
+        VERTGUIDE, 119
+        VERTGUIDE, 161
+        VERTGUIDE, 170
+        VERTGUIDE, 173
+        VERTGUIDE, 285
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 243
+        HORZGUIDE, 96
+        HORZGUIDE, 225
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_WLCMDIALOG DIALOGEX 0, 0, 169, 80
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Restore Session"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Restore Session",IDOK,46,58,61,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,110,58,52,14
+    LTEXT           "Choose session to restore from the list:",IDC_STATIC,10,16,149,11
+    COMBOBOX        IDC_LIST,12,30,126,65,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Del",IDC_SESSDEL,140,31,22,11
+END
+
+IDD_SAVEDIALOG DIALOGEX 0, 0, 169, 80
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Save Session"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Save Session",IDOK,44,58,61,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,107,58,52,14
+    LTEXT           "Enter session name:",IDC_STATIC,13,16,123,11
+    COMBOBOX        IDC_LIST,12,30,148,65,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Save and Close",IDC_SANDCCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,46,137,10
+    CONTROL         "adv.",IDC_SELCONTACTS,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | BS_FLAT | WS_TABSTOP,136,4,24,10
+END
+
+IDD_EXDIALOG DIALOGEX 0, 0, 170, 70
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sessions Manager"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,61,49,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,113,49,50,14
+    LTEXT           "Save your current session?",IDC_STATIC,15,22,135,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_WLCMDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 162
+        VERTGUIDE, 12
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 73
+    END
+
+    IDD_SAVEDIALOG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 168
+    END
+
+    IDD_EXDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 63
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SESSIONS            ICON                    "icons\\sessions.ico"
+IDI_SESSIONS_LOAD       ICON                    "icons\\load.ico"
+IDD_SESSIONS_SAVE       ICON                    "icons\\save.ico"
+IDD_SESSIONS_LOADLAST   ICON                    "icons\\loadlast.ico"
+IDD_SESSION_CHECKED     ICON                    "icons\\checked.ico"
+IDD_SESSION_UNCHECKED   ICON                    "icons\\unchecked.ico"
+
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

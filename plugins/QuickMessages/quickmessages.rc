@@ -1,0 +1,234 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+    "version.rc\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 316, 257
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_BUTTONSLIST,"SysTreeView32",TVS_EDITLABELS | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | TVS_FULLROWSELECT | WS_TABSTOP,6,19,95,130,WS_EX_STATICEDGE
+    PUSHBUTTON      "+",IDC_BLISTADD,70,152,16,14,BS_FLAT
+    PUSHBUTTON      "-",IDC_BLISTREMOVE,86,152,16,14,BS_FLAT
+    CONTROL         "",IDC_MENUTREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | WS_TABSTOP,114,19,95,130,WS_EX_STATICEDGE
+    PUSHBUTTON      "+",IDC_MTREEADD,178,152,16,14,BS_FLAT
+    PUSHBUTTON      "-",IDC_MTREEREMOVE,194,152,16,14,BS_FLAT
+    EDITTEXT        IDC_MENUVALUE,212,49,93,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RCLICKVALUE,114,182,193,14,ES_AUTOHSCROLL
+    GROUPBOX        "Button Right-Click value",IDC_STATIC,110,172,204,47
+    GROUPBOX        "Button Left-Click menu",IDC_STATIC,110,9,204,160
+    GROUPBOX        "Buttons",IDC_STATIC,2,9,103,160
+    LTEXT           "Menu entry value:",IDC_STATIC,214,37,86,8
+    EDITTEXT        IDC_BUTTONNAME,6,152,63,14,ES_AUTOHSCROLL | ES_WANTRETURN
+    EDITTEXT        IDC_MENUNAME,114,152,63,14,ES_AUTOHSCROLL | ES_WANTRETURN
+    GROUPBOX        "Misc.",IDC_STATIC,2,172,103,66
+    CONTROL         "Auto-send on Left-Click",IDC_LAUTOSEND,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,6,181,98,16
+    CONTROL         "Auto-send on Right-Click",IDC_RAUTOSEND,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,6,199,98,16
+    CONTROL         "Add to QuickMenu",IDC_INQMENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,214,66,99,20
+    CONTROL         "Enable QuickMenu",IDC_ENABLEQUICKMENU,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,6,217,98,16
+    CONTROL         "Consider as ServiceName",IDC_ISSERVNAME,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,214,90,99,20
+    LTEXT           "You have changed the plugin settings via database.\nThis requires restart!",IDC_WARNING,110,223,179,28,NOT WS_VISIBLE
+    PUSHBUTTON      "?",IDC_VARHELP,291,223,16,14
+    CONTROL         "Consider as ServiceName",IDC_ISSERVNAME2,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,117,196,189,20
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 314
+        VERTGUIDE, 5
+        VERTGUIDE, 105
+        VERTGUIDE, 110
+        VERTGUIDE, 114
+        VERTGUIDE, 307
+        BOTTOMMARGIN, 251
+        HORZGUIDE, 9
+        HORZGUIDE, 19
+        HORZGUIDE, 149
+        HORZGUIDE, 152
+        HORZGUIDE, 166
+        HORZGUIDE, 169
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_HELPDIALOG DIALOGEX 0, 0, 202, 210
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOOLWINDOW
+CAPTION "Quick Messages Help"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "- Selected text",IDC_STATIC,68,20,127,17
+    LTEXT           "List of variables:",IDC_STATICTITLE,12,7,113,8
+    LTEXT           "- Text from Clipboard",IDC_STATIC,68,41,127,17
+    LTEXT           "- Contacts Protocol name (upper case)",IDC_STATIC,68,62,127,17
+    LTEXT           "- Contact display name",IDC_STATIC,68,83,127,17
+    LTEXT           "%t",IDC_VARTEXT,18,20,15,12
+    LTEXT           "%c",IDC_VARCLIP,18,41,15,12
+    LTEXT           "%P",IDC_VARPUNAME,18,62,15,12
+    LTEXT           "%n",IDC_VARCNAME,18,83,15,12
+    LTEXT           "Tips:",IDC_STATICTITLE2,12,149,113,8
+    LTEXT           "*Rename menu item into ""---"" to insert separator",IDC_STATIC,18,160,177,17
+    LTEXT           "*Use drag'n'drop for arranging menu items",IDC_STATIC,18,179,177,17
+    LTEXT           "- Contact first name",IDC_STATIC,68,104,127,17
+    LTEXT           "%F",IDC_VARCFNAME,18,104,15,12
+    LTEXT           "- Contact last name",IDC_STATIC,68,125,127,17
+    LTEXT           "%L",IDC_VARCLNAME,18,125,15,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_HELPDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 195
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 203
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_QICON               ICON                    "icons\\qicon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,4,2
+ PRODUCTVERSION 0,0,4,2
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "Author", "MaD_CLuSTeR"
+            VALUE "FileDescription", "Quick Messages"
+            VALUE "FileVersion", "0.0.4.2"
+            VALUE "InternalName", "quick messages"
+            VALUE "LegalCopyright", "Copyright © 2008 Danil Mozhar"
+            VALUE "ProductVersion", "0, 0, 4, 2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

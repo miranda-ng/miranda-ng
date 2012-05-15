@@ -1,0 +1,158 @@
+; History Linklist Plus strings
+; History Linklist Plus Plugin for Miranda-IM
+; Date: 21 Dec 2010
+;
+; Language: German
+; Plugin Version: 0.0.0.1
+
+
+[Error]
+Fehler
+[Unable to load the Rich Edit control!]
+Rich Edit control konnte nicht geladen werden!
+[&Create Linklist]
+Linkliste erstellen
+[Linklist Plugin]
+Linklisten Plugin
+[History is empty!]
+Keine Nachrichten in der History!
+[Processing history...]
+History wird verarbeitet...
+[Processing list...]
+Liste wird verarbeitet...
+[Could not create window!]
+Fenster konnte nicht erzeugt werden!
+[Could not allocate memory!]
+Speicher konnte nicht belegt werden!
+[There are no links in history!]
+Die History enthält keine Links!
+[Matches for searchtext]
+Treffer für Suchtext 
+[No messages found!\nPlease change current filter options.]
+Keine Nachrichten gefunden!\nBitte Filterregeln ändern.
+[Date]
+Datum
+[Miranda Linklist]
+Miranda Linkliste
+[Filter]
+Filter
+[none]
+keiner
+[mailaddresses]
+Mailadressen
+[URLs]
+URLs
+[incoming]
+eingehende
+[outgoing]
+ausgehende
+[search options]
+Suchoptionen
+
+;Menu
+;----
+[&About]
+Über
+[&Search]
+Suchen
+[&File]
+Datei
+[&Options]
+Optionen
+[&Clear Search Results]
+Suchergebnisse löschen
+[Message &Direction]
+Nachrichtenrichtung
+[&Incoming Messages Only]
+Nur eingehende Nachrichten
+[&Outgoing Messages Only]
+Nur ausgehende Nachrichten
+[Message &Type]
+Nachrichtenart
+[&Webaddresses Only]
+Nur Internetadressen
+[&Mail-Addresses Only]
+Nur E-Mail-Adressen
+[&Save]
+Speichern
+[&Close]
+Beenden
+
+;Popup Menu
+;----------
+[Copy to Clipboard]
+In Zwischenablage kopieren
+[Open]
+Öffnen
+[Open in new Window]
+In neuem Fenster öffnen
+[Show Message]
+Zeige Nachricht
+
+;Search Dialog
+;-------------
+[Search for:]
+Suchen nach:
+[Message direction]
+Nachrichtenrichtung
+[Message types]
+Nachrichtenarten
+[All directions]
+alle Richtungen
+[Incoming only]
+nur eingehende
+[Outgoing only]
+nur ausgehende
+[All types]
+alle Arten
+[Mail addresses only]
+nur Mailadressen
+[Web addresses only]
+nur Web-Adressen
+[Deep search]
+Genaue Suche
+[Search]
+Suchen
+[Close]
+Beenden
+
+;Options Dialog
+;--------------
+[Colour Select]
+Farbauswahl
+[Preview]
+Vorschau
+[Use Miranda Settings]
+Miranda Einstellungen verwenden
+[Plugin Default]
+Plugin Standard
+[Incoming messages]
+Eingehende Nachrichten
+[Outgoing messages]
+Ausgehende Nachrichten
+[Backgroundcolour]
+Hintergrundfarbe
+[Textcolour]
+Textfarbe
+[No Miranda Settings specified!]
+Keine Miranda Standardeinstellungen vorhanden!
+[General Settings]
+Allgemeine Einstellungen
+[Open links always in a new window]
+Links immer in neuem Fenster öffnen
+[Update list on new events]
+Liste automatisch aktualisieren
+[Show whole Message on 'mouse over' event]
+Ganze Nachricht bei Mauskontakt anzeigen
+[Save window position individually for each contact]
+Fensterposition individuell für jeden Kontakt speichern
+[Show...]
+Zeige...
+[Parting line]
+Trennlinie
+[Timestamp]
+Zeitstempel
+[Direction]
+Richtung
+[Type]
+Typ

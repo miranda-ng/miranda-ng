@@ -1,0 +1,116 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+	Version="10.0"
+	VendorName="SlickEdit"
+	WorkingDir="."
+	AssociatedFile="FreeImageLib.dsp"
+	AssociatedFileType="microsoft visual c++">
+	<Config
+		Name="CFG=FreeImageLib - Win32 Release"
+		OutputFile=""
+		CompilerConfigName="Visual Studio 2005">
+		<Includes>
+			<Include Dir="%(INCLUDE)"/>
+		</Includes>
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='nmake /F "%rn.mak" "%b" "%bd%n.obj"'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='msdev "%rn.dsp" /make "%bn"'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='msdev "%rn.dsp" /make "%bn" /rebuild'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				RunFromDir="%rw">
+				<Exec CmdLine='msdev "%bdFreeImageLib.exe"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%bdFreeImageLib.exe"'/>
+			</Target>
+			<Target
+				Name="Resource Editor"
+				MenuCaption="Resource Editor"
+				ShowOnMenu="HideIfNoCmdLine"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="msdev"/>
+			</Target>
+		</Menu>
+	</Config>
+	<Config
+		Name="CFG=FreeImageLib - Win32 Debug"
+		OutputFile=""
+		CompilerConfigName="Visual Studio 2005">
+		<Includes>
+			<Include Dir="%(INCLUDE)"/>
+		</Includes>
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='nmake /F "%rn.mak" "%b" "%bd%n.obj"'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='msdev "%rn.dsp" /make "%bn"'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='msdev "%rn.dsp" /make "%bn" /rebuild'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				RunFromDir="%rw">
+				<Exec CmdLine='msdev "%bdFreeImageLib.exe"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%bdFreeImageLib.exe"'/>
+			</Target>
+			<Target
+				Name="Resource Editor"
+				MenuCaption="Resource Editor"
+				ShowOnMenu="HideIfNoCmdLine"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="msdev"/>
+			</Target>
+		</Menu>
+	</Config>
+</Project>

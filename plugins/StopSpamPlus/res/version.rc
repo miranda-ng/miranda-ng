@@ -1,0 +1,40 @@
+#include "afxres.h"
+#include "version.h"
+
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#endif //_WIN32
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __PRODVERSION_STRING
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+ FILEFLAGS VS_FF_DEBUG
+//#else
+// FILEFLAGS 0x0L
+#endif
+
+ FILEOS VOS__WINDOWS32 
+ FILETYPE VFT_DLL 
+ FILESUBTYPE VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0" // LOCALE_NEUTRAL<<16 + 1200 (ANSI - Unicode) 
+        BEGIN
+            VALUE "Author", __AUTHOR
+            VALUE "FileDescription", __DESC
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "ProductName", "Miranda IM"
+            VALUE "ProductVersion", __PROD_VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", /*LOCALE_NEUTRAL from WinNT.h */ 0x0, 1200
+    END
+END

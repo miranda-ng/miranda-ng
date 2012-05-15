@@ -1,0 +1,1 @@
+"rtf converter.exe" "variables help.doc" ".\folders\variablesHelp.inc"

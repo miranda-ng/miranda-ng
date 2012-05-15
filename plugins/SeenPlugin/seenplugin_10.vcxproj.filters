@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{89af4e67-032f-4900-b14d-1d956b6c376d}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1f155b67-4f4e-4b49-a10e-6a0588c62a69}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{a800d3aa-15e0-4d7d-8b9f-99dfd4112d8e}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="file.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="history.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="missed.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="userinfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="seen.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="seen_info.txt" />
+    <None Include="seen_langpack.txt" />
+  </ItemGroup>
+</Project>

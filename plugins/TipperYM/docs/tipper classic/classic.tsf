@@ -1,0 +1,48 @@
+[About]
+Author = yaho
+Preview = preview.jpg
+
+[Background]
+Image = back.png
+TM = TM_STRECH_ALL 
+Left = 14
+Top = 14
+Right = 14
+Bottom = 14
+
+[Fonts]
+Title-face = Tahoma
+Title-color = 100 0 0
+Title-size = 12
+Title-effect = FONT_BOLD
+
+Label-face = Tahoma
+Label-color = 35 0 0
+Label-size = 8
+Label-effect = FONT_BOLD
+
+Value-face = Tahoma
+Value-color = 24 24 24
+Value-size = 8
+Value-effect = 0
+
+TrayTitle-face = Tahoma
+TrayTitle-color = 64 0 0
+TrayTitle-size = 10
+TrayTitle-effect = FONT_BOLD
+
+Divider-color = 75 75 75
+
+[Appearance]
+General-padding = 15
+Title-indent = 24
+Text-indent = 24
+Value-indent = 10
+Text-padding = 2
+Outer-avatar-padding = 15
+Inner-avatar-padding = 10
+Sidebar-width = 0
+Opacity = 85
+
+[Other]
+Enable-coloring = TRUE

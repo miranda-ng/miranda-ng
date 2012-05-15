@@ -1,0 +1,92 @@
+Each template begins with template name, which is a special kind of HTML comment, for instance:
+<!--HTMLStart-->
+or
+<!--MessageIn-->
+A template ends whenever a new template begins or EOF is reached.
+
+The following templates may be defined:
+
+<!--HTMLStart-->
+<!--MessageIn-->
+<!--hMessageIn-->
+<!--MessageOut-->
+<!--hMessageOut-->
+<!--File-->
+<!--hFile-->
+<!--URL-->
+<!--hURL-->
+<!--Status-->
+<!--hStatus-->
+<!--MessageInGroupStart-->
+<!--MessageInGroupInner-->
+<!--MessageInGroupEnd-->
+<!--hMessageInGroupStart-->
+<!--hMessageInGroupInner-->
+<!--hMessageInGroupEnd-->
+<!--MessageOutGroupStart-->
+<!--MessageOutGroupInner-->
+<!--MessageOutGroupEnd-->
+<!--hMessageOutGroupStart-->
+<!--hMessageOutGroupInner-->
+<!--hMessageOutGroupEnd-->
+
+<!--HTMLStartRTL-->
+<!--MessageInRTL-->
+<!--hMessageInRTL-->
+<!--MessageOutRTL-->
+<!--hMessageOutRTL-->
+<!--MessageInGroupStartRTL-->
+<!--MessageInGroupInnerRTL-->
+<!--MessageInGroupEndRTL-->
+<!--hMessageInGroupStartRTL-->
+<!--hMessageInGroupInnerRTL-->
+<!--hMessageInGroupEndRTL-->
+<!--MessageOutGroupStartRTL-->
+<!--MessageOutGroupInnerRTL-->
+<!--MessageOutGroupEndRTL-->
+<!--hMessageOutGroupStartRTL-->
+<!--hMessageOutGroupInnerRTL-->
+<!--hMessageOutGroupEndRTL-->
+
+
+All templates of which names begin with 'h' are used to display historical events.
+
+If a template is not present the corresponding event will not be shown in the log at all !
+
+The following variables are available in all templates EXCEPT HTMLStart:
+%base%  - base URL
+%name%  - contact's name or user's name (depends on context)
+%time%  - event's time
+%date%  - event's date
+%text%  - event's text
+%cid%  - contact's ID or user's ID (depends on context)
+%avatar% - link to contact's picture file or user's picure file (depends on context)
+%avatarIn% - link to contact's picture
+%avatarOut% - link to user's picture
+%nameIn% - contact's name
+%nameOut% - users's name
+%proto% - protocol name
+%uin% - contact's ID or user's ID
+%uinIn% - contact's ID
+%uinOut% - user's ID
+%nick% - contact's nick name or user's nick name
+%nickIn% - contact's nick name
+%nickOut% - user's nick name
+%statusMsg% - contact's status message
+%fileDesc% - file description
+
+The following variables are available in HTMLStart:
+%base%  - base URL (this variable should be used in <base> tag)
+%avatarIn% - link to contact's picture
+%avatarOut% - link to user's picture
+%nameIn% - contact's name
+%nameOut% - users's name
+%nickIn% - contact's nick name
+%nickOut% - user's nick name
+%uinIn% - contact's ID
+%uinOut% - user's ID
+%proto% - protocol name
+
+All tokens are also available in Javascript friendly (escaped) form. 
+In that case please use the follwoing token names: %\base%, %\time%, %\name% etc.
+

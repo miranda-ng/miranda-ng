@@ -1,0 +1,27 @@
+Source code for the clist_nicer plugin is availble via Miranda official SVN
+repository at:
+
+https://svn.sourceforge.net/svnroot/miranda/trunk/miranda/plugins/clist_nicer
+
+You need a SVN client to access this, I recommend TortoiseSVN for Windows which
+is easy to use and provides a good UI.
+
+To compile, you need a complete checkout of Mirandas main source repository and
+Visual C++ 6 with service pack 6 + the latest platform SDK installed. Compiling 
+with Visual Studio 2005 is also supported.
+
+Project files are provided for Visual C++ 6 and Visual Studio 2005 (aka Visual
+C++ 8). Compilation with Mingw32/GCC is currently not supported.
+
+This plugin for the Miranda Instant messenger is licensed under the GNU 
+General Public License Version 2.
+
+If you distribute binaries based on this source code, please included the
+provided license.txt.
+
+(c) 2006 by Nightwish + the Miranda IM project. Contact at silvercircle@gmail.com
+
+The clist_nicer+ plugin is based on the original clist_nicer plugin written in 2004
+by pixel. This is derived work from the original Miranda contact list plugin
+(by now known as clist_classic) which was written by many contributors to the
+Miranda project since 2000.

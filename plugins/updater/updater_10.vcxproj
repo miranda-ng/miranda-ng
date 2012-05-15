@@ -1,0 +1,608 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>updater</ProjectName>
+    <ProjectGuid>{4C1CE389-7129-45FC-83C2-E9C310AC0427}</ProjectGuid>
+    <RootNamespace>updater</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.311</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(Configuration)64\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Configuration)64\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(Configuration)64\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Configuration)64\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\updater___Win32_Debug_Unicode/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\updater___Win32_Debug_Unicode/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>c:\Miranda IM\plugins\updater.dll</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>NotSet</SubSystem>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <MapExports>true</MapExports>
+      <SubSystem>NotSet</SubSystem>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\updater___Win32_Release_Unicode/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\updater___Win32_Release_Unicode/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>BZ_NO_STDIO;HAVE_BZIP2;WIN32;NDEBUG;_WINDOWS;_USRDLL;UPDATER_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>zbin/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/updater.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>zbin;../../include;..\..\..\include;bzip2-1.0.3;zbin\minizip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BZ_NO_STDIO;UPDATER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeaderFile>common.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>.\Release/</AssemblerListingLocation>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0c09</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>zbin/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x22000000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="allocations.cpp" />
+    <ClCompile Include="conf_comp_dialog.cpp" />
+    <ClCompile Include="conf_dialog.cpp" />
+    <ClCompile Include="extern.cpp" />
+    <ClCompile Include="icons.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="popups.cpp" />
+    <ClCompile Include="progress_dialog.cpp" />
+    <ClCompile Include="scan.cpp" />
+    <ClCompile Include="services.cpp" />
+    <ClCompile Include="socket.cpp" />
+    <ClCompile Include="unzipfile.cpp" />
+    <ClCompile Include="updater.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="xmldata.cpp" />
+    <ClCompile Include="ezxml.c" />
+    <ClCompile Include="bzip2-1.0.3\blocksort.c" />
+    <ClCompile Include="bzip2-1.0.3\bzlib.c" />
+    <ClCompile Include="bzip2-1.0.3\compress.c" />
+    <ClCompile Include="bzip2-1.0.3\crctable.c" />
+    <ClCompile Include="bzip2-1.0.3\decompress.c" />
+    <ClCompile Include="bzip2-1.0.3\huffman.c" />
+    <ClCompile Include="bzip2-1.0.3\randtable.c" />
+    <ClCompile Include="zbin\minizip\ioapi.c" />
+    <ClCompile Include="zbin\minizip\ioapi_mem.c" />
+    <ClCompile Include="zbin\minizip\unzip.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="allocations.h" />
+    <ClInclude Include="common.h" />
+    <ClInclude Include="conf_comp_dialog.h" />
+    <ClInclude Include="conf_dialog.h" />
+    <ClInclude Include="extern.h" />
+    <ClInclude Include="icons.h" />
+    <ClInclude Include="m_updater.h" />
+    <ClInclude Include="options.h" />
+    <ClInclude Include="popups.h" />
+    <ClInclude Include="progress_dialog.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="scan.h" />
+    <ClInclude Include="services.h" />
+    <ClInclude Include="socket.h" />
+    <ClInclude Include="updater.h" />
+    <ClInclude Include="utils.h" />
+    <ClInclude Include="version.h" />
+    <ClInclude Include="xmldata.h" />
+    <ClInclude Include="ezxml.h" />
+    <ClInclude Include="bzip2-1.0.3\bzlib.h" />
+    <ClInclude Include="bzip2-1.0.3\bzlib_private.h" />
+    <ClInclude Include="zbin\minizip\ioapi.h" />
+    <ClInclude Include="zbin\minizip\unzip.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ico00001.ico" />
+    <None Include="ico00002.ico" />
+    <None Include="icon1.ico" />
+    <None Include="notick.ico" />
+    <None Include="restart.ico" />
+    <None Include="tick.ico" />
+    <None Include="u.ico" />
+    <None Include="ue.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="updater.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ResourceCompile>
+    <ResourceCompile Include="version.rc">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ResourceCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

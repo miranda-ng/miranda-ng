@@ -1,0 +1,334 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#include "version.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONSTAB DIALOGEX 0, 0, 312, 247
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_OPTIONSTAB,"SysTabControl32",0x0,1,1,310,245,WS_EX_ACCEPTFILES
+END
+
+IDD_TAB_GENERAL DIALOGEX 0, 0, 303, 226
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "User List",IDC_STATIC,3,0,296,140
+    CONTROL         "",IDC_STD_USERLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,9,288,126,WS_EX_STATICEDGE
+    CONTROL         "Enable Secure Offline messages",IDC_SOM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,142,145,10
+    CONTROL         "Enable Secure File Transfer",IDC_SFT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,152,145,10
+    CONTROL         "Always show status icons in contact list",IDC_ASI,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,162,145,10
+    CONTROL         "Context Menu only for ""Miranda"" clients",IDC_MCD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,172,145,10
+    CONTROL         "Status in Context Menu",IDC_SCM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,182,145,10
+    CONTROL         "Disable encryption for game plugins",IDC_DGP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,192,145,10
+    CONTROL         "Always secured if possible",IDC_AIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,202,145,10
+    CONTROL         "Not secured for NotOnList",IDC_NOL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,212,145,10
+    CONTROL         "Auto accept RSA key (NOT SECURED)",IDC_AAK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,142,145,10
+    CONTROL         "Mode in Context Menu",IDC_MCM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,152,145,10
+    GROUPBOX        "",IDC_STATIC,156,158,144,19
+    COMBOBOX        IDC_ADVICON,160,163,135,81,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP,WS_EX_CLIENTEDGE
+    GROUPBOX        "",IDC_STATIC,156,175,144,32
+    RTEXT           "Key Exchange Timeout :",IDC_STATIC,160,182,80,8
+    EDITTEXT        IDC_KET,241,180,30,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "sec",IDC_STATIC,275,182,18,8
+    RTEXT           "Offline Key Timeout :",IDC_STATIC,160,194,80,8
+    EDITTEXT        IDC_OKT,241,192,30,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "days",IDC_STATIC,275,194,18,8
+    GROUPBOX        "",IDC_STATIC,156,204,93,19
+    CONTROL         "PGP",IDC_PGP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,172,211,34,10
+    CONTROL         "GPG",IDC_GPG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,210,211,34,10
+    PUSHBUTTON      "Reset All",IDC_RESET,253,210,46,12
+END
+
+IDD_TAB_PROTO DIALOGEX 0, 0, 303, 226
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Protocols",IDC_STATIC,14,12,129,137
+    CONTROL         "",IDC_PROTO,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,25,23,107,120,WS_EX_STATICEDGE
+    GROUPBOX        "Split Messages",IDC_STATIC,154,12,136,28
+    EDITTEXT        IDC_SPLITON,190,23,26,12,ES_AUTOHSCROLL
+    LTEXT           "Online:",IDC_STATIC,160,24,23,10
+    EDITTEXT        IDC_SPLITOFF,258,23,26,12,ES_AUTOHSCROLL
+    LTEXT           "Offline:",IDC_STATIC,228,24,23,10
+    GROUPBOX        "RSA Key",IDC_STATIC,14,157,274,56
+    LTEXT           "SHA1:",IDC_STATIC,23,171,34,10
+    CTEXT           "",IDC_RSA_SHA,58,169,220,12,SS_CENTERIMAGE | SS_SUNKEN
+    GROUPBOX        "Public",IDC_STATIC,21,184,123,25
+    PUSHBUTTON      "&Copy SHA1",IDC_RSA_COPY,27,193,54,12
+    PUSHBUTTON      "E&xport",IDC_RSA_EXP,87,193,54,12
+    GROUPBOX        "Private",IDC_STATIC,157,184,123,25
+    PUSHBUTTON      "&Export",IDC_RSA_EXPPRIV,164,193,54,12
+    PUSHBUTTON      "&Import",IDC_RSA_IMPPRIV,221,193,54,12
+END
+
+/*
+IDD_TAB_MESSAGES DIALOGEX 0, 0, 303, 226
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Protocols",IDC_STATIC,82,25,129,168
+    EDITTEXT        IDC_STATIC,221,71,69,77,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN
+END
+*/
+IDD_TAB_PGP DIALOGEX 0, 0, 303, 226
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "",IDC_STATIC,5,5,292,30
+    CTEXT           "",IDC_PGP_SDK,13,15,101,15,SS_CENTERIMAGE | SS_SUNKEN
+    CTEXT           "",IDC_KEYRING_STATUS,122,15,96,15,SS_CENTERIMAGE | SS_SUNKEN
+    PUSHBUTTON      "Set &keyrings...",IDC_SET_KEYRINGS,225,15,65,15
+    CONTROL         "",IDC_PGP_USERLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,5,40,292,150
+    GROUPBOX        "",IDC_STATIC,5,190,292,30
+    CTEXT           "",IDC_PGP_PRIVKEY,13,200,106,15,SS_CENTERIMAGE | SS_SUNKEN
+    CTEXT           "",IDC_STATIC,126,200,92,15,SS_CENTERIMAGE | SS_SUNKEN
+    CONTROL         "Disable keyrings use",IDC_NO_KEYRINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,133,201,79,13
+    PUSHBUTTON      "Load &Private key",IDC_LOAD_PRIVKEY,225,200,65,15
+END
+
+IDD_TAB_GPG DIALOG DISCARDABLE  0, 0, 303, 226
+STYLE DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Basic",IDC_STATIC,0,0,302,52
+    LTEXT           "Executable:",IDC_STATIC,5,11,58,8
+    EDITTEXT        IDC_GPGEXECUTABLE_EDIT,65,8,216,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BROWSEEXECUTABLE_BTN,281,8,14,12
+    LTEXT           "Home Directory:",IDC_STATIC,5,24,58,8
+    EDITTEXT        IDC_GPGHOME_EDIT,65,22,232,12,ES_AUTOHSCROLL
+    CONTROL         "Temp Dir:",IDC_TMPPATHON_CBOX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,8,37,46,10
+    EDITTEXT        IDC_GPGTMPPATH_EDIT,65,36,232,12,ES_AUTOHSCROLL
+    GROUPBOX        "Key Assignment",IDC_STATIC,0,53,302,142
+    CONTROL         "",IDC_GPG_USERLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,4,63,294,128
+    GROUPBOX        "Debug",IDC_STATIC,0,196,302,28
+    CONTROL         "Log to File",IDC_LOGGINGON_CBOX,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,208,46,10
+    EDITTEXT        IDC_GPGLOGFILE_EDIT,56,207,187,12,ES_AUTOHSCROLL
+    CONTROL         "Save Pass",IDC_SAVEPASS_CBOX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,249,208,48,10
+END
+
+
+IDD_POPUP DIALOGEX 0, 0, 303, 226
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_BACKKEY,"ColourPicker",WS_TABSTOP,14,36,28,14
+    CONTROL         "",IDC_TEXTKEY,"ColourPicker",WS_TABSTOP,50,36,28,14
+    CTEXT           "Back",IDC_STATIC,14,23,28,8
+    CTEXT           "Text",IDC_STATIC,50,23,28,8
+    LTEXT           "Key agreement colors",IDC_STATIC,82,42,105,8
+    CONTROL         "",IDC_BACKSEC,"ColourPicker",WS_TABSTOP,14,57,28,14
+    CONTROL         "",IDC_TEXTSEC,"ColourPicker",WS_TABSTOP,50,57,28,14
+    LTEXT           "Secure connection colors",IDC_STATIC,82,63,105,8
+    CONTROL         "",IDC_BACKSR,"ColourPicker",WS_TABSTOP,14,79,28,14
+    CONTROL         "",IDC_TEXTSR,"ColourPicker",WS_TABSTOP,50,79,28,14
+    LTEXT           "Send/Receive encrypted colors",IDC_STATIC,82,84,104,8
+    GROUPBOX        "SecureIM PopUp Colors",IDC_STATIC,7,7,181,122
+    PUSHBUTTON      "Preview",IDC_PREV,15,107,57,16
+    GROUPBOX        "Events",IDC_STATIC,7,132,248,88
+    GROUPBOX        "PopUp Timeout",IDC_STATIC,196,7,59,122
+    EDITTEXT        IDC_TIMEKEY,210,37,31,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TIMESEC,210,59,31,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_TIMESR,210,81,31,14,ES_AUTOHSCROLL
+    CTEXT           "Time in Seconds",IDC_STATIC,200,23,54,8
+    CTEXT           "0 = Default PopUp Timeout Value",IDC_STATIC,200,101,49,24
+    CONTROL         "Show a popup on established connection",IDC_EC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,144,168,10
+    CONTROL         "Show a popup on disabled connection",IDC_DC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,156,168,10
+    CONTROL         "Show a popup on key send",IDC_KS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,168,168,10
+    CONTROL         "Show a popup on key received",IDC_KR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,180,168,10
+    CONTROL         "Show a popup on each secure send",IDC_SS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,192,168,10
+    CONTROL         "Show a popup on each secure receive",IDC_SR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,204,168,10
+END
+
+
+IDD_PSK DIALOGEX 0, 0, 166, 73
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Please type in your password"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Username:",IDC_STATIC,7,16,36,8
+    EDITTEXT        IDC_EDIT2,46,14,113,13,ES_AUTOHSCROLL | ES_READONLY | WS_DISABLED
+    LTEXT           "Password:",IDC_STATIC,7,36,34,8
+    EDITTEXT        IDC_EDIT1,46,33,113,13,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,126,54,33,12
+    PUSHBUTTON      "Cancel",IDCANCEL,92,54,33,12
+END
+
+
+IDD_PASSPHRASE DIALOGEX 0, 0, 238, 46
+STYLE DS_SYSMODAL | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SecureIM plugin Passphrase of private key"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Enter passphrase for the secret key:",IDC_STATIC,8,8,168,8
+    EDITTEXT        IDC_PASSPHRASE,6,24,168,12,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "Ok",IDOK,181,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,181,24,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDM_CLIST0 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+        POPUP "Mode"
+        BEGIN
+            MENUITEM "Native SecureIM", ID_SIM_NATIVE
+            MENUITEM "PGP SecureIM", ID_SIM_PGP
+            MENUITEM "GPG SecureIM", ID_SIM_GPG
+            MENUITEM "RSA/AES SecureIM", ID_SIM_RSAAES
+//            MENUITEM "RSA SecureIM", ID_SIM_RSA
+        END
+        POPUP "Status"
+        BEGIN
+            MENUITEM "Always Try to Establish Secure IM", ID_ALWAYS
+            MENUITEM "Secure IM Enabled", ID_ENABLED
+            MENUITEM "Secure IM Disabled", ID_DISABLED
+        END
+        POPUP "Pre-shared key"
+        BEGIN
+            MENUITEM "Set key", ID_SETPSK
+            MENUITEM "Delete key", ID_DELPSK
+        END
+    END
+END
+
+
+IDM_CLIST01 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+            MENUITEM "Always Try to Establish Secure IM", ID_ALWAYS
+            MENUITEM "Secure IM Enabled", ID_ENABLED
+            MENUITEM "Secure IM Disabled", ID_DISABLED
+    END
+END
+
+
+IDM_CLIST02 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+            MENUITEM "Set pre-shared key", ID_SETPSK
+            MENUITEM "Delete pre-shared key", ID_DELPSK
+    END
+END
+
+
+IDM_CLIST1 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+        POPUP "Mode"
+        BEGIN
+            MENUITEM "Native SecureIM", ID_SIM_NATIVE
+            MENUITEM "PGP SecureIM", ID_SIM_PGP
+            MENUITEM "GPG SecureIM", ID_SIM_GPG
+            MENUITEM "RSA/AES SecureIM", ID_SIM_RSAAES
+//            MENUITEM "RSA SecureIM", ID_SIM_RSA
+        END
+        POPUP "Status"
+        BEGIN
+            MENUITEM "Secure IM Enabled", ID_ENABLED
+            MENUITEM "Secure IM Disabled", ID_DISABLED
+        END
+        POPUP "Public key"
+        BEGIN
+            MENUITEM "Export key", ID_EXPPUBL
+            MENUITEM "Import key", ID_IMPPUBL
+            MENUITEM "Delete key", ID_DELPUBL
+        END
+    END
+END
+
+
+IDM_CLIST11 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+            MENUITEM "Secure IM Enabled", ID_ENABLED
+            MENUITEM "Secure IM Disabled", ID_DISABLED
+    END
+END
+
+
+IDM_CLIST12 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+            MENUITEM "Export public key", ID_EXPPUBL
+            MENUITEM "Import public key", ID_IMPPUBL
+            MENUITEM "Delete public key", ID_DELPUBL
+    END
+END
+
+
+IDM_CLIST2 MENU 
+BEGIN
+    POPUP ""
+    BEGIN
+            MENUITEM "Native SecureIM", ID_SIM_NATIVE
+            MENUITEM "PGP SecureIM", ID_SIM_PGP
+            MENUITEM "GPG SecureIM", ID_SIM_GPG
+            MENUITEM "RSA/AES SecureIM", ID_SIM_RSAAES
+//            MENUITEM "RSA SecureIM", ID_SIM_RSA
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+    "afxres.h\0"
+    "version.rc\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////

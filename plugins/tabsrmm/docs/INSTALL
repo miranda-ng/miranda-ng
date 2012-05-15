@@ -1,0 +1,43 @@
+
+                INSTALLING tabSRMM
+                ==================
+
+1.Miranda Requirements
+----------------------
+
+a) Miranda IM, Version 0.9.0.0 or later
+   
+
+2) OS Requirements
+------------------
+
+For the UNICODE version, Windows 2000 or later is required. Windows XP or
+later are the only supported platforms.
+
+The x64 Version will require a 64bit Windows XP, Vista or Windows 7 AND can
+only work with a 64bit Miranda installation.
+
+HOW TO INSTALL
+--------------
+
+1) Copy the plugin DLL into your miranda plugins folder. Make sure that you HAVE
+   THE RIGHT VERSION (either ANSI or UNICODE). If unsure what you have downloaded,
+   do the following:
+   *) locate the plugin DLL in windows explorer
+   *) right click it, choose Properties... and navigate to the version tab. There
+      you will see the version number and also ANSI or UNICODE.      
+
+DO NOT INSTALL A UNICODE build on a non-UNICODE Miranda installation. The opposite
+should work, but is not supported. In both cases, tabsrmm will throw a warning message
+when you start Miranda telling you that you had mixed UNICODE and ANSI versions.
+
+2) Install the icon pack (see below).   
+
+INSTALLING THE ICON PACK - IMPORTANT !!
+---------------------------------------
+
+You need to copy the included tabsrmm_icons.dll into the \icons folder. 
+If you don't, you'll receive an error message about a missing resource
+dll, and you won't see any icons on the toolbar and elsewhere. More 
+information about setting up icons can be found in README.ICONS.
+

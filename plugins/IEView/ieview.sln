@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ieview", "ieview.vcxproj", "{B988F96C-F87A-484C-AB15-D0674B22F291}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unicode|Win32 = Debug Unicode|Win32
+		Debug Unicode|x64 = Debug Unicode|x64
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release Unicode|x64 = Release Unicode|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{B988F96C-F87A-484C-AB15-D0674B22F291}.Release Unicode|x64.Build.0 = Release Unicode|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

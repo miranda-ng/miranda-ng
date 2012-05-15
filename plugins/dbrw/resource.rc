@@ -1,0 +1,48 @@
+#include <windows.h>
+#include "dbrw.h"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION DBRW_VER_MAJOR,DBRW_VER_MINOR,0,0
+ PRODUCTVERSION DBRW_VER_MAJOR,DBRW_VER_MINOR,0,0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
+            VALUE "FileDescription", "dbRW Database Driver for Miranda IM"
+            #ifdef DBRW_VER_ALPHA
+            VALUE "FileVersion", DBRW_VER_STRING " alpha " DBRW_VER_ALPHA
+            #else
+            VALUE "FileVersion", DBRW_VER_STRING
+            #endif
+            VALUE "InternalName", "dbRW"                               
+            VALUE "LegalCopyright", "Copyright © 2006-2007 Robert Rainwater."
+            VALUE "OriginalFilename", "dbx_rw.dll"
+            VALUE "ProductName", "dbRW"
+            #ifdef DBRW_VER_ALPHA
+            VALUE "ProductVersion", DBRW_VER_STRING " alpha " DBRW_VER_ALPHA
+            #else
+            VALUE "ProductVersion", DBRW_VER_STRING
+            #endif
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+IDD_INFODLG DIALOGEX  0, 0, 205, 60
+STYLE DS_FIXEDSYS | DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CTEXT           "",IDC_TEXT,7,15,191,30,SS_CENTERIMAGE
+END
+

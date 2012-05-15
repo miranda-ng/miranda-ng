@@ -1,0 +1,15 @@
+The new Popup Team welcomes you.
+Due to the huge amount of changes we advice you to use the "Reset" button below.
+
+Your advantages from new version:
+- seperate unicode release
+- seperate x64 unicode release
+- skins moved to official folder (%miranda%/skins/popup)
+- reworked/fixed option pages
+- fixes in quickreply (unicode and empty messages)
+- user color for avatar border
+- support to customize/overwrite the 3 main mouse buttons
+- Hotkey and ModernToolbar support
+- be ready for updates in other plugins
+
+Many more changes have been done on programmer side. Checkout the changelog for details.

@@ -1,0 +1,207 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_LST_HISTORY DIALOGEX 0, 0, 467, 303
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Popup history"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Close",IDC_CLOSE,413,285,50,14
+    CONTROL         "",IDC_LST_HISTORY,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,4,3,459,278
+    EDITTEXT        IDC_HISTORY_FILTER,4,285,176,14,ES_AUTOHSCROLL
+    CONTROL         "Case sensitive",IDC_HISTORY_FILTER_CASESENSITIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,185,287,222,10
+END
+
+IDD_OPT1 DIALOGEX 0, 0, 297, 218
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Default Timeout",IDC_STATIC,4,7,153,36
+    CONTROL         "Never timeout",IDC_RAD_NOTIMEOUT,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT | WS_GROUP,10,16,77,10,WS_EX_RIGHT
+    CONTROL         "Set timeout:",IDC_RAD_TIMEOUT,"Button",BS_AUTORADIOBUTTON | BS_LEFTTEXT,10,28,77,10,WS_EX_RIGHT
+    EDITTEXT        IDC_ED_TIMEOUT,93,26,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_TIMEOUT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,131,26,12,14
+    EDITTEXT        IDC_ED_WIDTH,238,84,39,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_WIDTH,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,270,84,12,14
+    EDITTEXT        IDC_ED_MAXHEIGHT,238,102,39,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_MAXHEIGHT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,270,102,12,14
+    RTEXT           "Width:",IDC_STATIC,174,87,60,8,0,WS_EX_RIGHT
+    RTEXT           "Maximum height:",IDC_STATIC,174,104,60,8,0,WS_EX_RIGHT
+    GROUPBOX        "Options",IDC_STATIC,4,116,153,94
+    EDITTEXT        IDC_ED_TRANS,97,183,33,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_TRANS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,126,183,13,12
+    RTEXT           "Opacity(%):",IDC_STATIC,11,186,84,8,0,WS_EX_RIGHT
+    CONTROL         "Border",IDC_CHK_BORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,127,121,10
+    CONTROL         "Round corners (window)",IDC_CHK_ROUNDCORNERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,138,121,10
+    PUSHBUTTON      "Preview",IDC_BTN_PREVIEW,161,194,130,17
+    CONTROL         "Animate",IDC_CHK_ANIMATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,160,121,10
+    CONTROL         "Transparent background",IDC_CHK_TRANSBG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,199,121,10
+    GROUPBOX        "Layout",IDC_STATIC,161,7,129,184
+    RTEXT           "Avatar size:",IDC_STATIC,174,122,60,8,0,WS_EX_RIGHT
+    EDITTEXT        IDC_ED_AVSIZE,238,120,39,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_AVSIZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,270,120,12,14
+    GROUPBOX        "Disable when",IDC_STATIC,4,44,153,70
+    CONTROL         "",IDC_LST_STATUS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOLABELWRAP | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,54,148,56
+    COMBOBOX        IDC_CMB_PLACEMENT,165,19,120,68,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CMB_ICON,165,36,120,69,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_CMB_AV,165,53,120,76,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Global hover",IDC_CHK_GLOBALHOVER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,171,121,10
+    COMBOBOX        IDC_CMB_TIME,165,69,120,76,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_ED_SBWIDTH,238,138,39,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_SBWIDTH,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,270,138,11,14
+    RTEXT           "Sidebar width:",IDC_STATIC,174,141,60,8
+    EDITTEXT        IDC_ED_INDENT,238,156,39,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_INDENT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,269,156,12,14
+    RTEXT           "Text indent:",IDC_STATIC,174,160,60,8
+    EDITTEXT        IDC_ED_PADDING,238,173,39,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",IDC_SPIN_PADDING,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,270,173,12,14
+    RTEXT           "Padding:",IDC_STATIC,174,176,60,8
+    CONTROL         "Round corners (avatar)",IDC_CHK_ROUNDCORNERSAV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,149,121,10
+END
+
+IDD_OPT_NOTIFY DIALOGEX 0, 0, 187, 91
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
+IDD_CLASSES DIALOGEX 0, 0, 294, 223
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LISTBOX         IDC_LST_CLASSES,7,18,102,184,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "Text colour:",IDC_STATIC,136,66,80,8
+    RTEXT           "Background colour:",IDC_STATIC,136,88,80,8
+    CONTROL         "Set timeout",IDC_CHK_TIMEOUT,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,144,122,99,10
+    RTEXT           "Timeout value (0 = default):",IDC_STATIC,114,143,121,8
+    EDITTEXT        IDC_ED_TIMEOUT,243,140,43,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "Custom1",IDC_COL_TEXT,"ColourPicker",WS_DISABLED | WS_TABSTOP,243,61,44,17
+    CONTROL         "Custom1",IDC_COL_BG,"ColourPicker",WS_DISABLED | WS_TABSTOP,243,82,44,17
+    PUSHBUTTON      "Preview",IDC_BTN_PREVIEW,141,178,130,17,WS_DISABLED
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPT1, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 290
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_OPT_NOTIFY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 84
+    END
+
+    IDD_CLASSES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 287
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 216
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_POPUP_HISTORY       ICON                    "PPh2.ico"
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

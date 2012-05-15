@@ -1,0 +1,17 @@
+;for Splash Screen v.0.1.2.x+
+
+[Splash Screen]
+[Splash Options]
+[Show Miranda Version]
+[Appearance]
+[Show splash]
+[Show random splash]
+[Play sound]
+[Loop sound]
+[Prefix:]
+[Fade in:]
+[Fade out:]
+[Display time:]
+[msec]
+[steps]
+[Preview...]

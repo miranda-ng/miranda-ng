@@ -1,0 +1,11 @@
+Парсить xml
+экспорт\импорт
+автоимпорт из файла
+авторизация
+замена всего html'ного
+
+xml parse
+contacts export\import
+autoimport from file service
+authorization
+replace all html to text

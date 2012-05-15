@@ -1,0 +1,49 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Console - Win32 Release Unicode--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x409 /fo"Release_Unicode/resource.res" /i "..\..\include" /d "NDEBUG" "D:\Sources\svn.miranda.im\console\trunk\resource.rc"" 
+Creating temporary file "C:\Temp\RSPB728.tmp" with contents
+[
+/nologo /MD /W3 /GX /Zi /O2 /I "../../include" /D "_UNICODE" /D "UNICODE" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "Console_EXPORTS" /FR"Release_Unicode/" /Fo".\Release/" /Fd".\Release/" /c 
+"D:\Sources\svn.miranda.im\console\trunk\Commonheaders.c"
+"D:\Sources\svn.miranda.im\console\trunk\Console.c"
+]
+Creating command line "cl.exe @C:\Temp\RSPB728.tmp" 
+Creating temporary file "C:\Temp\RSPB729.tmp" with contents
+[
+/nologo /MD /W3 /Zi /Ox /Og /Gf /Gy /I "../../include" /D "_UNICODE" /D "UNICODE" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_USRDLL" /D "Console_EXPORTS" /Fr"Release_Unicode/" /Fo".\Release/" /Fd".\Release/" /c 
+"D:\Sources\svn.miranda.im\console\trunk\init.c"
+]
+Creating command line "cl.exe @C:\Temp\RSPB729.tmp" 
+Creating temporary file "C:\Temp\RSPB72A.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /dll /incremental:no /pdb:"Release_Unicode/Console.pdb" /map:"Release_Unicode/Console.map" /debug /machine:IX86 /out:"Release_Unicode\Plugins\Console.dll" /implib:".\Release/Console.lib" 
+.\Release\Commonheaders.obj
+.\Release\Console.obj
+.\Release\init.obj
+.\Release_Unicode\resource.res
+]
+Creating command line "link.exe @C:\Temp\RSPB72A.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+Commonheaders.c
+Console.c
+Generating Code...
+Compiling...
+init.c
+Linking...
+   Creating library .\Release/Console.lib and object .\Release/Console.exp
+
+
+
+<h3>Results</h3>
+Console.dll - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

@@ -1,0 +1,90 @@
+#include "version.h"
+#include "resource.h"
+#include "winres.h"
+#include "richedit.h"
+
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page( 1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Do not edit this dialogs in visual editor!!!
+//
+
+IDD_CONSOLE DIALOGEX 0, 0, 354, 240
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "XML Console"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CONSOLE,RICHEDIT_CLASS,WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x804,5,5,343,137
+    CONTROL         "Custom1",IDC_BTN_MSG,"MButtonClass",WS_TABSTOP,5,147,16,14
+    CONTROL         "Custom1",IDC_BTN_PRESENCE,"MButtonClass",WS_TABSTOP,21,147,16,14
+    CONTROL         "Custom1",IDC_BTN_IQ,"MButtonClass",WS_TABSTOP,37,147,16,14
+    CONTROL         "Custom1",IDC_BTN_FILTER,"MButtonClass",WS_TABSTOP,68,147,16,14
+    COMBOBOX        IDC_CB_FILTER,86,147,245,91,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Custom1",IDC_BTN_FILTER_REFRESH,"MButtonClass",WS_TABSTOP,333,147,16,14
+    EDITTEXT        IDC_CONSOLEIN,5,166,343,38,ES_MULTILINE | WS_VSCROLL
+    PUSHBUTTON      "Reset log",IDC_RESET,244,209,50,14
+    DEFPUSHBUTTON   "Send",IDOK,299,209,50,14
+END
+
+IDD_GROUPCHAT_INPUT DIALOGEX 0, 0, 242, 42
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TXT_MULTILINE,6,6,230,12,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | NOT WS_VISIBLE | WS_VSCROLL
+    EDITTEXT        IDC_TXT_PASSWORD,6,6,230,12,ES_AUTOHSCROLL | NOT WS_VISIBLE | ES_PASSWORD
+    COMBOBOX        IDC_TXT_COMBO,6,6,230,92,CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_TXT_RICHEDIT,RICHEDIT_CLASS,NOT WS_VISIBLE | WS_BORDER | WS_VSCROLL | WS_TABSTOP | 0x1004,6,6,230,12
+    DEFPUSHBUTTON   "OK",IDOK,131,23,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,186,23,50,14
+END
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "Miranda\0"
+            VALUE "FileDescription", "Jabber Protocol Plugin for Miranda IM\0"
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "InternalName", "jabber\0"
+            VALUE "LegalCopyright", "Copyright ( c) 2002-04 Santithorn Bunchua, 2005 George Hazan \0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "jabber.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "Jabber Protocol Plugin for Miranda IM\0"
+            VALUE "ProductVersion", __VERSION_STRING
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC

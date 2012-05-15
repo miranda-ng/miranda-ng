@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cryptlib", "crypto\cryptlib_9.vcproj", "{290C5ED4-71A7-4040-AD26-4820CF7A9E60}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cryptopp", "cryptopp_9.vcproj", "{4AC1E062-0236-4E49-AA04-F732043D2DCF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60} = {290C5ED4-71A7-4040-AD26-4820CF7A9E60}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Debug|Win32.ActiveCfg = Debug|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Debug|Win32.Build.0 = Debug|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|Win32.ActiveCfg = Release|Win32
+		{290C5ED4-71A7-4040-AD26-4820CF7A9E60}.Release|Win32.Build.0 = Release|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Debug|Win32.Build.0 = Debug|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Release|Win32.ActiveCfg = Release|Win32
+		{4AC1E062-0236-4E49-AA04-F732043D2DCF}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,182 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <winres.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_COPYPROGRESS DIALOGEX 0, 0, 186, 58
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | 
+    WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Backup progress"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,24,172,9
+    CTEXT           "",IDC_PROGRESSMESSAGE,31,7,114,13
+    PUSHBUTTON      "Cancel",IDCANCEL,58,39,67,12
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_COPYPROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 51
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "icos\\backup.ico"
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 271, 193
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    GROUPBOX        "Automatic Backups",IDC_STATIC,6,7,258,179,WS_GROUP
+    RTEXT           "Number of backups to keep:",IDC_STATIC,13,94,132,8
+    EDITTEXT        IDC_ED_NUMBACKUPS,164,90,30,12,ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",SPIN_NUMBACKUPS,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,182,90,10,
+                    12
+    PUSHBUTTON      "Backup NOW",IDC_BUT_NOW,173,19,75,14
+    CONTROL         "Disabled",IDC_RAD_DISABLED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,17,19,128,10
+    CONTROL         "When Miranda starts",IDC_RAD_START,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,35,156,10
+    CONTROL         "When Miranda exits",IDC_RAD_EXIT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,51,156,10
+    CONTROL         "Every:",IDC_RAD_PERIODIC,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,17,67,43,10
+    COMBOBOX        IDC_PT,148,67,46,30,CBS_DROPDOWNLIST | WS_TABSTOP
+    EDITTEXT        IDC_ED_PERIOD,106,67,30,12,ES_NUMBER,WS_EX_RIGHT
+    CONTROL         "",SPIN_PERIOD,"msctls_updown32",UDS_SETBUDDYINT | 
+                    UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,126,67,10,
+                    12
+    LTEXT           "Backup to folder:",IDC_STATIC,18,120,124,11
+    EDITTEXT        IDC_ED_FOLDER,26,133,168,13,ES_AUTOHSCROLL
+    PUSHBUTTON      "Browse...",IDC_BUT_BROWSE,199,132,49,14
+    CONTROL         "Go to the ""Customize -> Folders"" to change settings",
+                    IDC_LNK_FOLDERS,"Hyperlink",NOT WS_VISIBLE | WS_TABSTOP,
+                    18,129,231,21
+    CONTROL         "Disable progress bar",IDC_CHK_NOPROG,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,152,182,11
+    CONTROL         "Disable Popups",IDC_CHK_NOPOPUP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,17,168,182,11
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 264
+        VERTGUIDE, 17
+        VERTGUIDE, 193
+        VERTGUIDE, 248
+        TOPMARGIN, 38
+        BOTTOMMARGIN, 186
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

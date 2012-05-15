@@ -1,0 +1,97 @@
+# Microsoft Developer Studio Generated Dependency File, included by srmm.mak
+
+.\cmdlist.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	
+
+.\globals.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	
+
+.\msgdialog.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	".\statusicon.h"\
+	
+
+.\msglog.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	
+
+.\msgoptions.c : \
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_modernopt.h"\
+	".\msgs.h"\
+	
+
+.\msgs.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	".\statusicon.h"\
+	
+
+.\msgtimedout.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	
+
+.\richutil.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	
+
+.\srmm.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_contacts.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_file.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_history.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_userinfo.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\msapi\vsstyle.h"\
+	"..\..\include\msapi\vssym32.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\cmdlist.h"\
+	".\commonheaders.h"\
+	".\globals.h"\
+	".\msgs.h"\
+	".\richutil.h"\
+	".\version.h"\
+	
+
+.\statusicon.c : \
+	"..\..\include\m_fontservice.h"\
+	".\msgs.h"\
+	".\statusicon.h"\
+	
+
+.\resource.rc : \
+	"..\..\include\statusmodes.h"\
+	".\res\dragcopy.cur"\
+	".\res\dropuser.cur"\
+	".\res\hyperlin.cur"\
+	".\res\incoming.ico"\
+	".\res\notice.ico"\
+	".\res\outgoing.ico"\
+	

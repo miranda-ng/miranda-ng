@@ -1,0 +1,251 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS_PICTS DIALOGEX 0, 0, 299, 214
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CTEXT           "The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.",IDC_STATIC,0,13,294,27
+    CONTROL         "",IDC_PROTOCOLS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,19,83,150,85
+    PUSHBUTTON      "Set default picture",IDC_SETPROTOPIC,176,83,106,14
+    PUSHBUTTON      "Delete default picture",IDC_REMOVEPROTOPIC,176,99,106,14
+    CONTROL         "",IDC_PROTOPIC,"Button",BS_OWNERDRAW,197,118,56,50
+    EDITTEXT        IDC_PROTOAVATARNAME,18,176,264,30,ES_MULTILINE | ES_READONLY,WS_EX_CLIENTEDGE
+    CTEXT           "CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars",IDC_STATIC,0,53,294,18
+END
+
+IDD_OPTIONS_AVATARS DIALOGEX 0, 0, 302, 189
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Try to draw avatar background transparent (for images without transparency)",IDC_MAKE_TRANSPARENT_BKG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,17,278,12
+    LTEXT           "Num of points to define bkg:",IDC_BKG_NUM_POINTS_L,33,31,135,11
+    EDITTEXT        IDC_BKG_NUM_POINTS,173,30,36,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_BKG_NUM_POINTS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,209,30,11,12
+    LTEXT           "Color difference allowed:",IDC_BKG_COLOR_DIFFERENCE_L,33,44,135,11
+    EDITTEXT        IDC_BKG_COLOR_DIFFERENCE,173,43,36,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_BKG_COLOR_DIFFERENCE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,209,42,11,12
+    CONTROL         "Make transparency proportional to color diff",IDC_MAKE_TRANSP_PROPORTIONAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,57,247,10
+    CONTROL         "Draw avatars grayscale",IDC_MAKE_GRAYSCALE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,72,269,13
+    CONTROL         "Show warning messages",IDC_SHOWWARNINGS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,87,269,13
+END
+
+IDD_OPTIONS_OWN DIALOGEX 0, 0, 302, 75
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "When setting avatars, always make them square",IDC_SET_MAKE_SQUARE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,17,281,11
+    CONTROL         "Try to draw own avatar background transparent (for images without transparency)",IDC_MAKE_MY_AVATARS_TRANSP,
+                    "Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,30,289,16
+    LTEXT           "This uses the same additional options as in ""Contact Avatars"" tab",IDC_STATIC,17,50,257,13
+END
+
+IDD_OPENSUBCLASS DIALOGEX 0, 0, 246, 18
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Protect the picture and prevent automatic avatars from overwriting it",IDC_PROTECTAVATAR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,7,237,8
+END
+
+IDD_SET_OWN_SUBCLASS DIALOG 0, 0, 323, 31
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Make the avatar square",IDC_MAKE_SQUARE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,68,0,237,8
+    CONTROL         "Resize the avatar to fit max allowed protocol size",IDC_GROW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,68,12,237,8
+END
+
+IDD_AVATAROPTIONS DIALOGEX 0, 0, 213, 212
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Contact picture",IDC_STATIC,5,5,202,96
+    CONTROL         "",IDC_PROTOPIC,"Button",BS_OWNERDRAW,12,16,56,50
+    PUSHBUTTON      "Change",IDC_CHANGE,138,15,61,14
+    PUSHBUTTON      "Delete",IDC_DELETE,138,32,61,14
+    PUSHBUTTON      "Reset",IDC_RESET,138,49,61,14
+    EDITTEXT        IDC_AVATARNAME,12,68,187,29,ES_MULTILINE | ES_READONLY,WS_EX_CLIENTEDGE
+    GROUPBOX        "Picture options",IDC_STATIC,5,102,202,92
+    CONTROL         "Protect the picture",IDC_PROTECTAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,112,186,8
+    CONTROL         "Set as hidden",IDC_HIDEAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,122,186,11
+    CONTROL         "Try to make picture background transparent",IDC_MAKETRANSPBKG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,133,186,11
+    LTEXT           "Num of points to define bkg:",IDC_BKG_NUM_POINTS_L,23,148,118,11
+    EDITTEXT        IDC_BKG_NUM_POINTS,145,146,42,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_BKG_NUM_POINTS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,187,147,11,12
+    LTEXT           "Color difference allowed:",IDC_BKG_COLOR_DIFFERENCE_L,23,162,118,11
+    EDITTEXT        IDC_BKG_COLOR_DIFFERENCE,145,160,42,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_BKG_COLOR_DIFFERENCE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,188,160,11,12
+    DEFPUSHBUTTON   "Use defaults",ID_USE_DEFAULTS,11,177,63,12
+    DEFPUSHBUTTON   "OK",IDOK,93,197,50,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,151,197,50,14
+END
+
+IDD_USER_AVATAR DIALOGEX 0, 0, 222, 152
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROTOPIC,"MAvatarControlClass",0x0,3,4,96,89
+    PUSHBUTTON      "Change",IDC_CHANGE,3,102,96,14
+    PUSHBUTTON      "Delete",IDC_DELETE,3,118,96,14
+    PUSHBUTTON      "Reset",IDC_RESET,3,134,96,14
+    GROUPBOX        " Options ",IDC_STATIC,107,3,111,50
+    CONTROL         "Protect the picture",IDC_PROTECTAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,18,93,8
+    CONTROL         "Set as hidden",IDC_HIDEAVATAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,34,93,11
+    GROUPBOX        " Background ",IDC_STATIC,107,59,111,89
+    CONTROL         "Transparent",IDC_MAKETRANSPBKG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,118,74,93,11
+    LTEXT           "Points:",IDC_BKG_NUM_POINTS_L,129,91,38,11
+    EDITTEXT        IDC_BKG_NUM_POINTS,169,89,42,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_BKG_NUM_POINTS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,199,80,11,12
+    LTEXT           "Color diff:",IDC_BKG_COLOR_DIFFERENCE_L,129,108,38,11
+    EDITTEXT        IDC_BKG_COLOR_DIFFERENCE,169,106,42,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_BKG_COLOR_DIFFERENCE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,199,117,11,12
+    PUSHBUTTON      "Use defaults",ID_USE_DEFAULTS,118,130,63,12
+END
+
+IDD_PROTO_AVATARS DIALOGEX 0, 0, 222, 152
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROTOCOLS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,3,4,101,126
+    CONTROL         "",IDC_PROTOPIC,"MAvatarControlClass",0x0,114,4,96,89
+    PUSHBUTTON      "Set",IDC_CHANGE,114,100,96,14
+    PUSHBUTTON      "Delete",IDC_DELETE,114,116,96,14
+    CONTROL         "Use per protocol avatars",IDC_PER_PROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,137,215,11
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS_PICTS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 294
+    END
+
+    IDD_OPENSUBCLASS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 208
+        TOPMARGIN, 7
+    END
+
+    IDD_AVATAROPTIONS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 207
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_USER_AVATAR, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 218
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 148
+    END
+
+    IDD_PROTO_AVATARS, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 218
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 148
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_AVATAR              ICON                    "res/avatar.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

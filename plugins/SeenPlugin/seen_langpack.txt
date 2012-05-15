@@ -1,0 +1,172 @@
+[Last seen]
+
+[Last seen options]
+
+[Last seen menuitem]
+
+[Userinfo tab]
+
+[Log to file]
+
+[year (4 digits)]
+
+[year (2 digits)]
+
+[month]
+
+[day]
+
+[minutes]
+
+[seconds]
+
+[username]
+
+[UIN/handle]
+
+[status]
+
+[external IP]
+
+[internal IP]
+
+[line break]
+
+[tabulator]
+
+[<unknown>]
+
+;New 4.0.2
+;--------------------
+[Ignore contacts going offline]
+
+;New 4.0.3
+;--------------------
+[Enable 'Missed Ones' feature]
+
+[You missed following contacts:]
+
+;New 4.0.4
+;--------------------
+[Show icon]
+
+;Modified 4.0.5
+;--------------------
+;[hours]
+[hours (24)]
+
+;New 4.0.5
+;--------------------
+[hours (12)]
+
+[AM/PM]
+
+;New 4.0.6
+;--------------------
+[weekday (full)]
+
+[weekday (abbreviated)]
+
+[Monday]
+
+[Tuesday]
+
+[Wednesday]
+
+[Thursday]
+
+[Friday]
+
+[Saturday]
+
+[Sunday]
+
+[Mon.]
+
+[Tue.]
+
+[Wed.]
+
+[Thu.]
+
+[Fri.]
+
+[Sat.]
+
+[Sun.]
+
+;New 4.0.7
+;--------------------
+[name of month]
+
+[short name of month]
+
+[January]
+
+[February]
+
+[March]
+
+[April]
+
+[May]
+
+[June]
+
+[July]
+
+[August]
+
+[September]
+
+[October]
+
+[November]
+
+[December]
+
+[Jan.]
+
+[Feb.]
+
+[Mar.]
+
+[Apr.]
+
+[May]
+
+[Jun.]
+
+[Jul.]
+
+[Aug.]
+
+[Sep.]
+
+[Oct.]
+
+[Nov.]
+
+[Dec.]
+
+;New 4.1.1
+;--------------------
+[Count times]
+
+;New 5.0.0.0
+;--------------------
+[last seen history]
+
+[Log to history]
+
+[Maximum size]
+
+[Variable list]
+
+[Protocols to watch:]
+
+[Alert when user status changes]
+
+;New 5.0.1.1
+;--------------------
+[Send Instant Message]

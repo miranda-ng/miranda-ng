@@ -1,0 +1,464 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include "version.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_BRIEF DIALOGEX 0, 0, 245, 231
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_WINDOWEDGE | WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,245,25
+    CONTROL         "",IDC_MTEXT,"RichEdit20A",ES_MULTILINE | ES_READONLY | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
+    CONTROL         "List1",IDC_DATALIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | WS_TABSTOP,0,25,244,180,WS_EX_STATICEDGE
+    PUSHBUTTON      "Update",IDC_MUPDATE,10,213,48,13
+    PUSHBUTTON      "Brief Info",IDC_MTOGGLE,79,213,48,13
+    PUSHBUTTON      "Webpage",IDC_MWEBPAGE,132,213,48,13
+    DEFPUSHBUTTON   "Close",IDCANCEL,184,213,48,13
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 306, 212
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Options",IDC_STATIC,3,0,299,70,WS_GROUP
+    CONTROL         "Update weather information on startup",IDC_STARTUPUPD,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,219,8
+    CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,19,206,8
+    EDITTEXT        IDC_UPDATETIME,231,15,21,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    LTEXT           "minutes",IDC_STATIC,257,16,45,9
+    CONTROL         "Consider weather info updated only when condition and temperature are changed",IDC_UPDCONDCHG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,28,282,8
+    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,38,282,8
+    CONTROL         "Make the contact italic when weather alert is issued",IDC_MAKEI,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,48,282,8
+    CONTROL         "Open URLs in new browser window",IDC_NEWWIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,57,287,8
+    GROUPBOX        "Modes",IDC_STATIC,3,70,300,37
+    CONTROL         "Use weather condition as protocol status",IDC_PROTOCOND,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,81,278,8
+    CONTROL         "Avatar only mode",IDC_DISCONDICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,91,278,8
+    GROUPBOX        "Units",IDC_STATIC,3,107,299,70,WS_GROUP
+    LTEXT           "Temperature",IDC_STATIC,8,116,53,8
+    CONTROL         "Celsius",IDC_T1,"Button",BS_AUTORADIOBUTTON,65,116,40,8
+    CONTROL         "Fahrenheit",IDC_T2,"Button",BS_AUTORADIOBUTTON,120,116,47,8
+    LTEXT           "Degree sign:",IDC_STATIC,227,116,55,8
+    EDITTEXT        IDC_DEGREE,283,116,13,12,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    LTEXT           "Wind",IDC_STATIC,8,125,53,8
+    CONTROL         "km/h",IDC_W1,"Button",BS_AUTORADIOBUTTON,65,125,34,8
+    CONTROL         "m/s",IDC_W2,"Button",BS_AUTORADIOBUTTON,120,125,34,8
+    CONTROL         "mph",IDC_W3,"Button",BS_AUTORADIOBUTTON,176,125,34,8
+    CONTROL         "knots",IDC_W4,"Button",BS_AUTORADIOBUTTON,232,125,49,8
+    LTEXT           "Visibility",IDC_STATIC,8,134,53,8
+    CONTROL         "km",IDC_V1,"Button",BS_AUTORADIOBUTTON,65,134,34,8
+    CONTROL         "miles",IDC_V2,"Button",BS_AUTORADIOBUTTON,120,134,34,8
+    LTEXT           "Pressure",IDC_STATIC,8,143,53,8
+    CONTROL         "kPa",IDC_P1,"Button",BS_AUTORADIOBUTTON,65,143,38,8
+    CONTROL         "mb (hPa)",IDC_P2,"Button",BS_AUTORADIOBUTTON,120,143,56,8
+    CONTROL         "inches",IDC_P3,"Button",BS_AUTORADIOBUTTON,176,143,38,8
+    CONTROL         "mm Hg (torr)",IDC_P4,"Button",BS_AUTORADIOBUTTON,232,143,62,8
+    LTEXT           "Day/Month",IDC_STATIC,8,153,53,8
+    CONTROL         "No change",IDC_D1,"Button",BS_AUTORADIOBUTTON,65,153,52,8
+    CONTROL         "2 chars",IDC_D2,"Button",BS_AUTORADIOBUTTON,120,153,56,8
+    CONTROL         "3 chars",IDC_D3,"Button",BS_AUTORADIOBUTTON,176,153,56,8
+    CONTROL         "Do not append units to values",IDC_DONOTAPPUNITS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,164,144,8
+    CONTROL         "Do not display fractional values",IDC_NOFRAC,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,155,165,146,8
+    GROUPBOX        "Frame",IDC_STATIC,3,177,300,29
+    EDITTEXT        IDC_AVATARSIZE,11,187,29,14,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    CONTROL         "",IDC_AVATARSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,28,187,11,14
+    LTEXT           "Avatar size",IDC_STATIC,42,190,85,9
+END
+
+IDD_EDIT DIALOGEX 0, 0, 241, 226
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Edit Weather Station"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Weather Station",IDC_STATIC,5,7,231,46
+    LTEXT           "City name",IDC_STATIC,12,21,57,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_NAME,69,19,146,12,ES_AUTOHSCROLL
+    LTEXT           "ID",IDC_STATIC,12,37,57,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_ID,69,35,146,12,ES_AUTOHSCROLL
+    GROUPBOX        "Log Information",IDC_STATIC,5,55,231,53
+    CONTROL         "Use internal history",IDC_Internal,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,68,218,8
+    CONTROL         "Use external file",IDC_External,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,80,98,8
+    CONTROL         "Overwrite file upon update",IDC_Overwrite,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,119,80,111,8
+    LTEXT           "Path:",IDC_STATIC,25,93,37,8,SS_CENTERIMAGE
+    EDITTEXT        IDC_LOG,69,91,146,12,ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "6",IDC_BROWSE,"MButtonClass",WS_TABSTOP,217,91,13,12,WS_EX_NOACTIVATE | 0x10000000L
+    GROUPBOX        "Link Settings",IDC_STATIC,5,110,231,44
+    LTEXT           "More Info URL",IDC_STATIC,12,123,57,8
+    EDITTEXT        IDC_IURL,69,121,131,12,ES_AUTOHSCROLL
+    CONTROL         "6",IDC_VIEW1,"MButtonClass",WS_TABSTOP,202,121,13,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "6",IDC_RESET1,"MButtonClass",WS_TABSTOP,217,121,13,12,WS_EX_NOACTIVATE | 0x10000000L
+    LTEXT           "Weather Map",IDC_STATIC,12,138,57,8
+    EDITTEXT        IDC_MURL,69,137,131,12,ES_AUTOHSCROLL
+    CONTROL         "6",IDC_VIEW2,"MButtonClass",WS_TABSTOP,202,137,13,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "6",IDC_RESET2,"MButtonClass",WS_TABSTOP,217,137,13,12,WS_EX_NOACTIVATE | 0x10000000L
+    GROUPBOX        "Other Options",IDC_STATIC,5,157,231,46
+    CONTROL         "Set as default station",IDC_DEFA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,168,218,8
+    CONTROL         "Disable automatic update for this station",IDC_DAutoUpdate,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,179,218,8
+    CONTROL         "Disable PopUp for this station",IDC_DPop,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,190,218,8
+    PUSHBUTTON      "Change",IDC_CHANGE,57,207,46,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,136,207,46,14
+    CONTROL         "",IDC_SVCINFO,"MButtonClass",WS_TABSTOP,217,35,13,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "",IDC_GETNAME,"MButtonClass",WS_TABSTOP,217,19,13,12,WS_EX_NOACTIVATE | 0x10000000L
+END
+
+IDD_POPUP DIALOGEX 0, 0, 312, 182
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "PopUp Options",IDC_STATIC,6,5,156,54
+    CONTROL         "Enable popups",IDC_E,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,15,143,9
+    CONTROL         "Popup only when condition changes",IDC_CH,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,15,44,140,10
+    GROUPBOX        "Colours",IDC_STATIC,168,5,139,54
+    CONTROL         "",IDC_BGCOLOUR,"ColourPicker",WS_TABSTOP,177,16,39,11
+    LTEXT           "Background colour",IDC_STATIC,223,18,78,8,SS_CENTERIMAGE
+    CONTROL         "",IDC_TEXTCOLOUR,"ColourPicker",WS_TABSTOP,177,30,39,11
+    LTEXT           "Text colour",IDC_STATIC,223,31,80,8,SS_CENTERIMAGE
+    CONTROL         "Use Windows colours",IDC_USEWINCOLORS,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,177,43,125,13
+    GROUPBOX        "Popup Actions",IDC_STATIC,6,63,155,46
+    LTEXT           "Left Click",IDC_STATIC,15,77,40,8
+    CONTROL         "",IDC_LeftClick,"MButtonClass",WS_TABSTOP,59,76,95,9,WS_EX_NOACTIVATE | 0x10000000L
+    LTEXT           "Right Click",IDC_STATIC,15,93,42,8
+    CONTROL         "",IDC_RightClick,"MButtonClass",WS_TABSTOP,59,92,95,9,WS_EX_NOACTIVATE | 0x10000000L
+    GROUPBOX        "Popup Delay",IDC_STATIC,167,63,141,46
+    CONTROL         "Delay",IDC_PD3,"Button",BS_AUTORADIOBUTTON,177,74,53,8
+    EDITTEXT        IDC_DELAY,233,73,36,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_STATICEDGE
+    LTEXT           "seconds",IDC_STATIC,272,73,34,10
+    CONTROL         "From PopUp plugin",IDC_PD1,"Button",BS_AUTORADIOBUTTON,177,85,110,8
+    CONTROL         "Permanent",IDC_PD2,"Button",BS_AUTORADIOBUTTON,177,96,110,8
+    GROUPBOX        "Popup Text",IDC_STATIC,6,112,302,66
+    LTEXT           "Popup Title",IDC_STATIC,15,127,56,9
+    EDITTEXT        IDC_PTitle,74,124,163,12,ES_AUTOHSCROLL
+    LTEXT           "Popup Text",IDC_STATIC,15,142,55,9
+    EDITTEXT        IDC_PText,73,140,164,31,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "Variables",IDC_VAR3,"MButtonClass",WS_TABSTOP,244,124,47,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Default",IDC_PDEF,"MButtonClass",WS_TABSTOP,244,141,47,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Preview",IDC_PREVIEW,"MButtonClass",WS_TABSTOP,244,158,47,12,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Updates",IDC_POP1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,29,24,64,9
+    CONTROL         "Alerts",IDC_POP2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,29,34,64,9
+    CONTROL         "Errors",IDC_W,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,97,24,54,9
+END
+
+IDD_TEXTOPT DIALOGEX 0, 0, 309, 228
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Contact List",IDC_TM1,"MButtonClass",WS_TABSTOP | 0x100,2,9,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_CTEXT,64,8,139,12,ES_AUTOHSCROLL
+    CONTROL         "Brief Info Title",IDC_TM2,"MButtonClass",WS_TABSTOP,2,41,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_BTITLE,64,40,139,12,ES_AUTOHSCROLL
+    CONTROL         "Brief Info",IDC_TM3,"MButtonClass",WS_TABSTOP,2,55,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_BTEXT,64,54,139,44,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "Note Text",IDC_TM4,"MButtonClass",WS_TABSTOP,2,101,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_NTEXT,64,100,139,44,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "Extra Text",IDC_TM5,"MButtonClass",WS_TABSTOP,2,147,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_XTEXT,64,146,139,44,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "External Log",IDC_TM6,"MButtonClass",WS_TABSTOP,2,193,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_ETEXT,64,192,139,12,ES_AUTOHSCROLL
+    CONTROL         "History Log",IDC_TM7,"MButtonClass",WS_TABSTOP,2,208,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_HTEXT,64,207,139,12,ES_AUTOHSCROLL
+    GROUPBOX        "Variable List",IDC_STATIC,206,4,99,198
+    LTEXT           "",IDC_VARLIST,213,15,86,158
+    CONTROL         "More Variables",IDC_MORE,"MButtonClass",WS_TABSTOP,214,188,76,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Reset",IDC_RESET,"MButtonClass",WS_TABSTOP,222,208,61,12,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_BTITLE2,64,24,139,12,ES_AUTOHSCROLL
+    CONTROL         "Status Message",IDC_TM8,"MButtonClass",WS_TABSTOP | 0x100,2,25,58,9,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+END
+
+IDD_USERINFO DIALOGEX 0, 0, 222, 132
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    ICON            "",IDC_INFOICON,16,15,20,20,SS_CENTERIMAGE
+    LTEXT           "",IDC_INFO1,12,8,193,10
+    LTEXT           "Sunset",IDC_STATIC,112,58,54,8
+    LTEXT           "Feel-like",IDC_STATIC,12,46,39,8
+    LTEXT           "Today's Low",IDC_STATIC,112,82,54,8
+    LTEXT           "Wind",IDC_STATIC,12,70,39,8
+    LTEXT           "Today's High",IDC_STATIC,112,70,54,8
+    LTEXT           "Sunrise",IDC_STATIC,112,46,54,8
+    LTEXT           "",IDC_INFO11,12,121,195,9
+    LTEXT           "Dewpoint",IDC_STATIC,12,94,39,8
+    LTEXT           "Pressure",IDC_STATIC,12,58,39,8
+    GROUPBOX        "",IDC_STATIC,4,36,211,84
+    GROUPBOX        "",IDC_STATIC,4,1,211,35
+    EDITTEXT        IDC_INFO2,42,20,165,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO3,51,46,57,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO4,51,58,57,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO5,51,70,56,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO6,51,94,56,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO7,166,46,41,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO8,166,58,41,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO9,166,70,41,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    EDITTEXT        IDC_INFO10,166,82,41,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    LTEXT           "Humidity",IDC_STATIC,12,82,39,8
+    EDITTEXT        IDC_INFO12,51,82,56,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    LTEXT           "Visibility",IDC_STATIC,12,106,39,8
+    EDITTEXT        IDC_INFO13,51,106,56,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    CONTROL         "More...",IDC_MOREDETAIL,"MButtonClass",WS_TABSTOP,129,104,61,12,WS_EX_WINDOWEDGE | WS_EX_NOACTIVATE | 0x10000000L
+END
+
+IDD_SETUP DIALOGEX 0, 0, 244, 146
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Weather Protocol INI Setup"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Weather Protocol INI Setup\nInstall and load your weather ini file here",IDC_HEADERBAR,
+                    "MHeaderbarCtrl",0x0,0,0,243,28
+    CTEXT           "Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:",IDC_STATIC,11,32,222,26
+    CONTROL         "Click here to download a weather ini file from Miranda file listing",IDC_STEP1,
+                    "MButtonClass",WS_TABSTOP,5,62,234,12,WS_EX_WINDOWEDGE | 0x800000L
+    CONTROL         "Extract the weather ini file from archive to this directory",IDC_STEP2,
+                    "MButtonClass",WS_TABSTOP,5,74,234,12,WS_EX_WINDOWEDGE | 0x800000L
+    CONTROL         "Click here to load the data from the new ini file into memory",IDC_STEP3,
+                    "MButtonClass",WS_TABSTOP,5,86,234,13,WS_EX_WINDOWEDGE | 0x800000L
+    CONTROL         "Add new weather station and close this dialog",IDC_STEP4,
+                    "MButtonClass",WS_TABSTOP,5,99,234,12,WS_EX_WINDOWEDGE | 0x800000L
+    PUSHBUTTON      "Close",IDCANCEL,95,122,48,13
+    CONTROL         "",IDC_MFRAME,"Static",SS_ETCHEDHORZ,0,117,244,1
+END
+
+IDD_INFO DIALOGEX 0, 0, 225, 155
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_INFOLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,7,7,210,115
+    LTEXT           "Total INI files",IDC_STATIC,7,125,95,8
+    LTEXT           "Total memory used",IDC_STATIC,7,138,92,8
+    LTEXT           "",IDC_INICOUNT,104,125,30,10,SS_SUNKEN
+    LTEXT           "",IDC_MEMUSED,104,138,29,10,SS_SUNKEN
+    PUSHBUTTON      "Reload INI",IDC_RELOADINI,145,128,64,18
+END
+
+IDD_SEARCHCITY DIALOGEX 0, 0, 114, 55
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_TRANSPARENT | WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_SEARCHCITY,3,18,103,12,0,WS_EX_CLIENTEDGE
+    LTEXT           "City:",IDC_STATIC,6,7,99,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_BRIEF, DIALOG
+    BEGIN
+        RIGHTMARGIN, 241
+        BOTTOMMARGIN, 226
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        VERTGUIDE, 12
+        BOTTOMMARGIN, 209
+    END
+
+    IDD_POPUP, DIALOG
+    BEGIN
+        RIGHTMARGIN, 306
+    END
+
+    IDD_TEXTOPT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 308
+    END
+
+    IDD_SETUP, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 140
+    END
+
+    IDD_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 217
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 148
+    END
+
+    IDD_SEARCHCITY, DIALOG
+    BEGIN
+        RIGHTMARGIN, 113
+        BOTTOMMARGIN, 54
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_PMENU MENU
+BEGIN
+    POPUP "Menu"
+    BEGIN
+        MENUITEM "Dismiss PopUp",               IDM_M1
+        MENUITEM "Open brief information",      IDM_M2
+        MENUITEM "Open complete forecast",      IDM_M3
+        MENUITEM "Open weather map",            IDM_M4
+        MENUITEM "View history",                IDM_M5
+        MENUITEM "Open log file",               IDM_M6
+        MENUITEM "Show user menu",              IDM_M7
+        MENUITEM "Show user detail",            IDM_M8
+    END
+END
+
+IDR_TMENU MENU
+BEGIN
+    POPUP "Menu"
+    BEGIN
+        MENUITEM "To old setting",              ID_T1
+        MENUITEM "To default",                  ID_T2
+    END
+END
+
+IDR_TMMENU MENU
+BEGIN
+    POPUP "Menu"
+    BEGIN
+        MENUITEM "Preview",                     ID_MPREVIEW
+        MENUITEM "Reset",                       ID_MRESET
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "res\\icon.ico"
+IDI_UPDATE              ICON                    "res\\update.ico"
+IDI_READ                ICON                    "res\\more.ico"
+IDI_S                   ICON                    "res\\brief.ico"
+IDI_LOG                 ICON                    "res\\log.ico"
+IDI_EDIT                ICON                    "res\\edit.ico"
+IDI_MAP                 ICON                    "res\\map.ico"
+IDI_POPUP               ICON                    "res\\popup.ico"
+IDI_NOPOPUP             ICON                    "res\\popup_no.ico"
+IDI_UPDATE2             ICON                    "res\\update2.ico"
+IDI_DISABLED            ICON                    "res\\disabled.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "#include ""version.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", "borkra, noname"
+            VALUE "FileDescription", "Miranda Weather Protocol"
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "InternalName", "Weather Protocol"
+            VALUE "LegalCopyright", "Copyright © 2005 - 2010 Boris Krasnovskiy All Rights Reserved"
+            VALUE "OriginalFilename", "weather.dll"
+            VALUE "ProductName", "Weather Protocol"
+            VALUE "ProductVersion", __VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

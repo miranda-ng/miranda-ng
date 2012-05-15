@@ -1,0 +1,111 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include <winres.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MODERNOPT_SKINS DIALOGEX 0, 0, 260, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         IDC_SKINLIST,0,115,260,95,LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_PREVIEW1,"Static",SS_OWNERDRAW,0,0,260,110
+END
+
+IDD_MODERNOPT_HOME DIALOGEX 0, 0, 368, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Visit official Miranda IM website",IDC_BTN_HELP,
+                    "Hyperlink",WS_TABSTOP,15,180,338,9
+    CONTROL         "Switch to classic options",IDC_BTN_CLASSICOPT,"Hyperlink",WS_TABSTOP,15,195,338,9
+    CONTROL         "Custom1",IDC_BTN_ACCOUNTS,"MirandaDescButtonClass",0x0,15,0,160,41
+    CONTROL         "Custom1",IDC_BTN_PLUGINS,"MirandaDescButtonClass",0x0,193,135,160,41
+    CONTROL         "Custom1",IDC_BTN_IGNORE,"MirandaDescButtonClass",0x0,193,0,160,41
+    CONTROL         "`",IDC_BTN_SKINS,"MirandaDescButtonClass",0x0,15,45,160,41
+    CONTROL         "Custom1",IDC_BTN_STATUS,"MirandaDescButtonClass",0x0,193,45,160,41
+    CONTROL         "Custom1",IDC_BTN_CLIST,"MirandaDescButtonClass",0x0,15,90,160,41
+    CONTROL         "Custom1",IDC_BTN_ADVANCED,"MirandaDescButtonClass",0x0,193,90,160,41
+    CONTROL         "Custom1",IDC_BTN_MESSAGING,"MirandaDescButtonClass",0x0,15,135,160,41
+END
+
+IDD_MODERNOPT_EMPTY DIALOGEX 0, 0, 369, 210
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CLIENTEDGE
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Sample page",IDC_STATIC,8,7,121,14
+END
+
+IDD_MODERNOPT DIALOGEX 0, 0, 382, 286
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Miranda IM Options"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Use arrow keys to choose category",IDC_ICOTABS,"MirandaIcoTabClass",WS_TABSTOP,0,0,382,42
+    CONTROL         "",IDC_TV_SUBSECTIONS,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | TVS_INFOTIP | WS_BORDER | WS_HSCROLL | WS_TABSTOP,7,50,103,210
+    CTEXT           "Miranda IM Options",IDC_TXT_DUMMY,115,50,260,210,SS_CENTERIMAGE | NOT WS_VISIBLE | WS_BORDER
+    DEFPUSHBUTTON   "OK",IDOK,215,265,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,271,265,50,14
+    PUSHBUTTON      "Apply",IDC_BTN_APPLY,325,265,50,14,WS_DISABLED
+    CONTROL         "View help online",IDC_BTN_HELP,"Hyperlink",WS_TABSTOP,7,269,118,9
+    PUSHBUTTON      "Advanced",IDC_BTN_EXPERT,146,265,64,14,NOT WS_VISIBLE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_BIG_ADVANCED        ICON                    "res/big_advanced.ico"
+IDI_BIG_BUDDYLIST       ICON                    "res/big_buddylist.ico"
+IDI_BIG_IGNORE          ICON                    "res/big_ignore.ico"
+IDI_BIG_MESSAGE         ICON                    "res/big_message.ico"
+IDI_BIG_MODULES         ICON                    "res/big_modules.ico"
+IDI_BIG_NETWORK         ICON                    "res/big_network.ico"
+IDI_BIG_SKINS           ICON                    "res/big_skins.ico"
+IDI_BIG_STATUS          ICON                    "res/big_status.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

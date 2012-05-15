@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>NewXstatusNotify</ProjectName>
+    <ProjectGuid>{78E0E6B0-2D7E-4B4D-899A-DA244FBBEC73}</ProjectGuid>
+    <RootNamespace>NewStatusNotify</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">newxstatusnotify</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/NewStatusNotify.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/D "_CRT_SECURE_NO_DEPRECATE"
+/D "_CRT_NON_CONFORMING_SWPRINTFS" %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;../../ExternalAPI</AdditionalIncludeDirectories>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/release %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>
+      </BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release/NewStatusNotify.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/D "_CRT_SECURE_NO_DEPRECATE"
+/D "_CRT_NON_CONFORMING_SWPRINTFS" %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>false</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0000</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalOptions>/release %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>winmm.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ShowProgress>NotSet</ShowProgress>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>
+      </BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/NewStatusNotify.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/D "_CRT_SECURE_NO_DEPRECATE"
+/D "_CRT_NON_CONFORMING_SWPRINTFS" %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;../../ExternalAPI</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;NewStatusNotify_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Version>
+      </Version>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <BaseAddress>
+      </BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release/NewStatusNotify.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <AdditionalOptions>/D "_CRT_SECURE_NO_DEPRECATE"
+/D "_CRT_NON_CONFORMING_SWPRINTFS" %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>..\..\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_USRDLL;NewStatusNotify_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <ObjectFileName>$(OutDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)$(ProjectName).pdb</ProgramDataBaseFileName>
+      <BrowseInformation>true</BrowseInformation>
+      <BrowseInformationFile>$(OutDir)</BrowseInformationFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0000</Culture>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <Version>
+      </Version>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <MapFileName>$(OutDir)$(ProjectName).map</MapFileName>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <BaseAddress>
+      </BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)$(ProjectName).lib</ImportLibrary>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="indsnd.cpp" />
+    <ClCompile Include="main.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="popup.cpp" />
+    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="xstatus.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="indsnd.h" />
+    <ClInclude Include="options.h" />
+    <ClInclude Include="popup.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="utils.h" />
+    <ClInclude Include="version.h" />
+    <ClInclude Include="xstatus.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\disable_all.ico" />
+    <None Include="res\enable_all.ico" />
+    <None Include="res\icon_undo.ico" />
+    <None Include="res\logging.ico" />
+    <None Include="res\main_off.ico" />
+    <None Include="res\main_on.ico" />
+    <None Include="res\popup.ico" />
+    <None Include="res\reset.ico" />
+    <None Include="res\sound.ico" />
+    <None Include="res\status_message.ico" />
+    <None Include="res\variables.ico" />
+    <None Include="res\xstatus.ico" />
+    <None Include="docs\NewXstatusNotify_readme.txt" />
+    <None Include="docs\NewXstatusNotify_translate.txt" />
+    <None Include="docs\nsn_readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="version.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

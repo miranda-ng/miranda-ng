@@ -1,0 +1,125 @@
+
+; This file contains the list of translatable strings in the
+; Miranda SmileyAdd plugin.
+; Author Rein-Peter de Boer (peacow), borkra
+
+; Last updated: July, 2005
+; SmileyAdd 0.1.12.3
+
+
+;
+
+
+
+;end of new section 0.1.12.3
+
+[Only replace isolated smileys (spaces on both sides)]
+trans!
+
+[Scale smiley to textheight]
+trans!
+
+[Off]
+trans!
+
+[Top]
+trans!
+
+[Bottom]
+trans!
+
+[Disable]
+trans!
+
+[Surround inserted smiley with spaces]
+trans!
+
+[Specify Smiley Pack for each category]
+trans!
+
+[Smiley Packs]
+trans!
+
+[smileys]
+trans!
+
+[Standard]
+trans!
+
+[Name:]
+trans!
+
+[Author:]
+trans!
+
+[Version:]
+trans!
+
+[Show Smiley Selection Window]
+trans!
+
+[Smileys]
+trans!
+
+[Events]
+trans!
+
+[All Files]
+trans!
+
+[d'Oh!]
+trans!
+
+[Nothing loaded]
+trans!
+
+[SmileyAdd Built-In Message Dialog Support]
+trans!
+
+[Preview]
+trans!
+
+[Smiley Button]
+trans!
+
+[Smiley Selector]
+trans!
+
+[Display]
+trans!
+
+[GDI+ not installed. Smiley Pack %s could not be loaded.\nGDI+ can be downloaded here: http://www.microsoft.com/downloads]
+trans!
+
+[Smiley #%u in file %s for Smiley Pack %s not found. Correct Smiley Pack implementation.] 
+trans!
+
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Events | Smileys.]
+trans!
+
+[MS XML parser not installed. Smiley Pack %s could not be loaded.\nMS XML parser can be downloaded here: http://www.microsoft.com/downloads]
+trans!
+
+[Smiley Pack malformed: %s on line %u position: %u Correct Smiley Pack implementation.\n XML spec could found here: http://www.w3.org/TR/xml11/]
+trans!
+
+[Regular Expression "%s" in smiley pack "%s" malformed.\nCorrect Smiley Pack implementation.]
+trans!
+
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".\nCorrect Smiley Pack implementation.]
+trans!
+
+[Only one instance of SmileyAdd could be executed.\nRemove duplicate instances from 'Plugins' directory] 
+trans!
+
+[Use first smiley for selection size]
+trans!
+
+[IEView style window]
+trans!
+
+[Animate]
+trans!
+
+[Assign Smiley Category]
+trans!

@@ -1,0 +1,11 @@
+skin related classes:
+- PopUpSkin
+- Skin
+- Skins
+
+formatting-related classes:
+- Lexer
+- ChunkedText
+
+misc classes:
+- Logger

@@ -1,0 +1,313 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5cea9501-67c7-486f-aaea-39bcdaf379dc}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\CLUIFrames">
+      <UniqueIdentifier>{c05a0c33-3511-432e-b5ca-3a9657b2b2ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\COOLSB">
+      <UniqueIdentifier>{6bdb6d4f-0852-479c-8ce1-811f89431e13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{afb27711-5559-4318-b2e4-9eb76da90001}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e5c38f32-abf7-49dc-8c7c-6cb39d9ad5ff}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Docs">
+      <UniqueIdentifier>{a424f08e-0bd2-48ef-8834-f4a72c0071b6}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="SRC\alphablend.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\CLCButton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clcidents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clcitems.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clcmsgs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clcopts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clcpaint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clcutils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clistevents.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clistmenus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clistmod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clistopts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clistsettings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clisttray.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\cluiopts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\cluiservices.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\commonheaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\contact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\Docking.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\extBackg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\init.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\rowheight_funcs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\statusbar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\statusfloater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\viewmodes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\wallpaper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="coolsb\coolsblib.cpp">
+      <Filter>Source Files\COOLSB</Filter>
+    </ClCompile>
+    <ClCompile Include="coolsb\coolscroll.cpp">
+      <Filter>Source Files\COOLSB</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\cluiframes.cpp">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\framesmenu.cpp">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\groupmenu.cpp">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\movetogroup.cpp">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="SRC\clnplus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\config.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLUIFrames\cluiframes.h">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClInclude>
+    <ClInclude Include="coolsb\coolsb_internal.h">
+      <Filter>Source Files\COOLSB</Filter>
+    </ClInclude>
+    <ClInclude Include="coolsb\coolsblib.h">
+      <Filter>Source Files\COOLSB</Filter>
+    </ClInclude>
+    <ClInclude Include="coolsb\coolscroll.h">
+      <Filter>Source Files\COOLSB</Filter>
+    </ClInclude>
+    <ClInclude Include="coolsb\userdefs.h">
+      <Filter>Source Files\COOLSB</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\alphablend.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\clc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\clist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\extBackg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\m_cln_skinedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\m_metacontacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\m_updater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\m_variables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="INCLUDE\rowheight_funcs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\accounts.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\addgoupp.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\arrow-down.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\away.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\blank.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\connecting.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\dnd.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dropuser.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\find.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\groups.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\invisible.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\invisible.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\lunch.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\menu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\minimize.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\NA.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notick1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\occupied.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\offline.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\online.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\online.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\options.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\options_clvm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\overlay\phone.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rename.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\slist.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\sounds_off.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\sounds_on.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\tabsrmm_menu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\visible.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="docs\CHANGELOG">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="docs\license.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="docs\README">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="docs\Skinning.HOWTO">
+      <Filter>Docs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

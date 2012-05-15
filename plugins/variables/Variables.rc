@@ -1,0 +1,315 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTS_DIALOG DIALOGEX 0, 0, 314, 240
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    EDITTEXT        IDC_FORMATTEXT,31,101,250,52,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    PUSHBUTTON      "Parse",IDC_PARSE,231,157,50,14
+    CONTROL         "Auto parse",IDC_AUTOPARSE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,31,161,161,10
+    EDITTEXT        IDC_RESULT,31,172,250,52,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    CONTROL         "Parse the following string at startup",
+                    IDC_PARSEATSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    31,90,161,10
+    CONTROL         "Automatically strip ""end of line"" characters",
+                    IDC_STRIPCRLF,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,
+                    20,253,10
+    CONTROL         "Automatically strip white space",IDC_STRIPWS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,31,32,253,10
+    GROUPBOX        "Test area",IDC_STATIC,23,62,272,168
+    LTEXT           "Click on the help button to get more information",
+                    IDC_STATIC,31,73,249,8
+    GROUPBOX        "Parse options",IDC_STATIC,23,7,272,51
+    CONTROL         "Automatically strip all non-parsing characters",
+                    IDC_STRIPALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,31,44,
+                    253,10
+    CONTROL         "",IDC_SHOWHELP,"MButtonClass",WS_TABSTOP,265,87,16,14,
+                    0x18000000L
+END
+
+IDD_TRG_STRINGCHANGE DIALOGEX 0, 0, 314, 240
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_FORMATTEXT,7,42,300,114,ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "Trigger when the following string changes",IDC_STATIC,7,
+                    7,300,8
+END
+
+IDD_INPUT_DIALOG DIALOGEX 0, 0, 280, 240
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_RESULT,7,191,266,42,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_READONLY | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    EDITTEXT        IDC_TESTSTRING,7,146,266,42,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ENHMETAFILE,7,188,266,2
+    LTEXT           "Please enter your input below",IDC_STATIC,7,132,195,8
+    CONTROL         "List1",IDC_TOKENLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,7,7,266,121
+END
+
+IDD_CLIST_DIALOG DIALOGEX 0, 0, 244, 245
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CLIST,"ClistControl",WS_TABSTOP | 0x248,13,100,
+                    218,132,WS_EX_CLIENTEDGE
+    CONTROL         "Don't set a contact",IDC_NULL,"Button",
+                    BS_AUTORADIOBUTTON,13,76,144,10
+    CONTROL         "Set to the following contact",IDC_CONTACT,"Button",
+                    BS_AUTORADIOBUTTON,13,87,147,10
+    LTEXT           "The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).",
+                    IDC_ABOUT,13,20,218,34
+    GROUPBOX        "Description",IDC_ABOUTFRAME,7,7,230,50
+    GROUPBOX        "Setting",IDC_SETTINGFRAME,7,63,230,175
+END
+
+IDD_EXTRATEXT_DIALOG DIALOGEX 0, 0, 244, 245
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EXTRATEXT,13,76,218,156,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    GROUPBOX        "Description",IDC_ABOUTFRAME,7,7,230,50
+    GROUPBOX        "Setting",IDC_SETTINGFRAME,7,63,230,175
+    LTEXT           "The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.",
+                    IDC_ABOUT,13,20,218,34
+END
+
+IDD_HELP_DIALOG DIALOG DISCARDABLE  0, 0, 326, 343
+STYLE DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_THICKFRAME
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",0x0,7,7,312,313
+    PUSHBUTTON      "Close",IDC_CANCEL,269,322,50,14
+    PUSHBUTTON      "OK",IDC_OK,216,322,50,14,NOT WS_VISIBLE
+END
+
+IDD_TOKENS_DIALOG DIALOGEX 0, 0, 245, 245
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "List1",IDC_TOKENLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_NOSORTHEADER | WS_BORDER | 
+                    WS_TABSTOP,13,76,218,156
+    GROUPBOX        "Description",IDC_ABOUTFRAME,7,7,231,50
+    GROUPBOX        "Setting",IDC_SETTINGFRAME,7,63,231,175
+    LTEXT           "The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.",
+                    IDC_ABOUT,13,20,218,34
+END
+
+IDD_HELPINFO_DIALOG DIALOGEX 0, 0, 244, 244
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Notes",IDC_SETTINGFRAME,7,7,230,231
+    EDITTEXT        IDC_HELPDESC,13,20,218,210,ES_MULTILINE | ES_READONLY | 
+                    ES_WANTRETURN | NOT WS_BORDER | WS_VSCROLL
+END
+
+IDD_ACT_PARSESTRING DIALOGEX 0, 0, 236, 116
+STYLE DS_3DLOOK | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PARSESTRING,7,7,222,85,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    PUSHBUTTON      "Variables...",IDC_SHOWHELP,7,95,50,14
+END
+
+IDD_CND_PARSESTRING DIALOGEX 0, 0, 236, 116
+STYLE DS_3DLOOK | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_PARSESTRING,7,7,222,85,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    PUSHBUTTON      "Variables...",IDC_SHOWHELP,7,95,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPTS_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 233
+    END
+
+    IDD_TRG_STRINGCHANGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 233
+    END
+
+    IDD_INPUT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 233
+    END
+
+    IDD_CLIST_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 237
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
+    END
+
+    IDD_EXTRATEXT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 237
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
+    END
+
+    IDD_HELP_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 319
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 336
+    END
+
+    IDD_TOKENS_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 238
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 238
+    END
+
+    IDD_HELPINFO_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 237
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 237
+    END
+
+    IDD_ACT_PARSESTRING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 229
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+
+    IDD_CND_PARSESTRING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 229
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 109
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include <windows.h>\r\n"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_V                   ICON    DISCARDABLE     "V.ico"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

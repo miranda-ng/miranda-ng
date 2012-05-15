@@ -1,0 +1,275 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+#include "richedit.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,2
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041904b0"
+        BEGIN
+            VALUE "FileDescription", "Plugin for Miranda IM"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "LegalCopyright", "Copyright (C) 2010 Thomas Wendel, gureedo"
+            VALUE "ProductName", "History Linklist Plus"
+            VALUE "ProductVersion", "1.0.0.2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x419, 1200
+    END
+END
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""richedit.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SEARCH_DLG DIALOGEX 0, 0, 205, 103
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Search"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Close",IDCLOSE,150,85,50,14
+    EDITTEXT        IDC_SEARCHSTRING,49,7,151,12,ES_AUTOHSCROLL
+    LTEXT           "Search for:",IDC_STATIC,8,8,39,9
+    DEFPUSHBUTTON   "Search",IDSEARCH,95,85,50,14
+    GROUPBOX        "Message direction",IDC_STATIC,4,26,92,46
+    GROUPBOX        "Message types",IDC_STATIC,102,26,98,47
+    CONTROL         "All directions",IDC_DIR_ALL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,6,37,86,11
+    CONTROL         "Incoming only",IDC_DIR_IN,"Button",BS_AUTORADIOBUTTON,6,48,84,11
+    CONTROL         "Outgoing only",IDC_DIR_OUT,"Button",BS_AUTORADIOBUTTON,6,59,87,11
+    CONTROL         "All types",IDC_TYPE_ALL,"Button",BS_AUTORADIOBUTTON | WS_GROUP,104,38,89,10
+    CONTROL         "Mail addresses only",IDC_TYPE_MAIL,"Button",BS_AUTORADIOBUTTON,104,47,88,13
+    CONTROL         "Web addresses only",IDC_TYPE_WEB,"Button",BS_AUTORADIOBUTTON,104,58,89,13
+    CONTROL         "Deep search",IDC_WHOLE_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,75,194,10
+END
+
+IDD_MAIN_DLG DIALOGEX 10, 10, 146, 52
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+MENU IDR_MENU1
+FONT 8, "MS Sans Serif", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_MAIN,"RICHEDIT",TCS_HOTTRACK | TCS_VERTICAL | TCS_RAGGEDRIGHT | TCS_MULTISELECT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,0,1,145,25
+    LTEXT           "Static",IDC_STATUS,0,42,145,10,SS_SUNKEN
+    CONTROL         "",IDC_MESSAGE,"RICHEDIT",TCS_HOTTRACK | TCS_RAGGEDRIGHT | TCS_MULTISELECT | WS_VSCROLL | WS_TABSTOP,0,29,145,12
+    CONTROL         "",IDC_SPLITTER,"Static",SS_ENHMETAFILE,0,27,145,2
+END
+
+IDD_OPTIONS_DLG DIALOG 0, 0, 314, 240
+STYLE DS_SETFONT | WS_POPUP | WS_VISIBLE
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Colour Select",IDC_STATIC,0,87,252,83
+    LTEXT           "Incoming messages",IDC_TXTIN,17,101,85,9
+    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_IN,159,100,65,11
+    GROUPBOX        "Preview",IDC_STATIC,0,181,253,59
+    LTEXT           "Outgoing messages",IDC_TXTOUT,17,115,85,10
+    LTEXT           "Backgroundcolour",IDC_TXTBG,17,128,85,11
+    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_OUT,159,113,65,11
+    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_BG,159,126,65,11
+    CONTROL         "Use Miranda Settings",IDC_CHECK1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,157,202,10
+    CONTROL         "",IDC_BACKGROUND,"ColourPicker",WS_TABSTOP,115,127,39,10
+    CONTROL         "",IDC_OUTGOING,"ColourPicker",WS_TABSTOP,115,114,39,10
+    CONTROL         "",IDC_INCOMING,"ColourPicker",WS_TABSTOP,115,101,39,10
+    LTEXT           "Textcolour",IDC_TXTTXT,18,141,85,11
+    CONTROL         "",IDC_TXT,"ColourPicker",WS_TABSTOP,115,140,39,10
+    PUSHBUTTON      "Plugin Default",IDC_DEFAULT_TXT,159,139,65,11
+    CONTROL         "",IDC_OPTIONS_RE,"RICHEDIT",TCS_RAGGEDRIGHT | TCS_MULTISELECT | WS_DISABLED | WS_TABSTOP,5,191,242,44
+    GROUPBOX        "General Settings",IDC_STATIC,0,0,226,85
+    CONTROL         "Open links always in a new window",IDC_CHECK2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,19,216,10
+    CONTROL         "Update list on new events",IDC_CHECK3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,216,10
+    CONTROL         "Show whole Message on 'mouse over' event",IDC_CHECK4,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,41,216,10
+    CONTROL         "Save window position individually for each contact",IDC_CHECK5,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,53,217,10
+    GROUPBOX        "Show...",IDC_STATIC,227,0,86,85
+    CONTROL         "Date",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,13,78,10
+    CONTROL         "Parting line",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,24,78,10
+    CONTROL         "Timestamp",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,35,78,10
+    CONTROL         "Direction",IDC_CHECK9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,46,78,10
+    CONTROL         "Type",IDC_CHECK10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,232,56,78,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_SEARCH_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 200
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 99
+    END
+
+    IDD_MAIN_DLG, DIALOG
+    BEGIN
+        RIGHTMARGIN, 145
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 51
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Save",                       IDM_SAVE
+        MENUITEM SEPARATOR
+        MENUITEM "&Close",                      IDM_CLOSE
+    END
+    POPUP "&Options"
+    BEGIN
+        POPUP "Message &Direction"
+        BEGIN
+            MENUITEM "&Outgoing Messages Only",     IDM_DIR_OUT
+            MENUITEM "&Incoming Messages Only",     IDM_DIR_IN
+        END
+        MENUITEM SEPARATOR
+        POPUP "Message &Type"
+        BEGIN
+            MENUITEM "&Webaddresses Only",          IDM_TYPE_WEB
+            MENUITEM "&Mail-Addresses Only",        IDM_TYPE_MAIL
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Clear Search Results",       IDM_CLEARSEARCH
+    END
+    MENUITEM "&Search",                     IDM_SEARCH
+END
+
+IDR_MENU2 MENU
+BEGIN
+    POPUP "link"
+    BEGIN
+        MENUITEM "Open",                        IDM_LINK_OPEN
+        MENUITEM "Open in new Window",          IDM_LINK_OPENNEW
+        MENUITEM "Copy to Clipboard",           IDM_LINK_COPY
+        MENUITEM "Show Message",                IDM_SHOWMESSAGE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_LINKLISTICON        ICON                    "linklist.ico"
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

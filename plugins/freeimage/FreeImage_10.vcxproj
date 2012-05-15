@@ -1,0 +1,752 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>FreeImage</ProjectName>
+    <ProjectGuid>{D0C4EACD-F264-4CFA-9AFC-3918FEC31A9A}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30128.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</IgnoreImportLibrary>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">advaimg</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">advaimg</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\FreeImage___Win32_Release_Unicode/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x5130000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\FreeImage___Win32_Release_Unicode/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x5130000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x5130000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>
+      </PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x5130000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/FreeImage.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <BrowseInformation>
+      </BrowseInformation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\zlib\zlib_10.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\FreeImage\BitmapAccess.cpp" />
+    <ClCompile Include="Source\FreeImage\ColorLookup.cpp" />
+    <ClCompile Include="Source\FreeImage\ConversionFloat.cpp" />
+    <ClCompile Include="Source\FreeImage\ConversionRGB16.cpp" />
+    <ClCompile Include="Source\FreeImage\ConversionUINT16.cpp" />
+    <ClCompile Include="Source\FreeImage\FreeImage.cpp" />
+    <ClCompile Include="Source\FreeImage\FreeImageC.c" />
+    <ClCompile Include="Source\FreeImage\FreeImageIO.cpp" />
+    <ClCompile Include="Source\FreeImage\GetType.cpp" />
+    <ClCompile Include="Source\FreeImage\MemoryIO.cpp" />
+    <ClCompile Include="Source\FreeImage\PixelAccess.cpp" />
+    <ClCompile Include="Source\FreeImage\Plugin.cpp" />
+    <ClCompile Include="Source\FreeImage\PluginBMP.cpp" />
+    <ClCompile Include="Source\FreeImage\PluginCUT.cpp" />
+    <ClCompile Include="Source\FreeImage\PluginGIF.cpp" />
+    <ClCompile Include="Source\FreeImage\PluginICO.cpp" />
+    <ClCompile Include="Source\FreeImage\PluginJPEG.cpp" />
+    <ClCompile Include="Source\FreeImage\PluginPNG.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion16_555.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion16_565.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion24.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion32.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion4.cpp" />
+    <ClCompile Include="Source\FreeImage\Conversion8.cpp" />
+    <ClCompile Include="Source\FreeImage\ConversionRGBF.cpp" />
+    <ClCompile Include="Source\FreeImage\ConversionType.cpp" />
+    <ClCompile Include="Source\FreeImage\Halftoning.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\MultigridPoissonSolver.cpp" />
+    <ClCompile Include="Source\FreeImage\tmoColorConvert.cpp" />
+    <ClCompile Include="Source\FreeImage\tmoDrago03.cpp" />
+    <ClCompile Include="Source\FreeImage\tmoFattal02.cpp" />
+    <ClCompile Include="Source\FreeImage\tmoReinhard05.cpp" />
+    <ClCompile Include="Source\FreeImage\ToneMapping.cpp" />
+    <ClCompile Include="Source\FreeImage\NNQuantizer.cpp" />
+    <ClCompile Include="Source\FreeImage\WuQuantizer.cpp" />
+    <ClCompile Include="Source\FreeImage\CacheFile.cpp" />
+    <ClCompile Include="Source\FreeImage\MultiPage.cpp" />
+    <ClCompile Include="Source\FreeImage\ZLibInterface.cpp" />
+    <ClCompile Include="Source\LibJPEG\jaricom.c" />
+    <ClCompile Include="Source\LibJPEG\jcarith.c" />
+    <ClCompile Include="Source\LibJPEG\jdarith.c" />
+    <ClCompile Include="Source\LibJPEG\jdhuff.c" />
+    <ClCompile Include="Source\Metadata\Exif.cpp" />
+    <ClCompile Include="Source\Metadata\FIRational.cpp" />
+    <ClCompile Include="Source\Metadata\FreeImageTag.cpp" />
+    <ClCompile Include="Source\Metadata\IPTC.cpp" />
+    <ClCompile Include="Source\Metadata\TagConversion.cpp" />
+    <ClCompile Include="Source\Metadata\TagLib.cpp" />
+    <ClCompile Include="Miranda\main.cpp" />
+    <ClCompile Include="Source\LibJPEG\jcapimin.c" />
+    <ClCompile Include="Source\LibJPEG\jcapistd.c" />
+    <ClCompile Include="Source\LibJPEG\jccoefct.c" />
+    <ClCompile Include="Source\LibJPEG\jccolor.c" />
+    <ClCompile Include="Source\LibJPEG\jcdctmgr.c" />
+    <ClCompile Include="Source\LibJPEG\jchuff.c" />
+    <ClCompile Include="Source\LibJPEG\jcinit.c" />
+    <ClCompile Include="Source\LibJPEG\jcmainct.c" />
+    <ClCompile Include="Source\LibJPEG\jcmarker.c" />
+    <ClCompile Include="Source\LibJPEG\jcmaster.c" />
+    <ClCompile Include="Source\LibJPEG\jcomapi.c" />
+    <ClCompile Include="Source\LibJPEG\jcparam.c" />
+    <ClCompile Include="Source\LibJPEG\jcprepct.c" />
+    <ClCompile Include="Source\LibJPEG\jcsample.c" />
+    <ClCompile Include="Source\LibJPEG\jctrans.c" />
+    <ClCompile Include="Source\LibJPEG\jdapimin.c" />
+    <ClCompile Include="Source\LibJPEG\jdapistd.c" />
+    <ClCompile Include="Source\LibJPEG\jdatadst.c" />
+    <ClCompile Include="Source\LibJPEG\jdatasrc.c" />
+    <ClCompile Include="Source\LibJPEG\jdcoefct.c" />
+    <ClCompile Include="Source\LibJPEG\jdcolor.c" />
+    <ClCompile Include="Source\LibJPEG\jddctmgr.c" />
+    <ClCompile Include="Source\LibJPEG\jdinput.c" />
+    <ClCompile Include="Source\LibJPEG\jdmainct.c" />
+    <ClCompile Include="Source\LibJPEG\jdmarker.c" />
+    <ClCompile Include="Source\LibJPEG\jdmaster.c" />
+    <ClCompile Include="Source\LibJPEG\jdmerge.c" />
+    <ClCompile Include="Source\LibJPEG\jdpostct.c" />
+    <ClCompile Include="Source\LibJPEG\jdsample.c" />
+    <ClCompile Include="Source\LibJPEG\jdtrans.c" />
+    <ClCompile Include="Source\LibJPEG\jerror.c" />
+    <ClCompile Include="Source\LibJPEG\jfdctflt.c" />
+    <ClCompile Include="Source\LibJPEG\jfdctfst.c" />
+    <ClCompile Include="Source\LibJPEG\jfdctint.c" />
+    <ClCompile Include="Source\LibJPEG\jidctflt.c" />
+    <ClCompile Include="Source\LibJPEG\jidctfst.c" />
+    <ClCompile Include="Source\LibJPEG\jidctint.c" />
+    <ClCompile Include="Source\LibJPEG\jmemmgr.c" />
+    <ClCompile Include="Source\LibJPEG\jmemnobs.c" />
+    <ClCompile Include="Source\LibJPEG\jquant1.c" />
+    <ClCompile Include="Source\LibJPEG\jquant2.c" />
+    <ClCompile Include="Source\LibJPEG\jutils.c" />
+    <ClCompile Include="Source\LibJPEG\rdbmp.c" />
+    <ClCompile Include="Source\LibJPEG\rdcolmap.c" />
+    <ClCompile Include="Source\LibJPEG\rdgif.c" />
+    <ClCompile Include="Source\LibJPEG\rdppm.c" />
+    <ClCompile Include="Source\LibJPEG\rdrle.c" />
+    <ClCompile Include="Source\LibJPEG\rdswitch.c" />
+    <ClCompile Include="Source\LibJPEG\rdtarga.c" />
+    <ClCompile Include="Source\LibJPEG\transupp.c" />
+    <ClCompile Include="Source\LibJPEG\wrbmp.c" />
+    <ClCompile Include="Source\LibJPEG\wrgif.c" />
+    <ClCompile Include="Source\LibJPEG\wrppm.c" />
+    <ClCompile Include="Source\LibJPEG\wrrle.c" />
+    <ClCompile Include="Source\LibJPEG\wrtarga.c" />
+    <ClCompile Include="Source\LibPNG\png.c" />
+    <ClCompile Include="Source\LibPNG\pngerror.c" />
+    <ClCompile Include="Source\LibPNG\pngget.c" />
+    <ClCompile Include="Source\LibPNG\pngmem.c" />
+    <ClCompile Include="Source\LibPNG\pngpread.c" />
+    <ClCompile Include="Source\LibPNG\pngread.c" />
+    <ClCompile Include="Source\LibPNG\pngrio.c" />
+    <ClCompile Include="Source\LibPNG\pngrtran.c" />
+    <ClCompile Include="Source\LibPNG\pngrutil.c" />
+    <ClCompile Include="Source\LibPNG\pngset.c" />
+    <ClCompile Include="Source\LibPNG\pngtrans.c" />
+    <ClCompile Include="Source\LibPNG\pngwio.c" />
+    <ClCompile Include="Source\LibPNG\pngwrite.c" />
+    <ClCompile Include="Source\LibPNG\pngwtran.c" />
+    <ClCompile Include="Source\LibPNG\pngwutil.c" />
+    <ClCompile Include="Source\FreeImageToolkit\BSplineRotate.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Channels.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\ClassicRotate.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Colors.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\CopyPaste.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Display.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Flip.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\JPEGTransform.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Rescale.cpp" />
+    <ClCompile Include="Source\FreeImageToolkit\Resize.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FreeImage.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Source\LibJPEG\cderror.h" />
+    <ClInclude Include="Source\LibJPEG\cdjpeg.h" />
+    <ClInclude Include="Source\LibJPEG\jconfig.h" />
+    <ClInclude Include="Source\LibJPEG\jdct.h" />
+    <ClInclude Include="Source\LibJPEG\jerror.h" />
+    <ClInclude Include="Source\LibJPEG\jinclude.h" />
+    <ClInclude Include="Source\LibJPEG\jmemsys.h" />
+    <ClInclude Include="Source\LibJPEG\jmorecfg.h" />
+    <ClInclude Include="Source\LibJPEG\jpegint.h" />
+    <ClInclude Include="Source\LibJPEG\jpeglib.h" />
+    <ClInclude Include="Source\LibJPEG\jversion.h" />
+    <ClInclude Include="Source\LibJPEG\transupp.h" />
+    <ClInclude Include="Source\LibPNG\png.h" />
+    <ClInclude Include="Source\LibPNG\pngconf.h" />
+    <ClInclude Include="Source\CacheFile.h" />
+    <ClInclude Include="Source\LibPNG\pngdebug.h" />
+    <ClInclude Include="Source\LibPNG\pnginfo.h" />
+    <ClInclude Include="Source\LibPNG\pnglibconf.h" />
+    <ClInclude Include="Source\LibPNG\pngpriv.h" />
+    <ClInclude Include="Source\Metadata\FIRational.h" />
+    <ClInclude Include="SOURCE\FreeImage.h" />
+    <ClInclude Include="Source\FreeImageIO.h" />
+    <ClInclude Include="Source\Metadata\FreeImageTag.h" />
+    <ClInclude Include="Source\Plugin.h" />
+    <ClInclude Include="Source\Quantizers.h" />
+    <ClInclude Include="Source\ToneMapping.h" />
+    <ClInclude Include="Source\Utilities.h" />
+    <ClInclude Include="Source\FreeImageToolkit\Resize.h" />
+    <ClInclude Include="Miranda\version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Todo.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

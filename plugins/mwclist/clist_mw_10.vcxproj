@@ -1,0 +1,1427 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>clist_mw</ProjectName>
+    <ProjectGuid>{56997126-0098-407A-94E1-7C5748C1C9EF}</ProjectGuid>
+    <RootNamespace>clist_mw</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30128.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</IgnoreImportLibrary>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">true</IgnoreImportLibrary>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Precise</FloatingPointModel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapFileName>
+      </MapFileName>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27X86%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/clist_mw.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>../../include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;clist_mw_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <AssemblerListingLocation>
+      </AssemblerListingLocation>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+      <AdditionalIncludeDirectories>../../include;../../include/msapi/;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <BaseAddress>0x6590000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="BkgrCfg.c" />
+    <ClCompile Include="clc.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clcidents.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clcitems.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clcopts.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clcpaint.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clcutils.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clistmenus.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clistmod.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clistopts.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clistsettings.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clisttray.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="clui.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="cluiopts.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="cluiservices.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="commonheaders.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Create</PrecompiledHeader>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Create</PrecompiledHeader>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="contact.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="groupmenu.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+    </ClCompile>
+    <ClCompile Include="init.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="keyboard.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\cluiframes.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\extraimage.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\framesmenu.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\statusbar.c">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Disabled</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">WIN32;_DEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">EnableFastChecks</BasicRuntimeChecks>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">../commonheaders.h</PrecompiledHeaderFile>
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Full</Optimization>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">WIN32;NDEBUG;_WINDOWS;_MBCS;_USRDLL;clist_mw_EXPORTS</PreprocessorDefinitions>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLUIFrames\cluiframes.h" />
+    <ClInclude Include="clc.h" />
+    <ClInclude Include="clist.h" />
+    <ClInclude Include="commonheaders.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="statusmodes.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\&amp;RQ.ico" />
+    <None Include="res\1.ico" />
+    <None Include="res\2.ico" />
+    <None Include="res\3.ico" />
+    <None Include="res\4.ico" />
+    <None Include="res\5.ico" />
+    <None Include="res\6.ico" />
+    <None Include="res\7.ico" />
+    <None Include="res\8.ico" />
+    <None Include="res\addgoupp.ico" />
+    <None Include="res\AgileMobile.ico" />
+    <None Include="res\AlIcq.ico" />
+    <None Include="res\blank.ico" />
+    <None Include="res\Center.ico" />
+    <None Include="res\delete.ico" />
+    <None Include="res\dragcopy.cur" />
+    <None Include="res\dropuser.cur" />
+    <None Include="res\Gaim.ico" />
+    <None Include="res\globus.ico" />
+    <None Include="res\Gnomeicu.ico" />
+    <None Include="res\hyperlin.cur" />
+    <None Include="res\ico00001.ico" />
+    <None Include="res\ico00002.ico" />
+    <None Include="res\ico00003.ico" />
+    <None Include="res\ico00004.ico" />
+    <None Include="res\ico00005.ico" />
+    <None Include="res\icon2.ico" />
+    <None Include="res\IcqMac.ico" />
+    <None Include="res\IM+.ico" />
+    <None Include="res\IM2.ico" />
+    <None Include="res\Kopete.ico" />
+    <None Include="res\L.ico" />
+    <None Include="res\L4.ico" />
+    <None Include="res\L5.ico" />
+    <None Include="res\LibIcq2000.ico" />
+    <None Include="res\Licq.ico" />
+    <None Include="res\Micq.ico" />
+    <None Include="res\miranda.ico" />
+    <None Include="res\Mob2Icq.ico" />
+    <None Include="res\MobiCQ2.ico" />
+    <None Include="res\NICQ2.ico" />
+    <None Include="res\notick.ico" />
+    <None Include="res\notick1.ico" />
+    <None Include="res\PSI.ico" />
+    <None Include="res\QIP.ico" />
+    <None Include="res\rename.ico" />
+    <None Include="res\sendmail.ico" />
+    <None Include="res\Sim.ico" />
+    <None Include="res\sms.ico" />
+    <None Include="res\Spambot.ico" />
+    <None Include="res\Sticq.ico" />
+    <None Include="res\Stricq.ico" />
+    <None Include="res\Trillian.ico" />
+    <None Include="res\Vicq.ico" />
+    <None Include="res\WebIcq.ico" />
+    <None Include="res\Yamigo.ico" />
+    <None Include="res\Ysm.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

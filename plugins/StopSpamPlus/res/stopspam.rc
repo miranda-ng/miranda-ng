@@ -1,0 +1,156 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MESSAGES DIALOGEX 0, 0, 302, 225
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Question: (Ctrl-Enter for carriage return)",IDC_STATIC,0,5,156,8
+    EDITTEXT        ID_QUESTION,0,17,300,57,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    PUSHBUTTON      "Restore defaults",ID_RESTOREDEFAULTS,234,217,66,14,NOT WS_TABSTOP
+    LTEXT           "Answer (Use divider to separate answers):",IDC_STATIC,0,82,240,8
+    EDITTEXT        ID_ANSWER,0,94,250,14,ES_AUTOHSCROLL
+    LTEXT           "Congratulation:",IDC_STATIC,0,112,270,8
+    EDITTEXT        ID_CONGRATULATION,0,125,300,48,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Auth. request reply:",IDC_STATIC,0,174,270,8
+    EDITTEXT        ID_AUTHREPL,0,187,300,25,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+    LTEXT           "Divider:",IDC_STATIC,255,82,60,8
+    EDITTEXT        ID_DIVIDER,255,94,25,14
+    CONTROL         "Vars",IDC_VARS,"MButtonClass",WS_TABSTOP,0,217,16,16
+END
+
+IDD_PROTO DIALOGEX 0, 0, 300, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Disable protection for following protocols:",IDC_STATIC,44,24,173,11
+    CONTROL         "",IDC_PROTO,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP | 0x4000,50,40,132,95
+END
+
+IDD_MAIN DIALOGEX 0, 0, 309, 180
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        ID_DESCRIPTION,12,7,290,82,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | NOT WS_TABSTOP
+    CTEXT           "Do not send more than ",IDC_STATIC,11,93,101,12,SS_CENTERIMAGE
+    EDITTEXT        ID_MAXQUESTCOUNT,113,93,30,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           " questions to one contact (0 - for no limit)",IDC_STATIC,144,93,155,12,SS_CENTERIMAGE
+    CONTROL         "Enable StopSpam-StopSpam infinite talk protection",ID_INFTALKPROT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,109,270,10
+    CONTROL         "Add contact permanently",ID_ADDPERMANENT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,121,270,8
+    CONTROL         "Enable auth. requests blocking",ID_HANDLEAUTHREQ,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,133,270,8
+    CONTROL         "Answer is not case sensitive",ID_NOTCASESENS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,145,270,8
+	CONTROL         "Remove all tempory contacts after restart",ID_REMOVE_TMP_ALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,157,270,8
+    CONTROL         "Log Spammers to system history",ID_HISTORY_LOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,169,270,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MESSAGES, DIALOG
+    BEGIN
+        RIGHTMARGIN, 300
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 222
+    END
+
+    IDD_PROTO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 223
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 166
+    END
+
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 158
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

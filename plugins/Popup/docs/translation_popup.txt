@@ -1,0 +1,127 @@
+;
+;Group
+;
+[PopUp]
+
+;
+;General Options
+;
+;[General Options]
+
+;[PopUp Options]
+
+;[Sample text]
+
+;[Set &Font]
+
+;[Contents]
+
+;[Use &bold font for nick]
+
+;[Display &Time]
+
+;[Show s&econd line]
+
+;[Size]
+
+;[En&large PopUps by]
+
+;[You cannot specify a value lower than %d and higher than %d.]
+
+;[&Dynamically resize the popups]
+
+;[Effects]
+
+;[A&nimate PopUps (98/ME/2000/XP)]
+
+;[Fade &in/out (2000/XP)]
+
+;[Use Tr&ansparency]
+
+;[Transparency options (2000/XP)]
+
+;[Transparent] => THIS WAS REMOVED IN 1.0.1.8
+
+;[Opaque] => THIS WAS REMOVED IN 1.0.1.8
+
+;[Start windows in the...]
+
+;[... upper left corner]
+
+;[... lower left corner]
+
+;[... lower right corner]
+
+;[... upper right corner]
+
+;[... center]
+
+;[Spread...]
+
+;[... horizontally]
+
+;[... vertically]
+
+;[Use a...]
+
+;[... beveled style]
+
+;[... flat style]
+
+;[Miscellanea]
+
+;[PopUp Delay (seconds)]
+
+;[Background]
+
+;[Text]
+
+;[&Use Windows colours]
+
+;[Previe&w]
+
+;[Hey, this is a status message!]
+
+;[Hey, this is a... real message!]
+
+;1.0.0.2
+;[Reorder PopUps]
+
+;1.0.0.4
+;[&Minimum width]
+
+;1.0.0.5
+;[This is a notifying message (for developers)]
+;[This is a warning message (for developers)]
+
+;1.0.0.6
+;[Ok, something went wrong in the "%s" setting. Report back this error value: %d] => NOT NEEDED ANYMORE.
+
+;1.0.0.7
+;[Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
+;[Ma&ximum width]
+;[pixels]
+
+;[Advanced Options]
+;[Multimonitor (98/ME/2000/XP)]
+;[Start the popups in the monitor that contains]
+;[Miranda's window]
+;[the active window]
+
+;1.0.1.2
+;[Disable &popup module]
+;[Enable &popup module]
+
+;[Concurrent PopUps]
+;[Use multiple threads]
+;[Note: this option may (and may not) cause some unexpected crashes, be sure to disable it before reporting a bug.]
+
+;1.0.1.4
+;New:
+;[Multiline &popups]
+;This one changed: [Hey, this is a... real message!] it's now:
+;[Hey, this is a two lined message!\nCool, isn't it?]
+
+;1.0.1.9
+;This one was missing:
+;[opacity: %d%%]

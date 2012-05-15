@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{3653ac07-1494-483a-8db4-4d335a086e79}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\libgadu">
+      <UniqueIdentifier>{f35667b1-a47c-4c87-b4aa-edb42e11629e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{9d7b4bf9-8289-4ead-a2ad-294b4c5f1e13}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{8a0835f2-408c-40e6-bd62-75d4e24cae16}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="avatar.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dynstuff.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="filetransfer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="groupchat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icolib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="image.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="import.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keepalive.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="links.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="oauth.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ownerinfo.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="popups.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sessions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="token.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="userutils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\common.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\dcc.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\dcc7.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\events.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\http.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\libgadu.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\pthread.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\pubdir.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\pubdir50.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\resolver.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\sha1.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+    <ClCompile Include="libgadu\win32.c">
+      <Filter>Source Files\libgadu</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libgadu\compat.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="libgadu\internal.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="libgadu\libgadu.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="libgadu\protocol.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="libgadu\pthread.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="libgadu\resolver.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="libgadu\win32.h">
+      <Filter>Source Files\libgadu</Filter>
+    </ClInclude>
+    <ClInclude Include="dynstuff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icons\block.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\clear_ignored_conference.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\conference.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\export_list_to_server.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\export_list_to_txt_file.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\gg.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\image.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\import_list_from_server.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\import_list_from_txt_file.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\list.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\next.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\previous.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\remove_list_from_server.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\save.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\sessions.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\settings.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="docs\build-howto.txt" />
+    <None Include="docs\gg-license.txt" />
+    <None Include="docs\gg-readme.txt" />
+    <None Include="docs\gg-translation-sample.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

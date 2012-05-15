@@ -1,0 +1,76 @@
+#
+# Makefile for Miranda IM written by Gennady Feldman <gena01@miranda-im.org>
+#
+#
+
+#
+# List the required object files.
+#
+
+OBJ = http_gateway.o \
+	main.o \
+	options.o \
+	server.o \
+	services.o \
+	util.o \
+	yahoo.o \
+	avatar.o \
+	chat.o \
+	webcam.o \
+	icolib.o \
+	ignore.o \
+	file_transfer.o \
+	im.o \
+	search.o \
+	proto.o \
+	libyahoo2\crypt.o \
+	libyahoo2\libyahoo2.o \
+	libyahoo2\yahoo_httplib.o \
+	libyahoo2\yahoo_list.o \
+	libyahoo2\yahoo_util.o
+
+RES = Yahoo.res
+
+LIB = -lcomdlg32 -lgdi32 -lwsock32
+
+CC = gcc
+RC = windres
+RM = del
+
+ifdef DEBUG
+BIN = ..\..\bin\debug\plugins\Yahoo.dll
+else
+BIN = ..\..\bin\release\plugins\Yahoo.dll
+endif
+
+DEFINES = -DHAVE_CONFIG_H
+ifdef DEBUG
+DEFINES := $(DEFINES) -D_DEBUG
+endif
+
+
+ifdef DEBUG
+CFLAGS  = -g $(DEFINES) -I../../include -mwindows -c
+LDFLAGS  = -shared 
+else
+CFLAGS  = -Os $(DEFINES) -I../../include -mwindows -c
+LDFLAGS  = -shared -s
+endif
+
+all : ${BIN}
+
+${BIN} : $(OBJ) $(RES)
+	g++ $(LDFLAGS) -o $(BIN) $(OBJ) $(RES) $(LIB) -Wl
+
+$(RES) : $(RES:.res=.rc) $(RES:.res=.h) Makefile.win
+	$(RC) -O COFF -o $(RES) -i $(RES:.res=.rc)
+
+.cpp.o:
+	g++ $(CFLAGS) $< -o $@
+
+.c.o:
+	gcc $(CFLAGS) $< -o $@
+
+
+clean :
+	-$(RM) $(OBJ) $(RES) ${BIN}

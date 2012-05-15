@@ -1,0 +1,18 @@
+FAQ:
+
+Here I will try to collect more recently questions.
+
+Q:  I installed (copied) clist_modern to plugins folder but it is not appears/works/etc.) I use latest Miranda 0.4.0.3. Why it is not work?
+A: The Modern Contact list module WORKS ONLY WITH latest ALPHA BUILDS #0.4.3.45 and latest. Download it from http://blog.miranda-im.org/
+
+Q: What is ANSI and UNICODE version what difference is?
+A: Unicode and ANSI are text coding schemas. UNICONE is newest and allows to use several languages including Chinese etc. in same program. But ANSI allows use only two: English and one other (Cyrillic or Eastern European etc.) ANSI is former encoding and support native by any versions of Windows. Unicode is supported only by Windows 200 and later.
+
+Q: What OS supported?
+A: Windows XP preferred (I use it for development and myself and tested on it), Windows 2000 (I not tested it but it should work with may be some glitches), old systems like Windows 9x, ME – not tested and if it will work it will be with limitation (this OSes not support layered windows).
+
+Q: What are third parties libraries required for modern?
+A: Modern required engine to load PNG images. It can be GDI+ engine (pre-installed with Windows XP, Microsoft Office XP or can be download and installed from microsoft) or imagedecoder.dll. (last can be required for other plugins like loadavatars etc.)/ Without it skins used semitransparent images (almost all) can be loaded incorrectly (this images will be absent).
+
+Q: How I can notice about any issues inn modern or request some new features?
+A: Use http://modern.saopp.info/bugs 

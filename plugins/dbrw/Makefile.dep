@@ -1,0 +1,36 @@
+contacts.o: contacts.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+dbrw.o: dbrw.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+events.o: events.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+settings.o: settings.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+sql.o: sql.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+utf8.o: utf8.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+utils.o: utils.c dbrw.h ../../include/newpluginapi.h \
+  ../../include/m_plugins.h ../../include/m_system.h \
+  ../../include/m_database.h ../../include/m_utils.h \
+  ../../include/m_utils.h ../../include/m_langpack.h sqlite3/sqlite3.h \
+  resource.h
+sqlite3.o: sqlite3\sqlite3.c

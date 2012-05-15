@@ -1,0 +1,52 @@
+# Microsoft Developer Studio Generated Dependency File, included by splashscreen.mak
+
+.\src\bitmap_funcs.cpp : \
+	"..\..\..\include\m_database.h"\
+	"..\..\..\include\m_langpack.h"\
+	"..\..\..\include\m_options.h"\
+	"..\..\..\include\m_plugins.h"\
+	"..\..\..\include\m_png.h"\
+	"..\..\..\include\m_system.h"\
+	"..\..\..\include\m_updater.h"\
+	"..\..\..\include\m_utils.h"\
+	"..\..\..\include\newpluginapi.h"\
+	"..\..\..\include\win2k.h"\
+	".\src\bitmap_funcs.h"\
+	".\src\headers.h"\
+	".\src\m_splash.h"\
+	"g:\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\src\main.cpp : \
+	"..\..\..\include\m_database.h"\
+	"..\..\..\include\m_langpack.h"\
+	"..\..\..\include\m_options.h"\
+	"..\..\..\include\m_plugins.h"\
+	"..\..\..\include\m_png.h"\
+	"..\..\..\include\m_system.h"\
+	"..\..\..\include\m_updater.h"\
+	"..\..\..\include\m_utils.h"\
+	"..\..\..\include\newpluginapi.h"\
+	"..\..\..\include\win2k.h"\
+	".\src\bitmap_funcs.h"\
+	".\src\headers.h"\
+	".\src\m_splash.h"\
+	"g:\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\src\options.cpp : \
+	"..\..\..\include\m_database.h"\
+	"..\..\..\include\m_langpack.h"\
+	"..\..\..\include\m_options.h"\
+	"..\..\..\include\m_plugins.h"\
+	"..\..\..\include\m_png.h"\
+	"..\..\..\include\m_system.h"\
+	"..\..\..\include\m_updater.h"\
+	"..\..\..\include\m_utils.h"\
+	"..\..\..\include\newpluginapi.h"\
+	"..\..\..\include\win2k.h"\
+	".\src\bitmap_funcs.h"\
+	".\src\headers.h"\
+	".\src\m_splash.h"\
+	"g:\microsoft visual studio\vc98\include\basetsd.h"\
+	

@@ -1,0 +1,1 @@
+@cl /MD /O2 /Fe../../miranda/bin/rebaser.exe rebaser.cpp imagehlp.lib /link /filealign:512

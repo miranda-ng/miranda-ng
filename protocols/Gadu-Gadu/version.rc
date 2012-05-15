@@ -1,0 +1,56 @@
+////////////////////////////////////////////////////////////////////////////////
+// Gadu-Gadu Plugin for Miranda IM
+//
+// Copyright (c) 2010-2012 Bartosz Bia³ek
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+////////////////////////////////////////////////////////////////////////////////
+
+#include <windows.h>
+#include "version.h"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
+            VALUE "CompanyName", "Bartosz Bia³ek, Adam Strzelecki"
+            VALUE "FileDescription", "Gadu-Gadu Protocol Plugin for Miranda IM"
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "InternalName", "gg"
+            VALUE "LegalCopyright", "Copyright © 2009-2012 Bartosz Bia³ek, 2003-2009 Adam Strzelecki"
+            VALUE "OriginalFilename", "gg.dll"
+            VALUE "ProductName", "Gadu-Gadu Protocol Plugin for Miranda IM"
+            VALUE "ProductVersion", __VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END

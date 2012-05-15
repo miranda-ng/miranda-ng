@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{72e8c0e0-409e-4656-8598-9a0c769f0e34}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Workers">
+      <UniqueIdentifier>{c81aa4f4-b471-4488-909a-ab503857cb18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Wizard Pages">
+      <UniqueIdentifier>{eccf4f04-aceb-441f-924b-ead9bbb92168}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{12ab2eb9-15e3-4147-ae4a-847ddc95c531}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{07c47951-e20f-43c5-912f-ea300b807935}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="disk.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="langpack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wizard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="worker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="aggressive.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="contactchain.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="eventchain.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="finaltasks.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="initialchecks.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="modulechain.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="settingschain.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
+      <Filter>Source Files\Workers</Filter>
+    </ClCompile>
+    <ClCompile Include="cleaning.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="fileaccess.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="finished.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="openerror.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="progress.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="selectdb.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="welcome.cpp">
+      <Filter>Source Files\Wizard Pages</Filter>
+    </ClCompile>
+    <ClCompile Include="utf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="encryption.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbtool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\dbtool.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\profileg.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\profiler.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\profiley.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="Version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

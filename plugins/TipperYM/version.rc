@@ -1,0 +1,37 @@
+
+#include <windows.h>
+#include "version.h"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Author", "Scott Ellis, yaho"
+			VALUE "CompanyName", "yaho"
+            VALUE "FileDescription", "Tool Tip notification windows"
+            VALUE "FileVersion", __VERSION_STRING
+            VALUE "InternalName", "Tipper YM"
+            VALUE "LegalCopyright", "(c) 2005-2007 Scott Ellis, 2007-2011 Jan Holub"
+			VALUE "OriginalFilename", "tipper.dll"
+            VALUE "ProductName", "Tipper YM"
+            VALUE "ProductVersion", __VERSION_STRING
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END

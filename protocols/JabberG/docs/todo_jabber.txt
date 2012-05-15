@@ -1,0 +1,9 @@
+- remove built-in groupchat support
+- place the conferences list into the contact list
+- HTTP Gateway mode support
+
+If you have a wish not listed above, feel free to send me
+a e-mail.
+
+WMBR, George Hazan (ghazan@postman.ru)
+

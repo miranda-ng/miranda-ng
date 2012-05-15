@@ -1,0 +1,798 @@
+; this is a template for translation of weather protocol
+; last updated March 21, 2005 for version 0.3.5.0
+
+*************************************************************************************
+********************************** NEW IN V0.3.8.17 *********************************
+*************************************************************************************
+[#condition Weather]
+example [#Sunny Weather]
+
+*************************************************************************************
+********************************** NEW IN V0.3.5.0 **********************************
+*************************************************************************************
+; options
+[Update weather information at startup]
+
+; popup options
+[Updates]
+[Errors]
+[Alerts]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.4.0 **********************************
+*************************************************************************************
+[When condition unavailable, use the status:]
+[Special status]
+[Day/Month]
+[No change]
+[2 chars]
+[3 chars]
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.13 *********************************
+*************************************************************************************
+; missing translation strings - thanks smyle again
+[Edit Weather Station]
+[Link Settings]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.11 *********************************
+*************************************************************************************
+; missing translation strings - thanks smyle
+[Extra text]
+[Weather text]
+[Popup Text]
+[Do not display weather condition as protocol status]
+[Log]
+
+; missing weather conditions - thanks smyle again
+[Showers]
+[AM Showers]
+[PM Showers]
+[Scatter Showers]
+[Rain / Wind]
+[Showers / Wind]
+[AM Showers / Wind]
+[PM Showers / Wind]
+[Scatter Showers / Wind]
+[Few Showers]
+[Few Showers / Wind]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.10 *********************************
+*************************************************************************************
+; menu item
+[Add New Weather Station]
+
+; sound event
+[Weather Alert Issued]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.6 **********************************
+*************************************************************************************
+
+; sound event
+[Weather Condition Changed]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.5 **********************************
+*************************************************************************************
+
+; fix in defaults - change %h to %m
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]"]
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.4 **********************************
+*************************************************************************************
+
+; option dialog
+[Disable internal station status icon selection]
+[Disable support for automatic protocol icons assignment]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.3 **********************************
+*************************************************************************************
+
+; weather ini setup dialog
+[Weather Protocol INI Setup]
+[Install and load your weather ini file here]
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+[Click here to download a weather ini file from Miranda file listing]
+[Extract the weather ini file from archive to this directory]
+[Click here to load the data from the new ini file into memory]
+[Add new weather station and close this dialog]
+[Never show this at startup again]
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.2 **********************************
+*************************************************************************************
+
+; options
+[Make the contact italic when weather alert is issued]
+[Display warning if INI file is not found at startup]
+
+; weather error codes
+[Invalid ID format, missing \"/\" (10)]
+[Invalid service (11)]
+[Invalid station (12)]
+[Weather service ini for this station is not found (20)]
+[Netlib error - check your internet connection (30)]
+[Empty data is retrieved (40)]
+[Document not found (42)]
+[Document too short to contain any weather data (43)]
+[Unknown error (99)]
+[HTTP Error: No content (204)]
+[HTTP Error: Data moved (301)]
+[HTTP Error: Use proxy (305)]
+[HTTP Error: Temporary redirect (307)]
+[HTTP Error: Bad request (400)]
+[HTTP Error: Unauthorized (401)]
+[HTTP Error: Payment required (402)]
+[HTTP Error: Forbidden (403)]
+[HTTP Error: Not found (404)]
+[HTTP Error: Method not allowed (405)]
+[HTTP Error: Proxy authentication required (407)]
+[HTTP Error: Gone (410)]
+[HTTP Error: Internal server error (500)]
+[HTTP Error: Bad gateway (502)]
+[HTTP Error: Service unavailable (503)]
+[HTTP Error: Gateway timeout (504)]
+[HTTP Error %i]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.3.0 **********************************
+*************************************************************************************
+
+; ------ Options ------
+[Disable auto update when status changes to offline, enable when changes to other]
+[Remove old data when updating]
+
+; ------ Popup Options ------
+[Show user detail]
+[From PopUp plugin]
+[Permanent]
+
+; ------ Text Options ------
+[To old settings]
+[To default]
+[Brief Info Title]
+[Weather Protocol Text Preview]
+
+; ------ Menu ------
+[Remove Old Data then Update All]
+[Remove Old Data then Update]
+[Auto Update Enabled]
+[Auto Update Disabled]
+
+; ------ Brief info ------
+[More...]
+[More Info]
+[Update]
+[Webpage]
+[View all weather details for this contact]
+
+; defaults
+[Weather Condition for %n as of %u]
+[%c, %t\nToday:  High %h, Low %l]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.2.9 **********************************
+*************************************************************************************
+
+; ------ weather_opt.c ------
+[More Variables]
+[Here is a list of custom variables that are currently available]
+
+; ------ weather_info.c ------
+[bytes]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.2.4 **********************************
+*************************************************************************************
+
+; ------ weather_contacts.c ------
+[Get city name from ID]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.2.3 **********************************
+*************************************************************************************
+
+; ------ edit setting dialog ------
+[City name]
+
+; ------ weather_contacts.c ------
+[<Enter city name here>]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.2.2 **********************************
+*************************************************************************************
+
+; ------ option dialog ------
+[Weather status will free to change all the time if this option is enabled.]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.2.0 **********************************
+*************************************************************************************
+
+;==============================
+; Dialogs
+
+; ------ option dialogs ------
+[Change display texts]
+[View weather INI information]
+
+; ------ edit weather station -------
+[Disable automatic update for this station]
+[Browse]
+
+
+;==============================
+; Translation in Codes
+
+; ------ weather_contacts.c ------
+; dialog texts
+[Weather INI information]
+[View webpage]
+[Reset to default]
+[Text Files]
+[All Files]
+
+
+; ------ weather_ini.c ------
+[Click \"Yes\" to download new data files, \"No\" to load Weather Protocol without any update support]
+
+; ini info
+[A list of Weather INI files currently in memory:]
+[Name\tAuthor\tFile Version\tINI ver\tItems\tDisplay Name\t\tFile Name]
+[Total INI files:\t%i]
+[Total memory used:\t%i bytes]
+[Weather INI Information]
+
+; individual ini info
+[The corresponding INI file for \"%s\" is not found.]
+[Weather INI information for \"%s\":]
+[Name:]
+[Internal Name:]
+[Author:]
+[Version:]
+[INI Version:]
+[File Name:]
+[Item Count:]
+[Memory Used:]
+[Description:]
+
+
+; ------ weather_opt.c ------
+[%[..]\tcustom variables]
+
+
+;===============================
+; weather information (new in v0.3.x)
+
+; weekdays (short)
+[Mon]
+[Tue]
+[Wed]
+[Thu]
+[Fri]
+[Sat]
+[Sun]
+
+; weekdays (long)
+[Monday]
+[Tuesday]
+[Wednesday]
+[Thursday]
+[Friday]
+[Saturday]
+[Sunday]
+
+; pressure changes
+[Rising]
+[Steady]
+[Falling]
+[rising]
+[steady]
+[falling]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.1.5 **********************************
+*************************************************************************************
+
+; option page
+[Consider weather info updated only when condition and temperature are changed]
+
+; ------ weather_ini.c ------
+[Invalid ini format for: %s]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.1.0 **********************************
+*************************************************************************************
+
+; ------ weather_addstn.c ------
+; dummy searches
+[<Enter station name here>]
+[<Enter station ID here>]
+
+; ------ weather_contacts.c ------
+[All update data has been reloaded.]
+
+; ------ weather_ini.c ------
+; crash preventions
+[Error when obtaining data: %s]
+[<Error>]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.0.1 **********************************
+*************************************************************************************
+
+; ------ Option dialog ------
+[Fahrenheit]
+
+; ------ weather_contacts.c ------
+[The URL for complete forcast have not been set.  You can set it from the Edit Settings dialog.]
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+
+
+*************************************************************************************
+********************************** NEW IN V0.3.0.0 **********************************
+*************************************************************************************
+
+;==============================
+; Dialogs
+
+; ------ Option dialog ------
+[Open URLs in new browser window]	
+
+[Units]
+[Temperature]
+[Celsius]
+[Wind]
+[km/h]
+[m/s]
+[mph]
+[knots]
+[Visibillity]
+[km]
+[miles]
+[Pressure]
+[kPa]
+[mb (hPa)]
+[inches]
+[mm Hg (torr)]
+
+[Texts]
+[Click the button on the left to change the display and log texts]
+
+[Advanced Options]
+[Hide Weather in status bar and status menu]
+[Note that icon cannot be changed when this feature is enabled]
+[Disable internal icon selection]
+[Miranda IM has to be restarted for the changes to take effect.]
+
+; ------ Text options dialog ------
+[Note Text]
+[Reset]
+
+; User info dialog
+[Feel-like]
+[Humidity]
+[Dewpoint]
+[Sunrise]
+[Sunset]
+[Today's High]
+[Today's Low]
+
+
+;==============================
+; Translation in Codes
+
+; ------ weather.c ------
+; for netlib
+[Weather HTTP connections]
+
+; ------ weather_contacts.c ------
+; menu item for enable/disable popups
+[Enable &weather notification]
+[Disable &weather notification]
+
+; menu item texts
+[Update All Weather]
+[Reload All Update Data]
+
+; ------ weather_ini.c ------
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+
+; ------ weather_opt.c ------
+; defaults
+[%n  [%t, %c]]
+
+; variable list (this looks scary...)
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+
+
+;===============================
+; weather information (new in v0.3.x)
+
+; Wind (short)
+[calm]
+[Calm]
+[N]
+[W]
+[S]
+[E]
+[NW]
+[NE]
+[SW]
+[SE]
+[NNW]
+[NNE]
+[SSW]
+[SSE]
+[ENE]
+[WSW]
+[WNW]
+[ESE]
+
+; Wind (long)
+[North]
+[East]
+[South]
+[West]
+[Northwest]
+[Northeast]
+[Southwest]
+[Southeast]
+[North Northwest]
+[North Northeast]
+[South Southwest]
+[South Southeast]
+[East Northeast]
+[West Southwest]
+[West Northwest]
+[East Southeast]
+
+; Visibility
+[unlimited]
+[Unlimited]
+
+; units not included in the plugin translation
+[mb]
+[hPa]
+[in]
+[mm]
+[torr]
+
+
+;===============================
+; weather conditions for icon determination
+;   Note: please refer to the sample "langpack_defweather.txt"
+
+
+*************************************************************************************
+******************** TRANSLATION STRINGS FROM 0.0.0.1 TO 0.2.5.1 ********************
+*************************************************************************************
+
+;==============================
+; Dialogs
+
+; ------ Edit Settings ------
+[Weather Station]
+[Description]
+[ID]
+[Log Information]
+[Use internal history]
+[Use external file]
+[Overwrite file upon update]
+[Path:]
+[Link Settings]
+[More Info URL]
+[Weather Map]
+[Other Options]
+[Set as default station]
+[Disable PopUp for this station]
+[Change]
+[Cancel]
+
+; ------ Option dialog ------
+[Options]
+[Show main menu items]
+[Update weather information every]
+[minutes.]
+[Do not display weather condition as protocol status]
+
+[Degree sign:]
+[Change]
+
+; ------ Popup option dialog ------
+[PopUp Options]
+[Enable popups]
+[Popup only when condition changes]
+[Show informations and warnings]
+
+[Popup Actions]
+[Left Click]
+[Right Click]
+[Dismiss PopUp]
+[Open brief information]
+[Open complete forecast]
+[Open weather map]
+[View history]
+[Open log file]
+[Show user menu]
+
+[Colours]
+[Background colour]
+[Text colour]
+[Use Windows colours]
+[Preview]
+
+[Popup Delay]
+[Delay]
+[seconds]
+
+[PopUp Text]
+[Popup Title]
+[Popup Text]
+[Variables]
+
+; ------ Text options dialog ------
+[Weather Protocol Text Options]
+[Contact List]
+[Brief Info]
+[External Log]
+[History Log]
+[Variable List]
+[Okay]
+[Cancel]
+
+
+;==============================
+; Translation in Codes
+
+; ------ weather.c ------
+; weather.h
+[N/A]
+[Weather Protocol]
+[Weather]
+
+; weather_addstn.c
+; adding new station
+[Current weather information for %s.]
+[%s is now the default weather station]
+
+; searching for a station
+[Please try again after weather update is completed.]
+
+; ------ weather_contacts.c ------
+; view log
+[Weather condition was not logged.]
+
+; menu item texts
+[Update Weather]
+[Brief Information]
+[Read Complete Forecast]
+[Weather Map]
+[View Log]
+[Edit Settings]
+[Weather Notification]
+
+; contact info dialog
+[Current condition for %n]
+[Last update on:   %d   %u]
+
+; brief info dialog
+[No information available.\nPlease update weather condition first.]
+[Do you want to view more information?]
+[Brief information for ]
+
+; edit setting dialog
+[Current weather information for %s.]
+
+; ------ weather_conv.c ------
+[<unknown time>]
+
+; ------ weather_http.c ------
+[Unable to retrieve weather information for %s]
+
+; ------ weather_ini.c ------
+; currently none
+
+; ------ weather_popup.c ------
+; popup preview
+[Here is a short weather description]
+[This is the name of the city]
+
+; ------- weather_svcs.c ------
+; unique ID
+[Station ID]
+
+
+;===============================
+; weather conditions
+;   Note: the following may not be a complete list of all the possible weather conditions
+;         here are just a "few" common conditions as there are way too many to identify!!
+
+; sunny
+[Sunny]
+[Clear]
+[Fair]
+[Sunny/Windy]
+[Clear/Windy]
+[Fair/Windy]
+[Windy]
+
+; partly cloudy
+[Partly Sunny]
+[Mostly Cloudy]
+[Mostly Clear]
+[Partly Sunny/Windy]
+[Mostly Clear/Windy]
+[Mostly Sunny]
+[Mostly Sunny/Windy]
+
+; cloudy
+[Cloudy]
+[Overcast]
+[Cloudy/Windy]
+[Overcast/Windy]
+[Mostly Cloudy/Windy]
+[Mostly Cloudy]
+
+; rain
+[Light Drizzle]
+[Drizzle]
+[Light Rain]
+[Rain]
+[Heavy Rain]
+[Light Rain/Fog]
+[Rain/Fog]
+[Light Drizzle/Windy]
+[Drizzle/Windy]
+[Light Rain/Windy]
+[Rain/Windy]
+[Heavy Rain/Windy]
+[AM Light Rain]
+[PM Light Rain]
+[AM Light Rain/Windy]
+[PM Light Rain/Windy]
+
+; showers
+[Rain Shower]
+[Showers]
+[Heavy Rain Shower]
+[Heavy Rain Shower/Windy]
+[Light Rain Shower]
+[AM Shower]
+[PM Shower]
+[Scattered Shower]
+[Rain Shower/Windy]
+[Shower/Windy]
+[Light Rain Shower/Windy]
+[AM Shower/Windy]
+[PM Shower/Windy]
+[Scattered Shower/Windy]
+[Few Showers]
+[Few Showers/Windy]
+[Showers in the Vicinity]
+[Thunder in the Vicinity]
+
+; snow
+[Light Snow]
+[Snow]
+[Heavy Snow]
+[Light Snow Pellets]
+[Snow Pellets]
+[Light Ice Pellets]
+[Ice Pellets]
+[Wintery Weather]
+[Light Freezing Rain]
+[Freezing Rain]
+[Flurries/Windy]
+[Light Flurries/Windy]
+[Light Snow/Windy]
+[Snow/Windy]
+[Heavy Snow/Windy]
+[Light Snow Pellets/Windy]
+[Snow Pellets/Windy]
+[Light Ice Pellets/Windy]
+[Ice Pellets/Windy]
+[Light Freezing Rain/Windy]
+[Freezing Rain/Windy]
+[Wintery Mix]
+[Light Snow Grains]
+[Snow Grains]
+[Rain/Snow]
+[Rain/Show/Windy]
+[Light Rain/Freezing Rain]
+[Rain/Freezing Rain]
+[Light Rain/Freezing Rain/Windy]
+[Rain/Freezing Rain/Windy]
+[AM Snow]
+[PM Snow]
+[AM Light Snow]
+[PM Light Snow]
+[Ice Crystals]
+[Ice Crystals/Windy]
+
+; snow showers
+[Snow Showers]
+[Heavy Snow Shower]
+[Heavy Snow Shower/Windy]
+[PM Snow Showers]
+[AM Snow Showers]
+[Rain/Snow Showers]
+[Snow Showers/Windy]
+[PM Snow Showers/Windy]
+[AM Snow Showers/Windy]
+[Rain/Snow Showers/Windy]
+[Light Snow Showers]
+[Light Snow Showers/Windy]
+[Flurries]
+[Light Flurries]
+[Scattered Flurries]
+[Few Flurries]
+[Few Flurries/Windy]
+[Scattered Snow Showers]
+[Scattered Snow Showers/Windy]
+[Few Snow Showers]
+[Few Snow Showers/Windy]
+[Freezing Drizzle]
+[Light Freezing Drizzle]
+[Freezing Drizzle/Windy]
+[Light Freezing Drizzle/Windy]
+[Drifting Snow]
+
+; thunder
+[Thunderstorms]
+[Scattered Thunderstorms]
+[Thunderstorms/Windy]
+[Scattered Thunderstorms/Windy]
+[Rain/Thunder]
+[Light Thunderstorms/Rain]
+[Thunderstorms/Rain]
+[Light Rain with Thunder]
+[Rain with Thunder]
+[T-Storm]
+
+; fog
+[Fog]
+[Haze]
+[Mist]
+[Fog/Windy]
+[Haze/Windy]
+[Mist/Windy]
+[Partial Fog]
+[Smoke]
+[Foggy]
+[AM Fog/PM Sun]
+[Blowing Sand]
+[Low Drifting Sand]
+[Blowing Dust] 
+[Widespread Dust/Windy] 
+[Widespread Dust] 
+[Duststorm] 
+
+; n/a
+[Data Not Available]
+[N/A]
+; and any other possible modes

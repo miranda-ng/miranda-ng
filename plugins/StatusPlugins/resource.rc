@@ -1,0 +1,540 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_KS_BASIC DIALOGEX 0, 0, 260, 211
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Check connection",IDC_CHECKCONNECTION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,49,136,10
+    EDITTEXT        IDC_MAXRETRIES,13,64,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max. retries",IDC_STATIC,41,67,108,8
+    GROUPBOX        "Protocol Connection",IDC_STATIC,7,35,241,103
+    EDITTEXT        IDC_INITDELAY,13,83,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Delay between retries (secs)",IDC_STATIC,41,86,109,8
+    CONTROL         "Show popups",IDC_SHOWCONNECTIONPOPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,17,211,10
+    GROUPBOX        "General",IDC_STATIC,7,7,241,25
+    CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,155,60,84,72
+    LTEXT           "Protocols to check",IDC_STATIC,157,49,83,8
+    GROUPBOX        "Dial-Up",IDC_STATIC,7,140,241,64
+    CONTROL         "Don't reconnect if no internet connection seems available",IDC_CHKINET,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,151,225,10
+    CONTROL         "Continuously check for internet connection",IDC_CONTCHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,163,225,10
+    CONTROL         "Do so by pinging host",IDC_BYPING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,174,214,10
+    EDITTEXT        IDC_PINGHOST,36,186,189,14,ES_AUTOHSCROLL
+END
+
+IDD_CONFIRMDIALOG DIALOGEX 0, 0, 257, 121
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Confirm Status"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Close",IDC_CLOSE,7,100,59,14
+    COMBOBOX        IDC_STATUS,185,100,65,101,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "List1",IDC_STARTUPLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,23,243,74
+    PUSHBUTTON      "Cancel",IDC_CANCEL,69,100,59,14
+    LTEXT           "Profile",IDC_STATIC,7,9,116,8
+    COMBOBOX        IDC_PROFILE,185,7,65,89,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Message",IDC_SETSTSMSG,131,100,50,14
+END
+
+IDD_OPT_AUTOAWAY DIALOGEX 0, 0, 284, 198
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "after",IDC_TIMED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,83,32,8
+    EDITTEXT        IDC_AWAYTIME,51,81,26,12,ES_AUTOHSCROLL
+    LTEXT           "minutes of inactivity",IDC_LV1AFTERSTR,82,83,87,8
+    EDITTEXT        IDC_NATIME,51,114,26,12,ES_AUTOHSCROLL
+    LTEXT           "minutes of level 1 mode",IDC_SETNASTR,82,116,86,8
+    CONTROL         "Confirm resetting status",IDC_CONFIRM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,181,168,10
+    LTEXT           "Protocol",IDC_STATIC,9,11,78,8
+    COMBOBOX        IDC_LV1STATUS,41,39,65,101,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_LV2STATUS,41,97,65,101,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Only set if current status is",IDC_STATIC,180,42,95,8
+    CONTROL         "",IDC_STATUSLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,177,55,100,84
+    CONTROL         "Monitor Miranda's activity only",IDC_MONITORMIRANDA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,152,168,10
+    CONTROL         "Reset status on return",IDC_RESETSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,166,168,10
+    CONTROL         "when screen saver engages",IDC_SCREENSAVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,55,152,10
+    LTEXT           "Set",IDC_STATIC,12,42,22,8
+    CONTROL         "after",IDC_SETNA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,116,32,8
+    LTEXT           "Set",IDC_STATIC,12,100,22,8
+    CONTROL         "only set when inactive",IDC_LV2ONINACTIVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,129,151,10
+    CONTROL         "when workstation is locked",IDC_ONLOCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,68,153,10
+    COMBOBOX        IDC_PROTOCOL,177,9,100,138,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_CMDLOPTIONS DIALOGEX 0, 0, 315, 82
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Command Line"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDC_OK,257,61,51,14
+    PUSHBUTTON      "Copy to Clipboard",IDC_COPY,132,61,120,14
+    EDITTEXT        IDC_CMDL,7,19,301,35,ES_MULTILINE | ES_READONLY
+    LTEXT           "Command Line:",IDC_STATIC,7,7,301,8
+    PUSHBUTTON      "Create Shortcut",IDC_SHORTCUT,7,61,120,14
+END
+
+IDD_ADDPROFILE DIALOGEX 0, 0, 131, 60
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Add new profile"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDC_OK,68,39,50,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,14,39,50,14
+    EDITTEXT        IDC_PROFILENAME,14,21,104,14,ES_AUTOHSCROLL
+    LTEXT           "Profile name",IDC_STATIC,11,11,55,8
+END
+
+IDD_OPT_STARTUPSTATUS DIALOGEX 0, 0, 305, 223
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_WINSTATE,209,34,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Set window state",IDC_SETWINSTATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,22,80,10
+    CONTROL         "Show dialog",IDC_SHOWDIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,71,127,10
+    CONTROL         "Set status to offline before exit",IDC_OFFLINECLOSE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,180,174,10
+    PUSHBUTTON      "Show CMDL",IDC_SHOWCMDL,14,194,53,14
+    CONTROL         "Activate status profile",IDC_SETPROFILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,20,89,10
+    COMBOBOX        IDC_DOCKED,209,64,80,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Set docked",IDC_SETDOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,52,80,10
+    GROUPBOX        "Other",IDC_STATIC,7,166,182,50
+    GROUPBOX        "Status on startup",IDC_STATIC,7,7,182,102
+    EDITTEXT        IDC_SETPROFILEDELAY,57,35,28,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "ms",IDC_STATIC,88,37,13,8
+    LTEXT           "Set after",IDC_STATIC,26,37,28,8
+    EDITTEXT        IDC_DLGTIMEOUT,57,86,28,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Timeout",IDC_STATIC,26,89,26,8
+    LTEXT           "s",IDC_STATIC,88,89,12,8
+    CONTROL         "Set window location",IDC_SETWINLOCATION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,82,80,10
+    EDITTEXT        IDC_XPOS,209,94,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_YPOS,259,94,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           ",",IDC_STATIC,245,98,8,8
+    CONTROL         "Set window size",IDC_SETWINSIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,209,120,80,10
+    EDITTEXT        IDC_WIDTH,209,132,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_HEIGHT,259,132,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    CTEXT           "x",IDC_STATIC,245,135,8,8
+    COMBOBOX        IDC_PROFILE,105,19,78,92,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Allow override",IDC_OVERRIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,53,76,10
+    LTEXT           "Note: status profiles can be created in the 'Status Profiles' options screen",IDC_STATIC,105,37,77,34
+    LTEXT           "",IDC_CURWINLOC,209,110,80,8
+    LTEXT           "",IDC_CURWINSIZE,209,150,80,8
+    GROUPBOX        "Window on startup",IDC_STATIC,194,7,104,155
+    CONTROL         "Automatically dial on startup",IDC_AUTODIAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,129,168,10
+    CONTROL         "Automatically hang up on exit",IDC_AUTOHANGUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,144,168,10
+    GROUPBOX        "Dial-up (experimental)",IDC_STATIC,7,113,182,49
+END
+
+IDD_PUOPT_KEEPSTATUS DIALOGEX 0, 0, 254, 223
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,15,19,35,14
+    LTEXT           "Background colour",IDC_STATIC,59,23,66,8
+    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,15,37,35,14
+    LTEXT           "Text colour",IDC_STATIC,59,41,66,8
+    CONTROL         "Use Windows colours",IDC_WINCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,56,108,10
+    CONTROL         "Use default colours",IDC_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,66,107,10
+    GROUPBOX        "Delay",IDC_STATIC,137,7,110,52
+    EDITTEXT        IDC_DELAY,221,30,20,14,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "On left click",IDC_STATIC,7,84,103,51
+    GROUPBOX        "On right click",IDC_STATIC,137,84,101,51,WS_GROUP
+    CONTROL         "Do nothing",IDC_LNOTHING,"Button",BS_AUTORADIOBUTTON | WS_GROUP,15,96,80,10
+    CONTROL         "Close popup",IDC_LCLOSE,"Button",BS_AUTORADIOBUTTON,15,108,79,10
+    CONTROL         "Cancel reconnecting",IDC_LCANCEL,"Button",BS_AUTORADIOBUTTON,15,120,94,10
+    CONTROL         "Do nothing",IDC_RNOTHING,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,96,78,10
+    CONTROL         "Close popup",IDC_RCLOSE,"Button",BS_AUTORADIOBUTTON,143,108,78,10
+    CONTROL         "Cancel reconnecting",IDC_RCANCEL,"Button",BS_AUTORADIOBUTTON,143,120,94,10
+    GROUPBOX        "Colours",IDC_STATIC,7,7,126,73
+    PUSHBUTTON      "Preview",IDC_PREV,137,63,50,14
+    GROUPBOX        "Events",IDC_STATIC,7,140,240,76
+    CONTROL         "Show when connection is lost",IDC_PUCONNLOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,153,226,10
+    CONTROL         "Show when a connection attempt is made",IDC_PUCONNRETRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,165,226,10
+    CONTROL         "Show when reconnection has finished",IDC_PURESULT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,177,226,10
+    CONTROL         "Show other messages",IDC_PUOTHER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,189,226,10
+    CONTROL         "From PopUp plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,143,19,94,10
+    CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,143,32,47,10
+    CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",BS_AUTORADIOBUTTON,143,45,50,10
+    CONTROL         "Show additional information in popups",IDC_PUSHOWEXTRA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,201,226,10
+END
+
+IDD_OPT_AUTOAWAYMSG DIALOGEX 0, 0, 263, 153
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_STATUS,12,19,240,97,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Use Miranda's message setting",IDC_RADUSEMIRANDA,"Button",BS_AUTORADIOBUTTON,23,56,165,10
+    CONTROL         "Use this message:",IDC_RADUSECUSTOM,"Button",BS_AUTORADIOBUTTON,23,69,165,10
+    EDITTEXT        IDC_STATUSMSG,33,82,219,50,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "Use %time% for the current time, %date% for the current date",IDC_STATIC,33,135,220,8
+    PUSHBUTTON      "Variables...",IDC_VARIABLESHELP,198,65,54,14,NOT WS_VISIBLE
+END
+
+IDD_OPT_GENAUTOAWAY DIALOGEX 0, 0, 258, 191
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Specify settings for each protocol",IDC_PERPROTOCOLSETTINGS,
+                    "Button",BS_AUTORADIOBUTTON,20,20,220,10
+    CONTROL         "Use same settings for all protocols",IDC_SAMESETTINGS,
+                    "Button",BS_AUTORADIOBUTTON,20,31,220,10
+    CONTROL         "Ignore caps-lock, num-lock and scroll-lock keys",IDC_IGNLOCK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,44,220,10
+    LTEXT           "Check interval (secs)",IDC_STATIC,21,125,133,8
+    EDITTEXT        IDC_AWAYCHECKTIMEINSECS,159,122,22,14,ES_AUTOHSCROLL
+    LTEXT           "Confirm dialog timeout (secs)",IDC_STATIC,21,142,133,8
+    EDITTEXT        IDC_CONFIRMDELAY,159,138,22,14,ES_AUTOHSCROLL
+    CTEXT           "You enabled ""Change my status mode to"" in the ""Idle"" options dialog, AdvancedAutoAway's options are ignored.",IDC_IDLEWARNING,7,164,244,20,NOT WS_VISIBLE
+    CONTROL         "Monitor keyboard activity",IDC_MONITORKEYBOARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,77,220,10
+    CONTROL         "Monitor mouse activity",IDC_MONITORMOUSE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,88,220,10
+    CONTROL         "Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys",IDC_IGNSYSKEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,55,220,10
+    CONTROL         "Ignore any key combination with above keys",IDC_IGNALTCOMBO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,66,220,10
+END
+
+IDD_OPT_KS_ACTION DIALOGEX 0, 0, 140, 162
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROTOLIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,16,63,100,72
+    LTEXT           "Protocols",IDC_STATIC,19,51,30,8
+    CONTROL         "Enable checking",IDC_ENABLECHECKING,"Button",BS_AUTORADIOBUTTON,16,17,69,10
+    CONTROL         "Disable checking",IDC_DISABLECHECKING,"Button",BS_AUTORADIOBUTTON,16,33,71,10
+END
+
+IDD_SETSTSMSGDIALOG DIALOG  0, 0, 240, 126
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set status message"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDC_OK,183,105,50,14
+    PUSHBUTTON      "Cancel",IDC_CANCEL,127,105,50,14
+    EDITTEXT        IDC_STSMSG,7,19,226,79,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+    LTEXT           "Set status message",IDC_DESCRIPTION,7,7,226,8
+END
+
+IDD_OPT_KS_TRIGGER DIALOGEX 0, 0, 201, 103
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Trigger when connection loss is detected",IDC_CONNLOST,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,22,170,10
+    CONTROL         "Trigger when reconnection attempt is made",IDC_CONNRETRY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,58,170,10
+    CONTROL         "Trigger when successfull reconnected",IDC_CONNSUCCESS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,70,170,10
+    CONTROL         "Trigger when giving up reconnecting",IDC_CONNGIVEUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,82,170,10
+    CONTROL         "Trigger when reconnected from another location",IDC_OTHERLOC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,46,170,10
+    GROUPBOX        "Pre-conditions",IDC_STATIC,7,7,187,89
+    CONTROL         "Trigger when a login error occurs",IDC_LOGINERROR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,170,10
+END
+
+IDD_OPT_STATUSPROFILES DIALOGEX 0, 0, 305, 234
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Protocol",IDC_STATIC,16,78,77,8
+    LTEXT           "Status",IDC_STATIC,156,78,77,8
+    LISTBOX         IDC_PROTOCOL,16,88,133,58,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_STATUS,156,88,133,58,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Profile",IDC_STATIC,16,18,78,8
+    PUSHBUTTON      "Add...",IDC_ADDPROFILE,16,44,64,14
+    PUSHBUTTON      "Delete",IDC_DELPROFILE,81,44,67,14
+    CONTROL         "Create a TopToolBar button",IDC_CREATETTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,27,135,10
+    CONTROL         "Show confirm dialog when loading",IDC_SHOWDIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,17,135,10
+    COMBOBOX        IDC_PROFILE,16,27,133,106,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Create a main menu item",IDC_CREATEMMI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,156,37,135,10
+    EDITTEXT        IDC_STATUSMSG,16,174,273,46,ES_MULTILINE | ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN
+    GROUPBOX        "Status Profiles",IDC_STATIC,7,7,291,220
+    CONTROL         "Use Miranda's message setting",IDC_MIRANDAMSG,"Button",BS_AUTORADIOBUTTON,16,150,195,10
+    CONTROL         "Use this message:",IDC_CUSTOMMSG,"Button",BS_AUTORADIOBUTTON,16,161,192,10
+    CONTROL         "HotKey1",IDC_HOTKEY,"msctls_hotkey32",WS_BORDER | WS_TABSTOP,105,63,111,14
+    CONTROL         "Hotkey",IDC_REGHOTKEY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,64,88,10
+    PUSHBUTTON      "Variables...",IDC_VARIABLESHELP,215,157,74,14,NOT WS_VISIBLE
+    CONTROL         "In submenu",IDC_INSUBMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,169,47,119,10
+END
+
+IDD_OPT_TABS DIALOGEX 0, 0, 314, 248
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Tab1",IDC_TABS,"SysTabControl32",0x0,7,7,300,234
+END
+
+IDD_OPT_KS_ADV DIALOGEX 0, 0, 280, 206
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_MAXDELAY,16,32,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max. delay (secs)",IDC_STATIC,44,35,74,8
+    CONTROL         "Increase delay exponential",IDC_INCREASEEXPONENTIAL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,20,213,10
+    CONTROL         "Cancel all if a protocol connects from another location",IDC_CNCOTHERLOC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,91,234,10
+    CONTROL         "Reconnect on APM resume",IDC_CHECKAPMRESUME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,102,234,10
+    CONTROL         "Stop trying to reconnect",IDC_LOGINERR_CANCEL,"Button",BS_AUTORADIOBUTTON,27,126,169,10
+    CONTROL         "Set delay to",IDC_LOGINERR_SETDELAY,"Button",BS_AUTORADIOBUTTON,27,139,64,10
+    CONTROL         "React on login errors",IDC_LOGINERR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,113,234,10
+    EDITTEXT        IDC_LOGINERR_DELAY,97,136,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "seconds",IDC_STATIC,125,139,77,8
+    CONTROL         "Set protocol offline before a connection attempt",IDC_FIRSTOFFLINE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,80,234,10
+    EDITTEXT        IDC_MAXCONNECTINGTIME,132,32,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max. protocol connecting time (secs)",IDC_STATIC,159,35,113,19
+    GROUPBOX        "Timers",IDC_STATIC,7,7,266,48
+    GROUPBOX        "Reconnecting",IDC_STATIC,7,56,266,98
+    CONTROL         "Ignore locked status of protocols",IDC_NOLOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,69,234,10
+    GROUPBOX        "Dial-Up",IDC_STATIC,7,156,266,43
+    LTEXT           "Consider connection lost after",IDC_STATIC,17,168,122,8
+    EDITTEXT        IDC_PINGCOUNT,140,165,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "failed pings",IDC_STATIC,165,168,108,8
+    EDITTEXT        IDC_CNTDELAY,16,180,22,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Continuously check interval (secs)",IDC_STATIC,41,183,160,8
+END
+
+IDD_TRG_AAASTATECHANGE DIALOGEX 0, 0, 212, 144
+STYLE DS_SETFONT | DS_3DLOOK | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Entering first auto-away status",IDC_ENTERFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,24,110,10
+    CONTROL         "Entering second auto-away status",IDC_ENTERSECOND,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,37,123,10
+    CONTROL         "Leaving first auto-away status",IDC_LEAVEFIRST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,50,109,10
+    CONTROL         "Leaving second auto-away status",IDC_LEAVESECOND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,63,122,10
+    CONTROL         "Becoming active without status change",IDC_BECOMEACTIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,76,140,10
+    GROUPBOX        "Pre-conditions",IDC_STATIC,7,7,198,89
+    GROUPBOX        "TriggerData",IDC_STATIC,7,97,198,40
+    LTEXT           "Status: The status the protocol will change to\r\nProtocol: The protocol changing state",IDC_STATIC,19,111,177,18
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPT_KS_BASIC, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 248
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 204
+    END
+
+    IDD_CONFIRMDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 114
+    END
+
+    IDD_OPT_AUTOAWAY, DIALOG
+    BEGIN
+        RIGHTMARGIN, 277
+        VERTGUIDE, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 191
+    END
+
+    IDD_CMDLOPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 308
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 75
+    END
+
+    IDD_ADDPROFILE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 124
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 53
+    END
+
+    IDD_OPT_STARTUPSTATUS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 216
+    END
+
+    IDD_PUOPT_KEEPSTATUS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 247
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 216
+    END
+
+    IDD_OPT_AUTOAWAYMSG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 152
+    END
+
+    IDD_OPT_GENAUTOAWAY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 251
+        VERTGUIDE, 240
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 184
+    END
+
+    IDD_OPT_KS_ACTION, DIALOG
+    BEGIN
+        RIGHTMARGIN, 132
+        VERTGUIDE, 7
+        BOTTOMMARGIN, 152
+        HORZGUIDE, 7
+    END
+
+    IDD_SETSTSMSGDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 233
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 119
+    END
+
+    IDD_OPT_KS_TRIGGER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 194
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 96
+    END
+
+    IDD_OPT_STATUSPROFILES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 227
+    END
+
+    IDD_OPT_TABS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 241
+    END
+
+    IDD_OPT_KS_ADV, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        VERTGUIDE, 16
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 199
+    END
+
+    IDD_TRG_AAASTATECHANGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 205
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 137
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

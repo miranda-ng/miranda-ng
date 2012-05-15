@@ -1,0 +1,43 @@
+# Microsoft Developer Studio Generated Dependency File, included by PGPsdkW.mak
+
+.\commonheaders.cpp : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\sdk6\include\pgpBase.h"\
+	".\sdk6\include\pgpConfig.h"\
+	".\sdk6\include\pgpEncode.h"\
+	".\sdk6\include\pgpErrors.h"\
+	".\sdk6\include\pgpFeatures.h"\
+	".\sdk6\include\pgpGroups.h"\
+	".\sdk6\include\pgpHash.h"\
+	".\sdk6\include\pgpKeys.h"\
+	".\sdk6\include\pgpMemoryMgr.h"\
+	".\sdk6\include\pgpOptionList.h"\
+	".\sdk6\include\pgpPFLConfig.h"\
+	".\sdk6\include\pgpPFLErrors.h"\
+	".\sdk6\include\pgpPubTypes.h"\
+	".\sdk6\include\pgpTLS.h"\
+	".\sdk6\include\pgpUserInterface.h"\
+	".\sdk6\include\pgpUtilities.h"\
+	
+
+.\main.cpp : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\sdk6\include\pgpBase.h"\
+	".\sdk6\include\pgpConfig.h"\
+	".\sdk6\include\pgpEncode.h"\
+	".\sdk6\include\pgpErrors.h"\
+	".\sdk6\include\pgpFeatures.h"\
+	".\sdk6\include\pgpGroups.h"\
+	".\sdk6\include\pgpHash.h"\
+	".\sdk6\include\pgpKeys.h"\
+	".\sdk6\include\pgpMemoryMgr.h"\
+	".\sdk6\include\pgpOptionList.h"\
+	".\sdk6\include\pgpPFLConfig.h"\
+	".\sdk6\include\pgpPFLErrors.h"\
+	".\sdk6\include\pgpPubTypes.h"\
+	".\sdk6\include\pgpTLS.h"\
+	".\sdk6\include\pgpUserInterface.h"\
+	".\sdk6\include\pgpUtilities.h"\
+	

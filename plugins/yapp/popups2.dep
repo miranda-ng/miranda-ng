@@ -1,0 +1,228 @@
+# Microsoft Developer Studio Generated Dependency File, included by popups2.mak
+
+.\message_pump.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\message_pump.h"\
+	".\options.h"\
+	".\popwin.h"\
+	".\services.h"\
+	
+
+.\notify_imp.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\docs\m_popup2.h"\
+	".\message_pump.h"\
+	".\notify.h"\
+	
+
+.\options.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\options.h"\
+	".\popwin.h"\
+	".\str_utils.h"\
+	
+
+.\popup_history.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\m_ieview.h"\
+	".\popup_history.h"\
+	
+
+.\popup_history_dlg.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\m_ieview.h"\
+	".\popup_history.h"\
+	
+
+.\popups2.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\m_ieview.h"\
+	".\message_pump.h"\
+	".\notify.h"\
+	".\options.h"\
+	".\popup_history.h"\
+	".\popups2.h"\
+	".\popwin.h"\
+	".\str_utils.h"\
+	".\version.h"\
+	
+
+.\popwin.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\message_pump.h"\
+	".\options.h"\
+	".\popwin.h"\
+	".\str_utils.h"\
+	
+
+.\services.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\m_ieview.h"\
+	".\message_pump.h"\
+	".\popup_history.h"\
+	".\popwin.h"\
+	".\services.h"\
+	".\str_utils.h"\
+	
+
+.\str_utils.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_idle.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_notify.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_updater.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\common.h"\
+	".\str_utils.h"\
+	
+
+.\resource.rc : \
+	".\PPh2.ico"\
+	

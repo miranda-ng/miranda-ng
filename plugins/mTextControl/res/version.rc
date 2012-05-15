@@ -1,0 +1,40 @@
+#include <windows.h> // include for version info constants
+#include "..\src\version.h"
+
+//
+// TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS...
+//
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION	__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+ PRODUCTVERSION	__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x21L
+#else
+ FILEFLAGS 0x20L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", MTEXT_DESCRIPTION
+            VALUE "CompanyName", "Miranda IM"
+            VALUE "FileDescription", MTEXT_DISPLAYNAME
+            VALUE "FileVersion", __VERSION_STRING_DOT
+            VALUE "InternalName", MODULNAME
+            VALUE "LegalCopyright", MTEXT_COPYRIGHT
+            VALUE "OriginalFilename", MTEXT_FILENAME
+            VALUE "ProductName", MTEXT_DISPLAYNAME
+            VALUE "ProductVersion", __VERSION_STRING_DOT
+	END
+  END
+  BLOCK "VarFileInfo"
+  BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+

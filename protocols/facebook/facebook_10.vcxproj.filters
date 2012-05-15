@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\JSON_CAJUN">
+      <UniqueIdentifier>{7cc935fb-209f-455a-93b3-d3346104ae5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="avatars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="communication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="connection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="contacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dialogs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="http.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="json.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="messages.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="process.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stubs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="theme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JSON_CAJUN\elements.h">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON_CAJUN\reader.h">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON_CAJUN\visitor.h">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON_CAJUN\writer.h">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </ClInclude>
+    <ClInclude Include="avatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="client.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="definitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dialogs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="entities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="http.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="json.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="list.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="theme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="JSON_CAJUN\elements.inl">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </None>
+    <None Include="JSON_CAJUN\reader.inl">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </None>
+    <None Include="JSON_CAJUN\writer.inl">
+      <Filter>Source Files\JSON_CAJUN</Filter>
+    </None>
+    <None Include="icons\facebook.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\mind.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\addFriend.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\removeFriend.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="facebook.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MetaContacts", "MetaContacts_9.vcproj", "{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|Win32.Build.0 = Debug|Win32
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|x64.ActiveCfg = Debug|x64
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Debug|x64.Build.0 = Debug|x64
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|Win32.ActiveCfg = Release|Win32
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|Win32.Build.0 = Release|Win32
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|x64.ActiveCfg = Release|x64
+		{0007BE9F-DD4D-4E9B-B1C8-C5049538F862}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

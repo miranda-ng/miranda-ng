@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Weather", "weather.vcproj", "{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "proto_weather", "proto_weather\proto_weather.vcproj", "{B2F4BA6C-1BD6-4A50-A706-DCBC6A5D439B}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}.Debug.ActiveCfg = Debug|Win32
+		{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}.Debug.Build.0 = Debug|Win32
+		{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}.Release.ActiveCfg = Release|Win32
+		{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}.Release.Build.0 = Release|Win32
+		{B2F4BA6C-1BD6-4A50-A706-DCBC6A5D439B}.Debug.ActiveCfg = Debug|Win32
+		{B2F4BA6C-1BD6-4A50-A706-DCBC6A5D439B}.Debug.Build.0 = Debug|Win32
+		{B2F4BA6C-1BD6-4A50-A706-DCBC6A5D439B}.Release.ActiveCfg = Release|Win32
+		{B2F4BA6C-1BD6-4A50-A706-DCBC6A5D439B}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

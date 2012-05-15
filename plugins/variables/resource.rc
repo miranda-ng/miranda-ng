@@ -1,0 +1,2 @@
+#include "variables.rc"
+#include "version.rc"

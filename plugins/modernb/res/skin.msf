@@ -1,0 +1,157 @@
+[Skin_Description_Section]
+  Name=reVista Remixed v0.5
+  SubStyle=Normal
+  Author=Fyr(basic skin)&Angeli-Ka(images, layout, size tuning)
+  Contact=angil@nm.ru
+  URL=http://angeli-ka.my1.ru/
+  Preview=
+  Description=Skin for clist_modern layered
+  SkinFolder= 
+;==================================================================================================
+; Don't use any of files from this archive for other than personal purposes without my permission.
+;==================================================================================================                     
+[ModernSkin]
+
+fProfFont=sVerdana,12,---
+
+
+tProfile0=s$$Window,26,4,-32,19,LTRTCC,fProfFont,0x80535666,0,Miranda IM
+tProfile1=s$$Window,28,6,-30,21,LTRTCC,fProfFont,0x80FFFFFF,0,Miranda IM
+tProfile2=s$$Window,27,5,-31,20,LTRTCC,fProfFont,0x395C7E,0,Miranda IM
+
+$$Window=sGlyph,Fragment,back%.tga,0,0,100,50,StretchBoth,11,24,12,12,255
+
+$$Group/Open=sGlyph,Fragment,back%.tga,0,50,7,20,StretchBoth,3,2,3,2,255
+$$Group/Open/Hot=sGlyph,Fragment,back%.tga,7,50,7,20,StretchBoth,3,2,3,2,255
+$$Group/Open/Selected=sGlyph,Fragment,back%.tga,7,50,7,20,StretchBoth,3,2,3,2,255
+
+$$Group/Closed=sGlyph,Fragment,back%.tga,66,66,4,4,StretchBoth,0,0,0,0,255
+$$Group/Closed/Hot=sGlyph,Fragment,back%.tga,38,50,4,20,StretchBoth,1,3,1,3,255
+$$Group/Closed/Selected=sGlyph,Fragment,back%.tga,38,50,4,20,StretchBoth,1,3,1,3,150
+
+$$SubGroup/Open=sGlyph,Fragment,back%.tga,0,50,7,20,StretchBoth,3,2,3,2,255
+$$SubGroup/Open/Hot=sGlyph,Fragment,back%.tga,7,50,7,20,StretchBoth,3,2,3,2,255
+$$SubGroup/Open/Selected=sGlyph,Fragment,back%.tga,7,50,7,20,StretchBoth,3,2,3,2,255
+
+$$SubGroup/Closed=sGlyph,Fragment,back%.tga,66,66,4,4,StretchBoth,0,0,0,0,255
+$$SubGroup/Closed/Hot=sGlyph,Fragment,back%.tga,38,50,4,20,StretchBoth,1,3,1,3,255
+$$SubGroup/Closed/Selected=sGlyph,Fragment,back%.tga,38,50,4,20,StretchBoth,1,3,1,3,150
+
+$$Contact/Hot=sGlyph,Fragment,back%.tga,42,50,4,20,StretchBoth,1,6,1,6,255
+$$Contact/Selected=sGlyph,Fragment,back%.tga,42,50,4,20,StretchBoth,1,3,1,3,250
+$$Contact/Normal=sGlyph,Fragment,back%.tga,46,68,2,2,StretchBoth,0,0,0,2,255
+$$Contact/Last=sGlyph,Fragment,back%.tga,46,68,2,2,StretchBoth,0,0,0,2,255
+$$Contact/First=sGlyph,Fragment,back%.tga,46,68,2,2,StretchBoth,0,0,0,2,255
+
+$$Scroll/BtnUp=sGlyph,Fragment,back%.tga,62,50,16,16,StretchBoth,0,0,0,0,255
+$$Scroll/BtnDn=sGlyph,Fragment,back%.tga,46,50,16,16,StretchBoth,0,0,0,0,255
+$$Scroll/Thumb=sGlyph,Fragment,back%.tga,24,50,7,22,StretchBoth,3,4,2,5,150
+$$Scroll/Back=sGlyph,Fragment,back%.tga,48,66,16,4,StretchBoth,2,0,2,0,255
+
+$$FrameTitleBar=sGlyph,Fragment,back%.tga,14,50,4,20,StretchBoth,1,2,1,2,255
+
+$$StatusBar=sGlyph,Fragment,back%.tga,18,50,6,20,StretchBoth,2,2,2,2,255
+
+$$ViewMode/CurrentMode=sGlyph,Fragment,back%.tga,32,50,6,20,StretchBoth,3,4,2,5,255
+$$ViewMode/CurrentMode/Hot=sGlyph,Fragment,back%.tga,25,50,6,20,StretchBoth,3,4,2,5,255
+$$ViewMode/CurrentMode/Pressed=sGlyph,Fragment,back%.tga,24,49,7,20,StretchBoth,3,4,2,5,255
+$$ViewMode/SetupMode=sGlyph,Fragment,back%.tga,31,50,7,20,StretchBoth,3,4,2,5,255
+$$ViewMode/SetupMode/Hot=sGlyph,Fragment,back%.tga,24,50,7,20,StretchBoth,3,4,2,5,255
+$$ViewMode/SetupMode/Pressed=sGlyph,Fragment,back%.tga,24,49,7,20,StretchBoth,3,4,2,5,255
+$$ViewMode/ResetMode=sGlyph,Fragment,back%.tga,31,50,7,20,StretchBoth,3,4,2,5,255
+$$ViewMode/ResetMode/Hot=sGlyph,Fragment,back%.tga,24,50,7,20,StretchBoth,3,4,2,5,255
+$$ViewMode/ResetMode/Pressed=sGlyph,Fragment,back%.tga,24,49,7,20,StretchBoth,3,4,2,5,255
+
+$$Button/Minimize/Normal=sGlyph,Fragment,back%.tga,100,0,26,15,StretchBoth,0,3,0,3,255
+$$Button/Minimize/Hovered=sGlyph,Fragment,back%.tga,100,15,26,15,StretchBoth,0,3,0,3,255
+$$Button/Minimize/Down=sGlyph,Fragment,back%.tga,100,30,26,15,StretchBoth,0,3,0,3,255
+$$Button/Menu/Normal=sGlyph,Fragment,back%.tga,101,50,24,16,StretchBoth,0,0,0,0,180
+$$Button/Menu/Hovered=sGlyph,Fragment,back%.tga,101,50,24,16,StretchBoth,0,0,0,0,255
+$$Button/Menu/Down=sGlyph,Fragment,back%.tga,77,50,24,16,StretchBoth,0,0,0,0,255
+
+$$Background=sGlyph,Skip
+
+
+$$BarButton=sGlyph,Fragment,back%.tga,31,50,7,20,StretchBoth,3,4,2,5,150
+$$BarButton/Hot=sGlyph,Fragment,back%.tga,24,50,7,20,StretchBoth,3,4,2,5,200
+$$BarButton/Pressed=sGlyph,Fragment,back%.tga,24,49,7,20,StretchBoth,3,4,2,5,255
+
+@0=s$$Window:Main,ID=Background
+@1=s$$Background:CL,ID=Background
+@10=s$$SubGroup/Closed/Hot:CL,ID=Row,Type=Group,Open=False,Hot=True,Indent^0
+@11=s$$SubGroup/Closed/Selected:CL,ID=Row,Type=Group,Open=False,Selected=True,Indent^0
+@12=s$$SubGroup/Closed:CL,ID=Row,Type=Group,Open=False,Indent^0
+@13=s$$SubGroup/Open/Hot:CL,ID=Row,Type=Group,Open=True,Hot=True,Indent^0
+@14=s$$SubGroup/Open/Selected:CL,ID=Row,Type=Group,Open=True,Selected=True,Indent^0
+@15=s$$SubGroup/Open:CL,ID=Row,Type=Group,Open=True,Indent^0
+@20=s$$Group/Closed/Hot:CL,ID=Row,Type=Group,Open=False,Hot=True
+@21=s$$Group/Closed/Selected:CL,ID=Row,Type=Group,Open=False,Selected=True
+@22=s$$Group/Closed:CL,ID=Row,Type=Group,Open=False
+@23=s$$Group/Open/Hot:CL,ID=Row,Type=Group,Open=True,Hot=True
+@24=s$$Group/Open/Selected:CL,ID=Row,Type=Group,Open=True,Selected=True
+@25=s$$Group/Open:CL,ID=Row,Type=Group,Open=True
+@50=s$$Contact/Selected:CL,ID=Row,Type=*Contact,Selected=True
+@51=s$$Contact/Hot:CL,ID=Row,Type=*Contact,Hot=True
+@62=s$$Contact/Last:CL,ID=Row,Type=SubContact,SubPos=Last,GroupPos=Last
+@63=s$$Contact/Normal:CL,ID=Row,Type=SubContact,SubPos=First
+@64=s$$Contact/Last:CL,ID=Row,Type=SubContact,SubPos=First-Single,GroupPos=Last
+@65=s$$Contact/Normal:CL,ID=Row,Type=SubContact,SubPos=Last,GroupPos=First
+@66=s$$Contact/Last:CL,ID=Row,Type=SubContact,SubPos=First-Single,GroupPos=First-Single
+@67=s$$Contact/Last:CL,ID=Row,Type=MetaContact,GroupPos=Last,Open=False
+@68=s$$Contact/First:CL,ID=Row,Type=MetaContact,GroupPos=First,Open=False
+@69=s$$Contact/First:CL,ID=Row,Type=MetaContact,GroupPos=First
+@70=s$$Contact/Last:CL,ID=Row,Type=MetaContact,GroupPos=First-Single,Open=False
+@71=s$$Contact/Normal:CL,ID=Row,Type=Contact,GroupPos=Last,Indent=2
+@72=s$$Contact/Normal:CL,ID=Row,Type=Contact,GroupPos=First,Indent=2
+@73=s$$Contact/Last:CL,ID=Row,Type=Contact,GroupPos=Last
+@74=s$$Contact/Last:CL,ID=Row,Type=Contact,GroupPos=First-Single
+;@75=s$$Group/Open:CL,ID=Row,Type=*Contact,Index=0   ; Fix of first contact is group liked then groups are disabled fix
+@75=s$$Contact/First:CL,ID=Row,Type=*Contact,Index=0
+@76=s$$Contact/First:CL,ID=Row,Type=*Contact,Index=1
+@77=s$$Contact/First:CL,ID=Row,Type=*Contact,GroupPos=First
+@78=s$$Contact/Normal:CL,ID=Row,Type=*Contact
+@80=s$$Scroll/Back:Main,ID=ScrollBar,Part=Back
+@90=s$$Scroll/BtnUp:Main,ID=ScrollBar,Part=UpLineButton
+@100=s$$Scroll/BtnDn:Main,ID=ScrollBar,Part=DownLineButton
+@110=s$$Scroll/Thumb:Main,ID=ScrollBar,Part=Thumb
+@120=s$$FrameTitleBar:Main,ID=FrameCaption
+@130=s$$StatusBar:Main,ID=StatusBar
+@131=s$$EventArea:Main,ID=EventArea
+@140=s$$Button/Close/Down:MButton,ID=close,Down=1
+@150=s$$Button/Close/Hovered:MButton,ID=close,Hovered=1
+@160=s$$Button/Close/Normal:MButton,ID=close
+@170=s$$Button/Minimize/Down:MButton,ID=minimize,Down=1
+@180=s$$Button/Minimize/Hovered:MButton,ID=minimize,Hovered=1
+@190=s$$Button/Minimize/Normal:MButton,ID=minimize
+@200=s$$Button/Menu/Down:MButton,ID=mainmenu,Down=1
+@210=s$$Button/Menu/Hovered:MButton,ID=mainmenu,Hovered=1
+@220=s$$Button/Menu/Normal:MButton,ID=mainmenu
+
+@300=s$$ViewMode:ViewMode,ID=Background
+@301=s$$ViewMode/CurrentMode/Pressed:Button,ID=ViewMode.Select,Pressed=True
+@302=s$$ViewMode/CurrentMode/Hot:Button,ID=ViewMode.Select,Hovered=True
+@303=s$$ViewMode/CurrentMode:Button,ID=ViewMode.Select
+@304=s$$ViewMode/SetupMode/Pressed:Button,ID=ViewMode.Setup,Pressed=True
+@305=s$$ViewMode/SetupMode/Hot:Button,ID=ViewMode.Setup,Hovered=True
+@306=s$$ViewMode/SetupMode:Button,ID=ViewMode.Setup
+@307=s$$ViewMode/ResetMode/Pressed:Button,ID=ViewMode.Clear,Pressed=True
+@308=s$$ViewMode/ResetMode/Hot:Button,ID=ViewMode.Clear,Hovered=True
+@309=s$$ViewMode/ResetMode:Button,ID=ViewMode.Clear
+@1610=s$$BarButton/Pressed:Button,Pressed=True
+@1620=s$$BarButton/Hot:Button,Hovered=True
+@1630=s$$BarButton:Button
+
+#mainmenu=sPush,CList/ShowMainMenu,10,5,34,21,-----,0,0,Show Main Menu
+#minimize=sPush,CList/ShowHide,-36,3,-10,18,R-R--,0,0,Minimize Miranda
+
+[CLUI]
+;Another setting for CLUI section
+  LeftClientMargin=b11
+  TopClientMargin=b25
+  RightClientMargin=b12
+  BottomClientMargin=b12
+
+
+;-----------
+;-----------
+;-----------

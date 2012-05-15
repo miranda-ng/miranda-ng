@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EE182018-5D3D-43F3-955F-7B5AB0BE2FCA}</ProjectGuid>
+    <RootNamespace>Mra</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>MRA</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC70.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">false</GenerateManifest>
+    <PostBuildEventUseInBuild Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</PostBuildEventUseInBuild>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">false</GenerateManifest>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <RunCodeAnalysis Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">false</RunCodeAnalysis>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <CustomBuildStep>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalIncludeDirectories>./sdk;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Crypt32.lib;shlwapi.lib;Ws2_32.lib;mswsock.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27X86%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <IgnoreAllDefaultLibraries>
+      </IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>
+      </SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <CustomBuildStep>
+      <Command>copy "C:\Documents and Settings\Rozhuk_IM\Мои документы\Programmer\VC\Mra\x64\Debug\Mra.dll" "C:\Documents and Settings\Rozhuk_IM\Мои документы\Programmer\VC\MirandaIM\x64\Plugins\Mra.dll"
+</Command>
+      <Outputs>w;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <AdditionalIncludeDirectories>./sdk;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>shlwapi.lib;Ws2_32.lib;mswsock.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)Mra.dll</OutputFile>
+      <AdditionalManifestDependencies>%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>MRA.def</ModuleDefinitionFile>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)Mra.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>false</OptimizeReferences>
+      <EnableCOMDATFolding>false</EnableCOMDATFolding>
+      <NoEntryPoint>false</NoEntryPoint>
+      <SetChecksum>false</SetChecksum>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <CustomBuildStep>
+      <Command>
+      </Command>
+      <Outputs>
+      </Outputs>
+    </CustomBuildStep>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>./sdk;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+    </ClCompile>
+    <ProjectReference />
+    <Link>
+      <AdditionalDependencies>Crypt32.lib;shlwapi.lib;Ws2_32.lib;mswsock.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalManifestDependencies>type=%27Win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27X86%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <ModuleDefinitionFile>
+      </ModuleDefinitionFile>
+      <AddModuleNamesToAssembly>
+      </AddModuleNamesToAssembly>
+      <AssemblyLinkResource>
+      </AssemblyLinkResource>
+      <SubSystem>
+      </SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <CLRThreadAttribute>
+      </CLRThreadAttribute>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <CustomBuildStep>
+      <Command>!releasex64.cmd
+</Command>
+      <Outputs>w;%(Outputs)</Outputs>
+    </CustomBuildStep>
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <AdditionalIncludeDirectories>./sdk;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+    </ClCompile>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>shlwapi.lib;Ws2_32.lib;mswsock.lib;runtmchk.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)Mra.dll</OutputFile>
+      <AdditionalManifestDependencies>%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
+      <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ModuleDefinitionFile>MRA.def</ModuleDefinitionFile>
+      <AddModuleNamesToAssembly>%(AddModuleNamesToAssembly)</AddModuleNamesToAssembly>
+      <AssemblyLinkResource>%(AssemblyLinkResource)</AssemblyLinkResource>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)mra.map</MapFileName>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <EntryPointSymbol>
+      </EntryPointSymbol>
+      <NoEntryPoint>true</NoEntryPoint>
+      <SetChecksum>true</SetChecksum>
+      <RandomizedBaseAddress>true</RandomizedBaseAddress>
+      <FixedBaseAddress>false</FixedBaseAddress>
+      <DataExecutionPrevention>true</DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <CLRThreadAttribute>DefaultThreadingAttribute</CLRThreadAttribute>
+      <CLRImageType>Default</CLRImageType>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Mra.cpp" />
+    <ClCompile Include="Mra_functions.cpp" />
+    <ClCompile Include="Mra_options.cpp" />
+    <ClCompile Include="Mra_proto.cpp" />
+    <ClCompile Include="Mra_svcs.cpp" />
+    <ClCompile Include="MraAdvancedSearch.cpp" />
+    <ClCompile Include="MraAntiSpam.cpp" />
+    <ClCompile Include="MraAvatars.cpp" />
+    <ClCompile Include="MraChat.cpp" />
+    <ClCompile Include="MraFilesQueue.cpp" />
+    <ClCompile Include="MraIcons.cpp" />
+    <ClCompile Include="MraMPop.cpp" />
+    <ClCompile Include="MraMRIMProxy.cpp" />
+    <ClCompile Include="MraOfflineMsg.cpp" />
+    <ClCompile Include="MraPopUp.cpp" />
+    <ClCompile Include="MraRTFMsg.cpp" />
+    <ClCompile Include="MraSelectEMail.cpp" />
+    <ClCompile Include="MraSendCommand.cpp" />
+    <ClCompile Include="MraSendQueue.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Alarm.ico" />
+    <None Include="Icons\answers.ico" />
+    <None Include="Icons\AuthGrant.ico" />
+    <None Include="Icons\AuthReguest.ico" />
+    <None Include="Icons\Bagz.ico" />
+    <None Include="Icons\Blogs.ico" />
+    <None Include="Icons\BlogStatus.ico" />
+    <None Include="Icons\Chat.ico" />
+    <None Include="Icons\icon2.ico" />
+    <None Include="Icons\Info.ico" />
+    <None Include="Icons\Magent.ico" />
+    <None Include="Icons\Mail.ico" />
+    <None Include="Icons\MailNotify.ico" />
+    <None Include="MraIconAlarm.ico" />
+    <None Include="MraIconAuthGrant.ico" />
+    <None Include="MraIconAuthReguest.ico" />
+    <None Include="MraIconBagz.ico" />
+    <None Include="MraIconBlogs.ico" />
+    <None Include="MraIconChat.ico" />
+    <None Include="MraIconDeleted.ico" />
+    <None Include="MraIconInfo.ico" />
+    <None Include="MraIconMagent.ico" />
+    <None Include="MraIconMail.ico" />
+    <None Include="MraIconMailNotify.ico" />
+    <None Include="MraIconPhone.ico" />
+    <None Include="MraIconPhoto.ico" />
+    <None Include="MraIconPostCards.ico" />
+    <None Include="MraIconSMS.ico" />
+    <None Include="MraIconWebSearch.ico" />
+    <None Include="Icons\my world.ico" />
+    <None Include="Icons\Phone.ico" />
+    <None Include="Icons\Photo.ico" />
+    <None Include="Icons\PostCards.ico" />
+    <None Include="Icons\video.ico" />
+    <None Include="Icons\WebSearch.ico" />
+    <None Include="langpack_MRA_russian.txt" />
+    <None Include="Readme_MRA.txt" />
+    <None Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mra.h" />
+    <ClInclude Include="MraAntiSpam.h" />
+    <ClInclude Include="MraAvatars.h" />
+    <ClInclude Include="MraChat.h" />
+    <ClInclude Include="MraConstans.h" />
+    <ClInclude Include="MraFilesQueue.h" />
+    <ClInclude Include="MraIcons.h" />
+    <ClInclude Include="MraMPop.h" />
+    <ClInclude Include="MraMRIMProxy.h" />
+    <ClInclude Include="MraOfflineMsg.h" />
+    <ClInclude Include="MraPlaces.h" />
+    <ClInclude Include="MraPopUp.h" />
+    <ClInclude Include="MraRTFMsg.h" />
+    <ClInclude Include="MraSelectEMail.h" />
+    <ClInclude Include="MraSendCommand.h" />
+    <ClInclude Include="MraSendQueue.h" />
+    <ClInclude Include="proto.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_avatars.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_clist.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_clui.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_cluiframes.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_contactdir.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_contacts.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_database.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_email.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_extraicons.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_findadd.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_folders.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_fuse.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_icolib.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_ignore.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_langpack.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_music.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_netlib.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_nudge.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_options.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_plugins.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_popup.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_proto_listeningto.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_protocols.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_protomod.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_protosvc.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_system.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_updater.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_url.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_userinfo.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\m_utils.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\newpluginapi.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\statusmodes.h" />
+    <ClInclude Include="..\!Clases\include\Miranda\win2k.h" />
+    <ClInclude Include="..\!Clases\include\Base64.h" />
+    <ClInclude Include="..\!Clases\include\BuffToLowerCase.h" />
+    <ClInclude Include="..\!Clases\include\DebugFunctions.h" />
+    <ClInclude Include="..\!Clases\include\FIFOMT.h" />
+    <ClInclude Include="..\!Clases\include\InternetTime.h" />
+    <ClInclude Include="..\!Clases\include\ListMT.h" />
+    <ClInclude Include="..\!Clases\include\MemoryCompare.h" />
+    <ClInclude Include="..\!Clases\include\MemoryFind.h" />
+    <ClInclude Include="..\!Clases\include\MemoryFindByte.h" />
+    <ClInclude Include="..\!Clases\include\RC4.h" />
+    <ClInclude Include="..\!Clases\include\SHA1.h" />
+    <ClInclude Include="..\!Clases\include\SocketFunctions.h" />
+    <ClInclude Include="..\!Clases\include\StrHexToNum.h" />
+    <ClInclude Include="..\!Clases\include\StrToNum.h" />
+    <ClInclude Include="..\!Clases\include\zconf.h" />
+    <ClInclude Include="..\!Clases\include\zlib.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

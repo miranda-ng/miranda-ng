@@ -1,0 +1,35 @@
+                        tabSRMM + Metacontacts
+                        ......................
+                        
+As of 0.0.9.5 tabSRMM contains support for the MetaContacts plugin by SjE. You
+can find this plugin here: 
+
+http://www.miranda-im.org/download/details.php?action=viewfile&id=1595
+
+When you open a message tab for a meta contact, tabSRMM will automatically
+detect the MC and its current settings. The small protocol icon in the status
+bar of the container will show the icon for the active protocol of the MC.
+If you right-click this icon, you get a context menu from which you can:
+
+* change the default protocol
+
+* "force" a given protocol for sending to the MC. You cannot force a protocol, which
+  is offline, either on your or the other side.
+  If the forced protocol goes offline at any time (again, either on your or the
+  other side doesn't matter), the MC will revert to the "Auto selection mode"
+  and use the default or the "most online" protocol.
+
+In any case, a forced protocol will be "unforced" when you close the tab (i.e.
+revert to automatic protocol selection).
+
+While forcing works, you should still be careful with it. It shouldn't be necessary
+in most cases, as the metacontacts protocol will always ensure that its using the
+"most online" proto. It may make sense if your buddy asks you to send on a specific
+protocol though (for whatever reason...)
+
+This status bar icon is also there for non-metacontacts, but is not going to do
+anything other than showing the protocol in use for that tab. If you hover over
+it, then it will display a tooltip with your current nickname and the protocol
+name.
+
+

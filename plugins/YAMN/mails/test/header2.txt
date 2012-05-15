@@ -1,0 +1,97 @@
+Return-Path: <miranda@megami.sprintserve.net>
+Received: [from megami.sprintserve.net (megami.sprintserve.net [207.142.136.160])
+	by mail2.ba.psg.sk  with ESMTP id i4FHNUY6018585
+	for <om3tn@psg.sk>; Sat, 15 May 2004 19:23:31 +0200]
+X-Envelope-To: <om3tn@psg.sk>
+Received: from miranda by megami.sprintserve.net with local (Exim 4.34)
+	id 1BP2sS-0006W6-MS
+	for om3tn@psg.sk; Sat, 15 May 2004 13:23:12 -0400 
+To: Undisclosed-recipients:;
+Subject: Upozornÿn° na odpovÿ‘ v tÇmatu - YAMN problem
+Reply-to: forum@miranda-im.org
+From: forum@miranda-im.org:
+Message-ID: <e003226b4a46a7ca6b490345f21b91af@forums.miranda-im.org>
+MIME-Version: 1.0
+Content-type: text/plain; charset=Windows-1250
+Content-transfer-encoding: 8bit
+Date: Sat, 15 May 2004 13:23:12 -0400
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: PHP
+X-MimeOLE: Produced By phpBB2
+X-MailScanner-Information: Please contact the ISP for more information
+X-MailScanner: Found to be clean
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - megami.sprintserve.net
+X-AntiAbuse: Original Domain - psg.sk
+X-AntiAbuse: Originator/Caller UID/GID - [32110 32110] / [47 12]
+X-AntiAbuse: Sender Address Domain - megami.sprintserve.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+.
+
+Subject: Upozornÿn° na odpovÿ‘ v tÇmatu - YAMN problem
+
+Return-Path: <miranda@megami.sprintserve.net>
+Received: [from megami.sprintserve.net (megami.sprintserve.net [207.142.136.160])
+	by mail2.ba.psg.sk  with ESMTP id i4FHX2Y6020695
+	for <om3tn@psg.sk>; Sat, 15 May 2004 19:33:03 +0200]
+X-Envelope-To: <om3tn@psg.sk>
+Received: from miranda by megami.sprintserve.net with local (Exim 4.34)
+	id 1BP31h-0001cs-Ai
+	for om3tn@psg.sk; Sat, 15 May 2004 13:32:45 -0400
+To: Undisclosed-recipients:;
+Subject: Upozornÿn° na odpovÿ‘ v tÇmatu - YAMN problem
+Reply-to: forum@miranda-im.org
+From: forum@miranda-im.org
+Message-ID: <0873b36d0931479c4ebe23ba71ff4810@forums.miranda-im.org>
+MIME-Version: 1.0
+Content-type: text/plain; charset=Windows-1250
+Content-transfer-encoding: 8bit
+Date: Sat, 15 May 2004 13:32:45 -0400
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: PHP
+X-MimeOLE: Produced By phpBB2
+X-MailScanner-Information: Please contact the ISP for more information
+X-MailScanner: Found to be clean
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - megami.sprintserve.net
+X-AntiAbuse: Original Domain - psg.sk
+X-AntiAbuse: Originator/Caller UID/GID - [32110 32110] / [47 12]
+X-AntiAbuse: Sender Address Domain - megami.sprintserve.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+
+.
+
+Received: by hplm (mbox om3tn)
+ (with POP3 daemon cucipop (v1.31 1998/05/13) Tue May 27 18:42:20 2003)
+X-From_: HMF@hotbox.ru  Tue May 20 18:11:44 2003
+Return-Path: <HMF@hotbox.ru>
+Received: from ns1.slovanet.net (ns1.slovanet.net [195.28.64.119])
+        by hplm.psg.sk (8.12.9/8.12.7) with SMTP id h4KGBfxJ003732
+        for <om3tn@psg.sk>; Tue, 20 May 2003 18:11:44 +0200
+X-Envelope-To: <om3tn@psg.sk>
+Received: (qmail 6339 invoked from network); 20 May 2003 18:11:45 +0200
+Received: from unknown (HELO ??+???) (61.33.134.106)
+  by ns1.slovanet.net with SMTP; 20 May 2003 18:11:45 +0200
+Received: by london.com (Postfix, from userid 302)
+         id WTS; Tue, 20 May 2003 20:13:19
+Received: from å˘+‚å• (å˘+‚å• [61.33.134.106])
+         by mill.co.uk (Postfix) with ESMTP id 613
+         for <om3tn@psg.sk>; Tue, 20 May 2003 20:13:19
+Subject: “‡ÏÓÊÂÌÌ‡Ó˜ËÒÚÍ‡. ‘ËÌÎ‰ËÃÓÒÍ‚‡. ŒÚ 0,8 Á‡ Í„, ‚ÍÎ˛˜‡‚ÒÂ ! 20:13:19
+From: <HMF@hotbox.ru>
+To: OM3TN <om3tn@psg.sk>
+Reply-To: <>
+X-Mailer: AOL 7.0 for Windows UK sub 52
+X-Priority: 1
+X-MSMail-Priority: High
+Mime-Version: 1.0
+Content-Type: text/html; charset="Windows-1251"
+Content-Transfer-Encoding: 7bit
+Date: Tue, 20 May 2003 20:13:21
+Message-Id: <DED-173-MCL662@mail-relay2.slovanet.net>

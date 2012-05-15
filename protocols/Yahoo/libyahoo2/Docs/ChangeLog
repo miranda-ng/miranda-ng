@@ -1,0 +1,280 @@
+* Fri Jan 16 2003 Alan Humpherys
+- remove_handler also takes client_id
+
+* Wed Jan 14 2003 Doug Davis
+- fix auth
+
+* Mon Dec 29 2003 Philip Tellis 0.7.3
+- up version number
+
+* Thu Dec 25 2003 Philip Tellis
+- asynchronous writes as well (might break file send)
+- better support for webcam broadcast
+- webcam images sent in chunks rather than as a single image
+- check for EAGAIN on send, defer if it is returned
+- add handler returns a tag, which is passed to remove handler to remove it
+- api has changed
+
+* Wed Dec 10 2003 Philip Tellis
+- initialise some unintialised variables
+
+* Tue Dec 9 2003 Philip Tellis
+- Yahoo Search - by Konstantin Klyagin - centericq
+
+* Tue Dec 9 2003 Philip Tellis
+- Typing notification fix from Gena01
+- Don't send VERIFY as first packet, since we don't know what do
+do if it fails anyway.
+TODO revert when we figure this out
+
+* Wed Oct 22 2003 Philip Tellis
+- Identify failed login because of incorrect username
+
+* Wed Oct 8 2003 Philip Tellis
+- Fix bug with double processing of format string in error logging
+- log_level no longer global, use yahoo_get_log_level() instead (was
+only used internally)
+
+* Tue Sep 30 2003 Doug Davis
+- chat room logout and error code
+
+* Tue Sep 30 2003 Philip
+- fix for auth to work with big endian machines too
+
+* Mon Sep 29 2003 Philip
+- attribute new auth to Cerulean studios (which is where gaim got it from)
+
+* Sun Sep 28 2003 Philip 0.7.2-2
+- made yahoo_init do what it did before, and renamed the new yahoo_init
+to yahoo_init_with_attributes.  This should help not break old code.
+
+* Sun Sep 28 2003 Philip
+- changed g_malloc0 to malloc - thanks to Pixador
+
+* Sun Sep 28 2003 Philip 0.7.2
+- Auth fixed by Sean Egan (gaim).
+
+* Sat Sep 27 2003 Philip
+- Added more fallback ports
+- Fix crash in process_auth
+
+* Wed Sep 24 2003 Philip
+- Messenger host name changed to scs.msg.yahoo.com
+
+* Mon Sep 22 2003 Philip
+- Forgot a strdup
+
+* Sat Sep 20 2003 Philip
+- Support protocol 0x0b
+
+* Sat Sep 20 2003 Philip
+- Formatting fixes and yahoo_list memory management fixes
+
+* Sat Sep 20 2003 Philip
+- No more extern vars (almost)
+- yahoo_init now takes optional key/value pairs to set server settings
+see the README or yahoo2.h for full details
+- These variables no longer need to be exported from the sourcefile that
+uses the library
+
+* Fri Sep 12 2003 Philip 0.7.1
+- configure checks for socket library and won't build sample client
+if not found
+
+* Thu Sep 11 2003 Philip
+- Up version number to 0x0a so that we don't get blocked
+
+* Thu Jun 5 2003 Philip
+- fix a bunch of memory leaks
+
+* Sun May 25 2003 Philip
+- Add option to disable building sample client
+
+* Sat May 24 2003 Philip 0.7.0-1
+- Fix configure error because of old missing script in distribution
+
+* Mon May 19 2003 Philip (version 0.7.0)
+- Update README
+- release 0.7.0
+
+* Tue May 6 2003 Mik
+- fixes for webcam uploading
+- extra callback for closing connection
+
+* Thu May 1 2003 Philip
+- allow closing of webcam connections
+- more reliable finding of webcam connections
+
+* Thu May 1 2003 Philip
+- send who's images along with webcam image
+
+* Thu May 1 2003 Philip
+- get idle time from server
+- changes to webcam support to not require the user to worry about keys and 
+servers
+
+* Sun Apr 20 2003 Philip
+- fixes for multiple connects and bugs introduced when adding async connects
+
+* Sat Apr 19 2003 Philip
+- Add asynchronous connects
+- Each `id' represents a single login session and everything to do with it
+- add_handler and yahoo_(read|write)_ready take a void * data argument
+- possibly introduce many bugs :D
+
+* Thu Apr 10 2003 Wayne
+- Added callback for the list of chatrooms
+
+* Thu Mar 29 2003 Wayne
+- Added basic support for pulling down the list of chatrooms
+
+* Mon Mar 24 2003 Mik
+- Seperate webcam struct to public and private data
+- Rename webcam struct to yahoo_webcam
+
+* Fri Mar 21 2003 Philip
+- Don't dereference yd after it has been freed
+
+* Fri Mar 21 2003 Mik
+- Clean up webcam data when yahoo data is cleaned up
+- Added connection type to webcam
+- Removed static for callbacks in sample_client
+
+* Wed Mar 19 2003 Mik
+- Added perliminary webcam upload support
+- Added descriptions for the webcam functions
+
+* Tue Mar 18 2003 Wayne Parrott
+- Added preliminary yahoo chat support
+
+* Sun Mar 16 2003 Philip
+- Fixed double deletion problem with yab
+- Fixed memory leak with non-pager connections
+
+* Fri Mar 14 2003 Philip
+- Announce login success earlier
+
+* Thu Mar 13 2003 Mik
+- Add preliminary webcam support
+
+* Thu Mar 6 2003 Philip
+- Remove requests for unnecessary data in addressbook code
+
+* Tue Mar 4 2003 Philip
+- Fix read past end of string in yahoo_getyab
+
+* Wed Feb 19 2003 Philip (version 0.6.3)
+- Make dist depend on libyahoo2.spec and libyahoo2.pc
+- Change version number to 0.6.3
+
+* Thu Feb 13 2003 Philip
+- added check for null connection when reading from socket.
+thanks to Alan Humpherys
+
+* Thu Feb 6 2003 Philip
+- renamed yahoo_add_yab to yahoo_set_yab
+
+* Wed Feb 5 2003 Philip
+- Support for modifying an address book entry
+
+* Mon Jan 27 2003 Philip
+- Support for adding address book entry on the server
+
+* Thu Jan 24 2003 Philip
+- Download address book from server and fill in real_name field
+of yahoo_buddy
+
+* Tue Jan 21 2003 Philip
+- Added CHAT service codes from yach
+- Fixed the problem with Offline UTF-8 encoded messages
+it no longer sends an extra bell
+- Implemented group renaming
+
+* Sat Jan 18 2003 Philip
+- utf-8 encoding/decoding functions are in yahoo_util
+- detect whether it is utf-8 or not from utf-8 flag in message
+
+* Wed Jan 15 2003 Philip
+- added utf-8 decode to conference messages too.  I need to move this into
+a separate function
+
+* Tue Jan 14 2003 Philip
+- changed the accent character hack to proper UTF-8 decode supplied by Alan
+
+* Mon Jan 13 2003 Philip Tellis
+- sample client handles accented characters correctly.
+
+* Thu Dec 18 2002 Philip Tellis
+- sample client now handles sending of bell with ^G and sounding of bell
+when it receives it
+
+* Tue Dec 10 2002 Philip Tellis (version 0.6.2)
+- Added some prototypes for snprintf, strdup and vsnprintf (when compiling
+with -ansi -pedantic and without glib
+- Updated version number for release
+
+* Mon Dec 9 2002 Philip Tellis
+- Changed u_char to unsigned char
+- Fixed yahoo_get16 and yahoo_get32 to work with big endian systems also
+
+* Tue Nov 19 2002 Philip Tellis
+- Added code to process a voice chat invite.  Doesn't do anything.
+
+* Mon Nov 18 2002 Philip Tellis
+- Multiple offline messages are now received correctly
+- Memory leaks cleaned up
+- Check for glib-2 as well as glib-1
+- dropped port 21 from port scan
+- Added a spec file for RPM
+
+* Sat Nov 16 2002 Rodney Dawes
+- Make libyahoo2 versioned
+- Add a pkgconfig file
+- Install headers in $(pkgincludedir)
+- Make yahoo sample client a noinst program
+- Require autoconf >= 2.50
+- Cleanups in configure.ac
+
+* Wed Nov 13 2002 Philip Tellis
+- libyahoo2 now automatically scans ports 21, 23, 25 and 80 if it cannot 
+connect on the default port.
+
+* Wed Nov 06 2002 Philip Tellis
+- added protocol documentation
+
+* Tue Nov 05 2002 Philip Tellis
+- compiles with -ansi and -pedantic
+
+* Sat Oct 19 2002 Philip Tellis
+- no longer strip colour/style codes from messages
+- added colour entry for any colour to yahoo2_types.h (Nelson Ferreira)
+
+
+* Fri Oct 18 2002 Philip Tellis (version 0.6.1)
+- fixed segfault on some weird notification packets
+- fixes for conference add invite
+- identity support for conferences
+
+- sample console client can handle conferencing
+
+* Wed Oct 9 2002 Philip Tellis (version 0.6)
+- Removed glib dependencies.  Will use glib only if available
+- Configure time option --with-struct-callbacks to use a callback struct
+instead of callback functions (see yahoo2_callbacks.h and the README)
+- Code cleanups by Steve McAndrewSmith
+- Get identities from server
+- Activate/Deactivate identities
+- Use identities when sending messages
+- Fixed buffer overflow in key/value pair reading
+
+- sample console client no longer requires gtk!
+
+* Mon Jul 22 2002 Philip Tellis (version 0.5)
+- Added basic documentation to README
+- Several minor code fixes and cleanups
+
+* Sat Jul 20 2002 Philip Tellis (version 0.5.cvs)
+This is an initial public release as a separate library
+I'll put a feature list in later.
+0.5 is just a random version number, I figure it's got half the features
+of where it should be when complete.

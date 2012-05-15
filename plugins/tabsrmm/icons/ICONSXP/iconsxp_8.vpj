@@ -1,0 +1,251 @@
+<!DOCTYPE Project SYSTEM "http://www.slickedit.com/dtd/vse/10.0/vpj.dtd">
+<Project
+	Version="10.0"
+	VendorName="SlickEdit"
+	WorkingDir="."
+	AssociatedFile="iconsxp_8.vcproj"
+	AssociatedFileType="microsoft visual studio visual c++">
+	<Config
+		Name="Debug|Win32"
+		OutputFile=""
+		CompilerConfigName="Visual Studio 2005">
+		<Includes>
+			<Include Dir="%(INCLUDE)"/>
+		</Includes>
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='vstudiocompile "%f"'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /build "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /rebuild "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%o"'/>
+			</Target>
+			<Target
+				Name="Resource Editor"
+				MenuCaption="Resource Editor"
+				ShowOnMenu="HideIfNoCmdLine"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="devenv"/>
+			</Target>
+			<Target
+				Name="Build Solution"
+				MenuCaption="Build Solution"
+				ShowOnMenu="HideIfNoCmdLine"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /build "%bn"'/>
+			</Target>
+			<Target
+				Name="Clean Solution"
+				MenuCaption="Clean Solution"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /clean "%bn"'/>
+			</Target>
+			<Target
+				Name="Clean Project"
+				MenuCaption="Clean Project"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /clean "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+		</Menu>
+	</Config>
+	<Config
+		Name="Release|Win32"
+		OutputFile=""
+		CompilerConfigName="Visual Studio 2005">
+		<Includes>
+			<Include Dir="%(INCLUDE)"/>
+		</Includes>
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='vstudiocompile "%f"'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /build "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /rebuild "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%o"'/>
+			</Target>
+			<Target
+				Name="Resource Editor"
+				MenuCaption="Resource Editor"
+				ShowOnMenu="HideIfNoCmdLine"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="devenv"/>
+			</Target>
+			<Target
+				Name="Build Solution"
+				MenuCaption="Build Solution"
+				ShowOnMenu="HideIfNoCmdLine"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /build "%bn"'/>
+			</Target>
+			<Target
+				Name="Clean Solution"
+				MenuCaption="Clean Solution"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /clean "%bn"'/>
+			</Target>
+			<Target
+				Name="Clean Project"
+				MenuCaption="Clean Project"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /clean "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+		</Menu>
+	</Config>
+	<Config
+		Name="Release Unicode 98|Win32"
+		OutputFile=""
+		CompilerConfigName="Visual Studio 2005">
+		<Includes>
+			<Include Dir="%(INCLUDE)"/>
+		</Includes>
+		<Menu>
+			<Target
+				Name="Compile"
+				MenuCaption="&amp;Compile"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveCurrent"
+				RunFromDir="%rw">
+				<Exec CmdLine='vstudiocompile "%f"'/>
+			</Target>
+			<Target
+				Name="Build"
+				MenuCaption="&amp;Build"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /build "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+			<Target
+				Name="Rebuild"
+				MenuCaption="&amp;Rebuild"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /rebuild "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+			<Target
+				Name="Debug"
+				MenuCaption="&amp;Debug"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w"'/>
+			</Target>
+			<Target
+				Name="Execute"
+				MenuCaption="E&amp;xecute"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='"%o"'/>
+			</Target>
+			<Target
+				Name="Resource Editor"
+				MenuCaption="Resource Editor"
+				ShowOnMenu="HideIfNoCmdLine"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine="devenv"/>
+			</Target>
+			<Target
+				Name="Build Solution"
+				MenuCaption="Build Solution"
+				ShowOnMenu="HideIfNoCmdLine"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveWorkspaceFiles"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /build "%bn"'/>
+			</Target>
+			<Target
+				Name="Clean Solution"
+				MenuCaption="Clean Solution"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /clean "%bn"'/>
+			</Target>
+			<Target
+				Name="Clean Project"
+				MenuCaption="Clean Project"
+				CaptureOutputWith="ProcessBuffer"
+				SaveOption="SaveNone"
+				RunFromDir="%rw">
+				<Exec CmdLine='devenv "%w" /clean "%bn" /project "%rm" /projectconfig "%b"'/>
+			</Target>
+		</Menu>
+	</Config>
+</Project>

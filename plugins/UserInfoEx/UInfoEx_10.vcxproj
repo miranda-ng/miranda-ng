@@ -1,0 +1,742 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug Unicode|Win32">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug Unicode|x64">
+      <Configuration>Debug Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>uinfoex</ProjectName>
+    <ProjectGuid>{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}</ProjectGuid>
+    <RootNamespace>UInfoEx</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Release|x64'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</GenerateManifest>
+    <EmbedManifest Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">true</EmbedManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Plugins\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(SolutionDir)$(Configuration)64/Obj/$(ProjectName)\</IntDir>
+    <ExtensionsToDeleteOnClean Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">*.obj%3b*.ilk%3b*.tlb%3b*.tli%3b*.tlh%3b*.tmp%3b*.rsp%3b*.pch%3b*.pgc%3b*.pgd%3b*.meta%3b$(TargetPath)%3b$(TargetDir)$(ProjectName).*%3b$(TargetDir)$(RootNamespace).*</ExtensionsToDeleteOnClean>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">$(ProjectName)W</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">$(ProjectName)W</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">$(ProjectName)W</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">$(ProjectName)W</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_MBCS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_MBCS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_MBCS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_MBCS;_DEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_MBCS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_MBCS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>oleaut32.lib uuid.lib winspool.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LinkErrorReporting>
+      </LinkErrorReporting>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_MBCS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_MBCS;NDEBUG;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>oleaut32.lib uuid.lib winspool.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+      <LinkErrorReporting>
+      </LinkErrorReporting>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_UNICODE;UNICODE;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>oleaut32.lib uuid.lib winspool.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <Midl>
+      <TargetEnvironment>X64</TargetEnvironment>
+    </Midl>
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <AdditionalIncludeDirectories>res;Ex_Import;../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;UINFOEX_EXPORTS;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;_UNICODE;UNICODE;_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;shlwapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>oleaut32.lib uuid.lib winspool.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="classMAnnivDate.cpp" />
+    <ClCompile Include="classMTime.cpp" />
+    <ClCompile Include="classPsTree.cpp" />
+    <ClCompile Include="classPsTreeItem.cpp" />
+    <ClCompile Include="commonheaders.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="init.cpp" />
+    <ClCompile Include="mir_contactqueue.cpp" />
+    <ClCompile Include="mir_db.cpp" />
+    <ClCompile Include="mir_icolib.cpp" />
+    <ClCompile Include="mir_menuitems.cpp" />
+    <ClCompile Include="mir_string.cpp" />
+    <ClCompile Include="psp_options.cpp" />
+    <ClCompile Include="svc_avatar.cpp" />
+    <ClCompile Include="svc_constants.cpp" />
+    <ClCompile Include="svc_contactinfo.cpp" />
+    <ClCompile Include="svc_email.cpp" />
+    <ClCompile Include="svc_gender.cpp" />
+    <ClCompile Include="svc_homepage.cpp" />
+    <ClCompile Include="svc_phone.cpp" />
+    <ClCompile Include="svc_refreshci.cpp" />
+    <ClCompile Include="svc_reminder.cpp" />
+    <ClCompile Include="svc_timezone.cpp" />
+    <ClCompile Include="svc_timezone_old.cpp" />
+    <ClCompile Include="ex_import\classExImContactBase.cpp" />
+    <ClCompile Include="ex_import\classExImContactXML.cpp" />
+    <ClCompile Include="ex_import\dlg_ExImModules.cpp" />
+    <ClCompile Include="ex_import\dlg_ExImOpenSaveFile.cpp" />
+    <ClCompile Include="ex_import\dlg_ExImProgress.cpp" />
+    <ClCompile Include="ex_import\svc_ExImINI.cpp" />
+    <ClCompile Include="ex_import\svc_ExImport.cpp" />
+    <ClCompile Include="ex_import\svc_ExImVCF.cpp" />
+    <ClCompile Include="ex_import\svc_ExImXML.cpp" />
+    <ClCompile Include="ex_import\tinystr.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ex_import\tinyxml.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ex_import\tinyxmlerror.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ex_import\tinyxmlparser.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Flags\svc_countrylistext.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Flags\svc_flags.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="Flags\svc_flagsicons.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\commonheaders.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="dlg_anniversarylist.cpp" />
+    <ClCompile Include="dlg_msgbox.cpp" />
+    <ClCompile Include="dlg_propsheet.cpp" />
+    <ClCompile Include="psp_about.cpp" />
+    <ClCompile Include="psp_anniversary.cpp" />
+    <ClCompile Include="psp_base.cpp" />
+    <ClCompile Include="psp_company.cpp" />
+    <ClCompile Include="psp_contact.cpp" />
+    <ClCompile Include="psp_general.cpp" />
+    <ClCompile Include="psp_origin.cpp" />
+    <ClCompile Include="psp_profile.cpp" />
+    <ClCompile Include="ctrl_annivedit.cpp" />
+    <ClCompile Include="ctrl_base.cpp" />
+    <ClCompile Include="ctrl_button.cpp" />
+    <ClCompile Include="ctrl_combo.cpp" />
+    <ClCompile Include="ctrl_contact.cpp" />
+    <ClCompile Include="ctrl_edit.cpp" />
+    <ClCompile Include="ctrl_tzcombo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="classMAnnivDate.h" />
+    <ClInclude Include="classMTime.h" />
+    <ClInclude Include="commonheaders.h" />
+    <ClInclude Include="mir_contactqueue.h" />
+    <ClInclude Include="mir_db.h" />
+    <ClInclude Include="mir_icolib.h" />
+    <ClInclude Include="mir_menuitems.h" />
+    <ClInclude Include="mir_string.h" />
+    <ClInclude Include="psp_options.h" />
+    <ClInclude Include="svc_avatar.h" />
+    <ClInclude Include="svc_constants.h" />
+    <ClInclude Include="svc_contactinfo.h" />
+    <ClInclude Include="svc_email.h" />
+    <ClInclude Include="svc_gender.h" />
+    <ClInclude Include="svc_homepage.h" />
+    <ClInclude Include="svc_phone.h" />
+    <ClInclude Include="svc_refreshci.h" />
+    <ClInclude Include="svc_reminder.h" />
+    <ClInclude Include="svc_timezone.h" />
+    <ClInclude Include="svc_timezone_old.h" />
+    <ClInclude Include="ex_import\classExImContactBase.h" />
+    <ClInclude Include="ex_import\classExImContactXML.h" />
+    <ClInclude Include="ex_import\dlg_ExImModules.h" />
+    <ClInclude Include="ex_import\dlg_ExImOpenSaveFile.h" />
+    <ClInclude Include="ex_import\dlg_ExImProgress.h" />
+    <ClInclude Include="ex_import\mir_rfcCodecs.h" />
+    <ClInclude Include="ex_import\svc_ExImINI.h" />
+    <ClInclude Include="ex_import\svc_ExImport.h" />
+    <ClInclude Include="ex_import\svc_ExImVCF.h" />
+    <ClInclude Include="ex_import\svc_ExImXML.h" />
+    <ClInclude Include="ex_import\tinystr.h" />
+    <ClInclude Include="ex_import\tinyxml.h" />
+    <ClInclude Include="Flags\svc_countrylistext.h" />
+    <ClInclude Include="Flags\svc_flags.h" />
+    <ClInclude Include="Flags\svc_flagsicons.h" />
+    <ClInclude Include="dlg_anniversarylist.h" />
+    <ClInclude Include="dlg_msgbox.h" />
+    <ClInclude Include="dlg_propsheet.h" />
+    <ClInclude Include="psp_base.h" />
+    <ClInclude Include="ctrl_annivedit.h" />
+    <ClInclude Include="ctrl_base.h" />
+    <ClInclude Include="ctrl_button.h" />
+    <ClInclude Include="ctrl_combo.h" />
+    <ClInclude Include="ctrl_contact.h" />
+    <ClInclude Include="ctrl_edit.h" />
+    <ClInclude Include="ctrl_tzcombo.h" />
+    <ClInclude Include="Res\resource.h" />
+    <ClInclude Include="Res\version.h" />
+    <ClInclude Include="SDK\m_db3xsa.h" />
+    <ClInclude Include="SDK\m_flags.h" />
+    <ClInclude Include="SDK\m_MagneticWindows.h" />
+    <ClInclude Include="SDK\m_metacontacts.h" />
+    <ClInclude Include="SDK\m_popup2.h" />
+    <ClInclude Include="SDK\m_toolbar.h" />
+    <ClInclude Include="SDK\m_toptoolbar.h" />
+    <ClInclude Include="SDK\m_updater.h" />
+    <ClInclude Include="SDK\m_userinfoex.h" />
+    <ClInclude Include="..\..\include\m_addcontact.h" />
+    <ClInclude Include="..\..\include\m_avatars.h" />
+    <ClInclude Include="..\..\include\m_awaymsg.h" />
+    <ClInclude Include="..\..\include\m_button.h" />
+    <ClInclude Include="..\..\include\m_chat.h" />
+    <ClInclude Include="..\..\include\m_clc.h" />
+    <ClInclude Include="..\..\include\m_clist.h" />
+    <ClInclude Include="..\..\include\m_clistint.h" />
+    <ClInclude Include="..\..\include\m_clui.h" />
+    <ClInclude Include="..\..\include\m_contactdir.h" />
+    <ClInclude Include="..\..\include\m_contacts.h" />
+    <ClInclude Include="..\..\include\m_database.h" />
+    <ClInclude Include="..\..\include\m_email.h" />
+    <ClInclude Include="..\..\include\m_file.h" />
+    <ClInclude Include="..\..\include\m_findadd.h" />
+    <ClInclude Include="..\..\include\m_fontservice.h" />
+    <ClInclude Include="..\..\include\m_fuse.h" />
+    <ClInclude Include="..\..\include\m_genmenu.h" />
+    <ClInclude Include="..\..\include\m_history.h" />
+    <ClInclude Include="..\..\include\m_icolib.h" />
+    <ClInclude Include="..\..\include\m_icq.h" />
+    <ClInclude Include="..\..\include\m_idle.h" />
+    <ClInclude Include="..\..\include\m_ignore.h" />
+    <ClInclude Include="..\..\include\m_imgsrvc.h" />
+    <ClInclude Include="..\..\include\m_langpack.h" />
+    <ClInclude Include="..\..\include\m_message.h" />
+    <ClInclude Include="..\..\include\m_netlib.h" />
+    <ClInclude Include="..\..\include\m_options.h" />
+    <ClInclude Include="..\..\include\m_plugins.h" />
+    <ClInclude Include="..\..\include\m_png.h" />
+    <ClInclude Include="..\..\include\m_protocols.h" />
+    <ClInclude Include="..\..\include\m_protomod.h" />
+    <ClInclude Include="..\..\include\m_protosvc.h" />
+    <ClInclude Include="..\..\include\m_skin.h" />
+    <ClInclude Include="..\..\include\m_system.h" />
+    <ClInclude Include="..\..\include\m_system_cpp.h" />
+    <ClInclude Include="..\..\include\m_url.h" />
+    <ClInclude Include="..\..\include\m_userinfo.h" />
+    <ClInclude Include="..\..\include\m_utils.h" />
+    <ClInclude Include="..\..\include\newpluginapi.h" />
+    <ClInclude Include="..\..\include\statusmodes.h" />
+    <ClInclude Include="..\..\include\win2k.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Res\default.ico" />
+    <None Include="Res\dragcopy.cur" />
+    <None Include="Res\flags.png" />
+    <None Include="Res\lstFolder.ico" />
+    <None Include="Res\main.ico" />
+    <None Include="Res\sendmail.ico" />
+    <None Include="changelog.txt" />
+    <None Include="docs\todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Res\resource.rc" />
+    <ResourceCompile Include="Res\version.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

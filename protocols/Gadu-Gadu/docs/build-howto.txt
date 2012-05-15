@@ -1,0 +1,26 @@
+///////////////////////////////////////////////////////////////////
+// Gadu-Gadu Protocol Plugin for Miranda IM
+// Author: Adam Strzelecki <ono+miranda@java.pl>
+///////////////////////////////////////////////////////////////////
+
+BUILD HOWTO
+-----------
+
+This plugin was tested with free MingW gcc-3.2 compiler. 
+There is no problem to use any other compiler like Visual C++, 
+but you have to make a Visual Studio project by your self.
+
+Before you build it with MingW.. make sure that compiler and
+other utilities like "make" are in you PATH.
+
+Build libgadu on libgadu/ subdirectory:
+make
+
+To build release plugin run:
+make
+
+To compile debug version run:
+make DEBUG=1
+
+or use build.bat to make both versions.
+

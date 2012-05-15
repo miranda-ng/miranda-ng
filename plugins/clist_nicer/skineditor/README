@@ -1,0 +1,27 @@
+
+
+    Skin Item Editor for clist_nicer+
+    ---------------------------------
+    
+  This is basically the revamped UI which could previously be found as the
+  Background+ page in the contact list options. It has been outsourced into an
+  extra plugin (cln_skinedit.dll)
+  
+  The UI has been reworked and a few features have been added:
+  
+  * Ignored items appear in red color in the list box
+   
+  * A context menu has been added to the list box which allows to quick copy 
+    settings from one items to all items which are currently selected in the
+    list box.
+    
+  * prettier UI, faster dialog updating, less flickering.       
+ 
+ 
+  planned features:
+  -----------------
+  
+  * Ability to edit image-based skin items.
+  * button editor (for skinnable contact list buttons)
+
+            

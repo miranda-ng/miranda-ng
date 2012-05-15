@@ -1,0 +1,285 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Bulgarian (Bulgaria) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_BGR)
+LANGUAGE LANG_BULGARIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Bulgarian (Bulgaria) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_NUDGE DIALOGEX 0, 0, 309, 232
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Protocol options",IDC_STATIC,4,1,303,225
+    CONTROL         "",IDC_PROTOLIST,"SysTreeView32",TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,12,10,94,84
+    CONTROL         "Specify options for each protocol",IDC_USEBYPROTOCOL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,112,10,182,9
+    CONTROL         "Open contact list",IDC_OPENCONTACTLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,20,166,9
+    CONTROL         "Enable contact list shaking",IDC_CHECKCLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,30,166,9
+    CONTROL         "Open message window",IDC_OPENMESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,40,166,9
+    CONTROL         "Enable message window shaking",IDC_CHECKCHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,50,166,9
+    CONTROL         "Show as status change",IDC_CHECKSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,60,166,9
+    CONTROL         "Auto resend nudge after",IDC_AUTORESEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,70,139,9
+    EDITTEXT        IDC_RESENDDELAY,276,69,18,11,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "s",IDC_STATIC,298,71,8,8
+    CONTROL         "Enable popup notification",IDC_CHECKPOP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,80,166,9
+    CONTROL         "Respect ignore settings (status changes)",IDC_IGNORE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,128,90,166,10
+    LTEXT           "Sending text",IDC_STATIC,174,145,120,8
+    EDITTEXT        IDC_SENDTEXT,174,156,120,12,ES_AUTOHSCROLL
+    LTEXT           "Receiving text",IDC_STATIC,174,172,120,8
+    EDITTEXT        IDC_RECVTEXT,174,183,120,12,ES_AUTOHSCROLL
+    GROUPBOX        "Privacy",IDC_STATIC,12,97,290,36
+    RTEXT           "Allow sending* one nudge to the same contact every :",IDC_STATIC,18,106,247,8
+    EDITTEXT        IDC_SENDTIME,270,104,21,12,ES_AUTOHSCROLL | ES_READONLY | WS_DISABLED
+    LTEXT           "s",IDC_STATIC,293,106,8,8
+    RTEXT           "Allow receiving one nudge from the same contact every :",IDC_STATIC,18,120,246,8
+    EDITTEXT        IDC_RECVTIME,270,118,22,12,ES_AUTOHSCROLL
+    LTEXT           "s",IDC_STATIC,293,120,8,8
+    CTEXT           "* Nudge sending delay is hardcoded and cannot be changed.",IDC_STATIC,18,204,138,17,NOT WS_GROUP
+    PUSHBUTTON      "Preview",IDC_PREVIEW,241,206,53,15
+    GROUPBOX        "Text",IDC_STATIC,168,136,134,68
+    GROUPBOX        "Allow nudges when you're:",IDC_STATIC,12,136,149,68
+    CONTROL         "Offline",IDC_CHECKST0,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,18,147,58,9
+    CONTROL         "Online",IDC_CHECKST1,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,18,157,58,9
+    CONTROL         "Away",IDC_CHECKST2,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,18,167,58,9
+    CONTROL         "NA",IDC_CHECKST3,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,18,177,58,9
+    CONTROL         "Occupied",IDC_CHECKST4,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,18,187,58,9
+    CONTROL         "DND",IDC_CHECKST5,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,84,147,72,9
+    CONTROL         "Free for chat",IDC_CHECKST6,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,84,157,72,9
+    CONTROL         "Invisible",IDC_CHECKST7,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,84,167,72,9
+    CONTROL         "On the phone",IDC_CHECKST8,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,84,177,72,9
+    CONTROL         "Out to lunch",IDC_CHECKST9,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,84,187,72,9
+END
+
+IDD_OPT_SHAKE DIALOGEX 0, 0, 309, 184
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Shaking Clist Options",IDC_STATIC,7,10,296,77
+    RTEXT           "Number of moves",IDC_STATIC,13,127,70,9
+    CONTROL         "Slider1",IDC_SNUMBER_CLIST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,90,25,179,21
+    RTEXT           "Width of move",IDC_STATIC,13,156,70,9
+    CONTROL         "",IDC_SSCALE_CLIST,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,90,57,179,21
+    LTEXT           "Static",IDC_LSCALE_CLIST,276,65,21,8
+    LTEXT           "Static",IDC_LNUMBER_CLIST,276,34,21,8
+    GROUPBOX        "Shaking Message Window Options",IDC_STATIC,7,101,296,75
+    RTEXT           "Number of moves",IDC_STATIC,13,31,70,9
+    CONTROL         "Slider1",IDC_SNUMBER_CHAT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,90,117,179,21
+    RTEXT           "Width of move",IDC_STATIC,13,65,70,9
+    CONTROL         "",IDC_SSCALE_CHAT,"msctls_trackbar32",TBS_AUTOTICKS | TBS_BOTH | WS_TABSTOP,90,148,179,21
+    LTEXT           "Static",IDC_LSCALE_CHAT,276,152,21,8
+    LTEXT           "Static",IDC_LNUMBER_CHAT,276,121,21,8
+END
+
+IDD_OPT_TRIGGER DIALOGEX 0, 0, 319, 249
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Shake the contact list",IDC_TRIGGER_SHAKECLIST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,270,10
+    CONTROL         "Shake the chat window",IDC_TRIGGER_SHAKECHAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,35,270,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_NUDGE, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        VERTGUIDE, 12
+        VERTGUIDE, 18
+        VERTGUIDE, 76
+        VERTGUIDE, 84
+        VERTGUIDE, 128
+        VERTGUIDE, 156
+        VERTGUIDE, 161
+        VERTGUIDE, 168
+        VERTGUIDE, 174
+        VERTGUIDE, 294
+        VERTGUIDE, 302
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 226
+        HORZGUIDE, 4
+        HORZGUIDE, 10
+        HORZGUIDE, 133
+        HORZGUIDE, 136
+        HORZGUIDE, 204
+        HORZGUIDE, 221
+    END
+
+    IDD_OPT_SHAKE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 303
+        VERTGUIDE, 13
+        VERTGUIDE, 83
+        VERTGUIDE, 90
+        VERTGUIDE, 269
+        VERTGUIDE, 276
+        VERTGUIDE, 297
+        VERTGUIDE, 303
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 176
+        HORZGUIDE, 5
+        HORZGUIDE, 20
+        HORZGUIDE, 147
+        HORZGUIDE, 156
+    END
+
+    IDD_OPT_TRIGGER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        VERTGUIDE, 13
+        VERTGUIDE, 85
+        VERTGUIDE, 160
+        VERTGUIDE, 307
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 243
+        HORZGUIDE, 5
+        HORZGUIDE, 20
+        HORZGUIDE, 147
+        HORZGUIDE, 157
+        HORZGUIDE, 173
+        HORZGUIDE, 184
+        HORZGUIDE, 207
+        HORZGUIDE, 217
+        HORZGUIDE, 228
+        HORZGUIDE, 239
+        HORZGUIDE, 243
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,2,0
+ PRODUCTVERSION 0,0,2,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Plugin that render nudge events from different protocols"
+            VALUE "CompanyName", "Miranda community"
+            VALUE "FileDescription", "Nudge plugin for Miranda-IM"
+            VALUE "FileVersion", "0, 0, 2, 0"
+            VALUE "InternalName", "Nudge"
+            VALUE "LegalCopyright", "Copyright © 2006-2011"
+            VALUE "OriginalFilename", "nudge.dll"
+            VALUE "ProductName", "nudge"
+            VALUE "ProductVersion", "0, 0, 2, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_NUDGE               ICON                    "resources\\Nudge.ico"
+IDI_NUGDE_YAHOO         ICON                    "resources\\NudgeYahoo.ico"
+IDI_NUDGE_IRC           ICON                    "resources\\NudgeIRC.ico"
+IDI_NUDGE_MSN           ICON                    "resources\\NudgeMSN.ico"
+IDI_NUDGE_TLEN          ICON                    "resources\\NudgeTlen.ico"
+IDI_NUDGE_META          ICON                    "resources\\NudgeMeta.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

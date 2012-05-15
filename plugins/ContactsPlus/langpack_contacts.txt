@@ -1,0 +1,33 @@
+;[Incoming Contacts]
+;[Outgoing Contacts]
+;[Contacts received from]
+;[Contacts]
+;[Error]
+
+; receive dlg
+;[Contacts from]
+;[Nick]
+;[First Name]
+;[Last Name]
+;[Add to &group:]
+;[&Add]
+;[&Details]
+;[Close]
+;[Add to List]
+;[User Details]
+;[Send Message]
+
+;send dlg
+;[Send Contacts to]
+;[The contacts send timed out.]
+;[Contacts transfer failed!]
+;[The selected contact does not support receiving contacts.]
+;[Choose contacts to be send:]
+;[&Send]
+;[Cancel]
+;[Select All]
+
+;error dlg
+;[An error has occured. The protocol reported the following error:]
+;[Try again]
+;[Cancel]

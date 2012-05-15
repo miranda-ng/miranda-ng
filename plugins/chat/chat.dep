@@ -1,0 +1,348 @@
+# Microsoft Developer Studio Generated Dependency File, included by chat.mak
+
+.\clist.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\colorchooser.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\log.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\main.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\manager.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\message.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\options.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\richutil.c : \
+	".\richutil.h"\
+	
+
+.\services.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_fontservice.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\tools.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\window.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_chat.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\chat.h"\
+	".\m_ieview.h"\
+	".\m_smileyadd.h"\
+	".\version.h"\
+	
+
+.\Chat.rc : \
+	".\Icons\1.ico"\
+	".\Icons\2.ico"\
+	".\Icons\3.ico"\
+	".\Icons\4.ico"\
+	".\Icons\5.ico"\
+	".\Icons\6.ico"\
+	".\Icons\action.ico"\
+	".\Icons\addmode.ico"\
+	".\Icons\bkgcolor.ico"\
+	".\Icons\blank.ico"\
+	".\Icons\bold.ico"\
+	".\Icons\close.ico"\
+	".\Icons\color.ico"\
+	".\Icons\filter.ico"\
+	".\Icons\filter2.ico"\
+	".\Icons\highlight.ico"\
+	".\Icons\history.ico"\
+	".\Icons\info.ico"\
+	".\Icons\italics.ico"\
+	".\Icons\join.ico"\
+	".\Icons\kick.ico"\
+	".\Icons\message.ico"\
+	".\Icons\messageout.ico"\
+	".\Icons\nick.ico"\
+	".\Icons\nicklist.ico"\
+	".\Icons\nicklist2.ico"\
+	".\Icons\notice.ico"\
+	".\Icons\overlay.ico"\
+	".\Icons\part.ico"\
+	".\Icons\quit.ico"\
+	".\Icons\removestatus.ico"\
+	".\Icons\smiley.ico"\
+	".\Icons\tag1.ico"\
+	".\Icons\tag2.ico"\
+	".\Icons\topic.ico"\
+	".\Icons\topicbut.ico"\
+	".\Icons\underline.ico"\
+	".\Icons\window.ico"\
+	

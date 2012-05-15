@@ -1,0 +1,224 @@
+[in work] 0.8.4.3
+! fix missing translation for MSG box (titel and header)
+* optimize code for faster import
+! disable event import from metacontact, to avoid duplicate events from metasync
+  (no secure way to check events from metasync)
+
+UserinfoEx: 0.8.4.2
+! fix crash on import events with same timestamp
+
+UserinfoEx: 0.8.4.1
+! revised flags icon creation for faster load and best resolution on user OS
+  (this also fix flags icon in aero mode)
+! change flags from .bmp to .png (reduce space)
++ add freeimage support for future use
+* update and recompile coz new timezone interface change function order in core
+! fix rare import problem on events with same timestamp and diffrent message (hint from Protogenes)
+! fix issue #29 (resizing moves window anniversarylist) need more work for flicker free draw
+
+UserinfoEx: 0.8.4.0
++ add support for CNF_LANGUAGE1 - CNF_LANGUAGE3 (always return string independent from db typ)
+! update MS_CONTACT_GETCONTACTINFO (CNF_COUNTRY and CNF_COCOUNTRY now also support string typ in proto modul)
+! fix import, avoid duplicate contact
++ add new core timezone api (if not present, fallback to old UIEX timezone)
+! fix base64 event decode on x64
+! fix unicode messages on ex/import
+! fix memory leaks
+! fix export for ansi UID
+* skip emty strings on export
+! fix restore hidden property page
++ use Flags icon in contact details
++ auto unregister all service on exit
++ add ExtraIconService support to Flags module
++ Flags module (supersede Flags Plugin Copyright (C) 2006-1007 H. Herkenrath - coz its not supportet)
++ move birthdate for all contact to new db module 
+  on birthdate modus change(keep the database clean)
+! fix company country
+! massive x64 fix
+* more space for translation in .rc
+
+UserinfoEx: 0.8.3.2
+* workaround for dbx_tree (disable some options)
++ add export group
++ add export clist (main group)
++ add export account
++ add new menu options
+* update known contact key hash Table
+* restructur ex/import code
++ add beta support for x64 version (uinfoex64.zip)
+* fix for double events in metacontact import
+* fix import crash if metacontact has only 1 subcontact
+* fix broken rename TreeItem in contact details dialog
+* fix some memory leaks
+
+[0.8.3.1]
+* fixed little graphical bug in details dialog
+
+[0.8.3.0]
+* change dropdown for gender and reminder icon slot
++ add more slot number depending on clist-plugin
+* change the way to store gender and reminder slot in db (now real slot number is stored)
+* change option pages
++ add popup preview
+* merged with code from deathaxe (0.8.2.1)
+
+[0.8.1.5]
+* reminder fix (reminder crash on systray icon click)
+* xml import fix for metacontact
+
+[0.8.1.4]
+* fix mem leaks
+* fix export and import for .vcf (compleate rework)
+* fix export and import for .ini (compleate rework)
+* fix export and import for .XML (compleate rework)
+* final fix for issue 1 (reverted back r19 Attempt to fix issue 1)
+! reverted back old settings position
+* fix issue 16 part2 (compleate rework for popup++ actions main tread do not freece now)
+* fix issue 16 part1 (disable popup-types if popup plugin don't support it)
+* fix range for spindown
+
+[0.8.1.3]
+! tab "Popups" now is in section "Popups" in Miranda settings (require Popup plus or YAPP plugins)
+! some changes in settings interface
+- removed irrelevant the reminder text
+
+[0.8.1.2]
+! UInfoEx now require miranda core 0.8.0.45 and later
+! fixed export dialog ('Optional modules' were not displayed / not selectable)
++ rework Timzone for OS that do not support Timezone 'Index' in winReg
++ add TzName to Modul UserInfo
+- removed TzIndex from Modul UserInfo
+
+[0.8.1.1]
+! fixed timezone problem
+! fixed crash on "Check anniversaries"
++ ExtraIcons Service full support
++ check gpl violations and fake versions Miranda IM
+
+[0.8.1.0]
+! copyrights update
+! fixed crash with click on link in About - Notes dialog
+! fixed crash at addition (sometimes editing or removal) events (but now "Check anniversaries" crashes Miranda IM)
+! fixed display full jabber id (user@server.tld/resource) of user in srmm/tabsrmm
+! fixed refresh contact information for all contacts
+! fixed memory leaks
+! rewritten view of jabber information in user details 
+! translation fixes
++ updater beta support for http://userinfoex.googlecode.com (thx Merlin)
++ new zodiac iconsets
++ icon slots numbers unification (thx Merlin)
+
+[0.8.0.0]
+! crash on opening details dialog fixed
+! fixed many memory leaks
+! code cleanup
+! fixed Anniversary Dialog no show the Date again
+! and many others fixes and changes
++ only load plugin if Miranda Version >= 0.8.0.0 available
++ added and completed refresh contact details service
+
+[0.7.0.1]
+- added:	userinfoex now uses windows timezones to set up the correct contact time. This should solve most problems with daylight saving stuff. Just select the desired timezone from the combobox of the details dialog.
+- added:	The main menu got a new item 'Refresh Contact Details' which allows the owner to refresh all contacts from the server at once.
+- added:	A service MS_DB_CONTACT_GETSETTING_STR_EX is implemented for easily retrieving contact information directly from database. See m_userinfoex.h for mor information.
+- added:	The toolbar buttons for reminder and anniversary list are now available for modern contact list, too.
+- changed:	Changed version system: major and minor version now tell about miranda version (0.7), release number about plugin version and build number keeps build number.
+- fixed:	some memory buffers used by richedit ( about & notes page ) could have caused memory leaks due to wrong size calculation
+- fixed:	found some issues in extended GetContactInfo module
+- fixed:	Options: changing the value for 'Play sound n days before' did not enable the apply button
+- fixed:	Resetting treeview in details dialog did not work.
+- fixed:	Miranda seemed to crash on shutdown in some situations if the anniversary was list still opened.
+- fixed:	Anniversary list does not display MetaSubContacts any longer as their information is managed by the owning MetaContact.
+- fixed:	Colour of edit controls and comboboxes is set to 'window color' instead of white
+- fixed:	automatic updating contact info upon opening of details dialog now works correctly again
+- fixed:	A slightly changed mir_snprintf() function now automatically converts %S to %s to avoid broken text in ANSI version of userinfoex.
+- removed:	Lagency icon support was removed so icolib is required now.
+- removed:	Meta subcontact's 'USERINFO' and 'mBirthday' modules are no longer dupped to the meta contact. This is not required any longer.
+- updated:	now completely makes use of the core's utf8 interface
+- updated:	Accessing database information is now handled by a set of own functions instead of default macros for better compatibility.
+- updated:	A more intelligent search algorithm for duplicated events boosts the performance of importing contacts.
+- updated:	Improved the whole icolib wrapper functions to make use of the latest features of Miranda Core's icolib.
+- updated:	Some of the default message boxes can be displayed via popup plugin.
+
+[0.1.3.4]
+- fixed:	"extended send/receive email service" can be disabled again to make SMTPsimple plugin work correctly
+- fixed:	the marital status is now saved as byte value to make it compatible with all other plugins
+- fixed:	hide common pages for wheather contacts
+- fixed:	reminder does now say "John Doe has birthday in 4 days." instead of "John Doe has birthday after 4 days."
+- updated:	the detail's dialog now calls PSS_GETINFO for all metasubcontacts to retrieve all contact information from any contact who supports this service. ( BETA )
+
+[0.1.3.3]
+- fixed:	gender extra icon column is saved to database again
+- fixed:	some improvements according to en/disabling reminder and other services
+- improved:	reminder popups show the same icon with the number of days left to the anniversay for the contact's anniversary as the clist.
+- added:	a very simple service which checks local windows timezone and updates users contact information's timezone value in database
+			( Upload works only for ICQOscarJ or any other mod using PS_CHANGEINFOEX service )
+
+[0.1.3.2 ( release built )]
+- updated:	using latest tinyXML code
+- changed:	no longer nested country list. Use core service to retrieve it instead.
+- added:	make use of "flags" plugin to display country flag near country comboboxes in detail's dialog
+
+[0.1.3.1 ( beta built )]
+- fixed:	CList extra icon shows correct birthday icon again
+- removed:	option to set icon pack has gone as new miranda will have icolib in core
+- updated:	now makes use of miranda's tabbed options api
+- updaded:	changed the layout of options a bit to get a better overview and hide some expert only pages if desired
+- updated:	user can select again whether to use default or userinfoex's extended services for displaying 
+			clist extra icons for homepage, e-mail & phone
+- fixed:	importing a single xml contact does no longer fail
+- fixed:	disabled placebar stuff for opendialog in ANSI version of the plugin what should hopefully fix the problem
+			of not being loaded any longer
+
+[0.1.3.0]
+- added MIID UserInfoEx: {9C23A24B-E6AA-43c6-B0B8-D6C36D2F7B57}
+- added MIID ContactInfo: {17DBD7C9-450E-4000-BFB4-908A7EF4CE72}
+- added MIID Reminder: {02E890BD-278D-4890-918D-AB2CF5DC50BD}
+- added:	CList extra icon to give information about contact's gender
+- improved:	reminder got slightly smaller and should use less recources
+- improved: updated version.h and version.rc
+- removed:  support for old none unicode aware database drivers has gone
+- removed:  no longer translation of menu items ( is done by genmenu right now )
+- updated:	Copyright string in source files is now 2000-2007
+- fixed:	history events are exported as base64 encoded binary data. This makes ex/import of all event types possible
+
+[0.1.2.27]
+- fixed: Miranda crashed if user clicks on the upload button to change its own icq contact information
+- fixed: userinfoex' tree items in details dialog are forced into a group for owner contact
+
+[0.1.2.26]
+- fixed: Details dialg: tree item translation did not work correctly
+- fixed: Details dialg: renaming works for all tree items again
+- fixed: Details dialg: reason for crashing if user details are uploaded fixed
+- fixed: Anniversary list: maximizing works again
+
+[0.1.2.25]
+- added: places bar of common dialog boxes for selecting files for opening and saving has button for Miranda installation path and profile path
+- changed: simplified option to enable/disable integration
+- fixed: changes to details dialog's tree is now saved correctly again
+- fixed: improved the support for displaying meta subcontacts in details dialog and fixed some little issues with it
+- added: if a contact is added to database, the current time is saved to 'ContactAddedTime' in the UserInfo module, to give a reliable opportunity to display this date on the origin details page in the future
+- added: details dialog's tree automatically searchs icon for protocol property pages
+- fixed: icons of details dialog's tree and property pages were not correctly updated if changed in icolib
+- changed: the whole anniversary list dialog was rewritten and supports some more features
+
+[0.1.2.24]
+- fixed: anniversary date should be editable and deletable again ( thanks SHADOW-XIII )
+- fixed: phone code of czech is corrected to 420
+- fixed: clist extra icons option disabled if clist extra icons services are not present
+- fixed: some smaller changes to options page should increase reliability
+- fixed: some propable utf8 decoding issue has been eliminated
+- changed: details dialog's treeview state is saved per protocol to global settings. this decreases memory usage and solves several problems
+- changed: details dialog's position is saved globally ( no longer per user )
+- fixed: some possible reasons for crashes while opening options dialog
+- changed: started to devide source code into namespaces to get a better structure and overview
+- added: reminder can now use ignore list to determine which contact's anniversaries to remind of
+- fixed: all property pages of details dialog are forced to be child windows
+- fixed: changed some icon handling stuff to decrease risc of crash due to uninitialized OPTINONSDIALOGPAGE structure members
+- changed: reorganized integration options dialog page
+- added: details dialog of a metacontact now shows all pages of the subcontacts, too, if the option "Scan SubContacts for missing information" is enabled
+- added: option to make details treeview items' labels readonly
+- fixed: module to export/import to/from xml files is rewritten and has some more features. Hopefully works more reliable
+- added: in origin property page of details dialog an item is added to disply the date an ICQ contact was added to database. ( other protocols do not support this )
+- changed: replaced icons in birthday reminder popup ( thanks faithhealer )
+- changed: cleaned up uinfoex_icons.dll changed some icons

@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="windows-1251"?>
+<rss version="2.0"
+	 xmlns:atom="http://www.w3.org/2005/Atom"
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns:content="http://purl.org/rss/1.0/modules/content/">
+	<channel>
+		<title>Bash.Org.Ru</title>
+		<link>http://bash.org.ru/</link>
+		<atom:link href="http://bash.org.ru/rss/" rel="self" type="application/rss+xml" />
+		<description>Цитатник Рунета</description>
+		<language>ru</language>
+		<item>
+			<guid isPermaLink="false">b3cf2d64d57bdfea405b43426ec354e4b89a98912c71f243c93568020e2f0a70</guid>
+			<link>http://bash.org.ru/quote/414990</link>
+			<title>Цитата #414990</title>
+			<pubDate>Fri, 30 Dec 2011 12:12:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Это все равно что брызгать на порнобаннер святой водой, а потом, когда монитор закоротит, кричать, мол, дьявольское устройство не вынесло присутствия святого духа<br>]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">9f3028db6c6020de238a5d27b14d85c21e5f4c8a5f96506b757925df8500c940</guid>
+			<link>http://bash.org.ru/quote/414989</link>
+			<title>Цитата #414989</title>
+			<pubDate>Fri, 30 Dec 2011 11:45:18 +0400</pubDate> 
+			<description><![CDATA[В полной мере осознал, что перешел на ночной образ жизни, когда отец разбудил в час ночи с вопросами: &quot;Ты чего спишь? Не заболел случаем?&quot;]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c917324b76e57d2d6103af4b154f41fb335e9a4cc3f973b0b077a8c857c1353a</guid>
+			<link>http://bash.org.ru/quote/414988</link>
+			<title>Цитата #414988</title>
+			<pubDate>Fri, 30 Dec 2011 11:44:38 +0400</pubDate> 
+			<description><![CDATA[ххх: ну как тебе фильм?<br>ууу: конец тру<br>ххх: ты фильм не перепутал?<br>ууу: черт, в смысле, финал меня приятно удивил)]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">96b70712a7185b7d1167f6f9aee454841a4246b0f270185ea3f29d034b9bd39f</guid>
+			<link>http://bash.org.ru/quote/414987</link>
+			<title>Цитата #414987</title>
+			<pubDate>Fri, 30 Dec 2011 11:44:01 +0400</pubDate> 
+			<description><![CDATA[Отзыв о телефоне с сенсорным экраном:<br>Света:<br>Купила его в ***. Классный телефон!!! Ещё не разобралась, как снять блокировку с экрана. Он красивый.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">793886d798688d3e6bec7d2ffb51d6397f356e5c0e00ef06d07f22b87643c93a</guid>
+			<link>http://bash.org.ru/quote/414986</link>
+			<title>Цитата #414986</title>
+			<pubDate>Fri, 30 Dec 2011 11:13:16 +0400</pubDate> 
+			<description><![CDATA[xxx: сегодня пришла посылка посылка с ebay в которой 50шт наклеек от ipad. Теперь у меня iДом, а в нем iУнитаз, iШкаф, iХолодильник и даже iКот куда то убежал....]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">6eac3f54c4f58d8a41c7e7f72f72ca6e0c6bf5869f0eefc99044ef4427db28d0</guid>
+			<link>http://bash.org.ru/quote/414985</link>
+			<title>Цитата #414985</title>
+			<pubDate>Fri, 30 Dec 2011 11:12:02 +0400</pubDate> 
+			<description><![CDATA[xxx: отдам 4-х котят в любые руки, им уже 3 месяца и они всех задолбали.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">744d1d505dce7f1877c45baee1fdf97009a403d6dedb3ae1cd185480ec3dbbd0</guid>
+			<link>http://bash.org.ru/quote/414984</link>
+			<title>Цитата #414984</title>
+			<pubDate>Fri, 30 Dec 2011 11:11:01 +0400</pubDate> 
+			<description><![CDATA[xxx:<br>Где купить кормовых мышей (лысых)?<br>На зоорынке нету.<br><br>yyy:<br>Довели страну... Народ уже мышей жрать начал.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">aadc7f6194e8062c44250a9a878f010c0fe7d9d95af9a8389fbf8a8f748d6c6f</guid>
+			<link>http://bash.org.ru/quote/414983</link>
+			<title>Цитата #414983</title>
+			<pubDate>Fri, 30 Dec 2011 10:45:08 +0400</pubDate> 
+			<description><![CDATA[xxx: у нас ёлка не простая, понтовая<br>xxx: с оптоволокном и светится<br>yyy: wifi бесплатно не раздает?]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">01511c230d7cdf4ed42f09106b3075a5021797ae5a11d3063dc9332bb7baf858</guid>
+			<link>http://bash.org.ru/quote/414982</link>
+			<title>Цитата #414982</title>
+			<pubDate>Fri, 30 Dec 2011 10:44:36 +0400</pubDate> 
+			<description><![CDATA[Darkforce: А ты к экзамену с музыкой готовишься?<br>Ergo: Да. И с включенной асей. Не бери с меня пример.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">cc05613e48d3f285e2a2a95a12f542586c5c0fe4499addf3c2a633cf4940e572</guid>
+			<link>http://bash.org.ru/quote/414981</link>
+			<title>Цитата #414981</title>
+			<pubDate>Fri, 30 Dec 2011 10:44:01 +0400</pubDate> 
+			<description><![CDATA[&lt;Jakiro&gt; сегодня вешал гирлянду, запутался в ней, сел, пришла сестра, включила гирлянду и пошла ржать :(]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">589fe99078c1447d672503cd8ffb9ba7524d9bd9e03cb5444e7c6fcd2be55269</guid>
+			<link>http://bash.org.ru/quote/414980</link>
+			<title>Цитата #414980</title>
+			<pubDate>Fri, 30 Dec 2011 10:12:44 +0400</pubDate> 
+			<description><![CDATA[SeeR: Если считать коэффициент лени равным отношению того, что нужно было сделать, к тому, что сделано, то по воскресеньям я традиционно делю на ноль.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">58b960aeadb0e2700dd3ec5c18a0f9ca1f446d49f66edabf2ad3ea0f4a9f4933</guid>
+			<link>http://bash.org.ru/quote/414979</link>
+			<title>Цитата #414979</title>
+			<pubDate>Fri, 30 Dec 2011 10:12:01 +0400</pubDate> 
+			<description><![CDATA[Стина: Глупо было принимать ванну с бомбочкой с блестками. Мы в блестках, полотенца в блестках, постельное белье в блестках, даже кошка уже в блестках.<br>Но еще глупее было наутро идти к гинекологу! &gt;.&lt;]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">dda44cf9be0c8bf4691ce24629fd67dca371952e1dc45aa5dc1cce16ca095d29</guid>
+			<link>http://bash.org.ru/quote/414978</link>
+			<title>Цитата #414978</title>
+			<pubDate>Fri, 30 Dec 2011 09:46:04 +0400</pubDate> 
+			<description><![CDATA[BaDMaN: ненавижу утро субботы. Правда, оно не всегда утром и не всегда в субботу.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">33f18d83baf27fbd1e28e525c942b2c7e379b42a7d91f7436e2e199400ceda30</guid>
+			<link>http://bash.org.ru/quote/414977</link>
+			<title>Цитата #414977</title>
+			<pubDate>Fri, 30 Dec 2011 09:45:01 +0400</pubDate> 
+			<description><![CDATA[ХХХ: Скайримские норды такие брутальные, что суровые челябинские мужики по сравнению с ними девочки из песочницы. Но при этом в каждой пещере самого жестокого разбойника, в каждом доме самого яростного норда на столе или полке стоит сладкий рулет.<br>УУУ: Рулетики фигня. Все тамриэльские разбойники и мародёры поддерживают среди себя высокую грамотность и даже в самом распропащем, заросшем мхом и паутиной логове всегда есть две-три книжечки. Вот так приходит брутальный скайримский дорожный разбойник после тяжёлого трудового будня, садится на хлипкий табуретик, берёт сладкий рулетик и читает &quot;краткую историю империи&quot;. брутальненько.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">5599090163fe32efddbf295e457fd9cc4f3426b524eebaaaa4fa8277f34e9be2</guid>
+			<link>http://bash.org.ru/quote/414976</link>
+			<title>Цитата #414976</title>
+			<pubDate>Fri, 30 Dec 2011 09:13:01 +0400</pubDate> 
+			<description><![CDATA[xxx: мой друг каждую субботу ходит в кинотеатр!<br>yyy: торренты замаливает?]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1bb26a5bc553b0570cbdf64be1a9ba3af74c3fd64dc60fe0bf9335ecb74600d0</guid>
+			<link>http://bash.org.ru/quote/414975</link>
+			<title>Цитата #414975</title>
+			<pubDate>Fri, 30 Dec 2011 08:45:35 +0400</pubDate> 
+			<description><![CDATA[xxx: Маленький Петя очень любит подарки. Его мама подарила ему на день рождения две строки равной длины, состоящие из больших и маленьких букв латинского алфавита. Теперь Петя хочет сравнить эти строки лексикографически. Помогите Пете выполнить сравнение. (facepalm)<br>yyy: Помогите Пете не закончить жизнь суицидом :D]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">cf4da48b55d3fdb9e9825e39a664bd4d41dc5c7a64227796ad1afb0900bdec19</guid>
+			<link>http://bash.org.ru/quote/414974</link>
+			<title>Цитата #414974</title>
+			<pubDate>Fri, 30 Dec 2011 08:45:01 +0400</pubDate> 
+			<description><![CDATA[Давным-давно, когда ещё не было батареек и аккумуляторов, садилось солнце. Его тоже хватало от силы на день, не больше.<br>]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1a7a8ba066100acdf40b79f4fbc967932320641e3565b230678920432e80e1e3</guid>
+			<link>http://bash.org.ru/quote/414973</link>
+			<title>Цитата #414973</title>
+			<pubDate>Fri, 30 Dec 2011 08:12:44 +0400</pubDate> 
+			<description><![CDATA[xxx: только в армии понимаешь, что зубная щетка реально для труднодоступных мест...]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">339e00558b293e087749ba42e0f06916531e712b1edfb25e470e2c0d10494aea</guid>
+			<link>http://bash.org.ru/quote/414972</link>
+			<title>Цитата #414972</title>
+			<pubDate>Fri, 30 Dec 2011 08:11:44 +0400</pubDate> 
+			<description><![CDATA[С форума<br><br>XXX: Здравствуйте, скажите пожалуйста, каков срок годности у сигарет?<br>Купил пачку сигарет и чувствую, что какие то они хреновые, сначала подумал, что это связано с тем, что я сейчас пытаюсь бросить курить (раньше курил пачку в день, а щас пачку на неделю тяну) и начал отвыкать, потом глянул на срок изготовления, а там написано июль 2008г...<br><br>YYY: Боитесь навредить здоровью? )))]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">cfa6ff32cedafbf49ef812730e850a6abc9ec61c7682f3518d95fa00db4e1a14</guid>
+			<link>http://bash.org.ru/quote/414971</link>
+			<title>Цитата #414971</title>
+			<pubDate>Fri, 30 Dec 2011 08:11:01 +0400</pubDate> 
+			<description><![CDATA[R*: ничо так прога. рабочие места пользователей на схеме можно изобразить очень разнообразно - есть картинки оленя, кенгуру, овцы, жирафа]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">128696d56057a228c43deb8cad49205905868817d0b4e834e37e3fdaccecafb4</guid>
+			<link>http://bash.org.ru/quote/414970</link>
+			<title>Цитата #414970</title>
+			<pubDate>Thu, 29 Dec 2011 12:12:42 +0400</pubDate> 
+			<description><![CDATA[xxx: Я такая, какая я есть!!<br>yyy: Да, и глаза у тебя цвета твоих глаз.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">2d15491a51b88af3e66c02b4d326f1e2802656b6361f8f07dd667fbbe9dce728</guid>
+			<link>http://bash.org.ru/quote/414969</link>
+			<title>Цитата #414969</title>
+			<pubDate>Thu, 29 Dec 2011 12:11:34 +0400</pubDate> 
+			<description><![CDATA[ххх: Да у меня вообще такое ощущение, что все покупаемые мною средства для укрепления и роста волос не задерживаясь на голове начинают действовать в области нижних конечностей и промежности...]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">ed64e480321c46a51035c44a445cfd98927e2e303d972ac8874e8e36c11a8371</guid>
+			<link>http://bash.org.ru/quote/414968</link>
+			<title>Цитата #414968</title>
+			<pubDate>Thu, 29 Dec 2011 12:11:01 +0400</pubDate> 
+			<description><![CDATA[&quot;Почему программисты работают по ночам&quot; @habr<br><br>troydm: Абсолютно согласен с автором, именно поэтому я ложусь спать в 5 утра и просыпаюсь в час дня! Всем спокойной ночи!<br>muzhig: Это можно себе позволить, если нет жены. А вот моей очень не нравится когда я работаю по ночам. Все объяснения про то что «ночью намного лучше работается» она не хочет воспринимать всерьёз.<br>ozgg: Ну жену можно тоже научить программировать, и график синхронизируется ;)<br>Vexilurz: Конечно. Делов-то на 5 минут]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">aaa2f3a8dd486d209a697ecd4e3d728d99a2aa37dd482a3a859af5c473143b69</guid>
+			<link>http://bash.org.ru/quote/414967</link>
+			<title>Цитата #414967</title>
+			<pubDate>Thu, 29 Dec 2011 11:46:07 +0400</pubDate> 
+			<description><![CDATA[Нашел на сайте одной научной лаборатории в сотрудниках человека, который лет эдак 16 назад угнал у меня велик. Вот думаю, может сходить, попросить у него велосипед обратно, он же говорил &quot;да я прокачусь вон до туда и верну!&quot; :)))]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">dc470e391715c450eef79e82aaadfb0342ecc256504946f0a32d2f8c1160557e</guid>
+			<link>http://bash.org.ru/quote/414966</link>
+			<title>Цитата #414966</title>
+			<pubDate>Thu, 29 Dec 2011 11:45:06 +0400</pubDate> 
+			<description><![CDATA[vova_belkin:<br><br>Вот мой прадедушка, например, ухитрился прокутить и проиграть в карты до копейки все имение, наследство и женино приданое аккурат к 1917 году.<br><br>И с тех пор считался в нашем семействе непререкаемым авторитетом в вопросах распоряжения капиталом.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">a7147227d4c9f64edae338c2cec9f4456a1214ea3f9d899c2486038abe99a8f5</guid>
+			<link>http://bash.org.ru/quote/414965</link>
+			<title>Цитата #414965</title>
+			<pubDate>Thu, 29 Dec 2011 11:44:01 +0400</pubDate> 
+			<description><![CDATA[ну-ну: если атеизм - это религия, то не собирать марки - это хобби]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">d35adf64ed961a7e7ff88e11a9b57760b1cd3f0a835f008b6e9782a27ee1a31a</guid>
+			<link>http://bash.org.ru/quote/414964</link>
+			<title>Цитата #414964</title>
+			<pubDate>Thu, 29 Dec 2011 11:13:11 +0400</pubDate> 
+			<description><![CDATA[xxx: да ну нахер эту сессию. Пока учил дискретную математику, забыл пароли от двух почтовых ящиков.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">8ce06ad45b760d6b51e2432476e5c13dc9158f589c9b662147b760b0a1b967ac</guid>
+			<link>http://bash.org.ru/quote/414963</link>
+			<title>Цитата #414963</title>
+			<pubDate>Thu, 29 Dec 2011 11:12:01 +0400</pubDate> 
+			<description><![CDATA[Обсуждение новой антресоли в кладовке:<br><br>Ну там все как надо сделали. Но барахла традиционно больше, чем места под него. Причем вот в чем загадка бытия: вынимаешь барахло из кладовки, половину выкидываешь, оставшееся убираешь в кладовку, а оно туда не влезает!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c64eb292881cc760ac0d2f7ac0b1010a8047b1271d39a0bc759076633640bbb4</guid>
+			<link>http://bash.org.ru/quote/414962</link>
+			<title>Цитата #414962</title>
+			<pubDate>Thu, 29 Dec 2011 10:45:24 +0400</pubDate> 
+			<description><![CDATA[Lilith: я боюсь готовить кальмара<br>Lightning: почему???<br>Lilith: у него клюв, и еще надо что-то сдирать как чулок<br>Lightning: че ты боишься, там все сходит классно<br>Lilith: вдруг я сдеру кальмара, а съем чулок<br>Lilith: а еще у них там чернильница вроде, и икра<br>Lightning: ну блин, ты потрошила кого-нибудь вообще когда-нибудь?<br>Lilith: я что, похожа на самца кальмара?<br>Lilith: только копченую мойву<br>Lightning: а курицу? не? ее так смешно еще можно надевать на руку и играть в театр<br>Lightning: шевелить крылышками, если через жопу вставить<br>Lightning: так вот, кальмара легче потрошить, он мягонький такой<br>Lightning: и жопы нет]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">19ee3858da403abdebc2f2694ade27e224d83cb2d0325964d802f3313c1333de</guid>
+			<link>http://bash.org.ru/quote/414961</link>
+			<title>Цитата #414961</title>
+			<pubDate>Thu, 29 Dec 2011 10:44:36 +0400</pubDate> 
+			<description><![CDATA[муж: да как, как, херово :( не переживу я, наверное, испытательный срок<br>я: почему??<br>муж: да вот блин. решил показать себя в хорошем свете перед шефом. пожелал ему приятного аппетита. а он шел не в столовую а в туалет.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">e0270fd309b6e90cb9f26d9012a1db8ed681fd071f5848b395535442033ffe3a</guid>
+			<link>http://bash.org.ru/quote/414960</link>
+			<title>Цитата #414960</title>
+			<pubDate>Thu, 29 Dec 2011 10:44:01 +0400</pubDate> 
+			<description><![CDATA[Luba: Чем занимаешься в отпуске?<br>BreakDancer: Разными важными делами<br>Luba: Например?<br>BreakDancer: Да вот вспомнил, что в детстве у меня был пистолет, стреляющий присосками<br>BreakDancer: и решил, что раз уж я вырос до 29 лет и стал большим<br>BreakDancer: то и присоски тоже должны быть большими!<br>BreakDancer: Сделал арбалет, который стреляет вантусом]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">8187c704ade265c329ccc02384e4206607407657bc6c9b9425a9542f0cb5a6a1</guid>
+			<link>http://bash.org.ru/quote/414959</link>
+			<title>Цитата #414959</title>
+			<pubDate>Thu, 29 Dec 2011 10:13:01 +0400</pubDate> 
+			<description><![CDATA[Обещают, что дети, рожденные в год Черного Дракона, будут творческими и активными. Но мы-то знаем, что главное для них - иммунитет к магии!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1e5eadf8678f61893bcf84e0dfb41290f63266eab736941b7ca07653b70f17d4</guid>
+			<link>http://bash.org.ru/quote/414958</link>
+			<title>Цитата #414958</title>
+			<pubDate>Thu, 29 Dec 2011 09:45:26 +0400</pubDate> 
+			<description><![CDATA[Звонит курьер из одной конторы и спрашивает как добраться.<br>Я: далее мост через реку, идете по мосту...<br>К: А река где в это время? Слева? Справа?<br>Я: ВНИЗУ!<br>К: ага, понятно...<br>Я: Дальше переходите на другой берег, спускаетесь на набережную...<br>К: А чё, прямо до конца моста идти? или раньше повернуть?]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">b7c708279640f1efe4ec3401970cb89f075864203ed0fbeeb612e9592655a4c3</guid>
+			<link>http://bash.org.ru/quote/414957</link>
+			<title>Цитата #414957</title>
+			<pubDate>Thu, 29 Dec 2011 09:44:52 +0400</pubDate> 
+			<description><![CDATA[gutta_honey@lj<br>Лиза фанат &quot;Звездных войн&quot;. У нее есть фигурка Дарта Вейдера. Но девчонка есть девчонка. Она, как с пупсиком, с ним играет. Вот сегодня:<br>- Дарту Вейдеру нужна квартира! Я его поселю в коробке из-под апельсинов.<br>Вот так в женских руках даже злодеев галактического масштаба постигает судьба чебурашки.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">e91f03e5e391060d916a7e7e827cb6eaeec132c17a1ac5d78af70d5368461ec5</guid>
+			<link>http://bash.org.ru/quote/414956</link>
+			<title>Цитата #414956</title>
+			<pubDate>Thu, 29 Dec 2011 09:44:01 +0400</pubDate> 
+			<description><![CDATA[ХХХ: кто рано встаёт, того кот разбудил :(]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c805cfaf28bf072384933e50ea8e1c48f815063c3bfbfe05a0986d6b944bd14e</guid>
+			<link>http://bash.org.ru/quote/414955</link>
+			<title>Цитата #414955</title>
+			<pubDate>Thu, 29 Dec 2011 09:13:01 +0400</pubDate> 
+			<description><![CDATA[XXX: Бежать, бежать отсюда!<br>YYY: Что у тебя там?<br>XXX: Только что коммерческий с исполнительным в кабинете орали друг на друга: &quot;Да я таких как ты в Афгане к стенке ставил&quot; vs &quot;А я таких как ты на зоне петушил&quot;. Мне страшно.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">0636538a5462fc292f9b4fc6439cd6f7f8ab0fe79ba081c47e36d3d8338806fe</guid>
+			<link>http://bash.org.ru/quote/414954</link>
+			<title>Цитата #414954</title>
+			<pubDate>Thu, 29 Dec 2011 08:46:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Да ты что, это же баянъ.<br>xxx: Круговорот интернета. В твиттер постят записи пятилетней давности из ЖЖ.<br>yyy: вот не видела, жж обошел меня стороной<br>ххх: Так я и говорю, в ЖЖ постили шутки с форумов, в форумы - с фидо...<br>ххх: и только в фидо основоположники сетевого юмора перепечатывали анекдоты из газет]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c8591055f839c5dbc882d36e7a4d2db9ce399460048e8e0e6d466dd43a88cae1</guid>
+			<link>http://bash.org.ru/quote/414953</link>
+			<title>Цитата #414953</title>
+			<pubDate>Thu, 29 Dec 2011 08:13:04 +0400</pubDate> 
+			<description><![CDATA[О сексе:<br>xxx: отлично! в лабораторных такого не было,но я ЗА! )))<br>yyy: В лабораториях опасно. зацепил не ту колбу - и все, чем гордился всю жизнь и с чем жил - с тихим шипением капает на пол... =(<br>xxx: Или высоковольтная установка по крестцовому сплетению... Струя эякулята пробивает кирпичную стену и ранит лектора в соседней аудитории!<br>xxx: Кажется, я только что придумал классное аниме, да?]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">714be978a8678d201b16981150150166752145feaefa2f159980d76051602d87</guid>
+			<link>http://bash.org.ru/quote/414952</link>
+			<title>Цитата #414952</title>
+			<pubDate>Thu, 29 Dec 2011 08:11:54 +0400</pubDate> 
+			<description><![CDATA[Реклама на Яндексе известной компании и слоган &quot;Попробуй с нашим выбиратором подарков!&quot;<br>Ага, я тоже первый раз неправильно прочитал =)]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">dd7d36ba1543a7ac360b28c72f669816d3551bb09f34156635f80efbc9a4f390</guid>
+			<link>http://bash.org.ru/quote/414951</link>
+			<title>Цитата #414951</title>
+			<pubDate>Thu, 29 Dec 2011 08:11:01 +0400</pubDate> 
+			<description><![CDATA[Сегодня выносил мусор в офисе, а моя коллега играла в винду, задавая вопросы:<br>- Вы уверены, что хотите очистить корзину? Файлы будут удалены безвозвратно.<br>А потом у меня порвался пакет и весь мусор разлетелся по офису, на что коллега печально заметила:<br>- Произошел сбой при очистке корзины, перезагрузитесь и попробуйте снова...]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">174e14053635b5325be15ae0a37b47953115b33e0d082053064572907d2829a0</guid>
+			<link>http://bash.org.ru/quote/414950</link>
+			<title>Цитата #414950</title>
+			<pubDate>Wed, 28 Dec 2011 12:46:01 +0400</pubDate> 
+			<description><![CDATA[[QuizMaster7] Повторяю вопрос: Именно они вешали под шею коня волчью голову, а на седло прикрепряли метлу, чтобы вынюхивать измену и выметать ее из государства<br>[QuizMaster7] Первая подсказка: Количество букв: 9<br>[EwokDoUrden] фигасе!<br>[EwokDoUrden] НАРКОМАНЫ]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">691660b05378e2d242a7a60429e2cd94a44e8d2041b2facb2597cb21ec213fbf</guid>
+			<link>http://bash.org.ru/quote/414949</link>
+			<title>Цитата #414949</title>
+			<pubDate>Wed, 28 Dec 2011 12:13:18 +0400</pubDate> 
+			<description><![CDATA[Док: Бля, ходил покурить на балкон, вижу в углу что-то мохнатое с угрожающей тенью. В сторону шарахнулся. И уже думаю, глюки от бессонницы прут. Не блин, я просто забыл, что вчера елку купил.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">634c63c05a37bbb5933ccae9bd50bbc4e04d2a27dfd2895ab8f4be5cc77a5707</guid>
+			<link>http://bash.org.ru/quote/414948</link>
+			<title>Цитата #414948</title>
+			<pubDate>Wed, 28 Dec 2011 12:12:02 +0400</pubDate> 
+			<description><![CDATA[XXX: все, финиш! я конечно разных дебилов видела. и к скрепкам в принтере уже даже почти привыкла. и скотч на барабане, блин, приклеенный с честными глазами &quot;ну я же его даже не открывала, я не знаю, как он туда попал!&quot;. но чтобы так! у меня сейчас принтер КАЛЬКУЛЯТОР зажевал!!! калькулятор, блин!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">2309307a0dd79a2f77f63dbbbf3239d5de3cd41409ce23750c0e8ebecd20466f</guid>
+			<link>http://bash.org.ru/quote/414946</link>
+			<title>Цитата #414946</title>
+			<pubDate>Wed, 28 Dec 2011 11:44:57 +0400</pubDate> 
+			<description><![CDATA[xxx:<br>отдам в дар плеер<br>Explay T-7, слегка подержаный (вхламину)]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c58a33a67db26dab4b121d14ebad5cd80d78040eea517835a90bbdc81887b4dc</guid>
+			<link>http://bash.org.ru/quote/414945</link>
+			<title>Цитата #414945</title>
+			<pubDate>Wed, 28 Dec 2011 11:44:01 +0400</pubDate> 
+			<description><![CDATA[Купили с сотрудницей в офис ликера. Половину выпили, остатки она заматывает в пакетик и ставит в холодильник.<br>Я: Мы что, тут его и оставим?<br>Сотрудница: Ну да, а что нам терять? )<br>Я: Ну, например работу....]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">3a8ab041c452b16f9f415d3f6d209f1d58f11ed2ab0ee5f928a5f6b8e22a78b9</guid>
+			<link>http://bash.org.ru/quote/414944</link>
+			<title>Цитата #414944</title>
+			<pubDate>Wed, 28 Dec 2011 11:12:55 +0400</pubDate> 
+			<description><![CDATA[&lt;Belka&gt; Весьма смутилась, найдя в записной телефонной книжке своего безграмотного брата запись &quot;Макс -сосет&quot;.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">d72696e62bb007bb3004d7403e5915734f7ca02ef54757e08cb0a689a1b4df4d</guid>
+			<link>http://bash.org.ru/quote/414943</link>
+			<title>Цитата #414943</title>
+			<pubDate>Wed, 28 Dec 2011 11:12:01 +0400</pubDate> 
+			<description><![CDATA[korsa: вокруг меня три компа, два телефона и навигатор<br>fintar: нужно перевезти их через реку?]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">9ffbfa3d0268a0dc955b9969e4c2b77cc50443a7d6bd9b60f9cf4102daeb7fb1</guid>
+			<link>http://bash.org.ru/quote/414942</link>
+			<title>Цитата #414942</title>
+			<pubDate>Wed, 28 Dec 2011 10:45:41 +0400</pubDate> 
+			<description><![CDATA[Из обсуждения:<br>Как–то раз я в споре со своей женой обнаружил какую–то откровенную дурь в ее словах и сказал:<br>— Но это же не логично!<br>— Ну и что?<br>Блядь, НУ И ЧТО? в этот момент у меня вообще весь мир рухнул, и я понял что для нее вообще нет разницы, логично или нет то, что она говорит. ВООБЩЕ!<br><br>Когда я пересказываю это своим друзьям, все хохочут или улыбаются. А когда девушкам — они просто ждут, что я дальше скажу, со внимательным лицом, потому что искренне не замечают проблемы в этой фразе]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">6017310e922bd529b5ad3be09f4f0c5e8b6b2fb76d0bd05b617a8eac0ae27193</guid>
+			<link>http://bash.org.ru/quote/414941</link>
+			<title>Цитата #414941</title>
+			<pubDate>Wed, 28 Dec 2011 10:44:47 +0400</pubDate> 
+			<description><![CDATA[xxx: у нас в столовой давно вместо салфеток бумага промышленная нарезана, но сейчас она еще и глянцевая]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">b101af3976aa2e9b7841576433b0c68af93c3ce85ac75383a6f7b20a0106a9c6</guid>
+			<link>http://bash.org.ru/quote/414940</link>
+			<title>Цитата #414940</title>
+			<pubDate>Wed, 28 Dec 2011 10:44:01 +0400</pubDate> 
+			<description><![CDATA[Сейчас с женой по телефону разговаривал.<br>Она говорит:<br>- Давай тебе на НГ рубашку пошьем клевую и это будет моим подарком.<br>- Как хочешь.<br>Предлагает мерки поехать снять, я начинаю диктовать.<br>- Длина 174 см, ширина 80 см. Внутри ткань бархат, снаружи дерево, лучше дуб, крышка тоже дубовая резная.<br>Она говорит:<br>- Все записала, сейчас им позвоню.<br>И тут она прочитала то, что записала...]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1d3da2d78ecf5bac86c480e26d65184e8b69cab96bc8d6c038de7de9ca468ebd</guid>
+			<link>http://bash.org.ru/quote/414939</link>
+			<title>Цитата #414939</title>
+			<pubDate>Wed, 28 Dec 2011 10:13:07 +0400</pubDate> 
+			<description><![CDATA[ххх: У нас сегодня экзамен по анатомии вообще зачетный вышел. Один парень срез гортани назвал срезом шейки матки, другой в ромбовидной ямке мозга приметил, звиняюсь, вульву.<br>ххх: Обоих отправили на пересдачу с формулировкой &quot;вылечите недотрах и приходите снова&quot;.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">0365ddac152e7a1f45d4fe35cc5d673ff9e9cbce8d9d125e40b5dca139cd293e</guid>
+			<link>http://bash.org.ru/quote/414938</link>
+			<title>Цитата #414938</title>
+			<pubDate>Wed, 28 Dec 2011 10:12:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Жена после суток на работе попросила разбудить ее в 20:00. Звоню, она поднимает трубку, ничего не говорит, слышно только мирное сопение... Выключила будильник, блин :D]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">8774184a10feb87ab76c3eac63fcf6873b572cd376d06b87ec2cafa48464b57b</guid>
+			<link>http://bash.org.ru/quote/414937</link>
+			<title>Цитата #414937</title>
+			<pubDate>Wed, 28 Dec 2011 09:45:31 +0400</pubDate> 
+			<description><![CDATA[Ascha: как удобно: если реветь два часа подряд - то тушь смывать уже не нужно!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">5f9e58d114c8a86764bd26780e94bb3f00f0a4db026821f84d06b4540db7b5ed</guid>
+			<link>http://bash.org.ru/quote/414936</link>
+			<title>Цитата #414936</title>
+			<pubDate>Wed, 28 Dec 2011 09:45:01 +0400</pubDate> 
+			<description><![CDATA[xxx: я зайду щас?<br>yyy: Я - горячая штучка. И я уже вся теку. Но будь со мной осторожен.<br>xxx: Аня?<br>yyy: У меня температура. Сопли ручьем. Рискуешь заразиться.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">8b1acd9ec8457ac318c78b1dc88005edf4fc9f0ace4d47c1080c1b670de19e2e</guid>
+			<link>http://bash.org.ru/quote/414935</link>
+			<title>Цитата #414935</title>
+			<pubDate>Wed, 28 Dec 2011 09:13:01 +0400</pubDate> 
+			<description><![CDATA[Duck: Решил поправить здоровье, записался в бассейн.<br>Dimes: уринотерапия не работает]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">187c05af1edfcce0de5da82d30a58fb83ae474e6fa897ad684bd3ad7c50e9dd7</guid>
+			<link>http://bash.org.ru/quote/414934</link>
+			<title>Цитата #414934</title>
+			<pubDate>Wed, 28 Dec 2011 08:46:02 +0400</pubDate> 
+			<description><![CDATA[xxx: Меня попросили в метро пройти через рамку<br>yyy: какого х?<br>xxx: Хрен его знает<br>yyy: ты показался им подозрительным? )<br>xxx: Был как всегда в джинсах чистых ботинках кожаной сумке и наглой рожей<br>xxx: Меня как правило они вообще не замечают<br>yyy: хы<br>yyy: ты был в кожаной сумке, это настораживает]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">00822e572762f43d2fb56ef00c2f7be12f703a27a39949f99036f7734a26f566</guid>
+			<link>http://bash.org.ru/quote/414933</link>
+			<title>Цитата #414933</title>
+			<pubDate>Wed, 28 Dec 2011 08:45:02 +0400</pubDate> 
+			<description><![CDATA[misterIT: Сань, привет. срочно нужна помощь, через сколько можешь в офис подгрести?<br>misterIT: Домен рухнул, рейд заглючило. И винт прихвати.<br>misterIT: Сань!!! ты тут?<br>xxx@qip: Тут, собираюсь, а что случилось то? Напряжение? Коротнуло?<br>misterIT: Да хз<br>misterIT: Бороду вчера сбрил, свидание блядь видите ли!<br>xxx@qip: А я свитер постирал. Видимо не врали.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">a6231be02247fcfffbaa07e020f43a4c7a1c7ed628ed86af16443ffe45ed7127</guid>
+			<link>http://bash.org.ru/quote/414932</link>
+			<title>Цитата #414932</title>
+			<pubDate>Wed, 28 Dec 2011 08:12:38 +0400</pubDate> 
+			<description><![CDATA[xxx: Женщины - как компьютерные игры с разными уровнями сложности. Если играть на Very Easy - то быстро пропадает интерес к игре. А если играть на Very Hard - то можно натереть мозоли джойстиком.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">039ba4efda1619b3b4374b223e344b3423a8d9788a18bf73ac07bce7bac04bea</guid>
+			<link>http://bash.org.ru/quote/414931</link>
+			<title>Цитата #414931</title>
+			<pubDate>Wed, 28 Dec 2011 08:12:01 +0400</pubDate> 
+			<description><![CDATA[Я:<br>Жена мне такая говорит:<br>- мне нужна шуба норковая,<br>- у тебя же есть,<br>- у меня из кусочков, а мне надо цельную, у нас у всей группы уже цельные, а z одна как лошара!<br>- у всей - это у одной Людки?<br>- ну нет, у двоих точно есть!<br>- ... а мне нужен фотоаппарат кэнон 5д марк 2<br>- у тебя же есть уже.<br>- ну так у меня 5д, а я хочу чтобы был марк 2, а то у всех уже в городе марки, а я один как лошара<br>- ну тебе-то просто хочется, а мне... (вот тут внимание!!!!) НЕОБХОДИМО.<br><br>Кемп:<br>хорошо, что ты не сказал, что ты им еще и деньги зарабатываешь, а то она бы тебе какую-нибудь альтернативу с шубой придумала]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">66fab6cb65e11c7de896d7c6840095b9a90bd70ed8d49f8fb7adc0adb9b6a43c</guid>
+			<link>http://bash.org.ru/quote/414930</link>
+			<title>Цитата #414930</title>
+			<pubDate>Tue, 27 Dec 2011 13:46:01 +0400</pubDate> 
+			<description><![CDATA[ххх: Друг мне вчера рассказал. Он барменом работает в заведении. Почти в ночи к ни начали заламываться два пьяных в зюзю чувака и охрана их не пустила, так как заведение приличное. Эти два типа не нашли ничего умнее и вызвали полицию, те приехали, их самих же забрали и увезли!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">39b40cb066f0a9b64c53dbc67c1a521a1b3948a5b021efd4b1982753059aaee1</guid>
+			<link>http://bash.org.ru/quote/414929</link>
+			<title>Цитата #414929</title>
+			<pubDate>Tue, 27 Dec 2011 13:13:01 +0400</pubDate> 
+			<description><![CDATA[xxx: я им звонил<br>xxx: нет у них времени на понедельник<br>yyy: печалька<br>xxx: это уже не печалька<br>xxx: это уже злостька, яростька и гневик]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">4f3b79bfba6994d73b3eb21530d98188f4830c26c4f8108a6d8120a4c0b5e8fc</guid>
+			<link>http://bash.org.ru/quote/414928</link>
+			<title>Цитата #414928</title>
+			<pubDate>Tue, 27 Dec 2011 12:46:01 +0400</pubDate> 
+			<description><![CDATA[Комменты к статье &quot;Как освободиться из наручников-стяжек&quot;:<br>xxx: А вот интересно, если ты едешь в багажнике машины, что делать?<br>yyy: если ночью и в лес – то это просто плохая примета.<br>zzz: Во всём надо искать позитив! Я уверен, это будет последняя плохая примета в вашей жизни! :)]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">d3162ccb1c30aa3f654c0c6b368fa9e583c020dc3d04bcc07b6c5f02eeadaaeb</guid>
+			<link>http://bash.org.ru/quote/414927</link>
+			<title>Цитата #414927</title>
+			<pubDate>Tue, 27 Dec 2011 12:13:01 +0400</pubDate> 
+			<description><![CDATA[zzz: Ну вот как объяснить иностранцу, почему вилка — лежит, тарелка — стоит, а птица — сидит?<br>xxx: Вот, кстати, ноутбук: когда закрыта крышка — лежит, а когда открыта — стоит…<br>yyy: Я кажется начинаю понимать, лежит — без толку, а стоит — во имя Великой Справедливости!<br>]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">69e05b82fc5a5028a65e0435a584a83ffaa44e9784c024fb30eda9b7d87f38ba</guid>
+			<link>http://bash.org.ru/quote/414926</link>
+			<title>Цитата #414926</title>
+			<pubDate>Tue, 27 Dec 2011 11:46:03 +0400</pubDate> 
+			<description><![CDATA[Sovershenstvo: распечатала документ на 115 страниц. забирала из принтера. обожглась о бумагу :(<br>iNote: принтер жжот :D]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">caa3a31eca89b56e3669c9910f23564e1ee2bd2c67f0be5472e206496b688609</guid>
+			<link>http://bash.org.ru/quote/414925</link>
+			<title>Цитата #414925</title>
+			<pubDate>Tue, 27 Dec 2011 11:45:01 +0400</pubDate> 
+			<description><![CDATA[Из обсуждения использования акустического датчика для включения компьютера хлопком в ладоши:<br>xxx: Был такой случай.<br>xxx: Приятель сделал акустический выключатель на освещение.<br>xxx: Доставал книги с полки, стоя на табурете.<br>xxx: Упала книга, свет потух, он оступился, сломал руку.<br>xxx: Свет загорелся.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">d3db54801b673716d6b41137bbf9ca64c62a04a1211bf43ea44876c411f88728</guid>
+			<link>http://bash.org.ru/quote/414924</link>
+			<title>Цитата #414924</title>
+			<pubDate>Tue, 27 Dec 2011 11:13:12 +0400</pubDate> 
+			<description><![CDATA[Обсуждаем с мужем Скайрим:<br>- Мне одной кажется, что драуги кудахтают? &quot;Куд-ку-да&quot;, &quot;Куд-ку-дааааа&quot;<br>- Это еще что. Вчера скелет подходит ко мне и четко так: &quot;пас-порт&quot;.<br>- Суровые скелеты древнескайримских пограничников. Из всего, что лепечут, можно разобрать только &quot;паспорт&quot; и &quot;уходи&quot; )]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">6206e668575ef7364ca52bacdfc3d6b45da5ab80d4c69c0f1467269cec9ee6c4</guid>
+			<link>http://bash.org.ru/quote/414923</link>
+			<title>Цитата #414923</title>
+			<pubDate>Tue, 27 Dec 2011 11:12:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Устроил диверсию на работе - принёс ирис &quot;Кис-Кис&quot; (советский, железобетонный). <br>xxx: Теперь никто со мной не разговаривает. <br>xxx: ВООБЩЕ НИКТО НИ С КЕМ НЕ РАЗГОВАРИВАЕТ! )))]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">47c8ec43ac12036ac0528b4b4077f8d9f80a0fe8d4aa029f8a39b7b9d4327b6f</guid>
+			<link>http://bash.org.ru/quote/414922</link>
+			<title>Цитата #414922</title>
+			<pubDate>Tue, 27 Dec 2011 10:45:34 +0400</pubDate> 
+			<description><![CDATA[ххх: Я готовлюсь к зачету, только очень обдуманно. Со стороны это выглядит, будто я примеряю кирзачи]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">7871bd6a1b62f062468316e82234015b27a0c448d21c39120579d4c66c1b3367</guid>
+			<link>http://bash.org.ru/quote/414921</link>
+			<title>Цитата #414921</title>
+			<pubDate>Tue, 27 Dec 2011 10:45:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Переехали в новый офис. Спустя три месяца обнаружили люк под ногами, а из щели свет горит. Думаем теперь - вскрывать, или не стоит.<br>yyy: Вы аккуратней там. А то посуточно дежурить заставят и циферки вводить.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c5fcb5c4cf429099d6540943fd5f376998aee7e5ac90409e8afc3e6a61ef177f</guid>
+			<link>http://bash.org.ru/quote/414920</link>
+			<title>Цитата #414920</title>
+			<pubDate>Tue, 27 Dec 2011 10:13:01 +0400</pubDate> 
+			<description><![CDATA[MG: Мама моей мамы сказала моей маме: твою ж мать за ногу! И упала.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">72838435dc732ed7410037dd17b0e38588ac91999f5f195421621a8355ded16e</guid>
+			<link>http://bash.org.ru/quote/414919</link>
+			<title>Цитата #414919</title>
+			<pubDate>Tue, 27 Dec 2011 09:45:45 +0400</pubDate> 
+			<description><![CDATA[Seryozha:<br>розовый уже не модно в этом сезоне<br>стоял на остановке<br>проехал мимо розовый лимузин<br>одна фифа другой сказала, что это безвкусица<br>и это вообще уебище<br>ну и потом щемились со мной в автобус]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">7b098f0d541bdc4ac0f90634a82e781d38e174ef380aa56ff6c94e69734fcde8</guid>
+			<link>http://bash.org.ru/quote/414918</link>
+			<title>Цитата #414918</title>
+			<pubDate>Tue, 27 Dec 2011 09:44:43 +0400</pubDate> 
+			<description><![CDATA[Worontzoff: Избирательные участки будут оснащены камерами, куда будут помещать наблюдателей во время подсчета бюллетеней.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">5af15998f29f5f063b9ce01b54dc8d3f0b73bb7d3f877edcc5eaa7ff8f71013b</guid>
+			<link>http://bash.org.ru/quote/414917</link>
+			<title>Цитата #414917</title>
+			<pubDate>Tue, 27 Dec 2011 09:44:01 +0400</pubDate> 
+			<description><![CDATA[ххх: У нас в два часа ночи пришествие Винни Пуха<br>ууу: В смысле? Мама пришла?<br>ххх: Не, Коля мед в холодильнике нашел. Ходит по квартире, нежно прижимая к себе банку. Я сегодня Пятачок]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">b5a66cb535552b46159d467911174f1e4aac941c8c1d891a62619a8cdb00a3ea</guid>
+			<link>http://bash.org.ru/quote/414916</link>
+			<title>Цитата #414916</title>
+			<pubDate>Tue, 27 Dec 2011 09:13:02 +0400</pubDate> 
+			<description><![CDATA[(разговор о &quot;Лебедином Озере&quot;)<br>xxx: может быть, ты и сюжет помнишь?<br>yyy: очень смутно. Я совсем маленькая была, когда его в последний раз показывали...]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">9e007ee3d9984de85c727f6885f913891b11676f10b053ba8a51bec6fba0e23c</guid>
+			<link>http://bash.org.ru/quote/414915</link>
+			<title>Цитата #414915</title>
+			<pubDate>Tue, 27 Dec 2011 08:46:11 +0400</pubDate> 
+			<description><![CDATA[xxx: привет<br>xxx: как служба?<br>yyy: как у служебной собаки<br>yyy: целый день спасаю мир, а вечером обещали покормить]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">3dc9ddc2fad185181993315c5c3a404405ab704423d3c24bd9213dcb23bad2eb</guid>
+			<link>http://bash.org.ru/quote/414914</link>
+			<title>Цитата #414914</title>
+			<pubDate>Tue, 27 Dec 2011 08:45:01 +0400</pubDate> 
+			<description><![CDATA[ххх: нет, я скорее пойду убивать, чем красть<br>ууу: странная мораль, что так?<br>ххх: я человек честный, а потому злой]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">61e793991c5dea07ea5a5afa2bbc899e49c23d8a0d8a1f48918915129a13a35c</guid>
+			<link>http://bash.org.ru/quote/414913</link>
+			<title>Цитата #414913</title>
+			<pubDate>Tue, 27 Dec 2011 08:12:04 +0400</pubDate> 
+			<description><![CDATA[Речь об аудионаркотиках:<br><br>ххх: Да фигня это всё!<br>yyy: Ну почему фигня, есть же звуки, которые как-то воздействуют на психику человека...<br>ххх: Да, на меня звук дрели так воздействует! Сразу хочется пойти и убить кого-нибудь!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">ed2932ac0768ceb5ec1a155d4b039fb2cba050296935d7852baccb238ada1819</guid>
+			<link>http://bash.org.ru/quote/414912</link>
+			<title>Цитата #414912</title>
+			<pubDate>Tue, 27 Dec 2011 08:11:31 +0400</pubDate> 
+			<description><![CDATA[&lt;xxx&gt; готовили обед, полез в холодильник<br>&lt;xxx&gt; оказывается, вчера я невольно купил продуктовый набор &quot;Злые птицы&quot;: ноги куриные, грудка индейки, свиные эскалопы]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1989a43d3a03de416d16788589caaa318ece611245b328df9b1567c13205cf70</guid>
+			<link>http://bash.org.ru/quote/414911</link>
+			<title>Цитата #414911</title>
+			<pubDate>Tue, 27 Dec 2011 08:11:01 +0400</pubDate> 
+			<description><![CDATA[xxx: скользко на улице, даже собака гулять не хочет<br>yyy: ей-то что, у неё ж полный привод]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">c207fd198261176146047e54ccfff9058582e311ab402e32dfe67837c3e61e64</guid>
+			<link>http://bash.org.ru/quote/414910</link>
+			<title>Цитата #414910</title>
+			<pubDate>Mon, 26 Dec 2011 13:12:49 +0400</pubDate> 
+			<description><![CDATA[Мама, купившая своему ребенку чехол к мобильному телефону, принесла его в магазин, чтобы вернуть продавцу.<br><br>П: На что жалуетесь?<br>М: Ребенок отказывается пользоваться чехлом.<br>П: Почему? Что не устраивает?<br>М: Мы заказывали чехол с человеком-пауком. На чехле надпись SPIDER-MAN. Так вот, когда застегиваем молнию, становится не видно букву S.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">245f34c6c6da77a68ba258f717177e3ecb27865bd7cd72c5966a9bae3d68cdab</guid>
+			<link>http://bash.org.ru/quote/414909</link>
+			<title>Цитата #414909</title>
+			<pubDate>Mon, 26 Dec 2011 13:11:56 +0400</pubDate> 
+			<description><![CDATA[xxx: Дай фломастер, палец покрасить!<br>yyy: Зачем?<br>xxx: Иду в гости, а у меня носок дырявый!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">b9674cdf642593a5c193c3262031513822c50bcb950170cc07aadfb7fddc2649</guid>
+			<link>http://bash.org.ru/quote/414908</link>
+			<title>Цитата #414908</title>
+			<pubDate>Mon, 26 Dec 2011 13:11:02 +0400</pubDate> 
+			<description><![CDATA[* В чат входит Вазелин.<br>Вазелин: студенты, я пришел<br>Вазелин: кому сколько?<br>Вазелин: пора бы уже заказывать]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">f5e384c1050a5d6df2cbe999fbae0e082deda5e89839ad0a913b490b3fada8c0</guid>
+			<link>http://bash.org.ru/quote/414907</link>
+			<title>Цитата #414907</title>
+			<pubDate>Mon, 26 Dec 2011 12:46:14 +0400</pubDate> 
+			<description><![CDATA[ххх: гуляли с ребенком в парке, кормили уточек<br>ххх: сначала их было несколько штук, потом подплыли еще, некоторые пикировали с воздуха)))<br>ххх: приличное количество собралось, в общем, некоторые вылезли на берег и подошли к нам почти вплотную<br>ххх: в какой-то момент мне стало стремно, что булка кончается]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">71aba0126bc495b6efcd494e8b95c11b4e27fadb96f8fa31475db7aa85c7f1a4</guid>
+			<link>http://bash.org.ru/quote/414906</link>
+			<title>Цитата #414906</title>
+			<pubDate>Mon, 26 Dec 2011 12:45:14 +0400</pubDate> 
+			<description><![CDATA[xxx: &quot;Если вы читали роман Жюля Верна или хотя бы смотрели фильм с одноимённым названием, то будете не то чтобы разочарованны, вы, мягко говоря, будете шокированы увиденным, начиная с первых секунд фильма&quot;<br><br>xxx: кто бы блять мог подумать, что именно так начинается рецензия к фильму Мушкетёры...]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">3d3b28ac59593143fe32ecbb4c5df048f39482f38d336d6dc4ad119ffbeea78b</guid>
+			<link>http://bash.org.ru/quote/414905</link>
+			<title>Цитата #414905</title>
+			<pubDate>Mon, 26 Dec 2011 12:44:01 +0400</pubDate> 
+			<description><![CDATA[xxx: а ведущий программист - это такой программист, который может решить любую поставленную задачу его профиля самостоятельно<br>yyy: но не хочет )]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">2931790e946054e81789e63e91d5dc9237bf492d3f26c6d7bc530b59ef2672fe</guid>
+			<link>http://bash.org.ru/quote/414904</link>
+			<title>Цитата #414904</title>
+			<pubDate>Mon, 26 Dec 2011 12:13:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Погодите, на андроиде проходит авторизация по распознаванию лица? То есть, если мне набьют морду, я не смогу в скорую позвонить?<br>yyy: Боюсь, что набитие морды и отъём смартфона - события сильно скоррелированные, так что Ваша проблема несколько надуманна. :)]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">5ee6027cf4758aa3989a3552db60d21acfc4bce66518265e9137abc3ce1fc3c7</guid>
+			<link>http://bash.org.ru/quote/414903</link>
+			<title>Цитата #414903</title>
+			<pubDate>Mon, 26 Dec 2011 11:46:01 +0400</pubDate> 
+			<description><![CDATA[leon:<br>Сегодня отвожу ребенка в школу, а там стенд новый повесили с фотографиями учителей. Озаглавлено гордо &quot;Сердце нашей школы!&quot;. Рядом с фотографией трудовика в берете, маркером стрелочка и надпись &quot;это печень&quot;.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">a47fdbea7602bfa4df71054ed3d391d00a1c0dd13f8adaa983bb5f93e5ac3d90</guid>
+			<link>http://bash.org.ru/quote/414902</link>
+			<title>Цитата #414902</title>
+			<pubDate>Mon, 26 Dec 2011 11:13:01 +0400</pubDate> 
+			<description><![CDATA[xxx: безработный студент всем своим видом доказывает нам, что минимального размера оплаты труда не существует.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">bc8b51fdf44d63edc888ad063db2fa66d1ad92c48d999408fff00a8cbec8e4ae</guid>
+			<link>http://bash.org.ru/quote/414901</link>
+			<title>Цитата #414901</title>
+			<pubDate>Mon, 26 Dec 2011 10:46:12 +0400</pubDate> 
+			<description><![CDATA[Psihodel: сегодня с утра пришла смс &quot;Мам кинь утром на мтс ххх-хх-хх-хх 950р. Мне не звони. Позже объясню.&quot; Через час мне жена сообщает, что она беременна. Теперь я понял, почему не надо звонить. Вот лет через 5 узнаю, зачем ему надо было 950р.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">e5174f709f5372c11eaf170b06efe25bf23fd3a65dbc9669e7b55b83ad598340</guid>
+			<link>http://bash.org.ru/quote/414900</link>
+			<title>Цитата #414900</title>
+			<pubDate>Mon, 26 Dec 2011 10:45:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Завтра встреча одногруппников. в 16:00 в Пабе на Таганке. Ну чего, ты будешь ?<br>yyy: Водку<br>yyy: Думаю я ответил сразу на два вопроса]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">0f5c7eaee411484a37e8071fb60030eb902f42a26969363233116d425faec446</guid>
+			<link>http://bash.org.ru/quote/414899</link>
+			<title>Цитата #414899</title>
+			<pubDate>Mon, 26 Dec 2011 10:12:34 +0400</pubDate> 
+			<description><![CDATA[Настоящий радиолюбитель, открыв спичечный коробок и обнаружив там спички, смотрит на них С УДИВЛЕНИЕМ]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1941999057f97da275dbaee167f5314de54a3de0f1ccc0f25c983cfe08845e71</guid>
+			<link>http://bash.org.ru/quote/414898</link>
+			<title>Цитата #414898</title>
+			<pubDate>Mon, 26 Dec 2011 10:12:01 +0400</pubDate> 
+			<description><![CDATA[xxx: Если в вашей жизни постоянно происходит какая-то херня, то стоит задуматься, а не вы ли та самая херня.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">1493df9ec128867419e1c9e0f8adf1e7c73eaecba9ba81e51395778f2c599faf</guid>
+			<link>http://bash.org.ru/quote/414897</link>
+			<title>Цитата #414897</title>
+			<pubDate>Mon, 26 Dec 2011 09:46:15 +0400</pubDate> 
+			<description><![CDATA[ххх: плохая это идея, с детскими домашними праздниками.<br>ууу: да почему? у меня знакомые этим каждые праздники занимаются. вполне неплохо для подработки, весело + сразу деньги в кармане.<br>ххх: пару лет назад мы с подругой тоже раздобыли новогодних костюмов, написали веселый сценарий и развеслили объявления: &quot;Волшебное новогоднее приключение от сестричек-Снегурочек в вашем доме&quot;.<br>ххх: ах вы мои неиспорченные!<br>ууу: ага, все правильно понял.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">507045f7af9d1dbc586b1ea528ecc9edb09ea5a1f35dab1141afc0dee491c7f2</guid>
+			<link>http://bash.org.ru/quote/414896</link>
+			<title>Цитата #414896</title>
+			<pubDate>Mon, 26 Dec 2011 09:45:01 +0400</pubDate> 
+			<description><![CDATA[CKuB: ЗАЯ, бля! Переложить все говно на мою полку - это не то, что я имел в виду, прося навести порядок у себя на полке!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">e4f30a21e7ffa737cc164ea71ddf1fe24a2c87b269a1b47db1dbf591ebe3e843</guid>
+			<link>http://bash.org.ru/quote/414895</link>
+			<title>Цитата #414895</title>
+			<pubDate>Mon, 26 Dec 2011 09:12:45 +0400</pubDate> 
+			<description><![CDATA[xxx: Админская примета.<br>xxx: Если 12-летний сын начальника идет в серверную - к большой беде.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">0ac1bcd3e77c115764edf2fef78568d7e88f0dcfa2830ebff7a4a67ca246192b</guid>
+			<link>http://bash.org.ru/quote/414894</link>
+			<title>Цитата #414894</title>
+			<pubDate>Mon, 26 Dec 2011 09:11:52 +0400</pubDate> 
+			<description><![CDATA[Vegyja: романтика - чем ее меньше, тем лучше. если парень только и делает, что страдает такой фигней... вопрос возникает: а мужчина ли он?<br>Telecantrelem: А если предложить девушке бутерброд с колбасой - это романтика?<br>1143r: Telecantrelem, в определенных обстоятельствах это очень даже романтично. Например, Она выпила стакан самогону, а закусить нечем. А тут ты с бутером. Опа! На, ешь!]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">0b0d1ae0708037d49d4edd71c8e1d7a488907c379787b7827be44ba7adab6cef</guid>
+			<link>http://bash.org.ru/quote/414893</link>
+			<title>Цитата #414893</title>
+			<pubDate>Mon, 26 Dec 2011 09:11:01 +0400</pubDate> 
+			<description><![CDATA[Из объяснительной записки:<br><br>12.12 на складе №4 был разгружен ламинат &quot;...&quot; с большим количеством брака. Пачки были отсортированы мной и подписаны, хорошие пачки &quot;Х&quot;, а плохие пачки &quot;П&quot;. При возврате товара поставщику, начальник склада ошибочно посчитал, что &quot;Х&quot; означает &quot;хуёвые&quot;, а &quot;П&quot; означает &quot;пиздатые&quot;, что в корне меняло ситуацию. Грузчики его поддержали и на возврат был отгружен качественный товар. Виновным в данном инциденте себя не признаю, услуги транспортной компании оплачивать отказываюсь.]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">4caeec3b83a23c4ef7e6822f1b9151c62dd719538f9719fd9dc49079edf12869</guid>
+			<link>http://bash.org.ru/quote/414892</link>
+			<title>Цитата #414892</title>
+			<pubDate>Mon, 26 Dec 2011 08:46:01 +0400</pubDate> 
+			<description><![CDATA[Лена: что делать, если кот спит, я одна дома, а на кухне грохот?<br>Олег: кинь туда кота)]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">533d63288a28594dd6858f5eb212c9fd62c95da02ef6c532902585a525f78b2e</guid>
+			<link>http://bash.org.ru/quote/414891</link>
+			<title>Цитата #414891</title>
+			<pubDate>Mon, 26 Dec 2011 08:13:01 +0400</pubDate> 
+			<description><![CDATA[он: Расскажи мне сказку<br>она: Жила-была некая функция эф от икс, и была она дифференцируема на всей эпсилон-окрестности некой точки икс нулевое<br>она: У меня численные методы )<br>она: Извини )]]></description>	
+		</item>
+		<item>
+			<guid isPermaLink="false">92cf655d26cbe5d10b1af532ab4abb491a0d74ae9759cb81cd6dd4bb84a1d2bc</guid>
+			<link>http://bash.org.ru/quote/414890</link>
+			<title>Цитата #414890</title>
+			<pubDate>Sun, 25 Dec 2011 09:13:01 +0400</pubDate> 
+			<description><![CDATA[смс из очереди к врачу<br><br>ххх: Мама, за час приняли только двух больных и они до сих пор там. передо мной 12 злых и опасных бабушек, которые уже успели закатить два скандала с применением двери и грубой физической силы тем, кто пытался пройти без очереди. Подчёркиваю: ПЫТАЛСЯ! Мне есть смысл сидеть дальше?]]></description>	
+		</item>
+	</channel>
+</rss>

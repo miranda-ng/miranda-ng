@@ -1,0 +1,191 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "skineditres.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include <winres.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SKINITEMEDIT DIALOGEX 0, 0, 303, 209
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Skin items",IDC_STATIC,2,0,119,205
+    LISTBOX         IDC_ITEMS,7,10,109,178,LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "General",IDC_STATIC,125,0,174,61
+    CONTROL         "Gradient",IDC_GRADIENT,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_GROUP | WS_TABSTOP,129,9,85,10
+    CONTROL         "Left to right",IDC_GRADIENT_LR,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,139,19,75,10
+    CONTROL         "Right to left",IDC_GRADIENT_RL,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,139,29,75,10
+    CONTROL         "Top to bottom",IDC_GRADIENT_TB,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,139,39,75,10
+    CONTROL         "Bottom to top",IDC_GRADIENT_BT,"Button",BS_AUTORADIOBUTTON | WS_DISABLED,139,49,75,10
+    CONTROL         "Round corners",IDC_CORNER,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_GROUP | WS_TABSTOP,218,9,75,10
+    CONTROL         "Top-Left",IDC_CORNER_TL,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,228,19,65,10
+    CONTROL         "Top-Right",IDC_CORNER_TR,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,228,29,65,10
+    CONTROL         "Bottom-Right",IDC_CORNER_BR,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,228,39,65,10
+    CONTROL         "Bottom-Left",IDC_CORNER_BL,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,228,49,65,10
+    GROUPBOX        "Item colors",IDC_STATIC,126,62,174,53
+    LTEXT           "First color",IDC_COLORLABLE,130,73,53,8,WS_DISABLED
+    CONTROL         "",IDC_BASECOLOUR,"ColourPicker",WS_DISABLED | WS_TABSTOP,186,72,22,10
+    LTEXT           "Textcolor",IDC_TEXTCOLOURLABLE,221,72,48,8,WS_DISABLED
+    CONTROL         "",IDC_TEXTCOLOUR,"ColourPicker",WS_DISABLED | WS_TABSTOP,271,72,22,10
+    LTEXT           "Second color",IDC_COLOR2LABLE,130,86,53,8,WS_DISABLED
+    CONTROL         "",IDC_BASECOLOUR2,"ColourPicker",WS_DISABLED | WS_TABSTOP,186,85,22,10
+    CONTROL         "Transparent",IDC_COLOR2_TRANSPARENT,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,221,85,72,10
+    LTEXT           "Alpha (percent)",IDC_ALPHALABLE,130,100,120,8,WS_DISABLED
+    EDITTEXT        IDC_ALPHA,250,97,33,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_ALPHASPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,280,97,12,14
+    GROUPBOX        "Item margins",IDC_STATIC,125,117,174,44
+    EDITTEXT        IDC_MRGN_LEFT,144,135,26,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_MRGN_LEFT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,171,131,10,14
+    EDITTEXT        IDC_MRGN_TOP,198,125,26,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_MRGN_TOP_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,229,119,10,14
+    EDITTEXT        IDC_MRGN_RIGHT,254,135,26,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_MRGN_RIGHT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,279,131,10,14
+    EDITTEXT        IDC_MRGN_BOTTOM,198,143,26,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_MRGN_BOTTOM_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,214,139,10,14
+    GROUPBOX        "Item borders",IDC_STATIC,125,164,174,40
+    LTEXT           "Border style",IDC_STATIC,130,175,57,10
+    COMBOBOX        IDC_BORDERTYPE,192,173,102,54,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "3D border (bright / dark)",IDC_STATIC,130,190,89,11
+    CONTROL         "",IDC_3DLIGHTCOLOR,"ColourPicker",WS_TABSTOP,227,188,29,12
+    CONTROL         "",IDC_3DDARKCOLOR,"ColourPicker",WS_TABSTOP,265,188,29,12
+    CONTROL         "Item ignored",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,9,191,103,10
+END
+
+IDD_IMAGEITEMEDIT DIALOGEX 0, 0, 303, 209
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE | WS_CAPTION
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CTEXT           "Not yet supported",IDC_STATIC,69,76,158,17
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+#ifndef APSTUDIO_INVOKED
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,0,1
+ PRODUCTVERSION 0,0,0,1
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+#if defined(UNICODE)    
+    BEGIN
+        BLOCK "0c0704b0"
+        BEGIN
+            VALUE "FileDescription", "Skin Editor (UNICODE)"
+            VALUE "FileVersion", "0, 0, 0, 2"
+            VALUE "InternalName", "CLN SkinEdit (UNICODE)"
+            VALUE "LegalCopyright", "Copyright (C) 2006"
+            VALUE "LegalTrademarks", "GPL"
+            VALUE "OriginalFilename", "cln_skinedit.dll"
+            VALUE "ProductName", "Clist Nicer+ skin editor"
+            VALUE "ProductVersion", "0, 0, 0, 2"
+        END
+    END
+#else
+    BEGIN
+        BLOCK "0c0704b0"
+        BEGIN
+            VALUE "FileDescription", "Skin Editor (ANSI)"
+            VALUE "FileVersion", "0, 0, 0, 2"
+            VALUE "InternalName", "CLN SkinEdit (ANSI)"
+            VALUE "LegalCopyright", "Copyright (C) 2006"
+            VALUE "LegalTrademarks", "GPL"
+            VALUE "OriginalFilename", "cln_skinedit.dll"
+            VALUE "ProductName", "Clist Nicer+ skin editor"
+            VALUE "ProductVersion", "0, 0, 0, 2"
+        END
+    END
+#endif    
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0xc07, 1200
+    END
+END
+#endif
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "skineditres.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "#include <winres.h>\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

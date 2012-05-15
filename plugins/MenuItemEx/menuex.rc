@@ -1,0 +1,174 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON0               ICON                    "icons\\hide_from_list.ico"
+IDI_ICON1               ICON                    "icons\\Always Visible.ico"
+IDI_ICON2               ICON                    "icons\\Never Visible.ico"
+IDI_ICON3               ICON                    "icons\\copyid_overlay.ico"
+IDI_ICON4               ICON                    "icons\\auth_added.ico"
+IDI_ICON5               ICON                    "icons\\auth_ask.ico"
+IDI_ICON6               ICON                    "icons\\change_proto.ico"
+IDI_ICON7               ICON                    "icons\\ignore_list.ico"
+IDI_ICON8               ICON                    "icons\\show_in_list.ico"
+IDI_ICON9               ICON                    "icons\\msg_status.ico"
+IDI_ICON10              ICON                    "icons\\msg_xstatus.ico"
+IDI_ICON11              ICON                    "icons\\copyip_overlay.ico"
+IDI_ICON12              ICON                    "icons\\recv_files.ico"
+IDI_ICON13              ICON                    "icons\\CopyMirVer.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_AUTHREQ DIALOGEX 0, 0, 186, 95
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION
+CAPTION "Enter an authorization request"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "&Send",IDOK,34,74,50,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,98,74,50,14
+    EDITTEXT        IDC_REASON,7,7,172,59,ES_MULTILINE | ES_AUTOVSCROLL | 
+                    ES_WANTRETURN
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 280, 183
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Shown menu items",IDC_STATIC,7,7,266,180
+    CONTROL         "Visibility",IDC_VIS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,18,77,10
+    CONTROL         "Show alpha icons",IDC_SHOWALPHAICONS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,162,18,104,10
+    CONTROL         "Hide from list",IDC_HIDE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,30,77,10
+    CONTROL         "Ignore",IDC_IGNORE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,42,159,10
+    CONTROL         "Copy to Account (Ctrl+click for move to Account)",
+                    IDC_PROTOS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,54,
+                    192,10
+    CONTROL         "Send 'You were added'",IDC_ADDED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,66,158,10
+    CONTROL         "Request Authorization",IDC_AUTHREQ,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,78,157,10
+    CONTROL         "Browse Received Files",IDC_RECVFILES,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,90,158,10
+    CONTROL         "Copy IP",IDC_COPYIP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,102,157,10
+    CONTROL         "Copy MirVer",IDC_COPYMIRVER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,114,157,10
+    CONTROL         "Copy Status Message",IDC_STATUSMSG,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,126,144,10
+    CONTROL         "Add item name",IDC_SMNAME,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,162,126,104,10
+    CONTROL         "Copy ID",IDC_COPYID,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,16,138,76,10
+    CONTROL         "Add protocol name",IDC_COPYIDNAME,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,162,138,104,10
+    CONTROL         "Show ID in menu item",IDC_SHOWID,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,25,150,132,10
+    CONTROL         "Trim too long ID",IDC_TRIMID,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,162,150,104,10
+    LTEXT           "* Use Ctrl+click to see popup with the copied text",
+                    IDC_HINT1,15,164,249,18
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_AUTHREQ, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 64
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 177
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+    "version.rc\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include <windows.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

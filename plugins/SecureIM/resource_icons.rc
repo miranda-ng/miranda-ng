@@ -1,0 +1,66 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#include "version_icons.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CL_DIS ICON "icons\\cl_dis.ico"
+IDI_CL_EST ICON "icons\\cl_est.ico"
+IDI_CM_DIS ICON "icons\\cm_dis.ico"
+IDI_CM_EST ICON "icons\\cm_est.ico"
+IDI_MW_DIS ICON "icons\\mw_dis.ico"
+IDI_MW_EST ICON "icons\\mw_est.ico"
+IDI_PU_DIS ICON "icons\\pu_dis.ico"
+IDI_PU_EST ICON "icons\\pu_est.ico"
+IDI_PU_PRC ICON "icons\\pu_prc.ico"
+IDI_PU_MSG ICON "icons\\pu_msg.ico"
+IDI_ST_DIS ICON "icons\\st_dis.ico"
+IDI_ST_ENA ICON "icons\\st_ena.ico"
+IDI_ST_TRY ICON "icons\\st_try.ico"
+IDI_OV_NAT ICON "icons\\ov_nat.ico"
+IDI_OV_PGP ICON "icons\\ov_pgp.ico"
+IDI_OV_GPG ICON "icons\\ov_gpg.ico"
+IDI_OV_RSA ICON "icons\\ov_rsa.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+    "afxres.h\0"
+    "version.rc\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////

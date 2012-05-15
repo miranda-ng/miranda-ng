@@ -1,0 +1,38 @@
+# Project: base
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = objbase/maindll.o objbase/debug.o $(RES)
+LINKOBJ  = objbase/maindll.o objbase/debug.o $(RES)
+LIBS =  -lkernel32 -luser32 -s 
+INCS =  -I"../../../include" 
+CXXINCS =  -I"../../../include" 
+BIN  = binfilter/base.dll
+CXXFLAGS = $(CXXINCS) -D__GNUWIN32__ -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS   -w -fweb -frename-registers -Os
+CFLAGS = $(INCS) -D__GNUWIN32__ -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS   -w -fweb -frename-registers -Os
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before binfilter/base.dll all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+DLLWRAP=dllwrap.exe
+DEFFILE=objbase/libbase.def
+STATICLIB=objbase/libbase.a
+
+$(BIN): $(LINKOBJ)
+#	$(DLLWRAP) --output-def $(DEFFILE) --driver-name c++ --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+	$(CPP) $(LINKOBJ) $(LIBS) -o $(BIN) -mdll
+
+objbase/maindll.o: ../filter/base/maindll.cpp
+	$(CPP) -c ../filter/base/maindll.cpp -o objbase/maindll.o $(CXXFLAGS)
+
+objbase/debug.o: ../filter/base/debug.cpp
+	$(CPP) -c ../filter/base/debug.cpp -o objbase/debug.o $(CXXFLAGS)

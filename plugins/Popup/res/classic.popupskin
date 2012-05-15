@@ -1,0 +1,167 @@
+options
+	#option	id	val	title
+	option	1	1	Draw gradient background
+	option	2	1	Flat borders
+	option	3	1	Enable avatars
+end
+
+padding-right 4
+padding-bottom 4
+w (text.width+(25>(avatar.width+4+4))+4)>(25+title.width+4+clock.width+4)
+
+# background
+object
+	type bitmap
+	ifnotset 1
+	source pixel:808080
+	mono
+	x 0
+	y 0
+	w -1
+	h -1
+end
+
+object
+	type bitmap
+	ifset 1
+	source gradient:v/707070/909090
+	mono
+	x 0
+	y 0
+	w -1
+	h -1
+end
+
+# 3d border
+object
+	type bitmap
+	ifnotset 2
+	source pixel:d0d0d0
+	mono
+	x 0
+	y 0
+	w -1
+end
+
+object
+	type bitmap
+	ifnotset 2
+	source pixel:d0d0d0
+	mono
+	x 0
+	y 0
+	h -1
+end
+
+object
+	type bitmap
+	ifnotset 2
+	source pixel:303030
+	mono
+	x 0
+	y -1
+	w -1
+end
+
+object
+	type bitmap
+	ifnotset 2
+	source pixel:303030
+	mono
+	x -1
+	y 0
+	h -1
+end
+
+object
+	type bitmap
+	ifnotset 2
+	source pixel:303030
+	mono
+	x -1
+	y -1
+end
+
+# flat border
+object
+	type bitmap
+	ifset 2
+	source pixel:000000
+	x 0
+	y 0
+	w -1
+end
+
+object
+	type bitmap
+	ifset 2
+	source pixel:000000
+	x 0
+	y 0
+	h -1
+end
+
+object
+	type bitmap
+	ifset 2
+	source pixel:000000
+	y -1
+	w -1
+end
+
+object
+	type bitmap
+	ifset 2
+	source pixel:000000
+	x -1
+	y 0
+	h -1
+end
+
+object
+	type bitmap
+	ifset 2
+	source pixel:000000
+	x -1
+	y -1
+end
+
+# popup icon
+object
+	type icon
+	x 5
+	y 3
+end
+
+# popup title
+object
+	type title
+	x 25
+	y 4
+	w window.width-25-4-clock.width-4
+end
+
+# avatar
+object
+	type avatar
+	ifset 3
+	x 4
+	y title.height+4+4
+	w options.avatarsize<(options.avatarsize*avatarbitmap.width/avatarbitmap.height)
+	proportional 1
+end
+
+# popup text
+object
+	type text
+	x 25>(avatar.width+4+4)
+	y title.height+4+4
+	w window.width-(25>(avatar.width+4+4))-4
+end
+
+#clock
+object
+	type clock
+	x window.width-4-clock.width
+	y 4
+end

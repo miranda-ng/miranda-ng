@@ -1,0 +1,25 @@
+<tc>
+    <tr vcenter>	
+	<tc status vcenter hcenter /> 
+	<tc fspace width 2 />
+	<tc vcenter>
+		<tr left vcenter>
+			<tc vcenter text1 />
+			<tc fspace width 2 />
+		</tr>
+		<tr fspace height 1 />
+		<tr left vcenter>  
+			<tc vcenter text2 />
+			<tc fspace width 2 />
+			<tc vcenter text3 />
+			<tc fspace width 2 />
+			<tc vcenter extra />			
+		</tr>
+	</tc>
+	<tc>
+	<tr layer right vcenter avatar />
+	</tc>	
+	
+    </tr>
+    <tr layer right top time />
+</tc>

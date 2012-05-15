@@ -1,0 +1,501 @@
+A.ag {
+	COLOR: black; FONT-FAMILY: Arial,Sans-Serif; TEXT-DECORATION: underline
+}
+P.sog {
+	PADDING-RIGHT: 25px; PADDING-LEFT: 20px; FONT-SIZE: 65%; PADDING-BOTTOM: 0px; PADDING-TOP: 3px
+}
+P.sog A {
+	COLOR: white; FONT-FAMILY: Arial,Sans-Serif
+}
+P.sog A:hover {
+	COLOR: #cce8ff
+}
+A.font {
+	FONT-SIZE: 70%; COLOR: black; TEXT-DECORATION: none
+}
+A.ag:hover {
+	TEXT-DECORATION: none
+}
+.ag {
+	FONT-WEIGHT: normal; PADDING-BOTTOM: 5px; COLOR: black; FONT-FAMILY: Arial,Sans-Serif
+}
+A.quest {
+	DISPLAY: block; FONT-SIZE: 90%; MARGIN: 3px 0px 0px
+}
+.dmar {
+	PADDING-RIGHT: 170px; FONT-SIZE: 75%; MARGIN: 10px 0px 0px 5px
+}
+.mar {
+	MARGIN-TOP: 10px; FONT-SIZE: 75%
+}
+.yas {
+	FONT-SIZE: 70%; MARGIN: 0px 0px 15px; COLOR: #676a71
+}
+.yas A {
+	COLOR: #0956a6; TEXT-DECORATION: none
+}
+.m {
+	FONT-SIZE: 70%; MARGIN: 0px 0px 0px 10px
+}
+UL.dpic {
+	PADDING-RIGHT: 260px; PADDING-LEFT: 10px; FONT-SIZE: 75%
+}
+UL.pic {
+	PADDING-LEFT: 10px; FONT-SIZE: 75%; MARGIN-BOTTOM: 15px
+}
+UL.pic LI.p1 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; LIST-STYLE-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/ima1.gif); PADDING-BOTTOM: 2px; PADDING-TOP: 0px
+}
+UL.pic LI.p2 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; LIST-STYLE-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/ima2.gif); PADDING-BOTTOM: 2px; PADDING-TOP: 0px
+}
+UL.pic LI.p3 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; LIST-STYLE-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/ima3.gif); PADDING-BOTTOM: 2px; PADDING-TOP: 0px
+}
+SPAN.or {
+	COLOR: #f26d00
+}
+UL {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 0px 17px; PADDING-TOP: 0px
+}
+LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 3px 0px 0px; LINE-HEIGHT: 120%; PADDING-TOP: 0px
+}
+.bottom {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 5px; FLOAT: left; PADDING-BOTTOM: 1px; MARGIN: 0px; PADDING-TOP: 0px
+}
+.right {
+	PADDING-RIGHT: 20px; FLOAT: right
+}
+.img {
+	PADDING-RIGHT: 320px; BACKGROUND-POSITION: left center; PADDING-LEFT: 40px; FONT-SIZE: 75%; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/kar.gif); PADDING-BOTTOM: 10px; MARGIN: 5px 0px 7px 5px; PADDING-TOP: 7px; BACKGROUND-REPEAT: no-repeat
+}
+.bg1 {
+	BACKGROUND-POSITION: right bottom; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/bg1.gif); BACKGROUND-REPEAT: no-repeat; HEIGHT: 220px
+}
+.bg12 {
+	BACKGROUND-POSITION: right top; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/bg1_2.gif); MARGIN: 0px; BACKGROUND-REPEAT: no-repeat; HEIGHT: 12px
+}
+.bg2 {
+	BACKGROUND-POSITION: right bottom; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/bg3.gif); BACKGROUND-REPEAT: no-repeat; HEIGHT: 240px
+}
+.bg21 {
+	BACKGROUND-POSITION: right top; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/bg3_2.gif); MARGIN: 0px; BACKGROUND-REPEAT: no-repeat; HEIGHT: 12px
+}
+.bg3 {
+	BACKGROUND-POSITION: right bottom; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/developers.gif); BACKGROUND-REPEAT: no-repeat; HEIGHT: 220px
+}
+.button {
+	BORDER-RIGHT: medium none; PADDING-RIGHT: 5px; BORDER-TOP: medium none; PADDING-LEFT: 35px; FONT-WEIGHT: bold; FONT-SIZE: 12px; BACKGROUND: url(http://img.mail.ru/mail/ru/images/agent/button2.gif) no-repeat; PADDING-BOTTOM: 8px; MARGIN: 5px 0px 5px 5px; BORDER-LEFT: medium none; WIDTH: 171px; COLOR: white; PADDING-TOP: 4px; BORDER-BOTTOM: medium none; FONT-FAMILY: Arial,Sans-Serif; HEIGHT: 24px; TEXT-DECORATION: none
+}
+.button2 {
+	BORDER-RIGHT: medium none; PADDING-RIGHT: 0px; BORDER-TOP: medium none; PADDING-LEFT: 32px; FONT-WEIGHT: bold; FONT-SIZE: 12px; BACKGROUND: url(http://img.mail.ru/mail/ru/images/agent/button.gif) no-repeat; FLOAT: right; PADDING-BOTTOM: 0px; MARGIN: 12px 0px 5px 5px; BORDER-LEFT: medium none; WIDTH: 123px; COLOR: white; PADDING-TOP: 3px; BORDER-BOTTOM: medium none; FONT-FAMILY: Arial,Sans-Serif; HEIGHT: 24px; TEXT-DECORATION: none
+}
+A.but {
+	COLOR: white; TEXT-DECORATION: none
+}
+A.but:hover {
+	COLOR: white; TEXT-DECORATION: none
+}
+TD.gif {
+	PADDING-RIGHT: 0px; BACKGROUND-POSITION: right 50%; PADDING-LEFT: 0px; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/1.gif); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; BACKGROUND-REPEAT: no-repeat
+}
+A {
+	COLOR: #0857a6; TEXT-DECORATION: underline
+}
+A:hover {
+	COLOR: #f26d00; TEXT-DECORATION: none
+}
+BODY {
+	FONT-WEIGHT: normal; FONT-FAMILY: Arial,Sans-Serif
+}
+TABLE TD {
+	FONT-WEIGHT: normal; FONT-FAMILY: Arial,Sans-Serif
+}
+INPUT {
+	FONT-WEIGHT: normal; FONT-FAMILY: Arial,Sans-Serif
+}
+SELECT {
+	FONT-WEIGHT: normal; FONT-FAMILY: Arial,Sans-Serif
+}
+LABEL {
+	FONT-WEIGHT: normal; FONT-FAMILY: Arial,Sans-Serif
+}
+DIV {
+	FONT-WEIGHT: normal; FONT-FAMILY: Arial,Sans-Serif
+}
+P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; PADDING-TOP: 0px
+}
+TABLE.pop TD.up {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: 80%; PADDING-BOTTOM: 10px; COLOR: black; PADDING-TOP: 10px
+}
+TABLE.pop H1 {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 10px; PADDING-BOTTOM: 7px; MARGIN: 0px; PADDING-TOP: 7px
+}
+H1 {
+	FONT-SIZE: 100%; FONT-FAMILY: Arial,Sans-Serif
+}
+H2 {
+	FONT-SIZE: 90%; MARGIN: 0px 0px 5px; COLOR: #003073; FONT-FAMILY: Arial,Sans-Serif
+}
+H3 {
+	FONT-SIZE: 80%; MARGIN: 0px 0px 2px; COLOR: #202020; FONT-FAMILY: Arial,Sans-Serif
+}
+H3 I {
+	FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+H4 {
+	FONT-SIZE: 75%; MARGIN: 8px 0px 0px; COLOR: #003073; FONT-FAMILY: Arial,Sans-Serif
+}
+H4 I {
+	FONT-WEIGHT: normal; COLOR: black; FONT-STYLE: normal
+}
+H5 {
+	FONT-WEIGHT: bold; FONT-SIZE: 70%; MARGIN: 8px 0px 2px; COLOR: #202020; FONT-FAMILY: Arial,Sans-Serif
+}
+H5 A {
+	FONT-WEIGHT: bold
+}
+H5 I A {
+	FONT-STYLE: normal
+}
+TABLE.frame {
+	MARGIN-BOTTOM: 10px
+}
+TABLE.top {
+	MARGIN-BOTTOM: 10px
+}
+TABLE.frame TD.cor {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/1.gif); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #d9d9d9
+}
+TABLE.top TD.cor {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/1.gif); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; BACKGROUND-REPEAT: no-repeat; BACKGROUND-COLOR: #d9d9d9
+}
+TABLE.frame TD.cont {
+	BORDER-RIGHT: #d9d9d9 1px solid; PADDING-RIGHT: 14px; PADDING-LEFT: 14px; PADDING-BOTTOM: 8px; MARGIN: 0px; BORDER-LEFT: #d9d9d9 1px solid; PADDING-TOP: 8px
+}
+TD.hd {
+	BACKGROUND-COLOR: #fedba5
+}
+TD.hd H1 {
+	FONT-WEIGHT: bold; MARGIN: 4px 4px 4px 0px; COLOR: black
+}
+TD.menuor {
+	PADDING-BOTTOM: 10px
+}
+TD.menuor DIV.menur {
+	BORDER-RIGHT: white 1px solid; PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px 2px; BORDER-LEFT: white 1px solid; PADDING-TOP: 0px; BACKGROUND-COLOR: #ffd57f
+}
+TD.menuor DIV.bord {
+	BORDER-RIGHT: #ffa901 2px solid; PADDING-RIGHT: 14px; BORDER-TOP: #ffa901 1px solid; PADDING-LEFT: 15px; FONT-SIZE: 75%; PADDING-BOTTOM: 4px; MARGIN: 0px; BORDER-LEFT: #ffa901 2px solid; PADDING-TOP: 4px; BORDER-BOTTOM: #ffa901 1px solid
+}
+TD.menuor DIV.bor SPAN.small {
+	FONT-SIZE: 90%; COLOR: red
+}
+TD.menuor DIV.bor A {
+	COLOR: #413f40; TEXT-DECORATION: underline
+}
+TD.menuor DIV.bor A:hover {
+	TEXT-DECORATION: none
+}
+TD.menuor DIV.bor {
+	BORDER-RIGHT: #ffd57f 1px solid; PADDING-RIGHT: 14px; PADDING-LEFT: 14px; FONT-SIZE: 75%; PADDING-BOTTOM: 4px; MARGIN: 0px 2px; BORDER-LEFT: #ffd57f 1px solid; PADDING-TOP: 4px; BACKGROUND-COLOR: #fff2d8
+}
+TD.menuor DIV.b {
+	BORDER-RIGHT: #ffd57f 1px solid; MARGIN: 0px 2px; BORDER-LEFT: #ffd57f 1px solid; BACKGROUND-COLOR: #fff2d8
+}
+.prop {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 0px; FONT-SIZE: 80%; PADDING-BOTTOM: 10px; PADDING-TOP: 5px
+}
+TD.prop P {
+	MARGIN: 0px; COLOR: #00458e; FONT-FAMILY: Arial,Sans-Serif
+}
+TD.text P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 75%; PADDING-BOTTOM: 5px; PADDING-TOP: 0px
+}
+TD.text H4 {
+	MARGIN: 12px 0px 3px
+}
+TD.text H1 {
+	FONT-WEIGHT: bold; MARGIN: 10px 0px 5px; COLOR: #003073
+}
+TD.text OL {
+	PADDING-RIGHT: 0px; DISPLAY: block; PADDING-LEFT: 0px; FONT-SIZE: 75%; PADDING-BOTTOM: 0px; MARGIN: 0px 0px 7px 30px; PADDING-TOP: 0px
+}
+TD.text UL {
+	PADDING-RIGHT: 0px; MARGIN-TOP: 0px; PADDING-LEFT: 0px; FONT-SIZE: 75%; MARGIN-BOTTOM: 0px; PADDING-BOTTOM: 0px; MARGIN-RIGHT: 0px; PADDING-TOP: 0px
+}
+LI {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; MARGIN: 3px 0px 0px; LINE-HEIGHT: 120%; PADDING-TOP: 0px
+}
+TD.vo {
+	PADDING-LEFT: 25px
+}
+TD.vo P {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 80%; PADDING-BOTTOM: 5px; PADDING-TOP: 0px
+}
+TD.vo UL {
+	PADDING-RIGHT: 0px; MARGIN-TOP: 0px; PADDING-LEFT: 0px; FONT-SIZE: 80%; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+TD.vo UL LI {
+	PADDING-RIGHT: 0px; MARGIN-TOP: 0px; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+TABLE.frame TD.cont UL {
+	FONT-SIZE: 70%
+}
+TABLE.frame TD.cont P {
+	FONT-SIZE: 70%
+}
+TABLE.frame TD.menu {
+	BORDER-RIGHT: #d9d9d9 1px solid; PADDING-RIGHT: 10px; PADDING-LEFT: 10px; PADDING-BOTTOM: 8px; BORDER-LEFT: #d9d9d9 1px solid; PADDING-TOP: 8px; TEXT-ALIGN: right
+}
+TABLE.frame TD.menu TABLE TD {
+	FONT-SIZE: 80%
+}
+TABLE.top TD {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 4px; FONT-SIZE: 70%; PADDING-BOTTOM: 4px; PADDING-TOP: 4px
+}
+TABLE.top TD.cor IMG {
+	MARGIN: 0px
+}
+TABLE.top TD.left {
+	PADDING-LEFT: 22px; BORDER-LEFT: #d9d9d9 1px solid
+}
+TABLE.top TD.right {
+	BORDER-RIGHT: #d9d9d9 1px solid; PADDING-RIGHT: 22px; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+TABLE.top TD IMG.pic {
+	MARGIN-RIGHT: 2px
+}
+TD.form {
+	PADDING-BOTTOM: 10px
+}
+TD.title {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 0px; FONT-WEIGHT: bold; PADDING-BOTTOM: 10px; PADDING-TOP: 0px
+}
+TD.pic {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 0px; PADDING-BOTTOM: 5px; PADDING-TOP: 5px
+}
+TABLE.footer TD {
+	FONT-SIZE: 70%; COLOR: white
+}
+TABLE.footer TD A {
+	COLOR: white
+}
+TABLE.footer TD A:hover {
+	COLOR: #cce8ff
+}
+TABLE.footer TD.hide {
+	FONT-SIZE: 70%; COLOR: #00468c
+}
+TABLE.footer TD.hide A {
+	COLOR: #00468c
+}
+TABLE.footer TD.hide A:hover {
+	COLOR: #00468c
+}
+TD.entry {
+	BACKGROUND-POSITION: left bottom; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/dot.gif); WIDTH: 100%; BACKGROUND-REPEAT: repeat-x
+}
+TABLE.rating TD.entry A {
+	BACKGROUND-COLOR: white
+}
+TD.centcol DIV.cor {
+	MARGIN-BOTTOM: 15px
+}
+TABLE.menu TD {
+	BACKGROUND-COLOR: white
+}
+TD.item {
+	PADDING-RIGHT: 10px; BORDER-TOP: white 3px solid; PADDING-LEFT: 10px; FONT-SIZE: 75%; PADDING-BOTTOM: 20px; PADDING-TOP: 2px
+}
+TD.cur {
+	PADDING-RIGHT: 10px; BORDER-TOP: white 3px solid; PADDING-LEFT: 10px; FONT-SIZE: 75%; PADDING-BOTTOM: 20px; PADDING-TOP: 2px
+}
+TD.head {
+	PADDING-LEFT: 15px
+}
+TD.head2 {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 5px
+}
+IMG.pre {
+	BORDER-RIGHT: #ffb31a 1px solid; BORDER-TOP: #ffb31a 1px solid; MARGIN-BOTTOM: 5px; BORDER-LEFT: #ffb31a 1px solid; BORDER-BOTTOM: #ffb31a 1px solid
+}
+DIV.footer {
+	FONT-SIZE: 80%; MARGIN: 10px 0px 20px; TEXT-ALIGN: center
+}
+DIV.plash {
+	WIDTH: 100%; BACKGROUND-COLOR: #00468c; TEXT-ALIGN: center
+}
+DIV.cor {
+	BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/1.gif); WIDTH: 100%; BACKGROUND-REPEAT: no-repeat; HEIGHT: 1px; BACKGROUND-COLOR: #d9d9d9; TEXT-ALIGN: right
+}
+DIV.plash DIV.cor {
+	BACKGROUND-COLOR: #00468c
+}
+TD.bg1 DIV.cor {
+	BACKGROUND-COLOR: #00468c
+}
+TD.header DIV.cor {
+	BACKGROUND-COLOR: #00468c
+}
+DIV.cmnt2 {
+	MARGIN-TOP: 7px; FONT-SIZE: 70%; MARGIN-BOTTOM: 12px; COLOR: #616161
+}
+UNKNOWN {
+	MARGIN-BOTTOM: 10px
+}
+UNKNOWN {
+	MARGIN: 0px
+}
+TD.header {
+	BACKGROUND-COLOR: #00468c
+}
+TD.header TD.text {
+	PADDING-RIGHT: 15px; PADDING-LEFT: 0px; FONT-SIZE: 70%; PADDING-BOTTOM: 0px; COLOR: white; PADDING-TOP: 1px; FONT-FAMILY: Tahoma
+}
+.kill {
+	TEXT-DECORATION: line-through
+}
+.warn {
+	BORDER-RIGHT: #ff0000 2px solid; PADDING-RIGHT: 3px; BORDER-TOP: #ff0000 1px solid; PADDING-LEFT: 3px; PADDING-BOTTOM: 3px; BORDER-LEFT: #ff0000 2px solid; PADDING-TOP: 3px; BORDER-BOTTOM: #ff0000 1px solid
+}
+.knopi {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-WEIGHT: bold; FONT-SIZE: 12px; PADDING-BOTTOM: 0px; COLOR: white; PADDING-TOP: 0px; FONT-FAMILY: Arial,Sans-Serif; TEXT-DECORATION: none
+}
+TD.fail {
+	BACKGROUND-POSITION: left bottom; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/point1.gif); BACKGROUND-REPEAT: repeat-x
+}
+TD.fail1 {
+	BACKGROUND-POSITION: left bottom; BACKGROUND-IMAGE: url(http://img.mail.ru/mail/ru/images/agent/point1.gif); BACKGROUND-REPEAT: repeat-x; TEXT-ALIGN: right
+}
+TD.fail B {
+	PADDING-RIGHT: 2px; FONT-WEIGHT: normal; BACKGROUND-COLOR: #fff3de
+}
+TD.fail1 B {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 3px; FONT-WEIGHT: normal; PADDING-BOTTOM: 0px; COLOR: #676a73; PADDING-TOP: 0px; BACKGROUND-COLOR: #fff3de
+}
+DIV.gr_line {
+	BACKGROUND-COLOR: #dadce5
+}
+TABLE.stat {
+	PADDING-RIGHT: 10px; MARGIN-BOTTOM: 20px; BACKGROUND-COLOR: #ffffff; TEXT-ALIGN: left
+}
+TABLE.stat TR TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: 75%; PADDING-BOTTOM: 5px; PADDING-TOP: 5px; FONT-FAMILY: arial
+}
+TABLE.stat TR.head TD {
+	PADDING-RIGHT: 10px; PADDING-LEFT: 10px; FONT-SIZE: 70%; PADDING-BOTTOM: 0px; PADDING-TOP: 3px; FONT-FAMILY: tahoma; BACKGROUND-COLOR: #e6e8ed
+}
+TABLE.stat TR TD.iskl {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 4px
+}
+TABLE.stat TR.head TD A {
+	COLOR: #393b40
+}
+TABLE.stat TR.head TD A:hover {
+	COLOR: #000000
+}
+TR.head TD {
+	BORDER-BOTTOM: #e6e8ed 3px solid
+}
+TR.head TD.nizh {
+	COLOR: #000000; PADDING-TOP: 5px; BORDER-BOTTOM: #acafbf 3px solid
+}
+TABLE.stat TR.last_tr TD {
+	PADDING-RIGHT: 0px; BORDER-TOP: #dadde5 3px solid; PADDING-LEFT: 0px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px
+}
+TR.weekend TD {
+	BACKGROUND-COLOR: #fffbed
+}
+TR.forced TD {
+	FONT-WEIGHT: bold
+}
+TR.or_vid TD {
+	BACKGROUND-COLOR: #fff7e5
+}
+TR.st_vid TD {
+	BACKGROUND-COLOR: #ffffff
+}
+TR.cherez TD {
+	BACKGROUND-COLOR: #f5f5f2
+}
+TABLE.frame TD.cont UL.mmenu {
+	FONT-SIZE: 80%
+}
+TABLE.frame TD.cont UL.mmenu LI {
+	MARGIN-BOTTOM: 4px; COLOR: #dbe0e6
+}
+TABLE.frame TD.cont UL.mmenu LI .speak {
+	COLOR: #0857a6
+}
+TABLE.frame TD.cont UL.mmenu LI.ai {
+	COLOR: #000000
+}
+TABLE.frame TD.cont UL.mmenu LI UL.smenu {
+	FONT-SIZE: 85%; MARGIN-BOTTOM: 6px
+}
+TABLE.frame TD.cont UL.mmenu LI UL.smenu LI {
+	MARGIN-TOP: 4px; COLOR: #dbe0e6
+}
+TABLE.frame TD.cont UL.mmenu LI UL.smenu LI.ai {
+	COLOR: #000000
+}
+TABLE.talkme TD {
+	PADDING-RIGHT: 5px; PADDING-LEFT: 0px; FONT-SIZE: 70%; PADDING-BOTTOM: 4px; PADDING-TOP: 0px
+}
+TABLE.talkme TD IMG.avat {
+	BORDER-RIGHT: #d9d9d9 1px solid; BORDER-TOP: #d9d9d9 1px solid; MARGIN-BOTTOM: 5px; BORDER-LEFT: #d9d9d9 1px solid; BORDER-BOTTOM: #d9d9d9 1px solid
+}
+TABLE.talkme TD.all {
+	PADDING-BOTTOM: 13px
+}
+TABLE.talkme TD.all A {
+	COLOR: #696973; TEXT-DECORATION: underline
+}
+TABLE.frame TD.contfr {
+	BORDER-RIGHT: #d9d9d9 1px solid; PADDING-RIGHT: 60px; PADDING-LEFT: 14px; BACKGROUND: url(http://img.mail.ru/mail/ru/images/agent/friend.jpg) no-repeat right bottom; PADDING-BOTTOM: 8px; MARGIN: 0px; BORDER-LEFT: #d9d9d9 1px solid; PADDING-TOP: 8px
+}
+TABLE.frame TD.contfr TD {
+	PADDING-RIGHT: 3px; PADDING-LEFT: 0px; FONT-SIZE: 70%; PADDING-BOTTOM: 0px; COLOR: #646b75; PADDING-TOP: 3px
+}
+TABLE.frame TD.contfr TD SPAN {
+	FONT-SIZE: 90%
+}
+TABLE.frame TD.contfr TD A {
+	TEXT-DECORATION: none
+}
+TABLE.frame TD.contfr TD.all {
+	PADDING-BOTTOM: 13px
+}
+TABLE.frame TD.contfr TD.all A {
+	COLOR: #696973; TEXT-DECORATION: underline
+}
+TABLE.frame TD H2 {
+	MARGIN-BOTTOM: 10px
+}
+.pbgla {
+	BACKGROUND: url(http://img.mail.ru/mail/ru/images/agent/pbg_l1.gif) no-repeat center bottom
+}
+.pbglba {
+	BACKGROUND: url(http://img.mail.ru/mail/ru/images/agent/pbg_l2-1.gif) no-repeat left top
+}
+.pbglbb {
+	BACKGROUND: url(http://img.mail.ru/mail/ru/images/agent/pbg_l2-2.gif) no-repeat right top
+}
+TABLE.top_menu {
+	MARGIN-BOTTOM: 7px
+}
+TABLE.top_menu TD {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 0px; FONT-SIZE: 80%; PADDING-BOTTOM: 4px; PADDING-TOP: 2px
+}
+TABLE.top_menu TD.bord_b {
+	PADDING-RIGHT: 0px; BACKGROUND-POSITION: right top; PADDING-LEFT: 0px; BACKGROUND-IMAGE: url(http://img.mail.ru/1.gif); PADDING-BOTTOM: 0px; PADDING-TOP: 0px; BACKGROUND-REPEAT: no-repeat; HEIGHT: 1px; BACKGROUND-COLOR: #c2c3cc
+}
+TABLE.top_menu TD.bord_l {
+	BORDER-LEFT: #c2c3cc 1px solid
+}
+TABLE.top_menu TD.bord_r {
+	BORDER-RIGHT: #c2c3cc 1px solid
+}

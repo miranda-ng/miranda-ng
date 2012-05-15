@@ -1,0 +1,223 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+#include <winres.h>
+#include <tchar.h>
+#include <m_button.h>
+#include <version.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONSOLE DIALOGEX 0, 0, 335, 257
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX |
+    WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Console                                    "
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_TABS,"SysTabControl32",TCS_FOCUSNEVER |
+                    WS_CLIPSIBLINGS | WS_TABSTOP,0,0,335,257
+END
+
+IDD_LOG DIALOGEX 0, 0, 335, 257
+STYLE DS_SETFONT | DS_CONTROL | WS_CHILD | WS_CLIPCHILDREN
+FONT 10, "Courier", 0, 0, 0x1
+BEGIN
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT |
+                    LVS_SHAREIMAGELISTS | LVS_NOCOLUMNHEADER |
+                    LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,0,18,335,239
+    CONTROL         "&S",IDC_SAVE,"MButtonClass",WS_TABSTOP,0,1,14,16,
+                    0x18000000L
+    CONTROL         "&P",IDC_PAUSE,"MButtonClass",WS_TABSTOP,16,1,14,16,
+                    0x18000000L
+    CONTROL         "&Q",IDC_SCROLL,"MButtonClass",WS_TABSTOP,32,1,14,16,
+                    0x18000000L
+    CONTROL         "&C",IDC_COPY,"MButtonClass",WS_TABSTOP,48,1,14,16,
+                    0x18000000L
+    CONTROL         "&D",IDC_DELETE,"MButtonClass",WS_TABSTOP,64,1,14,16,
+                    0x18000000L
+    CONTROL         "&O",IDC_OPTIONS,"MButtonClass",WS_TABSTOP,80,1,14,16,
+                    0x18000000L
+    CONTROL         "",IDC_STARTALL,"MButtonClass",WS_TABSTOP,278,1,14,16,
+                    0x18000000L
+    CONTROL         "",IDC_PAUSEALL,"MButtonClass",WS_TABSTOP,294,1,14,16,
+                    0x18000000L
+    CONTROL         "&W",IDC_CLOSE,"MButtonClass",WS_TABSTOP,320,1,14,16,
+                    0x18000000L
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 314, 239
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Single window mode*",IDC_SINGLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,9,297,10
+    CONTROL         "Show icons in log*",IDC_SHOWICONS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,24,297,10
+    CONTROL         "New lines between events*",IDC_SEPARATOR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,39,297,10
+    CONTROL         "Always show at start",IDC_START,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,54,297,10
+    EDITTEXT        IDC_WRAP,8,69,23,11,ES_RIGHT | ES_NUMBER
+    EDITTEXT        IDC_LIMIT,8,86,59,11,ES_RIGHT | ES_NUMBER
+    LTEXT           "Lines wrap length [25-255]",IDC_STATIC,35,70,272,10
+    LTEXT           "Log size limit [1 000 - 1 000 000 lines]",IDC_STATIC,71,
+                    86,236,10
+    LTEXT           "* Restart needed",IDC_STATIC,8,106,296,10
+    PUSHBUTTON      "Save settings and restart console",IDC_RESTART,12,129,
+                    287,17
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE
+BEGIN
+    "#include <windows.h>\r\n"
+    "#include <winres.h>\r\n"
+    "#include <tchar.h>\r\n"
+    "#include <m_button.h>\r\n"
+    "#include <version.h>\0"
+END
+
+3 TEXTINCLUDE
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,7,2
+ PRODUCTVERSION 0,0,7,2
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "FileDescription", "Console log window for Miranda 0.8.0.3+"
+            VALUE "FileVersion", "0.0.7.2"
+            VALUE "InternalName", "Console"
+            VALUE "LegalCopyright", "© 2005-2009 Bio"
+            VALUE "OriginalFilename", "Console.dll"
+            VALUE "ProductName", "Console"
+            VALUE "ProductVersion", "0.0.7.2"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_COPY                ICON                    "Res\\copy.ico"
+IDI_CONSOLE             ICON                    "res\\console.ico"
+IDI_NOSCROLL            ICON                    "Res\\noscroll.ico"
+IDI_SCROLL              ICON                    "Res\\scroll.ico"
+IDI_SAVE                ICON                    "Res\\save.ico"
+IDI_DELETE              ICON                    "Res\\delete.ico"
+IDI_OPTIONS             ICON                    "Res\\options.ico"
+IDI_PAUSED              ICON                    "Res\\paused.ico"
+IDI_STARTED             ICON                    "Res\\started.ico"
+IDI_BTN_UP              ICON                    "Res\\btn_up.ico"
+IDI_BTN_DN              ICON                    "Res\\btn_dn.ico"
+IDI_CLOSE               ICON                    "Res\\close.ico"
+IDI_PAUSE               ICON                    "Res\\pause.ico"
+IDI_START               ICON                    "Res\\start.ico"
+IDI_IN                  ICON                    "Res\\in.ico"
+IDI_OUT                 ICON                    "Res\\out.ico"
+IDI_ARROW               ICON                    "Res\\arrow.ico"
+IDI_INFO                ICON                    "Res\\info.ico"
+IDI_EMPTY               ICON                    "Res\\empty.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_CONSOLE_UP          BITMAP                  "res\\console_up.bmp"
+IDB_CONSOLE_DOWN        BITMAP                  "res\\console_dn.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CONSOLE, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 256
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

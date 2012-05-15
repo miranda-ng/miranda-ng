@@ -1,0 +1,64 @@
+
+102 DIALOGEX 0, 0, 220, 143
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CAPTION | WS_SYSMENU
+CAPTION "Import Text Files Wizard"
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+FONT 8, "MS Shell Dlg"
+BEGIN
+    DEFPUSHBUTTON   "&Next >",IDOK,120,124,45,13
+    PUSHBUTTON      "Cancel",IDCANCEL,168,124,45,13
+    PUSHBUTTON      "< &Back",3,75,124,45,13
+    CONTROL         "",1011,"Static",SS_ETCHEDHORZ,5,116,210,1
+END
+
+103 DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.",1010,18,12,182,32
+    LTEXT           "Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.",1009,18,42,182,25
+    CTEXT           "It is recommended that you create a backup of your current Miranda profile before importing.",1008,18,78,182,21
+END
+
+104 DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Choose type of imported files:",1010,6,76,208,8
+    COMBOBOX        1007,5,90,208,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+END
+
+105 DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Select files or the whole directory for import:",1010,6,86,208,8
+    LISTBOX         1002,5,12,208,55,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Files...",1001,157,96,56,14
+    LTEXT           "Path:",1009,6,73,24,8
+    EDITTEXT        1003,31,71,182,12,ES_AUTOHSCROLL | WS_DISABLED
+    LTEXT           "Files:",1008,6,3,208,8
+    PUSHBUTTON      "Directory...",1005,101,96,56,14
+END
+
+106 DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+	CHECKBOX        "Check messages for duplicates", 1012, 6, 20, 140, 14, BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP
+	CHECKBOX        "Show duplicates", 1013, 6, 32, 86, 14, BS_AUTOCHECKBOX | WS_VISIBLE | WS_TABSTOP
+    LTEXT           "All previous chosen files will try to import to this protocol.", 1010, 6, 46, 208, 10
+    COMBOBOX        1007,5,66,208,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Select protocol or account:",1009,6,55,208,8
+    CTEXT           "Click ""Next"" to start Import or ""Cancel"" to Abort.",1008,6,96,208,8
+END
+
+107 DIALOGEX 0, 0, 220, 114
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Now importing...",1010,6,11,208,8
+    CONTROL         "Progress1",1004,"msctls_progress32",WS_BORDER | 0x1,5,24,208,10
+    LISTBOX         1006,5,38,208,61,NOT LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | LBS_NOSEL | WS_VSCROLL | WS_TABSTOP
+END
+

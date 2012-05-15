@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4a8bb46c-4423-42fc-9576-78cd8badfcff}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a442bb73-5e8b-4eb0-b6c0-0534f3ca4b87}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{b4847f2a-7aa8-4577-a5a1-f7adf03537ec}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="translation template">
+      <UniqueIdentifier>{a8acfb52-2cd1-4156-ad43-fcdd6773d45c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="addto.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="edit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icons.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meta_api.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meta_main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meta_menu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meta_options.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meta_services.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="meta_utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="m_metacontacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="metacontacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mcmenu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="mcmenuof.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="meta_add.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="meta_convert.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="meta_edit.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="meta_remove2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="meta_set_as_default.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MetaContacts translations\metacontacts_template.txt">
+      <Filter>translation template</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MetaContacts.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

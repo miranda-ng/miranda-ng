@@ -1,0 +1,109 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include <windows.h>
+#include <commctrl.h>
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_BASSSoundOnOffUp		ICON           "res/BASSSoundOnOffUp.ico"
+IDI_BASSSoundOnOffDown		ICON           "res/BASSSoundOnOffDown.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 313, 240
+STYLE DS_SHELLFONT | WS_VISIBLE | WS_CHILDWINDOW
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 1
+BEGIN
+	GROUPBOX        "un4seen's bass interface", IDC_STATIC, 5, 5, 302, 231
+	LTEXT           "bass.dll loading error", IDC_BASSVERSION, 20, 20, 210, 8, SS_LEFT
+	LTEXT           "Current bass.dll path:", IDC_CURRPATHLABEL, 20, 45, 210, 8, SS_LEFT
+	LTEXT           "", IDC_CURRPATH, 20, 60, 210, 8, SS_LEFT | SS_PATHELLIPSIS
+	LTEXT           "Maximum number of bass internal channels:", IDC_MAXCHANNELLABEL, 20, 85, 210, 8, SS_LEFT
+	COMBOBOX        IDC_MAXCHANNEL, 20, 100, 48, 14, CBS_DROPDOWNLIST | CBS_HASSTRINGS
+	LTEXT           "Output device:", IDC_OUTDEVICELABEL, 20, 125, 240, 8, SS_LEFT
+	COMBOBOX        IDC_OUTDEVICE, 20, 140, 236, 30, CBS_DROPDOWNLIST | CBS_HASSTRINGS
+	LTEXT           "Volume:", IDC_VOLUMELABEL, 20, 165, 165, 8, SS_LEFT
+	CONTROL         "", IDC_VOLUME, TRACKBAR_CLASS, WS_TABSTOP | TBS_BOTH | TBS_NOTICKS, 20, 180, 273, 10
+	AUTOCHECKBOX    "Quiet time:", IDC_QUIETTIME, 20, 205, 55, 10
+	CONTROL         "", IDC_TIME1, DATETIMEPICK_CLASS, WS_TABSTOP | WS_DISABLED | DTS_TIMEFORMAT | DTS_UPDOWN | DTS_RIGHTALIGN, 79, 202, 35, 15
+	CONTROL         "", IDC_TIME2, DATETIMEPICK_CLASS, WS_TABSTOP | WS_DISABLED | DTS_TIMEFORMAT | DTS_UPDOWN | DTS_RIGHTALIGN, 135, 202, 35, 15
+	CTEXT           "-", IDC_STATIC, 117, 205, 15, 8, SS_CENTER
+	CONTROL         "download bass library", IDC_GETBASS, "Hyperlink", 0x50010002, 74, 222, 228, 10
+	GROUPBOX        "Play only if", IDC_STATIC, 235, 5, 72, 117
+	AUTOCHECKBOX    "Offline", IDC_CHECKBOX1, 240, 20, 65, 8
+	AUTOCHECKBOX    "Online", IDC_CHECKBOX2, 240, 30, 65, 8
+	AUTOCHECKBOX    "Away", IDC_CHECKBOX3, 240, 40, 65, 8
+	AUTOCHECKBOX    "NA", IDC_CHECKBOX4, 240, 50, 65, 8
+	AUTOCHECKBOX    "Occupied", IDC_CHECKBOX5, 240, 60, 65, 8
+	AUTOCHECKBOX    "DND", IDC_CHECKBOX6, 240, 70, 65, 8
+	AUTOCHECKBOX    "Free for chat", IDC_CHECKBOX7, 240, 80, 65, 8
+	AUTOCHECKBOX    "Invisible", IDC_CHECKBOX8, 240, 90, 65, 8
+	AUTOCHECKBOX    "On the phone", IDC_CHECKBOX9, 240, 100, 65, 8
+	AUTOCHECKBOX    "Out to lunch", IDC_CHECKBOX10, 240, 110, 65, 8
+	AUTOCHECKBOX    "Preview", IDC_PREVIEW, 200, 165, 90, 8, BS_RIGHT, WS_EX_RIGHT
+END
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED

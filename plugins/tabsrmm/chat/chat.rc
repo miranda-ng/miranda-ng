@@ -1,0 +1,411 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "chat_resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+#include "richedit.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CHANNEL DIALOGEX 0, 0, 252, 140
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_CLIPCHILDREN
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_SPLITTERX,"Static",SS_ENHMETAFILE,172,23,10,73
+    CONTROL         "",IDC_SPLITTERY,"Static",SS_ENHMETAFILE,0,132,251,6
+    CONTROL         "",IDC_CHAT_MESSAGE,"RichEdit20W",WS_VSCROLL | WS_TABSTOP | 0x1144,0,128,127,12,WS_EX_STATICEDGE
+    CONTROL         "",IDC_CHAT_LOG,"RichEdit20W",WS_VSCROLL | 0x844,8,23,164,72,WS_EX_STATICEDGE
+    LISTBOX         IDC_LIST,182,23,69,73,LBS_MULTIPLESEL | LBS_OWNERDRAWFIXED | LBS_NOINTEGRALHEIGHT | LBS_EXTENDEDSEL | LBS_NODATA | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    CONTROL         "",IDC_PANELSPLITTER,"Static",SS_ENHMETAFILE,0,32,252,1,WS_EX_TRANSPARENT
+END
+
+IDD_ADDHIGHLIGHT DIALOG 0, 0, 212, 97
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "",IDC_STATIC,0,0,211,97
+    LTEXT           "",IDC_ADDHIGHLIGHTTITLE,7,3,201,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_ADDHIGHLIGHTNAME,17,24,178,17,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "You can add the user by user name or his id. Wildcards are allowed and recommended.",IDC_ADDHIGHLIGHTEXPLAIN,15,49,179,21
+    DEFPUSHBUTTON   "OK",IDOK,152,76,55,14
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,91,76,55,14
+    EDITTEXT        IDC_ADDHIGHLIGHTEDITLIST,9,18,192,47,ES_AUTOHSCROLL
+END
+
+IDD_FILTER DIALOG 0, 0, 201, 126
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "",IDC_STATIC,0,0,201,124
+    LTEXT           "  Show these events",IDC_TEXTO,1,0,91,13,SS_CENTERIMAGE
+    CONTROL         "Actions",IDC_1,"Button",BS_AUTO3STATE | WS_TABSTOP,3,13,114,10
+    CONTROL         "Messages",IDC_2,"Button",BS_AUTO3STATE | WS_TABSTOP,3,23,114,10
+    CONTROL         "Nick changes",IDC_3,"Button",BS_AUTO3STATE | WS_TABSTOP,3,33,114,10
+    CONTROL         "Users joining",IDC_4,"Button",BS_AUTO3STATE | WS_TABSTOP,3,43,114,10
+    CONTROL         "Users leaving",IDC_5,"Button",BS_AUTO3STATE | WS_TABSTOP,3,53,114,10
+    CONTROL         "Topic changes",IDC_6,"Button",BS_AUTO3STATE | WS_TABSTOP,3,63,114,10
+    CONTROL         "Status changes",IDC_7,"Button",BS_AUTO3STATE | WS_TABSTOP,3,73,114,10
+    CONTROL         "Information",IDC_8,"Button",BS_AUTO3STATE | WS_TABSTOP,3,83,114,10
+    CONTROL         "Disconnects",IDC_9,"Button",BS_AUTO3STATE | WS_TABSTOP,3,93,114,10
+    CONTROL         "User kicks",IDC_10,"Button",BS_AUTO3STATE | WS_TABSTOP,3,103,114,10
+    CONTROL         "Notices",IDC_11,"Button",BS_AUTO3STATE | WS_TABSTOP,3,113,82,10
+    CTEXT           "Popup",IDC_TEXTO2,105,0,43,13,SS_CENTERIMAGE
+    CTEXT           "Tray",IDC_TEXTO3,159,0,34,13,SS_CENTERIMAGE
+    CONTROL         "",IDC_P1,"Button",BS_AUTO3STATE | WS_TABSTOP,123,13,21,10
+    CONTROL         "",IDC_P2,"Button",BS_AUTO3STATE | WS_TABSTOP,123,23,21,10
+    CONTROL         "",IDC_P3,"Button",BS_AUTO3STATE | WS_TABSTOP,123,33,21,10
+    CONTROL         "",IDC_P4,"Button",BS_AUTO3STATE | WS_TABSTOP,123,43,21,10
+    CONTROL         "",IDC_P5,"Button",BS_AUTO3STATE | WS_TABSTOP,123,53,21,10
+    CONTROL         "",IDC_P6,"Button",BS_AUTO3STATE | WS_TABSTOP,123,63,21,10
+    CONTROL         "",IDC_P7,"Button",BS_AUTO3STATE | WS_TABSTOP,123,73,21,10
+    CONTROL         "",IDC_P8,"Button",BS_AUTO3STATE | WS_TABSTOP,123,83,21,10
+    CONTROL         "",IDC_P9,"Button",BS_AUTO3STATE | WS_TABSTOP,123,93,21,10
+    CONTROL         "",IDC_P10,"Button",BS_AUTO3STATE | WS_TABSTOP,123,103,21,10
+    CONTROL         "",IDC_P11,"Button",BS_AUTO3STATE | WS_TABSTOP,123,113,21,10
+    CONTROL         "",IDC_T1,"Button",BS_AUTO3STATE | WS_TABSTOP,173,13,21,10
+    CONTROL         "",IDC_T2,"Button",BS_AUTO3STATE | WS_TABSTOP,173,23,21,10
+    CONTROL         "",IDC_T3,"Button",BS_AUTO3STATE | WS_TABSTOP,173,33,21,10
+    CONTROL         "",IDC_T4,"Button",BS_AUTO3STATE | WS_TABSTOP,173,43,21,10
+    CONTROL         "",IDC_T5,"Button",BS_AUTO3STATE | WS_TABSTOP,173,53,21,10
+    CONTROL         "",IDC_T6,"Button",BS_AUTO3STATE | WS_TABSTOP,173,63,21,10
+    CONTROL         "",IDC_T7,"Button",BS_AUTO3STATE | WS_TABSTOP,173,73,21,10
+    CONTROL         "",IDC_T8,"Button",BS_AUTO3STATE | WS_TABSTOP,173,83,21,10
+    CONTROL         "",IDC_T9,"Button",BS_AUTO3STATE | WS_TABSTOP,173,93,21,10
+    CONTROL         "",IDC_T10,"Button",BS_AUTO3STATE | WS_TABSTOP,173,103,21,10
+    CONTROL         "",IDC_T11,"Button",BS_AUTO3STATE | WS_TABSTOP,173,113,21,10
+END
+
+IDD_OPTIONS1 DIALOGEX 0, 0, 306, 236
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Options",IDC_STATIC,3,0,300,229
+    CONTROL         "",IDC_CHECKBOXES,"SysTreeView32",TVS_HASBUTTONS | TVS_DISABLEDRAGDROP | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,6,9,294,177
+    LTEXT           "Add new rooms to group:",IDC_STATIC_ADD,10,213,132,8
+    EDITTEXT        IDC_GROUP,152,210,50,14,ES_AUTOHSCROLL
+    LTEXT           "Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.",IDC_STATIC_MESSAGE,21,52,256,74
+END
+
+IDD_OPTIONS2 DIALOGEX 0, 0, 306, 239
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Log files",IDC_STATIC,1,2,299,95
+    CONTROL         "Enable logging to disk",IDC_LOGGING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,14,277,10
+    LTEXT           "Log directory",IDC_STATIC110,17,27,211,8
+    EDITTEXT        IDC_LOGDIRECTORY,15,38,211,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_FONTCHOOSE,230,39,19,14
+    LTEXT           "Maximum size for log files (in kB)",IDC_STATIC112,17,62,159,11
+    EDITTEXT        IDC_LIMIT,230,59,38,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHAT_SPIN4,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,261,57,11,14
+    GROUPBOX        "Group chat log formatting",IDC_STATIC,1,101,299,59
+    LTEXT           "Your name",IDC_STATIC,10,111,50,8
+    EDITTEXT        IDC_OUTSTAMP,10,121,35,14,ES_AUTOHSCROLL
+    LTEXT           "Other name",IDC_STATIC,60,111,57,8
+    EDITTEXT        IDC_INSTAMP,60,121,35,14,ES_AUTOHSCROLL
+    LTEXT           "Timestamp (window)",IDC_STATIC,118,111,78,8
+    EDITTEXT        IDC_TIMESTAMP,118,121,81,14,ES_AUTOHSCROLL
+    LTEXT           "Timestamp (logfile)",IDC_STATIC,205,111,81,8
+    EDITTEXT        IDC_LOGTIMESTAMP,205,121,81,14,ES_AUTOHSCROLL
+    LTEXT           "Maximum number of events in the message window",IDC_STATIC,10,142,225,11
+    EDITTEXT        IDC_LOGLIMIT,248,139,38,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin1",IDC_CHAT_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,281,138,11,14
+    LTEXT           "Groupchat userlist row height (pixels)",IDC_STATIC_ULIST,10,212,221,8
+    EDITTEXT        IDC_NICKROW2,247,209,29,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHAT_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,275,215,11,14
+    PUSHBUTTON      "Open log file base folder",IDC_MUC_OPENLOGBASEDIR,16,76,155,14
+END
+
+IDD_OPTIONS3 DIALOGEX 0, 0, 306, 239
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Default settings for known event types",IDC_STATIC,7,5,293,153
+    LTEXT           "Show when filter is active",IDC_STATIC,12,14,119,13,SS_CENTERIMAGE
+    CTEXT           "Log to file",IDC_TEXTO4,234,13,64,13,SS_CENTERIMAGE
+    CTEXT           "Show Popup",IDC_TEXTO2,131,13,49,13,SS_CENTERIMAGE
+    CTEXT           "Notify in tray",IDC_TEXTO3,183,13,49,13,SS_CENTERIMAGE
+    CONTROL         "Actions",IDC_1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,28,110,10
+    CONTROL         "Messages",IDC_2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,38,110,10
+    CONTROL         "Nick changes",IDC_3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,48,110,10
+    CONTROL         "Users joining",IDC_4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,58,110,10
+    CONTROL         "Users leaving",IDC_5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,68,110,10
+    CONTROL         "Topic changes",IDC_6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,78,110,10
+    CONTROL         "Status changes",IDC_7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,88,110,10
+    CONTROL         "Information",IDC_8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,98,110,10
+    CONTROL         "Disconnects",IDC_9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,108,110,10
+    CONTROL         "User kicks",IDC_10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,118,110,10
+    CONTROL         "Notices",IDC_11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,128,110,10
+    CONTROL         "",IDC_P1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,28,21,10
+    CONTROL         "",IDC_P2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,38,21,10
+    CONTROL         "",IDC_P3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,48,21,10
+    CONTROL         "",IDC_P4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,58,21,10
+    CONTROL         "",IDC_P5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,68,21,10
+    CONTROL         "",IDC_P6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,78,21,10
+    CONTROL         "",IDC_P7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,88,21,10
+    CONTROL         "",IDC_P8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,98,21,10
+    CONTROL         "",IDC_P9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,108,21,10
+    CONTROL         "",IDC_P10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,118,21,10
+    CONTROL         "",IDC_P11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,128,21,10
+    CONTROL         "",IDC_P12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,152,138,21,10
+    CONTROL         "",IDC_T1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,28,21,10
+    CONTROL         "",IDC_T2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,38,21,10
+    CONTROL         "",IDC_T3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,48,21,10
+    CONTROL         "",IDC_T4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,58,21,10
+    CONTROL         "",IDC_T5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,68,21,10
+    CONTROL         "",IDC_T6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,78,21,10
+    CONTROL         "",IDC_T7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,88,21,10
+    CONTROL         "",IDC_T8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,98,21,10
+    CONTROL         "",IDC_T9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,108,21,10
+    CONTROL         "",IDC_T10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,118,21,10
+    CONTROL         "",IDC_T11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,128,21,10
+    CONTROL         "",IDC_T12,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,204,138,21,10
+    CONTROL         "",IDC_L1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,28,21,10
+    CONTROL         "",IDC_L2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,38,21,10
+    CONTROL         "",IDC_L3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,48,21,10
+    CONTROL         "",IDC_L4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,58,21,10
+    CONTROL         "",IDC_L5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,68,21,10
+    CONTROL         "",IDC_L6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,78,21,10
+    CONTROL         "",IDC_L7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,88,21,10
+    CONTROL         "",IDC_L8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,98,21,10
+    CONTROL         "",IDC_L9,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,108,21,10
+    CONTROL         "",IDC_L10,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,118,21,10
+    CONTROL         "",IDC_L11,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,128,21,10
+    CONTROL         "Suppress tray notifications for focused channel windows",IDC_TRAYONLYFORINACTIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,164,279,10
+    CONTROL         "Do not show popups when the channel window is not open",IDC_NOPOPUPSFORCLOSEDWINDOWS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,176,282,10
+    LTEXT           "Highlight event",IDC_STATIC,44,139,68,12
+    COMBOBOX        IDC_LOGICONTYPE,12,212,171,38,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Line markers in the message log",IDC_STATIC,14,201,257,10
+END
+
+IDD_OPTIONS4 DIALOGEX 0, 0, 306, 239
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Highlight user names",IDC_STATIC,3,6,300,104
+    CONTROL         "Enable highlighting for user names",IDC_HIGHLIGHTNICKENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,278,11
+    CONTROL         "Also look in user ids",IDC_HIGHLIGHTNICKUID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,278,11
+    EDITTEXT        IDC_HIGHLIGHTNICKPATTERN,11,69,283,35,ES_AUTOHSCROLL
+    LTEXT           "Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces",IDC_STATIC,10,49,284,19
+    GROUPBOX        "Highlight message text",IDC_STATIC,3,113,300,122
+    CONTROL         "Enable highlighting for message text",IDC_HIGHLIGHTTEXTENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,125,278,11
+    EDITTEXT        IDC_HIGHLIGHTTEXTPATTERN,11,172,283,35,ES_AUTOHSCROLL
+    LTEXT           "Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.",IDC_STATIC,10,141,284,23
+    CONTROL         "Highlight messages containing my own nick name",IDC_HIGHLIGHTME,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,216,278,11
+END
+
+IDD_COLORCHOOSER DIALOGEX 0, 0, 198, 150
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,172,136,26,14,NOT WS_TABSTOP
+    CTEXT           "",IDC_COLORTEXT,0,0,197,12,SS_CENTERIMAGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CHANNEL, DIALOG
+    BEGIN
+        RIGHTMARGIN, 251
+        VERTGUIDE, 8
+        VERTGUIDE, 172
+        VERTGUIDE, 182
+        VERTGUIDE, 237
+        HORZGUIDE, 8
+        HORZGUIDE, 23
+        HORZGUIDE, 70
+        HORZGUIDE, 96
+        HORZGUIDE, 102
+        HORZGUIDE, 108
+        HORZGUIDE, 121
+    END
+
+    IDD_FILTER, DIALOG
+    BEGIN
+        VERTGUIDE, 5
+        VERTGUIDE, 78
+        HORZGUIDE, 13
+        HORZGUIDE, 117
+    END
+
+    IDD_OPTIONS1, DIALOG
+    BEGIN
+        RIGHTMARGIN, 300
+        VERTGUIDE, 10
+        VERTGUIDE, 152
+        VERTGUIDE, 181
+        VERTGUIDE, 202
+        VERTGUIDE, 290
+        HORZGUIDE, 12
+        HORZGUIDE, 174
+        HORZGUIDE, 192
+        HORZGUIDE, 213
+    END
+
+    IDD_OPTIONS2, DIALOG
+    BEGIN
+        LEFTMARGIN, 1
+        RIGHTMARGIN, 295
+        VERTGUIDE, 10
+        VERTGUIDE, 60
+        VERTGUIDE, 144
+        VERTGUIDE, 158
+        VERTGUIDE, 183
+        VERTGUIDE, 221
+        VERTGUIDE, 286
+        TOPMARGIN, 1
+        HORZGUIDE, 107
+        HORZGUIDE, 126
+        HORZGUIDE, 146
+        HORZGUIDE, 150
+        HORZGUIDE, 174
+        HORZGUIDE, 212
+    END
+
+    IDD_OPTIONS3, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONS4, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Swedish (Sweden) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_SVE)
+LANGUAGE LANG_SWEDISH, SUBLANG_SWEDISH
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "chat_resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "#include ""richedit.h""\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU MENU
+BEGIN
+    POPUP "List"
+    BEGIN
+        MENUITEM "&Message",                    ID_MESS
+    END
+    POPUP "Log"
+    BEGIN
+        MENUITEM "Clear lo&g",                  ID_CLEARLOG
+        MENUITEM SEPARATOR
+        MENUITEM "Co&py all",                   ID_COPYALL
+        MENUITEM SEPARATOR
+        POPUP "Word lookup", GRAYED
+        BEGIN
+            MENUITEM "Google",                      ID_SEARCH_GOOGLE
+            MENUITEM "Wikipedia",                   ID_SEARCH_WIKIPEDIA
+        END
+    END
+    POPUP "Link"
+    BEGIN
+        MENUITEM "Open a &new browser window",  ID_NEW
+        MENUITEM "&Open in current browser window", ID_CURR
+        MENUITEM "&Copy link",                  ID_COPY
+    END
+    MENUITEM "",                            65535
+    POPUP "Message"
+    BEGIN
+        MENUITEM "Undo  ",                      ID_MESSAGE_UNDO, GRAYED
+        MENUITEM "Redo",                        ID_MESSAGE_REDO, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "Copy",                        ID_MESSAGE_COPY, GRAYED
+        MENUITEM "Cut",                         ID_MESSAGE_CUT, GRAYED
+        MENUITEM "Paste",                       ID_MESSAGE_PASTE
+        MENUITEM "Select All",                  ID_MESSAGE_SELECTALL
+        MENUITEM SEPARATOR
+        MENUITEM "Clear",                       ID_MESSAGE_CLEAR
+    END
+    POPUP "Tabs"
+    BEGIN
+        MENUITEM "&Close tab",                  ID_CLOSE
+        MENUITEM "C&lose other tabs",           ID_CLOSEOTHER
+        MENUITEM SEPARATOR
+        MENUITEM "&Open at this position",      ID_LOCKPOSITION
+    END
+END
+
+#endif    // Swedish (Sweden) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

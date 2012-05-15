@@ -1,0 +1,8 @@
+Changing user profiles
+Voice Chat
+Video Chat
+
+
+Bugs:
+Check which pointers are freed by the lib and which must be freed by the
+client, and document these.

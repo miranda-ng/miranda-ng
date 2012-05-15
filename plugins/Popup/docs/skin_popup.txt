@@ -1,0 +1,87 @@
+Object properties
+
+Popup skin files are used to define popup layout. Each popup consists of several objects such as bitmaps, text, title 
+
+and icon. Each object is defined using object..end blocks as below:
+
+Code:
+object
+   property1
+   property2
+   property3
+end
+
+Also there are two global properties w and h used to describe popup how window size should calculated.
+
+Syntax of each property is "property value" or simply "property". Note that each property shoud be placed in separate line. Let's take a look at possible properties:
+
+Object properties
+
+type. Type can be "bitmap", "icon", "avatar", "clock", "text" or "title"
+
+x. default: 0
+- Positive or zero values mean x-coordinate of object's upper-left corner.
+- Negative value means distance form object's upper-left corner to window's right side (applicable only for bitmaps and 
+
+avatars)
+
+y. default: 0
+- Positive or zero values mean y-coordinate of object's upper-left corner.
+- Negative values mean distance form object's upper-left corner to windows bottom (applicable only for bitmaps and 
+
+avatars)
+
+w. default: 0
+- Positive values mean object's width.
+- Negative values mean distance form object's bottom-right corner to window's right side.
+- zero value means actual width of bitmap.
+Note: this is applicable only for bitmaps and avatars
+
+h. default: 0
+- Positive or zero values mean object's height.
+- Negative values mean distance form object's bottom-right corner to windows bottom.
+- Zero value means actual height of bitmap.
+Note: this is applicable only for bitmaps and avatars
+
+color
+- Three numbers 0..255 separated with spaces. This defines red, green and blue values of text/title's color. This may cause crashes when aplied to something different from text/title.
+
+mono
+No parameters required. Mono means that bitmap should me treated monochromatic. E.g. bitmap shoud be colorized with 
+
+popup background color. When this option is on gray (0x808080) color is mapped to popup color set in options, black and white colors are left unchaned.
+
+source
+Source is used to specify bitmap file used by bitmap and clock objects
+
+clocksize
+When applied to clock object, this means widths of various clock parts:
+- left edge
+- time separator (the ':' symbol)
+- ten digits
+- am and pm marks (not used at the moment but you can provide btter compatability for your skin)
+- right edge
+
+proportional
+edit:
+usage: proportional 1
+
+When applied to bitmap or avatar object, this means that popup should keep objects proportions. With this options you can easily avoid ugly avatrs ;)
+
+layer
+Applied to a bitmap object this means that bitmap must be blended with the background.
+
+Formulas
+
+You may use formulas to define x, y, w, h properties. Each formula is a simple arithmetic expression which may use 5 basic operations ('+', '-', '*', '/' and '%'), two 'conditional' operations ('>' means "maximum" and '<' for "minimum").
+
+Also you may use some variables: icon.width, icon.height, title.width, title.height, text.width, text.height, avatar.width, avatar.height, window.maxwidth, window.width, window.height, clock.width, clock.height.
+
+A few words on how and when variables are defined and formulas are evaluated:
+1) window.width and window.maxwidth are set to maximum width defined in options
+2) Popup looks through all objects and evauates their widths and heights. Value of undefined variable (including width or height of object that is not defined yet) is supposed to be zero.
+3) window.width and window.height are evaluated using global 'w' and 'h' definitions (it they are present, otherwise popup chooses minimal suitable width)
+4) Popup looks through all objects once more to evauates their positions.
+
+Post Scriptum
+Look into 'minimal' skin supplied with preview 8, I hope this description will help you to understand what's going on ;) Also feel free to ask your questions here. 

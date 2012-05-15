@@ -1,0 +1,93 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+//resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTION DIALOGEX 0, 0, 295, 158
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Enable Auto Replier",IDC_ENABLEREPLIER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,9,7,79,10
+    LTEXT           "Reply Message Heading:",IDC_STATIC,9,22,85,8
+    EDITTEXT        IDC_HEADING,96,21,190,12,ES_AUTOHSCROLL
+    LTEXT           "Reply Message when",IDC_STATIC,9,42,73,8
+    COMBOBOX        IDC_STATUSMODE,96,40,77,30,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_MESSAGE,9,59,277,54,ES_MULTILINE | ES_AUTOHSCROLL
+    LTEXT           "No-repeat Interval:",IDC_STATIC,96,7,64,8
+    EDITTEXT        IDC_INTERVAL,163,5,36,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "mins",IDC_STATIC,201,7,30,9
+    PUSHBUTTON      "&Default",IDC_DEFAULT,226,40,60,13
+END
+
+#endif    //resources
+/////////////////////////////////////////////////////////////////////////////
+
+// Icon
+// remains consistent on all systems.
+IDI_ON              ICON                    "Res/On.ico"
+IDI_OFF             ICON                    "Res/Off.ico"
+/////////////////////////////////////////////////////////////////////////////
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

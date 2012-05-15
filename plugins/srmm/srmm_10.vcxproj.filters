@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{8927e967-671b-4c16-8208-54dec5f31489}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6ae44719-2dc0-4659-bb57-b80bc11f0eb2}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{ed6d6a77-6f3c-4512-afc9-7c872bee5ded}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cmdlist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="globals.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="msgdialog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="msglog.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="msgoptions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="msgs.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="msgtimedout.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="richutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="srmm.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="statusicon.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cmdlist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="msgs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="richutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="statusicon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Miranda-IM\res\addcontact.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\src\res\addcontact.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Clock32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Clock8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Details32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Details8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\downarrow.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Downarrow32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Downarrow8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\src\res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\dropuser.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\src\res\dropuser.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dropuser.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\history.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\History32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\History8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\src\res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\incoming.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\multisend.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Multisend32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Multisend8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notice.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\outgoing.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\rename.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\timestamp.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\typing.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Typing32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Typing8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\Miranda-IM\res\viewdetails.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

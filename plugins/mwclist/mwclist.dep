@@ -1,0 +1,248 @@
+# Microsoft Developer Studio Generated Dependency File, included by mwclist.mak
+
+.\CLUIFrames\cluiframes.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\CLUIFrames\extraimage.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\CLUIFrames\framesmenu.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\CLUIFrames\statusbar.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\BkgrCfg.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clc.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clcidents.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clcitems.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clcopts.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clcpaint.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clcutils.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clistmenus.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clistmod.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clistopts.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clistsettings.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clisttray.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\clui.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\cluiopts.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\cluiservices.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\commonheaders.c : \
+	"..\..\include\m_addcontact.h"\
+	"..\..\include\m_button.h"\
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clistint.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_cluiframes.h"\
+	"..\..\include\m_contacts.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_file.h"\
+	"..\..\include\m_genmenu.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_userinfo.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\msapi\vsstyle.h"\
+	"..\..\include\msapi\vssym32.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	"..\..\include\win2k.h"\
+	".\BkgrCfg.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\CLUIFrames\cluiframes.h"\
+	".\commonheaders.h"\
+	".\m_fontservice.h"\
+	".\m_metacontacts.h"\
+	".\m_mwclc.h"\
+	
+
+.\contact.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\groupmenu.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\init.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\keyboard.c : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_hotkeys.h"\
+	".\clc.h"\
+	".\clist.h"\
+	".\m_metacontacts.h"\
+	
+
+.\resource.rc : \
+	".\res\1.ico"\
+	".\res\2.ico"\
+	".\res\3.ico"\
+	".\res\4.ico"\
+	".\res\5.ico"\
+	".\res\6.ico"\
+	".\res\7.ico"\
+	".\res\8.ico"\
+	".\res\addgoupp.ico"\
+	".\res\blank.ico"\
+	".\res\delete.ico"\
+	".\res\dragcopy.cur"\
+	".\res\dropuser.cur"\
+	".\res\globus.ico"\
+	".\res\hyperlin.cur"\
+	".\res\notick.ico"\
+	".\res\notick1.ico"\
+	".\res\rename.ico"\
+	".\res\sendmail.ico"\
+	".\res\sms.ico"\
+	".\statusmodes.h"\
+	

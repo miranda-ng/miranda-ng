@@ -1,0 +1,2 @@
+#include "avs.rc"
+#include "version.rc"

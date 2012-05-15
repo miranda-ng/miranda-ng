@@ -1,0 +1,111 @@
+
+                                        Clist Nicer modified
+                                        --------------------
+
+This is a modification of the original clist_nicer, written by Pixel based on
+Mirandas classic contact list with added skinning features.
+
+The following things were changed by me:
+----------------------------------------
+
+* ability to show client icons in the contact list. Does only work with the ICQJ or
+  ISee protocols for Miranda.
+
+* ability to show extended status icons and modes.
+
+* ability to show visibility icons in the contact list. A read eye means that you've
+  set this contact on your INVISIBILITY list (ICQ jargon) or the contact has been
+  blocked (MSN or Yahoo). You'll never be visible to this contact. A green eye means
+  that you've put this contact on your VISIBLE list, so you'll always be visible to
+  him/her, no matter what your status is (unless, you're really offline, of course).
+  Note that such "explicitely visible" lists do not exist in all protocols - it's
+  basically an "icq thing".
+
+* Added a toolbar for some commonly used operations. Check the tooltips on the toolbar
+  for more information.
+
+* added 2 buttons at the bottom for a "ICQ style" look. The left one opens the main menu
+  and the right one opens the status menu.
+
+* added some items to the contact list context menu (RIGHT click the contact list while
+  the pointer is NOT hovering a contact or its icon). The menu allows you to quickly
+  enable/disable some of the new features.
+
+* added codepage encoding for nicknames on the contact list. Currently, you can only set
+  "per contact" codepages with tabSRMM. If a codepage is present, it will be used to
+  encode the nickname. The result will be a widestring (unicode).
+
+* ability to show avatars and extended user information, like status
+  messages, on the contact list
+
+* multiwindow and genmenu support.
+
+
+                REQUIREMENTS:
+                ============
+
+* Miranda IM 0.8.1.x or later
+* Windows 2000 or later (ANSI version may work on Windows 98/SE, but this is totally
+  unsupported)..
+
+                INSTALLATION:
+                =============
+
+* Copy the .DLL to your miranda Plugins folder, while Miranda is not running.
+
+                A FEW PERFORMANCE TIP
+                =====================
+
+Clist_nicer+ can be graphic intense so it has the potential to eat quite some CPU
+cycles. This shouldn't be a problem on modern systems as they are generally fast
+enough, no matter what settings you apply. On slower systems, however, a few
+rules may improve performance significantly.
+
+* don't overuse the "overlay" skin items. All the odd/even/first/last/single skin
+  items use overdrawing to get the desired effect. This can easily double or even
+  triple the required calculations for color and transparency mixing, applying
+  shapes (rounded corners) and more. It gets even worse when each item has alpha
+  values less than 100%.
+
+* avoid the setting "Inherit transparency from background items" in the avatar
+  section of the "Advanced options" page. Transparent images need to be rendered
+  using the AlphaBlend() API which is slower than StretchBlt(). Additionally,
+  AlphaBlend()'s image rescaling "quality" is crappy. As a workaround, clist_nicer+
+  uses 2-stage rendering - it uses AlphaBlend() for applying transparency (both constant
+  and per-pixel) on the *unscaled* image and then renders the final image using
+  StretchBlt(). So the setting for transparent avatars can really hurt on slower
+  machines (but the 2-stage rendering does improve quality, of course).
+
+* avoid disabling the "Scroll with text" option for a background image. It can really
+  hurt the scrolling performance with smooth scrolling enabled.
+
+* avoid active view modes when you connect and your contact list is still empty. The
+  view mode filtering requires additional processing time, and when you connect
+  multiple protocols and a few dozen contacts are coming online, this can be notice-
+  able, even on faster machines.
+
+
+                SUPPORT:
+                ========
+
+Direct all your questions at my forum at http://www.miranda.or.at/forums/ This is also
+the support forum for my other plugin (tabSRMM)
+
+License: This program is licensed under the terms of the GNU gneral public license
+         Version 2 or any later version.
+
+         You should find a copy of the license in this archive, if you cannot find it,
+         please visit http://www.gnu.org/licenses/gpl.html
+
+
+Copyrights: This program is based on the work of others. The original clist code is
+            copyrighted by the Miranda IM development team (http://www.miranda-im.org).
+            Most of the skinning modifications were written by Pixel.
+
+            The toolbar icons were made by Angeli-Ka. Thanks for permission to use them :)
+            ICQ client icons also (C) by Angeli-Ka.
+            Overlay status icons made by Faith, permission to use them was granted. Thanks :)
+
+Contact: MSN & email: silvercircle AT gmail DOT com
+         http://miranda.or.at
+

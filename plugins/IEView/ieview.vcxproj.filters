@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ChatHTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HistoryHTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IEView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ieview_main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ieview_services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MUCCHTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScriverHTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TabSRMMHTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Template.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TemplateHTMLBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextToken.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ChatHTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HistoryHTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IEView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ieview_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ieview_services.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MUCCHTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScriverHTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TabSRMMHTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Template.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TemplateHTMLBuilder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_avatars.h" />
+    <ClInclude Include="m_ieview.h" />
+    <ClInclude Include="m_MathModule.h" />
+    <ClInclude Include="m_metacontacts.h" />
+    <ClInclude Include="m_smileyadd.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ieview.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a72da5d2-0d60-47f9-afae-fbccf75ff6c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7fb0c9c3-1e65-40e9-8b79-b660578ee919}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{4691e0ac-0fe6-41ec-abe1-aca54f39e986}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

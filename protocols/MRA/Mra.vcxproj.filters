@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{28f9c5b1-e22e-47c3-9588-4f293878aa27}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{fb50d277-d7b3-44a3-9330-fa8332ee1975}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Miranda">
+      <UniqueIdentifier>{725fa008-c36d-4165-8899-02f9387ed0f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Functions">
+      <UniqueIdentifier>{b86b234f-e9db-45b3-97ed-47c15ca4bb75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{482639cd-fb25-4cfb-9e55-4a299271787c}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Mra.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mra_functions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mra_options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mra_proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Mra_svcs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraAdvancedSearch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraAntiSpam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraAvatars.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraChat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraFilesQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraIcons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraMPop.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraMRIMProxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraOfflineMsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraPopUp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraRTFMsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraSelectEMail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraSendCommand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MraSendQueue.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\Alarm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\answers.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\AuthGrant.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\AuthReguest.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Bagz.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Blogs.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\BlogStatus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Chat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Info.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Magent.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Mail.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\MailNotify.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconAlarm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconAuthGrant.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconAuthReguest.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconBagz.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconBlogs.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconChat.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconDeleted.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconInfo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconMagent.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconMail.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconMailNotify.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconPhone.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconPhoto.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconPostCards.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconSMS.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="MraIconWebSearch.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\my world.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Phone.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\Photo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\PostCards.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\video.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Icons\WebSearch.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="langpack_MRA_russian.txt" />
+    <None Include="Readme_MRA.txt" />
+    <None Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Mra.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraAntiSpam.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraAvatars.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraChat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraConstans.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraFilesQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraIcons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraMPop.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraMRIMProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraOfflineMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraPlaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraPopUp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraRTFMsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraSelectEMail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraSendCommand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MraSendQueue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_avatars.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_clist.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_clui.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_cluiframes.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_contactdir.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_contacts.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_database.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_email.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_extraicons.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_findadd.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_folders.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_fuse.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_icolib.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_ignore.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_langpack.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_music.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_netlib.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_nudge.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_options.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_plugins.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_popup.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_proto_listeningto.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_protocols.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_protomod.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_protosvc.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_system.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_updater.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_url.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_userinfo.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\m_utils.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\newpluginapi.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\statusmodes.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Miranda\win2k.h">
+      <Filter>Header Files\Miranda</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\Base64.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\BuffToLowerCase.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\DebugFunctions.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\FIFOMT.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\InternetTime.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\ListMT.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\MemoryCompare.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\MemoryFind.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\MemoryFindByte.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\RC4.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\SHA1.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\SocketFunctions.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\StrHexToNum.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\StrToNum.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\zconf.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\!Clases\include\zlib.h">
+      <Filter>Header Files\Functions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,325 @@
+# Microsoft Developer Studio Generated Dependency File, included by GTalkExt.mak
+
+.\avatar.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\avatar.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\db.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\dllmain.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\notifications.h"\
+	".\options.h"\
+	".\popups.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\GTalkExt.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\avatar.h"\
+	".\handlers.h"\
+	".\menu.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	".\tipper_items.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\handlers.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\db.h"\
+	".\handlers.h"\
+	".\notifications.h"\
+	".\options.h"\
+	".\popups.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\inbox.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\db.h"\
+	".\inbox.h"\
+	".\notifications.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\menu.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\inbox.h"\
+	".\menu.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\notifications.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\avatar.h"\
+	".\db.h"\
+	".\inbox.h"\
+	".\notifications.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\options.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\options.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\popups.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\options.h"\
+	".\popups.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\stdafx.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\tipper_items.cpp : \
+	"..\..\include\m_avatars.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_jabber.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\resources.h"\
+	".\stdafx.h"\
+	".\targetver.h"\
+	".\tipper_items.h"\
+	{$(INCLUDE)}"psapi.h"\
+	
+
+.\res\settings.rc : \
+	".\include\m_utils.h"\
+	".\resources.h"\
+	

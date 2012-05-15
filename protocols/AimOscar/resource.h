@@ -1,0 +1,123 @@
+//{{NO_DEPENDENCIES}}
+// Microsoft Visual C++ generated include file.
+// Used by aim.rc
+//
+#define IDC_SAVECHANGES                 3
+#define IDC_CONFIRM                     4
+#define IDD_INFO                        6
+#define IDD_AIMACCOUNT                  7
+#define IDD_AIM                         8
+#define IDD_IDLE                        9
+#define IDI_AIM                         10
+#define IDI_ICQ                         11
+#define IDI_ADD                         12
+#define IDI_PROFILE                     13
+#define IDI_MAIL                        14
+#define IDI_HIPTOP                      21
+#define IDI_BOT                         22
+#define IDI_ADMIN                       23
+#define IDI_CONFIRMED                   24
+#define IDI_UNCONFIRMED                 25
+#define IDI_AWAY                        26
+#define IDI_IDLE                        27
+#define IDI_AOL                         28
+#define IDI_FOREGROUNDCOLOR             31
+#define IDI_BACKGROUNDCOLOR             32
+#define IDD_PRIVACY                     36
+#define IDD_CHAT                        37
+#define IDI_BLOCK                       38
+#define IDD_ADMIN                       39
+#define IDD_CHATROOM_INVITE             40
+#define IDI_BOLD                        41
+#define IDD_CHATROOM_INVITE_REQ         41
+#define IDI_NBOLD                       42
+#define IDI_ITALIC                      43
+#define IDI_NITALIC                     44
+#define IDI_UNDERLINE                   45
+#define IDI_NUNDERLINE                  46
+#define IDI_SUBSCRIPT                   53
+#define IDI_NSUBSCRIPT                  54
+#define IDI_SUPERSCRIPT                 55
+#define IDI_NSUPERSCRIPT                56
+#define IDI_NORMALSCRIPT                57
+#define IDI_NNORMALSCRIPT               58
+#define IDC_DETAILS                     125
+#define IDC_OPTIONS                     126
+#define IDC_EXPERT                      127
+#define IDC_BOLD                        129
+#define IDC_ITALIC                      130
+#define IDC_UNDERLINE                   131
+#define IDC_SUPERSCRIPT                 132
+#define IDC_SUBSCRIPT                   133
+#define IDC_NORMALSCRIPT                134
+#define IDC_FOREGROUNDCOLORPICKER       135
+#define IDC_FOREGROUNDCOLOR             136
+#define IDC_BACKGROUNDCOLORPICKER       137
+#define IDC_BACKGROUNDCOLOR             138
+#define IDC_TYPEFACE                    139
+#define IDC_FONTSIZE                    141
+#define IDC_SVRRESET                    142
+#define IDC_NEWAIMACCOUNTLINK           143
+#define IDC_ALLOWALL                    144
+#define IDC_ALLOWCONT                   145
+#define IDC_ALLOWBELOW                  146
+#define IDC_BLOCKALL                    147
+#define IDC_BLOCKBELOW                  148
+#define IDC_ALLOWLIST                   149
+#define IDC_BLOCKLIST                   150
+#define IDC_ALLOWEDIT                   151
+#define IDC_ALLOWADD                    152
+#define IDC_BLOCKEDIT                   153
+#define IDC_BLOCKADD                    154
+#define IDC_ALLOWREMOVE                 155
+#define IDC_BLOCKREMOVE                 156
+#define IDC_ROOM                        157
+#define IDC_CEMAIL                      158
+#define IDC_MSG                         158
+#define IDC_FNAME                       159
+#define IDC_NPW1                        161
+#define IDC_NPW2                        162
+#define IDC_CPW                         164
+#define IDC_PINFO                       165
+#define IDC_SCREENNAME                  169
+#define IDC_CCLIST                      173
+#define IDC_EDITSCR                     174
+#define IDC_ADDSCR                      175
+#define IDC_ROOMNAME                    176
+#define IDC_SN                          1030
+#define IDC_NK                          1040
+#define IDC_PW                          1050
+#define IDC_HN                          1060
+#define IDC_PN                          1061
+#define IDC_DM                          1100
+#define IDC_DC                          1110
+#define IDC_FP                          1120
+#define IDC_AT                          1130
+#define IDC_ES                          1140
+#define IDC_FI                          1150
+#define IDC_FO                          1160
+#define IDC_DA                          1161
+#define IDC_DSSL                        1162
+#define IDC_FSC                         1163
+#define IDC_HF                          1170
+#define IDC_SIS                         1171
+#define IDC_MASQ                        1180
+#define IDC_CM                          1191
+#define IDC_MG                          1192
+#define IDC_SETPROFILE                  1200
+#define IDC_II                          1210
+#define IDC_PROFILE                     1220
+#define IDC_IIM                         1230
+#define IDC_IIH                         1240
+#define IDC_STATIC                      -1
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE        41
+#define _APS_NEXT_COMMAND_VALUE         40002
+#define _APS_NEXT_CONTROL_VALUE         178
+#define _APS_NEXT_SYMED_VALUE           101
+#endif
+#endif

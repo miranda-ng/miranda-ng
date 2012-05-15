@@ -1,0 +1,182 @@
+/*
+ * $Id: Yahoo.rc 11954 2010-06-09 12:28:38Z borkra $
+ *
+ * myYahoo Miranda Plugin 
+ *
+ * Authors: Gennady Feldman (aka Gena01) 
+ *          Laurent Marechal (aka Peorth)
+ *
+ * This code is under GPL and is based on AIM, MSN and Miranda source code.
+ * I want to thank Robert Rainwater and George Hazan for their code and support
+ * and for answering some of my questions during development of this plugin.
+ */
+#include <winresrc.h>
+
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_YAHOO DIALOGEX 0, 0, 296, 220
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+	// Yahoo Login Information [Top Box]
+    GROUPBOX        "Yahoo",IDC_STYAHOOGROUP,8,10,280,72
+    RTEXT           "ID:",IDC_STATIC,16,20,52,8
+    EDITTEXT        IDC_HANDLE,72,18,100,12,ES_AUTOHSCROLL
+    RTEXT           "Password:",IDC_STATIC,16,36,52,8
+    EDITTEXT        IDC_PASSWORD,72,34,100,12,ES_PASSWORD | ES_AUTOHSCROLL
+	RTEXT           "Nick:",IDC_STATIC,16,52,52,8
+    EDITTEXT        IDC_NICK,72,50,100,12,ES_AUTOHSCROLL
+    CONTROL         "Create a new Yahoo account using the Yahoo website",
+                    IDC_NEWYAHOOACCOUNTLINK,"Hyperlink",WS_TABSTOP,21,66,208,8
+
+	// Expert Section [Server/Port/etc]
+    GROUPBOX        "Expert",IDC_STATIC,8,84,280,80
+	
+	/*CONTROL         "Disable UTF8 encoding",IDC_DISABLE_UTF8,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,94,260,10 					
+	*/
+	CONTROL         "Use Yahoo Address Book (YAB)",IDC_USE_YAB,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,104,260,10
+	
+	CONTROL         "Show Avatars",IDC_SHOW_AVATARS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,114,260,10 					
+
+	CONTROL         "AutoLogin to Yahoo Website(s)",IDC_MAIL_AUTOLOGIN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,124,260,10 					
+
+	CONTROL         "Display Yahoo notifications", IDC_DISABLEYAHOOMAIL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,134,260,10 					
+
+	CONTROL         "Show Errors",IDC_SHOW_ERRORS,"Button",
+					BS_AUTOCHECKBOX | WS_TABSTOP,16,144,260,10
+					
+END
+
+IDD_YAHOOACCOUNT DIALOGEX 0, 0, 186, 134
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "ID:",IDC_STATIC,0,0,53,12
+    EDITTEXT        IDC_HANDLE,54,0,131,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,0,16,53,12
+    EDITTEXT        IDC_PASSWORD,54,16,131,12,ES_PASSWORD | ES_AUTOHSCROLL
+	
+	CONTROL         "Yahoo Japan",IDC_YAHOO_JAPAN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,0,32,140,12
+
+    CONTROL         "Create a new Yahoo account",IDC_NEWYAHOOACCOUNTLINK,
+                    "Hyperlink",WS_TABSTOP,0,48,174,12
+END
+
+IDD_OPT_YAHOO_CONNECTION DIALOGEX 0, 0, 296, 220
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+
+	// Expert Section [Server/Port/etc]
+    GROUPBOX        "Connection Settings",IDC_STATIC,8,10,280,72
+	
+    LTEXT           "Login server:",IDC_STATIC,16,26,52,10
+    EDITTEXT        IDC_LOGINSERVER,68,24,168,12,ES_AUTOHSCROLL
+    LTEXT           "Port:",IDC_STATIC,16,42,25,10
+    EDITTEXT        IDC_YAHOOPORT,68,40,29,12,ES_AUTOHSCROLL | ES_NUMBER
+	PUSHBUTTON      "Reset",IDC_RESETSERVER,244,24,40,12
+
+	CONTROL         "Yahoo Japan",IDC_YAHOO_JAPAN,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,16,58,140,10 					
+END
+
+IDD_OPT_YAHOO_IGNORE DIALOGEX 0, 0, 296, 220
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Yahoo Ignore List",IDC_STIGNGROUP,8,10,280,210
+	
+    CONTROL         "Ignore anyone who is not on my Yahoo buddy list ",IDC_OPT_IGN_UNKNOWN,
+                    "Button",BS_AUTORADIOBUTTON,16,20,232,10
+
+    CONTROL         "Ignore only the people below: ",IDC_OPT_IGN_LIST,
+                    "Button",BS_AUTORADIOBUTTON,16,36,232,10
+					
+	EDITTEXT 		IDC_YIGN_EDIT,16,53,232,13,ES_AUTOHSCROLL
+	PUSHBUTTON 		"&Add",IDC_IGN_ADD,250,52,34,12
+	
+	LISTBOX			IDC_YIGN_LIST,16,68,232,150, LBS_NOTIFY | LBS_HASSTRINGS | LBS_SORT | WS_BORDER | WS_VSCROLL
+		
+	PUSHBUTTON 		"&Remove", IDC_IGN_REMOVE, 250,202,34,12
+
+END
+
+
+IDD_SETCUSTSTAT DIALOGEX 0, 0, 187, 51
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set Custom Status"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_CUSTSTAT,5,5,177,12,ES_AUTOHSCROLL
+    CONTROL         "Show as busy",
+                    IDC_CUSTSTATBUSY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    5,21,120,10
+    DEFPUSHBUTTON   "OK",IDOK,36,34,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,102,34,50,14
+END
+
+IDD_SEARCHUSER DIALOGEX 0, 0, 109, 148
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "ID:",IDC_STATIC,0,1,97,8
+    EDITTEXT        IDC_SEARCH_ID,0,10,105,15,ES_AUTOHSCROLL 
+	
+    LTEXT           "Protocol:",IDC_STATIC,0,31,97,38
+	COMBOBOX        IDC_SEARCH_PROTOCOL,0,40,105,75,CBS_DROPDOWNLIST
+END
+
+IDD_USER_INFO DIALOGEX 0, 0, 221, 132
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "ID:", 			IDC_STATIC, 5, 5, 71,8
+    EDITTEXT        IDC_SEARCH_ID, 74, 5, 143, 12, ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER
+	
+    LTEXT           "Protocol:", 	IDC_STATIC, 5, 18, 71, 8
+    EDITTEXT        IDC_SEARCH_PROTOCOL, 74, 18, 143,12, ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER
+					
+    LTEXT           "Client:", 	IDC_STATIC, 5, 31, 71, 8
+    EDITTEXT        IDC_NFO_CLIENT, 74, 31, 143,12, ES_AUTOHSCROLL | ES_READONLY | NOT 
+                    WS_BORDER
+					
+					
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_YAHOO               ICON         "icos/yahoo.ico"
+IDI_INBOX               ICON         "icos/inbox.ico"
+IDI_PROFILE             ICON         "icos/profile.ico"
+IDI_REFRESH             ICON         "icos/refresh.ico"
+IDI_YAB             	ICON         "icos/address_book.ico"
+IDI_SET_STATUS          ICON         "icos/set_status.ico"
+IDI_CALENDAR	        ICON         "icos/calendar.ico"
+
+#include "version.rc"
+

@@ -1,0 +1,1968 @@
+# Microsoft Developer Studio Generated Dependency File, included by cryptlib.mak
+
+.\3way.cpp : \
+	".\3way.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+!IF  "$(CFG)" == "cryptlib - Win32 DLL-Import Release"
+
+!ELSEIF  "$(CFG)" == "cryptlib - Win32 DLL-Import Debug"
+
+!ELSEIF  "$(CFG)" == "cryptlib - Win32 Release"
+
+!ELSEIF  "$(CFG)" == "cryptlib - Win32 Debug"
+
+!ENDIF 
+
+.\adler32.cpp : \
+	".\adler32.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\algebra.cpp : \
+	".\algebra.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\algparam.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\arc4.cpp : \
+	".\arc4.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\asn.cpp : \
+	".\algparam.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\base32.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\base32.h"\
+	".\basecode.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\base64.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\base64.h"\
+	".\basecode.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\basecode.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\basecode.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\fltrimpl.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\bfinit.cpp : \
+	".\blowfish.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\blowfish.cpp : \
+	".\blowfish.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\blumshub.cpp : \
+	".\algebra.h"\
+	".\blumshub.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\camellia.cpp : \
+	".\camellia.h"\
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\cast.cpp : \
+	".\cast.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\casts.cpp : \
+	".\cast.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\cbcmac.cpp : \
+	".\cbcmac.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\channels.cpp : \
+	".\channels.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\cpu.cpp : \
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\crc.cpp : \
+	".\config.h"\
+	".\crc.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\cryptlib.cpp : \
+	".\aes.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\fltrimpl.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\osrng.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\randpool.h"\
+	".\rijndael.h"\
+	".\rng.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\trdlocal.h"\
+	
+
+.\default.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\default.h"\
+	".\des.h"\
+	".\filters.h"\
+	".\hmac.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modes.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\des.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\des.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\dessp.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\des.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\dh.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\dh.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gfpcrypt.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\dh2.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\dh2.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\dll.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\basecode.h"\
+	".\config.h"\
+	".\emsa2.h"\
+	".\filters.h"\
+	".\hex.h"\
+	".\hmac.h"\
+	".\mqueue.h"\
+	".\oaep.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.cpp"\
+	".\strciphr.h"\
+	".\trdlocal.h"\
+	
+
+.\dsa.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\dsa.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gfpcrypt.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\nbtheory.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\ec2n.cpp : \
+	".\algebra.cpp"\
+	".\algebra.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\integer.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\eccrypto.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\basecode.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\dh.h"\
+	".\ec2n.h"\
+	".\eccrypto.h"\
+	".\ecp.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gf2n.h"\
+	".\gfpcrypt.h"\
+	".\hex.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\mqv.h"\
+	".\nbtheory.h"\
+	".\oids.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\ecp.cpp : \
+	".\algebra.cpp"\
+	".\algebra.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\integer.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\elgamal.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\dsa.h"\
+	".\elgamal.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gfpcrypt.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\nbtheory.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\emsa2.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\emsa2.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\eprecomp.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\esign.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\esign.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\files.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\files.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\filters.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\fltrimpl.h"\
+	".\misc.h"\
+	".\mqueue.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\fips140.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\fips140.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\trdlocal.h"\
+	
+
+.\fipstest.cpp : \
+	".\aes.h"\
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\basecode.h"\
+	".\cbcmac.h"\
+	".\channels.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\des.h"\
+	".\dh.h"\
+	".\dll.h"\
+	".\dsa.h"\
+	".\ec2n.h"\
+	".\eccrypto.h"\
+	".\ecp.h"\
+	".\emsa2.h"\
+	".\eprecomp.h"\
+	".\files.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gf2n.h"\
+	".\gfpcrypt.h"\
+	".\hex.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modes.h"\
+	".\modexppc.h"\
+	".\mqueue.h"\
+	".\mqv.h"\
+	".\nbtheory.h"\
+	".\oaep.h"\
+	".\osrng.h"\
+	".\pch.h"\
+	".\pkcspad.h"\
+	".\pssr.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\randpool.h"\
+	".\rijndael.h"\
+	".\rng.h"\
+	".\rsa.h"\
+	".\rw.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\skipjack.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	".\trdlocal.h"\
+	
+
+.\gf256.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\gf256.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\gf2_32.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\gf2_32.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\gf2n.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\gf2n.h"\
+	".\misc.h"\
+	".\oids.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\randpool.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\words.h"\
+	
+
+.\gfpcrypt.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gfpcrypt.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\nbtheory.h"\
+	".\oids.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\gost.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\gost.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\gzip.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\crc.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\gzip.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\zdeflate.h"\
+	".\zinflate.h"\
+	
+
+.\hex.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\basecode.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\hex.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\hmac.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\hmac.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\hrtimer.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\hrtimer.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\ida.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\channels.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\gf2_32.h"\
+	".\ida.h"\
+	".\misc.h"\
+	".\mqueue.h"\
+	".\pch.h"\
+	".\polynomi.cpp"\
+	".\polynomi.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\idea.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\idea.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\integer.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\oids.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\words.h"\
+	
+
+.\iterhash.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\luc.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\dh.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gfpcrypt.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\luc.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\nbtheory.h"\
+	".\oaep.h"\
+	".\pch.h"\
+	".\pkcspad.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\mars.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\mars.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\marss.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\mars.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\md2.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\md2.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\md4.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\md4.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\md5.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\md5.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\misc.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\words.h"\
+	
+
+.\modes.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\modes.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\mqueue.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\mqueue.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\mqv.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\gfpcrypt.h"\
+	".\hmac.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\modexppc.h"\
+	".\mqv.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\nbtheory.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\network.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\hrtimer.h"\
+	".\misc.h"\
+	".\network.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\wait.h"\
+	
+
+.\oaep.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\oaep.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\osrng.cpp : \
+	".\aes.h"\
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\osrng.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\randpool.h"\
+	".\rijndael.h"\
+	".\rng.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\panama.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\panama.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\pch.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\pkcspad.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\pch.h"\
+	".\pkcspad.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\polynomi.cpp : \
+	".\algebra.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\polynomi.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\pssr.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\emsa2.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\pch.h"\
+	".\pssr.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\pubkey.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\queue.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rabin.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\emsa2.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\oaep.h"\
+	".\pch.h"\
+	".\pssr.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\rabin.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\randpool.cpp : \
+	".\aes.h"\
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\hrtimer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\randpool.h"\
+	".\rijndael.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rc2.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\rc2.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rc5.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\rc5.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rc6.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\rc6.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rdtables.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\rijndael.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rijndael.cpp : \
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\rijndael.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\ripemd.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\ripemd.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rng.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\rng.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rsa.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\emsa2.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\oaep.h"\
+	".\oids.h"\
+	".\pch.h"\
+	".\pkcspad.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\rsa.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\rw.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\eprecomp.h"\
+	".\filters.h"\
+	".\fips140.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\pch.h"\
+	".\pubkey.h"\
+	".\queue.h"\
+	".\rw.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\safer.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\safer.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\salsa.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\salsa.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\seal.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\seal.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\serpent.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\serpent.h"\
+	".\serpentp.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\sha.cpp : \
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\sha.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\shacal2.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\shacal2.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\shark.cpp : \
+	".\algparam.h"\
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\gf256.h"\
+	".\misc.h"\
+	".\modes.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\shark.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\sharkbox.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\shark.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\simple.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\skipjack.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\skipjack.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\socketft.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\hrtimer.h"\
+	".\misc.h"\
+	".\network.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\socketft.h"\
+	".\stdcpp.h"\
+	".\wait.h"\
+	".\winpipes.h"\
+	
+
+.\sosemanuk.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\serpentp.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\sosemanuk.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\square.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\gf256.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\square.h"\
+	".\stdcpp.h"\
+	
+
+.\squaretb.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\square.h"\
+	".\stdcpp.h"\
+	
+
+.\strciphr.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	
+
+.\tea.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\tea.h"\
+	
+
+.\tftables.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\twofish.h"\
+	
+
+.\tiger.cpp : \
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\tiger.h"\
+	
+
+.\tigertab.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\tiger.h"\
+	
+
+.\trdlocal.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\trdlocal.h"\
+	
+
+.\ttmac.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\ttmac.h"\
+	
+
+.\twofish.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\twofish.h"\
+	
+
+.\vmac.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\vmac.h"\
+	
+
+.\wait.cpp : \
+	".\config.h"\
+	".\cryptlib.h"\
+	".\hrtimer.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\wait.h"\
+	
+
+.\wake.cpp : \
+	".\argnames.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\seckey.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\strciphr.h"\
+	".\wake.h"\
+	
+
+.\whrlpool.cpp : \
+	".\config.h"\
+	".\cpu.h"\
+	".\cryptlib.h"\
+	".\iterhash.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\whrlpool.h"\
+	
+
+.\winpipes.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\hrtimer.h"\
+	".\misc.h"\
+	".\network.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\wait.h"\
+	".\winpipes.h"\
+	
+
+.\xtr.cpp : \
+	".\algebra.cpp"\
+	".\algebra.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\integer.h"\
+	".\pch.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	
+
+.\xtrcrypt.cpp : \
+	".\algebra.h"\
+	".\algparam.h"\
+	".\argnames.h"\
+	".\asn.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\integer.h"\
+	".\misc.h"\
+	".\modarith.h"\
+	".\nbtheory.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\xtr.h"\
+	".\xtrcrypt.h"\
+	
+
+.\zdeflate.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\zdeflate.h"\
+	
+
+.\zinflate.cpp : \
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\zinflate.h"\
+	
+
+.\zlib.cpp : \
+	".\adler32.h"\
+	".\algparam.h"\
+	".\config.h"\
+	".\cryptlib.h"\
+	".\filters.h"\
+	".\misc.h"\
+	".\pch.h"\
+	".\queue.h"\
+	".\secblock.h"\
+	".\simple.h"\
+	".\smartptr.h"\
+	".\stdcpp.h"\
+	".\zdeflate.h"\
+	".\zinflate.h"\
+	".\zlib.h"\
+	

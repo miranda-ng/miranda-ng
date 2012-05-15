@@ -1,0 +1,162 @@
+;-------------------------------------
+;     Sample skin for Tipper YM 
+;-------------------------------------
+;
+;*************************************
+;          Skin Definition    
+;*************************************
+;
+; Skin has 6 main elements: 
+;	[About], [Background], [Sidebar], [Fonts], [Appearance], [Other]
+;
+; Element [About] has 2 attributes:
+;	Author, Preview
+;
+; Elements [Background], [Sidebar] have 6 attributes:
+;	Image, TM, Left, Top, Right, Bottom 
+;
+; Element [Fonts] has 17 attributes:
+;	Title-face, Title-color, Title-size, Title-effect
+;	Label-face, Label-color, Label-size, Label-effect
+;	Value-face, Value-color, Value-size, Value-effect
+;	TrayTitle-face, TrayTitle-color, TrayTitle-size, TrayTitle-effect
+;	Divider-color 
+;
+; Element [Appearance] has 9 attributes:
+;	General-padding, Title-indent, Text-indent, Value-indent, Text-padding,
+;	Outer-avatar-padding, Inner-avatar-padding, Sidebar-width, Opacity
+;
+; Elemet [Other] has 1 attribute:
+;	Enable-coloring
+;
+;===========================
+;        Attributes
+;===========================
+;
+; Author
+;---------------------------
+;	Your name or nick ;-) 
+;
+; Preview
+;---------------------------
+;	Relative path to the image file with the preview of your skin.
+;
+; Image
+;---------------------------
+;	Relative path to the image file that is used as tooltip background. 
+;
+; TM (Transformation mode) 
+;---------------------------
+;	Edge parts and center area of the image file are tranformed according to this value.
+;	Can be one of following values:
+;		TM_NONE
+;		TM_CENTRE
+;		TM_STRECH_ALL
+;		TM_STRECH_HORIZONTAL
+;		TM_STRECH_VERTICAL
+;		TM_TILE_ALL
+;		TM_TILE_HORIZONTAL
+;		TM_TILE_VERTICAL
+;
+; Left, Top, Right, Bottom
+;---------------------------
+;	Margins in pixels for Glyph transformation.
+;
+; XXX-face
+;---------------------------
+;	Name of the font (eg. Arial, Tahoma, Trebuchet MS).
+;   String is case sensitive!
+;
+; XXX-color
+;---------------------------
+;	Font (divider) color defined by 3 decimal numbers separated by spaces.
+;	RGB color model (Red Green Blue) 
+;
+; XXX-size
+;---------------------------
+;	Font size in pixels :-)
+;
+; XXX-effect
+;---------------------------
+;	Effect applied to the tooltip text.
+;	Can be one or more of the following values (separated by spaces):
+;		FONT_BOLD		  	
+;		FONT_ITALIC
+;		FONT_UNDERLINE
+;
+; XXX-padding, XXX-indent 
+;---------------------------
+;	These values in pixels determine proportions of the tooltip.
+;
+; Sidebar-width
+;---------------------------
+;	Width of the sidebar in pixels.
+;
+; Opacity
+;---------------------------
+;	Opacity which is applied to the final tooltip
+;	Can be number within the range of 0 - 100.
+;
+; Enable-coloring
+;---------------------------
+;	Enable or disable 'Enable coloring' checkbox in the options.
+;	Can be TRUE or FALSE.
+;
+;*************************************
+
+[About]
+Author = yaho
+Preview = preview.jpg
+
+[Background]
+Image = xpmc_bg.png
+TM = TM_STRECH_ALL 
+Left = 16
+Top = 16
+Right = 16
+Bottom = 16
+
+[Sidebar]
+Image = xpmc_sidebar.png
+TM = TM_STRECH_ALL 
+Left = 16
+Top = 16
+Right = 4
+Bottom = 16
+
+[Fonts]
+Title-face = Tahoma
+Title-color = 128 0 0
+Title-size = 12
+Title-effect = FONT_BOLD
+
+Label-face = Tahoma
+Label-color = 0 0 0
+Label-size = 8
+Label-effect = FONT_BOLD
+
+Value-face = Tahoma
+Value-color = 40 40 40
+Value-size = 8
+Value-effect = 0
+
+TrayTitle-face = Tahoma
+TrayTitle-color = 100 0 0
+TrayTitle-size = 10
+TrayTitle-effect = FONT_BOLD
+
+Divider-color = 120 120 120
+
+[Appearance]
+General-padding = 14
+Title-indent = 25
+Text-indent = 25
+Value-indent = 8 
+Text-padding = 3
+Outer-avatar-padding = 18
+Inner-avatar-padding = 10
+Sidebar-width = 34 
+Opacity = 90
+
+[Other]
+Enable-coloring = FALSE

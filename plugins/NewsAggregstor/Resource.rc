@@ -1,0 +1,148 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "res/Main.ico"
+IDI_CHECKALL            ICON                    "res/CheckAll.ico"
+IDI_ADDFEED             ICON                    "res/AddFeed.ico"
+IDI_IMPORTFEEDS         ICON                    "res/Import.ico"
+IDI_EXPORTFEEDS         ICON                    "res/Export.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 314, 234
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_FEEDLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_TABSTOP,9,8,294,174
+    PUSHBUTTON      "Add",IDC_ADD,79,187,50,14
+    PUSHBUTTON      "Change",IDC_CHANGE,133,187,50,14
+    PUSHBUTTON      "Remove",IDC_REMOVE,187,187,50,14
+    PUSHBUTTON      "Import",IDC_IMORT,252,204,50,14
+    PUSHBUTTON      "Export",IDC_EXORT,252,219,50,14
+END
+
+IDD_ADDFEED DIALOGEX 0, 0, 250, 228
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_NOFAILCREATE | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,140,209,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,209,50,14
+    GROUPBOX        "General Settings",IDC_STATIC,6,3,238,61
+    RTEXT           "Title",IDC_STATIC,17,16,44,8
+    EDITTEXT        IDC_FEEDTITLE,63,14,173,13,ES_AUTOHSCROLL
+    RTEXT           "URL",IDC_STATIC,17,31,44,8
+    EDITTEXT        IDC_FEEDURL,63,29,173,13,ES_AUTOHSCROLL
+    RTEXT           "Check every",IDC_STATIC,7,46,54,8
+    LTEXT           "minutes",IDC_STATIC,100,46,75,8
+    PUSHBUTTON      "Check Feed",IDC_DISCOVERY,177,44,59,12
+    GROUPBOX        "Authentication",IDC_STATIC,6,67,238,48
+    CONTROL         "Use &authentication",IDC_USEAUTH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,80,157,10
+    RTEXT           "Login",IDC_STATIC,16,96,42,8
+    EDITTEXT        IDC_LOGIN,61,94,63,14,ES_AUTOHSCROLL | WS_DISABLED
+    RTEXT           "Password",IDC_STATIC,129,96,41,8
+    EDITTEXT        IDC_PASSWORD,173,94,63,14,ES_PASSWORD | ES_AUTOHSCROLL | WS_DISABLED
+    GROUPBOX        "Visualization",IDC_STATIC,6,119,238,85
+    LTEXT           "Display news using the following format:",IDC_STATIC,13,132,168,8
+    EDITTEXT        IDC_TAGSEDIT,13,143,224,36,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL
+    LTEXT           "All item's tags are valid. Put them between #. Example: #<author>#",IDC_STATIC,14,182,167,16
+    PUSHBUTTON      "Reset",IDC_RESET,192,184,45,14
+    PUSHBUTTON      "?",IDC_TAGHELP,175,184,15,14
+    LTEXT           "0 - check manually",IDC_STATIC,100,55,79,8
+    EDITTEXT        IDC_CHECKTIME,64,45,32,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_TIMEOUT_VALUE_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,85,45,11,12
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 189
+    END
+
+    IDD_ADDFEED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 241
+        TOPMARGIN, 7
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

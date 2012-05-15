@@ -1,0 +1,243 @@
+0.1.2.5
+=======
+! fix many memory leaks patch by  Merlin
+* x64 support by Merlin
+* Resource patch by mataes (for translations)
+
+0.1.2.4
+=======
+* Only show popup tab if popup plugin is present
+! Wrong time displayed in mailbrower (fix by y_b)
+
+0.1.2.3
+=======
+* New design for the options pages (Thanks Eyecue)
+
+0.1.2.2
+=======
+* using, with updater, the correct file id in file listing (yamn 2in1)
++ added folders plugin support
++ Support for miranda 0.8
+
+0.1.2.1
+=======
+! Don't close MailBrowser when e-mails are updated if it is manually open 
++ Discard the new Event when message is shown or is deleted from the server
++ Option to disable the CList events per account
++ Contact status change also happens when e-mail are being deleted
+
+0.1.2.0
+=======
+! patch by TioDuke for icolib and status and status icons handling. Thanks!
+! code cleaning (properly destroy services and hooks)
++ Contact status changes accordingly the action (Ready, Working, Error)
+
+0.1.1.0
+=======
++ Show message is open in new thread
++ Click on individual new e-mail popups shows the message window
+
+0.1.0.2
+============
++ Pressing "Space" key will show the selected message
+! Delete message is done by DELETE key, not by '.'
+! removed some repeated code
+! "Ok" and "Select All" buttons in mail browser are translatable
+
+0.1.0.1
+============
++ Message body shown in separate edit box.
++ Support for Content-transfer-encoding: Quoted-Printable and base64
++ Recursive Content-type: multipart/ support
++ Option to auto retrieve body
+
+0.0.1.11
+============
++ Option to use yamn as a protocol.
+* Patch by Tioduke (code cleaning)
+! Fixed the crash parsing invalid "Date" header (SPAMs or silly e-mail client) (y_b)
+! ShowMessage dialog follows Content-type header to chose the codepage (y_b)
++ Only supported codepages are shown in the options (y_b)
++ Enhance codepages support (y_b)
+
+0.0.1.10
+============
+! Icons are based on single bitmap image (y_b)
+* Show full feaders on double click in mailbrowser (y_b)
+* Dates are shown localized and sorted correctly (y_b)
+* To show long/short date and seconds (y_b)
+! Solved a rare/random crash on unstable connection (y_b)
+! Enabled tabstop on new tabcontrol and reordered tabstop in option pages (y_b)
+* Enable TAB selection in mailbrowser dialog (patch by -pv-)
++ introducing 2in1 build - can be used both in win9x and NT/XP
+* Options redesign.
+
+0.0.1.9
+============
+* Patch by Perf (visual patch)
+
+0.0.1.8
+============
++ add ctr-A to select all mails
++ del key delete selected mail
++ add a select all button
+
+0.0.1.7
+============
+* Change options dialog (use tabsrmm uxtheme)
+! Invert back and text color for no new mail popup in option page.
+* New default icon reworked by Faith Healer.
+
+0.0.1.6
+============
+* Try to update all icons when changing in icolib.
+! Allow scrolling in list of email account. (Patch by Jazzy)
+! Memory leak in stls fix (y_b)
+
+0.0.1.5
+============
+! Bug fix with help.dll problem. (Patch by Jazzy)
+  (http://developer.berlios.de/bugs/?func=detailbug&bug_id=6692&group_id=3292)
+! Remove merge in agressiveoptimize.h
+
+0.0.1.4
+============
+! Option page bug (patch by y_b)
+* Allow to edit the application text
+
+0.0.1.3
+============
+! Bug fix with new icolib
+
+0.0.1.2
+============
+! Bug fix with updater and stable version
++ Using new m_icolib.h
++ New context menu entry to launch application
++ Patch by y_b
+{
+  + Start TLS support
+  + Better icolib support
+  + SSL Logging
+}
+
+0.0.1.1
+============
+! Bug fix on left click popup.
+
+0.0.1.0
+============
+Time for release.
+
+0.0.0.18
+============
+! Visual bug in option page
+! Recompilation for win 9x users.
+
+0.0.0.17
+============
+* Redesign option page to have only one entry in plugins options
+! Bug fix when there is no date set in the header (spam mails) (Thx Egres)
+
+0.0.0.16
+============
+* Right click on error popup close the popup.
+! Missing break; in nonewmail popup in switch.
++ Add option to rename contact according to new mail.
+! Patch by pescuma on delete accounts 
+
+0.0.0.15
+============
+! Fixed dismiss event by right click on new mail popup crash
+* Change string for the status choose button
+! use CallServiceSync() instead of CallService() for adding clistevent (now icon blinks)
+
+0.0.0.14
+============
+! Tooltip on the clist event will now show correct text
+! Remove the messagebox on double clik on mail
+* Change options dialog add dialog for status choose.
+
+0.0.0.13
+============
++ Use of event count for the keyboard flashing
+
+0.0.0.12
+============
+- Remove message body retrieving due to bug.
+
+0.0.0.11
+============
++ Add a function to retrieve the whole mail source.
++ Show the mail source when double clicking on it in mail browser.
++ Add a version resource.
+
+0.0.0.10
+============
++ Now able to pass hContact handle to popup so can show avatar if set.
+* Change folder structure in svn SDK\import replace by include
+
+0.0.0.9
+============
++ Sorting asc and desc of the mail browser listview
++ Use the format yyyy-mm-dd hh:mm:ss for date comparaison in sorting
++ Doubleclick on list view to show the mail body but it seems to be empty :(
+
+0.0.0.8
+============
++ Add date field in mail browser
+* Modify the tooltip text for the clist event (add account name)
+* Rename Contact member of CAccount by hContact since it is an HANDLE
++ Updater support for BETA
+* Using the right headers (no more the one in SDK)
+
+0.0.0.7
+============
++ Added changelog txt file.
++ Check presence of icolib to choose the right icon to show in clist
++ Status message will show all message pending in mail box (until they get retrieve by your email client)
+
+0.0.0.6
+============
+* Options page redesign.
++ Right click on popup close the clist event too.
++ Update status message if no new mail.
++ Right click on popup^with no new mail close the popup.
+* No more delete of contact (avoid group affectation bug).
+
+0.0.0.5
+============
++ Add contact context menu entry to check for new mail.
++ Catch double click event on contact to shown the mail browser.
+
+0.0.0.4
+============
++ Add per account option to be show as contact or not.
++ Gestion de la suppression d'un compte
++ Use of the status message for showing number of emails.
++ Refresh yamn contact on the click on apply in options dialog.
+* Better condition for the ^contact loop  (ouuppsss)
+
+0.0.0.3
+============
++ Now account are shown as a contact.
++ Source code modification and use of yamn.h
++ Wait the event moduleloaded before loading the icons (support icolib).
+
+0.0.0.2
+============
++ Use of patch by Q (From file listing) (Memory cleaning, empty mail browser even if there are mails, yamn freeze sometime)
++ Use of thread access function.
++ Possibility to change toptoolbar icons via icolib.
++ Icon in main menu entry (Asked by a7)
++ New Icons set by Manudevil.
++ Change version number to be compatible with updater plugin
+
+0.01
+============
+
++ icolib support.
++ keyboard flash support (just 10 sec) (thx TioDuke) needs Keyboard Notify Ext. 1.5.4.4
++ list of email can be sorted.
+* left click on popup shows email list.
+* better toptoolbar support.

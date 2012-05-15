@@ -1,0 +1,122 @@
+Verison 1.3.0.8
+
+[+] Added ability to copy unicode status message
+[*] Authorization request fixed
+
+Verison 1.3.0.7
+
+[+] Added option to disable showing user ID in menu item.
+[+] Added option to trim too long user ID in menu item.
+
+Verison 1.3.0.6
+
+[+] Unicode in authorization requests (for Miranda 0.9.0.7 and higher)
+
+Version 1.3.0.5
+
+[*] Crash fix for disabled accounts
+
+Version 1.3.0.4
+
+[*] Unicode in CopyToClipboard function
+
+Verison 1.3.0.3
+
+[+] Support Miranda 0.7
+
+Verison 1.3.0.2
+
+[+] Added "Add item name" option for the "Copy status message" function
+[+] Added "Open ignore settings" item
+[*] Some tweaks in the options page
+
+
+Verison 1.3.0.1 [20-04-2009]
+
+***NOW IT'S WORKING ONLY WITH CORE FROM LATEST NIGHTLY BUILDS***
+[+] Added "Browse Received Files" button on Tabsrmm button bar (disabled by default)
+[+] Added ability to show popup with the copied text for various functions
+[+] Show all menu item on ctrl + click
+[+] Feature "Protocol" is replaced with "Copy to Account" (hold Ctrl key for move to account)
+[+] Show dialog with offer to send authorization request, if contact is copied/moved to another account.
+[+] Icolib support
+[+] Accounts support in various functions
+[-] "Group..." menu item was removed
+[*] New, more nice submenu in contact menu
+[*] Improved "Copy status message" function.
+[*] Added icon for "Show in list" item (icon by king_of_crunk)
+[*] New icons for "Always visible" and "Always invisible" items from clist_modern
+[*] Changed "Browse Received Files" icon
+[*] Improved Request authorization dialog:
+	- now it's translatable
+	- added caption
+	- added default request text
+	- send authorization request on ctrl + enter
+	- and some other
+[*] Options was moved into the Customise group
+[*] Fix for a gdi leak
+[*] Various bugfixes and changes
+
+
+Verison 1.2.1.14 [21-04-2008]
+
+[*] new icons based on ICE iconpack
+
+
+Verison 1.2.1.13 [10-04-2008]
+
+[*] StatusMsg function modified (no SMR needed for copy xStatus)
+
+
+Verison 1.2.1.12 [09-04-2008]
+
+[*] MIID added
+[+] CopyID copied most online contact id in MetaContact
+
+
+Verison 1.2.1.11 [25-02-2007]
+
+[*] icon fixes (from ghazan)
+
+
+Verison 1.2.1.10 [12-01-2007]
+
+[+] Option "Show alpha icon" for "Hide from list" menu item
+[+] Option "Copy MirVer"
+
+
+Verison 1.2.1.9
+
+[+] Option "Show alpha icons"
+
+
+Verison 1.2.1.8
+
+[*] add more icons
+
+
+Verison 1.2.1.7
+
+[+] Option "Copy IP"
+
+
+Verison 1.2.1.6
+
+[+] Option "Add protocol name"
+
+
+Verison 1.2.1.3
+
+[+] Option "Copy Status Message", need SMR plugin
+
+
+Verison 1.2.1.2
+
+[+] Updater support
+
+
+Verison 1.2.1.1
+
+[+] New icons
+[+] Option "Copy ID"
+[+] Option "Browse Received Files"

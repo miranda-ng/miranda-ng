@@ -1,0 +1,214 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_TRIGGER DIALOGEX 0, 0, 186, 64
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Trigger when Miranda is hiding",IDC_BK_HIDE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,19,22,153,10
+    CONTROL         "Trigger when Miranda is showing",IDC_BK_SHOW,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,19,38,152,10
+    GROUPBOX        "Pre-conditions",IDC_STATIC,7,6,172,51
+END
+
+IDD_OPTDIALOGMAIN DIALOGEX 0, 0, 224, 220
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | 
+    DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "BossKey"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",
+                    IDC_MAINOPT_LNK_HOTKEY,"Hyperlink",WS_TABSTOP,12,14,203,
+                    12
+    GROUPBOX        "When I press the hotkey:",IDC_STATIC,0,42,224,124
+    CONTROL         "Change status to",IDC_MAINOPT_CHANGESTATUSBOX,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,12,55,97,10
+    COMBOBOX        IDC_MAINOPT_CHGSTS,120,53,92,93,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Change only if current status is Online",
+                    IDC_MAINOPT_ONLINEONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,69,198,10
+    CONTROL         "Use default status message",IDC_MAINOPT_USEDEFMSG,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,82,180,10
+    EDITTEXT        IDC_MAINOPT_STATMSG,11,97,200,36,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "",IDC_MAINOPT_VARHELP,"MButtonClass",WS_TABSTOP,194,80,
+                    16,14,0x18000000L
+    CONTROL         "Disable Sounds",IDC_MAINOPT_DISABLESNDS,"Button",
+                    BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,137,198,
+                    10
+    CONTROL         "Show the Tray Icon",IDC_MAINOPT_TRAYICON,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,151,198,10
+    GROUPBOX        "When I return:",IDC_STATIC,0,174,224,42
+    CONTROL         "Request password:",IDC_MAINOPT_REQPASS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,186,102,10
+    EDITTEXT        IDC_MAINOPT_PASS,120,184,92,12,ES_PASSWORD | 
+                    ES_AUTOHSCROLL
+    CONTROL         "Change status back",IDC_MAINOPT_SETONLINEBACK,"Button",
+                    BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,12,200,200,
+                    10
+    GROUPBOX        "Hotkey",IDC_STATIC,0,2,223,34
+END
+
+IDD_PASSDIALOGNEW DIALOGEX 0, 0, 188, 79
+STYLE DS_ABSALIGN | DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | 
+    WS_POPUP | WS_VISIBLE | WS_BORDER
+EXSTYLE WS_EX_TOPMOST
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_HEADERBAR,"MHeaderbarCtrl",0x0,0,0,188,25
+    LTEXT           "Password:",-1,6,35,34,8
+    EDITTEXT        IDC_EDIT1,48,33,113,13,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "",-1,"Static",SS_ETCHEDHORZ,0,52,190,1
+    PUSHBUTTON      "OK",IDOK,22,58,60,14
+    PUSHBUTTON      "Cancel",IDCANCEL,104,58,60,14
+    CTEXT           "EN",IDC_LANG,166,33,13,13,SS_CENTERIMAGE | NOT WS_GROUP
+END
+
+IDD_OPTDIALOGADV DIALOGEX 0, 0, 224, 232
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | 
+    DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "BossKey"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Workstation is Locked (2000/XP+)",
+                    IDC_MAINOPT_HIDEIFLOCK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,18,204,8
+    CONTROL         "Screen Saver is running",IDC_MAINOPT_HIDEIFSCRSVR,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,32,204,8
+    CONTROL         "Windows is inactive",IDC_MAINOPT_HIDEIFWINIDLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,46,116,8
+    GROUPBOX        "Hide Miranda when:",IDC_STATIC,0,4,223,88
+    CONTROL         "Miranda is inactive",IDC_MAINOPT_HIDEIFMIRIDLE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,60,116,8
+    EDITTEXT        IDC_MAINOPT_TIME,132,52,31,12,ES_RIGHT | ES_NUMBER,
+                    WS_EX_RIGHT
+    CONTROL         "",IDC_MAINOPT_SPIN_TIME,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS,143,52,10,12
+    LTEXT           "min",IDC_STATIC,166,54,43,8
+    CONTROL         "Miranda is started",IDC_MAINOPT_HIDEONSTART,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,74,204,8
+    GROUPBOX        "Others",IDC_STATIC,0,100,223,44
+    CONTROL         "Create a main menu item",IDC_MAINOPT_MENUITEM,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,114,204,8
+    CONTROL         "Restore hiding on startup after failure",
+                    IDC_MAINOPT_RESTORE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,12,128,204,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPT_TRIGGER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 57
+    END
+
+    IDD_OPTDIALOGMAIN, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 216
+    END
+
+    IDD_PASSDIALOGNEW, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 72
+    END
+
+    IDD_OPTDIALOGADV, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 228
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_DLGPASSWD           ICON                    "icos\\logo.ico"
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,777 @@
+                                  Project Information:
+                                  ====================
+
+Name: tabsrmm
+Homepage: http://miranda.or.at
+Download: http://code.google.com/p/silvercircle/downloads/list
+Source:   http://code.google.com/p/miranda     (tabSRMM code is in Miranda SVN)
+
+Addtional annoucements can be found at my blog:
+	http://blog.miranda.or.at
+
+
++ : new feature
+* : changed
+! : bugfix
+- : feature removed or disabled because of pending bugs
+
+View CHANGELOG.OLD to see pre-1.0 relevant changes. Version 1.0.0.0 was declared
+splitted from trunk and declared as "stable" branch 2006/07/30. Released to
+the file listing the same day.
+
+			Global version information:
+			===========================
+-----------------
+Version 2.0.x.x was released in October 2007 and is the current "stable" version.
+It NEEDS Miranda 0.7.x and will not work on older versions.
+
+Version 2.2.1.x is for Miranda 0.8 and was released in June 2009
+
+Version 3.x is for Miranda 0.9 and incompatible with older Miranda cores. There
+are currently no downloads for it, you'll have to compile it from source.
+
+-----------------
+
+			Detailed change log
+			===================
+
+Version 3.1.99.7 - 2010/12/10
+
+	* fixed visual anomalies when the tool bar is hidden
+	
+	* TAB does no longer focus the send button when the tool bar
+	  is hidden.
+	  
+	* MUC: strip unneeded trailing white space characters from messages
+	  to prevent them from breaking highlighting.
+
+Version 3.1.99.6 - 2010/10/28
+
+	* MUC: don't touch clist group at startup
+	
+	* MUC: delay RTF header creation (workaround for a nasty bug that could
+	  cause a hang on start). Not really a fix at this time.
+	  
+	* fixed a few minor visual glitches.
+
+Version 3.1.99.5 - 2010/10/15
+
+	! fixes for overlay icons
+
+	* changed location for aero settings. It's no longer considered an advanced
+	  tweak. The options are now global container settings.
+
+	* merged all fixes from stable tree
+
+	* MUC: strip all formatting codes from topics so that they are not messed
+	  up in the info panel or status bar.
+
+
+Version 3.1.99.2 - 2010/09/02
+
+	! propagate outgoing typing notifications to the active subcontact
+
+	* renamed sound group names for IM and group chats to make their meaning more
+	  obvious.
+
+
+Version 3.1.99.1 - 2010/08/28
+
+	! bug fix: topic in info panel did not refresh immediately when it was changed
+
+	* updater support for the version on the addons site.
+
+	! load system libraries in a safe way.
+
+	! bugfix (MUC): Do not lose input focus after autocomplete did not find
+	  a matching nick name when the option to allow TAB in the input area is
+	  enabled.
+
+	! bug fix (MUC): Allow undo for nick - autocomplete actions
+
+
+Version 3.0.2 - 2010/08/25
+
+	* first stable release for 3.0.x - forked from 3.0.1.3
+
+
+Version 3.0.1.3 - 2010/08/10
+
+	* MUC: added code for case-insensitive highlighting of messages
+	  containing your own nick name.
+
+	* MUC: fixed background color for popups (should now use the correct
+	  color set for the MUC log background).
+
+	* added custom warning messages when importing a theme via
+	  Customize->Message window skin.
+
+	* fixed wrong 32 pixel icon in the container options dialog. Now using
+	  the message icon (for which we have both 16 and 32 pixel variants).
+
+	* avoid creating new windows and event notifications on non-message
+	  events (e.g. file transfers).
+
+
+Version 3.0.1.2 - 2010/08/09
+
+	* finished v5 theme support (improved exporting and importing group
+	  chat settings)
+
+	* re-activated global message log background color and separated it
+	  from MUC background color (allows for different background colors for
+	  single and group chats)
+
+	* fixed autocomplete (MUC) bugs
+
+Version 3.0.1.1 - 2010/08/05
+
+	* fixed disappearing code page selection menu.
+
+	* don't create MUC log files in the main profile directory any longer.
+
+	* MUC highlight: removed %m for own nick and replaced it with a separate
+	  setting that allows white spaces in own nick names.
+
+
+Version 3.0.1.0 - 2010/08/04
+
+	* disabled some known buggy and incomplete features to get ready for
+	  3.0 release.
+
+	* set final feature set for version 3 - some less important things are
+	  pushed back.
+
+	* MUC: disc logging, properly check log base path for trailing backslashes
+	  when using folders plugin.
+
+	* MUC: protect log root folder from being deleted while MIM is running.
+
+
+Version 3.0.0.40 - 2010/07/10
+
+	* various fixes and improvements for Windows 7 task bar support.
+
+	* option to warn when closing a tab is gone. A replacement has been added which
+	  will show you a warning when you are about to close a window with multiple tabs.
+	  This warning uses a custom warning dialog and can be disabled by checking its
+	  "Do not show this message again" option.
+
+	* fix for auto switching tabs incorrectly focusing tab when creating a new
+	  one in the background.
+
+	* fixed crash when forcefully terminating Miranda while a custom warning
+	  dialog is still open.
+
+Version 3.0.0.39 - 2010/06/24
+
+	* task bar previews: removed placeholders and implemented real previews of
+	  the message window contents.
+
+	* redesigned container options dialog for better translations. Most
+	  options now offer much more space for translated strings.
+
+	* attempt to fix stuck typing notifications on arriving messages
+
+Version 3.0.0.38 - 2010/06/21 - released with Miranda 0.9.alpha#11
+
+	* implemented warning dialog boxes with a "do not show this message again"
+	  checkmark for various error- or informational messages.
+
+	* disabled aero peek previews when a skin is in use because of various
+	  unresolved problems. Might be adressed at a later time.
+
+	* updated icon pack version to 5 and re-enabled a mandatory version check
+	  on startup. The warning message can be disabled though.
+
+Version 3.0.0.37 - 2010/06/15
+
+	* changed logic for calculating relative skin path names. You will most likely
+	  have to reload your skins.
+
+	* fixed a possible crash when unloading/reloading skins.
+
+	* some updates for task bar thumbnails.
+
+Version 3.0.0.36 - 2010/06/04 - released with Miranda 0.9.alpha#10
+
+	* task bar support (Win 7), removed check for running DWM. Task bar tabs should
+	  now work with classic and non-aero themes in Windows 7 (no thumbnails, though,
+	  because they require Aero to be active).
+
+	* renamed misleading option for task bar support as it implied to require an Aero
+	  theme (which is not the case).
+
+	* another tool bar rendering fix - don't use gradients for the tool bar background
+	  at all with classic Windows theme, unless both tool bar background colors are
+	  properly set.
+
+	* Aero peek (task bar tabs) now default to enabled.
+
+Version 3.0.0.35 - 2010/05/29
+
+	* taskbar thumbnails (Win7): better support for MUC tabs, set active session
+	  should now work.
+
+	* autoclose tabs: converted to a more useful autoclose/autohide container
+	  feature and moved to container options.
+
+	* fixed a bug where installing a language pack could break hotkeys (translation
+	  issue)
+
+	* fixed "black tool bar bug" when classic windows theme is active on XP or later.
+
+Version 3.0.0.34 - 2010/05/27
+
+	* fixed crash when running on Windows 2000
+
+	* cleaned up the mess in the TSButton class
+
+	* More work on Aero Peek thumbnail previews. Added custom thumbnails for MUC chat
+	  rooms and server windows.
+
+	* updated msglog mark read code with some recent changes for srmm.
+
+
+Version 3.0.0.33 - 2010/05/22
+
+	* some issues fixed
+
+	* improved compatibility for old (TabSRMM 2) skins
+
+	* preliminary support for large status icons on the Windows 7 task bar (Miranda 0.9
+	  required).
+
+	* option to show avatars on task bar added to container settings (only
+	  when running on Windows 7).
+
+	* option to enable/disable Windows 7 task bar features removed (now always on,
+	  when running on Windows 7).
+
+	* Added aero peek for the Windows 7 task bar. Per tab thumbnails are partially
+	  implemented, so you get a similar UI as seen in other tabbed applications
+	  under Windows 7 (IE 8, Opera 10, for example). Still experimental, so it is
+	  disabled by default (Message Sessions->Advanced tweaks is where you can enable
+	  it). A Restart is required.
+
+
+Version 3.0.0.32 - 2010/05/16
+
+	* menu bar is now using tool bar colors when using custom message window
+	  colors
+
+	* fixed changelog URL for users of updater plugin and created new online
+	  change log for TabSRMM 3 development versions
+
+	* added separate translation for default container name (avoid using common
+	  translation for "default").
+
+Version 3.0.0.31 - 2010/05/xx
+
+	* fixed drawing problem with animated info panel avatars
+
+	* moved all legacy color settings to font service
+
+	* added theme support for new color settings (+ updated theme version to
+	  v5).
+
+	* fixed issue with own nickname when it has not been set on the protocol's
+	  option page (use own UID instead).
+
+
+Version 3.0.0.30 - 2010/05/12
+
+	* MUC: replaced (non working) log truncating with log rotation. Old log files
+	  are archived when the size exceeds the maximum allowed length for a single
+	  channel log file.
+
+	* updated some dialogs to make more space for translations.
+
+	* added UI button for quickly opening the MUC logs base folder.
+
+	* implemented right and middle click actions for side bar buttons (close/context
+	  menu)
+
+
+Version 3.0.0.29 - 2010/05/11
+
+	* fixed a number of drawing problems
+
+	* DB tweak to force tool bar always use visual styles
+
+	* added 2 new common colors for painting the UI in aero and visual styles
+	  mode.
+
+	* improved exporting and importing of theme files to support UI settings that
+	  are new in TabSRMM 3.
+
+
+Version 3.0.0.27 - 2010/05/06
+
+	* send menu pulldown button is now always available, even if the
+	  send button itself is disabled.
+
+	* fixed few problems with tool bar configuration dialog.
+
+	* send later UI improved
+
+	* skin selection dialog improved (added button for quickly closing
+	  all open message windows when loading or unloading a skin).
+
+Version 3.0.0.26 - 2010/04/30
+
+	* fixed the painting of close buttons on tabs when using a skin (they
+	  were incorrectly using visual styles instead of the button skin)
+
+	* new skin item for the switch bar background
+
+	* send later out of hidden state (see: http://wiki.miranda.or.at/SendLater)
+
+Version 3.0.0.25 - 2010/04/23
+
+	* bug fixes
+	* added two new switch bar layouts (more complex, allow showing avatars
+	  on the switch bar buttons).
+	* fix for a crash when AVS plugin is not available.
+
+Version 3.0.0.22 - 2010/04/01
+
+	* Alpha snapshot released to my googlecode site.
+	* many bug fixes and small improvements, new skin selection dialog
+	* still INCOMPLETE and not all features are fully working.
+
+Version 3.0.0.8  - 3.0.0.21
+
+	* again, many, many changes and new things. Refer to the Wiki page
+	  (http://miranda.or.at/TabSrmm:Development3_0_KnownIssues) for more information.
+
+Version 3.0.0.4  - 3.0.0.8
+
+	* Ongoing rewrite of the plugin. New infopanel, MUC highlighting, aero effects
+	  among many other things were added. Still in alpha stage.
+
+Version 3.0.0.3  - 2009/08/20
+
+	* too many changes to list here. Major rewrites in many areas, aero support
+	  new menu bar (rebar-based), new, more dynamic info panel layout and drawing,
+	  support for core hotkey service added, folders support extended, reworked
+	  some groupchat options, got rid of old protocol names where possible
+
+Version 3.0.0.2  - 2009/07/30
+
+	* Major rewrites in some areas
+	* converted source to C++
+	* basic aero support added (experimental, disabled by default, you have to set
+	  a database value BYTE "useAero" under the "Tab_SRMsg" module and set its
+	  value to 1. Restart required
+	* many parts of the plugin rewritten in C++ (just started, more to come)
+
+Version 3.0.0.1  - 2009/07/20
+
+	* MAJOR changes in some areas. Info panel overhaul and more. Expect
+	  tabSRMM to be unstable for a while. 2.2.1.x will continue to exist for user
+	  of a stable Miranda. 3.0.0.x is currently for TESTING ONLY.
+
+Version 3.0.0.0  - 2009/07/20
+
+	! various visual glitches fixed.
+	! fixed problem with private container theme (using relative pathnames)
+	! plugin version updated and restricted to Miranda 0.9.x development
+	  branch.
+
+Version 2.2.1.19  - 2009/07/08
+
+	! fixed some slowdowns when opening new tabs
+	* branched to Miranda - stable (0.8.x).
+
+Version 2.2.1.18  - 2009/06/28
+
+	! bug fixes
+	! Hotkeys rearranged (Ctrl-y and Ctrl-l disabled, Ctrl-r moved to Alt-r)
+
+Version 2.2.1.17  - 2009/06/21
+
+	! fixed possible crash, introduced by the new %a variable
+	! fixed some problems with global Ctrl-Shift-U hotkey
+
+Version 2.2.1.16  - 2009/06/14
+
+	* replaced internal protocol name with user defined account name in some places
+	  (e.g. info panel).
+
+	* added new variable for title bar formatting: %a will be replaced with the
+	  user defined account name for the current contact.
+
+	* various fixes and updates by core developers.
+
+	* released for Miranda 0.8.0
+
+Version 2.2.1.14  - 2009/03/05
+
+	* fixed untranslateable strings
+
+
+Version 2.2.1.13  - 2009/01/02
+------------------------------
+
+	* merged changes from main Miranda tree (chat API, bugfixes)
+
+	* project is now fully GCC / MingW compatible. Build files were added to
+	  build tabSRMM with GCC 4.x. See docs/README.GCC for more information.
+
+	* removed minimize to tray (or floater) feature. The same functionality
+	  is now available via the "hidden container" feature.
+
+
+Version 2.2.1.12  - 2008/12/30
+------------------------------
+
+	* Windows Vista only: re-enabled transparency settings when using skins for the
+	  message container. Experimental, but it seems to work and none of the
+	  problems I've seen under XP (very slow redraw, CPU hogging while typing)
+	  does occur. NOTE: When not using the Aero desktop (e.g. Vista Home Basic),
+	  transparency combined with skins may still result in slow window redrawing.
+
+	* resolved some translation disambiguities in the user preferences dialog.
+
+	* added some missing translations
+
+	* fixed bug with container creation - in some cases, container may stay hidden
+	  (bug ID #468)
+
+
+
+Version 2.2.1.11  - 2008/09/26
+------------------------------
+
+	* made compile under Visual Studio 2008 (workaround for the richedit.h issue
+	  in PSDK 6.0)
+
+	* per channel event filter dialog is now translatable. (issue #0000435).
+
+
+Version 2.2.1.10  - 2008/09/11
+------------------------------
+
+	+ added option for setting avatar visibility to the user preferences dialog.
+
+
+Version 2.2.1.9  - 2008/07/15
+-----------------------------
+
+	! fix for layout distortions when switching message log viewer in an active
+	  tab.
+
+	* various source code cleanups and added comments (for devs only)
+
+	+ added more help hyperlinks to various option dialog boxes. These link to the
+	  wiki pages on the official documentation site.
+
+	! fix for double cr/lf insertion (by Vasilich)
+
+	! when toolbar is disabled, don't draw smiley selection window at random
+	  position.
+
+	! fixed crash/freeze with some nicknames (recursions when replacing character
+	  sequences in the message window title bar). Bugtracker id: 0000223
+
+	! status bar buttons will now check the source of the click event. Fixed
+	  bug ID #0000146
+
+Version 2.2.1.8  - not public, released with Miranda 0.8 nightly #18)
+---------------------------------------------------------------------
+
+	* for devs only: Patch by ono to make the code to compile with GCC
+	  w/o problems.
+
+	! hide on close feature: small fix for distorted layout when showing
+	  a container with a previouly not yet activated tab.
+
+	! fixed minor resource leak when the display of client icons in the
+	  status bar is enabled (advanced tweak).
+
+	! more minor fixes for the hidden container feature.
+
+
+Version 2.2.1.7  - 2008/06/21
+-----------------------------
+
+	- internal, not released to public
+
+Version 2.2.1.6  - not public
+-----------------------------
+
+	! fixed "Revert to safe defaults" bug in advanced tweaks dialog.
+
+	! fixed possible crash in message log streaming when history
+	  keeper is installed
+
+	! minor layout changes for 120 DPI setting.
+
+	! custom smiley patch by borkra (show custom smileys on incoming
+	  messages only)
+
+	! fixed bug with bbcode colors (introduced by font service support)
+
+	! fixed minor drawing issue with log freeze indicator.
+
+Version 2.2.1.5  - 2008/05/08
+-----------------------------
+
+	! bug fixes: smiley button visual glitch, group chat option tree
+	  icon(s), possible crash with tool bar config, wrong background
+	  colors in the message log, "load actual history" now works.
+	  - some fixes for font service support.
+
+	* changed button highlight code for buttons with a "dropdown arrow".
+	  Entire button is now "hovered" - the old way did look very strange
+	  with some skins or visual styles.
+
+	* group chat related options were re-organized. Everything is now
+	  in Message Sessions->Group chats. Options were slightly re-grouped
+	  for a more logical appearance.
+
+	* popup configuration option pages are now only created when a popup
+	  plugin is installed.
+
+	* small adjustments for minimum splitter position.
+
+	- removed 7bit ansi check for outgoing messages. Now obsolete, because
+	  of UTF-8 database storage format.
+
+	+ added support for History Events plugin by pescuma (patch submitted
+	  by pescuma)
+
+	- removed useless help menu entries
+
+	+ added spin controls to configure popup delay values
+
+	+ allow to set -1 for each popup delay to use "infinite" delay (
+	  popup will stay on screen forever).
+
+	* error popups will not timeout any longer. Instead, they must be
+	  clicked to dismiss them.
+
+	+ integrated "mod plus" options into Message Sessions->Advanced tweaks.
+
+	! merged MButton patch by rainwater into TSButton control to check that
+	  a button release event should be processed.
+
+	* don't close hovered popups (when mouse pointer is over a popup)
+
+	* reworked typing notify options.
+
+	- removed deprecated toolbar hiding options
+
+	+ added various hyperlink controls to open online help pages to the
+	  option dialogs.
+
+
+Version 2.2.1.4  - 2008/05/08
+-----------------------------
+
+	* for internal testing only (not officially released)
+
+Version 2.2.1.3  - 2008/04/XX
+-----------------------------
+
+	* for internal testing only (not officially released)
+
+Version 2.2.1.2  - 2008/04/23
+-----------------------------
+
+	* increased limit of the time based "load previous events" feature.
+	  It's now 24 hours instead of the 12 it was before. So the maximum
+	  value you can enter on Message Log->Load previous events less than"
+	  are 1440 minutes.
+
+	* various fixes by ghazan (compile fixes for VC 2003, msg timeout
+	  fix and more)
+
+	* added font service support (patch by Mad Cluster). All fonts must
+	  now be set under Customize->Fonts->tabSRMM. The old font and color
+	  dialog is gone.
+
+	* the menu items for invoking the message log settings dialog (both
+	  global and per contact) are now working. You can find them on the
+	  Menu bar (Message Log popup) or by clicking the message log options
+	  button on the tool bar.
+
+	* Removed the Message Sessions->Customize node and replaced it with
+	  a new dialog holding all group chat related options.
+
+Version 2.2.1.1  - 2008/04/10
+-----------------------------
+
+	* merged "MADMod" patch. This is a big contribution and adds several
+	  new features like a fully customizable button bar and more. Also adds
+	  old style typing notification popups (code taken from bio's old plugin),
+	  support for animated .gif avatars and more.
+
+	  See: http://forums.miranda-im.org/showthread.php?t=17918
+
+	* New per contact message log settings are now almost complete and
+	  working. Alt-B (RTL/LTR toggle has been restored).
+
+	* bug fix for splitter position syncing
+
+	* added nova icon pack (by Angeli-Ka).
+	  NOTE: icon pack format has changed slightly because of the Mad
+	        mod patch. You can still use an old icon pack, but you
+	        may receive a warning when doing so.
+
+
+Version 2.1.0.1  - 2008/03/26
+
+	* fixed small visual glitch when using the modern (styled) tabs
+
+	* groupchats: Fixed issue with indentation of multiline messages.
+
+	* groupchats: Implemented selective disc file logging. Under
+	  Options->Message Sessions->Group chats, you will find a new option
+	  tree where you can select events which should be logged to the
+	  log file.
+
+Version 2.1.0.0  - 2008/02/15
+
+	* groupchats: clickable nicknames can now be colorized. Patch by theMiron
+	  (h++ author).
+
+	* reworked message log settings
+	  see: http://miranda.or.at/Blog:Tabsrmm_changes_2_1_0_0 for details.
+
+	* compatibility with Miranda 0.7 no longer given. 2.0.0.5 was branched
+	  as stable tree for 0.7 users.
+
+	* group chats: proper handling of RTF \endash, \emdash and \bullet (patch
+	  by theMiron).
+
+Version 2.0.0.5  - 2008/01/02
+
+	* increased timer for info panel tooltips to 1 sec (previously, it was set
+	  to 500msec which may be too short and trigger unwanted tooltips).
+
+	* some better automatic detection for the MathMod plugin.
+
+	* changed tree controls on option pages to use simple checkboxes
+	  instead of image lists.
+
+Version 2.0.0.4  - 2007/12/23
+
+    + added incremental search feature to the group chat userlist. Simply
+      type what you want to find and it will be highlighted. Using cursor keys
+      to move the selection will clear the current search string. Typing
+      something which does not exist will also clear the current seach string
+      and start over.
+    ! fixed missing checkmarks in the message log submenu of the containers
+      menu bar.
+    ! fixed untranslateable strings in the container options dialog
+    - disabled skin editor for tabsrmm (still not complete, avoid confusing
+      people :) ).
+    ! fixed minor issue with double icons in status bar (on rare occasions)
+    ! fixed skin drawing on multimonitor systems (patch by Bryan)
+
+Version 2.0.0.3  - 2007/11/29 (released with 0.8 alpha #5)
+
+    * changed per contact filter system in group chats
+    ! "revert splitter" option fixed for group chats.
+    ! "sync splitter with groupchats" option - fixed small (1px) alignment
+      bug
+    ! fixed idle time for metacontacts (may not work with older versions of
+      metacontacts plugin, so please update).
+    - removed active status message retrieval when hovering info panel.
+      tabSRMM now ONLY reads the status message from the database where it
+      should be stored by the protocol or a 3rd party status message retrieval
+      plugin.
+    ! fixed F12 hotkey (message log freeze). Will not be triggered anymore when
+      holding a modifier (alt, ctrl etc.).
+    * some internal code cleanup
+    ! #0000214 (accessibility issue with option dialogs)
+
+Version 2.0.0.2  - 2007/10/02
+
+    ! fixed a few untranslatable strings.
+    ! fixed "revert to old" splitter option (was misaligned by a few pixels).
+      (issue # 0000024)
+    * cleaned up "clickable nicks code" (groupchats, patch by ghazan).
+
+Version 2.0.0.1  - re-upload to enable updater support
+
+Version 2.0.0.0  - 2007/10/02
+
+    * compatible ONLY with Miranda 0.7
+    * UTF-8 message storage now supported
+    * many bug fixes
+    * see online changelog at http://miranda.or.at/tabsrmm/tabsrmm-changelog/
+      for more detailed history.
+
+Version 1.1.0.16 - 2007/01/20
+
+    * bugfixes
+    * 3-way message log selection added to the user preferences dialog.
+    * fixed problem with calling certain protocol services too early.
+    * fixed own nickname not showing in template editor.
+    * removed old icon loading code. IcoLib API is now required (either
+      via IcoLib plugin or new Miranda 0.7 core).
+
+Version 1.1.0.14 - 2006/12/06
+
+    * more work on clickable nicknames in group chats.
+    * draw inactive / disabled status bar icons with high transparency to make
+      them appear "dimmed". Less confusing than constantly disappearing/jumping
+      icons in the status bar.
+    * clickable nicknames in the group chat history can now be right-clicked to
+      open the user context menu (same menu as in nickname list).
+    * fixed ugly crash bug introduced in .13 (clicking on the session list/tray
+      icon).
+
+Version 1.1.0.13 - 2006/11/26
+
+    + group chat module has been converted to UNICODE (ghazan)
+    + Support for history++ as a message log viewer has been added.
+    + Support for the spell checker plugin by pescuma has been added to IM and
+      group chat sessions.
+    + codepage support for group chat windows added.
+    * various smaller enhancements and bugfixes (too many to list here).
+    + message window API support for status bar icons has been added.
+
+Version 1.1.0.10|11|12 - internal
+
+Version 1.1.0.9 - 2006/09/20
+
+    ! fix: own avatar images are now rendered properly when they have transparency
+    * enabling or disabling the integrated group chat support will now set the chat.dll
+      plugin to enabled or disabled.
+    * most temporary error messages are now translateable
+
+Version 1.1.0.8 - 2006/09/10
+
+    internal only
+
+Version 1.1.0.7 - 2006/08/20
+
+    ! disable auto-bidi mode when no RTL language is installed
+    ! workaround for a loadavatars problem (may cause disappearing avatars in
+      the message window).
+
+Version 1.1.0.6 - 2006/08/05
+
+    Mainly bugfixes from 1.0.0.0 release.
+
+	! fixed updater support (301, invalid response).
+	! fixed bug when re-attaching a temporary contact to a new
+	  container while the option to delete temporary contacts on close
+	  is enabled.
+	! fixed minor issue with [color] bbcode
+	! using the own UIN as fallback for own nickname, to solve the "Unknown
+	  Contact" problem which can appear when the own nickname is not
+	  properly set.
+	! fixed a few issues with global splitter positioning.
+	* selecting offline sub protocol throws a warning instead of an error.
+	- removed the feature to load a background image for the message input area.
+	  was causing too many troubles and people did not understand that it was an
+	  experimental feature, thus sending bug reports.
+	! fixed problem with freezing when opening a message window by clicking on a
+	  typing notify popup
+	! fixed vertiacl maximize (patch by SloMo)
+

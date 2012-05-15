@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{4726e1d1-39cd-435a-bd59-51fdb6745f46}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\resources\iconeutral.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\iconttbdown.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="iconttbup.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\icooffline.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icoyamn1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icoyamn2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\resources\icoyamn3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="proto_YAMN.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

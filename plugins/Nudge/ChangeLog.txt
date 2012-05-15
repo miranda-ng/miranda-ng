@@ -1,0 +1,190 @@
+0.0.1.22
+===========
++ 64bit version
++ unhook hooks on exit
++ destroy services on exit
++ open message window on popup click
++ open message window on preview
++ moved sounds in "Nudge" section
+- fixed navigation in options
++ new option: "Open message window"
++ New option: "Open contact list"
++ new option: "Respect ignore settings (status changes)"
+* status changes are now stored in UTF8
+- Removed popup on sending nudges (on popular request)
+* popup options are moved into popup classes, needs a recent version of popup+ or YAPP
+
+0.0.1.21
+===========
++ Traslation fo icon description
+
+0.0.1.20
+===========
+! Bug in options layout
+! Fix for crash when no protocol available (based on changed by Ivan)
+
+0.0.1.19
+===========
+! Patch by Drugwash : option page redesign and ansi buit fix
+* Change N/A to NA (requested by freak)
++ Patch for tabsrmm button api support (thx DaniOK)
+
+0.0.1.18
+===========
+! Fix autoresend save setting
++ Add a autoresend delay (must be between 1 and 10 sec)
+
+0.0.1.17
+===========
++ Add unicode aware flag
++ Support for miranda 0.8
+! Fix for icolib support
++ Added icons from angelika 
+
+0.0.1.16
+===========
++ Add a service to hide/show "send nudge" context menu (for metacontact)
+
+0.0.1.15
+===========
+* Patch by Tioduke (offline nudge)
+
+0.0.1.14
+===========
+* Fix visual option
+
+0.0.1.13
+===========
+! Unicode patch by Ghazan
+! Fix options dialog size
+! Fix nudge text in unicode
+! Use DBGetContactSettingTString to read data
+
+0.0.1.12
+===========
++ Unicode supports (will need unicows.dll, thanks to sje - eblis)
+! Fix retreiving chat window (patch sje)
+
+0.0.1.11
+===========
+! Check for null handle to avoid crash in IRC mod
+! gdi leaks in option page (thx tioduke)
++ Auto send nudge option when received one.
+* New trigger plugin support (first step)
+* Use the text set in option page in popup.
+* Use find first contact service for popup preview
+* Set auto resend nudge to false by default
+
+0.0.1.10
+===========
+* Use popup for warning instead of message box.
++ Check if popup plugin is present if not use messagebox.
+
+0.0.1.9
+===========
+* Change options dialog (use tabsrmm uxtheme)
+
+0.0.1.8
+===========
++ Show a popup on sending nudge
+
+0.0.1.7
+===========
+! Change text for status log on receive.
+* Use flags = 0 for status notify.
+! Wrong section name in options saving.
+* Use winres.h in resource.
+
+0.0.1.6
+===========
++ Per contact limitation (no more per protocol cause too restrictive)
++ Privacy options to limit the number of nudge to receive
++ Options to show nudge as status change. (thx Tioduke)
+
+0.0.1.5
+===========
+! Memory leaks fix. (Patch by Ghazan)
+
+0.0.1.4
+===========
+! Bug fix, url for file in updater info points to source :-(.
+
+0.0.1.3
+===========
+! Bug fix, check time for default proto too ;)
+
+0.0.1.2
+===========
++ Add the right url for updater, now that nudge is on FL.
+
+0.0.1.1
+===========
+:( skipped
+
+0.0.1.0
+===========
+* Some modifications of the option page.
+* Redesign option page.
+! Bug fix with slider in shake option.
+! Bug fix with updater and stable version.
+
+0.0.0.12
+===========
++ Now possible to change the text shown when sending or receiving nudge ( [color=red]BUZZ!!![/color] for yahoo ;) )
+* Change options page.
+! Now apply button is enable when changing status.
+
+0.0.0.11
+===========
++ Status support (global or by protocol)
++ Limitation only sent 1 nudge every 30 sec per protocol.
+
+0.0.0.10
+===========
++ Multiprotocol options
+
+0.0.0.9
+===========
+Patch by Tioduke
+{
+	* Use the right protoname for treating nudge as event
+	* Take care of the message dialog (open or not) in treating nudge as event
+	+ Registration in dbeditor ++
+}
+* Be aware of metacontact when sendig/receiving nudge (history).
+
+0.0.0.8
+===========
++ Shake options are now saved in DB
+! some code rewrite in order to easily change the algo of shaking
+! Patch by Tioduke for icons (non support of icolib)
++ Option to treat nudge as a message.
+! Recieved -> received.
+
+0.0.0.7
+===========
+! Wrong service call
+
+0.0.0.6
+===========
+* Change the return value for trigger functions
+! Bug sound file name was not set (thx TioDuke)
++ Add default Sound
+
+0.0.0.5
+===========
+! Trigger plugin bug fix 
+
+0.0.0.4
+============
++ Icolib support
+! Option redesign to fix visual bug
++ First step in option page to by protocol option
++ Settings are now saved in DB :-)
+
+
+0.0.0.3
+============
+* Some mod in option page.
++ Support for trigger plugin from pboon.
+* Forced beta version in updater.

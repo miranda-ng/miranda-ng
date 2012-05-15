@@ -1,0 +1,23 @@
+# Microsoft Developer Studio Generated Dependency File, included by db3x_mmap.mak
+
+.\commonheaders.c : \
+	"..\..\include\m_database.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_version.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\win2k.h"\
+	".\commonheaders.h"\
+	".\database.h"\
+	".\version.h"\
+	
+
+.\resource.rc : \
+	"..\..\include\m_version.h"\
+	".\db3x_mmap.rc"\
+	".\version.h"\
+	".\version.rc"\
+	

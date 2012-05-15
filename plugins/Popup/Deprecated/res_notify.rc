@@ -1,0 +1,135 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "res_notify.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_POPUPS DIALOGEX 0, 0, 207, 217
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_LACTION,55,84,142,55,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_RACTION,55,103,142,55,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Left Click:",IDC_STATIC,8,84,42,12,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_RIGHT
+    LTEXT           "Right Click:",IDC_STATIC,8,103,42,12,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_RIGHT
+    PUSHBUTTON      "Preview",IDC_PREVIEW,145,200,57,12,WS_DISABLED
+    CONTROL         "",IDC_SOFFLINE,"MButtonClass",WS_DISABLED | WS_TABSTOP,37,137,16,14
+    CONTROL         "",IDC_SONLINE,"MButtonClass",WS_DISABLED | WS_TABSTOP,53,137,16,14
+    CONTROL         "",IDC_SAWAY,"MButtonClass",WS_DISABLED | WS_TABSTOP,69,137,16,14
+    CONTROL         "",IDC_SNA,"MButtonClass",WS_DISABLED | WS_TABSTOP,85,137,16,14
+    CONTROL         "",IDC_SOCCUPIED,"MButtonClass",WS_DISABLED | WS_TABSTOP,101,137,16,14
+    CONTROL         "",IDC_SDND,"MButtonClass",WS_DISABLED | WS_TABSTOP,117,137,16,14
+    CONTROL         "",IDC_SFREE4CHAT,"MButtonClass",WS_DISABLED | WS_TABSTOP,133,137,16,14
+    CONTROL         "",IDC_SINVISIBLE,"MButtonClass",WS_DISABLED | WS_TABSTOP,149,137,16,14
+    CONTROL         "",IDC_SPHONE,"MButtonClass",WS_DISABLED | WS_TABSTOP,165,137,16,14
+    CONTROL         "",IDC_SLUNCH,"MButtonClass",WS_DISABLED | WS_TABSTOP,181,137,16,14
+    CONTROL         "A",IDC_SALL,"MButtonClass",WS_TABSTOP,16,137,16,14
+    GROUPBOX        "Style",IDC_STATIC,4,5,198,63
+    CONTROL         "",IDC_BACKCOLOR,"ColourPicker",WS_DISABLED | WS_TABSTOP,55,15,48,12
+    LTEXT           "Background:",IDC_STATIC,8,15,42,12,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_RIGHT
+    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_DISABLED | WS_TABSTOP,55,32,48,12
+    LTEXT           "Text:",IDC_STATIC,8,32,42,12,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_RIGHT
+    CONTROL         "Use Default",IDC_USEBACKCOLOR,"Button",BS_AUTOCHECKBOX | BS_LEFT | BS_VCENTER | WS_DISABLED | WS_TABSTOP,108,15,89,12
+    CONTROL         "Use Default",IDC_USETEXTCOLOR,"Button",BS_AUTOCHECKBOX | BS_LEFT | BS_VCENTER | WS_DISABLED | WS_TABSTOP,108,32,89,12
+    LTEXT           "Timeout:",IDC_STATIC,8,49,42,12,SS_CENTERIMAGE | NOT WS_GROUP,WS_EX_RIGHT
+    CONTROL         "Use Default",IDC_USETIMEOUT,"Button",BS_AUTOCHECKBOX | BS_LEFT | BS_VCENTER | NOT WS_VISIBLE | WS_DISABLED | WS_TABSTOP,108,49,89,12
+    GROUPBOX        "Interaction",IDC_STATIC,4,73,198,48
+    GROUPBOX        "Display when",IDC_STATIC,4,126,198,31
+    COMBOBOX        IDC_TIMEOUT,55,49,48,126,CBS_DROPDOWN | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_OPT_POPUPS DLGINIT
+BEGIN
+    IDC_LACTION, 0x403, 13, 0
+0x6553, 0x646e, 0x4d20, 0x7365, 0x6173, 0x6567, "\000" 
+    IDC_LACTION, 0x403, 14, 0
+0x6944, 0x6d73, 0x7369, 0x2073, 0x6f50, 0x7570, 0x0070, 
+    IDC_RACTION, 0x403, 13, 0
+0x6553, 0x646e, 0x4d20, 0x7365, 0x6173, 0x6567, "\000" 
+    IDC_RACTION, 0x403, 14, 0
+0x6944, 0x6d73, 0x7369, 0x2073, 0x6f50, 0x7570, 0x0070, 
+    0
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Italienisch (Italien) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ITA)
+#ifdef _WIN32
+LANGUAGE LANG_ITALIAN, SUBLANG_ITALIAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Italienisch (Italien) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

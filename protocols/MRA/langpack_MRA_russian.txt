@@ -1,0 +1,663 @@
+Miranda Language Pack Version 1
+Language: Russian (RU)
+Locale: 0419
+Last-Modified-Using: Miranda IM 0.8 Unicode
+Authors: Rozhuk Ivan
+Author-email: Rozhuk_I@mail.ru
+Plugins-included: mail.ru Agent
+X-Version: 1.17.0.0
+
+
+
+; Главное меню
+
+[Display &Inbox]
+Открыть входящие
+
+[Display &Inbox status]
+Показать состояние ящика
+
+[Send SMS]
+Отправить SMS
+
+[Edit &Profile]
+Редактировать анкету
+
+[My Album]
+Мой альбом
+
+[My Blog]
+Мой блог
+
+[My Blog Status]
+Статус моего блога
+
+[My Video]
+Моё видео
+
+[My Answers]
+Мои ответы
+
+[My World]
+Мой мир
+
+[Zhuki]
+Жуки
+
+[Chat]
+Чат
+
+[Web search]
+Поиск в вебе
+
+[Update all users info]
+Обновить информацию всех пользователей
+
+[Check updates users avatars]
+Проверить обновления образов пользователей
+
+[Request authorization for all]
+Запросить авторизацию у всех
+
+
+
+; меню контакта
+
+[Request authorization]
+Запросить авторизацию
+
+[Grant authorization]
+Авторизовать
+
+[&Send postcard]
+Отправить открытку
+
+[&View Album]
+Посмотреть альбом
+
+[&Read Blog]
+Блог
+
+[View Video]
+Посмотреть  видео
+
+[Answers]
+Ответы
+
+[World]
+Мир
+
+
+; иконки
+
+[Mail box deleted]
+Почтовый ящик удалён
+
+[Contact not on server]
+Контакт отсуствует на сервере
+
+[Not authorized]
+Не авторизован
+
+[Phone/SMS only contact]
+Телефонный/SMS контакт
+
+
+
+; внутренние строки
+[plugin connections]
+соединения плагина
+
+[Avatars]
+Аватары
+
+[From: %s\r\nSubject: %s\r\n%s]
+От: %s\r\nТема: %s\r\n%s
+
+[Unread mail is available: %lu/%lu messages]
+Не прочитанная почта: %lu/%lu сообщений
+
+[No unread mail is available\r\nTotal messages: %lu]
+Не прочитанной почты нет\r\nВсего сообщений: %lu
+
+[Server error: cant get MPOP key for web authorize]
+Ошибка сервера: не возможно получить MPOP ключ для веб авторизации
+
+[Offline message processing error, message will not deleted from server]
+Ошибка при обработке оффлайнового сообщения, оно не будет удалено с сервера
+
+[Undefined message deliver error, time out]
+Неизвестная ошибка при доставке сообщения, время ожидания истекло
+
+[Please, setup e-mail in options]
+Пожалуйста, введите e-mail в настройках
+
+[Please, setup password in options]
+Пожалуйста, введите пароль в настройках
+
+[Can't connect to MRIM server, error]
+Невозможно подключится к серверу сообщений, ошибка
+
+[NLB data corrupted]
+Данные от сервера балансировки нагрузки повреждены
+
+[Can't get data for NLB, error]
+Невозможно получить данные от сервера балансировки нагрузки, ошибка
+
+[Can't connect to NLB server, error]
+Невозможно подключится к серверу балансировки нагрузки, ошибка
+
+[Disconnected, socket error]
+Отключено, ошибка сокета
+
+[Disconnected, socket read error]
+Отключено, ошибка сокета при получении данных
+
+[Logon error: invalid login/password]
+Ошибка при проверки имени пользователя/пароля
+
+[Another user connected with your login]
+Пользователь отключен из-за параллельного входа с его логином
+
+[Message rejected - no such user]
+Сообщение не доставленно - пользователь не существует
+
+[Internal server error]
+Внутренняя ошибка сервера
+
+[Offline messages limit exceeded]
+Превышен предел хранимых сообщений
+
+[Message is too large]
+Слишком большое сообщение
+
+[User does not accept offline messages]
+Пользователь не может принимать сообщения когда его нет в сети
+
+[User does not accept offline flash animation]
+Пользователь не может принимать мульты когда его нет в сети
+
+[Undefined message deliver error, code: %lu]
+Сообщение не доставленно, неизвестная ошибка, код: %lu
+
+[MRIM_CS_MESSAGE_STATUS: not found in queue]
+MRIM_CS_MESSAGE_STATUS: не найден в очереди
+
+[Sended data is invalid]
+Переданные данные были некорректны
+
+[User does not registred]
+Пользователь не зарегестрирован
+
+[Invalid user name]
+Некорректное имя пользователя
+
+[User allready added]
+Пользователь уже есть в контакт-листе
+
+[Group limit is 20]
+Превышено максимально допустимое количество групп (20)
+
+[MRIM_CS_*_CONTACT_ACK: not found in queue]
+MRIM_CS_*_CONTACT_ACK: не найден в очереди
+
+[MRIM_ANKETA_INFO: not found in queue]
+MRIM_ANKETA_INFO: не найдено в очереди
+
+[MRIM_CS_SMS_ACK: not found in queue]
+MRIM_CS_SMS_ACK: не найден в очереди
+
+[Proxy File transfer: error]
+Прокси Передача файлов: ошибка
+
+[Proxy File transfer: incompatible versions]
+Прокси Передача файлов: не совместимые версии
+
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+MRIM_CS_FILE_TRANSFER_ACK: неизвестная ошибка, код: %lu
+
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+MRIM_CS_*_CONTACT_ACK: неизвестная ошибка сервера, код: %lu
+
+[MRIM_CS_GAME: unknown internal game message code: %lu]
+MRIM_CS_GAME: неизвестный внутренний код игрового сообщения: %lu
+
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+MRIM_CS_CONTACT_LIST2: неизвестная ошибка сервера, код: %lu
+
+[MRIM_CS_CONTACT_LIST2: bad contact list]
+MRIM_CS_CONTACT_LIST2: найденный контакт-лист некорректен
+
+[MRIM_CS_CONTACT_LIST2: internal server error]
+MRIM_CS_CONTACT_LIST2: внутренняя ошибка сервера
+
+[Mail.ru System notify]
+Системное уведомление от администрации Mail.ru
+
+[Avatars: can't add request to queue, error]
+Аватары: невозможно добавить запрос в очередь, ошибка
+
+[Avatars: can't connect to server, error]
+Аватары: невозможно подключится к серверу, ошибка
+
+[Avatars: error on send HTTP request]
+Аватары: ошибка при отправке HTTP запроса
+
+[Avatars: error on receive HTTP answer]
+Аватары: ошибка при получении HTTP ответа
+
+[Avatars: cant open file %S, error %lu: %s]
+Аватары: невозможно открыть файл %S, ошибка %lu: %s
+
+[Avatars: error on receive file data]
+Аватары: ошибка при получении содержимого файла
+
+[Avatars: cant write file data, error]
+Аватары: невозможно записать данные в файл, ошибка
+
+[Avatars: server return HTTP code: %lu]
+Аватары: сервер вернул HTTP код: %lu
+
+
+[Are you sure?]
+Вы уверены?
+
+[E-mail address]
+E-mail адрес
+
+[You cannot send when you are offline.]
+Вы не можете отправлять сообщения пока не подключились.
+
+[Cant allocate buffer for convert to unicode.]
+Не удалось выделить буффер для преобразования в юникод
+
+[Select e-mail]
+Выбор электронной почты
+
+[Your contact wakes you]
+Ваш собеседник будит вас
+
+[invisible status changed]
+статус невидимости изменился
+
+[Files exchange: cant create listen soscket, will try connect to remonte host. Error]
+Обмен файлами: не могу создать слушающий сокет, попробую подключится к удалённом компьютеру. Ошибка
+
+[MraFilesQueueConnectionReceived: connection accepted, but pExtra=NULL, this is miranda bug.]
+MraFilesQueueConnectionReceived: входящее подключение принято, но pExtra=NULL, это ошибка миранды.
+
+[Receive files: error]
+Получение файлов: ошибка
+
+[Receive files: error on receive file data]
+Получение файлов: ошибка при получении содержимого файла
+
+[Receive files: cant write file data, error]
+Получение файлов: невозможно записать данные в файл, ошибка
+
+[Receive files: cant allocate disk space for file, size %lu bytes, error %lu: %s]
+Получение файлов: не удалось выделить место на диске для файла, размером %lu байт, ошибка %lu: %s
+
+[Receive files: cant open file %S, error %lu: %s]
+Получение файлов: невозможно открыть файл %S, ошибка %lu: %s
+
+[Receive files: request for file %S not sended, error %lu: %s]
+Получение файлов: запрос на получение файла %S не отправлен, ошибка %lu: %s
+
+[Send files: file send request not received, error]
+Отправка файлов: запрос на отправку файла не получен, ошибка
+
+[Send files: error on send file data]
+Отправка файлов: ошибка при отправке содержимого файла
+
+[Send files: cant read file data, error]
+Отправка файлов: невозможно прочитать содержимое файла, ошибка
+
+[Send files: cant open file %S, error %lu: %s]
+Отправка файлов: невозможно открыть файл %S, ошибка %lu: %s
+
+[Send files: requested file: %S - not found in send files list.]
+Отправка файлов: запрошенный файл: %S - не найден среди файлов подготовленных к отправке
+
+[Send files: bad file send request - invalid header]
+Отправка файлов: запрос на передачу файла - ошибочный заголовок
+
+[Send files: bad file send request - to small packet]
+Отправка файлов: запрос на передачу файла - слишком маленький с запросом
+
+
+
+; аккаунт
+
+[Leave empty if you dont want change password]
+Оставьте пустым если не хотите менять пароль
+
+[Create a new Mail.ru account using the Mail.ru website]
+Зарегестрироваться в Mail.ru
+
+[Retrieve a lost password]
+Забыли пароль?
+
+[Example: Petrov_Ivan@mail.ru]
+Пример: Petrov_Ivan@mail.ru
+
+[Full e-mail:]
+Полный e-mail:
+
+
+
+; аватары
+
+[Enable avatars support (loading)]
+Включить поддержку образов (загружать)
+
+[Use keep-alive connections]
+Использовать постоянные соединения (keep-alive)
+
+[Updates check interval, min]
+Интервал проверки обновлений, минут
+
+[Return absolute path]
+Возвращать абсолютный путь
+
+[Delete avatar file with contact]
+Удалять файл образа вместе с контактом
+
+
+
+; подключения
+
+[Automatic request authorization on logon]
+Автоматически запрашивать авторизацию при подключении
+
+[Automatic add contacts to server list on logon]
+Автоматически добавлять контакты на сервер при подключении
+
+[Automatic grand authorization to users in contact list]
+Автоматически авторизовывать пользователей из списка
+
+[Automatic grand authorization to new users]
+Автоматически авторизовывать новых пользователей
+
+[Disable spam check]
+Не проверять на спам
+
+[Hide menu items for non MRA contacts]
+Скрывать опции меню для не MRA контактов
+
+[Notify about new mail if increment]
+Уведомлять только о новой почте
+
+[Notify about new mail tray icon]
+Показывать иконку в трее при приходе почты
+
+[Click to Inbox]
+Проверить почту щелчком
+
+[Show received Formated text (RTF receive)]
+Показывать принятый форматированный текст
+
+[Send Formated text (send RTF)]
+Отправлять Форматированный текст
+
+
+; антиспам
+
+[Anti spam]
+Антиспам
+
+[Enable Anti Spam]
+Включить антиспам
+
+[Check temp contacts]
+Проверять временные контакты из списка
+
+[Delete spam bot contacts]
+Удалять контакты спам ботов из списка
+
+[Ignory non AlphaNumeric characters]
+Игнорировать символы не явлющиеся буквой/цифрой при проверке
+
+[Max. language changes in message (0 - disabled)]
+Макс. колличество смены языков в сообщении (0 - выкл)
+
+[Show pop up]
+Показывать всплывающие окна
+
+[Write to system history]
+Записывать в системную историю
+
+[Send spam report to server]
+Пожаловатся на спам
+
+[Bad words list]
+Список плохих слов
+
+[Spam bot blocked]
+Спам бот заблокирован
+
+[Spam bot contact deleted]
+Контакт спам бота удалён из списка
+
+
+
+; файлы
+
+[Files exchange]
+Обмен файлами
+
+[Enable direct connections]
+Разрешить прямые подключения
+
+[No out connection on send]
+Запретить исходящие подключения при отправке
+
+[No out connection on receive]
+Запретить исходящие подключения при получении
+
+[Out connections: ignory additional ports (443, 2041)]
+Исходящие подключения: игнорировать доп. порты (443, 2041)
+
+[Hide my IP addresses]
+Скрывать мои IP адреса
+
+[Add extra address]
+Добавить дополнительные адреса
+
+[Enable MRIM proxy connections]
+Разрешить использование MRIM прокси
+
+[File send block size:]
+Размер блока при отправке:
+
+[512 - 65536 bytes]
+512 - 65536 байт
+
+
+; попапы
+
+[PopUp type]
+Тип попапа
+
+[Popup settings]
+Настройки попапа
+
+[None]
+Нет
+
+[Debug]
+Отладка
+
+[Information]
+Информация
+
+[Question]
+Вопрос
+
+[Warning]
+Предупреждение
+
+[Error]
+Ошибка
+
+[NewMail]
+Новая почта
+
+
+; X Statuses
+[Closing in]
+Зароется через
+
+[Sick]
+Болею
+
+[Home]
+Дом
+
+[Eating]
+Кушаю
+
+[Compass]
+Компас
+
+[On WC]
+В туалете
+
+[Cooking]
+Готовлю еду
+
+[Walking]
+Гуляю
+
+[Alien]
+Пришелец
+
+[Shrimp]
+Креветка
+
+[Got lost]
+Заблудился
+
+[Crazy]
+Сошел с ума
+
+[Duck]
+Утка
+
+[Playing]
+Играю
+
+[Smoking]
+Курю
+
+[Office]
+Офис
+
+[Meeting]
+На встрече
+
+[Beer]
+Пиво
+
+[Coffee]
+Кофе
+
+[Working]
+Работаю
+
+[Relaxing]
+Отдыхаю
+
+[On the phone]
+На телефоне
+
+[In institute]
+В институте
+
+[At school]
+В школе
+
+[Wrong number]
+Ошиблись номером
+
+[Laughing]
+Смеюсь
+
+[Malicious]
+Ехидный
+
+[Imp]
+Чертенок
+
+[Blind]
+Слепой
+
+[Disappointed]
+Расстроен
+
+[Almost crying]
+Сдерживаю слезы
+
+[Fearful]
+Испуган
+
+[Angry]
+Злой
+
+[Vampire]
+Вампир
+
+[Ass]
+Задница
+
+[Love]
+Любовь
+
+[Sleeping]
+Сплю
+
+[Cool!]
+Класс!
+
+[Peace!]
+Миру-мир!
+
+[Cock a snook]
+Фига
+
+[Get out]
+Отвалите
+
+[Death]
+Смерть
+
+[Rocket]
+Ракета
+
+[Devil-fish]
+Осьминожек
+
+[Heavy metal]
+Металлист
+
+[Things look bad]
+Отстой
+
+[Squirrel]
+Белка
+
+[Star]
+Звезда
+
+[Music]
+Слушаю музыку
+
+[Dating]
+Знакомлюсь
+
+
+
+
+
+
+

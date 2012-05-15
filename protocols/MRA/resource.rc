@@ -1,0 +1,485 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#define APSTUDIO_HIDDEN_SYMBOLS
+#include "windows.h"
+#undef APSTUDIO_HIDDEN_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MRA                 ICON                    "Icons\\Magent.ico"
+IDI_INBOX               ICON                    "Icons\\Mail.ico"
+IDI_PROFILE             ICON                    "Icons\\Info.ico"
+IDI_AUTHRUGUEST         ICON                    "Icons\\AuthReguest.ico"
+IDI_AUTHGRANT           ICON                    "Icons\\AuthGrant.ico"
+IDI_MAIL_NOTIFY         ICON                    "Icons\\MailNotify.ico"
+IDI_MRA_WEB_SEARCH      ICON                    "Icons\\WebSearch.ico"
+IDI_MRA_BLOGS           ICON                    "Icons\\Blogs.ico"
+IDI_MRA_POSTCARD        ICON                    "Icons\\PostCards.ico"
+IDI_MRA_ZHUKI           ICON                    "Icons\\Bagz.ico"
+IDI_MRA_PHOTO           ICON                    "Icons\\Photo.ico"
+IDI_MRA_CHAT            ICON                    "Icons\\Chat.ico"
+IDI_MRA_PHONE           ICON                    "Icons\\Phone.ico"
+IDI_MRA_ALARM           ICON                    "Icons\\Alarm.ico"
+IDI_MRA_VIDEO           ICON                    "Icons\\video.ico"
+IDI_MRA_ANSWERS         ICON                    "Icons\\answers.ico"
+IDI_MRA_WORLD           ICON                    "Icons\\my world.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MRAACCOUNT DIALOGEX 0, 0, 200, 101
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Mail.ru Account Setup"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_LOGIN,91,34,102,13,ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    EDITTEXT        IDC_PASSWORD,91,54,102,13,ES_PASSWORD | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    DEFPUSHBUTTON   "OK",IDOK,87,80,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,143,80,50,14
+    CONTROL         "Create new account",IDC_REGISTER,"Hyperlink",WS_TABSTOP,7,82,74,10
+    LTEXT           "Please enter your Mail.ru account details to continue:",IDC_STATIC,7,9,186,20
+    LTEXT           "Mail.ru e-mail:",IDC_STATIC,9,37,77,8
+    LTEXT           "Password:",IDC_STATIC,9,57,77,8
+END
+
+IDD_OPT_CONNECTIONS DIALOGEX 0, 0, 295, 230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Configuration",IDC_GROUPCONFIG,8,7,277,208
+    RTEXT           "Login Server:",IDC_STATIC,14,19,52,8
+    EDITTEXT        IDC_SERVER,72,17,140,12,ES_AUTOHSCROLL
+    RTEXT           "Port:",IDC_STATIC,14,34,52,8
+    EDITTEXT        IDC_SERVERPORT,72,33,33,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "(2042, 443, 110, 25)",IDC_STATIC,110,35,167,10
+    PUSHBUTTON      "Default",IDC_BUTTON_DEFAULT,217,17,60,13
+    CONTROL         "Automatic request authorization on logon",IDC_AUTO_AUTH_REQ_ON_LOGON,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,50,263,8
+    CONTROL         "Automatic add contacts to server list on logon",IDC_AUTO_ADD_CONTACTS_TO_SERVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,61,263,8
+    CONTROL         "Notify me when a message delivery has failed",IDC_SLOWSEND,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,107,263,8
+    CONTROL         "Notify about new mail if increment",IDC_INCREMENTAL_NEW_MAIL_NOTIFY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,118,263,8
+    CONTROL         "Notify about new mail tray icon",IDC_TRAYICON_NEW_MAIL_NOTIFY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,129,263,8
+    CONTROL         "Hide menu items for non MRA contacts",IDC_HIDE_MENU_ITEMS_FOR_NON_MRA,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,151,263,8
+    CONTROL         "Show received Formated text (RTF receive)",IDC_RTF_RECEIVE_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,162,263,8
+    CONTROL         "Send Formated text (send RTF)",IDC_RTF_SEND_ENABLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,173,263,8
+    PUSHBUTTON      "Font",IDC_BUTTON_FONT,23,185,42,12
+    CONTROL         "",IDC_RTF_BGCOLOUR,"ColourPicker",WS_TABSTOP,70,186,38,11
+    LTEXT           "Background colour",IDC_STATIC,112,188,157,8
+    CONTROL         "Click to Inbox",IDC_TRAYICON_NEW_MAIL_NOTIFY_CLICK_TO_INBOX,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,140,253,8
+    CONTROL         "Automatic grand authorization to users in contact list",IDC_AUTO_AUTH_GRAND_IN_CLIST,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,72,263,8
+    CONTROL         "Automatic grand authorization to new users",IDC_AUTO_AUTH_GRAND_NEW_USERS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,83,263,8
+    CONTROL         "Disable spam check",IDC_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,94,253,8
+END
+
+IDD_MRAADVANCEDSEARCH DIALOGEX 0, 0, 220, 235
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_BORDER
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Summary",IDC_SUMMARYGROUP,8,5,205,147
+    LTEXT           "Nickname:",IDC_STATIC,15,20,50,8
+    EDITTEXT        IDC_NICK,65,18,139,12,ES_AUTOHSCROLL
+    LTEXT           "First name:",IDC_STATIC,15,35,50,8
+    EDITTEXT        IDC_FIRSTNAME,65,33,139,12,ES_AUTOHSCROLL
+    LTEXT           "Last name:",IDC_STATIC,15,50,50,8
+    EDITTEXT        IDC_LASTNAME,65,48,139,12,ES_AUTOHSCROLL
+    LTEXT           "E-mail:",IDC_STATIC,15,65,50,8
+    EDITTEXT        IDC_EMAIL_USER,65,63,69,12,ES_AUTOHSCROLL
+    CTEXT           "@",IDC_STATIC,137,64,9,9
+    COMBOBOX        IDC_EMAIL_DOMAIN,147,63,57,71,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Gender:",IDC_STATIC,15,87,50,8
+    COMBOBOX        IDC_GENDER,65,85,139,47,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Age:",IDC_STATIC,15,102,50,8
+    RTEXT           "from:",IDC_STATIC,65,102,26,9
+    COMBOBOX        IDC_AGERANGE_FROM,94,100,37,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "to:",IDC_STATIC,134,102,30,9
+    COMBOBOX        IDC_AGERANGE_TO,167,100,37,90,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Birthday:",IDC_STATIC,15,118,50,8
+    COMBOBOX        IDC_BIRTHDAY_DAY,65,117,29,204,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BIRTHDAY_MONTH,102,117,59,90,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_BIRTHDAY_YEAR,167,117,37,188,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Zodiak:",IDC_STATIC,15,134,50,8
+    COMBOBOX        IDC_ZODIAK,65,133,139,47,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Location",IDC_LOCATIONGROUP,7,157,207,60
+    LTEXT           "Country:",IDC_STATIC,14,170,50,8
+    COMBOBOX        IDC_COUNTRY,64,167,143,172,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "State:",IDC_STATIC,14,184,50,8
+    COMBOBOX        IDC_STATE,64,183,143,172,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Search online users only",IDC_ONLINEONLY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,222,143,8
+    LTEXT           "City:",IDC_STATIC,14,200,50,8
+    COMBOBOX        IDC_CITY,64,199,143,172,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Remember",IDC_CHK_REMEMBER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,222,56,8
+END
+
+IDD_OPT_AVATRS DIALOGEX 0, 0, 295, 195
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Configuration",IDC_GROUPCONFIG,8,6,277,110
+    CONTROL         "Enable avatars support (loading)",IDC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,259,9
+    RTEXT           "Server:",IDC_STATIC,16,31,53,8
+    EDITTEXT        IDC_SERVER,72,29,140,12,ES_AUTOHSCROLL
+    RTEXT           "Port:",IDC_STATIC,16,46,53,8
+    EDITTEXT        IDC_SERVERPORT,72,44,34,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "(80, 443, 2041)",IDC_STATIC,110,46,103,10
+    PUSHBUTTON      "Default",IDC_BUTTON_DEFAULT,216,29,60,13
+    EDITTEXT        IDC_UPD_CHECK_INTERVAL,14,71,34,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Updates check interval, min",IDC_STATIC,51,72,222,8
+    CONTROL         "Return absolute path",IDC_RETURN_ABC_PATH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,89,259,9
+    CONTROL         "Delete avatar file with contact",IDC_DELETE_AVT_ON_CONTACT_DELETE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,100,259,9
+    CONTROL         "Use keep-alive connections",IDC_USE_KEEPALIVE_CONN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,72,59,201,9
+END
+
+IDD_OPT_FILES DIALOGEX 0, 0, 295, 160
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Files exchange",IDC_GROUPCONFIG2,8,7,277,143
+    CONTROL         "No out connection on send",IDC_FILE_SEND_NOOUTCONNECTIONONSEND,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,28,244,8
+    CONTROL         "No out connection on receive",IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,39,244,8
+    CONTROL         "Out connections: ignory additional ports (443, 2041)",IDC_FILE_SEND_IGNORYADDITIONALPORTS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,50,244,8
+    CONTROL         "Hide my IP addresses",IDC_FILE_SEND_HIDE_MY_ADDRESSES,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,61,244,8
+    CONTROL         "Add extra address",IDC_FILE_SEND_ADD_EXTRA_ADDRESS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,25,72,244,8
+    RTEXT           "Your host (or router):",IDC_STATIC,13,84,92,8
+    EDITTEXT        IDC_FILE_SEND_EXTRA_ADDRESS,108,83,170,12,ES_AUTOHSCROLL
+    LTEXT           "File send block size:",IDC_STATIC,14,112,263,8
+    EDITTEXT        IDC_FILE_SEND_BLOCK_SIZE,26,123,52,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "512 - 65536 bytes",IDC_STATIC,82,125,97,10
+    CONTROL         "Enable direct connections",IDC_FILE_SEND_ENABLE_DIRECT_CONN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,18,263,8
+    CONTROL         "Enable MRIM proxy connections",IDC_FILE_SEND_ENABLE_MRIMPROXY_CONS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,98,263,8
+END
+
+IDD_OPT_ACCOUNT DIALOGEX 0, 0, 295, 149
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Mail.ru Agent",IDC_GROUPMAIN,9,5,276,98,WS_GROUP
+    RTEXT           "Full e-mail:",IDC_STATIC,14,22,52,8
+    EDITTEXT        IDC_LOGIN,72,18,100,12,ES_AUTOHSCROLL
+    LTEXT           "Example: Petrov_Ivan@mail.ru",IDC_STATIC,175,19,104,10
+    RTEXT           "Password:",IDC_STATIC,14,37,52,8
+    EDITTEXT        IDC_PASSWORD,72,33,100,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Create a new Mail.ru account using the Mail.ru website",IDC_NEW_ACCOUNT_LINK,
+                    "Hyperlink",WS_TABSTOP,18,72,258,9
+    CONTROL         "Retrieve a lost password",IDC_LOOKUPLINK,"Hyperlink",WS_TABSTOP,18,85,258,9
+    LTEXT           "Leave empty if you dont want change password",IDC_STATIC,72,48,212,8
+END
+
+IDD_OPT_POPUPS DIALOGEX 0, 0, 295, 150
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    RTEXT           "PopUp type",IDC_STATIC,9,11,52,8
+    COMBOBOX        IDC_COMBO_POPUP_TYPE,65,9,220,97,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Popup settings",IDC_GROUPMAIN,9,25,276,90,WS_GROUP
+    CONTROL         "Enable",IDC_CHK_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,38,260,10
+    CONTROL         "&Use Windows colors",IDC_CHK_USE_WIN_COLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,29,50,246,10
+    RTEXT           "Back Color",IDC_STATIC,29,65,57,8
+    CONTROL         "",IDC_POPUP_BACKCOLOR,"ColourPicker",WS_TABSTOP,92,65,38,10
+    RTEXT           "Text Color",IDC_STATIC,29,80,57,8
+    CONTROL         "",IDC_POPUP_TEXTCOLOR,"ColourPicker",WS_TABSTOP,92,80,38,10
+    RTEXT           "Timeout",IDC_STATIC,29,96,57,8
+    EDITTEXT        IDC_POPUP_TIMEOUT,92,94,38,12,ES_AUTOHSCROLL | ES_NUMBER
+    PUSHBUTTON      "Previe&w",IDC_PREVIEW,237,119,46,12
+END
+
+IDD_SETXSTATUS DIALOGEX 0, 0, 189, 98
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Custom Status ""%s"" Details"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Closing in %d",IDOK,49,79,91,14
+    LTEXT           "Title:",IDC_STATIC,5,0,179,8
+    EDITTEXT        IDC_XTITLE,5,8,179,13
+    LTEXT           "Message:",IDC_STATIC,5,22,179,8
+    EDITTEXT        IDC_XMSG,5,31,179,43,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,20,0,1
+ PRODUCTVERSION 1,20,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "About Miranda", "Miranda IM is a new generation IM client, extensible with numerous plugins. Get Miranda IM at http://www.miranda-im.org"
+            VALUE "Comments", "Rozhuk_I@mail.ru"
+            VALUE "FileDescription", "Miranda Mail.ru Agent protocol plugin"
+            VALUE "FileVersion", "1, 20, 0, 1"
+            VALUE "LegalCopyright", "Copyright © 2005-2009 Rozhuk Ivan"
+            VALUE "OriginalFilename", "Mra.dll"
+            VALUE "ProductName", "Plugin for Miranda IM"
+            VALUE "ProductVersion", "1, 20, 0, 1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MRAADVANCEDSEARCH, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 230
+    END
+
+    IDD_OPT_FILES, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 150
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_BLOGSTATUS          ICON                    "Icons\\BlogStatus.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_ANTISPAM DIALOGEX 0, 0, 295, 211
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Configuration",IDC_GROUPCONFIG,8,6,277,197
+    CONTROL         "Enable Anti Spam",IDC_ENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,18,259,9
+    CONTROL         "Check temp contacts",IDC_CHK_TEMP_CONTACTS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,29,248,9
+    CONTROL         "Delete spam bot contacts",IDC_DELETE_SPAMBOT_CONTACT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,34,40,238,9
+    EDITTEXT        IDC_MAX_LANG_CHANGES,23,67,33,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Max. language changes in message (0 - disabled)",IDC_STATIC,59,69,220,11
+    CONTROL         "Show pop up",IDC_SHOWPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,82,248,9
+    CONTROL         "Write to system history",IDC_WRITETOSYSTEMHISTORY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,92,248,9
+    CONTROL         "Send spam report to server",IDC_SEND_SPAM_REPORT_TO_SERVER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,102,248,9
+    LTEXT           "Bad words list",IDC_STATIC,25,115,96,11
+    LISTBOX         IDC_BAD_WORDS_LIST,25,127,121,71,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_BAD_WORD,152,171,129,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Add",IDC_BUTTON_ADD,152,186,42,14
+    PUSHBUTTON      "Remove",IDC_BUTTONREMOVE,198,186,40,14,BS_CENTER
+    PUSHBUTTON      "Default",IDC_BUTTON_DEFAULT,242,186,40,14,BS_CENTER
+    CONTROL         "Ignory non AlphaNumeric characters",IDC_CLN_NON_ALPHNUM,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,56,248,9
+END
+
+IDD_MINIBLOG DIALOGEX 0, 0, 256, 134
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,76,113,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,130,113,50,14
+    EDITTEXT        IDC_USER_BLOG_STATUS_MSG,7,19,242,38,ES_MULTILINE | ES_READONLY
+    EDITTEXT        IDC_MSG_TO_SEND,7,61,242,38,ES_MULTILINE
+    CONTROL         "Notify",IDC_CHK_NOTIFY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,102,125,9
+    LTEXT           "Writed:",IDC_STATIC_WRITED_TIME,7,7,242,11
+    LTEXT           "0/500",IDC_STATIC_CHARS_COUNTER,211,103,38,11,0,WS_EX_RIGHT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_MINIBLOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 249
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 127
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#define APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "#include ""windows.h""\r\n"
+    "#undef APSTUDIO_HIDDEN_SYMBOLS\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_SELECT_EMAIL DIALOGEX 0, 0, 177, 169
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
+CAPTION "Select e-mail"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LISTBOX         IDC_LIST_EMAILS,7,7,163,133,LBS_SORT | LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_STATICEDGE
+    DEFPUSHBUTTON   "OK",IDOK,39,147,51,15
+    PUSHBUTTON      "Cancel",IDCANCEL,93,147,51,15
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_DIALOG_SELECT_EMAIL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 162
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

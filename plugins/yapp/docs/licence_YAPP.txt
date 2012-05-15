@@ -1,0 +1,6 @@
+The YAPP plugin for Miranda-IM is Copyright (c) 2006 Scott Ellis (mail@scottellis.com.au)
+
+http://www.scottellis.com.au
+
+It is released under the General Public Licence, available here:
+http://www.gnu.org/copyleft/gpl.html

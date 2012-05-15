@@ -1,0 +1,142 @@
+
+MSL (ASL) - Miranda Smiley Library specification
+Used for Smiley definitions
+Authors: Peacow, borkra
+ 
+This file defines relationships between text smiley codes and images 
+Images could be packed into library (dll, icl) or could be standalone
+images of ico, gif, png, tiff, jpeg, bmp formats      
+
+To support Unicode definitions for smileys, smiley pack should be stored as Unicode.
+Supported text formats for smiley pack file are: ANSI, UTF-16(Unicode) and UTF-8
+
+The simplest way to do that in Notepad (for instance) select Save As and then choose Unicode encoding 
+
+Format:
+ 
+';' - any line that starts from this character considered comment
+
+Tags you could use in the smiley pack:
+
+"Name"           - string, describes name of the smiley pack 
+"Author"         - string, describes author(s) of the smiley pack
+"Version"        - string, describes version string for smiley pack
+"Date"           - string, describes creation date for smiley pack
+"Smiley"         - describes smiley file and text code(s) correcsponding to it
+                   See description below for content
+"Smiley*"        - describes hidden smiley (not visible in selector window)
+                   Format is the same as for "Smiley". See description below for content
+"ButtonSmiley"   - string, describes text of the smiley that should be drawn on the button 
+                   that opens smiley selection window
+SelectionSize    - describes size of the image in the selection window
+                   the first parameter is width and the second height. 
+"WindowSize"     - describes size of the selection window in number of images
+                   the first parameter is width and the second height. 
+
+Smiley definition guide:
+
+There are 2 styles of smiley definition string:
+
+1) Smileys with plain text replacement
+ 
+Smiley = "resourcefile", recourceindex, "smiley1 smiley2 ...", "tooltip text"
+
+2) Smileys with regular expression replacement
+
+Smiley = "resourcefile", recourceindex, R"smiley regular expression", "insert text", "tooltip text"
+
+3) Smileys as services
+
+Smiley = "resourcefile", recourceindex, S"service name|parmeter1|parameter2", "tooltip text"
+  
+4) Smileys as text (this is pseudo smiley, just text replacement occurs)
+
+Smiley = "", 0, "smiley1 smiley2 ...", "replacement text"
+Smiley = "", 0, R"smiley regular expression", "insert text", "replacement text"
+
+
+Description of fields:
+  
+  - resourcefile - path or URL to the file containign the image (it could be absolute or relative) 
+       
+  - recourceindex - positive value: relative index in the file
+                    negative value: resouridentifier.. -100 is resID 100, see ExtractIcon() on the MSDN, 
+                    for gif images it's a frame number, that will be displayed if animation is disabled or not available
+
+  - smiley? - defines space seprated list character sequencies, that should be interpreted as smiley 
+  
+  - smiley regular expression - defines regular expression that should be used for parsing smileys 
+  
+  - insert text - defines text that will be inserted when smiley clicked in smiley selector,
+                  for non regular expression smiley this will be the first smiley in smiley? field 
+
+  - tooltip text (optional). 
+ 
+  - service name - name of any Miranda service, if service name starts with '/' protocol service for the contact assumed
+  
+  - parmeter1 & parameter2 - could be any number, hContact (will be resolved into contact handle) or any string
+ 
+ Spaces and " require special handling in the smiley definition file 
+ 
+ In all fields except regular expression fields:
+ 
+ %%__%% or  %%_%% character sequence should be used in place of space  
+ %%''%%  character sequence should be used in place of " (double quote)
+ 
+ In regular expression fields:
+ 
+ spaces should be defined as \s (as usual)
+ double quotes should be defined as \x22
+ 
+
+
+For icons in smiley pack the following rules apply:  
+
+If the resourcefile contains multiple icons for one id, the 
+best color/resolution one will be selected, this allows to 
+auto select the 32bit alphablend on WinXP and lower quality on others
+NOTE on the icon size: only in .dll and .ico the size of the resource will
+be taken. All other .icl, etc will scale everything to 16x16.
+
+
+Here are some examples of wrriting smiley pack:
+
+;
+; examples
+;Smiley = ".\plugins\smileyadd.dll", -112, ";P  ;-P"     ->from dll
+;Smiley = ".\4peacow.ico", 0, "(peacow)", "The Author"   ->from ico
+;Smiley = ".\blabla.exe", 1, ":)"                        ->from exe
+;Smiley = ".\bla.icl", 3, ":)", "Happy face :)"          ->from icl;
+;Smiley = ".\blabla.gif", 0, ":)"                        ->from gif
+;Smiley = ".\blabla.png", 0, ":)"                        ->from png
+;Smiley = ".\bla.dll', 5, " *HELP%%__%%ME* DO%%''%%IT%%''%% "  ->with special characters
+;        will be used as  *HELP ME* and DO"IT"
+;Smiley = ".\blabla.png", 0, R":-*\)", ":)", "Happy face :)"   ->with regular expression
+
+;Smiley = "abc.ico", 0, S"/SendtZer|hContact|4", "Kisses"  ->  sends ICQ tZer
+;Smiley = "nudge.ico", 0, S"/SendNudge|hContact|0", "Nudge"  ->  sends Nudge
+
+
+; smiley on the button
+ButtonSmiley = ":-P"
+
+; info
+Name    = "Standard Icon Pack 4 SmileyAdd"
+Author  = "Peacow"
+Date    = "februari 2003"
+Version = "1.0"
+SelectionSize = 25, 25
+WindowSize = 5, 7
+
+; The following are the standard "built in" smileys
+Smiley = ".\plugins\smileyadd.dll", -113, ":)  :-)  (:", "SmileyFace :)"
+Smiley = ".\plugins\smileyadd.dll", -114, ";)  ;-)  (;"
+
+; hidden smiley:
+Smiley* = ".\plugins\smileyadd.dll", -115, ":(  :-(  ):"
+
+Smiley = ".\plugins\smileyadd.dll", -116, ":P  :-P"
+Smiley = ".\plugins\smileyadd.dll", -112, ";P  ;-P"
+
+Smiley = "abc.ico", 0, S"/SendtZer|hContact|4", "Kisses"
+Smiley = "nudge.ico", 0, S"/SendNudge|hContact|0", "Nudge"

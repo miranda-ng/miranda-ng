@@ -1,0 +1,32 @@
+
+	This is a fairly incomplete list of contributors to this project.
+	-----------------------------------------------------------------
+	
+* Original SRMM code by rainwater (robert _at_ rainwater _dot_ org)
+
+* Code merged from SRMM_Mod written by kreisquadratur
+
+* theMiron sent a number of patches, mainly for group chats and
+  History++ support.
+  
+* Mad Cluster (daniok _at_ yandex _dot_ ru) wrote the "MadMOD" patch,
+  adding many new features and fixes.
+  
+* Angeli-Ka contributed the icons for the default proxal icon pack.
+
+* Code for advanced typing notifications written by Bio for the
+  original typing notify plugin. This was integrated by the MadMod
+  patch in 2008.
+  
+* Some code of the New Event Notify plugin was merged to add internal
+  event notification functionality into tabSRMM.
+  
+* Many others contributed small fixes and ideas. If I forgot something,
+  let me know.  
+
+
+NOTE: If you have contributed some code and want to be listed here, contact
+      me via mail (see below).
+      
+----
+Last modified: 2008/04/14, Nightwish (silvercircle _at_ gmail _dot_ com).

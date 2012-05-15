@@ -1,0 +1,6 @@
+
+// this makes our dependencies work better
+#include "version.h"
+
+#include "MetaContacts.rc"
+#include "version.rc"

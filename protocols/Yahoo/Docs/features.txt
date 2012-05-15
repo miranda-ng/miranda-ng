@@ -1,0 +1,93 @@
+This is a list of features that are/might/will be possible with the current
+LibYahoo2 library. Not all of them are implemented or will be implemented.
+Some (like conferencing or chat) need to have some support into Miranda core
+and this will not be implemented until this support will be present.
+
+The following list is borrowed from the official libyahoo2 site
+        (http://libyahoo2.sourceforge.net/)
+
+[D] Implemented in the plugin
+[P] Part implemented in the plugin
+[-] Not used/possible/implemented in Miranda at 'this' time
+[ ] Not yet implemented
+
+Note that some Yahoo feature are already existing under Miranda and
+so are not in the plugin. In this list this will be shown as 'in the
+plugin'
+
+[D]     Messaging:
+[D]         Sending messages (UTF-8 supported via LibYhaoo2)
+[D]         Send typing notification
+[D]         Receive typing notification
+
+[P]     Buddy list management:
+[D]         Add buddies
+[D]         Remove buddies
+[-]         Change buddy group
+[D]         Ignore buddy
+[D]         Unignore buddy
+[D]         Reject buddy
+[D]         Buddy status updates
+[-]         Group renaming
+
+[P]     Yahoo Address book support
+[D]	    Loading Yahoo Address Book
+[ ]	    Don't load the whole YAB every time. Only track changes.
+[ ]	    Parse lots of new YAB fields. (We only support a small subset)
+[ ]	    Update YAB according to current miranda database settings.(Like Nick, etc)
+[ ]	    Delete YAB entry when removing a buddy from our buddy list.(Optionally?)
+[ ]	    Create new YAB entry when adding a new buddy to buddy list.
+
+[D]     Changing Status:
+[D]         Regular status messages
+[D]         Custom away/non-away status messages
+
+[-]     Conferencing:
+[-]         Create new conference
+[-]         Join existing conference
+[-]         Invite members to join existing conference
+[-]         Decline joining a conference
+[-]         Leave a conference
+[-]         Send message to conference
+
+[-]     Yahoo Chat
+[-]         List chatrooms
+[-]         Join/leave a chatroom
+[-]         Chat :)
+
+[-]     Webcam support
+[-]         Support for viewing other people's webcams
+[-]         Support for broadcasting webcam images
+
+[P]     File Transfer:
+[ ]	    Send file directly to another client
+[D]         Send file via Yahoo file transfer server
+[D]         Receive files via Yahoo file transfer server
+[D]         Receive files directly from another client
+
+[D]     Mail Notification
+
+[-]     Identities
+[-]         Activate/Deactivate an identity
+[-]         Send messages from a particular identity
+[-]         Conferencing with a particular identity
+
+[P]	Avatar Support
+[D]	    Receive avatars from your buddies.
+[D]	    Set your own avatar
+[ ]	    Flash avatars [Receive/Set]
+
+[P]	Stealth Settings
+[D]	    Hide your own online status from certain buddies.
+[ ]	    Show yourself online to certain buddies while being invisible to everybody else.
+
+[D]	ServerSide IgnoreList
+[D]	   Add yahoo id to server ignore list.
+[D]	   Remove yahoo id from server ignore list.
+[D]	   Drop IMs from ignored contacts.
+
+[D]	Yahoo Calendar support
+[D]	   Yahoo Calendar link in main menu w/ auto-login
+[D]	   Yahoo Calendar Reminders via IM.
+
+libyahoo2 does not yet have support for Voice messages, nor for IMvironments.

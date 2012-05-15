@@ -1,0 +1,59 @@
+[Project]
+FileName=simple.dev
+Name=simple
+Ver=1
+IsCpp=1
+Type=3
+Compiler=-D__GNUWIN32__ -mcpu=i486 -D_M_IX86=400 -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS_@@_
+CppCompiler=-D__GNUWIN32__ -mcpu=i486 -D_M_IX86=400 -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS_@@_
+Includes=../../../include
+Linker=-lkernel32 -luser32_@@_
+Libs=
+UnitCount=1
+Folders="Header Files","Resource Files","Source Files"
+ObjFiles=
+PrivateResource=
+ResourceIncludes=
+MakeIncludes=
+Icon=
+ExeOutput=binfilter
+ObjectOutput=objsimple
+OverrideOutput=0
+OverrideOutputName=simple.dll
+HostApplication=
+CommandLine=
+UseCustomMakefile=1
+CustomMakefile=simple.win
+IncludeVersionInfo=0
+SupportXPThemes=0
+CompilerSet=0
+CompilerSettings=0010000001001000000100
+
+[Unit1]
+FileName=..\filter\Simple\maindll.cpp
+Folder="Source Files"
+Compile=1
+CompileCpp=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[VersionInfo]
+Major=0
+Minor=1
+Release=1
+Build=1
+LanguageID=1033
+CharsetID=1252
+CompanyName=
+FileVersion=0.1
+FileDescription=Developed using the Dev-C++ IDE
+InternalName=
+LegalCopyright=
+LegalTrademarks=
+OriginalFilename=simple.dll
+ProductName=simple
+ProductVersion=0.1
+AutoIncBuildNr=0
+

@@ -1,0 +1,2 @@
+#include "../resources/resource.h"
+

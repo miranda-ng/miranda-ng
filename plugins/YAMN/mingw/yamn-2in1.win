@@ -1,0 +1,92 @@
+# Project: YAMN
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = objs2in1/YAMN.res
+OBJ  = objs2in1/badconnect.o objs2in1/mailbrowser.o objs2in1/decode.o objs2in1/mails.o objs2in1/mime.o objs2in1/md5.o objs2in1/netlib.o objs2in1/pop3.o objs2in1/pop3comm.o objs2in1/pop3opt.o objs2in1/ssl.o objs2in1/account.o objs2in1/debug.o objs2in1/filterplugin.o objs2in1/main.o objs2in1/protoplugin.o objs2in1/services.o objs2in1/synchro.o objs2in1/yamn.o $(RES)
+LINKOBJ  = objs2in1/badconnect.o objs2in1/mailbrowser.o objs2in1/decode.o objs2in1/mails.o objs2in1/mime.o objs2in1/md5.o objs2in1/netlib.o objs2in1/pop3.o objs2in1/pop3comm.o objs2in1/pop3opt.o objs2in1/ssl.o objs2in1/account.o objs2in1/debug.o objs2in1/filterplugin.o objs2in1/main.o objs2in1/protoplugin.o objs2in1/services.o objs2in1/synchro.o objs2in1/yamn.o $(RES)
+LIBS =  -L"../libs" -lunicows -lkernel32 -luser32 -lshell32 -lmsvcrt -lcomctl32 -lcomdlg32 -lgdi32 -lwsock32 -s 
+INCS =  -I"../../../include" 
+CXXINCS =  -I"../../../include" 
+BIN  = bin2in1/yamn.dll
+CXXFLAGS = $(CXXINCS) -D__GNUWIN32__ -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS -DWIN2IN1 -w -fweb -frename-registers -Os
+CFLAGS = $(INCS) -D__GNUWIN32__ -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS -DWIN2IN1 -w -fweb -frename-registers -Os
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before bin2in1/yamn.dll all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+DLLWRAP=dllwrap.exe
+DEFFILE=bin2in1/libYAMN.def
+STATICLIB=bin2in1/libYAMN.a
+
+$(BIN): $(LINKOBJ)
+#	$(DLLWRAP) --output-def $(DEFFILE) --driver-name c++ --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+	$(CPP) $(LINKOBJ) $(LIBS) -o $(BIN) -mdll
+
+objs2in1/badconnect.o: ../browser/badconnect.cpp
+	$(CPP) -c ../browser/badconnect.cpp -o objs2in1/badconnect.o $(CXXFLAGS)
+
+objs2in1/mailbrowser.o: ../browser/mailbrowser.cpp
+	$(CPP) -c ../browser/mailbrowser.cpp -o objs2in1/mailbrowser.o $(CXXFLAGS)
+
+objs2in1/decode.o: ../mails/decode.cpp
+	$(CPP) -c ../mails/decode.cpp -o objs2in1/decode.o $(CXXFLAGS)
+
+objs2in1/mails.o: ../mails/mails.cpp
+	$(CPP) -c ../mails/mails.cpp -o objs2in1/mails.o $(CXXFLAGS)
+
+objs2in1/mime.o: ../mails/mime.cpp
+	$(CPP) -c ../mails/mime.cpp -o objs2in1/mime.o $(CXXFLAGS)
+
+objs2in1/md5.o: ../proto/md5.c
+	$(CC) -c ../proto/md5.c -o objs2in1/md5.o $(CFLAGS)
+
+objs2in1/netlib.o: ../proto/netlib.cpp
+	$(CPP) -c ../proto/netlib.cpp -o objs2in1/netlib.o $(CXXFLAGS)
+
+objs2in1/pop3.o: ../proto/pop3/pop3.cpp
+	$(CPP) -c ../proto/pop3/pop3.cpp -o objs2in1/pop3.o $(CXXFLAGS)
+
+objs2in1/pop3comm.o: ../proto/pop3/pop3comm.cpp
+	$(CPP) -c ../proto/pop3/pop3comm.cpp -o objs2in1/pop3comm.o $(CXXFLAGS)
+
+objs2in1/pop3opt.o: ../proto/pop3/pop3opt.cpp
+	$(CPP) -c ../proto/pop3/pop3opt.cpp -o objs2in1/pop3opt.o $(CXXFLAGS)
+
+objs2in1/ssl.o: ../proto/ssl.cpp
+	$(CPP) -c ../proto/ssl.cpp -o objs2in1/ssl.o $(CXXFLAGS)
+
+objs2in1/account.o: ../account.cpp
+	$(CPP) -c ../account.cpp -o objs2in1/account.o $(CXXFLAGS)
+
+objs2in1/debug.o: ../debug.cpp
+	$(CPP) -c ../debug.cpp -o objs2in1/debug.o $(CXXFLAGS)
+
+objs2in1/filterplugin.o: ../filterplugin.cpp
+	$(CPP) -c ../filterplugin.cpp -o objs2in1/filterplugin.o $(CXXFLAGS)
+
+objs2in1/main.o: ../main.cpp
+	$(CPP) -c ../main.cpp -o objs2in1/main.o $(CXXFLAGS)
+
+objs2in1/protoplugin.o: ../protoplugin.cpp
+	$(CPP) -c ../protoplugin.cpp -o objs2in1/protoplugin.o $(CXXFLAGS)
+
+objs2in1/services.o: ../services.cpp
+	$(CPP) -c ../services.cpp -o objs2in1/services.o $(CXXFLAGS)
+
+objs2in1/synchro.o: ../synchro.cpp
+	$(CPP) -c ../synchro.cpp -o objs2in1/synchro.o $(CXXFLAGS)
+
+objs2in1/yamn.o: ../yamn.cpp
+	$(CPP) -c ../yamn.cpp -o objs2in1/yamn.o $(CXXFLAGS)
+
+objs2in1/YAMN.res: ../resources/YAMN.rc
+	$(WINDRES) -i ../resources/YAMN.rc --input-format=rc -o objs2in1/YAMN.res -O coff  --include-dir ../resources

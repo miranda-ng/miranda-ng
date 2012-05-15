@@ -1,0 +1,5 @@
+WhenWasIt\*.*
+WhenWasIt\sdk\*.*
+WhenWasIt\icons\*.*
+docs\*.*
+*.*

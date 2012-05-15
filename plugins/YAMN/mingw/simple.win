@@ -1,0 +1,35 @@
+# Project: simple
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = objsimple/maindll.o $(RES)
+LINKOBJ  = objsimple/maindll.o $(RES)
+LIBS =  -lkernel32 -luser32 -s 
+INCS =  -I"../../../include" 
+CXXINCS =  -I"../../../include" 
+BIN  = binfilter/simple.dll
+CXXFLAGS = $(CXXINCS) -D__GNUWIN32__ -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS   -w -fweb -frename-registers -Os
+CFLAGS = $(INCS) -D__GNUWIN32__ -W -fno-inline -DWIN32 -DNDEBUG -D_WINDOWS   -w -fweb -frename-registers -Os
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before binfilter/simple.dll all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+DLLWRAP=dllwrap.exe
+DEFFILE=objsimple/libsimple.def
+STATICLIB=objsimple/libsimple.a
+
+$(BIN): $(LINKOBJ)
+#	$(DLLWRAP) --output-def $(DEFFILE) --driver-name c++ --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+	$(CPP) $(LINKOBJ) $(LIBS) -o $(BIN) -mdll
+
+objsimple/maindll.o: ../filter/Simple/maindll.cpp
+	$(CPP) -c ../filter/Simple/maindll.cpp -o objsimple/maindll.o $(CXXFLAGS)

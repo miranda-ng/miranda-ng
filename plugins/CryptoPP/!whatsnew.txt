@@ -1,0 +1,34 @@
+
+Verison 1.0.4.4 [22-05-2009]
+
+
+Verison 1.0.4.3 [18-05-2009]
+
+[*] memory leak fixes
+[+] rsa_get_hash
+[*] new format private key
+[+] functions for export/import keys
+
+
+Verison 1.0.4.2 [07-05-2009]
+
+[*] serious memory corrupting fixed
+[*] some security fixes
+[*] the principle of operation with contexts is changed
+[+] rsa_set_timeout
+
+
+Verison 1.0.4.1 [04-05-2009]
+
+[*] memory leak fixes
+[*] base16 & base64 fixes
+[+] RSA/AES feature in Native mode
+[+] gpg_set_tmp
+
+
+Verison 1.0.4.0 [28-04-2009]
+
+[*] GPG empty password fixed
+[*] export utf8 string function
+[*] native-mode decode null-terminate string fixed
+[+] RSA/AES Secure File Transfer

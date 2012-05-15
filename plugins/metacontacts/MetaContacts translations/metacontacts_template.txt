@@ -1,0 +1,205 @@
+[MetaContacts]
+
+[Allows the joining of several subcontacts into one]
+
+[Error - Database corruption.\nPlugin disabled.]
+
+;menu
+[Toggle MetaContacts On/Off]
+
+[Convert to MetaContact]
+
+[Add to existing MetaContact...]
+
+[Edit MetaContact...]
+
+[Delete MetaContact]
+
+[Remove from MetaContact]
+
+[Force Default]
+
+[Unforce Default]
+
+[Set as MetaContact default]
+
+[Context]
+
+;dialog
+[History Copy]
+
+[Please wait while the contact's history is copied.]
+
+[History Remove]
+
+[Please wait while the contact's history is removed.]
+
+[Add to Existing MetaContact]
+
+[Please select a MetaContact:]
+
+[Editing]
+
+[&OK]
+
+[&Cancel]
+
+[&Apply]
+
+[&Remove]
+
+[&Set as Default]
+
+[Move &Up]
+
+[Move &Down]
+
+[Force use of default for sending (even if offline)]
+
+[Information]
+
+[Name:]
+
+[Contacts]
+
+[Contact]
+
+[Id]
+
+[Protocol]
+
+[Default]
+
+[Yes]
+
+[No]
+
+[Options]
+
+[Automatically set default contact on receipt of message]
+
+[Always send to default contact if not offline]
+
+[Suppress status notification for subcontacts]
+
+[Hide in status bar and status menu (*requires restart, uncheck to set proto icons)]
+
+[Use subcontact message windows]
+
+[Context Menu]
+
+[Contact Labels]
+
+[Use contact's unique id]
+
+[Use contact's display name]
+
+[Function]
+
+[Set default and open message window]
+
+[Show subcontact context menu]
+
+[Show user information]
+
+[Contact List]
+
+[Display subcontact nickname]
+
+[Display subcontact display name]
+
+[History (** beware - change at your own risk **)]
+
+[Copy subcontact history to MetaContact when creating or adding]
+
+[Number of days to copy (0=all):]
+
+[Keep MetaContact history synchronized with subcontacts]
+
+[Keep subcontact history synchronized with MetaContact]
+
+[Nick]
+
+[Sender]
+
+;message
+[Delete MetaContact?]
+
+[You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
+
+[Contact not present in the DB]
+
+[This contact seems not to be in the database.\nThe database could be corrupted.\nTry to remove it manually.]
+
+[MetaContact Conflict]
+
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+
+[Multiple MetaContacts]
+
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+
+[No suitable MetaContact found]
+
+[Either there is no MetaContact in the database (in this case you should first convert a contact into one)\nor there is none that can host this contact.\nAnother solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
+
+[Adding %s...]
+
+[a contact]
+
+[No MetaContact selected]
+
+[Please select a MetaContact]
+
+[Assignment failure]
+
+[The operation failed: Assigning <%s> to <%s>]
+
+[Assignment Error]
+
+[Could not get MetaContact id]
+
+[Could not retreive MetaContact contact count]
+
+[Could not retreive contact protocol]
+
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+
+[MetaContact is full]
+
+[Could not write contact protocol to MetaContact]
+
+[Could not get unique id of contact]
+
+[Could not write unique id of contact to MetaContact]
+
+[Could not write nickname of contact to MetaContact]
+
+[Could not write clist displayname of contact to MetaContact]
+
+[Could not write contact status to MetaContact]
+
+[Could not write contact handle to MetaContact]
+
+[Could not write contact status string to MetaContact]
+
+[Could not write MetaContact id to contact]
+
+[Could not write MetaContact contact number to contact]
+
+[Could not write contact count to MetaContact]
+
+[No contacts found.]
+
+[There was a problem in assigning the contact to the MetaContact]
+
+[Database Corruption]
+
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+
+[Are you sure?]
+
+; db corruption
+[MetaID: ]
+
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDelete MetaContact?]

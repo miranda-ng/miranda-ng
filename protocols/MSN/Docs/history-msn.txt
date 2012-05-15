@@ -1,0 +1,529 @@
+Legend:
+[+] added
+[*] changed
+[-] deleted
+[!] bug fixed
+
+Version 0.7.1.0
+===============
+[+] All bitmap processing routines were removed in honour of the loadavatars plugin
+
+Version 0.7.0.1
+===============
+[+] IcoLib Integration
+
+Version 0.5.0.3
+===============
+[+] added support for custom smileys
+[!] bug 0001996 fixed: No Contact Idetification When an Unsupport Feature Even Occurs
+
+Version 0.5.0.1
+===============
+[!] bug 0002083 fixed: Filetransfer suddenly stops
+[!] bug 0002067 fixed: MSN connection fails in gateway mode through http-proxy (with authentication)
+[!] bug 0001584 fixed: Crash when sender cancels file send
+
+Version 0.4.3.1
+===============
+[!] bug 0001887 fixed: Sometimes getting Error 540 from server then disconnect.
+[!] fix for the invalid chars in the MSN chat
+
+Version 0.4.3.0
+===============
+[+] first Unicode version of the MSN plugin
+[!] wish 0001015: nudges (thanks Tweetie for a patch)
+[!] bug 0001532 fixed: Hotmail does not open from miranda
+[!] bug 0001536 fixed: Contacts displayed as online while MSN isn't connected yet
+
+Version 0.4.1.3
+===============
+[+] support for dropping idle switchboards was added
+
+Version 0.4.1.2
+===============
+[+] Unicode in the nicknames and groups. Requires clistw &  Miranda
+0.4.3 bld. 32 or later
+[*] avatar setting dialog was moved to View/Change User Details section
+[!] fix for initial email notification in the MSNP11 mode
+[!] fix for the "User is already in your contact list" error
+[!] bug 0001427 fixed: Error 540 during login on slow connections
+[!] bug 0001468 fixed: MSN 7.5 users cannot load Miranda users avatar.
+[!] BYE command was handled incorrectly
+[!] fix for the old MSN file transfers: a received file cannot be opened
+
+Version 0.4.1.1
+===============
+[!]  fixed a bug when Miranda hangs up on exit, when the
+clist_modern plugin is installed
+
+Version 0.4.0.4
+===============
+[!] important bugfix: MSNP11 status messages may block the login
+process.
+[!] fix for the problems with the keep-alive thread
+[*] numerous minor changes and bugfixes.
+
+Version 0.4.0.3
+===============
+[+] MSNP11 support added
+[+] wish #0001239 fixed: MSN Personal Status Messages
+[+] WebMessenger detection added
+[!] fix for the GPF on exit
+
+Version 0.4.0.2
+===============
+[!] bug #0000913 fixed: no zero-termination after _snprintf (potential
+security issue)
+[!] bug #0001176 fixed: can't send messages to the MSN WebMessenger
+[!] bug #0001202 fixed: Can't delete received file directory
+[!] various memory leaks
+
+Version 0.4.0.1
+===============
+[+] wish #0000971 fixed: Block & Unblock actions must be separated
+[+] wish #0000966 fixed: to show the warning when a  contact  tries
+to establish a audio/video/webcam conference with you.
+[-] removed support for old versions of Miranda.
+[!] bug #0000996 fixed: File transfer fails when auto-accept is on
+and file already exists in destination directory
+[!] fixes for minor string allocation problems.
+
+WARNING!!! All versions since this one require Miranda 0.4.x core.
+This is required by the project admins.
+
+Version 0.1.7.11
+================
+[+] full support for server-side groups and contacts
+[+] wish #0000142 fixed: a popup for session disconnection
+[+] wish #0000149 fixed: CHAT.DLL support was added for groupchats (thanks noname)
+[!] bug #0000458 fixed: Messages disappear when sending to MSN.
+[!] bug #0000684 fixed: a file with the Unicode name fails to open after
+the successful transfer.
+[!] bug #0000761 fixed: apply button in options->popups->msn enabled on
+first showing of page
+[!] minor fix for P2P file transfers over NAT
+
+Version 0.1.7.10
+================
+[!] multiple bugfixes for gateways & P2P file transfers
+[*] login rules were changed a bit: now Miranda assigns its own
+proxy address to SSL connection when the 'Use IE proxy settings'
+option is turned off. If you don't use a proxy, nothing gets
+changed.
+[!] bug #0000580 fixed: the large messages disappear being sent.
+[!] bug #0000601 fixed: files  with  incorrect  file  names  aren't
+saved during P2P file transfers.
+[!] bug #0000565 fixed: avatar file names becomes different after
+using the dbtool, that's why the MSN folder may have the same
+avatars several times.
+[!] bug #0000437 fixed: expert must have an option  to  choose  the
+needed status translation schema for Away, BRB & N/A statuses.
+[!] bug #0000541 fixed: if Miranda asks to overwrite a file
+during the f/t, a crash can occur when user cancels it.
+[*] translation file modification.
+
+Version 0.1.7.9a
+================
+[!] bug #0000564 fixed: MSN Messenger doesn't confirm a file
+transfer from Miranda when it goes via the server
+
+Version 0.1.7.9
+===============
+[+] wish #000519: the ability to create avatars from PNG images.
+[+] contact's phone numbers support was added
+[+] options dialog was changed to allow a user to see his own avatar.
+[-] mSN protocol v.9 support code was removed
+[!] option 'File Transfers -> If a file already exists  ->  Rename'
+doesn't work for MSN P2P transfers.
+[!] bug #0000092 fixed: 'User Is Typing' event delay is too slow.
+[!] bug #0000423 fixed: Send Message To Offline User Return Message Time
+Out message
+[!] bug #0000444 fixed: the passive P2P transfer fails if MSN Messenger
+returns bad IP address
+[!] bug #0000554 fixed: fake Hotmail notifications are shown, even
+when there's no new mail available
+[*] translation file modification.
+
+Version 0.1.7.8
+===============
+[+] 'View MSN services status' menu item was added to the main menu
+[+] Massive improvements for P2P file transfers
+
+Version 0.1.7.7
+===============
+[!] fixed some bugs with file transfer cancellation.
+[*] minor changes in MSN object id handling.
+[*] internal changes to the threading mechanism to make it more stable
+
+Version 0.1.7.6
+===============
+[+] the support for v10 P2P incoming passive direct connections was
+added. DC are used when a sender reports the 'Direct-Connect'
+connection type in the 'Conn-Type' request fiels.
+[+] the support for newly added avatar notifications was added
+(works only under 0.3.4+ core).
+[+] the  MSN/GetAvatarInformation service was added to support the
+external avatar readers like tabSRMM etc.
+[*] incoming file transfers now use the standard settings for
+ports: via Options -> Network, MSN plugin connections. The existing
+settings are transferred, but you can use port ranges now to
+establish several transfers (one transfer for each contact)
+[-] the 'Incoming port' setting was deleted from MSN network options.
+[*] blocked contacts from the server lists aren't temporary anymore.
+It also avoids the contact list flickering during login.
+[!] bugfix (error #0000331): incoming file transfers seem to fail
+being initiated from the MSN Messenger;
+[!] bugfix (error #0000333): contacts aren't deleted from server when
+you press Del key in the contact list
+
+Version 0.1.7.5
+===============
+[+] full avatars support added: you can set your own avatar
+and transfer it to another people.
+[!] bugfix for error 0000319: MSN server list manager shall not display
+contacts of another protocols, groups also shouldn't be displayed.
+[!] bugfix: MSN plugin adds a contact to CL during a search by e-mail.
+[!] bugfix: massive fixes for authorization, both for v.9 and v.10
+
+Version 0.1.7.4
+===============
+[+] server lists manager was added to Options -> Network
+[!] bugfix for timeouts caused by User-Is-Typing notifications.
+[!] bugfix (error #000305): MSN protocol freezes Miranda under
+Windows 98/ME after login (many thanks to Hilary Cheng for a solution)
+
+Version 0.1.7.3
+===============
+[!] bugfix for file transfers: the incorrect address was used
+during sending a file.
+[+] added a 'View profile' contacts popup menu item (thanks koobs for an idea)
+[*] numerous fixes for MSN v10.
+
+Version 0.1.7.2
+===============
+[!] bugfix (error #0000222): you can add yourself using Find/Add contacts.
+[!] bugfix (error #0000123): Away and N/A modes are switched.
+[!] bugfix: e-mail, password and nickname can't be saved into the
+empty profile database.
+[!] bugfix: Cancel button does not close the png2dib d/l dialog.
+
+Version 0.1.7.1
+===============
+[!] critical bugfix (err.#50): typing notification can result to
+the infinite timeouts during message sending.
+
+Version 0.1.7.0
+===============
+[*] plugin lost its compatibility with Miranda 0.2.x due to stability
+reasons, version 0.3.x is required.
+[+] first version of MSN avatars (user-defined pictures).
+[+] added an option to support avatars and d/l the DLL.
+[*] PNG support was moved from IE components to libpng.
+[+] added an option not to get the nickname from a server, to allow
+a user to identify his/her location via a nick.
+[!] fixed a problem with the lack of diagnostics on error 715.
+[!] some minor bugfixes to file transfers.
+[-] support for MSNP v.8 was removed.
+[*] translation file was slightly modified.
+
+Version 0.1.6.8
+===============
+[!] rarely occurred GPF fixed during file transfers
+[!] MSN gateway access without a proxy breaks connections
+when 'user-is-typing' messages are transferred first.
+[!] MSN server closes connection if a PNG command is send to
+a switchboard thread
+[!] PNG command is not send when a proxy exists.
+
+Version 0.1.6.7
+===============
+Official version for Miranda 0.3.3 release
+[!] minor interface fixes in the options dialog.
+
+Version 0.1.6.6 (requires SRMM Unicode 1.0.1.3!!!)
+===============
+[*] keep-alive support was redesigned to avoid threading problems
+[!] bugfix: rare GPF fixed after reconnecting to the MSN server
+[!] bugfix for all plugins like AwaySys for sending non-Unicode
+messages.
+
+Version 0.1.6.5
+===============
+[!] bugfix: file receiving was broken.
+
+Version 0.1.6.4
+===============
+[*] gateway support redesigned to provide the gateway access
+without both proxies and MSN Gateway plugin.
+[!] a few minor memory leaks were fixed.
+[*] minor interface changes in the options dialogs, translation
+file was synchronized with the current options dialogs.
+
+Version 0.1.6.3
+===============
+[!] bugfix: if both built-in gateway and 'Keep connection alive' checkbox
+are enabled, disconnection occurs every 2 minutes.
+[!] bugfix: a  blocked contact becomes unblocked after relogin, if it's
+not deleted.
+
+Version 0.1.6.2
+===============
+[+] option "Use IE proxy settings" was added to simplify life for
+users of the MSN Gateway plugin.
+[*] options page was divided into two ones: general MSN options and
+network options.
+[!] bugfix: option 'Disable all contacts not included...' could not be changed
+[!] bugfix: GPF sometimes occurred when starting an external mailer
+(thanks Daniel for kind cooperation)
+
+Version 0.1.6.1
+===============
+[+] built-in gateway added (requires Miranda 0.3.3 or later)
+[+] 'User is typing' support added (requires SRMM or SRMM MOD plugin)
+[+] Full Unicode support for messages was added (requires SRMM MOD Unicode)
+[+] MSN main menu item is created in the same section with all
+another protocols
+[*] 'block/unlock' feature is integrated with Options->Status->Visible
+[!] bugfix: a port remains opened after the file trasnfer cancel.
+[!] bugfix: if a contact list is very long, all contacts can be
+shown in the Offline mode.
+[!] a whole bunch of minor bugfixes, changes and improvements.
+
+Version 0.1.5.11
+================
+[+] Netmeeting support added
+[-] MSNP7 support is deleted and this option is locked
+[+] option was added to launch a specific program when the new
+Hotmail arrives.
+[+] option was added to display errors as popups to avoid the
+interface locking.
+[*] additional diagnostics was added to handle the case when
+Internet Explorer is in the Offline mode (thanks to Jonas Svensson).
+[*] numerous minor changes in option dialogs and debug messages.
+
+Version 0.1.5.10
+================
+[!] bug fixed: the "Use MSN protocol v.8" option is not saved
+correctly after pressing Apply/Ok in the options dialog if this
+option was never saved in the database before.
+[*] the source code was changed to allow the compilation without
+the Platform SDK.
+
+Version 0.1.5.9
+===============
+[!] bug in new URL encode mechanism prevents messages from being sent
+if the contact's email contains underscores.
+
+Version 0.1.5.8
+===============
+[+] new MSN Menu item was added to edit user's MSN profile in a browser
+[!] bug fixed: authorization problems when many  MSN  accounts  are
+used in the same Miranda installation.
+[!] bug fixed: if a password contains  non-alphabetical  characters
+(like punctuation, ampersand, plus, etc) the MSNP8 login could return
+error 401 Unauthorized. MSNP7 login works Ok.
+[!] bug fixed: if a contact changes its status to  Invisible,  it's
+not possible to send messages to him/her anymore.
+[*] the popup displaying procedure was changed to avoid so called
+'frozen popups'effect.
+[*] the "Use MSN protocol v.8" option is now turned on by default.
+
+Version 0.1.5.7
+===============
+[*] the SSL autorization procedure was changed: now it uses
+Internet Explorer's proxy settings to log in. It also resolves
+problems with proxies that require authorization (previously you
+could see the error 407 in the network log when trying to logon).
+In this case MSN plugin tries automatically to apply the login and
+the password from the Options -> Network -> MSN.
+[*] cookies usage had been turned off, it means that you can logon
+automatically into MSN Messenger and simultaneously logon using
+Miranda under different account.
+[*] error diagnostic has been slightly enhanced.
+[*] WinInet.dll now gets unloaded from memory after login to use
+less memory.
+[!] bug fixed: attemp to find/add a contact that already exists  in
+your contact list resulted to strange error message.
+
+Version 0.1.5.6
+===============
+[+] added the external IP autodetection if the protocol v.8 is
+used. It can significantly simplify life if you have the dynamic
+external IP address.
+[*] minor fixes in the Options dialog
+
+Version 0.1.5.5
+===============
+[!] bug fixed: 'Cancel' button does not stop the file transfer
+[!] bug fixed: contacts with leading digits in the e-mail are not
+processed properly.
+[!] bug fixed: you cannot send messages to a person if you tried to
+send the first message in the Invisible mode.
+
+Version 0.1.5.4
+===============
+[*] the file senging does not require to talk anymore
+[!] bug fixed: fast sending of two or more messages results to the GPF
+
+Version 0.1.5.3
+===============
+[!] bug fixed: memory corruption in multichat mode
+
+Version 0.1.5.2
+===============
+[!] bug fixed: LastSeen plugin shows the incorrect time of contact's logout.
+[!] bug fixed: you cannot block a contact if it's offline (even if you're online).
+[!] bug fixed: when MSNP8 is used, some contacts are skipped at all during
+the synchronization procedure.
+
+Version 0.1.5.1
+===============
+[!] bug fixed: 'Display menu' option does not really disable the MSN menu
+[*] translate-msn.txt updated.
+[+] minor changes in the options dialog
+
+Version 0.1.5.0
+===============
+[+] MSN Protocol v.8 support added.
+[+] a "Invite to chat" contact menu item is added.
+[*] multichat support is fully redesigned and fixed.
+[*] multiple file transfers are fully redesigned and fixed.
+[!] bug fixed: when you set your own nickname with spaces, it appears in
+the options dialog URL-encoded (with %20 instead of a space char).
+[!] bug fixed: opened switchboard sessions weren't closed when you go
+offline without closing Miranda.
+
+Version 0.1.4.12
+================
+[!] bug fixed: Hotmail inbox is not shown after a clicking on a Hotmail
+popup under Windows 9x
+[!] bug fixed: a user's own nickname is not properly saved after changing.
+
+Version 0.1.4.11
+================
+[*] changed blocked user visualization method: nickname is never got
+corrupted anymore, visibility mode is used now. M will show blocked
+contacts in italic by default, but you can tune the font/color/style of
+the 'invisible' users at the Options/Contact List/List text tab, for item
+called "Online contacts for whom you have a different visibility".
+[!] bug fixed: an authorization is rerequested after deleting a contact.
+[!] bug fixed: the very long nickname can be set, and then cut off when
+saving to the database or the server
+[!] bug fixed: when viewing the user options, an 'Updating...' string is
+blinking all the time.
+
+Version 0.1.4.10
+================
+[+] option added to block all another MSN contacts. Attention: you
+must be online to edit this option.
+[!] search-by-email mechanism fixed.
+[!] bug fixed: user email is shown in popups instead of nickname
+[!] bug fixed: when migrating from previous versions of MSN plugin
+a lot of authorization requests are shown.
+
+Version 0.1.4.9 (May Day Build :)
+===============
+[!] bug fixed: "First message delivered" displayed as a message
+box if the Popup plugin is not installed.
+[!] bug fixed: contact's e-mail is shown instead of a user's
+nick name when "First message delivered" popup is shown
+
+Version 0.1.4.8
+===============
+[!] bug fixed: the first message get lost when another message
+editor window is opened.
+[+] "First message delivered" popup can be enabled separately.
+
+Version 0.1.4.7
+===============
+[+] separate timeout for Hotmail popups added
+[*] options layout changed: all popup options are grouped on the
+separate options page: Options/Popups/MSN.
+[!] bug fixed: Hotmail popups got 'frozen' after being clicked
+
+Version 0.1.4.6
+===============
+[!] bug fixed: offline messages are get lost without notification
+
+Version 0.1.4.5
+===============
+[*] first message sending routine is changed to release message editor immediately.
+This does not fix the delay problem completely, but user will never see the timeout
+dialog again. If the Popup plugin is installed, user will be notified using a popup
+message when the first message will be really delivered.
+[!] bugfix: when you go offline from the online mode, both modes are disabled in
+the plugin's statuses menu.
+[!] minor interface bugfixes in the options dialog
+
+Version 0.1.4.4
+===============
+MSN plugin is added as a protocol to the Miranda's sources CVS tree.
+[!] fixed a problem with sending raw data to the HTTP proxy.
+[+] new option: popup timeouts. Requires Popup plugin v. 1.0.1.9 or later
+[*] popups interface changed not to call Web browser when 'typing' popups are clicked
+[*] FAQ is added to the readme.txt
+
+Version 0.1.4.3
+===============
+[+] new option: display 'user is typing' messages as popups if an appropriate plugin is installed
+[+] new option: send a font color/style alongside with messages. This
+option also fixes a problem with displaying messages in the standard
+Windows Messenger using an ugly/incorrect font/size/style.
+[!] fixed a memory leak when calling popups.
+
+Version 0.1.4.2
+===============
+
+A couple of bugfixes from Pixador (thank him for a patch):
+[!] multiple MSN plugins do not work together.
+[!] GPF when user presses Block/Unblock several times;
+
+Version 0.1.4.1
+===============
+
+Numerous bugfixes:
+[!] file sending/receiving almost works now, excluding multi-file sending from Miranda to WM.
+[!] a lot of memory leaks, double deletions, memory corruptions etc. fixed.
+
+Version 0.1.4.0
+===============
+
+Entering next major release:
+[+] proxy support added;
+[+] network traffic logging added;
+[!] fixed bug with 100% processor usage;
+[!] fixed bug with displaying incorrect file names in the file accept dialog.
+
+Version 0.1.3.4
+===============
+
+[*] code of Authorization/Deny changed to show an authorization request only once;
+[!] memory corruption fixed;
+[!] GPF with blocking/unblocking fixed.
+
+Version 0.1.3.3
+===============
+
+[*] language of plugin is changed to C++;
+[!] bug with offline authorization fixed;
+
+Version 0.1.3.0
+===============
+
+[!] fixed a bug with GPF on exit;
+[!] fixed a bug with contacts blocking/unblocking;
+[!] fixed a bug with strange crashes time to time;
+[!] fixed a memory leak;
+[!] fixed the ANSI <-> UTF conversion scheme to avoid problems with old versions of Windows (like 95 OSR2).
+
+Version 0.1.2.1
+===============
+
+Written by Rako Shizuka.
+The second version with extended functionality: file transfers, blocking etc.
+
+Version 0.1.2.0
+===============
+
+Written by Richard Hughes aka cyreve.
+The first version with basic functionality

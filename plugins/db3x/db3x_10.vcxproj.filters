@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0102a88b-21e4-49ca-a6fd-fe4978f36faf}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{ec7c1ebb-62dd-4af2-b531-4d1a46abc680}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{fbaceae7-3e4a-4853-96f3-eec77981b2c9}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="commonheaders.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="database.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbcache.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbcontacts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbevents.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbheaders.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbmodulechain.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbsettings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="encrypt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="database.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

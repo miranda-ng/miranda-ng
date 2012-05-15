@@ -1,0 +1,140 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_IFULL               ICON                    "icons\\ignore_full.ico"
+IDI_IPART               ICON                    "icons\\ignore_partial.ico"
+IDI_IMESS               ICON                    "icons\\ignore_message.ico"
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_RATE_OPT DIALOGEX 0, 0, 314, 240
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    COMBOBOX        IDC_ADVICON,84,33,102,81,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP,WS_EX_CLIENTEDGE
+    GROUPBOX        "Plugin settings",IDC_STATIC,17,17,278,207
+    RTEXT           "Use",IDC_STATIC,28,33,49,8
+    LTEXT           "slot to draw the icon",IDC_STATIC,192,33,92,8
+    LTEXT           "Warning: classic contact list plugin doesn`t have ability to use extraicons",
+                    IDC_NOTICE,54,51,230,20,NOT WS_VISIBLE
+    LTEXT           "Filtered events:",IDC_STATIC,54,70,113,10
+    CONTROL         "",IDC_FILTER,"SysTreeView32",TVS_DISABLEDRAGDROP | 
+                    TVS_NOTOOLTIPS | TVS_CHECKBOXES | WS_BORDER | WS_TABSTOP,
+                    84,85,102,90
+    CONTROL         "Use Miranda ignore settings for All Contacts",
+                    IDC_IGNORE_IGNOREALL,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    BS_MULTILINE | WS_TABSTOP,84,182,200,25
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_RATE_OPT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 307
+        VERTGUIDE, 17
+        VERTGUIDE, 54
+        VERTGUIDE, 84
+        VERTGUIDE, 186
+        VERTGUIDE, 192
+        VERTGUIDE, 284
+        VERTGUIDE, 295
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 233
+        HORZGUIDE, 17
+        HORZGUIDE, 33
+        HORZGUIDE, 70
+        HORZGUIDE, 224
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

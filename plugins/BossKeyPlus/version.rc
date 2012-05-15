@@ -1,0 +1,40 @@
+#include <windows.h>
+#include "version.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION __FILE_VERSION
+ PRODUCTVERSION __FILE_VERSION
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "CompanyName", __AUTHORS
+            VALUE "FileDescription", __DESC
+            VALUE "FileVersion", __FILE_VERSION_STR
+            VALUE "InternalName", __MODULE_NAME
+            VALUE "LegalCopyright", __COPYRIGHTS
+            VALUE "OriginalFilename", "BossKey.dll"
+            VALUE "ProductName", __MODULE_NAME
+            VALUE "ProductVersion", __FILE_VERSION_STR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

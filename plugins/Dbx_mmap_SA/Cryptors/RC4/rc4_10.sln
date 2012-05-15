@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rc4", "rc4_10.vcxproj", "{E38B4212-53BC-49A7-B821-9A99DB4774C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release Unicode|x64 = Release Unicode|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Debug|Win32.Build.0 = Debug|Win32
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Debug|x64.ActiveCfg = Debug|x64
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Debug|x64.Build.0 = Debug|x64
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release|Win32.ActiveCfg = Release|Win32
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release|Win32.Build.0 = Release|Win32
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release|x64.ActiveCfg = Release|x64
+		{E38B4212-53BC-49A7-B821-9A99DB4774C6}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

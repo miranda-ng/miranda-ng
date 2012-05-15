@@ -1,0 +1,202 @@
+Legend:
+[+] added
+[*] changed
+[-] deleted
+[!] bug fixed
+
+Version 0.7.0.7
+===============
+[+] XEP-0115 support (Entity Capabilities)
+[!] bug #003127 fixed: random errors in file transfers
+
+Version 0.7.0.6
+===============
+[+] XEP-0096 support (File Transfer, IBB)
+[+] XEP-0199 support (XMPP Ping)
+
+Version 0.7.0.5
+===============
+[+] XEP-0065 support (SOCKS5 Bytestreams)
+[+] XEP-0138 support (Traffic Compression)
+[+] XEP-0202 support (Entity time)
+[!] bugfix for transport info discovery
+
+Version 0.7.0.4
+===============
+[+] XEP-0050 support (Ad-Hoc Commands)
+[+] XEP-0055 support (Jabber Search, full support of x-forms)
+[+] added support for vcards in chat rooms
+[!] bug #0003130 fixed: Bookmarks are not retreived automatically, MUC auto-join doesn't work
+[*] all bitmap processing removed from the Jabber plugin and switched to the loadavatars plugin
+
+Version 0.7.0.3
+===============
+[+] XEP-0048 support (Bookmark Storage)
+[+] Added MirandaPluginInterfaces
+[+] Implement UUID plugin info
+[+] added Windows Vista OS version detection
+[+] added ability of sending messages to the specific resource
+[*] menu icons are implemented via icolib, duplicated icons were removed
+[-] "Disable main menu" option removed
+[!] bug #002970 fixed: Ending spaces not stripped in Host input
+
+Version 0.7.0.2
+===============
+[+] various enhancements of adding roster contacts
+[!] fix for NTLM auth
+
+Version 0.7.0.1
+===============
+[+] Unicode plugins got the UNICODE_AWARE flag in PLUGININFO structure
+[+] patch for placing SecureIM plugin presence into the Jabber MirVer
+[+] sha1 & md5 support is now provided by the core
+[-] ugly hack with the ContactPhoto/File setting removed
+[!] fix for the exception handling in Jabber
+
+Version 0.7.0.0
+===============
+
+Initial version for 0.7
+[*] Jabber uses now new features of 0.7 core.
+
+Version 0.6.0.2
+===============
+[+] wish #0002532 fixed: Add command "Resolve Nicknames" in context menu for transports
+
+Version 0.5.0.3
+===============
+[+] added separate icons for different transports
+[+] wish #0001921 added: logon/logoff in context menu on jabber-transports in contact list
+[+] wish #0002541 added: Options - Account: Removal of account from the server
+[!] bug  #0002530 fixed: Miranda crashes on large avatars
+
+Version 0.5.0.2
+===============
+[!] bug #0002261 fixed: Invitations are sent wrong
+[!] bug #0002268 fixed: XML parser has a problem with > (greater than) in attributes
+[!] bug #0002288 fixed: Status messages are not delivered correctly via icq transports
+[!] bug #0002435 fixed: a session is being created before logon
+[!] bug #0002474 fixed: WM_CONTEXTMENU not handled correctly
+
+Version 0.5.0.1
+===============
+[!] bug #0002045 fixed: MUC: Greyed out away nicknames are not shown in black when contacts return
+[!] bug #0002065 fixed: Sends a malformed JID when trying to download my own vCard (in ANSI version only)
+[!] bug #0002112 fixed: some minor problems with the conference invitations
+
+Version 0.4.3.2
+===============
+[!] bug #0002029 fixed: IDC_JID truncated on login dialog box
+[!] bug #0001904 fixed: Resource names not UTF8 decoded
+[!] bug #0001866 fixed: Does not receive invite to Jabber multiuser conference
+[!] bug #0001853 fixed: Miranda crashes when sending Messages over Jabber to a deleted contact when full acknowlede enabled.
+[!] bug #0001320 fixed: Grey out 'away' nicknames in the conference nicklist
+[!] bug #0000581 fixed: People are trying to connect to jabber.org with empty usernames
+[!] bugfix for the unencoded jids
+[+] added contact menu items to simplify the groupchat processing
+[+] added JEP0090 compatibility code
+
+Version 0.4.3.1
+===============
+[!] bug #0001729 fixed: vCard photo not displayed in User Details.
+[!] bug #0001166 fixed: auto-join jabber chat room (conference) does not work when startup
+[!] bugfix for server messages from the WildFire server
+
+Version 0.4.3.0
+===============
+[+] first Unicode version of the Jabber plugin
+[!] fix for file transfers when one of the jids contains uppercase letters
+[!] bug #0001754 fixed: Jabber Agents. Don't work Logoff and Unregister buttons
+[!] bug #0001613 fixed: Conferences: messages with linefeeds get double-spaced
+[!] bug #0001632 fixed: Conferences: '%' in my outgoing text gets duplicated
+[!] fix for reading MSN avatars through the transport
+
+Version 0.4.1.3
+===============
+[+] wish #0001541: Conferences: show kick/ban msgs
+[!] bugfix for contacts renaming
+[!] bug #0000890 fixed: multiple file transfers are impossible
+
+Version 0.4.1.2
+===============
+[+] added GNUPG support (many thanks to Karl-Heinz Pennemann for a patch)
+[+] added support for the extended JUD search
+[+] added avatar support
+[+] wish #0001252: Add support for TLS
+[+] wish #0001319: Conference nicknames should be stored & reused
+[+] wish #0001331: Support for sending and receiving actions (/me)
+[+] wish #0001356: Don't show 'user joined' events when first joining a MUC
+[+] wish #0001508: Support for _xmpp-client._tcp SRV DNS records (thanks yb for a patch)
+[!] important bug fixed: Jabber contact list maybe messed up under Win9x
+[!] numerous fixes for the groupchat administration
+[!] bug #0001316 fixed: User appears to part/rejoin on nick change in conference
+[!] bug #0001324 fixed: groupchat subjects don't get recognized
+[!] bug #0001355 fixed: Switching presence to 'Invisible' causes me to exit MUC
+[!] bug #0001362 fixed: Ctrl-1 while Connecting always makes status Online
+[!] bug #0001423 fixed: Leaving a jabber conference closes the chat.dll container window.
+[!] bug #0001430 fixed: several problems with moderator controls
+[!] bug #0001485 fixed: Conferences: toggle voice/toggle moderator commands
+[!] bug #0001481 fixed: Conferences: moderator controls/list management
+[!] bug #0001482 fixed: Conferences: role changes aren't shown
+[!] bug #0001490 fixed: Options about subscriptions/authorisation are not showing up when type of subcr is "none" for a contact
+[!] fixed the crash when two or more chats were opened
+
+Version 0.4.1.1
+===============
+[*] massive changes for the Unicode settings
+
+Version 0.4.3.0
+===============
+[!] bug #0000001632 fixed: Conferences: '%' in my outgoing text gets duplicated (thanks MattJ for a patch)
+
+Version 0.4.0.3
+===============
+[+] wish 0001322: highlighting
+[!] bug #0001272 fixed: crash when sending to a jabber conference that is no longer connected
+[!] bug #0001269 fixed: Users appear in the conference nicklist more than once
+[!] bug #0001268 fixed: 'change nickname' chat popup menu item doesn't work
+[!] bug #0001114 fixed: typinguser event never times out
+[!] bug #0000731 fixed: Miranda can't retreive vCard info from jabber.org server
+[!] bugfix: a chat topic isn't displayed when a user enters chat.
+
+Version 0.4.0.2
+===============
+[+] added CHAT.DLL support
+[+] wish #0000862: Jabber conferences in contact list
+[!] bug #0001105 fixed: Miranda process do not die when shutdown (thanks baronng for a patch)
+[!] bug #0001109 fixed: XML specials in add contact
+[!] bug #0001108 fixed: Status-visibility for a contact not working correctly
+[!] bug #0001135 fixed: Cannot transfer File(s) between miranda/jabber to/from PSI or Exodus (or more)
+[!] fix for writing "MyHandle" setting every time.
+
+Version 0.4.0.1
+===============
+[*] prepared to be released with M 0.4.
+[*] search by JID implemented without the v-card checking;
+[+] some minor improvements
+
+Version 0.2.0.2
+===============
+[+] search by JID now verifies the user's presense, instead of confirming any
+user input
+[+] wish #0000299: DisableMainMenuItem option wanted
+[-] reconnection ability removed, use KeepStatus plugin instead
+[!] bug #0000298 fixed: search by nickname instead of a full JID resulted
+to the auth process stuck.
+[!] bug #0000691 fixed: Jabber writes to MyHandle instead of a NickName
+[!] bug #0000715 fixed: Link to list of public servers is broken
+[!] another crash-on-exit fixed
+
+Version 0.2.0.1
+===============
+[!] bug #0000818 fixed: Jabber disconnects when sending message that contains ampersand
+[!] bugfix: fixed GPF on logging off
+[!] bugfix: if an attempt is made to login while plugin is connecting, mode is set to online
+
+Version 0.2.0.0
+===============
+[+] Unicode support
+
+Version 0.1.1.7
+===============
+  Last version, released 2004-04-01 by keh.

@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual C++ Express 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IgnoreState", "ignore_9.vcproj", "{214F211F-1A2B-4F79-8993-B8DEE2EF7441}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unicode|Win32 = Debug Unicode|Win32
+		Release Unicode|Win32 = Release Unicode|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{214F211F-1A2B-4F79-8993-B8DEE2EF7441}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{214F211F-1A2B-4F79-8993-B8DEE2EF7441}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{214F211F-1A2B-4F79-8993-B8DEE2EF7441}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{214F211F-1A2B-4F79-8993-B8DEE2EF7441}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

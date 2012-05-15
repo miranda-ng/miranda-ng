@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ee3e0a62-d4c0-41c5-87f4-fc5d64b971e3}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{dc3d1fc7-bdc9-48e3-9c63-5fb017a6db96}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{9b408743-a629-4fd3-b59c-a46910ddb9ef}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jabber.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_adhoc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_agent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_bookmarks.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_byte.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_caps.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_chat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_disco.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_events.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_file.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_form.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_ft.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_groupchat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_ibb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_icolib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_iq.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_iq_handlers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_iqid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_iqid_muc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_libstr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_list.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_message_handlers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_message_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_notes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_opt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_opttree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_password.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_presence_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_privacy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_proxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_rc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_secur.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_send_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_std.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_svc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_thread.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_treelist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_userinfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_vcard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_ws.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_xml.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_xstatus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_zstream.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ui_utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="jabber_captcha.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="jabber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_byte.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_caps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_disco.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_ibb.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_iq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_list.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_message_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_notes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_opttree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_presence_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_privacy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_proxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_rc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_search.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_secur.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_send_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_xml.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ui_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_db_utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_icolib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="jabber_xstatus.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="icos\add2roster.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\addcontact.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\arrow_down.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\arrow_up.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\auth_revoke.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\bookmarks.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\command.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\console.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\disco_fail.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\disco_in_progress.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\disco_ok.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\filter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\go.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\grant.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\group.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\home.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\jabber.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\key.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\login.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\message_allow.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\message_deny.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\notes.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\open.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\openid.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\pages.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\plist_active.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\plist_any.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\plist_default.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\presence_in_allow.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\presence_in_deny.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\presence_out_allow.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\presence_out_deny.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\privacy_lists.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\query_allow.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\query_deny.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\refresh.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\refresh_node.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\rename.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\request.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\reset_filter.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\roster.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\rss.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\save.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\send_note.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\server.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\service_discovery.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\store.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\transport.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\transport_local.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\user2room.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\view_as_list.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\view_as_tree.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\weather.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="docs\changelog_jabber.txt" />
+    <None Include="docs\readme_jabber.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="jabber.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

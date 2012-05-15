@@ -1,0 +1,61 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "icon_resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.                  
+                    
+IDI_MAINMENU         ICON    DISCARDABLE     "icos/icon_mainmenu.ico"
+IDI_STATUSMENU       ICON    DISCARDABLE     "icos/icon_statusmenu.ico"
+IDI_HIDEOFFLINE      ICON    DISCARDABLE     "icos/icon_hideoffline.ico"
+IDI_SHOWOFFLINE      ICON    DISCARDABLE     "icos/icon_showoffline.ico"
+IDI_BOOKMARKS        ICON    DISCARDABLE     "icos/icon_bookmarks.ico"
+IDI_DBEDITOR         ICON    DISCARDABLE     "icos/icon_dbeditor.ico"
+IDI_FINDUSER         ICON    DISCARDABLE     "icos/icon_find_user.ico"
+IDI_OPTIONS          ICON    DISCARDABLE     "icos/icon_options.ico"
+
+IDI_GROUPS_ON        ICON    DISCARDABLE     "icos/icon_groups_on.ico"
+IDI_GROUPS_OFF       ICON    DISCARDABLE     "icos/icon_groups_off.ico"
+IDI_SOUNDS_ON        ICON    DISCARDABLE     "icos/icon_sounds_on.ico"
+IDI_SOUNDS_OFF       ICON    DISCARDABLE     "icos/icon_sounds_off.ico"
+IDI_MINIMIZE         ICON    DISCARDABLE     "icos/icon_minimize.ico"
+IDI_ACCMGR           ICON    DISCARDABLE     "icos/icon_accmgr.ico"
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+   IDS_IDENTIFY            "# Tool bar icons #"
+END
+
+
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+

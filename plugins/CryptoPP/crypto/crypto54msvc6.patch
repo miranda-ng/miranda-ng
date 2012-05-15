@@ -1,0 +1,241 @@
+Index: config.h
+===================================================================
+RCS file: /cvsroot/cryptopp/c5/config.h,v
+retrieving revision 1.28
+diff -c -r1.28 config.h
+*** config.h	20 Dec 2006 15:20:00 -0000	1.28
+--- config.h	25 Dec 2006 08:07:27 -0000
+***************
+*** 154,159 ****
+--- 154,161 ----
+  const unsigned int WORD_SIZE = sizeof(word);
+  const unsigned int WORD_BITS = WORD_SIZE * 8;
+  
++ NAMESPACE_END
++ 
+  #if defined(_MSC_VER) // || defined(__BORLANDC__) intrinsics don't work on BCB 2006
+  	#define INTEL_INTRINSICS
+  	#define FAST_ROTATE
+***************
+*** 171,188 ****
+  	#define CRYPTOPP_L1_CACHE_LINE_SIZE 32
+  #endif
+  
+  #ifndef CRYPTOPP_L1_CACHE_ALIGN
+! 	#if defined(_MSC_VER)
+  		#define CRYPTOPP_L1_CACHE_ALIGN(x) __declspec(align(CRYPTOPP_L1_CACHE_LINE_SIZE)) x
+  	#elif defined(__GNUC__)
+  		#define CRYPTOPP_L1_CACHE_ALIGN(x) x __attribute__((aligned(CRYPTOPP_L1_CACHE_LINE_SIZE)))
+  	#else
+  		#define CRYPTOPP_L1_CACHE_ALIGN(x) x
+  	#endif
+  #endif
+  
+- NAMESPACE_END
+- 
+  // VC60 workaround: it doesn't allow typename in some places
+  #if defined(_MSC_VER) && (_MSC_VER < 1300)
+  #define CPP_TYPENAME
+--- 173,198 ----
+  	#define CRYPTOPP_L1_CACHE_LINE_SIZE 32
+  #endif
+  
++ #if defined(_MSC_VER)
++ 	#if _MSC_VER == 1200
++ 		#include <malloc.h>
++ 	#endif
++ 	#if _MSC_VER > 1200 || defined(_mm_free)
++ 		#define CRYPTOPP_MSVC6PP_OR_LATER		// VC 6 processor pack or later
++ 	#endif
++ #endif
++ 
+  #ifndef CRYPTOPP_L1_CACHE_ALIGN
+! 	#if defined(CRYPTOPP_MSVC6PP_OR_LATER)
+  		#define CRYPTOPP_L1_CACHE_ALIGN(x) __declspec(align(CRYPTOPP_L1_CACHE_LINE_SIZE)) x
+  	#elif defined(__GNUC__)
+  		#define CRYPTOPP_L1_CACHE_ALIGN(x) x __attribute__((aligned(CRYPTOPP_L1_CACHE_LINE_SIZE)))
+  	#else
++ 		#define CRYPTOPP_L1_CACHE_ALIGN_NOT_AVAILABLE
+  		#define CRYPTOPP_L1_CACHE_ALIGN(x) x
+  	#endif
+  #endif
+  
+  // VC60 workaround: it doesn't allow typename in some places
+  #if defined(_MSC_VER) && (_MSC_VER < 1300)
+  #define CPP_TYPENAME
+***************
+*** 190,195 ****
+--- 200,212 ----
+  #define CPP_TYPENAME typename
+  #endif
+  
++ // VC60 workaround: can't cast unsigned __int64 to float or double
++ #if defined(_MSC_VER) && !defined(CRYPTOPP_MSVC6PP_OR_LATER)
++ #define CRYPTOPP_VC6_INT64 (__int64)
++ #else
++ #define CRYPTOPP_VC6_INT64
++ #endif
++ 
+  #ifdef _MSC_VER
+  #define CRYPTOPP_NO_VTABLE __declspec(novtable)
+  #else
+***************
+*** 239,255 ****
+  #endif
+  
+  // how to declare class constants
+! #if defined(_MSC_VER) && _MSC_VER < 1300
+  #	define CRYPTOPP_CONSTANT(x) enum {x};
+  #else
+  #	define CRYPTOPP_CONSTANT(x) static const int x;
+  #endif
+  
+! // how to allocate 16-byte aligned memory (for SSE2)
+! #if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+! #	define CRYPTOPP_MALLOC_ALIGNMENT_IS_16
+! #elif defined(__linux__) || defined(__sun__) || defined(__CYGWIN__)
+! #	define CRYPTOPP_MEMALIGN_AVAILABLE
+  #endif
+  
+  // ***************** determine availability of OS features ********************
+--- 256,282 ----
+  #endif
+  
+  // how to declare class constants
+! #if defined(_MSC_VER) && _MSC_VER <= 1300
+  #	define CRYPTOPP_CONSTANT(x) enum {x};
+  #else
+  #	define CRYPTOPP_CONSTANT(x) static const int x;
+  #endif
+  
+! #ifdef CRYPTOPP_X86ASM_AVAILABLE
+! 	#if defined(CRYPTOPP_MSVC6PP_OR_LATER) || (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 500)) || (defined(__ICL) && (__ICL >= 500))
+! 		#define SSE2_INTRINSICS_AVAILABLE
+! 		#define CRYPTOPP_MM_MALLOC_AVAILABLE
+! 	#endif
+! 	// SSE2 intrinsics work in GCC 3.3 or later
+! 	#if defined(__SSE2__) && (__GNUC__ > 3 || __GNUC_MINOR__ > 2)
+! 		#define SSE2_INTRINSICS_AVAILABLE
+! 		// how to allocate 16-byte aligned memory (for SSE2)
+! 		#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
+! 			#define CRYPTOPP_MALLOC_ALIGNMENT_IS_16
+! 		#elif defined(__linux__) || defined(__sun__) || defined(__CYGWIN__)
+! 			#define CRYPTOPP_MEMALIGN_AVAILABLE
+! 		#endif
+! 	#endif
+  #endif
+  
+  // ***************** determine availability of OS features ********************
+Index: hrtimer.cpp
+===================================================================
+RCS file: /cvsroot/cryptopp/c5/hrtimer.cpp,v
+retrieving revision 1.11
+diff -c -r1.11 hrtimer.cpp
+*** hrtimer.cpp	18 Dec 2006 02:34:32 -0000	1.11
+--- hrtimer.cpp	25 Dec 2006 08:07:27 -0000
+***************
+*** 23,35 ****
+  	static unsigned long unitsPerSecondTable[] = {1, 1000, 1000*1000, 1000*1000*1000};
+  
+  	assert(unit < sizeof(unitsPerSecondTable) / sizeof(unitsPerSecondTable[0]));
+! #if defined(_MSC_VER) && (_MSC_VER < 1300)
+! 	// MSVC 6 workaround
+! 	return (double)(__int64)t * unitsPerSecondTable[unit] / (__int64)TicksPerSecond();
+! #else
+! 	return (double)t * unitsPerSecondTable[unit] / TicksPerSecond();
+! #endif
+! 		
+  }
+  
+  void TimerBase::StartTimer()
+--- 23,29 ----
+  	static unsigned long unitsPerSecondTable[] = {1, 1000, 1000*1000, 1000*1000*1000};
+  
+  	assert(unit < sizeof(unitsPerSecondTable) / sizeof(unitsPerSecondTable[0]));
+! 	return (double)CRYPTOPP_VC6_INT64 t * unitsPerSecondTable[unit] / CRYPTOPP_VC6_INT64 TicksPerSecond();
+  }
+  
+  void TimerBase::StartTimer()
+Index: integer.h
+===================================================================
+RCS file: /cvsroot/cryptopp/c5/integer.h,v
+retrieving revision 1.13
+diff -c -r1.13 integer.h
+*** integer.h	9 Jun 2006 06:28:22 -0000	1.13
+--- integer.h	25 Dec 2006 08:07:27 -0000
+***************
+*** 9,37 ****
+  #include <iosfwd>
+  #include <algorithm>
+  
+- #ifdef CRYPTOPP_X86ASM_AVAILABLE
+- 
+- #ifdef _M_IX86
+- 	#if (defined(__INTEL_COMPILER) && (__INTEL_COMPILER >= 500)) || (defined(__ICL) && (__ICL >= 500))
+- 		#define SSE2_INTRINSICS_AVAILABLE
+- 		#define CRYPTOPP_MM_MALLOC_AVAILABLE
+- 	#elif defined(_MSC_VER)
+- 		// _mm_free seems to be the only way to tell if the Processor Pack is installed or not
+- 		#include <malloc.h>
+- 		#if defined(_mm_free)
+- 			#define SSE2_INTRINSICS_AVAILABLE
+- 			#define CRYPTOPP_MM_MALLOC_AVAILABLE
+- 		#endif
+- 	#endif
+- #endif
+- 
+- // SSE2 intrinsics work in GCC 3.3 or later
+- #if defined(__SSE2__) && (__GNUC__ > 3 || __GNUC_MINOR__ > 2)
+- 	#define SSE2_INTRINSICS_AVAILABLE
+- #endif
+- 
+- #endif
+- 
+  NAMESPACE_BEGIN(CryptoPP)
+  
+  #if defined(SSE2_INTRINSICS_AVAILABLE)
+--- 9,14 ----
+Index: network.cpp
+===================================================================
+RCS file: /cvsroot/cryptopp/c5/network.cpp,v
+retrieving revision 1.8
+diff -c -r1.8 network.cpp
+*** network.cpp	18 Dec 2006 02:34:32 -0000	1.8
+--- network.cpp	25 Dec 2006 08:07:27 -0000
+***************
+*** 395,401 ****
+  float NetworkSink::GetMaxObservedSpeed() const
+  {
+  	lword m = GetMaxBytesPerSecond();
+! 	return m ? STDMIN(m_maxObservedSpeed, float(m)) : m_maxObservedSpeed;
+  }
+  
+  unsigned int NetworkSink::GetMaxWaitObjectCount() const
+--- 395,401 ----
+  float NetworkSink::GetMaxObservedSpeed() const
+  {
+  	lword m = GetMaxBytesPerSecond();
+! 	return m ? STDMIN(m_maxObservedSpeed, float(CRYPTOPP_VC6_INT64 m)) : m_maxObservedSpeed;
+  }
+  
+  unsigned int NetworkSink::GetMaxWaitObjectCount() const
+Index: rijndael.cpp
+===================================================================
+RCS file: /cvsroot/cryptopp/c5/rijndael.cpp,v
+retrieving revision 1.5
+diff -c -r1.5 rijndael.cpp
+*** rijndael.cpp	14 Dec 2006 11:41:31 -0000	1.5
+--- rijndael.cpp	25 Dec 2006 08:07:27 -0000
+***************
+*** 52,57 ****
+--- 52,61 ----
+  #include "rijndael.h"
+  #include "misc.h"
+  
++ #ifdef CRYPTOPP_L1_CACHE_ALIGN_NOT_AVAILABLE
++ #pragma message("Don't know how to align data on L1 cache boundary. Defense against AES timing attack may be affected.")
++ #endif
++ 
+  NAMESPACE_BEGIN(CryptoPP)
+  
+  void Rijndael::Base::UncheckedSetKey(const byte *userKey, unsigned int keylen, const NameValuePairs &)

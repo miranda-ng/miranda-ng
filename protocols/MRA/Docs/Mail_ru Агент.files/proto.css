@@ -1,0 +1,39 @@
+TD.text .blue {
+	COLOR: #003073
+}
+TD.text CODE {
+	MARGIN: 0px 3px; COLOR: #333333
+}
+TD.text SPAN.c {
+	FONT-SIZE: 110%; MARGIN-LEFT: 3px; COLOR: #333333; FONT-STYLE: normal; FONT-FAMILY: Courier New
+}
+TD.text B {
+	COLOR: #333333
+}
+TD.text PRE {
+	BORDER-RIGHT: #666666 1px solid; PADDING-RIGHT: 5px; BORDER-TOP: #666666 1px solid; PADDING-LEFT: 5px; PADDING-BOTTOM: 5px; BORDER-LEFT: #666666 1px solid; COLOR: #333333; PADDING-TOP: 5px; BORDER-BOTTOM: #666666 1px solid
+}
+TD.text .pt10 {
+	PADDING-TOP: 10px
+}
+TD.text UL.pack LI {
+	MARGIN-TOP: 12px
+}
+TD.text UL.pack U {
+	FONT-SIZE: 100%; TEXT-DECORATION: none
+}
+TD.text UL.pack P {
+	FONT-SIZE: 100%
+}
+TD.text P.pack2 {
+	LINE-HEIGHT: 1.3em; PADDING-TOP: 4px
+}
+TD.text P.code {
+	PADDING-RIGHT: 4px; PADDING-LEFT: 10px; PADDING-BOTTOM: 4px; COLOR: #333333; LINE-HEIGHT: 1.5em; PADDING-TOP: 0px; FONT-FAMILY: Courier New
+}
+TD.text P.pack2 U {
+	FONT-SIZE: 90%; COLOR: #666666; TEXT-DECORATION: none
+}
+TD.text UL.par {
+	PADDING-RIGHT: 0px; PADDING-LEFT: 35px; PADDING-BOTTOM: 10px; MARGIN-LEFT: 0px; PADDING-TOP: 0px
+}

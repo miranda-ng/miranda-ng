@@ -1,0 +1,216 @@
+Last Seen plugin
+****************
+This plugin logs when a contact was last seen online.
+You can choose between contactmenu item, userinfo page and file output.
+Second feature is to show which users were online while you were away.
+
+micron-x
+
+Questions and comments to:
+micron@nexgo.de
+
+Last Seen Mod
+*************
+I did some (quick'n'dirty) modifications to LastSeen plugin to fit better to my taste:
+
+   1. ICQ IPs are logged correctly;
+   2. Variables can be used in the log filename. You could have separate files for different protocols/contacts or create new file each month;
+   3. Rewritten "Protocols to watch". Now selecting/deselecting protocols is easy ;)
+   4. Solved enable/disable file logging bug
+   5. Introduced 6 new variables:
+          * %P - protocol name (ICQ, ICQ1, MSN...);
+          * %N - nick on the server;
+          * %C - Client Info;
+          * %G - Group;
+          * %o - Old status;
+          * %T - Status message
+   6. Option to use # instead of % to get empty strings instead of <unknown>
+   7. extended support of multiple yahoo protocols(not tested);
+   8. extended support for jabber/s.
+   9. popup support
+  10. delayed logging to wait for the protocols to update all the settings
+  11. option to track idle statuses
+
+Y.B.
+http://saaplugin.no-ip.info/
+http://forums.miranda-im.org/showthread.php?t=2822
+
+
+Langpack strings
+****************
+
+see seen_langpack.txt
+
+
+
+Version history
+***************
+
+Last Seen Mod
+*************
+    * v. 5.0.4.7
+          o Added special sound for "Uses Logged In"
+          o Used the core service MS_SYSTEM_FORK_THREAD_EX
+
+    * v. 5.0.4.3
+          o Included seenTS DB setting
+          o "suppress online notification" affects only sounds and popups
+          o Sounds are working now. Two new are added.
+    * v. 5.0.4.2
+          o Implemented Idle support (Will include "/Idle" to the status if contact is idle)
+    * v. 5.0.4.1
+          o Enabled 32bit icons in lastseen history dialog (fixes the "transperancy bug")
+          o New variable: %T: Status Message
+          o Parser rewritten to be safer
+          o Click on popup will open message window
+    * v. 5.0.4.0
+          o Small memory leak in user info dialog fixed (thanks Tio Duke)
+          o Increased the delay to check offline contacts 2->10 seconds
+          o If the contact's status changer while we have been offline the time we went offline will be logged (not the current time)
+          o Fixed visual glitch in the "last seen history" dialog
+          o Suppress the DEFMOD_RNDUSERONLINE core functionality - LastSeenMod is not compatible with NewStatusNotify anylonger
+          o Option to enable clist online notify
+    * v. 5.0.3.2
+          o Better protocol type guessing (based on PFLAG_UNIQUEIDSETTING)
+          o Popups colors are configurable
+          o Tabbed interface of the option page
+    * v. 5.0.3.1 (never released)
+          o Avoid multiple popups on login - only those for contacts with different status before logoff
+          o implemented delayed logging of the status changes using thread
+          o Doesn't show popups is the contact is "hidden"
+          o Better tracking if the contact went offline while we were offline
+          o %i and %r are replaced by "resource" and "system" for Jabber/JGmail
+    * v. 5.0.3.0
+          o Enhanced PopUp support:
+                + separated fields for PopUp title and text
+                + Correct icon is chosen according to the protocol and status
+          o New Variable %o - "Old Status"
+          o JGmail is recognised as Jabber
+    * v. 5.0.2.6
+          o Basic PopUp support
+    * v. 5.0.2.5
+          o Added %G standing for "Group"
+          o Using variables in the path of the log file(s) is possible now
+    * v. 5.0.2.4
+          o Updated MSN capability bits according to this post
+    * v. 5.0.2.3
+          o Solved enable/disable file logging bug (hopefully)
+          o Option to use # instead of % to get empty strings instead of <unknown>
+    * v. 5.0.2.2
+          o Added %C (Client/version for ICQ; ClientID flags for MSN);
+          o Better support for multiple instances of same protocol;
+          o Logging contacts of protocol logon/off is back;
+    * v. 5.0.2.1
+          o Updated plugin info
+
+Last Seen plugin
+****************
+5.0.1.1:
+		- FIX: The protocol list now uses more uuser friendly names
+		- FIX: The "Missed Ones" feature options weren't saved correctly
+		- FIX: The "Offline" setting was added even to contacts whose protocol wasn't "watched"
+		- FIX: Minor cosmetics (icons and tooltips)
+		- UPDATE: seen_langpack.txt
+5.0.1.0:
+		- FIX: Some protocols added an offline entry for every contact when the user logoff the network
+		- FIX: An extra character (0 or 1) was added to each line of the file log.
+		- UPDATE: seen_langpack.txt now contains the strings added on version 5.0.0.0
+5.0.0.1:
+		- FIX: Removed some code that flooded the network with requests (see http://miranda-icq.sourceforge.net/forums/viewtopic.php?t=11579)
+		- CHANGE: History now defaults to a "pretier" format.
+5.0.0.0:
+		- FIX: Last statusmode icon displayed according to the contact's protocol
+		- NEW: Support for all protocols (user selectable)
+		- NEW: Added dialog showing the recent "seen history" of an user
+		- NEW: Added option to display an alert when a specified user changes its status
+
+4.1.6.2:	- prevent plugin not loading & new base address
+
+4.1.6.1:	- Silly bug with 4.1.6.0 fixed
+
+4.1.6.0:	- Directory access fix
+
+4.1.5.0:	- fixed 0AM/PM bug
+		- 'Missed Ones' window doesn't steal focus anymore
+		- 'Missed Ones' bugfixes
+
+4.1.4.0:	- removed Miranda 0.1.2.0 support
+
+4.1.3.0:	- 'Missed Ones' dismisses ignored contacts (online notification)
+		- reduced file size
+
+4.1.2.0:	- Added support for Plugin sweeper
+
+4.1.1.0:	- New option: count times a user was online while you were away
+		- Bug crashing Miranda on open userdetails fixed
+
+4.1.0.0:	- 'Missed Ones' should finally work now
+
+4.0.9.0:	- works now with Miranda v0.1.2.0
+		- unknown values grayed out
+
+4.0.8.0:	- fixed bug crashing miranda on status change
+
+4.0.7.0:	- two new variables: %E - name of month and %e abrreviated name of month
+		- empty userinfo page fixed
+
+4.0.6.0:	- attempted fix for bad userinfo page
+		- two new variables: %W - weekday and %w - abbr. weekday
+
+4.0.5.0:	- Two new variables: %h - 12 hour time and %p - AM/PM
+		- New 'Missed Ones' popup (Dialog instead of MessageBox)
+
+4.0.4.0:	- Option to show last statusmode icon
+
+4.0.3.0:	- 'Missed Ones' feature reimplemented
+		- Miranda crashing on close fixed
+
+4.0.2.0:	- Option to keep track of contacts going offline
+		- fixed crashing when %u was used
+		- file output implemented
+		- one new langpack string
+
+4.0.1.0:	- IP/RealIP variables working now
+
+4.0.0.0:	- Initial release of the totally rewritten version
+		  Please mail me any bug reports
+
+
+
+Rebase information
+******************
+seenplugin.dll		0x67300000
+
+enotify.dll		0x67700000
+dbviewer.dll		0x67600000
+hotkey.dll		0x67500000
+pluginsweeper.dll	0x67400000
+tipinfo.dll		0x67200000
+visibility.dll		0x67100000
+
+
+
+======================================
+"Last Seen mod" plugin for Miranda IM
+Copyright ( C ) 2002-03  micron-x
+Copyright ( C ) 2005-06  Y.B.
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or ( at your option ) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+File name      : $URL: http://svn.berlios.de/svnroot/repos/mgoodies/trunk/lastseen-mod/seen_info.txt $
+Revision       : $Rev: 1570 $
+Last change on : $Date: 2007-12-30 01:30:07 +0300 (Вс, 30 дек 2007) $
+Last change by : $Author: y_b $
+

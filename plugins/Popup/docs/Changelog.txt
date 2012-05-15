@@ -1,0 +1,67 @@
+Popup Plus: 2.1.1.6
++added support for custom langpacks
++added hotkey to open popup history
++added action copy to clipboard
+-removed old PLUGININFO support
+*some typos
+*fixed errors with ansi plugins
+*fixed destroying all of popups windows before unloading
+*added destroing functions on exit
+*background can now be changed together with font in font options
+*link to skins section in options page
+*unhook events on exit and resource optimization
+*Fullscreen detection from core
+*Skins tab moved to Skins-PopUps
+*fixes re-enabling the "reorder popups" option
+
+2.1.1.5
++ support new mtextcontrol interface (need new mtextcontrol.dll 0.8.0.1 or later)
+- support mtextcontrol by miranda service call
++ seperate x64 unicode release PopUpW.dll
++ seperate unicode release PopUpW.dll
+* move svn to http://svn.miranda.im/mainrepo/popup
++ support Popup classes API
+* strong cleanup/fixes in code and redesigned options
+! multimonitor setting for hotswap
++ unicode support for quickreply
++ support for autoexec.ini in notificatione
+! multi "Popups" menu (!!!other plugins should wait for modulsloaded to add submenu!!!)
+! large action icon fix (default actions)
+* hiostory size setting applied without restart
+
+2.1.1.3:
+! missing show default button (contact options)
++ debug setting
+* notification options
+  -> deltete default notification
+  -> layout cleanup
+  -> tab hidden when no notification registered
+* changes/cleanup in option
+* translate left/right mouse action in notifications
+* Test effect renamed to Sqare fading
+* moved options from customize > popups to popups (thanks to mataes)
+* small changes+fixes
+
+2.1.1.2 (RC2):
+reworked changes from RC1 doe to lost code. check if it works as before.
+
+2.1.1.1 (RC1):
+! middle mouse calles right mouse button as well
+! override with contact actions only for contacts (prevents some freeze)
++ option dialog for override
++ added pin action for override
++ Hotkeysupport to toogle Popups
+* try to solve multiple popup menus
+* default skin folder %miranda%/skins/popup
+
+2.1.1.0 (BETA):
+! prevent sending empty messages
+* deleted unused test actions + small cleanup
+* tray notification not mounted by default
+* quickreply listed in action (can turn off)
+* default skin folder %miranda%/customize/skins/popup
+* root menu item shows current status
++ override left/right mouse action ------------- (change by DB value)
++ added middle mouse action ------------- (change by DB value)
++ toolbar button added
++ PopUp/GetStatus as new service to get real status of plugin (couldnt override PopUp/ModuleIsEnabeled)

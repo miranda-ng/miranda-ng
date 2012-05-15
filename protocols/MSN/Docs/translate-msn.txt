@@ -1,0 +1,169 @@
+; MSN 0.1.7.9 translation strings
+
+[MSN Protocol]
+[%s plugin connections]
+[Hotmail]
+[Hotmail Notify]
+[Hotmail from %s]
+[Hotmail from %s (%s)]
+[A new mail has come from %s (title: %s).]
+[A new mail has come from %s (%s) (title: %s).]
+[Subject: %s]
+[Unread mail is available: %d messages (%d junk e-mails).]
+[Test: Arrival Hotmail]
+[A New Hotmail has come!]
+[Contact left channel]
+
+; Messages
+
+[%s (%s) has joined the chat with %s]
+[First message delivered]
+[typing...]
+
+; Menus
+
+[&Block]
+[&Unblock]
+[Display Hotmail &Inbox]
+[&Invite to chat]
+[Set &Nickname]
+[Edit MSN &Profile]
+[&Start Netmeeting]
+[Set &Avatar]
+[View MSN Services &Status]
+[&View Profile]
+
+
+; Errors
+
+[Attempt to make the SSL connection resulted to error %d: %s.]
+[Cannot start the file transfer: no free sockets. Error %d: %s.]
+[Cannot start the file transfer due to the lack of free sockets.]
+[Cannot start the file transfer: cannot listen on a socket. Error %d: %s.]
+[Contact tried to send its webcam data (currently not supported)]
+[Contact tried to view our webcam data (currently not supported)]
+[Contact tried to open an audio conference (currently not supported)]
+[file transfer is canceled by remote host]
+[file transfer: time out occurred]
+[Internet Explorer is in the 'Offline' mode. Switch IE to the 'Online' mode and then try to relogin]
+[MSN plugin cannot add a new contact because the contact list is full]
+[MSN protocol allows only one file to be sent at a time]
+[MSN protocol does not allow you to communicate with others when you are invisible]
+[MSN protocol does not support offline messages]
+[MSN Services are temporarily unavailable, please try to connect later]
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+[Server has requested an unknown protocol set (%s)]
+[Unknown or invalid host name was specified (%s). Error %d: %s]
+[Unprocessed error: %s]
+[Unrecognised error %d. The server has closed our connection]
+[User is already in your contact list]
+[You must be talking to start Netmeeting]
+[You must specify your e-mail in Options/Network/MSN]
+[Your username or password is incorrect]
+[Your MSN account e-mail is unverified. Goto http://www.passport.com and verify the primary e-mail first]
+
+; Options dialog
+
+[Network]
+[PopUps]
+[E-mail address]
+
+[Full e-mail:]
+[Password:]
+[Nickname:]
+[Create a new MSN messenger account using the MSN website]
+[Expert]
+[Use MSN protocol v.8]
+[Disable main menu]
+[Send message font color/size info inside messages]
+[Disable all contacts not included into my contact list]
+[Enable avatars support]
+[Manage server groups]
+[Treat Away status as 'Be Right Back']
+[Never update your nickname from server]
+[Run the following application when new Hotmail arrives]
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+
+; Network options dialog
+
+[Connection settings]
+[Login server:]
+[Port:]
+[Use HTTP gateway mode (incompatible with MSN Gateway plugin)]
+[Use IE proxy settings]
+[Keep connection alive (send a ping packet every minute)]
+[Notify me when a message delivery has failed]
+[Use MSN Messenger 7 protocol]
+[Use OpenSSL encryption (requires LIBSSL32.DLL)]
+
+[Incoming file transfers]
+[Automatically obtain host/port for incoming file transfers]
+[Your host (or router):]
+[Reset]
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+[The changes you have made require you to restart Miranda IM before they take effect]
+
+
+; Popup options dialog
+
+[Colours]
+[Background colour]
+[Text colour]
+[&Use Windows colours]
+[Disable receiving Hotmail notifications]
+[Ignore new messages in 'Junk Mail' folder only (at startup)]
+[Timeout (*)]
+[Previe&w]
+[Other]
+[Display popups when user is typing]
+[Enable 'First message delivered' popup]
+[(*) Timeouts require Popup v. 1.0.1.9 or later]
+[Display errors using popups]
+
+; pnd2dib download dialog
+
+[png2lib download]
+[To enable the avatar support, you must obtain the valid copy of the
+png2dib.dll. Choose one of the following:]
+[[Install] - install a png2lib plugin using Miranda Installer]
+[[Download] - manually download a zipped DLL and then unzip it to the
+plugins folder]
+[[Cancel] - disable the avatar support]
+
+
+; Server list manager
+
+[Server Lists]
+[Server List Manager]
+[Contact is included into your server list]
+[Somebody included you in his/her server list]
+[Allowed (active) contact]
+[Blocked contact]
+
+; chat window
+[Me]
+[Others]
+
+; chat log message
+[This conversation has been inactive, participants will be removed.]
+[To resume the conversation, please quit this session and start a new chat session.]
+
+; contact list and chat title
+[MSN Chat #]
+
+; message box
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+[User is already in the chat session.]
+[No active chat session is found.]
+
+; menus
+[User &details]
+[User &history]
+[&Leave chat session]
+[&Invite user...]
+
+; options dialog
+[Avatar]
+[Running on a mobile device]
+[Running on a MSN mobile device]
+[Using MSN Webmessenger]

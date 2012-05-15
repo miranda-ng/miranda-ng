@@ -1,0 +1,1 @@
+This folder contains filter plugin sources for YAMN.

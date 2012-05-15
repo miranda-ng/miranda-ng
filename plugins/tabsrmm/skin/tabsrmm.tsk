@@ -1,0 +1,530 @@
+; skinning tabSRMM - how it works
+; this is a sample skin definition file for tabSRMM. It needs tabSRMM 0.9.9.99
+; or later
+
+; tabSRMM skin files are simple .ini - style text files. You can use any text
+; editor you want to edit them.
+
+; image path names are *RELATIVE* to the directory in which the skin file is
+; located. The best way is to put all images and this skin definition file
+; into a single directory.
+
+; The FORMAT
+; ==========
+
+; there are basically 2 types of entries in this file.
+
+; 1) item definitions
+; 2) image items
+
+; Item definitions MUST start with a % character and the name must be one of  
+; the rcognized item names. Currently, tabsrmm knows the following item types:
+
+; items which are not configured in the skin definition file are ignored by
+; the skinning engine (that is, these items are then rendered unskinned)
+
+; The following items are known at the moment:
+
+; Container					-> container background
+; Button
+; Buttonpressed
+; Buttonmouseover
+; Infopanelfield
+; Titlebutton
+; Titlebuttonpressed
+; Titlebuttonmouseover
+; Tabpage
+; Tabitem
+; Tabitem_bottom
+; Tabitem_active
+; Tabitem_active_bottom
+; MessageLog				-> can be used to define a frame around the message log area
+; InputArea					-> same for the input box.
+; Frame						-> Window Frame (titlebar + border)
+
+; Item records contain information about the item itself. It offers similar options
+; like the skinning sytem in clist_nicer+
+
+; COLOR1:    First color
+; COLOR2:    2nd color
+; TEXTCOLOR: color for the text - note only useful for a few items like buttons. The text
+;            color for Tab items can be set in tabSRMM directly with more flexibility.
+; TOP/LEFT/RIGHT/BOTTOM: the item margins (in pixels)
+; ALPHA:     The transparency value (alpha). Values go from 0 (completely transparent)
+;            to 100 (completely opaque - values are therefore in PERCENT).
+; GRADIENT:  Set this to one of "up", "down", "right", "left" (without the quotes) to 
+;            specify the gradient direction.
+; CORNER:    A string which may contain the values "tl", "tr", "bl", "br" (again, w/o
+;            quotes). Separate multiple entries by commas.
+;            tl = top left, tr = top right, bl = bottom left, br = bottom right.
+;            Example: Corner=tl,tr  (will result in rounded corners for the top left and
+;                     top right corner).
+; COLOR2_TRANSPARENT: Set it to 1 if you want to have the 2nd color transparent, so that
+                      the gradient will blend with the background.
+; RADIUS:    A numeric value specifying the corner radius when rounded corners are used.
+
+; It is possible to skin only some items and leave the others unskinned. If a skin is laoded,
+; items which are left out by the skin definition will be rendered in a standard way, so
+; they will look like ordinary windows screen elements.
+
+; For more, see the examples below.
+                      
+[%Container]
+ALPHA=100
+COLOR1=DCDACE
+COLOR2=DCDACE
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=0
+GRADIENT=none
+RADIUS=0
+
+[%Statusbarpanel]
+ALPHA=80
+COLOR1=9C9D92
+COLOR2=9C9D92
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=None
+GRADIENT=None
+
+[%InputArea]
+ALPHA=10
+COLOR1=9C9D92
+COLOR2=9C9D92
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=None
+GRADIENT=None
+Left=1
+Right=1
+Top=1
+Bottom=1
+
+[%MessageLog]
+ALPHA=100
+COLOR1=9C9D92
+COLOR2=9C9D92
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=None
+GRADIENT=None
+Left=1
+Right=1
+Top=1
+Bottom=1
+
+[%Frame]
+ALPHA=100
+COLOR1=202020
+COLOR2=808080
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=0
+GRADIENT=right
+RADIUS=0
+
+[%FrameInactive]
+ALPHA=100
+COLOR1=202020
+COLOR2=808080
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=0
+GRADIENT=right
+RADIUS=0
+
+; This is a special Item. %Default is read automatically and its values 
+; are used as defaults when reading the other skin items later. With %Default, you
+; can set fallback values.
+
+[%Default]
+ALPHA=100
+COLOR1=ffffff
+COLOR2=ffffff
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=None
+GRADIENT=None
+BOTTOM=2
+LEFT=2
+RIGHT=2
+TOP=2
+BRDERSTYLE=0
+
+[%Tabpage]
+ALPHA=30
+COLOR1=cccccc
+COLOR2=cccccc
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=None
+GRADIENT=None
+BRDERSTYLE=0
+
+[%Tabitem_active_bottom]
+ALPHA=70
+COLOR1=cccccc
+COLOR2=a0a0a0
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=up
+radius=12
+
+[%Tabitem_bottom]
+ALPHA=70
+COLOR1=cccccc
+COLOR2=a0a0a0
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=up
+radius=12
+
+[%Tabitem_active]
+ALPHA=70
+COLOR1=f0f0f0
+COLOR2=e0e0e0
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr
+GRADIENT=down
+radius=6
+
+[%Tabitem]
+ALPHA=70
+COLOR1=f0f0f0
+COLOR2=e0e0e0
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr
+GRADIENT=up
+radius=6
+
+[%Tabitem_hottrack]
+ALPHA=100
+COLOR1=f0f0f0
+COLOR2=e0e0e0
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr
+GRADIENT=up
+radius=6
+
+[%Tabitem_hottrack_bottom]
+ALPHA=100
+COLOR1=f0f0f0
+COLOR2=e0e0e0
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr
+GRADIENT=up
+radius=6
+
+[%Buttonnotpressed]
+ALPHA=100
+COLOR1=bbbbbb
+COLOR2=dddddd
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=down
+RADIUS=6
+
+[%Buttonpressed]
+ALPHA=100
+COLOR1=888888
+COLOR2=888888
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=none
+RADIUS=6
+
+[%Buttonmouseover]
+ALPHA=100
+COLOR1=888888
+COLOR2=888888
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr,br,bl
+GRADIENT=none
+RADIUS=6
+
+[%InfoPanelfield]
+ALPHA=100
+COLOR1=e0e0e0
+COLOR2=ffffff
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr,br,bl
+GRADIENT=left
+RADIUS=8
+top=1
+bottom=1
+
+
+[%Titlebutton]
+ALPHA=100
+COLOR1=e8f1f8
+COLOR2=8faec6
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=down
+RADIUS=6
+
+[%Titlebuttonmouseover]
+ALPHA=100
+COLOR1=ecf5ff
+COLOR2=9fbed6
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=down
+RADIUS=6
+
+[%Titlebuttonpressed]
+ALPHA=100
+COLOR1=e8f1f8
+COLOR2=8faec6
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=none
+GRADIENT=down
+RADIUS=6
+
+[%Toolbar]
+ALPHA=100
+COLOR1=aaaaaa
+COLOR2=666666
+COLOR2_TRANSPARENT=0
+TEXTCOLOR=202020
+CORNER=tl,tr,br,bl
+GRADIENT=down
+RADIUS=6
+
+; 2. Image items
+; --------------
+; 
+; image items are separated from the normal item definitions. This allows to
+; use a single image for multiple items. Images are optional, because the skinning
+; engine can work without them and draw skin items in a traditional way, using gradients
+; and such.
+;
+; images HAVE to be 32bit PNG images - other formats are not supported. 
+; They can be ; partially transparent using per-pixel alpha values.
+;
+; imgdecoder.dll is REQUIRED and must be either in the \plugins or 
+; mirandas main folder
+;
+; Image item definitions MUST start with a $ character. The name is free - you can use
+; any name you want.
+;
+; sizing margins:
+; 
+; sizing margins have to be specified as Left, Right, Top and Bottom. These margins
+; divide the image into 9 parts. The corner parts are rendered without stretching
+; or shrinking, other parts of the image are stretched to make it fit the target
+; area. Sizing margins are only valid and used when ALL 4 margin values are specified.
+; 
+; ALPHA is a constant alpha value which is applied AFTER per pixel alpha values- this
+; can be used to make a non-transparent image translucent. Alpha values are in percent,
+; so the valid range is from 0 (completely transparent) to 100 (completely opaque).
+;
+; assign images to actual skin item(s).
+; 
+; This is done with the ItemX=Itemname value. X is a 0-based index number, so the first
+; assignment has to be Item0=foo, the 2nd Item1=bar and so on. Itemname refers to one of
+; the skin item names listed at the beginning of this document, WITHOUT the % character. 
+;
+; ColorKey
+; this is a special color value which will be used to make areas of the containe transparent
+; (e.g. it can be used for rounded corners). The color key can be any value you want, but 
+; remember that any pixel with this color will appear completely transparent.
+; the color key DOES ONLY MAKE SENSE for the container skin item and is ignored elsewhere.
+;
+; FillColor
+; This is a color value, which, if present, will be used to fill the inner part of the 
+; target area. You can use this if you only "need" the margin areas of the image (one example
+; would be the Tabpage which is usually invisible (covered by the message log and other
+; message window elements). The advantage is that by using a fill color, rendering will
+; be faster. Only makes sense for a "divided" image item (all 4 sizing margins present).
+
+[$Tabitem]
+Image=tab.png
+Right=2
+Top=2
+Bottom=2
+Left=2
+Alpha=60
+Item0=Tabitem_bottom
+Item1=Tabitem_active_bottom
+Item2=Tabitem
+Item3=Tabitem_active
+Perpixel=1
+
+[$Tabitem_hover]
+Image=tabhover.png
+Right=2
+Top=2
+Bottom=2
+Left=2
+Alpha=60
+Item0=Tabitem_hottrack_bottom
+Item1=Tabitem_hottrack
+Perpixel=1
+
+[$Button]
+Image=button.png
+Right=3
+Top=3
+Bottom=3
+Left=3
+Alpha=60
+Item0=Buttonnotpressed
+Item1=Frame
+Perpixel=1
+
+[$Panel]
+Image=panel.png
+Right=2
+Top=2
+Bottom=2
+Left=2
+Alpha=60
+Item0=Statusbarpanel
+Perpixel=1
+
+[$Buttonhover]
+Image=button_hover.png
+Right=2
+Top=2
+Bottom=1
+Left=2
+Alpha=60
+Item0=Buttonmouseover
+Perpixel=1
+
+[$Buttonpressed]
+Image=buttonpressed.png
+Right=3
+Top=3
+Bottom=3
+Left=3
+Alpha=50
+Item0=Buttonpressed
+Item1=Infopanelfield
+Perpixel=1
+
+[$Frame]
+Image=Back1.png
+Right=8
+Top=26
+Bottom=8
+Left=8
+Alpha=100
+Item0=Frame
+FillColor=202020
+
+[$FrameInactive]
+Image=Back1Inactive.png
+Right=8
+Top=26
+Bottom=8
+Left=8
+Alpha=100
+Item0=FrameInactive
+FillColor=202020
+
+
+;[$EditFrame]
+;Image=TextBorder.png
+;Left=8
+;Right=8
+;Top=8
+;Bottom=8
+;Alpha=100
+;Item0=InputArea
+;Item1=MessageLog
+;FillColor=D4D4D4
+
+; the global section has some general settings for the skin.
+; the 3 glyphs are used for the min/max/close button on the title bar. Use icons for this
+; and put them in the skin directory.
+
+; SbarHeight = height of the status bar in pixels. Using this, you can override the systems
+; default status bar height and make your status bar "match" the background skin image for
+; the container window
+
+; FontColor is the color for text output in the message window which is normally printed
+; with the system text color (black).
+; this affects: the info panel labels, the status bar text, text on buttons and elsewhere.
+; Version=1			 mandatory, don't remove or change, or the skin won't load !!!
+; Signature=101		 same - don't remove or change. !!!
+
+; FrameLessMode		 If set to a value not equal to zero, containers will enter frameless mode.
+;					 That means, they do not have a window border or title bar. The entire back-
+;					 ground is then skinned by the container window background skin.
+;
+; TitlebuttonWidth & TitlebuttonHeight -> metrics for the titlebar buttons (minimize, maximize, close)
+;										  only used when FramelessMode = 1 and Frame skin item is valid
+; TabSkinning -> Set to 0 if you want tabs to appear with default look (visual styles)
+;                default is 1 (so they will appear with the skins defined in this file 
+;                if no skins are defined, they will appear in "classic" look
+
+[Global]
+CloseGlyph=close.ico
+MinimizeGlyph=minimize.ico
+MaximizeGlyph=maximize.ico
+SbarHeight=22
+FontColor=0000BB
+Version=1
+Signature=101
+FrameLessMode=0
+TabSkinning=1
+LightShadow=F4F4F1
+DarkShadow=B0ACA0
+TabTextNormal=CCCC00
+TabTextActive=0000BB
+TabTextUnread=BB0000
+TabTextHottrack=00bb00
+
+; client area metrics
+;
+; Left, right, top and bottom are the padding values for the client area. The values are in pixels
+; and specify how much space will be left blank between the tab page and the window border
+
+; The "inner" value specifies how much of the tab page will be visible 
+
+[ClientArea]
+Left=2
+Right=2
+Top=3
+Bottom=0
+Inner=1
+
+; Width of the window frame (only valid, when FrameLessMode = 1 and a valid skin item for the Frame
+; is available.
+; caption = height of the title bar.
+; clip frame = # of pixels clipped from the outer frame
+; Radius = radius of the rounded corners (usable values are from 8-12, don't set them higher, may
+; look strange.
+
+[WindowFrame]
+Left=4
+Right=4
+Bottom=4
+Caption=22
+ClipFrame=1
+RadiusTL=6
+TitleButtonWidth = 12
+TitleButtonHeight = 12
+TitleButtonTopOffset = 7
+CaptionOffset = 6
+
+[Avatars]
+BorderType=4
+BorderColor=202020
+

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67c1526e-31b3-4942-9d85-83e62d07f458}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{392b3b30-de7e-42ad-ae68-49938ab85649}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5c5bb985-18c1-42aa-8630-9c8d94df2a58}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crypt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cryptopp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbevent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gettime.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="images.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="language.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadicons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadlib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mmi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="popupOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rtfconv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="secureim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="splitmsg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svcs_clist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svcs_menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svcs_proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svcs_rsa.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="svcs_srmm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="commonheaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_check.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_dll.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_icons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_lists.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_metacontacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crypt_popups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbevent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gettime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="images.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="language.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loadicons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loadlib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mmi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="popupOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rtfconv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="splitmsg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svcs_clist.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svcs_menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svcs_proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svcs_rsa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="svcs_srmm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

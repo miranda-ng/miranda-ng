@@ -1,0 +1,11 @@
+1. Obtain sources from http://delphi-miranda-plugins.googlecode.com/svn/trunk with your favorite SVN client.
+
+2. Copy Athena folder to the root directory of the abovementioned sources.
+
+3. Open Command prompt, navigate to Athena folder.
+
+4. Type: "make" (without quotes) - to build 32-bit version with Delphi 5,
+         "make fpc" -  to build Free Pascal 32-bit version,
+         "make fpc64" - to build Free Pascal 64-bit version,
+         "make xe2" - to build Delphi XE2 32-bit version,
+         "make xe64" - to build Delphi XE2 64-bit version.

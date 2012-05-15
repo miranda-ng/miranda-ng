@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{bf74d1c9-acd8-4fba-837d-734f024521c9}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{3146431c-3301-4b85-bf61-5109e7e79b49}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="adler32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="compress.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="crc32.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="deflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="infback.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inffast.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inflate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="inftrees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="trees.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="uncompr.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="zutil.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gzclose.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gzread.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gzwrite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="gzlib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="crc32.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="deflate.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inffast.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inflate.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="inftrees.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="trees.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zconf.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zlib.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="zutil.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="zlib.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="zlib.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

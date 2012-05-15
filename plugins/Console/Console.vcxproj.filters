@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{94e1a2e5-64bb-4574-a01b-61fbe40e73e2}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a5d1caa4-5b85-489a-bedc-9709b86d7dc0}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{1e71008e-a4e4-44c1-a0a9-d5fd17cd53f2}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Commonheaders.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\btn_dn.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\btn_up.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\close.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\console.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\console_dn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\console_up.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\copy.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\noscroll.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\noscroll3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\options.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\pause.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\paused.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\Save.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\scroll.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Res\scroll3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\start.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\started.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\working.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

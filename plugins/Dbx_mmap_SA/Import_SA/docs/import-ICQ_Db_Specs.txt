@@ -1,0 +1,1004 @@
+
+The latest version of this document is always at:
+http://cvs.sourceforge.net/viewcvs.py/miranda-icq/Plugins/import/docs/import-ICQ_Db_Specs.txt
+
+============================================================================
+= ICQ_Db_Specs.txt -- Updated 2002-07-08
+=
+= This document describes parts of the fileformat used by the databases in
+= ICQ 99a - 2002a and is based on the 99a & 99b database specifications as
+= described in "ICQNEWDB.TXT" by Derek Soeder.
+= 
+= Current maintainer: Strickz (strickz at miranda-im.org)
+=
+=
+=
+= To understand the file format as a whole it is also necessary to read
+= icqnewdb.txt and icqprop.txt. I have tried to use the same syntax in
+= this document to make it easier to understand and compare the different
+= parts.
+=
+= The information in this document is in no way guaranteed to be correct, use
+= at own your own risk and feel free to send me any corrections you may have.
+=
+============================================================================
+
+
+
+***
+*** File Headers
+***
+
+
+    ================================================================
+    == Format of IDX main header (20 BYTES):
+    ================================================================
+     00000000   3 LONGS     Unknown, but always 4, 20, 8.
+                                (04,00,00,00,14h,00,00,00,08,00,00,00)
+     0000000C   LONG        IDX pointer to root entry
+     00000010   LONG        ICQ database version
+                                10      = ICQ 99a
+                                14      = ICQ 99b
+                                17      = ICQ 2000a
+                                18      = ICQ 2000b
+                                19      = ICQ 2001a,2001b,2002a,2003a
+     00000014   ---         Start of first IDX page header
+
+
+    ================================================================
+    == Format of IDX page header (205 BYTES):
+    ================================================================
+     00000000   5 LONGS     Unknown, but always 201, 0, 0, 0, 0.
+     00000014   LONG        Pointer to next page header. -1 if this is the
+                            last page.
+     00000018   LONG        Unknown, always 1?
+     0000001C   LONG        Number of bytes in each slot (20)
+     00000020   LONG        Number of fragments in the page with one
+                            or more consecutive free slots.
+     00000024   LONG        Number of empty slots in this page.
+     00000028   10 LONGS    Unknown, always 0?
+     00000050   125 BYTES   Allocation bitmap
+     000000CD   ---         1000 list entries (slots)
+
+
+    Notes by Derek:
+    --------------
+    Apparently, if you start at the root entry and walk the chain via
+    the LONG at offset +8 in each following IDX entry, you'll eventually
+    arrive at a complete chain of valid entries (entry status = -2).
+
+    Notes by Strickz:
+    ----------------
+    Initially an IDX file is 20225 bytes large: 20 bytes main header + 205 bytes
+    (first page header) + 20000 bytes (first IDX page). The file is always resized
+    in blocks of 20205 bytes (one page with header), I'm guessing this isn't done
+    until some data wants to be written and there is no fragment large enough to
+    hold it.
+
+    Offset 0c64: This is a bitmap that shows the status of all slots in the
+    page. Each page is divided into 1000 slots which requires a bitmap of
+    1000/8 = 225 bytes. It would probably be possible to go through all entries in
+    the database by using the bitmap directly, page by page, instead of traversing
+    the chain.
+
+    Offset 0x20: I don't really see what practical use this value has. It can be
+    used as a measurement of the degree of fragmentation of the page, but keeping this
+    updated each write should slow things down... And it offers no speed-up
+    either, to write something to a page you still have to scan for a fragment large
+    enough for your data.
+
+
+    ================================================================
+    == Format of IDX linked list entry (20 BYTES each):
+    ================================================================
+
+     00000000   LONG        entry status? :
+                                -2          = valid IDX entry
+                                else        = ?
+     00000004   LONG        DAT entry number:
+                                1..15       = ???a
+                                1005        = My Details
+                                1006        = Address Book?
+                                1007        = Sound themes
+                                1009          Unknown, about 222 bytes of binary data. I don't
+                                              recognize the data yet but there is a pattern.
+                                1014        = Chats event folder?
+                                1015        = A list of nicks with some data
+                                1025        = Looks related to Message archive. Contains several lists,
+                                              System, Sent & Received, From Web, Messages, etc... Lists
+                                              contains nicks or UINs with some data attached.
+                                1050        = Unknown
+                                1051        = Unknown
+                                1052        = Unknown
+                                1100        = Unknown
+                                1101        = Looks likes external app info
+                                1102        = Objectionable Words List?
+                                1110        = ICQ Servers List
+                                2001+       = user events/contact info
+     00000008   LONG        IDX pointer to next entry (-1 = none)
+     0000000C   LONG        IDX pointer to previous entry (-1 = none)
+     00000010   LONG        DAT pointer to corresponding DAT entry (-1 = none)
+
+
+    Notes by Strickz:
+    ----------------
+    The chain is not a simple double linked list, there are several smaller chains that
+    merge into the main chain at different points.
+    The root entry has a DAT-ptr that doesn't point into the DAT file, if you use it
+    with the IDX file you arrive at a chain fragment that end up in the main chain.
+
+    All entries with status -2 points to a entry in the DAT file.
+
+
+    ===============================================================
+    == Format of DAT main header (8 BYTES):
+    ================================================================
+     00000000   2 LONG      Unknown, but always 4, 8.
+                                (04,00,00,00,08,00,00,00)
+     00000008   ---         Start of first DAT page header
+
+
+    ================================================================
+    == Format of DAT page header (205 BYTES):
+    ================================================================
+     00000000   6 LONGS     Unknown, but always 201, 0, 0, 0, 0, 0.
+     00000014   LONG        Pointer to next page header. -1 if this is the
+                            last page.
+     00000018   LONG        Unknown, always 0?
+     0000001C   LONG        Number of bytes in each slot (64)
+     00000020   LONG        Number of fragments in the page with one
+                            or more consecutive free slots.
+     00000024   LONG        Number of empty slots in this page
+     00000028   10 LONGS    Unknown, always 0?
+     00000050   125 BYTES   Allocation bitmap
+     000000CD   ---         One page of DAT entries
+
+
+
+***
+*** My details
+***
+
+
+    ================================================================
+    == Format of My Details v99a (ICQ 99a) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed? (-1 = MyDetails)
+     00000008   LONG        DAT entry number        = 1005
+     0000000C   BYTE        First byte of signature = E4h
+     0000000D   UNKNOWN 15  Rest of signature
+                            23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Label   = 55534552h ('USER')
+     00000022   LONG        User entry status: 6 = "My Details"
+     00000026   44 BYTEs    Unused??? (0)
+     00000052   WORD        // Separator value
+     00000054   LONG        Number of default event WAV entries
+     00000058    ---        List of consecutive default event WAV entries
+   $+00000000   38 BYTEs    Unused??? (0)
+    +00000026   WORD        // Separator value
+    +00000028   LONG        Number of user properties
+     0000002C    ---        List of consecutive user properties
+   $+00000000    ---        99a user information for owner of this DAT file
+
+   $+00000000   WORD        length of password
+    +00000002   ASCIIZ      user's ICQ password
+   $+00000000   LONG        ??? (1)
+    +00000004   14 BYTEs    ??? (03 00 00 00 00 01 00 00 00 00 00 00 00 00)
+    +00000012   WORD        length of POP3 account user name
+    +00000014   ASCIIZ      POP3 account user name
+   $+00000000   WORD        length of POP3 account password
+    +00000002   ASCIIZ      POP3 account password
+   $+00000000   WORD        length of POP3 server name
+    +00000002   ASCIIZ      POP3 server name
+   $+00000000   1 BYTE      ??? (10/0Ah)
+    +00000001   20 BYTEs    ??? (0)
+    +00000015   LONG        Number of contact groups
+    +00000019    ---        List of consecutive contact group entries
+   $+00000000   LONG        unused??? (0)
+    +00000004   BYTE        ??? (1)
+    +00000005   WORD        // Separator value
+    +00000007   LONG        Number of additional user properties
+    +0000000B    ---        List of consecutive user properties
+
+
+    >> Format of 99a user information:
+   $+00000000   WORD        length of user name
+    +00000002   ASCIIZ      user name (what user is called; usually nickname)
+   $+00000000   WORD        length of nickname
+    +00000002   ASCIIZ      nickname
+   $+00000000   WORD        length of First Name
+    +00000002   ASCIIZ      First Name
+   $+00000000   WORD        length of Last Name
+    +00000002   ASCIIZ      Last Name
+   $+00000000   WORD        length of primary e-mail address
+    +00000002   ASCIIZ      primary e-mail address
+   $+00000000   LONG        UIN of this user
+    +00000004   BYTE        authorization -- 0:required to add user, 1:none
+    +00000005   CHAR        GMT offset (negative count of half-hours):
+    +00000006   DWORD       current/last IP address (network byte order)
+    +0000000A   BYTE        gender -- 0:Not Specified, 1:Female, 2:Male
+    +0000000B   LONG        Home Country
+    +0000000F   LONG        age of user (-1 = not entered)
+    +00000013   WORD        length of Home City text
+    +00000015   ASCIIZ      Home City text
+   $+00000000   WORD        length of Home State text
+    +00000002   ASCIIZ      Home State text
+   $+00000000   WORD        length of additional details text
+    +00000002   ASCIIZ      additional details text (info specified by user)
+   $+00000000   WORD        length of user's Homepage URL
+    +00000002   ASCIIZ      user's Homepage URL
+   $+00000000   WORD        length of Home Phone number
+    +00000002   ASCIIZ      Home Phone number
+   $+00000000   WORD        length of notes text
+    +00000002   ASCIIZ      notes text (empty in My Details)
+
+   $+00000000   LONG        Home Zip Code (0 = not entered)
+    +00000004   LONG        timestamp of last Phonebook update
+    +00000008   LONG        unused??? (0)
+    +0000000C   LONG        number of Phonebook entries
+    +00000010    ---        list of consecutive Phonebook entries
+
+// verkar vara tom i mydetails
+   $+00000000   WORD        length of picture file name
+    +00000002   ASCIIZ      local path and file name of user's saved picture
+   $+00000000   8 BYTEs     unused??? (0) 6??
+    +00000008   WORD        //separator value <-- redan här är det 2 bytes fel
+    +0000000A   LONG        timestamp of last My Details update
+    +0000000E   WORD        length of secondary e-mail address
+    +00000010   ASCIIZ      secondary e-mail address
+   $+00000000   WORD        length of old e-mail address
+    +00000002   ASCIIZ      old e-mail address
+   $+00000000   LONG        ??? (0)
+    +00000004   BYTE        day of birthdate
+    +00000005   BYTE        month of birthdate (1..12 = January..December)
+    +00000006   BYTE        year of birthday (0..99 = 1900..1999)   //Y2K!!!
+    +00000007   LONG        ??? 2
+    +0000000B   LONG        ??? 1
+    +0000000F   3 BYTEs     languages spoken
+    +00000012   WORD        length of Home Street Address
+    +00000014   ASCIIZ      Home Street Address
+   $+00000000   WORD        length of Home Fax number
+    +00000002   ASCIIZ      Home Fax number
+   $+00000000   WORD        length of Home Cellular number
+    +00000002   ASCIIZ      Home Cellular number
+   $+00000000   LONG        ??? (0)
+    +00000004   WORD        length of Company Div/Dept
+    +00000006   ASCIIZ      Company Div/Dept
+   $+00000000   BYTE        Occupation
+    +00000001   LONG        ??? (0)
+    +00000005   WORD        length of Company Position
+    +00000007   ASCIIZ      Company Position
+   $+00000000   WORD        length of Company Name
+    +00000002   ASCIIZ      Company Name
+   $+00000000   WORD        length of Work Street Address
+    +00000002   ASCIIZ      Work Street Address
+   $+00000000   WORD        length of Work State text
+    +00000002   ASCIIZ      Work State text
+   $+00000000   WORD        length of Work City text
+    +00000002   ASCIIZ      Work City text
+   $+00000000   LONG        Work Zip Code (0 = not entered)
+    +00000004   LONG        Work Country (see "Home Country" for values)
+    +00000008   WORD        length of Work Phone number
+    +0000000A   ASCIIZ      Work Phone number
+   $+00000000   WORD        length of Work Fax number
+    +00000002   ASCIIZ      Work Fax number
+   $+00000000   WORD        length of Work Homepage URL
+    +00000002   ASCIIZ      Work Homepage URL
+   $+00000000   WORD        length of Past Background #1 keywords
+    +00000002   ASCIIZ      Past Background #1 keywords
+   $+00000000   WORD        Past Bkg. #1 category
+    +00000002   WORD        length of Past Background #2 keywords
+    +00000004   ASCIIZ      Past Background #2 keywords
+   $+00000000   WORD        Past Bkg. #2 category (see list for Past Bkg. #1)
+    +00000002   WORD        length of Past Background #3 keywords
+    +00000004   ASCIIZ      Past Background #3 keywords
+   $+00000000   WORD        Past Bkg. #3 category (see list for Past Bkg. #1)
+    +00000002   WORD        length of Affiliation #1 keywords
+    +00000004   ASCIIZ      Affiliation #1 keywords
+   $+00000000   WORD        Affiliation #1 category
+    +00000002   WORD        length of Affiliation #2 keywords
+    +00000004   ASCIIZ      Affiliation #2 keywords
+   $+00000000   WORD        Affiliation #2 category (see list for Affil. #1)
+    +00000002   WORD        length of Affiliation #3 keywords
+    +00000004   ASCIIZ      Affiliation #3 keywords
+   $+00000000   WORD        Affiliation #3 category (see list for Affil. #1)
+    +00000002   20 BYTEs    unused??? (0)
+    +00000016   WORD        length of Interest #1 keywords
+    +00000018   ASCIIZ      Interest #1 keywords
+   $+00000000   WORD        Interest #1 category
+    +00000002   WORD        length of Interest #2 keywords
+    +00000004   ASCIIZ      Interest #2 keywords
+   $+00000000   WORD        Interest #2 category (see list for Interest #1)
+    +00000002   WORD        length of Interest #3 keywords
+    +00000004   ASCIIZ      Interest #3 keywords
+   $+00000000   WORD        Interest #3 category (see list for Interest #1)
+    +00000002   WORD        length of Interest #4 keywords
+    +00000004   ASCIIZ      Interest #4 keywords
+   $+00000000   WORD        Interest #4 category (see list for Interest #1)
+    +00000002   40 BYTES    unused??? (0)
+
+
+
+    ================================================================
+    == Format of My Details v99b (ICQ 99b) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        -1 (Entry is not filed)
+     00000008   LONG        DAT entry number        = 1005
+     0000000C   BYTE        first byte of signature = E4h
+     0000000D   UNKNOWN 15  Rest of signature
+                            23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        label   = 55534552h ('USER')
+     00000022   LONG        user entry status: 6 = "My Details"
+     00000026   LONG        0 (Unknown, most likely an unused group entry)
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Number of user event WAV entries
+     00000030    ---        List of consecutive user event WAV entries
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Number of property blocks
+    +00000006    ---        List of consecutive property blocks
+    +00000000   DWORD       Timestamp
+     00000004   LONG        Unknown (0)
+    +00000008   LONG        Number of Phonebook entries
+    +0000000C    ---        List of consecutive Phonebook entries
+   $+00000000   WORD        // Separator value
+    +00000002   DWORD       Timestamp
+   $+00000006   LONG        Number of contact groups
+    +0000000A    ---        List of consecutive contact groups
+
+
+
+    ================================================================
+    == Format of My Details v2000/2 (ICQ 2000a/2000b/2002a) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        -1 (Entry is not filed)
+     00000008   LONG        DAT entry number        = 1005
+     0000000C   BYTE        first byte of signature = E4h
+     0000000D   UNKNOWN 15  Rest of signature
+                            23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        label   = 55534552h ('USER')
+     00000022   LONG        user entry status: 6 = "My Details"
+     00000026   LONG        0 (Unknown, most likely an unused group entry)
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Number of user event WAV entries
+     00000030    ---        List of consecutive user event WAV entries
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Number of property blocks
+    +00000006    ---        List of consecutive property blocks
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Timestamp, time of last update?
+    +00000006   LONG        Number of contact groups
+    +0000000A    ---        List of consecutive contact groups
+
+
+
+    ================================================================
+    == Format of My Details v2001a (ICQ 2001a/2001b) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        -1 (Entry is not filed)
+     00000008   LONG        DAT entry number        = 1005
+     0000000C   BYTE        first byte of signature = E4h
+     0000000D   UNKNOWN 15  Rest of signature
+                            23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        label   = 55534552h ('USER')
+     00000022   LONG        User entry status: 6 = "My Details"
+     00000026   LONG        0 (Unknown, most likely an unused group entry)
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Number of property blocks
+     00000030               List of consecutive property blocks
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Time of last information update? (local time)
+	                    Example: 7D,FE,56,3C (32bit date+time, with seconds)
+                                     = 01-29-2002, 19:56:45
+    +00000006   LONG        Number of contact groups
+    +0000000A    ---        List of consecutive contact groups
+
+
+
+
+***
+*** Messages
+***
+   
+
+    ================================================================
+    == URL Message format (ICQ 99a-2002a)
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Entry type?
+                                0 = Message
+     00000008   LONG        DAT entry number
+     0000000C   UNKNOWN 16  Signature
+                                E0,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+                               or:
+                                A0,C0,0C,2F,5C,95,D3,11,8D,D7,00,10,4B,06,46,2E
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Filing flags
+                                bit  0  = filed in 0:Outgoing, 1:Incoming
+                                bit  1  = filed in 'Deleted Items', 0:No, 1:Yes
+                                bit  2  = filed in 'MessageDialog', 0:No, 1:Yes
+     00000022   WORD        Entry sub type
+                                4 = URL
+     00000024   LONG        UIN of sender/receiver
+     00000028   WORD        Length of description and url (incl. NULL)
+     0000002C   ASCIIZ      Description and URL. This is a single string but with
+                            two parts. They are separated with one FEh BYTE (-2).
+   $+00000000   LONG        Status of receiving user:
+                                 0: Online, FFC, Invisible, Offline
+                                 4: Away
+                                14: N/A
+                                -1: Occupied, DND,
+     00000004   LONG        Sent or received
+                                 0: Received
+                                 1: Sent
+     00000008   WORD        // Separator value
+     0000000A   LONG        Timestamp
+     0000000D   UNKNOWN 27  Zeroes
+
+
+    Notes by Strickz:
+       1. When a URL message is received it is first stored in a longer format, when it
+          has been read it is rewritten with the smaller format described above.
+       2. I haven't seen any syntax difference between the two signatures, so I treat them
+          exactly the same for now.
+
+
+    ================================================================
+    == Short Message Format (ICQ 99a-2002a)
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Entry type?
+                                0       = Message
+                                5       = Unread message
+     00000008   LONG        DAT entry number
+     0000000C   UNKNOWN 16  Signature
+                                E0,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Filing flags
+                                bit  0  = filed in 0:Outgoing, 1:Incoming
+                                bit  1  = filed in 'Deleted Items', 0:No, 1:Yes
+                                bit  2  = filed in 'MessageDialog', 0:No, 1:Yes
+                            Unread messages = 0
+     00000022   WORD        Entry sub type
+                                1 = Message
+     00000024   LONG        UIN of sender/receiver
+     00000028   WORD        Length of message text
+     0000002C   ASCIIZ      Message text
+   $+00000000   LONG        Status of receiving user:
+                                 0: Online, FFC, Invisible, Offline
+                                 4: Away
+                                14: N/A
+                                -1: Occupied, DND,
+     00000004   LONG        Sent or received
+                                 0: Received
+                                 1: Sent
+    +00000008   WORD        // Separator value
+    +0000000A   LONG        Timestamp
+    +0000000E   UNKNOWN 27  27 zeroes
+
+
+
+    ================================================================
+    == Long Message Format
+    ================================================================
+
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Entry type?
+                                0       = Message
+                                5       = Unread message
+     00000008   LONG        DAT entry number
+     0000000C   UNKNOWN 16  Signature
+                                50,3B,C1,5C,5C,95,D3,11,8D,D7,00,10,4B,06,46,2E
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Filing flags
+                                bit  0  = filed in 0:Outgoing, 1:Incoming
+                                bit  1  = filed in 'Deleted Items', 0:No, 1:Yes
+                                bit  2  = filed in 'MessageDialog', 0:No, 1:Yes
+                            Unread messages = 0
+     00000022   WORD        Entry sub type
+                                1 = Message
+     00000024   LONG        UIN of sender/receiver
+     00000028   WORD        Length of text
+                                When received from 2002a this is 1 and text is only a
+                                NULL character
+     0000002A   ASCIIZ      ANSI text
+   $+00000000   LONG        Status of receiving user:
+                                 0: Online, FFC, Invisible, Offline, DND, Occupied
+                                 4: Away
+                                14: N/A
+                                Value is always 0 when receiving client was Miranda
+     00000004   LONG        Sent or received
+                                 0: Received
+                                 1: Sent
+     00000008   WORD        // Separator value
+     0000000A   LONG        Timestamp
+     0000000E   UNKNOWN 19  Zeroes
+     00000021   WORD        Length of Rich text
+                            When message was sent to online 2002a user, this is 0 and the rich
+                            text is missing.
+     00000023	ASCIIZ      Rich Text
+   $+00000000   WORD        Length of UTF8 text
+    +00000002   ASCIIZ      UTF8 Text
+   $+00000000   LONG        Unknown, always 0
+    +00000004   LONG        Unknown, always 0
+    +00000009   LONG        Unknown, received: 00800080h
+                                     sent    : 00FFFFFFh
+
+
+     Notes: The long format can keep up to three copies of the message text,
+            two versions in plain text format and one in rich text format. The reason
+            for this is unknown but it looks pretty stupid. The rich text version is never
+            used once a message has been sent/received. Yet it is stored in the database making
+            each message entry 2-3 times larger.
+
+
+
+
+
+    ================================================================
+    == URL format Miranda (unread event)
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                5       = Unread?
+     00000008   LONG        DAT entry number?
+     0000000C   UNKNOWN 16  Signature
+                                EA,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Filing status?
+                                bit  0  = filed as 0:Sent, 1:Received
+                                bit  1  = in Deleted Items -- 0:no, 1:yes
+                                bit  2  = in Messages -- 0:no, 1:yes
+                            0 = Unread
+     00000022   WORD        1Ah (26)
+     00000024   LONG        UIN of sender/receiver
+     00000028   LONg        Length of description and url (incl. NULL)
+     0000002C   ASCIIZ      Description and URL
+*  $+00000000   LONG        4
+*    00000004   LONG        0
+     00000008   WORD        // Separator value
+     0000000A   LONG        Timestamp
+     0000000D   UNKNOWN 27  Zeroes
+
+     00000028   WORD        Length of signature and the textstring+zeroes      ++ START OF BLOCK
+     0000002A   UNKNOWN 16  Another signature?
+                            37,1C,58,72,E9,87,D4,11,A4,C1,00,D0,B7,59,B1,D9
+     0000003C   WORD        0
+     0000003E   LONG        Length of textstring (no terminating zero)
+*    00000042   ASCIIZ      String: "Send URL"
+   $+00000000   LONG        0
+    +00000005   LONG        1
+    +00000009   UNKNOWN 11  Zeroes                                             ++ ENDS BLOCK
+
+    +0000000F   LONG        Looks like length of url+4 bytes.
+    +00000013   LONG        Length of URL message content
+    +00000017   ASCIIZ      Description+URL, the two parts are separated with
+                            one FEh BYTE (-2). Not NULL terminated.
+
+
+    ================================================================
+    == URL format 2002a (unread)
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                5       = Unread?
+     00000008   LONG        DAT entry number?
+     0000000C   UNKNOWN 16  Signature
+                                EA,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Filing status?
+                                bit  0  = filed as 0:Sent, 1:Received
+                                bit  1  = in Deleted Items -- 0:no, 1:yes
+                                bit  2  = in Messages -- 0:no, 1:yes
+                            0 = Unread
+     00000022   WORD        1Ah (26)
+     00000024   LONG        UIN of sender/receiver
+     00000028   LONG        1 (length?)
+     0000002C   UNKNOWN 1   0, Terminating zero of an empty string?
+*    0000002D   UNKNOWN 6   Zeroes
+     00000033   WORD        // Separator value
+     00000035   LONG        Timestamp
+     00000039   UNKNOWN 27  Zeroes
+
+     00000054   WORD        Length of signature and the textstring+zeroes      ++ START OF BLOCK
+     00000056   UNKNOWN 16  Another signature?
+                            37,1C,58,72,E9,87,D4,11,A4,C1,00,D0,B7,59,B1,D9
+     00000066   WORD        0
+     0000006C   LONG        Length of textstring (no terminating zero)
+     0000005F   ASCIIZ      String: "Send Web Page Address (URL)"
+   $+00000000   BYTE        0 (terminating null?)
+    +00000001   LONG        0
+    +00000005   LONG        1
+    +00000009   UNKNOWN 6   Zeroes                                             ++ ENDS BLOCK
+
+    +0000000F   LONG        Looks like length of url+4 bytes. I have seen entries where  ++ START OF BLOCK
+                            this value overflows the total event size at offset 0 by
+                            2 bytes. Bug in ICQ?
+    +00000013   LONG        Length of URL message content (excl. NULL)
+    +00000017   ASCIIZ      Description+URL, the two parts are separated with
+                            one FEh BYTE (-2).                                           ++ ENDS BLOCK
+
+   $+00000000   WORD        0
+
+
+
+***
+*** Contact
+***
+
+
+    ================================================================
+    == Format of Contact v99a (ICQ 99a) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                -1      = not filed? (Ex. MyDetails)
+                                0       = Messages?
+                                1       = Contact list?
+                                2       = Ignore list?
+                                9       = System Messages?
+     00000008   LONG        DAT entry number = 1005
+     0000000C   UNKNOWN 16  Signature
+                                E5,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Label   = 55534552h ('USER')
+     00000022   LONG        User entry status:
+                                2       = active
+                                3       = Awaiting authorization
+                                5       = removed from contact list
+                                12      = deleted from address book?
+                                13      = outdated/defunct???
+                                14      = outdated/defunct???
+     00000026   LONG        GroupID of contact group containing user
+     0000002A   40 BYTEs    Unknown
+     00000052   WORD        // Separator value
+     00000054   LONG        Number of user event WAV entries
+     00000058    ---        List of consecutive user event WAV entries
+   $+00000000   38 BYTEs    Unknown
+    +00000026   WORD        // Separator value
+    +00000028    ---        99a user information for this contact
+	                        See 'My Details v99a' for syntax
+
+
+
+    ================================================================
+    == Format of Contact (Db99b) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                -1      = not filed? (Ex. MyDetails)
+                                0       = Messages?
+                                1       = Contact list?
+                                2       = Ignore list?
+                                9       = System Messages?
+     00000008   LONG        DAT entry number = 1005
+     0000000C   UNKNOWN 16  Signature
+                                E5,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Label   = 55534552h ('USER')
+     00000022   LONG        User entry status:
+                                2       = active
+                                3       = Awaiting authorization
+                                5       = removed from contact list
+                                12      = deleted from address book?
+                                13      = outdated/defunct???
+                                14      = outdated/defunct???
+     00000026   LONG        GroupID of contact group containing user
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Number of user event WAV entries
+     00000030    ---        List of consecutive user event WAV entries
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Number of property blocks
+    +00000006    ---        List of consecutive property blocks
+    +00000000   DWORD       Timestamp
+     00000004   LONG        Unknown (0)
+    +00000008   LONG        Number of Phonebook entries
+    +0000000C    ---        List of consecutive Phonebook entries
+   $+00000000   WORD        // Separator value
+    +00000002   DWORD       Timestamp
+
+
+
+    ================================================================
+    == Format of Contact v2000a & v2000b (ICQ 2000a/2000b) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                -1      = not filed? (Ex. MyDetails)
+                                0       = Messages?
+                                1       = Contact list?
+                                2       = Ignore list?
+                                9       = System Messages?
+     00000008   LONG        DAT entry number = 1005
+     0000000C   UNKNOWN 16  Signature
+                                E5,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Label   = 55534552h ('USER')
+     00000022   LONG        User entry status:
+                                2       = active
+                                3       = Awaiting authorization
+                                5       = removed from contact list
+                                12      = deleted from address book?
+                                13      = outdated/defunct???
+                                14      = outdated/defunct???
+     00000026   LONG        GroupID of contact group containing user
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Number of user event WAV entries
+     00000030    ---        List of consecutive user event WAV entries
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Number of property blocks
+    +00000006    ---        List of consecutive property blocks
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Timestamp, time of last update?
+
+
+
+    ================================================================
+    == Format of Contact v2001a (ICQ 2001a/2001b) data:
+    ================================================================
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                -1      = not filed? (Ex. MyDetails)
+                                0       = Messages?
+                                1       = Contact list?
+                                2       = Ignore list?
+                                9       = System Messages?
+     00000008   LONG        DAT entry number = 1005
+     0000000C   UNKNOWN 16  Signature
+                                E5,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        Label   = 55534552h ('USER')
+     00000022   LONG        User entry status:
+                                2       = active
+                                3       = Awaiting authorization
+                                5       = removed from contact list
+                                12      = deleted from address book?
+                                13      = outdated/defunct???
+                                14      = outdated/defunct???
+     00000026   LONG        GroupID of contact group containing user
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Number of property blocks
+     00000030    ---        List of consecutive property blocks
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Timestamp, time of last update
+
+
+
+    ================================================================
+    == Format of Contact v2002a (ICQ 2002a) data:
+    ================================================================
+
+     00000000   LONG        The following number of bytes in data
+     00000004   LONG        Where entry is filed?
+                                -1      = not filed? (Ex. MyDetails)
+                                0       = Messages?
+                                1       = Contact list?
+                                2       = Ignore list?
+                                9       = System Messages?
+     00000008   LONG        DAT entry number = 1005
+     0000000C   UNKNOWN 16  Signature
+                                E5,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     0000001C   WORD        // Separator value
+     0000001E   LONG        label   = 55534552h ('USER')
+     00000022   LONG        User entry status:
+                                2       = active
+                                3       = Awaiting authorization
+                                5       = removed from contact list
+                                12      = deleted from address book?
+                                13      = outdated/defunct???
+                                14      = outdated/defunct???
+     00000026   LONG        GroupID of contact group containing user
+     0000002A   WORD        // Separator value
+     0000002C   LONG        Unknown, 0
+     00000030   WORD        // Separator value
+     00000032   LONG        Number of property blocks
+     00000036               List of consecutive property blocks
+   $+00000000   WORD        // Separator value
+    +00000002   LONG        Timestamp, time of last update
+
+
+     >> Contact properties that sounds interesting
+     Property                            Data type   Description
+     ----------------------------------- ----------- -----------------------------
+     UserCategory                        LONG        Unknown (Entry status?)
+     RealGroupID                         LONG        Same as GroupID above?
+     ----------------------------------- ----------- -----------------------------
+     Comment: The question here is, if the same information appears both in header
+              and in properties, which one should we use? Can they be different?
+
+
+
+***
+*** General
+***
+
+
+     >> Separator values
+     The separator value appears in many places. It is a 2-byte value and
+     reflects the version of ICQ that the database was used with. Exactly
+     when and how the values get updated is still a bit unclear. Not all
+     entries get updated when the ICQ version is updated, there are always
+     a couple of entries that are left with the old value but they still appear
+     correctly in the history.
+
+
+     Version           Separator value     ICQ release date
+     ----------------- ------------------- ----------------
+	 ICQ 2003a v5.45   21,02
+     ICQ 2002a         16,02 (534)         19/04 2002
+     ICQ 2002a         15,02 (533)         25/03 2002
+     ICQ 2001b v5.18   06,02 (518)         28/11 2001
+     ICQ 2001b v5.17   05,02 (517)         12/11 2001
+     ICQ 2001b v5.16   04,02 (516)         08/11 2001
+     ICQ 2001b v5.15   03,02 (515)         30/10 2001
+     ICQ 2001  v4.70                       15/10 2001
+     ICQ 2001  v4.65   01,D1 (465)         04/09 2001
+     ICQ 200   v4.63                       07/02 2001
+     ICQ 200   v4.60                       25/10 2000
+     ICQ 200   v4.56                       26/09 2000
+     ICQ 2000b v4.55                       21/09 2000
+     ICQ 2000a v4.31                       31/05 2000
+     ICQ 2000a v4.30                       11/05 2000
+     ICQ 2000a v4.29                       24/04 2000
+     ICQ 99b   v3.19                       31/08 2000
+     ICQ 99b   v3.18                       29/08 1999
+     ICQ 99b   v3.17                       16/08 1999
+     ICQ 99b   v3.01                       ?
+     ICQ 99a   v2.24                       01/08 1999
+     ICQ 99a   v2.22                       15/06 1999
+     ICQ 99a   v2.21                       18/05 1999
+     ICQ 99a   v2.20                       03/05 1999
+     ICQ 99a   v2.15                       13/04 1999
+     ICQ 99a   v2.05   CD,00 (205)         ?
+     ICQ 98    v1.52   98,00 (152)         ? 1998
+
+
+
+     >> Format of property block:
+     00000000   WORD        // Separator value
+     00000004   LONG        Number of user properties
+     00000008    ---        List of consecutive user properties
+
+
+     >> Format of each property:
+     00000000   WORD        Length of property name
+     00000002   ASCIIZ      Property name
+   $+00000000   BYTE        Property value type:
+                                100 / 64h  = CHAR
+                                101 / 65h  = BYTE
+                                102 / 66h  = WORD
+                                103 / 67h  = INTEGER
+                                104 / 68h  = DWORD
+                                105 / 69h  = LONG
+                                107 / 6bh  = ASCIIZ (1 WORD + String)
+                                109 / 6dh  = Sublist (see below)
+                                111 / 6fh  = DWORD (length) + BYTE array
+    +00000001  <var>        Property value
+
+
+     >> Format of 6D sub list
+     00000000  LONG         Number of properties in sub list
+     00000004  BYTE         Sublist type? (6B or 6E)
+     00000005   ---         List of consecutive 6D6B or 6D6E properties
+
+     Comment:  There appears to exist two variations, the 6B- & the 6E-variation.
+               6B is just a list of strings, 6E is a complete property list which
+               means that it can be recursive.
+
+     >> Format of the 6D6B property
+     00000000  WORD         Length of string
+     00000002  ASCIZZ       String
+
+     >> Format of the 6D6E property
+     00000000  WORD         // Separator value
+     00000002  LONG         Number of properties
+     00000006   ---         List of consecutive properties
+
+     Comment:  This is the same as a standard property block.
+
+
+     >> Format of Wav entry:
+     00000000   WORD        //separator value
+     00000002   LONG        user event for which Wav will be played:
+                                1       = Message
+                                2       = Chat
+                                3       = File
+                                4       = URL
+                                10      = Externals
+                                19      = Contact
+                                20      = Phone
+                                2007    = User ID       // Not in My Details
+                                2010    = Online Alert
+     00000006   LONG        0:play default WAV, 1:play the user-specified WAV
+     0000000A   WORD        length of file name
+     0000000C   ASCIIZ      full path and file name of WAV
+
+
+     >> Format of contact group (2000a and later):
+     00000000  WORD         // Separator value
+     00000002  LONG         Number of group properties
+     00000006               List of group properties
+
+     Comment:  This is the same as a standard property block.
+
+     >> Known group properties
+     Property                            Data type   Description
+     ----------------------------------- ----------- -----------------------------
+     FirstState                          LONG        Unknown (Visual state?)
+     GroupID                             LONG        3 = Awaiting authorization, 1000 and over
+                                                     means a user defined group
+     GroupName                           ASCIIZ      Name of the group
+     ParentID                            LONG        Unknown (always 0 in my test DBs)
+     ----------------------------------- ----------- -----------------------------
+     Comment:  Only GroupID and GroupName seems to be required
+
+
+     >> Format of contact group (99a & 99b):
+     00000000   LONG        Group ID:
+                                3 = Awaiting authorization, 1000 and over
+                                means a user defined group
+     00000004   WORD        Length of group name
+     00000006   ASCIIZ      Group name
+   $+00000000   LONG        Unknown, usually -1
+    +00000004   WORD        Group visual status, 0 = Closed, 1 = Open
+
+
+     >> Format of Event WAV entry (99a):
+     00000000   WORD        // Separator value
+     00000002   LONG        User event for which WAV will be played:
+                                1       = Message
+                                2       = Chat
+                                3       = File
+                                4       = URL
+                                10      = Externals
+                                19      = Contact
+                                20      = Phone
+                                2007    = User ID       //not in My Details
+                                2010    = Online Alert
+     00000006   LONG        0 = Play default WAV, 1 = play the user-specified WAV
+     0000000A   WORD        length of file name
+     0000000C   ASCIIZ      full path and file name of WAV
+
+
+     >> Format of Phonebook entry (99a & 99b):
+     00000000   WORD        length of phone number entry name
+     00000002   ASCIIZ      phone number entry name
+   $+00000000   WORD        length of area code text
+    +00000002   ASCIIZ      area code text
+   $+00000000   WORD        length of prefix text
+    +00000002   ASCIIZ      prefix text
+   $+00000000   WORD        length of country name
+    +00000002   ASCIIZ      country name
+   $+00000000   WORD        ??? (0) 1
+    +00000002   WORD        length of number (last 4 digits) text
+    +00000004   ASCIIZ      number text
+
+
+     >> Timestamps
+
+     >> Entry types
+
+	00h     - Message
+        09h	- System message
+        0Bh	- Chat log?
+
+     >> DAT Signatures
+
+     DAT signatures are sequences of 16 bytes that appear in the beginning of most
+     database entry types. They could be useful if you want to scan a DAT file for
+     certain types of data without using the IDX file.
+
+     Various messages:      E0,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     Chat request:          E1,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     File request:          E2,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     My Details:            E4,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     Contact:               E5,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     Reminder:              E6,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91
+     Note:                  EE,23,A3,DB,DF,B8,D1,11,8A,65,00,60,08,71,A3,91

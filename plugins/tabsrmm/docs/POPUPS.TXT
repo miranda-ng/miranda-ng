@@ -1,0 +1,84 @@
+
+tabSRMM event notifications (also known as "popups"
+---------------------------------------------------
+
+Beginning with 0.9.9.95, tabSRMM has its own event notification system 
+built into the plugin. That means, you should deactivate or uninstall
+existing event notifications plugins like NewEventNotify. If you want
+to continue using an external event notification plugin, you can disable
+tabSRMMs own system by doing the following:
+
+* Open Mirandas options dialog, go to Message Sessions -> Event notifications
+* Check "Disable ALL event notifications..."
+
+This will disable tabSRMMs own event notifications, and you'll never see popups
+or other types of notifications. You can then use an external plugin for
+this purpose (like any version of NewEventNotify.dll)
+
+In any way, you should always only have one system running at any given time.
+If you decide to use an external event notification plugin, then you should
+disable tabSRMMs internal system and vice versa. Having both active, may cause
+troubles like double popups and more. If you get double popups, then this is
+a strong indication for more than one event notification system being active.
+
+Why use tabSRMMs own event notification system?
+
+Simply, because it works better :) Since it is tightly integrates into the
+message dialog, it can do some things which an external plugin cannot. Also,
+most external plugins are written with top-level message windows in mind and
+therefore don't work very well with tabbed chat windows.
+
+Also, tabSRMMs event notify system is not limited to popups only. It can use 
+the following ways to announce incoming messages:
+
+1) popups (need popup.dll installed - I suggest using a recent version of
+   popup PLUS or YAPP - the latter being more stable and actively maintained.
+   
+2) On Screen Display (OSD). You can either use wbOSD or the old OSD plugin 
+   - both available on the miranda file listing.
+   
+3) Balloon (system tray) tooltips. Only available on Windows 2000 or 
+   later.
+   
+Configuration of event notifications is done on the "Message Sessions >
+Event Notifications" page. Most options should be familar if you have ever been
+using a NewEventNotify plugin.
+
+The "announce method" specifies in which way you want to see the event
+notifications (popups, osd or balloon tooltips). The combo box will only
+contain entries which are available (the necessary plugin is installed and
+detected).
+
+
+If you have choosen that you want to see notifications, even if a message
+window is already open (UNCHECK "Don't announce event when message dialog 
+is open"), you can further configure that on a "per container" base. You
+can find these options on the containers menu bar (Container->Event 
+popups")
+
+The relevant options are:
+-------------------------
+
+1) Enable popups if minimized
+   The container and all its tabs will show popups if the container has
+   been minimized to the taskbar.
+   
+2) Enable popups if unfocused
+   More aggressive popup behaviour. Now, you will always see event popups
+   unless the container is in the foreground (active and focused).
+   
+3) Always enable popups for inactive tabs.
+   This is the most aggressive setting. You will always see popups, UNLESS
+   the container is focused (in the foreground) and the tab which received
+   the event is the active one (selected).
+   
+The last option will basically show you popups for all your open sessions, 
+except for the session which is active (in the foreground).
+
+You can set default values for these under Options->Message containers 
+which will apply to containers at creation time. Once a container exists, 
+it has its own copy of these settings, so if you need to change them, you 
+will have to use the container settings dialog (right click the title- or 
+button bar of an open container or use the system menu and choose 
+"Container Options".
+

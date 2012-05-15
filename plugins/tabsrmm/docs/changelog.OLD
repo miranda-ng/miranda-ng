@@ -1,0 +1,2596 @@
+                                  Project Information:
+                                  ====================
+
+Name: tabsrmm
+Homepage: http://tabsrmm.sourceforge.net
+SF.NET Project Page: http://www.sourceforge.net/projects/tabsrmm/
+Support: http://www.miranda.or.at/forums/
+
+                               --------------------
+						
+				    Version History:
+				    ================
++ : new feature
+* : changed
+! : bufgix						
+- : feature removed or disabled because of pending bugs
+
+Version 0.9.9.100
+
+		Changelog is now provided online and updated more often.
+		http://miranda.or.at/2006/03/05/tabsrmm-changelog/
+		
+
+Version 0.9.9.99(3 - nightly build #47) - 2006/02/xx
+
+		+ added hotkey (CTRL-n) for sending a MSN nudge. Requires recent version of MSN plugin
+
+		* remmoved own copy of xStatus icons from tabSRMM. It is now using the ICQJ XStatus 
+		  API to get the icon (works only with recent versions of ICQJ).
+		  
+Version 0.9.9.99(2 - nightly build #46) - 2006/01/20
+
+		+ enabled the send menu entry to force a "timeout less" sending mode. The option can
+		  also be found on the contact preferences dialog (user menu) and basically does the
+		  following: If enabled, the message window does NOT wait for a sending confirmation 
+		  of the protocol. This means that you'll never get notified if something goes wrong
+		  while sending the message. Only enable it if you have constant timeout problems for
+		  this particular contact.
+		  
+		  This option is a "per contact" setting and there is no global counterpart. It is meant
+		  to help solving troubles with "problematic" contacts (that is, contacts which often
+		  cause timeouts when sending messages, because of networking or other issues).
+		
+		+ enhancement: The "vertical maximize" feature can now also be triggered by holding the
+		  CTRL key while clicking the maximize button. The old way of setting vertical maximize
+		  for each container permanently (container options dialog) is still available though.
+
+		* reduced the number of scrolling commands sent to IEView when resizing and/or creating
+		  the message window. This should speed up IEView somewhat when using more complex 
+		  templates.
+
+		* the info panel avatar now follows the avatar visibility setting on the Message Window->
+		  General option page. For example, if this is set to "Globally off", no avatars will
+		  appear on the info panel.
+
+		* message window avatar display(s) (both bottom and info panel) now respect the avatar
+		  service "Set as hidden" property which one can configure for a contacts picture.
+		  So you are no longer forced to view really ugly avatars :)
+		  		  		  		  
+Version 0.9.9.99(1) - 2005/12/27
+
+		+ added option to enable/disable drop shadows (options->Message Window->containers)
+		
+		! fix: the options to set message log background colors were disabled when using font
+		       service.
+
+Version 0.9.9.99 - 2005/12/23 - happy Xmas :)
+
+		* improvments for own avatar display. Now, this uses the avatar service (minimum
+		  version 0.0.1.11) for managing your own avatars. tabSRMM now always shows the proper
+		  avatar you have configured for a given protocol under Main Menu -> View/Change my details.
+		  
+		  Setting your own avatar in the message window is possible (right click your avatar image
+		  and choose "Set your avatar...". However, the menu entry may appear grayed which means
+		  that the protocol does not support setting the avatar from "outside" its own option
+		  pages. Currently, only MSN allows to set the avatar using an external service.
+
+		+ added workaround for the "Unknown Contact" problem with some protocols (fallback to 
+		  non-unicode nickname). (unicode build only).
+		  
+		+ added EXPERIMENTAL feature - real time message log trimming.
+		  
+		  What the.... ? 
+		  
+		  This feature was inspired (or suggested) by one user on the forum. At first,
+		  i thought that it is almost impossible to implement with the rich edit control as
+		  our message history viewer. But I found a reasonable way to do it anyway.
+		  
+		  It is for people who are rarely closing their message windows. As a result, a growing
+		  message history in the chat window(s) may consume HUGE amounts of memory, especially when
+		  emoticons and message log icons are enabled.
+		  
+		  The solution? Trim the message log to a maximum number of events (e.g. 200) - older events
+		  will disappear from the top of the message history and only the N most recent events
+		  will remain in the chat window. As a result, memory requirements may drop significantly.
+
+		  The feature is different from the already exsting "load N number of old history events",
+		  because it works in "real time". Whenever a new message is sent or received, the 
+		  message history will be trimmed at the top so that only old text will disappear.
+		  
+		  How to use?
+		  Set the global limit for all message windows on the "Message Log" options page. A per-
+		  contact setting is also available in the "tabSRMM settings" dialog which you can reach
+		  from the contacts context menu. The per contact setting overrides the global value.
+		  
+		  NOTE: changing this setting will not affect message windows which are already open,
+				so you need to close and re-open them.
+		  
+		  One word of warning, though. This feature has a side effect. In order to "know" where to cut
+		  off the message history, markers need to be placed in the text. The markers are hidden
+		  number sequences (which actually correspond to database event handles), but when you copy
+		  text from the log, the rich edit control will copy the hidden text. As far as I know, there
+		  is no way to avoid this.
+		  
+		  Also, depending on your template, the top of the message log may not always look perfectly
+		  formatted, because text is removed from the top only.
+		  
+		  NOTE2: won't work with IEView as IEView uses a completely different way of displaying
+				 messages and tabSRMM has no control over the contents of the IEView message history
+				 window.
+
+		! FIX: Alt-M didn't properly create the embedded multisend contact list.
+
+		+ added a color control for setting the info panel fields background color to the font
+		  configuration dialog. Previously, this was only possible with font service.
+
+		* improved avatar display on the info panel. Avatars will no longer waste horizontal space
+		  if their width is smaller than their height (like most ICQ avatars). The size of the
+		  avatar field is now properly calculated so that the avatar fits.
+		  Also, the info panel does no longer show the "unknown" avatar for contacts which don't
+		  have a contact picture available.
+
+		* redesigned the info panel somewhat. The ugly check box is gone, the fields have been
+		  re-arranged to allow more space for the nickname.
+
+		+ the option to allow active status message retrieval when hovering the info panel field
+		  can now be found under Options->Message Window->General
+
+		! bugfix - message window did not react on manual nick name changes on the contact list
+		  (changing CList/MyHAndle).
+
+		+ added a "simple" event popup configuration mode. Its on options->Message Window->Event 
+		  notifications and knows 3 modes:
+		  * Notify always -> popups will show for each message
+		  * Notify for unfocused sessions -> popups will show for minimized or background message
+		    windows.
+		  * Notify only when no window is open -> Message popups will only appear when no message
+		    window is open for that contact.
+		    
+		  The simple mode skips some of the advanced popup configuration options, including the 
+		  "per container settings". It also skips the "Sync sounds" option.
+
+		+ added the per contact infopanel setting to the per contact settings dialog.
+
+		+ added option to specify the type of border for the avatar(s) in the message window.
+		  There are 5 options:
+		  * None
+		  * Automatic
+		  * Sunken
+		  * 1 pixel solid
+		  * rounded border
+		  
+		  Automatic means that it will draw a solid border for normal avatars, while for transparent
+		  or semi-transparent images, a sunken frame will be drawn.
+		  The color for solid borders can be configured aswell. 
+		  
+		  The options are on the "General" tab, in the "Avatar options" section.
+
+		* fixed bug with non-appearing message log icons
+		
+		* fixed wrong hotkey Ctrl-C was opening the user preferences dialog instead of doing the
+		  usual copy action. User preferences is now on Alt-C
+		  
+		+ some smoother and less "jumpy" resizing when switching tabs after container size changed.
+		
+		+ when using the "Trim message log feature", the message input area now tries to delete the
+		  invisible markers when copying text from the message log to the message input area.
+
+		+ new hotkey: Alt-F (send file, brings up the send file dialog)
+		
+		! fixed a few minor visual glitches (button mode tabs clipping issues)
+				  		  
+Version 0.9.9.98 - 2005/11/07
+
+        * several sanity checks added (pointers, window handles)
+        
+        ! status bar remembers typing notification state when switching tabs even with
+          the session list button active.
+          
+        + added about dialog
+
+        ! fixed small visual glitch with multisend indicator
+        
+        + hotkey: Ctrl-T -> toggle menu bar
+        
+        ! local avatars (load a local picture) can now use relative pathnames when the picture
+          you selected is located in a subdirectory of your miranda folder.
+          
+        + added first run configuration dialog
+        
+        + added "per container themes". It is now possible to define a private .tabsrmm theme 
+          file for a container. This includes the entire theme, fonts, colors, template message
+          log settings.
+          
+        ! bugfix (UI problem in the global/local radio button of the user preferences dialog).
+
+        * changed multisend contact list. It is no longer created automatically for each tab
+          you open, instead, the contact list is only created when you activate the multisend
+          feature and destroyed when it is no longer needed. Saves quite *some* resources and
+          loading time, especially with complex contact lists (clist_nicer, clist_modern and
+          such).
+          
+        * updated for new smileyadd api (event for changed emoticon configuration). Changing
+          smileyadd options will now instantly reconfigure smileyadd settings in all open message
+          windows (button icon + smileys in the message window).
+
+        + added support for the updater plugin
+        
+        + removed tabsrmms own avatar loading and managment code. It now builds on top of the
+          avatar service plugin (loadavatars.dll). You need this plugin installed in order to
+          get avatars working.
+
+        + added ability to render transparent PNG images when set as local contact pictures by
+          the avatar service.
+
+        ! fixed bug with formatting parser - ignore messages when they contain curly braces ( {
+          and } ) to avoid conflicts with the rtf syntax.
+
+        * several unicode fixes (status messages, xstatus messages and names, title bar format
+          (%m variable) and more.
+
+		* upgraded build environment to Visual C++ 8.0 (VSNET 2005).
+		  New project file(s) are added to the source tree. tabSRMM_8.sln and tabSRMM_8.vcproj
+		  are VC++ 8 compatible project files and can only be used with visual studio 2005.
+		  The project files for Visual Studio .NET 2003 (tabSRMM.sln and tabSRMM.vcproj) are
+		  still available.
+		
+Version 0.9.9.97 - 2005/07/23
+
+        ! extended status tooltip working with all (recent) ICQ.dll builds. 
+        
+        ! fixed clock symbol for some special situations.
+
+        + new title format variable: %m -> meta status. Has nothing to do with metacontacts.
+          How it works: If an extended status is set, it will be used. If not, the normal
+          protocol status is shown. Also supports custom status mode names using the XStatusName
+          db setting (supported by ICQJ and ISee).
+          
+        ! typo in the template parser (%m variable)
+        
+        * removed smiley selection window focus workaround. No longer necessary, because 
+          fixed smileyadd doesn't mess up input focus any more.
+
+        + new shortcut: Ctrl-K -> clear input area
+        
+        ! fixed %D and %E variables
+        
+        + updated for smileyadd 1.5.0 (by borkra). Beginning with this release, tabSRMM does
+          no longer require its own smileyadd plugin and therefore this plugin has been removed
+          from the archive.
+          
+          I suggest to update to the most recent smileyadd, available from:
+          
+          http://www.miranda-im.org/download/details.php?action=viewfile&id=2152
+          
+          It is strongly recommended to use this version, because it fixes a lot of issues and
+          has some internal improvements. It is fully compatible with all SRMM-based message
+          windows and therefore works with SRMM, tabSRMM, scriver and others.
+          
+Version 0.9.9.96 - 2005/07/18
+
+        ! null pointer check when retrieving status message. Fixes crash when retrieving
+          status messages.
+        
+        ! fixed window icon problem (autoswitch related)
+        
+        * added range checks for the panel splitter (don't save/load "invalid" values)
+
+        ! fixed icon on the "visibility indicator" in the info panel (only, when
+          using the manual quick toggle mode).
+          
+        ! fixed "sticky" unread icon (didn't always go away when container got the focus.
+        
+        ! corrected some typos
+        
+        ! minor info panel fixes (toolbar menu)
+        
+        * allow close tab within error state (visible error controls), Unsent messages which
+          returned an error are canceled. Messages "in progress" may still be sent, but the
+          ACK will then go to nowhere after the msg window has been closed.
+        
+        * version bump (0.9.9.96)
+        
+        * added %x variable for the titlebar to show the extended status mode description.
+          The following variables are now available:
+          %n - Nickname
+          %s - Status mode description
+          %c - container name
+          %u - UIN
+          %p - protocol
+          %x - extended status mode description (icq only)
+        
+        + added ability to use underlined fonts in the message window when configured with
+          the font service plugin.
+
+        + the user notes field now follows the message input area configuration more closely.
+
+        ! some container settings didn't "stick" when set from the system menu or title bar
+          (stay on top, hidden titlebar)
+          
+        + added support for unicode popups (tabsrmm_unicode only, obviously). It will auto-
+          matically detect a unicode-enabled popup.dll and use it.
+
+        * removed the clock icon from the contacts local time display. It is replaced by clock
+          symbols from the Wingdings font.
+          
+        + added ability to configure several aspects of the info panel. Fonts and colors for
+          various fields can now be changed. Also, you can set up the background color for the
+          fields and their frame style.
+          Requires the font service plugin.
+          Frame style can be set on the "Tabs and layout" option page.
+          
+        ! fixed Alt-GR (right alt) problem with some hotkeys. 
+        
+        + added hotkeys: it is now possible to cycle tabs using the multimedia keys:
+          "Browser backward" switches to the previous tabs
+          "Browser forward" switches to the next tab.
+          This should work with all properly configured multimedia keyboards and most
+          mice featuring extended button mapping (e.g. it works with the Logitech MX 510)
+          If it doesn't work for you, then your system is not configured properly.
+          NOTE: requires Windows 2000 or later.
+          
+        * don't send typing notifications while opening a message window with a "saved" message.
+
+        * info panel can now retrieve and show custom extended status names and extended status 
+          messages (very recent build of ICQJ required). If no custom status name is available,
+          the "built in" will be used, depending on the extended status code.
+
+        ! ignore icon pack version info check was, well, ignored... :)
+
+        ! fixed %E variable (did sometimes convert date/time to empty strings).
+                
+Version 0.9.9.95 - 2005/06/28
+
+        * container icon and title is now set earlier so that the container does not
+          show "Dialog" while tabs are created.
+          
+        * fixed rtf parser to deal with some (rare) rich edit bugs.
+        
+        * changed tab layouting for single AND multiline BUTTON tabs. Both modes are
+          now using fixed width tabs and the layouting code will try to always "fill"
+          the rows. An option to set the default fixed tab width has been added 
+          to the tab appearance configuration dialog.
+          
+        + new feature for event notifications (popups only):
+        
+          tabSRMM can now remove popups for a contact under the following situations:
+          
+          1) container receives focus
+          2) you start typing a reply
+          3) you send a reply
+          
+          The feature can be configured on the Options->Event Notifications page (in the
+          listbox with all the checkboxes inside - at the very end of the list).
+          
+          Whenever one of these options is checked, tabSRMM will remove ALL popups for the
+          contact when one of the above conditions is true. Note that you can combine them,
+          but that doesn't make much sense. 1) (focus) always happens before any other event.
+          
+          The feature is pretty useful if you have multiple popups from a single contact on
+          screen.
+          
+        - removed status bar message "keyboard layout saved". No longer needed, because
+          the keyboard layout is now always visible as 2-digit code in the 2nd status bar
+          panel.
+          
+        * minor layout changes in the message window. Toolbar buttons are slightly smaller
+          and got a better look when using classic Windows theme (3d effect toned down a
+          a bit).
+          
+        * implemented a suggestion by Joe @ Whale, using IsUnicodeAscii() to check if a given
+          message really needs to be sent as unicode. If not, the message is sent ANSI only.
+          The advantage is that this may save A LOT of database / history size, because it
+          avoids storing every message twice (both ansi and UCS-2 parts). With the new
+          system, an UCS-2 part is only saved (and sent) when needed. Messages containing 
+          7bit characters only (0x00 - 0x7f, most latin characters) are safe to be sent as ansi.
+          
+        ! fixed bug with formatting buttons
+        
+        * removed "ding" sounds when using some hotkeys (Alt-S for example)
+        
+        * various langpack updates
+        
+        * ICON PACK: updated "unknown.bmp" (default avatar image). Thanks to Faith for the
+          .bmp.
+          
+        * several (internal) changes to focus handling and tab activation. Some things have been
+          simplified in the code, and in some areas additional safety checks were added.
+          May result in new focus/redraw bugs, but overall, the new system is an
+          improvement. It just needs to stabilize.
+          
+        * toolbar buttons are now always "flat" when using visual styles under XP. They no
+          longer use push button skinning. Beveled (3d) buttons are still available for 
+          classic windows theme.
+          
+        * DISMISS EVENT is back, but with a big warning when you first activate it / and or
+          run miranda with that option active. Also, it is only available for "click" actions,
+          you cannot set dismiss event for the popup timeout action.
+        
+        * the tab control is now a full window class, and no longer only subclassed.
+                          
+        + new hotkeys:
+          ALT-I: quick show / hide the info panel
+          ALT-B: toggle BiDi option (switch between RTL and LTR)
+          
+        * new option to format the title bar using variables. The format string for the title
+          bar is simple and may be up to 50 characters long. It can contain any text you want
+          and the following variables as placeholders:
+          
+          %n - Nickname
+          %p - protocol
+          %u - UIN
+          %s - Status mode
+          
+          You can set the default format string for all containers under Message Sessions->
+          Message Window->Containers.
+          
+          You can also set a private title bar format string in the container options dialog.
+          Just tick "use private title format" and set the format template string.
+          
+        * possible fix for a rare redrawing bug, resulting in black background on tabs (visual
+          styles, tabs at the top only).
+        
+        * prevent custom template background colors from taking the rgb value 0,0,0 to avoid
+          a problem with icon transparency and "pure" black bg color. A pure black bg color
+          is converted to rgb(1,1,1).
+                                                                 
+        + added support for the FontService plugin by sje to customize message window fonts and back-
+          grounds. If font service plugin is enabled, tabSRMMs own font+color configuration page
+          is disabled. However, tabSRMM still maintains its own copy of font + color settings in
+          the DB so that you can switch between using font service and the old dialog easily.
+        
+        + restored "mark on double click" for the message history log.
+        
+        * the info panel splitter now follows the settings for the normal splitter (global, private
+          saving policy etc.).
+          
+        + added visual styles support for button tabs (using pushbutton skins).
+        
+        ! fixed transparency issues when changing focus
+        
+        + activating the smiley selection window does no longer switch containers transparency to
+          "inactive".
+          NOTE: requires new build of smileyadd.dll (included in this release) and does NOT work
+          with IEViews smiley selection window. Sorry for that, but it needs a small change in
+          the smiley selection window code. So I would have to distribute a modified IEView aswell
+          (which I don't like).
+          
+        + added global options for container(s). The container options dialog now allows you to
+          set the options for any container to "global" or "private". All containers using global
+          options share one set of container configuration flags (and transparency values).
+          Title bar format and container window position/size can be set independently to either
+          global or private.
+          
+        + added the info panel allowing for dual avatar display.
+        
+        + added idle detection (if the protocol supports it) and render icons "dimmed" for idle
+          contactst.
+          
+        + improved support for international nicknames. tabSRMM can now encode nicknames with the
+          ANSI codepage you've set for a given contact. To set a codepage, do the following:
+          * right click the message log in an open tabSRMM message window and select a code page
+          OR
+          * use the user preferences dialog (tabSRMM settings), available from the contacts context 
+            menu
+            
+        + more info panel stuff - ability to show the local time of the contact (if a timezone is
+          provided). Now also shows the protocol beside the status mode.
+          
+        + hovering the status field in the info panel will try to retrieve the away message for
+          that contact and show it using a tooltip. Away msg retrieval is limited to once per
+          minute to avoid abuse by flooding the contact with awaymsg requests.
+          The little checkbox between the avatar and the status field can be used to disable
+          that feature (to avoid "accidentially" retrieving the status msg).
+          
+        + tree views in various option pages were updated to use better check box and node
+          images.
+
+        + support for the scrolling service in future builds of IEView was added. Now, ieview
+          will always properly scroll down the message log.
+          
+        + setting the own avatar, using the bottom avatar display (when the info panel is active)
+          will now set the protocols avatar. At the moment, this works only with MSN, because
+          it's the only protocol providing the SetAvatar service.
+
+        + added support for extra status icons (icq5). Requires a recent build of ICQJ (alpha) or
+          ISee. The extra status icon is visible in the info panel, just in front of the nickname.
+
+        + added ability to set a timezone for any contact, using the user preferences dialog box
+          (tabSRMM settings in the user context menu). This will work with all protocols and 
+          OVERRIDE the contacts timezone provided by the protocol (currently, only icq provides a
+          timezone information).
+          
+          If a valid timezone is found, the contacts local time will be shown in the info panel,
+          and can be used for message log timestamps.
+
+        + added "paste and send" feature. Available as a hotkey (Ctrl-D) or from the context menu
+          in the input area. Pastes the current contents of the clipboard to the message input area
+          and immediately sends the message. Needs to be enabled under Options->General->Sending 
+          Messages.
+          
+        + added tooltip to the info panel nickname field when the contact has set an extended
+          status (icq only).
+
+Version 0.9.9.95pre7 - 2005/05/23
+
+        * double click works again for closing tabs (even with button tabs)
+        
+        ! bugfix: redraw errors when restoring a maximized container
+        
+        + added a help window to the template editor describing all the variables and
+          modifiers.
+          
+        * 2nd try to fix Ctrl-W and Ctrl-F4 (Win 9x only)
+        
+        + added option to force some extra redraws (options -> tabs and layout -> Force
+          more aggressive window updates). If enabled, it will force additional re-
+          draws.
+
+        * optimized visual styles rendering on the tab control. Don't draw unneeded stuff.
+        
+Version 0.9.9.95pre6 - 2005/05/20
+
+        ! bugfix - tab control did not use the proper visual style part for leftmost
+          tabs.
+          
+        ! bugfix - in some cases, the wrong font was used for drawing the tab labels
+          so that they appeared oversized and clipped (or the opposite which resulted
+          in too much padding).
+
+        ! fixed Ctrl-W and Ctrl-F4 causing crashes.
+        
+        * rewrote automatic container creation. Should be faster now, and hopefully
+          with less problems.
+          
+        * changed visual style drawing method on tabs. Now, it uses real transparency
+          so it should work with all visual styles w/o drawing problems or inaccuracies.
+          
+        ! when changing the style or theme, tab colors are re-read when using standard
+          windows colors to draw tab labels and backgrounds.
+                    
+        + added current 2-digit input locale identifier to the status bar.
+        
+        + autlocale does no longer use WM_INPUTLANGCHANGEREQUEST, because that's causing
+          troubles with some systems (reasons unknown). Instead, it now uses WM_INPUTLANGCHAGE
+          
+Version 0.9.9.95pre5 - 2005/05/20
+
+        ! fixed bugs with the new custom tab control. No more label clipping errors
+          (hopefully). Also, when using classic windows theme, bottom tabs are
+          are restored to their default look and no longer show as buttons.
+          
+        + added option to use standard windows colors for button style tabs to mark the
+          active and hot-tracked tab.
+          
+        + added "autolayout" option for single row tab controls. If enabled, all tabs
+          will have the same width, depending on the number of tabs and available
+          space. Works only, if the tab control is in "single row mode". Tab text will
+          be clipped accordingly and filled with ellipsis (...), if needed.
+          
+          The option to set the tab control to "single row" has been removed from the
+          container options and moved to the "Tab Appearance" dialog. It is now a
+          global setting. Multi-row tab controls are still supported however.
+          
+        ! fixed weird bug with mousewheel behaviour when IEView is active.
+        
+        * changed the "tabs and layout" option page to use a tree view with check-
+          boxes to make it consistent with other option pages.
+          
+Version 0.9.9.95pre4 - 2005/05/20
+
+        * docs updated (Popups.txt, readme.txt, README.ICONS)
+        
+        + added an option to disable tabSRMMs internal event notifications system
+          (options -> Message Sessions -> Event notifications). Use this, if you
+          want to continue using an external NewEventNotify plugin. This will only
+          prevent tabSRMM from showing popups or other notifications. Things like
+          the session list will continue to work.
+          The same switch is available on the tray context menu (Disable all event
+          notifications)
+
+        ! don't re-create the tray icon after explorer crash, if tray icon support
+          is disabled.
+          
+        + variables added: %cX for setting a font color, & as variable modifier to
+          "skip" the contextual font setting.
+          
+        * improvements to the tray and floater. There is a new option to show the 
+          floater only when the contact list is minimized (not visible). Also, a bug
+          with windows minimized to the tray has been solved.
+          
+        * optimized the template parser for more speed (as a penalty, the code size
+          increased a few k).
+
+        * several UI improvements to increase usabilty.
+        
+        + added custom tab control with the ability to show skinned tabs at the bottom
+          properly. Also, it can be configured to act as a "button bar".
+          Right click a tab and choose "Configure Tab Appearance" to set some
+          options.
+          
+          In "classic mode" (visual styles not available or disabled), bottom tabs
+          will always look "flat" (like a switch bar).
+          
+        + added mousewheel-controlled tab switching. If you move the mousewheel while
+          the pointer is over the tab bar area, it will switch tabs. Moving the wheel
+          upwards will switch to the previous tab, while moving the wheel downwards
+          will switch to the next tab.
+        
+        + added flicker-free avatar drawing
+        
+        + changed grouping mode slightly. Last midnight will now break a group in any 
+          case, so messages from yesterday cannot be grouped with messages from today.
+          
+Version 0.9.9.95pre3 - 2005/05/10
+
+        ! fixed HUGE bug with bbcode color handling.
+        
+        ! fixed memory leak in ShowPicture() (avatar handling). thanks to ghazan.
+        
+        + added various settings to the message log and general options pages (icon/
+          symbol config, default send format).
+
+        + attempt to fix the mouswheel problem.
+        
+        ! fixed month number variable
+        
+        + added %fX variable (switch to font).
+        
+        * autoreplacer should work again.
+        
+        * fixed few visual glitches (multiple send indicator and switch toolbar on/off,
+          overlapping multisend indicator and message input area).
+          
+        * free() sendqueue buffers in Unload() to stop BC complaining.
+        
+        * msg log icons are no longer cached to allow fully "transparent" icons in
+          the message log. slightly slower when loading lots of events, but not 
+          dramatically.
+        
+        ! fixed bug with WYSIWYG formatting in the input box.
+
+        * bbcodes are no longer stripped when bbcode support is off. They are now ignored.
+
+        * redesigned the event popups option page. Separate settings for the floater are
+          now available. 
+          
+        + added option to show/hide floater (independent of tray icon support)
+        
+        + added option to show the floater functionality in the message window. If enabled,
+          the status bar will show a small icon in the bottom left corner. Left click it
+          for a session list (list of open tabs), right click it for the tray menu to access
+          favorites, recent list and some global options. Again, this option is not related
+          to tray icon or floater support and can be enabled without the tray icon or the
+          floater being visible.
+
+        * some improvments to the template editor.
+        
+        + fixed bug with favorite contacts menu.
+        
+        + New hotkeys added:
+          Alt-NumPad/ -> set focus to the message log
+          Alt-NumPad* -> set focus to the message input area
+          Alt-M       -> activate multisend mode (and set the focus to the multisend contact list
+          Alt-NumPad+ and AltNumPad- cycle tabs (same as CtrlPgUp/Dn)
+        
+        ! fixed bug with IcoLib support (icons disappearing, crashes)
+        
+Version 0.9.9.95pre1/2 - 2005/04/15
+
+        + added message templates for the default message log. As a result, many options
+          are now different or gone, because they can be replaced by using custom
+          templates in a better way. 
+          
+          Please refer to: http://www.miranda.or.at/forums/index.php/topic,610.0.html
+          for some documentation about available variables and templates in general.
+          
+        + Icon packs have been updated with proxal icons. Both the XP and the default
+          (98/ME) packs are now using the icons from the proxal set).
+          
+        * no more smiley button in forwarding sessions, both for smileyadd and ieview.
+          Depending on the smiley pack configuration, smileyadd or ieview may crash,
+          because forwarding windows are not assigned to a specific protocol.
+          
+        ! quoting selection with ieview may fail in a few very rare cases.
+        
+        * Splitter position is now saved in a private database entry. It is no longer
+          shared with SRMM or other SRMM-based message windows. As a result, message 
+          windows may come up with a default splitter position.
+        
+        + added support for SRMM-style "focused" and "unfocused" incoming message
+          sounds. Focused, in that context, means that the container needs to be the 
+          foreground window and the tab needs to be active. All inactive tabs or containers
+          are considered "unfocused".
+          
+          Sound effects can be configured under Miranda Options->Events->Sounds
+          
+        + added quick sound toggle switch on the status bar. The icon shows whether
+          sounds are off or on. Clicking the icon will toggle sound effects, holding
+          SHIFT while clicking the icon will apply the current state to all *open*
+          containers. Sound toggle is a per container setting and will be saved when
+          you close a container.
+          
+        + save the font for the input area under SRMsg aswell so that the MSN plugin
+          will find it.
+          
+        + the rich edit log can now recognize simple BBCode tags for formatting text in
+          bold, italic and underline.
+          
+        + The parser has been updated and can now convert the rich edit output from the
+          message input box into bbcodes. It can still parse to "simple" tags (the */_
+          stuff) though. There is a new submenu in the protocol menu on the toolbar which
+          allows you to select which formatting method you want. You can also set this
+          "per contact" since not everybodys IM client can handle bbcodes.
+          
+        + the message grouping mode has been overhauled. Just check it out - it looks 
+          better :)
+          
+        + integrated an own version of event notifications. tabSRMM no longer requires a
+          EventNotify plugin. This stuff has a lot of options, including support for system
+          tray baloon tooltips instead of popups (these can announce unicode messages). Also,
+          a very comprehensive system tray support has been added. 
+          
+        ! fixed a very rare unicode-related problem when using ieview.
+        
+        + added message API 0.0.0.3 as outlined in SRMM.
+        
+        + added 2 submenus to the right-click tray menu: "Favorite Contacts" and "Recent
+          Sessions". The first lets you save up to 20 contacts as favorites. To save a
+          contact as favorite, open a message window and click the small dropdown button
+          on the toolbar, right of the user menu button. There is a submenu called "Favorites"
+          which allows you to add or remove a contact from the list of favorites.
+          
+          The "Recent Sessions" list automatically saves the 20 most recently used sessions
+          (whenever you close a message window). Both favorites and recent sessions are
+          stored in the DB, so they will survive a miranda restart.
+        
+        + added "auto select and copy" for the message history log. If you release the left mouse 
+          button when text is selected in the log it will be copied to the clipboard instantly.
+          You need to enable this on the "General" option page ("Auto-copy message log selection")
+
+          * Hold CTRL to instantly insert the selected text in the message input area (plain text)
+            at the current cursor position (may replace any selection in the input area).
+          * Hold CTRL-ALT - as above, but inserts formatted text
+
+        * changed hotkeys: Alt-Left/Alt-Right for tab switching to Ctrl-PgUp/PgDown. Alt-Left/Right
+          causes some strange and annoying effects with some non-western keyboard layouts. 
+          Reasons unknown so far.
+          
+        + added hotkey to invoke the Protocol Menu: Ctrl-P (works with and without toolbar visible).
+        
+        + included a new build of smileyadd which should fix the "gadu gadu" protocol bug (no smileys
+          visible on GG). The included smileyadd.dll is for TABSRMM ONLY.
+          
+        ! various resource leaks fixed - thanks to ghazan for hunting them down :)
+        
+        ! automatically creating tabs or windows does no longer switch and "steal" keyboard
+          layout (autolocale bug)
+          
+        ! IEview no longer steals focus from the input area when a container has been created in
+          the background (minimized)
+
+        + added option to disable animation when minimizing containers to the system tray
+        
+        + added tooltip for the tray icon so that XP remembers the autohide status of this icon.
+        
+        + various popup fixes - they now show auth and added requests properly (including nickname
+          and protocol from which they came).
+          
+        * the "add contact bar" is gone, because it was wasting way too much screenspace and made
+          the dialog layouting more complex than necessary. Instead, 2 buttons (Add it, Don't add)
+          are now visible for any contact which has not been permanently added to your contact list.
+          These buttons appear just right of the message input area (and left of the avatar, if
+          present) and are independent of the toolbar setting.
+
+        + added support for IEViews "save message log as html" feature. Choose File->Save Message
+          Log As..." from the menubar.
+          
+        * reorganized message log options. Message log formatting is now global by default. A new 
+          dialog has been added to the user menu (Messaging Options) which allows you to override
+          all "per contact" options.
+          
+        + added hotkey: F12 toggles "freeze message log updates". When enabled, all updates to the
+          message log are frozen until you disable it again. That means, new messages are NOT sent
+          to the message log. However, these messages are not lost, they are internally queued and
+          will be written to the message log when you unfreeze it. This is useful, if you want to
+          read the message log w/o being disturbed by new arriving messages causing the log to scroll
+          to the bottom automatically.
+          
+        + added better mouswheel handling. Using the mousewheel now scrolls the control with the
+          pointer in it (no need to change focus).
+
+        * replaced the tray-icon double click with a middle mouse button click action.
+        
+        ! fixed: wrong (own) nickname may show up in the message log history for metacontacts.
+
+        + tray icon will now be recreated after explorer has crashed (and restarted).
+                          
+        * Meta Contacts support: show user details page of current protocol instead of the meta
+          contacts page.
+
+        + added a "floater" to access the session list and tray menus when tray icon support is
+          disabled. The floater is a small window which will stay on top and has 2 icons - one
+          will open the session list, the other will give you access to the tray icon context
+          menu holding some options and the favorites and recent menus.
+          Useful if you don't like the tray icon or usually work with a hidden taskbar.
+          
+Version 0.9.9.94 - 2005/04/11
+
+        * small fix with static avatars and toolbar button hiding.
+
+        + added support for the Math Module plugin. Requires recent MathModule
+          version. MathMod support can be activated on the Message Log options
+          page (only, if the plugin is active, otherwise the option is grayed out)
+          
+        * attempt to fix a rich edit "feature" which may sometimes  automatically change 
+          input locale (keyboard layout).
+
+Version 0.9.9.93 - 2005/04/11
+
+        * updated translation template, added german translation
+        
+        * some option pages updated (conditionally enable/disable controls)
+        
+        * removed unused "Sound" submenu from the menu bar.
+        
+        * icon descriptions for IcoLib are now translateable (see the section at the
+          end of the language template).
+          
+        + added MS_MSG_GETWINDOWAPI ("MessageAPI/WindowAPI") service for Message 
+          API 0.0.0.2 specs
+        
+        * when using the "Send Later" send mode, a log message informs you about
+          successfully passing the message over to buddypounce. If using IEView, the
+          message is printed to the status bar instead.
+          
+        * MetaContacts support - the status icons in the title bar and on the tool
+          bar are now showing the actual protocol icons. Also, smileyadd will now use
+          the smiley set which has been configured for the actual protocol. No more
+          need to define an extra smiley set for the MetaContacts protocol (does not
+          work with IEView though, because IEView does its smiley selection alone).
+          
+          Consequently, the MetaContacts control menu has been moved from the status
+          bar to the tool bar -> right click the protocol button for the MetaContacts
+          context menu.
+          
+        ! fixed small visual glitch with the add contact bar.
+        
+        * changed memory handling for the sendqueue and input history.. fixed possible 
+          memory corruption with DBCS strings.
+                    
+        * some IEView related updates.. codepage for force ansi send mode
+        
+        + quoting support for IEView (requires very recent IEView, not yet released)
+        
+        + bumped version requirement. Beginning with 0.9.9.93, tabSRMM REQUIRES Miranda
+          0.4 or later.
+          
+Version 0.9.9.92 - 2005/03/31
+
+        * plugins like HTTPServer (and all others which try to feed text into the message 
+          input area) should now work with the unicode version of tabsrmm.
+        
+        ! fixed broken dialog layout on forward message
+        
+        ! nicknames may again contain characters like { and } w/o messing up the message
+          log display.
+        
+        * status bar remembers typing notification state
+        
+        * static avatar code changed. It's now really static, although, internally
+          it is using the dynamic resizing code aswell. Static avatar mode can be
+          selected on the "General" options page, and you can specify a height limit for
+          avatars. Bigger images will be scaled down accordingly. When moving the splitter
+          upwards, the image will be vertically centered within the available space.
+          The splitter position may be adjusted to make enough space for the avatar.
+          
+          NOTE: If you set the limit to 0, the avatars are hard limited to 100 pixels
+          in height (MSN appears to have the biggest avatars at 96x96 pixels).
+
+        ! GUI fixes (option pages)...
+        
+        + it is now possible to set RTL as default text direction (Message Log options
+          page). The per-contact override is still working though, so if you have RTL set
+          as default, you can switch to LTR for some contacts.
+        
+        ! splitter position is now decoupled from the message log settings. There is a new
+          submenu in the protocol menu dropdown on the toolbar where you can setup splitter
+          parameters (global, local, private).
+          
+          Global: all tabs / windows use the same splitter position. Note that, when using
+                  static avatars, splitter position may need to be corrected so that the avatar
+                  can fit.
+          
+          Per contact: Each contact has its own splitter position.
+          
+          Private: This works as an "per contact" override. When using private, this contact
+                   will always use its own splitter position and ignore global settings
+                   completely. Useful, if you basically want a global splitter position, but 
+                   override it for a few contacts (for whatever reason given).
+
+          Also, the splitter menu allows you to disable auto-saving of the splitter position
+          when a tab is closed. "Save now" does exactly this - it saves the splitter position
+          depending on the current mode (global, per contact, private).
+                             
+        ! fixed some issues with forwarding and non-standard container modes (single window, 
+          limited # of tabs/container).
+          
+Version 0.9.9.91 - 2005/03/28
+
+        * non-unicode version now sets the IEEF_NO_UNICODE flag for IEview. That may
+          resolve some crash problems.
+          
+        * some fixes related to the new icon loading stuff (ico lib).
+        
+        * rich edit max size fix for the message log
+        
+        * more aggressivly obeys the maxmessagelen flag returned by a 
+          protocol to set the maximum allowed size of a message typed into the input
+          area.
+
+        ! fixed typing notify icon in contact list and tray (did appear as blank).
+        
+Version 0.9.9.9 - 2005/03/24
+
+        * after quoting, input focus is set to the message input area.
+        
+        + added support for the IcoLib plugin. If IcoLib is installed, you can change
+          tabSRMM icons using the GUI provided by IcoLib. You still NEED to install
+          an icon pack and put it into \plugins. This icon pack provides the default
+          icons, and you must not remove it, even if you override icons via IcoLib.
+          
+          Iconpacks are still supported, so if you don't use IcoLib, you can still
+          change your icons by installing a different tabsrmm_icons.dll.
+          
+        - the feature to load an icon pack at runtime has been removed, because of the
+          IcoLib support. IcoLib is a more comfortable way to change your icons at
+          runtime w/o having to restart miranda.
+          
+        ! fixed vertical maximize when taskbar is at the top (hope so)
+        
+        * the avatar does no longer react on left button clicks. This stops the flickering
+          aswell. Right button click still works and opens the context menu.
+          
+        + added new send mode "send later". Buddypounce plugin is  required for this
+          (otherwise it is disabled). It will just pass the message to buddypounce for
+          later delivery. Note: since buddypounce does not support unicode messages,
+          an implicit "force ansi" send mode is used.
+        
+        * dialog layout tweaks. It is now possible to get rid of all borders, including
+          the outer tab control padding. The relevant settings are on the "tabs and
+          layout" option page. You can set inner and outer border/padding values. It's
+          a bit hard to explain what they do - best thing is to play around with them
+          
+        + new options (message log option page). "Attempt to fix future timestamps.
+          CAUTION: may have side effects. What it does is simple: When appending incoming
+          events during a session (while the window is open), it does not check for the
+          timstamps and just appends them to the log. This will fix the issue, that messages
+          with a timestamp "in the future" will always appear at the bottom of the log.
+          It works only wile the window is open, it does not and CAN not work for loading
+          the history.
+                  
+Version 0.9.9.9 - 2005/03/19
+
+        ! vertical maximize didn't allow to restore the window from the taskbar
+        
+        + new hotkey Shift+Alt T toggles the menubar in the current container (remember,
+          Alt-T toggles the toolbar).
+        
+        * vertical maximize can now be set quickly from the menu bar (view menu).
+                  
+        + added handler for ACKTYPE_FAILED (possibly used by "delete avatar" feature(s)
+        
+        * changed smileybutton icon handling - if no button smiley is available in the
+          smileypack, the icon from the icons.DLL is now used by default.
+        
+        * when "send formatting info is disabled", formatting buttons are hidden from the
+          toolbar.
+          
+        * shift-clicking the user menu button now copies the real UIN of a metacontact (the
+          UIN of the "most online" protocol) and not the metacontact UIN itself (which is
+          pretty useless).
+          
+Version 0.9.9.8 - 2005/03/04
+
+        + added icon pack version information. Valid icon packs need to contain a string
+          identifier ("__tabSRMM_ICONPACK 1.0__") in order to be recognized. You can still
+          load icon packs without this identifier, but you'll get a warning message.
+          This was added to avoid problems when specifiyng a DLL which is, in fact, not
+          a valid icon pack for tabSRMM. In such cases, the plugin could even crash badly
+          on startup, which can be a very annoying (and hard to find) bug.
+          
+          Also, with version information in the icon pack, future versions of tabsrmm may
+          work with "old" icon packs.
+          
+          When you edit an iconpack, DO NOT change the string table identifier. The ordinal
+          number for the string identifier is 101.
+          
+          The version check can be disabled on the "tabs and layout" page (just below the
+          option to load a new icon pack at runtime) by unchecking "Perform version check on Icon DLL"
+          
+        + added option to "vertical maximize" a container (per container setting). If enabled,
+          a container is maximized only in its vertical dimension, so that the window will
+          take the entire screen *height*, but will keep its current width. When disabled,
+          the container will show default maximize behaviour (taking entire screen).
+          
+        ! fixed bug with soft line feeds (SHIFT-Enter) when sending formatting info is enabled.
+        
+        * changing message log or other option will no longer wipe the text from the input
+          area.
+        
+        ! reset last eventtype and timestamp (for grouping messages) before rebuilding the log.
+          This fixes an issue where the first message in the log could be visible with "in group"
+          formatting (w/o an icon, nickname and long timestamp).
+        
+        ! ctrl-enter inserts linefeed when "send on enter" is active. I broke that a few
+          versions ago.
+        
+        * if an ansi codepage is set for the current contact (right click the message log and
+          select a codepage), the unicode version now uses this codepage to encode the ansi
+          part of the message. If no codepage is set, the default, system wide, codepage (CP_ACP)
+          will be used. This will only affect the unicode version, the ansi version is always
+          using the current codepage.
+          
+        * force ansi send extended to receive - if set, messages received from a "force ansi" 
+          contact will ignore the unicode part.
+                    
+Version 0.9.9.7 - 2005/03/04
+
+        ! re-enabled the "show multisend" menu bar item.
+        
+        ! export/import themes now show the appropriate file selection window (open/save as)
+
+        ! fixed send on shift enter.
+        
+        ! "Flat message log" now tries to remove static edges from ieview and message input 
+          area aswell.
+
+        ! detecting IEView on startup didn't work with some configurations. 
+        
+        ! When "send formatting info" was active in the non-unicode version, additional
+          linefeeds were sent at the end of each message.
+          
+        ! new send mode - force ANSI. When enabled, messages will be sent as pure ansi,
+          using the current codepage. Useful when the client of your buddy has troubles
+          receiving unicode messages. This setting is a "per contact" OVERRIDE and WILL
+          STICK even if you close the message window until you deactivate it.
+          This has only an effect in the unicode version of tabSRMM - the non-unicode always
+          sends ANSI.
+
+        + the protocol menu is back. At the moment, it has only one submenu for configuring
+          the message log. It is now possible to switch between rich edit and IEView "on the
+          fly" while the message window is open. Please note, that these settings are saved
+          to the contacts db record, so you can now override the message log being in use
+          on a "per contact" basis.
+          Example: You have set the default option to use the IEView plugin (message log
+                   options). You can now override this setting for a specific contact and force
+                   the default message log.
+                   (or vice versa, of course).
+                   
+        + made hotkeys translateable. Please refer to the translation template included in the
+          archive to figure out which strings need to be translated. The hotkeys are at the 
+          very end of this file.
+          
+        + new hotkey - Alt-T (default). Toggles toolbar quickly.
+                   
+Version 0.9.9.6 - 2005/02/23
+
+        ! flicker-free formatting button update
+        
+        ! changed multisend UI a bit. There is now a new button just right of the send button.
+          It's called "send menu" and looks like a small dropdown toolbar button. If you click
+          it (hotkey is Ctrl-S) a menu will open, allowing you to set the sending mode. 3 
+          modes are available at the moment:
+          1) Default (send to contact only).
+          2) Send to multiple Users - will open the multisend window, allowing you to choose
+             up to 20 contacts.
+          3) Send to container - this replaces the /all command (which didn't work well with 
+             the new message input box code anyway) and will send the message to all tabs
+             in the current container.
+             
+          More "sending modes" may be added in the future.
+          
+          The old multisend button is gone, however, if you are in *any* multisend mode, an
+          icon will appear left of the input box, indicating that the message you are typing
+          *may* be sent to more than a single contact.
+
+        ! applying any options does no longer hide the error controls, if the window/tab is in
+          "error state".
+          
+        * support for IEView's smiley-selection window added. If you have enabled the support 
+          for the "external log" (ieview), the smiley button will now show IEViews smiley 
+          selection control. This requires IEView 1.0.1.7 or later.
+          
+Version 0.9.9.5a - 2005/02/22
+
+        Bugfix release only.
+        
+        ! tab icons were partially broken because of the "load icon pack at runtime" feature.
+        
+        ! The menu entry to select in/out icons did not work properly.
+        
+        ! when loading a new icon pack at runtime, all message windows will be closed before
+          applying the new icons. A dialog box will inform you about this and you can, of course,
+          cancel the process.
+          
+        ! the "protocol menu" button was visible, even it does not (yet) provide any functionality.
+
+        ! The option "do not resize avatars less than x pixels in height" should now work ok.
+        
+        ! fixed possible problem with unicode detection.
+        
+Version 0.9.9.5 - 2005/02/17
+
+        First, this requires a new tabsrmm_icons.dll format. Icons have been added , so you'll
+        need to upgrade your icon packs. You can use the provided .DLL files as a template
+        as always. The new ordinal numbers are:
+        
+        #19 secureim disabled
+        #20 secured connection
+        
+        19 and 20 are only necessary, if you have a tabsrmm compatible SecureIM.dll (which
+        is not yet available).
+        
+        #21 this icon is now used for status changes
+        
+        + merged std's patch for improved indenting with tabstops. This option works best
+          with the following msg log settings:
+          *) grouping enabled
+          *) message body in a new line
+          *) mark followup messages with timestamps
+          
+          It is a new message log option, available either as global or per-contact option
+          (depending on the message log option mode - global or per-contact).
+
+        + merged Ghosts patch for interaction with the SecureIM plugin. It needs an updated
+          Secure IM plugin which is not yet released.
+          
+        ! fixed a resizing issue with "windowshade" mode (if you're using windowblinds or other
+          utilities which support "rolling up" a window and reduce it to the title bar only.
+
+        * changed the option pages to use a tab control. Now, tabSRMM inserts not more than
+          2 entries into the options "tree" of Mirandas main options dialog.
+          * Message windows (all settings concerning the log, containers, layout etc.)
+          * typing notify (the old typing notify dialog).
+          * fonts and colors - still an extra page.
+          
+          Thanks to JdGordon for providing the sample source code :)
+
+        + options->fonts and colors: New setting "Extra microspacing at the end of a paragraph". 
+          Does exactly this. It adds "n" pixels of additional space after a paragraph and 
+          before the grid line (if using them). This is to avoid the rather ugly look with 
+          some fonts, where characters like "j, g, y" etc." are sitting directly ON the 
+          grid line. You have to tweak this setting depending on the font you are using 
+          for displaying messages - some fonts need it, others dont. Set it to 0 to
+          disable the effect.
+          
+        + The hotkey Alt+X now works like in other programs - it interpretes the characters 
+          preceding the cursor as hexadecimal representation of a valid unicode character code
+          and inserts this character right at the cursor.
+          e.g. type "263a" and hit Alt+X - it will insert a little face.
+
+        ! in status change events, the nickname was displayed with the wrong font/color setting
+          (own nickname configuration).
+
+        * changed ACK code - the "per message window" ack handler is now replaced by a global
+          ack dispatcher.
+          
+        + multisend is back, still EXPERIMENTAL though. Use with care and be warned that some
+          stuff, like error handling, doesn't work as it should. Multisend is currently limited
+          to 20 contacts/send - this may or may not change in the future, depending on how well
+          it works.
+          
+        ! when creating tabs minimized in the background, the container didn't always flash as
+          it should.
+          
+        + added new icon to the tabsrmm_icons.dll ordinal #21 - used for status change messages 
+          in the message log.
+          
+        + added new color option in the "Fonts and colors" dialog. It is now possible to set the
+          color of the *horzontal" grid lines independently of the background color. The vertical
+          grid lines can not use this color (its a rich edit limitation), but you can disable them
+          if you want.
+          
+        + added *basic* theming support. The message log menu (menubar or toolbar button) contains
+          2 new entries which allow you to export or import all visual settings to/from .ini
+          format files. The following things are exported:
+          * all fonts (including colors, style, charset etc..)
+          * all background colors
+          * all message log formatting options.
+          The files are using a .tabrmm extension but are standard plaintext .ini files.
+          
+        + added extra font setting for error messages. Previously, they were using the same font
+          as status changes did. The new font setting is appended to the font list, so you don't
+          need to reconfigure everything this time :)
+          
+        * unified all eventhooks - finally. 
+        
+        + added simple text formatting routines for formatting *bold* /italic/ and _underline_ 
+          in the message log. Some code was taken from the textformat plugin and adopted to 
+          tabSRMM (unicode aware, some small changes)-
+          
+        * added message log options: "use symbols instead of icons". This will use symbols
+          from the webdings font for marking events in the message log, instead of drawing
+          icons. The advantage is that this is WAY faster and uses only a fraction of the
+          memory consumed by the icon code. There are 2 new font settings (symbols incoming
+          and symbols outgoing) - you can set the size+color, but not the font itself (it
+          is forced to use the Webdings symbol font).
+        
+        - removed static avatar layout. Avatars are now always dynamically resized and the layout
+          is constantly tweaked to avoid a "damaged" tool bar. A new option is available
+          under Options->Messaging:
+          [ ] Always keep the button bar at full width
+          This option, when enabled, will prevent the avatar from using toolbar space. Its
+          useful if you have enabled the formatting buttons, because they will increase the
+          space needed on the toolbar significantly.
+
+          [ ] Do not resize avatars less than [___] pixels in height.
+          When opening a window/tab, the avatar will be kept in its original size when it is
+          less than x pixels heigh (where x is configurable). The splitter position will be
+          set so that the avatar can be drawn unresized.
+
+        ! fixed dividers screwing up linespacing sometimes.
+
+        * UIN is now cached for non-metacontacts (saves service calls at every status change and 
+          titlebar update.
+          
+        * UIN can now be shown in the status & title bar. The UIN button is gone from the tool-
+          bar.
+
+        * changed toolbar code. Its no longer possible to hide button groups separately. You
+          can now quickly show/hide the toolbar from a menu entry (view->tool bar) or from the
+          container options dialog. Toolbar is also no longer a global, but a "per container"
+          setting, so you can have different configurations in different containers.
+          Toolbar resizing and button hiding is now dyanmic. The layout code will hide less
+          important buttons when there is not enough space.
+          
+        + new option -> Tabs and layout: Flat message log. When checked, the message log will
+          appear w/o a border or static window edge.
+          
+        + ability to configure which buttons should be hidden first when the available space
+          on the button bar is not sufficient to display all buttons. You can choose between the
+          formatting controls and the standard buttons. You can also choose if you want the send
+          button to be hidden automatically.
+
+        * The "add contact" button is gone from the standard toolbar. For contacts which are not
+          on the contact list, additional controls will be shown "on demand", including a button
+          to add them.
+          
+        * improved formatting code - you can now write something like _this_is_nice_ and the 
+          formatting code will ignore tags within words. Options->message log->Format whole words
+          only. In general, this will ignore formatting "tags" (*/_) within words, which means
+          that you can only format whole words.
+          
+        + it's now possible to change the icon theme "on the fly". You can load a new icon .dll
+          under Options->Message Window->Tabs and layout. All icons will be updated "on the fly".
+          
+Version 0.9.9.4 - 2005/01/24
+
+        + added support for the snapping windows plugin. Yeah, even if I personally HATE
+          snapping windows, its done. Why? Because this great plugin makes it so easy - 
+          a single line of code is enough :)
+          You can find this great plugin here: 
+          http://www.miranda-im.org/download/details.php?action=viewfile&id=923
+          
+          However, its off by default, you need to activate it by checking the option 
+          under Options->Message sessions->Message containers.
+        
+        * changed window flashing code. Its now using FlashWindowEx() which means that
+          tabSRMM won't work on Windows 95 anymore, but I don't think thats a problem :)
+          The advantage is a code which is less complex and saves resources as well (the
+          old code had to deal with timers for flashing the windows, the new code doesn't
+          need to do this anymore).
+          
+          Another advantage is that you can now set the number of flashes (only applies to
+          containers which are using the "default" value and are NOT set to flash forever)
+          and the flashing interval. You can find both options under Options->Message sessions->
+          Container options.
+          
+        ! The option "use contacts local time" should no longer break message grouping when
+          the adjusted time of the buddy is "in the future".
+          
+Version 0.9.9.3 - 2005/01/20
+
+        + new "per container option": "Use static icon" - if checked, the 
+          container will use a static icon instead of showing the contacts
+          status icon. The icon will be obtained from the tabsrmm_icons.dll
+          using ordinal #18 (IDI_CONTAINER). If you're using a modified
+          tabsrmm_icons.dll, you'll have to reshack it and supply a valid
+          icon.
+          
+          The message icon will still be visible when the container has unread
+          events in one of its tabs, but the status icon(s) will be replaced by
+          the static container icon.
+        
+        * the tabsrmm_icons.dll will now be recognized in both the .\plugins and
+          .\icons subdirectories.
+          Order of search is:
+          a) .\plugins
+          b) .\icons
+          
+        ! just another focus fix - in some cases, containers didn't gain the focus
+          when they actually should. Opening sessions using hokeys (HotContact plugin)
+          should now work again.
+          
+        ! metacontacts support - don't force a protocol when the MetaContacts protocol
+          returns an error.
+          
+        ! metacontacts support - check for forced protocol at tab creation.
+          PLEASE UPDATE your MetaContacts plugin -> at least 0.8.0.8 is now required
+          by tabsrmm.
+          
+        + new option: "Flash contact list and tray icons for new events in unfocused windows".
+          This is some kind of "icq style" event notification - the contact list and
+          the tray icon will flash when you receive a message in a window which is not
+          focused. Only the first event for each contact will trigger the flashing and
+          it will go away when the tab receives the focus. You may also click the tray icon
+          or double click the contact in the clist to activate the tab.
+          
+          You can find this option under "Options->Message sessions->Messaging"
+          Note that, this MAY cause problems with other events like incoming file transfers.
+        
+Version 0.9.9.2 - 2005/01/18
+
+        ! fixed - status icon on the container did not appear when the title bar
+          was forced to not show the buddy status text.
+          
+        ! the dialog box for choosing the autopopup status modes is now translateable.
+        
+        ! hopefully fixed the long standing bug which was causing the container to
+          steal the focus, even when it was created minimized on the taskbar.
+          
+        * NEW SEND QUEUE system - work in progress, handle with care :)
+          multisend is temporarily disabled, because it doesn't really work right
+          now, but in the end it should, and it should work even better than the
+          old system.
+          
+          The rewritten send queue may cause troubles with error handling, so please
+          backup your old tabsrmm.dll first. You have been warned.
+          Also, icon feedback may be broken as of now.
+        
+Version 0.9.9.1 - 2005/01/14
+
+        ! fixed a few translation bugs (menu bar, the new status mode dialog)
+
+        + new option: typing notify->Flash window once on typing events.
+          This can be disabled to avoid the flashes when a typing notification
+          arrives...
+          It is enabled by default and replaces the old option to enable the
+          typing notify window icons (which is gone).
+          
+        ! manually opening a container does not give him a message icon instead
+          of the status icon.
+          
+        * when a container shows a message icon indicating unread events in one
+          of its tabs, the typing notify icon may temporarily override the message
+          icon.
+
+        + meta contact support: When the toolbar button is set to show the full UIN,
+          it will now display the UIN of the active subcontact, instead of the 
+          MetaContact ID# (which is a simple number and not really important to know).
+
+Version 0.9.9.0 - 2005/01/08 - BETA
+
+        This is the first official "BETA" version of tabSRMM. It will be released on
+        Mirandas plugin page as well as my sourceforge project site. There are a few
+        known bugs left, but otherwise the plugin works fine and has lots of new options
+        and features since the last "official" release which was 0.0.8.
+
+        * removed debugging option to disable micro linefeeds
+        
+        * minor layout changes (avatar field alignment and tab control client area)
+        
+        * removed obsolete code for layouting the multisend splitter in the old way.
+
+        * reviewed all dialog boxes and maxed the horizontal space for most
+          configuration options (checkboxes mainly) to make translation into other
+          languages easier.
+          
+        * included new version of NewEventNotify which should help against double
+          popups when using the metacontacts plugin.
+          
+        * the option "Remove trailing empty lines" is now on by default.
+        
+        + added basic support for the metacontacts plugin. There is a new status
+          bar indicator showing the protocol in use. It is there for all contacts,
+          but for metacontacts it opens a context menu if you click the protocol
+          icon with your right mouse button.
+          
+        * changed internal typing notification code - it's now using the popup configuration 
+          setting from the current container so that you can have the baloon-type
+          tray notifications or flashing icons based on the state of the current window
+          (minimized, unfocused etc.)
+        
+        ! the error control buttons were not translateable. Fixed.
+        
+        * metacontacts support: unforce protocol added to tab closing code and the
+          context menu in the status bar.
+        
+        * tabsrmm can now display notifications and debug messages using ballon-type
+          tray notifications. This feature no longer depends on the popup plugin.
+          See: Options->Message Session->Messaging->Notifications. Three settings are
+          available:
+          * None (disable them completely)
+          * Tray notifications (use baloon-style tray tooltips)
+          * Popups - use popups. If the popup plugin is not installed, it will fall
+            back to tray notifications.
+            
+        * the included NewEventNotify plugin can now use the OSD (on screen display)
+          plugin to display its notifications about new messages. You need to have
+          the OSD plugin installed and you need to actiavte it under:
+          Options->Popups->Event Notify->Use OSD plugin instead of popups.
+          NOTE: this is experimental - the osd plugin is very new and may contain
+          bugs.
+          
+        + added a tooltip to the new status bar panel - it shows your own nickname
+          and the active protocol.
+          
+        ! (hopefully) fixed a possible "crash at exit" problem.
+
+-----------------------
+        
+        + session stats tracking code added. tabSRMM will now track the stats of a
+          session, including the session length, the number of sent and received
+          messages, the total amount of sent and received characters, and the number
+          of delivery failures.
+          There is no code (yet) to display these stats though.
+
+-----------------------
+          
+        + merged bids crash fixes for the smileyadd plugin into my own version of
+          smileyadd for tabSRMM.
+          
+        + added versioninfo block to the resources.
+        
+        + added an option to specify on which status modes, windows and tabs may be
+          created automatically on incoming events.
+          Check "Options->Message sessions->Message tabs->Setup Status modes...
+
+        * changed the title bar + icon notification code. The message icon is now ex-
+          clusivly used for indicating a waiting event in a tab. Typing notifications
+          will be shown in the title bar, unless the window is focused.
+          Typing notification messages + icons should no longer remain when the window
+          receives a "typing off" message.
+
+ Version 0.0.9.5 - 2005/01/04
+
+        ! fixed close tab on double click
+        
+        ! fixed missing PREF_UNICODE on resend attempts
+        
+        * new event for the event API - its fired before a message is sent. An external
+          plugin can use it to alter the content of the message input area.
+          This is for developers only - The event is sent via the MSG_WINDOW_EVT_CUSTOM
+          event type and the tabMSG_WINDOW_EVT_CUSTOM_BEFORESEND subtype is passed
+          via the evtCode field of the TABSRMM_SessionInfo structure. A pointer to this
+          structure is passed via MessageWindowEventData.local.
+          (see m_tabsrmm.h and m_message.h for further details).
+          
+Version 0.0.9.4 - 2004/12/02
+
+        * small change in smileyadd and tabSRMM's interface to smileyadd as an attempt
+          to fix a rare bug with smiley background color in chat.dll windows.
+          YOU NEED TO REPLACE smileyadd.dll with the version in the archive, otherwise
+          smiley backgrounds in tabsrmm will not work when using the individual background
+          colors.
+          
+        + new option - > auto close tab after x minutes of inactivity. 
+          Does exactly that. Tabs don't get autoclosed when:
+          a) unread messages are there (the tab icon is flashing)
+          b) the input area contains characters
+          
+          Things, which reset the inactivity timer:
+          
+          a) typing in the input area
+          b) new message arriving
+          c) activating/focusing the tab
+          
+        ! fixed disappearing avatar when applying options
+        
+        ! fixed right-alt-v does no longer paste.
+        
+        * quoting does no longer replace the entire typed message. The quoted text is now
+          inserted at the caret location.
+          
+        * You can now disable "Send on SHIFT Enter".
+        
+        * The small timestamp for grouped messages can be replaced by a simple ">" character.
+
+        * added a new icon pack to the archive which you can find in the contrib directory.
+          This iconpack was contributed by Faith Healer. Thanks for sharing :)
+          
+        + added the new event api also found in SRMM to support external plugins.
+          
+        + added new option to delete temporary contacts when closing a session.
+        
+        + SHIFT-INS now behaves like CTRL-V and pastes plain text.
+          
+Version 0.0.9.3 - 2004/11/14
+
+        * unified the unsent and charcounter displays on the statusbar. The new format
+          is now: x/yyyy where is is the number of queued messages (normally 0) and yyyy
+          the number of chars typed into the input box.
+          Reason: Make space on the status bar for new indicators coming in the future.
+          
+        * When using dynamic avatar resizing, the maximum size of an avatar is no longer
+          limited to 300 x 300 pixels. It can be up to 1024x768 pixels (not recommended though,
+          as this will use quite some memory) and will be downsized to match the splitter
+          position.
+          
+        * the dynamic avatar resizing now enforces a horzontal size limit - the avatar cannot
+          gain more than 80% of the width of the window width so the message input area
+          will never completely disappear because of the avatar taking all the available
+          space. Note that this may corrupt the aspect ratio of an avatar picture.
+
+        ! fixed severe bug with avatars (messing up contacts handle)
+
+        * added smart avatar resizing - when using the dynamic avatar resizing option,
+          the layouting code will now take care that the avatar won't take too much space
+          of the button bar. it will try to keep all the button visible.
+                  
+        * threaded streaming (icon + smiley replacement) is now only used for filling the
+          initial message log. For adding single messages to the log, the threading stuff
+          is a waste because of its overhead.
+
+        ! a divider should not appear at the very beginning of the message log, even if the
+          session qualifies for a divider because of its unfocused state.
+        
+ Version 0.0.9.2 - 2004/11/13
+
+        * various avatar layouting fixes.
+        
+        * removed "Send on double enter" as this is broken due to the rich edit input
+          area.
+
+        * fixed MingW32 Makefile - works with GCC 3.4.1 and recent MingW32 builds.
+          Note, compiling with GCC results in a dll about 60-70 k larger than the
+          Visual C++ build - this is normal and no reason to worry...
+        
+        * the "unsent" display did not update properly when changing tabs.
+        
+        * the small line just below the menu bar (menu bar separator) is now coupled
+          with the visibility of the menu bar. It's invisible while the menu bar is 
+          hidden.
+
+Version 0.0.9.1 - 2004/11/11
+
+        * RTL didn't fully work for the message input area
+
+        * added small 2pixel margins to the message input area to make it look better
+        
+        * If you're using per-contact message log settings, you can now apply the current
+          log formatting options to all your contacts by choosing the option from the menu.
+
+        * 2 new options for globally setting avatar display mode:
+          * On, if present -> show avatar if there is a valid one
+          * Globally off. Never show any avatar. No exceptions.
+          
+        * dynamic avatar resizing added. Check this under options -> messaging.
+          It will resize the avatar so that it fits depending on the current splitter
+          position. Splitter setting is enforced, so it will never change because of
+          the size of the avatar.
+          
+        * The unicode version is no longer using a RichEdit20W control for the input
+          area. Instead, its using the "A" version in conjunction with the extended
+          API for fetching and setting unicode strings.
+          
+Version 0.0.8.99 - 2004/11/07
+
+        * the unicode version now uses utf-8 encoding to store various unicode settings
+          in the DB. No more blobs.
+          
+        * ability to show the tabs at the bottom. Looks fine with classic windows theme,
+          but may look strange with visual styles.
+          NOTE: Please don't complain - the official word from MS is that bottom tabs
+          are UNSUPPORTED under Windows XP when using visual styles. So either find
+          a style with "symmetric" tab skins (they look fine with bottom tabs in most
+          cases) or don't use bottom tabs.
+          Or use classic theme :)
+          
+        * New menubar added. It can be hidden (as a per container setting) and contains
+          many options which are normally only accessible via various option pages.
+          
+        * input area is now a rich edit control instead of a normal multiline edit box.
+          It was changed to allow future additions like text formatting
+
+        * new avatar setting: Disable automatic Avatar updates. You can find it in the
+          avatar menu on the toolbar and in the new menu bar. This setting is "per contact"
+          only and will prevent automatic avatar changes, if you have, for example, set
+          your own custom picture for a specific contact.
+          
+        * simplified the font settings a bit. There are now less than before and they
+          were moved to another DB module path. So you will probably have to reconfigure
+          your fonts :(
+          
+        * fast copy the UIN to the clipboard by clicking on the usermenu button (second
+          button from the left) while holding the shift key.
+          
+        * Global settings for avatar display added. See Options -> Messaging. There are
+          3 modes available to activate avatars per default, per default for protocols
+          which support them, or manually per contact.
+          
+Version 0.0.8.98 - 2004/10/17
+
+        * fixed middle click close did not respect the "warn onl close" setting.
+        
+        * fixed small cosmetical issue with the status bar tn icon.
+        
+        * fixed typing notify icon not clickable if char count panel was disabled.
+        
+        * changed font and color configuration dialog. It now uses the same system
+          also used by the contact list font configuration screen. It's more
+          convient and easier to setup. You will probably have to re-setup some of
+          your font and color options.
+          
+        * redone the message log options dialog. Now, with the fonts moved to their
+          own page, this option page is less cluttered and easier to use.
+          
+        * changed the code which loads the smiley button icon. It now uses a button-
+          icon (if the smileypack contains one). If not, it tries to load the :) icon
+          and resizes it to 16x16 (if necessary). If all fails, a default icon from
+          the icon.dll is used.
+          
+        * made the thin (1pixel) grid lines optional. They are causing troubles with
+          some versions of the rich edit control. If you happen to get "invisible"
+          messages at the end of the log, turn off the "Thin grid lines" option.
+          
+        * changed the way indent works. There is now also a right-indent value.
+          If no indent value is given, a default of 3 pixel is used for left and right
+          margins.   
+
+        * ARGH, don't free() a pointer which might be needed ages later :)
+          This one was ugly, causing crashes after a failed message delivery.
+               
+        * redone the error controls. They are now at the top of the window, so there
+          is no more need to hide the button bar in order to show the error controls.
+          
+        * New message log formatting option: Group subsequent messages. If this is on
+          and you receive or send more than 1 message in a row, then those messages
+          will be "grouped". There will be no divider (grid line) between the grouped
+          messages, and only the first one will show the full header (nick and complete
+          timestamp). Subsequent messages will only show a short timestamp (no date).
+          
+          To make this look "good" you will probably have to play a bit with timestamp
+          and indentation settings.
+
+        * the message log code now caches rtf font formatting strings for the. This will save
+          a few dozens of DB accesses and font calculations PER EVENT (message) when 
+          building the message log. The speedup when loading 100 old events is 
+          noticeable, even on fast machines.
+          
+        * its now possible to sync sounds for incoming message with the current container
+          option
+          
+        * improved "scroll to bottom" code. Works better when aligning avatar settings.
+        
+        + added ability to use "relative" timestamps like "Today" and "Yesterday"
+        
+        + added option to display date in "long" format (depends on your regional settings)
+        
+        * various fixes for the rich edit streaming code. All options, including thin
+          grid lines should now work for the Windows XP SP2 version of the rich edit
+          control.
+          
+        * moved the status bar to the container window. Previously, each tab had its own
+          status bar, which is a waste of resources. Now, they have to share a single
+          status bar.
+          
+        + added EXPERMIMENTAL multithreading for replacing icons and smileys in the message
+          log. The option is on the messaging options page and is off by default.
+          
+                    
+Version 0.0.8.95 - 2004/10/06
+
+        * sendquue stuff added. No more disabled input box while a message is sent.
+        
+        * more smileyadd changes, tabSRMM now has "native" support for a custom version
+          of smileyadd. It also places its own smileybutton.
+          
+        * icons splitted into a resource DLL. You NEED TO COPY ONE OF THE INCLUDED
+          tabsrmm_icons.dll to your Miranda plugin folder, otherwise you won't get
+          any icons.
+          
+        + new feature: you can toggle your own typing notifications FOR THIS CONTACT
+          ONLY by clicking the icon in the lower right corner of the window. 
+          
+          NOTE that this only toggles the checkbox also found in the main miranda
+          options, so it will NOT force sending tn to contacts which are, for
+          example, not on your visible list.
+          
+        * a small (2 pixel) padding has been added to the message log window, even
+          when the normal indent is switched off.
+          
+        * grid lines are now only 1 pixel in width (they were 2).
+
+        + the smiley button now shows the default smiley icon used for the :) smiley
+          (if available). The icon will be sized down to SM_CXSMICON/SM_CYSMICON 
+          if necessary in order to fit on the button.
+          
+          If no default icon is available in the smiley pack, a fallback icon from
+          tabsrmms own icon.dll will be used.
+          
+        * subclassed the tab control to make "close on middleclick" possible.
+        
+Version 0.0.8.92 - 2004/10/02
+
+        * disabled the streaming thread stuff - it was causing problems which could
+          be fixed, but require some more work "under the hood".
+          
+        * simplified divider code. No need to stream en extra event for these little
+          lines.
+          
+        * displaying message log icons should be way faster now
+        
+        * fixed smileybutton appearance somewhere in the message log when button bar
+          was disabled.
+          
+        * MSN avatars now update the mTooltip "Photo" page (if present).
+
+Version 0.0.8.91 - 2004/09/26
+
+        ! message log icons are now forced into 16x16 format
+        
+        ! the message log icon code now only searches the appended text when a new
+          message arrives which results in much faster operations for logs holding
+          a huge amount of text.
+
+        + new option to limit the maximum number of tabs per container. This works
+          only for unassigned contacts (contacts which open in the default container)
+          and is not available when using the CLIST group container mode (grouping
+          your contacts according to your clist group configuration and then breaking
+          them up again wouldn't make sense anyway).
+          
+          Set the limit to 1 if you want one window per contact.
+          
+        * changed the EVENTTYPE for the status logging code. This will avoid such events
+          beeing classified as "SMS" events. 
+          
+          NOTE: if you experience troubles with the log ignoring the color/font settings
+          for old and new events: This is a result of this change and it will AUTOMATICALLY
+          go away as soon as there are no more old status change events in the log. So
+          you could for example limit the number of old events loaded...
+          
+          There is also a new "NewEventNotify.dll" which you need to install in order to
+          avoid the "unknown event" popups if you have:
+          a) status change logging enabled, and
+          b) enabled the NewEventNotify option to get notifications on "other" events.
+          
+        * loading the avatar is now using its own thread to avoid a frozen main thread
+          while loading remote pictures.
+          
+        + new option on "message tabs" options page: You can remove the static edges on
+          the splitter and the line just below the message log to get a completely "flat"
+          looking toolbar.
+          
+        + new container mode: "Use single window mode". This will create implicit containers
+          for each session you open. It will completely ignore all container assignments
+          you have made (they will stay intact though, so you could switch back to
+          manual or CLIST group mode at any time) and open a single window per contact.
+          
+        + added msg log icon for status changes (global "user online" icon.
+        
+        + added multithreaded streaming. Now, all streaming is done by a separate thread
+          which frees the main thread from doing this. This can avoid a "frozen" main 
+          thread and unresponsive ui when large amounts of data need to be streamed into
+          the message log window.
+          This is EXPERIMENTAL, it may cause other unexpected problems.
+          
+        * disabled UNDO functionality in the Rich Edit control (message log). It's not
+          needed (the control is read-only) and just wastes resources.
+          
+        + new icon set for the button bar. Contributed by a member from the Miranda
+          community. Very nice and colorful icons, the button bar looks a lot better 
+          now :)
+          
+        * more tightly interoperration with smileyadd. tabSRMM now has its own smiley
+          button. You can also change smiley replacement "on the fly" and do no longer
+          need to restart miranda. The code will detect if smileyadd is available and
+          installed. Please DISABLE the button inserted by smileyadd under 
+          Options->Events->Smileys unless you want the button appear twice :) The new
+          smiley button also solves the "focus lost" problem, now the input area 
+          regains focus after inserting a smiley.
+          
+        * button bar icons are now loaded once at plugin startup. There is no need for
+          each tab having its own copy of the icons, since those icons are static and
+          never change during the "lifetime" of the plugin.
+          
+        * its now possible to disable the multithreaded streaming code in case you have
+          problems. It's enabled by default and you can disable it on Options->Messaging
+          You NEED TO RESTART miranda if you change this setting.
+          
+Version 0.0.8.9 - 2004/09/24
+
+        + new "mIRC style" tab selection hotkeys. ALT-1 to ALT-0 will select the 
+          corresponding tab. ALT-1 will select the leftmost (first) tab, and ALT-0
+          the rightmost (last) tab. Maybe confusing if you have more tabs than
+          actually fit on a single row.
+          
+        + added a few pixels of padding "inside" the message log so that characters
+          won't touch the inner border of the rich edit control anymore.
+          
+        * container system menu: rearranged menu items so that close will always be
+          at the bottom of the menu (hinted by OnO).
+          
+        * new option on the message log page: Use Arrow icons: This will replace the
+          message icons in front of each message with small arrows showing the direction.
+          A green arrow marks outgoing, and a red arrow incoming events.
+          
+        * experimental fix for highlighting issues when using individual background
+          colors. Trailing lines are now removed from the message if they are empty.
+          It's still possible to have empty lines within a message, but if the last
+          line of the message body is *completely* empty, it will be removed.
+          
+          This solves the problem which occured with individual background colors
+          where those empty lines were actually drawn with the default background
+          color (very ugly).
+          
+          You need to activate this explicitely on the "Message Log Options" page.
+          
+        * avatar changes: It's now again possible to choose an avatar from the message
+          window if you do not have mTooltip installed. Just click the picture menu
+          button (left of the history button) and choose "Load a local picture as avatar".
+          Note that the avatar section must be visible (toggle it on before), otherwise
+          the menu item will be greyed out. Selecting the avatar from the message window
+          will also write the picture to the mTooltip setting (if available), so you 
+          don't have to change the picture twice if you're using mTooltip plugin.
+          
+        * fixed CTRL-backspace. If there are more lines than the input box can actually
+          display w/o scrolling, ctrl-backspace was always setting the cursor to the
+          start of the text. Now, the cursor is always placed at the end.
+          
+        * changed MSN avatar code. Now, a single event hook cares about all sessions. This
+          should avoid performance problems on slower machines with lots of MSN sessions
+          opened.
+
+Version 0.0.8.8 - 2004/09/21
+
+        ! fixed a few layout issues with multisend clist not updating correctly
+        
+        + added support for the new avatar notifications of the MSN protocol. This
+          will require very recent builds of MSN and Miranda. Avatars are now up-
+          dated in "real time" whenever they change.
+
+Version 0.0.8.7 - 2004/09/19
+
+        * new icon code for showing message log icons. It uses code from smileyadd
+          to insert icons as ole objects so they can use the "proper" background color
+          if you're using different colors for incoming and outgoing messages.
+          
+        * message input area has now a "static edge" instead of the frame. Looks better
+          and matches the border style of the message log (also a static edge type).
+          
+Version 0.0.8.6 - 2004/09/17
+
+        ! fixed bug with autoswitch tabs and tabs created in the background (they
+          didn't flash after autoswitching to another tab).
+          
+        ! layout changes. It's now possible to hide all tab control borders if 
+          multiple tabs are opened by setting the value for "Tab control border"
+          to zero (Message tabs options page).
+          If only one tab is open and you have configured tabSRMM to hide the tab
+          bar, then no borders will be visible as well.
+
+Version 0.0.8.5 - 2004/09/16
+
+        + added individual background colors for incoming and outgoing messages. Set
+          the colors under Options>Message Sessions->Message log and activate the
+          option. You can also activate the "grid" which will show grid-like lines
+          between the messages. The grid uses the default background color.
+          
+          Known issues with this feature: a)Smileys are rendered with the default bg
+          color, because smileyadd cannot know about the new colors (it assumes that
+          the message log window has only one background color). Workaround: don't use
+          high contrast colors between the default and the individual colors. For
+          example, use a light grey as default color and a light blue/red for 
+          the individual colors.
+          b) Icons break the background color stuff. No idea why and how to fix it
+             so if you care then don't use icons and the individual bg colors at
+             the same time.
+             
+        * changed buddypounce interoperability. Now, tabSRMM does no longer add the
+          messages to the history. Instead you get a notification about the message
+          being sent to buddypounce for later delivery. Buddypounce adds them to the
+          database when it actually sends them.
+          
+Version 0.0.8.4 - 2004/09/14
+        
+        * changed avatar code.
+        
+        + new mouse "gesture". Double click the button bar while holding the left ALT key
+          to show/hide the button bar and its controls. This is only temporary and will
+          not affect the global options under Message Sessions->Messaging. It will also
+          not be saved anywhere.
+                    
+        + dividers can now use the popup configuration (basically, this wil dividers
+          make appear in tabs which would also trigger a event notification popup,
+          based on the containers popup configuration mode).
+          
+        + avatars are now updated in "real time" when you change the picture on the
+          photo page.
+          
+Version 0.0.8.3 - 2004/09/13
+
+        + added a "send later" button to the error dialog which appears when a message 
+          send fails. Clicking it will hand over the message to the buddy pounce 
+          plugin for later delivery. Obviously, this feature requires the Buddy
+          Pounce plugin to be installed, otherwise the button will be inaccessible.
+          
+        + added new option -> "use contact list group names for organizing containers"
+          You can find this option on the Container options page under Options->Message Sessions.
+          If this option is enabled, tabSRMM automatically assigns contacts according to 
+          the group in which they are. Containers with the name of the group are created 
+          automatically if needed. Contacts which are not in any group will be opened in 
+          the default container.
+
+          Also note that, if this option is enabled, the options to attach contacts manually 
+          are disabled, so you cannot change the container assignments until you disable 
+          the option again.
+          
+          Using this option will NOT overwrite assignments you have created manually.         
+
+Version 0.0.8.2 - 2004/09/11
+        
+        * moved all option pages to a new group. "Message Sessions".
+        
+        * the options concerning auto creation of tabs are now disabled if the "auto
+          popup" feature is checked. Remember, auto-popup always overrides the
+          "background create" features.
+        
+Version 0.0.8.1 - 2004/09/11
+
+        ! fixed "ding" sound when closing the last tab
+        
+        ! fixed the option pages (apply button was always highlighted)
+        
+        * removed the global container options page, because it was confusing more than
+          anything else :)
+          Container options can now only be changed by using the container options 
+          dialog box, which is available by:
+          a) the system menu of any container
+          b) the tab control context menu (right click any tab)
+          c) the button bar context menu (right click an empty space on the button bar)
+
+        ! don't autoswitch on status change events.
+        
+        * autoswitch now also works when creating tabs in the "background" and the
+          container was minimised to the taskbar.
+          
+Version 0.0.8 - 2004/09/10
+
+        + merged "/all" mod by JdGordon. Allows you to send a message to all tabs within
+          the current container.
+          Just type /all message and the message will be sent to everyone in the current
+          container.
+          
+          WARNING: Depending on the IM network and their terms of use, this might be 
+          considered as some kind of mass-messaging.  Some networks may disconnect you or
+          even ban your account for some time in that case. I suggest that you do not
+          use this feature with a lot of contacts opened.
+          
+        + container transparency added.
+        
+        + container option dialog added. Most container settings are now saved on a "per-
+          container" base. This includes settings for: titlebar on/off, hide tabs when only
+          one tab is presend, flashing mode, sticky (stay on top) and the service report
+          facility.
+          
+          There are still settings in the Prefrences page, but these will only affect new
+          containers.
+          
+        * redesigned the option pages. There are now 2 pages - "Message tabs" for the 
+          general options and "Message Containers" for the container-specific settings.
+          The old option page was getting too messy...
+          
+        + added new feature: deferred timeout error handling.
+          To use this feature, the following things must be present:
+          
+          * popup/popup Plus plugin must be active.
+          * popups must not be disabled.
+          * the option must be activated under Options>Message tabs>use popups for timeout errors
+            messages.
+          
+          This is how it works: If the tab in which the error occurs is not active, then it
+          will NOT show the error dialog box. Instead, it will display a red popup and change the
+          tab icon to a red "X". The popup will show the error text reported by the protocol
+          and the icon will stay until you activate the tab.
+          
+        ! fixed: options were only available with "expert mode settings" enabled.
+        
+        * changed context menu. Removed the additional entrys from the right-click menu in the
+          message log. Now, the tab-context menu includes them.
+          
+        + The tab-context menu is now also available by right-clicking the button bar.
+        
+        + implemented rename/delete containers.
+        
+        + added shortcut: Ctrl-W -> closes the active tab.
+        
+        + added icon flashing for tabs created in the background.
+        
+        * use contacts local time is now a per-contact setting. It is available from the new
+          "message log options" menu which you can reach by clicking the button.
+          
+        * changed most of the message log options to "per contact" settings. You WILL most
+          likely need to reconfigure the defaults under Options->Messaging log (only applies
+          to yes/no switches, all font settings are still global and will remain so).
+          
+          There is a new button which opens a pulldown menu when clicked. Basically, all
+          these settings can now be saved on a "per contact" basis. If you don't like it this
+          way, you can tick the option "Ignore per-contact settings under Options->Message tabs.
+          
+        - removed the RTL button. The switch can now be found in the newly introduced 
+          "Message log options" menu.
+        
+        ! made "autosave msg" unicode aware. Note that, the unicode version of tabSRMM uses
+          a different way to store the message. This means, that you will not see what you have
+          saved with the non-unicode version and vice versa.
+        
+        ! fixed quoting for unicode.
+        
+        ! fixed bug with container options dialog not showing when container was minimized to
+          the taskbar.
+          
+        * made the /all command unicode-aware
+        
+        * fixed container delete/rename functions for the unicode version
+        
+        * allow for gloabl splitter position (check the message log options menu)
+        
+        + new container setting system added. Container names are now fully unicode-aware.
+          The unicode version uses different places to store its setting, so it will not
+          collide with settings written by the non-unicode version.
+          
+        * more changes for "per-contact" message log options.
+        
+        + new option: it is now possible to have containers created minimized, if you also
+          have the option "Auto create tab on event" activated. Just check "Also create
+          container, but do not activate it".
+          
+        ! attempt to fix the ALT-S problem. The new layout does no longer allow for trans-
+          lating the "Send" button. Since this is a picture button anyway and does not
+          display any text, this solution should be fine.
+          
+        * better visual cues for typing notification. If minimized or in the background, 
+          the container now changes its title to show who is actually typing.
+          The "stuck" titlebar icon should no longer occur.
+          
+        * internal layouting changes. new option to set left and right borders between window
+          border and the tab control. Set this to zero if you want the smallest possible border.
+          
+        + added a "close container" entry to the tab-context menu to make closing a container
+          easier if title bar is hidden (remember, the tab-context menu is also available by
+          right-clicking the button bar).
+          
+        ! fixed easydrag - window should no longer detach from the mouse pointer while left button
+          is still down.
+          
+        + ability to hide statusbar. This is a global setting available from Options->Message tabs,
+          but you can override it on a per-contact base from the message log options menu.
+          
+        + New submenu added to the tab context menu. It contains a list of all available
+          containers so you can quickly attach a message tab without using the container attach
+          dialog.
+          
+        ! fixed the "warn on close" feature for containers. It was possible to force more than
+          one warning message dialog.
+          
+        - removed old message layout.
+        
+        * New layout option: "Multisend CLIST splits message history only"
+          If enabled, the embedded contact list will only take horizontal
+          space from the message history window. Everything else will retain its full width.
+  
+        * tabSRMM is now a "conversion style only" message module. The old single send/read
+          modes have been disabled.
+
+        * The "Warn on close tab" feature does no longer ask if you exit miranda with 
+          message windows opened.
+          
+        * double-clicking the empty space on the button bar will now minimize the container.
+          Holding CTRL while double-clicking will close the container and holding down SHIFT
+          will toggle the titlebar.
+          
+        ! fixed bug - double clicking an inactive tab caused problems when more than a single
+          row of tabs was shown in the control.
+          
+        + added: "enable popups if unfocused". A new "per container" setting which will basically
+          do the same as "enable popups if minimized" but extend this to containers which are
+          only sent to the background but may still be visible on screen (at least, partially).
+          
+        * if status bar is hidden, typing notify will change the tab icon on the active tab as
+          well.
+
+        + implemented a way to log and display status changes in the message window. You can
+          enable this globally under Options->Messaging log. There is however an option to override
+          the setting on a per-contact basis. Choose "Never log status changes" from the message
+          log options menu to disable it for a contact. You may NEED to disable it for RSS
+          contacts, because the status change events, if logged to the history, may confuse
+          the RSS plugin.
+          
+        * the bottom limit for the horizontal splitter now takes into account whether the status
+          bar is hidden or not.
+          
+        + two new hotkeys added: alt-left and alt-right for easy tab switching
+        
+        * changed ESC to "minimize container". Use the more stadardized CTRL-W or CTRL-F4
+          shortcuts for closing tabs or ALT-F4 to close the entire container.
+          
+        * added one more option for even more popup configuration. Please read POPUPS.TXT
+          for more information on this topic. it's getting complex :)
+          
+        + added "input history". You probably know this from irc clients like mIRC. Basically,
+          the input line remembers the last n messages you sent (where n can be configured in
+          the options). By pressing CTRL-Arrow Up or CTRL-Arrow Down you can scroll through
+          the stored messages quickly.
+          
+        * improved the input history:
+          1) cursor is always at the end of the recalled message.
+          2) the input history now saves the contents of the input area (if any) when replacing
+             it with an entry from the history. Scrolling down "past" the end of the history
+             will restore the previously saved content.
+          
+        + added "single row tab control" to the container settings. 
+        
+        * made "close on esc" optional for those who don't like the newly introduced ESC
+          behaviour (minimize).
+          
+        * changed closing behaviour. This should fix an ugly "crash on close container" in
+          some (although very rare) situations.
+          
+        * changed the message-log scrolling hotkeys. It should no longer be possible to scroll
+          past the end of the log.
+          
+        + it is now possible to have different background colors for the message log and the
+          message input area.
+          
+        + added the "global search hotkeys" CTRL-SHIFT-U and CTRL-SHIFT-R. They are working
+          exactly like CTRL-U/CTRL-R, except that they search all open containers for unread
+          events.
+          If, for some reason, you cannot use those hotkey, because another applictaion needs
+          the keyboard shortcuts, you can configure the modifier keys under Options->message tabs.
+          Available choices are:
+          CTRL-SHIFT (default)
+          CTRL-ALT
+          SHIFT-ALT
+          
+        + added SHIFT-RETURN as another shortcut for sending a message.
+        
+        + Dividers added. When active, they will draw a small horizontal line above the first
+          unread event in an inactive (unfocused) message session. Those lines are a visual cue
+          to help you finding messages which have been received while you were absent more
+          easily. Activating the window will cause a new divider to appear the next time you
+          put the window into the background (but only, if an event arrives while the window
+          is in the background or minimized).
+          
+          Dividers look best if you choose a small font (maybe 4 pixel) for them. There is a new
+          font setting under Options->Message log for the divider available. Just change the
+          default value to make dividers use less space. Note that dividers are not stored
+          permanently. They will go away whenever the log is rebuilt (i.e. when you apply new
+          options ore when you close and open the tab).
+          
+        + autoswitch tab feature added. If enabled, minimized containers may automatically
+          switch to a tab whenever a new event arrives.
+          
+        + added support to compile and link tabSRMM with GCC using MINGW32. Use MAKEFILE.W32
+          for compiling the unicode version, and MAKEFILE.W32.ANSI for the non-unicode version.
+          I also added a project file for Dev-CPP. 
+          Tested with very recent versions of MINGW32 (GCC 3.4.1)
+          
+        + moved project to sourceforge.
+          
+        Version 0.0.6 - 2004/08/13
+        --------------------------
+
+        + minimize window on exit is now working (of course, it minimizes the entire
+          container).
+          
+        ! fixed more focus issues (damn, this Win32 dialog manager does suck)
+
+        + implemented a basic system to determine the minimum required window size
+          for the container (internal stuff, but will be required later).
+          
+        ! prevent the horizontal splitter from having a position "outside" of the
+          window after restoring a maximized window.
+          
+        * cosmetical changes for the new window layout
+        
+        * changed the code for "always scroll log to bottom" again. Should work better
+          (and faster) now.
+          
+          This works far more "intelligent" than before. A tab will remember its scroll
+          position in the log while you switch to another tab. It will however automatically
+          scroll the log to the bottom under the following conditions:
+          * a message arrived
+          * the container size changed while the tab was inactive
+          * you move the splitter
+          
+        ! fixed some issues when closing tabs.
+        
+        + merged mod#32 from srmm_mod. show history (old) events with different fonts/colors.
+        
+        * changed user picture layout. The picture is now allowed to use the vertical space 
+          of the button bar. This will save some vertical space for the message log if the
+          picture is shown.
+          
+        + new option: Show full UIN on the button bar. This defaults to enabled and if you
+          disable it, you will get the old usermenu button instead of the larger button
+          showing the full UIN. If you disable this option, you will gain some space on
+          the button bar. The full UIN is then set as a tooltip for the usermenu button.
+          
+          At the moment, this is a global setting affecting all tabs, it will be a 
+          "per - contact" option in the future. It is only in effect for the new window
+          layout.
+          It also doesn't dynamically update while the tab is open and only affects newly
+          created tabs (yet).
+          
+        ! fixed glitch with autolocale. Even when deactivating it, it wasn't really 100%
+          inactive.
+          
+        ! (hopefully) fixed another Win98 - specific crash (closing the last tab).
+        
+        + new option: "Enable popups if container is minimized". If this is enabled, the
+          container will not report open message tabs while minimized. "Service enabled"
+          popup plugins like my modified version of NewEventNotify or Bi0s TypingNotify
+          will then think that there is no message window open and display their popup
+          notifications.
+          
+          Enable this, if you want notifications while the container is minimized to the
+          statusbar.
+          
+        ! fixed flickering on save button while typing.
+        
+        + multiple container support added. Basically you can now have as much containers
+          as you want. You can assign contacts to a new container by richt-clicking either
+          the tab of the contact or in the message area of the active tab. A dialog box
+          will appear allowing you to select one of the already existing container
+          definitions. You can also create a new container if you want.
+          The container "default" gets some special treatment: It acts as the container
+          in which all unassigned contacts will open their tabs.
+          
+          The UI will be improved a bit, but don't expect too much. I will definately
+          NOT add drag'n drop support for re-arranging tabs, because it would be quite
+          hard to implement and not worth the effort. There are better and more important
+          things to do.
+          
+        ! fixed a few layout issues on the button bar (unequal spacing).
+        
+        * flashing tab icons will now show the eventtype (file, url, message).
+        
+        * changed "easy drag" implementation.
+        
+        ! restored msg could overwrite initial text (used by, for example, http share
+          file plugin). fixed. Now, the initial text passed to the message tab at creation
+          will *always* overwrite any saved msg.
+        
+        - removed hotkey ctrl-h (for history). It was redundant anyway, because history is
+          available via Alt-H.
+          
+        + added mod#11 from srmm_mod (message input area accept dropped files)
+        
+        + some container options (stay on top, dont report if minimized, no titlebar) are now
+          saved on a "per container" basis. The settings on the option page are now used as
+          default values for new containers.
+        
+Version 0.0.5b - 2004/08/13
+
+        + 2 new options:
+          * flash always - continously flash the container until activated.
+            (doesn't currently work with the "autocreate tabs" feature).
+          * Never flash - disable window flashing (tab icons will still flash) 
+
+        ! fixed auto-save on exit. Saved msg now goes away if you close the
+          container when the message input area is empty.
+
+        ! fixed: new layout picture-dependent splitter calculations could confuse
+          splitter settings when switching to old layout.
+
+        * a few internal changes (resizing, tab item handling...) always check return
+          value from GetTabIndexFromHWND()
+          
+        ! fixed focus & tab handling. Re-enabled Alt-Hotkeys inside the dialog.
+        
+        + new icons for the RTL and userpic button. Thanks to kreisquadratur 
+          (author of the original srmm_mod)
+        
+        * more "new" layout changes. Smaller borders, especially the right one. Items
+          are now better aligned.
+          
+        + merged "use contacts local time" from srmm_mod. If enabled, the message log
+          will show the local time of your contact instead of your own time. This does,
+          of course, require that a contact has a properly configured timezone in
+          his profile.
+                          
+Version 0.0.5 - 2004/08/10
+
+        + added autolocale support. You need to enable this under Options->Tabbed Messaging.
+          How it works: It remembers the input locale setting for each contact. Just set
+          the desired keyboard layout (either via hotkey or via the language bar) and the 
+          statusbar should show a message saying that the locale has been saved.
+          tabSRMM will then switch locale whenever you activate or open a tab for this
+          contact again.
+          
+          If you open a message window for a contact which does not yet have a locale
+          information saved to its db record, tabSRMM will save the current input locale
+          as the standard for this contact.
+          
+          NOTE: DONT use the autolocale plugin with tabSRMM. Since both plugins will then
+          try to modify locale settings, strange things could happen :)
+                  
+        ! fixed small display problem with the multisend button and the new window
+          layout.
+        
+        ! fixed a few issues with "autocreate tabs" feature. They now only show up if the
+          container is already open and don't steal focus on the active tab any longer.
+          They also properly open in the background and do no longer confuse the layout
+          of the tab bar when more than a single row of tabs is needed.
+          
+        ! fixed compatibility issue with Window 98/ME which was introduced in 0.0.4a
+        
+        * another attempt to fix the "log not always scrolling to the bottom" issue.
+        
+        * minor layout changes for the "new layout" - the horizontal splitter now has 
+          a static edge which makes it easier to spot.
+          Removing the buttons and the info text will narrow down the splitter.
+          
+        + added small margins to the rich edit control (message log).
+        
+        ! Restoring the window position should now always work. New database keys are
+          used, so the first time using this release the container will popup at the
+          default position with the default size.
+          
+        + new hotkeys:
+          CTRL-U activate the first tab with unread messages (flashing icon)
+          CTRL-R activate the tab with the most recent unread event.
+
+        ! fixed crash when changing icon sets (recreating the image list).
+        
+        * In order to free up some space on the button bar, I removed the "userinfo"
+          button. Instead, you can click the protocol icon to bring up the dialog
+          with contact information. This only applies to the new window layout.
+        
+        + new option: hide tab bar when only one tab is open.
+        
+        * resizing now causes less flicker than before.
+        
+        + Resurrected the quote button. Only for the new window layout though.
+        
+        + Ability to save typed message on close window. Works automagically, no
+          need to configure anything.
+          
+        * more layout changes for the "new" window layout. The usermenu-button is
+          gone. Instead of this button, I made the username field clickable.
+          
+        * several cleanups in the code and resource file. .DLL filesize -= 14k :)
+        
+        ! fixed some redraw/resizing issues when using the classic windows theme.
+        
+        + user picture support added. This works only with the new message window
+          layout and at the moment it can only display locally stored user pictures.
+          The code was merged from srmm_mod with only minor modifications.
+          
+Version 0.0.4a - 2004/08/07
+
+        ! fixed critical (crash) bug with error dialogs after message timeout.
+        
+        ! fixed tab titles not updating when the option "show status text on
+          tabs" was disabled.
+          
+        ! CTRL-L (clear message log) was missing, even it was mentioned in the changelog.
+        
+        ! attempt to fix a possible crash-on-send bug.
+        
+        ! fixed crash on forwarding messages (hope so).
+        
+        + added tab icons for typing notification (if tab is not active, tab icon will
+          change and show typing status) - THIS IS WORK IN PROGRESS, typing notification
+          still does not work as it should.
+          
+        + merged UNICODE fix by ghazan (possible crash with link handling)
+        
+        ! fixed internal window closing issues when only one tab was active (possible
+          crash).
+          
+        * tooltips now also display the status text
+        
+        * all hotkeys changed again. They are now working with CTRL-SHIFT excluivly.
+          The hotkeys for scrolling the log can be enabled/disabled on the options page
+          for those who prefer having advanced editing features in the input box.
+          
+        + new hotkey: CTRL-F4 -> close active tab.
+        
+        * essential hokeys (ctrl-tab, ctrl-f4) now also work while the message input
+          area is "greyed".
+          
+        + added "double click closes tab" feature.
+        
+        + added "no title bar mode" (switch from window menu - doubleclick the border
+          to get the titlebar back). There is also an option to make it permanent for
+          newly created tab containers.
+          If the titlebar is off, you can still drag the window by using the small border
+          at the top or the right of the container window.
+          
+        ! hopefully fixed the issue which caused the icons for specific protocols not
+          to load on startup.
+          
+        + new option: vertical tab padding. You can specify the vertical padding (in pixel)
+          on the tabs. The value largely depends on the icon sets you're using - if you
+          use some larger icons, you may want to increase the default value of 3 in
+          order to avoid clipping on the icons. If you tend to use small icons, you
+          can reduce this value to 2 or even 1 pixels, making the tabs using less vertical
+          space.
+          
+        + new option: short caption on containers. when active, only the nickname is shown
+          in the titlebar, otherwise nickname and statustext are shown.
+          
+        + new feature: auto create tabs. Works similar to "auto popup window on receive"
+          but the new tab is created in the background and the container window does not
+          popup if it was minimized to the taskbar (instead it flashes if a new tab was
+          created). You can still make the container "auto popup" if you want - the option
+          is just below the "auto create tabs" setting.
+          
+        ! fixed "no titlebar mode" for classic (non themed)  windows style. Window didn't
+          update correctly after removing/adding the titlebar.
+          
+        * a few minor resizing and geometry changes
+        
+        + new message dialog layout (optionally, you have to enable it under Options->
+          tabbed messaging). This is work in progress and not fully implemented. There
+          will be an option for showing a user picture and more.
+          
+This is the third alpha release. It contains bug fixes and a few new features.
+
+Version 0.0.3c - 2004/08/02
+---------------------------
+
+	+ basic support for status icons on the tabs. This feature was contributed
+	  by perf who asked me if I could need some help with development.
+	  
+	  Currently, it uses the "global" status icons and not all icons do actually
+	  look nicely on the tabs (some highcolor icons look seriously "broken").
+	  
+	  This feature will be developed further so we will hopefully have full protocol
+	  icon support in the future.
+	  
+	* some resizing changes. Also contributed by perf.
+	
+	* changed the way hotkeys work. The old system was causing troubles. At the
+	  moment, hotkeys do only work while the message input area has the focus. 
+	  Should not be a problem, because this is the case most of the time.
+	  
+	  the following hotkeys are currently implemented:
+	  
+	  * CTRL-TAB -> next tab (cycle if last was selected)
+	  * CTRL+SHIFT-TAB -> previous tab (cycle if leftmost was selected)
+	  * CTRL-H display history
+          
+                Message log scrolling hotkeys:
+                ------------------------------
+          * CTRL-SHIFT-Arrow UP: scroll up in history
+          * CTRL-SHIFT-Arrow-Down: scroll down history
+          * CTRL-SHIFT-PageDown: scroll down faster
+          * CTRL-SHIFT-PageUp: scroll up faster
+          * CTRL-SHIFT-HOME: scroll to top of log
+          * CTRL-SHIFT-END: scroll to bottom of log
+	  
+          * CTRL-L: clear log (same as context menu entry)
+          
+	* in case of a send error (timeout, protocol offline and so on), the message
+	  dialog was never re-enabled again after the user clicked on "try again" or
+	  cancel button in the error dialog. This bug caused the message window to
+	  hang and the only way to get rid of it was to close the container. Fixed.
+	  
+	* when resizing, the message log scrolls to the bottom so that the last few
+	  lines shouldn't disappear any longer.
+	  
+	! attempt to fix the problem which is caused by wrong container geometry
+	  information saved to the database.
+	  If you get the message "Invalid geometry information found. Applying default values"
+	  more than once, please let me know.
+	  
+	+ context menu added to the tabs. Only a few options at the moment, but more
+	  to come...
+	  
+	* tabSRMM related options moved to their own option page. It's under 
+	  Options->Tabbed Messaging. 
+	
+	+ Ability to cut the length of the nicknames displayed on tabs. This should 
+	  prevent some extraordinary wide tabs for really long nicknames. Optionally, 
+	  a tooltip can be set for the tab, showing the full nickname.
+	  
+	+ Option to select wheter protocol status should be shown on tabs in plain
+	  text format. If disabled, only the nickname will be shown, making the 
+	  tabs even smaller.
+	  
+	! activating the embedded contact list (multisend button) didn't properly work
+	  if the container was maximized. Fixed.
+	  
+	! fixed focus handling. Container passes the enter key (IDOK command) to the
+	  active child, thus re-enabling the "TAB -> ENTER" sequence for sending
+	  messages again.
+	  
+	+ new option - show timestamp after nickname: If the message log is set to
+	  display both the timestamp and the nickname, then the order in which they
+	  appear can be set here.
+	  
+	* changed window flashing code. should work better now.
+	
+	! when sending a message by hitting ENTER while the send button had the
+	  focus, the focus did remain on the send button. fixed. (for those who
+	  prefer the TAB-ENTER sequence).
+	  
+	! fixed several issues with closing tabs by using the context menu.
+        
+        + NewEventNotify now works with tabSRMM. You HAVE to use the supplied DLL
+          in order to make it work with tabbed message sessions. Just replace
+          your existing NewEventNotify.DLL with the one provided in the tabSRMM
+          package.
+          
+        + FULL status icon support implemented. Made the imagelist global (shared
+          by all containers), load all icons at plugin initialisation (should speed
+          up the creation of new containers)
+        
+ Version 0.0.2 - 2004/07/26
+---------------------------
+	
+	* statusbar does no longer have a size grip (SBARS_SIZEGRIP removed)
+	  NOTE: only for tabs, toplevel msg dialogs will get it when they are back.
+	  
+	+ settings only used by tabSRMM moved to a new key in the database. The plugin
+	  will continue to share common settings with SRMM (fonts, colors etc..)
+	  
+	! "Cascade new windows" caused display errors with newly created tabs if
+	  the container already had one or more tab opened in it. Fixed.
+	  
+	! The plugin is now statically linked against msvcr71.dll and therefore
+	  should no longer complain about this dll missing.  
+
+	! saving geometry information about the container could sometimes lead to
+	  unexpected results which could cause problems while trying to restore
+	  the geometry the next time the container was created.
+
+	* thinner outer border. Did look ugly with lower screen resolutions.
+	
+	! when a contact changed its status and its tab was not the active one,
+	  the window title was still updated and therefore didn't any longer
+	  show the name of the _active_ tab.
+	  
+	! minor cosmetical fixes with send button alignment.
+	
+	+ It is now possible to have miranda ask if you really want to close a
+	  tab. Warning is diabled by default, you can turn it on via Options->Messaging.
+	
+	+ Some hotkey support added:
+	
+	  1. ESC = close current tab (was always there)
+	  2. CTRL+SHIFT+TAB -> select previos tab
+	  3. CTRL+TAB -> select next tab.
+	  
+	     Both options are set to wrap around if you have either the leftmost or rightmost
+	     tab selected.  
+	  	  
+	  4. CTRL+H -> show history
+	  5. CTRL+ALT+ARROW UP -> move the focus to the message log (use page up/down for scrolling)
+	  6. CTRL+ALT+ARROW DOWN -> move focus to the message input area.
+	  
+	+ merged the RTL support from srmm_mod originally written by kreisquadratur
+	
+	! workaround for some strange splitter issues. The vertical multisend splitter
+	  is re-enabled again.
+	  
+	! fixed a few resizing issues when restoring the window from maximized state.
+	
+	! display / refreshing errors after forwarding a message should be fixed.
+	
+	+ added a new menu item to the system (window) menu: Stay on top (make the
+	  container "sticky").
+	  
+	+ added a UNICODE build which is, however, completely untested. It compiles
+	  without warnings though :)
+	  
+	
+Version 0.0.1 - 2004/07/23
+--------------------------
+
+	* initial release
+	

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{fd244b12-c10c-41b4-bf60-5b631e523baa}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{afe7f4fa-5483-4fe4-b7cb-b31fad078cba}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="SQLite">
+      <UniqueIdentifier>{9e3e754a-6129-45e8-bfe7-c3a788a4024d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{13fbe9ae-cbdc-4555-8c51-b1e902e67621}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="contacts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbrw.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="events.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="settings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sql.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3\sqlite3.c">
+      <Filter>SQLite</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dbrw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3\sqlite3.h">
+      <Filter>SQLite</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

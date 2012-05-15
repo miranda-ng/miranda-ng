@@ -1,0 +1,17 @@
+TODO List:
+
+- merge code from advsplash
+- fading in/out time
+- more formats
+- more version string options, font color and size
+
+Done:
+- add a splash service [done]
+- add random feature [done]
+- add splash display time option [done]
+- make interface to display time param [done]
+- fix absolute path issue [done]
+- cleanup folders/settings a bit [done]
+- fadeout if rightclicked (and maybe left too) [done]
+- when changing options affect them on preview [done]
+- switch to png2dib for image processing [done]

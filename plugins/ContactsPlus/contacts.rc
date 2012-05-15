@@ -1,0 +1,191 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1250)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SEND DIALOGEX 0, 0, 308, 242
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Send contacts"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROTOCOL,"Button",BS_OWNERDRAW | WS_TABSTOP,5,7,
+                    12,12
+    LTEXT           "",IDC_NAME,19,7,118,9,SS_NOPREFIX | SS_CENTERIMAGE
+    CONTROL         "&A",IDC_ADD,"MButtonClass",WS_TABSTOP,231,5,16,14,
+                    0x18000000L
+    CONTROL         "6",IDC_USERMENU,"MButtonClass",WS_TABSTOP,249,5,16,14,
+                    0x18000000L
+    CONTROL         "&D",IDC_DETAILS,"MButtonClass",WS_TABSTOP,267,5,16,14,
+                    0x18000000L
+    CONTROL         "&H",IDC_HISTORY,"MButtonClass",WS_TABSTOP,285,5,16,14,
+                    0x18000000L
+    CONTROL         "Choose contacts to be send:",IDC_STATIC,"Static",
+                    SS_SIMPLE | WS_GROUP,5,20,300,10,WS_EX_TRANSPARENT
+    DEFPUSHBUTTON   "&Send",IDOK,195,220,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,249,220,50,14
+    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x3da,5,30,298,
+                    185,WS_EX_CLIENTEDGE
+    PUSHBUTTON      "&Select All",ID_SELECTALL,5,220,50,14
+END
+
+IDD_RECEIVE DIALOGEX 0, 0, 320, 225
+STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | 
+    WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU | WS_THICKFRAME
+CAPTION "Received contacts"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_PROTOCOL,"Button",BS_OWNERDRAW | WS_TABSTOP,5,7,
+                    12,12
+    LTEXT           "",IDC_NAME,19,7,118,9,SS_NOPREFIX | SS_CENTERIMAGE
+    CONTROL         "&A",IDC_ADD,"MButtonClass",WS_TABSTOP,243,5,16,14,
+                    0x18000000L
+    CONTROL         "6",IDC_USERMENU,"MButtonClass",WS_TABSTOP,261,5,16,14,
+                    0x18000000L
+    CONTROL         "&D",IDC_DETAILS,"MButtonClass",WS_TABSTOP,279,5,16,14,
+                    0x18000000L
+    CONTROL         "&H",IDC_HISTORY,"MButtonClass",WS_TABSTOP,297,5,16,14,
+                    0x18000000L
+    CONTROL         "",IDC_CONTACTS,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | 
+                    WS_BORDER | WS_TABSTOP,5,22,310,178
+    CONTROL         "Add to &group:",IDC_ENABLEGROUPS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,205,80,12
+    COMBOBOX        IDC_GROUPS,90,205,72,140,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP | 0x8000
+    PUSHBUTTON      "&Add",IDOK,169,204,46,14,WS_DISABLED
+    PUSHBUTTON      "&Details",IDDETAILS,215,204,46,14,WS_DISABLED
+    PUSHBUTTON      "Close",IDCANCEL,261,204,52,14
+END
+
+IDD_MSGSENDERROR DIALOGEX 0, 0, 187, 97
+STYLE DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Contacts send error"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "An error has occured. The protocol reported the following error:",
+                    IDC_STATIC,5,5,177,28
+    DEFPUSHBUTTON   "Try again",IDOK,22,78,63,14
+    PUSHBUTTON      "Cancel",IDCANCEL,104,78,61,14
+    EDITTEXT        IDC_ERRORTEXT,5,37,177,35,ES_MULTILINE | ES_READONLY | 
+                    WS_VSCROLL
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+    IDD_SEND, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 300
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 235
+    END
+
+    IDD_RECEIVE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 313
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 218
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_CONTACTMENU MENUEX DISCARDABLE 
+BEGIN
+    POPUP "Popup",                          0,MFT_STRING,MFS_ENABLED
+    BEGIN
+        MENUITEM "Add to List",                 111,MFT_STRING,MFS_ENABLED
+        MENUITEM "User Details",                113,MFT_STRING,
+        MFS_ENABLED | MFS_UNCHECKED | MFS_UNHILITE | MFS_DEFAULT
+        MENUITEM MFT_SEPARATOR
+        MENUITEM "Send Message",                112,MFT_STRING,MFS_ENABLED
+    END
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,5,2,0
+ PRODUCTVERSION 0,8,0,0
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Requires Miranda 0.3+; Recommended Miranda 0.4+\0"
+            VALUE "CompanyName", "Jokusoftware, Dusk Horizon\0"
+            VALUE "FileDescription", "Send/Receive Contacts plugin for Miranda (Unicode 2in1)\0"
+            VALUE "FileVersion", "1, 5, 2, 0\0"
+            VALUE "InternalName", "contacts+\0"
+            VALUE "LegalCopyright", "Copyright (C) 2004-2008 Jokusoftware, Original code (C) 2002 Dominus Procellarum\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "contacts.dll\0"
+            VALUE "ProductName", "Send/Receive Contacts plugin for Miranda\0"
+            VALUE "ProductVersion", "0, 8, 0, 0\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CONTACTS            ICON    DISCARDABLE     "res\\SendContacts.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////

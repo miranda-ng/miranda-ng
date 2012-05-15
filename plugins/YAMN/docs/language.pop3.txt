@@ -1,0 +1,118 @@
+;
+;	YAMN-POP3 0.2.4.7 translation file
+;
+;--------------------------------
+;	NEW in 0.2.4.7
+;--------------------------------
+
+;--------------------------------
+;	CHANGED in 0.2.4.7
+;--------------------------------
+
+;--------------------------------
+;	OLD in 0.2.4.7
+;--------------------------------
+;
+;	Main
+;
+[Found new version of account book, not compatible with this version of YAMN.]
+[Error reading account file. Account file corrupted.]
+[Memory allocation error while data reading]
+[Reading file error. File already in use?]
+[Error while copying data to disk occured. File in use?]
+[YAMN (internal POP3) read error]
+[POP3 plugin- write file error]
+[Error %d-%d-%d-%d:]
+[Memory allocation error.]
+[Account is about to be stopped.]
+[Cannot connect to POP3 server.]
+[Cannot allocate memory for received data.]
+[Cannot login to POP3 server.]
+[Bad user or password.]
+[Server does not support APOP authorization.]
+[Error while executing POP3 command.]
+[Cannot connect to server with NetLib.]
+[Cannot send data.]
+[Cannot receive data.]
+[Cannot allocate memory for received data.]
+[OpenSSL not loaded.]
+[Windows socket 2.0 init failed.]
+[DNS lookup error.]
+[Error while creating base socket.]
+[Error connecting to server with socket.]
+[Error while creating SSL structure.]
+[Error connecting socket with SSL.]
+[Server rejected connection with SSL.]
+[Cannot write SSL data.]
+[Cannot read SSL data.]
+[Cannot allocate memory for received data.]
+
+;
+;	Options
+;
+[Please wait while account is in use.]
+[Please wait while no account is in use.]
+[Time left to next check [s]: %d]
+[Select executable used for notification]
+[Input error]
+[This is not a valid number value]
+[At least one mail notification event must be checked]
+[Please select application to run]
+[Delete]
+[Check this account]
+[Server:]
+[Port:]
+[User:]
+[Password:]
+[APOP auth]
+[Check interval [min]:]
+[Sound notification]
+[Message notification]
+[Tray icon notification]
+[Application execution:]
+[Persistant message]
+[Sound notification if failed]
+[Message notification if failed]
+[Tray icon notification if failed]
+[Default codepage:]
+[Check while:]
+;[Offline]
+;[Online]
+;[Away]
+;[N/A]
+;[Occupied]
+;[DND]
+;[Free for chat]
+;[Invisible]
+;[On the phone]
+;[Out to lunch]
+[Startup check]
+[Default]
+[Reset counter]
+[Account Test]
+[Account Test (failed)]
+[Account Test]
+[You have N new mails]
+[Connection failed message]
+[Popup notification]
+[Popup if no mail]
+[Single popup]
+[Multi popup]
+[Popup notification if failed]
+[Check from menu]
+[New mail notifications]
+[No new mail notifications]
+[Connection failure notifications]
+[Connecting to server]
+[Reading new mails (%d%% done)]
+[Disconnected]
+[Entering POP3 account]
+[Searching for new mail]
+[Deleting requested mails]
+[Deleting spam]
+[Delete account confirmation]
+[Do you really want to delete this account?]
+
+;--------------------------------
+;	REMOVED in 0.2.4.7
+;--------------------------------

@@ -1,0 +1,28 @@
+1 VERSIONINFO
+FILEVERSION 0,0,1,10
+PRODUCTVERSION 0,0,1,10
+FILEOS 0x4
+FILETYPE 0x2
+{
+BLOCK "StringFileInfo"
+{
+	BLOCK "000004b0"
+	{
+		VALUE "CompanyName", "Miranda Open Source Project"
+		VALUE "FileDescription", "ImportTXT plugin for Miranda IM"
+		VALUE "FileVersion", "0.0.1.10"
+		VALUE "InternalName", "importtxt"
+		VALUE "LegalCopyright", "© 2008 Abyss"
+		VALUE "LegalTrademarks", "Gnu General Public License V2"
+		VALUE "OriginalFilename", "importtxt.dll"
+		VALUE "ProductName", "Import TXT Module"
+		VALUE "ProductVersion", "0.0.1.10"
+		VALUE "Comments", "Imports history saved in TXT files from other clients"
+	}
+}
+
+BLOCK "VarFileInfo"
+{
+	VALUE "Translation", 0x0000 0x04B0
+}
+}

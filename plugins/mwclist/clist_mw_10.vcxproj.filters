@@ -1,0 +1,292 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{6c881602-dfa1-45ce-8613-13d8c6bd3ad5}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\CLUIFrames">
+      <UniqueIdentifier>{eb8ace08-5854-4e7e-8dce-295b258ca064}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{56b79972-29f3-40b1-bf23-ccffb8791acd}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{a32ba414-7a6a-4ff3-9127-2fba358accda}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BkgrCfg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clcidents.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clcitems.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clcopts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clcpaint.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clcutils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clistmenus.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clistmod.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clistopts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clistsettings.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clisttray.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="clui.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cluiopts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cluiservices.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="commonheaders.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="contact.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="groupmenu.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="init.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\cluiframes.c">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\extraimage.c">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\framesmenu.c">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+    <ClCompile Include="CLUIFrames\statusbar.c">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLUIFrames\cluiframes.h">
+      <Filter>Source Files\CLUIFrames</Filter>
+    </ClInclude>
+    <ClInclude Include="clc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="commonheaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="statusmodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\&amp;RQ.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\3.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\4.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\6.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\7.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\addgoupp.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AgileMobile.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\AlIcq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\blank.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Center.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\dropuser.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Gaim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\globus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Gnomeicu.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\hyperlin.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00001.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00002.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00003.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00004.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ico00005.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\icon2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IcqMac.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IM+.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\IM2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Kopete.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\L.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\L4.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\L5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\LibIcq2000.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Licq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Micq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\miranda.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Mob2Icq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\MobiCQ2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\NICQ2.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\notick1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\PSI.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\QIP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\rename.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\sendmail.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Sim.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\sms.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Spambot.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Sticq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Stricq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Trillian.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Vicq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\WebIcq.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Yamigo.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\Ysm.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

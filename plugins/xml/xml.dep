@@ -1,0 +1,23 @@
+# Microsoft Developer Studio Generated Dependency File, included by xml.mak
+
+.\xml.cpp : \
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\m_xml.h"\
+	"..\..\include\newpluginapi.h"\
+	".\commonheaders.h"\
+	
+
+..\..\src\modules\xml\xmlApi.cpp : \
+	"..\..\src\modules\xml\xmlParser.h"\
+	
+
+..\..\src\modules\xml\xmlParser.cpp : \
+	"..\..\src\modules\xml\xmlParser.h"\
+	
+
+.\resource.rc : \
+	".\xml.ico"\
+	

@@ -1,0 +1,25 @@
+
+Source code for the loadavatars (avatar service plugin) is available via
+anonymous SVN at:
+
+http://svn.berlios.de/svnroot/repos/mimplugins/trunk/avs/
+
+You need a SVN client to access this, I recommend TortoiseSVN for Windows which
+is easy to use and provides a good UI.
+
+To compile, you need a complete checkout of Mirandas main source repository and
+Visual C++ 6 with service pack 6 + the latest platform SDK installed.
+
+Project files are provided for Visual C++ 6 and Visual Studio 2005 (aka Visual
+C++ 8). The sources may compile with Mingw32/GCC, but this is not supported at
+this time.
+
+This plugin for the Miranda Instant messenger is licensed under the GNU 
+General Public License Version 2.
+
+The code was written by:
+
+Nightwish (silvercircle@gmail.com) (original idea and implementation)
+Pescuma (major rewrite for version 0.0.2.0 with new request/poll code and most of
+         the image manipulation utilities).
+         

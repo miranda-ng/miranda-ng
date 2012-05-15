@@ -1,0 +1,33 @@
+#include "resource.h"
+#ifdef __MINGW32__
+	#define WINVER 0x500
+	#define _WIN32_WINNT 0x501
+	#define _WIN32_IE 0x500
+#endif
+#include <windows.h>
+#ifndef IDC_STATIC
+#define IDC_STATIC (-1)
+#endif
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ADDCONTACT          ICON    DISCARDABLE     "res/addcontact.ico"
+IDI_USERDETAILS         ICON    DISCARDABLE     "res/details.ico"
+IDI_HISTORY             ICON    DISCARDABLE     "res/history.ico"
+IDI_SEND                ICON    DISCARDABLE     "res/send.ico"
+IDI_CANCEL              ICON    DISCARDABLE     "res/delete.ico"
+IDI_SMILEY              ICON    DISCARDABLE     "res/smiley.ico"
+IDI_TYPING              ICON    DISCARDABLE     "res/typing.ico"
+IDI_UNICODEON           ICON    DISCARDABLE     "res/unicodeon.ico"
+IDI_UNICODEOFF          ICON    DISCARDABLE     "res/unicodeoff.ico"
+IDI_TIMESTAMP           ICON    DISCARDABLE     "res/clock.ico"
+IDI_QUOTE               ICON    DISCARDABLE     "res/quote.ico"
+IDI_INCOMING            ICON    DISCARDABLE     "res/incoming.ico"
+IDI_OUTGOING            ICON    DISCARDABLE     "res/outgoing.ico"
+IDI_NOTICE              ICON    DISCARDABLE     "res/notice.ico"
+
+

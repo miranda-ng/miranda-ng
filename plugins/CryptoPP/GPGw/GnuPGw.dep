@@ -1,0 +1,141 @@
+# Microsoft Developer Studio Generated Dependency File, included by GnuPGw.mak
+
+.\commonheaders.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\gpg.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\keys.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\language.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\main.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\passdialog.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\passphrases.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\pipeexec.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\tools.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	
+
+.\userdialog.c : \
+	"..\version.h"\
+	".\commonheaders.h"\
+	".\gpg.h"\
+	".\keys.h"\
+	".\language.h"\
+	".\passdialog.h"\
+	".\passphrases.h"\
+	".\pipeexec.h"\
+	".\size.h"\
+	".\tools.h"\
+	".\userdialog.h"\
+	

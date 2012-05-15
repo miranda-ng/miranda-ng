@@ -1,0 +1,1371 @@
+                   Miranda Instant Messenger Change Log
+                   ------------------------------------
+                           www.miranda-im.org
+
+
+* New in 0.8.27
+Bugfixes:
+ - ICQ: Fixed status when AIM support enabled
+ - MSN: Updated WLM 10 detection
+ - MSN: Fix infinite loop
+ - Yahoo: Fix empty "Nick" issues
+ - Yahoo: Fixed client version detection
+ - Yahoo: Fix issues with Yahoo! Japan
+
+
+* New in 0.8.26
+Bugfixes:
+ - Minor translation fixes
+ - AIM: Fixed specified port need to be used as a backup
+ - ICQ: Removed version warning
+ - ICQ: Fixed offline message timeout to AIM
+ - MSN: Fixed file/avatar transfer issues for contacts with id that has upper case letters
+ - Yahoo: Fixed issues setting Nick
+ - Yahoo: Strip out username when email address is entered for the username
+
+
+* New in 0.8.25
+Bugfixes:
+ - Fixed focus issues with file transfer minimize option
+ - Fixed auth issues caused by deny reason dialog
+ - Fixed dll dependancy issue with image processing library
+ - Fixed account manager icon sizing issue
+ - Fixed possible crash with IE 4 installed
+ - AIM: Fixed ceritificate validation
+ - ICQ: Fixed issue with ICQ not setting the status properly when AIM support is enabled
+ - Jabber: Added SSL certificate validation for Google Apps accounts
+ - MSN: Fixed possible crashes
+ - MSN: Added workaround for file transfers with Pidgin
+ - Yahoo: Minor translation fixes
+
+
+* New in 0.8.24
+Bugfixes:
+ - Fixed processing of special characters in multi-user chat windows
+ - AIM: Fixed reception of messages in ISO 8859-1 codepage
+ - Jabber: XStatus icons were shown incorrectly
+ - Jabber: Fixed possible crash sending non-existent file
+
+
+* New in 0.8.23
+Enhancements:
+ - Updated icons by Angeli-Ka
+
+Bugfixes:
+ - Fixed drawing issues in Options and Find/Add
+ - Fixed message duplication in the message log
+ - Fixed message navigation in the message window
+ - Jabber: Don't show error message on reconnect request
+ - Yahoo: UTF-8 fixes
+
+
+* New in 0.8.22
+Enhancements:
+ - Gadu-Gadu: Added typing notifications support
+ - Yahoo: Enabled UTF-8 by default
+ 
+Bugfixes:
+ - Update zlib library to 1.2.5
+ - ICQ: Added missing mobile icon to installer icon pack
+ - Yahoo: Fixed issues with Yahoo Japan setting getting reset
+
+ 
+* New in 0.8.21
+Bugfixes:
+ - Jabber: Fixed PLAIN authentication with Unicode usernames/passwords
+ - Gadu-Gadu: Fixed memory leaks
+
+
+* New in 0.8.20
+Bugfixes:
+ - Fixed menus in Windows 95
+ - Moved default directory for receiving files into location not protected by UAC (My Documents\My Received Files)
+ - Fixed focus issue in update notification dialog
+ - AIM: Mask spurious mail notification
+ - AIM: Fixed authorization request on moving contact from group to group
+ - Gadu-Gadu: Fixed offlining all contacts when going offline
+ - Gadu-Gadu: Fixed exporting group chats
+ - Gadu-Gadu: Added 'Leave chat' support
+ - Jabber: Fixed formatting of error notification message box
+ - Jabber: Fixed memory leak in search
+
+ 
+* New in 0.8.19
+Bugfixes:
+ - More docking issues fixed
+ - Updated zlib to version 1.2.4
+ - MSN: Converted chat invitation menu to Unicode
+ 
+ 
+* New in 0.8.18
+Enhancements:
+ - MSN: Added ability to send authorization request message
+ 
+Bugfixes:
+ - Fixed docking with multiple monitors
+ - Move to Group wasn't sorted correctly
+ - Improved error handling in file exists dialog
+ - AIM: Fixed storing custom nickname on server when adding contact
+ - AIM: Fixed random "Service not available" popups
+ - AIM: Mapped "Miranda Merged" server group into Miranda root group
+ - AIM: Fixed adding contacts
+ - Jabber: Fix authentication issues
+ - Jabber: Disabled TLS option when SASL authentication disabled
+ - MSN: Fix issues with setting long status message
+
+
+* New in 0.8.17
+Enhancements:
+ - Installer now includes a portable mode option
+ - Added auto rename button to file transfer file exists prompt
+ 
+Bugfixes:
+ - Minor fix for off screen positioning
+ - Fixed docking issues with contact list
+ - Gadu-Gadu: Improved message handling
+ - Gadu-Gadu: Fixed memory leaks
+ - Gadu-Gadu: Support contacts with large UINs
+ - Gadu-Gadu: Fixed idle issues with empty status messages
+ - MSN: Added handling of authentication failure due to incomplete profile
+ - Jabber: Translation improvements
+
+
+* New in 0.8.16
+Enhancements:
+ - Added options to clear completed file transfers on window close
+ 
+Bugfixes:
+ - Fix for deleting groups with contacts
+ - Fix for moving contacts through groups
+ - Fix main menu icon reference
+ - Fix for main window off screen positioning
+ - Fixed authorization dialog behaviors
+ - AIM: Display nickname instead of screenname in chat
+ - AIM: Fixed encrypted and formatted messages with Metacontacts
+ - ICQ: Fix for long error messages
+ - Yahoo: Added Yahoo 10.0 client detection
+ 
+						   
+* New in 0.8.15
+Bugfixes:
+ - Jabber: Disable TLS in the Facebook Chat account type
+ - Yahoo: Improved offline messaging support for Meta plugin
+
+
+* New in 0.8.14
+Enhancements:
+ - Jabber: Added a "Facebook Chat" type to setup Facebook accounts easily
+
+Bugfixes:
+ - ICQ: Fixed ICQ7 client detection
+ - Jabber: Fixed possible crash on reconnection attempt
+ - Jabber: Fixed status menu
+ 
+	 
+* New in 0.8.13
+Enhancements:
+ - ICQ: Improved AIM capabilities detection
+ - ICQ: Added ICQ 7 client detection
+
+Bugfixes:
+ - Incompatible contact list plugins could load on startup
+ - ICQ: Fixed possible memory leak
+ - Jabber: Minor translation fixes
+ - MSN: Fixed issue with SOAP requests
+ - MSN: Fixed issue denying users
+ - Yahoo: Fixed nudges
+ - Yahoo: Support cancelling file transfer in progress
+
+
+* New in 0.8.12
+Bugfixes:
+ - Fixed crash during NTLM authentication
+ - Fixed possible crash in internal history viewer
+ - Fixed "Move to Group" issue
+ - AIM: Fixed crash issue
+ - AIM: Contact lost custom name when moving to different group
+ - Jabber: Fixed rare crashes
+ - Jabber: Privacy lists were missing from the list editor
+ - Jabber: Fixed options UI issues
+ - Yahoo: Fix memory leaks
+
+
+* New in 0.8.11
+Enhancements:
+ - Windows 7 Taskbar support for file transfer progress
+ 
+Bugfixes:
+ - ICQ: Possible crash loading avatar from cache
+ - Yahoo: Improvements in comparing Yahoo ids
+ - Yahoo: Display fix for email notifications
+ - Yahoo: Fixed login issue
+
+
+* New in 0.8.10
+Bugfixes:
+ - SSL improvements on Windows 9x
+ - Jabber: Improve support for Jabber transports
+ - Jabber: Fixed memory leak & crash in privacy lists
+ - MSN: Fix for forward list
+ - MSN: Added stripping new style of MSN color codes
+ 
+
+* New in 0.8.9
+Bugfixes:
+ - Fix for entering cyrillic chars into the profile manager
+ - Translation fixes
+ - Fixed SSL connection failure handling
+ - Fixed potential buffer overflow issue
+ - ICQ: Fixed keep-alive option default value
+ - Jabber: Fixed certificate validation for TLS connection 
+ - MSN: Fixed issue in MSN chats with unicode characters
+ - Yahoo: Fix for Yahoo search
+
+
+* New in 0.8.8
+Enhancements:
+ - Added new update notification options
+
+Bugfixes:
+ - Fixed possible crash in contact list menus
+ - AIM: Fixed setting user preferences
+ - Jabber: Fix for ANSI version of Jabber
+ - Yahoo: Minor options text changes
+ 
+
+* New in 0.8.7
+Enhancements:
+ - New update notification detection
+
+Bugfixes:
+ - Fixed memory leaks
+ - Fixed possible crash on startup
+ - Jabber: Fixed SASL authentication
+ - MSN: Fixed MSN contact search 
+ - MSN: Disabled server list options when MSN not logged-in
+ - MSN: Added removal of new style for MSN color codes in nicks and status messages
+ - MSN: Fixed infinite loop on authorization failure
+
+
+* New in 0.8.6
+Enhancements:
+ - Performance improvements with network logging disabled
+ - AIM: Added send directory ability
+ - MSN: Added ability to transfer all files in a directory
+ - MSN: Use protocol username for chat names in contact list
+
+Bugfixes:
+ - Fixed possible crash in the file transfer window while scrolling
+ - Fixed file transfer resume
+ - AIM: AIM 7 is now detected
+ - AIM: Improved file transfer support
+ - Jabber: Ignored the "Manual host" setting during the account registration
+ - MSN: Fixed chats with IM Control users
+ - MSN: Auth request reason is now displayed
+ - MSN: Fixed deletion of contact from Hotmail address book
+ - MSN: Fixed avatar sending on chat session
+
+
+* New in 0.8.5
+Bugfixes:
+ - Auto away did not respect locked protocols
+ - Fixed possible file transfer crashes with Windows 9x
+ - Fixed deleting accounts for not loaded protocols
+ - Fixed minor selection issues with the profile manager
+ - ICQ: Incorrect behavior of error messages when popups were unloaded
+ - ICQ: Improved file transfer resume
+ - ICQ: Improved status message handling
+ - ICQ: Improved changeinfo module accessibility
+ - MSN: Fixed address book migration from 0.7
+ - MSN: Fixed phones in the contact list
+ - MSN: Fixed removing IM contacts
+ - MSN: Fixed blocking contacts not on contact list
+
+
+* New in 0.8.4
+Enhancements:
+ - Gadu-Gadu: Added option: 'Show links from unknown contacts'
+ - Yahoo: Improved login error detection
+
+Bugfixes:
+ - Installer uses safer method of previous installation choices detection
+ - AIM: Fixed mail notifications
+ - AIM: Filenames were not correct on file receive
+ - AIM: Fixed setting status message to not supported status
+ - Gadu-Gadu: Icons were not installed correctly
+ - Gadu-Gadu: Fixed crash opening new conference
+ - Gadu-Gadu: Removed 'Show contacts not on my list having me on their list' option due to the server changes
+ - ICQ: Advanced search was not working in some cases
+ - Jabber: Ignored Google Talk custom domains in account manager
+ - Jabber: Receiving messages stops if <version> tag in response is incomplete
+ - Jabber: Group chat invites didn't process non-legacy invites
+ - Jabber: Fix for rare crash
+ - Jabber: Handle realms correctly in Digest-MD5 SASL
+ - MSN: Fixed setting status message to not supported status
+
+
+* New in 0.8.3
+Bugfixes:
+ - Fixed contact list minimum row height determination
+ - AIM: Chat message processing improvements
+ - AIM: Fixed error messages during nickname upload
+ - AIM: File transfer improvements
+ - Jabber: Fix for saving the checkbox value in password dialog
+ - MSN: Away message api compatibility improvement
+
+
+* New in 0.8.2
+Enhancements:
+ - Improved account deletion support
+ - MSN: Non IM contacts removed from the contact list and database
+ - Yahoo: Removed "Show Profile" for non Yahoo contacts
+ 
+Bugfixes:
+ - Fix for ssl errors when client tries to send on closed connection
+ - AIM: File transfer fixes
+ - IRC: Own actions were not always shown
+ - Jabber: Random disconnect issue caused by timeouts
+ - Jabber: Fixed encrypted messages being empty (XEP-0027)
+
+ 
+* New in 0.8.1
+Enhancements:
+ - Improve account renaming inside of the account manager
+ - Notification if missing messaging plugin
+ 
+Bugfixes:
+ - Improved upgrade procedure when using older contact list and messaging plugins
+ - Network list in options wasn’t sorted
+ - Fixed missing icon/menu issues
+ - Fixed crash in options on XP pre SP2
+ - Fixed errors loading dlls on wrong OS
+ - Fixed drawing background in options search
+ - Fixed account removal handling
+ - Fixed hotkey issue with some MS keyboards
+ - Fixed possible crash with event data
+ - AIM: Fixed issue with multiple connection requests
+ - AIM: Fixed issue setting AIM profile
+ - ICQ: Fixed AIM away message handling (caused online status to be seen as away in some clients)
+ - IRC: Possible crash on specific alias
+ - MSN: Fixed renaming nickname from options
+ - MSN: Fixed Offline messaging reception from Beejive client
+ - Yahoo: Show download progress properly
+ - Yahoo: Cancel out in the middle of file receive.
+ - Yahoo: Main menu fixes
+
+ 
+* New in 0.8.0
+Enhancements:
+ - Support for multiple accounts (without dll renaming) for all protocols
+ - SSL support has been added to the core
+ - Support for compressed HTTP transactions
+ - AIM: Unicode messaging, status messages, profiles
+ - AIM: Offline messaging
+ - AIM: Set/retrieve status message for any status
+ - AIM: Ability to set your own avatar
+ - AIM: Privacy settings & lists support
+ - AIM: Server groups support
+ - AIM: Group Chat support
+ - AIM: SSL server connection support
+ - ICQ: Fixed receiving of multi-part messages (only first part was received)
+ - ICQ: Fixed processing of UTF-8 encoded status messages from QIP
+ - ICQ: New offline messages protocol (supports unicode)
+ - ICQ: New user details protocol support (fully unicode aware)
+ - ICQ: Added support for status notes & moods
+ - ICQ: URL events are now received as normal messages
+ - ICQ: Ability to send/receive contacts to/from ICQ6 and AIM
+ - ICQ: Server-list support now groups requests
+ - IRC: IRC servers now stored in the database
+ - IRC: Filter for IRC channel list
+ - IRC: Enhanced identd processing
+ - IRC: Added menu item for nickserv commands
+ - IRC: Auto request client info on adding to contacts or private message
+ - IRC: Enhanced WhoIs request
+ - IRC: CTCP events are shown in the server window
+ - IRC: Close windows with ESC button
+ - IRC: Quick Connect now allows manual input of server parameters
+ - Jabber: Bunch of new XMPP extensions implemented (XEPs: 70, 83, 108, 147, 184, 224, 232 and other)
+ - Jabber: Massive improvements in filetransfers
+ - Jabber: Improved GnuPG messages handling (using SecureIM/GPG plugins)
+ - Jabber: Localized server messages support (xml:lang, RFC 3920 section 4.4)
+ - Jabber: Server side notes (Miranda own extension)
+ - Jabber: Ability to invite chat users to another rooms
+ - Jabber: Directed presences, ability to change connection priority
+ - Jabber: Display active resource of user in message window
+ - Jabber: Jabber VCard moved integrated with user details
+ - Jabber: Redesigned almost all dialogs (roster editor, bookmarks, privacy lists, groupchat join, user info and other)
+ - Jabber: Redesigned menus (main menu in status bar, privacy lists menu, custom status, priority menu, groupchat menus and other)
+ - Jabber: Added new and updated old icons, improvements in UI
+ - Jabber: Added hotkeys and toolbar buttons
+ - Jabber: Options to auto-accept authorization requests and auto-reject invites to conferences
+ - Jabber: CTRL key shows disabled items in most menus
+ - Jabber: Various improvements in groupchats (show online status, improved topic and nick change dialogs and other)
+ - Jabber: Improved remote controlling (resources in forwarded messages, keep last options, leave groupchats)
+ - Jabber: Added display of quit messages, ability to send quit and "slap" messages
+ - Jabber: "Use hostname as resource" option
+ - Jabber: Improvements in XML Console (filters, formatting)
+ - Jabber: Ability to show jabber presence subscription states and errors
+ - MSN: Rewritten to support WLM 8.5 protocol (and all it features)
+ - MSN: Offline messaging
+ - MSN: Added Hotmail Notifier functionality 
+ - Yahoo: Added Yahoo 9.x protocol support
+ - Yahoo: File transfer overhauled with support for batches of files
+ - Yahoo: Added user info dialog for Yahoo that shows more detailed information
+ - Yahoo: Improved support for HTTP proxies
+ - Yahoo: Yahoo Japan support
+ - Yahoo: Yahoo now provides a Unicode version
+
+Bugfixes:
+ - ICQ: Fixed receiving of multi-part messages (only first part was received)
+ - ICQ: Fixed processing of UTF-8 encoded status messages from QIP
+ - Jabber: Fixed various serious bugs (accidental account unregister, message sender spoofing, roster access by remote users)
+ - Jabber: Fixed wrong timestamps in offline and forwarded messages, fixed xmpp time answers
+ - Jabber: Various connection stability fixes (XMPP ping, ZLib keepalive and other)
+ - Jabber: Fixed chat issues with autojoin and unstable connection
+ - Jabber: Fixed displaying of active resource (including software info) in contact list
+ - Yahoo: Tons of bug fixes
+
+
+* New in 0.7.19
+Bugfixes:
+ - ICQ: Fixed server connection thread issue
+
+
+* New in 0.7.18
+Bugfixes:
+ - Windows compatibility improvements
+ - ICQ: Improved server list processing
+ - ICQ: New contacts sometimes showed as offline
+ - ICQ: Fixed server warning on login
+ - ICQ: Possible crash processing time
+
+
+* New in 0.7.17
+Bugfixes:
+ - Windows compatibility improvements
+
+
+* New in 0.7.16
+Bugfixes:
+ - Windows compatibility improvements
+
+
+* New in 0.7.15
+Bugfixes:
+ - Windows compatibility improvements
+ - Registry key no longer written on launch of Miranda IM
+ - Improved keyboard support in import dialog
+ - Improved hotkey support in delete contact dialog
+ - Fixed issue with failed searches
+
+
+* New in 0.7.14
+Bugfixes:
+ - AIM: Fixed timeout issue
+ - ICQ: Minor packet issue
+ - ICQ: Login enhancements
+ - Fix typo in sound options
+
+
+* New in 0.7.13
+Enhancements:
+ - Installer remembers install options for upgrades
+
+Bugfixes:
+ - Update Help/Support link
+ - Jabber: Don't remove self contact from contact list if still in roster
+ - Jabber: Fixed timezone conversion issue
+
+
+* New in 0.7.12
+Bugfixes:
+ - MSN: File transfer was broken
+
+
+* New in 0.7.11
+Bugfixes:
+ - Avatar refresh issue from "View/Change My details"
+ - Updated anti-virus client list
+ - Fixed display issue with authorization dialog
+ - ICQ: Updated client detection
+ - MSN: Improved search stability
+ - MSN: Improved timeout handling with switchboard server
+ - MSN: Fixed avatar transfer with certain clients
+
+
+* New in 0.7.10
+Bugfixes:
+ - Gadu-Gadu: Fix issue adding contacts with empty list
+ - MSN: Error 800 issue in last release
+
+
+* New in 0.7.9
+Bugfixes:
+ - Fix possible crashes
+ - Improve SSL connection timeout handling
+ - ICQ: Minor encoding fix
+ - MSN: Fixed file transfer with MSN Mobile
+ - MSN: Connection failure fixes
+ - MSN: Fix mail login
+
+
+* New in 0.7.8
+Enhancements:
+ - SSL library included to provide ssl support
+ - ICQ: Improved client detection
+ - Jabber: Enable StartTLS by default
+ 
+Bugfixes:
+ - Safer port opening for incoming connections
+ - Language pack translations did not always translate correctly
+ - ICQ: Skinned protocol icon was sometimes incorrect
+ - MSN: Improved BBCode processing
+
+
+* New in 0.7.7
+Bugfixes:
+ - Some tooltips didn't properly support UNICODE
+ - AIM: Improved client detection
+ - ICQ: ICQ server sometimes repeated offline messages
+ - MSN: Added stripping BBCode from nicknames
+
+* New in 0.7.6
+Enhancements:
+ - Enabled dim idle contacts by default in classic contact list
+ - Cleaned up the Icons options page
+ - Yahoo: Improved status change consistency
+
+Bugfixes:
+ - Yahoo: Fixed avatar uploading
+
+
+* New in 0.7.5
+Enhancements:
+ - Added a "Check for Updates" menu item
+ - AIM: Added skinnable icons
+
+Bugfixes:
+ - Group chat options didn't use tabbed interface under "Group chats"
+ - AIM: Fixed possible crashes
+ - AIM: Fixed possible memory leaks
+ - AIM: Profile editor shown incorrectly
+ - ICQ: Fix problem with transfers through LAN
+ - Jabber: Problem receiving '&' character
+ - Yahoo: Global status change ignored status lock
+ - Yahoo: Avatars were not enabled by default
+
+
+* New in 0.7.4
+Enhancements:
+ - Ability to show unicode tooltips
+ - Improved uPnP handling for various routers
+ - Status menu width fix
+ - ICQ: Use new offline messaging protocol (supports unicode)
+ - ICQ: Ability to send/receive contacts to/from ICQ6 and AIM
+ - ICQ: Ability to view/set ICQ6 compatible custom statuses (icons only)
+ - ICQ: Reinvented known spam bot blocking
+ - Jabber: Group chat jid list filters implemented
+ - MSN: Added WLM 9 detection
+ - MSN: Added ability to receive GIF avatars
+ - MSN: Added custom smiley reception
+ - MSN: Added avatar display for the contact that is yourself
+ - MSN: Added error messages on failure to find / store avatar
+ 
+Bugfixes:
+ - Fixed HTTP processing
+ - Fixed crashes in multiple conditions
+ - ICQ: Fixed receiving of multi-part messages (only first part was received)
+ - ICQ: Fixed connection problems with many contacts in the server-list
+ - ICQ: Do not lose server-list contacts due to too long nicknames/comments
+ - ICQ: Fixed possible crash during file transfer
+ - Jabber: Crash on group chat join from service discovery
+ - Jabber: Memory leak fixes in dialogs
+ - Jabber: Client version was wrongly updated when sending message to an offline contact
+ - MSN: Offline messaging for people with long nicknames
+ - MSN: Disconnect when receive Hotmail notification
+ - MSN: Inability to login with error 923 
+ - MSN: Fixed disconnect / inability to login due to sending corrupted messages
+ - MSN: Fixed for nudge sending / receiving
+ - MSN: Fixed moving contact to root
+ 
+
+* New in 0.7.3
+ - MSN: URL encoding of utf8 was broken
+ - Jabber: Contact list vulnerability fixed
+
+
+* New in 0.7.2
+Enhancements:
+ - Jabber: Added "Toggle Member" item
+ - Jabber: Added items count in jid lists
+ - Jabber: Added display of quit messages
+ - Jabber: implemented XEP-0184 message delivery check
+ - Jabber: Cleanup for the menu entries
+ - Jabber: "Use hostname as resource" option
+ - Jabber: redesigned groupchat join dialog
+ - Jabber: redesigned privacy lists dialog, usability changes
+ - Jabber: redesigned jabber user info dialog
+ - Jabber: privacy lists menu
+ - Jabber: Auto reject invites to conferences
+ - Jabber: Auto accept authorization requests
+ - Jabber: resource selection from contact context menu
+ - Jabber: 'File Association Manager' Plugin support, URI handler
+ - Jabber: xml:lang support, localized forms and other resources
+ - Jabber: simple privacy list editor
+ - Jabber: XEP-0083: Nested Roster Groups
+ - Jabber: an admin can now view admin and owner lists
+
+Bugfixes:
+ - IRC: Handle on the phone and out to lunch events
+ - MSN: Potential buffer overflow issue
+ - MSN: Block MSN system alerts
+ - Yahoo: Potential buffer overflow issue
+ - Jabber: Wrong timestamp for message forwarded from another client
+ - Jabber: Roster import/export create groups
+ - Jabber: On-trasport context menu issues
+ - Jabber: Custom status messages not propagated to Jabber 
+ - Jabber: Auto-join jabber conference don't work
+ - Jabber: scrolling doesn't work well in jabber forms (MUC configuration, ad-hoc, etc)
+ - Jabber: fixed closing internal form dialog by pressing ESC
+ - Jabber: Broken avatar transparency
+ - Jabber: fixed transport registration (transport was offline just after registration)
+ - Jabber: check default typing setting, if contact setting is not available
+ - Jabber: fixed jabber bookmarks error handling
+ - Jabber: fixed message send timeout problem with 0.7.0.13 module versions
+ - Jabber: remove user moods and privacy lists menus before going to offline
+ - Jabber: cannot close privacy lists editor, if miranda is offline
+ - Jabber: Data Forms eat some words
+ - Jabber: proper jabber advanced options tree checkbox checking by space key
+ - Jabber: removed 'from' attribute from muc invitations
+ - Jabber: skip xml console tag text indentation, if tag has no children => proper copy/paste
+
+ 
+* New in 0.7.1
+Enhancements:
+ - Improved icon skinning engine performance
+ - ICQ: Enable ICQ 6 photo handling
+ - Jabber: Improved avatar processing
+ - MSN: Added per message nickname display
+ - MSN: Improved status message processing
+ 
+Bugfixes:
+ - Image services plugin wasn't loaded correctly sometimes
+ - Standard message dialog didn't draw user id button correctly
+ - Network log issue creating log file name correctly
+ - ICQ: Handle non-standard offline messages
+ - ICQ: Buffer overflow vulnerability
+ - IRC: Warning message was cut off
+ - IRC: Buffer overflow vulnerability in IRC options
+ - IRC: Russian nicks parsed incorrectly
+ - IRC: Fixed clickable timestamps in group chats
+ - Jabber: urn:xmpp:time returns month number off by 1
+ - Jabber: Jabber displayed self in contact list
+ - Jabber: Wrong timestamp for offline messages
+ - Jabber: Crash in Jabber multi-user conference
+ - Jabber: Buffer overflow vulnerability in Jabber forms
+ - Jabber: Can't change icons to gadu gadu transport contacts
+ - MSN: Changed gateway polling frequency
+ - MSN: Fixed MSN alert url creation
+ - MSN: Remove Yahoo alert 
+ - Yahoo: Buffer overflow vulnerability
+ 
+
+* New in 0.7
+Enhancements:
+ - Added Gadu-Gadu protocol support
+ - Improved Unicode support
+ - Messages and other events are now stored as UTF-8
+ - New icon manager allows more icon skinning possibilities
+ - Centralized font manager added to the options to manage fonts for all services
+ - New avatar and image handling core plugins to better manage avatars
+ - Improved memory and threading support
+ - Menus are now customizable
+ - Improved contact list plugin support
+ - Implemented a new memory mapped database driver
+ - Improved uPnP support
+ - New plugin identification API
+ - ICQ: Oscar File Transfers - like ICQ 5
+ - ICQ: Client detection improvements
+ - ICQ: Level 1 Rate management (global)
+ - ICQ: Ability to send long offline messages (up to 4096 characters)
+ - ICQ: Support for AIM contacts enhanced
+ - ICQ: Better support for Miranda Ignore module
+ - ICQ: URL events are now received as normal messages
+ - Import: Supports UTF-8 and improved import speed
+ - IRC: True Unicode support for servers with UTF-8 channels
+ - IRC: Ability to set a codepage for a server and to convert a text from ASCII to Unicode properly
+ - Jabber: Ability to choose contacts's resource to send message
+ - Jabber: Bookmarks storage support (XEP-0048)
+ - Jabber: Last activity support (XEP-0012)
+ - Jabber: Jabber search (XEP-0055)
+ - Jabber: Proper data forms support (XEP-0004)
+ - Jabber: Transport gateway recognition
+ - Jabber: Vcard in jabber chatrooms
+ - Jabber: Ability to revoke authorization from a contact
+ - Jabber: Entity time support (XEP-0202)
+ - Jabber: Ad-hoc commands implementation (XEP-0050)
+ - Jabber: Traffic compression (XEP-0138)
+ - Jabber: Full support for socks5-bytestreams filetransfers (XEP-0065)
+ - Jabber: In band bytestreams filetransfers support (XEP-0047)
+ - Jabber: Entity capabilities support (XEP-0115 v1.3)
+ - Jabber: User moods (XEP-0107)
+ - Jabber: User tunes (XEP-0118, via ListeningTo plugin)
+ - Jabber: Personal eventing protocol support (XEP-0163) 
+ - Jabber: Proper priority support (inc. negative priority) and displaing, priority change without reconnect
+ - Jabber: Combobox with most popular resources in options
+ - Jabber: Redesigned options dialogs
+ - Jabber: Chat state notifications support (XEP-0085)
+ - Jabber: Self contact support in a contact list
+ - Jabber: Show participants real jid, affiliation/role and status messages in group chat
+ - Jabber: Privacy lists (XEP-0016)
+ - Jabber: Brand new service discovery, transports discovery
+ - Jabber: Remote controlling clients (XEP-0146)
+ - Jabber: Roster editor + backup/restore feature
+ - Jabber: Protocol status show in group chat
+ - Jabber: Pre-filled text controls in change nickname + set topic dialogs in group chat
+ - Jabber: Delayed delivery support (XEP-0203)
+ - Jabber: XML Console
+ - Jabber: Option to disable sharing OS version information
+ - Jabber: Partial extended stanza addressing support (XEP-0033)
+ - Jabber: Message receipts preliminary support (XEP-0184, experimental)
+ - Jabber: XMPP ping support (XEP-0199)
+ - Jabber: XMPP Basic Client 2008 (XEP-0211)
+ - Jabber: XMPP Intermediate IM Client 2008 (XEP-0213)
+ - Jabber: Redesigned group chat invitation dialog with ability to invite multiple users
+ - Jabber: Show ban reason in group chat
+ - Jabber: Folders plugin support
+ - MSN: Offline messaging (send/receive)
+ - MSN: SMS messaging (send/receive)
+ - MSN: Passport 3.0 authentication
+ - MSN: JPEG avatar reception
+ - MSN: Any size avatar support
+ - MSN: Robustness improvements to P2P connections
+ - MSN: MSN Alerts
+ - MSN: Unicode Hotmail Notifications
+ - Yahoo: Yahoo Client 7.x protocol support (client identification, protocol version, supported services upgraded to support this)
+ - Yahoo: Avatar code cleanup/rewrite.
+ - Yahoo: Avatar improvements (new AVS Support, different file caching strategy)
+ - Yahoo: Adding pingbacks to signal errors during login.
+ - Yahoo: Using "First Name and Last Name" as the Nick when somebody adds us.
+ - Yahoo: Adding E-mail count service support
+ - Yahoo: New Icons from Angi
+ - Yahoo: Use japan mail server for those who set options that they are using Japan servers
+ 
+Bugfixes:
+ - IRC: Special symbols and cyrillic/chinese/japanese characters were handled incorrectly
+ - ICQ: Fixed disconnections on long messages
+ - ICQ: Fixed peer-to-peer session cookie checking
+ - ICQ: Fixed SMS message handling
+ - ICQ: Applied fix for re-requesting authorization
+ - ICQ: Fixed handling of message acks & status message replies from ICQ 6
+ - ICQ: Fixed handling of malformed messages acks
+ - ICQ: Minor fixes for Popup plugin support
+ - ICQ: Minor protocol related tweaks
+ - ICQ: Fixed possible lags caused by typing notifications (on slow connections)
+ - ICQ: Fixed message handling (fixes bug used for stealth invisibility detection)
+ - ICQ: Several fixes to Rate Level 2 handling - more propper handling of message responses
+ - ICQ: Fixed possible crashes caused by malformed langpacks
+ - Jabber: Proper message delivery verification support, no more timeouts
+ - Jabber: Proper handling of conference nicknames, including storing nicks to a roster
+ - Jabber: Fixed group chat deadlocks
+ - Jabber: Fixed private messages in groupchats
+ - Jabber: Fixed NTLM authentication
+ - Jabber: Fixed owner and admin list handling in groupchats
+ - Jabber: Fixed jabber status message reading
+ - Jabber: Proper status and away message displaying in contact list if more then one JID's resource available
+ - Jabber: Fixed freezing miranda in jabber search dialog
+ - Jabber: Removed search validation via vcards
+ - MSN: P2P file/avatar transfer issues
+ - MSN: Message timeout issues
+ - MSN: Fixed lost message issues
+ - Yahoo: Buffer overflow in incoming IM
+ - Yahoo: Lots of bug fixes
+ 
+
+* New in 0.6.8
+Bugfixes:
+ - AIM: Fixed issue with outgoing messages with double quotes
+ - AIM: Fixed issue with converting links in incoming messages
+ - IRC: Fixed crash with "perform" command in IRC options tab
+ - Jabber: Fixed auth error via SSL ("SSL negotiation failed")
+ - Jabber: Fixed OS version detection under Windows Vista
+ - MSN: Fixed idle mode support
+ - MSN: Fixed typing notifications
+ - MSN: Improved group handling
+ - MSN: Improved file transfers
+ 
+
+* New in 0.6.7
+Bugfixes
+ - Jabber: Fixed crash on exit when using Jabber
+ - MSN: Uploading avatars was broken
+
+
+* New in 0.6.6
+Bugfixes
+ - Fixed dragging/dropping file with non-locale characters into message window
+ - Logging large chunks of data to disk could cause crash
+ - Fetching events from the database sometimes failed
+ - Sounds in message windows didn't play properly
+
+
+* New in 0.6.5
+Bugfixes
+ - Update notification module not loaded correctly
+
+
+* New in 0.6.4
+Enhancements
+ - Update notification added to notify of new Miranda IM releases
+ - Improved dbTool and now supports language packs (translations)
+ - Some cosmetic changes to the profile selection dialog
+
+Bugfixes
+ - "Read Message" hotkey opened contact list if no events were present
+ - Translation fix in Find/Add error message
+ - Improved UPnP support and disabled UPnP cleanup when no incoming connections available
+ - Show file transfers correctly in message window
+ - Improved UPnP router support
+ - UPnP cleanup will not run if there are no incoming connections
+
+
+* New in 0.6.3
+Bugfixes
+ - Pin to Desktop was broken
+ - AIM: Auto response messages weren't shown as auto responses
+
+
+* New in 0.6.2
+Enhancements
+ - Improved unicode support in path utilities
+ - UPnP routers that use chunked encoding are now supported
+ - Added ability to enable/disable sounds globally
+
+Bugfixes
+ - Tooltips on button controls displayed incorrectly in ANSI version
+ - Enabling/disabling first group of sounds in options didn't enable apply button
+ - Path in sound options was cut off for long paths
+ - Some dialog backgrounds were not using system colors
+ - Global hotkeys didn't work correctly
+ - AIM: Messages were not received properly
+ - AIM: Fixed formatting of outgoing unicode messages (AIM 5.9 was affected)
+ - ICQ: Fixed compatibility issues with ICQ 6
+ - ICQ: Fixed Meebo client detection
+
+
+* New in 0.6.1
+Enhancements
+ - Added option to enable/disable UPnP support
+ - Improved control/shift/enter behavior in chat windows
+ 
+Bugfixes:
+ - History button in chats didn't open history
+ - Fixed network bind plugin compatibility issues with older plugins
+ 
+
+* New in 0.6
+Enhancements
+ - Implemented UPnP support
+ - Core support for memory operations, strings, utf8 support, threading
+ - Tabbed options support
+ - ICQ: GDI resources optimization for extended status icons
+ - Jabber: Support for NTLM & MD5-DIGEST auth modes
+ - MSN: Support for WLM8 direct transfers
+ - MSN: File transfers added for the HTTP gateway mode
+ - MSN: Improved keep-alive packets sending
+ - Jabber: Ability to remove your account from the server
+ - Jabber: Ability to resolve nick names for transports
+
+Bugfixes:
+ - AIM: Fix for file transfers
+ - ICQ: Some fixes for avatars
+ - IRC: Fix for nicknames which contain spaces
+ - Jabber: Added language id to the login request ('en')
+ - Jabber: Jabber crashes on very large images in vCards
+ - Jabber: Fix for issues with backslashes in the transports names
+ - Jabber: Fix for sending files to Pandion IM
+ - MSN: Improved error 217 (contact already exists) processing.
+
+
+* New in 0.5.1
+Enhancements
+ - ICQ: Added new session password API - allowing plugins like Secure Login to work better
+
+Bugfixes:
+ - Cannot create new profile through startup dialog (under NT4/95)
+ - Crash reading language pack headers
+ - Options dialog didn't activate if currently open when using the main menu item
+ - Profile selector didn't show last modified time correctly
+ - db3x driver text was cut off in profile selector dialog
+ - AutoExec files were deleted after use instead of renaming
+ - Allow use of '#' as the beginning character in a autoexec file
+ - Typo in about dialog
+ - AIM: Fixed login problems from previous login order change
+ - AIM: Fixed utf8 sending for aim clients
+ - AIM: Keepalive timer fixes
+ - AIM: Changed the login order to force aol to send us a list on login
+ - AIM: Changed group handling to not move manually added users to their actual group
+ - AIM: Changed group handling to not lowercase all server-side group names
+ - AIM: Added meebo client detection
+ - AIM: Added adium client detection(beta adium only)
+ - AIM: Modified the gaim/adium detection to show as only gaim detection
+ - AIM: Fixed file transfer directory opening bug.
+ - AIM: Apply button in options got enabled by default
+ - ICQ: Fixed possible hang on exit
+ - ICQ: Fixed avatars were not working when server port set to 0
+ - ICQ: Made message parser more strict (fixes bug allowing stealth invisible client detection)
+ - ICQ: Fixed Popup's unicode support cannot be used in ANSI mode even if available (caused empty Popups)
+ - ICQ: Fixes possible buffer overflow with contact status change
+ - ICQ: Fixed migration was not working at all (should not disconnect so often on server's upgrading)
+ - ICQ: Fixed offline greeting cards were not processed properly
+ - ICQ: Fixed small protocol glitch with reverse peer-to-peer connection
+ - Yahoo: Fixed avatar upload bug
+
+
+* New in 0.5
+Enhancements:
+ - Unicode support was introduced
+ - Database can store the Unicode strings (in utf8 format), and save and return these strings as ANSI, UCS2 and UTF8 strings
+ - Most core protocols can send, receive & process the information in Unicode
+ - The contact lists can display nicks, names and statuses in Unicode (under NT)
+ - Message editors can display any user information in Unicode, display and enter the Unicode messages;
+ - User details can process names, addresses, etc in Unicode
+ - Language packs can provide the valid translation for the Miranda's interface, even when the default codepage doesn't match the langpack codepage
+ - Two Miranda distributions are available since 0.5: the ANSI (for Win95/98/ME) and the Unicode one (for NT4/Win2k/XP/Win2003)
+ - The standard was designed for all contact list plugins, to simplify the support for sorting, storing, grouping contacts
+ - png2dib plugin was inserted into the distribution to provide the core-level support for PNG files
+ - Support for sending files with the Unicode names (not mappable into the current codepage)
+ - AIM: AIM protocol now using Oscar
+ - ICQ: Messaging support enhanced (P2P messaging supported)
+ - ICQ: Direct Connection support rewritten (with P2P messaging and reverse file-transfers)
+ - ICQ: Temporary Visible List support
+ - ICQ: New Features page in options to configure extra features
+ - ICQ: Custom statuses just like icq5 - needs clist_mw derivative (thx Big Muscle)
+ - ICQ: New custom status icons (thx Angeli-ka)
+ - ICQ: Enhanced Unicode & Ansi charsets support (each contact can have its own codepage)
+ - ICQ: AIM cross-compatability (add/remove, search by mail, status, messaging, away messages)
+ - ICQ: Secure MD5 login authentification
+ - ICQ: Revoke authorization (Advanced Feature - see further) - removes you from contact's server-list
+ - SRMM: RTL support for messages in Hebrew and some other languages.
+ - Jabber: Avatars support (JEP-0008)
+ - Jabber: Massive groupchat improvements, including private messages & invitations
+ - MSN: Client version detection
+ - MSN: Support for nudges
+ - MSN: Support for some MSN Messenger 7.5 and Live Messenger 8.0 specifics
+ - Yahoo: Ability to set your own avatar
+ - Yahoo: Added new icons
+ - Yahoo: Added address book and calendar links in the main menu
+ - Yahoo: Added alerts support and link to the main menu
+ - Yahoo: Added nick to Yahoo login information
+ - Yahoo: Yahoo now uses new png2dib.dll services for avatar manipulation
+ - Yahoo: Added Yahoo Japan support
+ - Yahoo: Added buzz/nudge support
+ - Yahoo: Offline IMs from blocked people get dropped
+ - Yahoo: Added basic audible support
+ - Yahoo: Yahoo File Transfer improvements
+
+Bugfixes:
+ - Clist classic: Right click on a tray icon results to the resource leak
+ - ICQ: Our own contact in list now correctly handles events
+ - ICQ: Proxy Gateway mode is working again
+ - ICQ: File receiving from Trillian clients work again
+ - ICQ: Message errors are now really displayed
+ - ICQ: Fixed memory leak in avatar code
+ - ICQ: File transfers with GnomeICU works now
+ - ICQ: Fixed changing password in ICQ Details will not save it to DB if not there
+ - ICQ: Fixed PING channel handling (caused connection drop)
+ - ICQ: Fixed bug in changeinfo with translated listbox values
+ - ICQ: Fixed error handling in avatar code for uploading avatar
+ - ICQ: Fixed bug in Manage-Server list dialog, caused hang
+ - ICQ: Fixed occasional losing of messages (message parsing was incomplete)
+ - ICQ: Server-list management now stores all info - solves problems
+ - ICQ: Fixed unknown errors during login were not reported sometimes
+ - Jabber: resource names not UTF8 decoded
+ - Jabber: people are trying to connect to jabber.org with empty usernames
+ - MSN: Fix for the error 540 upon login, because of the invalid password hash calculation
+ - MSN: Fixed the problem of locking the message sending queue by timeouts
+ - MSN: Fixed disconnection issues for the HTTP gateway mode
+ - MSN: Fixed some issues with the wrong Hotmail Inbox and Profile Editing URLs
+ - MSN: Fix for error 911 inside switchboard threads
+ - Yahoo: Fixed deletion of a buddy from your contact list
+ - Yahoo: Made fixes to make more strings translatable
+ - Yahoo: Fixed a bug that could crash srmm
+ - Yahoo: Properly close the connections
+
+
+* New in 0.4.0.3
+Bugfixes:
+ - ICQ: Fixed problem with sending and receiving messages.
+
+
+* New in 0.4.0.2
+Bugfixes:
+ - AIM protocol uses TOC2 (TOC1 blocked by AOL)
+
+
+* New in 0.4.0.1
+Bugfixes:
+ - Plugin options are not replaceable by a plugin
+ - Sending files from the root directory added an extra '\'
+ - Transparency focus issues in the contact list
+ - Log didn't scroll to the bottom when showing avatar in message window
+ - Trailing spaces removed from search by user id and email
+ - Button control didn't always draw icons correctly
+ - Sending files from the root folder used the incorrect path name
+ - Contact list focus on mouse-over didn't work
+ - Issues writing blobs to the database
+ - AIM: aim: links didn't register correctly
+ - ICQ: Renaming of server groups was not working properly - caused errors
+ - ICQ: Avatar could not be deleted (the delete button did not work)
+ - ICQ: File Transfers were not working properly in some cases (wrong cookie handling)
+ - ICQ: Avatar formats were not recognized correctly
+ - ICQ: Method of determining target dir in file receive was not solid enough
+ - ICQ: Manage server-list dialog leaked memory
+ - ICQ: Synchronize visibility items was not working properly
+ - ICQ: Our avatar image was not linked to our ContactPhoto
+ - ICQ: Fixed occasional crash on login (missing TLV validity checks)
+ - ICQ: Fixed slow update of nicks when users imported from server-list
+ - ICQ: Fixed auto info update mechanism, do not progress too fast, do not drop processing
+ - ICQ: Fixed empty groups are always hidden in Manage Server List, cannot be used either
+ - ICQ: Fixed occasional crash on avatar retrieval - limit size of image to the size of packet
+ - ICQ: If our rate is high, ignore user requests for status msgs & user details (prevents disconnection)
+ - ICQ: Added temporary solution for roughly translated ICQ 2003b russian
+ - ICQ: Manage server-list dialog could display other contacts and could crash
+ - ICQ: Basic search could search for bad uin - garbage can be in the string
+ - Jabber: Miranda process do not die when shutdown
+ - Jabber: XML specials in add contact
+ - Jabber: Status-visibility for a contact not working correctly
+ - Jabber: Cannot transfer File(s) between miranda/jabber to/from PSI or Exodus (or more)
+ - MSN: No zero-termination after _snprintf (potential security issue)
+ - MSN: Can't send messages to the MSN WebMessenger
+ - MSN: Can't delete contact's directory for received files
+
+Enhancements:
+ - Prevent plugins from overriding the plugin options dialog
+ - Prevent useless database writes
+ - AIM: addbuddy link support
+ - ICQ: If Update details from server is on, user group are also updated
+ - ICQ: Changed System Uptime to Member since in my details
+ - ICQ: Auth system recognizes & sends UTF-8 messages
+ - ICQ: Miranda version signature improved (preparing for old signature removal in the future)
+ - ICQ: Added better error detection for offline msgs receival process
+ - ICQ: Made avatar handling more resilient to server errors
+ - Jabber: Support for the chat plugin
+ - Yahoo: Adding gaming status
+
+
+* New in 0.4
+Bugfixes:
+ - Crashes after warning about unsuccessful search
+ - ESC doesn't work in User Detail
+ - Phrases with leading and trailing spaces not translateable
+ - Incorrect Local time in Userinfo
+ - CheckDlgButton didn't draw correctly if used after creation in button control
+ - Offline users weren't always shown in Typing Notify Options
+ - Ctrl+w closes message window
+ - Moving a group outside the CLC causes a crash
+ - Crash translating a menu
+ - Scrollbar still appeared sometimes if XP skinning was enabled
+ - Contact list control read-disk-on-paint bugs
+ - Many database bug fixes (crashes, corruption)
+ - Crash opening Find/Add dialog
+ - No & sign in the Open File button on the File Transfer window
+ - Visual defect in "Options\Contact List\Icons" when Expert options unchecked
+ - AIM: Removing user from deny list didn't always update mode in Miranda
+ - AIM: Fixed file transfers with Mac users
+ - ICQ: Error alert blocked I/O
+ - ICQ: Newly added contact with privacy setting is not hidden anymore
+ - ICQ: Offline messages are no longer received older than existing ones
+ - ICQ: Fixed authorisation reply
+ - ICQ: Fixed contact transfer ack
+ - ICQ: Now parses URL send ack correctly, no more timeout
+ - ICQ: Now sending ack on contacts receive
+ - ICQ: Fixed crash on receiving long message through P2P
+ - MSN: Connection/login fixes
+ - IRC: Many bug fixes
+ - Yahoo: Much cleaner/better/stable code
+
+Enhancements:
+ - Database and contact list control moved to plugins
+ - Relative paths for icons, sounds, and contact list background
+ - Scroll through past messages with ctrl+up/dn in message window
+ - New idle module to handle autoaway and protocol idleness
+ - Pin to desktop option in Window options
+ - Dim idle contacts option
+ - Use windows colours option for contact list
+ - New status bar options (hide bevel, hide gripper)
+ - Database I/O improvements
+ - Option to hide vertical scroll bar
+ - Opening a URL blocked I/O
+ - AIM: Show mobile users as 'on the phone'
+ - MSN: Sending/receiving avatar support
+ - MSN: Peer to peer support
+ - ICQ: Added avatar tab to user-details dialog to show avatar
+ - ICQ: My user-details now show more information & added idle since to ICQ tab
+ - ICQ: Added full unicode message support (requires SRMM Unicode)
+ - ICQ: Added support for sending and receiving Idle time
+ - ICQ: Added reliable client identification 
+ - ICQ: Added support for avatar images (downloading & uploading).
+ - ICQ: Added Grant authorisation option (send & recognize)
+ - IRC: Support for secured connections using OpenSSL
+ - IRC: Support for CTCP and DCC filetransfers and chats
+ - IRC: New graphical user interface using Chat plugin
+ - Jabber: Unicode support
+ - Yahoo: Better Unicode support
+ - Yahoo: New Buddy Search
+ - Yahoo: File Transfer support
+ - Yahoo: Stealth support (Yahoo v6 visibility list)
+ - Yahoo: Idle support
+ - Yahoo: Avatar support (retrieval only)
+
+
+* New in 0.3.3
+Bugfixes:
+ - Fixed crash when closing history window with large history
+ - IE was always used as the default browser if IE was open
+ - Added option to set outgoing port range
+ - Several memleak fixes
+ - Improved proxy handling
+ - Rare crash on opening options
+ - AutoNA was not set correctly when Away was set
+ - Visibilty list did not list all users
+ - Icons in URL and message contact menus didn't update when icons changed
+ - Reduce CPU usage in file trnasfer dialogs (less screen updates)
+ - Many other bug fixes
+ - AIM: Unable to save "Only reply to users in your contact list" option
+ - ICQ: Failed to send or receive files from ICQ 2003b.
+ - ICQ: Fixed a number of smaller memory leaks.
+ - ICQ: Contact e-mail info was not displayed correctly.
+ - ICQ: Failed to retrieve user details during certain circumstances.
+ - ICQ: URL messages could disappear when sent through a Direct Connection.
+ - ICQ: Nick name was not deleted from server list when local nick name was deleted.
+ - ICQ: Server side contacts could reappear after being deleted if they were on the visible/invisible lists.
+ - ICQ: Changing status while connecting had no effect.
+ - ICQ: A bunch of other fixes the CVS changelog if you want the big list.
+ - Jabber: Should offline all chatrooms when go invisible (because they are actually offline)
+ - Jabber: Miranda won't exit if more than one groupchat windows are left open
+ - Jabber: Wrong filename encoding in file sending (signed/unsigned problem)
+ - Jabber: Crash on connect/disconnect caused by stale contacts associated with an unknown protocol
+ - Jabber: Deleting groupchat temporary contact unintentionally closes the chatroom
+ - Jabber: Presence is broadcast to chatroom that has denied our access
+ - Jabber: Graceful exit while Miranda shutdown in the middle of file transfer
+ - MSN: A port remained opened after the file trasnfer cancel
+ - MSN: if a contact list is very long, all contacts could be shown in the Offline mode
+ - MSN: When you set your own nickname with spaces, it appears in the options dialog URL-encoded (with %20 instead of a space char).
+ - MSN: Opened switchboard sessions weren't closed when you go offline without closing Miranda.
+ - MSN: File senging does not require to talk anymore
+ - MSN: Contacts with leading digits in the e-mail were not processed properly
+ - MSN: Many other bug fixes
+
+Enhancements:
+ - New user is typing API (supported by ICQ/MSN/Jabber/Yahoo)
+ - Messaging module moved to a plugin with many UI changes (SRMM)
+ - AutoAway can now set protocols away if the workstation becomes locked
+ - Improved button control (bitmap support, flat button support)
+ - Added options to disable systray icon flashing and adjusting blink time
+ - Default icon packs are automatically loaded from disk if they exist
+ - Added report bug menu item
+ - Many other enhancements
+ - AIM: Added user search capability
+ - AIM: Send messages to groupchat users by double clicking name
+ - AIM: Added file receive support
+ - ICQ: Added support for sending and receiving Typing Notifications.
+ - ICQ: Now accepts messages formatted in unicode (note: this wont solve the problem with displaying messages with multiple charsets).
+ - IRC: Contacts on the contactlist
+ - IRC: Hostmasks
+ - IRC: Ignore system
+ - IRC: Channelmanager
+ - Jabber: Manual registration to Jabber services
+ - Jabber: Can automatically remove contacts not in roster
+ - Jabber: Invite and accept invitation to a groupchat
+ - Jabber: Support composing message event (message typing notification)
+ - Jabber: Send full JID (with resource name) with <message/> when appropriate
+ - MSN: 'User is typing' support added
+ - MSN: "Invite to chat" contact menu item is added.
+ - MSN: 'block/unlock' feature is integrated with Options->Status->Visible
+ - MSN: New gateway support
+
+
+* New in 0.3.2
+Bugfixes:
+ - Buffer overrun in url dialogs
+ - Options window was shown off screen if previously closed while minimized
+ - Some button controls were not translatable
+ - Fixed issues with duplicate protocols listed in the icons options
+ - AIM: Login flood when creating new users
+ - AIM: Automatically turn off server-side list support for list that are to large (AIM)
+ - AIM: Crashed when truncating large packets
+ - AIM: Crash parsing empty server-side list
+ - AIM: Warn User menu in groupchat was always disabled
+ - Jabber: Better disco/browse fallback scheme for groupchat browsing
+ - Jabber: Undecoded room jid in groupchat log window title
+ - Jabber: Connection thread can lingering around while in reconnect loop and Miranda exits
+ - Jabber: Changing global statuses to an unsupported one shows correct icon now (a bug introduced again in 0.1.1.2)
+ - Jabber: Initial status in chatroom not correct
+ - Jabber: Crash when displaying x:data list-single that has no default selection
+ - Jabber: Multi-line x:data field truncated to first line
+ - Jabber: Adding contacts when already exist in clist with "Hidden" does not remove "Hidden"
+ - Jabber: Won't send ASCII control chars that are invalid XML chars (replaced with spaces)
+ - Jabber: Properly offline when set offline while connecting
+ - Jabber: Initial data sometimes not shown on agent dialog
+ - Jabber: Connection thread still not exit properly when Miranda exits
+ - Jabber: Another change in setstatus/setawaymsg handling
+ - Jabber: Password dialog change to modeless
+ - Jabber: Discard whitespaces not enclosed by any  XML tags so that they won't waste buffer space
+ - MSN: Cookies usage had been turned off, it means that you can logon automatically into MSN Messenger and simultaneously logon using Miranda under different account (thanks to Pixador).
+ - MSN: WinInet.dll now gets unloaded from memory after login to use less memory.
+ - MSN: Attemp to find/add a contact that already exists in your contact list resulted to strange error message.
+ - MSN: Authorization problems when many MSN accounts are used in the same Miranda installation.
+ - MSN: If a password contains non-alphabetical characters (like punctuation, ampersand, plus, etc) the MSNP8 login could return error 401 Unauthorized. MSNP7 login works Ok.
+ - MSN: If a contact changes its status to Invisible, it's not possible to send messages to him/her anymore.
+ - MSN: The popup displaying procedure was changed to avoid so called 'frozen popups'effect.
+ - MSN: New MSN Menu item was added to edit user's MSN profile in a browser
+ - MSN: Authorization problems when many MSN accounts are used in the same Miranda installation.
+ - MSN: If a password contains non-alphabetical characters (like punctuation, ampersand, plus, etc) the MSNP8 login could return error 401 Unauthorized. MSNP7 login works Ok.
+ - MSN: If a contact changes its status to Invisible, it's not possible to send messages to him/her anymore.
+ - MSN: the popup displaying procedure was changed to avoid so called 'frozen popups'effect.
+ - ICQ: Prevent your status messages being read when you are invisible.
+ - ICQ: Small memory leak when sending an SMS.
+ - ICQ: Fixed a dumb bug that caused random disconnections from the ICQ server.
+ - ICQ: Cleaned up the code for searches and user info updates, should work better now.
+ - ICQ: AIM users in your server contact list would get added locally with uin 0.
+
+Enhancements
+ - Docking to the left or right side of the screen only happens when CONTROL is held down.
+ - Possible to prevent writing of single key to registry on startup.
+ - Possible to specify ports for outgoing connections.
+ - Loading large histories now shows window immediately.
+ - AIM: Added option to edit display name.
+ - Jabber: Groupchat admin functions.
+ - MSN: The SSL autorization procedure was changed: now it uses Internet Explorer's proxy settings to log in. It also resolves problems with proxies that require authorization (previously you could see the error 407 in the network log when trying to logon). In this case MSN plugin tries automatically to apply the login and the password from the Options -> Network -> MSN.
+ - MSN: Error diagnostic has been slightly enhanced.
+ - MSN: New MSN Menu item was added to edit user's MSN profile in a browser.
+ - MSN: MSNP7 support is deleted and this option is locked
+ - MSN: Netmeeting support added
+ - MSN: Option was added to launch a specific program when the new Hotmail arrives
+ - ICQ: Added "missed message" notification.
+ - ICQ: Added better error messages for message send failures.
+ - ICQ: Messages now default to the most reliable delivery method available for a given contact.
+
+
+* New in 0.3.1
+Major changes:
+ - IRC protocol plugin is now included in the installer
+
+Bugfixes:
+ - Fixed tooltips cutting off text in systray on newer shells
+ - Removed some memory leaks
+ - Many bug fixes relating to the away system
+ - CPU went to 100% if resized to small
+ - Possible XP theme corruption in toolbar image buttons
+ - Find/Add dialog showed protocols that didn't support the find/add service
+ - Rename contact menu item is only shown when menu is shown from the contact list
+ - Netlib could cause 100% CPU usage during fast file transfers
+ - Menu items could sometimes be placed in the wrong order
+
+Enhancements:
+ - Redesigned message dialog
+ - Added a heap compactor to flush out memory every 5 minutes
+ - All new default icons
+ - You can now set a sound for outgoing message
+ - Autoaway no longer pops up change status message dialog
+ - Added a Global Status Icons setting under icons. This lets you
+   set the default systray icon and global status menu icons.
+
+
+* New in 0.3
+ Major changes:
+ - ICQ module has been moved to a separate plugin. You can now
+   run Miranda IM without ICQ
+ - Bundled support for ICQ, AIM, Jabber and MSN
+ 
+ Bugfixes:
+ - Reply quoted sometimes closed window
+ - Much safer multithreading. This will help make Miranda IM more stable.
+ - Several "crash on exit" bugs fixed
+ - If only specific protocols are invisible don't show contact's as always
+   visible if their protocol is not invisible
+ - Strange behaviour in the Auto away feature
+ - New add/authorization dialog
+ - Always/Never visible settings is now mutually exclusive
+ - If already away or in NA, don't try to resend away/NA, this fixes the
+   problem with the NA dialog reshown every five seconds, also fixes flooding
+   of NA status changes to other contacts
+ - File Transfer Complete sound would play even if that never happened, added
+   a few extra sounds for "failed" and "denied".
+ - Smarter database: Miranda now checks your profile carefully before opening to ensure that it's in proper    working order
+ - Since the database is so smart, it also checks to see if your disk drive has actually
+   written out new information, if it hasn't it shuts down, protecting the profile from major
+   corruption (total data loss of a profile infact)
+ - At least 2 gazillion internal fixes too complicated to explain (we dont
+   even know what we did ;))
+ 
+ Enhancements:
+ - UI improvements to the plugins options page
+ - Search dialog now remembers last protocol used
+ - Added possibility to delete user with Del key
+ - Improved integration with XP themes
+ - Added menu in URL receive dialog (open in new/current window/copy link)
+ - Multi line tray tooltips
+ - Netlib now creates log path if it doesn't exist
+ - Several optimizations to make Miranda IM run even faster and more stable
+ - Made it possible to close read status message dialog with escape
+ - Improved some of the error messages to make them easier to understand
+ 
+
+* New in 0.2.1
+ - Sending messages to ICQ users who are in 'Invisible' mode does not work
+   if 'Send messages slower, but with full acknowledgement' option is enabled.
+ - Sending message to users with old ICQ versions sometimes does not work.
+
+
+* New in 0.2
+ - Support for SOCKS4, SOCKS5, HTTP and HTTPS proxies.
+ - Improved stability.
+ - Some general user interface changes.
+ - New default icons.
+ - Faster filetransfers.
+ - Import contacts and history from other Miranda profiles.
+ - Import contacts and history from Mirabilis ICQ 99a-2003a.
+ - Support for more plugins (>120 plugins available for download!).
+ - more than 160 other bug fixes and improvements!
+ - Ability to store and download contacts from the ICQ servers.
+ - Increased compatibility while communicating with other ICQ clients.
+ - Many bug fixes related to file transfers.
+ - Allow/don't allow direct connections.
+ - Enable/disable 'Web aware'.
+ - Don't allow unknown contacts to read your status message.
+ - Optionally send requests for authorizations.
+ - Optionally send 'You have been added' notifications.
+
+
+* New in 0.1.2.1
+ - Improved contact list with support for background images,
+   nested groups and lots more
+ - Nifty new context-sensitive help plugin
+ - Send messages to many people at once
+ - Drag-and-drop file sending
+ - Improved search and icq whitepages search
+ - HTTP proxy support for ICQ
+ - Options dialog revamp. Shows Expert mode option
+ - More bug fixes than you can shake giant redwood at
+
+
+* New in 0.1.2
+ - Connects to the new ICQ servers for much more reliable communication
+ - Improved support for connecting to other instant messaging networks
+ - New user details dialog box
+ - File transfer that actually works
+ - Supports an SMS messaging plugin
+ - Supports a plugin to change your own details from within Miranda
+ - URL Clicking Support in Split Message Dialog Plugin
+ - More bug fixes than you can shake giant redwood at
+
+
+* New in 0.1.1
+ - Setting Status Messages. E.G. Away/Occupied/DND....
+ - Visible/Invisible List. E.G. Be invisible to a specific user
+ - Import Plugin can now import History in addition to Contacts
+ - Language Pack Support
+ - File Transfer Dialog Improved
+

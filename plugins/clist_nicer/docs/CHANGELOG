@@ -1,0 +1,1109 @@
+
+                                Changelog:
+                                ---------
+
+! = bugfix
+* = changed feature
++ = new feature
+- = removed
+
+0.9.0.2  - 2009/07/20
+		* It is now possible to use the real location-based timezones set
+		  by UserInfoEx. If present, clist_nicer will use it to calculate
+		  a correct date and time.
+
+0.9.0.1  - 2009/07/18
+		* removed separator from view mode menu when not needed
+		* version bump, plugin will only load in Miranda 0.9.dev
+
+0.8.1.2  - 2009/07/03
+		* support relative path for skin filenames.
+		* fixed some redrawing problems for floating frames
+		* fixed issue with disappearing "Appearance" context menu item.
+
+0.8.1.0 -  2009/06/30
+
+		* release for Miranda 0.8.1
+
+0.8.0.x  - 2009/05/03
+		* resource.rc rework for vc6 bugfix
+		+ statusbar font can be changed
+		* fix for 'Contact list display and ignore options' window
+		! fix for the valid skin extension
+		* slots numbers unification (part 2)
+
+0.8.0.5  - 2009/04/09
+		* slots numbers unification (m_cluiframes.h is now shared between all plugins)
+		+ ToolbarButton support for modernopt.dll
+		! fix for translation issues in clist_nicer options
+		+ x64 portability
+
+0.8.0.4  - 2009/03/05
+
+		* Made project GCC / MingW32 compatible. Added makefile(s) and project
+		  files.
+
+		+ option added to allow clist being shown on task bar, under the following
+		  circumstances:
+
+		  a) Window style is set to "title bar" (ordinary Window like any other,
+			 not border- or frameless).
+		  b) Option "Always hide on task bar" (Options->Contact List-> Window) is
+			 DISABLED. This option is enabled by default.
+
+		  Does not work with skinned contact list, only when using a default windows
+		  theme.
+
+		* corrected some visual glitches in various option dialogs.
+
+0.8.0.2  - 2007/10/20
+
+		* advanced option to save position while moving or resizing (old behaviour)
+		  Use DBEditor++ and set CLUI/save_pos_always (BYTE value) to 1. RESTART
+		  MIRANDA thereafter (the setting is only read at plugin startup).
+		  Deleting the value or set it to 0 to disable it (save position/size only
+		  when Miranda exits).
+
+		* new option for floating contacts (Fill with contact list background color).
+		  If enabled, floaters will be filled with this color before drawing the skin
+		  item. This allows people who don't use a skin at all to show the floaters w/o
+		  having them fully transparent.
+
+0.8.0.1  - 2007/10/02
+
+		* removed all hardcoded instances of the MetaContacts protocol name
+
+0.8.0.0  - 2007/10/02
+
+		* released for Miranda 0.7. NOT compatible with 0.6 or earlier.
+
+0.7.2.1  - 2007/09/xx
+
+		* completed floating contacts (patch by yaho, yaho@miranda-easy.net). All the
+		  options on Options->Contact List->Floating contacts are now working and a few
+		  new features (transparency, snapping) have been added.
+
+		* reworked options. Display profiles is now where you can set most things for
+		  the contact layout. Right now, only one profile (<current>) is available, but
+		  in the future, there will be the possibility to configure multiple profiles for
+		  quickly changing display options.
+
+0.7.1.1  - 2007/01/25
+
+		* more options for per contact display settings.
+
+		* the font colors for selected and hottracked skin items are no longer ignored.
+
+		* removed internal font configuration dialog. Customize->Fonts is now where fonts
+		  and colors can be configured for NON-SKINNED MODE ONLY. Otherwise, settings from
+		  Customize->Contact List skin->Skin items are used.
+
+0.7.1.0  - 2007/01/20
+
+		* removed old icon code. From now on, clist_nicer requires IcoLib services, either
+		  via IcoLib plugin or by using Miranda 0.7.x build.
+
+		* added new option to auto-apply last active view mode when the contact list
+		  starts (Options->Contact List)
+
+		* Removed the "Priority Contact" menu item. This can now be found in the new
+		  "Contact settings" dialog which is an improved version of the old "Visibility and
+		   Ignore" dialog. It allows to set various other options "per contact" (e.g. avatar
+		   display override/disable, 2nd line of text display option etc.).
+
+0.7.0.x  - see SVN for changes. Mostly bugfixes, no new features.
+
+0.6.0.7  - 2006/03/xx
+
+		* added 2 items to the view mode menu, allowing to:
+		  1) setup view modes
+		  2) clear the current view mode
+
+		* fixed another frame ordering bug.
+
+0.6.0.6  - 2006/02/28
+
+		* fixed possible crash on exit bug.
+
+		* fixed auth requests not appearing on the tray & event area
+
+		* improved performance for "sort by last message" - event timestamps are only
+		  retrieved when actually needed.
+
+		* Various CLUIframes tweaks and fixes to get rid of some annoying problems with
+		  frame re-ordering after deleting or installing frame-aware plugins.
+
+0.6.0.5  - 2006/01/30
+
+		* groups now have their own alignment option.
+		  * Always left
+		  * Always right
+		  * Automatic (in that case, RTL detection will determine whether the group name will
+		    be right or left aligned).
+
+		! fixed hit-testing for right-aligned groups (you can now click on the expand/collapse
+		  icon even if it is aligned to the right).
+
+		* sort by last message works "dynamically" now (when new messages or events arrive,
+		  the contact list will update its sorting).
+
+		+ started floating contacts implementation. Quite big changes, will take a while until
+		  it is usable.
+
+0.6.0.4  - 2006/01/27
+
+		! The option "If window is partially covered..." should no longer affect the
+		  minimize/maximize feature when the visual style in use has a rounded window frame.
+
+		! more docking tweaks (still possible minor visual glitches)
+
+		* tweaked RTL detection for group names and completely disabled RTL for the non-
+		  unicode build.
+
+		! fixed long standing CLUIframes bug - Position up/down is now working for all top
+		  or bottom aligned frames, so re-arranging frames shouldn't be longer a problem.
+
+0.6.0.3  - 2006/01/27
+
+		* fixed possible memory allocation - related crash on startup.
+
+0.6.0.2  - 2006/01/27
+
+		* still bugfixing phase. Some troubles with autosizing were fixed.
+
+		  fix: sticky taskbar button when there shouldn't be one (e.g. borderless mode)
+		  restored the old way of skinning the clist with the desktop wallpaper (the
+		  option "Use these settings to skin the entire background" now works like it did
+		  in older builds).
+
+		* added "priority contacts" - you can toggle a priority contact in the contact menu
+		  (right click). A priority contact will always be on top of the list or its group
+		  and override the normal sorting order. If there are multiple priority contacts
+		  per group, then they will be sorted according to the normal contact list sorting,
+		  but will still all stay on top of the group.
+
+		* added multilevel sorting. Up to 3 levels of sorting can be selected to sort the clist.
+		  There are 4 available sorting criterias, as following:
+
+		  * name
+		  * protocol
+		  * status
+		  * last message received
+
+		  The feature works similar to the sorting in clist_modern. It respects the setting "Do
+		  not separate offline contacts" and will also take priority contacts into account.
+
+		* improved docking. Should now work again, but the clist must have one of the following
+		  frame styles:
+
+		  * tool window
+		  * thin border
+		  * no border.
+
+		  With the default border/title bar, docking doesn't work (may or may be not fixed in the
+		  future, but it doesn't matter much - most people prefer to dock the clist without any
+		  title bar at all.
+
+		* status floater fixed. In some cases, it appeared when it shouldn't (auto-hide was
+		  "reversed"). Also, the event area on the status floater will now clear events when
+		  the clist is hidden.
+
+0.6.0.00 - 2006
+
+		* from now on, clist_nicer+ is based on the new clist interface code which was
+		  introduced in 0.4.3.x (nightly build #42). It is no longer compatible with older
+		  versions of the miranda core and requires a recent core + database plugin.
+		  We call this "post clist revolution", because the changes in the contact list api
+		  were HUGE and required a lot of changes to all contact list plugins.
+
+0.5.1.17 - 2005/11/20
+
+		! fixed a few minimize/maximize issues with various border styles.
+		  Minimize now always follow the "miniemize to tray" setting
+
+0.5.1.16 - 2005/11/20
+
+		+ added UNICODE_AWARE so that a unicode core will not reject the contact list.
+
+0.5.1.15 - 2005/11/05
+
+        ! toolbar icon bugs (introduced in .14) fixed.
+
+        ! fixed flickering group header items when group skin items are set to be ignored.
+
+        * GDI+ text rendering is disabled since the results were not satisfying. You can
+          still enable it if you want.
+
+          Use dbeditor and create the following setting:
+          CLC/gdiplustext (BYTE value, set it to 1).
+
+        + added per contact skin items. There is no UI for that (and there probably won't
+          come one). It can be done by editing a .ini style file which can be loaded when
+          at startup or during runtime (from the Background+ options page).
+
+          See the included contacts.cln for description how per contact skinning works and
+          how to create your own personal .ini file.
+
+          Note that per contact skinning should be considered an advanced and probably rarely
+          used feature. Future enahancements, like more advanced contact matching, are
+          possible, but I don't think I'll make an UI for it.
+
+        * moved the invisible/visible icons to the right so they are now aligned with the
+          other extra icons. Looks better, also it makes much better text flow possible. If
+          the avatar is high enough to allow more than 2 lines of text, the 2nd row (status
+          message) will wrap and show with multiple lines (if needed). The text flows
+          around the icons so that the available space is used in the best possible way.
+
+        + added ability to right align the entire contact list. This will just mirror the
+          entire display, so right becomes left and vice versa.
+          On the advanced options page you can specify when this should happen.
+
+        + added new toolbarbutton. "Status menu" -> can be used to set and show the current
+          global status.
+
+        + added option to set the border and titlebar type on Options->Contact List->Window.
+          4 options are possible.
+          * Normal (normal title bar, window frame)
+          * Tool window (toolstyle titlebar, thinner window frame)
+          * Thin border (one pixel, black border)
+          * No border (nothing, no title bar, no window border).
+
+        * BIG skinning changes. See the skinning.howto for more detail on how to use it. Along
+          with this, some options now have different effects. Particularly the "Rounded window"
+          and "Clip border by" options now only work when the clist is set to full transparency.
+          If you only want to remove the border - don't use the clipping anymore, use the new
+          "Border" option to set the title bar and border to "None".
+
+        * several memory leaks fixed, optimized drawing performance.
+
+        + smoother resizing in skinned and transparent mode
+
+		+ added a status floater (activate it in the contact lists context menu -> appearance.
+		  The floater shows the same status as the global status mode button (most online
+		  status mode) and the icon. The floater allows you to access:
+
+		  * the status menu (left click the icon)
+		  * the main menu (right click the floater anywhere).
+
+		  The floater can be skinned by defining its skin item (Background+ page). It can be
+		  transparent, have rounded corners and so on. You can drag the floater around with
+		  the left mouse button, its size, however, is automatically calculated so that the
+		  longest status mode text will "fit" on it.
+		  You can also set the floater to auto hide (context menu->Appearance->Auto Hide
+		  Floater) in which case it will only be visible when the contact list is minimized
+		  or hidden.
+		  And finally, the floater can show a copy of the event area.
+
+		+ changed RTL behaviour a bit. When rtl alignment is set to "Never", RTL text will
+		  be printed left to right, that is, no RTL alignment will be made in any case and the
+		  contact list will look like normal (left to right aligned) for all contacts.
+		  A new option "RTL TEXT only" has been added to the alignment options which will,
+		  when active, only align the text label, but not "mirror" the entire contact.
+
+		  RTL text is still autodetected, but the formatting depends on the setting of the
+		  "Right align" combo box.
+
+		+ added UNICODE_AWARE flag so that the clist will load with new unicode cores
+
+0.5.1.14 - 2005/10/15
+
+        ! fixed misising status messages (rarely happening, but still possible)
+
+        ! some skin items were ignoring margin settings (frame titles, event area).
+
+          You can also specifiy the colors which will be used to draw the 3d border for the
+          "Raised" and "Sunken" border styles.
+
+        ! corrected docking with active border clipping (no more gaps between the clist window
+          and the screen edge).
+
+        * the import/export function now imports and exports more skin-related settings.
+
+        * View Modes: new group entry -> Ungrouped contacts. Check if you want to include
+          ungrouped contacts in the current view mode. Uncheck it, if ungrouped contacts should
+          be filtered out.
+
+        * cvs synced with clist_classic (minor translation fixes)
+
+        ! fixed ugly tray tooltip on 9x systems (when using mTooltip)
+
+        + added toolbar buttons for accessing the view mode functions (select, modify, clear).
+          Remember, you can configure the toolbar by right clicking on any toolbar button and
+          choosing the buttons you want to see from the button submenu.
+
+        + added button skinning. There are 4 new items on the Background+ page. Toolbar buttons
+          pressed/not pressed and UI buttons pressed/not pressed. The first is only used for the
+          toolbar, the latter is used for all other buttons (the menu and status button at the
+          bottom and the buttons in the view mode frame).
+          Note that in order to get UI buttons skinned, you need to activate the "Set all
+          buttons to skinned mode" option on the Background+ page. Also, for best results,
+          enable the "Skin entire background" setting on the Background option page.
+
+          With the two color boxes "3D border bright / dark" on the Background+ button you
+          can configure the colors for 3d highlighting of skin items (when the border style
+          is set to either "Raised" or "Sunken".
+
+        * fixed small alignment bug (right aligned avatars and extra icons)
+
+        * fixed several hittesting bugs for the extra icons when avatars are set to right
+          aligned.
+
+        * fixed bug when creating subgroup (garbage groupnames appearing) (unicode version
+          only).
+
+        + added separate row height value for group items (Options->Contact List->List).
+
+        + improved performance - While connecting the protocols, the clist sorts and
+          redraws less frequently than normal. Also, some minor improvements in the painting
+          handler will skip things which don't need to be drawn more effectively.
+
+        + added "drag on toolbar" - you can now drag the contact list window using any empty
+          space on the toolbar. Effectively, the toolbar behaves like a title bar now.
+
+        * fixed group name display (alignments, unneeded ellipsis appearing, quicksearch with
+          centered group names).
+
+        * put xstatus menu(s) directly as submenus below the the protocol menus. So they are
+          now available from the status bar menus aswell.
+
+        + many improvements added for fist time users. Using clist_nicer+ with a fresh profile
+          now gives much better results. Frames are created properly, button bar is configured
+          to only show the most important buttons and more.
+
+        ! fixed the long standing bug which sometimes made a scrollbar appear on the title
+          bar of the contact list frame.
+
+        + improved and fixed fading - now fades the entire clist frame, including all subframes
+          smoothly, also works together with transparent contact lists of all sorts.
+
+        + added RTL support - UNICODE version ONLY (sorry, won't make it into the non-unicode
+          build).
+
+          This works automatically. When the contact list detects a nickname with hebrew or
+          arabic characters, it displays the nickname RTL formatted. Same happens for status
+          messages. On the "Advanced Options" page, you can set an option named "Reverse entire
+          contact display for RTL" - what it does is basically simple. For RTL contacts, the
+          entire layout of that contact will be flipped horizontally, that is, the icon appears
+          on the right side, the nickname is printed RTL and so on. It just "mirrors" the
+          contact display by using a mirrored device context.
+
+          When editing a RTL nickname, you get a RTL aligned text edit box aswell.
+
+          RTL also works for group names (again, automatically, no need for configuring anything).
+
+        + the GDI+ renderer now produces better text output by using antialising and gamma
+          correction for much smoother text. However, this CAN BE SLOW and if you have a full
+          featured contact list, including avatars, extra icons, you may experience noticeable
+          performance drops when using the GDI+ option. The text output DOES look better, though.
+          You should only use it on fast systems.
+
+        + added new toolbar buttons:
+          ) 3 view mode buttons (select, configure, clear)
+          ) button to open miranda main menu
+
+          To configure visible buttons right click the button bar and select the buttons you wish
+          to see from the submenu.
+
+0.5.1.13 - 2005/10/15
+
+        * view modes which have been set to auto-expire won't expire as long as the mouse
+          pointer is over the contact list
+
+        * added a debuggin message when the "Hidden" value of a contact is set to 1 (causing
+          the contact to be hidden on the clist). This is temporary and only to find out why
+          somtimes contacts are set to hidden.
+
+0.5.1.12 - 2005/10/15
+
+        ! fixed internal font dialog.
+
+        ! fixed deleting last view mode from list creating "strange" view mode name.
+
+        * contacts local time is now only shown when it actually differs from your own time-
+          zone to keep the clist "cleaner" (there is an option for this, so you can still have
+          local time display for all contacts with a valid time zone).
+
+        * fixed: adding/removing subcontacts should now update the clist properly (still, make
+          sure you have the latest MetaContacts plugin installed as clist_nicer+ relies on
+          some of the newer features).
+
+        ! fixed: last protocol did not appear in the skin configuration.
+
+        ! fixed: hide per group wasn't working
+
+        ! don't clip icon on the status button - only status text is clipped (when needed)
+
+        ! fixed: redrawing issues when "Pin to desktop" is active.
+
+        ! more redrawing issues with fading active etc..
+
+        ! fixed a few bugs with the menu bar
+
+        ! fixed file dropping on contact list main window.
+
+        * changed: View mode configuration.
+
+          * Empty protocol or group selection boxes are now ignored.
+          * Stickies can use their own status modes (per contact). To configure stickies,
+            select the global status mode for sticky contacts using the status icons in
+            the "*** All Contacts ***" row. You can then change each status mode for
+            individual contacts. Remember that only checked contacts will be examined
+            by the sticky filter, unchecked contacts will follow the global ruleset.
+
+        * moved ICQ custom status menu from the main menu to the status menu (patch by
+          nullbie - only works with recent ICQJ versions (alpha releases)).
+
+        ! when multiple tray icons are visible and you have hidden one or more protocols
+          (MetaContacts for example), flashing has been corrected (no icon will flash if
+          the protocol causing the event has been hidden in the contact lists protocol order
+          configuration).
+
+        + show xstatus icons on the status bar (optional, can be enabled/disabled on
+          Options->Contact List->Status bar
+
+0.5.1.11 - 2005/10/04 - beta and unicode build only.
+
+        ! status message wasn't properly clipped when visibility icon active.
+
+        * multiple tray icons now follow the protocol configuration (protocols which are
+          invisible in the status bar are now also invisible on the tray).
+
+        * connecting icon(s) are now visible on the status button and in the tray.
+
+        ! the row gap does no longer affect the minimum row height (the latter is enforced,
+          even with a row gap in effect)
+
+        ! improved meta support. clist_nicer+ does no longer use the "Meta Contacts hidden
+          group hack", instead it detects subcontacts in another way. This needs a recent
+          version of the MC protocol (0.9.13.4 MINIMUM) and improves the behaviour with
+          server side contact lists, where the "hidden group hack" could cause strange
+          effects.
+
+        + added mTooltips over statusbar panels showing protocol name + statusmode. Requires
+          a mToolTip plugin with service API (0.0.1.5 or later). Also, the tray tooltip has
+          been replaced with a mTooltip (if mTooltip with service api is present). This removes
+          the limitation of 127 characters for the tray tooltip which might be a problem when
+          lots of protocols are installed.
+
+        * NOTE FOR DEVELOPERS:
+
+          * MS_CLIST_GETCONTACTDISPLAYNAME supports the GCDNF_UNICODE flag in lParam to get
+            the contact name as wide string (compatible with clist_classic).
+
+          * MS_CLIST_SYSTRAY_NOTIFY supports a NIIF_INTERN_UNICODE flag in MIRANDASYSTRAYNOTIFY.dwInfoFlags.
+            If set, the service will treat all strings in the MIRANDASYSTRAYNOTIFY structure
+            as wide strings (you'll probably have to cast the pointers to avoid compiler
+            warnings).
+
+        + added extra font setting for the event area.
+
+        + Importing and exporting themes (.clist files) now also import or export all font settings,
+          background configuration and the contact list window config.
+
+        + custom hittesting now allows to resize the clist window even when it does not have a visible
+          resizing border (e.g. when the border has been removed by TweakUI or the "Clip border"
+          option.
+
+        + option to disable the tray icon tooltips when hovering the contact list tray icon(s)
+          (Options->Contact List)
+
+        + added a first (and simple) versions of the "view modes" extension. A view mode is a
+          contact filter, currently based on protocol, group and status mode and allows for quick
+          filtering in the contact list. A new multiwindow frame has been added with a few buttons
+          to select and configure available view modes.
+
+        + added option to scale the extra icons (Options->Contact List->Window->Extra icon size)
+          At the default value of 16 pixels (which is the default icon size), the icons won't be scaled.
+          You can scale them down to 8 and up to 20 pixels if you want (of course, at a loss of
+          quality - scaling small images like 16x16 icons won't give very beautiful results).
+          NOTE: status icons are not affected by icon scaling, only the "extra" (right aligned)
+                icons are (to save some space on the clist...)
+
+        + ability to show contacts local time on the contact list. The following requirements must
+          be fulfilled:
+
+          * a timezone needs to be present (either set by the protocol (ICQ only) or set as user
+            info using UserInfoEx or tabSRMMs per contact preferences dialog.
+          * contact list must be in dual row mode (either forced or by using avatars large enough
+            to make enough space for 2 lines of text).
+          * the option to show local time needs to be enabled (Options->Contact List->Advanced options,
+            where you set the dual row display options).
+
+          NOTE: local timestamps are refreshed once per minute (which is enough and the time stamp
+                is formatted according to your regional language settings.
+
+          a new font setting (Contact list local time) has been added to the font configuration
+          options.
+
+        + added option: Contact List->Don't separate offline contacts (at the sorting options).
+          When enabled, offline contacts will be sorted together with contacts of other status mode(s).
+          This setting makes only real sense when using sort by protocol or by name.
+          Make sure to disable the "dividers" on the Options->Contact List->List page, or else
+          you'll get dividers when there shouldn't be any.
+
+        ! fixed: the option "If window is partially covered, bring it to front instead of hiding it"
+          now works when window clipping (clip border and rounded window options) are enabled.
+
+0.5.1.10 - 2005/09/29 - beta and unicode build only.
+
+        + new option: center status icons (Advanced option page, at the top).
+          Effect: status icons are vertically and horizontally centered within their
+          space. That works only when avatars are emabled. Use the "Always align icons and
+          text for missing avatars" option to get a consistent space for both avatars and
+          icons. This option also centers avatars horizontally within the available space
+          (that is, if the avatars width is less than its height).
+
+        * restored old behaviour of the "Always align icon and text for missing avatars"
+          option. It now again allows an "empty" avatar space.
+
+        ! fixed bug with subgroup indent
+
+        ! fixed - main menu didn't always update when using menu bar.
+
+        + ability to skin the status bar with a clist_nicer item. Eanble skinning on the status
+          bar option page and set up the skin item on the Background+ page.
+
+        + ability to skin the toolbar background (skin item on the Background+ page). To
+          enable/disable a skinned toolbar, right click any toolbar button and select "skinned
+          toolbar".
+
+        + added "per protocol" skin items. Enable it on the Background+ page and set the skin
+          items for each protocol.
+
+          Protocol skin items have priority over status skin items, however, the text color is, by
+          default taken from the status skin item. So you can have per-protocol background
+          skins mixed with per-status text colors. If you don't want to mix, then check "Override
+          per status text colors, so that items with a valid "per protocol" skin will not use the
+          per status text color.
+
+          For metacontacts: Unless the "Ignore all subcontact states" option is checked,
+          metacontacts will be skinned according to their "real" protocol. Otherwise, you can define
+          a protocol skin for the MetaContacts protocol.
+
+        ! "sort by proto" now uses the protocol order defined under Options->protocols. It also
+          properly sorts metacontacts according to their active subcontact (unless, the "Ignore all
+          subcontact states" option is checked.
+
+        + added the ability to show the "connecting" status for each protocol using a special icon
+          for the status bar panel of that protocol. The icon is visible while the connection is
+          "in progress".
+          If you are using IcoLib, you can configure one connecting icon for each installed protocol,
+          otherwise it is global and cannot be changed (unless, you edit the DLL).
+
+        ! fixed all option pages so that the "Apply" button isn't enabled when the dialog opens.
+
+        + support for the GCDNF_UNICODE flag added to the MS_CLIST_GETCONTACTDISPLAYNAME service.
+          If this flag is set in the lParam, the service returns a widestring contact name.
+          (Unicode build only).
+
+        * the setting to configure the minimum row height has been moved away from the font
+          configuration page and is now on the "List" page, because clist_nicer hides the font
+          configuration page when the font service plugin is available.
+
+0.5.1.9 - 2005/09/22
+
+        * Non-Unicode build should now again work with Miranda 0.4.0.1.
+
+        * status bar doesn't look weird when "Make sections equal width" is unchecked
+
+        * many internal code robustness updates
+
+        + merged one critical unicode / group related bugfix from clist_classic
+
+        * When sorting contacts by protocol, metacontacts are sorted by their current
+          "real" protocol (the protocol which determines the most online contact).
+          Note: Uncheck "Ignore all subcontact states" on the advanced option page to
+          make this work. If the setting is checked, the contact list will ignore all
+          subcontact state values and only use the master contact information.
+          NOTE: this feature is incomplete, it does not react to protocol changes (yet).
+
+        + new, experimental, autosizing optimization. Much less repainting and flickering
+          when a large number of contacts go online/offline (e.g. while conncting a
+          protocol).
+
+        * changed the way selective status icons work a bit. The setting does no longer
+          depend on "Show status icons" being off, and the "Always align..." option being
+          on. Note that selective status icons only work with the avatar alignment set to
+          "Far left".
+
+0.5.1.8 - 2005/09/20
+
+        * Critical bug (hangup when status bar disabled) solved.
+
+0.5.1.7 - 2005/09/20
+
+        ! items in protocol ordering dialog were not dragable (unicode build).
+
+        ! The option "Automatically fill background with wallpaper" was crashing the plugin
+          in the unicode build.
+
+0.5.1.6 - 2005/09/19 - released as UNICODE only build (for testing).
+
+        + added status bar protocol sorting
+
+        + added new option on the Background+ page: Apply group indent to background drawing.
+          When enabled, the indentation values for grouped contacts will also affect the background
+          of the items, not only the contents.
+
+        + BIG unicode changes. All clist_classic changes to allow Unicode contact and group names
+          have been merged. This should, however, be considered experimental alpha code. There
+          are probably bugs and it may crash. BACKUP your db before using the unicode build (that's
+          generally a good idea when testing bleeding edge builds, including the nightly builds
+          of the unicode core).
+
+        + ability to show the ICQ extended status menu on the status menu. Patch by Nullbie - this
+          feature requires a slightly modified ICQJ. Maybe, this code will make it into the
+          official ICQJ version.
+
+        ! fix: Move to Group->Root Group actually made the contact invisible, because it set the
+          Group to an empty string (wrong, the Group entry needs to be deleted in the db).
+
+0.5.1.5 - 2005/09/15
+
+        + added TweakUI - like full transparency. Setting is on the Window page (same place
+          where you can set normal transparency). This setting can be mixed with active/
+          inactive transparency values, which will then control the transparency of the
+          remaining parts of the window (fonts etc..).
+
+        + added: double clicking the avatar opens the user info dialog.
+          Enable it on Options->Contact List->List.
+
+        * somewhat smoother and less "jumpy" resizing (new bugs/small visual glitches possible,
+          especially with autosizing enabled).
+          This includes "fast resizing" for manual resize operations (dragging the window border).
+          Certain "expensive" paint operations are skipped to speed up resizing. A full window
+          repaint is executed at the end of a resizing cycle.
+
+        * fix: minor visual glitch with sunken frame and bottom buttons enabled.
+
+        + added pflagnum_5 support to the status menu builder...
+
+        ! fixed: status bar default setting was ignored for fresh profiles
+
+0.5.1.4 - 2005/09/13
+
+        + added "move to group" contact menu entry
+
+        + client icon update from clist_mw. Should be all there now.
+
+        + "Automatically fill background with wallpaper" now also works with the new setting
+          on the background page (use background for entire window).
+
+        * The "Plus" page has been renamed to "Advanced options". Reason: "Plus" conflicts with
+          a similar page of the popup plugin, and with some language packs the resulting trans-
+          lation can be confusing - for example, in german language pack, plus is translated to
+          "smilies and skins" (for the popup+ plugin) which doesn't really match the purpose
+          of clist_nicer's former "Plus" page. "Advanaced options" is neutral and not confusing
+          at all.
+
+        + added the 2 new font settings for status messages and frame titles to the font service
+          configuration. Consequently, when the font service plugin is installed and detected,
+          clist_nicer+ disables its internal font configuration dialog. Also, the internal font
+          configuration dialog has been moved to the "Customize" section.
+
+        + added the genmenu group menu stuff (group, subgroup etc.)
+
+0.5.1.3 - 2005/09/13
+
+        ! fix for status detection not working in some cases (too much optimizations done)
+
+0.5.1.2 - 2005/09/13
+
+        ! row gap value wasn't loaded at startup.
+
+        ! fixed problem with ICQ xstatus modes & messages
+
+        * strip cr/lf sequences from status messages to avoid unreadable chars.
+
+        * reorganized client icons and id strings
+
+        * fixed dimmed avatar for idle contacts when using GDI+
+
+        + new setting on the "Advanced Options" page.
+          "Don't request avatars for offline contacts". This option will, when enabled, prevent
+          the contact list from requesting avatars using the avatar service when a contact is
+          offline.
+          The option is useful if your contact list is very large and the initial request for
+          all avatars may cause a delay or if you have set your clist to display all contacts
+          (including offline). Avatars will then be requested when a contact comes online. This
+          option might also save quite some memory on large contact lists, because most of the
+          time only a fraction of your contacts will be actually online.
+
+        ! fixed hit-test (double click on extra icons...)
+
+        * changed database paths for menu item configuration. Unfortunately, you may have to
+          redo your menus :/ Reason: collisions when switching clists (mw, modern, nicer) may
+          cause troubles with the menu system. clist_mw and _modern are already using different
+          database paths, so clist_nicer also has to do so.
+
+        + added a skin item for the event area. Also, the button is now gone and the entire
+          event area is now clickable. The button just didn't look well with a skinned event
+          area.
+
+        ! fixed "not on list" font color was ignored.
+
+        + added icon to show activity in irc channels, based on the visiblity setting. You need to
+          have "Show visibility icons" enabled in order to show it.
+          Icon is configureable via IcoLib, as always.
+
+        * the detection for the "most online" protocol now ignores protocols which are not fully IM
+          capable (like RSSNews) and don't support away status mode(s). This prevents the status
+          button from showing always "Online", when a protocol cannot go into away mode (like RSS).
+
+0.5.1.1 - 2005/09/09
+
+        ! fixed a few mw bugs (frame gap, some redraw issues). Additional pointer checks in AddFrame()
+
+        ! fixed possible on exit crash (using deleted critical section)
+
+        + added clist_nicer+ skin item for the frame title bar background.
+
+        * some optimizations to resizing (clui frame mainly).
+
+        + added extra icons (mail, sms, homepage + one reserved). Options
+          are in Contact List->Window. The icons are clickable and open your default browser
+          or email client respectively (double click needed).
+
+        + frame title bar can now be fully skinned. A new font setting has been added to set
+          the font + color for frame titles.
+
+        + new setting: Clip border by (Window page). Will clip the main window border by
+          x pixels on each side which can effectively be used to completely get rid of the
+          contact lists border. This can work in combination with the "rounded window" setting
+          on the same page. Note: may not fully work when autosizing is enabled.
+
+        + new setting: Row gap (List page). Insert x pixels of gap after each contact on the
+          list. The gap is transparent, so the background image (or color) will be visible here.
+          This is somewhat different from the Background+ item configuration where a margin can
+          be set for each side of a contact list item. The row gap is considered when calculating
+          row heights, the individual item margins are not.
+
+        * removed clist_nicers own copy of ICQ xstatus icons. These icons are now obtained by
+          using the extraimages api (like clist_mw does). The ICQ protocol sends these icons
+          on request.
+
+        * the options to show extra and client icons were moved to the "Window" page, where you
+          can also configure the other extra icons (email, homepage, URL etc..).
+          In order to see mBirthday icons, you need to activate the "Reserved" and "Reserved2"
+          entries.
+
+        * the event area is now a frame of its own and can be moved anywhere you want it. Autohide
+          feature does still work.
+
+0.5.0.7 - 2005/08/30 - not officially released, for testing purpose only
+
+        * GDI+ rendering added. Requires gdi+ installed - it is on all XP and most Win2K systems,
+          others can get it here:
+
+          http://www.microsoft.com/downloads/details.aspx?FamilyID=6a63ab9c-df12-4d41-933c-be590feaa05a&DisplayLang=en
+
+          Using GDI+ for rendering the avatars gives better quality, especially for fully alpha-
+          blended PNG images, but even normal bitmaps look better because of the higher quality
+          image rescaling in gdi+.
+
+        + the toolbar button for toggling sounds has now 2 icons showing the actual state of the
+          sounds setting.
+
+        + updated toolbar icons with the latest ttb icon set by Angeli-Ka
+
+        * show xstatus (if set) on the status button (patch submitted by nullbie)
+
+        + more GDI+ rendering - background items are now also rendered with GDI+ using antialiasing,
+          so rounded contact list items should look better now. GDI+ is optional and needs to be
+          enabled on the "Plus" page in the options tree. It cannot be enabled, if it isn't installed
+          though. GDI+ is used with "delayed" linkage, so it shouldn't give you an error if the
+          gdiplus.dll is not installed on your system.
+
+        ! small bug with "far right" aligned avatars corrected (text overdrawing the avatars).
+
+        + added customizable menus (main menu, status menu and contact menu only) - code from clist_mw,
+          slightly changed because some _mw features are not in clist_nicer.
+
+        + added multiwindow API, so all multiwindow plugins should work now, including top toolbar
+          of course.
+
+        * client icons are loaded "on demand" to save gdi resources
+
+0.5.0.6 - 2005/08/27
+
+        + option to disable the expand/collapse icons for groups (Options->Contact List->List)
+          If enabled, you'll have to double click the group label in order to expand/collapse
+          a group.
+
+        + added more client icons - thanks to Angeli-Ka for the icon set.
+
+        + some performance optimizations (about +5k code size)
+
+        * changed the status icon on the bottom status selection button. If you don't have set
+          a preferred system tray icon on Options->contact list, the button will now show your
+          "most online" status, using the global status icon.
+
+        * visual corrections for multiline-status messages. only full rows of text are visible.
+
+        ! fixed and added a few border styles for contact list items (Background+ page)
+
+0.5.0.5 - 2005/08/25
+
+        + added rounded window frame
+
+        + added support for database-cached Yahoo and GG status messages. Also, ICQ
+          extended status messages can be shown on the contact list, since they are
+          also saved to the database.
+
+        - removed the "unknown" avatar feature. Since the avatar service now supports
+          per protocol default images, it's rather pointless to have a fallback
+          image in the clist itself.
+
+        * reduced database reads and writes a lot (caching some configuration data).
+
+        * slightly changed the way the clist determines if a second line of text is
+          needed. There are now 4 modes availble, selectable via a combo
+          box and they are considered in the following order:
+
+          * Never - the 2nd line will never be visible, no matter how much space is
+            available. If an avatar requires a larger row size, the nickname will be
+            centered and the remaining space will be left empty.
+
+          * Always - each contact will have a second row of text.
+
+          * If space allows - The second row will be visible when the row height is already
+            large enough (e.g. due to the avatar using a considerable amount of vertical
+            space).
+
+          * If needed - The second row will be visible if there is useful information to
+            display, that is, the contact has set a status message or extended status mode
+            (for ICQ contacts). The normal protocol status is not considered here.
+
+        + some tweaks to avatar drawing - better clipping with rounded avatars, region based
+          borders.
+
+        + another memory overflow found and fixed in the DrawAlpha() function
+
+0.5.0.4 - 2005/08/25
+
+        + bugfix for startup crash
+
+0.5.0.3 - 2005/08/22
+
+        ! bugfix: when starting hidden/minimized, some buttons did not show up after
+          restoring the clist until it was resized.
+
+        * delete group warning dialog now shows the name of the group which is about to
+          be deleted in the title bar (useful, if the delete group service was called by
+          another plugin, and you therefore cannot know which group is affected).
+
+        * embedded contact lists can now display avatars and use dual row mode.
+
+        ! fixed quicksearch problems with avatars and dual row display.
+
+        ! Background+ page was not translateable (inherited bug from original clist_nicer).
+
+        + added option ("Plus page") to show the status msg instead of the status mode. Note
+          that this only shows cached "CList" status messages and does NOT retrieve them
+          actively. Also, you need to enable "Allow two rows of text" to show them.
+
+          The order of tings shown in the 2nd line is (depending on availability):
+          1) Clist status message (if enabled on the option page)
+          2) Custom status mode name (ICQ only)
+          3) protocol status mode name (online, offline, away and so on...)
+
+        ! fixed incorrect display of some contacts.
+
+        + added "overlay" status icons which can be superimposed over avatars. Customization
+          possible via IcoLib plugin. Enable them on the "Plus" option page.
+          Thanks to Faith Healer for permission to use the icons.
+
+        + added "selective status icon" support. This is a bit tricky. Basically, it fills
+          the empty space for missing avatars with the protocol status icon. Selective status
+          icons require the following:
+
+          * option enabled (plus page)
+          * Status icons switched off (plus page)
+          * Avatars enabled
+          * "Always align icons and text for missing avatars" enabled
+
+          If these settings are in effect, then the empty space showing up if a contact has
+          no avatar is filled with the protocol status icon.
+
+        + added variable row heights. Thanks to pescuma for a really nice and clean
+          implementation of this feature with minimal impact on the contact list core code.
+          As a result, the avatar height is now a separate value and does no longer depend
+          on the row height (set it on the "Plus" page - default are 28 pixels in height).
+
+        + added support for the updater plugin by sje. Future versions of clist_nicer+ may
+          be available by automatic updates ONLY ("major" releases will still be available
+          in the file listing).
+
+0.5.0.2 - 2005/08/06
+
+        * changed API of loadavatars. You need to update both .DLLs not only the
+          clist_nicer_plus.dll. If you don't, it will crash.
+
+        * better quality for "rounded" avatars.
+
+        + option to always align nicknames and/or icons, even if there is NO avatar for
+          a contact (just leave an empty space then).
+
+        * if an extended status mode (ICQ) is set, it will be shown in the second line,
+          instead of the normal protocol status.
+
+        ! center group names now also works with the contact count numbers enabled. Also,
+          draw lines along group names works with centered group names.
+
+        + avatar alignment now supports 3 modes:
+          * far left (avatar at the left edge of the contact list)
+          * far right (avatar at the right edge)
+          * with nickname (avatar just in front of the nickname, but right of the status
+            icon).
+
+        + some fixes to hottracking (works for ignored items). The option "ignore selection
+          for group names" is now working.
+
+0.5.0.1 - 2005/08/05
+
+        * hottrack item config moved to the item list. It can now be configured like any
+          other item, except that it inherits the following stats from the underlying
+          item.
+
+          * corners
+          * gradient TYPE (colors can be set)
+          * margins
+
+          colors and transparency value can be set for the hottracking item, but shape
+          (corners), margins and gradient type cannot, because they need to be inherited
+          from the item which is currently "hottracked".
+
+        ! another bugfix with window layout when autosizing is enabled
+
+        * changed sorting method. It now uses sorting based on current locale
+          settings, which means it peroperly handles language specific characters like
+          german umlauts. That also fixes wrong sortings with cyrillic nicknames.
+
+        + avatars added. Yes, I don't like avatars on the contact list, but since it is
+          requested so often... really, I need someone who can explain me why avatars are
+          SO important in instant messaging... :)
+
+          The options are, as always, in the context
+          menu of the contact list. Avatars can be switched off, they can be ordered to left
+          align (normally, they are just left of the nickname, but after the status icon)
+          and they can have a border.
+
+          Avatars follow the row height, so in order to get a reasonable avatar size, you
+          should increase the row height (a value of 28 or more pixels already gives decent
+          quality). They are also drawn with the alpha value of the background item, so they
+          can be partially transparent.
+
+          Avatars require the plugin LOADAVATARS.DLL, which is a separate plugin and works
+          as some kind of avatar service in the background.
+
+        + dual row mode added. When the row height allows for more than a single line of text
+          (given the current fonts), a second line is added showing the status mode. Also, some
+          icon position are changed in dual row mode and the visibility icon is moved to the
+          2nd row so it won't take space from the nickname.
+
+        + some options to tweak the layout added. It is now possible to make the status icons
+          optional, for example.
+
+        + status icons are now optional (enable them via the context menu or use the new "Plus"
+          option page.
+
+        + new option page added (Contact List->Plus). Contains all the new settings for tweaking
+          the layout and other stuff.
+
+0.4.0.4 - 2005/07/13
+
+        * better client icon update
+
+        ! evemt area only groups message events
+
+        + timer based clist sorting added. This saves A LOT of sorting, especially while
+          connecting multiple protocols and filling the contact list. It can reduce the
+          number of sorting runs by a factor of 10. The disadvantage are very small delays
+          in the range of 100 - 150 milliseconds. In most cases, you won't notice it.
+
+          The timer based sorting can be disabled by creating a DWORD value in the CLC
+          module. Name it "SortTimer" and set its value to 0.
+          Alternatively, you can set the timer value in milliseconds, using the same db
+          setting. Default is 150 ms and you can set it to any value between 50 and 500.
+          Smaller and larger values will be ignored as they don't make sense.
+
+          NOTE: restart required after changing the db setting.
+
+        + added right margin indent value. Affects text, right-aligned icons only, but not
+          the background (they already have individual margins for each item type).
+          Options->Contact List->List. Basically, it prevents the client or extended status
+          icon(s) to "touch" the right window border (which may look ugly).
+
+        + added "full row selection". Simple, you don't HAVE to click on the contacts text
+          any longer in order to select it. This conflicts with the "easy move" feature,
+          unless you have some free space in your contact list. To disable full row select
+          hold the SHIFT key while using the mouse, so you can still "easy drag" the contact
+          list window around.
+
+          You can enable/disable full row select under Options->Contact List->List
+          Note: full row selection also impacts hottracking of items.
+
+        + added hottracking with changing background color. Two new color fields are on
+          the Background+ page which allow you to set the (background) colors for hottracked
+          items. If a gradient has been set for an item type, hottracking uses both colors
+          to build the new gradient, otherwise, only the first color is active.
+
+        ! fixed a few redrawing/layout problems with the new window elements.
+
+        ! fixed autosize-related focus stealing (ugly)
+
+        + added a new skin item "First group on list" - allows to draw the first group header
+          with a different skin.
+
+0.4.0.3 - 2005/07/13
+
+        ! don't draw additional icons in "embedded" mode (e.g. if the clist control
+          is being used in a dialog box like typing notify options.
+
+        ! only show the toolbar config menu when right clicking over the toolbar.
+
+        ! some visual glitches fixed when autosizing is on.
+
+0.4.0.2 - 2005/07/09
+
+        ! fixed bug with fade in/out contact list
+
+        ! fixed "sorting by name" bug (inherited from clist_classic, rather old bug)
+
+        ! fixed metacontacts not disappearing from group when going offline
+
+        - removed "simple" font configuration dialog.
+
+        + added a context menu to allow configuration of some aspects of the button bar.
+          You can increase/decrease the size of the buttons, can set them as flat or 3d,
+          and you can disable visual styles for the buttons (may look better with some
+          visual styles as they have problems to draw very small buttons).
+          Also, you can now decide which buttons you want to see on the button bar,
+          and which buttons you don't (that may be an opportunity to add some more
+          buttons in the future).
+
+        + added option to the contact list context menu -> use meta protocol icons. If
+          enabled, icons for the meta protocol will be shown for metacontacts (instead of
+          the actual protocol icons).
+
+        ! some visual glitches fixed (especially, when TweakUI is enabled).
+
+        ! another old bug fixed. Groups are now using the colors from the "Background+"
+          page.
+
+        + added the "Event Area". This is a small area at the bottom of the contact list
+          which will show you the most recent contact list event (received message, file
+          and so on...). If more than one event is waiting, a list of unhandled event is
+          opened when you click the button in that area.
+          This feature is, of course, optional. Right click the contact list and you'll find
+          the options in the context menu. You can disable the event area or set it to auto-
+          hide so it will only be visible when needed.
+
+        + feature added: "Move events on top" - contacts with unread or
+          "unhandled" events (simply, all flashing contacts) will stick on top of their group
+          (or the entire contact list, if no groups are in use).
+
+          This is optinonal, and can be configured at the "Contact List" main page (where you
+          set other sorting options.
+
+0.4.0.1 - 2005/07/08 - first public release

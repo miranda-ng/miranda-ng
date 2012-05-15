@@ -1,0 +1,129 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_FOLDERS DIALOGEX 0, 0, 314, 254
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CONTROL | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Custom folders",IDC_FOLDERS_GROUPBOX,0,1,313,250
+    LISTBOX         IDC_FOLDERS_SECTIONS_LIST,14,12,77,116,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_FOLDERS_ITEMS_LIST,98,12,208,116,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Preview",IDC_PREVIEW_GROUPBOX,6,131,300,55
+    EDITTEXT        IDC_PREVIEW_EDIT,14,143,284,35,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | NOT WS_TABSTOP
+    GROUPBOX        "Edit",IDC_EDIT_FOLDER_GROUPBOX,6,189,300,58
+    EDITTEXT        IDC_FOLDER_EDIT,14,202,284,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Refresh preview",IDC_REFRESH_BUTTON,14,227,71,14
+    PUSHBUTTON      "Variables help",IDC_HELP_BUTTON,231,227,67,14
+END
+
+IDD_VARIABLES_HELP DIALOGEX 0, 0, 449, 237
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom folders variables help"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Close",IDCLOSE,392,216,50,14
+    CONTROL         "",IDC_HELP_RICHEDIT,"RichEdit20A",ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_BORDER | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP,7,7,435,203
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPT_FOLDERS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 313
+        VERTGUIDE, 6
+        VERTGUIDE, 14
+        VERTGUIDE, 298
+        VERTGUIDE, 306
+        TOPMARGIN, 1
+        BOTTOMMARGIN, 251
+        HORZGUIDE, 12
+        HORZGUIDE, 128
+        HORZGUIDE, 202
+        HORZGUIDE, 241
+        HORZGUIDE, 247
+    END
+
+    IDD_VARIABLES_HELP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 442
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 230
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

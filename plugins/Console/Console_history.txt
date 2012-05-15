@@ -1,0 +1,174 @@
+PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND...
+ONLY MORAL SUPPORT IN SPECIAL CASES CAN BE PROVIDED 8-)
+--------------------------------------------------------------------------------
+
+v7.2
+
+[+] console hot restart (to apply new options)
+[+] always show at start option
+[*] other small changes
+
+
+v7.1
+
+[+] switch tabs with CTRL+Left/Right
+[+] log size limitation
+[+] icons in log
+[+] event separation with empty line
+[-] create "(NULL)" tab only on demand
+[*] dumping optimization
+[*] small changes to compile in VC6
+
+
+v7.0
+
+[+] tabbed mode support (tab for every NETLIB user)
+[+] toolbar button for clist modern
+[+] options page
+[*] other small changes
+
+
+v6.6
+
+[+] logging pause button
+[*] log scrolling hotkey was changed to Ctrl+Q
+[*] more translatable strings
+[-] fixed tooltips on buttons
+
+
+v6.5
+
+[+] global hotkey to show/hide console (Win+C by default)
+[+] common shortcuts in console (Ctrl+C/S/D/A/O, Del)
+[*] trying to hook netlib log on load
+[*] hi-res console icon
+
+
+v6.4
+
+[-] some bugfixes (unicode version only)
+
+
+v6.3
+
+[!] NETLIB was removed. using netlib log hook.
+[+] unicode support
+[+] ansi / utf8 autodetection and conversion
+[+] faster startup/shutdown/dumping
+[+] variable line wrap length
+
+
+v6.0 - 6.2
+
+[!] internal builds
+
+
+v5.4
+
+[-] workaround for "\r" in console window
+[*] small speed improvements in netlib log dump
+[*] merge with SVN (netlib module)
+
+
+v5.3
+
+[*] PluginInfoEx was added, some code was replaced with core services (thanx Jazzy$)
+[*] merge with SVN (netlib module)
+
+
+v5.2
+
+[*] merge with SVN (netlib module)
+[*] fix for crash on exit (miranda 0.7 core issue)
+[+] save and restore console window position
+
+
+v5.1
+
+[-] filter settings were not saved
+
+
+v5.0
+
+[+] buttons to copy/delete/save log, open options
+[+] ability to select colors and font (fontservice needed)
+[*] long lines (>90 chars) are wraped
+[+] list-view auto width
+[*] destoying all services before unload to prevent crashes
+
+
+v4.0
+
+[*] merged with lastest netlib
+
+
+v3.3
+
+[-] packet dumps still were not shown in some cases
+[+] small optimizations
+
+
+v3.2
+
+[-] fixed huge memory leak
+[-] packet dumps were not shown if logging to file was off
+
+
+v3.1
+
+[!] listview control console window. richedit is too slow
+
+
+v3.0
+
+[!] richedit control console window!
+
+v2.0
+
+[?]
+
+v1.9
+
+[+] abitity to remember last console state
+
+v1.8
+
+[+] profile path is shown in console title
+
+v1.7
+
+[?]
+
+
+v1.6
+
+[-] fixed AV on msg from NULL (thanx sh8an)
+[*] attempt to fix windows shutdown issues with opened miranda
+
+v1.5
+
+[+] ability to log only custom protocols (netlibusers)
+[-] console window startup workaround to prevent crashes and other bugs
+
+v1.4
+
+[+] console window writes log even in hidden state (if Log to Console is checked)
+[+] ability to hide/show console from main menu and toptoolbar button
+[+] open outgoing connections with delay is now optional
+[*] console startup code was rewritten
+[-] pressing Ctrl+C or Ctrl+Break in console window do not close Miranda any more
+[-] now console window always appears on top
+
+v1.3
+
+[+] console window from 0.3x netlib
+[+] console buffer is 100 times larger
+[+] console text convertion to OEM codepage
+[-] close button now always disabled
+[*] some changes to unloading
+
+--------------------------------------------------------------------------------
+[!] important note
+[+] added feature
+[*] improved/changed feature
+[-] bug fixed

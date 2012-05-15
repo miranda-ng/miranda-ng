@@ -1,0 +1,565 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode Debug|Win32">
+      <Configuration>Unicode Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode Debug|x64">
+      <Configuration>Unicode Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode Release|Win32">
+      <Configuration>Unicode Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Unicode Release|x64">
+      <Configuration>Unicode Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>SmileyAdd</ProjectName>
+    <ProjectGuid>{5BBA7E51-B494-4462-BC4F-1AE5F57F9857}</ProjectGuid>
+    <RootNamespace>SmileyAdd</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <UseOfAtl>false</UseOfAtl>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Release\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Debug\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'">$(Configuration)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'">$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'">$(SolutionDir)$(Configuration)64\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'">true</IgnoreImportLibrary>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'">true</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'">$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'">$(SolutionDir)$(Configuration)64\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'">$(SolutionDir)$(Configuration)64\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\include;greta;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>release\smileyadd.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>.\Release/smileyadd.map</MapFileName>
+      <MapExports>true</MapExports>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\include;greta;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)smileyadd.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapExports>true</MapExports>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;greta;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>c:\Develop\miranda\plugins\mir7-A\Plugins\smileyadd.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>.\Debug/SmileyAdd.pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;greta;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FloatingPointModel>Fast</FloatingPointModel>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)smileyadd.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>c:\Miranda IM\plugins\smileyaddw.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Debug/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\include;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <WarningLevel>Level4</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>c:\miranda im\plugins\smileyadd.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\include;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <ExpandAttributedSource>false</ExpandAttributedSource>
+      <AssemblerOutput>
+      </AssemblerOutput>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level4</WarningLevel>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>Default</CompileAs>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)smileyaddw.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <ProgramDatabaseFile>
+      </ProgramDatabaseFile>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(OutDir)smileyaddw.map</MapFileName>
+      <MapExports>true</MapExports>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <ImportLibrary>$(IntDir)</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Unicode Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>X64</TargetEnvironment>
+      <TypeLibraryName>.\Release/help.tlb</TypeLibraryName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MinSpace</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>..\..\include;sgi-stl;regexp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;_WIN32_WINDOWS=0x0410;_THROW(x, y);_RAISE(x);_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>false</ExceptionHandling>
+      <SmallerTypeCheck>false</SmallerTypeCheck>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <BrowseInformation>true</BrowseInformation>
+      <WarningLevel>Level4</WarningLevel>
+      <FloatingPointExceptions>false</FloatingPointExceptions>
+      <PrecompiledHeaderFile>general.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <ProjectReference />
+    <Link>
+      <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)smileyadd.dll</OutputFile>
+      <Version>0.2.3.16</Version>
+      <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateMapFile>true</GenerateMapFile>
+      <MapFileName>$(IntDir)smileyadd.map</MapFileName>
+      <MapExports>true</MapExports>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <BaseAddress>0x28110000</BaseAddress>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
+      <TargetMachine>MachineX64</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="anim.cpp" />
+    <ClCompile Include="AniSmileyObject.cpp" />
+    <ClCompile Include="bkstring.cpp" />
+    <ClCompile Include="customsmiley.cpp" />
+    <ClCompile Include="dlgboxsubclass.cpp" />
+    <ClCompile Include="download.cpp" />
+    <ClCompile Include="general.cpp" />
+    <ClCompile Include="imagecache.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="richcall.cpp" />
+    <ClCompile Include="services.cpp" />
+    <ClCompile Include="SmileyBase.cpp" />
+    <ClCompile Include="smileyroutines.cpp" />
+    <ClCompile Include="smileys.cpp" />
+    <ClCompile Include="smltool.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="anim.h" />
+    <ClInclude Include="bkstring.h" />
+    <ClInclude Include="customsmiley.h" />
+    <ClInclude Include="download.h" />
+    <ClInclude Include="general.h" />
+    <ClInclude Include="imagecache.h" />
+    <ClInclude Include="m_folders.h" />
+    <ClInclude Include="m_metacontacts.h" />
+    <ClInclude Include="m_smileyadd.h" />
+    <ClInclude Include="m_smileyadd_deprecated.h" />
+    <ClInclude Include="m_updater.h" />
+    <ClInclude Include="options.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="services.h" />
+    <ClInclude Include="SmileyBase.h" />
+    <ClInclude Include="smileyroutines.h" />
+    <ClInclude Include="smileys.h" />
+    <ClInclude Include="smltool.h" />
+    <ClInclude Include="version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RES\smiley.ico" />
+    <None Include="docs\smileyadd_msl_specification.txt" />
+    <None Include="docs\smileyadd_readme.txt" />
+    <None Include="docs\smileyadd_translation.txt" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

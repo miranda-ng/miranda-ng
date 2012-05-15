@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c68788e9-3d77-44e1-a66b-bda39296f53f}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source Files\libyahoo2">
+      <UniqueIdentifier>{d20cb62e-866e-477a-8707-3b29c4f94cfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{288de062-fdf1-46a7-a887-c66e6f87a98c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{7dad73cf-d1b2-4738-bf9a-ef0718c4837d}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="avatar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="chat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="file_transfer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="http_gateway.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icolib.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ignore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="im.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="proto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="search.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="user_info.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="webcam.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="yahoo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libyahoo2\crypt.c">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClCompile>
+    <ClCompile Include="libyahoo2\libyahoo2.c">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClCompile>
+    <ClCompile Include="libyahoo2\yahoo_httplib.c">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClCompile>
+    <ClCompile Include="libyahoo2\yahoo_list.c">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClCompile>
+    <ClCompile Include="libyahoo2\yahoo_util.c">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClCompile>
+    <ClCompile Include="links.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="libyahoo2\config.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo2.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo2_callbacks.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo2_types.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo_debug.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo_httplib.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo_list.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="libyahoo2\yahoo_util.h">
+      <Filter>Source Files\libyahoo2</Filter>
+    </ClInclude>
+    <ClInclude Include="http_gateway.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ignore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="proto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="yahoo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Yahoo.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

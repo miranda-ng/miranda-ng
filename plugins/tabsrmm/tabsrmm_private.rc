@@ -1,0 +1,18 @@
+#define UDS_HOTTRACK			0x0100
+#define TCS_HOTTRACK			0x0040
+#define TVS_FULLROWSELECT       0x1000
+#define TVS_DISABLEDRAGDROP     0x0010
+#define TVS_SHOWSELALWAYS       0x0020
+#define TVS_NOTOOLTIPS          0x0080
+#define TVS_TRACKSELECT         0x0200
+#define TVS_FULLROWSELECT       0x1000
+
+#ifdef __GNUWIN32__
+	#define TVS_NONEVENHEIGHT 		16384
+	#define TVS_CHECKBOXES			256
+	#define IDC_STATIC				-1
+#endif
+
+#include "msgwindow.rc"
+#include "resource.rc"
+#include "chat/chat.rc"

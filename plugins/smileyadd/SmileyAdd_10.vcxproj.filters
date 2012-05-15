@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{c758845e-0368-45b5-95dc-5b0096e5a10c}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{c5426cd8-759c-4919-92d0-4e65fa3d94fa}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{b70759e0-290c-47d4-8441-4e0c22bf7f43}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Documents">
+      <UniqueIdentifier>{a9ffb09b-8ece-4823-a3e7-4d4ffde00724}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="anim.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AniSmileyObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="bkstring.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="customsmiley.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dlgboxsubclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="download.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="general.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="imagecache.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="richcall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SmileyBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smileyroutines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smileys.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="smltool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="anim.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="bkstring.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="customsmiley.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="download.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="general.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imagecache.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_folders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_metacontacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_smileyadd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_smileyadd_deprecated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_updater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="services.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SmileyBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smileyroutines.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smileys.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="smltool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="RES\smiley.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="docs\smileyadd_msl_specification.txt">
+      <Filter>Documents</Filter>
+    </None>
+    <None Include="docs\smileyadd_readme.txt">
+      <Filter>Documents</Filter>
+    </None>
+    <None Include="docs\smileyadd_translation.txt">
+      <Filter>Documents</Filter>
+    </None>
+  </ItemGroup>
+</Project>

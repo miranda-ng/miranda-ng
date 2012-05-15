@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "secureim", "secureim_9.vcproj", "{4ADADECA-99D7-410D-8127-CB27210DCC6A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "secureim_icons", "secureim_icons_9.vcproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4ADADECA-99D7-410D-8127-CB27210DCC6A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{4ADADECA-99D7-410D-8127-CB27210DCC6A}.Debug|Win32.Build.0 = Debug|Win32
+		{4ADADECA-99D7-410D-8127-CB27210DCC6A}.Release|Win32.ActiveCfg = Release|Win32
+		{4ADADECA-99D7-410D-8127-CB27210DCC6A}.Release|Win32.Build.0 = Release|Win32
+		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Debug|Win32.Build.0 = Debug|Win32
+		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Release|Win32.ActiveCfg = Release|Win32
+		{3FAB6AC7-6B7F-4779-B519-34E8035074A4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

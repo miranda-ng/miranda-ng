@@ -1,0 +1,53 @@
+﻿Miranda IM is proudly brought to you by:
+
+Ricardo Domenecci
+Gennady Feldman
+George Hazan
+Tim Hunter
+Kubilay Kocak
+Boris Krasnovskiy
+Josef Kucera
+Aaron Landwehr
+Lyon Lim
+Tjado Maecke
+Piotr Piastucki
+Robert Rainwater
+Alex Sanda
+Artem Shpynov
+Adam Strzelecki
+Maxim Mluhov
+Victor Pavlychko
+Bartosz Białek
+
+Retired Members:
+
+Martin Öberg
+Denis Stanishevskiy
+Richard Hughes
+Emostar
+Esnow
+Figbug
+Tristan_VdV
+Crypt0gl
+Lowspirit
+Glutnix
+Santithorn Bunchua
+Sam K
+Jörgen Persson
+
+Our plugin developers, too multitudinous to name individually, but whos works are nontheless crucial to our success.  
+Special mention to Scott Ellis, a welcome part of arguably almost every Miranda IM installation :)
+
+Our translators, who have done great things to expand our reach, and who are infuriated that 
+I won't let them change this text.
+
+Our media developers, who bring us the icons, sounds and skins you love so much.
+Special mention to Angeli-Ka, a0x, Faith Healer, Quadrone, and Valkyre for their work on the application icons.
+
+Our bug reporters and moderators, who strive thanklessly to bring quality into Miranda.
+Special mention to Piotr Lukaszewski aka nowotny, not always smiling, but always doing his part.
+
+Our forum residents, who discover new and exciting ways to break Miranda daily and who are the gestalt
+ slash 'mob' that shapes how Miranda IM works and evolves.
+
+Our users,  who...er...use it, and without who...well...we love that you love Miranda.

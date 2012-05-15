@@ -1,0 +1,455 @@
+AimOSCAR Release 6
+
+    *fixed contact list snac parsing error.
+    *changed sleep limit on contact adding.
+    *Aim links support option now stays unticked.
+    *fixed first run dialog tabbing fix.
+    *fixed the firstrun dialog to show up at the right time(i.e. before miranda loads).
+    *fixed a deferencing of a null pointer that caused a crash during the initiation of file transfers.
+    *increased size of the profile dialog.
+    *added notification of buddy list modifications.
+    *bbcode url additions.
+    *modification to non-bbcode converted links.
+    *away message removed on status change always.
+    *now respects the profile path.
+    *group and buddy ids do not delete when a buddy goes offline now(caused addition and deletion failures).
+    *context menu item to add buddies that aren't on your list(Yes, it knows whose been naughty and who hasn't been at all)
+    *Instant Idler Dialog was added to the main menu. *Instant idle options are mostly found there.
+    *Added instant idle on login option.
+    *Added icons for html away message, profile, instant idle, and adding buddies
+    *Addition/Deletion error code string modifications.
+    *Error code 0x02 added to deletion error codes.
+    *added popups to replace messageboxes.
+    *additional parameters for a bunch of functions - so we can connect to multiple servers.
+    *email server connection & check.
+    *connection does not attempt to sleep for 5 seconds on all family 4 commands anymore.
+    *a bit of cleanup.
+    *Modifications to the mail checking.
+    *An additional option to set mail checking on login.
+    *Main menu item to check mail.
+    *Main menu item to manage account- includes changing password.
+    *Changed the instant idle icon to one in the round icons (colored) 1.0 by maldi.
+    *Added an icon for mail taken from the Yahoo plugin(by Faithhealer I believe) & I changed it's contrast a bit.
+    *Modified the aesthetics of the first run dialog.
+    *fixes for instant idling- so now regular idling is ignored if instant idling is set.
+    *a few migration from toc2 to aimoscar additions.
+    *Fixed extra clist icons.
+    *Extended status icons now delete on log off instead of the "DisableESIcons" key :-D.
+    *Moved ES icons to ADV3 column.
+    *fixed timer check at start.
+    *lots of html & bbcode conversion fixes.
+    *fixes for additions and deletions(when someone has multiple copies of the same buddy on the list).
+    *More fixing for extra clist icons.
+    *Auto-idle now sets AIM's status to Away if 'Do not reply to requests for this message' is ticked in Options>Status>Status Messages.
+    *snac length was incorrect by 6 bytes resulting in login error detection problems. 
+    *stopped increasing sequence number on packet sending failure- so next packet won't get you kicked.
+    *fixed a packet length bug in contact list packet.
+    *Stopped removing the MirVer Key on log off.
+    *stopped removing extra clist icons on logoff.
+    *fixed a bug that caused module deletion to not work and potential addition/deletion bugs.
+    *tons of cleanup.
+    *compiles with mingwstudio now.
+    *no more extra winsock dependencies- created my own htons() and htonl() functions :-).
+    *fixed a packet sending race condition resulting in possible kicking.(found by ripoff).
+    *replace str functions with lstr functions.
+    *fix by borkra for failure to close connection handles on abrupt disconnection..
+    *fix for tlv crash(thanks borkra).
+    *fixed status fallback issues for offline to any status besides online, away, invis, and offline.
+    *aimoscar identifies unknown client's as "?" now.
+    *close file transfer socket on failure.
+    *cleaned up disconnection code a bit.
+    *now if you manually check your mail- you'll get a popup even if you don't have mail.
+    *Fixed a bug that caused the unknown user string to overwrite the SMS string.
+    *fixed a bug that causes a crash on an buddy addition failure.
+    *fixed an accidental usage of utf for non-utf miranda.
+    *fixed some group addition bugs.
+    *fixed a bug causing unknown to be written over known clients on status change.
+    *Offline all contacts on miranda startup(Oops :-D).
+    *Changed how aimoscar writes the MirVer string to the db- so that client change notifications don't happen twice.
+    *set a timeout for peer connection attempts so that it doesn't attempt for 45* seconds.
+    *Fixed a bunch of buffer overruns involving DBVARIANTS.
+    *Changed the login order to force aol to send us a list on login.
+    *Changed group handling to not move manually added users to their actual group.
+    *Changed group handling to not lowercase all server-side group names.
+    *Added meebo client detection.
+    *Added adium client detection(beta adium only).
+    *Modified the gaim/adium detection to show as only gaim detection.
+    *Removal of some useless strlcpy() somewhere, and #define all client names.
+    *Fixed a potential bug in keepalive sending.
+    *lowest keepalive value is now 15 seconds
+    *fixed login problems from previous login order change.
+    *fixed utf8 sending for aim clients.
+    
+------------------------
+
+AimOSCAR Beta 5
+
+    * fixed sending the autoaway msg- so it shouldn't result in crashes and crap.
+    * Idle and automessage tlv's are now considered to be different things.
+    * Instant idle- idles you if you change the setting from off to on now(instead of just when you change the time amount).
+    * Options dialog changes.
+    * Removed pointless structs in code.
+    * Removed some functions that were not used.
+    * Replaced malloc() with c++ style memory allocation.
+    * Replaced free() with c++ style memory deletion.
+    * now use delete[] correctly.
+    * addition of a tlv class to make code more maintainable and easier to deal with.
+    * major code clean up.
+    * removed extra generic services not used- here and there.
+    * dynamic memory allocation for all strip and conversion functions.
+    * Fixed memleaks here and there.
+    * Removal of most static memory buffers- they were approximately 8KB allocation for each.
+    * Addition of dynamic memory buffers and small memory buffers.
+    * attempted to fix buddy addition.
+    * Addition of a snac and flap class.
+    * gaim clients now detected as gaim/adium clients.
+    * fix options dialog to show up when dialog options are not checked.
+    * a buffer overrun no longer occurs if there is no profile.
+    * a buffer overrun no longer occurs when viewing things with %n in them.
+    * some more reorganization.
+    
+------------------------
+
+AimOSCAR Beta 4
+
+    * Fixed overlapping text in the options window.
+    * Shows the aimoscar icon in the firstrun window now.
+    * naim, gaim, aim 5.x, aim 4.x, aim triton, aim express, and aim toc detection.
+    * Hiptop users now detected as GPRS clients.
+    * Mobile users are now detected as SMS clients.
+    * message length limit- so messages don't timeout.
+    * error snac now works correctly.
+    * error handling for all snac families.
+    * %n now changed to a name in auto-away messages.
+    * goim links(taken from AimTOC2).
+    * modifications to html link handling(No longer strips the title).
+    * fixed idling(forgot to flip bytes from host to network byte order).
+    * Instant idling option.
+    * No longer attempts to grab the away message for people who are offline.
+    * Changed the confirmed, unconfirmed, aol, and bot icons.
+
+------------------------
+
+AimOSCAR Beta 3
+
+    * modifications for visual studio 2005.
+    * added strlcpy and wcslcpy for buffer overrun protection.
+    * Modifications to handle aim links.
+    * Temporary users now appear online.
+    * Contacts are now added correctly when the buddy list is recieved.
+    * html to bbcode conversion when a contact messages you for both wide char and ascii messages.
+    * bbcode to html conversion when you message a contact for both wide char and ascii messages.
+    * bold, italic, underline, and text color natively supported too and from contacts.
+    * modified the strip_html functions to remove a possible buffer overrun.
+    * fixed the strip_html(wide char) function.
+    * if recieve flap type 4 after connection- aimoscar now offlines you and your buddies.
+    * fixed a memory leak in find_contact().
+    * fixed memory leaks in the packet receiving handler.
+    * fixed a memory leak in add_contacts_to_groups().
+    * fixed memory leak with sending messages.
+    * fixed memory leaks involving the extended and account type icon functions.
+    * moved freeing of globally allocated strings to the unload function(should stop some hangings on exit).
+    * addition of a first run dialog for entering a username and password(contributed by RiPOFF).
+    * Temporary Contacts can now added permanently to the buddy list.
+    * Contacts added to the list are now added to their actual server-side group.
+    * Fix for a hang in the aim keepalive thread(contributed by borkra).
+    * The option title and user info dialogs now use the dll name as the title(use to be hardcoded as 'AimOSCAR').
+    * Build time now included in the plugin description.
+    * Now idles the user according the idle settings.
+    * fixed a memory leak in the proxy file transfer handler.
+    * fixed a buffer overrun in the way default away messages are handled.
+    * changed the default away message to be the same in all cases.
+    * An away message is no longer sent as an autoreply if 'Do not reply to request for this message' is set.
+
+------------------------
+
+AimOSCAR Beta 2
+
+    * Doesn't send utf8 text to buddies who don't support it.
+    * Contacts are now temporary contacts if they aren't on your buddy list.
+    * Doesn't send your away message when a buddy just sent theirs.
+    * doesn't add "aolsystemmsg" to your buddy list cause it's a useless piece of crap of a buddy.
+    * cleaned up and functionized the code that offlines contacts.
+    * cleaned up defines.h.
+    * added an option to disable sending autoreplies.
+    * some additional code cleaning somewhere.
+
+------------------------
+
+AimOSCAR Beta 1
+
+    * Fixed a bug that caused garbage to appear instead of a recieved message.
+    * Multiple threads should no longer attempt to close the direct port causing miranda to hang.
+    * Added the ability to add buddies back in.
+    * Ichat and trillian detection modifications.
+    * Added the critical status section back in- I apparently deleted it?
+    * Only adds groups to the db if there are db contacts in them.
+    * No longer warns you if the username and password are not in the db if you aren't attempting to connect.
+    * Now strips away message linebreaks and replaces with html linebreaks.
+    * '/r' now removed correctly when stripping linebreaks.
+
+------------------------
+
+  AimOSCAR Alpha 8.3
+  
+    *  Ability to send and recieve unicode messages.
+    * html characters are stripped from unicode messages.
+    * Conversion of greater than and less than symbols to their escape character counterparts for unicode messages.
+    * The 'disable extended status icons' now stays checked.
+    * 'AimOCAR must be reconnected for this option to take effect' changed to 'AimOSCAR must be...'
+    * Additional client detection: Qip, micq, im2, and sim.
+    * fixed the aimoscar folders everywhere bug in the profile saving code.
+    * connection now only waits a second and up to three seconds for the buddylist to be received
+    * removed the on demand server-side group handling because it was a *giant* bottleneck.
+    * there should be no more crappy hanging because of server-side handling slowness. Going to have to rehack the whole thing in a better way or something.
+    * away message is now sent to buddies when they message.
+    * modified the direct port to shutdown before the aol connection- So hopefully that solves the hangs.
+    * moved most message box errors over to another thread to stop the blocking behavior.
+
+------------------------
+
+AimOSCAR Alpha 8.2
+
++Group changes are now modularized - hopefully resulting in a smaller dll.
++Server now set back to default if set to blank
++New option to change the default group that contacts are added to in some cases.
++Now one space instead of two spaces between 'Disable' and 'account' for the "Disable account type icon" option.
++all additions and deletions of extra icons occur in different threads now
++removed the 'sleep one second' code I accidently left in along with the old extra icon deletion code.
++new default for keepalive packets- sent every 1 minute instead of every 7 minutes.
++option to change the default time keepalive packets are sent.
++added the ability to change one's profile
++%n now codes for the user's name in both receiving profiles & away messages.
++removed useless conversion to text for profiles(for now).
++carrots now changed into escape character counterparts on send- so that offical clients don't get confused.
++modified trillian detection to reduce false positives.
++added ichat detection- no icon
++Client information is deleted when going offline now.
++Extended status icons are removed when a buddy goes offline now.
++Fixed a bug that caused a user to be removed from your list if you changed a group name's case(apparently AOL considers two groups with the same name the same group even if they have case variations)
++All group comparisions are now case insensitive. In other words, the server-side group doesn't change if you change the group name.
+
+-------------------------
+
+AimOSCAR Alpha 8.1(7.2 for Goons)
+
++icq's set extra status icon works correctly now(clist bug!)
++changed the hiptop icon to a better one
++file receiving shouldn't memory leak anymore
++receiver now knows if a file transfer was cancelled
++typing notifications(for you bitchy Goons)
++moved the setting of extra icons to a different thread; so their creation service isn't bogged down causing some to not appear.
+
+-------------------------
+
+Alpha 8.0
+
++AimOSCAR no longer handles any type of rendervous connection as a file transfer connection
++Added extended status icons to designate unconfirmed, confirmed, AOL, ICQ, and Admin users
++added extended status icons to designate hiptop and bot users
++AimOSCAR now identifies Miranda ICQ, Miranda AimOSCAR, Trillian, and Kopete users
++Direct Connection port is now set to zero after being unaquired.
++file transfers should now crash less or NEVER, but we'll see.
++binding to the direct port no longer occurs until you are successfully connected.
++Added option to disable account type icons.
++added option to disable extended status icons.
++added option to masquerade as a hiptop user.
+
+-------------------------
+
+AimOSCAR Alpha 7.1
+
+-changed main connection to a different thread so that it doesn't cause miranda to hang while AimOSCAR connects.
+-moved peer and proxy connection attempts to a different thread to stop freezing.
+-fixed a bug that caused hanging if miranda was exited suddenly right after starting.
+-AimOSCAR no longer attempts to connect if there is no username or password specified
+-AimOSCAR no longer deletes the away message of a contact when one trys to view the contact's profile if that contact doesn't have a profile.
+-AimOSCAR Now adds "No Profile" when attempting to view a profile of someone who does not have one.
+-fixed a bug that caused viewing html away messages not to work on buddies with spaces in their name.
+-If the a user does not send the port tlv with a file transfer request- AimOSCAR no-longer attempts to save the port to the db.
+-When cancelling a file AimOSCAR now correctly attempts to grab a byte from the db instead of a word.
+-AimOSCAR No longer keeps the direct connection listening port open while disconnected.
+-AimOSCAR Now free's all malloc'd memory.
+-When connecting to aol's proxy- the connection no longer timesout after the grace period has ended.
+-When a file transfer is initiated with a contact and another is attempted- AimOSCAR no longer continues to attempt the second transfer even though it says it won't.
+-The File Transfer Key is now removed from the db when a proxy file transfer fails(caused attempts future file transfer attempts to fail).
+
+-------------------------
+
+AimOSCAR Alpha 7.0
+
+-added display name to the options dialog.
+-file transfering added.
+-fixed bug that causes process hanging(*ahem* file transfer bug).
+-added a 'force proxy transfers' option to the options dialog.
+-fixed bug that removed a user's status message from the database when their profile was requested
+-added a option to specify grace period or file transfer time out(default-60 seconds, min-15 seconds, max-0xffff seconds)
+-caught a bug right before the release; which, caused file transfers to fail in some cases.
+-caught another bug that caused Uppercase characters to not be able to be entered in the display name box.
+
+-------------------------
+
+Alpha 6.9 -Bug Fix release.
+
+-Chatting with Triton users should work(probably AOL users also)
+-fixed bug that causes away messages to stay when a user previously was away.
+-added online time(feature)
+
+-------------------------
+
+Alpha 6.8
+
+-no more phantom contacts, and the contact list snac works again.... and brings your ????? groups back again! woohoo!
+
+-------------------------
+
+Alpha 6.7
+
+-Now sends keepalive packets every 7 minutes. See if this fixes peoples disconnection problems.:-)
+
+-------------------------
+
+Alpha 6.6
+
+-Changed AimOSCAR to wait five seconds before sending the ssi version to AOL if the contact list snac has not been sent by aol yet. 
+
+-------------------------
+
+Alpha 6.5
+-fixed default group deletion if removing a user from it.
+-added a check to see if a group exist before adding it
+-fixed the elusive snac_contact_list bug. Apparently, aol sends an extra tlv containing the server-side list version(0x03) if the client already specified it. Because, Miranda is threaded it would sometimes specify it before the contact list was received; and because the extra data was not accounted for a buffer overrun would occur.
+-Fixed some group bugs. AimOSCAR would attempt adjust groups after receiving one snac_contact_list packet before; however, AOL apparently can send multiple- so, some buddies would not have group id's specified, etc and madness would happen.
+-Added some SNACs that tell the errors aol is giving via msgboxes.
+-Status messages are now removed from the database if the contact isn't away anymore.
+-Status messages are only retrieved if they are requested by the user now. Via, a call implemented in the core or via the HTML version I implemented. This should resolve issues were AimOSCAR was unable to request any away messages, because it already requested it's limit.
+-General group handling improvements.
+
+-------------------------
+
+alpha 6.4
+
+-checks to see whether a group id exist before deleting a group
+-fixed all contacts deletion bug
+-forgot to mention in the last version dynamic creation of some module names now occurs on start up so that duplicate code could be removed
+
+-------------------------
+
+AimOSCAR alpha 6.3
+
+-changes to get groups working correctly again.
+-changes to fix connection problems and hanging that can occur-(added some critical sections to prevent duplicate connection threads and restructured some of the code)
+-created the SNAc for group deletion.(apparently i forgot to create it....no wonder groups were never deleted)
+-Automatically removes empty server-side groups on log in(they will be added to your list before the server-side one is deleted-so expect them add once, but not after that)
+-Removes any groups that become empty during the course of the connection to aol.
+-Creates groups on the fly when users are added to them... for clarification(this isn't a new feature)
+
+-------------------------
+
+Alpha 6.2 release:
+
+-Utf Group support- and probably bugs.
+-AimOSCAR now tells if no away message is provided by the server(Some contacts do not provide one for some reason on some occasions? I checked this on gaim, and aim 5.9 and they both did not show one either. The away message is apparently absent in the packet sent by AOL even after it is requested.)
+-Fixed html appearing in away messages on the buddy list.
+-fixed crash that occured when changing status to away if "do not reply to request for this message" was set in the options.
+-Message Delivery Confirmation is now disabled by default
+-Restructured the code for saving away messages and profiles- it is now contained in the write_away_message and write_profile functions; which, makes reading the SNACs code easier and helps reduce executable size.
+
+-------------------------
+
+Alpha 6.1
+
+-Now grabs the away message directly from the database if miranda hasn't aquired it yet.
+-Removed some check that obviously didn't fix the random connection crashes on the buddy list SNAC.
+
+-------------------------
+
+Alpha 6.0
+
+-dynamic creation and deletion of cookie, away message storage, protocol name, and current working directory
+-Module deletion functions added
+-Fixed some bugs with group handling(module deletion fixed these bugs)
+-Group deletion added. All buddies in the group that is deleted are moved to the 'Buddies' group.
+-Changed group handling to not delete buddies in the 'Buddies' group when that group is deleted.
+-'auto response' messages now indicate that they are auto response messages.
+-added unique id return capablity to make AimOSCAR compatible with metacontacts.(hopefully)
+-turned the the away message handler into a CRITICALSECTION so that it doesn't screw up and not set an away message.(Hopefully)
+
+-------------------------
+
+Alpha 5.2 released.
+
+-Fixed a nasty bug that caused crashes when attempting to view html away messages.
+
+-------------------------
+
+Alpha 5.1
+
+-Fixed a bug that caused the search dialog to display garbage names after searching.
+
+-------------------------
+
+Alpha 5.0
+
+-G++ Compilation
+-Idle time now shows correctly
+-Doesn't use 16MB of virtual memory anymore
+-Added an option to remove message confirmation
+-Buddy Addition/Deletion implemented
+-Group Addition(Server-side)
+-Implemented all backend snacks(or SNACs;-) ) for group/buddy addition/deletion
+-Made a small modification to the buddylist SNAC anaylsis to catch(perhaps) a random bug that occurs when retrieving the buddy list after login.
+
+-------------------------
+
+Alpha 4.3
+
+-Fixed Wireless buddies to show as online(Don't be surprised when you get the two bots that AOL auto add's to your buddy list now... The change I made in the id string-e.g. emulated the offical client id string- caused aol to have THAT spectacular effect)
+-And those damnedable directories should be gone for good. Hopefully.
+
+-------------------------
+
+Alpha 4.2
+
+-Can now see that contacts are idle.(Turn dim idle contacts on)
+-Fixed SNAC(03,0B) analysis(see: http://iserverd.khstu.ru/oscar/snac_03_0b.html)- multiple tlv's can now be read.
+-On the phone status no longer shows up in the aim menu.
+-Now "Is Connecting" status is now shown while AimOSCAR is connecting.
+-On the phone, DnD, NA, Occupied, and out to lunch are now linked to away status.
+-Free for chat is now linked to Online status.
+-In certain circumstances AimOSCAR would become stuck on "Is Connecting"; and would not reconnect until Miranda was restarted.- This should not happen anymore.
+
+-------------------------
+
+Alpha 4.1
+
+-Users appear in their actual aim groups.(No add, deletion, changing yet.)
+
+-------------------------
+
+Alpha 4.0
+
+-added groups
+-fixed nonworking outgoing messages
+
+-------------------------
+
+Alpha 3
+
+-Converted to c++, so that I could clean up some of the code
+-Away messages should change even if you are already away
+-rogue AimOSCAR directories should no longer be created
+-'to' was changed to 'too' somewhere in the code
+-You should no longer appear as Unknown contact when typing(Re-apply the options)
+-mobile people should have mobile status now.
+
+-------------------------
+
+Alpha 2(Alpha 1.1)
+-?
+
+-------------------------
+
+Alpha 1
+-initial release
+

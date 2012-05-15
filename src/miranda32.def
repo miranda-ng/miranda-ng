@@ -1,0 +1,7 @@
+EXPORTS
+
+AccMgrDlgProc      @1
+IdleOptsDlgProc    @2
+DlgProcAwayMsgOpts @3
+DlgPluginOpt       @4
+DlgProcIgnoreOpts  @5

@@ -1,0 +1,50 @@
+popup plus 2.0.3.96 RC1 internal, 05-11-28, 00:44
+ [-] Fixed line breaks
+
+popup plus 2.0.3.96 RC1 internal, 05-11-27, 01:07
+ [-] Single-window mode is now back again... Implementation is completely new now
+ [-] Fixed fade out bug with disabled sliding and enabled transparency
+ [-] Multithreading fix (should help with cross-popup text mess)
+ [-] Other small fixes
+
+popup plus 2.0.3.96 RC1 internal, 05-11-19, 02:55
+ [!] Fixed memory corruption on window destruction
+ [-] Fixed fade out bug with disabled sliding
+ [-] Fixed some bugs in render (probably multiple reported statup crashes)
+ [-] Fixed proportional image measuring bug (mainly avatars, thanx theMIRon)
+
+popup plus 2.0.3.96 RC1 internal, 05-11-17, 00:49
+ [*] Fixed animation bug (jumping windows)
+ [-] Metacontact support (thanx pescuma for details)
+ [-] Small text render fix (some pixels were transparent)
+
+popup plus 2.0.3.96 RC1 internal, 05-11-16, 00:22
+ [*] Fixed timing issues in popup reordering
+ [-] Fixed animation on win9x systems
+
+popup plus 2.0.3.96 RC1 internal, 05-11-11, 01:06
+ [-] Fixed memory leak in multithreading code (I hope so!)
+ [-] Fixed GDI leak (one object per popup, or so...)
+
+popup plus 2.0.3.96 RC1 internal, 05-11-02, 13:09
+ [-] Fixed some crashes
+ [-] Some code cleanings
+
+popup plus 2.0.3.96 RC1 internal, 05-10-22, 01:31
+ [-] Fixed crash on preview without Avatar Service installed
+ [*] Cosmetic changes in preview
+
+popup plus 2.0.3.96 RC1 internal, 05-10-21, 23:00
+ [-] Fixed animation speed
+ [-] Fixed popup sizing issue
+ [*] Avatars hidden on contact list are not visible in popups too
+ [*] New preview item with random avatar and multiline title, this is useful for skin designers.
+
+older parts will be here later :)
+
+-------------------------------------------------------------------------------- 
+Legend:
+ [!] important note
+ [+] added feature
+ [*] improved/changed feature
+ [-] bug fixed

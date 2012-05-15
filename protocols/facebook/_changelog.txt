@@ -1,0 +1,303 @@
+
+0.1.3.2
+-------
+
+- Revision of proper SSL request composition
+- Added a check to disallow running with Miranda 0.10 alpha build #1
+- (Finally) fixed a crash invocation due to inproper handling with close window
+procedure data
+
+0.1.3.1
+-------
+
+- Fixed crash invocation when trying to set empty/NULL status message
+- Removed unneeded self-profile update on sending wall post
+- Fixed Facebook Messages URL when clicking on a notification
+- Fixed balloon notifications artefacts
+- Fixed showing events when not enabled
+- Fixed notifying of 0 new messages
+- Fixed a crash invoked when closing of web chat windows enabled
+- Fixed a memory leak inside windows closing function
+
+0.1.3.0
+-------
+
+- Improved detection of missing avatar
+- Better self-idle handling
+- Added advanced options for Notifications
+- Fixed HTTP requests time-out handling to match 0.9.14+ way
+- Improved error logging
+- Added an option to close chat windows on web
+- Added support for sending and receiving typing notifications
+- Better reconnect/keep-alive procedures (hopefully)
+- Fix for popup on-click hyperlinks
+- Fix for HTML in notifications and feeds
+- Fixed logout procedure
+- Contacts going offline no more shown when logging out
+
+0.1.2.1
+-------
+
+- Added an option to forge usage of secure (HTTPS) connection
+- Rewritten status menu items creation code to work properly with new Miranda 0.9 feature to move them into main menu
+- Fixed memory leak when processing messages and notifications
+- Fixed a crash caused by internal list implementation
+- Work-around fix for disconnecting issues due to core time-out handling changes
+
+0.1.2.0
+-------
+
+- Fixed thread forking causing enormous number of dead handles being not closed as they should
+- New enhanced storage for buddy list during runtime (mainly solves data leaks with previous solution)
+- Thread synchronization & data locking revision (may prevent crashes, buffer overflows etc.)
+- Optimized code flow on various places (prevents data leaks, prettier code etc.)
+- Revised Debug build & its settings (f.e. memory leaks logging)
+- Fixed proper acknowledge of Offline status to core when signing off (no clist redraw required)
+
+0.1.1.2
+-------
+
+- Quick fix for change in Logout procedure/bug when receiving logout action
+- Introducing new friend requests and new messages notifications when logging in (working when notifications enabled)
+
+0.1.1.1
+-------
+
+- Quick fix for change in machine security response code
+- Quick fix for changes in setting and clearing Mind status
+- Contact is marked as online when receiving a message before Buddy list update loop makes him online
+
+0.1.1.0
+-------
+
+- Added per-user lock for future usage
+- Added storing of all headers for requests -- store_cookies( ) refactored to store_headers( )
+- Added notification sound -- ShowEvent( ) refactored to NotifyEvent( )
+- Added work-around to work with Machine security feature
+- Fixed API check required due to Google Code wiki changes
+- Dropped old Home page support
+- Added code to support notifying about new messages
+- Added code to support notifying about new friend requests
+- Fixed getting away message to proper differentiate ANSI/Unicode requests
+- Fixed NSL on Contact info page
+- Fixed global Offline status when signing off Facebook
+- Fixed (probably) missing conversion of messages between ANSI/Unicode/UTF-8
+- Fixed processing Feeds
+- Added hidden feature to set Ignore Online notification by default
+
+0.1.0.2
+-------
+
+- (Hopefully) fixed avatar issue (own avatar bundled with some contacts)
+- Preparation for PopUp linking with contacts
+- Revision of contact update rules
+- Translation improvements
+
+0.1.0.1
+-------
+
+- Instant fix for changed URLs of Facebook Chat servers
+- Fix for a high CPU usage issue caused by mistake in handling connection errors
+
+0.1.0.0
+-------
+
+- Replaced JSON_C by CAJUN JSON parser
+- Fixed minor avatar-related crash
+- Added support for a redesigned Facebook site
+- Minor buddy list thread-safety improvement
+- Minor code refactoring
+- Added Notifications
+- Added API version checking
+- Improved logging low-level process
+...
+
+0.0.0.7
+-------
+
+- Fixed occasional blocking crash on startup caused by missing personal avatar
+file
+- Reworked contacts parsing
+- Thread-safe buddy loop
+- Featuring notifications, including Live Feed
+- More encoding options in HTTP traffic
+- More proper parsing of homepage
+- Renamed html_special_chars_decode to special_expressions_decode
+- Enhanced threads killing and locking
+- Improved sign-off
+- Fixed broken keep-alive hadling
+- Rewritten contacts update logic
+- Redesigned "What's on my mind" dialog
+- Fixed some JSON parser bugs
+- Fixed default user-agent string
+- Fixed contacts status to be loaded before protocol is marked online
+- Simplified number-to-string convertor definitions
+
+0.0.0.6
+-------
+
+- Added internal _APP logging (not present in public releases)
+- Some more logging events
+- Made HTTP headers to be quite "static" during runtime (enhanced handling +
+manipulation)
+- Optimized User agent storage manipulation
+- Improved HTTP request success/error handling
+- Lot of strings and data pointers moved from char-fields to C++ std::string +
+optimized usage, getting rid of possible leaks
+- Added secret DB option to disable performing Logout action when signing off
+- Fixed serious JSON parser comparison typos (= -> ==)
+- Fixed usage of int intead of proper std::string::size_type where applicable
+- Fixed conversion of HTML entities which appeared in users' real names and
+status messages
+- Fixed incorrect sequence number incrementation (caused minor looping and
+receiving messages multiple times)
+- Fixed updating avatars + status messages in some cases (f.e. when contact has
+no status message set)
+- Optimized utils::time functions
+- Optimized and fixed utils::number::random to return integer instead of strict
+std::string
+- Added utils::conversion::to_string function (as this is often usable :) +
+macros for use as a data type parameter
+- Added utils::text::find_first function (as an front-end for std::string
+searching)
+- Added utils::text::html_special_chars and html_special_chars_decode
+- Renamed utils::text::find_all to count_all to match what this function really
+does
+- Removed some unused variables
+
+Notes:
+- 100% CPU usage issue should be gone now, but in case it doesn't, you don't have to kill Miranda, turning protocol off, then disabling it and re-enabling it again should be enough
+
+0.0.0.5
+-------
+
+- Added loading of own avatar and status message
+- Added option to set Facebook "What's on my mind?" via Miranda status message system
+- Better handling of own credentials (own nickname, avatar, status)
+- Fixed serious mistake in Message server URL generation which caused all accounts using channels 01--09 to disconnect immediately
+- Added timeout limitation + response success/error system
+- Heavily optimized service of updating contacts' details + moved into separate threads to project buddy updates immediately
+- Logging system improvements
+- Processing improvements
+- Initial translation support
+- Proper logout request
+- Handling of non-supported statuses -- Offline + Invisible results in Offline status, otherwise you're marked as Online
+- Fix for a condition deciding whether buddy list update is needed
+- Re-factorized some functions to better fit a proper object model
+- Proper milliseconds time stamp for outgoing messages
+- Signing off is signalized with "Connecting" icon (Experimental)
+- Removed some rare HTTP User-Agents
+- Editing E-mail and Password impossible when Online (Experimental)
+- Simplified JSON parser entry point
+- Modified memory-freeing function, should solve related rare crashes
+- Fix for a crash when calling Cookies dialog (I hope)
+- Logging files are now properly placed inside Miranda root only, no more mess elsewhere
+- Each account now has it's own logging file
+- Removed force disconnection flag for messages-updating request -- this request usually times out from time to time
+- Removed unneeded new-lines from protocol logs
+- 2 hidden variables: (BYTE)EnableRealLogoutSignal and (BYTE)TimeoutsLimit
+
+Notes:
+- You'll have to delete all your contacts and let them reload (or at least delete their DB "RealName" values or rename them to "Nick"), otherwise contacts will stay unnamed in the CL - the names weren't handled 100% correctly, the same as unique user identification.
+- Own avatar is now handled and processed, so it's visible where possible (tabSRMM, inside Tipper when hovering account icon in statusbar, ...)
+- Real names updating option has gone from now as contact's RealName/Nick value is updated normally, if you want anyone to have custom name, you can edit it like elsewhere (clist module stores this elsewhere and prioritizes this value before others)
+
+Known issues:
+- [FIXED] 100% CPU usage issue
+
+0.0.0.4
+-------
+
+- Finally reached persistent connection - silent session refresh + periodical reconnect like original web client - although the connection may fall down, restrictive politics will disconnect when any error occurs (mostly server time-out)
+- Redesigned session control to fit original web client
+- Raised default update loop poll rate to 24 seconds - less traffic, optimal processing load side by side with message loop, which has poll rate of 55 seconds when not active
+- Work-around for last protocol change (not receiving status message with periodical updates) by loading mobile profile page to get the data (maybe usable for other user details in future)
+- Rewritten update process to request only changes since last check for updates - minimal traffic, noticefuly reduced processing load
+- Completely rewritten contacts handling - this solves a) avatar flickering b) updating status, real name and idle flag too often
+- Fixed reloading avatar when not needed
+- Parsing improvements (solves many issues like buffer overruns/overflows)
+- Fixed leak of User-Agent strings
+- Better handling of garbage collecting on shutdown
+- Possibility to see actual cookies via Options dialog
+- Optional toggling of logging (default off)
+- Extra icon for "Mind" function
+- Light performance improvements in getting data from results
+- More sophisticated logging system
+
+Known issues:
+
+- [FIXED] Status messages may contain HTML character entities for some specific characters
+- [FIXED] Protocol is signed off each time server times out -- will be changed in next version, disconnecting only when connection is down (more exactly when reaching 3 time-outs, while error increments time-out counter, success decrements -- cheap, but working solution)
+- [FIXED] Accounts linked with message servers 0.channel01--0.channel09 can't connect for more than just a few seconds followed by possible crash because of my beginner's bug in URL generation causing fake connection time-out
+
+0.0.0.3
+-------
+
+- Isolated response processings (avoiding crashes)
+- Fixed crashes caused by illegal processing of foreign typing notifications
+- Added a response validation & logout mechanism which safely closes connection and threads on disconnection/logout
+- Removed Away status, inactivity is controlled by server as Idle
+- Raised minimal poll rate to 10 seconds (interval of updating contact list)
+- Removed some unneeded code
+- Added an option to change user-agent (if FB would ever like to block us, hahah xD)
+- Fixed message server URL "virginity" flag :))
+
+Known issues:
+
+- [FIXED] Login session gets down after some time (should be more than 1 hour), the reason or a way to avoid this is not known to me, yet
+
+0.0.0.2
+-------
+
+- Fixed JSON parsing issues, now data change should be OK
+- Repaired timestamps for outgoing messages
+- Added "Clear" option in Mind dialog (when no Mind status filled in)
+- Added Mind status item toggling (hidden when offline, shown otherwise)
+- Added safer logout
+- Fixed Updater support (I hope :))
+- Poll rate customization
+- Implemented idle/away, but not working on the server :/
+- Improvements in a logging system
+- Some code reorganization, mainly making some processing safe
+- More pretty code management
+
+Known issues:
+
+- [FIXED] Crash is invoked when receiving typing notification from FB with no message followed in a "packet" (both events use similar format => bad exception for non-message content leading to buffer overrun)
+- [FIXED] Plugin doesn't detect when the connection is closed/logged out remotely (rarely, but may happen, may bring some crash)
+- [FIXED] Avatars may flicker, their updating process hasn't been optimized, yet
+
+0.0.0.1
+-------
+
+- Working avatars
+- Improvements to JSON parsing, still needs pretty enhancements
+- Introducing smart-like logging
+- Many code management changes
+- Checked all dialogs validity
+- Bringing some basic options to work
+- Marked probably almost all memory leaks which should be solved
+- Marked some things to take a look on + solution options somewhere
+- Managed all TODOs
+- Removed some unneeded, deprecated and testing code
+
+Known issues:
+
+- [FIXED] Frequent crashes caused by saving cookies on login and when obtaining updates/messages periodically (parse error)
+
+0.0.0.0
+-------
+
+Private initial release
+
+All-time Issues
+---------------
+
+- Nothing, yet :)
+
+All-time Not-issues
+-------------------
+
+- Status messages are not set properly when you set them to often - server limit requires captcha confirmation when you flood
+- Being often disconnected - server fault, trying to find a work-around, but that's not easy - pidgin-facebookchat reports same thing
+- Away status as is not applicable, FB doesn't support any active/controllable Away status, only server-driven Idle.

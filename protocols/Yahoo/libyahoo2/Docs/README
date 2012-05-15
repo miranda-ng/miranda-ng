@@ -1,0 +1,442 @@
+README for libyahoo2
+====================
+
+* Using the library
+
+Ok, here's a short, quick intro on how to use the library.
+Full documentation will come later.
+
+First include the two headers.
+
+#include <libyahoo2/yahoo2.h>
+#include <libyahoo2/yahoo2_callbacks.h>
+
+
+yahoo2.h contains functions that you can call.  The data structures used 
+are defined in yahoo2_types.h, which is included by yahoo2.h
+
+yahoo2_callbacks.h contains prototypes for functions that you *must*
+implement.  *All* these functions must be implemented by your code.  You
+can choose at configure time whether these are implemented as callback
+functions or as a callback structure.
+
+If compiled as a callback structure, you must call yahoo_register_callbacks
+before doing anything else.
+
+What each function is supposed to do and return is documented in 
+yahoo2_callbacks.h
+
+
+
+Ok, assuming you've implemented all those functions to do what they're
+supposed to do, this is the process flow:
+
+1. Login
+
+Before logging in, you must initialise the connection by calling yahoo_init
+and passing the username and password of the account.  yahoo_init returns
+a connection id that will be used to identify this connection for all other
+calls.
+
+You may use yahoo_init_with_attributes if you need to set any server settings.
+
+int yahoo_init(const char *username, const char *password);
+int yahoo_init_with_attributes(const char *username, const char *password, ...);
+
+The optional parameters to init are key/value pairs that specify server 
+settings to use.  This list must be NULL terminated - even if the list is 
+empty.  If a parameter isn't set, a default value will be used.  Parameter 
+keys are strings, parameter values are either strings or ints, depending on 
+the key.  Values passed in are copied, so you can use const/auto/static/
+pointers/whatever you want.  Parameters are:
+
+ NAME		     TYPE    DEFAULT			 DESCRIPTION
+ ------------------- ------- --------------------------- --------------
+ pager_host	     char *  scs.msg.yahoo.com		
+
+ pager_port	     int     5050			
+
+ filetransfer_host   char *  filetransfer.msg.yahoo.com	
+
+ filetransfer_port   int     80				
+
+ webcam_host	     char *  webcam.yahoo.com		
+
+ webcam_port	     int     5100			
+
+ webcam_description  char *  ""				 Webcam description
+
+ local_host	     char *  ""				 local IP address
+							 regardless of whether
+							 you're behind a
+							 firewall or not
+
+ conn_type	     int     Y_WCM_DSL			 see yahoo2_types.h
+
+
+You should set at least local_host if you intend to use webcams
+yahoo_init uses default values for all of the above.
+
+Remember to close the connection by calling yahoo_close when you no longer
+need it.  This will free all resources allocated to the connection.
+
+void yahoo_close(int id);
+
+After initialising, you may call yahoo_login, with the id and the initial
+login status.
+
+void yahoo_login(int id, int initial);
+
+The initial status is one of enum yahoo_status (NOTE, only INVISIBLE and
+ONLINE are known to work at all times).
+
+When the login procedure is complete, the library will call 
+ext_yahoo_login_response with a status code.  See yahoo2_types for an
+enumeration of these codes.
+
+The buddy list and cookies will not be available at the time when
+ext_yahoo_login_response is called.  You should wait for ext_yahoo_got_buddies
+and ext_yahoo_got_cookies.
+
+
+2. Buddies and Addressbook
+
+When the library receives the buddy list from the server, it will call
+ext_yahoo_got_buddies with the buddy list as a parameter.  The library
+will call ext_yahoo_got_ignore when it receives the ignore list.
+
+- To get the buddy list at any other time, make a call to yahoo_get_buddylist,
+and use the return value of that call.
+
+- Similarly, for the ignorelist, call yahoo_get_ignorelist.
+
+These lists will be returned from the library's cache.  To force a reload
+from the server, make a call to yahoo_get_list.
+
+Buddy nicknames and other contact information is stored in your yahoo address
+book.  To retrieve this information, call yahoo_get_yab.  call yahoo_set_yab
+to create or modify an addressbook entry.  Call these functions only after
+ext_yahoo_got_cookies has been called.
+
+- To refresh the status of all buddies, make a call to yahoo_refresh.
+
+- To add a buddy, call yahoo_add_buddy:
+void yahoo_add_buddy(id, char *who, char *group);
+
+You can add a buddy to multiple groups by calling this function once for
+each group.
+
+- To remove a buddy, call yahoo_remove_buddy:
+void yahoo_remove_buddy(id, char *who, char *group);
+
+Remove buddy removes the buddy from the specified group.  To completely
+remove a buddy, call this function for all groups that the buddy is in.
+
+- If a buddy adds you, and you do nothing, that buddy is accpeted (that's the 
+way the protocol works).  If you want to reject the buddy, make a call to
+yahoo_reject_buddy:
+
+void yahoo_reject_buddy(id, char * who, char *msg);
+
+where msg is the rejection message.
+
+- To change a buddy's group, call yahoo_change_buddy_group:
+void yahoo_change_buddy_group(id, char * who, char *old_group, char *new_group);
+
+- To ignore/unignore a buddy, call yahoo_ignore_buddy:
+void yahoo_ignore_buddy(id, char *who, int unignore);
+
+If unignore is TRUE, the buddy is unignored, if it is FALSE, the buddy is
+ignored.
+
+- You can also rename a group with:
+void yahoo_group_rename(id, char *old_group, char *new_group);
+
+
+
+
+3. Sending an IM
+
+To send an IM, make a call to yahoo_send_im
+
+void yahoo_send_im(int id, char * from, char *who, char *what, int utf8);
+
+id is the id that the connection is identified with, who is who you want
+to message, what is the message to be sent.
+
+The parameter from is the identity that you want to use to send the message.
+If this is NULL, your default identity will be used.
+
+utf8 is a boolean field that specifies whether the message you're sending
+has been encoded in utf8 or not.  libyahoo2 will not do the encoding
+for you - you have to do it yourself.
+
+You may use the utility functions y_str_to_utf8 and y_utf8_to_str in
+yahoo_util to do this encoding.  You must free the pointers returned by
+these functions.
+
+UTF8 encoding may also be used in messages received.  It is not sent or
+received for invitations/rejection messages.
+
+You can also send typing notifications with yahoo_send_typing.
+
+
+4. Changing your status
+
+To change your status on the server, call yahoo_set_away.
+
+void yahoo_set_away(id, enum yahoo_status status, char *msg, int away);
+
+id is the identifying id, status is your new status.
+msg is a custom status message in case status == YAHOO_STATUS_CUSTOM
+and away is a flag that says whether the custom message is an away message
+or just a regular signature (this affects the kind of icon against your
+name in the official Yahoo Messenger client).
+
+
+5. Conferencing
+
+To start a conference, call yahoo_conference_invite with a list of initial
+members, the room name, and a welcome message.
+
+To add more people to the conference after it has started, call
+yahoo_conference_addinvite.
+
+If someone adds you to the conference, you can either accept by calling
+yahoo_conference_logon, or decline by calling yahoo_conference_decline
+
+You can log off from the conference by calling yahoo_conference_logoff.
+
+Send a message by calling yahoo_conference_message.
+
+The parameter from is the identity that you want to use to send the message.
+If this is NULL, your default identity will be used.
+
+NOTE: Except for yahoo_conference_addinvite, all conference functions take
+the list of members as an argument.
+
+Have a look at yahoo2_callbacks.h for conference callbacks.  Beware that
+there's a chance you could get a conf_userjoin even before you get an 
+invitation to that conference.
+
+
+6. File Transfer
+
+To send a file, call yahoo_send_file(id, who, msg, name, size).
+
+This will set up the initial file send connection and return a unix file
+descriptor that you must write to.  You then write the file's contents to
+this fd.
+
+Receiving a file is similar.  You will receive a call to ext_yahoo_got_file
+with the file's url as one of the parameters.  When you are ready to start
+downloading the file, make a call to yahoo_get_url_handle:
+
+	fd = yahoo_get_url_handle(id, url, &fname, &fsize);
+
+fname and fsize are used to store the file's name and size
+
+Yahoo's file transfer is implemented using HTTP.  It can either be peer
+to peer or via the yahoo file transfer servers.  The latter is used in
+case a peer to peer connection cannot be set up - for example, in the
+case of a firewall.
+
+libyahoo2 supports both types of file transfer for receiving, but only
+sends files using the yahoo file transfer server.
+
+If anyone's interested in implementing peer to peer file send, this is
+how it happens.
+
+First a PEERTOPEER packet is sent to check if it is possible.  This will
+mark the connection between these two hosts as p2p compatible.  No further
+PEERTOPEER packets will be sent between these two hosts for the duration
+that the connection is alive.
+
+After the first P2P packet, the initiater will start an HTTP server on
+some port (really any port), and send the url across to the other end.
+
+After this, the first host will always play the part of the server for
+all file transfers.  If a transfer is from the server, it uses GET, if
+it is from the client to the server, it uses POST.  There is no encoding
+used for POST.
+
+You'll still have to study it a bit, but IMO the major complexity is in
+putting a http server in the lib, and whether we want to do that.
+
+
+7. Webcam
+
+To make a request for a webcam feed, call yahoo_webcam_get_feed with the
+user's yahoo id.  You call this function in response to someone's webcam
+invitation as well.
+
+void yahoo_webcam_get_feed(int id, const char *who);
+
+The response may take a while as there's a lot of work done from the time
+you make a request till the time you start receiving a feed.  There is
+no feedback from the library during this time.  The function returns
+immediately.
+
+To close an open feed, simply call yahoo_webcam_close_feed
+
+void yahoo_webcam_close_feed(int id, const char *who);
+
+NOTE: it is possible to have two open webcam feeds with a single user
+if you open a second without closing the first.  Results are unpredictable
+if you call close on a non-unique id/who combination.
+
+Webcam broadcast has not been fully tested.
+
+To invite a user to view your webcam, call yahoo_webcam_invite with the
+user's yahoo_id
+
+void yahoo_webcam_invite(int id, const char *who);
+
+To close this user's connection, call yahoo_webcam_close_feed.  To
+accept/reject a request from a user to view your webcam, call
+yahoo_webcam_accept_viewer:
+
+void yahoo_webcam_accept_viewer(int id, const char *who, int accept);
+
+accept may be 1 or 0.
+
+Consult yahoo2_callbacks for the callbacks that are called on webcam
+events.
+
+You will require to be able to decode jpeg2000 images to view the webcam
+feed.  You could use a library like GraphicsMagick (BSD Licence) or jasper
+(possibly non-Free) to do this.
+
+8. Yahoo Chat
+
+To retrieve a list of yahoo chatrooms, call yahoo_get_chatrooms.  The
+response callback will return the xml for the chatrooms.  You must parse
+this yourself.
+
+To log in to a chat room, call yahoo_chat_logon, and to log off, call
+yahoo_chat_logoff.  To send a chat message, call yahoo_chat_message.
+
+Chatting is similar to conferencing.  Consult yahoo2_callbacks.h for the
+list of chat callbacks.
+
+
+9. Callbacks
+
+The library may request you to register io handlers using ext_yahoo_add_handler.
+Whenever an input condition occurs, you must call one of the callback functions.
+For a read condition, call yahoo_read_ready, for a write condition, call
+yahoo_write_ready.
+
+ext_yahoo_connect_async is an asynchronous connect call.  It will register a
+callback function that must be called when the connect completes.  This
+callback is of type yahoo_connect_callback.  Consult yahoo2_callbacks.h for
+full details on what your async connect should return.
+
+You must also call yahoo_keepalive at regular intervals (10 minutes?) to keep
+the connection alive.
+
+
+10. Identities
+
+libyahoo2 will now get your identities from the server (if you don't know
+what that is, then you aren't using it).  Use yahoo_get_identities to get
+your list of identities.  libyahoo2 will also call ext_got_identities when
+it first gets the list of identities.
+
+To activate/deactivate an identity, call yahoo_set_identity_status:
+	yahoo_set_identity_status(id, char * identity, int active);
+
+If active is non-zero, activate the identity, else deactivate it.
+
+If you try to activate/deactivate an identity that isn't yours, you'll
+get a call back to ext_yahoo_error with a custom error message.  This
+message is from the yahoo servers.  Don't complain to me about it.  I
+know it sucks that we can't do translation of these strings.
+
+
+11. Search
+
+To search for contacts, use the two functions:
+
+	yahoo_search(id, type, text, gender, agerange, photo, yahoo_only);
+and
+	yahoo_search_again(id, int start);
+
+The first is used for a first time search.  Check yahoo2_types.h for
+valid values for each of the parameters.  text is a text string to
+search for.
+
+The search results are returned through ext_yahoo_got_search_result.
+
+Results are limited to 20 per query, so if you want to continue the
+search, call yahoo_search_again to get 20 more results.  You may 
+specify the start value, or use -1 to just get the next 20 results.
+
+
+12. Other functions
+
+You can call yahoo_get_cookie to get the cookies for your connection.  I
+think these can be used when starting a browser to get information from
+the yahoo servers.  See the comments in yahoo2.h for more information.
+
+You can also call yahoo_urldecode and yahoo_urlencode utility functions
+to url decode/encode a given string.  This will be useful for getting the
+filename from a url in the file receive code.
+
+
+* Platforms
+
+libyahoo2 is known to compile on:
+ - Debian 2.2 (linux 2.4) i386, Alpha, PPC RS/6000 and Sparc Ultra60
+ - Redhat 6.0, 7.1 and 7.3 (linux 2.2 and 2.4)
+ - MacOS X 10.1 PPC - G4
+ - FreeBSD 4.6-Stable
+ - Sun Solaris (8)
+
+Thanks to Sourceforge's compile farms for letting me test it there
+
+* Copyright
+
+libyahoo2 is Copyright (C) 2002-2004 Philip S Tellis
+Portions of this code was taken and adapted from the yahoo module for
+gaim released under the GNU GPL.  This code is also released under the 
+GNU GPL.
+
+This code is derivitive of Gaim <http://gaim.sourceforge.net>
+copyright (C) 1998-1999, Mark Spencer <markster@marko.net>
+	       1998-1999, Adam Fritzler <afritz@marko.net>
+	       1998-2002, Rob Flynn <rob@marko.net>
+	       2000-2002, Eric Warmenhoven <eric@warmenhoven.org>
+	       2001-2002, Brian Macke <macke@strangelove.net>
+		    2001, Anand Biligiri S <abiligiri@users.sf.net>
+		    2001, Valdis Kletnieks
+		    2002, Sean Egan <bj91704@binghamton.edu>
+		    2002, Toby Gray <toby.gray@ntlworld.com>
+
+This library also uses code from other libraries, namely:
+    Portions from libfaim copyright 1998, 1999 Adam Fritzler
+    <afritz@auk.cx>
+    Portions of Sylpheed copyright 2000-2002 Hiroyuki Yamamoto
+    <hiro-y@kcn.ne.jp>
+
+
+* Licence
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+You should have received a copy of the GNU General Public License
+along with this program in the file named Copying; if not, write to the 
+Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, 
+MA  02111-1307  USA
+
+
+* Warranty
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+

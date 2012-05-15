@@ -1,0 +1,56 @@
+# Microsoft Developer Studio Generated Dependency File, included by secureim.mak
+
+.\commonheaders.cpp : \
+	"..\..\include\m_clc.h"\
+	"..\..\include\m_clist.h"\
+	"..\..\include\m_clui.h"\
+	"..\..\include\m_cluiframes.h"\
+	"..\..\include\m_database.h"\
+	"..\..\include\m_genmenu.h"\
+	"..\..\include\m_icolib.h"\
+	"..\..\include\m_langpack.h"\
+	"..\..\include\m_message.h"\
+	"..\..\include\m_netlib.h"\
+	"..\..\include\m_options.h"\
+	"..\..\include\m_plugins.h"\
+	"..\..\include\m_popup.h"\
+	"..\..\include\m_protocols.h"\
+	"..\..\include\m_protomod.h"\
+	"..\..\include\m_protosvc.h"\
+	"..\..\include\m_skin.h"\
+	"..\..\include\m_stdhdr.h"\
+	"..\..\include\m_system.h"\
+	"..\..\include\m_utils.h"\
+	"..\..\include\newpluginapi.h"\
+	"..\..\include\statusmodes.h"\
+	".\commonheaders.h"\
+	".\crypt.h"\
+	".\cryptopp.h"\
+	".\dbevent.h"\
+	".\gettime.h"\
+	".\images.h"\
+	".\language.h"\
+	".\loadicons.h"\
+	".\loadlib.h"\
+	".\mmi.h"\
+	".\options.h"\
+	".\popupOptions.h"\
+	".\rtfconv.h"\
+	".\sdk\m_extraicons.h"\
+	".\sdk\m_folders.h"\
+	".\sdk\m_metacontacts.h"\
+	".\sdk\m_updater.h"\
+	".\secureim.h"\
+	".\svcs_clist.h"\
+	".\svcs_menu.h"\
+	".\svcs_proto.h"\
+	".\svcs_rsa.h"\
+	".\svcs_srmm.h"\
+	".\version.h"\
+	"d:\program files\microsoft visual studio\vc98\include\basetsd.h"\
+	
+
+.\resource.rc : \
+	".\version.h"\
+	".\version.rc"\
+	

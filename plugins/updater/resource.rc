@@ -1,0 +1,6 @@
+
+// this makes our dependencies work better
+#include "version.h"
+
+#include "updater.rc"
+#include "version.rc"

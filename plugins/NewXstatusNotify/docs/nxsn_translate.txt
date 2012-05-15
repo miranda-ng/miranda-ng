@@ -1,0 +1,195 @@
+;****************
+;NewStatusNotify
+;**************** 
+
+;general strings
+;----------------------------
+[You cannot specify a value lower than %d and higher than %d.]
+[<error>]
+[Can't open the log file!]
+[%s is now %s]
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+[%s, %s. %s changed %s to: %s.\r\n]
+[%s, %s. %s removed %s.\r\n]
+[Wave Files (*.wav)\0*.WAV\0All Files (*)\0*\0]
+
+[Status Notify]
+[General]
+[Notify]
+[Popups]
+[Status]
+[Sounds]
+[Events]
+[Filtering]
+[Extra status]
+[Extra status logging]
+
+[From offline]
+[Online]
+[Offline] 
+[Invisible] 
+[Free for chat]
+[Away]
+[NA]
+[Occupied] 
+[DND]
+[Out to lunch]
+[On the phone]
+[Always when changing from offline]
+
+[User: Online]
+[User: Offline]
+[User: Invisible]
+[User: Free For Chat]
+[User: Away]
+[User: Not Available]
+[User: Occupied]
+[User: Do Not Disturb]
+[User: Out To Lunch]
+[User: On The Phone]
+[User: from offline (has priority!)]
+
+[(M) is back online!]
+[(F) is back online!]
+[(U) is back online!]
+[(M) went offline! :(]
+[(F) went offline! :(]
+[(U) went offline! :(]
+[(M) hides in shadows...]
+[(F) hides in shadows...]
+[(U) hides in shadows...]
+[(M) feels talkative!]
+[(F) feels talkative!]
+[(U) feels talkative!]
+[(M) went Away]
+[(F) went Away]
+[(U) went Away]
+[(M) isn't there anymore!]
+[(F) isn't there anymore!]
+[(U) isn't there anymore!]
+[(M) has something else to do.]
+[(F) has something else to do.]
+[(U) has something else to do.]
+[(M) doesn't want to be disturbed!]
+[(F) doesn't want to be disturbed!]
+[(U) doesn't want to be disturbed!]
+[(M) is eating something]
+[(F) is eating something]
+[(U) is eating something]
+[(M) had to answer the phone]
+[(F) had to answer the phone]
+[(U) had to answer the phone]
+
+;menu item
+;----------------------------
+[Enable status &notification]
+[Disable status &notification]
+
+;autodisable options
+;----------------------------
+[Disable notifications]
+[Disable globally]
+[Disable when my status is:]
+[Disable globally]
+[Disable only if I change global status]
+
+;IDD_OPT_GENERAL
+;----------------------------
+[Notify when a contact changes to one of these statuses]
+[Plugin activation]
+[Automatically turn off PopUps and Sounds on status change]
+[Don't warn me for people not in my Contact List]
+[Configure]
+[Use individual sounds]
+[Blink icon in the system tray]
+[Use status icon]
+[Log to file]
+[Enable]
+[Open]
+[Go to Customize -> Sound to select the sounds]
+
+;IDD_OPT_FILTERS
+;----------------------------
+[** All contacts **]
+[Sounds]
+[Popups]
+[Extra status notify]
+[Extra status logging]
+[Disable All]
+[Enable all]
+
+;IDD_OPT_XLOG
+;----------------------------
+[Log to message window]
+[Enable logging to message window]
+[Prevent identical logs]
+[Keep events in history]
+[Disable for extra status 'Music']
+[Truncate message length to:]
+[characters]
+[Templates]
+[New status:]
+[New message:]
+[Remove:]
+[On opening ML:]
+[Title - text delimiter:]
+[Variables]
+[Show available variables]
+[Reset all templates to default]
+[Reset templates]
+[Do you want to reset all templates to default?]
+
+;IDD_OPT_POPUP
+;----------------------------
+[Popups on contact status change to:]
+[Background]
+[Text]
+[Colours]
+[Use custom colours]
+[Use Popup colours]
+[Use Windows colours]
+[Popup title]
+[Show contact group name]
+[Use alternative descriptions]
+[Show previous status too]
+[Read status message]
+[Timeout]
+[0 = Default]
+[-1 = Infinite]
+[Click action]
+[On left click]
+[On right click]
+[Open message window]
+[Close popup]
+[Open contact details window]
+[Open contact menu]
+[Open contact history]
+[Do nothing]
+[Preview]
+[This is \"from offline\" status message]
+
+;user options page
+;----------------------------
+[Sound for the status]
+[(default sound)]
+[Change]
+[Preview]
+[Delete]
+[Enable popups]
+[Enable sounds]
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n""Use individual sounds"" checkbox, and then reopen this dialog.]
+
+;default templates
+;----------------------------
+[changed %N to: %T%D%I]
+[changed %N message to:%D%I]
+[removed %N]
+[changed %N @ %T%D%I]
+[changed %N message @ %I]
+[has %N @ %T%D%I]
+[These variables are available:\r\n\r\n\
+%N\textra status name (Xstatus, Mood, Activity)\r\n\
+%T\textra status title\r\n\
+%I\textra status text\r\n\
+%D\tdelimiter\r\n\
+%B\tline break (can be used as delimiter)]

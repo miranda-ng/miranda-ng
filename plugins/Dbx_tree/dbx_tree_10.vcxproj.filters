@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{9e004988-9f2b-4ba4-8f56-d0fadd675d27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\HeaderFiles">
+      <UniqueIdentifier>{456c2bea-e723-4178-815d-93f04e79c678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\FileAccess">
+      <UniqueIdentifier>{015b2001-dc24-47da-97f4-1b85117384cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\FileAccess\Encryption">
+      <UniqueIdentifier>{e1687ef4-a061-4986-8fba-5b5a66d40623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\FileAccess\Encryption\SHA256">
+      <UniqueIdentifier>{f612e60c-0040-4985-9d76-8a61c2f3df3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database\FileAccess\HeaderFiles">
+      <UniqueIdentifier>{3a265a80-f78a-44c0-87ca-759560867d83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{b93e9ed7-b0c7-4a03-91e3-ccaaf6cacc9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface\HeaderFiles">
+      <UniqueIdentifier>{063a42d4-5023-435c-9040-f87607c13d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{de45f9d3-861f-4d67-908c-3a77d4fec7a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils\HeaderFiles">
+      <UniqueIdentifier>{b44370e5-0bf1-4d18-bbd7-7690a7bcad4b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="dbConfig.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="dbVersion.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="dbConfig_rc.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="dbVersion_rc.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="BTree.h">
+      <Filter>Database\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DataBase.h">
+      <Filter>Database\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Entities.h">
+      <Filter>Database\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>Database\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="FileBTree.h">
+      <Filter>Database\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Database\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="encryption\Cipher.h">
+      <Filter>Database\FileAccess\Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="EncryptionManager.h">
+      <Filter>Database\FileAccess\Encryption</Filter>
+    </ClInclude>
+    <ClInclude Include="SHA256.h">
+      <Filter>Database\FileAccess\Encryption\SHA256</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockManager.h">
+      <Filter>Database\FileAccess\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectAccess.h">
+      <Filter>Database\FileAccess\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="FileAccess.h">
+      <Filter>Database\FileAccess\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="MappedMemory.h">
+      <Filter>Database\FileAccess\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Compatibility.h">
+      <Filter>Interface\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseLink.h">
+      <Filter>Interface\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Interface\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="m_dbx_tree.h">
+      <Filter>Interface\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Services.h">
+      <Filter>Interface\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Hash.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="inttypes.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="IterationHeap.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="lockfree_hashmap.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="lockfree_hashmultimap.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="MREWSync.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="savestrings_gcc.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="sigslot.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="stdint.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Thread.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TLS.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="intrinsics.h">
+      <Filter>Utils\HeaderFiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DataBase.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Entities.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Events.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockManager.cpp">
+      <Filter>Database\FileAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectAccess.cpp">
+      <Filter>Database\FileAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="FileAccess.cpp">
+      <Filter>Database\FileAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="MappedMemory.cpp">
+      <Filter>Database\FileAccess</Filter>
+    </ClCompile>
+    <ClCompile Include="EncryptionManager.cpp">
+      <Filter>Database\FileAccess\Encryption</Filter>
+    </ClCompile>
+    <ClCompile Include="SHA256.cpp">
+      <Filter>Database\FileAccess\Encryption\SHA256</Filter>
+    </ClCompile>
+    <ClCompile Include="Compatibility.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseLink.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="init.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Services.cpp">
+      <Filter>Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Hash.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="MREWSync.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

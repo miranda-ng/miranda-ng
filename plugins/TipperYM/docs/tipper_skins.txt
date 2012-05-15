@@ -1,0 +1,109 @@
+*************************************
+          Skin Definition    
+*************************************
+
+ Skin has 6 main elements: 
+	[About], [Background], [Sidebar], [Fonts], [Appearance], [Other]
+
+ Element [About] has 2 attributes:
+	Author, Preview
+
+ Elements [Background], [Sidebar] have 6 attributes:
+	Image, TM, Left, Top, Right, Bottom 
+
+ Element [Fonts] has 17 attributes:
+	Title-face, Title-color, Title-size, Title-effect
+	Label-face, Label-color, Label-size, Label-effect
+	Value-face, Value-color, Value-size, Value-effect
+	TrayTitle-face, TrayTitle-color, TrayTitle-size, TrayTitle-effect
+	Divider-color 
+
+ Element [Appearance] has 9 attributes:
+	General-padding, Title-indent, Text-indent, Value-indent, Text-padding,
+	Outer-avatar-padding, Inner-avatar-padding, Sidebar-width, Opacity
+
+ Elemet [Other] has 1 attribute:
+	Enable-coloring
+
+===========================
+        Attributes
+===========================
+
+ Author
+---------------------------
+	Your name or nick ;-) 
+
+ Preview
+---------------------------
+	Relative path to the image file with the preview of your skin.
+
+ Image
+---------------------------
+	Relative path to the image file that is used as tooltip background. 
+
+ TM (Transformation mode) 
+---------------------------
+	Edge parts and center area of the image file are tranformed according to this value.
+	Can be one of following values:
+		TM_NONE
+		TM_CENTRE
+		TM_STRECH_ALL
+		TM_STRECH_HORIZONTAL
+		TM_STRECH_VERTICAL
+		TM_TILE_ALL
+		TM_TILE_HORIZONTAL
+		TM_TILE_VERTICAL
+
+ Left, Top, Right, Bottom
+---------------------------
+	Margins in pixels for Glyph transformation.
+
+ XXX-face
+---------------------------
+	Name of the font (eg. Arial, Tahoma, Trebuchet MS).
+   String is case sensitive!
+
+ XXX-color
+---------------------------
+	Font (divider) color defined by 3 decimal numbers separated by spaces.
+	RGB color model (Red Green Blue) 
+
+ XXX-size
+---------------------------
+	Font size in pixels :-)
+
+ XXX-effect
+---------------------------
+	Effect applied to the tooltip text.
+	Can be one or more of the following values (separated by spaces):
+		FONT_BOLD		  	
+		FONT_ITALIC
+		FONT_UNDERLINE
+
+ XXX-padding, XXX-indent 
+---------------------------
+	These values in pixels determine proportions of the tooltip.
+
+ Sidebar-width
+---------------------------
+	Width of the sidebar in pixels.
+
+ Opacity
+---------------------------
+	Opacity which is applied to the final tooltip
+	Can be number within the range of 0 - 100.
+
+ Enable-coloring
+---------------------------
+	Enable or disable 'Enable coloring' checkbox in the options.
+	Can be TRUE or FALSE.
+
+*************************************
+
+See 'XMPC' and 'Tipper classic' folders for examples.
+Background image can be additionally colored in Miranda's options. 
+At first you have to enable 'Enable skin coloring' option in Customize - Tooltips - Skin.
+And atfer that the color can be set in Customize - Fonts - Tooltips -> Background.
+
+*************************************
+

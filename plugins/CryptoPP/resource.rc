@@ -1,0 +1,39 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+#include "afxres.h"
+#include "version.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef DLL_FROM_RESOURCE
+1 666 "gpgw\\release\\gnupgw.dll"
+6 666 "pgpw\\release6\\pgpsdkw6.dll"
+8 666 "pgpw\\release8\\pgpsdkw8.dll"
+#endif
+
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+    "afxres.h\0"
+    "version.rc\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////

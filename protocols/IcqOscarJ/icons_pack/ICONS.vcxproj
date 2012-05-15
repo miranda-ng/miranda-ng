@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Release Unicode|Win32">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release Unicode|x64">
+      <Configuration>Release Unicode</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <ProjectName>xstatus_ICQ</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\Icons\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)$(Configuration)64\Icons\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <OutDir>$(SolutionDir)$(Configuration)\Icons\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <OutDir>$(SolutionDir)$(Configuration)64\Icons\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ICONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\ICONS.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release\ICONS.tlb</TypeLibraryName>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\ICONS.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Windows</SubSystem>
+      <NoEntryPoint>true</NoEntryPoint>
+      <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ICONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\ICONS.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release\ICONS.tlb</TypeLibraryName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\ICONS.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Windows</SubSystem>
+      <NoEntryPoint>true</NoEntryPoint>
+      <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ICONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\ICONS.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release\ICONS.tlb</TypeLibraryName>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\ICONS.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Windows</SubSystem>
+      <NoEntryPoint>true</NoEntryPoint>
+      <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;ICONS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>.\Release\</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>.\Release\ICONS.pch</PrecompiledHeaderOutputFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
+      <ObjectFileName>.\Release\</ObjectFileName>
+      <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release\ICONS.tlb</TypeLibraryName>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\ICONS.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <LinkDLL>true</LinkDLL>
+      <SubSystem>Windows</SubSystem>
+      <NoEntryPoint>true</NoEntryPoint>
+      <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ICONS.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\icos\xstatus01.ico" />
+    <CustomBuild Include="..\icos\xstatus02.ico" />
+    <CustomBuild Include="..\icos\xstatus03.ico" />
+    <CustomBuild Include="..\icos\xstatus04.ico" />
+    <CustomBuild Include="..\icos\xstatus05.ico" />
+    <CustomBuild Include="..\icos\xstatus06.ico" />
+    <CustomBuild Include="..\icos\xstatus07.ico" />
+    <CustomBuild Include="..\icos\xstatus08.ico" />
+    <CustomBuild Include="..\icos\xstatus09.ico" />
+    <CustomBuild Include="..\icos\xstatus10.ico" />
+    <CustomBuild Include="..\icos\xstatus11.ico" />
+    <CustomBuild Include="..\icos\xstatus12.ico" />
+    <CustomBuild Include="..\icos\xstatus13.ico" />
+    <CustomBuild Include="..\icos\xstatus14.ico" />
+    <CustomBuild Include="..\icos\xstatus15.ico" />
+    <CustomBuild Include="..\icos\xstatus16.ico" />
+    <CustomBuild Include="..\icos\xstatus17.ico" />
+    <CustomBuild Include="..\icos\xstatus18.ico" />
+    <CustomBuild Include="..\icos\xstatus19.ico" />
+    <CustomBuild Include="..\icos\xstatus20.ico" />
+    <CustomBuild Include="..\icos\xstatus21.ico" />
+    <CustomBuild Include="..\icos\xstatus22.ico" />
+    <CustomBuild Include="..\icos\xstatus23.ico" />
+    <CustomBuild Include="..\icos\xstatus24.ico" />
+    <CustomBuild Include="..\icos\xstatus25.ico" />
+    <CustomBuild Include="..\icos\xstatus26.ico" />
+    <CustomBuild Include="..\icos\xstatus27.ico" />
+    <CustomBuild Include="..\icos\xstatus28.ico" />
+    <CustomBuild Include="..\icos\xstatus29.ico" />
+    <CustomBuild Include="..\icos\xstatus30.ico" />
+    <CustomBuild Include="..\icos\xstatus31.ico" />
+    <CustomBuild Include="..\icos\xstatus32.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\icos\xstatus33.ico" />
+    <CustomBuild Include="..\icos\Xstatus34.ico" />
+    <CustomBuild Include="..\icos\Xstatus35.ico" />
+    <CustomBuild Include="..\icos\Xstatus36.ico" />
+    <CustomBuild Include="..\icos\xstatus37.ico" />
+    <CustomBuild Include="..\icos\Xstatus38.ico" />
+    <CustomBuild Include="..\icos\Xstatus39.ico" />
+    <CustomBuild Include="..\icos\Xstatus40.ico" />
+    <CustomBuild Include="..\icos\Xstatus41.ico" />
+    <CustomBuild Include="..\icos\Xstatus42.ico" />
+    <CustomBuild Include="..\icos\xstatus43.ico" />
+    <CustomBuild Include="..\icos\xstatus44.ico" />
+    <CustomBuild Include="..\icos\Xstatus45.ico" />
+    <CustomBuild Include="..\icos\Xstatus46.ico" />
+    <CustomBuild Include="..\icos\Xstatus47.ico" />
+    <CustomBuild Include="..\icos\Xstatus48.ico" />
+    <CustomBuild Include="..\icos\Xstatus49.ico" />
+    <CustomBuild Include="..\icos\Xstatus50.ico" />
+    <CustomBuild Include="..\icos\Xstatus51.ico" />
+    <CustomBuild Include="..\icos\Xstatus52.ico" />
+    <CustomBuild Include="..\icos\Xstatus53.ico" />
+    <CustomBuild Include="..\icos\Xstatus54.ico" />
+    <CustomBuild Include="..\icos\xstatus55.ico" />
+    <CustomBuild Include="..\icos\Xstatus56.ico" />
+    <CustomBuild Include="..\icos\Xstatus57.ico" />
+    <CustomBuild Include="..\icos\Xstatus58.ico" />
+    <CustomBuild Include="..\icos\Xstatus59.ico" />
+    <CustomBuild Include="..\icos\Xstatus60.ico" />
+    <CustomBuild Include="..\icos\Xstatus61.ico" />
+    <CustomBuild Include="..\icos\Xstatus62.ico" />
+    <CustomBuild Include="..\icos\Xstatus63.ico" />
+    <CustomBuild Include="..\icos\xstatus64.ico" />
+    <CustomBuild Include="..\icos\Xstatus65.ico" />
+    <CustomBuild Include="..\icos\Xstatus66.ico" />
+    <CustomBuild Include="..\icos\Xstatus67.ico" />
+    <CustomBuild Include="..\icos\Xstatus68.ico" />
+    <CustomBuild Include="..\icos\Xstatus69.ico" />
+    <CustomBuild Include="..\icos\Xstatus70.ico" />
+    <CustomBuild Include="..\icos\Xstatus71.ico" />
+    <CustomBuild Include="..\icos\Xstatus72.ico" />
+    <CustomBuild Include="..\icos\Xstatus73.ico" />
+    <CustomBuild Include="..\icos\Xstatus74.ico" />
+    <CustomBuild Include="..\icos\Xstatus75.ico" />
+    <CustomBuild Include="..\icos\Xstatus76.ico" />
+    <CustomBuild Include="..\icos\Xstatus77.ico" />
+    <CustomBuild Include="..\icos\Xstatus78.ico" />
+    <CustomBuild Include="..\icos\Xstatus79.ico" />
+    <CustomBuild Include="..\icos\xstatus80.ico" />
+    <CustomBuild Include="..\icos\Xstatus81.ico" />
+    <CustomBuild Include="..\icos\Xstatus82.ico" />
+    <CustomBuild Include="..\icos\Xstatus83.ico" />
+    <CustomBuild Include="..\icos\Xstatus84.ico" />
+    <CustomBuild Include="..\icos\xstatus85.ico" />
+    <CustomBuild Include="..\icos\Xstatus86.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,0 +1,2 @@
+#include "menuex.rc"
+#include "version.rc"

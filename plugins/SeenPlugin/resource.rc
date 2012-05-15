@@ -1,0 +1,293 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <windows.h>
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// German (Germany) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include <windows.h>\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SETTINGS DIALOGEX 0, 0, 300, 228
+STYLE DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Last seen options",IDC_MAINGROUP,0,0,299,226,WS_GROUP
+    CONTROL         "Last seen menuitem",IDC_MENUITEM,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,6,12,132,10
+    CONTROL         "Show icon",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,141,12,69,10
+    EDITTEXT        IDC_MENUSTAMP,18,23,120,12,ES_AUTOHSCROLL | WS_GROUP
+    CONTROL         "Userinfo tab",IDC_USERINFO,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,6,42,140,10
+    EDITTEXT        IDC_USERSTAMP,18,52,275,12,ES_AUTOHSCROLL | WS_GROUP
+    CONTROL         "Log to file",IDC_FILE,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,6,72,132,10
+    EDITTEXT        IDC_FILENAME,149,69,144,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_FILESTAMP,18,83,275,12,ES_AUTOHSCROLL | WS_GROUP
+    CONTROL         "Log to history",IDC_HISTORY,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,7,104,131,10
+    LTEXT           "Maximum size",IDC_STATIC,183,102,51,9
+    EDITTEXT        IDC_HISTORYSIZE,149,100,30,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_HISTORYSTAMP,18,114,275,12,ES_AUTOHSCROLL | WS_GROUP
+    PUSHBUTTON      "Variable list",IDC_VARIABLES,47,137,50,13
+    CONTROL         "Enable Idle support",IDC_IDLESUPPORT,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,158,135,10
+    CONTROL         "Ignore contacts going offline",IDC_IGNOREOFFLINE,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,174,135,10
+    CONTROL         "Enable 'Missed Ones' feature",IDC_MISSEDONES,"Button",
+                    BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,7,190,135,10
+    CONTROL         "Count times",IDC_COUNT,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,18,202,100,10
+    LTEXT           "Protocols to watch:",IDC_MAINGROUP,149,130,114,9
+    CONTROL         "Tree1",IDC_PROTOCOLLIST,"SysTreeView32",TVS_NOTOOLTIPS | 
+                    WS_BORDER | WS_TABSTOP,149,140,144,81
+END
+
+IDD_POPUPS DIALOGEX 0, 0, 280, 208
+STYLE DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "",IDC_STATIC,0,0,280,26,WS_GROUP
+    CTEXT           "Popup interoperability missing or disabled. You need Popups plugin",IDC_MISSPOPUP,1,11,280,10,NOT WS_VISIBLE
+    CONTROL         "Use popups",IDC_POPUPS,"Button",BS_AUTOCHECKBOX |
+                    WS_GROUP | WS_TABSTOP,3,10,50,10
+    RTEXT           "Title",IDC_LABTEXT,57,11,40,10
+    EDITTEXT        IDC_POPUPSTAMP,100,9,50,12,ES_AUTOHSCROLL | WS_GROUP
+    RTEXT           "Text",IDC_LABTTITLE,155,11,25,10
+    EDITTEXT        IDC_POPUPSTAMPTEXT,185,9,88,12,ES_AUTOHSCROLL | 
+                    WS_GROUP
+    GROUPBOX        "PopUp Colors",IDC_STATIC,0,30,280,136,WS_GROUP
+    RTEXT           "Online",IDC_STATIC,10,43,60,10
+    CONTROL         "",ID_STATUS_ONLINE,"ColourPicker",WS_TABSTOP,80,40,20,14
+    CONTROL         "",ID_STATUS_ONLINE+20,"ColourPicker",WS_TABSTOP,105,40,20,14
+    RTEXT           "Away",IDC_STATIC,10,63,60,10
+    CONTROL         "",ID_STATUS_AWAY,"ColourPicker",WS_TABSTOP,80,60,20,14
+    CONTROL         "",ID_STATUS_AWAY+20,"ColourPicker",WS_TABSTOP,105,60,20,14
+    RTEXT           "N/A",IDC_STATIC,10,83,60,10
+    CONTROL         "",ID_STATUS_NA,"ColourPicker",WS_TABSTOP,80,80,20,14
+    CONTROL         "",ID_STATUS_NA+20,"ColourPicker",WS_TABSTOP,105,80,20,14
+    RTEXT           "Occupied",IDC_STATIC,10,103,60,10
+    CONTROL         "",ID_STATUS_OCCUPIED,"ColourPicker",WS_TABSTOP,80,100,20,14
+    CONTROL         "",ID_STATUS_OCCUPIED+20,"ColourPicker",WS_TABSTOP,105,100,20,14
+    RTEXT           "DND",IDC_STATIC,10,123,60,10
+    CONTROL         "",ID_STATUS_DND,"ColourPicker",WS_TABSTOP,80,120,20,14
+    CONTROL         "",ID_STATUS_DND+20,"ColourPicker",WS_TABSTOP,105,120,20,14
+
+    RTEXT           "On the phone",IDC_STATIC,140,43,60,10
+    CONTROL         "",ID_STATUS_ONTHEPHONE,"ColourPicker",WS_TABSTOP,210,40,20,14
+    CONTROL         "",ID_STATUS_ONTHEPHONE+20,"ColourPicker",WS_TABSTOP,235,40,20,14
+    RTEXT           "Out to lunch",IDC_STATIC,140,63,60,10
+    CONTROL         "",ID_STATUS_OUTTOLUNCH,"ColourPicker",WS_TABSTOP,210,60,20,14
+    CONTROL         "",ID_STATUS_OUTTOLUNCH+20,"ColourPicker",WS_TABSTOP,235,60,20,14
+    RTEXT           "Free for chat",IDC_STATIC,140,83,60,10
+    CONTROL         "",ID_STATUS_FREECHAT,"ColourPicker",WS_TABSTOP,210,80,20,14
+    CONTROL         "",ID_STATUS_FREECHAT+20,"ColourPicker",WS_TABSTOP,235,80,20,14
+    RTEXT           "Invisible",IDC_STATIC,140,103,60,10
+    CONTROL         "",ID_STATUS_INVISIBLE,"ColourPicker",WS_TABSTOP,210,100,20,14
+    CONTROL         "",ID_STATUS_INVISIBLE+20,"ColourPicker",WS_TABSTOP,235,100,20,14
+    RTEXT           "Offline",IDC_STATIC,140,123,60,10
+    CONTROL         "",ID_STATUS_OFFLINE,"ColourPicker",WS_TABSTOP,210,120,20,14
+    CONTROL         "",ID_STATUS_OFFLINE+20,"ColourPicker",WS_TABSTOP,235,120,20,14
+    PUSHBUTTON      "Reset colors",IDC_DEFAULTCOL,115,145,50,13
+#ifndef PERMITNSN
+    GROUPBOX        "Disable CList Notifications",IDC_STATIC,0,170,280,38,WS_GROUP
+    CONTROL         "For watched protocols",IDC_DISWATCHED,"Button", BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,10,180,100,10
+    CONTROL         "For non-watched protocols",IDC_DISNONWATCHED,"Button", BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP,10,193,100,10
+#endif
+END
+
+IDD_USERINFO DIALOGEX 0, 0, 222, 132
+STYLE DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_INFOTEXT,6,6,210,122,ES_MULTILINE | ES_NOHIDESEL | 
+                    ES_READONLY | NOT WS_BORDER
+END
+
+IDD_MISSED DIALOGEX 0, 0, 160, 71
+STYLE DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Last seen plugin"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,55,48,50,14
+    LTEXT           "You missed following contacts:",IDC_TEXT,6,6,148,10
+    CTEXT           "Test\nTest",IDC_CONTACTS,6,22,148,16
+END
+
+IDD_HISTORY DIALOGEX 0, 0, 200, 120
+STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+//    PUSHBUTTON      "Variablestest",IDC_TEST,5,5,52,13,NOT WS_VISIBLE
+    DEFPUSHBUTTON   "OK",IDOK,75,101,50,14
+    PUSHBUTTON      "",IDC_USERMENU,146,5,15,13,BS_ICON | WS_TABSTOP
+    PUSHBUTTON      "",IDC_DETAILS,163,5,15,13,BS_ICON  | WS_TABSTOP
+    PUSHBUTTON      "",IDC_SENDMSG,180,5,15,13,BS_ICON  | WS_TABSTOP
+    LISTBOX         IDC_HISTORYLIST,5,20,190,59,LBS_NOINTEGRALHEIGHT | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Alert when user status changes",IDC_STATUSCHANGE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,5,86,190,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 293
+        VERTGUIDE, 18
+        VERTGUIDE, 149
+        VERTGUIDE, 161
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 225
+        HORZGUIDE, 22
+    END
+
+    IDD_USERINFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 125
+    END
+
+    IDD_MISSED, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 153
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 64
+    END
+
+    IDD_HISTORY, DIALOG
+    BEGIN
+        LEFTMARGIN, 5
+        RIGHTMARGIN, 195
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 115
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 5,0,4,7
+ PRODUCTVERSION 5,0,4,7
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Last Seen Mod Plugin for Miranda IM\0"
+            VALUE "CompanyName", "Heiko Schillinger, YB\0"
+#ifdef PERMITNSN
+            VALUE "FileDescription", "Last Seen Plugin\0"
+#else
+            VALUE "FileDescription", "Last Seen Plugin (NSN Compatible)\0"
+#endif
+            VALUE "FileVersion", "5.0.4.7\0"
+            VALUE "InternalName", "Last Seen\0"
+            VALUE "LegalCopyright", "© 2001-2002 by Heiko Schillinger, 2003 by Bruno Rino, 2006 by YB\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "seenplugin.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", " Last Seen Plugin Mod\0"
+            VALUE "ProductVersion", "5.0.4.7\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // German (Germany) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

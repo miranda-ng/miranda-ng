@@ -1,0 +1,125 @@
+===============================================================================
+             PopUp  - Frequently Asked Questions
+===============================================================================
+
+Hi everybody,
+this is a collection of frequently asked questions: please read them, all of
+them.
+99% of the times I receive questions which already have an answer here. :-)
+
+I will try to explain myself easily, so that NON-SPEAKING ENGLISH users will
+understand too.
+
+I last updated this file when I released version: 1.0.1.9
+===============================================================================
+
+[1.0.1.9] Q: The plugin is good, but I don't see the popups when a message
+arrives.
+
+A: This is normal, because PopUp plugin makes the popups only when a plugin
+asks for them.
+NewStatusNotify plugin asks PopUp plugin a popup when a contact changes his
+status.
+NewEventNotify plugin asks PopUp plugin a popup when a message, file or url is
+received.
+WinampNotify does it when a new song is played in your Winamp 2.x/3.x
+MSN does it when you receive an hotmail message.
+EmotIcon does it when your received message contains an emoticon it recognizes.
+NotifyAnything lets you configure the popups on many circumstances. :-)
+===============================================================================
+
+[1.0.1.3] Q: What's the deal with "Concurrent Popups"?
+
+A: with this option ON, PopUp will create a new thread for every popup which
+needs to be created.
+The main effect on this is that fade and "animate" effects can happen at the
+same time on multiple plugins, instead of animating one at a time.
+If you use fading/animations, I suggest you keep it ON.
+If you don't use them, you don't need it. You can turn it OFF if you wish.
+It will cause no harm, though, so it's ON by default.
+
+IMPORTANT: don't play "ON-OFF-ON-OFF" with popups on your screen. If you do,
+your Miranda could be closed in the place of a popup, and you'll lose any
+unsaved changes.
+===============================================================================
+
+[1.0.0.4] Q: I've checked "AM/PM", but I don't get any AM/PM, what's wrong?
+
+A: Check your international settings (your locale). There should be an option
+page where you can configure the AM and PM symbol, and maybe they're "void" by
+default, as it was on my machines ^__^ so just write "AM" and "PM" or whatever
+you like.
+
+Q2: "I don't want to mess around with my OS! Make them translatable!"
+
+A: You're not going to *mess around* with anything. You only need to
+*configure* your OS which *IS NOT* properly configured by *DEFAULT*.
+Since AM/PM is part of the Operating System, my plugin has nothing to do with
+its translation. Blame Microsoft if they don't put a default AM/PM value!!
+===============================================================================
+
+[1.0.0.7] Q: I've noticed some strange memory leaks... can you fix them?
+
+A: I've fixed them in 1.0.0.5, so grab the latest version of PopUp plugin :-))
+===============================================================================
+
+[1.0.0.0] Q: Hey, remove XXX and add YYY to the plugin!
+
+A: Write to hrk@users.sourceforge.net explaining "why" in an intelligent way.
+If you convince me, I'll do what you ask.
+
+Examples of "asked things" are: Dynamically resizing popups; Background colour;
+Bold font for name; Fade in/out; AM/PM...
+===============================================================================
+
+[1.0.0.0] Q: The popups don't show on my system. Can you find the problem?
+
+A: Open the "Options" and click on "Preview": if you see PopUps, the plugin
+works.
+
+If the preview does not work, then there is a problem.
+I need a bug report. :)
+Get VersionInfo plugin and send me its output informations too.
+I can make you a special debug build to see if we can find out the problem.
+===============================================================================
+
+[1.0.0.0] Q: If I use MS Sans Serif as font for the popups, either my name or
+the date gets cut. Can you fix it?
+
+A: No :/ I can't fix it.
+This happens with every font of "Serif" family, so it happens with MS Sans
+Serif, MS Serif, some kind of "Lucida" and so on.
+I don't know why, but it happens.
+You can do two things:
+1) Use a font of another family.
+2) Enable "Enlarge PopUps by" and select a percentage you like. 120% should be
+good, but you can choose any value in the range 100% (no change) ~ 200% (double
+size).
+If you put 105%, you'll see no big difference in popup size (so it will not
+become huge!) and you will have a readable text.
+
+A2: It seems it's a problem related to "Latin" fonts. I cannot understand
+what's wrong so you'll have to use the workaround written above. :-)
+===============================================================================
+
+[1.0.0.0] Q: Hey, I can't stand the second line, can't I disable it?
+
+A: Yes: uncheck "Show second line".
+===============================================================================
+
+[1.0.0.0] Q: Thank for your work! Your plugin rocks, I'd like to give you
+something!
+
+A: You're welcome $_$. Anyway, my plugin is released both as freeware and Open
+Source, so you don't have to pay for it, as you don't have to pay for Miranda,
+and you can read its source code as you can read Miranda's source code. [Hmmm...
+if I were you I would not read my source code very finely, because I'm ashamed
+on how chaotic it is. :) Sooner or later I'll write it again from scratch,
+making a well organized code. Anyway, as of today it's fully commented, so it
+can be useful nevertheless.]
+
+By the way, should you feel like you want to compensate me in some way... in
+the event you upgrade your computer and have some old pieces you *won't use
+anymore*, which are *completely useless* and you don't *need them at all*...
+email me at hrk@users.sourceforge.net, because maybe I can use them. :-)
+===============================================================================

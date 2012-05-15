@@ -1,0 +1,595 @@
+
+Verison 1.0.12.4 [28-04-2010]
+
+[*] fix bug with advanced icon set to "NONE" && enable extaicons plugin
+
+
+Verison 1.0.12.3 [18-05-2009]
+
+[*] fixed crash on filetransfer
+[*] advanced messages for replaced RSA keys
+[+] show SHA1 for all public keys
+[*] new format private key
+[+] export/import public keys
+[+] export/import my private key
+
+
+Verison 1.0.12.2 [07-05-2009]
+
+[*] some memory leak fixed
+[*] some security fixes
+[+] use KeyExchangeTimeout for RSA/AES keyexchange
+[+] show RSA Public key flag in Options dialog
+[+] reset RSA public key for contact
+[+] copy SHA1 of my RSA public key to Clipboard
+[*] context menu on RClick in columns "Mode","Status","-"
+
+
+Verison 1.0.12.1 [04-05-2009]
+
+[*] native mode fixes
+[+] add support for folders plugin
+[+] auto switch to RSA/AES mode, if possible
+[+] _Filter sequence fixed (last in sent & first in recv)
+[+] GPG temp path
+
+
+Verison 1.0.12.0 [28-04-2009]
+
+[*] rewrite icons library
+[+] add support for extraicon plugin
+[+] RSA/AES Secure File Transfer
+[+] mode in context menu
+
+
+Verison 1.0.11.4 [22-04-2009]
+
+[*] patch from Billy_Bons
+
+
+Verison 1.0.11.3 [22-04-2009]
+
+[+] option "Disabled" for RSA/AES
+[+] change status to "Disabled" for "Disabled" on other side
+
+
+Verison 1.0.11.2 [21-04-2009]
+
+[+] option "Not secured for NotOnList"
+[+] auto switch mode to RSA/AES and to Native on message type
+[+] auto accept RSA key
+[+] auto established RSA/AES connection ("Always if Possible" flag)
+
+
+Verison 1.0.11.1 [20-04-2009]
+
+[*] compile with new Miranda headers
+[*] fix metacontacts handling
+
+
+Verison 1.0.11.0 [08-08-2008]
+
+[*] some code rewrite
+[*] fix UTF8 in PGP/GPG messages
+[+] split long messages (per protocol)
+[+] new encryption algorithm RSA/AES
+[*] rewrite handling metacontacts
+
+
+Verison 1.0.10.8 [09-04-2008]
+
+[*] fix store subcontact history in metacontacts (only with today meta svn)
+
+
+Verison 1.0.10.7 [19-01-2008]
+
+[*] change select contact list icon slot
+
+
+Verison 1.0.10.6 [24-12-2007]
+
+[*] some code rewrite
+
+
+Verison 1.0.10.5 [24-12-2007]
+
+[*] fix Load/Unload keys for PGP/GPG
+
+
+Verison 1.0.10.4 [21-12-2007]
+
+[*] fix double UTF8 encoding in PGP/GPG messages
+[*] applied patch from Garthower (MetaContacts & IRC protocol)
+
+
+Verison 1.0.10.3 [15-09-2007]
+
+[*] change work with metacontacts (to work need disable sync subcontact history with metacontact)
+[*] fix secure filesend over metacontact
+[+] new features in options dialog
+[*] unicode fix SetPSK dialog
+[*] change memory allocation functions
+
+
+Verison 1.0.10.2 [19-06-2007]
+
+[*] fix PREF_UTF flag in messages (new bug)
+
+
+Verison 1.0.10.1 [08-06-2007]
+
+[*] fix PREF_UTF flag in messages
+
+
+Verison 1.0.9.37 [04-04-2007]
+
+[*] remove internal SecureIM messages from MetaContacts history
+
+
+Verison 1.0.9.36 [02-04-2007]
+
+[*] fix Established Secure Connection over RTF (in MRA)
+[*] disable icon && menus for non-secured protocols
+[*] hide GPG menu items for no-secured protocols
+
+
+Verison 1.0.9.35 [14-03-2007]
+
+[*] add PluginInfoEx support
+
+
+Verison 1.0.9.34 [28-02-2007]
+
+[*] fix for Secure File Transfer 
+
+
+Verison 1.0.9.33 [26-02-2007]
+
+[*] file encryption from RO FS fixed
+
+
+Verison 1.0.9.32 [25-02-2007]
+
+[*] some PGP+GPG fixes
+[+] option "save GPG passphrases" (saved on exit)
+
+
+Verison 1.0.9.31 [22-02-2007]
+
+[*] fix VC71 project
+[*] PGP & GPG can worked anytime
+[+] options 'disable' CList icon
+
+
+Verison 1.0.9.30 [12-01-2007]
+
+[*] hide SecureIM icon in TabSRMM for ChatRoom
+[+] add unicode support in Options Dialog
+
+
+Verison 1.0.9.29 [10-01-2007]
+
+[+] support Unicode in Popups
+[*] fixed Metacontact icon in TabSRMM
+
+
+Verison 1.0.9.28
+
+[*] internal build
+
+
+Verison 1.0.9.27
+
+[*] internal build
+
+
+Verison 1.0.9.26
+
+[*] GPG fixes
+
+
+Verison 1.0.9.25
+
+[*] GPG fixes
+
+
+Verison 1.0.9.24
+
+[*] support ANSI codepage for GPG
+
+
+Verison 1.0.9.23
+
+[*] GPG bugfixes
+
+
+Verison 1.0.9.22
+
+[*] more GPG fixes
+
+
+Verison 1.0.9.21
+
+[+] add option "Log to file" on GPG tab
+[*] small fixes
+
+
+Verison 1.0.9.20
+
+[*] GPG fixes
+
+
+Verison 1.0.9.19
+
+[*] add secureim_icons.dll in installpack
+
+
+Verison 1.0.9.18
+
+[*] small fixes
+
+
+Verison 1.0.9.17
+
+[+] add decode incoming RTF messages
+[+] add GnuPG support
+
+
+Verison 1.0.9.16
+
+[*] fixed language in IcoLib support
+
+
+Verison 1.0.9.15
+
+[*] fixed show not-32bit icons
+[*] fixed IcoLib support
+
+
+Verison 1.0.9.14
+
+[*] resend unencrypted messages fixed
+
+
+Verison 1.0.9.13
+
+[+] add IcoLib support
+
+
+Verison 1.0.9.12
+
+[*] fixed filetransfer
+
+
+Verison 1.0.9.11
+
+[+] split SecureIM & IconPack in different modules
+
+
+Verison 1.0.9.10
+
+[*] fixed "Status in context menu"
+
+
+Verison 1.0.9.9
+
+[+] option "Always secured if possible" (need ICQ.dll from SSS on both side)
+[*] fixed send unencrypted messages, if connection not established
+[*] on default PGP is disabled
+[*] some fixes
+
+
+Verison 1.0.9.8
+
+[*] fix use black background color on popups
+
+
+Verison 1.0.9.7
+
+[+] rename received files (file.dll, file (1).dll, ...)
+[+] increment encrypted filename (file.AESHELL0, file.AESHELL1, ...) for send one file to multiple contacts
+
+
+Verison 1.0.9.6
+
+[+] add ChatRoom checking
+
+
+Verison 1.0.9.5
+
+[*] fix autoload keyrings on PGP6
+
+
+Verison 1.0.9.4
+
+[*] fix remove PGPprivkey
+[*] fix add new contact
+[+] add PopUp plugin detection
+[+] rebuild function for work with lists
+[*] some fixes
+
+
+Verison 1.0.9.3
+
+[+] option "Disable PGP"
+[+] option "Disable keyring use"
+[+] pgp encryption working without installed PGP, only with PGP SDK dlls
+[*] check "MirVer" fixed
+
+Verison 1.0.9.3
+
+[*] internal build
+
+
+Verison 1.0.9.1
+
+[+] PGP v8 are supported (PGP v7 not tested, PGP v9 - NOT supported)
+[+] save sort order in options dialog
+[*] some fixes
+
+
+Verison 1.0.8.4
+
+[*] show icon on CList on Load & Unload PGP keys (you will get "Load PGP KeyID" contact menu item ONLY if you have pre-installed PGP 6)
+
+
+Verison 1.0.8.3
+
+[*] some fixes
+
+
+Verison 1.0.8.2
+
+[+] support for PGP SDK 658 (new menuitem "Load PGP KeyID" | "Unload PGP KeyID")
+
+
+Verison 1.0.8.1
+
+[+] work's on icons ;-)
+[+] some fixes
+
+
+Verison 1.0.8.0
+
+[+] new parameters "p" and "g" in DH keyexchange
+[*] disable keyexchange with invisible contacts ;-)
+
+
+Verison 1.0.7.10
+
+[*] change SecureIM status from context menu (suport for CList_classic)
+[+] add sort in SecureIM options dialog by clicking on column header
+
+
+Verison 1.0.7.9
+
+[+] "Offline Key Timeout"
+[+] "Disable encryption for game plugins"
+[*] change icons :-)
+
+
+Verison 1.0.7.8
+
+[*] bugfixes for "Secure Offline Messages" 
+[+] change SecureIM status from context menu (not worked in CList_classic)
+
+
+Verison 1.0.7.7
+
+[*] PSK dialog fixed
+
+
+Verison 1.0.7.6
+
+[+] remake "SecureIM Translate.txt"
+[*] more fixes
+
+
+Verison 1.0.7.5
+
+[*] more fixes
+
+
+Verison 1.0.7.4
+
+[+] add updater support for Crypto++
+
+
+Verison 1.0.7.3
+
+[+] add combine splitted messages (WinPopup proto etc...)
+
+
+Verison 1.0.7.2
+
+[+] add pre-shared keys for Diffie-Hellman key exchange
+
+
+Verison 1.0.7.1
+
+[+] UTF8 encoding moved to Crypto++
+[*] more fixes
+
+
+Verison 1.0.6.5
+
+[+] check version of cryptopp.dll
+[*] fixed "always try"
+
+
+Verison 1.0.6.4
+
+[+] add compress long messages (GZip), need update Crypto++
+[*] more fixes
+
+
+Verison 1.0.6.3
+
+[*] rewrite SecureRecvMsg and SecureSendMsg
+
+
+Verison 1.0.6.2
+
+[*] rewrite SecureFileTransfer, worked in ICQ,Jabber,MSN
+
+
+Verison 1.0.6.1
+
+[+] split crypto engenie and miranda plugin...
+
+
+Version 1.0.5.23
+
+[*] some fixes
+
+
+Version 1.0.5.22
+
+[*] some fixes
+
+
+Version 1.0.5.21
+
+[+] add options "Show a popup on established connection" and "Show a popup on disabled connection" 
+
+
+Version 1.0.5.20
+
+[*] rebuild in static mode
+
+
+Version 1.0.5.19
+
+[*] more fixes
+
+
+Version 1.0.5.18
+
+[+] selection of protocols added
+
+
+Version 1.0.5.17
+
+[*] fixed break event chain ME_CLIST_EXTRA_LIST_REBUILD & ME_CLIST_EXTRA_IMAGE_APPLY
+
+
+Version 1.0.5.16
+
+[+] add SecureIM handover on MetaContacts
+[+] Updater plugin support
+
+
+Version 1.0.5.15
+
+[+] MetaContacts removed from options list
+[+] add support for MetaContacts
+[*] any cosmetic fixes
+
+
+Version 1.0.5.14
+
+[+] option "Miranda Client Detection" - check or not client ICQ version (Miranda)
+[*] any cosmetic fixes
+
+
+Version 1.0.5.13
+
+[*] continue of x-status bugfixes
+
+
+Version 1.0.5.12
+
+[*] bug with show x-status icon on icq status bar clist_nicer++ fixed
+
+
+Version 1.0.5.11
+
+[*] plugin version info fixed
+[*] the key exchange timeout limited by 65535 seconds value
+[*] more fixes
+
+
+Version 1.0.5.10
+
+[+] build with msvcr71.dll
+[+] use crypto++ 5.2.3
+[*] more fixes
+
+
+Version 1.0.5.8
+
+[*] rewrite options dialog, work "Apply" button ;-)
+[*] offline key timeout only for send message
+[*] send encrypted offline message if enable flag "Secure Offline Message" and SecureIM status on contact is "Always Try"
+[+] support for IRC protocol
+
+
+Version 1.0.5.7
+
+[*] rewrite more code
+[*] the key exchange timeout limited by 9999 seconds value.
+[+] offline key timeout (2 day)
+
+
+Version 1.0.5.5
+
+[*] plugin check client ICQ version (Miranda,ICQ,QIP,&RQ,...)
+
+
+Version 1.0.5.4c
+
+[*] build in VS 6.0
+[*] miranda memory allocation
+
+
+Version 1.0.5.4
+
+[*] rewrite more code
+[*] the key exchange timeout limited by 999999999 ms value.
+
+
+Version 1.0.5.3b
+
+[*] fix message size detection
+
+
+Version 1.0.5.3
+
+[*] rewrite options dialog and any function
+[+] automatic detect maximum length of message
+[*] always send encrypted offline message if enable flag "Secure Offline Message" and SecureIM status on contact NOT "Disabled"
+
+
+Version 1.0.5.1a
+
+[*] "always try" work fine
+[-] remove indicator from NickName
+[+] base64 encode
+[*] rewite hexconverter
+[+] selective adv1 or adv2 icon
+[+] truecolor icons
+[+] feature "always show icons"
+
+
+Version 1.0.5.0a
+
+[+] unicode support (thanks Nightwish)
+[+] triggered menu (thanks Ghost)
+[-] remove SecureIM Protocols menu (thanks George Hazan)
+[*] change icons (thanks Faith Healer)
+[+] backward compatible (unicode only with new version SecureIM)
+[+] fix any small bags
+
+
+Version 1.0.4.6c
+
+[+] apply all __alex SEH
+
+
+Version 1.0.4.6
+
+[+] crypto++ 5.2
+[+] adv2 icon in CList
+[+] support tabSRMM icon
+[+] apply patches of __alex
+
