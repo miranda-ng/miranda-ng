@@ -1,7 +1,0 @@
-# Microsoft Developer Studio Generated Dependency File, included by tipper.mak
-
-.\resource.rc : \
-	".\tipper.rc"\
-	".\version.h"\
-	".\version.rc"\
-	
