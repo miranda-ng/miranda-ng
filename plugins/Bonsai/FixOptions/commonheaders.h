@@ -45,7 +45,7 @@ typedef INT_PTR (*MIRANDASERVICE)(WPARAM,LPARAM);
 //#include "sdk/m_hotkeysplus.h"
 #include "m_popup.h"
 #include "m_utils.h"
-#include "sdk/m_updater.h"
+#include "m_updater.h"
 #include "m_system.h"
 
 #include "version.h"
