@@ -84,19 +84,23 @@ INT_PTR ExpandPath(char *szResult, char *format, int size)
 
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 	{
-		char *vars_result = variables_parse_char(format, NULL, NULL);
+		TCHAR* tmp_format = mir_a2t(format);
+		TCHAR *vars_result_tmp = variables_parse(tmp_format, NULL, NULL);
+		mir_free(tmp_format);
+		char *vars_result = mir_t2a(vars_result_tmp);
 
 		if (vars_result != NULL)
 		{
-			input = _strdup(vars_result);
+			input = mir_strdup(vars_result);
 
-			variables_free(vars_result);
+			variables_free(vars_result_tmp);
 		}
+		mir_free(vars_result);
 	}
 
 	if (input == NULL)
 	{
-		input = _strdup(format);
+		input = mir_strdup(format);
 	}
 
 	char *core_result = Utils_ReplaceVars(input);
@@ -111,7 +115,7 @@ INT_PTR ExpandPath(char *szResult, char *format, int size)
 
 	StrTrim(szResult, "\t \\");
 
-	free(input);
+	mir_free(input);
 
 	return strlen(szResult);
 }
@@ -123,19 +127,23 @@ INT_PTR ExpandPathW(wchar_t *szResult, wchar_t *format, int size)
 	
 	if (ServiceExists(MS_VARS_FORMATSTRING))
 	{
-		wchar_t *vars_result = variables_parse_wchar(format, NULL, NULL);
+		TCHAR* tmp_format = mir_u2t(format);
+		TCHAR *vars_result_tmp = variables_parse(tmp_format, NULL, NULL);
+		mir_free(tmp_format);
+		wchar_t *vars_result = mir_t2u(vars_result_tmp);
 	
 		if (vars_result != NULL)
 		{
-			input = _wcsdup(vars_result);
+			input = mir_wstrdup(vars_result);
 
-			variables_free(vars_result);
+			variables_free(vars_result_tmp);
 		}
+		mir_free(vars_result);
 	}
 
 	if (input == NULL)
 	{
-		input = _wcsdup(format);
+		input = mir_wstrdup(format);
 	}
 
 	wchar_t *core_result = Utils_ReplaceVarsW(input);
@@ -156,7 +164,7 @@ INT_PTR ExpandPathW(wchar_t *szResult, wchar_t *format, int size)
 
 	StrTrim(szResult, L"\t \\");
 
-	free(input);
+	mir_free(input);
 
 	return wcslen(szResult);
 }
