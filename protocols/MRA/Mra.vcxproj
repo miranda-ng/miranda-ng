@@ -232,6 +232,7 @@
       <CLRThreadAttribute>
       </CLRThreadAttribute>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release Unicode|x64'">
@@ -276,7 +277,7 @@
       <ModuleDefinitionFile>MRA.def</ModuleDefinitionFile>
       <AddModuleNamesToAssembly>%(AddModuleNamesToAssembly)</AddModuleNamesToAssembly>
       <AssemblyLinkResource>%(AssemblyLinkResource)</AssemblyLinkResource>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <GenerateMapFile>true</GenerateMapFile>
       <MapFileName>$(OutDir)mra.map</MapFileName>
       <SubSystem>Windows</SubSystem>
