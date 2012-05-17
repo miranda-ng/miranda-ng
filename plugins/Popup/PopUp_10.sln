@@ -5,28 +5,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PopUp", "PopUp_10.vcxproj",
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug 2in1|Win32 = Debug 2in1|Win32
-		Debug 2in1|x64 = Debug 2in1|x64
 		Debug Unicode|Win32 = Debug Unicode|Win32
 		Debug Unicode|x64 = Debug Unicode|x64
-		Release 2in1|Win32 = Release 2in1|Win32
-		Release 2in1|x64 = Release 2in1|x64
 		Release Unicode|Win32 = Release Unicode|Win32
 		Release Unicode|x64 = Release Unicode|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug 2in1|Win32.ActiveCfg = Debug 2in1|Win32
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug 2in1|Win32.Build.0 = Debug 2in1|Win32
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug 2in1|x64.ActiveCfg = Debug 2in1|x64
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug 2in1|x64.Build.0 = Debug 2in1|x64
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release 2in1|Win32.ActiveCfg = Release 2in1|Win32
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release 2in1|Win32.Build.0 = Release 2in1|Win32
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release 2in1|x64.ActiveCfg = Release 2in1|x64
-		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release 2in1|x64.Build.0 = Release 2in1|x64
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
 		{726460C7-E1F1-4C37-B64F-DA8A8DD26D70}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
