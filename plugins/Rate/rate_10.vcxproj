@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}</ProjectGuid>
+    <ProjectGuid>{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>rate</ProjectName>
   </PropertyGroup>

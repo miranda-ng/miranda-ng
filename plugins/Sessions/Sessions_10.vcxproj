@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DD76B998-ED0D-4BFD-9660-3ADC3A334872}</ProjectGuid>
+    <ProjectGuid>{37C2B9A4-63EF-49E8-BF23-677B5EBD73E9}</ProjectGuid>
     <RootNamespace>Sessions</RootNamespace>
     <ProjectName>Sessions</ProjectName>
   </PropertyGroup>

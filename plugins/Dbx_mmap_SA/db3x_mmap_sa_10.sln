@@ -5,9 +5,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbx_mmap_sa", "db3x_mmap_sa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "db_autobackups", "db_autobackups\db_autobackups_10.vcxproj", "{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbtool", "Dbtool\dbtool_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "import_sa", "import_sa\import_sa_10.vcxproj", "{4C132C24-F38A-41A4-99DB-E3CBD86E6714}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbtool_sa", "Dbtool\dbtool_sa_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,14 +33,6 @@ Global
 		{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
 		{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
 		{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}.Release Unicode|x64.Build.0 = Release Unicode|x64
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
-		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|x64.Build.0 = Release Unicode|x64
 		{4C132C24-F38A-41A4-99DB-E3CBD86E6714}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
 		{4C132C24-F38A-41A4-99DB-E3CBD86E6714}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
 		{4C132C24-F38A-41A4-99DB-E3CBD86E6714}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
@@ -49,6 +41,14 @@ Global
 		{4C132C24-F38A-41A4-99DB-E3CBD86E6714}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
 		{4C132C24-F38A-41A4-99DB-E3CBD86E6714}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
 		{4C132C24-F38A-41A4-99DB-E3CBD86E6714}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release Unicode|x64.Build.0 = Release Unicode|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

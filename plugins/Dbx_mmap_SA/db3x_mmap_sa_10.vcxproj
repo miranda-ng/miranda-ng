@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>dbx_mmap_sa</ProjectName>
-    <ProjectGuid>{20D781FB-4A20-4B75-B863-304A47182966}</ProjectGuid>
+    <ProjectGuid>{6D3DC604-9CA0-45A2-85D7-1EFE3309F23B}</ProjectGuid>
     <RootNamespace>db3x_mmap_sa</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
