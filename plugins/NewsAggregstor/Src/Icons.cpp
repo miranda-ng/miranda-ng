@@ -29,12 +29,12 @@ struct _tag_iconList
 
 static iconList[] =
 {
-	{	_T("Protocol icon"),	"main",			IDI_ICON		},
-	{	_T("Check All Feeds"),	"checkall",		IDI_CHECKALL	},
-	{	_T("Add Feed"),			"addfeed",		IDI_ADDFEED		},
-	{	_T("Import Feeds"),		"importfeeds",	IDI_IMPORTFEEDS	},
-	{	_T("Export Feeds"),		"exportfeeds",	IDI_EXPORTFEEDS	},
-	{	_T("Check Feed"),		"checkfeed",	IDI_CHECKALL	},
+	{	LPGENT("Protocol icon"),	"main",			IDI_ICON		},
+	{	LPGENT("Check All Feeds"),	"checkall",		IDI_CHECKALL	},
+	{	LPGENT("Add Feed"),			"addfeed",		IDI_ADDFEED		},
+	{	LPGENT("Import Feeds"),		"importfeeds",	IDI_IMPORTFEEDS	},
+	{	LPGENT("Export Feeds"),		"exportfeeds",	IDI_EXPORTFEEDS	},
+	{	LPGENT("Check Feed"),		"checkfeed",	IDI_CHECKALL	},
 };
 
 VOID InitIcons()

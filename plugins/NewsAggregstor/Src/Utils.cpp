@@ -166,17 +166,19 @@ VOID GetNewsData(TCHAR *tszUrl, char** szData, HANDLE hContact, HWND hwndDlg)
 	nlhr.headers[2].szValue = "no-cache";
 	nlhr.headers[3].szName  = "Connection";
 	nlhr.headers[3].szValue = "close";
+	nlhr.headers[4].szName  = "Accept";
+	nlhr.headers[4].szValue = "ext/html, application/xml";
 	if (DBGetContactSettingByte(hContact, MODULE, "UseAuth", 0) || IsDlgButtonChecked(hwndDlg, IDC_USEAUTH))
 	{
-		nlhr.headersCount = 5;
-		nlhr.headers[4].szName  = "Authorization";
+		nlhr.headersCount = 6;
+		nlhr.headers[5].szName  = "Authorization";
 	
 		char auth[256];
 		CreateAuthString(auth, hContact, hwndDlg);
-		nlhr.headers[4].szValue = auth;
+		nlhr.headers[5].szValue = auth;
 	}
 	else
-		nlhr.headersCount = 4;
+		nlhr.headersCount = 5;
 
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser, (LPARAM)&nlhr);
@@ -337,37 +339,50 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 	{
 		TCHAR weekday[4], monthstr[4], timezonesign[2];
 		INT day, month, year, hour, min, sec, timezoneh, timezonem;
-		_stscanf( p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-		if (lstrcmpi(monthstr, _T("Jan")) ==0)
-			month = 1;
-		if (lstrcmpi(monthstr, _T("Feb")) ==0)
-			month = 2;
-		if (lstrcmpi(monthstr, _T("Mar")) ==0)
-			month = 3;
-		if (lstrcmpi(monthstr, _T("Apr")) ==0)
-			month = 4;
-		if (lstrcmpi(monthstr, _T("May")) ==0)
-			month = 5;
-		if (lstrcmpi(monthstr, _T("Jun")) ==0)
-			month = 6;
-		if (lstrcmpi(monthstr, _T("Jul")) ==0)
-			month = 7;
-		if (lstrcmpi(monthstr, _T("Aug")) ==0)
-			month = 8;
-		if (lstrcmpi(monthstr, _T("Sep")) ==0)
-			month = 9;
-		if (lstrcmpi(monthstr, _T("Oct")) ==0)
-			month = 10;
-		if (lstrcmpi(monthstr, _T("Nov")) ==0)
-			month = 11;
-		if (lstrcmpi(monthstr, _T("Dec")) ==0)
-			month = 12;
-		if (lstrcmp(timezonesign, _T("+")) ==0)
-			mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
-		else if (lstrcmp(timezonesign, _T("-")) ==0)
-			mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+		if (_tcsstr(p, _T(",")))
+		{
+			_stscanf( p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			if (lstrcmpi(monthstr, _T("Jan")) ==0)
+				month = 1;
+			if (lstrcmpi(monthstr, _T("Feb")) ==0)
+				month = 2;
+			if (lstrcmpi(monthstr, _T("Mar")) ==0)
+				month = 3;
+			if (lstrcmpi(monthstr, _T("Apr")) ==0)
+				month = 4;
+			if (lstrcmpi(monthstr, _T("May")) ==0)
+				month = 5;
+			if (lstrcmpi(monthstr, _T("Jun")) ==0)
+				month = 6;
+			if (lstrcmpi(monthstr, _T("Jul")) ==0)
+				month = 7;
+			if (lstrcmpi(monthstr, _T("Aug")) ==0)
+				month = 8;
+			if (lstrcmpi(monthstr, _T("Sep")) ==0)
+				month = 9;
+			if (lstrcmpi(monthstr, _T("Oct")) ==0)
+				month = 10;
+			if (lstrcmpi(monthstr, _T("Nov")) ==0)
+				month = 11;
+			if (lstrcmpi(monthstr, _T("Dec")) ==0)
+				month = 12;
+			if (lstrcmp(timezonesign, _T("+")) ==0)
+				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
+			else if (lstrcmp(timezonesign, _T("-")) ==0)
+				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+			else
+				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+		}
 		else
-			mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+		{
+			_stscanf( p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
+			if (lstrcmp(timezonesign, _T("+")) ==0)
+				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
+			else if (lstrcmp(timezonesign, _T("-")) ==0)
+				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
+			else
+				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
+		}
 	}
 	// Get the date part
 	for ( i=0; *p!='\0' && i<8 && isdigit( *p ); p++,i++ )
@@ -1174,7 +1189,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 							if (lstrcmpi(xi.getName(child), _T("updated")) == 0 && xi.getText(child))
 							{
 								TCHAR *lastupdtime = (TCHAR*)xi.getText(child);
-								time_t stamp = DateToUnixTime(lastupdtime, 0);
+								time_t stamp = DateToUnixTime(lastupdtime, 1);
 								double deltaupd = difftime(time(NULL), stamp);
 								double deltacheck = difftime(time(NULL), DBGetContactSettingDword(hContact, MODULE, "LastCheck", 0));
 								if (deltaupd - deltacheck >= 0)

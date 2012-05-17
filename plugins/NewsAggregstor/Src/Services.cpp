@@ -70,10 +70,8 @@ int NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam)
 	{
 		SendMessage(hAddFeedDlg, WM_CLOSE, 0, 0);
 	}
-	if (hChangeFeedDlg)
-	{
-		SendMessage(hChangeFeedDlg, WM_CLOSE, 0, 0);
-	}
+	WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
+
 	mir_forkthread(WorkingThread, (void*)ID_STATUS_OFFLINE);
 	KillTimer(NULL, timerId);
 	NetlibUnInit();
@@ -182,8 +180,18 @@ INT_PTR AddFeed(WPARAM wParam,LPARAM lParam)
 
 INT_PTR ChangeFeed(WPARAM wParam,LPARAM lParam)
 {
-	hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)wParam);
-	ShowWindow(hChangeFeedDlg, SW_SHOW);
+	HANDLE hContact = (HANDLE) wParam;
+	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList,hContact);
+	if(!hChangeFeedDlg)
+	{
+		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
+		ShowWindow(hChangeFeedDlg, SW_SHOW);
+	}
+	else
+	{
+		SetForegroundWindow(hChangeFeedDlg);
+		SetFocus(hChangeFeedDlg);
+	}
 	return 0;
 }
 

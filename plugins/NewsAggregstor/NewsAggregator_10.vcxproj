@@ -85,7 +85,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\ExternalAPI;..\..\boost_1_49_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../ExternalAPI;../../../boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
@@ -102,7 +102,7 @@
       <AdditionalManifestDependencies>
       </AdditionalManifestDependencies>
       <AdditionalDependencies>comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\boost_1_49_0\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../boost_1_49_0/lib</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -115,8 +115,8 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug Unicode|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\..\ExternalAPI;..\..\boost_1_49_0</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include;../ExternalAPI;../../../boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN64;_DEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
@@ -129,7 +129,7 @@
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalLibraryDirectories>..\..\boost_1_49_0\lib64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../boost_1_49_0/lib64</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -143,7 +143,7 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\..\ExternalAPI;..\..\boost_1_49_0</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../ExternalAPI;../../../boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
@@ -161,7 +161,7 @@
       </AdditionalManifestDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\..\boost_1_49_0\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../boost_1_49_0/lib</AdditionalLibraryDirectories>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>
@@ -175,8 +175,8 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\..\ExternalAPI;..\..\boost_1_49_0</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../include;../ExternalAPI;../../../boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_WIN64;NDEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996</DisableSpecificWarnings>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -191,7 +191,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\boost_1_49_0\lib64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../boost_1_49_0/lib64</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
       <AdditionalIncludeDirectories>..\..\include\msapi</AdditionalIncludeDirectories>

@@ -26,7 +26,7 @@ struct MM_INTERFACE mmi;
 HANDLE hOptHook = NULL,  hLoadHook = NULL, hOnPreShutdown = NULL, hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
 HANDLE hProtoService[7];
 HWND hAddFeedDlg;
-HWND hChangeFeedDlg;
+HANDLE hChangeFeedDlgList = NULL;
 XML_API xi = {0};
 struct UTF8_INTERFACE utfi;
 TCHAR tszRoot[MAX_PATH] = {0};
@@ -98,6 +98,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
 
 	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
+	hChangeFeedDlgList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 
 	// register weather protocol
 	PROTOCOLDESCRIPTOR pd = {0};

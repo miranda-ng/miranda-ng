@@ -33,6 +33,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
 			SetDlgItemInt(hwndDlg, IDC_CHECKTIME, 60, TRUE);
 			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);	
+			Utils_RestoreWindowPositionNoSize(hwndDlg,NULL,MODULE,"AddDlg");
 			return TRUE;
 		}
 		case WM_COMMAND:
@@ -139,6 +140,10 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			DestroyWindow(hwndDlg);
 			break;
 		}
+		case WM_DESTROY:
+		{
+			Utils_SaveWindowPosition(hwndDlg,NULL,MODULE,"AddDlg");
+		}
 	}
 
 	return FALSE;
@@ -164,13 +169,13 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					DBVARIANT dbNick = {0};
 					if (DBGetContactSettingTString(hContact, MODULE, "Nick", &dbNick))
-						break;
+						continue;
 					else if (lstrcmp(dbNick.ptszVal, SelItem.nick) == 0)
 					{
 						DBFreeVariant(&dbNick);
 						DBVARIANT dbURL = {0};
 						if (DBGetContactSettingTString(hContact, MODULE, "URL", &dbURL))
-							break;
+							continue;
 						else if (lstrcmp(dbURL.ptszVal, SelItem.url) == 0)
 						{
 							DBFreeVariant(&dbURL);
@@ -211,6 +216,8 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 			}
+			WindowList_Add(hChangeFeedDlgList,hwndDlg,hContact);
+			Utils_RestoreWindowPositionNoSize(hwndDlg,hContact,MODULE,"ChangeDlg");
 			return TRUE;
 		}
 		case WM_COMMAND:
@@ -293,16 +300,18 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				case IDC_DISCOVERY:
 					{
-						EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
-						SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-						TCHAR tszURL[MAX_PATH] = {0}, *tszTitle = NULL;
+						TCHAR tszURL[MAX_PATH] = {0};
 						if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || lstrcmp(tszURL, _T("http://")) != 0)
-							tszTitle = CheckFeed(tszURL, hwndDlg);
+						{
+							EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
+							SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
+							TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
+							SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
+							SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
+						}
 						else
 							MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-						SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
-						SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 					}
 					break;
 			}
@@ -317,6 +326,9 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 		case WM_DESTROY:
 		{
+			HANDLE hContact = (HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			Utils_SaveWindowPosition(hwndDlg,hContact,MODULE,"ChangeDlg");
+			WindowList_Remove(hChangeFeedDlgList,hwndDlg);
 			ItemInfo *SelItem = (ItemInfo*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			delete SelItem;
 			break;
@@ -337,6 +349,8 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, UDM_SETRANGE32, 0, 999);
 
 			HANDLE hContact = (HANDLE)lParam;
+			WindowList_Add(hChangeFeedDlgList,hwndDlg,hContact);
+			Utils_RestoreWindowPositionNoSize(hwndDlg,hContact,MODULE,"ChangeDlg");
 			DBVARIANT dbNick = {0};
 			if (!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbNick))
 			{
@@ -456,16 +470,18 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				case IDC_DISCOVERY:
 					{
-						EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
-						SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
-						TCHAR tszURL[MAX_PATH] = {0}, *tszTitle = NULL;
+						TCHAR tszURL[MAX_PATH] = {0};
 						if (GetDlgItemText(hwndDlg, IDC_FEEDURL, tszURL, SIZEOF(tszURL)) || lstrcmp(tszURL, _T("http://")) != 0)
-							tszTitle = CheckFeed(tszURL, hwndDlg);
+						{
+							EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), FALSE);
+							SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Wait..."));
+							TCHAR *tszTitle = CheckFeed(tszURL, hwndDlg);
+							SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
+							SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
+						}
 						else
 							MessageBox(hwndDlg, TranslateT("Enter Feed URL"), TranslateT("Error"), MB_OK);
-						SetDlgItemText(hwndDlg, IDC_FEEDTITLE, tszTitle);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_DISCOVERY), TRUE);
-						SetDlgItemText(hwndDlg, IDC_DISCOVERY, TranslateT("Check Feed"));
 					}
 					break;
 			}
@@ -476,6 +492,12 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			DestroyWindow(hwndDlg);
 			break;
+		}
+		case WM_DESTROY:
+		{
+			HANDLE hContact = (HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			Utils_SaveWindowPosition(hwndDlg,hContact,MODULE,"ChangeDlg");
+			WindowList_Remove(hChangeFeedDlgList,hwndDlg);
 		}
 	}
 
@@ -619,8 +641,8 @@ INT OptInit(WPARAM wParam, LPARAM lParam)
     odp.hInstance = hInst;
     odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
     odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-    odp.ptszGroup = _T("Network");
-    odp.ptszTitle = _T("News Aggregator");
+    odp.ptszGroup = LPGENT("Network");
+    odp.ptszTitle = LPGENT("News Aggregator");
     odp.pfnDlgProc = UpdateNotifyOptsProc;
     CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
     return 0;

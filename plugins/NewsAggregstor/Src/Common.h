@@ -64,7 +64,7 @@ Boston, MA 02111-1307, USA.
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 extern HINSTANCE hInst;
 extern HWND hAddFeedDlg;
-extern HWND hChangeFeedDlg;
+extern HANDLE hChangeFeedDlgList;
 extern UINT_PTR timerId;
 // check if Feeds is currently updating
 extern BOOL ThreadRunning;
