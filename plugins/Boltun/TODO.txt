@@ -1,0 +1,35 @@
+TODO list:
+
+--------------------------------------------------------
+Release-critical:
+
+- Add study capability to engine
+
+Done:
+- Add reaction for duplicate phrases.
+- Add aliases.
+- Check for critical section double enter
+- Multicontact talk support in engine
+- Add "Start talking" option to cantact menu.
+- Check bot warning.
+- Add "be silent, not stupid" to options
+- Add start answers with a little letter.
+- Add README about bot algorithm.
+- Add README for mind file format.
+- Add "don't use "don't understand"" option
+- Division between question and non-question sentenses
+- Empty keywords or specials should not be loaded
+- Check "каким-либо"
+- Check :-) on "ок"
+- Add answer-on status info to the readme.
+- Make AI options dependent.
+- Update mind.txt with UpdateStartChar
+- Sort keywords matches by priority
+- Use chooser everywhere
+
+--------------------------------------------------------
+Future:
+- Speed-up loading
+- Load mind from UTF8 files
+- Expert mode support
+- Add different choises of reaction for message series.

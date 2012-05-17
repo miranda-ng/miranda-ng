@@ -1,0 +1,32 @@
+ 
+Country Flags Plugin 0.1.0.3 for Miranda IM 0.7+
+------------------------------------------------------------------------
+                                      Source Code
+
+Reminder:
+'Country Flags' is released under the terms of the
+GNU General Public License.
+See 'Flags-License.txt' for more details.
+'Country Flags' is copyright 2006-2007 by H. Herkenrath.
+
+Please notify me of any changes that improve 
+'Country Flags' or add new features.
+If you have any questions on the code, feel free
+to contact me at my email address.
+						
+	H. Herkenrath (hrathh at users.sourceforge.net)
+
+
+Notes
+------------------------------------------------------------------------
+The following files need to be changed to bump the version number:
+
+Info_Src.txt (1 place)
+version.h (4 places)
+m_flags.h (1 place)
+m_flags.inc (1 place)
+docs\Flags-Readme.txt (3 places)
+docs\Flags-Translation.txt (2 or 3 places)
+docs\Flags-Developer.txt (1 place)
+
+

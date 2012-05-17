@@ -1,0 +1,64 @@
+[Boltun]
+Болтун
+[Boltun, the chat bot in the russian language.]
+Болтун, чат-бот для русского языка.
+[All Files]
+Все файлы
+[Mind Files]
+Файлы базы
+[Boltun/Auto Chat]
+Болтун/Авто разговор
+[Boltun/Not to Chat]
+Болтун/Не разговаривать
+[Boltun/Start Chatting]
+Болтун/Начать разговор
+[Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
+Привет. Я Болтун! Я буду говорить с Вами, пока моего хозяина нет. Пожалуйста, пишите без ошибок!
+[Boltun Error]
+Ошибка Болтуна
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+Не удалось загрузить базу. Ошибка в строке %d файла %s. (Или на пару строк раньше).
+[Failed to save base of remarks to %s]
+Не удалось загрузить базу в файл %s
+[Boltun Autochat everybody]
+Болтун говорит со всеми
+[Boltun Autochat everybody not in contact list]
+Болтун говорит со всеми, кто не в списке контактов
+[Boltun Autochat everybody while away]
+Болтун говорит со всеми, когда меня нет
+[Warn contacts Boltun is chatting]
+Предупреждать о разговоре с Болтуном
+[Mark replied messages as read]
+Отмечать сообщения как прочитанные
+[sec]
+сек
+[Warning text]
+Текст предупреждения
+[Time before the answer]
+Время перед ответом
+[Typing time depends on message length (in chars)]
+Время печати зависит от длины сообщения (в буквах)
+[Typing time (for a message of 4 words):]
+Время печати (для 4-х слов):
+[Thinking time:]
+Время обдумывания ответа:
+[Typing and thinking time can be much longer]
+Время печати и обдумывания может увеличиваться
+[Engine]
+Интеллект
+[Base of remarks]
+База реплик
+[Save]
+Сохранить
+[Reload]
+Перезагрузить
+[Stay silent, if have no good aswers]
+Молчать, если нету хороших ответов
+[Start answers with a lowercase letter]
+Начинать ответы с маленькой буквы.
+[General Settings]
+Общие настройки
+[Engine Settings]
+Настройки "интеллекта"
+[Don't use "I don't understand"-like answers]
+Не использовать ответы типа "Не понял?"

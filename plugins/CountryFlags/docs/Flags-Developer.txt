@@ -1,0 +1,48 @@
+
+Country Flags 0.1.0.3 for Miranda IM 0.7+
+------------------------------------------------------------------------
+                                      Developer Information
+
+	Contents: -------------------------------
+	| Translation, Services (API),
+	| Debug Symbols, Coding Language, Rebase Info
+	
+Translation
+-----------------
+	The translation string listing can be found in
+	'Flags-Translation.txt'.
+
+Services (API)
+-----------------
+	For more information about which service functions are offered by 
+	'Country Flags' and about how they can be used by your plugin,
+	please refer to 'm_flags.h'.
+	If you would like to use Delphi/Pascal please refer to 'm_flags.inc'.
+
+	Please redirect any questions or extension whishes to me by e-mail:
+	hrathh at users.sourceforge.net
+
+Debug Symbols
+-----------------
+	Debug symbols are also available for debugging purposes.
+	Copy the PDB-files in the SDK-zip into the same directory as the
+	corresponding DLL-files.
+	To debug crashes the supplied MAP-file file might be helpful.
+
+Coding Language
+-----------------
+	'Country Flags' was written using Microsoft Visual C++ 6.0 SP6
+	and the Microsoft Platform SDK shipped along with it.
+
+Rebase Info
+-----------------
+	'Country Flags' has set its base address to:
+	0x24200000
+
+	Please avoid using this base address for your plugins because it will
+	slow down the startup of Miranda IM.
+
+	Using Microsoft Visual C++, the base address can be configured at:
+	'Project' -> 'Settings' -> 'Linker' -> 'Output' -> 'Base Address'
+
+H. Herkenrath (hrathh at users.sourceforge.net)

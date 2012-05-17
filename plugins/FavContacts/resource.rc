@@ -1,0 +1,166 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_FAVOURITE           ICON                    "res\\favorite.ico"
+IDI_REGULAR             ICON                    "res\\regular.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 316, 251
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Customize",IDC_STATIC,5,5,149,241
+    CONTROL         "Show second line",IDC_CHK_SECONDLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,43,137,10
+    CONTROL         "Show avatars",IDC_CHK_AVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,56,137,10
+    CONTROL         "Draw avatar border",IDC_CHK_AVATARBORDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,82,122,10
+    RTEXT           "Round corners by",IDC_STATIC,26,95,71,10,SS_CENTERIMAGE
+    EDITTEXT        IDC_TXT_RADIUS,99,94,29,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "px.",IDC_STATIC,132,95,16,10,SS_CENTERIMAGE
+    CONTROL         "Hide for transparent avatars",IDC_CHK_NOTRANSPARENTBORDER,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,40,108,108,10
+    CONTROL         "Use system colors and fonts",IDC_CHK_SYSCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,134,137,10
+    CONTROL         "Hotkey shows menu centered on screen",IDC_CHK_CENTERHOTKEY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,147,139,10
+    LTEXT           "Menu item preview:",IDC_STATIC,11,177,137,8
+    CONTROL         "",IDC_CANVAS,"Static",SS_OWNERDRAW,26,189,122,26
+    GROUPBOX        "Favourite Contacts",IDC_STATIC,161,5,150,241
+    CONTROL         "",IDC_CLIST,"CListControl",WS_TABSTOP | 0x1,167,17,138,223,WS_EX_CLIENTEDGE
+    CONTROL         "Enable groups",IDC_CHK_GROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,17,137,10
+    CONTROL         "Multicolumn menu",IDC_CHK_GROUPCOLUMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,30,122,10
+    CONTROL         "Configure fonts and colors...",IDC_BTN_FONTS,"Hyperlink",WS_TABSTOP,11,229,137,11
+    CONTROL         "Set up menu hotkey...",IDC_BTN_HOTKEYS,"Hyperlink",WS_TABSTOP,11,218,137,11
+    CONTROL         "Align to the right",IDC_CHK_RIGHTAVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,69,122,10
+    CONTROL         "Dim idle contact icons",IDC_CHK_DIMIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,121,139,10
+    RTEXT           "Show",IDC_STATIC,12,160,34,10,SS_CENTERIMAGE
+    EDITTEXT        IDC_TXT_MAXRECENT,50,159,29,12,ES_CENTER | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "recent contacts",IDC_STATIC,84,160,65,10,SS_CENTERIMAGE
+END
+
+IDD_LIST DIALOGEX 0, 0, 316, 183
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_BORDER | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        VERTGUIDE, 5
+        VERTGUIDE, 11
+        VERTGUIDE, 26
+        VERTGUIDE, 148
+        VERTGUIDE, 154
+        VERTGUIDE, 161
+        VERTGUIDE, 167
+        VERTGUIDE, 305
+        VERTGUIDE, 311
+        HORZGUIDE, 5
+        HORZGUIDE, 17
+        HORZGUIDE, 229
+        HORZGUIDE, 240
+        HORZGUIDE, 246
+    END
+
+    IDD_LIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 176
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Ukrainian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
+#ifdef _WIN32
+LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Ukrainian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,68 @@
+;============================================================
+;  Module: fltcontacts.dll
+;  Plugin: Floating Ñontacts
+;  Versions: 0.1.1.9
+;  URL: http://www.miranda-im.org/
+;============================================================
+
+[Floating Contacts]
+
+
+;Menu
+[Remove thumb]
+
+[Hide all thumbs]
+
+[Show all thumbs]
+
+
+;Hotkeys
+[Show/Hide all thumbs]
+
+
+;Properties
+;Main Features
+[Main Features]
+
+[Hiding contacts]
+
+[Hide offline contacts]
+
+[Hide all contacts]
+
+[Hide when a fulscreen app is active]
+
+[Hide when contact list is shown]
+
+[Stick together]
+
+[Use fixed width]
+
+[Show tooltips]
+
+[Miscellaneous]
+
+[0 = Default]
+
+[requires mToolTip or Tipper plugin]
+
+[Bring to front]
+
+[Bring to front every]
+
+
+;Appearance
+[<Contact List Text>]
+
+[Opacity:]
+
+[Floating Contacts Background]
+
+[Draw border]
+
+[Left-top edges color:]
+
+[Right-bottom eges color:]
+
+
+;End (Floating Ñontacts)

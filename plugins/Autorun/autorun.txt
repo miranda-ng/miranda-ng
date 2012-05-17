@@ -1,0 +1,50 @@
+Autorun 0.1.0.0
+
+Written by and copyright (c) Sergey V. Gershovich a.k.a. Jazzy$, March 2003
+                             e-mail: jazzy@arcticsu.ru
+
+This plugin is a simple way to enable/disable to launch Miranda IM 
+with system startup.
+
+
+***** DISCLAIMER OF WARRANTY ***** 
+
+This software and the accompanying files are presented "AS IS" and without 
+warranties whether expressed or implied. Use it at your own risk.
+
+********************************** 
+
+Usage
+------
+Goto: Options->Plugins->Autorun
+
+
+Version history
+----------------------
+0.1.0.0:    - Preparation for 0.8.x.x plugin loader
+	      MIID_AUTORUN {EB0465E2-CEEE-11DB-83EF-C1BF55D89593}
+0.0.0.3:    - Decrease size of plugin to 3 kb
+            - Change image base address to: 0x30040000
+            - Miranda IM v0.3alpha build 040303 or higher is required!
+            - Language strings updated
+
+0.0.0.2:    - Some bugfix with long path & DB-filename
+
+0.0.0.1:    - Initial release 
+
+
+Translation
+-----------
+"Autorun" can be translated with the Miranda IM language files
+
+
+;; == Autorun v0.0.0.3 ==
+
+;Name of plugin
+;[Autorun]
+
+;Options page string
+;[Launch Miranda IM at system startup]
+
+;Options page string
+;[Note: At startup Miranda IM will use current profile]

@@ -1,0 +1,70 @@
+;============================================================
+;  Module: fltcontacts.dll
+;  Plugin: Floating Сontacts
+;  Versions: 0.1.1.9
+;  Translators: SAOPP
+;  URL: http://www.miranda-im.org/
+;============================================================
+[Floating Contacts]
+Плавающие контакты
+
+;Menu
+[Remove thumb]
+Убрать плавающий контакт
+[Hide all thumbs]
+Скрыть плавающие контакты
+[Show all thumbs]
+Показать плавающие контакты
+
+;Hotkeys
+[Show/Hide all thumbs]
+Показать/Скрыть все контакты
+
+;Properties
+;Main Features
+[Main Features]
+Главное
+[Hiding contacts]
+Скрытие контактов
+[Hide offline contacts]
+Прятать оффлайн контакты
+[Hide all contacts]
+Прятать все контакты
+[Hide when a fulscreen app is active]
+Прятать когда приложение развернуто
+[Hide when contact list is shown]
+Прятать когда список контактов виден
+[Stick together]
+Склеивать контакты
+[Use fixed width]
+Ширина
+[Show tooltips]
+Подсказки
+[Miscellaneous]
+Прочее
+[0 = Default]
+0=Умолчание
+[requires mToolTip or Tipper plugin]
+требуется модуль mToolTip или Tipper
+[Bring to front]
+На передний план
+[Bring to front every]
+Перемещать на вверх каждые
+
+;Appearance
+[<Contact List Text>]
+Шрифт в списке контактов
+[Opacity:]
+Прозрачность:
+[Floating Contacts Background]
+Плавающие контакты: фон
+[Draw border]
+Показывать рамку
+[Left-top edges color:]
+Цвет слева-сверху:
+[Right-bottom eges color:]
+Цвет справа-снизу:
+
+;End (Floating Сontacts)
+
+

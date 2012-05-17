@@ -1,0 +1,47 @@
+; This is a template for Tooltip Notify translation.
+
+
+; ******** Plugin info ******** 
+;[Tooltip Notify]
+;[Shows a small tooltip above system tray area when a contact status is changed]
+
+
+; ******** Options and tooltip text ******** 
+
+;[Notify upon the following contact status changes]
+;[Online]
+;[Offline]
+;[Away]
+;[N/A]
+;[Occupied]
+;[DND]
+;[Free for chat]
+;[Invisible]
+;[All other]
+;[Unknown]
+;[Typing]
+;[Idle]
+;[Suppress notifications upon connection for]
+;[sec]
+;[Prefix proto name]
+;[Protocols]
+;[is]
+
+;[Duration]
+;[Show tooltip for]
+;[ms]
+;[Duration x2 upon online event]
+
+;[Double click on tooltip]
+;[Shows/Hides CList]
+;[Opens message dialog]
+
+;[Misc]
+;[Obey 'Suppress online notification' settings]
+;[Auto positioning]
+;[Transparent input]
+
+;[Preview]
+
+;[Translucency options (Windows 2000/XP only)]
+;[Transparent tooltip]
