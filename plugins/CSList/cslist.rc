@@ -1,0 +1,182 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Английский (США) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_CSLIST              ICON                    "res/cslist.ico"
+IDI_ADD                 ICON                    "res/add.ico"
+IDI_MODIFY              ICON                    "res/modify.ico"
+IDI_REMOVE              ICON                    "res/remove.ico"
+IDI_FAVOURITE           ICON                    "res/favourite.ico"
+IDI_IMPORT              ICON                    "res/import.ico"
+IDI_UNDO                ICON                    "res/undo.ico"
+IDI_FILTER              ICON                    "res/filter.ico"
+IDI_CLOSE               ICON                    "res/close.ico"
+IDI_UNSET               ICON                    "res/unset.ico"
+IDI_APPLY               ICON                    "res/apply.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CSLIST DIALOGEX 0, 0, 214, 227
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Custom Status List"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CSLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,3,3,207,204
+    CONTROL         "A",IDC_ADD,"MButtonClass",WS_TABSTOP,3,210,16,14
+    CONTROL         "M",IDC_MODIFY,"MButtonClass",WS_TABSTOP,23,210,16,14
+    CONTROL         "D",IDC_REMOVE,"MButtonClass",WS_TABSTOP,43,210,16,14
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME | SS_SUNKEN,63,210,1,14
+    CONTROL         "F",IDC_FAVOURITE,"MButtonClass",WS_TABSTOP,67,210,16,14
+    CONTROL         "U",IDC_UNDO,"MButtonClass",WS_DISABLED | WS_TABSTOP,87,210,16,14
+    CONTROL         "I",IDC_IMPORT,"MButtonClass",WS_TABSTOP,107,210,16,14
+    CONTROL         "I",IDC_FILTER,"MButtonClass",WS_TABSTOP | 0x1000,127,210,16,14
+    EDITTEXT        IDC_FILTER_FIELD,3,210,120,14,ES_AUTOHSCROLL | NOT WS_VISIBLE | WS_DISABLED
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME | SS_SUNKEN,147,210,1,14
+    CONTROL         "N",IDCLOSE,"MButtonClass",WS_TABSTOP,153,210,16,14
+    CONTROL         "C",IDC_CANCEL,"MButtonClass",WS_TABSTOP,173,210,16,14
+    CONTROL         "O",IDOK,"MButtonClass",WS_TABSTOP,193,210,16,14
+    ICON            IDI_ADD,IDC_ADD_SAMPLE,102,90,20,20,SS_REALSIZEIMAGE
+    CTEXT           "No items available in the database.\nClick the Add button to define some.",IDC_NO_ITEMS,43,101,130,49,0,WS_EX_TRANSPARENT
+END
+
+IDD_ADDMODIFY DIALOGEX 100, 100, 187, 90
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Add/Modify Custom Status"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_COMBO,"ComboBoxEx32",CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP,6,5,175,107
+    EDITTEXT        IDC_MESSAGE,6,21,175,50,ES_MULTILINE | ES_WANTRETURN | WS_VSCROLL
+    DEFPUSHBUTTON   "Add/Modify",IDOK,6,74,104,14
+    PUSHBUTTON      "Cancel",IDCANCEL,116,74,65,14
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 300, 107
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "List settings",IDC_STATIC,4,4,292,73
+    CONTROL         "Confirm deletion of items",IDC_CONFIRM_DELETION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,20,253,10
+    CONTROL         "Delete entries in ICQ Custom status menu after Import",IDC_DELETE_AFTER_IMPORT,
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,24,32,253,10
+    CONTROL         "Allow extra ICQ Custom status items (ICQ Plus only)",IDC_ALLOW_EXTRA_ICONS,
+                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,24,44,253,10
+    CONTROL         "Remember last window position",IDC_REMEMBER_POSITION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,56,253,10
+    CTEXT           "Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.",IDC_STATIC,6,80,283,23
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CSLIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 3
+        RIGHTMARGIN, 210
+        VERTGUIDE, 23
+        VERTGUIDE, 43
+        VERTGUIDE, 67
+        VERTGUIDE, 87
+        VERTGUIDE, 107
+        VERTGUIDE, 127
+        VERTGUIDE, 153
+        VERTGUIDE, 173
+        VERTGUIDE, 193
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 224
+        HORZGUIDE, 207
+        HORZGUIDE, 210
+    END
+
+    IDD_ADDMODIFY, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 181
+        TOPMARGIN, 5
+        BOTTOMMARGIN, 88
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 296
+        VERTGUIDE, 24
+        VERTGUIDE, 34
+        VERTGUIDE, 277
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 103
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Английский (США) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
