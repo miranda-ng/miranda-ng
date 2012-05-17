@@ -1,7 +1,7 @@
 #include "../commonstatus.h"
 #include "keepstatus.h"
 #include "../resource.h"
-#include "../../NewTriggerPlugin/m_trigger.h"
+#include "m_trigger.h"
 #include "../../helpers/db_helpers.h"
 
 extern HINSTANCE hInst;

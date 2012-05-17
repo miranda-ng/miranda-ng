@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{9050b7fd-1f2c-410b-9b50-5e40762fcfe3}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{2422dbea-d09c-4193-8b7e-5bf21ad3e5aa}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{236a25f8-4bcb-42d4-8a59-e4202f2a1501}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XStatus_icons\10.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\11.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\12.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\13.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\14.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\15.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\16.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\17.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\18.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\19.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\20.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\21.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\22.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\23.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\24.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\25.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\26.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\27.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\28.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\29.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\30.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\31.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\32.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\33.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\34.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\35.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\36.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\37.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\38.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\39.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\4.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\40.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\41.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\42.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\43.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\44.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\45.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\46.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\47.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\48.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\49.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\5.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\50.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\51.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\52.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\53.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\54.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\55.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\56.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\57.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\58.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\59.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\6.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\7.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\8.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\9.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="XStatus_icons\unknown.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="xstatus_MRA.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

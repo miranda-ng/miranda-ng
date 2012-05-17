@@ -1,0 +1,15 @@
+; Extra Icons Service
+; Author: Pescuma
+
+[Select the extra icons to be shown in the contact list:]
+
+[Account]
+[E-mail]
+[Phone/SMS]
+[Homepage]
+[Visibility]
+[Chat activity]
+[Gender]
+
+[* only the first %d icons will be shown]
+[You can group/ungroup icons by selecting then (CTRL+left click) and using the popup menu (right click)]

@@ -1,0 +1,38 @@
+Database Editor++
+Error Loading Module List
+Couldnt create the image list...
+Error Loading Setting List
+Settings
+(UNLOADED)
+(UNKNOWN)
+Contacts
+
+Are you sure you want to delete module \"%s\"?
+Confirm Module Deletion
+
+Name
+Data
+Type
+Size
+BLOB
+BYTE
+WORD
+DWORD
+STRING
+
+Delete module from Database
+Delete module from Database... Loading
+Enter a string to search the DB for
+
+Found Module \"%s\" in contact \"%s\" ; <- module, contact name
+Found Setting \"%s\" in module \"%s\" in contact \"%s\" ; <- setting, module, contact name
+Found in Setting \"%s\" in module \"%s\" in contact \"%s\" ; <-setting,module, contact name
+Finished. %d items found
+
+
+Closed Known Module
+Open Known Module
+Closed Unknown Module
+Open Unknown Module
+Contacts Group
+Unknown Contact

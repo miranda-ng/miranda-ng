@@ -1,0 +1,2 @@
+c:\mingw\bin\windres resource.rc resource.o
+c:\mingw\bin\gcc -shared -Os -fmerge-constants -mno-align-stringops -s -o weather.dll -D_WIN32_IE=0x0501 -I..\..\include weather.c weather_addstn.c weather_contacts.c weather_conv.c weather_data.c weather_http.c weather_icons.c weather_info.c weather_ini.c weather_mwin.c weather_opt.c weather_popup.c weather_svcs.c weather_update.c weather_userinfo.c resource.o zlib.lib -lkernel32 -lgdi32 -lcomdlg32 -lcomctl32 -lwsock32 2>log

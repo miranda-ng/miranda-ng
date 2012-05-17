@@ -1,0 +1,930 @@
+Weather Protocol - Version History
+==================================
+Version 0.3.8.19		2011/09/03
+  - Fixed Brief window update on weather station update
+  - Fixed No ini window no show
+
+Version 0.3.8.18		2010/08/20
+  - Specialized translations for all weather conditions
+  - Fixed possible crashes
+
+Version 0.3.8.17		2010/05/29
+  - Added possibility to add specialized translations for weather conditions 
+    format: #condition Weather
+  - Added 32x32 icon support
+  - 32x32 icon is used in a frame in a frame if no avatar present
+  - Added support for Miranda 0.9 persistent http trasactions
+  - Changed Breif dialog appearence 
+  - Fixed translation issues
+  - Fixed keyborad navigation in UserInfo dialog
+  - Requires Miranda 0.8 or higher
+
+Version 0.3.8.16		2009/08/09
+  - Increased allowed size of station id
+  - Removed built-in support for HTTP compression (compression not supported with pre 0.8 Miranda any longer)
+  - Fixed crash with no ini files
+  - x64 port
+
+Version 0.3.8.15		2009/03/22
+  - Added support for gif avatars
+  - Added support for 4 urls per ini
+  - Added supoort for html metadata (utf8) 
+  - Fixed rounding with fractional reading display 
+  - Added more http redirection support
+  - Allow to draw forced avatar in frame
+
+Version 0.3.8.14 		2009/01/10
+  - Fixed Set Data failures
+  - Fixed crashes with http
+  - Fixed http errors processing
+  - Added support for temperature in format -<space><number>
+
+Version 0.3.8.13 		2008/12/25
+  - Changed search UI to have more descriptive labels
+  - Documentation updates
+  
+Version 0.3.8.12 		2008/12/22
+  - Added support for cookies (cakes and ice cream)
+
+Version 0.3.8.10 		2008/12/07
+  - Fixed temperature display
+
+Version 0.3.8.9 		2008/12/06
+  - Added support for deflate compressed http streams 
+  - Fixes for weather crashes
+  - Added option to round all values to nearest integer
+
+Version 0.3.8.8 		2008/11/22
+  - Improved formatting for numerical values
+  - Fixed crashes due to compressed http stream
+  - Added support for gzip encoded http stream 
+
+Version 0.3.8.7 		2008/08/02
+  - Fixed crash for people measuring speed in km/h
+
+Version 0.3.8.6 		2008/08/01
+  - Added display fraction of temperature and wind speed when available
+  - Added handling of UTF8 pages (needed for GisMeteo)
+
+Version 0.3.8.5 		2008/07/27
+  - Fixed option dialog layout
+  - Fixed ini version display
+  - Fixed memory leak with multiurl ini
+  - Fixed plugin version number
+
+Version 0.3.8.3 		2008/07/24
+  - Fixed url tag
+  - Added headers to variable view
+  - Fixed options dialog layout
+
+Version 0.3.8.2 		2008/06/08
+  - Fixed ini version display in User Info
+  - Fixes for wind in Weather Underground ini to work correctly
+
+Version 0.3.8.1 		2008/05/25
+  - Added ability to parse upto 3 URL per ini file for weather data
+  - Fixed break data and parameters with units
+  - Added ability to skin weather frame with clist_modern ("Main,ID=WeatherFrame")
+  - Added display "nickname" in the first line of the frame
+  - Added avatar display in the weather frame
+
+Version 0.3.7.2 		2008/01/19
+  - Fixed updates in normal mode
+  - Fixed option dialog layout
+
+Version 0.3.7.1 		2007/12/22
+  - Partial workaround for core HTTP problem
+  - Tabbed option dialog 
+
+Version 0.3.7.0 		2007/12/21
+  - Added icolib support
+  - Added frames support
+  - New icons by Angeli-Ka 
+  - Compatible with Miranda 0.7 and later 
+
+Version 0.3.6.5 		2007/08/17
+  - Workaround for tray icon
+
+Version 0.3.6.4 		2007/07/27
+  - Fixed caching problems
+
+Version 0.3.6.3 		2007/07/08
+  - Fixed error message at stratup (with updater)
+  - Increased possible weather variable size
+  - More generic couldy definition
+
+Version 0.3.6.2 		2007/06/02
+  - More sensible autoupdate Enable/Disable operation
+
+Version 0.3.6.1 		2007/06/01
+  - Fixed popup click action
+  - Fixed translation
+
+Version 0.3.6.0 		2007/05/18
+  - New icons by Angeli-Ka
+  - Protocol icons split into separate dll
+  - Option dialog and menus redesign 
+  - Instant avatar update
+  - Ini file display name now used as client ID (MirVer)
+  - Moved ini file list into View/Change My Details
+  - Support for new plugin interface
+  - Fixed few parsing issues  
+
+Version 0.3.5.19		2007/01/27
+  - Fixed translation
+
+Version 0.3.5.18		2007/01/26
+  - Fixed translation
+  - Fixed resource leaks
+  - Fixed crash
+  - Partial unicode support
+
+Version 0.3.5.17		2007/01/20
+ - Reduced GDI resource utilization
+ - Fixed memory leak with old ini files
+ - Fixed search function for stations with special characters 
+
+Version 0.3.5.16		2006/11/27
+ - Fixed units conversion
+ - Fixed memory corruption
+ - Added ability to show clickable links in Brief window 
+
+Version 0.3.5.15		2006/11/16
+ - Fixed web page parsing (Wind Speed in Yahoo) 
+ - Fixed "No wind" condition handling
+ - Performance improvments for HTTP transfers
+ - Fixed memory corruption
+
+Version 0.3.5.14		2006/10/31
+ - Fixed status message operation
+
+Version 0.3.5.13		2006/10/29
+ - Fixed non english alphabets operation
+ - Fixed Weather condition update issues
+ - Added option to keep station status from reflecting weather condition
+   (should resolve avatar overlay problems with clist modern)
+ - Moved Weather main menu entry into the protocol group
+ - Improvements for forecast window sizing
+
+Version 0.3.5.12		2006/07/23
+ - Fixed non english alphabets operation
+
+Version 0.3.5.11		2006/07/22
+ - Fixed text corruption
+ - Added ability to display avatars for each weather condition
+ - Fixed Win95 operation 
+
+Version 0.3.5.10		2006/07/16
+ - Changed Current Date/Time display (%d) according to locale
+ - Changed handling of HTTP redirect requests
+
+Version 0.3.5.9			2006/04/08
+ - Fixed misplaced buttons on forecast view window
+ - Fixed weather history incorrect source
+ - Fixed incorrect PopUp notification text in the menu  
+
+Version 0.3.5.8			2005/09/20
+ - Fixed automatic set of deafult station logic failure and as a result crash at power-up
+ - Fixed INI info dialog layout and ini version information 
+ - Fixed rare crash on exit
+ - Fixed resource leak
+ - Fixed few memory leaks
+ - Fixed crash at power-up with corrupted ini file
+ - A lot of code robustness updates
+ 
+Version 0.3.5.7			2005/09/18
+ - Fixed few resource leaks
+ - Fixed gloabal status
+ - Fixed weather alert format
+ - Fixed very rare crash on exit
+
+Version 0.3.5.6			2005/09/14
+ - Fixed few crashes on exit and
+ - A lot of code robustness updates
+ - Updater compatibility
+ - Fixed resource leaks
+
+Version 0.3.5.5			2005/09/11
+ - Fixed crash on exit
+ - Support for custom "Status Messages"
+
+Version 0.3.5.4			2005/09/08
+ - Fixed crash in my User details
+ - Fixed endless "updating user info ..."
+ - Fixed search function regression
+
+Version 0.3.5.3			2005/09/07
+ - Fixed crash at Powerup
+ - Fixed crash on Miranda exit
+ - Fixed numerous other crashes
+ - Fixed numerous memory leaks
+ - Fixed memory corruption
+ - Fixed resource leak
+
+Version 0.3.5.2			2005/09/07
+ - Fixed crash on Miranda exit
+ - Fixed numerous other crashes
+ - Fixed numerous memory leaks
+ - Fixed memory corruption
+ - Fixed resource leak
+
+Version 0.3.5.0			2005/03/21
+ - New Option: Disable update on startup
+ - New Option: Enable/Disable popups by type: update, alert, error
+ - INI Option: Support breaking string
+ - INI Option: Support hidden fields
+ - INI Option: Support icon assignment from ini
+ - Updated sample_ini.ini and translation
+ - Some other minor changes that I can't remember
+
+Version 0.3.4.4			2004/12/28
+ - Load window list correctly, fix problem with brief info and edit dlg not showing
+ - Some internal changes with new service functions
+
+Version 0.3.4.3			2004/12/26
+ - Minor change in INI loading
+
+Version 0.3.4.2 Beta		2004/12/16
+ - Bug fix: Miranda cannot quit after forkthread is used
+ - Bug fix: The unit % does not work anymore
+ - Bug fix: No longer crash when the link settings is not set
+ - Update the weather ini download link to the new location
+
+Version 0.3.4.1 Beta		2004/12/09
+ - ESC now works in weather dialogs
+ - More changes to forkthread
+ - Document updated: weather-translation, sample_ini
+
+Version 0.3.4.0 Beta		2004/11/21
+ - Change the threading to forkthread
+ - New option: Custom status when condition is unavailable
+ - New option: Convert day/month string into 2 char or 3 char format
+ - Some internal changes
+ - Minor change in ini format
+
+Version 0.3.3.17		2004/11/19
+ - Condition translated correctly when writing into database
+ - Correctly restore the windows position for edit setting dialog
+
+Version 0.3.3.16		2004/11/10
+
+Version 0.3.3.15		2004/10/21
+ - Remember the window position for edit settings dialog
+ - Minor change in dialog (I still can't get the close on ESC to work...)
+
+Version 0.3.3.14 Beta	2004/10/20
+ - Fix the crash in option page bug (hopefully)
+ - Fix the support for \n in text input
+ - Minor change in dialog
+
+Version 0.3.3.13		2004/10/16
+ - Another fix for default station
+ - Some changes to reduce database read/write for default station changes
+ - Now the plugin is correctly registered in known module list for DBEditor++
+ - Save the setting for popup and update enable/disable directly after menu click
+ - Some update in readme, more changes in translation (thanks smyle again)
+
+Version 0.3.3.12		2004/10/16
+ - Fix 2 possible crashes regarding default station
+
+Version 0.3.3.11		2004/10/15
+ - Fix a bug with global status
+ - Updated translation list (thanks smyle)
+
+Version 0.3.3.10		2004/10/14
+ - Changes in default station handling, hopefully will fix a crash in option page
+ - Add new sound event: Weather alert
+ - Add new menu item: Add new weather station (call up the find/add dialog)
+ - Document updated: weather_translation.txt
+
+Version 0.3.3.9			2004/09/26
+ - Some changes in code.
+
+Version 0.3.3.8			2004/09/24
+ - Now uses default system text for brief info and setup dialog.
+
+Version 0.3.3.7 (Beta)
+ - Test releases for crash in option page
+
+Version 0.3.3.6			2004/09/24
+ - Add a sound event when weather condition is updated
+ - Use the default system color for brief info and setup dialog
+ - Minor change in unit conversion
+ - Fix in brief info when there is no data for current conditions
+ - Add entry to Database Editor++ known module
+
+Version 0.3.3.5			2004/08/14
+ - Fix apply button in option pages
+ - Fix "Humidity" in default settings
+ - Ignore the sample ini file if it is placed in plugin\weather dir
+ - Minor changes in update timer and option dialog
+
+Version 0.3.3.4 (Beta)		2004/07/23
+ - Fix some bug in text option
+ - Take proto_weather.dll icon into account when auto-assigning icon
+ - Option to disable automatic icon assignment
+ - Few minor changes
+ - Document updated: weather_translation.txt
+
+Version 0.3.3.3			2004/07/21
+ - Automatically set to default weather icon if no custom one is set
+ - Add a ini setup information dialog to help setup weather protocol
+ - Update in brief info now retrieve new data from the internet
+ - Few minor changes
+ - Document updated: weather_translation.txt
+
+Version 0.3.3.2 (Beta)		2004/07/14
+ - Show error detail on update errors
+ - Includes simple set of 16-colors weather icons in the dll file
+ - Option to disable italic display for station with alert issued
+ - Option to disable warning dialog if ini is not found at startup
+ - Attempt to fix the black bar bug in brief info
+ - Fix the bug that shows connecting as weather status
+ - Document updated: weather_translation.txt
+
+Version 0.3.3.1			2004/06/19
+ - Minor change in the brief info dialog
+ - More info items are now translatable
+ - Case conversion in condition to make them translatable (use unit: Cond)
+ - Save window size for the brief info dialog
+ - Fix crash when invalid ID or ini file for the station is not found
+ - Few minor changes
+ - Document updated: sample_ini
+
+Version 0.3.3.0 (Beta)		2004/06/12
+ - A new feature that erase old data while updating for new data
+ - A change in the brief information dialog (thanks micron-x for last seen plugin)
+ - Double click a contact shows brief info dialog (thanks Matrix and JdGordon)
+ - Add brief info title setting
+ - Change in the weather, text, and popup options dialogs
+ - Add reset to default and preview for all display text field
+ - Change the way the plugin handles protocol status
+ - Enable/disable auto-update from the main menu
+ - Reconizes dust conditions and assign a fog icon (thanks Klenje)
+ - Support the units "%" and "Deg"
+ - Fix a crash if miranda32.exe is renamed
+ - Fix crashes in between updating of 2 stations (thanks Targaff)
+ - Update links in the readme and DLL to the new weather category (thanks lynlimz)
+ - Other bug fixes and minor changes
+ - Document updated: weather-translation, langpack_defweather, sample_ini
+
+Version 0.3.2.16		2004/05/27
+ - Reconizes condition in lower case
+ - Few changes.
+
+Version 0.3.2.15		2004/05/24
+ - Now reconizes the condition string "T-storm"
+ - No longer skip hidden weather contact while updating
+ - Bug fix when previewing weather popups
+ - Bug fix in parsing the HTML content (in cases where "&" exists)
+ - Few other minor fixes and changes.
+
+Version 0.3.2.14		2004/05/12
+ - Popup preview include a preview of popup text settings (use default station)
+ - Fix memory leaks in various places.
+
+Version 0.3.2.13		2004/05/08
+ - Changed some linker options to prevent plugin not loading
+
+Version 0.3.2.12		2004/05/08
+ - Assign fog icon to the sand conditions
+
+Version 0.3.2.11		2004/05/07
+ - Really ignore the "Ignore" item in the ini file
+ - Fix crash when unloading ini's (at reload or shutdown)
+ - Change in weather alert popup
+ - Few minor changes
+
+Version 0.3.2.10		2004/05/02
+ - Rebuild using Visual C++
+
+Version 0.3.2.9			2004/04/29
+ - Attempt to fix crash when searching for cities by name
+ - Display a list of custom variables
+ - Fix memory leak when reloading strings from ini files
+ - Changes in the code for parsing weather info and loading ini files
+ - Other minor changes
+
+Version 0.3.2.8			2004/04/28
+ - Fix on loading ini strings, support for v1.1a again
+ - Fix in weather station search
+ - Fix crash when not connected to the internet
+ - Add a new debug function (need DB Editor)
+ - A few other minor fixes and changes
+
+Version 0.3.2.7			2004/04/19
+ - Fixing the crash on startup bug one more time :(
+
+Version 0.3.2.6			2004/04/19
+ - Attempt to fix an crash on startup bug again.
+ - Temporary remove support for v1.1a of the INI file. :(
+
+Version 0.3.2.5			2004/04/19
+ - Attempt to fix an crash on startup bug.
+
+Version 0.3.2.4			2004/04/19
+ - Fix some error while loading weather ini file.
+ - Obtain station name from the net in edit dialog.
+ - Display N/A when temperature is unavail. and the string retrieved is not "N/A"
+ - Some minor changes.
+
+Version 0.3.2.3			2004/04/18
+ - Automatically suppress online notification for all weather contact when upgrade.
+ - Fixed crash when adding new contact.
+ - Fixed crash when importing contact using mContacts.
+ - Some minor changes.
+
+Version 0.3.2.2			2004/04/18
+ - Change the way weather handles status, now properly display NA for def stn.
+ - Protocol status can be changed freely if "Do not display weather conditions
+   as protocol status" is enabled.
+ - More memory leak fixes and crash fixes.
+
+Version 0.3.2.1			2004/04/17
+ - Reduce memory use by more than 60% and fixed some memory leaks
+ - Support a revision of v1.1 ini file (the length string now can be unlimited)
+ - Incrase the maximun text length to 4k (but try keep it as short as possible)
+ - A few minor fixes and changes
+ - Updated readme file.
+
+Version 0.3.2.0			2004/04/12
+ - Support new variable %% (same as \%) and %[..] (see readme)
+ - Now with the complete support of weather INI v1.1
+ - Very basic support of weather alert notifications (if the INI supports it)
+ - Add browse, view webpage, and reset to default buttons edit settings dialog
+ - Interface changes and fixed tab order for all dialogs
+ - Display information for the weather INI files
+ - Some other monor changes and fixes
+ - Updates Read Me, and now it is in HTML format.
+
+Version 0.3.1.8			2004/04/09
+ - "My Notes" text are copied to "Current\WeatherInfo" (might be useful for some plugins)
+ - Increase the length of display texts from 512b to 4k
+ - Bug Fix: when temperature is N/A, display N/A
+ - Bug Fix: rounding in unit conversion, err...
+ - Bug Fix: crash with new ini setting "Set Data="
+
+Version 0.3.1.7			2004/04/08
+ - Now correctly support the new ini files.
+
+Version 0.3.1.6			2004/04/04
+ - Support escape characters "\%" for displaying %
+ - Changes in warning popups
+
+Version 0.3.1.5			2004/04/02
+ - New option: Consider weather info updated only when cond and temp are changed
+ - Support v1.1 of weather ini files - only support loading, but not the new features ;)
+ - Rounding is used when converting units
+ - Attempt to fix the crash on exit and reload weather data bug
+ - The default update time is changed to 20 min
+ - Other minor fixes and changes that I don't remember
+
+Version 0.3.1.1			2004/03/27
+ - Fix the crash when opening brief info dialog
+ - The default for "Support online notification" is on when adding new station
+
+Version 0.3.1.0			2004/03/25
+ - Change the way popup is handled, no longer need to enable the threading option
+ - Manually add station without searching by entering "#" in the ID field
+ - Always provide a search result if the weather service has no ID search available.
+ - Some error handling and popups to prevent crashes.
+ - New hookable event: ME_WEATHER_UPDATED
+ - Bug fix: Translation of retrieved data
+ - Bug fix: Search don't work for city that has more than 1 word
+ - Bug fix: Speed conversion is wrong
+ - Bug fix: weatherch.ini: Crash if adding/updating a station in US Eastern timezone
+ - Updated: weatherch.ini, Read Me, Translation, Sample INI, m_weather.h
+
+Version 0.3.0.1 (Beta)		2004/03/23
+  - Do not update contacts that are hidden from list (see it as "disabled" contacts)
+  - Give error message box when selecting more info and weather map before setting the URL
+  - Bug fix: Find and search contacts (no result found + crashes)
+  - Bug fix: Issue with StartupStatus, now weather will update at least once on startup
+             regardless of what's the setting there.
+  - Bug fix: Visibility unit conversion
+  - Bug fix: Weather contacts appear offline if langpack is installed
+  - Bug fix: Some spelling error
+  - Bug fix: Feel-like temperature can't be displayed by mToolTip
+  - Bug fix: WU: Find and search for station that doesn't have current condition
+  - Updated: All 4 INI files, Read Me, Translation
+
+Version 0.3.0.0 (Beta)		2004/03/22
+  - Combine the weather dll's into one
+  - Using external file for getting update (in plugins\weather directory)
+  - Added user detail page for weather contacts
+  - New and improved option pages
+  - Proxy support (now uses netlib)
+  - Unit conversion for pressure, visibility, and wind
+  - Optimization in the edit setting dialog - Allow multiple window
+  - Changes in brief info dialog - able to open multiple brief info
+  - Reduce the number of DB access for getting settings
+  - Add more variables such as feel-like temperature, pressure
+  - Add menu item for enable/disable popup
+  - Support weather icon determination for site in other languages using langpack
+  - Support for plugin uninstaller
+  - Optimization in weather update - now update using a queue and minimize DB access
+  - Optimizaiton in add/search - now don't do unnecessary searches
+  - Other code optimization and reduce file size
+  - Reload weather update data file from the main menu
+  - Some other major and minor UI change
+  - Remove some useless features
+  - Bug fix: temperature conversion (thanks to sirius)
+  - Bug fix: crash on adding new station
+  - Some minor changes and fixes in webpage downloading.
+  - Includes documentation for INI update data file and icon selection translation.
+  - Major changes in translation strings.
+  - Some update in the readme documentation.
+  - Included in this version:
+      Weather Channel, Weather Underground (both US and International), Yahoo Weather.
+
+Version 0.2.5.2
+
+Version 0.2.5.1			2003/07/19
+  - Minor bug fixes
+
+Version 0.2.5.0			2003/06/09
+  - New feature: short weather information as status message and/or note.
+  - New option: display weather options inside plugin options.
+  - Create a seperate page for text and display options.
+  - Other minor changes and bug fixes
+
+Version 0.2.4.5			2003/06/12
+  - Bug fix: Backup/restore protocol icon (including rebuild icon) if status is hidden.
+  - Bug fix: Popup only condition changes.
+
+Version 0.2.4.4			2003/06/08
+  - Fixed typo in option
+  - Weather underground: Retrieve data for high/low temperature even if
+    current info is unavailable
+  - Minor code change.
+
+Version 0.2.4.3			2003/06/07
+  - Fix weather underground searching station
+
+Version 0.2.4.2			2003/06/06
+  - Fixed weather underground station name display problem.
+  - Changes to make compatible with earlier version in case of downgrading
+  - Reorganize language pack strings.
+
+Version 0.2.4.1 (Beta)		2003/05/28
+  - New preview using the selected timeout value.
+  - Modified timeout warning message box.
+
+Version 0.2.4.0 (Beta)		2003/05/28
+  - Added advanced option page
+  - New option: Popup timeout
+  - Restore the hide icons in status / task bar option
+  - Use old weather information if new data is unavailable
+  - Add the debug setting in advanced option page
+  - Major internal / weather update / DB settings change
+
+Version 0.2.3.13		2003/05/30
+  - Fixed searching weather underground station
+  - Few minor changes
+
+Version 0.2.3.12		2003/05/28
+
+Version 0.2.3.11 (Beta)		2003/05/27
+  - Fixed Weather Channel for the FOURTH time
+
+Version 0.2.3.10		2003/05/27
+  - Third fix for Weather Channel.
+  - Note: If v0.2.3.9 works, there is no need to upgrade
+
+Version 0.2.3.9			2003/05/26
+  - Fixed download from Weather Channel
+  - Few minor changes and updates
+
+Version 0.2.3.8			2003/05/25
+  - Removed some unnecessary popup that causes crash and/or confusion
+  - Minor code change in weather update.
+
+Version 0.2.3.7 (Beta)		2003/05/08
+  - Now compile using latest Miranda source code
+
+Version 0.2.3.6	(Beta)		2003/04/15
+
+Version 0.2.3.5			2003/03/16
+  - Fix in "Do not display weather condition as protocol status" option
+  - Fix in maximun temperature for weather channel plugin.
+
+Version 0.2.3.4			2003/03/16
+
+Version 0.2.3.3 (Beta)		2003/03/10
+  - Remove features that are incompatiable with latest version of Miranda
+  - Bug fix on retrieving weather (again!)
+
+Version 0.2.3.2 (Beta)		2003/02/28
+  - Few minor bug fixes
+
+Version 0.2.3.1	(Beta)		2003/02/17
+  - Bug fix in retrieving high and low temperature.
+  - Other minor fixes.
+
+Version 0.2.3.0			2003/02/05
+  - New option: Do not display default condition as protocol status
+  - Support Miranda Installer
+  - Other minor code changes.
+
+Version 0.2.2.11		2003/01/31
+  - Fixed some weather info parsing problems
+
+Version 0.2.2.10		2003/01/26
+  - Fix some minor errors in weather update
+
+Version 0.2.2.9			2003/01/25
+  - Add some warning messages.
+
+Version 0.2.2.8	(Beta)		2003/01/25
+  - Fixed on popup display.
+  - More infinite loop prevention.
+
+Version 0.2.2.7			2003/01/24
+  - Forget to update version number in last release
+
+Version 0.2.2.6			2003/01/24
+  - Popup only when condition changes now work properly.
+  - Minor bug fix in logging
+  - Smaller file size.
+  - Other minor changes.
+
+Version 0.2.2.5	(Beta)		2003/01/23
+  - Fixed weatherch.dll for new website format.
+
+Version 0.2.2.4	(Beta)		2003/01/18
+  - Minor code change
+
+Version 0.2.2.3			2003/01/16
+
+Version 0.2.2.2			2003/01/15
+  - Show popup action selection when menu is opened.
+  - Bug fix: Modified weather station now can update normally.
+
+Version 0.2.2.1	(Beta)		2003/01/12
+  - Bug fix: Opening menu when click on PopUp.
+  - Added link in main menu to the homepage of weathe source.
+  - New protocol icon.
+
+Version 0.2.2.0	(Beta)		2003/01/11
+  - Move pop-up related options to popup option page.
+  - New option: Set popup title
+  - New option: Specify command for popups when mouse is clicked.
+  - Added variable information popup.
+  - Some UI changes.
+  - Added version info.
+  - Some translation string added / changed.
+
+Version 0.2.1.6	(Beta)		2003/01/09
+  - Shorten code in some functions.
+
+Version 0.2.1.5			2003/01/08
+  - Updated weatherch.dll for data retrieval.
+  - Bug fix: Searching new weather station.
+  - Bug fix: Loading default settings.
+  - Few other minor changes.
+
+Version 0.2.1.3	(Beta)		2003/01/07
+  - Minor bug fix.
+
+Version 0.2.1.2			2003/01/04
+  - New option: Overwrite File upon Update.
+  - Update in translation doc.
+
+Version 0.2.1.1			2003/01/03
+  - Better support for multiline popups.
+  - Minor change in codes and readme document.
+
+Version 0.2.1.0			2002/12/31
+  - New option: Override default URL settings for each contact
+  - Display text are no longer case sensitive.
+  - Prevent opening two dialogs at the same time.
+
+Version 0.2.0.5			2002/12/18
+  - Few minor changes and bug fixes
+
+Version 0.2.0.4 (Beta)		2002/12/15
+  - Bug fix: changing status and popups.
+  - Minor change in weather update.
+
+Version 0.2.0.3 (Beta)		2002/12/14
+  - Bug fix: disable popup st startup.
+  - Other minor changes.
+
+Version 0.2.0.2 (Beta)		2002/12/12
+  - Try to make string compatible between each weather source  (not tested)
+  - Bug fix: crash when not connected  (not tested)
+  - New weather condition in translation string.
+  - Various other minor bug fixes and changes.
+
+Version 0.2.0.1 (Beta)		2002/12/11
+  - Fix in updating weather information in wunderground.dll
+  - Various other minor bug fixes and changes.
+
+Version 0.2.0.0 (Beta)		2002/12/10
+  - Completed wunderground.dll
+  - Bug fix: Update all weather.
+  - Bug fix: Weather update in weatherch.dll
+  - Various other bug fixes and improvements.
+
+Version 0.1.9.5 (Preview)	2002/12/10
+  - Completed weatherch.dll
+  - Weather Underground (wunderground.dll) included - not complete yet.
+  - Bug fix: Default weather station and weather status.
+  - Bug fix: Crash when edit weather station.
+  - Bug fix: Crash when adding new weather station.
+  - Bug fix: Searching for weather station when no contact found.
+  - Various other changes and bug fixes.
+
+Version 0.1.9.0 (Preview)	2002/12/09
+  - Split code into different files for easier modification.
+  - Support for multiple weather protocols (required minimal change + new build)
+  - Minor changes and bug fixes
+
+Version 0.1.5.2			2002/12/09
+  - Bug fix: crash when "Show multiple icons only when statuses differ" enabled
+  - Bug fix: some options not saved properly.
+  - Bug fix: bug fix when adding the first station.
+
+Version 0.1.5.1			2002/12/07
+  - Bug fix in showing notifying messages.
+
+Version 0.1.5.0			2002/12/06
+  - Error detections.
+  - New option: Show errors on popups.
+  - Display default station weather condition as status icon.
+  - Enable / Disable weather update through status.
+  - New weather conditions.
+  - Slight change in adding new weather station.
+  - Fixed tab orders.
+
+Version 0.1.4.9			2002/12/06
+
+Version 0.1.2.0			2002/11/29
+  - Add links to weather maps.
+  - Add option to change Popup text, Log text, and URL links.
+  - New variables: %d, %s, %S
+  - New option: open webpage in new window.
+  - Internal code changes and bug fixes.
+
+Version 0.1.1.1			2002/11/25
+  - Bug fix: Translations
+  - Minor code change and translation updates.
+
+Version 0.1.1.0			2002/11/24
+  - Brief Information template now translable.
+  - Add set to default button for Brief Information display.
+  - UI change in Brief Information dialog.
+  - Add some control over looping.
+  - Set default weather station (currently has no use, but it maybe useful later or by
+    other plugins)
+  - Bug fix: Searching for station using city names.
+  - Bug fix: Assigning icon to weather conditions.
+  - Fixed tab order.
+  - Other minor UI and code changes (hope this will fix some bugs).
+
+Version 0.1.0.0			2002/11/23
+  - Now add weather station via Find/Add Contact dialog.
+  - Able to search for station using city name.
+  - Customize string for showing brief information.
+  - New option: Log weather station in history.
+  - New option: Disable popup for specific weather station.
+  - Bug fix: Update after editing weather station.
+  - Bug fix: Now correctly update using the new webpage format.
+  - Updated translation string (both dll and weather condition).
+  - Updated debug output method.
+  - Smaller file size.
+  - Re-organized readme and language files.
+  - Various other minor bug fixes and improvement.
+
+Version 0.0.8.5			2002/11/22
+  - Bug fix: Hiding icon in task bar.
+  - New weather condition added (both dll and langpack).
+
+Version 0.0.8.4			2002/11/22
+  - Bug fix: Update issues.
+  - Updated translation string.
+
+Version 0.0.8.3			2002/11/21
+  - Interface change in option screen.
+  - Prevent displaying invalid data.
+  - Minor code change for update weather condition.
+  - Added missing translation string.
+
+Version 0.0.8.2			2002/11/20
+  - Bug fix: Translation of weather condition on contact list
+  - Bug fix: Temperature conversion.
+  - Minor change in option screens and edit setting screen.
+
+Version 0.0.8.1			2002/11/19
+  - Bug fix: Fixed temperature display.
+  - Fixed tab orders.
+
+Version 0.0.8.0 (Beta)		2002/11/19
+  - Retrieve high and low temperature forecast for the current day.
+  - Search and display temperature from alternative source when it is unknown.
+      (For the people who have N/A display beside their city, this ver should work now)
+  - More customizable contact list name display.
+  - Bug fix: C and F conversion when temperature < 0 degree C.
+  - Bug fix: Some update problems.
+  - Language pack updated: more weather conditions.
+
+Version 0.0.7.5 (Beta)		2002/11/18
+  - Right click -> Update Weather will no longer freeze Miranda.
+  - New option: Disable popup if condition doesn't change.
+  - Bug fix: prevent manual update when auto-update is in progress.
+  - Added missing translation string.
+
+Version 0.0.7.0 (Beta)		2002/11/17
+  - Updating weather will no longer freeze up miranda.
+  - Add option to disable popup.
+  - Bug fix: Now saves the degree sign in option.
+  - Bug fix: Logging weather condition and view log command.
+  - Bug fix: Update weather condition after modifying weather station.
+  - Added missing translation string.
+  - Various other improvements.
+
+Version 0.0.6.1 (Beta)		2002/11/16
+  - Bug fix: Update after modifying weather station.
+  - Bug fix: No cache (slower but more accurate info).
+
+Version 0.0.6.0 (Beta)		2002/11/16
+  - The plugin has it's own popup (not using NewStatusNotify's anymore)
+  - Add option to hide icon in status bar and status menu (expreimental release).
+  - Various minor changes.
+
+Version 0.0.5.1 (Alpha)		2002/11/16
+
+Version 0.0.5.0 (Alpha)		2002/11/15
+
+Version 0.0.4.3 (Beta)		2002/11/15
+  - Added option to disable main menu item.
+  - Various minor improvements.
+
+Version 0.0.4.2 (Beta)		2002/11/15
+  - Bug fix: translation strings.
+  - Bug fix: no longer open miranda directory when no log is found.
+
+Version 0.0.4.1 (Beta)		2002/11/15
+  - Bug fix on retrieving weather information.
+  - Removed debug string that was accidentally built in the last release. (see above)
+
+Version 0.0.4.0 (Beta)		2002/11/14
+  - Retrieve weather information no longer require temp files.
+  - Able to modify weather station settings.
+  - Add link to log file in contact menu.
+  - Add an option for degree sign (I can't think of a better way to do this).
+  - Relocate main menu item.
+  - Bug fix: DB: Attempt to get wrong type of value, word.
+  - Various other minor bug fixes.
+
+Version 0.0.3.7 (Beta)		2002/11/14
+  - Bug fix: degree signs (sorry for the copy-and-paste error).
+  - Move the temporary file to miranda directory.
+
+Version 0.0.3.6 (Beta)		2002/11/14
+  - Bug fix: degree signs (changable using language pack)
+  - Bug fix: DB: Attempt to get wrong type of value, word.
+  - More weather condition are now able to display with correct icon.
+
+Version 0.0.3.5 (Beta)		2002/11/13
+  - Initial public beta release.
+
+Version 0.0.3.1 (Beta)		2002/11/13
+
+Version 0.0.3.0 (Beta)		2002/11/12
+  - Disable auto update option.
+  - Logging weather condition.
+  - New option for displaying weather conditions on contact list.
+  - Bug fix: some tarnslation strings.
+  - Bug fix: switching between English and metric units.
+  - Bug fix: time of update.
+
+Version 0.0.2.1 (Preview)	2002/11/12
+  - Bug fix: F to C conversion.
+  - Bug fix: Display complete forcast page in correct unit system.
+
+Version 0.0.2.0 (Preview)	2002/11/12
+  - Display temperature on contact list.
+  - Translable strings.
+  - Display brief weather information as message box.
+  - Faster information download.
+  - Various other fixes.
+
+Version 0.0.1.2 (Pre-Alpha)	2002/11/12
+
+Version 0.0.1.1 (Pre-Alpha)	2002/11/11
+  - Faster and more reliable download.
+  - Various bug fixes.
+
+Version 0.0.1.0 (Pre-Alpha)	2002/11/11
+  - Retrieve temperature and update time.
+
+Version 0.0.0.3 (Pre-Alpha)	2002/11/11
+  - Bug fix in weather condition and icons.
+  - Various other bug fixes.
+
+Version 0.0.0.2 (Pre-Alpha)	2002/11/11
+  - Set the name for city, retrieve weather condition.
+
+Version 0.0.0.1 (Pre-Alpha)	2002/11/10
+  - Initial build

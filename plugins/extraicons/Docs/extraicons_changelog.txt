@@ -1,0 +1,26 @@
+Extra Icons Service
+
+Changelog:
+
+. 0.2.5.0
+  * Fix for crash on reseting icons
+
+. 0.2.4.0
+  * Fix for removing grouped icon
+
+. 0.2.3.0
+  * Fix for initial position of icons
+
+. 0.2.2.0
+  * Fix for external plugins overriding internal icons
+
+. 0.2.1.0
+  * Fix for multi selection in Windows Vista
+  + CTRL now deselects too
+
+. 0.2.0.0
+  + Allows group/ungroup of icons
+  + New options dialog
+
+. 0.1.0.0
+  + Initial version

@@ -18,7 +18,7 @@
 */
 // This file has not been converted to unicode yet
 #include "variables.h"
-#include "../NewTriggerPlugin/m_trigger.h"
+#include "m_trigger.h"
 #include "trigger_variables.h"
 #include "resource.h"
 
