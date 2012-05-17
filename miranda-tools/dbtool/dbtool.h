@@ -39,7 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#include <newpluginapi.h> // Only needed to keep m_database.h happy
 #define CallService(a,b,c) 1
 
-#include "../../miranda/include/m_database.h"
+#include "../../include/m_database.h"
 #include "database.h" // Note: This is a copy of database.h from the Miranda IM v0.3 tree.
                       //       Remember to update this when releasing new dbtool versions.
 #include "resource.h"
