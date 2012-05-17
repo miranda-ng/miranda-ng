@@ -61,11 +61,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_clui.h"
 #include "m_protosvc.h"
 #include "m_hotkeys.h"
-#include "sdk/m_toptoolbar.h"
-#include "sdk/m_metacontacts.h"
+#include "m_toptoolbar.h"
+#include "m_metacontacts.h"
 #include "m_message.h"
-#include "sdk/m_updater.h"
-#include "sdk/m_extraicons.h"
+#include "m_updater.h"
+#include "m_extraicons.h"
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;

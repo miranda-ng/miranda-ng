@@ -78,13 +78,13 @@ Boston, MA 02111-1307, USA.
 
 #include "resource.h"
 #include "docs\m_tipper.h"
-#include "sdk\m_fingerprint.h"
-#include "sdk\m_flags.h"
-#include "sdk\m_folders.h"
-#include "sdk\m_metacontacts.h"
-#include "sdk\m_variables.h"
-#include "sdk\m_updater.h"
-#include "sdk\m_smileyadd.h"
+#include "m_fingerprint.h"
+#include "m_flags.h"
+#include "m_folders.h"
+#include "m_metacontacts.h"
+#include "m_variables.h"
+#include "m_updater.h"
+#include "m_smileyadd.h"
 
 #if defined _WIN64
 // {605103E8-27A1-4d41-B385-BE652047A833}

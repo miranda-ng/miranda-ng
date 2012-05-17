@@ -1,7 +1,7 @@
 #ifndef __popup_history_h__
 #define __popup_history_h__
 
-#include "sdk/m_ieview.h" //need this for special renderers
+#include "m_ieview.h" //need this for special renderers
 
 /****HISTORY ++ STUFF ***/
 //there's no include file for h++ yet

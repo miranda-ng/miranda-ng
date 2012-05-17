@@ -21,7 +21,7 @@
 #include "parse_metacontacts.h"
 #include "contact.h"
 
-#include "sdk/m_metacontacts.h"
+#include "m_metacontacts.h"
 
 static TCHAR *parseGetParent(ARGUMENTSINFO *ai) 
 {

@@ -25,7 +25,7 @@ Boston, MA 02111-1307, USA.
 #include "str_utils.h"
 #include "bitmap_func.h"
 #include "translations.h"
-#include "sdk/m_gender.h"
+#include "m_gender.h"
 
 extern TOOLTIPSKIN skin;
 
