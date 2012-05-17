@@ -90,11 +90,11 @@ typedef struct tagDBEVENT
 	HANDLE hDBEvent;
 } DBEVENT;
 
-typedef struct tagPROTOTAMPLATE
+typedef struct tagPROTOTEMPLATE
 {
 	TCHAR *ProtoName;
-	TCHAR ProtoTamplate[MAX_PATH];
-} PROTOTAMPLATE;
+	TCHAR ProtoTemplate[MAX_PATH];
+} PROTOTEMPLATE;
 
 TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int bufflen);
 XSTATUSCHANGE *NewXSC(HANDLE hContact, char *szProto, int xstatusType, int action, TCHAR *stzTitle, TCHAR *stzText);

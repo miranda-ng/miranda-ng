@@ -29,7 +29,7 @@
 OPTIONS opt = {0};
 TEMPLATES templates = {0};
 BOOL UpdateListFlag = FALSE;
-SortedList *ProtoTamplates; 
+SortedList *ProtoTemplates; 
 int LastItem = 0;
 
 extern HINSTANCE hInst;
@@ -114,13 +114,13 @@ void SaveTemplates()
 	DBWriteContactSettingTString(0, MODULE, "TLogOpening", templates.LogOpening);
 	DBWriteContactSettingByte(0, MODULE, "TPopupFlags", templates.PopupFlags);
 	DBWriteContactSettingByte(0, MODULE, "TLogFlags", templates.LogFlags);
-	for (int i = 0; i < ProtoTamplates->realCount; i++)
+	for (int i = 0; i < ProtoTemplates->realCount; i++)
 	{
-		PROTOTAMPLATE *prototamplate = (PROTOTAMPLATE *)ProtoTamplates->items[i];
+		PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)ProtoTemplates->items[i];
 		TCHAR str[MAX_PATH];
-		mir_sntprintf(str, SIZEOF(str), _T("%s_TSMChange"), prototamplate->ProtoName);
+		mir_sntprintf(str, SIZEOF(str), _T("%s_TSMChange"), prototemplate->ProtoName);
 		char *szstr = mir_t2a(str);
-		DBWriteContactSettingTString(0, MODULE, szstr, prototamplate->ProtoTamplate);
+		DBWriteContactSettingTString(0, MODULE, szstr, prototemplate->ProtoTemplate);
 	}
 }
 
@@ -745,7 +745,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			int count;
 			PROTOACCOUNT** protos;
 			ProtoEnumAccounts( &count, &protos );
-			ProtoTamplates = li.List_Create(0, 10);
+			ProtoTemplates = li.List_Create(0, 10);
 
 			for(int i=0;i<count;i++) {
 				if ( !IsSuitableProto( protos[i] ))
@@ -754,8 +754,8 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				UpdateListFlag = TRUE;
 				lvItem.pszText = protos[i]->tszAccountName;
 				lvItem.lParam = (LPARAM)protos[i]->szModuleName;
-				PROTOTAMPLATE *prototamplate = (PROTOTAMPLATE *)mir_alloc(sizeof(PROTOTAMPLATE));
-				prototamplate->ProtoName = protos[i]->tszAccountName;
+				PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)mir_alloc(sizeof(PROTOTEMPLATE));
+				prototemplate->ProtoName = protos[i]->tszAccountName;
 				TCHAR protoname[MAX_PATH] = {0};
 				mir_sntprintf(protoname, SIZEOF(protoname), _T("%s_TSMChange"), protos[i]->tszAccountName);
 				char *szprotoname = mir_t2a(protoname);
@@ -764,15 +764,15 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (lstrcmp(dbVar.ptszVal, NULL) == 0)
 				{
 					DBFreeVariant(&dbVar);
-					_tcsncpy(prototamplate->ProtoTamplate, TranslateT(DEFAULT_POPUP_STATUSMESSAGE), SIZEOF(prototamplate->ProtoTamplate));
+					_tcsncpy(prototemplate->ProtoTemplate, TranslateT(DEFAULT_POPUP_STATUSMESSAGE), SIZEOF(prototemplate->ProtoTemplate));
 				}
 				else
 				{
-					_tcsncpy(prototamplate->ProtoTamplate, dbVar.ptszVal, SIZEOF(prototamplate->ProtoTamplate));
+					_tcsncpy(prototemplate->ProtoTemplate, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplate));
 				}
 				mir_free(szprotoname);
 				ListView_InsertItem(hList,&lvItem);
-				li.List_Insert(ProtoTamplates, prototamplate, ProtoTamplates->realCount);
+				li.List_Insert(ProtoTemplates, prototemplate, ProtoTemplates->realCount);
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", protos[i]->szModuleName);
@@ -824,18 +824,18 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						if (nmlv->uNewState == 3 && !UpdateListFlag)
 						{
 							HWND hList = GetDlgItem(hwndDlg,IDC_PROTOCOLLIST);
-							PROTOTAMPLATE *prototamplate;
+							PROTOTEMPLATE *prototemplate;
 							if (ListView_GetHotItem(hList) != ListView_GetSelectionMark(hList))
 							{
-								prototamplate = (PROTOTAMPLATE *)ProtoTamplates->items[ListView_GetSelectionMark(hList)];
-								GetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototamplate->ProtoTamplate, MAX_PATH);
-								li.List_Remove(ProtoTamplates, ListView_GetSelectionMark(hList));
-								li.List_Insert(ProtoTamplates, prototamplate, ListView_GetSelectionMark(hList));
+								prototemplate = (PROTOTEMPLATE *)ProtoTemplates->items[ListView_GetSelectionMark(hList)];
+								GetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototemplate->ProtoTemplate, MAX_PATH);
+								li.List_Remove(ProtoTemplates, ListView_GetSelectionMark(hList));
+								li.List_Insert(ProtoTemplates, prototemplate, ListView_GetSelectionMark(hList));
 
 							}
 							LastItem = ListView_GetHotItem(hList);
-							prototamplate = (PROTOTAMPLATE *)ProtoTamplates->items[LastItem];
-							SetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototamplate->ProtoTamplate);
+							prototemplate = (PROTOTEMPLATE *)ProtoTemplates->items[LastItem];
+							SetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototemplate->ProtoTemplate);
 						}
 						if ((nmlv->uNewState^nmlv->uOldState)&LVIS_STATEIMAGEMASK && !UpdateListFlag)
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -849,10 +849,10 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				opt.PopupOnConnect = IsDlgButtonChecked(hwndDlg, IDC_ONCONNECT);
 
 				// Templates
-				PROTOTAMPLATE *prototamplate = (PROTOTAMPLATE *)ProtoTamplates->items[LastItem];
-				GetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototamplate->ProtoTamplate, MAX_PATH);
-				li.List_Remove(ProtoTamplates, LastItem);
-				li.List_Insert(ProtoTamplates, prototamplate, LastItem);
+				PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)ProtoTemplates->items[LastItem];
+				GetDlgItemText(hwndDlg, IDC_POPUPTEXT, prototemplate->ProtoTemplate, MAX_PATH);
+				li.List_Remove(ProtoTemplates, LastItem);
+				li.List_Insert(ProtoTemplates, prototemplate, LastItem);
 
 				// Save options to db
 				SaveOptions();
@@ -876,7 +876,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 		case WM_DESTROY:
 		{
-			li.List_Destroy(ProtoTamplates);
+			li.List_Destroy(ProtoTemplates);
 			break;
 		}
 
