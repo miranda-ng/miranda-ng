@@ -594,12 +594,9 @@ void Cache_GetFirstLineText(struct ClcData *dat, struct ClcContact *contact)
             lstrcpyn(nick, dbv.ptszVal, SIZEOF(contact->szText));
             ModernDBFreeVariant(&dbv);
 
-            if (_tcsnicmp(name, nick, lstrlen(name)) == 0) {
-                // They are the same -> use the nick to keep the case
-                lstrcpyn(contact->szText, nick, SIZEOF(contact->szText));
-            } else if (_tcsnicmp(name, nick, lstrlen(nick)) == 0) {
-                // They are the same -> use the nick to keep the case
-                lstrcpyn(contact->szText, name, SIZEOF(contact->szText));
+           if (_tcsicmp(name, nick) == 0) {
+               // They are the same -> use the name to keep the case
+			   lstrcpyn(contact->szText, name, SIZEOF(contact->szText));
             } else {
                 // Append then
                 mir_sntprintf(contact->szText, SIZEOF(contact->szText), _T("%s - %s"), name, nick);
