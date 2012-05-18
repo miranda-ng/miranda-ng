@@ -181,7 +181,7 @@ void CreateFromBitmaps(bool bServiceTip)
 		if (i == SKIN_ITEM_SIDEBAR && (!opt.iSidebarWidth || bServiceTip))
 			continue;
 
-		if (opt.szImgFile[i] && strlen(opt.szImgFile[i]) != 0) 
+		if (opt.szImgFile[i] && opt.szImgFile[i] != 0) 
 		{
 			FIBITMAP *fib = NULL;
 			if (!skin.bCached) 
