@@ -11,7 +11,7 @@
 #include <m_database.h>
 #include "m_yamn.h"
 #include "m_filterplugin.h"
-#include "mails/m_mails.h"
+#include "m_mails.h"
 #include "debug.h"
 
 //- imported ---------------------------------------------------------------------------------------

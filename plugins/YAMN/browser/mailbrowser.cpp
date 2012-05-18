@@ -34,7 +34,7 @@
 #include "m_account.h"
 #include "../debug.h"
 #include "m_messages.h"
-#include "../mails/m_mails.h"
+#include "m_mails.h"
 #include "m_yamn.h"
 #include "../resources/resource.h"
 #include <win2k.h>
