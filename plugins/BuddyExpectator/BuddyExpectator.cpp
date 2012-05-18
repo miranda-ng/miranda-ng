@@ -29,6 +29,7 @@
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
+int hLangpack;
 
 DWORD timer_id = 0;
 
@@ -926,6 +927,7 @@ int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 
 	setlocale(LC_ALL, "English"); // Set English locale
 

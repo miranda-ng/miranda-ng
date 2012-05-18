@@ -11,6 +11,7 @@
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 HANDLE hHookOptionInit = NULL;
+int hLangpack;
 
 PLUGININFOEX pluginInfoEx=
 { 	// about plugin
@@ -153,6 +154,7 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 	hHookOptionInit = HookEvent(ME_OPT_INITIALISE,AutorunOptInitialise);
 	return 0;
 }

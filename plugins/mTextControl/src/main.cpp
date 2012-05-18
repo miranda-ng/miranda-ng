@@ -32,6 +32,7 @@ Last change by : $Author: Merlin_de $
 
 HINSTANCE hInst = 0;
 PLUGINLINK *pluginLink = 0;
+int hLangpack;
 
 HMODULE hMsfteditDll = 0;
 HRESULT	(WINAPI *MyCreateTextServices)(IUnknown *punkOuter, ITextHost *pITextHost, IUnknown **ppUnk);
@@ -95,6 +96,7 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 
 	//6.0A SDK is missing RichEd20.lib for x64
 	//http://connect.microsoft.com/VisualStudio/feedback/details/551071/the-6-0a-sdk-is-missing-riched20-lib-for-x64

@@ -20,6 +20,7 @@ PLUGINLINK *pluginLink;
 TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
+int hLangpack;
 
 #define SIZEOF(x) (sizeof(x)/sizeof(*x))
 
@@ -78,6 +79,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM mi;
 	pluginLink=link;
+	mir_getLP(&pluginInfoEx);
 
 	CreateServiceFunction("Database/LoadPM",LoadPM);
 	ZeroMemory(&mi,sizeof(mi));

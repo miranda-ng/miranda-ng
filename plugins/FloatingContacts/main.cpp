@@ -123,6 +123,7 @@ BOOL		bIsCListShow		= TRUE;
 HANDLE		hRemoveThumb		= NULL;
 HANDLE		hMainHideAllThumbs	= NULL;
 HANDLE		hHideWhenCListShow	= NULL;
+int hLangpack;
 
 //Options
 
@@ -232,6 +233,7 @@ extern "C" int __declspec(dllexport) Load( PLUGINLINK *link )
 	pluginLink	= link;
 
 	mir_getLI(&li);
+	mir_getLP(&pluginInfoEx);
 
 	hevModules		= HookEvent( ME_SYSTEM_MODULESLOADED,  OnModulesLoded );
 	bNT				= GetOSPlatform();

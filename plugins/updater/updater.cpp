@@ -13,6 +13,7 @@ HANDLE hEventOptInit, hEventModulesLoaded, hEventIdleChanged, hToolBarLoaded;
 MM_INTERFACE   mmi;
 UTF8_INTERFACE utfi;
 LIST_INTERFACE li;
+int hLangpack;
 
 bool is_idle = false;
 //#define TESTING			// defined here to reduce build time blowout caused by changing common.h
@@ -259,6 +260,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
 	mir_getUTFI(&utfi);
+	mir_getLP(&pluginInfoEx);
 
 	// save global status from clist - will be restored after update check if that option is enabled, or in modules loaded if not
 	options.start_offline = (DBGetContactSettingByte(0, MODULE, "StartOffline", 0) == 1); // load option here - rest loading in modulesloaded

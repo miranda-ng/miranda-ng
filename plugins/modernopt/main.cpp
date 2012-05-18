@@ -5,6 +5,7 @@ PLUGINLINK *pluginLink;
 HINSTANCE hInst;
 MM_INTERFACE mmi;
 LIST_INTERFACE li;
+int hLangpack;
 
 #if defined( _UNICODE )
 	// {621f886b-a7f6-457f-9d62-8ee84c275993}
@@ -65,6 +66,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink = link;
 	mir_getMMI( &mmi );
 	mir_getLI( &li );
+	mir_getLP(&pluginInfoEx);
 
 	LoadModernOptsModule();
 	return 0;

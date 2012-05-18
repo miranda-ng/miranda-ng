@@ -1,5 +1,6 @@
 #include "commonheaders.h"
 
+int hLangpack;
 
 // dllmain
 BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
@@ -64,6 +65,7 @@ int Load(PLUGINLINK *link) {
 
 	// get memoryManagerInterface address
 	mir_getMMI( &mmi );
+	mir_getLP(&pluginInfoEx);
 
 	// register plugin module
 	PROTOCOLDESCRIPTOR pd;

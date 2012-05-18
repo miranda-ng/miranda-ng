@@ -30,6 +30,7 @@ BOOL bMetaContacts, bMir_08;
 PROTOACCOUNT **accs;
 OPENOPTIONSDIALOG ood;
 int protoCount;
+int hLangpack;
 static LONG_PTR OldAuthReqEditProc;
 
 struct {
@@ -1316,6 +1317,7 @@ __declspec(dllexport)int Load(PLUGINLINK *link)
 {
 	pluginLink=link;
 	mir_getMMI( &mmi );
+	mir_getLP(&pluginInfoEx);
 	hHooks[6] = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	return 0;
 }

@@ -31,6 +31,7 @@ HINSTANCE   g_hInst;
 
 struct LIST_INTERFACE li;
 struct MM_INTERFACE mmi;
+int hLangpack;
 
 // {3625ACB8-794C-4727-88EA-76DBBAC6D200}
 #define MIID_W7UI	{ 0x3625acb8, 0x794c, 0x4727, { 0x88, 0xea, 0x76, 0xdb, 0xba, 0xc6, 0xd2, 0x0 } }
@@ -80,6 +81,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	pluginLink = link;
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
+	mir_getLP(&pluginInfoEx);
 
 	LoadW7UI();
 

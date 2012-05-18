@@ -54,6 +54,7 @@ IconExtraColumn g_IECRateLow = {0};
 IconExtraColumn g_IECClear = {0};
 int clistIcon = 0; //Icon slot to use
 byte bRate = 0;
+int hLangpack;
 
 extern int onOptInitialise(WPARAM wParam, LPARAM lParam);
 
@@ -268,7 +269,8 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
-   pluginLink=link;
+	pluginLink=link;
+	mir_getLP(&pluginInfoEx);
 
    hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
    hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);

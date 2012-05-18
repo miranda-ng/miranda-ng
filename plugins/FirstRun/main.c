@@ -3,6 +3,7 @@
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 HANDLE hModulesLoaded;
+int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -59,6 +60,7 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink=link;
+	mir_getLP(&pluginInfoEx);
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
 	return 0;
 }

@@ -45,6 +45,7 @@
 //#define DEBUG_LOAD_TIME
 
 struct MM_INTERFACE mmi;
+int hLangpack;
 
 TalkBot* bot = NULL;
 
@@ -625,6 +626,7 @@ extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVers
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 
 	mmi.cbSize=sizeof(struct MM_INTERFACE);
 	CallService(MS_SYSTEM_GET_MMI,0,(LPARAM)&mmi);

@@ -94,6 +94,7 @@ HINSTANCE g_hInst = 0;
 PLUGINLINK *pluginLink;
 MM_INTERFACE mmi;
 LIST_INTERFACE li;
+int hLangpack;
 
 HANDLE hNetlibUser;
 
@@ -679,6 +680,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink = link;
 	mir_getMMI(&mmi);
 	mir_getLI(&li);
+	mir_getLP(&pluginInfoEx);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 

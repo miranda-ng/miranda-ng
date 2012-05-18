@@ -27,6 +27,7 @@
 HINSTANCE hInst;
 
 PLUGINLINK *pluginLink;
+int hLangpack;
 
 int g_NewProtoAPI = FALSE;
 
@@ -322,7 +323,8 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
-  pluginLink = link;
+	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
   InitCommonControls();
   InitI18N();
 

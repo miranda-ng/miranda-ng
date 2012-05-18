@@ -28,6 +28,7 @@ PLUGINLINK *pluginLink;
 struct MM_INTERFACE mmi;
 
 static HANDLE hHooks[5];
+int hLangpack;
 
 static PLUGININFOEX pluginInfoEx =
 { 
@@ -164,6 +165,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink = link;
 
 	mir_getMMI(&mmi);
+	mir_getLP(&pluginInfoEx);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hHooks[1] = HookEvent(ME_OPT_INITIALISE, HSOptInitialise);

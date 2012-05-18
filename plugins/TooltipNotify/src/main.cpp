@@ -38,6 +38,7 @@ static bool g_bRightModule = false;	// i.e. ansi for win9x, and unicode for winn
 
 // Main global object
 static CTooltipNotify *g_pTooltipNotify = 0;
+int hLangpack;
 
 
 //================================================================================
@@ -150,6 +151,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *pLink)
 #endif
 
 	pluginLink = pLink;
+	mir_getLP(&pluginInfoEx);
 
 	g_pTooltipNotify = new CTooltipNotify(g_hInstDLL);
 	assert(g_pTooltipNotify!=0);

@@ -37,6 +37,7 @@ struct MM_INTERFACE mmi;
 struct LIST_INTERFACE li;
 
 PLUGINLINK *pluginLink;
+int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -402,6 +403,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 	pluginLink=link;
 	mir_getMMI(&mmi);
 	mir_getLI(&li);
+	mir_getLP(&pluginInfoEx);
 
 	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	hEventDbPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdown);

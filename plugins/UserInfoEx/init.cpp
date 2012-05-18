@@ -71,6 +71,7 @@ static HANDLE ghTopToolBarLoaded		= NULL;
 static HANDLE ghModernToolBarLoaded		= NULL;
 static HANDLE ghShutdownHook			= NULL;
 static HANDLE ghPrebuildStatusMenu		= NULL;
+int hLangpack;
 
 /*
 ============================================================================================
@@ -311,6 +312,7 @@ extern "C" INT __declspec(dllexport) Load(PLUGINLINK *link)
 	INITCOMMONCONTROLSEX ccEx;
 
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 	if (link && CoreCheck())
 	{
 		// init common controls

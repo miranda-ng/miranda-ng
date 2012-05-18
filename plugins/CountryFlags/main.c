@@ -25,6 +25,7 @@ PLUGINLINK *pluginLink;
 struct MM_INTERFACE mmi;
 int nCountriesCount;
 struct CountryListEntry *countries;
+int hLangpack;
 
 static PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -120,6 +121,7 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink=link;
+	mir_getLP(&pluginInfoEx);
 
 	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING
 	 * is checked in MirandaPluginInfo().

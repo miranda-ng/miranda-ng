@@ -33,6 +33,7 @@ HBITMAP hbNewlyModified = NULL;
 HIMAGELIST imgList = NULL;
 
 PLUGINLINK *pluginLink;
+int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -79,6 +80,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	LogInit();
 	
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 	
 	InitServices();
 	

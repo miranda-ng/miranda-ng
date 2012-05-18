@@ -27,6 +27,7 @@ COLORREF colBg = GetSysColor(COLOR_3DSHADOW);
 HFONT hFontFirstLine = 0, hFontSecondLine = 0, hFontTime = 0;
 COLORREF colFirstLine = RGB(255, 0, 0), colSecondLine = 0, colTime = RGB(0, 0, 255), colBorder = RGB(0, 0, 0), 
 	colSidebar = RGB(128, 128, 128), colTitleUnderline = GetSysColor(COLOR_3DSHADOW);
+int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -342,6 +343,7 @@ extern "C" int POPUPS2_API Load(PLUGINLINK *link) {
 
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
+	mir_getLP(&pluginInfoEx);
 
 	InitMessagePump();
 	InitOptions();

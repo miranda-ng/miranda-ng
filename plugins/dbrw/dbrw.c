@@ -50,6 +50,7 @@ HINSTANCE g_hInst;
 struct MM_INTERFACE   mmi;
 struct UTF8_INTERFACE utfi;
 struct LIST_INTERFACE li;
+int hLangpack;
 
 sqlite3 *g_sqlite;
 char g_szDbPath[MAX_PATH];
@@ -230,6 +231,7 @@ static int dbrw_Load(char *profile, void *link)
 	mir_getMMI( &mmi );
 	mir_getLI( &li );
 	mir_getUTFI( &utfi );
+	mir_getLP(&pluginInfoEx);
 
     {
         char *szLocalPath = mir_utf8encode(profile);

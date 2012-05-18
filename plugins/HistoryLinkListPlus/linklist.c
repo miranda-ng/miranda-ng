@@ -46,6 +46,7 @@ HINSTANCE hRichEdit;
 PLUGINLINK *pluginLink;
 HANDLE hWindowList;
 HCURSOR splitCursor;
+int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -124,6 +125,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	WNDCLASS wndclass;
 
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 	ZeroMemory(&linklistmenuitem, sizeof(linklistmenuitem));
 	linklistmenuitem.cbSize = sizeof(linklistmenuitem);

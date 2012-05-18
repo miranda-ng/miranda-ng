@@ -27,6 +27,7 @@ HINSTANCE   g_hInst;
 struct LIST_INTERFACE li;
 struct MM_INTERFACE mmi;
 struct UTF8_INTERFACE utfi;
+int hLangpack;
 
 // {AC8B66B3-AFE1-4475-BABA-49783BA39A66}
 #define MIID_FAVCONTACTS { 0xac8b66b3, 0xafe1, 0x4475, { 0xba, 0xba, 0x49, 0x78, 0x3b, 0xa3, 0x9a, 0x66 } }
@@ -320,6 +321,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
 	mir_getUTFI(&utfi);
+	mir_getLP(&pluginInfoEx);
 
 	g_contactCache = new CContactCache;
 

@@ -45,6 +45,7 @@
 MM_INTERFACE mmi;
 LIST_INTERFACE  li;
 SortedList *servicesList;
+int hLangpack;
 
 // ====[ MAIN ]===============================================================
 
@@ -79,6 +80,7 @@ extern "C" __declspec( dllexport ) int Load( PLUGINLINK *link )
 	pluginLink = link;
 	mir_getMMI(&mmi);
 	mir_getLI(&li);
+	mir_getLP(&pluginInfoEx);
 	servicesList = li.List_Create(0, 10);
 
 	// support for ComboBoxEx

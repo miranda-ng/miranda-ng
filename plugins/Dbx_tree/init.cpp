@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "Interface.h"
 
 HINSTANCE  hInstance = NULL;
+int hLangpack;
 
 static const DWORD gMinMirVer = 0x00080000;
 static const MUUID gInterfaces[] = {MIID_DATABASE, MIID_LAST};
@@ -67,6 +68,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK * Link)
 {
+	mir_getLP(&pluginInfoEx);
 	return 1;
 }
 
