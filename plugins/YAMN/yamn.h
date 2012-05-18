@@ -41,7 +41,7 @@
 #include "m_updater.h"
 #include "m_account.h"	//Account structure and all needed structures to cooperate with YAMN
 #include "m_messages.h"	//Messages sent to YAMN windows
-#include "mails/m_mails.h"	//use YAMN's mails
+#include "m_mails.h"	//use YAMN's mails
 #include "mails/m_decode.h"	//use decoding macros (needed for header extracting)
 #include "browser/m_browser.h"	//we want to run YAMN mailbrowser, no new mail notification and bad connect window
 #include "resources/resource.h"

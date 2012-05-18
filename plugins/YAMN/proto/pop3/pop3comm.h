@@ -11,7 +11,7 @@
 #include "m_synchro.h"
 
 //For mail exported functions defintions
-#include "../../mails/m_mails.h"
+#include "m_mails.h"
 
 #include "../../debug.h"
 					

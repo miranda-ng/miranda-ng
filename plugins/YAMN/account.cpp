@@ -7,7 +7,7 @@
  */
 
 #include "yamn.h"
-#include "mails/m_mails.h"
+#include "m_mails.h"
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES) || defined(DEBUG_SYNCHRO)
 	#include <stdio.h>
 #endif
