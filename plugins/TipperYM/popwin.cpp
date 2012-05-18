@@ -55,8 +55,8 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			memset(pwd, 0, sizeof(PopupWindowData));
 			pwd->clcit = *(CLCINFOTIPEX *)cs->lpCreateParams;
 			pwd->iIconIndex = -1;
-			pwd->hpenBorder = opt.bBorder ? (HPEN)CreatePen(PS_SOLID, 1, opt.colBorder) : (HPEN)CreatePen(PS_SOLID, 1, opt.colBg); 
-			pwd->hpenDivider = (HPEN)CreatePen(PS_SOLID, 1, opt.colDivider);
+			pwd->hpenBorder = CreatePen(PS_SOLID, 1, opt.bBorder ?  opt.colBorder : opt.colBg); 
+			pwd->hpenDivider = CreatePen(PS_SOLID, 1, opt.colDivider);
 			pwd->iTrans = (int)(opt.iOpacity / 100.0 * 255);
 				
 			// load icons order
@@ -95,7 +95,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (pwd->bIsIconVisible[0])
 				{
 					WORD status = CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
-					pwd->extraIcons[0].hIcon = (HICON)LoadSkinnedProtoIcon(pwd->clcit.szProto, status);
+					pwd->extraIcons[0].hIcon = LoadSkinnedProtoIcon(pwd->clcit.szProto, status);
 					pwd->extraIcons[0].bDestroy = false;
 				}
 
@@ -136,12 +136,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				// protocol status
 				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
-				char *szStatus = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus,0);
-				if (szStatus)
+				TCHAR *swzText = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+				if (swzText)
 				{
-					TCHAR *swzText = mir_a2t(szStatus);
 					AddRow(pwd, TranslateT("Status:"), swzText, NULL, false, false, false);
-					mir_free(swzText);
 				}
 
 				if (wStatus >= ID_STATUS_ONLINE && wStatus <= ID_STATUS_OUTTOLUNCH)
@@ -778,19 +776,17 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				SetTextColor(hdc, opt.colValue);
 				if (bUseRect) 
 				{
-					if (pwd->rows[i].bValueNewline)
-						tr.left = r.left + opt.iPadding + pwd->iIndent;
-					else
-						tr.left = r.left + opt.iPadding + pwd->iIndent + pwd->iLabelWidth + opt.iValueIndent;
+					tr.left = r.left + opt.iPadding + pwd->iIndent;
+					if (!pwd->rows[i].bValueNewline)
+						tr.left += pwd->iLabelWidth + opt.iValueIndent;
 
 					tr.right = r.right - opt.iPadding;
 				} 
 				else 
 				{
-					if (pwd->rows[i].bValueNewline)
-						tr.left = r2.left + opt.iPadding + pwd->iIndent;
-					else
-						tr.left = r2.left + opt.iPadding + pwd->iIndent + pwd->iLabelWidth + opt.iValueIndent;
+					tr.left = r2.left + opt.iPadding + pwd->iIndent;
+					if (!pwd->rows[i].bValueNewline)
+						tr.left += pwd->iLabelWidth + opt.iValueIndent;
 
 					tr.right = r2.right - opt.iPadding;
 				}
@@ -846,9 +842,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		{
 			if (LOWORD(lParam) == MOD_CONTROL && HIWORD(lParam) == 0x43) // CTRL+C
 			{
-				HICON hIcon;
 				ICONINFO iconInfo;
-				HBITMAP hbmpAllItems, hbmpItem;
 
 				if (pwd->iRowCount == 0) 
 					return 0;
@@ -857,7 +851,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				HMENU hMenu = CreatePopupMenu();
 				if (!hMenu) return 0;
 
-				hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ITEM_ALL), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
+				HICON hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ITEM_ALL), IMAGE_ICON, 0, 0, LR_LOADTRANSPARENT);
 				if (!hIcon) 
 				{
 					DestroyMenu(hMenu);
@@ -865,14 +859,15 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				GetIconInfo(hIcon, &iconInfo);
-				hbmpAllItems = iconInfo.hbmColor;
+				HBITMAP hbmpAllItems = iconInfo.hbmColor;
 				DestroyIcon(hIcon);
 
-				AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS_LABELS, TranslateT("Copy all items with labels"));
-				AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS, TranslateT("Copy all items"));
+				AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS_LABELS, LPGENT("Copy all items with labels"));
+				AppendMenu(hMenu, MF_STRING, COPYMENU_ALLITEMS, LPGENT("Copy all items"));
 				if (pwd->clcit.szProto || pwd->hContact)
-					AppendMenu(hMenu, MF_STRING, COPYMENU_AVATAR, TranslateT("Copy avatar"));
+					AppendMenu(hMenu, MF_STRING, COPYMENU_AVATAR, LPGENT("Copy avatar"));
 				AppendMenu(hMenu, MF_SEPARATOR, 2000, 0);
+				TranslateMenu(hMenu);
 
 				SetMenuItemBitmaps(hMenu, COPYMENU_ALLITEMS_LABELS, MF_BYCOMMAND, hbmpAllItems, hbmpAllItems);
 				SetMenuItemBitmaps(hMenu, COPYMENU_ALLITEMS, MF_BYCOMMAND, hbmpAllItems, hbmpAllItems);
@@ -887,7 +882,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				}
 
 				GetIconInfo(hIcon, &iconInfo);
-				hbmpItem = iconInfo.hbmColor;
+				HBITMAP hbmpItem = iconInfo.hbmColor;
 				DestroyIcon(hIcon);
 					
 				for (int i = 0; i < pwd->iRowCount; i++) 
@@ -1806,12 +1801,10 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 				if (dwItems & TRAYTIP_STATUS) 
 				{
-					char *szStatus = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, (LPARAM)0);
-					if (szStatus)
+					TCHAR *swzText = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
+					if (swzText)
 					{
-						TCHAR *swzText = mir_a2t(szStatus);
 						AddRow(pwd, TranslateT("Status:"), swzText, NULL, false, false, false); 
-						mir_free(swzText);
 					}
 				}
 

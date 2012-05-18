@@ -38,25 +38,31 @@ HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 HANDLE hAvChangeEvent, hShowTipEvent, hHideTipEvent, hAckEvent, hFramesSBShow, hFramesSBHide; 
 HANDLE hSettingChangedEvent, hEventDeleted;
 HANDLE hShowTipService, hShowTipWService, hHideTipService;
+HANDLE hReloadFonts = NULL;
 
 HANDLE hFolderChanged, hSkinFolder;
-char SKIN_FOLDER[256];
+TCHAR SKIN_FOLDER[256];
 
 FI_INTERFACE *fii = NULL;
 MM_INTERFACE mmi;
 LIST_INTERFACE li;
 TIME_API tmi;
+int hLangpack;
 
 PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX),
-#ifdef _WIN64 
-	"Tipper YM x64",
+#if defined (_UNICODE)
+	#if defined _WIN64 
+		"Tipper YM (Unicode x64)",
+	#else
+		"Tipper YM (Unicode)",
+	#endif
 #else
 	"Tipper YM",
 #endif
 	__VERSION_DWORD,
-	"Tool Tip notification windows",
+	"Tool Tip notification windows.",
 	"Scott Ellis, yaho",
 	"yaho@miranda-easy.net",
 	"© 2005-2007 Scott Ellis, 2007-2011 Jan Holub",
@@ -140,7 +146,7 @@ int EventDeleted(WPARAM wParam, LPARAM lParam)
 
 int ReloadSkinFolder(WPARAM wParam, LPARAM lParam)
 {
-	FoldersGetCustomPath(hSkinFolder, SKIN_FOLDER, sizeof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
+	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, SIZEOF(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
 	return 0;
 }
 
@@ -256,12 +262,12 @@ void InitFonts()
 	fontTrayTitle.deffontsettings.colour = RGB(0, 0, 0);
 	fontTrayTitle.flags |= FIDF_DEFAULTVALID;
 
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontTitle, 0);
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontLabels, 0);
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontValues, 0);
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontTrayTitle, 0);
+	FontRegisterT(&fontTitle);
+	FontRegisterT(&fontLabels);
+	FontRegisterT(&fontValues);
+	FontRegisterT(&fontTrayTitle);
 
-	HookEvent(ME_FONT_RELOAD, ReloadFont);
+	hReloadFonts = HookEvent(ME_FONT_RELOAD, ReloadFont);
 }
 
 void InitUpdaterSupport()
@@ -304,8 +310,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	hFolderChanged = HookEvent(ME_FOLDERS_PATH_CHANGED, ReloadSkinFolder);
 
-	hSkinFolder = FoldersRegisterCustomPath(MODULE, "Tipper skins", MIRANDA_PATH "\\" DEFAULT_SKIN_FOLDER);
-	FoldersGetCustomPath(hSkinFolder, SKIN_FOLDER, sizeof(SKIN_FOLDER), DEFAULT_SKIN_FOLDER);
+	hSkinFolder = FoldersRegisterCustomPathT(MODULE, "Tipper skins", MIRANDA_PATHT _T("\\") _T(DEFAULT_SKIN_FOLDER));
+	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, SIZEOF(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
 
 	InitTipperSmileys();
 	LoadOptions(); 
@@ -360,6 +366,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getTMI(&tmi);
+	mir_getLP(&pluginInfoEx);
 
 	if (ServiceExists(MS_LANGPACK_GETCODEPAGE))
 		iCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
@@ -390,6 +397,7 @@ extern "C" int __declspec(dllexport) Unload()
 	UnhookEvent(hEventDeleted);
 	UnhookEvent(hEventPreShutdown);
 	UnhookEvent(hEventModulesLoaded);
+	UnhookEvent(hReloadFonts);
 
 	DeinitOptions();
 	DeleteObject(hFontTitle);

@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 #include "options.h"
 #include "str_utils.h"
 
-extern char SKIN_FOLDER[256];
+extern TCHAR SKIN_FOLDER[256];
 
 int RefreshSkinList(HWND hwndDlg)
 {
@@ -30,9 +30,9 @@ int RefreshSkinList(HWND hwndDlg)
 	ListBox_ResetContent(hwndSkins);
 	ListBox_AddString(hwndSkins, TranslateT("# Solid color fill"));
 
-	char szDirSave[1024];
-	GetCurrentDirectoryA(1024, szDirSave);
-	SetCurrentDirectoryA(SKIN_FOLDER);
+	TCHAR szDirSave[1024];
+	GetCurrentDirectory(1024, szDirSave);
+	SetCurrentDirectory(SKIN_FOLDER);
 
 	WIN32_FIND_DATA ffd;
 	HANDLE hFind = FindFirstFile(_T("*.*"), &ffd);
@@ -55,16 +55,14 @@ int RefreshSkinList(HWND hwndDlg)
 	}
 
 	FindClose(hFind);
-	SetCurrentDirectoryA(szDirSave);
+	SetCurrentDirectory(szDirSave);
 
-	TCHAR swzSkinName[256];
-	a2t(opt.szSkinName, swzSkinName, 256);
-	return ListBox_SelectString(GetDlgItem(hwndDlg, IDC_LB_SKINS), -1, swzSkinName);
+	return ListBox_SelectString(GetDlgItem(hwndDlg, IDC_LB_SKINS), -1, opt.szSkinName);
 }
 
-bool FileExists(char *filename)
+bool FileExists(TCHAR *filename)
 {
-	HANDLE hFile = CreateFileA(filename, 0, 0, 0, OPEN_EXISTING, 0, 0);
+	HANDLE hFile = CreateFile(filename, 0, 0, 0, OPEN_EXISTING, 0, 0);
 	if (hFile != INVALID_HANDLE_VALUE)
 	{
 		CloseHandle(hFile);
@@ -74,14 +72,14 @@ bool FileExists(char *filename)
 	return false;
 }
 
-void ParseAboutPart(FILE *fp, char *buff, char *szSkinName)
+void ParseAboutPart(FILE *fp, TCHAR *buff, TCHAR *szSkinName)
 {
 	myfgets(buff, 1024, fp);
 	while (buff[0] != '[')
 	{
 		if (buff[0] != ';') 
 		{
-			char *pch = strchr(buff, '=');
+			TCHAR *pch = _tcschr(buff, '=');
 			if (pch++) 
 			{
 				while (pch && (*pch == ' ' || *pch == '\t')) 
@@ -89,14 +87,14 @@ void ParseAboutPart(FILE *fp, char *buff, char *szSkinName)
 
 				if (pch)
 				{
-					if (strstr(buff, "author"))
+					if (_tcsstr(buff, _T("author")))
 					{}
-					else if (strstr(buff, "preview")) 
+					else if (_tcsstr(buff, _T("preview"))) 
 					{
-						char szImgPath[1024];
-						mir_snprintf(szImgPath, SIZEOF(szImgPath), "%s\\%s\\%s", SKIN_FOLDER, szSkinName, pch);
+						TCHAR szImgPath[1024];
+						mir_sntprintf(szImgPath, SIZEOF(szImgPath), _T("%s\\%s\\%s"), SKIN_FOLDER, szSkinName, pch);
 						if (FileExists(szImgPath))
-							strcpy(opt.szPreviewFile, szImgPath);
+							_tcscpy(opt.szPreviewFile, szImgPath);
 					}
 				}
 			}
@@ -107,7 +105,7 @@ void ParseAboutPart(FILE *fp, char *buff, char *szSkinName)
 	}
 }
 
-void ParseImagePart(FILE *fp, char *buff, int iPart)
+void ParseImagePart(FILE *fp, TCHAR *buff, int iPart)
 {
 	opt.szImgFile[iPart] = NULL;
 	opt.transfMode[iPart] = TM_NONE;
@@ -121,7 +119,7 @@ void ParseImagePart(FILE *fp, char *buff, int iPart)
 	{
 		if (buff[0] != ';')
 		{
-			char *pch = strchr(buff, '=');
+			TCHAR *pch = _tcschr(buff, '=');
 			if (pch++) 
 			{
 				while (pch && (*pch == ' ' || *pch == '\t'))
@@ -129,41 +127,41 @@ void ParseImagePart(FILE *fp, char *buff, int iPart)
 
 				if (pch)
 				{
-					if (strstr(buff, "image"))
+					if (_tcsstr(buff, _T("image")))
 					{
-						char szImgPath[1024];
-						mir_snprintf(szImgPath, SIZEOF(szImgPath), "%s\\%s\\%s", SKIN_FOLDER, opt.szSkinName, pch);
-						opt.szImgFile[iPart] = mir_strdup(szImgPath);
+						TCHAR szImgPath[1024];
+						mir_sntprintf(szImgPath, SIZEOF(szImgPath), _T("%s\\%s\\%s"), SKIN_FOLDER, opt.szSkinName, pch);
+						opt.szImgFile[iPart] = mir_tstrdup(szImgPath);
 					}
-					else if (strstr(buff, "tm"))
+					else if (_tcsstr(buff, _T("tm")))
 					{
-						if (!lstrcmpiA(pch, "TM_NONE"))
+						if (!lstrcmpi(pch, _T("TM_NONE")))
 							opt.transfMode[iPart] = TM_NONE;
-						else if (!lstrcmpiA(pch, "TM_CENTRE"))
+						else if (!lstrcmpi(pch, _T("TM_CENTRE")))
 							opt.transfMode[iPart] = TM_CENTRE;
-						else if (!lstrcmpiA(pch, "TM_STRECH_ALL"))
+						else if (!lstrcmpi(pch, _T("TM_STRECH_ALL")))
 							opt.transfMode[iPart] = TM_STRECH_ALL;
-						else if (!lstrcmpiA(pch, "TM_STRECH_HORIZONTAL"))
+						else if (!lstrcmpi(pch, _T("TM_STRECH_HORIZONTAL")))
 							opt.transfMode[iPart] = TM_STRECH_HORIZONTAL;
-						else if (!lstrcmpiA(pch, "TM_STRECH_VERTICAL"))
+						else if (!lstrcmpi(pch, _T("TM_STRECH_VERTICAL")))
 							opt.transfMode[iPart] = TM_STRECH_VERTICAL;
-						else if (!lstrcmpiA(pch, "TM_TILE_ALL"))
+						else if (!lstrcmpi(pch, _T("TM_TILE_ALL")))
 							opt.transfMode[iPart] = TM_TILE_ALL;
-						else if (!lstrcmpiA(pch, "TM_TILE_HORIZONTAL"))
+						else if (!lstrcmpi(pch, _T("TM_TILE_HORIZONTAL")))
 							opt.transfMode[iPart] = TM_TILE_HORIZONTAL;
-						else if (!lstrcmpiA(pch, "TM_TILE_VERTICAL"))
+						else if (!lstrcmpi(pch, _T("TM_TILE_VERTICAL")))
 							opt.transfMode[iPart] = TM_TILE_VERTICAL;
 						else 
 							opt.transfMode[iPart] = TM_NONE;
 					}
-					else if (strstr(buff, "left")) 
-						opt.margins[iPart].left = atoi(pch);
-					else if (strstr(buff, "top")) 
-						opt.margins[iPart].top = atoi(pch);
-					else if (strstr(buff, "right"))
-						opt.margins[iPart].right = atoi(pch);
-					else if (strstr(buff, "bottom")) 
-						opt.margins[iPart].bottom = atoi(pch);
+					else if (_tcsstr(buff, _T("left")))
+						opt.margins[iPart].left = _ttoi(pch);
+					else if (_tcsstr(buff, _T("top")))
+						opt.margins[iPart].top = _ttoi(pch);
+					else if (_tcsstr(buff, _T("right")))
+						opt.margins[iPart].right = _ttoi(pch);
+					else if (_tcsstr(buff, _T("bottom")))
+						opt.margins[iPart].bottom = _ttoi(pch);
 				}
 			}
 		}
@@ -173,26 +171,26 @@ void ParseImagePart(FILE *fp, char *buff, int iPart)
 	}
 }
 
-char *GetSettingName(char *szValue, char *szPostfix, char *buff)
+char *GetSettingName(TCHAR *szValue, char *szPostfix, char *buff)
 {
 	buff[0] = 0;
 
-	if (strstr(szValue, "traytitle"))
+	if (_tcsstr(szValue, _T("traytitle")))
 		mir_snprintf(buff, 64, "FontTrayTitle%s", szPostfix);
-	else if (strstr(szValue, "title"))
+	else if (_tcsstr(szValue, _T("title")))
 		mir_snprintf(buff, 64, "FontFirst%s", szPostfix);
-	else if (strstr(szValue, "label"))
+	else if (_tcsstr(szValue, _T("label")))
 		mir_snprintf(buff, 64, "FontLabels%s", szPostfix);
-	else if (strstr(szValue, "value"))
+	else if (_tcsstr(szValue, _T("value")))
 		mir_snprintf(buff, 64, "FontValues%s", szPostfix);
-	else if (strstr(szValue, "divider"))
+	else if (_tcsstr(szValue, _T("divider")))
 		mir_snprintf(buff, 64, "Divider%s", szPostfix);
 
 	if (buff[0]) return buff;
 	else return NULL;
 }
 
-void ParseFontPart(FILE *fp, char *buff)
+void ParseFontPart(FILE *fp, TCHAR *buff)
 {
 	char szSetting[64];
 
@@ -201,7 +199,7 @@ void ParseFontPart(FILE *fp, char *buff)
 	{
 		if (buff[0] != ';') 
 		{
-			char *pch = strchr(buff, '=');
+			TCHAR *pch = _tcschr(buff, '=');
 			if (pch++)
 			{
 				while (pch && (*pch == ' ' || *pch == '\t')) 
@@ -209,57 +207,55 @@ void ParseFontPart(FILE *fp, char *buff)
 
 				if (pch) 
 				{
-					if (strstr(buff, "face"))
+					if (_tcsstr(buff, _T("face")))
 					{
 						if (GetSettingName(buff, "", szSetting)) 
 						{
-							if (strlen(pch) > 32)
+							if (_tcslen(pch) > 32)
 								pch[32] = 0;
 
-							TCHAR *tmp = mir_a2t(pch);
-							DBWriteContactSettingTString(0, MODULE, szSetting, tmp);
-							mir_free(tmp);
+							DBWriteContactSettingTString(0, MODULE, szSetting, pch);
 						}
 					} 
-					else if (strstr(buff, "color"))
+					else if (_tcsstr(buff, _T("color")))
 					{
 						if (GetSettingName(buff, "Col", szSetting))
 						{
-							BYTE r = atoi(pch);
-							pch = strchr(pch, ' ');
+							BYTE r = _ttoi(pch);
+							pch = _tcschr(pch, ' ');
 							if (++pch)
 							{
-								BYTE g = atoi(pch); 
-								pch = strchr(pch, ' ');
+								BYTE g = _ttoi(pch); 
+								pch = _tcschr(pch, ' ');
 								if (++pch) 
 								{
-									BYTE b = atoi(pch);
+									BYTE b = _ttoi(pch);
 									COLORREF color = RGB(r, g ,b);
 									DBWriteContactSettingDword(0, MODULE, szSetting, color);
 								}
 							}
 						}
 					} 
-					else if (strstr(buff, "size"))
+					else if (_tcsstr(buff, _T("size")))
 					{
 						if (GetSettingName(buff, "Size", szSetting)) 
 						{
 							HDC hdc = GetDC(0);
-							int size = -MulDiv(atoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
+							int size = -MulDiv(_ttoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
 							DBWriteContactSettingByte(0, MODULE, szSetting, (BYTE)size);
 							ReleaseDC(0, hdc);
 						}
 					} 
-					else if (strstr(buff, "effect")) 
+					else if (_tcsstr(buff, _T("effect")))
 					{
 						if (GetSettingName(buff, "Sty", szSetting))
 						{
 							BYTE effect = 0;
-							if (strstr(pch, "font_bold"))
+							if (_tcsstr(pch, _T("font_bold")))
 								effect |= DBFONTF_BOLD;
-							if (strstr(pch, "font_italic"))
+							if (_tcsstr(pch, _T("font_italic")))
 								effect |= DBFONTF_ITALIC;
-							if (strstr(pch, "font_underline"))
+							if (_tcsstr(pch, _T("font_underline")))
 								effect |= DBFONTF_UNDERLINE;
 
 							DBWriteContactSettingByte(0, MODULE, szSetting, effect);
@@ -274,14 +270,14 @@ void ParseFontPart(FILE *fp, char *buff)
 	}
 }
 
-void ParseAppearancePart(FILE *fp, char *buff)
+void ParseAppearancePart(FILE *fp, TCHAR *buff)
 {
 	myfgets(buff, 1024, fp);
 	while (buff[0] != '[') 
 	{
 		if (buff[0] != ';') 
 		{
-			char *pch = strchr(buff, '=');
+			TCHAR *pch = _tcschr(buff, '=');
 			if (pch++) 
 			{
 				while (pch && (*pch == ' ' || *pch == '\t')) 
@@ -289,24 +285,24 @@ void ParseAppearancePart(FILE *fp, char *buff)
 
 				if (pch)
 				{
-					if (strstr(buff, "general-padding"))
-						opt.iPadding = atoi(pch);
-					else if (strstr(buff, "title-indent"))
-						opt.iTitleIndent = atoi(pch);
-					else if (strstr(buff, "text-indent"))
-						opt.iTextIndent = atoi(pch);
-					else if (strstr(buff, "value-indent"))
-						opt.iValueIndent = atoi(pch);
-					else if (strstr(buff, "text-padding"))
-						opt.iTextPadding = atoi(pch);
-					else if (strstr(buff, "outer-avatar-padding"))
-						opt.iOuterAvatarPadding = atoi(pch);
-					else if (strstr(buff, "inner-avatar-padding"))
-						opt.iInnerAvatarPadding = atoi(pch);
-					else if (strstr(buff, "sidebar-width"))
-						opt.iSidebarWidth = atoi(pch);
-					else if (strstr(buff, "opacity"))
-						opt.iOpacity = atoi(pch);
+					if (_tcsstr(buff, _T("general-padding")))
+						opt.iPadding = _ttoi(pch);
+					else if (_tcsstr(buff, _T("title-indent")))
+						opt.iTitleIndent = _ttoi(pch);
+					else if (_tcsstr(buff, _T("text-indent")))
+						opt.iTextIndent = _ttoi(pch);
+					else if (_tcsstr(buff, _T("value-indent")))
+						opt.iValueIndent = _ttoi(pch);
+					else if (_tcsstr(buff, _T("text-padding")))
+						opt.iTextPadding = _ttoi(pch);
+					else if (_tcsstr(buff, _T("outer-avatar-padding")))
+						opt.iOuterAvatarPadding = _ttoi(pch);
+					else if (_tcsstr(buff, _T("inner-avatar-padding")))
+						opt.iInnerAvatarPadding = _ttoi(pch);
+					else if (_tcsstr(buff, _T("sidebar-width")))
+						opt.iSidebarWidth = _ttoi(pch);
+					else if (_tcsstr(buff, _T("opacity")))
+						opt.iOpacity = _ttoi(pch);
 				}
 			}
 		}
@@ -316,14 +312,14 @@ void ParseAppearancePart(FILE *fp, char *buff)
 	}
 }
 
-void ParseOtherPart(FILE *fp, char *buff)
+void ParseOtherPart(FILE *fp, TCHAR *buff)
 {
 	myfgets(buff, 1024, fp);
 	while (buff[0] != '[')
 	{
 		if (buff[0] != ';')
 		{
-			char *pch = strchr(buff, '=');
+			TCHAR *pch = _tcschr(buff, '=');
 			if (pch++)
 			{
 				while (pch && (*pch == ' ' || *pch == '\t')) 
@@ -331,9 +327,9 @@ void ParseOtherPart(FILE *fp, char *buff)
 
 				if (pch) 
 				{
-					if (strstr(buff, "enable-coloring"))
+					if (_tcsstr(buff, _T("enable-coloring")))
 					{
-						if (strstr(pch, "false"))
+						if (_tcsstr(pch, _T("false")))
 							opt.iEnableColoring = -1;
 					}
 				}
@@ -345,9 +341,9 @@ void ParseOtherPart(FILE *fp, char *buff)
 	}
 }
 
-void ParseSkinFile(char *szSkinName, bool bStartup, bool bOnlyPreview)
+void ParseSkinFile(TCHAR *szSkinName, bool bStartup, bool bOnlyPreview)
 {
-	char szDirSave[1024], buff[1024];
+	TCHAR szDirSave[1024], buff[1024];
 
 	if (opt.skinMode == SM_OBSOLOTE && bStartup)
 		return;
@@ -355,15 +351,15 @@ void ParseSkinFile(char *szSkinName, bool bStartup, bool bOnlyPreview)
 	if (!bStartup) opt.iEnableColoring = 0;
 	opt.szPreviewFile[0] = 0;
 
-	GetCurrentDirectoryA(1024, szDirSave);
-	SetCurrentDirectoryA(SKIN_FOLDER);
-	SetCurrentDirectoryA(szSkinName);
+	GetCurrentDirectory(1024, szDirSave);
+	SetCurrentDirectory(SKIN_FOLDER);
+	SetCurrentDirectory(szSkinName);
 
-	WIN32_FIND_DATAA ffd;
-	HANDLE hFind = FindFirstFileA("*.tsf", &ffd);
+	WIN32_FIND_DATA ffd;
+	HANDLE hFind = FindFirstFile(_T("*.tsf"), &ffd);
 	if (hFind != INVALID_HANDLE_VALUE) 
 	{
-		FILE *fp = fopen(ffd.cFileName, "r");
+		FILE *fp = _tfopen(ffd.cFileName, _T("r"));
 		if (fp)
 		{
 			myfgets(buff, 1024, fp);
@@ -371,34 +367,34 @@ void ParseSkinFile(char *szSkinName, bool bStartup, bool bOnlyPreview)
 			{
 				if (buff[0] == '[') 
 				{
-					if (!strcmp("[about]", buff)) 
+					if (!_tcscmp(_T("[about]"), buff)) 
 					{
 						ParseAboutPart(fp, buff, szSkinName);
 						continue;
 					} 
-					else if (!strcmp("[other]", buff)) 
+					else if (!_tcscmp(_T("[other]"), buff)) 
 					{
 						ParseOtherPart(fp, buff);
 						continue;
 					} 
 					else if (!bOnlyPreview) 
 					{
-						if (!strcmp("[background]", buff))
+						if (!_tcscmp(_T("[background]"), buff))
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_BG);
 							continue;
 						} 
-						else if (!strcmp("[sidebar]", buff)) 
+						else if (!_tcscmp(_T("[sidebar]"), buff)) 
 						{
 							ParseImagePart(fp, buff, SKIN_ITEM_SIDEBAR);
 							continue;
 						}
-						else if (!bStartup && opt.bLoadFonts && !strcmp("[fonts]", buff))
+						else if (!bStartup && opt.bLoadFonts && !_tcscmp(_T("[fonts]"), buff))
 						{
 							ParseFontPart(fp, buff);
 							continue;
 						} 
-						else if (!bStartup && opt.bLoadProportions && !strcmp("[appearance]", buff))
+						else if (!bStartup && opt.bLoadProportions && !_tcscmp(_T("[appearance]"), buff))
 						{
 							ParseAppearancePart(fp, buff);
 							continue;
@@ -417,5 +413,5 @@ void ParseSkinFile(char *szSkinName, bool bStartup, bool bOnlyPreview)
 	}
 
 	FindClose(hFind);
-	SetCurrentDirectoryA(szDirSave);
+	SetCurrentDirectory(szDirSave);
 }

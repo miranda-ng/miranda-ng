@@ -60,7 +60,7 @@ char *t2utf(const TCHAR *ts);
 char *t2a(const TCHAR *ts);
 TCHAR *a2t(const char *as);
 
-char *myfgets(char *Buf, int MaxCount, FILE *File);
+TCHAR *myfgets(TCHAR *Buf, int MaxCount, FILE *File);
 
 #endif
 

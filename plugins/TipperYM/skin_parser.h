@@ -26,5 +26,5 @@ typedef enum {
 } SkinMode;
 
 int RefreshSkinList(HWND hwndDlg);
-void ParseSkinFile(char *szSkinName, bool bStartup, bool bOnlyPreview);
+void ParseSkinFile(TCHAR *szSkinName, bool bStartup, bool bOnlyPreview);
 #endif

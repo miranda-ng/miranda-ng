@@ -99,7 +99,7 @@ Boston, MA 02111-1307, USA.
 
 #define MODULE					"Tipper"
 #define MODULE_ITEMS			"Tipper_Items"
-#define DEFAULT_SKIN_FOLDER		"skins\\Tipper"
+#define DEFAULT_SKIN_FOLDER		"Skins\\Tipper"
 
 extern HMODULE hInst;
 extern PLUGINLINK *pluginLink;

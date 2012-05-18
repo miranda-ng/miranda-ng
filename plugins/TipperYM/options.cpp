@@ -336,9 +336,9 @@ void LoadObsoleteSkinSetting()
 		mir_snprintf(setting, 128, "SPaintMode%d", i);
 		opt.transfMode[i] = (TransformationMode)DBGetContactSettingByte(0, MODULE, setting, 0);
 		mir_snprintf(setting, 128, "SImgFile%d", i);
-		if (!DBGetContactSettingString(NULL, MODULE, setting, &dbv))
+		if (!DBGetContactSettingTString(NULL, MODULE, setting, &dbv))
 		{
-			opt.szImgFile[i] = mir_strdup(dbv.pszVal);
+			opt.szImgFile[i] = mir_tstrdup(dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 
@@ -564,9 +564,9 @@ void LoadOptions()
 	} 
 	else if (opt.skinMode == SM_IMAGE)
 	{
-		if (!DBGetContactSettingString(NULL, MODULE, "SkinName", &dbv))
+		if (!DBGetContactSettingTString(NULL, MODULE, "SkinName", &dbv))
 		{
-			strcpy(opt.szSkinName, dbv.pszVal);
+			_tcscpy(opt.szSkinName, dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 	}
@@ -1998,11 +1998,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 							{
 								TCHAR swzSkinName[256];
 								if (ListBox_GetText(hwndList, iSel, swzSkinName) > 0)
-								{
-									char *skin = mir_t2a(swzSkinName);
-									ParseSkinFile(skin, false, true);
-									mir_free(skin);
-								}
+									ParseSkinFile(swzSkinName, false, true);
 								EnableControls(hwndDlg, TRUE);
 								if (opt.iEnableColoring != -1)
 									CheckDlgButton(hwndDlg, IDC_CHK_ENABLECOLORING, opt.iEnableColoring ? 1 : 0);
@@ -2031,11 +2027,9 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						} 
 						else if (iSel != LB_ERR) 
 						{
-							TCHAR swzSkinName[256];
-							if (ListBox_GetText(GetDlgItem(hwndDlg, IDC_LB_SKINS), iSel, swzSkinName) > 0) 
+							if (ListBox_GetText(GetDlgItem(hwndDlg, IDC_LB_SKINS), iSel, opt.szSkinName) > 0) 
 							{
 								opt.skinMode = SM_IMAGE;
-								t2a(swzSkinName, opt.szSkinName, sizeof(opt.szSkinName));
 								ParseSkinFile(opt.szSkinName, false, false);
 								ReloadFont(0, 0);
 								SaveOptions();
@@ -2043,7 +2037,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						}
 
 						DBWriteContactSettingByte(0, MODULE, "SkinEngine", opt.skinMode);
-						DBWriteContactSettingString(0, MODULE, "SkinName", opt.szSkinName);
+						DBWriteContactSettingTString(0, MODULE, "SkinName", opt.szSkinName);
 						
 						DestroySkinBitmap();
 						SetDlgItemInt(hwndDlg, IDC_ED_TRANS, opt.iOpacity, FALSE);
@@ -2439,9 +2433,8 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
 
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.ptszTab						= LPGENT("Tooltip skin");
-	odp.ptszTitle					= LPGENT("Tooltips");
-	odp.ptszGroup					= LPGENT("Customize");
+	odp.ptszTab						= LPGENT("Tooltips");
+	odp.ptszGroup					= LPGENT("Skins");
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOptsSkin;
 	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );

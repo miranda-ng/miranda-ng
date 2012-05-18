@@ -145,9 +145,9 @@ typedef struct {
 	
 	// tooltip skin
 	SkinMode skinMode;
-	char szSkinName[256];
-	char szPreviewFile[1024];
-	char *szImgFile[SKIN_ITEMS_COUNT];
+	TCHAR szSkinName[256];
+	TCHAR szPreviewFile[1024];
+	TCHAR *szImgFile[SKIN_ITEMS_COUNT];
 	MARGINS margins[SKIN_ITEMS_COUNT];
 	TransformationMode transfMode[SKIN_ITEMS_COUNT];
 	PopupShowEffect showEffect;

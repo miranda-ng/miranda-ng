@@ -249,10 +249,10 @@ char *t2utf(const TCHAR *ts)
 #endif
 }
 
-char *myfgets(char *Buf, int MaxCount, FILE *File)
+TCHAR *myfgets(TCHAR *Buf, int MaxCount, FILE *File)
 {
-	fgets(Buf, MaxCount, File);
-	for (size_t i = strlen(Buf) - 1; i >= 0; i--)
+	_fgetts(Buf, MaxCount, File);
+	for (size_t i = _tcslen(Buf) - 1; i >= 0; i--)
 	{
 		if (Buf[i] == '\n' || Buf[i] == ' ')
 			Buf[i] = 0;
@@ -260,6 +260,6 @@ char *myfgets(char *Buf, int MaxCount, FILE *File)
 			break;
 	}
 
-	CharLowerA(Buf);
+	CharLower(Buf);
 	return Buf;
 }
