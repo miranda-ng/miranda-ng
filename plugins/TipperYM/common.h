@@ -77,7 +77,7 @@ Boston, MA 02111-1307, USA.
 #include <m_icq.h>
 
 #include "resource.h"
-#include "docs\m_tipper.h"
+#include "m_tipper.h"
 #include "m_fingerprint.h"
 #include "m_flags.h"
 #include "m_folders.h"
