@@ -90,7 +90,6 @@ Last change by : $Author: Merlin_de $
 
 	#define NOWIN2K
 	#define MIRANDA_VER 0x0A00
-	#define MIRANDA_CUSTOM_LP
 
 	//Miranda API (see Miranda svn)
 	#include <newpluginapi.h>
