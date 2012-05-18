@@ -324,7 +324,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				{
 				case WM_LBUTTONUP:
 					tr.chrg = enlink->chrg;
-					tr.lpstrText = mir_alloc(tr.chrg.cpMax - tr.chrg.cpMin + 8);
+					tr.lpstrText = ( LPSTR )mir_alloc(tr.chrg.cpMax - tr.chrg.cpMin + 8);
 					SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM) tr.lpstrText);
 					mir_free(tr.lpstrText);

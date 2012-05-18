@@ -149,7 +149,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		wndData = mir_alloc(sizeof(CntSetWndDataType));
+		wndData = ( CntSetWndDataType* )mir_alloc(sizeof(CntSetWndDataType));
 		wndData->hContact = hContact = (HANDLE)lParam;
 		wndData->hRename = LoadSkinnedIcon(SKINICON_OTHER_RENAME);
 		wndData->hUserDetail = LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS);

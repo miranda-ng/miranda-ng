@@ -84,7 +84,7 @@ static const PLUGININFOEX pluginInfoEx =
 	MIID_WEATHER
 };
 
-__declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
 	if (mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,0)) {
 		MessageBox(NULL, "Weather Protocol requires Miranda 0.8.0.0 or later to run.", "Weather Protocol", MB_OK|MB_ICONERROR|MB_APPLMODAL);
@@ -97,7 +97,7 @@ __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersi
 
 // MirandaPluginInterfaces - returns the protocol interface to the core
 static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
@@ -199,7 +199,7 @@ void InitVar()
 }
 
 // unload function
-int __declspec(dllexport) Unload(void) 
+extern "C" int __declspec(dllexport) Unload(void) 
 {
 	unsigned i;
 
@@ -226,7 +226,7 @@ int __declspec(dllexport) Unload(void)
 	return 0;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link) 
+extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
 {
 	PROTOCOLDESCRIPTOR pd = {0};
 	char SvcFunc[100];

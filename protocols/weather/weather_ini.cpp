@@ -101,7 +101,7 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 void ResetDataItem(WIDATAITEM *Item, const char *name)
 {
 	char str[] = "ID Search - Station Name";
-	Item->Name = mir_alloc(sizeof(str));
+	Item->Name = ( char* )mir_alloc(sizeof(str));
 	strcpy(Item->Name, str);
 	Item->Start = "";
 	Item->End = "";
@@ -477,7 +477,7 @@ void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
 						char *nm = Data->UpdateDataTail->Item.Name;
 						size_t len = strlen(nm) + 1;
 
-						Data->UpdateDataTail->Item.Name = nm = mir_realloc(nm, len + 3);
+						Data->UpdateDataTail->Item.Name = nm = ( char* )mir_realloc(nm, len + 3);
 						memmove(nm + 1, nm, len);
 						*nm = '#';
 					}

@@ -692,7 +692,7 @@ char *GetError(int code)
 LPWSTR ConvToUnicode(LPCSTR str2)
 {
 	const size_t nLength = MultiByteToWideChar(lpcp, 0, str2, -1, NULL, 0);
-	LPWSTR res = mir_alloc(sizeof(WCHAR)*nLength);
+	LPWSTR res = ( LPWSTR )mir_alloc(sizeof(WCHAR)*nLength);
 	MultiByteToWideChar(lpcp, 0, str2, -1, res, (int)nLength);
 	return res;
 }
@@ -739,7 +739,7 @@ UINT GetDlgItemTextWth(HWND hDlg, int nIDDlgItem, LPSTR lpString, int nMaxCount)
 
 	if (lpcp != CP_ACP && f_GetDlgItemTextW != NULL)
 	{
-		LPWSTR m_psz = mir_alloc(sizeof(WCHAR) * nMaxCount);
+		LPWSTR m_psz = ( LPWSTR )mir_alloc(sizeof(WCHAR) * nMaxCount);
 		res = f_GetDlgItemTextW(hDlg, nIDDlgItem, m_psz, nMaxCount);
 		WideCharToMultiByte( lpcp, 0, m_psz, -1, lpString, nMaxCount, NULL, NULL );
 		mir_free(m_psz);

@@ -229,7 +229,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				{
 					HFONT hfnt = CreateFontIndirect(&lfnt1);
-					HFONT hfntold = SelectObject(hdc, hfnt);
+					HFONT hfntold = ( HFONT )SelectObject(hdc, hfnt);
 					SIZE fontSize;
 
 					char *nick = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)data->hContact, 0);
@@ -251,7 +251,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				if (dbv.pszVal) 
 				{
 					HFONT hfnt = CreateFontIndirect(&lfnt);
-					HFONT hfntold = SelectObject(hdc, hfnt);
+					HFONT hfntold = ( HFONT )SelectObject(hdc, hfnt);
 
 					SetTextColor(hdc, fntc);
 					DrawText(hdc, dbv.pszVal, -1, &rc, DT_LEFT | DT_EXPANDTABS);
