@@ -6,6 +6,8 @@ This file is placed in the public domain. Anybody is free to use or
 modify it as they wish with no restriction.
 There is no warranty.
 */
+#define MIRANDA_VER 0x0A00
+
 #include <windows.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
@@ -79,7 +81,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM mi;
 	pluginLink=link;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	CreateServiceFunction("Database/LoadPM",LoadPM);
 	ZeroMemory(&mi,sizeof(mi));

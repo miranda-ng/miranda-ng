@@ -260,7 +260,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
 	mir_getUTFI(&utfi);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	// save global status from clist - will be restored after update check if that option is enabled, or in modules loaded if not
 	options.start_offline = (DBGetContactSettingByte(0, MODULE, "StartOffline", 0) == 1); // load option here - rest loading in modulesloaded

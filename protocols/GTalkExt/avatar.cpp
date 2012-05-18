@@ -186,7 +186,7 @@ void SetAvatar(HANDLE hContact)
 	EnterCriticalSection(&g_csSetAvatar);
 	__try {
 		avatarCacheEntry *ava = (avatarCacheEntry*)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
-		if (ava && GetFileAttributesA(&ava->szFilename[0]) != INVALID_FILE_ATTRIBUTES)
+		if (ava && GetFileAttributes(&ava->szFilename[0]) != INVALID_FILE_ATTRIBUTES)
 			return;
 
 		HANDLE hFile;

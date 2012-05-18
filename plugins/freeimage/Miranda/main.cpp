@@ -46,7 +46,6 @@ Last change by : $Author: rainwater $
 #include "../Source/libpng/png.h"
 
 PLUGINLINK *pluginLink = NULL;
-int hLangpack;
 
 static const PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -1237,7 +1236,6 @@ static int IMGSERVICE_Load()
 extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 {
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
 	return IMGSERVICE_Load();
 }
 

@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 PLUGINLINK *pluginLink;
 DWORD mirandaVer;
-
+int hLangpack;
 
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
@@ -68,6 +68,7 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
+	mir_getLP(&pluginInfoEx);
 
 	if (mirandaVer < PLUGIN_MAKE_VERSION(0,8,0,3))
 		return -1;

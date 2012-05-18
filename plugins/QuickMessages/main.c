@@ -403,7 +403,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 	pluginLink=link;
 	mir_getMMI(&mmi);
 	mir_getLI(&li);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	hEventDbPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdown);

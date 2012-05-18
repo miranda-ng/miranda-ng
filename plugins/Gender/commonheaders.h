@@ -26,6 +26,8 @@
 #ifndef COMMHEADERS_H
 #define COMMHEADERS_H
 
+#define MIRANDA_VER 0x0A00
+
 #include <stdio.h> //needed by m_utils.h
 #include <stddef.h> // needed by m_icolib.h > r9256
 

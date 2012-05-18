@@ -85,7 +85,6 @@ typedef struct {
 struct MM_INTERFACE mmi;
 struct UTF8_INTERFACE utfi;
 struct LIST_INTERFACE li;
-int hLangpack;
 
 static SortedList lModules = {0};
 
@@ -1440,7 +1439,6 @@ void InitConsole()
 	mir_getMMI(&mmi);
 	mir_getUTFI(&utfi);
 	mir_getLI(&li);
-	mir_getLP(&pluginInfoEx);
 
 	lModules.sortFunc = stringCompare;
 	lModules.increment = 5;

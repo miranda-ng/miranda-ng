@@ -343,7 +343,7 @@ extern "C" int POPUPS2_API Load(PLUGINLINK *link) {
 
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	InitMessagePump();
 	InitOptions();

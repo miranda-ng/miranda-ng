@@ -121,7 +121,7 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink=link;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING
 	 * is checked in MirandaPluginInfo().

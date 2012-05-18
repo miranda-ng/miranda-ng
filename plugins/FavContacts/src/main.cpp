@@ -321,7 +321,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
 	mir_getUTFI(&utfi);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	g_contactCache = new CContactCache;
 

@@ -82,7 +82,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	g_hPopupIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_POPUP));
 
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 	if (
 		!mir_getXI(&xi) ||
 		!(hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded)) ||

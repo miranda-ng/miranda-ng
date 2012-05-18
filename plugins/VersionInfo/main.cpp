@@ -29,6 +29,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
+int hLangpack;
+struct MM_INTERFACE mmi;
 
 HICON hiVIIcon;
 
@@ -94,6 +96,8 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	LogToFile("Entering %s", __FUNCTION__);
 	pluginLink=link;
+	mir_getLP(&pluginInfo);
+	mir_getMMI(&mmi);
 
 	LogToFile("Initialising services ...");
 	InitServices();

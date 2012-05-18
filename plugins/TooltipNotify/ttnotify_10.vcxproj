@@ -49,10 +49,7 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">D:\SVN\Miranda\Trunk\miranda\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PreBuildEvent>
-      <Message>Updating revision...</Message>
-      <Command>SubWCRev . src\version.wcr src\version.h</Command>
-    </PreBuildEvent>
+    <PreBuildEvent />
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

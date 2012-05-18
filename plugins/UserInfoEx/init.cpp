@@ -312,7 +312,7 @@ extern "C" INT __declspec(dllexport) Load(PLUGINLINK *link)
 	INITCOMMONCONTROLSEX ccEx;
 
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 	if (link && CoreCheck())
 	{
 		// init common controls

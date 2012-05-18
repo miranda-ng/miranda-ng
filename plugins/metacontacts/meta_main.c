@@ -169,7 +169,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 	pluginLink=link;
 
 	mir_getMMI(&mmi);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	os_unicode_enabled = IsUnicodeOS();
 

@@ -231,7 +231,7 @@ static int dbrw_Load(char *profile, void *link)
 	mir_getMMI( &mmi );
 	mir_getLI( &li );
 	mir_getUTFI( &utfi );
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
     {
         char *szLocalPath = mir_utf8encode(profile);

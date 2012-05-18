@@ -125,7 +125,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	WNDCLASS wndclass;
 
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 	ZeroMemory(&linklistmenuitem, sizeof(linklistmenuitem));
 	linklistmenuitem.cbSize = sizeof(linklistmenuitem);

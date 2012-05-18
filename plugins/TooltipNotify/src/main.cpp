@@ -80,8 +80,6 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
 	static char szWrongUsage9x[] = 
 		"Warning! You are trying to use unicode version of the plugin on win9x system! "
 		"It can not be working here. You must use ansi version of the plugin.";
@@ -117,6 +115,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 #endif
 	};
 
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
 	return &sPluginInfo;
 }
 
@@ -151,7 +151,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *pLink)
 #endif
 
 	pluginLink = pLink;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&sPluginInfo);
 
 	g_pTooltipNotify = new CTooltipNotify(g_hInstDLL);
 	assert(g_pTooltipNotify!=0);

@@ -120,7 +120,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink=link;
 	mir_getMMI(&mmi);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
 	return 0;
 }

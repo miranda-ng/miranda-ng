@@ -81,7 +81,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	pluginLink = link;
 	mir_getLI(&li);
 	mir_getMMI(&mmi);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	LoadW7UI();
 

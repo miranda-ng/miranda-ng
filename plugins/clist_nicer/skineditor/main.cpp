@@ -61,6 +61,7 @@ PLUGININFOEX pluginInfo = {
 HINSTANCE g_hInst = 0;
 PLUGINLINK *pluginLink;
 struct MM_INTERFACE memoryManagerInterface;
+int hLangpack;
 
 StatusItems_t *StatusItems;
 ChangedSItems_t ChangedSItems = {0};
@@ -984,7 +985,8 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 {
     pluginLink = link;
-    return(LoadModule());
+	mir_getLP(&pluginInfo);
+   return(LoadModule());
 }
 
 static int ShutdownProc(WPARAM wParam, LPARAM lParam)

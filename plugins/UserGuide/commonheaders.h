@@ -1,3 +1,5 @@
+#define MIRANDA_VER 0x0A00
+
 #include <windows.h>
 #include <newpluginapi.h>
 #include <m_langpack.h>

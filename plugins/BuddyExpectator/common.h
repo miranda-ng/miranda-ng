@@ -26,6 +26,7 @@
 
 #ifndef _COMMON_INC
 #define _COMMON_INC
+#define MIRANDA_VER 0x0A00
 
 #include <stddef.h> // needed by m_icolib.h > r9256
 #include <windows.h>
