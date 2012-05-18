@@ -143,6 +143,8 @@
 #define IDC_AVATARSPIN                  2124
 #define IDC_SEARCHCITY                  2125
 #define IDC_HEADERBAR                   2126
+#define IDC_E1                          2128
+#define IDC_E2                          2129
 #define OIC_HAND                        32513
 #define OIC_QUES                        32514
 #define OIC_BANG                        32515

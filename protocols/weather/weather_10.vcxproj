@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectName>Weather</ProjectName>
     <ProjectGuid>{6BFE3E13-BD5D-4C1C-BB29-A82FB51A16CE}</ProjectGuid>
-    <RootNamespace>Weather</RootNamespace>
+    <RootNamespace>weather</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

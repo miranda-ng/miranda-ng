@@ -69,12 +69,12 @@ static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 #ifdef _WIN64
-	"Weather Protocol x64",
+	"Weather Protocol x64 Mataes Release",
 #else
-	"Weather Protocol",
+	"Weather Protocol Mataes Release",
 #endif
 	__VERSION_DWORD,
-	"Retrieve weather information and display them in your contact list",
+	"Retrieve weather information and display them in your contact list. Mod for Mataes Pack.",
 	AUTH,
 	"borkra@miranda-im.org",
 	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy",
@@ -281,7 +281,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
 
 	// register weather protocol
-	pd.cbSize = sizeof(pd);
+	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
 	pd.szName = WEATHERPROTONAME;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);

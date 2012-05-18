@@ -399,11 +399,11 @@ void InitMwin(void)
 		strcpy(fontid.prefix, "fnt0");
 
 		hdc = GetDC(NULL);
-		fontid.deffontsettings.size = -MulDiv(8, GetDeviceCaps(hdc, LOGPIXELSY), 72);;
+		fontid.deffontsettings.size = -13;
 		ReleaseDC(0, hdc);
 
 		fontid.deffontsettings.charset = DEFAULT_CHARSET;
-		strcpy(fontid.deffontsettings.szFace, "Tahoma");
+		strcpy(fontid.deffontsettings.szFace, "Verdana");
 		strcpy(fontid.backgroundGroup, WEATHERPROTONAME);
 		strcpy(fontid.backgroundName, "Frame Background");
 

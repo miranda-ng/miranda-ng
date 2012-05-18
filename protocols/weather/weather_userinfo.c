@@ -362,7 +362,7 @@ void LoadBriefInfoText(HWND hwndDlg, HANDLE hContact)
 	// check if data exist.  If not, display error message box
 	if (!(BOOL)DBGetContactSettingByte(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
 	{
-		FixStr(Translate("No information available.\nPlease update weather condition first."), str);
+		strcpy(str, Translate("No information available.\r\nPlease update weather condition first."));
 	}
 	else
 		// set the display text and show the message box

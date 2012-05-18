@@ -277,6 +277,13 @@ void ConvertDataValue(WIDATAITEM *UpdateData, char *Data)
 			GetDist(Data, UpdateData->Unit, str);
 			strcpy(Data, str);
 		}
+		// elevation
+		else if (!strcmp(UpdateData->Name, "Elevation") || !_stricmp(UpdateData->Unit, "FT") || 
+			!_stricmp(UpdateData->Unit, "M"))
+		{
+			GetElev(Data, UpdateData->Unit, str);
+			strcpy(Data, str);
+		}
 		// converting case for condition to the upper+lower format
 		else if (!_stricmp(UpdateData->Unit, "COND"))
 			CaseConv(Data);

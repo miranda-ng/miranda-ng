@@ -1,23 +1,21 @@
-// Microsoft Visual C++ generated resource script.
+//Microsoft Developer Studio generated resource script.
 //
-#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
-
+#include "winres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Neutral resources
+// English (U.S.) resources
 
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 #ifdef _WIN32
-LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 #endif //_WIN32
 
@@ -28,54 +26,16 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ONLINE              ICON                    "wicons\\SUN.ico"
-IDI_OFFLINE             ICON                    "wicons\\NA.ico"
-IDI_AWAY                ICON                    "wicons\\PCLOUDY.ico"
-IDI_DND                 ICON                    "wicons\\RSHOWER.ico"
-IDI_INVISIBLE           ICON                    "wicons\\LIGHT.ico"
-IDI_OCCUPIED            ICON                    "wicons\\RAIN.ico"
-IDI_FREE4CHAT           ICON                    "wicons\\SNOW.ico"
-IDI_NA                  ICON                    "wicons\\CLOUD.ico"
-IDI_ONTHEPHONE          ICON                    "wicons\\SSHOWER.ico"
-IDI_OUTTOLUNCH          ICON                    "wicons\\FOG.ico"
+104                     ICON    DISCARDABLE     "wicons\\SUN.ico"
+105                     ICON    DISCARDABLE     "wicons\\NA.ico"
+128                     ICON    DISCARDABLE     "wicons\\PCLOUDY.ico"
+129                     ICON    DISCARDABLE     "wicons\\RSHOWER.ico"
+130                     ICON    DISCARDABLE     "wicons\\LIGHT.ico"
+131                     ICON    DISCARDABLE     "wicons\\RAIN.ico"
+158                     ICON    DISCARDABLE     "wicons\\SNOW.ico"
+159                     ICON    DISCARDABLE     "wicons\\CLOUD.ico"
+1002                    ICON    DISCARDABLE     "wicons\\SSHOWER.ico"
+1003                    ICON    DISCARDABLE     "wicons\\FOG.ico"
 
-#ifdef APSTUDIO_INVOKED
+#endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
-//
-// TEXTINCLUDE
-//
-
-1 TEXTINCLUDE 
-BEGIN
-    "resource.h\0"
-END
-
-2 TEXTINCLUDE 
-BEGIN
-    "#include <windows.h>\r\n"
-    "\0"
-END
-
-3 TEXTINCLUDE 
-BEGIN
-    "\r\n"
-    "\0"
-END
-
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Neutral resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-
-#ifndef APSTUDIO_INVOKED
-/////////////////////////////////////////////////////////////////////////////
-//
-// Generated from the TEXTINCLUDE 3 resource.
-//
-
-
-/////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
-

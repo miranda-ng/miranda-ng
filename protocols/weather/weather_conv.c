@@ -279,6 +279,47 @@ void GetDist(char *tempchar, char *unit, char *str)
 	}
 }
 
+// elevation conversion
+// tempchar = the string containing the elevation value
+// unit = the unit for elevation
+// return value = the converted elevation with unit; if fail, return original string
+void GetElev(char *tempchar, char *unit, char *str) 
+{
+	// unit can be ft, m
+	double tempunit = 0, output;
+	int intunit;
+
+	// convert the string to a floating point number (always positive)
+	// if it end up with 0, then it's not a number, return the original string and quit
+	output = atof(tempchar);
+	if (output == 0)
+	{
+		strcpy(str, tempchar);
+		return;
+	}
+
+	// convert all to m first
+	if (!_stricmp(unit, "M"))
+		tempunit = (double)output;
+	else if (!_stricmp(unit, "FT"))
+		tempunit = (double)output / 3.28;
+
+	// convert to apporiate unit
+	switch (opt.eUnit) {
+		case 1:
+			intunit = (int)((tempunit*10 * 3.28) + 0.5);
+			wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("ft"));
+			break;
+		case 2:
+			intunit = (int)((tempunit*10) + 0.5);
+			wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("m"));
+			break;
+		default:
+			strcpy(str, tempchar);
+			break;
+	}
+}
+
 //============  CONDITION ICON ASSIGNMENT  ============
 
 // assign the contact icon (status) from the condition string
@@ -408,18 +449,6 @@ WORD GetIcon(const char* cond, WIDATA *Data)
 }
 
 //============  STRING CONVERSIONS  ============
-
-// language pack can't translate str with /r; text box can't display properly for str without /r
-void FixStr(const char *orig, char* str) 
-{
-	size_t i, ci = 0, li = strlen(orig);
-	for (i = 0; i < li; i++) 
-	{
-		if (orig[i] == '\n') str[ci++] = '\r';
-		str[ci++] = orig[i];
-	}
-	str[ci] = 0;
-}
 
 // this function convert the string to the format with 1 upper case followed by lower case char
 void CaseConv(char *str) 

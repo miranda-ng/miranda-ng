@@ -36,51 +36,54 @@ void SetTextDefault(const char* in)
 
 	if (strchr(in, 'C') != NULL)
 	{
-		FixStr(C_DEFAULT, str);
-		wSetData(&opt.cText, str);
+		strcpy(str, C_DEFAULT);
+		wSetData(&opt.cText, Translate(str));
 	}
 	if (strchr(in, 'b') != NULL)
 	{
-		FixStr(b_DEFAULT, str);
-		wSetData(&opt.bTitle, str);
+		strcpy(str, b_DEFAULT);
+		wSetData(&opt.bTitle, Translate(str));
 	}
 	if (strchr(in, 'B') != NULL)
 	{
-		FixStr(B_DEFAULT, str);
-		wSetData(&opt.bText, str);
+		strcpy(str, B_DEFAULT);
+		wSetData(&opt.bText, Translate(str));
 	}
 	if (strchr(in, 'N') != NULL)
 	{
-		FixStr(N_DEFAULT, str);
-		wSetData(&opt.nText, str);
+		strcpy(str, N_DEFAULT);
+		wSetData(&opt.nText, Translate(str));
 	}
 	if (strchr(in, 'E') != NULL)
 	{
-		FixStr(E_DEFAULT, str);
-		wSetData(&opt.eText, str);
+		strcpy(str, E_DEFAULT);
+		wSetData(&opt.eText, Translate(str));
 	}
 	if (strchr(in, 'H') != NULL)
 	{
-		FixStr(H_DEFAULT, str);
-		wSetData(&opt.hText, str);
+		strcpy(str, H_DEFAULT);
+		wSetData(&opt.hText, Translate(str));
 	}
 	if (strchr(in, 'X') != NULL)
 	{
-		FixStr(X_DEFAULT, str);
-		wSetData(&opt.xText, str);
+		strcpy(str, X_DEFAULT);
+		wSetData(&opt.xText, Translate(str));
 	}
 	if (strchr(in, 'P') != NULL)
 	{
-		FixStr(P_DEFAULT, str);
-		wSetData(&opt.pTitle, str);
+		strcpy(str, P_DEFAULT);
+		wSetData(&opt.pTitle, Translate(str));
 	}
 	if (strchr(in, 'p') != NULL)
 	{
-		FixStr(p_DEFAULT, str);
-		wSetData(&opt.pText, str);
+		strcpy(str, p_DEFAULT);
+		wSetData(&opt.pText, Translate(str));
 	}
 	if (strchr(in, 'S') != NULL)
-		wSetData(&opt.sText, "");
+	{
+		strcpy(str, s_DEFAULT);
+		wSetData(&opt.sText, Translate(str));
+	}
 }
 
 void DestroyOptions(void)
@@ -106,21 +109,22 @@ void LoadOptions(void)
 	// main options
 	opt.StartupUpdate = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"StartupUpdate",TRUE);
 	opt.AutoUpdate = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"AutoUpdate",TRUE);
-	opt.UpdateTime = (WORD)DBGetContactSettingWord(NULL,WEATHERPROTONAME,"UpdateTime",20);
+	opt.UpdateTime = (WORD)DBGetContactSettingWord(NULL,WEATHERPROTONAME,"UpdateTime",30);
 	opt.NewBrowserWin = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"NewWindow",TRUE);
-	opt.NoProtoCondition = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"NoStatus",TRUE);
+	opt.NoProtoCondition = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"NoStatus",0);
 	opt.UpdateOnlyConditionChanged = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"CondChangeAsUpdate",TRUE);
 	opt.RemoveOldData = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"RemoveOld",FALSE);
 	opt.MakeItalic = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"MakeItalic",TRUE);
-	opt.AvatarSize = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"AvatarSize", 32);
+	opt.AvatarSize = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"AvatarSize", 128);
 	// units
 	opt.tUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "tUnit", 1);
-	opt.wUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "wUnit", 1);
+	opt.wUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "wUnit", 2);
 	opt.vUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "vUnit", 1);
-	opt.pUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "pUnit", 1);
+	opt.pUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "pUnit", 4);
 	opt.dUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "dUnit", 1);
+	opt.eUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "eUnit", 2);
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"DegreeSign",&dbv))
-		FixStr(Translate(""), opt.DegreeSign);
+		strcpy(opt.DegreeSign, "");
 	else
 	{
 		strcpy(opt.DegreeSign, dbv.pszVal);
@@ -133,56 +137,56 @@ void LoadOptions(void)
 		SetTextDefault("C");
 	else
 	{
-		wSetData(&opt.cText, dbv.pszVal);
+		wSetData(&opt.cText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"BriefTextTitle",&dbv))
 		SetTextDefault("b");
 	else
 	{
-		wSetData(&opt.bTitle, dbv.pszVal);
+		wSetData(&opt.bTitle, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"BriefText",&dbv))
 		SetTextDefault("B");
 	else	
 	{
-		wSetData(&opt.bText, dbv.pszVal);
+		wSetData(&opt.bText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"NoteText",&dbv))
 		SetTextDefault("N");
 	else	
 	{
-		wSetData(&opt.nText, dbv.pszVal);
+		wSetData(&opt.nText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"ExtText",&dbv))
 		SetTextDefault("E");
 	else
 	{
-		wSetData(&opt.eText, dbv.pszVal);
+		wSetData(&opt.eText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"HistoryText",&dbv))
 		SetTextDefault("H");
 	else	
 	{
-		wSetData(&opt.hText, dbv.pszVal);
+		wSetData(&opt.hText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"ExtraText",&dbv))
 		SetTextDefault("X");
 	else	
 	{
-		wSetData(&opt.xText, dbv.pszVal);
+		wSetData(&opt.xText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"StatusText",&dbv))
 		SetTextDefault("S");
 	else
 	{
-		wSetData(&opt.sText, dbv.pszVal);
+		wSetData(&opt.sText, Translate(dbv.pszVal));
 		DBFreeVariant(&dbv);
 	}
 
@@ -199,7 +203,7 @@ void LoadOptions(void)
 	opt.TextColour = DBGetContactSettingDword(NULL,WEATHERPROTONAME,"TextColour",GetSysColor(COLOR_WINDOWTEXT));
 	opt.UseWinColors = (BOOL)DBGetContactSettingByte(NULL,WEATHERPROTONAME, "UseWinColors", FALSE);
 	// popup actions
-	opt.LeftClickAction = DBGetContactSettingDword(NULL,WEATHERPROTONAME,"LeftClickAction",IDM_M1);
+	opt.LeftClickAction = DBGetContactSettingDword(NULL,WEATHERPROTONAME,"LeftClickAction",IDM_M2);
 	opt.RightClickAction = DBGetContactSettingDword(NULL,WEATHERPROTONAME,"RightClickAction",IDM_M1);
 	// popup delay
 	opt.pDelay = DBGetContactSettingDword(NULL,WEATHERPROTONAME,"PopupDelay",0);
@@ -247,6 +251,7 @@ void SaveOptions(void)
 	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "vUnit", opt.vUnit);
 	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "pUnit", opt.pUnit);
 	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "dUnit", opt.dUnit);
+	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "eUnit", opt.eUnit);
 	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "DegreeSign", opt.DegreeSign);
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "NoFractions", (BYTE)opt.NoFrac);
@@ -296,7 +301,7 @@ int OptInit(WPARAM wParam,LPARAM lParam) {
 	odp.position    = 95600;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
 	odp.pfnDlgProc  = OptionsProc;
-	odp.pszGroup    = LPGEN("Plugins");
+	odp.pszGroup    = LPGEN("Network");
 	odp.pszTitle    = WEATHERPROTOTEXT;
 	odp.pszTab      = LPGEN("General");
 	odp.flags       = ODPF_BOLDGROUPS;
@@ -382,6 +387,11 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		case 3: CheckRadioButton(hdlg, IDC_D1, IDC_D3, IDC_D3); break;
 		}
 
+		switch (opt.eUnit) {	// elev
+		case 1: CheckRadioButton(hdlg, IDC_E1, IDC_E2, IDC_E1); break;
+		case 2: CheckRadioButton(hdlg, IDC_E1, IDC_E2, IDC_E2); break;
+		}
+
 		opt_startup = FALSE;
 		return 0;
 
@@ -443,6 +453,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			if (IsDlgButtonChecked(hdlg, IDC_D1)) opt.dUnit = 1;
 			if (IsDlgButtonChecked(hdlg, IDC_D2)) opt.dUnit = 2;
 			if (IsDlgButtonChecked(hdlg, IDC_D3)) opt.dUnit = 3;
+			if (IsDlgButtonChecked(hdlg, IDC_E1)) opt.eUnit = 1;
+			if (IsDlgButtonChecked(hdlg, IDC_E2)) opt.eUnit = 2;
 
 			// save the new weather options
 			SaveOptions();
