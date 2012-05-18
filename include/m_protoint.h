@@ -38,13 +38,8 @@ typedef enum
 }
 	PROTOEVENTTYPE;
 
-#if MIRANDA_VER >= 0x0900
-	#define PROTOCHAR TCHAR
-	#define PROTOFILEEVENT PROTORECVFILET
-#else
-	#define PROTOCHAR char
-	#define PROTOFILEEVENT PROTORECVFILE
-#endif
+#define PROTOCHAR TCHAR
+#define PROTOFILEEVENT PROTORECVFILET
 
 #ifndef __cplusplus
 typedef struct tagPROTO_INTERFACE_VTBL

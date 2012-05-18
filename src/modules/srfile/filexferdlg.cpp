@@ -598,24 +598,15 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					TCHAR str[64], str2[64], szSizeDone[32], szSizeTotal[32];//,*contactName;
 					int units;
 
-					if ( dat->fileVirusScanned==NULL )
+					if ( dat->fileVirusScanned == NULL )
 						dat->fileVirusScanned=(int*)mir_calloc(sizeof(int) * fts->totalFiles);
 
 					// This needs to be here - otherwise we get holes in the files array
-					if (!dat->send) 
-					{
+					if (!dat->send) {
 						if (dat->files == NULL)
 							dat->files = (TCHAR**)mir_calloc((fts->totalFiles + 1) * sizeof(TCHAR*));
 						if (fts->currentFileNumber < fts->totalFiles && dat->files[fts->currentFileNumber] == NULL) 
-						{
-							if (fts->cbSize == sizeof(PROTOFILETRANSFERSTATUS_V1))
-							{
-								PROTOFILETRANSFERSTATUS_V1 *fts1 = (PROTOFILETRANSFERSTATUS_V1*)fts;
-								dat->files[fts->currentFileNumber] = PFTS_StringToTchar(0, (PROTOCHAR*)fts1->currentFile);
-							}
-							else
-								dat->files[fts->currentFileNumber] = PFTS_StringToTchar(fts->flags, fts->tszCurrentFile);
-						}
+							dat->files[fts->currentFileNumber] = PFTS_StringToTchar(fts->flags, fts->tszCurrentFile);
 					}
 
 					/* HACK: for 0.3.3, limit updates to around 1.1 ack per second */

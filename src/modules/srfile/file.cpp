@@ -208,26 +208,6 @@ void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFE
 
 void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src)
 {
-	if (src->cbSize == sizeof(PROTOFILETRANSFERSTATUS_V1))
-	{
-		PROTOFILETRANSFERSTATUS_V1 *src1 = (PROTOFILETRANSFERSTATUS_V1*)src;
-		src = (PROTOFILETRANSFERSTATUS*)alloca(sizeof(PROTOFILETRANSFERSTATUS));
-
-		src->cbSize               = sizeof(PROTOFILETRANSFERSTATUS);
-		src->hContact             = src1->hContact;
-		src->flags                = src1->sending ? PFTS_SENDING : 0;
-		src->pszFiles             = src1->files;
-		src->totalFiles           = src1->totalFiles;
-		src->currentFileNumber    = src1->currentFileNumber;
-		src->totalBytes           = src1->totalBytes;
-		src->totalProgress        = src1->totalProgress;
-		src->szWorkingDir         = src1->workingDir;
-		src->szCurrentFile        = src1->currentFile;
-		src->currentFileSize      = src1->currentFileSize;
-		src->currentFileProgress  = src1->currentFileProgress;
-		src->currentFileTime      = src1->currentFileTime;
-	}
-
 	dest->hContact = src->hContact;
 	dest->flags = src->flags;
 	if ( dest->totalFiles != src->totalFiles ) {

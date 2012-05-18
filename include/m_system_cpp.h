@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_system.h"
 
-#if defined( __cplusplus ) && MIRANDA_VER >= 0x0600
+#if defined( __cplusplus )
 extern LIST_INTERFACE li;
 
 #define	NumericKeySortT -1

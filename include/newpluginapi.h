@@ -172,17 +172,15 @@ typedef struct tagPLUGINLINK {
 	int (*SetHookDefaultForHookableEvent) (HANDLE, MIRANDAHOOK); // v0.3.4 (2004/09/15)
 	HANDLE (*CreateServiceFunctionParam)(const char *,MIRANDASERVICEPARAM,LPARAM); // v0.7+ (2007/04/24)
 	int (*NotifyEventHooksDirect)(HANDLE,WPARAM,LPARAM); // v0.7+
-	#if MIRANDA_VER >= 0x800
-		INT_PTR (*CallProtoService)(const char *, const char *, WPARAM, LPARAM );
-		INT_PTR (*CallContactService)( HANDLE, const char *, WPARAM, LPARAM );
-		HANDLE (*HookEventParam)(const char *,MIRANDAHOOKPARAM,LPARAM);
-		HANDLE (*HookEventObj)(const char *,MIRANDAHOOKOBJ, void* );
-		HANDLE (*HookEventObjParam)(const char *, MIRANDAHOOKOBJPARAM, void*, LPARAM);
-		HANDLE (*CreateServiceFunctionObj)(const char *,MIRANDASERVICEOBJ,void*);
-		HANDLE (*CreateServiceFunctionObjParam)(const char *,MIRANDASERVICEOBJPARAM,void*,LPARAM);
-		void (*KillObjectServices)(void *);
-		void (*KillObjectEventHooks)(void *);
-	#endif
+	INT_PTR (*CallProtoService)(const char *, const char *, WPARAM, LPARAM );
+	INT_PTR (*CallContactService)( HANDLE, const char *, WPARAM, LPARAM );
+	HANDLE (*HookEventParam)(const char *,MIRANDAHOOKPARAM,LPARAM);
+	HANDLE (*HookEventObj)(const char *,MIRANDAHOOKOBJ, void* );
+	HANDLE (*HookEventObjParam)(const char *, MIRANDAHOOKOBJPARAM, void*, LPARAM);
+	HANDLE (*CreateServiceFunctionObj)(const char *,MIRANDASERVICEOBJ,void*);
+	HANDLE (*CreateServiceFunctionObjParam)(const char *,MIRANDASERVICEOBJPARAM,void*,LPARAM);
+	void (*KillObjectServices)(void *);
+	void (*KillObjectEventHooks)(void *);
 } PLUGINLINK;
 
 #ifndef MODULES_H_
@@ -205,17 +203,15 @@ typedef struct tagPLUGINLINK {
 		#define SetHookDefaultForHookableEvent(a,b)       pluginLink->SetHookDefaultForHookableEvent(a,b)
 		#define CreateServiceFunctionParam(a,b,c)         pluginLink->CreateServiceFunctionParam(a,b,c)
 		#define NotifyEventHooksDirect(a,b,c)             pluginLink->NotifyEventHooksDirect(a,b,c)
-		#if MIRANDA_VER >= 0x800
-			#define CallProtoService(a,b,c,d)              pluginLink->CallProtoService(a,b,c,d)
-			#define CallContactService(a,b,c,d)            pluginLink->CallContactService(a,b,c,d)
-			#define HookEventParam(a,b,c)                  pluginLink->HookEventParam(a,b,c)
-			#define HookEventObj(a,b,c)                    pluginLink->HookEventObj(a,b,c)
-			#define HookEventObjParam(a,b,c,d)             pluginLink->HookEventObjParam(a,b,c,d)
-			#define CreateServiceFunctionObj(a,b,c)        pluginLink->CreateServiceFunctionObj(a,b,c)
-			#define CreateServiceFunctionObjParam(a,b,c,d) pluginLink->CreateServiceFunctionObjParam(a,b,c,d)
-			#define KillObjectServices(a)                  pluginLink->KillObjectServices(a)
-			#define KillObjectEventHooks(a)                pluginLink->KillObjectEventHooks(a)
-		#endif
+		#define CallProtoService(a,b,c,d)              pluginLink->CallProtoService(a,b,c,d)
+		#define CallContactService(a,b,c,d)            pluginLink->CallContactService(a,b,c,d)
+		#define HookEventParam(a,b,c)                  pluginLink->HookEventParam(a,b,c)
+		#define HookEventObj(a,b,c)                    pluginLink->HookEventObj(a,b,c)
+		#define HookEventObjParam(a,b,c,d)             pluginLink->HookEventObjParam(a,b,c,d)
+		#define CreateServiceFunctionObj(a,b,c)        pluginLink->CreateServiceFunctionObj(a,b,c)
+		#define CreateServiceFunctionObjParam(a,b,c,d) pluginLink->CreateServiceFunctionObjParam(a,b,c,d)
+		#define KillObjectServices(a)                  pluginLink->KillObjectServices(a)
+		#define KillObjectEventHooks(a)                pluginLink->KillObjectEventHooks(a)
 	#endif
 #endif
 

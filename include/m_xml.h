@@ -74,7 +74,6 @@ typedef struct
 
 	void    ( *freeMem )( void* );
 
-#if MIRANDA_VER >= 0x0900
 	// methods added in XML API v2
 	char    ( *isDeclaration )( HXML );
 	LPTSTR  ( *toStringWithFormatting )( HXML node, int* datalen );
@@ -111,7 +110,6 @@ typedef struct
 	XML_ELEMENT_POS ( *positionOfChildByName )( HXML, LPCTSTR name, int i );
 	XML_ELEMENT_POS ( *positionOfText )( HXML, int i );
 	XML_ELEMENT_POS ( *positionOfClear )( HXML, int i );
-#endif
 }
 	XML_API;
 

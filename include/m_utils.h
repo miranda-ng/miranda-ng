@@ -501,90 +501,11 @@ extern struct SHA1_INTERFACE sha1i;
 #define mir_sha1_finish(A,B)	 sha1i.sha1_finish(A,B)
 #define mir_sha1_hash(A,B,C)	 sha1i.sha1_hash(A,B,C)
 
-// Added in 0.4.0.1
-// Here are some string wrappers that are more safe than the win32 versions
-
-#if MIRANDA_VER < 0x0700
-static __inline int mir_snprintf(char *buffer, size_t count, const char* fmt, ...) {
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	buffer[count-1] = 0;
-	return len;
-}
-
-static __inline int mir_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...) {
-	va_list va;
-	int len;
-
-	va_start(va, fmt);
-	len = _vsntprintf(buffer, count-1, fmt, va);
-	va_end(va);
-	buffer[count-1] = 0;
-	return len;
-}
-
-static __inline int mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_list va) {
-	int len;
-
-	len = _vsnprintf(buffer, count-1, fmt, va);
-	buffer[count-1] = 0;
-	return len;
-}
-
-static __inline int mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va) {
-	int len;
-
-	len = _vsntprintf(buffer, count-1, fmt, va);
-	buffer[count-1] = 0;
-	return len;
-}
-#endif
-
 // allows to include TCHAR* strings into mir_snprintf and NetLib_Logf calls
 #if defined( _UNICODE )
 	#define TCHAR_STR_PARAM "%S"
 #else
 	#define TCHAR_STR_PARAM "%s"
-#endif
-
-#if MIRANDA_VER < 0x0700
-static __inline wchar_t* mir_a2u_cp( const char* src, int codepage )
-{
-	int cbLen = MultiByteToWideChar( codepage, 0, src, -1, NULL, 0 );
-	wchar_t* result = ( wchar_t* )mir_alloc( sizeof( wchar_t )*(cbLen+1));
-	if ( result == NULL )
-		return NULL;
-
-	MultiByteToWideChar( codepage, 0, src, -1, result, cbLen );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-static __inline wchar_t* mir_a2u( const char* src )
-{
-	return mir_a2u_cp( src, CallService("LangPack/GetCodePage", 0, 0 ));
-}
-
-static __inline char* mir_u2a_cp( const wchar_t* src, int codepage )
-{
-	int cbLen = WideCharToMultiByte( codepage, 0, src, -1, NULL, 0, NULL, NULL );
-	char* result = ( char* )mir_alloc( cbLen+1 );
-	if ( result == NULL )
-		return NULL;
-
-	WideCharToMultiByte( codepage, 0, src, -1, result, cbLen, NULL, NULL );
-	result[ cbLen ] = 0;
-	return result;
-}
-
-static __inline char* mir_u2a( const wchar_t* src )
-{
-	return mir_u2a_cp( src, CallService("LangPack/GetCodePage", 0, 0 ));
-}
 #endif
 
 #ifdef _UNICODE

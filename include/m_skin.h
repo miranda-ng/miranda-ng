@@ -140,15 +140,11 @@ typedef struct {
 		const char *pszSection;        // [TRANSLATED-BY-CORE] section name used to group sounds (NULL is acceptable) (added during 0.3.4+ (2004/10/*))
 		const TCHAR *ptszSection;
 	};
-	#if MIRANDA_VER >= 0x0900
-		DWORD dwFlags;
-	#endif
+	DWORD dwFlags;
 } SKINSOUNDDESCEX;
 
 #define SKINSOUNDDESC_SIZE_V1  (offsetof(SKINSOUNDDESCEX, pszSection))
-#if MIRANDA_VER >= 0x0900
 #define SKINSOUNDDESC_SIZE_V2  (offsetof(SKINSOUNDDESCEX, dwFlags))
-#endif
 
 // Old struct pre 0.3.4
 typedef struct {
@@ -184,7 +180,6 @@ __inline static INT_PTR SkinAddNewSound(const char *name,const char *description
 }
 
 // 0.9.0+
-#if MIRANDA_VER >= 0x0900
 __inline static INT_PTR SkinAddNewSoundExT(const char *name,const TCHAR *section,const TCHAR *description)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
@@ -206,7 +201,6 @@ __inline static INT_PTR SkinAddNewSoundT(const char *name,const TCHAR *descripti
 	ssd.ptszDefaultFile=defaultFile;
 	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
 }
-#endif
 
 //play a named sound event
 //wParam=0

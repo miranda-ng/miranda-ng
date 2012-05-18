@@ -97,7 +97,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason,LPVOID lpvRes
 
 static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	avsPresent = ServiceExists(MS_AV_SETMYAVATAR) != 0;
+	avsPresent = ServiceExists(MS_AV_SETMYAVATART) != 0;
 	msnHaveChatDll = ServiceExists(MS_GC_REGISTER) != 0;
 
 	MsnLinks_Init();

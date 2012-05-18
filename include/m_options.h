@@ -76,26 +76,18 @@ typedef struct {
 	UINT *expertOnlyControls;
 	int nExpertOnlyControls;    //v0.1.2.1+  these controls will be hidden in simple mode. Array must remain valid for duration of dlg.
 
-	#if MIRANDA_VER >= 0x0600
 	union {
 			char* pszTab;		 //v0.6.0.0+ [TRANSLATED-BY-CORE]
 			TCHAR* ptszTab;		 //v0.6.0.0+
 		};
-	#endif
 
-	#if MIRANDA_VER >= 0x0800
-		LPARAM dwInitParam;	 //v0.8.0.0+  a value to pass to lParam of WM_INITDIALOG message
-	#endif
+	LPARAM dwInitParam;	 //v0.8.0.0+  a value to pass to lParam of WM_INITDIALOG message
 }
 	OPTIONSDIALOGPAGE;
 
 #define OPTIONPAGE_OLD_SIZE  (offsetof(OPTIONSDIALOGPAGE, flags))
-#if MIRANDA_VER >= 0x0600
-	#define OPTIONPAGE_OLD_SIZE2 (offsetof(OPTIONSDIALOGPAGE, pszTab))
-#endif
-#if MIRANDA_VER >= 0x0800
-	#define OPTIONPAGE_OLD_SIZE3 (offsetof(OPTIONSDIALOGPAGE, dwInitParam))
-#endif
+#define OPTIONPAGE_OLD_SIZE2 (offsetof(OPTIONSDIALOGPAGE, pszTab))
+#define OPTIONPAGE_OLD_SIZE3 (offsetof(OPTIONSDIALOGPAGE, dwInitParam))
 
 #define ODPF_SIMPLEONLY     1   // page is only shown when in simple mode
 #define ODPF_EXPERTONLY     2   //         "                  expert mode

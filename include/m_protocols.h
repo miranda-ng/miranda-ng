@@ -28,17 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "statusmodes.h"
 
-//call a specific protocol service. See the PS_ constants in m_protosvc.h
-#if MIRANDA_VER < 0x800
-__inline static INT_PTR CallProtoService(const char *szModule,const char *szService,WPARAM wParam,LPARAM lParam)
-{
-	char str[MAXMODULELABELLENGTH];
-	_snprintf(str, sizeof(str), "%s%s", szModule, szService);
-    str[MAXMODULELABELLENGTH-1] = 0;
-	return CallService(str,wParam,lParam);
-}
-#endif
-
 //send a general request through the protocol chain for a contact
 //wParam=0
 //lParam=(LPARAM)(CCSDATA*)&ccs
@@ -52,18 +41,6 @@ typedef struct {
 } CCSDATA;
 
 #define MS_PROTO_CALLCONTACTSERVICE    "Proto/CallContactService"
-
-#if MIRANDA_VER < 0x800
-__inline static INT_PTR CallContactService(HANDLE hContact,const char *szProtoService,WPARAM wParam,LPARAM lParam)
-{
-	CCSDATA ccs;
-	ccs.hContact=hContact;
-	ccs.szProtoService=szProtoService;
-	ccs.wParam=wParam;
-	ccs.lParam=lParam;
-	return CallService(MS_PROTO_CALLCONTACTSERVICE,0,(LPARAM)&ccs);
-}
-#endif
 
 //a general network 'ack'
 //wParam=0
@@ -124,11 +101,7 @@ typedef struct {
 //when type==ACKTYPE_FILE && (result==ACKRESULT_DATA || result==ACKRESULT_FILERESUME),
 //lParam points to this
 
-#if MIRANDA_VER >= 0x0900
-	#define FNAMECHAR TCHAR
-#else
-	#define FNAMECHAR char
-#endif
+#define FNAMECHAR TCHAR
 
 #define PFTS_RECEIVING 0
 #define PFTS_SENDING   1
@@ -140,30 +113,6 @@ typedef struct {
 #else
 	#define PFTS_TCHAR  0
 #endif
-
-typedef struct tagPROTOFILETRANSFERSTATUS_V1 
-{
-	size_t cbSize;
-	HANDLE hContact;
-	int    sending;
-    char **files;
-	int totalFiles;
-	int currentFileNumber;
-	unsigned long totalBytes;
-	unsigned long totalProgress;
-    char *workingDir;
-    char *currentFile;
-	unsigned long currentFileSize;
-	unsigned long currentFileProgress;
-	unsigned long currentFileTime;  //as seconds since 1970
-} 
-PROTOFILETRANSFERSTATUS_V1;
-
-#if MIRANDA_VER < 0x0900
-
-typedef PROTOFILETRANSFERSTATUS_V1 PROTOFILETRANSFERSTATUS;
-
-#else
 
 typedef struct tagPROTOFILETRANSFERSTATUS 
 {
@@ -199,8 +148,6 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 	unsigned __int64 currentFileTime;  //as seconds since 1970
 } 
 PROTOFILETRANSFERSTATUS;
-
-#endif
 
 //Enumerate the currently running protocols
 //wParam=(WPARAM)(int*)&numberOfProtocols
@@ -240,11 +187,9 @@ typedef struct {
 	int   type;          // module type, see PROTOTYPE_ constants
 
 	// 0.8.0+ additions
-	#if MIRANDA_VER >= 0x800
-		pfnInitProto fnInit; // initializes an empty account
-		pfnUninitProto fnUninit; // deallocates an account instance
-		pfnDestroyProto fnDestroy; // removes an account
-	#endif
+	pfnInitProto fnInit; // initializes an empty account
+	pfnUninitProto fnUninit; // deallocates an account instance
+	pfnDestroyProto fnDestroy; // removes an account
 }
 	PROTOCOLDESCRIPTOR;
 
@@ -266,12 +211,8 @@ typedef struct {
 #define PROTOTYPE_OTHER       10000   //avoid using this if at all possible
 #define PROTOTYPE_DISPROTO    20000
 
-#if MIRANDA_VER >= 0x800
-	#define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
-	#define MS_PROTO_ENUMPROTOCOLS     "Proto/EnumAccounts"
-#else
-	#define MS_PROTO_ENUMPROTOCOLS     "Proto/EnumProtocols"
-#endif
+#define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
+#define MS_PROTO_ENUMPROTOCOLS     "Proto/EnumAccounts"
 
 //determines if a protocol module is loaded or not
 //wParam=0
@@ -392,11 +333,7 @@ __inline static PROTOACCOUNT* ProtoGetAccount( const char* accName )
 
 __inline static int IsAccountEnabled( const PROTOACCOUNT* pa )
 {
-#if MIRANDA_VER < 0x0900
-	return pa && (( pa->bIsEnabled && !pa->bDynDisabled ) || pa->bOldProto );
-#else
   return (int)CallService( MS_PROTO_ISACCOUNTENABLED, 0, (LPARAM)pa );
-#endif
 }
 
 //determines if an account is locked or not

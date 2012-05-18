@@ -146,22 +146,18 @@ struct MM_INTERFACE
 	void* (*mmi_realloc) (void*, size_t);
 	void  (*mmi_free) (void*);
 
-	#if MIRANDA_VER >= 0x0600
-		void*    (*mmi_calloc) (size_t);
-		char*    (*mmi_strdup) (const char *src);
-		wchar_t* (*mmi_wstrdup) (const wchar_t *src);
-	#endif
-	#if MIRANDA_VER >= 0x0700
-      int      (*mir_snprintf) (char *buffer, size_t count, const char* fmt, ...);
-		int      (*mir_sntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
-		int      (*mir_vsnprintf) (char *buffer, size_t count, const char* fmt, va_list va);
-		int      (*mir_vsntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
+	void*    (*mmi_calloc) (size_t);
+	char*    (*mmi_strdup) (const char *src);
+	wchar_t* (*mmi_wstrdup) (const wchar_t *src);
+	int      (*mir_snprintf) (char *buffer, size_t count, const char* fmt, ...);
+	int      (*mir_sntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
+	int      (*mir_vsnprintf) (char *buffer, size_t count, const char* fmt, va_list va);
+	int      (*mir_vsntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
 
-		wchar_t* (*mir_a2u_cp) (const char* src, int codepage);
-		wchar_t* (*mir_a2u)(const char* src);
-		char*    (*mir_u2a_cp)(const wchar_t* src, int codepage);
-		char*    (*mir_u2a)( const wchar_t* src);
-	#endif
+	wchar_t* (*mir_a2u_cp) (const char* src, int codepage);
+	wchar_t* (*mir_a2u)(const char* src);
+	char*    (*mir_u2a_cp)(const wchar_t* src, int codepage);
+	char*    (*mir_u2a)( const wchar_t* src);
 };
 
 #define MS_SYSTEM_GET_MMI  "Miranda/System/GetMMI"
@@ -178,30 +174,18 @@ __forceinline INT_PTR mir_getMMI( struct MM_INTERFACE* dest )
 	#define mir_free(ptr) mmi.mmi_free(ptr)
 	#define mir_realloc(ptr,size) mmi.mmi_realloc(ptr,size)
 
-	#if MIRANDA_VER >= 0x0600
-		#define mir_calloc(n) mmi.mmi_calloc(n)
-		#define mir_strdup(str) mmi.mmi_strdup(str)
-		#define mir_wstrdup(str) mmi.mmi_wstrdup(str)
-	#else
-		__forceinline char* mir_strdup(const char *src)
-		{	return (src == NULL) ? NULL : strcpy(( char* )mir_alloc( strlen(src)+1 ), src );
-		}
+	#define mir_calloc(n) mmi.mmi_calloc(n)
+	#define mir_strdup(str) mmi.mmi_strdup(str)
+	#define mir_wstrdup(str) mmi.mmi_wstrdup(str)
+	#define mir_snprintf   mmi.mir_snprintf
+	#define mir_sntprintf  mmi.mir_sntprintf 
+	#define mir_vsnprintf  mmi.mir_vsnprintf
+	#define mir_vsntprintf mmi.mir_vsntprintf
 
-		__forceinline WCHAR* mir_wstrdup(const WCHAR *src)
-		{	return (src == NULL) ? NULL : wcscpy(( WCHAR* )mir_alloc(( wcslen(src)+1 )*sizeof( WCHAR )), src );
-		}
-	#endif
-	#if MIRANDA_VER >= 0x0700
-		#define mir_snprintf   mmi.mir_snprintf
-		#define mir_sntprintf  mmi.mir_sntprintf 
-		#define mir_vsnprintf  mmi.mir_vsnprintf
-		#define mir_vsntprintf mmi.mir_vsntprintf
-
-		#define mir_a2u_cp(src,cp) mmi.mir_a2u_cp(src,cp) 
-		#define mir_a2u(src)       mmi.mir_a2u(src)
-		#define mir_u2a_cp(src,cp) mmi.mir_u2a_cp(src,cp)
-		#define mir_u2a(src)       mmi.mir_u2a(src)
-	#endif
+	#define mir_a2u_cp(src,cp) mmi.mir_a2u_cp(src,cp) 
+	#define mir_a2u(src)       mmi.mir_a2u(src)
+	#define mir_u2a_cp(src,cp) mmi.mir_u2a_cp(src,cp)
+	#define mir_u2a(src)       mmi.mir_u2a(src)
 #else
 	char* mir_strdup(const char *src);
 	WCHAR* mir_wstrdup(const WCHAR *src);
@@ -260,15 +244,11 @@ struct LIST_INTERFACE
 	int   ( *List_Remove )( SortedList*, int );
 	int   ( *List_IndexOf )( SortedList*, void* );
 
-	#if MIRANDA_VER >= 0x0600
 	int   ( *List_InsertPtr)( SortedList* list, void* p );
 	int   ( *List_RemovePtr)( SortedList* list, void* p );
-	#endif
 
-	#if MIRANDA_VER >= 0x0800
 	void  ( *List_Copy )( SortedList* src, SortedList* dst, size_t );
 	void  ( *List_ObjCopy )( SortedList* src, SortedList* dst, size_t );
-	#endif
 };
 
 #define MS_SYSTEM_GET_LI  "Miranda/System/GetLI"
@@ -314,9 +294,7 @@ struct UTF8_INTERFACE
 	wchar_t* ( *utf8_decodeW )( const char* str );
 
 	// returns the predicted length of the utf-8 string 
-	#if MIRANDA_VER >= 0x0900
-		int ( *utf8_lenW )( const wchar_t* src );
-	#endif
+	int ( *utf8_lenW )( const wchar_t* src );
 };
 
 #define MS_SYSTEM_GET_UTFI  "Miranda/System/GetUTFI"

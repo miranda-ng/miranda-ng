@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_LANGPACK_H__
 #define M_LANGPACK_H__
 
-#if MIRANDA_VER >= 0x0A00 && !defined( _STATIC )
+#if !defined( _STATIC )
 	#define MIRANDA_CUSTOM_LP
 #endif
 

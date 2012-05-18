@@ -67,20 +67,6 @@ unless AF_FETCHALWAYS is set.
 #define AVS_OWNAVATAR 128			// is own avatar entry
 #define AVS_NOTREADY  4096
 
-typedef struct avatarCacheEntryA {
-	DWORD cbSize;                   // set to sizeof(struct)
-	HANDLE hContact;                // contacts handle, 0, if it is a protocol avatar
-	HBITMAP hbmPic;                 // bitmap handle of the picutre itself
-	DWORD dwFlags;                  // see above for flag values
-	LONG bmHeight, bmWidth;         // bitmap dimensions
-	DWORD t_lastAccess;             // last access time (currently unused, but plugins should still
-	                                // use it whenever they access the avatar. may be used in the future
-	                                // to implement cache expiration
-	LPVOID lpDIBSection;			// unused field
-	char szFilename[MAX_PATH];      // filename of the avatar (absolute path)
-} AVATARCACHEENTRYA;
-
-#if MIRANDA_VER >= 0x0A00
 typedef struct avatarCacheEntry {
 	DWORD cbSize;                   // set to sizeof(struct)
 	HANDLE hContact;                // contacts handle, 0, if it is a protocol avatar
@@ -93,10 +79,6 @@ typedef struct avatarCacheEntry {
 	LPVOID lpDIBSection;			// unused field
 	TCHAR szFilename[MAX_PATH];		// filename of the avatar (absolute path)
 } AVATARCACHEENTRY;
-#else
-	#define avatarCacheEntry avatarCacheEntryA
-	#define AVATARCACHEENTRY AVATARCACHEENTRYA
-#endif
 
 struct CacheNode {
 	struct CacheNode *pNextNode;
@@ -179,13 +161,8 @@ typedef struct _avatarDrawRequest {
 // will open a file selection dialog.
 
 #define MS_AV_SETAVATAR "SV_Avatars/SetAvatar"
-
-#if defined(_UNICODE) && MIRANDA_VER >= 0x0A00
 #define MS_AV_SETAVATARW "SV_Avatars/SetAvatarW"
 #define MS_AV_SETAVATART MS_AV_SETAVATARW
-#else
-#define MS_AV_SETAVATART MS_AV_SETAVATAR
-#endif
 
 // set a local picture for the given protocol
 //
@@ -194,13 +171,8 @@ typedef struct _avatarDrawRequest {
 // will open a file selection dialog. If lParam == "" the avatar will be removed
 
 #define MS_AV_SETMYAVATAR "SV_Avatars/SetMyAvatar"
-
-#if defined(_UNICODE) && MIRANDA_VER >= 0x0A00
 #define MS_AV_SETMYAVATARW "SV_Avatars/SetMyAvatarW"
 #define MS_AV_SETMYAVATART MS_AV_SETMYAVATARW
-#else
-#define MS_AV_SETMYAVATART MS_AV_SETMYAVATAR
-#endif
 
 // see if is possible to set the avatar for the expecified protocol
 //
@@ -244,15 +216,6 @@ typedef struct _avatarDrawRequest {
 
 #define ME_AV_AVATARCHANGED "SV_Avatars/AvatarChanged"
 
-typedef struct _contactAvatarChangedNotificationA {
-	int      cbSize;             // sizeof()
-	HANDLE   hContact;           // this might have to be set by the caller too
-	int      format;             // PA_FORMAT_*
-	char     filename[MAX_PATH]; // full path to filename which contains the avatar
-	char     hash[128];          // avatar hash
-} CONTACTAVATARCHANGEDNOTIFICATIONA;
-
-#if MIRANDA_VER >= 0x0A00
 typedef struct _contactAvatarChangedNotification {
 	int      cbSize;             // sizeof()
 	HANDLE   hContact;           // this might have to be set by the caller too
@@ -260,9 +223,6 @@ typedef struct _contactAvatarChangedNotification {
 	TCHAR    filename[MAX_PATH]; // full path to filename which contains the avatar
 	TCHAR    hash[128];          // avatar hash
 } CONTACTAVATARCHANGEDNOTIFICATION;
-#else
-#define CONTACTAVATARCHANGEDNOTIFICATION CONTACTAVATARCHANGEDNOTIFICATIONA
-#endif
 
 // fired when the contacts avatar is changed by the contact
 // wParam = hContact
