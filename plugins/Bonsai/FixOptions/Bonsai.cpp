@@ -34,6 +34,7 @@ HIMAGELIST imgList = NULL;
 
 PLUGINLINK *pluginLink;
 int hLangpack;
+struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -80,14 +81,12 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	LogInit();
 	
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
+	mir_getMMI(&mmi);
+	mir_getLP(&pluginInfo);
 	
 	InitServices();
 	
 	HookEvents();
-	
-	InitializeMirandaMemFunctions();
-	
 	
 	hbModified = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_MODIFIED));
 	hbUnmodified = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_UNMODIFIED));

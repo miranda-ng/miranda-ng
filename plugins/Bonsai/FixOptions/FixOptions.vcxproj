@@ -184,7 +184,6 @@
     <ClCompile Include="dlg_handlers.cpp" />
     <ClCompile Include="hooked_events.cpp" />
     <ClCompile Include="list.cpp" />
-    <ClCompile Include="mirandaMem.cpp" />
     <ClCompile Include="services.cpp" />
     <ClCompile Include="utils.cpp" />
   </ItemGroup>
@@ -193,7 +192,6 @@
     <ClInclude Include="dlg_handlers.h" />
     <ClInclude Include="hooked_events.h" />
     <ClInclude Include="list.h" />
-    <ClInclude Include="mirandaMem.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="services.h" />
     <ClInclude Include="utils.h" />

@@ -59,8 +59,8 @@ BOOL blInit = FALSE;
 UINT pTimer = 0;
 TCHAR *path;
 
-PLUGININFO pluginInfo={
-	sizeof(PLUGININFO),
+PLUGININFOEX pluginInfo={
+	sizeof(PLUGININFOEX),
 	BOLTUN_NAME,
 	PLUGIN_MAKE_VERSION(0,0,3,0),
 	PLUGIN_DESCRIPTION,
@@ -69,7 +69,9 @@ PLUGININFO pluginInfo={
 	"© 2003-2008 Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko",
 	"http://miranda-im.org",
 	UNICODE_AWARE,
-	0
+	0,
+	// {488C5C84-56DA-434F-96F1-B18900DEF760}
+	{ 0x488c5c84, 0x56da, 0x434f, { 0x96, 0xf1, 0xb1, 0x89, 0x0, 0xde, 0xf7, 0x60 } }
 };
 
 static HANDLE hEventDbEventAdded;
@@ -618,7 +620,7 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfo(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -626,7 +628,7 @@ extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVers
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	mmi.cbSize=sizeof(struct MM_INTERFACE);
 	CallService(MS_SYSTEM_GET_MMI,0,(LPARAM)&mmi);

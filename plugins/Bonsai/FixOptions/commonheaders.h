@@ -50,7 +50,6 @@ typedef INT_PTR (*MIRANDASERVICE)(WPARAM,LPARAM);
 
 #include "version.h"
 #include "utils.h"
-#include "mirandaMem.h"
 #include "services.h"
 #include "list.h"
 #include "dlg_handlers.h"
