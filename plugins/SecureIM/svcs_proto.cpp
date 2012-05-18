@@ -1040,20 +1040,20 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 	PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*) ack->lParam;
 
 	pUinKey ptr = getUinKey(ack->hContact);
-	if (!ptr || (f && f->sending && !bSFT)) return 0;
+	if (!ptr || (f && (f->flags & PFTS_SENDING) && !bSFT)) return 0;
 
 	if( isContactSecured(ack->hContact)&SECURED ) {
 		switch(ack->result) {
 //		case ACKRESULT_FILERESUME:
 		case ACKRESULT_DATA: {
-			if( !f->sending ) {
+			if( !( f->flags & PFTS_SENDING )) {
 				ptr->finFileRecv = (f->currentFileSize == f->currentFileProgress);
-				if( !ptr->lastFileRecv ) ptr->lastFileRecv = mir_strdup(f->currentFile);
+				if( !ptr->lastFileRecv ) ptr->lastFileRecv = mir_strdup(f->szCurrentFile);
 			}
 			else
-			if( f->sending ) {
+			if( f->flags & PFTS_SENDING ) {
 				ptr->finFileSend = (f->currentFileSize == f->currentFileProgress);
-				if( !ptr->lastFileSend ) ptr->lastFileSend = mir_strdup(f->currentFile);
+				if( !ptr->lastFileSend ) ptr->lastFileSend = mir_strdup(f->szCurrentFile);
 			}
 		} break;
 //		case ACKRESULT_INITIALISING:

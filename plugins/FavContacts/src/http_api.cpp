@@ -86,7 +86,7 @@ public:
 			Send("', ");
 			Send(status);
 			Send(", '");
-			SendQuoted(avatar ? avatar->szFilename : "");
+			SendQuoted(avatar ? avatar->szFilename : _T(""));
 			Send("');\r\n");
 		}
 		Send("} catch(e) {}\r\n");
