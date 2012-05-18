@@ -162,6 +162,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <AdditionalManifestDependencies>
       </AdditionalManifestDependencies>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>
@@ -190,6 +191,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

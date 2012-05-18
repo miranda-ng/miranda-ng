@@ -1,24 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rate", "rate_10.vcxproj", "{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rate", "rate_10.vcxproj", "{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug Unicode|Win32 = Debug Unicode|Win32
-		Debug Unicode|x64 = Debug Unicode|x64
-		Release Unicode|Win32 = Release Unicode|Win32
-		Release Unicode|x64 = Release Unicode|x64
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
-		{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Debug|Win32.Build.0 = Debug|Win32
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Debug|x64.ActiveCfg = Debug|x64
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Debug|x64.Build.0 = Debug|x64
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Release|Win32.ActiveCfg = Release|Win32
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Release|Win32.Build.0 = Release|Win32
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Release|x64.ActiveCfg = Release|x64
+		{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

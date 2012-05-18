@@ -18,49 +18,49 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="weather.c">
+    <ClCompile Include="weather.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_addstn.c">
+    <ClCompile Include="weather_addstn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_contacts.c">
+    <ClCompile Include="weather_contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_conv.c">
+    <ClCompile Include="weather_conv.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_data.c">
+    <ClCompile Include="weather_data.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_http.c">
+    <ClCompile Include="weather_http.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_icons.c">
+    <ClCompile Include="weather_icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_info.c">
+    <ClCompile Include="weather_info.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_ini.c">
+    <ClCompile Include="weather_ini.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_mwin.c">
+    <ClCompile Include="weather_mwin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_opt.c">
+    <ClCompile Include="weather_opt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_popup.c">
+    <ClCompile Include="weather_popup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_svcs.c">
+    <ClCompile Include="weather_svcs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_update.c">
+    <ClCompile Include="weather_update.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="weather_userinfo.c">
+    <ClCompile Include="weather_userinfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

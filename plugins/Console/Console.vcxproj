@@ -114,7 +114,7 @@
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -123,6 +123,9 @@
       </AdditionalOptions>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -155,7 +158,7 @@
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -163,6 +166,9 @@
       <AdditionalOptions>
       </AdditionalOptions>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -198,7 +204,7 @@
     </ResourceCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -209,7 +215,11 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -245,7 +255,7 @@
     </ResourceCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateMapFile>true</GenerateMapFile>
+      <GenerateMapFile>false</GenerateMapFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -255,7 +265,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Commonheaders.c">

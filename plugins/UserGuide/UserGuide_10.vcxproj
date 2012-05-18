@@ -115,8 +115,6 @@
     </ResourceCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)UserGuide.pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -124,6 +122,7 @@
       <TargetMachine>MachineX86</TargetMachine>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Xdcmake>
       <OutputFile>$(IntDir)$(TargetName).xml</OutputFile>
@@ -165,14 +164,13 @@
     </ResourceCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)UserGuide.pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Xdcmake>
       <OutputFile>$(IntDir)$(TargetName).xml</OutputFile>
@@ -209,13 +207,12 @@
     </ResourceCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)UserGuide.pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Xdcmake>
       <OutputFile>$(IntDir)$(TargetName).xml</OutputFile>
@@ -250,12 +247,11 @@
     </ResourceCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)UserGuide.pdb</ProgramDatabaseFile>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Xdcmake>
       <OutputFile>$(IntDir)$(TargetName).xml</OutputFile>

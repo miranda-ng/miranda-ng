@@ -144,6 +144,7 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Bscmake>
       <OutputFile>$(IntDir)$(ProjectName).bsc</OutputFile>
@@ -211,6 +212,7 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX64</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Bscmake>
       <OutputFile>$(IntDir)$(ProjectName).bsc</OutputFile>

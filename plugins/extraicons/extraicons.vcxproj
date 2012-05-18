@@ -118,6 +118,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -162,6 +163,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -202,6 +204,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -241,6 +244,7 @@
       <BaseAddress>0x3EC20000</BaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>

@@ -99,6 +99,7 @@
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

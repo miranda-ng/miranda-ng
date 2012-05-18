@@ -108,8 +108,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x45000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -146,8 +144,6 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x45000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -185,13 +181,12 @@
     <Link>
       <AdditionalDependencies>comctl32.lib;msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x45000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -224,12 +219,11 @@
     <Link>
       <AdditionalDependencies>comctl32.lib;msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x45000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

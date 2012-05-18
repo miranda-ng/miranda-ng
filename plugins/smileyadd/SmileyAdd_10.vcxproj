@@ -129,8 +129,12 @@
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <Bscmake />
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -169,8 +173,12 @@
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
       <TargetMachine>MachineX64</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <Bscmake />
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -215,10 +223,7 @@
       <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>0.2.3.16</Version>
       <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ProgramDatabaseFile>
-      </ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
+      <MapExports>false</MapExports>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <BaseAddress>0x28110000</BaseAddress>
@@ -229,8 +234,13 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <MapFileName>
       </MapFileName>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
     <Bscmake />
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -271,10 +281,7 @@
       <AdditionalDependencies>comctl32.lib;Delayimp.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <Version>0.2.3.16</Version>
       <DelayLoadDLLs>gdiplus.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
-      <ProgramDatabaseFile>
-      </ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapExports>true</MapExports>
+      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <BaseAddress>0x28110000</BaseAddress>
@@ -284,8 +291,12 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <MapFileName>
       </MapFileName>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Bscmake />
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="anim.cpp" />

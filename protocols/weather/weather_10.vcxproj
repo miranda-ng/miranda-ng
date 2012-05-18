@@ -111,6 +111,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,6 +146,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <TargetMachine>MachineX64</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

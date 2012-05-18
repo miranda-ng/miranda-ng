@@ -62,7 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 #include <m_popup.h>
 #include <m_cluiframes.h>
-#include "../updater/m_updater.h"
+#include "m_updater.h"
 
 #define META_PROTO				"MetaContacts"
 #define META_FILTER				"MetaContactsFilter"
