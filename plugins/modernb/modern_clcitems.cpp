@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_clc.h"
 #include "hdr/modern_clc.h"
 #include "hdr/modern_clist.h"
-#include "m_api/m_metacontacts.h"
+#include "m_metacontacts.h"
 #include "hdr/modern_commonprototypes.h"
 
 void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOfflineHereGroup)

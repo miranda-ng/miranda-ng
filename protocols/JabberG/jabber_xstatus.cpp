@@ -34,9 +34,9 @@ Last change by : $Author: Michael.Kunz@s2005.TU-Chemnitz.de $
 
 #include <m_cluiframes.h>
 
-#include "sdk/m_proto_listeningto.h"
+#include "m_proto_listeningto.h"
 #include "sdk/m_skin_eng.h"
-#include "sdk/m_extraicons.h"
+#include "m_extraicons.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Simple dialog with timer and ok/cancel buttons

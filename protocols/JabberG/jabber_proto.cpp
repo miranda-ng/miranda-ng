@@ -42,8 +42,8 @@ Last change by : $Author: m_mluhov $
 #include "jabber_caps.h"
 #include "jabber_disco.h"
 
-#include "sdk/m_proto_listeningto.h"
-#include "sdk/m_modernopt.h"
+#include "m_proto_listeningto.h"
+#include "m_modernopt.h"
 
 #pragma warning(disable:4355)
 

@@ -38,7 +38,7 @@ Last change by : $Author: george.hazan $
 #include "m_file.h"
 #include "m_addcontact.h"
 #include "jabber_disco.h"
-#include "sdk/m_proto_listeningto.h"
+#include "m_proto_listeningto.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetMyAwayMsg - obtain the current away message

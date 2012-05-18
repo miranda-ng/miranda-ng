@@ -65,9 +65,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_avatars.h>
 #include <m_timezones.h>
 
-#include "sdk/m_proto_listeningto.h"
-#include "sdk/m_folders.h"
-#include "sdk/m_metacontacts.h"
+#include "m_proto_listeningto.h"
+#include "m_folders.h"
+#include "m_metacontacts.h"
 
 #include "ezxml.h"
 

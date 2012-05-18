@@ -30,7 +30,7 @@ Last change by : $Author: borkra $
 #include "jabber_caps.h"
 
 #include <m_popup.h>
-#include "sdk/m_folders.h"
+#include "m_folders.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // JabberAddContactToRoster() - adds a contact to the roster

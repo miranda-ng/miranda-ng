@@ -35,11 +35,11 @@ Last change by : $Author: borkra $
 #include <m_fontservice.h>
 #include <m_icolib.h>
 
-#include "sdk/m_assocmgr.h"
-#include "sdk/m_folders.h"
-#include "sdk/m_wizard.h"
-#include "sdk/m_toolbar.h"
-#include "sdk/m_extraicons.h"
+#include "m_assocmgr.h"
+#include "m_folders.h"
+#include "m_wizard.h"
+#include "m_toolbar.h"
+#include "m_extraicons.h"
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;

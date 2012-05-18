@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <m_addcontact.h>
 
-#include "sdk/m_assocmgr.h"
+#include "m_assocmgr.h"
 
 static HANDLE hServiceParseLink;
 

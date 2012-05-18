@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "msn_global.h"
 #include "msn_proto.h"
-#include "sdk/m_smileyadd.h"
+#include "m_smileyadd.h"
 
 static const char sttP2Pheader[] =
 	"Content-Type: application/x-msnmsgrp2p\r\n"

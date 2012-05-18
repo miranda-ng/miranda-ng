@@ -36,7 +36,7 @@ Last change by : $Author: borkra $
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 
-#include "sdk/m_toolbar.h"
+#include "m_toolbar.h"
 
 #define MENUITEM_LASTSEEN	1
 #define MENUITEM_SERVER		2
