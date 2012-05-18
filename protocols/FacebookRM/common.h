@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#pragma warning(disable:4312)
 #pragma warning(disable:4996)
 
-#define MIRANDA_VER    0x1000
+#define MIRANDA_VER    0x0A00
 #define _WIN32_WINNT   0x0500
 #define _WIN32_WINDOWS 0x0500
 

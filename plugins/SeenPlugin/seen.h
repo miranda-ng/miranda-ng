@@ -28,8 +28,7 @@ Last change by : $Author: y_b $
 #define ETDT_ENABLE         0x00000002
 #define ETDT_USETABTEXTURE  0x00000004
 #define ETDT_ENABLETAB      (ETDT_ENABLE  | ETDT_USETABTEXTURE)
-#define MIRANDA_VER    0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER    0x0A00
 
 #include <windows.h>
 #include <win2k.h>

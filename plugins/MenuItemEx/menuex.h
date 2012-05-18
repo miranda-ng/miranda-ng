@@ -2,7 +2,7 @@
 #define MENUEX_H__
 
 #define _CRT_SECURE_NO_DEPRECATE
-#define MIRANDA_VER    0x0700
+#define MIRANDA_VER    0x0A00
 
 #include "m_stdhdr.h"
 #include <windows.h>

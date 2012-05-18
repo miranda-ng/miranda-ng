@@ -17,8 +17,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-#define MIRANDA_VER    0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER    0x0A00
 
 #ifndef __TRANSLITSWIITCHER_H__
 #define __TRANSLITSWIITCHER_H__

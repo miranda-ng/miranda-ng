@@ -53,7 +53,7 @@
 #define _WIN32_IE       0x400
 #define LVIF_GROUPID    0
 #endif
-#define MIRANDA_VER   0x0900
+#define MIRANDA_VER   0x0A00
 
 #pragma warning( disable: 4996 )
 #pragma comment( lib, "comctl32.lib" )

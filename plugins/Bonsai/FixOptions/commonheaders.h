@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_BONSAI_COMMONHEADERS_H
 #define M_BONSAI_COMMONHEADERS_H
 
-#define MIRANDA_VER 0x0600
+#define MIRANDA_VER 0x0A00
 
 #include <stdio.h>
 #include <stdlib.h>

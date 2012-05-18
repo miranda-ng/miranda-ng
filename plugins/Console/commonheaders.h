@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <io.h>
 #include <fcntl.h>
 
-#define MIRANDA_VER 0x0800
+#define MIRANDA_VER 0x0A00
 
 #include <newpluginapi.h>
 #include <win2k.h>

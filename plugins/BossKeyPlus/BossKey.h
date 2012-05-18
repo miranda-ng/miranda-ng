@@ -25,8 +25,7 @@
 #define WINVER 0x0700
 #define _WIN32_WINNT 0x0700
 #define _WIN32_IE 0x0601
-#define MIRANDA_VER 0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 
 #define BOSSKEY_LISTEN_INFO _T("MY6BossKey_Param")
 

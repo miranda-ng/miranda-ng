@@ -16,8 +16,7 @@
 #define WINVER       0x0502
 #define _WIN32_WINNT 0x0502
 
-#define MIRANDA_VER 0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 
 #include <windows.h>
 #include <wincrypt.h>

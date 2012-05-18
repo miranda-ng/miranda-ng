@@ -42,8 +42,7 @@
 #ifndef M_SIM_COMMONHEADERS_H
 #define M_SIM_COMMONHEADERS_H
 
-#define MIRANDA_VER 0x0700
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 #include <m_stdhdr.h>
 
 // Windows API

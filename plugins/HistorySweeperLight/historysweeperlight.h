@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __HISTORYSWEEPERLIGHT_H__
 #define __HISTORYSWEEPERLIGHT_H__
 
-#define MIRANDA_VER 0x0800
+#define MIRANDA_VER 0x0A00
 
 #define _USE_32BIT_TIME_T
 

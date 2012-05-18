@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <commctrl.h>  /* for ImageList functions */
 #define NOWIN2K
 #include <win2k.h>
-#define MIRANDA_VER  0x0700
+#define MIRANDA_VER  0x0A00
 #include <stdio.h>
 #include <newpluginapi.h>
 #include <m_system.h>

@@ -69,7 +69,7 @@ typedef std::basic_string<TCHAR>	tstring;
  * Miranda IM SDK includes and macros
  ***********************************************************************************************************/
 
-#define MIRANDA_VER 0x0800
+#define MIRANDA_VER 0x0A00
 
 #include <newpluginapi.h>	// This must be included first
 #include <m_stdhdr.h>

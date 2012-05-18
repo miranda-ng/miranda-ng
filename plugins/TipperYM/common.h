@@ -38,7 +38,7 @@ Boston, MA 02111-1307, USA.
 #define _WIN32_IE 0x0600	// Change this to the appropriate value to target other versions of IE.
 #endif
 
-#define MIRANDA_VER		0x0800
+#define MIRANDA_VER		0x0A00
 
 #include <m_stdhdr.h>
 

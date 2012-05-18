@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <commctrl.h>
 #include <Richedit.h>
 
-#define MIRANDA_VER  0x0600
+#define MIRANDA_VER  0x0A00
 #include "m_plugins.h"
 #include "newpluginapi.h"
 #include "m_utils.h"

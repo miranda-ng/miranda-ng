@@ -18,7 +18,7 @@
 //
 //***********************************************************
 
-#define MIRANDA_VER 0x0700
+#define MIRANDA_VER 0x0A00
 
 #include "Engine/TalkEngine.h"
 

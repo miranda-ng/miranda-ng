@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 #include <stdio.h>
 #include <tchar.h>
 
-#define MIRANDA_VER 0x0600
+#define MIRANDA_VER 0x0A00
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_utils.h>

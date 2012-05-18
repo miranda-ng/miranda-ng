@@ -40,8 +40,7 @@
 using namespace std;
 
 // Miranda headers
-#define MIRANDA_VER 0x0800
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 
 #include <newpluginapi.h>
 #include <m_system.h>

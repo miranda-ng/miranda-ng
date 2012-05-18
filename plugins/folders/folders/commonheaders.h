@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_FOLDERS_COMMONHEADERS_H
 #define M_FOLDERS_COMMONHEADERS_H
 
-#define MIRANDA_CUSTOM_LP
-
 #define MAX_FOLDER_SIZE 2048
 
 #include <stdio.h>

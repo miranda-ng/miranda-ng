@@ -32,7 +32,7 @@ Last change by : $Author: ing.u.horn $
 #define __CONTACTASYNCQUEUE_H__
 
 #ifndef MIRANDA_VER
-#define MIRANDA_VER 0x0800
+#define MIRANDA_VER 0x0A00
 #endif
 
 #include <windows.h>

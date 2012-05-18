@@ -18,7 +18,7 @@ Boston, MA 02111-1307, USA.
 */
 
 
-#define MIRANDA_VER 0x0700
+#define MIRANDA_VER 0x0A00
 #include "mir_smileys.h"
 #include "mir_memory.h"
 #include "utf8_helpers.h"

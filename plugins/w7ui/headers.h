@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <propkey.h>
 #include <propvarutil.h>
 
-#define MIRANDA_VER	0x800
+#define MIRANDA_VER	0x0A00
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system.h>

@@ -21,8 +21,7 @@ Boston, MA 02111-1307, USA.
 #ifndef __QUICK_REPLY_H__
 #define __QUICK_REPLY_H__
 
-#define MIRANDA_VER 0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 
 #include <windows.h>
 #include <vector>

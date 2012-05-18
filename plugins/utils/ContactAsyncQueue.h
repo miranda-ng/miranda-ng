@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 # define __CONTACTASYNCQUEUE_H__
 
 #ifndef MIRANDA_VER
-#define MIRANDA_VER 0x0700
+#define MIRANDA_VER 0x0A00
 #endif
 
 #include <windows.h>

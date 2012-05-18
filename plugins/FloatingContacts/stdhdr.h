@@ -27,7 +27,7 @@
 #pragma warning ( disable : 4201 ) //nonstandard extension used : nameless struct/union
 #include <commctrl.h>
 
-#define MIRANDA_VER 0x600
+#define MIRANDA_VER 0x0A00
 
 #include <newpluginapi.h>
 #include <m_system.h>

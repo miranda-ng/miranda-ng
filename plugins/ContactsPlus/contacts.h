@@ -36,7 +36,7 @@
 #include <time.h>
 
 //!!this is fake - this plugin maintains backward compatibility internally
-#define MIRANDA_VER 0x800
+#define MIRANDA_VER 0x0A00
 
 #include "newpluginapi.h"
 #include "m_system.h"

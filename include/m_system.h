@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // set the default compatibility lever for Miranda 0.4.x
 #ifndef MIRANDA_VER
-	#define MIRANDA_VER    0x0400
+	#define MIRANDA_VER    0x0A00
 #endif
 
 #ifndef _MSC_VER

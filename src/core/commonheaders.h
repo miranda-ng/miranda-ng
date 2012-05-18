@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 // to enable all 0.9.0 core functions
-#define MIRANDA_VER 0x1000
+#define MIRANDA_VER 0x0A00
 
 #define _ALPHA_BASE_ 1	// defined for CVS builds
 #define _ALPHA_FUSE_ 1	// defined for fuse powered core

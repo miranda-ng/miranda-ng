@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#define MIRANDA_VER 0x0700
+#define MIRANDA_VER 0x0A00
 
 #include "m_stdhdr.h"
 #include "win2k.h"
