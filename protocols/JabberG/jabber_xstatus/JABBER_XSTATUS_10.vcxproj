@@ -123,7 +123,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ImportLibrary>.\Release\xstatus_jabber.lib</ImportLibrary>
+      <ImportLibrary>
+      </ImportLibrary>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
     </Link>
@@ -162,7 +163,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ImportLibrary>.\Release\xstatus_jabber.lib</ImportLibrary>
+      <ImportLibrary>
+      </ImportLibrary>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
     </Link>
@@ -202,7 +204,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ImportLibrary>.\Release\xstatus_jabber.lib</ImportLibrary>
+      <ImportLibrary>
+      </ImportLibrary>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
     </Link>
@@ -241,7 +244,8 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>true</IgnoreAllDefaultLibraries>
-      <ImportLibrary>.\Release\xstatus_jabber.lib</ImportLibrary>
+      <ImportLibrary>
+      </ImportLibrary>
       <NoEntryPoint>true</NoEntryPoint>
       <AdditionalOptions> /ALIGN:4096  /ignore:4108</AdditionalOptions>
     </Link>
