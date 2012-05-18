@@ -285,6 +285,10 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								if (IsIconic(pLastActiveContainer->hwnd) || !IsWindowVisible(pLastActiveContainer->hwnd)) {
 									SendMessage(pLastActiveContainer->hwnd, WM_SYSCOMMAND, SC_RESTORE, 0);
 									SetForegroundWindow(pLastActiveContainer->hwnd);
+									SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
+								} else if (GetForegroundWindow() != pLastActiveContainer->hwnd) {
+									SetForegroundWindow(pLastActiveContainer->hwnd);
+									SetFocus(GetDlgItem(pLastActiveContainer->hwndActive, IDC_MESSAGE));
 								} else {
 									if(PluginConfig.m_HideOnClose)
 										ShowWindow(pLastActiveContainer->hwnd, SW_HIDE);
@@ -529,7 +533,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CSkin::initAeroEffect();
 			break;
 		}
-		
+
 		/*
 		 * user has changed the visual style or switched to/from
 		 * classic Windows theme
