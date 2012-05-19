@@ -20,7 +20,7 @@
 
 #include "Common.h"
 #include "Properties.h"
-#include "..\CommonLibs\m_NewAwaySys.h"
+#include "m_NewAwaySys.h"
 
 
 typedef struct {

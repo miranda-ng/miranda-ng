@@ -160,7 +160,7 @@ int GetRecentGroupID(int iMode)
 	{
 		for (Order = 0; Order < TreeCtrl->Value.GetSize(); Order++) // find a group named accordingly to the current status
 		{
-			if (TreeCtrl->Value[Order].ParentID == g_Messages_RecentRootID && TreeCtrl->Value[Order].Flags & TIF_GROUP && !_tcsicmp(TreeCtrl->Value[Order].Title, iMode ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GCMDF_TCHAR) : MSGTREE_RECENT_OTHERGROUP))
+			if (TreeCtrl->Value[Order].ParentID == g_Messages_RecentRootID && TreeCtrl->Value[Order].Flags & TIF_GROUP && !_tcsicmp(TreeCtrl->Value[Order].Title, iMode ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GSMDF_TCHAR) : MSGTREE_RECENT_OTHERGROUP))
 			{
 				return TreeCtrl->Value[Order].ID;
 			}

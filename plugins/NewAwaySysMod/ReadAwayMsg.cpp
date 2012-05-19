@@ -69,7 +69,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			TCHAR *status, *contactName;
 			contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)awayData->hContact, GCDNF_TCHAR);
 			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)awayData->hContact, 0);
-			status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DBGetContactSettingWord(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), GCMDF_TCHAR);
+			status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DBGetContactSettingWord(awayData->hContact, szProto, "Status", ID_STATUS_OFFLINE), GSMDF_TCHAR);
 			GetWindowText(hwndDlg, format, lengthof(format));
 			_sntprintf(str, lengthof(str), format, status, contactName);
 			SetWindowText(hwndDlg, str);

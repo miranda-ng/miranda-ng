@@ -30,8 +30,8 @@ void ShowMsg(TCHAR *FirstLine, TCHAR *SecondLine, bool IsErrorMsg, int Timeout)
 		ppd.lchIcon = LoadIcon(NULL, IsErrorMsg ? IDI_EXCLAMATION : IDI_INFORMATION);
 //		lstrcpy(ppd.lpzContactName, FirstLine);
 //		lstrcpy(ppd.lpzText, SecondLine);
-		lstrcpy(ppd.lpwzContactName, FirstLine);
-		lstrcpy(ppd.lpwzText, SecondLine);
+		lstrcpy(ppd.lptzContactName, FirstLine);
+		lstrcpy(ppd.lptzText, SecondLine);
 		ppd.colorBack = IsErrorMsg ? 0x0202E3 : 0xE8F1FD;
 		ppd.colorText = IsErrorMsg ? 0xE8F1FD : 0x000000;
 		ppd.iSeconds = Timeout;
@@ -223,7 +223,7 @@ int ShowPopupNotification(COptPage &PopupNotifyData, HANDLE hContact, int iStatu
 		TCString szUIN;
 		_ultot(VarParseData.UIN, szUIN.GetBuffer(16), 10);
 		szUIN.ReleaseBuffer();
-		TCHAR *szStatDesc = iStatusMode ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatusMode, GCMDF_TCHAR) : STR_XSTATUSDESC;
+		TCHAR *szStatDesc = iStatusMode ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iStatusMode, GSMDF_TCHAR) : STR_XSTATUSDESC;
 		_ASSERT(szStatDesc);
 		PopupMsg = TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)) + _T(" (") + szUIN + TranslateT(") is reading your ") + szStatDesc + TranslateT(" message:\r\n") + ExtraText;
 	}

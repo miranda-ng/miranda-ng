@@ -26,7 +26,7 @@
 #include "ContactList.h"
 #include "MsgTree.h"
 #include "Properties.h"
-#include "..\CommonLibs\m_NewAwaySys.h"
+#include "m_NewAwaySys.h"
 
 #define EXTRAIMGLIST_DOT 0
 #define EXTRAIMGLIST_IGNORE 1
@@ -968,7 +968,7 @@ int CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 							//TCString WindowTitle(TranslateT("Set "));
 							TCString WindowTitle(TranslateT("Set message for"));
 							WindowTitle += _T(" \"");
-							WindowTitle += Status ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Status, GCMDF_TCHAR) : TranslateT("Statuses");
+							WindowTitle += Status ? (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, Status, GSMDF_TCHAR) : TranslateT("Statuses");
 							//WindowTitle += TranslateT(" message");
 							if (nNewContacts == 1)
 							{

@@ -23,9 +23,9 @@
 #include "Path.h"
 #include "m_button.h"
 #include "m_clc.h"
-#include "..\CommonLibs\Themes.h"
-#include "..\CommonLibs\GroupCheckbox.h"
-#include "..\CommonLibs\ThemedImageCheckbox.h"
+#include ".\CommonLibs\Themes.h"
+#include ".\CommonLibs\GroupCheckbox.h"
+#include ".\CommonLibs\ThemedImageCheckbox.h"
 
 //NightFox
 #include <m_modernopt.h>
@@ -167,7 +167,7 @@ int CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (I = 0; I < lengthof(StatusButtons); I++)
 			{
 				HWND hButton = GetDlgItem(hwndDlg, StatusButtons[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GCMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GSMDF_TCHAR), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
 			}
@@ -371,7 +371,7 @@ int CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			for (I = 0; I < lengthof(DefMsgDlgItems); I++)
 			{
 				HWND hButton = GetDlgItem(hwndDlg, DefMsgDlgItems[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[I].Status, GCMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[I].Status, GSMDF_TCHAR), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
 				g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
@@ -654,7 +654,7 @@ int CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			for (I = 0; I < lengthof(StatusButtons); I++)
 			{
 				HWND hButton = GetDlgItem(hwndDlg, StatusButtons[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GCMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GSMDF_TCHAR), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
 			}
@@ -834,7 +834,7 @@ int CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			for (I = 0; I < lengthof(StatusButtons); I++)
 			{
 				HWND hButton = GetDlgItem(hwndDlg, StatusButtons[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GCMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GSMDF_TCHAR), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
 			}
@@ -1027,7 +1027,7 @@ int CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			for (I = 0; I < lengthof(DefMsgDlgItems); I++)
 			{
 				HWND hButton = GetDlgItem(hwndDlg, DefMsgDlgItems[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[I].Status, GCMDF_TCHAR), BATF_TCHAR);
+				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[I].Status, GSMDF_TCHAR), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
 				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
 				g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);

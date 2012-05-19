@@ -20,7 +20,7 @@
 #pragma once
 
 #include "m_utils.h"
-#include "..\CommonLibs\CString.h"
+#include ".\CommonLibs\CString.h"
 
 
 __inline TCString Path_ToRelative(TCString &Path)

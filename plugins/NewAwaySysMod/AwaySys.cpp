@@ -30,14 +30,13 @@
 */
 
 #define _DECL_DLLMAIN
-#include <process.h> // needed for MSVC 7 msvcr7*.dll patch
 #include "Common.h"
 #include "m_genmenu.h"
 #include "m_idle.h"
 #include "m_statusplugins.h"
 #include "m_updater.h"
-#include "..\CommonLibs\m_NewAwaySys.h"
-#include "..\CommonLibs\m_ContactSettings.h"
+#include "m_NewAwaySys.h"
+#include "m_ContactSettings.h"
 #include "MsgTree.h"
 #include "ContactList.h"
 #include "Properties.h"
@@ -47,9 +46,12 @@
 
 //NightFox
 #include <m_modernopt.h>
+#include <process.h> // needed for MSVC 7 msvcr7*.dll patch
 
 HINSTANCE g_hInstance;
 PLUGINLINK *pluginLink;
+MM_INTERFACE mmi;
+int hLangpack = 0;
 TMyArray<HANDLE> hHooks, hServices;
 HANDLE g_hContactMenuItem = NULL, g_hReadStatMenuItem = NULL, /*g_hTopToolbarbutton = NULL, */g_hToggleSOEMenuItem = NULL, g_hToggleSOEContactMenuItem = NULL, g_hAutoreplyOnContactMenuItem = NULL, g_hAutoreplyOffContactMenuItem = NULL, g_hAutoreplyUseDefaultContactMenuItem = NULL;
 bool g_fNoProcessing = false; // tells the status change proc not to do anything
@@ -478,13 +480,13 @@ int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 		}
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || ((Flag1 & PF1_IM) == PF1_IM && (I < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[I].DisableReplyCtlID))))
 		{ // the protocol supports status message sending for current status, or autoreplying
-			_stprintf(szSetStr, TranslateT("Set %s message for the contact"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GCMDF_TCHAR), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+			_stprintf(szSetStr, TranslateT("Set %s message for the contact"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GSMDF_TCHAR), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 			miSetMsg.ptszName = szSetStr;
 			miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME;
 		}
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode))
 		{ // the protocol supports status message reading for contact's status
-			_stprintf(szReadStr, TranslateT("Re&ad %s Message"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iContactMode, GCMDF_TCHAR));
+			_stprintf(szReadStr, TranslateT("Re&ad %s Message"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iContactMode, GSMDF_TCHAR));
 			miReadMsg.ptszName = szReadStr;
 			miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 			miReadMsg.hIcon = LoadSkinnedProtoIcon(szProto, iContactMode);
@@ -691,7 +693,7 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
 			{
-				_stprintf(Title, TranslateT("Enable autoreply when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GCMDF_TCHAR));
+				_stprintf(Title, TranslateT("Enable autoreply when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GSMDF_TCHAR));
 				csc.ptszTitle = Title;
 				csc.ptszTooltip = TranslateT("\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.");
 			} else
@@ -705,7 +707,7 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
 			{
-				_stprintf(Title, TranslateT("Don't send status message when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GCMDF_TCHAR));
+				_stprintf(Title, TranslateT("Don't send status message when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GSMDF_TCHAR));
 				csc.ptszTitle = Title;
 				csc.ptszTooltip = TranslateT("Ignore status message requests from this contact and don't send an autoreply.\r\n\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.");
 			} else
@@ -737,7 +739,7 @@ int srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		Result.ReleaseBuffer();
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_STATDESC)))
 	{
-		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, g_ProtoStates[VarParseData.szProto].Status, GCMDF_TCHAR);
+		Result = (VarParseData.Flags & VPF_XSTATUS) ? STR_XSTATUSDESC : (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, g_ProtoStates[VarParseData.szProto].Status, GSMDF_TCHAR);
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_MYNICK)))
 	{
 		if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_MYNICKPERPROTO) && VarParseData.szProto)
@@ -843,7 +845,7 @@ static int MyCallService(const char *name, WPARAM wParam, LPARAM lParam)
 {
 	if (name && wParam <= ID_STATUS_OUTTOLUNCH && wParam >= ID_STATUS_OFFLINE) // wParam conditions here are distinctive "features" of PS_SETSTATUS and PS_SETAWAYMSG services, so if wParam does not suit them, we'll pass the control to the old CallService function as soon as possible
 	{
-		char *pProtoNameEnd = strrchr(name, '/');
+		const char *pProtoNameEnd = strrchr(name, '/');
 		if (pProtoNameEnd)
 		{
 			if (!lstrcmpA(pProtoNameEnd, PS_SETSTATUS))
@@ -1053,17 +1055,12 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	if (CallService(MS_SYSTEM_GETVERSION, 0, 0) < 0x060000)
-	{
-		MessageBox(NULL, TranslateT("New Away System plugin requires Miranda version 0.6.0.0 or above."), TranslateT("New Away System"), MB_OK);
-		return 1;
-	}
+	mir_getMMI( &mmi );
+	mir_getLP( &pluginInfo );
+
 	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));
-//	hHooks.AddElem(HookEvent(ME_CS_CSMODULELOADED, CSModuleLoaded)); // compatibility with StartupStatus and AdvancedAutoAway
 	if (DBGetContactSettingString(NULL, "KnownModules", "New Away System", (char*)NULL) == NULL)
-	{
 		DBWriteContactSettingString(NULL, "KnownModules", "New Away System", MOD_NAME);
-	}
 
 	InitCommonControls();
 	InitOptions(); // must be called before we hook CallService

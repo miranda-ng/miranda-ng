@@ -288,30 +288,30 @@
     <ClCompile Include="AwaySys.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="ContactList.cpp" />
-    <ClCompile Include="..\CommonLibs\CString.cpp" />
-    <ClCompile Include="..\CommonLibs\GroupCheckbox.cpp" />
+    <ClCompile Include=".\CommonLibs\CString.cpp" />
+    <ClCompile Include=".\CommonLibs\GroupCheckbox.cpp" />
     <ClCompile Include="MsgEventAdded.cpp">
       <Optimization Condition="'$(Configuration)|$(Platform)'=='ReleaseW|Win32'">MinSpace</Optimization>
     </ClCompile>
     <ClCompile Include="MsgTree.cpp" />
     <ClCompile Include="Notification.cpp" />
-    <ClCompile Include="..\CommonLibs\Options.cpp" />
+    <ClCompile Include=".\CommonLibs\Options.cpp" />
     <ClCompile Include="Properties.cpp" />
     <ClCompile Include="ReadAwayMsg.cpp" />
     <ClCompile Include="Services.cpp" />
     <ClCompile Include="SetAwayMsg.cpp" />
-    <ClCompile Include="..\CommonLibs\ThemedImageCheckbox.cpp" />
-    <ClCompile Include="..\CommonLibs\Themes.cpp" />
+    <ClCompile Include=".\CommonLibs\ThemedImageCheckbox.cpp" />
+    <ClCompile Include=".\CommonLibs\Themes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AggressiveOptimize.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="ContactList.h" />
-    <ClInclude Include="..\CommonLibs\CString.h" />
-    <ClInclude Include="..\CommonLibs\GroupCheckbox.h" />
-    <ClInclude Include="..\CommonLibs\m_ContactSettings.h" />
-    <ClInclude Include="..\CommonLibs\m_LogService.h" />
-    <ClInclude Include="..\CommonLibs\m_NewAwaySys.h" />
+    <ClInclude Include=".\CommonLibs\CString.h" />
+    <ClInclude Include=".\CommonLibs\GroupCheckbox.h" />
+    <ClInclude Include=".\CommonLibs\m_ContactSettings.h" />
+    <ClInclude Include=".\CommonLibs\m_LogService.h" />
+    <ClInclude Include=".\CommonLibs\m_NewAwaySys.h" />
     <ClInclude Include="m_popup.h" />
     <ClInclude Include="m_popupw.h" />
     <ClInclude Include="m_statusplugins.h" />
@@ -319,14 +319,14 @@
     <ClInclude Include="m_updater.h" />
     <ClInclude Include="m_variables.h" />
     <ClInclude Include="MsgTree.h" />
-    <ClInclude Include="..\CommonLibs\Options.h" />
+    <ClInclude Include=".\CommonLibs\Options.h" />
     <ClInclude Include="Path.h" />
     <ClInclude Include="Properties.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Services.h" />
-    <ClInclude Include="..\CommonLibs\ThemedImageCheckbox.h" />
-    <ClInclude Include="..\CommonLibs\Themes.h" />
-    <ClInclude Include="..\CommonLibs\TMyArray.h" />
+    <ClInclude Include=".\CommonLibs\ThemedImageCheckbox.h" />
+    <ClInclude Include=".\CommonLibs\Themes.h" />
+    <ClInclude Include=".\CommonLibs\TMyArray.h" />
     <ClInclude Include="VersionNo.h" />
   </ItemGroup>
   <ItemGroup>

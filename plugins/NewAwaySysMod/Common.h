@@ -21,8 +21,9 @@
 
 #pragma once
 
+#define _CRT_SECURE_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
-#define _WIN32_WINNT 0x0400
+#define _WIN32_WINNT 0x0500
 
 #define MIRANDA_VER 0x0600
 
@@ -63,9 +64,9 @@
 #include "m_popup.h"
 //#include "m_popupw.h"
 #include "m_metacontacts.h"
-#include "..\CommonLibs\m_LogService.h"
-#include "..\CommonLibs\CString.h"
-#include "..\CommonLibs\Options.h"
+#include "m_LogService.h"
+#include ".\CommonLibs\CString.h"
+#include ".\CommonLibs\Options.h"
 
 
 #pragma comment(lib,"comctl32.lib")
