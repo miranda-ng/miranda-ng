@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{deefcd93-f7b0-4946-a73e-cdbbc1d23aac}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{390c6322-88b0-42e4-8b84-73e5345e945b}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{db2d32fd-f303-490e-bc40-ca67fd6fee73}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{6f8e30e0-bc03-46e7-b039-e0fbd019afb2}</UniqueIdentifier>
+      <Extensions>txt</Extensions>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{cc674aae-3e65-4f1c-959f-c95acfe7111a}</UniqueIdentifier>
+      <Extensions>*.h</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="assoclist.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dde.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="reg.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="assoclist.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dde.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_assocmgr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_addcontact.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_clist.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_database.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_icq.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_langpack.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_message.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_options.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_plugins.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_protosvc.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_skin.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_system.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_utils.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\newpluginapi.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\statusmodes.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win2k.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="res\miranda.ico">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="res\mirandafile.ico">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="docs\AssocMgr-Developer.txt">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="docs\AssocMgr-License.txt">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="docs\AssocMgr-Readme.txt">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="docs\AssocMgr-Translation.txt">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="m_assocmgr.inc">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Info_Src.txt">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+    <CustomBuild Include="License_Appendix.txt">
+      <Filter>Documentation</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

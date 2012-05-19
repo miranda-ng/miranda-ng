@@ -1,0 +1,86 @@
+ 
+File Association Manager 0.1.1.0 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Translator Information
+
+	Contents: -------------------------------
+	| General Info, German Strings
+
+
+General Info
+-----------------------------
+	'File Association Manager' can be translated with the Miranda IM
+	language files.
+
+	Put the following strings in a file called 'langpack_<language>.txt'
+	in the Miranda IM directory and translate them into your
+	language.
+	If you need more info on Miranda IM language files visit:
+	http://miranda.svn.sourceforge.net/viewvc/*checkout*/miranda/trunk/miranda/i18n/readme.txt
+
+German Strings
+-----------------------------
+
+; --- Plugin: File Association Manager 0.1.1.0 (German) ---
+; Translation by hrathh
+; Please report any mistakes or missing strings in here.
+
+[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
+Verwaltet Verknüpfungen mit Dateien und URLs wie aim, ymsgr, xmpp, wpmsg, gg, tlen.
+[File Association Manager Plugin]
+Verknüpfungsmanager-Plugin
+[The File Association Manager Plugin can not be loaded. It requires Miranda IM %s or later.]
+Das Verknüpfungsmanager-Plugin kann nicht geladen werden. Es benötigt Miranda IM %s oder höher.
+
+; Options
+;[Services]
+[Associations]
+Verknüpfungen
+[Registered associations for Miranda IM:]
+Verknüpfungen, die mit Miranda IM assoziiert sind:
+[Type]
+Typ
+[%hs files]
+%hs-Dateien
+;[%hs:]
+[Description]
+Beschreibung
+[URLs on Websites]
+URLs auf Websiten
+[File Types]
+Dateitypen
+[Miscellaneous]
+Sonstiges
+[&Start Miranda IM automatically when the Computer starts (using current profile)]
+Miranda IM automatisch bei &Systemstart ausführen (mit dem aktuellen Profil)
+[Only associate with Miranda IM while it is &running]
+Nur mit Miranda IM verknüpfen solange das Programm &ausgeführt wird
+
+; Errors
+[File Association Error]
+Verknüpfungsproblem
+[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+Es trat ein Fehler auf beim Schreiben in die Systemregistrierung. Die Datei- bzw. URL-Verknüpfungen konnten nicht verandert werden.\nGrund: %s
+[Unknown]
+Unbekannt
+[Autostart Error]
+Autostart-Fehler
+[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+Es trat ein Fehler auf beim Schreiben in die Systemregistrierung. Der Autostarteintrag konnte nicht verandert werden.\n\nGrund: %s
+[Miranda IM could not open the file]
+Miranda IM konnte die angebene Datei nicht öffnen
+[Miranda IM was not able to open "%s".\n\nThere is no registered handler for this file type.]
+Die Datei "%s" konnte von Miranda IM nicht geöffnet werden.\n\nFür den Dateityp ist kein Handler definiert.
+[Miranda IM was not able to open "%s".\n\nThe file could not be processed.]
+Die Datei "%s" konnte von Miranda IM nicht geöffnet werden.\n\nBeim Verarbeiten der Datei trat ein Fehler auf.
+[Miranda IM could not open URL]
+Miranda IM konnte die angegebene URL nicht öffnen
+[Miranda IM was not able to open "%s".\n\nThere is no registered handler for this URL type.]
+Die URL "%s" konnte von Miranda IM nicht geöffnet werden.\n\nFur den URL-Typ ist kein Handler definiert.
+[Miranda IM was not able to open "%s".\n\nThe given URL is invalid and can not be parsed.]
+Die Datei "%s" konnte von Miranda IM nicht geöffnet werden.\n\nDie URL is ungültig und kann nicht ausgewertet werden.
+
+; ---
+
+
+H. Herkenrath (hrathh at users.sourceforge.net)

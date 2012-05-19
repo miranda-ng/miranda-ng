@@ -1,0 +1,30 @@
+ 
+File Association Manager 0.1.1.0 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Source Code
+
+Reminder:
+'File Association Manager' is released under the terms of the
+GNU General Public License.
+See 'AssocMgr-License.txt' for more details.
+'File Association Manager' is copyright 2005-2007 by H. Herkenrath.
+
+Please notify me of any changes that improve 
+'File Association Manager' or add new features.
+If you have any questions on the code, feel free
+to contact me at my email address.
+						
+	H. Herkenrath (hrathh at users.sourceforge.net)
+
+
+Notes
+------------------------------------------------------------------------
+The following files need to be changed to bump the version number:
+
+Info_Src.txt (1 place)
+version.h (4 places)
+m_assocmgr.h (1 place)
+m_assocmgr.inc (1 place)
+docs\AssocMgr-Readme.txt (3 places)
+docs\AssocMgr-Translation.txt (2 places)
+docs\AssocMgr-Developer.txt (1 place)

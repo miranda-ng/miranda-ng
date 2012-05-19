@@ -1,0 +1,47 @@
+
+File Association Manager 0.1.1.0 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Developer Information
+
+	Contents: -------------------------------
+	| Translation, Services (API),
+	| Debug Symbols, Coding Language, Rebase Info
+	
+Translation
+-----------------
+	Translation strings can be found in 'AssocMgr-Translation.txt'.
+
+Services (API)
+-----------------
+	For more information about which service functions are provided by 
+	'File Association Manager' and about how they can be used by your 
+	plugin please refer to 'm_assocmgr.h".
+	If you would like to use Delphi/Pascal please refer to 'm_assocmgr.inc'.
+
+	If you have any questions or extension whishes please send me an e-mail:
+	hrathh at users.sourceforge.net
+
+Debug Symbols
+-----------------
+	Debug symbols are also available for debugging purposes.
+	Copy the PDB-files into the same directory as the
+	corresponding DLL-files.
+	To debug crashes the supplied MAP-file file might be helpful.
+
+Coding Language
+-----------------
+	'File Association Manager' is written with Microsoft Visual C++ 6.0 SP6.
+	Used Microsoft Platform SDK: 5.2.3790.1830.15 (Svr2003 SP1).
+
+Rebase Info
+-----------------
+	'File Association Manager' has set its base address to:
+	0x24300000
+
+	Please avoid using this base address for your plugins because
+	it will slow down the startup of Miranda IM a little bit.
+
+	Using Microsoft Visual C++, the base address can be configured at:
+	'Project' -> 'Settings' -> 'Linker' -> 'Output' -> 'Base Address'
+
+H. Herkenrath (hrathh at users.sourceforge.net)
