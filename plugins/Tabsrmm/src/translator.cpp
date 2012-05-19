@@ -446,11 +446,11 @@ wchar_t* CTranslator::m_OptStrings[OPT_LAST] = {
  */
 wchar_t* CTranslator::m_Warnings[WARN_LAST] = {
 	LPGENT("Important release notes|A test warning message"),							/* WARN_TEST */ /* reserved for important notes after upgrade - NOT translatable */
-	L"Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0 ",			/* WARN_ICONPACKVERSION */ /* NOT TRANSLATABLE */
+	LPGENT("Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0"),			/* WARN_ICONPACKVERSION */ /* NOT TRANSLATABLE */
 	LPGENT("Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"),  /* WARN_EDITUSERNOTES */
-	L"Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available",		/* WARN_ICONPACKMISSING */ /* NOT TRANSLATABLE */
+	LPGENT("Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available"),		/* WARN_ICONPACKMISSING */ /* NOT TRANSLATABLE */
 	LPGENT("Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature."),	/* WARN_AEROPEEKSKIN */
-	L"TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0", /* WARN_CHAT_ENABLED */ /* NOT TRANSLATABLE */
+	LPGENT("TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0"), /* WARN_CHAT_ENABLED */ /* NOT TRANSLATABLE */
 	L"Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.", /* WARN_IMGSVC_MISSING */ /* NOT TRANSLATABLE */
 	LPGENT("Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?"), /* WARN_HPP_APICHECK */
 	L" ", /* WARN_NO_SENDLATER */ /*uses QMGR_ERROR_NOMULTISEND */
@@ -471,6 +471,7 @@ TOptionListGroup CTranslator::m_lvGroupsModPlus[] = {
 
 TOptionListItem CTranslator::m_lvItemsModPlus[] = {
 	0, LPGENT("Show client icon in status bar (fingerprint plugin required)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_ClientIconInStatusBar", 0,
+	0, LPGENT("Show skinnable tooltip in chat (tipper plugin required)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_TipperTooltip", 0,
 	0, LPGENT("Enable typing sounds"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_soundontyping", 0,
 	0, LPGENT("Disable animated GIF avatars (will not affect already open message windows)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_DisableAniAvatars", 0,
 	0, LPGENT("Close current tab on send"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_AutoClose_2", 0,

@@ -570,7 +570,7 @@ int LoadSendRecvMessageModule(void)
 	INITCOMMONCONTROLSEX 	icex;
 
 	if(FIF == 0) {
-		MessageBox(0, _T("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), _T("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
+		MessageBox(0, TranslateT("The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled."), TranslateT("TabSRMM fatal error"), MB_OK | MB_ICONERROR);
 		return(1);
 	}
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
@@ -1036,7 +1036,7 @@ static int GetIconPackVersion(HMODULE hDLL)
 	}
 
 	if (version < 5)
-		CWarning::show(CWarning::WARN_ICONPACK_VERSION, CWarning::CWF_UNTRANSLATED|MB_OK|MB_ICONERROR);
+		CWarning::show(CWarning::WARN_ICONPACK_VERSION, MB_OK|MB_ICONERROR);
 	return version;
 }
 /*
@@ -1053,7 +1053,7 @@ static int TSAPI SetupIconLibConfig()
 	strncpy(szFilename, "icons\\tabsrmm_icons.dll", MAX_PATH);
 	g_hIconDLL = LoadLibraryA(szFilename);
 	if (g_hIconDLL == 0) {
-		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE|CWarning::CWF_UNTRANSLATED|MB_ICONERROR|MB_OK);
+		CWarning::show(CWarning::WARN_ICONPACKMISSING, CWarning::CWF_NOALLOWHIDE|MB_ICONERROR|MB_OK);
 		return 0;
 	}
 

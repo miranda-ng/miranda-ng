@@ -352,10 +352,10 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT* gce, struct TWindowData* dat)
 			if (pContainer->dwFlags & CNT_ALWAYSREPORTINACTIVE) {
 				if (pContainer->dwFlags & CNT_DONTREPORTFOCUSED)
 					goto passed;
-				
+
 				if (pContainer->hwndActive == si->hWnd)
 					return 0;
-				
+
 				goto passed;
 			}
 			return 0;
@@ -1255,7 +1255,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 	}
 
 	dwFlags_default = M->GetDword("Chat", "DiskLogFlags", 0xFFFF);
-    si->iDiskLogFlags = dwFlags_default;
+	si->iDiskLogFlags = dwFlags_default;
 
 
 	if (si->iLogFilterFlags == 0)
@@ -1273,7 +1273,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 	bool				fReparse = false;
 
 	if(!tTime)
-	  time(&tTime);
+		time(&tTime);
 
 	/*
 	 * check whether relevant parts of the timestamp have changed and
@@ -1345,7 +1345,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 			if (*p == ':' || *p == '*' || *p == '?' || *p == '"' || *p == '<' || *p == '>' || *p == '|' )
 				*p = _T('_');
 		}
-    }
+	}
 
 	return si->pszLogFileName;
 }
