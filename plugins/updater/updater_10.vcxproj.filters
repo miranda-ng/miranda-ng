@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e84d2a13-161a-4938-ab2a-beb609357fea}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{6df75c45-cf83-4365-b665-c40b167c72dd}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{f1c7f304-6e46-4a5a-a270-dd2ff8b39172}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="ezxml">
+      <UniqueIdentifier>{cfa116bf-ab53-44bd-a2f4-a933cfa32ba2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="bzip2">
+      <UniqueIdentifier>{464e222b-e398-4cc6-9a2b-fb46c727308c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="minizip">
+      <UniqueIdentifier>{bfe67567-27a6-495c-a026-4accb16a029d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="allocations.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conf_comp_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="conf_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="extern.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="icons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="popups.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="progress_dialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="services.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="unzipfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="updater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="xmldata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ezxml.c">
+      <Filter>ezxml</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\blocksort.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\bzlib.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\compress.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\crctable.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\decompress.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\huffman.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="bzip2-1.0.3\randtable.c">
+      <Filter>bzip2</Filter>
+    </ClCompile>
+    <ClCompile Include="zbin\minizip\ioapi.c">
+      <Filter>minizip</Filter>
+    </ClCompile>
+    <ClCompile Include="zbin\minizip\ioapi_mem.c">
+      <Filter>minizip</Filter>
+    </ClCompile>
+    <ClCompile Include="zbin\minizip\unzip.c">
+      <Filter>minizip</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="allocations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conf_comp_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="conf_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="extern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="icons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_updater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="popups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="progress_dialog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="services.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="updater.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="xmldata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ezxml.h">
+      <Filter>ezxml</Filter>
+    </ClInclude>
+    <ClInclude Include="bzip2-1.0.3\bzlib.h">
+      <Filter>bzip2</Filter>
+    </ClInclude>
+    <ClInclude Include="bzip2-1.0.3\bzlib_private.h">
+      <Filter>bzip2</Filter>
+    </ClInclude>
+    <ClInclude Include="zbin\minizip\ioapi.h">
+      <Filter>minizip</Filter>
+    </ClInclude>
+    <ClInclude Include="zbin\minizip\unzip.h">
+      <Filter>minizip</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ico00001.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ico00002.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="notick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="restart.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="u.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ue.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="updater.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

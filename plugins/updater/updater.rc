@@ -1,0 +1,213 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONFIRMCOMPONENTS DIALOGEX 0, 0, 238, 225
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Confirm Files"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,51,204,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,121,204,50,14
+    CONTROL         "List1",IDC_LIST_COMPONENTS,"SysListView32",LVS_REPORT | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,15,25,207,152
+    CTEXT           "Uncheck the files that you do not want installed:",IDC_STATIC,0,9,222,12
+    PUSHBUTTON      "Select DLLs",IDC_BTN_SELECTDLLS,151,180,72,14
+    PUSHBUTTON      "Invert Selection",IDC_BTN_SELECTINV,79,180,67,14
+    PUSHBUTTON      "Select All",IDC_BTN_SELECTALL,13,180,63,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CONFIRMCOMPONENTS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 231
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 218
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT1 DIALOGEX 0, 0, 293, 228
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    CONTROL         "Check for updates on startup",IDC_CHK_ONSTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,97,142,10
+    PUSHBUTTON      "Check for updates",IDC_BTN_CHECK,156,211,116,17
+    CONTROL         "List1",IDC_LST_REGISTERED,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,0,0,293,70
+    CONTROL         "(But only once per day)",IDC_CHK_ONCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,110,133,10
+    CONTROL         "Check daily",IDC_CHK_DAILY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,123,140,10
+    CONTROL         "Install without confirmation if idle",IDC_CHK_NOCONFIDLE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,136,134,10
+    CONTROL         "Backup updated files",IDC_CHK_BACKUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,97,138,10
+    GROUPBOX        "General Settings",IDC_STATIC,0,72,293,103
+    GROUPBOX        "Global Status Control",IDC_STATIC,0,178,293,30
+    CONTROL         "Start offline, restore after update check",IDC_CHK_STARTOFFLINE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,191,283,10
+    CONTROL         "Use popups for progress info",IDC_CHK_POPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,110,138,10
+    CONTROL         "Show 'Restart' menu item",IDC_CHK_RESTART,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,123,138,10
+    PUSHBUTTON      "Update and Exit",IDC_BTN_CHECKNORESTART,17,211,116,17
+    CONTROL         "Show 'Update and Exit' menu item",IDC_CHK_UPDATEANDEXIT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,136,138,10
+    CONTROL         "Slider1",IDC_SLID_VERREQ,"msctls_trackbar32",TBS_BOTH | TBS_NOTICKS | WS_TABSTOP,8,83,100,12
+    LTEXT           "Static",IDC_ST_VERREQ,111,85,180,8
+    CONTROL         "Keep downloaded archives",IDC_CHK_SAVEZIPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,151,149,138,10
+    CONTROL         "Only install DLLs automatically",IDC_CHK_DLLSONLY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,149,134,10
+    CONTROL         "Don't unzip",IDC_CHK_NOUNZIP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,158,161,129,10
+END
+
+IDD_CONFIRMUPDATES DIALOGEX 0, 0, 266, 209
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Updates Found"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    DEFPUSHBUTTON   "Update",IDOK,67,188,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,143,188,50,14
+    CTEXT           "Updater has detected updated versions\nof the following Miranda components:",IDC_STATIC,9,9,222,22
+    CONTROL         "List1",IDC_LIST_UPDATES,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | WS_BORDER | WS_TABSTOP,13,37,238,105
+    GROUPBOX        "",IDC_STATIC,13,144,239,39
+    CONTROL         "Confirm install for individual files",IDC_CHK_CONFALL,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,153,143,10
+    CONTROL         "Download but do not install",IDC_CHK_NOINSTALL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,166,143,10
+    DEFPUSHBUTTON   "Changelog",IDC_BTN_CHANGELOG,192,158,53,14,WS_DISABLED | NOT WS_TABSTOP
+END
+
+IDD_PROGRESS DIALOGEX 0, 0, 187, 41
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Progress"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Progress1",IDC_PROGRESS,"msctls_progress32",WS_BORDER,7,21,173,13,WS_EX_STATICEDGE
+    LTEXT           "Initialising...",IDC_PROGMSG,9,7,171,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CONFIRMUPDATES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 259
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 202
+    END
+
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 34
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAINMENU            ICON                    "u.ico"
+IDI_RESTART             ICON                    "restart.ico"
+IDI_UPDATEANDEXIT       ICON                    "ue.ico"
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

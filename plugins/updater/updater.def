@@ -1,0 +1,3 @@
+EXPORTS
+	ExternalUpdate = ExternalUpdate
+	_ExternalUpdate@16 = ExternalUpdate
