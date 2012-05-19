@@ -1,0 +1,30 @@
+ 
+Language Pack Manager 1.0.2.2 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Source Code
+
+Reminder:
+'Language Pack Manager' is released under the terms of the
+GNU General Public License.
+See 'LangMan-License.txt' for more details.
+'Language Pack Manager' is copyright 2005-2007 by H. Herkenrath.
+
+Please notify me of any changes that improve 
+'Language Pack Manager' or add new features.
+If you have any questions on the code, feel free
+to contact me at my email address.
+						
+	H. Herkenrath (hrathh at users.sourceforge.net)
+
+
+Notes
+------------------------------------------------------------------------
+The following files need to be changed to bump the version number:
+
+Info_Src.txt (1 place)
+version.h (4 places)
+m_langman.h (1 place)
+m_langman.inc (1 place)
+docs\LangMan-Readme.txt (3 places)
+docs\LangMan-Translation.txt (2 places)
+docs\LangMan-Developer.txt (1 place)

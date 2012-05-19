@@ -1,0 +1,293 @@
+ 
+Language Pack Manager 1.0.2.2 for Miranda IM 0.6+
+------------------------------------------------------------------------
+                                      Translator Information
+
+	Contents: -------------------------------
+	| General Info, Langpack Header,
+	| String Listing
+
+General Info
+-----------------------------
+	'Language Pack Manager' can be translated with the Miranda IM
+	language files.
+
+	Put the following strings in a file called 'langpack_<language>.txt'
+	in the Miranda IM directory and translate them into your
+	language.
+	If you need more info on Miranda IM language files visit:
+	http://miranda.svn.sourceforge.net/viewvc/*checkout*/miranda/trunk/miranda/i18n/readme.txt
+
+Langpack Header
+-----------------------------
+	The information that is shown in the options about your
+	Language Pack file is taken from the header privided
+	in that file.
+	If you are the author of a langpack file, please make sure
+	the information you give there is accurate and does follow
+	the offical rules.
+
+	The official names of the header tags and what they specify
+	are described here:
+	http://miranda.svn.sourceforge.net/viewvc/*checkout*/miranda/trunk/miranda/i18n/readme.txt
+
+	Following, I provide a summary of the available tags and
+	I also provide some ideas on how those data could be formated.
+	You do not need to follow those suggestions, but I think it would
+	make the provided information more comfortable to read and more informative.
+
+	'Language' header (optional):
+	A full description of the language in the file, in English, e.g.
+	'English (UK)', 'English (US) humorous' or 'German'.
+	This field should really be in in English so everybody knows what
+	is is about. The string is translated using the current langpack
+	before it is displayed.
+	Just provide a country abbreviation in brackets if it is useful.
+	A value of 'French (fr-FR)' is not very senseful as the
+	information is duplicated in the specified locale.
+	'German (AT)' would be a useful example. 
+	Just be a bit smart ;) to find out when those brackets are
+	necessary and when not.
+	Several langpack files for the same language are possible
+	using this field, e.g.
+	'German' pack using 'Sie' and 'German (informal)' using 'Du'.
+
+	'Locale' header:
+	The Windows language code. A complete list is available at
+	http://msdn.microsoft.com/library/default.asp?url=/library/en-us/intl/nls_238z.asp
+	Please make sure this is a correct value. There were some
+	langpack files out there specifying the English Locale
+	instead of their own.
+
+	'Last-Modified-Using' header:
+	Please keep this line up-to-date, containing the last version
+	of Miranda IM you made changes with, so people can compare files
+	containing the same language to see which is the most up-to-date.
+	The formatting of the value is unimportant, as long as it's human-readable.
+	However, it is more comfortable to read when all Language Packs use
+	the same format.
+	I think we could agree upon the following format: 'Miranda IM 0.6'
+	When you use an alpha build the following format fits well:
+	'Miranda IM 0.6 alpha build #1' (as shown on 'Help'->'About' dialog).
+
+	'Authors' header:
+	A list of people who have worked on this file.
+	When you do something, add (or move) your name to the front,
+	and put a comma (', ') between each name, e.g.
+	'Hari Seldon, Gaal Dornick'
+	By the nature of the options dialog the place to display this value
+	is very limited.
+	Important and actively developing people should be listed first.
+	Real names should be prefered instead of just nicknames. 
+
+	'Author-email' header:
+	Should contain the e-mail of the person that last changed
+	the file only, on the assumption that that person is qualified
+	to manage the file.
+	It is enough when the user knows one single email address
+	he can write to.
+	You can use ' at ' instead of '@' to obfuscate your email address.
+
+	'Plugins-included' header:
+	Contains a list of the plugins that are also translated in this file. It
+	should be a comma-delimited list of the plugin DLL filenames, e.g.
+	'Plugins-included: splitmsgdialogs,import,historyp'.
+	You really should follow standards here. ;)
+	The Language Pack Manager uses this list to display a list of installed
+	plugins which are not included in this package.
+	'miranda32' or something like that does not need to be listed here.
+	The list is case-insensitive, but it is a good idea to use exactly the same
+	case of the DLL file.
+	Just use filenames of the plugin DLLs here, e.g.
+	the plugin named 'ICQ.dll' should be listed as 'ICQ'.
+	It is a good idea to even include plugins into this list that do not have
+	any strings for translation, as for example 'png2dib.dll'.
+	The inclusion list states which plugins are fully language adapted.
+	'png2dib' is, so it should be listed in the header.
+	Additionalliy, each plugin has at least one string to be translated:
+	the long description shown on the plugin's info page in 'Options'->Plugins'.
+	
+	'X-FLName' header (optional, non-standard extension):
+	You can add this header item for Auto-Update support.
+	It contains the name of the language pack as shown on the
+	file listing at http://addons.miranda-im.org.
+	When this tag is omitted the package needs to be listed as
+	'xyz Language Pack' on the file listing. Whereas 'xyz' is the name
+	 of the language pack as stored in the 'Language' header.
+
+	'X-Version' header (non-standard extension):
+	You can add this header item for Auto-Update support.
+	It contains the version number of the langpack as stated on
+	the file listing at http://addons.miranda-im.org.
+
+	'langpack_*.txt' file name:
+	To use the file, place it in the same directory as miranda32.exe,
+	and call it langpack_*.txt where * can be anything, however it is
+	recommended that it be the language.
+	It makes sense when the * part of the file name is English(!) and
+	lower case, e.g. 'langpack_chineset.txt' for the
+	'Chinese (Traditional)' package. 
+	Please avoid using any other character than a-z, 0-9 in this name
+	to keep it portable. 
+	Please do not include a version number in the file name.
+	It is very hard to replace the file manually when the file name
+	changes all the time.
+
+String Listing
+-----------------------------
+
+; --- Plugin: Language Pack Manager 1.0.2.2 (German) ---
+; Translation by hrathh
+; Please report any mistakes or missing strings in here.
+
+[Language pack manager]
+Sprachdatei-Manager
+[Helps you manage Language Packs of different languages.]
+Hilft dabei Sprachdateien verschiedener Sprachen zu verwalten.
+[Language Pack Manager Plugin]
+Sprachdatei-Manager
+[The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
+Der Sprachdatei-Manager kann nicht geladen werden. Er benötigt Miranda IM %hs oder neuer.
+[Language Pack Update HTTP connection]
+Sprachdatei-Update HTTP-Verbindung
+
+; Options
+;[Customize]
+[Language]
+Sprachen
+[&Remove...]
+&Entfernen...
+[Installed Languages]
+Installierte Sprachen
+[File]
+Datei
+[built-in]
+enthalten
+[Author(s):]
+Autor(en):
+[E-mail:]
+E-Mail:
+[Last modified using:]
+Verwendung von:
+[Date:]
+Datum:
+;[Version:]
+;[Locale:]
+[(incompatible)]
+(inkompatibel)
+[Unknown]
+Unbekannt
+[Current]
+Aktuell
+[Not included:]
+Nicht enthalten:
+;[%hs (%s)]
+[All installed plugins are included.]
+Alle installierten Plugins sind enthalten.
+[Download more Language Packs]
+Weitere Sprachdateien herunterladen
+[Please restart Miranda IM for your changes to take effect.]
+Bitte Miranda IM neu starten, damit die Änderungen wirksam werden.
+[Check for new &versions of Language Packs periodically]
+Regelmäßig auf neue Sprachdatei-&Versionen überprüfen
+[&Download Language]
+Sprache &herunterladen
+
+; All names of the language packs can be translated
+[English (default)]
+Englisch (Standard)
+
+; Update Notify
+[Language Pack Update Now Available]
+Update für Sprachdatei ist jetzt verfügbar
+[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
+Eine neue Version einer Sprachdatei ist verfügbar. Klicken Sie auf "Jetzt installieren" um das neue Update herunterzuladen und zu installieren.
+[Language:]
+Sprache:
+[Current:]
+Aktuell:
+[New:]
+Neu:
+[&Install Now]
+Jetzt &installieren
+;[Close]
+[Language Pack Update succeeded]
+Sprachdatei-Update erfolgreich
+[The language pack "%s" has been sucessfully downloaded and installed.]
+Die Sprachdatei "%s" wurde erfolgreich heruntergeladen und aktualisiert.
+[Language Pack Update failed]
+Sprachdatei-Update fehlgeschlagen
+[The language pack "%s" could not be downloaded or extracted.]
+Die Sprachdatei "%s" konnte nicht heruntergeladen oder extrahiert werden.
+
+; Download Language
+[Select your language]
+Sprache wählen
+[Miranda IM is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+Miranda IM is in vielen Sprachen verfügbar.\nEs folgt eine Liste aller verfügbaren Sprachen auf der Website. Bitte wählen Sie Ihre gewünschte &Sprache aus:
+[Download &all languages]
+&Alle Sprachen herunterladen
+[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
+Hinweis: Es wird die jeweils neueste Sprachdatei für die gewählte Sprache heruntergeladen. Es könnten noch weitere Sprachdateien von anderen Autoren auf der Website verfügbar sein.
+[downloading]
+downloaden
+;[OK]
+;[Cancel]
+[Language Pack Download finished]
+Sprachdatei-Download beendet
+[The download succeeded!]
+Der Download war erfolgreich!
+[The download failed!\n\nThe language pack could not be downloaded or extracted.]
+Der Download schlug fehl!\n\nDie Sprachdatei konnte nicht heruntergeladen oder extrahiert werden.
+
+; All language subcategory names on the website can be translated
+;[English (default)]
+[Chinese]
+Chinesisch
+[Portuguese]
+Portugiesisch
+[French]
+Französisch
+[Hebrew]
+Hebräisch
+[Hungarian]
+Ungarisch
+[Italian]
+Italienisch
+[Spanish]
+Spanisch
+[Ukrainian]
+Ukrainisch
+[Russian]
+Russisch
+[German]
+Deutsch
+[Dutch]
+Holländisch
+[Bulgarian]
+Bulgarisch
+[Czech]
+Tschechisch
+[Korean]
+Koreanisch
+[Polish]
+Polnisch
+[Turkish]
+Türkisch
+[Swedish]
+Schwedisch
+[Japanese]
+Japanisch
+[Belarusian]
+Weißrussisch
+[Danish]
+Dänisch
+[Finnish]
+Finnisch
+[Croatian]
+Kroatisch
+
+; ---
+
+
+H. Herkenrath (hrathh at users.sourceforge.net)

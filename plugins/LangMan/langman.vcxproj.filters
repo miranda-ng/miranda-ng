@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{3713035e-f4de-4b1b-8c15-b86c77bd853c}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{a70dee03-4c9e-4cc9-ba2d-8bd243a18bf6}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{835877bf-050d-4034-b3fb-78e456d60765}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Documentation">
+      <UniqueIdentifier>{b84ecfeb-8124-4339-b93d-5acdd3d205d9}</UniqueIdentifier>
+      <Extensions>*.txt</Extensions>
+    </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{515684a1-c0d8-47e1-8a93-d714f9d40790}</UniqueIdentifier>
+      <Extensions>c;h</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="langpack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="langpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_langman.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_clist.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_database.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_flags.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_help.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_icolib.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_langpack.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_netlib.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_options.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_plugins.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_skin.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_system.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\m_utils.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\newpluginapi.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\statusmodes.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="include\win2k.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="docs\LangMan-Developer.txt">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="docs\LangMan-License.txt">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="docs\LangMan-Readme.txt">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="docs\LangMan-Translation.txt">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="m_langman.inc">
+      <Filter>Documentation</Filter>
+    </None>
+    <None Include="Info_Src.txt" />
+    <None Include="License_Appendix.txt" />
+  </ItemGroup>
+</Project>

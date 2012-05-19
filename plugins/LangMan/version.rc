@@ -1,0 +1,51 @@
+#ifndef _MAC 
+
+#include "version.h"
+
+///////////////////////////////////////////////////////////////////////////// 
+//                                                                            
+// Version                                                                    
+//                                                                            
+                                                                              
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION FILE_VERSION
+ PRODUCTVERSION FILE_VERSION
+ FILEFLAGSMASK 0x0L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "Licensed under the terms of the GNU General Public License"
+            VALUE "FileDescription", "Language Pack Manager Plugin for Miranda IM"
+            VALUE "FileVersion", FILE_VERSION_STR
+#ifdef _UNICODE
+            VALUE "InternalName", "LangMan (Unicode)"
+#else
+            VALUE "InternalName", "LangMan"
+#endif
+            VALUE "LegalCopyright", "Copyright © 2005-2010 H. Herkenrath"
+            VALUE "OriginalFilename", "langman.dll"
+            VALUE "ProductName", "Language Pack Manager"
+            VALUE "ProductVersion", FILE_VERSION_STR
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+                                                                             
+#endif    // !_MAC                 
+                                   
+                                                                        
+                               
+                                                                              

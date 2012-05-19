@@ -1,0 +1,197 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include <winres.h>
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Englisch (GB) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include <winres.h>\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""version.rc""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+/*IDD_UPDATENOTIFY DIALOGEX 0, 0, 259, 115
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Language Pack Update Now Available"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "A new version of a Language Pack is now available. Click the install button to download and install this new update.",
+                    IDC_STATIC,8,7,243,21,SS_NOPREFIX
+    CONTROL         "Language:",IDC_LANGUAGELABEL,"Static",SS_SIMPLE | 
+                    SS_NOPREFIX | WS_GROUP,8,29,65,8
+    EDITTEXT        IDC_LANGUAGE,78,29,173,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+    CONTROL         "Current:",IDC_STATIC,"Static",SS_SIMPLE | SS_NOPREFIX | 
+                    WS_GROUP,8,43,65,8
+    EDITTEXT        IDC_CURRENTVERSION,78,43,173,8,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER
+    CONTROL         "New:",IDC_NEWVERSIONLABEL,"Static",SS_SIMPLE | 
+                    SS_NOPREFIX | WS_GROUP,8,58,65,8
+    EDITTEXT        IDC_NEWVERSION,78,58,173,8,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+    PUSHBUTTON      "&Install Now",IDOK,7,73,66,15,WS_GROUP
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDHORZ,7,92,245,1
+    DEFPUSHBUTTON   "Close",IDCANCEL,202,96,50,15
+END
+
+IDD_DOWNLOADLANG DIALOG DISCARDABLE  0, 0, 200, 126
+STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU
+CAPTION "Select your language"
+FONT 8, "MS Shell Dlg"
+BEGIN
+    LTEXT           "Miranda IM is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:",
+                    IDC_STATIC,5,5,189,26
+    COMBOBOX        IDC_LANGCOMBO,46,36,106,126,CBS_DROPDOWNLIST | 
+                    CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Download &all languages",IDC_DOWNLOADALL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,46,53,148,10
+    LTEXT           "Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.",
+                    IDC_STATIC,5,69,189,34,SS_NOPREFIX | WS_DISABLED
+    CTEXT           "",IDC_LOADING,1,109,86,8,SS_NOPREFIX | SS_CENTERIMAGE | 
+                    NOT WS_VISIBLE
+    PUSHBUTTON      "OK",IDOK,89,106,50,14,WS_DISABLED
+    DEFPUSHBUTTON   "Cancel",IDCANCEL,144,106,50,15
+END*/
+
+IDD_OPT_LANG DIALOGEX 0, 0, 301, 227
+STYLE DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_LANGLIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_GROUP | WS_TABSTOP,2,3,299,61
+    GROUPBOX        "",IDC_LANGINFOFRAME,2,68,298,119,WS_GROUP
+    RTEXT           "Author(s):",IDC_LANGAUTHORSLABEL,5,78,66,9,SS_NOPREFIX
+    EDITTEXT        IDC_LANGAUTHORS,74,78,220,18,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | NOT WS_BORDER | 
+                    WS_VSCROLL
+    RTEXT           "E-mail:",IDC_LANGEMAILLABEL,5,99,66,8,SS_NOPREFIX
+    CONTROL         "",IDC_LANGEMAIL,"Hyperlink",WS_TABSTOP,76,99,207,10
+    RTEXT           "Last modified using:",IDC_LANGMODUSINGLABEL,5,112,66,9,
+                    SS_NOPREFIX
+    EDITTEXT        IDC_LANGMODUSING,75,112,207,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_BORDER
+    RTEXT           "Date:",IDC_LANGDATELABEL,5,125,66,9,SS_NOPREFIX
+    EDITTEXT        IDC_LANGDATE,75,125,66,12,ES_AUTOHSCROLL | ES_READONLY | 
+                    NOT WS_BORDER
+    RTEXT           "Version:",IDC_LANGVERSIONLABEL,150,125,39,9,SS_NOPREFIX | 
+                    NOT WS_VISIBLE
+    EDITTEXT        IDC_LANGVERSION,194,125,88,12,ES_AUTOHSCROLL | 
+                    ES_READONLY | NOT WS_VISIBLE | NOT WS_BORDER
+    RTEXT           "Locale:",IDC_LANGLOCALELABEL,5,137,66,9,SS_NOPREFIX
+    EDITTEXT        IDC_LANGLOCALE,75,137,207,12,ES_READONLY | NOT WS_BORDER
+ /*   RTEXT           "Not included:",IDC_LANGNOTINCLUDEDLABEL,5,150,66,10,
+                    SS_NOPREFIX
+    LISTBOX         IDC_LANGNOTINCLUDED,75,150,219,33,NOT LBS_NOTIFY | 
+                    LBS_SORT | LBS_HASSTRINGS | LBS_USETABSTOPS | 
+                    LBS_NOINTEGRALHEIGHT | LBS_DISABLENOSCROLL | NOT 
+                    WS_BORDER | WS_VSCROLL | WS_TABSTOP,WS_EX_TRANSPARENT*/
+    CONTROL         "Download more Language Packs",IDC_MORELANG,"Hyperlink",
+                    WS_GROUP | WS_TABSTOP | 0x1,2,189,299,10
+    CTEXT           "Please restart Miranda IM for your changes to take effect.",
+                    IDC_RESTART,5,200,296,9,SS_NOPREFIX | NOT WS_VISIBLE
+ /*   CONTROL         "Check for new &versions of Language Packs periodically",
+                    IDC_ENABLEAUTOUPDATES,"Button",BS_AUTOCHECKBOX | 
+                    WS_GROUP | WS_TABSTOP,2,214,209,10
+    PUSHBUTTON      "&Download Language",IDC_DOWNLOADLANG,213,213,86,14,
+                    WS_GROUP*/
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+ /*   IDD_UPDATENOTIFY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 252
+        VERTGUIDE, 74
+        TOPMARGIN, 7
+    END
+
+    IDD_DOWNLOADLANG, DIALOG
+    BEGIN
+        VERTGUIDE, 5
+        VERTGUIDE, 46
+        VERTGUIDE, 194
+        HORZGUIDE, 106
+        HORZGUIDE, 121
+    END*/
+
+    IDD_OPT_LANG, DIALOG
+    BEGIN
+        VERTGUIDE, 2
+        VERTGUIDE, 70
+        VERTGUIDE, 75
+        VERTGUIDE, 282
+        VERTGUIDE, 294
+        HORZGUIDE, 160
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Englisch (GB) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#include "version.rc"
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
