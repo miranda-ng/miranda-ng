@@ -1,0 +1,68 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gpgvs
+building gnupg related projects with Visual Studio 2010
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sub-project: otr.vs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~DIRECTORY TREE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+First step is to have the same directory tree as me, otherwise you have to
+(can) change the paths inside visual studio workspaces.
+This is the tree I have choosen
+
+[anywhere]\MirOTR\libotr-3.2.0
+[anywhere]\MirOTR\libotr-3.2.0\libotr\[original package]
+
+[anywhere]\MirOTR\libgcrypt-1.4.6
+[anywhere]\MirOTR\libgcrypt-1.4.6\[original package]
+
+[anywhere]\MirOTR\libgpg-error-1.9
+[anywhere]\MirOTR\libgpg-error-1.9\[original package]
+
+[anywhere]\MirOTR\ekhtml
+[anywhere]\MirOTR\ekhtml\[original package]
+
+basically you have to choose you "root" directory, after then you must
+respect this order:
+- "root"\projectWithVersion\project
+
+if you take code from svn, you dont have to create any folders manually
+
+Then download or take from svn the otr.vs project, and put inside
+"root"\otr.vs
+you should have
+
+"root"\otr.vs
+"root"\otr.vs\bin.vs
+"root"\otr.vs\inc.vs
+"root"\otr.vs\libotr-3.2.0.vs
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LIBGCRYPT~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To build otr projects you need libgcrypt:
+first of all you have to define one environment variable
+- LIBGCRYPTDEV -
+which points to a directory with libgcrypt include and lib:
+inside you should put the various libgcrypt versions (or the
+same everywhere, be careful when doing this).
+that's beacause I do not want to force anyone to use the libgcrypt
+provided with gpg.vs project: in this way you can download or compile
+your own versions of libgcrypt and use it with otr projects
+
+The "LIBGCRYPT" directory must have inside
+%LIBGCRYPTDEV%\inc
+%LIBGCRYPTDEV%\lib\debug unicode\dll
+%LIBGCRYPTDEV%\lib\debug unicode\static
+%LIBGCRYPTDEV%\lib\release unicode\dll
+%LIBGCRYPTDEV%\lib\release unicode\static
+
+because workspaces will search libgcrypt includes and libs using
+such paths.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Authors:
+			progandy
+          		CHEF-KOCH
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

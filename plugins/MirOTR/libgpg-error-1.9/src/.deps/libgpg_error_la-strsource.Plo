@@ -1,0 +1,14 @@
+libgpg_error_la-strsource.lo .libs/libgpg_error_la-strsource.o:  \
+ strsource.c ../config.h ./gpg-error.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h gettext.h \
+  err-sources.h
+
+../config.h:
+
+./gpg-error.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h:
+
+gettext.h:
+
+err-sources.h:

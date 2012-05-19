@@ -1,0 +1,24 @@
+- Give more information in callbacks, such as when the beginning and
+  end braces of a tag occurred (offset in the stream)
+
+- Provide a way to parse entity-refs.  This will be handy for usertrack
+  in that we can then just specify a &USERTRACK; entity anywhere, and
+  have it substituted with the session ID.
+
+- Make sure comments and <!FOO tags are processed directly.  Provide the
+  option of either passing them through as raw data or as actual structures
+
+- Possibly make the return value of a flushing operation more usable by
+  external programs.  I.e. usertrack's callbacks simply pass the brigade,
+  and really have no way of returning any result information back up the
+  stack and out of a feed or flush operation.
+
+- Perhaps speed up some of the charmap lookup operations by making a 64k
+  table, and comparing short values.
+
+- Put some goto's in the starttag parsing to immediately jump between
+  some of the state transitions.
+
+- Maybe make starttag registering return an integer, representing the
+  tag that is requested.  That way callbacks won't have to strcmp, and
+  can just use the integer.

@@ -1,0 +1,30 @@
+2002-11-10  Jon Travis  <jtravis@p00p.org
+
+	*  Released version 0.3.2.  This release fixes build bugs, mostly
+	related to C++ compilers and extended warnings.  Thanks to
+	Paul Marquis for the reports.
+
+2002-09-25  Jon Travis  <jtravis@p00p.org>
+
+	*  Released version 0.3.1.  This release fixes a bug introduced
+	in 0.3.0 which caused specific start & endtag callbacks to not
+	get called
+
+2002-09-21  Jon Travis  <jtravis@p00p.org>
+
+	*  Released version 0.3.0.  This release removes all dependency
+        on APR, speeds up processing, and cleans up a few APIs.  Note
+        that the API cleanup will cause old-code to be incompatible,
+        but the changes are easy to accommodate.
+
+
+2002-09-12  Jon Travis  <jtravis@p00p.org>
+
+	*  Released version 0.2.0.
+
+
+2002-09-12  Jon Travis  <jtravis@covalent.net>
+
+	*  First release of El-Kabong into the Open Source world.  
+        This contribution was made by Covalent Technologies (www.covalent.net)
+

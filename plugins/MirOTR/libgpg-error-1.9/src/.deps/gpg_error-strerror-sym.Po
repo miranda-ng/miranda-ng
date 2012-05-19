@@ -1,0 +1,13 @@
+gpg_error-strerror-sym.o gpg_error-strerror-sym.o: strerror-sym.c \
+  ../config.h C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h \
+  ./gpg-error.h err-codes-sym.h errnos-sym.h
+
+../config.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h:
+
+./gpg-error.h:
+
+err-codes-sym.h:
+
+errnos-sym.h:

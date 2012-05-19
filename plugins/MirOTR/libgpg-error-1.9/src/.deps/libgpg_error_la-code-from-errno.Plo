@@ -1,0 +1,18 @@
+libgpg_error_la-code-from-errno.lo \
+  .libs/libgpg_error_la-code-from-errno.o: code-from-errno.c ../config.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/errno.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/_mingw.h \
+  ./gpg-error.h C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h \
+  code-from-errno.h
+
+../config.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/errno.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/_mingw.h:
+
+./gpg-error.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h:
+
+code-from-errno.h:

@@ -1,0 +1,45 @@
+REQUIREMENTS
+
+To compile the OTR library and toolkit, you'll need at least:
+ - libgpg-error 1.0  [ftp://ftp.gnupg.org/gcrypt/libgpg-error/]
+ - libgcrypt 1.2.0   [ftp://ftp.gnupg.org/gcrypt/libgcrypt/]
+
+If you install these with a package manager, you'll probably need the
+-dev or -devel versions of the packages.
+
+On Fedora, these packages are:
+    libgpg-error-devel libgcrypt-devel
+
+On Debian (testing or unstable), they are:
+    libgpg-error-dev libgcrypt11-dev
+
+COMPILING
+
+If you're got a CVS copy, you will need to regenerate the configure
+script using:
+
+    autoreconf -s -i
+
+Once you have the configure script (which comes with the source
+deistribution), run it with the "--with-pic" option, as well as any
+other options that may be necessary for your system.  Some examples:
+
+Linux:
+    ./configure --with-pic --prefix=/usr --mandir=/usr/share/man
+
+NETBSD:
+    CPPFLAGS="-I/usr/pkg/include" LDFLAGS="-R/usr/pkg/lib -L/usr/pkg/lib" \
+	./configure --with-pic --prefix=/usr/pkg
+
+mingw cross-compiler from Debian Linux:
+    ./configure --with-pic --build=`./config.guess` --host=i586-mingw32msvc \
+	--prefix=/usr/i586-mingw32msvc
+
+Once the configure script writes a Makefile, you should be able to just
+run "make".
+
+INSTALLATION
+
+You should be able to simply do "make install".  If you want to install
+somewhere other than / (this is useful for package creators), use
+something like "make DESTDIR=/path/to/install/to install".

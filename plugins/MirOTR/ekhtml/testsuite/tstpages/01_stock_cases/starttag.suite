@@ -1,0 +1,21 @@
+First, valid tags
+<TAG>
+<TAG BOOLATTR>
+<TAG ATTR1=1>
+<TAG ATTR1="1">
+<TAG ATTR1='1'>
+<TAG ATTR1='"1'>
+<TAG ATTR1='""1'>
+<TAG ATTR1='""1"'>
+<TAG ATTR1='""1""'>
+<TAG ATTR1='"1""'>
+<TAG ATTR1='1""'>
+<TAG ATTR1='1"'>
+
+<TAG ATTR1
+ATTR2>
+<TAG ATTR1
+ATTR2
+>
+<TAG ATTR1="foo"
+ATTR2>

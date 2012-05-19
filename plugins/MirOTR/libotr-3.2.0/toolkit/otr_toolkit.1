@@ -1,0 +1,109 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH OTR_PARSE 1 "October 27, 2005"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+otr_parse, otr_sesskeys, otr_mackey, otr_readforge, otr_modify, otr_remac \- Process Off-the-Record Messaging transcripts
+.SH SYNOPSIS
+.B otr_parse
+.br
+.B otr_sesskeys
+.I our_privkey their_pubkey
+.br
+.B otr_mackey
+.I aes_enc_key
+.br
+.B otr_readforge
+.I aes_enc_key [newmsg]
+.br
+.B otr_modify
+.I mackey old_text new_text offset
+.br
+.B otr_remac
+.I mackey flags snd_keyid rcv_keyid pubkey counter encdata revealed_mackeys
+.SH DESCRIPTION
+Off-the-Record (OTR) Messaging allows you to have private conversations
+over IM by providing:
+ - Encryption
+   - No one else can read your instant messages.
+ - Authentication
+   - You are assured the correspondent is who you think it is.
+ - Deniability
+   - The messages you send do \fInot\fP have digital signatures that are
+     checkable by a third party.  Anyone can forge messages after a
+     conversation to make them look like they came from you.  However,
+     \fIduring\fP a conversation, your correspondent is assured the messages
+     he sees are authentic and unmodified.
+ - Perfect forward secrecy
+   - If you lose control of your private keys, no previous conversation
+     is compromised.
+.PP
+The OTR Toolkit is useful for analyzing and/or
+forging OTR messages.  Why do we offer this?  Primarily, to make
+absolutely sure that transcripts of OTR conversations are really easy
+to forge after the fact.  [Note that \fIduring\fP an OTR conversation,
+messages can't be forged without real-time access to the secret keys on
+the participants' computers, and in that case, all security has already
+been lost.]  Easily-forgeable transcripts help us provide the
+"Deniability" property: if someone claims you said something over OTR,
+they'll have no proof, as anyone at all can modify a transcript to make
+it say whatever they like, and still have all the verification come out
+correctly.
+
+Here are the six programs in the toolkit:
+
+ - otr_parse
+   - Parse OTR messages given on stdin, showing the values of all the
+     fields in OTR protocol messages.
+
+ - otr_sesskeys our_privkey their_pubkey
+   - Shows our public key, the session id, two AES and two MAC keys
+     derived from the given Diffie-Hellman keys (one private, one public).
+
+ - otr_mackey aes_enc_key
+   - Shows the MAC key derived from the given AES key.
+
+ - otr_readforge aes_enc_key [newmsg]
+   - Decrypts an OTR Data message using the given AES key, and displays
+     the message.
+   - If newmsg is given, replace the message with that one, encrypt
+     and MAC it properly, and output the resulting OTR Data Message.
+     This works even if the given key was not correct for the original
+     message, so as to enable complete forgeries.
+
+ - otr_modify mackey old_text new_text offset
+   - Even if you can't read the data because you don't know either
+     the AES key or the Diffie-Hellman private key, but you can make a
+     good guess that the substring "old_text" appears at the given
+     offset in the message, replace the old_text with the new_text
+     (which must be of the same length), recalculate the MAC with the
+     given mackey, and output the resulting Data message.
+   - Note that, even if you don't know any text in an existing message,
+     you can still forge messages of your choice using the
+     otr_readforge command, above.
+
+ - otr_remac mackey flags snd_keyid rcv_keyid pubkey counter encdata revealed_mackeys
+   - Make a new OTR Data Message, with the given pieces (note that the
+     data part is already encrypted).  MAC it with the given mackey.
+
+.SH SEE ALSO
+.BR "Off-the-Record Messaging" ,
+at
+.UR http://www.cypherpunks.ca/otr/
+http://www.cypherpunks.ca/otr/
+.UE
+.SH AUTHOR
+otr_toolkit was written by the OTR Dev Team <otr@cypherpunks.ca>.

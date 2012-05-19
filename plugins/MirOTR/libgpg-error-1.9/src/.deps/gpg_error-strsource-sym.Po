@@ -1,0 +1,11 @@
+gpg_error-strsource-sym.o gpg_error-strsource-sym.o: strsource-sym.c \
+  ../config.h C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h \
+  ./gpg-error.h err-sources-sym.h
+
+../config.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h:
+
+./gpg-error.h:
+
+err-sources-sym.h:

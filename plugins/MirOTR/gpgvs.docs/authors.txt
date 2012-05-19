@@ -1,0 +1,7 @@
+gpgvs
+building gnupg related projects with Visual Studio
+
+Authors:
+          Francesco Picasso
+          mr.s0rr0w@gmail.com
+          www.s0rr0w.net

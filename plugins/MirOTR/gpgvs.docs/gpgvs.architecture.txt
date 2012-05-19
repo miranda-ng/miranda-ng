@@ -1,0 +1,108 @@
+~~~~~~~~~~~~
+ARCHITECTURE
+~~~~~~~~~~~~
+I admit that architecture meaning is too much for this project,
+but with this document I explain how is built and
+how to use these projects.
+First of all you should respect the directory structure otherwise
+projects will not compile, but obviously you can change it:
+rembember to change vs workspace relativ paths too.
+Regarding workspaces compile flags: I decided to not provide particular
+building flags, so if you have to optimize (or anything else) you
+have to change settings.
+
+
+~~~~~~~~~~~
+DIRECTORIES
+~~~~~~~~~~~
+As said in “aim” document, I do not want to get inside original
+source code, less than it is not forced:
+so the first step is to look at directories structure (not whole)
+
+
+[anywhwere]\
+           \libgcrypt-1.2.1\
+           \libgcrypt-1.2.1\
+           \[...]
+           \gpg.vs\bin.vs\
+                  \inc.vs\
+                  \libgcrypt-1.2.1.vs\
+                  \libgpg-error-1.1.vs\custom\
+                                      \libgpg_error_1_1.dsp
+                                      \libgpg_error_1_1.dsw
+
+There is a "root" directory, use whatever you want:
+inside this directory extract the original package, like
+libgcrypt-1.2.1, libgcrypt-1.2.1 and so on.
+Inside the "root" download/extract gpg.vs (otr.vs) project:
+you should have at least the same directories structure just shown.
+Inside you have "[original.package.name].vs" and all tools to be
+able to build original packages with visual studio.
+
+
+~~~~~~
+bin.vs
+~~~~~~
+here we'll go binaries created by visual studio, as
+\bin.vs\libgpg-error-1.1\debug\static\...
+\bin.vs\libgpg-error-1.1\release\static\...
+\bin.vs\libgpg-error-1.1\release\dll\...
+
+
+~~~~~~
+inc.vs
+~~~~~~
+this folder contains include files needed to build original packages
+without changing their code, like empty "socket.h" headers;
+and you will find "hooked" includes (like stddef.h) useful to declare
+definition that visual studio misses (like pid_t)
+
+
+~~~~~~~~~~~~~~~~~
+package.vs.custom
+~~~~~~~~~~~~~~~~~
+here you'll always find package->"config.h" header, made "by hand".
+You will find some others files that under *nix are automatically
+created, and I provide them in a "custom" way
+
+
+~~~~~~~
+EXAMPLE
+~~~~~~~
+You want to compile with vs libgpg-error-1.1.: choose your parent directory,
+in my case “gnu”
+
+\gnu\
+
+download and extract here the libgpg-error-1.1, so now I have
+
+\gnu\libgpg-error-1.1\libgpg-error\[source code]
+
+basically extract always in libgpg-error directory and the
+closest parent is libgpg-error-version, to have
+
+\gnu\libgpg-error-1.0\libgpg-error\[source code]
+\gnu\libgpg-error-1.1\libgpg-error\[source code]
+
+Now download gpg.vs project (or take it from cvs), which includes
+vs project for libgpg-error, and extract it in the directory
+you have choosen (gnu in my case),
+
+\gnu\gpg.vs\
+
+In gpg.vs directory find the libgpg-error-1.1.vs
+(appending .vs at the end of package name is the “standard” for this project)
+
+\gnu\gpg.vs\ libgpg-error-1.1.vs\
+
+And inside find the dsw/dsp of the project
+
+libgpg_error_1_1.dsw
+libgpg_error_1_1.dsp
+
+Note: the little change to names is due to vs limitations.
+You  have only to build it.
+The binaries files will be created in 
+
+\gnu\gpg.vs\bin.vs\libgpg-error.1.1\debug
+\gnu\gpg.vs\bin.vs\libgpg-error.1.1\release

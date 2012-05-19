@@ -1,0 +1,316 @@
+	      Off-the-Record Messaging Library and Toolkit
+			  v3.2.0, 15 Jun 2008
+
+This is a library and toolkit which implements Off-the-Record (OTR) Messaging.
+
+OTR allows you to have private conversations over IM by providing:
+ - Encryption
+   - No one else can read your instant messages.
+ - Authentication
+   - You are assured the correspondent is who you think it is.
+ - Deniability
+   - The messages you send do _not_ have digital signatures that are
+     checkable by a third party.  Anyone can forge messages after a
+     conversation to make them look like they came from you.  However,
+     _during_ a conversation, your correspondent is assured the messages
+     he sees are authentic and unmodified.
+ - Perfect forward secrecy
+   - If you lose control of your private keys, no previous conversation
+     is compromised.
+
+For more information on Off-the-Record Messaging, see
+http://otr.cypherpunks.ca/
+
+LIBRARY USAGE
+
+1. Initialization
+
+Before you call any other libotr routine, you need to initialize the
+library.  The easiest way to do that is to include proto.h, and use the
+macro:
+
+    OTRL_INIT;
+
+somewhere early in your program.  This should be called only once.
+
+You will also need an OtrlUserState.  An OtrlUserState encapsulates the
+list of known fingerprints and the list of private keys, so it should be
+"one per user".  Many OTR-enabled programs (such as IM clients) only have a 
+single user, so for them, you can just create a single one, and use it
+thoughout.  Create an OtrlUserState as follows:
+
+    userstate = otrl_userstate_create();
+
+If you need to free an OtrlUserState:
+
+    otrl_userstate_free(userstate);
+
+To read stored private keys:
+
+    otrl_privkey_read(userstate, privkeyfilename);
+
+To read stored fingerprints:
+
+    otrl_privkey_read_fingerprints(userstate, fingerprintfilename,
+	    add_app_info, add_app_info_data);
+
+add_app_info is a function that will be called in the event that a new
+ConnContext is created.  It will be passed the add_app_info_data that
+you supplied, as well as a pointer to the new ConnContext.  You can use
+this to add application-specific information to the ConnContext using
+the "context->app" field, for example.  If you don't need to do this,
+you can pass NULL for the last two arguments of
+otrl_privkey_read_fingerprints.
+
+2. Setting up the UI functions
+
+You need to let the library know how to do any UI it might require
+(error messages, confirming new fingerprints, etc.).  To this end, you
+need to define a number of UI functions, and collect them in a
+OtrlMessageAppOps struct.
+
+The first parameter of every UI function is "void *opdata".  This is a
+pointer you pass to the library, and it will pass back (opaquely) to the
+UI functions when it calls them.  You can use this to keep track of
+state or any other information.
+
+You will need to include proto.h and message.h, and you can find a list
+of the UI functions in message.h.
+
+3. Sending messages
+
+When you have a message you're about to send, you'll need to know four
+things: you account name, the protocol id, the name of the recipient, and
+the message.
+
+The protocol id is just a unique string that is used to distinguish
+the user foo on AIM from the user foo on MSN, etc.  It can be anything
+you like, so long as you're consistent, but if you've got nothing better
+to use, you may as well use the ids from gaim.  (Programs that use the
+same protocol ids can share fingerprint and private key files.)  The
+gaim protocol id for AIM/ICQ is "prpl-oscar".
+
+Note that a name does not uniquely identify a user (as shown by the
+"foo" example above).  Even if you know both the name and the protocol,
+it may not identify the user, since there may be multiple "foo" users on
+IRC, on different servers.  But the *three* items (your account name,
+protocol id, their name) _must_ uniquely identify a user, so your
+account name needs to include any network identifier, such as a server
+name.  Examples would be "foo@irc.freenode.net" or "foo@jabber.org".
+Protocols such as AIM that do not have separate networks can just use
+"foo", of course.
+
+To encrypt the message (if necessary; the library keeps track of which
+users you have secure connections to, so you should *always* call this
+next function), simply do this:
+
+    gcry_error_t err;
+    char *newmessage = NULL;
+
+    err = otrl_message_sending(userstate, &ui_ops, opdata, accountname,
+	    protocolid, recipient_name, message, tlvs, &newmessage,
+	    add_app_info, add_app_info_data);
+
+add_app_info and add_app_info_data are as above, and may be NULL.
+
+tlvs should usually be NULL.  If it's not, then it points to a chain of
+OtrlTLVs which represent machine-readable data to send along with this
+message.
+
+If err is non-zero, then the library tried to encrypt the message,
+but for some reason failed.  DO NOT send the message in the clear in
+that case.
+
+If newmessage gets set by the call to something non-NULL, then you
+should replace your message with the contents of newmessage, and
+send that instead.
+
+Once the message is encrypted, it may still be too large to send over
+the network in a single piece.  To check the maximum message size and
+break your message into fragments if necessary, do this:
+
+    gcry_error_t err;
+    char *extrafragment = NULL;
+
+    err = otrl_message_fragment_and_send(&ui_ops, opdata, context,
+	    message, fragmentPolicy, extrafragment);
+
+fragmentPolicy determines which, if any, fragments to return instead
+of sending them immediately.  For example, you may wish to send all 
+fragments except the last one, which is handled differently.  Valid
+policies may be found in proto.h.
+
+If err returns a nonzero value from fragment_and_send, the application
+tried to break your message into fragments but failed for some reason.
+You may still attempt to send the original message, but it might be
+rejected if it too large.
+
+When you're done with newmessage, you must call
+
+    otrl_message_free(newmessage)
+
+4. Receiving messages
+
+Receiving messages is similarly straightforward.  Again, you need to
+know four things: your account name, the protocol id, the sender's name,
+and the message.
+
+    int ignore_message;
+    char *newmessage = NULL;
+
+    ignore_message = otrl_message_receiving(userstate, &ui_ops, opdata,
+	    accountname, protocolid, sender_name, message, &newmessage,
+	    &tlvs, add_app_info, add_app_info_data);
+
+add_app_info and add_app_info_data are as above, and may be NULL.
+
+If otrl_message_receiving returns 1, then the message you received was
+an internal protocol message, and no message should be delivered to the
+user.
+
+If it returns 0, then check if newmessage was set to non-NULL.  If so,
+replace the received message with the contents of newmessage, and
+deliver that to the user instead.  You must call
+otrl_message_free(newmessage) when you're done with it.
+
+If otrl_message_receiving returns 0 and newmessage is NULL, then this
+was an ordinary, non-OTR message, which should just be delivered to the
+user without modification.
+
+If tlvs is set to non-NULL, then there is machine-readable data that was
+sent along with this message.  Call otrl_tlv_free(tlvs) when you're done
+dealing with it (or ignoring it).
+
+5. Socialist Millionaires' Protocol
+
+The Socialist Millionaires' Protocol (SMP) is a way to detect
+eavesdropping and man-in-the-middle attacks without requiring users to
+work with fingerprints.  This feature was added to OTR starting in
+version 3.1.0.  To learn how to modify your application to use SMP, read
+the UPGRADING file.
+
+TOOLKIT
+
+Along with the library, this package comes with the OTR Messaging
+Toolkit.  This toolkit is useful for analyzing and/or forging OTR
+messages.  Why do we offer this?  Primarily, to make absolutely sure
+that transcripts of OTR conversations are really easy to forge after the
+fact.  [Note that *during* an OTR conversation, messages can't be forged
+without real-time access to the secret keys on the participants'
+computers, and in that case, all security has already been lost.]
+Easily forgeable transcripts help us provide the "Deniability" property:
+if someone claims you said something over OTR, they'll have no proof, as
+anyone at all can modify a transcript to make it say whatever they like,
+and still have all the verification come out correctly.
+
+Here are the six programs in the toolkit:
+
+ - otr_parse
+   - Parse OTR messages given on stdin, showing the values of all the
+     fields in OTR protocol messages.
+
+ - otr_sesskeys our_privkey their_pubkey
+   - Shows our public key, the session id, two AES and two MAC keys
+     derived from the given Diffie-Hellman keys (one private, one public).
+
+ - otr_mackey aes_enc_key
+   - Shows the MAC key derived from the given AES key.
+
+ - otr_readforge aes_enc_key [newmsg]
+   - Decrypts an OTR Data message using the given AES key, and displays
+     the message, if the key was correct.
+   - If newmsg is given, replace the message with that one, encrypt
+     and MAC it properly, and output the resulting OTR Data Message.
+     This works even if the given key was not correct for the original
+     message, so as to enable complete forgeries.
+
+ - otr_modify mackey old_text new_text offset
+   - Even if you can't read the data because you don't know either
+     the AES key or the Diffie-Hellman private key, but you can make a
+     good guess that the substring "old_text" appears at the given
+     offset in the message, replace the old_text with the new_text
+     (which must be of the same length), recalculate the MAC with the
+     given mackey, and output the resulting Data message.
+   - Note that, even if you don't know any text in an existing message,
+     you can still forge messages of your choice using the otr_readforge
+     command, above.
+
+ - otr_remac mackey flags keyid keyid pubkey counter encdata revealed_mackeys
+   - Make a new OTR Data Message, with the given pieces (note that the
+     data part is already encrypted).  MAC it with the given mackey.
+
+NOTES
+
+Please send your bug reports, comments, suggestions, patches, etc. to us
+at the contact address below.
+
+MAILING LISTS
+
+There are three mailing lists pertaining to Off-the-Record Messaging:
+
+otr-announce:
+    http://lists.cypherpunks.ca/mailman/listinfo/otr-announce/
+    *** All users of OTR software should join this. ***  It is used to
+    announce new versions of OTR software, and other important information.
+
+otr-users:
+    http://lists.cypherpunks.ca/mailman/listinfo/otr-users/
+    Discussion of usage issues related to OTR Messaging software.
+
+otr-dev:
+    http://lists.cypherpunks.ca/mailman/listinfo/otr-dev/
+    Discussion of OTR Messaging software development.
+
+LICENSE
+
+The Off-the-Record Messaging library (in the src directory) is
+covered by the following (LGPL) license:
+
+    Off-the-Record Messaging library
+    Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+			     <otr@cypherpunks.ca>
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of version 2.1 of the GNU Lesser General
+    Public License as published by the Free Software Foundation.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Lesser General Public License for more details.
+
+    There is a copy of the GNU Lesser General Public License in the
+    COPYING.LIB file packaged with this library; if you cannot find it,
+    write to the Free Software Foundation, Inc., 59 Temple Place, Suite
+    330, Boston, MA 02111-1307  USA
+
+The Off-the-Record Messaging Toolkit (in the toolkit directory) is covered
+by the following (GPL) license:
+
+    Off-the-Record Messaging Toolkit
+    Copyright (C) 2004-2008  Ian Goldberg, Chris Alexander, Nikita Borisov
+		             <otr@cypherpunks.ca>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of version 2 of the GNU General Public License as
+    published by the Free Software Foundation.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    There is a copy of the GNU General Public License in the COPYING file
+    packaged with this toolkit; if you cannot find it, write to the Free
+    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+    02111-1307  USA
+
+CONTACT
+
+To report problems, comments, suggestions, patches, etc., you can email
+the authors:
+
+Ian Goldberg, Chris Alexander, and Nikita Borisov <otr@cypherpunks.ca>
+
+For more information on Off-the-Record Messaging, visit
+http://otr.cypherpunks.ca/

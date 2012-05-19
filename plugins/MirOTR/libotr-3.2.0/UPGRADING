@@ -1,0 +1,337 @@
+Table of Contents
+
+1. Introduction
+2. Major Additions
+2.1. Fragmentation
+2.2. Socialist Millionaires' Protocol
+3. Required Changes
+3.1. OtrlMessageAppOps Callbacks
+3.1.1. Max Message Size
+3.1.2. Account Name
+3.2. Using Fragmentation
+3.3. Using SMP
+3.3.1. Initiating
+3.3.2. Responding
+3.3.3. Aborting
+3.3.4. Control Flow and Errors
+3.4. Miscellaneous
+
+1. Introduction
+
+This file contains information about the changes between the 3.0.0 and
+the 3.2.0 APIs for libotr.  Note that, as a minor release, applications
+compiled against 3.0.0 will continue to work with 3.2.0.  This document
+explains how to add the new functionality in 3.2.0.
+
+2. Major Additions
+
+This section describes the new features in OTR 3.2.0 along with a short
+history or motivation for each.
+
+2.1. Fragmentation  [Added in 3.1.0]
+
+Most IM networks supported by Pidgin have fixed maximum message sizes
+(MMS) of approximately 1-3 kB.  The longer messages in the initial key
+exchange and the new socialist millionaires' protocol may exceed these
+common MMS values.  To allow these protocols to work properly even over
+networks with low MMS values, support for fragmentation was added.
+
+OTR version 3.0.0 added support for recombining message fragments to
+recover the original message.  Now that users may be assumed to be able to
+handle message fragments, support for fragmenting and sending large
+messages has been added to OTR 3.2.0.
+
+2.2. Socialist Millionaires' Protocol  [Added in 3.1.0, revised in 3.2.0]
+
+In version 3.0.0, the only method available to authenticate a buddy was
+fingerprint verification.  However, many users who are unfamiliar with
+cryptography do not understand what a fingerprint is or how it is useful.
+Also, the verification itself relied on the user obtaining an authentic
+copy of the other party's fingerprint somehow.  The simplest way to do so
+may be to relay the displayed hexadecimal values during a phone call,
+but this is a large enough hassle that many users omit fingerprint
+verification altogether.
+
+To allow for a method of authentication that is both easier to understand
+and easier to use, OTR version 3.2.0 includes the Socialist Millionaires'
+Protocol (SMP).  SMP runs as follows: each user inputs a secret string,
+say "x" and "y".  They then exchange a series of messages which reveal
+the value of (x==y), but no additional information about the inputs.
+This allows users to determine whether they hold the same secret
+information with no danger of revealing that secret to an attacker.
+
+To see how this is useful for authentication in OTR, assume that Alice
+and Bob are chatting over OTR for the first time, though they know each
+other well in real life.  Alice may send Bob the following message:
+"Let's make our shared secret the name of that restaurant we both like
+in Ottawa."
+
+Now Alice and Bob run SMP.  If Alice is actually talking to Bob directly,
+then they will both type in the same restaurant name and SMP will return
+success (x==y).  However, if an attacker is impersonating Bob or trying
+to eavesdrop on the conversation, they will have no idea which restaurant
+Alice has in mind, and will type in an incorrect value, causing SMP to
+fail.  Note that for security reasons, the values compared in the SMP
+are actually hashes of several pieces of data, including both parties'
+fingerprints, along with their respective secrets.  The users, however,
+are never exposed to this additional data.
+
+Thus, SMP turns the problem of obtaining an authentic copy of a
+fingerprint into the much simpler problem of obtaining any shared secret,
+or simply of drawing on shared experiences to generate one.
+
+For detailed information on how SMP works, see the paper by Boudot,
+Schoenmakers and Traore titled "A Fair and Efficient Solution to the
+Socialist Millionaires Problem" (2001), on which our solution is based.
+
+3. Required Changes  [Added in 3.1.0]
+
+3.1. OtrlMessageAppOps Callbacks
+
+Three new callbacks have been added to the end of OtrlMessageAppOps.  If
+the version number passed to otrl_init is less than 3.1.0 then libotr will
+not call any of the new callbacks.  As well, you may disable individual
+callbacks by setting them to NULL.  In either case, libotr will revert to
+the standard behaviour of version 3.0.0.
+
+3.1.1. Max Message Size
+
+The first new callback has the following signature:
+
+    int (*max_message_size)(void *opdata, ConnContext *context);
+
+This method is called whenever a message is about to be sent with
+fragmentation enabled.  The return value is checked against the size of
+the message to be sent to determine whether fragmentation is necessary.
+
+Although the maximum message size depends on a number of factors, we
+found experimentally that the following rough values based solely on the
+(pidgin) protocol name work well:
+    "prpl-msn",   1409
+    "prpl-icq",   2346
+    "prpl-aim",   2343
+    "prpl-yahoo", 832
+    "prpl-gg",    1999
+    "prpl-irc",   417
+    "prpl-oscar", 2343
+
+Setting max_message_size to NULL will disable the fragmentation of all
+sent messages; returning 0 from this callback will disable fragmentation
+of a particular message.  The latter is useful, for example, for
+protocols like XMPP (Jabber) that do not require fragmentation at all.
+
+3.1.2. Account Name
+
+The other two new callbacks have the following signatures: 
+
+    const char *(*account_name)(void *opdata, const char *account,
+	    const char *protocol);
+    void (*account_name_free)(void *opdata, const char *account_name);
+
+Normally, if an error message needs to be sent from Alice to Bob,
+containing Alice's account name, the value of ConnContext->accountname
+will be used.  However, if this default name is unsuitable for your
+application, you can use the above methods to provide replacement values
+for displayed account names.
+
+account_name is called when libotr requires a human-readable version of
+an account name.  account_name_free is called once the name has
+been used, and the memory allocated by account_name (if any) must be
+released.
+
+Setting account_name to NULL will cause libotr to use
+ConnContext->accountname as the displayed name for an account.
+
+3.2. Using Fragmentation  [Added in 3.1.0]
+
+To make use of fragmentation, first make sure that the max_message_size
+callback described in 3.1.1. has been implemented.  Then, whenever you
+would normally send a message through your IM client, call
+otrl_message_fragment_and_send instead:
+
+gcry_error_t otrl_message_fragment_and_send(const OtrlMessageAppOps *ops,
+	void *opdata, ConnContext *context, const char *message,
+	OtrlFragmentPolicy fragPolicy, char **returnFragment);
+
+Here, message is the original, encrypted, unfragmented message.
+This method will break the message into fragments and send either all of
+them or almost all of them according to the OtrlFragmentPolicy:
+
+OTRL_FRAGMENT_SEND_ALL            sends all fragments at once
+OTRL_FRAGMENT_SEND_ALL_BUT_FIRST  sends all but the first fragment
+OTRL_FRAGMENT_SEND_ALL_BUT_LAST   sends all but the last fragment
+
+You may wish to use one of the latter two options if you still wish to
+pass a message through your IM client.  In this case, the unsent
+fragment will be returned in returnFragment and should be sent as a
+regular message.  In order to reassemble the fragments, however, they
+must be received in order, so at most one of the latter two options
+will result in readable messages.
+
+3.3. Using SMP  [Added in 3.1.0, revised in 3.2.0]
+
+Recall from section 2.2. above that SMP takes one input string from each
+user and outputs either failure or success.
+
+3.3.1. Initiating
+
+If you wish to initiate SMP for a user named Alice, you would use
+otrl_message_initiate_smp.
+
+void otrl_message_initiate_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
+	void *opdata, ConnContext *context, const unsigned char *secret,
+	size_t secretlen);
+
+Here, secret and secretlen describe the secret text as entered by Alice,
+for example, ("kitten", 6).  The other parameters are common to many
+otrl_message functions.  This method will cause a message to be sent
+containing an appropriate OTRL_TLV_SMP1 (see below).
+
+3.3.2. Responding
+
+If you wish to continue SMP by supplying the secret for a second user
+named Bob, you would use otrl_message_respond_smp:
+
+void otrl_message_respond_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
+	void *opdata, ConnContext *context, const unsigned char *secret,
+	size_t secretlen);
+
+The arguments for this method are the same as otrl_message_initiate_smp.
+This method will send a message with an appropriate OTRL_TLV_SMP2
+(see below).
+
+3.3.3. Aborting
+
+If you wish to abort SMP for any reason, including errors occuring
+during the protocol, you should use otrl_message_abort_smp:
+
+void otrl_message_abort_smp(OtrlUserState us, const OtrlMessageAppOps *ops,
+	void *opdata, ConnContext *context);
+
+This method will cause the other user to abandon the current state of
+SMP by sending an appropriate OTRL_TLV_SMP_ABORT (see below).
+
+3.3.4. Control Flow and Errors
+ 
+The protocol itself consists of 4 messages passed between the two users,
+say Alice and Bob.  These messages are identified through their TLVs:
+
+OTRL_TLV_SMP1       The initial message, containing a commitment to
+                      Alice's secret
+OTRL_TLV_SMP1Q      Like OTRL_TLV_SMP1, but also containing a question
+                      to display to Bob
+OTRL_TLV_SMP2       A response containing a commitment to Bob's secret
+OTRL_TLV_SMP3       The next message in the chain, from Alice to Bob
+OTRL_TLV_SMP4       The final message in the chain, from Bob to Alice
+OTRL_TLV_SMP_ABORT  Indicates an error has occurred. Will reset SMP state
+
+To determine whether the protocol is proceeding correctly, additional
+information has been added to ConnContext.  You may access
+context->smstate->nextExpected to find out which TLV should come next,
+so you can compare this to what was actually received and take an
+appropriate action.  The value is of type NextExpectedSMP and could be
+any of:
+
+OTRL_SMP_EXPECT1   Next SMP TLV should be OTRL_TLV_SMP1
+OTRL_SMP_EXPECT2   Next SMP TLV should be OTRL_TLV_SMP2
+OTRL_SMP_EXPECT3   Next SMP TLV should be OTRL_TLV_SMP3
+OTRL_SMP_EXPECT4   Next SMP TLV should be OTRL_TLV_SMP4
+
+If at any point, an SMP TLV of an unexpected type is received, the
+protocol should abort.  Also, if the correct TLV type is received, then
+the state should be updated accordingly.  A typical control flow looks
+like this:
+
+    OtrlTLV *tlvs = NULL;
+    OtrlTLV *tlv = NULL;
+    [Initialize tlvs to the list of tlvs.  This can be done
+     as part of otrl_message_receiving.]
+
+    ConnContext *context = [correct context];
+    NextExpectedSMP nextMsg = context->smstate->nextExpected;
+
+    if (context->smstate->sm_prog_state == OTRL_SMP_PROG_CHEATED) {
+	otrg_plugin_abort_smp(context);
+	otrg_dialog_update_smp(context, 0.0);
+	context->smstate->nextExpected = OTRL_SMP_EXPECT1;
+	context->smstate->sm_prog_state = OTRL_SMP_PROG_OK;
+    } else {
+	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP1Q);
+	if (tlv) {
+	    if (nextMsg != OTRL_SMP_EXPECT1)
+		[abort SMP];
+	    else {
+		char *question = (char *)tlv->data;
+		char *eoq = memchr(question, '\0', tlv->len);
+		if (eoq) {
+		    [prompt the user with question, get the response,
+			and continue SMP];
+		}
+	    }
+	}
+	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP1);
+	if (tlv) {
+	    if (nextMsg != OTRL_SMP_EXPECT1)
+		[abort SMP];
+	    else {
+		[get secret from user and continue SMP];
+	    }
+	}
+	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP2);
+	if (tlv) {
+	    if (nextMsg != OTRL_SMP_EXPECT2)
+		[abort SMP];
+	    else {
+		// If we received TLV2, we will send TLV3 and expect TLV4
+		context->smstate->nextExpected = OTRL_SMP_EXPECT4;
+	    }
+	}
+	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP3);
+	if (tlv) {
+	    if (nextMsg != OTRL_SMP_EXPECT3)
+		[abort SMP];
+	    else {
+		// If we received TLV3, we will send TLV4
+		// We will not expect more messages, so prepare for next SMP
+		context->smstate->nextExpected = OTRL_SMP_EXPECT1;
+		// Report result to user
+	    }
+	}
+	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP4);
+	if (tlv) {
+	    if (nextMsg != OTRL_SMP_EXPECT4)
+		[abort SMP];
+	    else {
+		// We will not expect more messages, so prepare for next SMP
+		context->smstate->nextExpected = OTRL_SMP_EXPECT1;
+		// Report result to user
+	    }
+	}
+	tlv = otrl_tlv_find(tlvs, OTRL_TLV_SMP_ABORT);
+	if (tlv) {
+	    // The message we are waiting for will not arrive, so reset
+	    // and prepare for the next SMP
+	    context->smstate->nextExpected = OTRL_SMP_EXPECT1;
+	}
+    }
+
+To report the result to the user after receiving OTRL_TLV_SMP3 or
+OTRL_TLV_SMP4, check whether context->active_fingerprint->trust is a
+non-empty string.  (That is, check that it's not NULL, and that its
+first character is not '\0'.)  If that is the case, then the SMP
+completed successfully.  Otherwise, the parties entered different secrets.
+
+3.4 Miscellaneous
+
+b64.h underwent a minor change in OTR 3.1.0.  It was purely a
+housekeeping change and should not require any changes to dependent code.
+
+The arguments to otrl_base64_encode and otrl_base64_decode did not agree
+in terms of which were of type char* and which were unsigned char*
+instead.  This has been corrected.  The new method signatures are:
+
+size_t otrl_base64_encode(char *base64data, const unsigned char *data,
+	size_t datalen);
+size_t otrl_base64_decode(unsigned char *data, const char *base64data,
+	size_t base64len);
+

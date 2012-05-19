@@ -1,0 +1,22 @@
+~~~
+AIM
+~~~
+the aim of *.vs projects is to provide a well organized
+and not invasive way to build target open source projects
+using visual studio (vs.6 and vs.net)
+
+~~~~~~
+REASON
+~~~~~~
+In many situations I was obliged to use visual studio in
+writing projects, and writing windows software is best suited
+using this ide.
+When I had need to use these great open source projects in
+my applications, I had to use the binaries provided (if) for
+the win32 environment: but, I think, if it can run in win32,
+it could also be built using win32 compiler/linker.
+I know you have to pay for visual studio, but why don't give
+the opportunity to build using this tool too?
+Moreover I think that providing these projects could increment
+the number of coworker programmers.
+So I decided to provide these visual studio projects.

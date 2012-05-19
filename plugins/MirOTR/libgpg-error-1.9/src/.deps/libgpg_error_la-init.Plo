@@ -1,0 +1,181 @@
+libgpg_error_la-init.lo .libs/libgpg_error_la-init.o: init.c ../config.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/stdlib.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/_mingw.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/stdio.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stdarg.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/sys/types.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/string.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/errno.h \
+  ./gpg-error.h gettext.h init.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/windows.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/windef.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winnt.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winerror.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/basetsd.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/pshpack4.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/poppack.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/wincon.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winbase.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/wingdi.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winuser.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winnls.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winver.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winnetwk.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winreg.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winsvc.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/cderr.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/dde.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/ddeml.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/dlgs.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/imm.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/lzexpand.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/mmsystem.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/nb30.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpc.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcdce.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/basetyps.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcdcep.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcnsi.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcnterr.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/shellapi.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/pshpack2.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winperf.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/commdlg.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winspool.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winsock2.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/ole2.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/objbase.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcndr.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcnsip.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/objfwd.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/wtypes.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/unknwn.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/objidl.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/cguid.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/olectlid.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/oleauto.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/oaidl.h \
+  C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/oleidl.h
+
+../config.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/stdlib.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/_mingw.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stddef.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/stdio.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/include/stdarg.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/sys/types.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/string.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/errno.h:
+
+./gpg-error.h:
+
+gettext.h:
+
+init.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/windows.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/windef.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winnt.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winerror.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/basetsd.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/pshpack4.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/poppack.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/wincon.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winbase.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/wingdi.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winuser.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winnls.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winver.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winnetwk.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winreg.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winsvc.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/cderr.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/dde.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/ddeml.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/dlgs.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/imm.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/lzexpand.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/mmsystem.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/nb30.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpc.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcdce.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/basetyps.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcdcep.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcnsi.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcnterr.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/shellapi.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/pshpack2.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winperf.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/commdlg.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winspool.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/winsock2.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/ole2.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/objbase.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcndr.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/rpcnsip.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/objfwd.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/wtypes.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/unknwn.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/objidl.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/cguid.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/olectlid.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/oleauto.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/oaidl.h:
+
+C:/MinGW/bin/../lib/gcc/mingw32/3.4.5/../../../../include/oleidl.h:

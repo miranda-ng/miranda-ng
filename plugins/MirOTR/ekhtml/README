@@ -1,0 +1,23 @@
+ekhtml: The El-Kabong HTML parser
+
+
+SUMMARY:
+    El-Kabong: A speedy, yet forgiving, SAX-stylee HTML parser.  
+
+
+PROJECT INFORMATION:
+
+    Web Site:  ekhtml.sourceforge.net
+
+    The web site contains links to locations where one can:
+     
+        - file bugs
+        - join mailing lists
+        - download the latest release
+        - browse documentation
+        - get CVS information
+
+
+BUILDING:
+
+    See the file 'INSTALL' for information

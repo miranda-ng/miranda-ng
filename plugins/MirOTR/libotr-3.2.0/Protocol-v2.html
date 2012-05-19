@@ -1,0 +1,1646 @@
+<!DOCTYPE html
+PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>Off-the-Record Messaging Protocol version 2 - DRAFT</title>
+<style type="text/css">
+    body { background: white; color: black }
+    h1 { text-align: center }
+    dd ul.note { list-style: none }
+    dl.doublespace dd { margin-bottom: 2ex }
+</style>
+</head><body>
+<h1>Off-the-Record Messaging Protocol version 2</h1>
+<p>This document describes version 2 of the Off-the-Record Messaging
+protocol.  The main changes over version 1 include:</p>
+<ul>
+<li>Resolving the identity-binding flaw identified by Di Raimondo,
+Gennaro, and Krawczyk</li>
+<li>Not revealing the users' public keys to passive eavesdroppers; this
+could be useful if the application sending the OTR messages is also
+privacy-preserving</li>
+<li>Supporting fragmentation of OTR messages, to support IM networks
+whose maximum message size is very small.</li>
+<li>Adding a way to authenticate without the use of fingerprints.</li>
+<li>Better protocol version control, for future extensibility.</li>
+</ul>
+<h2>Very high level overview</h2>
+<p>OTR assumes a network model which provides in-order delivery of
+messages, but that some messages may not get delivered at all
+(for example, if the user disconnects).  There may be
+an active attacker, who is allowed to perform a Denial of
+Service attack, but not to learn the contents of messages.</p>
+<ol>
+<li>Alice signals to Bob that she would like (using an OTR Query Message)
+or is willing (using a whitespace-tagged plaintext message) to use OTR
+to communicate.  Either mechanism should convey the version(s) of OTR
+that Alice is willing to use.</li>
+<li>Bob initiates the authenticated key exchange (AKE) with Alice.
+Version 2 of OTR uses a variant of the SIGMA protocol as its AKE.</li>
+<li>Alice and Bob exchange Data Messages to send information to each
+other.</li>
+</ol>
+<h2>High level overview</h2>
+<h3>Requesting an OTR conversation</h3>
+<p>There are two ways Alice can inform Bob that she is willing to use
+the OTR protocol to speak with him: by sending him the OTR Query Message, 
+or by including a special "tag" consisting of whitespace characters in
+one of her messages to him.  Each method also includes a way for Alice
+to communicate to Bob which versions of the OTR protocol she is willing
+to speak with him.</p>
+<p>The semantics of the OTR Query Message are that Alice is
+<em>requesting</em> that Bob start an OTR conversation with her (if, of
+course, he is willing and able to do so).  On the other hand, the
+semantics of the whitespace tag are that Alice is merely
+<em>indicating</em> to Bob that she is willing and able to have an OTR
+conversation with him.  If Bob has a policy of "only use OTR when it's
+explicitly requested", for example, then he <em>would</em> start an OTR
+conversation upon receiving an OTR Query Message, but <em>would not</em>
+upon receiving the whitespace tag.</p>
+<h3>Authenticated Key Exchange (AKE)</h3>
+<p>This section outlines the version of the SIGMA protocol used as the
+AKE.  All exponentiations are done modulo a particular 1536-bit prime,
+and g is a generator of that group, as indicated in the detailed
+description below.  Alice and Bob's long-term authentication public keys
+are pub<sub>A</sub> and pub<sub>B</sub>, respectively.</p>
+<p>The general idea is that Alice and Bob do an <em>unauthenticated</em>
+Diffie-Hellman (D-H) key exchange to set up an encrypted channel, and
+then do mutual authentication <em>inside</em> that channel.</p>
+<p>Bob will be initiating the AKE with Alice.</p>
+<ul>
+<li>Bob:
+<ol>
+<li>Picks a random value r (128 bits)</li>
+<li>Picks a random value x (at least 320 bits)</li>
+<li>Sends Alice AES<sub>r</sub>(g<sup>x</sup>), HASH(g<sup>x</sup>)</li>
+</ol></li>
+<li>Alice:
+<ol>
+<li>Picks a random value y (at least 320 bits)</li>
+<li>Sends Bob g<sup>y</sup></li>
+</ol></li>
+<li>Bob:
+<ol>
+<li>Verifies that Alice's g<sup>y</sup> is a legal value (2 &lt;=
+g<sup>y</sup> &lt;= modulus-2)</li>
+<li>Computes s = (g<sup>y</sup>)<sup>x</sup></li>
+<li>Computes two AES keys c, c' and four MAC keys m1, m1', m2, m2' by
+hashing s in various ways</li>
+<li>Picks keyid<sub>B</sub>, a serial number for his D-H key
+g<sup>x</sup></li>
+<li>Computes M<sub>B</sub> = MAC<sub>m1</sub>(g<sup>x</sup>, g<sup>y</sup>,
+pub<sub>B</sub>, keyid<sub>B</sub>)</li>
+<li>Computes X<sub>B</sub> = pub<sub>B</sub>, keyid<sub>B</sub>,
+sig<sub>B</sub>(M<sub>B</sub>)</li>
+<li>Sends Alice r, AES<sub>c</sub>(X<sub>B</sub>),
+MAC<sub>m2</sub>(AES<sub>c</sub>(X<sub>B</sub>))</li>
+</ol></li>
+<li>Alice:
+<ol>
+<li>Uses r to decrypt the value of g<sup>x</sup> sent earlier</li>
+<li>Verifies that HASH(g<sup>x</sup>) matches the value sent earlier</li>
+<li>Verifies that Bob's g<sup>x</sup> is a legal value (2 &lt;=
+g<sup>x</sup> &lt;= modulus-2)</li>
+<li>Computes s = (g<sup>x</sup>)<sup>y</sup> (note that this will be the
+same as the value of s Bob calculated)</li>
+<li>Computes two AES keys c, c' and four MAC keys m1, m1', m2, m2' by
+hashing s in various ways (the same as Bob)</li>
+<li>Uses m2 to verify MAC<sub>m2</sub>(AES<sub>c</sub>(X<sub>B</sub>))</li>
+<li>Uses c to decrypt AES<sub>c</sub>(X<sub>B</sub>) to obtain
+X<sub>B</sub> = pub<sub>B</sub>, keyid<sub>B</sub>,
+sig<sub>B</sub>(M<sub>B</sub>)</li>
+<li>Computes M<sub>B</sub> = MAC<sub>m1</sub>(g<sup>x</sup>,
+g<sup>y</sup>, pub<sub>B</sub>, keyid<sub>B</sub>)</li>
+<li>Uses pub<sub>B</sub> to verify sig<sub>B</sub>(M<sub>B</sub>)</li>
+
+<li>Picks keyid<sub>A</sub>, a serial number for her D-H key
+g<sup>y</sup></li>
+<li>Computes M<sub>A</sub> = MAC<sub>m1'</sub>(g<sup>y</sup>, g<sup>x</sup>,
+pub<sub>A</sub>, keyid<sub>A</sub>)</li>
+<li>Computes X<sub>A</sub> = pub<sub>A</sub>, keyid<sub>A</sub>,
+sig<sub>A</sub>(M<sub>A</sub>)</li>
+<li>Sends Bob AES<sub>c'</sub>(X<sub>A</sub>),
+MAC<sub>m2'</sub>(AES<sub>c'</sub>(X<sub>A</sub>))</li>
+</ol></li>
+<li>Bob:
+<ol>
+<li>Uses m2' to verify MAC<sub>m2'</sub>(AES<sub>c'</sub>(X<sub>A</sub>))</li>
+<li>Uses c' to decrypt AES<sub>c'</sub>(X<sub>A</sub>) to obtain
+X<sub>A</sub> = pub<sub>A</sub>, keyid<sub>A</sub>,
+sig<sub>A</sub>(M<sub>A</sub>)</li>
+<li>Computes M<sub>A</sub> = MAC<sub>m1'</sub>(g<sup>y</sup>,
+g<sup>x</sup>, pub<sub>A</sub>, keyid<sub>A</sub>)</li>
+<li>Uses pub<sub>A</sub> to verify sig<sub>A</sub>(M<sub>A</sub>)</li>
+</ol></li>
+<li>If all of the verifications succeeded, Alice and Bob now know each
+other's Diffie-Hellman public keys, and share the value s.  Alice is
+assured that s is known by someone with access to the private key
+corresponding to pub<sub>B</sub>, and similarly for Bob.</li>
+</ul>
+<h3>Exchanging data</h3>
+<p>This section outlines the method used to protect data being exchanged
+between Alice and Bob.  As above, all exponentiations are done modulo
+a particular 1536-bit prime, and g is a generator of
+that group, as indicated in the detailed description below.</p>
+<p>Suppose Alice has a message (msg) to send to Bob.</p>
+<ul>
+<li>Alice:
+<ol>
+<li>Picks the most recent of her own D-H encryption keys that Bob has
+acknowledged receiving (by using it in a Data Message, or failing that,
+in the AKE).  Let key<sub>A</sub> by that key, and let keyid<sub>A</sub>
+be its serial number.</li>
+<li>If the above key is Alice's most recent key, she generates a new D-H key 
+(next_dh), to get the serial number keyid<sub>A</sub>+1.</li>
+<li>Picks the most recent of Bob's D-H encryption keys that she has
+received from him (either in a Data Message or in the AKE).  Let
+key<sub>B</sub> by that key, and let keyid<sub>B</sub> be its serial
+number.</li>
+<li>Uses Diffie-Hellman to compute a shared secret from the two keys
+key<sub>A</sub> and key<sub>B</sub>, and generates the
+sending AES key, ek, and the sending MAC key, mk, as detailed
+below.</li>
+<li>Collects any old MAC keys that were used in previous messages, but
+will never again be used (because their associated D-H keys are no
+longer the most recent ones) into a list, oldmackeys.</li>
+<li>Picks a value of the counter, ctr, so that the triple
+(key<sub>A</sub>, key<sub>B</sub>, ctr) is never the same for more
+than one Data Message Alice sends to Bob.</li>
+<li>Computes T<sub>A</sub> = (keyid<sub>A</sub>, keyid<sub>B</sub>, next_dh,
+ctr, AES-CTR<sub>ek,ctr</sub>(msg))</li>
+<li>Sends Bob T<sub>A</sub>, MAC<sub>mk</sub>(T<sub>A</sub>),
+oldmackeys</li>
+</ol></li>
+<li>Bob:
+<ol>
+<li>Uses Diffie-Hellman to compute a shared secret from the two keys
+labelled by keyid<sub>A</sub> and keyid<sub>B</sub>, and generates the
+receiving AES key, ek, and the receiving MAC key, mk, as detailed
+below.  (These will be the same as the keys Alice generated, above.)</li>
+<li>Uses mk to verify MAC<sub>mk</sub>(T<sub>A</sub>).</li>
+<li>Uses ek and ctr to decrypt
+AES-CTR<sub>ek,ctr</sub>(msg).</li>
+</ol>
+</li>
+</ul>
+<h3>Socialist Millionaires' Protocol (SMP)</h3>
+<p>While data messages are being exchanged, either Alice or Bob may
+run SMP to detect impersonation or man-in-the-middle attacks.
+As above, all exponentiations are done modulo a particular 1536-bit
+prime, and g<sub>1</sub> is a generator of that group.  All sent values
+include zero-knowledge proofs that they were generated according to
+this protocol, as indicated in the detailed description below.</p>
+<p>Suppose Alice and Bob have secret information x and y respectively,
+and they wish to know whether x = y.  The Socialist Millionaires' Protocol
+allows them to compare x and y without revealing any other information
+than the value of (x == y).  For OTR, the secrets contain
+information about both parties' long-term authentication public keys,
+as well as information entered by the users themselves.  If x = y,
+this means that Alice and Bob entered the same secret information, and
+so must be the same entities who established that secret to begin with.</p>
+<p>Assuming that Alice begins the exchange:</p>
+<ul>
+<li>Alice:
+<ol>
+<li>Picks random exponents a<sub>2</sub> and a<sub>3</sub></li>
+<li>Sends Bob g<sub>2a</sub> = g<sub>1</sub><sup>a<sub>2</sub></sup> and
+g<sub>3a</sub> = g<sub>1</sub><sup>a<sub>3</sub></sup></li>
+</ol></li>
+<li>Bob:
+<ol>
+<li>Picks random exponents b<sub>2</sub> and b<sub>3</sub></li>
+<li>Computes g<sub>2b</sub> = g<sub>1</sub><sup>b<sub>2</sub></sup> and
+g<sub>3b</sub> = g<sub>1</sub><sup>b<sub>3</sub></sup></li>
+<li>Computes g<sub>2</sub> = g<sub>2a</sub><sup>b<sub>2</sub></sup> and
+g<sub>3</sub> = g<sub>3a</sub><sup>b<sub>3</sub></sup></li>
+<li>Picks random exponent r</li>
+<li>Computes P<sub>b</sub> = g<sub>3</sub><sup>r</sup> and
+Q<sub>b</sub> = g<sub>1</sub><sup>r</sup> g<sub>2</sub><sup>y</sup></li>
+<li>Sends Alice g<sub>2b</sub>, g<sub>3b</sub>, P<sub>b</sub> and
+Q<sub>b</sub></li>
+</ol></li>
+<li>Alice:
+<ol>
+<li>Computes g<sub>2</sub> = g<sub>2b</sub><sup>a<sub>2</sub></sup> and
+g<sub>3</sub> = g<sub>3b</sub><sup>a<sub>3</sub></sup></li>
+<li>Picks random exponent s</li>
+<li>Computes P<sub>a</sub> = g<sub>3</sub><sup>s</sup> and
+Q<sub>a</sub> = g<sub>1</sub><sup>s</sup> g<sub>2</sub><sup>x</sup></li>
+<li>Computes R<sub>a</sub> = (Q<sub>a</sub> / Q<sub>b</sub>)
+<sup>a<sub>3</sub></sup></li>
+<li>Sends Bob P<sub>a</sub>, Q<sub>a</sub> and R<sub>a</sub></li>
+</ol></li>
+<li>Bob:
+<ol>
+<li>Computes R<sub>b</sub> = (Q<sub>a</sub> / Q<sub>b</sub>)
+<sup>b<sub>3</sub></sup></li>
+<li>Computes R<sub>ab</sub> = R<sub>a</sub><sup>b<sub>3</sub></sup></li>
+<li>Checks whether R<sub>ab</sub> == (P<sub>a</sub> / P<sub>b</sub>)</li>
+<li>Sends Alice R<sub>b</sub></li>
+</ol></li>
+<li>Alice:
+<ol>
+<li>Computes R<sub>ab</sub> = R<sub>b</sub><sup>a<sub>3</sub></sup></li>
+<li>Checks whether R<sub>ab</sub> == (P<sub>a</sub> / P<sub>b</sub>)</li>
+</ol></li>
+<li>If everything is done correctly, then R<sub>ab</sub> should hold the
+value of (P<sub>a</sub> / P<sub>b</sub>) times
+(g<sub>2</sub><sup>a<sub>3</sub>b<sub>3</sub></sup>)<sup>(x - y)</sup>, which means that the test at the end of
+the protocol will only succeed if x == y. Further, since
+g<sub>2</sub><sup>a<sub>3</sub>b<sub>3</sub></sup> is a random number
+not known to any party, if x is not equal to y, no other information is
+revealed.</li>
+</ul>
+<h2>Details of the protocol</h2>
+<h3>Unencoded messages</h3>
+<p>This section describes the messages in the OTR protocol that are not
+base-64 encoded binary.</p>
+<h4>OTR Query Messages</h4>
+<p>If Alice wishes to communicate to Bob that she would like to use OTR,
+she sends a message containing the string "?OTR" followed by an
+indication of what versions of OTR she is willing to use with Bob.  The
+version string is constructed as follows:</p>
+<ul>
+<li>If she is willing to use OTR version 1, the version string must
+start with "?".</li>
+<li>If she is willing to use OTR versions other than 1, a "v" followed
+by the byte identifiers for the versions in question, followed by "?".
+The byte identifier for OTR version 2 is "2".  The order of the
+identifiers between the "v" and the "?" does not matter, but none should
+be listed more than once.</li>
+</ul>
+<p>For example:</p>
+<dl>
+<dt>"?OTR?"</dt>
+<dd>Version 1 only</dd>
+<dt>"?OTRv2?"</dt>
+<dd>Version 2 only</dd>
+<dt>"?OTR?v2?"</dt>
+<dd>Versions 1 and 2</dd>
+<dt>"?OTRv24x?"</dt>
+<dd>Version 2, and hypothetical future versions identified by "4" and
+"x"</dd>
+<dt>"?OTR?v24x?"</dt>
+<dd>Versions 1, 2, and hypothetical future versions identified by "4" and
+"x"</dd>
+<dt>"?OTR?v?"</dt>
+<dd>Also version 1 only</dd>
+<dt>"?OTRv?"</dt>
+<dd>A bizarre claim that Alice would like to start an OTR conversation,
+but is unwilling to speak any version of the protocol</dd>
+</dl>
+<p>These strings may be hidden from the user (for example, in
+an attribute of an HTML tag), and/or may be accompanied by an
+explanitory message ("Alice has requested an Off-the-Record private
+conversation.").  If Bob is willing to use OTR with Alice (with a
+protocol version that Alice has offered), he should start the AKE.</p>
+<h4>Tagged plaintext messages</h4>
+<p>If Alice wishes to communicate to Bob that she is willing to use OTR,
+she can attach a special whitespace tag to any plaintext message she
+sends him.  This tag may occur anywhere in the message, and may be
+hidden from the user (as in the Query Messages, above).</p>
+<p>The tag consists of the following 16 bytes, followed by one or more
+sets of 8 bytes indicating the version of OTR Alice is willing to
+use:</p>
+<ul>
+<li>Always send "\x20\x09\x20\x20\x09\x09\x09\x09"
+"\x20\x09\x20\x09\x20\x09\x20\x20", followed by one or more of:</li>
+<li>"\x20\x09\x20\x09\x20\x20\x09\x20" to indicate a willingness to use
+OTR version 1 with Bob (note: this string must come before all other
+whitespace version tags, if it is present, for backwards
+compatibility)</li>
+<li>"\x20\x20\x09\x09\x20\x20\x09\x20" to indicate a willingness to use
+OTR version 2 with Bob</li>
+</ul>
+<p>If Bob is willing to use OTR with Alice (with a protocol version that
+Alice has offered), he should start the AKE.  On the other hand, if
+Alice receives a plaintext message from Bob (rather than an initiation
+of the AKE), she should stop sending him the whitespace tag.</p>
+<h4>OTR Error Messages</h4>
+<p>Any message containing the string "?OTR Error:" is an OTR Error
+Message.  The following part of the message should contain
+human-readable details of the error.</p>
+<h3>Encoded messages</h3>
+<p>This section describes the byte-level format of the base-64 encoded
+binary OTR messages.  The binary form of each of the messages is
+described below.  To transmit one of these messages, construct the ASCII
+string consisting of the five bytes "?OTR:", followed by the base-64
+encoding of the binary form of the message, followed by the byte
+".".</p>
+<p>For the Diffie-Hellman group computations, the group is the one
+defined in RFC 3526 with 1536-bit modulus (hex, big-endian):</p>
+<blockquote><pre>
+FFFFFFFF FFFFFFFF C90FDAA2 2168C234 C4C6628B 80DC1CD1
+29024E08 8A67CC74 020BBEA6 3B139B22 514A0879 8E3404DD
+EF9519B3 CD3A431B 302B0A6D F25F1437 4FE1356D 6D51C245
+E485B576 625E7EC6 F44C42E9 A637ED6B 0BFF5CB6 F406B7ED
+EE386BFB 5A899FA5 AE9F2411 7C4B1FE6 49286651 ECE45B3D
+C2007CB8 A163BF05 98DA4836 1C55D39A 69163FA8 FD24CF5F
+83655D23 DCA3AD96 1C62F356 208552BB 9ED52907 7096966D
+670C354E 4ABC9804 F1746C08 CA237327 FFFFFFFF FFFFFFFF
+</pre></blockquote>
+<p>and a generator (g) of 2.  Note that this means that whenever you see a
+Diffie-Hellman exponentiation in this document, it always means that the
+exponentiation is done modulo the above 1536-bit number.</p>
+<h4>Data types</h4>
+<dl>
+<dt>Bytes (BYTE):</dt>
+<dd>      1 byte unsigned value</dd>
+<dt>Shorts (SHORT):</dt>
+<dd>      2 byte unsigned value, big-endian</dd>
+<dt>Ints (INT):</dt>
+<dd>      4 byte unsigned value, big-endian</dd>
+<dt>Multi-precision integers (MPI):</dt>
+<dd>      4 byte unsigned len, big-endian
+<br />      len byte unsigned value, big-endian
+<br />      (MPIs must use the minimum-length encoding; i.e. no leading 0x00
+      bytes.  This is important when calculating public key
+      fingerprints.)</dd>
+<dt>Opaque variable-length data (DATA):</dt>
+<dd>      4 byte unsigned len, big-endian
+<br />      len byte data</dd>
+<dt>Initial CTR-mode counter value (CTR):</dt>
+<dd>      8 bytes data</dd>
+<dt>Message Authentication Code (MAC):</dt>
+<dd>      20 bytes MAC data</dd>
+</dl>
+<h4>Public keys, signatures, and fingerprints</h4>
+<p>OTR users have long-lived public keys that they use for
+authentication (but <em>not</em> encryption).  The current version of
+the OTR protocol only supports DSA public keys, but there is a key type
+marker for future extensibility.</p>
+<dl>
+<dt>OTR public authentication DSA key (PUBKEY):</dt>
+<dd>Pubkey type (SHORT)
+<ul class="note"><li>DSA public keys have type 0x0000</li></ul>
+p (MPI)
+<br />q (MPI)
+<br />g (MPI)
+<br />y (MPI)
+<ul class="note"><li>(p,q,g,y) are the DSA public key parameters</li></ul>
+</dd>
+</dl>
+<p>OTR public keys are used to generate <b>signatures</b>; different
+types of keys produce signatures in different formats.  The format for a
+signature made by a DSA public key is as follows:</p>
+<dl>
+<dt>DSA signature (SIG):</dt>
+<dd>      (len is the length of the DSA public parameter q)
+<br />      len byte unsigned r, big-endian
+<br />      len byte unsigned s, big-endian</dd>
+</dl>
+<p>OTR public keys have <b>fingerprints</b>, which are hex strings that
+serve as identifiers for the public key.  The fingerprint is calculated
+by taking the SHA-1 hash of the byte-level representation of the public
+key.  However, there is an exception for backwards compatibility: if the
+pubkey type is 0x0000, those two leading 0x00 bytes are omitted from the
+data to be hashed.  The encoding assures that, assuming the hash
+function itself has no useful collisions, and DSA keys have length less
+than 524281 bits (500 times larger than most DSA keys), no two public
+keys will have the same fingerprint.</p>
+<h4>D-H Commit Message</h4>
+<p>This is the first message of the AKE.  Bob sends it to Alice to
+commit to a choice of D-H encryption key (but the key itself is not yet
+revealed).  This allows the secure session id to be much shorter than in
+OTR version 1, while still preventing a man-in-the-middle attack on
+it.</p>
+<dl>
+<dt>Protocol version (SHORT)</dt>
+<dd>The version number of this protocol is 0x0002.</dd>
+<dt>Message type (BYTE)</dt>
+<dd>The D-H Commit Message has type 0x02.</dd>
+<dt>Encrypted g<sup>x</sup> (DATA)</dt>
+<dd>Produce this field as follows:
+<ul>
+<li>Choose a random value r (128 bits)</li>
+<li>Choose a random value x (at least 320 bits)</li>
+<li>Serialize g<sup>x</sup> as an MPI, gxmpi.  [gxmpi will probably be
+196 bytes long, starting with "\x00\x00\x00\xc0".]</li>
+<li>Encrypt gxmpi using AES128-CTR, with key r and initial counter value
+0.  The result will be the same length as gxmpi.</li>
+<li>Encode this encrypted value as the DATA field.</li>
+</ul></dd>
+<dt>Hashed g<sup>x</sup> (DATA)</dt>
+<dd>This is the SHA256 hash of gxmpi.</dd>
+</dl>
+<h4>D-H Key Message</h4>
+<p>This is the second message of the AKE.  Alice sends it to Bob, and it
+simply consists of Alice's D-H encryption key.</p>
+<dl>
+<dt>Protocol version (SHORT)</dt>
+<dd>The version number of this protocol is 0x0002.</dd>
+<dt>Message type (BYTE)</dt>
+<dd>The D-H Key Message has type 0x0a.</dd>
+<dt>g<sup>y</sup> (MPI)</dt>
+<dd>Choose a random value y (at least 320 bits), and calculate
+g<sup>y</sup>.</dd>
+</dl>
+<h4>Reveal Signature Message</h4>
+<p>This is the third message of the AKE.  Bob sends it to Alice,
+revealing his D-H encryption key (and thus opening an encrypted
+channel), and also authenticating himself (and the parameters of the
+channel, preventing a man-in-the-middle attack on the channel itself) to
+Alice.</p>
+<dl>
+<dt>Protocol version (SHORT)</dt>
+<dd>The version number of this protocol is 0x0002.</dd>
+<dt>Message type (BYTE)</dt>
+<dd>The Reveal Signature Message has type 0x11.</dd>
+<dt>Revealed key (DATA)</dt>
+<dd>This is the value r picked earlier.</dd>
+<dt>Encrypted signature (DATA)</dt>
+<dd>This field is calculated as follows:
+<ul>
+<li>Compute the Diffie-Hellman shared secret s.</li>
+<li>Use s to compute an AES key c and two MAC keys m1 and m2, as specified below.</li>
+<li>Select keyid<sub>B</sub>, a serial number for the D-H key computed
+earlier.  It is an INT, and must be greater than 0.</li>
+<li>Compute the 32-byte value M<sub>B</sub> to be the SHA256-HMAC of the
+following data, using the key m1:<dl>
+<dt>g<sup>x</sup> (MPI)</dt>
+<dt>g<sup>y</sup> (MPI)</dt>
+<dt>pub<sub>B</sub> (PUBKEY)</dt>
+<dt>keyid<sub>B</sub> (INT)</dt>
+</dl></li>
+<li>Let X<sub>B</sub> be the following structure:<dl>
+<dt>pub<sub>B</sub> (PUBKEY)</dt>
+<dt>keyid<sub>B</sub> (INT)</dt>
+<dt>sig<sub>B</sub>(M<sub>B</sub>) (SIG)</dt>
+<dd>This is the signature, using the private part of the key
+pub<sub>B</sub>, of the 32-byte M<sub>B</sub> (which does not need to be
+hashed again to produce the signature).</dd>
+</dl></li>
+<li>Encrypt X<sub>B</sub> using AES128-CTR with key c and initial
+counter value 0.</li>
+<li>Encode this encrypted value as the DATA field.</li>
+</ul></dd>
+<dt>MAC'd signature (MAC)</dt>
+<dd>This is the SHA256-HMAC-160 (that is, the first 160 bits of the
+SHA256-HMAC) of the encrypted signature field (including the four-byte
+length), using the key m2.</dd>
+</dl>
+<h4>Signature Message</h4>
+<p>This is the final message of the AKE.  Alice sends it to Bob,
+authenticating herself and the channel parameters to him.</p>
+<dl>
+<dt>Protocol version (SHORT)</dt>
+<dd>The version number of this protocol is 0x0002.</dd>
+<dt>Message type (BYTE)</dt>
+<dd>The Signature Message has type 0x12.</dd>
+<dt>Encrypted signature (DATA)</dt>
+<dd>This field is calculated as follows:
+<ul>
+<li>Compute the Diffie-Hellman shared secret s.</li>
+<li>Use s to compute an AES key c' and two MAC keys m1' and m2', as specified below.</li>
+<li>Select keyid<sub>A</sub>, a serial number for the D-H key computed
+earlier.  It is an INT, and must be greater than 0.</li>
+<li>Compute the 32-byte value M<sub>A</sub> to be the SHA256-HMAC of the
+following data, using the key m1':<dl>
+<dt>g<sup>y</sup> (MPI)</dt>
+<dt>g<sup>x</sup> (MPI)</dt>
+<dt>pub<sub>A</sub> (PUBKEY)</dt>
+<dt>keyid<sub>A</sub> (INT)</dt>
+</dl></li>
+<li>Let X<sub>A</sub> be the following structure:<dl>
+<dt>pub<sub>A</sub> (PUBKEY)</dt>
+<dt>keyid<sub>A</sub> (INT)</dt>
+<dt>sig<sub>A</sub>(M<sub>A</sub>) (SIG)</dt>
+<dd>This is the signature, using the private part of the key
+pub<sub>A</sub>, of the 32-byte M<sub>A</sub> (which does not need to be
+hashed again to produce the signature).</dd>
+</dl></li>
+<li>Encrypt X<sub>A</sub> using AES128-CTR with key c' and initial
+counter value 0.</li>
+<li>Encode this encrypted value as the DATA field.</li>
+</ul></dd>
+<dt>MAC'd signature (MAC)</dt>
+<dd>This is the SHA256-HMAC-160 (that is, the first 160 bits of the
+SHA256-HMAC) of the encrypted signature field (including the four-byte
+length), using the key m2'.</dd>
+</dl>
+<h4>Data Message</h4>
+<p>This message is used to transmit a private message to the
+correspondent.  It is also used to reveal old MAC keys.</p>
+<p>The plaintext message (either before encryption, or after decryption)
+consists of a human-readable message (encoded in UTF-8, optionally with
+HTML markup), optionally followed by:</p>
+<ul>
+<li>a single NUL (a BYTE with value 0x00), <b>and</b></li>
+<li>zero or more TLV (type/length/value) records (with no padding
+between them)</li>
+</ul>
+<p>Each TLV record is of the form:</p>
+<dl>
+<dt>Type (SHORT)</dt>
+<dd>The type of this record.  Records with unrecognized types should be
+ignored.</dd>
+<dt>Length (SHORT)</dt>
+<dd>The length of the following field</dd>
+<dt>Value (len BYTEs)  [where len is the value of the Length field]</dt>
+<dd>Any pertinent data for the record type.</dd>
+</dl>
+<p>Some TLV examples:</p>
+<dl>
+<dt>\x00\x01\x00\x00</dt>
+<dd>A TLV of type 1, containing no data</dd>
+<dt>\x00\x00\x00\x05\x68\x65\x6c\x6c\x6f</dt>
+<dd>A TLV of type 0, containing the value "hello"</dd>
+</dl>
+<p>The currently defined TLV record types are:</p>
+<dl>
+<dt>Type 0: Padding</dt>
+<dd>The value may be an arbitrary amount of data, which should be
+ignored.  This type can be used to disguise the length of the plaintext
+message.</dd>
+<dt>Type 1: Disconnected</dt>
+<dd>If the user requests to close the private connection, you may send a
+message (possibly with empty human-readable part) containing a record
+with this TLV type just before you discard the session keys, and
+transition to MSGSTATE_PLAINTEXT (see below).  If you receive a TLV
+record of this type, you should transition to MSGSTATE_FINISHED (see
+below), and inform the user that his correspondent has closed his end of
+the private connection, and the user should do the same.</dd>
+<dt>Type 2: SMP Message 1</dt>
+<dd>The value represents an initiating message of the Socialist
+Millionaires' Protocol, described below.</dd>
+<dt>Type 3: SMP Message 2</dt>
+<dd>The value represents the second message in an instance of SMP.</dd>
+<dt>Type 4: SMP Message 3</dt>
+<dd>The value represents the third message in an instance of SMP.</dd>
+<dt>Type 5: SMP Message 4</dt>
+<dd>The value represents the final message in an instance of SMP.</dd>
+<dt>Type 6: SMP Abort Message</dt>
+<dd>If the user cancels SMP prematurely or encounters an error in the
+protocol and cannot continue, you may send a message (possibly with empty
+human-readable part) with this TLV type to instruct the other party's
+client to abort the protocol.  The associated length should be zero and
+the associated value should be empty.  If you receive a TLV of this type,
+you should change the SMP state to SMP_EXPECT1 (see below).</dd>
+</dl>
+<p>SMP Message TLVs (types 2-5) all carry data sharing the same general
+format:</p> 
+<dl>
+<dt>MPI count (INT)</dt>
+<dd>The number of MPIs contained in the remainder of the TLV.</dd>
+<dt>MPI 1 (MPI)</dt>
+<dd>The first MPI of the TLV, serialized into a byte array.</dd>
+<dt>MPI 2 (MPI)</dt>
+<dd>The second MPI of the TLV, serialized into a byte array.</dd>
+<dt>etc.</dt>
+</dl>
+<p>There should be as many MPIs as declared in the MPI count field.  For
+the exact MPIs passed for each SMP TLV, see the SMP state machine
+below.</p>
+<p>A message with an empty human-readable part (the plaintext is of zero
+length, or starts with a NUL) is a "heartbeat" packet, and should not
+be displayed to the user.  (But it's still useful to effect key
+rotations.)</p>
+<p>Data Message format:</p>
+<dl>
+<dt>Protocol version (SHORT)</dt>
+<dd>The version number of this protocol is 0x0002.</dd>
+<dt>Message type (BYTE)</dt>
+<dd>The Data Message has type 0x03.</dd>
+<dt>Flags (BYTE)</dt>
+<dd>The bitwise-OR of the flags for this message.  Usually you should
+set this to 0x00.  The only currently defined flag is:<dl>
+<dt>IGNORE_UNREADABLE (0x01)</dt>
+<dd>If you receive a Data Message with this flag set, and you are unable
+to decrypt the message or verify the MAC (because, for example, you
+don't have the right keys), just ignore the message instead of producing
+some kind of error or notification to the user.</dd>
+</dl></dd>
+<dt>Sender keyid (INT)</dt>
+<dd>Must be strictly greater than 0, and increment by 1 with each key
+change</dd>
+<dt>Recipient keyid (INT)</dt>
+<dd>Must therefore be strictly greater than 0, as the receiver has no
+key with id 0.
+<br />The sender and recipient keyids are those used to encrypt and MAC
+this message.</dd>
+<dt>DH y (MPI)</dt>
+<dd>The *next* [i.e. sender_keyid+1] public key for the sender</dd>
+<dt>Top half of counter init (CTR)</dt>
+<dd>This should monotonically increase (as a big-endian value) for
+      each message sent with the same (sender keyid, recipient keyid)
+      pair, and must not be all 0x00.</dd>
+<dt>Encrypted message (DATA)</dt>
+<dd>Using the appropriate encryption key (see below) derived from the
+      sender's and recipient's DH public keys (with the keyids given in
+      this message), perform AES128 counter-mode (CTR) encryption of the
+      message.  The initial counter is a 16-byte value whose first 8
+      bytes are the above "top half of counter init" value, and whose
+      last 8 bytes are all 0x00.  Note that counter mode does not change
+      the length of the message, so no message padding needs to be done.
+      If you *want* to do message padding (to disguise the length of
+      your message), use the above TLV of type 0.</dd>
+<dt>Authenticator (MAC)</dt>
+<dd>The SHA1-HMAC, using the appropriate MAC key (see below) of everything
+    from the Protocol version to the end of the encrypted message</dd>
+<dt>Old MAC keys to be revealed (DATA)</dt>
+<dd>See "Revealing MAC Keys", below.</dd>
+</dl>
+<h3>Socialist Millionaires' Protocol (SMP)</h3>
+<p>The Socialist Millionaires' Protocol allows two parties with secret
+information x and y respectively to check whether (x==y) without revealing
+any additional information about the secrets.  The protocol used by OTR is
+based on the work of Boudot, Schoenmakers and Traore (2001).  A full 
+justification for its use in OTR is made by Alexander and Goldberg,
+in a paper to be published this year.  The following is a technical account
+of what is transmitted during the course of the protocol.</p>
+<h4>Secret information</h4>
+<p>The secret information x and y compared during this protocol contains
+not only information entered by the users, but also information unique to
+the conversation in which SMP takes place.  Specifically, the format is:</p>
+<dl>
+<dt>Version (BYTE)</dt>
+<dd>The version of SMP used.  The version described here is 1.</dd>
+<dt>Initiator fingerprint (20 BYTEs)</dt>
+<dd>The fingerprint that the party initiating SMP is using in
+the current conversation.</dd>
+<dt>Responder fingerprint (20 BYTEs)</dt>
+<dd>The fingerprint that the party that did not initiate SMP is 
+using in the current conversation.</dd>
+<dt>Secure Session ID</dt>
+<dd>The ssid described below.</dd>
+<dt>User input</dt>
+<dd>The input string given by the user at runtime.</dd>
+</dl>
+<p>Then the SHA256 hash of the above is taken, and the digest becomes the 
+actual secret (x or y) to be used in SMP.  The additional fields insure
+that not only do both parties know the same secret input string, but no
+man-in-the-middle is capable of reading their communication either.</p>
+<h3>The SMP state machine</h3>
+<p>Whenever the OTR message state machine has MSGSTATE_ENCRYPTED set
+(see below), the SMP state machine may progress.  If at any point 
+MSGSTATE_ENCRYPTED becomes unset, SMP must abandon its state and return
+to its initial setup.  The SMP state consists of one main variable, as
+well as information from the partial computations at each protocol step.</p>
+<h4>Expected Message</h4>
+<p>This main state variable for SMP controls what SMP-specific TLVs will
+be accepted.  This variable has no effect on type 0 or type 1 TLVs, which
+are always allowed.  smpstate can take one of four values:</p>
+<dl>
+<dt>SMPSTATE_EXPECT1</dt>
+<dd>This state indicates that only type 2 TLVs (SMP message 1) should
+be accepted.  This is the default state when SMP has not yet begun.  This
+state is also reached whenever an error occurs or SMP is aborted, and the
+protocol must be restarted from the beginning.</dd>
+<dt>SMPSTATE_EXPECT2</dt>
+<dd>This state indicates that only type 3 TLVs (SMP message 2) should
+be accepted.</dd>
+<dt>SMPSTATE_EXPECT3</dt>
+<dd>This state indicates that only type 4 TLVs (SMP message 3) should
+be accepted.</dd>
+<dt>SMPSTATE_EXPECT4</dt>
+<dd>This state indicates that only type 5 TLVs (SMP message 4) should
+be accepted.</dd>
+</dl>
+<h4>State Transitions</h4>
+<p>There are 7 actions that an OTR client must handle:</p>
+<ul>
+<li>Received TLVs:
+<ul>
+<li>SMP Message 1</li>
+<li>SMP Message 2</li>
+<li>SMP Message 3</li>
+<li>SMP Message 4</li>
+<li>SMP Abort Message</li>
+</ul></li>
+<li>User actions:</li>
+<ul>
+<li>User requests to begin SMP</li>
+<li>User requests to abort SMP</li>
+</ul></li>
+</ul>
+<p>The following sections outline what is to be done in each case.  They
+all assume that MSGSTATE_ENCRYPTED is set.  For simplicity, they also
+assume that Alice has begun SMP, and Bob is responding to her.</p>
+<h4>SMP Hash function</h4>
+<p>In the following actions, there are many places where a SHA256 hash of
+an integer followed by one or two MPIs is taken.  The input to this hash
+function is:</p>
+<dl>
+<dt>Version (BYTE)</dt>
+<dd>This distinguishes calls to the hash function at different points in
+the protocol, to prevent Alice from replaying Bob's zero knowledge proofs
+or vice versa.</dd>
+<dt>First MPI (MPI)</dt>
+<dd>The first MPI given as input, serialized in the usual way.</dd>
+<dt>Second MPI (MPI)</dt>
+<dd>The second MPI given as input, if present, serialized in the usual way.
+If only one MPI is given as input, this field is simply omitted.</dd>
+</dl>
+<h4>Receiving a type 2 TLV (SMP message 1)</h4>
+<p>SMP message 1 is sent by Alice to begin a DH exchange to determine two
+new generators, g<sub>2</sub> and g<sub>3</sub>.  It contains the
+following mpi values:</p>
+<dl>
+<dt>g<sub>2a</sub></dt>
+<dd>Alice's half of the DH exchange to determine g<sub>2</sub>.</dd>
+<dt>c2, D2</dt>
+<dd>A zero-knowledge proof that Alice knows the exponent associated with
+her transmitted value g<sub>2a</sub>.</dd>
+<dt>g<sub>3a</sub></dt>
+<dd>Alice's half of the DH exchange to determine g<sub>3</sub>.</dd>
+<dt>c3, D3</dt>
+<dd>A zero-knowledge proof that Alice knows the exponent associated with
+her transmitted value g<sub>3a</sub>.</dd>
+</dl>
+<p>When Bob receives this TLV he should do:</p>
+<dl>
+<dt>If smpstate is not SMPSTATE_EXPECT1:</dt>
+<dd>Set smpstate to SMPSTATE_EXPECT1 and send a type 6 TLV (SMP abort)
+to Alice.</dd>
+<dt>If smpstate is SMPSTATE_EXPECT1:</dt>
+<dd>Verify Alice's zero-knowledge proofs for g<sub>2a</sub> and
+g<sub>3a</sub>:
+<ol>
+<li>Check that c2 = SHA256(1, g<sub>1</sub><sup>D2</sup> 
+g<sub>2a</sub><sup>c2</sup>).</li>
+<li>Check that c3 = SHA256(2, g<sub>1</sub><sup>D3</sup> 
+g<sub>3a</sub><sup>c3</sup>).</li>
+</ol>
+Create a type 3 TLV (SMP message 2) and send it to Alice:
+<ol>
+<li>Determine Bob's secret input y, which is to be compared to Alice's
+secret x.</li>
+<li>Pick random exponents b<sub>2</sub> and b<sub>3</sub>.
+These will used during the DH exchange to pick generators.</li>
+<li>Pick random exponents r2, r3, r4, r5 and r6.
+These will be used to add a blinding factor to the final results, and
+to generate zero-knowledge proofs that this message was created honestly.</li>
+<li>Compute g<sub>2b</sub> = g<sub>1</sub><sup>b<sub>2</sub></sup> and
+g<sub>3b</sub> = g<sub>1</sub><sup>b<sub>3</sub></sup></li>
+<li>Generate a zero-knowledge proof that the exponent b<sub>2</sub> is
+known by setting c2 = SHA256(3, g<sub>1</sub><sup>r2</sup>) and
+D2 = r2 - b<sub>2</sub> c2.</li>
+<li>Generate a zero-knowledge proof that the exponent b<sub>3</sub> is
+known by setting c3 = SHA256(4, g<sub>1</sub><sup>r3</sup>) and
+D3 = r3 - b<sub>3</sub> c3.</li>
+<li>Compute g<sub>2</sub> = g<sub>2a</sub><sup>b<sub>2</sub></sup> and
+g<sub>3</sub> = g<sub>3a</sub><sup>b<sub>3</sub></sup></li>
+<li>Compute P<sub>b</sub> = g<sub>3</sub><sup>r4</sup> and
+Q<sub>b</sub> = g<sub>1</sub><sup>r4</sup> g<sub>2</sub><sup>y</sup></li>
+<li>Generate a zero-knowledge proof that P<sub>b</sub> and Q<sub>b</sub>
+were created according to the protocol by setting 
+cP = SHA256(5, g<sub>3</sub><sup>r5</sup>, g<sub>1</sub><sup>r5</sup> 
+g<sub>2</sub><sup>r6</sup>), D5 = r5 - r4 cP and D6 = r6 - y cP.</li>
+<li>Store the values of g<sub>3a</sub>, g<sub>2</sub>, g<sub>3</sub>,
+b<sub>3</sub>, P<sub>b</sub> and Q<sub>b</sub> for use later in the
+protocol.</li>
+<li>Send Alice a type 3 TLV (SMP message 2) containing g<sub>2b</sub>, 
+c2, d2, g<sub>3b</sub>, c3, d3, P<sub>b</sub>, Q<sub>b</sub>, cP, D5
+and D6, in that order.</li>
+</ol>
+Set smpstate to SMPSTATE_EXPECT3.</dd>
+</dl>
+<h4>Receiving a type 3 TLV (SMP message 2)</h4>
+<p>SMP message 2 is sent by Bob to complete the DH exchange to
+determine the new generators, g<sub>2</sub> and g<sub>3</sub>. 
+It also begins the construction of the values used in the final
+comparison of the protocol.  It contains the following mpi values:</p>
+<dl>
+<dt>g<sub>2b</sub></dt>
+<dd>Bob's half of the DH exchange to determine g<sub>2</sub>.</dd>
+<dt>c2, D2</dt>
+<dd>A zero-knowledge proof that Bob knows the exponent associated with
+his transmitted value g<sub>2b</sub>.</dd>
+<dt>g<sub>3b</sub></dt>
+<dd>Bob's half of the DH exchange to determine g<sub>3</sub>.</dd>
+<dt>c3, D3</dt>
+<dd>A zero-knowledge proof that Bob knows the exponent associated with
+his transmitted value g<sub>3b</sub>.</dd>
+<dt>P<sub>b</sub>, Q<sub>b</sub></dt>
+<dd>These values are used in the final comparison to determine if Alice
+and Bob share the same secret.</dd>
+<dt>cP, D5, D6</dt>
+<dd>A zero-knowledge proof that P<sub>b</sub> and Q<sub>b</sub> were
+created according to the protcol given above.</dd>
+</dl>
+<p>When Alice receives this TLV she should do:</p>
+<dl>
+<dt>If smpstate is not SMPSTATE_EXPECT2:</dt>
+<dd>Set smpstate to SMPSTATE_EXPECT1 and send a type 6 TLV (SMP abort)
+to Bob.</dd>
+<dt>If smpstate is SMPSTATE_EXPECT2:</dt>
+<dd>Verify Bob's zero-knowledge proofs for g<sub>2b</sub>, 
+g<sub>3b</sub>, P<sub>b</sub> and Q<sub>b</sub>:
+<ol>
+<li>Check that c2 = SHA256(3, g<sub>1</sub><sup>D2</sup> 
+g<sub>2b</sub><sup>c2</sup>).</li>
+<li>Check that c3 = SHA256(4, g<sub>1</sub><sup>D3</sup> 
+g<sub>3b</sub><sup>c3</sup>).</li>
+<li>Check that cP = SHA256(5, g<sub>3</sub><sup>D5</sup> 
+P<sub>b</sub><sup>cP</sup>, g<sub>2</sub><sup>d6</sup> 
+Q<sub>b</sub><sup>cP</sup>).</li>
+</ol>
+Create a type 4 TLV (SMP message 3) and send it to Bob:
+<ol>
+<li>Pick random exponents r4, r5, r6 and r7.
+These will be used to add a blinding factor to the final results, and
+to generate zero-knowledge proofs that this message was created honestly.</li>
+<li>Compute g<sub>2</sub> = g<sub>2b</sub><sup>a<sub>2</sub></sup> and
+g<sub>3</sub> = g<sub>3b</sub><sup>a<sub>3</sub></sup></li>
+<li>Compute P<sub>a</sub> = g<sub>3</sub><sup>r4</sup> and
+Q<sub>a</sub> = g<sub>1</sub><sup>r4</sup> g<sub>2</sub><sup>x</sup></li>
+<li>Generate a zero-knowledge proof that P<sub>a</sub> and Q<sub>a</sub>
+were created according to the protocol by setting 
+cP = SHA256(6, g<sub>3</sub><sup>r5</sup>, g<sub>1</sub><sup>r5</sup> 
+g<sub>2</sub><sup>r6</sup>), D5 = r5 - r4 cP and D6 = r6 - x cP.</li>
+<li>Compute R<sub>a</sub> = (Q<sub>a</sub> / Q<sub>b</sub>)
+<sup>a<sub>3</sub></sup></li>
+<li>Generate a zero-knowledge proof that R<sub>a</sub> was created 
+according to the protocol by setting cR = SHA256(7, g<sub>1</sub><sup>r7</sup>, 
+(Q<sub>a</sub> / Q<sub>b</sub>)<sup>r7</sup>) and 
+D7 = r7 - a<sub>3</sub> cR.</li>
+<li>Store the values of g<sub>3b</sub>, (P<sub>a</sub> / P<sub>b</sub>), 
+(Q<sub>a</sub> / Q<sub>b</sub>) and R<sub>b</sub> for use later in the
+protocol.</li>
+<li>Send Bob a type 4 TLV (SMP message 3) containing P<sub>a</sub>, 
+Q<sub>a</sub>, cP, D5, D6, R<sub>a</sub>, cR and D7 in that order.</li>
+</ol>
+Set smpstate to SMPSTATE_EXPECT4.</dd>
+</dl>
+<h4>Receiving a type 4 TLV (SMP message 3)</h4>
+<p>SMP message 3 is Alice's final message in the SMP exchange.  It 
+has the last of the information required by Bob to determine if x = y.
+It contains the following mpi values:</p>
+<dl>
+<dt>P<sub>a</sub>, Q<sub>a</sub></dt>
+<dd>These values are used in the final comparison to determine if Alice
+and Bob share the same secret.</dd>
+<dt>cP, D5, D6</dt>
+<dd>A zero-knowledge proof that P<sub>a</sub> and Q<sub>a</sub> were
+created according to the protcol given above.</dd>
+<dt>R<sub>a</sub></dt>
+<dd>This value is used in the final comparison to determine if Alice
+and Bob share the same secret.</dd>
+<dt>cR, D7</dt>
+<dd>A zero-knowledge proof that R<sub>a</sub> was
+created according to the protcol given above.</dd>
+<dt>
+</dl>
+<p>When Bob receives this TLV he should do:</p>
+<dl>
+<dt>If smpstate is not SMPSTATE_EXPECT3:</dt>
+<dd>Set smpstate to SMPSTATE_EXPECT1 and send a type 6 TLV (SMP abort)
+to Bob.</dd>
+<dt>If smpstate is SMPSTATE_EXPECT3:</dt>
+<dd>Verify Alice's zero-knowledge proofs for P<sub>a</sub>, Q<sub>a</sub> 
+and R<sub>a</sub>:
+<ol>
+<li>Check that cP = SHA256(5, g<sub>3</sub><sup>D5</sup> 
+P<sub>a</sub><sup>cP</sup>, g<sub>2</sub><sup>d6</sup> 
+Q<sub>a</sub><sup>cP</sup>).</li>
+<li>Check that cR = SHA256(7, g<sub>1</sub><sup>D7</sup>
+g<sub>3a</sub><sup>cR</sup>, (Q<sub>a</sub> / Q<sub>b</sub>)<sup>D7</sup> 
+R<sub>a</sub><sup>cR</sup>).</li> 
+</ol>
+Create a type 5 TLV (SMP message 4) and send it to Alice:
+<ol>
+<li>Pick a random exponent r7.
+This will be used to generate Bob's final zero-knowledge proof that 
+this message was created honestly.</li>
+<li>Compute R<sub>b</sub> = (Q<sub>a</sub> / Q<sub>b</sub>)
+<sup>b<sub>3</sub></sup></li>
+<li>Generate a zero-knowledge proof that R<sub>b</sub> was created 
+according to the protocol by setting cR = SHA256(8, g<sub>1</sub><sup>r7</sup>, 
+(Q<sub>a</sub> / Q<sub>b</sub>)<sup>r7</sup>) and 
+D7 = r7 - b<sub>3</sub> cR.</li>
+<li>Send Alice a type 5 TLV (SMP message 4) containing R<sub>b</sub>, 
+cR and D7 in that order.</li>
+</ol>
+Check whether the protocol was successful:
+<ol>
+<li>Compute R<sub>ab</sub> = R<sub>a</sub><sup>b<sub>3</sub></sup>.</li>
+<li>Determine if x = y by checking the equivalent condition that 
+(P<sub>a</sub> / P<sub>b</sub>) = R<sub>ab</sub>.</li>
+</ol>
+Set smpstate to SMPSTATE_EXPECT1, as no more messages are expected from
+Alice.</dd>
+</dl>
+<h4>Receiving a type 5 TLV (SMP message 4)</h4>
+<p>SMP message 4 is Bob's final message in the SMP exchange.  It 
+has the last of the information required by Alice to determine if x = y.
+It contains the following mpi values:</p>
+<dl>
+<dt>R<sub>b</sub></dt>
+<dd>This value is used in the final comparison to determine if Alice
+and Bob share the same secret.</dd>
+<dt>cR, D7</dt>
+<dd>A zero-knowledge proof that R<sub>b</sub> was
+created according to the protcol given above.</dd>
+<dt>
+</dl>
+<p>When Alice receives this TLV she should do:</p>
+<dl>
+<dt>If smpstate is not SMPSTATE_EXPECT4:</dt>
+<dd>Set smpstate to SMPSTATE_EXPECT1 and send a type 6 TLV (SMP abort)
+to Bob.</dd>
+<dt>If smpstate is SMPSTATE_EXPECT4:</dt>
+<dd>Verify Bob's zero-knowledge proof for R<sub>b</sub>:
+<ol>
+<li>Check that cR = SHA256(8, g<sub>1</sub><sup>D7</sup>
+g<sub>3b</sub><sup>cR</sup>, (Q<sub>a</sub> / Q<sub>b</sub>)<sup>D7</sup> 
+R<sub>b</sub><sup>cR</sup>).</li> 
+</ol>
+Check whether the protocol was successful:
+<ol>
+<li>Compute R<sub>ab</sub> = R<sub>b</sub><sup>a<sub>3</sub></sup>.</li>
+<li>Determine if x = y by checking the equivalent condition that 
+(P<sub>a</sub> / P<sub>b</sub>) = R<sub>ab</sub>.</li>
+</ol>
+Set smpstate to SMPSTATE_EXPECT1, as no more messages are expected from
+Bob.</dd>
+</dl>
+<h4>User requests to begin SMP</h4>
+<dl>
+<dt>If smpstate is not set to SMPSTATE_EXPECT1:</dt>
+<dd>SMP is already underway.  If you wish to restart SMP, send a
+type 6 TLV (SMP abort) to the other party and then proceed as if
+smpstate was SMPSTATE_EXPECT1.  Otherwise, you may simply continue the
+current SMP instance.</dd>
+<dt>If smpstate is set to SMPSTATE_EXPECT1:</dt>
+<dd>No current exchange is underway.  In this case, Alice should 
+create a valid type 2 TLV (SMP message 1) as follows:
+<ol>
+<li>Determine her secret input x, which is to be compared to Bob's
+secret y.</li>
+<li>Pick random values a<sub>2</sub> and a<sub>3</sub> (128 bits).
+These will be Alice's exponents for the DH exchange to pick generators.</li>
+<li>Pick random values r2 and r3 (128 bits).
+These will be used to generate zero-knowledge proofs that this message
+was created according to the protocol.</li>
+<li>Compute g<sub>2a</sub> = g<sub>1</sub><sup>a<sub>2</sub></sup> and
+g<sub>3a</sub> = g<sub>1</sub><sup>a<sub>3</sub></sup></li>
+<li>Generate a zero-knowledge proof that the exponent a<sub>2</sub> is
+known by setting c2 = SHA256(1, g<sub>1</sub><sup>r2</sup>) and
+D2 = r2 - a<sub>2</sub> c2.</li>
+<li>Generate a zero-knowledge proof that the exponent a<sub>3</sub> is
+known by setting c3 = SHA256(2, g<sub>1</sub><sup>r3</sup>) and
+D3 = r3 - a<sub>3</sub> c3.</li>
+<li>Store the values of x, a<sub>2</sub> and a<sub>3</sub> 
+for use later in the protocol.</li>
+<li>Send Bob a type 2 TLV (SMP message 1) containing g<sub>2a</sub>, 
+c2, d2, g<sub>3a</sub>, c3 and D3 in that order.</li>
+</ol>
+Set smpstate to SMPSTATE_EXPECT2.</dd>
+</dl>
+<h4>User requests to abort SMP</h4>
+<p>In all cases, send a type 6 TLV (SMP abort) to the correspondent and
+set smpstate to SMPSTATE_EXPECT1.</p>
+<h3>Key Management</h3>
+<p>For each correspondent, keep track of:</p>
+<dl>
+<dt>Your two most recent DH public/private key pairs</dt>
+<dd>our_dh[our_keyid] (most recent) and our_dh[our_keyid-1] (previous)</dd>
+<dt>His two most recent DH public keys</dt>
+<dd>their_y[their_keyid] (most recent) and their_y[their_keyid-1]
+(previous)</dd>
+</dl>
+
+<p>When starting a private conversation with a correspondent, generate
+two DH key pairs for yourself, and set our_keyid = 2.  Note that all DH
+key pairs should have a private part that is at least 320 bits long.</p>
+
+<dl class="doublespace">
+<dt>When you send AKE messages:</dt>
+<dd>Send the public part of our_dh[our_keyid-1], with the keyid field,
+    of course, set to (our_keyid-1).</dd>
+
+<dt>Upon completing the AKE:</dt>
+<dd>If the specified keyid equals either their_keyid or their_keyid-1,
+    and the DH pubkey contained in the AKE messages matches the
+    one you've stored for that keyid, that's great.  Otherwise, forget
+    all values of their_y[], and of their_keyid, and set their_keyid to
+    the keyid value given in the AKE messages, and
+    their_y[their_keyid] to the DH pubkey value given in the AKE
+    messages.  their_y[their_keyid-1] should be set to NULL.</dd>
+
+<dt>When you send a Data Message:</dt>
+<dd>Set the sender keyid to (our_keyid-1), and the recipient keyid to
+    (their_keyid).  Set the DH pubkey in the Data message to the public
+    part of our_dh[our_keyid].  Use our_dh[our_keyid-1] and
+    their_y[their_keyid] to calculate session keys, as outlined below.
+    Use the "sending AES key" to encrypt the message, and the "sending
+    MAC key" to calculate its MAC.</dd>
+
+<dt>When you receive a Data Message:</dt>
+<dd>Use the keyids in the message to select which of your DH key pairs
+    and which of his DH pubkeys to use to verify the MAC.  If the keyids
+    do not represent either the most recent key or the previous key (for
+    either the sender or receiver), reject the message.  Also reject the
+    message if the sender keyid is their_keyid-1, but
+    their_y[their_keyid-1] is NULL.
+
+    <p>Otherwise, calculate the session keys as outlined below.  Use the
+    "receiving MAC key" to verify the MAC on the message.  If it does not
+    verify, reject the message.</p>
+
+    <p>Check that the counter in the Data message is strictly larger than the
+    last counter you saw using this pair of keys.  If not, reject the
+    message.</p>
+
+    <p>If the MAC verifies, decrypt the message using the "receiving AES
+    key".</p>
+
+    <p>Finally, check if keys need rotation:</p>
+    <ul>
+    <li>If the "recipient keyid" in the Data message equals our_keyid, then
+       he's seen the public part of our most recent DH key pair, so you
+       must securely forget our_dh[our_keyid-1], increment our_keyid, and set
+       our_dh[our_keyid] to a new DH key pair which you generate.</li>
+    <li>If the "sender keyid" in the Data message equals their_keyid,
+       increment their_keyid, and set their_y[their_keyid] to the new DH
+       pubkey specified in the Data message.</li>
+    </ul></dd>
+</dl>
+
+<h4>Computing AES keys, MAC keys, and the secure session id</h4>
+<p>OTR uses Diffie-Hellman to calculate shared secrets in the usual way:
+if Bob knows x, and tells Alice g<sup>x</sup>, and Alice knows y, and
+tells Bob g<sup>y</sup>, then they each can calculate s =
+g<sup>xy</sup>: Alice calculates (g<sup>x</sup>)<sup>y</sup>, and Bob
+calculates (g<sup>y</sup>)<sup>x</sup>.</p>
+<p>During the AKE, Alice and Bob each calculate s in this way, and then
+they each compute seven values based on s:</p>
+<ul>
+<li>A 64-bit secure session id, ssid</li>
+<li>Two 128-bit AES encryption keys, c and c'</li>
+<li>Four 256-bit SHA256-HMAC keys, m1, m2, m1', and m2'</li>
+</ul>
+<p>This is done in the following way:</p>
+<ul>
+<li>Write the value of s as a minimum-length MPI, as specified above
+(4-byte big-endian len, len-byte big-endian value).  Let this
+(4+len)-byte value be "secbytes".</li>
+<li>For a given byte b, define h2(b) to be the 256-bit output of the
+SHA256 hash of the (5+len) bytes consisting of the byte b, followed by
+secbytes.</li>
+<li>Let ssid be the first 64 bits of h2(0x00).</li>
+<li>Let c be the first 128 bits of h2(0x01), and let c' be the second
+128 bits of h2(0x01).</li>
+<li>Let m1 be h2(0x02).</li>
+<li>Let m2 be h2(0x03).</li>
+<li>Let m1' be h2(0x04).</li>
+<li>Let m2' be h2(0x05).</li>
+</ul>
+<p>c, m1, and m2 are used to create and verify the Reveal Signature
+Message; c', m1', and m2' are used to create and verify the Signature
+message.</p>
+<p>If the user requests to see the secure session id, it should be
+displayed as two 32-bit bigendian unsigned values, in C "%08x" format.
+If the user transmitted the Reveal Signature message during the AKE that
+produced this ssid, then display the first 32 bits in bold, and the
+second 32 bits in non-bold.  If the user transmitted the Signature
+message instead, display the first 32 bits in non-bold, and the
+second 32 bits in bold.  This session id can be used by the parties to
+verify (say, over the telephone, assuming the parties recognize each
+others' voices) that there is no man-in-the-middle by having each side
+read his bold part to the other.  [Note that this only needs to be done
+in the event that the users do not trust that their long-term signature
+keys have not been compromised.]</p>
+<p>During the exchange of Data Messages, Alice and Bob use the keyids
+listed in the Data Message to select Diffie-Hellman keys to use to
+compute s, and the (4+len)-byte value of secbytes, as above.</p>
+<p>From this, they calculate four values:</p>
+<ul>
+<li>Two 128-bit AES encryption keys, the "sending AES key", and the
+"receiving AES key"</li>
+<li>Two 160-bit SHA1-HMAC keys, the "sending MAC key", and the
+"receiving MAC key"</li>
+</ul>
+<p>These keys are calculated as follows:</p>
+<ul>
+<li>Alice (and similarly for Bob) determines if she is the "low" end
+or the "high" end of this Data Message.  If Alice's public key is
+numerically greater than Bob's public key, then she
+is the "high" end.  Otherwise, she is the "low" end.  Note that who is the
+"low" end and who is the "high" end can change every time a new D-H
+public key is exchanged in a Data Message.</li>
+<li>She sets the values of "sendbyte" and "recvbyte" according to
+whether she is the the "low" or the "high" end of the Data Message:
+<ul>
+<li>If she is the "high" end, she sets "sendbyte" to 0x01 and "recvbyte"
+to 0x02.</li>
+<li>If she is the "low" end, she sets "sendbyte" to 0x02 and "recvbyte"
+to 0x01.</li>
+</ul></li>
+<li>For a given byte b, define h1(b) to be the 160-bit output of the
+SHA-1 hash of the (5+len) bytes consisting of the byte b, followed by
+secbytes.</li>
+<li>The "sending AES key" is the first 16 bytes of h1(sendbyte).</li>
+<li>The "sending MAC key" is the 20-byte SHA-1 hash of the 16-byte
+sending AES key.</li>
+<li>The "receiving AES key" is the first 16 bytes of h1(recvbyte).</li>
+<li>The "receiving MAC key" is the 20-byte SHA-1 hash of the 16-byte
+receiving AES key.</li>
+</ul>
+<h4>Revealing MAC keys</h4>
+<p>Whenever you are about to forget either one of your old D-H key pairs, or
+one of your correspondent's old D-H public keys, take all of the
+receiving MAC keys
+that were generated by that key (note that there are up to two: the
+receiving MAC keys produced by the pairings of that key with
+each of two of the other side's keys; but note that you only need to
+take MAC keys that were actually used to verify a MAC on a message), and
+put them (as a set of
+concatenated 20-byte values) into the "Old MAC keys to be revealed"
+section of the next Data Message you send.  This in done to allow the
+forgeability of OTR transcripts: once the MAC keys are revealed, anyone
+can modify an OTR message and still have it appear valid.  But since we
+don't reveal the MAC keys until their corresponding pubkeys are being
+discarded, there is no danger of accepting a message as valid which
+uses a MAC key which has already been revealed.</p>
+<h3>Fragmentation</h3>
+<p>Some networks may have a maximum message size that is too small to
+contain an encoded OTR message.  In that event, the sender may choose
+to split the message into a number of <em>fragments</em>.  This section
+describes the format of the fragments.  All OTR version 2 clients must
+be able to assemble received fragments, but performing fragmentation on
+outgoing messages is optional.</p>
+
+<dl class="doublespace">
+<dt>Transmitting Fragments</dt>
+<dd>If you have information about the maximum size of message you are
+    able to send (the different IM networks have different limits), you
+    can fragment an encoded OTR message as follows:
+    <ul>
+    <li>Start with the OTR message as you would normally transmit it.  For
+      example, a Data Message would start with "?OTR:AAED" and end
+      with ".".</li>
+    <li>Break it up into sufficiently small pieces.  Let the number of
+      pieces be (n), and the pieces be
+      piece[1],piece[2],...,piece[n].</li>
+    <li>Transmit (n) messages with the following (printf-like) structure
+      (as k runs from 1 to n inclusive):
+
+      <p>"?OTR,%hu,%hu,%s," , k , n , piece[k]</p></li>
+
+    <li>Note that k and n are unsigned short ints (2 bytes), and each has
+      a maximum value of 65535.  Also, each piece[k] must be
+      non-empty.</li>
+    </ul></dd>
+
+<dt>Receiving Fragments:</dt>
+
+<dd>If you receive a message containing "?OTR," (note that you'll need
+    to check for this _before_ checking for any of the other "?OTR:"
+    markers):
+
+    <ul>
+    <li>Parse it as the printf statement above into k, n, and
+    piece.</li>
+    <li>Let (K,N) be your currently stored fragment number, and F be your
+      currently stored fragment.  [If you have no currently stored
+      fragment, then K = N = 0 and F = "".]</li>
+
+    <li>If k == 0 or n == 0 or k &gt; n, discard this (illegal)
+    fragment.</li>
+
+    <li>If k == 1:
+    <ul>
+      <li>Forget any stored fragment you may have</li>
+      <li>Store (piece) as F.</li>
+      <li>Store (k,n) as (K,N).</li>
+    </ul></li>
+
+    <li>If n == N and k == K+1:
+    <ul>
+      <li>Append (piece) to F.</li>
+      <li>Store (k,n) as (K,N).</li>
+    </ul></li>
+
+    <li>Otherwise:
+    <ul>
+      <li>Forget any stored fragment you may have</li>
+      <li>Store "" as F.</li>
+      <li>Store (0,0) as (K,N).</li>
+    </ul></li>
+    </ul>
+
+    <p>After this, if N &gt; 0 and K == N, treat F as the received
+    message.</p>
+
+    <p>If you receive a non-OTR message, or an unfragmented message,
+    forget any stored fragment you may have, store "" as F and store
+    (0,0) as (K,N).</p></dd>
+</dl>
+
+<p>For example, here is a Data Message we would like to transmit over a
+network with an unreasonably small maximum message size:</p>
+
+<blockquote><pre>
+?OTR:AAEDAAAAAQAAAAEAAADAVf3Ei72ZgFeKqWvLMnuVPVCwxktsOZ1Qdje
+Lp6jn62mCVtlY9nS6sRkecpjuLYHRxyTdRu2iEVtSsjZqK55ovZ35SfkOPHe
+FYa9BIuxWi9djHMVKQ8KOVGAVLibjZ6P8LreDSKtWDv9YQjIEnkwFVGCPfpB
+q2SX4VTQfJAQXHggR8izKxPvluXUdG9rIPh4cac98++VLdIuFMiEXjUIoTX2
+rEzunaCLMy0VIfowlRsgsKGrwhCCv7hBWyglbzwz+AAAAAAAAAAQAAAF2SOr
+JvPUerB9mtf4bqQDFthfoz/XepysnYuReHHEXKe+BFkaEoMNGiBl4TCLZx72
+DvmZwKCewWRH1+W66ggrXKw2VdVl+vLsmzxNyWChGLfBTL5/3SUF09BfmCEl
+03Ckk7htAgyAQcBf90RJznZndv7HwVAi3syupi0sQDdOKNPyObR5FRtqyqud
+ttWmSdmGCGFcZ/fZqxQNsHB8QuYaBiGL7CDusES+wwfn8Q7BGtoJzOPDDx6K
+yIyox/flPx2DZDJIZrMz9b0V70a9kqKLo/wcGhvHO6coCyMxenBAacLJ1DiI
+NLKoYOoJTM7zcxsGnvCxaDZCvsmjx3j8Yc5r3i3ylllCQH2/lpr/xCvXFarG
+tG7+wts+UqstS9SThLBQ9Ojq4oPsX7HBHKvq19XU3/ChIgWMy+bczc5gpkC/
+eLAIGfJ0D5DJsl68vMXSmCoFK0HTwzzNa7lnZK4IutYPBNBCv0pWORQqDpsk
+Ez96YOGyB8+gtpFgCrkuV1bSB9SRVmEBfDtKPQFhKowAAAAA=.
+</pre></blockquote>
+
+    <p>We could fragment this message into (for example) three
+    pieces:</p>
+
+<blockquote><pre>
+?OTR,1,3,?OTR:AAEDAAAAAQAAAAEAAADAVf3Ei72ZgFeKqWvLMnuVPVCwxk
+tsOZ1QdjeLp6jn62mCVtlY9nS6sRkecpjuLYHRxyTdRu2iEVtSsjZqK55ovZ
+35SfkOPHeFYa9BIuxWi9djHMVKQ8KOVGAVLibjZ6P8LreDSKtWDv9YQjIEnk
+wFVGCPfpBq2SX4VTQfJAQXHggR8izKxPvluXUdG9rIPh4cac98++VLdIuFMi
+EXjUIoTX2rEzunaCLMy0VIfowlRsgsKGrwhCCv7hBWyglbzwz+AAAAAAAAAA
+QAAAF2SOr,
+</pre></blockquote>
+
+<blockquote><pre>
+?OTR,2,3,JvPUerB9mtf4bqQDFthfoz/XepysnYuReHHEXKe+BFkaEoMNGiB
+l4TCLZx72DvmZwKCewWRH1+W66ggrXKw2VdVl+vLsmzxNyWChGLfBTL5/3SU
+F09BfmCEl03Ckk7htAgyAQcBf90RJznZndv7HwVAi3syupi0sQDdOKNPyObR
+5FRtqyqudttWmSdmGCGFcZ/fZqxQNsHB8QuYaBiGL7CDusES+wwfn8Q7BGto
+JzOPDDx6KyIyox/flPx2DZDJIZrMz9b0V70a9kqKLo/wcGhvHO6coCyMxenB
+AacLJ1DiI,
+</pre></blockquote>
+
+<blockquote><pre>
+?OTR,3,3,NLKoYOoJTM7zcxsGnvCxaDZCvsmjx3j8Yc5r3i3ylllCQH2/lpr
+/xCvXFarGtG7+wts+UqstS9SThLBQ9Ojq4oPsX7HBHKvq19XU3/ChIgWMy+b
+czc5gpkC/eLAIGfJ0D5DJsl68vMXSmCoFK0HTwzzNa7lnZK4IutYPBNBCv0p
+WORQqDpskEz96YOGyB8+gtpFgCrkuV1bSB9SRVmEBfDtKPQFhKowAAAAA=.,
+</pre></blockquote>
+<h3>The protocol state machine</h3>
+<p>An OTR client maintains separate state for every correspondent.  For
+example, Alice may have an active OTR conversation with Bob, while
+having an unprotected conversation with Charlie.  This state consists of
+two main state variables, as well as some other information (such as
+encryption keys).  The two main state variables are:</p>
+<h4>Message state</h4>
+<p>The message state variable, msgstate, controls what happens to
+outgoing messages typed by the user.  It can take one of three
+values:</p>
+<dl>
+<dt>MSGSTATE_PLAINTEXT</dt>
+<dd>This state indicates that outgoing messages are sent without
+encryption.  This is the state that is used before an OTR conversation
+is initiated.  This is the initial state, and the only way to
+subsequently enter this state is for the user to explicitly request to
+do so via some UI operation.</dd>
+<dt>MSGSTATE_ENCRYPTED</dt>
+<dd>This state indicates that outgoing messages are sent encrypted.
+This is the state that is used during an OTR conversation.  The only way
+to enter this state is for the authentication state machine (below) to
+successfully complete.</dd>
+<dt>MSGSTATE_FINISHED</dt>
+<dd>This state indicates that outgoing messages are not delivered at
+all.  This state is entered only when the other party indicates he has
+terminated his side of the OTR conversation.  For example, if Alice and
+Bob are having an OTR conversation, and Bob instructs his OTR client to
+end its private session with Alice (for example, by logging out), Alice
+will be notified of this, and <em>her</em> client will switch to
+MSGSTATE_FINISHED mode.  This prevents Alice from accidentally sending a
+message to Bob in plaintext.  (Consider what happens if Alice was in the
+middle of typing a private message to Bob when he suddenly logs out,
+just as Alice hits Enter.)</dd>
+</dl>
+<h4>Authentication state</h4>
+<p>The authentication state variable, authstate, can take one of four
+values (plus one extra for OTR version 1 compatibility):</p>
+<dl>
+<dt>AUTHSTATE_NONE</dt>
+<dd>This state indicates that the authentication protocol is not
+currently in progress.  This is the initial state.</dd>
+<dt>AUTHSTATE_AWAITING_DHKEY</dt>
+<dd>After Bob initiates the authentication protocol by sending Alice
+the D-H Commit Message, he enters this state to await Alice's reply.</dd>
+<dt>AUTHSTATE_AWAITING_REVEALSIG</dt>
+<dd>After Alice receives Bob's D-H Commit Message, and replies with her
+own D-H Key Message, she enters this state to await Bob's reply.</dd>
+<dt>AUTHSTATE_AWAITING_SIG</dt>
+<dd>After Bob receives Alice's D-H Key Message, and replies with his own
+Reveal Signature Message, he enters this state to await Alice's reply.</dd>
+<dt>AUTHSTATE_V1_SETUP</dt>
+<dd>For OTR version 1 compatibility, if Bob sends a version 1 Key
+Exchange Message to Alice, he enters this state to await Alice's
+reply.</dd>
+</dl>
+<p>After:</p>
+<ul>
+<li>Alice (in AUTHSTATE_AWAITING_REVEALSIG) receives Bob's Reveal
+Signature Message (and replies with her own Signature Message),</li>
+<li>Alice (in AUTHSTATE_NONE) receives Bob's Version 1 Key Exchange
+Message (and replies with her own Key Exchange Message),</li>
+<li>Bob (in AUTHSTATE_AWAITING_SIG) receives Alice's Signature Message,
+<b>or</b></li>
+<li>Bob (in AUTHSTATE_V1_SETUP) receives Alice's Version 1 Key Exchange
+Message,</li>
+</ul>
+<p>then,
+assuming the signature verifications succeed, the msgstate
+variable is transitioned to MSGSTATE_ENCRYPTED.  Regardless of whether
+the signature verifications succeed, the authstate variable is
+transitioned to AUTHSTATE_NONE.</p>
+<h4>Policies</h4>
+<p>OTR clients can set different <b>policies</b> for different
+correspondents.  For example, Alice could set up her client so that it
+speaks only OTR version 2, except with Charlie, who she knows has only
+an old client; so that it will opportunistically start an OTR conversation
+whenever it detects the correspondent supports it; or so that it refuses
+to send non-encrypted messages to Bob, ever.</p>
+<p>The policies that can be set (on a global or per-correspondent basis)
+are any combination of the following boolean flags:</p>
+<dl>
+<dt>ALLOW_V1</dt>
+<dd>Allow version 1 of the OTR protocol to be used.</dd>
+<dt>ALLOW_V2</dt>
+<dd>Allow version 2 of the OTR protocol to be used.</dd>
+<dt>REQUIRE_ENCRYPTION</dt>
+<dd>Refuse to send unencrypted messages.</dd>
+<dt>SEND_WHITESPACE_TAG</dt>
+<dd>Advertise your support of OTR using the whitespace tag.</dd>
+<dt>WHITESPACE_START_AKE</dt>
+<dd>Start the OTR AKE when you receive a whitespace tag.</dd>
+<dt>ERROR_START_AKE</dt>
+<dd>Start the OTR AKE when you receive an OTR Error Message.</dd>
+</dl>
+<p>The four old version 1 policies correspond to the following
+combinations of flags (adding an allowance for version 2 of the
+protocol):</p>
+<dl>
+<dt>NEVER</dt>
+<dd>No flags set</dd>
+<dt>MANUAL</dt>
+<dd>ALLOW_V1 | ALLOW_V2</dd>
+<dt>OPPORTUNISTIC</dt>
+<dd>ALLOW_V1 | ALLOW_V2 | SEND_WHITESPACE_TAG | WHITESPACE_START_AKE |
+ERROR_START_AKE</dd>
+<dt>ALWAYS</dt>
+<dd>ALLOW_V1 | ALLOW_V2 | REQUIRE_ENCRYPTION | WHITESPACE_START_AKE |
+ERROR_START_AKE</dd>
+</dl>
+<p>Note that it is possible for UIs simply to offer the old
+"combinations" of options, and not ask about each one separately.</p>
+<h4>State transitions</h4>
+<p>There are thirteen actions an OTR client must handle:</p>
+<ul>
+<li>Received messages:
+<ul>
+<li>Plaintext without the whitespace tag</li>
+<li>Plaintext with the whitespace tag</li>
+<li>Query Message</li>
+<li>Error Message</li>
+<li>D-H Commit Message</li>
+<li>D-H Key Message</li>
+<li>Reveal Signature Message</li>
+<li>Signature Message</li>
+<li>Version 1 Key Exchange Message</li>
+<li>Data Message</li>
+</ul></li>
+<li>User actions:
+<ul>
+<li>User requests to start an OTR conversation</li>
+<li>User requests to end an OTR conversation</li>
+<li>User types a message to be sent</li>
+</ul></li>
+</ul>
+<p>The following sections will outline what actions to take in each
+case.  They all assume that at least one of ALLOW_V1 or ALLOW_V2 is set;
+if not, then OTR is completely disabled, and no special handling of
+messages should be done at all.</p>
+<h4>Receiving plaintext without the whitespace tag</h4>
+<dl>
+<dt>If msgstate is MSGSTATE_PLAINTEXT:</dt>
+<dd>Simply display the message to the user.  If REQUIRE_ENCRYPTION is
+set, warn him that the message was received unencrypted.</dd>
+<dt>If msgstate is MSGSTATE_ENCRYPTED or MSGSTATE_FINISHED:</dt>
+<dd>Display the message to the user, but warn him that the message was
+received unencrypted.</dd>
+</dl>
+<h4>Receiving plaintext with the whitespace tag</h4>
+<dl>
+<dt>If msgstate is MSGSTATE_PLAINTEXT:</dt>
+<dd>Remove the whitespace tag and display the message to the user.  If
+REQUIRE_ENCRYPTION is set, warn him that the message was received
+unencrypted.</dd>
+<dt>If msgstate is MSGSTATE_ENCRYPTED or MSGSTATE_FINISHED:</dt>
+<dd>Remove the whitespace tag and display the message to the user, but
+warn him that the message was received unencrypted.</dd>
+</dl>
+<p>In any event, if WHITESPACE_START_AKE is set:</p>
+<dl>
+<dt>If the tag offers OTR version 2 and ALLOW_V2 is set:</dt>
+<dd>Send a D-H Commit Message, and transition authstate to
+AUTHSTATE_AWAITING_DHKEY.</dd>
+<dt>Otherwise, if the tag offers OTR version 1 and ALLOW_V1 is set:</dt>
+<dd>Send a Version 1 Key Exchange Message, and transition authstate to
+AUTHSTATE_V1_SETUP.</dd>
+</dl>
+<h4>Receiving a Query Message</h4>
+<dl>
+<dt>If the Query Message offers OTR version 2 and ALLOW_V2 is set:</dt>
+<dd>Send a D-H Commit Message, and transition authstate to
+AUTHSTATE_AWAITING_DHKEY.</dd>
+<dt>Otherwise, if the message offers OTR version 1 and ALLOW_V1 is set:</dt>
+<dd>Send a Version 1 Key Exchange Message, and transition authstate to
+AUTHSTATE_V1_SETUP.</dd>
+</dl>
+<h4>Receiving an Error Message</h4>
+<p>Display the message to the user.  If ERROR_START_AKE is set, reply
+with a Query Message.</p>
+<h4>User requests to start an OTR conversation</h4>
+<p>Send an OTR Query Message to the correspondent.</p>
+<h4>Receiving a D-H Commit Message</h4>
+<p>If ALLOW_V2 is not set, ignore this message.  Otherwise:</p>
+<dl>
+<dt>If authstate is AUTHSTATE_NONE:</dt>
+<dd>Reply with a D-H Key Message, and transition authstate to
+AUTHSTATE_AWAITING_REVEALSIG.</dd>
+<dt>If authstate is AUTHSTATE_AWAITING_DHKEY:</dt>
+<dd>This is the trickiest transition in the whole protocol.  It
+indicates that you have already sent a D-H Commit message to your
+correspondent, but that he either didn't receive it, or just didn't
+receive it <em>yet</em>, and has sent you one as well.  The symmetry
+will be broken by comparing the hashed g<sup>x</sup> you sent in your
+D-H Commit Message with the one you received, considered as 32-byte
+unsigned big-endian values.
+<dl>
+<dt>If yours is the higher hash value:</dt>
+<dd>Ignore the incoming D-H Commit message, but resend your D-H
+Commit message.</dd>
+<dt>Otherwise:</dt>
+<dd>Forget your old g<sup>x</sup> value that you sent (encrypted)
+earlier, and pretend you're in AUTHSTATE_NONE; i.e. reply with a D-H Key
+Message, and transition authstate to AUTHSTATE_AWAITING_REVEALSIG.</dd>
+</dl></dd>
+<dt>If authstate is AUTHSTATE_AWAITING_REVEALSIG:</dt>
+<dd>Retransmit your D-H Key Message (the same
+one as you sent when you entered AUTHSTATE_AWAITING_REVEALSIG).  Forget
+the old D-H Commit message, and use this new one instead.  There
+are a number of reasons this might happen, including:
+<ul>
+<li>Your correspondent simply started a new AKE.</li>
+<li>Your correspondent resent his D-H Commit message, as specified
+above.</li>
+<li>On some networks, like AIM, if your correspondent is logged in
+multiple times, each of his clients will send a D-H Commit Message in
+response to a Query Message; resending the same D-H Key Message in
+response to each of those messages will prevent compounded confusion,
+since each of his clients will see each of the D-H Key Messages you
+send.  [And the problem gets even worse if you are <em>each</em> logged
+in multiple times.]</li>
+</ul></dd>
+<dt>If authstate is AUTHSTATE_AWAITING_SIG or AUTHSTATE_V1_SETUP:</dt>
+<dd>Reply with a new D-H Key message, and transition authstate to
+AUTHSTATE_AWAITING_REVEALSIG.</dd>
+</dl>
+<h4>Receiving a D-H Key Message</h4>
+<p>If ALLOW_V2 is not set, ignore this message.  Otherwise:</p>
+<dl>
+<dt>If authstate is AUTHSTATE_AWAITING_DHKEY:</dt>
+<dd>Reply with a Reveal Signature Message and transition authstate to
+AUTHSTATE_AWAITING_SIG.</dd>
+<dt>If authstate is AUTHSTATE_AWAITING_SIG:</dt>
+<dd>
+<dl>
+<dt>If this D-H Key message is the same the one you received earlier
+(when you entered AUTHSTATE_AWAITING_SIG):</dt>
+<dd>Retransmit your Reveal Signature Message.</dd>
+<dt>Otherwise:</dt>
+<dd>Ignore the message.</dd>
+</dl></dd>
+<dt>If authstate is AUTHSTATE_NONE, AUTHSTATE_AWAITING_REVEALSIG, or
+AUTHSTATE_V1_SETUP:</dt>
+<dd>Ignore the message.</dd>
+</dl>
+<h4>Receiving a Reveal Signature Message</h4>
+<p>If ALLOW_V2 is not set, ignore this message.  Otherwise:</p>
+<dl>
+<dt>If authstate is AUTHSTATE_AWAITING_REVEALSIG:</dt>
+<dd>Use the received value of r to decrypt the value of g<sup>x</sup>
+received in the D-H Commit Message, and verify the hash therein.
+Decrypt the encrypted signature, and verify the signature and the MACs.
+If everything checks out:
+<ul>
+<li>Reply with a Signature Message.</li>
+<li>Transition authstate to AUTHSTATE_NONE.</li>
+<li>Transition msgstate to MSGSTATE_ENCRYPTED.</li>
+<li>If there is a recent stored message, encrypt it and send it as a
+Data Message.</li>
+</ul>
+Otherwise, ignore the message.</dd>
+<dt>If authstate is AUTHSTATE_NONE, AUTHSTATE_AWAITING_DHKEY, 
+AUTHSTATE_AWAITING_SIG, or AUTHSTATE_V1_SETUP:</dt>
+<dd>Ignore the message.</dd>
+</dl>
+<h4>Receiving a Signature Message</h4>
+<p>If ALLOW_V2 is not set, ignore this message.  Otherwise:</p>
+<dl>
+<dt>If authstate is AUTHSTATE_AWAITING_SIG:</dt>
+<dd>Decrypt the encrypted signature, and verify the signature and the MACs.
+If everything checks out:
+<ul>
+<li>Transition authstate to AUTHSTATE_NONE.</li>
+<li>Transition msgstate to MSGSTATE_ENCRYPTED.</li>
+<li>If there is a recent stored message, encrypt it and send it as a
+Data Message.</li>
+</ul>
+Otherwise, ignore the message.</dd>
+<dt>If authstate is AUTHSTATE_NONE, AUTHSTATE_AWAITING_DHKEY, 
+AUTHSTATE_AWAITING_REVEALSIG, or AUTHSTATE_V1_SETUP:</dt>
+<dd>Ignore the message.</dd>
+</dl>
+<h4>Receiving a Version 1 Key Exchange Message</h4>
+<p>If ALLOW_V1 is not set, ignore this message.  Otherwise:</p>
+<dl>
+<dt>If authstate is AUTHSTATE_NONE, AUTHSTATE_AWAITING_DHKEY,
+AUTHSTATE_AWAITING_REVEALSIG, or AUTHSTATE_AWAITING_SIG:</dt>
+<dd><dl><dt>If the reply field is not set to 0x01:</dt>
+<dd>Verify the information in the Key Exchange Message.  If the
+verification succeeds:
+<ul>
+<li>Reply with a Key Exchange Message with the reply field set to
+0x01.</li>
+<li>Transition authstate to AUTHSTATE_NONE.</li>
+<li>Transition msgstate to MSGSTATE_ENCRYPTED.</li>
+<li>If there is a recent stored message, encrypt it and send it as a
+Data Message.</li>
+</ul>
+Otherwise, ignore the message.</dd>
+<dt>Otherwise, ignore the message.</dt></dl></dd>
+<dt>If authstate is AUTHSTATE_V1_SETUP:</dt>
+<dd>Verify the information in the Key Exchange Message.  If the
+verification succeeds:
+<ul>
+<li>If the received Key Exchange Message did not have the reply field
+set to 0x01, reply with a Key Exchange Message with the reply field set
+to 0x01.</li>
+<li>Transition authstate to AUTHSTATE_NONE.</li>
+<li>Transition msgstate to MSGSTATE_ENCRYPTED.</li>
+<li>If there is a recent stored message, encrypt it and send it as a
+Data Message.</li>
+</ul>
+Otherwise, ignore the message.</dd>
+</dl>
+<h4>User types a message to be sent</h4>
+<dl>
+<dt>If msgstate is MSGSTATE_PLAINTEXT:</dt>
+<dd><dl><dt>If REQUIRE_ENCRYPTION is set:</dt>
+<dd>Store the plaintext message for possible retransmission, and send a
+Query Message.</dd>
+<dt>Otherwise:</dt>
+<dd>If SEND_WHITESPACE_TAG is set, and you have not received a plaintext
+message from this correspondent since last entering MSGSTATE_PLAINTEXT,
+attach the whitespace tag to the message.  Send the (possibly modified)
+message as plaintext.</dd></dl></dd>
+<dt>If msgstate is MSGSTATE_ENCRYPTED:</dt>
+<dd>Encrypt the message, and send it as a Data Message.  Store the
+plaintext message for possible retransmission.</dd>
+<dt>If msgstate is MSGSTATE_FINISHED:</dt>
+<dd>Inform the user that the message cannot be sent at this time.  Store
+the plaintext message for possible retransmission.</dd>
+</dl>
+<h4>Receiving a Data Message</h4>
+<dl>
+<dt>If msgstate is MSGSTATE_ENCRYPTED:</dt>
+<dd>Verify the information (MAC, keyids, ctr value, etc.) in the
+message.
+<dl>
+<dt>If the verification succeeds:</dt>
+<dd>
+<ul>
+<li>Decrypt the message and display the human-readable part (if
+non-empty) to the user.</li>
+<li>Update the D-H encryption keys, if necessary.</li>
+<li>If you have not sent a message to this correspondent in some
+(configurable) time, send a "heartbeat" message, consisting of a Data
+Message encoding an empty plaintext.  The heartbeat message should have
+the IGNORE_UNREADABLE flag set.</li>
+<li>If the received message contains a TLV type 1, forget all encryption
+keys for this correspondent, and transition msgstate to
+MSGSTATE_FINISHED.</li>
+</ul>
+</dd>
+<dt>Otherwise, inform the user that an unreadable encrypted message was
+received, and reply with an Error Message.</dt>
+</dl></dd>
+<dt>If msgstate is MSGSTATE_PLAINTEXT or MSGSTATE_FINISHED:</dt>
+<dd>Inform the user that an unreadable encrypted message was received,
+and reply with an Error Message.</dd>
+</dl>
+<h4>User requests to end an OTR conversation</h4>
+<dl>
+<dt>If msgstate is MSGSTATE_PLAINTEXT:</dt>
+<dd>Do nothing.</dd>
+<dt>If msgstate is MSGSTATE_ENCRYPTED:</dt>
+<dd>Send a Data Message, encoding a message with an empty human-readable
+part, and TLV type 1.  Transition msgstate to MSGSTATE_PLAINTEXT.</dd>
+<dt>If msgstate is MSGSTATE_FINISHED:</dt>
+<dd>Transition msgstate to MSGSTATE_PLAINTEXT.</dd>
+</dl>
+</body></html>

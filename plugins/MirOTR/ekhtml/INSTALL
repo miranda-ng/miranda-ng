@@ -1,0 +1,23 @@
+BUILDING:
+
+    To build EL-Kabong from a tarball:
+
+              $ ./configure && make
+
+    To build EL-Kabong from CVS:
+
+              $ CVSROOT=:pserver:anonymous@cvs.ekhtml.sourceforge.net:/cvsroot/ekhtml
+              $ export CVSROOT 
+              $ cvs login (press enter -- no password)
+              $ cvs co ekhtml
+              $ cd ekhtml
+              $ ./autogen.sh && make
+
+   
+
+GETTING STARTED (using the library):
+
+    The best way to get started would be to browse testsuite/tester.c
+    This is the file that El-Kabong uses to run its tests.
+
+    API documentation can be found in docs/html/index.html

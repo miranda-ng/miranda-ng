@@ -1,0 +1,60 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+gpgvs
+building gnupg related projects with Visual Studio
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+sub-project: gpg.vs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ - libgcrypt 1.2.2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before building libgcrypt-1.2.2 you have to manually copy
+\libgcrypt-1.2.2\libgcrypt\mpi\generic\mpi-asm-defs.h
+in
+\libgcrypt-1.2.2\libgcrypt\mpi\mpi-asm-defs.h
+because some files include "..\mpi\mpi-asm-defs.h"
+
+There are two workspaces available
+
+- libgcrypt122lib.dsw
+  that builds the static version (no dll) of the library.
+  
+- libgcrypt122dll.dsw
+  that builds the dynamic version of the library, and you'll
+  need the libgcrypt*.dll to execute programs
+  
+Note: be careful not to mix the two versions
+
+In both libgcrypt workspaces I was not able to compile
+(and you will find the "removed" folder) these files
+- rndegd.c
+- rndlinux.c
+- rndunix.c
+- tiger.c
+
+apart from rndlinux/rndunix, to compile the other two files
+I think I have to modify the original code.
+
+There are the tests too:
+\libgcrypt-1.2.2\test.vs\libgcrypt_1_2_2_tests.dsw
+in the static and dynamic version.
+
+There are two tests that will not build:
+- testapi.c
+  it seems to mee the testapi.c itself is wrong
+- random.c
+  too *nix oriented, should change the code
+
+You will find all compiled obejcts in directories
+\bin.vs\libgcrypt-1.2.2\debug\static
+\bin.vs\libgcrypt-1.2.2\release\static
+\bin.vs\libgcrypt-1.2.2\debug\dll
+\bin.vs\libgcrypt-1.2.2\release\dll
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Authors:
+          Francesco Picasso
+          mr.s0rr0w@gmail.com
+          www.s0rr0w.net
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "MirOTR\MirOTR.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libotr320", "otr.vs\libotr-3.2.0.vs\libotr320.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgcrypt146lib", "gpg.vs\libgcrypt-1.4.6.vs\libgcrypt146lib.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "ekhtml\vc9\EkHtml.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug Unicode|Win32 = Debug Unicode|Win32
+		Debug Unicode|x64 = Debug Unicode|x64
+		Release Unicode|Win32 = Release Unicode|Win32
+		Release Unicode|x64 = Release Unicode|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{40FE7861-E54E-4DA9-BE4D-A5178014E477}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{40FE7861-E54E-4DA9-BE4D-A5178014E477}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{40FE7861-E54E-4DA9-BE4D-A5178014E477}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{40FE7861-E54E-4DA9-BE4D-A5178014E477}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{40FE7861-E54E-4DA9-BE4D-A5178014E477}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{40FE7861-E54E-4DA9-BE4D-A5178014E477}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
+		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
+		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
+		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
+		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
+		{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

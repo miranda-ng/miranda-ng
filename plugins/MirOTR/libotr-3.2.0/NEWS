@@ -1,0 +1,232 @@
+27 May 2008:
+- Added support for one-way authentication using an explicit question,
+  based on the SOUPS 2008 user study.
+
+1 Aug 2007:
+- Released 3.1.0
+
+24 Jul 2007:
+- Added fragmentation support for large messages
+- Added new method for buddy authentication which does not require the
+  (explicit) use of fingerprints.
+
+02 Nov 2005:
+- Released 3.0.0
+
+16 Oct 2005:
+- Major overhaul with implementation of version 2 of the protocol.
+
+24 Jun 2005:
+- Remove the "confirm_fingerprint" callback which requires the user to
+  acknowledge the new fingerprint before it can be used.  Replace it
+  with a "new_fingerprint" callback which merely informs the user that a
+  new fingerprint has been received.
+- Allow the app to set a "trust level" for fingerprints.  This is an
+  arbitrary string, intended to indicate whether (or possibly by what
+  means) the user has verified that this fingerprint is accurate.
+- Clarify that, if the user requests to see the secure session id in
+  the middle of the conversation, the value displayed should be the one
+  calculated at the time the private connection was established (the
+  last Key Exchange Message that caused a rekeying), _not_ the DH secure
+  id calculated from DH keys in more recent Data Messages.
+
+03 May 2005:
+- Released 2.0.2
+
+16 Feb 2005:
+- Released 2.0.1
+- Don't send encrypted messages to a buddy who has disconnected his
+  private connection with us.
+- Don't show the user the "the last message was resent" notice if the
+  message has never actually been sent before.
+- Fix a crash bug that happened when messages were retransmitted under
+  certain circumstances.
+
+08 Feb 2005:
+- Released 2.0.0
+- Keep track of whether a given message is eligible for retransmission
+
+02 Feb 2005:
+- Released 1.99.0, the first preview release of 2.0.0
+
+31 Jan 2005:
+- Machine-readable records can now be attached to Data Messages inside
+  the private channel.
+
+30 Jan 2005:
+- New OtrlUserState datatype encapsulates private keys and known
+  fingerprints, instead of having a single global list.
+- Added libotr.m4 for helping to autoconfiscate packages that use
+  libotr.
+- Resend the last message if it caused a re-keying.
+- New OtrlPolicy datatype allows you to specify a per-connection OTR
+  policy: never use OTR, OTR only if manually requested, automatically
+  start OTR if possible, refuse to *not* use OTR.
+- New callbacks: display_otr_message, policy, is_logged_in
+
+22 Jan 2005:
+- Released 1.0.4
+- Log, but otherwise ignore, unrecognized OTR messages.
+- Initial autoconfiscation, thanks to Greg Troxel <gdt@ir.bbn.com>. 
+
+18 Jan 2005:
+- Released 1.0.3
+- Split gaim-otr and libotr into separate packages.
+
+13 Jan 2005:
+- Generate private keys automatically, if needed.  Show a Please Wait
+  dialog while this is happening.
+- We may as well try to use the "tag" method of checking for OTR, even
+  when we don't already know a fingerprint for the correspondent.
+- Add version checking to the otrl_init() call.
+
+12 Jan 2005:
+- Refactored the logic parts of gaim-otr into libotr, so they can be
+  shared by other libotr-enabled apps.
+
+21 Dec 2004:
+- Released 1.0.2
+- If a Man-in-the-Middle steals both Alice's and Bob's DSA private keys,
+  he can perform a birthday attack to try to get his session id with
+  each end to match.  Since the session id was only 64 bits long, his
+  work was only 2^32, which is not enough.  We now make the session id
+  the whole SHA-1 hash, instead of truncating it.
+- Made otr_sesskeys output the calculated public key as well, for added
+  ease of forging messages when you don't know any plaintext.
+
+14 Dec 2004:
+- Released 1.0.1
+- Added a more sensible error message in the event that we receive our
+  own OTR Key Exchange messages.
+- If we're about to send a plaintext message to a correspondent for whom
+  we've got a fingerprint, append a special (whitespace) OTR tag
+  sequence.  The other side (if in fact running OTR) will recognize it
+  and start a Key Exchange.
+
+12 Dec 2004:
+- Released 1.0.0
+
+11 Dec 2004:
+- OTR button now gets sensitized and desensitized along with the other
+  buttons in the conversation window when you log in and out of
+  accounts.
+
+10 Dec 2004:
+- Released 0.9.9rc2
+- Heartbeats now only get sent if (1) we have just received a message,
+  and (2) we haven't sent one to that user in over a minute.
+
+09 Dec 2004:
+- Back out of the sending of heartbeats.  They were causing too many
+  problems.  It seems some networks don't let buddies know when you
+  log out, and then you get a dialog box "unable to send message" each
+  minute.  :-(
+
+08 Dec 2004:
+- Released 0.9.9rc1
+- Removed the 100 private connection limit, by not using a fixed amount
+  of secure memory.  Unfortuantely, this means that *no* memory is
+  pinned any more, but pinning only ever happened before in the unlikely
+  event you ran gaim as root.
+- Changed the "Private connection with (username) refreshed" dialog at
+  Paul's request so that it's no longer in "scary" "evil" bold, and
+  rephrased it so it's less likely to be misread as "refused" instead of
+  "refreshed".  ;-)
+- We now send heartbeats (OTR Data Messages with an empty message part)
+  once a minute, to anyone we're confident is still online.  If both
+  sides are doing this, then keys get rotated regularly, even if one
+  or both sides aren't actively typing.  This aids perfect forward
+  secrecy.
+
+04 Dec 2004:
+- Fixed a bug wherein multi-person chat windows would get the OTR button
+  in their button bar if the OTR plugin was enabled when one of them was
+  active.
+
+03 Dec 2004:
+- Released 0.9.1
+
+02 Dec 2004:
+- Clicking "OTR: Private" when you're already private will display an
+  info dialog letting you know the connection was refreshed (assuming it
+  actually is; if the other side isn't running OTR at all, the dialog
+  doesn't show, and if the other side had lost its private connection, a
+  new one will be established, with the "new private connection" dialog
+  displayed to each side (as before)).
+- The toolip for "OTR: Private" is now "Refresh the private connection".
+- "make install" now depends on "make all".
+- Added man page for OTR toolkit programs
+- Log a debug message when we receive and discard a heartbeat
+
+1 Dec 2004:
+- Fixed the Makefiles so that "make clean" also removes the binaries
+- Fixed the Makefiles so that they install into DESTDIR
+- Added packaging/debian
+
+30 Nov 2004:
+- Released 0.9.0
+- Included the OTR Messaging Toolkit.  See the README for details.
+
+28 Nov 2004:
+- Finished the Protocol document
+- Changed the name of the plugin binary from "otr-plugin.so" to
+  "gaim-otr.so".  *** NOTE: this means you'll have to (1) remove the
+  old otr-plugin.so file from your plugins directory, and (2) re-enable
+  the Off-the-Record Messaging plugin in the Preferences panel.
+- Included MAC keys used to create messages in the revealed MAC section
+  of the Data message, in addition to MAC keys used to verify messages.
+- Set all exported symbols to start with otrl_ (for the library) or
+  otrg_ (for the gaim plugin), in preparation for moving the pieces
+  into their own directories.
+- If we receive a Data message with no actual message in it, don't
+  display it to the user.  This may eventually be useful for doing
+  "heartbeat" key rotations.
+- Separated libotr and gaim-otr into their own directories.
+
+27 Nov 2004:
+- Switched from using gaim_notify_* to a slightly modified version that
+  doesn't grab the focus
+
+26 Nov 2004:
+- Put all the cipher operations in secure memory.  This makes each
+  private connection take 9472 bytes of secure memory, so we up the
+  available amount of secure memory to 100 times that.  Eventually,
+  we'd like to make this dynamically grow.
+
+25 Nov 2004:
+- Released 0.8.3
+- Don't put the DSA keys in libgcrypt secure memory, since (a) we read
+  them off disk anyway, and (b) we want to avoid running out of secure
+  memory.
+- Removed the "Do you want to start a private conversation" dialogs when
+  one side in encrypted and the other side isn't, and instead just try
+  to start one if we know for sure the other side supports it.
+- Sped up the DH computations by using a 320-bit exponent.
+
+23 Nov 2004:
+- Released 0.8.2
+- There was a crash if you received an OTR Query before setting up a
+  private key.  Fixed.
+- The fingerprint in the UI is now selectable, for cut/paste.
+- *** Protocol change.  We're no longer backward compatible.
+  - The "revealed MAC keys" moved out of the MAC'd region of the data
+    packet.  It's not wrong where it is, but it's more obviously
+    correct in the new place.
+
+22 Nov 2004:
+- Released 0.8.1
+- Jabber wasn't working, for two reasons:
+  - it sticks <tags>...</tags> around the message
+  - it refers to the same user by multiple names; e.g. "user@jabber.org"
+    vs. "user@jabber.org/Gaim"
+  Both are now fixed: we look for the OTR message anywhere in the packet
+  now, not just at the beginning, and we normalize all usernames.
+- Each account now has its own private key / fingerprint
+  - This is so you don't automatically leak the information that the
+    accounts are owned by the same person
+- There's a better indicator of private / not private status in the
+  conversation window, which you can click to start the private
+  communication.
+
+21 Nov 2004:
+- Initial 0.8.0 release
