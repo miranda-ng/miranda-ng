@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>chat</ProjectName>
+    <ProjectName>Chat</ProjectName>
     <ProjectGuid>{268BD296-8DD3-4715-A386-CF120398EC98}</ProjectGuid>
     <RootNamespace>chat</RootNamespace>
   </PropertyGroup>

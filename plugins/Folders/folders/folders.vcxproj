@@ -22,6 +22,7 @@
     <ProjectGuid>{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}</ProjectGuid>
     <RootNamespace>folders</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>Folders</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

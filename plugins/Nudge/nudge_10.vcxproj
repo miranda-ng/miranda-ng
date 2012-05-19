@@ -15,7 +15,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>nudge</ProjectName>
+    <ProjectName>Nudge</ProjectName>
     <ProjectGuid>{8190CFAA-3B73-43D8-9101-8368E21F1864}</ProjectGuid>
     <RootNamespace>nudge</RootNamespace>
   </PropertyGroup>

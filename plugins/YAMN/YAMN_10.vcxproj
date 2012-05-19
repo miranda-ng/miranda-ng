@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Yamn</ProjectName>
+    <ProjectName>YAMN</ProjectName>
     <ProjectGuid>{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}</ProjectGuid>
     <RootNamespace>yamn</RootNamespace>
   </PropertyGroup>

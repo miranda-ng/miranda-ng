@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>VersionInfo</ProjectName>
+    <ProjectName>Svc_vi</ProjectName>
     <ProjectGuid>{3CE5572B-B7B0-4D1C-9D10-4622FBA6198E}</ProjectGuid>
     <RootNamespace>VersionInfo</RootNamespace>
   </PropertyGroup>

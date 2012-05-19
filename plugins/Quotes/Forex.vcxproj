@@ -22,6 +22,7 @@
     <ProjectGuid>{C619A811-8023-4441-B3D7-785388A09DF0}</ProjectGuid>
     <RootNamespace>Forex</RootNamespace>
     <Keyword>Win32Proj</Keyword>
+    <ProjectName>Quotes</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

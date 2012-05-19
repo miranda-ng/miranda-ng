@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>quickmessages</ProjectName>
+    <ProjectName>QuickMessages</ProjectName>
     <ProjectGuid>{DD76B998-ED0D-4BFD-9660-3ADC3A334872}</ProjectGuid>
     <RootNamespace>quickmessages</RootNamespace>
   </PropertyGroup>

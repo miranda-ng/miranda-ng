@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>clist_modern</ProjectName>
+    <ProjectName>Clist_modern</ProjectName>
     <ProjectGuid>{D9057E63-AAAA-4FE7-800A-20C02F4761F3}</ProjectGuid>
     <RootNamespace>clist_modern</RootNamespace>
   </PropertyGroup>

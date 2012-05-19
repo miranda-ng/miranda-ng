@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>db_autobackups</ProjectName>
+    <ProjectName>Db_autobackups</ProjectName>
     <ProjectGuid>{751ED05D-AD3E-4EC6-A485-4ECDF1FE6068}</ProjectGuid>
     <RootNamespace>db_autobackups</RootNamespace>
     <Keyword>Win32Proj</Keyword>

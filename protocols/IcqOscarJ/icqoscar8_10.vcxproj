@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>icqoscar8</ProjectName>
+    <ProjectName>ICQ</ProjectName>
     <ProjectGuid>{01DDCB36-4DE2-405D-BC36-2C8BDEB86659}</ProjectGuid>
     <RootNamespace>icqoscar8</RootNamespace>
   </PropertyGroup>

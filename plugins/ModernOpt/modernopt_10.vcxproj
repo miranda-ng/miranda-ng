@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>modernopt</ProjectName>
+    <ProjectName>ModernOpt</ProjectName>
     <ProjectGuid>{153DD132-084C-4DE4-8F40-A088BCB22723}</ProjectGuid>
     <RootNamespace>modernopt</RootNamespace>
   </PropertyGroup>

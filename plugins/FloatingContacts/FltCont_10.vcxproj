@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>FltCont</ProjectName>
+    <ProjectName>FltContacts</ProjectName>
     <ProjectGuid>{9290A9CC-3FDA-4FD6-A8A2-04AD4BA1C856}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

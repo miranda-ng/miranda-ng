@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>dbtool_sa</ProjectName>
+    <ProjectName>Dbtool_SA</ProjectName>
     <ProjectGuid>{6E233FE8-8D90-454F-A9DC-AC2B5555D137}</ProjectGuid>
     <RootNamespace>dbtool</RootNamespace>
   </PropertyGroup>

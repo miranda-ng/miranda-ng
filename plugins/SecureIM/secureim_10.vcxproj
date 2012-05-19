@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>secureim</ProjectName>
+    <ProjectName>SecureIM</ProjectName>
     <ProjectGuid>{4ADADECA-99D7-410D-8127-CB27210DCC6A}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

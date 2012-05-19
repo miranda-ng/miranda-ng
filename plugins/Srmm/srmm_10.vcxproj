@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>srmm</ProjectName>
+    <ProjectName>Srmm</ProjectName>
     <ProjectGuid>{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}</ProjectGuid>
     <RootNamespace>srmm</RootNamespace>
   </PropertyGroup>

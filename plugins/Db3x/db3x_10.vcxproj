@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>db3x</ProjectName>
+    <ProjectName>Dbx_3x</ProjectName>
     <ProjectGuid>{8B778B6A-F5EF-49A4-8437-424832F2B280}</ProjectGuid>
     <RootNamespace>db3x</RootNamespace>
   </PropertyGroup>

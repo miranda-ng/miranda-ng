@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>yapp</ProjectName>
+    <ProjectName>YAPP</ProjectName>
     <ProjectGuid>{B6FC188B-8E54-4197-9444-8BADE9AA75E2}</ProjectGuid>
     <RootNamespace>yapp</RootNamespace>
   </PropertyGroup>

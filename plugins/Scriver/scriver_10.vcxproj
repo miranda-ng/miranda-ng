@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>scriver</ProjectName>
+    <ProjectName>Scriver</ProjectName>
     <ProjectGuid>{B8928210-546C-4AE3-956B-E2B724E6B8E5}</ProjectGuid>
     <RootNamespace>scriver</RootNamespace>
   </PropertyGroup>

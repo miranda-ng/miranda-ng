@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>avs</ProjectName>
+    <ProjectName>Avs</ProjectName>
     <ProjectGuid>{7711F563-6473-4ABD-B5E3-477CE8384AD6}</ProjectGuid>
     <RootNamespace>avs</RootNamespace>
   </PropertyGroup>

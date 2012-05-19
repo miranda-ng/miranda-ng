@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>clist_mw</ProjectName>
+    <ProjectName>Clist_mw</ProjectName>
     <ProjectGuid>{56997126-0098-407A-94E1-7C5748C1C9EF}</ProjectGuid>
     <RootNamespace>clist_mw</RootNamespace>
   </PropertyGroup>

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>import</ProjectName>
+    <ProjectName>Import</ProjectName>
     <ProjectGuid>{9299B507-1AF9-4C93-9560-5F637D1E0C9E}</ProjectGuid>
     <RootNamespace>import</RootNamespace>
   </PropertyGroup>

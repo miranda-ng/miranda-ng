@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>ttnotify</ProjectName>
+    <ProjectName>TooltipNotify</ProjectName>
     <ProjectGuid>{1948EAEA-4C25-4F6B-AD9E-5891F656EADA}</ProjectGuid>
     <RootNamespace>ttnotify</RootNamespace>
     <Keyword>Win32Proj</Keyword>

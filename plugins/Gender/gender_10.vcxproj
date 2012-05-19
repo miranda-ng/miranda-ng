@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>gender</ProjectName>
+    <ProjectName>Gender</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

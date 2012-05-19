@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>jabber</ProjectName>
+    <ProjectName>Jabber</ProjectName>
     <ProjectGuid>{33276462-8313-4192-8306-13717ECCA60A}</ProjectGuid>
     <RootNamespace>jabber</RootNamespace>
   </PropertyGroup>

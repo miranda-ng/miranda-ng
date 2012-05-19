@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>dbeditorpp</ProjectName>
+    <ProjectName>Svc_dbepp</ProjectName>
     <ProjectGuid>{9C6040B8-1173-40FA-A3DB-DE044CCD8250}</ProjectGuid>
     <RootNamespace>dbeditorpp_8</RootNamespace>
   </PropertyGroup>

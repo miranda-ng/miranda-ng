@@ -13,6 +13,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{728CF16E-F3FF-4DEB-88C5-E9118F61ACD5}</ProjectGuid>
     <RootNamespace>pmanager</RootNamespace>
+    <ProjectName>PManagerEx</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

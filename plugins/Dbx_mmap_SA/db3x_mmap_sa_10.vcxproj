@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>dbx_mmap_sa</ProjectName>
+    <ProjectName>Dbx_mmap_sa</ProjectName>
     <ProjectGuid>{6D3DC604-9CA0-45A2-85D7-1EFE3309F23B}</ProjectGuid>
     <RootNamespace>db3x_mmap_sa</RootNamespace>
   </PropertyGroup>

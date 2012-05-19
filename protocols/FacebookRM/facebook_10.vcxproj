@@ -22,7 +22,7 @@
     <ProjectGuid>{DADE9455-DC28-465A-9604-2CA28052B9FB}</ProjectGuid>
     <RootNamespace>facebook</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>facebook</ProjectName>
+    <ProjectName>Facebook</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>aim</ProjectName>
+    <ProjectName>Aim</ProjectName>
     <ProjectGuid>{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}</ProjectGuid>
     <RootNamespace>aim</RootNamespace>
   </PropertyGroup>

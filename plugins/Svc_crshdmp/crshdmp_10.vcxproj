@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>crshdmp</ProjectName>
+    <ProjectName>Svc_crshdmp</ProjectName>
     <ProjectGuid>{576EEEFD-E423-482B-879A-F0515D40B8E1}</ProjectGuid>
     <RootNamespace>crshdmp</RootNamespace>
     <Keyword>Win32Proj</Keyword>

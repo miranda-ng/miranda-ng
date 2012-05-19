@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>zlib</ProjectName>
+    <ProjectName>Zlib</ProjectName>
     <ProjectGuid>{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}</ProjectGuid>
     <RootNamespace>zlib</RootNamespace>
   </PropertyGroup>

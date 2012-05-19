@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>msn</ProjectName>
+    <ProjectName>MSN</ProjectName>
     <ProjectGuid>{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}</ProjectGuid>
     <RootNamespace>msn</RootNamespace>
   </PropertyGroup>

@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C09A0E86-E7C3-4229-B817-C86A0AE8ACE5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>rate</ProjectName>
+    <ProjectName>Rate</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

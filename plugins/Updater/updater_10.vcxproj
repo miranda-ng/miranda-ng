@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>updater</ProjectName>
+    <ProjectName>Updater</ProjectName>
     <ProjectGuid>{4C1CE389-7129-45FC-83C2-E9C310AC0427}</ProjectGuid>
     <RootNamespace>updater</RootNamespace>
   </PropertyGroup>

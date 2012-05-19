@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>dbx_tree</ProjectName>
+    <ProjectName>Dbx_tree</ProjectName>
     <ProjectGuid>{2D0BB338-FF3A-4FB5-A7A5-32B63967678C}</ProjectGuid>
     <RootNamespace>dbx_tree</RootNamespace>
   </PropertyGroup>

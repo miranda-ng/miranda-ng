@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>tabsrmm_icons</ProjectName>
+    <ProjectName>Tabsrmm_icons</ProjectName>
     <ProjectGuid>{F553F140-B7D3-4984-90B1-00D4831B8A6E}</ProjectGuid>
     <RootNamespace>ICONS_NOVA</RootNamespace>
     <Keyword>Win32Proj</Keyword>

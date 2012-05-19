@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{778D0DEB-C798-45D3-98E0-ABAB242573C8}</ProjectGuid>
     <RootNamespace>extraicons</RootNamespace>
+    <ProjectName>ExtraIcons</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

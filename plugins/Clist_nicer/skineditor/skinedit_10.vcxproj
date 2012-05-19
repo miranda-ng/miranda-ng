@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>cln_skinedit</ProjectName>
+    <ProjectName>Cln_skinedit</ProjectName>
     <ProjectGuid>{987F026D-EB1F-4013-ADA8-2406ACCDA526}</ProjectGuid>
     <RootNamespace>clist</RootNamespace>
   </PropertyGroup>

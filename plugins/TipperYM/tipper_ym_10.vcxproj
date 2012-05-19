@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>tipper_ym</ProjectName>
+    <ProjectName>Tipper</ProjectName>
     <ProjectGuid>{2C818919-A38F-44FF-BD91-A6A204AC592A}</ProjectGuid>
     <RootNamespace>tipper</RootNamespace>
     <Keyword>Win32Proj</Keyword>
