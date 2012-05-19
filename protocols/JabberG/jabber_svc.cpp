@@ -368,6 +368,33 @@ INT_PTR __cdecl CJabberProto::ServiceSendXML( WPARAM, LPARAM lParam )
 	return m_ThreadInfo->send( (char*)lParam);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// "/GCGetToolTipText" - gets tooltip text
+
+static const TCHAR * JabberEnum2AffilationStr[]={ _T("None"), _T("Outcast"), _T("Member"), _T("Admin"), _T("Owner") };
+static const TCHAR * JabberEnum2RoleStr[]={ _T("None"), _T("Visitor"), _T("Participant"), _T("Moderator") };
+
+//FIXME Table conversion fast but is not safe
+static const TCHAR * JabberEnum2StatusStr[]= {	_T("Offline"), _T("Online"), _T("Away"), _T("DND"),
+	_T("NA"), _T("Occupied"), _T("Free for chat"),
+	_T("Invisible"), _T("On the phone"), _T("Out to lunch"),
+	_T("Idle")  };
+
+static void appendString( bool bIsTipper, const TCHAR* tszTitle, const TCHAR* tszValue, TCHAR* buf, size_t bufSize )
+{
+	if ( *buf ) {
+		const TCHAR* szSeparator = (bIsTipper) ? _T("\n") : ((IsWinVerMEPlus()) ? _T("\r\n") : _T(" | "));
+ 		_tcsncat( buf, szSeparator, bufSize );
+	}
+
+	if ( bIsTipper )
+		mir_sntprintf(buf, bufSize, _T("%s%s%s%s%s"), buf, _T("<b>"), TranslateTS(tszTitle), _T("</b>\t"), tszValue);
+	else {
+		TCHAR* p = TranslateTS(tszTitle);
+		mir_sntprintf(buf, bufSize, _T("%s%s%s\t"), buf, p, _tcslen(p)>7 ? _T("\t") : _T(""), tszValue);
+	}
+}
+
 INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText( WPARAM wParam, LPARAM lParam )
 {
 	if ( !wParam || !lParam )
@@ -398,67 +425,34 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText( WPARAM wParam, LPARAM lPar
 	TCHAR outBuf[2048];
 	outBuf[0]=_T('\0');
 
-	const TCHAR * szSeparator= (IsWinVerMEPlus()) ? _T("\r\n") : _T(" | ");
-
-	static const TCHAR * JabberEnum2AffilationStr[]={ _T("None"), _T("Outcast"), _T("Member"), _T("Admin"), _T("Owner") };
-
-	static const TCHAR * JabberEnum2RoleStr[]={ _T("None"), _T("Visitor"), _T("Participant"), _T("Moderator") };
-
-	//FIXME Table conversion fast but is not safe
-	static const TCHAR * JabberEnum2StatusStr[]= {	_T("Offline"), _T("Online"), _T("Away"), _T("DND"),
-		_T("NA"), _T("Occupied"), _T("Free for chat"),
-		_T("Invisible"), _T("On the phone"), _T("Out to lunch"),
-		_T("Idle")  };
-
+	bool bIsTipper = DBGetContactSettingByte(NULL, "Tab_SRMsg", "adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip");
 
 	//JID:
-	if ( _tcschr(info->resourceName, _T('@') ) != NULL ) {
-		_tcsncat( outBuf, TranslateT("JID:\t\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, info->resourceName, SIZEOF(outBuf) );
-	} else if (lParam) { //or simple nick
-		_tcsncat( outBuf, TranslateT("Nick:\t\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, (TCHAR*) lParam, SIZEOF(outBuf) );
+	if ( _tcschr(info->resourceName, _T('@') ) != NULL )
+		appendString(bIsTipper, _T("JID:"), info->resourceName, outBuf, SIZEOF(outBuf));
+	else if (lParam) { //or simple nick
+		appendString(bIsTipper, _T("Nick:"), (TCHAR*) lParam, outBuf, SIZEOF(outBuf));
 	}
 
 	// status
-	if ( info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE  ) {
-		_tcsncat( outBuf, szSeparator, SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateT("Status:\t\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateTS( JabberEnum2StatusStr [ info->status-ID_STATUS_OFFLINE ]), SIZEOF(outBuf) );
-	}
+	if ( info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE  )
+		appendString(bIsTipper, _T("Status:"), JabberEnum2StatusStr[info->status-ID_STATUS_OFFLINE], outBuf, SIZEOF(outBuf));
 
 	// status text
-	if ( info->statusMessage ) {
-		_tcsncat( outBuf, szSeparator, SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateT("Status text:\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, info->statusMessage, SIZEOF(outBuf) );
-	}
+	if ( info->statusMessage )
+		appendString(bIsTipper, _T("Status text:"), info->statusMessage, outBuf, SIZEOF(outBuf));
 
-	// Role???
-	//if ( TRUE || info->role ) {
-		_tcsncat( outBuf, szSeparator, SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateT("Role:\t\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateTS( JabberEnum2RoleStr[info->role] ), SIZEOF(outBuf) );
-	//}
+	// Role
+	appendString(bIsTipper, _T("Role:"), JabberEnum2RoleStr[info->role], outBuf, SIZEOF(outBuf));
 
 	// Affiliation
-	//if ( TRUE || info->affiliation ) {
-		_tcsncat( outBuf, szSeparator, SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateT("Affiliation:\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateTS( JabberEnum2AffilationStr[info->affiliation] ), SIZEOF(outBuf) );
-	//}
+	appendString(bIsTipper, _T("Affiliation:"), JabberEnum2AffilationStr[info->affiliation], outBuf, SIZEOF(outBuf));
 
 	// real jid
-	if ( info->szRealJid ) {
-		_tcsncat( outBuf, szSeparator, SIZEOF(outBuf) );
-		_tcsncat( outBuf, TranslateT("Real JID:\t"), SIZEOF(outBuf) );
-		_tcsncat( outBuf, info->szRealJid, SIZEOF(outBuf) );
-	}
+	if ( info->szRealJid )
+		appendString(bIsTipper, _T("Real JID:"), info->szRealJid, outBuf, SIZEOF(outBuf));
 
-	if ( lstrlen( outBuf ) == 0)
-		return 0;
-
-	return (INT_PTR) mir_tstrdup( outBuf );
+	return (INT_PTR)( outBuf[0] == 0 ? NULL : mir_tstrdup( outBuf ));
 }
 
 // File Association Manager plugin support
