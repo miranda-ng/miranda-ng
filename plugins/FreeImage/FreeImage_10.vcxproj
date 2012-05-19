@@ -25,12 +25,10 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
@@ -40,7 +38,6 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseOfMfc>false</UseOfMfc>
     <CharacterSet>MultiByte</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
@@ -86,10 +83,6 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">advaimg</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">advaimg</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">advaimg</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">advaimg</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -105,40 +98,28 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <AssemblerListingLocation>
-      </AssemblerListingLocation>
-      <BrowseInformation>
-      </BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <BaseAddress>0x5130000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -155,40 +136,28 @@
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <WholeProgramOptimization>true</WholeProgramOptimization>
       <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <AssemblerListingLocation>
-      </AssemblerListingLocation>
-      <BrowseInformation>
-      </BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <IntrinsicFunctions>true</IntrinsicFunctions>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <BaseAddress>0x5130000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -209,35 +178,23 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <AssemblerListingLocation>
-      </AssemblerListingLocation>
-      <BrowseInformation>
-      </BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-      <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>
       </MapFileName>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
+      <SubSystem>Windows</SubSystem>
+      <BaseAddress>0x5130000</BaseAddress>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -253,40 +210,27 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>Source;Source\ZLib;..\..\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;FREEIMAGE_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>false</StringPooling>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
-      <FloatingPointModel>Precise</FloatingPointModel>
-      <AssemblerListingLocation>
-      </AssemblerListingLocation>
-      <BrowseInformation>
-      </BrowseInformation>
       <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CompileAs>Default</CompileAs>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
       <AdditionalIncludeDirectories>./../../include/msapi/</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>msimg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(TargetDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <GenerateMapFile>false</GenerateMapFile>
       <MapFileName>
       </MapFileName>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
+      <BaseAddress>0x5130000</BaseAddress>
+      <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
