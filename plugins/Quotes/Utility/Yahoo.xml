@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Provider>
+  <name>Yahoo</name>
+  <ref>http://finance.yahoo.com/</ref>
+  <url>http://finance.yahoo.com/d/</url>
+</Provider>

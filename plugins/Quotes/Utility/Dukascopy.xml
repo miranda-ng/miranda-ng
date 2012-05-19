@@ -1,0 +1,1635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Provider>
+  <name>Dukascopy Swiss Forex Group</name>
+  <ref>http://www.dukascopy.com</ref>
+  <url>http://freeserv.dukascopy.com/qt/?&amp;STOCKS=</url>
+
+  <!--European Stocks-->
+
+  <section>
+    <name>European Stocks</name>
+
+<quote>
+	<id>127</id>
+	<symbol>BA</symbol>
+	<description>BAE Systems</description>
+</quote>
+<quote>
+	<id>130</id>
+	<symbol>BKIR</symbol>
+	<description>Bank of Ireland</description>
+</quote>
+<quote>
+	<id>131</id>
+	<symbol>BP</symbol>
+	<description>British Petroleum</description>
+</quote>
+<quote>
+	<id>138</id>
+	<symbol>SBRY</symbol>
+	<description>Sainsbury</description>
+</quote>
+<quote>
+	<id>142</id>
+	<symbol>AZN</symbol>
+	<description>Astrazeneca</description>
+</quote>
+<quote>
+	<id>145</id>
+	<symbol>CNA</symbol>
+	<description>Centrica</description>
+</quote>
+<quote>
+	<id>153</id>
+	<symbol>MKS</symbol>
+	<description> Spencer</description>
+</quote>
+<quote>
+	<id>155</id>
+	<symbol>RTR</symbol>
+	<description>Reuters Group</description>
+</quote>
+<quote>
+	<id>156</id>
+	<symbol>RR</symbol>
+	<description>Rolls Royce</description>
+</quote>
+<quote>
+	<id>158</id>
+	<symbol>TSCO</symbol>
+	<description>Tesco</description>
+</quote>
+<quote>
+	<id>165</id>
+	<symbol>ALV</symbol>
+	<description>Alliaz AG</description>
+</quote>
+<quote>
+	<id>167</id>
+	<symbol>BAY</symbol>
+	<description>Bayer AG</description>
+</quote>
+<quote>
+	<id>169</id>
+	<symbol>CBK</symbol>
+	<description>Commerzbank AG</description>
+</quote>
+<quote>
+	<id>171</id>
+	<symbol>DBK</symbol>
+	<description>Deutsche Bank AG</description>
+</quote>
+<quote>
+	<id>177</id>
+	<symbol>SIE</symbol>
+	<description>Siemens AG</description>
+</quote>
+<quote>
+	<id>178</id>
+	<symbol>TKA</symbol>
+	<description>Thyssenkrupp AG</description>
+</quote>
+<quote>
+	<id>179</id>
+	<symbol>VOW</symbol>
+	<description>Volkswagen AG</description>
+</quote>
+<quote>
+	<id>183</id>
+	<symbol>FTE</symbol>
+	<description>France Telecom</description>
+</quote>
+<quote>
+	<id>191</id>
+	<symbol>OR</symbol>
+	<description>LOreal</description>
+</quote>
+<quote>
+	<id>192</id>
+	<symbol>ML</symbol>
+	<description>Michelin</description>
+</quote>
+<quote>
+	<id>193</id>
+	<symbol>RNO</symbol>
+	<description>Renault</description>
+</quote>
+<quote>
+	<id>195</id>
+	<symbol>UG</symbol>
+	<description>Peugeot SA</description>
+</quote>
+<quote>
+	<id>198</id>
+	<symbol>LG</symbol>
+	<description>Lafarge</description>
+</quote>
+<quote>
+	<id>206</id>
+	<symbol>PIN</symbol>
+	<description>Pinguin</description>
+</quote>
+<quote>
+	<id>213</id>
+	<symbol>RBACW</symbol>
+	<description>Rabo Agaath Bank</description>
+</quote>
+<quote>
+	<id>221</id>
+	<symbol>ABBN</symbol>
+	<description>ABB Finance</description>
+</quote>
+<quote>
+	<id>222</id>
+	<symbol>ADEN</symbol>
+	<description>Adecco SA</description>
+</quote>
+<quote>
+	<id>224</id>
+	<symbol>RUKN</symbol>
+	<description>Swiss Reinsurance</description>
+</quote>
+<quote>
+	<id>232</id>
+	<symbol>GFC</symbol>
+	<description>Gecina</description>
+</quote>
+<quote>
+	<id>234</id>
+	<symbol>VK</symbol>
+	<description>Vallourec</description>
+</quote>
+<quote>
+	<id>235</id>
+	<symbol>FLE</symbol>
+	<description>Fleury Michon</description>
+</quote>
+<quote>
+	<id>242</id>
+	<symbol>NEX</symbol>
+	<description>National Express Group</description>
+</quote>
+<quote>
+	<id>245</id>
+	<symbol>IMT</symbol>
+	<description>Imperial Tobacco</description>
+</quote>
+<quote>
+	<id>338</id>
+	<symbol>Pseudo</symbol>
+	<description>Pseudo</description>
+</quote>
+<quote>
+	<id>340</id>
+	<symbol>Pseudo1</symbol>
+	<description>Pseudo1</description>
+</quote>
+<quote>
+	<id>321</id>
+	<symbol>ROS</symbol>
+	<description>OAO Rostelecom</description>
+</quote>
+<quote>
+	<id>325</id>
+	<symbol>FIA</symbol>
+	<description>Fiat S.p.A.</description>
+</quote>
+<quote>
+	<id>326</id>
+	<symbol>E</symbol>
+	<description>Eni S.p.A.</description>
+</quote>
+<quote>
+	<id>327</id>
+	<symbol>EN</symbol>
+	<description>Enel S.p.A.</description>
+</quote>
+<quote>
+	<id>152</id>
+	<symbol>LLOY</symbol>
+	<description>Lloyds TSB Bank</description>
+</quote>
+<quote>
+	<id>226</id>
+	<symbol>AKZA</symbol>
+	<description>Akzo Nobel NV</description>
+</quote>
+<quote>
+	<id>135</id>
+	<symbol>BSY</symbol>
+	<description>British Sky Broadcast</description>
+</quote>
+<quote>
+	<id>144</id>
+	<symbol>CW</symbol>
+	<description> Wireless</description>
+</quote>
+<quote>
+	<id>146</id>
+	<symbol>GSK</symbol>
+	<description>Glaxosmithkline</description>
+</quote>
+<quote>
+	<id>149</id>
+	<symbol>HSBA</symbol>
+	<description>HSBC Bank</description>
+</quote>
+<quote>
+	<id>151</id>
+	<symbol>KGF</symbol>
+	<description>Kingfisher</description>
+</quote>
+<quote>
+	<id>166</id>
+	<symbol>BAS</symbol>
+	<description>BASF AG</description>
+</quote>
+<quote>
+	<id>172</id>
+	<symbol>DPW</symbol>
+	<description>Deutsche Post AG</description>
+</quote>
+<quote>
+	<id>173</id>
+	<symbol>DTE</symbol>
+	<description>Deutsche Telecom</description>
+</quote>
+<quote>
+	<id>249</id>
+	<symbol>CA</symbol>
+	<description>Carrefour</description>
+</quote>
+<quote>
+	<id>218</id>
+	<symbol>NESN</symbol>
+	<description>Nestle SA</description>
+</quote>
+<quote>
+	<id>219</id>
+	<symbol>UBSN</symbol>
+	<description>UBS AG</description>
+</quote>
+<quote>
+	<id>229</id>
+	<symbol>DIE</symbol>
+	<description>DIeteren Trading</description>
+</quote>
+<quote>
+	<id>237</id>
+	<symbol>GAM</symbol>
+	<description>Gaumont</description>
+</quote>
+<quote>
+	<id>238</id>
+	<symbol>AGE</symbol>
+	<description>AGFA Gevaert NV</description>
+</quote>
+<quote>
+	<id>243</id>
+	<symbol>CBRY</symbol>
+	<description>Cadbury Schweppes</description>
+</quote>
+<quote>
+	<id>246</id>
+	<symbol>MLW</symbol>
+	<description>Merrill Lynch World</description>
+</quote>
+<quote>
+	<id>248</id>
+	<symbol>MASN</symbol>
+	<description>Micronas Semiconductors</description>
+</quote>
+<quote>
+	<id>255</id>
+	<symbol>ARE</symbol>
+	<description>Groupe Ares</description>
+</quote>
+<quote>
+	<id>200</id>
+	<symbol>DELB</symbol>
+	<description>Delhaize Group</description>
+</quote>
+<quote>
+	<id>215</id>
+	<symbol>PHIA</symbol>
+	<description>Philips Electronics</description>
+</quote>
+<quote>
+	<id>216</id>
+	<symbol>CSGN</symbol>
+	<description>Credit Suisse Groupe CAP</description>
+</quote>
+<quote>
+	<id>772</id>
+	<symbol>VOD</symbol>
+	<description>VODAFONE </description>
+</quote>
+<quote>
+	<id>773</id>
+	<symbol>BA</symbol>
+	<description>British Airways</description>
+</quote>
+	
+  </section>
+
+  <!--US Stocks-->
+
+  <section>
+    <name>US Stocks</name>
+    
+	
+<quote>
+	<id>99</id>
+	<symbol>INTC</symbol>
+	<description>Intel Corp.</description>
+</quote>
+<quote>
+	<id>98</id>
+	<symbol>QCOM</symbol>
+	<description>QUALCOMM Incorporated</description>
+</quote>
+<quote>
+	<id>97</id>
+	<symbol>CSCO</symbol>
+	<description>Cisco Systems, Inc.</description>
+</quote>
+<quote>
+	<id>96</id>
+	<symbol>AMGN</symbol>
+	<description>Amgen Inc.</description>
+</quote>
+<quote>
+	<id>94</id>
+	<symbol>ORCL</symbol>
+	<description>Oracle Corp.</description>
+</quote>
+<quote>
+	<id>92</id>
+	<symbol>MXIM</symbol>
+	<description>Maxim Integrated Products, Inc.</description>
+</quote>
+<quote>
+	<id>85</id>
+	<symbol>SBUX</symbol>
+	<description>Starbucks Corp.</description>
+</quote>
+<quote>
+	<id>82</id>
+	<symbol>CTAS</symbol>
+	<description>Cintas Corp.</description>
+</quote>
+<quote>
+	<id>81</id>
+	<symbol>BMET</symbol>
+	<description>Biomet, Inc.</description>
+</quote>
+<quote>
+	<id>80</id>
+	<symbol>PAYX</symbol>
+	<description>Paychex, Inc</description>
+</quote>
+<quote>
+	<id>79</id>
+	<symbol>XLNX</symbol>
+	<description>Xilinx, Inc.</description>
+</quote>
+<quote>
+	<id>75</id>
+	<symbol>FISV</symbol>
+	<description>Fiserv, Inc.</description>
+</quote>
+<quote>
+	<id>69</id>
+	<symbol>COST</symbol>
+	<description>Costco Wholesale Corp.</description>
+</quote>
+<quote>
+	<id>64</id>
+	<symbol>PCAR</symbol>
+	<description>PACCAR Inc.</description>
+</quote>
+<quote>
+	<id>62</id>
+	<symbol>ADBE</symbol>
+	<description>Adobe Systems Incorporated</description>
+</quote>
+<quote>
+	<id>61</id>
+	<symbol>SPLS</symbol>
+	<description>Staples, Inc.</description>
+</quote>
+<quote>
+	<id>33</id>
+	<symbol>T</symbol>
+	<description>T Corp.</description>
+</quote>
+<quote>
+	<id>31</id>
+	<symbol>AA</symbol>
+	<description>Alcoa</description>
+</quote>
+<quote>
+	<id>32</id>
+	<symbol>AXP</symbol>
+	<description>American Express Co.</description>
+</quote>
+<quote>
+	<id>34</id>
+	<symbol>BA</symbol>
+	<description>The Boeing Co.</description>
+</quote>
+<quote>
+	<id>35</id>
+	<symbol>CAT</symbol>
+	<description>Caterpillar Inc.</description>
+</quote>
+<quote>
+	<id>36</id>
+	<symbol>C</symbol>
+	<description>Citigroup, Inc.</description>
+</quote>
+<quote>
+	<id>37</id>
+	<symbol>KO</symbol>
+	<description>The Coca-Cola Co.</description>
+</quote>
+<quote>
+	<id>40</id>
+	<symbol>EK</symbol>
+	<description>Eastman Kodak Co.</description>
+</quote>
+<quote>
+	<id>43</id>
+	<symbol>GM</symbol>
+	<description>General Motors Corp.</description>
+</quote>
+<quote>
+	<id>49</id>
+	<symbol>JNJ</symbol>
+	<description> Johnson</description>
+</quote>
+<quote>
+	<id>50</id>
+	<symbol>MCD</symbol>
+	<description>McDonald's Corp.</description>
+</quote>
+<quote>
+	<id>51</id>
+	<symbol>MRK</symbol>
+	<description>Merck  Company, Inc.</description>
+</quote>
+<quote>
+	<id>52</id>
+	<symbol>MMM</symbol>
+	<description>Manufacturing Co.</description>
+</quote>
+<quote>
+	<id>53</id>
+	<symbol>JPM</symbol>
+	<description>J.P. Morgan   Company Inc.</description>
+</quote>
+<quote>
+	<id>57</id>
+	<symbol>UTX</symbol>
+	<description>United Technologies Corp.</description>
+</quote>
+<quote>
+	<id>58</id>
+	<symbol>WMT</symbol>
+	<description>Wal-Mart Stores, Inc.</description>
+</quote>
+<quote>
+	<id>104</id>
+	<symbol>CDWC</symbol>
+	<description>CDW Computer Centers, Inc.</description>
+</quote>
+<quote>
+	<id>116</id>
+	<symbol>SGA</symbol>
+	<description>Saga Communications, Inc.</description>
+</quote>
+<quote>
+	<id>118</id>
+	<symbol>MPP</symbol>
+	<description>Medical Technology System</description>
+</quote>
+<quote>
+	<id>119</id>
+	<symbol>ACU</symbol>
+	<description>Acme United Corp.</description>
+</quote>
+<quote>
+	<id>128</id>
+	<symbol>BAL</symbol>
+	<description>Barclays</description>
+</quote>
+<quote>
+	<id>141</id>
+	<symbol>RBS</symbol>
+	<description>Royal Bank of Scotland</description>
+</quote>
+<quote>
+	<id>250</id>
+	<symbol>BMO</symbol>
+	<description>Bank of Montreal</description>
+</quote>
+<quote>
+	<id>254</id>
+	<symbol>TRP</symbol>
+	<description>TransCanada PipeLines Ltd</description>
+</quote>
+<quote>
+	<id>329</id>
+	<symbol>QQQQ</symbol>
+	<description>TransCanada PipeLines Ltd</description>
+</quote>
+<quote>
+	<id>330</id>
+	<symbol>DIA</symbol>
+	<description>TransCanada PipeLines Ltd</description>
+</quote>
+<quote>
+	<id>332</id>
+	<symbol>SMH</symbol>
+	<description>TransCanada PipeLines Ltd</description>
+</quote>
+<quote>
+	<id>122</id>
+	<symbol>DW</symbol>
+	<description>Drew Industries, Inc.</description>
+</quote>
+<quote>
+	<id>123</id>
+	<symbol>FPU</symbol>
+	<description>Florida Public Utilities</description>
+</quote>
+<quote>
+	<id>280</id>
+	<symbol>NOK</symbol>
+	<description>Nokia</description>
+</quote>
+<quote>
+	<id>281</id>
+	<symbol>UPM</symbol>
+	<description>UPM-Kymmene OYJ</description>
+</quote>
+<quote>
+	<id>282</id>
+	<symbol>SEO</symbol>
+	<description>Stora Enso OYJ</description>
+</quote>
+<quote>
+	<id>287</id>
+	<symbol>BEAS</symbol>
+	<description>BEA System INC.</description>
+</quote>
+<quote>
+	<id>288</id>
+	<symbol>BRCD</symbol>
+	<description>Brocade Communication System Inc.</description>
+</quote>
+<quote>
+	<id>291</id>
+	<symbol>CEPH</symbol>
+	<description>Cephalon Inc.</description>
+</quote>
+<quote>
+	<id>292</id>
+	<symbol>CIEN</symbol>
+	<description>Ciena Corp.</description>
+</quote>
+<quote>
+	<id>293</id>
+	<symbol>CHKP</symbol>
+	<description>Checkpoint Software</description>
+</quote>
+<quote>
+	<id>295</id>
+	<symbol>DISH</symbol>
+	<description>Echostar Communications</description>
+</quote>
+<quote>
+	<id>100</id>
+	<symbol>MSFT</symbol>
+	<description>Microsoft Corp.</description>
+</quote>
+<quote>
+	<id>95</id>
+	<symbol>DELL</symbol>
+	<description>Dell Computer Corp.</description>
+</quote>
+<quote>
+	<id>91</id>
+	<symbol>EBAY</symbol>
+	<description>eBay Inc.</description>
+</quote>
+<quote>
+	<id>88</id>
+	<symbol>BBBY</symbol>
+	<description>Beyond Inc.</description>
+</quote>
+<quote>
+	<id>87</id>
+	<symbol>LLTC</symbol>
+	<description>Linear Technology Corp.</description>
+</quote>
+<quote>
+	<id>84</id>
+	<symbol>IACI</symbol>
+	<description>USA Interactive</description>
+</quote>
+<quote>
+	<id>76</id>
+	<symbol>KLAC</symbol>
+	<description>KLA-Tencor Corp.</description>
+</quote>
+<quote>
+	<id>70</id>
+	<symbol>APOL</symbol>
+	<description>Apollo Group, Inc.</description>
+</quote>
+<quote>
+	<id>68</id>
+	<symbol>TEVA</symbol>
+	<description>Teva Pharmaceutical Industries Limited</description>
+</quote>
+<quote>
+	<id>65</id>
+	<symbol>ALTR</symbol>
+	<description>Altera Corp.</description>
+</quote>
+<quote>
+	<id>63</id>
+	<symbol>SYMC</symbol>
+	<description>Symantec Corp.</description>
+</quote>
+<quote>
+	<id>42</id>
+	<symbol>GE</symbol>
+	<description>General Electric Co.</description>
+</quote>
+<quote>
+	<id>44</id>
+	<symbol>HPQ</symbol>
+	<description>Hewlett-Packard Co.</description>
+</quote>
+<quote>
+	<id>46</id>
+	<symbol>HON</symbol>
+	<description>Honeywell International Inc.</description>
+</quote>
+<quote>
+	<id>47</id>
+	<symbol>IBM</symbol>
+	<description>International Business Machines Corp.</description>
+</quote>
+<quote>
+	<id>54</id>
+	<symbol>MO</symbol>
+	<description>Morris Companies, Inc.</description>
+</quote>
+<quote>
+	<id>55</id>
+	<symbol>PG</symbol>
+	<description>Gamble Co.</description>
+</quote>
+<quote>
+	<id>103</id>
+	<symbol>FLEX</symbol>
+	<description>Flextronics International Ltd.</description>
+</quote>
+<quote>
+	<id>115</id>
+	<symbol>OHB</symbol>
+	<description>Orleans Homebuilders</description>
+</quote>
+<quote>
+	<id>251</id>
+	<symbol>BNS</symbol>
+	<description>Bank of Nova Scotia</description>
+</quote>
+<quote>
+	<id>252</id>
+	<symbol>BCE</symbol>
+	<description>BCE, Inc.</description>
+</quote>
+<quote>
+	<id>331</id>
+	<symbol>SPY</symbol>
+	<description>BCE, Inc.</description>
+</quote>
+<quote>
+	<id>286</id>
+	<symbol>AMCC</symbol>
+	<description>Applied Micro Circuit Corp.</description>
+</quote>
+<quote>
+	<id>294</id>
+	<symbol>CTXS</symbol>
+	<description>Citrix Systems</description>
+</quote>
+<quote>
+	<id>738</id>
+	<symbol>MCHP</symbol>
+	<description>Microchip Technology</description>
+</quote>
+<quote>
+	<id>747</id>
+	<symbol>NTE</symbol>
+	<description>NAM TAI Electronics</description>
+</quote>
+<quote>
+	<id>759</id>
+	<symbol>TTWO</symbol>
+	<description>Take-Two Interactive Software</description>
+</quote>
+<quote>
+	<id>700</id>
+	<symbol>ADI </symbol>
+	<description>Analog Devices </description>
+</quote>
+<quote>
+	<id>701</id>
+	<symbol>ADTN</symbol>
+	<description>Adtran </description>
+</quote>
+<quote>
+	<id>702</id>
+	<symbol>AIG</symbol>
+	<description>American International Group</description>
+</quote>
+<quote>
+	<id>703</id>
+	<symbol>APA</symbol>
+	<description>Apache Corp</description>
+</quote>
+<quote>
+	<id>704</id>
+	<symbol>BAC</symbol>
+	<description>Bank of America Corp</description>
+</quote>
+<quote>
+	<id>705</id>
+	<symbol>BBY</symbol>
+	<description>Best Buy Co </description>
+</quote>
+<quote>
+	<id>706</id>
+	<symbol>BIIB</symbol>
+	<description>Biogen Idec </description>
+</quote>
+<quote>
+	<id>707</id>
+	<symbol>BOBJ</symbol>
+	<description>Business Objects SA</description>
+</quote>
+<quote>
+	<id>708</id>
+	<symbol>BRCM</symbol>
+	<description>Broadcom Corp</description>
+</quote>
+<quote>
+	<id>709</id>
+	<symbol>CALM</symbol>
+	<description>Cal-Maine Foods </description>
+</quote>
+<quote>
+	<id>710</id>
+	<symbol>CCU</symbol>
+	<description>Clear Channel Communications </description>
+</quote>
+<quote>
+	<id>711</id>
+	<symbol>COF</symbol>
+	<description>Capital One Financial Corp</description>
+</quote>
+<quote>
+	<id>714</id>
+	<symbol>DLTR</symbol>
+	<description>Dollar Tree Stores </description>
+</quote>
+<quote>
+	<id>716</id>
+	<symbol>FITB</symbol>
+	<description>Fifth Third Bancorp</description>
+</quote>
+<quote>
+	<id>717</id>
+	<symbol>FNM</symbol>
+	<description>Fannie Mae</description>
+</quote>
+<quote>
+	<id>718</id>
+	<symbol>FRE</symbol>
+	<description>Freddie Mac</description>
+</quote>
+<quote>
+	<id>719</id>
+	<symbol>FRX</symbol>
+	<description>Forest Laboratories </description>
+</quote>
+<quote>
+	<id>720</id>
+	<symbol>GCI</symbol>
+	<description>Gannett Co </description>
+</quote>
+<quote>
+	<id>721</id>
+	<symbol>GD</symbol>
+	<description>General Dynamics Corp</description>
+</quote>
+<quote>
+	<id>724</id>
+	<symbol>GS</symbol>
+	<description>Goldman Sachs Group </description>
+</quote>
+<quote>
+	<id>726</id>
+	<symbol>HOV</symbol>
+	<description>Hovnanian Enterprises </description>
+</quote>
+<quote>
+	<id>727</id>
+	<symbol>ICOS</symbol>
+	<description>ICOS Corp</description>
+</quote>
+<quote>
+	<id>728</id>
+	<symbol>IMCL</symbol>
+	<description>ImClone Systems</description>
+</quote>
+<quote>
+	<id>731</id>
+	<symbol>KSS</symbol>
+	<description>Kohl's Corp</description>
+</quote>
+<quote>
+	<id>732</id>
+	<symbol>LEH</symbol>
+	<description>Lehman Brothers Holdings Inc</description>
+</quote>
+<quote>
+	<id>734</id>
+	<symbol>LLY</symbol>
+	<description> Co</description>
+</quote>
+<quote>
+	<id>737</id>
+	<symbol>LXK</symbol>
+	<description>Lexmark International</description>
+</quote>
+<quote>
+	<id>743</id>
+	<symbol>NEM</symbol>
+	<description>Newmont Mining Corp</description>
+</quote>
+<quote>
+	<id>744</id>
+	<symbol>NFLX</symbol>
+	<description>NetFlix</description>
+</quote>
+<quote>
+	<id>745</id>
+	<symbol>NOC</symbol>
+	<description>Northrop Grumman Corp</description>
+</quote>
+<quote>
+	<id>748</id>
+	<symbol>NTES</symbol>
+	<description>Netease.com</description>
+</quote>
+<quote>
+	<id>749</id>
+	<symbol>NVLS</symbol>
+	<description>Novellus Systems</description>
+</quote>
+<quote>
+	<id>750</id>
+	<symbol>OVTI</symbol>
+	<description>Omnivision Technologies</description>
+</quote>
+<quote>
+	<id>753</id>
+	<symbol>RMBS</symbol>
+	<description>Rambus</description>
+</quote>
+<quote>
+	<id>755</id>
+	<symbol>SINA</symbol>
+	<description>Sina Corp</description>
+</quote>
+<quote>
+	<id>756</id>
+	<symbol>SNDK</symbol>
+	<description>Sandisk Corp</description>
+</quote>
+<quote>
+	<id>757</id>
+	<symbol>SNPS</symbol>
+	<description>Synopsys</description>
+</quote>
+<quote>
+	<id>758</id>
+	<symbol>SOHU</symbol>
+	<description>Sohu.com</description>
+</quote>
+<quote>
+	<id>760</id>
+	<symbol>UTSI</symbol>
+	<description>Utstarcom</description>
+</quote>
+<quote>
+	<id>762</id>
+	<symbol>WLP</symbol>
+	<description>WellPoint Health Networks</description>
+</quote>
+<quote>
+	<id>763</id>
+	<symbol>WY</symbol>
+	<description>Weyerhaeuser Co</description>
+</quote>
+<quote>
+	<id>764</id>
+	<symbol>XMSR</symbol>
+	<description>XM Satellite Radio Holdings</description>
+</quote>
+<quote>
+	<id>765</id>
+	<symbol>YHOO</symbol>
+	<description>Yahoo! </description>
+</quote>
+<quote>
+	<id>38</id>
+	<symbol>DIS</symbol>
+	<description>The Walt Disney Co.</description>
+</quote>
+<quote>
+	<id>39</id>
+	<symbol>DD</symbol>
+	<description>E.I. duPont de Nemours   Co.</description>
+</quote>
+<quote>
+	<id>78</id>
+	<symbol>ERTS</symbol>
+	<description>Electronic Arts Inc.</description>
+</quote>
+<quote>
+	<id>77</id>
+	<symbol>GENZ</symbol>
+	<description>Genzyme General</description>
+</quote>
+<quote>
+	<id>766</id>
+	<symbol>GOOGL</symbol>
+	<description>Google!</description>
+</quote>
+<quote>
+	<id>45</id>
+	<symbol>HD</symbol>
+	<description>Home Depot Inc.</description>
+</quote>
+<quote>
+	<id>48</id>
+	<symbol>IP</symbol>
+	<description>International Paper Co.</description>
+</quote>
+<quote>
+	<id>121</id>
+	<symbol>DLA</symbol>
+	<description>Delta Apparel Inc.</description>
+</quote>
+<quote>
+	<id>86</id>
+	<symbol>AMAT</symbol>
+	<description>Applied Materials, Inc.</description>
+</quote>
+<quote>
+	<id>41</id>
+	<symbol>XOM</symbol>
+	<description>Exxon Mobil Corp.</description>
+</quote>
+<quote>
+	<id>102</id>
+	<symbol>AMZN</symbol>
+	<description>Amazon.com, Inc.</description>
+</quote>
+<quote>
+	<id>729</id>
+	<symbol>IVGN</symbol>
+	<description>Invitrogen Corp</description>
+</quote>
+<quote>
+	<id>736</id>
+	<symbol>LRCX</symbol>
+	<description>Lam Research Corp</description>
+</quote>
+<quote>
+	<id>712</id>
+	<symbol>CTSH</symbol>
+	<description>Cognizant Technology Solutions Corp</description>
+</quote>
+<quote>
+	<id>713</id>
+	<symbol>DHI</symbol>
+	<description>DR Horton </description>
+</quote>
+<quote>
+	<id>740</id>
+	<symbol>MNST</symbol>
+	<description>Monster Worldwide</description>
+</quote>
+	
+  </section>
+
+
+  <!--Indices-->
+
+  <section>
+    <name>Indices</name>
+    <!--on the basis of US Indices-->
+    <section>
+      <name>on the basis of US Indices</name>
+  
+<quote>
+	<id>22</id>
+	<symbol>SandP-500</symbol>
+	<description>P 500</description>
+</quote>
+<quote>
+	<id>23</id>
+	<symbol>NQ-100</symbol>
+	<description>CFD statistics for Nasdaq 100</description>
+</quote>
+<quote>
+	<id>28</id>
+	<symbol>Nyssee-comp</symbol>
+	<description>CFD statistics for NYSE Composite</description>
+</quote>
+<quote>
+	<id>21</id>
+	<symbol>D&amp;J-Ind</symbol>
+	<description>CFD statistics for Dow Jones Industrial Average</description>
+</quote>
+<quote>
+	<id>26</id>
+	<symbol>NQ-comp</symbol>
+	<description>CFD statistics for Nasdaq Composite</description>
+</quote>
+<quote>
+	<id>27</id>
+	<symbol>AMMEKS</symbol>
+	<description>CFD statistics for AMEX</description>
+</quote>
+<quote>
+	<id>768</id>
+	<symbol>VIXX</symbol>
+	<description>Volatility Index</description>
+</quote>
+<quote>
+	<id>769</id>
+	<symbol>10Y note</symbol>
+	<description>10Y note yield</description>
+</quote>
+<quote>
+	<id>770</id>
+	<symbol>5Y note</symbol>
+	<description>5Y note yield</description>
+</quote>
+<quote>
+	<id>771</id>
+	<symbol>ST note</symbol>
+	<description>Short term note yield</description>
+</quote>
+	  
+    </section>
+    <!--on the basis of European Indices-->
+    <section>
+    <name>on the basis of European Indices</name>
+	
+<quote>
+	<id>24</id>
+	<symbol>CAAC-40</symbol>
+	<description>CFD statistics for CAC 40</description>
+</quote>
+<quote>
+	<id>25</id>
+	<symbol>DAAX</symbol>
+	<description>CFD statistics for XETRA DAX</description>
+</quote>
+<quote>
+	<id>225</id>
+	<symbol>SWMI</symbol>
+	<description>CFD statistics for SMI</description>
+</quote>
+<quote>
+	<id>345</id>
+	<symbol>Futsee-100</symbol>
+	<description>CFD statistics for FTSE</description>
+</quote>
+<quote>
+	<id>503</id>
+	<symbol>DJE50XX</symbol>
+	<description>CFD statistics for DJ Euro Stoxx50</description>
+</quote>
+	
+    </section>
+    <!--on the basis of Asian Indices-->
+    <section>
+      <name>on the basis of Asian Indices</name>
+      
+	  <quote>
+	<id>500</id>
+	<symbol>N225Jap</symbol>
+	<description>CFD statistics for Nikkei 225</description>
+</quote>
+<quote>
+	<id>501</id>
+	<symbol>SC-Korea</symbol>
+	<description>CFD statistics for KOSPI</description>
+</quote>
+<quote>
+	<id>502</id>
+	<symbol>H-Kong</symbol>
+	<description>CFD statistics for Hang Seng</description>
+</quote>
+	  
+    </section>
+  </section>
+
+  <!--FOREX-->
+  <section>
+    <name>FOREX</name>
+    <!--Major-->
+    <section>
+      <name>Major</name>
+
+		<quote>
+	<id>3</id>
+	<symbol>USD/CHF</symbol>
+	<description>USD/CHF</description>
+</quote>
+<quote>
+	<id>9</id>
+	<symbol>USD/CAD</symbol>
+	<description>USD/CAD</description>
+</quote>
+<quote>
+	<id>10</id>
+	<symbol>AUD/USD</symbol>
+	<description>AUD/USD</description>
+</quote>
+<quote>
+	<id>11</id>
+	<symbol>NZD/USD</symbol>
+	<description>NZD/USD</description>
+</quote>
+<quote>
+	<id>1</id>
+	<symbol>EUR/USD</symbol>
+	<description>EUR/USD</description>
+</quote>
+<quote>
+	<id>2</id>
+	<symbol>GBP/USD</symbol>
+	<description>GBP/USD</description>
+</quote>
+  	  
+    </section>
+    <!--Other Currencies-->
+    <section>
+      <name>Other Currencies</name>
+	  
+	  
+<quote>
+	<id>12</id>
+	<symbol>USD/NOK</symbol>
+	<description>USD/NOK</description>
+</quote>
+<quote>
+	<id>13</id>
+	<symbol>USD/DKK</symbol>
+	<description>USD/DKK</description>
+</quote>
+<quote>
+	<id>14</id>
+	<symbol>USD/SEK</symbol>
+	<description>USD/SEK</description>
+</quote>
+<quote>
+	<id>15</id>
+	<symbol>USD/SAR</symbol>
+	<description>USD/SAR</description>
+</quote>
+<quote>
+	<id>507</id>
+	<symbol>USD/EUR</symbol>
+	<description>USD/EUR</description>
+</quote>
+<quote>
+	<id>508</id>
+	<symbol>USD/GBP</symbol>
+	<description>USD/GBP</description>
+</quote>
+<quote>
+	<id>512</id>
+	<symbol>JPY/USD</symbol>
+	<description>JPY/USD</description>
+</quote>
+<quote>
+	<id>513</id>
+	<symbol>JPY/EUR</symbol>
+	<description>JPY/EUR</description>
+</quote>
+<quote>
+	<id>516</id>
+	<symbol>GBP/EUR</symbol>
+	<description>GBP/EUR</description>
+</quote>
+<quote>
+	<id>519</id>
+	<symbol>CHF/USD</symbol>
+	<description>CHF/USD</description>
+</quote>
+<quote>
+	<id>521</id>
+	<symbol>CHF/JPY</symbol>
+	<description>CHF/JPY</description>
+</quote>
+<quote>
+	<id>514</id>
+	<symbol>JPY/GBP</symbol>
+	<description>JPY/GBP</description>
+</quote>
+<quote>
+	<id>515</id>
+	<symbol>JPY/CHF</symbol>
+	<description>JPY/CHF</description>
+</quote>
+<quote>
+	<id>520</id>
+	<symbol>CHF/EUR</symbol>
+	<description>CHF/EUR</description>
+</quote>
+<quote>
+	<id>522</id>
+	<symbol>CHF/GBP</symbol>
+	<description>CHF/GBP</description>
+</quote>
+<quote>
+	<id>74</id>
+	<symbol>USD/ZAR</symbol>
+	<description>USD/ZAR</description>
+</quote>
+<quote>
+	<id>30</id>
+	<symbol>USD/SGD</symbol>
+	<description>USD/SGD</description>
+</quote>
+<quote>
+	<id>29</id>
+	<symbol>EUR/SEK</symbol>
+	<description>EUR/SEK</description>
+</quote>
+     </section>
+    <!--Crosses-->
+    <section>
+      <name>Crosses</name>
+      
+	  
+<quote>
+	<id>509</id>
+	<symbol>EUR/JPY</symbol>
+	<description>EUR/JPY</description>
+</quote>
+<quote>
+	<id>510</id>
+	<symbol>EUR/GBP</symbol>
+	<description>EUR/GBP</description>
+</quote>
+<quote>
+	<id>511</id>
+	<symbol>EUR/CHF</symbol>
+	<description>EUR/CHF</description>
+</quote>
+<quote>
+	<id>517</id>
+	<symbol>GBP/JPY</symbol>
+	<description>GBP/JPY</description>
+</quote>
+<quote>
+	<id>518</id>
+	<symbol>GBP/CHF</symbol>
+	<description>GBP/CHF</description>
+</quote>
+<quote>
+	<id>60</id>
+	<symbol>AUD/JPY</symbol>
+	<description>AUD/JPY</description>
+</quote>
+<quote>
+	<id>767</id>
+	<symbol>CAD/JPY</symbol>
+	<description>CAD/JPY</description>
+</quote>
+    </section>
+    <!--Other Arab Currencies-->
+    <section>
+      <name>Other Arab Currencies</name>
+      
+	  
+<quote>
+	<id>4</id>
+	<symbol>USD/JPY</symbol>
+	<description>USD/JPY</description>
+</quote>
+<quote>
+	<id>5</id>
+	<symbol>USD/EGP</symbol>
+	<description>USD/EGP</description>
+</quote>
+<quote>
+	<id>6</id>
+	<symbol>USD/JOD</symbol>
+	<description>USD/JOD</description>
+</quote>
+<quote>
+	<id>7</id>
+	<symbol>USD/QAR</symbol>
+	<description>USD/QAR</description>
+</quote>
+<quote>
+	<id>16</id>
+	<symbol>USD/TND</symbol>
+	<description>USD/TND</description>
+</quote>
+<quote>
+	<id>17</id>
+	<symbol>EUR/EGP</symbol>
+	<description>EUR/EGP</description>
+</quote>
+<quote>
+	<id>18</id>
+	<symbol>EUR/JOD</symbol>
+	<description>EUR/JOD</description>
+</quote>
+<quote>
+	<id>19</id>
+	<symbol>EUR/QAR</symbol>
+	<description>EUR/QAR</description>
+</quote>
+<quote>
+	<id>59</id>
+	<symbol>EUR/TND</symbol>
+	<description>EUR/TND</description>
+</quote>
+<quote>
+	<id>523</id>
+	<symbol>EGP/USD</symbol>
+	<description>EGP/USD</description>
+</quote>
+<quote>
+	<id>524</id>
+	<symbol>EGP/EUR</symbol>
+	<description>EGP/EUR</description>
+</quote>
+<quote>
+	<id>527</id>
+	<symbol>EGP/CHF</symbol>
+	<description>EGP/CHF</description>
+</quote>
+<quote>
+	<id>528</id>
+	<symbol>JOD/USD</symbol>
+	<description>JOD/USD</description>
+</quote>
+<quote>
+	<id>529</id>
+	<symbol>JOD/EUR</symbol>
+	<description>JOD/EUR</description>
+</quote>
+<quote>
+	<id>530</id>
+	<symbol>JOD/JPY</symbol>
+	<description>JOD/JPY</description>
+</quote>
+<quote>
+	<id>531</id>
+	<symbol>JOD/GBP</symbol>
+	<description>JOD/GBP</description>
+</quote>
+<quote>
+	<id>533</id>
+	<symbol>JOD/CHF</symbol>
+	<description>JOD/CHF</description>
+</quote>
+<quote>
+	<id>534</id>
+	<symbol>QAR/EUR</symbol>
+	<description>QAR/EUR</description>
+</quote>
+<quote>
+	<id>535</id>
+	<symbol>QAR/USD</symbol>
+	<description>QAR/USD</description>
+</quote>
+<quote>
+	<id>536</id>
+	<symbol>QAR/JPY</symbol>
+	<description>QAR/JPY</description>
+</quote>
+<quote>
+	<id>537</id>
+	<symbol>QAR/GBP</symbol>
+	<description>QAR/GBP</description>
+</quote>
+<quote>
+	<id>538</id>
+	<symbol>QAR/CHF</symbol>
+	<description>QAR/CHF</description>
+</quote>
+<quote>
+	<id>539</id>
+	<symbol>SAR/USD</symbol>
+	<description>SAR/USD</description>
+</quote>
+<quote>
+	<id>540</id>
+	<symbol>SAR/EUR</symbol>
+	<description>SAR/EUR</description>
+</quote>
+<quote>
+	<id>541</id>
+	<symbol>SAR/JPY</symbol>
+	<description>SAR/JPY</description>
+</quote>
+<quote>
+	<id>542</id>
+	<symbol>SAR/GBP</symbol>
+	<description>SAR/GBP</description>
+</quote>
+<quote>
+	<id>543</id>
+	<symbol>GBP/SAR</symbol>
+	<description>GBP/SAR</description>
+</quote>
+<quote>
+	<id>544</id>
+	<symbol>SAR/CHF</symbol>
+	<description>SAR/CHF</description>
+</quote>
+<quote>
+	<id>545</id>
+	<symbol>TND/USD</symbol>
+	<description>TND/USD</description>
+</quote>
+<quote>
+	<id>546</id>
+	<symbol>TND/EUR</symbol>
+	<description>TND/EUR</description>
+</quote>
+<quote>
+	<id>547</id>
+	<symbol>TND/JPY</symbol>
+	<description>TND/JPY</description>
+</quote>
+<quote>
+	<id>548</id>
+	<symbol>TND/GBP</symbol>
+	<description>TND/GBP</description>
+</quote>
+<quote>
+	<id>549</id>
+	<symbol>TND/CHF</symbol>
+	<description>TND/CHF</description>
+</quote>
+<quote>
+	<id>20</id>
+	<symbol>EUR/SAR</symbol>
+	<description>EUR/SAR</description>
+</quote>
+<quote>
+	<id>525</id>
+	<symbol>EGP/JPY</symbol>
+	<description>EGP/JPY</description>
+</quote>
+<quote>
+	<id>526</id>
+	<symbol>EGP/GBP</symbol>
+	<description>EGP/GBP</description>
+</quote>
+<quote>
+	<id>532</id>
+	<symbol>GBP/JOD</symbol>
+	<description>GBP/JOD</description>
+</quote>
+	  
+    </section>
+  </section>
+  
+  <!--Asian Stocks-->
+  <section>
+    <name>Asian Stocks</name>
+    
+	
+<quote>
+	<id>307</id>
+	<symbol>TSM</symbol>
+	<description>Taiwan Semiconductor Mfg</description>
+</quote>
+<quote>
+	<id>308</id>
+	<symbol>SNE</symbol>
+	<description>Sony Corp.</description>
+</quote>
+<quote>
+	<id>310</id>
+	<symbol>MITSY</symbol>
+	<description>Mitsui Co., Ltd.</description>
+</quote>
+<quote>
+	<id>314</id>
+	<symbol>NSANY</symbol>
+	<description>Nissan Motor Co., Ltd.</description>
+</quote>
+<quote>
+	<id>317</id>
+	<symbol>CAJ</symbol>
+	<description>Canon, Inc.</description>
+</quote>
+<quote>
+	<id>323</id>
+	<symbol>CHL</symbol>
+	<description>China Mobile Limited</description>
+</quote>
+<quote>
+	<id>324</id>
+	<symbol>SNP</symbol>
+	<description>Chemical Corp.</description>
+</quote>
+<quote>
+	<id>313</id>
+	<symbol>HMC</symbol>
+	<description>Honda Motor Co., Ltd.</description>
+</quote>
+<quote>
+	<id>315</id>
+	<symbol>MC</symbol>
+	<description>Matsushita Electric Ind.</description>
+</quote>
+<quote>
+	<id>311</id>
+	<symbol>NTT</symbol>
+	<description> Telephone</description>
+</quote>
+<quote>
+	<id>312</id>
+	<symbol>HIT</symbol>
+	<description>Hitachi, Ltd.</description>
+</quote>
+	
+  </section>
+
+  <!--Commodities-->
+  <section>
+    <name>Commodities</name>
+   
+   
+<quote>
+	<id>333</id>
+	<symbol>XAU/USD</symbol>
+	<description>XAU/USD</description>
+</quote>
+<quote>
+	<id>334</id>
+	<symbol>XAG/USD</symbol>
+	<description>XAG/USD</description>
+</quote>
+<quote>
+	<id>335</id>
+	<symbol>Platinum</symbol>
+	<description>Platinum</description>
+</quote>
+<quote>
+	<id>336</id>
+	<symbol>Palladium</symbol>
+	<description>Palladium</description>
+</quote>
+<quote>
+	<id>504</id>
+	<symbol>Light</symbol>
+	<description>Light</description>
+</quote>
+<quote>
+	<id>505</id>
+	<symbol>Brent</symbol>
+	<description>Brent</description>
+</quote>
+<quote>
+	<id>506</id>
+	<symbol>Copper</symbol>
+	<description>Copper</description>
+</quote>
+   
+  </section>
+</Provider>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Provider>
+  <name>Google Finance</name>
+  <ref>http://www.google.com</ref>
+  <url>http://www.google.com/finance</url>
+</Provider>

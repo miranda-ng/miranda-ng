@@ -1,0 +1,573 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_MAIN           ICON                    "res\\main.ico"
+IDI_ICON_SECTION        ICON                    "res\\Section.ico"
+IDI_ICON_QUOTE          ICON                    "res\\quote.ico"
+IDI_ICON_UP             ICON                    "res\\up.ico"
+IDI_ICON_DOWN           ICON                    "res\\down.ico"
+IDI_ICON_CURRENCY_CONVERTER ICON                    "res\\CurrencyConverter.ico"
+IDI_ICON_REFRESH        ICON                    "res\\Refresh.ico"
+IDI_ICON_EXPORT         ICON                    "res\\Export quotes.ico"
+IDI_ICON_SWAP           ICON                    "res\\swap.ico"
+IDI_ICON_IMPORT         ICON                    "res\\Import quotes.ico"
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian (Russia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_VARIABLE_LIST DIALOGEX 0, 0, 216, 182
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Variable List"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,83,161,50,14
+    EDITTEXT        IDC_EDIT_VARIABLE,7,7,202,147,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG_VARIABLE_LIST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 209
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian (Russia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON_NOTCHANGED     ICON                    "res\\notchanged.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONTACT_SETTINGS DIALOGEX 0, 0, 323, 269
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Edit Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Use contact specific settings",IDC_CHECK_CONTACT_SPECIFIC,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,22,151,10
+    GROUPBOX        "Log",IDC_STATIC,26,35,290,137
+    CONTROL         "Use &Internal History",IDC_CHECK_INTERNAL_HISTORY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,49,140,10
+    LTEXT           "&Format:",IDC_STATIC_HISTORY_FORMAT,50,63,47,8
+    EDITTEXT        IDC_EDIT_HISTORY_FORMAT,101,61,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Variables...",IDC_BUTTON_HISTORY_DESCRIPTION,241,61,65,12
+    CONTROL         "&Add to History only if Value Changed",IDC_CHECK_HISTORY_CONDITION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,77,252,10
+    CONTROL         "Use &External File",IDC_CHECK_EXTERNAL_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,37,97,127,10
+    LTEXT           "&Select File:",IDC_STATIC_SELECT_FILE,50,113,49,8
+    EDITTEXT        IDC_EDIT_FILE_NAME,101,111,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,241,111,65,12
+    LTEXT           "Variables Allowed: %miranda_userdata%,%quotename%",IDC_STATIC,50,126,257,8,WS_DISABLED
+    LTEXT           "F&ormat:",IDC_STATIC_LOG_FILE_FORMAT,50,142,47,8
+    EDITTEXT        IDC_EDIT_LOG_FILE_FORMAT,101,140,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "V&ariables...",IDC_BUTTON_LOG_FILE_DESCRIPTION,241,140,65,12
+    CONTROL         "Add to &Log only if Value Changed",IDC_CHECK_LOG_FILE_CONDITION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,50,156,224,10
+    CONTROL         "Show &Popup Window",IDC_CHECK_SHOW_POPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,180,120,10
+    LTEXT           "F&ormat:",IDC_STATIC_POPUP_FORMAT,30,197,47,8
+    EDITTEXT        IDC_EDIT_POPUP_FORMAT,81,195,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "V&ariables...",IDC_BUTTON_POPUP_FORMAT_DESCRIPTION,221,195,65,12
+    CONTROL         "Show Popup Window Only if Value &Changed",IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,210,245,10
+    DEFPUSHBUTTON   "OK",IDOK,107,248,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,163,248,50,14
+    EDITTEXT        IDC_EDIT_NAME,7,7,309,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    PUSHBUTTON      "Popup settings...",IDC_BUTTON_POPUP_SETTINGS,98,222,111,14
+END
+
+IDD_CURRENCY_CONVERTER DIALOGEX 0, 0, 347, 101
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Currency Converter"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT_VALUE,6,7,56,13,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_CONVERT_FROM,68,7,105,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&to:",IDC_STATIC,214,9,14,8
+    COMBOBOX        IDC_COMBO_CONVERT_INTO,230,7,105,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Swap",IDC_BUTTON_SWAP,180,7,24,12,BS_ICON
+    PUSHBUTTON      "Convert",IDC_BUTTON_CONVERT,134,24,79,14
+    EDITTEXT        IDC_EDIT_RESULT,7,44,328,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY
+    CONTROL         "Info provided by <a href=""http://www.google.com"">Google</a>",IDC_SYSLINK_PROVIDER,
+                    "SysLink",WS_TABSTOP,7,61,159,11
+    PUSHBUTTON      "Close",IDCANCEL,148,80,50,14
+END
+
+IDD_CHART DIALOGEX 0, 0, 394, 279
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_WINDOWEDGE | WS_EX_CONTROLPARENT
+CAPTION "Chart"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Info provided by <a href=""http://www.dukascopy.com"">Dukascopy Swiss Forex Group</a>",IDC_SYSLINK_PROVIDER,
+                    "SysLink",WS_TABSTOP,7,261,176,11
+    PUSHBUTTON      "Close",IDCANCEL,337,258,50,14
+    CONTROL         "",IDC_STATIC_IMAGE,"Static",SS_ETCHEDFRAME | NOT WS_VISIBLE,7,24,380,230,WS_EX_TRANSPARENT
+    LTEXT           "Get data from:",IDC_STATIC,7,9,69,8
+    COMBOBOX        IDC_COMBO_DATA_SOURCE,79,7,85,54,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Filter:",IDC_STATIC,170,9,29,8
+    COMBOBOX        IDC_COMBO_FILTER,204,7,69,47,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_FROM,277,7,53,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
+    EDITTEXT        IDC_EDIT_TO,334,7,53,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
+END
+
+IDD_PROVIDER_ADV_SETTINGS DIALOGEX 0, 0, 303, 260
+STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_CONTROLPARENT
+CAPTION "Edit Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Log",IDC_STATIC,7,23,289,139
+    CONTROL         "Use &Internal History",IDC_CHECK_INTERNAL_HISTORY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,37,140,10
+    LTEXT           "&Format:",IDC_STATIC_HISTORY_FORMAT,30,51,47,8
+    EDITTEXT        IDC_EDIT_HISTORY_FORMAT,81,49,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Variables...",IDC_BUTTON_HISTORY_DESCRIPTION,221,49,65,12
+    CONTROL         "&Add to History only if Value Changed",IDC_CHECK_HISTORY_CONDITION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,65,252,10
+    CONTROL         "Use &External File",IDC_CHECK_EXTERNAL_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,85,127,10
+    LTEXT           "&Select File:",IDC_STATIC_SELECT_FILE,30,101,49,8
+    EDITTEXT        IDC_EDIT_FILE_NAME,81,99,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Browse...",IDC_BUTTON_BROWSE,221,99,65,12
+    LTEXT           "Variables Allowed: %miranda_userdata%,%quotename%",IDC_STATIC,30,115,257,8,WS_DISABLED
+    LTEXT           "F&ormat:",IDC_STATIC_LOG_FILE_FORMAT,30,131,47,8
+    EDITTEXT        IDC_EDIT_LOG_FILE_FORMAT,81,129,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "V&ariables...",IDC_BUTTON_LOG_FILE_DESCRIPTION,221,129,65,12
+    CONTROL         "Add to &Log only if Value Changed",IDC_CHECK_LOG_FILE_CONDITION,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,145,224,10
+    CONTROL         "Show &Popup Window",IDC_CHECK_SHOW_POPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,167,120,10
+    LTEXT           "F&ormat:",IDC_STATIC_POPUP_FORMAT,30,184,47,8
+    EDITTEXT        IDC_EDIT_POPUP_FORMAT,81,182,137,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "V&ariables...",IDC_BUTTON_POPUP_FORMAT_DESCRIPTION,221,182,65,12
+    CONTROL         "Show Popup Window Only if Value &Changed",IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,197,245,10
+    DEFPUSHBUTTON   "OK",IDOK,98,239,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,154,239,50,14
+    EDITTEXT        IDC_EDIT_NAME,7,7,289,12,ES_CENTER | ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER
+    PUSHBUTTON      "Popup settings...",IDC_BUTTON_POPUP_SETTINGS,86,210,111,14
+END
+
+IDD_DIALOG_POPUP DIALOGEX 0, 0, 319, 160
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Popup Window Settings"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Colours",IDC_STATIC,7,7,149,82,WS_GROUP
+    CONTROL         "Use default colours",IDC_RADIO_DEFAULT_COLOURS,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,15,20,82,10
+    CONTROL         "Use user-defined colours",IDC_RADIO_USER_DEFINED_COLOURS,
+                    "Button",BS_AUTORADIOBUTTON,15,34,97,10
+    LTEXT           "Background colour",IDC_STATIC,70,53,66,8
+    CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,26,49,35,14
+    LTEXT           "Text colour",IDC_STATIC,70,71,66,8
+    CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,26,67,35,14
+    GROUPBOX        "Delay",IDC_STATIC,162,6,149,82,WS_GROUP
+    CONTROL         "From PopUp plugin",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,174,20,76,10
+    CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,174,35,47,10
+    CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",BS_AUTORADIOBUTTON,174,50,50,10
+    EDITTEXT        IDC_DELAY,252,33,35,14,ES_AUTOHSCROLL | ES_NUMBER | WS_GROUP
+    CONTROL         "Do not add to popup's history",IDC_CHECK_DONT_USE_POPUPHISTORY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,96,200,10
+    PUSHBUTTON      "Preview",IDC_PREV,134,114,50,14
+    DEFPUSHBUTTON   "OK",IDOK,101,139,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,167,139,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CONTACT_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 316
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 262
+    END
+
+    IDD_CURRENCY_CONVERTER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 335
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 94
+    END
+
+    IDD_CHART, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 387
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 272
+    END
+
+    IDD_PROVIDER_ADV_SETTINGS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+
+    IDD_DIALOG_POPUP, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 153
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_CHART DLGINIT
+BEGIN
+    IDC_COMBO_DATA_SOURCE, 0x403, 9, 0
+0x6f4c, 0x2067, 0x6946, 0x656c, "\000" 
+    IDC_COMBO_DATA_SOURCE, 0x403, 18, 0
+0x694d, 0x6172, 0x646e, 0x2761, 0x2073, 0x6948, 0x7473, 0x726f, 0x0079, 
+
+    IDC_COMBO_FILTER, 0x403, 4, 0
+0x6c41, 0x006c, 
+    IDC_COMBO_FILTER, 0x403, 9, 0
+0x614c, 0x7473, 0x4420, 0x7961, "\000" 
+    IDC_COMBO_FILTER, 0x403, 10, 0
+0x614c, 0x7473, 0x5720, 0x6565, 0x006b, 
+    IDC_COMBO_FILTER, 0x403, 11, 0
+0x614c, 0x7473, 0x4d20, 0x6e6f, 0x6874, "\000" 
+    IDC_COMBO_FILTER, 0x403, 10, 0
+0x614c, 0x7473, 0x5920, 0x6165, 0x0072, 
+    IDC_COMBO_FILTER, 0x403, 13, 0
+0x7355, 0x7265, 0x442d, 0x6665, 0x6e69, 0x6465, "\000" 
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOG_ECONOMIC_RATES DIALOGEX 0, 0, 310, 230
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "&Choose Quotes to watch in contact list:",IDC_STATIC,7,7,298,8
+    CONTROL         "",IDC_TREE_ECONOMIC_RATES,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_CHECKBOXES | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,21,18,284,126
+    LTEXT           "&Refresh Quotes Every:",IDC_STATIC,7,150,108,8
+    EDITTEXT        IDC_EDIT_REFRESH_RATE,118,148,40,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN_REFRESH_RATE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,230,147,11,14
+    COMBOBOX        IDC_COMBO_REFRESH_RATE,161,148,69,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Display in Contact List as:",IDC_STATIC,7,165,109,8
+    EDITTEXT        IDC_EDIT_CONTACT_LIST_FORMAT,118,162,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Variables...",IDC_BUTTON_DESCRIPTION,240,162,65,12
+    LTEXT           "&Status Message:",IDC_STATIC,7,178,107,8
+    EDITTEXT        IDC_EDIT_STATUS_MESSAGE_FORMAT,118,176,120,12,ES_AUTOHSCROLL
+    LTEXT           "&Tendency:",IDC_STATIC,7,192,102,8
+    EDITTEXT        IDC_EDIT_TENDENCY_FORMAT,118,190,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Advanced Settings...",IDC_BUTTON_ADVANCED_SETTINGS,103,208,110,14
+END
+
+IDD_DIALOG_QUOTE_INFO DIALOGEX 0, 0, 222, 132
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CTEXT           "Static",IDC_STATIC_QUOTE_NAME,7,7,208,8
+    CONTROL         "<a>SysLink1</a>",IDC_SYSLINK_PROVIDER,"SysLink",WS_TABSTOP,7,110,208,14
+    LTEXT           "Current Rate:",IDC_STATIC,21,62,72,8
+    EDITTEXT        IDC_EDIT_RATE,97,60,61,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Rate Fetch Time:",IDC_STATIC,21,47,73,8
+    EDITTEXT        IDC_EDIT_RATE_FETCH_TIME,97,45,98,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Previous Rate:",IDC_STATIC,21,77,71,8
+    EDITTEXT        IDC_EDIT_PREVIOUS_RATE,97,75,61,12,ES_AUTOHSCROLL | ES_READONLY
+END
+
+IDD_DIALOG_OPT_GOOGLE DIALOGEX 0, 0, 310, 233
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "&Convert:",IDC_STATIC,7,9,56,8
+    COMBOBOX        IDC_COMBO_CONVERT_FROM,64,7,105,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&to:",IDC_STATIC,175,9,21,8
+    COMBOBOX        IDC_COMBO_CONVERT_INTO,200,7,105,44,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Add",IDC_BUTTON_ADD,255,35,50,14
+    LTEXT           "&Watched currency rates:",IDC_STATIC,7,23,110,8
+    LISTBOX         IDC_LIST_RATES,19,35,231,111,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Remove",IDC_BUTTON_REMOVE,255,52,50,14
+    LTEXT           "&Refresh Rates Every:",IDC_STATIC,7,153,107,8
+    EDITTEXT        IDC_EDIT_REFRESH_RATE,117,151,40,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN_REFRESH_RATE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,234,150,11,14
+    COMBOBOX        IDC_COMBO_REFRESH_RATE,160,151,69,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Display in Contact List as:",IDC_STATIC,7,168,107,8
+    EDITTEXT        IDC_EDIT_CONTACT_LIST_FORMAT,117,165,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Variables...",IDC_BUTTON_DESCRIPTION,240,165,65,12
+    LTEXT           "&Status Message:",IDC_STATIC,7,181,108,8
+    EDITTEXT        IDC_EDIT_STATUS_MESSAGE_FORMAT,117,179,120,12,ES_AUTOHSCROLL
+    LTEXT           "&Tendency:",IDC_STATIC,7,195,102,8
+    EDITTEXT        IDC_EDIT_TENDENCY_FORMAT,117,193,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Advanced Settings...",IDC_BUTTON_ADVANCED_SETTINGS,102,211,110,14
+END
+
+IDD_DIALOG_QUOTE_INFO_1 DIALOGEX 0, 0, 222, 143
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Quote\\Rate Info"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CTEXT           "Static",IDC_STATIC_QUOTE_NAME,7,7,208,8
+    CONTROL         "<a>SysLink1</a>",IDC_SYSLINK_PROVIDER,"SysLink",WS_TABSTOP,7,98,208,14
+    LTEXT           "Current Rate:",IDC_STATIC,15,57,81,8
+    EDITTEXT        IDC_EDIT_RATE,108,55,61,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Rate Fetch Time:",IDC_STATIC,15,42,81,8
+    EDITTEXT        IDC_EDIT_RATE_FETCH_TIME,108,40,98,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Previous Rate:",IDC_STATIC,15,72,92,8
+    EDITTEXT        IDC_EDIT_PREVIOUS_RATE,108,70,61,12,ES_AUTOHSCROLL | ES_READONLY
+    PUSHBUTTON      "Close",IDOK,85,122,50,14
+END
+
+IDD_DIALOG_OPT_FINANCE DIALOGEX 0, 0, 310, 232
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Type &Stock Name or Symbol:",IDC_STATIC,7,10,96,8
+    EDITTEXT        IDC_EDIT_QUOTE,106,7,143,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Add",IDC_BUTTON_ADD,255,7,50,14
+    LTEXT           "&Watched Quotes:",IDC_STATIC,7,23,110,8
+    LISTBOX         IDC_LIST_RATES,19,35,231,112,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "&Remove",IDC_BUTTON_REMOVE,255,35,50,14
+    LTEXT           "&Refresh Rates Every:",IDC_STATIC,7,153,107,8
+    EDITTEXT        IDC_EDIT_REFRESH_RATE,117,151,40,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN_REFRESH_RATE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_HOTTRACK,234,150,11,14
+    COMBOBOX        IDC_COMBO_REFRESH_RATE,160,151,69,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "&Display in Contact List as:",IDC_STATIC,7,168,107,8
+    EDITTEXT        IDC_EDIT_CONTACT_LIST_FORMAT,117,165,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Variables...",IDC_BUTTON_DESCRIPTION,240,165,65,12
+    LTEXT           "Status &Message:",IDC_STATIC,7,181,108,8
+    EDITTEXT        IDC_EDIT_STATUS_MESSAGE_FORMAT,117,179,120,12,ES_AUTOHSCROLL
+    LTEXT           "&Tendency:",IDC_STATIC,7,195,102,8
+    EDITTEXT        IDC_EDIT_TENDENCY_FORMAT,117,193,120,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "&Advanced Settings...",IDC_BUTTON_ADVANCED_SETTINGS,99,210,110,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOG_ECONOMIC_RATES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 222
+    END
+
+    IDD_DIALOG_QUOTE_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 124
+    END
+
+    IDD_DIALOG_OPT_GOOGLE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        VERTGUIDE, 249
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 225
+    END
+
+    IDD_DIALOG_QUOTE_INFO_1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 215
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 135
+    END
+
+    IDD_DIALOG_OPT_FINANCE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        VERTGUIDE, 249
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 224
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_DIALOG_ECONOMIC_RATES DLGINIT
+BEGIN
+    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
+0x6553, 0x6f63, 0x646e, 0x0073, 
+    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
+0x694d, 0x756e, 0x6574, 0x0073, 
+    IDC_COMBO_REFRESH_RATE, 0x403, 6, 0
+0x6f48, 0x7275, 0x0073, 
+    0
+END
+
+IDD_DIALOG_OPT_GOOGLE DLGINIT
+BEGIN
+    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
+0x6553, 0x6f63, 0x646e, 0x0073, 
+    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
+0x694d, 0x756e, 0x6574, 0x0073, 
+    IDC_COMBO_REFRESH_RATE, 0x403, 6, 0
+0x6f48, 0x7275, 0x0073, 
+    0
+END
+
+IDD_DIALOG_OPT_FINANCE DLGINIT
+BEGIN
+    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
+0x6553, 0x6f63, 0x646e, 0x0073, 
+    IDC_COMBO_REFRESH_RATE, 0x403, 8, 0
+0x694d, 0x756e, 0x6574, 0x0073, 
+    IDC_COMBO_REFRESH_RATE, 0x403, 6, 0
+0x6f48, 0x7275, 0x0073, 
+    0
+END
+
+#endif    // English (United Kingdom) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
