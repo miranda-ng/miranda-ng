@@ -1,0 +1,296 @@
+
+; This file contains the list of translatable strings in the
+; Miranda KeyboardNotify Ext plugin.
+; Author TioDuke
+
+; Last updated: may, 2005
+; KeyboardNotify Ext 1.5.3.0
+
+
+[Plugins]
+trans!
+
+[Keyboard Flash]
+trans!
+
+[Protocols]
+trans!
+
+[Protocols to check]
+trans!
+
+[Rules]
+trans!
+
+[Events to react on]
+trans!
+
+[Incoming messages]
+trans!
+
+[Incoming files]
+trans!
+
+[Incoming URLs]
+trans!
+
+[Everything else]
+trans!
+
+[Message-Event only]
+trans!
+
+[Blink if message window is open]
+trans!
+
+[     ... and not in foreground]
+trans!
+
+[Only if last is]
+trans!
+
+[sec. old]
+trans!
+
+[Flash until]
+trans!
+
+[seconds]
+trans!
+
+[is re-attended]
+trans!
+
+[Events are opened]
+trans!
+
+[End of 'notify when' conditions]
+trans!
+
+[Notify when]
+trans!
+
+[Full Screen mode]
+trans!
+
+[Screen Saver is running]
+trans!
+
+[Workstation is Locked (2000/XP)]
+trans!
+
+[Defined programs are running]
+trans!
+
+[All other situations]
+trans!
+
+[Only notify if status is]
+trans!
+
+[Online]
+trans!
+
+[Away]
+trans!
+
+[NA]
+trans!
+
+[Occupied]
+trans!
+
+[DND]
+trans!
+
+[Free for chat]
+trans!
+
+[Invisible]
+trans!
+
+[On the phone]
+trans!
+
+[Out to lunch]
+trans!
+
+[Offline]
+trans!
+
+[Pending Events]
+trans!
+
+[Remind me every]
+trans!
+
+[minutes]
+trans!
+
+[Flashing]
+trans!
+
+[Keys to flash]
+trans!
+
+[Num Lock]
+trans!
+
+[Caps Lock]
+trans!
+
+[Scroll Lock]
+trans!
+
+[Flashing effects]
+trans!
+
+[All at the same time]
+trans!
+
+[In turn]
+trans!
+
+[In sequence]
+trans!
+
+[left->right]
+trans!
+
+[right->left]
+trans!
+
+[left<->right]
+trans!
+
+[Custom theme]
+trans!
+
+[Accordingly to events' count]
+trans!
+
+[Wait before starting flashing]
+trans!
+
+[seconds]
+trans!
+
+[Flash speed]
+trans!
+
+[Fast]
+trans!
+
+[Slow]
+trans!
+
+[&Preview]
+trans!
+
+[Emulate keypresses (Use this option if you are using an USB keyboard)]
+trans!
+
+[Themes]
+trans!
+
+[Create/Edit theme]
+trans!
+
+[Theme]
+trans!
+
+[Test]
+trans!
+
+[Add]
+trans!
+
+[Update]
+trans!
+
+[Import/Export]
+trans!
+
+[Export...]
+trans!
+
+[Import...]
+trans!
+
+[Override existing]
+trans!
+
+[Keyboard Notify Theme]
+trans!
+
+[Set LEDs for events]
+trans!
+
+[Num]
+trans!
+
+[Caps]
+trans!
+
+[Scroll]
+trans!
+
+[Message events]
+trans!
+
+[File events]
+trans!
+
+[URL events]
+trans!
+
+[Other events]
+trans!
+
+[Cancel]
+trans!
+
+[OK]
+trans!
+
+[Set program list]
+trans!
+
+[Program]
+trans!
+
+[Ignore]
+trans!
+
+[The following events are being ignored:]
+trans!
+
+[** Unknown contacts **]
+trans!
+
+[** All contacts **]
+trans!
+
+[Ignore messages]
+trans!
+
+[Ignore URLs]
+trans!
+
+[Ignore files]
+trans!
+
+[Ignore others]
+trans!
+
+[Ignore all]
+trans!
+
+[Ignore none]
+trans!
+
+[xStatuses]
+trans!
+
+[Set xStatus list]
+trans!
