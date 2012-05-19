@@ -47,7 +47,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>KeyboardNotify</ProjectName>
-    <ProjectGuid>{21F6C0E4-DD1A-49E6-82FD-64574BB902BD}</ProjectGuid>
+    <ProjectGuid>{A9265E36-7F2D-440C-BF3E-F447FDB6200F}</ProjectGuid>
     <RootNamespace>KeyboardNotify</RootNamespace>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
