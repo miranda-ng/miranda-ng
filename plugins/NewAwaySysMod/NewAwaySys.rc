@@ -1,0 +1,701 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_POPUPOPTDLG DIALOG DISCARDABLE  0, 0, 312, 237
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "",IDC_POPUPOPTDLG_GROUP_NOTIFICATION,6,6,300,208
+    CONTROL         "Popup notification",IDC_POPUPOPTDLG_USEPOPUPS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,5,108,10
+    GROUPBOX        "Popup text format",IDC_STATIC,12,18,288,76
+    EDITTEXT        IDC_POPUPOPTDLG_POPUPFORMAT,18,30,222,48,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_AUTOHSCROLL | ES_WANTRETURN | 
+                    WS_VSCROLL | WS_HSCROLL
+    PUSHBUTTON      "Preview",IDC_POPUPOPTDLG_POPUPPREVIEW,246,30,48,14
+    CONTROL         "V",IDC_POPUPOPTDLG_VARS,"MButtonClass",WS_TABSTOP,246,
+                    50,16,14,0x18000000L
+    LTEXT           "%extratext% is your status message",
+                    IDC_POPUPOPTDLG_STATIC_EXTRATEXT,18,81,276,8
+    GROUPBOX        "Click action",IDC_STATIC,12,100,199,54
+    RTEXT           "On left click",IDC_POPUPOPTDLG_STATIC_LCLICK,17,115,55,
+                    8
+    COMBOBOX        IDC_POPUPOPTDLG_LCLICK_ACTION,78,112,125,86,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "On right click",IDC_POPUPOPTDLG_STATIC_RCLICK,17,133,55,
+                    8
+    COMBOBOX        IDC_POPUPOPTDLG_RCLICK_ACTION,78,130,125,86,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Delay",IDC_STATIC,217,100,83,54
+    EDITTEXT        IDC_POPUPOPTDLG_POPUPDELAY,240,112,32,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_POPUPOPTDLG_POPUPDELAY_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,260,112,12,12
+    LTEXT           "Sec",IDC_POPUPOPTDLG_STATIC_SEC,275,114,21,8
+    CTEXT           "0 = Default",IDC_POPUPOPTDLG_STATIC_DEFAULT,224,128,70,
+                    8
+    CTEXT           "-1 = Infinite",IDC_POPUPOPTDLG_STATIC_INFINITE,224,140,
+                    70,8
+    GROUPBOX        "Colours",IDC_STATIC,12,160,155,48
+    CONTROL         "",IDC_POPUPOPTDLG_BGCOLOUR,"ColourPicker",WS_TABSTOP,19,
+                    172,19,12
+    LTEXT           "Background",IDC_POPUPOPTDLG_STATIC_BGCOLOUR,43,175,39,8
+    CONTROL         "Use default",IDC_POPUPOPTDLG_DEFBGCOLOUR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,90,175,73,10
+    CONTROL         "",IDC_POPUPOPTDLG_TEXTCOLOUR,"ColourPicker",WS_TABSTOP,
+                    19,190,19,12
+    LTEXT           "Text",IDC_POPUPOPTDLG_STATIC_TEXTCOLOUR,43,193,15,8
+    CONTROL         "Use default",IDC_POPUPOPTDLG_DEFTEXTCOLOUR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,90,193,73,10
+    GROUPBOX        "Only notify when:",IDC_STATIC,174,160,125,32
+    CONTROL         "On&line",IDC_POPUPOPTDLG_ONLNOTIFY,"MButtonClass",
+                    WS_TABSTOP,180,172,16,14,0x18000000L
+    CONTROL         "&Away",IDC_POPUPOPTDLG_AWAYNOTIFY,"MButtonClass",
+                    WS_TABSTOP,196,172,16,14,0x18000000L
+    CONTROL         "&NA",IDC_POPUPOPTDLG_NANOTIFY,"MButtonClass",WS_TABSTOP,
+                    212,172,16,14,0x18000000L
+    CONTROL         "Occ&upied",IDC_POPUPOPTDLG_OCCNOTIFY,"MButtonClass",
+                    WS_TABSTOP,228,172,16,14,0x18000000L
+    CONTROL         "&DND",IDC_POPUPOPTDLG_DNDNOTIFY,"MButtonClass",
+                    WS_TABSTOP,244,172,16,14,0x18000000L
+    CONTROL         "&Free for chat",IDC_POPUPOPTDLG_FFCNOTIFY,"MButtonClass",
+                    WS_TABSTOP,260,172,16,14,0x18000000L
+    CONTROL         "&Other",IDC_POPUPOPTDLG_OTHERNOTIFY,"MButtonClass",
+                    WS_TABSTOP,276,172,16,14,0x18000000L
+    CONTROL         "Log to a file only when popup notification for a contact is enabled",
+                    IDC_POPUPOPTDLG_LOGONLYWITHPOPUP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,219,300,10
+END
+
+IDD_AUTOREPLY DIALOG DISCARDABLE  0, 0, 312, 231
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "",IDC_MOREOPTDLG_PANEL,6,6,300,220
+    CONTROL         "Enable autoreply",IDC_REPLYDLG_ENABLEREPLY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,5,139,10
+    RTEXT           "On event...",IDC_REPLYDLG_STATIC_ONEVENT,43,19,59,8
+    CONTROL         "",IDC_REPLYDLG_EVENTMSG,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | WS_TABSTOP,110,17,29,12
+    CONTROL         "",IDC_REPLYDLG_EVENTURL,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | WS_TABSTOP,145,17,29,12
+    CONTROL         "",IDC_REPLYDLG_EVENTFILE,"Button",BS_AUTOCHECKBOX | 
+                    BS_ICON | WS_TABSTOP,180,17,29,12
+    CONTROL         "Don't reply to ICQ contacts",IDC_REPLYDLG_DONTSENDTOICQ,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,119,275,10
+    CONTROL         "Don't reply when I'm invisible to the contact",
+                    IDC_REPLYDLG_DONTREPLYINVISIBLE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,107,275,10
+    CONTROL         "Save autoreply to the history",IDC_REPLYDLG_LOGREPLY,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,21,34,275,10
+    CONTROL         "Reply only when Idle",IDC_REPLYDLG_ONLYIDLEREPLY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,21,48,275,10
+    CONTROL         "Reply only when contact's message window is closed",
+                    IDC_REPLYDLG_ONLYCLOSEDDLGREPLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,21,59,275,10
+    LTEXT           "Send maximum",IDC_REPLYDLG_STATIC_SEND,33,72,90,8
+    EDITTEXT        IDC_REPLYDLG_SENDCOUNT,127,70,40,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_REPLYDLG_SENDCOUNT_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,156,70,12,12
+    LTEXT           "times (-1=infinite)",IDC_REPLYDLG_STATIC_TIMES,172,72,
+                    124,8
+    CONTROL         "Reset this counter also when I just change my status text\n(when status icon remains the same)",
+                    IDC_REPLYDLG_RESETCOUNTERWHENSAMEICON,"Button",
+                    BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,34,
+                    84,262,18
+    LTEXT           "Disable autoreply when...",
+                    IDC_REPLYDLG_STATIC_DISABLEWHENSTATUS,13,134,283,8
+    CONTROL         "On&line",IDC_REPLYDLG_DISABLE_ONL,"MButtonClass",
+                    WS_TABSTOP,21,146,16,14,0x18000000L
+    CONTROL         "&Away",IDC_REPLYDLG_DISABLE_AWAY,"MButtonClass",
+                    WS_TABSTOP,37,146,16,14,0x18000000L
+    CONTROL         "&NA",IDC_REPLYDLG_DISABLE_NA,"MButtonClass",WS_TABSTOP,
+                    53,146,16,14,0x18000000L
+    CONTROL         "Occ&upied",IDC_REPLYDLG_DISABLE_OCC,"MButtonClass",
+                    WS_TABSTOP,69,146,16,14,0x18000000L
+    CONTROL         "&DND",IDC_REPLYDLG_DISABLE_DND,"MButtonClass",
+                    WS_TABSTOP,85,146,16,14,0x18000000L
+    CONTROL         "&Free for chat",IDC_REPLYDLG_DISABLE_FFC,"MButtonClass",
+                    WS_TABSTOP,101,146,16,14,0x18000000L
+    CONTROL         "&Invisible",IDC_REPLYDLG_DISABLE_INV,"MButtonClass",
+                    WS_TABSTOP,117,146,16,14,0x18000000L
+    CONTROL         "On the &Phone",IDC_REPLYDLG_DISABLE_OTP,"MButtonClass",
+                    WS_TABSTOP,133,146,16,14,0x18000000L
+    CONTROL         "Out to &Lunch",IDC_REPLYDLG_DISABLE_OTL,"MButtonClass",
+                    WS_TABSTOP,149,146,16,14,0x18000000L
+    LTEXT           "Autoreply format:",IDC_REPLYDLG_STATIC_FORMAT,13,168,
+                    283,8
+    EDITTEXT        IDC_REPLYDLG_PREFIX,21,180,209,30,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    CONTROL         "V",IDC_REPLYDLG_VARS,"MButtonClass",WS_TABSTOP,231,180,
+                    16,14,0x18000000L
+    LTEXT           "%extratext% is your status message",
+                    IDC_REPLYDLG_STATIC_EXTRATEXT,21,212,234,8
+END
+
+IDD_SETAWAYMSG DIALOGEX 0, 0, 398, 132
+STYLE DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_SAWAYMSG_MSGDATA,116,1,170,114,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    PUSHBUTTON      "OK",IDC_OK,115,117,60,14
+    CONTROL         "&Variables",IDC_SAWAYMSG_VARS,"MButtonClass",WS_TABSTOP,
+                    255,117,16,14,0x18000000L
+    CONTROL         "Se&ttings",IDC_SAWAYMSG_OPTIONS,"MButtonClass",
+                    WS_TABSTOP,271,117,16,14,0x18000000L
+    ICON            IDI_IGNORE,IDC_SAWAYMSG_STATIC_IGNOREICON,382,109,16,16,
+                    SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    ICON            IDI_SOE_ENABLED,IDC_SAWAYMSG_STATIC_REPLYICON,382,118,16,
+                    16,SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    CONTROL         "",IDC_SAWAYMSG_CONTACTSTREE,"SysTreeView32",
+                    TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | 
+                    TVS_TRACKSELECT | WS_BORDER | WS_TABSTOP,289,1,108,114
+    CONTROL         "Ignore requests",IDC_SAWAYMSG_IGNOREREQ,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,307,116,80,8,
+                    WS_EX_RIGHT
+    CONTROL         "Send an autoreply",IDC_SAWAYMSG_SENDMSG,"Button",
+                    BS_AUTO3STATE | BS_LEFTTEXT | WS_TABSTOP,307,124,80,8,
+                    WS_EX_RIGHT
+    CONTROL         "",IDC_SAWAYMSG_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | 
+                    TVS_SHOWSELALWAYS | TVS_TRACKSELECT | WS_BORDER | 
+                    WS_TABSTOP,1,1,112,114
+    CONTROL         "&Delete",IDC_SAWAYMSG_DELETE,"MButtonClass",WS_TABSTOP,
+                    58,116,16,14,0x18000000L
+    CONTROL         "New &Category",IDC_SAWAYMSG_NEWCATEGORY,"MButtonClass",
+                    WS_TABSTOP,2,116,16,14,0x18000000L
+    CONTROL         "Save As &New",IDC_SAWAYMSG_SAVEASNEW,"MButtonClass",
+                    WS_TABSTOP,18,116,16,14,0x18000000L
+    CONTROL         "&Save",IDC_SAWAYMSG_SAVEMSG,"MButtonClass",WS_TABSTOP,
+                    34,116,16,14,0x18000000L
+    CONTROL         "",IDC_SAWAYMSG_MSGSPLITTER,"Static",SS_ENHMETAFILE | 
+                    SS_SUNKEN,114,0,1,115
+    CONTROL         "",IDC_SAWAYMSG_CONTACTSPLITTER,"Static",SS_ENHMETAFILE | 
+                    SS_SUNKEN,287,0,1,115
+END
+
+IDD_MESSAGES DIALOG DISCARDABLE  0, 0, 311, 221
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_MESSAGEDLG_MSGTREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | 
+                    TVS_SHOWSELALWAYS | TVS_TRACKSELECT | WS_BORDER | 
+                    WS_TABSTOP,6,6,126,210
+    RTEXT           "Title:",IDC_STATIC,136,8,51,8
+    EDITTEXT        IDC_MESSAGEDLG_MSGTITLE,189,6,115,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MESSAGEDLG_MSGDATA,138,24,166,138,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    GROUPBOX        "Use this message as default for",IDC_STATIC,138,186,166,
+                    30,BS_LEFT
+    CONTROL         "On&line",IDC_MESSAGEDLG_DEF_ONL,"MButtonClass",
+                    WS_TABSTOP,149,197,16,14,0x18000000L
+    CONTROL         "&Away",IDC_MESSAGEDLG_DEF_AWAY,"MButtonClass",
+                    WS_TABSTOP,165,197,16,14,0x18000000L
+    CONTROL         "&NA",IDC_MESSAGEDLG_DEF_NA,"MButtonClass",WS_TABSTOP,
+                    181,197,16,14,0x18000000L
+    CONTROL         "Occ&upied",IDC_MESSAGEDLG_DEF_OCC,"MButtonClass",
+                    WS_TABSTOP,197,197,16,14,0x18000000L
+    CONTROL         "&DND",IDC_MESSAGEDLG_DEF_DND,"MButtonClass",WS_TABSTOP,
+                    213,197,16,14,0x18000000L
+    CONTROL         "&Free for chat",IDC_MESSAGEDLG_DEF_FFC,"MButtonClass",
+                    WS_TABSTOP,229,197,16,14,0x18000000L
+    CONTROL         "&Invisible",IDC_MESSAGEDLG_DEF_INV,"MButtonClass",
+                    WS_TABSTOP,245,197,16,14,0x18000000L
+    CONTROL         "On the &Phone",IDC_MESSAGEDLG_DEF_OTP,"MButtonClass",
+                    WS_TABSTOP,261,197,16,14,0x18000000L
+    CONTROL         "Out to &Lunch",IDC_MESSAGEDLG_DEF_OTL,"MButtonClass",
+                    WS_TABSTOP,277,197,16,14,0x18000000L
+    CONTROL         "New message",IDC_MESSAGEDLG_NEWMSG,"MButtonClass",
+                    WS_TABSTOP,138,166,16,14,0x18000000L
+    CONTROL         "New category",IDC_MESSAGEDLG_NEWCAT,"MButtonClass",
+                    WS_TABSTOP,154,166,16,14,0x18000000L
+    CONTROL         "Delete",IDC_MESSAGEDLG_DEL,"MButtonClass",WS_TABSTOP,
+                    170,166,16,14,0x18000000L
+    CONTROL         "V",IDC_MESSAGEDLG_VARS,"MButtonClass",WS_TABSTOP,288,
+                    166,16,14,0x18000000L
+END
+
+IDD_MODERNOPT_MESSAGES DIALOG DISCARDABLE  0, 0, 373, 154
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_MESSAGEDLG_MSGTREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | 
+                    TVS_SHOWSELALWAYS | TVS_TRACKSELECT | WS_BORDER | 
+                    WS_TABSTOP,6,13,126,128
+    LTEXT           "Title:",IDC_TXT_TITLE2,138,14,51,8
+    EDITTEXT        IDC_MESSAGEDLG_MSGTITLE,194,13,172,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MESSAGEDLG_MSGDATA,138,30,228,57,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    GROUPBOX        "Use this message as default for",IDC_TXT_TITLE3,138,111,
+                    228,30,BS_LEFT
+    CONTROL         "On&line",IDC_MESSAGEDLG_DEF_ONL,"MButtonClass",
+                    WS_TABSTOP,144,122,16,14,0x18000000L
+    CONTROL         "&Away",IDC_MESSAGEDLG_DEF_AWAY,"MButtonClass",
+                    WS_TABSTOP,160,122,16,14,0x18000000L
+    CONTROL         "&NA",IDC_MESSAGEDLG_DEF_NA,"MButtonClass",WS_TABSTOP,
+                    176,122,16,14,0x18000000L
+    CONTROL         "Occ&upied",IDC_MESSAGEDLG_DEF_OCC,"MButtonClass",
+                    WS_TABSTOP,192,122,16,14,0x18000000L
+    CONTROL         "&DND",IDC_MESSAGEDLG_DEF_DND,"MButtonClass",WS_TABSTOP,
+                    208,122,16,14,0x18000000L
+    CONTROL         "&Free for chat",IDC_MESSAGEDLG_DEF_FFC,"MButtonClass",
+                    WS_TABSTOP,224,122,16,14,0x18000000L
+    CONTROL         "&Invisible",IDC_MESSAGEDLG_DEF_INV,"MButtonClass",
+                    WS_TABSTOP,240,122,16,14,0x18000000L
+    CONTROL         "On the &Phone",IDC_MESSAGEDLG_DEF_OTP,"MButtonClass",
+                    WS_TABSTOP,256,122,16,14,0x18000000L
+    CONTROL         "Out to &Lunch",IDC_MESSAGEDLG_DEF_OTL,"MButtonClass",
+                    WS_TABSTOP,272,122,16,14,0x18000000L
+    CONTROL         "New message",IDC_MESSAGEDLG_NEWMSG,"MButtonClass",
+                    WS_TABSTOP,138,95,16,14,0x18000000L
+    CONTROL         "New category",IDC_MESSAGEDLG_NEWCAT,"MButtonClass",
+                    WS_TABSTOP,154,95,16,14,0x18000000L
+    CONTROL         "Delete",IDC_MESSAGEDLG_DEL,"MButtonClass",WS_TABSTOP,
+                    170,95,16,14,0x18000000L
+    CONTROL         "V",IDC_MESSAGEDLG_VARS,"MButtonClass",WS_TABSTOP,350,95,
+                    16,14,0x18000000L
+    LTEXT           "Statuses messages:",IDC_TXT_TITLE1,0,2,99,9
+    CONTROL         "Configure autoaway",IDC_LNK_AUTOAWAY,"Hyperlink",
+                    WS_TABSTOP,6,142,126,11
+END
+
+IDD_MOREOPTDIALOG DIALOG DISCARDABLE  0, 0, 311, 235
+STYLE DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg"
+BEGIN
+    RTEXT           "Wait",IDC_STATIC_MOREOPTDLG_WAIT,2,10,36,8
+    EDITTEXT        IDC_MOREOPTDLG_WAITFORMSG,41,8,28,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_MOREOPTDLG_WAITFORMSG_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,57,8,12,12
+    LTEXT           "seconds before closing the status message dialog (-1=don't close)",
+                    IDC_STATIC_MOREOPTDLG_SECONDSREMAIN,74,10,235,8
+    RTEXT           "Store",IDC_STATIC,2,28,36,8
+    EDITTEXT        IDC_MOREOPTDLG_RECENTMSGSCOUNT,41,26,28,12,
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_MOREOPTDLG_RECENTMSGSCOUNT_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,57,26,12,12
+    LTEXT           "most recent messages (0=disable)",IDC_STATIC,74,28,119,
+                    8
+    CONTROL         "Store for each status separately",
+                    IDC_MOREOPTDLG_PERSTATUSMRM,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,41,42,267,10
+    GROUPBOX        "Use default...",IDC_STATIC,6,58,294,30
+    CONTROL         "Use the most recent message",IDC_MOREOPTDLG_USELASTMSG,
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,70,138,10
+    CONTROL         "Use the default message",IDC_MOREOPTDLG_USEDEFMSG,
+                    "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,156,70,138,10
+    CONTROL         "Reset per-protocol messages when changing global status",
+                    IDC_MOREOPTDLG_RESETPROTOMSGS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,95,300,10
+    CONTROL         "Store protocol messages for each status separately",
+                    IDC_MOREOPTDLG_PERSTATUSPROTOMSGS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,107,294,10
+    CONTROL         "Store protocol autoreply settings for each status separately",
+                    IDC_MOREOPTDLG_PERSTATUSPROTOSETTINGS,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,119,294,10
+    CONTROL         "Remember last message used for a contact...",
+                    IDC_MOREOPTDLG_SAVEPERSONALMSGS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,133,297,10
+    CONTROL         "Store for each status separately",
+                    IDC_MOREOPTDLG_PERSTATUSPERSONAL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,15,146,288,10
+    CONTROL         "Store contact autoreply/ignore settings for each status separately",
+                    IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS,"Button",
+                    BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,15,
+                    157,294,16
+    CONTROL         "Enable contact menu items",IDC_MOREOPTDLG_USEMENUITEM,
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | 
+                    WS_TABSTOP,167,203,142,17
+    CONTROL         "Use protocol specific nick for %nas_mynick%",
+                    IDC_MOREOPTDLG_MYNICKPERPROTO,"Button",BS_AUTOCHECKBOX | 
+                    BS_MULTILINE | WS_TABSTOP,6,175,294,8
+    CONTROL         "Update status messages for non-ICQ protocols every",
+                    IDC_MOREOPTDLG_UPDATEMSGS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,187,199,10
+    EDITTEXT        IDC_MOREOPTDLG_UPDATEMSGSPERIOD,207,186,38,12,
+                    ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_MOREOPTDLG_UPDATEMSGSPERIOD_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,230,186,12,12
+    LTEXT           "seconds",IDC_STATIC,249,187,60,8
+    GROUPBOX        "Don't show the message dialog for",IDC_STATIC,6,200,156,
+                    31
+    CONTROL         "On&line",IDC_MOREOPTDLG_DONTPOPDLG_ONL,"MButtonClass",
+                    WS_TABSTOP,12,212,16,14,0x18000000L
+    CONTROL         "&Away",IDC_MOREOPTDLG_DONTPOPDLG_AWAY,"MButtonClass",
+                    WS_TABSTOP,28,212,16,14,0x18000000L
+    CONTROL         "&NA",IDC_MOREOPTDLG_DONTPOPDLG_NA,"MButtonClass",
+                    WS_TABSTOP,44,212,16,14,0x18000000L
+    CONTROL         "Occ&upied",IDC_MOREOPTDLG_DONTPOPDLG_OCC,"MButtonClass",
+                    WS_TABSTOP,60,212,16,14,0x18000000L
+    CONTROL         "&DND",IDC_MOREOPTDLG_DONTPOPDLG_DND,"MButtonClass",
+                    WS_TABSTOP,76,212,16,14,0x18000000L
+    CONTROL         "&Free for chat",IDC_MOREOPTDLG_DONTPOPDLG_FFC,
+                    "MButtonClass",WS_TABSTOP,92,212,16,14,0x18000000L
+    CONTROL         "&Invisible",IDC_MOREOPTDLG_DONTPOPDLG_INV,"MButtonClass",
+                    WS_TABSTOP,108,212,16,14,0x18000000L
+    CONTROL         "On the &Phone",IDC_MOREOPTDLG_DONTPOPDLG_OTP,
+                    "MButtonClass",WS_TABSTOP,124,212,16,14,0x18000000L
+    CONTROL         "Out to &Lunch",IDC_MOREOPTDLG_DONTPOPDLG_OTL,
+                    "MButtonClass",WS_TABSTOP,140,212,16,14,0x18000000L
+END
+
+IDD_READAWAYMSG DIALOGEX 0, 0, 186, 72
+STYLE DS_SETFOREGROUND | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | 
+    WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "%s Message for %s"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_READAWAYMSG_MSG,5,5,177,43,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_READONLY | NOT WS_VISIBLE | 
+                    WS_VSCROLL
+    CTEXT           "Retrieving %s message...",IDC_READAWAYMSG_RETRIEVE,5,21,
+                    177,8,SS_NOPREFIX
+    DEFPUSHBUTTON   "&Cancel",IDOK,69,53,50,14,BS_NOTIFY
+END
+
+IDD_CONTACTSOPTDLG DIALOGEX 0, 0, 311, 221
+STYLE DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_CONTACTSDLG_LIST,"CListControl",WS_TABSTOP | 
+                    0x1f0,6,30,299,160,WS_EX_CLIENTEDGE
+    ICON            141,IDC_STATIC,197,0,20,20,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE | NOT WS_VISIBLE
+    LTEXT           "Notify of requests",IDC_STATIC,217,5,87,8,SS_NOPREFIX | 
+                    SS_CENTERIMAGE | NOT WS_VISIBLE
+    ICON            140,IDC_STATIC,197,12,20,20,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE | NOT WS_VISIBLE
+    LTEXT           "Don't notify of requests",IDC_STATIC,217,18,87,8,
+                    SS_NOPREFIX | SS_CENTERIMAGE | NOT WS_VISIBLE
+    ICON            IDI_SOE_ENABLED,IDC_STATIC,3,190,20,20,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE
+    LTEXT           "Autoreply on",IDC_STATIC,24,196,106,8,SS_NOPREFIX | 
+                    SS_CENTERIMAGE
+    ICON            IDI_SOE_DISABLED,IDC_STATIC,3,204,20,20,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE
+    LTEXT           "Autoreply off",IDC_STATIC,24,210,107,8,SS_NOPREFIX | 
+                    SS_CENTERIMAGE
+    ICON            IDI_IGNORE,IDC_STATIC,132,190,20,20,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE
+    LTEXT           "Don't send status message",IDC_STATIC,151,196,153,8,
+                    SS_NOPREFIX | SS_CENTERIMAGE
+    LTEXT           "Note: these settings are applied to all status modes at once.",
+                    IDC_STATIC,6,1,300,9
+    ICON            IDI_INDEFINITE,IDC_STATIC,6,13,16,16,SS_CENTERIMAGE | 
+                    SS_REALSIZEIMAGE
+    LTEXT           "Means the setting is different for different status modes / contacts",
+                    IDC_STATIC,22,17,281,8,SS_NOPREFIX | SS_CENTERIMAGE
+END
+
+IDD_SETAWAYMSG_BAK DIALOGEX 0, 0, 398, 133
+STYLE DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | 
+    WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_SAWAYMSG_MSGDATA,115,1,172,114,ES_MULTILINE | 
+                    ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    PUSHBUTTON      "OK",IDC_OK,115,117,60,14
+    CONTROL         "&Variables",IDC_SAWAYMSG_VARS,"MButtonClass",WS_TABSTOP,
+                    255,117,16,14,0x18000000L
+    CONTROL         "Se&ttings",IDC_SAWAYMSG_OPTIONS,"MButtonClass",
+                    WS_TABSTOP,271,117,16,14,0x18000000L
+    ICON            IDI_IGNORE,IDC_SAWAYMSG_STATIC_IGNOREICON,379,108,18,16,
+                    SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    ICON            IDI_SOE_ENABLED,IDC_SAWAYMSG_STATIC_REPLYICON,379,116,18,
+                    16,SS_CENTERIMAGE | SS_REALSIZEIMAGE
+    CONTROL         "",IDC_SAWAYMSG_CONTACTSTREE,"SysTreeView32",
+                    TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | 
+                    TVS_TRACKSELECT | WS_BORDER | WS_TABSTOP,289,1,108,114
+    CONTROL         "Ignore requests",IDC_SAWAYMSG_IGNOREREQ,"Button",
+                    BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,307,116,80,8,
+                    WS_EX_RIGHT
+    CONTROL         "Send an autoreply",IDC_SAWAYMSG_SENDMSG,"Button",
+                    BS_AUTO3STATE | BS_LEFTTEXT | WS_TABSTOP,307,124,80,8,
+                    WS_EX_RIGHT
+    CONTROL         "",IDC_SAWAYMSG_TREE,"SysTreeView32",TVS_HASBUTTONS | 
+                    TVS_HASLINES | TVS_LINESATROOT | TVS_EDITLABELS | 
+                    TVS_SHOWSELALWAYS | TVS_TRACKSELECT | WS_BORDER | 
+                    WS_TABSTOP,1,1,112,114
+    CONTROL         "&Delete",IDC_SAWAYMSG_DELETE,"MButtonClass",WS_TABSTOP,
+                    2,117,16,14,0x18000000L
+    CONTROL         "New &Category",IDC_SAWAYMSG_NEWCATEGORY,"MButtonClass",
+                    WS_TABSTOP,18,117,16,14,0x18000000L
+    CONTROL         "Save As &New",IDC_SAWAYMSG_SAVEASNEW,"MButtonClass",
+                    WS_TABSTOP,34,117,16,14,0x18000000L
+    CONTROL         "&Save",IDC_SAWAYMSG_SAVEMSG,"MButtonClass",WS_TABSTOP,
+                    50,117,16,14,0x18000000L
+    CONTROL         "",IDC_SAWAYMSG_MSGSPLITTER,"Static",SS_ENHMETAFILE,113,
+                    0,2,115,WS_EX_STATICEDGE
+    CONTROL         "",IDC_SAWAYMSG_CONTACTSPLITTER,"Static",SS_ENHMETAFILE,
+                    287,0,2,115,WS_EX_STATICEDGE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+    IDD_POPUPOPTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 305
+        VERTGUIDE, 90
+        VERTGUIDE, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 230
+    END
+
+    IDD_AUTOREPLY, DIALOG
+    BEGIN
+        RIGHTMARGIN, 297
+        VERTGUIDE, 6
+        VERTGUIDE, 21
+        VERTGUIDE, 296
+        VERTGUIDE, 306
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 224
+    END
+
+    IDD_SETAWAYMSG, DIALOG
+    BEGIN
+        BOTTOMMARGIN, 124
+    END
+
+    IDD_MESSAGES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        VERTGUIDE, 138
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 164
+    END
+
+    IDD_MODERNOPT_MESSAGES, DIALOG
+    BEGIN
+        RIGHTMARGIN, 366
+        VERTGUIDE, 138
+        HORZGUIDE, 13
+    END
+
+    IDD_MOREOPTDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 229
+    END
+
+    IDD_READAWAYMSG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 178
+        TOPMARGIN, 7
+    END
+
+    IDD_CONTACTSOPTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 304
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 214
+    END
+
+    IDD_SETAWAYMSG_BAK, DIALOG
+    BEGIN
+        VERTGUIDE, 98
+        HORZGUIDE, 111
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MSGICON             ICON    DISCARDABLE     "Images\\MsgIcon.ico"
+IDI_SOE_ENABLED         ICON    DISCARDABLE     "Images\\on.ico"
+IDI_SOE_DISABLED        ICON    DISCARDABLE     "Images\\off.ico"
+IDI_DOT                 ICON    DISCARDABLE     "Images\\Dot.ico"
+IDI_IGNORE              ICON    DISCARDABLE     "Images\\Ignore.ico"
+IDI_SAVE                ICON    DISCARDABLE     "Images\\SaveMsg.ico"
+IDI_SAVEASNEW           ICON    DISCARDABLE     "Images\\SaveAsNew.ico"
+IDI_DELETE              ICON    DISCARDABLE     "Images\\Delete.ico"
+IDI_NEWCATEGORY         ICON    DISCARDABLE     "Images\\NewCat.ico"
+IDI_VARIABLES           ICON    DISCARDABLE     "Images\\Variables.ico"
+IDI_NEWMESSAGE          ICON    DISCARDABLE     "Images\\NewMessage.ico"
+IDI_SETTINGS            ICON    DISCARDABLE     "Images\\Settings.ico"
+IDI_STATUS_OTHER        ICON    DISCARDABLE     "Images\\Status_Other.ico"
+IDI_INDEFINITE          ICON    DISCARDABLE     "Images\\Indefinite.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_SAM_OPTIONS MENU DISCARDABLE 
+BEGIN
+    POPUP "Set away message window options"
+    BEGIN
+        MENUITEM "Show predefined &messages",   IDM_SAM_OPTIONS_SHOWMSGTREE
+        MENUITEM "Show &contacts",              IDM_SAM_OPTIONS_SHOWCONTACTTREE
+
+        MENUITEM SEPARATOR
+        MENUITEM "Save default window settings &automatically", 
+                                                IDM_SAM_OPTIONS_AUTOSAVEDLGSETTINGS
+
+        MENUITEM "&Save current window settings as default", 
+                                                IDM_SAM_OPTIONS_SAVEDLGSETTINGSNOW
+
+        MENUITEM SEPARATOR
+        MENUITEM "Disable parsing of status messages by Variables plugin", 
+                                                IDM_SAM_OPTIONS_DISABLEVARIABLES
+
+    END
+END
+
+IDR_MSGTREE_CATEGORYMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "Message tree menu"
+    BEGIN
+        MENUITEM "Create new &message",         IDM_MSGTREEMENU_NEWMESSAGE
+        MENUITEM "Create new &category",        IDM_MSGTREEMENU_NEWCATEGORY
+        MENUITEM "&Rename",                     IDM_MSGTREEMENU_RENAME
+        MENUITEM "&Delete",                     IDM_MSGTREEMENU_DELETE
+    END
+END
+
+IDR_MSGTREE_MESSAGEMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "Message tree category menu"
+    BEGIN
+        POPUP "Set as &default for"
+        BEGIN
+            MENUITEM "On&line",                     IDR_MSGTREEMENU_DEF_ONL
+            MENUITEM "&Away",                       IDR_MSGTREEMENU_DEF_AWAY
+            MENUITEM "&NA",                         IDR_MSGTREEMENU_DEF_NA
+            MENUITEM "Occ&upied",                   IDR_MSGTREEMENU_DEF_OCC
+            MENUITEM "&DND",                        IDR_MSGTREEMENU_DEF_DND
+            MENUITEM "&Free for chat",              IDR_MSGTREEMENU_DEF_FFC
+            MENUITEM "&Invisible",                  IDR_MSGTREEMENU_DEF_INV
+            MENUITEM "On the &Phone",               IDR_MSGTREEMENU_DEF_OTP
+            MENUITEM "Out to &Lunch",               IDR_MSGTREEMENU_DEF_OTL
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Create new &message",         40022
+        MENUITEM "Create new &category",        40024
+        MENUITEM "&Rename",                     IDM_MSGTREEMENU_RENAME
+        MENUITEM "&Delete",                     40026
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_SOE_ENABLED         BITMAP  MOVEABLE PURE   "Images\\on.bmp"
+IDB_SOE_DISABLED        BITMAP  MOVEABLE PURE   "Images\\off.bmp"
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
