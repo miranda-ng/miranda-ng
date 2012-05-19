@@ -208,6 +208,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZeroNotify", "..\plugins\Ze
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KeyboardNotify", "..\plugins\KeyboardNotify\KeyboardNotify_10.vcxproj", "{A9265E36-7F2D-440C-BF3E-F447FDB6200F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AssocMgr", "..\plugins\AssocMgr\assocmgr.vcxproj", "{B57D997C-73E1-D5F7-ECCA-C204345C04A3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewAwaySys", "..\plugins\NewAwaySysMod\NewAwaySys.vcxproj", "{6A516E27-AC50-5374-756B-A1558DB2EFA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -993,7 +997,6 @@ Global
 		{C619A811-8023-4441-B3D7-785388A09DF0}.Debug|x64.Build.0 = Debug|x64
 		{C619A811-8023-4441-B3D7-785388A09DF0}.Release|Win32.ActiveCfg = Release|Win32
 		{C619A811-8023-4441-B3D7-785388A09DF0}.Release|x64.ActiveCfg = Release|x64
-		{C619A811-8023-4441-B3D7-785388A09DF0}.Release|x64.Build.0 = Release|x64
 		{E37561EB-B9C5-4215-9FF9-DB559916FBA2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E37561EB-B9C5-4215-9FF9-DB559916FBA2}.Debug|Win32.Build.0 = Debug|Win32
 		{E37561EB-B9C5-4215-9FF9-DB559916FBA2}.Debug|x64.ActiveCfg = Debug|x64
@@ -1009,6 +1012,18 @@ Global
 		{A9265E36-7F2D-440C-BF3E-F447FDB6200F}.Release|Win32.ActiveCfg = Release|Win32
 		{A9265E36-7F2D-440C-BF3E-F447FDB6200F}.Release|Win32.Build.0 = Release|Win32
 		{A9265E36-7F2D-440C-BF3E-F447FDB6200F}.Release|x64.ActiveCfg = Release|x64
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|Win32.Build.0 = Debug|Win32
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|x64.ActiveCfg = Debug|Win32
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|Win32.ActiveCfg = Release|Win32
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|Win32.Build.0 = Release|Win32
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|x64.ActiveCfg = Release|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.Build.0 = Debug|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.ActiveCfg = Debug|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.ActiveCfg = Release|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.Build.0 = Release|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

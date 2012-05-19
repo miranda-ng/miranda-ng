@@ -70,51 +70,6 @@
     <ClInclude Include="version.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\m_addcontact.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_clist.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_database.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_icq.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_langpack.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_message.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_options.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_plugins.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_protosvc.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_skin.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_system.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_utils.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\newpluginapi.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\statusmodes.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\win2k.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
