@@ -107,16 +107,19 @@
       <AdditionalLibraryDirectories>zbin/x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
-      <MapExports>true</MapExports>
+      <MapFileName>
+      </MapFileName>
+      <MapExports>
+      </MapExports>
       <BaseAddress>0x22000000</BaseAddress>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -155,6 +158,9 @@
       <TargetMachine>MachineX64</TargetMachine>
       <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -195,9 +201,8 @@
       <AdditionalLibraryDirectories>zbin/x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <MapFileName>
+      </MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <BaseAddress>0x22000000</BaseAddress>
@@ -206,6 +211,9 @@
       <TargetMachine>MachineX86</TargetMachine>
       <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -243,9 +251,8 @@
       <AdditionalLibraryDirectories>zbin/x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>updater.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(IntDir)$(TargetName).pdb</ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>$(IntDir)$(TargetName).map</MapFileName>
+      <MapFileName>
+      </MapFileName>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <BaseAddress>0x22000000</BaseAddress>
@@ -254,6 +261,9 @@
       <TargetMachine>MachineX64</TargetMachine>
       <DelayLoadDLLs>zlib.dll</DelayLoadDLLs>
     </Link>
+    <Bscmake>
+      <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="allocations.cpp" />
