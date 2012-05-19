@@ -1,0 +1,244 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT1 DIALOGEX  0, 0, 286, 222
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LISTBOX         IDC_ALIST,15,20,164,69,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "New",IDC_NEW,18,97,50,14
+    PUSHBUTTON      "Delete",IDC_DEL,126,97,50,14
+    PUSHBUTTON      "Edit",IDC_EDIT,72,97,50,14
+    GROUPBOX        "Alarms",IDC_STATIC,7,7,180,159
+    CONTROL         "Use popup plugin",IDC_CHK_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,61,118,119,10
+    RTEXT           "Default snooze:",IDC_STATIC,9,147,75,8
+    EDITTEXT        IDC_ED_SNOOZE,88,144,40,14,ES_AUTOHSCROLL
+    CONTROL         "Spin1",IDC_SPIN_SNOOZE,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS,129,144,11,14
+    LTEXT           "minutes",IDC_STATIC,144,147,37,8
+    LTEXT           "Row Height:",IDC_STATIC,199,22,73,8
+    EDITTEXT        IDC_ED_ROWHEIGHT,205,32,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_ROWHEIGHT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,245,32,12,14
+    LTEXT           "Indent:",IDC_STATIC,199,53,73,8
+    EDITTEXT        IDC_ED_INDENT,205,63,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_INDENT,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,245,63,12,14
+    GROUPBOX        "Reminder Frame",IDC_STATIC,191,7,88,159
+    CONTROL         "Auto hide/show",IDC_SHOWHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,88,78,10
+    CONTROL         "Loop sound",IDC_CHK_LOOPSOUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,61,130,119,10
+    LTEXT           "Period (hours):",IDC_STATIC,198,131,73,8
+    EDITTEXT        IDC_ED_PERIOD,205,143,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_PERIOD,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,245,143,12,14
+    CONTROL         "Hide/show with clist",IDC_SHOWHIDE2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,101,78,10
+    CONTROL         "Auto size vertically",IDC_AUTOSIZEVERT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,197,114,78,10
+    LTEXT           "Transparency (%):",IDC_STATIC,27,180,73,8
+    EDITTEXT        IDC_ED_TRANS,33,192,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Spin2",IDC_SPIN_TRANS,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,73,192,11,14
+    GROUPBOX        "Alert Window",IDC_STATIC,7,166,272,49
+    CONTROL         "Round corners",IDC_CHK_AWROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,181,109,10
+    CONTROL         "Don't steal focus unless idle",IDC_CHK_AWNOACTIVATE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,101,196,109,10
+    PUSHBUTTON      "Preview",IDC_BTN_PREVIEW,215,185,42,16
+END
+
+IDD_DIALOG2 DIALOGEX 0, 0, 381, 234
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "Alarm"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,138,213,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,194,213,50,14
+    EDITTEXT        IDC_TITLE,8,13,151,14,ES_AUTOHSCROLL
+    LTEXT           "Title:",IDC_STATIC,8,3,104,8
+    EDITTEXT        IDC_DESC,7,40,152,57,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN
+    LTEXT           "Description:",IDC_STATIC,8,30,96,8
+    GROUPBOX        "Actions",IDC_STATIC,7,100,367,88
+    CONTROL         "Popup window",IDC_CHK_APOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,110,119,10
+    CONTROL         "Sound:",IDC_CHK_ASOUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,120,84,10
+    CONTROL         "Run command:",IDC_CHK_ACOMMAND,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,16,131,119,10
+    LTEXT           "Parameters:",IDC_STATIC,16,159,119,8
+    EDITTEXT        IDC_ED_COMMAND,16,143,351,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ED_PARAMS,16,169,351,14,ES_AUTOHSCROLL
+    CONTROL         "Alert 1",IDC_RAD_SND1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,105,120,61,10
+    CONTROL         "Alert 2",IDC_RAD_SND2,"Button",BS_AUTORADIOBUTTON,171,120,61,10
+    CONTROL         "Alert 3",IDC_RAD_SND3,"Button",BS_AUTORADIOBUTTON,237,120,61,10
+    CONTROL         "Speak",IDC_RAD_SPK,"Button",BS_AUTORADIOBUTTON,303,120,61,10
+    CONTROL         "DateTimePicker1",IDC_TIME,"SysDateTimePick32",DTS_RIGHTALIGN | DTS_UPDOWN | WS_TABSTOP | 0x8,174,19,55,13
+    GROUPBOX        "Occurrence",IDC_STATIC,305,9,69,88
+    CONTROL         "Once",IDC_RAD_ONCE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,311,19,58,10
+    CONTROL         "Weekly",IDC_RAD_WEEKLY,"Button",BS_AUTORADIOBUTTON,311,45,58,10
+    CONTROL         "Daily",IDC_RAD_DAILY,"Button",BS_AUTORADIOBUTTON,311,32,58,10
+    CONTROL         "Weekdays",IDC_RAD_WEEKDAYS,"Button",BS_AUTORADIOBUTTON,311,58,58,10
+    CONTROL         "Monthly",IDC_RAD_MONTHLY,"Button",BS_AUTORADIOBUTTON,311,71,58,10
+    CONTROL         "Yearly",IDC_RAD_YEARLY,"Button",BS_AUTORADIOBUTTON,311,84,58,10
+    COMBOBOX        IDC_DAY,231,36,64,61,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "i'm hiding",IDC_CHK_INVIS,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,113,28,45,10
+    COMBOBOX        IDC_DAYNUM,174,36,48,61,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Date and Time",IDC_STATIC,167,9,134,88
+    EDITTEXT        IDC_RELMIN,238,19,57,13,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Disable next occurence",IDC_CHK_SUSPEND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,192,128,10
+    CONTROL         "Don't trigger on startup",IDC_CHK_NOSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,147,192,110,10
+    CONTROL         "No reminder",IDC_CHK_NOREMINDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,263,192,110,10
+    CONTROL         "",IDC_DATE,"SysDateTimePick32",DTS_RIGHTALIGN | WS_TABSTOP,185,65,100,15
+END
+
+IDD_ALARM DIALOGEX 0, 0, 185, 82
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_3DLOOK | WS_POPUP
+EXSTYLE WS_EX_TOOLWINDOW
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "Dismiss",IDC_DISMISS,116,64,63,14
+    DEFPUSHBUTTON   "Snooze",IDC_SNOOZE,4,58,88,21
+    LTEXT           "Static",IDC_ED_DESC,6,22,173,31,SS_NOPREFIX | NOT WS_GROUP
+    LTEXT           "Static",IDC_TITLE,6,4,173,13
+    DEFPUSHBUTTON   "...",IDC_SNOOZELIST,92,58,20,21
+END
+
+IDD_OPTTRIGGER DIALOGEX 0, 0, 263, 184
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LISTBOX         IDC_LST_TRIGLIST,28,26,207,127,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Alarms",IDC_STATIC,7,7,249,170
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_OPT1, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 279
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 215
+    END
+
+    IDD_DIALOG2, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 374
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 227
+    END
+
+    IDD_ALARM, DIALOG
+    BEGIN
+        RIGHTMARGIN, 182
+        BOTTOMMARGIN, 81
+    END
+
+    IDD_OPTTRIGGER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 256
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 177
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MAINMENU            ICON                    "clock.ico"
+IDI_LIST1               ICON                    "green.ico"
+IDI_LIST2               ICON                    "yellow.ico"
+IDI_TBUP                ICON                    "iconttbup.ico"
+IDI_TBDN                ICON                    "iconttbdown.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU1 MENU 
+BEGIN
+    POPUP "Reminder Frame Context"
+    BEGIN
+        MENUITEM "&Suspend",                    ID_REMINDERFRAMECONTEXT_SUSPEND
+        MENUITEM "&Edit...",                    ID_REMINDERFRAMECONTEXT_EDIT
+        MENUITEM SEPARATOR
+        MENUITEM "&Delete",                     ID_REMINDERFRAMECONTEXT_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "&Options...",                 ID_REMINDERFRAMECONTEXT_OPTIONS
+        MENUITEM "&New Alarm...",               ID_REMINDERFRAMECONTEXT_NEWALARM
+    END
+END
+
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

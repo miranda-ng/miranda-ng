@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "alarms", "alarms_10.vcxproj", "{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}"
+EndProject
+Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|Win32.Build.0 = Debug|Win32
+		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|Win32.ActiveCfg = Release|Win32
+		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
