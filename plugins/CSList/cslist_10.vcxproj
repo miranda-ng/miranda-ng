@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Cslist</ProjectName>
+    <ProjectName>CSList</ProjectName>
     <ProjectGuid>{2AD2FF74-06E1-4BD8-984A-526F3C6315B3}</ProjectGuid>
     <RootNamespace>cslist</RootNamespace>
   </PropertyGroup>

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>Proto_Yamn</ProjectName>
+    <ProjectName>Proto_YAMN</ProjectName>
     <ProjectGuid>{C1CDB82C-6BBF-496E-88F4-CC57E60B0CA9}</ProjectGuid>
     <RootNamespace>Proto_Yamn</RootNamespace>
   </PropertyGroup>
