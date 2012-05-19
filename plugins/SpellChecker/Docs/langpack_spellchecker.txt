@@ -1,0 +1,74 @@
+; Spell Checker
+; Author: Pescuma
+
+; Options
+
+[Message Sessions]
+[Spell Checker]
+[Auto-replacements]
+
+[Dictionaries]
+[Custom Dictionaries]
+[Flags DLL]
+
+[Enabled]
+[Disabled]
+
+[Spell Checker]
+[Default language:]
+[Auto-replace words with dictionary suggestions]
+[Ignore words with numbers]
+[Ignore words in UPPER CASE]
+[Download more dictionaries]
+
+[Advanced]
+[Underline type:]
+[Line]
+[Dotted]
+[Dash]
+[Dash dot]
+[Dash dot dot]
+[Wave]
+[Thick]
+[Show corrections in submenu]
+[Show all corrections in context menu (takes more time to show)]
+[Show wrong word]
+[Use flags]
+[Use input language to select dictionary]
+
+[Replacements]
+[Enable auto-replacements]
+[Language:]
+[Wrong word]
+[Correction]
+
+
+; Menu
+
+[Language]
+[Enable spell checking]
+[Always replace with]
+[Ignore all]
+[Add to dictionary]
+[Wrong word: %s]
+[Other...]
+
+
+; Add auto-replace word
+
+[Add auto-replace word]
+[Wrong word:]
+[Correction:]
+[No separators and all lowercase chars]
+[Use variables in correction]
+[The wrong word can't be empty!]
+[The correction can't be empty!]
+[The correction can't be equal to the wrong word!]
+[Wrong Correction]
+[The wrong word typed by the user]
+
+
+; Message Box
+
+[Something is wrong with the message window.\n\nThis usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker).\n   In this case, please install tabSRMM or Scriver.]
+[There are spelling errors. Are you sure you want to send this message?]

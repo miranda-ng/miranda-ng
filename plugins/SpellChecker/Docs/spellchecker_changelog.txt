@@ -1,0 +1,235 @@
+Spell Checker
+
+Changelog:
+
+. 0.2.6.0
+  + improved support for UserInfoEx Plugin
+  + added Updater support for Addons Page (pluginInfo.shortName didnt match Addons name due to separate Unicode/ANSI version)
+    You will have to enable beta Versions in Updater again if you want beta versions
+  + added error count to confirmation message
+  + added support for Miranda IM path API
+    the new default path for custom dictionaries is now %miranda_userdata%\Dictionaries
+    This change allows per-profile-dictionaries
+    IMPORTANT: You may have to move your custom dictionaries, as these are not moved automatically!!
+    IMPORTANT: You also need at least Folders plugin 0.1.5.1 or newer!!
+  * Updated some header files
+  ! Fixed a bug with translated hotkeys (Fixes issue 115)
+  - removed PLUGININFO support, since it is obsolete
+  * internal Unicode transition
+  * increased options dialog size a bit for translators
+  * Fixed lookup of Language in UserInfo module of metacontacts
+  * updated Hunspell library to version 1.3.1
+
+. 0.2.5.0
+  * Removed space in frame names in options
+  * Added notification if using SRMM (closes issue #92)
+  * Fix for autoreplacement of URL like texts (closes issue #127)
+  * Better speed (but it is not "underscore-friendly" by default anymore)
+  + Added hotkey to disable spell checker in dialog window (closes issue #132)
+  * Fix icons in Vista
+
+. 0.2.4.0
+  + Applied "patch" from miranda-avd with x64 code (but no build using it yet)
+  * Use default input language instead of keyboard layout to get language name (fixes issue #124)
+  * Ctr-Z is now working again (fixes issue #125)
+
+. 0.2.3.0
+  + Option to don't send message with error
+  * Better getting language name for non-english windows
+
+. 0.2.2.0
+  + Allow replacements that only change case
+  + Ignore words with numbers
+  * Fix for last char in a wrapped word
+  * Enable replacements is now on replacement dialog
+
+. 0.2.1.0
+  * Fixes for translation
+  * Better performance for backspace and delete
+  * Keep without redrawing when replacing text
+  * Fix for some cyrilic letters
+
+. 0.2.0.0
+  + Allow editing of auto-replacements
+  + Allow variables in auto-replacements
+  + Better handling of URLs
+  * Fix for a lot of replacements at same line
+  PS: The auto-replacement files (*.ar) are now stored as UTF-8, so you may need to fix some old replacements
+
+. 0.1.2.0
+  + Play nicer with underlines in IRC (it's not perfect)
+  * Creates custom dicts folder if don't exist
+  * Fix for tabSRMM timeout ballon
+
+. 0.1.1.0
+  + Remove underline on send to avoid sending it to the contact (Fixes issue 101)
+  + Use language set with UInfoEx
+  * Force one last check before send to replace errors (Fixes issue 67)
+
+. 0.1.0.5
+  * Fix for ICQ contacts with languages
+
+. 0.1.0.4
+  * Fix for codepage
+
+. 0.1.0.3
+  + Updated to Hunspell 1.2.8
+  * Fix for wordchar in utf8 (fixes French dict)
+
+. 0.1.0.2
+  + Updated to Hunspell 1.2.2b (closes issue 16)
+  + Use also TRY as word chars (closes issue 13)
+
+. 0.1.0.1
+  + Will use also language files avaiable for other apps (Thunderbird and Firefox by now) (thanks yb)
+  * Fix for showing popup menu in group chat
+  + Now it can patch languages that are only equal in prefix (thanks yb)
+
+. 0.1.0.0
+  + First release in FL
+
+. 0.0.4.0
+  * Updated to Hunspell 1.2.1
+  * Changes for compatibility with meSpeak
+
+. 0.0.3.2
+  * Renamed to Use input language to select dictionary
+
+. 0.0.3.1
+  + Option to use keyboard locale to select dictionary (disabled by default)
+
+. 0.0.3.0
+  + Show dict flag on *srmm status bar
+
+. 0.0.2.9
+  * Fix for big dict names
+  + Put back folders support for flags.dll
+  + Added de_frami_neu to list of known dict names
+
+. 0.0.2.8
+  * Fix for wordchars (you can revert the WORDCHARS to old values)
+  + Option to name the dict changing the db
+
+. 0.0.2.7
+  * Fix to allow editing .ar by hand
+  * Fix for crash in options
+  - Changed how icons are read - now only throught IcoLib or Icons\flags.dll
+  + Option to only replace user-defined words
+  + New dialog to add a word to always auto-replace
+  + Updated to latest version of Hunspell (side-effect: WORDCHARS now have to have all chars)
+
+. 0.0.2.6
+  * Try to fix freeze when making an suggestion
+
+. 0.0.2.5
+  + Updated Hunspell to version 1.1.5
+  * Fix to avoid sending typing notification when correcting words
+  * Fix to store custom dics as encoded strings
+
+. 0.0.2.4
+  + Added support for Miranda 0.8
+  * Fixed big bad bug in text reading from richedit
+
+. 0.0.2.3
+  * Fix for resource leak (thanks borkra)
+
+. 0.0.2.2
+  * Better handling of icons (thanks borkra)
+  * Don't crash anymore if default SRMM is installed (thanks borkra)
+
+. 0.0.2.1
+  + Better handling of URLs
+
+. 0.0.2.0
+  + Now ignores URLs and email addresses
+  + Added option to ignore words in UPPER CASE
+  + Added custom folder for flags.dll
+  * Use number as part of words too
+  * Changed text of show all corrections
+  * Fix for interation with srmm icon API
+
+. 0.0.1.9
+  * New icons for status bar (thanks Angeli-Ka)
+  * Changed links to new site
+  + Option to show wrong word
+  + Load flags from flags.dll (thanks Faith Healer)
+
+. 0.0.1.8
+  * Fix for crash
+
+. 0.0.1.7
+  * Better handling of poppup menus
+
+. 0.0.1.6
+  + Option to use flags
+  + Unknown flag
+  + Flags in other menus too
+  * Fix in typo in ShowAllCorrections setting. Sorry but the value of this setting will need to be reset
+
+. 0.0.1.5
+  * Fix for checking while selecting
+  * Fix for CTRL-Z
+  * Fix for add words to dict
+  + Added icon to status bar (needs improviment)
+  + Start adding flags (thanks to famfamfam.com for the icons)
+
+. 0.0.1.4
+  + Option to show all wrong words in menu
+  * Fix for check while selecting
+  + Added one more codepage to list of known ones
+
+. 0.0.1.3
+  * Fix for disable in context menu
+  * Fix to not change fnt settings in tabSRMM (only underline is changed - can't do anything about it)
+  * Fix to ignore char when holding CTRL
+
+. 0.0.1.2
+  * Fix in options
+  + Added hwndOwner param into SPELLCHECKER_POPUPMENU struct
+
+. 0.0.1.1
+  + Don't check if field is read-only
+  * Fix for services
+
+. 0.0.1.0
+  + Auto replace
+
+. 0.0.0.9
+  * Fix for auto-replace
+  + Parse max 3 lines when typing (to speed a little)
+
+. 0.0.0.8
+  * Fix for strange things
+
+. 0.0.0.7
+  + Unicode version (should fix encoding problems)
+  + Better way to handle typing
+  + Underline type
+  + langpack txt
+  * Fixes
+
+. 0.0.0.6
+  + Try to guess contact dict language from spoken language in contact setting
+  * fix for srmm bkg color
+
+. 0.0.0.5
+  + Per contact dictionaries
+  + Option to get dict from tabSRMM keyboard locale
+
+. 0.0.0.4
+  + More changes in srmm interface
+  + Better marking of words
+  * Changed tabSRMM to new interface and made it handle WM_CONTEXTMENU
+
+. 0.0.0.3
+  + Added generic interface for SRMMs
+  * Changed srmm patch to this interface
+  + Created scriver patch using this interface
+
+. 0.0.0.2
+  + Added support for SRMM
+  * Changes in options dialog (thanks sefo and Chudilo)
+  - Removed auto support for SRMMs (it didn't worked)
+
+. 0.0.0.1
+  + Initial version
