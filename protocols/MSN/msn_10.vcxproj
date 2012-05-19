@@ -328,11 +328,6 @@
     <ClInclude Include="msn_global.h" />
     <ClInclude Include="msn_proto.h" />
     <ClInclude Include="version.h" />
-    <ClInclude Include="SDK\m_assocmgr.h" />
-    <ClInclude Include="SDK\m_folders.h" />
-    <ClInclude Include="SDK\m_metacontacts.h" />
-    <ClInclude Include="SDK\m_proto_listeningto.h" />
-    <ClInclude Include="SDK\m_smileyadd.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

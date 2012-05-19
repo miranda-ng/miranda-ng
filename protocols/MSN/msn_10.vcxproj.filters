@@ -12,9 +12,6 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{a696658a-8e44-4b58-b62e-1afe9b41c748}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\SDK">
-      <UniqueIdentifier>{8f8ce750-232a-4941-9ee8-d1c78fb7cc6b}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="des.c">
@@ -187,21 +184,6 @@
     </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_assocmgr.h">
-      <Filter>Header Files\SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_folders.h">
-      <Filter>Header Files\SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_metacontacts.h">
-      <Filter>Header Files\SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_proto_listeningto.h">
-      <Filter>Header Files\SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_smileyadd.h">
-      <Filter>Header Files\SDK</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

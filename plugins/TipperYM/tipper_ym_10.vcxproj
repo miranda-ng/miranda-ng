@@ -270,7 +270,6 @@
   <ItemGroup>
     <ClInclude Include="bitmap_func.h" />
     <ClInclude Include="common.h" />
-    <ClInclude Include="docs\m_tipper.h" />
     <ClInclude Include="message_pump.h" />
     <ClInclude Include="mir_smileys.h" />
     <ClInclude Include="options.h" />

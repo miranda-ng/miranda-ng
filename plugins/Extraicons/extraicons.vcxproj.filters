@@ -39,9 +39,6 @@
     <ClInclude Include="IcolibExtraIcon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_extraicons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_icons.h">
       <Filter>Header Files</Filter>
     </ClInclude>

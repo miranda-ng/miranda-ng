@@ -248,7 +248,6 @@
   <ItemGroup>
     <ClInclude Include="advancedautoaway.h" />
     <ClInclude Include="..\commonstatus.h" />
-    <ClInclude Include="..\m_statusplugins.h" />
     <ClInclude Include="..\resource.h" />
     <ClInclude Include="trigger_aaa.h" />
   </ItemGroup>

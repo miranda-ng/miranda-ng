@@ -313,7 +313,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers.h" />
-    <ClInclude Include="m_nudge.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="nudge.h" />
     <ClInclude Include="options.h" />

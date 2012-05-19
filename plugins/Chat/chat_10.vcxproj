@@ -312,7 +312,6 @@
   <ItemGroup>
     <ClInclude Include="chat.h" />
     <ClInclude Include="richutil.h" />
-    <ClInclude Include="m_smileyadd.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -319,11 +319,6 @@
     <ClInclude Include="download.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="imagecache.h" />
-    <ClInclude Include="m_folders.h" />
-    <ClInclude Include="m_metacontacts.h" />
-    <ClInclude Include="m_smileyadd.h" />
-    <ClInclude Include="m_smileyadd_deprecated.h" />
-    <ClInclude Include="m_updater.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="services.h" />

@@ -485,21 +485,6 @@
     <ClInclude Include="include\typingnotify.h" />
     <ClInclude Include="include\utils.h" />
     <ClInclude Include="include\version.h" />
-    <ClInclude Include="API\m_buttonbar.h" />
-    <ClInclude Include="API\m_cln_skinedit.h" />
-    <ClInclude Include="API\m_fingerprint.h" />
-    <ClInclude Include="API\m_flash.h" />
-    <ClInclude Include="API\m_folders.h" />
-    <ClInclude Include="API\m_historyevents.h" />
-    <ClInclude Include="API\m_ieview.h" />
-    <ClInclude Include="API\m_mathmodule.h" />
-    <ClInclude Include="API\m_metacontacts.h" />
-    <ClInclude Include="API\m_msg_buttonsbar.h" />
-    <ClInclude Include="API\m_nudge.h" />
-    <ClInclude Include="API\m_popup2.h" />
-    <ClInclude Include="API\m_smileyadd.h" />
-    <ClInclude Include="API\m_spellchecker.h" />
-    <ClInclude Include="API\m_updater.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="chat\chat.rc" />

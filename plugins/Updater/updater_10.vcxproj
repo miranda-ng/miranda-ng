@@ -300,7 +300,6 @@
     <ClInclude Include="conf_dialog.h" />
     <ClInclude Include="extern.h" />
     <ClInclude Include="icons.h" />
-    <ClInclude Include="m_updater.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="popups.h" />
     <ClInclude Include="progress_dialog.h" />

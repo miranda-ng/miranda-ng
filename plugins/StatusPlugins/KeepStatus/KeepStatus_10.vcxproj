@@ -245,7 +245,6 @@
   <ItemGroup>
     <ClInclude Include="..\commonstatus.h" />
     <ClInclude Include="keepstatus.h" />
-    <ClInclude Include="..\m_statusplugins.h" />
     <ClInclude Include="..\resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -266,10 +266,6 @@
     <ClInclude Include="INCLUDE\commonheaders.h" />
     <ClInclude Include="include\config.h" />
     <ClInclude Include="INCLUDE\extBackg.h" />
-    <ClInclude Include="INCLUDE\m_cln_skinedit.h" />
-    <ClInclude Include="INCLUDE\m_metacontacts.h" />
-    <ClInclude Include="INCLUDE\m_updater.h" />
-    <ClInclude Include="INCLUDE\m_variables.h" />
     <ClInclude Include="INCLUDE\resource.h" />
     <ClInclude Include="INCLUDE\rowheight_funcs.h" />
   </ItemGroup>

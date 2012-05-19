@@ -285,12 +285,6 @@
     <ClInclude Include="acc.h" />
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="image_utils.h" />
-    <ClInclude Include="m_avatarhistory.h" />
-    <ClInclude Include="m_flash.h" />
-    <ClInclude Include="m_folders.h" />
-    <ClInclude Include="m_metacontacts.h" />
-    <ClInclude Include="m_png.h" />
-    <ClInclude Include="m_updater.h" />
     <ClInclude Include="mir_thread.h" />
     <ClInclude Include="poll.h" />
     <ClInclude Include="version.h" />

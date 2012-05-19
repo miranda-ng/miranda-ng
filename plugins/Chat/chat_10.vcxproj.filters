@@ -9,9 +9,6 @@
       <UniqueIdentifier>{b87dc5b7-8e8e-49a1-8291-b27797a443b7}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="Header Files\Other">
-      <UniqueIdentifier>{6428b706-fb32-4704-bb58-7accb6169106}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{ac500f7b-22cc-423c-a5e9-35da455c5e6a}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
@@ -63,11 +60,8 @@
     <ClInclude Include="richutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_smileyadd.h">
-      <Filter>Header Files\Other</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files\Other</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

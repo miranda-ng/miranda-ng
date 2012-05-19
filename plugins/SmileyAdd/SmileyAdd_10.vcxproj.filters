@@ -86,21 +86,6 @@
     <ClInclude Include="imagecache.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_folders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_metacontacts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_smileyadd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_smileyadd_deprecated.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_updater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="options.h">
       <Filter>Header Files</Filter>
     </ClInclude>

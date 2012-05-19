@@ -97,6 +97,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeaderFile>weather.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -132,6 +133,7 @@
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PrecompiledHeaderFile>weather.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -161,6 +163,7 @@
       <PrecompiledHeaderFile>weather.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(IntDir)weather.res</ResourceOutputFileName>
@@ -187,6 +190,7 @@
       <PrecompiledHeaderFile>weather.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <ResourceCompile>
       <ResourceOutputFileName>$(IntDir)weather.res</ResourceOutputFileName>
@@ -202,7 +206,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="weather.cpp" />
+    <ClCompile Include="weather.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="weather_addstn.cpp" />
     <ClCompile Include="weather_contacts.cpp" />
     <ClCompile Include="weather_conv.cpp" />
@@ -219,7 +228,6 @@
     <ClCompile Include="weather_userinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="m_weather.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="weather.h" />

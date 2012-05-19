@@ -166,11 +166,6 @@
     <ClInclude Include="IEView.h" />
     <ClInclude Include="ieview_common.h" />
     <ClInclude Include="ieview_services.h" />
-    <ClInclude Include="m_avatars.h" />
-    <ClInclude Include="m_ieview.h" />
-    <ClInclude Include="m_MathModule.h" />
-    <ClInclude Include="m_metacontacts.h" />
-    <ClInclude Include="m_smileyadd.h" />
     <ClInclude Include="MUCCHTMLBuilder.h" />
     <ClInclude Include="Options.h" />
     <ClInclude Include="resource.h" />

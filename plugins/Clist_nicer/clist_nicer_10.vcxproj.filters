@@ -164,18 +164,6 @@
     <ClInclude Include="INCLUDE\extBackg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="INCLUDE\m_cln_skinedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="INCLUDE\m_metacontacts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="INCLUDE\m_updater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="INCLUDE\m_variables.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="INCLUDE\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -90,11 +90,6 @@
     <ClInclude Include="Utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_avatars.h" />
-    <ClInclude Include="m_ieview.h" />
-    <ClInclude Include="m_MathModule.h" />
-    <ClInclude Include="m_metacontacts.h" />
-    <ClInclude Include="m_smileyadd.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ieview.rc">

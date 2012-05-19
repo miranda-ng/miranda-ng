@@ -44,24 +44,6 @@
     <ClInclude Include="image_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_avatarhistory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_flash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_folders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_metacontacts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_png.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_updater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="mir_thread.h">
       <Filter>Header Files</Filter>
     </ClInclude>

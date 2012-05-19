@@ -387,7 +387,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="contact.h" />
-    <ClInclude Include="m_variables.h" />
     <ClInclude Include="variables.h" />
     <ClInclude Include="enumprocs.h" />
     <ClInclude Include="parse_alias.h" />

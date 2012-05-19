@@ -105,9 +105,6 @@
     <ClInclude Include="contact.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_variables.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="variables.h">
       <Filter>Header Files</Filter>
     </ClInclude>

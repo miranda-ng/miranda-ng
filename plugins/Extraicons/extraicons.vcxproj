@@ -259,7 +259,6 @@
     <ClInclude Include="ExtraIcon.h" />
     <ClInclude Include="ExtraIconGroup.h" />
     <ClInclude Include="IcolibExtraIcon.h" />
-    <ClInclude Include="m_extraicons.h" />
     <ClInclude Include="..\utils\mir_icons.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
