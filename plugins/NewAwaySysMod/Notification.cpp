@@ -283,7 +283,7 @@ void ShowLog(TCString &LogFilePath)
 	if (Result <= 32) // Error
 	{
 		TCHAR szError[64];
-		_stprintf(szError, TranslateT("Error #%d"), Result);
+		mir_sntprintf(szError, SIZEOF(szError), TranslateT("Error #%d"), Result);
 		ShowMsg(szError, TranslateT("Can't open log file ") + LogFilePath, true);
 	}
 }

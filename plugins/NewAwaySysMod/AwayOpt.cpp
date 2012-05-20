@@ -756,7 +756,7 @@ void EnableAutoreplyOptDlgControls()
 	int I;
 	g_AutoreplyOptPage.PageToMem();
 	int Autoreply = g_AutoreplyOptPage.GetValue(IDC_REPLYDLG_ENABLEREPLY);
-	int OnlyIdleReply = g_AutoreplyOptPage.GetValue(IDC_REPLYDLG_ONLYIDLEREPLY);
+	
 	for (I = 0; I < g_AutoreplyOptPage.Items.GetSize(); I++)
 	{
 		switch (g_AutoreplyOptPage.Items[I]->GetParam())

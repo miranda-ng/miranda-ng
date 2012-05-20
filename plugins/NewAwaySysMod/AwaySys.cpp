@@ -480,13 +480,13 @@ int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 		}
 		if ((Flag1 & PF1_MODEMSGSEND && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iMode)) || ((Flag1 & PF1_IM) == PF1_IM && (I < 0 || !g_AutoreplyOptPage.GetDBValueCopy(StatusModeList[I].DisableReplyCtlID))))
 		{ // the protocol supports status message sending for current status, or autoreplying
-			_stprintf(szSetStr, TranslateT("Set %s message for the contact"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GSMDF_TCHAR), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
+			mir_sntprintf(szSetStr, SIZEOF(szSetStr), TranslateT("Set %s message for the contact"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iMode, GSMDF_TCHAR), CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR));
 			miSetMsg.ptszName = szSetStr;
 			miSetMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME;
 		}
 		if (Flag1 & PF1_MODEMSGRECV && CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(iContactMode))
 		{ // the protocol supports status message reading for contact's status
-			_stprintf(szReadStr, TranslateT("Re&ad %s Message"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iContactMode, GSMDF_TCHAR));
+			mir_sntprintf(szReadStr, SIZEOF(szReadStr), TranslateT("Re&ad %s Message"), CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iContactMode, GSMDF_TCHAR));
 			miReadMsg.ptszName = szReadStr;
 			miReadMsg.flags = CMIM_FLAGS | CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 			miReadMsg.hIcon = LoadSkinnedProtoIcon(szProto, iContactMode);
@@ -693,7 +693,7 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
 			{
-				_stprintf(Title, TranslateT("Enable autoreply when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GSMDF_TCHAR));
+				mir_sntprintf(Title, SIZEOF(Title), TranslateT("Enable autoreply when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GSMDF_TCHAR));
 				csc.ptszTitle = Title;
 				csc.ptszTooltip = TranslateT("\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.");
 			} else
@@ -707,7 +707,7 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 
 			if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_PERSTATUSPERSONALSETTINGS))
 			{
-				_stprintf(Title, TranslateT("Don't send status message when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GSMDF_TCHAR));
+				mir_sntprintf(Title, SIZEOF(Title), TranslateT("Don't send status message when you are %s"), (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusMode, GSMDF_TCHAR));
 				csc.ptszTitle = Title;
 				csc.ptszTooltip = TranslateT("Ignore status message requests from this contact and don't send an autoreply.\r\n\"Store contact autoreply/ignore settings for each status separately\" is enabled, so this setting is per-contact AND per-status.");
 			} else
@@ -756,11 +756,11 @@ int srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		}
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_REQUESTCOUNT)))
 	{
-		_stprintf(Result.GetBuffer(16), _T("%d"), DBGetContactSettingWord(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
+		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), DBGetContactSettingWord(ai->fi->hContact, MOD_NAME, DB_REQUESTCOUNT, 0));
 		Result.ReleaseBuffer();
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_MESSAGENUM)))
 	{
-		_stprintf(Result.GetBuffer(16), _T("%d"), DBGetContactSettingWord(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
+		mir_sntprintf(Result.GetBuffer(16), 16, _T("%d"), DBGetContactSettingWord(ai->fi->hContact, MOD_NAME, DB_MESSAGECOUNT, 0));
 		Result.ReleaseBuffer();
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_TIMEPASSED)))
 	{
@@ -774,13 +774,13 @@ int srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 		Result.GetBuffer(256);
 		if (ul_Now.LowPart >= 7200) // more than 2 hours
 		{
-			_stprintf(Result, TranslateT("%d hours"), ul_Now.LowPart / 3600);
+			mir_sntprintf(Result, 256, TranslateT("%d hours"), ul_Now.LowPart / 3600);
 		} else if (ul_Now.LowPart >= 120) // more than 2 minutes
 		{
-			_stprintf(Result, TranslateT("%d minutes"), ul_Now.LowPart / 60);
+			mir_sntprintf(Result, 256, TranslateT("%d minutes"), ul_Now.LowPart / 60);
 		} else
 		{
-			_stprintf(Result, TranslateT("%d seconds"), ul_Now.LowPart);
+			mir_sntprintf(Result, 256, TranslateT("%d seconds"), ul_Now.LowPart);
 		}
 		Result.ReleaseBuffer();
 	} else if (!lstrcmp(ai->targv[0], _T(VAR_PREDEFINEDMESSAGE)))
