@@ -95,10 +95,10 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">uinfoex_icons</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">uinfoex_icons</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">uinfoex_icons</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">uinfoex_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UinfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UinfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UinfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UinfoEx_icons</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

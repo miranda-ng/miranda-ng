@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>clist_nicer</ProjectName>
+    <ProjectName>Clist_nicer</ProjectName>
     <ProjectGuid>{3C42510C-A29E-4A53-899C-203BFA874E0B}</ProjectGuid>
     <RootNamespace>clist_nicer</RootNamespace>
   </PropertyGroup>

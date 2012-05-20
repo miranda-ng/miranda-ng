@@ -88,10 +88,10 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">dbx_mmap</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">dbx_mmap</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">dbx_mmap</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">dbx_mmap</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Dbx_mmap</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Dbx_mmap</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Dbx_mmap</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Dbx_mmap</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
