@@ -78,6 +78,10 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ResourceCompile />
@@ -87,8 +91,12 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <Bscmake />
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ResourceCompile />
@@ -98,8 +106,12 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <Bscmake />
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ResourceCompile />
@@ -109,8 +121,12 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <Bscmake />
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ResourceCompile />
@@ -120,8 +136,12 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
+      <SubSystem>Windows</SubSystem>
     </Link>
     <Bscmake />
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\icons_Packs.rc" />
