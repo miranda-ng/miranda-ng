@@ -28,19 +28,19 @@ static HANDLE hHooks[5] = {0};
 static HANDLE hService;
 static HINSTANCE hBass = NULL;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInst=hinstDLL;
 	return TRUE;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_BASSINT, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
@@ -481,7 +481,7 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP(&pluginInfo);
@@ -498,7 +498,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	int i;
 	for (i = 0; i < SIZEOF(hHooks); i++)
