@@ -1,0 +1,270 @@
+Simple Status Message plugin for Miranda IM Changelog
+-----------------------------------------------------
+
++ : new feature
+* : changed
+! : bugfix						
+
+
+============================
+v 1.9.0.4 (2011/11/22):
+============================
++ Added support for custom langpacks
++ Added option to do not update variables during idle
++ Added option to do not update variables on ICQ status message requests
++ Added option to disable status messages parsing by Variables plugin
++ Added option to exclude %date% token from parsing by Variables plugin (built-in parser will be used instead)
+* Moved variables-related options to a new Variables tab
+* Minor Status Message dialog and Options dialog improvements
+* The default behavior for every account is now to not change status message on status change
+* URL recognition improved a bit
+! Fixed %time% variable for idle types independent of idle time
+! Fixed memory leaks
+
+============================
+v 1.9.0.3 (2010/11/14):
+============================
+* Restored periodic status message updating on ICQ protocol
+* Simplified the status message dialog title
+! Fixed showing and copying multiline status messages without carriage return (CR) characters
+! Fixed showing status menu item when there is only one account enabled
+! Fixed updating variables on idle
+! Fixed memory leak
+
+============================
+v 1.9.0.2 (2010/10/10):
+============================
++ Added ability to set per-contact status messages (using contact-related variables) for ICQ protocol
++ Added error message when failed to retrieve status message
+* Disabled periodic status message updating on ICQ protocol
+* Removed redundant 'Change Status Message' menu item from the main menu
+! Fixed startup status message issue
+! Fixed MS_AWAYMSG_GETSTATUSMSG service
+! Fixed setting the same status twice
+! Fixed possible crash on opening the contact menu
+
+============================
+v 1.9.0.1 (2010/08/29):
+============================
++ Updater plugin support
++ Added hotkey for the status message dialog (Ctrl + `)
+* The keyboard focus is now set to the status message field in the status message dialog when opened manually
+! Fixed showing 'Copy Away Message' and 'Go to URL in Away Message' menu items
+! Fixed crash on opening the status message dialog when showing 'Status Message...' item in the status bar is disabled
+! Fixed retrieving the Winamp song title by %winampsong& variable
+
+============================
+v 1.9.0.0 (2010/08/25):
+============================
+Plugin name change from SimpleAway to Simple Status Message.
+Service names has been changed also. See m_simplestatusmsg.h for details.
+Services from m_simpleaway.h are deprecated. Please do not use them anymore.
+From now on, Miranda IM 0.9 or later is required.
++ Unicode status messages support
++ Support for Account Manager
++ MS_SIMPLESTATUSMSG_SETSTATUS service now supports variables and Unicode
+* x64 portability
+* Now "Copy Away Message" is unavailable when a buddy doesn't have status message
+* Status message dialog won't appear anymore when screen saver is running
+* Selecting status in the status message dialog no longer changes status message
+* Updated icons
+* Code cleaning and optimization
+! Fixed handling of status changes requested by another plugin
+! Fixed setting "Update variables in status messages"
+! Fixed memory leaks
+! Fixed a lot of minor bugs
+
+=======================
+v 1.7.5.9 (2009/02/06):
+=======================
++ Unicode version
++ New contact menu item: "Go to URL in Away Message"
++ Automatic status message update if it contains any dynamic variable(s)
+* Improved retrieving the Winamp song title by %winampsong& variable
+! Fixed parsing built-in %winampsong% variable when using Variables plugin
+
+=======================
+v 1.7.5.4 (2008/12/14):
+=======================
++ New feature: do not change status message(s) when changing status
+* Improved MS_AWAYMSG_GETSTATUSMSG: now can also return the current status message for the specified protocol (see m_simpleaway.h for details)
++ Added Modern Contact List toolbar button
+! Hiding "Status Message..." status menu item when "Always set the same message" or "Do not set status message" is set
+! Away %time% doesn't take into account Idle setting [Miranda Built-in Away System bug #135]
+* Away message from "Always set the same message" won't disappear anymore when changing this option to another
++ Ctrl-Backspace hotkey in SA window
+! Rare bug: in some cases, status list in SA dialog box (global status changes) was incomplete
+! Some other bugfixes
+
+=======================
+v 1.7.5.2 (2008/09/06):
+=======================
+! Stability fixes
+
+=======================
+v 1.7.5.1 (2008/04/20):
+=======================
++ Pop up dialog asking for status message at startup
++ Feature: leave last played track's title in %winampsong% after exiting the player
+! Global status changes to Offline won't affect locked protocols anymore
+! Fixes in service funtions
+* Code optimization/clean-up
+
+============================
+v 1.7.5.0 RC 2 (2007/11/27):
+============================
+! Fixed showing SA window at startup
+
+==========================
+v 1.7.5.0 RC (2007/11/26):
+==========================
++ Per protocol status delay setting at startup
++ Implemented MS_SA_SHOWSTATUSMSGDIALOG service (see m_simpleaway.h for details)
+! Fixed setting status profiles via SimpleAway window
+! Fixed updating of %winampsong% when the audio player is closed
+! Fixed message manipulation buttons activity in some cases
+! Some less important fixes
+
+==============================
+v 1.7.0.0 beta 2 (2007/05/21):
+==============================
++ New plugin interface support
+! Stability fixes
+
+============================
+v 1.7.0.0 beta (2007/05/14):
+============================
+* From now on, Miranda 0.6 or newer is required
++ Added ability to set protocol-dependent status messages
++ Added ability to set startup status. Per protocol configurable
++ SimpleAway notices when other plugin changes status mode
+* Reworked options - tabs, better functionality, new options etc.
++ Compatibility with Status Plugins by UnregistereD
+! Track title is retrieved correctly when "Scroll title in the Windows taskbar" is enabled in Winamp
+* Updated/improved Variables plugin support
++ New services which forces a change to specified global status mode (see m_simpleaway.h for details)
++ Potential PF1_INDIVMODEMSG support
+! Fixed duplication of predefined messages
+! A lot of minor fixes and improvements
+
+============================
+v 1.6.5.6 beta (2006/10/13):
+============================
+! Some bugfixes
+
+=======================
+v 1.6.5.5 (2006/10/08):
+=======================
+! Fixed "Status Message..." item adding for disabled or without status message support protocols
+! Fixed "Status Message..." item disappearing problem
++ Added ability to disable "Status Message..." menu items by setting BYTE variable SimpleAway/ShowStatusMenuItem to "0". Restart is needed
++ Status profiles from StartupStatus can be showed in status list combo box (disabled by default) - BYTE variable SimpleAway/AddStatusProfiles must be set to "1"
+! Status changes is now compatible with protocols that don't support status messages (e.g. MSN <7)
+! Fixed setting empty status message for some protocols (e.g. SKYPE)
++ Prepared and included m_simpleaway.h which contains a list of services that can be used by other plugins
+! Some less important changes/fixes (including implementation of some patches by TioDuke)
+
+=======================
+v 1.6.5.0 (2006/09/25):
+=======================
++ Added "Status Message..." item to global status menu and for each protocol that allow to set status message (clist_modern or clist_nicer only)
+! Compatibility of <current> status with StartupStatus
++ Added new variables: %randmsg% and %randdefmsg% - sets random status message from whole history or from predefined messages only
++ Added possibility to automatic random status message change (disabled by default) - you must set/add a new BYTE variable SimpleAway/RandMsgChange and specify change interval in minutes as vaule. Any change needs restart
++ Added Ctrl-A and Ctrl-W hotkeys
+* Without automatic SimpleAway window closing when selected by "Status Message Change" or "Status Message..." item
+! Fixed MS_AWAYMSG_GETSTATUSMSG service (patch by pescuma)
+* No need to restart Miranda after enabling/disabling check for winamp song (patch by TioDuke)
+! Lots of small fixes/changes
+
+=======================
+v 1.6.4.0 (2006/09/15):
+=======================
+! Fixed bug that causes Miranda to stay in the process list after exiting (0.5 and newer)
++ Added ability to change status message without changing status (global by using "Change Status Message" and for each proto by selecting the same status as actual)
++ Added "Change Status Message" option to the main menu (for whose who don't use TopToolbar)
++ Added locking from global status changes feature support (clist_modern or clist_nicer only)
++ Added possibility to remember window position (disabled by default) - you must set/add a new BYTE variable SimpleAway/WinCentered with "0" value in database by DBEditor
++ Added confirm dialog for clearing status message history
+* Refreshed icons and now TopToolbar button can be set as flat also
+! Some small, not so important changes in code
+
+=======================
+v 1.6.1.1 (2005/04/13):
+=======================
+! Compatibility with BossKey and GamerStatus
+! Fixes in options dialog
++ Added new option to "Buttons" combo box (flat buttons)
+* Variables from context menu are placed at current cursor position
+! Fixed updating of %winampsong% when song changes
+
+=======================
+v 1.6.0.0 (2005/04/11):
+=======================
++ IcoLib support optimization
++ Added variables for FortuneAwayMsg plugin
++ Some new options
+* Tiny layout reorganization
++ All available variables placed in contex menu
+! Fixed character counter
+! Fixes in TopToolBar button functions
+! Many other bug fixes and improvements
+
+=======================
+v 1.5.0.0 (2005/03/15):
+=======================
++ Added an option to enable/disable sending of Carriage Return characters
++ Added 4px space between message manipulation buttons
+* Message manipulation buttons are enabled by default
++ Added TopToolBar button
++ Added IcoLib plugin support
++ New item in contact menu ("Copy Away Message") which copies contact status message to Clipboard
++ Added new variable %rand(x,y)%
+
+=======================
+v 0.0.0.4 (2005/03/10):
+=======================
++ Added status message manipulation buttons next to the status message list
+* Changed size of the edit control
+! Fixed displaying of 32 bit icons with alpha channel on Windows XP
++ Added new variable %winampsong%
++ Added automatic status message update if it contains %winampsong% variable
++ Added ability to use all variables supported by the "variables" plugin (the plugin must be installed in your Miranda-IM)
+* Carriage Return characters are ignored while setting status messages
+! Few more little fixes
+
+=======================
+v 0.0.0.3 (2005/03/06):
+=======================
+* Ctrl+Enter works like OK button
++ User can define and delete status messages
++ Added "Clear History" option
+* Changed status message combo box list width to 250 px
+* All status messages now fit into status combo box list without hscroolbar
+* Icons in the status list are displayed with 32 bit color palette and 16x16 size
+! Fixed message list
++ Added options dialog
++ SimpleAway is now compatible with StartupStatus
++ Current status message is stored separately for each protocol
+
+=======================
+v 0.0.0.2 (2005/03/03):
+=======================
+* Enter key inserts new line
++ Added status list combo box
+* Removed status buttons
+! Dialog window doesn't pop up when switching to global offline status
+! Dialog window doesn't pop up when StartupStatus disconnects protocols during Miranda shutdown
++ KeepStatus is disabled when user sets offline status within SimpleAway dialog window
+* Edit control appears empty if the last status message was empty
+* SimpleAway stores user status messages in the same place where SRAway did
++ Added %time% and %date% variables
++ Dialog window is automatically closed after 5 seconds
++ SimpleAway checks which status message is set when user goes offline (only works for Tlen and GG protocols now)
+
+=======================
+v 0.0.0.1 (2005/03/01):
+=======================
+Initial release.
++ Added status message combo box and character counter
++ Added status icons and buttons next to the edit control

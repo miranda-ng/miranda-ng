@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>uinfoex_icons_ice_Z2</ProjectName>
+    <ProjectName>uinfoEx_icons_ice_Z2</ProjectName>
     <ProjectGuid>{E787B42A-6489-4078-90CD-B78B751A1284}</ProjectGuid>
     <RootNamespace>UinfoEx_Icons</RootNamespace>
     <Keyword>Win32Proj</Keyword>
