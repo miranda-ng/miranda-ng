@@ -23,9 +23,9 @@
 #include "Path.h"
 #include "m_button.h"
 #include "m_clc.h"
-#include ".\CommonLibs\Themes.h"
-#include ".\CommonLibs\GroupCheckbox.h"
-#include ".\CommonLibs\ThemedImageCheckbox.h"
+#include "..\CommonLibs\Themes.h"
+#include "..\CommonLibs\GroupCheckbox.h"
+#include "..\CommonLibs\ThemedImageCheckbox.h"
 
 //NightFox
 #include <m_modernopt.h>

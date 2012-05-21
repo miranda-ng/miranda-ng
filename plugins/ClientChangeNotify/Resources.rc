@@ -1,0 +1,202 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CCN_ERROR DIALOGEX 0, 0, 187, 87
+STYLE DS_ABSALIGN | DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | 
+    WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "ClientChangeNotify error"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,66,66,50,14
+    CTEXT           "Fingerprint plugin not found.",IDC_STATIC,0,12,186,8
+    CTEXT           "ClientChangeNotify requires it to work properly.",
+                    IDC_STATIC,0,24,186,8
+    CONTROL         "Don't remind me anymore",IDC_DONTREMIND,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,12,48,174,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CCN_ERROR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 80
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#include ""Resources.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_POPUPOPTDLG DIALOGEX 0, 0, 303, 207
+STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | 
+    WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Enable notification",IDC_POPUPOPTDLG_POPUPNOTIFY,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,6,294,10
+    CONTROL         "Show previous client name",
+                    IDC_POPUPOPTDLG_SHOWPREVCLIENT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,18,294,10
+    CONTROL         "Notify also when just client version changes",
+                    IDC_POPUPOPTDLG_VERCHGNOTIFY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,6,30,170,10
+    CONTROL         "Show client version",IDC_POPUPOPTDLG_SHOWVER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,180,30,120,10
+    CONTROL         "Don't notify for contacts with disabled status notification",
+                    IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,6,42,294,10
+    GROUPBOX        "Click action",-1,6,56,216,54
+    RTEXT           "On left click",IDC_POPUPOPTDLG_STATIC_LCLICK,11,71,55,8
+    COMBOBOX        IDC_POPUPOPTDLG_LCLICK_ACTION,73,68,144,30,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    RTEXT           "On right click",IDC_POPUPOPTDLG_STATIC_RCLICK,11,89,55,
+                    8
+    COMBOBOX        IDC_POPUPOPTDLG_RCLICK_ACTION,73,86,144,30,
+                    CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Delay",-1,229,56,66,54
+    EDITTEXT        IDC_POPUPOPTDLG_POPUPDELAY,234,68,32,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_POPUPOPTDLG_POPUPDELAY_SPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS,254,68,10,12
+    LTEXT           "Sec",IDC_POPUPOPTDLG_STATIC_SEC,269,70,21,8
+    CTEXT           "0 = Default",IDC_POPUPOPTDLG_STATIC_DEFAULT,234,84,54,8
+    CTEXT           "-1 = Infinite",IDC_POPUPOPTDLG_STATIC_INFINITE,234,96,
+                    54,8
+    GROUPBOX        "Colours",-1,6,116,156,48
+    CONTROL         "",IDC_POPUPOPTDLG_BGCOLOUR,"ColourPicker",WS_TABSTOP,13,
+                    128,19,12
+    LTEXT           "Background",IDC_POPUPOPTDLG_STATIC_BGCOLOUR,37,131,53,8
+    CONTROL         "Use default",IDC_POPUPOPTDLG_DEFBGCOLOUR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,96,131,60,10
+    CONTROL         "",IDC_POPUPOPTDLG_TEXTCOLOUR,"ColourPicker",WS_TABSTOP,
+                    13,146,19,12
+    LTEXT           "Text",IDC_POPUPOPTDLG_STATIC_TEXTCOLOUR,37,149,53,8
+    CONTROL         "Use default",IDC_POPUPOPTDLG_DEFTEXTCOLOUR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,96,149,60,10
+    PUSHBUTTON      "Preview",IDC_POPUPOPTDLG_POPUPPREVIEW,210,134,48,14
+    LTEXT           "Ignore these clients (separated by semicolons):",
+                    IDC_POPUPOPTDLG_STATIC_IGNORESTRINGS,6,168,294,8
+    EDITTEXT        IDC_POPUPOPTDLG_IGNORESTRINGS,6,180,288,14,
+                    ES_AUTOHSCROLL
+    CTEXT           "(you have to install pcre.dll or pcre3.dll to use regular expressions here)",
+                    IDC_POPUPOPTDLG_STATIC_REGEXP,0,195,294,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_POPUPOPTDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 296
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 200
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#include "Resources.rc2"  // non-Microsoft Visual C++ edited resources
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

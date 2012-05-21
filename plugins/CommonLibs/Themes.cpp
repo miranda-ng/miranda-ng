@@ -17,10 +17,9 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "Common.h"
 #include "Themes.h"
 #include <tchar.h>
-
-#define IsWinVerXPPlus() (LOBYTE(LOWORD(GetVersion())) >= 5 && LOWORD(GetVersion()) != 5)
 
 tOpenThemeData pOpenThemeData = NULL;
 tCloseThemeData pCloseThemeData = NULL;

@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <RootNamespace>NewAwaySys</RootNamespace>
+    <ProjectGuid>{6A1969EA-9657-4828-93E0-8D21A970F868}</ProjectGuid>
     <SccProjectName />
     <SccLocalPath />
   </PropertyGroup>
@@ -41,51 +41,38 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Plugins\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)/Obj/$(ProjectName)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <DisableSpecificWarnings>4100</DisableSpecificWarnings>
       <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AssemblyDebug>
-      </AssemblyDebug>
-      <ProgramDatabaseFile>.\Debug\NewAwaySys.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Debug\NewAwaySys.map</MapFileName>
       <MapExports>true</MapExports>
-      <EntryPointSymbol>MyDllMain</EntryPointSymbol>
-      <BaseAddress>0x325A0000</BaseAddress>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\Debug\NewAwaySys.tlb</TypeLibraryName>
+      <TypeLibraryName>.\ClientChangeNotify.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -98,45 +85,33 @@
     <ClCompile>
       <Optimization>Full</Optimization>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <AdditionalIncludeDirectories>../../include;../ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <BufferSecurityCheck>false</BufferSecurityCheck>
-      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level4</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <DisableSpecificWarnings>4100</DisableSpecificWarnings>
       <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\Release\NewAwaySys.pdb</ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Release\NewAwaySys.map</MapFileName>
-      <MapExports>true</MapExports>
-      <EntryPointSymbol>MyDllMain</EntryPointSymbol>
-      <BaseAddress>0x325A0000</BaseAddress>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <BaseAddress>
+      </BaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <Midl>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <TargetEnvironment>Win32</TargetEnvironment>
-      <TypeLibraryName>.\Release/NewAwaySys.tlb</TypeLibraryName>
+      <TypeLibraryName>.\Release/ClientChangeNotify.tlb</TypeLibraryName>
       <HeaderFileName>
       </HeaderFileName>
     </Midl>
@@ -146,79 +121,38 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AwayOpt.cpp" />
-    <ClCompile Include="AwaySys.cpp">
+    <ClCompile Include="ClientChangeNotify.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Client.cpp" />
-    <ClCompile Include="ContactList.cpp" />
-    <ClCompile Include="..\CommonLibs\CString.cpp" />
-    <ClCompile Include="..\CommonLibs\GroupCheckbox.cpp" />
-    <ClCompile Include="MsgEventAdded.cpp" />
-    <ClCompile Include="MsgTree.cpp" />
-    <ClCompile Include="Notification.cpp" />
+    <ClCompile Include="..\CommonLibs\CString.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="OptDlg.cpp" />
     <ClCompile Include="..\CommonLibs\Options.cpp" />
-    <ClCompile Include="Properties.cpp" />
-    <ClCompile Include="ReadAwayMsg.cpp" />
-    <ClCompile Include="Services.cpp" />
-    <ClCompile Include="SetAwayMsg.cpp" />
-    <ClCompile Include="..\CommonLibs\ThemedImageCheckbox.cpp" />
-    <ClCompile Include="..\CommonLibs\Themes.cpp" />
+    <ClCompile Include="..\CommonLibs\pcre.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AggressiveOptimize.h" />
     <ClInclude Include="Common.h" />
-    <ClInclude Include="ContactList.h" />
     <ClInclude Include="..\CommonLibs\CString.h" />
-    <ClInclude Include="..\CommonLibs\GroupCheckbox.h" />
-    <ClInclude Include="..\CommonLibs\m_ContactSettings.h" />
-    <ClInclude Include="..\CommonLibs\m_LogService.h" />
-    <ClInclude Include="..\CommonLibs\m_NewAwaySys.h" />
-    <ClInclude Include="m_popup.h" />
-    <ClInclude Include="m_popupw.h" />
-    <ClInclude Include="m_statusplugins.h" />
-    <ClInclude Include="m_toptoolbar.h" />
-    <ClInclude Include="m_updater.h" />
-    <ClInclude Include="m_variables.h" />
-    <ClInclude Include="MsgTree.h" />
+    <ClInclude Include="Misc.h" />
     <ClInclude Include="..\CommonLibs\Options.h" />
-    <ClInclude Include="Path.h" />
-    <ClInclude Include="Properties.h" />
+    <ClInclude Include="..\CommonLibs\pcre.h" />
+    <ClInclude Include="..\CommonLibs\pcre_main.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Services.h" />
-    <ClInclude Include="..\CommonLibs\ThemedImageCheckbox.h" />
-    <ClInclude Include="..\CommonLibs\Themes.h" />
     <ClInclude Include="..\CommonLibs\TMyArray.h" />
     <ClInclude Include="VersionNo.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\Delete.ico" />
-    <None Include="Images\DisableNotify.ico" />
-    <None Include="Images\Dot.ico" />
-    <None Include="Images\EditMsgs.ico" />
-    <None Include="Images\EnableNotify.ico" />
-    <None Include="Images\Ignore.ico" />
-    <None Include="Images\Indefinite.ico" />
-    <None Include="Images\MsgIcon.ico" />
-    <None Include="Images\NewCat.ico" />
-    <None Include="Images\NewMessage.ico" />
-    <None Include="Images\off.bmp" />
-    <None Include="Images\off.ico" />
-    <None Include="Images\on.bmp" />
-    <None Include="Images\on.ico" />
-    <None Include="Resources.rc2" />
-    <None Include="Images\SaveAsNew.ico" />
-    <None Include="Images\SaveMsg.ico" />
-    <None Include="Images\Settings.ico" />
-    <None Include="Images\Status_Other.ico" />
-    <None Include="Images\Variables.ico" />
-    <None Include="copying.txt" />
-    <None Include="nas_readme.txt" />
-    <None Include="nas_translation.txt" />
+    <ResourceCompile Include="Resources.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources.rc" />
+    <None Include="Resources.rc2" />
+    <None Include="ccn_readme.txt" />
+    <None Include="ccn_translation.txt" />
+    <None Include="copying.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

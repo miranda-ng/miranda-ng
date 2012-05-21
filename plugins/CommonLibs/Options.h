@@ -19,13 +19,6 @@
 
 #pragma once
 
-#include <windows.h>
-#include <crtdbg.h>
-#include <commctrl.h>
-#include <stdio.h>
-#include "newpluginapi.h"
-#include "m_database.h"
-#include "m_utils.h"
 #include "CString.h"
 #include "TMyArray.h"
 

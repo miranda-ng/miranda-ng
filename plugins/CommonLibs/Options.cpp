@@ -17,6 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+#include "Common.h"
 #include "Options.h"
 
 static CString sEmptyString("");
@@ -423,7 +424,7 @@ void COptItem_TreeCtrl::MemToDB(CString &sModule, CString *sDBSettingPrefix)
 		for (I = 0; I < Value.GetSize(); I++)
 		{
 			CString StrID;
-			itoa(Value[I].ID, StrID.GetBuffer(64), 10);
+			_itoa(Value[I].ID, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
 			DBWriteContactSettingTString(NULL, sModule, *sDBSettingPrefix + sDBSetting + TREEITEM_DBSTR_TITLE + StrID, Value[I].Title);
 			if (!(TreeFlags & TREECTRL_FLAG_IS_SINGLE_LEVEL))
@@ -861,7 +862,7 @@ void COptItem_ListCtrl::MemToDB(CString &sModule, CString *sDBSettingPrefix)
 		for (I = 0; I < Value.GetSize(); I++)
 		{
 			CString StrID;
-			itoa(I, StrID.GetBuffer(64), 10);
+			_itoa(I, StrID.GetBuffer(64), 10);
 			StrID.ReleaseBuffer();
 			DBWriteContactSettingTString(NULL, sModule, *sDBSettingPrefix + sDBSetting + LISTITEM_DBSTR_TEXT + StrID, Value[I].Text);
 		}

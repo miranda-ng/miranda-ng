@@ -51,19 +51,19 @@
     <ClCompile Include="SetAwayMsg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".\CommonLibs\CString.cpp">
+    <ClCompile Include="..\CommonLibs\CString.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".\CommonLibs\GroupCheckbox.cpp">
+    <ClCompile Include="..\CommonLibs\GroupCheckbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".\CommonLibs\Options.cpp">
+    <ClCompile Include="..\CommonLibs\Options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".\CommonLibs\ThemedImageCheckbox.cpp">
+    <ClCompile Include="..\CommonLibs\ThemedImageCheckbox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include=".\CommonLibs\Themes.cpp">
+    <ClCompile Include="..\CommonLibs\Themes.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,31 +113,31 @@
     <ClInclude Include="VersionNo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\CString.h">
+    <ClInclude Include="..\CommonLibs\CString.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\GroupCheckbox.h">
+    <ClInclude Include="..\CommonLibs\GroupCheckbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\m_ContactSettings.h">
+    <ClInclude Include="..\CommonLibs\m_ContactSettings.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\m_LogService.h">
+    <ClInclude Include="..\CommonLibs\m_LogService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\m_NewAwaySys.h">
+    <ClInclude Include="..\CommonLibs\m_NewAwaySys.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\Options.h">
+    <ClInclude Include="..\CommonLibs\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\ThemedImageCheckbox.h">
+    <ClInclude Include="..\CommonLibs\ThemedImageCheckbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\Themes.h">
+    <ClInclude Include="..\CommonLibs\Themes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include=".\CommonLibs\TMyArray.h">
+    <ClInclude Include="..\CommonLibs\TMyArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

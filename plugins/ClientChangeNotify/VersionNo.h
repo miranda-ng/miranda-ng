@@ -1,0 +1,5 @@
+#define STRSPECIALBUILD	"62"
+#define FILEVER					0, 1, 1, 3
+#define STRFILEVER			"0, 1, 1, 3"
+#define PRODUCTVER			FILEVER
+#define STRPRODUCTVER		STRFILEVER

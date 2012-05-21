@@ -30,6 +30,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <CommCtrl.h>
 #include <commdlg.h>
 #include <time.h>
 #include <shellapi.h>
@@ -65,8 +66,8 @@
 //#include "m_popupw.h"
 #include "m_metacontacts.h"
 #include "m_LogService.h"
-#include ".\CommonLibs\CString.h"
-#include ".\CommonLibs\Options.h"
+#include "..\CommonLibs\CString.h"
+#include "..\CommonLibs\Options.h"
 
 
 #pragma comment(lib,"comctl32.lib")

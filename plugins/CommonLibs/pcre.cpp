@@ -17,9 +17,7 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define CHARARRAY_CONVERT
-
-#include "..\NewAwaySys\common.h"
+#include "common.h"
 #include <windows.h>
 #include <stdio.h>
 #include <crtdbg.h>
@@ -94,48 +92,37 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 				Flags = 0;
 				while (++p < pRegexpEnd)
 				{
-					switch (*p)
-					{
-						case 'i':
-						{
-							Flags |= PCRE_CASELESS;
-						} break;
-						case 'm':
-						{
-							Flags |= PCRE_MULTILINE;
-						} break;
-						case 's':
-						{
-							Flags |= PCRE_DOTALL;
-						} break;
-						case 'x':
-						{
-							Flags |= PCRE_EXTENDED;
-						} break;
-						case 'A':
-						{
-							Flags |= PCRE_ANCHORED;
-						} break;
-						case 'f':
-						{
-							Flags |= PCRE_FIRSTLINE;
-						} break;
-						case 'D':
-						{
-							Flags |= PCRE_DOLLAR_ENDONLY;
-						} break;
-						case 'U':
-						{
-							Flags |= PCRE_UNGREEDY;
-						} break;
-						case 'X':
-						{
-							Flags |= PCRE_EXTRA;
-						} break;
-						default:
-						{
-							Result += LogMessage(TranslateT("Warning, unknown pattern modifier '%c':\n%s"), *p, (TCHAR*)OrigRegexp) + _T("\n\n");
-						} break;
+					switch (*p) {
+					case 'i':
+						Flags |= PCRE_CASELESS;
+						break;
+					case 'm':
+						Flags |= PCRE_MULTILINE;
+						break;
+					case 's':
+						Flags |= PCRE_DOTALL;
+						break;
+					case 'x':
+						Flags |= PCRE_EXTENDED;
+						break;
+					case 'A':
+						Flags |= PCRE_ANCHORED;
+						break;
+					case 'f':
+						Flags |= PCRE_FIRSTLINE;
+						break;
+					case 'D':
+						Flags |= PCRE_DOLLAR_ENDONLY;
+						break;
+					case 'U':
+						Flags |= PCRE_UNGREEDY;
+						break;
+					case 'X':
+						Flags |= PCRE_EXTRA;
+						break;
+					default:
+						// Result += LogMessage(Translate("Warning, unknown pattern modifier '%c':\n"), *p );
+						break;
 					}
 				}
 			}
@@ -146,22 +133,18 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 #else
 		PcreCompileData[NewID].pPcre = pcre_compile(Regexp, Flags, &Err, &ErrOffs, NULL);
 #endif
-		if (PcreCompileData[NewID].pPcre)
-		{
+		if (PcreCompileData[NewID].pPcre) {
 			PcreCompileData[NewID].pExtra = NULL;
 			if (pcre_study)
-			{
 				PcreCompileData[NewID].pExtra = pcre_study(PcreCompileData[NewID].pPcre, 0, &Err);
-			}
-		} else
-		{
-			Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (TCHAR*)Regexp, ErrOffs, (TCHAR*)ANSI2TCHAR(Err)) + _T("\n\n");
+		} 
+		else {
+			// Result += LogMessage(TranslateT("Syntax error in regexp\n%s\nat offset %d: %s."), (TCHAR*)Regexp, ErrOffs, (TCHAR*)ANSI2TCHAR(Err)) + _T("\n\n");
 			PcreCompileData[NewID].Pattern = Regexp;
 	 	}
-	} else
-	{
-		PcreCompileData[NewID].Pattern = Regexp;
-	}
+	} 
+	else PcreCompileData[NewID].Pattern = Regexp;
+
 	return Result;
 }
 
