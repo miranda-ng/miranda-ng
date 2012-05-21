@@ -830,19 +830,19 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.pszText = TranslateT("Plugin");
 		col.cx = 70;//max = 140;
-		ListView_InsertColumn(hwndList,0,&col);
+		ListView_InsertColumn(hwndList, 0, &col);
 
-		col.pszText=TranslateT("Name");
+		col.pszText = TranslateT("Name");
 		col.cx = 70;//max = 220;
-		ListView_InsertColumn(hwndList,1,&col);
+		ListView_InsertColumn(hwndList, 1, &col);
 
-		col.pszText=TranslateT("Version");
-		col.cx=55;
-		ListView_InsertColumn(hwndList,2,&col);
+		col.pszText = TranslateT("Version");
+		col.cx = 70;
+		ListView_InsertColumn(hwndList, 2, &col);
 
-		col.pszText=_T("");
-		col.cx=20;
-		ListView_InsertColumn(hwndList,3,&col);
+		col.pszText = _T("");
+		col.cx = 20;
+		ListView_InsertColumn(hwndList, 3, &col);
 		//ListView_InsertColumn(hwndList,4,&col);
 
 		// XXX: Won't work on windows 95 without IE3+ or 4.70
