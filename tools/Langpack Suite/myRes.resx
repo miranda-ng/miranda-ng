@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ANSICheckBox" xml:space="preserve">
+    <value>ANSI Format for Core less 0.9.30</value>
+  </data>
+  <data name="AssignLang" xml:space="preserve">
+    <value>Langpack assigned...</value>
+  </data>
+  <data name="AssignLangBtn" xml:space="preserve">
+    <value>Assign</value>
+  </data>
+  <data name="AutoModeBtn" xml:space="preserve">
+    <value>Automatic</value>
+  </data>
+  <data name="ComFound" xml:space="preserve">
+    <value>Commented lines founded...</value>
+  </data>
+  <data name="CommentFindBtn" xml:space="preserve">
+    <value>Find Commented</value>
+  </data>
+  <data name="CommentMUIDCheckBox" xml:space="preserve">
+    <value>Comment MUID for Core less 0.10</value>
+  </data>
+  <data name="ComNotFound" xml:space="preserve">
+    <value>Commented lines not found!</value>
+  </data>
+  <data name="CoreNotFound" xml:space="preserve">
+    <value>File =CORE=.txt not found...</value>
+  </data>
+  <data name="CreateLangpackBtn" xml:space="preserve">
+    <value>Create Langpack</value>
+  </data>
+  <data name="DbtoolNotFound" xml:space="preserve">
+    <value>File =dbtool=.txt not found...</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done!</value>
+  </data>
+  <data name="DupesFindBtn" xml:space="preserve">
+    <value>Find Dupes</value>
+  </data>
+  <data name="DupesNotFound" xml:space="preserve">
+    <value>File =DUPES=.txt not found...</value>
+  </data>
+  <data name="DupFound" xml:space="preserve">
+    <value>Dupes founded...</value>
+  </data>
+  <data name="DupNotFound" xml:space="preserve">
+    <value>Dupes not found!</value>
+  </data>
+  <data name="DupStop" xml:space="preserve">
+    <value>Working stoped.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="File2NotFound" xml:space="preserve">
+    <value>.txt not found...</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value> not found...</value>
+  </data>
+  <data name="FileText" xml:space="preserve">
+    <value>File </value>
+  </data>
+  <data name="FindLang" xml:space="preserve">
+    <value>Finding Langpack...</value>
+  </data>
+  <data name="GenStop" xml:space="preserve">
+    <value>Generation stopped.</value>
+  </data>
+  <data name="GenText" xml:space="preserve">
+    <value>Generating langpack...</value>
+  </data>
+  <data name="groupBox1" xml:space="preserve">
+    <value>Assign Langpack File</value>
+  </data>
+  <data name="groupBox2" xml:space="preserve">
+    <value>Output File</value>
+  </data>
+  <data name="groupBox4" xml:space="preserve">
+    <value>Old Core Support</value>
+  </data>
+  <data name="groupBox5" xml:space="preserve">
+    <value>Working mode</value>
+  </data>
+  <data name="HeadNotFound" xml:space="preserve">
+    <value>File =HEAD=.txt not found...</value>
+  </data>
+  <data name="Inf" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="label1" xml:space="preserve">
+    <value>Langpack File Name:</value>
+  </data>
+  <data name="label2" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="label3" xml:space="preserve">
+    <value>LinkList.txt file contains links to the translation files of different
+plugins and can be used in any download manager. Downloaded
+files can be used to generate a complete localization or consisting
+only from localization of plugins used by you (information is taken
+from the version info file, if available).</value>
+  </data>
+  <data name="label4" xml:space="preserve">
+    <value>URL of SVN:</value>
+  </data>
+  <data name="LangNotFound" xml:space="preserve">
+    <value>Langpack not Founded...</value>
+  </data>
+  <data name="LangPathLbl" xml:space="preserve">
+    <value>not assigned</value>
+  </data>
+  <data name="LanguageLbl" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="LinkListGen" xml:space="preserve">
+    <value>Generating LinkList...</value>
+  </data>
+  <data name="LinkListGenBtn" xml:space="preserve">
+    <value>Create File</value>
+  </data>
+  <data name="ManualModeBtn" xml:space="preserve">
+    <value>Manual</value>
+  </data>
+  <data name="NotOpen" xml:space="preserve">
+    <value>Can not open file.</value>
+  </data>
+  <data name="NotTransFound" xml:space="preserve">
+    <value>Not Translated lines founded...</value>
+  </data>
+  <data name="NotTranslFindBtn" xml:space="preserve">
+    <value>Find Not Translated</value>
+  </data>
+  <data name="NotTransNotFound" xml:space="preserve">
+    <value>Not translated lines not found!</value>
+  </data>
+  <data name="NotWrite" xml:space="preserve">
+    <value>Can not write file.</value>
+  </data>
+  <data name="OwnFileCheckBox" xml:space="preserve">
+    <value>Add your own file to Langpack</value>
+  </data>
+  <data name="PlugLink" xml:space="preserve">
+    <value>Writing files from Plugins folder...</value>
+  </data>
+  <data name="PlugLinkNotFound" xml:space="preserve">
+    <value>Subfolder Plugins not found...</value>
+  </data>
+  <data name="RootLink" xml:space="preserve">
+    <value>Writing files from Root folder...</value>
+  </data>
+  <data name="SelectOwnFileBtn" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="tabPage1" xml:space="preserve">
+    <value>Generator</value>
+  </data>
+  <data name="tabPage2" xml:space="preserve">
+    <value>LinkListGen</value>
+  </data>
+  <data name="tabPage3" xml:space="preserve">
+    <value>Dupes Search</value>
+  </data>
+  <data name="VersionNotFound" xml:space="preserve">
+    <value>File =VERSION=.txt not found...</value>
+  </data>
+  <data name="VIGen" xml:space="preserve">
+    <value>File VersionInfo.txt founded, making shot langpack...</value>
+  </data>
+  <data name="WeatherLink" xml:space="preserve">
+    <value>Writing files from Weather folder...</value>
+  </data>
+  <data name="WeatherLinkNotFound" xml:space="preserve">
+    <value>Subfolder Weather not found...</value>
+  </data>
+  <data name="WOVIGen" xml:space="preserve">
+    <value>VersionInfo.txt not found, making full langpack...</value>
+  </data>
+  <data name="WrongSelect" xml:space="preserve">
+    <value>Selected wrong directory...</value>
+  </data>
+  <data name="GetVICheckBox" xml:space="preserve">
+    <value>Get VersionInfo from Internet or type full local path</value>
+  </data>
+  <data name="label6" xml:space="preserve">
+    <value>e.g. http://www.miranda-vi.org/report/mataes</value>
+  </data>
+  <data name="tipper" xml:space="preserve">
+    <value>Command line arguments list</value>
+  </data>
+  <data name="VarHead" xml:space="preserve">
+    <value>Arguments</value>
+  </data>
+  <data name="VarText" xml:space="preserve">
+    <value>\q - silent generate
+\n - Langpack file name
+\o - Path for adding own File
+\c - comment muid's
+\a - ANSI format
+\u - link to VI from miranda-vi.org or full local path
+\l - Output Langpack path
+
+Example, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
+  </data>
+</root>
