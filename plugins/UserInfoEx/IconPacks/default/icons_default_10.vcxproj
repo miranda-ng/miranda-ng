@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>UinfoEx_icons_default_Z1</ProjectName>
+    <ProjectName>UInfoEx_icons_default_Z1</ProjectName>
     <ProjectGuid>{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}</ProjectGuid>
     <RootNamespace>UinfoEx_Icons</RootNamespace>
     <Keyword>Win32Proj</Keyword>
@@ -95,10 +95,10 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UinfoEx_icons</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UinfoEx_icons</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UinfoEx_icons</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UinfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">UInfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">UInfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UInfoEx_icons</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UInfoEx_icons</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>UinfoEx</ProjectName>
+    <ProjectName>UInfoEx</ProjectName>
     <ProjectGuid>{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}</ProjectGuid>
     <RootNamespace>UInfoEx</RootNamespace>
     <Keyword>Win32Proj</Keyword>

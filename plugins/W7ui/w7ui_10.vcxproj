@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>W7ui</ProjectName>
+    <ProjectName>W7UI</ProjectName>
     <ProjectGuid>{86704897-EABF-439D-BE0E-52CEA67C2C43}</ProjectGuid>
     <RootNamespace>w7ui</RootNamespace>
     <Keyword>Win32Proj</Keyword>
