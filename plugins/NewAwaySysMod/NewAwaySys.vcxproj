@@ -71,9 +71,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>
       </AssemblyDebug>
-      <ProgramDatabaseFile>.\Debug\NewAwaySys.pdb</ProgramDatabaseFile>
       <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Debug\NewAwaySys.map</MapFileName>
       <MapExports>true</MapExports>
       <EntryPointSymbol>MyDllMain</EntryPointSymbol>
       <BaseAddress>0x325A0000</BaseAddress>
@@ -119,11 +117,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <ProgramDatabaseFile>.\Release\NewAwaySys.pdb</ProgramDatabaseFile>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Release\NewAwaySys.map</MapFileName>
-      <MapExports>true</MapExports>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EntryPointSymbol>MyDllMain</EntryPointSymbol>
       <BaseAddress>0x325A0000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
