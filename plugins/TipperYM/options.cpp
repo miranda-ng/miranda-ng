@@ -1946,7 +1946,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (opt.szPreviewFile[0]) 
 				{
 					HDC hdcMem = CreateCompatibleDC(dis->hDC);
-					HBITMAP hbmpPreview = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)opt.szPreviewFile, 0);
+					HBITMAP hbmpPreview = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)opt.szPreviewFile, IMGL_TCHAR);
 					if (hbmpPreview) 
 					{
 						int iWidth = dis->rcItem.right - dis->rcItem.left;

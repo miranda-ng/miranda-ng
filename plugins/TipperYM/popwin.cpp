@@ -91,11 +91,13 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				if (CallService(MS_PROTO_ISACCOUNTLOCKED,0,(LPARAM)pwd->clcit.szProto))
 					mir_sntprintf(pwd->swzTitle, SIZEOF(pwd->swzTitle), TranslateT("%s (locked)"), pwd->swzTitle);
 
+				// protocol status
+				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
+
 				// get status icon
 				if (pwd->bIsIconVisible[0])
 				{
-					WORD status = CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
-					pwd->extraIcons[0].hIcon = LoadSkinnedProtoIcon(pwd->clcit.szProto, status);
+					pwd->extraIcons[0].hIcon = LoadSkinnedProtoIcon(pwd->clcit.szProto, wStatus);
 					pwd->extraIcons[0].bDestroy = false;
 				}
 
@@ -134,8 +136,6 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					}
 				}
 
-				// protocol status
-				WORD wStatus = (WORD)CallProtoService(pwd->clcit.szProto, PS_GETSTATUS, 0, 0);
 				TCHAR *swzText = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 				if (swzText)
 				{
@@ -461,6 +461,19 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// fingerprint icon
 					if (pwd->bIsIconVisible[5]) 
 					{
+#ifdef _UNICODE
+						if (ServiceExists(MS_FP_GETCLIENTICONT))
+						{
+							for (i = 0; opt.exIconsOrder[i] != 5; i++);
+							if (!DBGetContactSettingTString(pwd->hContact, szProto, "MirVer", &dbv))
+							{
+								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_FP_GETCLIENTICONT, (WPARAM)dbv.ptszVal, 0);
+								pwd->extraIcons[i].bDestroy = true;
+								DBFreeVariant(&dbv);
+							}
+						}
+						else
+#endif
 						if (ServiceExists(MS_FP_GETCLIENTICON)) 
 						{
 							for (i = 0; opt.exIconsOrder[i] != 5; i++);
@@ -1897,13 +1910,12 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 			{
 				if (DBGetContactSettingDword(0, MODULE, "FavouriteContactsCount", 0))
 				{
-					HANDLE hContact;
 					TCHAR swzName[256];
 					TCHAR swzStatus[256];
 					bool bTitlePainted = false;
 					int iCount = 0, iCountOnline = 0;
 
-					hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+					HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 					while (hContact)
 					{
 						if (DBGetContactSettingByte(hContact, MODULE, "FavouriteContact", 0))
