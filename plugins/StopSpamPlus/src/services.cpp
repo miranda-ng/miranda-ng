@@ -76,6 +76,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 
 int OnSystemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
+	UnhookEvent(hLoadHook);
 	if (plSets->RemTmpAll.Get())
 		RemoveTempContacts(0,1);
 	return 0;

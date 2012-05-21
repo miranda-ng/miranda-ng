@@ -39,7 +39,7 @@ extern char * pluginDescription;
 extern TCHAR const * infTalkProtPrefix;
 extern char const * answeredSetting;
 extern char const * questCountSetting;
-
+extern HANDLE hLoadHook;
 extern HINSTANCE hInst;
 
 #ifdef _UNICODE

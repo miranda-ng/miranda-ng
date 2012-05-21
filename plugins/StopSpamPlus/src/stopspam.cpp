@@ -2,7 +2,7 @@
 
 struct MM_INTERFACE mmi;
 UTF8_INTERFACE utfi;
-HANDLE hFunc, hTempRemove;
+HANDLE hFunc, hTempRemove, hLoadHook;
 int hLangpack;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +70,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	hFunc = CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
+	hLoadHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
 	// Add deliting temporary contacts
 	hTempRemove = CreateServiceFunction(MS_STOPSPAM_REMTEMPCONTACTS, RemoveTempContacts);
