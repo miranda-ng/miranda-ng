@@ -1,25 +1,20 @@
-Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "ClientChangeNotify.vcproj", "{6A1969EA-9657-4828-93E0-8D21A970F868}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientChangeNotify", "ClientChangeNotify.vcxproj", "{6A1969EA-9657-4828-93E0-8D21A970F868}"
 EndProject
 Global
-	GlobalSection(SolutionConfiguration) = preSolution
-		Debug = Debug
-		Release = Release
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
 	EndGlobalSection
-	GlobalSection(ProjectConfiguration) = postSolution
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.Debug.ActiveCfg = Debug|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.Debug.Build.0 = Debug|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.DebugW.ActiveCfg = DebugW|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.DebugW.Build.0 = DebugW|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.Release.ActiveCfg = Release|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.Release.Build.0 = Release|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.ReleaseW.ActiveCfg = ReleaseW|Win32
-		{6A1969EA-9657-4828-93E0-8D21A970F868}.ReleaseW.Build.0 = ReleaseW|Win32
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A1969EA-9657-4828-93E0-8D21A970F868}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6A1969EA-9657-4828-93E0-8D21A970F868}.Debug|Win32.Build.0 = Debug|Win32
+		{6A1969EA-9657-4828-93E0-8D21A970F868}.Release|Win32.ActiveCfg = Release|Win32
+		{6A1969EA-9657-4828-93E0-8D21A970F868}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-	EndGlobalSection
-	GlobalSection(ExtensibilityAddIns) = postSolution
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal
