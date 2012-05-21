@@ -922,15 +922,12 @@ static INT OnPreShutdown(WPARAM, LPARAM)
  **/
 VOID SvcRefreshContactInfoLoadModule(VOID)
 {
-	HOTKEYDESC hk;
-
 	myCreateServiceFunction(MS_USERINFO_REFRESH, RefreshService);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	HookEvent(ME_DB_CONTACT_ADDED, OnContactAdded);
 
+	HOTKEYDESC hk = { 0 };
 	hk.cbSize = sizeof(HOTKEYDESC);
-	hk.lParam = NULL;
-	hk.DefHotKey = NULL;
 	hk.pszSection = MODNAME;
 	hk.pszName = "RefreshContactDetails";
 	hk.pszDescription = LPGEN("Refresh Contact Details");

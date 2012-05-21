@@ -1202,10 +1202,7 @@ VOID SvcReminderOnModulesLoaded(VOID)
 VOID SvcReminderLoadModule(VOID)
 {
 	// init sounds
-	SKINSOUNDDESCEX ssd;
-	HOTKEYDESC hk;
-
-	ZeroMemory(&ssd, sizeof(ssd));
+	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = SKINSOUNDDESC_SIZE_V1;
 	ssd.pszSection = LPGEN(MODNAME);
 
@@ -1228,9 +1225,8 @@ VOID SvcReminderLoadModule(VOID)
 	myCreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
 	myCreateServiceFunction(MS_USERINFO_REMINDER_AGGRASIVEBACKUP, BackupBirthdayService);
 
+	HOTKEYDESC hk = { 0 };
 	hk.cbSize = sizeof(HOTKEYDESC);
-	hk.lParam = NULL;
-	hk.DefHotKey = NULL;
 	hk.pszSection = MODNAME;
 	hk.pszName = "ReminderCheck";
 	hk.pszDescription = LPGEN("Check anniversaries");
