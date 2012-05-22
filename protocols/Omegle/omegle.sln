@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Omegle", "omegle_10.vcxproj", "{DADE9455-DC28-465A-9604-2CA28052B9FB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "omegle_icons_10", "omegle_icons_10.vcxproj", "{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug|Win32.Build.0 = Debug|Win32
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug|x64.ActiveCfg = Debug|x64
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug|x64.Build.0 = Debug|x64
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release|Win32.ActiveCfg = Release|Win32
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release|Win32.Build.0 = Release|Win32
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release|x64.ActiveCfg = Release|x64
+		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release|x64.Build.0 = Release|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|Win32.Build.0 = Debug|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|x64.ActiveCfg = Debug|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Debug|x64.Build.0 = Debug|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.ActiveCfg = Release|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|Win32.Build.0 = Release|Win32
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.ActiveCfg = Release|x64
+		{C5AB34D2-15F5-4CBA-8F42-DB48A4E52910}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
