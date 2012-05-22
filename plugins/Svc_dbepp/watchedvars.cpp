@@ -212,8 +212,8 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				mmi.fState = MFS_CHECKED;
 				SetMenuItemInfo(GetMenu(hwnd), MENU_LOADAUTOMATCIALLY, FALSE, &mmi);
 			}
-*/			CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)GetMenu(hwnd),0);
-			CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)GetSubMenu(GetMenu(hwnd),0),0);
+*/			TranslateMenu(GetMenu(hwnd));
+			TranslateMenu(GetSubMenu(GetMenu(hwnd),0));
 			TranslateDialogDefault(hwnd);
 			// do the icon
 			SendMessage(hwnd,WM_SETICON,ICON_BIG,(LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(ICO_REGEDIT)));

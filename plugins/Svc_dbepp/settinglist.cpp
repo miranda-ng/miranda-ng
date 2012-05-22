@@ -858,7 +858,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 		GetCursorPos(&pt);
 		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 		hSubMenu = GetSubMenu(hMenu, 6);
-		CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+		TranslateMenu(hSubMenu);
 
 		if (!UDB)
 			RemoveMenu(hSubMenu, MENU_ADD_UNICODE, MF_BYCOMMAND);
@@ -953,7 +953,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 		GetCursorPos(&pt);
 		hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
 		hSubMenu = GetSubMenu(hMenu, 0);
-		CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+		TranslateMenu(hSubMenu);
 
 		lvi.mask = LVIF_IMAGE|LVIF_TEXT;
 		lvi.iItem = hti.iItem;

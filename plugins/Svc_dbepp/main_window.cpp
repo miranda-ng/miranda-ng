@@ -127,10 +127,10 @@ LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 						}
 						else if ((mtis->type == CONTACT) && hContact)
 						{
-							char msg[1024];
-							mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete contact \"%s\"?"), module);
 							if (DBGetContactSettingByte(NULL,"CList", "ConfirmDelete",1))
 							{
+								char msg[1024];
+								mir_snprintf(msg, SIZEOF(msg), Translate("Are you sure you want to delete contact \"%s\"?"), module);
 								if (MessageBox(0,msg, Translate("Confirm Contact Delete"), MB_YESNO|MB_ICONEXCLAMATION) == IDNO)
 									break;
 							}
@@ -228,11 +228,11 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SettingListSubClass=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd,IDC_SETTINGS),GWLP_WNDPROC,(LONG)SettingListSubclassProc);
 			// traslation stuff
 			TranslateDialogDefault(hwnd);
-			CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)hMenu,0);
+			TranslateMenu(hMenu);
 
 			for (i=0;i<6;i++)
 			{
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)GetSubMenu(hMenu,i),0);
+				TranslateMenu(GetSubMenu(hMenu,i));
 			}
 
 			// move the dialog to the users position
@@ -620,6 +620,14 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					CheckMenuItem(GetSubMenu(GetMenu(hwnd),5),MENU_SORT_ORDER,MF_BYCOMMAND|(Order?MF_CHECKED:MF_UNCHECKED));
 					refreshTree(1);
 				break;
+				case MENU_OPEN_OPTIONS:
+					OPENOPTIONSDIALOG odp = {0};
+					odp.cbSize = sizeof(odp);
+					odp.pszGroup = "Services";
+					odp.pszPage = modFullname;
+					odp.pszTab = 0;
+					CallService(MS_OPT_OPENOPTIONS,0,(LPARAM)&odp);
+					break;
 			}
 		return TRUE; // case WM_COMMAND
 		case WM_NOTIFY:

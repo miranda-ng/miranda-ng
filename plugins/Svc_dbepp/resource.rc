@@ -380,6 +380,7 @@ BEGIN
         MENUITEM "Edit &Dwords in Hex",         MENU_DWORD_HEX
         MENUITEM SEPARATOR
         MENUITEM "&Restore position",           MENU_SAVE_POSITION
+        MENUITEM "&Open Options",               MENU_OPEN_OPTIONS
     END
 END
 

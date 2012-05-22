@@ -953,7 +953,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 				HANDLE hContact = mtis->hContact;
 				GetCursorPos(&(hti.pt));
 				hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXTMENU));
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)hMenu,0);
+				TranslateMenu(hMenu);
 				if (mtis->type == CONTACT && hContact) menuNumber = 2;
 				else if ((mtis->type == MODULE || mtis->type == UNKNOWN_MODULE) && !hContact) menuNumber = 1;
 				else if (mtis->type == CONTACT && !hContact) menuNumber = 3;
@@ -962,7 +962,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 				else return;
 				hSubMenu = GetSubMenu(hMenu, menuNumber);
 
-				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+				TranslateMenu(hSubMenu);
 				switch (menuNumber)
 				{
 					case 1: // null module
