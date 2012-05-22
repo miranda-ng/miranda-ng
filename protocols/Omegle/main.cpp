@@ -201,7 +201,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	//UninitContactMenus();
-	for(size_t i=1; i<SIZEOF(g_hEvents); i++)
+	for(size_t i=0; i<SIZEOF(g_hEvents); i++)
 		UnhookEvent(g_hEvents[i]);
 
 	g_Instances.destroy();
