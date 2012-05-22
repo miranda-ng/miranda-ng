@@ -409,7 +409,7 @@ PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
 	PROTOCOL_DISPLAY_NAME_ORIGA,
 	PLUGIN_VERSION_DWORD,
-	"Provides support for Mail.ru agent Instant Messenger protocol.",
+	"Provides support for Mail.ru agent Instant Messenger protocol ("__DATE__" "__TIME__")",
 	"Rozhuk Ivan",
 	"Rozhuk_I@mail.ru",
 	"© 2006-2011 Rozhuk Ivan",
@@ -436,7 +436,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID Reserved)
 {
     switch(dwReason){
 	case DLL_PROCESS_ATTACH:
-		memset(&masMraSettings, 0, sizeof(masMraSettings));
+		bzero(&masMraSettings,sizeof(masMraSettings));
 		masMraSettings.hInstance=hInstance;
 		masMraSettings.hHeap=HeapCreate(0,0,0);//GetProcessHeap();
 		masMraSettings.bLoggedIn=FALSE;
@@ -504,23 +504,23 @@ return(TRUE);
 }
 
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" MRA_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	if (mirandaVersion<MIN_MIR_VER_VERSION_DWORD) 
 	{
-		MessageBox(NULL, TranslateT("Pleace, update your Miranda IM, MRA will not load with this version."), NULL, (MB_OK|MB_ICONERROR));
+		MessageBox(NULL, TranslateT("Please, update your Miranda IM, MRA will not load with this version."), NULL, (MB_OK|MB_ICONERROR));
 		return(NULL);
 	}
 	return(&pluginInfoEx);
 }
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces()
+extern "C" MRA_API const MUUID* MirandaPluginInterfaces()
 {
 	return(interfaces);
 }
 
 
-extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" MRA_API int Load(PLUGINLINK *link)
 {
 	SIZE_T dwBuffLen;
 	WCHAR szBuff[MAX_FILEPATH];
@@ -665,7 +665,7 @@ return(0);
 }
 
 
-extern "C" __declspec(dllexport) int Unload(void)
+extern "C" MRA_API int Unload(void)
 {
 	UnloadServices();
 	//if (hHookOnUserInfoInit)				UnhookEvent(hHookOnUserInfoInit);

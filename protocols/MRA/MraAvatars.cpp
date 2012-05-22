@@ -498,7 +498,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection,DWORD dwRequestType,LPSTR lps
 	if (pbKeepAlive)		(*pbKeepAlive)=FALSE;
 	if (pdwFormat)			(*pdwFormat)=PA_FORMAT_UNKNOWN;
 	if (pdwAvatarSize)		(*pdwAvatarSize)=0;
-	if (pitLastModifiedTime) memset(pitLastModifiedTime,0, sizeof(INTERNET_TIME));
+	if (pitLastModifiedTime)bzero(pitLastModifiedTime,sizeof(INTERNET_TIME));
 
 	if (hConnection)
 	{

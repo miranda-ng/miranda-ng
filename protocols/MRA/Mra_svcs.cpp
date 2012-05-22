@@ -123,7 +123,7 @@ void UnloadModules()
 	{
 		if (masMraSettings.hHookRebuildStatusMenu)	{UnhookEvent(masMraSettings.hHookRebuildStatusMenu);	masMraSettings.hHookRebuildStatusMenu=NULL;}
 
-		memset(masMraSettings.hXStatusMenuItems, 0, sizeof(masMraSettings.hXStatusMenuItems));
+		bzero(masMraSettings.hXStatusMenuItems,sizeof(masMraSettings.hXStatusMenuItems));
 		// Service deletion
 		for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) 
 		{
@@ -135,11 +135,11 @@ void UnloadModules()
 
 	// Main menu destroy
 	CListDestroyMenu(gdiMenuItems,SIZEOF(gdiMenuItems));
-	memset(masMraSettings.hMainMenuItems, 0, sizeof(masMraSettings.hMainMenuItems));
+	bzero(masMraSettings.hMainMenuItems,sizeof(masMraSettings.hMainMenuItems));
 
 	// Contact menu destroy
 	CListDestroyMenu(gdiContactMenuItems,(SIZEOF(gdiContactMenuItems) - ((masMraSettings.heNudgeReceived==NULL)? 0:1)));
-	memset(masMraSettings.hContactMenuItems, 0, sizeof(masMraSettings.hContactMenuItems));
+	bzero(masMraSettings.hContactMenuItems,sizeof(masMraSettings.hContactMenuItems));
 
 	if (masMraSettings.heNudgeReceived)			{DestroyHookableEvent(masMraSettings.heNudgeReceived);	masMraSettings.heNudgeReceived=NULL;}
 	if (masMraSettings.hWATrack)				{UnhookEvent(masMraSettings.hWATrack);					masMraSettings.hWATrack=NULL;}

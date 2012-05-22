@@ -81,15 +81,15 @@ void IconsLoad()
 void IconsUnLoad()
 {
 	RemoveIcoLibItems(gdiMenuItems,SIZEOF(gdiMenuItems));
-	memset(masMraSettings.hMainMenuIcons, 0, sizeof(masMraSettings.hMainMenuIcons));
+	bzero(masMraSettings.hMainMenuIcons,sizeof(masMraSettings.hMainMenuIcons));
 	
 	RemoveIcoLibItems(gdiContactMenuItems,SIZEOF(gdiContactMenuItems));
-	memset(masMraSettings.hContactMenuIcons, 0, sizeof(masMraSettings.hContactMenuIcons));
+	bzero(masMraSettings.hContactMenuIcons,sizeof(masMraSettings.hContactMenuIcons));
 	
 	// Advanced Status Icons initialization
 	RemoveIcoLibItems(gdiExtraStatusIconsItems,SIZEOF(gdiExtraStatusIconsItems));
-	memset(masMraSettings.hAdvancedStatusIcons, 0, sizeof(masMraSettings.hAdvancedStatusIcons));
-	memset(masMraSettings.hAdvancedStatusItems,0, sizeof(masMraSettings.hAdvancedStatusItems));
+	bzero(masMraSettings.hAdvancedStatusIcons,sizeof(masMraSettings.hAdvancedStatusIcons));
+	bzero(masMraSettings.hAdvancedStatusItems,sizeof(masMraSettings.hAdvancedStatusItems));
 }
 
 
@@ -112,7 +112,7 @@ void InitXStatusIcons()
 	{
 		GetModuleFileName(masMraSettings.hDLLXStatusIcons,wszPath,SIZEOF(wszPath));
 	}else{
-		memset(wszPath, 0, sizeof(wszPath));
+		bzero(wszPath,sizeof(wszPath));
 	}
 	mir_sntprintf(wszSection,SIZEOF(wszSection),L"Status Icons/%s/Custom Status",PROTOCOL_NAMEW);
 
@@ -144,8 +144,8 @@ void DestroyXStatusIcons()
 		//***deb until 08 release
 		//CallService(MS_SKIN2_REMOVEICON,0,(LPARAM)szBuff);
 	}
-	memset(masMraSettings.hXStatusAdvancedStatusIcons, 0, sizeof(masMraSettings.hXStatusAdvancedStatusIcons));
-	memset(masMraSettings.hXStatusAdvancedStatusItems, 0, sizeof(masMraSettings.hXStatusAdvancedStatusItems));
+	bzero(masMraSettings.hXStatusAdvancedStatusIcons,sizeof(masMraSettings.hXStatusAdvancedStatusIcons));
+	bzero(masMraSettings.hXStatusAdvancedStatusItems,sizeof(masMraSettings.hXStatusAdvancedStatusItems));
 }
 
 
