@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b6bb240e-0f99-4a66-aa07-c073b78bdd2c}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{145ba183-13ea-4c67-8d0d-9114c27c7715}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{df0c152d-8646-4ab0-931c-bca74f7f5dda}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Players">
+      <UniqueIdentifier>{b02fc25f-b248-4ac3-aa31-f386676c62b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Docs">
+      <UniqueIdentifier>{91320735-8950-495f-943e-010b395c8b37}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="commons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_listeningto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\mir_buffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\mir_icons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\mir_memory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utils\mir_options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="music.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="options.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="players\foobar.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\generic.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\itunes.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\mradio.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\player.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\watrack.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\winamp.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+    <ClInclude Include="players\wmp.h">
+      <Filter>Players</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\listening_to.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ttb_disabled.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="res\ttb_enabled.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Docs\langpack_listeningto.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="Docs\listeningto_changelog.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="Docs\listeningto_readme.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="Docs\listeningto_version.txt">
+      <Filter>Docs</Filter>
+    </None>
+    <None Include="Docs\readme_players.txt">
+      <Filter>Docs</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="listeningto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\mir_icons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utils\mir_options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="music.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="players\foobar.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\generic.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\itunes.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\mradio.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\player.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\watrack.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\winamp.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+    <ClCompile Include="players\wmp.cpp">
+      <Filter>Players</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

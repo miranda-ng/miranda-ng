@@ -1,0 +1,92 @@
+/* 
+Copyright (C) 2008 Jan Holub
+
+This is free software; you can redistribute it and/or
+modify it under the terms of the GNU Library General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
+
+This is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
+
+You should have received a copy of the GNU Library General Public
+License along with this file; see the file license.txt.  If
+not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.  
+*/
+
+
+#include "..\\commons.h"
+
+MRadio::MRadio()
+{
+	name = _T("mRadio");
+	needPoll = TRUE;
+}
+
+
+void MRadio::EnableDisable()
+{
+	if (!ServiceExists(MS_RADIO_COMMAND))
+		enabled = FALSE;
+}
+
+
+int MRadio::GetData()
+{
+	HANDLE hContact;
+
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	while (hContact != NULL) 
+	{
+		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		if (proto)
+		{
+			if (strcmp("mRadio", proto) == 0) 
+			{
+				WORD status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE); 
+				if (status == ID_STATUS_ONLINE)
+					break;
+			}
+		}
+
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+	}
+
+	if (hContact)
+	{
+		DBVARIANT dbv = {0};
+		if (!DBGetContactSettingString(hContact, "mRadio", "Nick", &dbv))
+		{	
+			listening_info.cbSize = sizeof(listening_info);
+			listening_info.dwFlags = LTI_TCHAR;
+			listening_info.ptszArtist = mir_tstrdup(_T("Radio"));
+			listening_info.ptszType = mir_tstrdup(_T("Radio"));
+			listening_info.ptszTitle = mir_a2t(dbv.pszVal);
+
+			DBFreeVariant(&dbv);
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+
+BOOL MRadio::GetListeningInfo(LISTENINGTOINFO *lti)
+{
+	FreeData();	
+
+	if (enabled) 
+	{
+		if (CallService(MS_RADIO_COMMAND, MRC_STATUS, RD_STATUS_GET) == RD_STATUS_PLAYING)
+		{
+			if (!GetData())
+				FreeData();
+		}
+	}
+
+	return Player::GetListeningInfo(lti);
+}

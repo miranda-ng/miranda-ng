@@ -1,0 +1,69 @@
+; ListeningTo
+; Author: Pescuma
+; http://forums.miranda-im.org/showthread.php?t=10912
+
+[Listening to]
+
+; Menu item
+[Send to all protocols]
+[Send to %s]
+
+; Toptoolbar
+[Enable/Disable sending Listening To info (to all protocols)]
+
+; Options
+[Contact List]
+
+[Status]
+[Listening info]
+
+[General]
+[ Listening to information ]
+[Enable sending listening information to contacts]
+[Music]
+[Radio]
+[Video]
+[Others]
+[You also have to enable it per protocol in the main menu]
+[ XStatus ]
+[For protocols that don't support listening to but support XStatus:]
+[Set XStatus to Music and show listening info]
+[If other XStatus is not set, set XStatus to Music and show listening info]
+[If XStatus is Music, show listening info]
+[Do nothing]
+[ Contacts ]
+[Apply template for info from contacts (overrides contacts template)]
+[Show advanced icon in slot]
+
+[Format]
+[ Listening to ]
+[Template:]
+[Variables:]
+[%artist% - Artist name]
+[%album% - Album name]
+[%title% - Song title]
+[%track% - Track number]
+[%year% - Song year]
+[%genre% - Song genre]
+[%length% - Song length]
+[%player% - Player name]
+[%type% - Media type (Music, Radio, Video, etc)]
+[When variable not found, use:]
+[ XStatus ]
+[Title:]
+[Message:]
+[Other Variables:]
+[%listening% - Listening to info (as set above)]
+[When nothing is playing, replace %listening% with:]
+
+[Players]
+[Get info from WATrack plugin]
+[Get info from these players:]
+[Winamp (*)]
+[Windows Media Player]
+[iTunes]
+[foobar2000 (need to install the plugin manually)]
+[Other players]
+[Ask for new info every]
+[seconds]
+[Allow auto-loading plugins into players (affect players with *)]

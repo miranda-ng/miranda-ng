@@ -1,0 +1,125 @@
+ListeningTo
+
+Changelog:
+
+. 0.3.0.0
+  + A lot of changes for the internal logic for handling players
+
+. 0.2.1.0
+  * Fix for disable by menu item
+  * Fix for no output (closes #33)
+
+. 0.2.0.0
+  + Added support for accounts
+  + Added support for extra icons service
+  - Hotkeys only for enable/disable all status
+
+. 0.1.3.2
+  * Fixes for foobar
+  * Better WATrack support
+
+. 0.1.3.1
+  + Added hotkeys to toggle sending info (closes #54)
+  * Fixed variables support (closes #75)
+  + Better handling of menu items (closes #74)
+
+. 0.1.3.0
+  + Added hotkeys to enable/disable sending info (closes #54)
+  * Fixed graying radio in optionc (closes # 52)
+  * Better cleanup on exit (for #63)
+
+. 0.1.2.3
+  * Fix for memory leak
+  * Fix for variables (also need latest variables version)
+
+. 0.1.2.2
+  * Fix to work on Win 9X
+  * Fix to compile in VS2005
+
+. 0.1.2.1
+  + Support not moded version of variables too
+  * Fix for foo_mlt and non english tags
+
+. 0.1.2.0
+  + Added variables support for template and XStatus template - need Variables MOD
+  + Added option to disable info per type
+  + Added foobar plugin (need to be installed manually) - thanks LRN for this one
+
+. 0.1.1.8
+  + First step for foobar support
+  + Added service to allow other plugins to send info to this one
+  * Renamed mlt_winamp.dll to gen_mlt.dll (to be more compatible with winamp). You can delete mlt_winamp.dll
+
+. 0.1.1.7
+  * Fix for crash when disabled
+  + Wait at least 10s beetween protocol notifications 
+
+. 0.1.1.6
+  * Fix to get info from radio station in winamp
+  * Fix to remove listening to data on startup
+
+. 0.1.1.5
+  + Added icon to main menu
+  - Removed old hack for clist classic
+  + Changed variables to show unknown text when an info is not available and to, if tested with ?if(), return false
+
+. 0.1.1.4
+  + Added support for Miranda 0.8
+
+. 0.1.1.3
+  + Added variables to variables plugin. Now listening info can be used in away messages.
+  + Winamp plugin will reload info for current song at each 3s. This will make radio station names be handled better.
+
+. 0.1.1.2
+  + Added 'If other XStatus is not set, set XStatus to Music and show listening info'
+  * Changes in options dialog strings
+
+. 0.1.1.1
+  * Fix for IcoLib support
+
+. 0.1.1.0
+  + Added handling of XStatus
+  + Added IcoLib support
+  + Added langpack file
+  - Removed option to remove menu item (use menu order option dialog instead)
+
+. 0.1.0.9
+  + Option to set string to show when info is not avaible
+  * Changed host of files
+  * Changes for miranda 0.6 mmi
+  * fix for pressing configure in winamp
+
+. 0.1.0.8
+  * Fix for getting video info from winamp
+
+. 0.1.0.7
+  * Fixes for winamp 5.3
+  + Change internal struct. THIS VERSION IS NOT COMPATIBLE WITH PREVIOUS ONE. USE NEW VERSION OF PROTOCOLS.
+
+. 0.1.0.6
+  * More fixes for winamp
+  * Try tp fix (null) in MSN client
+
+. 0.1.0.5
+  * Fixes for WMP and winamp
+
+. 0.1.0.4
+  * Fixes in winamp plugin (first song was not set and pause was not handled)
+  + Added help file in listeningto dir
+  * WATrack integration works
+
+. 0.1.0.3
+  + Event to help My Details
+  * Fix for winamp stop playing
+
+. 0.1.0.2
+  + Made external plugin for winamp
+  + Option to auto-load plugin
+  + Listening to extra icon
+
+. 0.1.0.1
+  + More code to work with WATrack (don't work yet)
+  * Fixes
+
+. 0.1.0.0
+  + Initial version
