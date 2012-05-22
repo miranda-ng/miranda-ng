@@ -37,25 +37,27 @@ HMODULE hRichModule;
 TCHAR* vertxt;
 TCHAR* profname;
 TCHAR* profpath;
+TCHAR* mirpath;
 
 TCHAR CrashLogFolder[MAX_PATH];
 TCHAR VersionInfoFolder[MAX_PATH];
 
 bool servicemode;
 bool clsdates;
+bool dtsubfldr;
 
 static const PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX),
 #if defined(_WIN64) 
-	"Crash Dumper x64",
+	"Crash Dumper (x64) Mataes Release",
 #elif defined(_UNICODE)
-	"Crash Dumper Unicode",
+	"Crash Dumper (Unicode) Mataes Release",
 #else
-	"Crash Dumper",
+	"Crash Dumper Mataes Release",
 #endif
 	__VERSION_DWORD,
-	"Crash Dumper for Miranda IM",
+	"Crash Dumper for Miranda IM. Mod for Mataes Pack.",
 	"borkra",
 	"borkra@miranda-im.org",
 	"Copyright© 2008 - 2012 Boris Krasnovskiy All Rights Reserved",
@@ -265,6 +267,39 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
+	char temp[MAX_PATH];
+	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(temp), (LPARAM)temp);
+	crs_a2t(vertxt, temp);
+
+	if (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(0,9,0,12))
+	{
+		profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
+		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		{
+			profpath = _T("%miranda_userdata%");
+			mirpath = _T("%miranda_path%");
+		}
+		else
+		{
+			profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
+			mirpath = Utils_ReplaceVarsT(_T("%miranda_path%"));
+		}
+	}
+	else
+	{
+		CallService(MS_DB_GETPROFILENAME, SIZEOF(temp), (LPARAM)temp);
+		crs_a2t(profname, temp);
+
+		CallService(MS_DB_GETPROFILEPATH, SIZEOF(temp), (LPARAM)temp);
+		crs_a2t(profpath, temp);
+
+		CallService(MS_DB_GETPROFILEPATH, SIZEOF(temp), (LPARAM)temp);
+		crs_a2t(mirpath, temp);
+	}
+
+	crs_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
+	crs_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), mirpath);
+
 	SetExceptionHandler();
 
 	hCrashLogFolder = FoldersRegisterCustomPathT(PluginName, "Crash Reports", CrashLogFolder);
@@ -288,57 +323,57 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	mi.popupPosition = 2000089999;
 	mi.position = 2000089999;
-	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = GetIconHandle("versionInfo");
-	mi.pszName = LPGEN("Version Information");
+	mi.ptszName = LPGENT("Version Information");
 	mi.pszPopupName = (char *)-1;
 	HANDLE hMenuRoot = (HANDLE)CallService( MS_CLIST_ADDMAINMENUITEM,  (WPARAM)0, (LPARAM)&mi);
 
-	mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.pszPopupName = (char *)hMenuRoot;
 	mi.popupPosition = 0;
 
 	mi.position = 2000089995;
-	mi.pszName = LPGEN("Copy to clipboard");
+	mi.ptszName = LPGENT("Copy to clipboard");
 	mi.icolibItem = GetIconHandle("storeToClip");
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
 	mi.position = 2000089996;
-	mi.pszName = LPGEN("Store to file");
+	mi.ptszName = LPGENT("Store to file");
 	mi.icolibItem = GetIconHandle("storeToFile");
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
 	mi.position  = 2000089997;
-	mi.pszName = LPGEN("Show");
+	mi.ptszName = LPGENT("Show");
 	mi.icolibItem = GetIconHandle("showInfo");
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
 	mi.popupPosition = 1;
 	mi.position  = 2000089998;
-	mi.pszName = LPGEN("Show with DLLs");
+	mi.ptszName = LPGENT("Show with DLLs");
 	mi.icolibItem = GetIconHandle("showInfo");
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
 	mi.popupPosition = 0;
 	mi.position  = 2000089999;
-	mi.pszName = LPGEN("Upload");
+	mi.ptszName = LPGENT("Upload");
 	mi.icolibItem = GetIconHandle("uploadInfo");
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
 	mi.position  = 2000099990;
-	mi.pszName = LPGEN("Open crash report directory");
+	mi.ptszName = LPGENT("Open crash report directory");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
 	mi.popupPosition = 1;
 	mi.position  = 2000099991;
-	mi.pszName = LPGEN("Open miranda-vi.org");
+	mi.ptszName = LPGENT("Open miranda-vi.org");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
 	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
@@ -388,7 +423,9 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 
-	clsdates = DBGetContactSettingByte(NULL, PluginName, "ClassicDates", 0) != 0;
+	clsdates = DBGetContactSettingByte(NULL, PluginName, "ClassicDates", 1) != 0;
+
+	dtsubfldr = DBGetContactSettingByte(NULL, PluginName, "SubFolders", 1) != 0;
 
 	mir_getMMI(&mmi);
 	mir_getMD5I(&md5i);
@@ -403,27 +440,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	packlcid = (LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0);
 
 	InitIcons();
-
-	char temp[MAX_PATH];
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(temp), (LPARAM)temp);
-	crs_a2t(vertxt, temp);
-
-	if (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(0,9,0,12))
-	{
-		profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-		profpath = Utils_ReplaceVarsT(_T("%miranda_profile%\\%miranda_profilename%"));
-	}
-	else
-	{
-		CallService(MS_DB_GETPROFILENAME, SIZEOF(temp), (LPARAM)temp);
-		crs_a2t(profname, temp);
-
-		CallService(MS_DB_GETPROFILEPATH, SIZEOF(temp), (LPARAM)temp);
-		crs_a2t(profpath, temp);
-	}
-
-	crs_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
-	crs_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
 
 	InitExceptionHandler();
 
@@ -448,7 +464,11 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	DestroyExceptionHandler();
 
-	mir_free(profpath);
+	if (!_tcsstr(profpath, _T("%miranda")))
+	{
+		mir_free(profpath);
+		mir_free(mirpath);
+	}
 	mir_free(profname);
 	mir_free(vertxt);
 

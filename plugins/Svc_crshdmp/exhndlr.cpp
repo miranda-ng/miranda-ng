@@ -64,7 +64,7 @@ int myDebugFilter(unsigned int code, PEXCEPTION_POINTERS ep)
 void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 {
 	TCHAR path[MAX_PATH];
-	SYSTEMTIME st; 
+	SYSTEMTIME st;
 	HANDLE hDumpFile = NULL;
 
 	GetLocalTime(&st);
@@ -72,8 +72,18 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 
 	__try 
 	{
-		crs_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder, 
-			st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		if (dtsubfldr)
+		{
+			crs_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
+			CreateDirectory(path, NULL);
+			crs_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder, 
+				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		}
+		else
+		{
+			crs_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.mdmp"), CrashLogFolder, 
+				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		}
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 		if (hDumpFile != INVALID_HANDLE_VALUE) 
 			CreateMiniDump(hDumpFile, exc_ptr);
@@ -90,15 +100,25 @@ void myfilterWorker(PEXCEPTION_POINTERS exc_ptr, bool notify)
 
 	__try 
 	{
-		crs_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder, 
-			st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		if (dtsubfldr)
+		{
+			crs_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d"), CrashLogFolder, st.wYear, st.wMonth, st.wDay);
+			CreateDirectory(path, NULL);
+			crs_sntprintf(path, MAX_PATH, TEXT("%s\\%02d.%02d.%02d\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder, 
+				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		}
+		else
+		{
+			crs_sntprintf(path, MAX_PATH, TEXT("%s\\crash%02d%02d%02d%02d%02d%02d.txt"), CrashLogFolder, 
+				st.wYear, st.wMonth, st.wDay, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
+		}
 		hDumpFile = CreateFile(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
 
 		crs_sntprintf(path, MAX_PATH, TranslateT("Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?"), CrashLogFolder); 
 
-		if (hDumpFile != INVALID_HANDLE_VALUE) 
+		if (hDumpFile != INVALID_HANDLE_VALUE)
 			CreateCrashReport(hDumpFile, exc_ptr, notify ? path : NULL);
-	} 
+	}
 	__except(myDebugFilter(GetExceptionCode(), GetExceptionInformation())) {}
 
 	bool empty1 = GetFileSize(hDumpFile, NULL) == 0;

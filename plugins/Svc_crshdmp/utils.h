@@ -116,6 +116,7 @@ extern DWORD mirandaVersion;
 extern LCID packlcid;
 extern bool servicemode; 
 extern bool clsdates;
+extern bool dtsubfldr;
 
 extern TCHAR CrashLogFolder[MAX_PATH];
 extern TCHAR VersionInfoFolder[MAX_PATH];

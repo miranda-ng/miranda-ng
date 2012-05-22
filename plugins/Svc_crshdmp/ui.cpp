@@ -226,6 +226,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			CheckDlgButton(hwndDlg, IDC_UPLOADCHN, DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0));
 			CheckDlgButton(hwndDlg, IDC_CLASSICDATES, clsdates);
+			CheckDlgButton(hwndDlg, IDC_DATESUBFOLDER, dtsubfldr);
 		}
 		break;
 
@@ -253,6 +254,11 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBWriteContactSettingByte(NULL, PluginName, "ClassicDates", 1);
 			else
 				DBDeleteContactSetting(NULL, PluginName, "ClassicDates");
+			dtsubfldr = IsDlgButtonChecked(hwndDlg, IDC_DATESUBFOLDER) == BST_CHECKED;
+			if (dtsubfldr)
+				DBWriteContactSettingByte(NULL, PluginName, "SubFolders", 1);
+			else
+				DBDeleteContactSetting(NULL, PluginName, "SubFolders");
 		}
 		break;
 	}

@@ -517,8 +517,10 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 
 	TCHAR profpn[MAX_PATH];
 	crs_sntprintf(profpn, sizeof(profpn), TEXT("%s\\%s"), profpath, profname);
+	TCHAR* tszFolder = Utils_ReplaceVarsT(profpn);
 
-	buffer.appendfmt(TEXT("Profile: %s\r\n"), profpn);
+	buffer.appendfmt(TEXT("Profile: %s\r\n"), tszFolder);
+	mir_free(tszFolder);
 
 	if (flags & VI_FLAG_PRNVAR)
 	{
