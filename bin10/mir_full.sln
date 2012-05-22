@@ -24,9 +24,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Scriver", "..\plugins\Scriv
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ModernOpt", "..\plugins\modernopt\modernopt_10.vcxproj", "{153DD132-084C-4DE4-8F40-A088BCB22723}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tabsrmm", "..\plugins\Tabsrmm\tabsrmm_10.vcxproj", "{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM", "..\plugins\Tabsrmm\tabsrmm_10.vcxproj", "{99D26CA1-BFD4-4E77-9A1E-919E54CF33F7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Srmm", "..\plugins\Srmm\srmm_10.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SRMM", "..\plugins\Srmm\srmm_10.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AIM", "..\protocols\AimOscar\aim_10.vcxproj", "{736E59E5-CDCE-4C88-9C3A-E7913D45C9EC}"
 EndProject
@@ -58,7 +58,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbtool", "..\tools\dbtool\dbtool_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tabsrmm_icons", "..\plugins\Tabsrmm\icons\ICONS_NOVA\ICONS_NOVA_10.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\Tabsrmm\icons\ICONS_NOVA\ICONS_NOVA_10.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AuthState", "..\plugins\AuthState\authstate_10.vcxproj", "{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}"
 EndProject
@@ -168,11 +168,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TranslitSwitcher", "..\plug
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserGuide", "..\plugins\UserGuide\UserGuide_10.vcxproj", "{92E3BDEE-DD17-4619-AD61-70C0ADE04217}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UinfoEx", "..\plugins\UserInfoEx\UInfoEx_10.vcxproj", "{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx", "..\plugins\UserInfoEx\UInfoEx_10.vcxproj", "{AD3B6CDC-7B26-4338-B6AE-0306DEDA0D6A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Variables", "..\plugins\variables\Variables_10.vcxproj", "{3038EF69-85BE-4D92-9864-CD6A5EBB558A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "W7ui", "..\plugins\W7ui\w7ui_10.vcxproj", "{86704897-EABF-439D-BE0E-52CEA67C2C43}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "W7UI", "..\plugins\W7ui\w7ui_10.vcxproj", "{86704897-EABF-439D-BE0E-52CEA67C2C43}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\WhenWasIt\WhenWasIt\WhenWasIt_10.vcxproj", "{63E05ECA-0A63-479E-86BD-2CAF53869BDA}"
 EndProject
@@ -246,13 +246,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_YAMN", "..\plugins\YA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Weather", "..\protocols\Weather\proto_weather\proto_weather_10.vcxproj", "{B2F4BA6C-1BD6-4A50-A706-DCBC6A5D439B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UinfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_10.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z1", "..\plugins\UserInfoEx\IconPacks\default\icons_default_10.vcxproj", "{AA542F66-FF66-498A-ADBE-0BB9103ECD0A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UinfoEx_icons_default_Z2", "..\plugins\UserInfoEx\IconPacks\default\icons_default_10_z2.vcxproj", "{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_default_Z2", "..\plugins\UserInfoEx\IconPacks\default\icons_default_10_z2.vcxproj", "{D90DD62F-6A75-4469-ABB5-A3E88BCA6A3C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UinfoEx_icons_ice_Z1", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_10.vcxproj", "{E04B8ECA-A066-41BA-AE8C-DB172424DD82}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z1", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_10.vcxproj", "{E04B8ECA-A066-41BA-AE8C-DB172424DD82}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "uinfoEx_icons_ice_Z2", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_10_z2.vcxproj", "{E787B42A-6489-4078-90CD-B78B751A1284}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UInfoEx_icons_ice_Z2", "..\plugins\UserInfoEx\IconPacks\ice\icons_ice_10_z2.vcxproj", "{E787B42A-6489-4078-90CD-B78B751A1284}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugins\SecureIM\secureim_icons_10.vcxproj", "{3FAB6AC7-6B7F-4779-B519-34E8035074A4}"
 EndProject
@@ -538,7 +538,7 @@ Global
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.Build.0 = Release|x64
 		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Debug|Win32.ActiveCfg = Debug|Win32
 		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Debug|Win32.Build.0 = Debug|Win32
-		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Debug|x64.ActiveCfg = Debug|Win32
+		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Debug|x64.ActiveCfg = Debug|x64
 		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Release|Win32.ActiveCfg = Release|Win32
 		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Release|Win32.Build.0 = Release|Win32
 		{98DF7761-41D7-4C5C-9FFE-E5CCB3997783}.Release|x64.ActiveCfg = Release|x64
@@ -753,6 +753,7 @@ Global
 		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Debug|Win32.Build.0 = Debug|Win32
 		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Debug|x64.ActiveCfg = Debug|Win32
+		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Debug|x64.Build.0 = Debug|Win32
 		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Release|Win32.ActiveCfg = Release|Win32
 		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Release|Win32.Build.0 = Release|Win32
 		{8190CFAA-3B73-43D8-9101-8368E21F1864}.Release|x64.ActiveCfg = Release|x64
@@ -1023,7 +1024,8 @@ Global
 		{5DB86086-10E9-42E7-AC90-503D2678C2A2}.Release|x64.Build.0 = Release|x64
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|Win32.ActiveCfg = Debug|Win32
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|Win32.Build.0 = Debug|Win32
-		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|x64.ActiveCfg = Debug|Win32
+		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|x64.ActiveCfg = Debug|x64
+		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Debug|x64.Build.0 = Debug|x64
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|Win32.ActiveCfg = Release|Win32
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|Win32.Build.0 = Release|Win32
 		{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}.Release|x64.ActiveCfg = Release|x64
@@ -1055,16 +1057,19 @@ Global
 		{A9265E36-7F2D-440C-BF3E-F447FDB6200F}.Release|x64.ActiveCfg = Release|x64
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|Win32.ActiveCfg = Debug|Win32
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|Win32.Build.0 = Debug|Win32
-		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|x64.ActiveCfg = Debug|Win32
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|x64.ActiveCfg = Debug|x64
+		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Debug|x64.Build.0 = Debug|x64
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|Win32.ActiveCfg = Release|Win32
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|Win32.Build.0 = Release|Win32
 		{B57D997C-73E1-D5F7-ECCA-C204345C04A3}.Release|x64.ActiveCfg = Release|x64
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.ActiveCfg = Debug|Win32
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|Win32.Build.0 = Debug|Win32
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.ActiveCfg = Debug|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.ActiveCfg = Debug|x64
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Debug|x64.Build.0 = Debug|x64
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.ActiveCfg = Release|Win32
 		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|Win32.Build.0 = Release|Win32
-		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.ActiveCfg = Release|Win32
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.ActiveCfg = Release|x64
+		{6A516E27-AC50-5374-756B-A1558DB2EFA9}.Release|x64.Build.0 = Release|x64
 		{2D1D3D7C-F86B-4189-8D57-96575D441182}.Debug|Win32.ActiveCfg = Debug|Win32
 		{2D1D3D7C-F86B-4189-8D57-96575D441182}.Debug|Win32.Build.0 = Debug|Win32
 		{2D1D3D7C-F86B-4189-8D57-96575D441182}.Debug|x64.ActiveCfg = Debug|x64
