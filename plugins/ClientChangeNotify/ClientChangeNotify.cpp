@@ -17,8 +17,6 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#define _DECL_DLLMAIN
-
 #include "Common.h"
 #include "Misc.h"
 #include "VersionNo.h"
@@ -100,7 +98,7 @@ PLUGININFO oldPluginInfo = {
 	pluginInfo.replacesDefaultModule
 };
 
-BOOL WINAPI MyDllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	g_hInstance = hinstDLL;
 	return TRUE;

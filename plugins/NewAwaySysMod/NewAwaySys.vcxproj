@@ -73,8 +73,6 @@
       </AssemblyDebug>
       <GenerateMapFile>true</GenerateMapFile>
       <MapExports>true</MapExports>
-      <EntryPointSymbol>MyDllMain</EntryPointSymbol>
-      <BaseAddress>0x325A0000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
@@ -118,8 +116,6 @@
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EntryPointSymbol>MyDllMain</EntryPointSymbol>
-      <BaseAddress>0x325A0000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <OptimizeReferences>true</OptimizeReferences>

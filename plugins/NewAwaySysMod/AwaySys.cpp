@@ -29,7 +29,6 @@
   was no point in rewriting it all.
 */
 
-#define _DECL_DLLMAIN
 #include "Common.h"
 #include "m_genmenu.h"
 #include "m_idle.h"
@@ -139,12 +138,10 @@ PLUGININFO oldPluginInfo = {
 	pluginInfo.replacesDefaultModule
 };
 
-BOOL WINAPI MyDllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	g_hInstance = hinstDLL;
-// have to call _CRT_INIT here, and redefine DLL entry point to MyDllMain because of
-// msvcr71.dll's __CppXcptFilter function dependency, which is not present in msvcrt.dll
-	return _CRT_INIT(hinstDLL, fdwReason, lpvReserved);
+	return TRUE;
 }
 
 static const MUUID interfaces[] = {MIID_SRAWAY, MIID_LAST}; // TODO: add MIID_WHOISREADING here if there'll be any some time in future..
