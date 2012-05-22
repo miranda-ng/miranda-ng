@@ -62,7 +62,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 }
 
 
-static void __stdcall DummyAPCFunc(DWORD)
+static void __stdcall DummyAPCFunc(ULONG_PTR)
 {
 	return;
 }

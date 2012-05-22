@@ -535,7 +535,7 @@ HICON g_LoadIconEx( const char* name, bool big )
 	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", "", name );
 	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
 }
-int CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static int SetMsgSplitterX, SetContactSplitterX;
 	static SetAwayMsgData *dat;
@@ -1656,11 +1656,11 @@ int CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 				HCURSOR hCursor = NULL;
 				if (hitFlags & (MCLCHT_ONITEM | MCLCHT_ONITEMEXTRA))
 				{
-					SetClassLong(hTreeView, GCL_HCURSOR, NULL);
+					SetClassLong(hTreeView, GCLP_HCURSOR, NULL);
 					hCursor = LoadCursor(NULL, IDC_HAND); // set mouse cursor to a hand when hovering over items or their extra images
 				} else
 				{
-					SetClassLong(hTreeView, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
+					SetClassLong(hTreeView, GCLP_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
 				}
 				if (!hCursor)
 				{
@@ -1670,7 +1670,7 @@ int CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lP
 				return true;
 			} else
 			{
-				SetClassLong(hTreeView, GCL_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
+				SetClassLong(hTreeView, GCLP_HCURSOR, (LONG)LoadCursor(NULL, IDC_ARROW));
 			}
 		} break;
 		case WM_CLOSE:

@@ -17,11 +17,11 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-int GetStatusMsg(WPARAM wParam, LPARAM lParam);
-int SetStatusMode(WPARAM wParam, LPARAM lParam);
+INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam);
+INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam);
 // int IgnoreNextStatusChange(WPARAM wParam, LPARAM lParam);
-int GetStateA(WPARAM wParam, LPARAM lParam);
-int SetStateA(WPARAM wParam, LPARAM lParam);
-int GetStateW(WPARAM wParam, LPARAM lParam);
-int SetStateW(WPARAM wParam, LPARAM lParam);
-int InvokeStatusWindow(WPARAM wParam, LPARAM lParam);
+INT_PTR GetStateA(WPARAM wParam, LPARAM lParam);
+INT_PTR SetStateA(WPARAM wParam, LPARAM lParam);
+INT_PTR GetStateW(WPARAM wParam, LPARAM lParam);
+INT_PTR SetStateW(WPARAM wParam, LPARAM lParam);
+INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM lParam);

@@ -58,7 +58,7 @@ int g_bIsIdle = false;
 HANDLE hMainThread;
 int g_CSProtoCount = 0; // CommonStatus - StartupStatus and AdvancedAutoAway
 VAR_PARSE_DATA VarParseData;
-int (*g_OldCallService)(const char *, WPARAM, LPARAM) = NULL;
+INT_PTR (*g_OldCallService)(const char *, WPARAM, LPARAM) = NULL;
 
 static struct
 {
@@ -525,7 +525,7 @@ int PreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 }
 
 
-static int SetContactStatMsg(WPARAM wParam, LPARAM lParam)
+static INT_PTR SetContactStatMsg(WPARAM wParam, LPARAM lParam)
 {
 	if (g_SetAwayMsgPage.GetWnd()) // already setting something
 	{
@@ -563,7 +563,7 @@ void UpdateSOEButtons(HANDLE hContact)
 }
 */
 
-int ToggleSendOnEvent(WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleSendOnEvent(WPARAM wParam, LPARAM lParam)
 { // used only for the global setting
 	HANDLE hContact = (HANDLE)wParam;
 	CContactSettings(g_ProtoStates[hContact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0) : (char*)NULL].Status, hContact).Autoreply.Toggle();
@@ -572,7 +572,7 @@ int ToggleSendOnEvent(WPARAM wParam, LPARAM lParam)
 }
 
 
-int srvAutoreplyOn(WPARAM wParam, LPARAM lParam)
+INT_PTR srvAutoreplyOn(WPARAM wParam, LPARAM lParam)
 { // wParam = hContact
 	HANDLE hContact = (HANDLE)wParam;
 	CContactSettings(g_ProtoStates[(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)].Status, hContact).Autoreply = 1;
@@ -581,7 +581,7 @@ int srvAutoreplyOn(WPARAM wParam, LPARAM lParam)
 }
 
 
-int srvAutoreplyOff(WPARAM wParam, LPARAM lParam)
+INT_PTR srvAutoreplyOff(WPARAM wParam, LPARAM lParam)
 { // wParam = hContact
 	HANDLE hContact = (HANDLE)wParam;
 	CContactSettings(g_ProtoStates[(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)].Status, hContact).Autoreply = 0;
@@ -590,7 +590,7 @@ int srvAutoreplyOff(WPARAM wParam, LPARAM lParam)
 }
 
 
-int srvAutoreplyUseDefault(WPARAM wParam, LPARAM lParam)
+INT_PTR srvAutoreplyUseDefault(WPARAM wParam, LPARAM lParam)
 { // wParam = hContact
 	HANDLE hContact = (HANDLE)wParam;
 	CContactSettings(g_ProtoStates[(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)].Status, hContact).Autoreply = VAL_USEDEFAULT;
@@ -721,7 +721,7 @@ static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 }
 
 
-int srvVariablesHandler(WPARAM wParam, LPARAM lParam)
+INT_PTR srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 {
 	ARGUMENTSINFO *ai = (ARGUMENTSINFO*)lParam;
 	ai->flags = AIF_DONTPARSE;
@@ -827,7 +827,7 @@ int srvVariablesHandler(WPARAM wParam, LPARAM lParam)
 }
 
 
-int srvFreeVarMem(WPARAM wParam, LPARAM lParam)
+INT_PTR srvFreeVarMem(WPARAM wParam, LPARAM lParam)
 {
 	if (!lParam)
 	{
@@ -838,7 +838,7 @@ int srvFreeVarMem(WPARAM wParam, LPARAM lParam)
 }
 
 
-static int MyCallService(const char *name, WPARAM wParam, LPARAM lParam)
+static INT_PTR MyCallService(const char *name, WPARAM wParam, LPARAM lParam)
 {
 	if (name && wParam <= ID_STATUS_OUTTOLUNCH && wParam >= ID_STATUS_OFFLINE) // wParam conditions here are distinctive "features" of PS_SETSTATUS and PS_SETAWAYMSG services, so if wParam does not suit them, we'll pass the control to the old CallService function as soon as possible
 	{

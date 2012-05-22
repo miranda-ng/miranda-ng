@@ -326,7 +326,7 @@ extern int g_Messages_RecentRootID, g_Messages_PredefinedRootID;
 extern VAR_PARSE_DATA VarParseData;
 extern bool g_fNoProcessing;
 extern int g_bIsIdle;
-extern int (*g_OldCallService)(const char *, WPARAM, LPARAM);
+extern INT_PTR (*g_OldCallService)(const char *, WPARAM, LPARAM);
 
 
 // AwaySys.cpp
@@ -340,11 +340,11 @@ int GetRecentGroupID(int iMode);
 TCString VariablesEscape(TCString Str);
 
 // SetAwayMsg.cpp
-int CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 // ReadAwayMsg.cpp
 extern HANDLE g_hReadWndList;
-int GetContactStatMsg(WPARAM wParam, LPARAM lParam);
+INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam);
 
 // AwayOpt.cpp
 int OptsDlgInit(WPARAM wParam, LPARAM lParam); // called on opening of the options dialog
@@ -363,7 +363,7 @@ int MsgEventAdded(WPARAM wParam, LPARAM lParam);
 
 // buttons
 //void UpdateSOEButtons(HANDLE hContact = NULL);
-int ToggleSendOnEvent(WPARAM wParam, LPARAM lParam);
+INT_PTR ToggleSendOnEvent(WPARAM wParam, LPARAM lParam);
 //int Create_TopToolbar(WPARAM wParam, LPARAM lParam);
 
 

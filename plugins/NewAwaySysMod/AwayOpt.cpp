@@ -323,7 +323,7 @@ static LRESULT CALLBACK DefStatusButtonSubclassProc(HWND hWnd, UINT Msg, WPARAM 
 }
 
 
-int CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static CMsgTree* MsgTree = NULL;
@@ -621,7 +621,7 @@ void EnableMoreOptDlgControls()
 }
 
 
-int CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static struct {
@@ -775,7 +775,7 @@ void EnableAutoreplyOptDlgControls()
 	InvalidateRect(GetDlgItem(g_AutoreplyOptPage.GetWnd(), IDC_REPLYDLG_SENDCOUNT_SPIN), NULL, 0); // update spin control
 }
 
-int CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static HWND hWndTooltips;
@@ -979,7 +979,7 @@ int CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 }
 // ================================================ Modern options ==============================================
 
-int CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
 	static CMsgTree* MsgTree = NULL;
@@ -1583,7 +1583,7 @@ static LRESULT CALLBACK ContactsSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam,
 	return CallWindowProc(g_OrigContactsProc, hWnd, Msg, wParam, lParam);
 }
 
-int CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static HANDLE hItemAll, hItemUnknown;
 	switch (msg)

@@ -63,7 +63,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 }
 
 
-int GetStatusMsg(WPARAM wParam, LPARAM lParam) // called by GamerStatus and built-in miranda autoaway module
+INT_PTR GetStatusMsg(WPARAM wParam, LPARAM lParam) // called by GamerStatus and built-in miranda autoaway module
 // wParam = (int)status, lParam = 0
 // MS_AWAYMSG_GETSTATUSMSG "SRAway/GetStatusMessage"
 {
@@ -86,7 +86,7 @@ int GetStatusMsg(WPARAM wParam, LPARAM lParam) // called by GamerStatus and buil
 }
 
 
-int SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and StatCtrl
+INT_PTR SetStatusMode(WPARAM wParam, LPARAM lParam) // called by GamerStatus and StatCtrl
 {
 // wParam = int iMode
 // lParam = char* szMsg, may be null - then we need to use the default message
@@ -156,13 +156,13 @@ int GetState(WPARAM wParam, LPARAM lParam, int Widechar)
 }
 
 
-int GetStateA(WPARAM wParam, LPARAM lParam)
+INT_PTR GetStateA(WPARAM wParam, LPARAM lParam)
 {
 	return GetState(wParam, lParam, false);
 }
 
 
-int GetStateW(WPARAM wParam, LPARAM lParam)
+INT_PTR GetStateW(WPARAM wParam, LPARAM lParam)
 {
 	return GetState(wParam, lParam, true);
 }
@@ -208,19 +208,19 @@ int SetState(WPARAM wParam, LPARAM lParam, int Widechar)
 }
 
 
-int SetStateA(WPARAM wParam, LPARAM lParam)
+INT_PTR SetStateA(WPARAM wParam, LPARAM lParam)
 {
 	return SetState(wParam, lParam, false);
 }
 
 
-int SetStateW(WPARAM wParam, LPARAM lParam)
+INT_PTR SetStateW(WPARAM wParam, LPARAM lParam)
 {
 	return SetState(wParam, lParam, true);
 }
 
 
-int InvokeStatusWindow(WPARAM wParam, LPARAM lParam)
+INT_PTR InvokeStatusWindow(WPARAM wParam, LPARAM lParam)
 // wParam = (WPARAM)(NAS_ISWINFO*)iswi - pointer to a NAS_ISWINFO structure.
 // lParam = 0
 // returns HWND of the window on success, or NULL on failure.

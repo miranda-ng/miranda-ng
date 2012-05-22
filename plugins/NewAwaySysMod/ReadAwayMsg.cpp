@@ -148,7 +148,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 }
 
 
-int GetContactStatMsg(WPARAM wParam, LPARAM lParam)
+INT_PTR GetContactStatMsg(WPARAM wParam, LPARAM lParam)
 {
 	if (HWND hWnd = WindowList_Find(g_hReadWndList, (HANDLE)wParam)) // already have it
 	{
