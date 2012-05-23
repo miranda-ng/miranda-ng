@@ -291,6 +291,22 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_WIN64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="icons\Always Visible.ico" />
+    <None Include="icons\auth_added.ico" />
+    <None Include="icons\auth_ask.ico" />
+    <None Include="icons\change_proto.ico" />
+    <None Include="icons\copyid_overlay.ico" />
+    <None Include="icons\copyip_overlay.ico" />
+    <None Include="icons\CopyMirVer.ico" />
+    <None Include="icons\hide_from_list.ico" />
+    <None Include="icons\ignore_list.ico" />
+    <None Include="icons\msg_status.ico" />
+    <None Include="icons\msg_xstatus.ico" />
+    <None Include="icons\Never Visible.ico" />
+    <None Include="icons\recv_files.ico" />
+    <None Include="icons\show_in_list.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

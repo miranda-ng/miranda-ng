@@ -41,4 +41,48 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="icons\hide_from_list.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\Always Visible.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\Never Visible.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\copyid_overlay.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\auth_added.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\auth_ask.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\change_proto.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\ignore_list.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\show_in_list.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\msg_status.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\msg_xstatus.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\copyip_overlay.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\recv_files.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\CopyMirVer.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

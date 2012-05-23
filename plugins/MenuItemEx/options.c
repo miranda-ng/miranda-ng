@@ -24,12 +24,13 @@ static const checkboxes[]={
 	{	IDC_COPYIDNAME,			VF_CIDN		},
 	{	IDC_RECVFILES,			VF_RECV		},
 	{	IDC_SMNAME,				VF_SMNAME	},
-	{	IDC_TRIMID,				VF_TRIMID	}
+	{	IDC_TRIMID,				VF_TRIMID	},
+	{	IDC_REFRESH_DETAILS,	VF_REFRESH	}
 };
 
 INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
-	WORD flags=DBGetContactSettingWord(NULL,VISPLG,"flags",vf_default);
+	DWORD flags=DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
 	TCHAR buffer[64] = {0};
 	int i;
 	
@@ -41,10 +42,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			for (i = 0; i < SIZEOF(checkboxes); i++)
 			{
-				if (checkboxes[i].flag == VF_IGNH) 
-					CheckDlgButton(hdlg, checkboxes[i].idc, (DBGetContactSettingByte(NULL, VISPLG, "ignorehide", 0)) ? BST_CHECKED : BST_UNCHECKED);
-				else
-					CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
+				CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
 			}
 
 			if (ServiceExists(MS_POPUP_ADDPOPUP))
@@ -85,20 +83,15 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			switch(((LPNMHDR)lparam)->code){
 				case PSN_APPLY:
 				{
-					WORD mod_flags=0;
-					int ignh=0;
+					DWORD mod_flags=0;
 
 					for (i = 0; i < SIZEOF(checkboxes); i++)
 					{
-						if (checkboxes[i].flag == VF_IGNH) 
-							ignh = IsDlgButtonChecked(hdlg, checkboxes[i].idc);
-						else
-							mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
+						mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
 					}
 
 					//DBDeleteContactSetting(NULL,VISPLG,"flags");
-					DBWriteContactSettingWord(NULL,VISPLG,"flags",mod_flags);
-					DBWriteContactSettingByte(NULL,VISPLG,"ignorehide",ignh);
+					DBWriteContactSettingDword(NULL,VISPLG,"flags",mod_flags);
 					
 					return 1;
 				}

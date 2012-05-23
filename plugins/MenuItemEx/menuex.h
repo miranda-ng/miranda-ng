@@ -50,23 +50,24 @@ int OptionsInit(WPARAM,LPARAM);
 #define MAX_GROUPS	32
 #define MAX_IDLEN	16
 
-#define VF_VS		0x0001
-#define	VF_SMNAME	0x0002
-#define	VF_HFL		0x0004
-#define VF_IGN		0x0008
-#define VF_PROTO	0x0010
-#define VF_SHOWID	0x0020
-#define VF_ADD		0x0040
-#define VF_REQ		0x0080
-#define VF_CID		0x0100
-#define VF_RECV		0x0200
-#define VF_STAT		0x0400
-#define VF_CIDN		0x0800
-#define VF_CIP		0x1000
-#define VF_SAI		0x2000
-#define VF_TRIMID	0x4000
-#define VF_CMV		0x8000
-#define VF_IGNH		0x10000
+#define VF_VS		0x00000001
+#define	VF_SMNAME	0x00000002
+#define	VF_HFL		0x00000004
+#define VF_IGN		0x00000008
+#define VF_PROTO	0x00000010
+#define VF_SHOWID	0x00000020
+#define VF_ADD		0x00000040
+#define VF_REQ		0x00000080
+#define VF_CID		0x00000100
+#define VF_RECV		0x00000200
+#define VF_STAT		0x00000400
+#define VF_CIDN		0x00000800
+#define VF_CIP		0x00001000
+#define VF_SAI		0x00002000
+#define VF_TRIMID	0x00004000
+#define VF_CMV		0x00008000
+#define VF_IGNH		0x00010000
+#define VF_REFRESH  0x00020000
 
 #define CTRL_IS_PRESSED (GetAsyncKeyState(VK_CONTROL)&0x8000)
 

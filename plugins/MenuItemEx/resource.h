@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by menuex.rc
+// Used by resource.rc
 //
 #define IDD_OPTIONS                     101
 #define IDD_AUTHREQ                     103
@@ -23,6 +23,7 @@
 #define IDC_HIDE                        1002
 #define IDC_IGNORE                      1003
 #define IDC_PROTOS                      1004
+#define IDC_REFRESH_DETAILS             1005
 #define IDC_ADDED                       1006
 #define IDC_AUTHREQ                     1007
 #define IDC_COPYID                      1008
@@ -37,6 +38,7 @@
 #define IDC_SHOWID                      1017
 #define IDC_TRIMID                      1018
 #define IDC_IGNOREHIDE                  1019
+#define __PLUGIN_ID                     4303
 #define IDC_STATIC                      -1
 
 // Next default values for new objects

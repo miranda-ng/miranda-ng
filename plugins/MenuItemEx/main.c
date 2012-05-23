@@ -767,7 +767,7 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 
 	GetID(hContact,szProto,(LPSTR)&szID);
 
-	if(DBGetContactSettingWord(NULL,VISPLG,"flags",vf_default)&VF_CIDN) {
+	if(DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default)&VF_CIDN) {
 		if (bMir_08)
 			pa = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
 		
@@ -793,7 +793,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam,LPARAM lparam)
 	char par[32];
 	TCHAR buffer[2048];
 	int i;
-	WORD flags=DBGetContactSettingWord(NULL,VISPLG,"flags",vf_default);
+	DWORD flags=DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
 
 	module = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0);
 	if(!module) return 0;
@@ -961,7 +961,7 @@ static void ModifySubmenuItem(HANDLE hItem, TCHAR* name, int checked, int hidden
 int BuildMenu(WPARAM wparam,LPARAM lparam)
 {
 	CLISTMENUITEM miAV={0},miNV,miHFL,miIGN,miPROTO,miADD,miREQ,miCID,miRECV,miSTAT,miCIP,miCMV;
-	WORD flags=DBGetContactSettingWord(NULL,VISPLG,"flags",vf_default);
+	DWORD flags=DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
 	int i = 0, j = 0, check = 0, all = 0, hide = 0;
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
 	PROTOACCOUNT* pa;
@@ -1198,7 +1198,8 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 		DBDeleteContactSetting( ( HANDLE )wParam, lpzProto, "LogoffTS");
 	
 		// TESTING: updating user's details
-		CallContactService( ( HANDLE )wParam, PSS_GETINFO, 0, 0 );
+		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH)
+			CallContactService( ( HANDLE )wParam, PSS_GETINFO, 0, 0 );
 	}
 	if (newStatus == ID_STATUS_OFFLINE)
 	{
