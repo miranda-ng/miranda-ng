@@ -31,13 +31,12 @@
 #include "CriticalSection.h"
 #include "TigerHash.h"
 
-//#import  "PROGID:ShockwaveFlash.ShockwaveFlash" no_namespace
-#import "Macromed\Flash\Flash10p.ocx" no_namespace exclude("IServiceProvider")
+#import  "PROGID:ShockwaveFlash.ShockwaveFlash" no_namespace exclude("IServiceProvider")
 
 PLUGININFOEX pluginInfo = {
-  sizeof(PLUGININFOEX), 
+  sizeof(PLUGININFOEX),
 	NULL,
-	PLUGIN_MAKE_VERSION(0, 0, 1, 14), 
+	PLUGIN_MAKE_VERSION(0, 0, 1, 14),
 	"Load and display flash avatars",
 	"Big Muscle",
 	"",
@@ -225,7 +224,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 			debug("Downloading flash file...\n");
 			DownloadFlashFile(fai->hFA.cUrl, name, 0);
 		}
-		
+
 		// load and play local flash movie
 		debug("Loading flash movie...\n");
 		flash->LoadMovie(0, _bstr_t(name).copy());
@@ -239,7 +238,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 		status = DBGetContactSettingWord(fai->hFA.hContact, fai->getProto(), "Status", ID_STATUS_OFFLINE);
 	else
 		status = CallProtoService(fai->getProto(), PS_GETSTATUS, 0, 0);
-	
+
 	getFace();
 	flash->SetVariable(L"face.emotion", _bstr_t(face).copy());
 	flash->Release();
@@ -289,7 +288,7 @@ static void prepareFlash(char* pProto, const char* pUrl, FLASHAVATAR& fa, IShock
 		Lock l(cs);
 		FlashList.insert(flash_item);
 	}
-	
+
 	// avatar contains parameter, load it from remote place
 	if(strchr(fa.cUrl, '?')) {
 		debug("Flash with parameters, loading...\n");
@@ -309,7 +308,7 @@ static void prepareFlash(char* pProto, const char* pUrl, FLASHAVATAR& fa, IShock
 static int destroyAvatar(WPARAM wParam, LPARAM)
 {
 	flash_avatar_item key(((FLASHAVATAR*)wParam)->hContact, *(FLASHAVATAR*)wParam, NULL);
-	
+
 	Lock l(cs);
 
 	flash_avatar_item *item = FlashList.find(&key);
@@ -336,7 +335,7 @@ static int makeAvatar(WPARAM wParam, LPARAM)
 	AI.format = PA_FORMAT_UNKNOWN;
 
 	flash_avatar_item key(hFA->hContact, *hFA, NULL);
-	
+
 	bool avatarOK = false;
 	if(hFA->hContact) {
 		avatarOK = (int)CallProtoService(key.getProto(), PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS;
@@ -348,10 +347,10 @@ static int makeAvatar(WPARAM wParam, LPARAM)
 				AI.format = PA_FORMAT_XML;
 		}
 	}
-	
+
 	if(!avatarOK) return 0;
 	debug("Avatar found...\n");
-	
+
 	char* url = NULL;
 	switch(AI.format) {
 		case PA_FORMAT_SWF:
@@ -364,7 +363,7 @@ static int makeAvatar(WPARAM wParam, LPARAM)
 				char* urlBuf;
 				_read(src, pBuf, sizeof(pBuf));
 				_close(src);
-					
+
 				urlBuf = strstr(pBuf, "<URL>");
 				if(urlBuf)
  					url = strtok(urlBuf + 5, "\r\n <");
@@ -379,21 +378,21 @@ static int makeAvatar(WPARAM wParam, LPARAM)
  			destroyAvatar(wParam, 0);
  			return 0;
 	}
-	
+
 	Lock l(cs);
 	flash_avatar_item *item = FlashList.find(&key);
 	if (item) {
 		debug("Flash already exists...\n");
 		hFA->hWindow = item->hFA.hWindow;
 		ShowWindow(hFA->hWindow, SW_SHOW);
-				
+
 		if(_stricmp(item->hFA.cUrl, url) != 0) {
 			debug("Refreshing flash...\n");
 			IShockwaveFlash* flash = item->pFlash;
 			mir_free(item->hFA.cUrl);
 			FlashList.remove(item);
 			delete item;
-	
+
 			prepareFlash(key.getProto(), url, *hFA, flash);
 		}
 	}	else {
@@ -408,7 +407,7 @@ static int makeAvatar(WPARAM wParam, LPARAM)
 		debug("Initialized.\n");
 
 		prepareFlash(key.getProto(), url, *hFA, flash);
-	}	
+	}
 	return 0;
 }
 
@@ -416,8 +415,8 @@ static int resizeAvatar(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	RECT rc = *((LPRECT)lParam);
-	flash_avatar_item key(hFA->hContact, *hFA, NULL);	
-	
+	flash_avatar_item key(hFA->hContact, *hFA, NULL);
+
 	Lock l(cs);
 	flash_avatar_item *item = FlashList.find(&key);
 	if (item)
@@ -430,11 +429,11 @@ static int setPos(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	RECT rc = *((LPRECT)lParam);
-	flash_avatar_item key(hFA->hContact, *hFA, NULL);	
-	
+	flash_avatar_item key(hFA->hContact, *hFA, NULL);
+
 	Lock l(cs);
 	flash_avatar_item *item = FlashList.find(&key);
-	if (item) 
+	if (item)
 		SetWindowPos(item->hFA.hWindow, HWND_TOP, rc.left, rc.top, rc.right, rc.bottom, SWP_SHOWWINDOW);
 
 	return 0;
@@ -443,8 +442,8 @@ static int setPos(WPARAM wParam, LPARAM lParam)
 static int getInfo(WPARAM wParam, LPARAM)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
-	flash_avatar_item key(hFA->hContact, *hFA, NULL);	
-	
+	flash_avatar_item key(hFA->hContact, *hFA, NULL);
+
 	Lock l(cs);
 	flash_avatar_item *item = FlashList.find(&key);
 	if (item) {
@@ -459,8 +458,8 @@ static int getInfo(WPARAM wParam, LPARAM)
 static int setEmoFace(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
-	flash_avatar_item key(hFA->hContact, *hFA, NULL);	
-	
+	flash_avatar_item key(hFA->hContact, *hFA, NULL);
+
 	Lock l(cs);
 	flash_avatar_item *item = FlashList.find(&key);
 	if (item && item->pFlash) {
@@ -474,7 +473,7 @@ static int setBkColor(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	COLORREF clr = (COLORREF)lParam;
-	flash_avatar_item key(hFA->hContact, *hFA, NULL);	
+	flash_avatar_item key(hFA->hContact, *hFA, NULL);
 
 	Lock l(cs);
 	flash_avatar_item *item = FlashList.find(&key);
@@ -483,7 +482,7 @@ static int setBkColor(WPARAM wParam, LPARAM lParam)
 
 		char buf[10];
 		_snprintf(buf, sizeof(buf), "%02X%02X%02X", LOBYTE(LOWORD(clr)), HIBYTE(LOWORD(clr)), LOBYTE(HIWORD(clr)));
-		flash->put_BGColor(_bstr_t(buf));	
+		flash->put_BGColor(_bstr_t(buf));
 	}
 	return 0;
 }
@@ -516,7 +515,7 @@ static int statusChanged(WPARAM wParam, LPARAM lParam)
 	for(int i = 0; i < FlashList.getCount(); i++) {
 		flash_avatar_item *item = FlashList[i];
 		if (item->hContact == (HANDLE)wParam) {
-  		IShockwaveFlash* flash = item->pFlash;	
+  		IShockwaveFlash* flash = item->pFlash;
 			if (flash) {
 				getFace();
 				flash->SetVariable(L"face.emotion", _bstr_t(face).copy());
@@ -543,7 +542,7 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 		if(FlashList.getCount() > 0) {
 			//size_t aLen = strlen((char *)dbei.pBlob)+1;
 			char* face = NULL;
-	
+
 			if(	(strstr((char*)dbei.pBlob, (char*)":-)") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":)") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)";)") != NULL) ||
@@ -603,9 +602,9 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	HMODULE hAtl = LoadLibrary(_T("atl"));
 	void* init = GetProcAddress(hAtl, "AtlAxWinInit"); _asm call init;
-	MyAtlAxAttachControl = (LPAtlAxAttachControl)GetProcAddress(hAtl, "AtlAxAttachControl"); 
+	MyAtlAxAttachControl = (LPAtlAxAttachControl)GetProcAddress(hAtl, "AtlAxAttachControl");
 
-	hServices[0] = CreateServiceFunction(MS_FAVATAR_DESTROY,    destroyAvatar);	
+	hServices[0] = CreateServiceFunction(MS_FAVATAR_DESTROY,    destroyAvatar);
 	hServices[1] = CreateServiceFunction(MS_FAVATAR_MAKE,       makeAvatar);
 	hServices[2] = CreateServiceFunction(MS_FAVATAR_RESIZE,     resizeAvatar);
 	hServices[3] = CreateServiceFunction(MS_FAVATAR_SETPOS,     setPos);
@@ -622,7 +621,7 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 	nl_user.szSettingsModule = "FlashAvatars";
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 	nl_user.szDescriptiveName = Translate("Flash Avatars");
-	
+
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
 
 	TCHAR path[MAX_PATH];
@@ -689,7 +688,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	// Shutdown cleanup	
+	// Shutdown cleanup
 	{
 		Lock l(cs);
 		for (int i = FlashList.getCount()-1; i >= 0; i--)
@@ -704,7 +703,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 		}
 		FlashList.destroy();
 	}
-	
+
 	int i;
 
 	for (i = 0; i < SIZEOF(hHooks); i++)
