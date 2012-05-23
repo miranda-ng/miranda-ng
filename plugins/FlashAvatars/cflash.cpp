@@ -31,7 +31,7 @@
 #include "CriticalSection.h"
 #include "TigerHash.h"
 
-#import  "PROGID:ShockwaveFlash.ShockwaveFlash" no_namespace exclude("IServiceProvider")
+#import  "Flash.tlb" no_namespace exclude("IServiceProvider")
 
 PLUGININFOEX pluginInfo = {
   sizeof(PLUGININFOEX),
