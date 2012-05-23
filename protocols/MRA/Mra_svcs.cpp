@@ -369,7 +369,7 @@ INT_PTR MraUpdateAllUsersInfo(WPARAM wParam,LPARAM lParam)
 			}
 		}
 	}
-return(0);
+	return(0);
 }
 
 INT_PTR MraCheckUpdatesUsersAvt(WPARAM wParam,LPARAM lParam)
@@ -385,12 +385,10 @@ INT_PTR MraCheckUpdatesUsersAvt(WPARAM wParam,LPARAM lParam)
 			if (IsContactMra(hContact))
 			if (DB_Mra_GetStaticStringA(hContact,"e-mail",szEMail,SIZEOF(szEMail),&dwEMailSize))
 			if (IsEMailChatAgent(szEMail,dwEMailSize)==FALSE)// только для оптимизации, MraAvatarsQueueGetAvatarSimple сама умеет фильтровать чатконтакты
-			{
 				MraAvatarsQueueGetAvatarSimple(masMraSettings.hAvatarsQueueHandle,0/*GAIF_FORCE*/,hContact,0);
-			}
 		}
 	}
-return(0);
+	return(0);
 }
 
 INT_PTR MraRequestAuthForAll(WPARAM wParam,LPARAM lParam)
@@ -2129,33 +2127,27 @@ INT_PTR MraGetAvatarCaps(WPARAM wParam,LPARAM lParam)
 		break;
 	}
 
-return(iRet);
+	return iRet;
 }
 
 
 INT_PTR MraGetAvatarInfo(WPARAM wParam,LPARAM lParam)
 {
-	INT_PTR iRet=GAIR_NOAVATAR;
-
-	if (lParam)
-	{//(DWORD)wParam&GAIF_FORCE
-		PROTO_AVATAR_INFORMATION *ppai=(PROTO_AVATAR_INFORMATION*)lParam;
-		iRet=(INT_PTR)MraAvatarsQueueGetAvatar(masMraSettings.hAvatarsQueueHandle,(DWORD)wParam,ppai->hContact,NULL,(DWORD*)&ppai->format,ppai->filename);
+	if (lParam) {
+		PROTO_AVATAR_INFORMATIONT *ppai = (PROTO_AVATAR_INFORMATIONT*)lParam;
+		return (INT_PTR)MraAvatarsQueueGetAvatar(masMraSettings.hAvatarsQueueHandle,(DWORD)wParam,ppai->hContact,NULL,(DWORD*)&ppai->format,ppai->filename);
 	}
-return(iRet);
+	return GAIR_NOAVATAR;
 }
 
 
 INT_PTR MraGetMyAvatar(WPARAM wParam,LPARAM lParam)
-{// need call MS_AV_REPORTMYAVATARCHANGED hook
-	INT_PTR iRet=1;
-
-	if (MraAvatarsGetFileName(masMraSettings.hAvatarsQueueHandle,NULL,GetContactAvatarFormat(NULL,PA_FORMAT_DEFAULT),(LPSTR)wParam,(SIZE_T)lParam,NULL)==NO_ERROR)
-	{
-		LPSTR lpsz=(LPSTR)wParam;
-		iRet=0;
+{
+	if ( MraAvatarsGetFileName(masMraSettings.hAvatarsQueueHandle, NULL, GetContactAvatarFormat(NULL, PA_FORMAT_DEFAULT), (LPTSTR)wParam, (SIZE_T)lParam, NULL) == NO_ERROR) {
+		LPSTR lpsz = (LPSTR)wParam;
+		return 0;
 	}
-return(iRet);
+	return 1;
 }
 
 

@@ -30,7 +30,7 @@ void	VersionConversions	();
 
 BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID Reserved)
 {
-    switch(dwReason){
+	switch(dwReason){
 	case DLL_PROCESS_ATTACH:
 		bzero(&masMraSettings,sizeof(masMraSettings));
 		masMraSettings.hInstance=hInstance;
@@ -46,9 +46,9 @@ BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID Reserved)
 	case DLL_THREAD_ATTACH:
 	case DLL_THREAD_DETACH:
 		break;
-    }
+	}
 
-	 return(TRUE);
+	return(TRUE);
 }
 
 
