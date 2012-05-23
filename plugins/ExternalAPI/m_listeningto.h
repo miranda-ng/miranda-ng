@@ -1,32 +1,29 @@
 /* 
-ListeningTo plugin for Miranda IM
-==========================================================================
-Copyright	(C) 2005-2011 Ricardo Pescuma Domenecci
-			(C) 2010-2011 Merlin_de
+Copyright (C) 2006 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+modify it under the terms of the GNU Library General Public
+License as published by the Free Software Foundation; either
+version 2 of the License, or (at your option) any later version.
 
 This is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-See the GNU General Public License for more details.
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Library General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the
-Free Software Foundation, Inc.,
-59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+You should have received a copy of the GNU Library General Public
+License along with this file; see the file license.txt.  If
+not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.  
 */
 
 
 #ifndef __M_LISTENINGTO_H__
 # define __M_LISTENINGTO_H__
 
-#ifndef MIID_LISTENINGTO
+
 #define MIID_LISTENINGTO { 0x1fc1efa, 0xaa9f, 0x461b, { 0x92, 0x69, 0xaf, 0x66, 0x6b, 0x89, 0x31, 0xee } }
-#endif
+
 
 // To be used by other plugins to send listening info to miranda
 #define MIRANDA_WINDOWCLASS _T("Miranda.ListeningTo")
@@ -67,6 +64,15 @@ wParam: char * - protocol name or NULL for all protocols
 lParam: BOOL - enabled
 */
 #define ME_LISTENINGTO_ENABLE_STATE_CHANGED		"ListeningTo/EnableStateChanged"
+
+
+/*
+Notification fired when listening info changed
+
+wParam: LISTENINGTOINFO * - pointer to listening info structure or NULL
+lParam: NULL
+*/
+#define ME_LISTENINGTO_LISTENING_INFO_CHANGED	"ListeningTo/ListeningInfoChanged"
 
 
 /*
