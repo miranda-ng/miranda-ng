@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /*
 *	NOTE: Masks can contain '*' or '?' wild symbols
-*	Asterics '*' symbol covers 'empty' symbol too e.g WildCompare("Tst","T*st*"), returns TRUE 
+*	Asterics '*' symbol covers 'empty' symbol too e.g WildCompare("Tst","T*st*"), returns TRUE
 *	In order to handle situation 'at least one any sybol' use '?*' combination:
 *	e.g WildCompare("Tst","T?*st*"), returns FALSE, but both WildCompare("Test","T?*st*") and
 *	WildCompare("Teeest","T?*st*") return TRUE.
@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 *	should start from '|' e.g: "|first*submask|second*mask".
 *
 *	ORDER OF RECORDS IS IMPORTANT: system search first suitable mask and returns it.
-*	e.g. if MirVer is "Miranda IM" and first mask is "*im*" and second is "Miranda *" the 
+*	e.g. if MirVer is "Miranda IM" and first mask is "*im*" and second is "Miranda *" the
 *	result will be client associated with first mask, not second!
 *	So in order to avoid such situation, place most generalised masks to latest place.
 *
@@ -125,7 +125,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_Ayttm",					_T("*Ayttm*"),									_T("Ayttm"),							_T("ClientIcons_Multiprotocols"),	IDI_AYTTM, MULTIPROTOCOL_CASE },
 	{ "client_qutIM",					_T("*qutIM*"),									_T("qutIM"),							_T("ClientIcons_Multiprotocols"),	IDI_QUTIM, MULTIPROTOCOL_CASE },
 	{ "client_YamiGo",					_T("YamiGo*"),									_T("YamiGo"),							_T("ClientIcons_Multiprotocols"),	IDI_YAMIGO, MULTIPROTOCOL_CASE },
-	{ "client_QIP_2012",				_T("|QIP 2012*|http://qip.ru/caps*"),		_T("QIP 2012"),							_T("ClientIcons_Multiprotocols"),	IDI_QIP_INFIUM, MULTIPROTOCOL_CASE },
+	{ "client_QIP_2012",				_T("|QIP 2012*|http://qip.ru/caps*"),		_T("QIP 2012"),							_T("ClientIcons_Multiprotocols"),	IDI_QIP_2012, MULTIPROTOCOL_CASE },
 	{ "client_QIP_Infium",				_T("|QIP Infium*|http://qip*"),					_T("QIP Infium"),						_T("ClientIcons_Multiprotocols"),	IDI_QIP_INFIUM, MULTIPROTOCOL_CASE },
 	{ "client_QIP_2010",				_T("|QIP 2010*|http://2010.qip.ru*"),			_T("QIP 2010"),							_T("ClientIcons_Multiprotocols"),	IDI_QIP_2010, MULTIPROTOCOL_CASE },
 	{ "client_QIP_PDA",					_T("|QIP PDA*|http://pda.qip.ru/caps*")
@@ -378,7 +378,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{ "client_LeechCraft",				_T("|http://leechcraft.org*|LeechCraft*"),		_T("LeechCraft"),						_T("ClientIcons_Jabber"),	IDI_LEECHCRAFT, JABBER_CASE },
 	{ "client_Emas",					_T("*.el*"),									_T("Emacs"),							_T("ClientIcons_Jabber"),	IDI_EMACS, JABBER_CASE },
 	{ "client_jTalk",					_T("|http://jtalk*|jTalk*"),					_T("jTalk"),							_T("ClientIcons_Jabber"),	IDI_JTALK, JABBER_CASE },
-	
+
 //#########################################################################################################################################
 //############################################################### VoIP ####################################################################
 //#########################################################################################################################################
@@ -531,7 +531,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 //#########################################################################################################################################
 	{ "client_MailRu_official",			_T("|magent*|Mail.ru Agent*official*|Mail.ru Agent*PC*")
 										_T("|http://agent.mail.ru*"),								_T("Mail.Ru Agent (official client)"),	_T("ClientIcons_MRA"),	IDI_MAIL_RU_OFFICIAL, 14 },
-	{ "client_MailRu_Mobile",			_T("|wmagent*|MobileAgent*|sagent*|Mail.ru Agent*Symbian*")										
+	{ "client_MailRu_Mobile",			_T("|wmagent*|MobileAgent*|sagent*|Mail.ru Agent*Symbian*")
 										_T("|jagent*"),												_T("Mail.Ru Mobile Agent"),				_T("ClientIcons_MRA"),	IDI_MAIL_RU_MOBILE, 14 },
 	{ "client_MailRu_web_official",		_T("Web Agent*"),											_T("Mail.Ru Web Agent"),				_T("ClientIcons_MRA"),	IDI_MAIL_RU_WEBAGENT, 14 },
 	{ "client_MailRu_unknown",			_T("Mail.ru Agent*"),										_T("Mail.Ru (unknown client)"),			_T("ClientIcons_MRA"),	IDI_MAIL_RU_UNKNOWN, 14 },
@@ -699,7 +699,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{ "client_Tlen 7",					_T("Tlen Protocol 16"),								_T("Tlen 7.x"),							_T("ClientIcons_Tlen"),	IDI_CLIENT_TLEN7, TLEN_CASE },
 
 	{ "client_weather_over",			_T("*Weather*"),									_T("Weather"),							_T("ClientIcons_Weather"),	IDI_CLIENT_WEATHER, WEATHER_CASE },
-	
+
 	{ "client_on Win32",				_T("|*Win32*|*windows*|* WM *|wmagent*|*Vista*"),	_T("on Windows"),						_T("ClientIcons_General"),	IDI_CLIENTWIN, PLATFORM_CASE },
 	{ "client_on Mac",					_T("|* Mac *|*IPhone*"),							_T("on MacOS"),							_T("ClientIcons_General"),	IDI_CLIENTMAC, PLATFORM_CASE },
 	{ "client_on Linux",				_T("*Linux*"),										_T("on Linux"),							_T("ClientIcons_General"),	IDI_CLIENTLINUX, PLATFORM_CASE },

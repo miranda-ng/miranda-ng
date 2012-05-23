@@ -45,7 +45,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
    IDI_ADIUM               ICON    "..\\icons\\multi-protocol\\Adium.ico"
    IDI_AGILE               ICON    "..\\icons\\multi-protocol\\AgileMobile.ico"
    IDI_AYTTM               ICON    "..\\icons\\multi-protocol\\Ayttm.ico"
-   IDI_BAYANICQ            ICON    "..\\icons\\multi-protocol\\BayanICQ.ico" 
+   IDI_BAYANICQ            ICON    "..\\icons\\multi-protocol\\BayanICQ.ico"
    IDI_BITLBEE             ICON    "..\\icons\\multi-protocol\\BitlBee.ico"
    IDI_CENTERICQ           ICON    "..\\icons\\multi-protocol\\Centericq.ico"
    IDI_CITRON   		   ICON    "..\\icons\\multi-protocol\\Citronim.ico"
@@ -75,6 +75,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
    IDI_PRELUDE             ICON    "..\\icons\\multi-protocol\\Prelude.ico"
    IDI_PROTEUS             ICON    "..\\icons\\multi-protocol\\Proteus.ico"
    IDI_PYTHON              ICON    "..\\icons\\multi-protocol\\Python.ico"
+   IDI_QIP_2012            ICON    "..\\icons\\multi-protocol\\QIP 2012.ico"
    IDI_QIP_2010            ICON    "..\\icons\\multi-protocol\\QIP 2010.ico"
    IDI_QIP_INFIUM          ICON    "..\\icons\\multi-protocol\\QIP Infium.ico"
    IDI_QIP_PDA             ICON    "..\\icons\\multi-protocol\\QIP PDA.ico"
@@ -99,7 +100,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     IDS_IDENTIFY            "# Finger Icons #"
 END
@@ -118,4 +119,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

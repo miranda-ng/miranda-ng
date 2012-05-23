@@ -460,6 +460,7 @@
 #define IDI_TRILLIAN_PRO				608
 #define IDI_UIM							609
 #define IDI_YAMIGO						610
+#define IDI_QIP_2012					611
 
 //##############################################################################################################
 //MirandaIM Packs
@@ -633,7 +634,7 @@
 //##############################################################################################################
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        2000
