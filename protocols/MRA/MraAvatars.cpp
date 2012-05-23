@@ -159,7 +159,7 @@ void MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle)
 	{
 		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue=(MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
 		MRA_AVATARS_QUEUE_ITEM *pmraaqiAvatarsQueueItem;
-		PROTO_AVATAR_INFORMATION pai={0};
+		PROTO_AVATAR_INFORMATIONT pai={0};
 
 		pai.cbSize=sizeof(pai);
 		//pai.hContact=pmraaqiAvatarsQueueItem->hContact;
@@ -288,12 +288,12 @@ void MraAvatarsThreadProc(LPVOID lpParameter)
 					lpszDomain++;
 
 
-					ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_CONNECTING,(HANDLE)pmraaqiAvatarsQueueItem->dwAvatarsQueueID,0);
+					ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_CONNECTING,NULL,0);
 					if (hConnection==NULL) hConnection=MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser,szServer,dwServerPort);
 					if (hConnection)
 					{
-						ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_CONNECTED,(HANDLE)pmraaqiAvatarsQueueItem->dwAvatarsQueueID,0);
-						ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_SENTREQUEST,(HANDLE)pmraaqiAvatarsQueueItem->dwAvatarsQueueID,0);
+						ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_CONNECTED,NULL,0);
+						ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_SENTREQUEST,NULL,0);
 						if (MraAvatarsHttpTransaction(hConnection,REQUEST_HEAD,lpszUser,lpszDomain,szServer,MAHTRO_AVTMRIM,bUseKeepAliveConn,&dwResultCode,&bKeepAlive,&dwAvatarFormat,&dwAvatarSizeServer,&itAvatarLastModifiedTimeServer)==NO_ERROR)
 						{
 							switch(dwResultCode){
@@ -311,11 +311,9 @@ void MraAvatarsThreadProc(LPVOID lpParameter)
 										if (MraAvatarsGetFileName((HANDLE)pmraaqAvatarsQueue,pmraaqiAvatarsQueueItem->hContact,dwAvatarFormat,(LPSTR)szFileName,SIZEOF(szFileName),NULL)==NO_ERROR)
 										{
 											if(IsFileExistA(szFileName))
-											{
 												bFailed=FALSE;
-											}else{
+											else
 												bDownloadNew=TRUE;
-											}
 										}
 									}
 								}else{// need update
@@ -350,7 +348,7 @@ void MraAvatarsThreadProc(LPVOID lpParameter)
 						if (hConnection==NULL) hConnection=MraAvatarsHttpConnect(pmraaqAvatarsQueue->hNetlibUser,szServer,dwServerPort);
 						if (hConnection)
 						{
-							ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_DATA,(HANDLE)pmraaqiAvatarsQueueItem->dwAvatarsQueueID,0);
+							ProtoBroadcastAck(PROTOCOL_NAMEA,pmraaqiAvatarsQueueItem->hContact,ACKTYPE_AVATAR,ACKRESULT_DATA,NULL,0);
 							if (MraAvatarsHttpTransaction(hConnection,REQUEST_GET,lpszUser,lpszDomain,szServer,MAHTRO_AVT,bUseKeepAliveConn,&dwResultCode,&bKeepAlive,&dwAvatarFormat,&dwAvatarSizeServer,&itAvatarLastModifiedTimeServer)==NO_ERROR && dwResultCode==200)
 							{
 								if (bDefaultAvt) dwAvatarFormat=PA_FORMAT_DEFAULT;
