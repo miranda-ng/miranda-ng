@@ -2153,7 +2153,7 @@ INT_PTR MraGetMyAvatar(WPARAM wParam,LPARAM lParam)
 
 INT_PTR MraBasicSearch(WPARAM wParam,LPARAM lParam)
 {
-return(MraSearchByEmail(wParam,lParam));
+	return(MraSearchByEmail(wParam,lParam));
 }
 
 INT_PTR MraSearchByEmail(WPARAM wParam,LPARAM lParam)

@@ -433,15 +433,14 @@ static const SERVICE_ITEM siPluginServices[] =
 
 	{ PSS_AUTHREQUESTW,					MraSendAuthRequest },
 	{ PSS_MESSAGE,						MraSendMessage },
-	//{ PSS_MESSAGE"W",					MraSendMessage },
 	{ PSS_CONTACTS,						MraSendContacts },
 	{ PSS_USERISTYPING,					MraSendUserIsTyping },
 	{ PSS_SETAPPARENTMODE,				MraSetApparentMode },
 	{ PSS_GETINFO,						MraGetInfo },
 
 	{ PS_GETAVATARCAPS,					MraGetAvatarCaps },
-	{ PS_GETAVATARINFO,					MraGetAvatarInfo },
-	{ PS_GETMYAVATAR,					MraGetMyAvatar },
+	{ PS_GETAVATARINFOT,					MraGetAvatarInfo },
+	{ PS_GETMYAVATART,					MraGetMyAvatar },
 
 	{ PS_BASICSEARCHW,					MraBasicSearch },
 	{ PS_SEARCHBYEMAILW,				MraSearchByEmail },
