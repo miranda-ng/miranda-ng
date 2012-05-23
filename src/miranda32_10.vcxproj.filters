@@ -652,9 +652,6 @@
     <None Include="..\docs\contributors.txt">
       <Filter>Resources</Filter>
     </None>
-    <None Include="..\docs\credits.txt">
-      <Filter>Resources</Filter>
-    </None>
     <None Include="res\cursor_drag_copy.cur">
       <Filter>Resources</Filter>
     </None>

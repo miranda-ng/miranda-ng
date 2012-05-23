@@ -457,7 +457,6 @@
     <None Include="res\contact_rename.ico" />
     <None Include="res\contact_view_details.ico" />
     <None Include="..\docs\contributors.txt" />
-    <None Include="..\docs\credits.txt" />
     <None Include="res\cursor_drag_copy.cur" />
     <None Include="res\cursor_drop_user.cur" />
     <None Include="res\cursor_hyperlink.cur" />
