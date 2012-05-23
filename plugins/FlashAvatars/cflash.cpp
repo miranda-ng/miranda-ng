@@ -680,7 +680,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink = link;
 	mir_getMMI(&mmi);
 	mir_getLI(&li);
-	mir_getLP(&pluginInfoEx);
+	mir_getLP(&pluginInfo);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 
