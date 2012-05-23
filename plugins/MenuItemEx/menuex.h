@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include "newpluginapi.h"
 #include "win2k.h"
+#include "time.h"
 #include "m_system.h"
 #include "m_utils.h"
 #include "m_options.h"
@@ -65,6 +66,7 @@ int OptionsInit(WPARAM,LPARAM);
 #define VF_SAI		0x2000
 #define VF_TRIMID	0x4000
 #define VF_CMV		0x8000
+#define VF_IGNH		0x10000
 
 #define CTRL_IS_PRESSED (GetAsyncKeyState(VK_CONTROL)&0x8000)
 

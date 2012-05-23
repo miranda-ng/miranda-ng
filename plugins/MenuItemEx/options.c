@@ -16,6 +16,7 @@ static const checkboxes[]={
 	{	IDC_SHOWALPHAICONS,		VF_SAI		},
 	{	IDC_HIDE,				VF_HFL		},
 	{	IDC_IGNORE,				VF_IGN		},
+	{	IDC_IGNOREHIDE,			VF_IGNH		},
 	{	IDC_PROTOS,				VF_PROTO	},
 	{	IDC_ADDED,				VF_ADD		},
 	{	IDC_AUTHREQ,			VF_REQ		},
@@ -40,7 +41,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			for (i = 0; i < SIZEOF(checkboxes); i++)
 			{
-				CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
+				if (checkboxes[i].flag == VF_IGNH) 
+					CheckDlgButton(hdlg, checkboxes[i].idc, (DBGetContactSettingByte(NULL, VISPLG, "ignorehide", 0)) ? BST_CHECKED : BST_UNCHECKED);
+				else
+					CheckDlgButton(hdlg, checkboxes[i].idc, (flags & checkboxes[i].flag) ? BST_CHECKED : BST_UNCHECKED);
 			}
 
 			if (ServiceExists(MS_POPUP_ADDPOPUP))
@@ -65,6 +69,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			EnableWindow(GetDlgItem(hdlg,IDC_SHOWALPHAICONS),
 				IsDlgButtonChecked(hdlg,IDC_VIS) == BST_CHECKED);
+			EnableWindow(GetDlgItem(hdlg,IDC_IGNOREHIDE),
+				IsDlgButtonChecked(hdlg,IDC_IGNORE) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hdlg,IDC_COPYIDNAME),
 				IsDlgButtonChecked(hdlg,IDC_COPYID) == BST_CHECKED);
 			EnableWindow(GetDlgItem(hdlg,IDC_SHOWID),
@@ -80,14 +86,19 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				case PSN_APPLY:
 				{
 					WORD mod_flags=0;
+					int ignh=0;
 
 					for (i = 0; i < SIZEOF(checkboxes); i++)
 					{
-						mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
+						if (checkboxes[i].flag == VF_IGNH) 
+							ignh = IsDlgButtonChecked(hdlg, checkboxes[i].idc);
+						else
+							mod_flags |= IsDlgButtonChecked(hdlg, checkboxes[i].idc) ? checkboxes[i].flag : 0;
 					}
 
 					//DBDeleteContactSetting(NULL,VISPLG,"flags");
 					DBWriteContactSettingWord(NULL,VISPLG,"flags",mod_flags);
+					DBWriteContactSettingByte(NULL,VISPLG,"ignorehide",ignh);
 					
 					return 1;
 				}
@@ -98,6 +109,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			if(HIWORD(wparam)==BN_CLICKED && GetFocus()==(HWND)lparam) {
 				SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 				if (LOWORD(wparam) == IDC_VIS ||
+					LOWORD(wparam) == IDC_IGNORE ||
 					LOWORD(wparam) == IDC_COPYID ||
 					LOWORD(wparam) == IDC_STATUSMSG ||
 					LOWORD(wparam) == IDC_SHOWID) {

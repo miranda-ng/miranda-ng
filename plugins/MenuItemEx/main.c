@@ -24,7 +24,7 @@ struct MM_INTERFACE mmi;
 HINSTANCE hinstance;
 HANDLE hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuthReq;
 HANDLE hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
-static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS], hHooks[7], hServices[12];
+static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS], hHooks[8], hServices[12];
 HICON hIcon[5];
 BOOL bMetaContacts, bMir_08;
 PROTOACCOUNT **accs;
@@ -918,6 +918,11 @@ int isIgnored(HANDLE  hContact, int type)
 
 INT_PTR onIgnore(WPARAM wparam,LPARAM lparam)
 {
+	if (DBGetContactSettingByte(NULL, VISPLG, "ignorehide", 0) && (lparam == IGNOREEVENT_ALL)) {
+		DBWriteContactSettingByte((HANDLE)wparam, "CList", "Hidden", (isIgnored((HANDLE)wparam, lparam) ? (byte)0 : (byte)1));
+		CallService(MS_CLUI_SORTLIST, 0, 0);
+	}
+
 	CallService(isIgnored((HANDLE)wparam, lparam) ? MS_IGNORE_UNIGNORE : MS_IGNORE_IGNORE, wparam, lparam); 
 	return 0;
 }
@@ -1139,25 +1144,70 @@ static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
 static void TabsrmmButtonsModify(HANDLE hContact) 
 { 
 	if (!DirectoryExists(hContact)) 
-    { 
-      BBButton bbd = {0}; 
-      bbd.cbSize = sizeof(BBButton); 
-	  bbd.dwButtonID = 0;
-      bbd.pszModuleName = MODULENAME;
-	  bbd.bbbFlags = BBSF_DISABLED | BBSF_HIDDEN;
-      CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd); 
-    } 
+	{
+		BBButton bbd = {0}; 
+		bbd.cbSize = sizeof(BBButton); 
+		bbd.dwButtonID = 0;
+		bbd.pszModuleName = MODULENAME;
+		bbd.bbbFlags = BBSF_DISABLED | BBSF_HIDDEN;
+		CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&bbd); 
+	} 
 } 
 
 static int ContactWindowOpen(WPARAM wparam,LPARAM lParam) 
 { 
-   MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
+	MessageWindowEventData *MWeventdata = (MessageWindowEventData*)lParam;
 
-   if(MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact) 
-   { 
-      TabsrmmButtonsModify(MWeventdata->hContact); 
-   } 
-   return 0; 
+	if(MWeventdata->uType == MSG_WINDOW_EVT_OPENING && MWeventdata->hContact) 
+	{ 
+		TabsrmmButtonsModify(MWeventdata->hContact); 
+	} 
+	return 0; 
+}
+
+static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
+{ // NSN
+	DBCONTACTWRITESETTING *cws = ( DBCONTACTWRITESETTING* )lParam;
+	WORD newStatus = 0, oldStatus = 0;
+	DWORD dwStatuses = 0;
+	time_t tCurrentTime;
+	char *lpzProto;
+
+	if ( ( HANDLE )wParam == NULL || lstrcmpA( cws->szSetting, "Status" ) )
+		return 0;
+	newStatus = cws->value.wVal;
+	oldStatus = DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus2",ID_STATUS_OFFLINE );
+	if (oldStatus == newStatus)
+		return 0;
+
+	tCurrentTime = time( NULL );
+	lpzProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )wParam, 0);
+
+	if (oldStatus == ID_STATUS_OFFLINE)
+	{ 
+		// set online timestamp for this contact, only when not set already
+		if (!DBGetContactSettingDword( ( HANDLE )wParam, lpzProto, "LogonTS", FALSE))
+			DBWriteContactSettingDword( ( HANDLE )wParam, lpzProto, "LogonTS", ( DWORD )tCurrentTime);
+
+		// TODO: dont reset logoff timestamp?
+		DBDeleteContactSetting( ( HANDLE )wParam, lpzProto, "LogoffTS");
+	
+		// TESTING: updating user's details
+		CallContactService( ( HANDLE )wParam, PSS_GETINFO, 0, 0 );
+	}
+	if (newStatus == ID_STATUS_OFFLINE)
+	{
+		// set offline timestamp for this contact
+		DBWriteContactSettingDword( ( HANDLE )wParam, lpzProto, "LogoffTS", ( DWORD )tCurrentTime);
+		// reset logon timestamp
+		DBDeleteContactSetting( ( HANDLE )wParam, lpzProto, "LogonTS");
+
+		// set last status for this contact
+		DBWriteContactSettingDword( ( HANDLE )wParam, lpzProto, "LastStatus", ( DWORD )oldStatus);
+	}
+	DBWriteContactSettingWord( ( HANDLE )wParam, "UserOnline", "OldStatus2", newStatus);
+
+	return 0;
 }
 
 // called when all modules are loaded
@@ -1287,13 +1337,14 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	hHooks[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildMenu);
 	hHooks[1] = HookEvent(ME_OPT_INITIALISE,OptionsInit);
+	hHooks[2] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
 	if (bMir_08)
-		hHooks[2] = HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
-	hHooks[3] = HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
-	if (hHooks[3])
+		hHooks[3] = HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
+	hHooks[4] = HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
+	if (hHooks[4])
 	{
-		hHooks[4] = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-		hHooks[5] = HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
+		hHooks[5] = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+		hHooks[6] = HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
 	}
 
 	// updater plugin support
@@ -1318,7 +1369,7 @@ __declspec(dllexport)int Load(PLUGINLINK *link)
 	pluginLink=link;
 	mir_getMMI( &mmi );
 	mir_getLP(&pluginInfoEx);
-	hHooks[6] = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
+	hHooks[7] = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	return 0;
 }
 
