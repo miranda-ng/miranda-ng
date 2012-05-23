@@ -1199,7 +1199,11 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	
 		// TESTING: updating user's details
 		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH)
-			CallContactService( ( HANDLE )wParam, PSS_GETINFO, 0, 0 );
+		{	
+			// don't refresh Hidden or NotOnList contact's details
+			if (!DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0) && !DBGetContactSettingByte((HANDLE)wParam, "CList", "NotOnList", 0))
+				CallContactService( ( HANDLE )wParam, PSS_GETINFO, 0, 0 );
+		}
 	}
 	if (newStatus == ID_STATUS_OFFLINE)
 	{
