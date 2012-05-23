@@ -159,12 +159,12 @@ bool Uid(HANDLE hContact, char *szProto, TCHAR *buff, int bufflen)
 {
 	char *tmpProto = NULL;
 
-	if (hContact) tmpProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact, 0);
+	if (hContact) tmpProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact, 0);
 	else tmpProto = szProto;
 
 	if (tmpProto) 
 	{
-		char *szUid = (char *)CallProtoService(tmpProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+		char *szUid = ( char* )CallProtoService(tmpProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 		if (szUid && (INT_PTR)szUid != CALLSERVICE_NOTFOUND)
 			return DBGetContactSettingAsString(hContact, tmpProto, szUid, buff, bufflen);
 	}
@@ -176,7 +176,7 @@ bool UidName(char *szProto, TCHAR *buff, int bufflen)
 {
 	if (szProto)
 	{
-		char *szUidName = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+		char *szUidName = ( char* )CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 		if (szUidName && (INT_PTR)szUidName != CALLSERVICE_NOTFOUND)
 		{
 			a2t(szUidName, buff, bufflen);
@@ -258,7 +258,7 @@ TCHAR *GetStatusMessageText(HANDLE hContact)
 	TCHAR *swzMsg = 0;
 	DBVARIANT dbv;
 
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (szProto) 
 	{
 		if (!strcmp(szProto, szMetaModuleName))
@@ -319,7 +319,7 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 	} 
 	else if (!_tcscmp(swzRawSpec, _T("account"))) 
 	{
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
+		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)hContact, 0);
 		if ((INT_PTR)szProto == CALLSERVICE_NOTFOUND) 
 		{
 			return GetSysSubstText(hContact, _T("proto"), buff, bufflen);
@@ -343,7 +343,7 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 	}
 	else if (!_tcscmp(swzRawSpec, _T("uidname")))
 	{
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0); 
+		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0); 
 		return UidName(szProto, buff, bufflen);
 	}
 	else if (!_tcscmp(swzRawSpec, _T("status_msg"))) 
@@ -426,7 +426,7 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 		int iNumber = 1;
 		HANDLE hTmpContact = hContact;
 
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto && !strcmp(szProto, szMetaModuleName))
 		{
 			iNumber = CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0);
@@ -519,7 +519,7 @@ bool GetSubstText(HANDLE hContact, const DISPLAYSUBST &ds, TCHAR *buff, int buff
 			return transFunc(hContact, ds.szModuleName, ds.szSettingName, buff, bufflen) != 0;
 		case DVT_PROTODB:
 		{
-			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if (szProto)
 			{
 				if (transFunc(hContact, szProto, ds.szSettingName, buff, bufflen) != 0)
@@ -543,7 +543,7 @@ bool GetRawSubstText(HANDLE hContact, char *szRawSpec, TCHAR *buff, int bufflen)
 			szRawSpec[i] = 0;
 			if (strlen(szRawSpec) == 0)
 			{
-				char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 				if (szProto)
 				{
 					if (translations[0].transFunc(hContact, szProto, &szRawSpec[i + 1], buff, bufflen) != 0)
@@ -625,7 +625,7 @@ bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFir
 					p++;
 					if (*p) 
 					{
-						char *cp = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						char *cp = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 						if (cp != NULL)
 						{
 							PROTOACCOUNT *acc = ProtoGetAccount(cp);
@@ -849,13 +849,9 @@ TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
 	if ((INT_PTR)swzText != CALLSERVICE_NOTFOUND) 
 	{
 		if (swzText == NULL)
-			tmpMsg = (char *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, 0);
+			tmpMsg = ( char* )CallProtoService(szProto, PS_GETMYAWAYMSG, 0, 0);
 	}
-	else
-	{
-		tmpMsg = (char *)CallService(MS_AWAYMSG_GETSTATUSMSG, wStatus, 0);
-		swzText = NULL;
-	}
+	else swzText = ( TCHAR* )CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, 0);
 
 	if (tmpMsg && (INT_PTR)tmpMsg != CALLSERVICE_NOTFOUND)
 	{
@@ -920,13 +916,13 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 		if (ServiceExists(MS_VARS_FORMATSTRING))
 		{		
 			HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-			char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *proto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			while(!proto)
 			{
 				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 				if (hContact) 
 				{
-					proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					proto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 				}
 				else 
 				{
