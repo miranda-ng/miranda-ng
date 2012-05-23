@@ -1175,6 +1175,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 	if ( ( HANDLE )wParam == NULL || lstrcmpA( cws->szSetting, "Status" ) )
 		return 0;
+
 	newStatus = cws->value.wVal;
 	oldStatus = DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus2",ID_STATUS_OFFLINE );
 	if (oldStatus == newStatus)
@@ -1182,6 +1183,10 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 	tCurrentTime = time( NULL );
 	lpzProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM )wParam, 0);
+
+	// ignore chat rooms
+	if (DBGetContactSettingByte((HANDLE)wParam, lpzProto, "ChatRoom", 0))
+		return 0;
 
 	if (oldStatus == ID_STATUS_OFFLINE)
 	{ 
