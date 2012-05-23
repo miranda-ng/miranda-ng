@@ -326,7 +326,6 @@
     <None Include="Docs\Chat_license.txt" />
     <None Include="Docs\Chat_Readme.txt" />
     <None Include="Docs\Chat_Translate.txt" />
-    <None Include="..\..\..\..\CVS upload\to do.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chat.rc" />

@@ -17,10 +17,6 @@
       <UniqueIdentifier>{b84ecfeb-8124-4339-b93d-5acdd3d205d9}</UniqueIdentifier>
       <Extensions>*.txt</Extensions>
     </Filter>
-    <Filter Include="SDK">
-      <UniqueIdentifier>{515684a1-c0d8-47e1-8a93-d714f9d40790}</UniqueIdentifier>
-      <Extensions>c;h</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="langpack.c">
@@ -43,9 +39,6 @@
     <ClInclude Include="langpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_langman.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -57,51 +50,6 @@
     </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_clist.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_database.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_flags.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_help.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_icolib.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_langpack.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_netlib.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_options.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_plugins.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_skin.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_system.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_utils.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\newpluginapi.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\statusmodes.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\win2k.h">
-      <Filter>SDK</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +68,6 @@
       <Filter>Documentation</Filter>
     </None>
     <None Include="docs\LangMan-Translation.txt">
-      <Filter>Documentation</Filter>
-    </None>
-    <None Include="m_langman.inc">
       <Filter>Documentation</Filter>
     </None>
     <None Include="Info_Src.txt" />

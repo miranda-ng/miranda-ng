@@ -239,7 +239,6 @@
     <ClInclude Include="LightMutex.h" />
     <ClInclude Include="Locale.h" />
     <ClInclude Include="Log.h" />
-    <ClInclude Include="m_Quotes.h" />
     <ClInclude Include="ModuleInfo.h" />
     <ClInclude Include="OptionDukasCopy.h" />
     <ClInclude Include="QuoteChart.h" />
@@ -277,7 +276,6 @@
     <None Include="res\Section.ico" />
     <None Include="res\swap.ico" />
     <None Include="res\up.ico" />
-    <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Forex.rc" />

@@ -30,9 +30,6 @@
     <Filter Include="SDK">
       <UniqueIdentifier>{ea8b021b-f82f-4940-933d-15d813da6e9b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SDK\custom">
-      <UniqueIdentifier>{d6379ec6-1149-4532-a9db-682f7754188b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SDK\miranda">
       <UniqueIdentifier>{708cc988-cbf7-4f8b-aa0e-cec18af48b54}</UniqueIdentifier>
     </Filter>
@@ -355,33 +352,6 @@
     <ClInclude Include="Res\version.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="SDK\m_db3xsa.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_flags.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_MagneticWindows.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_metacontacts.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_popup2.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_toolbar.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_toptoolbar.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_updater.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
-    <ClInclude Include="SDK\m_userinfoex.h">
-      <Filter>SDK\custom</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\m_addcontact.h">
       <Filter>SDK\miranda</Filter>
     </ClInclude>
@@ -516,17 +486,10 @@
     <None Include="Res\dragcopy.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Res\lstFolder.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Res\main.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Res\sendmail.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="changelog.txt" />
-    <None Include="docs\todo.txt" />
     <None Include="Res\flags.png">
       <Filter>Resource Files</Filter>
     </None>

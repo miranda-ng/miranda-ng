@@ -326,16 +326,13 @@
     <None Include="Res\copy.ico" />
     <None Include="Res\delete.ico" />
     <None Include="res\noscroll.ico" />
-    <None Include="Res\noscroll3.ico" />
     <None Include="Res\options.ico" />
     <None Include="res\pause.ico" />
     <None Include="res\paused.ico" />
     <None Include="Res\Save.ico" />
     <None Include="res\scroll.ico" />
-    <None Include="Res\scroll3.ico" />
     <None Include="res\start.ico" />
     <None Include="res\started.ico" />
-    <None Include="res\working.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

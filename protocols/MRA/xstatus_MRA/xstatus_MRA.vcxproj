@@ -215,14 +215,12 @@
     <None Include="XStatus_icons\22.ico" />
     <None Include="XStatus_icons\23.ico" />
     <None Include="XStatus_icons\24.ico" />
-    <None Include="XStatus_icons\25.ico" />
     <None Include="XStatus_icons\26.ico" />
     <None Include="XStatus_icons\27.ico" />
     <None Include="XStatus_icons\28.ico" />
     <None Include="XStatus_icons\29.ico" />
     <None Include="XStatus_icons\30.ico" />
     <None Include="XStatus_icons\31.ico" />
-    <None Include="XStatus_icons\32.ico" />
     <None Include="XStatus_icons\33.ico" />
     <None Include="XStatus_icons\34.ico" />
     <None Include="XStatus_icons\35.ico" />
@@ -247,11 +245,6 @@
     <None Include="XStatus_icons\52.ico" />
     <None Include="XStatus_icons\53.ico" />
     <None Include="XStatus_icons\54.ico" />
-    <None Include="XStatus_icons\55.ico" />
-    <None Include="XStatus_icons\56.ico" />
-    <None Include="XStatus_icons\57.ico" />
-    <None Include="XStatus_icons\58.ico" />
-    <None Include="XStatus_icons\59.ico" />
     <None Include="XStatus_icons\6.ico" />
     <None Include="XStatus_icons\7.ico" />
     <None Include="XStatus_icons\8.ico" />

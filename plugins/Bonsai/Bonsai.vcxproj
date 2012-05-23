@@ -206,13 +206,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="icons\hidden.bmp" />
-    <None Include="icon1.ico" />
     <None Include="icons\modified.bmp" />
-    <None Include="icons\modified.ico" />
     <None Include="icons\newlymodified.bmp" />
     <None Include="icons\unmodified.bmp" />
-    <None Include="icons\unmodified.ico" />
-    <None Include="..\docs\Bonsai_readme.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

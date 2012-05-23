@@ -24,9 +24,6 @@
     <ClInclude Include="commons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_listeningto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_buffer.h">
       <Filter>Header Files</Filter>
     </ClInclude>

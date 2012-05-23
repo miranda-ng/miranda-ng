@@ -201,26 +201,10 @@
   <ItemGroup>
     <ClInclude Include="common.h" />
     <ClInclude Include="langpack.h" />
-    <ClInclude Include="m_langman.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />
-    <ClInclude Include="include\m_clist.h" />
-    <ClInclude Include="include\m_database.h" />
-    <ClInclude Include="include\m_flags.h" />
-    <ClInclude Include="include\m_help.h" />
-    <ClInclude Include="include\m_icolib.h" />
-    <ClInclude Include="include\m_langpack.h" />
-    <ClInclude Include="include\m_netlib.h" />
-    <ClInclude Include="include\m_options.h" />
-    <ClInclude Include="include\m_plugins.h" />
-    <ClInclude Include="include\m_skin.h" />
-    <ClInclude Include="include\m_system.h" />
-    <ClInclude Include="include\m_utils.h" />
-    <ClInclude Include="include\newpluginapi.h" />
-    <ClInclude Include="include\statusmodes.h" />
-    <ClInclude Include="include\win2k.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
@@ -235,7 +219,6 @@
     <None Include="docs\LangMan-License.txt" />
     <None Include="docs\LangMan-Readme.txt" />
     <None Include="docs\LangMan-Translation.txt" />
-    <None Include="m_langman.inc" />
     <None Include="Info_Src.txt" />
     <None Include="License_Appendix.txt" />
   </ItemGroup>

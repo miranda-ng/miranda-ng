@@ -672,7 +672,6 @@
     <ClInclude Include="statusmodes.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\&amp;RQ.ico" />
     <None Include="res\1.ico" />
     <None Include="res\2.ico" />
     <None Include="res\3.ico" />
@@ -682,53 +681,19 @@
     <None Include="res\7.ico" />
     <None Include="res\8.ico" />
     <None Include="res\addgoupp.ico" />
-    <None Include="res\AgileMobile.ico" />
-    <None Include="res\AlIcq.ico" />
     <None Include="res\blank.ico" />
-    <None Include="res\Center.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\dragcopy.cur" />
     <None Include="res\dropuser.cur" />
-    <None Include="res\Gaim.ico" />
     <None Include="res\globus.ico" />
-    <None Include="res\Gnomeicu.ico" />
     <None Include="res\hyperlin.cur" />
-    <None Include="res\ico00001.ico" />
-    <None Include="res\ico00002.ico" />
-    <None Include="res\ico00003.ico" />
-    <None Include="res\ico00004.ico" />
-    <None Include="res\ico00005.ico" />
     <None Include="res\icon2.ico" />
-    <None Include="res\IcqMac.ico" />
-    <None Include="res\IM+.ico" />
-    <None Include="res\IM2.ico" />
-    <None Include="res\Kopete.ico" />
-    <None Include="res\L.ico" />
-    <None Include="res\L4.ico" />
-    <None Include="res\L5.ico" />
-    <None Include="res\LibIcq2000.ico" />
-    <None Include="res\Licq.ico" />
-    <None Include="res\Micq.ico" />
     <None Include="res\miranda.ico" />
-    <None Include="res\Mob2Icq.ico" />
-    <None Include="res\MobiCQ2.ico" />
-    <None Include="res\NICQ2.ico" />
     <None Include="res\notick.ico" />
     <None Include="res\notick1.ico" />
-    <None Include="res\PSI.ico" />
-    <None Include="res\QIP.ico" />
     <None Include="res\rename.ico" />
     <None Include="res\sendmail.ico" />
-    <None Include="res\Sim.ico" />
     <None Include="res\sms.ico" />
-    <None Include="res\Spambot.ico" />
-    <None Include="res\Sticq.ico" />
-    <None Include="res\Stricq.ico" />
-    <None Include="res\Trillian.ico" />
-    <None Include="res\Vicq.ico" />
-    <None Include="res\WebIcq.ico" />
-    <None Include="res\Yamigo.ico" />
-    <None Include="res\Ysm.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

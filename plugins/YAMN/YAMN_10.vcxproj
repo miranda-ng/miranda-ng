@@ -251,10 +251,6 @@
     <ClInclude Include="proto\pop3\pop3comm.h" />
     <ClInclude Include="proto\pop3\pop3opt.h" />
     <ClInclude Include="yamn.h" />
-    <ClInclude Include="include\m_kbdnotify.h" />
-    <ClInclude Include="include\m_toptoolbar.h" />
-    <ClInclude Include="include\m_uninstaller.h" />
-    <ClInclude Include="include\m_updater.h" />
     <ClInclude Include="version.h" />
   </ItemGroup>
   <ItemGroup>

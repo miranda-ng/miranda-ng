@@ -309,7 +309,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="res\add.ico" />
-    <None Include="res\auto.ico" />
     <None Include="res\avatar.bmp" />
     <None Include="res\block.ico" />
     <None Include="res\Check_off.ico" />
@@ -341,7 +340,6 @@
     <None Include="res\resize.ico" />
     <None Include="res\warning.ico" />
     <None Include="docs\Changelog.txt" />
-    <None Include="docs\todo.txt" />
     <None Include="res\whatsnew.txt" />
   </ItemGroup>
   <ItemGroup>

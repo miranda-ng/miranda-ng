@@ -59,9 +59,6 @@
     <ClInclude Include="hooked_events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_folders.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

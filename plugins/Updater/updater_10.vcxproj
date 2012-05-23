@@ -318,12 +318,7 @@
     <ClInclude Include="zbin\minizip\unzip.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ico00001.ico" />
-    <None Include="ico00002.ico" />
-    <None Include="icon1.ico" />
-    <None Include="notick.ico" />
     <None Include="restart.ico" />
-    <None Include="tick.ico" />
     <None Include="u.ico" />
     <None Include="ue.ico" />
   </ItemGroup>

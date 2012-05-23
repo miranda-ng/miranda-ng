@@ -116,7 +116,6 @@
     <ClInclude Include="JSONOptions.h" />
     <ClInclude Include="Source\JSONWorker.h" />
     <ClInclude Include="libJSON.h" />
-    <ClInclude Include="m_libJSON.h" />
     <ClInclude Include="Source\NumberToString.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

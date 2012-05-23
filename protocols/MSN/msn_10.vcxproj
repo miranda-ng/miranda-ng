@@ -303,7 +303,6 @@
     <ClCompile Include="msn_ws.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icos\avatar.ico" />
     <None Include="Icos\inbox.ico" />
     <None Include="Icos\invite.ico" />
     <None Include="Icos\list_al.ico" />

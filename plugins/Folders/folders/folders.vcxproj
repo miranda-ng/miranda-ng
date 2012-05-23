@@ -199,7 +199,6 @@
     <ClInclude Include="folderItem.h" />
     <ClInclude Include="foldersList.h" />
     <ClInclude Include="hooked_events.h" />
-    <ClInclude Include="m_folders.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="services.h" />
     <ClInclude Include="utils.h" />

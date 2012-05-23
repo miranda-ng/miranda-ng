@@ -213,9 +213,6 @@
     <ClInclude Include="sdkstuff.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="version.h" />
-    <ClInclude Include="m_folders.h" />
-    <ClInclude Include="m_toolbar.h" />
-    <ClInclude Include="m_updater.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="crshdmp.rc" />

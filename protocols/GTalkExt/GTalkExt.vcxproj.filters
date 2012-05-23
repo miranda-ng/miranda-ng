@@ -95,8 +95,4 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="langpack_GTalkExt_russian.txt" />
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
 </Project>

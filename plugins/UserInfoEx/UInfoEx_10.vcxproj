@@ -400,15 +400,6 @@
     <ClInclude Include="ctrl_tzcombo.h" />
     <ClInclude Include="Res\resource.h" />
     <ClInclude Include="Res\version.h" />
-    <ClInclude Include="SDK\m_db3xsa.h" />
-    <ClInclude Include="SDK\m_flags.h" />
-    <ClInclude Include="SDK\m_MagneticWindows.h" />
-    <ClInclude Include="SDK\m_metacontacts.h" />
-    <ClInclude Include="SDK\m_popup2.h" />
-    <ClInclude Include="SDK\m_toolbar.h" />
-    <ClInclude Include="SDK\m_toptoolbar.h" />
-    <ClInclude Include="SDK\m_updater.h" />
-    <ClInclude Include="SDK\m_userinfoex.h" />
     <ClInclude Include="..\..\include\m_addcontact.h" />
     <ClInclude Include="..\..\include\m_avatars.h" />
     <ClInclude Include="..\..\include\m_awaymsg.h" />
@@ -456,11 +447,8 @@
     <None Include="Res\default.ico" />
     <None Include="Res\dragcopy.cur" />
     <None Include="Res\flags.png" />
-    <None Include="Res\lstFolder.ico" />
     <None Include="Res\main.ico" />
-    <None Include="Res\sendmail.ico" />
     <None Include="changelog.txt" />
-    <None Include="docs\todo.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Res\resource.rc" />

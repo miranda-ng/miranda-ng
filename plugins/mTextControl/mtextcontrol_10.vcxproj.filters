@@ -9,9 +9,6 @@
       <UniqueIdentifier>{638b774c-2eb7-43db-a58a-f1eb0659fee9}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl</Extensions>
     </Filter>
-    <Filter Include="api">
-      <UniqueIdentifier>{c21f5cc4-1e66-4a27-971e-ef61a416298b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{cc11ab2b-a14e-4f67-8b7a-72d64c4aa033}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
@@ -73,9 +70,6 @@
     </ClInclude>
     <ClInclude Include="src\textusers.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="api\m_text.h">
-      <Filter>api</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>

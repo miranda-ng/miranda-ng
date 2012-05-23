@@ -21,9 +21,6 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{c58708cc-53b7-4db2-b19e-4d6291665e8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\include">
-      <UniqueIdentifier>{a5d01df4-9348-4078-ab04-99ee691cd263}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="account.cpp">
@@ -120,18 +117,6 @@
     </ClInclude>
     <ClInclude Include="yamn.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_kbdnotify.h">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_toptoolbar.h">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_uninstaller.h">
-      <Filter>Header Files\include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_updater.h">
-      <Filter>Header Files\include</Filter>
     </ClInclude>
     <ClInclude Include="version.h" />
   </ItemGroup>

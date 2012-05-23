@@ -252,23 +252,17 @@
   <ItemGroup>
     <None Include="res\add.ico" />
     <None Include="res\apply.ico" />
-    <None Include="res\clear.ico" />
     <None Include="res\close.ico" />
     <None Include="res\cslist.ico" />
-    <None Include="res\fav.ico" />
     <None Include="res\favourite.ico" />
     <None Include="res\filter.ico" />
     <None Include="res\global.ico" />
     <None Include="res\import.ico" />
-    <None Include="res\main.ico" />
     <None Include="res\modify.ico" />
-    <None Include="res\nochng.ico" />
     <None Include="res\options.ico" />
-    <None Include="res\refresh.ico" />
     <None Include="res\remove.ico" />
     <None Include="res\undo.ico" />
     <None Include="res\unset.ico" />
-    <None Include="res\watch.ico" />
     <None Include="changelog.txt" />
   </ItemGroup>
   <ItemGroup>

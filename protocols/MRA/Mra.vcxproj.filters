@@ -98,9 +98,6 @@
     <None Include="Icons\Chat.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Icons\icon2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Icons\Info.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -111,54 +108,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Icons\MailNotify.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconAlarm.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconAuthGrant.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconAuthReguest.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconBagz.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconBlogs.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconChat.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconDeleted.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconInfo.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconMagent.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconMail.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconMailNotify.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconPhone.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconPhoto.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconPostCards.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconSMS.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MraIconWebSearch.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Icons\my world.ico">

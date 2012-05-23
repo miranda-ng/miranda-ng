@@ -79,9 +79,6 @@
     <ClInclude Include="libJSON.h">
       <Filter>Include files</Filter>
     </ClInclude>
-    <ClInclude Include="m_libJSON.h">
-      <Filter>Include files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\NumberToString.h">
       <Filter>Include files</Filter>
     </ClInclude>

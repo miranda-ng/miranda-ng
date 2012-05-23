@@ -149,9 +149,6 @@
     <None Include="docs\icq-readme.txt">
       <Filter>Documentation</Filter>
     </None>
-    <None Include="docs\IcqOscarJ-db settings.txt">
-      <Filter>Documentation</Filter>
-    </None>
     <None Include="docs\IcqOscarJ-translation.txt">
       <Filter>Documentation</Filter>
     </None>

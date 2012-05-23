@@ -13,9 +13,6 @@
       <UniqueIdentifier>{4ce36c6f-321c-49f3-aeb5-00c9b133ff56}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Docs">
-      <UniqueIdentifier>{f1d6472d-58b0-4381-84de-ee90f6f50830}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,18 +83,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\xstatus.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="docs\NewXstatusNotify_readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\NewXstatusNotify_translate.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\nsn_readme.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="res\icon_undo.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\reset.ico">

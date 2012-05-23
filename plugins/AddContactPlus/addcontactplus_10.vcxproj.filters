@@ -26,9 +26,6 @@
     <ClInclude Include="addcontactplus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_addcontactplus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="contact_add.ico">

@@ -145,8 +145,6 @@
     <ResourceCompile Include="src\main.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\version.rc2" />
-    <None Include="src\version.wcr" />
     <None Include="doc\todo.txt" />
     <None Include="doc\tt_wnd_def_style.txt" />
     <None Include="doc\ttnotify-readme.txt" />

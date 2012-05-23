@@ -57,12 +57,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\version.rc2">
-      <Filter>src</Filter>
-    </None>
-    <None Include="src\version.wcr">
-      <Filter>src</Filter>
-    </None>
     <None Include="doc\todo.txt">
       <Filter>doc</Filter>
     </None>

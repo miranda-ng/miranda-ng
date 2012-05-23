@@ -228,10 +228,6 @@
   <ItemGroup>
     <ResourceCompile Include="res\settings.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="langpack_GTalkExt_russian.txt" />
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

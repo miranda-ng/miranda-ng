@@ -248,13 +248,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="m_metacontacts.h" />
     <ClInclude Include="metacontacts.h" />
     <ClInclude Include="version.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icon1.ico" />
     <None Include="mcmenu.ico" />
     <None Include="mcmenuof.ico" />
     <None Include="meta_add.ico" />

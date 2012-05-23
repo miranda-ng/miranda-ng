@@ -239,7 +239,6 @@
     <ClInclude Include="assoclist.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="dde.h" />
-    <ClInclude Include="m_assocmgr.h" />
     <ClInclude Include="reg.h" />
     <ClInclude Include="test.h" />
     <ClInclude Include="utils.h" />
@@ -253,9 +252,6 @@
     <CustomBuild Include="docs\AssocMgr-License.txt" />
     <CustomBuild Include="docs\AssocMgr-Readme.txt" />
     <CustomBuild Include="docs\AssocMgr-Translation.txt" />
-    <CustomBuild Include="m_assocmgr.inc">
-      <FileType>Document</FileType>
-    </CustomBuild>
     <CustomBuild Include="Info_Src.txt" />
     <CustomBuild Include="License_Appendix.txt" />
   </ItemGroup>

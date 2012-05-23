@@ -59,9 +59,6 @@
     <ClInclude Include="icons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_alarms.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -76,31 +73,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="clock.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="clockdow.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="flat_16x12.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="green.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="ico00001.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icon1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icon2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icon3.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="iconttbdown.ico">

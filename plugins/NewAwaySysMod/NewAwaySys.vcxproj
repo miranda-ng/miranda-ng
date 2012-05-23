@@ -280,15 +280,6 @@
     <ClInclude Include="ContactList.h" />
     <ClInclude Include="..\CommonLibs\CString.h" />
     <ClInclude Include="..\CommonLibs\GroupCheckbox.h" />
-    <ClInclude Include="..\CommonLibs\m_ContactSettings.h" />
-    <ClInclude Include="..\CommonLibs\m_LogService.h" />
-    <ClInclude Include="..\CommonLibs\m_NewAwaySys.h" />
-    <ClInclude Include="m_popup.h" />
-    <ClInclude Include="m_popupw.h" />
-    <ClInclude Include="m_statusplugins.h" />
-    <ClInclude Include="m_toptoolbar.h" />
-    <ClInclude Include="m_updater.h" />
-    <ClInclude Include="m_variables.h" />
     <ClInclude Include="MsgTree.h" />
     <ClInclude Include="..\CommonLibs\Options.h" />
     <ClInclude Include="Path.h" />
@@ -304,7 +295,6 @@
     <None Include="Images\Delete.ico" />
     <None Include="Images\DisableNotify.ico" />
     <None Include="Images\Dot.ico" />
-    <None Include="Images\EditMsgs.ico" />
     <None Include="Images\EnableNotify.ico" />
     <None Include="Images\Ignore.ico" />
     <None Include="Images\Indefinite.ico" />
@@ -315,7 +305,6 @@
     <None Include="Images\off.ico" />
     <None Include="Images\on.bmp" />
     <None Include="Images\on.ico" />
-    <None Include="Resources.rc2" />
     <None Include="Images\SaveAsNew.ico" />
     <None Include="Images\SaveMsg.ico" />
     <None Include="Images\Settings.ico" />

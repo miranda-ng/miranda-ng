@@ -17,10 +17,6 @@
       <UniqueIdentifier>{71089b54-009a-4229-868a-c90b5e0b350e}</UniqueIdentifier>
       <Extensions>txt</Extensions>
     </Filter>
-    <Filter Include="SDK">
-      <UniqueIdentifier>{0b81b17c-89f3-4558-a861-4385827dddb3}</UniqueIdentifier>
-      <Extensions>*.h</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="countrylistext.c">
@@ -49,56 +45,11 @@
     <ClInclude Include="flags.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_flags.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="version.h">
       <Filter>Resource Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_clui.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_cluiframes.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_database.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_icolib.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_langpack.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_message.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_options.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_plugins.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_skin.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_system.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\m_utils.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\newpluginapi.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\statusmodes.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="include\win2k.h">
-      <Filter>SDK</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +74,6 @@
       <Filter>Documentation</Filter>
     </CustomBuild>
     <CustomBuild Include="docs\Flags-Translation.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="m_flags.inc">
       <Filter>Documentation</Filter>
     </CustomBuild>
     <CustomBuild Include="Info_Src.txt">

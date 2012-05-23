@@ -237,7 +237,6 @@
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="m_sessions.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Src\Sessions.h" />
     <ClInclude Include="Src\Utils.h" />

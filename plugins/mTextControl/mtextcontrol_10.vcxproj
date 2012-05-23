@@ -282,7 +282,6 @@
     <ClInclude Include="src\services.h" />
     <ClInclude Include="src\textcontrol.h" />
     <ClInclude Include="src\textusers.h" />
-    <ClInclude Include="api\m_text.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

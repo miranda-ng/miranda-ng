@@ -64,9 +64,6 @@
     <None Include="res\noscroll.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Res\noscroll3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Res\options.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -82,16 +79,10 @@
     <None Include="res\scroll.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="Res\scroll3.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\start.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\started.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\working.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

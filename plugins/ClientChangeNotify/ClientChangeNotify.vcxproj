@@ -131,7 +131,6 @@
     <ClCompile Include="..\CommonLibs\pcre.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AggressiveOptimize.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="..\CommonLibs\CString.h" />
     <ClInclude Include="Misc.h" />

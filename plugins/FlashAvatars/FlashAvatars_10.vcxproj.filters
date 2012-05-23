@@ -14,9 +14,6 @@
     <ClInclude Include="criticalsection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_flash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -46,16 +46,10 @@
     <None Include="res\apply.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\clear.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\close.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\cslist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\fav.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\favourite.ico">
@@ -70,19 +64,10 @@
     <None Include="res\import.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\main.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\modify.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\nochng.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\options.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\refresh.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\remove.ico">
@@ -92,9 +77,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\unset.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\watch.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="changelog.txt">

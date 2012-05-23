@@ -168,23 +168,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="flags.h" />
-    <ClInclude Include="m_flags.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="version.h" />
-    <ClInclude Include="include\m_clui.h" />
-    <ClInclude Include="include\m_cluiframes.h" />
-    <ClInclude Include="include\m_database.h" />
-    <ClInclude Include="include\m_icolib.h" />
-    <ClInclude Include="include\m_langpack.h" />
-    <ClInclude Include="include\m_message.h" />
-    <ClInclude Include="include\m_options.h" />
-    <ClInclude Include="include\m_plugins.h" />
-    <ClInclude Include="include\m_skin.h" />
-    <ClInclude Include="include\m_system.h" />
-    <ClInclude Include="include\m_utils.h" />
-    <ClInclude Include="include\newpluginapi.h" />
-    <ClInclude Include="include\statusmodes.h" />
-    <ClInclude Include="include\win2k.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="res\flags.bmp" />
@@ -195,9 +180,6 @@
     <CustomBuild Include="docs\Flags-License.txt" />
     <CustomBuild Include="docs\Flags-Readme.txt" />
     <CustomBuild Include="docs\Flags-Translation.txt" />
-    <CustomBuild Include="m_flags.inc">
-      <FileType>Document</FileType>
-    </CustomBuild>
     <CustomBuild Include="Info_Src.txt" />
     <CustomBuild Include="License_Appendix.txt" />
   </ItemGroup>

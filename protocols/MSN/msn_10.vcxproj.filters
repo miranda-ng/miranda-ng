@@ -118,9 +118,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Icos\avatar.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="Icos\inbox.ico">
       <Filter>Resource Files</Filter>
     </None>

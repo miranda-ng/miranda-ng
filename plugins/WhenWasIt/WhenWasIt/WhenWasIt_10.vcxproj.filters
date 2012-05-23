@@ -88,9 +88,6 @@
     <None Include="icons\add.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="icons\birthday.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icons\check.bmp">
       <Filter>Resource Files</Filter>
     </None>

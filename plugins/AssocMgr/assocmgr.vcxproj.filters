@@ -52,9 +52,6 @@
     <ClInclude Include="dde.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_assocmgr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="reg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -93,9 +90,6 @@
       <Filter>Documentation</Filter>
     </CustomBuild>
     <CustomBuild Include="docs\AssocMgr-Translation.txt">
-      <Filter>Documentation</Filter>
-    </CustomBuild>
-    <CustomBuild Include="m_assocmgr.inc">
       <Filter>Documentation</Filter>
     </CustomBuild>
     <CustomBuild Include="Info_Src.txt">

@@ -267,43 +267,13 @@
     <None Include="..\..\src\res\cursor_hyperlink.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\dragcopy.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\dragcopy.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\dropuser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\dropuser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\LOGO.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="docs\changelog.txt">
       <Filter>Docs</Filter>
     </None>
     <None Include="docs\INSTALL">
       <Filter>Docs</Filter>
     </None>
-    <None Include="langpacks\langpack_tabsrmm_german.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="Makefile.ansi">
-      <Filter>Docs</Filter>
-    </None>
     <None Include="docs\Popups.txt">
-      <Filter>Docs</Filter>
-    </None>
-    <None Include="docs\Readme.icons">
       <Filter>Docs</Filter>
     </None>
     <None Include="docs\readme.txt">
@@ -348,67 +318,13 @@
     <None Include="chat\Icons\action.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="chat\Icons\color.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Add.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\addcontact.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="chat\Icons\addmode.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\AddXP.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\arrow-down.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\bkgcolor.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\blank.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\blocked.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\bold.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\check.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\checked.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Clock8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Close.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\close.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\delete.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Details32.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Details8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\error.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\HistoryXP.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\expand.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\filter.ico">
@@ -420,25 +336,7 @@
     <None Include="chat\Icons\highlight.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\history.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\History.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\History32.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\History8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="..\..\src\res\icon1.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="res\leftarrow.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\icon1.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="tabmodplus\icons\imgclose.ico">
@@ -447,19 +345,7 @@
     <None Include="tabmodplus\icons\imgopen.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\in.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Incom.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="chat\Icons\info.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Info.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\italics.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\join.ico">
@@ -474,49 +360,13 @@
     <None Include="chat\Icons\messageout.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\angeli-icons\Multi.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\multisend.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Multisend32.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Multisend8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\MultiXP.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="chat\Icons\nick.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\nicklist.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\nicklist2.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\notice.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\angeli-icons\Opt.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\options.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="res\res_TN\popup.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\OptXP.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\out.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Outg.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\overlay.ico">
@@ -531,28 +381,10 @@
     <None Include="chat\Icons\part.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\angeli-icons\Pencil.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Photo32.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Photo8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Pic.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\PicXP.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="res\res_TN\popup_no.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\pulldown.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\pulldown1.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\pullup.ico">
@@ -561,40 +393,7 @@
     <None Include="chat\Icons\quit.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
-    <None Include="res\quote.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Quote02.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
     <None Include="chat\Icons\removestatus.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\rename.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\status.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\smiley_xp.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\smiley.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\smbutton.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Send.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\SaveXP.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\save.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\angeli-icons\Save.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="res\rightarrow.ico">
@@ -604,24 +403,6 @@
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\topicbut.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Typing32.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\Typing8.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\unchecked.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="chat\Icons\underline.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\viewdetails.ico">
-      <Filter>Resource Files\Icons</Filter>
-    </None>
-    <None Include="res\visible.ico">
       <Filter>Resource Files\Icons</Filter>
     </None>
     <None Include="chat\Icons\window.ico">

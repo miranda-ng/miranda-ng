@@ -217,10 +217,7 @@
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\btnAll.ico" />
     <None Include="res\btnClose.ico" />
-    <None Include="res\btnDownload.ico" />
-    <None Include="res\btnInfo.ico" />
     <None Include="res\btnOk.ico" />
     <None Include="res\delete.ico" />
     <None Include="res\menu.ico" />

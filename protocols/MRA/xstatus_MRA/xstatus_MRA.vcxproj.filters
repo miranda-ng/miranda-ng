@@ -65,9 +65,6 @@
     <None Include="XStatus_icons\24.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="XStatus_icons\25.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="XStatus_icons\26.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -84,9 +81,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="XStatus_icons\31.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="XStatus_icons\32.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="XStatus_icons\33.ico">
@@ -159,21 +153,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="XStatus_icons\54.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="XStatus_icons\55.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="XStatus_icons\56.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="XStatus_icons\57.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="XStatus_icons\58.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="XStatus_icons\59.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="XStatus_icons\6.ico">

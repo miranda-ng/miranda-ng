@@ -66,14 +66,5 @@
     <None Include="res\btnClose.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\btnInfo.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\btnAll.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\btnDownload.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

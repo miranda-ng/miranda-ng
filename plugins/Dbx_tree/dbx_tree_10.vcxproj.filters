@@ -99,9 +99,6 @@
     <ClInclude Include="Interface.h">
       <Filter>Interface\HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="m_dbx_tree.h">
-      <Filter>Interface\HeaderFiles</Filter>
-    </ClInclude>
     <ClInclude Include="Services.h">
       <Filter>Interface\HeaderFiles</Filter>
     </ClInclude>

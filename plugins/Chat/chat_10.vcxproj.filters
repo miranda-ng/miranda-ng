@@ -188,9 +188,6 @@
     <None Include="Docs\Chat_Translate.txt">
       <Filter>Documentation</Filter>
     </None>
-    <None Include="..\..\..\..\CVS upload\to do.txt">
-      <Filter>Documentation</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chat.rc">

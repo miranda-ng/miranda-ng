@@ -209,9 +209,6 @@
     <None Include="res\add.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\auto.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\avatar.bmp">
       <Filter>Resource Files</Filter>
     </None>
@@ -303,9 +300,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="docs\Changelog.txt">
-      <Filter>docs</Filter>
-    </None>
-    <None Include="docs\todo.txt">
       <Filter>docs</Filter>
     </None>
     <None Include="res\whatsnew.txt">

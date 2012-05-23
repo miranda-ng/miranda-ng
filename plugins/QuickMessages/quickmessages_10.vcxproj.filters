@@ -26,12 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="m_msg_buttonsbar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_updater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="quickmessages.h">
       <Filter>Header Files</Filter>
     </ClInclude>

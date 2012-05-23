@@ -295,22 +295,14 @@
     <ClInclude Include="common.h" />
     <ClInclude Include="frame.h" />
     <ClInclude Include="icons.h" />
-    <ClInclude Include="m_alarms.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="time_utils.h" />
     <ClInclude Include="trigger.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bitmap1.bmp" />
     <None Include="clock.ico" />
-    <None Include="clockdow.bmp" />
-    <None Include="flat_16x12.bmp" />
     <None Include="green.ico" />
-    <None Include="ico00001.ico" />
-    <None Include="icon1.ico" />
-    <None Include="icon2.ico" />
-    <None Include="icon3.ico" />
     <None Include="iconttbdown.ico" />
     <None Include="iconttbup.ico" />
     <None Include="yellow.ico" />

@@ -168,13 +168,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="m_gender.h" />
-    <ClInclude Include="sdk\m_metacontacts.h" />
-    <ClInclude Include="sdk\m_updater.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\choose.ico" />
     <None Include="icons\female.ico" />
     <None Include="icons\male.ico" />
     <None Include="docs\gender-readme.txt" />

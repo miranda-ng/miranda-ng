@@ -55,15 +55,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\icon1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\ttbDown.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\ttbUp.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\useronli.ico">
       <Filter>Resource Files</Filter>
     </None>

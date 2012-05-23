@@ -360,7 +360,6 @@
     <ClInclude Include="Compatibility.h" />
     <ClInclude Include="DatabaseLink.h" />
     <ClInclude Include="Interface.h" />
-    <ClInclude Include="m_dbx_tree.h" />
     <ClInclude Include="Services.h" />
     <ClInclude Include="Hash.h" />
     <ClInclude Include="inttypes.h" />

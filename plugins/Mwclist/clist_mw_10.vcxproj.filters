@@ -112,9 +112,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\&amp;RQ.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\1.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -142,16 +139,7 @@
     <None Include="res\addgoupp.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\AgileMobile.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\AlIcq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\blank.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Center.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\delete.ico">
@@ -163,76 +151,16 @@
     <None Include="res\dropuser.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\Gaim.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\globus.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Gnomeicu.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\hyperlin.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\ico00001.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ico00002.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ico00003.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ico00004.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ico00005.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\icon2.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\IcqMac.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\IM+.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\IM2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Kopete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\L.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\L4.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\L5.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\LibIcq2000.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Licq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Micq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\miranda.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Mob2Icq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\MobiCQ2.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\NICQ2.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\notick.ico">
@@ -241,46 +169,13 @@
     <None Include="res\notick1.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\PSI.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\QIP.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\rename.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\sendmail.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\Sim.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\sms.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Spambot.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Sticq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Stricq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Trillian.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Vicq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\WebIcq.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Yamigo.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Ysm.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

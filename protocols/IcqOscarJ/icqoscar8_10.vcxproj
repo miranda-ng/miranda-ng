@@ -323,7 +323,6 @@
   <ItemGroup>
     <None Include="icos\icq.ico" />
     <None Include="docs\icq-readme.txt" />
-    <None Include="docs\IcqOscarJ-db settings.txt" />
     <None Include="docs\IcqOscarJ-translation.txt" />
   </ItemGroup>
   <ItemGroup>

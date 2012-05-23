@@ -135,7 +135,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="commons.h" />
-    <ClInclude Include="m_listeningto.h" />
     <ClInclude Include="..\utils\mir_buffer.h" />
     <ClInclude Include="..\utils\mir_icons.h" />
     <ClInclude Include="..\utils\mir_memory.h" />

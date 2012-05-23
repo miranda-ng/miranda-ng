@@ -19,9 +19,6 @@
       <UniqueIdentifier>{8b31b6e6-ed45-4468-b82e-965e2154ef0c}</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
     </Filter>
-    <Filter Include="Resource Files\chat">
-      <UniqueIdentifier>{8caf6eda-a9d5-4a96-a8e4-4667b3ea8012}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmdlist.c">
@@ -148,236 +145,20 @@
     <None Include="res\addcontact.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\src\res\addcontact.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\addcontact.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Clock32.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Clock8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\delete.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Details32.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Details8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\downarrow.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Downarrow32.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Downarrow8.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\dragcopy.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\src\res\dragcopy.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\emptyblo.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\emptyblo.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\history.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\History32.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\History8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\incoming.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\multisend.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Multisend32.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Multisend8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\notice.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\outgoing.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\quote.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\rename.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\send8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\smiley8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\timestamp.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\typing.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Typing32.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Typing8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\typingoff.ico">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\typingon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\unicodeoff.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\unicodeon.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\unknown.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\viewdetails.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="chat\Icons\1.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\2.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\3.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\4.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\5.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\6.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\action.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\addmode.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\bkgcolor.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\bold.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\close.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\color.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\filter.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\filter2.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\highlight.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\history.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\info.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\italics.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\join.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\kick.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\message.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\messageout.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\nick.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\nicklist.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\nicklist2.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\notice.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\overlay.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\part.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\quit.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\removestatus.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\smiley.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\smileyc.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\topic.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\topicbut.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\underline.ico">
-      <Filter>Resource Files\chat</Filter>
-    </None>
-    <None Include="chat\Icons\window.ico">
-      <Filter>Resource Files\chat</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

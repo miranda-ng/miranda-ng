@@ -190,7 +190,6 @@
     <ClInclude Include="jumplist.h" />
     <ClInclude Include="jumplistarray.h" />
     <ClInclude Include="jumplistbuilder.h" />
-    <ClInclude Include="m_w7ui.h" />
     <ClInclude Include="srmmproxywindow.h" />
     <ClInclude Include="subclassmgr.h" />
     <ClInclude Include="win7api.h" />

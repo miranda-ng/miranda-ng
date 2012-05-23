@@ -77,24 +77,6 @@
     <ClInclude Include="ContactList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_popup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_popupw.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_statusplugins.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_toptoolbar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_updater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_variables.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MsgTree.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -119,15 +101,6 @@
     <ClInclude Include="..\CommonLibs\GroupCheckbox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\CommonLibs\m_ContactSettings.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CommonLibs\m_LogService.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CommonLibs\m_NewAwaySys.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\CommonLibs\Options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -149,9 +122,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Images\Dot.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Images\EditMsgs.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Images\EnableNotify.ico">
@@ -182,9 +152,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Images\on.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="Resources.rc2">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="Images\SaveAsNew.ico">

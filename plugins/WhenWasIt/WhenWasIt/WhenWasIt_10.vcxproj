@@ -182,7 +182,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="icons\add.ico" />
-    <None Include="icons\birthday.ico" />
     <None Include="icons\check.bmp" />
     <None Include="icons\check.ico" />
     <None Include="icons\dlg.ico" />

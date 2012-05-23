@@ -266,9 +266,6 @@
     <ClInclude Include="trigger_aaa.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\icon1.ico" />
-    <None Include="..\ttbDown.bmp" />
-    <None Include="..\ttbUp.bmp" />
     <None Include="..\useronli.ico" />
   </ItemGroup>
   <ItemGroup>

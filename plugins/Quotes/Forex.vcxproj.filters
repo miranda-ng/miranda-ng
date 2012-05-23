@@ -185,9 +185,6 @@
     <ClInclude Include="Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_Quotes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -295,7 +292,6 @@
     <None Include="res\up.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="ReadMe.txt" />
     <None Include="res\swap.ico">
       <Filter>Resource Files</Filter>
     </None>

@@ -254,7 +254,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="addcontactplus.h" />
-    <ClInclude Include="m_addcontactplus.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="contact_add.ico" />

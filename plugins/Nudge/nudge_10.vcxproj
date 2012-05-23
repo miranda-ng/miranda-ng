@@ -319,7 +319,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="miranda.ico" />
-    <None Include="nudge.ico" />
     <None Include="ChangeLog.txt" />
     <None Include="resources\Nudge.ico" />
     <None Include="resources\NudgeIRC.ico" />
