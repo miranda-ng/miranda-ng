@@ -126,8 +126,8 @@
       <AdditionalOptions>/ALIGN:4096 /filealign:0x200 /ignore:4108  %(AdditionalOptions)</AdditionalOptions>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Unicode_Release/spellcheckerW.map</MapFileName>
+      <MapFileName>
+      </MapFileName>
       <BaseAddress>0x3EC20000</BaseAddress>
       <TargetMachine>MachineX86</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
@@ -172,8 +172,8 @@
       <AdditionalOptions>/ALIGN:4096 /filealign:0x200 /ignore:4108  %(AdditionalOptions)</AdditionalOptions>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <GenerateMapFile>true</GenerateMapFile>
-      <MapFileName>.\Release64/spellchecker64.map</MapFileName>
+      <MapFileName>
+      </MapFileName>
       <BaseAddress>0x3EC20000</BaseAddress>
       <TargetMachine>MachineX64</TargetMachine>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
