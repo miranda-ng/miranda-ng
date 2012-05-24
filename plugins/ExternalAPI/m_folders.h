@@ -168,6 +168,7 @@ __inline static HANDLE FoldersRegisterCustomPath(const char *section, const char
 	return (HANDLE) CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM) &fd);
 }
 
+#ifdef _UNICODE
 __inline static HANDLE FoldersRegisterCustomPathW(const char *section, const char *name, const wchar_t *defaultPathW)
 {
 	FOLDERSDATA fd = {0};
@@ -181,6 +182,7 @@ __inline static HANDLE FoldersRegisterCustomPathW(const char *section, const cha
 	fd.flags = FF_UNICODE;
 	return (HANDLE) CallService(MS_FOLDERS_REGISTER_PATH, 0, (LPARAM) &fd);
 }
+#endif //_UNICODE
 
 __inline static INT_PTR FoldersGetCustomPath(HANDLE hFolderEntry, char *path, const int size, const char *notFound)
 {
@@ -200,22 +202,25 @@ __inline static INT_PTR FoldersGetCustomPath(HANDLE hFolderEntry, char *path, co
 	return res;
 }
 
-__inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *pathW, const int count, const wchar_t *notFoundW)
+#ifdef _UNICODE
+__inline static INT_PTR FoldersGetCustomPathW(HANDLE hFolderEntry, wchar_t *pathW, const int size, const wchar_t *notFoundW)
 {
 	FOLDERSGETDATA fgd = {0};
 	INT_PTR res;
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
-	fgd.nMaxPathSize = count;
+	fgd.nMaxPathSize = size;
 	fgd.szPathW = pathW;
 	res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
 	if (res)
 	{
-		wcsncpy(pathW, notFoundW, count);
-		pathW[count - 1] = '\0';
+		wchar_t buffer[MAX_PATH];
+		CallService(MS_UTILS_PATHTOABSOLUTEW, (WPARAM) notFoundW, (LPARAM) buffer);
+		mir_sntprintf(pathW, size, _T("%s"), buffer);
 	}
 
 	return res;
 }
+#endif //_UNICODE
 
 __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, const int size, char *notFound, char *fileName)
 {
@@ -247,18 +252,20 @@ __inline static INT_PTR FoldersGetCustomPathEx(HANDLE hFolderEntry, char *path, 
 	return res;
 }
 
-__inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pathW, const int count, wchar_t *notFoundW, wchar_t *fileNameW)
+#ifdef _UNICODE
+__inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pathW, const int size, wchar_t *notFoundW, wchar_t *fileNameW)
 {
 	FOLDERSGETDATA fgd = {0};
 	INT_PTR res;
 	fgd.cbSize = sizeof(FOLDERSGETDATA);
-	fgd.nMaxPathSize = count;
+	fgd.nMaxPathSize = size;
 	fgd.szPathW = pathW;
 	res = CallService(MS_FOLDERS_GET_PATH, (WPARAM) hFolderEntry, (LPARAM) &fgd);
 	if (res)
 	{
-		wcsncpy(pathW, notFoundW, count);
-		pathW[count - 1] = '\0';
+		wchar_t buffer[MAX_PATH];
+		CallService(MS_UTILS_PATHTOABSOLUTEW, (WPARAM) notFoundW, (LPARAM) buffer);
+		mir_sntprintf(pathW, size, _T("%s"), buffer);
 	}
 
 	if (wcslen(pathW) > 0)
@@ -276,6 +283,7 @@ __inline static INT_PTR FoldersGetCustomPathExW(HANDLE hFolderEntry, wchar_t *pa
 
 	return res;
 }
+#endif //_UNICODE
 
 # ifdef _UNICODE
 #  define FoldersGetCustomPathT FoldersGetCustomPathW
