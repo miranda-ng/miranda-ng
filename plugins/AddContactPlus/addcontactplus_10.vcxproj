@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectName>AddContactPlus</ProjectName>
     <ProjectGuid>{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}</ProjectGuid>
-    <RootNamespace>addcontactplus</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
