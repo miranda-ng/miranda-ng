@@ -113,10 +113,14 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	switch(type)
 	{
 	case PFLAGNUM_1: // TODO: Other caps available: PF1_BASICSEARCH, PF1_SEARCHBYEMAIL
+	{
+		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_ADDED | PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
+		
 		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ) )
-			return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_MODEMSG;
+			return flags |= PF1_MODEMSG;
 		else
-			return PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_MODEMSGRECV;
+			return flags |= PF1_MODEMSGRECV;
+	}
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE; // | PF2_SHORTAWAY;
 	case PFLAGNUM_3:
@@ -125,7 +129,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 		else
 			return 0;
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_NOCUSTOMAUTH | PF4_SUPPORTIDLE | PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE;
+		return PF4_NOCUSTOMAUTH | PF4_FORCEADDED | PF4_IMSENDUTF | PF4_AVATARS | PF4_SUPPORTTYPING | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE;
 	case PFLAGNUM_5:
 		return PF2_ONTHEPHONE;
 	case PFLAG_MAXLENOFMESSAGE:
@@ -221,6 +225,67 @@ void FacebookProto::SetAwayMsgWorker(void *)
 {
 	if ( !last_status_msg_.empty() )
 		facy.set_status( last_status_msg_ );
+}
+
+HANDLE FacebookProto::SearchBasic( const PROTOCHAR* id )
+{
+	if (isOffline())
+		return 0;
+	
+	TCHAR* email = mir_tstrdup(id);
+	ForkThread(&FacebookProto::SearchAckThread, this, (void*)email);
+
+	return email;
+}
+
+HANDLE FacebookProto::SearchByEmail( const PROTOCHAR* email )
+{
+	return SearchBasic(email);
+}
+
+HANDLE FacebookProto::SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName )
+{
+	TCHAR arg[200];
+	_sntprintf (arg, SIZEOF(arg), _T("%s %s %s"), nick, firstName, lastName);
+	return SearchBasic(arg);
+}
+
+HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
+{
+	char *id = mir_t2a_cp(psr->id, CP_UTF8);
+	char *name = mir_t2a_cp(psr->firstName, CP_UTF8);
+	char *surname = mir_t2a_cp(psr->lastName, CP_UTF8);
+
+	facebook_user fbu;
+	fbu.user_id = id;
+	fbu.real_name = name;
+	fbu.real_name += " ";
+	fbu.real_name += surname;
+
+	HANDLE hContact = AddToContactList(&fbu, false, fbu.real_name.c_str());
+	if (hContact) {
+		if (flags & PALF_TEMPORARY)
+		{
+			DBWriteContactSettingByte(hContact, "Clist", "Hidden", 1);
+			DBWriteContactSettingByte(hContact, "Clist", "NotOnList", 1);
+		}
+		else if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		{
+			DBDeleteContactSetting(hContact, "CList", "Hidden");
+			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+		}
+	}
+
+	mir_free(id);
+	mir_free(name);
+	mir_free(surname);
+
+	return hContact;
+}
+
+int FacebookProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
+{
+	return AddFriend((WPARAM)hContact, NULL);
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -487,6 +552,23 @@ int FacebookProto::AddFriend(WPARAM wParam,LPARAM lParam)
 			DBFreeVariant(&dbv);
 		}
 	}
+
+	return 0;
+}
+
+int FacebookProto::ApproveFriend(WPARAM wParam,LPARAM lParam)
+{
+	if (wParam == NULL)
+	{ // self contact
+//		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(FACEBOOK_URL_PROFILE));
+		return 0;
+	}
+
+	if (isOffline())
+		return 0;
+
+	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
+	ForkThread( &FacebookProto::ApproveContactToServer, this, ( void* )hContact );
 
 	return 0;
 }

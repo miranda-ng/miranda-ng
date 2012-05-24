@@ -117,7 +117,8 @@ public:
 	int  __cdecl GetAvatarCaps(WPARAM, LPARAM );
 	int  __cdecl VisitProfile(WPARAM, LPARAM );
 	int  __cdecl RemoveFriend(WPARAM, LPARAM );
-	int  __cdecl AddFriend(WPARAM, LPARAM );	
+	int  __cdecl AddFriend(WPARAM, LPARAM );
+	int  __cdecl ApproveFriend(WPARAM, LPARAM );
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -145,6 +146,8 @@ public:
 	void __cdecl ProcessUnreadMessages(void*);
 	void __cdecl ProcessFeeds(void*);
 	void __cdecl ProcessNotifications(void*);
+	void __cdecl ProcessFriendRequests(void*);
+	void __cdecl SearchAckThread(void*);
 
 	// Worker threads
 	void __cdecl SignOn(void*);
@@ -158,6 +161,7 @@ public:
 	void __cdecl MessagingWorker(void*);
 	void __cdecl DeleteContactFromServer(void*);
 	void __cdecl AddContactToServer(void*);
+	void __cdecl ApproveContactToServer(void*);	
 
 	// Contacts handling
 	bool    IsMyContact(HANDLE, bool include_chat = false);
@@ -167,7 +171,7 @@ public:
 
 	// Chats handling
  	void AddChat(const char *id, const char *name);
-	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message);
+	void UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp = 0);
 	bool IsChatContact(const char *chat_id, const char *id);
 	void AddChatContact(const char *chat_id, const char *id, const char *name);
 	void RemoveChatContact(const char *chat_id, const char *id);

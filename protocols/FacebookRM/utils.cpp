@@ -58,6 +58,24 @@ std::string utils::time::mili_timestamp( )
 	return timestamp;
 }
 
+DWORD utils::time::fix_timestamp( double mili_timestamp )
+{
+	// If it is really mili_timestamp
+	if (mili_timestamp > 100000000000) {
+		return (DWORD) (mili_timestamp / 1000);
+	}
+	return (DWORD) mili_timestamp;
+}
+
+DWORD utils::conversion::to_timestamp( std::string data )
+{
+	DWORD timestamp = NULL;
+	if (!utils::conversion::from_string<DWORD>(timestamp, data, std::dec)) {
+		timestamp = static_cast<DWORD>(::time(NULL));
+	}
+	return timestamp;
+}
+
 std::string utils::conversion::to_string( void* data, WORD type )
 {
 	std::stringstream out;

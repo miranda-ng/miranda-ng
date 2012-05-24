@@ -329,11 +329,8 @@ void FacebookProto::ProcessUnreadMessages( void* )
 			std::string::size_type pos3 = messageslist.find( "class=\\\"MessagingMessage ", pos2 );
 			std::string messagesgroup = messageslist.substr( pos2, pos3 - pos2 );
 
-			DWORD timestamp = NULL;
-			std::string strtime = utils::text::source_get_value( &messagesgroup, 2, "data-utime=\\\"", "\\\"" );
-			if (!utils::conversion::from_string<DWORD>(timestamp, strtime, std::dec)) {
-				timestamp = static_cast<DWORD>(::time(NULL));
-			}
+			DWORD timestamp = utils::conversion::to_timestamp( 
+								utils::text::source_get_value( &messagesgroup, 2, "data-utime=\\\"", "\\\"" ) );
 
 			pos3 = 0;
 			while ( ( pos3 = messagesgroup.find( "class=\\\"content noh", pos3 ) ) != std::string::npos )
@@ -444,7 +441,7 @@ void FacebookProto::ProcessMessages( void* data )
 
 			recv.flags = PREF_UTF;
 			recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-			recv.timestamp = static_cast<DWORD>(messages[i]->time);
+			recv.timestamp = messages[i]->time;
 
 			ccs.hContact = hContact;
 			ccs.szProtoService = PSR_MESSAGE;
@@ -539,6 +536,57 @@ void FacebookProto::ProcessNotifications( void* )
 	CODE_BLOCK_END
 }
 
+void FacebookProto::ProcessFriendRequests( void* )
+{
+	facy.handle_entry( "friendRequests" );
+
+	// Get notifications
+	http::response resp = facy.flap( FACEBOOK_REQUEST_LOAD_REQUESTS );
+
+	// Process result data
+	facy.validate_response(&resp);
+  
+	if (resp.code != HTTP_CODE_OK) {
+		facy.handle_error( "friendRequests" );
+		return;
+	}
+	
+	// Parse it
+	std::string reqs = utils::text::source_get_value(&resp.data, 2, "<div class=\"mRequestItem", "<div class=\"al aps\">");
+
+	std::string::size_type pos = 0;
+	std::string::size_type pos2 = 0;
+	bool last = false;
+
+	while (!last) {
+		std::string req;
+		if ((pos2 = reqs.find("<div class=\"mRequestItem", pos)) != std::string::npos) {
+			req = reqs.substr(pos, pos2 - pos);
+			pos = pos2 + 24;
+		} else {
+			req = reqs.substr(pos);
+			last = true;
+		}
+				
+		std::string get = utils::text::source_get_value(&req, 3, "<form", "action=\"", "\">");		
+
+		facebook_user *fbu = new facebook_user();
+		fbu->real_name = utils::text::source_get_value(&req, 2, "class=\"actor\">", "</");
+		fbu->user_id = utils::text::source_get_value(&get, 2, "id=", "&");
+
+		if (fbu->user_id.length() && fbu->real_name.length())
+		{
+			HANDLE hContact = this->AddToContactList(fbu, false, fbu->real_name.c_str());
+			DBWriteContactSettingString(hContact, this->m_szModuleName, FACEBOOK_KEY_APPROVE, get.c_str());
+
+			LOG("      Friendship request from: %s (%s)", fbu->real_name.c_str(), fbu->user_id.c_str());
+		} else {
+			LOG(" !!!  Wrong friendship request");
+		}
+	}
+
+	facy.handle_success( "friendRequests" );
+}
 
 void FacebookProto::ProcessFeeds( void* data )
 {
@@ -643,4 +691,92 @@ void FacebookProto::ProcessFeeds( void* data )
 
 exit:
 	delete resp;
+}
+
+void FacebookProto::SearchAckThread(void *targ)
+{
+	facy.handle_entry( "searchAckThread" );
+
+	char *arg = mir_utf8encodeT((TCHAR*)targ);
+	std::string search = utils::url::encode( arg );	
+
+	// Get notifications
+	http::response resp = facy.flap( FACEBOOK_REQUEST_SEARCH, NULL, &search );
+
+	// Process result data
+	facy.validate_response(&resp);
+  
+	if (resp.code == HTTP_CODE_OK)
+	{
+		std::string items = utils::text::source_get_value(&resp.data, 3, "<body", "<div class=\"c\">", "</body>");
+
+		std::string::size_type pos = 0;
+		std::string::size_type pos2 = 0;
+		bool last = false;
+
+		while (!last) {
+			std::string item;
+			if ((pos2 = items.find("<div class=\"c\">", pos)) != std::string::npos) {
+				item = items.substr(pos, pos2 - pos);
+				pos = pos2 + 14;
+			} else {
+				item = items.substr(pos);
+				last = true;
+			}
+
+			std::string id = utils::text::source_get_value2(&item, "?id=", "&\"");
+			if (id.empty())
+				id = utils::text::source_get_value2(&item, "?slog=", "&\"");
+
+			std::string name = utils::text::source_get_value(&item, 2, "<span>", "</span>");
+			std::string surname;
+			std::string nick;
+			std::string common = utils::text::source_get_value(&item, 2, "<span class=\"fcg\">", "</span>");
+
+			if ((pos2 = name.find(" <span class=\"alternate_name\">")) != std::string::npos) {
+				nick = name.substr(pos2 + 31, name.length() - pos2 - 32); // also remove brackets around nickname
+				name = name.substr(0, pos2);
+			}
+
+			if ((pos2 = name.find(" ")) != std::string::npos) {
+				surname = name.substr(pos2 + 1, name.length() - pos2 - 1);
+				name = name.substr(0, pos2);
+			}
+
+			// ignore self contact and empty ids
+			if (id.empty() || id == facy.self_.user_id)
+				continue;
+
+			TCHAR* tid = mir_a2t_cp(id.c_str(), CP_UTF8);
+			TCHAR* tname = mir_a2t_cp(name.c_str(), CP_UTF8);
+			TCHAR* tsurname = mir_a2t_cp(surname.c_str(), CP_UTF8);
+			TCHAR* tnick = mir_a2t_cp(nick.c_str(), CP_UTF8);
+			TCHAR* tcommon = mir_a2t_cp(common.c_str(), CP_UTF8);
+
+			PROTOSEARCHRESULT isr = {0};
+			isr.cbSize = sizeof(isr);
+			isr.flags = PSR_TCHAR;
+			isr.id  = tid;
+			isr.nick  = tnick;
+			isr.firstName = tname;
+			isr.lastName = tsurname;
+			isr.email = tcommon;
+
+			ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+
+			mir_free(tid);
+			mir_free(tnick);
+			mir_free(tname);
+			mir_free(tsurname);
+			mir_free(tcommon);
+		}
+
+	}
+
+	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
+
+	facy.handle_success( "searchAckThread" );
+
+	mir_free(targ);
+	mir_free(arg);
 }

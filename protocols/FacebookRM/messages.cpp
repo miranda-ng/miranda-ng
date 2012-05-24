@@ -114,6 +114,10 @@ void FacebookProto::SendTypingWorker(void *p)
 
 	send_typing *typing = static_cast<send_typing*>(p);
 
+	// Dont send typing notifications to contacts, that are offline
+	if ( DBGetContactSettingWord(typing->hContact,m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE )
+		return;
+
 	// TODO RM: maybe better send typing optimalization
 	facy.is_typing_ = (typing->status == PROTOTYPE_SELFTYPING_ON);
 	SleepEx( 2000, true );

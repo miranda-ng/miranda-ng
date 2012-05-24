@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *name, const char *message)
+void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *name, const char *message, DWORD timestamp)
 {
 	GCDEST gcd = { m_szModuleName };
 	gcd.ptszID = mir_a2t(chat_id);
@@ -30,7 +30,7 @@ void FacebookProto::UpdateChat(const char *chat_id, const char *id, const char *
 	GCEVENT gce  = {sizeof(gce)};
 	gce.pDest    = &gcd;
 	gce.ptszText = mir_a2t_cp(message,CP_UTF8);
-	gce.time     = ::time(NULL);
+	gce.time     = timestamp ? timestamp : ::time(NULL);
 	gce.dwFlags  = GC_TCHAR;
 	gcd.iType  = GC_EVENT_MESSAGE;
 	gce.bIsMe = !strcmp(id,facy.self_.user_id.c_str());

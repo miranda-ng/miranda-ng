@@ -37,7 +37,8 @@ static const icons[] =
 	{ "mind",			LPGEN("Mind"),					IDI_MIND },
 	{ "removeFriend",	LPGEN("Remove from server"),	IDI_REMOVEFRIEND },
 	{ "addFriend",		LPGEN("Request friendship"),	IDI_ADDFRIEND },
-
+	{ "approveFriend",	LPGEN("Approve friendship"),	0, "core_main_8" }, // TODO: add better icon
+	
 	{ "homepage",		LPGEN("Visit Profile"),	0, "core_main_2" },
 };
 
@@ -106,7 +107,7 @@ char *GetIconDescription(const char* name)
 }
 
 // Contact List menu stuff
-HANDLE g_hMenuItems[4];
+HANDLE g_hMenuItems[5];
 
 // Helper functions
 static FacebookProto * GetInstanceByHContact(HANDLE hContact)
@@ -138,7 +139,7 @@ static int PrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 	return proto ? proto->OnPrebuildContactMenu(wParam,lParam) : 0;
 }
 
-HANDLE hHookPreBuildMenu,sVisitProfile,sAddFriend,sRemoveFriend;
+HANDLE hHookPreBuildMenu, sVisitProfile, sAddFriend, sRemoveFriend, sApproveFriend;
 void InitContactMenus()
 {
 	hHookPreBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,PrebuildContactMenu);
@@ -169,6 +170,14 @@ void InitContactMenus()
 	sAddFriend = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::AddFriend>);
 	g_hMenuItems[3] = reinterpret_cast<HANDLE>(
 		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
+
+	mi.position=-2000006000;
+	mi.icolibItem = GetIconHandle("approveFriend");
+	mi.pszName = GetIconDescription("approveFriend");
+	mi.pszService = "FacebookProto/ApproveFriend";
+	sApproveFriend = CreateServiceFunction(mi.pszService,GlobalService<&FacebookProto::ApproveFriend>);
+	g_hMenuItems[4] = reinterpret_cast<HANDLE>(
+		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
 }
 
 void UninitContactMenus()
@@ -179,6 +188,7 @@ void UninitContactMenus()
 	DestroyServiceFunction(sVisitProfile);
 	DestroyServiceFunction(sRemoveFriend);
 	DestroyServiceFunction(sAddFriend);
+	DestroyServiceFunction(sApproveFriend);
 }
 
 void ShowContactMenus(bool show, bool deleted)
@@ -187,7 +197,7 @@ void ShowContactMenus(bool show, bool deleted)
 	{
 		CLISTMENUITEM item = { sizeof(item) };
 		item.flags = CMIM_FLAGS;
-		if(!show || (i == 3 && !deleted) || (i == 2 && deleted)) // 2 = REMOVE CONTACT; 3 = ADD CONTACT
+		if(!show || (i == 3 && !deleted) || (i == 2 && deleted) || (i == 4 && !deleted)) // 2 = REMOVE CONTACT; 3 = ADD CONTACT; 4 = APPROVE CONTACT
 			item.flags |= CMIF_HIDDEN;
 
 		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(g_hMenuItems[i]),

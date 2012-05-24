@@ -72,6 +72,7 @@ namespace utils
 	{
 		std::string unix_timestamp( );
 		std::string mili_timestamp( );
+		DWORD fix_timestamp( double );
 	};
 
 	namespace number
@@ -96,7 +97,8 @@ namespace utils
 
 	namespace conversion
 	{
-		std::string to_string( void*, WORD type );
+		DWORD to_timestamp( std::string data );
+		std::string to_string( void*, WORD type );		
 		
 		template <class T>
 		bool from_string(T& t, const std::string& s, std::ios_base& (*f)(std::ios_base&)) {

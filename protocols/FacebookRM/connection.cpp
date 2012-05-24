@@ -91,6 +91,9 @@ void FacebookProto::ChangeStatus(void*)
 
 			facy.load_friends();
 
+			// Process Friends requests
+			ForkThread( &FacebookProto::ProcessFriendRequests, this, NULL );
+
 			if (getByte(FACEBOOK_KEY_PARSE_MESSAGES, DEFAULT_PARSE_MESSAGES))
 				ForkThread( &FacebookProto::ProcessUnreadMessages, this );
 
@@ -188,7 +191,7 @@ void FacebookProto::UpdateLoop(void *)
 	time_t tim = ::time(NULL);
 	LOG( ">>>>> Entering Facebook::UpdateLoop[%d]", tim );
 
-	for ( int i = -1; !isOffline(); i = ++i % 6 )
+	for ( int i = -1; !isOffline(); i = ++i % 100 )
 	{
 		if ( i != -1 ) {
 			if ( !facy.invisible_ )
@@ -198,6 +201,10 @@ void FacebookProto::UpdateLoop(void *)
 		if ( i == 2 && getByte( FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE ) )
 			if ( !facy.feeds( ) )
 				break;
+
+		if ( i == 99 )
+			ForkThread( &FacebookProto::ProcessFriendRequests, this, NULL );
+
 		LOG( "***** FacebookProto::UpdateLoop[%d] going to sleep...", tim );
 		if ( WaitForSingleObjectEx( update_loop_lock_, GetPollRate( ) * 1000, true ) != WAIT_TIMEOUT )
 			break;

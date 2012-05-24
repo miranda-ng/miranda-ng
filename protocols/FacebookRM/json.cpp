@@ -288,7 +288,7 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 				const String& text = messageContent["text"];
 				//"tab_type":"friend",     objMember["tab_type"]
         
-				//const Number& time_sent = messageContent["time"];
+				const Number& time_sent = messageContent["time"];
 //				proto->Log("????? Checking time %15.2f > %15.2f", time_sent.Value(), proto->facy.last_message_time_);
 
 				if ((messageContent.Find("truncated") != messageContent.End())
@@ -299,11 +299,10 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 					proto->Log(msg.c_str());
 				} else if (last_msg != text.Value()) {
 					last_msg = text.Value();
-
   					facebook_message* message = new facebook_message( );
 					message->message_text = utils::text::special_expressions_decode(
 						utils::text::slashu_to_utf8( text.Value( ) ) );
-					message->time = ::time( NULL ); // TODO: use real time from facebook
+					message->time = utils::time::fix_timestamp( time_sent.Value() );
 					message->user_id = was_id;
 
 					messages->push_back( message );
@@ -337,8 +336,7 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 
 					std::string row = ((const String &)objMember["thread_row"]).Value();
         
-					//const Number& time_sent = messageContent["timestamp"];
-
+					const Number& time_sent = messageContent["timestamp"];
 					//proto->Log("????? Checking time %15.2f > %15.2f", time_sent.Value(), proto->facy.last_message_time_);
 
 					if (last_msg != text.Value()) {
@@ -351,7 +349,7 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 						message->sender_name = utils::text::special_expressions_decode(
 							utils::text::slashu_to_utf8( sender_name.Value( ) ) );
 
-						message->time = ::time( NULL ); // TODO: user real time from facebook
+						message->time = utils::time::fix_timestamp( time_sent.Value() );
 						message->user_id = was_id; // TODO: Check if we have contact with this ID in friendlist and then do something different?
 
 						if (row.find("uiSplitPic",0) != std::string::npos) {
@@ -421,8 +419,11 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 				if (!proto->IsChatContact(group_id, was_id))
 					proto->AddChatContact(group_id, was_id, name.c_str());
 
+				const Number& time_sent = messageContent["time"];
+				DWORD timestamp = utils::time::fix_timestamp( time_sent.Value() );
+
 				// Add message into chat
-				proto->UpdateChat(group_id, was_id, name.c_str(), msg.c_str());
+				proto->UpdateChat(group_id, was_id, name.c_str(), msg.c_str(), timestamp);
 			}
 			else if ( type.Value( ) == "thread_msg" ) // multiuser message
 			{

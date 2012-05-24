@@ -168,7 +168,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 			DBWriteContactSettingDword(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL)); // set deleted time
 		}
 		
-		NotifyEvent(TranslateT("Deleting contact"), TranslateT("Contact was sucessfully removed from server."), NULL, FACEBOOK_EVENT_OTHER, NULL);		
+		NotifyEvent(TranslateT("Deleting contact"), TranslateT("Contact was sucessfully removed from your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);		
 	} else {
 		facy.client_notify( TranslateT("Error occured when removing contact from server.") );
 	}
@@ -198,7 +198,7 @@ void FacebookProto::AddContactToServer(void *data)
 	delete data;
 
 	// Get unread inbox threads
-	http::response resp = facy.flap( FACEBOOK_REQUEST_ADD_FRIEND, &query );
+	http::response resp = facy.flap( FACEBOOK_REQUEST_REQUEST_FRIEND, &query );
 
 	// Process result data
 	facy.validate_response(&resp);
@@ -220,6 +220,46 @@ void FacebookProto::AddContactToServer(void *data)
 
 }
 
+void FacebookProto::ApproveContactToServer(void *data)
+{
+	facy.handle_entry( "ApproveContactToServer" );
+
+	if ( data == NULL )
+		return;
+
+	std::string *id = (std::string*)data;
+		
+	std::string post_data = "fb_dtsg=" + facy.dtsg_;
+	post_data += "&charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&confirm_button=";
+
+	std::string get_data;
+
+	HANDLE *hContact = (HANDLE*)data;
+
+	DBVARIANT dbv;
+	if (!DBGetContactSettingString(*hContact, m_szModuleName, FACEBOOK_KEY_APPROVE, &dbv))
+	{
+		get_data = dbv.pszVal;
+		DBFreeVariant(&dbv);
+	}	
+
+	// replace absolute link to params only
+	utils::text::replace_first(&get_data, "/a/notifications.php?", "&");
+
+	http::response resp = facy.flap( FACEBOOK_REQUEST_APPROVE_FRIEND, &post_data, &get_data );
+
+	// Process result data
+	facy.validate_response(&resp);
+
+	if (resp.code != HTTP_CODE_OK)
+		facy.handle_error( "ApproveContactToServer" );
+	else {
+		NotifyEvent(TranslateT("Adding contact"), TranslateT("Contact was added to your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);
+		DBDeleteContactSetting(*hContact, m_szModuleName, FACEBOOK_KEY_APPROVE);
+	}
+
+	delete data;
+}
 
 HANDLE FacebookProto::GetAwayMsg(HANDLE hContact)
 {
@@ -231,15 +271,17 @@ int FacebookProto::OnContactDeleted(WPARAM wparam,LPARAM)
 	HANDLE hContact = (HANDLE)wparam;
 
 	DBVARIANT dbv;
-	TCHAR text[512];
-	if ( !DBGetContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
-		mir_sntprintf(text,SIZEOF(text),TranslateT("Do you want to delete contact '%s' from server list?"),dbv.ptszVal);
+	char str[256];
+
+	if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
+		mir_snprintf(str,SIZEOF(str),Translate("Do you want to delete contact '%s' from server list?"), dbv.pszVal);
 		DBFreeVariant(&dbv);
-	} else if( !DBGetContactSettingTString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
-		mir_sntprintf(text,SIZEOF(text),TranslateT("Do you want to delete contact '%s' from server list?"),dbv.ptszVal);
+	} else if( !DBGetContactSettingUTF8String(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+		mir_snprintf(str,SIZEOF(str),Translate("Do you want to delete contact '%s' from server list?"), dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}	
 
+	TCHAR *text = mir_a2t_cp(str, CP_UTF8);
 	if (MessageBox( 0, text, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
 		
 		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
@@ -258,6 +300,7 @@ int FacebookProto::OnContactDeleted(WPARAM wparam,LPARAM)
 		}
 				
 	}
+	mir_free(text);
 
 	return 0;
 }

@@ -22,15 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
-{
-	return 0;
-};
-
 HANDLE FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 {
 	return 0;
-};
+}
 
 int FacebookProto::Authorize(HANDLE hContact)
 {
@@ -43,11 +38,6 @@ int FacebookProto::AuthDeny(HANDLE hContact,const PROTOCHAR *reason)
 }
 
 int FacebookProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
-{
-	return 0;
-}
-
-int FacebookProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
 {
 	return 0;
 }
@@ -82,21 +72,6 @@ int FacebookProto::GetInfo( HANDLE hContact, int infoType )
 {
 	// TODO: Most probably some ProtoAck should be here instead
 	return 1;
-}
-
-HANDLE FacebookProto::SearchBasic( const PROTOCHAR* id )
-{
-	return 0;
-}
-
-HANDLE FacebookProto::SearchByEmail( const PROTOCHAR* email )
-{
-	return 0;
-}
-
-HANDLE FacebookProto::SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName )
-{
-	return 0;
 }
 
 HWND FacebookProto::SearchAdvanced(HWND owner)

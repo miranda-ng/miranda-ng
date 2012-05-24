@@ -62,7 +62,7 @@ struct facebook_message
 	std::string user_id;
 	std::string message_text;
 	std::string sender_name;
-	time_t time;
+	DWORD time;
 
 	facebook_message( )
 	{

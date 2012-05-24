@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Connection
 #define FACEBOOK_SERVER_REGULAR     "www.facebook.com"
+#define FACEBOOK_SERVER_MOBILE		"m.facebook.com"
 #define FACEBOOK_SERVER_CHAT        "%s.%s.facebook.com"
 #define FACEBOOK_SERVER_CHAT2       "%s-%s.facebook.com"
 #define FACEBOOK_SERVER_LOGIN       "login.facebook.com"
@@ -89,12 +90,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_REQUEST_SETUP_MACHINE          102 // setting machine name
 #define FACEBOOK_REQUEST_LOGOUT                 106 // disconnecting physically
 #define FACEBOOK_REQUEST_HOME                   110 // getting __post_form_id__ + __fb_dtsg__ + ...
+#define FACEBOOK_REQUEST_SEARCH                 111 // searching 
 #define FACEBOOK_REQUEST_BUDDY_LIST             120 // getting regular updates (friends online, ...)
 #define FACEBOOK_REQUEST_LOAD_FRIENDS			121 // getting list of all friends
 #define FACEBOOK_REQUEST_DELETE_FRIEND			122 // deleting friends
-#define FACEBOOK_REQUEST_ADD_FRIEND				123 // adding friends
+#define FACEBOOK_REQUEST_REQUEST_FRIEND			123 // requesting friends
+#define FACEBOOK_REQUEST_APPROVE_FRIEND			124 // approving friends
 #define FACEBOOK_REQUEST_FEEDS                  125 // getting feeds
 #define FACEBOOK_REQUEST_NOTIFICATIONS			126 // getting notifications
+#define FACEBOOK_REQUEST_LOAD_REQUESTS			127 // getting friend requests
 #define FACEBOOK_REQUEST_RECONNECT              130 // getting __sequence_num__ and __channel_id__
 #define FACEBOOK_REQUEST_STATUS_SET             251 // setting my "What's on my mind?"
 #define FACEBOOK_REQUEST_MESSAGE_SEND           300 // sending message

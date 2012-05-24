@@ -229,8 +229,11 @@ DWORD facebook_client::choose_security_level( int request_type )
 //	case FACEBOOK_REQUEST_HOME:
 //	case FACEBOOK_REQUEST_BUDDY_LIST:
 //	case FACEBOOK_REQUEST_LOAD_FRIENDS:
+//	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+//	case FACEBOOK_REQUEST_SEARCH:
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
-//	case FACEBOOK_REQUEST_ADD_FRIEND:
+//	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+//	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 //	case FACEBOOK_REQUEST_FEEDS:
 //	case FACEBOOK_REQUEST_NOTIFICATIONS:
 //	case FACEBOOK_REQUEST_RECONNECT:
@@ -261,7 +264,8 @@ int facebook_client::choose_method( int request_type )
 	case FACEBOOK_REQUEST_TYPING_SEND:
 	case FACEBOOK_REQUEST_LOGOUT:
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
-	case FACEBOOK_REQUEST_ADD_FRIEND:
+	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 		return REQUEST_POST;
 
 //	case FACEBOOK_REQUEST_HOME:
@@ -269,7 +273,9 @@ int facebook_client::choose_method( int request_type )
 //	case FACEBOOK_REQUEST_FEEDS:
 //	case FACEBOOK_REQUEST_NOTIFICATIONS:
 //	case FACEBOOK_REQUEST_RECONNECT:
-//	case FACEBOOK_REQUEST_LOAD_FRIENDS:
+//	case FACEBOOK_REQUEST_LOAD_FRIENDS:		
+//	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+//	case FACEBOOK_REQUEST_SEARCH:
 	default:
 		return REQUEST_GET;
 	}
@@ -292,6 +298,8 @@ std::string facebook_client::choose_proto( int request_type )
 //	case FACEBOOK_REQUEST_RECONNECT:
 //	case FACEBOOK_REQUEST_BUDDY_LIST:
 //	case FACEBOOK_REQUEST_LOAD_FRIENDS:
+//	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+//	case FACEBOOK_REQUEST_SEARCH:
 //	case FACEBOOK_REQUEST_STATUS_SET:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND:
 //	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
@@ -300,7 +308,8 @@ std::string facebook_client::choose_proto( int request_type )
 //	case FACEBOOK_REQUEST_ASYNC:
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
-//	case FACEBOOK_REQUEST_ADD_FRIEND:
+//	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+//	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 	default:
 		return HTTP_PROTO_REGULAR;
 
@@ -328,6 +337,11 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 		return server;
 	}
 
+	case FACEBOOK_REQUEST_APPROVE_FRIEND:
+	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+	case FACEBOOK_REQUEST_SEARCH:
+		return FACEBOOK_SERVER_MOBILE;
+
 //	case FACEBOOK_REQUEST_LOGOUT:
 //	case FACEBOOK_REQUEST_HOME:
 //	case FACEBOOK_REQUEST_BUDDY_LIST:
@@ -343,7 +357,7 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 //	case FACEBOOK_REQUEST_TYPING_SEND:
 //	case FACEBOOK_REQUEST_SETUP_MACHINE:
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
-//	case FACEBOOK_REQUEST_ADD_FRIEND:
+//	case FACEBOOK_REQUEST_REQUEST_FRIEND:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
 	}
@@ -375,14 +389,37 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 		return action;
 	}
 
+	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+	{
+		return "/friends/";
+	}
+
+	case FACEBOOK_REQUEST_SEARCH:
+	{
+		std::string action = "/search/?search=people&query=";
+		if (get_data != NULL) {
+			action += *get_data;
+		}
+		return action;
+	}
+
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
 	{
 		return "/ajax/profile/removefriend.php?__a=1";
 	}
 
-	case FACEBOOK_REQUEST_ADD_FRIEND:
+	case FACEBOOK_REQUEST_REQUEST_FRIEND:
 	{
 		return "/ajax/add_friend/action.php?__a=1";
+	}
+
+	case FACEBOOK_REQUEST_APPROVE_FRIEND:
+	{
+		std::string action = "/a/notifications.php?__a=1";
+		if (get_data != NULL) {
+			action += "&" + (*get_data);
+		}
+		return action;
 	}
 
 	case FACEBOOK_REQUEST_FEEDS:
@@ -421,7 +458,7 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 		return "/ajax/updatestatus.php?__a=1";
 
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
-		return "/ajax/chat/send.php?__a=1";
+		return "/ajax/messaging/send.php?__a=1";
 
 	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 	{
@@ -477,6 +514,8 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* h
 	case FACEBOOK_REQUEST_SETUP_MACHINE:
 	case FACEBOOK_REQUEST_BUDDY_LIST:
 	case FACEBOOK_REQUEST_LOAD_FRIENDS:
+	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+	case FACEBOOK_REQUEST_SEARCH:
 	case FACEBOOK_REQUEST_STATUS_SET:
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
 	case FACEBOOK_REQUEST_VISIBILITY:
@@ -484,7 +523,8 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* h
 	case FACEBOOK_REQUEST_ASYNC:
 	case FACEBOOK_REQUEST_TYPING_SEND:
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
-	case FACEBOOK_REQUEST_ADD_FRIEND:
+	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 		*headers_count = 5;
 		break;
 
@@ -506,6 +546,8 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* h
 	case FACEBOOK_REQUEST_SETUP_MACHINE:
 	case FACEBOOK_REQUEST_BUDDY_LIST:
 	case FACEBOOK_REQUEST_LOAD_FRIENDS:
+	case FACEBOOK_REQUEST_LOAD_REQUESTS:
+	case FACEBOOK_REQUEST_SEARCH:
 	case FACEBOOK_REQUEST_STATUS_SET:
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
 	case FACEBOOK_REQUEST_VISIBILITY:
@@ -513,7 +555,8 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* h
 	case FACEBOOK_REQUEST_ASYNC:
 	case FACEBOOK_REQUEST_TYPING_SEND:
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
-	case FACEBOOK_REQUEST_ADD_FRIEND:
+	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 		headers[4].szName = "Content-Type";
 		headers[4].szValue = "application/x-www-form-urlencoded; charset=utf-8";
 
@@ -813,18 +856,8 @@ bool facebook_client::home( )
 		// Get logout hash
 		this->logout_hash_ = utils::text::source_get_value( &resp.data, 2, "<input type=\"hidden\" autocomplete=\"off\" name=\"h\" value=\"", "\"" );
 		parent->Log("      Got self logout hash: %s", this->logout_hash_.c_str());
-			
-		// TODO: DIrectly get that friend requests
-		// Get friend requests count and notify it
-		std::string str_count = utils::text::source_get_value( &resp.data, 2, "<span id=\"requestsCountValue\">", "</span>" );
-		if ( str_count.length() && str_count != std::string( "0" ) )
-		{
-			std::string message = Translate("Got new friend requests: ") + str_count;
 
-			TCHAR* tmessage = mir_a2t(message.c_str());
-			parent->NotifyEvent( parent->m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER, TEXT(FACEBOOK_URL_REQUESTS) );
-			mir_free( tmessage );
-		}
+		std::string str_count;
 
 		if (!DBGetContactSettingByte(NULL,parent->m_szModuleName,FACEBOOK_KEY_PARSE_MESSAGES, DEFAULT_PARSE_MESSAGES))
 		{
@@ -1108,7 +1141,7 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 
 	http::response resp;
 
-	if (parent->isInvisible() || use_inbox) {
+//	if (parent->isInvisible() || use_inbox) {
 		// Use inbox send message when invisible
 		std::string data = "action=send&body=";
 		data += utils::url::encode( message_text );
@@ -1120,8 +1153,26 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 		data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
 
 		resp = flap( FACEBOOK_REQUEST_ASYNC, &data );	
-	} else {
+/*	} else {
 		// Use standard send message
+		std::string timestamp = utils::time::mili_timestamp();
+		
+		std::string data = "mid=id." + timestamp;
+
+		//data += "&tids[0]=";
+/*		data += "&last_msg[subject]&last_msg[body]=" + utils::url::encode( message_text );
+		data += "&last_msg[timestamp]=" + timestamp;
+		data += "&last_msg[mid]=id." + timestamp;
+		//data += "&last_msg[tid]=";
+		data += "&last_msg[sender_fbid]=" + this->self_.user_id;
+		data += "&last_msg[offline_threading_id]&last_msg[sender]=Robyer%40facebook.com&last_msg[sender_name]=Robert%20P%C3%B6sel"
+		data += "&last_msg[tags]=source%3Atitan%3Aweb%2Cinbox&last_msg[source]=source%3Atitan%3Aweb&&last_msg[forward]=0&last_msg[replyActionType]=0&last_msg[coordinates]&last_msg[action_id]=0";
+*/		/*
+		data += "&mode=2&gigaboxx_reply=&&body=" + utils::url::encode(message_text);
+		data += "&action=send&force_sms&send_on_enter=true&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
+		data += "&__user=" + this->self_.user_id;
+		data += "&phstamp=0";
+		
 		std::string data = "msg_text=";
 		data += utils::url::encode( message_text );
 		data += "&msg_id=";
@@ -1142,7 +1193,7 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 		data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
 
 		resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND, &data );
-	}
+	}*/
 
 	
 	validate_response(&resp);
