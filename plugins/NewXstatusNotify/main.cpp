@@ -53,12 +53,12 @@ PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 #ifdef _UNICODE
 	#ifdef _WIN64
-		"NewXstatusNotify YM (Unicode x64) Mataes Release",
+		"NewXstatusNotify YM (Unicode x64)",
 	#else
-		"NewXstatusNotify YM (Unicode) Mataes Release",
+		"NewXstatusNotify YM (Unicode)",
 	#endif
 #else
-	"NewXstatusNotify YM Mataes Release",
+	"NewXstatusNotify YM",
 #endif
 	__VERSION_DWORD,
 	"Notifies you when a contact changes his/her (X)status or status message.",
