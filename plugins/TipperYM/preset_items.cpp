@@ -42,9 +42,10 @@ PRESETITEM presetItems[] =
 	"time", LPGENT("Contact time"), LPGENT("Time:"), _T("%sys:time%"), 0, 0, 0,
 	"xtitle", LPGENT("XStatus title"), LPGENT("XStatus title:"), _T("%xsname%"), "xname", 0, 0,
 	"xtext", LPGENT("XStatus text"), LPGENT("XStatus text:"), _T("%raw:/XStatusMsg%"), 0, 0, 0,
-	"logon", LPGENT("[icq.dll] Logon time"), LPGENT("Logon time:"), _T("%logon_date% @ %logon_time% (pøed: %logon_ago%)"), "logondate", "logontime", "logonago",
 	"acttitle", LPGENT("[jabber.dll] Activity title"), LPGENT("Activity title:"), _T("%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/title%"), 0, 0, 0,
 	"acttext", LPGENT("[jabber.dll] Activity text"), LPGENT("Activity text:"), _T("%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/text%"), 0, 0, 0,
+	"logon", LPGENT("[menuex.dll] Logon time"), LPGENT("Logon time:"), _T("%logon_date% @ %logon_time% (%logon_ago%)"), "logondate", "logontime", "logonago",
+	"logoff", LPGENT("[menuex.dll] Logoff time"), LPGENT("Logoff time:"), _T("%logoff_date% @ %logoff_time% (%logoff_ago%)"), "logoffdate", "logofftime", "logoffago",
 	"lastseentime", LPGENT("[seenplugin.dll] Last seen time"), LPGENT("Last seen time:"), _T("%lastseen_date% @ %lastseen_time%"), "lsdate", "lstime", 0,
 	"lastseenstatus", LPGENT("[seenplugin.dll] Last seen status"), LPGENT("Last seen status:"), _T("%lastseen_status% (%lastseen_ago% ago)"), "lsstatus", "lsago", 0,
 	"cond", LPGENT("[weather.dll] Condition"), LPGENT("Condition:"), _T("%raw:Current/Condition%"), 0, 0, 0,
@@ -81,6 +82,9 @@ PRESETSUBST presetSubsts[] =
 	"logondate", _T("logon_date"), DVT_PROTODB, NULL, "LogonTS", 15, 
 	"logontime", _T("logon_time"), DVT_PROTODB, NULL, "LogonTS", 13,
 	"logonago", _T("logon_ago"), DVT_PROTODB, NULL, "LogonTS", 3,
+	"logoffdate", _T("logoff_date"), DVT_PROTODB, NULL, "LogoffTS", 15, 
+	"logofftime", _T("logoff_time"), DVT_PROTODB, NULL, "LogoffTS", 13,
+	"logoffago", _T("logoff_ago"), DVT_PROTODB, NULL, "LogoffTS", 3,
 	0, 0, DVT_DB, 0, 0, 0
 };
 
