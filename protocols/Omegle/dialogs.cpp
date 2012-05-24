@@ -48,7 +48,7 @@ static void LoadDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szS
 
 static void StoreDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
-	TCHAR tstr[OMEGLE_MESSAGE_LIMIT+1];
+	TCHAR tstr[250+1];
 
 	GetDlgItemText(hwnd, idCtrl, tstr, sizeof(tstr));
 	if ( _tcsclen( tstr ) > 0 ) {
@@ -142,9 +142,9 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		proto = reinterpret_cast<OmegleProto*>(lparam);
 		SetWindowLong(hwnd,GWLP_USERDATA,lparam);
 
-		SendDlgItemMessage(hwnd,IDC_INTERESTS, EM_LIMITTEXT, 512, 0);
-		SendDlgItemMessage(hwnd,IDC_HI_MESSAGE, EM_LIMITTEXT, OMEGLE_MESSAGE_LIMIT, 0);
-		SendDlgItemMessage(hwnd,IDC_ASL_MESSAGE, EM_LIMITTEXT, OMEGLE_MESSAGE_LIMIT, 0);
+		SendDlgItemMessage(hwnd,IDC_INTERESTS, EM_LIMITTEXT, 250, 0);
+		SendDlgItemMessage(hwnd,IDC_HI_MESSAGE, EM_LIMITTEXT, 250, 0);
+		SendDlgItemMessage(hwnd,IDC_ASL_MESSAGE, EM_LIMITTEXT, 250, 0);
 
 		// Server
 		SendDlgItemMessageA(hwnd, IDC_SERVER, CB_INSERTSTRING, 0, reinterpret_cast<LPARAM>(Translate(servers[0])));

@@ -39,20 +39,20 @@ BEGIN
     CONTROL         "Automatically send this message to stranger after connection:",IDC_HI_ENABLED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,76,272,10
     EDITTEXT        IDC_HI_MESSAGE,24,87,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
-    EDITTEXT        IDC_ASL_MESSAGE,24,121,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
-    LTEXT           "This text will be sent when you use ""/asl"" message:",IDC_STATIC,24,111,272,8
-    CONTROL         "Don't clear chat before connecting to new stranger",IDC_NOCLEAR,
+    LTEXT           "This text will be sent when you use ""/asl"" message:",IDC_STATIC,24,111,272,8	
+	EDITTEXT        IDC_ASL_MESSAGE,24,121,272,20,ES_MULTILINE | ES_AUTOVSCROLL | WS_VSCROLL
+	LTEXT           "Last used question (Question mode):",IDC_STATIC,24,144,272,8
+	EDITTEXT        IDC_LAST_QUESTION,24,154,272,20,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL    
+    CONTROL         "I want Omegle to reuse my questions if they are good enough (Question mode)",IDC_REUSE_QUESTIONS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,176,272,10
+	CONTROL         "Don't clear chat before connecting to new stranger",IDC_NOCLEAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,192,272,10
     CONTROL         "Automatically connect to another stranger when current disconnects",IDC_DONTSTOP,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,204,272,10
-    CONTROL         "I want Omegle to reuse my questions if they are good enough (Question mode)",IDC_REUSE_QUESTIONS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,176,272,10
-    CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,228,272,10
     CONTROL         "Load count of users on actual server after connection",IDC_SERVER_INFO,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,216,272,10
-    EDITTEXT        IDC_LAST_QUESTION,24,154,272,20,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
-    LTEXT           "Last used question (Question mode):",IDC_STATIC,24,144,272,8
+    CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,228,272,10    
 END
 
 
@@ -184,7 +184,7 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "FileDescription", "Omegle protocol plugin for Miranda IM"
-            VALUE "FileVersion", "0.1.0.0"
+            VALUE "FileVersion", "0.1.0.1"
             VALUE "InternalName", "Omegle"
             VALUE "LegalCopyright", "Copyright © 2011-12 Robert Pösel"
             VALUE "OriginalFilename", "omegle.dll"
