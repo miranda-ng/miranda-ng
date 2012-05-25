@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectName>ClientIcons_ICQ</ProjectName>
     <ProjectGuid>{14CB2AEA-EFE8-464E-9446-C08DF9619EBC}</ProjectGuid>
-    <RootNamespace>Fingerprint</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -58,18 +57,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
-    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\Icons\Fp_ClientIcons\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64\Icons\Fp_ClientIcons\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\Icons\Fp_ClientIcons\</OutDir>
@@ -84,61 +71,37 @@
     <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ResourceCompile />
     <Link>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Bscmake />
     <ResourceCompile>
       <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <ResourceCompile />
     <Link>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Bscmake />
     <ResourceCompile>
       <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ResourceCompile />
     <Link>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Bscmake />
     <ResourceCompile>
       <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <ResourceCompile />
     <Link>
-      <LinkTimeCodeGeneration>
-      </LinkTimeCodeGeneration>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
       <NoEntryPoint>true</NoEntryPoint>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Bscmake />
     <ResourceCompile>
       <AdditionalIncludeDirectories>../../include/msapi</AdditionalIncludeDirectories>
     </ResourceCompile>
