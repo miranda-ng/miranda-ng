@@ -576,10 +576,35 @@ void FacebookProto::ProcessFriendRequests( void* )
 
 		if (fbu->user_id.length() && fbu->real_name.length())
 		{
-			HANDLE hContact = this->AddToContactList(fbu, false, fbu->real_name.c_str());
-			DBWriteContactSettingString(hContact, this->m_szModuleName, FACEBOOK_KEY_APPROVE, get.c_str());
+			HANDLE hContact = AddToContactList(fbu, false, fbu->real_name.c_str());
+			DBWriteContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_APPROVE, get.c_str());
 
 			LOG("      Friendship request from: %s (%s)", fbu->real_name.c_str(), fbu->user_id.c_str());
+
+			/* TODO: How to write event for auth requests etc.? */
+/*			CCSDATA ccs;
+			PROTORECVEVENT pre;
+
+			ccs.szProtoService = PSR_AUTH;
+			ccs.hContact = hContact;
+			ccs.wParam = 0;
+			ccs.lParam = (LPARAM)&pre;
+			pre.flags |= PREF_UTF;
+			pre.timestamp = ::time(NULL);
+			pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + fbu->real_name.length() + 5;
+
+			char* pCurBlob = (char*)alloca(pre.lParam);
+			pre.szMessage = pCurBlob;
+
+			*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);									// UID
+			*(PHANDLE)pCurBlob = hContact; pCurBlob += sizeof(HANDLE);							// Contact Handle
+			strcpy(pCurBlob, fbu->real_name.c_str()); pCurBlob += fbu->real_name.length() + 1;	// Nickname
+			*pCurBlob = '\0'; pCurBlob++;														// First Name
+			*pCurBlob = '\0'; pCurBlob++;														// Last Name
+			*pCurBlob = '\0'; pCurBlob++;														// E-mail
+			*pCurBlob = '\0';																	// Reason
+
+			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs); */
 		} else {
 			LOG(" !!!  Wrong friendship request");
 		}
