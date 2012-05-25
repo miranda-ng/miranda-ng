@@ -96,7 +96,6 @@ FacebookProto::~FacebookProto( )
 	CloseHandle( avatar_lock_ );
 	CloseHandle( log_lock_ );
 	CloseHandle( update_loop_lock_ );
-	//CloseHandle( this->message_loop_lock_ );
 	CloseHandle( facy.buddies_lock_ );
 	CloseHandle( facy.send_message_lock_ );
 	CloseHandle( facy.fcb_conn_lock_ );
@@ -114,7 +113,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	{
 	case PFLAGNUM_1: // TODO: Other caps available: PF1_BASICSEARCH, PF1_SEARCHBYEMAIL
 	{
-		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_ADDED | PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
+		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 		
 		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ) )
 			return flags |= PF1_MODEMSG;
@@ -262,7 +261,7 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	fbu.real_name += " ";
 	fbu.real_name += surname;
 
-	HANDLE hContact = AddToContactList(&fbu, false, fbu.real_name.c_str());
+	HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, fbu.real_name.c_str());
 	if (hContact) {
 		if (flags & PALF_TEMPORARY)
 		{
@@ -285,7 +284,18 @@ HANDLE FacebookProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 
 int FacebookProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
 {
-	return AddFriend((WPARAM)hContact, NULL);
+	return RequestFriendship((WPARAM)hContact, NULL);
+}
+
+int FacebookProto::Authorize(HANDLE hContact)
+{
+	return ApproveFriendship((WPARAM)hContact, NULL);
+}
+
+int FacebookProto::AuthDeny(HANDLE hContact,const PROTOCHAR *reason)
+{
+	// TODO: hide from facebook requests list
+	return 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -378,18 +388,6 @@ int FacebookProto::OnPreShutdown(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
-{
-	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
-	if(IsMyContact(hContact/*, true*/)) {
-		bool hide = (DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0)
-			|| DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) );
-		ShowContactMenus(true, hide);
-	}
-
-	return 0;
-}
-
 int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {sizeof(odp)};
@@ -422,55 +420,6 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
-{
-	char text[200];
-	strcpy(text,m_szModuleName);
-	char *tDest = text+strlen(text);
-
-	HGENMENU hRoot;
-	CLISTMENUITEM mi = {sizeof(mi)};
-	mi.pszService = text;
-
-	hRoot = MO_GetProtoRootMenu(m_szModuleName);
-	if (hRoot == NULL)
-	{
-		mi.popupPosition = 500085000;
-		mi.hParentMenu = HGENMENU_ROOT;
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | ( this->isOnline() ? 0 : CMIF_GRAYED );
-		mi.icolibItem = GetIconHandle( "facebook" );
-		mi.ptszName = m_tszUserName;
-		hRoot = m_hMenuRoot = reinterpret_cast<HGENMENU>( CallService(
-			MS_CLIST_ADDPROTOMENUITEM,0,reinterpret_cast<LPARAM>(&mi)) );
-	} else {
-		if ( m_hMenuRoot )
-			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )m_hMenuRoot, 0 );
-		m_hMenuRoot = NULL;
-	}
-
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | ( this->isOnline() ? 0 : CMIF_GRAYED );
-	mi.position = 201001;
-
-	CreateProtoService(m_szModuleName,"/Mind",&FacebookProto::OnMind,this);
-	strcpy(tDest,"/Mind");
-	mi.hParentMenu = hRoot;
-	mi.pszName = LPGEN("Mind...");
-	mi.icolibItem = GetIconHandle("mind");
-	m_hStatusMind = reinterpret_cast<HGENMENU>( CallService(
-		MS_CLIST_ADDPROTOMENUITEM,0,reinterpret_cast<LPARAM>(&mi)) );
-
-	CreateProtoService(m_szModuleName,"/VisitProfile",&FacebookProto::VisitProfile,this);
-	strcpy(tDest,"/VisitProfile");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
-	mi.pszName = LPGEN("Visit Profile");
-	mi.icolibItem = GetIconHandle("homepage");
-	// TODO RM: remember and properly free in destructor?
-	/*m_hStatusMind = */reinterpret_cast<HGENMENU>( CallService(
-		MS_CLIST_ADDPROTOMENUITEM,0,reinterpret_cast<LPARAM>(&mi)) );
-
-	return 0;
-}
-
 int FacebookProto::OnMind(WPARAM,LPARAM)
 {
 	HWND hDlg = CreateDialogParam( g_hInstance, MAKEINTRESOURCE( IDD_MIND ),
@@ -488,57 +437,75 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 	{
 		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(dbv.pszVal));
 		DBFreeVariant(&dbv);
+	}
+	else if (DBGetContactSettingByte(hContact,m_szModuleName,"ChatRoom",0))
+	{
+		std::string url = FACEBOOK_URL_GROUP;
+		if (!DBGetContactSettingString(hContact,m_szModuleName,"ChatRoomID",&dbv)) {
+			url += dbv.pszVal;
+			DBFreeVariant(&dbv);
+		}
+		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(url.c_str()));
 	} else {
-		// self contact, probably
 		// TODO: why isn't wParam == 0 when is status menu moved to main menu?
 		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(FACEBOOK_URL_PROFILE));
-		return 0;
 	}
 
 	return 0;
 }
 
-int FacebookProto::RemoveFriend(WPARAM wParam,LPARAM lParam)
+int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 {
-	if (wParam == NULL)
-	{ // self contact
-	//	CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(FACEBOOK_URL_PROFILE));
-		return 0;
-	}
-	
-	if (isOffline())
+	if (wParam == NULL || isOffline())
 		return 0;
 
-	if (MessageBox( 0, TranslateT("Are you sure?"), TranslateT("Delete contact from server list"), MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) != IDYES)
-		return 0;
+	bool deleting = (lParam == 1);
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
-	DBVARIANT dbv;			
-	if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
-	{
-		if (!isOffline()) {
+	// Ignore groupchats and, if deleting, also not-friends
+	if (DBGetContactSettingByte(hContact, m_szModuleName, "ChatRoom", 0)
+		|| (deleting && DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND))
+		return 0;
+
+	DBVARIANT dbv;
+	char str[256];
+
+	if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
+		mir_snprintf(str,SIZEOF(str),Translate("Do you want to cancel your friendship with '%s'?"), dbv.pszVal);
+		DBFreeVariant(&dbv);
+	} else if( !DBGetContactSettingUTF8String(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+		mir_snprintf(str,SIZEOF(str),Translate("Do you want to cancel your friendship with '%s'?"), dbv.pszVal);
+		DBFreeVariant(&dbv);
+	}
+
+	TCHAR *text = mir_a2t_cp(str, CP_UTF8);
+	if (MessageBox( 0, text, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
+		
+		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+		{
 			std::string* id = new std::string(dbv.pszVal);
+
+			if (deleting) {
+				facebook_user* fbu = facy.buddies.find( (*id) );
+				if (fbu != NULL) {
+					fbu->handle = NULL;
+				}
+			}
+
 			ForkThread( &FacebookProto::DeleteContactFromServer, this, ( void* )id );
 			DBFreeVariant(&dbv);
-
-			if ( !DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0) )
-				DBWriteContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
+				
 	}
+	mir_free(text);
 
 	return 0;
 }
 
-int FacebookProto::AddFriend(WPARAM wParam,LPARAM lParam)
+int FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 {
-	if (wParam == NULL)
-	{ // self contact
-//		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(FACEBOOK_URL_PROFILE));
-		return 0;
-	}
-
-	if (isOffline())
+	if (wParam == NULL || isOffline())
 		return 0;
 
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
@@ -546,39 +513,21 @@ int FacebookProto::AddFriend(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 	{
-		if (!isOffline()) {
-			std::string* id = new std::string(dbv.pszVal);
-			ForkThread( &FacebookProto::AddContactToServer, this, ( void* )id );
-			DBFreeVariant(&dbv);
-		}
+		std::string* id = new std::string(dbv.pszVal);
+		ForkThread( &FacebookProto::AddContactToServer, this, ( void* )id );
+		DBFreeVariant(&dbv);
 	}
 
 	return 0;
 }
 
-int FacebookProto::ApproveFriend(WPARAM wParam,LPARAM lParam)
+int FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
 {
-	if (wParam == NULL)
-	{ // self contact
-//		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(FACEBOOK_URL_PROFILE));
-		return 0;
-	}
-
-	if (isOffline())
+	if (wParam == NULL || isOffline())
 		return 0;
 
 	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
 	ForkThread( &FacebookProto::ApproveContactToServer, this, ( void* )hContact );
 
 	return 0;
-}
-
-void FacebookProto::ToggleStatusMenuItems( BOOL bEnable )
-{
-	CLISTMENUITEM clmi = { 0 };
-	clmi.cbSize = sizeof( CLISTMENUITEM );
-	clmi.flags = CMIM_FLAGS | (( bEnable ) ? 0 : CMIF_GRAYED);
-
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRoot,   ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hStatusMind, ( LPARAM )&clmi );
 }

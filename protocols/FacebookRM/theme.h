@@ -27,4 +27,12 @@ HANDLE GetIconHandle(const char *name);
 
 void InitContactMenus(void);
 void UninitContactMenus(void);
-void ShowContactMenus(bool show, bool deleted = false);
+void EnableMenuItem(HANDLE hMenuItem, bool enable);
+
+/* Contact menu item indexes */
+#define CMI_VISIT_PROFILE 0
+#define CMI_AUTH_REVOKE 1
+#define CMI_AUTH_ASK 2
+#define CMI_AUTH_GRANT 3
+
+#define CMITEMS_COUNT 4

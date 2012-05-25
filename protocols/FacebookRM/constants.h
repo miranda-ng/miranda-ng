@@ -111,6 +111,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_RECV_MESSAGE	1
 #define FACEBOOK_SEND_MESSAGE	2
 
+// Contact types
+#define FACEBOOK_CONTACT_FRIEND		1 // contact that IS on our server list
+#define FACEBOOK_CONTACT_NONE		2 // contact that ISN'T on our server list
+#define FACEBOOK_CONTACT_REQUEST	3 // contact that we asked for friendship
+#define FACEBOOK_CONTACT_APPROVE	4 // contact that is asking us for approval of friendship
+
 // News Feed types
 static const struct
 {

@@ -142,10 +142,13 @@
     <None Include="icons\mind.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="icons\addFriend.ico">
+    <None Include="icons\auth_ask.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="icons\removeFriend.ico">
+    <None Include="icons\auth_grant.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icons\auth_revoke.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

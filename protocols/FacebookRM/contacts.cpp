@@ -63,7 +63,7 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 	return 0;
 }
 
-HANDLE FacebookProto::AddToContactList(facebook_user* fbu, bool dont_check, const char *new_name)
+HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_check, const char *new_name)
 {
 	HANDLE hContact;
 
@@ -96,11 +96,13 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, bool dont_check, cons
 				DBFreeVariant(&dbv);
 			}
 
-			if (strlen(new_name) > 0) {
+			if (strlen(new_name) > 0)
+			{
 				DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, new_name);
 				DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NICK, new_name);
-				DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 1); // We suppose he is not on server list
-			}						
+			}
+			
+			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, type);
 
 			if (getByte(FACEBOOK_KEY_DISABLE_STATUS_NOTIFY, 0))
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (LPARAM)IGNOREEVENT_USERONLINE);
@@ -155,20 +157,23 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	// Process result data
 	facy.validate_response(&resp);
 
-	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
-		
-		// TODO: do only when operation is successful
+	if (resp.data.find("\"payload\":null", 0) != std::string::npos)
+	{		
 		facebook_user* fbu = facy.buddies.find( id );
-		if (fbu != NULL) {
-			fbu->deleted = true;		
-			// TODO: change type of contact in database...
-			DBWriteContactSettingWord(fbu->handle, m_szModuleName, "Status", ID_STATUS_OFFLINE); // set offline status
-			
-			// TODO: if not in actual buddies list, search in database...
-			DBWriteContactSettingDword(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL)); // set deleted time
+		if (fbu != NULL)
+			fbu->deleted = true;
+
+		HANDLE hContact = ContactIDToHContact(id);		
+		
+		// If contact wasn't deleted from database
+		if (hContact != NULL)
+		{
+			DBWriteContactSettingWord(hContact, m_szModuleName, "Status", ID_STATUS_OFFLINE);
+			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
+			DBWriteContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
 		}
 		
-		NotifyEvent(TranslateT("Deleting contact"), TranslateT("Contact was sucessfully removed from your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);		
+		NotifyEvent(TranslateT("Deleting contact"), TranslateT("Contact was sucessfully removed from your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);
 	} else {
 		facy.client_notify( TranslateT("Error occured when removing contact from server.") );
 	}
@@ -184,18 +189,17 @@ void FacebookProto::AddContactToServer(void *data)
 	if ( data == NULL )
 		return;
 
-	std::string *id = (std::string*)data;
+	std::string id = (*(std::string*)data);
+	delete data;
 	
 	std::string query = "action=add_friend&how_found=profile_button&ref_param=ts&outgoing_id=&unwanted=&logging_location=&no_flyout_on_click=false&ego_log_data=&post_form_id_source=AsyncRequest&lsd=&fb_dtsg=";
 	query += facy.dtsg_;
 	query += "&post_form_id=";
 	query += facy.post_form_id_;	
 	query += "&to_friend=";
-	query += *id;
+	query += id;
 	query += "&__user=";
 	query += facy.self_.user_id;
-
-	delete data;
 
 	// Get unread inbox threads
 	http::response resp = facy.flap( FACEBOOK_REQUEST_REQUEST_FRIEND, &query );
@@ -203,13 +207,16 @@ void FacebookProto::AddContactToServer(void *data)
 	// Process result data
 	facy.validate_response(&resp);
 
-	if (resp.data.find("\"success\":true", 0) != std::string::npos) {
-		/*facebook_user* fbu = facy.buddies.find( id );
-		if (fbu != NULL) {
-			// TODO: change type of contact in database...
-			// TODO: if not in actual buddies list, search in database...
-		}*/			
+	if (resp.data.find("\"success\":true", 0) != std::string::npos)
+	{
+		HANDLE hContact = ContactIDToHContact(id);		
 		
+		// If contact wasn't deleted from database
+		if (hContact != NULL)
+		{
+			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_REQUEST);
+		}
+				
 		NotifyEvent(TranslateT("Adding contact"), TranslateT("Request for friendship was sent successfully."), NULL, FACEBOOK_EVENT_OTHER, NULL);
 	} else {
 		facy.client_notify( TranslateT("Error occured when requesting friendship.") );
@@ -227,38 +234,27 @@ void FacebookProto::ApproveContactToServer(void *data)
 	if ( data == NULL )
 		return;
 
-	std::string *id = (std::string*)data;
-		
+	HANDLE hContact = (*(HANDLE*)data);
+	delete data;
+
 	std::string post_data = "fb_dtsg=" + facy.dtsg_;
 	post_data += "&charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&confirm_button=";
 
-	std::string get_data;
-
-	HANDLE *hContact = (HANDLE*)data;
+	std::string get_data = "id=";
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(*hContact, m_szModuleName, FACEBOOK_KEY_APPROVE, &dbv))
+	if (!DBGetContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
 	{
-		get_data = dbv.pszVal;
+		get_data += dbv.pszVal;
 		DBFreeVariant(&dbv);
-	}	
-
-	// replace absolute link to params only
-	utils::text::replace_first(&get_data, "/a/notifications.php?", "&");
+	}
 
 	http::response resp = facy.flap( FACEBOOK_REQUEST_APPROVE_FRIEND, &post_data, &get_data );
 
 	// Process result data
 	facy.validate_response(&resp);
 
-	if (resp.code != HTTP_CODE_OK)
-		facy.handle_error( "ApproveContactToServer" );
-	else {
-		NotifyEvent(TranslateT("Adding contact"), TranslateT("Contact was added to your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);
-		DBDeleteContactSetting(*hContact, m_szModuleName, FACEBOOK_KEY_APPROVE);
-	}
-
-	delete data;
+	DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
 }
 
 HANDLE FacebookProto::GetAwayMsg(HANDLE hContact)
@@ -266,41 +262,9 @@ HANDLE FacebookProto::GetAwayMsg(HANDLE hContact)
 	return 0; // Status messages are disabled
 }
 
-int FacebookProto::OnContactDeleted(WPARAM wparam,LPARAM)
+int FacebookProto::OnContactDeleted(WPARAM wParam,LPARAM)
 {
-	HANDLE hContact = (HANDLE)wparam;
-
-	DBVARIANT dbv;
-	char str[256];
-
-	if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
-		mir_snprintf(str,SIZEOF(str),Translate("Do you want to delete contact '%s' from server list?"), dbv.pszVal);
-		DBFreeVariant(&dbv);
-	} else if( !DBGetContactSettingUTF8String(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
-		mir_snprintf(str,SIZEOF(str),Translate("Do you want to delete contact '%s' from server list?"), dbv.pszVal);
-		DBFreeVariant(&dbv);
-	}	
-
-	TCHAR *text = mir_a2t_cp(str, CP_UTF8);
-	if (MessageBox( 0, text, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
-		
-		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
-		{
-			if (!isOffline()) { // TODO: is this needed?
-				std::string* id = new std::string(dbv.pszVal);
-
-				facebook_user* fbu = facy.buddies.find( (*id) );
-				if (fbu != NULL) {
-					fbu->handle = NULL;
-				}
-
-				ForkThread( &FacebookProto::DeleteContactFromServer, this, ( void* )id );
-				DBFreeVariant(&dbv);
-			}
-		}
-				
-	}
-	mir_free(text);
+	CancelFriendship(wParam, 1);
 
 	return 0;
 }

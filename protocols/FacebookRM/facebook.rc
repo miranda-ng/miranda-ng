@@ -53,8 +53,9 @@ END
 // remains consistent on all systems.
 IDI_FACEBOOK            ICON                    "icons/facebook.ico"
 IDI_MIND                ICON                    "icons/mind.ico"
-IDI_ADDFRIEND           ICON                    "icons/addFriend.ico"
-IDI_REMOVEFRIEND        ICON                    "icons/removeFriend.ico"
+IDI_AUTH_GRANT          ICON                    "icons/auth_grant.ico"
+IDI_AUTH_ASK            ICON                    "icons/auth_ask.ico"
+IDI_AUTH_REVOKE         ICON                    "icons/auth_revoke.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

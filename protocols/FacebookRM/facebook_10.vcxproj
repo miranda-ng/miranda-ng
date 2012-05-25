@@ -310,8 +310,9 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="icons\addFriend.ico" />
-    <None Include="icons\removeFriend.ico" />
+    <None Include="icons\auth_ask.ico" />
+    <None Include="icons\auth_grant.ico" />
+    <None Include="icons\auth_revoke.ico" />
     <None Include="JSON_CAJUN\elements.inl" />
     <None Include="JSON_CAJUN\reader.inl" />
     <None Include="JSON_CAJUN\writer.inl" />

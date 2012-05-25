@@ -4,8 +4,9 @@
 //
 #define IDI_FACEBOOK                    101
 #define IDI_MIND                        102
-#define IDI_ADDFRIEND                   103
-#define IDI_REMOVEFRIEND                104
+#define IDI_AUTH_GRANT                  103
+#define IDI_AUTH_ASK                    104
+#define IDI_AUTH_REVOKE                 105
 #define IDD_FACEBOOKACCOUNT             111
 #define IDD_MIND                        112
 #define IDD_OPTIONS                     113
@@ -61,7 +62,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        121
+#define _APS_NEXT_RESOURCE_VALUE        126
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1202
 #define _APS_NEXT_SYMED_VALUE           131

@@ -52,7 +52,7 @@ void FacebookProto::ProcessBuddyList( void* data )
 		{
 			fbu = i->data;
 
-			if (fbu->handle && !fbu->deleted)
+			if (fbu->handle)
 				DBWriteContactSettingWord(fbu->handle, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
 			std::string to_delete( i->key );
@@ -63,7 +63,7 @@ void FacebookProto::ProcessBuddyList( void* data )
 			i = i->next;
 
 			if (!fbu->handle) { // just been added
-				fbu->handle = AddToContactList(fbu);
+				fbu->handle = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);				
 
 				if (!fbu->real_name.empty()) {
 					DBWriteContactSettingUTF8String(fbu->handle,m_szModuleName,FACEBOOK_KEY_NAME,fbu->real_name.c_str());
@@ -75,8 +75,9 @@ void FacebookProto::ProcessBuddyList( void* data )
 				DBWriteContactSettingWord(fbu->handle,m_szModuleName,"Status", fbu->status_id );
 			}
 
-			if (DBGetContactSettingByte(fbu->handle,m_szModuleName,FACEBOOK_KEY_CONTACT_TYPE, 0)) {
-				DBDeleteContactSetting(fbu->handle,m_szModuleName,FACEBOOK_KEY_CONTACT_TYPE); // Set type "on server-list" contact
+			if (DBGetContactSettingByte(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND) {
+				DBWriteContactSettingByte(fbu->handle, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
+				// TODO: remove that popup and use "Contact added you" event?
 			}
 
 			// Wasn't contact removed from "server-list" someday?
@@ -156,15 +157,6 @@ void FacebookProto::ProcessFriendList( void* data )
 				if ( DBGetContactSettingByte(hContact, m_szModuleName, "Gender", 0) != fbu->gender )
 					DBWriteContactSettingByte(hContact, m_szModuleName, "Gender", fbu->gender);
 
-				// TODO: Remove in next version
-				if( !DBGetContactSettingString(hContact, m_szModuleName, "MirVer", &dbv) ) {
-					update_required = strcmp( dbv.pszVal, FACEBOOK_NAME ) != 0;
-					DBFreeVariant(&dbv);
-				}
-				if (update_required) {
-					DBWriteContactSettingString(hContact, m_szModuleName, "MirVer", FACEBOOK_NAME);
-				}
-
 				// Update real name
 				if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) )
 				{
@@ -177,8 +169,9 @@ void FacebookProto::ProcessFriendList( void* data )
 					DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NICK, fbu->real_name.c_str());
 				}
 
-				if (DBGetContactSettingByte(fbu->handle,m_szModuleName,FACEBOOK_KEY_CONTACT_TYPE, 0)) {
-					DBDeleteContactSetting(fbu->handle,m_szModuleName,FACEBOOK_KEY_CONTACT_TYPE); // Has type "on server-list" contact
+				if (DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) != FACEBOOK_CONTACT_FRIEND) {
+					DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_FRIEND);
+					// TODO: remove that popup and use "Contact added you" event?
 				}
 
 				// Wasn't contact removed from "server-list" someday?
@@ -202,11 +195,13 @@ void FacebookProto::ProcessFriendList( void* data )
 			} else {
 				// Contact was removed from "server-list", notify it
 
-				// Wasnt we already been notified about this contact?
-				if ( !DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0) 
-					&& !DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0)	) { // And is this contact "on-server" contact?
+				// Wasnt we already been notified about this contact? And was this real friend?
+				if (!DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0) 
+					&& DBGetContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, 0) == FACEBOOK_CONTACT_FRIEND)
+				{
 
 					DBWriteContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, ::time(NULL));
+					DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
 
 					std::string contactname = id;
 					if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
@@ -231,7 +226,7 @@ void FacebookProto::ProcessFriendList( void* data )
 	{
 		facebook_user *fbu = iter->second;
 		
-		HANDLE hContact = AddToContactList(fbu, true); // This contact is surely new
+		HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND, true); // This contact is surely new
 
 		DBWriteContactSettingByte(hContact, m_szModuleName, "Gender", fbu->gender );
 		DBWriteContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, fbu->real_name.c_str());
@@ -313,7 +308,7 @@ void FacebookProto::ProcessUnreadMessages( void* )
 		facebook_user fbu;
 		fbu.user_id = user_id;
 
-		HANDLE hContact = AddToContactList(&fbu);
+		HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE);
 		// TODO: if contact is newly added, get his user info
 		// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 
@@ -431,7 +426,7 @@ void FacebookProto::ProcessMessages( void* data )
 			facebook_user fbu;
 			fbu.user_id = messages[i]->user_id;
 
-			HANDLE hContact = AddToContactList(&fbu, false, messages[i]->sender_name.c_str());
+			HANDLE hContact = AddToContactList(&fbu, FACEBOOK_CONTACT_NONE, false, messages[i]->sender_name.c_str());
 
 			// TODO: if contact is newly added, get his user info
 			// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
@@ -568,7 +563,8 @@ void FacebookProto::ProcessFriendRequests( void* )
 			last = true;
 		}
 				
-		std::string get = utils::text::source_get_value(&req, 3, "<form", "action=\"", "\">");		
+		std::string get = utils::text::source_get_value(&req, 3, "<form", "action=\"", "\">");
+		std::string time = utils::text::source_get_value2(&get, "seenrequesttime=", "&\"");
 
 		facebook_user *fbu = new facebook_user();
 		fbu->real_name = utils::text::source_get_value(&req, 2, "class=\"actor\">", "</");
@@ -576,37 +572,49 @@ void FacebookProto::ProcessFriendRequests( void* )
 
 		if (fbu->user_id.length() && fbu->real_name.length())
 		{
-			HANDLE hContact = AddToContactList(fbu, false, fbu->real_name.c_str());
-			DBWriteContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_APPROVE, get.c_str());
+			HANDLE hContact = AddToContactList(fbu, FACEBOOK_CONTACT_APPROVE, false, fbu->real_name.c_str());
+			DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_APPROVE);
 
-			LOG("      Friendship request from: %s (%s)", fbu->real_name.c_str(), fbu->user_id.c_str());
+			bool seen = false;
 
-			/* TODO: How to write event for auth requests etc.? */
-/*			CCSDATA ccs;
-			PROTORECVEVENT pre;
+			DBVARIANT dbv;
+			if (!DBGetContactSettingString(hContact, m_szModuleName, "RequestTime", &dbv)) {
+				seen = !strcmp(dbv.pszVal, time.c_str());
+				DBFreeVariant(&dbv);
+			}
 
-			ccs.szProtoService = PSR_AUTH;
-			ccs.hContact = hContact;
-			ccs.wParam = 0;
-			ccs.lParam = (LPARAM)&pre;
-			pre.flags |= PREF_UTF;
-			pre.timestamp = ::time(NULL);
-			pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + fbu->real_name.length() + 5;
+			if (!seen) {
+				// This is new request
+				DBWriteContactSettingString(hContact, m_szModuleName, "RequestTime", time.c_str());
 
-			char* pCurBlob = (char*)alloca(pre.lParam);
-			pre.szMessage = pCurBlob;
+				//blob is: uin( DWORD ), hContact( HANDLE ), nick( ASCIIZ ), first( ASCIIZ ), last( ASCIIZ ), email( ASCIIZ ), reason( ASCIIZ )
+				//blob is: 0( DWORD ), hContact( HANDLE ), nick( ASCIIZ ), ""( ASCIIZ ), ""( ASCIIZ ), ""( ASCIIZ ), ""( ASCIIZ )
+				DBEVENTINFO dbei = {0};
+				dbei.cbSize = sizeof( DBEVENTINFO );
+				dbei.szModule = m_szModuleName;
+				dbei.timestamp = ::time( NULL );
+				dbei.flags = 0; //DBEF_UTF;
+				dbei.eventType = EVENTTYPE_AUTHREQUEST;
+				dbei.cbBlob = (DWORD)(sizeof( DWORD )+ sizeof( HANDLE ) + fbu->real_name.length() + 5);
+					
+				PBYTE pCurBlob = dbei.pBlob = ( PBYTE ) mir_alloc( dbei.cbBlob );					
+				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);									// UID
+				*(PHANDLE)pCurBlob = hContact; pCurBlob += sizeof(HANDLE);							// Contact Handle
+				strcpy((char*)pCurBlob, fbu->real_name.c_str()); pCurBlob += fbu->real_name.length()+1;	// Nickname
+				*pCurBlob = '\0'; pCurBlob++;														// First Name
+				*pCurBlob = '\0'; pCurBlob++;														// Last Name
+				*pCurBlob = '\0'; pCurBlob++;														// E-mail
+				*pCurBlob = '\0';																	// Reason
 
-			*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);									// UID
-			*(PHANDLE)pCurBlob = hContact; pCurBlob += sizeof(HANDLE);							// Contact Handle
-			strcpy(pCurBlob, fbu->real_name.c_str()); pCurBlob += fbu->real_name.length() + 1;	// Nickname
-			*pCurBlob = '\0'; pCurBlob++;														// First Name
-			*pCurBlob = '\0'; pCurBlob++;														// Last Name
-			*pCurBlob = '\0'; pCurBlob++;														// E-mail
-			*pCurBlob = '\0';																	// Reason
+				CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);				
 
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs); */
+				LOG("      (New) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
+			} else {
+				LOG("      (Old) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
+			}
 		} else {
 			LOG(" !!!  Wrong friendship request");
+			LOG(req.c_str());
 		}
 	}
 

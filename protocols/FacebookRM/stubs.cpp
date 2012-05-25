@@ -27,16 +27,6 @@ HANDLE FacebookProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
 	return 0;
 }
 
-int FacebookProto::Authorize(HANDLE hContact)
-{
-	return 0;
-}
-
-int FacebookProto::AuthDeny(HANDLE hContact,const PROTOCHAR *reason)
-{
-	return 0;
-}
-
 int FacebookProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
 {
 	return 0;

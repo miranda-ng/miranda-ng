@@ -191,7 +191,7 @@ void FacebookProto::UpdateLoop(void *)
 	time_t tim = ::time(NULL);
 	LOG( ">>>>> Entering Facebook::UpdateLoop[%d]", tim );
 
-	for ( int i = -1; !isOffline(); i = ++i % 100 )
+	for ( int i = -1; !isOffline(); i = ++i % 50 )
 	{
 		if ( i != -1 ) {
 			if ( !facy.invisible_ )
@@ -202,7 +202,7 @@ void FacebookProto::UpdateLoop(void *)
 			if ( !facy.feeds( ) )
 				break;
 
-		if ( i == 99 )
+		if ( i == 49 )
 			ForkThread( &FacebookProto::ProcessFriendRequests, this, NULL );
 
 		LOG( "***** FacebookProto::UpdateLoop[%d] going to sleep...", tim );
@@ -217,7 +217,6 @@ void FacebookProto::UpdateLoop(void *)
 
 void FacebookProto::MessageLoop(void *)
 {
-	//ScopedLock s(message_loop_lock_); // TODO: Required?
 	time_t tim = ::time(NULL);
 	LOG( ">>>>> Entering Facebook::MessageLoop[%d]", tim );
 

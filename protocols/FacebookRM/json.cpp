@@ -503,7 +503,7 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 				facebook_user fbu;
 				fbu.user_id = user_id;
 
-				HANDLE hContact = proto->AddToContactList(&fbu);
+				HANDLE hContact = proto->AddToContactList(&fbu, FACEBOOK_CONTACT_FRIEND);
 				
 				if ( DBGetContactSettingWord(hContact,proto->m_szModuleName,"Status", 0) == ID_STATUS_OFFLINE )
 					DBWriteContactSettingWord(hContact,proto->m_szModuleName,"Status",ID_STATUS_ONLINE);

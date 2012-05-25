@@ -653,11 +653,9 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	flap( FACEBOOK_REQUEST_HOME, NULL );
 
 	// Prepare login data
-	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&locale=en&email=";
-	data += utils::url::encode( username );
-	data += "&pass=";
-	data += utils::url::encode( password );
-	data += "&pass_placeHolder=Password&login=Login&persistent=1";
+	std::string data = "charset_test=%e2%82%ac%2c%c2%b4%2c%e2%82%ac%2c%c2%b4%2c%e6%b0%b4%2c%d0%94%2c%d0%84&locale=en&pass_placeHolder=Password&login=Login&persistent=1";
+	data += "&email=" + utils::url::encode( username );
+	data += "&pass=" + utils::url::encode( password );	
 
 	// Send validation
 	http::response resp = flap( FACEBOOK_REQUEST_LOGIN, &data );
@@ -681,14 +679,9 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE );
 			
 			std::string inner_data = "machine_name=MirandaIM&submit[Save%20Device]=Save%20Device";
-			inner_data += "&post_form_id=";
-			inner_data += utils::text::source_get_value(&resp.data, 3, "name=\"post_form_id\"", "value=\"", "\"" );
-			
-			inner_data += "&lsd=";
-			inner_data += utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
-			
-			inner_data += "&nh=";
-			inner_data += utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
+			inner_data += "&post_form_id=" + utils::text::source_get_value(&resp.data, 3, "name=\"post_form_id\"", "value=\"", "\"" );
+			inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
+			inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
 
 			resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data );
 			validate_response(&resp);
@@ -778,12 +771,9 @@ bool facebook_client::logout( )
 
 	handle_entry( "logout" );
 
-	std::string data = "post_form_id=";
-	data += ( this->post_form_id_.length( ) ) ? this->post_form_id_ : "0";
-	data += "&fb_dtsg=";
-	data += ( this->dtsg_.length( ) ) ? this->dtsg_ : "0";
-	data += "&ref=mb&h=";
-	data += this->logout_hash_;
+	std::string data = "post_form_id=" + (this->post_form_id_.length() ? this->post_form_id_ : "0");
+	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&ref=mb&h=" + this->logout_hash_;
 
 	http::response resp = flap( FACEBOOK_REQUEST_LOGOUT, &data );
 
@@ -918,13 +908,9 @@ bool facebook_client::chat_state( bool online )
   
 	std::string data = "visibility=";
 	data += ( online ) ? "1" : "0";
-	data += "&window_id=0";
-	data += "&post_form_id=";
-	data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
-	data += "&post_form_id_source=AsyncRequest";
-	data += "&fb_dtsg=" + this->dtsg_;
-	data += "&lsd=&phstamp=0&__user=";
-	data += self_.user_id;
+	data += "&window_id=0&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
+	data += "&post_form_id_source=AsyncRequest&fb_dtsg=" + this->dtsg_;
+	data += "&lsd=&phstamp=0&__user=" + self_.user_id;
 	http::response resp = flap( FACEBOOK_REQUEST_VISIBILITY, &data );
   
 	return handle_success( "chat_state" );
@@ -1262,16 +1248,10 @@ void facebook_client::close_chat( std::string message_recipient )
 		can't close it so soon. But maybe this didnt help also. */
 	Sleep(300); 
 
-	std::string data = "close_chat=";
-	data += message_recipient;
-	data += "&window_id=0";
-	data += "&post_form_id=";
-	data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
-	data += "&post_form_id_source=AsyncRequest";
-	data += "&fb_dtsg=";
-	data += ( this->dtsg_.length( ) ) ? this->dtsg_ : "0";
-	data += "&__user=";
-	data += self_.user_id;
+	std::string data = "close_chat=" + message_recipient;
+	data += "&window_id=0&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
+	data += "&post_form_id_source=AsyncRequest&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&__user=" + self_.user_id;
 	
 	http::response resp = flap( FACEBOOK_REQUEST_TABS, &data );
 }
@@ -1280,14 +1260,11 @@ void facebook_client::chat_mark_read( std::string message_recipient )
 {
 	// TODO RM: optimalization?
 
-	std::string data = "action=chatMarkRead&other_user=";
-	data += message_recipient;
-	data += "&post_form_id=";
-	data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
-	data += "&fb_dtsg=";
-	data += ( this->dtsg_.length( ) ) ? this->dtsg_ : "0";
-	data += "&post_form_id_source=AsyncRequest&lsd=&__user=";
-	data += self_.user_id;
+	std::string data = "action=chatMarkRead";
+	data += "&other_user=" + message_recipient;
+	data += "&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
+	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&post_form_id_source=AsyncRequest&lsd=&__user=" + self_.user_id;
 	
 	http::response resp = flap( FACEBOOK_REQUEST_ASYNC, &data );
 }
@@ -1296,19 +1273,16 @@ bool facebook_client::set_status(const std::string &status_text)
 {
 	handle_entry( "set_status" );
 
-	std::string data = "post_form_id_source=AsyncRequest&post_form_id=";
-	data += ( this->post_form_id_.length( ) ) ? this->post_form_id_ : "0";
-	data += "&fb_dtsg=";
-	data += ( this->dtsg_.length( ) ) ? this->dtsg_ : "0";
-	data += "&target_id=";
-	data += this->self_.user_id;
+	std::string data = "post_form_id_source=AsyncRequest";
+	data += "&post_form_id=" + (this->post_form_id_.length() ? this->post_form_id_ : "0");
+	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&target_id=" + this->self_.user_id;
 
 	if ( status_text.length( ) )
 	{
-		data += "&action=PROFILE_UPDATE&app_id=&hey_kid_im_a_composer=true&display_context=profile&_log_display_context=profile&ajax_log=1&status=";
-		data += utils::url::encode( status_text );
-		data += "&profile_id=";
-		data += this->self_.user_id;
+		data += "&action=PROFILE_UPDATE&app_id=&hey_kid_im_a_composer=true&display_context=profile&_log_display_context=profile&ajax_log=1";
+		data += "&status=" + utils::url::encode( status_text );
+		data += "&profile_id=" + this->self_.user_id;
 	}
 
 	http::response resp = flap( FACEBOOK_REQUEST_STATUS_SET, &data );
