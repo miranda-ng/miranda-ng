@@ -82,8 +82,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	BOOL perProto = (BOOL)IsDlgButtonChecked(hwndDlg,IDC_STATUSBAR_PER_PROTO);
 	HWND hwndComboBox = GetDlgItem( hwndDlg, IDC_STATUSBAR_PROTO_LIST );
 	StatusBarProtocolOptions sbpo;
-	int curSelProto = SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0) - 1; //first entry is the combo box is a constant.
-
+	int curSelProto = SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), NULL) - 1; //first entry is the combo box is a constant.
 	if (curSelProto < 0)
 		perProto = FALSE;
 
@@ -169,8 +168,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	LOGFONTA lf;
 	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_STATUSBAR_PER_PROTO);
 	HWND hwndComboBox = GetDlgItem( hwndDlg, IDC_STATUSBAR_PROTO_LIST );
-	int curSelProto = SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0) - 1; //first entry in the combo box is a constant
-
+	int curSelProto = SendMessage(hwndComboBox, CB_GETITEMDATA, SendMessage(hwndComboBox, CB_GETCURSEL, 0, 0), NULL) - 1; //first entry is the combo box is a constant.
 	if (curSelProto < 0)
 		perProto = FALSE;
 
@@ -203,17 +201,15 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 				SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_STATUSBAR_PROTO_LIST),GWLP_USERDATA,(LONG_PTR)dat);
 
 				SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)TranslateT( "<<Global>>" ));
+				SendMessage(hwndComboBox, CB_SETITEMDATA, 0, (LPARAM)0);
 
 				for ( i = 0; i < count; i++ )
 				{
-					szName = accs[i]->szProtoName;
+					szName = accs[i]->szModuleName;
 					dat[i].szName = szName;
 
-#ifdef UNICODE
-					SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
-#else
-					SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
-#endif
+					DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)accs[i]->tszAccountName);
+					SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)(i+1));
 
 					mir_snprintf(buf, SIZEOF(buf), "SBarAccountIsCustom_%s", szName);
 					dat[i].AccountIsCustomized = ModernGetSettingByte(NULL,"CLUI", buf, SETTING_SBARACCOUNTISCUSTOM_DEFAULT);
