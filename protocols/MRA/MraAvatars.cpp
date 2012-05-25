@@ -120,10 +120,8 @@ DWORD MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 		if (pmraaqAvatarsQueue->hNetlibUser) {
 			if (bFoldersPresent) {
 				TCHAR tszPath[ MAX_PATH ];
-				LPTSTR lpszPathToAvatarsCache = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-				mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%s\\%d"), lpszPathToAvatarsCache, PROTOCOL_NAMEW);
-				pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(MRA_AVT_SECT_NAME, "AvatarsPath", lpszPathToAvatarsCache);
-				mir_free(lpszPathToAvatarsCache);
+				mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%%miranda_avatarcache%%\\%s"), PROTOCOL_NAMEW);
+				pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(MRA_AVT_SECT_NAME, "AvatarsPath", tszPath);
 			}
 			else pmraaqAvatarsQueue->hAvatarsPath = NULL;
 
@@ -679,9 +677,8 @@ DWORD MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hContact, DWORD d
 		}
 		else {
 			if ( DB_GetStaticStringW(NULL, MRA_AVT_SECT_NAME, "DefaultAvatarFileName", lpszCurPath, dwPathSize-5, &dwEMailSize ) == FALSE) {
-				memmove(lpszCurPath, MRA_AVT_DEFAULT_AVT_FILENAME, sizeof(MRA_AVT_DEFAULT_AVT_FILENAME));
+				_tcscpy(lpszCurPath, MRA_AVT_DEFAULT_AVT_FILENAME);
 				lpszCurPath += SIZEOF( MRA_AVT_DEFAULT_AVT_FILENAME )-1;
-				*lpszCurPath = 0;
 
 				if (pdwPathSizeRet)
 					*pdwPathSizeRet = lpszCurPath - lpszPath;
