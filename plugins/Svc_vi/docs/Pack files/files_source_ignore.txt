@@ -1,4 +1,0 @@
-pack files\*.*
-..\~backup\*.*
-..\Debug\*.*
-..\Release\*.*
