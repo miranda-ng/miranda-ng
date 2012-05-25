@@ -730,80 +730,95 @@ void FacebookProto::SearchAckThread(void *targ)
 {
 	facy.handle_entry( "searchAckThread" );
 
+	int count = 0;
+
 	char *arg = mir_utf8encodeT((TCHAR*)targ);
-	std::string search = utils::url::encode( arg );	
+	std::string search = utils::url::encode( arg );
+	std::string ssid;
 
-	// Get notifications
-	http::response resp = facy.flap( FACEBOOK_REQUEST_SEARCH, NULL, &search );
-
-	// Process result data
-	facy.validate_response(&resp);
-  
-	if (resp.code == HTTP_CODE_OK)
+	while (count < 50 && !isOffline())
 	{
-		std::string items = utils::text::source_get_value(&resp.data, 3, "<body", "<div class=\"c\">", "</body>");
+		std::string get_data = search + "&s=" + utils::conversion::to_string(&count, UTILS_CONV_UNSIGNED_NUMBER);
+		if (!ssid.empty())
+			get_data += "&ssid=" + ssid;
 
-		std::string::size_type pos = 0;
-		std::string::size_type pos2 = 0;
-		bool last = false;
+		// Get notifications
+		http::response resp = facy.flap( FACEBOOK_REQUEST_SEARCH, NULL, &get_data );
 
-		while (!last) {
-			std::string item;
-			if ((pos2 = items.find("<div class=\"c\">", pos)) != std::string::npos) {
-				item = items.substr(pos, pos2 - pos);
-				pos = pos2 + 14;
-			} else {
-				item = items.substr(pos);
-				last = true;
+		// Process result data
+		facy.validate_response(&resp);		
+
+		if (resp.code == HTTP_CODE_OK)
+		{
+			std::string items = utils::text::source_get_value(&resp.data, 3, "<body", "<div class=\"c\">", "</body>");
+
+			std::string::size_type pos = 0;
+			std::string::size_type pos2 = 0;
+			bool last = false;
+
+			while (!last) {
+				std::string item;
+				if ((pos2 = items.find("<div class=\"c\">", pos)) != std::string::npos) {
+					item = items.substr(pos, pos2 - pos);
+					pos = pos2 + 14;
+				} else {
+					item = items.substr(pos);
+					last = true;
+				}
+
+				count++;
+
+				std::string id = utils::text::source_get_value2(&item, "?id=", "&\"");
+				if (id.empty())
+					id = utils::text::source_get_value2(&item, "?slog=", "&\"");
+
+				std::string name = utils::text::source_get_value(&item, 2, "<span>", "</span>");
+				std::string surname;
+				std::string nick;
+				std::string common = utils::text::source_get_value(&item, 2, "<span class=\"fcg\">", "</span>");
+
+				if ((pos2 = name.find(" <span class=\"alternate_name\">")) != std::string::npos) {
+					nick = name.substr(pos2 + 31, name.length() - pos2 - 32); // also remove brackets around nickname
+					name = name.substr(0, pos2);
+				}
+
+				if ((pos2 = name.find(" ")) != std::string::npos) {
+					surname = name.substr(pos2 + 1, name.length() - pos2 - 1);
+					name = name.substr(0, pos2);
+				}
+
+				// ignore self contact and empty ids
+				if (id.empty() || id == facy.self_.user_id)
+					continue;
+
+				TCHAR* tid = mir_a2t_cp(id.c_str(), CP_UTF8);
+				TCHAR* tname = mir_a2t_cp(name.c_str(), CP_UTF8);
+				TCHAR* tsurname = mir_a2t_cp(surname.c_str(), CP_UTF8);
+				TCHAR* tnick = mir_a2t_cp(nick.c_str(), CP_UTF8);
+				TCHAR* tcommon = mir_a2t_cp(common.c_str(), CP_UTF8);
+
+				PROTOSEARCHRESULT isr = {0};
+				isr.cbSize = sizeof(isr);
+				isr.flags = PSR_TCHAR;
+				isr.id  = tid;
+				isr.nick  = tnick;
+				isr.firstName = tname;
+				isr.lastName = tsurname;
+				isr.email = tcommon;
+
+				ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
+
+				mir_free(tid);
+				mir_free(tnick);
+				mir_free(tname);
+				mir_free(tsurname);
+				mir_free(tcommon);
 			}
 
-			std::string id = utils::text::source_get_value2(&item, "?id=", "&\"");
-			if (id.empty())
-				id = utils::text::source_get_value2(&item, "?slog=", "&\"");
-
-			std::string name = utils::text::source_get_value(&item, 2, "<span>", "</span>");
-			std::string surname;
-			std::string nick;
-			std::string common = utils::text::source_get_value(&item, 2, "<span class=\"fcg\">", "</span>");
-
-			if ((pos2 = name.find(" <span class=\"alternate_name\">")) != std::string::npos) {
-				nick = name.substr(pos2 + 31, name.length() - pos2 - 32); // also remove brackets around nickname
-				name = name.substr(0, pos2);
-			}
-
-			if ((pos2 = name.find(" ")) != std::string::npos) {
-				surname = name.substr(pos2 + 1, name.length() - pos2 - 1);
-				name = name.substr(0, pos2);
-			}
-
-			// ignore self contact and empty ids
-			if (id.empty() || id == facy.self_.user_id)
-				continue;
-
-			TCHAR* tid = mir_a2t_cp(id.c_str(), CP_UTF8);
-			TCHAR* tname = mir_a2t_cp(name.c_str(), CP_UTF8);
-			TCHAR* tsurname = mir_a2t_cp(surname.c_str(), CP_UTF8);
-			TCHAR* tnick = mir_a2t_cp(nick.c_str(), CP_UTF8);
-			TCHAR* tcommon = mir_a2t_cp(common.c_str(), CP_UTF8);
-
-			PROTOSEARCHRESULT isr = {0};
-			isr.cbSize = sizeof(isr);
-			isr.flags = PSR_TCHAR;
-			isr.id  = tid;
-			isr.nick  = tnick;
-			isr.firstName = tname;
-			isr.lastName = tsurname;
-			isr.email = tcommon;
-
-			ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_DATA, targ, (LPARAM)&isr);
-
-			mir_free(tid);
-			mir_free(tnick);
-			mir_free(tname);
-			mir_free(tsurname);
-			mir_free(tcommon);
+			ssid = utils::text::source_get_value(&items, 3, "id=\"more_objects\"", "ssid=", "&");			
+			if (ssid.empty())
+				break; // No more results
 		}
-
 	}
 
 	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, targ, 0);
