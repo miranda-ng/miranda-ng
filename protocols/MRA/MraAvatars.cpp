@@ -67,7 +67,7 @@ char szAvtSectName[MAX_PATH];
 #define MRA_AVT_SECT_NAME		szAvtSectName
 
 
-
+static bool bFoldersPresent = false;
 
 
 //#define MEMALLOC(Size)		HeapAlloc(GetProcessHeap(),HEAP_ZERO_MEMORY,(Size+sizeof(SIZE_T)))
@@ -76,80 +76,72 @@ char szAvtSectName[MAX_PATH];
 
 #define NETLIB_CLOSEHANDLE(hConnection) {Netlib_CloseHandle(hConnection);hConnection=NULL;}
 
-void			MraAvatarsQueueClear		(HANDLE hAvatarsQueueHandle);
-DWORD			MraAvatarsQueueAdd			(HANDLE hAvatarsQueueHandle,DWORD dwFlags,HANDLE hContact,DWORD *pdwAvatarsQueueID);
-void			MraAvatarsThreadProc		(LPVOID lpParameter);
-HANDLE			MraAvatarsHttpConnect		(HANDLE hNetlibUser,LPSTR lpszHost,DWORD dwPort);
+void   MraAvatarsQueueClear(HANDLE hAvatarsQueueHandle);
+DWORD  MraAvatarsQueueAdd(HANDLE hAvatarsQueueHandle,DWORD dwFlags,HANDLE hContact,DWORD *pdwAvatarsQueueID);
+void   MraAvatarsThreadProc(LPVOID lpParameter);
+HANDLE MraAvatarsHttpConnect(HANDLE hNetlibUser,LPSTR lpszHost,DWORD dwPort);
 
 
 
-#define MAHTRO_AVT			0
-#define MAHTRO_AVTMRIM		1
-#define MAHTRO_AVTSMALL		2
-#define MAHTRO_AVTSMALLMRIM	3
-DWORD			MraAvatarsHttpTransaction	(HANDLE hConnection,DWORD dwRequestType,LPSTR lpszUser,LPSTR lpszDomain,LPSTR lpszHost,DWORD dwReqObj,BOOL bUseKeepAliveConn,DWORD *pdwResultCode,BOOL *pbKeepAlive,DWORD *pdwFormat,SIZE_T *pdwAvatarSize,INTERNET_TIME *pitLastModifiedTime);
-BOOL			MraAvatarsGetContactTime	(HANDLE hContact,LPSTR lpszValueName,SYSTEMTIME *pstTime);
-void			MraAvatarsSetContactTime	(HANDLE hContact,LPSTR lpszValueName,SYSTEMTIME *pstTime);
-DWORD			MraAvatarsGetFileFormat		(LPTSTR lpszPath,SIZE_T dwPathSize);
+#define MAHTRO_AVT          0
+#define MAHTRO_AVTMRIM      1
+#define MAHTRO_AVTSMALL     2
+#define MAHTRO_AVTSMALLMRIM 3
 
-
-
+DWORD MraAvatarsHttpTransaction	(HANDLE hConnection,DWORD dwRequestType,LPSTR lpszUser,LPSTR lpszDomain,LPSTR lpszHost,DWORD dwReqObj,BOOL bUseKeepAliveConn,DWORD *pdwResultCode,BOOL *pbKeepAlive,DWORD *pdwFormat,SIZE_T *pdwAvatarSize,INTERNET_TIME *pitLastModifiedTime);
+BOOL  MraAvatarsGetContactTime	(HANDLE hContact,LPSTR lpszValueName,SYSTEMTIME *pstTime);
+void  MraAvatarsSetContactTime	(HANDLE hContact,LPSTR lpszValueName,SYSTEMTIME *pstTime);
+DWORD MraAvatarsGetFileFormat		(LPTSTR lpszPath,SIZE_T dwPathSize);
 
 
 DWORD MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 {
-	DWORD dwRetErrorCode;
-
+	bFoldersPresent = ServiceExists( MS_FOLDERS_REGISTER_PATH ) != 0;
 	mir_snprintf(szAvtSectName,SIZEOF(szAvtSectName),"%s Avatars",PROTOCOL_NAMEA);
 
-	if (phAvatarsQueueHandle)
-	{
-		MRA_AVATARS_QUEUE *pmraaqAvatarsQueue;
+	if (phAvatarsQueueHandle == NULL)
+		return ERROR_INVALID_HANDLE;
 
-		pmraaqAvatarsQueue=(MRA_AVATARS_QUEUE*)MEMALLOC(sizeof(MRA_AVATARS_QUEUE));
-		if (pmraaqAvatarsQueue)
-		{
-			dwRetErrorCode=FifoMTInitialize(&pmraaqAvatarsQueue->ffmtQueueToQuery,0);
-			if (dwRetErrorCode==NO_ERROR)
-			{
-				CHAR szBuffer[MAX_PATH];
-				NETLIBUSER nlu={0};
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue = (MRA_AVATARS_QUEUE*)MEMALLOC(sizeof(MRA_AVATARS_QUEUE));
+	if (pmraaqAvatarsQueue == NULL)
+		return GetLastError();
 
-				mir_snprintf(szBuffer,SIZEOF(szBuffer),"%s %s %s",PROTOCOL_NAMEA,Translate("Avatars"),Translate("plugin connections"));
-				nlu.cbSize=sizeof(nlu);
-				nlu.flags=(NUF_OUTGOING|NUF_HTTPCONNS);
-				nlu.szSettingsModule=MRA_AVT_SECT_NAME;
-				nlu.szDescriptiveName=szBuffer;
-				pmraaqAvatarsQueue->hNetlibUser=(HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
-				if (pmraaqAvatarsQueue->hNetlibUser)
-				{
-					LPSTR lpszPathToAvatarsCache;
+	DWORD dwRetErrorCode = FifoMTInitialize(&pmraaqAvatarsQueue->ffmtQueueToQuery,0);
+	if (dwRetErrorCode == NO_ERROR) {
+		CHAR szBuffer[MAX_PATH];
+		mir_snprintf(szBuffer,SIZEOF(szBuffer),"%s %s %s",PROTOCOL_NAMEA,Translate("Avatars"),Translate("plugin connections"));
 
-					lpszPathToAvatarsCache=Utils_ReplaceVars("%miranda_avatarcache%");
-					pmraaqAvatarsQueue->hAvatarsPath=FoldersRegisterCustomPath(MRA_AVT_SECT_NAME,"AvatarsPath",lpszPathToAvatarsCache);
-					mir_free(lpszPathToAvatarsCache); 
-
-					InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning,TRUE);
-					pmraaqAvatarsQueue->hThreadEvent=CreateEvent(NULL,FALSE,FALSE,NULL);
-
-					pmraaqAvatarsQueue->dwThreadsCount=DBGetContactSettingDword(NULL,MRA_AVT_SECT_NAME,"WorkThreadsCount",MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
-					if (pmraaqAvatarsQueue->dwThreadsCount==0) pmraaqAvatarsQueue->dwThreadsCount=1;
-					if (pmraaqAvatarsQueue->dwThreadsCount>MAXIMUM_WAIT_OBJECTS) pmraaqAvatarsQueue->dwThreadsCount=MAXIMUM_WAIT_OBJECTS;
-					for (DWORD i=0;i<pmraaqAvatarsQueue->dwThreadsCount;i++)
-					{
-						pmraaqAvatarsQueue->hThread[i]=(HANDLE)mir_forkthread((pThreadFunc)MraAvatarsThreadProc,pmraaqAvatarsQueue);
-					}
-
-					(*phAvatarsQueueHandle)=(HANDLE)pmraaqAvatarsQueue;
-				}
+		NETLIBUSER nlu = {0};
+		nlu.cbSize = sizeof(nlu);
+		nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
+		nlu.szSettingsModule = MRA_AVT_SECT_NAME;
+		nlu.szDescriptiveName = szBuffer;
+		pmraaqAvatarsQueue->hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
+		if (pmraaqAvatarsQueue->hNetlibUser) {
+			if (bFoldersPresent) {
+				TCHAR tszPath[ MAX_PATH ];
+				LPTSTR lpszPathToAvatarsCache = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
+				mir_sntprintf( tszPath, SIZEOF(tszPath), _T("%s\\%d"), lpszPathToAvatarsCache, PROTOCOL_NAMEW);
+				pmraaqAvatarsQueue->hAvatarsPath = FoldersRegisterCustomPathT(MRA_AVT_SECT_NAME, "AvatarsPath", lpszPathToAvatarsCache);
+				mir_free(lpszPathToAvatarsCache);
 			}
-		}else{
-			dwRetErrorCode=GetLastError();
+			else pmraaqAvatarsQueue->hAvatarsPath = NULL;
+
+			InterlockedExchange((volatile LONG*)&pmraaqAvatarsQueue->bIsRunning,TRUE);
+			pmraaqAvatarsQueue->hThreadEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
+			pmraaqAvatarsQueue->dwThreadsCount = DBGetContactSettingDword(NULL,MRA_AVT_SECT_NAME,"WorkThreadsCount",MRA_AVT_DEFAULT_WRK_THREAD_COUNTS);
+			if (pmraaqAvatarsQueue->dwThreadsCount==0)
+				pmraaqAvatarsQueue->dwThreadsCount = 1;
+			if (pmraaqAvatarsQueue->dwThreadsCount > MAXIMUM_WAIT_OBJECTS)
+				pmraaqAvatarsQueue->dwThreadsCount = MAXIMUM_WAIT_OBJECTS;
+			for (DWORD i=0; i < pmraaqAvatarsQueue->dwThreadsCount; i++)
+				pmraaqAvatarsQueue->hThread[i]=(HANDLE)mir_forkthread((pThreadFunc)MraAvatarsThreadProc,pmraaqAvatarsQueue);
+
+			*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
 		}
-	}else{
-		dwRetErrorCode=ERROR_INVALID_HANDLE;
 	}
-return(dwRetErrorCode);
+	
+	return dwRetErrorCode;
 }
 
 
@@ -643,76 +635,63 @@ DWORD MraAvatarsGetFileFormat(LPTSTR lpszPath,SIZE_T dwPathSize)
 
 DWORD MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hContact, DWORD dwFormat, LPTSTR lpszPath, SIZE_T dwPathSize, SIZE_T *pdwPathSizeRet)
 {
-	DWORD dwRetErrorCode;
+	if (hAvatarsQueueHandle == NULL)
+		return ERROR_INVALID_HANDLE;
 
-	if (hAvatarsQueueHandle) {
-		if (IsContactChatAgent(hContact) == FALSE) {
-			LPTSTR lpszCurPath = lpszPath;
-			SIZE_T dwEMailSize;
-			MRA_AVATARS_QUEUE *pmraaqAvatarsQueue=(MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+	if (IsContactChatAgent(hContact))
+		return ERROR_NOT_SUPPORTED;
 
-			dwRetErrorCode=ERROR_INSUFFICIENT_BUFFER;
-			if ( pmraaqAvatarsQueue->hAvatarsPath==NULL || FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, dwPathSize, _T(""))) {
-				// default path
-				LPTSTR lpszPathToAvatarsCache = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
-				SIZE_T dwPathToAvatarsCacheSize = lstrlen(lpszPathToAvatarsCache);
-				if (dwPathSize > (dwPathToAvatarsCacheSize+8)) {
-					memmove(lpszCurPath, lpszPathToAvatarsCache, dwPathToAvatarsCacheSize*sizeof(TCHAR));
-					dwPathSize -= dwPathToAvatarsCacheSize+1;
-					lpszCurPath += dwPathToAvatarsCacheSize;
-					*lpszCurPath++ = '\\';
-					*lpszCurPath = 0; // теперь точно строка закончится нулём
-				}
-				else {
-					dwPathSize=0;
-					if (pdwPathSizeRet) (*pdwPathSizeRet)=(dwPathToAvatarsCacheSize+MAX_PATH+32);
-				}
-				mir_free(lpszPathToAvatarsCache); 
-			} 
-			else {
-				dwEMailSize = lstrlen(lpszCurPath);
-				dwPathSize -= dwEMailSize;
+	LPTSTR lpszCurPath = lpszPath;
+	SIZE_T dwEMailSize;
+	MRA_AVATARS_QUEUE *pmraaqAvatarsQueue=(MRA_AVATARS_QUEUE*)hAvatarsQueueHandle;
+
+	DWORD dwRetErrorCode = ERROR_INSUFFICIENT_BUFFER;
+	if ( !bFoldersPresent )  {
+		// default path
+		LPTSTR lpszPathToAvatarsCache = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
+		dwEMailSize = mir_sntprintf(lpszPath, dwPathSize, _T("%s\\%s\\"), lpszPathToAvatarsCache, PROTOCOL_NAMEW);
+		mir_free(lpszPathToAvatarsCache); 
+	} 
+	else {
+		FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, dwPathSize, _T(""));
+		dwEMailSize = lstrlen( lpszCurPath );
+	}
+
+	dwPathSize -= dwEMailSize;
+	lpszCurPath += dwEMailSize;
+
+	if (dwPathSize) {
+		// some path in buff and free space for file name is avaible
+		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)lpszPath);
+
+		if (dwFormat != PA_FORMAT_DEFAULT) {
+			if ( DB_Mra_GetStaticStringW(hContact, "e-mail", lpszCurPath, (dwPathSize-5), &dwEMailSize)) {
+				BuffToLowerCase(lpszCurPath, lpszCurPath, dwEMailSize);
 				lpszCurPath += dwEMailSize;
-			}
+				_tcscpy( lpszCurPath, lpcszExtensions[dwFormat] );
+				lpszCurPath += 4;
+				*lpszCurPath = 0;
 
-			if (dwPathSize) {
-				// some path in buff and free space for file name is avaible
-				CreateDirectory(lpszPath, NULL);
+				if ( pdwPathSizeRet )
+					*pdwPathSizeRet = lpszCurPath - lpszPath;
+				dwRetErrorCode = NO_ERROR;
+			}						 
+		}
+		else {
+			if ( DB_GetStaticStringW(NULL, MRA_AVT_SECT_NAME, "DefaultAvatarFileName", lpszCurPath, dwPathSize-5, &dwEMailSize ) == FALSE) {
+				memmove(lpszCurPath, MRA_AVT_DEFAULT_AVT_FILENAME, sizeof(MRA_AVT_DEFAULT_AVT_FILENAME));
+				lpszCurPath += SIZEOF( MRA_AVT_DEFAULT_AVT_FILENAME )-1;
+				*lpszCurPath = 0;
 
-				if (dwFormat != PA_FORMAT_DEFAULT) {
-					if ( DB_Mra_GetStaticStringW(hContact, "e-mail", lpszCurPath, (dwPathSize-5), &dwEMailSize)) {
-						BuffToLowerCase(lpszCurPath, lpszCurPath, dwEMailSize);
-						lpszCurPath += dwEMailSize;
-						_tcscpy( lpszCurPath, lpcszExtensions[dwFormat] );
-						lpszCurPath += 4;
-						*lpszCurPath = 0;
-
-						if ( pdwPathSizeRet )
-							*pdwPathSizeRet = lpszCurPath - lpszPath;
-						dwRetErrorCode = NO_ERROR;
-					}						 
-				}
-				else {
-					if ( DB_GetStaticStringW(NULL, MRA_AVT_SECT_NAME, "DefaultAvatarFileName", lpszCurPath, dwPathSize-5, &dwEMailSize ) == FALSE) {
-						memmove(lpszCurPath, MRA_AVT_DEFAULT_AVT_FILENAME, sizeof(MRA_AVT_DEFAULT_AVT_FILENAME));
-						lpszCurPath += SIZEOF( MRA_AVT_DEFAULT_AVT_FILENAME )-1;
-						*lpszCurPath = 0;
-
-						if (pdwPathSizeRet)
-							*pdwPathSizeRet = lpszCurPath - lpszPath;
-						dwRetErrorCode = NO_ERROR;
-					}
-				}
+				if (pdwPathSizeRet)
+					*pdwPathSizeRet = lpszCurPath - lpszPath;
+				dwRetErrorCode = NO_ERROR;
 			}
 		}
-		else dwRetErrorCode=ERROR_NOT_SUPPORTED;
 	}
-	else dwRetErrorCode=ERROR_INVALID_HANDLE;
 
-	return(dwRetErrorCode);
+	return dwRetErrorCode;
 }
-
-
 
 DWORD MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle,DWORD dwFlags,HANDLE hContact,DWORD *pdwAvatarsQueueID,DWORD *pdwFormat,LPTSTR lpszPath)
 {
