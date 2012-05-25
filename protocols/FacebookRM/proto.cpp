@@ -287,15 +287,38 @@ int FacebookProto::AuthRequest(HANDLE hContact,const PROTOCHAR *message)
 	return RequestFriendship((WPARAM)hContact, NULL);
 }
 
-int FacebookProto::Authorize(HANDLE hContact)
+int FacebookProto::Authorize(HANDLE hDbEvent)
 {
-	return ApproveFriendship((WPARAM)hContact, NULL);
+	if (!isOffline() && hDbEvent)
+	{
+		HANDLE hContact = HContactFromAuthEvent( hDbEvent );
+		if (hContact == INVALID_HANDLE_VALUE)
+			return 1;
+
+		return ApproveFriendship((WPARAM)hContact, NULL);
+	}
+
+	return 1;	
 }
 
-int FacebookProto::AuthDeny(HANDLE hContact,const PROTOCHAR *reason)
+int FacebookProto::AuthDeny(HANDLE hDbEvent, const PROTOCHAR *reason)
 {
-	// TODO: hide from facebook requests list
-	return 0;
+	
+	if (!isOffline() && hDbEvent)
+	{
+		HANDLE hContact = HContactFromAuthEvent(hDbEvent);
+		if (hContact == INVALID_HANDLE_VALUE)
+			return 1;
+
+		// TODO: hide from facebook requests list
+
+		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
+
+		return 0;
+	}
+
+	return 1;
 }
 
 //////////////////////////////////////////////////////////////////////////////
@@ -530,4 +553,26 @@ int FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
 	ForkThread( &FacebookProto::ApproveContactToServer, this, ( void* )hContact );
 
 	return 0;
+}
+
+HANDLE FacebookProto::HContactFromAuthEvent(HANDLE hEvent)
+{
+	DBEVENTINFO dbei;
+	DWORD body[3];
+
+	ZeroMemory(&dbei, sizeof(dbei));
+	dbei.cbSize = sizeof(dbei);
+	dbei.cbBlob = sizeof(DWORD) + sizeof(HANDLE);
+	dbei.pBlob = (PBYTE)&body;
+
+	if (CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei))
+		return INVALID_HANDLE_VALUE;
+
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
+		return INVALID_HANDLE_VALUE;
+
+	if (strcmp(dbei.szModule, m_szModuleName))
+		return INVALID_HANDLE_VALUE;
+
+	return *(HANDLE*)&body[1]; // this is bad - needs new auth system
 }
