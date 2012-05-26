@@ -6,7 +6,7 @@
 //utils.cpp
 void MB(char*);
 void Log(char*);
-char *StrTrim(char *, const char *);
+TCHAR *StrTrim(TCHAR *, const TCHAR *);
 
 //logging functions
 //utils.cpp
@@ -14,22 +14,22 @@ void LogToFileInit();
 void LogToFile(char *format, ...);
 
 //utils.cpp
-char *RelativePathToAbsolute(char *szRelative, char *szAbsolute, size_t size);
-char *AbsolutePathToRelative(char *szAbsolute, char *szRelative, size_t size);
+TCHAR *RelativePathToAbsolute(TCHAR *szRelative, TCHAR *szAbsolute, size_t size);
+TCHAR *AbsolutePathToRelative(TCHAR *szAbsolute, TCHAR *szRelative, size_t size);
 
 //returns a string from the database and uses MirandaFree to deallocate the string, leaving only the local copy
 //utils.cpp
-int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size);
+int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, size_t size);
 
 //a string of the form %s(start) | %s(end) is split into the two strings (start and end)
 //utils.cpp
-int SplitStringInfo(const char *szWholeText, char *szStartText, char *szEndText);
+int SplitStringInfo(const TCHAR *szWholeText, TCHAR *szStartText, TCHAR *szEndText);
 
 //utils.cpp
 bool DoesDllExist(char *dllName);
 
 //utils.cpp
-void GetModuleTimeStamp(char*, char*);
+void GetModuleTimeStamp(TCHAR*, TCHAR*);
 void NotifyError(DWORD, char*, int);
 
 //utils.cpp
@@ -41,13 +41,13 @@ void FreePluginInfo(PLUGININFOEX *);
 
 BOOL IsCurrentUserLocalAdministrator();
 
-char *GetLanguageName(LANGID language);
-char *GetLanguageName(LCID locale);
+TCHAR *GetLanguageName(LANGID language);
+TCHAR *GetLanguageName(LCID locale);
 
-BOOL GetWindowsShell(char *shellPath, size_t shSize);
-BOOL GetInternetExplorerVersion(char *ieVersion, size_t ieSize);
+BOOL GetWindowsShell(TCHAR *shellPath, size_t shSize);
+BOOL GetInternetExplorerVersion(TCHAR *ieVersion, size_t ieSize);
 
-BOOL UUIDToString(MUUID uuid, char *str, size_t len);
+BOOL UUIDToString(MUUID uuid, TCHAR *str, size_t len);
 
 BOOL IsUUIDNull(MUUID uuid);
 

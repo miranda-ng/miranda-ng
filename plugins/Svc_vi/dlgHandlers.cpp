@@ -18,14 +18,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#include "common.h"
 #include "dlgHandlers.h"
 
 const char *szQuoteStrings[] = {"[quote] | [/quote]", "[code] | [/code]", ""};
 const char *szSizeStrings[]	= {"[size=1] | [/size]", "[size=1px] | [/size]", "[size=12] | [/size]", "[size=80] | [/size]", ""};
 const char *szBoldStrings[] = {"[b] | [/b]", "[u] | [/u]", "[b][u] | [/u][/b]", "<b> | </b>", "<u> | </u>", "<b><u> | </u></b>"};
-const int nQuoteCount = sizeof(szQuoteStrings) / sizeof(szQuoteStrings[0]); //get the number of quote strings
-const int nSizeCount = sizeof(szSizeStrings) / sizeof(szSizeStrings[0]); //get the number of size strings
-const int nBoldCount = sizeof(szBoldStrings) / sizeof(szBoldStrings[0]); //get the number of bold strings
+const int nQuoteCount = SIZEOF(szQuoteStrings); //get the number of quote strings
+const int nSizeCount = SIZEOF(szSizeStrings); //get the number of size strings
+const int nBoldCount = SIZEOF(szBoldStrings); //get the number of bold strings
 
 #define MAX_TEXT 4096*4
 
@@ -33,17 +34,14 @@ int AddInfoToComboboxes(HWND hWnd, int nQuotesComboBox, int nSizesComboBox, int 
 {
 	int i;
 	for (i = 0; i < nQuoteCount; i++)
-		{
-			SendDlgItemMessage(hWnd, nQuotesComboBox, CB_ADDSTRING, 0, (LPARAM) szQuoteStrings[i]);
-		}
+		SendDlgItemMessageA(hWnd, nQuotesComboBox, CB_ADDSTRING, 0, (LPARAM) szQuoteStrings[i]);
+
 	for (i = 0; i < nSizeCount; i++)
-		{
-			SendDlgItemMessage(hWnd, nSizesComboBox, CB_ADDSTRING, 0, (LPARAM) szSizeStrings[i]);
-		}
+		SendDlgItemMessageA(hWnd, nSizesComboBox, CB_ADDSTRING, 0, (LPARAM) szSizeStrings[i]);
+
 	for (i = 0; i < nBoldCount; i++)
-		{
-			SendDlgItemMessage(hWnd, nBoldComboBox, CB_ADDSTRING, 0, (LPARAM) szBoldStrings[i]);
-		}
+		SendDlgItemMessageA(hWnd, nBoldComboBox, CB_ADDSTRING, 0, (LPARAM) szBoldStrings[i]);
+
 	return 0;
 }
 
@@ -58,14 +56,14 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	const int MAX_SIZE = 128;
 	static int oldFSFValue;
-	static char oldQuoteBegin[MAX_SIZE], oldQuoteEnd[MAX_SIZE];
-	static char oldSizeBegin[MAX_SIZE], oldSizeEnd[MAX_SIZE];
-	static char oldBoldBegin[MAX_SIZE], oldBoldEnd[MAX_SIZE];
+	static TCHAR oldQuoteBegin[MAX_SIZE], oldQuoteEnd[MAX_SIZE];
+	static TCHAR oldSizeBegin[MAX_SIZE], oldSizeEnd[MAX_SIZE];
+	static TCHAR oldBoldBegin[MAX_SIZE], oldBoldEnd[MAX_SIZE];
 	
 	switch (msg)
 		{
 			case WM_INITDIALOG:
-				char buffer[1024];
+				TCHAR buffer[1024];
 				
 				SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiVIIcon);
 			
@@ -80,19 +78,19 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				CheckDlgButton(hWnd, IDC_ASK_FORUMSTYLE, (oldFSFValue) ? BST_CHECKED : BST_UNCHECKED);
 				EnableAskComboboxes(hWnd, oldFSFValue);
 				
-				GetStringFromDatabase("QuoteBegin", "[quote]", oldQuoteBegin, MAX_SIZE);
-				GetStringFromDatabase("QuoteEnd", "[/quote]", oldQuoteEnd, MAX_SIZE);
-				sprintf(buffer, "%s | %s", oldQuoteBegin, oldQuoteEnd);
+				GetStringFromDatabase("QuoteBegin", _T("[quote]"), oldQuoteBegin, MAX_SIZE);
+				GetStringFromDatabase("QuoteEnd", _T("[/quote]"), oldQuoteEnd, MAX_SIZE);
+				mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), oldQuoteBegin, oldQuoteEnd);
 				SendDlgItemMessage(hWnd, IDC_ASK_QUOTECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 				
-				GetStringFromDatabase("SizeBegin", "[size=1]", oldSizeBegin, MAX_SIZE);
-				GetStringFromDatabase("SizeEnd", "[/size]", oldSizeEnd, MAX_SIZE);
-				sprintf(buffer, "%s | %s", oldSizeBegin, oldSizeEnd);
+				GetStringFromDatabase("SizeBegin", _T("[size=1]"), oldSizeBegin, MAX_SIZE);
+				GetStringFromDatabase("SizeEnd", _T("[/size]"), oldSizeEnd, MAX_SIZE);
+				mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), oldSizeBegin, oldSizeEnd);
 				SendDlgItemMessage(hWnd, IDC_ASK_SIZECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 				
-				GetStringFromDatabase("BoldBegin", "[b]", oldBoldBegin, MAX_SIZE);
-				GetStringFromDatabase("BoldEnd", "[/b]", oldBoldEnd, MAX_SIZE);
-				sprintf(buffer, "%s | %s", oldBoldBegin, oldBoldEnd);
+				GetStringFromDatabase("BoldBegin", _T("[b]"), oldBoldBegin, MAX_SIZE);
+				GetStringFromDatabase("BoldEnd", _T("[/b]"), oldBoldEnd, MAX_SIZE);
+				mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), oldBoldBegin, oldBoldEnd);
 				SendDlgItemMessage(hWnd, IDC_ASK_BOLDCOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 				
 				return TRUE;
@@ -119,33 +117,31 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						case IDC_ASK_OK:
 							int debugTo = TO_DIALOGBOX; //just to be safe
 							int newFSFValue = IsDlgButtonChecked(hWnd, IDC_ASK_FORUMSTYLE);
-							char quoteBegin[MAX_SIZE], quoteEnd[MAX_SIZE];
-							char sizeBegin[MAX_SIZE], sizeEnd[MAX_SIZE];
-							char boldBegin[MAX_SIZE], boldEnd[MAX_SIZE];
-							char buffer[1024];
+							TCHAR quoteBegin[MAX_SIZE], quoteEnd[MAX_SIZE];
+							TCHAR sizeBegin[MAX_SIZE], sizeEnd[MAX_SIZE];
+							TCHAR boldBegin[MAX_SIZE], boldEnd[MAX_SIZE];
+							TCHAR buffer[1024];
 							
-							SendDlgItemMessage(hWnd, IDC_ASK_QUOTECOMBOBOX, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
+							SendDlgItemMessage(hWnd, IDC_ASK_QUOTECOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 							SplitStringInfo(buffer, quoteBegin, quoteEnd);
-							SendDlgItemMessage(hWnd, IDC_ASK_SIZECOMBOBOX, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
+							SendDlgItemMessage(hWnd, IDC_ASK_SIZECOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 							SplitStringInfo(buffer, sizeBegin, sizeEnd);
-							SendDlgItemMessage(hWnd, IDC_ASK_BOLDCOMBOBOX, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
+							SendDlgItemMessage(hWnd, IDC_ASK_BOLDCOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 							SplitStringInfo(buffer, boldBegin, boldEnd);
 							
 							if (newFSFValue != oldFSFValue)
-								{
-									DBWriteContactSettingByte(NULL, ModuleName, "ForumStyle", newFSFValue); //temporary store the new value
-								}
-							if (newFSFValue)
-								{
-									DBWriteContactSettingString(NULL, ModuleName, "QuoteBegin", quoteBegin);
-									DBWriteContactSettingString(NULL, ModuleName, "QuoteEnd", quoteEnd);
+								DBWriteContactSettingByte(NULL, ModuleName, "ForumStyle", newFSFValue); //temporary store the new value
+
+							if (newFSFValue) {
+								DBWriteContactSettingTString(NULL, ModuleName, "QuoteBegin", quoteBegin);
+								DBWriteContactSettingTString(NULL, ModuleName, "QuoteEnd", quoteEnd);
 									
-									DBWriteContactSettingString(NULL, ModuleName, "SizeBegin", sizeBegin);
-									DBWriteContactSettingString(NULL, ModuleName, "SizeEnd", sizeEnd);
+								DBWriteContactSettingTString(NULL, ModuleName, "SizeBegin", sizeBegin);
+								DBWriteContactSettingTString(NULL, ModuleName, "SizeEnd", sizeEnd);
 									
-									DBWriteContactSettingString(NULL, ModuleName, "BoldBegin", boldBegin);
-									DBWriteContactSettingString(NULL, ModuleName, "BoldEnd", boldEnd);
-								}
+								DBWriteContactSettingTString(NULL, ModuleName, "BoldBegin", boldBegin);
+								DBWriteContactSettingTString(NULL, ModuleName, "BoldEnd", boldEnd);
+							}
 							
 							if (IsDlgButtonChecked(hWnd, IDC_ASK_TOFILE))
 								debugTo = TO_FILE;
@@ -168,14 +164,14 @@ INT_PTR CALLBACK AskDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								}
 							if (newFSFValue)
 								{
-									DBWriteContactSettingString(NULL, ModuleName, "QuoteBegin", oldQuoteBegin);
-									DBWriteContactSettingString(NULL, ModuleName, "QuoteEnd", oldQuoteEnd);
+									DBWriteContactSettingTString(NULL, ModuleName, "QuoteBegin", oldQuoteBegin);
+									DBWriteContactSettingTString(NULL, ModuleName, "QuoteEnd", oldQuoteEnd);
 									
-									DBWriteContactSettingString(NULL, ModuleName, "SizeBegin", oldSizeBegin);
-									DBWriteContactSettingString(NULL, ModuleName, "SizeEnd", oldSizeEnd);
+									DBWriteContactSettingTString(NULL, ModuleName, "SizeBegin", oldSizeBegin);
+									DBWriteContactSettingTString(NULL, ModuleName, "SizeEnd", oldSizeEnd);
 									
-									DBWriteContactSettingString(NULL, ModuleName, "BoldBegin", oldBoldBegin);
-									DBWriteContactSettingString(NULL, ModuleName, "BoldEnd", oldBoldEnd);
+									DBWriteContactSettingTString(NULL, ModuleName, "BoldBegin", oldBoldBegin);
+									DBWriteContactSettingTString(NULL, ModuleName, "BoldEnd", oldBoldEnd);
 								}
 							
 							DestroyWindow(hWnd);
@@ -291,88 +287,74 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetFocus(GetDlgItem(hWnd, IDC_FORUMSTYLE));
 			{
 				DBVARIANT dbv = { 0 };
-				dbv.type = DBVT_ASCIIZ;
 				bOptionsInitializing = 1;
-				char buffer[1024];
-				char notFound[1024];
+				TCHAR buffer[1024];
+				TCHAR notFound[1024];
 				
-				if (DBGetContactSetting(NULL, ModuleName, "OutputFile", &dbv) == 0)
-				{
-					RelativePathToAbsolute(dbv.pszVal, notFound, sizeof(notFound));
-				}
-				else{
-					RelativePathToAbsolute("VersionInfo.txt", notFound, sizeof(notFound));
-				}
+				if (DBGetContactSettingTString(NULL, ModuleName, "OutputFile", &dbv) == 0)
+					RelativePathToAbsolute(dbv.ptszVal, notFound, SIZEOF(notFound));
+				else
+					RelativePathToAbsolute( _T("VersionInfo.txt"), notFound, SIZEOF(notFound));
 				
 				if (bFoldersAvailable)
-				{
-					//FoldersGetCustomPath(hOutputLocation, buffer, sizeof(buffer), "%miranda_path%");
-					//strcat(buffer, "\\VersionInfo.txt");
-					strcpy(buffer, TranslateTS("Customize using folders plugin"));
-				}
-				else{
-					strncpy(buffer, notFound, sizeof(notFound));
-				}
+					_tcscpy(buffer, TranslateT("Customize using folders plugin"));
+				else
+					_tcsncpy(buffer, notFound, SIZEOF(notFound));
 				
 				SetDlgItemText(hWnd, IDC_FILENAME, buffer);
 				
-				char start[256], end[256];
-				GetStringFromDatabase("QuoteBegin", "[quote]", start, sizeof(start));
-				GetStringFromDatabase("QuoteEnd", "[/quote]", end, sizeof(end));
-				sprintf(buffer, "%s | %s", start, end);
+				TCHAR start[256], end[256];
+				GetStringFromDatabase("QuoteBegin", _T("[quote]"), start, SIZEOF(start));
+				GetStringFromDatabase("QuoteEnd", _T("[/quote]"), end, SIZEOF(end));
+				mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), start, end);
 				SendDlgItemMessage(hWnd, IDC_QUOTECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 				
-				GetStringFromDatabase("SizeBegin", "[size=1]", start, sizeof(start));
-				GetStringFromDatabase("SizeEnd", "[/size]", end, sizeof(end));
-				sprintf(buffer, "%s | %s", start, end);
+				GetStringFromDatabase("SizeBegin", _T("[size=1]"), start, SIZEOF(start));
+				GetStringFromDatabase("SizeEnd", _T("[/size]"), end, SIZEOF(end));
+				mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), start, end);
 				SendDlgItemMessage(hWnd, IDC_SIZECOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 				
-				GetStringFromDatabase("BoldBegin", "[b]", start, sizeof(start));
-				GetStringFromDatabase("BoldEnd", "[/b]", end, sizeof(end));
-				sprintf(buffer, "%s | %s", start, end);
+				GetStringFromDatabase("BoldBegin", _T("[b]"), start, SIZEOF(start));
+				GetStringFromDatabase("BoldEnd", _T("[/b]"), end, SIZEOF(end));
+				mir_sntprintf(buffer, SIZEOF(buffer), _T("%s | %s"), start, end);
 				SendDlgItemMessage(hWnd, IDC_BOLDCOMBOBOX, CB_SELECTSTRING, -1, (LPARAM) buffer);
 				//to add stuff
 				
 				//upload server settings
-				GetStringFromDatabase("UploadServer", "vi.cass.cz", buffer, sizeof(buffer));
+				GetStringFromDatabase("UploadServer", _T("vi.cass.cz"), buffer, SIZEOF(buffer));
 				SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_SERVER), buffer);
 				
 				int port = DBGetContactSettingWord(NULL, ModuleName, "UploadPort", DEFAULT_UPLOAD_PORT);
-				_itoa(port, buffer, 10);
+				_itot(port, buffer, 10);
 				SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_PORT), buffer);
 				
-				GetStringFromDatabase("UploadUser", "", buffer, sizeof(buffer));
+				GetStringFromDatabase("UploadUser", _T(""), buffer, SIZEOF(buffer));
 				SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_USERNAME), buffer);
 				
-				GetStringFromDatabase("UploadPassword", "", buffer, sizeof(buffer));
-				CallService(MS_DB_CRYPT_DECODESTRING, sizeof(buffer), (LPARAM) buffer);
+				GetStringFromDatabase("UploadPassword", _T(""), buffer, SIZEOF(buffer));
+				CallService(MS_DB_CRYPT_DECODESTRING, SIZEOF(buffer), (LPARAM) buffer);
 				SetWindowText(GetDlgItem(hWnd, IDC_UPLOAD_PASSWORD), buffer);
 			}
 			
 			switch(DBGetContactSettingByte(NULL, ModuleName, "DebugTo", TO_DIALOGBOX)) {
 				case TO_FILE:
 					CheckDlgButton(hWnd, IDC_TOFILE, BST_CHECKED);
-					
 					break;
 					
 				case TO_MESSAGEBOX:
 					CheckDlgButton(hWnd, IDC_TOMESSAGEBOX, BST_CHECKED);
-					
 					break;
 					
 				case TO_DIALOGBOX:
 					CheckDlgButton(hWnd, IDC_TODIALOGBOX, BST_CHECKED);
-					
 					break;
 					
 				case TO_DEBUGSTRING:
 					CheckDlgButton(hWnd, IDC_TODEBUGSTRING, BST_CHECKED);
-					
 					break;
 					
 				case TO_CLIPBOARD:
 					CheckDlgButton(hWnd, IDC_TOCLIPBOARD, BST_CHECKED);
-					
 					break;
 					
 				case TO_UPLOAD:
@@ -381,12 +363,10 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					
 				case TO_ASK:
 					CheckDlgButton(hWnd, IDC_ASKEVERYTIME, BST_CHECKED);
-					
 					break;
 					
 				default:
 					CheckDlgButton(hWnd, IDC_TODIALOGBOX, BST_CHECKED);
-					
 					break;
 			}
 
@@ -400,21 +380,18 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			EnableWindow(GetDlgItem(hWnd, IDC_FILENAME), ((IsDlgButtonChecked(hWnd, IDC_TOFILE)) && (!bFoldersAvailable)) ? TRUE : FALSE);
 			EnableUploadSettings(hWnd, IsDlgButtonChecked(hWnd, IDC_TOUPLOAD) ? TRUE : FALSE);
 			
-			OSVERSIONINFO osvi;
-			ZeroMemory(&osvi, sizeof(osvi));
+			OSVERSIONINFO osvi = { 0 };
 			osvi.dwOSVersionInfoSize = sizeof(osvi);
 			GetVersionEx(&osvi);
 			
-			if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS) {
+			if (osvi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
 				EnableWindow(GetDlgItem(hWnd, IDC_CHECKUNLOADABLE), FALSE);
-			}
 			
 			CheckDlgButton(hWnd, IDC_DEBUG, (BOOL) verbose == TRUE ? BST_CHECKED : BST_UNCHECKED);
 			
 			SetFocus(GetDlgItem(hWnd, IDC_GETINFONOW));
 			
 			bOptionsInitializing = 0;
-			
 			break;
 		}
 		
@@ -440,7 +417,9 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					EnableUploadSettings(hWnd, IsDlgButtonChecked(hWnd, IDC_TOUPLOAD) ? TRUE : FALSE);
 
 				case IDC_SHOWUUIDS:
-					if (IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) && MessageBox(hWnd, Translate("Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it."), Translate("Show plugin UUIDs ?"), MB_YESNO | MB_ICONWARNING) == IDNO)
+					if (IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) && MessageBox(hWnd, 
+							TranslateT("Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it."), 
+							TranslateT("Show plugin UUIDs ?"), MB_YESNO | MB_ICONWARNING) == IDNO)
 					{
 						CheckDlgButton(hWnd, IDC_SHOWUUIDS, FALSE);
 						
@@ -505,36 +484,22 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						case PSN_APPLY:
 						{
 							{
-								char buffer[1024];
-								char start[256], end[256];
-								SendDlgItemMessage(hWnd, IDC_QUOTECOMBOBOX, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
+								TCHAR buffer[1024];
+								TCHAR start[256], end[256];
+								SendDlgItemMessage(hWnd, IDC_QUOTECOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 								SplitStringInfo(buffer, start, end);
-								DBWriteContactSettingString(NULL, ModuleName, "QuoteBegin", start);
-								DBWriteContactSettingString(NULL, ModuleName, "QuoteEnd", end);
-								SendDlgItemMessage(hWnd, IDC_SIZECOMBOBOX, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
+								DBWriteContactSettingTString(NULL, ModuleName, "QuoteBegin", start);
+								DBWriteContactSettingTString(NULL, ModuleName, "QuoteEnd", end);
+								SendDlgItemMessage(hWnd, IDC_SIZECOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 								SplitStringInfo(buffer, start, end);
-								DBWriteContactSettingString(NULL, ModuleName, "SizeBegin", start);
-								DBWriteContactSettingString(NULL, ModuleName, "SizeEnd", end);
-								SendDlgItemMessage(hWnd, IDC_BOLDCOMBOBOX, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
+								DBWriteContactSettingTString(NULL, ModuleName, "SizeBegin", start);
+								DBWriteContactSettingTString(NULL, ModuleName, "SizeEnd", end);
+								SendDlgItemMessage(hWnd, IDC_BOLDCOMBOBOX, WM_GETTEXT, SIZEOF(buffer), (LPARAM) buffer);
 								SplitStringInfo(buffer, start, end);
-								DBWriteContactSettingString(NULL, ModuleName, "BoldBegin", start);
-								DBWriteContactSettingString(NULL, ModuleName, "BoldEnd", end);
-								
-								/*//upload server settings
-								SendDlgItemMessage(hWnd, IDC_UPLOAD_SERVER, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
-								DBWriteContactSettingString(NULL, ModuleName, "UploadServer", buffer);
-								
-								SendDlgItemMessage(hWnd, IDC_UPLOAD_PORT, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
-								int port = atoi(buffer);
-								DBWriteContactSettingWord(NULL, ModuleName, "UploadPort", port);
-								
-								SendDlgItemMessage(hWnd, IDC_UPLOAD_USERNAME, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
-								DBWriteContactSettingString(NULL, ModuleName, "UploadUser", buffer);
-								
-								SendDlgItemMessage(hWnd, IDC_UPLOAD_PASSWORD, WM_GETTEXT, sizeof(buffer), (LPARAM) buffer);
-								CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(buffer), (LPARAM) buffer);
-								DBWriteContactSettingString(NULL, ModuleName, "UploadPassword", buffer);*/
+								DBWriteContactSettingTString(NULL, ModuleName, "BoldBegin", start);
+								DBWriteContactSettingTString(NULL, ModuleName, "BoldEnd", end);
 							}
+
 							DBWriteContactSettingByte(NULL, ModuleName, "CheckForDependencies", IsDlgButtonChecked(hWnd, IDC_CHECKUNLOADABLE) ? TRUE : FALSE);
 							DBWriteContactSettingByte(NULL, ModuleName, "BoldVersionNumber", IsDlgButtonChecked(hWnd, IDC_BOLDVERSION) ? TRUE : FALSE);
 							DBWriteContactSettingByte(NULL, ModuleName, "ForumStyle", IsDlgButtonChecked(hWnd, IDC_FORUMSTYLE) ? TRUE : FALSE);
@@ -543,14 +508,14 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							DBWriteContactSettingByte(NULL, ModuleName, "ShowUUIDs", IsDlgButtonChecked(hWnd, IDC_SHOWUUIDS) ? TRUE : FALSE);
 							DBWriteContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", IsDlgButtonChecked(hWnd, IDC_SHOWINSTALLEDLANGUAGES) ? TRUE : FALSE);
 							
-							char fileName[MAX_PATH]; //absolute
-							char filePath[MAX_PATH]; //relative
+							TCHAR fileName[MAX_PATH]; //absolute
+							TCHAR filePath[MAX_PATH]; //relative
 							if (!bFoldersAvailable)
 							{
 								GetDlgItemText(hWnd, IDC_FILENAME, fileName, MAX_PATH);
-								AbsolutePathToRelative(fileName, filePath, sizeof(filePath));
+								AbsolutePathToRelative(fileName, filePath, SIZEOF(filePath));
 
-								DBWriteContactSettingString(NULL, ModuleName, "OutputFile", filePath); //store relative path
+								DBWriteContactSettingTString(NULL, ModuleName, "OutputFile", filePath); //store relative path
 							}
 							DBWriteContactSettingByte(NULL, ModuleName, "ShowInTaskbar", IsDlgButtonChecked(hWnd, IDC_SHOWINTASKBAR) ? TRUE : FALSE);
 							//Debug to:
@@ -573,7 +538,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 							//Disabled plugins too?
 							DBWriteContactSettingByte(NULL, ModuleName, "ShowInactive", IsDlgButtonChecked(hWnd, IDC_DISABLEDTOO)?TRUE:FALSE);
 							
-							GetStringFromDatabase("UUIDCharMark", DEF_UUID_CHARMARK, PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
+							GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
 						}
 					}
 			}
@@ -612,8 +577,7 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					lf=*(LOGFONT*)dbv.pbVal;
 				}
 				else {
-					HFONT hFont;
-					hFont=(HFONT)SendDlgItemMessage(hWnd,IDC_CLOSE,WM_GETFONT,0,0);
+					HFONT hFont = (HFONT)SendDlgItemMessage(hWnd,IDC_CLOSE,WM_GETFONT,0,0);
 					GetObject(hFont,sizeof(lf),&lf);
 				}
 				SendDlgItemMessage(hWnd,IDC_TEXT,WM_SETFONT,(WPARAM)CreateFontIndirect(&lf),0);
@@ -643,14 +607,14 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 						//Ok, let's begin, then.
 						EmptyClipboard();
 						//Storage data we'll use.
-						char text[MAX_TEXT];
+						TCHAR text[MAX_TEXT];
 						LPTSTR lptstrCopy;
 						GetDlgItemText(hWnd, IDC_TEXT, text, MAX_TEXT);
 						int length = lstrlen(text) + 1;
-						HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, length + 5);
+						HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (length + 5)*sizeof( TCHAR ));
 						//Lock memory, copy it, release it.
 						lptstrCopy = (LPTSTR)GlobalLock(hData);
-						memmove(lptstrCopy, text, length);
+						lstrcpyn(lptstrCopy, text, length);
 						lptstrCopy[length] = '\0';
 						GlobalUnlock(hData);
 						//Now set the clipboard data.
@@ -662,17 +626,15 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 					break;
 				
 				case IDC_SAVETOFILE:
-					char text[MAX_TEXT];
+					TCHAR text[MAX_TEXT];
 					GetDlgItemText(hWnd, IDC_TEXT, text, MAX_TEXT);
-				
 					myInfo->PrintInformationsToFile(text);
-				
 					break;
 				
 				case IDC_UPLOAD:
 					if (myInfo)
 						{
-							char text[MAX_TEXT];
+							TCHAR text[MAX_TEXT];
 							GetDlgItemText(hWnd, IDC_TEXT, text, MAX_TEXT);
 							myInfo->UploadToSite(text);
 						}

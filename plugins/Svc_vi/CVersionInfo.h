@@ -41,29 +41,29 @@ class CVersionInfo
 {
 	private:
 		//Informations related to Miranda: main informations.
-		std::string lpzMirandaVersion;
-		std::string lpzMirandaPath;
-		std::string lpzProfilePath;
-		std::string lpzProfileSize;
-		std::string lpzProfileCreationDate;
-		std::string lpzNightly;
-		std::string lpzUnicodeBuild;
-		std::string lpzCPUName;
-		std::string lpzCPUIdentifier;
-		std::string lpzBuildTime;
-		std::string lpzShell;
-		std::string lpzIEVersion;
-		std::string lpzAdministratorPrivileges;
-		std::string lpzOSLanguages;
-		std::string lpzLangpackInfo;
-		std::string lpzLangpackModifiedDate;
+		std::tstring lpzMirandaVersion;
+		std::tstring lpzMirandaPath;
+		std::tstring lpzProfilePath;
+		std::tstring lpzProfileSize;
+		std::tstring lpzProfileCreationDate;
+		std::tstring lpzNightly;
+		std::tstring lpzUnicodeBuild;
+		std::tstring lpzCPUName;
+		std::tstring lpzCPUIdentifier;
+		std::tstring lpzBuildTime;
+		std::tstring lpzShell;
+		std::tstring lpzIEVersion;
+		std::tstring lpzAdministratorPrivileges;
+		std::tstring lpzOSLanguages;
+		std::tstring lpzLangpackInfo;
+		std::tstring lpzLangpackModifiedDate;
 		//Informations related to plugins
 		std::list<CPlugin> listActivePlugins;
 		std::list<CPlugin> listInactivePlugins;
 		std::list<CPlugin> listUnloadablePlugins;
 		//OS and hardware informations.
-		std::string lpzOSVersion;
-		std::string lpzOSName;
+		std::tstring lpzOSVersion;
+		std::tstring lpzOSName;
 		unsigned int luiProcessors;
 		unsigned int luiRAM;
 		unsigned int luiFreeDiskSpace;
@@ -77,7 +77,7 @@ class CVersionInfo
 		bool bExpertSettingsOn;
 		//Configuration
 		
-		bool GetLinkedModulesInfo(char *moduleName, std::string &linkedModules);
+		bool GetLinkedModulesInfo(TCHAR *moduleName, std::tstring &linkedModules);
 
 	public:
 		//Constructor/Destructor
@@ -99,18 +99,18 @@ class CVersionInfo
 		//Prints
 		
 		void PrintInformationsToFile();
-		void PrintInformationsToFile(const char *info);
+		void PrintInformationsToFile(const TCHAR *info);
 		void PrintInformationsToDialogBox();
 		void PrintInformationsToMessageBox();
 		void PrintInformationsToOutputDebugString();
 		void PrintInformationsToClipboard(bool);
-		void UploadToSite(char *text = NULL);
+		void UploadToSite(TCHAR *text = NULL);
 		
-		std::string GetListAsString(std::list<CPlugin>&, DWORD flags, int beautify);
-		std::string GetInformationsAsString(int bDisableForumStyle = 0);
-		void BeautifyReport(int, char *, char *, std::string &);
-		void AddInfoHeader(int, int, int, std::string &);
-		void AddInfoFooter(int, int, int, std::string &);
+		std::tstring GetListAsString(std::list<CPlugin>&, DWORD flags, int beautify);
+		std::tstring GetInformationsAsString(int bDisableForumStyle = 0);
+		void BeautifyReport(int, LPCTSTR, LPCTSTR, std::tstring &);
+		void AddInfoHeader(int, int, int, std::tstring &);
+		void AddInfoFooter(int, int, int, std::tstring &);
 };
 
 #endif

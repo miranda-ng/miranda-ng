@@ -30,7 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 int hLangpack;
-struct MM_INTERFACE mmi;
+MM_INTERFACE mmi;
+UTF8_INTERFACE utfi;
 
 HICON hiVIIcon;
 
@@ -98,6 +99,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink=link;
 	mir_getLP(&pluginInfo);
 	mir_getMMI(&mmi);
+	mir_getUTFI(&utfi);
 
 	LogToFile("Initialising services ...");
 	InitServices();
@@ -107,11 +109,11 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	hiVIIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_MAIN));
 	
 	//get the name of the dll itself
-	char filePath[512] = {0};
-	GetModuleFileName(hInst, filePath, sizeof(filePath));
-	char *fileName = NULL;
-	size_t i = strlen(filePath) - 1;
-	_strlwr(filePath);
+	TCHAR filePath[512] = {0};
+	GetModuleFileName(hInst, filePath, SIZEOF(filePath));
+	TCHAR *fileName = NULL;
+	size_t i = _tcslen(filePath) - 1;
+	_tcslwr(filePath);
 	
 	//check that the name begins with svc_
 	while ((i > 0) && (filePath[i] != '\\')) { i--; }
@@ -120,11 +122,11 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 		filePath[i] = 0;
 		fileName = filePath + i + 1;
 		
-		if (strstr(fileName, "svc_") != fileName)
+		if (_tcsstr(fileName, _T("svc_")) != fileName)
 		{
-			char buffer[1024];
-			mir_snprintf(buffer, sizeof(buffer), "Please rename the plugin '%s' to 'svc_vi.dll' to enable service mode functionality.", fileName);
-			MessageBox(NULL, TranslateTS(buffer), Translate("Version Information"), MB_OK | MB_ICONEXCLAMATION);
+			TCHAR buffer[1024];
+			mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Please rename the plugin '%s' to 'svc_vi.dll' to enable service mode functionality."), fileName);
+			MessageBox(NULL, buffer, TranslateT("Version Information"), MB_OK | MB_ICONEXCLAMATION);
 		}
 	}
 
@@ -133,7 +135,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	{
 		LogToFile("creating menu item ...");
 		CLISTMENUITEM mi = { 0 };
-
 		mi.cbSize = sizeof(mi);
 		mi.position = mi.popupPosition = 2000089999;
 		mi.flags = 0;
@@ -147,18 +148,8 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 //		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &mi);
 	}
 	LogToFile("Check riched32.dll ...");
-	if (LoadLibrary("RichEd32.dll") == NULL) {
-		MessageBox(NULL, "d'oh", "d'oh", MB_OK);
-	}
-
-	//get miranda's malloc, realloc and free functions
-	LogToFile("Get miranda memory functions ...");
-	MM_INTERFACE mmInterface;
-	mmInterface.cbSize = sizeof(MM_INTERFACE);
-	CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM) &mmInterface);
-	MirandaFree = mmInterface.mmi_free;
-	MirandaMalloc = mmInterface.mmi_malloc;
-	MirandaRealloc = mmInterface.mmi_realloc;
+	if (LoadLibraryA("RichEd32.dll") == NULL)
+		MessageBoxA(NULL, "d'oh", "d'oh", MB_OK);
 	
 	LogToFile("Leaving %s", __FUNCTION__);
 	return 0;

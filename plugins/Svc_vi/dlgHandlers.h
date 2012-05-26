@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_VERSIONINFO_DLGHEADERS_H
 #define M_VERSIONINFO_DLGHEADERS_H
 
-#include "common.h"
 #include "resource.h"
 #include "CVersionInfo.h"
 

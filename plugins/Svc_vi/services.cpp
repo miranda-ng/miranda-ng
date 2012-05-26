@@ -18,6 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#include "common.h"
 #include "services.h"
 
 HANDLE hsMenuCommand;
@@ -55,19 +56,15 @@ INT_PTR PluginMenuCommand(WPARAM wParam, LPARAM lParam)
 INT_PTR GetInfoService(WPARAM wParam, LPARAM lParam)
 {
 	int result = 1; //failure
-	if (lParam != NULL)
-		{
-			CVersionInfo myInfo;
-			myInfo.Initialize();
-			std::string VI = myInfo.GetInformationsAsString(wParam);
-			char **retData = (char **) lParam;
-			(*retData) = (char *) MirandaMalloc(VI.size() + 1);
-			if (retData)
-				{
-					strcpy(*retData, VI.c_str());
-					result = 0; //success
-				}
-		}
+	if (lParam != NULL) {
+		CVersionInfo myInfo;
+		myInfo.Initialize();
+		std::tstring VI = myInfo.GetInformationsAsString(wParam);
+		char **retData = (char **) lParam;
+		*retData = mir_utf8encodeT( VI.c_str());
+		if (*retData)
+			result = 0; //success
+	}
 	return result;
 }
 
@@ -75,6 +72,5 @@ INT_PTR ServiceModeService(WPARAM wParam, LPARAM lParam)
 {
 	bServiceMode = 1;
 	DoDebugTo(TO_ASK);
-	
 	return 0;
 }

@@ -23,13 +23,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
 
+#include "common.h"
 #include "utils.h"
 
 /*
 My usual MessageBoxes :-)
 */
 void MB(char* message) {
-	if (verbose) MessageBox(NULL, message, ModuleName, MB_OK | MB_ICONEXCLAMATION);
+	if (verbose) MessageBoxA(NULL, message, ModuleName, MB_OK | MB_ICONEXCLAMATION);
 }
 
 void Log(char* message) {
@@ -42,83 +43,69 @@ void Log(char* message) {
 		PUAddPopUp(&pu);
 	}
 	else {
-		MessageBox(NULL, message, ModuleName, MB_OK | MB_ICONINFORMATION);
+		MessageBoxA(NULL, message, ModuleName, MB_OK | MB_ICONINFORMATION);
 	}
 }
 
-int SplitStringInfo(const char *szWholeText, char *szStartText, char *szEndText)
+int SplitStringInfo(const TCHAR *szWholeText, TCHAR *szStartText, TCHAR *szEndText)
 {
-	const char *pos = strchr(szWholeText, '|');
-	if (pos)
-		{
-			size_t index = pos - szWholeText;
-			memmove(szStartText, szWholeText, index);
-			szStartText[index] = '\0';
-			StrTrim(szStartText, " ");
-			memmove(szEndText, pos + 1, strlen(pos)); //copies the \0 as well ... :)
-			StrTrim(szEndText, " ");
-		}
-		else{
-			szStartText[0] = szEndText[0] = '\0';
-		}
+	const TCHAR *pos = _tcschr(szWholeText, '|');
+	if (pos) {
+		size_t index = pos - szWholeText;
+		lstrcpyn(szStartText, szWholeText, index);
+		szStartText[index] = '\0';
+		StrTrim(szStartText, _T(" "));
+		lstrcpyn(szEndText, pos + 1, _tcslen(pos)); //copies the \0 as well ... :)
+		StrTrim(szEndText, _T(" "));
+	}
+	else szStartText[0] = szEndText[0] = '\0';
+
 	return 0;
 }
 
-int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size)
+int GetStringFromDatabase(char *szSettingName, TCHAR *szError, TCHAR *szResult, size_t size)
 {
 	DBVARIANT dbv = {0};
 	int res = 1;
 	size_t len;
-	dbv.type = DBVT_ASCIIZ;
-	if (DBGetContactSetting(NULL, ModuleName, szSettingName, &dbv) == 0)
-		{
-			res = 0;
-			size_t tmp = strlen(dbv.pszVal);
-			len = (tmp < size - 1) ? tmp : size - 1;
-			strncpy(szResult, dbv.pszVal, len);
-			szResult[len] = '\0';
-			MirandaFree(dbv.pszVal);
-		}
-		else{
-			res = 1;
-			size_t tmp = strlen(szError);
-			len = (tmp < size - 1) ? tmp : size - 1;
-			strncpy(szResult, szError, len);
-			szResult[len] = '\0';
-		}
+	if ( DBGetContactSettingTString(NULL, ModuleName, szSettingName, &dbv) == 0) {
+		res = 0;
+		size_t tmp = _tcslen(dbv.ptszVal);
+		len = (tmp < size - 1) ? tmp : size - 1;
+		_tcsncpy(szResult, dbv.ptszVal, len);
+		szResult[len] = '\0';
+		mir_free(dbv.ptszVal);
+	}
+	else {
+		res = 1;
+		size_t tmp = _tcslen(szError);
+		len = (tmp < size - 1) ? tmp : size - 1;
+		_tcsncpy(szResult, szError, len);
+		szResult[len] = '\0';
+	}
 	return res;
 }
 
-char *RelativePathToAbsolute(char *szRelative, char *szAbsolute, size_t size)
+TCHAR *RelativePathToAbsolute(TCHAR *szRelative, TCHAR *szAbsolute, size_t size)
 {
-	size_t len;
-
-	if (size < MAX_PATH)
-		{
-			char buffer[MAX_PATH]; //new path should be at least MAX_PATH chars
-			len = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM) szRelative, (LPARAM) buffer);
-			strncpy(szAbsolute, buffer, size);
-		}
-		else{
-			len = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM) szRelative, (LPARAM) szAbsolute);
-		}
+	if (size < MAX_PATH) {
+		TCHAR buffer[MAX_PATH]; //new path should be at least MAX_PATH chars
+		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM) szRelative, (LPARAM) buffer);
+		_tcsncpy(szAbsolute, buffer, size);
+	}
+	else CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM) szRelative, (LPARAM) szAbsolute);
 		
 	return szAbsolute;
 }
 
-char *AbsolutePathToRelative(char *szAbsolute, char *szRelative, size_t size)
+TCHAR *AbsolutePathToRelative(TCHAR *szAbsolute, TCHAR *szRelative, size_t size)
 {
-	size_t len;
-	
-	if (size < MAX_PATH)
-		{
-			char buffer[MAX_PATH];
-			len = CallService(MS_UTILS_PATHTORELATIVE, (WPARAM) szAbsolute, (LPARAM) szRelative);
-			strncpy(szRelative, buffer, size);
-		}
-		else{
-			len = CallService(MS_UTILS_PATHTORELATIVE, (WPARAM) szAbsolute, (LPARAM) szRelative);
-		}
+	if (size < MAX_PATH) {
+		TCHAR buffer[MAX_PATH];
+		CallService(MS_UTILS_PATHTORELATIVET, (WPARAM) szAbsolute, (LPARAM) szRelative);
+		_tcsncpy(szRelative, buffer, size);
+	}
+	else CallService(MS_UTILS_PATHTORELATIVET, (WPARAM) szAbsolute, (LPARAM) szRelative);
 		
 	return szRelative;
 }
@@ -169,41 +156,36 @@ void LogToFile(char *format, ...)
 #define GetFacility(dwError)  (HIWORD(dwError) && 0x0000111111111111)
 #define GetErrorCode(dwError) (LOWORD(dwError))
 
-void NotifyError(DWORD dwError, char* szSetting, int iLine) {
+void NotifyError(DWORD dwError, char* szSetting, int iLine)
+{
 	char str[1024];
-	mir_snprintf(str, sizeof(str), Translate("Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d"), szSetting, GetFacility(dwError), GetErrorCode(dwError), iLine);
+	mir_snprintf(str, SIZEOF(str), Translate("Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d"), szSetting, GetFacility(dwError), GetErrorCode(dwError), iLine);
 	Log(str);
 }
 
-char *StrTrim(char *szText, const char *szTrimChars)
+TCHAR *StrTrim(TCHAR *szText, const TCHAR *szTrimChars)
 {
-	size_t i = strlen(szText) - 1;
-	while ((i >= 0) && (strchr(szTrimChars, szText[i])))
-		{
-			szText[i--] = '\0';
-		}
+	size_t i = _tcslen(szText) - 1;
+	while (i >= 0 && _tcschr(szTrimChars, szText[i]))
+		szText[i--] = '\0';
+
 	i = 0;
-	while (((unsigned int )i < strlen(szText)) && (strchr(szTrimChars, szText[i])))
-		{
-			i++;
-		}
-	if (i)
-		{
- 			size_t size = strlen(szText);
- 			size_t j;
- 			for (j = i; j <= size; j++) //shift the \0 as well
- 				{
- 					szText[j - i] = szText[j];
- 				}
-//			memmove(szText, szText + i, size - i + 1); //copy the string without the first i characters
-		}
+	while (((unsigned int )i < _tcslen(szText)) && _tcschr(szTrimChars, szText[i]))
+		i++;
+
+	if (i) {
+		size_t size = _tcslen(szText);
+		size_t j;
+		for (j = i; j <= size; j++) //shift the \0 as well
+			szText[j - i] = szText[j];
+	}
 	return szText;
 }
 
 bool DoesDllExist(char *dllName)
 {
 	HMODULE dllHandle;
-	dllHandle = LoadLibraryEx(dllName, NULL, DONT_RESOLVE_DLL_REFERENCES);
+	dllHandle = LoadLibraryExA(dllName, NULL, DONT_RESOLVE_DLL_REFERENCES);
 	if (dllHandle)
 		{
 			FreeLibrary(dllHandle);
@@ -213,33 +195,32 @@ bool DoesDllExist(char *dllName)
 }
 
 //========== From Cyreve ==========
-PLUGININFOEX *GetPluginInfo(const char *filename,HINSTANCE *hPlugin)
+PLUGININFOEX *GetPluginInfo(const TCHAR *filename,HINSTANCE *hPlugin)
 {
-	char szMirandaPath[MAX_PATH],szPluginPath[MAX_PATH];
-	char *str2;
+	TCHAR szMirandaPath[MAX_PATH], szPluginPath[MAX_PATH];
 	PLUGININFOEX *(*MirandaPluginInfo)(DWORD);
 	PLUGININFOEX *pPlugInfo;
 	HMODULE hLoadedModule;
 	DWORD mirandaVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
 	
-	GetModuleFileName(GetModuleHandle(NULL),szMirandaPath,sizeof(szMirandaPath));
-	str2=strrchr(szMirandaPath,'\\');
+	GetModuleFileName(GetModuleHandle(NULL), szMirandaPath, SIZEOF(szMirandaPath));
+	TCHAR* str2 = _tcsrchr(szMirandaPath,'\\');
 	if(str2!=NULL) *str2=0;
 
-	hLoadedModule=GetModuleHandle(filename);
+	hLoadedModule = GetModuleHandle(filename);
 	if(hLoadedModule!=NULL) {
 		*hPlugin=NULL;
 		MirandaPluginInfo=(PLUGININFOEX *(*)(DWORD))GetProcAddress(hLoadedModule,"MirandaPluginInfo");
 		return MirandaPluginInfo(mirandaVersion);
 	}
-	wsprintf(szPluginPath,"%s\\Plugins\\%s",szMirandaPath,filename);
+	wsprintf(szPluginPath, _T("%s\\Plugins\\%s"), szMirandaPath, filename);
 	*hPlugin=LoadLibrary(szPluginPath);
 	if(*hPlugin==NULL) return NULL;
 	MirandaPluginInfo=(PLUGININFOEX *(*)(DWORD))GetProcAddress(*hPlugin,"MirandaPluginInfo");
 	if(MirandaPluginInfo==NULL) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
 	pPlugInfo=MirandaPluginInfo(mirandaVersion);
 	if(pPlugInfo==NULL) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
-	if(pPlugInfo->cbSize!=sizeof(PLUGININFOEX)) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
+	if(pPlugInfo->cbSize != sizeof(PLUGININFOEX)) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
 	return pPlugInfo;
 }
 
@@ -265,9 +246,9 @@ void TimeStampToSysTime(DWORD Unix,SYSTEMTIME* SysTime)
 	FileTimeToSystemTime((FILETIME*)&FileReal,SysTime);
 }
 
-void GetModuleTimeStamp(char* pszDate, char* pszTime)
+void GetModuleTimeStamp(TCHAR* pszDate, TCHAR* pszTime)
 {
-	char date[128],time[128],szModule[MAX_PATH];
+	TCHAR date[128],time[128],szModule[MAX_PATH];
 	HANDLE mapfile,file;
 	DWORD timestamp,filesize;
 	LPVOID mapmem;
@@ -279,8 +260,8 @@ void GetModuleTimeStamp(char* pszDate, char* pszTime)
 	mapmem = MapViewOfFile(mapfile, FILE_MAP_READ, 0, 0, 0);
 	timestamp = GetTimestampForLoadedLibrary((HINSTANCE)mapmem);
 	TimeStampToSysTime(timestamp,&systime);
-	GetTimeFormat(LOCALE_USER_DEFAULT,0,&systime,"HH':'mm':'ss",time,128);
-	GetDateFormat(EnglishLocale,0,&systime,"dd' 'MMMM' 'yyyy",date,128);
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &systime, _T("HH':'mm':'ss"), time, 128);
+	GetDateFormat(EnglishLocale, 0, &systime, _T("dd' 'MMMM' 'yyyy"), date, 128);
 	//MessageBox(NULL,date,time,0);
 	lstrcpy(pszTime, time);
 	lstrcpy(pszDate, date);
@@ -463,131 +444,123 @@ BOOL IsCurrentUserLocalAdministrator(void)
    return fReturn;
 }
 
-BOOL GetWindowsShell(char *shellPath, size_t shSize)
+BOOL GetWindowsShell(TCHAR *shellPath, size_t shSize)
 {
 	OSVERSIONINFO vi = {0};
 	vi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	GetVersionEx(&vi);
 
-	char szShell[1024] = {0};
-	DWORD size = sizeof(szShell);
+	TCHAR szShell[1024] = {0};
+	DWORD size = SIZEOF(szShell);
 	
 	if (vi.dwPlatformId == VER_PLATFORM_WIN32_NT)
 	{
 		HKEY hKey;
-		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\IniFileMapping\\system.ini\\boot", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
+		if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\IniFileMapping\\system.ini\\boot"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 		{
-			RegQueryValueEx(hKey, "Shell", NULL, NULL, (LPBYTE) szShell, &size);
-			_strlwr(szShell);
-			HKEY hRootKey = (strstr(szShell, "sys:") == szShell) ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
+			RegQueryValueEx(hKey, _T("Shell"), NULL, NULL, (LPBYTE) szShell, &size);
+			_tcslwr(szShell);
+			HKEY hRootKey = ( _tcsstr(szShell, _T("sys:")) == szShell) ? HKEY_LOCAL_MACHINE : HKEY_CURRENT_USER;
 			RegCloseKey(hKey);
 			
-			strcpy(szShell, "<unknown>");
-			if (RegOpenKeyEx(hRootKey, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
+			_tcscpy(szShell, _T("<unknown>"));
+			if (RegOpenKeyEx(hRootKey, _T("SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 			{
-				size = sizeof(szShell);
-				RegQueryValueEx(hKey, "Shell", NULL, NULL, (LPBYTE) szShell, &size);
+				size = SIZEOF(szShell);
+				RegQueryValueEx(hKey, _T("Shell"), NULL, NULL, (LPBYTE) szShell, &size);
 				RegCloseKey(hKey);
 			}
 		}
 	}
 	else{
-		char szSystemIniPath[2048];
-		GetWindowsDirectory(szSystemIniPath, sizeof(szSystemIniPath));
-		size_t len = strlen(szSystemIniPath);
+		TCHAR szSystemIniPath[2048];
+		GetWindowsDirectory(szSystemIniPath, SIZEOF(szSystemIniPath));
+		size_t len = lstrlen(szSystemIniPath);
 		if (len > 0)
 		{
 			if (szSystemIniPath[len - 1] == '\\') { szSystemIniPath[--len] = '\0'; }
-			strcat(szSystemIniPath, "\\system.ini");
-			GetPrivateProfileString("boot", "shell", "<unknown>", szShell, size, szSystemIniPath);
+			_tcscat(szSystemIniPath, _T("\\system.ini"));
+			GetPrivateProfileString( _T("boot"), _T("shell"), _T("<unknown>"), szShell, size, szSystemIniPath);
 		}
 	}
 	
-	char *pos = strrchr(szShell, '\\');
-	char *res = (pos) ? pos + 1 : szShell;
-	strncpy(shellPath, res, shSize);
+	TCHAR *pos = _tcsrchr(szShell, '\\');
+	TCHAR *res = (pos) ? pos + 1 : szShell;
+	_tcsncpy(shellPath, res, shSize);
 	
 	return TRUE;
 }
 
-BOOL GetInternetExplorerVersion(char *ieVersion, size_t ieSize)
+BOOL GetInternetExplorerVersion(TCHAR *ieVersion, size_t ieSize)
 {
 	HKEY hKey;
-	char ieVer[1024];
-	DWORD size = sizeof(ieVer);
-	char ieBuild[64] = {0};
+	TCHAR ieVer[1024];
+	DWORD size = SIZEOF(ieVer);
+	TCHAR ieBuild[64] = {0};
 	
-	strncpy(ieVer, "<not installed>", size);
+	_tcsncpy(ieVer, _T("<not installed>"), size);
 	
-	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Internet Explorer", 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
+	if (RegOpenKeyEx(HKEY_LOCAL_MACHINE, _T("SOFTWARE\\Microsoft\\Internet Explorer"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
-		if (RegQueryValueEx(hKey, "Version", NULL, NULL, (LPBYTE) ieVer, &size) == ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, _T("Version"), NULL, NULL, (LPBYTE) ieVer, &size) == ERROR_SUCCESS)
 		{
-			char *pos = strchr(ieVer, '.');
+			TCHAR *pos = _tcschr(ieVer, '.');
 			if (pos)
 			{
-				pos = strchr(pos + 1, '.');
+				pos = _tcschr(pos + 1, '.');
 				if (pos) { *pos = 0; }
-				strncpy(ieBuild, pos + 1, sizeof(ieBuild));
-				pos = strchr(ieBuild, '.');
+				_tcsncpy(ieBuild, pos + 1, SIZEOF(ieBuild));
+				pos = _tcschr(ieBuild, '.');
 				if (pos) { *pos = 0; }
 			}
 		}
 		else{
-			size = sizeof(ieVer);
-			if (RegQueryValueEx(hKey, "Build", NULL, NULL, (LPBYTE) ieVer, &size) == ERROR_SUCCESS)
+			size = SIZEOF(ieVer);
+			if (RegQueryValueEx(hKey, _T("Build"), NULL, NULL, (LPBYTE) ieVer, &size) == ERROR_SUCCESS)
 			{
-				char *pos = ieVer + 1;
-				strncpy(ieBuild, pos, sizeof(ieBuild));
+				TCHAR *pos = ieVer + 1;
+				_tcsncpy(ieBuild, pos, SIZEOF(ieBuild));
 				*pos = 0;
-				pos = strchr(ieBuild, '.');
+				pos = _tcschr(ieBuild, '.');
 				if (pos) { *pos = 0; }
 			}
 			else{
-				strncpy(ieVer, "<unknown version>", size);
+				_tcsncpy(ieVer, _T("<unknown version>"), size);
 			}
 		}
 		RegCloseKey(hKey);
 	}
 	
-	strncpy(ieVersion, ieVer, ieSize);
-	if (strlen(ieBuild) > 0)
+	_tcsncpy(ieVersion, ieVer, ieSize);
+	if ( ieBuild[0] )
 	{
-		strncat(ieVersion, ".", ieSize);
-		strncat(ieVersion, ieBuild, ieSize);
-		//strncat(ieVersion, ")", ieSize);
+		_tcsncat(ieVersion, _T("."), ieSize);
+		_tcsncat(ieVersion, ieBuild, ieSize);
 	}
 	
 	return TRUE;
 }
 
 
-char *GetLanguageName(LANGID language)
+TCHAR *GetLanguageName(LANGID language)
 {
-	
 	LCID lc = MAKELCID(language, SORT_DEFAULT);
-	
 	return GetLanguageName(lc);
 }
 
-extern char *GetLanguageName(LCID locale)
+extern TCHAR *GetLanguageName(LCID locale)
 {
-	static char name[1024];
-	
-	GetLocaleInfo(locale, LOCALE_SENGLANGUAGE, name, sizeof(name));
-	
+	static TCHAR name[1024];
+	GetLocaleInfo(locale, LOCALE_SENGLANGUAGE, name, SIZEOF(name));
 	return name;
 }
 
-BOOL UUIDToString(MUUID uuid, char *str, size_t len)
+BOOL UUIDToString(MUUID uuid, TCHAR *str, size_t len)
 {
-	if ((len < sizeof(MUUID)) || (!str))
-	{
+	if ( len < sizeof(MUUID) || !str )
 		return 0;
-	}
 	
-	mir_snprintf(str, len, "{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}", uuid.a, uuid.b, uuid.c, uuid.d[0], uuid.d[1], uuid.d[2], uuid.d[3], uuid.d[4], uuid.d[5], uuid.d[6], uuid.d[7]);
-	
+	mir_sntprintf(str, len, _T("{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}"), uuid.a, uuid.b, uuid.c, uuid.d[0], uuid.d[1], uuid.d[2], uuid.d[3], uuid.d[4], uuid.d[5], uuid.d[6], uuid.d[7]);
 	return 1;
 }
 

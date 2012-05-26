@@ -24,31 +24,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "common.h"
 
 const int cPLUGIN_UUID_MARK = 4;
-char PLUGIN_UUID_MARK[cPLUGIN_UUID_MARK];
+TCHAR PLUGIN_UUID_MARK[cPLUGIN_UUID_MARK];
 
 #define PLUGIN_UNCERTAIN_MARK "?"
 
 #define RJUST 70
 
 CPlugin::CPlugin() {
-	lpzFileName = "";
-	lpzShortName = "";
-	lpzVersion = "";
-	lpzTimestamp = "";
-	lpzLinkedModules = "";
 	pluginID = UUID_NULL;
-};
+}
 
-CPlugin::CPlugin(std::string eFileName, std::string eShortName, MUUID pluginID, std::string eUnicodeInfo, DWORD eVersion, std::string eTimestamp, std::string eLinkedModules) {
-	lpzFileName = std::string(eFileName);
-	lpzShortName = std::string(eShortName);
-	lpzUnicodeInfo = std::string(eUnicodeInfo);
-	lpzTimestamp = std::string(eTimestamp);
-	lpzLinkedModules = std::string(eLinkedModules);
+CPlugin::CPlugin(LPCTSTR eFileName, LPCTSTR eShortName, MUUID pluginID, LPCTSTR eUnicodeInfo, DWORD eVersion, LPCTSTR eTimestamp, LPCTSTR eLinkedModules) {
+	lpzFileName = eFileName;
+	lpzShortName = eShortName;
+	lpzUnicodeInfo = eUnicodeInfo;
+	lpzTimestamp = eTimestamp;
+	lpzLinkedModules = eLinkedModules;
 
-	char aux[128];
-	wsprintf(aux,"%d.%d.%d.%d",	(eVersion>>24)&0xFF, (eVersion>>16)&0xFF, (eVersion>>8)&0xFF, (eVersion)&0xFF);
-	lpzVersion = std::string(aux);
+	TCHAR aux[128];
+	mir_sntprintf(aux, SIZEOF(aux), _T("%d.%d.%d.%d"),	(eVersion>>24)&0xFF, (eVersion>>16)&0xFF, (eVersion>>8)&0xFF, (eVersion)&0xFF);
+	lpzVersion = aux;
 	
 	this->pluginID = pluginID;
 };
@@ -76,16 +71,17 @@ CPlugin::~CPlugin() {
 	lpzLinkedModules.~basic_string();
 }
 
-void CPlugin::SetErrorMessage(std::string error)
+void CPlugin::SetErrorMessage(LPCTSTR error)
 {
 	lpzLinkedModules = error;
 }
 
-bool CPlugin::operator<(CPlugin &anotherPlugin) {
-	std::string anotherFileName = anotherPlugin.getFileName();
+bool CPlugin::operator<(CPlugin &anotherPlugin)
+{
+	std::tstring anotherFileName = anotherPlugin.getFileName();
 
-	char szThis[MAX_PATH]; lstrcpy(szThis, lpzFileName.c_str());
-	char szThat[MAX_PATH]; lstrcpy(szThat, anotherFileName.c_str());
+	TCHAR szThis[MAX_PATH]; lstrcpy(szThis, lpzFileName.c_str());
+	TCHAR szThat[MAX_PATH]; lstrcpy(szThat, anotherFileName.c_str());
 
 	if (lstrcmpi(szThis, szThat) < 0)
 		return TRUE;
@@ -93,50 +89,48 @@ bool CPlugin::operator<(CPlugin &anotherPlugin) {
 		return FALSE;
 }
 
-bool CPlugin::operator>(CPlugin &anotherPlugin) {
+bool CPlugin::operator>(CPlugin &anotherPlugin)
+{
 	return !((*this) < anotherPlugin);
 }
-bool CPlugin::operator==(CPlugin &anotherPlugin) {
+bool CPlugin::operator==(CPlugin &anotherPlugin)
+{
 	return !((*this) < anotherPlugin || (*this) > anotherPlugin);
 }
 
-std::string CPlugin::getFileName() {
+std::tstring CPlugin::getFileName()
+{
 	return this->lpzFileName;
 }
 
-std::string CPlugin::getInformations(DWORD flags, char *szHighlightHeader, char *szHighlightFooter) {
-//	std::string lpzInformations = std::string(lpzFileName + "\t\t" + lpzVersion + "\r\n");
-//	std::string lpzInformations = std::string(lpzFileName + " - " + lpzShortName + " [" + lpzTimestamp + "], version: " + lpzVersion +"\r\n");
-//	std::string lpzInformations = std::string(lpzShortName + " [" + lpzFileName + " · " + lpzTimestamp + "] - version " + lpzVersion + "\r\n");
-//	std::string lpzInformations = std::string(lpzFileName + " [" + lpzShortName + " · " + lpzTimestamp + "] - version: " + lpzVersion +"\r\n");	
-	std::string lpzInformations;
+std::tstring CPlugin::getInformations(DWORD flags, TCHAR *szHighlightHeader, TCHAR *szHighlightFooter)
+{
+	std::tstring lpzInformations;
 	if (flags & VISF_SHOWUUID)
 	{
-		char aux[128];
-		UUIDToString(pluginID, aux, sizeof(aux));
-		lpzInformations = std::string(aux);
+		TCHAR aux[128];
+		UUIDToString(pluginID, aux, SIZEOF(aux));
+		lpzInformations = aux;
 	}
-	else{
-		lpzInformations = (IsUUIDNull(pluginID)) ? " " : PLUGIN_UUID_MARK;
-	}
-	lpzInformations += std::string(" " + lpzFileName + " v." + szHighlightHeader + lpzVersion + szHighlightFooter + " [" + lpzTimestamp + "] - " + lpzShortName);
+	else lpzInformations = (IsUUIDNull(pluginID)) ? _T(" ") : PLUGIN_UUID_MARK;
+
+	lpzInformations += std::tstring(_T(" ") + lpzFileName + _T(" v.") + szHighlightHeader + lpzVersion + szHighlightFooter + _T(" [") + lpzTimestamp + _T("] - ") + lpzShortName);
 	if (lpzUnicodeInfo.size() > 0)
 	{
-		char *lwr = _strlwr(_strdup(lpzShortName.c_str()));
-		if ((strstr(lwr, "unicode") == NULL) && (strstr(lwr, "2in1") == NULL))
-		{
-			lpzInformations.append(" |" + lpzUnicodeInfo + "|");
-		}
+		TCHAR *lwr = _tcslwr(_tcsdup(lpzShortName.c_str()));
+		if ( !_tcsstr(lwr, _T("unicode")) && !_tcsstr(lwr, _T("2in1")))
+			lpzInformations.append( _T(" |") + lpzUnicodeInfo + _T("|"));
+
 		free(lwr);
 	}
 	//lpzInformations.append("\t");
 	//lpzInformations.append(lpzPluginID);
-	lpzInformations.append("\r\n");
+	lpzInformations.append( _T("\r\n"));
 	
 	if (lpzLinkedModules.size() > 0)
 		{
 			lpzInformations.append(lpzLinkedModules);
-			lpzInformations.append("\r\n");
+			lpzInformations.append( _T("\r\n"));
 		}
 //	std::string lpzInformations = std::string(lpzFileName + " - " + lpzShortName + " [" + lpzTimestamp + " · " + lpzVersion +"]\r\n");
 	return lpzInformations;

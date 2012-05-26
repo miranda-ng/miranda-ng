@@ -31,35 +31,41 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <string>
 
 #ifndef M_NEWPLUGINAPI_H__
-#include "../../include/newpluginapi.h"
+	#include "newpluginapi.h"
 #endif
 
 #define DEF_UUID_CHARMARK "¤"
 
 extern const int cPLUGIN_UUID_MARK;
-extern char PLUGIN_UUID_MARK[];
+extern TCHAR PLUGIN_UUID_MARK[];
 
 //using namespace std;
 
+#if defined( _UNICODE )
+	#define tstring wstring
+#else
+	#define tstring string
+#endif
+
 class CPlugin {
 	private:
-		std::string lpzFileName;
-		std::string lpzShortName;
-		std::string lpzVersion;
-		std::string lpzUnicodeInfo; //aditional info, Unicode aware ...
-		std::string lpzTimestamp; //to show the last modified timestamp
-		std::string lpzLinkedModules; //to show linked modules that aren't found
+		std::tstring lpzFileName;
+		std::tstring lpzShortName;
+		std::tstring lpzVersion;
+		std::tstring lpzUnicodeInfo; //aditional info, Unicode aware ...
+		std::tstring lpzTimestamp; //to show the last modified timestamp
+		std::tstring lpzLinkedModules; //to show linked modules that aren't found
 		MUUID pluginID;
 
 	public:
 		CPlugin();
-		CPlugin(std::string fileName, std::string shortName, MUUID pluginID, std::string unicodeInfo, DWORD version, std::string timestamp, std::string linkedModules);
+		CPlugin(LPCTSTR fileName, LPCTSTR shortName, MUUID pluginID, LPCTSTR unicodeInfo, DWORD version, LPCTSTR timestamp, LPCTSTR linkedModules);
 		CPlugin(const CPlugin&);
 		~CPlugin();
-		std::string getFileName();
-		std::string getInformations(DWORD, char *, char *);
+		std::tstring getFileName();
+		std::tstring getInformations(DWORD, TCHAR *, TCHAR *);
 		
-		void SetErrorMessage(std::string error);
+		void SetErrorMessage(LPCTSTR error);
 
 		//Operators
 		bool operator<(CPlugin&);

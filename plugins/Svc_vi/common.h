@@ -62,6 +62,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_utils.h"
 #include "m_updater.h"
 #include "m_folders.h"
+#include "win2k.h"
 
 #include "utils.h"
 
@@ -93,11 +94,20 @@ extern BOOL verbose;
 
 const MUUID UUID_NULL = {0x00000000, 0x0000, 0x0000, { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }};
 
-//miranda [re]alloc and free functions
-//main.cpp
-extern void * (* MirandaMalloc)(size_t);
-extern void * (* MirandaRealloc)(void *, size_t);
-extern void (* MirandaFree)(void *);
+///////////////////////////////////////////////////////////////////////
+class _A2T
+{
+	TCHAR* buf;
+
+public:
+	_A2T( const char* s ) : buf( mir_a2t( s )) {}
+	_A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
+	~_A2T() { mir_free(buf); }
+
+	__forceinline operator TCHAR*() const
+	{	return buf;
+	}
+};
 
 #define OLD_MIRANDAPLUGININFO_SUPPORT PLUGININFO oldPluginInfo = { \
 	sizeof(PLUGININFO), \

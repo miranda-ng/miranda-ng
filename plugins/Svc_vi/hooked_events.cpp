@@ -18,6 +18,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#include "common.h"
 #include "hooked_events.h"
 
 HANDLE hModulesLoaded;
@@ -67,7 +68,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	bFoldersAvailable = ServiceExists(MS_FOLDERS_REGISTER_PATH);
 	hOutputLocation = FoldersRegisterCustomPath("VersionInfo", "Output folder", "%miranda_path%");
 	
-	GetStringFromDatabase("UUIDCharMark", DEF_UUID_CHARMARK, PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
+	GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
 	
 	return 0;
 }
@@ -82,7 +83,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_VERSIONINFO);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VERSIONINFO);
 	odp.pszTitle = Translate("Version Information");
 	odp.pszGroup = Translate("Services");
 	odp.groupPosition = 910000000;
