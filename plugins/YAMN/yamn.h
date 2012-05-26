@@ -1,3 +1,4 @@
+
 #ifndef __YAMN_H
 #define __YAMN_H
 #ifndef _WIN32_IE
@@ -7,9 +8,6 @@
 	#define _WIN32_WINNT 0x0501
 #endif
 
-#if !defined(_WIN64)
-	#include "filter/simple/AggressiveOptimize.h"
-#endif
 #include <wchar.h>
 #include <tchar.h>
 #include <windows.h>
@@ -33,7 +31,6 @@
 #include "m_protocols.h"	//protocols
 #include "m_protomod.h"		//protocols module
 #include "m_protosvc.h"
-#include "m_uninstaller.h"		//PluginUninstaller structures
 #include "m_toptoolbar.h"
 #include "m_icolib.h"
 #include "m_kbdnotify.h"
@@ -90,19 +87,64 @@ INT_PTR ForceCheckSvc(WPARAM,LPARAM);
 // int ExitProc(WPARAM,LPARAM);
 
 //From account.cpp
-//struct CExportedFunctions AccountExported[];
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+
+//From account.cpp
+extern CRITICAL_SECTION AccountStatusCS;
+extern CRITICAL_SECTION FileWritingCS;
+
 INT_PTR CreatePluginAccountSvc(WPARAM wParam,LPARAM lParam);
-INT_PTR DeletePluginAccountSvc(WPARAM wParam,LPARAM lParam);
+INT_PTR DeletePluginAccountSvc(WPARAM wParam,LPARAM);
+int InitAccount(HACCOUNT Which);
+void DeInitAccount(HACCOUNT Which);
+void StopSignalFcn(HACCOUNT Which);
+void CodeDecodeString(char *Dest,BOOL Encrypt);
+static DWORD PostFileToMemory(HANDLE File,char **MemFile,char **End);
+DWORD FileToMemoryA(char *FileName,char **MemFile,char **End);
+DWORD FileToMemoryW(WCHAR *FileName,char **MemFile,char **End);
+
+#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
+DWORD ReadStringFromMemory(char **Parser,TCHAR *End,char **StoreTo,char *DebugString);
+#endif
+DWORD ReadStringFromMemory(char **Parser,TCHAR *End,char **StoreTo);
+#ifndef UNICODE
+	#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
+DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo,WCHAR *DebugString);
+	#endif  //if defined(DEBUG...)
+DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo);
+#endif	//ifdef Unicode
+
+static DWORD ReadNotificationFromMemory(char **Parser,TCHAR *End,YAMN_NOTIFICATION *Which);
+DWORD ReadMessagesFromMemory(HACCOUNT Which,char **Parser,char *End);
+static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin,char *MemFile,char *End);
+DWORD ReadAccountFromMemory(HACCOUNT Which,char **Parser,TCHAR *End);
+INT_PTR AddAccountsFromFileASvc(WPARAM wParam,LPARAM lParam);
+INT_PTR AddAccountsFromFileWSvc(WPARAM,LPARAM);
+
+DWORD WriteStringToFile(HANDLE File,char *Source);
+#ifndef UNICODE
+#define WriteStringToFileW	WriteStringToFile
+#else
+DWORD WriteStringToFileW(HANDLE File,WCHAR *Source);
+#endif
+
+DWORD WriteMessagesToFile(HANDLE File,HACCOUNT Which);
+static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin,HANDLE File);
 INT_PTR WriteAccountsToFileASvc(WPARAM wParam,LPARAM lParam);
 INT_PTR WriteAccountsToFileWSvc(WPARAM wParam,LPARAM lParam);
-INT_PTR AddAccountsFromFileASvc(WPARAM,LPARAM);
-INT_PTR AddAccountsFromFileWSvc(WPARAM,LPARAM);
-INT_PTR DeleteAccountSvc(WPARAM,LPARAM);
 INT_PTR FindAccountByNameSvc(WPARAM wParam,LPARAM lParam);
 INT_PTR GetNextFreeAccountSvc(WPARAM wParam,LPARAM lParam);
 
-//From protoplugin.cpp
-//struct CExportedFunctions ProtoPluginExported[];
+INT_PTR DeleteAccountSvc(WPARAM wParam,LPARAM);
+DWORD WINAPI DeleteAccountInBackground(LPVOID Which);
+int StopAccounts(HYAMNPROTOPLUGIN Plugin);
+int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin,BOOL GetAccountBrowserAccess=FALSE);
+int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
+
+void WINAPI GetStatusFcn(HACCOUNT Which,TCHAR *Value);
+void WINAPI SetStatusFcn(HACCOUNT Which,TCHAR *Value);
+
 INT_PTR UnregisterProtoPlugins();
 INT_PTR RegisterProtocolPluginSvc(WPARAM,LPARAM);
 INT_PTR UnregisterProtocolPluginSvc(WPARAM,LPARAM);
@@ -142,7 +184,6 @@ extern int CPLENSUPP;
 
 //From pop3comm.cpp
 int RegisterPOP3Plugin(WPARAM,LPARAM);
-int UninstallPOP3(PLUGINUNINSTALLPARAMS* ppup);			//to uninstall POP3 plugin with YAMN
 
 //From mailbrowser.cpp
 INT_PTR RunMailBrowserSvc(WPARAM,LPARAM);
@@ -161,19 +202,73 @@ int AddTopToolbarIcon(WPARAM,LPARAM);		//Executed when TopToolBar plugin loaded 
 void LoadPlugins();							//Loads plugins located in MirandaDir/Plugins/YAMN/*.dll
 int UninstallQuestionSvc(WPARAM,LPARAM);	//Ask information when user wants to uninstall plugin
 
+extern WCHAR UserDirectory[];		//e.g. "F:\WINNT\Profiles\UserXYZ"
+extern WCHAR ProfileName[];		//e.g. "majvan"
+extern SWMRG *AccountBrowserSO;
+extern CRITICAL_SECTION PluginRegCS;
+extern YAMN_VARIABLES YAMNVar;
+extern HANDLE hNewMailHook;
+extern HANDLE WriteToFileEV;
+extern HICON hYamnIcons[];
+
 //From synchro.cpp
+extern void WINAPI DeleteMessagesToEndFcn(HACCOUNT Account,HYAMNMAIL From);
 extern DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter=NULL);
 extern void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER SCounter=NULL);
 extern DWORD WINAPI WaitToReadFcn(PSWMRG SObject);
 extern void WINAPI ReadDoneFcn(PSWMRG SObject);
 extern DWORD WINAPI SCIncFcn(PSCOUNTER SCounter);
 extern DWORD WINAPI SCDecFcn(PSCOUNTER SCounter);
+extern BOOL WINAPI SWMRGInitialize(PSWMRG,TCHAR *);
+extern void WINAPI SWMRGDelete(PSWMRG);
+extern DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,DWORD dwTimeout);
+extern void WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
+extern DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
+extern void WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
+
 //From mails.cpp
 extern void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From,HYAMNMAIL Which,int mode);
 extern void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,DWORD FlagsSet,DWORD FlagsNotSet,DWORD FlagsToSet,int mode);
+
 //From mime.cpp
 void ExtractHeader(struct CMimeItem *items,int &CP,struct CHeader *head);
+void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head); 
 void DeleteHeaderContent(struct CHeader *head);
+void DeleteShortHeaderContent(struct CShortHeader *head);
+char *ExtractFromContentType(char *ContentType,char *value);
+WCHAR *ParseMultipartBody(char *src, char *bond);
+
 //From account.cpp
-void WINAPI GetStatusFcn(HACCOUNT Which,char *Value);
+void WINAPI GetStatusFcn(HACCOUNT Which,TCHAR *Value);
+extern int StopAccounts(HYAMNPROTOPLUGIN Plugin);
+extern int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
+extern int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin,BOOL GetAccountBrowserAccess);
+
+extern char *ProtoName;
+extern HYAMNPROTOPLUGIN POP3Plugin;
+
+//from decode.cpp
+int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ);
+int DecodeBase64(char *Src,char *Dst,int DstLen);
+
+//From maild.cpp
+extern INT_PTR LoadMailDataSvc(WPARAM wParam,LPARAM lParam);
+extern INT_PTR UnloadMailDataSvc(WPARAM wParam,LPARAM);
+extern INT_PTR SaveMailDataSvc(WPARAM wParam,LPARAM lParam);
+
+///////////////////////////////////////////////////////////////////////
+class _A2T
+{
+	TCHAR* buf;
+
+public:
+	_A2T( const char* s ) : buf( mir_a2t( s )) {}
+	_A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
+	~_A2T() { mir_free(buf); }
+
+	__forceinline operator TCHAR*() const
+	{	return buf;
+	}
+};
+
 #endif

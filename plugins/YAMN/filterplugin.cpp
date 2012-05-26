@@ -4,29 +4,7 @@
  * (c) majvan 2002-2004
  */
 
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <newpluginapi.h>
-#include <m_database.h>
-#include "m_yamn.h"
-#include "m_filterplugin.h"
-#include "m_mails.h"
-#include "debug.h"
-
-//- imported ---------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-//From main.cpp
-extern LPCRITICAL_SECTION PluginRegCS;
-extern YAMN_VARIABLES YAMNVar;
-//From synchro.cpp
-extern DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER=NULL);
-extern void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER=NULL);
-//From maild.cpp
-extern INT_PTR LoadMailDataSvc(WPARAM wParam,LPARAM lParam);
-extern INT_PTR UnloadMailDataSvc(WPARAM wParam,LPARAM);
-extern INT_PTR SaveMailDataSvc(WPARAM wParam,LPARAM lParam);
+#include "yamn.h"
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -72,11 +50,11 @@ INT_PTR RegisterFilterPluginSvc(WPARAM wParam,LPARAM lParam)
 	PYAMN_FILTERREGISTRATION Registration=(PYAMN_FILTERREGISTRATION)wParam;
 	HYAMNFILTERPLUGIN Plugin;
 
-	if(lParam!=YAMN_FILTERREGISTRATIONVERSION)
+	if (lParam!=YAMN_FILTERREGISTRATIONVERSION)
 		return 0;
-	if((Registration->Name==NULL) || (Registration->Ver==NULL))
+	if ((Registration->Name==NULL) || (Registration->Ver==NULL))
 		return NULL;
-	if(NULL==(Plugin=new YAMN_FILTERPLUGIN))
+	if (NULL==(Plugin=new YAMN_FILTERPLUGIN))
 		return NULL;
 
 	Plugin->PluginInfo=Registration;
@@ -93,7 +71,7 @@ INT_PTR UnregisterFilterPlugin(HYAMNFILTERPLUGIN Plugin)
 {
 	PYAMN_FILTERPLUGINQUEUE Parser,Found;
 
-	if(FirstFilterPlugin->Plugin==Plugin)
+	if (FirstFilterPlugin->Plugin==Plugin)
 	{
 		Found=FirstFilterPlugin;
 		FirstFilterPlugin=FirstFilterPlugin->Next;
@@ -101,7 +79,7 @@ INT_PTR UnregisterFilterPlugin(HYAMNFILTERPLUGIN Plugin)
 	else
 	{
 		for(Parser=FirstFilterPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
-		if(Parser->Next!=NULL)
+		if (Parser->Next!=NULL)
 		{
 			Found=Parser->Next;
 			Parser->Next=Parser->Next->Next;
@@ -109,9 +87,9 @@ INT_PTR UnregisterFilterPlugin(HYAMNFILTERPLUGIN Plugin)
 		else
 			Found=NULL;
 	}
-	if(Found!=NULL)
+	if (Found!=NULL)
 	{
-		if(Plugin->FilterFcn->UnLoadFcn!=NULL)
+		if (Plugin->FilterFcn->UnLoadFcn!=NULL)
 			Plugin->FilterFcn->UnLoadFcn((void *)0);
 		
 		delete Found->Plugin;
@@ -129,19 +107,19 @@ INT_PTR UnregisterFilterPluginSvc(WPARAM wParam,LPARAM lParam)
 {
 	HYAMNFILTERPLUGIN Plugin=(HYAMNFILTERPLUGIN)wParam;
 
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 	UnregisterFilterPlugin(Plugin);
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
 INT_PTR UnregisterFilterPlugins()
 {
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 //We remove protocols from the protocol list
 	while(FirstFilterPlugin!=NULL)
 		UnregisterFilterPlugin(FirstFilterPlugin->Plugin);
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
@@ -149,9 +127,9 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 {
 	PYAMN_FILTERPLUGINQUEUE Parser,Previous;
 
-	if(YAMNFilterFcnVer!=YAMN_FILTERIMPORTFCNVERSION)
+	if (YAMNFilterFcnVer!=YAMN_FILTERIMPORTFCNVERSION)
 		return 0;
-	if(YAMNFilterFcn==NULL)
+	if (YAMNFilterFcn==NULL)
 		return 0;
 
 #ifdef DEBUG_SYNCHRO
@@ -160,10 +138,10 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 	Plugin->Importance=Importance;
 	Plugin->FilterFcn=YAMNFilterFcn;
 
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 //We add protocol to the protocol list
 	for(Previous=NULL,Parser=FirstFilterPlugin;Parser!=NULL && Parser->Next!=NULL && Parser->Plugin->Importance<=Importance;Previous=Parser,Parser=Parser->Next);
-	if(Previous==NULL)	//insert to the beginnig of queue
+	if (Previous==NULL)	//insert to the beginnig of queue
 	{
 		FirstFilterPlugin=new YAMN_FILTERPLUGINQUEUE;
 		FirstFilterPlugin->Plugin=Plugin;
@@ -177,7 +155,7 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 		Previous->Next=Parser;				//and in actual plugin set, that next plugin is the one we insert in front of
 	}
 
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
@@ -187,7 +165,7 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL Mail=(HYAMNMAIL)lParam;
 	PYAMN_FILTERPLUGINQUEUE ActualPlugin;
 
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FilterMail:ActualAccountMsgsSO-write wait\n");
 #endif
@@ -197,7 +175,7 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 #endif
 	for(ActualPlugin=FirstFilterPlugin;ActualPlugin!=NULL;ActualPlugin=ActualPlugin->Next)
 	{
-		if(ActualPlugin->Plugin->FilterFcn->FilterMailFcnPtr!=NULL)
+		if (ActualPlugin->Plugin->FilterFcn->FilterMailFcnPtr!=NULL)
 		{
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"\tFiltering Mail, running plugin %0x to filter mail\n",ActualPlugin->Plugin);
@@ -211,16 +189,16 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 	Mail->Flags|=YAMN_MSG_FILTERED;
 
 //Set mail flags according to spamlevel settings
-	if((Mail->Flags & YAMN_MSG_SPAMMASK) > YAMN_MSG_SPAML1)
+	if ((Mail->Flags & YAMN_MSG_SPAMMASK) > YAMN_MSG_SPAML1)
 		Mail->Flags=Mail->Flags & ~(YAMN_MSG_BROWSER | YAMN_MSG_POPUP | YAMN_MSG_SYSTRAY | YAMN_MSG_SOUND | YAMN_MSG_APP | YAMN_MSG_NEVENT);
-	if(YAMN_MSG_SPAML(Mail->Flags,YAMN_MSG_SPAML3) || YAMN_MSG_SPAML(Mail->Flags,YAMN_MSG_SPAML4))
+	if (YAMN_MSG_SPAML(Mail->Flags,YAMN_MSG_SPAML3) || YAMN_MSG_SPAML(Mail->Flags,YAMN_MSG_SPAML4))
 		Mail->Flags=Mail->Flags | (YAMN_MSG_AUTODELETE | YAMN_MSG_DELETEOK);	//set message to delete
-	if(YAMN_MSG_SPAML(Mail->Flags,YAMN_MSG_SPAML3))
+	if (YAMN_MSG_SPAML(Mail->Flags,YAMN_MSG_SPAML3))
 		Mail->Flags=Mail->Flags & ~(YAMN_MSG_MEMDELETE);	//set message not to delete it immidiatelly from memory
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FilterMail:ActualAccountMsgsSO-write done\n");
 #endif
 	WriteDoneFcn(Account->MessagesAccessSO);
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }

@@ -4,17 +4,8 @@
  *
  * (c) majvan 2002-2004
  */
-#if !defined(_WIN64)
-	#include "filter/simple/AggressiveOptimize.h"
-#endif
-#include <windows.h>
-#include "debug.h"
-#include "m_yamn.h"
-#include "m_synchro.h"
-#ifdef DEBUG_SYNCHRO
-#include <tchar.h>
-#include <stdio.h>
-#endif
+
+#include "yamn.h"
 
 // Initializes a SWMRG structure. This structure must be 
 // initialized before any writer or reader threads attempt
@@ -50,16 +41,6 @@ DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
 // A reader thread calls this function to let other threads
 // know when it no longer needs to read the shared data.
 void WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
-
-// WaitToWriteFcn
-// is used to wait for write access with SWMRG SO, but it also increments counter if successfull
-// returns WAIT_FAILED or WAIT_FINISH
-// when WAIT_FAILED, we should not begin to access datas, we are not in write-access mode
-DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter=NULL);
-
-// WriteDoneFcn
-// is used to release write access with SWMRG SO, but it also decrements counter if successfull
-void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER SCounter=NULL);
 
 // WaitToReadFcn
 // is used to wait for read access with SWMRG SO, but it also increments counter if successfull
@@ -127,31 +108,31 @@ BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,TCHAR *Name)
 // Creates the automatic-reset event that is signalled when 
 // no writer threads are writing.
 // Initially no reader threads are reading.
-	if(Name!=NULL)
+	if (Name!=NULL)
 		Name[0]=(TCHAR)'W';
 	pSWMRG->hEventNoWriter=CreateEvent(NULL,FALSE,TRUE,Name);
 
 // Creates the manual-reset event that is signalled when 
 // no reader threads are reading.
 // Initially no reader threads are reading.
-	if(Name!=NULL)
+	if (Name!=NULL)
 		Name[0]=(TCHAR)'R';
 	pSWMRG->hEventNoReaders=CreateEvent(NULL,TRUE,TRUE,Name);
 
 // Initializes the variable that indicates the number of 
 // reader threads that are reading.
 // Initially no reader threads are reading.
-	if(Name!=NULL)
+	if (Name!=NULL)
 		Name[0]=(TCHAR)'C';
 	pSWMRG->hSemNumReaders=CreateSemaphore(NULL,0,0x7FFFFFFF,Name);
 
-	if(Name!=NULL)
+	if (Name!=NULL)
 		Name[0]=(TCHAR)'F';
 	pSWMRG->hFinishEV=CreateEvent(NULL,TRUE,FALSE,Name);
 
 // If a synchronization object could not be created,
 // destroys any created objects and return failure.
-	if((NULL==pSWMRG->hEventNoWriter) || (NULL==pSWMRG->hEventNoReaders) || (NULL==pSWMRG->hSemNumReaders) || (NULL==pSWMRG->hFinishEV))
+	if ((NULL==pSWMRG->hEventNoWriter) || (NULL==pSWMRG->hEventNoReaders) || (NULL==pSWMRG->hSemNumReaders) || (NULL==pSWMRG->hFinishEV))
 	{
 		SWMRGDelete(pSWMRG);
 		return FALSE;
@@ -170,13 +151,13 @@ DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,DWORD dwTimeout)
 // But first we have to know if SWMRG structure is not about to delete
 	aHandles[0]=pSWMRG->hEventNoWriter;
 	aHandles[1]=pSWMRG->hEventNoReaders;
-	if(WAIT_OBJECT_0==(dw=WaitForSingleObject(pSWMRG->hFinishEV,0)))
+	if (WAIT_OBJECT_0==(dw=WaitForSingleObject(pSWMRG->hFinishEV,0)))
 		return WAIT_FINISH;
-	if(WAIT_FAILED==dw)
+	if (WAIT_FAILED==dw)
 		return dw;
 	dw=WaitForMultipleObjects(2,aHandles,TRUE,dwTimeout);
 // if a request to delete became later, we should not catch it. Try once more to ask if account is not about to delete
-	if((dw!=WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
+	if ((dw!=WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
 	{
 		SetEvent(pSWMRG->hEventNoWriter);
 		return WAIT_FINISH;
@@ -209,26 +190,26 @@ DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout)
 
 // We can read if no threads are writing.
 // And there's not request to delete structure
-	if(WAIT_OBJECT_0==(dw=WaitForSingleObject(pSWMRG->hFinishEV,0)))
+	if (WAIT_OBJECT_0==(dw=WaitForSingleObject(pSWMRG->hFinishEV,0)))
 		return WAIT_FINISH;
-	if(WAIT_FAILED==dw)
+	if (WAIT_FAILED==dw)
 		return dw;
 	dw=WaitForSingleObject(pSWMRG->hEventNoWriter, dwTimeout);
 // if a request to delete became later, we should not catch it. Try once more to ask if account is not about to delete
-	if((dw!=WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
+	if ((dw!=WAIT_FAILED) && (WAIT_OBJECT_0==(WaitForSingleObject(pSWMRG->hFinishEV,0))))
 	{
 		SetEvent(pSWMRG->hEventNoWriter);
 		return WAIT_FINISH;
 	}
 
-	if(dw==WAIT_OBJECT_0)
+	if (dw==WAIT_OBJECT_0)
 	{
 	// This thread can read from the shared data.
 	// Increment the number of reader threads.
 	// But there can't be more than one thread incrementing readers,
 	// so this is why we use semaphore.
 		ReleaseSemaphore(pSWMRG->hSemNumReaders,1,&lPreviousCount);
-		if(lPreviousCount==0)
+		if (lPreviousCount==0)
 			// If this is the first reader thread, 
 			// set event to reflect this. Other reader threads can read, no writer thread can write.
 			ResetEvent(pSWMRG->hEventNoReaders);
@@ -262,7 +243,7 @@ void WINAPI SWMRGDoneReading(PSWMRG pSWMRG)
 
 // If there are no remaining readers, 
 // set the event to relect this.
-	if(lNumReaders==0)
+	if (lNumReaders==0)
 		// If there are no reader threads, 
 		// set our event to reflect this.
 		SetEvent(pSWMRG->hEventNoReaders);
@@ -279,8 +260,8 @@ DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tSO WaitToWrite: %x\n",SObject);
 #endif
-	if(WAIT_OBJECT_0==(EnterCode=SWMRGWaitToWrite(SObject,INFINITE)))
-		if(SCounter!=NULL)
+	if (WAIT_OBJECT_0==(EnterCode=SWMRGWaitToWrite(SObject,INFINITE)))
+		if (SCounter!=NULL)
 			SCIncFcn(SCounter);
 	return EnterCode;
 }
@@ -291,7 +272,7 @@ void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER SCounter)
 	DebugLog(SynchroFile,"\tSO WriteDone: %x\n",SObject);
 #endif
 	SWMRGDoneWriting(SObject);
-	if(SCounter!=NULL)
+	if (SCounter!=NULL)
 		SCDecFcn(SCounter);
 }
 
@@ -362,7 +343,7 @@ DWORD WINAPI SCDecFcn(PSCOUNTER SCounter)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tDecrementValue-cs enter\n");
 #endif
-	if(!(Temp=--SCounter->Number))
+	if (!(Temp=--SCounter->Number))
 	{
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"\tDecrementValue-zero ev set\n");

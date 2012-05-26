@@ -1,17 +1,11 @@
 
-#include "main.h"
 #include "yamn.h"
+#include "main.h"
 // External icon var for icolib support
-
-
-//MessageWndCS
-//We want to send messages to all windows in the queue
-//When we send messages, no other window can register itself to the queue for receiving messages
-extern LPCRITICAL_SECTION MessageWndCS;
 
 //Plugin registration CS
 //Used if we add (register) plugin to YAMN plugins and when we browse through registered plugins
-extern LPCRITICAL_SECTION PluginRegCS;
+extern CRITICAL_SECTION PluginRegCS;
 
 //AccountWriterCS
 //We want to store number of writers of Accounts (number of Accounts used for writing)
@@ -42,18 +36,18 @@ extern HYAMNPROTOPLUGIN POP3Plugin;
 
 static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM lParam)
 {
-	if(wParam==PFLAGNUM_4)
+	if (wParam==PFLAGNUM_4)
 		return PF4_NOCUSTOMAUTH;
-	if(wParam==PFLAG_UNIQUEIDTEXT)
+	if (wParam==PFLAG_UNIQUEIDTEXT)
         return (INT_PTR) Translate("Nick");
-	if(wParam==PFLAG_MAXLENOFMESSAGE)
+	if (wParam==PFLAG_MAXLENOFMESSAGE)
         return 400;
-	if(wParam==PFLAG_UNIQUEIDSETTING)
+	if (wParam==PFLAG_UNIQUEIDSETTING)
         return (INT_PTR) "Id";
-	if(wParam==PFLAGNUM_2)
+	if (wParam==PFLAGNUM_2)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
-	if(wParam==PFLAGNUM_5)
-		if(DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
+	if (wParam==PFLAGNUM_5)
+		if (DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1))
 			return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 		else
 			return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
@@ -79,7 +73,7 @@ static INT_PTR Service_SetStatus(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 {
-	lstrcpyn((char *) lParam, ProtoName, wParam);;
+	lstrcpynA((char *) lParam, ProtoName, wParam);;
 	return 0;
 }
 
@@ -111,12 +105,12 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 	HACCOUNT ActualAccount;
 
 	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-	if(szProto != NULL && strcmp(szProto, ProtoName)==0)
+	if (szProto != NULL && strcmp(szProto, ProtoName)==0)
 	{
-		if(!DBGetContactSetting((HANDLE) wParam,ProtoName,"Id",&dbv)) 
+		if (!DBGetContactSetting((HANDLE) wParam,ProtoName,"Id",&dbv)) 
 		{
 			ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-			if(ActualAccount != NULL)
+			if (ActualAccount != NULL)
 			{
 				PROCESS_INFORMATION pi;
 				STARTUPINFOW si;
@@ -127,25 +121,25 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 				#ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile,"ContactApplication:ActualAccountSO-read wait\n");
 				#endif
-				if(WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
+				if (WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
 				{
 					#ifdef DEBUG_SYNCHRO
 					DebugLog(SynchroFile,"ContactApplication:ualAccountSO-read enter\n");
 					#endif
-					if(ActualAccount->NewMailN.App!=NULL)
+					if (ActualAccount->NewMailN.App!=NULL)
 					{
 						WCHAR *Command;
-						if(ActualAccount->NewMailN.AppParam!=NULL)
+						if (ActualAccount->NewMailN.AppParam!=NULL)
 							Command=new WCHAR[wcslen(ActualAccount->NewMailN.App)+wcslen(ActualAccount->NewMailN.AppParam)+6];
 						else
 							Command=new WCHAR[wcslen(ActualAccount->NewMailN.App)+6];
 					
-						if(Command!=NULL)
+						if (Command!=NULL)
 						{
 							lstrcpyW(Command,L"\"");
 							lstrcatW(Command,ActualAccount->NewMailN.App);
 							lstrcatW(Command,L"\" ");
-							if(ActualAccount->NewMailN.AppParam!=NULL)
+							if (ActualAccount->NewMailN.AppParam!=NULL)
 								lstrcatW(Command,ActualAccount->NewMailN.AppParam);
 							CreateProcessW(NULL,Command,NULL,NULL,FALSE,NORMAL_PRIORITY_CLASS,NULL,NULL,&si,&pi);
 							delete[] Command;
@@ -175,19 +169,19 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam){
 	HANDLE ThreadRunningEV;
 	DWORD tid;
 	// copy/paste make mistakes
-	if(ActualAccount != NULL)
+	if (ActualAccount != NULL)
 	{
 		//we use event to signal, that running thread has all needed stack parameters copied
-		if(NULL==(ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
+		if (NULL==(ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
 			return 0;
 		//if we want to close miranda, we get event and do not run pop3 checking anymore
-		if(WAIT_OBJECT_0==WaitForSingleObject(ExitEV,0))
+		if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV,0))
 			return 0;
-		EnterCriticalSection(PluginRegCS);
+		EnterCriticalSection(&PluginRegCS);
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"AccountCheck:ActualAccountSO-read wait\n");
 		#endif
-		if(WAIT_OBJECT_0!=SWMRGWaitToRead(ActualAccount->AccountAccessSO,0))
+		if (WAIT_OBJECT_0!=SWMRGWaitToRead(ActualAccount->AccountAccessSO,0))
 		{
 			#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"ForceCheck:ActualAccountSO-read wait failed\n");
@@ -198,13 +192,13 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam){
 			#ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"ForceCheck:ActualAccountSO-read enter\n");
 			#endif
-			if((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr)
+			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr)
 			{
 				struct CheckParam ParamToPlugin={YAMN_CHECKVERSION,ThreadRunningEV,ActualAccount,lParam?YAMN_FORCECHECK:YAMN_NORMALCHECK,(void *)0,NULL};
 				HANDLE NewThread;
 
 				ActualAccount->TimeLeft=ActualAccount->Interval;
-				if(NewThread=CreateThread(NULL,0,(YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->SynchroFcnPtr,&ParamToPlugin,0,&tid))
+				if (NewThread=CreateThread(NULL,0,(YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->SynchroFcnPtr,&ParamToPlugin,0,&tid))
 				{
 					WaitForSingleObject(ThreadRunningEV,INFINITE);
 					CloseHandle(NewThread);
@@ -217,7 +211,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam){
 			}
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-		LeaveCriticalSection(PluginRegCS);
+		LeaveCriticalSection(&PluginRegCS);
 		CloseHandle(ThreadRunningEV);
 	}
 	return 0;
@@ -233,24 +227,24 @@ static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 	DWORD tid;
 
 	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-	if(szProto != NULL && strcmp(szProto, ProtoName)==0)
+	if (szProto != NULL && strcmp(szProto, ProtoName)==0)
 	{
-		if(!DBGetContactSetting((HANDLE) wParam,ProtoName,"Id",&dbv)) 
+		if (!DBGetContactSetting((HANDLE) wParam,ProtoName,"Id",&dbv)) 
 		{
 			ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-			if(ActualAccount != NULL)
+			if (ActualAccount != NULL)
 			{
 				//we use event to signal, that running thread has all needed stack parameters copied
-				if(NULL==(ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
+				if (NULL==(ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
 					return 0;
 				//if we want to close miranda, we get event and do not run pop3 checking anymore
-				if(WAIT_OBJECT_0==WaitForSingleObject(ExitEV,0))
+				if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV,0))
 					return 0;
-				EnterCriticalSection(PluginRegCS);
+				EnterCriticalSection(&PluginRegCS);
 				#ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile,"ForceCheck:ActualAccountSO-read wait\n");
 				#endif
-				if(WAIT_OBJECT_0!=WaitToReadFcn(ActualAccount->AccountAccessSO))
+				if (WAIT_OBJECT_0!=WaitToReadFcn(ActualAccount->AccountAccessSO))
 				{
 					#ifdef DEBUG_SYNCHRO
 					DebugLog(SynchroFile,"ForceCheck:ActualAccountSO-read wait failed\n");
@@ -261,15 +255,15 @@ static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 					#ifdef DEBUG_SYNCHRO
 					DebugLog(SynchroFile,"ForceCheck:ActualAccountSO-read enter\n");
 					#endif
-					if((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
+					if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
 					{
-						if(ActualAccount->Plugin->Fcn->ForceCheckFcnPtr==NULL)
+						if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr==NULL)
 						{
 							ReadDoneFcn(ActualAccount->AccountAccessSO);
 						}
 						struct CheckParam ParamToPlugin={YAMN_CHECKVERSION,ThreadRunningEV,ActualAccount,YAMN_FORCECHECK,(void *)0,NULL};
 
-						if(NULL==CreateThread(NULL,0,(YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr,&ParamToPlugin,0,&tid))
+						if (NULL==CreateThread(NULL,0,(YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->ForceCheckFcnPtr,&ParamToPlugin,0,&tid))
 						{
 							ReadDoneFcn(ActualAccount->AccountAccessSO);
 						}
@@ -278,7 +272,7 @@ static INT_PTR ContactMailCheck(WPARAM wParam, LPARAM lParam)
 					}
 					ReadDoneFcn(ActualAccount->AccountAccessSO);
 				}
-				LeaveCriticalSection(PluginRegCS);
+				LeaveCriticalSection(&PluginRegCS);
 				CloseHandle(ThreadRunningEV);
 			}
 			DBFreeVariant(&dbv);
@@ -301,17 +295,17 @@ void MainMenuAccountClicked(WPARAM wParam, LPARAM lParam)
 	HACCOUNT ActualAccount;
 
 	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-	if(szProto != NULL && strcmp(szProto, ProtoName)==0)
+	if (szProto != NULL && strcmp(szProto, ProtoName)==0)
 	{
-		if(!DBGetContactSetting((HANDLE) wParam,ProtoName,"Id",&dbv)) 
+		if (!DBGetContactSetting((HANDLE) wParam,ProtoName,"Id",&dbv)) 
 		{
 			ActualAccount=(HACCOUNT) CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)dbv.pszVal);
-			if(ActualAccount != NULL)
+			if (ActualAccount != NULL)
 			{
 				#ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile,"Service_ContactDoubleclicked:ActualAccountSO-read wait\n");
 				#endif
-				if(WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
+				if (WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
 				{
 					#ifdef DEBUG_SYNCHRO
 					DebugLog(SynchroFile,"Service_ContactDoubleclicked:ActualAccountSO-read enter\n");
@@ -372,7 +366,6 @@ static HookDataType hookData[]={
 	{0,ME_TTB_MODULELOADED,AddTopToolbarIcon},
 	{0,ME_SYSTEM_MODULESLOADED,SystemModulesLoaded}, //pop3 plugin must be included after all miranda modules are loaded
 	{0,ME_OPT_INITIALISE,YAMNOptInitSvc},
-	{0,ME_PLUGINUNINSTALLER_UNINSTALL,UninstallQuestionSvc},
 	{0,ME_SYSTEM_PRESHUTDOWN,Shutdown},
 	{0,ME_CLIST_DOUBLECLICKED, Service_ContactDoubleclicked},
     {0,ME_SKIN2_ICONSCHANGED, IcoLibIconsChanged},
@@ -511,9 +504,9 @@ void RefreshContact(void)
 
 	for(Finder=POP3Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
 	{
-		if(Finder->hContact != NULL)
+		if (Finder->hContact != NULL)
 		{
-			if((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
+			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
 			{
 				DBDeleteContactSetting(Finder->hContact, "CList", "Hidden");
 			}
@@ -524,7 +517,7 @@ void RefreshContact(void)
 		}
 		else
 		{
-			if((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
+			if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
 			{
 				Finder->hContact =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 				CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)Finder->hContact,(LPARAM)ProtoName);

@@ -4,15 +4,8 @@
  * (c) majvan 2002-2004
  */
 
-#if !defined(_WIN64)
-	#include "../filter/simple/AggressiveOptimize.h"
-#endif
-#include <windows.h>
-#include <stdio.h>
-#include <newpluginapi.h>	//CallService,UnHookEvent
-#include <m_netlib.h>		//socket thorugh proxy functions
-#include <m_langpack.h>	//langpack for "connection" and other words
-#include "../debug.h"
+#include "..\yamn.h"
+#include "m_netlib.h"
 #include "netlib.h"
 
 //--------------------------------------------------------------------------------------------------
@@ -48,7 +41,7 @@ HANDLE RegisterNLClient(const char *name)
 	static NETLIBUSER nlu={0};
 	char desc[128];
 
-	sprintf(desc, TranslateT("%s connection"),name);
+	sprintf(desc, Translate("%s connection"),name);
 
 #ifdef DEBUG_COMM
 	DebugLog(CommFile,"<Register PROXY support>");
@@ -60,7 +53,7 @@ HANDLE RegisterNLClient(const char *name)
 	hNetlibUser=(HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 
 #ifdef DEBUG_COMM
-	if(NULL==hNetlibUser)
+	if (NULL==hNetlibUser)
 		DebugLog(CommFile,"<error></Register PROXY support>\n");
 	else
 		DebugLog(CommFile,"</Register PROXY support>\n");
@@ -112,7 +105,7 @@ void CNLClient::Connect(const char* servername,const int port) throw(DWORD)
 		nloc.szHost=servername;
 		nloc.wPort=port;
 		nloc.flags=0;
-		if(NULL==(hConnection=(HANDLE)CallService(MS_NETLIB_OPENCONNECTION,(WPARAM)hNetlibUser,(LPARAM)&nloc)))
+		if (NULL==(hConnection=(HANDLE)CallService(MS_NETLIB_OPENCONNECTION,(WPARAM)hNetlibUser,(LPARAM)&nloc)))
 		{
 			SystemError=WSAGetLastError();
 			throw NetworkError=(DWORD)ENL_CONNECT;
@@ -149,16 +142,16 @@ void CNLClient::Send(const char *query) throw(DWORD)
 {
 	unsigned int Sent;
 
-	if(NULL==query)
+	if (NULL==query)
 		return;
-	if(hConnection==NULL)
+	if (hConnection==NULL)
 		return;
 #ifdef DEBUG_COMM
 	DebugLog(CommFile,"<send>%s",query);
 #endif
 	try
 	{
-		if((SOCKET_ERROR==(Sent=LocalNetlib_Send(hConnection,query,(int)strlen(query),MSG_DUMPASTEXT))) || Sent!=(unsigned int)strlen(query))
+		if ((SOCKET_ERROR==(Sent=LocalNetlib_Send(hConnection,query,(int)strlen(query),MSG_DUMPASTEXT))) || Sent!=(unsigned int)strlen(query))
 		{
 			SystemError=WSAGetLastError();
 			throw NetworkError=(DWORD)ENL_SEND;
@@ -203,9 +196,9 @@ char* CNLClient::Recv(char *buf,int buflen) throw(DWORD)
 #endif
 	try
 	{
-		if(buf==NULL)
+		if (buf==NULL)
 			buf=(char *)malloc(sizeof(char)*(buflen+1));
-		if(buf==NULL)
+		if (buf==NULL)
 			throw NetworkError=(DWORD)ENL_RECVALLOC;
 
 		if (!isTLSed)
@@ -228,13 +221,13 @@ char* CNLClient::Recv(char *buf,int buflen) throw(DWORD)
  		}
 
 		ZeroMemory(buf,buflen);
-		if(SOCKET_ERROR==(Rcv=LocalNetlib_Recv(hConnection,buf,buflen,MSG_DUMPASTEXT)))
+		if (SOCKET_ERROR==(Rcv=LocalNetlib_Recv(hConnection,buf,buflen,MSG_DUMPASTEXT)))
 		{
 			free(buf);
 			SystemError=WSAGetLastError();
 			throw NetworkError=(DWORD)ENL_RECV;
 		}
-		if(!Rcv)
+		if (!Rcv)
 		{
 			free(buf);
 			SystemError=WSAGetLastError();

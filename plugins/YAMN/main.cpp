@@ -9,8 +9,8 @@
  */
 
 
-#include "main.h"
 #include "yamn.h"
+#include "main.h"
 #include "resources/resource.h"
 #include <io.h>
 //- imported ---------------------------------------------------------------------------------------
@@ -20,25 +20,22 @@
 //CRITICAL_SECTION ASCS;
 //CRITICAL_SECTION PRCS;
 
-extern LPCRITICAL_SECTION PluginRegCS;
+extern CRITICAL_SECTION PluginRegCS;
 extern HANDLE ExitEV;
 extern HANDLE WriteToFileEV;
 
 extern int PosX,PosY,SizeX,SizeY;
 extern int HeadPosX,HeadPosY,HeadSizeX,HeadSizeY,HeadSplitPos;
 
-//From account.cpp
-extern LPCRITICAL_SECTION AccountStatusCS;
-extern LPCRITICAL_SECTION FileWritingCS;
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-WCHAR	*ProfileName		= NULL;		//e.g. "majvan"
-WCHAR	*UserDirectory		= NULL;		//e.g. "F:\WINNT\Profiles\UserXYZ"
+TCHAR ProfileName[MAX_PATH];		//e.g. "majvan"
+TCHAR UserDirectory[MAX_PATH];		//e.g. "F:\WINNT\Profiles\UserXYZ"
 char	*ProtoName			= YAMN_DBMODULE;
 //char *AltProtoName;
-char	*szMirandaDir		= NULL;
-char	*szProfileDir		= NULL;
+TCHAR	szMirandaDir[MAX_PATH];
+TCHAR	szProfileDir[MAX_PATH];
 
 INT_PTR YAMN_STATUS;
 
@@ -134,7 +131,7 @@ PDTT pfnDrawThemeText = 0;
 
 int InitVSApi()
 {
-    if((hUxTheme = LoadLibraryA("uxtheme.dll")) == 0)
+    if ((hUxTheme = LoadLibraryA("uxtheme.dll")) == 0)
         return 0;
 
     pfnIsThemeActive = (PITA)GetProcAddress(hUxTheme, "IsThemeActive");
@@ -144,7 +141,7 @@ int InitVSApi()
     pfnDrawThemeText = (PDTT)GetProcAddress(hUxTheme, "DrawThemeText");
     
     MyEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-    if(pfnIsThemeActive != 0 && pfnOpenThemeData != 0 && pfnDrawThemeBackground != 0 && pfnCloseThemeData != 0 && pfnDrawThemeText != 0) {
+    if (pfnIsThemeActive != 0 && pfnOpenThemeData != 0 && pfnDrawThemeBackground != 0 && pfnCloseThemeData != 0 && pfnDrawThemeText != 0) {
         return 1;
     }
     return 0;
@@ -156,7 +153,7 @@ int InitVSApi()
 
 int FreeVSApi()
 {
-    if(hUxTheme != 0)
+    if (hUxTheme != 0)
         FreeLibrary(hUxTheme);
     return 0;
 }
@@ -165,41 +162,40 @@ int FreeVSApi()
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-static void GetProfileDirectory(char *szPath,int cbPath)
+static void GetProfileDirectory(TCHAR *szPath,int cbPath)
 //This is copied from Miranda's sources. In 0.2.1.0 it is needed, in newer vesions of Miranda use MS_DB_GETPROFILEPATH service
 {
-	szProfileDir=new char[MAX_PATH];
-	if (ServiceExists(MS_DB_GETPROFILEPATH)){
-		if (!CallService(MS_DB_GETPROFILEPATH,(WPARAM)cbPath,(LPARAM)szPath)) {
+	if (ServiceExists(MS_DB_GETPROFILEPATH))
+		if (!CallService(MS_DB_GETPROFILEPATHT,(WPARAM)cbPath,(LPARAM)szPath)) {
 			lstrcpy(szProfileDir,szPath);
 			return; //success
 		}
-	}
-	char szMirandaIni[MAX_PATH],szExpandedProfileDir[MAX_PATH];
+
+	TCHAR szMirandaIni[MAX_PATH],szExpandedProfileDir[MAX_PATH];
 	DWORD dwAttributes;
 
 	lstrcpy(szMirandaIni,szMirandaDir);
-	lstrcat(szMirandaIni,"\\mirandaboot.ini");
-	GetPrivateProfileString("Database","ProfileDir",".",szProfileDir,sizeof(szProfileDir),szMirandaIni);
+	lstrcat(szMirandaIni, _T("\\mirandaboot.ini"));
+	GetPrivateProfileString( _T("Database"),_T("ProfileDir"),_T("."),szProfileDir,sizeof(szProfileDir),szMirandaIni);
 	ExpandEnvironmentStrings(szProfileDir,szExpandedProfileDir,sizeof(szExpandedProfileDir));
-	_chdir(szMirandaDir);
-	if(!_fullpath(szPath,szExpandedProfileDir,cbPath))
+	_tchdir(szMirandaDir);
+	if (!_tfullpath(szPath,szExpandedProfileDir,cbPath))
 		lstrcpyn(szPath,szMirandaDir,cbPath);
-	if(szPath[lstrlen(szPath)-1]=='\\') szPath[lstrlen(szPath)-1]='\0';
-	if((dwAttributes=GetFileAttributes(szPath))!=0xffffffff&&dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
+	if (szPath[lstrlen(szPath)-1]=='\\') szPath[lstrlen(szPath)-1]='\0';
+	if ((dwAttributes=GetFileAttributes(szPath))!=0xffffffff&&dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
 	CreateDirectory(szPath,NULL);
 }
 
 void SetDefaultProtocolIcons()
 {
-	char szFileName[MAX_PATH+1];
+	TCHAR szFileName[MAX_PATH+1];
 	char oldname[] = YAMN_DBMODULE"4007_"; // the deprecated one
 	char dllname[] = "plugins\\"YAMN_DBMODULE".dll,-xxxxx";
 
 	// determine whether external icon file exists
 	lstrcpy(szFileName, szMirandaDir);
-	lstrcat(szFileName, "\\icons\\proto_"YAMN_DBMODULE".dll");
-	BOOL isDllPresent = (_access(szFileName, 0) == 0);
+	lstrcat(szFileName, _T("\\icons\\proto_") _T(YAMN_DBMODULE) _T(".dll"));
+	BOOL isDllPresent = (_taccess(szFileName, 0) == 0);
 
 	WORD statuses[4] = {ID_STATUS_OFFLINE,ID_STATUS_ONLINE,ID_STATUS_NA,ID_STATUS_OCCUPIED};
 	BYTE  indices[4] = {7,                0,               3,           4};
@@ -212,7 +208,7 @@ void SetDefaultProtocolIcons()
 			DBDeleteContactSetting(NULL, "Icons", oldname);
 		} else {
 			DBVARIANT dbv;
-			if(!DBGetContactSetting(NULL,"SkinIcons",iconNames[indices[i]],&dbv)) 
+			if (!DBGetContactSetting(NULL,"SkinIcons",iconNames[indices[i]],&dbv)) 
 			{// user won't be able to set status icons different from those in YAMN section
 				DBWriteContactSettingString(NULL, "Icons", oldname, (char *)dbv.pszVal);			
 				DBFreeVariant(&dbv);
@@ -226,12 +222,7 @@ void SetDefaultProtocolIcons()
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	YAMNVar.hInst=hinstDLL;
-	if(fdwReason==DLL_PROCESS_ATTACH)
-	{
-		if(NULL==(UserDirectory=new WCHAR[MAX_PATH]))
-			return FALSE;
-	}
+	YAMNVar.hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -269,7 +260,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 
     //Get Code Page name
     CPINFOEX info;
-    if(GetCPInfoEx(cp,0,&info)){
+    if (GetCPInfoEx(cp,0,&info)){
 		#ifdef YAMN_DEBUG
 		BOOLEAN found = FALSE;
 		#endif
@@ -292,7 +283,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 }
 
 int SystemModulesLoaded(WPARAM,LPARAM){
-	if(ServiceExists(MS_SKIN2_ADDICON))
+	if (ServiceExists(MS_SKIN2_ADDICON))
 	{
 		//MessageBox(NULL,"Icolib present","test",0);
 		SKINICONDESC sid = {0};
@@ -321,7 +312,7 @@ int SystemModulesLoaded(WPARAM,LPARAM){
 	mi.pszName = "Check &mail (All Account)";
 	mi.pszPopupName = NULL;//ProtoName;
 	mi.pszService = MS_YAMN_FORCECHECK;
-	if(DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1))
+	if (DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1))
 		hMenuItemMain = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
 
 	mi.pszName = "Check &mail (This Account)";
@@ -336,7 +327,7 @@ int SystemModulesLoaded(WPARAM,LPARAM){
 	hMenuItemContApp = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
 
 	//Use for the Updater plugin
-	if(ServiceExists(MS_UPDATE_REGISTER)) 
+	if (ServiceExists(MS_UPDATE_REGISTER)) 
 	{
 		Update update = {0};
 		char szVersion[16];
@@ -357,7 +348,7 @@ int SystemModulesLoaded(WPARAM,LPARAM){
 		update.szUpdateURL = "http://addons.miranda-im.org/feed.php?dlfile=3411";
 		update.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=3411";
 		update.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">YAMN 2in1 ";
-		wsprintf(szUrl,"http://www.miranda-fr.net/tweety/yamn/%s.zip",YAMN_FILENAME);
+		wsprintfA(szUrl,"http://www.miranda-fr.net/tweety/yamn/%s.zip",YAMN_FILENAME);
 	    update.szBetaUpdateURL = szUrl;
 		update.szBetaVersionURL = "http://www.miranda-fr.net/tweety/yamn/yamn_beta.html";
 		update.pbBetaVersionPrefix = (BYTE *)"YAMN version ";
@@ -371,9 +362,9 @@ int SystemModulesLoaded(WPARAM,LPARAM){
 		//char AccountFolder[MAX_PATH];
 		//CallService(MS_DB_GETPROFILEPATH, (WPARAM) MAX_PATH, (LPARAM)AccountFolder);
 		//sprintf(AccountFolder,"%s\\%s",AccountFolder,ProtoName);
-		hAccountFolder = FoldersRegisterCustomPathW(ProtoName,YAMN_DBMODULE" Account Folder", UserDirectory);
+		hAccountFolder = FoldersRegisterCustomPathT(ProtoName,YAMN_DBMODULE" Account Folder", UserDirectory);
 		
-		FoldersGetCustomPathW(hAccountFolder,  UserDirectory, MAX_PATH, UserDirectory);
+		FoldersGetCustomPathT(hAccountFolder, UserDirectory, MAX_PATH, UserDirectory);
 		//MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,AccountFolder,-1,UserDirectory,strlen(AccountFolder)+1);
 	}
 
@@ -387,8 +378,7 @@ extern HCURSOR hCurSplitNS, hCurSplitWE;
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	UINT mod,vk;
-	char pn[MAX_PATH+1];
-	char *fc;
+	TCHAR *fc;
 	int i,k;
 
 	pluginLink=link;
@@ -398,22 +388,16 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path
-	szMirandaDir=new char[MAX_PATH];
-	if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)){
-		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)".",(LPARAM)szMirandaDir);
-	}
+	if (ServiceExists(MS_UTILS_PATHTOABSOLUTET))
+		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)_T("."),(LPARAM)szMirandaDir);
 	else {
-		char *str2;
 		GetModuleFileName(GetModuleHandle(NULL),szMirandaDir,MAX_PATH);
-		str2=strrchr(szMirandaDir,'\\');
-		if(str2!=NULL) *str2=0;
+		TCHAR* str2 = _tcsrchr(szMirandaDir,'\\');
+		if (str2!=NULL) *str2=0;
 	}
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
-	char szProfileDir[MAX_PATH+1];
-	GetProfileDirectory(szProfileDir,sizeof(szProfileDir));
-	MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,szProfileDir,-1,UserDirectory,(int)strlen(szProfileDir)+1);
-
+	GetProfileDirectory(UserDirectory,SIZEOF(UserDirectory));
 	
 	// Enumerate all the code pages available for the System Locale
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);
@@ -456,33 +440,21 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pd.cbSize=PROTOCOLDESCRIPTOR_V3_SIZE;
 	pd.szName=ProtoName;
 	pd.type=PROTOTYPE_PROTOCOL;
-	
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 
-	if(NULL==(ProfileName=new WCHAR[MAX_PATH]))
-		return 1;
-
-	CallService(MS_DB_GETPROFILENAME,(WPARAM)sizeof(pn),(LPARAM)&(*pn));	//not to pass entire array to fcn
-	if(NULL!=(fc=strrchr(pn,(int)'.')))
+	CallService(MS_DB_GETPROFILENAMET,(WPARAM)SIZEOF(ProfileName),(LPARAM)ProfileName);	//not to pass entire array to fcn
+	if (NULL!=(fc = _tcsrchr(ProfileName, '.')))
 		*fc=0;
-	MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,pn,-1,ProfileName,(int)strlen(pn)+1);
 
-	if(NULL==(AccountStatusCS=new CRITICAL_SECTION))
-		return 1;
-	if(NULL==(FileWritingCS=new CRITICAL_SECTION))
-		return 1;
-	if(NULL==(PluginRegCS=new CRITICAL_SECTION))
-		return 1;
+	InitializeCriticalSection(&AccountStatusCS);
+	InitializeCriticalSection(&FileWritingCS);
+	InitializeCriticalSection(&PluginRegCS);
 
-	InitializeCriticalSection(AccountStatusCS);
-	InitializeCriticalSection(FileWritingCS);
-	InitializeCriticalSection(PluginRegCS);
-
-	if(NULL==(NoWriterEV=CreateEvent(NULL,TRUE,TRUE,NULL)))
+	if (NULL==(NoWriterEV=CreateEvent(NULL,TRUE,TRUE,NULL)))
 		return 1;
-	if(NULL==(WriteToFileEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
+	if (NULL==(WriteToFileEV=CreateEvent(NULL,FALSE,FALSE,NULL)))
 		return 1;
-	if(NULL==(ExitEV=CreateEvent(NULL,TRUE,FALSE,NULL)))
+	if (NULL==(ExitEV=CreateEvent(NULL,TRUE,FALSE,NULL)))
 		return 1;
 //	AccountWriterSO=new SCOUNTER(NoWriterEV);
 
@@ -541,7 +513,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	WORD HotKey = MAKEWORD((BYTE)vk,(BYTE)mod);
 	CloseHandle(CreateThread(NULL,0,YAMNHotKeyThread,(LPVOID)HotKey,0,&HotKeyThreadID));
 //Create thread that will be executed every second
-	if(!(SecTimer=SetTimer(NULL,0,1000,(TIMERPROC)TimerProc)))
+	if (!(SecTimer=SetTimer(NULL,0,1000,(TIMERPROC)TimerProc)))
 		return 1;
 
 
@@ -556,43 +528,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	MessageBox(NULL,"This YAMN creates extended debug logfiles. It is not intended for general use.","YAMN beta",MB_OK);
 #endif
 
-	return 0;
-}
-
-extern "C" int __declspec(dllexport) UninstallEx(PLUGINUNINSTALLPARAMS* ppup)
-{
-	const char* DocFiles[]={"YAMN-License.txt","YAMN-Readme.txt","YAMN-Readme.developers.txt",NULL};
-
-	typedef int (* UNINSTALLFILTERFCN)();
-	UNINSTALLFILTERFCN UninstallFilter;
-
-	PUIRemoveSkinSound(YAMN_NEWMAILSOUND);
-	PUIRemoveSkinSound(YAMN_CONNECTFAILSOUND);
-
-	if(UninstallPlugins)
-	{
-		for(int i=0;i<iDllPlugins;i++)
-		{
-			if(NULL!=(UninstallFilter=(UNINSTALLFILTERFCN)GetProcAddress(hDllPlugins[i],"UninstallFilter")))
-				UninstallFilter();
-
-			FreeLibrary(hDllPlugins[i]);
-			hDllPlugins[i]=NULL;				//for safety
-		}
-		iDllPlugins = 0;
-		if(hDllPlugins){
-			free((void *)hDllPlugins);
-			hDllPlugins = NULL;
-		}
-
-//		NotifyEventHooks(ME_YAMN_UNINSTALLPLUGINS,0,0);
-	}
-	UninstallPOP3(ppup);
-
-	MessageBoxA(NULL,"You have to delete manually YAMN plugins located in \"Plugins/YAMN\" folder.","YAMN uninstalling",MB_OK|MB_ICONINFORMATION);
-	PUIRemoveFilesInDirectory(ppup->pszDocsPath,DocFiles);
-	if(ppup->bDoDeleteSettings)
-		PUIRemoveDbModule("YAMN");
 	return 0;
 }
 
@@ -627,23 +562,16 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 	FreeVSApi();
 
-	DeleteCriticalSection(AccountStatusCS);
-	delete AccountStatusCS;
-	DeleteCriticalSection(FileWritingCS);
-	delete FileWritingCS;
-	DeleteCriticalSection(PluginRegCS);
+	DeleteCriticalSection(&AccountStatusCS);
+	DeleteCriticalSection(&FileWritingCS);
+	DeleteCriticalSection(&PluginRegCS);
 
-	delete PluginRegCS;
 	UnhookEvents();
 	DestroyServiceFunctions();
 
 	UnloadPlugins();
 
 	delete [] CodePageNamesSupp;
-	delete [] szMirandaDir;
-	delete [] UserDirectory;
-	delete [] szProfileDir;
-	delete [] ProfileName;
 	return 0;
 }
 
@@ -651,26 +579,26 @@ void LoadPlugins()
 {
 	HANDLE hFind;
 	WIN32_FIND_DATA fd;
-	char szSearchPath[MAX_PATH];
-	char szPluginPath[MAX_PATH];
+	TCHAR szSearchPath[MAX_PATH];
+	TCHAR szPluginPath[MAX_PATH];
 	lstrcpy(szSearchPath,szMirandaDir);
-	lstrcat(szSearchPath,"\\Plugins\\YAMN\\*.dll");
+	lstrcat(szSearchPath, _T("\\Plugins\\YAMN\\*.dll"));
 	typedef INT_PTR (*LOADFILTERFCN)(MIRANDASERVICE GetYAMNFcn);
 
 	hDllPlugins=NULL;
 
-	if(INVALID_HANDLE_VALUE!=(hFind=FindFirstFile(szSearchPath,&fd)))
+	if (INVALID_HANDLE_VALUE!=(hFind=FindFirstFile(szSearchPath,&fd)))
 	{
 		do
 		{	//rewritten from Miranda sources... Needed because Win32 API has a bug in FindFirstFile, search is done for *.dlllllll... too
-			char *dot=strrchr(fd.cFileName,'.');
-			if(dot)
+			TCHAR *dot = _tcsrchr(fd.cFileName,'.');
+			if (dot)
 			{ // we have a dot
-				int len=(int)strlen(fd.cFileName); // find the length of the string
-				char* end=fd.cFileName+len; // get a pointer to the NULL
+				int len=(int)lstrlen(fd.cFileName); // find the length of the string
+				TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 				int safe=(end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
 		
-				if((safe!=3) || (lstrcmpi(dot+1,"dll")!=0)) //not bound, however the "dll" string should mean only 3 chars are compared
+				if ((safe!=3) || (lstrcmpi(dot+1, _T("dll"))!=0)) //not bound, however the "dll" string should mean only 3 chars are compared
 					continue;
 			}
 			else
@@ -680,23 +608,23 @@ void LoadPlugins()
 			LOADFILTERFCN LoadFilter;
 
 			lstrcpy(szPluginPath,szMirandaDir);
-			lstrcat(szPluginPath,"\\Plugins\\YAMN\\");
+			lstrcat(szPluginPath, _T("\\Plugins\\YAMN\\"));
 			lstrcat(szPluginPath,fd.cFileName);
-			if((hDll=LoadLibrary(szPluginPath))==NULL) continue;
+			if ((hDll=LoadLibrary(szPluginPath))==NULL) continue;
 			LoadFilter=(LOADFILTERFCN)GetProcAddress(hDll,"LoadFilter");
-			if(NULL==LoadFilter)
+			if (NULL==LoadFilter)
 			{
 				FreeLibrary(hDll);
 				hDll=NULL;
 				continue;
 			}
-			if(!(*LoadFilter)(GetFcnPtrSvc))
+			if (!(*LoadFilter)(GetFcnPtrSvc))
 			{
 				FreeLibrary(hDll);
 				hDll=NULL;
 			}
 
-			if(hDll!=NULL)
+			if (hDll!=NULL)
 			{
 				hDllPlugins=(HINSTANCE *)realloc((void *)hDllPlugins,(iDllPlugins+1)*sizeof(HINSTANCE));
 				hDllPlugins[iDllPlugins++]=hDll;
@@ -709,12 +637,12 @@ void LoadPlugins()
 void UnloadPlugins()
 {
 	for(int i=iDllPlugins-1;i>=0;i--) {
-		if(FreeLibrary(hDllPlugins[i])){
+		if (FreeLibrary(hDllPlugins[i])){
 			hDllPlugins[i]=NULL;				//for safety
 			iDllPlugins --;
 		}
 	}
-	if(hDllPlugins){
+	if (hDllPlugins){
 		free((void *)hDllPlugins);
 		hDllPlugins = NULL;
 	}
@@ -791,7 +719,7 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 		NULL
 	};
 
-	if(!DBGetContactSettingByte(NULL,YAMN_DBMODULE,YAMN_TTBFCHECK,1))
+	if (!DBGetContactSettingByte(NULL,YAMN_DBMODULE,YAMN_TTBFCHECK,1))
 		return 1;
 	
 	Button.name=Translate("Check mail");
@@ -799,7 +727,7 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 	Button.hbBitmapUp = LoadBmpFromIcon(hYamnIcons[5]);
 	Button.hbBitmapDown = LoadBmpFromIcon(hYamnIcons[6]); //LoadBitmap(YAMNVar.hInst,MAKEINTRESOURCE(IDB_BMTTB));
 	
-	if((HANDLE)-1==(hTTButton=(HANDLE)CallService(MS_TTB_ADDBUTTON,(WPARAM)&Button,(LPARAM)0)))
+	if ((HANDLE)-1==(hTTButton=(HANDLE)CallService(MS_TTB_ADDBUTTON,(WPARAM)&Button,(LPARAM)0)))
 		return 1;
 	CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM((WORD)TTBO_TIPNAME,(WORD)hTTButton),(LPARAM)Translate("Check mail"));
 	return 0;
@@ -807,7 +735,7 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 
 int UninstallQuestionSvc(WPARAM wParam,LPARAM)
 {
-//	if(strcmp((char *)wParam,Translate("Yet Another Mail Notifier")))
+//	if (strcmp((char *)wParam,Translate("Yet Another Mail Notifier")))
 //		return 0;
 	switch(MessageBoxA(NULL,Translate("Do you also want to remove native YAMN plugins settings?"),Translate("YAMN uninstalling"),MB_YESNOCANCEL|MB_ICONQUESTION))
 	{

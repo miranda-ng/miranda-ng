@@ -4,38 +4,7 @@
  * (c) majvan 2002-2004
  */
 
-#if !defined(_WIN64)
-	#include "filter/simple/AggressiveOptimize.h"
-#endif
-#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>
-#include <newpluginapi.h>
-#include <m_database.h>
-#include "m_yamn.h"
-#include "m_protoplugin.h"
-#include "m_synchro.h"
-#include "debug.h"
-
-//- imported ---------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-extern WCHAR *UserDirectory;		//e.g. "F:\WINNT\Profiles\UserXYZ"
-extern WCHAR *ProfileName;		//e.g. "majvan"
-extern SWMRG *AccountBrowserSO;
-extern LPCRITICAL_SECTION PluginRegCS;
-extern YAMN_VARIABLES YAMNVar;
-//From synchro.cpp
-extern BOOL WINAPI SWMRGInitialize(PSWMRG,TCHAR *);
-extern void WINAPI SWMRGDelete(PSWMRG);
-extern DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,DWORD dwTimeout);
-extern void WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
-extern DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
-extern void WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
-//From account.cpp
-extern int StopAccounts(HYAMNPROTOPLUGIN Plugin);
-extern int DeleteAccounts(HYAMNPROTOPLUGIN Plugin);
-extern int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin,BOOL GetAccountBrowserAccess);
+#include "yamn.h"
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -88,11 +57,11 @@ INT_PTR RegisterProtocolPluginSvc(WPARAM wParam,LPARAM lParam)
 	PYAMN_PROTOREGISTRATION Registration=(PYAMN_PROTOREGISTRATION)wParam;
 	HYAMNPROTOPLUGIN Plugin;
 
-	if(lParam!=YAMN_PROTOREGISTRATIONVERSION)
+	if (lParam!=YAMN_PROTOREGISTRATIONVERSION)
 		return 0;
-	if((Registration->Name==NULL) || (Registration->Ver==NULL))
+	if ((Registration->Name==NULL) || (Registration->Ver==NULL))
 		return (INT_PTR)NULL;
-	if(NULL==(Plugin=new YAMN_PROTOPLUGIN))
+	if (NULL==(Plugin=new YAMN_PROTOPLUGIN))
 		return (INT_PTR)NULL;
 
 	Plugin->PluginInfo=Registration;
@@ -115,13 +84,13 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 {
 	PYAMN_PROTOPLUGINQUEUE Parser;
 
-	if(YAMNFcnVer!=YAMN_PROTOIMPORTFCNVERSION)
+	if (YAMNFcnVer!=YAMN_PROTOIMPORTFCNVERSION)
 		return 0;
-	if(YAMNMailFcnVer!=YAMN_MAILIMPORTFCNVERSION)
+	if (YAMNMailFcnVer!=YAMN_MAILIMPORTFCNVERSION)
 		return 0;
-	if(YAMNFcn==NULL)
+	if (YAMNFcn==NULL)
 		return 0;
-	if(YAMNMailFcn==NULL)
+	if (YAMNMailFcn==NULL)
 		return 0;
 
 #ifdef DEBUG_SYNCHRO
@@ -130,10 +99,10 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 	Plugin->Fcn=YAMNFcn;
 	Plugin->MailFcn=YAMNMailFcn;
 
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 //We add protocol to the protocol list
 	for(Parser=FirstProtoPlugin;Parser!=NULL && Parser->Next!=NULL;Parser=Parser->Next);
-	if(Parser==NULL)
+	if (Parser==NULL)
 	{
 		FirstProtoPlugin=new YAMN_PROTOPLUGINQUEUE;
 		Parser=FirstProtoPlugin;
@@ -147,7 +116,7 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 	Parser->Plugin=Plugin;
 	Parser->Next=NULL;
 
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
@@ -158,7 +127,7 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"Entering UnregisterProtocolPlugin\n");
 #endif
-	if(FirstProtoPlugin->Plugin==Plugin)
+	if (FirstProtoPlugin->Plugin==Plugin)
 	{
 		Found=FirstProtoPlugin;
 		FirstProtoPlugin=FirstProtoPlugin->Next;
@@ -166,7 +135,7 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 	else
 	{
 		for(Parser=FirstProtoPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
-		if(Parser->Next!=NULL)
+		if (Parser->Next!=NULL)
 		{
 			Found=Parser->Next;
 			Parser->Next=Parser->Next->Next;
@@ -174,11 +143,11 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 		else
 			Found=NULL;
 	}
-	if(Found!=NULL)
+	if (Found!=NULL)
 	{
 		StopAccounts(Plugin);
 		DeleteAccounts(Plugin);
-		if(Plugin->Fcn->UnLoadFcn!=NULL)
+		if (Plugin->Fcn->UnLoadFcn!=NULL)
 			Plugin->Fcn->UnLoadFcn((void *)0);
 		
 		delete Found->Plugin->AccountBrowserSO;
@@ -198,20 +167,20 @@ INT_PTR UnregisterProtocolPluginSvc(WPARAM wParam,LPARAM lParam)
 {
 	HYAMNPROTOPLUGIN Plugin=(HYAMNPROTOPLUGIN)wParam;
 
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 	UnregisterProtocolPlugin(Plugin);
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 
 }
 
 INT_PTR UnregisterProtoPlugins()
 {
-	EnterCriticalSection(PluginRegCS);
+	EnterCriticalSection(&PluginRegCS);
 //We remove protocols from the protocol list
 	while(FirstProtoPlugin!=NULL)
 		UnregisterProtocolPlugin(FirstProtoPlugin->Plugin);
-	LeaveCriticalSection(PluginRegCS);
+	LeaveCriticalSection(&PluginRegCS);
 	return 1;
 }
 
@@ -219,7 +188,7 @@ INT_PTR GetFileNameWSvc(WPARAM wParam,LPARAM)
 {
 	WCHAR *FileName;
 
-	if(NULL==(FileName=new WCHAR[MAX_PATH]))
+	if (NULL==(FileName=new WCHAR[MAX_PATH]))
 		return NULL;
 	swprintf(FileName,FileName2,UserDirectory,(WCHAR *)wParam,ProfileName);
 //	MessageBoxW(NULL,FileName,L"GetFileNameW",MB_OK);
@@ -228,30 +197,23 @@ INT_PTR GetFileNameWSvc(WPARAM wParam,LPARAM)
 
 INT_PTR GetFileNameASvc(WPARAM wParam,LPARAM)
 {
-	WCHAR *ConvertedInput;
 	WCHAR *FileName;
-
-	if(NULL==(FileName=new WCHAR[MAX_PATH]))
+	if (NULL==(FileName=new WCHAR[MAX_PATH]))
 		return NULL;
-	if(NULL==(ConvertedInput=new WCHAR[MAX_PATH]))
-	{
-		delete[] FileName;
-		return NULL;
-	}
 
-// Convert input string to unicode
-	MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,(char *)wParam,-1,ConvertedInput,(int)strlen((char *)wParam)+1);
+	WCHAR ConvertedInput[ MAX_PATH ];
+	char* szSrc = (char *)wParam;
 
-	swprintf(FileName,FileName2,UserDirectory,ConvertedInput,ProfileName);
-//	MessageBoxW(NULL,FileName,L"GetFileNameA",MB_OK);
-	delete[] ConvertedInput;
+	// Convert input string to unicode
+	MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,szSrc,-1,ConvertedInput,strlen(szSrc)+1);
 
+	mir_sntprintf(FileName,MAX_PATH, FileName2,UserDirectory,ConvertedInput,ProfileName);
 	return (INT_PTR)FileName;
 }
 
 INT_PTR DeleteFileNameSvc(WPARAM wParam,LPARAM)
 {
-	if((WCHAR *)wParam!=NULL)
+	if ((WCHAR *)wParam!=NULL)
 		delete[] (WCHAR *)wParam;
 
 	return 0;

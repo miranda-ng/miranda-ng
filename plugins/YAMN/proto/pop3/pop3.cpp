@@ -25,11 +25,7 @@
 
 #pragma warning( disable : 4290 )
 
-#if !defined(_WIN64)
-	#include "../../filter/simple/AggressiveOptimize.h"
-#endif
-#include <windows.h>
-#include <stdio.h>
+#include "..\..\yamn.h"
 #include "pop3.h"
 
 extern "C" {
@@ -48,10 +44,10 @@ extern void __stdcall	SSL_DebugLog( const char *fmt, ... );
 char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BOOL NoTLS)
 {
 	char *temp = 0;
-	if(Stopped)			//check if we can work with this POP3 client session
+	if (Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
-	if(NetClient!=NULL)
+	if (NetClient!=NULL)
 		delete NetClient;
 	SSL=UseSSL;
 	NetClient=new CNLClient;
@@ -76,12 +72,12 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 	temp = RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	extern BOOL SSLLoaded;
 	if (!NoTLS & !(SSL)){
-		if(NetClient->Stopped)			//check if we can work with this POP3 client session
+		if (NetClient->Stopped)			//check if we can work with this POP3 client session
 			throw POP3Error=(DWORD)EPOP3_STOPPED;
 		NetClient->Send("STLS\r\n");
 		free(temp);
 		temp=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
-		if(AckFlag==POP3_FOK){ // Ok, we are going to tls
+		if (AckFlag==POP3_FOK){ // Ok, we are going to tls
 			try {
 				NetClient->SSLify();
 			} catch (...) {
@@ -116,19 +112,19 @@ char* CPop3Client::RecvRest(char* prev,int mode,int size)
 	while(((mode==POP3_SEARCHDOT) && !SearchFromEnd(PrevString+RcvAll-1,RcvAll-3,POP3_SEARCHDOT) && !SearchFromStart(PrevString,2,POP3_SEARCHERR)) ||		//we are looking for dot or -err phrase
 		((mode==POP3_SEARCHACK) && (!SearchFromStart(PrevString,RcvAll-3,mode) || !((RcvAll>3) && SearchFromEnd(PrevString+RcvAll-1,1,POP3_SEARCHNL)))))			//we are looking for +ok or -err phrase ended with newline
 	{		//if not found
-		if(NetClient->Stopped)			//check if we can work with this POP3 client session
+		if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		{
-			if(PrevString!=NULL)
+			if (PrevString!=NULL)
 				free(PrevString);
 			throw POP3Error=(DWORD)EPOP3_STOPPED;
 		}
-		if(SizeLeft==0)						//if block is full
+		if (SizeLeft==0)						//if block is full
 		{
 			SizeRead+=size;
 			SizeLeft=size;
 			LastString=NetClient->Recv(NULL,SizeLeft);
 			PrevString=(char *)realloc(PrevString,sizeof(char)*(SizeRead+size));
-			if(PrevString==NULL)
+			if (PrevString==NULL)
 				throw POP3Error=(DWORD)EPOP3_RESTALLOC;
 			memcpy(PrevString+SizeRead,LastString,size);
 			free(LastString);
@@ -153,11 +149,11 @@ BOOL CPop3Client::SearchFromEnd(char *end,int bs,int mode)
 		switch(mode)
 		{
 			case POP3_SEARCHDOT:
-				if(DOTLINE(end))
+				if (DOTLINE(end))
 					return 1;
 				break;
 			case POP3_SEARCHNL:
-				if(ENDLINE(end))
+				if (ENDLINE(end))
 					return 1;
 				break;
 		}
@@ -178,21 +174,21 @@ BOOL CPop3Client::SearchFromStart(char *start,int bs,int mode)
 		switch(mode)
 		{
 			case POP3_SEARCHOK:
-				if(OKLINE(start))
+				if (OKLINE(start))
 				{
 					AckFlag=POP3_FOK;
 					return 1;
 				}
 				break;
 			case POP3_SEARCHERR:
-				if(ERRLINE(start))
+				if (ERRLINE(start))
 				{
 					AckFlag=POP3_FERR;
 					return 1;
 				}
 				break;
 			case POP3_SEARCHACK:
-				if(ACKLINE(start))
+				if (ACKLINE(start))
 				{
 					OKLINE(start) ? AckFlag=POP3_FOK : AckFlag=POP3_FERR;
 					return 1;
@@ -209,7 +205,7 @@ BOOL CPop3Client::SearchFromStart(char *start,int bs,int mode)
 //sets AckFlag
 char* CPop3Client::User(char* name)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[128];
@@ -218,7 +214,7 @@ char* CPop3Client::User(char* name)
 	sprintf(query,"USER %s\r\n",name);
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
-	if(AckFlag==POP3_FERR)
+	if (AckFlag==POP3_FERR)
 		throw POP3Error=(DWORD)EPOP3_BADUSER;
 	POP3Error=0;
 	return Result;
@@ -228,7 +224,7 @@ char* CPop3Client::User(char* name)
 //sets AckFlag
 char* CPop3Client::Pass(char* pw)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[128];
@@ -237,7 +233,7 @@ char* CPop3Client::Pass(char* pw)
 	sprintf(query,"PASS %s\r\n",pw);
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
-	if(AckFlag==POP3_FERR)
+	if (AckFlag==POP3_FERR)
 		throw POP3Error=(DWORD)EPOP3_BADPASS;
 	return Result;
 }
@@ -246,7 +242,7 @@ char* CPop3Client::Pass(char* pw)
 //sets AckFlag
 char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[512];
@@ -254,7 +250,7 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	unsigned char digest[16];
 	char hexdigest[40];
 
-	if(timestamp==NULL)
+	if (timestamp==NULL)
 		throw POP3Error=(DWORD)EPOP3_APOP;
 	MD5Context ctx;
 	MD5Init(&ctx);
@@ -270,7 +266,7 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	sprintf(query,"APOP %s %s\r\n",name, hexdigest);
 	NetClient->Send(query);
 	Result=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
-	if(AckFlag==POP3_FERR)
+	if (AckFlag==POP3_FERR)
 		throw POP3Error=(DWORD)EPOP3_BADUSER;
 	return Result;
 }
@@ -289,7 +285,7 @@ char* CPop3Client::Quit()
 //sets AckFlag
 char* CPop3Client::Stat()
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[]="STAT\r\n";
@@ -302,7 +298,7 @@ char* CPop3Client::Stat()
 //sets AckFlag
 char* CPop3Client::List()
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[]="LIST\r\n";
@@ -315,7 +311,7 @@ char* CPop3Client::List()
 //sets AckFlag
 char* CPop3Client::Top(int nr, int lines)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[128];
@@ -329,12 +325,12 @@ char* CPop3Client::Top(int nr, int lines)
 //sets AckFlag
 char* CPop3Client::Uidl(int nr)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[128];
 
-	if(nr)
+	if (nr)
 	{
 		sprintf(query,"UIDL %d\r\n",nr);
 		NetClient->Send(query);
@@ -349,7 +345,7 @@ char* CPop3Client::Uidl(int nr)
 //sets AckFlag
 char* CPop3Client::Dele(int nr)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[128];
@@ -362,7 +358,7 @@ char* CPop3Client::Dele(int nr)
 //sets AckFlag
 char* CPop3Client::Retr(int nr)
 {
-	if(NetClient->Stopped)			//check if we can work with this POP3 client session
+	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error=(DWORD)EPOP3_STOPPED;
 
 	char query[128];

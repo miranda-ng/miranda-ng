@@ -7,12 +7,9 @@
  * (c) majvan 2002-2004
  */
 
-/*#include <windows.h>
-#include <tchar.h>
-#include <stdio.h>*/
+#include "yamn.h"
 #include "debug.h"
 #ifdef YAMN_DEBUG
-#include "yamn.h"
 #include "version.h"
 
 #if defined (WIN9X)
@@ -26,7 +23,7 @@
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-TCHAR DebugUserDirectory[MAX_PATH]=".";
+TCHAR DebugUserDirectory[MAX_PATH] = _T(".");
 LPCRITICAL_SECTION FileAccessCS;
 
 #ifdef DEBUG_SYNCHRO
@@ -52,7 +49,7 @@ void InitDebug()
 #if defined (DEBUG_SYNCHRO) || defined (DEBUG_COMM) || defined (DEBUG_DECODE)
 	TCHAR DebugFileName[MAX_PATH];
 #endif
-	if(FileAccessCS==NULL)
+	if (FileAccessCS==NULL)
 	{
 		FileAccessCS=new CRITICAL_SECTION;
 		InitializeCriticalSection(FileAccessCS);
@@ -107,7 +104,7 @@ void DebugLog(HANDLE File,const char *fmt,...)
 
 	va_start(vararg,fmt);
 	str=(char *)malloc(strsize=65536);
-	_stprintf(tids,_T("[%x]"),GetCurrentThreadId());
+	mir_snprintf(tids, SIZEOF(tids), "[%x]",GetCurrentThreadId());
 	while(_vsnprintf(str,strsize,fmt,vararg)==-1)
 		str=(char *)realloc(str,strsize+=65536);
 	va_end(vararg);
@@ -128,7 +125,7 @@ void DebugLogW(HANDLE File,const WCHAR *fmt,...)
 
 	va_start(vararg,fmt);
 	str=(WCHAR *)malloc((strsize=65536)*sizeof(WCHAR));
-	_stprintf(tids,_T("[%x]"),GetCurrentThreadId());
+	mir_snprintf(tids, SIZEOF(tids), "[%x]",GetCurrentThreadId());
 	while(_vsnwprintf(str,strsize,fmt,vararg)==-1)
 		str=(WCHAR *)realloc(str,(strsize+=65536)*sizeof(WCHAR));
 	va_end(vararg);
