@@ -22,9 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_VERSIONINFO_VERSION_H
 
 #define __MAJOR_VERSION   1
-#define __MINOR_VERSION   4
-#define __RELEASE_NUM     3
-#define __BUILD_NUM       4
+#define __MINOR_VERSION   5
+#define __RELEASE_NUM     0
+#define __BUILD_NUM       1
 
 #define VERSION PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
 
@@ -35,15 +35,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __VERSION_STRING            __STRINGIFY(__PLUGINVERSION_STRING_DOTS)
 
 #define __DESC                  "Collects and prints information related to Miranda, the plugins and the OS."
-#define __AUTHOR                "Luca Santarelli, Cristian Libotean"
-#define __AUTHOREMAIL           "hrk@users.sourceforge.net, eblis102@yahoo.com"
+#define __AUTHOR                "Luca Santarelli, Cristian Libotean, George Hazan"
+#define __AUTHOREMAIL           "hrk@users.sourceforge.net, eblis102@yahoo.com, ghazan@miranda.im"
 #define __COPYRIGHT             "© 2002-2005 Luca Santarelli, © 2005-2009 Cristian Libotean"
 #define __AUTHORWEB             "http://www.miranda-im.org/"
 
 #if defined(WIN64) || defined(_WIN64)
-#define __PLUGIN_DISPLAY_NAME   "Version Information (x64)"
+  #define __PLUGIN_DISPLAY_NAME   "Version Information x64 (Unicode)"
 #else
-#define __PLUGIN_DISPLAY_NAME   "Version Information"
+  #if defined(UNICODE)
+    #define __PLUGIN_DISPLAY_NAME   "Version Information (Unicode)"
+  #else
+    #define __PLUGIN_DISPLAY_NAME   "Version Information"
+  #endif
 #endif
 
 #endif //M_VERSIONINFO_VERSION_H

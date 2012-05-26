@@ -4,14 +4,9 @@
 #include "common.h"
 
 //utils.cpp
-void MB(char*);
-void Log(char*);
+void MB(const TCHAR*);
+void Log(const TCHAR*);
 TCHAR *StrTrim(TCHAR *, const TCHAR *);
-
-//logging functions
-//utils.cpp
-void LogToFileInit();
-void LogToFile(char *format, ...);
 
 //utils.cpp
 TCHAR *RelativePathToAbsolute(TCHAR *szRelative, TCHAR *szAbsolute, size_t size);
@@ -30,7 +25,7 @@ bool DoesDllExist(char *dllName);
 
 //utils.cpp
 void GetModuleTimeStamp(TCHAR*, TCHAR*);
-void NotifyError(DWORD, char*, int);
+void NotifyError(DWORD, const TCHAR*, int);
 
 //utils.cpp
 PLUGININFOEX *GetPluginInfo(const char *,HINSTANCE *);

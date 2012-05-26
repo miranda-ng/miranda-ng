@@ -29,22 +29,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /*
 My usual MessageBoxes :-)
 */
-void MB(char* message) {
-	if (verbose) MessageBoxA(NULL, message, ModuleName, MB_OK | MB_ICONEXCLAMATION);
+void MB(const TCHAR* message)
+{
+	if (verbose) MessageBox(NULL, message, _T("VersionInfo"), MB_OK | MB_ICONEXCLAMATION);
 }
 
-void Log(char* message) {
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
-	{
-		POPUPDATA pu = {0};
+void Log(const TCHAR* message)
+{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
+		POPUPDATAT pu = {0};
 		pu.lchIcon = hiVIIcon;
-		strncpy(pu.lptzContactName, Translate("Version Information"), MAX_CONTACTNAME);
-		strncpy(pu.lptzText, message, MAX_SECONDLINE);
-		PUAddPopUp(&pu);
+		_tcsncpy(pu.lptzContactName, TranslateT("Version Information"), MAX_CONTACTNAME);
+		_tcsncpy(pu.lptzText, message, MAX_SECONDLINE);
+		PUAddPopUpT(&pu);
 	}
-	else {
-		MessageBoxA(NULL, message, ModuleName, MB_OK | MB_ICONINFORMATION);
-	}
+	else MessageBox(NULL, message, _T("VersionInfo"), MB_OK | MB_ICONINFORMATION);
 }
 
 int SplitStringInfo(const TCHAR *szWholeText, TCHAR *szStartText, TCHAR *szEndText)
@@ -110,56 +109,13 @@ TCHAR *AbsolutePathToRelative(TCHAR *szAbsolute, TCHAR *szRelative, size_t size)
 	return szRelative;
 }
 
-void LogToFileInit()
-{
-#ifdef USE_LOG_FUNCTIONS
-	DeleteFile("versioninfo.log");
-#endif
-}
-
-void LogToFile(char *format, ...)
-{
-#ifdef USE_LOG_FUNCTIONS
-	char str[4096];
-	va_list	vararg;
-	int tBytes;
-	FILE *fout = fopen("versioninfo.log", "at");
-	if (!fout)
-		{
-			Log("Can't open file versioninfo.log ...");
-		}
-	time_t currentTime = time(NULL);
-	tm *timp = localtime(&currentTime);
-	strftime(str, sizeof(str), "%d %b @ %H:%M:%S -> ", timp);
-	fputs(str, fout);
-	
-	va_start(vararg, format);
-	
-	tBytes = _vsnprintf(str, sizeof(str), format, vararg);
-	if (tBytes > 0)
-		{
-			str[tBytes] = 0;
-		}
-
-	va_end(vararg);
-	if (str[strlen(str) - 1] != '\n')
-		{
-			strcat(str, "\n");
-		}
-	
-	fputs(str, fout);
-	fclose(fout);
-#endif	
-}
-
-
 #define GetFacility(dwError)  (HIWORD(dwError) && 0x0000111111111111)
 #define GetErrorCode(dwError) (LOWORD(dwError))
 
-void NotifyError(DWORD dwError, char* szSetting, int iLine)
+void NotifyError(DWORD dwError, const TCHAR* szSetting, int iLine)
 {
-	char str[1024];
-	mir_snprintf(str, SIZEOF(str), Translate("Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d"), szSetting, GetFacility(dwError), GetErrorCode(dwError), iLine);
+	TCHAR str[1024];
+	mir_sntprintf(str, SIZEOF(str), TranslateT("Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d"), szSetting, GetFacility(dwError), GetErrorCode(dwError), iLine);
 	Log(str);
 }
 
@@ -273,26 +229,24 @@ void GetModuleTimeStamp(TCHAR* pszDate, TCHAR* pszTime)
 //From Egodust or Cyreve... I don't really know.
 PLUGININFOEX *CopyPluginInfo(PLUGININFOEX *piSrc)
 {
-	PLUGININFOEX *pi;
-	if(piSrc==NULL) return NULL;
-	pi=(PLUGININFOEX *)malloc(sizeof(PLUGININFOEX));
-	
-	*pi=*piSrc;
-	pi->uuid = UUID_NULL;
+	if(piSrc==NULL) 
+		return NULL;
+
+	PLUGININFOEX *pi = (PLUGININFOEX *)malloc(sizeof(PLUGININFOEX));
+	*pi = *piSrc;
 	
 	if (piSrc->cbSize >= sizeof(PLUGININFOEX))
-	{
 		pi->uuid = piSrc->uuid;
-	}
-	
-	if (piSrc->cbSize >= sizeof(PLUGININFO))
-	{
-		if(pi->author) pi->author=_strdup(pi->author);
-		if(pi->authorEmail) pi->authorEmail=_strdup(pi->authorEmail);
-		if(pi->copyright) pi->copyright=_strdup(pi->copyright);
-		if(pi->description) pi->description=_strdup(pi->description);
-		if(pi->homepage) pi->homepage=_strdup(pi->homepage);
-		if(pi->shortName) pi->shortName=_strdup(pi->shortName);
+	else
+		pi->uuid = UUID_NULL;
+		
+	if (piSrc->cbSize >= sizeof(PLUGININFO)) {
+		if(pi->author) pi->author = _strdup(pi->author);
+		if(pi->authorEmail) pi->authorEmail = _strdup(pi->authorEmail);
+		if(pi->copyright) pi->copyright = _strdup(pi->copyright);
+		if(pi->description) pi->description = _strdup(pi->description);
+		if(pi->homepage) pi->homepage = _strdup(pi->homepage);
+		if(pi->shortName) pi->shortName = _strdup(pi->shortName);
 	}
 	
 	return pi;
@@ -328,7 +282,6 @@ BOOL IsCurrentUserLocalAdministrator(void)
 
    PSECURITY_DESCRIPTOR     psdAdmin           = NULL;
    SID_IDENTIFIER_AUTHORITY SystemSidAuthority = SECURITY_NT_AUTHORITY;
-
 
    /*
       Determine if the current thread is running as a user that is a member of

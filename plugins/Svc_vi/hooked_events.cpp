@@ -66,10 +66,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService(MS_UPDATE_REGISTER, 0, (LPARAM) &update);
 	
 	bFoldersAvailable = ServiceExists(MS_FOLDERS_REGISTER_PATH);
-	hOutputLocation = FoldersRegisterCustomPath("VersionInfo", "Output folder", "%miranda_path%");
+	hOutputLocation = FoldersRegisterCustomPathT("VersionInfo", "Output folder", _T("%miranda_path%"));
 	
 	GetStringFromDatabase("UUIDCharMark", _T(DEF_UUID_CHARMARK), PLUGIN_UUID_MARK, cPLUGIN_UUID_MARK);
-	
 	return 0;
 }
 

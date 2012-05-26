@@ -104,7 +104,6 @@ class CVersionInfo
 		void PrintInformationsToMessageBox();
 		void PrintInformationsToOutputDebugString();
 		void PrintInformationsToClipboard(bool);
-		void UploadToSite(TCHAR *text = NULL);
 		
 		std::tstring GetListAsString(std::list<CPlugin>&, DWORD flags, int beautify);
 		std::tstring GetInformationsAsString(int bDisableForumStyle = 0);

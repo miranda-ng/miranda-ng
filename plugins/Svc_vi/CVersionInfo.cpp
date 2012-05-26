@@ -23,6 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //#include "AggressiveOptimize.h"
 
 #include "common.h"
+#include "resource.h"
 
 //using namespace std;
 
@@ -37,62 +38,12 @@ LANGID (WINAPI *MyGetSystemDefaultUILanguage)() = NULL;
 static int ValidExtension(TCHAR *fileName, TCHAR *extension)
 {
 	TCHAR *dot = _tcschr(fileName, '.');
-	if ((dot != NULL) && (lstrcmpi(dot + 1, extension) == 0))
-	{
+	if ( dot != NULL && !lstrcmpi(dot + 1, extension))
 		if (dot[lstrlen(extension) + 1] == 0)
-		{
 			return 1;
-		}
-	}
 
 	return 0;
 }
-
-/*
-int EnumSettings(const char *setting, LPARAM lParam)
-{
-	char *name = (char *) lParam;
-	char *tmp = _strdup(setting);
-	_strlwr(tmp);
-	
-	int res = 0;
-	
-	if (strcmp(tmp, name) == 0)
-	{
-		strcpy((char *) lParam, setting);
-		res = 1;
-	}
-	
-	free(tmp);
-	
-	return res;
-}
-
-int IsPluginDisabled(char *fileName)
-{
-	char *name = _strdup(fileName);
-	_strlwr(name);
-	DBCONTACTENUMSETTINGS dbEnum = {0};
-	dbEnum.pfnEnumProc = EnumSettings;
-	dbEnum.lParam = (LPARAM) name;
-	dbEnum.szModule = "PluginDisable";
-	
-	int res = -1;
-	
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, NULL, (LPARAM) &dbEnum);
-	DBVARIANT dbv = {0};
-	dbv.type = DBVT_BYTE;
-	
-	int exists = !(DBGetContactSetting(NULL, "PluginDisable", name, &dbv));
-	if (exists)
-	{
-		res = dbv.bVal;
-	}
-	free(name);
- 
-	return res;
-}
-*/
 
 void FillLocalTime(std::tstring &output, FILETIME *fileTime)
 {
@@ -115,41 +66,33 @@ void FillLocalTime(std::tstring &output, FILETIME *fileTime)
 	int offset = 0;
 	switch (res) {
 	case TIME_ZONE_ID_DAYLIGHT:
-		{
-			offset = -(tzInfo.Bias + tzInfo.DaylightBias);
-			WideCharToMultiByte(CP_ACP, 0, tzInfo.DaylightName, -1, tzName, SIZEOF(tzName), NULL, NULL);
-
-			break;
-		}
+		offset = -(tzInfo.Bias + tzInfo.DaylightBias);
+		WideCharToMultiByte(CP_ACP, 0, tzInfo.DaylightName, -1, tzName, SIZEOF(tzName), NULL, NULL);
+		break;
 
 	case TIME_ZONE_ID_STANDARD:
-		{
-			WideCharToMultiByte(CP_ACP, 0, tzInfo.StandardName, -1, tzName, SIZEOF(tzName), NULL, NULL);
-			offset = -(tzInfo.Bias + tzInfo.StandardBias);
-
-			break;
-		}
+		WideCharToMultiByte(CP_ACP, 0, tzInfo.StandardName, -1, tzName, SIZEOF(tzName), NULL, NULL);
+		offset = -(tzInfo.Bias + tzInfo.StandardBias);
+		break;
 
 	case TIME_ZONE_ID_UNKNOWN:
-		{
-			WideCharToMultiByte(CP_ACP, 0, tzInfo.StandardName, -1, tzName, SIZEOF(tzName), NULL, NULL);
-			offset = -tzInfo.Bias;
-
-			break;
-		}
+		WideCharToMultiByte(CP_ACP, 0, tzInfo.StandardName, -1, tzName, SIZEOF(tzName), NULL, NULL);
+		offset = -tzInfo.Bias;
+		break;
 	}
 
 	wsprintf(tzOffset, _T("UTC %+02d:%02d"), offset / 60, offset % 60);
 	output += _T(" (") + std::tstring(tzOffset) + _T(")");
 }
 
-CVersionInfo::CVersionInfo() {
+CVersionInfo::CVersionInfo()
+{
 	luiFreeDiskSpace = 0;
 	bDEPEnabled = 0;
-};
+}
 
-CVersionInfo::~CVersionInfo() {
-
+CVersionInfo::~CVersionInfo()
+{
 	listInactivePlugins.clear();
 	listActivePlugins.clear();
 	listUnloadablePlugins.clear();
@@ -164,7 +107,8 @@ CVersionInfo::~CVersionInfo() {
 	lpzCPUIdentifier.~basic_string();
 };
 
-void CVersionInfo::Initialize() {
+void CVersionInfo::Initialize()
+{
 #ifdef _DEBUG
 		if (verbose) PUShowMessage("Before GetMirandaVersion().", SM_NOTIFY);
 #endif
@@ -253,8 +197,8 @@ bool CVersionInfo::GetOSVersion()
 			lpzCPUIdentifier = aux;
 			delete[] aux;
 		}
-		else{
-			NotifyError(GetLastError(), "RegQueryValueEx()", __LINE__);
+		else {
+			NotifyError(GetLastError(), _T("RegQueryValueEx()"), __LINE__);
 			lpzCPUIdentifier = _T("<Error in RegQueryValueEx()>");
 		}
 
@@ -356,36 +300,32 @@ end:
 			delete[] aux;
 		}
 		else {
-			NotifyError(GetLastError(), "RegQueryValueEx()", __LINE__);
+			NotifyError(GetLastError(), _T("RegQueryValueEx()"), __LINE__);
 			lpzOSName = _T("<Error in RegQueryValueEx()>");
 		}
 	}
 	else {
-		NotifyError(GetLastError(), "RegOpenKeyEx()", __LINE__);
+		NotifyError(GetLastError(), _T("RegOpenKeyEx()"), __LINE__);
 		lpzOSName = _T("<Error in RegOpenKeyEx()>");
 	}
 	
 	//Now we can improve it if we can.
 	switch (LOWORD(osvi.dwBuildNumber)) {
-		case 950: lpzOSName = _T("Microsoft Windows 95"); break;
-		case 1111: lpzOSName = _T("Microsoft Windows 95 OSR2"); break;
-		case 1998: lpzOSName = _T("Microsoft Windows 98"); break;
-		case 2222: lpzOSName = _T("Microsoft Windows 98 SE"); break;
-		case 3000: lpzOSName = _T("Microsoft Windows ME"); break; //Even if this is wrong, we have already read it in the registry.
-		case 1381: lpzOSName = _T("Microsoft Windows NT"); break; //What about service packs?
-		case 2195: lpzOSName = _T("Microsoft Windows 2000"); break; //What about service packs?
-		case 2600: lpzOSName = _T("Microsoft Windows XP"); break;
-		case 3790:
-		{
-			if (GetSystemMetrics(89)) { //R2 ?
-				lpzOSName = _T("Microsoft Windows 2003 R2");
-			}
-			else{
-				lpzOSName = _T("Microsoft Windows 2003");
-			}
+	case 950: lpzOSName = _T("Microsoft Windows 95"); break;
+	case 1111: lpzOSName = _T("Microsoft Windows 95 OSR2"); break;
+	case 1998: lpzOSName = _T("Microsoft Windows 98"); break;
+	case 2222: lpzOSName = _T("Microsoft Windows 98 SE"); break;
+	case 3000: lpzOSName = _T("Microsoft Windows ME"); break; //Even if this is wrong, we have already read it in the registry.
+	case 1381: lpzOSName = _T("Microsoft Windows NT"); break; //What about service packs?
+	case 2195: lpzOSName = _T("Microsoft Windows 2000"); break; //What about service packs?
+	case 2600: lpzOSName = _T("Microsoft Windows XP"); break;
+	case 3790:
+		if ( GetSystemMetrics( 89 )) //R2 ?
+			lpzOSName = _T("Microsoft Windows 2003 R2");
+		else
+			lpzOSName = _T("Microsoft Windows 2003");
 				
-			break; //added windows 2003 info
-		}
+		break; //added windows 2003 info
 	}
 
 	return TRUE;
@@ -411,14 +351,12 @@ bool CVersionInfo::GetHWSettings() {
 		MyIsWow64Process = (BOOL (WINAPI *) (HANDLE, PBOOL)) GetProcAddress(hKernel32, "IsWow64Process");
 		MyGetSystemInfo = (void (WINAPI *) (LPSYSTEM_INFO)) GetProcAddress(hKernel32, "GetNativeSystemInfo");
 		MyGlobalMemoryStatusEx = (BOOL (WINAPI *) (LPMEMORYSTATUSEX)) GetProcAddress(hKernel32, "GlobalMemoryStatusEx");
-		if (!MyGetSystemInfo)
-		{
+		if ( !MyGetSystemInfo )
 			MyGetSystemInfo = GetSystemInfo;
-		}
 		
 		FreeLibrary(hKernel32);
 	}
-	if (MyGetDiskFreeSpaceEx) {
+	if ( MyGetDiskFreeSpaceEx ) {
 		ULARGE_INTEGER FreeBytes, a, b;
 		MyGetDiskFreeSpaceEx(szMirandaPath, &FreeBytes, &a, &b);
 		//Now we need to convert it.
@@ -426,9 +364,7 @@ bool CVersionInfo::GetHWSettings() {
 		aux /= (1024*1024);
 		luiFreeDiskSpace = (unsigned long int)aux;
 	}
-	else {
-		luiFreeDiskSpace = 0;
-	}
+	else luiFreeDiskSpace = 0;
 	
 	TCHAR szInfo[1024];
 	GetWindowsShell(szInfo, SIZEOF(szInfo));
@@ -449,14 +385,13 @@ bool CVersionInfo::GetHWSettings() {
 	luiProcessors = sysInfo.dwNumberOfProcessors;
 	
 	//Installed RAM
-	if (MyGlobalMemoryStatusEx) //windows 2000+
-	{
+	if (MyGlobalMemoryStatusEx) { //windows 2000+
 		MEMORYSTATUSEX ms = {0};
 		ms.dwLength = sizeof(ms);
 		MyGlobalMemoryStatusEx(&ms);
 		luiRAM = (unsigned int) ((ms.ullTotalPhys / (1024 * 1024)) + 1);
 	}
-	else{
+	else {
 		MEMORYSTATUS ms = {0};
 		ms.dwLength = sizeof(ms);
 		GlobalMemoryStatus(&ms);
@@ -499,8 +434,7 @@ BOOL CALLBACK EnumSystemLocalesProc(TCHAR *szLocale)
 {
 	DWORD locale = _ttoi(szLocale);
 	TCHAR *name = GetLanguageName(locale);
-	if (!_tcsstr(szSystemLocales, name))
-	{
+	if ( !_tcsstr(szSystemLocales, name)) {
 		_tcscat(szSystemLocales, name);
 		_tcscat(szSystemLocales, _T(", "));
 	}
@@ -528,100 +462,79 @@ bool CVersionInfo::GetOSLanguages()
 	OSVERSIONINFO os = {0};
 	os.dwOSVersionInfoSize = sizeof(os);
 	GetVersionEx(&os);
-	switch (os.dwMajorVersion)
-	{
-		case 4: //Win 95-Me, NT
-		{
-			if (os.dwPlatformId == VER_PLATFORM_WIN32_NT) //Win NT
-			{
-				HMODULE hLib = LoadLibraryA("ntdll.dll");
+	if (os.dwMajorVersion == 4) {
+		if (os.dwPlatformId == VER_PLATFORM_WIN32_NT) { //Win NT 
+			HMODULE hLib = LoadLibraryA("ntdll.dll");
 
-				if (hLib)
-				{
-					EnumResourceLanguages(hLib, RT_VERSION, MAKEINTRESOURCE(1), EnumResLangProc, NULL);
+			if (hLib) {
+				EnumResourceLanguages(hLib, RT_VERSION, MAKEINTRESOURCE(1), EnumResLangProc, NULL);
 
-					FreeLibrary(hLib);
+				FreeLibrary(hLib);
 
-					if (systemLangID == US_LANG_ID)
+				if (systemLangID == US_LANG_ID) {
+					UINT uiACP;
+
+					uiACP = GetACP();
+					switch (uiACP)
 					{
-						UINT uiACP;
+						case 874:     // Thai code page activated, it's a Thai enabled system
+							systemLangID = MAKELANGID(LANG_THAI, SUBLANG_DEFAULT);
+							break;
 
-						uiACP = GetACP();
-						switch (uiACP)
-						{
-							case 874:     // Thai code page activated, it's a Thai enabled system
-								systemLangID = MAKELANGID(LANG_THAI, SUBLANG_DEFAULT);
-								break;
+						case 1255:    // Hebrew code page activated, it's a Hebrew enabled system
+							systemLangID = MAKELANGID(LANG_HEBREW, SUBLANG_DEFAULT);
+							break;
 
-							case 1255:    // Hebrew code page activated, it's a Hebrew enabled system
-								systemLangID = MAKELANGID(LANG_HEBREW, SUBLANG_DEFAULT);
-								break;
-
-							case 1256:    // Arabic code page activated, it's a Arabic enabled system
-								systemLangID = MAKELANGID(LANG_ARABIC, SUBLANG_ARABIC_SAUDI_ARABIA);
-								break;
+						case 1256:    // Arabic code page activated, it's a Arabic enabled system
+							systemLangID = MAKELANGID(LANG_ARABIC, SUBLANG_ARABIC_SAUDI_ARABIA);
+							break;
 								
-							default:
-								break;
-						}
+						default:
+							break;
 					}
 				}
 			}
-			else{ //Win 95-Me
-				HKEY hKey = NULL;
-				TCHAR szLangID[128] = _T("0x");
-				DWORD size = SIZEOF(szLangID) - 2;
-				TCHAR err[512];
+		}
+		else { //Win 95-Me
+			HKEY hKey = NULL;
+			TCHAR szLangID[128] = _T("0x");
+			DWORD size = SIZEOF(szLangID) - 2;
+			TCHAR err[512];
 				
-				if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Control Panel\\Desktop\\ResourceLocale"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
-				{
-					if (RegQueryValueEx(hKey, _T(""), 0, NULL, (LPBYTE) &szLangID + 2, &size) == ERROR_SUCCESS)
-					{
-						_tscanf(szLangID, _T("%lx"), &systemLangID);
-					}
-					else{
-						FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError(), LANG_SYSTEM_DEFAULT, err, size, NULL);
-						MessageBox(0, err, _T("Error at RegQueryValueEx()"), MB_OK);
-					}
-					RegCloseKey(hKey);
-				}
-				else{
+			if (RegOpenKeyEx(HKEY_CURRENT_USER, _T("Control Panel\\Desktop\\ResourceLocale"), 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS) {
+				if (RegQueryValueEx(hKey, _T(""), 0, NULL, (LPBYTE) &szLangID + 2, &size) == ERROR_SUCCESS)
+					_tscanf(szLangID, _T("%lx"), &systemLangID);
+				else {
 					FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError(), LANG_SYSTEM_DEFAULT, err, size, NULL);
-					MessageBox(0, err, _T("Error at RegOpenKeyEx()"), MB_OK);
+					MessageBox(0, err, _T("Error at RegQueryValueEx()"), MB_OK);
 				}
+				RegCloseKey(hKey);
 			}
-
-			lpzOSLanguages += GetLanguageName(systemLangID);
-
-			break;
+			else {
+				FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, 0, GetLastError(), LANG_SYSTEM_DEFAULT, err, size, NULL);
+				MessageBox(0, err, _T("Error at RegOpenKeyEx()"), MB_OK);
+			}
 		}
-		
-		case 5: //Win 2000, XP
-		default:
-		{
-			HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
-			if (hKernel32)
-			{
-				MyGetUserDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetUserDefaultUILanguage");
-				MyGetSystemDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetSystemDefaultUILanguage");
+
+		lpzOSLanguages += GetLanguageName(systemLangID);
+	}
+	else {
+		HMODULE hKernel32 = LoadLibraryA("kernel32.dll");
+		if (hKernel32) {
+			MyGetUserDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetUserDefaultUILanguage");
+			MyGetSystemDefaultUILanguage = (LANGID (WINAPI *)()) GetProcAddress(hKernel32, "GetSystemDefaultUILanguage");
 				
-				FreeLibrary(hKernel32);
-			}
-		
-			if ((MyGetUserDefaultUILanguage) && (MyGetSystemDefaultUILanguage))
-			{
-				UILang = MyGetUserDefaultUILanguage();
-				lpzOSLanguages += GetLanguageName(UILang);
-				lpzOSLanguages += _T("/");
-				UILang = MyGetSystemDefaultUILanguage();
-				lpzOSLanguages += GetLanguageName(UILang);
-			}
-			else{
-				lpzOSLanguages += _T("Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)");
-			}
-			
-			break;
+			FreeLibrary(hKernel32);
 		}
+		
+		if ((MyGetUserDefaultUILanguage) && (MyGetSystemDefaultUILanguage)) {
+			UILang = MyGetUserDefaultUILanguage();
+			lpzOSLanguages += GetLanguageName(UILang);
+			lpzOSLanguages += _T("/");
+			UILang = MyGetSystemDefaultUILanguage();
+			lpzOSLanguages += GetLanguageName(UILang);
+		}
+		else lpzOSLanguages += _T("Missing functions in kernel32.dll (GetUserDefaultUILanguage, GetSystemDefaultUILanguage)");
 	}
 	
 	lpzOSLanguages += _T(" | ");
@@ -629,8 +542,7 @@ bool CVersionInfo::GetOSLanguages()
 	lpzOSLanguages += _T("/");
 	lpzOSLanguages += GetLanguageName(LOCALE_SYSTEM_DEFAULT);
 
-	if (DBGetContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", 0))
-	{
+	if (DBGetContactSettingByte(NULL, ModuleName, "ShowInstalledLanguages", 0)) {
 		szSystemLocales[0] = '\0';
 		lpzOSLanguages += _T(" [");
 		EnumSystemLocales(EnumSystemLocalesProc, LCID_INSTALLED);
@@ -648,8 +560,7 @@ int SaveInfo(const char *data, const char *lwrData, const char *search, TCHAR *d
 {
 	const char *pos = strstr(lwrData, search);
 	int res = 1;
-	if (pos == lwrData)
-	{
+	if (pos == lwrData) {
 		_tcsncpy(dest, _A2T(&data[strlen(search)]), size);
 		res = 0;
 	}
@@ -665,8 +576,7 @@ bool CVersionInfo::GetLangpackInfo()
 	lpzLangpackModifiedDate = _T("");	
 	GetModuleFileName(GetModuleHandle(NULL), langpackPath, SIZEOF(langpackPath));
 	TCHAR* p = _tcsrchr(langpackPath, '\\');
-	if (p)
-	{
+	if (p) {
 		WIN32_FIND_DATA data = {0};
 		HANDLE hLangpack;
 		
@@ -674,8 +584,7 @@ bool CVersionInfo::GetLangpackInfo()
 		_tcscpy(search, langpackPath);
 		_tcscat(search, _T("langpack_*.txt"));
 		hLangpack = FindFirstFile(search, &data);
-		if (hLangpack != INVALID_HANDLE_VALUE)
-		{
+		if (hLangpack != INVALID_HANDLE_VALUE) {
 			char buffer[1024];
 			char temp[1024];
 			FillLocalTime(lpzLangpackModifiedDate, &data.ftLastWriteTime);
@@ -699,38 +608,25 @@ bool CVersionInfo::GetLangpackInfo()
 					if (buffer[len - 1] == '\n') buffer[len - 1] = '\0';
 					strncpy(temp, buffer, SIZEOF(temp));
 					_strlwr(temp);
-					if (SaveInfo(buffer, temp, "language: ", language, SIZEOF(language)))
-					{
-						if (SaveInfo(buffer, temp, "locale: ", locale, SIZEOF(locale)))
-						{
+					if (SaveInfo(buffer, temp, "language: ", language, SIZEOF(language))) {
+						if (SaveInfo(buffer, temp, "locale: ", locale, SIZEOF(locale))) {
 							char* p = strstr(buffer, "; FLID: ");
-							if (p)
-							{
+							if (p) {
 								int ok = 1;
 								int i;
-								for (i = 0; ((i < 3) && (ok)); i++)
-								{
+								for (i = 0; ((i < 3) && (ok)); i++) {
 									p = strrchr(temp, '.');
 									if (p)
-									{
 										p[0] = '\0';
-									}
-									else{
+									else
 										ok = 0;
-									}
 								}
 								p = strrchr(temp, ' ');
 								if ((ok) && (p))
-								{
 									_tcsncpy(version, _A2T(&buffer[p - temp + 1]), SIZEOF(version));
-								}
-								else{
+								else
 									_tcsncpy(version, _T("<unknown>"), SIZEOF(version));
-								}
-							}
-						}
-					}
-				}
+				}	}	}	}
 				
 				lpzLangpackInfo = std::tstring(language) + _T(" [") + std::tstring(locale) + _T("]");
 				if ( version[0] )
@@ -738,7 +634,7 @@ bool CVersionInfo::GetLangpackInfo()
 
 				fclose(fin);
 			}
-			else{
+			else {
 				int err = GetLastError();
 				lpzLangpackInfo = _T("<error> Could not open file " + std::tstring(data.cFileName));
 			}
@@ -794,8 +690,7 @@ bool CVersionInfo::GetPluginLists()
 	lstrcat(szMirandaPluginsPath, _T("\\Plugins\\"));
 
 	hFind=FindFirstFile(szSearchPath,&fd);
-	LogToFile("Starting to load plugins");
-	if(hFind != INVALID_HANDLE_VALUE) {
+	if ( hFind != INVALID_HANDLE_VALUE) {
 		do {
 			if (verbose) PUShowMessageT(fd.cFileName, SM_NOTIFY);
 			if (!ValidExtension(fd.cFileName, _T("dll")))
@@ -804,13 +699,9 @@ bool CVersionInfo::GetPluginLists()
 			hInstPlugin = GetModuleHandle(fd.cFileName); //try to get the handle of the module
 
 			if (hInstPlugin) //if we got it then the dll is loaded (enabled)
-			{
 				PluginIsEnabled = 1;
-				LogToFile("Plugin '%s' is enabled and loaded", fd.cFileName);
-			}
-			else{
+			else {
 				PluginIsEnabled = 0;
-				LogToFile("Plugin '%s' is not loaded, going to load it", fd.cFileName);
 				lstrcpyn(szPluginPath, szMirandaPluginsPath, MAX_PATH); // szPluginPath becomes "drive:\path\Miranda\Plugins\"
 				lstrcat(szPluginPath, fd.cFileName); // szPluginPath becomes "drive:\path\Miranda\Plugins\popup.dll"
 				hInstPlugin = LoadLibrary(szPluginPath);
@@ -826,18 +717,14 @@ bool CVersionInfo::GetPluginLists()
 
 					lstrcpyn(szPluginPath, szMirandaPluginsPath, MAX_PATH); // szPluginPath becomes "drive:\path\Miranda\Plugins\"
 					lstrcat(szPluginPath, fd.cFileName); // szPluginPath becomes "drive:\path\Miranda\Plugins\popup.dll"
-					if (GetLinkedModulesInfo(szPluginPath, linkedModules))
-					{
-						LogToFile("Plugin %s has unresolved dependencies, adding to unloadable list", szPluginPath);
+					if (GetLinkedModulesInfo(szPluginPath, linkedModules)) {
 						std::tstring time = GetPluginTimestamp(&fd.ftLastWriteTime);
 						CPlugin thePlugin(fd.cFileName, _T("<unknown>"), UUID_NULL, _T(""), 0, time.c_str(), linkedModules.c_str());
 						AddPlugin(thePlugin, listUnloadablePlugins);
 						bUnknownError = 0; //we know why the plugin didn't load
 					}
 				}
-				if (bUnknownError) //if cause is unknown then report it
-				{
-					LogToFile("Plugin %s doesn't load", szPluginPath);
+				if (bUnknownError) { //if cause is unknown then report it
 					std::tstring time = GetPluginTimestamp(&fd.ftLastWriteTime);
 					TCHAR buffer[4096];
 					TCHAR error[2048];
@@ -849,45 +736,40 @@ bool CVersionInfo::GetPluginLists()
 				}
 			}
 			else { //It was successfully loaded.
-				LogToFile("Plugin '%s' was loaded successfully", fd.cFileName);
 				MirandaPluginInfo = (PLUGININFOEX *(*)(DWORD))GetProcAddress(hInstPlugin, "MirandaPluginInfoEx");
 				if (!MirandaPluginInfo)
-				{
 					MirandaPluginInfo = (PLUGININFOEX *(*)(DWORD))GetProcAddress(hInstPlugin, "MirandaPluginInfo"); 
-				}
-				if (!MirandaPluginInfo) { //There is no function: it's not a valid plugin. Let's move on to the next file.
+
+				if (!MirandaPluginInfo) //There is no function: it's not a valid plugin. Let's move on to the next file.
 					continue;
-				}
-				else {
-					//It's a valid plugin, since we could find MirandaPluginInfo
-					#if (!defined(WIN64) && !defined(_WIN64))
-						asmCheckOK = FALSE;
-						__asm {
-							push mirandaVersion
-							push mirandaVersion
-							call MirandaPluginInfo
-							pop eax
-							pop eax
-							cmp eax, mirandaVersion
-							jne a1
-							mov asmCheckOK, 0xffffffff
-						a1:
-						}
-					#else
-						asmCheckOK = TRUE;
-					#endif
-					if (asmCheckOK)
-						pluginInfo = CopyPluginInfo(MirandaPluginInfo(mirandaVersion));
-					else {
-						ZeroMemory(&pluginInfo, sizeof(pluginInfo));
-						MessageBox(NULL, fd.cFileName, _T("Invalid plugin"), MB_OK);
+
+				//It's a valid plugin, since we could find MirandaPluginInfo
+				#if (!defined(WIN64) && !defined(_WIN64))
+					asmCheckOK = FALSE;
+					__asm {
+						push mirandaVersion
+						push mirandaVersion
+						call MirandaPluginInfo
+						pop eax
+						pop eax
+						cmp eax, mirandaVersion
+						jne a1
+						mov asmCheckOK, 0xffffffff
+					a1:
 					}
-				}
-			}
+				#else
+					asmCheckOK = TRUE;
+				#endif
+				if (asmCheckOK)
+					pluginInfo = CopyPluginInfo(MirandaPluginInfo(mirandaVersion));
+				else {
+					ZeroMemory(&pluginInfo, sizeof(pluginInfo));
+					MessageBox(NULL, fd.cFileName, _T("Invalid plugin"), MB_OK);
+			}	}
+
 			//Let's get the info.
 			if (MirandaPluginInfo != NULL) {//a valid miranda plugin
 				if (pluginInfo != NULL) {
-					LogToFile("Plugin '%s' is a miranda plugin", fd.cFileName);
 					//We have loaded the informations into pluginInfo.
 					std::tstring timedate = GetPluginTimestamp(&fd.ftLastWriteTime);
 					CPlugin thePlugin(fd.cFileName, _A2T(pluginInfo->shortName), pluginInfo->uuid, (pluginInfo->flags & 1) ? _T("Unicode aware") : _T(""), (DWORD) pluginInfo->version, timedate.c_str(), _T(""));
@@ -895,29 +777,25 @@ bool CVersionInfo::GetPluginLists()
 					if (PluginIsEnabled)
 						AddPlugin(thePlugin, listActivePlugins);
 					else {
-						if ((IsUUIDNull(pluginInfo->uuid)) && (mirandaVersion >= PLUGIN_MAKE_VERSION(0,8,0,9)))
-						{
+						if ((IsUUIDNull(pluginInfo->uuid)) && (mirandaVersion >= PLUGIN_MAKE_VERSION(0,8,0,9))) {
 							thePlugin.SetErrorMessage( _T("    Plugin does not have an UUID and will not work with Miranda 0.8.\r\n"));
 							AddPlugin(thePlugin, listUnloadablePlugins);
 						}
-						else{
-							AddPlugin(thePlugin, listInactivePlugins);
-						}
+						else AddPlugin(thePlugin, listInactivePlugins);
+
 						FreeLibrary(hInstPlugin); //We don't need it anymore.
 					}
 					FreePluginInfo(pluginInfo);
 					MirandaPluginInfo = NULL;
 					#ifdef _DEBUG
-						if (verbose)
-						{
+						if (verbose) {
 							TCHAR szMsg[4096] = { 0 };
 							wsprintf(szMsg, _T("Done with: %s"), fd.cFileName);
 							PUShowMessageT(szMsg, SM_NOTIFY);
 						}
 					#endif
 				}
-				else{//pluginINFO == NULL
-					LogToFile("Plugin '%s' refuses to load", fd.cFileName);
+				else { //pluginINFO == NULL
 					pluginInfo = CopyPluginInfo(MirandaPluginInfo(PLUGIN_MAKE_VERSION(9, 9, 9, 9))); //let's see if the plugin likes this miranda version
 					char *szShortName = "<unknown>";
 					std::tstring time = GetPluginTimestamp(&fd.ftLastWriteTime); //get the plugin timestamp;
@@ -931,15 +809,12 @@ bool CVersionInfo::GetPluginLists()
 
 					AddPlugin(thePlugin, listUnloadablePlugins);
 					if (pluginInfo)
-					{
 						FreePluginInfo(pluginInfo);
-					}
-				}
-			}
-		} while (FindNextFile(hFind,&fd));
+			}	}
+		}
+			while (FindNextFile(hFind,&fd));
 		FindClose(hFind);
 	}
-	LogToFile("Done loading plugins");
 	return TRUE;
 }
 
@@ -958,11 +833,11 @@ bool CVersionInfo::AddPlugin(CPlugin &aPlugin, std::list<CPlugin> &aList) {
 				aList.insert(pos, aPlugin);
 				return TRUE;
 			}
-			else { //It's greater: we need to insert it.
-				pos++;
-			}
-		}
-	}
+
+			//It's greater: we need to insert it.
+			pos++;
+	}	}
+
 	if (inserted == FALSE) {
 		aList.push_back(aPlugin);
 		return TRUE;
@@ -979,7 +854,6 @@ static char *GetStringFromRVA(DWORD RVA, const LOADED_IMAGE *image)
 
 bool CVersionInfo::GetLinkedModulesInfo(TCHAR *moduleName, std::tstring &linkedModules)
 {
-	LogToFile("Checking dll %s for unresolved dll dependencies ...", moduleName);
 	LOADED_IMAGE image;
 	ULONG importTableSize;
 	IMAGE_IMPORT_DESCRIPTOR *importData;
@@ -988,45 +862,30 @@ bool CVersionInfo::GetLinkedModulesInfo(TCHAR *moduleName, std::tstring &linkedM
 	bool result = false;
 	TCHAR szError[20];
 	char* szModuleName = mir_t2a(moduleName);
-	if (MapAndLoad(szModuleName, NULL, &image, TRUE, TRUE) == FALSE)
-	{
+	if (MapAndLoad(szModuleName, NULL, &image, TRUE, TRUE) == FALSE) {
 		wsprintf(szError, _T("%d"), GetLastError());
-		LogToFile("  MapAndLoad failed with error %S", szError);
 		mir_free( szModuleName );
 		linkedModules = _T("<error ") + std::tstring(szError) + _T(" at MapAndLoad()>\r\n");
 		return result;
 	}
 	mir_free( szModuleName );
-	LogToFile("  Before ImageDirectoryEntryToData (base address %ld)", image.MappedAddress);
 	importData = (IMAGE_IMPORT_DESCRIPTOR *) ImageDirectoryEntryToData(image.MappedAddress, FALSE, IMAGE_DIRECTORY_ENTRY_IMPORT, &importTableSize);
-	if (!importData)
-	{
+	if (!importData) {
 		wsprintf(szError, _T("%d"), GetLastError());
-		LogToFile("  ImageDirectoryEntryToData failed with error %s", szError);
 		linkedModules = _T("<error ") + std::tstring(szError) + _T(" at ImageDirectoryEntryToDataEx()>\r\n");
 	}
-	else{
-		LogToFile("  Checking dll dependencies");
-		while (importData->Name)
-		{
+	else {
+		while (importData->Name) {
 			char *moduleName;
 			moduleName = GetStringFromRVA(importData->Name, &image);
-			LogToFile("    Checking link to dll %s", moduleName);
-			if (!DoesDllExist(moduleName))
-			{
-				LogToFile("      Dll %s not found, adding to list", moduleName);
+			if (!DoesDllExist(moduleName)) {
 				linkedModules.append( _T("    Plugin statically links to missing dll file: ") + std::tstring(_A2T(moduleName)) + _T("\r\n"));
 				result = true;
 			}
-			else{
-				LogToFile("      Dll %s found", moduleName);
-			}
-			LogToFile("    Moving to next import entry");
+
 			importData++; //go to next record
-		}
-	}
-	LogToFile("  Done checking dependencies");
-	LogToFile("  Cleaning up; before {FreeLibrary()} and UnMapAndLoad");
+	}	}
+
 	//	FreeLibrary(dllModule);
 	UnMapAndLoad(&image); //unload the image
 	return result;
@@ -1041,19 +900,18 @@ std::tstring CVersionInfo::GetListAsString(std::list<CPlugin> &aList, DWORD flag
 
 	TCHAR szHeader[32] = {0};
 	TCHAR szFooter[32] = {0};
-	if ((((flags & VISF_FORUMSTYLE) == VISF_FORUMSTYLE) || beautify) && (DBGetContactSettingByte(NULL, ModuleName, "BoldVersionNumber", TRUE)))
-		{
-			GetStringFromDatabase("BoldBegin", _T("[b]"), szHeader, SIZEOF(szHeader));
-			GetStringFromDatabase("BoldEnd", _T("[/b]"), szFooter, SIZEOF(szFooter));
-		}
+	if ((((flags & VISF_FORUMSTYLE) == VISF_FORUMSTYLE) || beautify) && (DBGetContactSettingByte(NULL, ModuleName, "BoldVersionNumber", TRUE))) {
+		GetStringFromDatabase("BoldBegin", _T("[b]"), szHeader, SIZEOF(szHeader));
+		GetStringFromDatabase("BoldEnd", _T("[/b]"), szFooter, SIZEOF(szFooter));
+	}
 	
 	while (pos != aList.end()) {
 		out.append(std::tstring((*pos).getInformations(flags, szHeader, szFooter)));
 		pos++;
 	}
-#ifdef _DEBUG
-	if (verbose) PUShowMessage("CVersionInfo::GetListAsString, end.", SM_NOTIFY);
-#endif
+	#ifdef _DEBUG
+		if (verbose) PUShowMessage("CVersionInfo::GetListAsString, end.", SM_NOTIFY);
+	#endif
 	return out;
 };
 
@@ -1067,8 +925,7 @@ void CVersionInfo::BeautifyReport(int beautify, LPCTSTR szBeautifyText, LPCTSTR 
 
 void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautify, std::tstring &out)
 {
-	if (forumStyle) //forum style
-	{
+	if (forumStyle) { //forum style
 		TCHAR szSize[256], szQuote[256];
 
 		GetStringFromDatabase("SizeBegin", _T("[size=1]"), szSize, SIZEOF(szSize));
@@ -1078,28 +935,25 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	}
 	else out = _T("");
 
-	if (!suppressHeader)
-	{
+	if (!suppressHeader) {
 		out.append( _T("Miranda IM - VersionInformation plugin by Hrk, modified by Eblis\r\n"));
-		if (!forumStyle)
-		{
+		if (!forumStyle) {
 			out.append( _T("Miranda's homepage: http://www.miranda-im.org/\r\n")); //changed homepage
 			out.append( _T("Miranda tools: http://miranda-im.org/download/\r\n\r\n")); //was missing a / before download
-		}
-	}
+	}	}
 
 	TCHAR buffer[1024]; //for beautification
 	GetStringFromDatabase("BeautifyHorizLine", _T("<hr />"), buffer, SIZEOF(buffer));	
 	BeautifyReport(beautify, buffer, _T(""), out);
 	GetStringFromDatabase("BeautifyBlockStart", _T("<blockquote>"), buffer, SIZEOF(buffer));
 	BeautifyReport(beautify, buffer, _T(""), out);
-	if (!suppressHeader)
-		{
-			//Time of report:
-			TCHAR lpzTime[12]; 	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm':'ss"), lpzTime, SIZEOF(lpzTime));
-			TCHAR lpzDate[32]; 	GetDateFormat(EnglishLocale, 0, NULL, _T("dd' 'MMMM' 'yyyy"), lpzDate, SIZEOF(lpzDate));
-			out.append( _T("Report generated at: ") + std::tstring(lpzTime) + _T(" on ") + std::tstring(lpzDate) + _T("\r\n\r\n"));
-		}
+	if (!suppressHeader) {
+		//Time of report:
+		TCHAR lpzTime[12]; 	GetTimeFormat(LOCALE_USER_DEFAULT, 0, NULL, _T("HH':'mm':'ss"), lpzTime, SIZEOF(lpzTime));
+		TCHAR lpzDate[32]; 	GetDateFormat(EnglishLocale, 0, NULL, _T("dd' 'MMMM' 'yyyy"), lpzDate, SIZEOF(lpzDate));
+		out.append( _T("Report generated at: ") + std::tstring(lpzTime) + _T(" on ") + std::tstring(lpzDate) + _T("\r\n\r\n"));
+	}
+
 	//Operating system
 	out.append(_T("CPU: ") + lpzCPUName + _T(" [") + lpzCPUIdentifier + _T("]"));
 	if (bDEPEnabled)
@@ -1125,7 +979,6 @@ void CVersionInfo::AddInfoHeader(int suppressHeader, int forumStyle, int beautif
 	
 	//languages
 	out.append( _T("OS Languages: ") + lpzOSLanguages + _T("\r\n"));
-	
 	
 	//FreeDiskSpace
 	if (luiFreeDiskSpace) {
@@ -1277,189 +1130,67 @@ void CVersionInfo::PrintInformationsToFile(const TCHAR *info)
 		fputs( "\xEF\xBB\xBF", fp);
 		fputs( utf, fp );
 		fclose(fp);
-		char mex[512];
-		mir_snprintf(mex, SIZEOF(mex), Translate("Information successfully written to file: \"%s\"."), outputFileName);
+
+		TCHAR mex[512];
+		mir_sntprintf(mex, SIZEOF(mex), TranslateT("Information successfully written to file: \"%s\"."), outputFileName);
 		Log(mex);
 	}
 	else {
-		char mex[512];
-		mir_snprintf(mex, SIZEOF(mex), Translate("Error during the creation of file \"%s\". Disk may be full or write protected."), outputFileName);
+		TCHAR mex[512];
+		mir_sntprintf(mex, SIZEOF(mex), TranslateT("Error during the creation of file \"%s\". Disk may be full or write protected."), outputFileName);
 		Log(mex);
 	}
 }
 
-void CVersionInfo::PrintInformationsToFile() {
-	PrintInformationsToFile((*this).GetInformationsAsString().c_str());
+void CVersionInfo::PrintInformationsToFile()
+{
+	PrintInformationsToFile( GetInformationsAsString().c_str());
 }
 
-void CVersionInfo::PrintInformationsToMessageBox() {
-	MessageBox(NULL, (*this).GetInformationsAsString().c_str(), _T("VersionInfo"), MB_OK);
-	return;
+void CVersionInfo::PrintInformationsToMessageBox()
+{
+	MessageBox(NULL, GetInformationsAsString().c_str(), _T("VersionInfo"), MB_OK);
 }
 
-void CVersionInfo::PrintInformationsToOutputDebugString() {
-	OutputDebugString((*this).GetInformationsAsString().c_str());
-	return;
+void CVersionInfo::PrintInformationsToOutputDebugString()
+{
+	OutputDebugString( GetInformationsAsString().c_str());
 }
 
-#include "resource.h"
-//extern HINSTANCE hInst;
 
-void CVersionInfo::PrintInformationsToDialogBox() {
-//	HWND parent = DBGetContactSettingByte(NULL, ModuleName, "ShowInTaskbar", TRUE)?GetDesktopWindow():NULL;
-	HWND parent = NULL;
+void CVersionInfo::PrintInformationsToDialogBox()
+{
 	HWND DialogBox = CreateDialogParam(hInst,
 			MAKEINTRESOURCE(IDD_DIALOGINFO),
-			parent, DialogBoxProc, (LPARAM) this);
+			NULL, DialogBoxProc, (LPARAM) this);
 	
-	SetDlgItemText(DialogBox, IDC_TEXT, (*this).GetInformationsAsString().c_str());
-	return;
+	SetDlgItemText(DialogBox, IDC_TEXT, GetInformationsAsString().c_str());
 }
 
-void CVersionInfo::PrintInformationsToClipboard(bool showLog) {
-
+void CVersionInfo::PrintInformationsToClipboard(bool showLog)
+{
 	if (GetOpenClipboardWindow()) {
-		Log(Translate("The clipboard is not available, retry."));
+		Log( TranslateT("The clipboard is not available, retry."));
+		return;
 	}
-	else {
-		OpenClipboard(NULL);
-		//Ok, let's begin, then.
-		EmptyClipboard();
-		//Storage data we'll use.
-		LPTSTR lptstrCopy;
-		std::tstring aux = GetInformationsAsString();
-		size_t length = aux.length() + 1;
-		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, length*sizeof(TCHAR) + 5);
-		//Lock memory, copy it, release it.
-		lptstrCopy = (LPTSTR)GlobalLock(hData);
-		lstrcpy(lptstrCopy, aux.c_str());
-		lptstrCopy[length] = '\0';
-		GlobalUnlock(hData);
-		//Now set the clipboard data.
-		SetClipboardData(CF_TEXT, hData);
-		//Remove the lock on the clipboard.
-		CloseClipboard();
-		if (showLog)
-			{
-				Log(Translate("Information successfully copied into clipboard."));
-			}
-	}
-	return;
-}
-
-/*int MyReceive(SOCKET sClient, char *message, int size, int bShow)
-{
-	int len = recv(sClient, message, size - 1, 0);
-	int success = 0;
-	if (len != SOCKET_ERROR)
-		{
-			message[len] = '\0';
-			if (bShow)
-				{
-					PUShowMessage(message, SM_NOTIFY);
-				}
-			char *pos = message;
-			while ((pos = strchr(pos + 1, '\n')))
-				{
-					success++;
-				}
-			if (success <= 0) success = 1; //make sure success is at least 1
-		}
-		else{
-			success = 0;
-			closesocket(sClient);
-		} 
-	return success;
-}*/
-
-#define UPLOAD_ERROR() {PUShowMessage("Error while trying to upload data", SM_WARNING); return 1;}
-
-DWORD WINAPI UploadWorkerTread(LPVOID param)
-{
-	//PUShowMessage("Uploading to site", SM_NOTIFY);
-	/*
-	char *text = (char *) param;
-	char message[2048];
 	
-	char server[1024];
-	int port;
-	char user[512];
-	char password[512];
-	
-	GetStringFromDatabase("UploadServer", "vi.cass.cz", server, sizeof(server));
-	port = DBGetContactSettingWord(NULL, ModuleName, "UploadPort", DEFAULT_UPLOAD_PORT);
-	GetStringFromDatabase("UploadUser", "", user, sizeof(user));
-	GetStringFromDatabase("UploadPassword", "", password, sizeof(password));
-	CallService(MS_DB_CRYPT_DECODESTRING, sizeof(password), (LPARAM) password);
-	
-	SOCKET sClient = socket(AF_INET, SOCK_STREAM, 0);
-	if (!sClient)
-		{
-			MB("Could not create connection socket ...");
-			return 1;
-		}
-		
-	sockaddr_in addr = {0};
-	hostent *localHost = gethostbyname(server);
-	char *localIP = (localHost) ? inet_ntoa(*(struct in_addr *) *localHost->h_addr_list) : server;
-	
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = inet_addr(localIP);
-	addr.sin_port = htons(port);
-	
-	int res = connect(sClient, (sockaddr *) &addr, sizeof(addr));
-	if (res)
-		{
-			char buffer[1024];
-			mir_snprintf(buffer, sizeof(buffer), "Could not connect to server '%s' on port %d", server, port);
-			MB(buffer);
-			return 1;
-		}
-	res = MyReceive(sClient, message, sizeof(message), TRUE); //get the welcome message
-	switch (res)
-		{
-			case 1:
-				if (!MyReceive(sClient, message, sizeof(message), 0)) UPLOAD_ERROR(); //get the enter username message
-				break;
-				
-			case 2: //the enter user message was received already
-				break;
-				
-			default: //assume error by default
-				UPLOAD_ERROR();
-		}
-	
-	send(sClient, user, strlen(user), 0);
-	if (!MyReceive(sClient, message, sizeof(message), FALSE)) UPLOAD_ERROR(); //get the enter password message
-	send(sClient, password, strlen(password), 0);
-	if (!MyReceive(sClient, message, sizeof(message), FALSE)) UPLOAD_ERROR(); //get the upload data message
-	send(sClient, text, strlen(text) + 1, 0); //data message needs to send \0 so the server knows when to stop.
-	if (!MyReceive(sClient, message, sizeof(message), TRUE)) UPLOAD_ERROR();
-	closesocket(sClient);
-	//PUShowMessage("Done uploading to site", SM_NOTIFY);
-	
-	if (text)
-		{
-			free(text);
-		}
-	*/
-	return 0;
-}
-
-void CVersionInfo::UploadToSite(LPTSTR text)
-{	
-	DWORD threadID;
-	HANDLE thread;
-	char *data = NULL;
-	if (!text)
-		data = mir_utf8encodeT( GetInformationsAsString().c_str());
-	else
-		data = mir_utf8encodeT( text );
-
-	thread = CreateThread(NULL, NULL, UploadWorkerTread, data, 0, &threadID); //the thread will free the buffer
-	if (!thread)
-		MB("Upload worker thread could not be created");
-
-	if ( thread != NULL && thread != INVALID_HANDLE_VALUE)
-		CloseHandle(thread);
+	OpenClipboard(NULL);
+	//Ok, let's begin, then.
+	EmptyClipboard();
+	//Storage data we'll use.
+	LPTSTR lptstrCopy;
+	std::tstring aux = GetInformationsAsString();
+	size_t length = aux.length() + 1;
+	HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, length*sizeof(TCHAR) + 5);
+	//Lock memory, copy it, release it.
+	lptstrCopy = (LPTSTR)GlobalLock(hData);
+	lstrcpy(lptstrCopy, aux.c_str());
+	lptstrCopy[length] = '\0';
+	GlobalUnlock(hData);
+	//Now set the clipboard data.
+	SetClipboardData(CF_TEXT, hData);
+	//Remove the lock on the clipboard.
+	CloseClipboard();
+	if (showLog)
+		Log( TranslateT("Information successfully copied into clipboard."));
 }

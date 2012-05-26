@@ -77,33 +77,25 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 
 bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	LogToFileInit();
-	LogToFile("Entering %s", __FUNCTION__);
 	hInst=hinstDLL;
 	if (fdwReason == DLL_PROCESS_ATTACH) DisableThreadLibraryCalls(hinstDLL);
 	EnglishLocale = MAKELCID(MAKELANGID(0x09, 0x01), SORT_DEFAULT);	//create our english locale and use it everywhere it's needed
-	LogToFile("Leaving %s", __FUNCTION__);
 	return TRUE;
 }
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	LogToFile("Entering %s", __FUNCTION__);
-	LogToFile("Leaving %s", __FUNCTION__);
 	return &pluginInfo;
 }
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
-	LogToFile("Entering %s", __FUNCTION__);
 	pluginLink=link;
 	mir_getLP(&pluginInfo);
 	mir_getMMI(&mmi);
 	mir_getUTFI(&utfi);
 
-	LogToFile("Initialising services ...");
 	InitServices();
-	LogToFile("Hooking events ...");
 	HookEvents();
 	
 	hiVIIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_MAIN));
@@ -133,7 +125,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	//Menu item
 	//if (DBGetContactSettingByte(NULL, ModuleName, "MenuItem", TRUE)) 	{
 	{
-		LogToFile("creating menu item ...");
 		CLISTMENUITEM mi = { 0 };
 		mi.cbSize = sizeof(mi);
 		mi.position = mi.popupPosition = 2000089999;
@@ -147,24 +138,15 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 //		mi.pszName = "Test 1";
 //		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &mi);
 	}
-	LogToFile("Check riched32.dll ...");
 	if (LoadLibraryA("RichEd32.dll") == NULL)
 		MessageBoxA(NULL, "d'oh", "d'oh", MB_OK);
 	
-	LogToFile("Leaving %s", __FUNCTION__);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	LogToFile("Entering %s", __FUNCTION__);
-	
-	LogToFile("Unhooking events ...");
 	UnhookEvents();
-	
-	LogToFile("Destroying services ...");
 	DestroyServices();
-	
-	LogToFile("Leaving %s", __FUNCTION__);
 	return 0;
 }
