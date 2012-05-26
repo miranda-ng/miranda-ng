@@ -263,6 +263,8 @@ end:
 				pop eax
 			}
 			szName[SIZEOF(szName) - 1] = '\0';
+			#else
+				szName[0] = 0;
 			#endif
 
 			if ( !szName[0] )
