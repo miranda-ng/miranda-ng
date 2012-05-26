@@ -2,8 +2,7 @@
 #define _HEADERS_H
 
 #define _CRT_SECURE_NO_DEPRECATE
-#define MIRANDA_VER 0x0900
-#define MIRANDA_CUSTOM_LP
+#define MIRANDA_VER 0x0A00
 
 #include <m_stdhdr.h>
 #include <windows.h>
