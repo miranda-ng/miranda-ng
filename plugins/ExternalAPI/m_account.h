@@ -77,15 +77,15 @@ typedef struct CServer
 {
 	CServer(): Name(NULL),Login(NULL),Passwd(NULL) {}
 
-	TCHAR *Name;
+	char *Name;
 	DWORD Port;
 
-	TCHAR *Login;
+	char *Login;
 
 // Password encryption definitions
 #define STARTCODEPSW	0x50
 #define	ADDCODEPSW	0x0
-	TCHAR *Passwd;
+	char *Passwd;
 
 } *PSERVER;
 
@@ -104,7 +104,7 @@ typedef struct CAccount
 
 	struct CYAMNProtoPlugin *Plugin;	//free access, because this member should not be changed. The same as YAMN_PLUGIN structure
 
-	TCHAR *Name;				//access only through AccountAccessSO
+	char *Name;				//access only through AccountAccessSO
 
 //	DWORD Abilities;			//access only through AccountAccessSO
 
@@ -154,7 +154,7 @@ typedef struct CAccount
 	SYSTEMTIME LastSynchronised;	//last synchronisation (successfull), access only through AccountAccessSO
 	SYSTEMTIME LastMail;			//last check when new mail detected, access only through AccountAccessSO
 
-	char Status[255];			//access only through GetStatusFcn() and SetStatusFcn() functions
+	TCHAR Status[255];			//access only through GetStatusFcn() and SetStatusFcn() functions
 
 	DWORD TimeLeft;				//access only through AccountAccessSO
 
