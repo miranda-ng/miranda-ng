@@ -14,7 +14,7 @@
     <ProjectGuid>{E38B4212-53BC-49A7-B821-9A99DB4774C6}</ProjectGuid>
     <RootNamespace>rc4</RootNamespace>
     <Keyword>Win32Proj</Keyword>
-    <ProjectName>rc4</ProjectName>
+    <ProjectName>RC4</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
