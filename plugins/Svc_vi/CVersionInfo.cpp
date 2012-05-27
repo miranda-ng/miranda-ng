@@ -81,7 +81,7 @@ void FillLocalTime(std::tstring &output, FILETIME *fileTime)
 		break;
 	}
 
-	wsprintf(tzOffset, _T("UTC %+02d:%02d"), offset / 60, offset % 60);
+	mir_sntprintf(tzOffset, SIZEOF(tzOffset), _T("UTC %+02d:%02d"), offset / 60, offset % 60);
 	output += _T(" (") + std::tstring(tzOffset) + _T(")");
 }
 
@@ -1190,7 +1190,11 @@ void CVersionInfo::PrintInformationsToClipboard(bool showLog)
 	lptstrCopy[length] = '\0';
 	GlobalUnlock(hData);
 	//Now set the clipboard data.
-	SetClipboardData(CF_TEXT, hData);
+	#if defined( _UNICODE )
+		SetClipboardData(CF_UNICODETEXT, hData);
+	#else
+		SetClipboardData(CF_TEXT, hData);
+	#endif
 	//Remove the lock on the clipboard.
 	CloseClipboard();
 	if (showLog)
