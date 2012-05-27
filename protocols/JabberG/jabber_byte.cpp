@@ -85,10 +85,6 @@ void CJabberProto::IqResultProxyDiscovery( HXML iqNode, CJabberIqInfo* pInfo )
 void JabberByteSendConnection( HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra )
 {
 	CJabberProto* ppro = ( CJabberProto* )extra;
-	SOCKET s;
-	SOCKADDR_IN saddr;
-	int len;
-	WORD localPort;
 	TCHAR szPort[8];
 	JABBER_BYTE_TRANSFER *jbt;
 	int recvResult, bytesParsed;
@@ -97,20 +93,11 @@ void JabberByteSendConnection( HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra )
 	char* buffer;
 	int datalen;
 
-	localPort = 0;
-	if (( s = JCallService( MS_NETLIB_GETSOCKET, ( WPARAM ) hConn, 0 )) != INVALID_SOCKET ) {
-		len = sizeof( saddr );
-		if ( getsockname( s, ( SOCKADDR * ) &saddr, &len ) != SOCKET_ERROR )
-			localPort = ntohs( saddr.sin_port );
-	}
-	if ( localPort == 0 ) {
-		ppro->Log( "bytestream_send_connection unable to determine the local port, connection closed." );
-		Netlib_CloseHandle( hConn );
-		return;
-	}
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConn, (LPARAM)&connInfo);
 
-	mir_sntprintf( szPort, SIZEOF( szPort ), _T("%d"), localPort );
-	ppro->Log( "bytestream_send_connection incoming connection accepted: local_port=" TCHAR_STR_PARAM, szPort );
+	mir_sntprintf( szPort, SIZEOF( szPort ), _T("%u"), connInfo.wPort );
+	ppro->Log( "bytestream_send_connection incoming connection accepted: %s", connInfo.szIpPort );
 
 	if (( item = ppro->ListGetItemPtr( LIST_BYTE, szPort )) == NULL ) {
 		ppro->Log( "No bytestream session is currently active, connection closed." );
@@ -157,9 +144,7 @@ void JabberByteSendConnection( HANDLE hConn, DWORD /*dwRemoteIP*/, void* extra )
 
 void CJabberProto::ByteSendThread( JABBER_BYTE_TRANSFER *jbt )
 {
-	char* localAddr;
-	char* localAddrInternal;
-	struct in_addr in;
+	char* localAddr = NULL;
 	DBVARIANT dbv;
 	TCHAR szPort[8];
 	HANDLE hEvent = NULL;
@@ -216,12 +201,10 @@ void CJabberProto::ByteSendThread( JABBER_BYTE_TRANSFER *jbt )
 		HXML query = iq << XQUERY( _T(JABBER_FEAT_BYTESTREAMS)) << XATTR( _T("sid"), jbt->sid );
 
 		if ( bDirect ) {
-			localAddr = NULL;
-			if ( m_options.BsDirectManual == TRUE ) {
-				if ( !DBGetContactSettingString( NULL, m_szModuleName, "BsDirectAddr", &dbv )) {
-					localAddr = NEWSTR_ALLOCA( dbv.pszVal );
-					JFreeVariant( &dbv );
-			}	}
+			if ( m_options.BsDirectManual ) {
+				if ( !DBGetContactSettingString( NULL, m_szModuleName, "BsDirectAddr", &dbv ))
+					localAddr = dbv.pszVal;
+			}
 
 			NETLIBBIND nlb = {0};
 			nlb.cbSize = sizeof( NETLIBBIND );
@@ -234,12 +217,9 @@ void CJabberProto::ByteSendThread( JABBER_BYTE_TRANSFER *jbt )
 				delete jbt;
 				return;
 			}
-			if ( localAddr == NULL ) {
-				in.S_un.S_addr = htonl(nlb.dwExternalIP);
-				localAddr = NEWSTR_ALLOCA( inet_ntoa( in ));
-			}
-			in.S_un.S_addr = htonl(nlb.dwInternalIP);
-			localAddrInternal = NEWSTR_ALLOCA( inet_ntoa( in ));
+
+			if ( localAddr == NULL )
+				localAddr = (char*)CallService( MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP );
 
 			mir_sntprintf( szPort, SIZEOF( szPort ), _T("%d"), nlb.wPort );
 			JABBER_LIST_ITEM *item = ListAdd( LIST_BYTE, szPort );
@@ -248,8 +228,14 @@ void CJabberProto::ByteSendThread( JABBER_BYTE_TRANSFER *jbt )
 			jbt->hEvent = hEvent;
 			jbt->hSendEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
 			query << XCHILD( _T("streamhost")) << XATTR( _T("jid"), m_ThreadInfo->fullJID ) << XATTR( _T("host"), _A2T(localAddr)) << XATTRI( _T("port"), nlb.wPort );
-			if ( strcmp( localAddr, localAddrInternal ))
-				query << XCHILD( _T("streamhost")) << XATTR( _T("jid"), m_ThreadInfo->fullJID ) << XATTR( _T("host"), _A2T(localAddrInternal)) << XATTRI( _T("port"), nlb.wPort );
+
+			NETLIBIPLIST* ihaddr = ( NETLIBIPLIST* )CallService( MS_NETLIB_GETMYIP, 1, 0 );
+			for ( unsigned i = 0; i < ihaddr->cbNum; ++i )
+				if ( strcmp( localAddr, ihaddr->szIp[i] ))
+					query << XCHILD( _T("streamhost")) << XATTR( _T("jid"), m_ThreadInfo->fullJID ) << XATTR( _T("host"), _A2T(ihaddr->szIp[i])) << XATTRI( _T("port"), nlb.wPort );
+
+			mir_free( ihaddr );
+			mir_free( localAddr );
 		}
 
 		if ( jbt->bProxyDiscovered )

@@ -219,15 +219,19 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 		int nHostLen;
 		DWORD hostIP;
 
-		if(nlc->dnsThroughProxy) {
-			if((hostIP=inet_addr(nloc->szHost))==INADDR_NONE)
-				nHostLen=lstrlenA(nloc->szHost)+1;
-			else nHostLen=4;
+		if (nlc->dnsThroughProxy) 
+		{
+			hostIP = inet_addr(nloc->szHost);
+			if(hostIP == INADDR_NONE)
+				nHostLen = lstrlenA(nloc->szHost)+1;
+			else nHostLen = 4;
 		}
-		else {
-			if((hostIP=DnsLookup(nlu,nloc->szHost))==0)
+		else 
+		{
+			hostIP = DnsLookup(nlu,nloc->szHost);
+			if (hostIP == 0)
 				return 0;
-			nHostLen=4;
+			nHostLen = 4;
 		}
 		pInit=(PBYTE)mir_alloc(6+nHostLen);
 		pInit[0]=5;   //SOCKS5
@@ -394,8 +398,9 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 		if (Miranda_Terminated()) return false;
 	}
 
-    SOCKADDR_IN sin = {0};
-   	sin.sin_family = AF_INET;
+	PHOSTENT he;
+	SOCKADDR_IN sin = {0};
+	sin.sin_family = AF_INET;
 
 	if (nlc->proxyType)
 	{
@@ -405,107 +410,124 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 			NetlibLogf(nlc->nlu,"(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
 		else
 			NetlibLogf(nlc->nlu,"(%p) Connecting to proxy %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort);
-		
+
 		sin.sin_port = htons(nlc->wProxyPort);
-		sin.sin_addr.s_addr = DnsLookup(nlc->nlu, nlc->szProxyServer);
+		he = gethostbyname(nlc->szProxyServer);
 	}
 	else
 	{
-		if (!nloc || !nloc->szHost) return false;
+		if (!nloc || !nloc->szHost || nloc->szHost[0] == '[' || strchr(nloc->szHost, ':')) return false;
 		NetlibLogf(nlc->nlu,"(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
 
 		sin.sin_port = htons(nloc->wPort);
-		sin.sin_addr.s_addr = DnsLookup(nlc->nlu, nloc->szHost);
+		he = gethostbyname(nloc->szHost);
 	}
+
+	for (char** har = he->h_addr_list; *har && !Miranda_Terminated(); ++har)
+	{
+		sin.sin_addr.s_addr = *(u_long*)*har;
+
+		char* szIp = NetlibAddressToString((SOCKADDR_INET_M*)&sin);
+		NetlibLogf(nlc->nlu,"(%p) Connecting to ip %s ....", nlc, szIp);
+		mir_free(szIp);
 
 retry:
-	nlc->s = socket(AF_INET,nloc->flags & NLOCF_UDP ? SOCK_DGRAM : SOCK_STREAM, 0);
-	if (nlc->s == INVALID_SOCKET) return false;
+		nlc->s = socket(AF_INET, nloc->flags & NLOCF_UDP ? SOCK_DGRAM : SOCK_STREAM, 0);
+		if (nlc->s == INVALID_SOCKET) return false;
 
-	// return the socket to non blocking
-	if (ioctlsocket(nlc->s, FIONBIO, &notblocking) != 0) return false;
+		// return the socket to non blocking
+		if (ioctlsocket(nlc->s, FIONBIO, &notblocking) != 0) return false;
 
-	if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) 
-	{
-		if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, &nlc->nlu->inportnum))
-			NetlibLogf(nlc->nlu,"Netlib connect: Not enough ports for outgoing connections specified");
-	} 
+		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) 
+		{
+			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlc->nlu->inportnum))
+				NetlibLogf(nlc->nlu,"Netlib connect: Not enough ports for outgoing connections specified");
+		} 
 
-	// try a connect
-	if (connect(nlc->s, (LPSOCKADDR)&sin, sizeof(sin)) == 0) 
-	{
-		goto unblock;
-	}
-
-	// didn't work, was it cos of nonblocking?
-	if (WSAGetLastError() != WSAEWOULDBLOCK) 
-	{
-		rc = SOCKET_ERROR;
-		goto unblock;
-	}
-
-	for (;;) 
-	{		
-		fd_set r, w, e;
-		FD_ZERO(&r); FD_ZERO(&w); FD_ZERO(&e);
-		FD_SET(nlc->s, &r);
-		FD_SET(nlc->s, &w);
-		FD_SET(nlc->s, &e);		
-		if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR) 
+		// try a connect
+		if (connect(nlc->s, (LPSOCKADDR)&sin, sizeof(sin)) == 0) 
+		{
+			rc = 0;
 			break;
+		}
 
-		if (rc > 0) 
-		{			
-			if (FD_ISSET(nlc->s, &w))
-			{
-				// connection was successful
-				rc = 0;
-			}
-			if (FD_ISSET(nlc->s, &r)) 
-			{
-				// connection was closed
-				rc = SOCKET_ERROR;
-				lasterr = WSAECONNRESET;
-			}
-			if (FD_ISSET(nlc->s, &e)) 
-			{
-				// connection failed.
-				int len = sizeof(lasterr);
-				rc = SOCKET_ERROR;
-				getsockopt(nlc->s, SOL_SOCKET, SO_ERROR, (char*)&lasterr, &len);
-				if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2) 
+		// didn't work, was it cos of nonblocking?
+		if (WSAGetLastError() != WSAEWOULDBLOCK) 
+		{
+			rc = SOCKET_ERROR;
+
+			closesocket(nlc->s);
+			nlc->s = INVALID_SOCKET;
+			continue;
+		}
+
+		for (;;) 
+		{		
+			fd_set r, w, e;
+			FD_ZERO(&r); FD_ZERO(&w); FD_ZERO(&e);
+			FD_SET(nlc->s, &r);
+			FD_SET(nlc->s, &w);
+			FD_SET(nlc->s, &e);
+			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR) 
+				break;
+
+			if (rc > 0) 
+			{			
+				if (FD_ISSET(nlc->s, &w))
 				{
-					closesocket(nlc->s);
-					goto retry;
+					// connection was successful
+					rc = 0;
 				}
+				if (FD_ISSET(nlc->s, &r)) 
+				{
+					// connection was closed
+					rc = SOCKET_ERROR;
+					lasterr = WSAECONNRESET;
+				}
+				if (FD_ISSET(nlc->s, &e)) 
+				{
+					// connection failed.
+					int len = sizeof(lasterr);
+					rc = SOCKET_ERROR;
+					getsockopt(nlc->s, SOL_SOCKET, SO_ERROR, (char*)&lasterr, &len);
+					if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2) 
+					{
+						closesocket(nlc->s);
+						goto retry;
+					}
+				}
+				break;
+			} 
+			else if (Miranda_Terminated()) 
+			{
+				rc = SOCKET_ERROR;
+				lasterr = ERROR_TIMEOUT;
+				break;
+			} 
+			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && 
+				nloc->waitcallback != NULL && nloc->waitcallback(&dwTimeout) == 0)
+			{
+				rc = SOCKET_ERROR;
+				lasterr = ERROR_TIMEOUT;
+				break;
 			}
-			break;
-		} 
-		else if (Miranda_Terminated()) 
-		{
-			rc = SOCKET_ERROR;
-			lasterr = ERROR_TIMEOUT;
-			break;
-		} 
-		else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && 
-			nloc->waitcallback != NULL && nloc->waitcallback(&dwTimeout) == 0)
-		{
-			rc = SOCKET_ERROR;
-			lasterr = ERROR_TIMEOUT;
-			break;
+			if (--dwTimeout == 0) 
+			{
+				rc = SOCKET_ERROR;
+				lasterr = ERROR_TIMEOUT;
+				break;
+			}
 		}
-		if (--dwTimeout == 0) 
-		{
-			rc = SOCKET_ERROR;
-			lasterr = ERROR_TIMEOUT;
-			break;
-		}
+
+		if (rc == 0) break;
+
+		closesocket(nlc->s);
+		nlc->s = INVALID_SOCKET;
 	}
 
-unblock:	
 	notblocking = 0;
-	ioctlsocket(nlc->s, FIONBIO, &notblocking);
-	if (lasterr) SetLastError(lasterr);
+	if (nlc->s != INVALID_SOCKET) ioctlsocket(nlc->s, FIONBIO, &notblocking);
+	if (rc && lasterr) SetLastError(lasterr);
 	return rc == 0;
 }
 
@@ -548,7 +570,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 		hints.ai_socktype = SOCK_STREAM;
 		hints.ai_protocol = IPPROTO_TCP;
 	}
-	
+
 	if (nlc->proxyType)
 	{
 		if (!nlc->szProxyServer) return false;
@@ -579,8 +601,11 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 		}
 	}
 
-    for (ai = air; ai && !Miranda_Terminated(); ai = ai->ai_next)
+	for (ai = air; ai && !Miranda_Terminated(); ai = ai->ai_next)
 	{
+		char* szIp = NetlibAddressToString((SOCKADDR_INET_M*)ai->ai_addr);
+		NetlibLogf(nlc->nlu,"(%p) Connecting to ip %s ....", nlc, szIp);
+		mir_free(szIp);
 retry:
 		nlc->s = socket(ai->ai_family, ai->ai_socktype, ai->ai_protocol);
 		if (nlc->s == INVALID_SOCKET) return false;
@@ -590,7 +615,9 @@ retry:
 
 		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) 
 		{
-			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, &nlc->nlu->inportnum))
+			SOCKET s = ai->ai_family == AF_INET ? nlc->s : INVALID_SOCKET;
+			SOCKET s6 = ai->ai_family == AF_INET6 ? nlc->s : INVALID_SOCKET;
+			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, s, s6, &nlc->nlu->inportnum))
 				NetlibLogf(nlc->nlu,"Netlib connect: Not enough ports for outgoing connections specified");
 		} 
 
@@ -605,7 +632,10 @@ retry:
 		if (WSAGetLastError() != WSAEWOULDBLOCK) 
 		{
 			rc = SOCKET_ERROR;
-			break;
+
+			closesocket(nlc->s);
+			nlc->s = INVALID_SOCKET;
+			continue;
 		}
 
 		for (;;) // timeout loop 

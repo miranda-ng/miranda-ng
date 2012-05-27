@@ -196,24 +196,13 @@ int CJabberProto::FileReceiveParse( filetransfer* ft, char* buffer, int datalen 
 void JabberFileServerConnection( JABBER_SOCKET hConnection, DWORD /*dwRemoteIP*/, void* extra )
 {
 	CJabberProto* ppro = ( CJabberProto* )extra;
-	WORD localPort = 0;
-	SOCKET s = JCallService( MS_NETLIB_GETSOCKET, ( WPARAM ) hConnection, 0 ); 
-	if ( s != INVALID_SOCKET ) {
-		SOCKADDR_IN saddr;
-		int len = sizeof( saddr );
-		if ( getsockname( s, ( SOCKADDR * ) &saddr, &len ) != SOCKET_ERROR ) {
-			localPort = ntohs( saddr.sin_port );
-		}
-	}
-	if ( localPort == 0 ) {
-		ppro->Log( "Unable to determine the local port, file server connection closed." );
-		Netlib_CloseHandle( hConnection );
-		return;
-	}
 
-	TCHAR szPort[20];
-	mir_sntprintf( szPort, SIZEOF( szPort ), _T("%d"), localPort );
-	ppro->Log( "File server incoming connection accepted: local_port=" TCHAR_STR_PARAM, szPort );
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hConnection, (LPARAM)&connInfo);
+
+	TCHAR szPort[10];
+	mir_sntprintf( szPort, SIZEOF( szPort ), _T("%d"), connInfo.wPort );
+	ppro->Log( "File server incoming connection accepted: %s", connInfo.szIpPort );
 
 	JABBER_LIST_ITEM *item = ppro->ListGetItemPtr( LIST_FILE, szPort );
 	if ( item == NULL ) {
@@ -311,9 +300,6 @@ void __cdecl CJabberProto::FileServerThread( filetransfer* ft )
 			else
 				p = ft->std.ptszFiles[i];
 
-			in_addr in;
-			in.S_un.S_addr = m_dwJabberLocalIP;
-		
 			TCHAR* pFileName = JabberHttpUrlEncode( p );
 			if ( pFileName != NULL ) {
 				int id = SerialNext();
@@ -321,19 +307,21 @@ void __cdecl CJabberProto::FileServerThread( filetransfer* ft )
 				ft->iqId = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( strlen( JABBER_IQID )+20 ));
 				wsprintf( ft->iqId, _T(JABBER_IQID)_T("%d"), id );
 
-				char *myAddr;
+				char *myAddr = NULL;
 				DBVARIANT dbv;
 				if (m_options.BsDirect && m_options.BsDirectManual) {
-					if ( !DBGetContactSettingString( NULL, m_szModuleName, "BsDirectAddr", &dbv )) {
-						myAddr = NEWSTR_ALLOCA( dbv.pszVal );
-						JFreeVariant( &dbv );
-					}
-					else myAddr = inet_ntoa( in );
+					if ( !DBGetContactSettingString( NULL, m_szModuleName, "BsDirectAddr", &dbv ))
+						myAddr = dbv.pszVal;
 				}
-				else myAddr = inet_ntoa( in );
+
+				if ( myAddr == NULL )
+					myAddr = (char*)CallService( MS_NETLIB_ADDRESSTOSTRING, 1, nlb.dwExternalIP );
 
 				char szAddr[ 256 ];
 				mir_snprintf( szAddr, sizeof(szAddr), "http://%s:%d/%s", myAddr, nlb.wPort, pFileName );
+
+				mir_free( pFileName );
+				mir_free( myAddr );
 
 				int len = lstrlen(ptszResource) + lstrlen(ft->jid) + 2;
 				TCHAR* fulljid = ( TCHAR* )alloca( sizeof( TCHAR )*len );
@@ -347,7 +335,6 @@ void __cdecl CJabberProto::FileServerThread( filetransfer* ft )
 
 				Log( "Waiting for the file to be sent..." );
 				WaitForSingleObject( hEvent, INFINITE );
-				mir_free( pFileName );
 			}
 			Log( "File sent, advancing to the next file..." );
 			JSendBroadcast( ft->std.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ft, 0 );

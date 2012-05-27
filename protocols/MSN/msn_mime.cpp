@@ -71,6 +71,8 @@ unsigned MimeHeaders::allocSlot(void)
 
 void MimeHeaders::addString(const char* name, const char* szValue, unsigned flags)
 {
+	if (szValue == NULL) return;
+	
 	MimeHeader& H = mVals[allocSlot()];
 	H.name = name;
 	H.value = szValue; 

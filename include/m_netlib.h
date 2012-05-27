@@ -424,6 +424,48 @@ typedef struct {
 #define Netlib_GetBase64EncodedBufferSize(cbDecoded)  (((cbDecoded)*4+11)/12*4+1)
 #define MS_NETLIB_BASE64ENCODE   "Netlib/Base64Encode"
 
+// Converts string representation of IP and port into numerical SOCKADDR_INET
+// IPv4 could supplied in formats address:port or address
+// IPv6 could supplied in formats [address]:port or [address]
+// wParam=(WPARAM)(char*) string to convert
+// lParam=(LPARAM)(SOCKADDR_INET*) numeric IP address structure
+// Returns 0 on success
+#define MS_NETLIB_STARINGTOADDRESS "Netlib/StringToAddress"
+
+// Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
+// IPv4 will be supplied in formats address:port or address
+// IPv6 will be supplied in formats [address]:port or [address]
+// wParam=(WPARAM)(int) 0 - lParam - (sockaddr_gen*); 1 - lParam - (unsigned) in host byte order
+// lParam=(LPARAM)(sockaddr_gen*) or (unsigned) numeric IP address structure
+// Returns pointer to the string or NULL if not successful
+#define MS_NETLIB_ADDRESSTOSTRING  "Netlib/AddressToString"
+
+typedef struct {
+	int cbSize;
+	char szIpPort[64];
+	unsigned dwIpv4;
+	WORD wPort;
+} NETLIBCONNINFO;
+
+// Get connection Information
+// IPv4 will be supplied in formats address:port or address
+// IPv6 will be supplied in formats [address]:port or [address]
+// wParam=(WPARAM)(HANDLE)hConnection
+// lParam=(LPARAM)(NETLIBCONNINFO*) pointer to the connection information structure to fill
+// Returns 0 if successful
+#define MS_NETLIB_GETCONNECTIONINFO  "Netlib/GetConnectionInfo"
+
+typedef struct {
+	unsigned cbNum;
+	char szIp[1][64];
+} NETLIBIPLIST;
+
+// Get connection Information
+// wParam=(WPARAM)IP filter 1 - return global only IPv6 address, 0 all IPs
+// Returns (INT_PTR)(NETLIBIPLIST*) numeric IP address address array
+// the last element of the array is all 0s, 0 if not successful
+#define MS_NETLIB_GETMYIP  "Netlib/GetMyIP"
+
 //Send an HTTP request over a connection
 //wParam=(WPARAM)(HANDLE)hConnection
 //lParam=(LPARAM)(NETLIBHTTPREQUEST*)&nlhr

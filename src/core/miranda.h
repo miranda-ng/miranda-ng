@@ -108,11 +108,10 @@ typedef HRESULT ( STDAPICALLTYPE *pfnDwmIsCompositionEnabled )( BOOL * );
 extern pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
-typedef INT (STDAPICALLTYPE *pfnGetaddrinfo)(PCSTR pNodeName, PCSTR pServiceName, const ADDRINFOA * pHints, PADDRINFOA * ppResult);
-typedef INT (STDAPICALLTYPE *pfnFreeaddrinfo)(PADDRINFOA pAddrInfo);
-
-extern pfnGetaddrinfo MyGetaddrinfo;
-extern pfnFreeaddrinfo MyFreeaddrinfo;
+extern LPFN_GETADDRINFO MyGetaddrinfo;
+extern LPFN_FREEADDRINFO MyFreeaddrinfo;
+extern LPFN_WSASTRINGTOADDRESSA MyWSAStringToAddress;
+extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 /**** file.c ***************************************************************************/
 

@@ -525,9 +525,9 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 						if (ip && szHost) 
 						{
 							mir_free(szHost);
-							szHost = (char*)mir_alloc(30);
+							szHost = (char*)mir_alloc(64);
 							if (cln) *cln = ':';
-							mir_snprintf(szHost, 30, "%s%s", inet_ntoa(*(PIN_ADDR)&ip), cln ? cln : "");
+							mir_snprintf(szHost, 64, "%s%s", inet_ntoa(*(PIN_ADDR)&ip), cln ? cln : "");
 						}
 /*
 						if (ip && pszUrl[0] != '/') 

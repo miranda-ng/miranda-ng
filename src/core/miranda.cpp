@@ -77,8 +77,10 @@ pfnGetBufferedPaintBits getBufferedPaintBits;
 pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
-pfnGetaddrinfo MyGetaddrinfo;
-pfnFreeaddrinfo MyFreeaddrinfo;
+LPFN_GETADDRINFO MyGetaddrinfo;
+LPFN_FREEADDRINFO MyFreeaddrinfo;
+LPFN_WSASTRINGTOADDRESSA MyWSAStringToAddress;
+LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 ITaskbarList3 * pTaskbarInterface;
 
@@ -630,8 +632,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 	}
 
 	HMODULE hWinSock = GetModuleHandleA("ws2_32");
-	MyGetaddrinfo = (pfnGetaddrinfo)GetProcAddress(hWinSock, "getaddrinfo");
-	MyFreeaddrinfo = (pfnFreeaddrinfo)GetProcAddress(hWinSock, "freeaddrinfo");
+	MyGetaddrinfo = (LPFN_GETADDRINFO)GetProcAddress(hWinSock, "getaddrinfo");
+	MyFreeaddrinfo = (LPFN_FREEADDRINFO)GetProcAddress(hWinSock, "freeaddrinfo");
+	MyWSAStringToAddress = (LPFN_WSASTRINGTOADDRESSA)GetProcAddress(hWinSock, "WSAStringToAddressA");
+	MyWSAAddressToString = (LPFN_WSAADDRESSTOSTRINGA)GetProcAddress(hWinSock, "WSAAddressToStringA");
 
 	if (bufferedPaintInit) bufferedPaintInit();
 

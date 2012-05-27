@@ -81,7 +81,7 @@ void P2PV2_Header::logHeader(CMsnProto *ppro)
 bool CMsnProto::p2p_createListener(filetransfer* ft, directconnection *dc, MimeHeaders& chdrs)
 {
 	if (MyConnection.extIP == 0) return false;
-	
+
 	NETLIBBIND nlb = {0};
 	nlb.cbSize = sizeof(nlb);
 	nlb.pfnNewConnectionV2 = MSN_ConnectionProc;
@@ -103,22 +103,29 @@ bool CMsnProto::p2p_createListener(filetransfer* ft, directconnection *dc, MimeH
 
 	newThread->startThread(&CMsnProto::p2p_filePassiveThread, this);
 
-	char hostname[256] = "";
+	char szIpv4[256] = "";
+	char szIpv6[256] = "";
+	const char *szExtIp = MyConnection.GetMyExtIPStr(); 
 
-	gethostname(hostname, sizeof(hostname));
-	PHOSTENT he = gethostbyname(hostname);
-
-	hostname[0] = 0;
 	bool ipInt = false;
-	for (unsigned i = 0; i < sizeof(hostname) / 16; ++i) 
-	{
-		const PIN_ADDR addr = (PIN_ADDR)he->h_addr_list[i];
+	int i4 = 0, i6 = 0;
 
-		if (addr == NULL) break;
-		if (i != 0) strcat(hostname, " ");
-		ipInt |= (addr->S_un.S_addr == MyConnection.extIP);
-		strcat(hostname, inet_ntoa(*addr));
+	NETLIBIPLIST* ihaddr = (NETLIBIPLIST*)CallService(MS_NETLIB_GETMYIP, 1, 0);
+	for (unsigned i = 0; i < ihaddr->cbNum; ++i)
+	{
+		if (strchr(ihaddr->szIp[i], ':'))
+		{
+			if (i6++ != 0) strcat(szIpv6, " ");
+			strcat(szIpv6, ihaddr->szIp[i]);
+		}
+		else
+		{
+			if (i4++ != 0) strcat(szIpv4, " ");
+			ipInt |= (strcmp(ihaddr->szIp[i], szExtIp) == 0);
+			strcat(szIpv4, ihaddr->szIp[i]);
+		}
 	}
+	mir_free(ihaddr);
 
 	chdrs.addString("Bridge", "TCPv1");
 	chdrs.addBool("Listening", true);
@@ -135,8 +142,13 @@ bool CMsnProto::p2p_createListener(filetransfer* ft, directconnection *dc, MimeH
 		chdrs.addString("IPv4External-Addrs", mir_strdup(MyConnection.GetMyExtIPStr()), bUbnCall ? 6 : 2);
 		chdrs.addLong("IPv4External-Port", nlb.wExPort, bUbnCall ? 4 : 0);
 	}
-	chdrs.addString("IPv4Internal-Addrs", mir_strdup(hostname), bUbnCall ? 6 : 2);
+	chdrs.addString("IPv4Internal-Addrs", mir_strdup(szIpv4), bUbnCall ? 6 : 2);
 	chdrs.addLong("IPv4Internal-Port", nlb.wPort, bUbnCall ? 4 : 0);
+	if (szIpv6[0])
+	{
+		chdrs.addString("IPv6-Addrs", mir_strdup(szIpv6), 2);
+		chdrs.addLong("IPv6-Port", nlb.wPort);
+	}
 	chdrs.addULong("SessionID", ft->p2p_sessionid);
 	chdrs.addString("SChannelState", "0");
 	chdrs.addString("Capabilities-Flags", "1");
@@ -382,19 +394,19 @@ void  CMsnProto::p2p_sendMsg(ThreadData* info, const char *wlid, unsigned appId,
 		char* szEmail;
 		switch (msgType) 
 		{
-			case 0:
-				parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
-				MsgQueue_Add(szEmail, 'D', buf, p - buf);
-				break;
+		case 0:
+			parseWLID(NEWSTR_ALLOCA(wlid), NULL, &szEmail, NULL);
+			MsgQueue_Add(szEmail, 'D', buf, p - buf);
+			break;
 
-			case 1: 
-				*(unsigned*)buf = (unsigned)(p - buf - sizeof(unsigned));
-				info->send(buf, p - buf);
-				break;
+		case 1: 
+			*(unsigned*)buf = (unsigned)(p - buf - sizeof(unsigned));
+			info->send(buf, p - buf);
+			break;
 
-			case 2:
-				info->sendRawMessage('D', buf, p - buf);
-				break;
+		case 2:
+			info->sendRawMessage('D', buf, p - buf);
+			break;
 		}
 		offset += portion;
 	} 
@@ -522,7 +534,7 @@ void  CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 		case 1603: p += sprintf(p, "MSNSLP/1.0 603 Decline"); break;
 		default: return;
 	}
-	
+
 	if (iKind < 0) 
 	{
 		mir_free(ft->p2p_branch);
@@ -565,9 +577,9 @@ void  CMsnProto::p2p_sendSlp(int iKind, filetransfer *ft, MimeHeaders &pHeaders,
 
 			switch (iKind) 
 			{
-				case -1: case 500: case 603: 
-					ft->p2p_byemsgid  = tHdr.mID; 
-					break;
+			case -1: case 500: case 603: 
+				ft->p2p_byemsgid  = tHdr.mID; 
+				break;
 			}
 
 		}
@@ -622,7 +634,7 @@ void  CMsnProto::p2p_sendNoCall(filetransfer* ft)
 		MSN_DebugLog(sttVoidSession);
 		return;
 	}
-	 
+
 	MimeHeaders tHeaders(8);
 	tHeaders.addString("CSeq", "0 ");
 	tHeaders.addString("Call-ID", ft->p2p_callID);
@@ -882,7 +894,7 @@ LONG  CMsnProto::p2p_sendPortion(filetransfer* ft, ThreadData* T, bool isV2)
 	// Compute the amount of data to send
 	unsigned fportion = T->mType == SERVER_P2P_DIRECT ? 1352 : 1202;
 	if (isV2) fportion += 4;
-	
+
 	const unsigned __int64 dt = ft->std.currentFileSize - ft->std.currentFileProgress;
 	const unsigned portion = dt > fportion ? fportion : dt;
 
@@ -975,9 +987,9 @@ void __cdecl CMsnProto::p2p_sendFeedThread(void* arg)
 
 	switch(WaitForSingleObject(info->hWaitEvent, 6000)) 
 	{
-		case WAIT_FAILED:
-			MSN_DebugLog("File send wait failed");
-			return;
+	case WAIT_FAILED:
+		MSN_DebugLog("File send wait failed");
+		return;
 	}
 
 	HANDLE hLockHandle = NULL;
@@ -1036,7 +1048,7 @@ void __cdecl CMsnProto::p2p_sendFeedThread(void* arg)
 			WaitForSingleObject(T->hWaitEvent, 5000);
 	}
 	ReleaseMutex(hLockHandle);
-	
+
 	if (ft->p2p_appID == MSN_APPID_FILE)
 		SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
 
@@ -1213,7 +1225,7 @@ void CMsnProto::p2p_InitFileTransfer(
 	replaceStr(ft->p2p_branch, szBranch);
 	ft->p2p_dest = mir_strdup(wlid);
 	ft->p2p_isV2 = strchr(wlid, ';') != NULL;
- 	ft->std.hContact = MSN_HContactFromEmail(wlid);
+	ft->std.hContact = MSN_HContactFromEmail(wlid);
 
 	p2p_registerSession(ft);
 
@@ -1292,15 +1304,14 @@ void CMsnProto::p2p_InitFileTransfer(
 		if (!_stricmp(szEufGuid, "{5D3E02AB-6190-11D3-BBBB-00C04F795683}")) 
 		{
 			wchar_t* wszFileName = ((HFileContext*)szContext)->wszFileName;
-			{	for (wchar_t* p = wszFileName; *p != 0; p++)
-				{	
-					switch(*p) 
-					{
-					case ':': case '?': case '/': case '\\': case '*':
-						*p = '_';
-					}	
+			for (wchar_t* p = wszFileName; *p != 0; p++)
+			{	
+				switch(*p) 
+				{
+				case ':': case '?': case '/': case '\\': case '*':
+					*p = '_';
 				}	
-			}
+			}	
 
 			mir_free(ft->std.tszCurrentFile);
 			ft->std.tszCurrentFile = mir_u2t(wszFileName);
@@ -1363,12 +1374,12 @@ void CMsnProto::p2p_InitFileTransfer(
 
 void CMsnProto::p2p_InitDirectTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFileInfo2, const char* wlid)
 {
-	const char	*szCallID = tFileInfo["Call-ID"],
-				*szBranch = tFileInfo["Via"],
-				*szConnType = tFileInfo2["Conn-Type"],
-				*szUPnPNat = tFileInfo2["UPnPNat"],
-				*szNetID = tFileInfo2["NetID"],
-				*szICF = tFileInfo2["ICF"],
+	const char	*szCallID      = tFileInfo["Call-ID"],
+				*szBranch      = tFileInfo["Via"],
+				*szConnType    = tFileInfo2["Conn-Type"],
+				*szUPnPNat     = tFileInfo2["UPnPNat"],
+				*szNetID       = tFileInfo2["NetID"],
+				*szICF         = tFileInfo2["ICF"],
 				*szHashedNonce = tFileInfo2["Hashed-Nonce"];
 
 	if (szBranch != NULL) 
@@ -1408,8 +1419,8 @@ void CMsnProto::p2p_InitDirectTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFil
 /*
 		if (p2p_isAvatarOnly(ft->std.hContact)) 
 		{
-	//		p2p_sendStatus(ft, 1603);
-	//		return;
+			p2p_sendStatus(ft, 1603);
+			return;
 		}
 		else
 			SendBroadcast(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft, 0);
@@ -1475,7 +1486,7 @@ void CMsnProto::p2p_InitDirectTransfer(MimeHeaders& tFileInfo, MimeHeaders& tFil
 }
 
 
-void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const char* addr, const char* port)
+void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const char* addr, const char* port, bool ipv6)
 {
 	if (port == NULL) return;
 
@@ -1489,7 +1500,8 @@ void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const c
 		newThread->mType = SERVER_P2P_DIRECT;
 		newThread->mInitialContactWLID = mir_strdup(wlid);
 		mir_snprintf(newThread->mCookie, sizeof(newThread->mCookie), "%s", szCallID);
-		mir_snprintf(newThread->mServer, sizeof(newThread->mServer), "%s:%s", addr, port);
+		mir_snprintf(newThread->mServer, sizeof(newThread->mServer),
+			ipv6 ? "[%s]:%s" : "%s:%s", addr, port);
 
 		newThread->startThread(&CMsnProto::p2p_fileActiveThread, this);
 
@@ -1499,14 +1511,16 @@ void CMsnProto::p2p_startConnect(const char* wlid, const char* szCallID, const c
 
 void CMsnProto::p2p_InitDirectTransfer2(MimeHeaders& tFileInfo, MimeHeaders& tFileInfo2, const char* wlid)
 {
-	const char  *szCallID = tFileInfo["Call-ID"],
+	const char  *szCallID          = tFileInfo["Call-ID"],
 				*szInternalAddress = tFileInfo2["IPv4Internal-Addrs"],
-				*szInternalPort = tFileInfo2["IPv4Internal-Port"],
+				*szInternalPort    = tFileInfo2["IPv4Internal-Port"],
 				*szExternalAddress = tFileInfo2["IPv4External-Addrs"],
-				*szExternalPort = tFileInfo2["IPv4External-Port"],
-				*szNonce = tFileInfo2["Nonce"],
-				*szHashedNonce = tFileInfo2["Hashed-Nonce"],
-				*szListening = tFileInfo2["Listening"];
+				*szExternalPort    = tFileInfo2["IPv4External-Port"],
+				*szNonce           = tFileInfo2["Nonce"],
+				*szHashedNonce     = tFileInfo2["Hashed-Nonce"],
+				*szListening       = tFileInfo2["Listening"],
+				*szV6Address       = tFileInfo2["IPv6-Addrs"],
+				*szV6Port          = tFileInfo2["IPv6-Port" ];
 
 	if ((szNonce == NULL && szHashedNonce == NULL) || szListening == NULL) 
 	{
@@ -1526,8 +1540,9 @@ void CMsnProto::p2p_InitDirectTransfer2(MimeHeaders& tFileInfo, MimeHeaders& tFi
 
 	if (!strcmp(szListening, "true") && strcmp(dc->xNonce, sttVoidUid)) 
 	{
-		p2p_startConnect(wlid, szCallID, szInternalAddress, szInternalPort);
-		p2p_startConnect(wlid, szCallID, szExternalAddress, szExternalPort);
+		p2p_startConnect(wlid, szCallID, szV6Address, szV6Port, true);
+		p2p_startConnect(wlid, szCallID, szInternalAddress, szInternalPort, false);
+		p2p_startConnect(wlid, szCallID, szExternalAddress, szExternalPort, false);
 	}
 }
 
@@ -1622,6 +1637,7 @@ LBL_Close:
 		chdrs.addString("Conn-Type", MyConnection.GetMyUdpConStr());
 		chdrs.addBool("UPnPNat", MyConnection.upnpNAT);
 		chdrs.addBool("ICF", MyConnection.icf);
+		chdrs.addString("IPv6-global", GetGlobalIp(), 2);
 		chdrs.addString("Hashed-Nonce", dc->mNonceToHash(), 2);
 	}
 	else if (!strcmp(szOldContentType, "application/x-msnmsgr-transrespbody")) 
@@ -1632,7 +1648,10 @@ LBL_Close:
 					*szExternalAddress = tFileInfo2["IPv4External-Addrs"],
 					*szExternalPort    = tFileInfo2["IPv4External-Port" ],
 					*szInternalAddress = tFileInfo2["IPv4Internal-Addrs"],
-					*szInternalPort    = tFileInfo2["IPv4Internal-Port" ];
+					*szInternalPort    = tFileInfo2["IPv4Internal-Port" ],
+					*szV6Address       = tFileInfo2["IPv6-Addrs"],
+					*szV6Port          = tFileInfo2["IPv6-Port" ];
+
 		if ((szNonce == NULL && szHashedNonce == NULL) || szListening == NULL) 
 		{
 			MSN_DebugLog("Invalid data packet, exiting...");
@@ -1653,8 +1672,9 @@ LBL_Close:
 		// another side reported that it will be a server.
 		if (!strcmp(szListening, "true") && (szNonce == NULL || strcmp(szNonce, sttVoidUid))) 
 		{
-			p2p_startConnect(ft->p2p_dest, szCallID, szInternalAddress, szInternalPort);
-			p2p_startConnect(ft->p2p_dest, szCallID, szExternalAddress, szExternalPort);
+			p2p_startConnect(ft->p2p_dest, szCallID, szV6Address, szV6Port, true);
+			p2p_startConnect(ft->p2p_dest, szCallID, szInternalAddress, szInternalPort, false);
+			p2p_startConnect(ft->p2p_dest, szCallID, szExternalAddress, szExternalPort, false);
 			return;
 		}
 
@@ -1788,8 +1808,8 @@ void CMsnProto::p2p_processSIP(ThreadData* info, char* msgbody, P2PB_Header* hdr
 			const char* callID = tFileInfo["Call-ID"];
 
 //			application/x-msnmsgr-session-failure-respbody
-			
-  			directconnection *dc = p2p_getDCByCallID(callID, wlid);
+
+			directconnection *dc = p2p_getDCByCallID(callID, wlid);
 			if (dc != NULL)
 			{
 				p2p_unregisterDC(dc);
@@ -1830,7 +1850,7 @@ void CMsnProto::p2p_processSIP(ThreadData* info, char* msgbody, P2PB_Header* hdr
 void  CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* wlid)
 {
 	P2PV2_Header hdrdata;
-	
+
 	char *msg = hdrdata.parseMsg(msgbody);
 	hdrdata.logHeader(this);
 
@@ -1864,7 +1884,7 @@ void  CMsnProto::p2p_processMsgV2(ThreadData* info,  char* msgbody, const char* 
 
 			if (hdrdata.mRemSize == 0)
 			{
-	  			size_t newsize;
+				size_t newsize;
 				if (getCachedMsg(idx, msgbody, newsize))
 				{
 					unsigned id = hdrdata.mID;
@@ -1942,9 +1962,9 @@ void  CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wl
 	//---- if we got a message
 	if (LOWORD(hdrdata.mFlags) == 0 && hdrdata.mSessionID == 0)
 	{
-//		MsnContact *cont = Lists_Get(wlid);
-//		if (cont && cont->places.getCount())
-//			return;
+		//		MsnContact *cont = Lists_Get(wlid);
+		//		if (cont && cont->places.getCount())
+		//			return;
 
 		if (hdrdata.mPacketLen < hdrdata.mTotalSize)
 		{
@@ -2039,7 +2059,7 @@ void  CMsnProto::p2p_processMsg(ThreadData* info,  char* msgbody, const char* wl
 	if (LOWORD(hdrdata.mFlags) == 0) 
 	{
 		//---- accept the data preparation message ------
-//		const unsigned* pLongs = (unsigned*)msgbody;
+		//		const unsigned* pLongs = (unsigned*)msgbody;
 		if (hdrdata.mPacketLen == 4 && hdrdata.mTotalSize == 4) 
 		{
 			p2p_sendAck(ft->p2p_dest, &hdrdata);
@@ -2151,84 +2171,84 @@ void  CMsnProto::p2p_invite(unsigned iAppID, filetransfer* ft, const char *wlid)
 
 	switch (iAppID) 
 	{
-		case MSN_APPID_FILE:
+	case MSN_APPID_FILE:
+		{
+			cbContext = sizeof(HFileContext);
+			pContext = (char*)malloc(cbContext);
+			HFileContext* ctx = (HFileContext*)pContext;
+			memset(pContext, 0, cbContext);
+			if (ft->p2p_isV2)
 			{
-				cbContext = sizeof(HFileContext);
-				pContext = (char*)malloc(cbContext);
-				HFileContext* ctx = (HFileContext*)pContext;
-				memset(pContext, 0, cbContext);
-				if (ft->p2p_isV2)
-				{
-					cbContext -= 64;
-					ctx->ver = 2; 
-				}
-				else
-				{
-					ctx->ver = 3; 
-					ctx->id = 0xffffffff;
-				}
-				ctx->len = (unsigned)cbContext;
-				ctx->type = MSN_TYPEID_FTNOPREVIEW;
-				ctx->dwSize = ft->std.currentFileSize;
-
-				TCHAR* pszFiles = _tcsrchr(ft->std.tszCurrentFile, '\\');
-				if (pszFiles)
-					pszFiles++;
-				else
-					pszFiles = ft->std.tszCurrentFile;
-
-				wchar_t *fname = mir_t2u(pszFiles);
-				wcsncpy(ctx->wszFileName, fname, MAX_PATH);
-				mir_free(fname);
-
-				ft->p2p_appID = MSN_APPID_FILE;
+				cbContext -= 64;
+				ctx->ver = 2; 
 			}
-			break;
-
-		default:
-			ft->p2p_appID = MSN_APPID_AVATAR2;
-
-			if (ft->p2p_object == NULL)
+			else
 			{
-				delete ft;
-				return;
+				ctx->ver = 3; 
+				ctx->id = 0xffffffff;
 			}
+			ctx->len = (unsigned)cbContext;
+			ctx->type = MSN_TYPEID_FTNOPREVIEW;
+			ctx->dwSize = ft->std.currentFileSize;
 
-			ezxml_t xmlo = ezxml_parse_str(NEWSTR_ALLOCA(ft->p2p_object), strlen(ft->p2p_object));
-			ezxml_t xmlr = ezxml_new("msnobj");
-				
-			const char* p;
-			p = ezxml_attr(xmlo, "Creator");
-			if (p != NULL)
-				ezxml_set_attr(xmlr, "Creator", p);
-			p = ezxml_attr(xmlo, "Size");
-			if (p != NULL) {
-				ezxml_set_attr(xmlr, "Size", p);
-				ft->std.totalBytes = ft->std.currentFileSize = _atoi64(p);
-			}
-			p = ezxml_attr(xmlo, "Type");
-			if (p != NULL)
-				ezxml_set_attr(xmlr, "Type", p);
-			p = ezxml_attr(xmlo, "Location");
-			if (p != NULL)
-				ezxml_set_attr(xmlr, "Location", p);
-			p = ezxml_attr(xmlo, "Friendly");
-			if (p != NULL)
-				ezxml_set_attr(xmlr, "Friendly", p);
-			p = ezxml_attr(xmlo, "SHA1D");
-			if (p != NULL)
-				ezxml_set_attr(xmlr, "SHA1D", p);
-			p = ezxml_attr(xmlo, "SHA1C");
-			if (p != NULL)
-				ezxml_set_attr(xmlr, "SHA1C", p);
+			TCHAR* pszFiles = _tcsrchr(ft->std.tszCurrentFile, '\\');
+			if (pszFiles)
+				pszFiles++;
+			else
+				pszFiles = ft->std.tszCurrentFile;
 
-			pContext = ezxml_toxml(xmlr, false);
-			cbContext = strlen(pContext)+1;
+			wchar_t *fname = mir_t2u(pszFiles);
+			wcsncpy(ctx->wszFileName, fname, MAX_PATH);
+			mir_free(fname);
 
-			ezxml_free(xmlr);
-			ezxml_free(xmlo);
+			ft->p2p_appID = MSN_APPID_FILE;
+		}
+		break;
 
-			break;
+	default:
+		ft->p2p_appID = MSN_APPID_AVATAR2;
+
+		if (ft->p2p_object == NULL)
+		{
+			delete ft;
+			return;
+		}
+
+		ezxml_t xmlo = ezxml_parse_str(NEWSTR_ALLOCA(ft->p2p_object), strlen(ft->p2p_object));
+		ezxml_t xmlr = ezxml_new("msnobj");
+
+		const char* p;
+		p = ezxml_attr(xmlo, "Creator");
+		if (p != NULL)
+			ezxml_set_attr(xmlr, "Creator", p);
+		p = ezxml_attr(xmlo, "Size");
+		if (p != NULL) {
+			ezxml_set_attr(xmlr, "Size", p);
+			ft->std.totalBytes = ft->std.currentFileSize = _atoi64(p);
+		}
+		p = ezxml_attr(xmlo, "Type");
+		if (p != NULL)
+			ezxml_set_attr(xmlr, "Type", p);
+		p = ezxml_attr(xmlo, "Location");
+		if (p != NULL)
+			ezxml_set_attr(xmlr, "Location", p);
+		p = ezxml_attr(xmlo, "Friendly");
+		if (p != NULL)
+			ezxml_set_attr(xmlr, "Friendly", p);
+		p = ezxml_attr(xmlo, "SHA1D");
+		if (p != NULL)
+			ezxml_set_attr(xmlr, "SHA1D", p);
+		p = ezxml_attr(xmlo, "SHA1C");
+		if (p != NULL)
+			ezxml_set_attr(xmlr, "SHA1C", p);
+
+		pContext = ezxml_toxml(xmlr, false);
+		cbContext = strlen(pContext)+1;
+
+		ezxml_free(xmlr);
+		ezxml_free(xmlo);
+
+		break;
 	}
 
 	bool sessionExist = p2p_sessionRegistered(ft);
@@ -2335,6 +2355,7 @@ void CMsnProto::p2p_inviteDc(filetransfer* ft, const char *wlid)
 	chdrs.addString("Conn-Type", MyConnection.GetMyUdpConStr());
 	chdrs.addBool("UPnPNat", MyConnection.upnpNAT);
 	chdrs.addBool("ICF", MyConnection.icf);
+	chdrs.addString("IPv6-global", GetGlobalIp(), 2);
 	chdrs.addString("Hashed-Nonce", dc->mNonceToHash(), 2);
 	chdrs.addString("SessionID", "0");
 	chdrs.addString("SChannelState", "0");
@@ -2452,7 +2473,7 @@ char* P2PV2_Header::createMsg(char *buf, const char* wlid, CMsnProto *ppro)
 	*(unsigned*)(buf + 4) = _htonl(mID);
 
 	char *buf1 = buf + 8;
-	
+
 	if (mAckUniqueID)
 	{
 		*(unsigned char*)buf1 = 2;
@@ -2475,7 +2496,7 @@ char* P2PV2_Header::createMsg(char *buf, const char* wlid, CMsnProto *ppro)
 	*(unsigned char*)(buf1 + 1) = mTFCode;
 	*(unsigned short*)(buf1 + 2) = _htons(mPacketNum);
 	*(unsigned*)(buf1 + 4) = _htonl(mSessionID);
-	
+
 	if (mRemSize)
 	{
 		*(unsigned char*)(buf1 + 8) = 1;

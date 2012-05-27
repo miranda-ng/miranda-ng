@@ -369,7 +369,7 @@ struct CMsnProto : public PROTO_INTERFACE
 	void  p2p_savePicture2disk(filetransfer* ft);
 	
 	bool  p2p_createListener(filetransfer* ft, directconnection *dc, MimeHeaders& chdrs);
-	void  p2p_startConnect(const char* wlid, const char* szCallID, const char* addr, const char* port);
+	void  p2p_startConnect(const char* wlid, const char* szCallID, const char* addr, const char* port, bool ipv6);
 
 	void  p2p_sendAbortSession(filetransfer* ft);
 	void  p2p_sendAck(const char *wlid, P2PB_Header* hdrdata);

@@ -132,7 +132,8 @@ void CJabberProto::OnPingReply( HXML, CJabberIqInfo* pInfo )
 		return;
 	if ( pInfo->GetIqType() == JABBER_IQ_TYPE_FAIL ) {
 		// disconnect because of timeout
-		SetStatus(ID_STATUS_OFFLINE);
+		m_ThreadInfo->send( "</stream:stream>" );
+		m_ThreadInfo->shutdown();
 	}
 }
 
@@ -428,17 +429,6 @@ LBL_FatalError:
 	}
 
 	// Determine local IP
-	int socket = JCallService( MS_NETLIB_GETSOCKET, ( WPARAM ) info->s, 0 );
-	if ( info->type==JABBER_SESSION_NORMAL && socket!=INVALID_SOCKET ) {
-		struct sockaddr_in saddr;
-		int len;
-
-		len = sizeof( saddr );
-		getsockname( socket, ( struct sockaddr * ) &saddr, &len );
-		m_dwJabberLocalIP = saddr.sin_addr.S_un.S_addr;
-		Log( "Local IP = %s", inet_ntoa( saddr.sin_addr ));
-	}
-
 	if ( info->useSSL ) {
 		Log( "Intializing SSL connection" );
 		if (!JCallService( MS_NETLIB_STARTSSL, ( WPARAM )info->s, 0)) {
@@ -1012,12 +1002,8 @@ void CJabberProto::OnProcessProceed( HXML node, ThreadData* info )
 		ssl.host = isHosted ? info->manualHost : info->server;
 		if (!JCallService( MS_NETLIB_STARTSSL, ( WPARAM )info->s, ( LPARAM )&ssl)) {
 			Log( "SSL initialization failed" );
-			if (info->type == JABBER_SESSION_REGISTER) {
-				info->send( "</stream:stream>" );
-				info->shutdown();
-			} 
-			else
-				SetStatus(ID_STATUS_OFFLINE);
+			info->send( "</stream:stream>" );
+			info->shutdown();
 		}
 		else
 			xmlStreamInitialize( "after successful StartTLS" );

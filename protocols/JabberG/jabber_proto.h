@@ -260,7 +260,6 @@ struct CJabberProto : public PROTO_INTERFACE
 
 	TCHAR* m_szJabberJID;
 	char*  m_szStreamId;
-	DWORD  m_dwJabberLocalIP;
 	BOOL   m_bJabberConnected; // TCP connection to jabber server established
 	BOOL   m_bJabberOnline; // XMPP connection initialized and we can send XMPP packets
 	int    m_nJabberSearchID;

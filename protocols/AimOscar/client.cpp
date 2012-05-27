@@ -260,12 +260,15 @@ int CAimProto::aim_client_ready(HANDLE hServerConn,unsigned short &seqno)
 	if (hDirectBoundPort == NULL)
 	{
 		ShowPopup(LPGEN("Aim was unable to bind to a port. File transfers may not succeed in some cases."), ERROR_POPUP);
+		local_port = 0;
 	}
 	else
-	{
 		local_port = nlb.wPort;
-		internal_ip = nlb.dwInternalIP;
-	}
+
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hServerConn, (LPARAM)&connInfo);
+	
+	internal_ip = connInfo.dwIpv4;
 
 	char buf[SNAC_SIZE+TLV_HEADER_SIZE*22];
 	aim_writesnac(0x01,0x02,offset,buf);

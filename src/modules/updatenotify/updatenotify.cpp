@@ -214,17 +214,11 @@ static DWORD UpdateNotifyMakeVersion(char *str) {
     return PLUGIN_MAKE_VERSION(a1, a2, a3, a4);
 }
 
-static int UpdateNotifyIsNewer(DWORD dwCurrent, DWORD dwTest) {
-    if (dwTest>dwCurrent) 
-        return 1;
-    return 0;
-}
+inline bool UpdateNotifyIsNewer(DWORD dwCurrent, DWORD dwTest) 
+{ return dwTest > dwCurrent; }
 
-static int UpdateNotifyReleaseDataValid(UpdateNotifyReleaseData *d) {
-    if (d&&d->szVersionPublic&&d->szVersion&&d->szDownload&&d->szNotes)
-        return 1;
-    return 0;
-}
+inline bool UpdateNotifyReleaseDataValid(UpdateNotifyReleaseData *d) 
+{ return d && d->szVersionPublic && d->szVersion && d->szDownload && d->szNotes; }
 
 static void UpdateNotifyFreeReleaseData(UpdateNotifyReleaseData *d) {
     if (!d) 

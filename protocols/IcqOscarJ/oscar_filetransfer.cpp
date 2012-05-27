@@ -885,7 +885,7 @@ HANDLE CIcqProto::oftInitTransfer(HANDLE hContact, DWORD dwUin, char* szUid, con
 		}
 	}
 
-	for (int i = 0; i < filesCount; i++)
+	for (i = 0; i < filesCount; i++)
 		SAFE_FREE(&filesUtf[i]);
 	SAFE_FREE((void**)&filesUtf);
 

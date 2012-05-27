@@ -30,30 +30,20 @@ void MSN_ConnectionProc(HANDLE hNewConnection, DWORD /* dwRemoteIP */, void* ext
 	
 	proto->MSN_DebugLog("File transfer connection accepted");
 
-	WORD localPort = 0;
-	SOCKET s = MSN_CallService(MS_NETLIB_GETSOCKET, (WPARAM)hNewConnection, 0);
-	if (s != INVALID_SOCKET) 
-	{
-		SOCKADDR_IN saddr;
-		int len = sizeof(saddr);
-		if (getsockname(s, (SOCKADDR*)&saddr, &len) != SOCKET_ERROR)
-			localPort = ntohs(saddr.sin_port);
-	}
+	NETLIBCONNINFO connInfo = { sizeof(connInfo) }; 
+	CallService(MS_NETLIB_GETCONNECTIONINFO, (WPARAM)hNewConnection, (LPARAM)&connInfo);
 
-	if (localPort != 0) 
+	ThreadData* T = proto->MSN_GetThreadByPort(connInfo.wPort);
+	if (T != NULL && T->s == NULL) 
 	{
-		ThreadData* T = proto->MSN_GetThreadByPort(localPort);
-		if (T != NULL && T->s == NULL) 
-		{
-			T->s = hNewConnection;
-			ReleaseSemaphore(T->hWaitEvent, 1, NULL);
-			return;
-		}
-		proto->MSN_DebugLog("There's no registered file transfers for incoming port #%d, connection closed", localPort);
+		T->s = hNewConnection;
+		ReleaseSemaphore(T->hWaitEvent, 1, NULL);
 	}
-	else proto->MSN_DebugLog("Unable to determine the local port, file server connection closed.");
-
-	Netlib_CloseHandle(hNewConnection);
+	else
+	{
+		proto->MSN_DebugLog("There's no registered file transfers for incoming port #%u, connection closed", connInfo.wPort);
+		Netlib_CloseHandle(hNewConnection);
+	}
 }
 
 
