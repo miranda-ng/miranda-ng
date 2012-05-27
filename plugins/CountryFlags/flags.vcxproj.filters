@@ -76,10 +76,10 @@
     <CustomBuild Include="docs\Flags-Translation.txt">
       <Filter>Documentation</Filter>
     </CustomBuild>
-    <CustomBuild Include="Info_Src.txt">
+    <CustomBuild Include="docs\Info_Src.txt">
       <Filter>Documentation</Filter>
     </CustomBuild>
-    <CustomBuild Include="License_Appendix.txt">
+    <CustomBuild Include="docs\License_Appendix.txt">
       <Filter>Documentation</Filter>
     </CustomBuild>
   </ItemGroup>
