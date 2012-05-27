@@ -124,5 +124,8 @@
     <ResourceCompile Include="resources\YAMN.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="resources\yamn_ver.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

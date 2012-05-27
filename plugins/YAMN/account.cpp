@@ -34,10 +34,8 @@ struct CExportedServices AccountExportedSvc[]=
 	{MS_YAMN_FINDACCOUNTBYNAME,FindAccountByNameSvc},
 	{MS_YAMN_GETNEXTFREEACCOUNT,GetNextFreeAccountSvc},
 	{MS_YAMN_DELETEACCOUNT,DeletePluginAccountSvc},
-	{MS_YAMN_READACCOUNTSA,AddAccountsFromFileASvc},
-	{MS_YAMN_READACCOUNTSW,AddAccountsFromFileWSvc},
-	{MS_YAMN_WRITEACCOUNTSA,WriteAccountsToFileASvc},
-	{MS_YAMN_WRITEACCOUNTSW,WriteAccountsToFileWSvc},
+	{MS_YAMN_READACCOUNTS,AddAccountsFromFileSvc},
+	{MS_YAMN_WRITEACCOUNTS,WriteAccountsToFileSvc},
 };
 
 //--------------------------------------------------------------------------------------------------
@@ -175,7 +173,7 @@ void CodeDecodeString(char *Dest,BOOL Encrypt)
 	if (Dest==NULL)
 		return;
 
-	for(;*Dest!=(TCHAR)0;Dest++)
+	for (;*Dest!=(TCHAR)0;Dest++)
 	{
 		if (Encrypt)
 			*Dest=*Dest+Code;
@@ -212,24 +210,13 @@ static DWORD PostFileToMemory(HANDLE File,char **MemFile,char **End)
 	return 0;
 }
 
-DWORD FileToMemoryA(char *FileName,char **MemFile,char **End)
+DWORD FileToMemory(TCHAR *FileName,char **MemFile,char **End)
 {
-	HANDLE File;
-
-	if (INVALID_HANDLE_VALUE==(File=CreateFileA(FileName,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL)))
+	HANDLE hFile = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hFile == INVALID_HANDLE_VALUE)
 		return EACC_SYSTEM;
 
-	return PostFileToMemory(File,MemFile,End);
-}
-
-DWORD FileToMemoryW(WCHAR *FileName,char **MemFile,char **End)
-{
-	HANDLE File;
-
-	if (INVALID_HANDLE_VALUE==(File=CreateFileW(FileName,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL)))
-		return EACC_SYSTEM;
-
-	return PostFileToMemory(File,MemFile,End);
+	return PostFileToMemory(hFile, MemFile, End);
 }
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
@@ -251,7 +238,7 @@ DWORD ReadStringFromMemory(char **Parser,TCHAR *End,char **StoreTo,TCHAR *DebugS
 	{
 		if (NULL==(Dest=*StoreTo=new TCHAR[Size+1]))
 			return EACC_ALLOC;
-		for(;*Parser<=Finder;(*Parser)++,Dest++)
+		for (;*Parser<=Finder;(*Parser)++,Dest++)
 			*Dest=**Parser;
 	}
 	else
@@ -276,7 +263,7 @@ DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo)
 	{
 		if (NULL==(Dest=*StoreTo=new char[Size+1]))
 			return EACC_ALLOC;
-		for(;*Parser<=Finder;(*Parser)++,Dest++)
+		for (;*Parser<=Finder;(*Parser)++,Dest++)
 			*Dest=**Parser;
 	}
 	else
@@ -306,7 +293,7 @@ DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo,WCHAR *Deb
 	{
 		if (NULL==(Dest=*StoreTo=new WCHAR[Size+1]))
 			return EACC_ALLOC;
-		for(;*Parser<=Finder;(*Parser)++,Dest++)
+		for (;*Parser<=Finder;(*Parser)++,Dest++)
 			*Dest=**Parser;
 	}
 	else
@@ -318,7 +305,7 @@ DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo,WCHAR *Deb
 }
 	#endif  //if defined(DEBUG...)
 
-DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo)
+DWORD ReadStringFromMemoryW(WCHAR **Parser,WCHAR *End,WCHAR **StoreTo)
 {
 	WCHAR *Dest,*Finder;
 	DWORD Size;
@@ -331,7 +318,7 @@ DWORD ReadStringFromMemoryW(WCHAR **Parser,TCHAR *End,WCHAR **StoreTo)
 	{
 		if (NULL==(Dest=*StoreTo=new WCHAR[Size+1]))
 			return EACC_ALLOC;
-		for(;*Parser<=Finder;(*Parser)++,Dest++)
+		for (;*Parser<=Finder;(*Parser)++,Dest++)
 			*Dest=**Parser;
 	}
 	else
@@ -703,7 +690,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin,char *MemFile,char 
 
 		if (Stat && (Stat!=EACC_ENDOFFILE))
 		{
-			for(ActualAccount=FirstAllocatedAccount;ActualAccount!=NULL;ActualAccount=Temp)
+			for (ActualAccount=FirstAllocatedAccount;ActualAccount!=NULL;ActualAccount=Temp)
 			{
 				Temp=ActualAccount->Next;
 				delete ActualAccount;
@@ -725,7 +712,7 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin,char *MemFile,char 
 
 		if ((Stat!=EACC_ENDOFFILE) && (NULL==(ActualAccount=(HACCOUNT)CallService(MS_YAMN_GETNEXTFREEACCOUNT,(WPARAM)Plugin,(LPARAM)YAMN_ACCOUNTVERSION))))
 		{
-			for(ActualAccount=FirstAllocatedAccount;ActualAccount!=NULL;ActualAccount=Temp)
+			for (ActualAccount=FirstAllocatedAccount;ActualAccount!=NULL;ActualAccount=Temp)
 			{
 				Temp=ActualAccount->Next;
 				delete ActualAccount;
@@ -751,24 +738,11 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin,char *MemFile,char 
 }
 
 // Add accounts from file to memory
-INT_PTR AddAccountsFromFileASvc(WPARAM wParam,LPARAM lParam)
+INT_PTR AddAccountsFromFileSvc(WPARAM wParam,LPARAM lParam)
 {
-	DWORD Stat;
 	char *MemFile,*End;
-
-	if (Stat=FileToMemoryA((char *)lParam,&MemFile,&End))
-		return (INT_PTR)Stat;
-
-	return PerformAccountReading((HYAMNPROTOPLUGIN)wParam,MemFile,End);
-}
-
-INT_PTR AddAccountsFromFileWSvc(WPARAM wParam,LPARAM lParam)
-//Add accounts from file to memory
-{
-	DWORD Stat;
-	char *MemFile,*End;
-
-	if (Stat=FileToMemoryW((WCHAR *)lParam,&MemFile,&End))
+	DWORD Stat = FileToMemory(( TCHAR* )lParam, &MemFile, &End);
+	if ( Stat != NO_ERROR )
 		return (INT_PTR)Stat;
 
 	return PerformAccountReading((HYAMNPROTOPLUGIN)wParam,MemFile,End);
@@ -779,16 +753,13 @@ DWORD WriteStringToFile(HANDLE File,char *Source)
 	DWORD Length,WrittenBytes;
 	char null = 0;
 
-	if ((Source==NULL) || !(Length=(DWORD)strlen(Source)))
-	{
-		if (!WriteFile(File,&null,1,&WrittenBytes,NULL))
-		{
+	if ((Source==NULL) || !(Length=(DWORD)strlen(Source))) {
+		if (!WriteFile(File,&null,1,&WrittenBytes,NULL)) {
 			CloseHandle(File);
 			return EACC_SYSTEM;
 		}
 	}
-	else if (!WriteFile(File,Source,(Length+1),&WrittenBytes,NULL))
-	{
+	else if (!WriteFile(File,Source,(Length+1),&WrittenBytes,NULL)) {
 		CloseHandle(File);
 		return EACC_SYSTEM;
 	}
@@ -829,7 +800,7 @@ DWORD WriteMessagesToFile(HANDLE File,HACCOUNT Which)
 			return EACC_SYSTEM;
 		if ((NULL!=Which->Plugin->MailFcn) && (NULL!=Which->Plugin->MailFcn->WriteMailOptsFcnPtr))
 			Which->Plugin->MailFcn->WriteMailOptsFcnPtr(File,ActualMail);	//write plugin mail options to file
-		for(items=ActualMail->MailData->TranslatedHeader;items!=NULL;items=items->Next)
+		for (items=ActualMail->MailData->TranslatedHeader;items!=NULL;items=items->Next)
 		{
 			if (Stat=WriteStringToFile(File,items->name))
 				return Stat;
@@ -862,7 +833,7 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin,HANDLE File)
 #endif
 	try
 	{
-		for(ActualAccount=Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=ActualAccount->Next)
+		for (ActualAccount=Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=ActualAccount->Next)
 		{
 /*			TCHAR DEBUG[100];
 			Beep(3000,100);Sleep(200);
@@ -1010,43 +981,20 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin,HANDLE File)
 	return 0;
 }
 
-INT_PTR WriteAccountsToFileASvc(WPARAM wParam,LPARAM lParam)
 //Writes accounts to file
+INT_PTR WriteAccountsToFileSvc(WPARAM wParam,LPARAM lParam)
 {
-	HYAMNPROTOPLUGIN Plugin=(HYAMNPROTOPLUGIN)wParam;
-	char *FileName=(char *)lParam;
+	HYAMNPROTOPLUGIN Plugin = ( HYAMNPROTOPLUGIN )wParam;
+	TCHAR* tszFileName = ( TCHAR* )lParam;
 
-	HANDLE File;
-
-	EnterCriticalSection(&FileWritingCS);
-	if (INVALID_HANDLE_VALUE==(File=CreateFileA(FileName,GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL)))
-	{
-		LeaveCriticalSection(&FileWritingCS);
-		return EACC_SYSTEM;
-	}
-	LeaveCriticalSection(&FileWritingCS);
-
-	return PerformAccountWriting(Plugin,File);
-}
-
-INT_PTR WriteAccountsToFileWSvc(WPARAM wParam,LPARAM lParam)
-//Writes accounts to file
-{
-	HYAMNPROTOPLUGIN Plugin=(HYAMNPROTOPLUGIN)wParam;
-	WCHAR *FileName=(WCHAR *)lParam;
-	INT_PTR rv;
-
-	HANDLE File;
-
-	EnterCriticalSection(&FileWritingCS);
-	if (INVALID_HANDLE_VALUE==(File=CreateFileW(FileName,GENERIC_WRITE,FILE_SHARE_WRITE,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL)))
-	{
+	EnterCriticalSection( &FileWritingCS );
+	HANDLE hFile = CreateFile(tszFileName, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+	if ( hFile == INVALID_HANDLE_VALUE ) {
 		LeaveCriticalSection(&FileWritingCS);
 		return EACC_SYSTEM;
 	}
 
-	rv=PerformAccountWriting(Plugin,File);
-
+	INT_PTR rv = PerformAccountWriting(Plugin, hFile);
 	LeaveCriticalSection(&FileWritingCS);
 
 	return rv;
@@ -1065,7 +1013,7 @@ INT_PTR FindAccountByNameSvc(WPARAM wParam,LPARAM lParam)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FindAccountByName:AccountBrowserSO-read enter\n");
 #endif
-	for(Finder=Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
+	for (Finder=Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
 		if ((Finder->Name!=NULL) && (0 == strcmp(SearchedAccount,Finder->Name)))
 			break;
 #ifdef DEBUG_SYNCHRO
@@ -1085,7 +1033,7 @@ INT_PTR GetNextFreeAccountSvc(WPARAM wParam,LPARAM lParam)
 		Plugin->FirstAccount=(HACCOUNT)CallService(MS_YAMN_CREATEPLUGINACCOUNT,wParam,lParam);
 		return (INT_PTR)Plugin->FirstAccount;
 	}
-	for(Finder=Plugin->FirstAccount;Finder->Next!=NULL;Finder=Finder->Next);
+	for (Finder=Plugin->FirstAccount;Finder->Next!=NULL;Finder=Finder->Next);
 	Finder->Next=(HACCOUNT)CallService(MS_YAMN_CREATEPLUGINACCOUNT,wParam,lParam);
 	return (INT_PTR)Finder->Next;
 }
@@ -1098,7 +1046,7 @@ int FindPluginAccount(WPARAM wParam,LPARAM lParam)
 
 	if (Finder=NULL)	Finder=Plugin->FirstAccount;
 
-//	for(;Finder!=NULL && Finder->PluginID!=Plugin->PluginInfo->PluginID;Finder=(HACCOUNT)Finder->Next);
+//	for (;Finder!=NULL && Finder->PluginID!=Plugin->PluginInfo->PluginID;Finder=(HACCOUNT)Finder->Next);
 	return (int)Finder;
 }
 */
@@ -1165,7 +1113,7 @@ INT_PTR DeleteAccountSvc(WPARAM wParam,LPARAM lParam)
 	}
 	else
 	{
-		for(Finder=Plugin->FirstAccount;Which!=Finder->Next;Finder=Finder->Next);
+		for (Finder=Plugin->FirstAccount;Which!=Finder->Next;Finder=Finder->Next);
 		Finder->Next=Finder->Next->Next;
 	}
 //leave write access
@@ -1209,7 +1157,7 @@ int StopAccounts(HYAMNPROTOPLUGIN Plugin)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"StopAccounts:AccountBrowserSO-write enter\n");
 #endif
-	for(Finder=Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
+	for (Finder=Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
 	{
 //2. set stop signal 
 		StopSignalFcn(Finder);
@@ -1243,7 +1191,7 @@ int WaitForAllAccounts(HYAMNPROTOPLUGIN Plugin,BOOL GetAccountBrowserAccess)
 		DebugLog(SynchroFile,"WaitForAllAccounts:AccountBrowserSO-write enter\n");
 #endif
 	}
-	for(Finder=Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
+	for (Finder=Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
 	{
 //2. wait for signal that account is not in use
 #ifdef DEBUG_SYNCHRO
@@ -1282,7 +1230,7 @@ int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 
 	WaitForAllAccounts(Plugin,FALSE);
 
-	for(Finder=Plugin->FirstAccount;Finder!=NULL;)
+	for (Finder=Plugin->FirstAccount;Finder!=NULL;)
 	{
 		HACCOUNT Next = Finder->Next;
 		DeletePluginAccountSvc((WPARAM)Finder,(LPARAM)0);
@@ -1345,7 +1293,7 @@ int GetAccounts()
 	HACCOUNT Finder;
 	int cnt=0;
 
-	for(Finder=Account;Finder!=NULL;Finder=Finder->Next)
+	for (Finder=Account;Finder!=NULL;Finder=Finder->Next)
 		cnt++;
 	return cnt;
 }
@@ -1354,7 +1302,7 @@ void WriteAccounts()
 {
 	HACCOUNT Finder;
 
-	for(Finder=Account;Finder!=NULL;Finder=Finder->Next)
+	for (Finder=Account;Finder!=NULL;Finder=Finder->Next)
 		MessageBoxA(NULL,Finder->Name,"Browsing account",MB_OK);
 }
 #endif

@@ -16,10 +16,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1252)
-#endif //_WIN32
+#pragma code_page(1251)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -27,18 +25,18 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -53,7 +51,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DLGVIEWMESSAGES, DIALOG
     BEGIN
@@ -61,6 +59,10 @@ BEGIN
         RIGHTMARGIN, 455
         TOPMARGIN, 5
         BOTTOMMARGIN, 105
+    END
+
+    IDD_DLGSHOWMESSAGE, DIALOG
+    BEGIN
     END
 
     IDD_DLGBADCONNECT, DIALOG
@@ -74,7 +76,6 @@ BEGIN
     IDD_PLUGINOPT, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 312
         VERTGUIDE, 13
         VERTGUIDE, 85
         VERTGUIDE, 160
@@ -106,6 +107,7 @@ BEGIN
 
     IDD_YAMNOPT, DIALOG
     BEGIN
+        RIGHTMARGIN, 310
         VERTGUIDE, 8
     END
 
@@ -123,7 +125,7 @@ END
 // Dialog
 //
 
-IDD_DLGVIEWMESSAGES DIALOG  50, 200, 460, 110
+IDD_DLGVIEWMESSAGES DIALOG 50, 200, 460, 110
 STYLE DS_SETFONT | DS_3DLOOK | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -144,7 +146,7 @@ BEGIN
     EDITTEXT        IDC_EDITBODY,3,84,454,45,ES_MULTILINE | ES_READONLY | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
 END
 
-IDD_DLGBADCONNECT DIALOG  0, 0, 186, 76
+IDD_DLGBADCONNECT DIALOG 0, 0, 186, 76
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Shell Dlg"
 BEGIN
@@ -228,7 +230,7 @@ BEGIN
     GROUPBOX        "Errors",IDC_STATIC,161,153,143,44
 END
 
-IDD_CHOOSESTATUSMODES DIALOG  0, 0, 226, 154
+IDD_CHOOSESTATUSMODES DIALOG 0, 0, 226, 154
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Check while ..."
 FONT 8, "MS Shell Dlg"
@@ -248,25 +250,24 @@ BEGIN
     CONTROL         "Out to lunch",IDC_CHECKST9,"Button",BS_AUTOCHECKBOX | BS_NOTIFY | WS_TABSTOP,134,104,70,9
 END
 
-IDD_YAMNOPT DIALOGEX 0, 0, 310, 216
+IDD_YAMNOPT DIALOGEX 0, 0, 312, 121
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE | WS_BORDER
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "HotKey1",IDC_HKFORCE,"msctls_hotkey32",WS_BORDER | WS_TABSTOP,169,15,110,12
-    LTEXT           "Hotkey for mail check:",IDC_STATIC,7,16,153,10
-    CONTROL         "TopToolBar button ""Check mail""",IDC_CHECKTTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,28,160,11
-    GROUPBOX        "YAMN General Options",IDC_STATIC,3,2,303,80
-    CONTROL         "Enable YAMN Main Menu (Require Restart)",IDC_MAINMENU,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,46,270,9
-    GROUPBOX        "MailBrowser Options",IDC_STATIC,3,91,151,61
-    CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,103,143,11
-    CONTROL         "Show long localised date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,100,144,10
-    CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,112,144,10
-    GROUPBOX        "Date/Time Representation",IDC_STATIC,166,91,141,61
-    CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,124,135,8
+    GROUPBOX        "YAMN General Options",IDC_STATIC,3,2,303,65
+    CONTROL         "TopToolBar button ""Check mail""",IDC_CHECKTTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,15,294,11
+    CONTROL         "Enable YAMN Main Menu",IDC_MAINMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,33,293,9
     CONTROL         "Show YAMN as a Protocol  (Require Restart)",IDC_YAMNASPROTO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,63,270,9
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,293,9
+
+    GROUPBOX        "MailBrowser Options",IDC_STATIC,3,68,151,47
+    CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,80,143,11
+    CONTROL         "Show long localised date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,77,130,10
+    CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,89,131,10
+
+    GROUPBOX        "Date/Time Representation",IDC_STATIC,166,68,141,47
+    CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,101,129,8
 END
 
 IDD_POP3ACCOUNTPOPUP DIALOGEX 0, 0, 315, 230
@@ -327,45 +328,6 @@ IDI_OCCUPIED            ICON                    "iconttbdown.ico"
 //
 
 IDB_ICONS               BITMAP                  "yamn.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,2,5
- PRODUCTVERSION 0,1,2,5
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x2L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Yet Another Mail Notifier"
-            VALUE "FileDescription", "Yet Another Mail Notifier"
-            VALUE "FileVersion", "0.1.2.5"
-            VALUE "InternalName", "YAMN"
-            VALUE "LegalCopyright", "Copyright © 2007"
-            VALUE "OriginalFilename", "YAMN.dll"
-            VALUE "ProductName", "YAMN tweety"
-            VALUE "ProductVersion", "0.1.2.5"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -380,4 +342,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

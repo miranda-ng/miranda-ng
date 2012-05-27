@@ -79,7 +79,6 @@
 #define IDC_CHECKFCOL                   1077
 #define IDC_CHECKNCOL                   1078
 #define IDC_CPNT                        1079
-#define IDC_HKFORCE                     1081
 #define IDC_CHECKPOP                    1087
 #define IDC_CHECKNPOP                   1088
 #define IDC_CHECKFPOP                   1089

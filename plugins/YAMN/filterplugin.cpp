@@ -78,7 +78,7 @@ INT_PTR UnregisterFilterPlugin(HYAMNFILTERPLUGIN Plugin)
 	}
 	else
 	{
-		for(Parser=FirstFilterPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
+		for (Parser=FirstFilterPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
 		if (Parser->Next!=NULL)
 		{
 			Found=Parser->Next;
@@ -140,7 +140,7 @@ int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance
 
 	EnterCriticalSection(&PluginRegCS);
 //We add protocol to the protocol list
-	for(Previous=NULL,Parser=FirstFilterPlugin;Parser!=NULL && Parser->Next!=NULL && Parser->Plugin->Importance<=Importance;Previous=Parser,Parser=Parser->Next);
+	for (Previous=NULL,Parser=FirstFilterPlugin;Parser!=NULL && Parser->Next!=NULL && Parser->Plugin->Importance<=Importance;Previous=Parser,Parser=Parser->Next);
 	if (Previous==NULL)	//insert to the beginnig of queue
 	{
 		FirstFilterPlugin=new YAMN_FILTERPLUGINQUEUE;
@@ -173,7 +173,7 @@ INT_PTR FilterMailSvc(WPARAM wParam,LPARAM lParam)
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"FilterMail:ActualAccountMsgsSO-write enter\n");
 #endif
-	for(ActualPlugin=FirstFilterPlugin;ActualPlugin!=NULL;ActualPlugin=ActualPlugin->Next)
+	for (ActualPlugin=FirstFilterPlugin;ActualPlugin!=NULL;ActualPlugin=ActualPlugin->Next)
 	{
 		if (ActualPlugin->Plugin->FilterFcn->FilterMailFcnPtr!=NULL)
 		{

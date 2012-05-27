@@ -105,7 +105,7 @@ void CopyToHeader(char *srcstart,char *srcend,char **dest,int mode)
 
 	dst=*dest;
 
-	for(;srcstart<srcend;dst++,srcstart++)
+	for (;srcstart<srcend;dst++,srcstart++)
 	{
 		if (ENDLINE(srcstart))
 		{
@@ -228,7 +228,7 @@ char *ExtractFromContentType(char *ContentType,char *value)
 	}
 	if (NULL==(CopiedString=new char[++temp-finder+1]))
 		return NULL;
-	for(copier=CopiedString;finder!=temp;*copier++=*finder++);			//copy string
+	for (copier=CopiedString;finder!=temp;*copier++=*finder++);			//copy string
 	*copier=0;						//and end it with zero character
 
 	return CopiedString;
@@ -236,7 +236,7 @@ char *ExtractFromContentType(char *ContentType,char *value)
 
 void ExtractShortHeader(struct CMimeItem *items,struct CShortHeader *head)
 {
-	for(;items!=NULL;items=items->Next)
+	for (;items!=NULL;items=items->Next)
 	{
 		//at the start of line
 		//MessageBox(NULL,items->value,items->name,0);
@@ -468,7 +468,7 @@ void DeleteHeaderContent(struct CHeader *head)
 void DeleteNames(PYAMN_MIMENAMES Names)
 {
 	PYAMN_MIMENAMES Parser=Names,Old;
-	for(;Parser!=NULL;Parser=Parser->Next)
+	for (;Parser!=NULL;Parser=Parser->Next)
 	{
 		if (Parser->Value!=NULL)
 			delete[] Parser->Value;
@@ -483,7 +483,7 @@ void DeleteNames(PYAMN_MIMENAMES Names)
 void DeleteShortNames(PYAMN_MIMESHORTNAMES Names)
 {
 	PYAMN_MIMESHORTNAMES Parser=Names,Old;
-	for(;Parser!=NULL;Parser=Parser->Next)
+	for (;Parser!=NULL;Parser=Parser->Next)
 	{
 		if (Parser->Value!=NULL)
 			delete[] Parser->Value;
@@ -498,7 +498,7 @@ void DeleteShortNames(PYAMN_MIMESHORTNAMES Names)
 
 void inline ToLower(char *string)
 {
-	for(;*string!=0;string++)
+	for (;*string!=0;string++)
 		if (*string>='A' && *string<='Z') *string=*string-'A'+'a';
 }
 

@@ -226,7 +226,7 @@ int GetCharsetFromString(char *input,size_t size)
 #ifdef DEBUG_DECODECODEPAGE
 	DebugLog(DecodeFile,"<CodePage>%s</CodePage>",pout);
 #endif
-	for(int i=0;i<CPLENALL;i++){
+	for (int i=0;i<CPLENALL;i++){
 		size_t len = strlen(CodePageNamesAll[i].NameBase);
 		if (0==strncmp(pout,CodePageNamesAll[i].NameBase,len)){
 			if (0==strcmp(pout+len,CodePageNamesAll[i].NameSub)){
@@ -300,7 +300,7 @@ int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ)
 	char *DstTemp=Dst;
 	DebugLog(DecodeFile,"<Decode Quoted><Input>%s</Input>",Src);
 #endif
-	for(int Counter=0;((char)*Src!=0) && DstLen && (Counter++<DstLen);Src++,Dst++)
+	for (int Counter=0;((char)*Src!=0) && DstLen && (Counter++<DstLen);Src++,Dst++)
 		if (*Src=='=')
 		{
 			if (!isQ){
@@ -398,7 +398,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 	DebugLog(DecodeFile,"<CodePage #>%d</CodePage #>",cp);
 #endif
 		
-	for(Index=0;Index<sizeof(CodePagesZeroFlags)/sizeof(CodePagesZeroFlags[0]);Index++)
+	for (Index=0;Index<sizeof(CodePagesZeroFlags)/sizeof(CodePagesZeroFlags[0]);Index++)
 		if (CodePagesZeroFlags[Index]==cp)
 		{
 			Index=-1;
@@ -417,7 +417,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 
 	if (*out!=NULL)
 	{
-		for(dest=temp;*src!=(WCHAR)0;src++,dest++)				//copy old string from *out to temp
+		for (dest=temp;*src!=(WCHAR)0;src++,dest++)				//copy old string from *out to temp
 			*dest=*src;
 //		*dest++=L' ';								//add space?
 		delete[] *out;

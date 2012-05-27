@@ -9,121 +9,64 @@
 #include "pop3comm.h"
 #include "pop3opt.h"
 
-//- imported ---------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-extern PLUGINLINK *pluginLink;
-extern PYAMN_VARIABLES pYAMNVar;
-extern HYAMNPROTOPLUGIN POP3Plugin;
-extern struct YAMNExportedFcns *pYAMNFcn;
-extern YAMN_VARIABLES YAMNVar;
+static BOOL Check0,Check1,Check2,Check3,Check4,Check5,Check6,Check7,Check8,Check9;
+static char DlgInput[MAX_PATH];
 
-extern HICON hYamnIcons[];
-
-extern DWORD WINAPI WritePOP3Accounts();
-extern DWORD HotKeyThreadID;
-extern CRITICAL_SECTION PluginRegCS;
-//From filterplugin.cpp
-extern PYAMN_FILTERPLUGINQUEUE FirstFilterPlugin;
-//From protoplugin.cpp
-extern PYAMN_PROTOPLUGINQUEUE FirstProtoPlugin;
-//for XP themes
-extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
+void CheckMenuItems();
 
 //--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-
-BOOL Check0,Check1,Check2,Check3,Check4,Check5,Check6,Check7,Check8,Check9;
-char DlgInput[MAX_PATH];
-
-//Fuction took from Miranda
-void WordToModAndVk(WORD w,UINT *mod,UINT *vk);
-
-//Initializes YAMN general options for Miranda
-int YAMNOptInitSvc(WPARAM wParam,LPARAM lParam);
-
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-void WordToModAndVk(WORD w,UINT *mod,UINT *vk)
-{
-	*mod=0;
-	if (HIBYTE(w)&HOTKEYF_CONTROL) *mod|=MOD_CONTROL;
-	if (HIBYTE(w)&HOTKEYF_SHIFT) *mod|=MOD_SHIFT;
-	if (HIBYTE(w)&HOTKEYF_ALT) *mod|=MOD_ALT;
-	if (HIBYTE(w)&HOTKEYF_EXT) *mod|=MOD_WIN;
-	*vk=LOBYTE(w);
-}
-
 
 INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	switch(msg)
-	{
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hDlg);
-			CheckDlgButton(hDlg,IDC_CHECKTTB,DBGetContactSettingByte(NULL,YAMN_DBMODULE,YAMN_TTBFCHECK,1) ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hDlg,IDC_HKFORCE,HKM_SETHOTKEY,DBGetContactSettingWord(NULL,YAMN_DBMODULE,YAMN_HKCHECKMAIL,YAMN_DEFAULTHK),0);
-			CheckDlgButton(hDlg,IDC_LONGDATE,(optDateTime&SHOWDATELONG) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg,IDC_SMARTDATE,(optDateTime&SHOWDATENOTODAY) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg,IDC_NOSECONDS,(optDateTime&SHOWDATENOSECONDS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hDlg,IDC_MAINMENU,DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1));
-			CheckDlgButton(hDlg,IDC_YAMNASPROTO,DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1));
-			CheckDlgButton(hDlg,IDC_CLOSEONDELETE,DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_CLOSEDELETE, 0));
-			
-			break;
-		case WM_COMMAND:
-		{
-			WORD wNotifyCode = HIWORD(wParam);
-			switch(LOWORD(wParam))
-			{
-				case IDC_YAMNASPROTO:
-				case IDC_MAINMENU:
-				case IDC_CHECKTTB:
-				case IDC_HKFORCE:
-				case IDC_CLOSEONDELETE:
-				case IDC_LONGDATE:
-				case IDC_SMARTDATE:
-				case IDC_NOSECONDS:
-					SendMessage(GetParent(hDlg),PSM_CHANGED,0,0);
-					break;
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
+		CheckDlgButton(hDlg,IDC_CHECKTTB,DBGetContactSettingByte(NULL,YAMN_DBMODULE,YAMN_TTBFCHECK,1) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg,IDC_LONGDATE,(optDateTime&SHOWDATELONG) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg,IDC_SMARTDATE,(optDateTime&SHOWDATENOTODAY) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg,IDC_NOSECONDS,(optDateTime&SHOWDATENOSECONDS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hDlg,IDC_MAINMENU,DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1));
+		CheckDlgButton(hDlg,IDC_YAMNASPROTO,DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO, 1));
+		CheckDlgButton(hDlg,IDC_CLOSEONDELETE,DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_CLOSEDELETE, 0));
+		break;
 
-			}
-			break;
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+			case IDC_YAMNASPROTO:
+			case IDC_MAINMENU:
+			case IDC_CHECKTTB:
+			case IDC_CLOSEONDELETE:
+			case IDC_LONGDATE:
+			case IDC_SMARTDATE:
+			case IDC_NOSECONDS:
+				SendMessage(GetParent(hDlg),PSM_CHANGED,0,0);
+				break;
 		}
-		case WM_NOTIFY:
-			switch(((LPNMHDR)lParam)->idFrom)
-			{
-				case 0:
-					switch(((LPNMHDR)lParam)->code)
-					{
-						case PSN_APPLY:
-						{
-							WORD ForceHotKey =(WORD)SendDlgItemMessage(hDlg,IDC_HKFORCE,HKM_GETHOTKEY,0,0);
-							BYTE TTBFCheck =(BYTE)IsDlgButtonChecked(hDlg,IDC_CHECKTTB);
-							BYTE MainMenu = (BYTE)IsDlgButtonChecked(hDlg,IDC_MAINMENU);
-							BYTE CloseDelete = (BYTE)IsDlgButtonChecked(hDlg,IDC_CLOSEONDELETE);
-							BYTE ShowAsProto =  (BYTE)IsDlgButtonChecked(hDlg,IDC_YAMNASPROTO);
-							UINT mod,vk;
+		break;
 
-							DBWriteContactSettingByte(NULL,YAMN_DBMODULE,YAMN_SHOWASPROTO,ShowAsProto);
-							DBWriteContactSettingWord(NULL,YAMN_DBMODULE,YAMN_HKCHECKMAIL,ForceHotKey);
-							DBWriteContactSettingByte(NULL,YAMN_DBMODULE,YAMN_TTBFCHECK,TTBFCheck);
-							DBWriteContactSettingByte(NULL,YAMN_DBMODULE,YAMN_SHOWMAINMENU,MainMenu);
-							DBWriteContactSettingByte(NULL,YAMN_DBMODULE,YAMN_CLOSEDELETE,CloseDelete);
-							WordToModAndVk(ForceHotKey,&mod,&vk);
-							PostThreadMessage(HotKeyThreadID,WM_YAMN_CHANGEHOTKEY,(WPARAM)mod,(LPARAM)vk);
+	case WM_NOTIFY:
+		switch(((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch(((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				DBWriteContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWASPROTO,  IsDlgButtonChecked(hDlg,IDC_YAMNASPROTO));
+				DBWriteContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, IsDlgButtonChecked(hDlg,IDC_MAINMENU));
+				DBWriteContactSettingByte(NULL, YAMN_DBMODULE, YAMN_CLOSEDELETE,  IsDlgButtonChecked(hDlg,IDC_CLOSEONDELETE));
+				DBWriteContactSettingByte(NULL, YAMN_DBMODULE, YAMN_TTBFCHECK,    IsDlgButtonChecked(hDlg,IDC_CHECKTTB));
+				
+				AddTopToolbarIcon(0, 0);
+				CheckMenuItems();
 
-							optDateTime = 0;
-							if (IsDlgButtonChecked(hDlg,IDC_LONGDATE))optDateTime |= SHOWDATELONG;
-							if (IsDlgButtonChecked(hDlg,IDC_SMARTDATE))optDateTime |= SHOWDATENOTODAY;
-							if (IsDlgButtonChecked(hDlg,IDC_NOSECONDS))optDateTime |= SHOWDATENOSECONDS;
-							DBWriteContactSettingByte(NULL,YAMN_DBMODULE,YAMN_DBTIMEOPTIONS,optDateTime);
-						}
-					}
+				optDateTime = 0;
+				if (IsDlgButtonChecked(hDlg,IDC_LONGDATE))optDateTime |= SHOWDATELONG;
+				if (IsDlgButtonChecked(hDlg,IDC_SMARTDATE))optDateTime |= SHOWDATENOTODAY;
+				if (IsDlgButtonChecked(hDlg,IDC_NOSECONDS))optDateTime |= SHOWDATENOSECONDS;
+				DBWriteContactSettingByte(NULL,YAMN_DBMODULE,YAMN_DBTIMEOPTIONS,optDateTime);
 			}
-			break;
+		}
+		break;
 	}
 
 	return FALSE;
@@ -131,96 +74,89 @@ INT_PTR CALLBACK DlgProcYAMNOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
-	switch(msg)
-	{
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hDlg);
-			break;
-		case WM_COMMAND:
-		{
-			WORD wNotifyCode = HIWORD(wParam);
-			switch(LOWORD(wParam))
-			{
-				case IDC_COMBOPLUGINS:
-					if (wNotifyCode==CBN_SELCHANGE)
-					{
-						HWND hCombo=GetDlgItem(hDlg,IDC_COMBOPLUGINS);
-						PYAMN_PROTOPLUGINQUEUE PParser;
-						PYAMN_FILTERPLUGINQUEUE FParser;
-						int index,id;
-	
-						if (CB_ERR==(index=SendMessage(hCombo,CB_GETCURSEL,0,0)))
-							break;
-						id=SendMessage(hCombo,CB_GETITEMDATA,(WPARAM)index,(LPARAM)0);
-						EnterCriticalSection(&PluginRegCS);
-						for(PParser=FirstProtoPlugin;PParser!=NULL;PParser=PParser->Next)
-							if (id==(INT_PTR)PParser->Plugin)
-							{
-								SetDlgItemTextA(hDlg,IDC_STVER,PParser->Plugin->PluginInfo->Ver);
-								SetDlgItemTextA(hDlg,IDC_STDESC,PParser->Plugin->PluginInfo->Description == NULL ? "" : PParser->Plugin->PluginInfo->Description);
-								SetDlgItemTextA(hDlg,IDC_STCOPY,PParser->Plugin->PluginInfo->Copyright == NULL ? "" : PParser->Plugin->PluginInfo->Copyright);
-								SetDlgItemTextA(hDlg,IDC_STMAIL,PParser->Plugin->PluginInfo->Email == NULL ? "" : PParser->Plugin->PluginInfo->Email);
-								SetDlgItemTextA(hDlg,IDC_STWWW,PParser->Plugin->PluginInfo->WWW == NULL ? "" : PParser->Plugin->PluginInfo->WWW);
-								break;
-							}
-						for(FParser=FirstFilterPlugin;FParser!=NULL;FParser=FParser->Next)
-							if (id==(INT_PTR)FParser->Plugin)
-							{
-								SetDlgItemTextA(hDlg,IDC_STVER,FParser->Plugin->PluginInfo->Ver);
-								SetDlgItemTextA(hDlg,IDC_STDESC,FParser->Plugin->PluginInfo->Description == NULL ? "" : FParser->Plugin->PluginInfo->Description);
-								SetDlgItemTextA(hDlg,IDC_STCOPY,FParser->Plugin->PluginInfo->Copyright == NULL ? "" : FParser->Plugin->PluginInfo->Copyright);
-								SetDlgItemTextA(hDlg,IDC_STMAIL,FParser->Plugin->PluginInfo->Email == NULL ? "" : FParser->Plugin->PluginInfo->Email);
-								SetDlgItemTextA(hDlg,IDC_STWWW,FParser->Plugin->PluginInfo->WWW == NULL ? "" : FParser->Plugin->PluginInfo->WWW);
-								break;
-							}
-						LeaveCriticalSection(&PluginRegCS);
-					}
-					break;
-				case IDC_STWWW:
-				{
-					char str[1024];
-					GetDlgItemTextA(hDlg,IDC_STWWW,str,SIZEOF(str));
-					CallService(MS_UTILS_OPENURL,1,(LPARAM)str);
-					break;
-				}
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hDlg);
+		break;
 
+	case WM_COMMAND:
+	{
+		WORD wNotifyCode = HIWORD(wParam);
+		switch(LOWORD(wParam))
+		{
+			case IDC_COMBOPLUGINS:
+				if (wNotifyCode==CBN_SELCHANGE)
+				{
+					HWND hCombo=GetDlgItem(hDlg,IDC_COMBOPLUGINS);
+					PYAMN_PROTOPLUGINQUEUE PParser;
+					PYAMN_FILTERPLUGINQUEUE FParser;
+					int index,id;
+	
+					if (CB_ERR==(index=SendMessage(hCombo,CB_GETCURSEL,0,0)))
+						break;
+					id=SendMessage(hCombo,CB_GETITEMDATA,(WPARAM)index,(LPARAM)0);
+					EnterCriticalSection(&PluginRegCS);
+					for (PParser=FirstProtoPlugin;PParser!=NULL;PParser=PParser->Next)
+						if (id==(INT_PTR)PParser->Plugin)
+						{
+							SetDlgItemTextA(hDlg,IDC_STVER,PParser->Plugin->PluginInfo->Ver);
+							SetDlgItemTextA(hDlg,IDC_STDESC,PParser->Plugin->PluginInfo->Description == NULL ? "" : PParser->Plugin->PluginInfo->Description);
+							SetDlgItemTextA(hDlg,IDC_STCOPY,PParser->Plugin->PluginInfo->Copyright == NULL ? "" : PParser->Plugin->PluginInfo->Copyright);
+							SetDlgItemTextA(hDlg,IDC_STMAIL,PParser->Plugin->PluginInfo->Email == NULL ? "" : PParser->Plugin->PluginInfo->Email);
+							SetDlgItemTextA(hDlg,IDC_STWWW,PParser->Plugin->PluginInfo->WWW == NULL ? "" : PParser->Plugin->PluginInfo->WWW);
+							break;
+						}
+					for (FParser=FirstFilterPlugin;FParser!=NULL;FParser=FParser->Next)
+						if (id==(INT_PTR)FParser->Plugin)
+						{
+							SetDlgItemTextA(hDlg,IDC_STVER,FParser->Plugin->PluginInfo->Ver);
+							SetDlgItemTextA(hDlg,IDC_STDESC,FParser->Plugin->PluginInfo->Description == NULL ? "" : FParser->Plugin->PluginInfo->Description);
+							SetDlgItemTextA(hDlg,IDC_STCOPY,FParser->Plugin->PluginInfo->Copyright == NULL ? "" : FParser->Plugin->PluginInfo->Copyright);
+							SetDlgItemTextA(hDlg,IDC_STMAIL,FParser->Plugin->PluginInfo->Email == NULL ? "" : FParser->Plugin->PluginInfo->Email);
+							SetDlgItemTextA(hDlg,IDC_STWWW,FParser->Plugin->PluginInfo->WWW == NULL ? "" : FParser->Plugin->PluginInfo->WWW);
+							break;
+						}
+					LeaveCriticalSection(&PluginRegCS);
+				}
+				break;
+			case IDC_STWWW:
+			{
+				char str[1024];
+				GetDlgItemTextA(hDlg,IDC_STWWW,str,SIZEOF(str));
+				CallService(MS_UTILS_OPENURL,1,(LPARAM)str);
+				break;
 			}
+
+		}
+		break;
+	}
+	case WM_SHOWWINDOW:
+		if (TRUE==(BOOL)wParam) {
+			PYAMN_PROTOPLUGINQUEUE PParser;
+			PYAMN_FILTERPLUGINQUEUE FParser;
+			int index;
+			
+			EnterCriticalSection(&PluginRegCS);
+			for (PParser = FirstProtoPlugin; PParser != NULL; PParser = PParser->Next) {
+				index = SendDlgItemMessageA(hDlg,IDC_COMBOPLUGINS,CB_ADDSTRING,0,(LPARAM)PParser->Plugin->PluginInfo->Name);
+				index = SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_SETITEMDATA,(WPARAM)index,(LPARAM)PParser->Plugin);
+			}
+			for (FParser = FirstFilterPlugin; FParser != NULL; FParser = FParser->Next) {
+				index = SendDlgItemMessageA(hDlg,IDC_COMBOPLUGINS,CB_ADDSTRING,0,(LPARAM)FParser->Plugin->PluginInfo->Name);
+				index = SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_SETITEMDATA,(WPARAM)index,(LPARAM)FParser->Plugin);
+			}
+
+			LeaveCriticalSection(&PluginRegCS);
+			SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_SETCURSEL,(WPARAM)0,(LPARAM)0);
+			SendMessage(hDlg,WM_COMMAND,MAKELONG(IDC_COMBOPLUGINS,CBN_SELCHANGE),(LPARAM)NULL);
 			break;
 		}
-		case WM_SHOWWINDOW:
-			if (TRUE==(BOOL)wParam)
-			{
-				PYAMN_PROTOPLUGINQUEUE PParser;
-				PYAMN_FILTERPLUGINQUEUE FParser;
-				int index;
-			
-				EnterCriticalSection(&PluginRegCS);
-				for(PParser=FirstProtoPlugin;PParser!=NULL;PParser=PParser->Next)
-				{
-					index=SendDlgItemMessageA(hDlg,IDC_COMBOPLUGINS,CB_ADDSTRING,0,(LPARAM)PParser->Plugin->PluginInfo->Name);
-					index=SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_SETITEMDATA,(WPARAM)index,(LPARAM)PParser->Plugin);
-				}
-				for(FParser=FirstFilterPlugin;FParser!=NULL;FParser=FParser->Next)
-				{
-					index=SendDlgItemMessageA(hDlg,IDC_COMBOPLUGINS,CB_ADDSTRING,0,(LPARAM)FParser->Plugin->PluginInfo->Name);
-					index=SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_SETITEMDATA,(WPARAM)index,(LPARAM)FParser->Plugin);
-				}
-
-				LeaveCriticalSection(&PluginRegCS);
-				SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_SETCURSEL,(WPARAM)0,(LPARAM)0);
-				SendMessage(hDlg,WM_COMMAND,MAKELONG(IDC_COMBOPLUGINS,CBN_SELCHANGE),(LPARAM)NULL);
-				break;
-			}
-			else		//delete all items in combobox
-			{
-				int cbn=SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_GETCOUNT,(WPARAM)0,(LPARAM)0);
-
-				for(int i=0;i<cbn;i++)
-					SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_DELETESTRING,(WPARAM)0,(LPARAM)0);
-				break;
-			}
-		case WM_NOTIFY:
+		else { //delete all items in combobox
+			int cbn=SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_GETCOUNT,(WPARAM)0,(LPARAM)0);
+			for (int i=0;i<cbn;i++)
+				SendDlgItemMessage(hDlg,IDC_COMBOPLUGINS,CB_DELETESTRING,(WPARAM)0,(LPARAM)0);
 			break;
+		}
 	}
 
 	return FALSE;
@@ -230,45 +166,36 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam
 int YAMNOptInitSvc(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp={0};
-	
-	odp.cbSize=sizeof(odp);
-	odp.position=0x00000000;
-	odp.hInstance=YAMNVar.hInst;
-	odp.pszGroup=LPGEN("Network");
-	odp.pszTitle=LPGEN("YAMN");
-	odp.flags=ODPF_BOLDGROUPS;
-//insert YAMN options dialog
-	//odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPTIONS);
-	//odp.pfnDlgProc=(DLGPROC)DlgOptionsProc;
-	//CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = YAMNVar.hInst;
+	odp.pszGroup = LPGEN("Network");
+	odp.pszTitle = LPGEN("YAMN");
+	odp.flags = ODPF_BOLDGROUPS;
 
-    odp.pszTab = LPGEN("Accounts");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTOPT);
-    odp.pfnDlgProc = DlgProcPOP3AccOpt;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
- 
-    odp.pszTab = LPGEN("General");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_YAMNOPT);
-    odp.pfnDlgProc = DlgProcYAMNOpt;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	odp.pszTab = LPGEN("Accounts");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTOPT);
+	odp.pfnDlgProc = DlgProcPOP3AccOpt;
+	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+
+	odp.pszTab = LPGEN("General");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_YAMNOPT);
+	odp.pfnDlgProc = DlgProcYAMNOpt;
+	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
 
 	odp.pszTab = LPGEN("Plugins");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLUGINOPT);
-    odp.pfnDlgProc = DlgProcPluginOpt;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLUGINOPT);
+	odp.pfnDlgProc = DlgProcPluginOpt;
+	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
 
-	if ( ServiceExists(MS_POPUP_ADDPOPUPEX) )
-	{
-		odp.pszGroup=LPGEN("PopUps");
-		odp.pszTab=LPGEN("YAMN");
+	if ( ServiceExists(MS_POPUP_ADDPOPUPEX)) {
+		odp.pszGroup = LPGEN("PopUps");
+		odp.pszTab = LPGEN("YAMN");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTPOPUP);
 		odp.pfnDlgProc = DlgProcPOP3AccPopup;
 		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
 	}
 	return 0;
 }
-
-
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -471,7 +398,7 @@ BOOL DlgShowAccount(HWND hDlg,WPARAM wParam,LPARAM lParam)
 		SetDlgItemInt(hDlg,IDC_EDITPOPS,ActualAccount->NewMailN.PopUpTime,FALSE);
 		SetDlgItemInt(hDlg,IDC_EDITNPOPS,ActualAccount->NoNewMailN.PopUpTime,FALSE);
 		SetDlgItemInt(hDlg,IDC_EDITFPOPS,ActualAccount->BadConnectN.PopUpTime,FALSE);
-		for(i=0;i<=CPLENSUPP;i++)
+		for (i=0;i<=CPLENSUPP;i++)
 			if ((i<CPLENSUPP) && (CodePageNamesSupp[i].CP==ActualAccount->CP))
 			{
 				SendMessage(GetDlgItem(hDlg,IDC_COMBOCP),CB_SETCURSEL,(WPARAM)i,(LPARAM)0);
@@ -725,6 +652,7 @@ BOOL CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lP
 INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	BOOL Changed=FALSE;
+	INT_PTR Result;
 	static BOOL InList=FALSE;
 	static HPOP3ACCOUNT ActualAccount;
 	static UCHAR ActualStatus;
@@ -742,23 +670,23 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 			DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
 
 			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read wait\n");
+				DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read wait\n");
 			#endif
 			WaitToReadSO(POP3Plugin->AccountBrowserSO);
 			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read enter\n");
+				DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read enter\n");
 			#endif
 
-			if (POP3Plugin->FirstAccount!=NULL)
-				for(ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
-					if (ActualAccount->Name!=NULL)
-						SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
+			for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+				if (ActualAccount->Name != NULL)
+					SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
+
 			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read done\n");
+				DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read done\n");
 			#endif
 			ReadDoneSO(POP3Plugin->AccountBrowserSO);
 			SendDlgItemMessage(hDlg, IDC_COMBOCP, CB_ADDSTRING, 0, (LPARAM)TranslateT("Default"));
-			for(i=1;i<CPLENSUPP;i++){
+			for (i=1; i < CPLENSUPP; i++) {
 				CPINFOEX info; GetCPInfoEx(CodePageNamesSupp[i].CP,0,&info);
 				size_t len = lstrlen(info.CodePageName+7);
 				info.CodePageName[len+6]=0;
@@ -773,189 +701,179 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 		}
 
 		case WM_SHOWWINDOW:
-			if ((BOOL)wParam==FALSE)
-			{
+			if ( wParam == FALSE) {
 				WindowList_Remove(pYAMNVar->MessageWnds,hDlg);
 				SendMessage(GetParent(hDlg),PSM_UNCHANGED,(WPARAM)hDlg,(LPARAM)0);
 			}
-			else
-				WindowList_Add(pYAMNVar->MessageWnds,hDlg,NULL);
+			else WindowList_Add(pYAMNVar->MessageWnds,hDlg,NULL);
 			return TRUE;
-		case WM_YAMN_CHANGESTATUS:
-		{
-			if ((HPOP3ACCOUNT)wParam!=ActualAccount)
-				break;
 
-			TCHAR accstatus[256];
-			GetAccountStatus(ActualAccount,accstatus);
-			SetDlgItemText(hDlg,IDC_STSTATUS,accstatus);
-			return TRUE;
-		}
+		case WM_YAMN_CHANGESTATUS:
+			if ((HPOP3ACCOUNT)wParam == ActualAccount) {
+				TCHAR accstatus[256];
+				GetAccountStatus(ActualAccount,accstatus);
+				SetDlgItemText(hDlg,IDC_STSTATUS,accstatus);
+				return TRUE;
+			}
+			break;
 			
 		case WM_YAMN_CHANGESTATUSOPTION:
-		{
 			Changed=TRUE;
 			SendMessage(GetParent(hDlg),PSM_CHANGED,0,0);
 			return TRUE;
-		}
 			
 		case WM_YAMN_CHANGETIME:
-			if ((HPOP3ACCOUNT)wParam==ActualAccount)
-			{
+			if ((HPOP3ACCOUNT)wParam == ActualAccount) {
 				TCHAR Text[256];
 				mir_sntprintf(Text,SIZEOF(Text),TranslateT("Time left to next check [s]: %d"),(DWORD)lParam);
 				SetDlgItemText(hDlg,IDC_STTIMELEFT,Text);
 			}
 			return TRUE;
+
 		case WM_COMMAND:
-		{
-			WORD wNotifyCode = HIWORD(wParam);
-			switch(LOWORD(wParam))
-			{
-				LONG Result;
-				case IDC_COMBOACCOUNT:
-					switch(wNotifyCode)
-					{
-						case CBN_EDITCHANGE :
-							ActualAccount=NULL;
-							DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
+			switch(LOWORD(wParam)) {
+			case IDC_COMBOACCOUNT:
+				switch( HIWORD(wParam)) {
+				case CBN_EDITCHANGE :
+					ActualAccount=NULL;
+					DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
 							
-							if (GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput)))
-								DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
-							else
-								DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
-							break;
-						case CBN_KILLFOCUS:
-							GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
-							if (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput)))
-							{
-								DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
-								EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
-								if (lstrlenA(DlgInput))
-									DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
-								else
-									DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
-							}
-							else
-							{
-								DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
-								DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
-								EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),TRUE);
-							}
-							break;
-						case CBN_SELCHANGE:
-							if (CB_ERR!=(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
-								SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_GETLBTEXT,(WPARAM)Result,(LPARAM)DlgInput);
-							
-							if ((Result==CB_ERR) || (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))))
-							{
-								DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
-								EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
-							}
-							else
-							{
-								DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
-								DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
-								EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),TRUE);
-							}
-							break;
+					if (GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput)))
+						DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
+					else
+						DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+					break;
+
+				case CBN_KILLFOCUS:
+					GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
+					if (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))) {
+						DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
+						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
+						if (lstrlenA(DlgInput))
+							DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+						else
+							DlgEnableAccount(hDlg,(WPARAM)FALSE,(LPARAM)FALSE);
+					}
+					else {
+						DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
+						DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),TRUE);
 					}
 					break;
-				case IDC_COMBOCP:
-					{
-						int sel = SendDlgItemMessage(hDlg,IDC_COMBOCP,CB_GETCURSEL,0,0);
-						CPINFOEX info; GetCPInfoEx(CodePageNamesSupp[sel].CP,0,&info);
-						DlgSetItemTextT(hDlg, IDC_STSTATUS, info.CodePageName);
+
+				case CBN_SELCHANGE:
+					if (CB_ERR!=(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
+						SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_GETLBTEXT,(WPARAM)Result,(LPARAM)DlgInput);
+							
+					if ((Result==CB_ERR) || (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput)))) {
+						DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
+						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
 					}
-				case IDC_CHECK:
-				case IDC_CHECKSND:
-				case IDC_CHECKMSG:
-				case IDC_CHECKICO:
-				case IDC_CHECKFSND:
-				case IDC_CHECKFMSG:
-				case IDC_CHECKFICO:
-				case IDC_CHECKST0:
-				case IDC_CHECKST1:
-				case IDC_CHECKST2:
-				case IDC_CHECKST3:
-				case IDC_CHECKST4:
-				case IDC_CHECKST5:
-				case IDC_CHECKST6:
-				case IDC_CHECKST7:
-				case IDC_CHECKST8:
-				case IDC_CHECKST9:
-				case IDC_CHECKSTART:
-				case IDC_CHECKFORCE:
-				case IDC_EDITAPPPARAM:
-				case IDC_CHECKAPOP:
-				case IDC_AUTOBODY:
-				case IDC_CHECKCONTACTNICK:
-				case IDC_CHECKCONTACTNOEVENT:
-				case IDC_CHECKNOTLS:
-					Changed=TRUE;
+					else {
+						DlgShowAccount(hDlg,(WPARAM)M_SHOWACTUAL,(LPARAM)ActualAccount);
+						DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)FALSE);
+						EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),TRUE);
+					}
 					break;
-				case IDC_CHECKCONTACT:
-					Changed=IsDlgButtonChecked(hDlg,IDC_CHECKCONTACT)==BST_CHECKED;
-					EnableWindow(GetDlgItem(hDlg,IDC_CHECKCONTACTNICK),Changed);
-					EnableWindow(GetDlgItem(hDlg,IDC_CHECKCONTACTNOEVENT),Changed);
-					Changed=TRUE;
-					break;
-				case IDC_CHECKSSL:
+				}
+				break;
+
+			case IDC_COMBOCP:
+				{
+					int sel = SendDlgItemMessage(hDlg,IDC_COMBOCP,CB_GETCURSEL,0,0);
+					CPINFOEX info; GetCPInfoEx(CodePageNamesSupp[sel].CP,0,&info);
+					DlgSetItemTextT(hDlg, IDC_STSTATUS, info.CodePageName);
+				}
+			case IDC_CHECK:
+			case IDC_CHECKSND:
+			case IDC_CHECKMSG:
+			case IDC_CHECKICO:
+			case IDC_CHECKFSND:
+			case IDC_CHECKFMSG:
+			case IDC_CHECKFICO:
+			case IDC_CHECKST0:
+			case IDC_CHECKST1:
+			case IDC_CHECKST2:
+			case IDC_CHECKST3:
+			case IDC_CHECKST4:
+			case IDC_CHECKST5:
+			case IDC_CHECKST6:
+			case IDC_CHECKST7:
+			case IDC_CHECKST8:
+			case IDC_CHECKST9:
+			case IDC_CHECKSTART:
+			case IDC_CHECKFORCE:
+			case IDC_EDITAPPPARAM:
+			case IDC_CHECKAPOP:
+			case IDC_AUTOBODY:
+			case IDC_CHECKCONTACTNICK:
+			case IDC_CHECKCONTACTNOEVENT:
+			case IDC_CHECKNOTLS:
+				Changed=TRUE;
+				break;
+
+			case IDC_CHECKCONTACT:
+				Changed=IsDlgButtonChecked(hDlg,IDC_CHECKCONTACT)==BST_CHECKED;
+				EnableWindow(GetDlgItem(hDlg,IDC_CHECKCONTACTNICK),Changed);
+				EnableWindow(GetDlgItem(hDlg,IDC_CHECKCONTACTNOEVENT),Changed);
+				Changed=TRUE;
+				break;
+
+			case IDC_CHECKSSL:
 				{
 					BOOL SSLC = (IsDlgButtonChecked(hDlg,IDC_CHECKSSL)==BST_CHECKED);
 					SetDlgItemInt(hDlg,IDC_EDITPORT,SSLC ? 995 : 110,FALSE);
 					EnableWindow(GetDlgItem(hDlg,IDC_CHECKNOTLS),SSLC?0:1);
 				}
-					Changed=TRUE;
-					break;
-				case IDC_CPB:
-				case IDC_CPT:
-				case IDC_CPFB:
-				case IDC_CPFT:
-				case IDC_CPNB:
-				case IDC_CPNT:
-					if (HIWORD(wParam)!=CPN_COLOURCHANGED)
-						break;
-				case IDC_CHECKKBN:
-					Changed=TRUE;
-					break;
-				case IDC_CHECKAPP:
-					Changed=TRUE;
-					EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),IsDlgButtonChecked(hDlg,IDC_CHECKAPP)==BST_CHECKED);
-					EnableWindow(GetDlgItem(hDlg,IDC_EDITAPP),IsDlgButtonChecked(hDlg,IDC_CHECKAPP)==BST_CHECKED);
-					EnableWindow(GetDlgItem(hDlg,IDC_EDITAPPPARAM),IsDlgButtonChecked(hDlg,IDC_CHECKAPP)==BST_CHECKED);
-					break;
-				case IDC_BTNSTATUS:
-				{
-					DialogBoxParamW(pYAMNVar->hInst,MAKEINTRESOURCEW(IDD_CHOOSESTATUSMODES),hDlg,(DLGPROC)DlgProcPOP3AccStatusOpt,(LPARAM)NULL);										
-					break;
-				}
+				Changed=TRUE;
+				break;
 
-				case IDC_BTNADD:
-				{
-					int index=0;
-					DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
-					DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
-					DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
-					EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
-					DlgSetItemTextT(hDlg, IDC_EDITNAME, TranslateT("New Account"));
-					index=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)TranslateT("New Account"));
-					
-					if ((index==CB_ERR) || (index==CB_ERRSPACE))
-						break;
-					SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_SETCURSEL,(WPARAM)index,(LPARAM)TranslateT("New Account"));
+			case IDC_CPB:
+			case IDC_CPT:
+			case IDC_CPFB:
+			case IDC_CPFT:
+			case IDC_CPNB:
+			case IDC_CPNT:
+				if (HIWORD(wParam)!=CPN_COLOURCHANGED)
 					break;
+
+			case IDC_CHECKKBN:
+				Changed=TRUE;
+				break;
+
+			case IDC_CHECKAPP:
+				Changed=TRUE;
+				EnableWindow(GetDlgItem(hDlg,IDC_BTNAPP),IsDlgButtonChecked(hDlg,IDC_CHECKAPP)==BST_CHECKED);
+				EnableWindow(GetDlgItem(hDlg,IDC_EDITAPP),IsDlgButtonChecked(hDlg,IDC_CHECKAPP)==BST_CHECKED);
+				EnableWindow(GetDlgItem(hDlg,IDC_EDITAPPPARAM),IsDlgButtonChecked(hDlg,IDC_CHECKAPP)==BST_CHECKED);
+				break;
+
+			case IDC_BTNSTATUS:
+				DialogBoxParamW(pYAMNVar->hInst,MAKEINTRESOURCEW(IDD_CHOOSESTATUSMODES),hDlg,(DLGPROC)DlgProcPOP3AccStatusOpt,(LPARAM)NULL);										
+				break;
+
+			case IDC_BTNADD:
+				DlgSetItemText(hDlg,(WPARAM)IDC_STTIMELEFT,(LPARAM)NULL);
+				DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
+				DlgEnableAccount(hDlg,(WPARAM)TRUE,(LPARAM)TRUE);
+				EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
+				DlgSetItemTextT(hDlg, IDC_EDITNAME, TranslateT("New Account"));
+				{
+					int index = SendDlgItemMessage(hDlg, IDC_COMBOACCOUNT, CB_ADDSTRING, 0, (LPARAM)TranslateT("New Account"));
+					if ( index != CB_ERR && index != CB_ERRSPACE )
+						SendDlgItemMessage(hDlg, IDC_COMBOACCOUNT, CB_SETCURSEL, index, (LPARAM)TranslateT("New Account"));
 				}
+				break;
 				
-				case IDC_BTNAPP:
+			case IDC_BTNAPP:
 				{
-					OPENFILENAME OFNStruct;
-
-					memset(&OFNStruct,0,sizeof(OPENFILENAME));
-					OFNStruct.lStructSize=sizeof(OPENFILENAME);
-					OFNStruct.hwndOwner=hDlg;
 					TCHAR filter[MAX_PATH];
-					mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c"), TranslateT("Executables"), 0, 0, TranslateT("All Files"), 0, 0);
+					mir_sntprintf(filter, SIZEOF(filter), _T("%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c"), 
+						TranslateT("Executables"), 0, 0, TranslateT("All Files"), 0, 0);
+
+					OPENFILENAME OFNStruct = { 0 };
+					OFNStruct.lStructSize = sizeof(OPENFILENAME);
+					OFNStruct.hwndOwner = hDlg;
 					OFNStruct.lpstrFilter= filter;
 					OFNStruct.nFilterIndex=1;
 					OFNStruct.nMaxFile=MAX_PATH;
@@ -968,58 +886,54 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 						if (CommDlgExtendedError())
 							MessageBox(hDlg,_T("Dialog box error"),_T("Failed"),MB_OK);
 					}
-					else
-						DlgSetItemTextT(hDlg, IDC_EDITAPP, OFNStruct.lpstrFile);
+					else DlgSetItemTextT(hDlg, IDC_EDITAPP, OFNStruct.lpstrFile);
 					delete[] OFNStruct.lpstrFile;
-					break;
 				}
-				case IDC_BTNDEFAULT:
-					DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
-//					DlgShowAccountColors(hDlg,0,(LPARAM)ActualAccount);
-					break;
-				case IDC_BTNDEL:
-					GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
-					EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
-					if ((CB_ERR==(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
-						|| (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))))
-						return TRUE;
+				break;
 
-					if (IDOK!=MessageBox(hDlg,TranslateT("Do you really want to delete this account?"),TranslateT("Delete account confirmation"),MB_OKCANCEL | MB_ICONWARNING))
-						return TRUE;
+			case IDC_BTNDEFAULT:
+				DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
+				break;
 
-					DlgSetItemTextT(hDlg, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
+			case IDC_BTNDEL:
+				GetDlgItemTextA(hDlg,IDC_COMBOACCOUNT,DlgInput,sizeof(DlgInput));
+				EnableWindow(GetDlgItem(hDlg,IDC_BTNDEL),FALSE);
+				if ((CB_ERR==(Result=SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_GETCURSEL,0,0)))
+					|| (NULL==(ActualAccount=(HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME,(WPARAM)POP3Plugin,(LPARAM)DlgInput))))
+					return TRUE;
 
-					if (ActualAccount->hContact != NULL)
-						CallService(MS_DB_CONTACT_DELETE,(WPARAM)(HANDLE) ActualAccount->hContact, 0);
+				if (IDOK!=MessageBox(hDlg,TranslateT("Do you really want to delete this account?"),TranslateT("Delete account confirmation"),MB_OKCANCEL | MB_ICONWARNING))
+					return TRUE;
 
-					CallService(MS_YAMN_DELETEACCOUNT,(WPARAM)POP3Plugin,(LPARAM)ActualAccount);
+				DlgSetItemTextT(hDlg, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
+
+				if (ActualAccount->hContact != NULL)
+					CallService(MS_DB_CONTACT_DELETE,(WPARAM)(HANDLE) ActualAccount->hContact, 0);
+
+				CallService(MS_YAMN_DELETEACCOUNT,(WPARAM)POP3Plugin,(LPARAM)ActualAccount);
 					
-					//We can consider our account as deleted.
+				//We can consider our account as deleted.
 
-					SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_DELETESTRING,(WPARAM)Result,0);
-					DlgSetItemText(hDlg,(WPARAM)IDC_COMBOACCOUNT,(LPARAM)NULL);
-					DlgEnableAccount(hDlg,(WPARAM)FALSE,0);
-					DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
-//					Beep(100,50);
-					break;
-				case IDC_BTNRESET:
-					if (ActualAccount!=NULL)
-						ActualAccount->TimeLeft=ActualAccount->Interval;
-					return 1;
+				SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_DELETESTRING,(WPARAM)Result,0);
+				DlgSetItemText(hDlg,(WPARAM)IDC_COMBOACCOUNT,(LPARAM)NULL);
+				DlgEnableAccount(hDlg,(WPARAM)FALSE,0);
+				DlgShowAccount(hDlg,(WPARAM)M_SHOWDEFAULT,0);
+				break;
+
+			case IDC_BTNRESET:
+				if (ActualAccount != NULL)
+					ActualAccount->TimeLeft=ActualAccount->Interval;
+				return 1;
  			}
-			if (HIWORD(wParam)==EN_CHANGE)
-				Changed=TRUE;
+
+			if (HIWORD(wParam) == EN_CHANGE)
+				Changed = TRUE;
 			break;
-		}
+
 		case WM_NOTIFY:
 			if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY ) {
 				char  Text[MAX_PATH];
 				WCHAR TextW[MAX_PATH];
-				#ifdef _UNICODE
-					#define TextT TextW
-				#else
-					#define TextT Text
-				#endif
 				BOOL Translated,NewAcc=FALSE,Check,CheckMsg,CheckSnd,CheckIco,CheckApp, CheckAPOP;
 				BOOL CheckNMsgP,CheckFMsg,CheckFSnd,CheckFIco;
 				BOOL CheckKBN, CheckContact,CheckContactNick,CheckContactNoEvent;
@@ -1152,13 +1066,13 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					ActualAccount->Server->Passwd=new char[ strlen(Text)+1];
 					strcpy(ActualAccount->Server->Passwd,Text);
 				        
-					GetDlgItemTextW(hDlg,IDC_EDITAPP,TextW,sizeof(TextW)/sizeof(WCHAR));
+					GetDlgItemTextW(hDlg,IDC_EDITAPP,TextW,SIZEOF(TextW));
 					if (NULL!=ActualAccount->NewMailN.App)
 						delete[] ActualAccount->NewMailN.App;
 					ActualAccount->NewMailN.App=new WCHAR[wcslen(TextW)+1];
 					wcscpy(ActualAccount->NewMailN.App,TextW);
 				        
-					GetDlgItemTextW(hDlg,IDC_EDITAPPPARAM,TextW,sizeof(TextW)/sizeof(WCHAR));
+					GetDlgItemTextW(hDlg,IDC_EDITAPPPARAM,TextW,SIZEOF(TextW));
 					if (NULL!=ActualAccount->NewMailN.AppParam)
 						delete[] ActualAccount->NewMailN.AppParam;
 					ActualAccount->NewMailN.AppParam=new WCHAR[wcslen(TextW)+1];
@@ -1243,7 +1157,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 								
 					SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_RESETCONTENT,0,(LPARAM)0);
 					if (POP3Plugin->FirstAccount!=NULL)
-						for(ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+						for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
 							if (ActualAccount->Name!=NULL)
 								SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 
@@ -1285,7 +1199,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 			DebugLog(SynchroFile,"Options:INITDIALOG:AccountBrowserSO-read enter\n");
 			#endif
 			if (POP3Plugin->FirstAccount!=NULL)
-				for(ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+				for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
 					if (ActualAccount->Name!=NULL)
 						SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 			#ifdef DEBUG_SYNCHRO
@@ -1315,7 +1229,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 				SendDlgItemMessage(hDlg,IDC_COMBOACCOUNT,CB_RESETCONTENT,0,(LPARAM)0);
 
 				if (POP3Plugin->FirstAccount!=NULL)
-					for(ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
+					for (ActualAccount=(HPOP3ACCOUNT)POP3Plugin->FirstAccount;ActualAccount!=NULL;ActualAccount=(HPOP3ACCOUNT)ActualAccount->Next)
 						if (ActualAccount->Name!=NULL)
 							SendDlgItemMessageA(hDlg,IDC_COMBOACCOUNT,CB_ADDSTRING,0,(LPARAM)ActualAccount->Name);
 				
@@ -1425,9 +1339,9 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					Tester.lchContact=NULL;
 					TesterF.lchContact=NULL;
 					TesterN.lchContact=NULL;
-					Tester.lchIcon=hYamnIcons[2];
-					TesterF.lchIcon=hYamnIcons[3];
-					TesterN.lchIcon=hYamnIcons[1];
+					Tester.lchIcon=g_LoadIconEx(2);
+					TesterF.lchIcon=g_LoadIconEx(3);
+					TesterN.lchIcon=g_LoadIconEx(1);
 
 					lstrcpy(Tester.lptzContactName,TranslateT("Account Test"));
 					lstrcpy(TesterF.lptzContactName,TranslateT("Account Test (failed)"));

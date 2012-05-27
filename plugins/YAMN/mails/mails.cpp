@@ -166,7 +166,7 @@ INT_PTR DeleteAccountMailSvc(WPARAM wParam,LPARAM lParam)
 		if (OldMail->MailData->Body!=NULL)
 			delete[] OldMail->MailData->Body;
 		if ((TH=OldMail->MailData->TranslatedHeader)!=NULL)
-			for(;OldMail->MailData->TranslatedHeader!=NULL;) {
+			for (;OldMail->MailData->TranslatedHeader!=NULL;) {
 				TH=TH->Next;
 				if (OldMail->MailData->TranslatedHeader->name!=NULL)
 					delete[] OldMail->MailData->TranslatedHeader->name;
@@ -237,7 +237,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 	if (RemovedOld!=NULL) *RemovedOld=NULL;
 	if (RemovedNew!=NULL) *RemovedNew=NULL;
 
-	for(FinderPrev=NULL,Finder=*OldQueue;Finder!=NULL;)
+	for (FinderPrev=NULL,Finder=*OldQueue;Finder!=NULL;)
 	{
 		if (Finder->Flags & YAMN_MSG_DELETED)			//if old queue contains deleted mail
 		{
@@ -245,7 +245,7 @@ void WINAPI SynchroMessagesFcn(HACCOUNT Account,HYAMNMAIL *OldQueue,HYAMNMAIL *R
 			Finder=Finder->Next;						//get next message in old queue for testing
 			continue;
 		}
-		for(ParserPrev=NULL,Parser=*NewQueue;Parser!=NULL;ParserPrev=Parser,Parser=Parser->Next)
+		for (ParserPrev=NULL,Parser=*NewQueue;Parser!=NULL;ParserPrev=Parser,Parser=Parser->Next)
 		{
 			if (Parser->Flags & YAMN_MSG_DELETED)
 				continue;
@@ -339,14 +339,14 @@ void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From,HYAMNMAIL Which,int mode=0
 	}
 	else 
 	{
-		for(Parser=*From;Which!=Parser->Next;Parser=Parser->Next)
+		for (Parser=*From;Which!=Parser->Next;Parser=Parser->Next)
 			if (mode && (Parser->Number>Number)) Parser->Number--;
 		if (mode && (Parser->Number>Number)) Parser->Number--;
 		Parser->Next=Parser->Next->Next;
 		Parser=Which->Next;
 	}	
 	if (mode)
-		for(;Parser!=NULL;Parser=Parser->Next)
+		for (;Parser!=NULL;Parser=Parser->Next)
 			if (Parser->Number>Number) Parser->Number--;
 }
 
@@ -354,7 +354,7 @@ void DeleteMessagesFromQueue(HYAMNMAIL *From,HYAMNMAIL Which,int mode=0)
 {
 	HYAMNMAIL Parser;
 
-	for(Parser=Which;Parser!=NULL;Parser=Parser->Next)
+	for (Parser=Which;Parser!=NULL;Parser=Parser->Next)
 		DeleteMessageFromQueueFcn(From,Parser,mode);
 }
 
@@ -362,7 +362,7 @@ HYAMNMAIL WINAPI FindMessageByIDFcn(HYAMNMAIL From,char *ID)
 {
 	HYAMNMAIL Browser;
 
-	for(Browser=From;Browser!=NULL;Browser=Browser->Next)
+	for (Browser=From;Browser!=NULL;Browser=Browser->Next)
 		if (0==lstrcmpA(Browser->ID,ID))
 			break;
 	return Browser;
@@ -458,7 +458,7 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
 {
 	HYAMNMAIL FirstMail,Browser;
 
-	for(FirstMail=NULL;From!=NULL;From=From->Next)
+	for (FirstMail=NULL;From!=NULL;From=From->Next)
 	{
 		if ((From->Flags & (YAMN_MSG_USERDELETE | YAMN_MSG_AUTODELETE)) && !(From->Flags & YAMN_MSG_DELETED))
 		{
@@ -486,7 +486,7 @@ void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,DWORD FlagsSet,DWORD FlagsNo
 {
 	HYAMNMAIL msgq;
 
-	for(msgq=(HYAMNMAIL)From;msgq!=NULL;msgq=msgq->Next)
+	for (msgq=(HYAMNMAIL)From;msgq!=NULL;msgq=msgq->Next)
 	{
 		if ((FlagsSet==(msgq->Flags & FlagsSet)) && (0==(msgq->Flags & FlagsNotSet)))
 		{

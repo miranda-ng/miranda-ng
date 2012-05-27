@@ -19,23 +19,6 @@
 
 #define ERRORSTR_MAXLEN	1024	//in wide-chars
 
-//- imported ---------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-//From main.cpp
-void SetDefaultProtocolIcons();
-//From pop3opt.cpp
-extern int POP3OptInit(WPARAM wParam,LPARAM lParam);
-//From netlib.cpp
-extern HANDLE RegisterNLClient(const char *name);
-//this is imported because of one bug, should not be imported normally (this POP3 is plugin of YAMN)
-extern INT_PTR FilterMailSvc(WPARAM,LPARAM);
-
-extern char *ProtoName;
-extern INT_PTR YAMN_STATUS;
-extern PLUGININFO pluginInfo;
-
-//--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
 HANDLE hNetLib								= NULL;
@@ -83,7 +66,7 @@ DWORD WINAPI DeleteMailsPOP3(struct DeleteParam *WhichTemp);
 
 //Function makes readable message about error. It sends it back to YAMN, so YAMN then
 //can show it to the message window
-WCHAR* WINAPI GetErrorString(DWORD Code);
+TCHAR* WINAPI GetErrorString(DWORD Code);
 
 //Function deletes string allocated in GetErrorString
 void WINAPI DeleteErrorString(LPVOID String);
@@ -109,8 +92,8 @@ void ExtractList(char *stream,int len,HYAMNMAIL queue);
 
 void ExtractMail(char *stream,int len,HYAMNMAIL queue);
 
-struct YAMNExportedFcns *pYAMNFcn				= NULL;
-struct MailExportedFcns *pYAMNMailFcn			= NULL;
+YAMNExportedFcns *pYAMNFcn				= NULL;
+MailExportedFcns *pYAMNMailFcn			= NULL;
 
 YAMN_PROTOIMPORTFCN POP3ProtocolFunctions =
 {
@@ -152,7 +135,9 @@ YAMN_PROTOREGISTRATION POP3ProtocolRegistration =
 	"http://forums.miranda-im.org/showthread.php?t=3035",
 };
 
-static WCHAR *FileName = NULL;
+static TCHAR *FileName = NULL;
+
+HANDLE RegisterNLClient(const char *name);
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -258,11 +243,10 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 	//Then, we read all mails for accounts.
 	//You must first register account, before using this function as YAMN must use CreatePOP3Account function to add new accounts
 	//But if CreatePOP3Account is not implemented (equals to NULL), YAMN creates account as YAMN's standard HACCOUNT
-	if (FileName) CallService(MS_YAMN_DELETEFILENAME,(WPARAM)FileName,(LPARAM)0);	//shoud not happen (only for secure)
-	FileName=(WCHAR *)CallService(MS_YAMN_GETFILENAMEA,(WPARAM)"pop3",(LPARAM)0);
+	if (FileName) CallService(MS_YAMN_DELETEFILENAME,(WPARAM)FileName, 0);	//shoud not happen (only for secure)
+	FileName = (TCHAR *)CallService(MS_YAMN_GETFILENAME,(WPARAM)_T("pop3"), 0);
 
-	switch(CallService(MS_YAMN_READACCOUNTSW,(WPARAM)POP3Plugin,(LPARAM)FileName))
-	{
+	switch(CallService(MS_YAMN_READACCOUNTS,(WPARAM)POP3Plugin,(LPARAM)FileName)) {
 		case EACC_FILEVERSION:
 			MessageBox(NULL,TranslateT("Found new version of account book, not compatible with this version of YAMN."),TranslateT("YAMN (internal POP3) read error"),MB_OK);
 			CallService(MS_YAMN_DELETEFILENAME,(WPARAM)FileName,(LPARAM)0);
@@ -297,19 +281,19 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 	DBVARIANT dbv;
 	char *szProto;
 
-	for(Finder=POP3Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
+	for (Finder=POP3Plugin->FirstAccount;Finder!=NULL;Finder=Finder->Next)
 	{
 		Finder->hContact = NULL;
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 		while(hContact) 
 		{
 			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-			if (szProto != NULL && strcmp(szProto, ProtoName)==0)
+			if (szProto != NULL && strcmp(szProto, YAMN_DBMODULE)==0)
 			{
-				if (!DBGetContactSettingString(hContact,ProtoName,"Id",&dbv)) {
+				if (!DBGetContactSettingString(hContact,YAMN_DBMODULE,"Id",&dbv)) {
 					if ( strcmp( dbv.pszVal, Finder->Name) == 0) {
 						Finder->hContact = hContact;
-						DBWriteContactSettingWord(Finder->hContact, ProtoName, "Status", ID_STATUS_ONLINE);
+						DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", ID_STATUS_ONLINE);
 						DBWriteContactSettingString(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 						if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
 							DBDeleteContactSetting(Finder->hContact, "CList", "Hidden");
@@ -326,11 +310,11 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 		if (Finder->hContact == NULL && (Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			//No account contact found, have to create one
 			Finder->hContact =(HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
-			CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)Finder->hContact,(LPARAM)ProtoName);
-			DBWriteContactSettingString(Finder->hContact,ProtoName,"Id",Finder->Name);
-			DBWriteContactSettingString(Finder->hContact,ProtoName,"Nick",Finder->Name);
-			DBWriteContactSettingString(Finder->hContact,"Protocol","p",ProtoName);
-			DBWriteContactSettingWord(Finder->hContact, ProtoName, "Status", YAMN_STATUS);
+			CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)Finder->hContact,(LPARAM)YAMN_DBMODULE);
+			DBWriteContactSettingString(Finder->hContact,YAMN_DBMODULE,"Id",Finder->Name);
+			DBWriteContactSettingString(Finder->hContact,YAMN_DBMODULE,"Nick",Finder->Name);
+			DBWriteContactSettingString(Finder->hContact,"Protocol","p",YAMN_DBMODULE);
+			DBWriteContactSettingWord(Finder->hContact, YAMN_DBMODULE, "Status", YAMN_STATUS);
 		}
 	}
 
@@ -359,21 +343,11 @@ DWORD WINAPI UnLoadPOP3(void *)
 
 DWORD WINAPI WritePOP3Accounts()
 {
-//	WCHAR *FileName=(WCHAR *)CallService(MS_YAMN_GETFILENAMEA,(WPARAM)"pop3",(LPARAM)0);
-	DWORD ReturnValue=CallService(MS_YAMN_WRITEACCOUNTSW,(WPARAM)POP3Plugin,(LPARAM)FileName);
-								
-	switch(ReturnValue)
-	{
-		case EACC_SYSTEM:
-			{
-				TCHAR temp[1024] = {0};
-				mir_sntprintf(temp, SIZEOF(temp), _T("%s\n%s"), TranslateT("Error while copying data to disk occured. File in use?"), FileName );
-				MessageBox(NULL, temp, TranslateT("POP3 plugin- write file error"), MB_OK );
-			}
-			break;
-
-		case 0:
-			break;
+	DWORD ReturnValue = CallService(MS_YAMN_WRITEACCOUNTS,(WPARAM)POP3Plugin,(LPARAM)FileName);
+	if (ReturnValue == EACC_SYSTEM) {
+		TCHAR temp[1024] = {0};
+		mir_sntprintf(temp, SIZEOF(temp), _T("%s\n%s"), TranslateT("Error while copying data to disk occured. File in use?"), FileName );
+		MessageBox(NULL, temp, TranslateT("POP3 plugin- write file error"), MB_OK );
 	}
 
 	return ReturnValue;
@@ -438,7 +412,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account,DWORD MailDataVersion)
 
 static void SetContactStatus(HACCOUNT account, int status){
 	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT)){
-		DBWriteContactSettingWord(account->hContact, ProtoName, "Status", status);
+		DBWriteContactSettingWord(account->hContact, YAMN_DBMODULE, "Status", status);
 	}
 }
 
@@ -678,7 +652,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 		if (DataRX!=NULL)
 			free(DataRX);
 		DataRX=NULL;
-		for(i=0;i<msgs;i++)
+		for (i=0;i<msgs;i++)
 		{
 			if (!i)
 				MsgQueuePtr=NewMails=(HYAMNMAIL)CallService(MS_YAMN_CREATEACCOUNTMAIL,(WPARAM)ActualAccount,(LPARAM)YAMN_MAILVERSION);
@@ -734,10 +708,10 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 		DebugLog(SynchroFile,"CheckPOP3:ActualAccountMsgsSO-write enter\n");
 		#endif
 		ActualAccount->LastChecked=now;
-		for(MsgQueuePtr=(HYAMNMAIL)ActualAccount->Mails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next){
+		for (MsgQueuePtr=(HYAMNMAIL)ActualAccount->Mails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next){
 			if (MsgQueuePtr->Flags&YAMN_MSG_BODYREQUESTED){
 				HYAMNMAIL NewMsgsPtr=NULL;
-				for(NewMsgsPtr=(HYAMNMAIL)NewMails;NewMsgsPtr!=NULL;NewMsgsPtr=NewMsgsPtr->Next){
+				for (NewMsgsPtr=(HYAMNMAIL)NewMails;NewMsgsPtr!=NULL;NewMsgsPtr=NewMsgsPtr->Next){
 					if (!strcmp(MsgQueuePtr->ID,NewMsgsPtr->ID)){
 						TCHAR accstatus[512];
 						wsprintf(accstatus,TranslateT("Reading body %s"),NewMsgsPtr->ID);
@@ -753,14 +727,14 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 							while((Temp<DataRX+MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp))) Temp++;
 						
 							if (OKLINE(DataRX))
-								for(Temp=DataRX;(Temp<DataRX+MyClient->NetClient->Rcv) && (!ENDLINE(Temp));Temp++);
+								for (Temp=DataRX;(Temp<DataRX+MyClient->NetClient->Rcv) && (!ENDLINE(Temp));Temp++);
 							while((Temp<DataRX+MyClient->NetClient->Rcv) && ENDLINE(Temp)) Temp++;
 						}
 						else
 							continue;
 						//delete all the headers of the old mail MsgQueuePtr->MailData->TranslatedHeader
 						struct CMimeItem *TH = MsgQueuePtr->MailData->TranslatedHeader;
-						if (TH) for(;MsgQueuePtr->MailData->TranslatedHeader!=NULL;)
+						if (TH) for (;MsgQueuePtr->MailData->TranslatedHeader!=NULL;)
 						{
 							TH=TH->Next;
 							if (MsgQueuePtr->MailData->TranslatedHeader->name!=NULL)
@@ -795,7 +769,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 		DebugLog(SynchroFile,"CheckPOP3:ActualAccountMsgsSO-write done\n");
 		#endif
 		MsgsWriteDone(ActualAccount);
-		for(MsgQueuePtr=(HYAMNMAIL)ActualAccount->Mails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next){
+		for (MsgQueuePtr=(HYAMNMAIL)ActualAccount->Mails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next){
 			if ((MsgQueuePtr->Flags&YAMN_MSG_BODYREQUESTED) && (MsgQueuePtr->Flags&YAMN_MSG_BODYRECEIVED)){
 				MsgQueuePtr->Flags&=~YAMN_MSG_BODYREQUESTED;
 				if (MsgQueuePtr->MsgWindow){
@@ -804,13 +778,13 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 			}
 		}
 
-		for(msgs=0,MsgQueuePtr=NewMails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next,msgs++);			//get number of new mails
+		for (msgs=0,MsgQueuePtr=NewMails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next,msgs++);			//get number of new mails
 
 		try
 		{
 			TCHAR accstatus[512];
 
-			for(i=0,MsgQueuePtr=NewMails;MsgQueuePtr!=NULL;i++)
+			for (i=0,MsgQueuePtr=NewMails;MsgQueuePtr!=NULL;i++)
 			{
 				BOOL autoretr = (ActualAccount->Flags & YAMN_ACC_BODY)!=0;
 				DataRX=MyClient->Top(MsgQueuePtr->Number,autoretr?100:0);
@@ -827,7 +801,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 					while((Temp<DataRX+MyClient->NetClient->Rcv) && (WS(Temp) || ENDLINE(Temp))) Temp++;
 				
 					if (OKLINE(DataRX))
-						for(Temp=DataRX;(Temp<DataRX+MyClient->NetClient->Rcv) && (!ENDLINE(Temp));Temp++);
+						for (Temp=DataRX;(Temp<DataRX+MyClient->NetClient->Rcv) && (!ENDLINE(Temp));Temp++);
 					while((Temp<DataRX+MyClient->NetClient->Rcv) && ENDLINE(Temp)) Temp++;
 				}
 				else
@@ -1175,7 +1149,7 @@ DWORD WINAPI DeleteMailsPOP3(struct DeleteParam *WhichTemp)
 			if (DataRX!=NULL)
 				free(DataRX);
 			DataRX=NULL;
-			for(i=0;i<msgs;i++)
+			for (i=0;i<msgs;i++)
 			{
 				if (!i)
 					MsgQueuePtr=NewMails=(HYAMNMAIL)CallService(MS_YAMN_CREATEACCOUNTMAIL,(WPARAM)ActualAccount,(LPARAM)YAMN_MAILVERSION);
@@ -1230,7 +1204,7 @@ DWORD WINAPI DeleteMailsPOP3(struct DeleteParam *WhichTemp)
 			{
 				HYAMNMAIL Temp;
 
-				for(i=0,MsgQueuePtr=DeleteMails;MsgQueuePtr!=NULL;i++)
+				for (i=0,MsgQueuePtr=DeleteMails;MsgQueuePtr!=NULL;i++)
 				{
 					if (!(MsgQueuePtr->Flags & YAMN_MSG_VIRTUAL))	//of course we can only delete real mails, not virtual
 					{
@@ -1422,7 +1396,7 @@ void ExtractMail(char *stream,int len,HYAMNMAIL queue)
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile,"<Nr>%d</Nr>\n",msgnr);
 		#endif
-//		for(i=1,queueptr=queue;(queueptr->Next!=NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
+//		for (i=1,queueptr=queue;(queueptr->Next!=NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
 //		if (i!=msgnr)
 //			throw (DWORD)EPOP3_UIDL;
 		while(!WS(finder)) finder++;			//jump characters
@@ -1430,7 +1404,7 @@ void ExtractMail(char *stream,int len,HYAMNMAIL queue)
 		finderend=finder+1;
 		while(!WS(finderend) && !ENDLINE(finderend)) finderend++;
 		queueptr->ID=new char[finderend-finder+1];
-		for(i=0;finder!=finderend;finder++,i++)
+		for (i=0;finder!=finderend;finder++,i++)
 			queueptr->MailData->Body[i]=*finder;
 		queueptr->MailData->Body[i]=0;				//ends string
 		queueptr->Number=msgnr;
@@ -1467,7 +1441,7 @@ void ExtractUIDL(char *stream,int len,HYAMNMAIL queue)
 		#ifdef DEBUG_DECODE
 		DebugLog(DecodeFile,"<Nr>%d</Nr>\n",msgnr);
 		#endif
-//		for(i=1,queueptr=queue;(queueptr->Next!=NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
+//		for (i=1,queueptr=queue;(queueptr->Next!=NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
 //		if (i!=msgnr)
 //			throw (DWORD)EPOP3_UIDL;
 		while(!WS(finder)) finder++;			//jump characters
@@ -1475,7 +1449,7 @@ void ExtractUIDL(char *stream,int len,HYAMNMAIL queue)
 		finderend=finder+1;
 		while(!WS(finderend) && !ENDLINE(finderend)) finderend++;
 		queueptr->ID=new char[finderend-finder+1];
-		for(i=0;finder!=finderend;finder++,i++)
+		for (i=0;finder!=finderend;finder++,i++)
 			queueptr->ID[i]=*finder;
 		queueptr->ID[i]=0;				//ends string
 		queueptr->Number=msgnr;
@@ -1513,7 +1487,7 @@ void ExtractList(char *stream,int len,HYAMNMAIL queue)
 		DebugLog(DecodeFile,"<Nr>%d</Nr>\n",msgnr);
 		#endif
 
-		for(i=1,queueptr=queue;(queueptr->Next!=NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
+		for (i=1,queueptr=queue;(queueptr->Next!=NULL) && (i<msgnr);queueptr=queueptr->Next,i++);
 		if (i!=msgnr)
 			throw (DWORD)EPOP3_LIST;
 		while(!WS(finder)) finder++;			//jump characters
@@ -1528,65 +1502,59 @@ void ExtractList(char *stream,int len,HYAMNMAIL queue)
 	}
 }
 
-WCHAR* WINAPI GetErrorString(DWORD Code)
+TCHAR* WINAPI GetErrorString(DWORD Code)
 {
-	static char *POP3Errors[]=
+	static TCHAR *POP3Errors[]=
 	{
-		"Memory allocation error.",		//memory allocation
-		"Account is about to be stopped.",	//stop account
-		"Cannot connect to POP3 server.",
-		"Cannot allocate memory for received data.",
-		"Cannot login to POP3 server.",
-		"Bad user or password.",
-		"Server does not support APOP authorization.",
-		"Error while executing POP3 command.",
-		"Error while executing POP3 command.",
-		"Error while executing POP3 command.",
+		LPGENT("Memory allocation error."),		//memory allocation
+		LPGENT("Account is about to be stopped."),	//stop account
+		LPGENT("Cannot connect to POP3 server."),
+		LPGENT("Cannot allocate memory for received data."),
+		LPGENT("Cannot login to POP3 server."),
+		LPGENT("Bad user or password."),
+		LPGENT("Server does not support APOP authorization."),
+		LPGENT("Error while executing POP3 command."),
+		LPGENT("Error while executing POP3 command."),
+		LPGENT("Error while executing POP3 command."),
 	};
 
-	static char *NetlibErrors[]=
+	static TCHAR *NetlibErrors[]=
 	{
-		"Cannot connect to server with NetLib.",
-		"Cannot send data.",
-		"Cannot receive data.",
-		"Cannot allocate memory for received data.",
+		LPGENT("Cannot connect to server with NetLib."),
+		LPGENT("Cannot send data."),
+		LPGENT("Cannot receive data."),
+		LPGENT("Cannot allocate memory for received data."),
 	};
 
-	static char *SSLErrors[]=
+	static TCHAR *SSLErrors[]=
 	{
-		"OpenSSL not loaded.",
-		"Windows socket 2.0 init failed.",
-		"DNS lookup error.",
-		"Error while creating base socket.",
-		"Error connecting to server with socket.",
-		"Error while creating SSL structure.",
-		"Error connecting socket with SSL.",
-		"Server rejected connection with SSL.",
-		"Cannot write SSL data.",
-		"Cannot read SSL data.",
-		"Cannot allocate memory for received data.",
+		LPGENT("OpenSSL not loaded."),
+		LPGENT("Windows socket 2.0 init failed."),
+		LPGENT("DNS lookup error."),
+		LPGENT("Error while creating base socket."),
+		LPGENT("Error connecting to server with socket."),
+		LPGENT("Error while creating SSL structure."),
+		LPGENT("Error connecting socket with SSL."),
+		LPGENT("Server rejected connection with SSL."),
+		LPGENT("Cannot write SSL data."),
+		LPGENT("Cannot read SSL data."),
+		LPGENT("Cannot allocate memory for received data."),
 	};
 
-	char *ErrorStringA=new char[ERRORSTR_MAXLEN];
-	WCHAR *ErrorStringW=new WCHAR[ERRORSTR_MAXLEN];
+	TCHAR *ErrorString = new TCHAR[ERRORSTR_MAXLEN];
 	POP3_ERRORCODE *ErrorCode=(POP3_ERRORCODE *)(UINT_PTR)Code;
 
-	sprintf(ErrorStringA,Translate("Error %d-%d-%d-%d:"),ErrorCode->AppError,ErrorCode->POP3Error,ErrorCode->NetError,ErrorCode->SystemError);
+	mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, TranslateT("Error %d-%d-%d-%d:"),ErrorCode->AppError,ErrorCode->POP3Error,ErrorCode->NetError,ErrorCode->SystemError);
 	if (ErrorCode->POP3Error)
-		sprintf(ErrorStringA,"%s\n%s",ErrorStringA,Translate(POP3Errors[ErrorCode->POP3Error-1]));
-	if (ErrorCode->NetError)
+		mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, _T("%s\n%s"),ErrorString,TranslateTS(POP3Errors[ErrorCode->POP3Error-1]));
+	if (ErrorCode->NetError) {
 		if (ErrorCode->SSL)
-			sprintf(ErrorStringA,"%s\n%s",ErrorStringA,Translate(SSLErrors[ErrorCode->NetError-1]));
+			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, _T("%s\n%s"),ErrorString, TranslateTS(SSLErrors[ErrorCode->NetError-1]));
 		else
-			sprintf(ErrorStringA,"%s\n%s",ErrorStringA,Translate(NetlibErrors[ErrorCode->NetError-4]));
+			mir_sntprintf(ErrorString, ERRORSTR_MAXLEN, _T("%s\n%s"),ErrorString, TranslateTS(NetlibErrors[ErrorCode->NetError-4]));
+	}
 		
-#ifdef DEBUG_COMM
-	DebugLog(CommFile,"%s\n",ErrorStringA);
-#endif
-	MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,ErrorStringA,-1,ErrorStringW,(int)strlen(ErrorStringA)+1);
-	delete[] ErrorStringA;		//we delete ErrorStringA, used to get error string, because Translate() doesn't works in unicode
-	delete ErrorCode;			//now we can delete ErrorCode, that will not be used anymore
-	return ErrorStringW;
+	return ErrorString;
 }
 
 void WINAPI DeleteErrorString(LPVOID String)

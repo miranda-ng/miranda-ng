@@ -9,7 +9,6 @@
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-WCHAR FileName2[]=L"%s\\yamn-accounts.%s.%s.book";		//UserDirectory\\yamn-accounts.PluginName.UserProfileName.book
 PYAMN_PROTOPLUGINQUEUE FirstProtoPlugin=NULL;
 
 INT_PTR RegisterProtocolPluginSvc(WPARAM,LPARAM);
@@ -31,10 +30,6 @@ INT_PTR UnregisterProtoPlugins();
 // returns nonzero if success
 int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPORTFCN YAMNFcn,DWORD YAMNFcnVer,PYAMN_MAILIMPORTFCN YAMNMailFcn,DWORD YAMNMailFcnVer);
 
-INT_PTR GetFileNameWSvc(WPARAM,LPARAM);
-INT_PTR GetFileNameASvc(WPARAM,LPARAM);
-INT_PTR DeleteFileNameSvc(WPARAM,LPARAM);
-
 struct CExportedFunctions ProtoPluginExportedFcn[]=
 {
 	{YAMN_SETPROTOCOLPLUGINFCNIMPORTID,(void *)SetProtocolPluginFcnImportFcn},
@@ -44,8 +39,7 @@ struct CExportedServices ProtoPluginExportedSvc[]=
 {
 	{MS_YAMN_REGISTERPROTOPLUGIN,RegisterProtocolPluginSvc},
 	{MS_YAMN_UNREGISTERPROTOPLUGIN,UnregisterProtocolPluginSvc},
-	{MS_YAMN_GETFILENAMEA,GetFileNameASvc},
-	{MS_YAMN_GETFILENAMEW,GetFileNameWSvc},
+	{MS_YAMN_GETFILENAME,GetFileNameSvc},
 	{MS_YAMN_DELETEFILENAME,DeleteFileNameSvc},
 };
 
@@ -101,7 +95,7 @@ int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPO
 
 	EnterCriticalSection(&PluginRegCS);
 //We add protocol to the protocol list
-	for(Parser=FirstProtoPlugin;Parser!=NULL && Parser->Next!=NULL;Parser=Parser->Next);
+	for (Parser=FirstProtoPlugin;Parser!=NULL && Parser->Next!=NULL;Parser=Parser->Next);
 	if (Parser==NULL)
 	{
 		FirstProtoPlugin=new YAMN_PROTOPLUGINQUEUE;
@@ -134,7 +128,7 @@ INT_PTR UnregisterProtocolPlugin(HYAMNPROTOPLUGIN Plugin)
 	}
 	else
 	{
-		for(Parser=FirstProtoPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
+		for (Parser=FirstProtoPlugin;(Parser->Next!=NULL) && (Plugin!=Parser->Next->Plugin);Parser=Parser->Next);
 		if (Parser->Next!=NULL)
 		{
 			Found=Parser->Next;
@@ -184,37 +178,20 @@ INT_PTR UnregisterProtoPlugins()
 	return 1;
 }
 
-INT_PTR GetFileNameWSvc(WPARAM wParam,LPARAM)
+INT_PTR GetFileNameSvc(WPARAM wParam,LPARAM)
 {
-	WCHAR *FileName;
-
-	if (NULL==(FileName=new WCHAR[MAX_PATH]))
-		return NULL;
-	swprintf(FileName,FileName2,UserDirectory,(WCHAR *)wParam,ProfileName);
-//	MessageBoxW(NULL,FileName,L"GetFileNameW",MB_OK);
-	return (INT_PTR)FileName;
-}
-
-INT_PTR GetFileNameASvc(WPARAM wParam,LPARAM)
-{
-	WCHAR *FileName;
-	if (NULL==(FileName=new WCHAR[MAX_PATH]))
+	TCHAR *FileName = new TCHAR[MAX_PATH];
+	if (FileName == NULL)
 		return NULL;
 
-	WCHAR ConvertedInput[ MAX_PATH ];
-	char* szSrc = (char *)wParam;
-
-	// Convert input string to unicode
-	MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,szSrc,-1,ConvertedInput,strlen(szSrc)+1);
-
-	mir_sntprintf(FileName,MAX_PATH, FileName2,UserDirectory,ConvertedInput,ProfileName);
+	mir_sntprintf(FileName, MAX_PATH, _T("%s\\yamn-accounts.%s.%s.book"), UserDirectory, wParam, ProfileName);
 	return (INT_PTR)FileName;
 }
 
 INT_PTR DeleteFileNameSvc(WPARAM wParam,LPARAM)
 {
-	if ((WCHAR *)wParam!=NULL)
-		delete[] (WCHAR *)wParam;
+	if (( TCHAR* )wParam != NULL)
+		delete[] ( TCHAR* ) wParam;
 
 	return 0;
 }

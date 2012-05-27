@@ -258,7 +258,7 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 	MD5Update(&ctx,(const unsigned char *)pw,(unsigned int)strlen(pw));
 	MD5Final(digest,&ctx);
 	hexdigest[0]='\0';
-	for(int i=0; i<16; i++) {
+	for (int i=0; i<16; i++) {
 		char tmp[4];
 		sprintf(tmp, "%02x", digest[i]);
 		strcat(hexdigest, tmp);

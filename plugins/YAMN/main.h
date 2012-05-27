@@ -40,7 +40,6 @@
 #define YAMN_DBMSGSIZEX		"MailMessageWinW"
 #define YAMN_DBMSGSIZEY		"MailMessageWinH"
 #define YAMN_DBMSGPOSSPLIT	"MailMessageSplitY"
-#define YAMN_HKCHECKMAIL	"HKCheckMail"
 #define	YAMN_TTBFCHECK		"ForceCheckTTB"
 #define	YAMN_SHOWMAINMENU	"ShowMainMenu"
 #define	YAMN_CLOSEDELETE	"CloseOnDelete"
@@ -55,12 +54,8 @@
 
 extern unsigned char optDateTime;
 
-void UnloadPlugins();
-
 //  Loading Icon and checking for icolib 
 void LoadIcons();
-extern int iconIndexes[];
-
 
 #endif
 
