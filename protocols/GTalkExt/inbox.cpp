@@ -210,28 +210,28 @@ struct OPEN_URL_HEADER {
 
 HANDLE FindNetUserHandle(LPCSTR acc)
 {
-        IJabberInterface *ji = getJabberApi(acc);
-        if (!ji) return NULL;
- 
-        PBYTE m_psProto = *(PBYTE*)((PBYTE)ji + sizeof(*ji));   // see CJabberInterface in jabber_proto.h
- 
-        PHANDLE pResult = (PHANDLE)(m_psProto +                                 // see CJabberProto in jabber_proto.h
-                sizeof(PVOID) +                                                                         // skip vtable ptr
-                sizeof(PVOID) +                                                                         // skip m_ThreadInfo
-                SIZE_OF_JABBER_OPTIONS);                                                        // skip m_options
- 
-        for (int i=0; i < 100; i++) {
-                __try {
-                        if (GetNetlibHandleType(*pResult) == NLH_USER)
-                                break;
-                }
-                __except (EXCEPTION_EXECUTE_HANDLER){
-                }
-                pResult++;
-        }
- 
-        assert(GetNetlibHandleType(*pResult) == NLH_USER);
-        return *pResult;
+	IJabberInterface *ji = getJabberApi(acc);
+	if (!ji) return NULL;
+
+	PBYTE m_psProto = *(PBYTE*)((PBYTE)ji + sizeof(*ji));   // see CJabberInterface in jabber_proto.h
+
+	PHANDLE pResult = (PHANDLE)(m_psProto +                                 // see CJabberProto in jabber_proto.h
+		sizeof(PVOID) +                                                                         // skip vtable ptr
+		sizeof(PVOID) +                                                                         // skip m_ThreadInfo
+		SIZE_OF_JABBER_OPTIONS);                                                        // skip m_options
+
+	for (int i=0; i < 100; i++) {
+		__try {
+			if (GetNetlibHandleType(*pResult) == NLH_USER)
+				break;
+		}
+		__except (EXCEPTION_EXECUTE_HANDLER){
+		}
+		pResult++;
+	}
+
+	assert(GetNetlibHandleType(*pResult) == NLH_USER);
+	return *pResult;
 }
 
 unsigned __stdcall OpenUrlThread(OPEN_URL_HEADER* data)
@@ -395,8 +395,8 @@ void OpenContactInbox(HANDLE hContact)
 			__finally {
 				free(url);
 			}
-		}
-		__finally {
-			DBFreeVariant(&dbv);
-		}
+	}
+	__finally {
+		DBFreeVariant(&dbv);
+	}
 }

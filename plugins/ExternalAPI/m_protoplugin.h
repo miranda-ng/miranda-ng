@@ -68,7 +68,7 @@ typedef DWORD (WINAPI *YAMN_WRITEPLUGINOPTS)(HANDLE File,HACCOUNT);
 typedef DWORD (WINAPI *YAMN_READPLUGINOPTS)(HACCOUNT,char **,char *);
 typedef DWORD (WINAPI *YAMN_CHECKFCN)(struct CheckParam *);
 typedef DWORD (WINAPI *YAMN_DELETEFCN)(struct DeleteParam *);
-typedef WCHAR* (WINAPI *YAMN_GETERRORSTRINGWFCN)(DWORD);
+typedef TCHAR* (WINAPI *YAMN_GETERRORSTRINGWFCN)(DWORD);
 typedef char* (WINAPI *YAMN_GETERRORSTRINGAFCN)(DWORD);
 typedef void (WINAPI *YAMN_DELETEERRORSTRINGFCN)(LPVOID);
 typedef DWORD (WINAPI *YAMN_WRITEACCOUNTSFCN)();
@@ -292,55 +292,34 @@ typedef struct CProtoPluginQueue
 //This deleting is full synchronized and safe. It is recommended for plugins to use this service.
 //WPARAM- (HYAMNPLUGIN) Plugin handle
 //LPARAM- (HACCOUNT) Account to delete
-#define MS_YAMN_DELETEACCOUNT		"YAMN/Service/DeleteAccount"
+#define MS_YAMN_DELETEACCOUNT	   	"YAMN/Service/DeleteAccount"
 
-//ReadAccountsA Service
+//ReadAccounts Service
 //Reads standard accounts to file. Standard account means standard YAMN book format.
 //WPARAM- (HYAMNPLUGIN) Plugin handle
-//LPARAM- (char *)filename string. Put here your own desired filename.
+//LPARAM- (TCHAR*)filename string. Put here your own desired filename.
 //return value is one of the ones written in "account.h" file
-#define	MS_YAMN_READACCOUNTSA		"YAMN/Service/ReadAccountsA"
+#define	MS_YAMN_READACCOUNTS 		"YAMN/Service/ReadAccounts"
 
-//ReadAccountsW Service
-//Same as ReadAccountsA service, but difference is in WPARAM
-//WPARAM- (HYAMNPLUGIN) Plugin handle
-//LPARAM- (WCHAR *)filename string. Use MS_YAMN_GETFILENAMEW service to retrieve your filename, or
-//        just put your own desired filename
-#define	MS_YAMN_READACCOUNTSW		"YAMN/Service/ReadAccountsW"
-
-//WriteAccountsA Service
+//WriteAccounts Service
 //Writes standard accounts to file. Standard account means standard YAMN book format. It does not
 //store special protocol features. It stores Account settings from CAccount struct and stores MIME mails
 //from CMimeMsgQueue. If your Mails pointer does not point to CMimeMsgQueue structure,
 //do not use this function. You are then forced to write your own function
 //WPARAM- (HYAMNPLUGIN) Plugin handle
-//LPARAM- (char *)filename string. Put here your own desired filename.
+//LPARAM- (TCHAR*)filename string. Put here your own desired filename.
 //return value is one of the ones written in "account.h" file
-#define MS_YAMN_WRITEACCOUNTSA		"YAMN/Service/WriteAccountsA"
+#define MS_YAMN_WRITEACCOUNTS 		"YAMN/Service/WriteAccounts"
 
-//WriteAccountsW Service
-//Writes standard accounts to file. Standard account means standard YAMN book format.
-//WPARAM- (HYAMNPLUGIN) Plugin handle
-//LPARAM- (WCHAR *)filename string. Use MS_YAMN_GETFILENAMEW service to retrieve your filename, or
-//        just put your own desired filename
-//return value is one of the ones written in "account.h" file
-#define MS_YAMN_WRITEACCOUNTSW		"YAMN/Service/WriteAccountsW"
-
-//GetFileNameA Service
+//GetFileName Service
 //Function makes original filename, when you add your protocol string
 //From "yahoo" makes "yamn-accounts.yahoo.xxxxx.book" filename
 //It is good to use this fcn to have similar filenames...
-//WPARAM- (char *) plugin string
-//LPARAM- any value
-//returns NULL when failed, otherwise returns (WCHAR *)string (!!! not char *) to filename!!!
+//WPARAM- (TCHAR*) plugin string
+//LPARAM- ignored
+//returns NULL when failed, otherwise returns (TCHAR*)string (!!! not char *) to filename!!!
 //You can use MS_YAMN_DELETEFILENAME service to release allocated filename from memory
-#define MS_YAMN_GETFILENAMEA		"YAMN/Service/GetFileNameA"
-
-//GetFileNameW Service
-//Same as GetFileNameA service, but difference is in WPARAM
-//WPARAM- (WCHAR *) plugin string
-//LPARAM- any value
-#define MS_YAMN_GETFILENAMEW		"YAMN/Service/GetFileNameW"
+#define MS_YAMN_GETFILENAME		   "YAMN/Service/GetFileName"
 
 //DeleteFileName Service
 //deletes unicode string from memory
