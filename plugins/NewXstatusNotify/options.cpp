@@ -114,13 +114,16 @@ void SaveTemplates()
 	DBWriteContactSettingTString(0, MODULE, "TLogOpening", templates.LogOpening);
 	DBWriteContactSettingByte(0, MODULE, "TPopupFlags", templates.PopupFlags);
 	DBWriteContactSettingByte(0, MODULE, "TLogFlags", templates.LogFlags);
-	for (int i = 0; i < ProtoTemplates->realCount; i++)
+	if(ProtoTamplates!=NULL)
 	{
-		PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)ProtoTemplates->items[i];
-		TCHAR str[MAX_PATH];
-		mir_sntprintf(str, SIZEOF(str), _T("%s_TSMChange"), prototemplate->ProtoName);
-		char *szstr = mir_t2a(str);
-		DBWriteContactSettingTString(0, MODULE, szstr, prototemplate->ProtoTemplate);
+		for (int i = 0; i < ProtoTemplates->realCount; i++)
+		{
+			PROTOTEMPLATE *prototemplate = (PROTOTEMPLATE *)ProtoTemplates->items[i];
+			TCHAR str[MAX_PATH];
+			mir_sntprintf(str, SIZEOF(str), _T("%s_TSMChange"), prototemplate->ProtoName);
+			char *szstr = mir_t2a(str);
+			DBWriteContactSettingTString(0, MODULE, szstr, prototemplate->ProtoTemplate);
+		}
 	}
 }
 
