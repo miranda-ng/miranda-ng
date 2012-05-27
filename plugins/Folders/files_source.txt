@@ -1,5 +1,0 @@
-"rtf converter\*.*"
-folders\*.*
-folders\sdk\*.*
-docs\*.*
-*.*
