@@ -114,7 +114,7 @@ void SaveTemplates()
 	DBWriteContactSettingTString(0, MODULE, "TLogOpening", templates.LogOpening);
 	DBWriteContactSettingByte(0, MODULE, "TPopupFlags", templates.PopupFlags);
 	DBWriteContactSettingByte(0, MODULE, "TLogFlags", templates.LogFlags);
-	if(ProtoTamplates!=NULL)
+	if(ProtoTemplates!=NULL)
 	{
 		for (int i = 0; i < ProtoTemplates->realCount; i++)
 		{
