@@ -165,7 +165,7 @@ bool CVersionInfo::GetMirandaVersion()
 
 	TCHAR time[128], date[128];
 	GetModuleTimeStamp(date, time);
-	lpzBuildTime = std::tstring(time) + _T(" on ") + std::tstring(date);
+	lpzBuildTime = std::tstring(time) + _T(" (UTC) on ") + std::tstring(date);
 	return TRUE;
 }
 

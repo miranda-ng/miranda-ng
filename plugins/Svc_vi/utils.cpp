@@ -202,25 +202,22 @@ void TimeStampToSysTime(DWORD Unix,SYSTEMTIME* SysTime)
 	FileTimeToSystemTime((FILETIME*)&FileReal,SysTime);
 }
 
-void GetModuleTimeStamp(TCHAR* pszDate, TCHAR* pszTime)
+void GetModuleTimeStamp(TCHAR* ptszDate, TCHAR* ptszTime)
 {
-	TCHAR date[128],time[128],szModule[MAX_PATH];
+	TCHAR tszModule[MAX_PATH];
 	HANDLE mapfile,file;
 	DWORD timestamp,filesize;
 	LPVOID mapmem;
 	SYSTEMTIME systime;
-	GetModuleFileName(NULL,szModule,MAX_PATH);
-	file = CreateFile(szModule,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
+	GetModuleFileName(NULL,tszModule,SIZEOF(tszModule));
+	file = CreateFile(tszModule,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,FILE_ATTRIBUTE_NORMAL,NULL);
 	filesize = GetFileSize(file,NULL);
 	mapfile = CreateFileMapping(file, NULL, PAGE_READONLY, 0, filesize, NULL);
 	mapmem = MapViewOfFile(mapfile, FILE_MAP_READ, 0, 0, 0);
 	timestamp = GetTimestampForLoadedLibrary((HINSTANCE)mapmem);
 	TimeStampToSysTime(timestamp,&systime);
-	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &systime, _T("HH':'mm':'ss"), time, 128);
-	GetDateFormat(EnglishLocale, 0, &systime, _T("dd' 'MMMM' 'yyyy"), date, 128);
-	//MessageBox(NULL,date,time,0);
-	lstrcpy(pszTime, time);
-	lstrcpy(pszDate, date);
+	GetTimeFormat(LOCALE_USER_DEFAULT, 0, &systime, _T("HH':'mm':'ss"), ptszTime, 40 );
+	GetDateFormat(EnglishLocale, 0, &systime, _T("dd' 'MMMM' 'yyyy"), ptszDate, 40);
 	UnmapViewOfFile(mapmem);
 	CloseHandle(mapfile);
 	CloseHandle(file);
