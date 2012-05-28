@@ -214,7 +214,7 @@ public:
 		}
 		else
 		{
-			doSmileyReplace = true;;
+			doSmileyReplace = true;
 			OldButtonPlace = false;
 			showButtonLine = DBGetContactSettingByte(NULL, "SRMM", "ShowButtonLine", TRUE) != 0;
 		}
@@ -224,8 +224,8 @@ public:
 		if (ProtocolName[0] != 0)
 		{
 			INT_PTR cap = CallProtoService(ProtocolName, PS_GETCAPS, PFLAGNUM_1, 0);
-			doSmileyButton  &= ((cap & PF1_IMSEND) != 0);
-			doSmileyReplace &= ((cap & PF1_IMRECV) != 0);
+			doSmileyButton  &= ((cap & (PF1_IMSEND | PF1_CHAT)) != 0);
+			doSmileyReplace &= ((cap & (PF1_IMRECV | PF1_CHAT)) != 0);
 		}
 
 		if (doSmileyButton && opt.PluginSupportEnabled)

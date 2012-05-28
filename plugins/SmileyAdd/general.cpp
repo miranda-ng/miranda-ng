@@ -271,7 +271,7 @@ HANDLE DecodeMetaContact(HANDLE hContact)
 bool IsSmileyProto(char* proto)
 {
 	return proto && (!metaProtoName || strcmp(proto, metaProtoName)) &&
-		(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM); 
+		(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & (PF1_IM | PF1_CHAT));
 }
 
 void ReportError(const TCHAR* errmsg)
