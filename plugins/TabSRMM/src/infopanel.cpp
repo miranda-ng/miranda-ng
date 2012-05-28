@@ -496,19 +496,26 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 
 	if (tszUin[0]) {
 		SIZE sUIN;
+		TCHAR		temp[256];
+		DBVARIANT 	dbv = {0};
+		if(0 == M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
+			mir_sntprintf(temp, 256, _T("  Client: %s"), dbv.ptszVal);
+			::DBFreeVariant(&dbv);
+		}
+		else mir_sntprintf(temp, 256, _T("  Client not cached yet"));
+
 		if (m_dat->idle) {
 			time_t diff = time(NULL) - m_dat->idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
 			mir_sntprintf(szBuf, safe_sizeof(szBuf), CTranslator::get(CTranslator::GEN_IP_IDLENOTICE), tszUin, i_hrs, i_mins);
-			::GetTextExtentPoint32(hdc, szBuf, lstrlen(szBuf), &sUIN);
-			mapRealRect(rcItem, m_rcUIN, sUIN);
-			CSkin::RenderText(hdc, m_dat->hThemeIP, szBuf, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
-		} else {
-			::GetTextExtentPoint32(hdc, tszUin, lstrlen(tszUin), &sUIN);
-			mapRealRect(rcItem, m_rcUIN, sUIN);
-			CSkin::RenderText(hdc, m_dat->hThemeIP, tszUin, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
-		}
+		} 
+		else _tcscpy_s (szBuf,256,tszUin);
+
+		_tcscat_s (szBuf,256,temp);
+		::GetTextExtentPoint32(hdc, szBuf, lstrlen(szBuf), &sUIN);
+		mapRealRect(rcItem, m_rcUIN, sUIN);
+		CSkin::RenderText(hdc, m_dat->hThemeIP, szBuf, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
 	}
 	if(m_hoverFlags & HOVER_UIN)
 		::DeleteObject(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
