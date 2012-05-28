@@ -1,4 +1,5 @@
 @echo off
+cd /d %~dp0
 
 for /F "tokens=2,3" %%i in (..\include\m_version.h) do if "%%i"=="MIRANDA_VERSION_FILEVERSION" (set OldVer=%%j)
 echo %OldVer%
