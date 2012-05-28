@@ -197,7 +197,7 @@ static struct branch_t branch1[] = {
 
 	{LPGENT("Show list of users in the chat room"), "ShowNicklist", 0, 1, NULL},
 	{LPGENT("Colorize nicknames in member list"), "ColorizeNicks", 0, 1, NULL},
-	{LPGENT("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 0, NULL},
+	{LPGENT("Show button menus when right clicking the buttons"), "RightClickFilter", 0, 1, NULL},
 	{LPGENT("Show topic as status message on the contact list"), "TopicOnClist", 0, 1, NULL},
 	{LPGENT("Do not pop up the window when joining a chat room"), "PopupOnJoin", 0, 0, NULL},
 	{LPGENT("Hide or show the window by double click in the contact list"), "ToggleVisibility", 0, 0, NULL},
