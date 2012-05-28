@@ -317,6 +317,8 @@ wchar_t* CTranslator::m_strings[STR_LAST] = {
 
 	LPGENT("Previews not availble when using History++ plugin for message log display."), /* GEN_AEROPEEK_NOHPP */
 	LPGENT("TabSRMM warning message"),													  /* GEN_STRING_WARNING_TITLE */
+	LPGENT("  Client: %s"),                                                   /* GEN_IP_CLIENT */
+	LPGENT("  Client not cached yet"),                                                   /* GEN_IP_CLIENT_UNKNOWN */
 };
 
 /*

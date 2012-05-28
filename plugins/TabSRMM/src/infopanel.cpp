@@ -495,14 +495,13 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 	clr = m_ipConfig.clrs[IPFONTID_UIN];
 
 	if (tszUin[0]) {
-		SIZE sUIN;
-		TCHAR		temp[256];
-		DBVARIANT 	dbv = {0};
-		if(0 == M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
-			mir_sntprintf(temp, 256, _T("  Client: %s"), dbv.ptszVal);
+		TCHAR	temp[256];
+		DBVARIANT dbv = {0};
+		if ( !M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
+			mir_sntprintf(temp, SIZEOF(temp), CTranslator::get(CTranslator::GEN_IP_CLIENT), dbv.ptszVal);
 			::DBFreeVariant(&dbv);
 		}
-		else mir_sntprintf(temp, 256, _T("  Client not cached yet"));
+		else mir_sntprintf(temp, SIZEOF(temp), CTranslator::get(CTranslator::GEN_IP_CLIENT_UNKNOWN));
 
 		if (m_dat->idle) {
 			time_t diff = time(NULL) - m_dat->idle;
@@ -510,9 +509,10 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			int i_mins = (diff - i_hrs * 3600) / 60;
 			mir_sntprintf(szBuf, safe_sizeof(szBuf), CTranslator::get(CTranslator::GEN_IP_IDLENOTICE), tszUin, i_hrs, i_mins);
 		} 
-		else _tcscpy_s (szBuf,256,tszUin);
+		else _tcscpy_s (szBuf, 256, tszUin);
+		_tcscat_s(szBuf, 256, temp);
 
-		_tcscat_s (szBuf,256,temp);
+		SIZE sUIN;
 		::GetTextExtentPoint32(hdc, szBuf, lstrlen(szBuf), &sUIN);
 		mapRealRect(rcItem, m_rcUIN, sUIN);
 		CSkin::RenderText(hdc, m_dat->hThemeIP, szBuf, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);

@@ -281,7 +281,9 @@ public:
 		GEN_TASKBAR_STRING_USERS								= 232,
 		GEN_AEROPEEK_NOHPP										= 233,
 		GEN_STRING_WARNING_TITLE								= 234,
-		STR_LAST 												= 235
+		GEN_IP_CLIENT												= 235,
+		GEN_IP_CLIENT_UNKNOWN    								= 236,
+		STR_LAST 												= 237
 	};
 
 	enum {
