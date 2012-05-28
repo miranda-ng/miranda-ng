@@ -711,7 +711,7 @@ static DBVTranslation internalTranslations[] =
 	{	WordToCountry,                 _T("WORD to country name")                                            },
 	{	DwordToIp,                     _T("DWORD to ip address")                                             },
 	{	DayMonthYearToDate,            _T("<prefix>Day|Month|Year to date")                                  },
-	{  DayMonthYearToAge,             _T("<prefix>Day|Month|Year to age")                                   },
+	{  	DayMonthYearToAge,             _T("<prefix>Day|Month|Year to age")                                   },
 	{	HoursMinutesSecondsToTime,     _T("<prefix>Hours|Minutes|Seconds to time")                           },
 	{	DmyToTimeDifference,           _T("<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference") },
 	{	DayMonthToDaysToNextBirthday,  _T("<prefix>Day|Month to days to next birthday")                      },
