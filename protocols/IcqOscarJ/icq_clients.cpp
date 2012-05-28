@@ -1066,6 +1066,8 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 				else
 					szClient = "AIM";
 			}
+			else if(wUserClass & CLASS_WIRELESS)
+				szClient = "AIM (Mobile)";
 			else
 				szClient = "AIM";
 		}

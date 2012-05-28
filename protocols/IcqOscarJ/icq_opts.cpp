@@ -1,22 +1,22 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin Öberg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -208,7 +208,7 @@ static INT_PTR CALLBACK DlgProcIcqOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static const UINT icqPrivacyControls[] = {
-	IDC_DCALLOW_ANY, IDC_DCALLOW_CLIST, IDC_DCALLOW_AUTH, IDC_ADD_ANY, IDC_ADD_AUTH, 
+	IDC_DCALLOW_ANY, IDC_DCALLOW_CLIST, IDC_DCALLOW_AUTH, IDC_ADD_ANY, IDC_ADD_AUTH,
 	IDC_WEBAWARE, IDC_PUBLISHPRIMARY, IDC_STATIC_DC1, IDC_STATIC_DC2, IDC_STATIC_CLIST
 };
 
@@ -231,7 +231,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				icq_EnableMultipleControls(hwndDlg, icqPrivacyControls, SIZEOF(icqPrivacyControls), FALSE);
 				ShowDlgItem(hwndDlg, IDC_STATIC_NOTONLINE, SW_SHOW);
 			}
-			else 
+			else
 				ShowDlgItem(hwndDlg, IDC_STATIC_NOTONLINE, SW_HIDE);
 
 			CheckDlgButton(hwndDlg, IDC_DCALLOW_ANY, (nDcType == 0));
@@ -261,12 +261,12 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			if ((HWND)lParam != GetFocus())  return 0;
 			break;
 		case IDC_STATUSMSG_CLIST:
-			if (IsDlgButtonChecked(hwndDlg, IDC_STATUSMSG_CLIST)) 
+			if (IsDlgButtonChecked(hwndDlg, IDC_STATUSMSG_CLIST))
 			{
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG_VISIBLE, TRUE);
 				LoadDBCheckState(ppro, hwndDlg, IDC_STATUSMSG_VISIBLE, "StatusMsgReplyVisible", 0);
 			}
-			else 
+			else
 			{
 				EnableDlgItem(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
 				CheckDlgButton(hwndDlg, IDC_STATUSMSG_VISIBLE, FALSE);
@@ -289,7 +289,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				ppro->setSettingByte(NULL, "DCType", 2);
 			else if (IsDlgButtonChecked(hwndDlg, IDC_DCALLOW_CLIST))
 				ppro->setSettingByte(NULL, "DCType", 1);
-			else 
+			else
 				ppro->setSettingByte(NULL, "DCType", 0);
 			StoreDBCheckState(ppro, hwndDlg, IDC_ADD_AUTH, "Auth");
 
@@ -329,7 +329,7 @@ static INT_PTR CALLBACK DlgProcIcqPrivacyOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 	}
 
-	return FALSE;  
+	return FALSE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -367,7 +367,7 @@ static BOOL CALLBACK FillCpCombo(LPSTR str)
 
 	cp = atoi(str);
 	for (i=0; cpTable[i].cpName != NULL && cpTable[i].cpId!=cp; i++);
-	if (cpTable[i].cpName) 
+	if (cpTable[i].cpName)
 		ComboBoxAddStringUtf(hCpCombo, cpTable[i].cpName, cpTable[i].cpId);
 
 	return TRUE;
@@ -421,9 +421,9 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			EnumSystemCodePagesA(FillCpCombo, CP_INSTALLED);
 			if(sCodePage == 0)
 				SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_SETCURSEL, (WPARAM)0, 0);
-			else 
+			else
 			{
-				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETCOUNT, 0, 0); i++) 
+				for (int i = 0; i < SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETCOUNT, 0, 0); i++)
 				{
 					if (SendDlgItemMessage(hwndDlg, IDC_UTFCODEPAGE, CB_GETITEMDATA, (WPARAM)i, 0) == sCodePage)
 					{
@@ -451,8 +451,8 @@ static INT_PTR CALLBACK DlgProcIcqFeaturesOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			break;
 		case IDC_XSTATUSENABLE:
 			icq_EnableMultipleControls(hwndDlg, icqXStatusControls, SIZEOF(icqXStatusControls), IsDlgButtonChecked(hwndDlg, IDC_XSTATUSENABLE));
-    case IDC_MOODSENABLE:
-      icq_EnableMultipleControls(hwndDlg, icqCustomStatusControls, SIZEOF(icqCustomStatusControls), IsDlgButtonChecked(hwndDlg, IDC_XSTATUSENABLE) || IsDlgButtonChecked(hwndDlg, IDC_MOODSENABLE));
+		case IDC_MOODSENABLE:
+      	icq_EnableMultipleControls(hwndDlg, icqCustomStatusControls, SIZEOF(icqCustomStatusControls), IsDlgButtonChecked(hwndDlg, IDC_XSTATUSENABLE) || IsDlgButtonChecked(hwndDlg, IDC_MOODSENABLE));
 		default:
 			OptDlgChanged(hwndDlg);
 			break;
@@ -518,9 +518,9 @@ static INT_PTR CALLBACK DlgProcIcqContactsOpts(HWND hwndDlg, UINT msg, WPARAM wP
 		LoadDBCheckState(ppro, hwndDlg, IDC_AUTOLOADAVATARS, "AvatarsAutoLoad", DEFAULT_LOAD_AVATARS);
 		LoadDBCheckState(ppro, hwndDlg, IDC_STRICTAVATARCHECK, "StrictAvatarCheck", DEFAULT_AVATARS_CHECK);
 
-		icq_EnableMultipleControls(hwndDlg, icqContactsControls, SIZEOF(icqContactsControls), 
+		icq_EnableMultipleControls(hwndDlg, icqContactsControls, SIZEOF(icqContactsControls),
 			ppro->getSettingByte(NULL, "UseServerCList", DEFAULT_SS_ENABLED)?TRUE:FALSE);
-		icq_EnableMultipleControls(hwndDlg, icqAvatarControls, SIZEOF(icqAvatarControls), 
+		icq_EnableMultipleControls(hwndDlg, icqAvatarControls, SIZEOF(icqAvatarControls),
 			ppro->getSettingByte(NULL, "AvatarsEnabled", DEFAULT_AVATARS_ENABLED)?TRUE:FALSE);
 
 		if (ppro->icqOnline())
@@ -541,9 +541,9 @@ static INT_PTR CALLBACK DlgProcIcqContactsOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			return TRUE;
 		case IDC_ENABLE:
 			icq_EnableMultipleControls(hwndDlg, icqContactsControls, SIZEOF(icqContactsControls), IsDlgButtonChecked(hwndDlg, IDC_ENABLE));
-			if (ppro->icqOnline()) 
+			if (ppro->icqOnline())
 				ShowDlgItem(hwndDlg, IDC_RECONNECTREQD, SW_SHOW);
-			else 
+			else
 				EnableDlgItem(hwndDlg, IDC_UPLOADNOW, FALSE);
 			break;
 		case IDC_ENABLEAVATARS:
@@ -582,7 +582,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	if (IsWinVerXPPlus())
 	{
 		hUxTheme = GetModuleHandleA("uxtheme.dll");
-		if (hUxTheme) 
+		if (hUxTheme)
 			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 	}
 

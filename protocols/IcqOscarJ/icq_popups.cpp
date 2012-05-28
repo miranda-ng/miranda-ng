@@ -58,11 +58,13 @@ static const UINT icqPopupColorControls[] = {
 
 INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	static bool bInitDone = true;
 	BYTE bEnabled;
 	CIcqProto* ppro = (CIcqProto*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		bInitDone = false;
 		TranslateDialogDefault(hwndDlg);
 
 		ppro = (CIcqProto*)lParam;
@@ -93,6 +95,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		CheckDlgButton(hwndDlg, IDC_POPUPS_ENABLED, bEnabled);
 		icq_EnableMultipleControls(hwndDlg, icqPopupsControls, SIZEOF(icqPopupsControls), bEnabled);
 		icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & !IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
+		bInitDone = true;
 		return TRUE;
 
 	case WM_COMMAND:
@@ -114,9 +117,20 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_USEWINCOLORS:
 			bEnabled = IsDlgButtonChecked(hwndDlg,IDC_POPUPS_ENABLED);
 			icq_EnableMultipleControls(hwndDlg, icqPopupColorControls, SIZEOF(icqPopupColorControls), bEnabled & !IsDlgButtonChecked(hwndDlg,IDC_USEWINCOLORS));
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		case IDC_POPUP_LOG0_TIMEOUT:
+		case IDC_POPUP_LOG1_TIMEOUT:
+		case IDC_POPUP_LOG2_TIMEOUT:
+		case IDC_POPUP_LOG3_TIMEOUT:
+		case IDC_POPUP_SPAM_TIMEOUT:
+			if((HIWORD(wParam) == EN_CHANGE) && bInitDone)
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			break;
+		default:
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
 	case WM_NOTIFY:

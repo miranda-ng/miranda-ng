@@ -198,17 +198,14 @@ void packBuffer(icq_packet *pPacket, const BYTE* pbyBuffer, WORD wLength)
 //}
 
 int __fastcall getUINLen(DWORD dwUin)
-{ // TODO: invent something more clever
-	if (dwUin >= 1000000000) return 10;
-	if (dwUin >= 100000000) return 9;
-	if (dwUin >= 10000000) return 8;
-	if (dwUin >= 1000000) return 7;
-	if (dwUin >= 100000) return 6;
-	if (dwUin >= 10000) return 5;
-	if (dwUin >= 1000) return 4;
-	if (dwUin >= 100) return 3;
-	if (dwUin >= 10) return 2;
-	return 1;
+{
+  BYTE dwUinLen = 0;
+
+  while(dwUin) {
+	  dwUin /= 10;
+	  dwUinLen += 1;
+  }
+  return dwUinLen;
 }
 
 int __fastcall getUIDLen(DWORD dwUin, const char *szUid)

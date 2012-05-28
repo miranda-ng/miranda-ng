@@ -319,6 +319,22 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 	XmlNode x( _T("x")); x << XATTR( _T("xmlns"), _T(JABBER_FEAT_MUC));
 	if ( info.password && info.password[0] )
 		x << XCHILD( _T("password"), info.password );
+
+	char setting[MAXMODULELABELLENGTH];
+	DBVARIANT dbv;
+	mir_snprintf(setting, sizeof(setting), "muc_%s@%s_lastevent", mir_u2a(room), mir_u2a(server));
+	time_t lasteventtime =  this->JGetDword( NULL, setting, 0 );
+	if ( lasteventtime > 0 ) {
+		_tzset();
+		lasteventtime += _timezone + 1;
+		struct tm* time = localtime(&lasteventtime);
+		TCHAR lasteventdate[20];
+		TCHAR* timeformat = mir_a2u("%04d-%02d-%02dT%02d:%02d:%02dZ");
+		mir_sntprintf(lasteventdate, sizeof(lasteventdate), timeformat, time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
+		x << XCHILD( _T("history") ) << XATTR( _T("since"), lasteventdate);
+		JFreeVariant( &dbv );
+	}
+
 	SendPresenceTo( status, text, x );
 }
 
@@ -1232,8 +1248,13 @@ void CJabberProto::GroupchatProcessMessage( HXML node )
 	for ( int i = 1; ( xNode = xmlGetNthChild( node, _T("x"), i )) != NULL; i++ )
 		if (( p = xmlGetAttrValue( xNode, _T("xmlns"))) != NULL )
 			if ( !_tcscmp( p, _T("jabber:x:delay")) && msgTime==0 )
-				if (( p = xmlGetAttrValue( xNode, _T("stamp"))) != NULL )
+				if (( p = xmlGetAttrValue( xNode, _T("stamp"))) != NULL ) {
 					msgTime = JabberIsoToUnixTime( p );
+					if ( msgTime > 0 ) {
+						char setting[MAXMODULELABELLENGTH];
+						mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", mir_u2a(gcd.ptszID));
+						this->JSetDword(NULL, setting, msgTime);
+				}	}
 
 	time_t now = time( NULL );
 	if ( msgTime == 0 || msgTime > now )
