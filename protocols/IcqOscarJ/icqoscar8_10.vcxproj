@@ -162,6 +162,9 @@
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x25000000</BaseAddress>
     </Link>
+    <PreBuildEvent>
+      <Command>..\..\bin10\make_ver.bat</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
