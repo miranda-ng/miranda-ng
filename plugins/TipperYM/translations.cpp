@@ -163,8 +163,8 @@ TCHAR *SecondsToTimeDifference(HANDLE hContact, const char *szModuleName, const 
 TCHAR *WordToStatusDesc(HANDLE hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	WORD wStatus = DBGetContactSettingWord(hContact, szModuleName, szSettingName, ID_STATUS_OFFLINE);
-	char *szStatus = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, (LPARAM)0);
-	a2t(szStatus, buff, bufflen);
+	TCHAR *szStatus = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)wStatus, GSMDF_TCHAR);
+	_tcsncpy(buff,szStatus, bufflen);
 	buff[bufflen - 1] = 0;
 	return buff;
 }
@@ -425,7 +425,7 @@ TCHAR *HoursMinutesToTime(HANDLE hContact, const char *szModuleName, const char 
 	return 0;
 }
 
-TCHAR *DayMonthYearHoursMinutesSecondsToTimeDifference(HANDLE hContact, const char *szModuleName, const char *szPrefix, TCHAR *buff, int bufflen) 
+TCHAR *DmyToTimeDifference(HANDLE hContact, const char *szModuleName, const char *szPrefix, TCHAR *buff, int bufflen) 
 {
 	DBVARIANT dbv;
 	char szSettingName[256];
@@ -700,108 +700,38 @@ INT_PTR ServiceAddTranslation(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#define INT_TRANS_COUNT 23
+static DBVTranslation internalTranslations[] = 
+{
+	{	NullTranslation,					_T("[No translation]")																	},
+	{	WordToStatusDesc,					_T("WORD to status description")														},
+	{	TimestampToTime,					_T("DWORD timestamp to time")															},
+	{	TimestampToTimeDifference,		_T("DWORD timestamp to time difference")											},
+	{	ByteToYesNo,						_T("BYTE to Yes/No")																		},
+	{	ByteToGender,						_T("BYTE to Male/Female (ICQ)")														},
+	{	WordToCountry,						_T("WORD to country name")																},
+	{	DwordToIp,							_T("DWORD to ip address")																},
+	{	DayMonthYearToDate,				_T("<prefix>Day|Month|Year to date")												},
+	{  DayMonthYearToAge,				_T("<prefix>Day|Month|Year to age")													},
+	{	HoursMinutesSecondsToTime,		_T("<prefix>Hours|Minutes|Seconds to time")										},
+	{	DmyToTimeDifference,				_T("<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference")	},
+	{	DayMonthToDaysToNextBirthday, _T("<prefix>Day|Month to days to next birthday")								},
+	{	TimestampToTimeNoSecs,			_T("DWORD timestamp to time (no seconds)")										},
+	{	HoursMinutesToTime,				_T("<prefix>Hours|Minutes to time")													},
+	{	TimestampToShortDate,			_T("DWORD timestamp to date (short)")												},
+	{	TimestampToLongDate,				_T("DWORD timestamp to date (long)")												},
+	{	EmptyXStatusToDefaultName,		_T("xStatus: empty xStatus name to default name")								},
+	{	SecondsToTimeDifference,		_T("DWORD seconds to time difference")												},
+	{	TimezoneToTime,					_T("BYTE timezone to time")															},
+	{	ByteToDay,							_T("WORD to name of a day (0..6, 0 is Sunday)")									},
+	{	ByteToMonth,						_T("WORD to name of a month (1..12, 1 is January)")							},
+	{	ByteToLanguage,					_T("BYTE to language (ICQ)")															}
+};
+
 void InitTranslations() 
 {
 	dwNextFuncId = DBGetContactSettingDword(0, MODULE_ITEMS, "NextFuncId", 1);
-	DBVTranslation internalTranslations[INT_TRANS_COUNT] = 
-	{
-		{
-			(TranslateFunc *)NullTranslation,
-			_T("[No translation]"),
-		},
-		{
-			(TranslateFunc *)WordToStatusDesc,
-			_T("WORD to status description")
-		},
-		{
-			(TranslateFunc *)TimestampToTime,
-			_T("DWORD timestamp to time")
-		},
-		{
-			(TranslateFunc *)TimestampToTimeDifference,
-			_T("DWORD timestamp to time difference")
-		},
-		{
-			(TranslateFunc *)ByteToYesNo,
-			_T("BYTE to Yes/No")
-		},
-		{
-			(TranslateFunc *)ByteToGender,
-			_T("BYTE to Male/Female (ICQ)")
-		},
-		{
-			(TranslateFunc *)WordToCountry,
-			_T("WORD to country name")
-		},
-		{
-			(TranslateFunc *)DwordToIp,
-			_T("DWORD to ip address")
-		},
-		{
-			(TranslateFunc *)DayMonthYearToDate,
-			_T("<prefix>Day|Month|Year to date")
-		},
-		{
-			(TranslateFunc *)DayMonthYearToAge,
-			_T("<prefix>Day|Month|Year to age")
-		},
-		{
-			(TranslateFunc *)HoursMinutesSecondsToTime,
-			_T("<prefix>Hours|Minutes|Seconds to time")
-		},
-		{
-			(TranslateFunc *)DayMonthYearHoursMinutesSecondsToTimeDifference,
-			_T("<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference")
-		},
-		{
-			(TranslateFunc *)DayMonthToDaysToNextBirthday,
-			_T("<prefix>Day|Month to days to next birthday")
-		},
-		{
-			(TranslateFunc *)TimestampToTimeNoSecs,
-			_T("DWORD timestamp to time (no seconds)")
-		},
-		{
-			(TranslateFunc *)HoursMinutesToTime,
-			_T("<prefix>Hours|Minutes to time")
-		},
-		{
-			(TranslateFunc *)TimestampToShortDate,
-			_T("DWORD timestamp to date (short)")
-		},
-		{
-			(TranslateFunc *)TimestampToLongDate,
-			_T("DWORD timestamp to date (long)")
-		},
-		{
-			(TranslateFunc *)EmptyXStatusToDefaultName,
-			_T("xStatus: empty xStatus name to default name")
-		},
-		{
-			(TranslateFunc *)SecondsToTimeDifference,
-			_T("DWORD seconds to time difference")
-		},
-		{
-			(TranslateFunc *)TimezoneToTime,
-			_T("BYTE timezone to time")
-		},
-		{
-			(TranslateFunc *)ByteToDay,
-			_T("WORD to name of a day (0..6, 0 is Sunday)")
-		},
-		{
-			(TranslateFunc *)ByteToMonth,
-			_T("WORD to name of a month (1..12, 1 is January)")
-		},
-		{
-			(TranslateFunc *)ByteToLanguage,
-			_T("BYTE to language (ICQ)")
-		}
-	};
-
-	for (int i = 0; i < INT_TRANS_COUNT; i++) 
-		AddTranslation(&internalTranslations[i]);
+	for (int i = 0; i < SIZEOF(internalTranslations); i++) 
+		AddTranslation( &internalTranslations[i] );
 
 	hServiceAdd = CreateServiceFunction(MS_TIPPER_ADDTRANSLATION, ServiceAddTranslation);
 }

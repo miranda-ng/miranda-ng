@@ -834,9 +834,6 @@ void TruncateString(TCHAR *swzText)
 
 TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus) 
 {
-	TCHAR *swzText = NULL;
-	char *tmpMsg = NULL;
-
 	if (!szProto || wStatus == ID_STATUS_OFFLINE) 
 		return NULL;
 
@@ -845,20 +842,24 @@ TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
 	if (!(flags & Proto_Status2Flag(wStatus)))
 		return NULL;
 	
-	swzText = (TCHAR *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
-	if ((INT_PTR)swzText != CALLSERVICE_NOTFOUND) 
+	TCHAR *swzText = (TCHAR *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, SGMA_TCHAR);
+	if ((INT_PTR)swzText == CALLSERVICE_NOTFOUND)
 	{
-		if (swzText == NULL)
-			tmpMsg = ( char* )CallProtoService(szProto, PS_GETMYAWAYMSG, 0, 0);
+		swzText = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, 0);
 	}
-	else swzText = ( TCHAR* )CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, 0);
+#ifdef _UNICODE
+	else if (swzText == NULL)
+	{
+		// try to use service without SGMA_TCHAR
+		char *tmpMsg = (char *)CallProtoService(szProto, PS_GETMYAWAYMSG, 0, 0);
+		if (tmpMsg && (INT_PTR)tmpMsg != CALLSERVICE_NOTFOUND)
+		{
+			swzText = mir_a2t(tmpMsg);
+			mir_free(tmpMsg);
+		}
+	}
+#endif	
 
-	if (tmpMsg && (INT_PTR)tmpMsg != CALLSERVICE_NOTFOUND)
-	{
-		swzText = mir_a2t(tmpMsg);
-		mir_free(tmpMsg);
-	}
-	
 	if (swzText && !swzText[0])
 	{
 		mir_free(swzText);
