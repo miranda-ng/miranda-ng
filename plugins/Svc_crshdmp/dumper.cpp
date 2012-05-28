@@ -502,7 +502,9 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 
 	if (flags & VI_FLAG_PRNVAR)
 	{
-		GetFreeDiskString(profpath, buffer);
+		TCHAR *profpathfull = Utils_ReplaceVarsT(profpath);
+		GetFreeDiskString(profpathfull, buffer);
+		mir_free(profpathfull);
 		buffer.append(TEXT("\r\n"));
 	}
 
