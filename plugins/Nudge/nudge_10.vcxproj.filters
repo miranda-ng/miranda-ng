@@ -42,9 +42,6 @@
     <None Include="resources\Nudge.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="nudge.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="resources\NudgeIRC.ico">
       <Filter>Resource Files</Filter>
     </None>
