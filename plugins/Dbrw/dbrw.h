@@ -20,9 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef DBRW_H
 #define DBRW_H
 
-#define DBRW_VER_MAJOR           1
-#define DBRW_VER_MINOR           4
-#define DBRW_VER_STRING          "1.4"
 #define DBRW_VER_ALPHA           "1"
 #define DBRW_SCHEMA_VERSION      "2"
 #define DBRW_HEADER_STR          "SQLite format 3"
@@ -47,6 +44,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_langpack.h>
 
 #include "sqlite3/sqlite3.h"
+#include "version.h"
 
 extern HINSTANCE g_hInst;
 extern sqlite3 *g_sqlite;

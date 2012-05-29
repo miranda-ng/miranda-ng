@@ -21,26 +21,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"dbRW SQLite DB Driver",
-	PLUGIN_MAKE_VERSION(DBRW_VER_MAJOR,DBRW_VER_MINOR,0,0),
-	#ifdef DBRW_DEBUG
-    #ifdef DBRW_VER_ALPHA
-	"Miranda IM database driver engine powered by SQLite v" SQLITE_VERSION " [Debug Build Alpha #" DBRW_VER_ALPHA "]",
-    #else
-	"Miranda IM database driver engine powered by SQLite v" SQLITE_VERSION " [Debug Build]",
-    #endif
-	#else
-    #ifdef DBRW_VER_ALPHA
-    "Miranda IM database driver engine powered by SQLite v" SQLITE_VERSION " [Alpha #" DBRW_VER_ALPHA "]",
-    #else
-	"Miranda IM database driver engine powered by SQLite v" SQLITE_VERSION,
-    #endif
-	#endif
-	"Robert Rainwater",
-	"rainwater@miranda-im.org",
-	"Copyright © 2005-2011 Robert Rainwater",
-	"http://www.miranda-im.org/",
-	0,
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCR SQLITE_VERSION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
 	DEFMOD_DB,
     {0xf3ca0e5e, 0x249a, 0x40f0, {0x8d, 0x74, 0x80, 0xa8, 0xe, 0xf0, 0xc8, 0x3d}} // {F3CA0E5E-249A-40f0-8D74-80A80EF0C83D}
 };
@@ -245,9 +233,9 @@ static int dbrw_Load(char *profile, void *link)
 	utils_log_init();
 	#endif
     #ifdef DBRW_VER_ALPHA
-    log3("Loading dbRW v%s alpha #%s (SQLite v%s)", DBRW_VER_STRING, DBRW_VER_ALPHA, SQLITE_VERSION);
+    log3("Loading dbRW v%s alpha #%s (SQLite v%s)", __FILEVERSION_STRING, DBRW_VER_ALPHA, SQLITE_VERSION);
     #else
-	log2("Loading dbRW v%s (SQLite v%s)", DBRW_VER_STRING, SQLITE_VERSION);
+	log2("Loading dbRW v%s (SQLite v%s)", __FILEVERSION_STRING, SQLITE_VERSION);
     #endif
     utils_vacuum_check();
 	{

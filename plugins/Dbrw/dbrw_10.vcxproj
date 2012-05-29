@@ -197,9 +197,11 @@
     <ClInclude Include="dbrw.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="sqlite3\sqlite3.h" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
