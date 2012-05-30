@@ -396,7 +396,7 @@ WORD GetIcon(const TCHAR* cond, WIDATA *Data)
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
 			mir_sntprintf(LangPackStr1, SIZEOF(LangPackStr1), _T("%s"), TranslateTS(LangPackStr));
-			CharLowerBuff(LangPackStr1, _tcslen(LangPackStr1));
+			CharLowerBuff(LangPackStr1, (DWORD)_tcslen(LangPackStr1));
 			if (_tcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
@@ -415,7 +415,7 @@ void CaseConv(TCHAR *str)
 	TCHAR *pstr;
 	BOOL nextUp = TRUE;
 
-	CharLowerBuff(str, _tcslen(str));
+	CharLowerBuff(str, (DWORD)_tcslen(str));
 	for(pstr = str; *pstr; pstr++) {
 		if (*pstr==' ' || *pstr=='-')
 			nextUp = TRUE;

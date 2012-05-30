@@ -572,7 +572,7 @@ int GetWeatherData(HANDLE hContact)
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);
 					DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
-					CharLowerBuff(DataValue, _tcslen(DataValue));
+					CharLowerBuff(DataValue, (DWORD)_tcslen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
 				else if ( _tcsicmp(Item->Item.Unit, _T("Cond")) == 0) {
