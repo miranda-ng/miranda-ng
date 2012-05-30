@@ -642,21 +642,3 @@ TCHAR *GetError(int code)
 	}
 	return str;
 }
-
-LPWSTR ConvToUnicode(LPCSTR str2)
-{
-	const size_t nLength = MultiByteToWideChar(lpcp, 0, str2, -1, NULL, 0);
-	LPWSTR res = ( LPWSTR )mir_alloc(sizeof(WCHAR)*nLength);
-	MultiByteToWideChar(lpcp, 0, str2, -1, res, (int)nLength);
-	return res;
-}
-
-unsigned lpcp;
-
-void InitUniConv(void)
-{
-	lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
-	if (lpcp == CALLSERVICE_NOTFOUND || lpcp == GetUserDefaultLangID()) 
-		lpcp = CP_ACP;
-}
-

@@ -397,10 +397,6 @@ BOOL IsMyContact(HANDLE hContact);
 // functions in weather_conv.c
 BOOL is_number(char *s);
 
-extern unsigned lpcp;
-void InitUniConv(void);
-LPWSTR ConvToUnicode(LPCSTR str2);
-
 void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
 void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
 void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR *str);

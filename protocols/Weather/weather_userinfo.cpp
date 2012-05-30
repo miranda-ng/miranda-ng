@@ -363,17 +363,7 @@ void LoadBriefInfoText(HWND hwndDlg, HANDLE hContact)
 	else
 		// set the display text and show the message box
 		GetDisplay(&winfo, opt.bText, str);
-
-	if (lpcp != CP_ACP)
-	{
-		SETTEXTEX textex; 
-		textex.flags = ST_DEFAULT;
-		textex.codepage = lpcp;
-
-		SendMessage(GetDlgItem(hwndDlg, IDC_MTEXT), EM_SETTEXTEX, (WPARAM)&textex, (LPARAM)str);
-	}
-	else
-		SetDlgItemText(hwndDlg, IDC_MTEXT, str);
+	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
 	GetDisplay(&winfo, opt.bTitle, str);
 	SetWindowText(hwndDlg, str);

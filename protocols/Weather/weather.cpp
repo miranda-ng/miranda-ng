@@ -238,7 +238,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	// initialize global variables
 	InitVar();
-	InitUniConv();
 
 	// load options and set defaults
 	LoadOptions();
