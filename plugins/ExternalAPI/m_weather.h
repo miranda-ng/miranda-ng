@@ -51,22 +51,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // weather conditions  (added in v0.1.2.0)
 typedef struct {
 	HANDLE hContact;
-	char id[128];
-	char city[128];
-	char update[64];
-	char cond[128];
-	char temp[16];
-	char low[16];
-	char high[16];
-	char feel[16];
-	char wind[16];
-	char winddir[64];
-	char dewpoint[16];
-	char pressure[16];
-	char humid[16];
-	char vis[16];
-	char sunrise[32];
-	char sunset[32];
+	TCHAR id[128];
+	TCHAR city[128];
+	TCHAR update[64];
+	TCHAR cond[128];
+	TCHAR temp[16];
+	TCHAR low[16];
+	TCHAR high[16];
+	TCHAR feel[16];
+	TCHAR wind[16];
+	TCHAR winddir[64];
+	TCHAR dewpoint[16];
+	TCHAR pressure[16];
+	TCHAR humid[16];
+	TCHAR vis[16];
+	TCHAR sunrise[32];
+	TCHAR sunset[32];
 // are the other ones that important!?
 	WORD status;
 } WEATHERINFO;
