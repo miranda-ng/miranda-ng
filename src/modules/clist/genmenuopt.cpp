@@ -432,7 +432,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		dat=(struct OrderData*)mir_alloc(sizeof(struct OrderData));
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_MENUITEMS),GWLP_USERDATA,(LONG_PTR)dat);
 		dat->dragging = 0;
-		dat->iInitMenuValue = DBGetContactSettingByte( NULL, "CList", "MoveProtoMenus", FALSE );
+		dat->iInitMenuValue = DBGetContactSettingByte( NULL, "CList", "MoveProtoMenus", TRUE );
 		MyOldWindowProc = (WNDPROC)GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_MENUITEMS),GWLP_WNDPROC);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_MENUITEMS),GWLP_WNDPROC,(LONG_PTR)&LBTNDOWNProc);
 		{

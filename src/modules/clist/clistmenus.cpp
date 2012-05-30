@@ -1294,7 +1294,7 @@ static INT_PTR HotkeySetStatus(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR AddProtoMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	if ( DBGetContactSettingByte( NULL, "CList", "MoveProtoMenus", FALSE ))
+	if ( DBGetContactSettingByte( NULL, "CList", "MoveProtoMenus", TRUE ))
 		return AddStatusMenuItem( wParam, lParam );
 
 	return AddMainMenuItem( wParam, lParam );

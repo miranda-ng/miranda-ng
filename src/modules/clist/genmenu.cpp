@@ -236,7 +236,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam,LPARAM lParam)
 	if ( szProto == NULL )
 		return 0;
 
-	if ( DBGetContactSettingByte( NULL, "CList", "MoveProtoMenus", FALSE ))
+	if ( DBGetContactSettingByte( NULL, "CList", "MoveProtoMenus", TRUE ))
 		return ( INT_PTR )cli.pfnGetProtocolMenu( szProto );
 
 	int objidx = GetMenuObjbyId(( int )hMainMenuObject );
