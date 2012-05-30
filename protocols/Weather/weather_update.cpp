@@ -36,7 +36,7 @@ extern HANDLE hUpdateMutex;
 // hContact = current contact
 int UpdateWeather(HANDLE hContact) 
 {
-	char str[256], str2[MAX_TEXT_SIZE], logstr[256];
+	TCHAR str[256], str2[MAX_TEXT_SIZE];
 	int code;
 	FILE *file;
 	DBVARIANT dbv;
@@ -51,10 +51,9 @@ int UpdateWeather(HANDLE hContact)
 
 	// log to netlib log for debug purpose
 	Netlib_Logf(hNetlibUser, "************************************************************************");
-	dbres = DBGetContactSettingString(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	dbres = DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
-	Netlib_Logf(hNetlibUser, "<-- Start update for station: %s -->", dbv.pszVal);
-	mir_snprintf(logstr, sizeof(logstr), "<-- Update successful for station: %s -->", dbv.pszVal);
+	Netlib_Logf(hNetlibUser, "<-- Start update for station -->");
 
 	// download the info and parse it
 	// result are stored in database
@@ -64,15 +63,15 @@ int UpdateWeather(HANDLE hContact)
 		// error occurs if the return value is not equals to 0
 		if (opt.ShowWarnings) 
 		{	// show warnings by popup
-			mir_snprintf(str, sizeof(str)-105, 
-				Translate("Unable to retrieve weather information for %s"), dbv.pszVal);
-			strcat(str, "\n");
-			strcat(str, GetError(code));
+			mir_sntprintf(str, SIZEOF(str)-105, 
+				TranslateT("Unable to retrieve weather information for %s"), dbv.ptszVal);
+			_tcscat(str, _T("\n"));
+			_tcscat(str, GetError(code));
 			WPShowMessage(str, SM_WARNING);
 		}
 		// log to netlib
 		Netlib_Logf(hNetlibUser, "Error! Update cannot continue... Start to free memory");
-		Netlib_Logf(hNetlibUser, "<-- Error occurs while updating station: %s -->", dbv.pszVal);
+		Netlib_Logf(hNetlibUser, "<-- Error occurs while updating station: %s -->", dbv.ptszVal);
 		if (!dbres) DBFreeVariant(&dbv);
 		return 1;
 	}
@@ -82,42 +81,35 @@ int UpdateWeather(HANDLE hContact)
 	winfo = LoadWeatherInfo(hContact);
 
 	// translate weather condition
-	strcpy(winfo.cond, Translate(winfo.cond));
+	_tcscpy(winfo.cond, TranslateTS(winfo.cond));
 
 	// compare the old condition and determine if the weather had changed
-	if (opt.UpdateOnlyConditionChanged) 	// consider condition change
-	{
-		if (!DBGetContactSettingString(hContact, WEATHERPROTONAME, "LastCondition", &dbv))
-		{
-			if (_stricmp(winfo.cond, dbv.pszVal))  Ch = TRUE;		// the weather condition is changed
+	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
+		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
+			if (_tcsicmp(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
 			DBFreeVariant(&dbv);
 		}
 		else Ch = TRUE;
-		if (!DBGetContactSettingString(hContact, WEATHERPROTONAME, "LastTemperature", &dbv))
-		{
-			if (_stricmp(winfo.temp, dbv.pszVal))  Ch = TRUE;		// the temperature is changed
+		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
+			if (_tcsicmp(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
 			DBFreeVariant(&dbv);
 		}
 		else Ch = TRUE;
 	}
-	else 	// consider update time change
-	{
-		if (!DBGetContactSettingString(hContact, WEATHERPROTONAME, "LastUpdate", &dbv))
-		{
-			if (_stricmp(winfo.update, dbv.pszVal))  Ch = TRUE;		// the update time is changed
+	else {	// consider update time change
+		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
+			if (_tcsicmp(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
 			DBFreeVariant(&dbv);
 		}
 		else Ch = TRUE;
 	}
 
 	// have weather alert issued?
-	dbres = DBGetContactSettingString(hContact, WEATHERCONDITION, "Alert", &dbv);
-	if (!dbres && dbv.pszVal[0] != 0) 
-	{
-		if (opt.AlertPopup && !DBGetContactSettingByte(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) 
-		{
+	dbres = DBGetContactSettingTString(hContact, WEATHERCONDITION, "Alert", &dbv);
+	if (!dbres && dbv.ptszVal[0] != 0) {
+		if (opt.AlertPopup && !DBGetContactSettingByte(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
-			wsprintf(str, "Alert for %s%c%s", winfo.city, 255, dbv.pszVal);
+			wsprintf(str, _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -130,10 +122,10 @@ int UpdateWeather(HANDLE hContact)
 	if (!dbres) DBFreeVariant(&dbv);
 
 	// backup current condition for checking if the weather is changed or not
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
+	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
+	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
+	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
+	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
 
 	// display condition on contact list
 	if (opt.DisCondIcon && winfo.status != ID_STATUS_OFFLINE)
@@ -143,27 +135,11 @@ int UpdateWeather(HANDLE hContact)
 	AvatarDownloaded(hContact);
 
 	GetDisplay(&winfo, opt.cText, str2);
-	if (lpcp != CP_ACP)
-	{
-		LPWSTR m_psz = ConvToUnicode(str2);
-		DBWriteContactSettingWString(hContact, "CList", "MyHandle", m_psz);
-		mir_free(m_psz);
-	}
-	else
-		DBWriteContactSettingString(hContact, "CList", "MyHandle", str2);
+	DBWriteContactSettingTString(hContact, "CList", "MyHandle", str2);
 
 	GetDisplay(&winfo, opt.sText, str2);
 	if (str2[0])
-	{
-		if (lpcp != CP_ACP)
-		{
-			wchar_t* m_psz = ConvToUnicode(str2);
-			DBWriteContactSettingWString(hContact, "CList", "StatusMsg", m_psz);
-			mir_free(m_psz);
-		}
-		else
-			DBWriteContactSettingString(hContact, "CList", "StatusMsg", str2);
-	}
+		DBWriteContactSettingTString(hContact, "CList", "StatusMsg", str2);
 	else
 		DBDeleteContactSetting(hContact, "CList", "StatusMsg");
 
@@ -171,15 +147,15 @@ int UpdateWeather(HANDLE hContact)
 
 	// save descriptions in MyNotes
 	GetDisplay(&winfo, opt.nText, str2);
-	DBWriteContactSettingString(hContact, "UserInfo", "MyNotes", str2);
+	DBWriteContactSettingTString(hContact, "UserInfo", "MyNotes", str2);
 	GetDisplay(&winfo, opt.xText, str2);
-	DBWriteContactSettingString(hContact, WEATHERCONDITION, "WeatherInfo", str2);
+	DBWriteContactSettingTString(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
 	DBWriteContactSettingByte(hContact, WEATHERPROTONAME, "IsUpdated", TRUE);
 
 	// save info for default weather condition
-	if (!strcmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
+	if ( !_tcscmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
 		// save current condition for default station to be displayed after the update
 		old_status = status;
 		status = winfo.status;
@@ -189,34 +165,27 @@ int UpdateWeather(HANDLE hContact)
 	}
 
 	// logging
-	if (Ch) 
-	{
+	if (Ch) {
 		// play the sound event
 		SkinPlaySound("weatherupdated");
 
-		if (DBGetContactSettingByte(hContact, WEATHERPROTONAME, "File", 0)) 
-		{
+		if (DBGetContactSettingByte(hContact, WEATHERPROTONAME, "File", 0)) {
 			// external log
-			if (!DBGetContactSettingString(hContact,WEATHERPROTONAME,"Log",&dbv))
-			{
+			if (!DBGetContactSettingTString(hContact,WEATHERPROTONAME,"Log",&dbv)) {
 				// for the option for overwriting the file, delete old file first
 				if (DBGetContactSettingByte(hContact,WEATHERPROTONAME,"Overwrite",0))
-					DeleteFile(dbv.pszVal);
+					DeleteFile(dbv.ptszVal);
 				// open the file and set point to the end of file
 				file = fopen( dbv.pszVal, "a");
 				DBFreeVariant(&dbv);
-				if (file != NULL)
-				{
+				if (file != NULL) {
 					// write data to the file and close
 					GetDisplay(&winfo, opt.eText, str2);
-					fputs(str2, file);
+					fputws(str2, file);
 					fclose(file);
-				}
-			}
-		}
+		}	}	}
 
-		if (DBGetContactSettingByte(hContact, WEATHERPROTONAME, "History", 0)) 
-		{
+		if (DBGetContactSettingByte(hContact, WEATHERPROTONAME, "History", 0)) {
 			DBEVENTINFO dbei = {0};
 			// internal log using history
 			GetDisplay(&winfo, opt.hText, str2);
@@ -225,8 +194,8 @@ int UpdateWeather(HANDLE hContact)
 			dbei.timestamp = (DWORD)time(NULL);
 			dbei.flags = DBEF_READ;
 			dbei.eventType = EVENTTYPE_MESSAGE;
-			dbei.cbBlob = (DWORD)strlen(str2)+1;
-			dbei.pBlob = (PBYTE)str2;
+			dbei.pBlob = (PBYTE)mir_utf8encodeT(str2);
+			dbei.cbBlob = (DWORD)strlen((char*)dbei.pBlob)+1;
 
 			// add the history event
 			CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
@@ -237,9 +206,7 @@ int UpdateWeather(HANDLE hContact)
 	}
 
 	Netlib_Logf(hNetlibUser, "Update Completed - Start to free memory");
-
-	// free memory
-	Netlib_Logf(hNetlibUser, logstr);
+	Netlib_Logf(hNetlibUser, "<-- Update successful for station -->");
 
 	// Update frame data
 	UpdateMwinData(hContact);
@@ -329,7 +296,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 	HANDLE hContact= (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) 
 	{
-		if(IsMyContact(hContact)) 
+		if (IsMyContact(hContact)) 
 		{
 			if (!DBGetContactSettingByte(hContact,WEATHERPROTONAME,"AutoUpdate",FALSE) || !AutoUpdate) 
 			{
@@ -350,7 +317,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam) 
 {
-	if(IsMyContact((HANDLE)wParam)) 
+	if (IsMyContact((HANDLE)wParam)) 
 	{
 		// add the station to the end of the update queue	
 		UpdateListAdd((HANDLE)wParam);
@@ -369,7 +336,7 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam)
 // wParam = handle for the weather station that is going to be updated
 INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam) 
 {
-	if(IsMyContact((HANDLE)wParam)) 
+	if (IsMyContact((HANDLE)wParam)) 
 	{
 		// add the station to the end of the update queue, and also remove old data
 		DBDataManage((HANDLE)wParam, WDBM_REMOVE, 0, 0);
@@ -426,21 +393,19 @@ INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam) {
 // hContact = the contact to get the data
 int GetWeatherData(HANDLE hContact) 
 {
-	char *loc, id[256], Svc[256], DataValue[MAX_DATA_LEN], *szData = NULL, *szInfo;
-	int retval, i;
-	WIDATAITEMLIST* Item;
-	WIDATA *Data;
-	WORD cond = NA;
-
 	// get eacnh part of the id's
-	GetStationID(hContact, id, sizeof(id));
+	TCHAR id[256];
+	GetStationID(hContact, id, SIZEOF(id));
 
 	// test ID format
-	loc = strchr(id, '/');
-	if (loc == NULL) return INVALID_ID_FORMAT;
+	TCHAR* szInfo = _tcschr(id, '/');
+	if (szInfo == NULL)
+		return INVALID_ID_FORMAT;
 
 	GetID(id);
-	GetStationID(hContact, Svc, sizeof(Svc));
+
+	TCHAR Svc[256];
+	GetStationID(hContact, Svc, SIZEOF(Svc));
 	GetSvc(Svc);
 
 	// check for invalid station
@@ -448,83 +413,74 @@ int GetWeatherData(HANDLE hContact)
 	if (Svc[0] == 0) return INVALID_SVC;
 
 	// get the update strings (loaded to memory from ini files)
-	Data = GetWIData(Svc);
-	if (Data == NULL) return SVC_NOT_FOUND;	// the ini for the station cannot be found
+	WIDATA *Data = GetWIData(Svc);
+	if (Data == NULL) 
+		return SVC_NOT_FOUND;	// the ini for the station cannot be found
 
-	for (i=0; i<4; ++i)
-	{
+	WIDATAITEMLIST* Item;
+	WORD cond = NA;
+	char loc[256];
+	char* szId = mir_t2a( id );
+	for ( int i=0; i<4; ++i) {
 		// generate update URL
-		switch(i)
-		{
+		switch(i) {
 		case 0:
-			loc = (char*)mir_alloc(strlen(Data->UpdateURL)+128);
-			wsprintf(loc, Data->UpdateURL, id);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL, szId);
 			break;
 
 		case 1:
-			loc = (char*)mir_alloc(strlen(Data->UpdateURL2)+128);
-			wsprintf(loc, Data->UpdateURL2, id);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL2, szId);
 			break;
 
 		case 2:
-			loc = (char*)mir_alloc(strlen(Data->UpdateURL3)+128);
-			wsprintf(loc, Data->UpdateURL3, id);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL3, szId);
 			break;
 
 		case 3:
-			loc = (char*)mir_alloc(strlen(Data->UpdateURL4)+128);
-			wsprintf(loc, Data->UpdateURL4, id);
+			_snprintf(loc, SIZEOF(loc), Data->UpdateURL4, szId);
 			break;
 		}
 
-		if (loc[0] == 0) 
-		{
-			mir_free(loc);
+		if ( loc[0] == 0 )
 			continue;
-		}
 
 		// download the html file from the internet
-		retval = InternetDownloadFile(loc, Data->Cookie, &szData);
-		mir_free(loc);
-
-		if (retval != 0) 
-		{
+		TCHAR* szData = NULL;
+		int retval = InternetDownloadFile(loc, Data->Cookie, &szData);
+		if (retval != 0) {
 			mir_free(szData);
 			return retval;
 		}
-		else if (strstr(szData, "Document Not Found") != NULL) {
+		if ( _tcsstr(szData, _T("Document Not Found")) != NULL) {
 			mir_free(szData);
 			return DOC_NOT_FOUND;
 		}
 
 		szInfo = szData;
-
 		Item = Data->UpdateData;
 
 		// begin parsing item by item
-		while (Item != NULL) 
-		{
-			if (Item->Item.Url[0] != 0 && Item->Item.Url[0] != (i + '1')) 
-			{
+		while (Item != NULL) {
+			if (Item->Item.Url[0] != 0 && Item->Item.Url[0] != (i + '1')) {
 				Item = Item->Next;
 				continue;
 			}
 
-			switch (Item->Item.Type) 
-			{
+			TCHAR DataValue[MAX_DATA_LEN];
+			switch (Item->Item.Type) {
 			case WID_NORMAL:
 				// if it is a normal item with start= and end=, then parse through the downloaded string
 				// to get a data value.
 				GetDataValue(&Item->Item, DataValue, &szInfo);
-				if (strcmp(Item->Item.Name, "Condition") && _stricmp(Item->Item.Unit, "Cond"))
-					strcpy(DataValue, Translate(DataValue));
+				if ( _tcscmp(Item->Item.Name, _T("Condition")) && _tcsicmp(Item->Item.Unit, _T("Cond")))
+					_tcscpy(DataValue, TranslateTS(DataValue));
 				break;
 
 			case WID_SET: 
 				{
 					// for the "Set Data=" operation
 					DBVARIANT dbv;
-					char *chop, *str, str2[MAX_DATA_LEN];
+					TCHAR *chop, *str, str2[MAX_DATA_LEN];
 					BOOL hasvar = FALSE;
 					size_t stl;
 
@@ -533,29 +489,28 @@ int GetWeatherData(HANDLE hContact)
 					DataValue[0] = 0;
 					// go through each part of the operation string seperated by the & operator
 					do {
-						chop = strstr(str, " & ");
 						// the end of the string, last item
-						if (chop == NULL) chop = strchr(str, '\0');   
+						chop = _tcsstr(str, _T(" & "));
+						if (chop == NULL)
+							chop = _tcschr(str, '\0');   
 
 						stl = min(sizeof(str2)-1, (unsigned)(chop-str-2));
-						strncpy(str2, str+1, stl);
+						_tcsncpy(str2, str+1, stl);
 						str2[stl] = 0;
 
-						switch(str[0])
-						{
+						switch(str[0]) {
 						case '[':  // variable, add the value to the result string
 							hasvar = TRUE;
-							if (!DBGetData(hContact, str2, &dbv))
-							{
-								strncat(DataValue, dbv.pszVal, sizeof(DataValue)-strlen(DataValue));
-								DataValue[sizeof(DataValue)-1]=0;
+							if ( !DBGetData(hContact, _T2A(str2), &dbv)) {
+								_tcsncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - _tcslen(DataValue));
+								DataValue[SIZEOF(DataValue)-1]=0;
 								DBFreeVariant(&dbv);
 							}
 							break;
 
 						case'\"': // constant, add it to the result string
-							strncat(DataValue, Translate(str2), sizeof(DataValue)-strlen(DataValue));
-							DataValue[sizeof(DataValue)-1]=0;
+							_tcsncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - _tcslen(DataValue));
+							DataValue[SIZEOF(DataValue)-1]=0;
 							break;
 						}
 
@@ -569,74 +524,66 @@ int GetWeatherData(HANDLE hContact)
 			case WID_BREAK: 
 				{
 					// for the "Break Data=" operation
-					char *end;
 					DBVARIANT dbv;
-					if (!DBGetData(hContact, Item->Item.Start, &dbv))
-					{
-						strncpy(DataValue, dbv.pszVal, sizeof(DataValue));
-						DataValue[sizeof(DataValue)-1] = 0;
+					if (!DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
+						_tcsncpy(DataValue, dbv.ptszVal, SIZEOF(DataValue));
+						DataValue[SIZEOF(DataValue)-1] = 0;
 						DBFreeVariant(&dbv);
 					}
-					else
-					{
+					else {
 						DataValue[0] = 0;
 						break;	// do not continue if the source is invalid
 					}
 
 					// generate the strings
-					end = strstr(DataValue, Item->Item.Break);
-					if (end == NULL)	
-					{
+					TCHAR* end = _tcsstr(DataValue, Item->Item.Break);
+					if (end == NULL) {
 						DataValue[0] = 0;
 						break;	// exit if break string is not found
 					}
 					*end = '\0';
-					end+=strlen(Item->Item.Break);
-					while (end[0] == ' ')	end++;		// remove extra space
+					end += _tcslen(Item->Item.Break);
+					while (end[0] == ' ')
+						end++;		// remove extra space
 
 					ConvertDataValue(&Item->Item, DataValue);
 
 					// write the 2 strings created from the break operation
-//					DBWriteContactSettingString(hContact, WEATHERCONDITION, Item->Item.Name, DataValue);
 					if (Item->Item.End[0]) 
-						DBWriteContactSettingString(hContact, WEATHERCONDITION, Item->Item.End, end);
+						DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.End), end);
 					break;
-				}
-			}
+			}	}
 
 			// don't store data if it is not available
-			if ((DataValue[0] != 0 && strcmp(DataValue, NODATA) && 
-				strcmp(DataValue, Translate(NODATA)) && strcmp(Item->Item.Name, "Ignore")) ||
-				(!strcmp(Item->Item.Name, "Alert") && i == 0)) 
+			if ((DataValue[0] != 0 && _tcscmp(DataValue, NODATA) && 
+				_tcscmp(DataValue, TranslateTS(NODATA)) && _tcscmp(Item->Item.Name, _T("Ignore"))) ||
+				( !_tcscmp(Item->Item.Name, _T("Alert")) && i == 0)) 
 			{
 				// temporary workaround for mToolTip to show feel-like temperature
-				if (!strcmp(Item->Item.Name, "Feel"))
-					DBWriteContactSettingString(hContact, WEATHERCONDITION, "Heat Index", DataValue);
-				GetStationID(hContact, Svc, sizeof(Svc));
-				if (strcmp(Svc, opt.Default) == 0)
-					DBWriteContactSettingString(NULL, DEFCURRENTWEATHER, Item->Item.Name, DataValue);
-				if (strcmp(Item->Item.Name, "Condition") == 0)
-				{
-					char buf[128], *cbuf;
-					mir_snprintf(buf, sizeof(buf), "#%s Weather", DataValue);
-					cbuf = Translate(buf);
+				if ( !_tcscmp(Item->Item.Name, _T("Feel")))
+					DBWriteContactSettingTString(hContact, WEATHERCONDITION, "Heat Index", DataValue);
+				GetStationID(hContact, Svc, SIZEOF(Svc));
+				if ( !_tcscmp(Svc, opt.Default))
+					DBWriteContactSettingTString(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
+				if ( !_tcscmp(Item->Item.Name, _T("Condition"))) {
+					TCHAR buf[128], *cbuf;
+					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
+					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
-						cbuf = Translate(DataValue);
-					DBWriteContactSettingString(hContact, WEATHERCONDITION, Item->Item.Name, cbuf);
-					CharLowerBuff(DataValue, (int)strlen(DataValue));
+						cbuf = TranslateTS(DataValue);
+					DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
+					CharLowerBuff(DataValue, _tcslen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
-				else if (_stricmp(Item->Item.Unit, "Cond") == 0)
-				{
-					char buf[128], *cbuf;
-					mir_snprintf(buf, sizeof(buf), "#%s Weather", DataValue);
-					cbuf = Translate(buf);
+				else if ( _tcsicmp(Item->Item.Unit, _T("Cond")) == 0) {
+					TCHAR buf[128], *cbuf;
+					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
+					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
-						cbuf = Translate(DataValue);
-					DBWriteContactSettingString(hContact, WEATHERCONDITION, Item->Item.Name, cbuf);
+						cbuf = TranslateTS(DataValue);
+					DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
 				}
-				else
-					DBWriteContactSettingString(hContact, WEATHERCONDITION, Item->Item.Name, DataValue);
+				else DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), DataValue);
 			}
 			Item = Item->Next;
 		}
@@ -645,8 +592,7 @@ int GetWeatherData(HANDLE hContact)
 
 	// assign condition icon
 	DBWriteContactSettingWord(hContact, WEATHERPROTONAME, "StatusIcon", cond);
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
-
+	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
 	return 0;
 }
 

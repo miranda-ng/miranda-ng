@@ -123,72 +123,62 @@ void LoadOptions(void)
 	opt.pUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "pUnit", 4);
 	opt.dUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "dUnit", 1);
 	opt.eUnit = (WORD)DBGetContactSettingWord(NULL, WEATHERPROTONAME, "eUnit", 2);
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"DegreeSign",&dbv))
-		strcpy(opt.DegreeSign, "");
-	else
-	{
-		strcpy(opt.DegreeSign, dbv.pszVal);
+	if (DBGetContactSettingTString(NULL,WEATHERPROTONAME,"DegreeSign",&dbv))
+		_tcscpy(opt.DegreeSign, _T(""));
+	else {
+		_tcscpy(opt.DegreeSign, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
 	opt.DoNotAppendUnit = DBGetContactSettingByte(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);
 	opt.NoFrac = DBGetContactSettingByte(NULL, WEATHERPROTONAME, "NoFractions", 0);
 	// texts
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"DisplayText",&dbv))
-		SetTextDefault("C");
-	else
-	{
-		wSetData(&opt.cText, Translate(dbv.pszVal));
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"DisplayText",&dbv)) {
+		wSetData(&opt.cText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"BriefTextTitle",&dbv))
-		SetTextDefault("b");
-	else
-	{
-		wSetData(&opt.bTitle, Translate(dbv.pszVal));
+	else SetTextDefault("C");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"BriefTextTitle",&dbv)) {
+		wSetData(&opt.bTitle, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"BriefText",&dbv))
-		SetTextDefault("B");
-	else	
-	{
-		wSetData(&opt.bText, Translate(dbv.pszVal));
+	else SetTextDefault("b");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"BriefText",&dbv)) {
+		wSetData(&opt.bText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"NoteText",&dbv))
-		SetTextDefault("N");
-	else	
-	{
-		wSetData(&opt.nText, Translate(dbv.pszVal));
+	else SetTextDefault("B");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"NoteText",&dbv)) {
+		wSetData(&opt.nText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"ExtText",&dbv))
-		SetTextDefault("E");
-	else
-	{
-		wSetData(&opt.eText, Translate(dbv.pszVal));
+	else SetTextDefault("N");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"ExtText",&dbv)) {
+		wSetData(&opt.eText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"HistoryText",&dbv))
-		SetTextDefault("H");
-	else	
-	{
-		wSetData(&opt.hText, Translate(dbv.pszVal));
+	else SetTextDefault("E");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"HistoryText",&dbv)) {
+		wSetData(&opt.hText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"ExtraText",&dbv))
-		SetTextDefault("X");
-	else	
-	{
-		wSetData(&opt.xText, Translate(dbv.pszVal));
+	else SetTextDefault("H");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"ExtraText",&dbv)) {
+		wSetData(&opt.xText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"StatusText",&dbv))
-		SetTextDefault("S");
-	else
-	{
-		wSetData(&opt.sText, Translate(dbv.pszVal));
+	else SetTextDefault("X");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"StatusText",&dbv)) {
+		wSetData(&opt.sText, TranslateTS(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 	}
+	else SetTextDefault("S");
 
 	// advanced
 	opt.DisCondIcon = DBGetContactSettingByte(NULL,WEATHERPROTONAME,"DisableConditionIcon",FALSE);
@@ -208,28 +198,24 @@ void LoadOptions(void)
 	// popup delay
 	opt.pDelay = DBGetContactSettingDword(NULL,WEATHERPROTONAME,"PopupDelay",0);
 	// popup texts
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"PopupTitle",&dbv))
-		SetTextDefault("P");
-	else	
-	{
-		wSetData(&opt.pTitle, dbv.pszVal);
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"PopupTitle",&dbv)) {
+		wSetData(&opt.pTitle, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"PopupText",&dbv))
-		SetTextDefault("p");
-	else	
-	{
-		wSetData(&opt.pText, dbv.pszVal);
+	else SetTextDefault("P");
+
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"PopupText",&dbv)) {
+		wSetData(&opt.pText, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
+	else SetTextDefault("p");
+
 	// misc
-	if (DBGetContactSettingString(NULL,WEATHERPROTONAME,"Default",&dbv))
-		opt.Default[0] = 0;
-	else	
-	{
-		strcpy(opt.Default, dbv.pszVal);
+	if ( !DBGetContactSettingTString(NULL,WEATHERPROTONAME,"Default",&dbv)) {
+		_tcscpy(opt.Default, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
+	else opt.Default[0] = 0;
 }
 
 // save the options to database
@@ -252,18 +238,18 @@ void SaveOptions(void)
 	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "pUnit", opt.pUnit);
 	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "dUnit", opt.dUnit);
 	DBWriteContactSettingWord(NULL, WEATHERPROTONAME, "eUnit", opt.eUnit);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "DegreeSign", opt.DegreeSign);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "DegreeSign", opt.DegreeSign);
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "NoFractions", (BYTE)opt.NoFrac);
 	// texts
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "DisplayText", opt.cText);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "BriefTextTitle", opt.bTitle);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "BriefText", opt.bText);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "NoteText", opt.nText);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "ExtText", opt.eText);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "HistoryText", opt.hText);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "ExtraText", opt.xText);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "StatusText", opt.sText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "DisplayText", opt.cText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "BriefTextTitle", opt.bTitle);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "BriefText", opt.bText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "NoteText", opt.nText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "ExtText", opt.eText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "HistoryText", opt.hText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "ExtraText", opt.xText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "StatusText", opt.sText);
 	// advanced
 	DBWriteContactSettingByte(NULL, WEATHERPROTONAME, "DisableConditionIcon", (BYTE)opt.DisCondIcon);
 	// popup options
@@ -282,10 +268,10 @@ void SaveOptions(void)
 	// popup delay
 	DBWriteContactSettingDword(NULL, WEATHERPROTONAME, "PopupDelay", opt.pDelay);
 	// popup texts
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "PopupTitle", opt.pTitle);
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "PopupText", opt.pText);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "PopupTitle", opt.pTitle);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "PopupText", opt.pText);
 	// misc stuff
-	DBWriteContactSettingString(NULL, WEATHERPROTONAME, "Default", opt.Default);
+	DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "Default", opt.Default);
 }
 
 //============  OPTION INITIALIZATION  ============
@@ -299,7 +285,7 @@ int OptInit(WPARAM wParam,LPARAM lParam) {
 
 	// plugin options
 	odp.position    = 95600;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = OptionsProc;
 	odp.pszGroup    = LPGEN("Network");
 	odp.pszTitle    = WEATHERPROTOTEXT;
@@ -308,7 +294,7 @@ int OptInit(WPARAM wParam,LPARAM lParam) {
 	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
 
 	// text options
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_TEXTOPT);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TEXTOPT);
 	odp.pfnDlgProc  = DlgProcText;
 	odp.pszTab      = LPGEN("Display");
 	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
@@ -317,7 +303,7 @@ int OptInit(WPARAM wParam,LPARAM lParam) {
 	if ((ServiceExists(MS_POPUP_ADDPOPUP))) 
 	{
 		odp.position      = 100000000;
-		odp.pszTemplate   = MAKEINTRESOURCE(IDD_POPUP);
+		odp.pszTemplate   = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.pszGroup      = LPGEN("PopUps");
 		odp.groupPosition = 910000000;
 		odp.pszTab        = NULL;
@@ -333,17 +319,16 @@ int OptInit(WPARAM wParam,LPARAM lParam) {
 // weather options
 INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam) 
 {
-	char str[512];
+	TCHAR str[512];
 
-	switch(msg) 
-	{
+	switch(msg) {
 	case WM_INITDIALOG:
 		opt_startup = TRUE;
 		TranslateDialogDefault(hdlg);
 		// load settings
-		_ltoa(opt.UpdateTime, str, 10);
-		SetDlgItemTextWth(hdlg, IDC_UPDATETIME, str);
-		SetDlgItemTextWth(hdlg, IDC_DEGREE, opt.DegreeSign);
+		_ltot(opt.UpdateTime, str, 10);
+		SetDlgItemText(hdlg, IDC_UPDATETIME, str);
+		SetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign);
 
 		SendDlgItemMessage(hdlg, IDC_AVATARSPIN, UDM_SETRANGE32, 0, 999);
 		SendDlgItemMessage(hdlg, IDC_AVATARSPIN, UDM_SETPOS, 0, opt.AvatarSize);
@@ -404,8 +389,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		return 0;
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lparam)->code)
-		{
+		switch(((LPNMHDR)lparam)->code) {
 		case PSN_APPLY:
 			// change the status for weather protocol
 			if (IsDlgButtonChecked(hdlg, IDC_PROTOCOND) && opt.DefStn != NULL)
@@ -417,7 +401,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 
 			// get update time and remove the old timer
 			GetDlgItemText(hdlg, IDC_UPDATETIME, str, sizeof(str));
-			opt.UpdateTime = (WORD)atoi(str);
+			opt.UpdateTime = (WORD)_ttoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
 			KillTimer(NULL, timerId);
 			timerId = SetTimer(NULL, 0, opt.UpdateTime*60000, (TIMERPROC)timerProc);
@@ -473,14 +457,14 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 void LoadTextSettings(HWND hdlg)
 {
 	// load text option settings from memory
-	SetDlgItemTextWth(hdlg, IDC_CTEXT, opt.cText);
-	SetDlgItemTextWth(hdlg, IDC_BTITLE, opt.bTitle);
-	SetDlgItemTextWth(hdlg, IDC_BTEXT, opt.bText);
-	SetDlgItemTextWth(hdlg, IDC_ETEXT, opt.eText);
-	SetDlgItemTextWth(hdlg, IDC_NTEXT, opt.nText);
-	SetDlgItemTextWth(hdlg, IDC_HTEXT, opt.hText);
-	SetDlgItemTextWth(hdlg, IDC_XTEXT, opt.xText);
-	SetDlgItemTextWth(hdlg, IDC_BTITLE2, opt.sText);
+	SetDlgItemText(hdlg, IDC_CTEXT, opt.cText);
+	SetDlgItemText(hdlg, IDC_BTITLE, opt.bTitle);
+	SetDlgItemText(hdlg, IDC_BTEXT, opt.bText);
+	SetDlgItemText(hdlg, IDC_ETEXT, opt.eText);
+	SetDlgItemText(hdlg, IDC_NTEXT, opt.nText);
+	SetDlgItemText(hdlg, IDC_HTEXT, opt.hText);
+	SetDlgItemText(hdlg, IDC_XTEXT, opt.xText);
+	SetDlgItemText(hdlg, IDC_BTITLE2, opt.sText);
 }
 
 // free the display text settings from memory
@@ -497,12 +481,17 @@ void FreeTextVar(void)
 }
 
 // text option dialog
+
+static const char *varname[8] = {"C", "b", "B", "N", "X", "E", "H", "S"};
+static const int cname[8] = {IDC_CTEXT, IDC_BTITLE, IDC_BTEXT, IDC_NTEXT, IDC_XTEXT, IDC_ETEXT, IDC_HTEXT, IDC_BTITLE2 };
+static TCHAR* const *var[8] = {&opt.cText, &opt.bTitle, &opt.bText, &opt.nText, &opt.xText, &opt.eText, &opt.hText, &opt.sText };
+
 INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	RECT rc, pos;
 	HWND button;
 	HMENU hMenu, hMenu1;
-	char str[4096];
+	TCHAR str[4096];
 	switch (msg)
 	{
 	case WM_INITDIALOG:
@@ -512,8 +501,8 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		SetWindowPos(hdlg, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE); 
 		TranslateDialogDefault(hdlg);
 		// generate the display text for variable list
-		strcpy(str, Translate("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set"));
-		SetDlgItemTextWth(hdlg, IDC_VARLIST, str);
+		_tcscpy(str, TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set"));
+		SetDlgItemText(hdlg, IDC_VARLIST, str);
 
 		// make the more variable and other buttons flat
 		SendMessage(GetDlgItem(hdlg,IDC_MORE), BUTTONSETASFLATBTN, 0, 0);
@@ -560,11 +549,6 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case IDC_TM7: 
 		case IDC_TM8: 
 			{
-				static const char *varname[8] = {"C", "b", "B", "N", "X", "E", "H", "S"};
-				static const int cname[8] = {IDC_CTEXT, IDC_BTITLE, IDC_BTEXT, IDC_NTEXT, IDC_XTEXT, 
-					IDC_ETEXT, IDC_HTEXT, IDC_BTITLE2 };
-				static char* const *var[8] = {&opt.cText, &opt.bTitle, &opt.bText, &opt.nText, 
-					&opt.xText, &opt.eText, &opt.hText, &opt.sText };
 				WEATHERINFO winfo;
 
 				// display the menu
@@ -573,23 +557,22 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMMENU));
 				hMenu1 = GetSubMenu(hMenu, 0);
 				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu1, 0);
-				switch(TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) 
-				{
+				switch(TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) {
 				case ID_MPREVIEW:
 					// show the preview in a message box, using the weather data from the default station
 					winfo = LoadWeatherInfo(opt.DefStn);
 					GetDisplay(&winfo, *var[LOWORD(wParam)-IDC_TM1], str);
-					MessageBox(NULL, str, Translate("Weather Protocol Text Preview"), MB_OK|MB_TOPMOST);
+					MessageBox(NULL, str, TranslateT("Weather Protocol Text Preview"), MB_OK|MB_TOPMOST);
 					break;
 
 				case ID_MRESET:
 					{
 						unsigned varo = LOWORD(wParam) - IDC_TM1; 
 						// remove the old setting from db and free memory
-						char* vartmp = *var[varo]; 
+						TCHAR* vartmp = *var[varo]; 
 						wfree(&vartmp);
 						SetTextDefault(varname[varo]);
-						SetDlgItemTextWth(hdlg, cname[varo], *var[varo]);
+						SetDlgItemText(hdlg, cname[varo], *var[varo]);
 					}
 					break;
 				}
@@ -628,25 +611,25 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case PSN_APPLY:
 			{
 				// save the option
-				char textstr[MAX_TEXT_SIZE];
+				TCHAR textstr[MAX_TEXT_SIZE];
 				// free memory for old settings
 				FreeTextVar();
 				// save new settings to memory
-				GetDlgItemTextWth(hdlg, IDC_CTEXT, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_CTEXT, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.cText, textstr);
-				GetDlgItemTextWth(hdlg, IDC_BTEXT, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_BTEXT, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.bText, textstr);
-				GetDlgItemTextWth(hdlg, IDC_BTITLE, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_BTITLE, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.bTitle, textstr);
-				GetDlgItemTextWth(hdlg, IDC_ETEXT, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_ETEXT, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.eText, textstr);
-				GetDlgItemTextWth(hdlg, IDC_NTEXT, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_NTEXT, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.nText, textstr);
-				GetDlgItemTextWth(hdlg, IDC_HTEXT, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_HTEXT, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.hText, textstr);
-				GetDlgItemTextWth(hdlg, IDC_XTEXT, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_XTEXT, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.xText, textstr);
-				GetDlgItemTextWth(hdlg, IDC_BTITLE2, textstr, MAX_TEXT_SIZE);
+				GetDlgItemText(hdlg, IDC_BTITLE2, textstr, MAX_TEXT_SIZE);
 				wSetData(&opt.sText, textstr);
 				SaveOptions();
 				UpdateAllInfo(0, 0);

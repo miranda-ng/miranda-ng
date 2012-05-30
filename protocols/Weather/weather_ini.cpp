@@ -49,15 +49,15 @@ void WIListAdd(WIDATA Data)
 // get the service data (from loaded ini file) by internal name
 // pszServ = internal name for the service
 // return value = the matching WIDATA struct for pszServ, NULL if no match found
-WIDATA* GetWIData(char *pszServ)
+WIDATA* GetWIData(TCHAR *pszServ)
 {
 	WIDATALIST *Item = WIHead;
 
 	// loop through the list to find matching internal name
-	while (Item != NULL)
-	{
+	while (Item != NULL) {
 		// if internal name found, return the data
-		if (strcmp(Item->Data.InternalName, pszServ) == 0)	return &Item->Data;
+		if ( _tcscmp(Item->Data.InternalName, pszServ) == 0)
+			return &Item->Data;
 		Item = Item->next;
 	}
 	// return NULL when no match found
@@ -98,16 +98,16 @@ void WIItemListAdd(WIDATAITEM *DataItem, WIDATA *Data)
 // reset the data item by using empty string
 // Item = the item to set
 // name = the string to store in the "name" field
-void ResetDataItem(WIDATAITEM *Item, const char *name)
+void ResetDataItem(WIDATAITEM *Item, const TCHAR *name)
 {
-	char str[] = "ID Search - Station Name";
-	Item->Name = ( char* )mir_alloc(sizeof(str));
-	strcpy(Item->Name, str);
-	Item->Start = "";
-	Item->End = "";
-	Item->Unit = "";
+	TCHAR str[] = _T("ID Search - Station Name");
+	Item->Name = ( TCHAR* )mir_alloc( sizeof(str));
+	_tcscpy(Item->Name, str);
+	Item->Start = _T("");
+	Item->End = _T("");
+	Item->Unit = _T("");
 	Item->Url = "";
-	Item->Break = "";
+	Item->Break = _T("");
 	Item->Type = 0;
 }
 
@@ -135,11 +135,9 @@ void WICondListInit(WICONDLIST *List)
 // add a new update item into the current list
 void WICondListAdd(char *str, WICONDLIST *List) 
 {
-	WICONDITEM *newItem;
-
-	newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
-	CharLowerBuff(str, (DWORD)strlen(str));
+	WICONDITEM *newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
 	wSetData(&newItem->Item, str);
+	CharLowerBuff(newItem->Item, _tcslen( newItem->Item ));
 	newItem->Next = NULL;
 	if (List->Tail == NULL)	List->Head = newItem;
 	else List->Tail->Next = newItem;
@@ -147,15 +145,15 @@ void WICondListAdd(char *str, WICONDLIST *List)
 }
 
 // check if the condition string matched for the assignment
-BOOL IsContainedInCondList(const char *pszStr, WICONDLIST *List)
+BOOL IsContainedInCondList(const TCHAR *pszStr, WICONDLIST *List)
 {
 	WICONDITEM *Item = List->Head;
 
 	// loop through the list to find matching internal name
-	while (Item != NULL) 
-	{
+	while (Item != NULL) {
 		// if internal name found, return true indicating that the data is found
-		if (strstr(pszStr, Item->Item))	return TRUE;
+		if ( _tcsstr(pszStr, Item->Item))
+			return TRUE;
 		Item = Item->Next;
 	}
 	// return false when no match found
@@ -188,7 +186,7 @@ void DestroyCondList(WICONDLIST *List)
 BOOL LoadWIData(BOOL dial)
 {
 	HANDLE hFind;
-	char szSearchPath[MAX_PATH], FileName[MAX_PATH], *chop;
+	TCHAR szSearchPath[MAX_PATH], FileName[MAX_PATH], *chop;
 	WIN32_FIND_DATA fd;
 	WIDATA Data;
 
@@ -197,41 +195,38 @@ BOOL LoadWIData(BOOL dial)
 	WIHead = WITail;
 
 	// find all *.ini file in the plugin\weather directory
-	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, sizeof(szSearchPath));
-	chop = strrchr(szSearchPath, '\\');
+	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, SIZEOF(szSearchPath));
+	chop = _tcsrchr(szSearchPath, '\\');
 	*chop = '\0';
-	strcat(szSearchPath,"\\Plugins\\Weather\\*.ini");
-	strcpy(FileName, szSearchPath);
+	_tcscat(szSearchPath, _T("\\Plugins\\Weather\\*.ini"));
+	_tcscpy(FileName, szSearchPath);
 
 	hFind = FindFirstFile(szSearchPath, &fd);
 
 	// load the content of the ini file into memory
-	if (hFind != INVALID_HANDLE_VALUE)
-	{
-		do
-		{
-			chop = strrchr(FileName, '\\');
+	if (hFind != INVALID_HANDLE_VALUE) {
+		do {
+			chop = _tcsrchr(FileName, '\\');
 			chop[1] = '\0';
-			strcat(FileName, fd.cFileName);
-			if (_stricmp(fd.cFileName, "SAMPLE_INI.INI"))
-			{
+			_tcscat(FileName, fd.cFileName);
+			if ( _tcsicmp(fd.cFileName, _T("SAMPLE_INI.INI"))) {
 				LoadStationData(FileName, fd.cFileName, &Data);
 				if (Data.Enabled)	WIListAdd(Data);
 			}
 			// look through the entire "plugins\weather" directory
 		}
-		while(FindNextFile(hFind, &fd));
+			while(FindNextFile(hFind, &fd));
 		FindClose(hFind);
 	}
-	if (WIHead == NULL) 
-	{
+	
+	if (WIHead == NULL) {
 		// no ini found, display an error message box.
 		if (dial)
 			hWndSetup = CreateDialog(hInst, MAKEINTRESOURCE(IDD_SETUP), NULL, DlgProcSetup);
 		else
 			MessageBox(NULL, 
-			Translate("No update data file is found.  Please check your Plugins\\Weather directory."), 
-			Translate("Weather Protocol"), MB_OK | MB_ICONERROR);
+				TranslateT("No update data file is found.  Please check your Plugins\\Weather directory."), 
+				TranslateT("Weather Protocol"), MB_OK | MB_ICONERROR);
 		return FALSE;
 	}
 	return TRUE;
@@ -241,12 +236,12 @@ BOOL LoadWIData(BOOL dial)
 // pszFile = the file name + path for the ini file to be loaded
 // pszShortFile = the file name of the ini file, but not including the path
 // Data = the struct to load the ini content to, and return to previous function
-void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
+void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 {
 	WIDATAITEM DataItem;
 	FILE *pfile;
 	int i;
-	char Line[4096], *Group, *Temp;
+	char *Group, *Temp;
 	char *ValName, *Value;
 
 	static const char *statusStr[10] =
@@ -268,11 +263,12 @@ void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
 	Data->Enabled = FALSE;
 
 	// open the ini file
-	pfile = _fsopen(pszFile, "rt", _SH_DENYWR);
-	if (pfile != NULL)
-	{
-		fgets(Line, sizeof(Line), pfile);
+	pfile = _tfsopen(pszFile, _T("rt"), _SH_DENYWR);
+	if (pfile != NULL) {
+		char Line[4096];
+		fgets(Line, SIZEOF(Line), pfile);
 		TrimString(Line);
+
 		// make sure it is a valid weather protocol ini file
 		if (!strcmp(Line, "[Weather 0.3.x Update Data]"))
 			Data->InternalVer = 1;
@@ -288,78 +284,80 @@ void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
 			Data->InternalVer = 6;
 		else
 		{
-			wsprintf(Line, Translate("Invalid ini format for: %s"), pszFile);
-			MessageBox(NULL, Line, Translate("Weather Protocol"), MB_OK|MB_ICONERROR);
+			wsprintfA(Line, Translate("Invalid ini format for: %s"), pszFile);
+			MessageBoxA(NULL, Line, Translate("Weather Protocol"), MB_OK|MB_ICONERROR);
 			fclose(pfile);
 			return;
 		}
 
 		// initialize all data fields
 		Group = "";
-		Data->DisplayName = "";
-		Data->InternalName = "";
-		Data->Description = "";
-		Data->Author = "";
-		Data->Version = "";
+
+		Data->DisplayName = _T("");
+		Data->InternalName = _T("");
+		Data->Description = _T("");
+		Data->Author = _T("");
+		Data->Version = _T("");
 		Data->DefaultURL = "";
-		Data->DefaultMap = "";
+		Data->DefaultMap = _T("");
 		Data->UpdateURL = "";
 		Data->UpdateURL2 = "";
 		Data->UpdateURL3 = "";
 		Data->UpdateURL4 = "";
 		Data->Cookie = "";
 		Data->IDSearch.SearchURL = "";
-		Data->IDSearch.NotFoundStr = "";
+		Data->IDSearch.NotFoundStr = _T("");
 		Data->NameSearch.SearchURL = "";
-		Data->NameSearch.NotFoundStr = "";
-		Data->NameSearch.SingleStr = "";
-		Data->NameSearch.Single.First = "";
-		Data->NameSearch.Multiple.First = "";
+		Data->NameSearch.NotFoundStr = _T("");
+		Data->NameSearch.SingleStr = _T("");
+		Data->NameSearch.Single.First = _T("");
+		Data->NameSearch.Multiple.First = _T("");
 		Data->IDSearch.Available = FALSE;
 		Data->NameSearch.Single.Available = FALSE;
 		Data->NameSearch.Multiple.Available = FALSE;
 		wSetData(&Data->FileName, pszFile);
 		wSetData(&Data->ShortFileName, pszShortFile);
 
-		ResetDataItem(&Data->IDSearch.Name, "ID Search - Station Name");
-		ResetDataItem(&Data->NameSearch.Single.Name, "Name Search Single Result - Station Name");
-		ResetDataItem(&Data->NameSearch.Single.ID, "Name Search Single Result - Station ID");
-		ResetDataItem(&Data->NameSearch.Multiple.Name, "Name Search Multiple Result - Station Name");
-		ResetDataItem(&Data->NameSearch.Multiple.ID, "Name Search Multiple Result - Station ID");
+		ResetDataItem(&Data->IDSearch.Name, _T("ID Search - Station Name"));
+		ResetDataItem(&Data->NameSearch.Single.Name, _T("Name Search Single Result - Station Name"));
+		ResetDataItem(&Data->NameSearch.Single.ID, _T("Name Search Single Result - Station ID"));
+		ResetDataItem(&Data->NameSearch.Multiple.Name, _T("Name Search Multiple Result - Station Name"));
+		ResetDataItem(&Data->NameSearch.Multiple.ID, _T("Name Search Multiple Result - Station ID"));
 
-		DataItem.Name = "";
-		DataItem.Start = "";
-		DataItem.End = "";
-		DataItem.Unit = "";
+		DataItem.Name = _T("");
+		DataItem.Start = _T("");
+		DataItem.End = _T("");
+		DataItem.Unit = _T("");
 		DataItem.Url = "";
-		DataItem.Break = "";
+		DataItem.Break = _T("");
 		DataItem.Type = 0;
 
 		Temp = "";
 
 		// initialize the linked list for update items
 		Data->UpdateDataCount = 0;
-		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + strlen(pszShortFile) + strlen(pszFile) + 20;
+		Data->MemUsed = sizeof(WIDATA) + sizeof(WIDATALIST) + (_tcslen(pszShortFile) + _tcslen(pszFile) + 20)*sizeof( TCHAR );
 		Data->UpdateData = NULL;
 		Data->UpdateDataTail = NULL;
 
 		// initialize the icon assignment list
-		for (i=0; i<10; i++)	WICondListInit(&Data->CondList[i]);
+		for (i=0; i<10; i++)	
+			WICondListInit( &Data->CondList[i] );
 
-		while (!feof(pfile)) 
-		{
+		while (!feof(pfile)) {
 			// determine current tag
 
-			if (fgets(Line, sizeof(Line), pfile) == NULL)	break;
+			if (fgets(Line, SIZEOF(Line), pfile) == NULL)
+				break;
 			TrimString(Line);
 
 			// if the line is a group header/footer
-			if (Line[0] == '[') 
-			{
+			if (Line[0] == '[') {
 				char *chop = strchr(Line+1,']');
-				if (chop == NULL) continue;
-				if (Line[1] != '/') 	// if it is not a footer (for old ini)
-				{
+				if (chop == NULL)
+					continue;
+				
+				if (Line[1] != '/')  {	// if it is not a footer (for old ini)
 					// save the group name
 					Temp = (char *)mir_alloc(strlen(Line)+10);
 					strncpy(Temp, Line+1, chop-Line-1);
@@ -397,27 +395,24 @@ void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
 			Value++;
 			ConvertBackslashes(Value);
 			// store the value for each string
-			if (!_stricmp(Group, "HEADER")) 
-			{
-				if (!_stricmp(ValName, "NAME"))					wSetData(&Data->DisplayName, Value);
+			if (!_stricmp(Group, "HEADER")) {
+				if (!_stricmp(ValName, "NAME"))						wSetData(&Data->DisplayName, Value);
 				else if (!_stricmp(ValName, "INTERNAL NAME"))	wSetData(&Data->InternalName, Value);
 				else if (!_stricmp(ValName, "DESCRIPTION"))		wSetData(&Data->Description, Value);
 				else if (!_stricmp(ValName, "AUTHOR")) 			wSetData(&Data->Author, Value);
-				else if (!_stricmp(ValName, "VERSION")) 		wSetData(&Data->Version, Value);
+				else if (!_stricmp(ValName, "VERSION")) 			wSetData(&Data->Version, Value);
 			}
 			else if (!_stricmp(Group, "DEFAULT")) {
-				if (!_stricmp(ValName, "DEFAULT URL"))			wSetData(&Data->DefaultURL, Value);
+				if (!_stricmp(ValName, "DEFAULT URL"))				wSetData(&Data->DefaultURL, Value);
 				else if (!_stricmp(ValName, "DEFAULT MAP"))		wSetData(&Data->DefaultMap, Value);
 				else if (!_stricmp(ValName, "UPDATE URL"))		wSetData(&Data->UpdateURL, Value);
 				else if (!_stricmp(ValName, "UPDATE URL2"))		wSetData(&Data->UpdateURL2, Value);
 				else if (!_stricmp(ValName, "UPDATE URL3"))		wSetData(&Data->UpdateURL3, Value);
 				else if (!_stricmp(ValName, "UPDATE URL4"))		wSetData(&Data->UpdateURL4, Value);
-				else if (!_stricmp(ValName, "COOKIE"))		    wSetData(&Data->Cookie, Value);
+				else if (!_stricmp(ValName, "COOKIE"))				wSetData(&Data->Cookie, Value);
 			}
-			else if (!_stricmp(Group, "ID SEARCH")) 
-			{
-				if (!_stricmp(ValName, "AVAILABLE")) 
-				{
+			else if (!_stricmp(Group, "ID SEARCH")) {
+				if (!_stricmp(ValName, "AVAILABLE")) {
 					if (!_stricmp(Value, "TRUE"))				Data->IDSearch.Available = TRUE;
 					else										Data->IDSearch.Available = FALSE;
 				}
@@ -426,15 +421,12 @@ void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
 				else if (!_stricmp(ValName, "NAME START")) 		wSetData(&Data->IDSearch.Name.Start, Value);
 				else if (!_stricmp(ValName, "NAME END")) 		wSetData(&Data->IDSearch.Name.End, Value);
 			}
-			else if (!_stricmp(Group, "NAME SEARCH")) 
-			{
-				if (!_stricmp(ValName, "SINGLE RESULT")) 
-				{
+			else if (!_stricmp(Group, "NAME SEARCH")) {
+				if (!_stricmp(ValName, "SINGLE RESULT")) {
 					if (!_stricmp(Value, "TRUE"))				Data->NameSearch.Single.Available = TRUE;
 					else										Data->NameSearch.Single.Available = FALSE;
 				}
-				else if (!_stricmp(ValName, "MULTIPLE RESULT")) 
-				{
+				else if (!_stricmp(ValName, "MULTIPLE RESULT")) {
 					if (!_stricmp(Value, "TRUE"))				Data->NameSearch.Multiple.Available = TRUE;
 					else										Data->NameSearch.Multiple.Available = FALSE;
 				}
@@ -452,43 +444,35 @@ void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data)
 				else if (!_stricmp(ValName, "MULT ID START"))	wSetData(&Data->NameSearch.Multiple.ID.Start, Value);
 				else if (!_stricmp(ValName, "MULT ID END")) 	wSetData(&Data->NameSearch.Multiple.ID.End, Value);
 			}
-			else if (!_stricmp(Group, "ICONS")) 
-			{
-				for (i=0; i<10; i++) 
-				{
-					if (!_stricmp(ValName, statusStr[i])) 
-					{
+			else if (!_stricmp(Group, "ICONS")) {
+				for (i=0; i<10; i++) {
+					if ( !_stricmp(ValName, statusStr[i])) {
 						WICondListAdd(Value, &Data->CondList[i]);
 						break;
 					}
 				}
 			}
-			else if (Data->UpdateDataCount != 0)
-			{
+			else if (Data->UpdateDataCount != 0) {
 				if (!_stricmp(ValName, "START")) 			wSetData(&Data->UpdateDataTail->Item.Start, Value);
 				else if (!_stricmp(ValName, "SOURCE"))		wSetData(&Data->UpdateDataTail->Item.Start, Value);
 				else if (!_stricmp(ValName, "END")) 		wSetData(&Data->UpdateDataTail->Item.End, Value);
 				else if (!_stricmp(ValName, "UNIT")) 		wSetData(&Data->UpdateDataTail->Item.Unit, Value);
 				else if (!_stricmp(ValName, "URL")) 		wSetData(&Data->UpdateDataTail->Item.Url, Value);
-				else if (!_stricmp(ValName, "HIDDEN")) 
-				{
-					if (!_stricmp(Value, "TRUE")) 
-					{
-						char *nm = Data->UpdateDataTail->Item.Name;
-						size_t len = strlen(nm) + 1;
+				else if (!_stricmp(ValName, "HIDDEN")) {
+					if (!_stricmp(Value, "TRUE")) {
+						TCHAR *nm = Data->UpdateDataTail->Item.Name;
+						size_t len = _tcslen(nm) + 1;
 
-						Data->UpdateDataTail->Item.Name = nm = ( char* )mir_realloc(nm, len + 3);
-						memmove(nm + 1, nm, len);
+						Data->UpdateDataTail->Item.Name = nm = ( TCHAR* )mir_realloc(nm, sizeof(TCHAR)*(len + 3));
+						memmove(nm + 1, nm, len*sizeof( TCHAR ));
 						*nm = '#';
 					}
 				}
-				else if (!_stricmp(ValName, "SET DATA")) 
-				{
+				else if (!_stricmp(ValName, "SET DATA")) {
 					Data->UpdateDataTail->Item.Type = WID_SET;
 					wSetData(&Data->UpdateDataTail->Item.End, Value);
 				}
-				else if (!_stricmp(ValName, "BREAK DATA")) 
-				{
+				else if (!_stricmp(ValName, "BREAK DATA")) {
 					Data->UpdateDataTail->Item.Type = WID_BREAK;
 					wSetData(&Data->UpdateDataTail->Item.Break, Value);
 				}
@@ -588,20 +572,21 @@ INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case IDC_STEP2: 
 			{
-				char szPath[1024], *chop;
+				TCHAR szPath[1024], *chop;
 				GetModuleFileName(GetModuleHandle(NULL), szPath, sizeof(szPath));
-				chop = strrchr(szPath, '\\');
+				chop = _tcsrchr(szPath, '\\');
 				*chop = '\0';
-				strcat(szPath,"\\Plugins\\weather\\");
-				_mkdir(szPath);
-				ShellExecute((HWND)lParam, "open", szPath, "", "", SW_SHOW);
+				_tcscat(szPath, _T("\\Plugins\\weather\\"));
+				_tmkdir(szPath);
+				ShellExecute((HWND)lParam, _T("open"), szPath, _T(""), _T(""), SW_SHOW);
 				break;
 			}
 
 		case IDC_STEP3:
 			if (LoadWIData(FALSE))
-				MessageBox(NULL, Translate("All update data has been reloaded."), 
-				Translate("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
+				MessageBox(NULL, 
+					TranslateT("All update data has been reloaded."), 
+					TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
 			break;
 
 		case IDC_STEP4:

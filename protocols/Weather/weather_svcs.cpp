@@ -153,13 +153,14 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		SUNNY,
 		NA
 	};
-	char szSearchPath[MAX_PATH], *chop;
+	
+	TCHAR szSearchPath[MAX_PATH], *chop;
 	WORD status;
 	unsigned  i;
-	PROTO_AVATAR_INFORMATION* ai = ( PROTO_AVATAR_INFORMATION* )lParam;
+	PROTO_AVATAR_INFORMATIONT* ai = ( PROTO_AVATAR_INFORMATIONT* )lParam;
 
 	GetModuleFileName(GetModuleHandle(NULL), szSearchPath, sizeof(szSearchPath));
-	chop = strrchr(szSearchPath, '\\');
+	chop = _tcsrchr(szSearchPath, '\\');
 
 	if (chop) *chop = '\0';
 	else szSearchPath[0] = 0;
@@ -173,12 +174,12 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (i >= 10) return GAIR_NOAVATAR;
 
 	ai->format = PA_FORMAT_PNG;
-	wsprintf(ai->filename, "%s\\Plugins\\Weather\\%s.png", szSearchPath, statusStr[i]);
-	if (_access(ai->filename, 4) == 0) return GAIR_SUCCESS;
+	wsprintf(ai->filename, _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
+	if (_taccess(ai->filename, 4) == 0) return GAIR_SUCCESS;
 
 	ai->format = PA_FORMAT_GIF;
-	wsprintf(ai->filename, "%s\\Plugins\\Weather\\%s.gif", szSearchPath, statusStr[i]);
-	if (_access(ai->filename, 4) == 0) return GAIR_SUCCESS;
+	wsprintf(ai->filename, _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
+	if (_taccess(ai->filename, 4) == 0) return GAIR_SUCCESS;
 
 	ai->format = PA_FORMAT_UNKNOWN;
 	ai->filename[0] = 0;
@@ -189,7 +190,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 void AvatarDownloaded(HANDLE hContact)
 {
 	int haveAvatar;
-	PROTO_AVATAR_INFORMATION AI = {0};
+	PROTO_AVATAR_INFORMATIONT AI = {0};
 	AI.cbSize = sizeof(AI);
 	AI.hContact = hContact;
 
@@ -208,14 +209,11 @@ static void __cdecl WeatherGetAwayMsgThread(HANDLE hContact)
 {
 	DBVARIANT dbv;
 	Sleep(100);
-	if (!DBGetContactSettingString(hContact, "CList", "StatusMsg", &dbv)) 
-	{
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, 
-			(HANDLE)1, (LPARAM)dbv.pszVal);
+	if ( !DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv)) {
+		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		DBFreeVariant( &dbv );
 	}
-	else 
-		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
+	else ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 static INT_PTR WeatherGetAwayMsg(WPARAM wParam, LPARAM lParam)
@@ -237,11 +235,11 @@ void InitServices(void)
 	hService[3]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_LOADICON, WeatherLoadIcon);
 	hService[4]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_SETSTATUS, WeatherSetStatus);
 	hService[5]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETSTATUS, WeatherGetStatus);
-	hService[6]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_BASICSEARCH, WeatherBasicSearch);
-	hService[7]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYEMAIL, WeatherBasicSearch);
+	hService[6]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_BASICSEARCHT, WeatherBasicSearch);
+	hService[7]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYEMAILT, WeatherBasicSearch);
 	hService[8]  = CreateProtoServiceFunction(WEATHERPROTONAME, PS_ADDTOLIST, WeatherAddToList);
 	hService[9]  = CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETINFO, WeatherGetInfo);
-	hService[10] = CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETAVATARINFO, WeatherGetAvatarInfo);
+	hService[10] = CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETAVATARINFOT, WeatherGetAvatarInfo);
 	hService[11] = CreateProtoServiceFunction(WEATHERPROTONAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
 	hService[12] = CreateProtoServiceFunction(WEATHERPROTONAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
 	hService[13] = CreateProtoServiceFunction(WEATHERPROTONAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);

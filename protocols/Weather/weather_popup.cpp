@@ -37,7 +37,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
 	      !DBGetContactSettingByte((HANDLE)wParam, WEATHERPROTONAME, "DPopUp", 0)) 
 	{
-		POPUPDATAEX ppd = {0};
+		POPUPDATAT ppd = {0};
 		WEATHERINFO winfo;
 
 	    // setup the popup
@@ -45,8 +45,8 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 //		if ((HANDLE)wParam != NULL) {	// for actual contact
 			winfo = LoadWeatherInfo((HANDLE)wParam);
 			ppd.PluginData = ppd.lchIcon = LoadSkinnedProtoIcon(WEATHERPROTONAME, winfo.status);
-			GetDisplay(&winfo, opt.pTitle, ppd.lpzContactName);
-			GetDisplay(&winfo, opt.pText, ppd.lpzText);
+			GetDisplay(&winfo, opt.pTitle, ppd.lptzContactName);
+			GetDisplay(&winfo, opt.pText, ppd.lptzText);
 			ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 //		}
 //		else {	// for preview
@@ -123,7 +123,8 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
-int WPShowMessage(char* lpzText, WORD kind) {
+int WPShowMessage(TCHAR* lpzText, WORD kind)
+{
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
 	return 0;
 }
@@ -221,9 +222,9 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 // but does not write to the database
 void ReadPopupOpt(HWND hdlg) 
 {
-	char text[MAX_TEXT_SIZE];
+	TCHAR text[MAX_TEXT_SIZE];
 	int num;
-	char str[512];
+	TCHAR str[512];
 
 	// popup colour
 	opt.TextColour = SendDlgItemMessage(hdlg,IDC_TEXTCOLOUR,CPM_GETCOLOUR,0,0);
@@ -231,7 +232,7 @@ void ReadPopupOpt(HWND hdlg)
 
 	// get delay time
 	GetDlgItemText(hdlg, IDC_DELAY, str, sizeof(str));
-	num = atoi(str);
+	num = _ttoi(str);
 	opt.pDelay = num;
 
 	// other options
@@ -245,9 +246,9 @@ void ReadPopupOpt(HWND hdlg)
 	// popup texts
 	wfree(&opt.pText);
 	wfree(&opt.pTitle);
-	GetDlgItemTextWth(hdlg, IDC_PText, text, MAX_TEXT_SIZE);
+	GetDlgItemText(hdlg, IDC_PText, text, MAX_TEXT_SIZE);
 	wSetData(&opt.pText, text);
-	GetDlgItemTextWth(hdlg, IDC_PTitle, text, MAX_TEXT_SIZE);
+	GetDlgItemText(hdlg, IDC_PTitle, text, MAX_TEXT_SIZE);
 	wSetData(&opt.pTitle, text);
 }
 
@@ -255,7 +256,7 @@ void ReadPopupOpt(HWND hdlg)
 INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	int ID;
-	char str[512];
+	TCHAR str[512];
 	HMENU hMenu, hMenu1;
 	RECT pos;
 	HWND button;
@@ -271,9 +272,9 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			GetMenuString(hMenu1, opt.LeftClickAction, str, sizeof(str), MF_BYCOMMAND);
-			SetDlgItemTextWth(hdlg, IDC_LeftClick, Translate(str));
+			SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
 			GetMenuString(hMenu1, opt.RightClickAction, str, sizeof(str), MF_BYCOMMAND);
-			SetDlgItemTextWth(hdlg, IDC_RightClick, Translate(str));
+			SetDlgItemText(hdlg, IDC_RightClick, TranslateTS(str));
 			DestroyMenu(hMenu);
 
 			// other options
@@ -282,11 +283,11 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckDlgButton(hdlg, IDC_POP1, opt.UpdatePopup);
 			CheckDlgButton(hdlg, IDC_CH, opt.PopupOnChange);
 			CheckDlgButton(hdlg, IDC_W, opt.ShowWarnings);
-			SetDlgItemTextWth(hdlg,IDC_PText, opt.pText);
-			SetDlgItemTextWth(hdlg,IDC_PTitle, opt.pTitle);
+			SetDlgItemText(hdlg,IDC_PText, opt.pText);
+			SetDlgItemText(hdlg,IDC_PTitle, opt.pTitle);
 			// setting popup delay option
-			_ltoa(opt.pDelay, str, 10);
-			SetDlgItemTextWth(hdlg,IDC_DELAY, str);
+			_ltot(opt.pDelay, str, 10);
+			SetDlgItemText(hdlg,IDC_DELAY, str);
 			if (opt.pDelay == -1)
 				CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD2);
 			else if (opt.pDelay == 0)
@@ -355,7 +356,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 					hMenu1 = GetSubMenu(hMenu, 0);
 					GetMenuString(hMenu1, opt.RightClickAction, str, sizeof(str), MF_BYCOMMAND);
-					SetDlgItemTextWth(hdlg, IDC_RightClick, Translate(str));
+					SetDlgItemText(hdlg, IDC_RightClick, TranslateTS(str));
 					DestroyMenu(hMenu);
 					break;
 
@@ -375,19 +376,19 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 					hMenu1 = GetSubMenu(hMenu, 0);
 					GetMenuString(hMenu1, opt.LeftClickAction, str, sizeof(str), MF_BYCOMMAND);
-					SetDlgItemTextWth(hdlg, IDC_LeftClick, Translate(str));
+					SetDlgItemText(hdlg, IDC_LeftClick, TranslateTS(str));
 					DestroyMenu(hMenu);
 					break;
 
 				case IDC_PD1:
 					// Popup delay setting from PopUp plugin
-					SetDlgItemText(hdlg, IDC_DELAY, "0");
+					SetDlgItemText(hdlg, IDC_DELAY, _T("0"));
 					CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD1);
 					break;
 
 				case IDC_PD2:
 					// Popup delay = permanent
-					SetDlgItemText(hdlg, IDC_DELAY, "-1");
+					SetDlgItemText(hdlg, IDC_DELAY, _T("-1"));
 					CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD2);
 					break;
 
@@ -399,19 +400,19 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				case IDC_PDEF:
 					// set the default value for popup texts
 					SetTextDefault("Pp");
-					SetDlgItemTextWth(hdlg,IDC_PText, opt.pText);
-					SetDlgItemTextWth(hdlg,IDC_PTitle, opt.pTitle);
+					SetDlgItemText(hdlg,IDC_PText, opt.pText);
+					SetDlgItemText(hdlg,IDC_PTitle, opt.pTitle);
 					wfree(&opt.pText);
 					wfree(&opt.pTitle);
 					break;
 
 				case IDC_VAR3:
 					// display variable list
-					strcpy(str, "                                                            \n");		// to make the message box wider
-					strcat(str, Translate("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set"));
-					strcat(str, "\n");
-					strcat(str, Translate("%[..]\tcustom variables"));
-					MessageBox(NULL, str, Translate("Variable List"), MB_OK|MB_ICONASTERISK|MB_TOPMOST);
+					_tcscpy(str, _T("                                                            \n"));		// to make the message box wider
+					_tcscat(str, TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set"));
+					_tcscat(str, _T("\n"));
+					_tcscat(str, TranslateT("%[..]\tcustom variables"));
+					MessageBox(NULL, str, TranslateT("Variable List"), MB_OK|MB_ICONASTERISK|MB_TOPMOST);
 					break;
 
 				case IDC_PREVIEW:

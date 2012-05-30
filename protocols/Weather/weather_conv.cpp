@@ -29,7 +29,7 @@ string conversions, display text parsing, etc
 // see if a string is a number
 // s = the string to be determined
 // return value = true if the string is a number, false if it isn't
-BOOL is_number(char *s) 
+BOOL is_number(TCHAR *s) 
 {
 	BOOL tag = FALSE;
 	// looking character by character
@@ -47,7 +47,7 @@ BOOL is_number(char *s)
 	return FALSE;
 }
 
-static void numToStr(double num, char* str)
+static void numToStr(double num, TCHAR* str)
 {
 	int i = (int)(num * (opt.NoFrac ? 10 : 100));
 	int u = abs(i);
@@ -55,21 +55,18 @@ static void numToStr(double num, char* str)
 	int r = u % 10;
 	int w = u / 10 + (r >= 5);
 
-	if (opt.NoFrac) 
-	{
+	if (opt.NoFrac)
 		r = 0;
-	}
-	else
-	{
+	else {
 		r = w % 10;
 		w /= 10;
 	}
 
 	if (i < 0 && (w || r)) *(str++) = '-';
 	if (r)
-		sprintf(str, "%i.%i", w, r);
+		wsprintf(str, _T("%i.%i"), w, r);
 	else
-		sprintf(str, "%i", w);
+		wsprintf(str, _T("%i"), w);
 }
 
 //============  UNIT CONVERSIONS  ============
@@ -78,53 +75,50 @@ static void numToStr(double num, char* str)
 // tempchar = the string containing the temperature value
 // unit = the unit for temperature
 // return value = the converted temperature with degree sign and unit; if fails, return N/A
-void GetTemp(char *tempchar, char *unit, char* str) 
+void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str) 
 {
 	// unit can be C, F
 	double temp;
-	char tstr[20];
+	TCHAR tstr[20];
 
 	TrimString(tempchar);
 	if (tempchar[0] == '-' && tempchar[1] == ' ')
-		memmove(&tempchar[1], &tempchar[2], strlen(&tempchar[2])+1);
+		memmove(&tempchar[1], &tempchar[2], sizeof(TCHAR)*(_tcslen(&tempchar[2])+1));
 
 	// quit if the value obtained is N/A or not a number
-	if (!strcmp(tempchar, NODATA) || !strcmp(tempchar, "N/A")) 
-	{
-		strcpy(str, tempchar);
+	if ( !_tcscmp(tempchar, NODATA) || !_tcscmp(tempchar, _T("N/A"))) {
+		_tcscpy(str, tempchar);
 		return;
 	}
-	if (!is_number(tempchar))	
-	{
-		strcpy(str, NODATA);
+	if (!is_number(tempchar)) {
+		_tcscpy(str, NODATA);
 		return;
 	}
 
 	// convert the string to an integer
-	temp = atof(tempchar);
+	temp = _ttof(tempchar);
 
 	// convert all to F first
-	if (!_stricmp(unit, "C"))		temp = (temp*9/5)+32;
-	else if (!_stricmp(unit, "K"))	temp = ((temp-273.15)*9/5)+32;
+	if (!_tcsicmp(unit, _T("C")))		temp = (temp*9/5)+32;
+	else if (!_tcsicmp(unit, _T("K")))	temp = ((temp-273.15)*9/5)+32;
 
 	// convert to apporiate unit
-	switch (opt.tUnit) 
-	{
+	switch (opt.tUnit) {
 	case 1:
 		// rounding
 		numToStr((temp-32)/9*5, tstr);
 		if (opt.DoNotAppendUnit)
-			sprintf(str, "%s", tstr);
+			wsprintf(str, _T("%s"), tstr);
 		else
-			sprintf(str, "%s%sC", tstr, opt.DegreeSign);
+			wsprintf(str, _T("%s%sC"), tstr, opt.DegreeSign);
 		break;
 
 	case 2:
 		numToStr(temp, tstr);
 		if (opt.DoNotAppendUnit)
-			sprintf(str, "%s", tstr);
+			wsprintf(str, _T("%s"), tstr);
 		else
-			sprintf(str, "%s%sF", tstr, opt.DegreeSign);
+			wsprintf(str, _T("%s%sF"), tstr, opt.DegreeSign);
 		break;
 	}
 }
@@ -133,7 +127,7 @@ void GetTemp(char *tempchar, char *unit, char* str)
 // tempchar = the string containing the pressure value
 // unit = the unit for pressure
 // return value = the converted pressure with unit; if fail, return the original string
-void GetPressure(char *tempchar, char *unit, char* str) 
+void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str) 
 {
 	// unit can be kPa, hPa, mb, in, mm, torr
 	double tempunit = 0, output;
@@ -141,48 +135,46 @@ void GetPressure(char *tempchar, char *unit, char* str)
 
 	// convert the string to a floating point number (always positive)
 	// if it end up with 0, then it's not a number, return the original string and quit
-	output = atof(tempchar);
-	if (output == 0)
-	{
-		strcpy(str, tempchar); 
+	output = _ttof(tempchar);
+	if (output == 0) {
+		_tcscpy(str, tempchar); 
 		return;
 	}
 
 	// convert all to mb first
-	if (!_stricmp(unit, "KPA"))
+	if (!_tcsicmp(unit, _T("KPA")))
 		tempunit = (double)output * 10;
-	else if (!_stricmp(unit, "HPA"))
+	else if (!_tcsicmp(unit, _T("HPA")))
 		tempunit = (double)output;
-	else if (!_stricmp(unit, "MB"))
+	else if (!_tcsicmp(unit, _T("MB")))
 		tempunit = (double)output;
-	else if (!_stricmp(unit, "IN"))
+	else if (!_tcsicmp(unit, _T("IN")))
 		tempunit = (double)output * 33.86388;
-	else if (!_stricmp(unit, "MM"))
+	else if (!_tcsicmp(unit, _T("MM")))
 		tempunit = (double)output * 1.33322;
-	else if (!_stricmp(unit, "TORR"))
+	else if (!_tcsicmp(unit, _T("TORR")))
 		tempunit = (double)output * 1.33322;
 
 	// convert to apporiate unit
-	switch (opt.pUnit)
-	{
+	switch (opt.pUnit) {
 	case 1:
 		intunit = (int)(tempunit + 0.5);
-		wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("kPa"));
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("kPa"));
 		break;
 	case 2:
 		intunit = (int)(tempunit + 0.5);
-		wsprintf(str, "%i %s", intunit, opt.DoNotAppendUnit ? "" : Translate("mb"));
+		wsprintf(str, _T("%i %s"), intunit, opt.DoNotAppendUnit ? _T("") : TranslateT("mb"));
 		break;
 	case 3:
 		intunit = (int)((tempunit*10 / 33.86388) + 0.5);
-		wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("in"));
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("in"));
 		break;
 	case 4:
 		intunit = (int)((tempunit*10 / 1.33322) + 0.5);
-		wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("mm"));
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("mm"));
 		break;
 	default:
-		strcpy(str, tempchar); 
+		_tcscpy(str, tempchar); 
 		break;
 
 	}
@@ -191,48 +183,48 @@ void GetPressure(char *tempchar, char *unit, char* str)
 // speed conversion
 // tempchar = the string containing the speed value
 // unit = the unit for speed
-// return value = the converted speed with unit; if fail, return ""
-void GetSpeed(char *tempchar, char *unit, char *str) 
+// return value = the converted speed with unit; if fail, return _T(""
+void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str) 
 {
 	// unit can be km/h, mph, m/s, knots
 	double tempunit;
-	char tstr[20];
+	TCHAR tstr[20];
 
 	str[0] = 0;
 
 	// convert the string into an integer (always positive)
-	// if the result is 0, then the string is not a number, return ""
-	tempunit = atof(tempchar);
-	if (tempunit == 0 && tempchar[0] != '0') return;
+	// if the result is 0, then the string is not a number, return _T(""
+	tempunit = _ttof(tempchar);
+	if (tempunit == 0 && tempchar[0] != '0')
+		return;
 
 	// convert all to m/s first
-	if (!_stricmp(unit, "KM/H"))
+	if (!_tcsicmp(unit, _T("KM/H")))
 		tempunit /= 3.6;
-//	else if (!_stricmp(unit, "M/S"))
+//	else if (!_tcsicmp(unit, _T("M/S"))
 //		tempunit = tempunit;
-	else if (!_stricmp(unit, "MPH"))
+	else if (!_tcsicmp(unit, _T("MPH")))
 		tempunit *= 0.44704;
-	else if (!_stricmp(unit, "KNOTS"))
+	else if (!_tcsicmp(unit, _T("KNOTS")))
 		tempunit *= 0.514444;
 
 	// convert to apporiate unit
-	switch (opt.wUnit)
-	{
+	switch (opt.wUnit) {
 	case 1:
 		numToStr(tempunit * 3.6, tstr);
-		sprintf(str, "%s %s", tstr, opt.DoNotAppendUnit ? "" : Translate("km/h"));
+		wsprintf(str, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("km/h"));
 		break;
 	case 2:
 		numToStr(tempunit, tstr);
-		sprintf(str, "%s %s", tstr, opt.DoNotAppendUnit ? "" : Translate("m/s"));
+		wsprintf(str, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("m/s"));
 		break;
 	case 3:
 		numToStr(tempunit / 0.44704, tstr);
-		sprintf(str, "%s %s", tstr, opt.DoNotAppendUnit ? "" : Translate("mph"));
+		wsprintf(str, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("mph"));
 		break;
 	case 4:
 		numToStr(tempunit / 0.514444, tstr);
-		sprintf(str, "%s %s", tstr, opt.DoNotAppendUnit ? "" : Translate("knots"));
+		wsprintf(str, _T("%s %s"), tstr, opt.DoNotAppendUnit ? _T("") : TranslateT("knots"));
 		break;
 	}
 }
@@ -241,7 +233,7 @@ void GetSpeed(char *tempchar, char *unit, char *str)
 // tempchar = the string containing the distance value
 // unit = the unit for distance
 // return value = the converted distance with unit; if fail, return original string
-void GetDist(char *tempchar, char *unit, char *str) 
+void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str) 
 {
 	// unit can be km, miles
 	double tempunit = 0, output;
@@ -249,32 +241,30 @@ void GetDist(char *tempchar, char *unit, char *str)
 
 	// convert the string to a floating point number (always positive)
 	// if it end up with 0, then it's not a number, return the original string and quit
-	output = atof(tempchar);
-	if (output == 0)
-	{
-		strcpy(str, tempchar);
+	output = _ttof(tempchar);
+	if (output == 0) {
+		_tcscpy(str, tempchar);
 		return;
 	}
 
 	// convert all to km first
-	if (!_stricmp(unit, "KM"))
+	if (!_tcsicmp(unit, _T("KM")))
 		tempunit = (double)output;
-	else if (!_stricmp(unit, "MILES"))
+	else if (!_tcsicmp(unit, _T("MILES")))
 		tempunit = (double)output * 1.609;
 
 	// convert to apporiate unit
-	switch (opt.vUnit)
-	{
+	switch (opt.vUnit) {
 	case 1:
 		intunit = (int)((tempunit*10) + 0.5);
-		wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("km"));
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("km"));
 		break;
 	case 2:
 		intunit = (int)((tempunit*10 / 1.609) + 0.5);
-		wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("miles"));
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("miles"));
 		break;
 	default:
-		strcpy(str, tempchar);
+		_tcscpy(str, tempchar);
 		break;
 	}
 }
@@ -283,7 +273,7 @@ void GetDist(char *tempchar, char *unit, char *str)
 // tempchar = the string containing the elevation value
 // unit = the unit for elevation
 // return value = the converted elevation with unit; if fail, return original string
-void GetElev(char *tempchar, char *unit, char *str) 
+void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str) 
 {
 	// unit can be ft, m
 	double tempunit = 0, output;
@@ -291,32 +281,31 @@ void GetElev(char *tempchar, char *unit, char *str)
 
 	// convert the string to a floating point number (always positive)
 	// if it end up with 0, then it's not a number, return the original string and quit
-	output = atof(tempchar);
-	if (output == 0)
-	{
-		strcpy(str, tempchar);
+	output = _ttof(tempchar);
+	if (output == 0) {
+		_tcscpy(str, tempchar);
 		return;
 	}
 
 	// convert all to m first
-	if (!_stricmp(unit, "M"))
+	if (!_tcsicmp(unit, _T("M")))
 		tempunit = (double)output;
-	else if (!_stricmp(unit, "FT"))
+	else if (!_tcsicmp(unit, _T("FT")))
 		tempunit = (double)output / 3.28;
 
 	// convert to apporiate unit
 	switch (opt.eUnit) {
-		case 1:
-			intunit = (int)((tempunit*10 * 3.28) + 0.5);
-			wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("ft"));
-			break;
-		case 2:
-			intunit = (int)((tempunit*10) + 0.5);
-			wsprintf(str, "%i.%i %s", intunit/10, intunit%10, opt.DoNotAppendUnit ? "" : Translate("m"));
-			break;
-		default:
-			strcpy(str, tempchar);
-			break;
+	case 1:
+		intunit = (int)((tempunit*10 * 3.28) + 0.5);
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("ft"));
+		break;
+	case 2:
+		intunit = (int)((tempunit*10) + 0.5);
+		wsprintf(str, _T("%i.%i %s"), intunit/10, intunit%10, opt.DoNotAppendUnit ? _T("") : TranslateT("m"));
+		break;
+	default:
+		_tcscpy(str, tempchar);
+		break;
 	}
 }
 
@@ -326,123 +315,93 @@ void GetElev(char *tempchar, char *unit, char *str)
 // the description may be different between different sources
 // cond = the string for weather condition
 // return value = status for the icon (ONLINE, OFFLINE, etc)
-WORD GetIcon(const char* cond, WIDATA *Data) 
+
+static const TCHAR *statusStr[10] = { _T("Lightning"), _T("Fog"), _T("Snow Shower"), _T("Snow"), _T("Rain Shower"), _T("Rain"), _T("Partly Cloudy"), _T("Cloudy"), _T("Sunny"), _T("N/A") };
+static const WORD statusValue[10] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
+
+WORD GetIcon(const TCHAR* cond, WIDATA *Data) 
 {
 	int i;
 
-	static const 
-		char *statusStr[10] = 
-	{
-		"Lightning",
-		"Fog",
-		"Snow Shower",
-		"Snow",
-		"Rain Shower", 
-		"Rain",
-		"Partly Cloudy",
-		"Cloudy",
-		"Sunny",
-		"N/A"
-	};
-
-	static const 
-		WORD statusValue[10] = 
-	{
-		LIGHT,
-		FOG,
-		SSHOWER,
-		SNOW,
-		RSHOWER,
-		RAIN,
-		PCLOUDY,
-		CLOUDY,
-		SUNNY,
-		NA
-	};
-
 	// set the icon using ini
-	for (i=0; i<10; i++) {
-		if (IsContainedInCondList(cond, &Data->CondList[i]))
+	for (i=0; i<10; i++)
+		if ( IsContainedInCondList(cond, &Data->CondList[i]))
 			return statusValue[i];
-	}
 
 	// internal detection
 	if (
-		strstr(cond, "mainy sunny") != NULL ||
-		strstr(cond, "mainy clear") != NULL ||
-		strstr(cond, "partly cloudy") != NULL ||
-		strstr(cond, "mostly") != NULL ||
-		strstr(cond, "clouds") != NULL) {
+		_tcsstr(cond, _T("mainy sunny")) != NULL ||
+		_tcsstr(cond, _T("mainy clear")) != NULL ||
+		_tcsstr(cond, _T("partly cloudy")) != NULL ||
+		_tcsstr(cond, _T("mostly")) != NULL ||
+		_tcsstr(cond, _T("clouds")) != NULL) {
 			return PCLOUDY;
 	}
 	else if (
-		strstr(cond, "sunny") != NULL ||
-		strstr(cond, "clear") != NULL ||
-		strstr(cond, "fair") != NULL) {
+		_tcsstr(cond, _T("sunny")) != NULL ||
+		_tcsstr(cond, _T("clear")) != NULL ||
+		_tcsstr(cond, _T("fair")) != NULL) {
 			return SUNNY;
 	}
 	else if (
-		strstr(cond, "thunder") != NULL || 
-		strstr(cond, "t-storm") != NULL) {
+		_tcsstr(cond, _T("thunder")) != NULL || 
+		_tcsstr(cond, _T("t-storm")) != NULL) {
 			return LIGHT;
 	}
 	else if (
-		strstr(cond, "cloud") != NULL ||
-		strstr(cond, "overcast") != NULL) {
+		_tcsstr(cond, _T("cloud")) != NULL ||
+		_tcsstr(cond, _T("overcast")) != NULL) {
 			return CLOUDY;
 	}
 	else if (
-		strstr(cond, "fog") != NULL ||
-		strstr(cond, "mist") != NULL ||
-		strstr(cond, "smoke") != NULL ||
-		strstr(cond, "sand") != NULL ||
-		strstr(cond, "dust") != NULL ||
-		strstr(cond, "haze") != NULL) {
+		_tcsstr(cond, _T("fog")) != NULL ||
+		_tcsstr(cond, _T("mist")) != NULL ||
+		_tcsstr(cond, _T("smoke")) != NULL ||
+		_tcsstr(cond, _T("sand")) != NULL ||
+		_tcsstr(cond, _T("dust")) != NULL ||
+		_tcsstr(cond, _T("haze")) != NULL) {
 			return FOG;
 	}
 	else if (
-		(strstr(cond, "shower") != NULL && strstr(cond, "snow") != NULL) ||
-		strstr(cond, "flurries") != NULL) {
+		(_tcsstr(cond, _T("shower")) != NULL && _tcsstr(cond, _T("snow")) != NULL) ||
+		_tcsstr(cond, _T("flurries")) != NULL) {
 			return SSHOWER;
 	}
 	else if (
-		strstr(cond, "rain shower") != NULL ||
-		strstr(cond, "shower") != NULL) 
+		_tcsstr(cond, _T("rain shower")) != NULL ||
+		_tcsstr(cond, _T("shower")) != NULL) 
 	{
 		return RSHOWER;
 	}
 	else if (
-		strstr(cond, "snow") != NULL ||
-		strstr(cond, "ice") != NULL ||
-		strstr(cond, "freezing") != NULL ||
-		strstr(cond, "wintry") != NULL) {
+		_tcsstr(cond, _T("snow")) != NULL ||
+		_tcsstr(cond, _T("ice")) != NULL ||
+		_tcsstr(cond, _T("freezing")) != NULL ||
+		_tcsstr(cond, _T("wintry")) != NULL) {
 			return SNOW;
 	}
 	else if (
-		strstr(cond, "drizzle") != NULL ||
-		strstr(cond, "rain") != NULL) 
+		_tcsstr(cond, _T("drizzle")) != NULL ||
+		_tcsstr(cond, _T("rain")) != NULL) 
 	{
 		return RAIN;
 	}
 
 	// set the icon using langpack
-	for (i=0; i<9; i++) 
-	{
-		char LangPackStr[64];
-		char LangPackStr1[128];
+	for (i=0; i < 9; i++) {
+		TCHAR LangPackStr[64], LangPackStr1[128];
 		int j = 0;
-		do 
-		{
+		do {
 			j++;
-			// using the format "# Weather <condition name> <counter> #"
-			mir_snprintf(LangPackStr, sizeof(LangPackStr), "# Weather %s %i #", statusStr[i], j);
-			mir_snprintf(LangPackStr1, sizeof(LangPackStr1), "%s", Translate(LangPackStr));
-			CharLowerBuff(LangPackStr1, (DWORD)strlen(LangPackStr1));
-			if (strstr(cond, LangPackStr1) != NULL)
+			// using the format _T("# Weather <condition name> <counter> #"
+			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #"), statusStr[i], j);
+			mir_sntprintf(LangPackStr1, SIZEOF(LangPackStr1), _T("%s"), TranslateTS(LangPackStr));
+			CharLowerBuff(LangPackStr1, _tcslen(LangPackStr1));
+			if (_tcsstr(cond, LangPackStr1) != NULL)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
 		} 
-		while (strcmp(Translate(LangPackStr), LangPackStr));
+			while ( _tcscmp(TranslateTS(LangPackStr), LangPackStr));
 	}
 
 	return NA;
@@ -451,59 +410,62 @@ WORD GetIcon(const char* cond, WIDATA *Data)
 //============  STRING CONVERSIONS  ============
 
 // this function convert the string to the format with 1 upper case followed by lower case char
-void CaseConv(char *str) 
+void CaseConv(TCHAR *str) 
 {
-	char *pstr;
+	TCHAR *pstr;
 	BOOL nextUp = TRUE;
 
-	CharLowerBuff(str, (DWORD)strlen(str));
-	for(pstr=str; *pstr; pstr++) 
-	{
+	CharLowerBuff(str, _tcslen(str));
+	for(pstr = str; *pstr; pstr++) {
 		if (*pstr==' ' || *pstr=='-')
 			nextUp = TRUE;
-		else 
-		{
-			unsigned ch = *(unsigned char*)pstr;
-			if (nextUp)	*pstr = (char)(unsigned)CharUpper((LPSTR)ch);
+		else {
+			TCHAR ch = *(TCHAR*)pstr;
+			if (nextUp)
+				*pstr = ( TCHAR )CharUpper((LPTSTR)ch);
 			nextUp = FALSE;
-		}
-	}
-}
+}	}	}
 
 // the next 2 functions are copied from miranda source
 // str = the string to modify
+
 void TrimString(char *str) 
 {
 	size_t len, start;
 
 	len = strlen(str);
 	while(len && (unsigned char)str[len-1] <= ' ') str[--len] = 0;
-	for(start=0; (unsigned char)str[start]<=' ' && str[start]; start++);
+	for(start=0; (unsigned char)str[start] <= ' ' && str[start]; start++);
 	memmove(str, str+start, len-start+1);
+}
+
+void TrimString(WCHAR *str) 
+{
+	size_t len, start;
+
+	len = wcslen(str);
+	while(len && (unsigned char)str[len-1] <= ' ') str[--len] = 0;
+	for(start=0; (unsigned char)str[start] <= ' ' && str[start]; start++);
+	memmove(str, str+start, (len-start+1)*sizeof(WCHAR));
 }
 
 // convert \t to tab and \n to linefeed
 void ConvertBackslashes(char *str) 
 {
 	char *pstr;
-	for(pstr=str;*pstr;pstr=CharNext(pstr)) 
-	{
-		if(*pstr=='\\') 
-		{
-			switch(pstr[1]) 
-			{
-			case 'n': *pstr='\n'; break;
-			case 't': *pstr='\t'; break;
-			default: *pstr=pstr[1]; break;
+	for( pstr=str; *pstr; pstr = CharNextA(pstr)) {
+		if (*pstr=='\\') {
+			switch(pstr[1]) {
+				case 'n': *pstr='\n'; break;
+				case 't': *pstr='\t'; break;
+				default: *pstr=pstr[1]; break;
 			}
-			memmove(pstr+1,pstr+2,strlen(pstr+2)+1);
-		}
-	}
-}
+			memmove(pstr+1, pstr+2, strlen(pstr+2)+1);
+}	}	}
 
-// replace spaces with "%20"
+// replace spaces with _T("%20"
 // dis = original string
-// return value = the modified string with space -> "%20"
+// return value = the modified string with space -> _T("%20"
 char *GetSearchStr(char *dis) 
 {
 	char *pstr = dis;
@@ -513,7 +475,7 @@ char *GetSearchStr(char *dis)
 		if (*pstr == ' ')
 		{
 			memmove(pstr+3, pstr+1, len);
-			memcpy(pstr, "%20", 3);
+			memcpy(pstr, _T("%20"), 3);
 			pstr += 2;
 		}
 		pstr++;
@@ -528,9 +490,10 @@ char *GetSearchStr(char *dis)
 // w = WEATHERINFO data to be parsed
 // dis = the string to parse
 // return value = the parsed string
-char* GetDisplay(WEATHERINFO *w, const char *dis, char* str) 
+TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str) 
 {
-	char lpzDate[32], chr, name[256], temp[2];
+	TCHAR lpzDate[32], chr;
+	char name[256], temp[2];
 	DBVARIANT dbv;
 	size_t i;
 
@@ -538,21 +501,19 @@ char* GetDisplay(WEATHERINFO *w, const char *dis, char* str)
 	str[0] = 0;
 
 	// looking character by character
-	for (i=0; i<strlen(dis); i++) 
-	{
+	for (i=0; i < _tcslen(dis); i++) {
 		// for the escape characters
-		if (dis[i] == '\\') 
-		{
+		if (dis[i] == '\\') {
 			i++;
 			chr = dis[i];
-			switch (chr) 
-			{
-			case '%': strcat(str, "%"); break;
-			case 't': strcat(str, "\t"); break;
-			case 'n': strcat(str, "\r\n"); break;
-			case '\\': strcat(str, "\\"); break;
-			}
+			switch (chr) {
+				case '%': _tcscat(str, _T("%")); break;
+				case 't': _tcscat(str, _T("\t")); break;
+				case 'n': _tcscat(str, _T("\r\n")); break;
+				case '\\': _tcscat(str, _T("\\")); break;
+			}	
 		}
+
 		// for the % varaibles
 		else if (dis[i] == '%') 
 		{
@@ -561,62 +522,60 @@ char* GetDisplay(WEATHERINFO *w, const char *dis, char* str)
 			// turn capitalized characters to small case
 			if (chr < 'a' && chr != '[' && chr != '%') chr = (char)((int)chr + 32);
 			switch (chr) {
-			case 'c': strcat(str, w->cond); break;
+			case 'c': _tcscat(str, w->cond); break;
 			case 'd':	// get the current date
-				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, sizeof(lpzDate));
-				strcat(str, lpzDate); break;
-			case 'e': strcat(str, w->dewpoint); break;
-			case 'f': strcat(str, w->feel); break;
-			case 'h': strcat(str, w->high); break;
-			case 'i': strcat(str, w->winddir); break;
-			case 'l': strcat(str, w->low); break;
-			case 'm': strcat(str, w->humid); break;
-			case 'n': strcat(str, w->city); break;
-			case 'p': strcat(str, w->pressure); break;
-			case 'r': strcat(str, w->sunrise); break;
-			case 's': strcat(str, w->id); break;
-			case 't': strcat(str, w->temp); break;
+				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, lpzDate, SIZEOF(lpzDate));
+				_tcscat(str, lpzDate); break;
+			case 'e': _tcscat(str, w->dewpoint); break;
+			case 'f': _tcscat(str, w->feel); break;
+			case 'h': _tcscat(str, w->high); break;
+			case 'i': _tcscat(str, w->winddir); break;
+			case 'l': _tcscat(str, w->low); break;
+			case 'm': _tcscat(str, w->humid); break;
+			case 'n': _tcscat(str, w->city); break;
+			case 'p': _tcscat(str, w->pressure); break;
+			case 'r': _tcscat(str, w->sunrise); break;
+			case 's': _tcscat(str, w->id); break;
+			case 't': _tcscat(str, w->temp); break;
 			case 'u':
-				if (strcmp(w->update, NODATA))	strcat(str, w->update);
-				else	strcat(str, Translate("<unknown time>"));
+				if (_tcscmp(w->update, NODATA))	_tcscat(str, w->update);
+				else	_tcscat(str, TranslateT("<unknown time>"));
 				break;
-			case 'v': strcat(str, w->vis); break;
-			case 'w': strcat(str, w->wind); break;
-			case 'y': strcat(str, w->sunset); break;
-			case '%': strcat(str, "%"); break;
+			case 'v': _tcscat(str, w->vis); break;
+			case 'w': _tcscat(str, w->wind); break;
+			case 'y': _tcscat(str, w->sunset); break;
+			case '%': _tcscat(str, _T("%")); break;
 			case '[':	// custom variables 
 				i++;
 				name[0] = 0;
 				// read the entire variable name
-				while (dis[i] != ']' && i < strlen(dis)) {
-					wsprintf(temp, "%c", dis[i++]);
+				while (dis[i] != ']' && i < _tcslen(dis)) {
+					wsprintfA(temp, "%c", dis[i++]);
 					strcat(name, temp);
 				}
 				// access the database to get its value
-				if (!DBGetContactSettingString(w->hContact, WEATHERCONDITION, name, &dbv))
-				{
-					if (dbv.pszVal != Translate(NODATA) && dbv.pszVal != Translate("<Error>"))	
-						strcat(str, dbv.pszVal);
+				if ( !DBGetContactSettingTString(w->hContact, WEATHERCONDITION, name, &dbv)) {
+					if (dbv.ptszVal != TranslateTS(NODATA) && dbv.ptszVal != TranslateT("<Error>"))	
+						_tcscat(str, dbv.ptszVal);
 					DBFreeVariant(&dbv);
 				}
 				break;
 			}
 		}
 		// if the character is not a variable, write the original character to the new string
-		else 
-		{
-			wsprintf(temp, "%c", dis[i]);
-			strcat(str, temp);
-		}
-	}
+		else {
+			wsprintf( lpzDate, _T("%c"), dis[i]);
+			_tcscat(str, lpzDate);
+	}	}
+
 	return str;
 }
 
-char svcReturnText[MAX_TEXT_SIZE];
+TCHAR svcReturnText[MAX_TEXT_SIZE];
 INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam) 
 {
 	WEATHERINFO winfo = LoadWeatherInfo((HANDLE)wParam);
-	return (INT_PTR)GetDisplay(&winfo, (char *)lParam, svcReturnText);
+	return (INT_PTR)GetDisplay(&winfo, (TCHAR*)lParam, svcReturnText);
 }
 
 //============  ID MANAGEMENT  ============
@@ -624,11 +583,9 @@ INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam)
 // get service data module internal name
 //   mod/id  <- the mod part
 // pszID = original 2-part id, return the service internal name
-void GetSvc(char *pszID) 
+void GetSvc(TCHAR *pszID) 
 {
-	char *chop;
-
-	chop = strstr(pszID, "/");
+	TCHAR *chop = _tcsstr(pszID, _T("/"));
 	if (chop != NULL)	*chop = '\0';
 	else				pszID[0] = 0;
 }
@@ -636,12 +593,10 @@ void GetSvc(char *pszID)
 // get the id use for update without the service internal name
 //   mod/id  <- the id part
 // pszID = original 2-part id, return the single part id
-void GetID(char *pszID) 
+void GetID(TCHAR *pszID) 
 {
-	char *chop;
-
-	chop = strstr(pszID, "/");
-	if (chop != NULL)	strcpy(pszID, chop+1);
+	TCHAR *chop = _tcsstr(pszID, _T("/"));
+	if (chop != NULL)	_tcscpy(pszID, chop+1);
 	else				pszID[0] = 0;
 }
 
@@ -651,11 +606,10 @@ void GetID(char *pszID)
 // code = the error code obtained when updating weather
 // str = the string for the error
 
-char *GetError(int code) 
+TCHAR *GetError(int code) 
 {
-	char *str, str2[100];
-	switch (code)
-	{
+	TCHAR *str, str2[100];
+	switch (code) {
 	case 10:	str = E10; break;
 	case 11:	str = E11; break;
 	case 12:	str = E12; break;
@@ -682,7 +636,7 @@ char *GetError(int code)
 	case 503:	str = E503; break;
 	case 504:	str = E504; break;
 	default:
-		mir_snprintf(str2, sizeof(str2), Translate("HTTP Error %i"), code);
+		mir_sntprintf(str2, SIZEOF(str2), TranslateT("HTTP Error %i"), code);
 		str = str2;
 		break;
 	}
@@ -697,142 +651,12 @@ LPWSTR ConvToUnicode(LPCSTR str2)
 	return res;
 }
 
-typedef BOOL (WINAPI *ft_SetDlgItemTextW) (
-	HWND hDlg,
-	int nIDDlgItem,
-	LPCWSTR lpString
-	);
-
-typedef BOOL (WINAPI *ft_SetWindowTextW) (
-	HWND hWnd,
-	LPCWSTR lpString
-	);
-
-typedef UINT (WINAPI *ft_GetDlgItemTextW) (
-	HWND hDlg,
-	int nIDDlgItem,
-	LPWSTR lpString,
-	int nMaxCount
-	);
-
-static ft_GetDlgItemTextW f_GetDlgItemTextW = NULL;
-static ft_SetDlgItemTextW f_SetDlgItemTextW = NULL;
-static ft_SetWindowTextW  f_SetWindowTextW = NULL;
-
 unsigned lpcp;
 
 void InitUniConv(void)
 {
-	HMODULE hUser = GetModuleHandle("user32.dll");
-	f_GetDlgItemTextW = (ft_GetDlgItemTextW)GetProcAddress(hUser, "GetDlgItemTextW");
-	f_SetDlgItemTextW = (ft_SetDlgItemTextW)GetProcAddress(hUser, "SetDlgItemTextW");
-	f_SetWindowTextW  = (ft_SetWindowTextW) GetProcAddress(hUser, "SetWindowTextW");
-
 	lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	if (lpcp == CALLSERVICE_NOTFOUND || lpcp == GetUserDefaultLangID()) 
 		lpcp = CP_ACP;
 }
 
-UINT GetDlgItemTextWth(HWND hDlg, int nIDDlgItem, LPSTR lpString, int nMaxCount)
-{
-	UINT res;
-
-	if (lpcp != CP_ACP && f_GetDlgItemTextW != NULL)
-	{
-		LPWSTR m_psz = ( LPWSTR )mir_alloc(sizeof(WCHAR) * nMaxCount);
-		res = f_GetDlgItemTextW(hDlg, nIDDlgItem, m_psz, nMaxCount);
-		WideCharToMultiByte( lpcp, 0, m_psz, -1, lpString, nMaxCount, NULL, NULL );
-		mir_free(m_psz);
-	}
-	else
-		res = GetDlgItemText(hDlg, nIDDlgItem, lpString, nMaxCount);
-
-	return res;
-}
-
-BOOL SetDlgItemTextWth(HWND hDlg, int nIDDlgItem, LPCSTR lpString)
-{
-	BOOL res;
-
-	if (lpcp != CP_ACP && f_SetDlgItemTextW != NULL)
-	{
-		LPWSTR m_psz = ConvToUnicode(lpString);
-		res = f_SetDlgItemTextW(hDlg, nIDDlgItem, m_psz);
-		mir_free(m_psz);
-	}
-	else
-		res = SetDlgItemText(hDlg, nIDDlgItem, lpString);
-
-	return res;
-}
-
-BOOL SetWindowTextWth(HWND hWnd, LPCSTR lpString)
-{
-	BOOL res;
-
-	if (lpcp != CP_ACP && f_SetWindowTextW != NULL)
-	{
-		LPWSTR m_psz = ConvToUnicode(lpString);
-		res = f_SetWindowTextW(hWnd, m_psz);
-		mir_free(m_psz);
-	}
-	else
-		res = SetWindowText(hWnd, lpString);
-
-	return res;
-}
-
-void ListView_SetItemTextWth(HWND hwndLV, int i, int iSubItem_, LPSTR pszText_)
-{
-	LV_ITEM _ms_lvi;
-	_ms_lvi.iSubItem = iSubItem_;
-
-	if (lpcp != CP_ACP)
-	{
-		LPWSTR m_psz = ConvToUnicode(pszText_);
-		_ms_lvi.pszText = (LPSTR)m_psz;
-		SendMessage(hwndLV, LVM_SETITEMTEXTW, (WPARAM)(i), (LPARAM)&_ms_lvi);
-		mir_free(m_psz);
-	}
-	else
-	{
-		_ms_lvi.pszText = pszText_;
-		SendMessage(hwndLV, LVM_SETITEMTEXTA, (WPARAM)(i), (LPARAM)&_ms_lvi);
-	}
-}
-
-int ListView_InsertItemWth(HWND hwnd, LV_ITEM *pitem)
-{
-	int res;
-	if (lpcp != CP_ACP)
-	{
-		LPSTR otxt = pitem->pszText;
-		LPWSTR m_psz = ConvToUnicode(otxt);
-		pitem->pszText = (LPSTR)m_psz;
-		res = SendMessage(hwnd, LVM_INSERTITEMW, 0, (LPARAM)pitem);
-		mir_free(m_psz);
-		pitem->pszText = otxt;
-	}
-	else
-		res = SendMessage(hwnd, LVM_INSERTITEMA, 0, (LPARAM)pitem);
-
-	return res;
-}
-
-int ListView_InsertColumnWth(HWND hwnd, int iCol, LV_COLUMN *pitem)
-{
-	int res;
-	if (lpcp != CP_ACP)
-	{
-		LPSTR otxt = pitem->pszText;
-		LPWSTR m_psz = ConvToUnicode(otxt);
-		pitem->pszText = (LPSTR)m_psz;
-		res = SendMessage(hwnd, LVM_INSERTCOLUMNW, iCol, (LPARAM)pitem);
-		mir_free(m_psz);
-		pitem->pszText = otxt;
-	}
-	else
-		res = SendMessage(hwnd, LVM_INSERTCOLUMNA, iCol, (LPARAM)pitem);
-
-	return res;
-}

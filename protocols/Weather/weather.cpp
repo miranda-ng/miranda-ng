@@ -60,7 +60,6 @@ BOOL ModuleLoaded;
 struct MM_INTERFACE   mmi;
 struct UTF8_INTERFACE utfi;
 
-
 PLUGINLINK *pluginLink;
 
 // plugin info
@@ -87,7 +86,7 @@ static const PLUGININFOEX pluginInfoEx =
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
 	if (mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,0)) {
-		MessageBox(NULL, "Weather Protocol requires Miranda 0.8.0.0 or later to run.", "Weather Protocol", MB_OK|MB_ICONERROR|MB_APPLMODAL);
+		MessageBoxA(NULL, "Weather Protocol requires Miranda 0.8.0.0 or later to run.", "Weather Protocol", MB_OK|MB_ICONERROR|MB_APPLMODAL);
 		return NULL;
 	}
 	// if Miranda version is higher than 0.7.0
@@ -206,7 +205,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyMwin();
 	DestroyWindow(hPopupWindow);
 
-	for (i = sizeof(hHooks)/sizeof(HANDLE); i--; )
+	for (i = SIZEOF(hHooks); i--; )
 		UnhookEvent(hHooks[i]);
 
 	DestroyHookableEvent(hHookWeatherUpdated);
@@ -229,7 +228,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
 {
 	PROTOCOLDESCRIPTOR pd = {0};
-	char SvcFunc[100];
 	DWORD lastver;
 
 	pluginLink = link;
@@ -297,9 +295,9 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	SkinAddNewSound("weatheralert", Translate("Weather Alert Issued"), "");
 
 	// window needed for popup commands
-	strcpy(SvcFunc, WEATHERPROTONAME);
-	strcat(SvcFunc, "_PopupWindow");
-	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW,"static",SvcFunc,0,CW_USEDEFAULT,CW_USEDEFAULT,
+	TCHAR SvcFunc[100];
+	mir_sntprintf( SvcFunc, SIZEOF(SvcFunc), _T("%s__PopupWindow"), _T(WEATHERPROTONAME));
+	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW,_T("static"),SvcFunc,0,CW_USEDEFAULT,CW_USEDEFAULT,
 		CW_USEDEFAULT,CW_USEDEFAULT,HWND_DESKTOP,NULL,hInst,NULL);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 

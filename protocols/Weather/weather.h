@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LIST_COLUMN		150
 
 // others
-#define NODATA			Translate("N/A")
+#define NODATA			TranslateT("N/A")
 #define UM_SETCONTACT	40000
 
 // weather update error codes
@@ -100,15 +100,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define	UNKNOWN_ERROR		99
 
 // weather update error text
-#define E10		Translate("Invalid ID format, missing \"/\" (10)")
-#define E11		Translate("Invalid service (11)")
-#define E12		Translate("Invalid station (12)")
-#define E20		Translate("Weather service ini for this station is not found (20)")
-#define E30		Translate("Netlib error - check your internet connection (30)")
-#define E40		Translate("Empty data is retrieved (40)")
-#define E42		Translate("Document not found (42)")
-#define E43		Translate("Document too short to contain any weather data (43)")
-#define E99		Translate("Unknown error (99)")
+#define E10		TranslateT("Invalid ID format, missing \"/\" (10)")
+#define E11		TranslateT("Invalid service (11)")
+#define E12		TranslateT("Invalid station (12)")
+#define E20		TranslateT("Weather service ini for this station is not found (20)")
+#define E30		TranslateT("Netlib error - check your internet connection (30)")
+#define E40		TranslateT("Empty data is retrieved (40)")
+#define E42		TranslateT("Document not found (42)")
+#define E43		TranslateT("Document too short to contain any weather data (43)")
+#define E99		TranslateT("Unknown error (99)")
 
 // HTTP error... not all translated
 // 100 Continue 
@@ -117,28 +117,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 201 Created 
 // 202 Accepted 
 // 203 Non-Authoritative Information 
-#define E204	Translate("HTTP Error: No content (204)")
+#define E204	TranslateT("HTTP Error: No content (204)")
 // 205 Reset Content 
 // 206 Partial Content 
 // 300 Multiple Choices 
-#define E301	Translate("HTTP Error: Data moved (301)")
+#define E301	TranslateT("HTTP Error: Data moved (301)")
 // 302 Found 
 // 303 See Other 
 // 304 Not Modified 
-#define E305	Translate("HTTP Error: Use proxy (305)")
+#define E305	TranslateT("HTTP Error: Use proxy (305)")
 // 306 (Unused) 
-#define E307	Translate("HTTP Error: Temporary redirect (307)")
-#define E400	Translate("HTTP Error: Bad request (400)")
-#define E401	Translate("HTTP Error: Unauthorized (401)")
-#define E402	Translate("HTTP Error: Payment required (402)")
-#define E403	Translate("HTTP Error: Forbidden (403)")
-#define E404	Translate("HTTP Error: Not found (404)")
-#define E405	Translate("HTTP Error: Method not allowed (405)")
+#define E307	TranslateT("HTTP Error: Temporary redirect (307)")
+#define E400	TranslateT("HTTP Error: Bad request (400)")
+#define E401	TranslateT("HTTP Error: Unauthorized (401)")
+#define E402	TranslateT("HTTP Error: Payment required (402)")
+#define E403	TranslateT("HTTP Error: Forbidden (403)")
+#define E404	TranslateT("HTTP Error: Not found (404)")
+#define E405	TranslateT("HTTP Error: Method not allowed (405)")
 // 406 Not Acceptable 
-#define E407	Translate("HTTP Error: Proxy authentication required (407)")
+#define E407	TranslateT("HTTP Error: Proxy authentication required (407)")
 // 408 Request Timeout 
 // 409 Conflict 
-#define E410	Translate("HTTP Error: Gone (410)")
+#define E410	TranslateT("HTTP Error: Gone (410)")
 // 411 Length Required 
 // 412 Precondition Failed 
 // 413 Request Entity Too Large 
@@ -146,11 +146,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 415 Unsupported Media Type 
 // 416 Requested Range Not Satisfiable 
 // 417 Expectation Failed 
-#define E500	Translate("HTTP Error: Internal server error (500)")
+#define E500	TranslateT("HTTP Error: Internal server error (500)")
 // 501 Not Implemented 
-#define E502	Translate("HTTP Error: Bad gateway (502)")
-#define E503	Translate("HTTP Error: Service unavailable (503)")
-#define E504	Translate("HTTP Error: Gateway timeout (504)")
+#define E502	TranslateT("HTTP Error: Bad gateway (502)")
+#define E503	TranslateT("HTTP Error: Service unavailable (503)")
+#define E504	TranslateT("HTTP Error: Gateway timeout (504)")
 // 505 HTTP Version Not Supported 
 
 // defaults constants
@@ -188,18 +188,18 @@ typedef struct {
 	WORD pUnit;
 	WORD dUnit;
 	WORD eUnit;
-	char DegreeSign[4];
+	TCHAR DegreeSign[4];
 	BOOL DoNotAppendUnit;
     BOOL NoFrac;
 // texts
-	char *cText;
-	char *bTitle;
-	char *bText;
-	char *nText;
-	char *eText;
-	char *hText;
-	char *xText;
-	char *sText;
+	TCHAR *cText;
+	TCHAR *bTitle;
+	TCHAR *bText;
+	TCHAR *nText;
+	TCHAR *eText;
+	TCHAR *hText;
+	TCHAR *xText;
+	TCHAR *sText;
 // advanced
 	BOOL DisCondIcon;
 // popup options
@@ -218,10 +218,10 @@ typedef struct {
 // popup delay
 	DWORD pDelay;
 // popup texts
-	char *pTitle;
-	char *pText;
+	TCHAR *pTitle;
+	TCHAR *pText;
 // other misc stuff
-	char Default[64];
+	TCHAR Default[64];
 	HANDLE DefStn;
 } MYOPTIONS;
 
@@ -248,12 +248,12 @@ void DestroyUpdateList(void);
 #define WID_BREAK	2
 
 typedef struct {
-	char *Name;
-	char *Start;
-	char *End;
-	char *Unit;
-	char *Url;
-	char *Break;
+	TCHAR *Name;
+	TCHAR *Start;
+	TCHAR *End;
+	TCHAR *Unit;
+	char  *Url;
+	TCHAR *Break;
 	int Type;
 } WIDATAITEM;
 
@@ -267,27 +267,27 @@ typedef struct WITEMLIST WIDATAITEMLIST;
 typedef struct {
 	BOOL Available;
 	char *SearchURL;
-	char *NotFoundStr;
+	TCHAR *NotFoundStr;
 	WIDATAITEM Name;
 } WIIDSEARCH;
 
 typedef struct {
 	BOOL Available;
-	char *First;
+	TCHAR *First;
 	WIDATAITEM Name;
 	WIDATAITEM ID;
 } WINAMESEARCHTYPE;
 
 typedef struct {
 	char *SearchURL;
-	char *NotFoundStr;
-	char *SingleStr;
+	TCHAR *NotFoundStr;
+	TCHAR *SingleStr;
 	WINAMESEARCHTYPE Single;
 	WINAMESEARCHTYPE Multiple;
 } WINAMESEARCH;
 
 struct STRLIST {
-	char *Item;
+	TCHAR *Item;
 	struct STRLIST *Next;
 };
 
@@ -299,24 +299,26 @@ typedef struct {
 } WICONDLIST;
 
 typedef struct {
-	char *FileName;
-	char *ShortFileName;
+	TCHAR *FileName;
+	TCHAR *ShortFileName;
 	BOOL Enabled;
-// header
-	char *DisplayName;
-	char *InternalName;
-	char *Description;
-	char *Author;
-	char *Version;
+
+	// header
+	TCHAR *DisplayName;
+	TCHAR *InternalName;
+	TCHAR *Description;
+	TCHAR *Author;
+	TCHAR *Version;
 	int InternalVer;
 	size_t MemUsed;
-// default
-	char *DefaultURL;
-	char *DefaultMap;
-	char *UpdateURL;
-	char *UpdateURL2;
-	char *UpdateURL3;
-	char *UpdateURL4;
+
+	// default
+	char  *DefaultURL;
+	TCHAR *DefaultMap;
+	char  *UpdateURL;
+	char  *UpdateURL2;
+	char  *UpdateURL3;
+	char  *UpdateURL4;
 	char *Cookie;
 // items
 	int UpdateDataCount;
@@ -371,8 +373,8 @@ void UpgradeContact(DWORD lastver, HANDLE hContact);
 INT_PTR WeatherAddToList(WPARAM wParam,LPARAM lParam);
 BOOL CheckSearch();
 
-int IDSearch(char *id, const int searchId);
-int NameSearch(char *name, const int searchId);
+int IDSearch(TCHAR *id, const int searchId);
+int NameSearch(TCHAR *name, const int searchId);
 
 INT_PTR WeatherBasicSearch(WPARAM wParam,LPARAM lParam);
 INT_PTR WeatherCreateAdvancedSearchUI(WPARAM wParam, LPARAM lParam);
@@ -398,60 +400,58 @@ BOOL is_number(char *s);
 extern unsigned lpcp;
 void InitUniConv(void);
 LPWSTR ConvToUnicode(LPCSTR str2);
-UINT GetDlgItemTextWth(HWND hDlg, int nIDDlgItem, LPSTR lpString, int nMaxCount);
-BOOL SetDlgItemTextWth(HWND hDlg, int nIDDlgItem, LPCSTR lpString);
-BOOL SetWindowTextWth(HWND hWnd, LPCSTR lpString);
-void ListView_SetItemTextWth(HWND hwndLV, int i, int iSubItem_, LPSTR pszText_);
-int ListView_InsertItemWth(HWND hwnd, LV_ITEM *pitem);
-int ListView_InsertColumnWth(HWND hwnd, int iCol, LV_COLUMN *pitem);
 
-void GetTemp(char *tempchar, char *unit, char *str);
-void GetSpeed(char *tempchar, char *unit, char *str);
-void GetPressure(char *tempchar, char *unit, char *str);
-void GetDist(char *tempchar, char *unit, char *str);
-void GetElev(char *tempchar, char *unit, char *str);
+void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
+void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
+void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
+void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
+void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str);
 
-WORD GetIcon(const char* cond, WIDATA *Data);
-void CaseConv(char *str);
+WORD GetIcon(const TCHAR* cond, WIDATA *Data);
+void CaseConv(TCHAR *str);
 void TrimString(char *str);
+void TrimString(WCHAR *str);
 void ConvertBackslashes(char *str);
 char *GetSearchStr(char *dis);
 
-char *GetDisplay(WEATHERINFO *w, const char *dis, char* str);
+TCHAR *GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str);
 INT_PTR GetDisplaySvcFunc(WPARAM wParam, LPARAM lParam);
 
-void GetSvc(char *pszID);
-void GetID(char *pszID);
+void GetSvc(TCHAR *pszID);
+void GetID(TCHAR *pszID);
 
-char *GetError(int code);
+TCHAR *GetError(int code);
 
 // functions in weather_data.c
-void GetStationID(HANDLE hContact, char* id, size_t idlen);
+void GetStationID(HANDLE hContact, TCHAR* id, size_t idlen);
 WEATHERINFO LoadWeatherInfo(HANDLE Change);
 int DBGetData(HANDLE hContact, char *setting, DBVARIANT *dbv);
-int DBGetStaticString(HANDLE hContact, const char *szModule, const char *valueName, char *dest, size_t dest_len);
+int DBGetStaticString(HANDLE hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len);
 
 void EraseAllInfo(DWORD lastver);
 
-void LoadStationData(char *pszFile, char *pszShortFile, WIDATA *Data);
-void GetDataValue(WIDATAITEM *UpdateData, char *Data, char** szInfo);
-void ConvertDataValue(WIDATAITEM *UpdateData, char *Data);
+void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data);
+void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szInfo);
+void ConvertDataValue(WIDATAITEM *UpdateData, TCHAR *Data);
 void wSetData(char **Data, const char *Value);
+void wSetData(WCHAR **Data, const char *Value);
+void wSetData(WCHAR **Data, const WCHAR *Value);
 void wfree(char **Data);
+void wfree(WCHAR **Data);
 
 void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
 int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam);
 
 // functions in weather_http.c
-int InternetDownloadFile (char *szUrl, char *cookie, char** szData);
+int InternetDownloadFile (char *szUrl, char *cookie, TCHAR** szData);
 void NetlibInit();
 void NetlibHttpDisconnect(void); 
 
 // functions in weather_ini.c
 void WIListAdd(WIDATA Data);
-WIDATA* GetWIData(char *pszServ);
+WIDATA* GetWIData(TCHAR *pszServ);
 
-BOOL IsContainedInCondList(const char *pszStr, WICONDLIST *List);
+BOOL IsContainedInCondList(const TCHAR *pszStr, WICONDLIST *List);
 
 void DestroyWIList();
 BOOL LoadWIData(BOOL dial);
@@ -460,7 +460,7 @@ void FreeWIData(WIDATA *Data);
 INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_info.c
-void GetINIInfo(char *pszSvc);
+void GetINIInfo(TCHAR *pszSvc);
 
 void MoreVarList();
 
@@ -483,7 +483,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 // functions in weather_popup.c
 int WeatherPopup(WPARAM wParam, LPARAM lParam);
 int WeatherError(WPARAM wParam, LPARAM lParam);
-int WPShowMessage(char* lpzText, WORD kind);
+int WPShowMessage(TCHAR* lpzText, WORD kind);
 
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -546,3 +546,30 @@ void InitIcons(void);
 HICON  LoadIconEx(const char* name, BOOL big);
 HANDLE GetIconHandle(const char* name);
 void   ReleaseIconEx(HICON hIcon);
+
+class _A2T
+{
+	TCHAR* buf;
+
+public:
+	_A2T( const char* s ) : buf( mir_a2t( s )) {}
+	_A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
+	~_A2T() { mir_free(buf); }
+
+	__forceinline operator TCHAR*() const
+	{	return buf;
+	}
+};
+
+class _T2A
+{
+	char* buf;
+
+public:
+	_T2A( const TCHAR* s ) : buf( mir_t2a( s )) {}
+	~_T2A() { mir_free(buf); }
+
+	__forceinline operator char*() const
+	{	return buf;
+	}
+};

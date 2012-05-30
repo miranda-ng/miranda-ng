@@ -161,7 +161,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		{
 			RECT r, rc;
 
-			if(GetUpdateRect(hwnd, &r, FALSE)) 
+			if (GetUpdateRect(hwnd, &r, FALSE)) 
 			{
 				DBVARIANT dbv = {0};
 				PAINTSTRUCT ps;
@@ -197,14 +197,13 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					fntc1 = CallService(MS_FONT_GET, (WPARAM)&fntid, (LPARAM)&lfnt1);
 				}
 
-				DBGetContactSettingString(data->hContact, WEATHERCONDITION, "WeatherInfo", &dbv);
+				DBGetContactSettingTString(data->hContact, WEATHERCONDITION, "WeatherInfo", &dbv);
 
 				GetClientRect(hwnd, &rc);
 
 				hdc = BeginPaint(hwnd, &ps);
 
-				if (ServiceExists(MS_SKIN_DRAWGLYPH))
-				{
+				if (ServiceExists(MS_SKIN_DRAWGLYPH)) {
 					SKINDRAWREQUEST rq;
 					memset(&rq, 0, sizeof(rq));
 					rq.hDC = hdc;
@@ -215,8 +214,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0);
 				}
 
-				if (clr != 0xFFFFFFFF)
-				{
+				if (clr != 0xFFFFFFFF) {
 					HBRUSH hBkgBrush = CreateSolidBrush(clr);
 					FillRect(hdc, &rc, hBkgBrush);
 					DeleteObject(hBkgBrush);
@@ -227,26 +225,24 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				SetBkMode(hdc, TRANSPARENT);
 
-				{
-					HFONT hfnt = CreateFontIndirect(&lfnt1);
-					HFONT hfntold = ( HFONT )SelectObject(hdc, hfnt);
-					SIZE fontSize;
+				HFONT hfnt = CreateFontIndirect(&lfnt1);
+				HFONT hfntold = ( HFONT )SelectObject(hdc, hfnt);
+				SIZE fontSize;
 
-					char *nick = (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)data->hContact, 0);
+				TCHAR *nick = ( TCHAR* )CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)data->hContact, GCDNF_TCHAR);
 
-					GetTextExtentPoint32(hdc, _T("|"), 1, &fontSize);
+				GetTextExtentPoint32(hdc, _T("|"), 1, &fontSize);
 
-					rc.top += 1;
-					rc.left += picSize + fontSize.cx;
+				rc.top += 1;
+				rc.left += picSize + fontSize.cx;
 
-					SetTextColor(hdc, fntc1);
-					DrawText(hdc, nick, -1, &rc, DT_LEFT | DT_EXPANDTABS);
+				SetTextColor(hdc, fntc1);
+				DrawText(hdc, nick, -1, &rc, DT_LEFT | DT_EXPANDTABS);
 
-					rc.top += fontSize.cy;
+				rc.top += fontSize.cy;
 
-					SelectObject(hdc, hfntold);
-					DeleteObject(hfnt);
-				}
+				SelectObject(hdc, hfntold);
+				DeleteObject(hfnt);
 
 				if (dbv.pszVal) 
 				{
@@ -254,7 +250,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					HFONT hfntold = ( HFONT )SelectObject(hdc, hfnt);
 
 					SetTextColor(hdc, fntc);
-					DrawText(hdc, dbv.pszVal, -1, &rc, DT_LEFT | DT_EXPANDTABS);
+					DrawText(hdc, dbv.ptszVal, -1, &rc, DT_LEFT | DT_EXPANDTABS);
 
 					SelectObject(hdc, hfntold);
 					DeleteObject(hfnt);
@@ -274,29 +270,28 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 static void addWindow(HANDLE hContact) 
 {
-	CLISTFrame Frame = {0};
-	HWND hWnd;
-	DBVARIANT dbv;
-	char winname[512];
 	DWORD frameID;
 
+	DBVARIANT dbv;
 	DBGetContactSettingString(hContact, WEATHERPROTONAME, "Nick", &dbv);
-	mir_snprintf(winname, sizeof(winname), "Weather: %s", dbv.pszVal);
+
+	char winname[512];
+	mir_snprintf(winname, SIZEOF(winname), "Weather: %s", dbv.pszVal);
 	DBFreeVariant(&dbv);
 
-	hWnd = CreateWindow("WeatherFrame", "", WS_CHILD | WS_VISIBLE, 
+	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE, 
 		0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, hContact);
+	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
+	CLISTFrame Frame = {0};
 	Frame.name = winname;
 	Frame.cbSize = sizeof(Frame);
 	Frame.hWnd = hWnd;
 	Frame.align = alBottom;
 	Frame.Flags = F_VISIBLE|F_NOBORDER;
 	Frame.height = 32;
-
-	WindowList_Add(hMwinWindowList, hWnd, hContact);
-
 	frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+
 	DBWriteContactSettingDword(hContact, WEATHERPROTONAME, "mwin", frameID);
 	DBWriteContactSettingByte(hContact, "CList", "Hidden", TRUE);
 }
@@ -353,7 +348,7 @@ int RedrawFrame(WPARAM wParam, LPARAM lParam)
 void InitMwin(void) 
 {
 	HANDLE hContact;
-	HMODULE hUser = GetModuleHandle("user32.dll");
+	HMODULE hUser = GetModuleHandleA("user32.dll");
 
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) return;
 
@@ -373,7 +368,7 @@ void InitMwin(void)
 		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 		wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
 		wndclass.lpszMenuName  = NULL;
-		wndclass.lpszClassName = "WeatherFrame";
+		wndclass.lpszClassName = _T("WeatherFrame");
 		RegisterClass(&wndclass);
 	}
 
@@ -420,7 +415,7 @@ void InitMwin(void)
 	while(hContact) 
 	{
 		// see if the contact is a weather contact
-		if(IsMyContact(hContact)) 
+		if (IsMyContact(hContact)) 
 		{
 			if (DBGetContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0))
 				addWindow(hContact);
@@ -436,7 +431,7 @@ void DestroyMwin(void)
 	while(hContact) 
 	{
 		// see if the contact is a weather contact
-		if(IsMyContact(hContact)) 
+		if (IsMyContact(hContact)) 
 		{
 			DWORD frameId = DBGetContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0);
 			if (frameId)
@@ -444,6 +439,6 @@ void DestroyMwin(void)
 		}
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
-	UnregisterClass("WeatherFrame", hInst);
+	UnregisterClass( _T("WeatherFrame"), hInst);
 	UnhookEvent(hFontHook);
 }

@@ -35,7 +35,6 @@ extern INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 int UserInfoInit(WPARAM wParam, LPARAM lParam) 
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.position = 100000000;
@@ -50,10 +49,10 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		// check if it is a weather contact
-		if(IsMyContact((HANDLE)lParam)) 
+		if (IsMyContact((HANDLE)lParam)) 
 		{
 			// register the contact info page
-			odp.pszTemplate = MAKEINTRESOURCE(IDD_USERINFO);
+			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
 			odp.flags = ODPF_BOLDGROUPS;
 			CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
@@ -68,12 +67,11 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
 	WEATHERINFO w;
-	char str[MAX_TEXT_SIZE];
+	TCHAR str[MAX_TEXT_SIZE];
 	HANDLE hContact;
 
 	hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg) 
-	{
+	switch (msg) {
 	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwndDlg);
 		SendMessage(GetDlgItem(hwndDlg,IDC_MOREDETAIL), BUTTONSETASFLATBTN, 0, 0);
@@ -82,7 +80,7 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
 		// load weather info for the contact
 		w = LoadWeatherInfo((HANDLE)lParam);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO1, GetDisplay(&w, Translate("Current condition for %n"), str));
+		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
 		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 
 			(WPARAM)LoadSkinnedProtoIcon(WEATHERPROTONAME,
@@ -98,21 +96,21 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
 		}
 		// set the text for displaying other current weather conditions data
-		GetDisplay(&w, "%c     %t", str);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO2, str);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO3, w.feel);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO4, w.pressure);
-		GetDisplay(&w, "%i  %w", str);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO5, str);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO6, w.dewpoint);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO7, w.sunrise);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO8, w.sunset);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO9, w.high);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO10, w.low);
-		GetDisplay(&w, Translate("Last update on:   %u"), str);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO11, str);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO12, w.humid);
-		SetDlgItemTextWth(hwndDlg, IDC_INFO13, w.vis);
+		GetDisplay(&w, _T("%c     %t"), str);
+		SetDlgItemText(hwndDlg, IDC_INFO2, str);
+		SetDlgItemText(hwndDlg, IDC_INFO3, w.feel);
+		SetDlgItemText(hwndDlg, IDC_INFO4, w.pressure);
+		GetDisplay(&w, _T("%i  %w"), str);
+		SetDlgItemText(hwndDlg, IDC_INFO5, str);
+		SetDlgItemText(hwndDlg, IDC_INFO6, w.dewpoint);
+		SetDlgItemText(hwndDlg, IDC_INFO7, w.sunrise);
+		SetDlgItemText(hwndDlg, IDC_INFO8, w.sunset);
+		SetDlgItemText(hwndDlg, IDC_INFO9, w.high);
+		SetDlgItemText(hwndDlg, IDC_INFO10, w.low);
+		GetDisplay(&w, TranslateT("Last update on:   %u"), str);
+		SetDlgItemText(hwndDlg, IDC_INFO11, str);
+		SetDlgItemText(hwndDlg, IDC_INFO12, w.humid);
+		SetDlgItemText(hwndDlg, IDC_INFO13, w.vis);
 		break;
 
 	case WM_DESTROY: 
@@ -206,12 +204,12 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			// inserting columns
 			lvc.cx = LIST_COLUMN;
-			lvc.pszText = Translate("Variable");
-			ListView_InsertColumnWth(hList, 0, &lvc);
+			lvc.pszText = TranslateT("Variable");
+			ListView_InsertColumn(hList, 0, &lvc);
 
 			lvc.cx = aRect.right - LIST_COLUMN - GetSystemMetrics(SM_CXVSCROLL) - 3;
-			lvc.pszText = Translate("Information");
-			ListView_InsertColumnWth(hList, 1, &lvc);
+			lvc.pszText = TranslateT("Information");
+			ListView_InsertColumn(hList, 1, &lvc);
 
 			// inserting data
 			SendMessage(hwndDlg, WM_UPDATEDATA, 0, 0);
@@ -285,14 +283,14 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				// update current data
 				// set the text to "updating"
-				SetDlgItemTextWth(hwndDlg, IDC_MTEXT, Translate("Retrieving new data, please wait..."));
+				SetDlgItemText(hwndDlg, IDC_MTEXT, TranslateT("Retrieving new data, please wait..."));
 				ListView_DeleteAllItems(hList);
 				lvi.mask = LVIF_TEXT | LVIF_PARAM;
 				lvi.lParam = 1;
-				lvi.pszText = (LPSTR)"";
-				lvi.iItem = ListView_InsertItemWth(hList, &lvi);
-				lvi.pszText = Translate("Retrieving new data, please wait...");
-				ListView_SetItemTextWth(hList, lvi.iItem, 1, lvi.pszText);
+				lvi.pszText = (LPTSTR)_T("");
+				lvi.iItem = ListView_InsertItem(hList, &lvi);
+				lvi.pszText = TranslateT("Retrieving new data, please wait...");
+				ListView_SetItemText(hList, lvi.iItem, 1, lvi.pszText);
 				UpdateSingleStation((WPARAM)hContact, 0);
 				break;
 			}
@@ -303,9 +301,9 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_MTOGGLE:
 			if (IsWindowVisible(GetDlgItem(hwndDlg,IDC_DATALIST)))
-				SetDlgItemTextWth(hwndDlg, IDC_MTOGGLE, Translate("More Info"));
+				SetDlgItemText(hwndDlg, IDC_MTOGGLE, TranslateT("More Info"));
 			else
-				SetDlgItemTextWth(hwndDlg, IDC_MTOGGLE, Translate("Brief Info"));
+				SetDlgItemText(hwndDlg, IDC_MTOGGLE, TranslateT("Brief Info"));
 			ShowWindow(GetDlgItem(hwndDlg,IDC_DATALIST), (int)!IsWindowVisible(
 				GetDlgItem(hwndDlg,IDC_DATALIST)));
 			ShowWindow(GetDlgItem(hwndDlg,IDC_MTEXT), (int)!IsWindowVisible(GetDlgItem(hwndDlg,IDC_MTEXT)));
@@ -324,7 +322,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				{
 				case WM_LBUTTONUP:
 					tr.chrg = enlink->chrg;
-					tr.lpstrText = ( LPSTR )mir_alloc(tr.chrg.cpMax - tr.chrg.cpMin + 8);
+					tr.lpstrText = ( LPTSTR )mir_alloc( sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 8));
 					SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM)&tr);
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM) tr.lpstrText);
 					mir_free(tr.lpstrText);
@@ -355,15 +353,13 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 void LoadBriefInfoText(HWND hwndDlg, HANDLE hContact) 
 {
 	WEATHERINFO winfo;
-	char str[4096], str2[4096];
+	TCHAR str[4096], str2[4096];
 
 	// load weather information from the contact into the WEATHERINFO struct
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
 	if (!(BOOL)DBGetContactSettingByte(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
-	{
-		strcpy(str, Translate("No information available.\r\nPlease update weather condition first."));
-	}
+		_tcscpy(str, TranslateT("No information available.\r\nPlease update weather condition first."));
 	else
 		// set the display text and show the message box
 		GetDisplay(&winfo, opt.bText, str);
@@ -380,10 +376,10 @@ void LoadBriefInfoText(HWND hwndDlg, HANDLE hContact)
 		SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
 	GetDisplay(&winfo, opt.bTitle, str);
-	SetWindowTextWth(hwndDlg, str);
-	GetDisplay(&winfo, "%c, %t", str);
-	mir_snprintf(str2, SIZEOF(str2), "%s\n%s", winfo.city, str);
-	SetDlgItemTextWth(hwndDlg, IDC_HEADERBAR, str2);
+	SetWindowText(hwndDlg, str);
+	GetDisplay(&winfo, _T("%c, %t"), str);
+	mir_sntprintf(str2, SIZEOF(str2), _T("%s\n%s"), winfo.city, str);
+	SetDlgItemText(hwndDlg, IDC_HEADERBAR, str2);
 }
 
 // show brief information dialog
@@ -391,7 +387,7 @@ void LoadBriefInfoText(HWND hwndDlg, HANDLE hContact)
 int BriefInfo(WPARAM wParam, LPARAM lParam) 
 {
 	// make sure that the contact is actually a weather one
-	if(IsMyContact((HANDLE)wParam)) 
+	if (IsMyContact((HANDLE)wParam)) 
 	{
 		HWND hMoreDataDlg = WindowList_Find(hDataWindowList,(HANDLE)wParam);
 		if (hMoreDataDlg != NULL) 
@@ -406,7 +402,7 @@ int BriefInfo(WPARAM wParam, LPARAM lParam)
 		}
 		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
 		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);
-		SetDlgItemTextWth(hMoreDataDlg, IDC_MTOGGLE, Translate("More Info"));
+		SetDlgItemText(hMoreDataDlg, IDC_MTOGGLE, TranslateT("More Info"));
 		return 1;
 	}
 	return 0;

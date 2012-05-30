@@ -46,7 +46,7 @@ int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
 // szUrl = URL of the webpage to be retrieved
 // return value = 0 for success, 1 or HTTP error code for failure
 // global var used: szData, szInfo = containing the retrieved data
-int InternetDownloadFile (char *szUrl, char* cookie, char** szData) 
+int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData) 
 {
 	int result = 0xBADBAD;
 	char* szRedirUrl  = NULL;
@@ -81,68 +81,51 @@ int InternetDownloadFile (char *szUrl, char* cookie, char** szData)
 
 	if (cookie == NULL || cookie[0] == 0) --nlhr.headersCount;
 
-	while (result == 0xBADBAD)
-	{
+	while (result == 0xBADBAD) {
 		// download the page
 		nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
 			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
-		if (nlhrReply) 
-		{
+		if (nlhrReply) {
 			// if the recieved code is 200 OK
-			if(nlhrReply->resultCode == 200) 
-			{
-				if (nlhrReply->dataLength)
-				{
-					char* end;
-					int i;
-
+			if (nlhrReply->resultCode == 200) {
+				if (nlhrReply->dataLength) {
 					result = 0;
-
-//				    i = findHeader(nlhrReply, "Date-Modified");
+					bool bIsUtf = false;
 
 					// allocate memory and save the retrieved data
-					*szData = (char *)mir_alloc(nlhrReply->dataLength + 2);
+					int i = findHeader(nlhrReply, "Content-Type");
+					if (i != -1 && strstr(_strlwr((char*)nlhrReply->headers[i].szValue), "utf-8"))
+						bIsUtf = true;
+					else {
+						char* end = nlhrReply->pData;
+						for (;;) {
+							char* beg = strstr(end, "<meta");
+							if (beg == NULL) break;
+							else {
+								char* method, tmp;
+								end = strchr(beg, '>');
+								tmp = *end; *end  = 0;
 
-					memcpy(*szData, nlhrReply->pData, nlhrReply->dataLength);
-					(*szData)[nlhrReply->dataLength] = 0;
+								method  = strstr(beg, "http-equiv=\"");
+								if (method && _strnicmp(method+12, "Content-Type", 12) == 0 && strstr(method, "utf-8")) {
+									bIsUtf = true;
+									break;
+								}
+								else *end = tmp;
+					}	}	}
 
-					i = findHeader(nlhrReply, "Content-Type");
-					if (i != -1)
-					{
-						if (strstr(_strlwr((char*)nlhrReply->headers[i].szValue), "utf-8"))
-							mir_utf8decode(*szData, NULL);
-					}
+					if ( bIsUtf )
+						*szData = mir_utf8decodeT( nlhrReply->pData );
+					else
+						*szData = mir_a2t( nlhrReply->pData );
 
-					end = *szData;
-					for (;;)
-					{
-						char* beg = strstr(end, "<meta");
-						if (beg == NULL) break;
-						else
-						{
-							char* method, tmp;
-							end = strchr(beg, '>');
-							tmp = *end; *end  = 0;
-
-							method  = strstr(beg, "http-equiv=\"");
-							if (method && _strnicmp(method+12, "Content-Type", 12) == 0 && strstr(method, "utf-8"))
-							{
-								*end = tmp;
-								mir_utf8decode(*szData, NULL);
-								break;
-							}
-							else
-								*end = tmp;
-						}
-					} 
 				}
-				else
-					result = DATA_EMPTY;
+				else result = DATA_EMPTY;
 			}
 			// if the recieved code is 302 Moved, Found, etc
 			// workaround for url forwarding
-			else if(nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 303 ) // page moved
+			else if (nlhrReply->resultCode == 302 || nlhrReply->resultCode == 301 || nlhrReply->resultCode == 303 ) // page moved
 			{
 				// get the url for the new location and save it to szInfo
 				// look for the reply header "Location"
@@ -172,11 +155,10 @@ int InternetDownloadFile (char *szUrl, char* cookie, char** szData)
 				}
 			}
 			// return error code if the recieved code is neither 200 OK nor 302 Moved
-			else 
-			{
-				*szData = (char *)mir_alloc(512);
+			else {
+				*szData = ( TCHAR* )mir_alloc(512);
 				// store the error code in szData
-				wsprintf(*szData, "Error occured! HTTP Error: %i\n", nlhrReply->resultCode);
+				wsprintf(*szData, _T("Error occured! HTTP Error: %i\n"), nlhrReply->resultCode);
 				result = (int)nlhrReply->resultCode;
 			}
 
@@ -187,9 +169,9 @@ int InternetDownloadFile (char *szUrl, char* cookie, char** szData)
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		else 
 		{
-			*szData = (char *)mir_alloc(512);
+			*szData = ( TCHAR* )mir_alloc(512);
 			// store the error code in szData
-			strcpy(*szData, "NetLib error occurred!!");
+			_tcscpy(*szData, _T("NetLib error occurred!!"));
 			result = NETLIB_ERROR;
 			hNetlibHttp = NULL;
 		}

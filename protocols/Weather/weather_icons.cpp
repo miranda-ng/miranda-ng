@@ -45,33 +45,29 @@ static iconList[] =
 
 void InitIcons(void)
 {
-	char szFile[MAX_PATH];
 	char szSettingName[100];
-	SKINICONDESC sid = {0};
-	unsigned i;
-
+	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszDefaultFile = szFile;
+	SKINICONDESC sid = {0};
+	sid.cbSize = sizeof(sid);
+	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
 	sid.pszSection = WEATHERPROTONAME;
+	sid.flags = SIDF_PATH_TCHAR;
 
-	for (i = 0; i < SIZEOF(iconList); i++) 
-	{
-		mir_snprintf(szSettingName, sizeof( szSettingName ), "%s_%s", WEATHERPROTONAME, iconList[i].szName);
+	for (int i = 0; i < SIZEOF(iconList); i++) {
+		mir_snprintf(szSettingName, SIZEOF( szSettingName ), "%s_%s", WEATHERPROTONAME, iconList[i].szName);
 
 		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIconLibItem = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-	}	
-}
-
+}	}
 
 HICON  LoadIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", WEATHERPROTONAME, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", WEATHERPROTONAME, name);
 	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
 }
 

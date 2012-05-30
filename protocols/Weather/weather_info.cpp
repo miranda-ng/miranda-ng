@@ -31,9 +31,9 @@ regrading the loading of ini contents
 // List INI Information for all loaded INI files
 void INIInfo(HWND hwndDlg) 
 {
-	char str[16]; 
+	TCHAR str[16]; 
 	size_t memused = 0;
-	LVITEM   lvi = {0};
+	LVITEM lvi = {0};
 	WIDATALIST *Item = WIHead;
 
 	HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
@@ -57,17 +57,17 @@ void INIInfo(HWND hwndDlg)
 		lvi.iSubItem = 3;
 		switch (Item->Data.InternalVer) 
 		{
-		case 1:  lvi.pszText = "1.0";  break;
-		case 2:  lvi.pszText = "1.1";  break;
-		case 3:  lvi.pszText = "1.1a"; break;
-		case 4:  lvi.pszText = "1.2";  break;
-		case 5:  lvi.pszText = "1.3";  break;
-		case 6:  lvi.pszText = "1.4";  break;
-		default: lvi.pszText = "";     break;
+			case 1:  lvi.pszText = _T("1.0");  break;
+			case 2:  lvi.pszText = _T("1.1");  break;
+			case 3:  lvi.pszText = _T("1.1a"); break;
+			case 4:  lvi.pszText = _T("1.2");  break;
+			case 5:  lvi.pszText = _T("1.3");  break;
+			case 6:  lvi.pszText = _T("1.4");  break;
+			default: lvi.pszText = _T("");     break;
 		}
 		ListView_SetItem(hIniList, &lvi); 
 		lvi.iSubItem = 4;
-		lvi.pszText = _ltoa(Item->Data.UpdateDataCount, str, 10);
+		lvi.pszText = _ltot(Item->Data.UpdateDataCount, str, 10);
 		ListView_SetItem(hIniList, &lvi); 
 		lvi.iSubItem = 5;
 		lvi.pszText = Item->Data.DisplayName;
@@ -81,24 +81,24 @@ void INIInfo(HWND hwndDlg)
 		Item = Item->next;
 		++lvi.iItem;
 	}
-	SetDlgItemText(hwndDlg, IDC_INICOUNT, _itoa(lvi.iItem, str, 10));
-	SetDlgItemText(hwndDlg, IDC_MEMUSED, _ltoa((long)memused, str, 10));
+	SetDlgItemText(hwndDlg, IDC_INICOUNT, _itot(lvi.iItem, str, 10));
+	SetDlgItemText(hwndDlg, IDC_MEMUSED, _ltot((long)memused, str, 10));
 }
 
 static const struct tag_Columns
 {
-	const char *name;
+	const TCHAR *name;
 	unsigned size;
 } 
 columns[] = 
 {
-	{ "Name" , 70 },
-	{ "Author" , 100 },
-	{ "File Version" , 70 },
-	{ "INI Version" , 70 },
-	{ "Items" , 40 },
-	{ "Display Name" , 200 },
-	{ "File Name" , 150 },
+	{ _T("Name"), 70 },
+	{ _T("Author"), 100 },
+	{ _T("File Version"), 70 },
+	{ _T("INI Version"), 70 },
+	{ _T("Items"), 40 },
+	{ _T("Display Name"), 200 },
+	{ _T("File Name"), 150 },
 };
 
 
@@ -109,19 +109,16 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwndDlg);
 		{ 
-			unsigned i;
-
 			HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
 			LVCOLUMN lvc = {0}; 
 
 			lvc.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
-			for (i=0; i<7; ++i)
-			{
+			for ( int i=0; i<7; ++i) {
 				lvc.iSubItem = i;
-				lvc.pszText = Translate(columns[i].name);	
+				lvc.pszText = TranslateTS(columns[i].name);	
 				lvc.cx = columns[i].size;
-				ListView_InsertColumnWth(hIniList, i, &lvc); 
+				ListView_InsertColumn(hIniList, i, &lvc); 
 			} 
 			INIInfo(hwndDlg);
 		} 
@@ -147,64 +144,64 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 // get the info of individual ini file
 // pszSvc = the internal name of the service to get the data
-void GetINIInfo(char *pszSvc) {
-	char str2[2048];
+void GetINIInfo(TCHAR *pszSvc)
+{
+	TCHAR str2[2048];
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
 	if (sData == NULL)
 	{
-		wsprintf(str2, Translate("The corresponding INI file for \"%s\" is not found."), pszSvc);
-		MessageBox(NULL, str2, Translate("Weather INI information"), MB_OK|MB_ICONINFORMATION);
+		wsprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
+		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
 	}
 	// if exist, get the information
 	else
 	{
-		wsprintf(str2, Translate("Weather INI information for \"%s\":"), pszSvc);
-		strcat(str2, "\n\n");
-		strcat(str2, Translate("Name:"));
-		strcat(str2, "\t\t");
-		strcat(str2, sData->DisplayName);
-		strcat(str2, "\n");
-		strcat(str2, Translate("Internal Name:"));
-		strcat(str2, "\t");
-		strcat(str2, sData->InternalName);
-		strcat(str2, "\n");
-		strcat(str2, Translate("Author:"));
-		strcat(str2, "\t\t");
-		strcat(str2, sData->Author);
-		strcat(str2, "\n");
-		strcat(str2, Translate("Version:"));
-		strcat(str2, "\t\t");
-		strcat(str2, sData->Version);
-		strcat(str2, "\n");
-		strcat(str2, Translate("INI Version:"));
-		strcat(str2, "\t");
-		switch (sData->InternalVer) 
-		{
-		case 1: strcat(str2, "1.0"); break;
-		case 2: strcat(str2, "1.1"); break;
-		case 3: strcat(str2, "1.1a"); break;
-		case 4: strcat(str2, "1.2"); break;
-		case 5: strcat(str2, "1.3"); break;
-		case 6: strcat(str2, "1.4"); break;
+		wsprintf(str2, TranslateT("Weather INI information for \"%s\":"), pszSvc);
+		_tcscat(str2,_T("\n\n"));
+		_tcscat(str2, TranslateT("Name:"));
+		_tcscat(str2,_T("\t\t"));
+		_tcscat(str2, sData->DisplayName);
+		_tcscat(str2,_T("\n"));
+		_tcscat(str2, TranslateT("Internal Name:"));
+		_tcscat(str2,_T("\t"));
+		_tcscat(str2, sData->InternalName);
+		_tcscat(str2,_T("\n"));
+		_tcscat(str2, TranslateT("Author:"));
+		_tcscat(str2,_T("\t\t"));
+		_tcscat(str2, sData->Author);
+		_tcscat(str2,_T("\n"));
+		_tcscat(str2, TranslateT("Version:"));
+		_tcscat(str2,_T("\t\t"));
+		_tcscat(str2, sData->Version);
+		_tcscat(str2,_T("\n"));
+		_tcscat(str2, TranslateT("INI Version:"));
+		_tcscat(str2,_T("\t"));
+		switch (sData->InternalVer) {
+			case 1: _tcscat(str2,_T("1.0")); break;
+			case 2: _tcscat(str2,_T("1.1")); break;
+			case 3: _tcscat(str2,_T("1.1a")); break;
+			case 4: _tcscat(str2,_T("1.2")); break;
+			case 5: _tcscat(str2,_T("1.3")); break;
+			case 6: _tcscat(str2,_T("1.4")); break;
 		}
-		strcat(str2, "\n");
-		strcat(str2, Translate("File Name:"));
-		strcat(str2, "\t");
-		strcat(str2, sData->ShortFileName);
-		strcat(str2, "\n");
-		strcat(str2, Translate("Item Count:"));
-		wsprintf(str2, "%s\t%i\n", str2, sData->UpdateDataCount);
-		strcat(str2, Translate("Memory Used:"));
-		wsprintf(str2, "%s\t%i ", str2, sData->MemUsed);
-		strcat(str2, Translate("bytes")); 
-		strcat(str2, "\n\n"); 
-		strcat(str2, Translate("Description:"));
-		strcat(str2, "\n");
-		strcat(str2, sData->Description);
+		_tcscat(str2,_T("\n"));
+		_tcscat(str2, TranslateT("File Name:"));
+		_tcscat(str2,_T("\t"));
+		_tcscat(str2, sData->ShortFileName);
+		_tcscat(str2, _T("\n"));
+		_tcscat(str2, TranslateT("Item Count:"));
+		wsprintf(str2, _T("%s\t%i\n"), str2, sData->UpdateDataCount);
+		_tcscat(str2, TranslateT("Memory Used:"));
+		wsprintf(str2, _T("%s\t%i "), str2, sData->MemUsed);
+		_tcscat(str2, TranslateT("bytes")); 
+		_tcscat(str2,_T("\n\n")); 
+		_tcscat(str2, TranslateT("Description:"));
+		_tcscat(str2,_T("\n"));
+		_tcscat(str2, sData->Description);
 
 		// display the message box and quit
-		MessageBox(NULL, str2, Translate("Weather INI information"), MB_OK|MB_ICONINFORMATION);
+		MessageBox(NULL, str2, TranslateT("Weather INI information"), MB_OK|MB_ICONINFORMATION);
 	}
 }
 
@@ -214,12 +211,12 @@ void GetINIInfo(char *pszSvc) {
 // can be found when click on "More" in text option dialog
 void MoreVarList(void) 
 {
-	char str[10240], tempstr[1024], *find;
+	TCHAR str[10240], tempstr[1024];
 
 	WIDATALIST *Item = WIHead;
 	// heading
-	strcpy(str, Translate("Here is a list of custom variables that are currently available"));
-	strcat(str, "\n\n");
+	_tcscpy(str, TranslateT("Here is a list of custom variables that are currently available"));
+	_tcscat(str, _T("\n\n"));
 	// loop through all weather services to find custom variables
 	while (Item != NULL) 
 	{
@@ -230,13 +227,13 @@ void MoreVarList(void)
 		{
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
-			if (strcmp(WItem->Item.Name, "Ignore") && WItem->Item.Name[0] != '#') {
-				wsprintf(tempstr, "%c[%s]", '%', WItem->Item.Name);
-				find = strstr(str, tempstr);
+			if ( _tcscmp(WItem->Item.Name, _T("Ignore")) && WItem->Item.Name[0] != '#') {
+				wsprintf(tempstr, _T("%c[%s]"), '%', WItem->Item.Name);
+				TCHAR* find = _tcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == NULL) {
-					strcat(str, tempstr);
-					strcat(str, ", ");
+					_tcscat(str, tempstr);
+					_tcscat(str, _T(", "));
 				}
 			}
 			WItem = WItem->Next;
@@ -244,10 +241,11 @@ void MoreVarList(void)
 		Item = Item->next;
 	}
 	// remove the last comma in the list
-	find = strrchr(str, ',');
-	if (find != NULL)	*find = '\0';
+	TCHAR* find = _tcsrchr(str, ',');
+	if (find != NULL)
+		*find = '\0';
 
 	// display the list in a message box
-	MessageBox(NULL, str, Translate("More Variables"), MB_OK|MB_ICONINFORMATION|MB_TOPMOST);
+	MessageBox(NULL, str, TranslateT("More Variables"), MB_OK|MB_ICONINFORMATION|MB_TOPMOST);
 }
 
