@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\res\angeli-icons\AddXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\button.bold.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\button.fontface.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\button.italic.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\button.textcolor.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\button.underline.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\CloseXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\delete.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\empty.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\error.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\HistoryXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\Incom.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\InfoXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\Logo.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\MultiXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\OptXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\Outg.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\Pencil.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\PicXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\Quote02.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\SaveXP.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\secureim_off.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\secureim_on.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\angeli-icons\Send.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\smbutton.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\statuschange.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\Typing32.ico">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="..\..\res\unknown.bmp">
+      <Filter>Ressourcendateien</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ICONSXP.rc">
+      <Filter>Ressourcendateien</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
