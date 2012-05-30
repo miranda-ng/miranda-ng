@@ -181,7 +181,7 @@ int UpdateWeather(HANDLE hContact)
 				if (file != NULL) {
 					// write data to the file and close
 					GetDisplay(&winfo, opt.eText, str2);
-					fputws(str2, file);
+					_fputts(str2, file);
 					fclose(file);
 		}	}	}
 
