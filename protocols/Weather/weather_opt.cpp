@@ -300,8 +300,7 @@ int OptInit(WPARAM wParam,LPARAM lParam) {
 	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
 
 	// if popup service exists, load the weather popup options
-	if ((ServiceExists(MS_POPUP_ADDPOPUP))) 
-	{
+	if ((ServiceExists(MS_POPUP_ADDPOPUP))) {
 		odp.position      = 100000000;
 		odp.pszTemplate   = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.pszGroup      = LPGEN("PopUps");

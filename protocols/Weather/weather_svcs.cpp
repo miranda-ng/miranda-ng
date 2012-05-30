@@ -425,8 +425,7 @@ void AddMenuItems(void)
 	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
 
 	// only run if popup service exists
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) 
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		hService[25] = CreateServiceFunction(WEATHERPROTONAME "/PopupMenu", MenuitemNotifyCmd);
 		mi.pszName = "Weather Notification";
 		mi.icolibItem = GetIconHandle("popup");
@@ -437,8 +436,7 @@ void AddMenuItems(void)
 		UpdatePopupMenu(opt.UsePopup);
 	}
 
-	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) 
-	{
+	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		hService[26] = CreateServiceFunction("Weather/mwin_menu", Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
 		mi.hIcon = NULL;

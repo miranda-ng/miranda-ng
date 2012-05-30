@@ -58,13 +58,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
 		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-		// display popups
-		if (!ServiceExists(MS_POPUP_ADDPOPUPEX))	// old version
-			CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-		else {	// new version with delay
-			ppd.iSeconds = opt.pDelay;
-			CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
-		}
+		PUAddPopUpT( &ppd );
 	}
 	return 0;
 }
@@ -75,46 +69,42 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 // wParam = error text
 // lParam = display type
 // Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT
+
 int WeatherError(WPARAM wParam, LPARAM lParam) 
 {
-	if (!opt.UsePopup)	return 0;
+	if (!opt.UsePopup)
+		return 0;
+
+	TCHAR* tszMsg = ( TCHAR* )wParam;
 
 	if ((DWORD)lParam == SM_WARNING)
-		PUShowMessage((char*)wParam, SM_WARNING);
+		PUShowMessageT( tszMsg, SM_WARNING );
 	else if ((DWORD)lParam == SM_NOTIFY)
-		PUShowMessage((char*)wParam, SM_NOTIFY);
+		PUShowMessageT( tszMsg, SM_NOTIFY);
 	else if ((DWORD)lParam == SM_WEATHERALERT) 
 	{
-		POPUPDATAEX ppd = {0};
-		char *chop;
-		char str1[512], str2[512];
+		POPUPDATAT ppd = {0};
+		TCHAR *chop, str1[512], str2[512];
 
 		// get the 2 strings
-		strcpy(str1, (char*)wParam);
-		strcpy(str2, (char*)wParam);
-		chop = strchr(str1, 255);
+		_tcscpy(str1, tszMsg);
+		_tcscpy(str2, tszMsg);
+		chop = _tcschr(str1, 255);
 		if (chop != NULL)	*chop = '\0';
 		else				str1[0] = 0;
-		chop = strchr(str2, 255);
-		if (chop != NULL)	strcpy(str2, chop+1);
+		chop = _tcschr(str2, 255);
+		if (chop != NULL)	_tcscpy(str2, chop+1);
 		else				str2[0] = 0;
 
 		// setup the popup
 		ppd.lchIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(OIC_BANG), IMAGE_ICON, 
 			GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), LR_SHARED);
-		strcpy(ppd.lpzContactName, str1);
-		strcpy(ppd.lpzText, str2);
+		_tcscpy(ppd.lptzContactName, str1);
+		_tcscpy(ppd.lptzText, str2);
 		ppd.colorBack = (opt.UseWinColors)?GetSysColor(COLOR_BTNFACE):opt.BGColour;
 		ppd.colorText = (opt.UseWinColors)?GetSysColor(COLOR_WINDOWTEXT):opt.TextColour;
 		ppd.iSeconds = opt.pDelay;
-
-		// display popups
-		if (!ServiceExists(MS_POPUP_ADDPOPUPEX))	// old version
-			CallService(MS_POPUP_ADDPOPUP, (WPARAM)&ppd, 0);
-		else {	// new version with delay
-			ppd.iSeconds = opt.pDelay;
-			CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)&ppd, 0);
-		}
+		PUAddPopUpT( &ppd );
 	}
 	return 0;
 }
@@ -123,6 +113,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
+
 int WPShowMessage(TCHAR* lpzText, WORD kind)
 {
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
