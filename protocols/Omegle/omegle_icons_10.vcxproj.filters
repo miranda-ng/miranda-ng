@@ -24,7 +24,4 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="omegle_icons.cpp" />
-  </ItemGroup>
 </Project>
