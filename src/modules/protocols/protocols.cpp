@@ -599,24 +599,25 @@ INT_PTR CallProtoServiceInt( HANDLE hContact, const char *szModule, const char *
 	}	}	}	}
 
 #ifdef _UNICODE
-	if ( strcmp( szService, PS_ADDTOLIST ) == 0 ) {
+	if ( !strcmp( szService, PS_ADDTOLIST )) {
 		PROTOSEARCHRESULT *psr = ( PROTOSEARCHRESULT* )lParam;
-		PROTOSEARCHRESULT *psra =( PROTOSEARCHRESULT* )mir_alloc( psr->cbSize );
-		memcpy( psra, psr, psr->cbSize );
-		psra->nick      = ( PROTOCHAR* )mir_u2a( psr->nick );
-		psra->firstName = ( PROTOCHAR* )mir_u2a( psr->firstName );
-		psra->lastName  = ( PROTOCHAR* )mir_u2a( psr->lastName );
-		psra->email     = ( PROTOCHAR* )mir_u2a( psr->email );
+		if ( !( psr->flags & PSR_UNICODE )) {
+			PROTOSEARCHRESULT *psra =( PROTOSEARCHRESULT* )mir_alloc( psr->cbSize );
+			memcpy( psra, psr, psr->cbSize );
+			psra->nick      = ( PROTOCHAR* )mir_u2a( psr->nick );
+			psra->firstName = ( PROTOCHAR* )mir_u2a( psr->firstName );
+			psra->lastName  = ( PROTOCHAR* )mir_u2a( psr->lastName );
+			psra->email     = ( PROTOCHAR* )mir_u2a( psr->email );
 		
-		INT_PTR res = MyCallProtoService( szModule, szService, wParam, ( LPARAM )psra );
+			INT_PTR res = MyCallProtoService( szModule, szService, wParam, ( LPARAM )psra );
 		
-		mir_free( psra->nick );
-		mir_free( psra->firstName );
-		mir_free( psra->lastName );
-		mir_free( psra->email );
-		mir_free( psra );
-		
-		return res;
+			mir_free( psra->nick );
+			mir_free( psra->firstName );
+			mir_free( psra->lastName );
+			mir_free( psra->email );
+			mir_free( psra );
+			return res;
+		}		
 	}
 #endif
 
