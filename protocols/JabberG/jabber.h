@@ -332,7 +332,7 @@ struct ThreadData
 
 	HANDLE hThread;
 	JABBER_SESSION_TYPE type;
-	
+
 	// network support
 	JABBER_SOCKET s;
 	BOOL  useSSL;
@@ -445,7 +445,7 @@ struct filetransfer
 	HANDLE hFileEvent;
 	unsigned __int64 *fileSize;
 	TCHAR* szDescription;
-	
+
 	CJabberProto* ppro;
 };
 
@@ -499,11 +499,24 @@ class _A2T
 	TCHAR* buf;
 
 public:
-	_A2T( const char* s ) : buf( mir_a2t( s )) {}
-	_A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
+	__forceinline _A2T( const char* s ) : buf( mir_a2t( s )) {}
+	__forceinline _A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
 	~_A2T() { mir_free(buf); }
 
 	__forceinline operator TCHAR*() const
+	{	return buf;
+	}
+};
+
+class _T2A
+{
+	char* buf;
+
+public:
+	__forceinline _T2A( const TCHAR* s ) : buf( mir_t2a( s )) {}
+	__forceinline ~_T2A() { mir_free(buf); }
+
+	__forceinline operator char*() const
 	{	return buf;
 	}
 };

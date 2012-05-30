@@ -956,6 +956,7 @@ public:
 		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Affiliation changes"),                  m_proto->m_options.GcLogAffiliations);
 		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Role changes"),                         m_proto->m_options.GcLogRoles);
 		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Status changes"),                       m_proto->m_options.GcLogStatuses);
+		m_otvOptions.AddOption(LPGENT("Log events") _T("/") LPGENT("Filter history messages"),              m_proto->m_options.GcLogChatHistory);
 	}
 
 	static CDlgBase *Create(void *param) { return new CDlgOptGc((CJabberProto *)param); }

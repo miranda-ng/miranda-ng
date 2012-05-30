@@ -320,19 +320,19 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 	if ( info.password && info.password[0] )
 		x << XCHILD( _T("password"), info.password );
 
-	char setting[MAXMODULELABELLENGTH];
-	DBVARIANT dbv;
-	mir_snprintf(setting, sizeof(setting), "muc_%s@%s_lastevent", mir_u2a(room), mir_u2a(server));
-	time_t lasteventtime =  this->JGetDword( NULL, setting, 0 );
-	if ( lasteventtime > 0 ) {
-		_tzset();
-		lasteventtime += _timezone + 1;
-		struct tm* time = localtime(&lasteventtime);
-		TCHAR lasteventdate[20];
-		TCHAR* timeformat = mir_a2u("%04d-%02d-%02dT%02d:%02d:%02dZ");
-		mir_sntprintf(lasteventdate, sizeof(lasteventdate), timeformat, time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
-		x << XCHILD( _T("history") ) << XATTR( _T("since"), lasteventdate);
-		JFreeVariant( &dbv );
+	if (m_options.GcLogChatHistory) {
+		char setting[MAXMODULELABELLENGTH];
+		mir_snprintf(setting, SIZEOF(setting), "muc_%s@%s_lastevent", _T2A(room), _T2A(server));
+		time_t lasteventtime = this->JGetDword( NULL, setting, 0 );
+		if ( lasteventtime > 0 ) {
+			_tzset();
+			lasteventtime += _timezone + 1;
+			struct tm* time = localtime(&lasteventtime);
+			TCHAR lasteventdate[20];
+			mir_sntprintf(lasteventdate, SIZEOF(lasteventdate), _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
+				time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
+			x << XCHILD( _T("history") ) << XATTR( _T("since"), lasteventdate);
+		}
 	}
 
 	SendPresenceTo( status, text, x );
@@ -1250,9 +1250,9 @@ void CJabberProto::GroupchatProcessMessage( HXML node )
 			if ( !_tcscmp( p, _T("jabber:x:delay")) && msgTime==0 )
 				if (( p = xmlGetAttrValue( xNode, _T("stamp"))) != NULL ) {
 					msgTime = JabberIsoToUnixTime( p );
-					if ( msgTime > 0 ) {
+					if (m_options.GcLogChatHistory && msgTime > 0 ) {
 						char setting[MAXMODULELABELLENGTH];
-						mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", mir_u2a(gcd.ptszID));
+						mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", _T2A(gcd.ptszID));
 						this->JSetDword(NULL, setting, msgTime);
 				}	}
 
