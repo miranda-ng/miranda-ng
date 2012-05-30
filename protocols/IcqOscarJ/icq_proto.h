@@ -134,6 +134,7 @@ struct CIcqProto : public PROTO_INTERFACE
 	INT_PTR  __cdecl GetXStatusIcon(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GrantAuthorization(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl menuXStatus(WPARAM wParam,LPARAM lParam,LPARAM fParam);
+	INT_PTR  __cdecl OpenWebProfile(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl RecvAuth(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl RequestAdvStatusIconIdx(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl RequestAuthorization(WPARAM wParam, LPARAM lParam);

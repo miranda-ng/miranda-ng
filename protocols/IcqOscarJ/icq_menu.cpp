@@ -38,8 +38,8 @@
 
 static HANDLE hPrebuildMenuHook;
 
-HANDLE g_hContactMenuItems[5];
-HANDLE g_hContactMenuSvc[5];
+HANDLE g_hContactMenuItems[6];
+HANDLE g_hContactMenuSvc[6];
 
 static int sttCompareProtocols(const CIcqProto *p1, const CIcqProto *p2)
 {
@@ -91,6 +91,12 @@ static INT_PTR IcqMenuHandleXStatusDetails(WPARAM wParam, LPARAM lParam)
 	return (ppro) ? ppro->ShowXStatusDetails(wParam, lParam) : 0;
 }
 
+static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
+{
+	CIcqProto* ppro = IcqGetInstanceByHContact((HANDLE)wParam);
+	return (ppro) ? ppro->OpenWebProfile(wParam, lParam) : 0;
+}
+
 static void sttEnableMenuItem( HANDLE hMenuItem, bool bEnable )
 {
 	CLISTMENUITEM clmi = {0};
@@ -109,7 +115,8 @@ static int IcqPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REVOKE], FALSE);
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], FALSE);
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], FALSE);
-	
+	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE], FALSE);
+
 	CIcqProto* ppro = IcqGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnPreBuildContactMenu(wParam, lParam) : 0;
 }
@@ -170,6 +177,13 @@ void g_MenuInit(void)
 	strcpy(pszDest, MS_XSTATUS_SHOWDETAILS);
 	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
 	g_hContactMenuSvc[ICMI_XSTATUS_DETAILS] = CreateServiceFunction(mi.pszService, IcqMenuHandleXStatusDetails);
+
+	// "Open ICQ profile"
+	mi.pszName = LPGEN("Open ICQ profile");
+	mi.position = 1000029997;
+	strcpy(pszDest, MS_OPEN_PROFILE);
+	g_hContactMenuItems[ICMI_OPEN_PROFILE] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuSvc[ICMI_OPEN_PROFILE] = CreateServiceFunction(mi.pszService, IcqMenuHandleOpenProfile);
 }
 
 void g_MenuUninit(void)
@@ -181,14 +195,26 @@ void g_MenuUninit(void)
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_AUTH_REVOKE], 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], 0);
 	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_XSTATUS_DETAILS], 0);
+	CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)g_hContactMenuItems[ICMI_OPEN_PROFILE], 0);
 
 	DestroyServiceFunction(g_hContactMenuSvc[ICMI_AUTH_REQUEST]);
 	DestroyServiceFunction(g_hContactMenuSvc[ICMI_AUTH_GRANT]);
 	DestroyServiceFunction(g_hContactMenuSvc[ICMI_AUTH_REVOKE]);
 	DestroyServiceFunction(g_hContactMenuSvc[ICMI_ADD_TO_SERVLIST]);
 	DestroyServiceFunction(g_hContactMenuSvc[ICMI_XSTATUS_DETAILS]);
-
+	DestroyServiceFunction(g_hContactMenuSvc[ICMI_OPEN_PROFILE]);
 }
+
+
+INT_PTR CIcqProto::OpenWebProfile(WPARAM wParam, LPARAM lParam)
+{
+	HANDLE hContact = (HANDLE)wParam;
+	DWORD dwUin = getContactUin(hContact);
+	char url[256];
+	mir_snprintf(url, sizeof(url), "http://www.icq.com/people/%d",dwUin);
+	return CallService(MS_UTILS_OPENURL, 1, (LPARAM)url);
+}
+
 
 int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 {
@@ -208,13 +234,13 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_GRANT], dwUin && (bCtrlPressed || getSettingByte((HANDLE)wParam, "Grant", 0)));
 		sttEnableMenuItem(g_hContactMenuItems[ICMI_AUTH_REVOKE], 
 			dwUin && (bCtrlPressed || (getSettingByte(NULL, "PrivacyItems", 0) && !getSettingByte((HANDLE)wParam, "Grant", 0))));
-
 		sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST], 
 			m_bSsiEnabled && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) && 
 			!getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0) &&
 			!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0));
 	}
-
+	
+	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact));
 	BYTE bXStatus = getContactXStatus((HANDLE)wParam);
 	
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);

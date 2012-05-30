@@ -63,6 +63,10 @@ typedef struct {
 // wParam=(WPARAM)hContact
 #define MS_REVOKE_AUTH "/RevokeAuth"
 
+// Open ICQ profile
+// wParam=(WPARAM)hContact
+#define MS_OPEN_PROFILE "/OpenProfile"
+
 // Add contact to server-list
 // wParam=(WPARAM)hContact
 #define MS_ICQ_ADDSERVCONTACT "/AddServerContact"

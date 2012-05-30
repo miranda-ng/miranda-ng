@@ -55,6 +55,7 @@
 #define ICMI_AUTH_REVOKE            2
 #define ICMI_ADD_TO_SERVLIST        3
 #define ICMI_XSTATUS_DETAILS        4
+#define ICMI_OPEN_PROFILE           5
 
 /* Some default settings */
 #define DEFAULT_SERVER_PORT         5190

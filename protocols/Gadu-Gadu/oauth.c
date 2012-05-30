@@ -397,6 +397,7 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	char szUrl[256], uin[32], *password = NULL, *str, *token = NULL, *token_secret = NULL;
 	DBVARIANT dbv;
 	int res = 0;
+	HANDLE nlc = NULL;
 
 	UIN2ID(DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0), uin);
 	if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
@@ -413,7 +414,7 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = szUrl;
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
+	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
 	req.headersCount = 3;
 	req.headers = httpHeaders;
 	httpHeaders[0].szName   = "User-Agent";
@@ -425,6 +426,7 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)gg->netlib, (LPARAM)&req);
 	if (resp) {
+		nlc = resp->nlc; 
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 			HXML hXml;
 			TCHAR *xmlAction;
@@ -495,13 +497,12 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_POST;
 	req.szUrl = szUrl;
-	req.flags = NLHRF_NODUMP | NLHRF_HTTP11;
+	req.flags = NLHRF_NODUMP | NLHRF_HTTP11 | NLHRF_PERSISTENT;
+	req.nlc = nlc;
 	req.headersCount = 3;
 	req.headers = httpHeaders;
 	httpHeaders[1].szName  = "Authorization";
 	httpHeaders[1].szValue = str;
-	req.pData = NULL;
-	req.dataLength = 0;
 
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)gg->netlib, (LPARAM)&req);
 	if (resp) {
@@ -530,6 +531,7 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 			mir_free(xmlAction);
 		}
 		else gg_netlog(gg, "gg_oauth_receivetoken(): Invalid response code from HTTP request");
+		Netlib_CloseHandle(resp->nlc);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
 	else gg_netlog(gg, "gg_oauth_receivetoken(): No response from HTTP request");
