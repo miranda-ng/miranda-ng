@@ -58,6 +58,13 @@
 // Reimplementation of strnicmp (it is not supported on some systems)
 // =====================================================================
 
+/**
+Compare characters of two strings without regard to case.
+@param s1 Null-terminated string to compare.
+@param s2 Null-terminated string to compare.
+@param len Number of characters to compare
+@return Returns 0 if s1 substring identical to s2 substring
+*/
 static int 
 FreeImage_strnicmp(const char *s1, const char *s2, size_t len) {
 	unsigned char c1, c2;
@@ -175,20 +182,20 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 	FreeImage_GetMetadata(FIMD_EXIF_MAIN, dib, "Make", &tagMake);
 	const char *Maker = (char*)FreeImage_GetTagValue(tagMake);
 
-	if((strncmp("OLYMP\x00\x01", pval, 7) == 0) || (strncmp("OLYMP\x00\x02", pval, 7) == 0) || (strncmp("EPSON", pval, 5) == 0) || (strncmp("AGFA", pval, 4) == 0)) {
+	if((memcmp("OLYMP\x00\x01", pval, 7) == 0) || (memcmp("OLYMP\x00\x02", pval, 7) == 0) || (memcmp("EPSON", pval, 5) == 0) || (memcmp("AGFA", pval, 4) == 0)) {
 		// Olympus Type 1 Makernote
 		// Epson and Agfa use Olympus maker note standard, 
 		// see: http://www.ozhiker.com/electronics/pjmt/jpeg_info/
 		*md_model = TagLib::EXIF_MAKERNOTE_OLYMPUSTYPE1;
 		*subdirOffset = 8;
 	} 
-	else if(strncmp("OLYMPUS\x00\x49\x49\x03\x00", pval, 12) == 0) {
+	else if(memcmp("OLYMPUS\x00\x49\x49\x03\x00", pval, 12) == 0) {
 		// Olympus Type 2 Makernote
 		// !!! NOT YET SUPPORTED !!!
 		*subdirOffset = 0;
 		*md_model = TagLib::UNKNOWN;
 	}
-	else if(strncmp("Nikon", pval, 5) == 0) {
+	else if(memcmp("Nikon", pval, 5) == 0) {
 		/* There are two scenarios here:
 		 * Type 1:
 		 * :0000: 4E 69 6B 6F 6E 00 01 00-05 00 02 00 02 00 06 00 Nikon...........
@@ -207,6 +214,7 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 			*subdirOffset = 18;
         } else {
 			// Unsupported makernote data ignored
+			*subdirOffset = 0;
 			*md_model = TagLib::UNKNOWN;
 		}
 	} else if(Maker && (FreeImage_strnicmp("NIKON", Maker, 5) == 0)) {
@@ -219,7 +227,7 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 		*subdirOffset = 0;		
     } else if(Maker && (FreeImage_strnicmp("Casio", Maker, 5) == 0)) {
         // Casio Makernote
-		if(strncmp("QVC\x00\x00\x00", pval, 6) == 0) {
+		if(memcmp("QVC\x00\x00\x00", pval, 6) == 0) {
 			// Casio Type 2 Makernote
 			*md_model = TagLib::EXIF_MAKERNOTE_CASIOTYPE2;
 			*subdirOffset = 6;
@@ -228,7 +236,7 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 			*md_model = TagLib::EXIF_MAKERNOTE_CASIOTYPE1;
 			*subdirOffset = 0;
 		}
-	} else if ((strncmp("FUJIFILM", pval, 8) == 0) || (Maker && (FreeImage_strnicmp("Fujifilm", Maker, 8) == 0))) {
+	} else if ((memcmp("FUJIFILM", pval, 8) == 0) || (Maker && (FreeImage_strnicmp("Fujifilm", Maker, 8) == 0))) {
         // Fujifile Makernote
 		// Fujifilm's Makernote always use Intel order altough the Exif section maybe in Intel order or in Motorola order. 
 		// If msb_order == TRUE, the Makernote won't be read: 
@@ -238,7 +246,7 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
         DWORD ifdStart = (DWORD) ReadUint32(msb_order, pval + 8);
 		*subdirOffset = ifdStart;
     }
-	else if(memcmp("KYOCERA            \x00\x00\x00", pval, 22) == 0) {
+	else if(memcmp("KYOCERA\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x00\x00\x00", pval, 22) == 0) {
 		*md_model = TagLib::EXIF_MAKERNOTE_KYOCERA;
 		*subdirOffset = 22;
 	}
@@ -252,9 +260,17 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 		*md_model = TagLib::EXIF_MAKERNOTE_PANASONIC;
 		*subdirOffset = 12;
 	}
+	else if(Maker && (FreeImage_strnicmp("LEICA", Maker, 5) == 0)) {
+		// Leica maker note
+		if(memcmp("LEICA\x00\x00\x00", pval, 8) == 0) {
+			// not yet supported makernote data ignored
+			*subdirOffset = 0;
+			*md_model = TagLib::UNKNOWN;
+		}
+	}
 	else if(Maker && ((FreeImage_strnicmp("Pentax", Maker, 6) == 0) || (FreeImage_strnicmp("Asahi", Maker, 5) == 0))) {
 		// Pentax maker note
-		if(strncmp("AOC\x00", pval, 4) == 0) {
+		if(memcmp("AOC\x00", pval, 4) == 0) {
 			// Type 2 Pentax Makernote
 			*md_model = TagLib::EXIF_MAKERNOTE_PENTAX;
 			*subdirOffset = 6;
@@ -264,9 +280,23 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 			*subdirOffset = 0;
 		}
 	}	
-	else if((strncmp("SONY CAM", pval, 8) == 0) || (strncmp("SONY DSC", pval, 8) == 0)) {
+	else if((memcmp("SONY CAM\x20\x00\x00\x00", pval, 12) == 0) || (memcmp("SONY DSC\x20\x00\x00\x00", pval, 12) == 0)) {
 		*md_model = TagLib::EXIF_MAKERNOTE_SONY;
 		*subdirOffset = 12;
+	}
+	else if((memcmp("SIGMA\x00\x00\x00", pval, 8) == 0) || (memcmp("FOVEON\x00\x00", pval, 8) == 0)) {
+		FITAG *tagModel = NULL;
+		FreeImage_GetMetadata(FIMD_EXIF_MAIN, dib, "Model", &tagModel);
+		const char *Model = (char*)FreeImage_GetTagValue(tagModel);
+		if(Model && (memcmp("SIGMA SD1\x00", Model, 10) == 0)) {
+			// Sigma SD1 maker note
+			*subdirOffset = 10;
+			*md_model = TagLib::EXIF_MAKERNOTE_SIGMA_SD1;
+		} else {
+			// Sigma / Foveon makernote
+			*subdirOffset = 10;
+			*md_model = TagLib::EXIF_MAKERNOTE_SIGMA_FOVEON;
+		}
 	}
 }
 
@@ -573,7 +603,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 			// get number of components
 			FreeImage_SetTagCount(tag, ReadUint32(msb_order, pde + 4));
             // check that tag length (size of the tag value in bytes) will fit in a DWORD
-            int tag_data_width = FreeImage_TagDataWidth(FreeImage_GetTagType(tag));
+            unsigned tag_data_width = FreeImage_TagDataWidth(FreeImage_GetTagType(tag));
             if (tag_data_width != 0 && FreeImage_GetTagCount(tag) > ~(DWORD)0 / tag_data_width) {
                 FreeImage_DeleteTag(tag);
                 // jump to next entry
@@ -692,6 +722,13 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 
 		// point to the directory entry
 		const BYTE* base = DIR_ENTRY_ADDR(ifd1st, e);
+		
+		// check for buffer overflow
+		const size_t remaining = (size_t)base + 12 - (size_t)tiffp;
+		if(remaining >= length) {
+			// bad IFD1 directory, ignore it
+			return FALSE;
+		}
 
 		// get the tag ID
 		WORD tag = ReadUint16(msb_order, base);
@@ -796,6 +833,10 @@ jpeg_read_exif_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen)
 
 		// this is the offset to the first IFD (Image File Directory)
 		unsigned long first_offset = ReadUint32(bMotorolaOrder, profile + 4);
+		if (first_offset > length) {
+			// bad Exif data
+			return FALSE;
+		}
 
 		/*
 		Note: as FreeImage 3.14.0, this test is no longer needed for images with similar suspicious offset

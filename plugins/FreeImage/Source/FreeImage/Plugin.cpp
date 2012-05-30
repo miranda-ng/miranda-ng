@@ -224,7 +224,7 @@ FreeImage_Initialise(BOOL load_local_plugins_only) {
 			s_plugins->AddNode(InitBMP);
 			s_plugins->AddNode(InitICO);
 			s_plugins->AddNode(InitJPEG);
-			//s_plugins->AddNode(InitMNG, NULL, "JNG", "JPEG Network Graphics", "jng", "");
+			//s_plugins->AddNode(InitJNG);
 			//s_plugins->AddNode(InitKOALA);
 			//s_plugins->AddNode(InitIFF);
 			//s_plugins->AddNode(InitMNG);

@@ -41,26 +41,26 @@ typedef struct {
 	/// Normalized weights of neighboring pixels
 	double *Weights;
 	/// Bounds of source pixels window
-	int Left, Right;   
+	unsigned Left, Right;   
 } Contribution;  
 
 private:
 	/// Row (or column) of contribution weights 
 	Contribution *m_WeightTable;
 	/// Filter window size (of affecting source pixels) 
-	DWORD m_WindowSize;
+	unsigned m_WindowSize;
 	/// Length of line (no. of rows / cols) 
-	DWORD m_LineLength;
+	unsigned m_LineLength;
 
 public:
 	/** 
 	Constructor<br>
 	Allocate and compute the weights table
 	@param pFilter Filter used for upsampling or downsampling
-	@param uLineSize Length (in pixels) of the destination line buffer
+	@param uDstSize Length (in pixels) of the destination line buffer
 	@param uSrcSize Length (in pixels) of the source line buffer
 	*/
-	CWeightsTable(CGenericFilter *pFilter, DWORD uDstSize, DWORD uSrcSize);
+	CWeightsTable(CGenericFilter *pFilter, unsigned uDstSize, unsigned uSrcSize);
 
 	/**
 	Destructor<br>
@@ -73,7 +73,7 @@ public:
 	@param src_pos Pixel position in source line buffer
 	@return Returns the filter weight
 	*/
-	double getWeight(int dst_pos, int src_pos) {
+	double getWeight(unsigned dst_pos, unsigned src_pos) {
 		return m_WeightTable[dst_pos].Weights[src_pos];
 	}
 
@@ -81,7 +81,7 @@ public:
 	@param dst_pos Pixel position in destination line buffer
 	@return Returns the left boundary of source line buffer
 	*/
-	int getLeftBoundary(int dst_pos) {
+	unsigned getLeftBoundary(unsigned dst_pos) {
 		return m_WeightTable[dst_pos].Left;
 	}
 
@@ -89,7 +89,7 @@ public:
 	@param dst_pos Pixel position in destination line buffer
 	@return Returns the right boundary of source line buffer
 	*/
-	int getRightBoundary(int dst_pos) {
+	unsigned getRightBoundary(unsigned dst_pos) {
 		return m_WeightTable[dst_pos].Right;
 	}
 };

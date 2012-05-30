@@ -1,7 +1,8 @@
 // ==========================================================
-// High Dynamic Range bitmap conversion routines
+// Deprecated functions
 //
 // Design and implementation by
+// - Floris van den Berg (flvdberg@wxs.nl)
 // - Hervé Drolon (drolon@infonie.fr)
 //
 // This file is part of FreeImage 3
@@ -19,26 +20,17 @@
 // Use at your own risk!
 // ==========================================================
 
-#ifndef TONE_MAPPING_H
-#define TONE_MAPPING_H
+#include "FreeImage.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#include "../DeprecationManager/DeprecationMgr.h"
 
-BOOL ConvertInPlaceRGBFToYxy(FIBITMAP *dib);
-BOOL ConvertInPlaceYxyToRGBF(FIBITMAP *dib);
-FIBITMAP* ConvertRGBFToY(FIBITMAP *src);
+// ----------------------------------------------------------
 
-BOOL LuminanceFromYxy(FIBITMAP *dib, float *maxLum, float *minLum, float *worldLum);
-BOOL LuminanceFromY(FIBITMAP *dib, float *maxLum, float *minLum, float *Lav, float *Llav);
-
-void NormalizeY(FIBITMAP *Y, float minPrct, float maxPrct);
-
-FIBITMAP* ClampConvertRGBFTo24(FIBITMAP *src);
-
-#ifdef __cplusplus
+FIBITMAP *DLL_CALLCONV 
+FreeImage_RotateClassic(FIBITMAP *dib, double angle) {
+#ifdef _WIN32
+	DEPRECATE("FreeImage_RotateClassic()", "FreeImage_Rotate()")
+#endif // _WIN32
+	return FreeImage_Rotate(dib, angle, NULL);
 }
-#endif
 
-#endif // TONE_MAPPING_H

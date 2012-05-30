@@ -19,11 +19,11 @@
 // Use at your own risk!
 // ==========================================================
 
+#include "../LibRawLite/libraw/libraw.h"
+
 #include "FreeImage.h"
 #include "Utilities.h"
 #include "../Metadata/FreeImageTag.h"
-
-#include "../LibRawLite/libraw/libraw.h"
 
 // ==========================================================
 // Plugin Interface
@@ -53,6 +53,9 @@ public:
 		io->seek_proc(handle, start_pos, SEEK_SET);
 	}
 	~LibRaw_freeimage_datastream() {
+	}
+	virtual void * make_jas_stream() {
+		return NULL;
 	}
     virtual int valid() { 
 		return (_io && _handle);
@@ -177,7 +180,7 @@ libraw_ConvertToDib(libraw_processed_image_t *image) {
 /** 
 Get the embedded JPEG preview image from RAW picture with included Exif Data. 
 @param RawProcessor Libraw handle
-@param flags Loading JPEG flags
+@param flags JPEG load flags
 @return Returns the loaded dib if successfull, returns NULL otherwise
 */
 static FIBITMAP * 
@@ -188,7 +191,8 @@ libraw_LoadEmbeddedPreview(LibRaw& RawProcessor, int flags) {
 	try {
 		// unpack data
 		if(RawProcessor.unpack_thumb() != LIBRAW_SUCCESS) {
-			throw (char*)NULL;	// run silently "LibRaw : failed to run unpack_thumb"
+			// run silently "LibRaw : failed to run unpack_thumb"
+			return NULL;
 		}
 
 		// retrieve thumb image
@@ -260,6 +264,8 @@ libraw_LoadRawData(LibRaw& RawProcessor, int bitspersample) {
 			RawProcessor.imgdata.params.gamm[0] = 1/2.222;
 			RawProcessor.imgdata.params.gamm[1] = 4.5;
 		}
+		// (-W) Don't use automatic increase of brightness by histogram
+		RawProcessor.imgdata.params.no_auto_bright = 1;
 		// (-a) Use automatic white balance obtained after averaging over the entire image
 		RawProcessor.imgdata.params.use_auto_wb = 1;
 		// (-q 3) Adaptive homogeneity-directed demosaicing algorithm (AHD)
@@ -373,7 +379,8 @@ Extension() {
 		"rwl,"	 // Leica Camera Raw Image Format.
 		"rwz,"   // Rawzor Digital Camera Raw Image Format.
 		"sr2,"   // Sony Digital Camera Raw Image Format.
-		"srf,"   // Sony Digital Camera Raw Image Format for DSC-F828 8 megapixel digital camera or Sony DSC-R1
+		"srf,"   // Sony Digital Camera Raw Image Format for DSC-F828 8 megapixel digital camera or Sony DSC-R1.
+		"srw,"   // Samsung Raw Image Format.
 		"sti";   // Sinar Capture Shop Raw Image File.
 //		"x3f"   // Sigma Digital Camera Raw Image Format for devices based on Foveon X3 direct image sensor.
 	return raw_extensions;
@@ -386,7 +393,7 @@ RegExpr() {
 
 static const char * DLL_CALLCONV
 MimeType() {
-	return "image/x-raw";
+	return "image/x-dcraw";
 }
 
 static BOOL DLL_CALLCONV
@@ -445,10 +452,10 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		// the following parameters affect data reading
 		// --------------------------------------------
 
+		// (-s [0..N-1]) Select one raw image from input file
+		RawProcessor.imgdata.params.shot_select = 0;
 		// (-w) Use camera white balance, if possible (otherwise, fallback to auto_wb)
 		RawProcessor.imgdata.params.use_camera_wb = 1;
-		// RAW data filtration mode during data unpacking and postprocessing
-		RawProcessor.imgdata.params.filtering_mode = LIBRAW_FILTERING_AUTOMATIC;
 		// (-h) outputs the image in 50% size
 		RawProcessor.imgdata.params.half_size = ((flags & RAW_HALFSIZE) == RAW_HALFSIZE) ? 1 : 0;
 
@@ -460,14 +467,6 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		if(header_only) {
 			// header only mode
 			dib = FreeImage_AllocateHeaderT(header_only, FIT_RGB16, RawProcessor.imgdata.sizes.width, RawProcessor.imgdata.sizes.height);
-			// try to get JPEG embedded Exif metadata
-			if(dib) {
-				FIBITMAP *metadata_dib = libraw_LoadEmbeddedPreview(RawProcessor, FIF_LOAD_NOPIXELS);
-				if(metadata_dib) {
-					FreeImage_CloneMetadata(dib, metadata_dib);
-					FreeImage_Unload(metadata_dib);
-				}
-			}
 		}
 		else if((flags & RAW_PREVIEW) == RAW_PREVIEW) {
 			// try to get the embedded JPEG
@@ -487,12 +486,12 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		}
 
 		// save ICC profile if present
-		if(NULL != RawProcessor.imgdata.color.profile) {
+		if(dib && (NULL != RawProcessor.imgdata.color.profile)) {
 			FreeImage_CreateICCProfile(dib, RawProcessor.imgdata.color.profile, RawProcessor.imgdata.color.profile_length);
 		}
 
 		// try to get JPEG embedded Exif metadata
-		if(dib && !((flags & RAW_PREVIEW) == RAW_PREVIEW) ) {
+		if(dib && !((flags & RAW_PREVIEW) == RAW_PREVIEW)) {
 			FIBITMAP *metadata_dib = libraw_LoadEmbeddedPreview(RawProcessor, FIF_LOAD_NOPIXELS);
 			if(metadata_dib) {
 				FreeImage_CloneMetadata(dib, metadata_dib);

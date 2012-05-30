@@ -115,9 +115,9 @@ Read32(FreeImageIO *io, fi_handle handle) {
 
 struct OpDef
 {
-	char * name;
+	const char * name;
 	int    len;
-	char * description;
+	const char * description;
 };
 
 // for reserved opcodes

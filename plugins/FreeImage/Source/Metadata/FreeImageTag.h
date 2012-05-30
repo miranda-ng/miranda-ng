@@ -46,6 +46,40 @@
 #define TAG_Y_RESOLUTION				0x011B
 #define TAG_RESOLUTION_UNIT				0x0128
 
+// LibTIF compression modes
+
+#define	    TAG_COMPRESSION_NONE		1	/* dump mode */
+#define	    TAG_COMPRESSION_CCITTRLE	2	/* CCITT modified Huffman RLE */
+#define	    TAG_COMPRESSION_CCITTFAX3	3	/* CCITT Group 3 fax encoding */
+#define     TAG_COMPRESSION_CCITT_T4        3       /* CCITT T.4 (TIFF 6 name) */
+#define	    TAG_COMPRESSION_CCITTFAX4	4	/* CCITT Group 4 fax encoding */
+#define     TAG_COMPRESSION_CCITT_T6        4       /* CCITT T.6 (TIFF 6 name) */
+#define	    TAG_COMPRESSION_LZW		5       /* Lempel-Ziv  & Welch */
+#define	    TAG_COMPRESSION_OJPEG		6	/* !6.0 JPEG */
+#define	    TAG_COMPRESSION_JPEG		7	/* %JPEG DCT compression */
+#define	    TAG_COMPRESSION_NEXT		32766	/* NeXT 2-bit RLE */
+#define	    TAG_COMPRESSION_CCITTRLEW	32771	/* #1 w/ word alignment */
+#define	    TAG_COMPRESSION_PACKBITS	32773	/* Macintosh RLE */
+#define	    TAG_COMPRESSION_THUNDERSCAN	32809	/* ThunderScan RLE */
+/* codes 32895-32898 are reserved for ANSI IT8 TIFF/IT <dkelly@apago.com) */
+#define	    TAG_COMPRESSION_IT8CTPAD	32895   /* IT8 CT w/padding */
+#define	    TAG_COMPRESSION_IT8LW		32896   /* IT8 Linework RLE */
+#define	    TAG_COMPRESSION_IT8MP		32897   /* IT8 Monochrome picture */
+#define	    TAG_COMPRESSION_IT8BL		32898   /* IT8 Binary line art */
+/* compression codes 32908-32911 are reserved for Pixar */
+#define     TAG_COMPRESSION_PIXARFILM	32908   /* Pixar companded 10bit LZW */
+#define	    TAG_COMPRESSION_PIXARLOG	32909   /* Pixar companded 11bit ZIP */
+#define	    TAG_COMPRESSION_DEFLATE		32946	/* Deflate compression */
+#define     TAG_COMPRESSION_ADOBE_DEFLATE   8       /* Deflate compression,
+						   as recognized by Adobe */
+/* compression code 32947 is reserved for Oceana Matrix <dev@oceana.com> */
+#define     TAG_COMPRESSION_DCS             32947   /* Kodak DCS encoding */
+#define	    TAG_COMPRESSION_JBIG		34661	/* ISO JBIG */
+#define     TAG_COMPRESSION_SGILOG		34676	/* SGI Log Luminance RLE */
+#define     TAG_COMPRESSION_SGILOG24	34677	/* SGI Log 24-bit packed */
+#define     TAG_COMPRESSION_JP2000          34712   /* Leadtools JPEG2000 */
+#define	    TAG_COMPRESSION_LZMA		34925	/* LZMA2 */
+
 // Tags relating to recording offset
 
 #define TAG_STRIP_OFFSETS					0x0111
@@ -263,7 +297,7 @@ Describes the tag format descriptor
 @return Returns the width of a single element, in bytes
 @see FREE_IMAGE_MDTYPE
 */
-int FreeImage_TagDataWidth(FREE_IMAGE_MDTYPE type);
+unsigned FreeImage_TagDataWidth(FREE_IMAGE_MDTYPE type);
 
 // --------------------------------------------------------------------------
 
@@ -314,6 +348,8 @@ public:
 		EXIF_MAKERNOTE_ASAHI,
 		EXIF_MAKERNOTE_PENTAX,
 		EXIF_MAKERNOTE_SONY,
+		EXIF_MAKERNOTE_SIGMA_SD1,
+		EXIF_MAKERNOTE_SIGMA_FOVEON,
 		IPTC,
 		GEOTIFF,
 		ANIMATION
@@ -408,10 +444,10 @@ public:
 // --------------------------------------------------------------------------
 
 /// Name of the XMP field
-static char *g_TagLib_XMPFieldName = "XMLPacket";
+static const char *g_TagLib_XMPFieldName = "XMLPacket";
 
 /// Name of the Exif raw field
-static char *g_TagLib_ExifRawFieldName = "ExifRaw";
+static const char *g_TagLib_ExifRawFieldName = "ExifRaw";
 
 // --------------------------------------------------------------------------
 // Metadata routines

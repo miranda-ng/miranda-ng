@@ -347,8 +347,15 @@ opj_image_t* FIBITMAPToJ2KImage(int format_id, FIBITMAP *dib, const opj_cparamet
 					color_space = CLRSPC_GRAY;
 					break;
 				case FIC_RGB:
-					numcomps = 3;
-					color_space = CLRSPC_SRGB;
+					if(FreeImage_GetBPP(dib) == 32) {
+						// 32-bit image with a fully opaque layer
+						numcomps = 4;
+						color_space = CLRSPC_SRGB;
+					} else {
+						// 24-bit image
+						numcomps = 3;
+						color_space = CLRSPC_SRGB;
+					}
 					break;
 				case FIC_RGBALPHA:
 					numcomps = 4;

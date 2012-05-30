@@ -20,7 +20,7 @@
 // Use at your own risk!
 // ==========================================================
 
-#include "../LibTIFF/tiffiop.h"
+#include "../LibTIFF4/tiffiop.h"
 
 #include "FreeImage.h"
 #include "Utilities.h"
@@ -43,45 +43,45 @@ static int s_format_id;
 //   libtiff interface 
 // ==========================================================
 
-static tsize_t 
-_g3ReadProc(thandle_t fd, tdata_t buf, tsize_t size) {
+static tmsize_t 
+_g3ReadProc(thandle_t handle, void *buf, tmsize_t size) {
 	// returns an error when reading the TIFF header
 	return 0;
 }
 
-static tsize_t
-_g3WriteProc(thandle_t fd, tdata_t buf, tsize_t size) {
+static tmsize_t
+_g3WriteProc(thandle_t handle, void *buf, tmsize_t size) {
 	// returns ok when writing the TIFF header
 	return size;
 }
 
 static toff_t
-_g3SeekProc(thandle_t fd, toff_t off, int whence) {
+_g3SeekProc(thandle_t handle, toff_t off, int whence) {
 	return 0;
 }
 
 static int
-_g3CloseProc(thandle_t fd) {
+_g3CloseProc(thandle_t handle) {
 	return 0;
 }
 
 static toff_t
-_g3SizeProc(thandle_t fd) {
+_g3SizeProc(thandle_t handle) {
 	return 0;
 }
 
 static int
-_g3MapProc(thandle_t fd, tdata_t* pbase, toff_t* psize) {
+_g3MapProc(thandle_t, void** base, toff_t* size) {
 	return 0;
 }
 
 static void
-_g3UnmapProc(thandle_t fd, tdata_t base, toff_t size) {
+_g3UnmapProc(thandle_t, void* base, toff_t size) {
 }
 
 // --------------------------------------------------------------
 
-static toff_t
+static tmsize_t
 G3GetFileSize(FreeImageIO *io, fi_handle handle) {
     long currentPos = io->tell_proc(handle);
     io->seek_proc(handle, 0, SEEK_END);
@@ -91,8 +91,8 @@ G3GetFileSize(FreeImageIO *io, fi_handle handle) {
 }
 
 static BOOL 
-G3ReadFile(FreeImageIO *io, fi_handle handle, tidata_t tif_rawdata, tsize_t tif_rawdatasize) {
-	return ((tsize_t)(io->read_proc(tif_rawdata, tif_rawdatasize, 1, handle) * tif_rawdatasize) == tif_rawdatasize);
+G3ReadFile(FreeImageIO *io, fi_handle handle, uint8 *tif_rawdata, tmsize_t tif_rawdatasize) {
+	return ((tmsize_t)(io->read_proc(tif_rawdata, tif_rawdatasize, 1, handle) * tif_rawdatasize) == tif_rawdatasize);
 }
 
 // ==========================================================
@@ -131,7 +131,7 @@ copyFaxFile(FreeImageIO *io, fi_handle handle, TIFF* tifin, uint32 xsize, int st
 		tifin->tif_rawcc = tifin->tif_rawdatasize;
 
 		(*tifin->tif_setupdecode)(tifin);
-		(*tifin->tif_predecode)(tifin, (tsample_t) 0);
+		(*tifin->tif_predecode)(tifin, (uint16) 0);
 		tifin->tif_row = 0;
 		badfaxlines = 0;
 		badfaxrun = 0;

@@ -68,11 +68,13 @@ _WriteProc(png_structp png_ptr, unsigned char *data, png_size_t size) {
 
 static void
 _FlushProc(png_structp png_ptr) {
+	(png_structp)png_ptr;
 	// empty flush implementation
 }
 
 static void
 error_handler(png_structp png_ptr, const char *error) {
+	(png_structp)png_ptr;
 	throw error;
 }
 
@@ -80,6 +82,8 @@ error_handler(png_structp png_ptr, const char *error) {
 
 static void
 warning_handler(png_structp png_ptr, const char *warning) {
+	(png_structp)png_ptr;
+	(char*)warning;
 }
 
 // ==========================================================
@@ -89,7 +93,7 @@ warning_handler(png_structp png_ptr, const char *warning) {
 static BOOL 
 ReadMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 	// XMP keyword
-	char *g_png_xmp_keyword = "XML:com.adobe.xmp";
+	const char *g_png_xmp_keyword = "XML:com.adobe.xmp";
 
 	FITAG *tag = NULL;
 	png_textp text_ptr = NULL;
@@ -130,7 +134,7 @@ ReadMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 static BOOL 
 WriteMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 	// XMP keyword
-	char *g_png_xmp_keyword = "XML:com.adobe.xmp";
+	const char *g_png_xmp_keyword = "XML:com.adobe.xmp";
 
 	FITAG *tag = NULL;
 	FIMETADATA *mdhandle = NULL;
@@ -168,7 +172,7 @@ WriteMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 	if(tag && FreeImage_GetTagLength(tag)) {
 		memset(&text_metadata, 0, sizeof(png_text));
 		text_metadata.compression = 1;							// iTXt, none
-		text_metadata.key = g_png_xmp_keyword;					// keyword, 1-79 character description of "text"
+		text_metadata.key = (char*)g_png_xmp_keyword;					// keyword, 1-79 character description of "text"
 		text_metadata.text = (char*)FreeImage_GetTagValue(tag);	// comment, may be an empty string (ie "")
 		text_metadata.text_length = FreeImage_GetTagLength(tag);// length of the text string
 		text_metadata.itxt_length = FreeImage_GetTagLength(tag);// length of the itxt string
@@ -456,6 +460,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 					png_get_PLTE(png_ptr,info_ptr, &png_palette, &palette_entries);
 
+					palette_entries = MIN((unsigned)palette_entries, FreeImage_GetColorsUsed(dib));
 					palette = FreeImage_GetPalette(dib);
 
 					// store the palette
@@ -588,11 +593,13 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			}
 
 			// read in the bitmap bits via the pointer table
+			// allow loading of PNG with minor errors (such as images with several IDAT chunks)
 
 			for (png_uint_32 k = 0; k < height; k++) {
 				row_pointers[height - 1 - k] = FreeImage_GetScanLine(dib, k);			
 			}
 
+			png_set_benign_errors(png_ptr, 1);
 			png_read_image(png_ptr, row_pointers);
 
 			// check if the bitmap contains transparency, if so enable it in the header

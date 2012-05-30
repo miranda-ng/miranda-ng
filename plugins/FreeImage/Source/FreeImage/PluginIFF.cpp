@@ -153,7 +153,7 @@ RegExpr() {
 
 static const char * DLL_CALLCONV
 MimeType() {
-	return "image/freeimage-iff";
+	return "image/x-iff";
 }
 
 static BOOL DLL_CALLCONV
@@ -276,11 +276,13 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					return NULL;
 
 				RGBQUAD *pal = FreeImage_GetPalette(dib);
-
-				for (unsigned k = 0; k < ch_size / 3; k++) {					
-					io->read_proc(&pal[k].rgbRed, 1, 1, handle );
-					io->read_proc(&pal[k].rgbGreen, 1, 1, handle );
-					io->read_proc(&pal[k].rgbBlue, 1, 1, handle );
+				if(pal != NULL) {
+					unsigned palette_entries = MIN((unsigned)ch_size / 3, FreeImage_GetColorsUsed(dib));
+					for (unsigned k = 0; k < palette_entries; k++) {					
+						io->read_proc(&pal[k].rgbRed, 1, 1, handle );
+						io->read_proc(&pal[k].rgbGreen, 1, 1, handle );
+						io->read_proc(&pal[k].rgbBlue, 1, 1, handle );
+					}
 				}
 			} else if (ch_type == ID_BODY) {
 				if (!dib)

@@ -169,7 +169,7 @@ FreeImage_GetImageSizeHeader(BOOL header_only, unsigned width, unsigned height, 
 		const size_t header_size = dib_size;
 
 		// pixels are aligned on a 16 bytes boundary
-		dib_size += CalculatePitch(CalculateLine(width, bpp)) * height; 
+		dib_size += (size_t)CalculatePitch(CalculateLine(width, bpp)) * (size_t)height; 
 
 		// check for possible malloc overflow using a KISS integer overflow detection mechanism
 		{

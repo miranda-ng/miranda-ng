@@ -137,5 +137,6 @@ void DLL_CALLCONV InitJP2(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitPFM(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitPICT(Plugin *plugin, int format_id);
 void DLL_CALLCONV InitRAW(Plugin *plugin, int format_id);
+void DLL_CALLCONV InitJNG(Plugin *plugin, int format_id);
 
 #endif //!PLUGIN_H
