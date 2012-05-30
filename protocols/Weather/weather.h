@@ -484,8 +484,6 @@ int WPShowMessage(TCHAR* lpzText, WORD kind);
 LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-void SelectMenuItem(HMENU hMenu, int Check);
-
 // functions in weather_svcs.c
 void InitServices(void);
 void DestroyServices(void);
