@@ -278,11 +278,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RC4", "..\plugins\Dbx_mmap_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Quotes", "..\plugins\Quotes\proto_Quotes\proto_Quotes_10.vcxproj", "{5A0A9761-78E1-4E0F-AD8C-8931A667A5F2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbx_tree_ARC4", "..\plugins\Dbx_tree\encryption\ARC4.vcxproj", "{F60935E3-8F27-46E2-8598-013E7D4C90E7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree_ARC4", "..\plugins\Dbx_tree\encryption\ARC4.vcxproj", "{F60935E3-8F27-46E2-8598-013E7D4C90E7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbx_tree_Cast128", "..\plugins\Dbx_tree\encryption\Cast128.vcxproj", "{7E88D7F5-8B0A-4B79-84CD-D7982D4E0D4D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree_Cast128", "..\plugins\Dbx_tree\encryption\Cast128.vcxproj", "{7E88D7F5-8B0A-4B79-84CD-D7982D4E0D4D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dbx_tree_HC256", "..\plugins\Dbx_tree\encryption\HC256.vcxproj", "{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree_HC256", "..\plugins\Dbx_tree\encryption\HC256.vcxproj", "{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
