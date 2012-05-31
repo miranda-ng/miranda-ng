@@ -500,11 +500,10 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 	GetLanguageString(buffer);
 	buffer.append(TEXT("\r\n"));
 
+	TCHAR *profpathfull = Utils_ReplaceVarsT(profpath);
 	if (flags & VI_FLAG_PRNVAR)
 	{
-		TCHAR *profpathfull = Utils_ReplaceVarsT(profpath);
 		GetFreeDiskString(profpathfull, buffer);
-		mir_free(profpathfull);
 		buffer.append(TEXT("\r\n"));
 	}
 
@@ -518,11 +517,9 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 	buffer.appendfmt(TEXT("Build time: %s\r\n"), mirtime); 
 
 	TCHAR profpn[MAX_PATH];
-	crs_sntprintf(profpn, sizeof(profpn), TEXT("%s\\%s"), profpath, profname);
-	TCHAR* tszFolder = Utils_ReplaceVarsT(profpn);
+	crs_sntprintf(profpn, SIZEOF(profpn), TEXT("%s\\%s"), profpathfull, profname);
 
-	buffer.appendfmt(TEXT("Profile: %s\r\n"), tszFolder);
-	mir_free(tszFolder);
+	buffer.appendfmt(TEXT("Profile: %s\r\n"), profpn);
 
 	if (flags & VI_FLAG_PRNVAR)
 	{
@@ -540,6 +537,7 @@ void PrintVersionInfo(bkstring& buffer, unsigned flags)
 			buffer.appendfmt(TEXT("Profile creation date: %s\r\n"), mirtime);
 		}
 	}
+	mir_free(profpathfull);
 
 	GetLanguagePackString(buffer);
 	buffer.append(TEXT("\r\n"));
