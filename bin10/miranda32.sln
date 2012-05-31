@@ -44,8 +44,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Miranda", "..\src\miranda32
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSN", "..\protocols\MSN\msn_10.vcxproj", "{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbrw", "..\plugins\Dbrw\dbrw_10.vcxproj", "{0A3D4D77-77B8-B817-FC8B-535BDCD0980A}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_nicer", "..\plugins\clist_nicer\clist_nicer_10.vcxproj", "{3C42510C-A29E-4A53-899C-203BFA874E0B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\IcqOscarJ\icons_pack\ICONS.vcxproj", "{500057D6-5563-7AEF-129A-FC17C88C5BC1}"
@@ -244,10 +242,6 @@ Global
 		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|Win32.Build.0 = Release|Win32
 		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|x64.ActiveCfg = Release|x64
 		{7B0F213E-C15E-4219-8AE5-49DD3D3D553D}.Release|x64.Build.0 = Release|x64
-		{0A3D4D77-77B8-B817-FC8B-535BDCD0980A}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0A3D4D77-77B8-B817-FC8B-535BDCD0980A}.Debug|x64.ActiveCfg = Debug|x64
-		{0A3D4D77-77B8-B817-FC8B-535BDCD0980A}.Release|Win32.ActiveCfg = Release|Win32
-		{0A3D4D77-77B8-B817-FC8B-535BDCD0980A}.Release|x64.ActiveCfg = Release|x64
 		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|Win32.ActiveCfg = Debug|Win32
 		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|Win32.Build.0 = Debug|Win32
 		{3C42510C-A29E-4A53-899C-203BFA874E0B}.Debug|x64.ActiveCfg = Debug|x64
