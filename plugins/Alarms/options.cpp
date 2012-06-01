@@ -1168,18 +1168,15 @@ static BOOL CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 int OptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-// in the 0.6.0.0 m_options.h header, OPTIONSDIALOGPAGE includes tab stuff, and is larger - older versions of miranda won't accept it
-#define OPTIONPAGE_OLD_SIZE2 60	
-	//odp.cbSize						= sizeof(odp);
-	odp.cbSize						= OPTIONPAGE_OLD_SIZE2;
-	odp.position					= -790000000;
-	odp.hInstance					= hInst;
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT1);
-	odp.pszTitle					= Translate("Alarms");
-	odp.pszGroup					= Translate("Events");
-	odp.flags						= ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl		= 0;
-	odp.pfnDlgProc					= DlgProcOpts;
+	odp.cbSize                 = sizeof(odp);
+	odp.position               = -790000000;
+	odp.hInstance              = hInst;
+	odp.pszTemplate            = MAKEINTRESOURCEA(IDD_OPT1);
+	odp.pszTitle               = Translate("Alarms");
+	odp.pszGroup               = Translate("Events");
+	odp.flags                  = ODPF_BOLDGROUPS;
+	odp.nIDBottomSimpleControl = 0;
+	odp.pfnDlgProc             = DlgProcOpts;
 	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
 
 	return 0;
