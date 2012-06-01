@@ -25,6 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_system.h"
 
+#if defined( _UNICODE )
+	#define tstring wstring
+#else
+	#define tstring string
+#endif
+
 #if defined( __cplusplus )
 extern LIST_INTERFACE li;
 
@@ -112,7 +118,7 @@ template<class T> struct OBJLIST : public LIST<T>
 		LIST<T>( aincr, ( FTSortFunc ) id )
 		{}
 
-	__inline OBJLIST( const OBJLIST& x ) : 
+	__inline OBJLIST( const OBJLIST& x ) :
 		LIST<T>( x.increment, x.sortFunc )
 		{	items = NULL;
 			#if defined( _STATIC )
@@ -135,13 +141,13 @@ template<class T> struct OBJLIST : public LIST<T>
 	~OBJLIST()
 	{
 		#if !defined( _STATIC )
-			if (li.cbSize != 0) 
+			if (li.cbSize != 0)
 		#endif
 				destroy();
 	}
 
 	__inline void destroy( void )
-	{	
+	{
 		for ( int i=0; i < this->count; i++ )
 			delete this->items[i];
 
@@ -181,4 +187,3 @@ template<class T> struct OBJLIST : public LIST<T>
 #endif
 
 #endif // M_SYSTEM_CPP_H
-

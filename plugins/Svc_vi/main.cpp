@@ -66,8 +66,6 @@ PLUGININFOEX pluginInfo={
 	{0x2f174488, 0x489c, 0x4fe1, {0x94, 0x0d, 0x59, 0x6c, 0xf0, 0xf3, 0x5e, 0x65}} //{2f174488-489c-4fe1-940d-596cf0f35e65}
 };
 
-OLD_MIRANDAPLUGININFO_SUPPORT;
-
 static const MUUID interfaces[] = {MIID_VERSIONINFO, MIID_SERVICEMODE, MIID_LAST};
 
 extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()

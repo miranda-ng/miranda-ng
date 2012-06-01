@@ -93,8 +93,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_help.h>
 #include <m_timezones.h>
 
-#include "forkthread.h"
 #include "miranda.h"
+#include "forkthread.h"
 #include "../modules/database/dblists.h"
 
 #include <m_ssl.h>

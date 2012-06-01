@@ -111,22 +111,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define E99		TranslateT("Unknown error (99)")
 
 // HTTP error... not all translated
-// 100 Continue 
-// 101 Switching Protocols 
-// 200 OK 
-// 201 Created 
-// 202 Accepted 
-// 203 Non-Authoritative Information 
+// 100 Continue
+// 101 Switching Protocols
+// 200 OK
+// 201 Created
+// 202 Accepted
+// 203 Non-Authoritative Information
 #define E204	TranslateT("HTTP Error: No content (204)")
-// 205 Reset Content 
-// 206 Partial Content 
-// 300 Multiple Choices 
+// 205 Reset Content
+// 206 Partial Content
+// 300 Multiple Choices
 #define E301	TranslateT("HTTP Error: Data moved (301)")
-// 302 Found 
-// 303 See Other 
-// 304 Not Modified 
+// 302 Found
+// 303 See Other
+// 304 Not Modified
 #define E305	TranslateT("HTTP Error: Use proxy (305)")
-// 306 (Unused) 
+// 306 (Unused)
 #define E307	TranslateT("HTTP Error: Temporary redirect (307)")
 #define E400	TranslateT("HTTP Error: Bad request (400)")
 #define E401	TranslateT("HTTP Error: Unauthorized (401)")
@@ -134,29 +134,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define E403	TranslateT("HTTP Error: Forbidden (403)")
 #define E404	TranslateT("HTTP Error: Not found (404)")
 #define E405	TranslateT("HTTP Error: Method not allowed (405)")
-// 406 Not Acceptable 
+// 406 Not Acceptable
 #define E407	TranslateT("HTTP Error: Proxy authentication required (407)")
-// 408 Request Timeout 
-// 409 Conflict 
+// 408 Request Timeout
+// 409 Conflict
 #define E410	TranslateT("HTTP Error: Gone (410)")
-// 411 Length Required 
-// 412 Precondition Failed 
-// 413 Request Entity Too Large 
-// 414 Request-URI Too Long 
-// 415 Unsupported Media Type 
-// 416 Requested Range Not Satisfiable 
-// 417 Expectation Failed 
+// 411 Length Required
+// 412 Precondition Failed
+// 413 Request Entity Too Large
+// 414 Request-URI Too Long
+// 415 Unsupported Media Type
+// 416 Requested Range Not Satisfiable
+// 417 Expectation Failed
 #define E500	TranslateT("HTTP Error: Internal server error (500)")
-// 501 Not Implemented 
+// 501 Not Implemented
 #define E502	TranslateT("HTTP Error: Bad gateway (502)")
 #define E503	TranslateT("HTTP Error: Service unavailable (503)")
 #define E504	TranslateT("HTTP Error: Gateway timeout (504)")
-// 505 HTTP Version Not Supported 
+// 505 HTTP Version Not Supported
 
 // defaults constants
 #define C_DEFAULT "%n"
 #define N_DEFAULT ""
-#define B_DEFAULT "Max/Min: %[Max]/%[Min]\r\nCondition: %[Condition]\r\nTemperature: %[Temperature]\r\nPressure: %[Pressure] (%[Pressure Change])\r\nWind: %[Wind Direction], %[Wind Speed]\r\nHumidity: %[Humidity]\r\nVisibility: %[Visibility]\r\nDew Point: %[Dewpoint]\r\nUV Index: %[UV Index]\r\nMoon: %[Moon]\r\nCoordinates: Latitude: %[Latitude] Longitude: %[Longitude]\r\n\r\nSunrise: %[Sunrise]\r\nSunset: %[Sunset]\r\nDay Length: %[Day Length]\r\n\r\n5 Days Forecast:\r\n%[Forecast Day 1]\r\n%[Forecast Day 2]\r\n%[Forecast Day 3]\r\n%[Forecast Day 4]\r\n%[Forecast Day 5]"
+#define B_DEFAULT "Max/Min: %[Max]%[High]/%[Min]%[Low]\r\nCondition: %[Condition]\r\nTemperature: %[Temperature]\r\nPressure: %[Pressure] (%[Pressure Change])\r\nWind: %[Wind Direction], %[Wind Speed]\r\nHumidity: %[Humidity]\r\nVisibility: %[Visibility]\r\nDew Point: %[Dewpoint]\r\nUV Index: %[UV Index]\r\nMoon: %[Moon]\r\nCoordinates: Latitude: %[Latitude] Longitude: %[Longitude]\r\n\r\nSunrise: %[Sunrise]\r\nSunset: %[Sunset]\r\nDay Length: %[Day Length]\r\n\r\n5 Days Forecast:\r\n%[Forecast Day 1]\r\n%[Forecast Day 2]\r\n%[Forecast Day 3]\r\n%[Forecast Day 4]\r\n%[Forecast Day 5]"
 #define b_DEFAULT "Weather Condition for %n as of %u"
 #define X_DEFAULT N_DEFAULT
 #define H_DEFAULT ""
@@ -441,7 +441,7 @@ int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam);
 // functions in weather_http.c
 int InternetDownloadFile (char *szUrl, char *cookie, TCHAR** szData);
 void NetlibInit();
-void NetlibHttpDisconnect(void); 
+void NetlibHttpDisconnect(void);
 
 // functions in weather_ini.c
 void WIListAdd(WIDATA Data);
@@ -519,9 +519,9 @@ void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 // function from multiwin module
 void InitMwin(void);
 void DestroyMwin(void);
-INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM lParam); 
-int BuildContactMenu(WPARAM wparam, LPARAM lparam); 
-void UpdateMwinData(HANDLE hContact); 
+INT_PTR Mwin_MenuClicked(WPARAM wParam, LPARAM lParam);
+int BuildContactMenu(WPARAM wparam, LPARAM lparam);
+void UpdateMwinData(HANDLE hContact);
 void removeWindow(HANDLE hContact);
 
 // functions in weather_userinfo.c
@@ -540,30 +540,3 @@ void InitIcons(void);
 HICON  LoadIconEx(const char* name, BOOL big);
 HANDLE GetIconHandle(const char* name);
 void   ReleaseIconEx(HICON hIcon);
-
-class _A2T
-{
-	TCHAR* buf;
-
-public:
-	_A2T( const char* s ) : buf( mir_a2t( s )) {}
-	_A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
-	~_A2T() { mir_free(buf); }
-
-	__forceinline operator TCHAR*() const
-	{	return buf;
-	}
-};
-
-class _T2A
-{
-	char* buf;
-
-public:
-	_T2A( const TCHAR* s ) : buf( mir_t2a( s )) {}
-	~_T2A() { mir_free(buf); }
-
-	__forceinline operator char*() const
-	{	return buf;
-	}
-};

@@ -115,64 +115,6 @@ public:
 	}
 };
 
-struct _A2T
-{
-	_A2T( const char* s ) :
-		buf( mir_a2t( s ))
-		{}
-
-	_A2T( const char* s, int cp ) :
-		buf( mir_a2t_cp( s, cp ))
-		{}
-
-	_A2T( const String& s ) :
-		buf( mir_a2t( s ))
-		{}
-
-	~_A2T()
-	{	mir_free(buf);
-	}
-
-	__inline operator TCHAR*() const
-	{	return buf;
-	}
-
-	__inline operator CMString() const
-	{	return CMString(buf);
-	}
-
-	TCHAR* buf;
-};
-
-struct _T2A
-{
-	_T2A( const TCHAR* s ) :
-		buf( mir_t2a(s) )
-		{}
-
-	_T2A( const TCHAR* s, int cp ) :
-		buf( mir_t2a_cp( s, cp ))
-		{}
-
-	_T2A( const CMString& s ) :
-		buf( mir_t2a( s ))
-		{}
-
-	~_T2A()
-	{	mir_free(buf);
-	}
-
-	__inline operator char*() const
-	{	return buf;
-	}
-
-	__inline operator String() const
-	{	return String(buf);
-	}
-
-	char* buf;
-};
-
 // special service for tweaking performance, implemented in chat.dll
 #define MS_GC_GETEVENTPTR  "GChat/GetNewEventPtr"
 typedef int (*GETEVENTFUNC)(WPARAM wParam, LPARAM lParam);

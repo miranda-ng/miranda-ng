@@ -283,20 +283,4 @@ extern int YAMN_STATUS;
 extern PYAMN_VARIABLES pYAMNVar;
 extern HYAMNPROTOPLUGIN POP3Plugin;
 
-///////////////////////////////////////////////////////////////////////
-
-class _A2T
-{
-	TCHAR* buf;
-
-public:
-	_A2T( const char* s ) : buf( mir_a2t( s )) {}
-	_A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
-	~_A2T() { mir_free(buf); }
-
-	__forceinline operator TCHAR*() const
-	{	return buf;
-	}
-};
-
 #endif

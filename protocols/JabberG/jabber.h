@@ -494,33 +494,6 @@ struct JABBER_MUC_JIDLIST_INFO
 
 typedef void ( CJabberProto::*JABBER_FORM_SUBMIT_FUNC )( HXML values, void *userdata );
 
-class _A2T
-{
-	TCHAR* buf;
-
-public:
-	__forceinline _A2T( const char* s ) : buf( mir_a2t( s )) {}
-	__forceinline _A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
-	~_A2T() { mir_free(buf); }
-
-	__forceinline operator TCHAR*() const
-	{	return buf;
-	}
-};
-
-class _T2A
-{
-	char* buf;
-
-public:
-	__forceinline _T2A( const TCHAR* s ) : buf( mir_t2a( s )) {}
-	__forceinline ~_T2A() { mir_free(buf); }
-
-	__forceinline operator char*() const
-	{	return buf;
-	}
-};
-
 //---- jabber_treelist.c ------------------------------------------------
 
 typedef struct TTreeList_ItemInfo *HTREELISTITEM;
