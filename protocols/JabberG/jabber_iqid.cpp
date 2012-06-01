@@ -664,7 +664,9 @@ LBL_NoTypeSpecified:
 		case PA_FORMAT_PNG:  szPicType = _T("image/png");	break;
 		case PA_FORMAT_JPEG: szPicType = _T("image/jpeg");	break;
 		default:
-			goto LBL_Ret;
+LBL_Ret:
+			mir_free( buffer );
+			return;
 		}
 	}
 	else {
@@ -678,25 +680,8 @@ LBL_NoTypeSpecified:
 			goto LBL_NoTypeSpecified;
 	}
 
-	DWORD nWritten;
-	TCHAR szTempPath[MAX_PATH], szAvatarFileName[MAX_PATH];
-	JABBER_LIST_ITEM *item;
-	DBVARIANT dbv;
-
-	if ( hContact ) {
-		if ( GetTempPath( SIZEOF( szTempPath ), szTempPath ) <= 0 )
-			lstrcpy( szTempPath, _T(".\\"));
-		if ( !GetTempFileName( szTempPath, m_tszUserName, GetTickCount(), szAvatarFileName )) {
-LBL_Ret:
-			mir_free( buffer );
-			return;
-		}
-
-		TCHAR* p = _tcsrchr( szAvatarFileName, '.' );
-		if ( p != NULL )
-			lstrcpy( p+1, szPicType + 6 );
-	}
-	else GetAvatarFileName( NULL, szAvatarFileName, SIZEOF( szAvatarFileName ));
+	TCHAR szAvatarFileName[MAX_PATH];
+	GetAvatarFileName( hContact, szAvatarFileName, SIZEOF( szAvatarFileName ));
 
 	Log( "Picture file name set to " TCHAR_STR_PARAM, szAvatarFileName );
 	HANDLE hFile = CreateFile( szAvatarFileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
@@ -704,6 +689,7 @@ LBL_Ret:
 		goto LBL_Ret;
 
 	Log( "Writing %d bytes", bufferLen );
+	DWORD nWritten;
 	if ( !WriteFile( hFile, buffer, bufferLen, &nWritten, NULL ))
 		goto LBL_Ret;
 
@@ -716,27 +702,29 @@ LBL_Ret:
 
 		Log( "My picture saved to " TCHAR_STR_PARAM, szAvatarFileName );
 	}
-	else if ( !JGetStringT( hContact, "jid", &dbv )) {
-		item = ListGetItemPtr( LIST_ROSTER, jid );
-		if ( item == NULL ) {
-			item = ListAdd( LIST_VCARD_TEMP, jid ); // adding to the temp list to store information about photo
-			item->bUseResource = TRUE;
-		}
-		if ( item != NULL ) {
-			hasPhoto = TRUE;
-			if ( item->photoFileName )
-				DeleteFile( item->photoFileName );
-			replaceStr( item->photoFileName, szAvatarFileName );
-			Log( "Contact's picture saved to " TCHAR_STR_PARAM, szAvatarFileName );
-
-			if (JGetWord( hContact, "Status", ID_STATUS_OFFLINE ) == ID_STATUS_OFFLINE) {
-				char szHashValue[ MAX_PATH ];
-				if ( JGetStaticString( "AvatarHash", hContact, szHashValue, sizeof( szHashValue )))
-					OnIqResultGotAvatar( hContact, o, xmlGetText( m ));
+	else {
+		DBVARIANT dbv;
+		if ( !JGetStringT( hContact, "jid", &dbv )) {
+			JABBER_LIST_ITEM *item = ListGetItemPtr( LIST_ROSTER, jid );
+			if ( item == NULL ) {
+				item = ListAdd( LIST_VCARD_TEMP, jid ); // adding to the temp list to store information about photo
+				item->bUseResource = TRUE;
 			}
-		}
-		JFreeVariant( &dbv );
-	}
+			if ( item != NULL ) {
+				hasPhoto = TRUE;
+				if ( item->photoFileName )
+					DeleteFile( item->photoFileName );
+				replaceStr( item->photoFileName, szAvatarFileName );
+				Log( "Contact's picture saved to " TCHAR_STR_PARAM, szAvatarFileName );
+
+				if (JGetWord( hContact, "Status", ID_STATUS_OFFLINE ) == ID_STATUS_OFFLINE) {
+					char szHashValue[ MAX_PATH ];
+					if ( JGetStaticString( "AvatarHash", hContact, szHashValue, sizeof( szHashValue )))
+						OnIqResultGotAvatar( hContact, o, xmlGetText( m ));
+			}	}
+
+			JFreeVariant( &dbv );
+	}	}
 
 	if ( !hasPhoto )
 		DeleteFile( szAvatarFileName );
