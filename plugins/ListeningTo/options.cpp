@@ -20,8 +20,6 @@ Boston, MA 02111-1307, USA.
 
 #include "commons.h"
 
-
-
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
 
 HANDLE hOptHook = NULL;
@@ -32,8 +30,6 @@ extern std::vector<ProtocolInfo> proto_itens;
 extern HANDLE hExtraIcon;
 
 BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
-
-
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -80,19 +76,13 @@ static OptPageControl playersControls[] = {
 	{ &opts.enable_code_injection,	CONTROL_CHECKBOX,	IDC_CODE_INJECTION,	"EnableCodeInjection", TRUE }
 };
 
-
-
-
 // Functions //////////////////////////////////////////////////////////////////////////////////////
-
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp,sizeof(odp));
-    odp.cbSize=sizeof(odp);
-    odp.position=0;
-	odp.hInstance=hInst;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize=sizeof(odp);
+	odp.hInstance = hInst;
 	odp.ptszGroup = TranslateT("Status");
 	odp.ptszTitle = TranslateT("Listening info");
 
@@ -115,7 +105,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = PlayersDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLAYERS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_EXPERTONLY;
-    CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
 
 	return 0;
 }
@@ -156,28 +146,25 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 		return TRUE;
 
 #ifdef UNICODE
-	if (lti->dwFlags & LTI_UNICODE)
-	{
+	if (lti->dwFlags & LTI_UNICODE) {
 		if (lstrcmpi(lti->ptszType, _T("Music")) == 0)
 			return opts.enable_music;
-		else if (lstrcmpi(lti->ptszType, _T("Radio")) == 0)
+		if (lstrcmpi(lti->ptszType, _T("Radio")) == 0)
 			return opts.enable_radio;
-		else if (lstrcmpi(lti->ptszType, _T("Video")) == 0)
+		if (lstrcmpi(lti->ptszType, _T("Video")) == 0)
 			return opts.enable_video;
-		else 
-			return opts.enable_others;
+		return opts.enable_others;
 	}
 	else
 #endif
 	{
 		if (strcmpi(lti->pszType, "Music") == 0)
 			return opts.enable_music;
-		else if (strcmpi(lti->pszType, "Radio") == 0)
+		if (strcmpi(lti->pszType, "Radio") == 0)
 			return opts.enable_radio;
-		else if (strcmpi(lti->pszType, "Video") == 0)
+		if (strcmpi(lti->pszType, "Video") == 0)
 			return opts.enable_video;
-		else 
-			return opts.enable_others;
+		return opts.enable_others;
 	}
 }
 
@@ -209,67 +196,54 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	if (msg != WM_INITDIALOG)
 		ret = SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			if (hExtraIcon != NULL)
-			{
-				ShowWindow(GetDlgItem(hwndDlg, IDC_SHOW_ADV_ICON), SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg, IDC_ADV_ICON), SW_HIDE);
-			}
-			else
-			{
-				// Init combo
-				int total = 0, first = 0;
-				if (ServiceExists(MS_CLUI_GETCAPS))
-				{
-					total = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_EXTRACOLUMNCOUNT);
-					first = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_USEREXTRASTART);
-				}
-
-				SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("1"));
-				SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("2"));
-
-				if (total > 0)
-				{
-					TCHAR tmp[10];
-					for (int i = first; i <= total; i++)
-						SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _itot(i - first + 3, tmp, 10));
-				}
-			}
-
-			ret = SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
-			OptionsEnableDisableCtrls(hwndDlg);
-
-			break;
+	switch (msg) {
+	case WM_INITDIALOG:
+		if (hExtraIcon != NULL) {
+			ShowWindow(GetDlgItem(hwndDlg, IDC_SHOW_ADV_ICON), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_ADV_ICON), SW_HIDE);
 		}
-		case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) 
-			{
-				case IDC_ENABLE_SEND:
-				{
-					if (HIWORD(wParam) == BN_CLICKED)
-						OptionsEnableDisableCtrls(hwndDlg);
-
-					break;
-				}
+		else {
+			// Init combo
+			int total = 0, first = 0;
+			if (ServiceExists(MS_CLUI_GETCAPS)) {
+				total = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_EXTRACOLUMNCOUNT);
+				first = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_USEREXTRASTART);
 			}
-			break;
+
+			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("1"));
+			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("2"));
+
+			if (total > 0) {
+				TCHAR tmp[10];
+				for (int i = first; i <= total; i++)
+					SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _itot(i - first + 3, tmp, 10));
+			}
 		}
-		case WM_NOTIFY:
+
+		ret = SaveOptsDlgProc(optionsControls, MAX_REGS(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
+		OptionsEnableDisableCtrls(hwndDlg);
+		break;
+
+	case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY)
-			{
+			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
 				RebuildMenu();
 				StartTimer();
 			}
 
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_ENABLE_SEND:
+			if (HIWORD(wParam) == BN_CLICKED)
+				OptionsEnableDisableCtrls(hwndDlg);
+
 			break;
 		}
+		break;
 	}
 
 	return ret;
@@ -294,8 +268,7 @@ static void PlayersEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_PLAYERS_L), enabled);
 
 	BOOL needPoll = FALSE;
-	for (int i = 0; i < MAX_REGS(playerDlgs); i += 2)
-	{
+	for (int i = 0; i < MAX_REGS(playerDlgs); i += 2) {
 		EnableWindow(GetDlgItem(hwndDlg, playerDlgs[i+1]), enabled);
 		if (players[playerDlgs[i]]->needPoll && IsDlgButtonChecked(hwndDlg, playerDlgs[i+1]))
 			needPoll = TRUE;
@@ -314,32 +287,25 @@ static INT_PTR CALLBACK PlayersDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	BOOL ret = SaveOptsDlgProc(playersControls, MAX_REGS(playersControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			PlayersEnableDisableCtrls(hwndDlg);
+	switch (msg) {
+	case WM_INITDIALOG:
+		PlayersEnableDisableCtrls(hwndDlg);
+		break;
 
-			break;
-		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED)
-				PlayersEnableDisableCtrls(hwndDlg);
-			break;
-		}
-		case WM_NOTIFY:
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED)
+			PlayersEnableDisableCtrls(hwndDlg);
+		break;
+
+	case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY)
-			{
+			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY) {
 				EnableDisablePlayers();
 				StartTimer();
 			}
-
-			break;
 		}
+		break;
 	}
 
 	return ret;
