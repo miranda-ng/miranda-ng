@@ -20,24 +20,23 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}</ProjectGuid>
-    <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -63,194 +62,59 @@
     <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\Icons\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64\Icons\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\Icons\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\Obj\$(ProjectName)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64\Icons\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Configuration)64\Obj\$(ProjectName)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</IgnoreImportLibrary>
+    <IgnoreImportLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</IgnoreImportLibrary>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XSTATUS_MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-    </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)xstatus_MRA.dll</OutputFile>
-      <ProgramDatabaseFile>
-      </ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <NoEntryPoint>true</NoEntryPoint>
-      <SetChecksum>false</SetChecksum>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
-      <ImportLibrary>$(OutDir)xstatus_MRA.lib</ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
     </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Midl>
-      <TargetEnvironment>X64</TargetEnvironment>
-    </Midl>
-    <ClCompile>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XSTATUS_MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)xstatus_MRA.dll</OutputFile>
-      <ProgramDatabaseFile>
-      </ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <NoEntryPoint>true</NoEntryPoint>
-      <SetChecksum>false</SetChecksum>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
-      <ImportLibrary>$(OutDir)xstatus_MRA.lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
     </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <OmitFramePointers>true</OmitFramePointers>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XSTATUS_MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)xstatus_MRA.dll</OutputFile>
       <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <NoEntryPoint>true</NoEntryPoint>
-      <SetChecksum>true</SetChecksum>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
-      <ImportLibrary>$(OutDir)xstatus_MRA.lib</ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
-      <ProgramDatabaseFile>
-      </ProgramDatabaseFile>
     </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Midl>
-      <TargetEnvironment>X64</TargetEnvironment>
-    </Midl>
-    <ClCompile>
-      <Optimization>MaxSpeed</Optimization>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <OmitFramePointers>true</OmitFramePointers>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XSTATUS_MRA_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)xstatus_MRA.dll</OutputFile>
       <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <NoEntryPoint>true</NoEntryPoint>
-      <SetChecksum>true</SetChecksum>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <TurnOffAssemblyGeneration>true</TurnOffAssemblyGeneration>
-      <ImportLibrary>$(OutDir)xstatus_MRA.lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
-      <ProgramDatabaseFile>
-      </ProgramDatabaseFile>
     </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="XStatus_icons\10.ico" />
-    <None Include="XStatus_icons\11.ico" />
-    <None Include="XStatus_icons\12.ico" />
-    <None Include="XStatus_icons\13.ico" />
-    <None Include="XStatus_icons\14.ico" />
-    <None Include="XStatus_icons\15.ico" />
-    <None Include="XStatus_icons\16.ico" />
-    <None Include="XStatus_icons\17.ico" />
-    <None Include="XStatus_icons\18.ico" />
-    <None Include="XStatus_icons\19.ico" />
-    <None Include="XStatus_icons\20.ico" />
-    <None Include="XStatus_icons\21.ico" />
-    <None Include="XStatus_icons\22.ico" />
-    <None Include="XStatus_icons\23.ico" />
-    <None Include="XStatus_icons\24.ico" />
-    <None Include="XStatus_icons\26.ico" />
-    <None Include="XStatus_icons\27.ico" />
-    <None Include="XStatus_icons\28.ico" />
-    <None Include="XStatus_icons\29.ico" />
-    <None Include="XStatus_icons\30.ico" />
-    <None Include="XStatus_icons\31.ico" />
-    <None Include="XStatus_icons\33.ico" />
-    <None Include="XStatus_icons\34.ico" />
-    <None Include="XStatus_icons\35.ico" />
-    <None Include="XStatus_icons\36.ico" />
-    <None Include="XStatus_icons\37.ico" />
-    <None Include="XStatus_icons\38.ico" />
-    <None Include="XStatus_icons\39.ico" />
-    <None Include="XStatus_icons\4.ico" />
-    <None Include="XStatus_icons\40.ico" />
-    <None Include="XStatus_icons\41.ico" />
-    <None Include="XStatus_icons\42.ico" />
-    <None Include="XStatus_icons\43.ico" />
-    <None Include="XStatus_icons\44.ico" />
-    <None Include="XStatus_icons\45.ico" />
-    <None Include="XStatus_icons\46.ico" />
-    <None Include="XStatus_icons\47.ico" />
-    <None Include="XStatus_icons\48.ico" />
-    <None Include="XStatus_icons\49.ico" />
-    <None Include="XStatus_icons\5.ico" />
-    <None Include="XStatus_icons\50.ico" />
-    <None Include="XStatus_icons\51.ico" />
-    <None Include="XStatus_icons\52.ico" />
-    <None Include="XStatus_icons\53.ico" />
-    <None Include="XStatus_icons\54.ico" />
-    <None Include="XStatus_icons\6.ico" />
-    <None Include="XStatus_icons\7.ico" />
-    <None Include="XStatus_icons\8.ico" />
-    <None Include="XStatus_icons\9.ico" />
-    <None Include="XStatus_icons\icon1.ico" />
-    <None Include="XStatus_icons\unknown.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="xstatus_MRA.rc" />
