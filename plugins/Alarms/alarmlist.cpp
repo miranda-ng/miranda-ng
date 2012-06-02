@@ -18,10 +18,10 @@ bool startup = true;
 bool is_idle = false;
 
 void free_alarm_data(ALARM *alarm) {
-	if(alarm->szTitle) {free(alarm->szTitle); alarm->szTitle = 0;}
-	if(alarm->szDesc) {free(alarm->szDesc); alarm->szDesc = 0;}
-	if(alarm->szCommand) {free(alarm->szCommand); alarm->szCommand = 0;}
-	if(alarm->szCommandParams) {free(alarm->szCommandParams); alarm->szCommandParams = 0;}
+	if (alarm->szTitle) {free(alarm->szTitle); alarm->szTitle = 0;}
+	if (alarm->szDesc) {free(alarm->szDesc); alarm->szDesc = 0;}
+	if (alarm->szCommand) {free(alarm->szCommand); alarm->szCommand = 0;}
+	if (alarm->szCommandParams) {free(alarm->szCommandParams); alarm->szCommandParams = 0;}
 }
 
 void copy_alarm_data(ALARM *dest, ALARM *src) {
@@ -48,7 +48,7 @@ void GetPluginTime(SYSTEMTIME *t) {
 }
 
 int MinutesInFuture(SYSTEMTIME time, Occurrence occ) {
-	if(!UpdateAlarm(time, occ)) return 0;
+	if (!UpdateAlarm(time, occ)) return 0;
 
 	SYSTEMTIME now;
 	GetPluginTime(&now);
@@ -65,7 +65,7 @@ int MinutesInFuture(SYSTEMTIME time, Occurrence occ) {
 
 	diff.QuadPart = uli_then.QuadPart - uli_now.QuadPart;
 	bool inc = false;
-	if(diff.QuadPart % mult.QuadPart >= mult.QuadPart / 2)
+	if (diff.QuadPart % mult.QuadPart >= mult.QuadPart / 2)
 		inc = true;
 	return (int)(diff.QuadPart / mult.QuadPart + (inc ? 1 : 0));
 }
@@ -112,7 +112,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 	
 	switch(occ) {
 	case OC_ONCE:
-		if(CompareFileTime(&ft_then, &ft_now) < 0)
+		if (CompareFileTime(&ft_then, &ft_now) < 0)
 			return false;
 		break;
 	case OC_YEARLY:
@@ -123,7 +123,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 		break;
 	case OC_MONTHLY:
 		while(CompareFileTime(&ft_then, &ft_now) < 0) {
-			if(time.wMonth == 12) {
+			if (time.wMonth == 12) {
 				time.wMonth = 1;
 				time.wYear++;
 			} else
@@ -138,7 +138,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 			uli_then.LowPart = ft_then.dwLowDateTime;
 			FileTimeToSystemTime(&ft_then, &temp);
 			do {
-				if(temp.wDayOfWeek != time.wDayOfWeek || CompareFileTime(&ft_then, &ft_now) < 0) {
+				if (temp.wDayOfWeek != time.wDayOfWeek || CompareFileTime(&ft_then, &ft_now) < 0) {
 					uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
 					ft_then.dwHighDateTime = uli_then.HighPart;
 					ft_then.dwLowDateTime = uli_then.LowPart;
@@ -154,7 +154,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 			uli_then.LowPart = ft_then.dwLowDateTime;
 			do {
 				FileTimeToSystemTime(&ft_then, &temp);
-				if(temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0) {
+				if (temp.wDayOfWeek == 0 || temp.wDayOfWeek == 6 || CompareFileTime(&ft_then, &ft_now) < 0) {
 					uli_then.QuadPart += mult.QuadPart * (ULONGLONG)24 * (ULONGLONG)60;
 					ft_then.dwHighDateTime = uli_then.HighPart;
 					ft_then.dwLowDateTime = uli_then.LowPart;
@@ -192,14 +192,14 @@ void LoadAlarms() {
 		memset(&alarm, 0, sizeof(ALARM));
 
 		sprintf(buff, "Title%d", i);
-		if(!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-			if(dbv.pszVal && strlen(dbv.pszVal))
+		if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
+			if (dbv.pszVal && strlen(dbv.pszVal))
 				alarm.szTitle = _strdup(dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(buff, "Desc%d", i);
-		if(!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-			if(dbv.pszVal && strlen(dbv.pszVal))
+		if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
+			if (dbv.pszVal && strlen(dbv.pszVal))
 				alarm.szDesc = _strdup(dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
@@ -246,18 +246,18 @@ void LoadAlarms() {
 		sprintf(buff, "TriggerID%d", i);
 		alarm.trigger_id = DBGetContactSettingDword(0, MODULE, buff, 0);
 
-		if(UpdateAlarm(alarm.time, alarm.occurrence)) {
+		if (UpdateAlarm(alarm.time, alarm.occurrence)) {
 			sprintf(buff, "ActionFlags%d", i);
 			alarm.action = (unsigned short)DBGetContactSettingDword(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
-			if(alarm.action & AAF_COMMAND) {
+			if (alarm.action & AAF_COMMAND) {
 				sprintf(buff, "ActionCommand%d", i);
-				if(!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-					if(dbv.pszVal && strlen(dbv.pszVal))
+				if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
+					if (dbv.pszVal && strlen(dbv.pszVal))
 						alarm.szCommand = _strdup(dbv.pszVal);
 					DBFreeVariant(&dbv);
 					sprintf(buff, "ActionParams%d", i);
-					if(!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-						if(dbv.pszVal && strlen(dbv.pszVal))
+					if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
+						if (dbv.pszVal && strlen(dbv.pszVal))
 							alarm.szCommandParams = _strdup(dbv.pszVal);
 						DBFreeVariant(&dbv);
 					}
@@ -286,7 +286,7 @@ void LoadAlarms() {
 			alarms.push_back(&alarm);
 
 		} else { // else ignore it - it's an expired one-off alarm (but clean up triggers)
-			if(alarm.trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
+			if (alarm.trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
 				REPORTINFO ri = {0};
 				ri.cbSize = sizeof(ri);
 				ri.triggerID = alarm.trigger_id;
@@ -344,11 +344,11 @@ void SaveAlarms() {
 		}
 		sprintf(buff, "ActionFlags%d", index);
 		DBWriteContactSettingDword(0, MODULE, buff, i->action);
-		if(i->action & AAF_COMMAND) {
-			if(strlen(i->szCommand)) {
+		if (i->action & AAF_COMMAND) {
+			if (strlen(i->szCommand)) {
 				sprintf(buff, "ActionCommand%d", index);
 				DBWriteContactSettingString(0, MODULE, buff, i->szCommand);
-				if(strlen(i->szCommandParams)) {
+				if (strlen(i->szCommandParams)) {
 					sprintf(buff, "ActionParams%d", index);
 					DBWriteContactSettingString(0, MODULE, buff, i->szCommandParams);
 				}
@@ -387,7 +387,7 @@ void copy_list(AlarmList &copy, SYSTEMTIME &start, SYSTEMTIME &end) {
 	ALARM *i;
 	EnterCriticalSection(&alarm_cs);
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
-		if(IsBetween(i->time, start, end))
+		if (IsBetween(i->time, start, end))
 			copy.push_back(i);
 	}
 	LeaveCriticalSection(&alarm_cs);
@@ -407,7 +407,7 @@ void set_list(AlarmList &copy) {
 
 void append_to_list(ALARM *alarm) {
 	EnterCriticalSection(&alarm_cs);
-	if(!alarm->id)
+	if (!alarm->id)
 		alarm->id = next_alarm_id++;
 	alarms.push_back(alarm);
 	LeaveCriticalSection(&alarm_cs);
@@ -418,18 +418,18 @@ void append_to_list(ALARM *alarm) {
 void alter_alarm_list(ALARM *alarm) {
 	bool found = false;
 	EnterCriticalSection(&alarm_cs);
-	if(alarm->id != 0) {
+	if (alarm->id != 0) {
 		ALARM *i;
 		for(alarms.reset(); i = alarms.current(); alarms.next()) {
-			if(i->id == alarm->id) {
+			if (i->id == alarm->id) {
 				copy_alarm_data(i, alarm);
 				found = true;
 				break;
 			}
 		}
 	}
-	if(!found) {
-		if(!alarm->id)
+	if (!found) {
+		if (!alarm->id)
 			alarm->id = next_alarm_id++;
 		alarms.push_back(alarm);
 	}
@@ -443,8 +443,8 @@ void remove(unsigned short alarm_id) {
 	EnterCriticalSection(&alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
-		if(i->id == alarm_id) {
-			if(i->trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
+		if (i->id == alarm_id) {
+			if (i->trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
 				REPORTINFO ri = {0};
 				ri.cbSize = sizeof(ri);
 				ri.triggerID = i->trigger_id;
@@ -464,7 +464,7 @@ void suspend(unsigned short alarm_id) {
 	EnterCriticalSection(&alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
-		if(i->id == alarm_id && i->occurrence != OC_ONCE) {
+		if (i->id == alarm_id && i->occurrence != OC_ONCE) {
 			i->flags |= ALF_SUSPENDED;
 			break;
 		}
@@ -482,7 +482,7 @@ static int CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam, LP
 				ALARM *mpd = NULL;
 				mpd = (ALARM *)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
 
-				if(mpd->flags & ALF_NOSNOOZE)
+				if (mpd->flags & ALF_NOSNOOZE)
 					return TRUE;
 
 				// add snooze minutes to current time
@@ -531,7 +531,7 @@ static int CALLBACK PopupAlarmDlgProc(HWND hWnd, UINT message, WPARAM wParam, LP
 }
 
 void ShowPopup(ALARM *alarm) {
-	if(ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		ALARM *data = new ALARM;
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
@@ -568,14 +568,14 @@ void DoAlarm(ALARM *alarm) {
 	alarminfo.action = alarm->action;
 	alarminfo.sound_num = alarm->sound_num;
 
-	if(!NotifyEventHooks(hAlarmTriggeredEvent, 0, (LPARAM)&alarminfo)) {
+	if (!NotifyEventHooks(hAlarmTriggeredEvent, 0, (LPARAM)&alarminfo)) {
 
-		if(alarm->action & AAF_SOUND) {
-			if(alarm->sound_num > 0 && alarm->sound_num <= 3) {
+		if (alarm->action & AAF_SOUND) {
+			if (alarm->sound_num > 0 && alarm->sound_num <= 3) {
 				char buff[128];
 				sprintf(buff, "Triggered%d", alarm->sound_num);
 				SkinPlaySound(buff);
-			} else if(alarm->sound_num == 4) {
+			} else if (alarm->sound_num == 4) {
 				if (alarm->szTitle != NULL && alarm->szTitle[0] != '\0') {
 					if (ServiceExists("Speak/Say")) {
 						CallService("Speak/Say", 0, (LPARAM)alarm->szTitle);
@@ -583,8 +583,8 @@ void DoAlarm(ALARM *alarm) {
 				}
 			}
 		}
-		if(alarm->action & AAF_POPUP) {
-			if(options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUP)) 
+		if (alarm->action & AAF_POPUP) {
+			if (options.use_popup_module && ServiceExists(MS_POPUP_ADDPOPUP)) 
 				ShowPopup(alarm);
 			else {
 				HWND hwndDlg = CreateDialog(hInst, MAKEINTRESOURCE(IDD_ALARM), GetDesktopWindow(), DlgProcAlarm);
@@ -594,7 +594,7 @@ void DoAlarm(ALARM *alarm) {
 				memset(data, 0, sizeof(ALARM));
 				copy_alarm_data(data, alarm);
 				SendMessage(hwndDlg, WMU_SETALARM, 0, (LPARAM)data);
-				if(is_idle || !options.aw_dontstealfocus)
+				if (is_idle || !options.aw_dontstealfocus)
 					ShowWindow(hwndDlg, SW_SHOW);
 				else
 					ShowWindow(hwndDlg, SW_SHOWNOACTIVATE);
@@ -602,21 +602,21 @@ void DoAlarm(ALARM *alarm) {
 			}
 		}
 
-		if(alarm->trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
+		if (alarm->trigger_id != 0 && ServiceExists(MS_TRIGGER_REPORTEVENT)) {
 			REPORTINFO ri = {0};
 			ri.cbSize = sizeof(ri);
 			ri.triggerID = alarm->trigger_id;
 			ri.flags = TRG_PERFORM;
-			if(alarm->occurrence == OC_ONCE)
+			if (alarm->occurrence == OC_ONCE)
 				ri.flags |= TRG_CLEANUP;
 			CallService(MS_TRIGGER_REPORTEVENT, 0, (LPARAM)&ri);
 		}
 		
-		if(alarm->action & AAF_COMMAND) {
+		if (alarm->action & AAF_COMMAND) {
 			ShellExecute(0, 0, alarm->szCommand, alarm->szCommandParams, 0, SW_NORMAL);
 		}
 
-		if(alarm->action & AAF_SYSTRAY)
+		if (alarm->action & AAF_SYSTRAY)
 		{
 			CLISTEVENT cle = {0};
 			cle.cbSize = sizeof(cle);
@@ -652,7 +652,7 @@ void CheckAlarms() {
 	EnterCriticalSection(&alarm_cs);
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next()) {
-		if(!UpdateAlarm(i->time, i->occurrence)) { 
+		if (!UpdateAlarm(i->time, i->occurrence)) { 
 			// somehow an expired one-off alarm is in our list
 			remove_list.push_back(i);
 			continue;
@@ -660,18 +660,18 @@ void CheckAlarms() {
 
 		switch(i->occurrence) {
 		case OC_ONCE:
-			if(IsBetween(i->time, last_check, time)) {
-				if(!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
+			if (IsBetween(i->time, last_check, time)) {
+				if (!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
 				// erase and fix iterator - alarm has now been triggered and has therefore expired
 				remove_list.push_back(i);
 			}
 			break;
 		default:
-			if(IsBetween(i->time, last_check, time)) {
-				if(i->flags & ALF_SUSPENDED)
+			if (IsBetween(i->time, last_check, time)) {
+				if (i->flags & ALF_SUSPENDED)
 					i->flags = i->flags & ~ALF_SUSPENDED;
 				else
-					if(!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
+					if (!startup || !(i->flags & ALF_NOSTARTUP)) triggered_list.push_back(i);
 			}
 			break;
 		}
@@ -696,7 +696,8 @@ VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
 }
 
 
-int AddAlarmService(WPARAM wParam, LPARAM lParam) {
+INT_PTR AddAlarmService(WPARAM wParam, LPARAM lParam)
+{
 	ALARMINFO *alarm_info = (ALARMINFO *)lParam;
 	ALARM alarm = {0};
 	alarm.action = alarm_info->action;
@@ -715,9 +716,9 @@ int AddAlarmService(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int IdleChanged(WPARAM wParam, LPARAM lParam) {
+int IdleChanged(WPARAM wParam, LPARAM lParam)
+{
 	is_idle = (lParam & IDF_ISIDLE);
-
 	return 0;
 }
 
@@ -737,7 +738,7 @@ void InitList() {
 	dbv.type = DBVT_BLOB;
 	dbv.cpbVal = sizeof(SYSTEMTIME);
 
-	if(!CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs)) {
+	if (!CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs)) {
 		memcpy(&last_check, dbv.pbVal, sizeof(SYSTEMTIME));
 		DBFreeVariant(&dbv);
 	} else {

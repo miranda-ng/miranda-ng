@@ -383,7 +383,7 @@ static int CALLBACK CompareListItem(LPARAM lParam1,LPARAM lParam2,LPARAM lParamS
 
 static HWND hwndLangOpt;
 
-static BOOL CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
 		case WM_INITDIALOG:
@@ -534,7 +534,7 @@ static BOOL CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			break;
 #if defined(_UNICODE)
 		case WM_NOTIFYFORMAT:
-			SetWindowLong(hwndDlg,DWL_MSGRESULT,NFR_UNICODE);
+			SetWindowLong(hwndDlg,DWLP_MSGRESULT,NFR_UNICODE);
 			return TRUE;
 #endif
 		case WM_NOTIFY:

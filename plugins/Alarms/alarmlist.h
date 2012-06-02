@@ -25,14 +25,14 @@ public:
 	virtual ~AlarmList() {clear();}
 
 	void sort() {
-		if(count < 2) return;
+		if (count < 2) return;
 
 		Node *c1 = head, *c2;
 		// bubble sort...hey, i'm lazy :)
 		while(c1) {
 			c2 = c1->next;
 			while(c2) {
-				if(c2->alarm < c1->alarm) {
+				if (c2->alarm < c1->alarm) {
 					swap (c1, c2);
 				}
 				c2 = c2->next;
@@ -70,12 +70,12 @@ public:
 	ALARM *current() {return (it_current ? &it_current->alarm : 0);}
 	void next() {it_current = it_current->next;}
 	void erase() {
-		if(it_current) {
-			if(it_current->next) it_current->next->prev = it_current->prev;
-			if(it_current->prev) it_current->prev->next = it_current->next;
+		if (it_current) {
+			if (it_current->next) it_current->next->prev = it_current->prev;
+			if (it_current->prev) it_current->prev->next = it_current->next;
 
-			if(tail == it_current) tail = tail->prev;
-			if(head == it_current) head = head->next;
+			if (tail == it_current) tail = tail->prev;
+			if (head == it_current) head = head->next;
 
 			free_alarm_data(&it_current->alarm);
 			delete it_current;
@@ -91,10 +91,10 @@ public:
 		copy_alarm_data(&nn->alarm, alarm);
 
 		nn->prev = tail;
-		if(tail) tail->next = nn;
+		if (tail) tail->next = nn;
 		tail = nn;
 
-		if(!head) head = tail;
+		if (!head) head = tail;
 		count++;
 	}
 

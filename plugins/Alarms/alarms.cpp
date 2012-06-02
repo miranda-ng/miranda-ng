@@ -92,7 +92,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 }
 
 void ShowPopup(HANDLE hContact, const char *msg) {
-	if(ServiceExists(MS_POPUP_ADDPOPUP)) {
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		POPUPDATAEX ppd;
 		char *lpzContactName;
 
@@ -136,14 +136,14 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	
 	char msg[1024], buff[1024];
 
-	if(strncmp(ppre->szMessage, szGamePrefix, strlen(szGamePrefix)))
+	if (strncmp(ppre->szMessage, szGamePrefix, strlen(szGamePrefix)))
 		return CallService( MS_PROTO_CHAINRECV, wParam, lParam );
 
 	strcpy(msg, ppre->szMessage + strlen(szGamePrefix));
 
 	savedMsg = ppre->szMessage;
 	
-	if(!strcmp(msg, " ffw")) {
+	if (!strcmp(msg, " ffw")) {
 		sprintf(buff, "Fast forward!");
 		
 		hWnd = FindWindow(0, "Windows Media Player");
@@ -225,7 +225,7 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam) {
 }
 
 static int MainInit(WPARAM wparam,LPARAM lparam) {
-	if(ServiceExists(MS_UPDATE_REGISTER)) {
+	if (ServiceExists(MS_UPDATE_REGISTER)) {
 		// register with updater
 		Update update = {0};
 		char szVersion[16];
@@ -234,7 +234,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam) {
 
 		update.szComponentName = pluginInfo.shortName;
 		update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-		update.cpbVersion = strlen((char *)update.pbVersion);
+		update.cpbVersion = (int)strlen((char *)update.pbVersion);
 
 		update.szUpdateURL = UPDATER_AUTOREGISTER;
 		
@@ -246,7 +246,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam) {
 		update.szBetaVersionURL = "http://www.scottellis.com.au/miranda_plugins/ver_alarms.html";
 		update.pbBetaVersionPrefix = (BYTE *)" version ";
 		
-		update.cpbBetaVersionPrefix = strlen((char *)update.pbBetaVersionPrefix);
+		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
 
 		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 	}
@@ -268,7 +268,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam) {
 
 	while( hContact )
 	{
-		if( !CallService( MS_PROTO_ISPROTOONCONTACT, ( WPARAM )hContact, ( LPARAM )SERVICENAME ))
+		if ( !CallService( MS_PROTO_ISPROTOONCONTACT, ( WPARAM )hContact, ( LPARAM )SERVICENAME ))
 			CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hContact, ( LPARAM )SERVICENAME );
 
 		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, ( WPARAM )hContact, 0 );

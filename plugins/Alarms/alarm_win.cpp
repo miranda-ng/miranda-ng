@@ -36,12 +36,12 @@ bool TransparencyEnabled() {
 	return MySetLayeredWindowAttributes != 0;
 }
 
-BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
-
+INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	switch ( msg ) {
 	case WM_INITDIALOG: 
+		TranslateDialogDefault( hwndDlg );
 		{
-			TranslateDialogDefault( hwndDlg );
 			Utils_RestoreWindowPositionNoSize(hwndDlg, 0, MODULE, "Notify");
 			SetFocus(GetDlgItem(hwndDlg, IDC_SNOOZE));
 
@@ -50,7 +50,7 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			wd->alarm = 0;
 			wd->win_num = win_num++;
 
-			if(wd->win_num > 0) {
+			if (wd->win_num > 0) {
 				RECT r;
 				GetWindowRect(hwndDlg, &r);
 				r.top += 20;
@@ -60,28 +60,29 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 			}
 
-			SetWindowLong(hwndDlg, GWL_USERDATA, (LONG)wd);
+			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG)wd);
 
 			// options
 			SendMessage(hwndDlg, WMU_SETOPT, 0, 0);
 		
 			// fonts
 			SendMessage(hwndDlg, WMU_SETFONTS, 0, 0);
-
 		}
 		return FALSE;
+
 	case WMU_REFRESH:
 		InvalidateRect(hwndDlg, 0, TRUE);
 		return TRUE;
+
 	case WM_CTLCOLORSTATIC:
 		{
 			HDC hdc = (HDC)wParam;
 			HWND hwndCtrl = (HWND)lParam;
 
-			if(hBackgroundBrush) {
-				if(hTitleFont && GetDlgItem(hwndDlg, IDC_TITLE) == hwndCtrl)
+			if (hBackgroundBrush) {
+				if (hTitleFont && GetDlgItem(hwndDlg, IDC_TITLE) == hwndCtrl)
 					SetTextColor(hdc, title_font_colour);
-				else if(hWindowFont)
+				else if (hWindowFont)
 					SetTextColor(hdc, window_font_colour);
 
 				SetBkMode(hdc, TRANSPARENT);
@@ -90,30 +91,30 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 	case WM_CTLCOLORDLG:
-		if(hBackgroundBrush)
+		if (hBackgroundBrush)
 			return (BOOL)hBackgroundBrush;
 		break;
 	case WMU_SETFONTS:
 		// fonts
-		if(hWindowFont)
+		if (hWindowFont)
 			SendMessage(hwndDlg, WM_SETFONT, (WPARAM)hWindowFont, (LPARAM)TRUE);
-		if(hTitleFont)
+		if (hTitleFont)
 			SendDlgItemMessage(hwndDlg, IDC_TITLE, WM_SETFONT, (WPARAM)hTitleFont, (LPARAM)TRUE);
 
-		if(hBackgroundBrush) {
-			SetClassLong(hwndDlg, GCL_HBRBACKGROUND, (LONG)hBackgroundBrush);
+		if (hBackgroundBrush) {
+			SetClassLong(hwndDlg, GCLP_HBRBACKGROUND, (LONG)hBackgroundBrush);
 			InvalidateRect(hwndDlg, 0, TRUE);
 		}
-
 		return TRUE;
+
 	case WMU_SETOPT:
 		{
 			Options *opt;
-			if(lParam) opt = (Options *)lParam;
+			if (lParam) opt = (Options *)lParam;
 			else opt = &options;
 			
 			// round corners
-			if(opt->aw_roundcorners) {
+			if (opt->aw_roundcorners) {
 				HRGN hRgn1;
 				RECT r;
 				int v,h;
@@ -142,11 +143,12 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetWindowLong(hwndDlg, GWL_EXSTYLE, GetWindowLong(hwndDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
-			if(MySetLayeredWindowAttributes) 
+			if (MySetLayeredWindowAttributes) 
 				MySetLayeredWindowAttributes(hwndDlg, RGB(0,0,0), (int)((100 - opt->aw_trans) / 100.0 * 255), LWA_ALPHA);
 #endif
 		}
 		return TRUE;
+
 	case WMU_SETALARM:
 		{
 			ALARM *data = (ALARM *)lParam;
@@ -155,12 +157,12 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetWindowText(hw, data->szTitle);
 
 			SetDlgItemText(hwndDlg, IDC_ED_DESC, data->szDesc);
-			((WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA))->alarm = data;
+			((WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA))->alarm = data;
 
-			if(data->action & AAF_SOUND && options.loop_sound) {
-				if(data->sound_num <= 3)
+			if (data->action & AAF_SOUND && options.loop_sound) {
+				if (data->sound_num <= 3)
 					SetTimer(hwndDlg, ID_TIMER_SOUND, SOUND_REPEAT_PERIOD, 0);	
-				else if(data->sound_num == 4) 
+				else if (data->sound_num == 4) 
 					SetTimer(hwndDlg, ID_TIMER_SOUND, SPEACH_REPEAT_PERIOD, 0);	
 			}
 
@@ -169,6 +171,7 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			ShowWindow(hw, (data->flags & ALF_NOSNOOZE) ? SW_HIDE : SW_SHOWNA);
 		}
 		return TRUE;
+
 	case WMU_FAKEALARM:
 		{
 			SetWindowText(hwndDlg, Translate("Example Alarm"));
@@ -177,18 +180,19 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			SetDlgItemText(hwndDlg, IDC_ED_DESC, Translate("Some example text. Example, example, example."));
 		}
 		return TRUE;
+
 	case WM_TIMER: 
 		{
-			if(wParam == ID_TIMER_SOUND) {
-				WindowData *dw = (WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA);
-				if(dw) {
+			if (wParam == ID_TIMER_SOUND) {
+				WindowData *dw = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+				if (dw) {
 					ALARM *data = dw->alarm;
-					if(data && data->action & AAF_SOUND) {
-						if(data->sound_num <= 3) {
+					if (data && data->action & AAF_SOUND) {
+						if (data->sound_num <= 3) {
 							char buff[128];
 							sprintf(buff, "Triggered%d", data->sound_num);
 							SkinPlaySound(buff);
-						} else if(data->sound_num == 4) {
+						} else if (data->sound_num == 4) {
 							if (data->szTitle != NULL && data->szTitle[0] != '\0') {
 								if (ServiceExists("Speak/Say")) {
 									CallService("Speak/Say", 0, (LPARAM)data->szTitle);
@@ -202,18 +206,18 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 	case WM_MOVE:
 		{
-			//WindowData *wd = (WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA);
+			//WindowData *wd = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
 			Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 		}
 		break;
 
 	case WMU_ADDSNOOZER:
 		{
-			WindowData *wd = (WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA);
-			if(wd) {
+			WindowData *wd = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			if (wd) {
 				ALARM *data = wd->alarm;
 
-				if(data) {
+				if (data) {
 					// add snooze minutes to current time
 					FILETIME ft;
 					GetLocalTime(&data->time);
@@ -252,16 +256,16 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				//drop through
 			case IDC_DISMISS:
 				{
-					WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA);
+					WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
 					KillTimer(hwndDlg, ID_TIMER_SOUND);
-					if(window_data) {
-						if(window_data->alarm) {
+					if (window_data) {
+						if (window_data->alarm) {
 							free_alarm_data(window_data->alarm);
 							delete window_data->alarm;
 						}
 						delete window_data;
 					}
-					SetWindowLong(hwndDlg, GWL_USERDATA, 0);
+					SetWindowLong(hwndDlg, GWLP_USERDATA, 0);
 
 					win_num--;
 					//EndDialog(hwndDlg, IDOK); // not modal!
@@ -284,7 +288,7 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 #define AddItem(x)							\
 		mmi.wID++;							\
 		mmi.dwTypeData = Translate(x);		\
-		mmi.cch = strlen(mmi.dwTypeData);	\
+		mmi.cch = ( UINT )strlen(mmi.dwTypeData);	\
 		InsertMenuItem(hMenu, mmi.wID, FALSE, &mmi);
 
 					AddItem("5 mins");
@@ -317,7 +321,7 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case WM_MOUSEMOVE:
-		if(wParam & MK_LBUTTON) {
+		if (wParam & MK_LBUTTON) {
 			SetCapture(hwndDlg);
 
 			POINT newp;
@@ -326,8 +330,8 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			ClientToScreen(hwndDlg, &newp);
 
-			WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA);
-			if(!window_data->moving) {
+			WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			if (!window_data->moving) {
 				window_data->moving = true;
 			} else {
 				RECT r;
@@ -339,7 +343,7 @@ BOOL CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			window_data->p.y = newp.y;			
 		} else {
 			ReleaseCapture();
-			WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWL_USERDATA);
+			WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
 			window_data->moving = false;
 		}
 		return TRUE;
@@ -367,7 +371,7 @@ int ReloadFonts(WPARAM wParam, LPARAM lParam) {
 }
 
 int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam) {
-	if(ServiceExists(MS_FONT_REGISTER)) {
+	if (ServiceExists(MS_FONT_REGISTER)) {
 		title_font_id.cbSize = sizeof(FontID);
 		strcpy(title_font_id.group, Translate("Alarms"));
 		strcpy(title_font_id.name, Translate("Title"));
@@ -423,8 +427,8 @@ void DeinitAlarmWin() {
 
 	FreeLibrary(hUserDll);
 
-	if(hBackgroundBrush) DeleteObject(hBackgroundBrush);
-	if(hTitleFont) DeleteObject(hTitleFont);
-	if(hWindowFont) DeleteObject(hWindowFont);
+	if (hBackgroundBrush) DeleteObject(hBackgroundBrush);
+	if (hTitleFont) DeleteObject(hTitleFont);
+	if (hWindowFont) DeleteObject(hWindowFont);
 }
 

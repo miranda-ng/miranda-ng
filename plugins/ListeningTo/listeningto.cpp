@@ -90,20 +90,20 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam);
 int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam);
 int SettingChanged(WPARAM wParam,LPARAM lParam);
 
-int MainMenuClicked(WPARAM wParam, LPARAM lParam);
-BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
-int ListeningToEnabled(WPARAM wParam, LPARAM lParam);
-int EnableListeningTo(WPARAM wParam,LPARAM lParam);
-int GetTextFormat(WPARAM wParam,LPARAM lParam);
-int GetParsedFormat(WPARAM wParam,LPARAM lParam);
-int GetOverrideContactOption(WPARAM wParam,LPARAM lParam);
-int GetUnknownText(WPARAM wParam,LPARAM lParam);
-int SetNewSong(WPARAM wParam,LPARAM lParam);
-void SetExtraIcon(HANDLE hContact, BOOL set);
-void SetListeningInfos(LISTENINGTOINFO *lti);
-int HotkeysEnable(WPARAM wParam,LPARAM lParam);
-int HotkeysDisable(WPARAM wParam,LPARAM lParam);
-int HotkeysToggle(WPARAM wParam,LPARAM lParam);
+INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam);
+BOOL    ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
+INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
+INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam);
+INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam);
+INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam);
+INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam);
+INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam);
+INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam);
+void    SetExtraIcon(HANDLE hContact, BOOL set);
+void    SetListeningInfos(LISTENINGTOINFO *lti);
+INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam);
+INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam);
+INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam);
 
 TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai);
 TCHAR* VariablesParseType(ARGUMENTSINFO *ai);
@@ -175,8 +175,6 @@ OutputDebugStringA("\n");
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
 {
-//	EnumWindows(EnumWindowsProc, 0);
-
 	pluginLink = link;
 
 	mir_getMMI(&mmi);
@@ -188,17 +186,17 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	CoInitialize(NULL);
 
 	// Services
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_ENABLED, ListeningToEnabled) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_ENABLE, EnableListeningTo) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETTEXTFORMAT, GetTextFormat) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT, GetParsedFormat) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_OVERRIDECONTACTOPTION, GetOverrideContactOption) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETUNKNOWNTEXT, GetUnknownText) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_MAINMENU, MainMenuClicked) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_SET_NEW_SONG, SetNewSong) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable) );
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle) );
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_ENABLED, ListeningToEnabled));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_ENABLE, EnableListeningTo));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETTEXTFORMAT, GetTextFormat));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETPARSEDTEXT, GetParsedFormat));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_OVERRIDECONTACTOPTION, GetOverrideContactOption));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_GETUNKNOWNTEXT, GetUnknownText));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_MAINMENU, MainMenuClicked));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_SET_NEW_SONG, SetNewSong));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_ENABLE, HotkeysEnable));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_DISABLE, HotkeysDisable));
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle));
 	
 	// Hooks
 	hHooks.push_back( HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded) );
@@ -292,7 +290,7 @@ void RegisterProtocol(char *proto, TCHAR *account)
 		!ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX))
 		return;
 
-	int id = proto_itens.size();
+	size_t id = proto_itens.size();
 	proto_itens.resize(id+1);
 
 	strncpy(proto_itens[id].proto, proto, MAX_REGS(proto_itens[id].proto));
@@ -596,16 +594,11 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-int TopToolBarClick(WPARAM wParam, LPARAM lParam)
+static INT_PTR TopToolBarClick(WPARAM wParam, LPARAM lParam)
 {
-	BOOL enabled = !ListeningToEnabled(NULL, TRUE);
-
-	EnableListeningTo(NULL, enabled);
-
+	EnableListeningTo(NULL, !ListeningToEnabled(NULL, TRUE));
 	return 0;
 }
-
 
 // Toptoolbar hook to put an icon in the toolbar
 int TopToolBarLoaded(WPARAM wParam, LPARAM lParam) 
@@ -628,8 +621,7 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-int MainMenuClicked(WPARAM wParam, LPARAM lParam)
+INT_PTR MainMenuClicked(WPARAM wParam, LPARAM lParam)
 {
 	if (!loaded)
 		return -1;
@@ -642,7 +634,6 @@ int MainMenuClicked(WPARAM wParam, LPARAM lParam)
 	EnableListeningTo((WPARAM) proto_itens[pos].proto, (LPARAM) !ListeningToEnabled(proto_itens[pos].proto, TRUE));
 	return 0;
 }
-
 
 BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal) 
 {
@@ -673,15 +664,13 @@ BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
 	}
 }
 
-
-int ListeningToEnabled(WPARAM wParam, LPARAM lParam) 
+INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam) 
 {
 	if (!loaded)
 		return -1;
 
 	return ListeningToEnabled((char *)wParam) ;
 }
-
 
 ProtocolInfo *GetProtoInfo(char *proto)
 {
@@ -694,25 +683,16 @@ ProtocolInfo *GetProtoInfo(char *proto)
 
 void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 {
-//	m_log(_T("SetListeningInfo"), _T("proto=%S  lti=%d  title=%s"), 
-//		proto, (int) lti, lti == NULL ? _T("") : lti->ptszTitle);
-		
 	if (proto == NULL)
 		return;
 
 	if (!ListeningToEnabled(proto))
-	{
 		lti = NULL;
-//		m_log(_T("SetListeningInfo"), _T("DISABLED -> lti = NULL"));
-	}
-
 
 	if (ProtoServiceExists(proto, PS_SET_LISTENINGTO))
-	{
 		CallProtoService(proto, PS_SET_LISTENINGTO, 0, (LPARAM) lti);
-	}
-	else if (ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX))
-	{
+
+	else if (ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX)) {
 		if (opts.xstatus_set == IGNORE_XSTATUS)
 			return;
 
@@ -876,8 +856,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 	}
 }
 
-
-int EnableListeningTo(WPARAM wParam,LPARAM lParam) 
+INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam) 
 {
 	if (!loaded)
 		return -1;
@@ -931,35 +910,30 @@ int EnableListeningTo(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-
-int HotkeysEnable(WPARAM wParam,LPARAM lParam) 
+INT_PTR HotkeysEnable(WPARAM wParam,LPARAM lParam) 
 {
 	return EnableListeningTo(lParam, TRUE);
 }
 
-
-int HotkeysDisable(WPARAM wParam,LPARAM lParam) 
+INT_PTR HotkeysDisable(WPARAM wParam,LPARAM lParam) 
 {
 	return EnableListeningTo(lParam, FALSE);
 }
 
-
-int HotkeysToggle(WPARAM wParam,LPARAM lParam) 
+INT_PTR HotkeysToggle(WPARAM wParam,LPARAM lParam) 
 {
 	return EnableListeningTo(lParam, !ListeningToEnabled((char *)lParam, TRUE));
 }
 
-
-int GetTextFormat(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam) 
 {
 	if (!loaded)
 		return NULL;
 
-	return (int) mir_tstrdup(opts.templ);
+	return ( INT_PTR )mir_tstrdup(opts.templ);
 }
 
-
-int GetParsedFormat(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam) 
 {
 	if (!loaded)
 		return NULL;
@@ -986,64 +960,54 @@ int GetParsedFormat(WPARAM wParam,LPARAM lParam)
 	return (int) ret.detach();
 }
 
-
-int GetOverrideContactOption(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam) 
 {
-	return (int) opts.override_contact_template;
+	return ( INT_PTR )opts.override_contact_template;
 }
 
 
-int GetUnknownText(WPARAM wParam,LPARAM lParam) 
+INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam) 
 {
-	return (int) opts.unknown;
+	return ( INT_PTR )opts.unknown;
 }
-
 
 void SetListeningInfos(LISTENINGTOINFO *lti)
 {
 	for (unsigned int i = 1; i < proto_itens.size(); ++i)
-	{
 		SetListeningInfo(proto_itens[i].proto, lti);
-	}
 
 	TCHAR *fr = NULL; 
 	char *info = NULL;
 
-	if (lti) 
-	{
+	if (lti) {
 		fr = (TCHAR *)GetParsedFormat(0, (WPARAM) lti);
 		if (fr) info = mir_t2a(fr);
 	}
 
 	NotifyEventHooks(hListeningInfoChangedEvent, (WPARAM)info, (LPARAM)NULL);
 
-	if (lti) 
-	{
+	if (lti) {
 		if (fr) mir_free(fr);
 		if (info) mir_free(info);
 	}
 }
 
-static void CALLBACK GetInfoTimer(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTime)
+static void CALLBACK GetInfoTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
-	if (hTimer != NULL)
-	{
+	if (hTimer != NULL) {
 		KillTimer(NULL, hTimer);
 		hTimer = NULL;
 	}
 
 	// Check if we can set it now...
 	DWORD now = GetTickCount();
-	if (now < lastInfoSetTime + MIN_TIME_BEETWEEN_SETS)
-	{
+	if (now < lastInfoSetTime + MIN_TIME_BEETWEEN_SETS) {
 		hTimer = SetTimer(NULL, NULL, lastInfoSetTime + MIN_TIME_BEETWEEN_SETS - now, GetInfoTimer);
 		return;
 	}
 	lastInfoSetTime = GetTickCount(); // TODO Move this to inside the if that really sets
 
-	if (!opts.enable_sending)
-	{
-//		m_log(_T("GetInfoTimer"), _T("!opts.enable_sending"));
+	if (!opts.enable_sending) {
 		SetListeningInfos(NULL);
 		return;
 	}
@@ -1051,15 +1015,9 @@ static void CALLBACK GetInfoTimer(HWND hwnd, UINT uMsg, UINT idEvent, DWORD dwTi
 	// Set it
 	int changed = ChangedListeningInfo();
 	if (changed < 0)
-	{
-//		m_log(_T("GetInfoTimer"), _T("changed < 0"));
 		SetListeningInfos(NULL);
-	}
 	else if (changed > 0)
-	{
-//		m_log(_T("GetInfoTimer"), _T("changed > 0"));
 		SetListeningInfos(GetListeningInfo());
-	}
 
 	StartTimer();
 }
@@ -1192,27 +1150,22 @@ int SettingChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-
-int SetNewSong(WPARAM wParam,LPARAM lParam)
+INT_PTR SetNewSong(WPARAM wParam,LPARAM lParam)
 {
 	if (lParam == NULL)
 		return -1;
 
-	if (lParam == LISTENINGTO_ANSI)
-	{
+	if (lParam == LISTENINGTO_ANSI) {
 		CharToWchar data((char *) wParam);
 		((GenericPlayer *) players[GENERIC])->NewData(data, wcslen(data));
 	}
-	else
-	{
+	else {
 		WCHAR *data = (WCHAR *) wParam;
 		((GenericPlayer *) players[GENERIC])->NewData(data, wcslen(data));
 	}
 
-
 	return 0;
 }
-
 
 TCHAR* VariablesParseInfo(ARGUMENTSINFO *ai)
 {

@@ -9,7 +9,7 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam) {
 	hIconMenuSet = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_menu_set");
 	hIconList1 = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_list1");
 	hIconList2 = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_list2");
-	if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		hIconMenuShowHide = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_menu_showhide");
 
 	RefreshReminderFrame();
@@ -17,7 +17,7 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam) {
 }
 
 void InitIcons() {
-	if(ServiceExists(MS_SKIN2_ADDICON)) {
+	if (ServiceExists(MS_SKIN2_ADDICON)) {
 		SKINICONDESC sid = {0};
 
 		sid.cbSize = sizeof(SKINICONDESC);
@@ -51,7 +51,7 @@ void InitIcons() {
 		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MAINMENU), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
 		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
 
-		if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 			sid.pszDescription = Translate("Menu: Show/Hide Reminders");
 			sid.pszName = "alarms_menu_showhide";
 			sid.pszDefaultFile = "alarms.dll";
@@ -73,19 +73,19 @@ void InitIcons() {
 		hIconList1 = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_LIST1), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
 		hIconList2 = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_LIST2), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
 		hIconSystray = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MAINMENU), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
-		if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+		if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 			hIconMenuShowHide = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MAINMENU), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
 	}
 }
 
 
 void DeinitIcons() {
-	if(!ServiceExists(MS_SKIN2_ADDICON)) {
+	if (!ServiceExists(MS_SKIN2_ADDICON)) {
 		DestroyIcon(hIconMenuSet);
 		DestroyIcon(hIconList1);
 		DestroyIcon(hIconList2);
 		DestroyIcon(hIconSystray);
-		if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+		if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 			DestroyIcon(hIconMenuShowHide);
 	}
 }

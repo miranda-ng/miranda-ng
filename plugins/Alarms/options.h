@@ -30,7 +30,7 @@ int OptInit(WPARAM wParam,LPARAM lParam);
 void LoadOptions();
 void SaveOptions();
 
-int NewAlarmMenuFunc(WPARAM wParam, LPARAM lParam);
+INT_PTR NewAlarmMenuFunc(WPARAM wParam, LPARAM lParam);
 void EditNonModal(ALARM &alarm);
 
 // provide access the options window, for refresh (== 0 when not displayed)

@@ -7,18 +7,18 @@ TRIGGERDATA td;
 
 unsigned short last_selected_id = 0;
 
-static BOOL CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-
 		{
 			copy_list(alist);
 			ALARM *i;
 			for(alist.reset(); i = alist.current(); alist.next()) {
 				int pos = SendDlgItemMessage(hwndDlg, IDC_LST_TRIGLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)i->szTitle);
 				SendDlgItemMessage(hwndDlg, IDC_LST_TRIGLIST, LB_SETITEMDATA, (WPARAM)pos, (LPARAM)i->id);
-				if(i->trigger_id == (unsigned int)lParam)
+				if (i->trigger_id == (unsigned int)lParam)
 					SendDlgItemMessage(hwndDlg, IDC_LST_TRIGLIST, LB_SETCURSEL, (WPARAM)pos, 0);
 			}
 		}
@@ -27,7 +27,7 @@ static BOOL CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 	case WM_COMMAND:
 		if (HIWORD( wParam ) == LBN_SELCHANGE) {
 			int pos = SendDlgItemMessage(hwndDlg, IDC_LST_TRIGLIST, LB_GETCURSEL, 0, 0);
-			if(pos != LB_ERR) {
+			if (pos != LB_ERR) {
 				last_selected_id = (unsigned short)SendDlgItemMessage(hwndDlg, IDC_LST_TRIGLIST, LB_GETITEMDATA, pos, 0);
 			}
 			return TRUE;
@@ -40,7 +40,7 @@ static BOOL CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			ALARM *i;
 			for(alist.reset(); i = alist.current(); alist.next()) {
-				if(i->trigger_id == wParam) {
+				if (i->trigger_id == wParam) {
 					//sti.cbSize = sizeof(sti);
 					//sti.triggerID = wParam;
 					//sti.pszSummary = i->szTitle;
@@ -59,7 +59,7 @@ static BOOL CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			ALARM *i;
 			for(alist.reset(); i = alist.current(); alist.next()) {
-				if(i->id == last_selected_id) {
+				if (i->id == last_selected_id) {
 					i->trigger_id = wParam;
 					alter_alarm_list(i);
 					break;
@@ -71,7 +71,7 @@ static BOOL CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 		{
 			ALARM *i;
 			for(alist.reset(); i = alist.current(); alist.next()) {
-				if(i->trigger_id == wParam) {
+				if (i->trigger_id == wParam) {
 					i->trigger_id = 0;
 					alter_alarm_list(i);
 					break;
@@ -90,7 +90,7 @@ static BOOL CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 }
 
 int LoadTriggerSupport() {
-	if(ServiceExists(MS_TRIGGER_REGISTERTRIGGER)) {
+	if (ServiceExists(MS_TRIGGER_REGISTERTRIGGER)) {
 		TRIGGERREGISTER treg = {0};
 	
 		treg.cbSize = sizeof(treg);
