@@ -7,16 +7,16 @@ Copyright (C) 2005-2007 H. Herkenrath
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+of the License,  or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program (AssocMgr-License.txt); if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+along with this program (AssocMgr-License.txt); if not,  write to the Free Software
+Foundation,  Inc.,  59 Temple Place - Suite 330,  Boston,  MA  02111-1307,  USA.
 */
 
 #include "common.h"
@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HINSTANCE hInst;
 static HANDLE hHookOptInit;
 /* Services */
-static HANDLE hServiceAddFile,hServiceRemoveFile,hServiceAddUrl,hServiceRemoveUrl;
+static HANDLE hServiceAddFile, hServiceRemoveFile, hServiceAddUrl, hServiceRemoveUrl;
 
 /************************* Assoc List *****************************/
 
@@ -50,39 +50,39 @@ static CRITICAL_SECTION csAssocList;
 static BOOL IsAssocEnabled(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	mir_snprintf(szSetting,sizeof(szSetting),"enabled_%s",assoc->pszClassName);
-	return DBGetContactSettingByte(NULL,"AssocMgr",szSetting,(BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED))!=0;
+	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
+	return DBGetContactSettingByte(NULL, "AssocMgr", szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED))!= 0;
 }
 
-static void SetAssocEnabled(const ASSOCDATA *assoc,BOOL fEnabled)
+static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	TCHAR szDLL[MAX_PATH],szBuf[MAX_PATH];
-	mir_snprintf(szSetting,sizeof(szSetting),"enabled_%s",assoc->pszClassName);
-	DBWriteContactSettingByte(NULL,"AssocMgr",szSetting,(BYTE)fEnabled);
+	TCHAR szDLL[MAX_PATH], szBuf[MAX_PATH];
+	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
+	DBWriteContactSettingByte(NULL, "AssocMgr", szSetting, (BYTE)fEnabled);
 	/* dll name for uninstall */
-	if(assoc->hInstance!=NULL && assoc->hInstance!=hInst && assoc->hInstance!=GetModuleHandle(NULL))
-		if(GetModuleFileName(assoc->hInstance,szBuf,SIZEOF(szBuf)))
-			if(CallService(MS_UTILS_PATHTORELATIVET,(WPARAM)szBuf,(LPARAM)szDLL)) {
-				mir_snprintf(szSetting,sizeof(szSetting),"module_%s",assoc->pszClassName);
-				DBWriteContactSettingTString(NULL,"AssocMgr",szSetting,szDLL);
+	if(assoc->hInstance!= NULL && assoc->hInstance!= hInst && assoc->hInstance!= GetModuleHandle(NULL))
+		if(GetModuleFileName(assoc->hInstance, szBuf, SIZEOF(szBuf)))
+			if(CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)szBuf, (LPARAM)szDLL)) {
+				mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
+				DBWriteContactSettingTString(NULL, "AssocMgr", szSetting, szDLL);
 			}
 }
 
 static void DeleteAssocEnabledSetting(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	mir_snprintf(szSetting,sizeof(szSetting),"enabled_%s",assoc->pszClassName);
-	DBDeleteContactSetting(NULL,"AssocMgr",szSetting);
+	mir_snprintf(szSetting, sizeof(szSetting), "enabled_%s", assoc->pszClassName);
+	DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
 	/* dll name for uninstall */
-	mir_snprintf(szSetting,sizeof(szSetting),"module_%s",assoc->pszClassName);
-	DBDeleteContactSetting(NULL,"AssocMgr",szSetting);
+	mir_snprintf(szSetting, sizeof(szSetting), "module_%s", assoc->pszClassName);
+	DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
 }
 
 void CleanupAssocEnabledSettings(void)
 {
 	int nSettingsCount;
-	char **ppszSettings,*pszSuffix;
+	char **ppszSettings, *pszSuffix;
 	DBVARIANT dbv;
 	int i;
 	HANDLE hFile;
@@ -90,18 +90,18 @@ void CleanupAssocEnabledSettings(void)
 	char szSetting[MAXMODULELABELLENGTH];
 
 	/* delete old enabled_* settings if associated plugin no longer present */
-	if(EnumDbPrefixSettings("AssocMgr","enabled_",&ppszSettings,&nSettingsCount)) {
+	if(EnumDbPrefixSettings("AssocMgr", "enabled_", &ppszSettings, &nSettingsCount)) {
 		EnterCriticalSection(&csAssocList);
-		for(i=0;i<nSettingsCount;++i) {
-			pszSuffix=&ppszSettings[i][8];
-			mir_snprintf(szSetting,sizeof(szSetting),"module_%s",pszSuffix);
-			if(!DBGetContactSettingTString(NULL,"AssocMgr",szSetting,&dbv)) {
-				if(CallService(MS_UTILS_PATHTOABSOLUTET,(WPARAM)dbv.ptszVal,(LPARAM)szDLL)) {
+		for(i = 0;i<nSettingsCount;++i) {
+			pszSuffix = &ppszSettings[i][8];
+			mir_snprintf(szSetting, sizeof(szSetting), "module_%s", pszSuffix);
+			if(!DBGetContactSettingTString(NULL, "AssocMgr", szSetting, &dbv)) {
+				if(CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbv.ptszVal, (LPARAM)szDLL)) {
 					/* file still exists? */
-					hFile=CreateFile(szDLL,0,FILE_SHARE_READ,0,OPEN_EXISTING,0,0);
-					if(hFile==INVALID_HANDLE_VALUE) {
-						DBDeleteContactSetting(NULL,"AssocMgr",ppszSettings[i]);
-						DBDeleteContactSetting(NULL,"AssocMgr",szSetting);
+					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+					if(hFile == INVALID_HANDLE_VALUE) {
+						DBDeleteContactSetting(NULL, "AssocMgr", ppszSettings[i]);
+						DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
 					} else CloseHandle(hFile);
 				}
 				mir_free(dbv.ptszVal);
@@ -115,21 +115,21 @@ void CleanupAssocEnabledSettings(void)
 
 /************************* Mime Reg *******************************/
 
-static __inline void RememberMimeTypeAdded(const char *pszMimeType,const char *pszFileExt,BYTE fAdded)
+static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *pszFileExt, BYTE fAdded)
 {
 	char szSetting[MAXMODULELABELLENGTH];
-	mir_snprintf(szSetting,sizeof(szSetting),"mime_%s",pszMimeType);
-	if(fAdded) DBWriteContactSettingString(NULL,"AssocMgr",szSetting,pszFileExt);
-	else DBDeleteContactSetting(NULL,"AssocMgr",szSetting);
+	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
+	if(fAdded) DBWriteContactSettingString(NULL, "AssocMgr", szSetting, pszFileExt);
+	else DBDeleteContactSetting(NULL, "AssocMgr", szSetting);
 }
 
 static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	DBVARIANT dbv;
-	BOOL fAdded=FALSE;
-	mir_snprintf(szSetting,sizeof(szSetting),"mime_%s",pszMimeType);
-	if(!DBGetContactSetting(NULL,"AssocMgr",szSetting,&dbv)) fAdded=TRUE;
+	BOOL fAdded = FALSE;
+	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
+	if(!DBGetContactSetting(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
 	else DBFreeVariant(&dbv);
 	return fAdded;
 }
@@ -137,25 +137,25 @@ static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 void CleanupMimeTypeAddedSettings(void)
 {
 	int nSettingsCount;
-	char **ppszSettings,*pszSuffix;
+	char **ppszSettings, *pszSuffix;
 	DBVARIANT dbv;
-	int i,j;
+	int i, j;
 
 	/* delete old mime_* settings and unregister the associated mime type */
-	if(EnumDbPrefixSettings("AssocMgr","mime_",&ppszSettings,&nSettingsCount)) {
+	if(EnumDbPrefixSettings("AssocMgr", "mime_", &ppszSettings, &nSettingsCount)) {
 		EnterCriticalSection(&csAssocList);
-		for(i=0;i<nSettingsCount;++i) {
-			pszSuffix=&ppszSettings[i][5];
-			for(j=0;j<nAssocListCount;++j)
-				if(!lstrcmpA(pszSuffix,pAssocList[j].pszMimeType))
+		for(i = 0;i<nSettingsCount;++i) {
+			pszSuffix = &ppszSettings[i][5];
+			for(j = 0;j<nAssocListCount;++j)
+				if(!lstrcmpA(pszSuffix, pAssocList[j].pszMimeType))
 					break; /* mime type in current list */
-			if(j==nAssocListCount) { /* mime type not in current list */
-				if(!DBGetContactSetting(NULL,"AssocMgr",ppszSettings[i],&dbv)) {
-					if(dbv.type==DBVT_ASCIIZ)
-						RemoveRegMimeType(pszSuffix,dbv.pszVal);
+			if(j == nAssocListCount) { /* mime type not in current list */
+				if(!DBGetContactSetting(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
+					if(dbv.type == DBVT_ASCIIZ)
+						RemoveRegMimeType(pszSuffix, dbv.pszVal);
 					DBFreeVariant(&dbv);
 				}
-				DBDeleteContactSetting(NULL,"AssocMgr",ppszSettings[i]);
+				DBDeleteContactSetting(NULL, "AssocMgr", ppszSettings[i]);
 			}
 			mir_free(ppszSettings[i]);
 		}
@@ -171,15 +171,15 @@ void CleanupMimeTypeAddedSettings(void)
 static UINT nNotifyTimerID; /* protected by csNotifyTimer */
 static CRITICAL_SECTION csNotifyTimer;
 
-static void CALLBACK NotifyTimerProc(HWND hwnd,UINT msg,UINT nTimerID,DWORD dwTime)
+static void CALLBACK NotifyTimerProc(HWND hwnd, UINT msg, UINT_PTR nTimerID, DWORD dwTime)
 {
 	UNREFERENCED_PARAMETER(msg);
 	UNREFERENCED_PARAMETER(dwTime);
 	EnterCriticalSection(&csNotifyTimer);
-	KillTimer(hwnd,nTimerID);
-	if(nNotifyTimerID==nTimerID) /* might be stopped previously */
-		SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_IDLIST|SHCNF_FLUSHNOWAIT,NULL,NULL);
-	nNotifyTimerID=0;
+	KillTimer(hwnd, nTimerID);
+	if(nNotifyTimerID == nTimerID) /* might be stopped previously */
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST|SHCNF_FLUSHNOWAIT, NULL, NULL);
+	nNotifyTimerID = 0;
 	LeaveCriticalSection(&csNotifyTimer);
 }
 
@@ -187,10 +187,10 @@ static void NotifyAssocChange(BOOL fNow)
 {
 	EnterCriticalSection(&csNotifyTimer);
 	if(fNow) {
-		nNotifyTimerID=0; /* stop previous timer */
-		SHChangeNotify(SHCNE_ASSOCCHANGED,SHCNF_IDLIST|SHCNF_FLUSH,NULL,NULL);
+		nNotifyTimerID = 0; /* stop previous timer */
+		SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST|SHCNF_FLUSH, NULL, NULL);
 	}
-	else nNotifyTimerID=SetTimer(NULL,nNotifyTimerID,SHELLNOTIFY_DELAY,NotifyTimerProc);
+	else nNotifyTimerID  =  SetTimer(NULL, nNotifyTimerID, SHELLNOTIFY_DELAY, NotifyTimerProc);
 	LeaveCriticalSection(&csNotifyTimer);
 }
 
@@ -200,8 +200,8 @@ static void NotifyAssocChange(BOOL fNow)
 static int FindAssocItem(const char *pszClassName)
 {
 	int i;
-	for(i=0;i<nAssocListCount;++i)
-		if(!lstrcmpA(pszClassName,pAssocList[i].pszClassName))
+	for(i = 0;i<nAssocListCount;++i)
+		if(!lstrcmpA(pszClassName, pAssocList[i].pszClassName))
 			return i;
 	return -1;
 }
@@ -210,9 +210,9 @@ BOOL IsRegisteredAssocItem(const char *pszClassName)
 {
 	int index;
 	EnterCriticalSection(&csAssocList);
-	index=FindAssocItem(pszClassName);
+	index = FindAssocItem(pszClassName);
 	LeaveCriticalSection(&csAssocList);
-	return index!=-1;
+	return index!= -1;
 }
 
 
@@ -220,19 +220,19 @@ BOOL IsRegisteredAssocItem(const char *pszClassName)
 static ASSOCDATA* CopyAssocItem(const ASSOCDATA *assoc)
 {
 	ASSOCDATA *assoc2;
-	assoc2=(ASSOCDATA*)mir_alloc(sizeof(ASSOCDATA));
-	if(assoc2==NULL) return NULL;
-	assoc2->pszClassName=mir_strdup(assoc->pszClassName);
-	assoc2->pszDescription=mir_tstrdup(assoc->pszDescription);
-	assoc2->hInstance=assoc->hInstance;
-	assoc2->nIconResID=assoc->nIconResID;
-	assoc2->pszService=mir_strdup(assoc->pszService);
-	assoc2->flags=assoc->flags;
-	assoc2->pszFileExt=mir_strdup(assoc->pszFileExt);
-	assoc2->pszMimeType=mir_strdup(assoc->pszMimeType);
-	assoc2->pszVerbDesc=mir_tstrdup(assoc->pszVerbDesc);
-	if(assoc2->pszClassName==NULL || assoc2->pszDescription==NULL ||
-		(assoc2->pszFileExt==NULL && assoc->pszFileExt!=NULL)) {
+	assoc2 = (ASSOCDATA*)mir_alloc(sizeof(ASSOCDATA));
+	if(assoc2 == NULL) return NULL;
+	assoc2->pszClassName = mir_strdup(assoc->pszClassName);
+	assoc2->pszDescription = mir_tstrdup(assoc->pszDescription);
+	assoc2->hInstance = assoc->hInstance;
+	assoc2->nIconResID = assoc->nIconResID;
+	assoc2->pszService = mir_strdup(assoc->pszService);
+	assoc2->flags = assoc->flags;
+	assoc2->pszFileExt = mir_strdup(assoc->pszFileExt);
+	assoc2->pszMimeType = mir_strdup(assoc->pszMimeType);
+	assoc2->pszVerbDesc = mir_tstrdup(assoc->pszVerbDesc);
+	if(assoc2->pszClassName == NULL || assoc2->pszDescription == NULL ||
+		(assoc2->pszFileExt == NULL && assoc->pszFileExt!= NULL)) {
 		mir_free(assoc2->pszClassName);   /* does NULL check */
 		mir_free(assoc2->pszDescription); /* does NULL check */
 		mir_free(assoc2->pszService);     /* does NULL check */
@@ -247,22 +247,22 @@ static ASSOCDATA* CopyAssocItem(const ASSOCDATA *assoc)
 
 // this function assumes it has got the csAssocList mutex
 // this function assumes CoInitialize() has been called before
-static int ReplaceImageListAssocIcon(HIMAGELIST himl,const ASSOCDATA *assoc,int iPrevIndex)
+static int ReplaceImageListAssocIcon(HIMAGELIST himl, const ASSOCDATA *assoc, int iPrevIndex)
 {
-	HICON hIcon=NULL;
+	HICON hIcon = NULL;
 	int index;
-	if(himl==NULL) return -1;
+	if(himl == NULL) return -1;
 
 	/* load icon */
-	hIcon=LoadRegClassSmallIcon(assoc->pszClassName);
-	if(hIcon==NULL) {
+	hIcon = LoadRegClassSmallIcon(assoc->pszClassName);
+	if(hIcon == NULL) {
 		SHFILEINFOA sfi;
-		if(SHGetFileInfoA((assoc->pszFileExt!=NULL)?assoc->pszFileExt:"",FILE_ATTRIBUTE_NORMAL,&sfi,sizeof(sfi),SHGFI_ICON|SHGFI_SMALLICON|SHGFI_USEFILEATTRIBUTES))
-			hIcon=sfi.hIcon; /* WinXP: this icon is not updated until the process exits */
+		if(SHGetFileInfoA((assoc->pszFileExt!= NULL)?assoc->pszFileExt:"", FILE_ATTRIBUTE_NORMAL, &sfi, sizeof(sfi), SHGFI_ICON|SHGFI_SMALLICON|SHGFI_USEFILEATTRIBUTES))
+			hIcon = sfi.hIcon; /* WinXP: this icon is not updated until the process exits */
 	}
 	/* add icon */
-	if(hIcon==NULL) return -1;
-	index=ImageList_ReplaceIcon(himl,iPrevIndex,hIcon);
+	if(hIcon == NULL) return -1;
+	index = ImageList_ReplaceIcon(himl, iPrevIndex, hIcon);
 	DestroyIcon(hIcon);
 	return index;
 }
@@ -272,28 +272,28 @@ static int ReplaceImageListAssocIcon(HIMAGELIST himl,const ASSOCDATA *assoc,int 
 static TCHAR* GetAssocTypeDesc(const ASSOCDATA *assoc)
 {
 	static TCHAR szDesc[32];
-	if(assoc->pszFileExt==NULL) mir_sntprintf(szDesc,SIZEOF(szDesc),TranslateT("%hs:"),assoc->pszClassName);
-	else mir_sntprintf(szDesc,SIZEOF(szDesc),TranslateT("%hs files"),assoc->pszFileExt);
+	if(assoc->pszFileExt == NULL) mir_sntprintf(szDesc, SIZEOF(szDesc), TranslateT("%hs:"), assoc->pszClassName);
+	else mir_sntprintf(szDesc, SIZEOF(szDesc), TranslateT("%hs files"), assoc->pszFileExt);
 	return szDesc;
 }
 
 // this function assumes it has got the csAssocList mutex
 static BOOL IsAssocRegistered(const ASSOCDATA *assoc)
 {
-	BOOL fSuccess=FALSE,fIsUrl,fUseMainCmdLine;
+	BOOL fSuccess = FALSE, fIsUrl, fUseMainCmdLine;
 	TCHAR *pszRunCmd;
 
-	fIsUrl=(assoc->pszFileExt==NULL);
-	fUseMainCmdLine=(assoc->pszService==NULL);
+	fIsUrl = (assoc->pszFileExt == NULL);
+	fUseMainCmdLine = (assoc->pszService == NULL);
 
 	/* class */
-	pszRunCmd=MakeRunCommand(fUseMainCmdLine,!fUseMainCmdLine);
-	if(pszRunCmd!=NULL)
-		fSuccess=IsRegClass(assoc->pszClassName,pszRunCmd);
+	pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
+	if(pszRunCmd!= NULL)
+		fSuccess = IsRegClass(assoc->pszClassName, pszRunCmd);
 	mir_free(pszRunCmd); /* does NULL check */
 	/* file ext */
 	if(!fIsUrl)
-		fSuccess=IsRegFileExt(assoc->pszFileExt,assoc->pszClassName);
+		fSuccess = IsRegFileExt(assoc->pszFileExt, assoc->pszClassName);
 
 	return fSuccess;
 }
@@ -302,38 +302,38 @@ static BOOL IsAssocRegistered(const ASSOCDATA *assoc)
 // call GetLastError() on error to get more error details
 static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 {
-	BOOL fSuccess=FALSE,fIsUrl,fUseMainCmdLine;
-	TCHAR *pszIconLoc,*pszRunCmd,*pszDdeCmd,*pszAppFileName;
+	BOOL fSuccess = FALSE, fIsUrl, fUseMainCmdLine;
+	TCHAR *pszIconLoc, *pszRunCmd, *pszDdeCmd, *pszAppFileName;
 
-	fIsUrl=(assoc->pszFileExt==NULL);
-	fUseMainCmdLine=(assoc->pszService==NULL);
+	fIsUrl = (assoc->pszFileExt == NULL);
+	fUseMainCmdLine = (assoc->pszService == NULL);
 
-	pszRunCmd=MakeRunCommand(fUseMainCmdLine,!fUseMainCmdLine);
-	if(pszRunCmd!=NULL) {
-		fSuccess=TRUE; /* tentatively */
+	pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
+	if(pszRunCmd!= NULL) {
+		fSuccess = TRUE; /* tentatively */
 		/* do not overwrite user customized settings */
-		if(!IsRegClass(assoc->pszClassName,pszRunCmd)) {
+		if(!IsRegClass(assoc->pszClassName, pszRunCmd)) {
 			/* class icon */
-			if(!assoc->nIconResID && fIsUrl) pszIconLoc=MakeIconLocation(NULL,0); /* miranda logo */
-			else if(!assoc->nIconResID) pszIconLoc=MakeIconLocation(hInst,IDI_MIRANDAFILE); /* generic file */
-			else pszIconLoc=MakeIconLocation(assoc->hInstance,assoc->nIconResID);
+			if(!assoc->nIconResID && fIsUrl) pszIconLoc = MakeIconLocation(NULL, 0); /* miranda logo */
+			else if(!assoc->nIconResID) pszIconLoc = MakeIconLocation(hInst, IDI_MIRANDAFILE); /* generic file */
+			else pszIconLoc = MakeIconLocation(assoc->hInstance, assoc->nIconResID);
 			/* register class */
-			if(fUseMainCmdLine) pszDdeCmd=NULL;
-			else pszDdeCmd=fIsUrl?DDEURLCMD:DDEFILECMD;
-			fSuccess=AddRegClass(assoc->pszClassName,assoc->pszDescription,pszIconLoc,_T(MIRANDANAME),pszRunCmd,pszDdeCmd,DDEAPP,DDETOPIC,assoc->pszVerbDesc,assoc->flags&FTDF_BROWSERAUTOOPEN,fIsUrl,assoc->flags&FTDF_ISSHORTCUT);
+			if(fUseMainCmdLine) pszDdeCmd = NULL;
+			else pszDdeCmd = fIsUrl?DDEURLCMD:DDEFILECMD;
+			fSuccess = AddRegClass(assoc->pszClassName, assoc->pszDescription, pszIconLoc, _T(MIRANDANAME), pszRunCmd, pszDdeCmd, DDEAPP, DDETOPIC, assoc->pszVerbDesc, assoc->flags&FTDF_BROWSERAUTOOPEN, fIsUrl, assoc->flags&FTDF_ISSHORTCUT);
 			mir_free(pszIconLoc); /* does NULL check */
 			/* file type */
 			if(fSuccess && !fIsUrl) {
 				/* register mime type */
-				if(assoc->pszMimeType!=NULL)
-					if(AddRegMimeType(assoc->pszMimeType,assoc->pszFileExt,assoc->pszDescription))
-						RememberMimeTypeAdded(assoc->pszMimeType,assoc->pszFileExt,TRUE);
+				if(assoc->pszMimeType!= NULL)
+					if(AddRegMimeType(assoc->pszMimeType, assoc->pszFileExt, assoc->pszDescription))
+						RememberMimeTypeAdded(assoc->pszMimeType, assoc->pszFileExt, TRUE);
 				/* register file ext */
-				fSuccess=AddRegFileExt(assoc->pszFileExt,assoc->pszClassName,assoc->pszMimeType,assoc->flags&FTDF_ISTEXT);
+				fSuccess = AddRegFileExt(assoc->pszFileExt, assoc->pszClassName, assoc->pszMimeType, assoc->flags&FTDF_ISTEXT);
 				/* register open-with */
-				pszAppFileName=MakeAppFileName(fUseMainCmdLine);
-				if(pszAppFileName!=NULL)
-					AddRegOpenWithExtEntry(pszAppFileName,assoc->pszFileExt,assoc->pszDescription);
+				pszAppFileName = MakeAppFileName(fUseMainCmdLine);
+				if(pszAppFileName!= NULL)
+					AddRegOpenWithExtEntry(pszAppFileName, assoc->pszFileExt, assoc->pszDescription);
 				mir_free(pszAppFileName); /* does NULL check */
 			}
 		}
@@ -347,15 +347,15 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 // call GetLastError() on error to get more error details
 static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 {
-	BOOL fIsUrl,fUseMainCmdLine;
-	TCHAR *pszAppFileName,*pszRunCmd;
+	BOOL fIsUrl, fUseMainCmdLine;
+	TCHAR *pszAppFileName, *pszRunCmd;
 
-	fIsUrl=(assoc->pszFileExt==NULL);
-	fUseMainCmdLine=(assoc->pszService==NULL);
+	fIsUrl = (assoc->pszFileExt == NULL);
+	fUseMainCmdLine = (assoc->pszService == NULL);
 
 	/* class might have been registered by another instance */
-	pszRunCmd=MakeRunCommand(fUseMainCmdLine,!fUseMainCmdLine);
-	if(pszRunCmd!=NULL && !IsRegClass(assoc->pszClassName,pszRunCmd)) {
+	pszRunCmd = MakeRunCommand(fUseMainCmdLine, !fUseMainCmdLine);
+	if(pszRunCmd!= NULL && !IsRegClass(assoc->pszClassName, pszRunCmd)) {
 		mir_free(pszRunCmd);
 		return TRUE; /* succeed anyway */
 	}
@@ -364,17 +364,17 @@ static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 	/* file type */
 	if(!fIsUrl) {
 		/* file extension */
-		RemoveRegFileExt(assoc->pszFileExt,assoc->pszClassName);
+		RemoveRegFileExt(assoc->pszFileExt, assoc->pszClassName);
 		/* mime type */
-		if(assoc->pszMimeType!=NULL)
+		if(assoc->pszMimeType!= NULL)
 			if(WasMimeTypeAdded(assoc->pszMimeType)) {
-				RemoveRegMimeType(assoc->pszMimeType,assoc->pszFileExt);
-				RememberMimeTypeAdded(assoc->pszMimeType,assoc->pszFileExt,FALSE);
+				RemoveRegMimeType(assoc->pszMimeType, assoc->pszFileExt);
+				RememberMimeTypeAdded(assoc->pszMimeType, assoc->pszFileExt, FALSE);
 			}
 		/* open-with entry */
-		pszAppFileName=MakeAppFileName(fUseMainCmdLine);
-		if(pszAppFileName!=NULL)
-			RemoveRegOpenWithExtEntry(pszAppFileName,assoc->pszFileExt);
+		pszAppFileName = MakeAppFileName(fUseMainCmdLine);
+		if(pszAppFileName!= NULL)
+			RemoveRegOpenWithExtEntry(pszAppFileName, assoc->pszFileExt);
 		mir_free(pszAppFileName); /* does NULL check */
 	}
 	return RemoveRegClass(assoc->pszClassName);
@@ -394,40 +394,40 @@ typedef struct {
 	DWORD flags;
 } TYPEDESCHEAD;
 
-// ownership of pszClassName, pszFileExt, pszVerbDesc and pszMimeType is transfered
+// ownership of pszClassName,  pszFileExt,  pszVerbDesc and pszMimeType is transfered
 // to the storage list on success
-static BOOL AddNewAssocItem_Worker(char *pszClassName,const TYPEDESCHEAD *tdh,char *pszFileExt,TCHAR *pszVerbDesc,char *pszMimeType)
+static BOOL AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, char *pszFileExt, TCHAR *pszVerbDesc, char *pszMimeType)
 {
-	ASSOCDATA *pAssocListBuf,*assoc;
+	ASSOCDATA *pAssocListBuf, *assoc;
 	int index;
 	
 	/* is already in list? */
 	EnterCriticalSection(&csAssocList);
-	index=FindAssocItem(pszClassName);
-	if(index!=-1) return FALSE;
+	index = FindAssocItem(pszClassName);
+	if(index!= -1) return FALSE;
 
 	/* resize storage array */
-	pAssocListBuf=(ASSOCDATA*)mir_realloc(pAssocList,(nAssocListCount+1)*sizeof(ASSOCDATA));
-	if(pAssocListBuf==NULL) {
+	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount+1)*sizeof(ASSOCDATA));
+	if(pAssocListBuf == NULL) {
 		LeaveCriticalSection(&csAssocList);
 		return FALSE;
 	}
-	pAssocList=pAssocListBuf;
+	pAssocList = pAssocListBuf;
 	
 	/* init new item */
-	assoc=&pAssocList[nAssocListCount];
-	assoc->pszClassName=pszClassName; /* no dup here */
-	assoc->pszDescription=s2t(tdh->pszDescription,tdh->flags&FTDF_UNICODE,TRUE); /* does NULL check */
-	assoc->hInstance=tdh->hInstance; /* hInstance is allowed to be NULL for miranda32.exe */
-	assoc->nIconResID=(WORD)tdh->nIconResID; /* default icon selected later on */
-	assoc->pszService=mir_strdup(tdh->pszService); /* does NULL check */
-	assoc->flags=(WORD)tdh->flags;
-	assoc->pszFileExt=pszFileExt;
-	assoc->pszMimeType=pszMimeType;
-	assoc->pszVerbDesc=pszVerbDesc;
+	assoc = &pAssocList[nAssocListCount];
+	assoc->pszClassName = pszClassName; /* no dup here */
+	assoc->pszDescription = s2t(tdh->pszDescription, tdh->flags&FTDF_UNICODE, TRUE); /* does NULL check */
+	assoc->hInstance = tdh->hInstance; /* hInstance is allowed to be NULL for miranda32.exe */
+	assoc->nIconResID = (WORD)tdh->nIconResID; /* default icon selected later on */
+	assoc->pszService = mir_strdup(tdh->pszService); /* does NULL check */
+	assoc->flags = (WORD)tdh->flags;
+	assoc->pszFileExt = pszFileExt;
+	assoc->pszMimeType = pszMimeType;
+	assoc->pszVerbDesc = pszVerbDesc;
 
 	/* error check */
-	if(assoc->pszDescription==NULL || (assoc->pszService==NULL && tdh->pszService!=NULL)) {
+	if(assoc->pszDescription == NULL || (assoc->pszService == NULL && tdh->pszService!= NULL)) {
 		mir_free(assoc->pszService);     /* does NULL check */
 		mir_free(assoc->pszDescription); /* does NULL check */
 		LeaveCriticalSection(&csAssocList);
@@ -446,22 +446,22 @@ static BOOL AddNewAssocItem_Worker(char *pszClassName,const TYPEDESCHEAD *tdh,ch
 // ownership of pszClassName is *not* transferd to storage list
 static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 {
-	ASSOCDATA *pAssocListBuf,*assoc;
+	ASSOCDATA *pAssocListBuf, *assoc;
 	int index;
 
 	/* find index */
 	EnterCriticalSection(&csAssocList);
-	index=FindAssocItem(pszClassName);
-	if(index==-1) {
+	index = FindAssocItem(pszClassName);
+	if(index == -1) {
 		LeaveCriticalSection(&csAssocList);
 		return FALSE;
 	}
-	assoc=&pAssocList[index];
+	assoc = &pAssocList[index];
 
 	/* delete registry keys and db setting */
 	UnregisterAssoc(assoc);
-	if(assoc->pszMimeType!=NULL)
-		RememberMimeTypeAdded(assoc->pszMimeType,assoc->pszFileExt,FALSE);
+	if(assoc->pszMimeType!= NULL)
+		RememberMimeTypeAdded(assoc->pszMimeType, assoc->pszFileExt, FALSE);
 	DeleteAssocEnabledSetting(assoc);
 
 	/* free memory */
@@ -474,9 +474,9 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 
 	/* resize storage array */
 	if((index+1)<nAssocListCount)
-		MoveMemory(assoc,&pAssocList[index+1],((nAssocListCount-index-1)*sizeof(ASSOCDATA)));
-	pAssocListBuf=(ASSOCDATA*)mir_realloc(pAssocList,(nAssocListCount-1)*sizeof(ASSOCDATA));
-	if(pAssocListBuf!=NULL) pAssocList=pAssocListBuf;
+		MoveMemory(assoc, &pAssocList[index+1], ((nAssocListCount-index-1)*sizeof(ASSOCDATA)));
+	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount-1)*sizeof(ASSOCDATA));
+	if(pAssocListBuf!= NULL) pAssocList = pAssocListBuf;
 	--nAssocListCount;
 	LeaveCriticalSection(&csAssocList);
 
@@ -486,25 +486,25 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 
 /************************* Services *******************************/
 
-static int ServiceAddNewFileType(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceAddNewFileType(WPARAM wParam, LPARAM lParam)
 {
-	const FILETYPEDESC *ftd=(FILETYPEDESC*)lParam;
-	char *pszClassName,*pszFileExt,*pszMimeType;
+	const FILETYPEDESC *ftd = (FILETYPEDESC*)lParam;
+	char *pszClassName, *pszFileExt, *pszMimeType;
 	TCHAR *pszVerbDesc;
 	UNREFERENCED_PARAMETER(wParam);
 		
 	if(ftd->cbSize<sizeof(FILETYPEDESC))
 		return 1;
- 	if(ftd->pszFileExt==NULL || ftd->pszFileExt[0]!='.') 
+ 	if(ftd->pszFileExt == NULL || ftd->pszFileExt[0]!= '.') 
 		return 2;
 
-	pszFileExt=mir_strdup(ftd->pszFileExt);
-	pszClassName=MakeFileClassName(ftd->pszFileExt);
-	if(pszFileExt!=NULL && pszClassName!=NULL) {
-		pszVerbDesc=s2t(ftd->ptszVerbDesc,ftd->flags&FTDF_UNICODE,TRUE); /* does NULL check */
-		pszMimeType=mir_strdup(ftd->pszMimeType); /* does NULL check */
-		if(AddNewAssocItem_Worker(pszClassName,(TYPEDESCHEAD*)ftd,pszFileExt,pszVerbDesc,pszMimeType))
-			/* no need to free pszClassName, pszFileExt,pszVerbDesc and pszMimeType,
+	pszFileExt = mir_strdup(ftd->pszFileExt);
+	pszClassName = MakeFileClassName(ftd->pszFileExt);
+	if(pszFileExt!= NULL && pszClassName!= NULL) {
+		pszVerbDesc = s2t(ftd->ptszVerbDesc, ftd->flags&FTDF_UNICODE, TRUE); /* does NULL check */
+		pszMimeType = mir_strdup(ftd->pszMimeType); /* does NULL check */
+		if(AddNewAssocItem_Worker(pszClassName, (TYPEDESCHEAD*)ftd, pszFileExt, pszVerbDesc, pszMimeType))
+			/* no need to free pszClassName,  pszFileExt, pszVerbDesc and pszMimeType, 
 			 * as their ownership got transfered to storage list */
 			return 0;
 	}
@@ -513,14 +513,14 @@ static int ServiceAddNewFileType(WPARAM wParam,LPARAM lParam)
 	return 3;
 }
 
-static int ServiceRemoveFileType(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceRemoveFileType(WPARAM wParam, LPARAM lParam)
 {
 	char *pszClassName;
 	UNREFERENCED_PARAMETER(wParam);
 
-	if((char*)lParam==NULL) return 2;
-	pszClassName=MakeFileClassName((char*)lParam);
-	if(pszClassName!=NULL)
+	if((char*)lParam == NULL) return 2;
+	pszClassName = MakeFileClassName((char*)lParam);
+	if(pszClassName!= NULL)
 		if(RemoveAssocItem_Worker(pszClassName)) {
 			mir_free(pszClassName);
 			return 0;
@@ -529,37 +529,37 @@ static int ServiceRemoveFileType(WPARAM wParam,LPARAM lParam)
 	return 3;
 }
 
-static int ServiceAddNewUrlType(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceAddNewUrlType(WPARAM wParam, LPARAM lParam)
 {
-	const URLTYPEDESC *utd=(URLTYPEDESC*)lParam;
+	const URLTYPEDESC *utd = (URLTYPEDESC*)lParam;
 	char *pszClassName;
 	UNREFERENCED_PARAMETER(wParam);
 
-	if(utd->cbSize<sizeof(URLTYPEDESC))
+	if(utd->cbSize < sizeof(URLTYPEDESC))
 		return 1;
-	if(utd->pszService==NULL)
+	if(utd->pszService == NULL)
 		return 2;
- 	if(utd->pszProtoPrefix==NULL || utd->pszProtoPrefix[lstrlenA(utd->pszProtoPrefix)-1]!=':') 
+ 	if(utd->pszProtoPrefix == NULL || utd->pszProtoPrefix[lstrlenA(utd->pszProtoPrefix)-1]!= ':') 
 		return 2;
 
-	pszClassName=MakeUrlClassName(utd->pszProtoPrefix);
-	if(pszClassName!=NULL)
-		if(AddNewAssocItem_Worker(pszClassName,(TYPEDESCHEAD*)utd,NULL,NULL,NULL))
-			/* no need to free pszClassName, as its 
+	pszClassName = MakeUrlClassName(utd->pszProtoPrefix);
+	if(pszClassName!= NULL)
+		if(AddNewAssocItem_Worker(pszClassName, (TYPEDESCHEAD*)utd, NULL, NULL, NULL))
+			/* no need to free pszClassName,  as its 
 			 * ownership got transfered to storage list */
 			return 0;
 	mir_free(pszClassName); /* does NULL check */
 	return 3;
 }
 
-static int ServiceRemoveUrlType(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceRemoveUrlType(WPARAM wParam, LPARAM lParam)
 {
 	char *pszClassName;
 	UNREFERENCED_PARAMETER(wParam);
 
-	if((char*)lParam==NULL) return 2;
-	pszClassName=MakeUrlClassName((char*)lParam);
-	if(pszClassName!=NULL)
+	if((char*)lParam == NULL) return 2;
+	pszClassName = MakeUrlClassName((char*)lParam);
+	if(pszClassName!= NULL)
 		if(RemoveAssocItem_Worker(pszClassName)) {
 			mir_free(pszClassName);
 			return 0;
@@ -570,7 +570,7 @@ static int ServiceRemoveUrlType(WPARAM wParam,LPARAM lParam)
 
 /************************* Open Handler ***************************/
 
-static BOOL InvokeHandler_Worker(const char *pszClassName,const TCHAR *pszParam,int *res)
+static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam, INT_PTR *res)
 {
 	void *pvParam;
 	char *pszService;
@@ -579,51 +579,51 @@ static BOOL InvokeHandler_Worker(const char *pszClassName,const TCHAR *pszParam,
 
 	/* find it in list */
 	EnterCriticalSection(&csAssocList);
-	index=FindAssocItem(pszClassName);
-	if(index==-1) {
+	index = FindAssocItem(pszClassName);
+	if(index == -1) {
 		LeaveCriticalSection(&csAssocList);
 		return FALSE;
 	}
-	assoc=&pAssocList[index];
+	assoc = &pAssocList[index];
 	/* no service specified? correct registry to use main commandline */
-	if(assoc->pszService==NULL) {
+	if(assoc->pszService == NULL) {
 		EnsureAssocRegistered(assoc);
 		NotifyAssocChange(FALSE);
 		/* try main command line */
-		if((int)ShellExecute(NULL,NULL,pszParam,NULL,NULL,SW_SHOWNORMAL)>=32)
-			*res=0; /* success */
+		if((int)ShellExecute(NULL, NULL, pszParam, NULL, NULL, SW_SHOWNORMAL) >= 32)
+			*res = 0; /* success */
 		return TRUE;
 	}
 	/* get params */
-	pszService=mir_strdup(assoc->pszService);
-	pvParam=t2s(pszParam,assoc->flags&FTDF_UNICODE,FALSE);
+	pszService = mir_strdup(assoc->pszService);
+	pvParam = t2s(pszParam, assoc->flags&FTDF_UNICODE, FALSE);
 	LeaveCriticalSection(&csAssocList);
 
 	/* call service */
-	if(pszService!=NULL && pvParam!=NULL)
-		*res=CallService(pszService,0,(LPARAM)pvParam);
+	if(pszService!= NULL && pvParam!= NULL)
+		*res = CallService(pszService, 0, (LPARAM)pvParam);
 	mir_free(pszService); /* does NULL check */
 	mir_free(pvParam); /* does NULL check */
 	return TRUE;
 }
 
-int InvokeFileHandler(const TCHAR *pszFileName)
+INT_PTR InvokeFileHandler(const TCHAR *pszFileName)
 {
-	char *pszClassName,*pszFileExt;
+	char *pszClassName, *pszFileExt;
 	TCHAR *p;
-	int res=CALLSERVICE_NOTFOUND;
+	INT_PTR res = CALLSERVICE_NOTFOUND;
 
 	/* find extension */
-	p=_tcsrchr(pszFileName,_T('.'));
-	if(p!=NULL) {
-		pszFileExt=t2a(p);
-		if(pszFileExt!=NULL) {
+	p = _tcsrchr(pszFileName, _T('.'));
+	if(p!= NULL) {
+		pszFileExt = t2a(p);
+		if(pszFileExt!= NULL) {
 			/* class name */
-			pszClassName=MakeFileClassName(pszFileExt);
-			if(pszClassName!=NULL)
-				if(!InvokeHandler_Worker(pszClassName,pszFileName,&res)) {
+			pszClassName = MakeFileClassName(pszFileExt);
+			if(pszClassName!= NULL)
+				if(!InvokeHandler_Worker(pszClassName, pszFileName, &res)) {
 					/* correct registry on error (no longer in list) */
-					RemoveRegFileExt(pszFileExt,pszClassName);
+					RemoveRegFileExt(pszFileExt, pszClassName);
 					RemoveRegClass(pszClassName);
 				}
 			mir_free(pszClassName); /* does NULL check */
@@ -633,21 +633,21 @@ int InvokeFileHandler(const TCHAR *pszFileName)
 	return res;
 }
 
-int InvokeUrlHandler(const TCHAR *pszUrl)
+INT_PTR InvokeUrlHandler(const TCHAR *pszUrl)
 {
-	char *pszClassName,*pszProtoPrefix,*p;
-	int res=CALLSERVICE_NOTFOUND;
+	char *pszClassName, *pszProtoPrefix, *p;
+	INT_PTR res = CALLSERVICE_NOTFOUND;
 	
 	/* find prefix */
-	pszProtoPrefix=t2a(pszUrl);
-	if(pszProtoPrefix!=NULL) {
-		p=strchr(pszProtoPrefix,_T(':'));
-		if(p!=NULL) {
-			*(++p)=0; /* remove trailing : */
+	pszProtoPrefix = t2a(pszUrl);
+	if(pszProtoPrefix!= NULL) {
+		p = strchr(pszProtoPrefix, _T(':'));
+		if(p!= NULL) {
+			*(++p) = 0; /* remove trailing : */
 			/* class name */
-			pszClassName=MakeUrlClassName(pszProtoPrefix);
-			if(pszClassName!=NULL)
-				if(!InvokeHandler_Worker(pszClassName,pszUrl,&res))
+			pszClassName = MakeUrlClassName(pszProtoPrefix);
+			if(pszClassName!= NULL)
+				if(!InvokeHandler_Worker(pszClassName, pszUrl, &res))
 					/* correct registry on error (no longer in list) */
 					RemoveRegClass(pszClassName);
 			mir_free(pszClassName); /* does NULL check */
@@ -659,23 +659,23 @@ int InvokeUrlHandler(const TCHAR *pszUrl)
 
 /************************* Options ********************************/
 
-static int CALLBACK ListViewSortDesc(LPARAM lParam1,LPARAM lParam2,LPARAM lParamSort)
+static int CALLBACK ListViewSortDesc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	int cmp;
-	if(((ASSOCDATA*)lParam1)->pszFileExt!=NULL && ((ASSOCDATA*)lParam2)->pszFileExt!=NULL)
-		cmp=CompareStringA((LCID)lParamSort,0,((ASSOCDATA*)lParam1)->pszFileExt,-1,((ASSOCDATA*)lParam2)->pszFileExt,-1);
-	else if(((ASSOCDATA*)lParam1)->pszFileExt==((ASSOCDATA*)lParam2)->pszFileExt) /* both NULL */
-		cmp=CompareStringA((LCID)lParamSort,0,((ASSOCDATA*)lParam1)->pszClassName,-1,((ASSOCDATA*)lParam2)->pszClassName,-1);
-	else /* different types, incomparable */
-		cmp=(((ASSOCDATA*)lParam1)->pszFileExt==NULL)?CSTR_LESS_THAN:CSTR_GREATER_THAN;
-	if(cmp==CSTR_EQUAL)
-		cmp=CompareString((LCID)lParamSort,0,((ASSOCDATA*)lParam1)->pszDescription,-1,((ASSOCDATA*)lParam2)->pszDescription,-1);
-	if(cmp!=0) cmp-=2; /* maintain CRT conventions */
+	if(((ASSOCDATA*)lParam1)->pszFileExt!= NULL && ((ASSOCDATA*)lParam2)->pszFileExt!= NULL)
+		cmp = CompareStringA((LCID)lParamSort, 0, ((ASSOCDATA*)lParam1)->pszFileExt, -1, ((ASSOCDATA*)lParam2)->pszFileExt, -1);
+	else if(((ASSOCDATA*)lParam1)->pszFileExt == ((ASSOCDATA*)lParam2)->pszFileExt) /* both NULL */
+		cmp = CompareStringA((LCID)lParamSort, 0, ((ASSOCDATA*)lParam1)->pszClassName, -1, ((ASSOCDATA*)lParam2)->pszClassName, -1);
+	else /* different types,  incomparable */
+		cmp = (((ASSOCDATA*)lParam1)->pszFileExt == NULL)?CSTR_LESS_THAN:CSTR_GREATER_THAN;
+	if(cmp == CSTR_EQUAL)
+		cmp = CompareString((LCID)lParamSort, 0, ((ASSOCDATA*)lParam1)->pszDescription, -1, ((ASSOCDATA*)lParam2)->pszDescription, -1);
+	if(cmp!= 0) cmp -= 2; /* maintain CRT conventions */
 	return cmp;
 }
 
 #define M_REFRESH_ICONS  (WM_APP+1)
-static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
 		case WM_INITDIALOG:
@@ -686,95 +686,95 @@ static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			int i;
 			TranslateDialogDefault(hwndDlg);
 			CoInitialize(NULL);
-			hwndList=GetDlgItem(hwndDlg,IDC_ASSOCLIST);
+			hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
 #if defined(_UNICODE)
-			ListView_SetUnicodeFormat(hwndList,TRUE);
+			ListView_SetUnicodeFormat(hwndList, TRUE);
 #endif
-			SendDlgItemMessage(hwndDlg,IDC_HEADERTEXT,WM_SETFONT,SendMessage(GetParent(hwndDlg),PSM_GETBOLDFONT,0,0),0);
+			SendDlgItemMessage(hwndDlg, IDC_HEADERTEXT, WM_SETFONT, SendMessage(GetParent(hwndDlg), PSM_GETBOLDFONT, 0, 0), 0);
 			/* checkboxes won't show up on Win95 without IE3+ or 4.70 (plugin opts uses the same) */
-			ListView_SetExtendedListViewStyle(hwndList,LVS_EX_CHECKBOXES|LVS_EX_FULLROWSELECT|LVS_EX_LABELTIP);
+			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES|LVS_EX_FULLROWSELECT|LVS_EX_LABELTIP);
 			/* columns */
 			{	LVCOLUMN lvc;
-				lvc.mask=LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
-				lvc.pszText=TranslateT("Type");
-				lvc.cx=170;
-				ListView_InsertColumn(hwndList,lvc.iSubItem=0,&lvc);
-				lvc.pszText=TranslateT("Description");			
-				ListView_InsertColumn(hwndList,lvc.iSubItem=1,&lvc);
+				lvc.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
+				lvc.pszText = TranslateT("Type");
+				lvc.cx = 170;
+				ListView_InsertColumn(hwndList, lvc.iSubItem = 0, &lvc);
+				lvc.pszText = TranslateT("Description");			
+				ListView_InsertColumn(hwndList, lvc.iSubItem = 1, &lvc);
 			}
 			/* create image storage */
 			EnterCriticalSection(&csAssocList);
 			{	HDC hdc;
-				hdc=GetDC(hwndList);
-				if(hdc!=NULL) { /* BITSPIXEL is compatible with ILC_COLOR flags */
-					himl=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),GetDeviceCaps(hdc,BITSPIXEL)|ILC_MASK,nAssocListCount,0);
-					ReleaseDC(hwndList,hdc);
-				} else himl=NULL;
+				hdc = GetDC(hwndList);
+				if(hdc!= NULL) { /* BITSPIXEL is compatible with ILC_COLOR flags */
+					himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), GetDeviceCaps(hdc, BITSPIXEL)|ILC_MASK, nAssocListCount, 0);
+					ReleaseDC(hwndList, hdc);
+				} else himl = NULL;
 			}
-			ListView_SetImageList(hwndList,himl,LVSIL_SMALL); /* autodestroyed */
+			ListView_SetImageList(hwndList, himl, LVSIL_SMALL); /* autodestroyed */
 			/* enum assoc list */
-			lvi.iSubItem=0;
-			lvi.mask=LVIF_TEXT|LVIF_PARAM|LVIF_IMAGE;
-			for(i=0;i<nAssocListCount;++i) {
-				assoc=&pAssocList[i];
-				lvi.iItem=0;
-				lvi.lParam=(LPARAM)CopyAssocItem(assoc);
-				lvi.pszText=GetAssocTypeDesc(assoc);
-				lvi.iImage=ReplaceImageListAssocIcon(himl,assoc,-1);
-				lvi.iItem=ListView_InsertItem(hwndList,&lvi);
-				if(lvi.iItem!=-1) {
-					ListView_SetItemText(hwndList,lvi.iItem,1,assoc->pszDescription);
-					ListView_SetCheckState(hwndList,lvi.iItem,IsAssocEnabled(assoc) && IsAssocRegistered(assoc));
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_TEXT|LVIF_PARAM|LVIF_IMAGE;
+			for(i = 0;i<nAssocListCount;++i) {
+				assoc = &pAssocList[i];
+				lvi.iItem = 0;
+				lvi.lParam = (LPARAM)CopyAssocItem(assoc);
+				lvi.pszText = GetAssocTypeDesc(assoc);
+				lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, -1);
+				lvi.iItem = ListView_InsertItem(hwndList, &lvi);
+				if(lvi.iItem!= -1) {
+					ListView_SetItemText(hwndList, lvi.iItem, 1, assoc->pszDescription);
+					ListView_SetCheckState(hwndList, lvi.iItem, IsAssocEnabled(assoc) && IsAssocRegistered(assoc));
 				}
 			}
 			/* sort items (before moving to groups) */
-			ListView_SortItems(hwndList,ListViewSortDesc,(LPARAM)CallService(MS_LANGPACK_GETLOCALE,0,0));
+			ListView_SortItems(hwndList, ListViewSortDesc, (LPARAM)CallService(MS_LANGPACK_GETLOCALE, 0, 0));
 			/* groups */
-			if(ListView_EnableGroupView(hwndList,TRUE)==1) { /* returns 0 on pre WinXP or if commctls6 are disabled */
+			if(ListView_EnableGroupView(hwndList, TRUE) == 1) { /* returns 0 on pre WinXP or if commctls6 are disabled */
 				LVGROUP lvg;
 				int iItem;
 				/* dummy item for group */
-				lvi.iItem=ListView_GetItemCount(hwndList)-1;
-				lvi.iSubItem=0;
-				lvi.mask=LVIF_PARAM|LVIF_IMAGE;
-				lvi.iImage=-1;
-				lvi.lParam=0;
+				lvi.iItem = ListView_GetItemCount(hwndList)-1;
+				lvi.iSubItem = 0;
+				lvi.mask = LVIF_PARAM|LVIF_IMAGE;
+				lvi.iImage = -1;
+				lvi.lParam = 0;
 				/* insert groups */
-				lvg.cbSize=sizeof(lvg);
-				lvg.mask=LVGF_HEADER|LVGF_GROUPID;
-				lvg.iGroupId=2;
-				lvg.pszHeader=(WCHAR*)TranslateW(L"URLs on Websites");
-				lvi.iItem=ListView_InsertItem(hwndList,&lvi);
-				if(lvi.iItem!=-1) {
-					ListView_InsertGroup(hwndList,lvi.iItem,&lvg);
-					lvg.iGroupId=1;
-					lvg.pszHeader=(WCHAR*)TranslateW(L"File Types");
-					iItem=lvi.iItem=ListView_InsertItem(hwndList,&lvi);
-					if(lvi.iItem!=-1)
-						ListView_InsertGroup(hwndList,lvi.iItem,&lvg);
-					else ListView_DeleteItem(hwndList,iItem);
+				lvg.cbSize = sizeof(lvg);
+				lvg.mask = LVGF_HEADER|LVGF_GROUPID;
+				lvg.iGroupId = 2;
+				lvg.pszHeader = (WCHAR*)TranslateW(L"URLs on Websites");
+				lvi.iItem = ListView_InsertItem(hwndList, &lvi);
+				if(lvi.iItem!= -1) {
+					ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
+					lvg.iGroupId = 1;
+					lvg.pszHeader = (WCHAR*)TranslateW(L"File Types");
+					iItem = lvi.iItem = ListView_InsertItem(hwndList, &lvi);
+					if(lvi.iItem!= -1)
+						ListView_InsertGroup(hwndList, lvi.iItem, &lvg);
+					else ListView_DeleteItem(hwndList, iItem);
 				}
 				/* move to group */
-				lvi.iSubItem=0;
-				lvi.mask=LVIF_PARAM|LVIF_GROUPID;
-				for(lvi.iItem=0;ListView_GetItem(hwndList,&lvi);++lvi.iItem) {
-					assoc=(ASSOCDATA*)lvi.lParam;
-					if(assoc==NULL) continue; /* groups */
-					lvi.iGroupId=(assoc->pszFileExt==NULL)+1; 
-					ListView_SetItem(hwndList,&lvi);
+				lvi.iSubItem = 0;
+				lvi.mask = LVIF_PARAM|LVIF_GROUPID;
+				for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
+					assoc = (ASSOCDATA*)lvi.lParam;
+					if(assoc == NULL) continue; /* groups */
+					lvi.iGroupId = (assoc->pszFileExt == NULL)+1; 
+					ListView_SetItem(hwndList, &lvi);
 				}
 			}
 			LeaveCriticalSection(&csAssocList);
-			lvi.iItem=ListView_GetTopIndex(hwndList);
-			ListView_SetItemState(hwndList,lvi.iItem,LVIS_SELECTED|LVIS_FOCUSED,LVIS_SELECTED|LVIS_FOCUSED);
-			ListView_SetColumnWidth(hwndList,1,LVSCW_AUTOSIZE_USEHEADER); /* size to fit window */
+			lvi.iItem = ListView_GetTopIndex(hwndList);
+			ListView_SetItemState(hwndList, lvi.iItem, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
+			ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE_USEHEADER); /* size to fit window */
 			/* only while running */
-			CheckDlgButton(hwndDlg,IDC_ONLYWHILERUNNING,(BOOL)DBGetContactSettingByte(NULL,"AssocMgr","OnlyWhileRunning",SETTING_ONLYWHILERUNNING_DEFAULT));
+			CheckDlgButton(hwndDlg, IDC_ONLYWHILERUNNING, (BOOL)DBGetContactSettingByte(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT));
 			/* autostart */
 			{	TCHAR *pszRunCmd;
-				pszRunCmd=MakeRunCommand(TRUE,TRUE);
-				if(pszRunCmd!=NULL) {
-					CheckDlgButton(hwndDlg,IDC_AUTOSTART,IsRegRunEntry(_T("MirandaIM"),pszRunCmd));
+				pszRunCmd = MakeRunCommand(TRUE, TRUE);
+				if(pszRunCmd!= NULL) {
+					CheckDlgButton(hwndDlg, IDC_AUTOSTART, IsRegRunEntry(_T("MirandaIM"), pszRunCmd));
 					mir_free(pszRunCmd);
 				}
 			}
@@ -786,44 +786,44 @@ static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			HIMAGELIST himl;
 			ASSOCDATA *assoc;
 			HWND hwndList;
-			hwndList=GetDlgItem(hwndDlg,IDC_ASSOCLIST);
-			himl=ListView_GetImageList(hwndList,LVSIL_SMALL);
+			hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+			himl = ListView_GetImageList(hwndList, LVSIL_SMALL);
 			/* enum items */
-			lvi.iSubItem=0;
-			lvi.mask=LVIF_PARAM|LVIF_IMAGE;
-			for(lvi.iItem=0;ListView_GetItem(hwndList,&lvi);++lvi.iItem) {
-				assoc=(ASSOCDATA*)lvi.lParam;
-				if(assoc==NULL) continue; /* groups */
-				lvi.iImage=ReplaceImageListAssocIcon(himl,assoc,lvi.iImage);
-				ListView_SetItem(hwndList,&lvi);
+			lvi.iSubItem = 0;
+			lvi.mask = LVIF_PARAM|LVIF_IMAGE;
+			for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
+				assoc = (ASSOCDATA*)lvi.lParam;
+				if(assoc == NULL) continue; /* groups */
+				lvi.iImage = ReplaceImageListAssocIcon(himl, assoc, lvi.iImage);
+				ListView_SetItem(hwndList, &lvi);
 			}
 			if(lvi.iItem) { /* ListView_Update() blinks */
-				ListView_RedrawItems(hwndList,0,lvi.iItem-1);
+				ListView_RedrawItems(hwndList, 0, lvi.iItem-1);
 				UpdateWindow(hwndList);
 			}
 			return TRUE;
 		}
 		case WM_CTLCOLORSTATIC:
 			/* use same text color for header as for group boxes (WinXP+) */
-			if(GetDlgCtrlID((HWND)lParam)==IDC_HEADERTEXT) {
+			if(GetDlgCtrlID((HWND)lParam) == IDC_HEADERTEXT) {
 				HMODULE hUxThemeDLL;
 				HBRUSH hBrush;
-				hUxThemeDLL=LoadLibraryA("UXTHEME"); /* all ascii, already loaded */
-				lParam=(LPARAM)GetDlgItem(hwndDlg,IDC_MISCLABEL);
-				hBrush=(HBRUSH)SendMessage(hwndDlg,msg,wParam,lParam);
-				if(hUxThemeDLL!=NULL) {
+				hUxThemeDLL = LoadLibraryA("UXTHEME"); /* all ascii,  already loaded */
+				lParam = (LPARAM)GetDlgItem(hwndDlg, IDC_MISCLABEL);
+				hBrush = (HBRUSH)SendMessage(hwndDlg, msg, wParam, lParam);
+				if(hUxThemeDLL!= NULL) {
 					HTHEME (WINAPI *pfnGetWindowTheme)(HWND);
-					HRESULT (WINAPI *pfnGetThemeColor)(HTHEME,int,int,int,COLORREF*);
+					HRESULT (WINAPI *pfnGetThemeColor)(HTHEME, int, int, int, COLORREF*);
 					COLORREF clr;
-					*(PROC*)&pfnGetWindowTheme=GetProcAddress(hUxThemeDLL,"GetWindowTheme");
-					*(PROC*)&pfnGetThemeColor=GetProcAddress(hUxThemeDLL,"GetThemeColor");
-					if(pfnGetWindowTheme!=NULL && pfnGetThemeColor!=NULL) {
+					*(PROC*)&pfnGetWindowTheme = GetProcAddress(hUxThemeDLL, "GetWindowTheme");
+					*(PROC*)&pfnGetThemeColor = GetProcAddress(hUxThemeDLL, "GetThemeColor");
+					if(pfnGetWindowTheme!= NULL && pfnGetThemeColor!= NULL) {
 						HTHEME hTheme;
-						hTheme=pfnGetWindowTheme((HWND)lParam);
-						if(hTheme!=NULL)
-							if(!pfnGetThemeColor(hTheme,BP_GROUPBOX,GBS_NORMAL,TMT_TEXTCOLOR,&clr)) {
-								SetBkMode((HDC)wParam,TRANSPARENT);
-								SetTextColor((HDC)wParam,clr);
+						hTheme = pfnGetWindowTheme((HWND)lParam);
+						if(hTheme!= NULL)
+							if(!pfnGetThemeColor(hTheme, BP_GROUPBOX, GBS_NORMAL, TMT_TEXTCOLOR, &clr)) {
+								SetBkMode((HDC)wParam, TRANSPARENT);
+								SetTextColor((HDC)wParam, clr);
 							}
 					}
 					FreeLibrary(hUxThemeDLL);
@@ -836,32 +836,32 @@ static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			return TRUE;
 		case WM_COMMAND:
 			/* enable apply */
-			PostMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
+			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 #if defined(_UNICODE)
 		case WM_NOTIFYFORMAT:
-			SetWindowLong(hwndDlg,DWL_MSGRESULT,NFR_UNICODE);
+			SetWindowLong(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
 			return TRUE;
 #endif
 		case WM_NOTIFY:
-		{	NMHDR *nmhdr=(NMHDR*)lParam;
+		{	NMHDR *nmhdr = (NMHDR*)lParam;
 			switch(nmhdr->idFrom) {
 				case IDC_ASSOCLIST:
 					switch(nmhdr->code) {
 						case LVN_DELETEITEM: /* also called on WM_DESTROY */
 						{	LVITEM lvi;
-							lvi.mask=LVIF_PARAM;
-							lvi.iSubItem=0;
-							lvi.iItem=((NMLISTVIEW*)lParam)->iItem;
+							lvi.mask = LVIF_PARAM;
+							lvi.iSubItem = 0;
+							lvi.iItem = ((NMLISTVIEW*)lParam)->iItem;
 							/* free memory */
-							if(ListView_GetItem(nmhdr->hwndFrom,&lvi))
+							if(ListView_GetItem(nmhdr->hwndFrom, &lvi))
 								mir_free((ASSOCDATA*)lvi.lParam); /* does NULL check */
 							return TRUE;
 						}
 						case LVN_ITEMCHANGED:
 							/* enable apply (not while loading) */
 							if(IsWindowVisible(nmhdr->hwndFrom))
-								PostMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
+								PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 							return TRUE;
 						case LVN_KEYDOWN:
 							/* workaround for WinXP (ListView with groups):
@@ -871,33 +871,33 @@ static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							switch(((NMLVKEYDOWN*)lParam)->wVKey) {
 								case VK_UP:
 								{	LVITEM lvi;
-									lvi.iSubItem=0;
-									lvi.mask=LVIF_PARAM;
-									lvi.iItem=ListView_GetNextItem(nmhdr->hwndFrom,-1,LVNI_FOCUSED);
-									lvi.iItem=ListView_GetNextItem(nmhdr->hwndFrom,lvi.iItem,LVNI_ABOVE);
-									if(lvi.iItem!=-1)
-										if(ListView_GetItem(nmhdr->hwndFrom,&lvi))
-											if((ASSOCDATA*)lvi.lParam==NULL) /* groups */
-												lvi.iItem=-1;
-									if(lvi.iItem==-1) {
-										SetWindowLong(hwndDlg,DWL_MSGRESULT,TRUE); /* eat it */
+									lvi.iSubItem = 0;
+									lvi.mask = LVIF_PARAM;
+									lvi.iItem = ListView_GetNextItem(nmhdr->hwndFrom, -1, LVNI_FOCUSED);
+									lvi.iItem = ListView_GetNextItem(nmhdr->hwndFrom, lvi.iItem, LVNI_ABOVE);
+									if(lvi.iItem!= -1)
+										if(ListView_GetItem(nmhdr->hwndFrom, &lvi))
+											if((ASSOCDATA*)lvi.lParam == NULL) /* groups */
+												lvi.iItem = -1;
+									if(lvi.iItem == -1) {
+										SetWindowLong(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
 										return TRUE;
 									}
 									break;
 								}
 								case VK_PRIOR:
 								{	LVITEM lvi;
-									lvi.iSubItem=0;
-									lvi.mask=LVIF_PARAM;
-									lvi.iItem=ListView_GetNextItem(nmhdr->hwndFrom,-1,LVNI_FOCUSED);
-									lvi.iItem-=ListView_GetCountPerPage(nmhdr->hwndFrom);
-									if(lvi.iItem>=0)
-										if(ListView_GetItem(nmhdr->hwndFrom,&lvi))
-											if((ASSOCDATA*)lvi.lParam==NULL) /* groups */
-												lvi.iItem=-1;
+									lvi.iSubItem = 0;
+									lvi.mask = LVIF_PARAM;
+									lvi.iItem = ListView_GetNextItem(nmhdr->hwndFrom, -1, LVNI_FOCUSED);
+									lvi.iItem-= ListView_GetCountPerPage(nmhdr->hwndFrom);
+									if(lvi.iItem>= 0)
+										if(ListView_GetItem(nmhdr->hwndFrom, &lvi))
+											if((ASSOCDATA*)lvi.lParam == NULL) /* groups */
+												lvi.iItem = -1;
 									if(lvi.iItem<0) {
-										ListView_SetItemState(nmhdr->hwndFrom,0,LVIS_SELECTED|LVIS_FOCUSED,LVIS_SELECTED|LVIS_FOCUSED);
-										SetWindowLong(hwndDlg,DWL_MSGRESULT,TRUE); /* eat it */
+										ListView_SetItemState(nmhdr->hwndFrom, 0, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
+										SetWindowLong(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
 										return TRUE;
 									}
 									break;
@@ -911,49 +911,49 @@ static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						case PSN_APPLY:
 						{	HWND hwndList;
 							LVITEM lvi;
-							BOOL fEnabled,fRegFailed=FALSE;
+							BOOL fEnabled, fRegFailed = FALSE;
 							ASSOCDATA *assoc;
 
 							/* only while running */
-							DBWriteContactSettingByte(NULL,"AssocMgr","OnlyWhileRunning",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_ONLYWHILERUNNING)!=0));
+							DBWriteContactSettingByte(NULL, "AssocMgr", "OnlyWhileRunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONLYWHILERUNNING)!= 0));
 
 							/* save enabled assoc items */
-							hwndList=GetDlgItem(hwndDlg,IDC_ASSOCLIST);
-							lvi.iSubItem=0;
-							lvi.mask=LVIF_PARAM;
+							hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
+							lvi.iSubItem = 0;
+							lvi.mask = LVIF_PARAM;
 							EnterCriticalSection(&csAssocList);
-							for(lvi.iItem=0;ListView_GetItem(hwndList,&lvi);++lvi.iItem) {
-								assoc=(ASSOCDATA*)lvi.lParam;
-								if(assoc==NULL) continue; /* groups */
-								fEnabled=ListView_GetCheckState(hwndList,lvi.iItem);
-								SetAssocEnabled(assoc,fEnabled);
+							for(lvi.iItem = 0;ListView_GetItem(hwndList, &lvi);++lvi.iItem) {
+								assoc = (ASSOCDATA*)lvi.lParam;
+								if(assoc == NULL) continue; /* groups */
+								fEnabled = ListView_GetCheckState(hwndList, lvi.iItem);
+								SetAssocEnabled(assoc, fEnabled);
 
 								/* re-register registery keys */
 								if(fEnabled?!EnsureAssocRegistered(assoc):!UnregisterAssoc(assoc)) {
 									char *pszErr;
-									pszErr=GetWinErrorDescription(GetLastError());
-									ShowInfoMessage(NIIF_ERROR,Translate("File Association Error"),Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"),(pszErr!=NULL)?pszErr:Translate("Unknown"));
+									pszErr = GetWinErrorDescription(GetLastError());
+									ShowInfoMessage(NIIF_ERROR, Translate("File Association Error"), Translate("There was an error writing to the registry to modify the file/url associations.\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
 									mir_free(pszErr); /* does NULL check */
-									fRegFailed=TRUE; /* just show one time */
+									fRegFailed = TRUE; /* just show one time */
 								}
 							}
 							LeaveCriticalSection(&csAssocList);
 							NotifyAssocChange(TRUE);
-							PostMessage(hwndDlg,M_REFRESH_ICONS,0,0);
+							PostMessage(hwndDlg, M_REFRESH_ICONS, 0, 0);
 							if(fRegFailed) {
 							}
 							/* autostart */
 							{	TCHAR *pszRunCmd;
-								pszRunCmd=MakeRunCommand(TRUE,TRUE);
-								fRegFailed=FALSE;
-								if(pszRunCmd!=NULL) {
-									fEnabled=IsDlgButtonChecked(hwndDlg,IDC_AUTOSTART);
-									if(fEnabled?!AddRegRunEntry(_T("MirandaIM"),pszRunCmd):!RemoveRegRunEntry(_T("MirandaIM"),pszRunCmd)) {
+								pszRunCmd = MakeRunCommand(TRUE, TRUE);
+								fRegFailed = FALSE;
+								if(pszRunCmd!= NULL) {
+									fEnabled = IsDlgButtonChecked(hwndDlg, IDC_AUTOSTART);
+									if(fEnabled?!AddRegRunEntry(_T("MirandaIM"), pszRunCmd):!RemoveRegRunEntry(_T("MirandaIM"), pszRunCmd)) {
 										char *pszErr;
-										pszErr=GetWinErrorDescription(GetLastError());
-										ShowInfoMessage(NIIF_ERROR,Translate("Autostart Error"),Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"),(pszErr!=NULL)?pszErr:Translate("Unknown"));
+										pszErr = GetWinErrorDescription(GetLastError());
+										ShowInfoMessage(NIIF_ERROR, Translate("Autostart Error"), Translate("There was an error writing to the registry to modify the autostart list.\n\nReason: %s"), (pszErr!= NULL)?pszErr:Translate("Unknown"));
 										mir_free(pszErr); /* does NULL check */
-										fRegFailed=TRUE; /* just show one time */
+										fRegFailed = TRUE; /* just show one time */
 									}
 									mir_free(pszRunCmd);
 								}
@@ -969,20 +969,18 @@ static int CALLBACK AssocListOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 	return FALSE;
 }
 
-static int AssocListOptInit(WPARAM wParam,LPARAM lParam)
+static int AssocListOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	UNREFERENCED_PARAMETER(lParam);
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.hInstance=hInst;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
-	odp.position=900000100; /* network opts = 900000000 */
-	odp.ptszGroup=_T("Services"); /* autotranslated */
-	odp.ptszTitle=_T("Associations"); /* autotranslated */
-	odp.flags=ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
-	odp.pfnDlgProc=AssocListOptDlgProc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
+	odp.position = 900000100; /* network opts  =  900000000 */
+	odp.ptszGroup = _T("Services"); /* autotranslated */
+	odp.ptszTitle = _T("Associations"); /* autotranslated */
+	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
+	odp.pfnDlgProc = AssocListOptDlgProc;
+	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 	return 0;
 }
 
@@ -992,42 +990,42 @@ void InitAssocList(void)
 {
 	/* Options */
 	INITCOMMONCONTROLSEX icc;
-	icc.dwSize=sizeof(icc);
-	icc.dwICC=ICC_LISTVIEW_CLASSES;
+	icc.dwSize = sizeof(icc);
+	icc.dwICC = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icc);
-	hHookOptInit=HookEvent(ME_OPT_INITIALISE,AssocListOptInit);
+	hHookOptInit = HookEvent(ME_OPT_INITIALISE, AssocListOptInit);
 
 	/* Assoc List */
-	pAssocList=NULL;
-	nAssocListCount=0;
+	pAssocList = NULL;
+	nAssocListCount = 0;
 	InitializeCriticalSection(&csAssocList);
 
 	/* Services */
-	hServiceAddFile=CreateServiceFunction(MS_ASSOCMGR_ADDNEWFILETYPE,ServiceAddNewFileType);
-	hServiceRemoveFile=CreateServiceFunction(MS_ASSOCMGR_REMOVEFILETYPE,ServiceRemoveFileType);
-	hServiceAddUrl=CreateServiceFunction(MS_ASSOCMGR_ADDNEWURLTYPE,ServiceAddNewUrlType);
-	hServiceRemoveUrl=CreateServiceFunction(MS_ASSOCMGR_REMOVEURLTYPE,ServiceRemoveUrlType);
+	hServiceAddFile = CreateServiceFunction(MS_ASSOCMGR_ADDNEWFILETYPE, ServiceAddNewFileType);
+	hServiceRemoveFile = CreateServiceFunction(MS_ASSOCMGR_REMOVEFILETYPE, ServiceRemoveFileType);
+	hServiceAddUrl = CreateServiceFunction(MS_ASSOCMGR_ADDNEWURLTYPE, ServiceAddNewUrlType);
+	hServiceRemoveUrl = CreateServiceFunction(MS_ASSOCMGR_REMOVEURLTYPE, ServiceRemoveUrlType);
 
 	/* Notify Shell */
-	nNotifyTimerID=0;
+	nNotifyTimerID = 0;
 	InitializeCriticalSection(&csNotifyTimer);
 
 	/* register open-with app */
-	{	TCHAR *pszAppFileName,*pszIconLoc,*pszRunCmd;
-		pszIconLoc=MakeIconLocation(NULL,0);
+	{	TCHAR *pszAppFileName, *pszIconLoc, *pszRunCmd;
+		pszIconLoc = MakeIconLocation(NULL, 0);
 
 		// miranda32.exe
-		pszAppFileName=MakeAppFileName(TRUE);
-		pszRunCmd=MakeRunCommand(TRUE,FALSE);
-		if(pszAppFileName!=NULL && pszRunCmd!=NULL)
-			AddRegOpenWith(pszAppFileName,FALSE,_T(MIRANDANAME),pszIconLoc,pszRunCmd,NULL,NULL,NULL);
+		pszAppFileName = MakeAppFileName(TRUE);
+		pszRunCmd = MakeRunCommand(TRUE, FALSE);
+		if(pszAppFileName!= NULL && pszRunCmd!= NULL)
+			AddRegOpenWith(pszAppFileName, FALSE, _T(MIRANDANAME), pszIconLoc, pszRunCmd, NULL, NULL, NULL);
 		mir_free(pszRunCmd); /* does NULL check */
 		mir_free(pszAppFileName); /* does NULL check */
 		// assocmgr.dll
-		pszAppFileName=MakeAppFileName(FALSE);
-		pszRunCmd=MakeRunCommand(FALSE,TRUE);
-		if(pszAppFileName!=NULL && pszRunCmd!=NULL)
-			AddRegOpenWith(pszAppFileName,TRUE,_T(MIRANDANAME),pszIconLoc,pszRunCmd,DDEFILECMD,DDEAPP,DDETOPIC);
+		pszAppFileName = MakeAppFileName(FALSE);
+		pszRunCmd = MakeRunCommand(FALSE, TRUE);
+		if(pszAppFileName!= NULL && pszRunCmd!= NULL)
+			AddRegOpenWith(pszAppFileName, TRUE, _T(MIRANDANAME), pszIconLoc, pszRunCmd, DDEFILECMD, DDEAPP, DDETOPIC);
 		mir_free(pszRunCmd); /* does NULL check */
 		mir_free(pszAppFileName); /* does NULL check */
 
@@ -1036,16 +1034,16 @@ void InitAssocList(void)
 
 	/* default items */
 	{	FILETYPEDESC ftd;
-		ftd.cbSize=sizeof(FILETYPEDESC);
-		ftd.pszFileExt=".dat";
-		ftd.pszMimeType=NULL;
-		ftd.ptszDescription=TranslateT("Miranda IM Database");
-		ftd.hInstance=hInst;
-		ftd.nIconResID=IDI_MIRANDAFILE;
-		ftd.ptszVerbDesc=NULL;
-		ftd.pszService=NULL;
-		ftd.flags=FTDF_DEFAULTDISABLED|FTDF_TCHAR;
-		ServiceAddNewFileType(0,(LPARAM)&ftd);
+		ftd.cbSize = sizeof(FILETYPEDESC);
+		ftd.pszFileExt = ".dat";
+		ftd.pszMimeType = NULL;
+		ftd.ptszDescription = TranslateT("Miranda IM Database");
+		ftd.hInstance = hInst;
+		ftd.nIconResID = IDI_MIRANDAFILE;
+		ftd.ptszVerbDesc = NULL;
+		ftd.pszService = NULL;
+		ftd.flags = FTDF_DEFAULTDISABLED|FTDF_TCHAR;
+		ServiceAddNewFileType(0, (LPARAM)&ftd);
 	}
 }
 
@@ -1065,9 +1063,9 @@ void UninitAssocList(void)
 	DestroyServiceFunction(hServiceRemoveUrl);
 
 	/* Assoc List */
-	fOnlyWhileRunning=DBGetContactSettingByte(NULL,"AssocMgr","OnlyWhileRunning",SETTING_ONLYWHILERUNNING_DEFAULT);
-	for(i=0;i<nAssocListCount;++i) {
-		assoc=&pAssocList[i];
+	fOnlyWhileRunning = DBGetContactSettingByte(NULL, "AssocMgr", "OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
+	for(i = 0;i<nAssocListCount;++i) {
+		assoc = &pAssocList[i];
 
 		/* remove registry keys */
 		if(fOnlyWhileRunning)
@@ -1092,12 +1090,12 @@ void UninitAssocList(void)
 	if(fOnlyWhileRunning) {
 		TCHAR *pszAppFileName;
 		// miranda32.exe
-		pszAppFileName=MakeAppFileName(TRUE);
-		if(pszAppFileName!=NULL)
+		pszAppFileName = MakeAppFileName(TRUE);
+		if(pszAppFileName!= NULL)
 			RemoveRegOpenWith(pszAppFileName);
-		pszAppFileName=MakeAppFileName(FALSE);
+		pszAppFileName = MakeAppFileName(FALSE);
 		// assocmgr.dll
-		if(pszAppFileName!=NULL)
+		if(pszAppFileName!= NULL)
 			RemoveRegOpenWith(pszAppFileName);
 		mir_free(pszAppFileName); /* does NULL check */
 	}
