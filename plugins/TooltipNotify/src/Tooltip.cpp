@@ -25,7 +25,7 @@ CTooltip::CTooltip(CTooltipNotify *pTooltipNotify)
 							WS_POPUP|WS_BORDER, 100, 100, 50, 50, 0, 0, 
 							m_pTooltipNotify->GetDllInstance(), NULL);
 
-	SetWindowLong(m_hWnd, GWL_USERDATA, reinterpret_cast<LONG>(this));
+	SetWindowLong(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 }
 
 
@@ -62,7 +62,7 @@ CTooltip::~CTooltip()
 
 LRESULT CALLBACK CTooltip::WindowProcWrapper(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	CTooltip* pThis = reinterpret_cast<CTooltip *>(GetWindowLong(hWnd, GWL_USERDATA));
+	CTooltip* pThis = reinterpret_cast<CTooltip *>(GetWindowLong(hWnd, GWLP_USERDATA));
 	return pThis->WindowProc(hWnd, message, wParam, lParam);
 }
 

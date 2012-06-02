@@ -70,12 +70,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Miranda-IM\res\addcontact.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\addcontact.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\Clock32.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -88,34 +82,16 @@
     <None Include="res\Details8.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\downarrow.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\Downarrow32.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\Downarrow8.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\dragcopy.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\dragcopy.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\src\res\dragcopy.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\dropuser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\dropuser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\dropuser.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\history.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\History32.ico">
@@ -124,19 +100,10 @@
     <None Include="res\History8.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\src\res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\hyperlin.cur">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\hyperlin.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\incoming.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\multisend.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\Multisend32.ico">
@@ -151,22 +118,10 @@
     <None Include="res\outgoing.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\Miranda-IM\res\rename.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\timestamp.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\typing.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="res\Typing32.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="res\Typing8.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\Miranda-IM\res\viewdetails.ico">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
