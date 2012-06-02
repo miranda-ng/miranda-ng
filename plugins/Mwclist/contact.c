@@ -84,7 +84,7 @@ void LoadContactTree(void)
 	tick=GetTickCount();
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
 	for(i=1;;i++) {
-		if((char*)CallService(MS_CLIST_GROUPGETNAME2,i,(LPARAM)(int*)NULL)==NULL) break;
+		if ((char*)CallService(MS_CLIST_GROUPGETNAME2,i,(LPARAM)(int*)NULL)==NULL) break;
 		CallService(MS_CLUI_GROUPADDED,i,0);
 	}
 
@@ -99,7 +99,7 @@ void LoadContactTree(void)
 			break;
 		}
 		status=cacheEntry->status;
-		if((!hideOffline || status!=ID_STATUS_OFFLINE) && !cacheEntry->Hidden)
+		if ((!hideOffline || status!=ID_STATUS_OFFLINE) && !cacheEntry->Hidden)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
 		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
 	}
@@ -137,7 +137,7 @@ int CompareContacts( const struct ClcContact *contact1, const struct ClcContact 
 
 		/* deal with statuses, online contacts have to go above offline */
 		if (sortNoOfflineBottom==0) 
-			if((statusa==ID_STATUS_OFFLINE)!=(statusb==ID_STATUS_OFFLINE)) {
+			if ((statusa==ID_STATUS_OFFLINE)!=(statusb==ID_STATUS_OFFLINE)) {
 			return 2*(statusa==ID_STATUS_OFFLINE)-1;
 		}
 		/* both are online, now check protocols */
@@ -156,7 +156,7 @@ int CompareContacts( const struct ClcContact *contact1, const struct ClcContact 
 		//one is offline: offline goes below online
 		if (sortNoOfflineBottom==0)
 			{
-			if((statusa==ID_STATUS_OFFLINE)!=(statusb==ID_STATUS_OFFLINE)) {
+			if ((statusa==ID_STATUS_OFFLINE)!=(statusb==ID_STATUS_OFFLINE)) {
 				return 2*(statusa==ID_STATUS_OFFLINE)-1;
 			}
 		}
@@ -188,7 +188,7 @@ void SortContacts(void)
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
-	if((HANDLE)lParam==NULL)
+	if ((HANDLE)lParam==NULL)
 		DBDeleteContactSetting((HANDLE)wParam,"CList","Group");
 	else
 		DBWriteContactSettingString((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));

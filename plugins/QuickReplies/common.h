@@ -67,9 +67,9 @@ extern HANDLE hOnPreShutdown;
 
 INT_PTR QuickRepliesService(WPARAM wParam, LPARAM lParam);
 
-INT_PTR OnModulesLoaded(WPARAM wParam, LPARAM lParam);
-INT_PTR OnOptInitialized(WPARAM wParam, LPARAM lParam);
-INT_PTR OnButtonPressed(WPARAM wParam, LPARAM lParam);
-INT_PTR OnPreShutdown(WPARAM wParam, LPARAM lParam);
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
+int OnOptInitialized(WPARAM wParam, LPARAM lParam);
+int OnButtonPressed(WPARAM wParam, LPARAM lParam);
+int OnPreShutdown(WPARAM wParam, LPARAM lParam);
 
 #endif //__QUICK_REPLY_H__

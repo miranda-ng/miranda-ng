@@ -45,7 +45,7 @@ Last change by : $Author: borkra $
 
 int CJabberProto::OnContactDeleted( WPARAM wParam, LPARAM )
 {
-	if( !m_bJabberOnline )	// should never happen
+	if ( !m_bJabberOnline )	// should never happen
 		return 0;
 
 	DBVARIANT dbv;

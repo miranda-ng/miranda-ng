@@ -124,7 +124,7 @@ copyFaxFile(FreeImageIO *io, fi_handle handle, TIFF* tifin, uint32 xsize, int st
 			throw FI_MSG_ERROR_MEMORY;
 		}
 			
-		if(!G3ReadFile(io, handle, tifin->tif_rawdata, tifin->tif_rawdatasize)) {
+		if (!G3ReadFile(io, handle, tifin->tif_rawdata, tifin->tif_rawdatasize)) {
 			throw "Read error at scanline 0";
 		}
 		tifin->tif_rawcp = tifin->tif_rawdata;
@@ -319,7 +319,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 		// open a temporary memory buffer to save decoded scanlines
 		memory = FreeImage_OpenMemory();
-		if(!memory) throw FI_MSG_ERROR_MEMORY;
+		if (!memory) throw FI_MSG_ERROR_MEMORY;
 		
 		// wrap the raw fax file
 		faxTIFF = TIFFClientOpen("(FakeInput)", "w",

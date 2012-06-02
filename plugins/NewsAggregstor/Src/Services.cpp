@@ -115,7 +115,7 @@ INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
 INT_PTR NewsAggrSetStatus(WPARAM wp,LPARAM /*lp*/)
 {
 	int nStatus = wp;
-	if((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
+	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
 	{
 		int nOldStatus = g_nStatus;
 		if(nStatus != g_nStatus)
@@ -182,7 +182,7 @@ INT_PTR ChangeFeed(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
 	HWND hChangeFeedDlg = WindowList_Find(hChangeFeedDlgList,hContact);
-	if(!hChangeFeedDlg)
+	if (!hChangeFeedDlg)
 	{
 		hChangeFeedDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDFEED), NULL, DlgProcChangeFeedMenu, (LPARAM)hContact);
 		ShowWindow(hChangeFeedDlg, SW_SHOW);
@@ -219,7 +219,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam,LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*) lParam;
 
-	if(!IsMyContact(pai->hContact))
+	if (!IsMyContact(pai->hContact))
 		return GAIR_NOAVATAR;
 
 	// if GAIF_FORCE is set, we are updating the feed

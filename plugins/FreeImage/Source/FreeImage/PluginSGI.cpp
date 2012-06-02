@@ -265,7 +265,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			// read the Offset Tables 
 			int index_len = height * zsize;
 			pRowIndex = (LONG*)malloc(index_len * sizeof(LONG));
-			if(!pRowIndex) {
+			if (!pRowIndex) {
 				throw FI_MSG_ERROR_MEMORY;
 			}
 			
@@ -282,7 +282,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			// Discard row size index
 			for (i = 0; i < (int)(index_len * sizeof(LONG)); i++) {
 				BYTE packed = 0;
-				if( io->read_proc(&packed, sizeof(BYTE), 1, handle) < 1 ) {
+				if ( io->read_proc(&packed, sizeof(BYTE), 1, handle) < 1 ) {
 					throw SGI_EOF_IN_RLE_INDEX;
 				}
 			}
@@ -307,7 +307,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		}
 		
 		dib = FreeImage_Allocate(width, height, bitcount);
-		if(!dib) {
+		if (!dib) {
 			throw FI_MSG_ERROR_DIB_MEMORY;
 		}
 		

@@ -138,7 +138,7 @@ static bool ProbeColumn(HWND view, int index) {
 int ListView_GetColumnCount(HWND listView) {
 	if (!ProbeColumn(listView, 0)) return 0;
 	int hi = 1;
-	for(;;) {
+	for (;;) {
 		if (!ProbeColumn(listView, hi)) break;
 		hi <<= 1;
 		if (hi <= 0) {

@@ -75,7 +75,7 @@ char *base64decode(const char *inBuffer, int *count) {
 			if(delta > 3)
 				c3 = decode64(inBuffer[srcIndex++]);
 		}
-		if((c0 | c1 | c2 | c3) == BERR) {
+		if ((c0 | c1 | c2 | c3) == BERR) {
 			free(outBuffer);
 			return(NULL);
 		}

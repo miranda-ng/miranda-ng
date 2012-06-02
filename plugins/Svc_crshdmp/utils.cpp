@@ -432,7 +432,7 @@ void TrimMultiSpaces(TCHAR* str)
 	TCHAR *src = str, *dest = str;
 	bool trimst = false;
 
-	for(;;)
+	for (;;)
 	{
 		if (*src == TEXT(' '))
 		{

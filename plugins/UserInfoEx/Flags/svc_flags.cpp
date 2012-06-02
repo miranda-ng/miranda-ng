@@ -91,7 +91,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd, UINT msg, UINT idTimer, DWORD 
 	for(i=0;i<nCallListCount;++i) {
 		/* find elapsed procs */
 		uElapsed=currentTick-callList[i].startTick; /* wraparound works */
-		if((uElapsed+USER_TIMER_MINIMUM)>=callList[i].uElapse) { 
+		if ((uElapsed+USER_TIMER_MINIMUM)>=callList[i].uElapse) { 
 			/* call elapsed proc */
 			pfnBuffProc=callList[i].pfnBuffProc;
 			lParam=callList[i].lParam;
@@ -99,7 +99,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd, UINT msg, UINT idTimer, DWORD 
 				pszProcName=callList[i].pszProcName;
 			#endif
 			/* resize storage array */
-			if((i+1)<nCallListCount)
+			if ((i+1)<nCallListCount)
 				MoveMemory(&callList[i],&callList[i+1],((nCallListCount-i-1)*sizeof(struct BufferedCallData)));
 			--nCallListCount;
 			--i; /* reiterate current */
@@ -117,7 +117,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd, UINT msg, UINT idTimer, DWORD 
 			CallFunctionAsync((void (CALLBACK *)(void*))pfnBuffProc,(void*)lParam); /* compatible */
 		}
 		/* find next timer delay */
-		else if((callList[i].uElapse-uElapsed)<uElapseNext)
+		else if ((callList[i].uElapse-uElapsed)<uElapseNext)
 			uElapseNext=callList[i].uElapse-uElapsed;
 	}
 
@@ -150,7 +150,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 	/* find existing */
 	for(i=0;i<nCallListCount;++i)
 		if(callList[i].pfnBuffProc==pfnBuffProc)
-			if(!fAccumulateSameParam || callList[i].lParam==lParam) {
+			if (!fAccumulateSameParam || callList[i].lParam==lParam) {
 				data=&callList[i];
 				break;
 			}
@@ -173,7 +173,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 			data->pszProcName=pszProcName;
 			mir_snprintf(szDbgLine,sizeof(szDbgLine),"buffered queue: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
 			OutputDebugStringA(szDbgLine);
-			if(!idBufferedTimer) {
+			if (!idBufferedTimer) {
 				mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapse); /* all ascii */
 				OutputDebugStringA(szDbgLine);
 			}
@@ -222,7 +222,7 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 	else if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,pszProto,"CompanyCountry",0))
 		return (INT_PTR)countryNumber;
 	/* fallback ip detect
-	else if(countryNumber==0xFFFF && DBGetContactSettingByte(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT)){
+	else if(countryNumber==0xFFFF && DBGetContactSettingByte(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT)) {
 		countryNumber=ServiceIpToCountry(DBGetContactSettingDword((HANDLE)wParam,pszProto,"RealIP",0),0);
 	}*/
 
@@ -310,7 +310,7 @@ void EnsureExtraImages()		 //garantieren - sicherstellen - updaten
 {
 	register HANDLE hContact;
 	//use Clist ExtraImageService?
-	if(!myGlobals.ExtraIconsServiceExist) {
+	if (!myGlobals.ExtraIconsServiceExist) {
 		BYTE idExtraColumnNew = DB::Setting::GetByte(MODNAMEFLAGS,"ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT);
 		if(idExtraColumnNew != gFlagsOpts.idExtraColumn) {
 			/* clear previous column */
@@ -328,11 +328,11 @@ void EnsureExtraImages()		 //garantieren - sicherstellen - updaten
 }
 
 static void CALLBACK UpdateExtraImages(LPARAM lParam) {
-	if(!lParam)
+	if (!lParam)
 		 RemoveExtraImages(0);
 	else EnsureExtraImages();
 
-/*	if(!myGlobals.ExtraIconsServiceExist && !gFlagsOpts.bShowExtraImgFlag)
+/*	if (!myGlobals.ExtraIconsServiceExist && !gFlagsOpts.bShowExtraImgFlag)
 		 RemoveExtraImages();
 	else EnsureExtraImages();  */
 }
@@ -364,9 +364,9 @@ static int OnCListApplyIcons(WPARAM wParam,LPARAM lParam) {
 //hookProc (ME_DB_CONTACT_SETTINGCHANGED) - workaround for missing event from ExtraIconSvc
 static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam) {
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if((HANDLE)wParam!=NULL)return 0;
-	if(!lstrcmpA(dbcws->szModule, "ExtraIcons") &&
-	   !lstrcmpA(dbcws->szSetting,"Slot_Flags") ){
+	if ((HANDLE)wParam!=NULL)return 0;
+	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") &&
+	   !lstrcmpA(dbcws->szSetting,"Slot_Flags") ) {
 			BOOL bEnable;
 			switch (dbcws->value.type) {
 				case DBVT_BYTE:
@@ -388,7 +388,7 @@ static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam) {
 			else if(bEnable && !hApplyIconHook) {
 					hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 			}
-			else if(!bEnable && hApplyIconHook) {
+			else if (!bEnable && hApplyIconHook) {
 				UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
 			}
 			CallFunctionBuffered(UpdateExtraImages,(LPARAM)bEnable,FALSE,EXTRAIMAGE_REFRESHDELAY);
@@ -416,7 +416,7 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB) {
 					LOCALE_USER_DEFAULT,
 					LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER ,
 					(LPTSTR)&langid, sizeof(langid)/sizeof(TCHAR));
-				if(!CallService(MS_UTILS_GETCOUNTRYBYNUMBER,langid,0)) langid = 1;
+				if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER,langid,0)) langid = 1;
 
 				EXTRAICON_INFO ico = {0};
 				ico.cbSize		= sizeof(ico);
@@ -440,15 +440,15 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB) {
 					for(int i=0;i<nCountriesCount;++i)
 						phExtraImageList[i]=INVALID_HANDLE_VALUE;
 			}
-			if(!hRebuildIconsHook) {
+			if (!hRebuildIconsHook) {
 				hRebuildIconsHook	= HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,	OnCListRebuildIcons);
 			}
 		}
 		//init hooks
-		if(!hApplyIconHook) {
+		if (!hApplyIconHook) {
 			hApplyIconHook		= HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,		OnCListApplyIcons);
 		}
-		if(!hSettingChangedHook) {
+		if (!hSettingChangedHook) {
 			hSettingChangedHook	= HookEvent(ME_DB_CONTACT_SETTINGCHANGED,	OnContactSettingChanged);
 		}
 	}
@@ -498,7 +498,7 @@ MsgWndData::FlagsIconSet() {
 	sid.cbSize				= sizeof(sid);
 	sid.szModule			= MODNAMEFLAGS;
 	/* ensure status icon is registered */
-	if(	m_contryID!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
+	if (	m_contryID!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
 		/* copy icon as status icon API will call DestroyIcon() on it */
 		hIcon = LoadFlagIcon(m_contryID);
 		sid.hIcon			= (hIcon!=NULL)?CopyIcon(hIcon):NULL;
@@ -579,14 +579,14 @@ static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/
 
 	int res = -1;
 	IconList* p = new IconList(&sid);
-	if(!p->m_ID)delete p;
+	if (!p->m_ID)delete p;
 	else res = gIListMW.insert(p);
 	if(res == -1)delete p;
 	return res;
 }
 
 void CALLBACK UpdateStatusIcons(LPARAM lParam) {
-	if(!lParam) {
+	if (!lParam) {
 		/* enum all opened message windows */
 		for (int i = 0; i < gMsgWndList.getCount(); i++)
 			gMsgWndList[i]->FlagsIconUpdate();
@@ -655,11 +655,11 @@ static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
  ***********************************************************************************************************/
 //hookProc ME_DB_CONTACT_SETTINGCHANGED
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam) {
-	if((HANDLE)wParam==NULL) return 0;
+	if ((HANDLE)wParam==NULL) return 0;
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
 
 	/* user details update */
-	if(/*!lstrcmpA(dbcws->szSetting,"RealIP") || */
+	if (/*!lstrcmpA(dbcws->szSetting,"RealIP") || */
 	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_COUNTRY) ||
 	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_ORIGIN_COUNTRY) ||
 	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_COMPANY_COUNTRY))

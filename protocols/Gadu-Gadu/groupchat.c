@@ -131,7 +131,7 @@ int gg_gc_event(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 	uin_t uin;
 
 	// Check if we got our protocol, and fields are set
-	if(!gch
+	if (!gch
 		|| !gch->pDest
 		|| !gch->pDest->pszID
 		|| !gch->pDest->pszModule
@@ -153,7 +153,7 @@ int gg_gc_event(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 		while (hContact)
 		{
 			DBVARIANT dbv;
-			if(!DBGetContactSettingString(hContact, GG_PROTO, "ChatRoomID", &dbv))
+			if (!DBGetContactSettingString(hContact, GG_PROTO, "ChatRoomID", &dbv))
 			{
 				if(dbv.pszVal && !strcmp(gch->pDest->pszID, dbv.pszVal))
 					CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
@@ -177,7 +177,7 @@ int gg_gc_event(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 
 		gcevent.pszUID = id;
 		gcevent.pszText = gch->pszText;
-		if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_NICK, &dbv))
+		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_NICK, &dbv))
 			gcevent.pszNick = dbv.pszVal;
 		else
 			gcevent.pszNick = Translate("Me");
@@ -201,7 +201,7 @@ int gg_gc_event(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 	if(gch->pDest->iType == GC_USER_PRIVMESS)
 	{
 		HANDLE hContact = NULL;
-		if((uin = atoi(gch->pszUID)) && (hContact = gg_getcontact(gg, uin, 1, 0, NULL)))
+		if ((uin = atoi(gch->pszUID)) && (hContact = gg_getcontact(gg, uin, 1, 0, NULL)))
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)0);
 	}
 	gg_netlog(gg, "gg_gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, gch->pszText);
@@ -230,18 +230,18 @@ char *gg_gc_getchat(GGPROTO *gg, uin_t sender, uin_t *recipients, int recipients
 	GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 
 	gg_netlog(gg, "gg_gc_getchat(): Count %d.", recipients_count);
-	if(!recipients) return NULL;
+	if (!recipients) return NULL;
 
 	// Look for existing chat
 	for(l = gg->chats; l; l = l->next)
 	{
 		GGGC *chat = (GGGC *)l->data;
-		if(!chat) continue;
+		if (!chat) continue;
 
 		if(chat->recipients_count == recipients_count + (sender ? 1 : 0))
 		{
 			int i, j, found = 0, sok = (sender == 0);
-			if(!sok) for(i = 0; i < chat->recipients_count; i++)
+			if (!sok) for(i = 0; i < chat->recipients_count; i++)
 				if(sender == chat->recipients[i])
 				{
 					sok = 1;
@@ -273,15 +273,15 @@ char *gg_gc_getchat(GGPROTO *gg, uin_t sender, uin_t *recipients, int recipients
 		int unknown = (gg_getcontact(gg, sender, 0, 0, NULL) == NULL),
 			unknownSender = unknown;
 		for(i = 0; i < recipients_count; i++)
-			if(!gg_getcontact(gg, recipients[i], 0, 0, NULL))
+			if (!gg_getcontact(gg, recipients[i], 0, 0, NULL))
 				unknown ++;
-		if((DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
+		if ((DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 2) ||
 		   (DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 2 &&
 			recipients_count >= DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
 		   (DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 2 &&
 			unknown >= DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_COUNT_UNKNOWN, GG_KEYDEF_GC_COUNT_UNKNOWN)))
 			chat->ignore = TRUE;
-		if(!chat->ignore && ((DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 1) ||
+		if (!chat->ignore && ((DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_DEFAULT, GG_KEYDEF_GC_POLICY_DEFAULT) == 1) ||
 		   (DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_TOTAL, GG_KEYDEF_GC_POLICY_TOTAL) == 1 &&
 			recipients_count >= DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_COUNT_TOTAL, GG_KEYDEF_GC_COUNT_TOTAL)) ||
 		   (DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_GC_POLICY_UNKNOWN, GG_KEYDEF_GC_POLICY_UNKNOWN) == 1 &&
@@ -353,7 +353,7 @@ char *gg_gc_getchat(GGPROTO *gg, uin_t sender, uin_t *recipients, int recipients
 	if(uin = DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0))
 	{
 		UIN2ID(uin, id);
-		if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_NICK, &dbv))
+		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_NICK, &dbv))
 			gcevent.pszNick = dbv.pszVal;
 		else
 			gcevent.pszNick = Translate("Me");
@@ -646,7 +646,7 @@ int gg_gc_changenick(GGPROTO *gg, HANDLE hContact, char *pszNick)
 {
 	list_t l;
 	uin_t uin = DBGetContactSettingDword(hContact, GG_PROTO, GG_KEY_UIN, 0);
-	if(!uin || !pszNick) return 0;
+	if (!uin || !pszNick) return 0;
 
 	gg_netlog(gg, "gg_gc_changenick(): Nickname for uin %d changed to %s.", uin, pszNick);
 	// Lookup for chats having this nick

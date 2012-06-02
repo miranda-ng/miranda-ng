@@ -126,7 +126,7 @@ private:
 	{
 		CTooltipNotify::GetObjInstance()->OnTooltipTimer(hwnd, uMsg, idEvent, dwTime);
 	}
-	static BOOL CALLBACK OptionsDlgProcWrapper(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+	static INT_PTR CALLBACK OptionsDlgProcWrapper(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		return CTooltipNotify::GetObjInstance()->OptionsDlgProc(hDlg, msg, wParam, lParam);
 	}

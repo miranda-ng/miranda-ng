@@ -265,7 +265,7 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 			}
 		}
 		actCount++;
-		if( ((int)(((float)actCount/histCount)*100.00)) % 10 == 0 )
+		if ( ((int)(((float)actCount/histCount)*100.00)) % 10 == 0 )
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount/histCount)*100.00)));
 		
 		hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hEvent, 0);

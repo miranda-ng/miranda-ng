@@ -117,13 +117,13 @@ json_string internalJSONNode::Write(unsigned int indent, bool arrayChild){
     const bool formatted = indent != 0xFFFFFFFF;
     
     #ifndef JSON_PREPARSE
-	   if (!(formatted || fetched)){  //It's not formatted or fetched, just do a raw dump
+	   if (!(formatted || fetched)) {  //It's not formatted or fetched, just do a raw dump
 		  return WriteComment(indent) + WriteName(false, arrayChild) + _string;
 	   }
     #endif
     
     //It's either formatted or fetched
-    switch (type()){
+    switch (type()) {
 	   case JSON_NODE:   //got members, write the members
 		  Fetch();
             return WriteComment(indent) + WriteName(formatted, arrayChild) + JSON_TEXT("{") + WriteChildren(indent) + JSON_TEXT("}");

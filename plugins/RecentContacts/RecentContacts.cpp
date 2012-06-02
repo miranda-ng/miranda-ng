@@ -398,7 +398,7 @@ int OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 	dbe.pBlob = buf;
 	HANDLE curEvent;
 	HANDLE curContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	for(; curContact != NULL; curContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)curContact, 0))
+	for (; curContact != NULL; curContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)curContact, 0))
 	{
 //		if (IsMessageAPI)
 		{
@@ -417,7 +417,7 @@ int OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 			curEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)curContact, 0);
 			if (curEvent != NULL)
 			{
-				for( ; curEvent != NULL; curEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)curEvent, 0))
+				for ( ; curEvent != NULL; curEvent = (HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)curEvent, 0))
 				{
 					dbe.cbBlob = 1;
 					if (CallService(MS_DB_EVENT_GET, (WPARAM)curEvent, (LPARAM)&dbe) != 0)

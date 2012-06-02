@@ -11,10 +11,10 @@ void loadSupportedProtocols() {
     int numberOfProtocols;
     PROTOCOLDESCRIPTOR **protos;
     LPSTR szNames = myDBGetString(0,szModuleName,"protos");
-    if( szNames && strchr(szNames,':') == NULL ) {
+    if ( szNames && strchr(szNames,':') == NULL ) {
 	LPSTR tmp = (LPSTR) mir_alloc(2048); int j=0;
 	for(int i=0; szNames[i]; i++) {
-    		if( szNames[i] == ';' ) {
+    		if ( szNames[i] == ';' ) {
     			memcpy((PVOID)(tmp+j),(PVOID)":1:0:0",6); j+=6;
     		}
     		tmp[j++] = szNames[i];
@@ -33,19 +33,19 @@ void loadSupportedProtocols() {
 		    proto = (pSupPro) mir_realloc(proto,sizeof(SupPro)*proto_cnt);
 		    memset(&proto[j],0,sizeof(SupPro));
 		    proto[j].name = mir_strdup(protos[i]->szName);
-		    if( szNames ) {
-       			if( proto[j].name ) {
+		    if ( szNames ) {
+       			if ( proto[j].name ) {
 			    char tmp[128]; strcpy(tmp,proto[j].name); strcat(tmp,":");
        			    LPSTR szName = strstr(szNames,tmp);
-       			    if( szName ) {
+       			    if ( szName ) {
 			    	szName = strchr(szName,':');
-				if( szName ) {
+				if ( szName ) {
 				    proto[j].inspecting = (*++szName == '1');
 				    szName = strchr(szName,':');
-				    if( szName ) {
+				    if ( szName ) {
 				    	proto[j].split_on = atoi(++szName); proto[j].tsplit_on = proto[j].split_on;
 					szName = strchr(szName,':');
-					if( szName ) {
+					if ( szName ) {
 					    proto[j].split_off = atoi(++szName); proto[j].tsplit_off = proto[j].split_off;
 				    	}
 				    }
@@ -86,9 +86,9 @@ void MoveToFirstInFilterList(HANDLE hContact) {
 
 	for(i=0;;i++) {
 		mir_itoa(i,str,10);
-		if( DBGetContactSettingString(hContact,"_Filter",str,&dbv) ) break;
-		if( !strcmp(szModuleName,dbv.pszVal) ) { // нашли мой модуль
-			if( i==0 ) return;
+		if ( DBGetContactSettingString(hContact,"_Filter",str,&dbv) ) break;
+		if ( !strcmp(szModuleName,dbv.pszVal) ) { // нашли мой модуль
+			if ( i==0 ) return;
 			DBGetContactSettingString(hContact,"_Filter","0",&dbv);
 			DBWriteContactSettingString(hContact,"_Filter","0",szModuleName);
 			DBWriteContactSettingString(hContact,"_Filter",str,dbv.pszVal);
@@ -108,14 +108,14 @@ void MoveToLastInFilterList(HANDLE hContact) {
 
 	for(i=0;;i++) {
 		mir_itoa(i,str,10);
-		if( DBGetContactSettingString(hContact,"_Filter",str,&dbv) ) break;
-		if( !strcmp(szModuleName,dbv.pszVal) ) { // нашли мой модуль
+		if ( DBGetContactSettingString(hContact,"_Filter",str,&dbv) ) break;
+		if ( !strcmp(szModuleName,dbv.pszVal) ) { // нашли мой модуль
 		    j=i;
 		}
 		mir_free(dbv.pszVal);
 	}
 	i--;
-	if( j==i ) return;
+	if ( j==i ) return;
 	mir_itoa(i,end,10);
 	mir_itoa(j,str,10);
 	DBGetContactSettingString(hContact,"_Filter",end,&dbv);
@@ -137,7 +137,7 @@ pUinKey addContact(HANDLE hContact) {
 				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szModuleName);
 			MoveToLastInFilterList(hContact);
 			for(j=0;j<clist_cnt;j++) {
-				if( !clist[j].hContact ) break;
+				if ( !clist[j].hContact ) break;
 			}
 			if(j==clist_cnt) {
 				clist_cnt+=clist_inc;
@@ -151,10 +151,10 @@ pUinKey addContact(HANDLE hContact) {
 			clist[j].hContact = hContact;
 			clist[j].proto = proto;
 			clist[j].mode = DBGetContactSettingByte(hContact, szModuleName, "mode", 99);
-			if( clist[j].mode == 99 ) {
-				if( isContactPGP(hContact) ) clist[j].mode = MODE_PGP;
+			if ( clist[j].mode == 99 ) {
+				if ( isContactPGP(hContact) ) clist[j].mode = MODE_PGP;
 				else
-				if( isContactGPG(hContact) ) clist[j].mode = MODE_GPG;
+				if ( isContactGPG(hContact) ) clist[j].mode = MODE_GPG;
 				else
 				clist[j].mode = MODE_RSAAES;
 				DBWriteContactSettingByte(hContact, szModuleName, "mode", clist[j].mode);
@@ -280,7 +280,7 @@ void getContactNameA(HANDLE hContact, LPSTR szName) {
 
 
 void getContactName(HANDLE hContact, LPSTR szName) {
-	if( bCoreUnicode )	wcscpy((LPWSTR)szName,(LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GSMDF_UNICODE));
+	if ( bCoreUnicode )	wcscpy((LPWSTR)szName,(LPWSTR)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GSMDF_UNICODE));
 	else			getContactNameA(hContact, szName);
 }
 
@@ -290,12 +290,12 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN) {
 	*szUIN = 0;
 
 	pSupPro ptr = getSupPro(hContact);
-	if(!ptr) return;
+	if (!ptr) return;
 
 	DBVARIANT dbv_uniqueid;
 	LPSTR uID = (LPSTR) CallProtoService(ptr->name, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-	if( uID==(LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
-	if( uID && DBGetContactSetting(hContact, ptr->name, uID, &dbv_uniqueid)==0 ) {
+	if ( uID==(LPSTR)CALLSERVICE_NOTFOUND ) uID = 0; // Billy_Bons
+	if ( uID && DBGetContactSetting(hContact, ptr->name, uID, &dbv_uniqueid)==0 ) {
 		if (dbv_uniqueid.type == DBVT_WORD)
 			sprintf(szUIN, "%u [%s]", dbv_uniqueid.wVal, ptr->name);
 		else
@@ -316,7 +316,7 @@ void getContactUinA(HANDLE hContact, LPSTR szUIN) {
 
 void getContactUin(HANDLE hContact, LPSTR szUIN) {
 	getContactUinA(hContact, szUIN);
-	if( bCoreUnicode && *szUIN ) {
+	if ( bCoreUnicode && *szUIN ) {
 		LPWSTR tmp = mir_a2u(szUIN);
 		wcscpy((LPWSTR)szUIN, tmp);
 		mir_free(tmp);

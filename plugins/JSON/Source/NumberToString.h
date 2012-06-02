@@ -84,7 +84,7 @@ public:
 	   #endif
 	   //strip the trailing zeros
 	   for(json_char * pos = &result[0]; *pos; ++pos){
-		  if (*pos == '.'){  //only care about after the decimal
+		  if (*pos == '.') {  //only care about after the decimal
 			 for(json_char * runner = pos + 1; *runner; ++runner){
 				if (*runner != JSON_TEXT('0')) pos = runner + 1;
 			 }

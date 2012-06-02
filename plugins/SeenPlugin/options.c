@@ -62,7 +62,7 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 			hasPopups = IsDlgButtonChecked(hdlg,IDC_POPUPS);
 			EnableWindow(GetDlgItem(hdlg,IDC_POPUPSTAMP),hasPopups);
 			EnableWindow(GetDlgItem(hdlg,IDC_POPUPSTAMPTEXT),hasPopups);
-			for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++){
+			for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++) {
 				DWORD sett;
 				COLORREF back, text;
 				sprintf(szstamp, "Col_%d",i-ID_STATUS_OFFLINE);
@@ -86,7 +86,7 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 		}
 		break; //case WM_INITDIALOG
 		case WM_COMMAND:
-			if((HIWORD(wparam)==BN_CLICKED || HIWORD(wparam)==EN_CHANGE) && GetFocus()==(HWND)lparam)
+			if ((HIWORD(wparam)==BN_CLICKED || HIWORD(wparam)==EN_CHANGE) && GetFocus()==(HWND)lparam)
 				SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 			else if (HIWORD(wparam)==CPN_COLOURCHANGED){
 				WORD idText, idBack;
@@ -113,18 +113,18 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 			} 
 			if(HIWORD(wparam)==BN_CLICKED)
 			{
-				switch(LOWORD(wparam)){
+				switch(LOWORD(wparam)) {
 					case IDC_POPUPS:
 						hasPopups = IsDlgButtonChecked(hdlg,IDC_POPUPS);
 						EnableWindow(GetDlgItem(hdlg,IDC_POPUPSTAMP),hasPopups);
 						EnableWindow(GetDlgItem(hdlg,IDC_POPUPSTAMPTEXT),hasPopups);
-						for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++){
+						for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++) {
 							EnableWindow(GetDlgItem(hdlg,i),hasPopups);
 							EnableWindow(GetDlgItem(hdlg,i+20),hasPopups);
 						}
 						break;
 					case IDC_DEFAULTCOL:
-						for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++){
+						for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++) {
 							DWORD sett;
 							COLORREF back, text;
 							sprintf(szstamp, "Col_%d",i-ID_STATUS_OFFLINE);
@@ -156,7 +156,7 @@ INT_PTR CALLBACK OptsPopUpsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 							if (DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0) != checkValue) {
 								DBWriteContactSettingByte(NULL,S_MOD,"UsePopups",checkValue);
 							}
-							for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++){
+							for (i=ID_STATUS_OFFLINE;i<=ID_STATUS_OUTTOLUNCH;i++) {
 								DWORD sett;
 								COLORREF back=0, text=0;
 								sprintf(szstamp, "Col_%d",i-ID_STATUS_OFFLINE);
@@ -262,12 +262,12 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 			break; //case WM_INITDIALOG
 
 		case WM_COMMAND:
-			if((HIWORD(wparam)==BN_CLICKED || HIWORD(wparam)==EN_CHANGE) && GetFocus()==(HWND)lparam)
+			if ((HIWORD(wparam)==BN_CLICKED || HIWORD(wparam)==EN_CHANGE) && GetFocus()==(HWND)lparam)
 				if (LOWORD(wparam)!=IDC_VARIABLES)SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 
 			if(HIWORD(wparam)==BN_CLICKED)
 			{
-				switch(LOWORD(wparam)){
+				switch(LOWORD(wparam)) {
 					case IDC_MENUITEM:
 						EnableWindow(GetDlgItem(hdlg,IDC_MENUSTAMP),IsDlgButtonChecked(hdlg,IDC_MENUITEM));
 						EnableWindow(GetDlgItem(hdlg,IDC_SHOWICON),IsDlgButtonChecked(hdlg,IDC_MENUITEM));

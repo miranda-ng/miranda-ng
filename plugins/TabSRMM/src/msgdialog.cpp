@@ -300,7 +300,7 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				return(CSkin::DrawRichEditFrame(hwnd, mwdat, ID_EXTBKHISTORY, msg, wParam, lParam, mwdat->oldIEViewProc));
 
 			case WM_KEYDOWN:
-				if(!isCtrl && !isAlt&&!isShift) {
+				if (!isCtrl && !isAlt&&!isShift) {
 				{
 					if (wParam != VK_PRIOR&&wParam != VK_NEXT&&
 						wParam != VK_DELETE&&wParam != VK_MENU&&wParam != VK_END&&
@@ -579,7 +579,7 @@ static LRESULT CALLBACK MessageLogSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			break;
 		}
 		case WM_KEYDOWN:
-			if(!isCtrl && !isAlt&&!isShift)
+			if (!isCtrl && !isAlt&&!isShift)
 			{
 				if (/*wParam != VK_ESCAPE&&*/wParam != VK_PRIOR&&wParam != VK_NEXT&&
 					wParam != VK_DELETE&&wParam != VK_MENU&&wParam != VK_END&&
@@ -1167,7 +1167,7 @@ static int MessageDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL * 
 			}
 
 			//Bolshevik: resizes avatar control _FIXED
-			if( dat->hwndContactPic ) //if Panel control was created?
+			if ( dat->hwndContactPic ) //if Panel control was created?
 				SetWindowPos(dat->hwndContactPic, HWND_TOP, 1, ((urc->rcItem.bottom-urc->rcItem.top)-(dat->pic.cy))/2+1,  //resizes it
 				dat->pic.cx-2,
 				dat->pic.cy-2, SWP_SHOWWINDOW);
@@ -1745,7 +1745,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			 * draw aero related stuff
 			*/
 
-			if(!CSkin::m_skinEnabled)
+			if (!CSkin::m_skinEnabled)
 				CSkin::RenderToolbarBG(dat, hdcMem, rcClient);
 			/*
 			 * render info panel fields
@@ -1760,7 +1760,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DeleteObject(hbm);
 				DeleteDC(hdcMem);
 			}
-			if(!dat->fLimitedUpdate)
+			if (!dat->fLimitedUpdate)
 				SetAeroMargins(dat->pContainer);
 			return(1);
 		}
@@ -1931,7 +1931,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								UINT ctrlId = 0;
 
 								if(wp == VK_MENU) {
-									if(!dat->fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
+									if (!dat->fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
 										m_pContainer->MenuBar->autoShow();
 								}
 								return(_dlgReturn(hwndDlg, 0));
@@ -1981,7 +1981,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 										DWORD	dwFlags = M->GetDword(dat->hContact, "mwflags", 0);
 
 										dat->dwFlags ^= MWF_LOG_RTL;
-										if((dwGlobal & MWF_LOG_RTL) != (dat->dwFlags & MWF_LOG_RTL)) {
+										if ((dwGlobal & MWF_LOG_RTL) != (dat->dwFlags & MWF_LOG_RTL)) {
 											dwMask |= MWF_LOG_RTL;
 											dwFlags |= (dat->dwFlags & MWF_LOG_RTL);
 										}
@@ -2118,7 +2118,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									SendMessage(hwndDlg, DM_REPLAYQUEUE, 0, 0);
 								dat->dwFlagsEx ^= MWF_SHOW_SCROLLINGDISABLED;
 								Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, (dat->bNotOnList || dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? SW_SHOW : SW_HIDE);
-								if(!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+								if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 									SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, CTranslator::get(CTranslator::GEN_MSG_CONTACT_NOT_ON_LIST));
 								else
 									SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, CTranslator::get(CTranslator::GEN_MSG_LOGFROZENSTATIC));
@@ -2129,15 +2129,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							//MAD: tabulation mod
 							if(msg == WM_KEYDOWN && wp == VK_TAB) {
 								if(PluginConfig.m_AllowTab) {
-									if(((NMHDR *)lParam)->idFrom == IDC_MESSAGE)
+									if (((NMHDR *)lParam)->idFrom == IDC_MESSAGE)
 										SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_REPLACESEL, (WPARAM)FALSE, (LPARAM)"\t");
 									_clrMsgFilter(lParam);
-									if(((NMHDR *)lParam)->idFrom != IDC_MESSAGE)
+									if (((NMHDR *)lParam)->idFrom != IDC_MESSAGE)
 										SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 									return(_dlgReturn(hwndDlg, 1));
 								}
 								else {
-									if(((NMHDR *)lParam)->idFrom == IDC_MESSAGE) {
+									if (((NMHDR *)lParam)->idFrom == IDC_MESSAGE) {
 										if(GetSendButtonState(hwndDlg) != PBS_DISABLED && !(dat->pContainer->dwFlags & CNT_HIDETOOLBAR)) {
 											SetFocus(GetDlgItem(hwndDlg, IDOK));
 											return(_dlgReturn(hwndDlg, 1));
@@ -2147,7 +2147,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 											return(_dlgReturn(hwndDlg, 1));
 										}
 									}
-									if(((NMHDR *)lParam)->idFrom == IDC_LOG) {
+									if (((NMHDR *)lParam)->idFrom == IDC_LOG) {
 										SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 										return(_dlgReturn(hwndDlg, 1));
 									}
@@ -2870,7 +2870,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			GetCursorPos(&tmp); //+ Protogenes
 			cur.x = (SHORT)tmp.x; //+ Protogenes
 			cur.y = (SHORT)tmp.y; //+ Protogenes
-			if(!dat->Panel->isHovered())
+			if (!dat->Panel->isHovered())
 				SendMessage(hwndContainer, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur))); //+ Protogenes
 			break;
 		}
@@ -3211,7 +3211,7 @@ quote_from_last:
 					if (!M->GetByte(dat->hContact, "CList", "NotOnList", 0)) {
 						dat->bNotOnList = FALSE;
 						ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
-						if(!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+						if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 							Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
 						SendMessage(hwndDlg, WM_SIZE, 0, 0);
 					}
@@ -3220,7 +3220,7 @@ quote_from_last:
 				case IDC_CANCELADD:
 					dat->bNotOnList = FALSE;
 					ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
-					if(!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
+					if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
 						Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_HIDE);
 					SendMessage(hwndDlg, WM_SIZE, 0, 0);
 					break;
@@ -3322,7 +3322,7 @@ quote_from_last:
 			struct TContainerData *pNewContainer = 0;
 			TCHAR *szNewName = (TCHAR *)lParam;
 
-			if(!_tcscmp(szNewName, CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)))
+			if (!_tcscmp(szNewName, CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)))
 				szNewName = CGlobals::m_default_container_name;
 
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
@@ -3731,7 +3731,7 @@ quote_from_last:
 									  LoadSkinnedProtoIcon(dat->cache->getActiveProto(), dat->cache->getActiveStatus()), 1, PluginConfig.g_hMenuRecent);
 				if (dat->hContact) {
 
-					if(!dat->fEditNotesActive) {
+					if (!dat->fEditNotesActive) {
 						char *msg = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
 						if (msg) {
 							DBWriteContactSettingString(dat->hContact, SRMSGMOD, "SavedMsg", msg);

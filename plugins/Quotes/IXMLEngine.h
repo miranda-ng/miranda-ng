@@ -7,8 +7,8 @@ public:
 	typedef boost::shared_ptr<IXMLNode> TXMLNodePtr;
 
 public:
-	IXMLNode(){}
-	virtual ~IXMLNode(){}
+	IXMLNode() {}
+	virtual ~IXMLNode() {}
 
 	virtual size_t GetChildCount()const = 0;
 	virtual TXMLNodePtr GetChildNode(size_t nIndex)const = 0;
@@ -31,9 +31,9 @@ inline tostream& operator<<(tostream& o,const IXMLNode& node)
 class IXMLEngine
 {
 public:
-	IXMLEngine(){}
+	IXMLEngine() {}
 
-	virtual ~IXMLEngine(){}
+	virtual ~IXMLEngine() {}
 
 	virtual IXMLNode::TXMLNodePtr LoadFile(const tstring& rsFileName)const = 0;
 	virtual bool SaveFile(const tstring& rsFileName,const IXMLNode::TXMLNodePtr& pNode)const = 0;

@@ -85,7 +85,7 @@ static TCHAR* getMenuEntry(int i)  {
 
 int ChangeClientIconInStatusBar(const TWindowData *dat)
 {
-	if(!ServiceExists(MS_FP_GETCLIENTICON))
+	if (!ServiceExists(MS_FP_GETCLIENTICON))
 		return(S_FALSE);
 
 	char		*msg = getMirVer(dat->hContact);

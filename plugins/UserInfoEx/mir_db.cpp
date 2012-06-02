@@ -1096,7 +1096,7 @@ BYTE	GetInfoWithData(HANDLE hEvent, DBEVENTINFO *dbei)
 {
 	BYTE result;
 	dbei->cbSize = sizeof(DBEVENTINFO);
-	if(!dbei->cbBlob) {
+	if (!dbei->cbBlob) {
 		INT_PTR size = BlobSizeOf(hEvent);
 		dbei->cbBlob = (size != -1) ? (DWORD)size : 0;
 	}
@@ -1225,7 +1225,7 @@ BOOLEAN	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 				edbe = FindPrev(edbe) ) {
 			hDbExistingEvent = edbe;
 			//compare without data (faster)
-			if( result = IsEqual(dbei, &edbei, false)) {
+			if ( result = IsEqual(dbei, &edbei, false)) {
 				if(NULL == (result = !GetInfoWithData(edbe, &edbei))) continue;
 				//compare with data
 				result = IsEqual(dbei, &edbei, true);
@@ -1242,7 +1242,7 @@ BOOLEAN	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 					edbe = FindNext(edbe) ) {
 				hDbExistingEvent = edbe;
 				//compare without data (faster)
-				if( result = IsEqual(dbei, &edbei, false)) {
+				if ( result = IsEqual(dbei, &edbei, false)) {
 					if(NULL == (result = !GetInfoWithData(edbe, &edbei))) continue;
 					//compare with data
 					result = IsEqual(dbei, &edbei, true);

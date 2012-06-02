@@ -328,7 +328,7 @@ FreeImage_OpenMultiBitmapU(FREE_IMAGE_FORMAT fif, const wchar_t *filename, BOOL 
 	// convert to single character - no national chars in extensions
 	char *extension = (char *)malloc(wcslen(filename)+1);
 	unsigned int i=0;
-	for(; i < wcslen(filename); i++) // convert 16-bit to 8-bit
+	for (; i < wcslen(filename); i++) // convert 16-bit to 8-bit
 		extension[i] = (char)(filename[i] & 0x00FF);
 	// set terminating 0
 	extension[i]=0;
@@ -400,7 +400,7 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 
 BOOL DLL_CALLCONV
 FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, FreeImageIO *io, fi_handle handle, int flags) {
-	if(!bitmap || !bitmap->data || !io || !handle) {
+	if (!bitmap || !bitmap->data || !io || !handle) {
 		return FALSE;
 	}
 
@@ -546,7 +546,7 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 					if (success) {
 						remove(header->m_filename);
 						success = (rename(spool_name.c_str(), header->m_filename) == 0) ? TRUE:FALSE;
-						if(!success) {
+						if (!success) {
 							FreeImage_OutputMessageProc(header->fif, "Failed to rename %s to %s", spool_name.c_str(), header->m_filename);
 						}
 					} else {
@@ -647,12 +647,12 @@ FreeImage_SavePageToBlock(MULTIBITMAPHEADER *header, FIBITMAP *data) {
 	FIMEMORY *hmem = FreeImage_OpenMemory();
 	if(hmem==NULL) return NULL;
 	// save the file to memory
-	if(!FreeImage_SaveToMemory(header->cache_fif, data, hmem, 0)) {
+	if (!FreeImage_SaveToMemory(header->cache_fif, data, hmem, 0)) {
 		FreeImage_CloseMemory(hmem);
 		return NULL;
 	}
 	// get the buffer from the memory stream
-	if(!FreeImage_AcquireMemory(hmem, &compressed_data, &compressed_size)) {
+	if (!FreeImage_AcquireMemory(hmem, &compressed_data, &compressed_size)) {
 		FreeImage_CloseMemory(hmem);
 		return NULL;
 	}

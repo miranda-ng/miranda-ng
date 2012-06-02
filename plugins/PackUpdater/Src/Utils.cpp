@@ -145,7 +145,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 
 	if(pReply)
 	{
-		if((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
+		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
 		{
 			hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, NULL);
@@ -202,7 +202,7 @@ static void CheckUpdates(void *)
 	DBVARIANT dbVar = {0};
 	vector<FILEINFO> UpdateFiles;
 
-	if(!Exists(tszRoot))
+	if (!Exists(tszRoot))
         CreateDirectory(tszRoot, NULL);
 	Files.clear();
 	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
@@ -369,7 +369,7 @@ static void CheckUpdates(void *)
 			mir_free(tszSysRoot);
 			mir_free(tszProgFiles);
 		} // end compare versions
-	} //end checking all files in for()
+	} //end checking all files in for ()
 
 	// Show dialog
 	if (UpdateFiles.size()>0)

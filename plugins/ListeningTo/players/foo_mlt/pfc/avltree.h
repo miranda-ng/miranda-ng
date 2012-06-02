@@ -43,10 +43,10 @@ namespace pfc {
 
 		t_rawptr step(bool direction) throw() {
 			t_self* walk = this;
-			for(;;) {
+			for (;;) {
 				t_self* t = walk->child(direction);
 				if (t != NULL) return t->peakchild(!direction);
-				for(;;) {
+				for (;;) {
 					t = walk->m_parent;
 					if (t == NULL) return NULL;
 					if (t->which_child(walk) != direction) return t;
@@ -56,7 +56,7 @@ namespace pfc {
 		}
 		t_rawptr peakchild(bool direction) throw() {
 			t_self* walk = this;
-			for(;;) {
+			for (;;) {
 				t_rawptr next = walk->child(direction);
 				if (next == NULL) return walk;
 				walk = next;

@@ -489,7 +489,7 @@ void CContactCache::updateStatusMsg(const char *szKey)
 	BYTE 		bStatusMsgValid = 0;
 	INT_PTR		res = 0;
 
-	if(!m_Valid)
+	if (!m_Valid)
 		return;
 
 	if(szKey == 0 || (szKey && !strcmp("StatusMsg", szKey))) {

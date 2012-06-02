@@ -26,7 +26,7 @@ int FacebookProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
 	DBVARIANT dbv;
 
-	if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 	{
 		ForkThread( &FacebookProto::MessagingWorker, this, new send_messaging(dbv.pszVal, FACEBOOK_RECV_MESSAGE ) );
 		DBFreeVariant(&dbv);
@@ -53,7 +53,7 @@ void FacebookProto::SendMsgWorker(void *p)
 	{
 		ProtoBroadcastAck(m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
 	}
-	else if( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	else if ( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 	{
 		int retries = 5;
 		std::string error_text = "";
@@ -130,7 +130,7 @@ void FacebookProto::SendTypingWorker(void *p)
 	}
 		
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(typing->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	if ( !DBGetContactSettingString(typing->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 	{
 		std::string data = "typ=";
 		data += ( typing->status == PROTOTYPE_SELFTYPING_ON ) ? "1" : "0"; // PROTOTYPE_SELFTYPING_OFF

@@ -24,7 +24,7 @@ void showPopUp(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type) {
 	//type=1 session colors
 	//type=2 SR colors
 
-	if(!bPopupExists) return;
+	if (!bPopupExists) return;
 
 	//hContact = A_VALID_HANDLE_YOU_GOT_FROM_SOMEWHERE;
 	COLORREF colorBackKey = RGB(230,230,255);
@@ -71,7 +71,7 @@ void showPopUp(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type) {
 		DBFreeVariant(&dbv_timeout);
 	}
 
-	if( bCoreUnicode && bPopupUnicode ) {
+	if ( bCoreUnicode && bPopupUnicode ) {
 		POPUPDATAW ppd = {0};
 
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.

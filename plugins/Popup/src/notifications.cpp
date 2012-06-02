@@ -244,7 +244,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
 {
 	for(int i = 0; i < gTreeData.getCount(); i++) {
-		if(	gTreeData[i]->typ == typ &&
+		if (	gTreeData[i]->typ == typ &&
 				(!group || (_tcscmp(gTreeData[i]->pszTreeRoot,   group) == 0)) &&
 				(!name  || (_tcscmp(gTreeData[i]->pszDescription, name) == 0)) )
 		{

@@ -39,7 +39,7 @@ ConvertAnyTag(FITAG *tag) {
 	static std::string buffer;
 	DWORD i;
 
-	if(!tag)
+	if (!tag)
 		return NULL;
 
 	buffer.erase();
@@ -259,7 +259,7 @@ ConvertExifTag(FITAG *tag) {
 	char format[MAX_TEXT_EXTENT];
 	static std::string buffer;
 
-	if(!tag)
+	if (!tag)
 		return NULL;
 
 	buffer.erase();
@@ -993,7 +993,7 @@ ConvertExifGPSTag(FITAG *tag) {
 	char format[MAX_TEXT_EXTENT];
 	static std::string buffer;
 
-	if(!tag)
+	if (!tag)
 		return NULL;
 
 	buffer.erase();

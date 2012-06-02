@@ -80,10 +80,10 @@ CModuleInfo::TQuotesProvidersPtr CModuleInfo::GetQuoteProvidersPtr()
 
 CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
 {
-	if(!g_pXMLEngine)
+	if (!g_pXMLEngine)
 	{
 		CGuard<CLightMutex> cs(g_lmParsers);
-		if(!g_pXMLEngine)
+		if (!g_pXMLEngine)
 		{
 			mir_getXI(&xi);
 			g_pXMLEngine = TXMLEnginePtr(new CXMLEngineMI);
@@ -100,10 +100,10 @@ CModuleInfo::TXMLEnginePtr CModuleInfo::GetXMLEnginePtr()
 
 CModuleInfo::THTMLEnginePtr CModuleInfo::GetHTMLEngine()
 {
-	if(!g_pHTMLEngine)
+	if (!g_pHTMLEngine)
 	{
 		CGuard<CLightMutex> cs(g_lmParsers);
-		if(!g_pHTMLEngine)
+		if (!g_pHTMLEngine)
 		{
 			g_pHTMLEngine = THTMLEnginePtr(new CHTMLEngineMS);
 		}
@@ -127,13 +127,13 @@ bool CModuleInfo::Verify()
 		return false;
 	}
 
-	if(!GetXMLEnginePtr())
+	if (!GetXMLEnginePtr())
 	{
 		Quotes_MessageBox(NULL,TranslateT("Miranda could not load Quotes plugin. XML parser is missing."),MB_OK|MB_ICONERROR);
 		return false;
 	}
 
-	if(!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled()))
+	if (!g_pHTMLEngine && (false == CHTMLParserMS::IsInstalled()))
 	{
 		Quotes_MessageBox(NULL,
 			TranslateT("Miranda could not load Quotes plugin. Microsoft HTML parser is missing."),

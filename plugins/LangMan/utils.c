@@ -49,7 +49,7 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 		msn.szInfo=(char*)szText;
 		msn.uTimeout=30000; /* max timeout */
 		msn.dwInfoFlags=flags;
-		if(!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY,0,(LPARAM)&msn))
+		if (!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY,0,(LPARAM)&msn))
 			return; /* success */
 	}
 

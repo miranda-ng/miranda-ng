@@ -108,7 +108,7 @@ FLASHING_SEQUENCE *getCustomSeq(void)
 
 
 	customStr[0] = _T('\0');
-	if(!DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme), &dbv)) {
+	if (!DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", wCustomTheme), &dbv)) {
 		wcscpy(customStr, dbv.pwszVal);
 		DBFreeVariant(&dbv);
 	}

@@ -39,14 +39,14 @@ void __cdecl gg_remindpasswordthread(GGPROTO *gg, void *param)
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_remindpasswordthread(): Starting.");
 #endif
-	if(!rp || !rp->email || !rp->uin || !strlen(rp->email))
+	if (!rp || !rp->email || !rp->uin || !strlen(rp->email))
 	{
 		if(rp) free(rp);
 		return;
 	}
 
 	// Get token
-	if(!gg_gettoken(gg, &token)) return;
+	if (!gg_gettoken(gg, &token)) return;
 
 	if (!(h = gg_remind_passwd3(rp->uin, rp->email, token.id, token.val, 0)))
 	{

@@ -54,7 +54,7 @@ INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 
 	for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
 	{
-		if(!strcmp((char *) wParam,n->item.ProtocolName))
+		if (!strcmp((char *) wParam,n->item.ProtocolName))
 		{
 			return n->item.ShowContactMenu(lParam != 0);
 		}		
@@ -77,7 +77,7 @@ INT_PTR NudgeSend(WPARAM wParam,LPARAM lParam)
 		{
 			for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
 			{
-				if(!strcmp(protoName,n->item.ProtocolName))
+				if (!strcmp(protoName,n->item.ProtocolName))
 				{
 					Nudge_ShowPopup(n->item, (HANDLE) wParam, msg);
 				}		
@@ -97,7 +97,7 @@ INT_PTR NudgeSend(WPARAM wParam,LPARAM lParam)
 		NudgeElementList *n;
 		for(n = NudgeList;n != NULL; n = n->next)
 		{
-			if(!strcmp(protoName,n->item.ProtocolName))
+			if (!strcmp(protoName,n->item.ProtocolName))
 			{
 				//if(n->item.showPopup)
 				//	Nudge_ShowPopup(n->item, (HANDLE) wParam, n->item.senText);
@@ -145,7 +145,7 @@ int NudgeRecieved(WPARAM wParam,LPARAM lParam)
 	{
 		for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
 		{
-			if(!strcmp(protoName,n->item.ProtocolName))
+			if (!strcmp(protoName,n->item.ProtocolName))
 			{
 				
 				if(n->item.enabled)
@@ -155,7 +155,7 @@ int NudgeRecieved(WPARAM wParam,LPARAM lParam)
 
 					DWORD Status = CallProtoService(protoName,PS_GETSTATUS,0,0);
 
-					if( ((n->item.statusFlags & NUDGE_ACC_ST0) && (Status<=ID_STATUS_OFFLINE)) ||
+					if ( ((n->item.statusFlags & NUDGE_ACC_ST0) && (Status<=ID_STATUS_OFFLINE)) ||
 						((n->item.statusFlags & NUDGE_ACC_ST1) && (Status==ID_STATUS_ONLINE)) ||
 						((n->item.statusFlags & NUDGE_ACC_ST2) && (Status==ID_STATUS_AWAY)) ||
 						((n->item.statusFlags & NUDGE_ACC_ST3) && (Status==ID_STATUS_DND)) ||
@@ -202,7 +202,7 @@ int NudgeRecieved(WPARAM wParam,LPARAM lParam)
 			if(DefaultNudge.useIgnoreSettings && CallService(MS_IGNORE_ISIGNORED,wParam,IGNOREEVENT_USERONLINE))
 				return 0;
 			DWORD Status = CallService(MS_CLIST_GETSTATUSMODE,0,0);
-			if( ((DefaultNudge.statusFlags & NUDGE_ACC_ST0) && (Status<=ID_STATUS_OFFLINE)) ||
+			if ( ((DefaultNudge.statusFlags & NUDGE_ACC_ST0) && (Status<=ID_STATUS_OFFLINE)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST1) && (Status==ID_STATUS_ONLINE)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST2) && (Status==ID_STATUS_AWAY)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST3) && (Status==ID_STATUS_DND)) ||
@@ -378,7 +378,7 @@ void LoadProtocols(void)
 
 void RegisterToTrigger(void)
 {
-	if( ServiceExists(MS_TRIGGER_REGISTERACTION))
+	if ( ServiceExists(MS_TRIGGER_REGISTERACTION))
 	{
 		ACTIONREGISTER ar;
 		ZeroMemory(&ar, sizeof(ar));
@@ -437,7 +437,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
 
-	if(!strcmp(cbcd->pszModule,"Nudge"))
+	if (!strcmp(cbcd->pszModule,"Nudge"))
 		NudgeSend(wParam, 0);
 
 	return 0;
@@ -627,7 +627,7 @@ void LoadPopupClass()
 int Preview()
 {
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST,0,0);
-	if( GlobalNudge.useByProtocol )
+	if ( GlobalNudge.useByProtocol )
 	{
 		for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
 		{

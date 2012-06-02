@@ -40,14 +40,14 @@ __inline static void *safe_alloc(size_t bytes) {
 }
 
 __inline static char *safe_strdup(const char *s) {
-	if(!s) return 0;
+	if (!s) return 0;
 	char *ret = _strdup(s);
 	allocations.push_back(ret);
 	return ret;
 }
 
 __inline static wchar_t *safe_wstrdup(const wchar_t *s) {
-	if(!s) return 0;
+	if (!s) return 0;
 	wchar_t *ret = _wcsdup(s);
 	allocations.push_back(ret);
 	return ret;
@@ -60,7 +60,7 @@ __inline static wchar_t *safe_wstrdup(const wchar_t *s) {
 #endif
 
 __inline static BYTE *safe_bytedup(BYTE *bytes, int size) {
-	if(!bytes || size == 0) return 0;
+	if (!bytes || size == 0) return 0;
 
 	BYTE *ret = (BYTE *)malloc(size + 1);
 	memcpy(ret, bytes, size);

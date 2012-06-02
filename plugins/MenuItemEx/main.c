@@ -327,7 +327,7 @@ BOOL isMetaContact(HANDLE hContact) {
 	char *proto;
 	if(bMetaContacts) {
 		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if( lstrcmpA(proto,"MetaContacts") == 0 ) {
+		if ( lstrcmpA(proto,"MetaContacts") == 0 ) {
 			return TRUE;
 		}
 	}
@@ -362,7 +362,7 @@ void GetID(HANDLE hContact,LPSTR szProto,LPSTR szID)
 
 	*szID='\0';
 
-	if( uID && DBGetContactSetting(hContact, szProto, uID ,&dbv_uniqueid)==0 ) {
+	if ( uID && DBGetContactSetting(hContact, szProto, uID ,&dbv_uniqueid)==0 ) {
 		if (dbv_uniqueid.type ==DBVT_DWORD)
 			wsprintfA(szID, "%u", dbv_uniqueid.dVal);
 		else if (dbv_uniqueid.type ==DBVT_WORD)
@@ -384,7 +384,7 @@ int StatusMsgExists(HANDLE hContact)
 	int i;
 
 	module = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!module) return 0;
+	if (!module) return 0;
 
 	for(i = 0; i < SIZEOF(statusMsg); i++) {
 		if (statusMsg[i].flag & 8)
@@ -408,7 +408,7 @@ BOOL IPExists(HANDLE hContact)
 	DWORD mIP,rIP;
 
 	szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!szProto) return 0;
+	if (!szProto) return 0;
 
 	mIP = DBGetContactSettingDword(hContact, szProto, "IP", 0);
 	rIP = DBGetContactSettingDword(hContact, szProto, "RealIP", 0);
@@ -422,7 +422,7 @@ BOOL MirVerExists(HANDLE hContact)
 	BOOL ret=0;
 
 	szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!szProto) return 0;
+	if (!szProto) return 0;
 
 	msg = DBGetString(hContact,szProto,"MirVer");
 	if(msg) {
@@ -439,8 +439,8 @@ void getIP(HANDLE hContact,LPSTR szProto,LPSTR szIP)
 	char szrIP[64]={0};
 	DWORD mIP = DBGetContactSettingDword(hContact, szProto, "IP", 0);
 	DWORD rIP = DBGetContactSettingDword(hContact, szProto, "RealIP", 0);
-	if( mIP ) wsprintfA(szmIP, "External IP: %d.%d.%d.%d\r\n", mIP>>24,(mIP>>16)&0xFF,(mIP>>8)&0xFF,mIP&0xFF);
-	if( rIP ) wsprintfA(szrIP, "Internal IP: %d.%d.%d.%d\r\n", rIP>>24,(rIP>>16)&0xFF,(rIP>>8)&0xFF,rIP&0xFF);
+	if ( mIP ) wsprintfA(szmIP, "External IP: %d.%d.%d.%d\r\n", mIP>>24,(mIP>>16)&0xFF,(mIP>>8)&0xFF,mIP&0xFF);
+	if ( rIP ) wsprintfA(szrIP, "Internal IP: %d.%d.%d.%d\r\n", rIP>>24,(rIP>>16)&0xFF,(rIP>>8)&0xFF,rIP&0xFF);
 	strcpy(szIP,szrIP);
 	strcat(szIP,szmIP);
 }
@@ -450,7 +450,7 @@ LPSTR getMirVer(HANDLE hContact)
 	LPSTR szProto, msg;
 
 	szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!szProto) return NULL;
+	if (!szProto) return NULL;
 
 	msg = DBGetString(hContact,szProto,"MirVer");
 	if(msg) {
@@ -646,12 +646,12 @@ void ModifyCopyID(CLISTMENUITEM *cli, HANDLE hContact, BOOL bShowID, BOOL bTrimI
 
 	if(isMetaContact(hContact)) {
 		hC = getMostOnline(hContact);
-		if( !hContact ) hC = getDefaultContact(hContact);
+		if ( !hContact ) hC = getDefaultContact(hContact);
 		hContact = hC;
 	}
 
 	szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!szProto) {
+	if (!szProto) {
 		HideItem(cli,hmenuCopyID);
 		return;
 	}
@@ -696,7 +696,7 @@ void ModifyStatusMsg(CLISTMENUITEM *cli,HANDLE hContact)
 	cli->flags|=CMIM_ICON;
 
 	szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!szProto) {
+	if (!szProto) {
 		HideItem(cli,hmenuStatusMsg);
 		return;
 	}
@@ -718,7 +718,7 @@ void ModifyCopyIP(CLISTMENUITEM *cli,HANDLE hContact)
 	cli->flags |= CMIM_ICON;
 
 	szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if(!szProto) {
+	if (!szProto) {
 		HideItem(cli,hmenuCopyIP);
 		return;
 	}
@@ -745,7 +745,7 @@ void ModifyCopyMirVer(CLISTMENUITEM *cli,HANDLE hContact)
 			mir_free(msg);
 		}
 	}
-	if(!cli->hIcon) cli->hIcon = hIcon[0];
+	if (!cli->hIcon) cli->hIcon = hIcon[0];
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hmenuCopyMirVer,(LPARAM)cli);
 }
 
@@ -759,7 +759,7 @@ INT_PTR onCopyID(WPARAM wparam,LPARAM lparam)
 	hContact = (HANDLE)wparam;
 	if(isMetaContact(hContact)) {
 		hC = getMostOnline(hContact);
-		if( !hContact ) hC = getDefaultContact(hContact);
+		if ( !hContact ) hC = getDefaultContact(hContact);
 		hContact = hC;
 	}
 	if ((szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)) == NULL)
@@ -796,7 +796,7 @@ INT_PTR onCopyStatusMsg(WPARAM wparam,LPARAM lparam)
 	DWORD flags=DBGetContactSettingDword(NULL,VISPLG,"flags",vf_default);
 
 	module = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0);
-	if(!module) return 0;
+	if (!module) return 0;
 
 	buffer[0]=0;
 	for(i = 0; i < SIZEOF(statusMsg); i++) {
@@ -1039,12 +1039,12 @@ int BuildMenu(WPARAM wparam,LPARAM lparam)
 	}
 	else HideItem(&miPROTO,hmenuProto);
 
-	if((bShowAll || flags & VF_ADD) && bIsOnline && (bMir_08 ? IsAccountEnabled( pa ) : TRUE))
+	if ((bShowAll || flags & VF_ADD) && bIsOnline && (bMir_08 ? IsAccountEnabled( pa ) : TRUE))
 		ShowItem(&miADD,hmenuAdded);
 	else 
 		HideItem(&miADD,hmenuAdded);
 
-	if((bShowAll || flags & VF_REQ) && bIsOnline && (bMir_08 ? IsAccountEnabled( pa ) : TRUE))
+	if ((bShowAll || flags & VF_REQ) && bIsOnline && (bMir_08 ? IsAccountEnabled( pa ) : TRUE))
 		ShowItem(&miREQ,hmenuAuthReq);
 	else 
 		HideItem(&miREQ,hmenuAuthReq);
@@ -1055,22 +1055,22 @@ int BuildMenu(WPARAM wparam,LPARAM lparam)
 	}
 	else HideItem(&miCID,hmenuCopyID);
 
-	if((bShowAll || flags&VF_RECV) && DirectoryExists((HANDLE)wparam)) ShowItem(&miRECV,hmenuRecvFiles);
+	if ((bShowAll || flags&VF_RECV) && DirectoryExists((HANDLE)wparam)) ShowItem(&miRECV,hmenuRecvFiles);
 	else HideItem(&miRECV,hmenuRecvFiles);
 
-	if((bShowAll || flags&VF_STAT) && StatusMsgExists((HANDLE)wparam)){
+	if ((bShowAll || flags&VF_STAT) && StatusMsgExists((HANDLE)wparam)) {
 		ShowItem(&miSTAT,hmenuStatusMsg);
 		ModifyStatusMsg(&miSTAT,(HANDLE)wparam);
 	}
 	else HideItem(&miSTAT,hmenuStatusMsg);
 
-	if((bShowAll || flags&VF_CIP) && IPExists((HANDLE)wparam)){
+	if ((bShowAll || flags&VF_CIP) && IPExists((HANDLE)wparam)) {
 		ShowItem(&miCIP,hmenuCopyIP);
 		ModifyCopyIP(&miCIP,(HANDLE)wparam);
 	}
 	else HideItem(&miCIP,hmenuCopyIP);
 
-	if((bShowAll || flags&VF_CMV) && MirVerExists((HANDLE)wparam)){
+	if ((bShowAll || flags&VF_CMV) && MirVerExists((HANDLE)wparam)) {
 		ShowItem(&miCMV,hmenuCopyMirVer);
 		ModifyCopyMirVer(&miCMV,(HANDLE)wparam);
 	}
@@ -1119,7 +1119,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
 
-	if(!strcmp(cbcd->pszModule, MODULENAME) && cbcd->dwButtonId == 0)
+	if (!strcmp(cbcd->pszModule, MODULENAME) && cbcd->dwButtonId == 0)
 		onRecvFiles(wParam, 0);
 
 	return 0;

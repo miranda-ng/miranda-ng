@@ -53,7 +53,7 @@ void __cdecl CIcqProto::KeepAliveThread(void *arg)
 
 	info->hKeepAliveEvent = CreateEvent(NULL, TRUE, FALSE, NULL);
 
-	for(;;)
+	for (;;)
 	{
 		DWORD dwWait = ICQWaitForSingleObject(info->hKeepAliveEvent, dwInterval);
 		if (serverThreadHandle == NULL) // connection lost, end

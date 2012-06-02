@@ -487,7 +487,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 
 	if(pReply)
 	{
-		if((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
+		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
 		{
 			char *date = NULL, *size = NULL;
 			for (int i = 0; i < pReply->headersCount; i++)
@@ -834,7 +834,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										pai.hContact = hContact;
 										DBVARIANT dbVar = {0};
 
-										if(!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbVar))
+										if (!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbVar))
 										{
 											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
 											pai.format = GetImageFormat(ext);
@@ -1161,7 +1161,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										pai.hContact = hContact;
 										DBVARIANT dbVar = {0};
 
-										if(!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbVar))
+										if (!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbVar))
 										{
 											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
 											pai.format = GetImageFormat(ext);

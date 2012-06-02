@@ -498,7 +498,7 @@ void UpdateFilters()
     if(cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv_gf))
         goto cleanup;
     mir_snprintf(szSetting, 128, "%c%s_OPT", 246, szBuf);
-    if((opt = cfg::getDword(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
+    if ((opt = cfg::getDword(NULL, CLVM_MODULE, szSetting, -1)) != -1) {
         SendDlgItemMessage(clvmHwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
     }
     mir_snprintf(szSetting, 128, "%c%s_SM", 246, szBuf);
@@ -555,7 +555,7 @@ void UpdateFilters()
         int i;
 
         for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-            if((1 << (i - ID_STATUS_OFFLINE)) & statusMask)
+            if ((1 << (i - ID_STATUS_OFFLINE)) & statusMask)
                 ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, TRUE)
             else
                 ListView_SetCheckState(hwndList, i - ID_STATUS_OFFLINE, FALSE);
@@ -703,7 +703,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                                 mir_snprintf(szSetting, 256, "%c%s_SSM", 246, szBuf);
                                 DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
                                 DBDeleteContactSetting(NULL, CLVM_MODULE, szBuf);
-                                if(!strcmp(cfg::dat.current_viewmode, szBuf) && lstrlenA(szBuf) == lstrlenA(cfg::dat.current_viewmode)) {
+                                if (!strcmp(cfg::dat.current_viewmode, szBuf) && lstrlenA(szBuf) == lstrlenA(cfg::dat.current_viewmode)) {
                                     cfg::dat.bFilterEffective = 0;
                                     pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
                                     SetWindowTextA(hwndSelector, Translate("No view mode"));
@@ -826,7 +826,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                                 break;
                             hItem = (HANDLE)SendDlgItemMessage(hwndDlg,IDC_CLIST,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
                             if(hItem==NULL) break;
-                            if(!(hitFlags&CLCHT_ONITEMEXTRA))
+                            if (!(hitFlags&CLCHT_ONITEMEXTRA))
                                 break;
                             iImage = SendDlgItemMessage(hwndDlg,IDC_CLIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
                             if(iImage == nullImage)
@@ -1014,7 +1014,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						break;
 
 					KillTimer(hwnd, wParam);
-					if(!cfg::dat.old_viewmode[0])
+					if (!cfg::dat.old_viewmode[0])
 						SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
 					else
 						ApplyViewMode((const char *)cfg::dat.old_viewmode);
@@ -1069,7 +1069,7 @@ clvm_reset_command:
 				break;
 			case IDC_CONFIGUREMODES:
 clvm_config_command:
-				if(!g_ViewModeOptDlg)
+				if (!g_ViewModeOptDlg)
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
 				break;
 			}
@@ -1126,7 +1126,7 @@ void ApplyViewMode(const char *name)
     cfg::dat.bFilterEffective = 0;
 
     mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
-    if(!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+    if (!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
         if(lstrlenA(dbv.pszVal) >= 2) {
             strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
             cfg::dat.protoFilter[sizeof(cfg::dat.protoFilter) - 1] = 0;
@@ -1135,7 +1135,7 @@ void ApplyViewMode(const char *name)
         mir_free(dbv.pszVal);
     }
     mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
-    if(!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+    if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
         if(lstrlen(dbv.ptszVal) >= 2) {
             _tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, safe_sizeof(cfg::dat.groupFilter));
             cfg::dat.groupFilter[safe_sizeof(cfg::dat.groupFilter) - 1] = 0;
@@ -1155,7 +1155,7 @@ void ApplyViewMode(const char *name)
 
     /*
     mir_snprintf(szSetting, 256, "%c%s_VA", 246, name);
-    if(!DBGetContactSettingString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+    if (!DBGetContactSettingString(NULL, CLVM_MODULE, szSetting, &dbv)) {
         strncpy(g_CluiData.varFilter, dbv.pszVal, sizeof(g_CluiData.varFilter));
         g_CluiData.varFilter[sizeof(g_CluiData.varFilter) - 1] = 0;
         if(lstrlenA(g_CluiData.varFilter) > 10 && ServiceExists(MS_VARS_FORMATSTRING))
@@ -1174,7 +1174,7 @@ void ApplyViewMode(const char *name)
                 if(szProto) {
                     id = (char*) CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
                     if(id) {
-                        if(!DBGetContactSetting(hContact, szProto, id, &dbv)) {
+                        if (!DBGetContactSetting(hContact, szProto, id, &dbv)) {
                             if(dbv.type == DBVT_ASCIIZ) {
                                 mir_snprintf(UIN, 256, "<%s:%s>", szProto, dbv.pszVal);
                             }

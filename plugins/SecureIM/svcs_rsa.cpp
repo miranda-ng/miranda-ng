@@ -12,7 +12,7 @@ BOOL rsa_4096=0;
 
 
 int __cdecl rsa_inject(HANDLE context, LPCSTR msg) {
-	pUinKey ptr = getUinCtx(context); if(!ptr) return 0;
+	pUinKey ptr = getUinCtx(context); if (!ptr) return 0;
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_inject: '%s'", msg);
 #endif
@@ -31,7 +31,7 @@ int __cdecl rsa_inject(HANDLE context, LPCSTR msg) {
 
 int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int sigLen) {
 	int v=0, k=0;
-	pUinKey ptr = getUinCtx(context); if(!ptr) return 0;
+	pUinKey ptr = getUinCtx(context); if (!ptr) return 0;
 	LPSTR cnm = (LPSTR) mir_alloc(NAMSIZE); getContactNameA(ptr->hContact,cnm);
 	LPSTR uin = (LPSTR) mir_alloc(KEYSIZE); getContactUinA(ptr->hContact,uin);
 	LPSTR msg = (LPSTR) mir_alloc(MSGSIZE);
@@ -42,15 +42,15 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 #endif
 	DBVARIANT dbv;
 	dbv.type = DBVT_BLOB;
-	if( DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
+	if ( DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
 		k = 1;
 		PBYTE buf = (PBYTE) alloca(sigLen); int len;
 		exp->rsa_get_hash((PBYTE)dbv.pbVal,dbv.cpbVal,(PBYTE)buf,&len);
 		sha_old = mir_strdup(to_hex(buf,len));
 		DBFreeVariant(&dbv);
 	}
-	if( bAAK ) {
-		if( k )	mir_snprintf(msg,MSGSIZE,Translate(sim523),cnm,uin,sha,sha_old);
+	if ( bAAK ) {
+		if ( k )	mir_snprintf(msg,MSGSIZE,Translate(sim523),cnm,uin,sha,sha_old);
 		else	mir_snprintf(msg,MSGSIZE,Translate(sim521),cnm,uin,sha);
 		showPopUpKRmsg(ptr->hContact,msg);
 		HistoryLog(ptr->hContact,msg);
@@ -60,7 +60,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 #endif
 	}
 	else {
-		if( k ) mir_snprintf(msg,MSGSIZE,Translate(sim522),cnm,sha,sha_old);
+		if ( k ) mir_snprintf(msg,MSGSIZE,Translate(sim522),cnm,sha,sha_old);
 		else	mir_snprintf(msg,MSGSIZE,Translate(sim520),cnm,sha);
 		v = (msgbox(0,msg,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDYES);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
@@ -87,7 +87,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 
 
 void __cdecl rsa_notify(HANDLE context, int state) {
-	pUinKey ptr = getUinCtx(context); if(!ptr) return;
+	pUinKey ptr = getUinCtx(context); if (!ptr) return;
 	LPCSTR msg=NULL;
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_notify: 0x%x", state);
@@ -182,10 +182,10 @@ unsigned __stdcall sttGenerateRSA( LPVOID param ) {
 
 // загружает паблик-ключ в RSA контекст
 BYTE loadRSAkey(pUinKey ptr) {
-       	if( !ptr->keyLoaded ) {
+       	if ( !ptr->keyLoaded ) {
        	    DBVARIANT dbv;
        	    dbv.type = DBVT_BLOB;
-       	    if(	DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
+       	    if (	DBGetContactSetting(ptr->hContact,szModuleName,"rsa_pub",&dbv) == 0 ) {
        		ptr->keyLoaded = exp->rsa_set_pubkey(ptr->cntx,dbv.pbVal,dbv.cpbVal);
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("loadRSAkey %d", ptr->keyLoaded);
@@ -198,7 +198,7 @@ BYTE loadRSAkey(pUinKey ptr) {
 
 // создает RSA контекст
 void createRSAcntx(pUinKey ptr) {
-	if( !ptr->cntx ) {
+	if ( !ptr->cntx ) {
 		ptr->cntx = cpp_create_context(CPP_MODE_RSA);
 		ptr->keyLoaded = 0;
 	}
@@ -207,7 +207,7 @@ void createRSAcntx(pUinKey ptr) {
 
 // пересоздает RSA контекст
 void resetRSAcntx(pUinKey ptr) {
-	if( ptr->cntx ) {
+	if ( ptr->cntx ) {
 		cpp_delete_context(ptr->cntx);
 		ptr->cntx = cpp_create_context(CPP_MODE_RSA);
 		ptr->keyLoaded = 0;

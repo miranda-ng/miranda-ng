@@ -307,7 +307,7 @@ int OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 	SetTopic();
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
-	if(!suppress)
+	if (!suppress)
 		SetChatStatus(m_iStatus);
 
 	return 0;

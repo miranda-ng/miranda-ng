@@ -462,7 +462,7 @@ DWORD GetContactFlags(HANDLE hContact)
 
 		if (DBGetContactSettingByte(hContact,"CList","Hidden",0)) dwRet|=CONTACT_FLAG_SHADOW;
 		
-		switch(DB_Mra_GetWord(hContact,"ApparentMode",0)){
+		switch(DB_Mra_GetWord(hContact,"ApparentMode",0)) {
 		case ID_STATUS_OFFLINE:
 			dwRet|=CONTACT_FLAG_INVISIBLE;
 			break;
@@ -490,7 +490,7 @@ DWORD SetContactFlags(HANDLE hContact,DWORD dwContactFlag)
 		}else{
 			DBDeleteContactSetting(hContact,"CList","Hidden");
 		}
-		switch(dwContactFlag&(CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE)){
+		switch(dwContactFlag&(CONTACT_FLAG_INVISIBLE|CONTACT_FLAG_VISIBLE)) {
 		case CONTACT_FLAG_INVISIBLE:
 			DB_Mra_SetWord(hContact,"ApparentMode",ID_STATUS_OFFLINE);
 			break;
@@ -578,7 +578,7 @@ DWORD SetContactBasicInfoW(HANDLE hContact,DWORD dwSetInfoFlags,DWORD dwFlags,DW
 		
 		if(dwFlags&SCBIF_NICK)
 		{
-			if((dwFlags&SCBIF_FLAG) && ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME)==0))
+			if ((dwFlags&SCBIF_FLAG) && ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME)==0))
 			{
 				if (lpwszNick && dwNickSize) DB_SetStringExA(hContact,"CList","MyHandle",(LPSTR)lpwszNick,dwNickSize);
 			}else{
@@ -1759,7 +1759,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARA
       DestroyWindow(hWndDlg);
       break;
     case WM_COMMAND:
-		switch(LOWORD(wParam)){
+		switch(LOWORD(wParam)) {
 		case IDOK:
 			DestroyWindow(hWndDlg);
 			break;
@@ -1895,7 +1895,7 @@ INT_PTR CALLBACK SendReplyBlogStatusDlgProc(HWND hWndDlg,UINT message,WPARAM wPa
       DestroyWindow(hWndDlg);
       break;
     case WM_COMMAND:
-		switch(LOWORD(wParam)){
+		switch(LOWORD(wParam)) {
 		case IDOK:
 			{
 				DWORD dwFlags;

@@ -142,7 +142,7 @@ DWORD isSeen(HANDLE hcontact, SYSTEMTIME *st){
 					lst.wHour = DBGetContactSettingWord(hcontact,S_MOD,"Hours",0);
 					lst.wMinute = DBGetContactSettingWord(hcontact,S_MOD,"Minutes",0);
 					lst.wSecond = DBGetContactSettingWord(hcontact,S_MOD,"Seconds",0);
-					if (SystemTimeToFileTime(&lst,&ft)){
+					if (SystemTimeToFileTime(&lst,&ft)) {
 						ll = ((LONGLONG)ft.dwHighDateTime<<32)|((LONGLONG)ft.dwLowDateTime);
 						ll -= NUM100NANOSEC;
 						ll /= 10000000;
@@ -177,7 +177,7 @@ char *ParseString(char *szstring,HANDLE hcontact,BYTE isfile)
 	SYSTEMTIME st;
 
 	sztemp[0] = '\0';
-	if (!isSeen(hcontact,&st)){
+	if (!isSeen(hcontact,&st)) {
 		strcat(sztemp,Translate("<never seen>"));
 		return sztemp;
 	}
@@ -185,10 +185,10 @@ char *ParseString(char *szstring,HANDLE hcontact,BYTE isfile)
 	ci.cbSize=sizeof(CONTACTINFO);
 	ci.hContact=hcontact;
 	ci.szProto=hcontact?(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0):courProtoName;
-	for(;loop<strlen(szstring);loop++)
+	for (;loop<strlen(szstring);loop++)
 	{
 		if (sztemplen == MAXSIZE) break;
-		if((szstring[loop]!='%')&(szstring[loop]!='#'))
+		if ((szstring[loop]!='%')&(szstring[loop]!='#'))
 		{
 			strncat(sztemp,szstring+loop,1);
 			sztemplen++;
@@ -198,7 +198,7 @@ char *ParseString(char *szstring,HANDLE hcontact,BYTE isfile)
 		else
 		{
 			wantempty = (szstring[loop]=='#');
-			switch(szstring[++loop]){
+			switch(szstring[++loop]) {
 				case 'Y':
 					if (!st.wYear) goto LBL_noData;
 					sztemplen += mir_snprintf(sztemp+sztemplen,MAXSIZE-sztemplen,"%04i",st.wYear);
@@ -239,36 +239,36 @@ LBL_charPtr:
 					goto LBL_charPtr;
 
 				case 'E':
-					if(!(isetting=st.wMonth))goto LBL_noData;
+					if (!(isetting=st.wMonth))goto LBL_noData;
 					charPtr = Translate(monthnames[isetting-1]);
 					goto LBL_charPtr;
 
 				case 'e':
-					if(!(isetting=st.wMonth))goto LBL_noData;
+					if (!(isetting=st.wMonth))goto LBL_noData;
 					charPtr = Translate(mnames_short[isetting-1]);
 					goto LBL_charPtr;
 
 				case 'H':
-					if((isetting=st.wHour)==-1)goto LBL_noData;
+					if ((isetting=st.wHour)==-1)goto LBL_noData;
 					goto LBL_2DigNum;
 
 				case 'h':
-					if((isetting=st.wHour)==-1)goto LBL_noData;
-					if(!isetting) isetting=12;
+					if ((isetting=st.wHour)==-1)goto LBL_noData;
+					if (!isetting) isetting=12;
 					isetting = isetting-((isetting>12)?12:0);
 					goto LBL_2DigNum;
 
 				case 'p':
-					if((isetting=st.wHour)==-1)goto LBL_noData;
+					if ((isetting=st.wHour)==-1)goto LBL_noData;
 					charPtr = (isetting>=12)?"PM":"AM";
 					goto LBL_charPtr;
 
 				case 'M':
-					if((isetting=st.wMinute)==-1)goto LBL_noData;
+					if ((isetting=st.wMinute)==-1)goto LBL_noData;
 					goto LBL_2DigNum;
 
 				case 'S':
-					if((isetting=st.wHour)==-1)goto LBL_noData;
+					if ((isetting=st.wHour)==-1)goto LBL_noData;
 					goto LBL_2DigNum;
 
 				case 'n':
@@ -276,14 +276,14 @@ LBL_charPtr:
 					goto LBL_charPtr;
 				case 'N':
 					ci.dwFlag=CNF_NICK;
-					if(!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)){
+					if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
 						charPtr = ci.pszVal;
 					} else goto LBL_noData;
 					goto LBL_charPtr;
 				case 'G':
 					{
 						DBVARIANT dbv;
-						if (!DBGetContactSetting(hcontact,"CList","Group",&dbv)){
+						if (!DBGetContactSetting(hcontact,"CList","Group",&dbv)) {
 							strcpy(szdbsetting,dbv.pszVal);
 							DBFreeVariant(&dbv);
 							charPtr = szdbsetting;
@@ -294,7 +294,7 @@ LBL_charPtr:
 
 				case 'u':
 					ci.dwFlag=CNF_UNIQUEID;
-					if(!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci))
+					if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci))
 					{
 						switch(ci.type)
 						{
@@ -339,9 +339,9 @@ LBL_charPtr:
 					goto LBL_charPtr;
 
 				case 's':
-					if (isetting=DBGetContactSettingWord(hcontact,S_MOD,hcontact?"StatusTriger":courProtoName,0)){
+					if (isetting=DBGetContactSettingWord(hcontact,S_MOD,hcontact?"StatusTriger":courProtoName,0)) {
 						strcpy(szdbsetting,Translate((const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)(isetting|0x8000),0)));
-						if (!(isetting&0x8000)){
+						if (!(isetting&0x8000)) {
 							strcat(szdbsetting,"/");
 							strcat(szdbsetting,Translate("Idle"));
 						}
@@ -351,16 +351,16 @@ LBL_charPtr:
 				case 'T':
 					{
 						DBVARIANT dbv;
-						if (!DBGetContactSetting(hcontact,"CList","StatusMsg",&dbv)){
+						if (!DBGetContactSetting(hcontact,"CList","StatusMsg",&dbv)) {
 							sztemplen += mir_snprintf(sztemp+sztemplen,MAXSIZE-sztemplen,"%s",dbv.pszVal);
 							DBFreeVariant(&dbv);
 						} else goto LBL_noData;
 					}
 					break;
 				case 'o':
-					if (isetting=DBGetContactSettingWord(hcontact,S_MOD,hcontact?"OldStatus":courProtoName,0)){
+					if (isetting=DBGetContactSettingWord(hcontact,S_MOD,hcontact?"OldStatus":courProtoName,0)) {
 						strcpy(szdbsetting,Translate((const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)isetting,0)));
-						if (includeIdle) if (hcontact) if (DBGetContactSettingByte(hcontact,S_MOD,"OldIdle",0)){
+						if (includeIdle) if (hcontact) if (DBGetContactSettingByte(hcontact,S_MOD,"OldIdle",0)) {
 							strcat(szdbsetting,"/");
 							strcat(szdbsetting,Translate("Idle"));
 						}
@@ -369,9 +369,9 @@ LBL_charPtr:
 					goto LBL_charPtr;
 
 				case 'i':
-				case 'r': if (isJabber(ci.szProto)){
+				case 'r': if (isJabber(ci.szProto)) {
 							DBVARIANT dbv;
-							if (!DBGetContactSetting(hcontact,ci.szProto,szstring[loop]=='i'?"Resource":"System",&dbv)){
+							if (!DBGetContactSetting(hcontact,ci.szProto,szstring[loop]=='i'?"Resource":"System",&dbv)) {
 								strcpy(szdbsetting,dbv.pszVal);
 								DBFreeVariant(&dbv);
 								charPtr = szdbsetting;
@@ -410,7 +410,7 @@ LBL_charPtr:
 						} else strcpy(szdbsetting,"Miranda");
 					} else {
 						DBVARIANT dbv;
-						if (!DBGetContactSetting(hcontact,ci.szProto,"MirVer",&dbv)){
+						if (!DBGetContactSetting(hcontact,ci.szProto,"MirVer",&dbv)) {
 							strcpy(szdbsetting,dbv.pszVal);
 							DBFreeVariant(&dbv);
 						} else goto LBL_noData;
@@ -514,9 +514,9 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 
 void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus){
 	if(CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
-	if (ServiceExists(MS_POPUP_QUERY)){
-		if (DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0)){
-			if (!DBGetContactSettingByte(hcontact,"CList","Hidden",0)){
+	if (ServiceExists(MS_POPUP_QUERY)) {
+		if (DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0)) {
+			if (!DBGetContactSettingByte(hcontact,"CList","Hidden",0)) {
 				POPUPDATAEX ppd = {0};
 				DBVARIANT dbv = {0};
 				char szstamp[10];
@@ -540,15 +540,15 @@ void ShowPopup(HANDLE hcontact, const char * lpzProto, int newStatus){
 void myPlaySound(HANDLE hcontact, WORD newStatus, WORD oldStatus){
 	if(CallService(MS_IGNORE_ISIGNORED,(WPARAM)hcontact,IGNOREEVENT_USERONLINE)) return;
 	//oldStatus and hcontact are not used yet
-	if (DBGetContactSettingByte(NULL,"Skin","UseSound",1)){
+	if (DBGetContactSettingByte(NULL,"Skin","UseSound",1)) {
 		char * soundname=0;
 		if ((newStatus==ID_STATUS_ONLINE) || (newStatus==ID_STATUS_FREECHAT)) soundname = "LastSeenTrackedStatusOnline";
 		else if (newStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusOffline";
 		else if (oldStatus==ID_STATUS_OFFLINE) soundname = "LastSeenTrackedStatusFromOffline";
 		else soundname = "LastSeenTrackedStatusChange";
-		if (!DBGetContactSettingByte(NULL,"SkinSoundsOff",soundname,0)){
+		if (!DBGetContactSettingByte(NULL,"SkinSoundsOff",soundname,0)) {
 			DBVARIANT dbv;
-			if (!DBGetContactSetting(NULL,"SkinSounds",soundname,&dbv)){
+			if (!DBGetContactSetting(NULL,"SkinSounds",soundname,&dbv)) {
 				PlaySoundA(dbv.pszVal, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
 				DBFreeVariant(&dbv);
 }	}	}	}
@@ -560,7 +560,7 @@ int isContactQueueActive(HANDLE hContact){
 //		MessageBox(0,"Is myself in the queue: never","LastSeen-Mod",0);
 		return 0;
 	}
-	for (i=1;i<contactQueueSize;i++){
+	for (i=1;i<contactQueueSize;i++) {
 		if (contactQueue[i])
 			if (contactQueue[i]->hContact==hContact) return i;
 	}
@@ -574,7 +574,7 @@ int addContactToQueue(HANDLE hContact){
 //		MessageBox(0,"Adding myself to queue","LastSeen-Mod",0);
 		return 0;
 	}
-	for (i=1;i<contactQueueSize;i++){
+	for (i=1;i<contactQueueSize;i++) {
 		if (!contactQueue[i]) {
 			contactQueue[i] = malloc(sizeof(logthread_info));
 			contactQueue[i]->queueIndex = i;
@@ -645,14 +645,14 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 	//if(CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE)) return 0;
 	isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
 	if (strcmp(cws->szSetting,"Status") && strcmp(cws->szSetting,"StatusTriger") && (isIdleEvent==0)) return 0;
-	if (!strcmp(cws->szModule,S_MOD)){
+	if (!strcmp(cws->szModule,S_MOD)) {
 		//here we will come when Settings/SeenModule/StatusTriger is changed
 		WORD prevStatus=DBGetContactSettingWord(hContact,S_MOD,"OldStatus",ID_STATUS_OFFLINE);
 		if (includeIdle){
 			if (DBGetContactSettingByte(hContact,S_MOD,"OldIdle",0)) prevStatus &= 0x7FFF;
 			else prevStatus |= 0x8000;
 		}
-		if((cws->value.wVal|0x8000)<=ID_STATUS_OFFLINE)
+		if ((cws->value.wVal|0x8000)<=ID_STATUS_OFFLINE)
 		{
 			char * proto;
 			// avoid repeating the offline status
@@ -670,7 +670,7 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 				DBWriteTimeTS(t,hContact);
 			}
 
-			if(!DBGetContactSettingByte(NULL,S_MOD,"IgnoreOffline",1))
+			if (!DBGetContactSettingByte(NULL,S_MOD,"IgnoreOffline",1))
 			{
 				char * sProto;
 				if(DBGetContactSettingByte(NULL,S_MOD,"FileOutput",0))
@@ -681,7 +681,7 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 					PS_GETSTATUS,0,0
 					)>ID_STATUS_OFFLINE)	{
 					myPlaySound(hContact,ID_STATUS_OFFLINE,prevStatus);
-					if(DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0)){
+					if(DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0)) {
 						ShowPopup(hContact,sProto,ID_STATUS_OFFLINE);
 				}	}
 
@@ -710,11 +710,11 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 			if(DBGetContactSettingByte(hContact,S_MOD,"OnlineAlert",0)) ShowHistory(hContact, 1);
 			DBWriteContactSettingByte(hContact,S_MOD,"Offline",0);
 		}
-	} else if (IsWatchedProtocol(cws->szModule)){
+	} else if (IsWatchedProtocol(cws->szModule)) {
 		//here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if (CallProtoService(cws->szModule,PS_GETSTATUS,0,0)>ID_STATUS_OFFLINE){
 			int index;
-			if (!(index = isContactQueueActive(hContact))){
+			if (!(index = isContactQueueActive(hContact))) {
 				index = addContactToQueue(hContact);
 				strncpy(contactQueue[index]->sProtoName,cws->szModule,MAXMODULELABELLENGTH);
 				//forkthreadex(NULL, 0, waitThread, contactQueue[index], 0, 0);
@@ -738,7 +738,7 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 		oldStatus=DBGetContactSettingWord(hContact,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 		DBWriteContactSettingWord(hContact,"UserOnline","OldStatus",(WORD)newStatus);
 		if(DBGetContactSettingByte(hContact,"CList","Hidden",0)) return 0;
-		if((newStatus==ID_STATUS_ONLINE || newStatus==ID_STATUS_FREECHAT) &&
+		if ((newStatus==ID_STATUS_ONLINE || newStatus==ID_STATUS_FREECHAT) &&
 		   oldStatus!=ID_STATUS_ONLINE && oldStatus!=ID_STATUS_FREECHAT) {
 			BYTE supp = db_byte_get(NULL, S_MOD, "SuppCListOnline", 3); //By default no online allert :P
 			BOOL willAlert = FALSE;
@@ -793,7 +793,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 	{
 		char * contactProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
 		if (contactProto) {
-			if (!strncmp(infoParam->sProtoName,contactProto,MAXMODULELABELLENGTH)){
+			if (!strncmp(infoParam->sProtoName,contactProto,MAXMODULELABELLENGTH)) {
 				WORD oldStatus;
 				if ( (oldStatus = (DBGetContactSettingWord(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE))|0x8000)>ID_STATUS_OFFLINE){
 					if (DBGetContactSettingWord(hcontact,contactProto,"Status",ID_STATUS_OFFLINE)==ID_STATUS_OFFLINE){
@@ -846,10 +846,10 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 //	isetting=CallProtoService(ack->szModule,PS_GETSTATUS,0,0);
 	isetting=(WORD)ack->lParam;
 	if (isetting<ID_STATUS_OFFLINE) isetting = ID_STATUS_OFFLINE;
-	if ((isetting>ID_STATUS_OFFLINE)&&((WORD)ack->hProcess<=ID_STATUS_OFFLINE)){
+	if ((isetting>ID_STATUS_OFFLINE)&&((WORD)ack->hProcess<=ID_STATUS_OFFLINE)) {
 		//we have just loged-in
 		db_dword_set(NULL, "UserOnline", ack->szModule, GetTickCount());
-		if (IsWatchedProtocol(ack->szModule)){
+		if (IsWatchedProtocol(ack->szModule)) {
 			logthread_info *info;
 			info = (logthread_info *)malloc(sizeof(logthread_info));
 			strncpy(info->sProtoName,courProtoName,MAXMODULELABELLENGTH);
@@ -863,9 +863,9 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
 
 		}
-	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)){
+	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off
-		if (IsWatchedProtocol(ack->szModule)){
+		if (IsWatchedProtocol(ack->szModule)) {
 			char *str = malloc(MAXMODULELABELLENGTH+9);
 			time_t t;
 			time(&t);
@@ -890,7 +890,7 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 
 short int isDbZero(HANDLE hContact, const char *module_name, const char *setting_name){
 	DBVARIANT dbv;
-	if(!DBGetContactSetting(hContact, module_name, setting_name, &dbv)) {
+	if (!DBGetContactSetting(hContact, module_name, setting_name, &dbv)) {
 		short int res = 0;
 		switch (dbv.type) {
 			case DBVT_BYTE: res=dbv.bVal==0; break;
@@ -932,7 +932,7 @@ WCHAR *any_to_Idle(HANDLE hContact, const char *module_name, const char *setting
 	ack=(ACKDATA *)lparam;
 
 	if(ack->type!=ACKTYPE_GETINFO || ack->hContact==NULL) return 0;
-	if(((int)ack->hProcess-1)!=(int)ack->lParam) return 0;
+	if (((int)ack->hProcess-1)!=(int)ack->lParam) return 0;
 	
 	dwsetting=DBGetContactSettingDword(ack->hContact,ack->szModule,"IP",0);
 	if(dwsetting)

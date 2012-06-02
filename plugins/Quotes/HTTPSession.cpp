@@ -6,8 +6,8 @@
 class CHTTPSession::CImpl
 {
 public:
-	CImpl(){}
-	virtual ~CImpl(){}
+	CImpl() {}
+	virtual ~CImpl() {}
 
 	virtual bool OpenURL(const tstring& rsURL) = 0;
 	virtual bool ReadResponce(tstring& rsResponce)const = 0;
@@ -112,7 +112,7 @@ namespace
 	class CImplMI : public CHTTPSession::CImpl
 	{
 	public:
-		CImplMI(){}
+		CImplMI() {}
 
 		static bool Init()
 		{
@@ -182,7 +182,7 @@ namespace
 
 			if(pReply)
 			{
-				if((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
+				if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
 				{
 					TBuffer apBuffer;
 					apBuffer.insert(apBuffer.begin(),pReply->pData,pReply->pData+pReply->dataLength);
@@ -190,7 +190,7 @@ namespace
 
 					char* pResult = &*(apBuffer.begin());
 					int nIndex = find_header(pReply,"Content-Type");
-					if((-1 != nIndex) && (NULL != strstr(_strlwr(pReply->headers[nIndex].szValue),"utf-8")))
+					if ((-1 != nIndex) && (NULL != strstr(_strlwr(pReply->headers[nIndex].szValue),"utf-8")))
 					{
 						TCHAR* p = mir_utf8decodeT(pResult);
 						rsResponce = p;

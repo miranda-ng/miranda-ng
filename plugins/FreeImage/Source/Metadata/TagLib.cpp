@@ -1478,14 +1478,14 @@ TagLib::TagLib() {
 
 BOOL TagLib::addMetadataModel(MDMODEL md_model, TagInfo *tag_table) {
 	// check that the model doesn't already exist
-	if((_table_map.find(md_model) == _table_map.end()) && (tag_table != NULL)) {
+	if ((_table_map.find(md_model) == _table_map.end()) && (tag_table != NULL)) {
 
 		// add the tag description table
 		TAGINFO *info_map = new(std::nothrow) TAGINFO();
-		if(!info_map) return FALSE;
+		if (!info_map) return FALSE;
 
 		for(int i = 0; ; i++) {
-			if((tag_table[i].tag == 0) && (tag_table[i].fieldname == NULL))
+			if ((tag_table[i].tag == 0) && (tag_table[i].fieldname == NULL))
 				break;
 			(*info_map)[tag_table[i].tag] = &tag_table[i];
 		}

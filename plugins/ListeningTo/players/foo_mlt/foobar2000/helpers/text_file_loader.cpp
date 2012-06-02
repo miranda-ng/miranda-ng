@@ -48,7 +48,7 @@ namespace text_file_loader
 
 			mem.set_size(delta);
 			
-			for(;;)
+			for (;;)
 			{
 				done = p_file->read(mem.get_ptr(),delta,p_abort);
 				if (done > 0)

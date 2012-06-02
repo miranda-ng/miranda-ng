@@ -288,11 +288,11 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 	RGBQUAD *pal = fei->FI_GetPalette(dib);
 	bool have_transparent = false;
 	int transparent_color = -1;
-	if( fei->FI_IsTransparent(dib) ) {
+	if ( fei->FI_IsTransparent(dib) ) {
 		int count = fei->FI_GetTransparencyCount(dib);
 		BYTE *table = fei->FI_GetTransparencyTable(dib);
-		for( int i = 0; i < count; i++ ) {
-			if( table[i] == 0 ) {
+		for ( int i = 0; i < count; i++ ) {
+			if ( table[i] == 0 ) {
 				have_transparent = true;
 				transparent_color = i;
 				break;
@@ -301,11 +301,11 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 	}
 
 	//copy page data into logical buffer, with full alpha opaqueness
-	for( int y = 0; y < data->ag.frame.height; y++ ) {
+	for ( int y = 0; y < data->ag.frame.height; y++ ) {
 		RGBQUAD *scanline = (RGBQUAD *)fei->FI_GetScanLine(data->ag.dib, data->ag.logicalHeight - (y + data->ag.frame.top) - 1) + data->ag.frame.left;
 		BYTE *pageline = fei->FI_GetScanLine(dib, data->ag.frame.height - y - 1);
-		for( int x = 0; x < data->ag.frame.width; x++ ) {
-			if( !have_transparent || *pageline != transparent_color ) {
+		for ( int x = 0; x < data->ag.frame.width; x++ ) {
+			if ( !have_transparent || *pageline != transparent_color ) {
 				*scanline = pal[*pageline];
 				scanline->rgbReserved = 255;
 			}

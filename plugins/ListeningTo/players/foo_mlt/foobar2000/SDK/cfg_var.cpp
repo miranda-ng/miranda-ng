@@ -9,7 +9,7 @@ void cfg_var_reader::config_read_file(stream_reader * p_stream,abort_callback & 
 	for(cfg_var_reader * walk = g_list; walk != NULL; walk = walk->m_next) {
 		vars.set(walk->m_guid,walk);
 	}
-	for(;;) {
+	for (;;) {
 		
 		GUID guid;
 		t_uint32 size;

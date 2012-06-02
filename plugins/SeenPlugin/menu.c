@@ -51,7 +51,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 
 	ZeroMemory(&cmi,sizeof(cmi));
 	cmi.cbSize=sizeof(cmi);
-	if(!IsWatchedProtocol(szProto) || !DBGetContactSettingByte(NULL,S_MOD,"MenuItem",1))
+	if (!IsWatchedProtocol(szProto) || !DBGetContactSettingByte(NULL,S_MOD,"MenuItem",1))
 	{
 		cmi.flags=CMIM_FLAGS|CMIF_HIDDEN;
 	}
@@ -61,7 +61,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 		cmi.hIcon=NULL;
 		cmi.pszName=ParseString(!DBGetContactSetting(NULL,S_MOD,"MenuStamp",&dbv)?dbv.pszVal:DEFAULT_MENUSTAMP,(HANDLE)wparam,0);
 		
-		if(!strcmp(cmi.pszName,Translate("<unknown>")))
+		if (!strcmp(cmi.pszName,Translate("<unknown>")))
 		{	
 			if (IsWatchedProtocol(szProto))
 				cmi.flags|=CMIF_GRAYED;

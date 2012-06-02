@@ -153,7 +153,7 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 	struct DBEvent *dbe;
 	int index;
 
-	if((HANDLE)wParam==NULL) return 1;
+	if ((HANDLE)wParam==NULL) return 1;
 	EnterCriticalSection(&csDbAccess);
 	dbc=(struct DBContact*)DBRead(wParam,sizeof(struct DBContact),NULL);
 	if(dbc->signature!=DBCONTACT_SIGNATURE) {

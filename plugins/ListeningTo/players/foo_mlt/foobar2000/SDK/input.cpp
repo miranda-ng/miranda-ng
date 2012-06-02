@@ -203,7 +203,7 @@ void input_entry::g_open_for_info_write(service_ptr_t<input_info_writer> & p_ins
 void input_entry::g_open_for_info_write_timeout(service_ptr_t<input_info_writer> & p_instance,service_ptr_t<file> p_filehint,const char * p_path,abort_callback & p_abort,double p_timeout,bool p_from_redirect) {
 	pfc::lores_timer timer;
 	timer.start();
-	for(;;) {
+	for (;;) {
 		try {
 			g_open_for_info_write(p_instance,p_filehint,p_path,p_abort,p_from_redirect);
 			break;

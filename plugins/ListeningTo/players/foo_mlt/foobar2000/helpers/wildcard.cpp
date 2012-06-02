@@ -2,7 +2,7 @@
 
 static bool test_recur(const char * fn,const char * rm,bool b_sep)
 {
-	for(;;)
+	for (;;)
 	{
 		if ((b_sep && *rm==';') || *rm==0) return *fn==0;
 		else if (*rm=='*')

@@ -424,7 +424,7 @@ INT_PTR PopUp_Change2(WPARAM wParam, LPARAM lParam)
 
 //===== PopUp/ShowMessage
 INT_PTR PopUp_ShowMessage(WPARAM wParam, LPARAM lParam) {
-	if(!gbPopupLoaded || !wParam || !lParam) return -1;
+	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if(closing) return 0;
 
 	POPUPDATA2 ppd2 = {0};
@@ -460,7 +460,7 @@ INT_PTR PopUp_ShowMessage(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR PopUp_ShowMessageW(WPARAM wParam, LPARAM lParam) {
-	if(!gbPopupLoaded || !wParam || !lParam) return -1;
+	if (!gbPopupLoaded || !wParam || !lParam) return -1;
 	if(closing) return 0;
 
 	POPUPDATA2 ppd2 = {0};

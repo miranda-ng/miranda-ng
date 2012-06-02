@@ -261,7 +261,7 @@ StatusItems_t *GetProtocolStatusItem(const char *szProto)
         return NULL;
 
     for(i = ID_EXTBK_LAST_D - ID_STATUS_OFFLINE + 1; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
-        if(!strcmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, szProto))
+        if (!strcmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, szProto))
             return &StatusItems[i];
     }
     return NULL;
@@ -553,7 +553,7 @@ void extbk_export(char *file)
         mir_snprintf(szSection, 255, "Font%d", n);
 
         mir_snprintf(szKey, 255, "Font%dName", n);
-        if(!cfg::getString(NULL, "CLC", szKey, &dbv)) {
+        if (!cfg::getString(NULL, "CLC", szKey, &dbv)) {
             WritePrivateProfileStringA(szSection, "Name", dbv.pszVal, file);
             mir_free(dbv.pszVal);
         }
@@ -598,7 +598,7 @@ void extbk_export(char *file)
         WritePrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
         i++;
     }
-    if(!cfg::getString(NULL, "CLC", "BkBitmap", &dbv)) {
+    if (!cfg::getString(NULL, "CLC", "BkBitmap", &dbv)) {
         WritePrivateProfileStringA("Global", "BkBitmap", dbv.pszVal, file);
         DBFreeVariant(&dbv);
     }
@@ -751,7 +751,7 @@ static void IMG_CreateItem(ImageItem *item, const char *fileName, HDC hdc)
 
 static void IMG_DeleteItem(ImageItem *item)
 {
-    if(!(item->dwFlags & IMAGE_GLYPH)) {
+    if (!(item->dwFlags & IMAGE_GLYPH)) {
         SelectObject(item->hdc, item->hbmOld);
         DeleteObject(item->hbm);
         DeleteDC(item->hdc);
@@ -773,7 +773,7 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
         int i;
 
         for(i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
-            if(!_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
+            if (!_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
                 defaults = &StatusItems[i];
                 break;
             }
@@ -905,7 +905,7 @@ done_with_glyph:
             tmpItem.bStretch = IMAGE_STRETCH_H;
         tmpItem.hbm = 0;
 
-        if(!_stricmp(itemname, "$glyphs")) {
+        if (!_stricmp(itemname, "$glyphs")) {
             IMG_CreateItem(&tmpItem, szFinalName, hdc);
             if(tmpItem.hbm) {
                 newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
@@ -916,7 +916,7 @@ done_with_glyph:
             goto imgread_done;
         }
         if(itemname[0] == '@') {
-            if(!(tmpItem.dwFlags & IMAGE_GLYPH))
+            if (!(tmpItem.dwFlags & IMAGE_GLYPH))
                 IMG_CreateItem(&tmpItem, szFinalName, hdc);
             if(tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
                 ImageItem *pItem = g_ImageItems;
@@ -940,10 +940,10 @@ done_with_glyph:
         for(n = 0;;n++) {
             mir_snprintf(szItemNr, 30, "Item%d", n);
             GetPrivateProfileStringA(itemname, szItemNr, "None", buffer, 500, szFileName);
-            if(!strcmp(buffer, "None"))
+            if (!strcmp(buffer, "None"))
                 break;
-            if(!strcmp(buffer, "CLUI")) {
-                if(!(tmpItem.dwFlags & IMAGE_GLYPH))
+            if (!strcmp(buffer, "CLUI")) {
+                if (!(tmpItem.dwFlags & IMAGE_GLYPH))
                     IMG_CreateItem(&tmpItem, szFinalName, hdc);
                 if(tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
                     COLORREF clr;
@@ -964,9 +964,9 @@ done_with_glyph:
                 continue;
             }
             for(i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
-                if(!_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
-                    if(!alloced) {
-                        if(!(tmpItem.dwFlags & IMAGE_GLYPH))
+                if (!_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
+                    if (!alloced) {
+                        if (!(tmpItem.dwFlags & IMAGE_GLYPH))
                             IMG_CreateItem(&tmpItem, szFinalName, hdc);
                         if(tmpItem.hbm || tmpItem.dwFlags & IMAGE_GLYPH) {
                             newItem = reinterpret_cast<ImageItem *>(malloc(sizeof(ImageItem)));
@@ -1051,11 +1051,11 @@ static void BTN_ReadItem(char *itemName, char *file)
     tmpItem.dwFlags |= GetPrivateProfileIntA(itemName, "toggle", 0, file) ? BUTTON_ISTOGGLE : 0;
 
     GetPrivateProfileStringA(itemName, "Pressed", "None", szBuffer, 1000, file);
-    if(!_stricmp(szBuffer, "default"))
+    if (!_stricmp(szBuffer, "default"))
         tmpItem.imgPressed = StatusItems[ID_EXTBKTBBUTTONSPRESSED - ID_STATUS_OFFLINE].imageItem;
     else {
         while(imgItem) {
-            if(!_stricmp(imgItem->szName, szBuffer)) {
+            if (!_stricmp(imgItem->szName, szBuffer)) {
                 tmpItem.imgPressed = imgItem;
                 break;
             }
@@ -1065,11 +1065,11 @@ static void BTN_ReadItem(char *itemName, char *file)
 
     imgItem = g_ImageItems;
     GetPrivateProfileStringA(itemName, "Normal", "None", szBuffer, 1000, file);
-    if(!_stricmp(szBuffer, "default"))
+    if (!_stricmp(szBuffer, "default"))
         tmpItem.imgNormal = StatusItems[ID_EXTBKTBBUTTONSNPRESSED - ID_STATUS_OFFLINE].imageItem;
     else {
         while(imgItem) {
-            if(!_stricmp(imgItem->szName, szBuffer)) {
+            if (!_stricmp(imgItem->szName, szBuffer)) {
                 tmpItem.imgNormal = imgItem;
                 break;
             }
@@ -1079,11 +1079,11 @@ static void BTN_ReadItem(char *itemName, char *file)
 
     imgItem = g_ImageItems;
     GetPrivateProfileStringA(itemName, "Hover", "None", szBuffer, 1000, file);
-    if(!_stricmp(szBuffer, "default"))
+    if (!_stricmp(szBuffer, "default"))
         tmpItem.imgHover = StatusItems[ID_EXTBKTBBUTTONMOUSEOVER - ID_STATUS_OFFLINE].imageItem;
     else {
         while(imgItem) {
-            if(!_stricmp(imgItem->szName, szBuffer)) {
+            if (!_stricmp(imgItem->szName, szBuffer)) {
                 tmpItem.imgHover = imgItem;
                 break;
             }
@@ -1113,7 +1113,7 @@ static void BTN_ReadItem(char *itemName, char *file)
     tmpItem.uId = IDC_TBFIRSTUID - 1;
 
     GetPrivateProfileStringA(itemName, "Action", "Custom", szBuffer, 1000, file);
-    if(!_stricmp(szBuffer, "service")) {
+    if (!_stricmp(szBuffer, "service")) {
         tmpItem.szService[0] = 0;
         GetPrivateProfileStringA(itemName, "Service", "None", szBuffer, 1000, file);
         if(_stricmp(szBuffer, "None")) {
@@ -1122,7 +1122,7 @@ static void BTN_ReadItem(char *itemName, char *file)
             tmpItem.uId = nextButtonID++;
         }
     }
-    else if(!_stricmp(szBuffer, "protoservice")) {
+    else if (!_stricmp(szBuffer, "protoservice")) {
         tmpItem.szService[0] = 0;
         GetPrivateProfileStringA(itemName, "Service", "None", szBuffer, 1000, file);
         if(_stricmp(szBuffer, "None")) {
@@ -1131,7 +1131,7 @@ static void BTN_ReadItem(char *itemName, char *file)
             tmpItem.uId = nextButtonID++;
         }
     }
-    else if(!_stricmp(szBuffer, "database")) {
+    else if (!_stricmp(szBuffer, "database")) {
         int n;
 
         GetPrivateProfileStringA(itemName, "Module", "None", szBuffer, 1000, file);
@@ -1192,7 +1192,7 @@ static void BTN_ReadItem(char *itemName, char *file)
         int i = 0;
 
         while(top_buttons[i].id) {
-            if(!_stricmp(top_buttons[i].szIcoLibIcon, szBuffer)) {
+            if (!_stricmp(top_buttons[i].szIcoLibIcon, szBuffer)) {
                 tmpItem.uId = top_buttons[i].id;
                 tmpItem.dwFlags |= BUTTON_ISINTERNAL;
                 break;
@@ -1273,7 +1273,7 @@ void IMG_LoadItems()
 
     DBFreeVariant(&dbv);
 
-    if(!PathFileExists(tszFileName))
+    if (!PathFileExists(tszFileName))
         return;
 
 	IMG_DeleteItems();
@@ -1396,7 +1396,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
                             break;
                     }
                     for(j = 0; j < i - 1; j++) {
-                        if(!strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname)
+                        if (!strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname)
                            && lstrlenA(szProto) == lstrlenA(items[j].szName) && lstrlenA(UIN) == lstrlenA(items[j].szDBname)) {
 
                             //_DebugPopup(hContact, "Found: %s, %s", szProto, UIN);
@@ -1571,7 +1571,7 @@ static void ApplyCLUISkin()
     DBVARIANT   dbv = {0};
     TCHAR       tszFinalName[MAX_PATH];
     char        szFinalName[MAX_PATH];
-    if(!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
+    if (!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
         MY_pathToAbsolute(dbv.ptszVal, tszFinalName);
 #if defined(_UNICODE)
         WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, 0, 0);
@@ -1620,7 +1620,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
             CheckDlgButton(hwndDlg, IDC_IGNORESELFORGROUPS, cfg::getByte("CLC", "IgnoreSelforGroups", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 
-            if(!cfg::getString(NULL, "CLC", "ContactSkins", &dbv)) {
+            if (!cfg::getString(NULL, "CLC", "ContactSkins", &dbv)) {
                 SetDlgItemTextA(hwndDlg, IDC_SKINFILE, dbv.pszVal);
                 DBFreeVariant(&dbv);
                 Utils::enableDlgControl(hwndDlg, IDC_RELOAD, TRUE);
@@ -1628,7 +1628,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
             else
             	Utils::enableDlgControl(hwndDlg, IDC_RELOAD, FALSE);
             CheckDlgButton(hwndDlg, IDC_USESKIN, cfg::getByte("CLUI", "useskin", 0) ? BST_CHECKED : BST_UNCHECKED);
-            if(!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
+            if (!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
                 SetDlgItemText(hwndDlg, IDC_SKINFILENAME, dbv.ptszVal);
                 DBFreeVariant(&dbv);
             }
@@ -1676,7 +1676,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
                             int skinChanged = 0;
                             DBVARIANT dbv = {0};
 
-                            if(!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
+                            if (!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
                                 if(_tcscmp(dbv.ptszVal, final_path))
                                     skinChanged = TRUE;
                                 DBFreeVariant(&dbv);
@@ -1785,7 +1785,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
       }
 
       case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-         if(!iInit)
+         if (!iInit)
              SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
          break;
       case WM_COMMAND:
@@ -1901,7 +1901,7 @@ int CoolSB_SetupScrollBar()
         !StatusItems[ID_EXTBKSCROLLBUTTONPRESSED - ID_STATUS_OFFLINE].IGNORED;
 
 
-    if(!StatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE].imageItem ||
+    if (!StatusItems[ID_EXTBKSCROLLBACK - ID_STATUS_OFFLINE].imageItem ||
         !StatusItems[ID_EXTBKSCROLLBACKLOWER - ID_STATUS_OFFLINE].imageItem ||
         !StatusItems[ID_EXTBKSCROLLTHUMB - ID_STATUS_OFFLINE].imageItem ||
         !StatusItems[ID_EXTBKSCROLLTHUMBHOVER - ID_STATUS_OFFLINE].imageItem ||

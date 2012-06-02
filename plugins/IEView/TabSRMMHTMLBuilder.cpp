@@ -168,7 +168,7 @@ char *TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isG
 	dbtts.cbDest = 70;;
 	dbtts.szDest = str;
 
-	if(!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {
+	if (!isGroupBreak || !(dwFlags & MWF_LOG_SHOWDATES)) {
 		dbtts.szFormat = (dwFlags & MWF_LOG_SHOWSECONDS) ? (char *)"s" : (char *)"t";
 		szResult[0] = '\0';
 	}

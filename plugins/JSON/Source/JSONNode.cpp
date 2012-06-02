@@ -16,7 +16,7 @@
 #endif
 
 #define IMPLEMENT_CTOR(type)\
-    JSONNode::JSONNode(const json_string & name_t, type value_t) : internal(internalJSONNode::newInternal()){\
+    JSONNode::JSONNode(const json_string & name_t, type value_t) : internal(internalJSONNode::newInternal()) {\
 	   internal -> Set(value_t);\
 	   internal -> setname(name_t);\
 	   incAllocCount();\
@@ -24,7 +24,7 @@
 IMPLEMENT_FOR_ALL_TYPES(IMPLEMENT_CTOR)
 
 #ifndef JSON_LIBRARY
-    JSONNode::JSONNode(const json_string & name_t, const json_char * value_t) : internal(internalJSONNode::newInternal()){
+    JSONNode::JSONNode(const json_string & name_t, const json_char * value_t) : internal(internalJSONNode::newInternal()) {
 	   internal -> Set(json_string(value_t));
 	   internal -> setname(name_t);
 	   incAllocCount();
@@ -103,7 +103,7 @@ void JSONNode::cast(char newtype){
 #ifdef JSON_REF_COUNT
 void JSONNode::merge(JSONNode & other){
 #else
-void JSONNode::merge(JSONNode &){
+void JSONNode::merge(JSONNode &) {
 #endif
     JSON_CHECK_INTERNAL();
     #ifdef JSON_REF_COUNT
@@ -125,9 +125,9 @@ void JSONNode::merge(JSONNode &){
     }
 
     //different just to supress the warning
-    void JSONNode::merge(unsigned int num, ...){
+    void JSONNode::merge(unsigned int num, ...) {
 #else
-    void JSONNode::merge(unsigned int, ...){
+    void JSONNode::merge(unsigned int, ...) {
 #endif
     JSON_CHECK_INTERNAL();
     #ifdef JSON_REF_COUNT
@@ -153,7 +153,7 @@ JSONNode JSONNode::duplicate(void) const {
 
 JSONNode & JSONNode::at(json_index_t pos){
     JSON_CHECK_INTERNAL();
-    if (pos >= internal -> size()){
+    if (pos >= internal -> size()) {
 	   JSON_FAIL(JSON_TEXT("at() out of bounds"));
 	   throw std::out_of_range(EMPTY_STRING2);
     }
@@ -162,7 +162,7 @@ JSONNode & JSONNode::at(json_index_t pos){
 
 const JSONNode & JSONNode::at(json_index_t pos) const {
     JSON_CHECK_INTERNAL();
-    if (pos >= internal -> size()){
+    if (pos >= internal -> size()) {
 	   JSON_FAIL(JSON_TEXT("at() const out of bounds"));
 	   throw std::out_of_range(EMPTY_STRING2);
     }
@@ -186,7 +186,7 @@ JSONNode & JSONNode::at(const json_string & name_t){
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("at a non-iteratable node"));
     makeUniqueInternal();
-    if (JSONNode ** res = internal -> at(name_t)){
+    if (JSONNode ** res = internal -> at(name_t)) {
 	   return *(*res);
     }
     JSON_FAIL(json_string(JSON_TEXT("at could not find child by name: ")) + name_t);
@@ -196,7 +196,7 @@ JSONNode & JSONNode::at(const json_string & name_t){
 const JSONNode & JSONNode::at(const json_string & name_t) const {
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("at a non-iteratable node"));
-    if (JSONNode ** res = internal -> at(name_t)){
+    if (JSONNode ** res = internal -> at(name_t)) {
 	   return *(*res);
     }
     JSON_FAIL(json_string(JSON_TEXT("at const could not find child by name: ")) + name_t);
@@ -208,7 +208,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const {
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("at a non-iteratable node"));
 	   makeUniqueInternal();
-	   if (JSONNode ** res = internal -> at_nocase(name_t)){
+	   if (JSONNode ** res = internal -> at_nocase(name_t)) {
 		  return *(*res);
 	   }
 	   JSON_FAIL(json_string(JSON_TEXT("at_nocase could not find child by name: ")) + name_t);
@@ -218,7 +218,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const {
     const JSONNode & JSONNode::at_nocase(const json_string & name_t) const {
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("at a non-iteratable node"));
-	   if (JSONNode ** res = internal -> at_nocase(name_t)){
+	   if (JSONNode ** res = internal -> at_nocase(name_t)) {
 		  return *(*res);
 	   }
 	   JSON_FAIL(json_string(JSON_TEXT("at_nocase const could not find child by name: ")) + name_t);
@@ -240,7 +240,7 @@ const JSONNode & JSONNode::at(const json_string & name_t) const {
 
 JSONNode JSON_PTR_LIB JSONNode::pop_back(json_index_t pos){
     JSON_CHECK_INTERNAL();
-    if (pos >= internal -> size()){
+    if (pos >= internal -> size()) {
 	   JSON_FAIL(JSON_TEXT("pop_back out of bounds"));
 	   throw std::out_of_range(EMPTY_STRING2);
     }
@@ -259,7 +259,7 @@ JSONNode JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t){
     #ifdef JSON_LIBRARY
 	   return internal -> pop_back(name_t);
     #else
-	   if (JSONNode * res = internal -> pop_back(name_t)){
+	   if (JSONNode * res = internal -> pop_back(name_t)) {
 		  auto_delete temp(res);
 		  return *(temp.mynode);
 	   }
@@ -275,7 +275,7 @@ JSONNode JSON_PTR_LIB JSONNode::pop_back(const json_string & name_t){
 	   #ifdef JSON_LIBRARY
 		  return internal -> pop_back_nocase(name_t);
 	   #else
-		  if (JSONNode * res = internal -> pop_back_nocase(name_t)){
+		  if (JSONNode * res = internal -> pop_back_nocase(name_t)) {
 			 auto_delete temp(res);
 			 return *(temp.mynode);
 		  }

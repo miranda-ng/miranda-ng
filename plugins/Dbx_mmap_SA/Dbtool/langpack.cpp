@@ -76,7 +76,7 @@ void ConvertBackslashes(char *str, UINT fileCp)
 	char *pstr;
 	for (pstr = str; *pstr; pstr = CharNextExA(fileCp, pstr, 0)) 
 	{
-		if( *pstr == '\\' ) 
+		if ( *pstr == '\\' ) 
 		{
 			switch( pstr[1] ) 
 			{
@@ -215,11 +215,11 @@ static int LoadLangPack(const TCHAR *szLangPack)
 		pszColon=strchr(line,':');
 		if(pszColon==NULL) {fclose(fp); return 3;}
 		*pszColon=0;
-		if(!lstrcmpA(line,"Language")) {_snprintf(langPack.language,sizeof(langPack.language),"%s",pszColon+1); TrimString(langPack.language);}
-		else if(!lstrcmpA(line,"Last-Modified-Using")) {_snprintf(langPack.lastModifiedUsing,sizeof(langPack.lastModifiedUsing),"%s",pszColon+1); TrimString(langPack.lastModifiedUsing);}
-		else if(!lstrcmpA(line,"Authors")) {_snprintf(langPack.authors,sizeof(langPack.authors),"%s",pszColon+1); TrimString(langPack.authors);}
-		else if(!lstrcmpA(line,"Author-email")) {_snprintf(langPack.authorEmail,sizeof(langPack.authorEmail),"%s",pszColon+1); TrimString(langPack.authorEmail);}
-		else if(!lstrcmpA(line, "Locale")) {
+		if (!lstrcmpA(line,"Language")) {_snprintf(langPack.language,sizeof(langPack.language),"%s",pszColon+1); TrimString(langPack.language);}
+		else if (!lstrcmpA(line,"Last-Modified-Using")) {_snprintf(langPack.lastModifiedUsing,sizeof(langPack.lastModifiedUsing),"%s",pszColon+1); TrimString(langPack.lastModifiedUsing);}
+		else if (!lstrcmpA(line,"Authors")) {_snprintf(langPack.authors,sizeof(langPack.authors),"%s",pszColon+1); TrimString(langPack.authors);}
+		else if (!lstrcmpA(line,"Author-email")) {_snprintf(langPack.authorEmail,sizeof(langPack.authorEmail),"%s",pszColon+1); TrimString(langPack.authorEmail);}
+		else if (!lstrcmpA(line, "Locale")) {
 			char szBuf[20], *stopped;
 
 			TrimString(pszColon + 1);
@@ -249,7 +249,7 @@ static int LoadLangPack(const TCHAR *szLangPack)
 			pszLine = line+1;
 			line[lstrlenA(line)-1]='\0';
 			TrimStringSimple(line);
-			if(++langPack.entryCount>entriesAlloced) {
+			if (++langPack.entryCount>entriesAlloced) {
 				entriesAlloced+=128;
 				langPack.entry=(struct LangPackEntry*)realloc(langPack.entry,sizeof(struct LangPackEntry)*entriesAlloced);
 			}
@@ -339,9 +339,9 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd,LPARAM lParam)
 	int id = GetDlgCtrlID( hwnd );
 
 	GetClassName(hwnd,szClass,SIZEOF(szClass));
-	if(!lstrcmpi(szClass,_T("static")) || !lstrcmpi(szClass,_T("hyperlink")) || !lstrcmpi(szClass,_T("button")) || !lstrcmpi(szClass,_T("MButtonClass")))
+	if (!lstrcmpi(szClass,_T("static")) || !lstrcmpi(szClass,_T("hyperlink")) || !lstrcmpi(szClass,_T("button")) || !lstrcmpi(szClass,_T("MButtonClass")))
 		TranslateWindow(hwnd);
-	else if(!lstrcmpi(szClass,_T("edit"))) {
+	else if (!lstrcmpi(szClass,_T("edit"))) {
 		if ( GetWindowLong(hwnd,GWL_STYLE)&ES_READONLY)
 			TranslateWindow(hwnd);
 	}

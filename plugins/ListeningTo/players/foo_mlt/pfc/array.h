@@ -224,7 +224,7 @@ namespace pfc {
 		template<typename t_array1, typename t_array2>
 		static int compare(const t_array1 & p_array1, const t_array2 & p_array2) {
 			t_size walk = 0;
-			for(;;) {
+			for (;;) {
 				if (walk >= p_array1.get_size() && walk >= p_array2.get_size()) return 0;
 				else if (walk >= p_array1.get_size()) return -1;
 				else if (walk >= p_array2.get_size()) return 1;

@@ -922,7 +922,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 		dat->dwFlags &= ~MWF_SAVEBTN_SAV;
 		mir_free(utfText);
 
-		if(!fAvail)
+		if (!fAvail)
 			return(0);
 	}
 

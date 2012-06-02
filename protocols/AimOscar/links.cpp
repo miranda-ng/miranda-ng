@@ -147,7 +147,7 @@ static INT_PTR ServiceParseAimLink(WPARAM /*wParam*/,LPARAM lParam)
 		return 0;
 	}
 	/* open a chatroom */
-	else if(!_tcsnicmp(arg, _T("gochat?"), 7)) 
+	else if (!_tcsnicmp(arg, _T("gochat?"), 7)) 
 	{
 		TCHAR *tok, *tok2;
 		char *rm = NULL;

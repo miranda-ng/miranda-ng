@@ -49,7 +49,7 @@ TIFFCIELabToXYZ(TIFFCIELabToRGB *cielab, uint32 l, int32 a, int32 b,
 	float L = (float)l * 100.0F / 255.0F;
 	float cby, tmp;
 
-	if( L < 8.856F ) {
+	if ( L < 8.856F ) {
 		*Y = (L * cielab->Y0) / 903.292F;
 		cby = 7.787F * (*Y / cielab->Y0) + 16.0F / 116.0F;
 	} else {
@@ -58,13 +58,13 @@ TIFFCIELabToXYZ(TIFFCIELabToRGB *cielab, uint32 l, int32 a, int32 b,
 	}
 
 	tmp = (float)a / 500.0F + cby;
-	if( tmp < 0.2069F )
+	if ( tmp < 0.2069F )
 		*X = cielab->X0 * (tmp - 0.13793F) / 7.787F;
 	else    
 		*X = cielab->X0 * tmp * tmp * tmp;
 
 	tmp = cby - (float)b / 200.0F;
-	if( tmp < 0.2069F )
+	if ( tmp < 0.2069F )
 		*Z = cielab->Z0 * (tmp - 0.13793F) / 7.787F;
 	else    
 		*Z = cielab->Z0 * tmp * tmp * tmp;

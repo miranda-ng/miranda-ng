@@ -5,7 +5,7 @@ inline bool IsWithinAccuracy(double dValue1, double dValue2, double dAccuracy = 
 {
 	double dDifference = dValue1 - dValue2 ;
 
-	if((-dAccuracy <= dDifference) && (dDifference <= dAccuracy))
+	if ((-dAccuracy <= dDifference) && (dDifference <= dAccuracy))
 		return true ;
 	else
 		return false ;

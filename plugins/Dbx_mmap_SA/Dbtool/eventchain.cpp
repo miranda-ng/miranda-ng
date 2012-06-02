@@ -44,7 +44,7 @@ static void ConvertOldEvent( DBEvent*& dbei )
 				break;
 	}	}	}
 	else {
-		if( !is_utf8_string(( char* )dbei->blob) )
+		if ( !is_utf8_string(( char* )dbei->blob) )
 			dbei->flags &= ~DBEF_UTF;
 	}
 
@@ -132,7 +132,7 @@ int WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		FinishUp(ofsDestPrevEvent,dbc);
 		return ERROR_NO_MORE_ITEMS;
 	}
-	if(!SignatureValid(ofsThisEvent,DBEVENT_SIGNATURE))
+	if (!SignatureValid(ofsThisEvent,DBEVENT_SIGNATURE))
 	{
 		DWORD ofsNew = 0;
 		DWORD ofsTmp = dbc->ofsLastEvent;
@@ -163,7 +163,7 @@ int WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	}
 
 	if(firstTime) {
-		if(!(dbeOld.flags&DBEF_FIRST)) {
+		if (!(dbeOld.flags&DBEF_FIRST)) {
 			AddToStatus(STATUS_WARNING,TranslateT("First event not marked as such: correcting"));
 			dbeOld.flags|=DBEF_FIRST;
 		}
@@ -180,7 +180,7 @@ int WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		dbeOld.flags&=(DBEF_FIRST|DBEF_READ|DBEF_SENT|DBEF_RTL|DBEF_UTF);
 	}
 
-	if(!(dbeOld.flags&(DBEF_READ|DBEF_SENT))) {
+	if (!(dbeOld.flags&(DBEF_READ|DBEF_SENT))) {
 		if(opts.bMarkRead) dbeOld.flags|=DBEF_READ;
 		else if(ofsFirstUnread==0) {
 			if(dbc->ofsFirstUnreadEvent!=ofsThisEvent || dbc->timestampFirstUnread!=dbeOld.timestamp)
@@ -211,12 +211,12 @@ int WorkEventChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		return ERROR_NO_MORE_ITEMS;
 	}
 
-	if((dbeNew->ofsModuleName=ConvertModuleNameOfs(dbeOld.ofsModuleName))==0) {
+	if ((dbeNew->ofsModuleName=ConvertModuleNameOfs(dbeOld.ofsModuleName))==0) {
 		ofsThisEvent=dbeOld.ofsNext;
 		return ERROR_SUCCESS;
 	}
 
-	if(!firstTime && dbeOld.ofsPrev!=ofsPrevEvent)
+	if (!firstTime && dbeOld.ofsPrev!=ofsPrevEvent)
 		AddToStatus(STATUS_WARNING,TranslateT("Event not backlinked correctly: fixing"));
 
 	dbeNew->flags=dbeOld.flags;

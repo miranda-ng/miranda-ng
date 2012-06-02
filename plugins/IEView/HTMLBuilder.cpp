@@ -258,7 +258,7 @@ wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char* szProto) {
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
-				if(!wcscmp((wchar_t *)ci.pszVal, TranslateW(L"'(Unknown Contact)'"))) {
+				if (!wcscmp((wchar_t *)ci.pszVal, TranslateW(L"'(Unknown Contact)'"))) {
 					ci.dwFlag &= ~CNF_UNICODE;
 					if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 						szName = Utils::convertToWCS((char *)ci.pszVal);

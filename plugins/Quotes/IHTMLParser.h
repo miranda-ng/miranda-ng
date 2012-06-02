@@ -14,8 +14,8 @@ public:
 	};
 
 public:
-	IHTMLNode(){}
-	virtual ~IHTMLNode(){}
+	IHTMLNode() {}
+	virtual ~IHTMLNode() {}
 
 	virtual size_t GetChildCount()const = 0;
 	virtual THTMLNodePtr GetChildPtr(size_t nIndex) = 0;
@@ -32,8 +32,8 @@ class IHTMLParser
 public:
 	typedef IHTMLNode::THTMLNodePtr THTMLNodePtr;
 public:
-	IHTMLParser(){}
-	virtual ~IHTMLParser(){}
+	IHTMLParser() {}
+	virtual ~IHTMLParser() {}
 
 	virtual THTMLNodePtr ParseString(const tstring& rsHTML) = 0;
 };

@@ -682,11 +682,11 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 //						{
 //							DWORD tick=GetTickCount();
 							res=GetOpenFileNameA(&ofn);
-//							if(!res) 
+//							if (!res) 
 //								if (GetTickCount()-tick<100)
 //								{
 //									res=GetOpenFileNameA(&ofn);
-//									if(!res) break;
+//									if (!res) break;
 //								}
 //								else break;
 						//}

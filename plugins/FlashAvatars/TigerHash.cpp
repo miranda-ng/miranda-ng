@@ -166,7 +166,7 @@ void TigerHash::update(const void* data, size_t length) {
 		pos += n;
 		length -= n;
 
-		if((tmppos + n) == BLOCK_SIZE) {
+		if ((tmppos + n) == BLOCK_SIZE) {
 #ifdef TIGER_BIG_ENDIAN
 			for(j=0; j<BLOCK_SIZE; j++)
 			        buf[j^7]=((uint8_t*)tmp)[j];

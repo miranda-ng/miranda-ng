@@ -56,7 +56,7 @@ void Quotes_IconsInit()
 
 //	TCHAR* szRootSection = TranslateTS(A2T(QUOTES_PROTOCOL_NAME));
 
-	for( int i = 0; i < SIZEOF(iconList); i++ )
+	for ( int i = 0; i < SIZEOF(iconList); i++ )
 	{
 //		char szSettingName[100];
 // 		TCHAR szSectionName[100];

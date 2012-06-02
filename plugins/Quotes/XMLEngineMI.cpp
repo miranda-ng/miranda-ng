@@ -154,7 +154,7 @@ IXMLNode::TXMLNodePtr CXMLEngineMI::LoadFile(const tstring& rsFileName)const
 	if(0 == ::_tfopen_s(&stream,rsFileName.c_str(),_T("r")))
 	{
 		struct _stat st;
-		if(-1 != ::_fstat(::_fileno(stream),&st))
+		if (-1 != ::_fstat(::_fileno(stream),&st))
 		{
 			std::vector<char> aBuffer(st.st_size+1);
 			char* pBuffer = &*(aBuffer.begin());

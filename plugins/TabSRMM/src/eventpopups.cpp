@@ -57,7 +57,7 @@ static const PLUGIN_DATAT* PU_GetByContact(const HANDLE hContact)
 	if(PopupList.size()) {
 		PopupListIterator it = PopupList.begin();
 		while(it != PopupList.end()) {
-			if((*it)->hContact == hContact)
+			if ((*it)->hContact == hContact)
 				return(*it);
 			it++;
 		}
@@ -77,9 +77,9 @@ static void PU_CleanUp()
 		while(it != PopupList.end()) {
 			if(PopupList.size() == 0)
 				break;
-			if((*it)->hContact == 0) {
+			if ((*it)->hContact == 0) {
 				//_DebugTraceW(_T("found stale popup %s"), (*it)->eventData->szText);
-				if((*it)->eventData)
+				if ((*it)->eventData)
 					free((*it)->eventData);
 				free(*it);
 				it = PopupList.erase(it);
@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			HIMAGELIST himl = (HIMAGELIST)SendDlgItemMessage(hWnd, IDC_EVENTOPTIONS, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 			ImageList_Destroy(himl);
 
-			if(!PluginConfig.g_PopupAvail) {
+			if (!PluginConfig.g_PopupAvail) {
 				HWND	hwndChild = FindWindowEx(hWnd, 0, 0, 0);
 				while(hwndChild) {
 					ShowWindow(hwndChild, SW_HIDE);
@@ -563,7 +563,7 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 			break;
 		case EVENTTYPE_FILE:
 			if(pBlob) {
-				if(!nen_options.bPreview) {
+				if (!nen_options.bPreview) {
 					commentFix = mir_tstrdup(CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE));
 					break;
 				}
@@ -627,7 +627,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 
 	pdata = const_cast<PLUGIN_DATAT *>(PU_GetByContact(hContact));
 
-	if(!pdata)
+	if (!pdata)
 		return(1);
 
 	ZeroMemory((void *)&dbe, sizeof(dbe));

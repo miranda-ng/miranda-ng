@@ -67,7 +67,7 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 	TCHAR szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1],*p;
 	HANDLE hFile;
 
-	if(!GetModuleFileName(hInst,szFileFrom,SIZEOF(szFileFrom)-lstrlen(pszFileName)))
+	if (!GetModuleFileName(hInst,szFileFrom,SIZEOF(szFileFrom)-lstrlen(pszFileName)))
 		return;
 	p=_tcsrchr(szFileFrom,_T('\\'));
 	if(p!=NULL) *(++p)=0;
@@ -77,7 +77,7 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 	if(hFile==INVALID_HANDLE_VALUE) return;
 	CloseHandle(hFile);
 
-	if(!GetModuleFileName(NULL,szFileTo,SIZEOF(szFileTo)-lstrlen(pszDestSubDir)-lstrlen(pszFileName)))
+	if (!GetModuleFileName(NULL,szFileTo,SIZEOF(szFileTo)-lstrlen(pszDestSubDir)-lstrlen(pszFileName)))
 		return;
 	p=_tcsrchr(szFileTo,_T('\\'));
 	if(p!=NULL) *(++p)=0;
@@ -85,7 +85,7 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 	CreateDirectory(szFileTo,NULL);
 	lstrcat(szFileTo,pszFileName);  /* buffer safe */
 
-	if(!MoveFile(szFileFrom,szFileTo) && GetLastError()==ERROR_ALREADY_EXISTS) {
+	if (!MoveFile(szFileFrom,szFileTo) && GetLastError()==ERROR_ALREADY_EXISTS) {
 		DeleteFile(szFileTo);
 		MoveFile(szFileFrom,szFileTo);
 	}

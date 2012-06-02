@@ -213,7 +213,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 
     //Get Code Page name
     CPINFOEX info;
-    if (GetCPInfoEx(cp, 0, &info)){
+    if (GetCPInfoEx(cp, 0, &info)) {
 		#ifdef YAMN_DEBUG
 		BOOLEAN found = FALSE;
 		#endif
@@ -542,7 +542,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 static void UnloadPlugins()
 {
 	for (int i = iDllPlugins-1;i>=0;i--) {
-		if (FreeLibrary(hDllPlugins[i])){
+		if (FreeLibrary(hDllPlugins[i])) {
 			hDllPlugins[i] = NULL;				//for safety
 			iDllPlugins --;
 		}

@@ -152,7 +152,7 @@ namespace
 		input.imbue(std::locale("English_United States.1252"));
 		input >> rdValue;
 
-		if((true == input.bad()) || (true == input.fail()))
+		if ((true == input.bad()) || (true == input.fail()))
 		{
 			tistringstream inputSys(rsText);
 			input.imbue(GetSystemLocale());
@@ -240,7 +240,7 @@ namespace
 
 		assert(pValue);
 
-		if((pValue) && (true == get_double_value(sDiff,*pValue)))
+		if ((pValue) && (true == get_double_value(sDiff,*pValue)))
 		{
 			rInfo.m_nFlags |= nItem;
 			return true;
@@ -315,10 +315,10 @@ void CQuotesProviderGoogleFinance::RefreshQuotes(TContracts& anContacts)
 
 		tstring sFullURL = build_url(hContact,sURL);
 // 		LogIt(Info,sFullURL);
-		if((true == http.OpenURL(sFullURL)) && (true == IsOnline()))
+		if ((true == http.OpenURL(sFullURL)) && (true == IsOnline()))
 		{
 			tstring sHTML;
-			if((true == http.ReadResponce(sHTML)) && (true == IsOnline()))
+			if ((true == http.ReadResponce(sHTML)) && (true == IsOnline()))
 			{
 // 				LogIt(Info,sHTML);
 

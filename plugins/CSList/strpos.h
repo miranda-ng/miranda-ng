@@ -58,7 +58,7 @@ int strpos( STRING haystack, STRING needle )
 		pDest = (STRING) wcsstr( haystack, needle );
 	#endif /* UNICODE */
 
-	if( pDest )
+	if ( pDest )
 		position = pDest - haystack;
 	else
 	{

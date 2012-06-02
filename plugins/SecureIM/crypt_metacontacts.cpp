@@ -4,7 +4,7 @@
 BOOL isProtoMetaContacts(HANDLE hContact) {
     if(bMetaContacts) {
     	LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-    	if( proto && strcmp(proto,"MetaContacts")==0 ) {
+    	if ( proto && strcmp(proto,"MetaContacts")==0 ) {
     		return true;
     	}
     }
@@ -47,10 +47,10 @@ void DeinitMetaContact(HANDLE hContact) {
 
 	HANDLE hMetaContact = isProtoMetaContacts(hContact) ? hContact : getMetaContact(hContact);
 
-	if( hMetaContact ) {
+	if ( hMetaContact ) {
 		for(int i=0;i<CallService(MS_MC_GETNUMCONTACTS,(WPARAM)hMetaContact,0);i++) {
 			HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)hMetaContact,(LPARAM)i);
-			if( hSubContact && isContactSecured(hSubContact)&SECURED ) {
+			if ( hSubContact && isContactSecured(hSubContact)&SECURED ) {
 				CallContactService(hSubContact,PSS_MESSAGE,(WPARAM)PREF_METANODB,(LPARAM)SIG_DEIN);
 			}
 		}

@@ -438,7 +438,7 @@ INT CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 			str = (LPSTR)mir_alloc(baselen + 6);
 			assert(str != NULL);
 			// encode data
-			if (Base64Encode(dbv.pbVal, dbv.cpbVal, str+1, &baselen, BASE64_FLAG_NOCRLF)){
+			if (Base64Encode(dbv.pbVal, dbv.cpbVal, str+1, &baselen, BASE64_FLAG_NOCRLF)) {
 				if (baselen){
 					str[baselen+1] = 0;
 					str[0] = 'n';
@@ -683,7 +683,7 @@ INT CExImContactXML::LoadXmlElemnt(TiXmlElement *xContact)
 						baselen	= Base64DecodeGetRequiredLength(len);
 						pbVal	= (PBYTE)mir_alloc(baselen /*+1*/);
 						if (pbVal != NULL){
-							if (Base64Decode(pUID, len, pbVal, &baselen)){
+							if (Base64Decode(pUID, len, pbVal, &baselen)) {
 								uidn(pbVal, baselen);
 							}
 							else {
@@ -934,14 +934,14 @@ INT CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 			isMetaModule	= DB::Module::IsMeta(pszModule);
 
 			// just ignore MetaModule on normal contact to avoid errors (only keys)
-			if(!isProtoModule && isMetaModule) {
+			if (!isProtoModule && isMetaModule) {
 				continue;
 			}
 			// just ignore MetaModule on Meta to avoid errors (only import spetial keys)
 			else if(isProtoModule && isMetaModule) {
 				if (!mir_stricmp(xKey->Attribute("key"),"Nick") ||
 					!mir_stricmp(xKey->Attribute("key"),"TzName") ||
-					!mir_stricmp(xKey->Attribute("key"),"Timezone") ){
+					!mir_stricmp(xKey->Attribute("key"),"Timezone") ) {
 					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK) {
 						_pXmlFile->_numSettingsDone++;
 					}
@@ -1040,7 +1040,7 @@ INT CExImContactXML::ImportSetting(LPCSTR pszModule, TiXmlElement *xmlEntry)
 			cws.value.type = DBVT_BLOB;
 			cws.value.pbVal = (PBYTE)mir_alloc(baselen +1);
 			if (cws.value.pbVal != NULL){
-				if (Base64Decode((value + 1), len, cws.value.pbVal, &baselen)){
+				if (Base64Decode((value + 1), len, cws.value.pbVal, &baselen)) {
 					cws.value.cpbVal = baselen;
 				}
 				else {

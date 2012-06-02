@@ -46,7 +46,7 @@ read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
 
 	WORD tag_id;
 
-	if(!dataptr || (datalen == 0)) {
+	if (!dataptr || (datalen == 0)) {
 		return FALSE;
 	}
 
@@ -59,7 +59,7 @@ read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
     // find start of the BIM portion of the binary data
     size_t offset = 0;
 	while(offset < length - 1) {
-		if((profile[offset] == 0x1C) && (profile[offset+1] == 0x02))
+		if ((profile[offset] == 0x1C) && (profile[offset+1] == 0x02))
 			break;
 		offset++;
 	}
@@ -211,7 +211,7 @@ append_iptc_tag(BYTE *profile, unsigned *profile_size, WORD id, DWORD length, co
 	// calculate the new buffer size
 	size_t buffer_size = (5 + *profile_size + length) * sizeof(BYTE);
 	buffer = (BYTE*)malloc(buffer_size);
-	if(!buffer)
+	if (!buffer)
 		return NULL;
 
 	// add the header

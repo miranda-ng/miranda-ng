@@ -242,7 +242,7 @@ void	PopupWnd2::create()
 		if (m_options->DropShadow && !(style & CS_DROPSHADOW)) {
 			style |= CS_DROPSHADOW;
 		}
-		else if (!m_options->DropShadow && (style & CS_DROPSHADOW)){
+		else if (!m_options->DropShadow && (style & CS_DROPSHADOW)) {
 			style &= ~CS_DROPSHADOW;
 		}
 		SetClassLongPtr(m_hwnd, GCL_STYLE, style);
@@ -1092,7 +1092,7 @@ BOOL	IsUtfSendAvailable(HANDLE hContact)
 	//check for MetaContact and get szProto from subcontact
 	if(strcmp(szProto, gszMetaProto)==0) {
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
-		if(!hSubContact) return FALSE;
+		if (!hSubContact) return FALSE;
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hSubContact, 0);
 	}
 	return(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
@@ -1470,7 +1470,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 			if (i == m_actionCount)
 			{
-				if(PopUpOptions.overrideLeft!=false && (m_hContact!=NULL || PopUpOptions.overrideLeft == 5 ||  PopUpOptions.overrideLeft == 6)){
+				if(PopUpOptions.overrideLeft!=false && (m_hContact!=NULL || PopUpOptions.overrideLeft == 5 ||  PopUpOptions.overrideLeft == 6)) {
 					switch (PopUpOptions.overrideLeft){
 						default:
 						case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
@@ -1493,7 +1493,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_MBUTTONUP:
 		{
-			if(PopUpOptions.overrideMiddle!=false && (m_hContact!=NULL || PopUpOptions.overrideMiddle == 5 ||  PopUpOptions.overrideMiddle == 6)){
+			if(PopUpOptions.overrideMiddle!=false && (m_hContact!=NULL || PopUpOptions.overrideMiddle == 5 ||  PopUpOptions.overrideMiddle == 6)) {
 				switch (PopUpOptions.overrideMiddle){
 					default:
 					case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
@@ -1510,7 +1510,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_CONTEXTMENU:
 		{
-			if(PopUpOptions.overrideRight!=false && (m_hContact!=NULL || PopUpOptions.overrideRight == 5 ||  PopUpOptions.overrideRight == 6)){
+			if(PopUpOptions.overrideRight!=false && (m_hContact!=NULL || PopUpOptions.overrideRight == 5 ||  PopUpOptions.overrideRight == 6)) {
 				switch (PopUpOptions.overrideRight){
 					default:
 					case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;

@@ -124,7 +124,7 @@ static unsigned int _Huffman_ReadBit( huff_bitstream_t *stream )
   /* Extract bit */
   x = (*buf & (1<<(7-bit))) ? 1 : 0;
   bit = (bit+1) & 7;
-  if( !bit )
+  if ( !bit )
   {
     ++ buf;
   }
@@ -179,13 +179,13 @@ static void _Huffman_WriteBits( huff_bitstream_t *stream, unsigned int x,
 
   /* Append bits */
   mask = 1 << (bits-1);
-  for( count = 0; count < bits; ++ count )
+  for ( count = 0; count < bits; ++ count )
   {
     *buf = (unsigned char)((*buf & (0xff^(1<<(7-bit)))) +
             ((x & mask ? 1 : 0) << (7-bit)));
     x <<= 1;
     bit = (bit+1) & 7;
-    if( !bit )
+    if ( !bit )
     {
       ++ buf;
     }
@@ -209,7 +209,7 @@ static void _Huffman_Hist( unsigned char *in, huff_sym_t *sym,
   int k;
 
   /* Clear/init histogram */
-  for( k = 0; k < 256; ++ k )
+  for ( k = 0; k < 256; ++ k )
   {
     sym[k].Symbol = k;
     sym[k].Count  = 0;
@@ -218,7 +218,7 @@ static void _Huffman_Hist( unsigned char *in, huff_sym_t *sym,
   }
 
   /* Build histogram */
-  for( k = size; k; -- k )
+  for ( k = size; k; -- k )
   {
     sym[*in ++].Count ++;
   }
@@ -238,16 +238,16 @@ static void _Huffman_StoreTree( huff_encodenode_t *node, huff_sym_t *sym,
   unsigned int sym_idx;
 
   /* Is this a leaf node? */
-  if( node->Symbol >= 0 )
+  if ( node->Symbol >= 0 )
   {
     /* Append symbol to tree description */
     _Huffman_WriteBits( stream, 1, 1 );
     _Huffman_WriteBits( stream, node->Symbol, 8 );
 
     /* Find symbol index */
-    for( sym_idx = 0; sym_idx < 256; ++ sym_idx )
+    for ( sym_idx = 0; sym_idx < 256; ++ sym_idx )
     {
-      if( sym[sym_idx].Symbol == node->Symbol ) break;
+      if ( sym[sym_idx].Symbol == node->Symbol ) break;
     }
 
     /* Store code info in symbol array */
@@ -282,9 +282,9 @@ static void _Huffman_MakeTree( huff_sym_t *sym, huff_bitstream_t *stream )
 
    /* Initialize all leaf nodes */
   num_symbols = 0;
-  for( k = 0; k < 256; ++ k )
+  for ( k = 0; k < 256; ++ k )
   {
-    if( sym[k].Count > 0 )
+    if ( sym[k].Count > 0 )
     {
       nodes[num_symbols].Symbol = sym[k].Symbol;
       nodes[num_symbols].Count = sym[k].Count;
@@ -304,16 +304,16 @@ static void _Huffman_MakeTree( huff_sym_t *sym, huff_bitstream_t *stream )
     /* Find the two lightest nodes */
     node_1 = (huff_encodenode_t *) 0;
     node_2 = (huff_encodenode_t *) 0;
-    for( k = 0; k < next_idx; ++ k )
+    for ( k = 0; k < next_idx; ++ k )
     {
-      if( nodes[k].Count > 0 )
+      if ( nodes[k].Count > 0 )
       {
-        if( !node_1 || (nodes[k].Count <= node_1->Count) )
+        if ( !node_1 || (nodes[k].Count <= node_1->Count) )
         {
           node_2 = node_1;
           node_1 = &nodes[k];
         }
-        else if( !node_2 || (nodes[k].Count <= node_2->Count) )
+        else if ( !node_2 || (nodes[k].Count <= node_2->Count) )
         {
           node_2 = &nodes[k];
         }
@@ -334,7 +334,7 @@ static void _Huffman_MakeTree( huff_sym_t *sym, huff_bitstream_t *stream )
 
   /* Store the tree in the output stream, and in the sym[] array (the
       latter is used as a look-up-table for faster encoding) */
-  if( root )
+  if ( root )
   {
     _Huffman_StoreTree( root, sym, stream, 0, 0 );
   }
@@ -367,7 +367,7 @@ static huff_decodenode_t * _Huffman_RecoverTree( huff_decodenode_t *nodes,
   this_node->ChildB = (huff_decodenode_t *) 0;
 
   /* Is this a leaf node? */
-  if( _Huffman_ReadBit( stream ) )
+  if ( _Huffman_ReadBit( stream ) )
   {
     /* Get symbol from tree description and store in lead node */
     this_node->Symbol = _Huffman_Read8Bits( stream );
@@ -409,7 +409,7 @@ int Huffman_Compress( unsigned char *in, unsigned char *out,
   unsigned int     k, total_bytes, swaps, symbol;
 
   /* Do we have anything to compress? */
-  if( insize < 1 ) return 0;
+  if ( insize < 1 ) return 0;
 
   /* Initialize bitstream */
   _Huffman_InitBitstream( &stream, out );
@@ -424,9 +424,9 @@ int Huffman_Compress( unsigned char *in, unsigned char *out,
   do
   {
     swaps = 0;
-    for( k = 0; k < 255; ++ k )
+    for ( k = 0; k < 255; ++ k )
     {
-      if( sym[k].Symbol > sym[k+1].Symbol )
+      if ( sym[k].Symbol > sym[k+1].Symbol )
       {
         tmp      = sym[k];
         sym[k]   = sym[k+1];
@@ -438,7 +438,7 @@ int Huffman_Compress( unsigned char *in, unsigned char *out,
   while( swaps );
 
   /* Encode input stream */
-  for( k = 0; k < insize; ++ k )
+  for ( k = 0; k < insize; ++ k )
   {
     symbol = in[k];
     _Huffman_WriteBits( &stream, sym[symbol].Code,
@@ -447,7 +447,7 @@ int Huffman_Compress( unsigned char *in, unsigned char *out,
 
   /* Calculate size of output data */
   total_bytes = (int)(stream.BytePtr - out);
-  if( stream.BitPos > 0 )
+  if ( stream.BitPos > 0 )
   {
     ++ total_bytes;
   }
@@ -476,7 +476,7 @@ void Huffman_Uncompress( unsigned char *in, unsigned char *out,
   unsigned char     *buf;
 
   /* Do we have anything to decompress? */
-  if( insize < 1 ) return;
+  if ( insize < 1 ) return;
 
   /* Initialize bitstream */
   _Huffman_InitBitstream( &stream, in );
@@ -487,14 +487,14 @@ void Huffman_Uncompress( unsigned char *in, unsigned char *out,
 
   /* Decode input stream */
   buf = out;
-  for( k = 0; k < outsize; ++ k )
+  for ( k = 0; k < outsize; ++ k )
   {
     /* Traverse tree until we find a matching leaf node */
     node = root;
     while( node->Symbol < 0 )
     {
       /* Get next node */
-      if( _Huffman_ReadBit( &stream ) )
+      if ( _Huffman_ReadBit( &stream ) )
         node = node->ChildB;
       else
         node = node->ChildA;

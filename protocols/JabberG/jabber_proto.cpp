@@ -1130,7 +1130,7 @@ HANDLE __cdecl CJabberProto::SendFile( HANDLE hContact, const TCHAR* szDescripti
 
 	ft->std.ptszFiles = ( TCHAR** ) mir_calloc( sizeof( TCHAR* )* ft->std.totalFiles );
 	ft->fileSize = ( unsigned __int64* ) mir_calloc( sizeof( unsigned __int64 ) * ft->std.totalFiles );
-	for( i=j=0; i < ft->std.totalFiles; i++ ) {
+	for ( i=j=0; i < ft->std.totalFiles; i++ ) {
 		if ( _tstati64( ppszFiles[i], &statbuf ))
 			Log( "'%s' is an invalid filename", ppszFiles[i] );
 		else {
@@ -1565,7 +1565,7 @@ int __cdecl CJabberProto::UserIsTyping( HANDLE hContact, int type )
 
 		if ( jcb & JABBER_CAPS_CHATSTATES ) {
 			m << XATTR( _T("type"), _T("chat")) << XATTRID( SerialNext());
-			switch ( type ){
+			switch ( type ) {
 			case PROTOTYPE_SELFTYPING_OFF:
 				m << XCHILDNS( _T("paused"), _T(JABBER_FEAT_CHATSTATES));
 				m_ThreadInfo->send( m );
@@ -1581,7 +1581,7 @@ int __cdecl CJabberProto::UserIsTyping( HANDLE hContact, int type )
 			if ( item->messageEventIdStr != NULL )
 				x << XCHILD( _T("id"), item->messageEventIdStr );
 
-			switch ( type ){
+			switch ( type ) {
 			case PROTOTYPE_SELFTYPING_OFF:
 				m_ThreadInfo->send( m );
 				break;

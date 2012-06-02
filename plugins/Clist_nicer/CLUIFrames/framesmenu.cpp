@@ -58,7 +58,7 @@ static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 	tmi.position=mi->position;
 	tmi.pszName=mi->pszName;
 
-	if( mi->flags & CMIF_ROOTHANDLE )
+	if ( mi->flags & CMIF_ROOTHANDLE )
 		tmi.root = mi->hParentMenu;
 	{
 		lpFrameMenuExecParam fmep;

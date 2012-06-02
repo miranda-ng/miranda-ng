@@ -41,7 +41,7 @@ WCHAR* a2u(const char *pszAnsi,BOOL fMirCp)
 	if(pszAnsi==NULL) return NULL;
 	codepage=fMirCp?CallService(MS_LANGPACK_GETCODEPAGE,0,0):CP_ACP;
 	cch=MultiByteToWideChar(codepage,0,pszAnsi,-1,NULL,0);
-	if(!cch) return NULL;
+	if (!cch) return NULL;
 
 	psz=(WCHAR*)mir_alloc(cch*sizeof(WCHAR));
 	if(psz!=NULL && !MultiByteToWideChar(codepage,0,pszAnsi,-1,psz,cch)) {
@@ -62,11 +62,11 @@ char* u2a(const WCHAR *pszUnicode,BOOL fMirCp)
 	codepage=fMirCp?CallService(MS_LANGPACK_GETCODEPAGE,0,0):CP_ACP;
 	/* without WC_COMPOSITECHECK some characters might get out strange (see MS blog) */
 	cch=WideCharToMultiByte(codepage,flags=WC_COMPOSITECHECK,pszUnicode,-1,NULL,0,NULL,NULL);
-	if(!cch) cch=WideCharToMultiByte(codepage,flags=0,pszUnicode,-1,NULL,0,NULL,NULL);
-	if(!cch) return NULL;
+	if (!cch) cch=WideCharToMultiByte(codepage,flags=0,pszUnicode,-1,NULL,0,NULL,NULL);
+	if (!cch) return NULL;
 
 	psz=(char*)mir_alloc(cch);
-	if(psz!=NULL && !WideCharToMultiByte(codepage,flags,pszUnicode,-1,psz,cch,NULL,NULL)){
+	if(psz!=NULL && !WideCharToMultiByte(codepage,flags,pszUnicode,-1,psz,cch,NULL,NULL)) {
 		mir_free(psz);
 		return NULL;
 	}
@@ -89,7 +89,7 @@ TCHAR* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp)
 void* t2s(const TCHAR *pszStr,DWORD fUnicode,BOOL fMirCp)
 {
 #if defined(_UNICODE)
-	if(!fUnicode) return (void*)u2a(pszStr,fMirCp);
+	if (!fUnicode) return (void*)u2a(pszStr,fMirCp);
 	return (void*)mir_wstrdup(pszStr);
 #else
 	if(fUnicode) return (void*)a2u(pszStr,fMirCp);
@@ -109,7 +109,7 @@ struct EnumPrefixSettingsParams {
 static int EnumPrefixSettingsProc(const char *pszSetting,LPARAM lParam)
 {
 	struct EnumPrefixSettingsParams *param=(struct EnumPrefixSettingsParams*)lParam;
-	if(!strncmp(pszSetting,param->pszPrefix,param->nPrefixLen)) {
+	if (!strncmp(pszSetting,param->pszPrefix,param->nPrefixLen)) {
 		char **buf;
 		/* resize storage array */
 		buf=mir_realloc(param->settings,(param->nSettingsCount+1)*sizeof(char*));
@@ -168,7 +168,7 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 		msn.szInfo=(char*)szText;
 		msn.uTimeout=30000; /* max timeout */
 		msn.dwInfoFlags=flags;
-		if(!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY,0,(LPARAM)&msn))
+		if (!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY,0,(LPARAM)&msn))
 			return; /* success */
 	}
 
@@ -192,7 +192,7 @@ char* GetWinErrorDescription(DWORD dwLastError)
 {
 	char *buf=NULL;
 	DWORD flags=FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM;
-	if(!FormatMessageA(flags,NULL,dwLastError,LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0)),(char*)&buf,0,NULL))
+	if (!FormatMessageA(flags,NULL,dwLastError,LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0)),(char*)&buf,0,NULL))
 		if(GetLastError()==ERROR_RESOURCE_LANG_NOT_FOUND) 
 			FormatMessageA(flags,NULL,dwLastError,0,(char*)&buf,0,NULL);
 	return buf;

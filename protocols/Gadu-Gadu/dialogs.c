@@ -320,7 +320,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					GetDlgItemText(hwndDlg, IDC_UIN, email, sizeof(email));
 					uin = atoi(email);
 					GetDlgItemText(hwndDlg, IDC_EMAIL, email, sizeof(email));
-					if(!strlen(email))
+					if (!strlen(email))
 						MessageBox(
 							NULL,
 							Translate("You need to specify your registration e-mail first."),
@@ -724,7 +724,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			dat->updating = FALSE;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			// Add genders
-			if(!dat->hContact)
+			if (!dat->hContact)
 			{
 				SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)_T(""));				// 0
 				SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)Translate("Female"));	// 1
@@ -920,7 +920,7 @@ int gg_details_init(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 	}
 
 	// Start search for user data
-	if((HANDLE)lParam == NULL)
+	if ((HANDLE)lParam == NULL)
 		gg_getinfo((PROTO_INTERFACE *)gg, NULL, 0);
 
 	return 0;

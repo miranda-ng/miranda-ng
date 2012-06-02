@@ -38,7 +38,7 @@ bool string::startsWith(char c) const {
 bool string::startsWith(string s) const {
 	const char * walk = ptr();
 	const char * subWalk = s.ptr();
-	for(;;) {
+	for (;;) {
 		if (*subWalk == 0) return true;
 		if (*walk != *subWalk) return false;
 		walk++; subWalk++;
@@ -66,7 +66,7 @@ char string::lastChar() const {
 string string::replace(stringp strOld, stringp strNew) const {
 	t_size walk = 0;
 	string ret;
-	for(;;) {
+	for (;;) {
 		t_size next = indexOf(strOld, walk);
 		if (next == ~0) {
 			ret += subString(walk); break;

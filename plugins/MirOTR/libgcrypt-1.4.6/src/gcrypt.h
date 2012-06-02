@@ -1199,7 +1199,7 @@ void gcry_md_debug (gcry_md_hd_t hd, const char *suffix);
 #define gcry_md_putc(h,c)  \
             do {                                          \
                 gcry_md_hd_t h__ = (h);                   \
-                if( (h__)->bufpos == (h__)->bufsize )     \
+                if ( (h__)->bufpos == (h__)->bufsize )     \
                     gcry_md_write( (h__), NULL, 0 );      \
                 (h__)->buf[(h__)->bufpos++] = (c) & 0xff; \
             } while(0)

@@ -127,7 +127,7 @@ inline INT_PTR DBGetContactSettingStringX(HANDLE hContact, const char *ModuleNam
 			ret = (INT_PTR)mir_strdup(result ? Default : dbv.pszVal);
 			break;
 		case DBVT_WCHAR:
-			if(!result) {
+			if (!result) {
 				ret = (INT_PTR)mir_wstrdup(dbv.pwszVal);
 			}
 			else {
@@ -137,7 +137,7 @@ inline INT_PTR DBGetContactSettingStringX(HANDLE hContact, const char *ModuleNam
 		default:
 			break;
 	}
-	if(!result)
+	if (!result)
 		CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)&dbv);
 	return ret;
 }

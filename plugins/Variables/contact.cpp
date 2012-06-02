@@ -228,7 +228,7 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 	case CNF_UNIQUEID:
 		//UID for ChatRoom
 		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if ( szProto != NULL ){
+		if ( szProto != NULL ) {
 			if ( DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1) {
 				DBVARIANT dbv;
 				if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv )) {

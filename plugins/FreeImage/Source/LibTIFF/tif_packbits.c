@@ -203,7 +203,7 @@ PackBitsEncodeChunk(TIFF* tif, tidata_t bp, tsize_t cc, tsample_t s)
 	while ((long)cc > 0) {
 		int	chunk = rowsize;
 		
-		if( cc < chunk )
+		if ( cc < chunk )
 		    chunk = cc;
 
 		if (PackBitsEncode(tif, bp, chunk, s) < 0)
@@ -237,7 +237,7 @@ PackBitsDecode(TIFF* tif, tidata_t op, tsize_t occ, tsample_t s)
 			if (n == -128)	/* nop */
 				continue;
                         n = -n + 1;
-                        if( occ < n )
+                        if ( occ < n )
                         {
 							TIFFWarningExt(tif->tif_clientdata, tif->tif_name,
                                         "PackBitsDecode: discarding %ld bytes "

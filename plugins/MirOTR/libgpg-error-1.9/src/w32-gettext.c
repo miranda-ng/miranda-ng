@@ -1467,7 +1467,7 @@ _gpg_w32_bindtextdomain (const char *domainname, const char *dirname)
       }
     strcpy (item->name, domainname);
     item->dname = jnlib_malloc (strlen (dirname) +1);
-    if(!item->dname)
+    if (!item->dname)
       {
         jnlib_free (item);
         jnlib_free (fname);

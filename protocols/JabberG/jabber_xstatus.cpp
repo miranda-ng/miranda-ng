@@ -443,7 +443,7 @@ void CPepService::ResetPublish()
 
 void CPepService::ForceRepublishOnLogin()
 {
-	if(!m_wasPublished)
+	if (!m_wasPublished)
 		Publish();
 }
 
@@ -799,7 +799,7 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 
 void CPepMood::ShowSetDialog(BYTE bQuiet)
 {
-	if( !bQuiet ) {
+	if ( !bQuiet ) {
 		CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
 		for (int i = 1; i < SIZEOF(g_arrMoods); ++i)
 			dlg.AddStatusMode(i, g_arrMoods[i].szTag, m_icons.GetIcon(g_arrMoods[i].szTag), TranslateTS(g_arrMoods[i].szName));
@@ -1070,7 +1070,7 @@ void CPepActivity::InitGui()
 	TCHAR szSection[100];
 
 	mir_sntprintf(szSection, SIZEOF(szSection), _T("Status Icons/%s/Activities"), m_proto->m_tszUserName);
-	for (int i = 0; i < SIZEOF(g_arrActivities); i++){
+	for (int i = 0; i < SIZEOF(g_arrActivities); i++) {
 		if (g_arrActivities[i].szFirst)
 			m_icons.RegisterIcon(g_arrActivities[i].szFirst, szFile, g_arrActivities[i].iconid, szSection, TranslateTS(g_arrActivities[i].szTitle));
 		if (g_arrActivities[i].szSecond)

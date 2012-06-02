@@ -142,7 +142,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		FIBITMAP *dib = NULL;
 
 		// check the file format
-		if(!Validate(io, handle)) {
+		if (!Validate(io, handle)) {
 			return NULL;
 		}
 
@@ -163,7 +163,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			file_length = io->tell_proc(handle) - start_pos;
 			io->seek_proc(handle, start_pos, SEEK_SET);
 			src = (BYTE*)malloc(file_length * sizeof(BYTE));
-			if(!src) {
+			if (!src) {
 				throw FI_MSG_ERROR_MEMORY;
 			}
 			if(io->read_proc(src, 1, file_length, handle) < 1) {
@@ -186,7 +186,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			// decode the stream and fill the image structure 
 			image = opj_decode(dinfo, cio);
-			if(!image) {
+			if (!image) {
 				throw "Failed to decode image!\n";
 			}
 			
@@ -203,7 +203,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			// create output image 
 			dib = J2KImageToFIBITMAP(s_format_id, image);
-			if(!dib) throw "Failed to import JPEG2000 image";
+			if (!dib) throw "Failed to import JPEG2000 image";
 
 			// free image data structure
 			opj_image_destroy(image);
@@ -261,7 +261,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		try {
 			// convert the dib to a OpenJPEG image
 			image = FIBITMAPToJ2KImage(s_format_id, dib, &parameters);
-			if(!image) return FALSE;
+			if (!image) return FALSE;
 
 			// decide if MCT should be used
 			parameters.tcp_mct = (image->numcomps == 3) ? 1 : 0;

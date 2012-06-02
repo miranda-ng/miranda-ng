@@ -35,7 +35,7 @@ DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, 
 	PCOOKIE pCookie = (PCOOKIE) dwCookie;
 	if (pCookie->isUnicode)
 	{
-		if((pCookie->dwSize - pCookie->dwCount)*sizeof(WCHAR) < (DWORD)cb)
+		if ((pCookie->dwSize - pCookie->dwCount)*sizeof(WCHAR) < (DWORD)cb)
 			*pcb = (pCookie->dwSize - pCookie->dwCount)*sizeof(WCHAR);
 		else
 			*pcb = cb&~1UL;
@@ -497,13 +497,13 @@ HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont)
 	if(lf.lfWeight < FW_BOLD)
 		pCF->dwEffects &= ~CFE_BOLD;
 
-	if(!lf.lfItalic)
+	if (!lf.lfItalic)
 		pCF->dwEffects &= ~CFE_ITALIC;
 
-	if(!lf.lfUnderline)
+	if (!lf.lfUnderline)
 		pCF->dwEffects &= ~CFE_UNDERLINE;
 
-	if(!lf.lfStrikeOut)
+	if (!lf.lfStrikeOut)
 		pCF->dwEffects &= ~CFE_STRIKEOUT;
 
 	pCF->dwMask = CFM_ALL | CFM_BACKCOLOR | CFM_STYLE;

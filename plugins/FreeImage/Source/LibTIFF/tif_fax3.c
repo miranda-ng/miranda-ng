@@ -387,7 +387,7 @@ _TIFFFax3fillruns(unsigned char* buf, uint32* runs, uint32* erun, uint32 lastx)
 			*cp++ &= 0xff << (8-bx);
 			run -= 8-bx;
 		    }
-		    if( (n = run >> 3) != 0 ) {	/* multiple bytes to fill */
+		    if ( (n = run >> 3) != 0 ) {	/* multiple bytes to fill */
 			if ((n/sizeof (long)) > 1) {
 			    /*
 			     * Align to longword boundary and fill.
@@ -422,7 +422,7 @@ _TIFFFax3fillruns(unsigned char* buf, uint32* runs, uint32* erun, uint32 lastx)
 			*cp++ |= 0xff >> bx;
 			run -= 8-bx;
 		    }
-		    if( (n = run>>3) != 0 ) {	/* multiple bytes to fill */
+		    if ( (n = run>>3) != 0 ) {	/* multiple bytes to fill */
 			if ((n/sizeof (long)) > 1) {
 			    /*
 			     * Align to longword boundary and fill.
@@ -1454,7 +1454,7 @@ Fax4Decode(TIFF* tif, tidata_t buf, tsize_t occ, tsample_t s)
                 NeedBits16( 13, BADG4 );
         BADG4:
 #ifdef FAX3_DEBUG
-                if( GetBits(13) != 0x1001 )
+                if ( GetBits(13) != 0x1001 )
                     fputs( "Bad EOFB\n", stderr );
 #endif                
                 ClrBits( 13 );

@@ -662,5 +662,5 @@ private:
 #define FB2K_RETRY_ON_SHARING_VIOLATION(OP, ABORT, TIMEOUT) \
 	{	\
 		pfc::lores_timer timer; timer.start();	\
-		for(;;) try { {OP;} break; } catch(exception_io_sharing_violation) { if (timer.query() > TIMEOUT) throw; ABORT.sleep(0.01); }	\
+		for (;;) try { {OP;} break; } catch(exception_io_sharing_violation) { if (timer.query() > TIMEOUT) throw; ABORT.sleep(0.01); }	\
 	}

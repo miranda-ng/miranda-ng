@@ -275,7 +275,7 @@ static int changeState(TAAAProtoSetting& setting, STATES newState)
 
 		if (DBGetContactSettingByte(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_MSGCUSTOM), FALSE)) {
 			DBVARIANT dbv;
-			if(!DBGetContactSetting(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
+			if (!DBGetContactSetting(NULL, MODULENAME, StatusModeToDbSetting(setting.status, SETTING_STATUSMSG), &dbv)) {
 				setting.szMsg = _strdup(dbv.pszVal);
 				DBFreeVariant(&dbv);
 		}	}
@@ -622,7 +622,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 	PROTOACCOUNT** protos;
 	ProtoEnumAccounts(&count, &protos);
 
-	for( int i=0; i < count; i++ )
+	for ( int i=0; i < count; i++ )
 		if ( IsSuitableProto( protos[i] ))
 			autoAwaySettings.insert( new TAAAProtoSetting( protos[i] ));
 

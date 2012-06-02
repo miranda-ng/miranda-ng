@@ -88,7 +88,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							if(nm->iColumn==-1) break;
 							hItem=(HANDLE)SendDlgItemMessage(hwnd,IDC_LIST,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
 							if(hItem==NULL) break;
-							if(!(hitFlags&CLCHT_ONITEMEXTRA)) break;
+							if (!(hitFlags&CLCHT_ONITEMEXTRA)) break;
 
 							iImage=SendDlgItemMessage(hwnd,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
 							if (iImage != 0xFF)

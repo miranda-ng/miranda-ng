@@ -276,7 +276,7 @@ void gg_parsecontacts(GGPROTO *gg, char *contacts)
 			n = strchr(p, '\n');
 			p = (n + 1);
 		}
-		if(!n) p = NULL;
+		if (!n) p = NULL;
 
 		// Loadup contact
 		if(uin && strNick)
@@ -447,7 +447,7 @@ static INT_PTR gg_import_text(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_import_text()");
 #endif
-	if(!GetOpenFileName(&ofn)) return 0;
+	if (!GetOpenFileName(&ofn)) return 0;
 
 	f = fopen(str, "r");
 	_stat(str, &st);
@@ -519,7 +519,7 @@ static INT_PTR gg_export_text(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_export_text(%s).", str);
 #endif
-	if(!GetSaveFileName(&ofn)) return 0;
+	if (!GetSaveFileName(&ofn)) return 0;
 
 	if(f = fopen(str, "w"))
 	{

@@ -208,7 +208,7 @@ extern "C" int	__declspec(dllexport) Unload()
 */
 void FASTCALL FreeIcon(HICON hIcon, BOOL mode)
 {
-	if(!mode) return;
+	if (!mode) return;
 	if(mode > 0)
 		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, (WPARAM)0);
 	else
@@ -221,7 +221,7 @@ void FASTCALL FreeIcon(HICON hIcon, BOOL mode)
 */
 void FASTCALL Prepare(KN_FP_MASK* mask)
 {
-	if(!mask->szMask) return;
+	if (!mask->szMask) return;
 	size_t iMaskLen;
 	LPTSTR pszNewMask;
 	LPTSTR pszTranslatedMask;
@@ -404,7 +404,7 @@ int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	UnhookEvent(hPreShutdown);
 	UnhookEvent(hIconsChanged);
 	UnhookEvent(hOptInitialise);
-	if(!g_bExtraIcon_Register_ServiceExist) UninitFingerEvents();
+	if (!g_bExtraIcon_Register_ServiceExist) UninitFingerEvents();
 	UnhookEvent(hFolderChanged);
 	DestroyServiceFunction(compClientServA);
 	DestroyServiceFunction(getClientIconA);
@@ -513,7 +513,7 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 	{
 		DBVARIANT dbvMirVer = { 0 };
 
-		if(!DBGetContactSettingTString(hContact, szProto, "MirVer", &dbvMirVer))
+		if (!DBGetContactSettingTString(hContact, szProto, "MirVer", &dbvMirVer))
 		{
 			ApplyFingerprintImage(hContact, dbvMirVer.ptszVal);
 			DBFreeVariant(&dbvMirVer);
@@ -532,7 +532,7 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 */
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if((HANDLE)wParam == NULL)	return 0;
+	if ((HANDLE)wParam == NULL)	return 0;
 	{
 		DBCONTACTWRITESETTING* cws = (DBCONTACTWRITESETTING*)lParam;
 		if(cws && cws->szSetting && !strcmp(cws->szSetting, "MirVer"))
@@ -648,7 +648,7 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 	if(nLibrary == LIB_USE)
 	{
 		hIcon = ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
-		if(!hIcon)
+		if (!hIcon)
 		{
 			ExtractIconEx(destfile, -internalidx, NULL, &hIcon, 1);
 			return hIcon;
@@ -712,7 +712,7 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 */
 BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
 {
-	if(*szMask != '|') return WildCompareProcA(szName, szMask);
+	if (*szMask != '|') return WildCompareProcA(szName, szMask);
 	{
 		size_t s = 1, e = 1;
 //		static char temp[100];		//lets made temp static local var - should be faster than dynamic
@@ -768,7 +768,7 @@ BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
 */
 BOOL FASTCALL WildCompareW(LPWSTR wszName, LPWSTR wszMask)
 {
-	if(*wszMask != L'|') return WildCompareProcW(wszName, wszMask);
+	if (*wszMask != L'|') return WildCompareProcW(wszName, wszMask);
 	{
 		size_t s = 1, e = 1;
 //		static char temp[100];		//lets made temp static local var - should be faster than dynamic
@@ -1003,21 +1003,21 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 BOOL __inline WildCompareProcA(LPSTR szName, LPSTR szMask)
 {
 	LPSTR szLast = NULL;
-	for(;; szMask++, szName++)
+	for (;; szMask++, szName++)
 	{
-		if(*szMask != '?' && *szMask != *szName) break;
-		if(*szName == '\0') return ((BOOL)!*szMask);
+		if (*szMask != '?' && *szMask != *szName) break;
+		if (*szName == '\0') return ((BOOL)!*szMask);
 	}
-	if(*szMask != '*') return FALSE;
-	for(;; szMask++, szName++)
+	if (*szMask != '*') return FALSE;
+	for (;; szMask++, szName++)
 	{
 		while(*szMask == '*')
 		{
 			szLast = szMask++;
-			if(*szMask == '\0') return ((BOOL)!*szMask);	/* true */
+			if (*szMask == '\0') return ((BOOL)!*szMask);	/* true */
 		}
-		if(*szName == '\0') return ((BOOL)!*szMask);		/* *mask == EOS */
-		if(*szMask != '?' && *szMask != *szName && szLast != NULL)
+		if (*szName == '\0') return ((BOOL)!*szMask);		/* *mask == EOS */
+		if (*szMask != '?' && *szMask != *szName && szLast != NULL)
 		{
 			szName -= (size_t)(szMask - szLast) - 1;
 			szMask = szLast;
@@ -1028,21 +1028,21 @@ BOOL __inline WildCompareProcA(LPSTR szName, LPSTR szMask)
 BOOL __inline WildCompareProcW(LPWSTR wszName, LPWSTR wszMask)
 {
 	LPWSTR wszLast = NULL;
-	for(;; wszMask++, wszName++)
+	for (;; wszMask++, wszName++)
 	{
-		if(*wszMask != L'?' && *wszMask != *wszName) break;
-		if(*wszName == L'\0') return ((BOOL)!*wszMask);
+		if (*wszMask != L'?' && *wszMask != *wszName) break;
+		if (*wszName == L'\0') return ((BOOL)!*wszMask);
 	}
-	if(*wszMask != L'*') return FALSE;
-	for(;; wszMask++, wszName++)
+	if (*wszMask != L'*') return FALSE;
+	for (;; wszMask++, wszName++)
 	{
 		while(*wszMask == L'*')
 		{
 			wszLast = wszMask++;
-			if(*wszMask == L'\0') return ((BOOL)!*wszMask);	/* true */
+			if (*wszMask == L'\0') return ((BOOL)!*wszMask);	/* true */
 		}
-		if(*wszName == L'\0') return ((BOOL)!*wszMask);		/* *mask == EOS */
-		if(*wszMask != L'?' && *wszMask != *wszName && wszLast != NULL)
+		if (*wszName == L'\0') return ((BOOL)!*wszMask);		/* *mask == EOS */
+		if (*wszMask != L'?' && *wszMask != *wszName && wszLast != NULL)
 		{
 			wszName -= (size_t)(wszMask - wszLast) - 1;
 			wszMask = wszLast;
@@ -1098,7 +1098,7 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 		}
 		i++;
 	}
-	if(!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT)
+	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT)
 	{
 		j = 0;
 		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT)
@@ -1184,7 +1184,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 		}
 		i++;
 	}
-	if(!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT)
+	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT)
 	{
 		j = 0;
 		while(j < DEFAULT_KN_FP_OVERLAYS_COUNT)
@@ -1347,7 +1347,7 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 	BOOL Result = FALSE;
 
 	firstIndex = secondIndex = 0;
-	if(!szMirVerFirst || !szMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
+	if (!szMirVerFirst || !szMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
 
 	{
 		LPTSTR tszMirVerFirstUp, tszMirVerSecondUp;
@@ -1467,7 +1467,7 @@ INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
 	BOOL Result = FALSE;
 
 	firstIndex = secondIndex = 0;
-	if(!wszMirVerFirst || !wszMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
+	if (!wszMirVerFirst || !wszMirVerSecond) return (INT_PTR)NULL;	//one of its is not null
 
 	{
 		LPWSTR wszMirVerFirstUp, wszMirVerSecondUp;
@@ -1570,7 +1570,7 @@ BOOL FASTCALL checkHasAlfa(LPBYTE from, int width, int height)
 	LPDWORD lim = pt + width * height;
 	while(pt < lim)
 	{
-		if(*pt & 0xFF000000)
+		if (*pt & 0xFF000000)
 			return TRUE;
 		pt++;
 	}
@@ -1737,7 +1737,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 							else
 								top_d |= 0xFF000000;
 						}
-						else if(!topHasAlpha)
+						else if (!topHasAlpha)
 							top_d |= 0xFF000000;
 
 						if(bottomMaskUsed)
@@ -1747,7 +1747,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 							else
 								bottom_d |= 0xFF000000;
 						}
-						else if(!bottomHasAlpha)
+						else if (!bottomHasAlpha)
 							bottom_d |= 0xFF000000;
 
 						((LPDWORD)db)[x] = blend(bottom_d, top_d);
@@ -1769,7 +1769,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 		DeleteObject(iciTop.hbmMask);
 	}
 
-	if(!drawn)
+	if (!drawn)
 	{
 		DrawIconEx(tempDC, 0, 0, hBottom, 16, 16, 0, NULL, DI_NORMAL);
 		DrawIconEx(tempDC, 0, 0, hTop, 16, 16, 0, NULL, DI_NORMAL);

@@ -89,7 +89,7 @@ int GetProtoIndex(char * szName)
     if (!szName) return -1;
 	ProtoEnumAccounts( &accCount, &accs );    
 	for (i=0; i<accCount; i++)
-		if(!mir_strcmpi(szName,accs[i]->szModuleName))
+		if (!mir_strcmpi(szName,accs[i]->szModuleName))
 			return accs[i]->iOrder;
     return -1;
 }
@@ -176,7 +176,7 @@ int cliCompareContacts(const struct ClcContact *contact1,const struct ClcContact
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
-	if((HANDLE)lParam==NULL)
+	if ((HANDLE)lParam==NULL)
 		ModernDeleteSetting((HANDLE)wParam,"CList","Group");
 	else
 		ModernWriteSettingTString((HANDLE)wParam,"CList","Group",pcli->pfnGetGroupName(lParam, NULL));

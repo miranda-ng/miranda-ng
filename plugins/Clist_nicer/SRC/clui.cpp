@@ -1311,7 +1311,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			rcFrame.left += (cfg::dat.bCLeft - 1);
 			rcFrame.right -= (cfg::dat.bCRight - 1);
-			//if(!g_CluiData.bSkinnedButtonMode)
+			//if (!g_CluiData.bSkinnedButtonMode)
 			//	rcFrame.bottom -= (g_CluiData.bottomOffset);
 			rcFrame.bottom++;
 			rcFrame.bottom -= cfg::dat.statusBarHeight;
@@ -1408,7 +1408,7 @@ skipbg:
 		}
 
 		case WM_WINDOWPOSCHANGED:
-			if(!Docking_IsDocked(0, 0))
+			if (!Docking_IsDocked(0, 0))
 				return(0);
 			else
 				break;

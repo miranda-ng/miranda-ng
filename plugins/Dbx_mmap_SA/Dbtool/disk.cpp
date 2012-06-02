@@ -55,7 +55,7 @@ int PeekSegment(DWORD ofs,PVOID buf,int cbBytes)
 
 	CopyMemory(buf, opts.pFile+ofs, bytesRead);
 
-	if((int)bytesRead<cbBytes) return ERROR_HANDLE_EOF;
+	if ((int)bytesRead<cbBytes) return ERROR_HANDLE_EOF;
 	return ERROR_SUCCESS;
 }
 
@@ -88,7 +88,7 @@ DWORD WriteSegment(DWORD ofs,PVOID buf,int cbBytes)
 	}
 	SetFilePointer(opts.hOutFile,ofs,NULL,FILE_BEGIN);
 	WriteFile(opts.hOutFile,buf,cbBytes,&bytesWritten,NULL);
-	if((int)bytesWritten<cbBytes) {
+	if ((int)bytesWritten<cbBytes) {
 		AddToStatus(STATUS_FATAL,TranslateT("Can't write to output file - disk full? (%u)"),GetLastError());
 		return WS_ERROR;
 	}
@@ -105,7 +105,7 @@ int ReadWrittenSegment(DWORD ofs,PVOID buf,int cbBytes)
 
 	SetFilePointer(opts.hOutFile,ofs,NULL,FILE_BEGIN);
 	ReadFile(opts.hOutFile,buf,cbBytes,&bytesRead,NULL);
-	if((int)bytesRead<cbBytes)
+	if ((int)bytesRead<cbBytes)
 		return ERROR_READ_FAULT;
 
 	return ERROR_SUCCESS;

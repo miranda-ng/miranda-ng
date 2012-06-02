@@ -184,7 +184,7 @@ void config_object_impl::set_data(stream_reader * p_stream,abort_callback & p_ab
 		m_data.set_size(0);
 		enum {delta = 1024};
 		t_uint8 buffer[delta];
-		for(;;)
+		for (;;)
 		{
 			t_size delta_done = p_stream->read(buffer,delta,p_abort);
 			

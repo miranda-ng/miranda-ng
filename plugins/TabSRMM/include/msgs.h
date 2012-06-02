@@ -648,7 +648,7 @@ public:
 	STDMETHOD_(ULONG, Release)(void)
 	{
 		--mRefCounter;
-		//if(--mRefCounter == 0)
+		//if (--mRefCounter == 0)
 		//	delete this;
 		return (mRefCounter);
 	}

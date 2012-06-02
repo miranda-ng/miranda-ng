@@ -255,7 +255,6 @@
     <None Include="ue.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
     <ResourceCompile Include="updater.rc" />
     <ResourceCompile Include="version.rc" />
   </ItemGroup>

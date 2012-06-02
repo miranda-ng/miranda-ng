@@ -131,7 +131,7 @@ int __cdecl Load(PLUGINLINK *link) {
 	iCoreVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
 
 	// load crypo++ dll
-	if( !loadlib() ) {
+	if ( !loadlib() ) {
 		msgbox1(0,sim107,szModuleName,MB_OK|MB_ICONSTOP);
 		return 1;
 	}
@@ -190,7 +190,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
     bPopupUnicode = ServiceExists(MS_POPUP_ADDPOPUPW)!=0;
 
     g_hFolders = FoldersRegisterCustomPath(szModuleName, "Icons", MIRANDA_PATH"\\icons");
-    if( g_hFolders==(HANDLE)CALLSERVICE_NOTFOUND ) g_hFolders = 0;
+    if ( g_hFolders==(HANDLE)CALLSERVICE_NOTFOUND ) g_hFolders = 0;
 
     InitIcons();
     GetFlags();
@@ -204,13 +204,13 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 		DBVARIANT dbv;
 		dbv.type = DBVT_BLOB;
 
-		if( DBGetContactSetting(0,szModuleName,"rsa_priv",&dbv) == 0 ) {
+		if ( DBGetContactSetting(0,szModuleName,"rsa_priv",&dbv) == 0 ) {
 			exp->rsa_set_keypair(CPP_MODE_RSA_4096,dbv.pbVal,dbv.cpbVal);
 			DBFreeVariant(&dbv);
 			rsa_4096=1;
 		}
 		else
-		if( DBGetContactSetting(0,szModuleName,"rsa_priv_4096",&dbv) == 0 ) {
+		if ( DBGetContactSetting(0,szModuleName,"rsa_priv_4096",&dbv) == 0 ) {
 			exp->rsa_set_keypair(CPP_MODE_RSA_4096|CPP_MODE_RSA_BER,dbv.pbVal,dbv.cpbVal);
 			DBFreeVariant(&dbv);
 
@@ -241,7 +241,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 			rsa_4096=1;
 		}	
 
-		if( !rsa_4096 ) {
+		if ( !rsa_4096 ) {
 			unsigned int tID;
 			CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttGenerateRSA, NULL, 0, &tID) );
 		}
@@ -384,7 +384,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	AddHookFunction(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
 //	g_hMC = HookEvent(ME_MC_SUBCONTACTSCHANGED, onMC);
 
-	if( ServiceExists(MS_EXTRAICON_REGISTER) ) {
+	if ( ServiceExists(MS_EXTRAICON_REGISTER) ) {
 		g_hCLIcon = ExtraIcon_Register(szModuleName, Translate("SecureIM status"), "sim_cm_est",
 						onExtraImageListRebuilding,
 						onExtraImageApplying);
@@ -433,7 +433,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	Sent_NetLog("create PGP/GPG menu");
 #endif
 	HICON icon;
-	if( bPGPloaded ) {
+	if ( bPGPloaded ) {
 		icon=mode2icon(MODE_PGP|SECURED,2);
 		g_hMenu[6] = AddMenuItem(sim306,110006,icon,MODULENAME"/PGP_SET",0);
 		icon=mode2icon(MODE_PGP,2);

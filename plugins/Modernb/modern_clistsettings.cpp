@@ -248,7 +248,7 @@ void cliFreeCacheItem( pdisplayNameCacheEntry p )
 void FreeDisplayNameCache(SortedList *list)
 {
 	int i;
-		for( i=0; i < list->realCount; i++) {
+		for ( i=0; i < list->realCount; i++) {
 			FreeDisplayNameCacheItem(( pdisplayNameCacheEntry )list->items[i] );
 			mir_free_and_nill(list->items[i]);
 		}
@@ -616,7 +616,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			}
 		}
 
-		if(!strcmp(cws->szModule,"CList")) 
+		if (!strcmp(cws->szModule,"CList")) 
 		{
 			//name is null or (setting is myhandle)
             if (!strcmp(cws->szSetting,"Rate"))
@@ -642,15 +642,15 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				}
 				pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);
 			}
-			else if(!strcmp(cws->szSetting,"noOffline")) 
+			else if (!strcmp(cws->szSetting,"noOffline")) 
 			{
 				InvalidateDNCEbyPointer((HANDLE)wParam,pdnce,cws->value.type);		
                 pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);
 			}
 		}
-		else if(!strcmp(cws->szModule,"Protocol")) 
+		else if (!strcmp(cws->szModule,"Protocol")) 
 		{
-			if(!strcmp(cws->szSetting,"p")) 
+			if (!strcmp(cws->szSetting,"p")) 
 			{
 				char *szProto;
 				InvalidateDNCEbyPointer((HANDLE)wParam,pdnce,cws->value.type);	

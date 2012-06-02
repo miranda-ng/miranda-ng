@@ -138,7 +138,7 @@ INT_PTR CALLBACK DlgProcConfirm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		return TRUE;
 
 	case WM_NOTIFY:
-		if(((LPNMHDR) lParam)->hwndFrom == hwndList) {
+		if (((LPNMHDR) lParam)->hwndFrom == hwndList) {
 			switch (((LPNMHDR) lParam)->code) {
 				
 			case LVN_ITEMCHANGED:
@@ -153,13 +153,13 @@ INT_PTR CALLBACK DlgProcConfirm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					ListView_GetItem(hwndList, &lvI);
 
 					//if(IsWindowVisible(hwndList) && ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)) {
-					if((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
+					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
 						((UpdateInternal *)lvI.lParam)->update_options.enabled = ListView_GetCheckState(hwndList, nmlv->iItem) != 0;
 
 						char stored_setting[256];
 						mir_snprintf(stored_setting, 256, "DisabledVer%s", ((UpdateInternal *)lvI.lParam)->update.szComponentName);
 
-						if(((UpdateInternal *)lvI.lParam)->update_options.enabled)
+						if (((UpdateInternal *)lvI.lParam)->update_options.enabled)
 							DBDeleteContactSetting(0, "Updater", stored_setting); // user has re-enabled update to this version - remove setting from db
 						else
 							DBWriteContactSettingString(0, "Updater", stored_setting, ((UpdateInternal *)lvI.lParam)->newVersion);
@@ -178,7 +178,7 @@ INT_PTR CALLBACK DlgProcConfirm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						EnableWindow(hwOk, enableOk ? TRUE : FALSE);
 					}
 					if(nmlv->uNewState & LVIS_SELECTED) {
-						if((!((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->file_id != -1) 
+						if ((!((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->file_id != -1) 
 							|| (((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->update.szBetaChangelogURL)) 
 						{
 							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_CHANGELOG), TRUE);
@@ -202,10 +202,10 @@ INT_PTR CALLBACK DlgProcConfirm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						MessageBox(0, _T("LVN_GETDISPINFO (0)"), _T("msg"), MB_OK);
 						break;
 					case 1:
-						((NMLVDISPINFO *)lParam)->item.pszText = Translate( u->newVersion );
+						((NMLVDISPINFO *)lParam)->item.pszText = TranslateTS( _A2T(u->newVersion));
 						break;
 					case 2:
-						((NMLVDISPINFO *)lParam)->item.pszText = Translate((char *)u->update.pbVersion);
+						((NMLVDISPINFO *)lParam)->item.pszText = TranslateTS( _A2T((char *)u->update.pbVersion));
 						break;
 					}
 				}
@@ -231,10 +231,10 @@ INT_PTR CALLBACK DlgProcConfirm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					lvI.mask = LVIF_PARAM;
 					ListView_GetItem(hwndList, &lvI);
 
-					if(!((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->file_id != -1) {
+					if (!((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->file_id != -1) {
 						sprintf(url, MIM_CHANGELOG_URL_PREFIX "%d", ((UpdateInternal *)lvI.lParam)->file_id);
 						CallService(MS_UTILS_OPENURL, (WPARAM)TRUE, (LPARAM)url);
-					} else if(((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->update.szBetaChangelogURL) {
+					} else if (((UpdateInternal *)lvI.lParam)->update_options.use_beta && ((UpdateInternal *)lvI.lParam)->update.szBetaChangelogURL) {
 						CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)((UpdateInternal *)lvI.lParam)->update.szBetaChangelogURL);
 					}
 

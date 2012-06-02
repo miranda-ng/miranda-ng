@@ -164,15 +164,15 @@ void LoadContactTree(void)
             pcli->pfnChangeContactIcon(hContact, IconFromStatusMode((char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0), status, hContact, NULL), 1);
 
         if(mc_disablehgh && !mc_hgh_removed) {
-            if(!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
-                if(!strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
+            if (!DBGetContactSetting(hContact, "CList", "Group", &dbv)) {
+                if (!strcmp(dbv.pszVal, "MetaContacts Hidden Group"))
                    DBDeleteContactSetting(hContact, "CList", "Group");
                 mir_free(dbv.pszVal);
             }
         }
 
         // build initial data for message frequency
-        if(!bMsgFrequency)
+        if (!bMsgFrequency)
             MF_CalcFrequency(hContact, 100, 0);
 
         hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
@@ -231,7 +231,7 @@ int __forceinline INTSORT_CompareContacts(const struct ClcContact* c1, const str
 		return 2 * (c2->flags & CONTACTF_STICKY) - 1;
 
 	if(bywhat == SORTBY_PRIOCONTACTS) {
-		if((cfg::clcdat->exStyle & CLS_EX_DIVIDERONOFF) && ((c1->flags & CONTACTF_ONLINE) != (c2->flags & CONTACTF_ONLINE)))
+		if ((cfg::clcdat->exStyle & CLS_EX_DIVIDERONOFF) && ((c1->flags & CONTACTF_ONLINE) != (c2->flags & CONTACTF_ONLINE)))
 			return 0;
 		if ((c1->flags & CONTACTF_PRIORITY) != (c2->flags & CONTACTF_PRIORITY))
 			return 2 * (c2->flags & CONTACTF_PRIORITY) - 1;

@@ -115,7 +115,7 @@ int gg_gettoken(GGPROTO *gg, GGTOKEN *token)
 	strcpy(token->id, "");
 	strcpy(token->val, "");
 
-	if(!(h = gg_token(0)) || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE)
+	if (!(h = gg_token(0)) || gg_token_watch_fd(h) || h->state == GG_STATE_ERROR || h->state != GG_STATE_DONE)
 	{
 		char error[128];
 		mir_snprintf(error, sizeof(error), Translate("Token retrieval failed because of error:\n\t%s"), http_error_string(h ? h->error : 0));

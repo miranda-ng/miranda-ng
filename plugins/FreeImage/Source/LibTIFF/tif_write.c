@@ -124,7 +124,7 @@ TIFFWriteScanline(TIFF* tif, tdata_t buf, uint32 row, tsample_t sample)
 		tif->tif_rawcc = 0;
 		tif->tif_rawcp = tif->tif_rawdata;
 
-		if( td->td_stripbytecount[strip] > 0 )
+		if ( td->td_stripbytecount[strip] > 0 )
 		{
 			/* if we are writing over existing tiles, zero length */
 			td->td_stripbytecount[strip] = 0;
@@ -225,7 +225,7 @@ TIFFWriteEncodedStrip(TIFF* tif, tstrip_t strip, tdata_t data, tsize_t cc)
 	tif->tif_rawcc = 0;
 	tif->tif_rawcp = tif->tif_rawdata;
 
-        if( td->td_stripbytecount[strip] > 0 )
+        if ( td->td_stripbytecount[strip] > 0 )
         {
 	    /* Force TIFFAppendToStrip() to consider placing data at end
                of file. */
@@ -359,7 +359,7 @@ TIFFWriteEncodedTile(TIFF* tif, ttile_t tile, tdata_t data, tsize_t cc)
 	tif->tif_rawcc = 0;
 	tif->tif_rawcp = tif->tif_rawdata;
 
-        if( td->td_stripbytecount[tile] > 0 )
+        if ( td->td_stripbytecount[tile] > 0 )
         {
 	    /* Force TIFFAppendToStrip() to consider placing data at end
                of file. */
@@ -628,7 +628,7 @@ TIFFAppendToStrip(TIFF* tif, tstrip_t strip, tidata_t data, tsize_t cc)
 	if (td->td_stripoffset[strip] == 0 || tif->tif_curoff == 0) {
             assert(td->td_nstrips > 0);
 
-            if( td->td_stripbytecount[strip] != 0 
+            if ( td->td_stripbytecount[strip] != 0 
                 && td->td_stripoffset[strip] != 0 
                 && td->td_stripbytecount[strip] >= cc )
             {

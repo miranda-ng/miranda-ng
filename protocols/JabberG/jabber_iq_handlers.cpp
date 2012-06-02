@@ -90,7 +90,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-	if( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)) )
+	if ( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)) )
 		return FALSE;
 
 	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
@@ -111,14 +111,14 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 1 )
 		{
-			if( osvi.wProductType == VER_NT_WORKSTATION )
+			if ( osvi.wProductType == VER_NT_WORKSTATION )
 				StringCchCat(pszOS, BUFSIZE, TEXT("Windows 7 "));
 			else StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 R2 " ));
 		}
 
 		if ( osvi.dwMajorVersion == 6 && osvi.dwMinorVersion == 0 )
 		{
-			if( osvi.wProductType == VER_NT_WORKSTATION )
+			if ( osvi.wProductType == VER_NT_WORKSTATION )
 				StringCchCat(pszOS, BUFSIZE, TEXT("Windows Vista "));
 			else StringCchCat(pszOS, BUFSIZE, TEXT("Windows Server 2008 " ));
 
@@ -190,13 +190,13 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
 		{
-			if( GetSystemMetrics(SM_SERVERR2) )
+			if ( GetSystemMetrics(SM_SERVERR2) )
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Server 2003 R2, "));
 			else if ( osvi.wSuiteMask==VER_SUITE_STORAGE_SERVER )
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Storage Server 2003"));
 			else if ( osvi.wSuiteMask==VER_SUITE_WH_SERVER )
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Home Server"));
-			else if( osvi.wProductType == VER_NT_WORKSTATION &&
+			else if ( osvi.wProductType == VER_NT_WORKSTATION &&
 				si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64)
 			{
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Windows XP Professional x64 Edition"));
@@ -208,17 +208,17 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 			{
 				if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_IA64 )
 				{
-					if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+					if ( osvi.wSuiteMask & VER_SUITE_DATACENTER )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Datacenter Edition for Itanium-based Systems" ));
-					else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+					else if ( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Enterprise Edition for Itanium-based Systems" ));
 				}
 
 				else if ( si.wProcessorArchitecture==PROCESSOR_ARCHITECTURE_AMD64 )
 				{
-					if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+					if ( osvi.wSuiteMask & VER_SUITE_DATACENTER )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Datacenter x64 Edition" ));
-					else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+					else if ( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Enterprise x64 Edition" ));
 					else StringCchCat(pszOS, BUFSIZE, TEXT( "Standard x64 Edition" ));
 				}
@@ -227,9 +227,9 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 				{
 					if ( osvi.wSuiteMask & VER_SUITE_COMPUTE_SERVER )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Compute Cluster Edition" ));
-					else if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+					else if ( osvi.wSuiteMask & VER_SUITE_DATACENTER )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Datacenter Edition" ));
-					else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+					else if ( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Enterprise Edition" ));
 					else if ( osvi.wSuiteMask & VER_SUITE_BLADE )
 						StringCchCat(pszOS, BUFSIZE, TEXT( "Web Edition" ));
@@ -241,7 +241,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 		if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 1 )
 		{
 			StringCchCat(pszOS, BUFSIZE, TEXT("Windows XP "));
-			if( osvi.wSuiteMask & VER_SUITE_PERSONAL )
+			if ( osvi.wSuiteMask & VER_SUITE_PERSONAL )
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Home Edition" ));
 			else StringCchCat(pszOS, BUFSIZE, TEXT( "Professional" ));
 		}
@@ -256,9 +256,9 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 			}
 			else 
 			{
-				if( osvi.wSuiteMask & VER_SUITE_DATACENTER )
+				if ( osvi.wSuiteMask & VER_SUITE_DATACENTER )
 					StringCchCat(pszOS, BUFSIZE, TEXT( "Datacenter Server" ));
-				else if( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
+				else if ( osvi.wSuiteMask & VER_SUITE_ENTERPRISE )
 					StringCchCat(pszOS, BUFSIZE, TEXT( "Advanced Server" ));
 				else StringCchCat(pszOS, BUFSIZE, TEXT( "Server" ));
 			}
@@ -266,7 +266,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		// Include service pack (if any) and build number.
 
-		if( _tcslen(osvi.szCSDVersion) > 0 )
+		if ( _tcslen(osvi.szCSDVersion) > 0 )
 		{
 			StringCchCat(pszOS, BUFSIZE, TEXT(" ") );
 			StringCchCat(pszOS, BUFSIZE, osvi.szCSDVersion);

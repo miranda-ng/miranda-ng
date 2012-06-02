@@ -184,7 +184,7 @@ static void CheckHeading(HWND hwndTree, HTREEITEM hHeading)
 		if(tvi.hItem != branch1[0].hItem && tvi.hItem != branch1[1].hItem )
 		{
 			TreeView_GetItem(hwndTree,&tvi);
-			if(((tvi.state&TVIS_STATEIMAGEMASK)>>12==1))
+			if (((tvi.state&TVIS_STATEIMAGEMASK)>>12==1))
 				bChecked = FALSE;
 		}
 		tvi.hItem=TreeView_GetNextSibling(hwndTree,tvi.hItem);
@@ -205,7 +205,7 @@ static void CheckBranches(HWND hwndTree, HTREEITEM hHeading)
 	tvi.mask=TVIF_HANDLE|TVIF_STATE;
 	tvi.hItem = hHeading;
 	TreeView_GetItem(hwndTree,&tvi);
-	if(((tvi.state&TVIS_STATEIMAGEMASK)>>12==2))
+	if (((tvi.state&TVIS_STATEIMAGEMASK)>>12==2))
 		bChecked = FALSE;
 	tvi.hItem=TreeView_GetNextItem(hwndTree, hHeading, TVGN_CHILD);
 	tvi.stateMask = TVIS_STATEIMAGEMASK;
@@ -235,7 +235,7 @@ static INT CALLBACK BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lp, LPARAM p
 void LoadLogFonts(void)
 {
 	int i;
-	for( i = 0; i<OPTIONS_FONTCOUNT; i++)
+	for ( i = 0; i<OPTIONS_FONTCOUNT; i++)
 		LoadMsgDlgFont(i, &aFonts[i].lf, &aFonts[i].color, TRUE);
 }
 
@@ -311,7 +311,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		switch(((LPNMHDR)lParam)->idFrom)
 		{
 		case IDC_CHAT_CHECKBOXES:
-			if(((LPNMHDR)lParam)->code==NM_CLICK) {
+			if (((LPNMHDR)lParam)->code==NM_CLICK) {
 				TVHITTESTINFO hti;
 				hti.pt.x=(short)LOWORD(GetMessagePos());
 				hti.pt.y=(short)HIWORD(GetMessagePos());
@@ -458,7 +458,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 		CheckHeading(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), hListHeading3);
 		break;
 	case WM_COMMAND:
-		if(	(LOWORD(wParam)		  == IDC_CHAT_INSTAMP
+		if (	(LOWORD(wParam)		  == IDC_CHAT_INSTAMP
 				|| LOWORD(wParam) == IDC_CHAT_OUTSTAMP
 				|| LOWORD(wParam) == IDC_CHAT_TIMESTAMP
 				|| LOWORD(wParam) == IDC_CHAT_LOGLIMIT
@@ -591,7 +591,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 			else DBDeleteContactSetting(NULL, "Chat", "LogTimestamp");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_TIMESTAMP));
-			if( iLen > 0 ) {
+			if ( iLen > 0 ) {
                 pszText = mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_TIMESTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderTime", pszText);
@@ -607,7 +607,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 			else DBDeleteContactSetting(NULL, "Chat", "HeaderIncoming");
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_OUTSTAMP));
-			if( iLen > 0 ) {
+			if ( iLen > 0 ) {
 			pszText = mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_OUTSTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderOutgoing", pszText);
@@ -694,7 +694,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 		}break;
 
 	case WM_COMMAND:
-		if(	(LOWORD(wParam)		  == IDC_CHAT_TIMEOUT)
+		if (	(LOWORD(wParam)		  == IDC_CHAT_TIMEOUT)
 				&& (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()))	return 0;
 
 		if(lParam != (LPARAM)NULL)
@@ -718,7 +718,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 		switch(((LPNMHDR)lParam)->idFrom)
 		{
 			case IDC_CHAT_CHECKBOXES:
-				if(((LPNMHDR)lParam)->code==NM_CLICK) {
+				if (((LPNMHDR)lParam)->code==NM_CLICK) {
 					TVHITTESTINFO hti;
 					hti.pt.x=(short)LOWORD(GetMessagePos());
 					hti.pt.y=(short)HIWORD(GetMessagePos());

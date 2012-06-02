@@ -151,7 +151,7 @@ static void TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTA *lf, COLORREF 
 		 * filter out font attributes from the message input area font
 		 * (can be disabled by db tweak)
 		 */
-		if(!strcmp(szKey, "Font16") && M->GetByte(0, SRMSGMOD_T, "inputFontFix", 1) == 1) {
+		if (!strcmp(szKey, "Font16") && M->GetByte(0, SRMSGMOD_T, "inputFontFix", 1) == 1) {
 			lf->lfWeight = FW_NORMAL;
 			lf->lfItalic = 0;
 			lf->lfUnderline = 0;

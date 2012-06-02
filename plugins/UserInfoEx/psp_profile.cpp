@@ -726,7 +726,7 @@ static INT_PTR CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 							// select new list item
 							lvi.mask = LVIF_STATE;
 							lvi.state = LVIS_FOCUSED|LVIS_SELECTED;
-							if (!ListView_SetItem(pList->hList, &lvi)){
+							if (!ListView_SetItem(pList->hList, &lvi)) {
 								return 0;
 							}
 						}

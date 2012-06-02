@@ -37,7 +37,7 @@ int YAHOO_avt_hash(const char *key, DWORD len)
 	while(i--) {
 		checksum = (checksum << 4) + *p++;
 
-		if((g = (checksum & 0xf0000000)) != 0)
+		if ((g = (checksum & 0xf0000000)) != 0)
 			checksum ^= g >> 23;
 
 		checksum &= ~g;
@@ -186,7 +186,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 		SetDword(hContact, "PictLoading", 1);
 	}
 
-	if(!error) {
+	if (!error) {
 
 		NETLIBHTTPREQUEST nlhr={0},*nlhrReply;
 
@@ -406,7 +406,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 			
 			LOG(("[ext_yahoo_got_picture] My Checksum: %d", mcksum));
 			
-			if (!DBGetContactSettingString(NULL, m_szModuleName, "AvatarURL", &dbv)){
+			if (!DBGetContactSettingString(NULL, m_szModuleName, "AvatarURL", &dbv)) {
 					if (lstrcmpiA(pic_url, dbv.pszVal) == 0) {
 						DBVARIANT dbv2;
 						/*time_t  ts;
@@ -562,7 +562,7 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 	SetString(NULL, "AvatarURL", url);
 	//YAHOO_SetDword("AvatarExpires", ts);
 
-	if  (!DBGetContactSettingString(NULL, m_szModuleName, "AvatarInv", &dbv) ){
+	if  (!DBGetContactSettingString(NULL, m_szModuleName, "AvatarInv", &dbv) ) {
 		LOG(("[ext_yahoo_got_picture_upload] Buddy: %s told us this is bad??", dbv.pszVal));
 
 		LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", url, cksum, dbv.pszVal));
@@ -809,8 +809,8 @@ INT_PTR __cdecl CYahooProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	int ret = -3;
 
-	if (GetDword("AvatarHash", 0)){
-		if (!DBGetContactSettingTString(NULL, m_szModuleName, "AvatarFile", &dbv)){
+	if (GetDword("AvatarHash", 0)) {
+		if (!DBGetContactSettingTString(NULL, m_szModuleName, "AvatarFile", &dbv)) {
 			if (_taccess(dbv.ptszVal, 0) == 0){
 				lstrcpyn(buffer, dbv.ptszVal, size-1);
 				buffer[size-1] = '\0';

@@ -406,9 +406,9 @@ SetMemIO(FreeImageIO *io) {
 
 unsigned __stdcall fiio_mem_ReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle) {
 	unsigned x;
-	for( x=0; x<count; x++ ) {
+	for ( x=0; x<count; x++ ) {
 		//if there isnt size bytes left to read, set pos to eof and return a short count
-		if( FIIOMEM(filelen)-FIIOMEM(curpos) < (long)size ) {
+		if ( FIIOMEM(filelen)-FIIOMEM(curpos) < (long)size ) {
 			FIIOMEM(curpos) = FIIOMEM(filelen);
 			break;
 		}
@@ -426,13 +426,13 @@ unsigned __stdcall fiio_mem_WriteProc(void *buffer, unsigned size, unsigned coun
 	//double the data block size if we need to
 	while( FIIOMEM(curpos)+(long)(size*count) >= FIIOMEM(datalen) ) {
 		//if we are at or above 1G, we cant double without going negative
-		if( FIIOMEM(datalen) & 0x40000000 ) {
+		if ( FIIOMEM(datalen) & 0x40000000 ) {
 			//max 2G
-			if( FIIOMEM(datalen) == 0x7FFFFFFF ) {
+			if ( FIIOMEM(datalen) == 0x7FFFFFFF ) {
 				return 0;
 			}
 			newdatalen = 0x7FFFFFFF;
-		} else if( FIIOMEM(datalen) == 0 ) {
+		} else if ( FIIOMEM(datalen) == 0 ) {
 			//default to 4K if nothing yet
 			newdatalen = 4096;
 		} else {
@@ -440,7 +440,7 @@ unsigned __stdcall fiio_mem_WriteProc(void *buffer, unsigned size, unsigned coun
 			newdatalen = FIIOMEM(datalen) << 1;
 		}
 		newdata = realloc( FIIOMEM(data), newdatalen );
-		if( !newdata ) {
+		if ( !newdata ) {
 			return 0;
 		}
 		FIIOMEM(data) = newdata;
@@ -448,7 +448,7 @@ unsigned __stdcall fiio_mem_WriteProc(void *buffer, unsigned size, unsigned coun
 	}
 	memcpy( (char *)FIIOMEM(data) + FIIOMEM(curpos), buffer, size*count );
 	FIIOMEM(curpos) += size*count;
-	if( FIIOMEM(curpos) > FIIOMEM(filelen) ) {
+	if ( FIIOMEM(curpos) > FIIOMEM(filelen) ) {
 		FIIOMEM(filelen) = FIIOMEM(curpos);
 	}
 	return count;
@@ -458,21 +458,21 @@ int __stdcall fiio_mem_SeekProc(fi_handle handle, long offset, int origin) {
 	switch(origin) { //0 to filelen-1 are 'inside' the file
 	default:
 	case SEEK_SET: //can fseek() to 0-7FFFFFFF always
-		if( offset >= 0 ) {
+		if ( offset >= 0 ) {
 			FIIOMEM(curpos) = offset;
 			return 0;
 		}
 		break;
 
 	case SEEK_CUR:
-		if( FIIOMEM(curpos)+offset >= 0 ) {
+		if ( FIIOMEM(curpos)+offset >= 0 ) {
 			FIIOMEM(curpos) += offset;
 			return 0;
 		}
 		break;
 
 	case SEEK_END:
-		if( FIIOMEM(filelen)+offset >= 0 ) {
+		if ( FIIOMEM(filelen)+offset >= 0 ) {
 			FIIOMEM(curpos) = FIIOMEM(filelen)+offset;
 			return 0;
 		}
@@ -847,7 +847,7 @@ static INT_PTR serviceGetInterface(WPARAM wParam, LPARAM lParam)
 {
 	FI_INTERFACE **ppfe = (FI_INTERFACE **)lParam;
 
-	if((DWORD)wParam != FI_IF_VERSION)
+	if ((DWORD)wParam != FI_IF_VERSION)
 		return CALLSERVICE_NOTFOUND;
 
 	if(ppfe) {
@@ -877,7 +877,7 @@ static INT_PTR serviceLoad(WPARAM wParam, LPARAM lParam)
 	}
 	// check that the plugin has reading capabilities ...
 
-	if((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
+	if ((fif != FIF_UNKNOWN) && FreeImage_FIFSupportsReading(fif)) {
 		// ok, let's load the file
 		FIBITMAP *dib;
 

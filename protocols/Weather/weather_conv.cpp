@@ -453,7 +453,7 @@ void TrimString(WCHAR *str)
 void ConvertBackslashes(char *str) 
 {
 	char *pstr;
-	for( pstr=str; *pstr; pstr = CharNextA(pstr)) {
+	for ( pstr=str; *pstr; pstr = CharNextA(pstr)) {
 		if (*pstr=='\\') {
 			switch(pstr[1]) {
 				case 'n': *pstr='\n'; break;

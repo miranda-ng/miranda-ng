@@ -115,7 +115,7 @@ static int SetStatusList(HWND hwndDlg)
 	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 	lvItem.cchTextMax = 256;
 
-	for( int i=0; i < confirmSettings.getCount(); i++ ) {
+	for ( int i=0; i < confirmSettings.getCount(); i++ ) {
 		lvItem.pszText = confirmSettings[i].tszAccName;
 		if (ListView_GetItemCount(hList) < confirmSettings.getCount()) 
 			ListView_InsertItem(hList,&lvItem);
@@ -377,7 +377,7 @@ static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 						actualStatus = currentStatus;
 					}
 
-					for( i = 0; i < SIZEOF(statusModeList); i++ ) {
+					for ( i = 0; i < SIZEOF(statusModeList); i++ ) {
 						if ( ((flags&statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE)) && (!((!(flags)&Proto_Status2Flag(statusModePf2List[i]))) || ((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0)&Proto_Status2Flag(statusModePf2List[i])))) ) {
 							TCHAR* statusMode = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR);
 							item = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_ADDSTRING,0,(LPARAM)statusMode);

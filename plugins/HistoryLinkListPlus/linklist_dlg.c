@@ -246,7 +246,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 			TCHAR filter[40];
 
 			// open Search Box
-			if( wParam == IDM_SEARCH )
+			if ( wParam == IDM_SEARCH )
 			{
 
 				HWND hWndSearchDlg;
@@ -283,7 +283,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 			}
 			
 			// view only incoming messages
-			else if( wParam == IDM_DIR_IN )
+			else if ( wParam == IDM_DIR_IN )
 			{
 				GetFilterText(listMenu, filter, _countof(filter));
 				SetDlgItemText(hDlg, IDC_STATUS, filter);

@@ -307,7 +307,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 								EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH),		PopUpOptions.DynamicResize && PopUpOptions.UseMinimumWidth);
 								EnableWindow(GetDlgItem(hwnd, IDC_MINIMUMWIDTH_SPIN),	PopUpOptions.DynamicResize && PopUpOptions.UseMinimumWidth);
 								SetDlgItemText(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.DynamicResize ? TranslateT("Maximum width"): TranslateT("Width"));
-								if(!PopUpOptions.DynamicResize) {
+								if (!PopUpOptions.DynamicResize) {
 									PopUpOptions.UseMaximumWidth = TRUE;
 									CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, BST_CHECKED);
 									EnableWindow(GetDlgItem(hwnd, IDC_USEMAXIMUMWIDTH),		TRUE);
@@ -328,7 +328,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_USEMAXIMUMWIDTH:
 								{
 								PopUpOptions.UseMaximumWidth= Button_GetCheck((HWND)lParam);
-								if(!PopUpOptions.DynamicResize) { //ugly - set always on if DynamicResize = off
+								if (!PopUpOptions.DynamicResize) { //ugly - set always on if DynamicResize = off
 									CheckDlgButton(hwnd, idCtrl, BST_CHECKED);
 									PopUpOptions.UseMaximumWidth = TRUE;
 								}
@@ -432,7 +432,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						}
 						break;
 					case EN_CHANGE:			//Edit controls change
-						if(!bDlgInit) break;
+						if (!bDlgInit) break;
 						switch(idCtrl) {
 							//lParam = Handle to the control
 							case IDC_SECONDS:

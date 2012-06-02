@@ -320,7 +320,7 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 							CSkin::ApplyAeroEffect(m_hdcDraw, &m_rcItem, CSkin::AERO_EFFECT_AREA_MENUBAR);
 							nm->rc.bottom++;
 						}
-						else if((PluginConfig.m_fillColor || M->isVSThemed()) && !CSkin::m_skinEnabled) {
+						else if ((PluginConfig.m_fillColor || M->isVSThemed()) && !CSkin::m_skinEnabled) {
 							if(PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
 								::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
 										GRADIENT_TB, 0, 0, 0);
@@ -660,7 +660,7 @@ LRESULT CALLBACK CMenuBar::MessageHook(int nCode, WPARAM wParam, LPARAM lParam)
 				POINT	pt;
 
 				::GetCursorPos(&pt);
-				if(::MenuItemFromPoint(0, m_Owner->m_activeMenu, pt) >= 0) 			// inside menu
+				if (::MenuItemFromPoint(0, m_Owner->m_activeMenu, pt) >= 0) 			// inside menu
 					break;
 				if(m_Owner->m_activeSubMenu && ::MenuItemFromPoint(0, m_Owner->m_activeSubMenu, pt) >= 0)
 					break;
@@ -1006,7 +1006,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 
 				ScreenToClient(hWnd, &pt1);
 				SendMessage(hWnd, SB_GETRECT, 2, (LPARAM)&rcIconpart);
-				if(!PtInRect(&rcIconpart, pt1))
+				if (!PtInRect(&rcIconpart, pt1))
 					return SendMessage(pContainer->hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 			}
 			break;
@@ -1093,7 +1093,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 							tooltip_active = TRUE;
 						}
-						else if((int)iconNum == list_icons + 2) {
+						else if ((int)iconNum == list_icons + 2) {
 							TCHAR wBuf[512];
 
 							mir_sntprintf(wBuf, safe_sizeof(wBuf), _T("%s"), CTranslator::get(CTranslator::CNT_SBAR_SLIST));

@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&protoCount,(LPARAM)&proto);
 
 			DWORD protoModeMsgFlags = 0;
-			for( i=0; i < protoCount; i++ ) {
+			for ( i=0; i < protoCount; i++ ) {
 				if ( (!(CallProtoService(proto[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)) )
 					continue;
 
@@ -50,7 +50,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			settings = ( AAMSGSETTING** )malloc(sizeof(AAMSGSETTING*));
 			count = 0;
-			for( i=0; i < SIZEOF(statusModeList); i++ ) {
+			for ( i=0; i < SIZEOF(statusModeList); i++ ) {
 				if ( !( protoModeMsgFlags & Proto_Status2Flag( statusModeList[i] )))
 					continue;
 

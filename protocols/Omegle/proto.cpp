@@ -243,9 +243,9 @@ int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
 		reinterpret_cast<WPARAM>(hContact),0) );
 
-	if( proto && strcmp(m_szModuleName,proto) == 0 )
+	if ( proto && strcmp(m_szModuleName,proto) == 0 )
 	{
-		if( include_chat )
+		if ( include_chat )
 			return true;
 		else
 			return DBGetContactSettingByte(hContact,m_szModuleName,"ChatRoom",0) == 0;

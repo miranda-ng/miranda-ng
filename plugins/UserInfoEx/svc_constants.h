@@ -195,7 +195,7 @@ extern OBJLIST<CService> services;
 static __inline HANDLE myCreateServiceFunction( const char * name, MIRANDASERVICE serviceProc)
 {
 	CService* p = new CService(name,serviceProc);
-	if(!p->m_hService){delete p; return 0;}
+	if (!p->m_hService){delete p; return 0;}
 	services.insert(p);
 	return p->m_hService;
 }

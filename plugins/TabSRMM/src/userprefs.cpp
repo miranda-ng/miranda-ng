@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 						M->WriteDword(hContact, SRMSGMOD_T, "maxhist", 0);
 
 					//MAD
-					if (IsDlgButtonChecked(hwndDlg, IDC_LOADONLYACTUAL)){
+					if (IsDlgButtonChecked(hwndDlg, IDC_LOADONLYACTUAL)) {
 						M->WriteByte(hContact, SRMSGMOD_T, "ActualHistory", 1);
 						if (hWnd && dat) dat->bActualHistory=TRUE;
 						}else{
@@ -440,7 +440,7 @@ static INT_PTR CALLBACK DlgProcUserPrefsLogOptions(HWND hwndDlg, UINT msg, WPARA
 					if(hwnd && dat) {
 						if(dwMask)
 							*dwActionToTake |= (DWORD)UPREF_ACTION_REMAKELOG;
-						if((dat->dwFlags & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL))
+						if ((dat->dwFlags & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL))
 							*dwActionToTake |= (DWORD)UPREF_ACTION_APPLYOPTIONS;
 					}
 					break;
@@ -562,7 +562,7 @@ INT_PTR CALLBACK DlgProcUserPrefsFrame(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							}
 #endif
 							LoadLocalFlags(hwnd, dat);
-							if((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
+							if ((dat->dwFlags & MWF_LOG_ALL) != dwOldFlags) {
 								BOOL	fShouldHide = TRUE;
 
 								if(IsIconic(dat->pContainer->hwnd))

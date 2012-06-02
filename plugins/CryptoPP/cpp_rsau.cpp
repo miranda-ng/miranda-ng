@@ -6,14 +6,14 @@ const string padding = "PADDING!PADDING!PADDING!PADDING!"; // 256 bit
 string pad256(string& str) {
 	string out = str;
 	int pad = out.length() % 32;
-	if( pad ) { // надо выровнять на 256 бит
-	    if( pad>3 ) {
+	if ( pad ) { // надо выровнять на 256 бит
+	    if ( pad>3 ) {
 		out += tlv(0,padding.substr(0,32-3-pad));
 	    }
 	    else {
-	    	if( pad==3 ) out += string("\0\0\0");
+	    	if ( pad==3 ) out += string("\0\0\0");
 	    	else
-	    	if( pad==2 ) out += string("\0\0");
+	    	if ( pad==2 ) out += string("\0\0");
 	    	else         out += string("\0");
 	    }
 	}
@@ -23,7 +23,7 @@ string pad256(string& str) {
 
 string& add_delim(string& str, const string& del, int len) {
 	string val;
-	for( u_int i=0; i<str.length(); i+=len ) {
+	for ( u_int i=0; i<str.length(); i+=len ) {
 		val += str.substr(i,len) + del;
 	}
 	str = val;
@@ -33,8 +33,8 @@ string& add_delim(string& str, const string& del, int len) {
 
 string& del_delim(string& str, const string& del) {
 	string val;
-	for( u_int i=0; i<str.length(); i++ ) {
-		if( del.find(str[i]) == string::npos )
+	for ( u_int i=0; i<str.length(); i++ ) {
+		if ( del.find(str[i]) == string::npos )
 			val += str[i];
 	}
 	str = val;
@@ -66,17 +66,17 @@ string tlv(int t, int v) {
 
 string& un_tlv(string& b, int& t, string& v) {
 	string r; v = r;
-	if( b.length() > 3 ) {
+	if ( b.length() > 3 ) {
 		t = 0;
 		b.copy((char*)&t,3);
 		u_int l = t>>8;
 		t &= 0xFF;
-		if( b.length() >= 3+l ) {
+		if ( b.length() >= 3+l ) {
 		  v = b.substr(3,l);
 		  r = b.substr(3+l);
 		}
 	}
-	if( !v.length() ) {
+	if ( !v.length() ) {
 		t = -1;
 	}
 	b = r;
@@ -95,7 +95,7 @@ string& un_tlv(string& b, int& t, int& v) {
 
 int str2int(string& s) {
 	int v = 0;
-	if( s.length()<=sizeof(int) )
+	if ( s.length()<=sizeof(int) )
 		s.copy((char*)&v,s.length());
 	return v;
 }

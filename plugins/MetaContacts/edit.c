@@ -222,7 +222,7 @@ void ApplyChanges(CHANGES *chg)
 		AI.format = PA_FORMAT_UNKNOWN;
 		strcpy(AI.filename, "X");
 
-		if((int)CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 	        DBWriteContactSettingString(chg->hMeta, "ContactPhoto", "File",AI.filename);
 	}
 
@@ -388,7 +388,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			switch(LOWORD(wParam)) // hit control
 			{
 				case IDC_LST_CONTACTS:      // did we hit our ListView contorl?
-					if(((LPNMHDR)lParam)->code == NM_CLICK) {
+					if (((LPNMHDR)lParam)->code == NM_CLICK) {
 						hwnd = GetDlgItem(hwndDlg, IDC_LST_CONTACTS);
 						sel=SendMessage(hwnd,LVM_GETNEXTITEM,-1,LVNI_FOCUSED|LVNI_SELECTED); // return item selected
 						// enable buttons
@@ -404,7 +404,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						EnableWindow(hwnd, (sel != -1) && (sel < changes.num_contacts - 1));
 /*
 					// custom draw stuff - change colour of listview things - doesn't affect selection :(
-					} else if(((LPNMHDR)lParam)->code == NM_CUSTOMDRAW) {
+					} else if (((LPNMHDR)lParam)->code == NM_CUSTOMDRAW) {
 						SetWindowLong(hwndDlg, DWL_MSGRESULT, (LONG)ProcessCustomDraw(lParam));
 						return TRUE;					
 */

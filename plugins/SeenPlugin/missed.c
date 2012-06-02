@@ -38,7 +38,7 @@ WPARAM IsUserMissed(WPARAM contact)
 {
 	int loop=0;
 
-	for(;loop<mcs.count;loop++)
+	for (;loop<mcs.count;loop++)
 	{
 		if(mcs.wpcontact[loop]==contact)
 			return MAKEWPARAM(1,loop);
@@ -155,9 +155,9 @@ int ShowMissed(void)
 	int loop=0;
 	char sztemp[1024]="",szcount[7];
 
-	if(!mcs.count) return 0;
+	if (!mcs.count) return 0;
 
-	for(;loop<mcs.count;loop++)
+	for (;loop<mcs.count;loop++)
 	{
 		strcat(sztemp,(const char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,mcs.wpcontact[loop],0));
 		if(DBGetContactSettingByte(NULL,S_MOD,"MissedOnes_Count",0))
@@ -233,7 +233,7 @@ int Test(WPARAM wparam,LPARAM lparam)
 			{
 				WORD missed=IsUserMissed(wparam);
 
-				if(!LOWORD(missed))
+				if (!LOWORD(missed))
 				{
 					mcs.times[mcs.count]=1;
 					mcs.wpcontact[mcs.count++]=wparam;

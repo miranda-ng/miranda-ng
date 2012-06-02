@@ -52,7 +52,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT idTimer,DWORD cur
 	for(i=0;i<nCallListCount;++i) {
 		/* find elapsed procs */
 		uElapsed=currentTick-callList[i].startTick; /* wraparound works */
-		if((uElapsed+USER_TIMER_MINIMUM)>=callList[i].uElapse) { 
+		if ((uElapsed+USER_TIMER_MINIMUM)>=callList[i].uElapse) { 
 			/* call elapsed proc */
 			pfnBuffProc=callList[i].pfnBuffProc;
 			lParam=callList[i].lParam;
@@ -60,7 +60,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT idTimer,DWORD cur
 				pszProcName=callList[i].pszProcName;
 			#endif
 			/* resize storage array */
-			if((i+1)<nCallListCount)
+			if ((i+1)<nCallListCount)
 				MoveMemory(&callList[i],&callList[i+1],((nCallListCount-i-1)*sizeof(struct BufferedCallData)));
 			--nCallListCount;
 			--i; /* reiterate current */
@@ -78,7 +78,7 @@ static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT idTimer,DWORD cur
 			CallFunctionAsync((void (CALLBACK *)(void*))pfnBuffProc,(void*)lParam); /* compatible */
 		}
 		/* find next timer delay */
-		else if((callList[i].uElapse-uElapsed)<uElapseNext)
+		else if ((callList[i].uElapse-uElapsed)<uElapseNext)
 			uElapseNext=callList[i].uElapse-uElapsed;
 	}
 
@@ -111,7 +111,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 	/* find existing */
 	for(i=0;i<nCallListCount;++i)
 		if(callList[i].pfnBuffProc==pfnBuffProc)
-			if(!fAccumulateSameParam || callList[i].lParam==lParam) {
+			if (!fAccumulateSameParam || callList[i].lParam==lParam) {
 				data=&callList[i];
 				break;
 			}
@@ -134,7 +134,7 @@ void _CallFunctionBuffered(BUFFEREDPROC pfnBuffProc,LPARAM lParam,BOOL fAccumula
 			data->pszProcName=pszProcName;
 			mir_snprintf(szDbgLine,sizeof(szDbgLine),"buffered queue: %s(0x%X)\n",pszProcName,lParam); /* all ascii */
 			OutputDebugStringA(szDbgLine);
-			if(!idBufferedTimer) {
+			if (!idBufferedTimer) {
 				mir_snprintf(szDbgLine,sizeof(szDbgLine),"next buffered timeout: %ums\n",uElapse); /* all ascii */
 				OutputDebugStringA(szDbgLine);
 			}

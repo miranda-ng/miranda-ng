@@ -41,7 +41,7 @@ unsigned GUID_from_text::read_dword(const char * ptr)
 
 void GUID_from_text::read_bytes(BYTE * out,unsigned num,const char * ptr)
 {
-	for(;num;num--)
+	for (;num;num--)
 	{
 		*out = read_byte(ptr);
 		out++;ptr+=2;

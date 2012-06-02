@@ -27,9 +27,9 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
 		reinterpret_cast<WPARAM>(hContact),0) );
 
-	if( proto && strcmp(m_szModuleName,proto) == 0 )
+	if ( proto && strcmp(m_szModuleName,proto) == 0 )
 	{
-		if( include_chat )
+		if ( include_chat )
 			return true;
 		else
 			return DBGetContactSettingByte(hContact,m_szModuleName,"ChatRoom",0) == 0;
@@ -44,13 +44,13 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 	    hContact;
 	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
 	{
-		if(!IsMyContact(hContact))
+		if (!IsMyContact(hContact))
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 		{
-			if( strcmp(user_id.c_str(),dbv.pszVal) == 0 )
+			if ( strcmp(user_id.c_str(),dbv.pszVal) == 0 )
 			{
 				DBFreeVariant(&dbv);
 				return hContact;
@@ -70,15 +70,15 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 	if (!dont_check) {
 		// First, check if this contact exists
 		hContact = ContactIDToHContact(fbu->user_id);
-		if( hContact )
+		if ( hContact )
 			return hContact;
 	}
 
 	// If not, make a new contact!
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_ADD, 0, 0);
-	if( hContact )
+	if ( hContact )
 	{
-		if( CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0 )
+		if ( CallService(MS_PROTO_ADDTOCONTACT,(WPARAM)hContact,(LPARAM)m_szModuleName) == 0 )
 		{
 			DBWriteContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,fbu->user_id.c_str());
       
@@ -90,7 +90,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 			DBDeleteContactSetting(hContact, "CList", "MyHandle");
 
 			DBVARIANT dbv;
-			if( !DBGetContactSettingTString(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv) )
+			if ( !DBGetContactSettingTString(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv) )
 			{
 				DBWriteContactSettingTString(hContact,"CList","Group",dbv.ptszVal);
 				DBFreeVariant(&dbv);

@@ -56,7 +56,7 @@ bool DownloadUpdates(UpdateList &todo, FilenameMap *map, bool dlls_only) {
 		mir_snprintf(stored_setting, SIZEOF(stored_setting), "DisabledVer%s", todo[index].update.szComponentName);
 		DBVARIANT dbv;
 		bool download = todo[index].update_options.enabled;
-		if(!DBGetContactSettingString(0, "Updater", stored_setting, &dbv)) 
+		if (!DBGetContactSettingString(0, "Updater", stored_setting, &dbv)) 
 		{
 			if(dbv.pszVal && strcmp(dbv.pszVal, todo[index].newVersion) == 0)
 				download = false;
@@ -129,7 +129,7 @@ bool DownloadUpdates(UpdateList &todo, FilenameMap *map, bool dlls_only) {
 	//if(hwndPop) PostMessage(hwndPop, WMU_CLOSEPOP, 0, 0);
 	if (hwndPop) SendMessage(hwndPop, WMU_CLOSEPOP, 0, 0);
 
-	if(!a_download_succeeded) 
+	if (!a_download_succeeded) 
 	{
 		for(int i = 0; i < todo.getCount(); ++i)
 			free(todo[i].newVersion);
@@ -179,7 +179,7 @@ void CheckForUpdatesWorker(void *param)
 	if (checking) return;
 	/*
 	// this check doesn't work on some systems - not sure which or why
-	if(!(GetSystemMetrics(SM_NETWORK) & 1)) {
+	if (!(GetSystemMetrics(SM_NETWORK) & 1)) {
 		ShowError(TranslateT("No network - aborting update check"));
 		NLog("worker thread aborting - no network");
 		return 1; // no network
@@ -231,7 +231,7 @@ void CheckForUpdatesWorker(void *param)
 				ScanLangpacks(&fn_map, &update_list);
 			}
 
-			if(!use_popup) SendMessage(hwndProgress, WMU_SETMESSAGE, (WPARAM)TranslateT("Updating component file listing ids"), 0);
+			if (!use_popup) SendMessage(hwndProgress, WMU_SETMESSAGE, (WPARAM)TranslateT("Updating component file listing ids"), 0);
 			UpdateFLIDs(update_list);
 		}
 
@@ -260,7 +260,7 @@ void CheckForUpdatesWorker(void *param)
 			mir_free(temp_str);
 		}
 
-		if(!use_popup) {
+		if (!use_popup) {
 			SendMessage(hwndProgress, WMU_SETMESSAGE, (WPARAM)msg, 0);
 			SendMessage(hwndProgress, WMU_SETPROGRESS, (WPARAM)(int)(index * 100.0 / count), 0);
 		} //else if(hwndPop) // disabled - just annoying
@@ -450,7 +450,7 @@ void LoadUpdateOptions(char *szComponentName, UpdateOptions *update_options) {
 	char buff[256];
 	sprintf(buff, "Enable%s", szComponentName);
 	update_options->enabled = (DBGetContactSettingByte(0, MODULE, buff, 1) == 1);
-	if(!update_options->fixed) {
+	if (!update_options->fixed) {
 		sprintf(buff, "UseBeta%s", szComponentName);
 		update_options->use_beta = (DBGetContactSettingByte(0, MODULE, buff, 0) == 1);
 	}
@@ -460,7 +460,7 @@ void SaveUpdateOptions(char *szComponentName, UpdateOptions *update_options) {
 	char buff[256];
 	sprintf(buff, "Enable%s", szComponentName);
 	DBWriteContactSettingByte(0, MODULE, buff, update_options->enabled ? 1 : 0);
-	if(!update_options->fixed) {
+	if (!update_options->fixed) {
 		sprintf(buff, "UseBeta%s", szComponentName);
 		DBWriteContactSettingByte(0, MODULE, buff, update_options->use_beta ? 1 : 0);
 	}

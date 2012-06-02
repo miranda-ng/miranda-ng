@@ -12,7 +12,7 @@ public:
 	string encode() {
 		map<u_char,string>::const_iterator i;
 		string b;
-		for( i=data.begin(); i!=data.end(); ++i ) {
+		for ( i=data.begin(); i!=data.end(); ++i ) {
 			b += tlv(i->first,i->second);
 		}
 		return b;
@@ -23,7 +23,7 @@ public:
 		string r = b;
 		while( r.length() ) {
 			t = un_tlv(r,v);
-			if( t==-1 ) {
+			if ( t==-1 ) {
 				break;
 			}
 			data[t] = v;
@@ -46,16 +46,16 @@ private:
 	u_char un_tlv(string& b, string& v) {
 		string r; v = r;
 		u_int t = 0;
-		if( b.length() > 3 ) {
+		if ( b.length() > 3 ) {
 			b.copy((char*)&t,3);
 			u_int l = t>>8;
 			t &= 0xFF;
-			if( b.length() >= 3+l ) {
+			if ( b.length() >= 3+l ) {
 		  		v = b.substr(3,l);
 		  		r = b.substr(3+l);
 			}
 		}
-		if( !v.length() ) {
+		if ( !v.length() ) {
 			return -1;
 		}
 		b = r;

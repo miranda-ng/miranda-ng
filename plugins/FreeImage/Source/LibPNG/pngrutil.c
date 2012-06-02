@@ -3115,7 +3115,7 @@ png_combine_row(png_structp png_ptr, png_bytep dp, int display)
                /* This can only be the RGB case, so each copy is exactly one
                 * pixel and it is not necessary to check for a partial copy.
                 */
-               for(;;)
+               for (;;)
                {
                   dp[0] = sp[0], dp[1] = sp[1], dp[2] = sp[2];
 

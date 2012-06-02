@@ -51,7 +51,7 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
     int dummy;
 
     /* Botch: Should this be handled at all?  Rely on callers?	*/
-    if( !dividend_size )
+    if ( !dividend_size )
 	return 0;
 
     /* If multiplication is much faster than division, and the
@@ -62,12 +62,12 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
      *	 Does it ever help to use udiv_qrnnd_preinv?
      *	   && Does what we save compensate for the inversion overhead?
      */
-    if( UDIV_TIME > (2 * UMUL_TIME + 6)
+    if ( UDIV_TIME > (2 * UMUL_TIME + 6)
 	&& (UDIV_TIME - (2 * UMUL_TIME + 6)) * dividend_size > UDIV_TIME ) {
 	int normalization_steps;
 
 	count_leading_zeros( normalization_steps, divisor_limb );
-	if( normalization_steps ) {
+	if ( normalization_steps ) {
 	    mpi_limb_t divisor_limb_inverted;
 
 	    divisor_limb <<= normalization_steps;
@@ -78,7 +78,7 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 	     *
 	     * Special case for DIVISOR_LIMB == 100...000.
 	     */
-	    if( !(divisor_limb << 1) )
+	    if ( !(divisor_limb << 1) )
 		divisor_limb_inverted = ~(mpi_limb_t)0;
 	    else
 		udiv_qrnnd(divisor_limb_inverted, dummy,
@@ -93,7 +93,7 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 	     *		       | (dividend_ptr[dividend_size - 2] >> ...)))
 	     * ...one division less...
 	     */
-	    for( i = dividend_size - 2; i >= 0; i--) {
+	    for ( i = dividend_size - 2; i >= 0; i--) {
 		n0 = dividend_ptr[i];
 		UDIV_QRNND_PREINV(dummy, r, r,
 				   ((n1 << normalization_steps)
@@ -115,7 +115,7 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 	     *
 	     * Special case for DIVISOR_LIMB == 100...000.
 	     */
-	    if( !(divisor_limb << 1) )
+	    if ( !(divisor_limb << 1) )
 		divisor_limb_inverted = ~(mpi_limb_t)0;
 	    else
 		udiv_qrnnd(divisor_limb_inverted, dummy,
@@ -124,12 +124,12 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 	    i = dividend_size - 1;
 	    r = dividend_ptr[i];
 
-	    if( r >= divisor_limb )
+	    if ( r >= divisor_limb )
 		r = 0;
 	    else
 		i--;
 
-	    for( ; i >= 0; i--) {
+	    for ( ; i >= 0; i--) {
 		n0 = dividend_ptr[i];
 		UDIV_QRNND_PREINV(dummy, r, r,
 				  n0, divisor_limb, divisor_limb_inverted);
@@ -138,11 +138,11 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 	}
     }
     else {
-	if( UDIV_NEEDS_NORMALIZATION ) {
+	if ( UDIV_NEEDS_NORMALIZATION ) {
 	    int normalization_steps;
 
 	    count_leading_zeros(normalization_steps, divisor_limb);
-	    if( normalization_steps ) {
+	    if ( normalization_steps ) {
 		divisor_limb <<= normalization_steps;
 
 		n1 = dividend_ptr[dividend_size - 1];
@@ -178,7 +178,7 @@ _gcry_mpih_mod_1(mpi_ptr_t dividend_ptr, mpi_size_t dividend_size,
 	else
 	    i--;
 
-	for(; i >= 0; i--) {
+	for (; i >= 0; i--) {
 	    n0 = dividend_ptr[i];
 	    udiv_qrnnd (dummy, r, r, n0, divisor_limb);
 	}
@@ -225,17 +225,17 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 	    d = dp[0];
 	    n1 = np[nsize - 1];
 
-	    if( n1 >= d ) {
+	    if ( n1 >= d ) {
 		n1 -= d;
 		most_significant_q_limb = 1;
 	    }
 
 	    qp += qextra_limbs;
-	    for( i = nsize - 2; i >= 0; i--)
+	    for ( i = nsize - 2; i >= 0; i--)
 		udiv_qrnnd( qp[i], n1, n1, np[i], d );
 	    qp -= qextra_limbs;
 
-	    for( i = qextra_limbs - 1; i >= 0; i-- )
+	    for ( i = qextra_limbs - 1; i >= 0; i-- )
 		udiv_qrnnd (qp[i], n1, n1, 0, d);
 
 	    np[0] = n1;
@@ -254,28 +254,28 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 	    n1 = np[1];
 	    n0 = np[0];
 
-	    if( n1 >= d1 && (n1 > d1 || n0 >= d0) ) {
+	    if ( n1 >= d1 && (n1 > d1 || n0 >= d0) ) {
 		sub_ddmmss (n1, n0, n1, n0, d1, d0);
 		most_significant_q_limb = 1;
 	    }
 
-	    for( i = qextra_limbs + nsize - 2 - 1; i >= 0; i-- ) {
+	    for ( i = qextra_limbs + nsize - 2 - 1; i >= 0; i-- ) {
 		mpi_limb_t q;
 		mpi_limb_t r;
 
-		if( i >= qextra_limbs )
+		if ( i >= qextra_limbs )
 		    np--;
 		else
 		    np[0] = 0;
 
-		if( n1 == d1 ) {
+		if ( n1 == d1 ) {
 		    /* Q should be either 111..111 or 111..110.  Need special
 		     * treatment of this rare case as normal division would
 		     * give overflow.  */
 		    q = ~(mpi_limb_t)0;
 
 		    r = n0 + d1;
-		    if( r < d1 ) {   /* Carry in the addition? */
+		    if ( r < d1 ) {   /* Carry in the addition? */
 			add_ssaaaa( n1, n0, r - d0, np[0], 0, d0 );
 			qp[i] = q;
 			continue;
@@ -290,12 +290,12 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 
 		n2 = np[0];
 	      q_test:
-		if( n1 > r || (n1 == r && n0 > n2) ) {
+		if ( n1 > r || (n1 == r && n0 > n2) ) {
 		    /* The estimated Q was too large.  */
 		    q--;
 		    sub_ddmmss (n1, n0, n1, n0, 0, d0);
 		    r += d1;
-		    if( r >= d1 )    /* If not carry, test Q again.  */
+		    if ( r >= d1 )    /* If not carry, test Q again.  */
 			goto q_test;
 		}
 
@@ -317,7 +317,7 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 	    d1 = dp[dsize - 2];
 	    n0 = np[dsize - 1];
 
-	    if( n0 >= dX ) {
+	    if ( n0 >= dX ) {
 		if(n0 > dX || _gcry_mpih_cmp(np, dp, dsize - 1) >= 0 ) {
 		    _gcry_mpih_sub_n(np, np, dp, dsize);
 		    n0 = np[dsize - 1];
@@ -325,12 +325,12 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 		}
 	    }
 
-	    for( i = qextra_limbs + nsize - dsize - 1; i >= 0; i--) {
+	    for ( i = qextra_limbs + nsize - dsize - 1; i >= 0; i--) {
 		mpi_limb_t q;
 		mpi_limb_t n1, n2;
 		mpi_limb_t cy_limb;
 
-		if( i >= qextra_limbs ) {
+		if ( i >= qextra_limbs ) {
 		    np--;
 		    n2 = np[dsize];
 		}
@@ -340,7 +340,7 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 		    np[0] = 0;
 		}
 
-		if( n0 == dX ) {
+		if ( n0 == dX ) {
 		    /* This might over-estimate q, but it's probably not worth
 		     * the extra code here to find out.  */
 		    q = ~(mpi_limb_t)0;
@@ -354,7 +354,7 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 		    while( n1 > r || (n1 == r && n0 > np[dsize - 2])) {
 			q--;
 			r += dX;
-			if( r < dX ) /* I.e. "carry in previous addition?" */
+			if ( r < dX ) /* I.e. "carry in previous addition?" */
 			    break;
 			n1 -= n0 < d1;
 			n0 -= d1;
@@ -366,7 +366,7 @@ _gcry_mpih_divrem( mpi_ptr_t qp, mpi_size_t qextra_limbs,
 		 * could make this loop make two iterations less.  */
 		cy_limb = _gcry_mpih_submul_1(np, dp, dsize, q);
 
-		if( n2 != cy_limb ) {
+		if ( n2 != cy_limb ) {
 		    _gcry_mpih_add_n(np, np, dp, dsize);
 		    q--;
 		}
@@ -399,7 +399,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
     mpi_limb_t n1, n0, r;
     int dummy;
 
-    if( !dividend_size )
+    if ( !dividend_size )
 	return 0;
 
     /* If multiplication is much faster than division, and the
@@ -410,12 +410,12 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
      * Does it ever help to use udiv_qrnnd_preinv?
      * && Does what we save compensate for the inversion overhead?
      */
-    if( UDIV_TIME > (2 * UMUL_TIME + 6)
+    if ( UDIV_TIME > (2 * UMUL_TIME + 6)
 	&& (UDIV_TIME - (2 * UMUL_TIME + 6)) * dividend_size > UDIV_TIME ) {
 	int normalization_steps;
 
 	count_leading_zeros( normalization_steps, divisor_limb );
-	if( normalization_steps ) {
+	if ( normalization_steps ) {
 	    mpi_limb_t divisor_limb_inverted;
 
 	    divisor_limb <<= normalization_steps;
@@ -425,7 +425,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	     * most significant bit (with weight 2**N) implicit.
 	     */
 	    /* Special case for DIVISOR_LIMB == 100...000.  */
-	    if( !(divisor_limb << 1) )
+	    if ( !(divisor_limb << 1) )
 		divisor_limb_inverted = ~(mpi_limb_t)0;
 	    else
 		udiv_qrnnd(divisor_limb_inverted, dummy,
@@ -440,7 +440,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	     *		       | (dividend_ptr[dividend_size - 2] >> ...)))
 	     * ...one division less...
 	     */
-	    for( i = dividend_size - 2; i >= 0; i--) {
+	    for ( i = dividend_size - 2; i >= 0; i--) {
 		n0 = dividend_ptr[i];
 		UDIV_QRNND_PREINV( quot_ptr[i + 1], r, r,
 				   ((n1 << normalization_steps)
@@ -461,7 +461,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	     * most significant bit (with weight 2**N) implicit.
 	     */
 	    /* Special case for DIVISOR_LIMB == 100...000.  */
-	    if( !(divisor_limb << 1) )
+	    if ( !(divisor_limb << 1) )
 		divisor_limb_inverted = ~(mpi_limb_t) 0;
 	    else
 		udiv_qrnnd(divisor_limb_inverted, dummy,
@@ -470,12 +470,12 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	    i = dividend_size - 1;
 	    r = dividend_ptr[i];
 
-	    if( r >= divisor_limb )
+	    if ( r >= divisor_limb )
 		r = 0;
 	    else
 		quot_ptr[i--] = 0;
 
-	    for( ; i >= 0; i-- ) {
+	    for ( ; i >= 0; i-- ) {
 		n0 = dividend_ptr[i];
 		UDIV_QRNND_PREINV( quot_ptr[i], r, r,
 				   n0, divisor_limb, divisor_limb_inverted);
@@ -488,7 +488,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	    int normalization_steps;
 
 	    count_leading_zeros (normalization_steps, divisor_limb);
-	    if( normalization_steps ) {
+	    if ( normalization_steps ) {
 		divisor_limb <<= normalization_steps;
 
 		n1 = dividend_ptr[dividend_size - 1];
@@ -500,7 +500,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 		 *		   | (dividend_ptr[dividend_size - 2] >> ...)))
 		 * ...one division less...
 		 */
-		for( i = dividend_size - 2; i >= 0; i--) {
+		for ( i = dividend_size - 2; i >= 0; i--) {
 		    n0 = dividend_ptr[i];
 		    udiv_qrnnd (quot_ptr[i + 1], r, r,
 			     ((n1 << normalization_steps)
@@ -524,7 +524,7 @@ _gcry_mpih_divmod_1( mpi_ptr_t quot_ptr,
 	else
 	    quot_ptr[i--] = 0;
 
-	for(; i >= 0; i--) {
+	for (; i >= 0; i--) {
 	    n0 = dividend_ptr[i];
 	    udiv_qrnnd( quot_ptr[i], r, r, n0, divisor_limb );
 	}

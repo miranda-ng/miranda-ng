@@ -411,7 +411,7 @@ DWORD ReadMessagesFromMemory(HACCOUNT Which,char **Parser,char *End)
 			}
 			else
 			{
-				if (NULL==(ActualMail->Next=CreateAccountMail(Which))){
+				if (NULL==(ActualMail->Next=CreateAccountMail(Which))) {
 					return EACC_ALLOC;
 				}
 				ActualMail=ActualMail->Next;

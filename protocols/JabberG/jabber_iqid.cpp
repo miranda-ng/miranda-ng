@@ -345,7 +345,7 @@ void CJabberProto::GroupchatJoinByHContact( HANDLE hContact, bool autojoin )
 	TCHAR *nick = JGetStringT( hContact, "MyNick" );
 	if ( !nick ) {
 		nick = JabberNickFromJID( m_szJabberJID );
-		if( !nick ) {
+		if ( !nick ) {
 			mir_free( roomjid );
 			return;
 		}

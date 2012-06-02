@@ -289,7 +289,7 @@ static int  ehhEventAreaBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		event_area.bkColour=sttGetColor("EventArea","BkColour",CLCDEFAULT_BKCOLOUR);
 		if(ModernGetSettingByte(NULL,"EventArea","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if(!ModernGetSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
+			if (!ModernGetSettingString(NULL,"EventArea","BkBitmap",&dbv)) {
 				event_area.hBmpBackground=(HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 				ModernDBFreeVariant(&dbv);
 			}
@@ -409,7 +409,7 @@ static void EventArea_HideShowNotifyFrame()
 
     if(desired) 
     {
-		if(!dwVisible)
+		if (!dwVisible)
 			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
 	}
 	else 

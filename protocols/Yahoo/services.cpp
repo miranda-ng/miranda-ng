@@ -105,7 +105,7 @@ INT_PTR __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 		return 0;
 	}
 	
-	if ( !DBGetContactSettingString(hContact, m_szModuleName, YAHOO_LOGINID, &dbv )){
+	if ( !DBGetContactSettingString(hContact, m_szModuleName, YAHOO_LOGINID, &dbv )) {
 		DebugLog("[YahooContactDeleted] Removing %s", dbv.pszVal);
 		remove_buddy(dbv.pszVal, GetWord(hContact, "yprotoid", 0));
 		
@@ -331,7 +331,7 @@ INT_PTR __cdecl CYahooProto::OnCalendarCommand( WPARAM wParam, LPARAM lParam )
 //=======================================================
 INT_PTR __cdecl CYahooProto::OnRefreshCommand( WPARAM wParam, LPARAM lParam )
 {
-	if ( !m_bLoggedIn ){
+	if ( !m_bLoggedIn ) {
 		ShowNotification(Translate("Yahoo Error"), Translate("You need to be connected to refresh your buddy list"), NIIF_ERROR);
 		return 0;
 	}

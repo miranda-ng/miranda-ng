@@ -162,7 +162,7 @@ DWORD MraMrimProxyConnect(HANDLE hMraMrimProxyData,HANDLE *phConnection)
 						
 						while(bContinue)
 						{
-							switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)){
+							switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)) {
 							case SOCKET_ERROR:
 							case 0:// Time out
 								dwRetErrorCode=GetLastError();

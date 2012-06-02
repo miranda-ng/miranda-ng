@@ -36,7 +36,7 @@ static INT_PTR GetClistVersion(WPARAM wParam, LPARAM lParam)
 	static char g_szVersionString[256];
 
 	mir_snprintf(g_szVersionString, 256, "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
-	if(!IsBadWritePtr((LPVOID)lParam, 4))
+	if (!IsBadWritePtr((LPVOID)lParam, 4))
 		*((DWORD *)lParam) = pluginInfo.version;
 
 	return (INT_PTR)g_szVersionString;
@@ -199,7 +199,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		}
 		caps2 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 		caps1 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-		if((caps1 & PF1_IM) && (caps2 & (PF2_LONGAWAY | PF2_SHORTAWAY))) {
+		if ((caps1 & PF1_IM) && (caps2 & (PF2_LONGAWAY | PF2_SHORTAWAY))) {
 			onlineness = GetStatusOnlineness(status);
 			if(onlineness > maxOnline) {
 				maxStatus = status;
@@ -243,7 +243,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	if (szStatus) {
 		if(pcli->hwndContactList && IsWindow(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS)) && IsWindow(GetDlgItem(pcli->hwndContactList, IDC_TBTOPSTATUS))) {
 			SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), WM_SETTEXT, 0, (LPARAM) szStatus);
-			if(!hIcon) {
+			if (!hIcon) {
 				SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS), BM_SETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
                 if(g_ButtonItems == NULL)
                     SendMessage(GetDlgItem(pcli->hwndContactList, IDC_TBTOPSTATUS), BM_SETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);

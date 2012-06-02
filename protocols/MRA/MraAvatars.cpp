@@ -347,7 +347,7 @@ void MraAvatarsThreadProc(LPVOID lpParameter)
 										nls.hReadConns[0] = hConnection;
 
 										while ( bContinue ) {
-											switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)){
+											switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)) {
 											case SOCKET_ERROR:
 											case 0:// Time out
 												dwErrorCode=GetLastError();

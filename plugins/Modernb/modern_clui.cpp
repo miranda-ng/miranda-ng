@@ -998,7 +998,7 @@ static int CLUI_GetConnectingIconForProtoCount(char *szAccoName)
 		char szRelativePath[MAX_PATH];
 		GetModuleFileNameA(GetModuleHandle(NULL), szRelativePath, MAX_PATH);
 		char *str = strrchr( szRelativePath, '\\' ); 
-		if( str != NULL ) *str=0;
+		if ( str != NULL ) *str=0;
 		CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)szRelativePath, (LPARAM)szFolderPath);
 	}
 
@@ -1588,13 +1588,13 @@ int CLUI_TestCursorOnBorders()
 		{
 			case 1: 
 			case 2:
-				if(!g_CluiData.fDocked||(g_CluiData.fDocked==2 && k==1)||(g_CluiData.fDocked==1 && k==2)){hCurs1 = LoadCursor(NULL, IDC_SIZEWE); break;}
-			case 3: if(!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENS); break;}
-			case 4: if(!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENWSE); break;}
-			case 5: if(!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENESW); break;}
-			case 6: if(!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENS); break;}
-			case 7: if(!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENESW); break;}
-			case 8: if(!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENWSE); break;}
+				if (!g_CluiData.fDocked||(g_CluiData.fDocked==2 && k==1)||(g_CluiData.fDocked==1 && k==2)){hCurs1 = LoadCursor(NULL, IDC_SIZEWE); break;}
+			case 3: if (!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENS); break;}
+			case 4: if (!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENWSE); break;}
+			case 5: if (!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENESW); break;}
+			case 6: if (!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENS); break;}
+			case 7: if (!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENESW); break;}
+			case 8: if (!g_CluiData.fDocked) {hCurs1 = LoadCursor(NULL, IDC_SIZENWSE); break;}
 		}
 		if (hCurs1) SetCursor(hCurs1);
 		return k;
@@ -2046,8 +2046,8 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 			GetWindowRect(m_hWnd, &rc);
 			CheckFramesPos(&rc);
 			Sync(CLUIFrames_OnMoving,m_hWnd,&rc);
-			if(!IsIconic(m_hWnd)) {
-				if(!CallService(MS_CLIST_DOCKINGISDOCKED,0,0))
+			if (!IsIconic(m_hWnd)) {
+				if (!CallService(MS_CLIST_DOCKINGISDOCKED,0,0))
 				{ //if g_CluiData.fDocked, dont remember pos (except for width)
 					ModernWriteSettingDword(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
 					ModernWriteSettingDword(NULL,"CList","x",(DWORD)rc.left);
@@ -2087,7 +2087,7 @@ LRESULT CLUI::OnSizingMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 				}
 
 				//       ske_RedrawCompleteWindow();
-				if(!CallService(MS_CLIST_DOCKINGISDOCKED,0,0))
+				if (!CallService(MS_CLIST_DOCKINGISDOCKED,0,0))
 				{ //if g_CluiData.fDocked, dont remember pos (except for width)
 					ModernWriteSettingDword(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
 					ModernWriteSettingDword(NULL,"CList","x",(DWORD)rc.left);
@@ -2431,7 +2431,7 @@ LRESULT CLUI::OnAutoAlphaTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 			CLUI_SmoothAlphaTransition(m_hWnd, (BYTE)(g_bTransparentFlag?ModernGetSettingByte(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT):255), 1);
 		}
 	}
-	if(!bTransparentFocus) KillTimer(m_hWnd,TM_AUTOALPHA);
+	if (!bTransparentFocus) KillTimer(m_hWnd,TM_AUTOALPHA);
 	return TRUE;
 }
 LRESULT CLUI::OnSmoothAlphaTransitionTimer( UINT msg, WPARAM wParam, LPARAM lParam )
@@ -2620,7 +2620,7 @@ LRESULT CLUI::OnNcHitTest( UINT msg, WPARAM wParam, LPARAM lParam )
 	LRESULT result;
 	result=DefWindowProc(m_hWnd,WM_NCHITTEST,wParam,lParam);
 
-	if( (g_CluiData.fAutoSize) && ( result == HTSIZE || result == HTTOP || 
+	if ( (g_CluiData.fAutoSize) && ( result == HTSIZE || result == HTTOP || 
 		result == HTTOPLEFT || result == HTTOPRIGHT ||
 		result==HTBOTTOM || result==HTBOTTOMRIGHT || 
 		result==HTBOTTOMLEFT) )
@@ -2876,7 +2876,7 @@ LRESULT CLUI::OnClickNotify( NMCLISTCONTROL * pnmc )
 	};	
 	if(hItem && !(hitFlags&CLCHT_NOWHERE))
 		return DefCluiWndProc( WM_NOTIFY, 0, (LPARAM)pnmc );
-	if((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS))==0) 
+	if ((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS))==0) 
 		return DefCluiWndProc( WM_NOTIFY, 0, (LPARAM)pnmc );
 	if (ModernGetSettingByte(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT)) {
 		POINT pt;

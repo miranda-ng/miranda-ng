@@ -211,34 +211,34 @@ static int EnumIpDataLines(const char *pszFileCSV,const char *pszFileOut)
 			buf=strchr(pszCountry,'"');
 			*buf=pszTwo[2]='\0';
 			/* corrections */
-			if(!lstrcmpi(pszCountry,"ANTARCTICA")) continue;
-			if(!lstrcmpi(pszCountry,"TIMOR-LESTE")) continue;
-			if(!lstrcmpi(pszCountry,"PALESTINIAN TERRITORY, OCCUPIED"))
+			if (!lstrcmpi(pszCountry,"ANTARCTICA")) continue;
+			if (!lstrcmpi(pszCountry,"TIMOR-LESTE")) continue;
+			if (!lstrcmpi(pszCountry,"PALESTINIAN TERRITORY, OCCUPIED"))
 				lstrcpy(pszCountry,"ISRAEL");
-			else if(!lstrcmpi(pszCountry,"UNITED STATES MINOR OUTLYING ISLANDS"))
+			else if (!lstrcmpi(pszCountry,"UNITED STATES MINOR OUTLYING ISLANDS"))
 				lstrcpy(pszCountry,"UNITED STATES");
-			else if(!lstrcmpi(pszCountry,"SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"))
+			else if (!lstrcmpi(pszCountry,"SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS"))
 				lstrcpy(pszCountry,"UNITED KINGDOM");
-			else if(!lstrcmpi(pszTwo,"JE")) /* map error */
+			else if (!lstrcmpi(pszTwo,"JE")) /* map error */
 				lstrcpy(pszCountry,"UNITED KINGDOM");
-			else if(!lstrcmpi(pszTwo,"AX")) /* Åland Island belongs to Finland */
+			else if (!lstrcmpi(pszTwo,"AX")) /* Åland Island belongs to Finland */
 				lstrcpy(pszCountry,"FINLAND");
-			else if(!lstrcmpi(pszTwo,"ME"))
+			else if (!lstrcmpi(pszTwo,"ME"))
 				lstrcpy(pszCountry,"MONTENEGRO");
-			else if(!lstrcmpi(pszTwo,"RS") || !lstrcmpi(pszTwo,"CS"))
+			else if (!lstrcmpi(pszTwo,"RS") || !lstrcmpi(pszTwo,"CS"))
 				lstrcpy(pszCountry,"SERBIA");
 			/* convert */
 			for(i=0;i<nCountriesCount;i++) {
 				/* map different writings */
 				for(j=0;j<SIZEOF(differentCountryNames);j++)
-					if(!lstrcmpi(countries[i].szName,differentCountryNames[j].szMir)) {
+					if (!lstrcmpi(countries[i].szName,differentCountryNames[j].szMir)) {
 						buf=(char*)differentCountryNames[j].szCSV;
 						break;
 					}
 				if(j==SIZEOF(differentCountryNames))
 					buf=(char*)countries[i].szName;
 				/* check country */
-				if(!lstrcmpiA(pszCountry,buf)) {
+				if (!lstrcmpiA(pszCountry,buf)) {
 					dwOut=(DWORD)atoi(pszFrom);
 					AppendToByteBuffer(&buffer,(void*)&dwOut,sizeof(DWORD));
 					dwOut=(DWORD)atoi(pszTo);

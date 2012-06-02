@@ -112,7 +112,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 	if (file != NULL) 
 	{
 		map<tstring,AutoReplacement>::iterator it = replacements.begin();
-		for(; it != replacements.end(); it++)
+		for (; it != replacements.end(); it++)
 		{
 			AutoReplacement &ar = it->second;
 
@@ -216,7 +216,7 @@ void AutoReplaceMap::setMap(const map<tstring, AutoReplacement> &replacements)
 	this->replacements.clear();
 
 	map<tstring, AutoReplacement>::const_iterator it = replacements.begin();
-	for(; it != replacements.end(); it++)
+	for (; it != replacements.end(); it++)
 	{
 		scoped_free<TCHAR> from = filterText(it->first.c_str());
 		this->replacements[from.get()] = it->second;

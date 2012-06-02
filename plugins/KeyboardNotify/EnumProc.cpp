@@ -62,7 +62,7 @@ void LoadProcsLibrary(void)
 		lpfVDMEnumTaskWOWEx = (INT (WINAPI *)(DWORD, TASKENUMPROCEX, LPARAM)) GetProcAddress(hInstLib2, "VDMEnumTaskWOWEx");
 	} else {
 
-		if(!(hInstLib = LoadLibraryA("Kernel32.DLL")))
+		if (!(hInstLib = LoadLibraryA("Kernel32.DLL")))
 			return;
 
 		if (bWindowsNT && !(hInstLib2 = LoadLibraryA("VDMDBG.DLL")))

@@ -46,9 +46,11 @@ typedef struct _KEYBOARD_INDICATOR_PARAMETERS {
 
 void outportb(UINT portid, BYTE value)
 {
+	#if !defined( _WIN64 )
 	__asm mov edx,portid
 	__asm mov al,value
 	__asm out dx,al
+	#endif
 }
 
 

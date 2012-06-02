@@ -1292,7 +1292,7 @@ void CJabberProto::_RosterExportToFile(HWND hwndDlg)
 	ofn.nMaxFile = SIZEOF(filename);
 	ofn.nMaxFileTitle = MAX_PATH;
 	ofn.lpstrDefExt = _T("xml");
-	if(!GetSaveFileName(&ofn)) return;
+	if (!GetSaveFileName(&ofn)) return;
 
 	FILE * fp = fopent(filename,_T("w"));
 	if (!fp) return;

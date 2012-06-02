@@ -290,7 +290,7 @@ inline json_string internalJSONNode::as_string(void) const {
 
 inline long internalJSONNode::as_int(void) const {
     Fetch();
-    switch(type()){
+    switch(type()) {
 	   case JSON_NULL:
 		  return 0;
 	   case JSON_BOOL:
@@ -305,7 +305,7 @@ inline long internalJSONNode::as_int(void) const {
 
 inline json_number internalJSONNode::as_float(void) const {
     Fetch();
-    switch(type()){
+    switch(type()) {
 	   case JSON_NULL:
 		  return (json_number)0.0;
 	   case JSON_BOOL:
@@ -317,7 +317,7 @@ inline json_number internalJSONNode::as_float(void) const {
 
 inline bool internalJSONNode::as_bool(void) const {
     Fetch();
-    switch(type()){
+    switch(type()) {
 	   case JSON_NUMBER:
 		  return _value._number != 0.0f;
 	   case JSON_NULL:

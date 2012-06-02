@@ -467,7 +467,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 				}
 				if(f002&&f003&&f004&&f005)
 					strcpy(client,CLIENT_TRILLIAN_PRO);
-				else if((f004&&f005&&f007&&f008) || (f004&&f005&&O104&&O105))
+				else if ((f004&&f005&&f007&&f008) || (f004&&f005&&O104&&O105))
 					strcpy(client,CLIENT_ICHAT);
 				else if(f003&f004&f005)
 					strcpy(client,CLIENT_TRILLIAN);
@@ -1647,7 +1647,7 @@ void CAimProto::snac_received_info(SNAC &snac)//family 0x0002
 					write_away_message(sn,Translate("No information has been provided by the server."),false);
 				request_away_message = 0;
 			}
-			if(!profile_received&&request_HTML_profile)
+			if (!profile_received&&request_HTML_profile)
 				write_profile(sn,"No Profile",false);
 			request_HTML_profile=0;
 		}
@@ -2387,11 +2387,11 @@ void CAimProto::snac_admin_account_confirm(SNAC &snac)//family 0x0007
 		{
 			unsigned short* type=(unsigned short*)&buf[SNAC_SIZE*2+1+sn_length];
 			*type=htons(*type);
-			if(*type==0x0000)//typing finished
+			if (*type==0x0000)//typing finished
 				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(WPARAM)PROTOTYPE_CONTACTTYPING_OFF);
-			else if(*type==0x0001)//typed
+			else if (*type==0x0001)//typed
 				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,PROTOTYPE_CONTACTTYPING_INFINITE);
-			else if(*type==0x0002)//typing
+			else if (*type==0x0002)//typing
 				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(LPARAM)60);
 		}
 	}

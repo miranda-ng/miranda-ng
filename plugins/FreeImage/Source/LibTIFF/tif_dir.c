@@ -193,7 +193,7 @@ _TIFFVSetField(TIFF* tif, ttag_t tag, va_list ap)
 		/*
 		 * Setup new compression routine state.
 		 */
-		if( (status = TIFFSetCompressionScheme(tif, v)) != 0 )
+		if ( (status = TIFFSetCompressionScheme(tif, v)) != 0 )
                     td->td_compression = (uint16) v;
                 else
                     status = 0;
@@ -341,11 +341,11 @@ _TIFFVSetField(TIFF* tif, ttag_t tag, va_list ap)
 		td->td_sampleformat = (uint16) v;
 
                 /*  Try to fix up the SWAB function for complex data. */
-                if( td->td_sampleformat == SAMPLEFORMAT_COMPLEXINT 
+                if ( td->td_sampleformat == SAMPLEFORMAT_COMPLEXINT 
                     && td->td_bitspersample == 32
                     && tif->tif_postdecode == _TIFFSwab32BitData )
                     tif->tif_postdecode = _TIFFSwab16BitData;
-                else if( (td->td_sampleformat == SAMPLEFORMAT_COMPLEXINT 
+                else if ( (td->td_sampleformat == SAMPLEFORMAT_COMPLEXINT 
                           || td->td_sampleformat == SAMPLEFORMAT_COMPLEXIEEEFP)
                          && td->td_bitspersample == 64
                          && tif->tif_postdecode == _TIFFSwab64BitData )
@@ -388,7 +388,7 @@ _TIFFVSetField(TIFF* tif, ttag_t tag, va_list ap)
 		s = va_arg(ap, char*);
 		v = checkInkNamesString(tif, v, s);
                 status = v > 0;
-		if( v > 0 ) {
+		if ( v > 0 ) {
 			_TIFFsetNString(&td->td_inknames, s, v);
 			td->td_inknameslen = v;
 		}
@@ -839,7 +839,7 @@ _TIFFVGetField(TIFF* tif, ttag_t tag, va_list ap)
 	     * the other. If the client tries to get a tag that is not valid
 	     * for the image's codec then we'll arrive here.
              */
-            if( fip == NULL || fip->field_bit != FIELD_CUSTOM )
+            if ( fip == NULL || fip->field_bit != FIELD_CUSTOM )
             {
 		    TIFFErrorExt(tif->tif_clientdata, "_TIFFVGetField",
 				 "%s: Invalid %stag \"%s\" "
@@ -1008,7 +1008,7 @@ TIFFFreeDirectory(TIFF* tif)
 	TIFFClrFieldBit(tif, FIELD_YCBCRPOSITIONING);
 
 	/* Cleanup custom tag values */
-	for( i = 0; i < td->td_customValueCount; i++ ) {
+	for ( i = 0; i < td->td_customValueCount; i++ ) {
 		if (td->td_customValues[i].value)
 			_TIFFfree(td->td_customValues[i].value);
 	}

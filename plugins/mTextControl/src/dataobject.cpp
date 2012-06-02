@@ -144,7 +144,7 @@ int CDataObject::LookupFormatEtc(FORMATETC *pFormatEtc)
 {
 	for (int i = 0; i < m_nNumFormats; i++)
 	{
-		if((pFormatEtc->tymed    &  m_pFormatEtc[i].tymed)   &&
+		if ((pFormatEtc->tymed    &  m_pFormatEtc[i].tymed)   &&
 			pFormatEtc->cfFormat == m_pFormatEtc[i].cfFormat && 
 			pFormatEtc->dwAspect == m_pFormatEtc[i].dwAspect)
 		{
@@ -165,7 +165,7 @@ HRESULT __stdcall CDataObject::GetData (FORMATETC *pFormatEtc, STGMEDIUM *pMediu
 	//
 	// try to match the requested FORMATETC with one of our supported formats
 	//
-	if((idx = LookupFormatEtc(pFormatEtc)) == -1)
+	if ((idx = LookupFormatEtc(pFormatEtc)) == -1)
 	{
 		return DV_E_FORMATETC;
 	}

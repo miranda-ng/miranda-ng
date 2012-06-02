@@ -66,7 +66,7 @@ namespace
 				tstring sName;
 				std::getline(line,sName,_T('\t'));
 				line >> oDateTime >> dRate;
-				if((false == line.fail()) && (true == line.eof()))
+				if ((false == line.fail()) && (true == line.eof()))
 				{
 					rChart.AddValue(oDateTime,dRate);
 				}

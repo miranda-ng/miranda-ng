@@ -177,7 +177,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				/*if(rgn) {
 					ptTest.x = j;
 					ptTest.y = i;
-					if(!PtInRegion(rgn, ptTest.x, ptTest.y)) {
+					if (!PtInRegion(rgn, ptTest.x, ptTest.y)) {
 						continue;
 					}
 				}*/

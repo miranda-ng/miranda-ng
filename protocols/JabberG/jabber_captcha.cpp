@@ -51,7 +51,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam
 		params = (CAPTCHA_FORM_PARAMS*)lParam;
 
 		LPCTSTR hint = params->hint;
-		if( hint == NULL )
+		if ( hint == NULL )
 			hint = TranslateT("Enter the text you see");
 		SetDlgItemText( hwndDlg, IDC_INSTRUCTION, TranslateTS( hint ) );
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, ( LONG )params );
@@ -112,7 +112,7 @@ INT_PTR CALLBACK JabberCaptchaFormDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info ){
+bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info ) {
 	CAPTCHA_FORM_PARAMS param;
 	char *ImageBuf = 0;
 	const TCHAR *PicType = 0;
@@ -165,7 +165,7 @@ bool CJabberProto::ProcessCaptcha (HXML node, HXML parentNode, ThreadData* info 
 	return true;
 }
 
-void CJabberProto::GetCaptchaImage ( HXML node, char *ImageBuf, const TCHAR *PicType, TCHAR*& CaptchaPath ){
+void CJabberProto::GetCaptchaImage ( HXML node, char *ImageBuf, const TCHAR *PicType, TCHAR*& CaptchaPath ) {
 	HXML o = xmlGetChild( node , "data" );
 	int bufferLen;
 	char* buffer = JabberBase64DecodeT(xmlGetText( o ), &bufferLen );
@@ -227,7 +227,7 @@ void CJabberProto::sendCaptchaResult(TCHAR* buf, ThreadData* info, LPCTSTR from,
 	info -> send (iq);
 }
 
-void CJabberProto::sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge ){
+void CJabberProto::sendCaptchaError(ThreadData* info, LPCTSTR from, LPCTSTR to, LPCTSTR challenge ) {
 	XmlNode message( _T("message"));
 	HXML query= message << XATTR(_T("type"), _T("error")) << XATTR(_T("to"), from) << XATTR(_T("id"), challenge) << XATTR(_T("from"), to)
 		  << XCHILD(_T("error")) << XATTR(_T("type"), _T("modify"))

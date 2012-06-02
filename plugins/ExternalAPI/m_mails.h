@@ -147,7 +147,7 @@ typedef struct CMimeMsgQueue
 	void *PluginData;
 
 	CMimeMsgQueue(): ID(NULL), Number(0), Flags(0), MailData(NULL), MsgWindow(NULL), PluginData(NULL), Next(NULL){}
-	~CMimeMsgQueue(){}
+	~CMimeMsgQueue() {}
 
 	struct CMimeMsgQueue *Next;
 } YAMNMAIL,*HYAMNMAIL;

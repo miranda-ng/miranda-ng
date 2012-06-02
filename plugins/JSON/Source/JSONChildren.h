@@ -74,7 +74,7 @@ public:
     }
     
     //clears (and deletes) everything from the vector and sets it's size to 0
-    inline void clear(){
+    inline void clear() {
 	   if (array){  //don't bother clearing anything if there is nothing in it
 		  JSON_ASSERT(mycapacity != 0, JSON_TEXT("mycapacity is not zero, but array is null"));
 		  deleteAll();
@@ -204,7 +204,7 @@ public:
     }
 		  
     //shrinks the array to only as large as it needs to be to hold everything within it
-    inline void shrink(){
+    inline void shrink() {
 	   if (mysize == 0){  //size is zero, we should completely free the array
 		  libjson_free<JSONNode*>(array);  //free does checks for a null pointer, so don't bother checking
 		  array = 0;

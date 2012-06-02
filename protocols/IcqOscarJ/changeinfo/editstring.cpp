@@ -76,15 +76,15 @@ static void EscapesToMultiline(WCHAR *str,PDWORD selStart,PDWORD selEnd)
 
 static void EscapesToBinary(char *str)
 {
-	for(;*str;str++) 
+	for (;*str;str++) 
 	{
-		if(*str!='\\') continue;
+		if (*str!='\\') continue;
 		if(str[1]=='n') {*str++='\r'; *str='\n'; continue;}
 		if(str[1]=='0') 
 		{
 			char *codeend;
 			*str=(char)strtol(str+1,&codeend,8);
-			if(*str==0) {*str='\\'; continue;}
+			if (*str==0) {*str='\\'; continue;}
 			memmove(str+1,codeend,strlennull(codeend)+1);
 			continue;
 		}
@@ -106,9 +106,9 @@ char *BinaryToEscapes(char *str)
 	char *out,*pout;
 
 	out=pout=(char*)SAFE_MALLOC(len);
-	for(;*str;str++) 
+	for (;*str;str++) 
 	{
-		if((unsigned char)*str>=' ') 
+		if ((unsigned char)*str>=' ') 
 		{
 			*pout++=*str; 
 			continue;
@@ -127,7 +127,7 @@ char *BinaryToEscapes(char *str)
 		}
 		*pout++='\\';
 		for(i = 0; i < SIZEOF(escapes); i += 2)
-			if(*str==escapes[i+1]) 
+			if (*str==escapes[i+1]) 
 			{
 				*pout++=escapes[i];
 				extra--;
@@ -135,7 +135,7 @@ char *BinaryToEscapes(char *str)
 			}
 			if(i < SIZEOF(escapes)) continue;
 			*pout++='0'; extra--;
-			if(*str>=8) 
+			if (*str>=8) 
 			{
 				*pout++=(*str>>3)+'0';
 				extra--;
@@ -218,7 +218,7 @@ static LRESULT CALLBACK ExpandButtonSubclassProc(HWND hwnd,UINT msg,WPARAM wPara
 			{
 				DWORD startTime,timeNow;
 				startTime=GetTickCount();
-				for(;;) 
+				for (;;) 
 				{
 					UpdateWindow(hwndEdit);
 					timeNow=GetTickCount();
@@ -285,7 +285,7 @@ void ChangeInfoData::BeginStringEdit(int iItem, RECT *rc, int i, WORD wVKey)
 		hwndUpDown=CreateWindow(UPDOWN_CLASS,_T(""),WS_VISIBLE|WS_CHILD|UDS_AUTOBUDDY|UDS_ALIGNRIGHT|UDS_HOTTRACK|UDS_NOTHOUSANDS|UDS_SETBUDDYINT,0,0,0,0,hwndList,NULL,hInst,NULL);
 		SendMessage(hwndUpDown, UDM_SETRANGE32, range[0], range[1]);
 		SendMessage(hwndUpDown, UDM_SETPOS32, 0, settingData[i].value);
-		if(!(setting[i].displayType & LIF_ZEROISVALID) && settingData[i].value==0)
+		if (!(setting[i].displayType & LIF_ZEROISVALID) && settingData[i].value==0)
 			SetWindowTextA(hwndEdit, "");
 		GetClientRect(hwndUpDown, &rcUpDown);
 		rc->right -= rcUpDown.right;
@@ -306,7 +306,7 @@ void ChangeInfoData::EndStringEdit(int save)
 
 		GetWindowTextA(hwndEdit,(char*)text,GetWindowTextLength(hwndEdit)+1);
 		EscapesToBinary(text);
-		if((setting[iEditItem].displayType&LIM_TYPE)==LI_NUMBER)
+		if ((setting[iEditItem].displayType&LIM_TYPE)==LI_NUMBER)
 		{
 			LPARAM newValue;
 			int *range=(int*)setting[iEditItem].pList;

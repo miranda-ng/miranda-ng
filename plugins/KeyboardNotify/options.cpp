@@ -1116,7 +1116,8 @@ void exportThemes(const TCHAR *filename)
 
 void importThemes(const TCHAR *filename, BOOL overrideExisting)
 {
-	int i, status=0;
+	int status=0;
+	size_t i;
 	FILE *fImport;
 	TCHAR buffer[MAX_PATH+1], theme[MAX_PATH+1], *str;
 
@@ -1428,7 +1429,8 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case WM_INITDIALOG:
 
 		{
-			unsigned int i, j;
+			unsigned int i;
+			WPARAM j;
 			int imageCount;
 			HICON hIconAux;
 			HIMAGELIST hImageList;

@@ -212,17 +212,17 @@ namespace
 					tstring sText = get_window_text(hwndAmount);
 
 					double dAmount = 1.0;					
-					if((true == str2double(sText,dAmount)) && (dAmount > 0.0))
+					if ((true == str2double(sText,dAmount)) && (dAmount > 0.0))
 					{
 						Quotes_DBWriteDouble(NULL,QUOTES_MODULE_NAME,DB_STR_CC_AMOUNT,dAmount);
 
 						size_t nFrom = static_cast<size_t>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
 						size_t nTo = static_cast<size_t>(::SendMessage(::GetDlgItem(hDlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
-						if((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo))
+						if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo))
 						{
 							const CQuotesProviderGoogle::CQuoteSection& rSection = get_quotes();
 							size_t cQuotes = rSection.GetQuoteCount();
-							if((nFrom < cQuotes) && (nTo < cQuotes))
+							if ((nFrom < cQuotes) && (nTo < cQuotes))
 							{
 								CQuotesProviderGoogle::CRateInfo ri;
 								CQuotesProviderGoogle::CQuote from = rSection.GetQuote(nFrom);

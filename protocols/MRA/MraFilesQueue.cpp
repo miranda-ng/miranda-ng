@@ -871,7 +871,7 @@ LPWSTR GetFileNameFromFullPathW(LPWSTR lpwszFullPath,SIZE_T dwFullPathSize)
 	LPWSTR lpwszFileName=lpwszFullPath,lpwszCurPos;
 
 	lpwszCurPos=(lpwszFullPath+dwFullPathSize);
-	for(;lpwszCurPos>lpwszFullPath;lpwszCurPos--)
+	for (;lpwszCurPos>lpwszFullPath;lpwszCurPos--)
 	{
 		if ((*lpwszCurPos)=='\\')
 		{
@@ -1129,7 +1129,7 @@ void MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 
 							while(bContinue)
 							{
-								switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)){
+								switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)) {
 								case SOCKET_ERROR:
 								case 0:// Time out
 									dwRetErrorCode=GetLastError();

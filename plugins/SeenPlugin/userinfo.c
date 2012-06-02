@@ -61,7 +61,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			MainProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hdlg,IDC_INFOTEXT),GWLP_WNDPROC,(LONG)EditProc);
 			szout=strdup(ParseString((!DBGetContactSetting(NULL,S_MOD,"UserStamp",&dbv)?dbv.pszVal:DEFAULT_USERSTAMP),(HANDLE)lparam,0));
 			SetDlgItemText(hdlg,IDC_INFOTEXT,szout);
-			if(!strcmp(szout,Translate("<unknown>")))
+			if (!strcmp(szout,Translate("<unknown>")))
 			EnableWindow(GetDlgItem(hdlg,IDC_INFOTEXT),FALSE);
 			free(szout);
 			DBFreeVariant(&dbv);
@@ -81,7 +81,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 int UserinfoInit(WPARAM wparam,LPARAM lparam)
 {
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,lparam,0);
-	if (IsWatchedProtocol(proto)){
+	if (IsWatchedProtocol(proto)) {
 		OPTIONSDIALOGPAGE uip;
 		ZeroMemory(&uip,sizeof(uip));
 		uip.cbSize=sizeof(uip);

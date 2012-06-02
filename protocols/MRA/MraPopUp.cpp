@@ -64,7 +64,7 @@ INT_PTR CALLBACK MraPopupDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		return(TRUE);
 	case WM_COMMAND:
-		switch(LOWORD(wParam)){
+		switch(LOWORD(wParam)) {
 		case IDC_COMBO_POPUP_TYPE:
 			if (HIWORD(wParam) == CBN_SELCHANGE) {
 				BOOL bEnabled, bUseWinColors;

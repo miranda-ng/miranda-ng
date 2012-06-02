@@ -107,14 +107,14 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 	tvi.hItem=TreeView_GetRoot(hwndTree);
 	while(tvi.hItem) {
 		TreeView_GetItem(hwndTree,&tvi);
-		if(((tvi.state&TVIS_STATEIMAGEMASK)>>12==2)) flags|=tvi.lParam;
+		if (((tvi.state&TVIS_STATEIMAGEMASK)>>12==2)) flags|=tvi.lParam;
 		tvi.hItem=TreeView_GetNextSibling(hwndTree,tvi.hItem);
 	}
 	return flags;
 }
 
 //Update the name on the menu
-static void UpdateMenuItem(){
+static void UpdateMenuItem() {
 	if (DBGetContactSettingByte(NULL,"Skin","UseSound",1))
 		mi.pszName= Translate(DISABLE_SOUND);
 	else
@@ -196,12 +196,12 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		case IDC_NOSOUND:
 		case IDC_NOBLINK:
 		case IDC_NOCLCBLINK:
-			if(((LPNMHDR)lParam)->code==NM_CLICK) {
+			if (((LPNMHDR)lParam)->code==NM_CLICK) {
 				TVHITTESTINFO hti;
 				hti.pt.x=(short)LOWORD(GetMessagePos());
 				hti.pt.y=(short)HIWORD(GetMessagePos());
 				ScreenToClient(((LPNMHDR)lParam)->hwndFrom,&hti.pt);
-				if(TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti)){
+				if(TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti)) {
 					if(hti.flags&TVHT_ONITEMSTATEICON) {
 						TVITEM tvi;
 						tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;

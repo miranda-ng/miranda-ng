@@ -59,7 +59,7 @@ void __cdecl WorkerThread(void *unused)
 		ret=Workers[task](firstTime);
 		firstTime=0;
 		if(ret==ERROR_NO_MORE_ITEMS) {
-			if(++task==sizeof(Workers)/sizeof(Workers[0])) {
+			if (++task==sizeof(Workers)/sizeof(Workers[0])) {
 				AddToStatus(STATUS_MESSAGE,TranslateT("Elapsed time: %d sec"), time(NULL)-ts);
 				if(errorCount) 
 					AddToStatus(STATUS_SUCCESS,TranslateT("All tasks completed but with errors (%d)"),errorCount);

@@ -258,13 +258,13 @@ FIBITMAP* DLL_CALLCONV
 FreeImage_TmoDrago03(FIBITMAP *src, double gamma, double exposure) {
 	float maxLum, minLum, avgLum;
 
-	if(!FreeImage_HasPixels(src)) return NULL;
+	if (!FreeImage_HasPixels(src)) return NULL;
 
 	// working RGBF variable
 	FIBITMAP *dib = NULL;
 
 	dib = FreeImage_ConvertToRGBF(src);
-	if(!dib) return NULL;
+	if (!dib) return NULL;
 
 	// default algorithm parameters
 	const float biasParam = 0.85F;

@@ -98,7 +98,7 @@ int RotateBackups(HWND progress_dialog, DWORD start_time)
 			i++;
 			while(PeekMessage(&msg, progress_dialog, 0, 0, PM_REMOVE) != 0)
 			{
-				if(!IsDialogMessage(progress_dialog, &msg))
+				if (!IsDialogMessage(progress_dialog, &msg))
 				{
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
@@ -154,10 +154,10 @@ int Backup(TCHAR* backup_filename)
 	else
 		lstrcpyn(dest_file, backup_filename, MAX_PATH);
 
-	if(!options.disable_popups)
+	if (!options.disable_popups)
 		ShowPopup(dbname, TranslateT("Backup in Progress"));
 
-	if(!options.disable_progress) {
+	if (!options.disable_progress) {
 		progress_dialog = CreateDialog(hInst, MAKEINTRESOURCE(IDD_COPYPROGRESS), 0, (DLGPROC)DlgProcProgress);
 		SetDlgItemText(progress_dialog, IDC_PROGRESSMESSAGE, TranslateT("Rotating backup files..."));
 	}
@@ -175,7 +175,7 @@ int Backup(TCHAR* backup_filename)
 		SendMessage(progress_dialog, PBM_SETPOS, (WPARAM)(int)(100), 0);
 		UpdateWindow(progress_dialog);
 		DBWriteContactSettingDword(0, "AutoBackups", "LastBackupTimestamp", (DWORD)time(0));
-		if(!options.disable_popups)
+		if (!options.disable_popups)
 		{
 			dest_file_len = lstrlen(dest_file);
 			if(dest_file_len > 50)

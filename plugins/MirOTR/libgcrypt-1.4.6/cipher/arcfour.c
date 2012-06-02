@@ -84,13 +84,13 @@ do_arcfour_setkey (void *context, const byte *key, unsigned int keylen)
     {
       initialized = 1;
       selftest_failed = selftest();
-      if( selftest_failed )
+      if ( selftest_failed )
         log_error ("ARCFOUR selftest failed (%s)\n", selftest_failed );
     }
-  if( selftest_failed )
+  if ( selftest_failed )
     return GPG_ERR_SELFTEST_FAILED;
 
-  if( keylen < 40/8 ) /* we want at least 40 bits */
+  if ( keylen < 40/8 ) /* we want at least 40 bits */
     return GPG_ERR_INV_KEYLEN;
 
   ctx->idx_i = ctx->idx_j = 0;

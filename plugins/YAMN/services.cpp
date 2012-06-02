@@ -382,12 +382,12 @@ void HookEvents(void)
 	//We set function which registers needed POP3 accounts. This is a part of internal POP3 plugin.
 	//Your plugin should do the same task in your Load fcn. Why we call it in MODULESLOADED? Because netlib
 	//user can be registered after all modules are loaded (see m_netlib.h in Miranda)
-	for (int i = 0;hookData[i].hookName;i++){
+	for (int i = 0;hookData[i].hookName;i++) {
 		hookData[i].hookHandle = HookEvent(hookData[i].hookName, hookData[i].mirandaFunction);
 	}
 }
 void UnhookEvents(void){
-	for (int i = 0;i<(sizeof(hookData)/sizeof(hookData[0]));i++){
+	for (int i = 0;i<(sizeof(hookData)/sizeof(hookData[0]));i++) {
 		if (hookData[i].hookHandle) UnhookEvent(hookData[i].hookHandle);
 	}
 }
@@ -480,14 +480,14 @@ static ServiceDataType serviceData[] = {
 
 void CreateServiceFunctions(void)
 {
-	for (int i = 0;serviceData[i].serviceName;i++){
+	for (int i = 0;serviceData[i].serviceName;i++) {
 		serviceData[i].serviceHandle = CreateServiceFunction(serviceData[i].serviceName, serviceData[i].serviceFunction);
 	}
 };
 
 void DestroyServiceFunctions(void)
 {
-	for (int i = 0;serviceData[i].serviceName;i++){
+	for (int i = 0;serviceData[i].serviceName;i++) {
 		if (serviceData[i].serviceHandle) DestroyServiceFunction(serviceData[i].serviceHandle);
 	}
 };

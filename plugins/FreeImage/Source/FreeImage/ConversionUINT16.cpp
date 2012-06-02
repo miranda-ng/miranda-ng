@@ -31,7 +31,7 @@ FreeImage_ConvertToUINT16(FIBITMAP *dib) {
 	FIBITMAP *src = NULL;
 	FIBITMAP *dst = NULL;
 
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	const FREE_IMAGE_TYPE src_type = FreeImage_GetImageType(dib);
 
@@ -40,11 +40,11 @@ FreeImage_ConvertToUINT16(FIBITMAP *dib) {
 		case FIT_BITMAP:
 		{
 			// convert to greyscale if needed
-			if((FreeImage_GetBPP(dib) == 8) && (FreeImage_GetColorType(dib) == FIC_MINISBLACK)) {
+			if ((FreeImage_GetBPP(dib) == 8) && (FreeImage_GetColorType(dib) == FIC_MINISBLACK)) {
 				src = dib;
 			} else {
 				src = FreeImage_ConvertToGreyscale(dib);
-				if(!src) return NULL;
+				if (!src) return NULL;
 			}
 			break;
 		}
@@ -70,7 +70,7 @@ FreeImage_ConvertToUINT16(FIBITMAP *dib) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	dst = FreeImage_AllocateT(FIT_UINT16, width, height);
-	if(!dst) {
+	if (!dst) {
 		if(src != dib) {
 			FreeImage_Unload(src);
 		}

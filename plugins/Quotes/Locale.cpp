@@ -14,12 +14,12 @@ namespace
 		HKEY hKey = NULL;
 		LONG lResult = ::RegOpenKeyEx(HKEY_CURRENT_USER,
 			_T("Control Panel\\International"),0,KEY_QUERY_VALUE,&hKey);
-		if((ERROR_SUCCESS == lResult) && (NULL != hKey))
+		if ((ERROR_SUCCESS == lResult) && (NULL != hKey))
 		{
 			DWORD dwType = 0;
 			DWORD dwSize = 0;
 			lResult = ::RegQueryValueEx(hKey,pszValueName,nullptr,&dwType,nullptr,&dwSize);
-			if((ERROR_SUCCESS == lResult) && ((REG_SZ == dwType) || (REG_EXPAND_SZ == dwType)))
+			if ((ERROR_SUCCESS == lResult) && ((REG_SZ == dwType) || (REG_EXPAND_SZ == dwType)))
 			{
 				std::vector<TCHAR> aBuffer(dwSize);
 				lResult = ::RegQueryValueEx(hKey,pszValueName,nullptr,nullptr,reinterpret_cast<LPBYTE>(&*aBuffer.begin()),&dwSize);

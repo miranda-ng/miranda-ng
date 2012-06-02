@@ -698,7 +698,7 @@ BOOL contactCheckProtocol(char *szProto, HANDLE hContact, WORD eventType)
 
 BOOL checkStatus(char *szProto)
 {
-	if(!szProto)
+	if (!szProto)
 		return checkGlobalStatus();
 
 	return isStatusEnabled(CallProtoService(szProto, PS_GETSTATUS, 0, 0));
@@ -710,7 +710,7 @@ BOOL checkXstatus(char *szProto)
 	unsigned int i; int status=0;
 	ICQ_CUSTOM_STATUS xstatus={0};
 
-	if(!szProto)
+	if (!szProto)
 		return checkGlobalXstatus();
 
 	for(i=0; i < ProtoList.protoCount; i++)
@@ -762,7 +762,7 @@ static int PluginMessageEventHook(WPARAM wParam, LPARAM lParam)
 // ** Checks for pending events. If it finds any, it pings the FlashThread to keep the LEDs flashing.
 // **
 
-static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT idEvent, DWORD dwTime)
+static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT_PTR idEvent, DWORD dwTime)
 {
 	int nIndex;
 	CLISTEVENT *pCLEvent;
@@ -791,23 +791,19 @@ static VOID CALLBACK ReminderTimer(HWND hwnd, UINT message, UINT idEvent, DWORD 
 
 
 // Support for third-party plugins and mBot's scripts
-static int EnableService(WPARAM wParam, LPARAM lParam)
+static INT_PTR EnableService(WPARAM wParam, LPARAM lParam)
 {
 	bFlashingEnabled = TRUE;
-
 	return 0;
 }
 
-
-static int DisableService(WPARAM wParam, LPARAM lParam)
+static INT_PTR DisableService(WPARAM wParam, LPARAM lParam)
 {
 	bFlashingEnabled = FALSE;
-
 	return 0;
 }
 
-
-static int StartBlinkService(WPARAM wParam, LPARAM lParam)
+static INT_PTR StartBlinkService(WPARAM wParam, LPARAM lParam)
 {
 	nExternCount += (unsigned int)wParam;
 	if (bFlashOnOther && checkNotifyOptions() && checkGlobalStatus() && checkGlobalXstatus()) {
@@ -819,8 +815,7 @@ static int StartBlinkService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
-static int EventsWereOpenedService(WPARAM wParam, LPARAM lParam)
+static INT_PTR EventsWereOpenedService(WPARAM wParam, LPARAM lParam)
 {
 	if ((unsigned int)wParam > nExternCount)
 		nExternCount = 0;
@@ -831,7 +826,7 @@ static int EventsWereOpenedService(WPARAM wParam, LPARAM lParam)
 }
 
 
-static int IsFlashingActiveService(WPARAM wParam, LPARAM lParam)
+static INT_PTR IsFlashingActiveService(WPARAM wParam, LPARAM lParam)
 {
 	if (!bReminderDisabled)
 		return 0;
@@ -987,9 +982,9 @@ void GetWindowsVersion(void)
 
 	ZeroMemory(&osvi, sizeof(OSVERSIONINFOEX));
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
-	if(!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi))) {
+	if (!(bOsVersionInfoEx = GetVersionEx((OSVERSIONINFO *) &osvi))) {
 		osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-		if(!GetVersionEx((OSVERSIONINFO *)&osvi))
+		if (!GetVersionEx((OSVERSIONINFO *)&osvi))
 			osvi.dwPlatformId = VER_PLATFORM_WIN32_WINDOWS;
 	}
 	bWindowsNT = osvi.dwPlatformId==VER_PLATFORM_WIN32_NT;

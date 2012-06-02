@@ -126,7 +126,7 @@ static int CountryNumberToBitmapIndex(int countryNumber)
 				if(countryNumber>BitmapIndexMap[i]) low=i+1;      
 				else high=i-1;
 			}*/
-		for( i=0; i < high; i++ ){
+		for ( i=0; i < high; i++ ) {
 			if(BitmapIndexMap[i]==countryNumber) return i;
 		}
 	}
@@ -231,7 +231,7 @@ FIBITMAP* LoadResource(UINT ID, LPTSTR lpType)
 static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	/* return handle */
-	if((BOOL)lParam) {
+	if ((BOOL)lParam) {
 		if(phIconHandles==NULL) return NULL;
 		return (INT_PTR)phIconHandles[CountryNumberToIndex((int)wParam)];
 	}
@@ -358,7 +358,7 @@ VOID InitIcons()
 				FIP->FI_Unload(dib_mask);
 
 				//convert to target resolution
-				if(!hbmMask || !(dib_ico = ConvertTo(dib_ico, bitDest, 0))) {
+				if (!hbmMask || !(dib_ico = ConvertTo(dib_ico, bitDest, 0))) {
 					FIP->FI_Unload(dib_ico);
 					if(hbmMask) DeleteObject(hbmMask);
 					return;
@@ -393,7 +393,7 @@ VOID InitIcons()
 	hScrBM = FIP->FI_CreateHBITMAPFromDIB(dib_ico);
 	FIP->FI_Unload(dib_ico);
 
-	if(!hScrBM) {
+	if (!hScrBM) {
 		DeleteObject(hbmMask);
 		return;
 	}

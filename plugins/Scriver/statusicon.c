@@ -136,7 +136,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam) {
 
 	while(current) {
 		if(strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
-			if(!hContact) {
+			if (!hContact) {
 				current->sid.flags = sid->flags;
 				if(sid->hIcon) {
 					ReleaseIconSmart(current->sid.hIcon);
@@ -183,8 +183,8 @@ void DrawStatusIcons(HANDLE hContact, HDC hDC, RECT r, int gap) {
 	while(current) {
 		sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
 		flags = DBGetContactSettingByte(hContact, current->sid.szModule, buff, current->sid.flags);
-		if(!(flags & MBF_HIDDEN)) {
-			if((flags & MBF_DISABLED) && current->sid.hIconDisabled) hIcon = current->sid.hIconDisabled;
+		if (!(flags & MBF_HIDDEN)) {
+			if ((flags & MBF_DISABLED) && current->sid.hIconDisabled) hIcon = current->sid.hIconDisabled;
 			else hIcon = current->sid.hIcon;
 
 			SetBkMode(hDC, TRANSPARENT);
@@ -206,7 +206,7 @@ void CheckStatusIconClick(HANDLE hContact, HWND hwndFrom, POINT pt, RECT r, int 
 	while(current) {
 		sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
 		flags = DBGetContactSettingByte(hContact, current->sid.szModule, buff, current->sid.flags);
-		if(!(flags & MBF_HIDDEN)) iconNum--;
+		if (!(flags & MBF_HIDDEN)) iconNum--;
 		if (iconNum == 0) break;
 		current = current->next;
 	}
@@ -248,7 +248,7 @@ INT_PTR GetStatusIconsCount(HANDLE hContact) {
 	while(current) {
 		sprintf(buff, "SRMMStatusIconFlags%d", (int)current->sid.dwId);
 		flags = DBGetContactSettingByte(hContact, current->sid.szModule, buff, current->sid.flags);
-		if(!(flags & MBF_HIDDEN)) {
+		if (!(flags & MBF_HIDDEN)) {
 			count ++;
 		}
 		current = current->next;

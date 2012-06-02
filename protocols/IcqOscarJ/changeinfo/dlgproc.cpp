@@ -427,8 +427,8 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					return TRUE;
 				}
 			case NM_KILLFOCUS:
-				if(!IsStringEditWindow(GetFocus())) dat->EndStringEdit(1);
-				if(!IsListEditWindow(GetFocus())) dat->EndListEdit(1);
+				if (!IsStringEditWindow(GetFocus())) dat->EndStringEdit(1);
+				if (!IsListEditWindow(GetFocus())) dat->EndListEdit(1);
 				break;
 			}
 			break;

@@ -292,9 +292,9 @@ void RawDES::RawSetKey(CipherDir dir, const byte *key)
 		for (j=0; j<56; j++)    /* rotate pc1 the right amount */
 			pcr[j] = pc1m[(l=j+totrot[i])<(j<28? 28 : 56) ? l: l-28];
 		/* rotate left and right halves independently */
-		for (j=0; j<48; j++){   /* select bits individually */
+		for (j=0; j<48; j++) {   /* select bits individually */
 			/* check bit that goes to ks[j] */
-			if (pcr[pc2[j]-1]){
+			if (pcr[pc2[j]-1]) {
 				/* mask it in if it's there */
 				l= j % 6;
 				ks[j/6] |= bytebit[l] >> 2;

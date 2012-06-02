@@ -61,7 +61,7 @@ static void handle_starttag(void *cbdata, ekhtml_string_t *tag,
     printf("START: \"%.*s\"\n", tag->len, tag->str);
     for(attr=attrs; attr; attr=attr->next) {
         printf("ATTRIBUTE: \"%.*s\" = ", attr->name.len, attr->name.str);
-        if(!attr->isBoolean)
+        if (!attr->isBoolean)
             printf("\"%.*s\"\n", attr->val.len, attr->val.str);
         else
             printf("\"%.*s\"\n", attr->name.len, attr->name.str);
@@ -101,7 +101,7 @@ static void handle_data(void *cbdata, ekhtml_string_t *str){
     fwrite(str->str, str->len, 1, stdout);
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     tester_cbdata cbdata;
     ekhtml_parser_t *ekparser;
     char *buf;
@@ -133,7 +133,7 @@ int main(int argc, char *argv[]){
     ekhtml_parser_cbdata_set(ekparser, &cbdata);
     buf = malloc(feedsize);
     
-    while((nbuf = fread(buf, 1, feedsize, stdin))){
+    while((nbuf = fread(buf, 1, feedsize, stdin))) {
         ekhtml_string_t str;
 
         str.str = buf;

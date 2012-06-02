@@ -270,7 +270,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 					}							
 					break;
 			}
-			for(;y<maxy;y+=desth) {
+			for (;y<maxy;y+=desth) {
 				if(y<rcPaint->top-desth) continue;
 				for(x=0;x<maxx;x+=destw)
 					StretchBlt(hdcMem,x,y,destw,desth,hdcBmp,0,0,bmp.bmWidth,bmp.bmHeight,SRCCOPY);
@@ -377,7 +377,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				}
 			}
 
-			if((style&CLS_CHECKBOXES && Drawing->type==CLCIT_CONTACT) ||
+			if ((style&CLS_CHECKBOXES && Drawing->type==CLCIT_CONTACT) ||
 			   (style&CLS_GROUPCHECKBOXES && Drawing->type==CLCIT_GROUP) ||
 			   (Drawing->type==CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX))
 				checkboxWidth=dat->checkboxSize+2;
@@ -698,7 +698,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 		SelectObject(hdcMem,hoBrush);
 		DeleteObject(hBrush);
 	}
-	if(!grey)
+	if (!grey)
 		BitBlt(hdc,rcPaint->left,rcPaint->top,rcPaint->right-rcPaint->left,rcPaint->bottom-rcPaint->top,hdcMem,rcPaint->left,rcPaint->top,SRCCOPY);
 	//DeleteDC(hdcMem);
 	if(hBrushAlternateGrey) DeleteObject(hBrushAlternateGrey);

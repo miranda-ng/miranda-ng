@@ -417,18 +417,18 @@ int main(argc,argv)
                  }
 
                  /*should the zip file contain any path at all?*/
-                 if( opt_exclude_path )
+                 if ( opt_exclude_path )
                  {
                      const char *tmpptr;
                      const char *lastslash = 0;
-                     for( tmpptr = savefilenameinzip; *tmpptr; tmpptr++)
+                     for ( tmpptr = savefilenameinzip; *tmpptr; tmpptr++)
                      {
-                         if( *tmpptr == '\\' || *tmpptr == '/')
+                         if ( *tmpptr == '\\' || *tmpptr == '/')
                          {
                              lastslash = tmpptr;
                          }
                      }
-                     if( lastslash != NULL )
+                     if ( lastslash != NULL )
                      {
                          savefilenameinzip = lastslash+1; // base filename follows last slash.
                      }

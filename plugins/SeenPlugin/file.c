@@ -56,9 +56,9 @@ int InitFileOutput(void)
 		*++str=0;
 /*
 //we dont need this anylonger. the directory is created in filewrite 
-	if(!CreateDirectory(szmpath,NULL))
+	if (!CreateDirectory(szmpath,NULL))
 	{
-		if(!(GetFileAttributes(szmpath) & FILE_ATTRIBUTE_DIRECTORY))
+		if (!(GetFileAttributes(szmpath) & FILE_ATTRIBUTE_DIRECTORY))
 		{		
 			MessageBox(NULL,"Directory could not be created\nPlease choose another!","Last seen plugin",MB_OK|MB_ICONERROR);
 			DBWriteContactSettingByte(NULL,S_MOD,"FileOutput",0);
@@ -78,7 +78,7 @@ static void CreateDirectoryTree(char *szDir)
 	char *pszLastBackslash,szTestDir[MAX_PATH];
 
 	lstrcpynA(szTestDir,szDir,sizeof(szTestDir));
-	if((dwAttributes=GetFileAttributesA(szTestDir))!=0xffffffff && dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
+	if ((dwAttributes=GetFileAttributesA(szTestDir))!=0xffffffff && dwAttributes&FILE_ATTRIBUTE_DIRECTORY) return;
 	pszLastBackslash=strrchr(szTestDir,'\\');
 	if(pszLastBackslash==NULL) return;
 	*pszLastBackslash='\0';

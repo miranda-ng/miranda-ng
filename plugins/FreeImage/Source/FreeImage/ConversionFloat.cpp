@@ -31,7 +31,7 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 	FIBITMAP *src = NULL;
 	FIBITMAP *dst = NULL;
 
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	FREE_IMAGE_TYPE src_type = FreeImage_GetImageType(dib);
 
@@ -40,11 +40,11 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 		case FIT_BITMAP:
 		{
 			// allow conversion from 8-bit
-			if((FreeImage_GetBPP(dib) == 8) && (FreeImage_GetColorType(dib) == FIC_MINISBLACK)) {
+			if ((FreeImage_GetBPP(dib) == 8) && (FreeImage_GetColorType(dib) == FIC_MINISBLACK)) {
 				src = dib;
 			} else {
 				src = FreeImage_ConvertToGreyscale(dib);
-				if(!src) return NULL;
+				if (!src) return NULL;
 			}
 			break;
 		}
@@ -68,7 +68,7 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	dst = FreeImage_AllocateT(FIT_FLOAT, width, height);
-	if(!dst) {
+	if (!dst) {
 		if(src != dib) {
 			FreeImage_Unload(src);
 		}

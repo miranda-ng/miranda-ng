@@ -160,7 +160,7 @@ public:
 
 		m_inner_height = m_height - m_bBottom - m_bTop;
 		m_inner_width = m_width - m_bLeft - m_bRight;
-		if(!(m_dwFlags & IMAGE_FLAG_DIVIDED))
+		if (!(m_dwFlags & IMAGE_FLAG_DIVIDED))
 			m_bStretch = IMAGE_STRETCH_B;
 	}
 

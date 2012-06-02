@@ -1023,8 +1023,8 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					while(*p && (*p == '\\' || *p == '.'))
 						p++;
 
-					if(*p) {
-						if((p1 = _tcschr(p, '\\')))
+					if (*p) {
+						if ((p1 = _tcschr(p, '\\')))
 							*p1 = 0;
 					}
 

@@ -28,7 +28,7 @@ int FillTree(HWND hwnd)
 		return FALSE;
 
 	for ( i = 0; i < n; i++ ) {
-		if(IsAccountEnabled( pa[i] )){
+		if(IsAccountEnabled( pa[i] )) {
 			PD = ( ProtocolData* )mir_alloc( sizeof( ProtocolData ));
 			PD->RealName = pa[i]->szModuleName;
 			PD->enabled = IsProtoIM( pa[i]);

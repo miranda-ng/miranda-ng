@@ -321,9 +321,9 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		case 'g':
 		case 'G':
 			{	char *pstr;
-				for(pstr=szValue+1;*pstr;pstr++){
-					if(*pstr=='\\'){
-						switch(pstr[1]){
+				for(pstr=szValue+1;*pstr;pstr++) {
+					if(*pstr=='\\') {
+						switch(pstr[1]) {
 						case 'n': *pstr='\n'; break;
 						case 't': *pstr='\t'; break;
 						case 'r': *pstr='\r'; break;

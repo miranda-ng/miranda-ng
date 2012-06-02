@@ -98,16 +98,16 @@ int Formula::eval_mul(char *&s, Args *args, bool *vars) const
 		{
 			++s;
 		} else
-		if(*s == '*')
+		if (*s == '*')
 		{
 			left *= eval_atom(++s, args, vars);
 		} else
-		if(*s == '/')
+		if (*s == '/')
 		{
 			if (int right = eval_atom(++s, args, vars))
 				left /= right;
 		} else
-		if(*s == '%')
+		if (*s == '%')
 		{
 			if (int right = eval_atom(++s, args, vars))
 				left %= right;

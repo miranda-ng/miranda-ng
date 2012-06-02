@@ -994,7 +994,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		return TRUE;
 	case CM_ACTIVATECHILD:
-//		if((HWND) lParam != dat->hwndActive) {
+//		if ((HWND) lParam != dat->hwndActive) {
 			ActivateChild(dat, (HWND) lParam);
 //		}
 		return TRUE;

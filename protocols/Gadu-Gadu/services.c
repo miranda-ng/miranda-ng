@@ -132,7 +132,7 @@ int gg_refreshstatus(GGPROTO *gg, int status)
 		return TRUE;
 	}
 
-	if(!gg_isonline(gg))
+	if (!gg_isonline(gg))
 	{
 		DWORD exitCode = 0;
 		GetExitCodeThread(gg->pth_sess.hThread, &exitCode);
@@ -279,7 +279,7 @@ HANDLE gg_basicsearch(PROTO_INTERFACE *proto, const PROTOCHAR *id)
 	gg_pubdir50_t req;
 	char *ida;
 
-	if(!gg_isonline(gg))
+	if (!gg_isonline(gg))
 		return (HANDLE)0;
 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
@@ -297,7 +297,7 @@ HANDLE gg_basicsearch(PROTO_INTERFACE *proto, const PROTOCHAR *id)
 	mir_free(ida);
 
 	EnterCriticalSection(&gg->sess_mutex);
-	if(!gg_pubdir50(gg->sess, req))
+	if (!gg_pubdir50(gg->sess, req))
 	{
 		LeaveCriticalSection(&gg->sess_mutex);
 		gg_forkthread(gg, gg_searchthread, NULL);
@@ -317,10 +317,10 @@ static HANDLE gg_searchbydetails(PROTO_INTERFACE *proto, const PROTOCHAR *nick, 
 	char data[512] = "\0";
 
 	// Check if connected and if there's a search data
-	if(!gg_isonline(gg))
+	if (!gg_isonline(gg))
 		return 0;
 
-	if(!nick && !firstName && !lastName)
+	if (!nick && !firstName && !lastName)
 		return 0;
 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
@@ -368,7 +368,7 @@ static HANDLE gg_searchbydetails(PROTO_INTERFACE *proto, const PROTOCHAR *nick, 
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 
 	EnterCriticalSection(&gg->sess_mutex);
-	if(!gg_pubdir50(gg->sess, req))
+	if (!gg_pubdir50(gg->sess, req))
 	{
 		LeaveCriticalSection(&gg->sess_mutex);
 		gg_forkthread(gg, gg_searchthread, NULL);
@@ -432,7 +432,7 @@ int gg_getinfo(PROTO_INTERFACE *proto, HANDLE hContact, int infoType)
 		if(gg_isonline(gg))
 		{
 			EnterCriticalSection(&gg->sess_mutex);
-			if(!gg_pubdir50(gg->sess, req))
+			if (!gg_pubdir50(gg->sess, req))
 			{
 				LeaveCriticalSection(&gg->sess_mutex);
 				gg_forkthread(gg, gg_cmdgetinfothread, hContact);
@@ -457,7 +457,7 @@ int gg_getinfo(PROTO_INTERFACE *proto, HANDLE hContact, int infoType)
 		if(gg_isonline(gg))
 		{
 			EnterCriticalSection(&gg->sess_mutex);
-			if(!gg_pubdir50(gg->sess, req))
+			if (!gg_pubdir50(gg->sess, req))
 			{
 				LeaveCriticalSection(&gg->sess_mutex);
 				gg_forkthread(gg, gg_cmdgetinfothread, hContact);
@@ -617,7 +617,7 @@ HWND gg_searchbyadvanced(PROTO_INTERFACE *proto, HWND hwndDlg)
 	unsigned long crc;
 
 	// Check if connected
-	if(!gg_isonline(gg)) return (HWND)0;
+	if (!gg_isonline(gg)) return (HWND)0;
 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 	{
@@ -672,11 +672,11 @@ HWND gg_searchbyadvanced(PROTO_INTERFACE *proto, HWND hwndDlg)
 		yearFrom = atoi(age);
 
 		// Count & fix ranges
-		if(!yearTo)
+		if (!yearTo)
 			yearTo = ay;
 		else
 			yearTo = ay - yearTo;
-		if(!yearFrom)
+		if (!yearFrom)
 			yearFrom = 0;
 		else
 			yearFrom = ay - yearFrom;
@@ -723,7 +723,7 @@ HWND gg_searchbyadvanced(PROTO_INTERFACE *proto, HWND hwndDlg)
 	if(gg_isonline(gg))
 	{
 		EnterCriticalSection(&gg->sess_mutex);
-		if(!gg_pubdir50(gg->sess, req))
+		if (!gg_pubdir50(gg->sess, req))
 		{
 			LeaveCriticalSection(&gg->sess_mutex);
 			gg_forkthread(gg, gg_searchthread, NULL);

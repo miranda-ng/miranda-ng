@@ -72,7 +72,7 @@ bool psdHeaderInfo::Read(FreeImageIO *io, fi_handle handle) {
 	psdHeader header;
 
 	const int n = (int)io->read_proc(&header, sizeof(header), 1, handle);
-	if(!n) {
+	if (!n) {
 		return false;
 	}
 
@@ -282,7 +282,7 @@ int psdDisplayInfo::Read(FreeImageIO *io, fi_handle handle) {
 	n = (int)io->read_proc(&ShortValue, sizeof(ShortValue), 1, handle);
 	nBytes += n * sizeof(ShortValue);
 	_Opacity = (short)psdGetValue(ShortValue, sizeof(_Opacity) );
-	if((_Opacity < 0) || (_Opacity > 100)) {
+	if ((_Opacity < 0) || (_Opacity > 100)) {
 		throw "Invalid DisplayInfo::Opacity value";
 	}
 	
@@ -418,7 +418,7 @@ BOOL invertColor(FIBITMAP* dib) {
 	FREE_IMAGE_TYPE type = FreeImage_GetImageType(dib);
 	const unsigned Bpp = FreeImage_GetBPP(dib)/8;
 	
-	if((type == FIT_BITMAP && Bpp == 4) || type == FIT_RGBA16) {
+	if ((type == FIT_BITMAP && Bpp == 4) || type == FIT_RGBA16) {
 		const unsigned width = FreeImage_GetWidth(dib);
 		const unsigned height = FreeImage_GetHeight(dib);
 		BYTE *line_start = FreeImage_GetScanLine(dib, 0);
@@ -508,7 +508,7 @@ bool psdParser::ReadImageResources(FreeImageIO *io, fi_handle handle, LONG lengt
 		n = (int)io->read_proc(&oResource._OSType, sizeof(oResource._OSType), 1, handle);
 		nBytes += n * sizeof(oResource._OSType);
 
-		if( (nBytes % 2) != 0 ) {
+		if ( (nBytes % 2) != 0 ) {
 			return false;
 		}
 		
@@ -653,7 +653,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 	SwapShort(&nCompression);
 #endif
 	
-	if((nCompression != PSDP_COMPRESSION_NONE && nCompression != PSDP_COMPRESSION_RLE))	{
+	if ((nCompression != PSDP_COMPRESSION_NONE && nCompression != PSDP_COMPRESSION_RLE))	{
 		FreeImage_OutputMessageProc(_fi_format_id, "Unsupported compression %d", nCompression);
 		return NULL;
 	}
@@ -730,7 +730,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 			throw "Unsupported color mode";
 			break;
 	}
-	if(!bitmap) {
+	if (!bitmap) {
 		throw FI_MSG_ERROR_DIB_MEMORY;
 	}
 
@@ -797,7 +797,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 			// later use this array as WORD rleLineSizeList[nChannels][nHeight];
 			WORD *rleLineSizeList = new (std::nothrow) WORD[nChannels*nHeight];
 
-			if(!rleLineSizeList) {
+			if (!rleLineSizeList) {
 				FreeImage_Unload(bitmap);
 				SAFE_DELETE_ARRAY(line_start);
 				throw std::bad_alloc();
@@ -820,7 +820,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 			}
 
 			BYTE* rle_line_start = new (std::nothrow) BYTE[largestRLELine];
-			if(!rle_line_start) {
+			if (!rle_line_start) {
 				FreeImage_Unload(bitmap);
 				SAFE_DELETE_ARRAY(line_start);
 				SAFE_DELETE_ARRAY(rleLineSizeList);
@@ -924,7 +924,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 	
 	// --- Further process the bitmap ---
 	
-	if((mode == PSDP_CMYK || mode == PSDP_MULTICHANNEL)) {	
+	if ((mode == PSDP_CMYK || mode == PSDP_MULTICHANNEL)) {	
 		// CMYK values are "inverted", invert them back		
 
 		if(mode == PSDP_MULTICHANNEL) {
@@ -933,7 +933,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 			FreeImage_Invert(bitmap);
 		}
 
-		if((_fi_flags & PSD_CMYK) == PSD_CMYK) {
+		if ((_fi_flags & PSD_CMYK) == PSD_CMYK) {
 			// keep as CMYK
 
 			if(mode == PSDP_MULTICHANNEL) {
@@ -971,7 +971,7 @@ FIBITMAP* psdParser::ReadImageData(FreeImageIO *io, fi_handle handle) {
 				CREATE_GREYSCALE_PALETTE_REVERSE(FreeImage_GetPalette(bitmap), 2);
 			}
 			else if(mode == PSDP_INDEXED) {
-				if(!_colourModeData._plColourData || _colourModeData._Length != 768 || _ColourCount < 0) {
+				if (!_colourModeData._plColourData || _colourModeData._Length != 768 || _ColourCount < 0) {
 					FreeImage_OutputMessageProc(_fi_format_id, "Indexed image has no palette. Using the default grayscale one.");
 				} else {
 					_colourModeData.FillPalette(bitmap);
@@ -1037,7 +1037,7 @@ FIBITMAP* psdParser::Load(FreeImageIO *io, fi_handle handle, int s_format_id, in
 		FreeImage_CreateICCProfile(Bitmap, _iccProfile._ProfileData, _iccProfile._ProfileSize);
 		if ((flags & PSD_CMYK) == PSD_CMYK) {
 			short mode = _headerInfo._ColourMode;
-			if((mode == PSDP_CMYK) || (mode == PSDP_MULTICHANNEL)) {
+			if ((mode == PSDP_CMYK) || (mode == PSDP_MULTICHANNEL)) {
 				FreeImage_GetICCProfile(Bitmap)->flags |= FIICC_COLOR_IS_CMYK;
 			}
 		}

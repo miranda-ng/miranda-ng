@@ -50,7 +50,7 @@ INT_PTR CALLBACK FBAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLong(hwnd,GWLP_USERDATA,lparam);
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv) )
+		if ( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv) )
 		{
 			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
 			DBFreeVariant(&dbv);
@@ -195,7 +195,7 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		SetWindowLong(hwnd,GWLP_USERDATA,lparam);
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv) )
+		if ( !DBGetContactSettingString(0,proto->ModuleName(),FACEBOOK_KEY_LOGIN,&dbv) )
 		{
 			SetDlgItemTextA(hwnd,IDC_UN,dbv.pszVal);
 			DBFreeVariant(&dbv);
@@ -216,7 +216,7 @@ INT_PTR CALLBACK FBOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 
 		SendDlgItemMessage(hwnd, IDC_GROUP, EM_LIMITTEXT, FACEBOOK_GROUP_NAME_LIMIT, 0);
 
-		if( !DBGetContactSettingTString(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv) )
+		if ( !DBGetContactSettingTString(0,proto->ModuleName(),FACEBOOK_KEY_DEF_GROUP,&dbv) )
 		{
 			SetDlgItemText(hwnd,IDC_GROUP,dbv.ptszVal);
 			DBFreeVariant(&dbv);

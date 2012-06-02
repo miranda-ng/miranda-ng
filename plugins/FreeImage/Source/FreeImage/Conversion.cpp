@@ -145,7 +145,7 @@ _convertCMYKtoRGBA(unsigned width, unsigned height, BYTE* line_start, unsigned p
 
 BOOL 
 ConvertCMYKtoRGBA(FIBITMAP* dib) {
-	if(!FreeImage_HasPixels(dib)) {
+	if (!FreeImage_HasPixels(dib)) {
 		return FALSE;
 	}
 		
@@ -294,7 +294,7 @@ _convertLABtoRGB(unsigned width, unsigned height, BYTE* line_start, unsigned pit
 
 BOOL
 ConvertLABtoRGB(FIBITMAP* dib) {
-	if(!FreeImage_HasPixels(dib)) {
+	if (!FreeImage_HasPixels(dib)) {
 		return FALSE;
 	}
 		
@@ -330,7 +330,7 @@ ConvertLABtoRGB(FIBITMAP* dib) {
 FIBITMAP* 
 RemoveAlphaChannel(FIBITMAP* src) { 
 
-	if(!FreeImage_HasPixels(src)) {
+	if (!FreeImage_HasPixels(src)) {
 		return NULL;
 	}
 
@@ -367,10 +367,10 @@ FreeImage_ColorQuantize(FIBITMAP *dib, FREE_IMAGE_QUANTIZE quantize) {
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_ColorQuantizeEx(FIBITMAP *dib, FREE_IMAGE_QUANTIZE quantize, int PaletteSize, int ReserveSize, RGBQUAD *ReservePalette) {
-	if( PaletteSize < 2 ) PaletteSize = 2;
-	if( PaletteSize > 256 ) PaletteSize = 256;
-	if( ReserveSize < 0 ) ReserveSize = 0;
-	if( ReserveSize > PaletteSize ) ReserveSize = PaletteSize;
+	if ( PaletteSize < 2 ) PaletteSize = 2;
+	if ( PaletteSize > 256 ) PaletteSize = 256;
+	if ( ReserveSize < 0 ) ReserveSize = 0;
+	if ( ReserveSize > PaletteSize ) ReserveSize = PaletteSize;
 	if (FreeImage_HasPixels(dib)) {
 		if (FreeImage_GetBPP(dib) == 24) {
 			switch(quantize) {

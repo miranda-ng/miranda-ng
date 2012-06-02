@@ -59,7 +59,7 @@ void InitSecurity()
 		TCHAR *str2;
 		GetModuleFileName(NULL,szMirandaDir,SIZEOF(szMirandaDir));
 		str2 = _tcsrchr(szMirandaDir,'\\');
-		if( str2 != NULL )
+		if ( str2 != NULL )
 			*str2=0;
 		_tchdir(szMirandaDir);
 	}
@@ -105,7 +105,7 @@ void InitSecurity()
 			}
 		}
 		if(ModulesCount >= 100) break;
-		if(!FindNextFileA(hFile, &fd)) break;
+		if (!FindNextFileA(hFile, &fd)) break;
 	}
 
 	AddToStatus(STATUS_MESSAGE,TranslateT("%d crypto modules loaded"), ModulesCount);
@@ -166,14 +166,14 @@ int CheckPassword(WORD checkWord, WORD cryptorUID, char * szDBName)
 	{
 		int i;
 		int Found = 0;
-		for(i = 0; i < ModulesCount; i++){
+		for(i = 0; i < ModulesCount; i++) {
 			if(cryptorUID == Modules[i]->cryptor->uid){
 				CryptoEngine = Modules[i]->cryptor;
 				Found = 1;
 				break;
 			}
 		}
-		if(!Found){
+		if (!Found){
 			AddToStatus(STATUS_FATAL, TranslateT("Sorry, but your database encrypted with unknown module"), MB_OK);
 			bCheckingPass = 0;
 			return 0;
@@ -277,7 +277,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			UINT uid = LOWORD(wParam);
 
 			if(uid == IDOK){
-				if(!GetWindowLongPtr(hDlg,GWLP_USERDATA))
+				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
 				{
 					encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, encryptKey, 254);
 					EndDialog(hDlg,IDOK);

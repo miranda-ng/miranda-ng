@@ -405,7 +405,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						}
 						break;
 					case EN_CHANGE:			//Edit controls change
-						if(!bDlgInit) break;
+						if (!bDlgInit) break;
 						switch(idCtrl) {
 							//lParam = Handle to the control
 							case IDC_MAXPOPUPS:
@@ -420,7 +420,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_HISTORYSIZE:
 								{
 									int histSize = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(	histSize > 0 &&
+									if (	histSize > 0 &&
 										histSize <= SETTING_HISTORYSIZE_MAX){
 										PopUpOptions.HistorySize = histSize;
 										SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -430,7 +430,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_AVT_RADIUS:
 								{
 									int avtRadius = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(	avtRadius <= SETTING_AVTSIZE_MAX / 2 ){
+									if (	avtRadius <= SETTING_AVTSIZE_MAX / 2 ) {
 											PopUpOptions.avatarRadius = avtRadius;
 											SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 									}
@@ -439,8 +439,8 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_FADEIN:
 								{
 									int fadeIn = GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(	fadeIn >= SETTING_FADEINTIME_MIN &&
-										fadeIn <= SETTING_FADEINTIME_MAX ){
+									if (	fadeIn >= SETTING_FADEINTIME_MIN &&
+										fadeIn <= SETTING_FADEINTIME_MAX ) {
 											PopUpOptions.FadeIn = fadeIn;
 											SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 									}
@@ -449,7 +449,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_FADEOUT:
 								{
 									int fadeOut =  GetDlgItemInt(hwnd, idCtrl, NULL, FALSE);
-									if(	fadeOut >= SETTING_FADEOUTTIME_MIN &&
+									if (	fadeOut >= SETTING_FADEOUTTIME_MIN &&
 										fadeOut <= SETTING_FADEOUTTIME_MAX){
 											PopUpOptions.FadeOut = fadeOut;
 											SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

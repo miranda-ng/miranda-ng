@@ -1632,7 +1632,7 @@ typedef struct {
 **
 ** (5.5+)
 ** If you pass 1 in wParam then you will have zero returned if a language pack is in use.
-** if(!SendMessage(hwnd_winamp,WM_WA_IPC,1,IPC_GETLANGUAGEPACKINSTANCE)){
+** if (!SendMessage(hwnd_winamp,WM_WA_IPC,1,IPC_GETLANGUAGEPACKINSTANCE)) {
 **   // winamp is currently using a language pack
 ** }
 **
@@ -1753,7 +1753,7 @@ typedef struct {
 ** information about it such as the name of the skin file.
 **
 ** if(uMsg == WM_WA_IPC && lParam == IPC_GETSKININFO){
-**   if(is_our_skin()){
+**   if(is_our_skin()) {
 **      return is_our_skin_name();
 **   }
 ** }
@@ -2059,7 +2059,7 @@ typedef struct {
 **
 ** BOOL CALLBACK enumWndProc(HWND hwnd, LPARAM lParam){
 **
-**   if(SendMessage(hwnd_winamp,WM_WA_IPC,(WPARAM)hwnd,IPC_FF_ISMAINWND)){
+**   if(SendMessage(hwnd_winamp,WM_WA_IPC,(WPARAM)hwnd,IPC_FF_ISMAINWND)) {
 **     // do processing in here 
 **     // or continue the enum for other main windows (if they exist)
 **     // and just comment out the line below

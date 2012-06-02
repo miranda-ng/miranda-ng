@@ -29,7 +29,7 @@ void AddSessionMark(HANDLE hContact,int mode,char bit)
 	if(mode==0)
 	{	
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			temp_1[0]=dbv.pszVal[0];
 			for (i=0;i<ses_limit;i++)		
@@ -50,7 +50,7 @@ void AddSessionMark(HANDLE hContact,int mode,char bit)
 	if (mode==1)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
 		{   
 			if(strlen(dbv.pszVal)<g_ses_count)
 			{
@@ -88,7 +88,7 @@ void RemoveSessionMark(HANDLE hContact,int mode,int marknum)
 	if(mode==0)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			for (i=marknum;i<ses_limit;i++)		
 				dbv.pszVal[i]=dbv.pszVal[i+1];
@@ -103,7 +103,7 @@ void RemoveSessionMark(HANDLE hContact,int mode,int marknum)
 	if (mode==1)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			for (i=marknum;i<ses_limit;i++)		
 				dbv.pszVal[i]=dbv.pszVal[i+1];
@@ -121,7 +121,7 @@ void SetSessionMark(HANDLE hContact,int mode,char bit,unsigned int marknum)
 	if(mode==0)
 	{	
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			dbv.pszVal[marknum]=bit;
 			DBWriteContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", dbv.pszVal);
@@ -133,7 +133,7 @@ void SetSessionMark(HANDLE hContact,int mode,char bit,unsigned int marknum)
 	if (mode==1)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			pszBuffer = mir_strdup(dbv.pszVal);
 			pszBuffer[marknum]=bit;
@@ -149,7 +149,7 @@ BOOL LoadContactsFromMask(HANDLE hContact,int mode,int count)
 	if(mode==0)
 	{	
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			if (dbv.pszVal[count]=='1')
 			{
@@ -164,7 +164,7 @@ BOOL LoadContactsFromMask(HANDLE hContact,int mode,int count)
 	if (mode==1)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsMarks", &dbv) && dbv.pszVal)
 		{
 			if (dbv.pszVal[count]=='1')
 			{
@@ -194,12 +194,12 @@ void AddInSessionOrder(HANDLE hContact,int mode,int ordernum,int writemode)
 	if(mode==0)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
 		{	  
 			char* temp=NULL;
 			char* temp2=NULL;
 			int len= (int)strlen(dbv.pszVal);
-			if(!len)
+			if (!len)
 				len=20;
 
 			temp2 = (char*)mir_alloc(len-1);
@@ -239,7 +239,7 @@ void AddInSessionOrder(HANDLE hContact,int mode,int ordernum,int writemode)
 	{
 		DBVARIANT dbv;
 		int advlen=0;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsOrder", &dbv) && dbv.pszVal)
 		{
 			char* temp=NULL;
 			char* temp2=NULL;
@@ -254,7 +254,7 @@ void AddInSessionOrder(HANDLE hContact,int mode,int ordernum,int writemode)
 			{
 				pszBuffer = mir_strdup(dbv.pszVal);
 			}
-			if(!(advlen=len= (int)strlen(pszBuffer)))
+			if (!(advlen=len= (int)strlen(pszBuffer)))
 				advlen=len=20;
 			else
 				advlen=len+2;
@@ -287,7 +287,7 @@ int GetInSessionOrder(HANDLE hContact,int mode,int count)
 	if(mode==0)
 	{	
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
 		{
 			szTemp[0]=dbv.pszVal[count*2];
 			szTemp[1]=dbv.pszVal[count*2+1];
@@ -298,7 +298,7 @@ int GetInSessionOrder(HANDLE hContact,int mode,int count)
 	if (mode==1)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsOrder", &dbv) && dbv.pszVal)
 		{
 			szTemp[0]=dbv.pszVal[count*2];
 			szTemp[1]=dbv.pszVal[count*2+1];
@@ -322,7 +322,7 @@ void SetInSessionOrder(HANDLE hContact,int mode,int count,unsigned int ordernum)
 	if(mode==0)
 	{	
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "LastSessionsOrder", &dbv) && dbv.pszVal)
 		{
 			dbv.pszVal[count*2]=szTemp[0];
 			dbv.pszVal[count*2+1]=szTemp[1];
@@ -334,7 +334,7 @@ void SetInSessionOrder(HANDLE hContact,int mode,int count,unsigned int ordernum)
 	if (mode==1)
 	{
 		DBVARIANT dbv;
-		if(!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsOrder", &dbv) && dbv.pszVal)
+		if (!DBGetContactSettingString(hContact, __INTERNAL_NAME, "UserSessionsOrder", &dbv) && dbv.pszVal)
 		{
 			dbv.pszVal[count*2]=szTemp[0];
 			dbv.pszVal[count*2+1]=szTemp[1];
@@ -442,7 +442,7 @@ int LoadSessionToCombobox (HWND hdlg,BOOL mode,int iLimit,char* pszSetting,int i
 		pszBuffer = DBGetStringT(NULL, __INTERNAL_NAME, szBuffer);
 		if (pszBuffer)
 		{
-			if(!IsMarkedUserDefSession(i+iFirstNum)||mode==1)
+			if (!IsMarkedUserDefSession(i+iFirstNum)||mode==1)
 			{
 				index = SendDlgItemMessage(hdlg, IDC_LIST, CB_ADDSTRING, 0, (LPARAM)pszBuffer);
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)index, (LPARAM) (DWORD)i+iFirstNum);

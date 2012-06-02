@@ -388,7 +388,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 			{					
 				for (i=0;i<maxpr;i++)
 				{
-					if(!mir_strcmp(ImgIndex[i],szProto))
+					if (!mir_strcmp(ImgIndex[i],szProto))
 					{
 						SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_PROTO),i+3));	
 						break;

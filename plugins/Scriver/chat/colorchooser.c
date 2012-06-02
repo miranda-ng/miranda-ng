@@ -108,7 +108,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-		if((HWND)lParam==GetDlgItem(hwndDlg,IDC_CHAT_COLORTEXT)) {
+		if ((HWND)lParam==GetDlgItem(hwndDlg,IDC_CHAT_COLORTEXT)) {
 			SetTextColor((HDC)wParam,RGB(60,60,150));
 			SetBkColor((HDC)wParam,GetSysColor(COLOR_WINDOW));
 			return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);

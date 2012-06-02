@@ -326,7 +326,7 @@ return(0);
 
 void VersionConversions()
 {
-	/*switch(DB_Mra_GetDword(NULL,"LastPluginVersion",PLUGIN_MAKE_VERSION(0,0,0,0))){
+	/*switch(DB_Mra_GetDword(NULL,"LastPluginVersion",PLUGIN_MAKE_VERSION(0,0,0,0))) {
 	default:
 	case PLUGIN_MAKE_VERSION(1,14,0,0):
 	case PLUGIN_MAKE_VERSION(1,14,0,1):

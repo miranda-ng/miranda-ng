@@ -340,7 +340,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				InvalidateRect(hwnd, 0, TRUE);
 				*/
 
-				if(!IsWindowVisible(hwnd)) {
+				if (!IsWindowVisible(hwnd)) {
 					ShowWindow(hwnd, SW_SHOWNOACTIVATE);
 					UpdateWindow(hwnd);
 				}
@@ -506,7 +506,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// second line(s)
 					if(pd->pwzText[0]) {
 						if(hFontSecondLine) SelectObject(ps.hdc, (HGDIOBJ)hFontSecondLine);
-						if(!pwd->custom_col)
+						if (!pwd->custom_col)
 							SetTextColor(ps.hdc, colSecondLine);
 
 						// expand text if no avatar and the time isn't too large
@@ -574,7 +574,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					SetTimer(hwnd, ID_MOVETIMER, 10, 0);
 				} else {
 					SetWindowPos(hwnd, 0, (int)wParam, (int)lParam, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_NOACTIVATE);
-					if(!IsWindowVisible(hwnd)) { 
+					if (!IsWindowVisible(hwnd)) { 
 						ShowWindow(hwnd, SW_SHOWNOACTIVATE);
 						UpdateWindow(hwnd);
 					}
@@ -669,7 +669,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				else 
 					*pHeight = max(pwd->tb_height + pwd->text_height + 3 * options.padding, pwd->av_height + 2 * options.av_padding);
 
-				if(*pHeight > options.win_max_height) *pHeight = options.win_max_height;
+				if (*pHeight > options.win_max_height) *pHeight = options.win_max_height;
 
 				RECT r;
 				GetWindowRect(hwnd, &r);

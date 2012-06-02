@@ -50,13 +50,13 @@ json_string JSONBase64::json_encode64(const unsigned char * binary, size_t bytes
 }
 
 inline json_char toBinary(json_char c){
-    if (c == JSON_TEXT('+')){
+    if (c == JSON_TEXT('+')) {
 	   return JSON_TEXT('>');
-    } else if (c == JSON_TEXT('/')){
+    } else if (c == JSON_TEXT('/')) {
 	   return JSON_TEXT('?');
-    } else if (c < JSON_TEXT(':')){
+    } else if (c < JSON_TEXT(':')) {
 	   return c + JSON_TEXT('\x04');
-    } else if (c < JSON_TEXT('[')){
+    } else if (c < JSON_TEXT('[')) {
 	   return c - JSON_TEXT('\x41');
     }
     return c - 71;
@@ -97,10 +97,10 @@ std::string JSONBase64::json_decode64(const json_string & encoded){
 	   //now do the ones that might have padding, the first two characters can not be padding, so do them quickly
 	   const char second = toBinary(runner[1]);
 	   result += (toBinary(runner[0]) << 2) + ((second & 0x30) >> 4);
-	   if (runner[2] != '='){  //not two = pads
+	   if (runner[2] != '=') {  //not two = pads
 		  const char third = toBinary(runner[2]);
 		  result += ((second & 0xf) << 4) + ((third & 0x3c) >> 2);
-		  if (runner[3] != '='){  //no padding
+		  if (runner[3] != '=') {  //no padding
 			 result += ((third & 0x3) << 6) + toBinary(runner[3]);
 		  }
 	   }

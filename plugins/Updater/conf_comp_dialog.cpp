@@ -90,14 +90,14 @@ INT_PTR CALLBACK DlgProcConfirmComponents(HWND hwndDlg, UINT msg, WPARAM wParam,
 		return TRUE;
 
 	case WM_NOTIFY:
-		if(((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS)) {
+		if (((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS)) {
 			switch (((LPNMHDR) lParam)->code) {
 				
 			case LVN_ITEMCHANGED:
 				if(GetWindowLongPtr(hwndDlg, GWLP_USERDATA)) {
 					NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 
-					if((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
+					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
 
 						int size = ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS));
 						bool enableOk = false;
@@ -172,7 +172,7 @@ INT_PTR CALLBACK DlgProcConfirmComponents(HWND hwndDlg, UINT msg, WPARAM wParam,
 					int size = ListView_GetItemCount(GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS));
 					//bool enableOk = false;
 					for(int i = 0; i < size; i++) {
-						if(!ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS), i)) {
+						if (!ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS), i)) {
 							// delete file
 							ListView_GetItemText(GetDlgItem(hwndDlg, IDC_LIST_COMPONENTS), i, 0, p, MAX_PATH - path_len);
 							DeleteFile(fname_buff);

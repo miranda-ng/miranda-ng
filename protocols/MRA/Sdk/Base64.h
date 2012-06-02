@@ -271,8 +271,8 @@ __inline DWORD BASE64DecodeUnSafe(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID 
 				}
 
 				dwDecodedSize=(lpbtDestination-((LPBYTE)lpcDestination));
-				if((*((BYTE*)lpcSource+(dwSourceSize-1)))=='=') dwDecodedSize--;
-				if((*((BYTE*)lpcSource+(dwSourceSize-2)))=='=') dwDecodedSize--;
+				if ((*((BYTE*)lpcSource+(dwSourceSize-1)))=='=') dwDecodedSize--;
+				if ((*((BYTE*)lpcSource+(dwSourceSize-2)))=='=') dwDecodedSize--;
 
 
 #else
@@ -329,8 +329,8 @@ __inline DWORD BASE64DecodeUnSafe(LPCVOID lpcSource,SIZE_T dwSourceSize,LPCVOID 
 				pop		ebx					// восстанавливаем содержимое регистра
 				}
 
-				if((*((BYTE*)lpcSource+(dwSourceSize-1)))=='=') dwDecodedSize--;
-				if((*((BYTE*)lpcSource+(dwSourceSize-2)))=='=') dwDecodedSize--;
+				if ((*((BYTE*)lpcSource+(dwSourceSize-1)))=='=') dwDecodedSize--;
+				if ((*((BYTE*)lpcSource+(dwSourceSize-2)))=='=') dwDecodedSize--;
 #endif
 				dwRetErrorCode=NO_ERROR;
 			}else{// во входном буффере слишком мало данных

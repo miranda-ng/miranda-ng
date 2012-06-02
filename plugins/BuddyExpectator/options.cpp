@@ -393,7 +393,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			}
 			else
 			{
-				if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE) || ((HIWORD(wParam) == EN_CHANGE) && !ChangeLock)){
+				if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE) || ((HIWORD(wParam) == EN_CHANGE) && !ChangeLock)) {
 					SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 				}
 				if (LOWORD(wParam) == IDC_COLORS_POPUP)

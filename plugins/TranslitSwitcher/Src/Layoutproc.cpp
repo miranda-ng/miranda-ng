@@ -423,7 +423,7 @@ VOID SwitchLayout(BOOL lastword)
 			TCHAR szClassName[MAX_PATH];
 
 			GetClassName(hwnd2, szClassName, SIZEOF(szClassName));
-			if((lstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE))	// make popup here
+			if ((lstrcmp(szClassName, _T("THppRichEdit.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("THistoryGrid.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("TExtHistoryGrid.UnicodeClass")) == 0 || lstrcmp(szClassName, _T("Internet Explorer_Server")) == 0) && ServiceExists(MS_POPUP_SHOWMESSAGE))	// make popup here
 			{
 				TCHAR buf[2048];
 				

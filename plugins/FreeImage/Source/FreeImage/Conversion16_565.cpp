@@ -111,7 +111,7 @@ FreeImage_ConvertLine32To16_565(BYTE *target, BYTE *source, int width_in_pixels)
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_ConvertTo16Bits565(FIBITMAP *dib) {
-	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) return NULL;
+	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) return NULL;
 
 	const int width = FreeImage_GetWidth(dib);
 	const int height = FreeImage_GetHeight(dib);

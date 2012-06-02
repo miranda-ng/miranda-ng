@@ -66,10 +66,10 @@ YList *y_list_concat(YList * list, YList * add)
 {
 	YList *l;
 
-	if(!list)
+	if (!list)
 		return add;
 
-	if(!add)
+	if (!add)
 		return list;
 
 	for (l = list; l->next; l = l->next)
@@ -132,7 +132,7 @@ int y_list_length(const YList * list)
  */
 int y_list_empty(const YList * list)
 {
-	if(!list)
+	if (!list)
 		return 1;
 	else
 		return 0;
@@ -140,7 +140,7 @@ int y_list_empty(const YList * list)
 
 int y_list_singleton(const YList * list)
 {
-	if(!list || list->next)
+	if (!list || list->next)
 		return 0;
 	return 1;
 }

@@ -96,7 +96,7 @@ void ScanPlugins(FilenameMap *fn_map, UpdateList *update_list)
             {
 				dll_info_func = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfo");
 				dll_info_func_ex = (Miranda_Plugin_Info_Ex)GetProcAddress(hModule, "MirandaPluginInfoEx");
-				if((dll_info_func_ex && (pluginInfo = (PLUGININFO *)dll_info_func_ex(mirandaVersion))) || (dll_info_func && (pluginInfo = dll_info_func(mirandaVersion)))) 
+				if ((dll_info_func_ex && (pluginInfo = (PLUGININFO *)dll_info_func_ex(mirandaVersion))) || (dll_info_func && (pluginInfo = dll_info_func(mirandaVersion)))) 
                 {
 					// *** This is a dodgy and unfair hack...
 					// In order to disable new plugins that may be unintentionally installed with an update,
@@ -204,7 +204,7 @@ bool GetLangpackData(const TCHAR *filename, LangpackData *ld)
 
 void ScanLangpacks(FilenameMap *fn_map, UpdateList *update_list) 
 {
-	if(!XMLDataAvailable(MC_LOCALIZATION)) return;
+	if (!XMLDataAvailable(MC_LOCALIZATION)) return;
 
 	TCHAR mir_folder[MAX_PATH], langpack_path[MAX_PATH], *langpack_name;
 
@@ -276,7 +276,7 @@ bool RearrangeDllsWorker(char *shortName, StrList &filenames, TCHAR *basedir)
 			{
 				dll_info_func = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfo");
 				dll_info_func_ex = (Miranda_Plugin_Info_Ex)GetProcAddress(hModule, "MirandaPluginInfoEx");
-				if((dll_info_func_ex && (pluginInfo = (PLUGININFO *)dll_info_func_ex(mirandaVersion))) || (dll_info_func && (pluginInfo = dll_info_func(mirandaVersion)))) 
+				if ((dll_info_func_ex && (pluginInfo = (PLUGININFO *)dll_info_func_ex(mirandaVersion))) || (dll_info_func && (pluginInfo = dll_info_func(mirandaVersion)))) 
                 {
 					bool found = !_stricmp(pluginInfo->shortName, shortName);
 					if (!found)

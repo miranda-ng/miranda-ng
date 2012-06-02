@@ -31,7 +31,7 @@ int WorkAggressive(int firstTime)
 	BYTE *buf;
 
 	if(firstTime) {
-		if(!opts.bAggressive) return ERROR_NO_MORE_ITEMS;
+		if (!opts.bAggressive) return ERROR_NO_MORE_ITEMS;
 		AddToStatus(STATUS_MESSAGE,TranslateT("Performing aggressive pass"));
 		ofsCurrent=0;
 		spaceProcessed=0;
@@ -43,13 +43,13 @@ int WorkAggressive(int firstTime)
 	blockBytes-=3;
 	for(i=0;i<blockBytes;i++) {
 		if(buf[i]) {
-			if((*(PDWORD)&buf[i]&0x00FFFFFF)!=0xDECADE)
+			if ((*(PDWORD)&buf[i]&0x00FFFFFF)!=0xDECADE)
 				AddToStatus(STATUS_WARNING,TranslateT("Aggressive: random junk at %08X: skipping"),ofsCurrent+i);
 			else {
 				//TODO: give user the option of placing manually
 				AddToStatus(STATUS_ERROR,TranslateT("Aggressive: unlinked data at %08X: can't automatically place"),ofsCurrent+i);
 			}
-			for(;i<blockBytes;i++)
+			for (;i<blockBytes;i++)
 				if(buf[i]==0) {i--; break;}
 		}
 	}

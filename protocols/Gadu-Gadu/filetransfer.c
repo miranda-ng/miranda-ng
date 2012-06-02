@@ -45,7 +45,7 @@ void gg_dccstart(GGPROTO *gg)
 	}
 
 	// Check if we wan't direct connections
-	if(!DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
+	if (!DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
 	{
 		gg_netlog(gg, "gg_dccstart(): No direct connections setup.");
 		if(gg->event) SetEvent(gg->event);
@@ -65,7 +65,7 @@ void gg_dccconnect(GGPROTO *gg, uin_t uin)
 	gg_netlog(gg, "gg_dccconnect(): Connecting to uin %d.", uin);
 
 	// If unknown user or not on list ignore
-	if(!hContact) return;
+	if (!hContact) return;
 
 	// Read user IP and port
 	ip = swap32(DBGetContactSettingDword(hContact, GG_PROTO, GG_KEY_CLIENTIP, 0));
@@ -73,9 +73,9 @@ void gg_dccconnect(GGPROTO *gg, uin_t uin)
 	myuin = DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0);
 
 	// If not port nor ip nor my uin (?) specified
-	if(!ip || !port || !uin) return;
+	if (!ip || !port || !uin) return;
 
-	if(!(dcc = gg_dcc_get_file(ip, port, myuin, uin)))
+	if (!(dcc = gg_dcc_get_file(ip, port, myuin, uin)))
 		return;
 
 	// Add client dcc to watches
@@ -144,7 +144,7 @@ void __cdecl gg_dccmainthread(GGPROTO *gg, void *empty)
 	}
 
 	// Create listen socket on config direct port
-	if(!(gg->dcc = gg_dcc_socket_create(uin, (uint16_t)DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))))
+	if (!(gg->dcc = gg_dcc_socket_create(uin, (uint16_t)DBGetContactSettingWord(NULL, GG_PROTO, GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))))
 	{
 		gg_netlog(gg, "gg_dccmainthread(): Cannot create DCC listen socket. Exiting.");
 		// Signalize mainthread we haven't start
@@ -652,7 +652,7 @@ HANDLE gg_sendfile(PROTO_INTERFACE *proto, HANDLE hContact, const PROTOCHAR* szD
 	uin_t myuin, uin;
 
 	// Check if main dcc thread is on
-	if(!gg_isonline(gg)) return ftfail(gg, hContact);
+	if (!gg_isonline(gg)) return ftfail(gg, hContact);
 
 	filename = gg_t2a(ppszFiles[0]);
 
@@ -696,7 +696,7 @@ HANDLE gg_sendfile(PROTO_INTERFACE *proto, HANDLE hContact, const PROTOCHAR* szD
 	}
 
 	// Return if bad connection info
-	if(!port || !uin || !myuin)
+	if (!port || !uin || !myuin)
 	{
 		gg_netlog(gg, "gg_sendfile(): Bad contact uin or my uin. Exit.");
 		mir_free(filename);
@@ -704,7 +704,7 @@ HANDLE gg_sendfile(PROTO_INTERFACE *proto, HANDLE hContact, const PROTOCHAR* szD
 	}
 
 	// Try to connect if not ask user to connect me
-	if((ip && port >= 10 && !(dcc = gg_dcc_send_file(ip, port, myuin, uin))) || (port < 10 && port > 0))
+	if ((ip && port >= 10 && !(dcc = gg_dcc_send_file(ip, port, myuin, uin))) || (port < 10 && port > 0))
 	{
 		// Make fake dcc structure
 		dcc = malloc(sizeof(struct gg_dcc));
@@ -766,7 +766,7 @@ HANDLE gg_dccfileallow(GGPROTO *gg, HANDLE hTransfer, const PROTOCHAR* szPath)
 	LeaveCriticalSection(&gg->ft_mutex);
 
 	// Open file for appending and check if ok
-	if((dcc->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
+	if ((dcc->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
 		gg_netlog(gg, "gg_dccfileallow(): Failed to create file \"%s\".", fileName);
 		ProtoBroadcastAck(GG_PROTO, dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
@@ -814,7 +814,7 @@ HANDLE gg_dcc7fileallow(GGPROTO *gg, HANDLE hTransfer, const PROTOCHAR* szPath)
 	}
 
 	// Open file for appending and check if ok
-	if((dcc7->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
+	if ((dcc7->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
 		gg_netlog(gg, "gg_dcc7fileallow(): Failed to create file \"%s\".", fileName);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
@@ -973,7 +973,7 @@ int gg_filecancel(PROTO_INTERFACE *proto, HANDLE hContact, HANDLE hTransfer)
 	struct gg_common *c = (struct gg_common *) hTransfer;
 
 	// Check if its proper dcc
-	if(!c) return 0;
+	if (!c) return 0;
 
 	if (c->type == GG_SESSION_DCC7_SEND || c->type == GG_SESSION_DCC7_GET)
 		return gg_dcc7filecancel((GGPROTO *) proto, hTransfer);

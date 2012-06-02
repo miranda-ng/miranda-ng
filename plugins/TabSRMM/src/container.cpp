@@ -100,7 +100,7 @@ void TSAPI SetAeroMargins(TContainerData *pContainer)
 
 			GetWindowRect(dat->hwnd, &rcWnd);
 			pt.x = rcWnd.left;
-			if(!pContainer->SideBar->isActive())
+			if (!pContainer->SideBar->isActive())
 				pt.y = rcWnd.bottom + ((pContainer->iChilds > 1 || !(pContainer->dwFlags & CNT_HIDETABS)) ? pContainer->tBorder : 0);
 			else {
 				pt.y = rcWnd.bottom;
@@ -844,7 +844,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			pContainer->SideBar->scrollIntoView();
 
-			if(!M->isAero()) {					// aero mode uses buffered paint, no forced redraw needed
+			if (!M->isAero()) {					// aero mode uses buffered paint, no forced redraw needed
 				RedrawWindow(hwndTab, NULL, NULL, RDW_INVALIDATE | (pContainer->bSizingLoop ? RDW_ERASE : 0));
 				RedrawWindow(hwndDlg, NULL, NULL, (bSkinned ? RDW_FRAME : 0) | RDW_INVALIDATE | ((pContainer->bSizingLoop || wParam == SIZE_RESTORED ) ? RDW_ERASE : 0));
 			}
@@ -1661,7 +1661,7 @@ buttons_done:
 			/*
 			 * avoid flickering of the menu bar when aero is active
 			 */
-			if(!pContainer)
+			if (!pContainer)
 				break;
 
 			HDC hdc = 	(HDC)wParam;
@@ -1917,7 +1917,7 @@ buttons_done:
 					Win7Taskbar->setOverlayIcon(hwndDlg, lParam);
 					if(GetForegroundWindow() != hwndDlg)
 						SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, lParam);
-					if((HICON)lParam == hIconMsg)
+					if ((HICON)lParam == hIconMsg)
 						pContainer->hIconTaskbarOverlay = hIconMsg;
 					break;
 				}
@@ -1926,7 +1926,7 @@ buttons_done:
 					if(dat->hTaskbarIcon == 0)
 						dat->hTaskbarIcon = ((dat->pContainer->dwFlags & CNT_AVATARSONTASKBAR) ? Utils::iconFromAvatar(dat) : 0);
 					else {
-						if(!(dat->pContainer->dwFlags & CNT_AVATARSONTASKBAR)) {
+						if (!(dat->pContainer->dwFlags & CNT_AVATARSONTASKBAR)) {
 							DestroyIcon(dat->hTaskbarIcon);
 							dat->hTaskbarIcon = 0;
 						}

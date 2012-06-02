@@ -19,8 +19,8 @@ public:
 	};
 
 public:
-	IQuotesProvider(){}
-	virtual ~IQuotesProvider(){}
+	IQuotesProvider() {}
+	virtual ~IQuotesProvider() {}
 
 	virtual bool Init() = 0;
 	virtual const CProviderInfo& GetInfo()const = 0;

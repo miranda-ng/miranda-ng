@@ -757,7 +757,7 @@ read_markers(j_decompress_ptr cinfo, FIBITMAP *dib) {
 					continue;
 				}
 				if(memcmp(marker->data, "JFXX" , 5) == 0) {
-					if(!cinfo->saw_JFIF_marker || cinfo->JFIF_minor_version < 2) {
+					if (!cinfo->saw_JFIF_marker || cinfo->JFIF_minor_version < 2) {
 						FreeImage_OutputMessageProc(s_format_id, "Warning: non-standard JFXX segment");
 					}					
 					jpeg_read_jfxx(dib, marker->data, marker->data_length);
@@ -785,7 +785,7 @@ read_markers(j_decompress_ptr cinfo, FIBITMAP *dib) {
 	BYTE *icc_profile = NULL;
 	unsigned icc_length = 0;
 
-	if( jpeg_read_icc_profile(cinfo, &icc_profile, &icc_length) ) {
+	if ( jpeg_read_icc_profile(cinfo, &icc_profile, &icc_length) ) {
 		// copy ICC profile data
 		FreeImage_CreateICCProfile(dib, icc_profile, icc_length);
 		// clean up
@@ -995,11 +995,11 @@ static BOOL
 jpeg_write_jfxx(j_compress_ptr cinfo, FIBITMAP *dib) {
 	// get the thumbnail to be stored
 	FIBITMAP* thumbnail = FreeImage_GetThumbnail(dib);
-	if(!thumbnail) {
+	if (!thumbnail) {
 		return TRUE;
 	}
 	// check for a compatible output format
-	if((FreeImage_GetImageType(thumbnail) != FIT_BITMAP) || (FreeImage_GetBPP(thumbnail) != 8) && (FreeImage_GetBPP(thumbnail) != 24)) {
+	if ((FreeImage_GetImageType(thumbnail) != FIT_BITMAP) || (FreeImage_GetBPP(thumbnail) != 8) && (FreeImage_GetBPP(thumbnail) != 24)) {
 		FreeImage_OutputMessageProc(s_format_id, FI_MSG_WARNING_INVALID_THUMBNAIL);
 		return FALSE;
 	}
@@ -1325,22 +1325,22 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			// step 5b: allocate dib and init header
 
-			if((cinfo.num_components == 4) && (cinfo.out_color_space == JCS_CMYK)) {
+			if ((cinfo.num_components == 4) && (cinfo.out_color_space == JCS_CMYK)) {
 				// CMYK image
-				if((flags & JPEG_CMYK) == JPEG_CMYK) {
+				if ((flags & JPEG_CMYK) == JPEG_CMYK) {
 					// load as CMYK
 					dib = FreeImage_AllocateHeader(header_only, cinfo.output_width, cinfo.output_height, 32, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-					if(!dib) throw FI_MSG_ERROR_DIB_MEMORY;
+					if (!dib) throw FI_MSG_ERROR_DIB_MEMORY;
 					FreeImage_GetICCProfile(dib)->flags |= FIICC_COLOR_IS_CMYK;
 				} else {
 					// load as CMYK and convert to RGB
 					dib = FreeImage_AllocateHeader(header_only, cinfo.output_width, cinfo.output_height, 24, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-					if(!dib) throw FI_MSG_ERROR_DIB_MEMORY;
+					if (!dib) throw FI_MSG_ERROR_DIB_MEMORY;
 				}
 			} else {
 				// RGB or greyscale image
 				dib = FreeImage_AllocateHeader(header_only, cinfo.output_width, cinfo.output_height, 8 * cinfo.num_components, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-				if(!dib) throw FI_MSG_ERROR_DIB_MEMORY;
+				if (!dib) throw FI_MSG_ERROR_DIB_MEMORY;
 
 				if (cinfo.num_components == 1) {
 					// build a greyscale palette
@@ -1385,7 +1385,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			// step 7a: while (scan lines remain to be read) jpeg_read_scanlines(...);
 
-			if((cinfo.out_color_space == JCS_CMYK) && ((flags & JPEG_CMYK) != JPEG_CMYK)) {
+			if ((cinfo.out_color_space == JCS_CMYK) && ((flags & JPEG_CMYK) != JPEG_CMYK)) {
 				// convert from CMYK to RGB
 
 				JSAMPARRAY buffer;		// output row buffer
@@ -1411,7 +1411,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 						dst += 3;
 					}
 				}
-			} else if((cinfo.out_color_space == JCS_CMYK) && ((flags & JPEG_CMYK) == JPEG_CMYK)) {
+			} else if ((cinfo.out_color_space == JCS_CMYK) && ((flags & JPEG_CMYK) == JPEG_CMYK)) {
 				// convert from LibJPEG CMYK to standard CMYK
 
 				JSAMPARRAY buffer;		// output row buffer
@@ -1466,7 +1466,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			jpeg_destroy_decompress(&cinfo);
 
 			// check for automatic Exif rotation
-			if(!header_only && ((flags & JPEG_EXIFROTATE) == JPEG_EXIFROTATE)) {
+			if (!header_only && ((flags & JPEG_EXIFROTATE) == JPEG_EXIFROTATE)) {
 				rotate_exif(&dib);
 			}
 
@@ -1560,12 +1560,12 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			jpeg_set_defaults(&cinfo);
 
 		    // progressive-JPEG support
-			if((flags & JPEG_PROGRESSIVE) == JPEG_PROGRESSIVE) {
+			if ((flags & JPEG_PROGRESSIVE) == JPEG_PROGRESSIVE) {
 				jpeg_simple_progression(&cinfo);
 			}
 			
 			// compute optimal Huffman coding tables for the image
-			if((flags & JPEG_OPTIMIZE) == JPEG_OPTIMIZE) {
+			if ((flags & JPEG_OPTIMIZE) == JPEG_OPTIMIZE) {
 				cinfo.optimize_coding = TRUE;
 			}
 
@@ -1590,7 +1590,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			// set subsampling options if required
 
 			if(cinfo.in_color_space == JCS_RGB) {
-				if((flags & JPEG_SUBSAMPLING_411) == JPEG_SUBSAMPLING_411) { 
+				if ((flags & JPEG_SUBSAMPLING_411) == JPEG_SUBSAMPLING_411) { 
 					// 4:1:1 (4x1 1x1 1x1) - CrH 25% - CbH 25% - CrV 100% - CbV 100%
 					// the horizontal color resolution is quartered
 					cinfo.comp_info[0].h_samp_factor = 4;	// Y 
@@ -1599,7 +1599,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					cinfo.comp_info[1].v_samp_factor = 1; 
 					cinfo.comp_info[2].h_samp_factor = 1;	// Cr 
 					cinfo.comp_info[2].v_samp_factor = 1; 
-				} else if((flags & JPEG_SUBSAMPLING_420) == JPEG_SUBSAMPLING_420) {
+				} else if ((flags & JPEG_SUBSAMPLING_420) == JPEG_SUBSAMPLING_420) {
 					// 4:2:0 (2x2 1x1 1x1) - CrH 50% - CbH 50% - CrV 50% - CbV 50%
 					// the chrominance resolution in both the horizontal and vertical directions is cut in half
 					cinfo.comp_info[0].h_samp_factor = 2;	// Y
@@ -1608,7 +1608,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					cinfo.comp_info[1].v_samp_factor = 1; 
 					cinfo.comp_info[2].h_samp_factor = 1;	// Cr
 					cinfo.comp_info[2].v_samp_factor = 1; 
-				} else if((flags & JPEG_SUBSAMPLING_422) == JPEG_SUBSAMPLING_422){ //2x1 (low) 
+				} else if ((flags & JPEG_SUBSAMPLING_422) == JPEG_SUBSAMPLING_422){ //2x1 (low) 
 					// 4:2:2 (2x1 1x1 1x1) - CrH 50% - CbH 50% - CrV 100% - CbV 100%
 					// half of the horizontal resolution in the chrominance is dropped (Cb & Cr), 
 					// while the full resolution is retained in the vertical direction, with respect to the luminance
@@ -1619,7 +1619,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					cinfo.comp_info[2].h_samp_factor = 1;	// Cr 
 					cinfo.comp_info[2].v_samp_factor = 1; 
 				} 
-				else if((flags & JPEG_SUBSAMPLING_444) == JPEG_SUBSAMPLING_444){ //1x1 (no subsampling) 
+				else if ((flags & JPEG_SUBSAMPLING_444) == JPEG_SUBSAMPLING_444){ //1x1 (no subsampling) 
 					// 4:4:4 (1x1 1x1 1x1) - CrH 100% - CbH 100% - CrV 100% - CbV 100%
 					// the resolution of chrominance information (Cb & Cr) is preserved 
 					// at the same rate as the luminance (Y) information

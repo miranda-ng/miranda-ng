@@ -1097,7 +1097,7 @@ void CManagerDlg::OnApplyModes( CCtrlButton* )
 			lstrcat( toadd, _T("t"));
 
 		if ( wi->pszMode && _tcschr( wi->pszMode, 'n' )) {
-			if( !m_check2.GetState())
+			if ( !m_check2.GetState())
 				lstrcat( toremove, _T("n"));
 		}
 		else if ( m_check2.GetState())
@@ -1111,7 +1111,7 @@ void CManagerDlg::OnApplyModes( CCtrlButton* )
 			lstrcat( toadd, _T("i"));
 
 		if ( wi->pszMode && _tcschr( wi->pszMode, 'm' )) {
-			if( !m_check4.GetState())
+			if ( !m_check4.GetState())
 				lstrcat( toremove, _T("m"));
 		}
 		else if ( m_check4.GetState())
@@ -1145,7 +1145,7 @@ void CManagerDlg::OnApplyModes( CCtrlButton* )
 				lstrcat( toremove, _T("k"));
 				appendixremove += _T(" ") + CMString(wi->pszPassword);
 			}
-			else if( GetWindowTextLength( m_key.GetHwnd())) {
+			else if ( GetWindowTextLength( m_key.GetHwnd())) {
 				TCHAR temp[400];
 				m_key.GetText( temp, 14);
 

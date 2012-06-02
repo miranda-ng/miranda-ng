@@ -393,7 +393,7 @@ VOID SvcEMailLoadModule()
 		disableDefaultModule[DEFMOD_SREMAIL] = TRUE;
 			
 		// create own email send command
-		if(!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))
+		if (!myDestroyServiceFunction(MS_EMAIL_SENDEMAIL))
 			myCreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);
 	}
 }

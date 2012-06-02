@@ -147,13 +147,13 @@ static int TSAPI ScanSkinDir(const TCHAR* tszFolder, HWND hwndCombobox)
 		mir_sntprintf(tszFinalName, MAX_PATH, _T("%s%s"), tszFolder, fd.cFileName);
 
 		GetPrivateProfileString(_T("Global"), _T("Name"), _T("None"), szBuf, 500, tszFinalName);
-		if(!_tcscmp(szBuf, _T("None"))) {
+		if (!_tcscmp(szBuf, _T("None"))) {
 			fd.cFileName[lstrlen(fd.cFileName) - 4] = 0;
 			mir_sntprintf(szBuf, 255, _T("%s"), fd.cFileName);
 		}
 
 		M->pathToRelative(tszFinalName, tszRel, M->getSkinPath());
-		if((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
+		if ((lr = SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)szBuf)) != CB_ERR) {
 			TCHAR *idata = (TCHAR *)malloc((lstrlen(tszRel) + 1) * sizeof(TCHAR));
 
 			_tcscpy(idata, tszRel);
@@ -208,7 +208,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 
 			TCHAR* idata = (TCHAR *)SendMessage(hwndCombobox, CB_GETITEMDATA, i, 0);
 			if(idata && idata != (TCHAR *)CB_ERR) {
-				if(!_tcsicmp(dbv.ptszVal, idata)) {
+				if (!_tcsicmp(dbv.ptszVal, idata)) {
 					SendMessage(hwndCombobox, CB_SETCURSEL, i, 0);
 					break;
 				}
@@ -259,7 +259,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		}
 
 		case WM_CTLCOLORSTATIC:
-			if((HWND)lParam == GetDlgItem(hwndDlg, IDC_SKIN_WARN)) {
+			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_SKIN_WARN)) {
 				SetTextColor((HDC)wParam, RGB(255, 50, 50));
 				return(0);
 			}
@@ -956,7 +956,7 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M->GetByte("MTN_PopupMode", 0), 0);
 
-			if(!PluginConfig.g_PopupWAvail) {
+			if (!PluginConfig.g_PopupWAvail) {
 				Utils::showDlgControl(hwndDlg, IDC_NOTIFYPOPUP, SW_HIDE);
 				Utils::showDlgControl(hwndDlg, IDC_STATIC111, SW_HIDE);
 				Utils::showDlgControl(hwndDlg, IDC_MTN_POPUPMODE, SW_HIDE);

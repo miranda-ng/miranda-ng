@@ -104,7 +104,7 @@ BOOL CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hWndDlg,IDC_FILE_SEND_IGNORYADDITIONALPORTS,DB_Mra_GetByte(NULL,"FileSendIgnoryAdditionalPorts",MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS));
 			CheckDlgButton(hWndDlg,IDC_FILE_SEND_HIDE_MY_ADDRESSES,DB_Mra_GetByte(NULL,"FileSendHideMyAddresses",MRA_DEF_FS_HIDE_MY_ADDRESSES));
 			CheckDlgButton(hWndDlg,IDC_FILE_SEND_ADD_EXTRA_ADDRESS,DB_Mra_GetByte(NULL,"FileSendAddExtraAddresses",MRA_DEF_FS_ADD_EXTRA_ADDRESSES));
-			if(!DBGetContactSetting(NULL,PROTOCOL_NAME,"FileSendExtraAddresses",&dbv)) {
+			if (!DBGetContactSetting(NULL,PROTOCOL_NAME,"FileSendExtraAddresses",&dbv)) {
 				//bit of a security hole here, since it's easy to extract a password from an edit box
 				SetDlgItemText(hWndDlg,IDC_FILE_SEND_EXTRA_ADDRESS,dbv.pszVal);
 				DBFreeVariant(&dbv);
@@ -846,7 +846,7 @@ HANDLE MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem)
 		nloc.flags=NLOCF_V2;
 		if (DB_Mra_GetByte(NULL,"FileSendIgnoryAdditionalPorts",MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS))
 		{// фильтруем порты для одного IP, вместо 3 будем коннектится только к одному
-			switch(DB_Mra_GetWord(NULL,"ServerPort",MRA_DEFAULT_SERVER_PORT)){
+			switch(DB_Mra_GetWord(NULL,"ServerPort",MRA_DEFAULT_SERVER_PORT)) {
 			case MRA_SERVER_PORT_STANDART_NLB: 
 				dwLocalPort=MRA_SERVER_PORT_STANDART;
 				break;

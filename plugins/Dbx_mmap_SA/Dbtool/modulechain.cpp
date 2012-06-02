@@ -48,7 +48,7 @@ int WorkModuleChain(int firstTime)
 				phase++;
 				return ERROR_SUCCESS;
 			}
-			if(!SignatureValid(ofsCurrent,DBMODULENAME_SIGNATURE)) {
+			if (!SignatureValid(ofsCurrent,DBMODULENAME_SIGNATURE)) {
 				AddToStatus(STATUS_ERROR,TranslateT("Module chain corrupted, further entries ignored"));
 				phase++;
 				return ERROR_SUCCESS;
@@ -87,12 +87,12 @@ int WorkModuleChain(int firstTime)
 				newModName=(DBModuleName*)_alloca(modChain[iCurrentModName].size);
 				if(ReadSegment(modChain[iCurrentModName].ofsOld,newModName,modChain[iCurrentModName].size)!=ERROR_SUCCESS)
 					return ERROR_NO_MORE_ITEMS;
-				if((modChain[iCurrentModName].ofsNew=WriteSegment(WSOFS_END,newModName,modChain[iCurrentModName].size))==WS_ERROR)
+				if ((modChain[iCurrentModName].ofsNew=WriteSegment(WSOFS_END,newModName,modChain[iCurrentModName].size))==WS_ERROR)
 					return ERROR_HANDLE_DISK_FULL;
 				{ // check duplicated modulenames
 					int i, n=0;
 					for(i=iCurrentModName+1;i<modChainCount;i++)
-						if(!strcmp(modChain[i].name, modChain[iCurrentModName].name)) {
+						if (!strcmp(modChain[i].name, modChain[iCurrentModName].name)) {
 							modChain[i].ofsNew = modChain[iCurrentModName].ofsNew;
 							n++;
 						}

@@ -36,7 +36,7 @@ char *WtoA(LPCTSTR W)
 	__except(
 		free(result),
 		EXCEPTION_CONTINUE_SEARCH
-	){}
+	) {}
 	return result;
 }
 

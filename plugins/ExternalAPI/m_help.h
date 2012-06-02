@@ -60,7 +60,7 @@ Returns 0 on success or nonzero on failure
                                 // only works for non-editable
 #if !defined(HELP_NOHELPERFUNCTIONS)
 __inline static int Help_SetContextState(HWND hwndCtl,DWORD flags) {
-	if(!ServiceExists(MS_HELP_SETCONTEXTSTATE)) return -1;
+	if (!ServiceExists(MS_HELP_SETCONTEXTSTATE)) return -1;
 	return CallService(MS_HELP_SETCONTEXTSTATE,(WPARAM)hwndCtl,flags);
 }
 #endif

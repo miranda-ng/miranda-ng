@@ -176,7 +176,7 @@ TIFFOpen(const char* name, const char* mode)
 	}
 
 	tif = TIFFFdOpen((int)fd, name, mode);
-	if(!tif)
+	if (!tif)
 		close(fd);
 	return tif;
 }
@@ -229,7 +229,7 @@ TIFFOpenW(const wchar_t* name, const char* mode)
 	
 	_TIFFfree(mbname);
 	
-	if(!tif)
+	if (!tif)
 		close(fd);
 	return tif;
 }

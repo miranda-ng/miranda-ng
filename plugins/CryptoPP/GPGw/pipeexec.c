@@ -32,7 +32,7 @@ void storeOutput(HANDLE ahandle, char **aoutput)
 
     success=ReadFile(ahandle, readbuffer, sizeof(readbuffer), &transfered, NULL);
 
-    if((success)&&(transfered!=0))
+    if ((success)&&(transfered!=0))
       appendText(aoutput, readbuffer, transfered);
   }
   while(available>0);
@@ -66,14 +66,14 @@ pxResult pxExecute(char *acommandline, char *ainput, char **aoutput, LPDWORD aex
   else securityattributes.lpSecurityDescriptor=NULL;
 
   success=CreatePipe(&newstdin, &writestdin ,&securityattributes ,0);
-  if(! success)
+  if (! success)
   {
     LogMessage("--- ", "create pipe failed", "\n");
     return pxCreatePipeFailed;
   }
 
   success=CreatePipe(&readstdout, &newstdout, &securityattributes, 0);
-  if(! success)
+  if (! success)
   {
     LogMessage("--- ", "create pipe failed", "\n");
     CloseHandle(newstdin);
@@ -90,7 +90,7 @@ pxResult pxExecute(char *acommandline, char *ainput, char **aoutput, LPDWORD aex
 
   success=CreateProcess(NULL, acommandline, NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &startupinfo, &processinformation);
 
-  if(! success)
+  if (! success)
   {
     LogMessage("--- ", "create process failed", "\n");
     CloseHandle(newstdin);
@@ -105,11 +105,11 @@ pxResult pxExecute(char *acommandline, char *ainput, char **aoutput, LPDWORD aex
   while(TRUE)
   {
     success=GetExitCodeProcess(processinformation.hProcess, aexitcode);
-    if((success)&&(*aexitcode!=STILL_ACTIVE)) break;
+    if ((success)&&(*aexitcode!=STILL_ACTIVE)) break;
 
     storeOutput(readstdout, aoutput);
 
-    if(*inputpos!='\0') size=1;
+    if (*inputpos!='\0') size=1;
     else size=0;
 
     success=WriteFile(writestdin, inputpos, size, &transfered, NULL);

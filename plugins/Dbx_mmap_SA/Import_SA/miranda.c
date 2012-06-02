@@ -517,7 +517,7 @@ int CheckFileFormat(HANDLE hDbFile)
 	bEncrypted = FALSE;
 	if (memcmp(pdbHeader->signature, &dbSignature, sizeof(pdbHeader->signature))) {
 		// Unsane: if not encrypted signature
-		if (memcmp(pdbHeader->signature, &dbSignatureEncrypted, sizeof(pdbHeader->signature))){
+		if (memcmp(pdbHeader->signature, &dbSignatureEncrypted, sizeof(pdbHeader->signature))) {
 			AddMessage( LPGEN("Signature mismatch" ));
 			return DB_INVALID;
 		}
@@ -525,7 +525,7 @@ int CheckFileFormat(HANDLE hDbFile)
 		// Unsane: check password
 		InitSecurity();
 		tszDbName = _tcsrchr(importFile, _T('\\')) + 1;
-		if (CheckPassword(pdbHeader->checkWord, pdbHeader->cryptorUID, tszDbName)){
+		if (CheckPassword(pdbHeader->checkWord, pdbHeader->cryptorUID, tszDbName)) {
 			AddMessage(LPGEN("Secured MMAP: authorization successful"));
 			bEncrypted = TRUE;
 		}

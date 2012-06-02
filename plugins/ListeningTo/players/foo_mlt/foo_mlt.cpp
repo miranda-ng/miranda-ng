@@ -374,7 +374,7 @@ public:
 	}
 	void on_quit()
 	{
-		if(!g_off && FindWindow(MIRANDA_WINDOWCLASS, NULL) != NULL)
+		if (!g_off && FindWindow(MIRANDA_WINDOWCLASS, NULL) != NULL)
 			SendData(L"0\\0foobar2000\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0");
 	}
 };

@@ -10,12 +10,12 @@ bool VersionFromString(const char *szVer, DWORD *pdwVer)
 	int digit_count = 0;
 	while(*p && bytes <= 4 && digit_count <= 3) 
 	{
-		if(*p >= '0' && *p <= '9') 
+		if (*p >= '0' && *p <= '9') 
 		{
 			*pdwVer = (*pdwVer & 0xFFFFFF00) + (*pdwVer & 0xFF) * 10 + (*p - '0');
 			digit_count++;
 		} 
-		else if(*p == '.') 
+		else if (*p == '.') 
 		{
 			*pdwVer = *pdwVer << 8;
 			bytes++;

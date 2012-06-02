@@ -174,7 +174,7 @@ MAXMIN(const T* L, long n, T& max, T& min) {
 	long k1, k2;
 
 	i1 = 0; i2 = 0; min = L[0]; max = L[0]; j = 0;
-	if((n % 2) != 0)  j = 1;
+	if ((n % 2) != 0)  j = 1;
 	for(i = j; i < n; i+= 2) {
 		k1 = i; k2 = i+1;
 		x1 = L[k1]; x2 = L[k2];

@@ -8,7 +8,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
-	if(-1 == dbei.cbBlob) 
+	if (-1 == dbei.cbBlob) 
 		return 0;
 	
 	dbei.pBlob = new BYTE[dbei.cbBlob];
@@ -21,7 +21,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 	}
 
 	// event is an auth request
-	if(!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST)
+	if (!(dbei.flags & DBEF_SENT) && !(dbei.flags & DBEF_READ) && dbei.eventType == EVENTTYPE_AUTHREQUEST)
 	{
 		HANDLE hcntct=*(HANDLE*)(dbei.pBlob + sizeof(DWORD));
 
@@ -32,7 +32,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 			!DBGetContactSettingByte(hcntct, pluginName, answeredSetting, 0) && 
 			!IsExistMyMessage(hcntct)) 
 		{
-			if(!plSets->HandleAuthReq.Get())
+			if (!plSets->HandleAuthReq.Get())
 			{
 				#ifdef _UNICODE
 					char * buf=mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
@@ -71,7 +71,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 {
 	HANDLE hContact = (HANDLE)w;
 
-	if(!l) //fix potential DEP crash
+	if (!l) //fix potential DEP crash
 		return 0;
 	DBEVENTINFO * dbei = (DBEVENTINFO*)l;
 	
@@ -92,7 +92,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 	// checking if message from self-added contact
 	//Contact in Not in list icq group
-	if(!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingWord(hContact, dbei->szModule, "SrvGroupId", -1) != 1)
+	if (!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingWord(hContact, dbei->szModule, "SrvGroupId", -1) != 1)
 		return 0;
 
 	//if I sent message to this contact
@@ -100,7 +100,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		return 0;
 
 	// if message is corrupted or empty it cannot be an answer.
-	if(!dbei->cbBlob || !dbei->pBlob)
+	if (!dbei->cbBlob || !dbei->pBlob)
 		// reject processing of the event
 		return 1;
 
@@ -173,7 +173,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
-	if( (!plSets->InfTalkProtection.Get() || tstring::npos==message.find(infTalkProtPrefix))
+	if ( (!plSets->InfTalkProtection.Get() || tstring::npos==message.find(infTalkProtPrefix))
 		&& (!plSets->MaxQuestCount.Get() || DBGetContactSettingDword(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get()) )
 	{
 		// send question
@@ -243,7 +243,7 @@ MIRANDA_HOOK_EVENT(ME_DB_CONTACT_SETTINGCHANGED, w, l)
 		return 0;
 	if(strcmp(cws->szSetting, "NotOnList"))
 		return 0;
-	if(!cws->value.type)
+	if (!cws->value.type)
 	{
 		DBDeleteContactSetting(hContact, pluginName, answeredSetting);
 		DBDeleteContactSetting(hContact, pluginName, questCountSetting);

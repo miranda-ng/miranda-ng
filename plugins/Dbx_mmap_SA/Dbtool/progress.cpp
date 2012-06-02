@@ -42,7 +42,7 @@ int AddToStatus(DWORD flags, TCHAR* fmt,...)
 	OutputDebugString(str);
 	OutputDebugStringA("\n");
 #endif
-	if((flags&STATUS_CLASSMASK)==STATUS_ERROR) errorCount++;
+	if ((flags&STATUS_CLASSMASK)==STATUS_ERROR) errorCount++;
 	return ret;
 }
 
@@ -118,7 +118,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			TCHAR str[256];
 			int bold=0;
 			HFONT hoFont;
-			if((int)dis->itemID==-1) break;
+			if ((int)dis->itemID==-1) break;
 			SendMessage(dis->hwndItem,LB_GETTEXT,dis->itemID,(LPARAM)str);
 			switch(dis->itemData&STATUS_CLASSMASK) {
 				case STATUS_MESSAGE:
@@ -175,7 +175,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			switch(LOWORD(wParam)) {
 				case IDC_BACK:
 					ResetEvent(hEventRun);
-					if(!IsWindowEnabled(GetDlgItem(GetParent(hdlg),IDOK))) {
+					if (!IsWindowEnabled(GetDlgItem(GetParent(hdlg),IDOK))) {
 						if(MessageBox(hdlg,TranslateT("Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?"),TranslateT("Miranda Database Tool"),MB_YESNO)==IDYES) {
 							manualAbort=2;
 							SetEvent(hEventAbort);

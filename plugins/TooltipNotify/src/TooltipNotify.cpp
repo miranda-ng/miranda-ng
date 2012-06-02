@@ -727,8 +727,8 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 						lvi.lParam = i;
 #ifdef _UNICODE
 						WCHAR wszProto[128];
-						long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szName, 
-							strlen(ppProtos[i]->szName), wszProto, ARRAY_SIZE(wszProto));
+						long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szName,
+							(int)strlen(ppProtos[i]->szName), wszProto, ARRAY_SIZE(wszProto));
 						wszProto[lLen] = L'\0';
 
 						lvi.pszText = wszProto;
@@ -1009,7 +1009,7 @@ TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *sz
 
 #ifdef _UNICODE
 	WCHAR wszProto[32];
-	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, strlen(szProto), wszProto, ARRAY_SIZE(wszProto));
+	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)strlen(szProto), wszProto, ARRAY_SIZE(wszProto));
 	wszProto[lLen] = _T('\0');
 
 	_sntprintf(szString, iBufSize-1, szFormatString, wszProto, _T(": "), szContactName);

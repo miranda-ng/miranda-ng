@@ -268,7 +268,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 
 		GetCursorPos(&pt);
 		GetWindowRect(si->hwndFilter, &rcFilter);
-		if(!PtInRect(&rcFilter, pt)) {
+		if (!PtInRect(&rcFilter, pt)) {
 			SendMessage(si->hwndFilter, WM_CLOSE, 1, 1);
 			si->hwndFilter = 0;
 		}
@@ -972,8 +972,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				}
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
-				if(!fCompleted && !PluginConfig.m_AllowTab) {
-					if((GetSendButtonState(mwdat->hwnd) != PBS_DISABLED))
+				if (!fCompleted && !PluginConfig.m_AllowTab) {
+					if ((GetSendButtonState(mwdat->hwnd) != PBS_DISABLED))
 						SetFocus(GetDlgItem(mwdat->hwnd, IDOK));
 					else
 						SetFocus(GetDlgItem(mwdat->hwnd, IDC_CHAT_LOG));
@@ -1984,7 +1984,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			dat->fIsAutosizingInput = IsAutoSplitEnabled(dat);
 			dat->fLimitedUpdate = false;
 			dat->iInputAreaHeight = -1;
-			if(!dat->pContainer->settings->fPrivate)
+			if (!dat->pContainer->settings->fPrivate)
 				psi->iSplitterY = g_Settings.iSplitterY;
 			else {
 				if(M->GetByte("Chat", "SyncSplitter", 0))
@@ -2198,10 +2198,10 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				//Mad: strange rare crash here...
 				mi = MM_FindModule(si->pszModule);
-				if(!mi)
+				if (!mi)
 					break;
 
-				if(!mi->ptszModDispName)
+				if (!mi->ptszModDispName)
 					break;
 
 				x += GetTextPixelSize(mi->ptszModDispName, (HFONT)SendMessage(dat->pContainer->hwndStatus, WM_GETFONT, 0, 0), TRUE);
@@ -2211,7 +2211,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					time_t now = time(0);
 					DWORD diff = (now - mi->idleTimeStamp) / 60;
 
-					if((diff >= 1 && diff != mi->lastIdleCheck) || lParam) {
+					if ((diff >= 1 && diff != mi->lastIdleCheck) || lParam) {
 						mi->lastIdleCheck = diff;
 						if(diff == 0)
 							mi->tszIdleMsg[0] = 0;
@@ -2720,7 +2720,7 @@ LABEL_SHOWWINDOW:
 
 					if(msg == WM_SYSKEYUP) {
 						if(wp == VK_MENU) {
-							if(!dat->fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
+							if (!dat->fkeyProcessed && !(GetKeyState(VK_CONTROL) & 0x8000) && !(GetKeyState(VK_SHIFT) & 0x8000) && !(lp & (1 << 24)))
 								dat->pContainer->MenuBar->autoShow();
 						}
 						return(_dlgReturn(hwndDlg, 0));
@@ -2777,7 +2777,7 @@ LABEL_SHOWWINDOW:
 					}
 
 					if(msg == WM_KEYDOWN && wp == VK_TAB) {
-						if(((NMHDR *)lParam)->idFrom == IDC_CHAT_LOG) {
+						if (((NMHDR *)lParam)->idFrom == IDC_CHAT_LOG) {
 							SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 							return(_dlgReturn(hwndDlg, 1));
 						}
@@ -3072,7 +3072,7 @@ LABEL_SHOWWINDOW:
 			POINT tmp; //+ Protogenes
 			POINTS cur; //+ Protogenes
 			GetCursorPos(&tmp); //+ Protogenes
-			if(!dat->Panel->isHovered()) {
+			if (!dat->Panel->isHovered()) {
 				cur.x = (SHORT)tmp.x; //+ Protogenes
 				cur.y = (SHORT)tmp.y; //+ Protogenes
 				SendMessage(dat->pContainer->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, *((LPARAM*)(&cur))); //+ Protogenes
@@ -3446,7 +3446,7 @@ LABEL_SHOWWINDOW:
 
 			dat->Panel->renderContent(hdcMem);
 
-			if(!CSkin::m_skinEnabled)
+			if (!CSkin::m_skinEnabled)
 				CSkin::RenderToolbarBG(dat, hdcMem, rcClient);
 
 			if(hbp)
@@ -3457,7 +3457,7 @@ LABEL_SHOWWINDOW:
 				DeleteObject(hbm);
 				DeleteDC(hdcMem);
 			}
-			if(!dat->fLimitedUpdate)
+			if (!dat->fLimitedUpdate)
 				SetAeroMargins(dat->pContainer);
 			return(1);
 		}
@@ -3540,7 +3540,7 @@ LABEL_SHOWWINDOW:
 		case DM_CONTAINERSELECTED: {
 			struct TContainerData *pNewContainer = 0;
 			TCHAR *szNewName = (TCHAR *)lParam;
-			if(!_tcscmp(szNewName, CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)))
+			if (!_tcscmp(szNewName, CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)))
 				szNewName = CGlobals::m_default_container_name;
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
 			if (!_tcsncmp(dat->pContainer->szName, szNewName, CONTAINER_NAMELEN))
@@ -3797,7 +3797,7 @@ LABEL_SHOWWINDOW:
 
 			TABSRMM_FireEvent(dat->hContact, hwndDlg, MSG_WINDOW_EVT_CLOSING, 0);
 
-			if(!dat->fIsAutosizingInput)
+			if (!dat->fIsAutosizingInput)
 				DBWriteContactSettingWord(NULL, "Chat", "SplitterX", (WORD)g_Settings.iSplitterX);
 
 			if(dat->pContainer->settings->fPrivate && !IsAutoSplitEnabled(dat))

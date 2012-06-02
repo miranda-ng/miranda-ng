@@ -61,7 +61,7 @@ int cliGetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int conta
 	int subcontactscount=0;
 	k=ModernGetSettingByte(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);
 	group->scanIndex=0;
-	for(;;) {
+	for (;;) {
 		if(group->scanIndex==group->cl.count) {
 			group=group->parent;
 			if(group==NULL) break;
@@ -120,7 +120,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 	group->scanIndex=0;
 	group=&dat->list;
 
-	for(;;) {
+	for (;;) {
 		if(group->scanIndex==group->cl.count) {
 			struct ClcGroup *tgroup;
 			group=group->parent;
@@ -128,7 +128,7 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			nowVisible=1;
 			for(tgroup=group;tgroup;tgroup=tgroup->parent)
 			{
-				if(!tgroup->expanded) 
+				if (!tgroup->expanded) 
 				{
 					nowVisible=0; 
 					break;
@@ -138,12 +138,12 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 			continue;
 		}
 		if(nowVisible) index++;
-		if((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_GROUP && ((UINT_PTR)hItem&~HCONTACT_ISGROUP)==group->cl.items[group->scanIndex]->groupId) ||
+		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_GROUP && ((UINT_PTR)hItem&~HCONTACT_ISGROUP)==group->cl.items[group->scanIndex]->groupId) ||
 			(IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact==hItem) ||
 			(IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_INFO && group->cl.items[group->scanIndex]->hContact==(HANDLE)((UINT_PTR)hItem&~HCONTACT_ISINFO))) 
 		{
 			if(isVisible) {
-				if(!nowVisible) *isVisible=0;
+				if (!nowVisible) *isVisible=0;
 				else {
 					int posy = cliGetRowTopY(dat,index+1);
 					if(posy<dat->yScroll) 
@@ -215,7 +215,7 @@ int cliGetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **conta
 	if (testindex<0) return (-1);
 	{
 		group->scanIndex=0;
-		for(;;) {
+		for (;;) {
 			if(group->scanIndex==group->cl.count) {
 				group=group->parent;
 				if(group==NULL) break;

@@ -104,7 +104,7 @@ ReadMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 		for(int i = 0; i < num_text; i++) {
 			// create a tag
 			tag = FreeImage_CreateTag();
-			if(!tag) return FALSE;
+			if (!tag) return FALSE;
 
 			DWORD tag_length = (DWORD) MAX(text_ptr[i].text_length, text_ptr[i].itxt_length);
 
@@ -354,7 +354,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			}
 
 #ifndef FREEIMAGE_BIGENDIAN
-			if((image_type == FIT_UINT16) || (image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
+			if ((image_type == FIT_UINT16) || (image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
 				// turn on 16 bit byte swapping
 				png_set_swap(png_ptr);
 			}
@@ -503,7 +503,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 				png_get_tRNS(png_ptr, info_ptr, &trans_alpha, &num_trans, &trans_color);
 
-				if((color_type == PNG_COLOR_TYPE_GRAY) && trans_color) {
+				if ((color_type == PNG_COLOR_TYPE_GRAY) && trans_color) {
 					// single transparent color
 					if (trans_color->gray < palette_entries) { 
 						BYTE table[256]; 
@@ -511,7 +511,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 						table[trans_color->gray] = 0; 
 						FreeImage_SetTransparencyTable(dib, table, palette_entries); 
 					}
-				} else if((color_type == PNG_COLOR_TYPE_PALETTE) && trans_alpha) {
+				} else if ((color_type == PNG_COLOR_TYPE_PALETTE) && trans_alpha) {
 					// transparency table
 					FreeImage_SetTransparencyTable(dib, (BYTE *)trans_alpha, num_trans);
 				}
@@ -726,7 +726,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			pixel_depth = FreeImage_GetBPP(dib);
 
 			BOOL bInterlaced = FALSE;
-			if( (flags & PNG_INTERLACED) == PNG_INTERLACED) {
+			if ( (flags & PNG_INTERLACED) == PNG_INTERLACED) {
 				interlace_type = PNG_INTERLACE_ADAM7;
 				bInterlaced = TRUE;
 			} else {
@@ -735,9 +735,9 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 			// set the ZLIB compression level or default to PNG default compression level (ZLIB level = 6)
 			int zlib_level = flags & 0x0F;
-			if((zlib_level >= 1) && (zlib_level <= 9)) {
+			if ((zlib_level >= 1) && (zlib_level <= 9)) {
 				png_set_compression_level(png_ptr, zlib_level);
-			} else if((flags & PNG_Z_NO_COMPRESSION) == PNG_Z_NO_COMPRESSION) {
+			} else if ((flags & PNG_Z_NO_COMPRESSION) == PNG_Z_NO_COMPRESSION) {
 				png_set_compression_level(png_ptr, Z_NO_COMPRESSION);
 			}
 

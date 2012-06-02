@@ -69,10 +69,10 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat->item[indx].selColor = DBGetContactSettingDword(NULL,module, "SelBkColour", DEFAULT_SELBKCOLOUR);
 				{	
 					DBVARIANT dbv;
-					if(!DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
+					if (!DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
 					{
 						int retval = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)dat->item[indx].filename);
-						if(!retval || retval == CALLSERVICE_NOTFOUND)
+						if (!retval || retval == CALLSERVICE_NOTFOUND)
 							lstrcpynA(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
 						mir_free(dbv.pszVal);
 					}
@@ -217,7 +217,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ofn.nMaxFile = sizeof(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = "bmp";
-				if(!GetOpenFileNameA(&ofn)) break;
+				if (!GetOpenFileNameA(&ofn)) break;
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 			}
 			else
@@ -264,12 +264,12 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								{	
 									COLORREF col;
 
-									if((col = dat->item[indx].bkColor) == DEFAULT_BKCOLOUR)
+									if ((col = dat->item[indx].bkColor) == DEFAULT_BKCOLOUR)
 										DBDeleteContactSetting(NULL, module, "BkColour");
 									else
 										DBWriteContactSettingDword(NULL, module, "BkColour", col);
 
-									if((col = dat->item[indx].selColor) == DEFAULT_SELBKCOLOUR)
+									if ((col = dat->item[indx].selColor) == DEFAULT_SELBKCOLOUR)
 										DBDeleteContactSetting(NULL, module, "SelBkColour");
 									else
 										DBWriteContactSettingDword(NULL, module, "SelBkColour", col);
@@ -279,7 +279,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 									int retval = CallService(MS_UTILS_PATHTOABSOLUTE,
 										(WPARAM)dat->item[indx].filename,
 										(LPARAM)str);
-									if(!retval || retval == CALLSERVICE_NOTFOUND)
+									if (!retval || retval == CALLSERVICE_NOTFOUND)
 										DBWriteContactSettingString(NULL, module, "BkBitmap", dat->item[indx].filename);
 									else
 										DBWriteContactSettingString(NULL, module, "BkBitmap", str);

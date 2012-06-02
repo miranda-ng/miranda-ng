@@ -57,7 +57,7 @@ int getCustomNro(DWORD actionID, HWND hwndDlg, int nItems)
 	return DEF_SETTING_CUSTOMTHEME;
 }
 
-static BOOL CALLBACK DlgProcOptsActionKbdNotify(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOptsActionKbdNotify(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
 	DWORD actionID;

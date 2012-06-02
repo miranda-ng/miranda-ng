@@ -273,13 +273,13 @@ Returns 0 on success, nonzero otherwise.
 static __inline char *Netlib_UrlDecode(char *str)
 {
 	char *psz=str;
-	for(;*psz;++psz)
+	for (;*psz;++psz)
 		switch(*psz) {
 			case '+':
 				*psz=' ';
 				break;
 			case '%':
-				if(!psz[1] || !psz[2]) break;
+				if (!psz[1] || !psz[2]) break;
 				MoveMemory(psz,&psz[1],2);
 				psz[2]=0;
 				*psz=(char)strtol(psz,NULL,16);

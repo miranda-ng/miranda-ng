@@ -88,8 +88,8 @@ private:
 	int eval_atom(char *&s, Args *args, bool *vars) const;
 
 public:
-	Formula():m_str(mir_strdup("")){}
-	Formula(char *s):m_str(mir_strdup(s)){}
+	Formula():m_str(mir_strdup("")) {}
+	Formula(char *s):m_str(mir_strdup(s)) {}
 	~Formula() {mir_free(m_str);}
 	void	set(char *s){mir_free(m_str);m_str=mir_strdup(s);}
 	int		eval(Args *args, bool *vars = 0) const;

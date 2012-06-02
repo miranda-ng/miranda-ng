@@ -297,7 +297,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, TCHAR* 
 	cle.pszService= "GChat/DblClickEvent" ;
 	cle.ptszTooltip = TranslateTS(szBuf);
 	if ( type ) {
-		if(!CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))
+		if (!CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))
 			CallService(MS_CLIST_ADDEVENT,(WPARAM) hContact,(LPARAM) &cle);
 	} else {
 		if(CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))

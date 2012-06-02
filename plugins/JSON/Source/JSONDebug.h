@@ -14,7 +14,7 @@
     #ifdef JSON_SAFE
 	   #define JSON_ASSERT_SAFE(condition, msg, code)\
 		  {\
-			 if (!(condition)){\
+			 if (!(condition)) {\
 				JSON_FAIL(msg);\
 				code\
 			 }\
@@ -44,7 +44,7 @@
     #ifdef JSON_SAFE
 	   #define JSON_ASSERT_SAFE(condition, msg, code)\
 		  {\
-			 if (!(condition)){\
+			 if (!(condition)) {\
 				code\
 			 }\
 		  }

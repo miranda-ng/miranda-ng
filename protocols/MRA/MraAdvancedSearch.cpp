@@ -196,7 +196,7 @@ INT_PTR CALLBACK AdvancedSearchDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,L
 		}
 		break;
 	case WM_COMMAND:
-		switch(LOWORD(wParam)){
+		switch(LOWORD(wParam)) {
 		case IDOK:
 			SendMessage(GetParent(hWndDlg),WM_COMMAND,MAKEWPARAM(IDOK,BN_CLICKED),(LPARAM)GetDlgItem(GetParent(hWndDlg),IDOK));
 			break;

@@ -15,7 +15,10 @@
 # define _STLP_DEBUG 1
 #endif
 
-#define _USE_32BIT_TIME_T
+#ifndef _WIN64
+	#define _USE_32BIT_TIME_T
+#endif
+
 #define _STLP_DONT_USE_SHORT_STRING_OPTIM 1	// Uses small string buffer, so it saves memory for a lot of strings
 #define _STLP_USE_PTR_SPECIALIZATIONS 1		// Reduces some code bloat
 #define _STLP_USE_TEMPLATE_EXPRESSION 1		// Speeds up string concatenation

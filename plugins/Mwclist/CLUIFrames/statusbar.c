@@ -35,7 +35,7 @@ int OnStatusBarBackgroundChange()
 		bkColour=DBGetContactSettingDword(NULL,"StatusBar","BkColour",CLCDEFAULT_BKCOLOUR);
 		if(hBmpBackground) {DeleteObject(hBmpBackground); hBmpBackground=NULL;}
 		if(DBGetContactSettingByte(NULL,"StatusBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if(!DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+			if (!DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
 				hBmpBackground=(HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 				mir_free(dbv.pszVal);
 			}
@@ -230,7 +230,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 					break;
 		}
 		desth=clRect.bottom -clRect.top;
-		for(;y<maxy;y+=desth) {
+		for (;y<maxy;y+=desth) {
 			if(y<rcPaint->top-desth) continue;
 			for(x=0;x<maxx;x+=destw)
 				StretchBlt(hdcMem,x,y,destw,desth,hdcBmp,0,0,bmp.bmWidth,bmp.bmHeight,SRCCOPY);

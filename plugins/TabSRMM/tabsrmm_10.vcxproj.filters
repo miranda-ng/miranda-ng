@@ -261,12 +261,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\src\res\cursor_drop_user.cur">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\src\res\cursor_hyperlink.cur">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="docs\changelog.txt">
       <Filter>Docs</Filter>
     </None>
@@ -281,12 +275,6 @@
     </None>
     <None Include="skin\tabsrmm.tsk">
       <Filter>Docs</Filter>
-    </None>
-    <None Include="BuildScripts\VS_2010_Toolset9.bat">
-      <Filter>BuildScripts</Filter>
-    </None>
-    <None Include="..\..\src\res\cursor_drag_copy.CUR">
-      <Filter>Resource Files</Filter>
     </None>
     <None Include="res\SKIN\tabskin_aero.png">
       <Filter>Resource Files</Filter>

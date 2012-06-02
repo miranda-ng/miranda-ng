@@ -162,7 +162,7 @@ static void upload_file(int id, int fd, int error, void *data)
 		error = 1;
 	}
 
-	if(!error) {
+	if (!error) {
 		HANDLE myhFile = CreateFile(sf->pfts.tszCurrentFile,
 			GENERIC_READ,
 			FILE_SHARE_READ|FILE_SHARE_WRITE,
@@ -304,7 +304,7 @@ static void dl_file(int id, int fd, int error,	const char *filename, unsigned lo
 		error = 1;
 	}
 	
-    if(!error) {
+    if (!error) {
 		HANDLE myhFile;
 		TCHAR filefull[MAX_PATH];
 		
@@ -734,7 +734,7 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 
 	/*DebugLog("Getting Files");
 	
-	if ( ppszFiles[1] != NULL ){
+	if ( ppszFiles[1] != NULL ) {
 		MessageBoxA(NULL, "YAHOO protocol allows only one file to be sent at a time", "Yahoo", MB_OK | MB_ICONINFORMATION);
 		return 0;
  	}

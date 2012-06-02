@@ -456,7 +456,7 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if( wParam != 0 && !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv) )
+	if ( wParam != 0 && !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv) )
 	{
 		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(dbv.pszVal));
 		DBFreeVariant(&dbv);
@@ -497,7 +497,7 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
 		mir_snprintf(str,SIZEOF(str),Translate("Do you want to cancel your friendship with '%s'?"), dbv.pszVal);
 		DBFreeVariant(&dbv);
-	} else if( !DBGetContactSettingUTF8String(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+	} else if ( !DBGetContactSettingUTF8String(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
 		mir_snprintf(str,SIZEOF(str),Translate("Do you want to cancel your friendship with '%s'?"), dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
@@ -505,7 +505,7 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	TCHAR *text = mir_a2t_cp(str, CP_UTF8);
 	if (MessageBox( 0, text, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
 		
-		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 		{
 			std::string* id = new std::string(dbv.pszVal);
 
@@ -534,7 +534,7 @@ int FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 	{
 		std::string* id = new std::string(dbv.pszVal);
 		ForkThread( &FacebookProto::AddContactToServer, this, ( void* )id );

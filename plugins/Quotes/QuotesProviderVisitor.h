@@ -11,8 +11,8 @@ class CQuotesProviderYahoo;
 class CQuotesProviderVisitor
 {
 public:
-	CQuotesProviderVisitor(){}
-	virtual ~CQuotesProviderVisitor(){}
+	CQuotesProviderVisitor() {}
+	virtual ~CQuotesProviderVisitor() {}
 
 	virtual void Visit(const CQuotesProviderBase& rProvider){}
 	virtual void Visit(const CQuotesProviderFinance& rProvider){}

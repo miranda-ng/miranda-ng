@@ -82,13 +82,13 @@ int main(int argc,char *argv[])
           BZ2_LIBNAME, BZ2_bzlibVersion() );
 #endif
    while(++argv,--argc){
-      if(**argv =='-' || **argv=='/'){
+      if (**argv =='-' || **argv=='/') {
          char *p;
 
-         for(p=*argv+1;*p;p++){
-            if(*p=='d'){
+         for(p=*argv+1;*p;p++) {
+            if (*p=='d') {
                decompress = 1;
-            }else if('1'<=*p && *p<='9'){
+            }else if ('1'<=*p && *p<='9') {
                level = *p - '0';
             }else{
                usage();
@@ -121,7 +121,7 @@ int main(int argc,char *argv[])
          FILE *fp_w = NULL;
 
          if(fn_w){
-            if((fp_w = fopen(fn_w,"wb"))==NULL){
+            if ((fp_w = fopen(fn_w,"wb"))==NULL){
                printf("can't open [%s]\n",fn_w);
                perror("reason:");
                exit(1);
@@ -129,8 +129,8 @@ int main(int argc,char *argv[])
          }else{
             fp_w = stdout;
          }
-         if((fn_r == NULL && (BZ2fp_r = BZ2_bzdopen(fileno(stdin),"rb"))==NULL)
-            || (fn_r != NULL && (BZ2fp_r = BZ2_bzopen(fn_r,"rb"))==NULL)){
+         if ((fn_r == NULL && (BZ2fp_r = BZ2_bzdopen(fileno(stdin),"rb"))==NULL)
+            || (fn_r != NULL && (BZ2fp_r = BZ2_bzopen(fn_r,"rb"))==NULL)) {
             printf("can't bz2openstream\n");
             exit(1);
          }
@@ -144,7 +144,7 @@ int main(int argc,char *argv[])
          FILE *fp_r = NULL;
 
          if(fn_r){
-            if((fp_r = fopen(fn_r,"rb"))==NULL){
+            if ((fp_r = fopen(fn_r,"rb"))==NULL){
                printf("can't open [%s]\n",fn_r);
                perror("reason:");
                exit(1);
@@ -156,8 +156,8 @@ int main(int argc,char *argv[])
          mode[1] = '0' + level;
          mode[2] = '\0';
 
-         if((fn_w == NULL && (BZ2fp_w = BZ2_bzdopen(fileno(stdout),mode))==NULL)
-            || (fn_w !=NULL && (BZ2fp_w = BZ2_bzopen(fn_w,mode))==NULL)){
+         if ((fn_w == NULL && (BZ2fp_w = BZ2_bzdopen(fileno(stdout),mode))==NULL)
+            || (fn_w !=NULL && (BZ2fp_w = BZ2_bzopen(fn_w,mode))==NULL)) {
             printf("can't bz2openstream\n");
             exit(1);
          }

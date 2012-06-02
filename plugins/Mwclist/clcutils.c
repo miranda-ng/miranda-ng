@@ -177,11 +177,11 @@ void ScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 	if(desty>maxy) desty=maxy;
 	if(desty<0) desty=0;
 	if(abs(desty-dat->yScroll)<4) noSmooth=1;
-	if(!noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth=1;
+	if (!noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth=1;
 	previousy=dat->yScroll;
-	if(!noSmooth) {
+	if (!noSmooth) {
 		startTick=GetTickCount();
-		for(;;) {
+		for (;;) {
 			nowTick=GetTickCount();
 			if(nowTick>=startTick+dat->scrollTime) break;
 			dat->yScroll=oldy+(desty-oldy)*(int)(nowTick-startTick)/dat->scrollTime;

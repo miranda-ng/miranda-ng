@@ -1689,7 +1689,7 @@ void Options::setEmbedsize(int size){
 	DBWriteContactSettingDword(NULL, ieviewModuleName, "Embedsize", (DWORD) size);
 }
 
-int Options::getEmbedsize(){
+int Options::getEmbedsize() {
 	return DBGetContactSettingDword(NULL, ieviewModuleName, "Embedsize", 0);
 }
 

@@ -159,9 +159,9 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg) {
 LPSTR __cdecl cpp_encodeA(HANDLE context, LPCSTR msg) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (LPSTR) msg;
@@ -187,9 +187,9 @@ LPSTR __cdecl cpp_encodeA(HANDLE context, LPCSTR msg) {
 LPSTR __cdecl cpp_encodeU(HANDLE context, LPCSTR msg) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (LPSTR) msg;
@@ -215,9 +215,9 @@ LPSTR __cdecl cpp_encodeU(HANDLE context, LPCSTR msg) {
 LPSTR __cdecl cpp_encodeW(HANDLE context, LPWSTR msg) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (LPSTR) msg;
@@ -242,9 +242,9 @@ LPSTR __cdecl cpp_encodeW(HANDLE context, LPWSTR msg) {
 LPSTR __cdecl cpp_decode(HANDLE context, LPCSTR szEncMsg) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = cpp_decrypt(ptr, szEncMsg);
@@ -278,9 +278,9 @@ LPSTR __cdecl cpp_decode(HANDLE context, LPCSTR szEncMsg) {
 LPSTR __cdecl cpp_decodeU(HANDLE context, LPCSTR szEncMsg) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
+	if (!p->KeyX) { ptr->error = ERROR_NO_KEYX; return NULL; }
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = cpp_decrypt(ptr, szEncMsg);
@@ -307,9 +307,9 @@ LPSTR __cdecl cpp_decodeU(HANDLE context, LPCSTR szEncMsg) {
 int __cdecl cpp_encrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return 0;
+	if (!ptr) return 0;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) return 0;
+	if (!p->KeyX) return 0;
 
 	try{
 		CBC_Mode<AES>::Encryption enc(p->KeyX,Tiger::DIGESTSIZE,IV);
@@ -326,9 +326,9 @@ int __cdecl cpp_encrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 int __cdecl cpp_decrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return 0;
+	if (!ptr) return 0;
 	cpp_alloc_pdata(ptr); pSIMDATA p = (pSIMDATA) ptr->pdata;
-	if(!p->KeyX) return 0;
+	if (!p->KeyX) return 0;
 
 	try{
 		CBC_Mode<AES>::Decryption dec(p->KeyX,Tiger::DIGESTSIZE,IV);

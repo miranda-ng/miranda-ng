@@ -109,14 +109,14 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 	
 	while(!found_declaration && !eof) {
 
-		if( readLine(line, MAX_LINE, io, handle) == NULL) {
+		if ( readLine(line, MAX_LINE, io, handle) == NULL) {
 			eof = TRUE;
 		}
 		else {
-			if( strlen( line ) == MAX_LINE - 1 )
+			if ( strlen( line ) == MAX_LINE - 1 )
 				return( ERR_XBM_LINE );
-			if( sscanf(line, "#define %s %d", name_and_type, &v) == 2 ) {
-				if( ( t = strrchr( name_and_type, '_' ) ) == NULL )
+			if ( sscanf(line, "#define %s %d", name_and_type, &v) == 2 ) {
+				if ( ( t = strrchr( name_and_type, '_' ) ) == NULL )
 					t = name_and_type;
 				else
 					t++;
@@ -127,11 +127,11 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 				continue;
 			}
 
-			if( sscanf( line, "static short %s = {", name_and_type ) == 1 ) {
+			if ( sscanf( line, "static short %s = {", name_and_type ) == 1 ) {
 				version = 10;
 				found_declaration = TRUE;
 			}
-			else if( sscanf( line, "static char %s = {", name_and_type ) == 1 ) {
+			else if ( sscanf( line, "static char %s = {", name_and_type ) == 1 ) {
 				version = 11;
 				found_declaration = TRUE;
 			}
@@ -142,12 +142,12 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 		}
 	}
 
-	if(!found_declaration) 
+	if (!found_declaration) 
 		return( ERR_XBM_DECL );
 
-	if(*widthP == -1 )
+	if (*widthP == -1 )
 		return( ERR_XBM_WIDTH );
-	if( *heightP == -1 )
+	if ( *heightP == -1 )
 		return( ERR_XBM_HEIGHT );
 
 	padding = 0;
@@ -189,7 +189,7 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 	hex_table['f'] = 15;
 
 	if(version == 10) {
-		for( bytes = 0, ptr = *dataP; bytes < raster_length; bytes += 2 ) {
+		for ( bytes = 0, ptr = *dataP; bytes < raster_length; bytes += 2 ) {
 			while( ( c1 = readChar(io, handle) ) != 'x' ) {
 				if ( c1 == EOF )
 					return( ERR_XBM_EOFREAD );
@@ -197,14 +197,14 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 
 			c1 = readChar(io, handle);
 			c2 = readChar(io, handle);
-			if( c1 == EOF || c2 == EOF )
+			if ( c1 == EOF || c2 == EOF )
 				return( ERR_XBM_EOFREAD );
 			value1 = ( hex_table[c1] << 4 ) + hex_table[c2];
 			if ( value1 >= 256 )
 				return( ERR_XBM_SYNTAX );
 			c1 = readChar(io, handle);
 			c2 = readChar(io, handle);
-			if( c1 == EOF || c2 == EOF )
+			if ( c1 == EOF || c2 == EOF )
 				return( ERR_XBM_EOFREAD );
 			value2 = ( hex_table[c1] << 4 ) + hex_table[c2];
 			if ( value2 >= 256 )
@@ -219,7 +219,7 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 			/*
 			** skip until digit is found
 			*/
-			for( ; ; ) {
+			for ( ; ; ) {
 				c1 = readChar(io, handle);
 				if ( c1 == EOF )
 					return( ERR_XBM_EOFREAD );
@@ -230,7 +230,7 @@ readXBMFile(FreeImageIO *io, fi_handle handle, int *widthP, int *heightP, char *
 			/*
 			** loop on digits
 			*/
-			for( ; ; ) {
+			for ( ; ; ) {
 				c2 = readChar(io, handle);
 				if ( c2 == EOF )
 					return( ERR_XBM_EOFREAD );
@@ -327,7 +327,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 		// allocate a new dib
 		dib = FreeImage_Allocate(width, height, 1);
-		if(!dib) throw (char*)ERR_XBM_MEMORY;
+		if (!dib) throw (char*)ERR_XBM_MEMORY;
 
 		// write the palette data
 		RGBQUAD *pal = FreeImage_GetPalette(dib);
@@ -347,7 +347,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					count = 0;
 					mask = 1;
 				}
-				if(*bP & mask) {
+				if (*bP & mask) {
 					// Set bit(x, y) to 0
 					bits[x >> 3] &= (0xFF7F >> (x & 0x7));
 				} else {

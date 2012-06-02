@@ -52,7 +52,7 @@ static HANDLE Clist_GroupExists(TCHAR *tszGroup)
 	do {
 		_itoa(i, str, 10);
 		result = M->GetTString(0, "CListGroups", str, &dbv);
-		if(!result) {
+		if (!result) {
 			match = (!_tcscmp(tszGroup, &dbv.ptszVal[1]) && (lstrlen(tszGroup) == lstrlen(&dbv.ptszVal[1])));
 			DBFreeVariant(&dbv);
 			if(match)

@@ -315,7 +315,7 @@ int strcmp_ex(const char* p1,t_size n1,const char* p2,t_size n2)
 {
 	t_size idx = 0;
 	n1 = strlen_max(p1,n1); n2 = strlen_max(p2,n2);
-	for(;;)
+	for (;;)
 	{
 		if (idx == n1 && idx == n2) return 0;
 		else if (idx == n1) return -1;//end of param1
@@ -384,7 +384,7 @@ t_int64 atoi64_ex(const char * src,t_size len)
 
 int stricmp_ascii_ex(const char * const s1,t_size const len1,const char * const s2,t_size const len2) throw() {
 	t_size walk1 = 0, walk2 = 0;
-	for(;;) {
+	for (;;) {
 		char c1 = (walk1 < len1) ? s1[walk1] : 0;
 		char c2 = (walk2 < len2) ? s2[walk2] : 0;
 		c1 = ascii_tolower(c1); c2 = ascii_tolower(c2);
@@ -397,7 +397,7 @@ int stricmp_ascii_ex(const char * const s1,t_size const len1,const char * const 
 
 }
 int stricmp_ascii(const char * s1,const char * s2) throw() {
-	for(;;) {
+	for (;;) {
 		char c1 = ascii_tolower(*s1), c2 = ascii_tolower(*s2);
 		if (c1<c2) return -1;
 		else if (c1>c2) return 1;
@@ -441,7 +441,7 @@ format_hex::format_hex(t_uint64 p_val,unsigned p_width)
 	if (n > 16 - p_width) n = 16 - p_width;
 	
 	char * out = m_buffer;
-	for(;n<16;n++)
+	for (;n<16;n++)
 		*(out++) = temp[n];
 	*out = 0;
 }
@@ -469,7 +469,7 @@ format_hex_lowercase::format_hex_lowercase(t_uint64 p_val,unsigned p_width)
 	if (n > 16 - p_width) n = 16 - p_width;
 	
 	char * out = m_buffer;
-	for(;n<16;n++)
+	for (;n<16;n++)
 		*(out++) = temp[n];
 	*out = 0;
 }
@@ -497,7 +497,7 @@ format_uint::format_uint(t_uint64 val,unsigned p_width,unsigned p_base)
 	
 	char * out = m_buffer;
 
-	for(;n<max_width;n++)
+	for (;n<max_width;n++)
 		*(out++) = temp[n];
 	*out = 0;
 }
@@ -544,7 +544,7 @@ format_int::format_int(t_int64 p_val,unsigned p_width,unsigned p_base)
 
 	if (neg) *(out++) = '-';
 
-	for(;n<max_width;n++)
+	for (;n<max_width;n++)
 		*(out++) = temp[n];
 	*out = 0;
 }
@@ -799,7 +799,7 @@ void stringToLowerAppend(string_base & out, const char * src, t_size len) {
 }
 int stringCompareCaseInsensitiveEx(string_part_ref s1, string_part_ref s2) {
 	t_size w1 = 0, w2 = 0;
-	for(;;) {
+	for (;;) {
 		unsigned c1, c2; t_size d1, d2;
 		d1 = utf8_decode_char(s1.m_ptr + w1, c1, s1.m_len - w1);
 		d2 = utf8_decode_char(s2.m_ptr + w2, c2, s2.m_len - w2);
@@ -815,7 +815,7 @@ int stringCompareCaseInsensitiveEx(string_part_ref s1, string_part_ref s2) {
 	}
 }
 int stringCompareCaseInsensitive(const char * s1, const char * s2) {
-	for(;;) {
+	for (;;) {
 		unsigned c1, c2; t_size d1, d2;
 		d1 = utf8_decode_char(s1,c1);
 		d2 = utf8_decode_char(s2,c2);
@@ -902,7 +902,7 @@ void urlEncodeAppendRaw(pfc::string_base & out, const char * in, t_size inSize) 
 	}
 }
 void urlEncodeAppend(pfc::string_base & out, const char * in) {
-	for(;;) {
+	for (;;) {
 		const char c = *(in++);
 		if (c == 0) break;
 		else if (c == ' ') out.add_byte('+');

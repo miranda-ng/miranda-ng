@@ -101,7 +101,7 @@ void InitIcons()
 	TCHAR selfDLL[1024];
 	GetModuleFileName(hInst, selfDLL, 1024);
 
-	for(int i = 0; i < SIZEOF(icoDesc); i++){
+	for(int i = 0; i < SIZEOF(icoDesc); i++) {
 		sid.pszName = icoDesc[i].pszName;
 		sid.ptszDescription = icoDesc[i].ptszDesc;		// [TRANSLATED-BY-CORE]
 		sid.ptszSection = icoDesc[i].ptszSection;		//must be always untranslatet !!!!!

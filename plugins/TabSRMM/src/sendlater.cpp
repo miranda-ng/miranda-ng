@@ -130,7 +130,7 @@ CSendLaterJob::~CSendLaterJob()
 	if(fSuccess || fFailed) {
 		POPUPDATAT_V2 ppd = {0};
 
-		if((sendLater->haveErrorPopups() && fFailed) || (sendLater->haveSuccessPopups() && fSuccess)) {
+		if ((sendLater->haveErrorPopups() && fFailed) || (sendLater->haveSuccessPopups() && fSuccess)) {
 			bool fShowPopup = true;
 
 			if(fFailed && bCode == JOB_REMOVABLE)	// no popups for jobs removed on user's request
@@ -235,8 +235,8 @@ bool CSendLater::processCurrentJob()
 	if(m_sendLaterJobList.empty() || m_jobIterator == m_sendLaterJobList.end())
 		return(false);
 
-	if((*m_jobIterator)->fSuccess || (*m_jobIterator)->fFailed) {
-		if((*m_jobIterator)->mustDelete()) {
+	if ((*m_jobIterator)->fSuccess || (*m_jobIterator)->fFailed) {
+		if ((*m_jobIterator)->mustDelete()) {
 			delete *m_jobIterator;
 			m_jobIterator = m_sendLaterJobList.erase(m_jobIterator);
 		}
@@ -313,7 +313,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	DBVARIANT 	dbv = {0};
 	char		*szOrig_Utf = 0;
 
-	if(!m_fAvail || !szSetting || !strcmp(szSetting, "count") || lstrlenA(szSetting) < 8)
+	if (!m_fAvail || !szSetting || !strcmp(szSetting, "count") || lstrlenA(szSetting) < 8)
 		return(0);
 
 	if(szSetting[0] != 'S' && szSetting[0] != 'M')
@@ -325,7 +325,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	 * check for possible dupes
 	 */
 	while(it != m_sendLaterJobList.end()) {
-		if((*it)->hContact == hContact && !strcmp((*it)->szId, szSetting)) {
+		if ((*it)->hContact == hContact && !strcmp((*it)->szId, szSetting)) {
 			return(0);
 		}
 		it++;
@@ -339,7 +339,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	}
 	else if(szSetting[0] == 'M') {
 		char *szSep = strchr(const_cast<char *>(szSetting), '|');
-		if(!szSep)
+		if (!szSep)
 			return(0);
 		*szSep = 0;
 		szOrig_Utf = szSep + 1;
@@ -429,10 +429,10 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	}
 
 	CContactCache *c = CContactCache::getContactCache(hContact);
-	if(!c)
+	if (!c)
 		return(0);						// should not happen
 
-	if(!c->isValid()) {
+	if (!c->isValid()) {
 		job->fFailed = true;
 		job->bCode = CSendLaterJob::INVALID_CONTACT;
 		return(0);						// can happen (contact has been deleted). mark the job as failed
@@ -441,7 +441,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 	hContact = c->getActiveContact();
 	szProto = c->getActiveProto();
 
-	if(!hContact || szProto == 0)
+	if (!hContact || szProto == 0)
 		return(0);
 
 	WORD wMyStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
@@ -455,7 +455,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 		return(0);
 	}
 	if(job->szId[0] == 'S') {
-		if(!(wMyStatus == ID_STATUS_ONLINE || wMyStatus == ID_STATUS_FREECHAT)) {
+		if (!(wMyStatus == ID_STATUS_ONLINE || wMyStatus == ID_STATUS_FREECHAT)) {
 			job->bCode = CSendLaterJob::JOB_MYSTATUS;
 			return(0);
 		}
@@ -489,7 +489,7 @@ int CSendLater::sendIt(CSendLaterJob *job)
 
 void CSendLater::addContact(const HANDLE hContact)
 {
-	if(!m_fAvail)
+	if (!m_fAvail)
 		return;
 
 	std::vector<HANDLE>::iterator it = m_sendLaterContactList.begin();
@@ -505,7 +505,7 @@ void CSendLater::addContact(const HANDLE hContact)
 	 */
 
 	while(it != m_sendLaterContactList.end()) {
-		if(*it == hContact)
+		if (*it == hContact)
 			return;
 		it++;
 	}
@@ -528,10 +528,10 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 	SendLaterJobIterator it = m_sendLaterJobList.begin();
 
 	while(it != m_sendLaterJobList.end()) {
-		if((*it)->hProcess == ack->hProcess && (*it)->hTargetContact == ack->hContact && !((*it)->fSuccess || (*it)->fFailed)) {
+		if ((*it)->hProcess == ack->hProcess && (*it)->hTargetContact == ack->hContact && !((*it)->fSuccess || (*it)->fFailed)) {
 			DBEVENTINFO dbei = {0};
 
-			if(!(*it)->fSuccess) {
+			if (!(*it)->fSuccess) {
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT;
@@ -648,11 +648,11 @@ void CSendLater::qMgrFillList(bool fClear)
 			mir_free(preview);
 			mir_free(msg);
 
-			if((*it)->fFailed) {
+			if ((*it)->fFailed) {
 				tszStatusText = (*it)->bCode == CSendLaterJob::JOB_REMOVABLE ? 
 					CTranslator::get(CTranslator::QMGR_STATUS_REMOVED) : CTranslator::get(CTranslator::QMGR_STATUS_FAILED);
 			}
-			else if((*it)->fSuccess)
+			else if ((*it)->fSuccess)
 				tszStatusText = CTranslator::get(CTranslator::QMGR_STATUS_SENTOK);
 			else {
 				switch((*it)->bCode) {
@@ -670,7 +670,7 @@ void CSendLater::qMgrFillList(bool fClear)
 						break;
 				}
 			}
-			if((*it)->bCode)
+			if ((*it)->bCode)
 				bCode = (*it)->bCode;
 			mir_sntprintf(tszStatus, 20, _T("X/%s[%c] (%d)"), tszStatusText, bCode, (*it)->iSendCount);
 			tszStatus[0] = static_cast<TCHAR>((*it)->szId[0]);
@@ -678,7 +678,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			lvItem.iSubItem = 3;
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, reinterpret_cast<LPARAM>(&lvItem));
 
-			if((*it)->lastSent == 0)
+			if ((*it)->lastSent == 0)
 				mir_sntprintf(tszTimestamp, 30, _T("%s"), _T("Never"));
 			else {
 				_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&(*it)->lastSent));
@@ -823,7 +823,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						/*
 						 * copy to clipboard only allowed with a single selection
 						 */
-						if(::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) == 1)
+						if (::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) == 1)
 							::EnableMenuItem(hSubMenu, ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD, MF_ENABLED);
 
 						m_fIsInteractive = true;
@@ -831,7 +831,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						if(selection == ID_QUEUEMANAGER_CANCELALLMULTISENDJOBS) {
 							SendLaterJobIterator it = m_sendLaterJobList.begin();
 							while(it != m_sendLaterJobList.end()) {
-								if((*it)->szId[0] == 'M') {
+								if ((*it)->szId[0] == 'M') {
 									(*it)->fFailed = true;
 									(*it)->bCode = CSendLaterJob::JOB_REMOVABLE;
 								}
@@ -888,7 +888,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				 * exception: kill all open multisend jobs is directly handled from the context menu
 				 */
 				case IDC_QMGR_REMOVE: {
-					if(::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) != 0) {
+					if (::SendMessage(m_hwndList, LVM_GETSELECTEDCOUNT, 0, 0) != 0) {
 						LVITEM item = {0};
 						LRESULT	items = ::SendMessage(m_hwndList, LVM_GETITEMCOUNT, 0, 0);
 						item.mask = LVIF_STATE|LVIF_PARAM;

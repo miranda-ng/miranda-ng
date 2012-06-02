@@ -134,7 +134,7 @@ do_setkey (RIJNDAEL_context *ctx, const byte *key, const unsigned keylen)
   ctx->use_padlock = 0;
 #endif
 
-  if( keylen == 128/8 )
+  if ( keylen == 128/8 )
     {
       ROUNDS = 10;
       KC = 4;

@@ -54,10 +54,10 @@ static void CleanupAuthors(char *szAuthors)
 	char *p,*p2;
 	/* remove trailing dot (if any) */
 	p=&szAuthors[lstrlenA(szAuthors)-1];
-	if(*p=='.') *p='\0';
+	if (*p=='.') *p='\0';
 	/* remove any extra info in parentheses, which is ok
 	 * but makes the list very long for some packs */
-	for(;;) {
+	for (;;) {
 		p=strchr(szAuthors,'(');
 		p2=strchr(szAuthors,')');
 		if(p==NULL || p2==NULL) {
@@ -65,7 +65,7 @@ static void CleanupAuthors(char *szAuthors)
 			p2=strchr(szAuthors,']');
 			if(p==NULL || p2==NULL) break;
 		}
-		if(*(p-1)==' ') --p;
+		if (*(p-1)==' ') --p;
 		MoveMemory(p,p2+1,lstrlenA(p2+1)+1);
 	}
 }
@@ -105,7 +105,7 @@ static void CleanupEmail(char *szAuthorEmail)
 	/* lower case */
 	CharLowerA(szAuthorEmail);
 	/* 'none' specified */
-	if(!lstrcmpiA(szAuthorEmail,"none")) szAuthorEmail[0]='\0';
+	if (!lstrcmpiA(szAuthorEmail,"none")) szAuthorEmail[0]='\0';
 }
 
 static void CleanupLastModifiedUsing(char *szLastModifiedUsing,int nSize)
@@ -127,7 +127,7 @@ static void CleanupLastModifiedUsing(char *szLastModifiedUsing,int nSize)
 	p=strstr(szLastModifiedUsing," v0.");
 	if(p!=NULL) MoveMemory(p+1,p+2,lstrlenA(p+2)+1);
 	/* default if empty */
-	if(!szLastModifiedUsing[0]) {
+	if (!szLastModifiedUsing[0]) {
 		lstrcpynA(szLastModifiedUsing,MIRANDANAME" ",nSize);
 		CallService(MS_SYSTEM_GETVERSIONTEXT,nSize-lstrlenA(szLastModifiedUsing),(LPARAM)szLastModifiedUsing+lstrlenA(szLastModifiedUsing));
 	}
@@ -190,7 +190,7 @@ static BOOL LoadPackData(LANGPACK_INFO *pack,BOOL fEnabledPacks,const char *pszF
 			lstrcpynA(pack->szLastModifiedUsing, pszColon+1, sizeof(pack->szLastModifiedUsing)); /* buffer safe */
 		else if ( !lstrcmpA(line, "Authors")) {
 			buf=pack->szAuthors+lstrlenA(pack->szAuthors); /* allow multiple tags */
-			if((sizeof(pack->szAuthors)-lstrlenA(pack->szAuthors))>0) /* buffer safe */
+			if ((sizeof(pack->szAuthors)-lstrlenA(pack->szAuthors))>0) /* buffer safe */
 				mir_snprintf(buf,sizeof(pack->szAuthors)-lstrlenA(pack->szAuthors),(pack->szAuthors[0]=='\0')?"%s":" %s",pszColon+1);
 		} else if ( !lstrcmpA(line, "Author-email") && !pack->szAuthorEmail[0])
 			lstrcpynA(pack->szAuthorEmail, pszColon+1, sizeof(pack->szAuthorEmail)); /* buffer safe */
@@ -213,7 +213,7 @@ static BOOL LoadPackData(LANGPACK_INFO *pack,BOOL fEnabledPacks,const char *pszF
 	CleanupEmail(pack->szAuthorEmail);
 	CleanupLastModifiedUsing(pack->szLastModifiedUsing,sizeof(pack->szLastModifiedUsing));
 	/* codepage */
-	if(!(pack->flags&LPF_NOLOCALE))
+	if (!(pack->flags&LPF_NOLOCALE))
 		if(GetLocaleInfoA(pack->Locale,LOCALE_IDEFAULTANSICODEPAGE,line,6))
 			pack->codepage=(WORD)atoi(line); /* CP_ACP on error */
 	/* language */
@@ -223,14 +223,14 @@ static BOOL LoadPackData(LANGPACK_INFO *pack,BOOL fEnabledPacks,const char *pszF
 	lstrcpyA(pack->szLanguage,szLanguageA); /* buffer safe */
 #endif
 	/* ensure the pack always has a language name */
-	if(!pack->szLanguage[0] && !GetLocaleInfo(pack->Locale,LOCALE_SENGLANGUAGE,pack->szLanguage,SIZEOF(pack->szLanguage))) {
+	if (!pack->szLanguage[0] && !GetLocaleInfo(pack->Locale,LOCALE_SENGLANGUAGE,pack->szLanguage,SIZEOF(pack->szLanguage))) {
 		TCHAR *p;
 		lstrcpyn(pack->szLanguage,pack->szFileName,SIZEOF(pack->szLanguage)); /* buffer safe */
 		p=_tcsrchr(pack->szLanguage,_T('.'));
 		if(p!=NULL) *p='\0';
 	}
 	/* ensure the pack always has a filelisting name */
-	if(!pack->szFLName[0])
+	if (!pack->szFLName[0])
 		lstrcatA(lstrcpyA(pack->szFLName,szLanguageA)," Language Pack"); /* buffer safe */
 	fclose(fp);
 	return TRUE;
@@ -242,11 +242,11 @@ BOOL GetPackPath(TCHAR *pszPath,int nSize,BOOL fEnabledPacks,const TCHAR *pszFil
 {
 	TCHAR *p;
 	/* main path */
-	if(!GetModuleFileName(NULL,pszPath,nSize)) return FALSE;
+	if (!GetModuleFileName(NULL,pszPath,nSize)) return FALSE;
 	p=_tcsrchr(pszPath,_T('\\'));
 	if(p!=NULL) *(p+1)=_T('\0');
 	/* subdirectory */
-	if(!fEnabledPacks) {
+	if (!fEnabledPacks) {
 		if(nSize<(lstrlen(pszPath)+10)) return FALSE;
 		lstrcat(pszPath,_T("Plugins\\Language\\"));
 	}
@@ -274,18 +274,18 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback,const TCHAR *pszFilePattern,const ch
 		if(hFind!=INVALID_HANDLE_VALUE) {
 			do {
 				if(wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
-				if((lstrlen(wfd.cFileName)<4) || wfd.cFileName[lstrlen(wfd.cFileName)-4]!=_T('.')) continue;
+				if ((lstrlen(wfd.cFileName)<4) || wfd.cFileName[lstrlen(wfd.cFileName)-4]!=_T('.')) continue;
 				/* get data */
 				ZeroMemory(&pack,sizeof(pack));
 				lstrcpy(pack.szFileName,CharLower(wfd.cFileName)); /* buffer safe */
 				if(LoadPackData(&pack,TRUE,pszFileVersionHeader)) {
 					pack.ftFileDate=wfd.ftLastWriteTime;
 					/* enabled? */
-					if(!fPackFound) pack.flags|=LPF_ENABLED;
+					if (!fPackFound) pack.flags|=LPF_ENABLED;
 					fPackFound=TRUE;
 					/* callback */
 					if(callback!=NULL) res=callback(&pack,wParam,lParam);
-					if(!res) { FindClose(hFind); return FALSE; }
+					if (!res) { FindClose(hFind); return FALSE; }
 				}
 			} while(FindNextFile(hFind,&wfd));
 			FindClose(hFind);
@@ -311,9 +311,9 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback,const TCHAR *pszFilePattern,const ch
 			}
 		}
 		pack.flags=LPF_NOLOCALE|LPF_DEFAULT;
-		if(!fPackFound) pack.flags|=LPF_ENABLED;
+		if (!fPackFound) pack.flags|=LPF_ENABLED;
 		/* callback */
-		if(!callback(&pack,wParam,lParam)) return FALSE;
+		if (!callback(&pack,wParam,lParam)) return FALSE;
 	}
 
 	/* disabled packs */
@@ -331,7 +331,7 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback,const TCHAR *pszFilePattern,const ch
 					fPackFound=TRUE;
 					/* callback */
 					if(callback!=NULL) res=callback(&pack,wParam,lParam);
-					if(!res) { FindClose(hFind); return FALSE; }
+					if (!res) { FindClose(hFind); return FALSE; }
 				}
 			} while(FindNextFile(hFind,&wfd));
 			FindClose(hFind);
@@ -343,14 +343,14 @@ BOOL EnumPacks(ENUM_PACKS_CALLBACK callback,const TCHAR *pszFilePattern,const ch
 BOOL IsPluginIncluded(const LANGPACK_INFO *pack,char *pszFileBaseName)
 {
 	char *p;
-	if(!lstrcmpiA(pszFileBaseName,"png2dib") || !lstrcmpiA(pszFileBaseName,"loadavatars"))
+	if (!lstrcmpiA(pszFileBaseName,"png2dib") || !lstrcmpiA(pszFileBaseName,"loadavatars"))
 		return TRUE; /* workaround: does not need no translation */
 	for(p=(char*)pack->szPluginsIncluded;;) {
 		p=strstr(p,CharLowerA(pszFileBaseName));
 		if(p==NULL) return FALSE;
 		if(p==pack->szPluginsIncluded || *(p-1)==' ' || *(p-1)==',') {
 			p+=lstrlenA(pszFileBaseName)+1;
-			if(*p==',' || *p==' ' || *p==0) return TRUE;
+			if (*p==',' || *p==' ' || *p==0) return TRUE;
 		}
 		else p+=lstrlenA(pszFileBaseName)+1;
 	}
@@ -377,7 +377,7 @@ BOOL EnablePack(const LANGPACK_INFO *pack,const TCHAR *pszFilePattern)
 				/* move file */
 				if(GetPackPath(szFrom,SIZEOF(szFrom),TRUE,wfd.cFileName))
 					if(GetPackPath(szDest,SIZEOF(szDest),FALSE,wfd.cFileName))
-						if(!MoveFile(szFrom,szDest) && GetLastError()==ERROR_ALREADY_EXISTS) {
+						if (!MoveFile(szFrom,szDest) && GetLastError()==ERROR_ALREADY_EXISTS) {
 							DeleteFile(szDest);
 							MoveFile(szFrom,szDest);
 						}
@@ -403,7 +403,7 @@ void CorrectPacks(const TCHAR *pszFilePattern,BOOL fDisableAll)
 	WIN32_FIND_DATA wfd;
 
 	/* main path */
-	if(!GetModuleFileName(NULL,szDir,SIZEOF(szDir))) return;
+	if (!GetModuleFileName(NULL,szDir,SIZEOF(szDir))) return;
 	pszFile=_tcsrchr(szDir,_T('\\'));
 	if(pszFile!=NULL) *pszFile=_T('\0');
 
@@ -415,12 +415,12 @@ void CorrectPacks(const TCHAR *pszFilePattern,BOOL fDisableAll)
 			if(wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
 			if(lstrlen(wfd.cFileName)<4 || wfd.cFileName[lstrlen(wfd.cFileName)-4]!=_T('.')) continue;
 			/* ensure dir exists */
-			if(!fDirCreated && GetPackPath(szFrom,SIZEOF(szFrom),FALSE,NULL))
+			if (!fDirCreated && GetPackPath(szFrom,SIZEOF(szFrom),FALSE,NULL))
 				fDirCreated=CreateDirectory(szFrom,NULL);
 			/* move file */
 			if(GetPackPath(szDest,SIZEOF(szDest),FALSE,wfd.cFileName)) {
 				mir_sntprintf(szFrom,SIZEOF(szFrom),_T("%s\\Plugins\\%s"),szDir,wfd.cFileName);
-				if(!MoveFile(szFrom,szDest) && GetLastError()==ERROR_ALREADY_EXISTS) {
+				if (!MoveFile(szFrom,szDest) && GetLastError()==ERROR_ALREADY_EXISTS) {
 					DeleteFile(szDest);
 					MoveFile(szFrom,szDest);
 				}
@@ -437,14 +437,14 @@ void CorrectPacks(const TCHAR *pszFilePattern,BOOL fDisableAll)
 				if(wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
 				if(lstrlen(wfd.cFileName)<4 || wfd.cFileName[lstrlen(wfd.cFileName)-4]!=_T('.')) continue;
 				/* skip first file */
-				if(!fDisableAll) { fDisableAll=TRUE; continue; }
+				if (!fDisableAll) { fDisableAll=TRUE; continue; }
 				/* ensure dir exists */
-				if(!fDirCreated && GetPackPath(szFrom,SIZEOF(szFrom),FALSE,NULL))
+				if (!fDirCreated && GetPackPath(szFrom,SIZEOF(szFrom),FALSE,NULL))
 					fDirCreated=CreateDirectory(szFrom,NULL);
 				/* move file */
 				if(GetPackPath(szFrom,SIZEOF(szFrom),TRUE,wfd.cFileName))
 					if(GetPackPath(szDest,SIZEOF(szDest),FALSE,wfd.cFileName)) {
-						if(!MoveFile(szFrom,szDest) && GetLastError()==ERROR_ALREADY_EXISTS) {
+						if (!MoveFile(szFrom,szDest) && GetLastError()==ERROR_ALREADY_EXISTS) {
 							DeleteFile(szDest);
 							MoveFile(szFrom,szDest);
 						}

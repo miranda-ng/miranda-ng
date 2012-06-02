@@ -17,7 +17,7 @@ JSONNode::json_iterator JSONNode::find(const json_string & name_t){
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("finding a non-iteratable node"));
     makeUniqueInternal();
-    if (JSONNode ** res = internal -> at(name_t)){
+    if (JSONNode ** res = internal -> at(name_t)) {
 	   return ptr_to_json_iterator(res);
     }
     return end();
@@ -28,7 +28,7 @@ JSONNode::json_iterator JSONNode::find(const json_string & name_t){
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("finding a non-iteratable node"));
 	   makeUniqueInternal();
-	   if (JSONNode ** res = internal -> at_nocase(name_t)){
+	   if (JSONNode ** res = internal -> at_nocase(name_t)) {
 		  return ptr_to_json_iterator(res);
 	   }
 	   return end();
@@ -71,7 +71,7 @@ JSONNode::json_iterator JSONNode::insert(json_iterator pos, const JSONNode & x){
     JSON_CHECK_INTERNAL();
     JSON_ASSERT(type() == JSON_NODE || type() == JSON_ARRAY, JSON_TEXT("erasing a non-iteratable node"));
     JSON_ASSERT_UNIQUE("insert 1");
-    if (json_iterator_ptr(pos) >= internal -> Children.end()){
+    if (json_iterator_ptr(pos) >= internal -> Children.end()) {
 	   internal -> push_back(x);
 	   return end() - 1;
     }
@@ -104,7 +104,7 @@ JSONNode::json_iterator JSONNode::insertFFF(json_iterator pos, JSONNode ** const
     JSONNode::const_iterator JSONNode::find(const json_string & name_t) const {
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("finding a non-iteratable node"));
-	   if (JSONNode ** res = internal -> at(name_t)){
+	   if (JSONNode ** res = internal -> at(name_t)) {
 		  return JSONNode::const_iterator(res);
 	   }
 	   return JSONNode::const_iterator(internal -> end());
@@ -114,7 +114,7 @@ JSONNode::json_iterator JSONNode::insertFFF(json_iterator pos, JSONNode ** const
 	   JSONNode::const_iterator JSONNode::find_nocase(const json_string & name_t) const {
 		  JSON_CHECK_INTERNAL();
 		  JSON_ASSERT(type() == JSON_NODE, JSON_TEXT("finding a non-iteratable node"));
-		  if (JSONNode ** res = internal -> at_nocase(name_t)){
+		  if (JSONNode ** res = internal -> at_nocase(name_t)) {
 			 return JSONNode::const_iterator(res);
 		  }
 		  return JSONNode::const_iterator(internal -> end());
@@ -153,7 +153,7 @@ JSONNode::json_iterator JSONNode::insertFFF(json_iterator pos, JSONNode ** const
 	   JSON_CHECK_INTERNAL();
 	   JSON_ASSERT(type() == JSON_NODE || type() == JSON_ARRAY, JSON_TEXT("erasing a non-iteratable node"));
 	   JSON_ASSERT_UNIQUE("insert 1");
-	   if (pos.it < internal -> Children.begin()){
+	   if (pos.it < internal -> Children.begin()) {
 		  internal -> push_front(x);
 		  return rend() - 1;
 	   }

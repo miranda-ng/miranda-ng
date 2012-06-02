@@ -817,7 +817,7 @@ void CConnectPrefsDlg::OnApply()
 
 	m_proto->m_autoOnlineNotification = m_onlineNotif.GetState();
 	if ( m_proto->m_autoOnlineNotification ) {
-		if( !m_proto->bTempDisableCheck ) {
+		if ( !m_proto->bTempDisableCheck ) {
 			m_proto->SetChatTimer(m_proto->OnlineNotifTimer, 500, OnlineNotifTimerProc );
 			if ( m_proto->m_channelAwayNotification )
 				m_proto->SetChatTimer( m_proto->OnlineNotifTimer3, 1500, OnlineNotifTimerProc3 );
@@ -1591,17 +1591,17 @@ void CIgnorePrefsDlg::OnEdit( CCtrlButton* )
 	HWND hWnd = dlg->GetHwnd();
 	SetWindowText(hWnd, TranslateT("Edit ignore"));
 	if ( szFlags[0] ) {
-		if( _tcschr(szFlags, 'q'))
+		if ( _tcschr(szFlags, 'q'))
 			CheckDlgButton(hWnd, IDC_Q, BST_CHECKED);
-		if( _tcschr(szFlags, 'n'))
+		if ( _tcschr(szFlags, 'n'))
 			CheckDlgButton(hWnd, IDC_N, BST_CHECKED);
-		if( _tcschr(szFlags, 'i'))
+		if ( _tcschr(szFlags, 'i'))
 			CheckDlgButton(hWnd, IDC_I, BST_CHECKED);
-		if( _tcschr(szFlags, 'd'))
+		if ( _tcschr(szFlags, 'd'))
 			CheckDlgButton(hWnd, IDC_D, BST_CHECKED);
-		if( _tcschr(szFlags, 'c'))
+		if ( _tcschr(szFlags, 'c'))
 			CheckDlgButton(hWnd, IDC_C, BST_CHECKED);
-		if( _tcschr(szFlags, 'm'))
+		if ( _tcschr(szFlags, 'm'))
 			CheckDlgButton(hWnd, IDC_M, BST_CHECKED);
 	}
 	SetWindowText(GetDlgItem(hWnd, IDC_MASK), szMask);
@@ -1710,7 +1710,7 @@ void CIgnorePrefsDlg::UpdateList()
 		LVITEM lvm;
 		lvm.mask= LVIF_PARAM;
 		lvm.iSubItem = 0;
-		for( int i =0; i < j; i++) {
+		for ( int i =0; i < j; i++) {
 			lvm.iItem = i;
 			lvm.lParam = i;
 			m_list.SetItem( &lvm );

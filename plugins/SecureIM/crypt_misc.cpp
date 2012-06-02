@@ -41,19 +41,19 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 	pUinKey ptr = getUinKey(tParam->hContact);
 	delete tParam;
 
-	if( !ptr ) return 0;
+	if ( !ptr ) return 0;
 
 	for(int i=0;i<DBGetContactSettingWord(0,szModuleName,"ket",10)*10; i++) {
 		Sleep( 100 );
-		if( ptr->waitForExchange != 1 ) break;
+		if ( ptr->waitForExchange != 1 ) break;
 	} // for
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("sttWaitForExchange: %d",ptr->waitForExchange);
 #endif
    	// if keyexchange failed or timeout
-   	if( ptr->waitForExchange==1 || ptr->waitForExchange==3 ) { // протухло - отправляем незашифрованно, если надо
-   		if( ptr->msgQueue && msgbox1(0,sim104,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDYES ) {
+   	if ( ptr->waitForExchange==1 || ptr->waitForExchange==3 ) { // протухло - отправляем незашифрованно, если надо
+   		if ( ptr->msgQueue && msgbox1(0,sim104,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDYES ) {
 	   		EnterCriticalSection(&localQueueMutex);
 	   		ptr->sendQueue = true;
 	   		pWM ptrMessage = ptr->msgQueue;
@@ -76,7 +76,7 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
    		ShowStatusIconNotify(ptr->hContact);
    	}
    	else
-   	if( ptr->waitForExchange==2 ) { // дослать очередь через установленное соединение
+   	if ( ptr->waitForExchange==2 ) { // дослать очередь через установленное соединение
 		EnterCriticalSection(&localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
@@ -96,7 +96,7 @@ unsigned __stdcall sttWaitForExchange( LPVOID param ) {
 		LeaveCriticalSection(&localQueueMutex);
    	}
    	else
-   	if( ptr->waitForExchange==0 ) { // очистить очередь
+   	if ( ptr->waitForExchange==0 ) { // очистить очередь
 		EnterCriticalSection(&localQueueMutex);
 		// we need to resend last send back message with new crypto Key
 		pWM ptrMessage = ptr->msgQueue;
@@ -119,11 +119,11 @@ void waitForExchange(pUinKey ptr, int flag) {
 	case 0: // сбросить
 	case 2: // дослать шифровано
 	case 3: // дослать нешифровано
-		if( ptr->waitForExchange ) 
+		if ( ptr->waitForExchange ) 
 			ptr->waitForExchange = flag;
 		break;
 	case 1: // запустить
-		if( ptr->waitForExchange ) 
+		if ( ptr->waitForExchange ) 
 			break;
 		ptr->waitForExchange = 1;
 		// запускаем трэд

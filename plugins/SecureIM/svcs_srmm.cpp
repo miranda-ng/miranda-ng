@@ -13,11 +13,11 @@ int __cdecl onWindowEvent(WPARAM wParam, LPARAM lParam) {
 
 int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = (HANDLE)wParam;
-	if( isProtoMetaContacts(hContact) )
+	if ( isProtoMetaContacts(hContact) )
 		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
-	if( strcmp(sicd->szModule, szModuleName) != 0 ||
+	if ( strcmp(sicd->szModule, szModuleName) != 0 ||
 		!isSecureProtocol(hContact) ) return 0; // not our event
 
 	BOOL isPGP = isContactPGP(hContact);
@@ -25,7 +25,7 @@ int __cdecl onIconPressed(WPARAM wParam, LPARAM lParam) {
 	BOOL isSecured = isContactSecured(hContact)&SECURED;
 	BOOL isChat = isChatRoom(hContact);
 
-	if( !isPGP && !isGPG && !isChat ) {
+	if ( !isPGP && !isGPG && !isChat ) {
 		if(isSecured)	Service_DisableIM(wParam,0);
 		else		Service_CreateIM(wParam,0);
 	}

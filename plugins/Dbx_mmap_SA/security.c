@@ -59,7 +59,7 @@ void InitSecurity()
 			}
 		}
 		if(ModulesCount >= 100) break;
-		if(!FindNextFileA(hFile, &fd)) break;
+		if (!FindNextFileA(hFile, &fd)) break;
 	}
 }
 
@@ -78,7 +78,7 @@ void UnloadSecurity()
 
 void EncoderInit()
 {
-	if(!bEncoding) return;
+	if (!bEncoding) return;
 	
 	encryptKey[encryptKeyLength] = 0;
 	key = CryptoEngine->GenerateKey(encryptKey);
@@ -88,7 +88,7 @@ void EncodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 	
-	if(!bEncoding)
+	if (!bEncoding)
 		return;
 	
 	CryptoEngine->EncryptMem(dst, (int)size, key);
@@ -98,7 +98,7 @@ void DecodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 	
-	if(!bEncoding)
+	if (!bEncoding)
 		return;
 
 	CryptoEngine->DecryptMem(dst, (int)size, key);
@@ -152,14 +152,14 @@ int CheckPassword(WORD checkWord, char * szDBName)
 	{
 		int i;
 		int Found = 0;
-		for(i = 0; i < ModulesCount; i++){
+		for(i = 0; i < ModulesCount; i++) {
 			if(dbHeader.cryptorUID == Modules[i]->cryptor->uid){
 				CryptoEngine = Modules[i]->cryptor;
 				Found = 1;
 				break;
 			}
 		}
-		if(!Found){
+		if (!Found){
 			MessageBoxA(0, "Sorry, but your database encrypted with unknown module", "Error", MB_OK);
 			bCheckingPass = 0;
 			return 0;
@@ -208,14 +208,14 @@ int SelectEncoder()
 	}
 	else{
 		int Found = 0;
-		for(i = 0; i < ModulesCount; i++){
+		for(i = 0; i < ModulesCount; i++) {
 			if(Modules[i]->cryptor->uid == uid){
 				CryptoEngine = Modules[i]->cryptor;
 				Found = 1;
 				break;
 			}
 		}
-		if(!Found){
+		if (!Found){
 			MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK);
 			DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[0]->cryptor->uid);
 			CryptoEngine = Modules[0]->cryptor;
@@ -302,14 +302,14 @@ void EncryptDB()
 		return;
 	}
 
-	if(SelectEncoder()){		
+	if(SelectEncoder()) {		
 		return;
 	}
 	
 	bEncProcess = 1;
 
 	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, (DLGPROC)DlgStdNewPass, (LPARAM)NULL);
-	if(action != IDOK || !strlen(encryptKey)){
+	if(action != IDOK || !strlen(encryptKey)) {
 		bEncProcess = 0;		
 		DBWriteContactSettingByte(NULL, "SecureMMAP", "CryptoModule", 0);		
 		return;
@@ -336,7 +336,7 @@ void DecryptDB()
 	char oldKey[255];
 	strcpy(oldKey, encryptKey);
 
-	if(!CheckPassword(dbHeader.checkWord, Translate("current database"))){strcpy(encryptKey, oldKey); encryptKeyLength = strlen(oldKey); return;}
+	if (!CheckPassword(dbHeader.checkWord, Translate("current database"))){strcpy(encryptKey, oldKey); encryptKeyLength = strlen(oldKey); return;}
 
 	WritePlainHeader();
 	

@@ -171,7 +171,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 		ppro = ( CYahooProto* )lParam;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
 
-		if ( !ppro->GetString( YAHOO_LOGINSERVER, &dbv )){
+		if ( !ppro->GetString( YAHOO_LOGINSERVER, &dbv )) {
 			SetDlgItemTextA( hwndDlg, IDC_LOGINSERVER, dbv.pszVal );
 			DBFreeVariant( &dbv );
 		}

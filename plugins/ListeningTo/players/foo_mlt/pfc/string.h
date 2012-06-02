@@ -38,7 +38,7 @@ namespace pfc {
 
 		void add_char(t_uint32 c);//adds unicode char to the string
 		void add_byte(char c) {add_string(&c,1);}
-		void add_chars(t_uint32 p_char,t_size p_count) {for(;p_count;p_count--) add_char(p_char);}
+		void add_chars(t_uint32 p_char,t_size p_count) {for (;p_count;p_count--) add_char(p_char);}
 	protected:
 		string_receiver() {}
 		~string_receiver() {}
@@ -777,7 +777,7 @@ namespace pfc {
 	void splitStringEx(t_output & p_output, const t_splitCheck & p_check, const char * p_string, t_size p_stringLen = ~0) {
 		t_size walk = 0, splitBase = 0;
 		const t_size max = strlen_max(p_string,p_stringLen);
-		for(;walk < max;) {
+		for (;walk < max;) {
 			t_size delta = p_check(p_string + walk,max - walk);
 			if (delta > 0) {
 				if (walk > splitBase) p_output(p_string + splitBase, walk - splitBase);
@@ -880,7 +880,7 @@ namespace pfc {
 	}
 
 	template<typename t_out> void splitStringByLines(t_out & out, const char * str) {
-		for(;;) {
+		for (;;) {
 			const char * next = strchr(str, '\n');
 			if (next == NULL) {
 				out += string_part(str, strlen(str)); break;
@@ -892,7 +892,7 @@ namespace pfc {
 		}
 	}
 	template<typename t_out> void splitStringByChar(t_out & out, const char * str, char c) {
-		for(;;) {
+		for (;;) {
 			const char * next = strchr(str, c);
 			if (next == NULL) {
 				out += string_part(str, strlen(str)); break;

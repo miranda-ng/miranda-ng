@@ -164,7 +164,7 @@ void SetMenuEntryProperties(HWND hdlg)
 
 			bd->dwOPPos=pos++;
 
-			if(hItem=TreeView_GetChild(hMenuTree, tvi.hItem)){
+			if(hItem=TreeView_GetChild(hMenuTree, tvi.hItem)) {
 
 				bd->fEntryOpType&=~QMF_EX_CHILD;
 
@@ -184,14 +184,14 @@ void SetMenuEntryProperties(HWND hdlg)
 						}}
 				else
 					{
-					if(!bd->pszOpValue)
+					if (!bd->pszOpValue)
 						bd->pszOpValue=mir_tstrdup(_T("Enter Value"));
 					}
 					if(TreeView_GetParent(hMenuTree, tvi.hItem))
 						bd->fEntryOpType|=QMF_EX_CHILD;
 					else bd->fEntryOpType&=~QMF_EX_CHILD;
 
-					if(!(hItem=TreeView_GetNextSibling(hMenuTree, tvi.hItem)))
+					if (!(hItem=TreeView_GetNextSibling(hMenuTree, tvi.hItem)))
 						tvi.hItem=TreeView_GetNextSibling(hMenuTree, TreeView_GetParent(hMenuTree,tvi.hItem));
 					else 
 						tvi.hItem=hItem;
@@ -228,7 +228,7 @@ void SaveMenuTree(HWND hdlg)
 		SortedList * sl=NULL;
 		ListData* ld=ButtonsList[iBl];
 
-		if(!ld->sl) break;
+		if (!ld->sl) break;
 
 		sl=ld->sl;
 
@@ -345,7 +345,7 @@ void RestoreModuleData(HWND hdlg)
 		SortedList * sl=NULL;
 		ListData* ld=ButtonsList[iBl];
 
-		if(!(sl=ld->sl)) break;
+		if (!(sl=ld->sl)) break;
 
 		if(ld->dwOPFlags&QMF_NEW)
 			{
@@ -425,11 +425,11 @@ static int BuildMenuTree(HWND hToolBarTree,SortedList * sl)
 
 		hParent=TreeView_InsertItem( hToolBarTree, &tvis );
 		if(tvis.hParent) TreeView_Expand( hMenuTree, tvis.hParent, TVE_EXPAND );
-		if(!bd->pszOpValue&&bd->fEntryOpType==0)
+		if (!bd->pszOpValue&&bd->fEntryOpType==0)
 			{
 			tvis.hParent = hParent;
 			}
-// 		else if(!(bd->fEntryOpType&QMF_EX_CHILD))
+// 		else if (!(bd->fEntryOpType&QMF_EX_CHILD))
 // 			tvis.hParent = NULL;
 		}
 
@@ -466,9 +466,9 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 	//TCHAR strbuf[128];
 	HTREEITEM hParent, hChild, hNewItem;
 
-	if( !hItem || !hInsertAfter )
+	if ( !hItem || !hInsertAfter )
 		return;
-	if( hItem == hInsertAfter )
+	if ( hItem == hInsertAfter )
 		return;
 
 	switch( ( ULONG_PTR )hInsertAfter ) {
@@ -483,7 +483,7 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 			break;
 		}
 	// do not move a parent next to its own children!
-	if( hItem == hParent )
+	if ( hItem == hParent )
 		return;
 
 	// prepare the insert structure
@@ -498,7 +498,7 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 		}
 
 		// item should be inserted as the first child of an existing root item
-		if( bAsChild ) { 
+		if ( bAsChild ) { 
 			tvis.hParent = hInsertAfter;
 			tvis.hInsertAfter =   ( bAsChild == 2 ) ? TVI_LAST : TVI_FIRST ;
 			}
@@ -508,7 +508,7 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 			tvis.hInsertAfter = hInsertAfter;
 			}
 		// insert the item
-		if( !( hNewItem = TreeView_InsertItem( hMenuTree, &tvis ) ) )
+		if ( !( hNewItem = TreeView_InsertItem( hMenuTree, &tvis ) ) )
 			return;
 
 		// move children
@@ -574,7 +574,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			SetWindowLong(hMenuTree,GWL_STYLE, style);
 			BuildButtonsList(hButtonsList);
 			
-			if(!TreeView_GetCount(hButtonsList)) EnableWindow(GetDlgItem(hdlg,IDC_RCLICKVALUE),FALSE);
+			if (!TreeView_GetCount(hButtonsList)) EnableWindow(GetDlgItem(hdlg,IDC_RCLICKVALUE),FALSE);
 
 			oldBNameProc = (WNDPROC) SetWindowLong(GetDlgItem(hdlg,IDC_BUTTONNAME), GWLP_WNDPROC, (LONG) EditSubclassProc);
 			oldMNameProc = (WNDPROC) SetWindowLong(GetDlgItem(hdlg,IDC_MENUNAME)  , GWLP_WNDPROC, (LONG) EditSubclassProc);
@@ -617,34 +617,34 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					break;
 
 
-					if( hti.flags & TVHT_ABOVE ) {
+					if ( hti.flags & TVHT_ABOVE ) {
 						htiAfter = TVI_FIRST;
 						}
 					else
-						if( hti.flags & ( TVHT_NOWHERE|TVHT_BELOW ) ) {
+						if ( hti.flags & ( TVHT_NOWHERE|TVHT_BELOW ) ) {
 							htiAfter = TVI_LAST;
 							}
 						else
-							if( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT ) ) {
+							if ( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT ) ) {
 								// check where over the item, the pointer is
-								if( !TreeView_GetItemRect( hMenuTree, hti.hItem, &rc, FALSE ) ) {
+								if ( !TreeView_GetItemRect( hMenuTree, hti.hItem, &rc, FALSE ) ) {
 									drag=0;
 									break;
 									}
 								height = ( BYTE )( rc.bottom - rc.top );
 
-								if( hti.pt.y - ( height / 3 ) < rc.top ) {
+								if ( hti.pt.y - ( height / 3 ) < rc.top ) {
 									HTREEITEM hItem = hti.hItem;
 
-									if( !( hti.hItem = TreeView_GetPrevSibling( hMenuTree, hItem ) ) ) {
-										if( !( hti.hItem = TreeView_GetParent(hMenuTree, hItem ) ))
+									if ( !( hti.hItem = TreeView_GetPrevSibling( hMenuTree, hItem ) ) ) {
+										if ( !( hti.hItem = TreeView_GetParent(hMenuTree, hItem ) ))
 											htiAfter = TVI_FIRST;
 										else
 											bAsChild = TRUE;
 										}
 									}
 								else 
-									if( hti.pt.y + ( height / 3 ) <= rc.bottom ) {
+									if ( hti.pt.y + ( height / 3 ) <= rc.bottom ) {
 										bAsChild = TRUE;
 										}
 								}	
@@ -658,7 +658,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
  									tvi.hItem=hti.hItem;
  									tvi.mask=TVIF_PARAM |TVIF_HANDLE;
  									TreeView_GetItem(hMenuTree,&tvi);
-									if((bd=(ButtonData*)tvi.lParam)&&(bd->fEntryOpType&QMF_EX_SEPARATOR))
+									if ((bd=(ButtonData*)tvi.lParam)&&(bd->fEntryOpType&QMF_EX_SEPARATOR))
 										bAsChild = FALSE;
 							 }
 
@@ -687,19 +687,19 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				ClientToScreen(hdlg,&hti.pt);
 				ScreenToClient(hMenuTree,&hti.pt);
 				TreeView_HitTest(hMenuTree,&hti);
-				if( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT ) ) {
+				if ( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT ) ) {
 					RECT rc;
 					BYTE height;
 
-					if( TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE ) ) {
+					if ( TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE ) ) {
 						height = ( BYTE )( rc.bottom - rc.top );
 
-						if( hti.pt.y - ( height / 3 ) < rc.top ) {
+						if ( hti.pt.y - ( height / 3 ) < rc.top ) {
 							SetCursor( LoadCursor( NULL, IDC_ARROW ) );
 							TreeView_SetInsertMark( hMenuTree, hti.hItem, 0 );
 							}
 						else
-							if( hti.pt.y + ( height / 3 ) > rc.bottom ) {
+							if ( hti.pt.y + ( height / 3 ) > rc.bottom ) {
 								SetCursor( LoadCursor( NULL, IDC_ARROW ) );
 								TreeView_SetInsertMark( hMenuTree, hti.hItem, 1 );
 								}
@@ -710,8 +710,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						}
 					}
 				else {
-					if( hti.flags & TVHT_ABOVE ) SendMessage( hMenuTree, WM_VSCROLL, MAKEWPARAM( SB_LINEUP, 0 ), 0 );
-					if( hti.flags & TVHT_BELOW ) SendMessage( hMenuTree, WM_VSCROLL, MAKEWPARAM( SB_LINEDOWN, 0 ), 0 );
+					if ( hti.flags & TVHT_ABOVE ) SendMessage( hMenuTree, WM_VSCROLL, MAKEWPARAM( SB_LINEUP, 0 ), 0 );
+					if ( hti.flags & TVHT_BELOW ) SendMessage( hMenuTree, WM_VSCROLL, MAKEWPARAM( SB_LINEDOWN, 0 ), 0 );
 					TreeView_SetInsertMark( hMenuTree, NULL, 0 );
 					}
 				}
@@ -727,7 +727,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			switch(((LPNMHDR)lparam)->idFrom)	{
 		case 0:{
 			if (((LPNMHDR)lparam)->code == PSN_APPLY ) {
-				if(!bNeedRestart){
+				if (!bNeedRestart){
 				SetMenuEntryProperties(hdlg);
 				SaveMenuTree(hdlg); 
 				}
@@ -737,7 +737,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				return 1;
 				}
 			else if (((LPNMHDR)lparam)->code == PSN_RESET ) {
-					if(!bNeedRestart)
+					if (!bNeedRestart)
 						RestoreModuleData(hdlg);
 				return 1;
 				}
@@ -779,9 +779,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			GetWindowText(hwndEdit, szLabel, sizeof(szLabel));
 			hwndEdit=NULL;
-			if(!_tcslen(szLabel)) break;
+			if (!_tcslen(szLabel)) break;
 			if (bd = (ButtonData*)tvi.lParam){
-				if(!_tcscmp(szLabel,_T("---"))){
+				if (!_tcscmp(szLabel,_T("---"))) {
 					if(TreeView_GetChild(hMenuTree,tvi.hItem))
 						break;
 					else{
@@ -871,7 +871,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			bd = ( ButtonData* )tvi.lParam;
 			if (bd) {
-				if(!TreeView_GetChild(hMenuTree, tvi.hItem)&&!(bd->fEntryOpType&QMF_EX_SEPARATOR))
+				if (!TreeView_GetChild(hMenuTree, tvi.hItem)&&!(bd->fEntryOpType&QMF_EX_SEPARATOR))
 					{
 					EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),TRUE);
 					EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),TRUE);
@@ -882,7 +882,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					{
 					EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
 					EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),FALSE);
-					if(!(bd->fEntryOpType&QMF_EX_SEPARATOR))
+					if (!(bd->fEntryOpType&QMF_EX_SEPARATOR))
 						EnableWindow(GetDlgItem(hdlg,IDC_INQMENU),FALSE);
 					SetWindowText(GetDlgItem(hdlg,IDC_MENUVALUE),_T(""));
 					}
@@ -925,7 +925,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			GetWindowText(hwndEdit, szLabel, sizeof(szLabel));
 			hwndEdit=NULL;
-			if(!_tcslen(szLabel)) break;
+			if (!_tcslen(szLabel)) break;
 
 			tvi.pszText=szLabel;
 			((ListData*)tvi.lParam)->dwOPFlags|=QMF_RENAMED;	
@@ -946,7 +946,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			hti=TreeView_GetSelection(hButtonsList);
 
-			if(hti==NULL||!TreeView_GetCount(hButtonsList)){
+			if(hti==NULL||!TreeView_GetCount(hButtonsList)) {
 				EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
 				EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),FALSE);
 				EnableWindow(GetDlgItem(hdlg,IDC_INQMENU),FALSE);
@@ -968,7 +968,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME2),TRUE);
 			CheckDlgButton(hdlg,IDC_ISSERVNAME2,((ListData*)tvi.lParam)->bIsOpServName);
 
-			if(((ListData*)tvi.lParam)->ptszOPQValue) 
+			if (((ListData*)tvi.lParam)->ptszOPQValue) 
 				SetWindowText(GetDlgItem(hdlg,IDC_RCLICKVALUE),((ListData*)tvi.lParam)->ptszOPQValue);
 			else
 				SetWindowText(GetDlgItem(hdlg,IDC_RCLICKVALUE),_T(""));
@@ -979,9 +979,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			}break;
 
 		case WM_COMMAND:{
-		switch(LOWORD(wparam)){
+		switch(LOWORD(wparam)) {
 		case IDC_VARHELP:{
-			if(!g_varhelpDlg)
+			if (!g_varhelpDlg)
 				g_varhelpDlg=CreateDialog(hinstance,MAKEINTRESOURCE(IDD_HELPDIALOG), 0, HelpDlgProc);
 			else
 				//ShowWindow(g_varhelpDlg,SW_SHOWDEFAULT);
@@ -1027,7 +1027,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			TVITEM tvi;
 			ListData* ld;
 
-			if(!(tvi.hItem=TreeView_GetSelection(hButtonsList)))
+			if (!(tvi.hItem=TreeView_GetSelection(hButtonsList)))
 				break;
 
 			tvi.mask=TVIF_HANDLE|TVIF_PARAM;
@@ -1038,7 +1038,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			ld->dwOPFlags|=QMF_DELETNEEDED;	
 
 			TreeView_DeleteItem(hButtonsList,tvi.hItem);
-			if(!TreeView_GetCount(hButtonsList))
+			if (!TreeView_GetCount(hButtonsList))
 				{
 				TreeView_DeleteAllItems(hMenuTree);
 				EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
@@ -1058,8 +1058,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			SortedList *sl=NULL;
 			TCHAR namebuff[MAX_PATH]={'\0'};
 			
-			if(!TreeView_GetCount(hButtonsList)) break;
-			if(!(tvi.hItem=TreeView_GetSelection(hButtonsList))) break;
+			if (!TreeView_GetCount(hButtonsList)) break;
+			if (!(tvi.hItem=TreeView_GetSelection(hButtonsList))) break;
 			
 			bd=mir_alloc(sizeof(ButtonData));
 			memset(bd,0,sizeof(ButtonData));
@@ -1097,7 +1097,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			HTREEITEM hti=NULL;
 			ButtonData *bd=NULL;
 			tvi.mask=TVIF_HANDLE|TVIF_PARAM;
-			if(!(tvi.hItem=TreeView_GetSelection(hMenuTree)))
+			if (!(tvi.hItem=TreeView_GetSelection(hMenuTree)))
 				break;
 			TreeView_GetItem(hMenuTree,&tvi);
 			hti=tvi.hItem;
@@ -1105,7 +1105,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			bd= (ButtonData*)tvi.lParam;
 			bd->dwOPFlags|=QMF_DELETNEEDED;			
 
-			if(tvi.hItem=TreeView_GetChild(hMenuTree,tvi.hItem)){
+			if(tvi.hItem=TreeView_GetChild(hMenuTree,tvi.hItem)) {
 				TCHAR strbuf[128];
 				while(tvi.hItem){
 					tvis.hInsertAfter=hti;
@@ -1122,7 +1122,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				}
 
 			TreeView_DeleteItem(hMenuTree,hti);
-			if(!TreeView_GetCount(hMenuTree)){
+			if (!TreeView_GetCount(hMenuTree)) {
 				EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
 				EnableWindow(GetDlgItem(hdlg,IDC_ISSERVNAME),FALSE);
 				EnableWindow(GetDlgItem(hdlg,IDC_INQMENU),FALSE);

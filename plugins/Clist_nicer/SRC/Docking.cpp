@@ -152,7 +152,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
                 Docking_GetMonitorRectFromPoint(ptCursor, &rcMonitor);
 
                 if ((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || (ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) {
-					if(!(GetWindowLong(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
+					if (!(GetWindowLong(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
 						SendMessage(msg->hwnd, CLUIINTM_REDRAW, 0, 0);
 						MessageBox(0, TranslateT("The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."), 
 								   TranslateT("Clist docking"), MB_OK);

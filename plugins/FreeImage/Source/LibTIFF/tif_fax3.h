@@ -360,7 +360,7 @@ static const char* StateNames[] = {
     doneBlack1d:							\
 	if (a0 >= lastx)						\
 	    goto done1d;						\
-        if( *(pa-1) == 0 && *(pa-2) == 0 )				\
+        if ( *(pa-1) == 0 && *(pa-2) == 0 )				\
             pa -= 2;                                                    \
     }									\
 eof1d:									\

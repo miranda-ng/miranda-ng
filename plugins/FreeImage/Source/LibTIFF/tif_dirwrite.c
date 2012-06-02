@@ -185,14 +185,14 @@ _TIFFWriteDirectory(TIFF* tif, int done)
 		 * is set or not.  For normal fields, we just use the
 		 * FieldSet test.
 		*/
-		if( fip->field_bit == FIELD_CUSTOM )
+		if ( fip->field_bit == FIELD_CUSTOM )
 		{
 			int ci, is_set = FALSE;
 
-			for( ci = 0; ci < td->td_customValueCount; ci++ )
+			for ( ci = 0; ci < td->td_customValueCount; ci++ )
 				is_set |= (td->td_customValues[ci].info == fip);
 
-			if( !is_set )
+			if ( !is_set )
 				continue;
 		}
 		else if (!FieldSet(fields, fip->field_bit))
@@ -352,7 +352,7 @@ _TIFFWriteDirectory(TIFF* tif, int done)
 		}
 		dir++;
                 
-		if( fip->field_bit != FIELD_CUSTOM )
+		if ( fip->field_bit != FIELD_CUSTOM )
 			ResetFieldBit(fields, fip->field_bit);
 	}
 
@@ -496,20 +496,20 @@ _TIFFWriteCustomDirectory(TIFF* tif, toff_t *pdiroff)
 		 * is set or not.  For normal fields, we just use the
 		 * FieldSet test.
 		*/
-		if( fip->field_bit == FIELD_CUSTOM )
+		if ( fip->field_bit == FIELD_CUSTOM )
 		{
 			int ci, is_set = FALSE;
 
-			for( ci = 0; ci < td->td_customValueCount; ci++ )
+			for ( ci = 0; ci < td->td_customValueCount; ci++ )
 				is_set |= (td->td_customValues[ci].info == fip);
 
-			if( !is_set )
+			if ( !is_set )
 				continue;
 		}
 		else if (!FieldSet(fields, fip->field_bit))
 			continue;
                 
-		if( fip->field_bit != FIELD_CUSTOM )
+		if ( fip->field_bit != FIELD_CUSTOM )
 			ResetFieldBit(fields, fip->field_bit);
 	}
 
@@ -718,7 +718,7 @@ TIFFWriteNormalTag(TIFF* tif, TIFFDirEntry* dir, const TIFFFieldInfo* fip)
                     char* cp;
                     if (fip->field_passcount)
                     {
-                        if( wc == (uint16) TIFF_VARIABLE2 )
+                        if ( wc == (uint16) TIFF_VARIABLE2 )
                             TIFFGetField(tif, fip->field_tag, &wc2, &cp);
                         else
                             TIFFGetField(tif, fip->field_tag, &wc, &cp);
@@ -1163,7 +1163,7 @@ TIFFWriteAnyArray(TIFF* tif,
 		break;
 	case TIFF_DOUBLE:
                 {
-                    if( !TIFFWriteDoubleArray(tif, dir, v))
+                    if ( !TIFFWriteDoubleArray(tif, dir, v))
                         goto out;
                 }
 		break;
@@ -1270,7 +1270,7 @@ TIFFRewriteDirectory( TIFF *tif )
     static const char module[] = "TIFFRewriteDirectory";
 
     /* We don't need to do anything special if it hasn't been written. */
-    if( tif->tif_diroff == 0 )
+    if ( tif->tif_diroff == 0 )
         return TIFFWriteDirectory( tif );
 
     /*

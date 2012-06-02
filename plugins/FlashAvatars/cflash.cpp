@@ -127,7 +127,7 @@ LPAtlAxAttachControl MyAtlAxAttachControl;
 	}
 
 static bool DownloadFlashFile(char *url, const TCHAR* save_file, int recurse_count /*=0*/) {
-	if(!url || recurse_count > 5) {
+	if (!url || recurse_count > 5) {
 		return false;
 	}
 
@@ -204,7 +204,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 		fgd.cbSize = sizeof(FOLDERSGETDATA);
 		fgd.nMaxPathSize = MAX_PATH;
 		fgd.szPathT = path;
-		if(!hAvatarsFolder || CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd)) {
+		if (!hAvatarsFolder || CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd)) {
 			if(ServiceExists(MS_UTILS_REPLACEVARS)) {
 				TCHAR *tmpPath = Utils_ReplaceVarsT(_T("%miranda_avatarcache%"));
 				mir_sntprintf(path, MAX_PATH, _T("%s\\%s"), tmpPath, _T("Flash"));
@@ -305,7 +305,7 @@ static void prepareFlash(char* pProto, const char* pUrl, FLASHAVATAR& fa, IShock
 	//loadFlash(new FlashPair(make_pair(fa, flash)));
 }
 
-static int destroyAvatar(WPARAM wParam, LPARAM)
+static INT_PTR destroyAvatar(WPARAM wParam, LPARAM)
 {
 	flash_avatar_item key(((FLASHAVATAR*)wParam)->hContact, *(FLASHAVATAR*)wParam, NULL);
 
@@ -324,7 +324,7 @@ static int destroyAvatar(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int makeAvatar(WPARAM wParam, LPARAM)
+static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 {
 	debug("Searching for flash avatar...\n");
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
@@ -348,7 +348,7 @@ static int makeAvatar(WPARAM wParam, LPARAM)
 		}
 	}
 
-	if(!avatarOK) return 0;
+	if (!avatarOK) return 0;
 	debug("Avatar found...\n");
 
 	char* url = NULL;
@@ -411,7 +411,7 @@ static int makeAvatar(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int resizeAvatar(WPARAM wParam, LPARAM lParam)
+static INT_PTR resizeAvatar(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	RECT rc = *((LPRECT)lParam);
@@ -425,7 +425,7 @@ static int resizeAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int setPos(WPARAM wParam, LPARAM lParam)
+static INT_PTR setPos(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	RECT rc = *((LPRECT)lParam);
@@ -439,7 +439,7 @@ static int setPos(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int getInfo(WPARAM wParam, LPARAM)
+static INT_PTR getInfo(WPARAM wParam, LPARAM)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	flash_avatar_item key(hFA->hContact, *hFA, NULL);
@@ -455,7 +455,7 @@ static int getInfo(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static int setEmoFace(WPARAM wParam, LPARAM lParam)
+static INT_PTR setEmoFace(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	flash_avatar_item key(hFA->hContact, *hFA, NULL);
@@ -469,7 +469,7 @@ static int setEmoFace(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int setBkColor(WPARAM wParam, LPARAM lParam)
+static INT_PTR setBkColor(WPARAM wParam, LPARAM lParam)
 {
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 	COLORREF clr = (COLORREF)lParam;
@@ -543,7 +543,7 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 			//size_t aLen = strlen((char *)dbei.pBlob)+1;
 			char* face = NULL;
 
-			if(	(strstr((char*)dbei.pBlob, (char*)":-)") != NULL) ||
+			if (	(strstr((char*)dbei.pBlob, (char*)":-)") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":)") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)";)") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)";-)") != NULL) ||
@@ -553,24 +553,24 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 				(strstr((char*)dbei.pBlob, (char*)":-P") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)"*Drink*") != NULL)) { face = AV_SMILE; }
 			else
-			if(	(strstr((char*)dbei.pBlob, (char*)":-(") != NULL) ||
+			if (	(strstr((char*)dbei.pBlob, (char*)":-(") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":-$") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":-!") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":-X") != NULL)) { face = AV_SAD; }
 			else
-			if(	(strstr((char*)dbei.pBlob, (char*)"*JOKINGLY*") != NULL) ||
+			if (	(strstr((char*)dbei.pBlob, (char*)"*JOKINGLY*") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":-D") != NULL)) { face = AV_LAUGH; }
 			else
-			if(	(strstr((char*)dbei.pBlob, (char*)":'(") != NULL) ||
+			if (	(strstr((char*)dbei.pBlob, (char*)":'(") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":'-(") != NULL)) { face = AV_CRY; }
 			else
-			if(	(strstr((char*)dbei.pBlob, (char*)">:o") != NULL) ||
+			if (	(strstr((char*)dbei.pBlob, (char*)">:o") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":-@") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)"*STOP*") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)"]:->") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)"@=") != NULL)) { face = AV_MAD; }
 			else
-			if(	(strstr((char*)dbei.pBlob, (char*)":-*") != NULL) ||
+			if (	(strstr((char*)dbei.pBlob, (char*)":-*") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)":-[") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)"*KISSED*") != NULL) ||
 				(strstr((char*)dbei.pBlob, (char*)"*KISSING*") != NULL) ||
@@ -597,11 +597,14 @@ static int eventAdded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+typedef BOOL (__stdcall *pfnAtlAxWinInit)( void );
 
 static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 {
 	HMODULE hAtl = LoadLibrary(_T("atl"));
-	void* init = GetProcAddress(hAtl, "AtlAxWinInit"); _asm call init;
+	pfnAtlAxWinInit init = (pfnAtlAxWinInit)GetProcAddress(hAtl, "AtlAxWinInit");
+	if (init)
+		init();
 	MyAtlAxAttachControl = (LPAtlAxAttachControl)GetProcAddress(hAtl, "AtlAxAttachControl");
 
 	hServices[0] = CreateServiceFunction(MS_FAVATAR_DESTROY,    destroyAvatar);

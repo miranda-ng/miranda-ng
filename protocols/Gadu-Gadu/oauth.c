@@ -366,16 +366,16 @@ char *gg_oauth_header(GGPROTO *gg, const char *httpmethod, const char *url)
 	DBVARIANT dbv;
 
 	UIN2ID(DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0), uin);
-	if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
+	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
-	if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, &dbv)) {
+	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, &dbv)) {
 		token = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
-	if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, &dbv)) {
+	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, &dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		token_secret = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
@@ -400,7 +400,7 @@ int gg_oauth_receivetoken(GGPROTO *gg)
 	HANDLE nlc = NULL;
 
 	UIN2ID(DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0), uin);
-	if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
+	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
@@ -564,11 +564,11 @@ int gg_oauth_checktoken(GGPROTO *gg, int force)
 		DBVARIANT dbv;
 		int res = 1;
 
-		if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, &dbv)) {
+		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKEN, &dbv)) {
 			token = mir_strdup(dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
-		if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, &dbv)) {
+		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_TOKENSECRET, &dbv)) {
 			CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 			token_secret = mir_strdup(dbv.pszVal);
 			DBFreeVariant(&dbv);

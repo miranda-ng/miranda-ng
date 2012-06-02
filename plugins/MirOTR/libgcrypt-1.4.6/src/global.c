@@ -167,7 +167,7 @@ parse_version_number( const char *s, int *number )
 {
     int val = 0;
 
-    if( *s == '0' && isdigit(s[1]) )
+    if ( *s == '0' && isdigit(s[1]) )
 	return NULL; /* leading zeros are not allowed */
     for ( ; isdigit(*s); s++ ) {
 	val *= 10;
@@ -190,15 +190,15 @@ static const char *
 parse_version_string( const char *s, int *major, int *minor, int *micro )
 {
     s = parse_version_number( s, major );
-    if( !s || *s != '.' )
+    if ( !s || *s != '.' )
 	return NULL;
     s++;
     s = parse_version_number( s, minor );
-    if( !s || *s != '.' )
+    if ( !s || *s != '.' )
 	return NULL;
     s++;
     s = parse_version_number( s, micro );
-    if( !s )
+    if ( !s )
 	return NULL;
     return s; /* patchlevel */
 }
@@ -788,7 +788,7 @@ _gcry_check_heap( const void *a )
   
     /* FIXME: implement this*/
 #if 0
-    if( some_handler )
+    if ( some_handler )
 	some_handler(a)
     else
 	_gcry_private_check_heap(a)

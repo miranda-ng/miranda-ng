@@ -818,14 +818,14 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 		if (GetForegroundWindow() != pContainer->hwnd && bPopupContainer == TRUE)
 			SetForegroundWindow(pContainer->hwnd);
 	}
-	else if(!IsIconic(pContainer->hwnd) && IsWindowVisible(pContainer->hwnd)){
+	else if (!IsIconic(pContainer->hwnd) && IsWindowVisible(pContainer->hwnd)) {
 		SendMessage(pContainer->hwndActive, WM_SIZE, 0, 0);
 		RedrawWindow(pContainer->hwndActive, NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_UPDATENOW);
 		RedrawWindow(pContainer->hwndActive, NULL, NULL, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
 	//MaD
-	if (PluginConfig.m_HideOnClose&&!IsWindowVisible(pContainer->hwnd)){
+	if (PluginConfig.m_HideOnClose&&!IsWindowVisible(pContainer->hwnd)) {
 		WINDOWPLACEMENT wp={0};
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->hwnd, &wp);
@@ -902,10 +902,10 @@ void TSAPI CreateImageList(BOOL bInitial)
 	PluginConfig.g_IconFileEvent = LoadSkinnedIcon(SKINICON_EVENT_FILE);
 	PluginConfig.g_IconMsgEvent = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	PluginConfig.g_IconMsgEventBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
-	if((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconMsgEventBig)
+	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconMsgEventBig)
 		PluginConfig.g_IconMsgEventBig = 0;
 	PluginConfig.g_IconTypingEventBig = LoadSkinnedIconBig(SKINICON_OTHER_TYPING);
-	if((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconTypingEventBig)
+	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconTypingEventBig)
 		PluginConfig.g_IconTypingEventBig = 0;
 	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[9];
 	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[5];

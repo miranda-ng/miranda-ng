@@ -6,7 +6,7 @@ LPSTR InitKeyA(pUinKey ptr,int features) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("InitKeyA: %04x", features);
 #endif
-	if( !ptr->cntx )
+	if ( !ptr->cntx )
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
 	char *tmp = myDBGetString(ptr->hContact,szModuleName,"PSK");
@@ -46,10 +46,10 @@ int InitKeyB(pUinKey ptr,LPCSTR key) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("InitKeyB: %s", key);
 #endif
-	if(!ptr->cntx)
+	if (!ptr->cntx)
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
-	if(!cpp_keyp(ptr->cntx)) {
+	if (!cpp_keyp(ptr->cntx)) {
 		char *tmp = myDBGetString(ptr->hContact,szModuleName,"PSK");
 		if(tmp) {
 		    cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
@@ -67,7 +67,7 @@ int InitKeyB(pUinKey ptr,LPCSTR key) {
 // store KeyX into context
 void InitKeyX(pUinKey ptr,BYTE *key) {
 
-	if(!ptr->cntx)
+	if (!ptr->cntx)
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
 	cpp_set_keyx(ptr->cntx,key);
@@ -78,7 +78,7 @@ void InitKeyX(pUinKey ptr,BYTE *key) {
 BOOL CalculateKeyX(pUinKey ptr,HANDLE hContact) {
 
 	int agr = cpp_calc_keyx(ptr->cntx);
-	if( agr ) {
+	if ( agr ) {
 		// do this only if key exchanged is ok
 		// we use a 192bit key
 		int keysize = cpp_size_keyx();
@@ -137,10 +137,10 @@ LPSTR encodeMsg(pUinKey ptr, LPARAM lParam) {
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (LPSTR) pccsd->lParam;
 
-	if( pccsd->wParam & PREF_UTF )
+	if ( pccsd->wParam & PREF_UTF )
 		szNewMsg = encrypt(ptr,cpp_encodeU(ptr->cntx,szOldMsg));
 	else
-	if( pccsd->wParam & PREF_UNICODE )
+	if ( pccsd->wParam & PREF_UNICODE )
 		szNewMsg = encrypt(ptr,cpp_encodeW(ptr->cntx,(LPWSTR)(szOldMsg+strlen(szOldMsg)+1)));
 	else
 		szNewMsg = encrypt(ptr,cpp_encodeA(ptr->cntx,szOldMsg));
@@ -181,7 +181,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 	}
 	else {
 		ptr->decoded=true;
-		if( ppre->flags & PREF_UTF ) { // если протокол поддерживает utf8 - тогда отправляем в utf8
+		if ( ppre->flags & PREF_UTF ) { // если протокол поддерживает utf8 - тогда отправляем в utf8
 			int olen = (int)strlen(szOldMsg)+1;
 			szNewMsg = (LPSTR) mir_alloc(olen);
 			memcpy(szNewMsg,szOldMsg,olen);
@@ -212,7 +212,7 @@ BOOL LoadKeyPGP(pUinKey ptr) {
    	else
    	if(mode==1) {
    		LPSTR key = myDBGetStringDecode(ptr->hContact,szModuleName,"pgp");
-		if( key ) {
+		if ( key ) {
    			pgp_set_key(ptr->cntx,key);
    			mir_free(key);
 	   		return 1;
@@ -225,7 +225,7 @@ BOOL LoadKeyPGP(pUinKey ptr) {
 BOOL LoadKeyGPG(pUinKey ptr) {
 
 	LPSTR key = myDBGetString(ptr->hContact,szModuleName,"gpg");
-	if( key ) {
+	if ( key ) {
 		gpg_set_keyid(ptr->cntx,key);
 		mir_free(key);
 	   	return 2;

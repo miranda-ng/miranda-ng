@@ -467,7 +467,7 @@ TCHAR* AddCR(const TCHAR *statusmsg) {
 		else {
 			break;
 		}
-		if(j == 0 || *(statusmsg + j - 1) != _T('\r')){
+		if(j == 0 || *(statusmsg + j - 1) != _T('\r')) {
 			tmp = lstrcat(tmp, _T("\r"));
 		}
 		tmp = lstrcat(tmp, _T("\n"));

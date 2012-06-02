@@ -31,11 +31,11 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd,LPARAM lParam)
 	int makeBold=0;
 
 	GetClassNameA(hwnd,szClass,sizeof(szClass));
-	if(!strcmp(szClass,"Static")) {
-		if(((style&SS_TYPEMASK)==SS_LEFT || (style&SS_TYPEMASK)==SS_CENTER || (style&SS_TYPEMASK)==SS_RIGHT) && exstyle&WS_EX_CLIENTEDGE)
+	if (!strcmp(szClass,"Static")) {
+		if (((style&SS_TYPEMASK)==SS_LEFT || (style&SS_TYPEMASK)==SS_CENTER || (style&SS_TYPEMASK)==SS_RIGHT) && exstyle&WS_EX_CLIENTEDGE)
 			makeBold=1;
 	}
-	else if(!strcmp(szClass,"Button")) {
+	else if (!strcmp(szClass,"Button")) {
 		if(exstyle&WS_EX_CLIENTEDGE)
 			makeBold=1;
 	}
@@ -67,10 +67,10 @@ int DoMyControlProcessing(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam,INT
 					*bReturn=(BOOL)GetStockObject(WHITE_BRUSH);
 					return TRUE;
 			}
-			if((GetWindowLongPtr((HWND)lParam,GWL_STYLE)&0xFFFF)==0) {
+			if ((GetWindowLongPtr((HWND)lParam,GWL_STYLE)&0xFFFF)==0) {
 				TCHAR szText[256];
 				GetWindowText((HWND)lParam,szText,SIZEOF(szText));
-				if(!_tcscmp(szText,_T("whiterect"))) {
+				if (!_tcscmp(szText,_T("whiterect"))) {
 					SetTextColor((HDC)wParam,RGB(255,255,255));
 					SetBkColor((HDC)wParam,RGB(255,255,255));
 					SetBkMode((HDC)wParam,OPAQUE);

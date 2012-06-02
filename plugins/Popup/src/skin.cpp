@@ -1152,7 +1152,7 @@ void PopupSkin::loadSkin(std::istream &f)
 
 void PopupSkin::loadSkin(LPCTSTR fn)
 {
-	if(!fn) return;
+	if (!fn) return;
 #if defined (_UNICODE) && _MSC_VER <= 1200
 	char* temp= mir_t2a(fn);
 	std::ifstream theFile;

@@ -77,7 +77,7 @@
     #include <map>
     class JSONNode;
     struct auto_expand {
-	   auto_expand(void) : mymap(){}
+	   auto_expand(void) : mymap() {}
 	   ~auto_expand(void){ purge(); }
 	   void purge(void);
 	   inline void clear(void){ purge(); mymap.clear(); }
@@ -91,7 +91,7 @@
     };
 
     struct auto_expand_node {
-	   auto_expand_node(void) : mymap(){}
+	   auto_expand_node(void) : mymap() {}
 	   ~auto_expand_node(void){ purge(); }
 	   void purge(void);
 	   inline void clear(void){ purge(); mymap.clear(); }
@@ -109,7 +109,7 @@ template <typename T>
 class json_auto {
     public:
 	   json_auto(void) : ptr(0){}
-	   json_auto(size_t count) : ptr(json_malloc<T>(count)){}
+	   json_auto(size_t count) : ptr(json_malloc<T>(count)) {}
 	   ~json_auto(void){
 		  libjson_free<T>(ptr);
 	   }

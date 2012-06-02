@@ -12,7 +12,7 @@ t_size utf8_char_len_from_header(char p_c) throw()
 	t_uint8 c = (t_uint8)p_c;
 
 	t_size cnt = 0;
-	for(;;)
+	for (;;)
 	{
 		if ((p_c & mask_tab[cnt])==val_tab[cnt]) break;
 		if (++cnt>=6) return 0;
@@ -34,7 +34,7 @@ t_size utf8_decode_char(const char *p_utf8,unsigned & wide) throw() {
 	unsigned res=0;
 	unsigned n;
 	unsigned cnt=0;
-	for(;;)
+	for (;;)
 	{
 		if ((*utf8&mask_tab[cnt])==val_tab[cnt]) break;
 		if (++cnt>=max) return 0;
@@ -82,7 +82,7 @@ t_size utf8_decode_char(const char *p_utf8,unsigned & wide,t_size max) throw()
 	unsigned res=0;
 	unsigned n;
 	unsigned cnt=0;
-	for(;;)
+	for (;;)
 	{
 		if ((*utf8&mask_tab[cnt])==val_tab[cnt]) break;
 		if (++cnt>=max) return 0;
@@ -224,7 +224,7 @@ t_size utf8_char_len(const char * s,t_size max) throw()
 t_size skip_utf8_chars(const char * ptr,t_size count) throw()
 {
 	t_size num = 0;
-	for(;count && ptr[num];count--)
+	for (;count && ptr[num];count--)
 	{
 		t_size d = utf8_char_len(ptr+num);
 		if (d<=0) break;
@@ -295,7 +295,7 @@ t_size strlen_utf8(const char * p,t_size num) throw()
 	unsigned w;
 	t_size d;
 	t_size ret = 0;
-	for(;num;)
+	for (;num;)
 	{
 		d = utf8_decode_char(p,w);
 		if (w==0 || d<=0) break;

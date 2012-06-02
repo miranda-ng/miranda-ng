@@ -224,7 +224,7 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg,UINT msg,WPARAM wParam,LPAR
 				}
 
 				dwCount=((i*2)+1024);
-				for(;i<dwCount;i++)
+				for (;i<dwCount;i++)
 				{
 					mir_snprintf(szSettingName,SIZEOF(szSettingName),"AntiSpamBadWord %lu",i);
 					DB_Mra_DeleteValue(NULL,szSettingName);
@@ -271,7 +271,7 @@ void MraAntiSpamResetBadWordsList()
 	}
 
 	dwMax=(i+1024);
-	for(;i<dwMax;i++)
+	for (;i<dwMax;i++)
 	{
 		mir_snprintf(szSettingName,SIZEOF(szSettingName),"AntiSpamBadWord %lu",i);
 		DB_Mra_DeleteValue(NULL,szSettingName);

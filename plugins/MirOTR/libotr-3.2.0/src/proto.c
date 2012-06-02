@@ -259,7 +259,7 @@ unsigned int otrl_proto_query_bestversion(const char *querymsg,
 	++otrtag;
     }
     if (*otrtag == 'v') {
-	for(++otrtag; *otrtag && *otrtag != '?'; ++otrtag) {
+	for (++otrtag; *otrtag && *otrtag != '?'; ++otrtag) {
 	    switch(*otrtag) {
 		case '2':
 		    query_versions |= (1<<1);
@@ -840,7 +840,7 @@ gcry_error_t otrl_proto_fragment_create(int mms, int fragment_count,
     int headerlen = 19; /* Should vary by number of msgs */
 
     char **fragmentarray = malloc(fragment_count * sizeof(char*));
-    if(!fragmentarray) return gcry_error(GPG_ERR_ENOMEM);
+    if (!fragmentarray) return gcry_error(GPG_ERR_ENOMEM);
     
     /*
      * Find the next message fragment and store it in the array.
@@ -855,7 +855,7 @@ gcry_error_t otrl_proto_fragment_create(int mms, int fragment_count,
 	    fragdatalen = mms - headerlen;
 	}
 	fragdata = malloc(fragdatalen + 1);
-    	if(!fragdata) {
+    	if (!fragdata) {
 		for (i=0; i<curfrag-1; free(fragmentarray[i++])) {}
     		free(fragmentarray);
     		return gcry_error(GPG_ERR_ENOMEM);
@@ -864,7 +864,7 @@ gcry_error_t otrl_proto_fragment_create(int mms, int fragment_count,
     	fragdata[fragdatalen] = 0;
     	
     	fragmentmsg = malloc(fragdatalen+headerlen+1);
-    	if(!fragmentmsg) {
+    	if (!fragmentmsg) {
 	    for (i=0; i<curfrag-1; free(fragmentarray[i++])) {}
     	    free(fragmentarray);
     	    free(fragdata);

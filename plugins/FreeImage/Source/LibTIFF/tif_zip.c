@@ -118,7 +118,7 @@ ZIPPreDecode(TIFF* tif, tsample_t s)
 	(void) s;
 	assert(sp != NULL);
 
-        if( (sp->state & ZSTATE_INIT_DECODE) == 0 )
+        if ( (sp->state & ZSTATE_INIT_DECODE) == 0 )
             tif->tif_setupdecode( tif );
 
 	sp->stream.next_in = tif->tif_rawdata;
@@ -196,7 +196,7 @@ ZIPPreEncode(TIFF* tif, tsample_t s)
 
 	(void) s;
 	assert(sp != NULL);
-        if( sp->state != ZSTATE_INIT_ENCODE )
+        if ( sp->state != ZSTATE_INIT_ENCODE )
             tif->tif_setupencode( tif );
 
 	sp->stream.next_out = tif->tif_rawdata;
@@ -285,7 +285,7 @@ ZIPCleanup(TIFF* tif)
 	if (sp->state & ZSTATE_INIT_ENCODE) {
             deflateEnd(&sp->stream);
             sp->state = 0;
-        } else if( sp->state & ZSTATE_INIT_DECODE) {
+        } else if ( sp->state & ZSTATE_INIT_DECODE) {
             inflateEnd(&sp->stream);
             sp->state = 0;
 	}

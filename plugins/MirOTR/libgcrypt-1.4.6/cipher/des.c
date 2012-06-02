@@ -129,8 +129,8 @@
 static int
 working_memcmp( const char *a, const char *b, size_t n )
 {
-    for( ; n; n--, a++, b++ )
-	if( *a != *b )
+    for ( ; n; n--, a++, b++ )
+	if ( *a != *b )
 	    return (int)(*(byte*)a) - (int)(*(byte*)b);
     return 0;
 }
@@ -1012,7 +1012,7 @@ do_tripledes_setkey ( void *context, const byte *key, unsigned keylen )
 {
   struct _tripledes_ctx *ctx = (struct _tripledes_ctx *) context;
 
-  if( keylen != 24 )
+  if ( keylen != 24 )
     return GPG_ERR_INV_KEYLEN;
 
   tripledes_set3keys ( ctx, key, key+8, key+16);

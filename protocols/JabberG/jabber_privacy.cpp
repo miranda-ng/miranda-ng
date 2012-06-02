@@ -2153,7 +2153,7 @@ void CJabberDlgPrivacyLists::clcClist_OnClick(CCtrlClc::TEventInfo *evt)
 	if(evt->info->iColumn==-1) return;
 	hItem = m_clcClist.HitTest(evt->info->pt.x, evt->info->pt.y, &hitFlags);
 	if(hItem==NULL) return;
-	if(!(hitFlags&CLCHT_ONITEMEXTRA)) return;
+	if (!(hitFlags&CLCHT_ONITEMEXTRA)) return;
 
 	iImage = m_clcClist.GetExtraImage(hItem, evt->info->iColumn);
 	if (iImage != 0xFF)

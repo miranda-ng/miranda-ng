@@ -126,7 +126,7 @@ void CRC32::Update(const byte *s, size_t n)
 {
 	word32 crc = m_crc;
 
-	for(; !IsAligned<word32>(s) && n > 0; n--)
+	for (; !IsAligned<word32>(s) && n > 0; n--)
 		crc = m_tab[CRC32_INDEX(crc) ^ *s++] ^ CRC32_SHIFTED(crc);
 
 	while (n >= 4)

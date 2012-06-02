@@ -211,7 +211,7 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 	LPTSTR pszName = NULL;
 	if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
 		for (int i = 1; i <= 10; i++) {
-			if(!skin->getFlagName(i))
+			if (!skin->getFlagName(i))
 				continue;
 			*OptionsCount += 1;
 			options = (OPTTREE_OPTION*)mir_realloc(options,sizeof(OPTTREE_OPTION)*(*OptionsCount));
@@ -249,17 +249,17 @@ int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 				bCheck = PopUpOptions.DisplayTime;
 				break;
 			case 1:
-				if(!IsWinVerXPPlus()) continue;
+				if (!IsWinVerXPPlus()) continue;
 				*dwGlobalOptions |= PopUpOptions.DropShadow ? (1 << i) : 0;
 				bCheck = PopUpOptions.DropShadow;
 				break;
 			case 2:
-				if(!IsWinVerXPPlus()) continue;
+				if (!IsWinVerXPPlus()) continue;
 				*dwGlobalOptions |= PopUpOptions.EnableFreeformShadows ? (1 << i) : 0;
 				bCheck = PopUpOptions.EnableFreeformShadows;
 				break;
 			case 3:
-				if(!MyDwmEnableBlurBehindWindow) continue;
+				if (!MyDwmEnableBlurBehindWindow) continue;
 				*dwGlobalOptions |= PopUpOptions.EnableAeroGlass ? (1 << i) : 0;
 				bCheck = PopUpOptions.EnableAeroGlass;
 				break;
@@ -268,7 +268,7 @@ int  SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 				bCheck = PopUpOptions.UseWinColors;
 				break;
 			case 5:
-				if(!(htuText&&htuTitle)) continue;
+				if (!(htuText&&htuTitle)) continue;
 				*dwGlobalOptions |= PopUpOptions.UseMText ? (1 << i) : 0;
 				bCheck = PopUpOptions.UseMText;
 				break;
@@ -521,7 +521,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			return FALSE;
 
 		case WM_NOTIFY: {
-			if(!bDlgInit) return FALSE;
+			if (!bDlgInit) return FALSE;
 			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0: {
 				switch (((LPNMHDR)lParam)->code) {

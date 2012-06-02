@@ -964,7 +964,7 @@ int DecryptDirectPacket(directconnect* dc, PBYTE buf, WORD wLen)
 	}
 
 	X1 = buf[M1] ^ 0xFF;
-	if(((B1 >> 16) & 0xFF) != X1)
+	if (((B1 >> 16) & 0xFF) != X1)
 	{
 		return 0;
 	}

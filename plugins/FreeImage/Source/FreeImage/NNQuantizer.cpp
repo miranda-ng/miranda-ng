@@ -60,7 +60,7 @@ NNQuantizer::NNQuantizer(int PaletteSize)
 	freq = (int *)malloc(netsize * sizeof(int));
 	radpower = (int *)malloc(initrad * sizeof(int));
 
-	if( !network || !bias || !freq || !radpower ) {
+	if ( !network || !bias || !freq || !radpower ) {
 		if(network) free(network);
 		if(bias) free(bias);
 		if(freq) free(freq);
@@ -455,7 +455,7 @@ FIBITMAP* NNQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserve
 
 	// 3) Initialize the network and apply the learning algorithm
 
-	if( netsize > ReserveSize ) {
+	if ( netsize > ReserveSize ) {
 		netsize -= ReserveSize;
 		initnet();
 		learn(sampling);

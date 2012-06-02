@@ -51,13 +51,13 @@ BOOL ExtractFileFromResource( HANDLE FH, int ResType, int ResId, DWORD* Size )
 
     RH = FindResource( g_hInst, MAKEINTRESOURCE( ResId ), MAKEINTRESOURCE( ResType ) );
 
-    if( RH == NULL ) return FALSE;
+    if ( RH == NULL ) return FALSE;
     RP = (PBYTE) LoadResource( g_hInst, RH );
-    if( RP == NULL ) return FALSE;
+    if ( RP == NULL ) return FALSE;
     s = SizeofResource( g_hInst, RH );
-    if( !WriteFile( FH, RP, s, &x, NULL ) ) return FALSE;
-    if( x != s ) return FALSE;
-    if( Size ) *Size = s;
+    if ( !WriteFile( FH, RP, s, &x, NULL ) ) return FALSE;
+    if ( x != s ) return FALSE;
+    if ( Size ) *Size = s;
     return TRUE;
 }
 
@@ -66,7 +66,7 @@ void ExtractFile( char *FileName, int ResType, int ResId )
 {
     HANDLE FH;
     FH = CreateFile( FileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL );
-    if( FH == INVALID_HANDLE_VALUE ) return;
+    if ( FH == INVALID_HANDLE_VALUE ) return;
     if (!ExtractFileFromResource( FH, ResType, ResId, NULL )) MessageBoxA(0,"Can't extract","!!!",MB_OK);
     CloseHandle( FH );
 }
@@ -78,7 +78,7 @@ int rtrim(LPCSTR str) {
 
 	while( len ) {
 		char c = *ptr;
-		if( c != '\x20' && c != '\x09' && c != '\x0A' && c != '\x0D' ) {
+		if ( c != '\x20' && c != '\x09' && c != '\x0A' && c != '\x0D' ) {
 			*(ptr+1) = '\0';
 			break;
 		}

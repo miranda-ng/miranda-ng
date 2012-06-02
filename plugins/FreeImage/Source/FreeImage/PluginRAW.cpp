@@ -79,14 +79,14 @@ public:
     virtual int get_char() { 
 		int c = 0;
 		if(substream) return substream->get_char();
-		if(!_io->read_proc(&c, 1, 1, _handle)) return -1;
+		if (!_io->read_proc(&c, 1, 1, _handle)) return -1;
 		return c;
    }
 	virtual char* gets(char *buffer, int length) { 
 		if (substream) return substream->gets(buffer, length);
 		memset(buffer, 0, length);
 		for(int i = 0; i < length; i++) {
-			if(!_io->read_proc(&buffer[i], 1, 1, _handle))
+			if (!_io->read_proc(&buffer[i], 1, 1, _handle))
 				return NULL;
 			if(buffer[i] == 0x0A)
 				break;
@@ -137,7 +137,7 @@ libraw_ConvertToDib(libraw_processed_image_t *image) {
 		if(bpp == 16) {
 			// allocate output dib
 			dib = FreeImage_AllocateT(FIT_RGB16, width, height);
-			if(!dib) {
+			if (!dib) {
 				throw FI_MSG_ERROR_DIB_MEMORY;
 			}
 			// write data
@@ -154,7 +154,7 @@ libraw_ConvertToDib(libraw_processed_image_t *image) {
 		} else if(bpp == 8) {
 			// allocate output dib
 			dib = FreeImage_AllocateT(FIT_BITMAP, width, height, 24);
-			if(!dib) {
+			if (!dib) {
 				throw FI_MSG_ERROR_DIB_MEMORY;
 			}
 			// write data
@@ -468,15 +468,15 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			// header only mode
 			dib = FreeImage_AllocateHeaderT(header_only, FIT_RGB16, RawProcessor.imgdata.sizes.width, RawProcessor.imgdata.sizes.height);
 		}
-		else if((flags & RAW_PREVIEW) == RAW_PREVIEW) {
+		else if ((flags & RAW_PREVIEW) == RAW_PREVIEW) {
 			// try to get the embedded JPEG
 			dib = libraw_LoadEmbeddedPreview(RawProcessor, 0);
-			if(!dib) {
+			if (!dib) {
 				// no JPEG preview: try to load as 8-bit/sample (i.e. RGB 24-bit)
 				dib = libraw_LoadRawData(RawProcessor, 8);
 			}
 		} 
-		else if((flags & RAW_DISPLAY) == RAW_DISPLAY) {
+		else if ((flags & RAW_DISPLAY) == RAW_DISPLAY) {
 			// load raw data as 8-bit/sample (i.e. RGB 24-bit)
 			dib = libraw_LoadRawData(RawProcessor, 8);
 		} 

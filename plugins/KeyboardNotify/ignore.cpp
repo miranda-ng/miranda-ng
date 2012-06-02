@@ -309,7 +309,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 							if(hItem == NULL)
 								break;
-							if(!(hitFlags & CLCHT_ONITEMEXTRA))
+							if (!(hitFlags & CLCHT_ONITEMEXTRA))
 								break;
 							if(nm->iColumn == IGNOREEVENT_MAX) {   //ignore all
 								for(iImage=0; iImage < IGNOREEVENT_MAX; iImage++)

@@ -87,7 +87,7 @@ int ExternProcess(bool restart)
 	mir_free(plugins_folder);
 
 	/*
-	if(!CallService(MS_SYSTEM_OKTOEXIT,0,0)) {
+	if (!CallService(MS_SYSTEM_OKTOEXIT,0,0)) {
 		DeleteFile(data_filename);
 		MessageBox(0, TranslateT("Miranda's not 'OK TO EXIT'."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return;
@@ -202,7 +202,7 @@ void MoveFiles(HANDLE hLogFile, TCHAR *src_folder, TCHAR *dst_folder, TCHAR *bac
 {
 	// move files from src_folder to dst_folder
 
-	if(!src_folder || _tcslen(src_folder) == 0) {
+	if (!src_folder || _tcslen(src_folder) == 0) {
 		MessageBox(0, _T("Your 'temporary files' folder is set to NULL. Install aborted."), _T("Updater Error"), MB_OK | MB_ICONERROR);
 		return;
 	}
@@ -251,7 +251,7 @@ void MoveFiles(HANDLE hLogFile, TCHAR *src_folder, TCHAR *dst_folder, TCHAR *bac
 				{
 					// exception for langpack files - move to root_folder
 					// exception for dbtool.exe (e.g. translated) - move to root_folder
-					if((_tcsnicmp(findData.cFileName, _T("dbtool.exe"), _tcslen(_T("dbtool.exe"))) == 0)
+					if ((_tcsnicmp(findData.cFileName, _T("dbtool.exe"), _tcslen(_T("dbtool.exe"))) == 0)
 						|| (_tcsnicmp(findData.cFileName, _T("langpack_"), _tcslen(_T("langpack_"))) == 0))
 					{
 						_sntprintf(szNewFileName, SIZEOF(szNewFileName), _T("%s\\%s"), root_folder, findData.cFileName); 
@@ -271,7 +271,7 @@ void MoveFiles(HANDLE hLogFile, TCHAR *src_folder, TCHAR *dst_folder, TCHAR *bac
 
 						move_file = true;
 						DeleteFile(szBackupFileName);
-						if(!MoveFile(szNewFileName, szBackupFileName)) 
+						if (!MoveFile(szNewFileName, szBackupFileName)) 
 						{
 						//	MessageBox(0, szNewFileName, __T("Could not backup!"), MB_OK | MB_ICONWARNING);
 						}
@@ -433,7 +433,7 @@ void CALLBACK ExternalUpdate(HWND hwnd, HINSTANCE hInstance, LPSTR lpszCmdLine, 
 				if (res == idContinue) {
 					//if the user chooses Continue then kill the application
 					TerminateProcess(hMiranda, 1);
-					if((exitStatus = WaitForSingleObjectEx(hMiranda, 5 * 1000, FALSE)) == WAIT_TIMEOUT) {
+					if ((exitStatus = WaitForSingleObjectEx(hMiranda, 5 * 1000, FALSE)) == WAIT_TIMEOUT) {
 						//hMiranda = OpenProcess(SYNCHRONIZE, FALSE, mpi);
 						//if(hMiranda) {
 						//CloseHandle(hMiranda);

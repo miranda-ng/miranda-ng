@@ -472,7 +472,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 			if (g_wMask & OPT_REQPASS){  //password request
 				DBVARIANT dbVar = {0};
-				if(!DBGetContactSettingString(NULL,MOD_NAME,"password",&dbVar))
+				if (!DBGetContactSettingString(NULL,MOD_NAME,"password",&dbVar))
 				{
 					g_fPassRequested = true;
 
@@ -715,7 +715,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
 
-	if(!strcmp(cbcd->pszModule, MOD_NAME))
+	if (!strcmp(cbcd->pszModule, MOD_NAME))
 		BossKeyHideMiranda(0, 0);
 
 	return 0;

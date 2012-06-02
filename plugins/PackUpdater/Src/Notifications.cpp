@@ -320,7 +320,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					mir_free(descr);
 					DBVARIANT dbv;
 					bool check = todo[i].enabled;
-					if(!DBGetContactSettingTString(0, MODNAME, stored_setting, &dbv))
+					if (!DBGetContactSettingTString(0, MODNAME, stored_setting, &dbv))
 					{
 						if(dbv.ptszVal && lstrcmp(dbv.ptszVal, todo[i].tszNewVer) == 0)
 							check = false;
@@ -343,7 +343,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 			}
 		case WM_NOTIFY:
 			{
-				if(((LPNMHDR) lParam)->hwndFrom == hwndList)
+				if (((LPNMHDR) lParam)->hwndFrom == hwndList)
 				{
 					switch (((LPNMHDR) lParam)->code)
 					{
@@ -361,14 +361,14 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									ListView_GetItem(hwndList, &lvI);
 
 									vector<FILEINFO> &todo = *(vector<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-									if((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
+									if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
 									{
 										todo[lvI.iItem].enabled = ListView_GetCheckState(hwndList, nmlv->iItem);
 
 										/*char stored_setting[256];
 										mir_snprintf(stored_setting, 256, "DisabledVer%s", ((UpdateInternal *)lvI.lParam)->update.szComponentName);
 
-										if(((UpdateInternal *)lvI.lParam)->update_options.enabled)
+										if (((UpdateInternal *)lvI.lParam)->update_options.enabled)
 											DBDeleteContactSetting(0, "Updater", stored_setting); // user has re-enabled update to this version - remove setting from db
 										else
 											DBWriteContactSettingString(0, "Updater", stored_setting, ((UpdateInternal *)lvI.lParam)->newVersion);
@@ -399,7 +399,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 										mir_snprintf(stored_setting, 256, "DisabledVer%s", descr);
 										mir_free(descr);
 										DBVARIANT dbv;
-										if(!DBGetContactSettingTString(0, MODNAME, stored_setting, &dbv))
+										if (!DBGetContactSettingTString(0, MODNAME, stored_setting, &dbv))
 										{
 											if(dbv.ptszVal && lstrcmp(dbv.ptszVal, todo[lvI.iItem].tszNewVer) == 0)
 												CheckDlgButton(hDlg, IDC_DONOTREMIND, BST_CHECKED);

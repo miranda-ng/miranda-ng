@@ -608,6 +608,6 @@ int __cdecl CJabberProto::ContactMenuRunCommands(WPARAM wParam, LPARAM lParam )
 
 void CJabberProto::ContactMenuAdhocCommands( CJabberAdhocStartupParams* param )
 {
-	if( param )
+	if ( param )
 		CreateDialogParam( hInst, MAKEINTRESOURCE( IDD_FORM ), NULL, JabberAdHoc_CommandDlgProc, (LPARAM)param );
 }

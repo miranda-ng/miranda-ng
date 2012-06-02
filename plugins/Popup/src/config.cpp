@@ -112,7 +112,7 @@ void LoadOptions() {
 	#endif
 
 	//Load PopUp Options
-	if(!OptionLoaded){
+	if (!OptionLoaded){
 		LoadOption_General();
 		LoadOption_Skins();
 		LoadOption_Actions();

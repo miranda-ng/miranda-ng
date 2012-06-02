@@ -219,7 +219,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					ExcludeClipRect(hdc, rcClient.left, rcClient.top, rcClient.right, rcClient.bottom);
 					if(MyIsThemeBackgroundPartiallyTransparent(hTheme, EP_EDITTEXT, ETS_NORMAL))
 						MyDrawThemeParentBackground(hwnd, hdc, &rcBorder);
-					if(!IsWindowEnabled(hwnd))
+					if (!IsWindowEnabled(hwnd))
 						nState = ETS_DISABLED;
 					else if(SendMessage(hwnd, EM_GETOPTIONS, 0, 0) & ECO_READONLY)
 						nState = ETS_READONLY;
@@ -269,7 +269,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
 
 			if(IsWindow(hwnd)) {
-				if((WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC) == &RichUtil_Proc)
+				if ((WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC) == &RichUtil_Proc)
 					SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)ru->origProc);
 			}
 			EnterCriticalSection(&csRich);

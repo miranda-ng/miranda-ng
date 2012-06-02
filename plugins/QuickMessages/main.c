@@ -102,7 +102,7 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 		for(i=0;i<QuickList->realCount;i++)
 			{
 			QuickData* qd= (QuickData *)QuickList->items[i];
-			if((qd->dwPos+254)==mwpd->selection)
+			if ((qd->dwPos+254)==mwpd->selection)
 				{
 				CHARRANGE cr;
 				UINT textlenght=0;
@@ -111,8 +111,8 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 				TCHAR* pszCBText=NULL;
 				BOOL bIsService=0;
 
-				if(IsClipboardFormatAvailable(CF_TEXT)){
-					if (OpenClipboard(mwpd->hwnd)){
+				if(IsClipboardFormatAvailable(CF_TEXT)) {
+					if (OpenClipboard(mwpd->hwnd)) {
 						HANDLE hData=NULL;
 						TCHAR* chBuffer=NULL; 
 						int textLength=0;
@@ -140,7 +140,7 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 					}
 				if(qd->ptszValue){
 						ptszQValue=ParseString(mwpd->hContact,qd->ptszValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(qd->ptszValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
-					if((bIsService=qd->bIsService)&&ptszQValue)
+					if ((bIsService=qd->bIsService)&&ptszQValue)
 #ifdef _UNICODE
 						CallService(mir_u2a(ptszQValue),(WPARAM)mwpd->hContact,0);
 #else
@@ -184,14 +184,14 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 
 	if(strcmp(cbcd->pszModule,PLGNAME)) return 0;
 
-	if(!ButtonsList[cbcd->dwButtonId]) return 1;
+	if (!ButtonsList[cbcd->dwButtonId]) return 1;
 	
 	sl=ButtonsList[cbcd->dwButtonId]->sl;
 
-	if(!sl) return 1;
+	if (!sl) return 1;
 
-	if(IsClipboardFormatAvailable(CF_TEXT)){
-		if (OpenClipboard(cbcd->hwndFrom)){
+	if(IsClipboardFormatAvailable(CF_TEXT)) {
+		if (OpenClipboard(cbcd->hwndFrom)) {
 			HANDLE hData=NULL;
 			TCHAR* chBuffer=NULL; 
 			int textLength=0;
@@ -214,7 +214,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	qsort(sl->items,sl->realCount,sizeof(ButtonData *),sstSortButtons); 
 
 	hEdit=GetDlgItem(cbcd->hwndFrom,IDC_MESSAGE);
-	if(!hEdit) hEdit=GetDlgItem(cbcd->hwndFrom,IDC_CHATMESSAGE);
+	if (!hEdit) hEdit=GetDlgItem(cbcd->hwndFrom,IDC_CHATMESSAGE);
 
 	cr.cpMin = cr.cpMax = 0;
 	SendMessage(hEdit, EM_EXGETSEL, 0, (LPARAM)&cr); 
@@ -240,7 +240,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 		case 1:
 			if(ButtonsList[cbcd->dwButtonId]->ptszQValue)
 				ptszQValue=ParseString(cbcd->hContact,ButtonsList[cbcd->dwButtonId]->ptszQValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(ButtonsList[cbcd->dwButtonId]->ptszQValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
-			if((bIsService=ButtonsList[cbcd->dwButtonId]->bIsServName)&&ptszQValue)
+			if ((bIsService=ButtonsList[cbcd->dwButtonId]->bIsServName)&&ptszQValue)
 #ifdef _UNICODE
 				CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
 #else
@@ -253,7 +253,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			bd=(ButtonData *)sl->items[0];
 			if(bd&&bd->pszValue){
 				ptszQValue=ParseString(cbcd->hContact,bd->pszValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(bd->pszValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
-				if((bIsService=bd->bIsServName)&&ptszQValue)
+				if ((bIsService=bd->bIsServName)&&ptszQValue)
 #ifdef _UNICODE
 						CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
 #else
@@ -304,7 +304,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			bCTRL=(GetKeyState(VK_CONTROL)&0x8000)?1:0;
 			if(bd->pszValue){
 				ptszQValue=ParseString(cbcd->hContact,bd->pszValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(bd->pszValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
-					if((bIsService=bd->bIsServName)&&ptszQValue)
+					if ((bIsService=bd->bIsServName)&&ptszQValue)
 #ifdef _UNICODE
 						CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
 #else
@@ -316,10 +316,10 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 
 
 	if(ptszQValue){
-		if(!bIsService){
+		if (!bIsService){
 			SendMessage(hEdit, EM_REPLACESEL, TRUE, (LPARAM)ptszQValue);
 
-			if((g_bLClickAuto&&state!=1)||(g_bRClickAuto&&state==1)||cbcd->flags&BBCF_CONTROLPRESSED||bCTRL)
+			if ((g_bLClickAuto&&state!=1)||(g_bRClickAuto&&state==1)||cbcd->flags&BBCF_CONTROLPRESSED||bCTRL)
 				SendMessage(cbcd->hwndFrom, WM_COMMAND,IDOK,0);
 		}
 		free(ptszQValue);

@@ -173,7 +173,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					lpSBData->pbState = 1;
 				InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
 			}
-			if(!lpSBData->fSendOnDown)
+			if (!lpSBData->fSendOnDown)
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 			return 0;
 		}
@@ -380,7 +380,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					lpSBData->nStateId = PBS_NORMAL;
 				InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
 			}
-			if(!lpSBData->fSendOnDown && lpSBData->fHotMark)
+			if (!lpSBData->fSendOnDown && lpSBData->fHotMark)
 				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 			lpSBData->fHotMark = FALSE;
 			break;
@@ -412,7 +412,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			}
 			else if ( inClient && lpSBData->nStateId == PBS_HOT && bPressed )
 			{
-				if( lpSBData->fHotMark )
+				if ( lpSBData->fHotMark )
 				{
 					lpSBData->nStateId = PBS_PRESSED;
 					InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
@@ -524,7 +524,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 	case BM_SETIMAGE:
 		{
-			if(!lParam)
+			if (!lParam)
 				break;
 			if (wParam == IMAGE_ICON) 
 			{

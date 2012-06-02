@@ -306,7 +306,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
                     cfg::writeDword(hContact, "CList", "CLN_Flags", dwFlags);
 
-                    if((iSel = SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_GETCURSEL, 0, 0)) != CB_ERR) {
+                    if ((iSel = SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_GETCURSEL, 0, 0)) != CB_ERR) {
                         if(iSel == 0) {
                             DBDeleteContactSetting(hContact, "CList", "CLN_2ndline");
                             if(contact)

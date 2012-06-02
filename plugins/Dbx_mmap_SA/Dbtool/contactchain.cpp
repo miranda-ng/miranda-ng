@@ -54,7 +54,7 @@ int WorkContactChain(int firstTime)
 				FinishUp();
 				return ERROR_NO_MORE_ITEMS;
 			}
-			if(!SignatureValid(ofsThisContact,DBCONTACT_SIGNATURE)) {
+			if (!SignatureValid(ofsThisContact,DBCONTACT_SIGNATURE)) {
 				AddToStatus(STATUS_ERROR,TranslateT("Contact chain corrupted, further entries ignored"));
 				FinishUp();
 				return ERROR_NO_MORE_ITEMS;
@@ -66,7 +66,7 @@ int WorkContactChain(int firstTime)
 			ofsNextContact=dbc.ofsNext;
 			dbc.ofsNext=0;
 			if (!opts.bCheckOnly) {
-				if((ofsDestThis=WriteSegment(WSOFS_END,&dbc,sizeof(dbc)))==WS_ERROR)
+				if ((ofsDestThis=WriteSegment(WSOFS_END,&dbc,sizeof(dbc)))==WS_ERROR)
 					return ERROR_HANDLE_DISK_FULL;
 				if(ofsDestPrevContact) 
 					WriteSegment(ofsDestPrevContact+offsetof(DBContact,ofsNext),&ofsDestThis,sizeof(DWORD));

@@ -72,7 +72,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 		}
 		return(TRUE);
 	case WM_COMMAND:
-		switch (LOWORD(wParam)){
+		switch (LOWORD(wParam)) {
 		case IDC_NEW_ACCOUNT_LINK:
 			CallService(MS_UTILS_OPENURL,TRUE,(LPARAM)MRA_REGISTER_URL);
 			return(TRUE);
@@ -152,7 +152,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg,UINT msg,WPARAM wParam,LPAR
 		}
 		return(TRUE);
 	case WM_COMMAND:
-		switch(LOWORD(wParam)){
+		switch(LOWORD(wParam)) {
 		case IDC_BUTTON_DEFAULT:
 			SET_DLG_ITEM_TEXTA(hWndDlg,IDC_SERVER,MRA_DEFAULT_SERVER);
 			SetDlgItemInt(hWndDlg,IDC_SERVERPORT,MRA_DEFAULT_SERVER_PORT,FALSE);

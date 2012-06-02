@@ -254,7 +254,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
 				BOOL isSub = (cfOld.dwEffects & CFE_SUBSCRIPT) && (cfOld.dwMask & CFM_SUBSCRIPT);
 				BOOL isSuper = (cfOld.dwEffects & CFE_SUPERSCRIPT) && (cfOld.dwMask & CFM_SUPERSCRIPT);
-				if(!isSub&&!isSuper)
+				if (!isSub&&!isSuper)
 				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState|ODS_SELECTED, lpDIS->rcItem);
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("norm_scrpt"), 16, 16, 0, 0, DI_NORMAL);
@@ -314,7 +314,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cfOld.dwMask = CFM_ITALIC;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
 				BOOL isItalic = (cfOld.dwEffects & CFE_ITALIC) && (cfOld.dwMask & CFM_ITALIC);
-				if(!isItalic)
+				if (!isItalic)
 				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_ITALIC),hThemeButton,lpDIS->itemState, lpDIS->rcItem);
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nitalic"), 16, 16, 0, 0, DI_NORMAL);
@@ -334,7 +334,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cfOld.dwMask = CFM_UNDERLINE;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
 				BOOL isUnderline = (cfOld.dwEffects & CFE_UNDERLINE) && (cfOld.dwMask & CFM_UNDERLINE);
-				if(!isUnderline)
+				if (!isUnderline)
 				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_UNDERLINE),hThemeButton,lpDIS->itemState, lpDIS->rcItem);
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("nundrln"), 16, 16, 0, 0, DI_NORMAL);
@@ -945,7 +945,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (IsDlgButtonChecked(hwndDlg, IDC_AT))
 				{
 					int acc_disabled = ppro->getByte(AIM_KEY_AT, 0);
-					if(!acc_disabled)
+					if (!acc_disabled)
 						remove_AT_icons(ppro);
 					ppro->setByte(AIM_KEY_AT, 1);
 				}
@@ -962,7 +962,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					int es_disabled = ppro->getByte(AIM_KEY_ES, 0);
 					ppro->setByte(AIM_KEY_ES, 1);
-					if(!es_disabled)
+					if (!es_disabled)
 						remove_ES_icons(ppro);
 				}
 				else
@@ -978,7 +978,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (IsDlgButtonChecked(hwndDlg, IDC_HF))
 				{
 					int hf = ppro->getByte(AIM_KEY_HF, 0);
-					if(!hf)
+					if (!hf)
 						ShowWindow(GetDlgItem(hwndDlg, IDC_MASQ), SW_SHOW);
 					ppro->setByte(AIM_KEY_HF, 1);
 				}

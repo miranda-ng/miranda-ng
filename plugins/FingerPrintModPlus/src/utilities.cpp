@@ -118,7 +118,7 @@ LPSTR make_utf8_string(LPCWSTR unicode)
 	LPSTR out;
 	WORD c;
 
-	if(!unicode) return NULL;
+	if (!unicode) return NULL;
 
 	/* first calculate the size of the target string */
 	c = (WORD)unicode[index++];
@@ -151,11 +151,11 @@ LPWSTR make_unicode_string_static(LPCSTR utf8, LPWSTR unicode, size_t unicode_le
 	while(c)
 	{
 		if(out_index + 1 >= unicode_len) break;
-		if((c & 0x80) == 0)
+		if ((c & 0x80) == 0)
 		{
 			unicode[out_index++] = c;
 		} 
-		else if((c & 0xe0) == 0xe0)
+		else if ((c & 0xe0) == 0xe0)
 		{
 			unicode[out_index] = (c & 0x1F) << 12;
 			c = (BYTE)utf8[index++];
@@ -182,17 +182,17 @@ LPWSTR make_unicode_string(LPCSTR utf8)
 	LPWSTR out;
 	BYTE c;
 
-	if(!utf8) return NULL;
+	if (!utf8) return NULL;
 
 	/* first calculate the size of the target string */
 	c = (BYTE)utf8[index++];
 	while(c)
 	{
-		if((c & 0x80) == 0)
+		if ((c & 0x80) == 0)
 		{
 			index += 0;
 		}
-		else if((c & 0xe0) == 0xe0)
+		else if ((c & 0xe0) == 0xe0)
 		{
 			index += 2;
 		}
@@ -216,20 +216,20 @@ int UTF8_IsValid(LPCSTR pszInput)
 	int nb, i;
 	LPCSTR c = pszInput;
 
-	if(!pszInput) return 0;
+	if (!pszInput) return 0;
 
 	for(c = pszInput; *c; c += (nb + 1))
 	{
-		if(!(*c & 0x80)) nb = 0;
-		else if((*c & 0xc0) == 0x80) return 0;
-		else if((*c & 0xe0) == 0xc0) nb = 1;
-		else if((*c & 0xf0) == 0xe0) nb = 2;
+		if (!(*c & 0x80)) nb = 0;
+		else if ((*c & 0xc0) == 0x80) return 0;
+		else if ((*c & 0xe0) == 0xc0) nb = 1;
+		else if ((*c & 0xf0) == 0xe0) nb = 2;
 		else if ((*c & 0xf8) == 0xf0) nb = 3;
 		else if ((*c & 0xfc) == 0xf8) nb = 4;
 		else if ((*c & 0xfe) == 0xfc) nb = 5;
 
 		for(i = 1; i <= nb; i++) // we this forward, do not cross end of string
-			if((*(c + i) & 0xc0) != 0x80)
+			if ((*(c + i) & 0xc0) != 0x80)
 				return 0;
 	}
 
@@ -241,7 +241,7 @@ int utf8_decode_static(LPCSTR from, LPSTR to, int to_size)
 {
 	int nResult = 0;
 	// Validate the string
-	if(!UTF8_IsValid(from))
+	if (!UTF8_IsValid(from))
 		return 0;
 
 	// Use the native conversion routines when available

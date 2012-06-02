@@ -55,7 +55,7 @@ extern "C" {
 		return 0;
 	}
 
-	int GetInterface(WPARAM wParam, LPARAM lParam) {
+	INT_PTR GetInterface(WPARAM wParam, LPARAM lParam) {
 		LPJSONSERVICEINTERFACE lpJSI=(LPJSONSERVICEINTERFACE)wParam;
 		memset(lpJSI,0,sizeof(JSONSERVICEINTERFACE));
 
@@ -247,7 +247,7 @@ WRAPPER_21(EQUAL,json_equal,JSONNODE*,JSONNODE*);
 		pluginLink=link;
 		mir_getMMI(&mmi);
 
-		s_services[ciServices++]=CreateServiceFunction(MS_JSON_GETINTERFACE,GetInterface);
+		s_services[ciServices++] = CreateServiceFunction(MS_JSON_GETINTERFACE,GetInterface);
 
 		CSF(FREE);
 		CSF(DELETE);

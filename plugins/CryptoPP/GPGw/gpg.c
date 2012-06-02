@@ -126,7 +126,7 @@ gpgResult gpgListPublicKeys(char *aresult)
   replace(commandline, txthome, gpgHomeDirectory);
   pxresult=pxExecute(commandline, "", &output, &exitcode);
 
-  if((pxresult!=pxSuccess)||(exitcode!=0))
+  if ((pxresult!=pxSuccess)||(exitcode!=0))
   {
     free(output);
     return gpgExecuteFailed;
@@ -153,7 +153,7 @@ gpgResult gpgListSecretKeys(char *aresult)
   replace(commandline, txthome, gpgHomeDirectory);
   pxresult=pxExecute(commandline, "", &output, &exitcode);
 
-  if((pxresult!=pxSuccess)||(exitcode!=0))
+  if ((pxresult!=pxSuccess)||(exitcode!=0))
   {
     free(output);
     return gpgExecuteFailed;
@@ -175,7 +175,7 @@ gpgResult gpgImportPublicKey(const char *akey)
   char *output;
 
   LogMessage(">>> ", "import public key", "\n");
-  if(! writeToFile(filename, akey)) return gpgWriteToFileFailed;
+  if (! writeToFile(filename, akey)) return gpgWriteToFileFailed;
 
   output=(char *)malloc(1);
   strcpy(output, "");
@@ -186,7 +186,7 @@ gpgResult gpgImportPublicKey(const char *akey)
   remove(filename);
   free(output);
 
-  if((pxresult!=pxSuccess)||(exitcode!=0))
+  if ((pxresult!=pxSuccess)||(exitcode!=0))
     return gpgExecuteFailed;
 
   return gpgSuccess;
@@ -208,7 +208,7 @@ gpgResult gpgExportPublicKey(char *aresult, const char *auserid)
   replace(commandline, txthome, gpgHomeDirectory);
   pxresult=pxExecute(commandline, "", &output, &exitcode);
 
-  if((pxresult!=pxSuccess)||(exitcode!=0))
+  if ((pxresult!=pxSuccess)||(exitcode!=0))
   {
     strcpy(aresult, "");
     free(output);
@@ -237,7 +237,7 @@ gpgResult gpgDetectUserID(char *aresult, const char *aciphertext)
   LogMessage(">>> ", "detect user id", "\n");
   strcpy(aresult, "");
 
-  if(! writeToFile(filename, aciphertext))
+  if (! writeToFile(filename, aciphertext))
     return gpgWriteToFileFailed;
 
   output=(char *)malloc(1);
@@ -248,7 +248,7 @@ gpgResult gpgDetectUserID(char *aresult, const char *aciphertext)
   pxresult=pxExecute(commandline, "", &output, &exitcode);
   remove(filename);
 
-  if((pxresult!=pxSuccess)&&(pxresult!=pxSuccessExitCodeInvalid))
+  if ((pxresult!=pxSuccess)&&(pxresult!=pxSuccessExitCodeInvalid))
   {
     free(output);
     return gpgExecuteFailed;
@@ -287,7 +287,7 @@ gpgResult gpgEncrypt(char *aresult, const char *auserid, const char *aplaintext)
   LogMessage(">>> ", "encrypt", "\n");
   strcpy(aresult, "");
 
-  if(! writeToFile(plainfile, aplaintext))
+  if (! writeToFile(plainfile, aplaintext))
     return gpgWriteToFileFailed;
 
   output=(char *)malloc(1);
@@ -302,13 +302,13 @@ gpgResult gpgEncrypt(char *aresult, const char *auserid, const char *aplaintext)
   remove(plainfile);
   free(output);
 
-  if((pxresult!=pxSuccess)||(exitcode!=0))
+  if ((pxresult!=pxSuccess)||(exitcode!=0))
   {
 	remove(cipherfile);
     return gpgExecuteFailed;
   }
 
-  if(! readFromFile(aresult, cipherfile))
+  if (! readFromFile(aresult, cipherfile))
   {
 	remove(cipherfile);
     return gpgReadFromFileFailed;
@@ -332,7 +332,7 @@ gpgResult gpgDecrypt(char *aresult, const char *aciphertext, const char *apassph
   LogMessage(">>> ", "decrypt", "\n");
   strcpy(aresult, "");
 
-  if(! writeToFile(cipherfile, aciphertext))
+  if (! writeToFile(cipherfile, aciphertext))
     return gpgWriteToFileFailed;
 
   output=(char *)malloc(1);
@@ -348,13 +348,13 @@ gpgResult gpgDecrypt(char *aresult, const char *aciphertext, const char *apassph
   remove(cipherfile);
   free(output);
 
-  if((pxresult!=pxSuccess)||(exitcode!=0))
+  if ((pxresult!=pxSuccess)||(exitcode!=0))
   {
 	remove(plainfile);
     return gpgExecuteFailed;
   }
 
-  if(! readFromFile(aresult, plainfile))
+  if (! readFromFile(aresult, plainfile))
   {
 	remove(plainfile);
     return gpgReadFromFileFailed;

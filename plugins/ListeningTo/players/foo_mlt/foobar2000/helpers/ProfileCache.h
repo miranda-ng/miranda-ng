@@ -31,7 +31,7 @@ namespace ProfileCache {
 				throw;
 			}
 			pfc::array_t<t_uint8> buffer; buffer.set_size(64*1024);
-			for(;;) {
+			for (;;) {
 				t_size delta = buffer.get_size();
 				delta = fRemote->read(buffer.get_ptr(), delta, abort);
 				fLocal->write(buffer.get_ptr(), delta, abort);

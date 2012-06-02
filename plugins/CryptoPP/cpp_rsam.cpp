@@ -53,7 +53,7 @@ int __cdecl rsa_init(pRSA_EXPORT* e, pRSA_IMPORT i) {
 #endif
 	*e = &exp;
 	imp = i;
-	if( !hRSA4096 ) {
+	if ( !hRSA4096 ) {
 		// create context for private rsa keys
 		hRSA4096 = (HANDLE) cpp_create_context(MODE_RSA_4096|MODE_PRIV_KEY);
 		pCNTX tmp = (pCNTX) hRSA4096;
@@ -77,7 +77,7 @@ int __cdecl rsa_done(void) {
 
 pRSAPRIV rsa_gen_keys(HANDLE context) {
 
-	if( context!=hRSA4096 ) return 0;
+	if ( context!=hRSA4096 ) return 0;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_gen_keys: %d", context);
@@ -117,7 +117,7 @@ int __cdecl rsa_gen_keypair(short mode) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_gen_keypair: %d", mode);
 #endif
-	if( mode&MODE_RSA_4096 ) rsa_gen_keys(hRSA4096); // 4096
+	if ( mode&MODE_RSA_4096 ) rsa_gen_keys(hRSA4096); // 4096
 
 	return 1;
 }
@@ -130,8 +130,8 @@ int __cdecl rsa_get_keypair(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 	pCNTX ptr = get_context_on_id(hRSA4096);
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	*privKeyLen = r->priv_k.length(); if( privKey ) r->priv_k.copy((char*)privKey, *privKeyLen);
-	*pubKeyLen = r->pub_k.length(); if( pubKey ) r->pub_k.copy((char*)pubKey, *pubKeyLen);
+	*privKeyLen = r->priv_k.length(); if ( privKey ) r->priv_k.copy((char*)privKey, *privKeyLen);
+	*pubKeyLen = r->pub_k.length(); if ( pubKey ) r->pub_k.copy((char*)pubKey, *pubKeyLen);
 
 	return 1;
 }
@@ -144,8 +144,8 @@ int __cdecl rsa_get_keyhash(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 	pCNTX ptr = get_context_on_id(hRSA4096);
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	if( privKey ) { *privKeyLen = r->priv_s.length(); r->priv_s.copy((char*)privKey, *privKeyLen); }
-	if( pubKey ) { *pubKeyLen = r->pub_s.length(); r->pub_s.copy((char*)pubKey, *pubKeyLen); }
+	if ( privKey ) { *privKeyLen = r->priv_s.length(); r->priv_s.copy((char*)privKey, *privKeyLen); }
+	if ( pubKey ) { *pubKeyLen = r->pub_s.length(); r->pub_s.copy((char*)pubKey, *pubKeyLen); }
 
 	return 1;
 }
@@ -158,11 +158,11 @@ int __cdecl rsa_set_keypair(short mode, PBYTE privKey, int privKeyLen) {
 	pCNTX ptr = get_context_on_id(hRSA4096);
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	if( privKey && privKeyLen ) {
+	if ( privKey && privKeyLen ) {
 	    string priv;
 	    priv.assign((char*)privKey, privKeyLen);
 
-	    if( mode & MODE_RSA_BER ) {
+	    if ( mode & MODE_RSA_BER ) {
 		// old BER format
 		StringStore s(priv);
 		r->priv.BERDecode(s);
@@ -190,10 +190,10 @@ int __cdecl rsa_get_pubkey(HANDLE context, PBYTE pubKey, int* pubKeyLen) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_pubkey: %s", pubKey);
 #endif
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
-	*pubKeyLen = p->pub_k.length(); if( pubKey ) p->pub_k.copy((char*)pubKey, *pubKeyLen);
+	*pubKeyLen = p->pub_k.length(); if ( pubKey ) p->pub_k.copy((char*)pubKey, *pubKeyLen);
 
 	return 1;
 }
@@ -203,10 +203,10 @@ int __cdecl rsa_set_pubkey(HANDLE context, PBYTE pubKey, int pubKeyLen) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_set_pubkey: %s", pubKey);
 #endif
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
-	if( pubKey && pubKeyLen ) {
+	if ( pubKey && pubKeyLen ) {
 	    string pub;
 	    pub.assign((char*)pubKey, pubKeyLen);
 	    init_pub(p,pub);
@@ -226,7 +226,7 @@ void __cdecl rsa_set_timeout(int t) {
 
 int __cdecl rsa_get_state(HANDLE context) {
 
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
 	return p->state;
@@ -241,7 +241,7 @@ int __cdecl rsa_get_hash(PBYTE pubKey, int pubKeyLen, PBYTE pubHash, int* pubHas
 	sig = hash(pubKey, pubKeyLen);
 
 	*pubHashLen = sig.length();
-	if( pubHash ) sig.copy((char*)pubHash, *pubHashLen);
+	if ( pubHash ) sig.copy((char*)pubHash, *pubHashLen);
 
 	return 1;
 }
@@ -251,7 +251,7 @@ int __cdecl rsa_connect(HANDLE context) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_connect: %08x", context);
 #endif
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state) return p->state;
 	pRSAPRIV r = rsa_get_priv(ptr);
 
@@ -273,11 +273,11 @@ int __cdecl rsa_disconnect(HANDLE context) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_disconnect: %08x", context);
 #endif
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	rsa_free( ptr ); // удалим трэд и очередь сообщений
 
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); 
-	if( !p->state ) return 1;
+	if ( !p->state ) return 1;
 
 	PBYTE buffer=(PBYTE) alloca(RAND_SIZE);
 	GlobalRNG().GenerateBlock(buffer,RAND_SIZE);
@@ -294,7 +294,7 @@ int __cdecl rsa_disabled(HANDLE context) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_disabled: %08x", context);
 #endif
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	rsa_free( ptr ); // удалим трэд и очередь сообщений
 
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); 
@@ -310,24 +310,24 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv: %s", msg);
 #endif
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 	pRSAPRIV r = rsa_get_priv(ptr);
 
 	rtrim(msg);
 
 	string buf = base64decode(msg);
-	if( !buf.length() ) return 0;
+	if ( !buf.length() ) return 0;
 
 	string data; int type;
 	un_tlv(buf,type,data);
-	if( type==-1 ) return 0;
+	if ( type==-1 ) return 0;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv: %02x %d", type, p->state);
 #endif
-	if( type>0x10 && type<0xE0 )  // проверим тип сообщения (когда соединение еще не установлено)
-	    if( p->state==0 || p->state!=(type>>4) ) { // неверное состояние
+	if ( type>0x10 && type<0xE0 )  // проверим тип сообщения (когда соединение еще не установлено)
+	    if ( p->state==0 || p->state!=(type>>4) ) { // неверное состояние
 		// шлем перерывание сессии
 		p->state=0; p->time=0;
 		rsa_free( ptr ); // удалим трэд и очередь сообщений
@@ -340,7 +340,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 	case 0x00: // прерывание сессии по ошибке другой стороной
 	{
 	        // если соединение установлено - ничего не делаем
-		if( p->state == 0 || p->state == 7 ) return 0;
+		if ( p->state == 0 || p->state == 7 ) return 0;
 		// иначе сбрасываем текущее состояние
 		p->state=0; p->time=0;
 		imp->rsa_notify(context,-2); // сессия разорвана по ошибке другой стороной
@@ -359,7 +359,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 	case 0x0D: // запрос паблика
 	case 0xD0: // ответ пабликом
 	{
-		if( !p->event ) {
+		if ( !p->event ) {
 			p->event = CreateEvent(NULL,FALSE,FALSE,NULL);
 			unsigned int tID;
 			p->thread = (HANDLE) _beginthreadex(NULL, 0, sttConnectThread, (PVOID)context, 0, &tID);
@@ -376,7 +376,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 	case 0x50: // получили криптотест, отправляем свой криптотест
 	{
 		string msg = decode_msg(p,data);
-		if( !msg.length() ) {
+		if ( !msg.length() ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
@@ -392,7 +392,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 	case 0x60: // получили криптотест, сессия установлена
 	{
 		string msg = decode_msg(p,data);
-		if( !msg.length() ) {
+		if ( !msg.length() ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
@@ -406,7 +406,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 	{
 		SAFE_FREE(ptr->tmp);
 		string msg = decode_msg(p,data);
-		if( msg.length() ) {
+		if ( msg.length() ) {
 			ptr->tmp = (LPSTR) strdup(msg.c_str());
 		}
 		else {
@@ -419,7 +419,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 	{
 		SAFE_FREE(ptr->tmp);
 		string msg = decode_rsa(p,r,data);
-		if( msg.length() ) {
+		if ( msg.length() ) {
 			ptr->tmp = (LPSTR) strdup(msg.c_str());
 		}
 		else {
@@ -430,9 +430,9 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 
 	case 0xF0: // разрыв соединения вручную
 	{
-		if( p->state != 7 ) return 0;
+		if ( p->state != 7 ) return 0;
 		string msg = decode_msg(p,data);
-		if( !msg.length() ) return 0;
+		if ( !msg.length() ) return 0;
 		p->state=0;
 		rsa_free( ptr ); // удалим трэд и очередь сообщений
 		imp->rsa_notify(context,-4); // соединение разорвано вручную другой стороной
@@ -447,7 +447,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 
 	}
 
-	if( p->state != 0 && p->state != 7 )
+	if ( p->state != 0 && p->state != 7 )
 		p->time = gettime() + timeout;
 
 	return 0;
@@ -455,14 +455,14 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg) {
 
 int __cdecl rsa_send(HANDLE context, LPCSTR msg) {
 
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state!=0 && p->state!=7) return 0;
 
-	if( p->state == 7 ) // сессия установлена, шифруем AES и отправляем
+	if ( p->state == 7 ) // сессия установлена, шифруем AES и отправляем
 		inject_msg(context,0x70,encode_msg(1,p,string(msg)));
 	else
-	if( p->state == 0 ) { // сессия  установлена, отправляем RSA сообщение
-		if( !p->pub_k.length() ) return 0;
+	if ( p->state == 0 ) { // сессия  установлена, отправляем RSA сообщение
+		if ( !p->pub_k.length() ) return 0;
 		// есть паблик ключ - отправим сообщение
 		pRSAPRIV r = rsa_get_priv(ptr);
 		inject_msg(context,0xE0,encode_rsa(1,p,r,string(msg)));
@@ -517,7 +517,7 @@ string decode_msg(pRSADATA p, string& msg) {
 		cbcDecryptor.Put((PBYTE)ciphered.data(),ciphered.length());
 		cbcDecryptor.MessageEnd();
 
-		if( sig == hash(zlib) ) {
+		if ( sig == hash(zlib) ) {
 			unciphered = (t1==1) ? cpp_zlibd(zlib) : zlib;
 		}
 	}
@@ -551,7 +551,7 @@ string decode_rsa(pRSADATA p, pRSAPRIV r, string& msg) {
 
 	string unciphered,zlib;
 	zlib = RSADecryptString(r->priv,ciphered);
-	if( zlib.length() && RSAVerifyString(p->pub,zlib,sig) ) {
+	if ( zlib.length() && RSAVerifyString(p->pub,zlib,sig) ) {
 		unciphered = (t1==1) ? cpp_zlibd(zlib) : zlib;
 	}
 	return unciphered;
@@ -598,7 +598,7 @@ void init_priv(pRSAPRIV r, string& priv) {
 		}
 	}
 
-	// if( !empty );
+	// if ( !empty );
 
 	r->pub_k = tlv(1,n)+tlv(2,e);
 	r->pub_s = hash(r->pub_k);
@@ -625,7 +625,7 @@ void init_pub(pRSADATA p, string& pub) {
 		}
 	}
 
-	// if( !empty );
+	// if ( !empty );
 
 	p->pub.Initialize(BinaryToInteger(n),BinaryToInteger(e));
 }
@@ -652,7 +652,7 @@ void rsa_timeout(HANDLE context, pRSADATA p) {
 
 int __cdecl rsa_encrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state!=7) return 0;
 
 	try {
@@ -669,7 +669,7 @@ int __cdecl rsa_encrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
 int __cdecl rsa_decrypt_file(HANDLE context,LPCSTR file_in,LPCSTR file_out) {
 
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr); if(p->state!=7) return 0;
 
 	try {
@@ -689,13 +689,13 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv_thread: %s", msg.c_str());
 #endif
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 	pRSAPRIV r = rsa_get_priv(ptr);
 
 	string data; int type;
 	un_tlv(msg,type,data);
-	if( type==-1 ) return 0;
+	if ( type==-1 ) return 0;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_recv_thread: %02x %d", type, p->state);
@@ -709,7 +709,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string sha1,sha2;
 		un_tlv(un_tlv(un_tlv(data,t[0],features),t[1],sha1),t[2],sha2);
 		BOOL lr = (p->pub_s==sha1); BOOL ll = (r->pub_s==sha2);
-		switch( (lr<<4)|ll ){
+		switch( (lr<<4)|ll ) {
 		case 0x11: { // оба паблика совпали
 			inject_msg(context,0x21,gen_aes_key_iv(ptr->mode,p,r));
 			p->state=5;
@@ -734,13 +734,13 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string pub;
 		un_tlv(un_tlv(data,t[0],features),t[1],pub);
 		string sig = hash(pub);
-		if( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
 		}
 		init_pub(p,pub);
-		if( p->state==0 ) { // timeout
+		if ( p->state==0 ) { // timeout
 //			rsa_connect(context);
 			return -1;
 		}
@@ -761,13 +761,13 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		int features; string pub;
 		un_tlv(un_tlv(data,t[0],features),t[1],pub);
 		string sig = hash(pub);
-		if( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
 		}
 		init_pub(p,pub);
-		if( p->state==0 ) { // timeout
+		if ( p->state==0 ) { // timeout
 //			rsa_connect(context);
 			return -1;
 		}
@@ -781,13 +781,13 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 		string pub;
 		un_tlv(data,t[0],pub);
 		string sig = hash(pub);
-		if( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+		if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
 		}
 		init_pub(p,pub);
-		if( p->state==0 ) { // timeout
+		if ( p->state==0 ) { // timeout
 //			rsa_connect(context);
 			return -1;
 		}
@@ -800,7 +800,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 	case 0x40:
 	{
 		string key = decode_rsa(p,r,data);
-		if( !key.length() ) {
+		if ( !key.length() ) {
 			p->state=0; p->time=0;
 			null_msg(context,0x00,-type); // сессия разорвана по ошибке
 			return 0;
@@ -818,16 +818,16 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 	{
 		int features; string pub,sha;
 		un_tlv(un_tlv(un_tlv(data,t[0],features),t[1],pub),t[2],sha);
-		if( p->pub_k!=pub ) { // пришел новый паблик
+		if ( p->pub_k!=pub ) { // пришел новый паблик
 			string sig = hash(pub);
-			if( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
+			if ( !imp->rsa_check_pub(context,(PBYTE)pub.data(),pub.length(),(PBYTE)sig.data(),sig.length()) ) {
 				p->state=0; p->time=0;
 				null_msg(context,0x00,-type); // сессия разорвана по ошибке
 				return 0;
 			}
 			init_pub(p,pub);
 		}
-		if( type == 0x0D ) { // нужно отправить мой паблик
+		if ( type == 0x0D ) { // нужно отправить мой паблик
 			inject_msg(context,0xD0,tlv(0,features)+tlv(1,r->pub_k)+tlv(2,p->pub_s));
 		}
 		p->state=0; p->time=0;
@@ -835,7 +835,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg) {
 
 	}
 
-	if( p->state != 0 && p->state != 7 )
+	if ( p->state != 0 && p->state != 7 )
 		p->time = gettime() + timeout;
 
 	return 1;
@@ -855,7 +855,7 @@ void rsa_alloc( pCNTX ptr ) {
 
 void rsa_free( pCNTX ptr ) {
 	pRSADATA p = (pRSADATA) ptr->pdata;
-	if( p && p->event ) {
+	if ( p && p->event ) {
 		p->thread_exit = 2; // отпускаем поток в свободное плавание
 		SetEvent( p->event );
 		rsa_alloc(ptr);
@@ -864,7 +864,7 @@ void rsa_free( pCNTX ptr ) {
 
 
 void rsa_free_thread( pRSADATA p ) {
-	if( p->event ) {
+	if ( p->event ) {
 		p->thread_exit = 1;
 		SetEvent( p->event );
 		// ждем завершения потока
@@ -893,7 +893,7 @@ unsigned __stdcall sttConnectThread( LPVOID arg ) {
 
 	HANDLE context = (HANDLE) arg;
 
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
 	while(1) {
@@ -901,8 +901,8 @@ unsigned __stdcall sttConnectThread( LPVOID arg ) {
 		Sent_NetLog("sttConnectThread: WaitForSingleObject");
 #endif
 		WaitForSingleObject(p->event, INFINITE); // dwMsec rc==WAIT_TIMEOUT
-		if( p->thread_exit == 1 ) return 0;
-		if( p->thread_exit == 2 ) {
+		if ( p->thread_exit == 1 ) return 0;
+		if ( p->thread_exit == 2 ) {
 			// мы в свободном плавании - освободим память и завершим трэд
 			CloseHandle( p->thread );
 			CloseHandle( p->event );
@@ -913,7 +913,7 @@ unsigned __stdcall sttConnectThread( LPVOID arg ) {
 		// дождались сообщения в очереди
 		while( !p->thread_exit && p->queue && !p->queue->empty() ) {
 			// обработаем сообщения из очереди
-			if( rsa_recv_thread(context, p->queue->front()) == -1 ) {
+			if ( rsa_recv_thread(context, p->queue->front()) == -1 ) {
 				// очистить очередь
 				clear_queue(p);
 				break;
@@ -933,14 +933,14 @@ int __cdecl rsa_export_keypair(short mode, LPSTR privKey, LPSTR pubKey, LPSTR pa
 	pCNTX ptr = get_context_on_id(hRSA4096);
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	if( pubKey ) {
+	if ( pubKey ) {
 		string pub;
 		pub = tlv(3,r->pub_k) + tlv(4,r->pub_s);
 		pub = pub_beg + crlf + add_delim(base64encode(pub),crlf,65) + pub_end + crlf;
 		strcpy(pubKey, pub.c_str());
 	}
 
-	if( privKey && passPhrase ) {
+	if ( privKey && passPhrase ) {
 		string key = hash256(passPhrase);
 		string iv = hash256(key);
 		string priv = pad256(r->priv_k);
@@ -976,7 +976,7 @@ int __cdecl rsa_import_keypair(short mode, LPSTR privKey, LPSTR passPhrase) {
 	pCNTX ptr = get_context_on_id(hRSA4096);
 	pRSAPRIV r = (pRSAPRIV) ptr->pdata;
 
-	if( !passPhrase ) return 0;
+	if ( !passPhrase ) return 0;
 
 	string priv;
 	u_int found;
@@ -985,13 +985,13 @@ int __cdecl rsa_import_keypair(short mode, LPSTR privKey, LPSTR passPhrase) {
 	del_delim(priv,crlf);
 
 	found = priv.find(priv_beg);
-	if( found != string::npos ) {
+	if ( found != string::npos ) {
 	    priv = priv.substr(found+priv_beg.length());
 	    found = priv.find(priv_end);
-	    if( found != string::npos ) {
+	    if ( found != string::npos ) {
 		priv = base64decode(priv.substr(0,found));
 		TLV k(priv);
-		if( k.exist(1) && k.exist(2) && hash(k.get(1)) == k.get(2) ) {
+		if ( k.exist(1) && k.exist(2) && hash(k.get(1)) == k.get(2) ) {
 		    priv = k.get(1);
 		    
 		    string key = hash256(passPhrase);
@@ -1025,10 +1025,10 @@ int __cdecl rsa_export_pubkey(HANDLE context, LPSTR pubKey) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_export_pubkey: %08x", context);
 #endif
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
-	if( !p->pub_k.length() || !pubKey ) return 0;
+	if ( !p->pub_k.length() || !pubKey ) return 0;
 
 	string pub;
 	pub = tlv(3,p->pub_k) + tlv(4,p->pub_s);
@@ -1043,10 +1043,10 @@ int __cdecl rsa_import_pubkey(HANDLE context, LPSTR pubKey) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_import_pubkey: %08x", context);
 #endif
-	pCNTX ptr = get_context_on_id(context);	if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context);	if (!ptr) return 0;
 	pRSADATA p = (pRSADATA) cpp_alloc_pdata(ptr);
 
-	if( !pubKey ) return 0;
+	if ( !pubKey ) return 0;
 
 	string pub;
 	u_int found;
@@ -1055,13 +1055,13 @@ int __cdecl rsa_import_pubkey(HANDLE context, LPSTR pubKey) {
 	del_delim(pub,crlf);
 
 	found = pub.find(pub_beg);
-	if( found != string::npos ) {
+	if ( found != string::npos ) {
 	    pub = pub.substr(found+pub_beg.length());
 	    found = pub.find(pub_end);
-	    if( found != string::npos ) {
+	    if ( found != string::npos ) {
 		pub = base64decode(pub.substr(0,found));
 		TLV k(pub);
-		if( k.exist(3) && k.exist(4) && hash(k.get(3)) == k.get(4) ) {
+		if ( k.exist(3) && k.exist(4) && hash(k.get(3)) == k.get(4) ) {
 		    init_pub(p,k.get(3));
 		    return 1;
 		}

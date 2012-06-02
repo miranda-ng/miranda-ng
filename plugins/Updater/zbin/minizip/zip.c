@@ -1587,7 +1587,7 @@ extern int ZEXPORT zipCloseFileInZipRaw64 (zipFile file, ZPOS64_T uncompressed_s
         zi->ci.stream_initialised = 0;
     }
 #ifdef HAVE_BZIP2
-    else if((zi->ci.method == Z_BZIP2ED) && (!zi->ci.raw))
+    else if ((zi->ci.method == Z_BZIP2ED) && (!zi->ci.raw))
     {
       int tmperr = BZ2_bzCompressEnd(&zi->ci.bstream);
                         if (err==ZIP_OK)
@@ -1650,7 +1650,7 @@ extern int ZEXPORT zipCloseFileInZipRaw64 (zipFile file, ZPOS64_T uncompressed_s
     {
       char* p = NULL;
 
-      if((uLong)(datasize + 4) > zi->ci.size_centralExtraFree)
+      if ((uLong)(datasize + 4) > zi->ci.size_centralExtraFree)
       {
         // we can not write more data to the buffer that we have room for.
         return ZIP_BADZIPFILE;
@@ -1967,7 +1967,7 @@ extern int ZEXPORT zipRemoveExtraInfoBlock (char* pData, int* dataLen, short sHe
     header = *(short*)p;
     dataSize = *(((short*)p)+1);
 
-    if( header == sHeader ) // Header found.
+    if ( header == sHeader ) // Header found.
     {
       p += dataSize + 4; // skip it. do not copy to temp buffer
     }

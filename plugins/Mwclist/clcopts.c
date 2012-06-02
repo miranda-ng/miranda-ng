@@ -172,7 +172,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 	tvi.hItem=TreeView_GetRoot(hwndTree);
 	while(tvi.hItem) {
 		TreeView_GetItem(hwndTree,&tvi);
-		if(((tvi.state&TVIS_STATEIMAGEMASK)>>12==2)) flags|=tvi.lParam;
+		if (((tvi.state&TVIS_STATEIMAGEMASK)>>12==2)) flags|=tvi.lParam;
 		tvi.hItem=TreeView_GetNextSibling(hwndTree,tvi.hItem);
 	}
 	return flags;
@@ -268,14 +268,14 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SMOOTHTIME),IsDlgButtonChecked(hwndDlg,IDC_NOTNOSMOOTHSCROLLING));
 			if(LOWORD(wParam)==IDC_GREYOUT)
 				EnableWindow(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),IsDlgButtonChecked(hwndDlg,IDC_GREYOUT));
-			if((LOWORD(wParam)==IDC_LEFTMARGIN || LOWORD(wParam)==IDC_SMOOTHTIME || LOWORD(wParam)==IDC_GROUPINDENT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
+			if ((LOWORD(wParam)==IDC_LEFTMARGIN || LOWORD(wParam)==IDC_SMOOTHTIME || LOWORD(wParam)==IDC_GROUPINDENT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case WM_NOTIFY:
 			switch(((LPNMHDR)lParam)->idFrom) {
 				case IDC_GREYOUTOPTS:
 				case IDC_HIDEOFFLINEOPTS:
-					if(((LPNMHDR)lParam)->code==NM_CLICK) {
+					if (((LPNMHDR)lParam)->code==NM_CLICK) {
 						TVHITTESTINFO hti;
 						hti.pt.x=(short)LOWORD(GetMessagePos());
 						hti.pt.y=(short)HIWORD(GetMessagePos());
@@ -299,7 +299,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 							{	int i;
 								DWORD exStyle=0;
 								for(i=0;i < SIZEOF(checkBoxToStyleEx);i++)
-									if((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id)==0)==checkBoxToStyleEx[i].not)
+									if ((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id)==0)==checkBoxToStyleEx[i].not)
 										exStyle|=checkBoxToStyleEx[i].flag;
 								DBWriteContactSettingDword(NULL,"CLC","ExStyle",exStyle);
 							}
@@ -348,7 +348,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_SELBKCOLOUR);
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"StatusBar","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
 		{	DBVARIANT dbv;
-			if(!DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+			if (!DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
 				if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
 					char szPath[MAX_PATH];
@@ -411,7 +411,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = "bmp";
-			if(!GetOpenFileNameA(&ofn)) break;
+			if (!GetOpenFileNameA(&ofn)) break;
 			SetDlgItemTextA(hwndDlg,IDC_FILENAME,str);
 		}
 		else if(LOWORD(wParam)==IDC_FILENAME && HIWORD(wParam)!=EN_CHANGE) break;
@@ -487,7 +487,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_SELBKCOLOUR);
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"CLC","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
 		{	DBVARIANT dbv;
-			if(!DBGetContactSettingString(NULL,"CLC","BkBitmap",&dbv)) {
+			if (!DBGetContactSettingString(NULL,"CLC","BkBitmap",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
 				if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
 					char szPath[MAX_PATH];
@@ -542,7 +542,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = "bmp";
-			if(!GetOpenFileNameA(&ofn)) break;
+			if (!GetOpenFileNameA(&ofn)) break;
 			SetDlgItemTextA(hwndDlg,IDC_FILENAME,str);
 		}
 		else if(LOWORD(wParam)==IDC_FILENAME && HIWORD(wParam)!=EN_CHANGE) break;
@@ -643,7 +643,7 @@ static const int fontListOrder[FONTID_MAX+1]={FONTID_CONTACTS,FONTID_INVIS,FONTI
 
 static int CALLBACK EnumFontsProc(ENUMLOGFONTEX *lpelfe,NEWTEXTMETRICEX *lpntme,int FontType,LPARAM lParam)
 {
-	if(!IsWindow((HWND)lParam)) return FALSE;
+	if (!IsWindow((HWND)lParam)) return FALSE;
 	if(SendMessage((HWND)lParam,CB_FINDSTRINGEXACT,-1,(LPARAM)lpelfe->elfLogFont.lfFaceName)==CB_ERR)
 		SendMessage((HWND)lParam,CB_ADDSTRING,0,(LPARAM)lpelfe->elfLogFont.lfFaceName);
 	return TRUE;
@@ -708,7 +708,7 @@ static INT_PTR CALLBACK DlgProcClcTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		hFontSample=NULL;
 		SetDlgItemTextA(hwndDlg,IDC_SAMPLE,"Sample");
 		TranslateDialogDefault(hwndDlg);
-		if(!SendMessage(GetParent(hwndDlg),PSM_ISEXPERT,0,0))
+		if (!SendMessage(GetParent(hwndDlg),PSM_ISEXPERT,0,0))
 			SwitchTextDlgToMode(hwndDlg,0);
 		mir_forkthread(FillFontListThread,hwndDlg);
 		{	
@@ -817,7 +817,7 @@ static INT_PTR CALLBACK DlgProcClcTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 	}
 	case WM_CTLCOLORSTATIC:
-		if((HWND)lParam==GetDlgItem(hwndDlg,IDC_SAMPLE)) {
+		if ((HWND)lParam==GetDlgItem(hwndDlg,IDC_SAMPLE)) {
 			SetTextColor((HDC)wParam,SendDlgItemMessage(hwndDlg,IDC_COLOUR,CPM_GETCOLOUR,0,0));
 			SetBkColor((HDC)wParam,GetSysColor(COLOR_3DFACE));
 			return (INT_PTR)GetSysColorBrush(COLOR_3DFACE);
@@ -966,7 +966,7 @@ static INT_PTR CALLBACK DlgProcClcTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	case M_GUESSSAMEASBOXES:   //guess suitable values for the 'same as' checkboxes for fontId wParam
 		fontSettings[wParam].sameAsFlags=0;
 		if(fontSettings[wParam].sameAs==0xFF) break;
-		if(!lstrcmp(fontSettings[wParam].szFace,fontSettings[fontSettings[wParam].sameAs].szFace) &&
+		if (!lstrcmp(fontSettings[wParam].szFace,fontSettings[fontSettings[wParam].sameAs].szFace) &&
 			fontSettings[wParam].charset==fontSettings[fontSettings[wParam].sameAs].charset)
     		fontSettings[wParam].sameAsFlags|=SAMEASF_FACE;
 		if(fontSettings[wParam].size==fontSettings[fontSettings[wParam].sameAs].size)
@@ -1000,7 +1000,7 @@ static INT_PTR CALLBACK DlgProcClcTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				if(HIWORD(wParam)!=CBN_SELCHANGE) return FALSE;
 				if(SendDlgItemMessage(hwndDlg,IDC_SAMEAS,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_SAMEAS,CB_GETCURSEL,0,0),0)==fontId)
 					SendDlgItemMessage(hwndDlg,IDC_SAMEAS,CB_SETCURSEL,0,0);
-				if(!SendMessage(GetParent(hwndDlg),PSM_ISEXPERT,0,0)) {
+				if (!SendMessage(GetParent(hwndDlg),PSM_ISEXPERT,0,0)) {
 					int sameAs=SendDlgItemMessage(hwndDlg,IDC_SAMEAS,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_SAMEAS,CB_GETCURSEL,0,0),0);
 					if(sameAs!=0xFF) SendMessage(hwndDlg,M_LOADFONT,sameAs,0);
 					SendMessage(hwndDlg,M_SAVEFONT,fontId,0);
@@ -1027,7 +1027,7 @@ static INT_PTR CALLBACK DlgProcClcTextOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			case IDC_UNDERLINE:
 			case IDC_COLOUR:
 				SendMessage(hwndDlg,M_SAVEFONT,fontId,0);
-				if(!SendMessage(GetParent(hwndDlg),PSM_ISEXPERT,0,0)) {
+				if (!SendMessage(GetParent(hwndDlg),PSM_ISEXPERT,0,0)) {
 					SendMessage(hwndDlg,M_GUESSSAMEASBOXES,fontId,0);
 					SendMessage(hwndDlg,M_REFRESHSAMEASBOXES,fontId,0);
 				}

@@ -368,7 +368,7 @@ namespace pfc {
 	t_size subtract_sorted_lists_calculate_count(const t_source1 & p_source1, const t_source2 & p_source2) {
 		t_size walk1 = 0, walk2 = 0, walk_out = 0;
 		const t_size max1 = p_source1.get_size(), max2 = p_source2.get_size();
-		for(;;) {
+		for (;;) {
 			int state;
 			if (walk1 < max1 && walk2 < max2) {
 				state = pfc::compare_t(p_source1[walk1],p_source2[walk2]);
@@ -393,7 +393,7 @@ namespace pfc {
 		p_destination.set_size(subtract_sorted_lists_calculate_count(p_source1,p_source2));
 		t_size walk1 = 0, walk2 = 0, walk_out = 0;
 		const t_size max1 = p_source1.get_size(), max2 = p_source2.get_size();
-		for(;;) {
+		for (;;) {
 			int state;
 			if (walk1 < max1 && walk2 < max2) {
 				state = pfc::compare_t(p_source1[walk1],p_source2[walk2]);
@@ -416,7 +416,7 @@ namespace pfc {
 	t_size merge_sorted_lists_calculate_count(const t_source1 & p_source1, const t_source2 & p_source2) {
 		t_size walk1 = 0, walk2 = 0, walk_out = 0;
 		const t_size max1 = p_source1.get_size(), max2 = p_source2.get_size();
-		for(;;) {
+		for (;;) {
 			int state;
 			if (walk1 < max1 && walk2 < max2) {
 				state = pfc::compare_t(p_source1[walk1],p_source2[walk2]);
@@ -441,7 +441,7 @@ namespace pfc {
 		p_destination.set_size(merge_sorted_lists_calculate_count(p_source1,p_source2));
 		t_size walk1 = 0, walk2 = 0, walk_out = 0;
 		const t_size max1 = p_source1.get_size(), max2 = p_source2.get_size();
-		for(;;) {
+		for (;;) {
 			int state;
 			if (walk1 < max1 && walk2 < max2) {
 				state = pfc::compare_t(p_source1[walk1],p_source2[walk2]);

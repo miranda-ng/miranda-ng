@@ -47,11 +47,11 @@ Returns a icon handle (HICON) on success, NULL on error.
 
 #if !defined(FLAGS_NOHELPERFUNCTIONS)
 __inline static HICON LoadFlagIcon(int countryNumber) {
-	if(!ServiceExists(MS_FLAGS_LOADFLAGICON)) return NULL;
+	if (!ServiceExists(MS_FLAGS_LOADFLAGICON)) return NULL;
 	return (HICON)CallService(MS_FLAGS_LOADFLAGICON,countryNumber,0);
 }
 __inline static HANDLE LoadFlagIconHandle(int countryNumber) {
-	if(!ServiceExists(MS_FLAGS_LOADFLAGICON)) return NULL;
+	if (!ServiceExists(MS_FLAGS_LOADFLAGICON)) return NULL;
 	return (HICON)CallService(MS_FLAGS_LOADFLAGICON,countryNumber,1);
 }
 #endif

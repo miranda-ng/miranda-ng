@@ -991,7 +991,7 @@ EstimateStripByteCounts(TIFF* tif, TIFFDirEntry* dir, uint16 dircount)
 	td->td_stripbytecount = (uint32*)
 	    _TIFFCheckMalloc(tif, td->td_nstrips, sizeof (uint32),
 		"for \"StripByteCounts\" array");
-        if( td->td_stripbytecount == NULL )
+        if ( td->td_stripbytecount == NULL )
             return -1;
 
 	if (td->td_compression != COMPRESSION_NONE) {
@@ -1689,7 +1689,7 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp)
 			 */
 			cp = (char *)_TIFFCheckMalloc(tif, dp->tdir_count + 1,
 						      1, mesg);
-			if( (ok = (cp && TIFFFetchString(tif, dp, cp))) != 0 )
+			if ( (ok = (cp && TIFFFetchString(tif, dp, cp))) != 0 )
 				cp[dp->tdir_count] = '\0';	/* XXX */
 			break;
 		}
@@ -1762,7 +1762,7 @@ TIFFFetchNormalTag(TIFF* tif, TIFFDirEntry* dp)
 		case TIFF_ASCII:
 		case TIFF_UNDEFINED:		/* bit of a cheat... */
 			{ char c[2];
-			  if( (ok = (TIFFFetchString(tif, dp, c) != 0)) != 0 ) {
+			  if ( (ok = (TIFFFetchString(tif, dp, c) != 0)) != 0 ) {
 				c[1] = '\0';		/* XXX paranoid */
 				ok = (fip->field_passcount ?
 					TIFFSetField(tif, dp->tdir_tag, 1, c)
@@ -1797,7 +1797,7 @@ TIFFFetchPerSampleShorts(TIFF* tif, TIFFDirEntry* dir, uint16* pl)
         if (v && TIFFFetchShortArray(tif, dir, v)) {
             uint16 i;
             int check_count = dir->tdir_count;
-            if( samples < check_count )
+            if ( samples < check_count )
                 check_count = samples;
 
             for (i = 1; i < check_count; i++)
@@ -1839,7 +1839,7 @@ TIFFFetchPerSampleLongs(TIFF* tif, TIFFDirEntry* dir, uint32* pl)
             uint16 i;
             int check_count = dir->tdir_count;
 
-            if( samples < check_count )
+            if ( samples < check_count )
                 check_count = samples;
             for (i = 1; i < check_count; i++)
                 if (v[i] != v[0]) {
@@ -1878,7 +1878,7 @@ TIFFFetchPerSampleAnys(TIFF* tif, TIFFDirEntry* dir, double* minv, double* maxv)
         if (v && TIFFFetchAnyArray(tif, dir, v)) {
             uint16 i;
             int check_count = dir->tdir_count;
-            if( samples < check_count )
+            if ( samples < check_count )
                 check_count = samples;
 
             *minv = *maxv = v[0];
@@ -1928,17 +1928,17 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, long nstrips, uint32** lpp)
 		    dir->tdir_count, sizeof (uint16), "to fetch strip tag");
 		if (dp == NULL)
 			return (0);
-		if( (status = TIFFFetchShortArray(tif, dir, dp)) != 0 ) {
+		if ( (status = TIFFFetchShortArray(tif, dir, dp)) != 0 ) {
                     int i;
                     
-                    for( i = 0; i < nstrips && i < (int) dir->tdir_count; i++ )
+                    for ( i = 0; i < nstrips && i < (int) dir->tdir_count; i++ )
                     {
                         lp[i] = dp[i];
                     }
 		}
 		_TIFFfree((char*) dp);
 
-        } else if( nstrips != (int) dir->tdir_count ) {
+        } else if ( nstrips != (int) dir->tdir_count ) {
             /* Special case to correct length */
 
             uint32* dp = (uint32*) _TIFFCheckMalloc(tif,
@@ -1947,10 +1947,10 @@ TIFFFetchStripThing(TIFF* tif, TIFFDirEntry* dir, long nstrips, uint32** lpp)
                 return (0);
 
             status = TIFFFetchLongArray(tif, dir, dp);
-            if( status != 0 ) {
+            if ( status != 0 ) {
                 int i;
 
-                for( i = 0; i < nstrips && i < (int) dir->tdir_count; i++ )
+                for ( i = 0; i < nstrips && i < (int) dir->tdir_count; i++ )
                 {
                     lp[i] = dp[i];
                 }
@@ -1980,10 +1980,10 @@ TIFFFetchRefBlackWhite(TIFF* tif, TIFFDirEntry* dir)
 	 */
 	cp = (char *)_TIFFCheckMalloc(tif, dir->tdir_count,
 				      sizeof (uint32), mesg);
-	if( (ok = (cp && TIFFFetchLongArray(tif, dir, (uint32*) cp))) != 0) {
+	if ( (ok = (cp && TIFFFetchLongArray(tif, dir, (uint32*) cp))) != 0) {
 		float* fp = (float*)
 		    _TIFFCheckMalloc(tif, dir->tdir_count, sizeof (float), mesg);
-		if( (ok = (fp != NULL)) != 0 ) {
+		if ( (ok = (fp != NULL)) != 0 ) {
 			uint32 i;
 			for (i = 0; i < dir->tdir_count; i++)
 				fp[i] = (float)((uint32*) cp)[i];
@@ -2006,7 +2006,7 @@ TIFFFetchSubjectDistance(TIFF* tif, TIFFDirEntry* dir)
 	float v;
 	int ok = 0;
 
-    if( dir->tdir_count != 1 || dir->tdir_type != TIFF_RATIONAL )
+    if ( dir->tdir_count != 1 || dir->tdir_type != TIFF_RATIONAL )
     {
 		TIFFWarningExt(tif->tif_clientdata, tif->tif_name,
                        "incorrect count or type for SubjectDistance, tag ignored" );
@@ -2064,7 +2064,7 @@ ChopUpSingleUncompressedStrip(TIFF* tif)
 	if (rowsperstrip >= td->td_rowsperstrip)
 		return;
 	nstrips = (tstrip_t) TIFFhowmany(bytecount, stripbytes);
-        if( nstrips == 0 ) /* something is wonky, do nothing. */
+        if ( nstrips == 0 ) /* something is wonky, do nothing. */
             return;
 
 	newcounts = (uint32*) _TIFFCheckMalloc(tif, nstrips, sizeof (uint32),

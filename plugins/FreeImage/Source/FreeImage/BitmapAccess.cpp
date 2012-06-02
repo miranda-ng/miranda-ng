@@ -130,7 +130,7 @@ void* FreeImage_Aligned_Malloc(size_t amount, size_t alignment) {
 	That's why the code below allocates *two* alignments instead of one. 
 	*/
 	void* mem_real = malloc(amount + 2 * alignment);
-	if(!mem_real) return NULL;
+	if (!mem_real) return NULL;
 	char* mem_align = (char*)((unsigned long)(2 * alignment - (unsigned long)mem_real % (unsigned long)alignment) + (unsigned long)mem_real);
 	*((long*)mem_align - 1) = (long)mem_real;
 	return mem_align;
@@ -165,7 +165,7 @@ FreeImage_GetImageSizeHeader(BOOL header_only, unsigned width, unsigned height, 
 	// palette is aligned on a 16 bytes boundary
 	dib_size += sizeof(RGBQUAD) * CalculateUsedPaletteEntries(bpp);  
 	dib_size += (dib_size % FIBITMAP_ALIGNMENT ? FIBITMAP_ALIGNMENT - dib_size % FIBITMAP_ALIGNMENT : 0);  
-	if(!header_only) {
+	if (!header_only) {
 		const size_t header_size = dib_size;
 
 		// pixels are aligned on a 16 bytes boundary
@@ -396,7 +396,7 @@ FreeImage_Unload(FIBITMAP *dib) {
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_Clone(FIBITMAP *dib) {
-	if(!dib) return NULL;
+	if (!dib) return NULL;
 
 	unsigned width  = FreeImage_GetWidth(dib);
 	unsigned height = FreeImage_GetHeight(dib);
@@ -915,7 +915,7 @@ FreeImage_SetDotsPerMeterY(FIBITMAP *dib, unsigned res) {
 
 BITMAPINFOHEADER * DLL_CALLCONV
 FreeImage_GetInfoHeader(FIBITMAP *dib) {
-	if(!dib) return NULL;
+	if (!dib) return NULL;
 	size_t lp = (size_t)dib->data + sizeof(FREEIMAGEHEADER);
 	lp += (lp % FIBITMAP_ALIGNMENT ? FIBITMAP_ALIGNMENT - lp % FIBITMAP_ALIGNMENT : 0);
 	lp += FIBITMAP_ALIGNMENT - sizeof(BITMAPINFOHEADER) % FIBITMAP_ALIGNMENT;
@@ -933,13 +933,13 @@ FreeImage_GetInfo(FIBITMAP *dib) {
 
 FIMETADATA * DLL_CALLCONV 
 FreeImage_FindFirstMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, FITAG **tag) {
-	if(!dib)
+	if (!dib)
 		return NULL;
 
 	// get the metadata model
 	METADATAMAP *metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
 	TAGMAP *tagmap = NULL;
-	if( (*metadata).find(model) != (*metadata).end() ) {
+	if ( (*metadata).find(model) != (*metadata).end() ) {
 		tagmap = (*metadata)[model];
 	}
 	if(tagmap) {
@@ -976,7 +976,7 @@ FreeImage_FindFirstMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, FITAG **tag
 
 BOOL DLL_CALLCONV 
 FreeImage_FindNextMetadata(FIMETADATA *mdhandle, FITAG **tag) {
-	if(!mdhandle)
+	if (!mdhandle)
 		return FALSE;
 
 	METADATAHEADER *mdh = (METADATAHEADER *)mdhandle->data;
@@ -1019,7 +1019,7 @@ FreeImage_FindCloseMetadata(FIMETADATA *mdhandle) {
 
 BOOL DLL_CALLCONV
 FreeImage_CloneMetadata(FIBITMAP *dst, FIBITMAP *src) {
-	if(!src || !dst) return FALSE;
+	if (!src || !dst) return FALSE;
 
 	// get metadata links
 	METADATAMAP *src_metadata = ((FREEIMAGEHEADER *)src->data)->metadata;
@@ -1034,7 +1034,7 @@ FreeImage_CloneMetadata(FIBITMAP *dst, FIBITMAP *src) {
 		TAGMAP *src_tagmap = (*i).second;
 
 		if(src_tagmap) {
-			if( dst_metadata->find(model) != dst_metadata->end() ) {
+			if ( dst_metadata->find(model) != dst_metadata->end() ) {
 				// destroy dst model
 				FreeImage_SetMetadata((FREE_IMAGE_MDMODEL)model, dst, NULL, NULL);
 			}
@@ -1069,7 +1069,7 @@ FreeImage_CloneMetadata(FIBITMAP *dst, FIBITMAP *src) {
 
 BOOL DLL_CALLCONV 
 FreeImage_SetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, FITAG *tag) {
-	if(!dib) 
+	if (!dib) 
 		return FALSE;
 
 	TAGMAP *tagmap = NULL;
@@ -1083,7 +1083,7 @@ FreeImage_SetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 
 	if(key != NULL) {
 
-		if(!tagmap) {
+		if (!tagmap) {
 			// this model, doesn't exist: create it 
 			tagmap = new(std::nothrow) TAGMAP();
 			(*metadata)[model] = tagmap;
@@ -1158,7 +1158,7 @@ FreeImage_SetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 
 BOOL DLL_CALLCONV 
 FreeImage_GetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, FITAG **tag) {
-	if(!dib || !key || !tag) 
+	if (!dib || !key || !tag) 
 		return FALSE;
 
 	TAGMAP *tagmap = NULL;
@@ -1166,7 +1166,7 @@ FreeImage_GetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 
 	// get the metadata model
 	METADATAMAP *metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
-	if(!(*metadata).empty()) {
+	if (!(*metadata).empty()) {
 		METADATAMAP::iterator model_iterator = metadata->find(model);
 		if (model_iterator != metadata->end() ) {
 			// this model exists : try to get the requested tag
@@ -1186,17 +1186,17 @@ FreeImage_GetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 
 unsigned DLL_CALLCONV 
 FreeImage_GetMetadataCount(FREE_IMAGE_MDMODEL model, FIBITMAP *dib) {
-	if(!dib) 
+	if (!dib) 
 		return FALSE;
 
 	TAGMAP *tagmap = NULL;
 
 	// get the metadata model
 	METADATAMAP *metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
-	if( (*metadata).find(model) != (*metadata).end() ) {
+	if ( (*metadata).find(model) != (*metadata).end() ) {
 		tagmap = (*metadata)[model];
 	}
-	if(!tagmap) {
+	if (!tagmap) {
 		// this model, doesn't exist: return
 		return 0;
 	}

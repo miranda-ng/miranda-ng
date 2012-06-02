@@ -101,7 +101,7 @@ namespace {
 
 			pfc::string8_fastalloc temp; temp.prealloc(512);
 			const t_size total = m_items.get_size();
-			for(;;) {
+			for (;;) {
 				const t_size index = (*m_walk)++;
 				if (index >= total) break;
 				m_out[index].index = index;

@@ -313,7 +313,7 @@ static size_t putc_utf8(unsigned long cp, char *buffer)
 static BOOL parse_entity(const char *current, char **to, const char **from)
 {
 	const char *end = strchr(current, ';');
-	if(!end) return 0;
+	if (!end) return 0;
 
 	if(current[1] == '#')
 	{
@@ -353,7 +353,7 @@ static BOOL parse_entity(const char *current, char **to, const char **from)
 
 size_t decode_html_entities_utf8(char *dest, const char *src)
 {
-	if(!src) src = dest;
+	if (!src) src = dest;
 
 	char *to = dest;
 	const char *from = src;

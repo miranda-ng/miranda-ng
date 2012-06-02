@@ -46,7 +46,7 @@ void tag_processor_id3v2::g_remove_ex(tag_write_callback & p_callback,const serv
 t_size tag_processor_id3v2::g_multiskip(const service_ptr_t<file> & p_file,t_filesize & p_size_skipped,abort_callback & p_abort) {
 	t_filesize offset = 0;
 	t_size count = 0;
-	for(;;) {
+	for (;;) {
 		t_filesize delta;
 		g_skip_at(p_file, offset, delta, p_abort);
 		if (delta == 0) break;

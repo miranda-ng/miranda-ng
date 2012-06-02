@@ -292,18 +292,18 @@ namespace
 	INT_PTR QuoteProtoFunc_SetStatus(WPARAM wp,LPARAM /*lp*/)
 	{
 		int nStatus = wp;
-		if((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
+		if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
 		{
 			int nOldStatus = g_nStatus;
 			if(nStatus != g_nStatus)
 			{
 				g_nStatus = nStatus;
-				if((ID_STATUS_ONLINE == nOldStatus) && (ID_STATUS_OFFLINE == g_nStatus))
+				if ((ID_STATUS_ONLINE == nOldStatus) && (ID_STATUS_OFFLINE == g_nStatus))
 				{
 					BOOL b = ::SetEvent(g_hEventWorkThreadStop);
 					assert(b);
 				}
-				else if((ID_STATUS_ONLINE == g_nStatus) && (ID_STATUS_OFFLINE == nOldStatus))
+				else if ((ID_STATUS_ONLINE == g_nStatus) && (ID_STATUS_OFFLINE == nOldStatus))
 				{
 					BOOL b = ::ResetEvent(g_hEventWorkThreadStop);
 					assert(b && "Failed to reset event");
@@ -370,7 +370,7 @@ namespace
 
 	INT_PTR QuoteProtoFunc_LoadIcon(WPARAM wp,LPARAM /*lp*/)
 	{	
-		if((wp & 0xffff) == PLI_PROTOCOL)
+		if ((wp & 0xffff) == PLI_PROTOCOL)
 		{
 			return reinterpret_cast<int>(::CopyIcon(Quotes_LoadIconEx(ICON_STR_MAIN)));
 		}
@@ -459,7 +459,7 @@ extern "C"
 		mir_getMMI(&mmi);
 		mir_getUTFI(&utfi);
 		mir_getLP(&Global_pluginInfo);
-// 		if((mirandaVersion >= 0x0800) && (1 == mir_getXI(&xi)))
+// 		if ((mirandaVersion >= 0x0800) && (1 == mir_getXI(&xi)))
 // 		{
 // 			CModuleInfo::SetXMLEnginePtr(CModuleInfo::TXMLEnginePtr(new CXMLEngineMI));
 // 		}

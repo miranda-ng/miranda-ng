@@ -145,7 +145,7 @@ gen_k( gcry_mpi_t q )
     log_debug("choosing a random k ");
   for (;;) 
     {
-      if( DBG_CIPHER )
+      if ( DBG_CIPHER )
         progress('.');
 
       if ( !rndbuf || nbits < 32 ) 
@@ -171,22 +171,22 @@ gen_k( gcry_mpi_t q )
           mpi_clear_bit( k, nbits-1 );
 	}
 
-      if( !(mpi_cmp( k, q ) < 0) ) /* check: k < q */
+      if ( !(mpi_cmp( k, q ) < 0) ) /* check: k < q */
         {	
-          if( DBG_CIPHER )
+          if ( DBG_CIPHER )
             progress('+');
           continue; /* no  */
         }
-      if( !(mpi_cmp_ui( k, 0 ) > 0) )  /* check: k > 0 */
+      if ( !(mpi_cmp_ui( k, 0 ) > 0) )  /* check: k > 0 */
         {
-          if( DBG_CIPHER )
+          if ( DBG_CIPHER )
             progress('-');
           continue; /* no */
         }
       break;	/* okay */
     }
   gcry_free(rndbuf);
-  if( DBG_CIPHER )
+  if ( DBG_CIPHER )
     progress('\n');
   
   return k;
@@ -332,9 +332,9 @@ generate (DSA_secret_key *sk, unsigned int nbits, unsigned int qbits,
   rndbuf = NULL;
   do 
     {
-      if( DBG_CIPHER )
+      if ( DBG_CIPHER )
         progress('.');
-      if( !rndbuf )
+      if ( !rndbuf )
         rndbuf = gcry_random_bytes_secure ((qbits+7)/8, random_level);
       else 
         { /* Change only some of the higher bits (= 2 bytes)*/
@@ -355,7 +355,7 @@ generate (DSA_secret_key *sk, unsigned int nbits, unsigned int qbits,
   y = mpi_alloc( mpi_get_nlimbs(p) );
   gcry_mpi_powm( y, g, x, p );
 
-  if( DBG_CIPHER ) 
+  if ( DBG_CIPHER ) 
     {
       progress('\n');
       log_mpidump("dsa  p", p );
@@ -508,7 +508,7 @@ generate_fips186 (DSA_secret_key *sk, unsigned int nbits, unsigned int qbits,
   value_x = gcry_mpi_snew (qbits);
   do 
     {
-      if( DBG_CIPHER )
+      if ( DBG_CIPHER )
         progress('.');
       gcry_mpi_randomize (value_x, qbits, GCRY_VERY_STRONG_RANDOM);
       mpi_clear_highbit (value_x, qbits+1);
@@ -634,9 +634,9 @@ verify (gcry_mpi_t r, gcry_mpi_t s, gcry_mpi_t hash, DSA_public_key *pkey )
   gcry_mpi_t base[3];
   gcry_mpi_t ex[3];
 
-  if( !(mpi_cmp_ui( r, 0 ) > 0 && mpi_cmp( r, pkey->q ) < 0) )
+  if ( !(mpi_cmp_ui( r, 0 ) > 0 && mpi_cmp( r, pkey->q ) < 0) )
     return 0; /* assertion	0 < r < q  failed */
-  if( !(mpi_cmp_ui( s, 0 ) > 0 && mpi_cmp( s, pkey->q ) < 0) )
+  if ( !(mpi_cmp_ui( s, 0 ) > 0 && mpi_cmp( s, pkey->q ) < 0) )
     return 0; /* assertion	0 < s < q  failed */
 
   w  = mpi_alloc( mpi_get_nlimbs(pkey->q) );

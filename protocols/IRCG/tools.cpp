@@ -183,7 +183,7 @@ CMString __stdcall GetWord(const TCHAR* text, int index)
 			}
 
 			p2 = _tcschr(p1, ' ');
-			if( !p2 )
+			if ( !p2 )
 				p2 = _tcschr(p1, '\0');
 
 			if (p1 != p2)
@@ -195,7 +195,7 @@ CMString __stdcall GetWord(const TCHAR* text, int index)
 
 const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index)
 {
-	if( !text || !lstrlen(text))
+	if ( !text || !lstrlen(text))
 		return text;
 
 	const TCHAR* temp = text;
@@ -344,7 +344,7 @@ String __stdcall GetWord(const char* text, int index)
 			}
 
 			p2 = strchr(p1, ' ');
-			if(!p2)
+			if (!p2)
 				p2 = strchr(p1, '\0');
 
 			if (p1 != p2)
@@ -365,7 +365,7 @@ TCHAR* __stdcall my_strstri(const TCHAR* s1, const TCHAR* s2)
 	int i,j,k; 
 	for(i=0;s1[i];i++) 
 		for(j=i,k=0; _totlower(s1[j]) == _totlower(s2[k]);j++,k++) 
-			if(!s2[k+1]) 
+			if (!s2[k+1]) 
 				return ( TCHAR* )(s1+i); 
 
 	return NULL; 

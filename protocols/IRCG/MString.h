@@ -126,7 +126,7 @@ public:
 	CMSimpleStringT(const XCHAR* pchSrc, int nLength)
 	{
 		CMStringData* pData = Allocate( nLength, sizeof( XCHAR ) );
-		if( pData != NULL )
+		if ( pData != NULL )
 		{
 			Attach( pData );
 			SetLength( nLength );
@@ -148,9 +148,9 @@ public:
 	{
 		CMStringData* pSrcData = strSrc.GetData();
 		CMStringData* pOldData = GetData();
-		if( pSrcData != pOldData)
+		if ( pSrcData != pOldData)
 		{
-			if( pOldData->IsLocked() )
+			if ( pOldData->IsLocked() )
 				SetString( strSrc.GetString(), strSrc.GetLength() );
 			else
 			{
@@ -238,7 +238,7 @@ public:
 
 		int nNewLength = nOldLength+nLength;
 		PXSTR pszBuffer = GetBuffer( nNewLength );
-		if( nOffset <= nOldLength )
+		if ( nOffset <= nOldLength )
 		{
 			pszSrc = pszBuffer+nOffset;
 			// No need to call CopyCharsOverlapped, since the destination is
@@ -262,10 +262,10 @@ public:
 	void Empty()
 	{
 		CMStringData* pOldData = GetData();
-		if( pOldData->nDataLength == 0 )
+		if ( pOldData->nDataLength == 0 )
 			return;
 
-		if( pOldData->IsLocked() )
+		if ( pOldData->IsLocked() )
 		{
 			// Don't reallocate a locked buffer that's shrinking
 			SetLength( 0 );
@@ -281,13 +281,13 @@ public:
 	{
 		CMStringData* pOldData = GetData();
 		int nLength = pOldData->nDataLength;
-		if( pOldData->nAllocLength == nLength )
+		if ( pOldData->nAllocLength == nLength )
 			return;
 
-		if( !pOldData->IsLocked() )  // Don't reallocate a locked buffer that's shrinking
+		if ( !pOldData->IsLocked() )  // Don't reallocate a locked buffer that's shrinking
 		{
 			CMStringData* pNewData = Allocate( nLength, sizeof( XCHAR ) );
-			if( pNewData == NULL ) {
+			if ( pNewData == NULL ) {
 				SetLength( nLength );
 				return;
 			}
@@ -311,7 +311,7 @@ public:
 	PXSTR GetBuffer()
 	{
 		CMStringData* pData = GetData();
-		if( pData->IsShared() )
+		if ( pData->IsShared() )
 			Fork( pData->nDataLength );
 
 		return m_pszData;
@@ -343,7 +343,7 @@ public:
 	PXSTR LockBuffer()
 	{
 		CMStringData* pData = GetData();
-		if( pData->IsShared() )
+		if ( pData->IsShared() )
 		{
 			Fork( pData->nDataLength );
 			pData = GetData();  // Do it again, because the fork might have changed it
@@ -363,7 +363,7 @@ public:
 	}
 	void ReleaseBuffer( int nNewLength = -1 )
 	{
-		if( nNewLength == -1 )
+		if ( nNewLength == -1 )
 		{
 			int nAlloc = GetData()->nAllocLength;
 			nNewLength = StringLengthN( m_pszData, nAlloc);
@@ -393,7 +393,7 @@ public:
 	}
 	void SetString( PCXSTR pszSrc, int nLength )
 	{
-		if( nLength == 0 )
+		if ( nLength == 0 )
 		{
 			Empty();
 		}
@@ -404,7 +404,7 @@ public:
 			UINT_PTR nOffset = pszSrc - GetString();
 
 			PXSTR pszBuffer = GetBuffer( nLength );
-			if( nOffset <= nOldLength )
+			if ( nOffset <= nOldLength )
 			{
 				CopyCharsOverlapped( pszBuffer, GetAllocLength(), 
 					pszBuffer+nOffset, nLength );
@@ -492,14 +492,14 @@ public:
 	}
 	static int __stdcall StringLengthN(const char* psz, size_t sizeInXChar )
 	{
-		if( psz == NULL )
+		if ( psz == NULL )
 			return 0;
 
 		return int( strnlen( psz, sizeInXChar ));
 	}
 	static int __stdcall StringLengthN(const wchar_t* psz, size_t sizeInXChar )
 	{
-		if( psz == NULL )
+		if ( psz == NULL )
 			return 0;
 
 		return int( wcsnlen( psz, sizeInXChar ));
@@ -561,12 +561,12 @@ private:
 		{
 			// Grow exponentially, until we hit 1K.
 			int nNewLength = pOldData->nAllocLength;
-			if( nNewLength > 1024 )
+			if ( nNewLength > 1024 )
 				nNewLength += 1024;
 			else
 				nNewLength *= 2;
 
-			if( nNewLength < nLength )
+			if ( nNewLength < nLength )
 				nNewLength = nLength;
 
 			Reallocate( nNewLength );
@@ -579,7 +579,7 @@ private:
 			return;
 
 		CMStringData* pNewData = Realloc( pOldData, nLength, sizeof( XCHAR ) );
-		if( pNewData != NULL )
+		if ( pNewData != NULL )
 			Attach( pNewData );
 	}
 
@@ -816,7 +816,7 @@ public:
 	{
 		int nLen = ::MultiByteToWideChar( _AtlGetConversionACP(), 0, pchData, nDataLength, NULL, NULL );
 		BSTR bstr = ::SysAllocStringLen( NULL, nLen );
-		if( bstr != NULL )
+		if ( bstr != NULL )
 			::MultiByteToWideChar( _AtlGetConversionACP(), 0, pchData, nDataLength, bstr, nLen );
 
 		return bstr;
@@ -826,7 +826,7 @@ public:
 	{
 		int nLen = ::MultiByteToWideChar( _AtlGetConversionACP(), 0, pchData, nDataLength, NULL, NULL );
 		BOOL bSuccess = ::SysReAllocStringLen( pbstr, NULL, nLen );
-		if( bSuccess )
+		if ( bSuccess )
 			::MultiByteToWideChar( _AtlGetConversionACP(), 0, pchData, nDataLength, *pbstr, nLen );
 
 		return bSuccess;
@@ -1030,7 +1030,7 @@ public:
 	static void __stdcall FloodCharacters( wchar_t ch, int nLength, LPWSTR psz )
 	{
 		// nLength is in XCHARs
-		for( int i = 0; i < nLength; i++ )
+		for ( int i = 0; i < nLength; i++ )
 		{
 			psz[i] = ch;
 		}
@@ -1144,7 +1144,7 @@ public:
 	  CMStringT( char ch, int nLength = 1 ) :
 	  CThisSimpleString()
 	  {
-		  if( nLength > 0 )
+		  if ( nLength > 0 )
 		  {
 			  PXSTR pszBuffer = this->GetBuffer( nLength );
 			  StringTraits::FloodCharacters( XCHAR( ch ), nLength, pszBuffer );
@@ -1155,7 +1155,7 @@ public:
 	  CMStringT( wchar_t ch, int nLength = 1 ) :
 	  CThisSimpleString()
 	  {
-		  if( nLength > 0 )
+		  if ( nLength > 0 )
 		  {			
 			  //Convert ch to the BaseType
 			  wchar_t pszCh[2] = { ch , 0 };
@@ -1198,7 +1198,7 @@ public:
 	  CMStringT( const YCHAR* pch, int nLength ) :
 	  CThisSimpleString()
 	  {
-		  if( nLength > 0 )
+		  if ( nLength > 0 )
 		  {
 			  int nDestLength = StringTraits::GetBaseTypeLength( pch, nLength );
 			  PXSTR pszBuffer = this->GetBuffer( nDestLength );
@@ -1231,7 +1231,7 @@ public:
 	  {
 		  // nDestLength is in XCHARs
 		  int nDestLength = (pszSrc != NULL) ? StringTraits::GetBaseTypeLength( pszSrc ) : 0;
-		  if( nDestLength > 0 )
+		  if ( nDestLength > 0 )
 		  {
 			  PXSTR pszBuffer = this->GetBuffer( nDestLength );
 			  StringTraits::ConvertToBaseType( pszBuffer, nDestLength, pszSrc);
@@ -1345,18 +1345,18 @@ public:
 	  // Delete 'nCount' characters, starting at index 'iIndex'
 	  int Delete( int iIndex, int nCount = 1 )
 	  {
-		  if( iIndex < 0 )
+		  if ( iIndex < 0 )
 			  iIndex = 0;
 
-		  if( nCount < 0 )
+		  if ( nCount < 0 )
 			  nCount = 0;
 
 		  int nLength = this->GetLength();
-		  if( nCount + iIndex > nLength )
+		  if ( nCount + iIndex > nLength )
 		  {
 			  nCount = nLength-iIndex;
 		  }
-		  if( nCount > 0 )
+		  if ( nCount > 0 )
 		  {
 			  int nNewLength = nLength-nCount;
 			  int nXCHARsToCopy = nLength-(iIndex+nCount)+1;
@@ -1375,10 +1375,10 @@ public:
 	  // Insert character 'ch' before index 'iIndex'
 	  int Insert( int iIndex, XCHAR ch )
 	  {
-		  if( iIndex < 0 )
+		  if ( iIndex < 0 )
 			  iIndex = 0;
 
-			if( iIndex > this->GetLength() )
+			if ( iIndex > this->GetLength() )
 				iIndex = this->GetLength();
 
 			int nNewLength = this->GetLength()+1;
@@ -1400,10 +1400,10 @@ public:
 		// Insert string 'psz' before index 'iIndex'
 		int Insert( int iIndex, PCXSTR psz )
 	  {
-		  if( iIndex < 0 )
+		  if ( iIndex < 0 )
 			  iIndex = 0;
 
-		  if( iIndex > this->GetLength() )
+		  if ( iIndex > this->GetLength() )
 		  {
 			  iIndex = this->GetLength();
 		  }
@@ -1411,7 +1411,7 @@ public:
 		  // nInsertLength and nNewLength are in XCHARs
 		  int nInsertLength = StringTraits::SafeStringLen( psz );
 		  int nNewLength = this->GetLength();
-		  if( nInsertLength > 0 )
+		  if ( nInsertLength > 0 )
 		  {
 			  nNewLength += nInsertLength;
 
@@ -1436,7 +1436,7 @@ public:
 		  int nCount = 0;
 
 		  // short-circuit the nop case
-		  if( chOld != chNew )
+		  if ( chOld != chNew )
 		  {
 			  // otherwise modify each character that matches in the string
 			  bool bCopied = false;
@@ -1447,9 +1447,9 @@ public:
 			  while( iChar < nLength )
 			  {
 				  // replace instances of the specified character only
-				  if( pszBuffer[iChar] == chOld )
+				  if ( pszBuffer[iChar] == chOld )
 				  {
-					  if( !bCopied )
+					  if ( !bCopied )
 					  {
 						  bCopied = true;
 						  pszBuffer = this->GetBuffer( nLength );
@@ -1459,7 +1459,7 @@ public:
 				  }
 				  iChar = int( StringTraits::CharNext( pszBuffer+iChar )-pszBuffer );
 			  }
-			  if( bCopied )
+			  if ( bCopied )
 			  {
 				  this->ReleaseBufferSetLength( nLength );
 			  }
@@ -1475,7 +1475,7 @@ public:
 
 		  // nSourceLen is in XCHARs
 		  int nSourceLen = StringTraits::SafeStringLen( pszOld );
-		  if( nSourceLen == 0 )
+		  if ( nSourceLen == 0 )
 			  return 0;
 		  // nReplacementLen is in XCHARs
 		  int nReplacementLen = StringTraits::SafeStringLen( pszNew );
@@ -1498,7 +1498,7 @@ public:
 		  }
 
 		  // if any changes were made, make them
-		  if( nCount > 0 )
+		  if ( nCount > 0 )
 		  {
 			  // if the buffer is too small, just
 			  //   allocate a new buffer (slow but sure)
@@ -1546,7 +1546,7 @@ public:
 		  while( pszSource < pszEnd )
 		  {
 			  PXSTR pszNewSource = StringTraits::CharNext( pszSource );
-			  if( *pszSource != chRemove )
+			  if ( *pszSource != chRemove )
 			  {
 				  // Copy the source to the destination.  Remember to copy all bytes of an MBCS character
 				  // Copy the source to the destination.  Remember to copy all bytes of an MBCS character
@@ -1571,7 +1571,7 @@ public:
 
 	  CMStringT Tokenize( PCXSTR pszTokens, int& iStart ) const
 	  {
-		  if( (pszTokens == NULL) || (*pszTokens == (XCHAR)0) )
+		  if ( (pszTokens == NULL) || (*pszTokens == (XCHAR)0) )
 		  {
 			  if (iStart < this->GetLength())
 				  return CMStringT( this->GetString()+iStart );
@@ -1580,11 +1580,11 @@ public:
 		  {
 			  PCXSTR pszPlace = this->GetString()+iStart;
 			  PCXSTR pszEnd = this->GetString()+this->GetLength();
-			  if( pszPlace < pszEnd )
+			  if ( pszPlace < pszEnd )
 			  {
 				  int nIncluding = StringTraits::StringSpanIncluding( pszPlace, pszTokens );
 
-				  if( (pszPlace+nIncluding) < pszEnd )
+				  if ( (pszPlace+nIncluding) < pszEnd )
 				  {
 					  pszPlace += nIncluding;
 					  int nExcluding = StringTraits::StringSpanExcluding( pszPlace, pszTokens );
@@ -1611,7 +1611,7 @@ public:
 	  {
 		  // nLength is in XCHARs
 		  int nLength = this->GetLength();
-		  if( iStart < 0 || iStart >= nLength)
+		  if ( iStart < 0 || iStart >= nLength)
 			  return -1;
 
 		  // find first single character
@@ -1632,7 +1632,7 @@ public:
 
 		  // nLength is in XCHARs
 		  int nLength = this->GetLength();
-		  if( iStart < 0 || iStart > nLength )
+		  if ( iStart < 0 || iStart > nLength )
 			  return -1;
 
 		  // find first matching substring
@@ -1707,9 +1707,9 @@ public:
 
 		  while( *psz != 0 )
 		  {
-			  if( StringTraits::IsSpace( *psz ) )
+			  if ( StringTraits::IsSpace( *psz ) )
 			  {
-				  if( pszLast == NULL )
+				  if ( pszLast == NULL )
 					  pszLast = psz;
 			  }
 			  else
@@ -1719,7 +1719,7 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if( pszLast != NULL )
+		  if ( pszLast != NULL )
 		  {
 			  // truncate at trailing space start
 			  int iLast = int( pszLast-this->GetString() );
@@ -1742,7 +1742,7 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if( psz != this->GetString() )
+		  if ( psz != this->GetString() )
 		  {
 			  // fix up data and length
 			  int iFirst = int( psz-this->GetString() );
@@ -1788,9 +1788,9 @@ public:
 
 		  while( *psz != 0 )
 		  {
-			  if( *psz == chTarget )
+			  if ( *psz == chTarget )
 			  {
-				  if( pszLast == NULL )
+				  if ( pszLast == NULL )
 				  {
 					  pszLast = psz;
 				  }
@@ -1802,7 +1802,7 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if( pszLast != NULL )
+		  if ( pszLast != NULL )
 		  {
 			  // truncate at left-most matching character  
 			  int iLast = int( pszLast-this->GetString() );
@@ -1816,7 +1816,7 @@ public:
 	  CMStringT& TrimRight( PCXSTR pszTargets )
 	  {
 		  // if we're not trimming anything, we're not doing any work
-		  if( (pszTargets == NULL) || (*pszTargets == 0) )
+		  if ( (pszTargets == NULL) || (*pszTargets == 0) )
 		  {
 			  return *this;
 		  }
@@ -1829,9 +1829,9 @@ public:
 
 		  while( *psz != 0 )
 		  {
-			  if( StringTraits::StringFindChar( pszTargets, *psz ) != NULL )
+			  if ( StringTraits::StringFindChar( pszTargets, *psz ) != NULL )
 			  {
-				  if( pszLast == NULL )
+				  if ( pszLast == NULL )
 				  {
 					  pszLast = psz;
 				  }
@@ -1843,7 +1843,7 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if( pszLast != NULL )
+		  if ( pszLast != NULL )
 		  {
 			  // truncate at left-most matching character  
 			  int iLast = int( pszLast-this->GetString() );
@@ -1864,7 +1864,7 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if( psz != this->GetString() )
+		  if ( psz != this->GetString() )
 		  {
 			  // fix up data and length
 			  int iFirst = int( psz-this->GetString() );
@@ -1883,7 +1883,7 @@ public:
 	  CMStringT& TrimLeft( PCXSTR pszTargets )
 	  {
 		  // if we're not trimming anything, we're not doing any work
-		  if( (pszTargets == NULL) || (*pszTargets == 0) )
+		  if ( (pszTargets == NULL) || (*pszTargets == 0) )
 		  {
 			  return *this;
 		  }
@@ -1894,7 +1894,7 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if( psz != this->GetString() )
+		  if ( psz != this->GetString() )
 		  {
 			  // fix up data and length
 			  int iFirst = int( psz-this->GetString() );
@@ -1946,14 +1946,14 @@ public:
 		  if (nCount < 0)
 			  nCount = 0;
 
-		  if( (iFirst + nCount) > this->GetLength() )
+		  if ( (iFirst + nCount) > this->GetLength() )
 			  nCount = this->GetLength()-iFirst;
 
-		  if( iFirst > this->GetLength() )
+		  if ( iFirst > this->GetLength() )
 			  nCount = 0;
 
 		  // optimize case of returning entire string
-		  if( (iFirst == 0) && ((iFirst+nCount) == this->GetLength()) )
+		  if ( (iFirst == 0) && ((iFirst+nCount) == this->GetLength()) )
 			  return *this;
 
 		  return CMStringT( this->GetString()+iFirst, nCount );
@@ -1967,7 +1967,7 @@ public:
 			  nCount = 0;
 
 		  int nLength = this->GetLength();
-		  if( nCount >= nLength )
+		  if ( nCount >= nLength )
 		  {
 			  return *this;
 		  }
@@ -1983,7 +1983,7 @@ public:
 			  nCount = 0;
 
 		  int nLength = this->GetLength();
-		  if( nCount >= nLength )
+		  if ( nCount >= nLength )
 			  return *this;
 
 		  return CMStringT( this->GetString(), nCount );
@@ -2046,7 +2046,7 @@ public:
 		  ULONG nLength = StringTraits::GetEnvironmentVariable( pszVar, NULL, 0 );
 		  BOOL bRetVal = FALSE;
 
-		  if( nLength == 0 )
+		  if ( nLength == 0 )
 		  {
 			  this->Empty();
 		  }
@@ -2065,7 +2065,7 @@ public:
 	  BOOL LoadString( UINT nID )
 	  {
 		  HINSTANCE hInst = StringTraits::FindStringResourceInstance( nID );
-		  if( hInst == NULL )
+		  if ( hInst == NULL )
 			  return FALSE;
 
 		  return LoadString( hInst, nID );

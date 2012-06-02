@@ -62,7 +62,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 	return CallWindowProc(OldMessageEditProc, hwnd, msg, wParam, lParam);
 }
 
-BOOL CALLBACK  DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch(uMsg)
 	{
@@ -186,27 +186,25 @@ BOOL CALLBACK  DlgProcOptionsPage(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM
 
 static UINT expertOnlyControls[] = { IDC_VARIABLES, IDC_VARIABLES_HINT };
 
-INT_PTR OnOptInitialized(WPARAM wParam, LPARAM lParam)
+int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR tabName[32];
 	mir_sntprintf(tabName, SIZEOF(tabName), _T("Button %x"), iNumber + 1);
 
 	OPTIONSDIALOGPAGE odp = {0};
+	odp.cbSize              = sizeof(odp);
+	odp.ptszGroup           = _T("Message Sessions");
+	odp.ptszTitle           = _T("Quick Replies");
+	odp.ptszTab             = tabName;
+	odp.position            = iNumber;
+	odp.hInstance           = hInstance;
+	odp.flags               = ODPF_TCHAR;
 
-	odp.cbSize						= sizeof(odp);
-	odp.ptszGroup					= _T("Message Sessions");
-	odp.ptszTitle					= _T("Quick Replies");
-	odp.ptszTab						= tabName;
-	odp.position					= iNumber;
-	odp.hInstance					= hInstance;
-	odp.flags						= ODPF_TCHAR;
+	odp.expertOnlyControls  = expertOnlyControls;
+	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
 
-	odp.expertOnlyControls			= expertOnlyControls;
-	odp.nExpertOnlyControls			= SIZEOF(expertOnlyControls);
-
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
-	odp.pfnDlgProc					= DlgProcOptionsPage;
-
+	odp.pszTemplate         = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
+	odp.pfnDlgProc          = DlgProcOptionsPage;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 
 	return 0;

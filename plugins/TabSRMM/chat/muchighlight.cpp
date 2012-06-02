@@ -91,20 +91,20 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 
 	TCHAR	*p = tszString;
 
-	if(*p == 0)
+	if (*p == 0)
 		return;
 
 	nr = 0;
 
-	if(*p != ' ')
+	if (*p != ' ')
 		nr++;
 
 	while(*p) {
-		if(*p == ' ') {
+		if (*p == ' ') {
 			p++;
 			while(*p && _istspace(*p))
 				p++;
-			if(*p)
+			if (*p)
 				nr++;
 		}
 		p++;
@@ -114,15 +114,15 @@ void CMUCHighlight::tokenize(TCHAR *tszString, TCHAR**& patterns, UINT& nr)
 	p = tszString;
 	nr = 0;
 
-	if(*p != ' ')
+	if (*p != ' ')
 		patterns[nr++] = p;
 
 	while(*p) {
-		if(*p == ' ') {
+		if (*p == ' ') {
 			*p++ = 0;
 			while(*p && _istspace(*p))
 				p++;
-			if(*p)
+			if (*p)
 				patterns[nr++] = p;
 		}
 		p++;
@@ -137,7 +137,7 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 		return(0);
 
 	__try {
-		if((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
+		if ((m_dwFlags & MATCH_TEXT) && (dwFlags & MATCH_TEXT) && (m_fHighlightMe || m_iTextPatterns > 0) && psi != 0) {
 	#ifdef __HLT_PERFSTATS
 			int		words = 0;
 			M->startTimer();
@@ -162,12 +162,12 @@ int CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwF
 				while(*p && (*p == ' ' || *p == ',' || *p == '.' || *p == ':' || *p == ';' || *p == '?' || *p == '!'))
 					p++;
 
-				if(*p) {
+				if (*p) {
 					p1 = p;
 					while(*p1 && *p1 != ' ' && *p1 != ',' && *p1 != '.' && *p1 != ':' && *p1 != ';' && *p1 != '?' && *p1 != '!')
 						p1++;
 
-					if(*p1)
+					if (*p1)
 						*p1 = 0;
 					else
 						p1 = 0;
@@ -205,11 +205,11 @@ skip_textpatterns:
 		/*
 		 * optinally, match the nickname against the list of nicks to highlight
 		 */
-		if((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
+		if ((m_dwFlags & MATCH_NICKNAME) && (dwFlags & MATCH_NICKNAME) && pgce->ptszNick && m_iNickPatterns > 0) {
 			for(UINT i = 0; i < m_iNickPatterns && !nResult; i++) {
 				if(pgce->ptszNick)
 					nResult = wildmatch(m_NickPatterns[i], pgce->ptszNick) ? MATCH_NICKNAME : 0;
-				if((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
+				if ((m_dwFlags & MATCH_UIN) && pgce->ptszUserInfo)
 					nResult = wildmatch(m_NickPatterns[i], pgce->ptszUserInfo) ? MATCH_NICKNAME : 0;
 			}
 		}

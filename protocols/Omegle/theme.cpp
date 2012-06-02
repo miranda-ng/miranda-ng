@@ -96,11 +96,11 @@ static OmegleProto * GetInstanceByHContact(HANDLE hContact)
 {
 	char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
 		reinterpret_cast<WPARAM>(hContact),0) );
-	if(!proto)
+	if (!proto)
 		return 0;
 
 	for(int i=0; i<g_Instances.getCount(); i++)
-		if(!strcmp(proto,g_Instances[i].m_szModuleName))
+		if (!strcmp(proto,g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
 	return 0;

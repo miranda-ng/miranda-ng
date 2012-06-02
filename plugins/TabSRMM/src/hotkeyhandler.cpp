@@ -654,7 +654,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					/*
 					 * start processing the job list
 					 */
-					if(!sendLater->isJobListEmpty()) {
+					if (!sendLater->isJobListEmpty()) {
 						KillTimer(hwndDlg, wParam);
 						sendLater->startJobListProcess();
 						SetTimer(hwndDlg, TIMERID_SENDLATER_TICK, TIMEOUT_SENDLATER_TICK, 0);
@@ -667,7 +667,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			 * queue.
 			 */
 			else if(wParam == TIMERID_SENDLATER_TICK) {
-				if(!sendLater->haveJobs()) {
+				if (!sendLater->haveJobs()) {
 					KillTimer(hwndDlg, wParam);
 					SetTimer(hwndDlg, TIMERID_SENDLATER, TIMEOUT_SENDLATER, 0);
 					sendLater->qMgrUpdate(true);

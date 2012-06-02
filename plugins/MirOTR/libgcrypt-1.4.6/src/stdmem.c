@@ -160,7 +160,7 @@ _gcry_private_realloc ( void *a, size_t n )
       len  = p[-4];
       len |= p[-3] << 8;
       len |= p[-2] << 16;
-      if( len >= n ) /* We don't shrink for now. */
+      if ( len >= n ) /* We don't shrink for now. */
         return a;
       if (p[-1] == MAGIC_SEC_BYTE)
         b = _gcry_private_malloc_secure(n);

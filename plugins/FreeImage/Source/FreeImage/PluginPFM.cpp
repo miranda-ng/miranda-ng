@@ -48,7 +48,7 @@ pfm_get_line(FreeImageIO *io, fi_handle handle, char *buffer, int length) {
 	int i;
 	memset(buffer, 0, length);
 	for(i = 0; i < length; i++) {
-		if(!io->read_proc(&buffer[i], 1, 1, handle))
+		if (!io->read_proc(&buffer[i], 1, 1, handle))
 			return FALSE;
 		if(buffer[i] == 0x0A)
 			break;
@@ -67,7 +67,7 @@ pfm_get_int(FreeImageIO *io, fi_handle handle) {
 
     // skip forward to start of next number
 
-    if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+    if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
 
     while (1) {
         // eat comments
@@ -78,7 +78,7 @@ pfm_get_int(FreeImageIO *io, fi_handle handle) {
             firstchar = TRUE;
 
             while (1) {
-				if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+				if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
 
 				if (firstchar && c == ' ') {
 					// loop off 1 sp after #
@@ -96,7 +96,7 @@ pfm_get_int(FreeImageIO *io, fi_handle handle) {
             break;
 		}
 
-        if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+        if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
     }
 
     // we're at the start of a number, continue until we hit a non-number
@@ -106,7 +106,7 @@ pfm_get_int(FreeImageIO *io, fi_handle handle) {
     while (1) {
         i = (i * 10) + (c - '0');
 
-        if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+        if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
 
         if (c < '0' || c > '9')
             break;
@@ -231,7 +231,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		if(bResult) {
 			bResult = (sscanf(line_buffer, "%f", &scalefactor) == 1) ? TRUE : FALSE;
 		}
-		if(!bResult) {
+		if (!bResult) {
 			throw "Read error: invalid PFM header";
 		}
 
@@ -251,7 +251,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		if(image_type == FIT_RGBF) {
 			const unsigned lineWidth = 3 * width;
 			lineBuffer = (float*)malloc(lineWidth * sizeof(float));
-			if(!lineBuffer) {
+			if (!lineBuffer) {
 				throw FI_MSG_ERROR_MEMORY;
 			}
 
@@ -285,7 +285,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		} else if(image_type == FIT_FLOAT) {
 			const unsigned lineWidth = width;
 			lineBuffer = (float*)malloc(lineWidth * sizeof(float));
-			if(!lineBuffer) {
+			if (!lineBuffer) {
 				throw FI_MSG_ERROR_MEMORY;
 			}
 
@@ -330,10 +330,10 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 static BOOL DLL_CALLCONV
 Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void *data) {
-	if(!dib || !handle) return FALSE;
+	if (!dib || !handle) return FALSE;
 
 	FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-	if((image_type != FIT_RGBF) && (image_type != FIT_FLOAT)) {
+	if ((image_type != FIT_RGBF) && (image_type != FIT_FLOAT)) {
 		return FALSE;
 	}
 

@@ -69,7 +69,7 @@ _MemoryReadProc(void *buffer, unsigned size, unsigned count, fi_handle handle) {
 
 	for(x = 0; x < count; x++) {
 		//if there isnt size bytes left to read, set pos to eof and return a short count
-		if( (mem_header->filelen - mem_header->curpos) < (long)size ) {
+		if ( (mem_header->filelen - mem_header->curpos) < (long)size ) {
 			mem_header->curpos = mem_header->filelen;
 			break;
 		}
@@ -91,13 +91,13 @@ _MemoryWriteProc(void *buffer, unsigned size, unsigned count, fi_handle handle) 
 	//double the data block size if we need to
 	while( (mem_header->curpos + (long)(size*count)) >= mem_header->datalen ) {
 		//if we are at or above 1G, we cant double without going negative
-		if( mem_header->datalen & 0x40000000 ) {
+		if ( mem_header->datalen & 0x40000000 ) {
 			//max 2G
-			if( mem_header->datalen == 0x7FFFFFFF ) {
+			if ( mem_header->datalen == 0x7FFFFFFF ) {
 				return 0;
 			}
 			newdatalen = 0x7FFFFFFF;
-		} else if( mem_header->datalen == 0 ) {
+		} else if ( mem_header->datalen == 0 ) {
 			//default to 4K if nothing yet
 			newdatalen = 4096;
 		} else {
@@ -105,7 +105,7 @@ _MemoryWriteProc(void *buffer, unsigned size, unsigned count, fi_handle handle) 
 			newdatalen = mem_header->datalen << 1;
 		}
 		newdata = realloc( mem_header->data, newdatalen );
-		if( !newdata ) {
+		if ( !newdata ) {
 			return 0;
 		}
 		mem_header->data = newdata;
@@ -113,7 +113,7 @@ _MemoryWriteProc(void *buffer, unsigned size, unsigned count, fi_handle handle) 
 	}
 	memcpy( (char *)mem_header->data + mem_header->curpos, buffer, size*count );
 	mem_header->curpos += size*count;
-	if( mem_header->curpos > mem_header->filelen ) {
+	if ( mem_header->curpos > mem_header->filelen ) {
 		mem_header->filelen = mem_header->curpos;
 	}
 	return count;
@@ -126,21 +126,21 @@ _MemorySeekProc(fi_handle handle, long offset, int origin) {
 	switch(origin) { //0 to filelen-1 are 'inside' the file
 		default:
 		case SEEK_SET: //can fseek() to 0-7FFFFFFF always
-			if( offset >= 0 ) {
+			if ( offset >= 0 ) {
 				mem_header->curpos = offset;
 				return 0;
 			}
 			break;
 
 		case SEEK_CUR:
-			if( mem_header->curpos + offset >= 0 ) {
+			if ( mem_header->curpos + offset >= 0 ) {
 				mem_header->curpos += offset;
 				return 0;
 			}
 			break;
 
 		case SEEK_END:
-			if( mem_header->filelen + offset >= 0 ) {
+			if ( mem_header->filelen + offset >= 0 ) {
 				mem_header->curpos = mem_header->filelen + offset;
 				return 0;
 			}

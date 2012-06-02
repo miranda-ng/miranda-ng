@@ -232,7 +232,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// Load the name order
 	for(i=0;i<NAMEORDERCOUNT;i++) nameOrder[i]=i;
 
-	if(!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv))
+	if (!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv))
 	{
 		CopyMemory(nameOrder,dbv.pbVal,dbv.cpbVal);
 		DBFreeVariant(&dbv);

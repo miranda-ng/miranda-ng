@@ -27,13 +27,13 @@ int __cdecl _gpg_done()
 
 int __cdecl _gpg_open_keyrings(LPSTR ExecPath, LPSTR HomePath)
 {
-    if( !ExecPath || (!*ExecPath && !ShowSelectExecDlg(ExecPath)) ) {
+    if ( !ExecPath || (!*ExecPath && !ShowSelectExecDlg(ExecPath)) ) {
 	return 0;
     }
-    if( !HomePath || (!*HomePath && !ShowSelectHomeDlg(HomePath)) ) {
+    if ( !HomePath || (!*HomePath && !ShowSelectHomeDlg(HomePath)) ) {
 	return 0;
     }
-    if( !existsFile(ExecPath) ) {
+    if ( !existsFile(ExecPath) ) {
 //	ErrorMessage(txtwarning, txtinvalidexecutable, txtverifyoptions);
 	return 0;
     }
@@ -84,9 +84,9 @@ LPSTR __cdecl _gpg_get_passphrases()
 
 	// encrypt
 	for(i=0; i<strlen(b); i++)
-		if( b[i]>2 ) {
+		if ( b[i]>2 ) {
 			x = b[i] ^ ( (i&0x7f) ^ 13);
-			if( x>2 ) b[i]=x;
+			if ( x>2 ) b[i]=x;
 		}
 
 	return b;
@@ -97,16 +97,16 @@ void __cdecl _gpg_set_passphrases(LPCSTR buffer)
 {
     size_t i, l = strlen(buffer); char *t, *p, *b, x;
 
-    if( !l ) return;
+    if ( !l ) return;
 
 	b = (char *) LocalAlloc(LPTR,l+1);
 	strcpy(b, buffer);
 
 	// decrypt
 	for(i=0; i<strlen(b); i++)
-		if( b[i]>2 ) {
+		if ( b[i]>2 ) {
 			x = b[i] ^ ( (i&0x7f) ^ 13);
-			if( x>2 ) b[i]=x;
+			if ( x>2 ) b[i]=x;
 		}
 
 	while(*b) {
@@ -167,7 +167,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
     begin=strstr(message, txtbeginpgpmessage);
     end=strstr(message, txtendpgpmessage);
 
-    if((begin!=NULL)&&(end!=NULL))
+    if ((begin!=NULL)&&(end!=NULL))
     {
       strcpy(buffer, "");
       strncat(buffer, begin, end-begin+strlen(txtendpgpmessage));
@@ -218,7 +218,7 @@ LPSTR __cdecl _gpg_decrypt(LPCSTR message)
         strcpy(buffer, plaintext);
       }
 
-      if( gpgresult==gpgSuccess && useridvalid==TRUE)
+      if ( gpgresult==gpgSuccess && useridvalid==TRUE)
         addPassphrase(keyuserid, passphrase);
 
       ZeroMemory(passphrase, sizeof(passphrase));
@@ -255,7 +255,7 @@ int __cdecl _gpg_select_keyid(HWND hdlg, LPSTR keyid)
 void noBackslash(LPSTR path) {
 	LPSTR ptr;
   	ptr = path + strlen(path) - 1;
-  	if( *ptr=='\\' ) *ptr = '\0';
+  	if ( *ptr=='\\' ) *ptr = '\0';
 }
 
 
@@ -267,7 +267,7 @@ LPSTR GetRegValue(HKEY hKey , LPCSTR szPath, LPCSTR szName){
   LPSTR ret=0;
 
   RegOpenKey(hKey,szPath,&hKey);
-  if( RegQueryValueEx(hKey,szName,NULL,&type,(LPBYTE)&buf,&len)==ERROR_SUCCESS ){
+  if ( RegQueryValueEx(hKey,szName,NULL,&type,(LPBYTE)&buf,&len)==ERROR_SUCCESS ) {
   	noBackslash((LPSTR)&buf);
     ret = (LPSTR)&buf;
   }
@@ -280,7 +280,7 @@ LPSTR GetRegValue(HKEY hKey , LPCSTR szPath, LPCSTR szName){
 LPSTR GetEnvValue(LPCSTR szName){
   LPSTR ret=0;
 
-  if( GetEnvironmentVariable(szName, buf, MAX_PATH) > 0 ) {
+  if ( GetEnvironmentVariable(szName, buf, MAX_PATH) > 0 ) {
   	noBackslash((LPSTR)&buf);
 	ret = (LPSTR)&buf;
   }
@@ -295,14 +295,14 @@ BOOL ShowSelectExecDlg(LPSTR path)
    ZeroMemory(&ofn,sizeof(ofn));
 
    ofn.lpstrFile = GetRegValue(HKEY_CURRENT_USER,"Software\\GNU\\GnuPG","gpgProgram");
-   if( ofn.lpstrFile && existsFile(ofn.lpstrFile) ) {
+   if ( ofn.lpstrFile && existsFile(ofn.lpstrFile) ) {
    	   strcpy(path, ofn.lpstrFile);
 	   return TRUE;
    }
    ofn.lpstrFile = GetRegValue(HKEY_LOCAL_MACHINE,"Software\\GNU\\GnuPG","Install Directory");
-   if( ofn.lpstrFile ) {
+   if ( ofn.lpstrFile ) {
 	   strcat(ofn.lpstrFile,"\\gpg.exe");
-	   if( existsFile(ofn.lpstrFile) ) {
+	   if ( existsFile(ofn.lpstrFile) ) {
 	   	   strcpy(path, ofn.lpstrFile);
 		   return TRUE;
 	   }
@@ -327,19 +327,19 @@ BOOL ShowSelectHomeDlg(LPSTR path)
    OPENFILENAME ofn;
 
    ofn.lpstrFile = GetEnvValue("GNUPGHOME");
-   if( ofn.lpstrFile && existsPath(ofn.lpstrFile) ) {
+   if ( ofn.lpstrFile && existsPath(ofn.lpstrFile) ) {
    	   strcpy(path, ofn.lpstrFile);
 	   return TRUE;
    }
    ofn.lpstrFile = GetRegValue(HKEY_CURRENT_USER,"Software\\GNU\\GnuPG","HomeDir");
-   if( ofn.lpstrFile && existsPath(ofn.lpstrFile) ) {
+   if ( ofn.lpstrFile && existsPath(ofn.lpstrFile) ) {
    	   strcpy(path, ofn.lpstrFile);
 	   return TRUE;
    }
    ofn.lpstrFile = GetEnvValue("APPDATA");
-   if( ofn.lpstrFile ) {
+   if ( ofn.lpstrFile ) {
 	   strcat(ofn.lpstrFile,"\\gnupg");
-	   if( existsPath(ofn.lpstrFile) ) {
+	   if ( existsPath(ofn.lpstrFile) ) {
 	   	   strcpy(path, ofn.lpstrFile);
 		   return TRUE;
 	   }

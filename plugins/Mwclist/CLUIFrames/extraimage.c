@@ -297,7 +297,7 @@ void SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 
 		maxpr=0;
 		//calc only needed protocols
-		for( i=0; i < count; i++ ) {
+		for ( i=0; i < count; i++ ) {
 			if ( !IsAccountEnabled( accs[i] ) || CallProtoService( accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0 ) == 0 )
 				continue;
 			ImgIndex[maxpr] = accs[i]->szModuleName;
@@ -374,7 +374,7 @@ void SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 			{					
 				for (i=0;i<maxpr;i++)
 				{
-					if(!MyStrCmp(ImgIndex[i],szProto))
+					if (!MyStrCmp(ImgIndex[i],szProto))
 					{
 						SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(ExtraToColumnNum(EXTRA_ICON_PROTO),i+3));	
 						break;

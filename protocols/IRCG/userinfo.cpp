@@ -97,7 +97,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 		EnableWindow(GetDlgItem( m_hwnd, IDC_BUTTON), true);
 		EnableWindow(GetDlgItem( m_hwnd, IDC_BUTTON2), true);
 
-		if( HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_BUTTON ) {
+		if ( HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_BUTTON ) {
 			TCHAR temp[500];
 			GetDlgItemText( m_hwnd, IDC_WILDCARD, temp, SIZEOF(temp));
 			DBVARIANT dbv;

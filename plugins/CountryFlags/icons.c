@@ -168,7 +168,7 @@ int FASTCALL CountryNumberToIndex(int countryNumber)
 static int ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	/* return handle */
-	if((BOOL)lParam) {
+	if ((BOOL)lParam) {
 		if(phIconHandles==NULL) return (int)(HANDLE)NULL;
 		return (int)phIconHandles[CountryNumberToIndex((int)wParam)];
 	}

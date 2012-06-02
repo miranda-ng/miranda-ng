@@ -1167,7 +1167,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 				int oldHeight = Frames[pos].height;
 				retval = Frames[pos].height;
 				Frames[pos].height = lParam;
-				if(!CLUIFramesFitInSize())
+				if (!CLUIFramesFitInSize())
 					Frames[pos].height = retval;
 				retval = Frames[pos].height;
 
@@ -1180,7 +1180,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			else {
 				retval = Frames[pos].HeightWhenCollapsed;
 				Frames[pos].HeightWhenCollapsed = lParam;
-				if(!CLUIFramesFitInSize())
+				if (!CLUIFramesFitInSize())
 					Frames[pos].HeightWhenCollapsed = retval;
 				retval = Frames[pos].HeightWhenCollapsed;
 			}

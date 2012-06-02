@@ -12,9 +12,9 @@ int LoadOptions(void) {
 	options.period = (unsigned int)DBGetContactSettingWord(0, "AutoBackups", "Period", 1);
 	options.period_type = (PeriodType)DBGetContactSettingByte(0, "AutoBackups", "PeriodType", (BYTE)PT_DAYS);
 
-	if(!ServiceExists(MS_FOLDERS_GET_PATH)) {
+	if (!ServiceExists(MS_FOLDERS_GET_PATH)) {
 
-		if(!DBGetContactSettingTString(0, "AutoBackups", "Folder", &dbv)) {
+		if (!DBGetContactSettingTString(0, "AutoBackups", "Folder", &dbv)) {
 			tmp = Utils_ReplaceVarsT(dbv.ptszVal);
 
 			if(_tcslen(tmp) >= 2 && tmp[1] == ':')
@@ -244,7 +244,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				bi.lParam = 0;
 				bi.iImage = 0;
 
-				if((pidl = SHBrowseForFolder(&bi)) != 0) {
+				if ((pidl = SHBrowseForFolder(&bi)) != 0) {
 					SHGetPathFromIDList(pidl, folder_buff);
 
 					SetDlgItemText(hwndDlg, IDC_ED_FOLDER, folder_buff);

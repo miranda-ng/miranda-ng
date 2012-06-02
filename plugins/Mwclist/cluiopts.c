@@ -75,7 +75,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_SHOWCAPTION, DBGetContactSettingByte(NULL,"CLUI","ShowCaption",SETTING_SHOWCAPTION_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU, DBGetContactSettingByte(NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLIENTDRAG, DBGetContactSettingByte(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			if(!IsDlgButtonChecked(hwndDlg,IDC_SHOWCAPTION)) {
+			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOWCAPTION)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_MIN2TRAY),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TOOLWND),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TITLETEXT),FALSE);
@@ -93,7 +93,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIME),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_HIDETIMESPIN),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC01),IsDlgButtonChecked(hwndDlg,IDC_AUTOHIDE));
-			if(!IsDlgButtonChecked(hwndDlg,IDC_AUTOSIZE)) {
+			if (!IsDlgButtonChecked(hwndDlg,IDC_AUTOSIZE)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC21),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC22),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_MAXSIZEHEIGHT),FALSE);
@@ -125,29 +125,29 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				wsprintfA(szUin,"%u",DBGetContactSettingDword(NULL,"ICQ","UIN",0));
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)szUin);
 				
-				if(!DBGetContactSettingString(NULL,"ICQ","Nick",&dbv)) {
+				if (!DBGetContactSettingString(NULL,"ICQ","Nick",&dbv)) {
 					SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 					mir_free(dbv.pszVal);
 					dbv.pszVal=NULL;
 				}
-				if(!DBGetContactSettingString(NULL,"ICQ","FirstName",&dbv)) {
+				if (!DBGetContactSettingString(NULL,"ICQ","FirstName",&dbv)) {
 					SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 					mir_free(dbv.pszVal);
 					dbv.pszVal=NULL;
 				}
-				if(!DBGetContactSettingString(NULL,"ICQ","e-mail",&dbv)) {
+				if (!DBGetContactSettingString(NULL,"ICQ","e-mail",&dbv)) {
 					SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 					mir_free(dbv.pszVal);
 					dbv.pszVal=NULL;
 				}
 			}
-			if(!IsWinVer2000Plus()) {
+			if (!IsWinVer2000Plus()) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
 			}
 			else CheckDlgButton(hwndDlg,IDC_TRANSPARENT,DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
-			if(!IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
+			if (!IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC12),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSACTIVE),FALSE);
@@ -269,7 +269,7 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					else
 						SetWindowLong(pcli->hwndContactList,GWL_STYLE,GetWindowLong(pcli->hwndContactList,GWL_STYLE)&~(WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX));
 
-					if(!IsDlgButtonChecked(hwndDlg,IDC_SHOWMAINMENU)) SetMenu(pcli->hwndContactList,NULL);
+					if (!IsDlgButtonChecked(hwndDlg,IDC_SHOWMAINMENU)) SetMenu(pcli->hwndContactList,NULL);
 					else SetMenu(pcli->hwndContactList,hMenuMain);
 
 					SetWindowPos(pcli->hwndContactList,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED);
@@ -347,7 +347,7 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			
 			SendDlgItemMessage(hwndDlg,IDC_BKGCOLOUR,CPM_SETCOLOUR,0,DBGetContactSettingDword(NULL,"CLUI","SBarBKColor",CLR_DEFAULT));
 
-			if(!IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR)) {
+			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWICON),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWPROTO),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_SHOWSTATUS),FALSE);

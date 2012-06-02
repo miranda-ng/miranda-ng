@@ -42,7 +42,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote,bool bWatch)
 	TContracts::iterator i = std::find_if(m_aContacts.begin(),m_aContacts.end(),
 		boost::bind(is_quote_id_equal,_1,sQuoteID));
 
-	if((false == bWatch) && (i != m_aContacts.end()))
+	if ((false == bWatch) && (i != m_aContacts.end()))
 	{
 		HANDLE hContact = *i;
 		{// for CCritSection
@@ -53,7 +53,7 @@ bool CQuotesProviderFinance::WatchForQuote(const CQuote& rQuote,bool bWatch)
 		CallService(MS_DB_CONTACT_DELETE,reinterpret_cast<WPARAM>(hContact),0);
 		return true;
 	}
-	else if((true == bWatch) && (i == m_aContacts.end()))
+	else if ((true == bWatch) && (i == m_aContacts.end()))
 	{
 		HANDLE hContact = CreateNewContact(rQuote.GetSymbol());
 		if(hContact)
@@ -136,7 +136,7 @@ namespace
 		for(int i = 0;i < cItems;++i)
 		{
 			const CQuotesProviderBase::CQuote* pQuote = get_quote_ptr_from_lb_index(hwndList,i);
-			if((nullptr != pQuote) 
+			if ((nullptr != pQuote) 
 				&& ((0 == quotes_stricmp(rsQuoteID.c_str(),pQuote->GetID().c_str()))
 				|| (0 == quotes_stricmp(rsQuoteID.c_str(),pQuote->GetName().c_str()))
 				|| (0 == quotes_stricmp(rsQuoteID.c_str(),pQuote->GetSymbol().c_str()))))

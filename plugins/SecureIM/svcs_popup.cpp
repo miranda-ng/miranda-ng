@@ -31,7 +31,7 @@ void showPopupMsg(HANDLE hContact, LPCSTR lpzText, HICON hIcon, int type) {
         // 6 - msg sent
         //
 
-	if(!bPopupExists) return;
+	if (!bPopupExists) return;
 
 	char nback[32]; mir_snprintf(nback,sizeof(nback),"popup%dback", $type);
 	char ntext[32]; mir_snprintf(ntext,sizeof(ntext),"popup%dtext", $type);
@@ -41,7 +41,7 @@ void showPopupMsg(HANDLE hContact, LPCSTR lpzText, HICON hIcon, int type) {
 	COLORREF colorText = (COLORREF)DBGetContactSettingDword(0,szModuleName,ntext,(DWORD)RGB(0,0,0));
 	int timeout = (int)DBGetContactSettingWord(0,szModuleName,ntime,0);
 
-	if( bCoreUnicode && bPopupUnicode ) {
+	if ( bCoreUnicode && bPopupUnicode ) {
 		POPUPDATAW ppd;
 		memset(&ppd,0,sizeof(POPUPDATAW));
 		ppd.lchContact = hContact;

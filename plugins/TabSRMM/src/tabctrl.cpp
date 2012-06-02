@@ -1061,7 +1061,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			 * option "Show tab bar only when needed".
 			 */
 
-			if((tabdat->pContainer->dwFlags & CNT_SIDEBAR) || (nCount == 1 && tabdat->pContainer->dwFlags & CNT_HIDETABS)) {
+			if ((tabdat->pContainer->dwFlags & CNT_SIDEBAR) || (nCount == 1 && tabdat->pContainer->dwFlags & CNT_HIDETABS)) {
 				if(nCount == 0)
 					FillRect(hdcreal, &ps.rcPaint, GetSysColorBrush(COLOR_3DFACE)); // avoid flickering/ugly black background during container creation
 				EndPaint(hwnd, &ps);
@@ -1344,7 +1344,7 @@ skip_tabs:
 			/*
 			 * finally, bitblt the contents of the memory dc to the real dc
 			 */
-			//if(!tabdat->pContainer->bSkinned)
+			//if (!tabdat->pContainer->bSkinned)
 			if (!tabdat->bRefreshWithoutClip)
 				ExcludeClipRect(hdcreal, rctClip.left, rctClip.top, rctClip.right, rctClip.bottom);
 

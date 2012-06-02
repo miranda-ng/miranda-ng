@@ -28,7 +28,7 @@ static bool is_meta_same_everywhere(const cue_creator::t_entry_list & p_list,con
 	iter = p_list.first();
 	if (!iter.is_valid()) return false;
 	if (!iter->m_infos.meta_format(p_meta,reference)) return false;
-	for(;iter.is_valid();++iter)
+	for (;iter.is_valid();++iter)
 	{
 		if (!iter->m_infos.meta_format(p_meta,temp)) return false;
 		if (strcmp(temp,reference)!=0) return false;

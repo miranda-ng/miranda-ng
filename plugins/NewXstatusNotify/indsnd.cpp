@@ -565,7 +565,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						// Find clicked item
 						HANDLE hItem = (HANDLE)SendMessage(hList, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 						if (hItem == NULL) break;
-						if(!(hitFlags & CLCHT_ONITEMEXTRA)) break;
+						if (!(hitFlags & CLCHT_ONITEMEXTRA)) break;
 
 						int itemType = SendMessage(hList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 

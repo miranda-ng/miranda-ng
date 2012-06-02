@@ -72,7 +72,7 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 	bool  set = (mode & 0x01) ? true : false;
 
 	if (!pContainer->settings->fPrivate) {
-		if(!isEx)
+		if (!isEx)
 			pContainer->dwFlags = (set ? pContainer->dwFlags | flags : pContainer->dwFlags & ~flags);
 		else
 			pContainer->dwFlagsEx = (set ? pContainer->dwFlagsEx | flags : pContainer->dwFlagsEx & ~flags);
@@ -93,7 +93,7 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 			ReloadGlobalContainerSettings(fForceResize);
 	}
 	else {
-		if(!isEx)
+		if (!isEx)
 			pContainer->dwFlags = (set ? pContainer->dwFlags | flags : pContainer->dwFlags & ~flags);
 		else
 			pContainer->dwFlagsEx = (set ? pContainer->dwFlagsEx | flags : pContainer->dwFlagsEx & ~flags);
@@ -464,7 +464,7 @@ do_apply:
 
 			SendMessage(hwndDlg, DM_SC_CONFIG, 0, 0);
 
-			if(!(dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)))
+			if (!(dwFlagsEx & (TCF_SBARLEFT | TCF_SBARRIGHT)))
 				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlags & CNT_TABSBOTTOM ? 1 : 0, 0);
 			else
 				SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_SETCURSEL, dwFlagsEx & TCF_SBARLEFT ? 2 : 3, 0);

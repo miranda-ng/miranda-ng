@@ -399,7 +399,7 @@ namespace
 				if(BN_CLICKED == HIWORD(wp))
 				{
 					CSettingWindowParam* pParam = get_param(hWnd);
-					if(!pParam->m_pPopupSettings)
+					if (!pParam->m_pPopupSettings)
 					{
 						CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(pParam->m_hContact);
 
@@ -447,7 +447,7 @@ namespace
 					tstring sLogFile = get_window_text(hwndLogFile);
 					tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 					tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
-					if((nLogMode&lmExternalFile))
+					if ((nLogMode&lmExternalFile))
 					{
 						if(true == sLogFile.empty())
 						{
@@ -463,7 +463,7 @@ namespace
 						}
 					}
 
-					if((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
+					if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 						Quotes_MessageBox(hWnd,TranslateT("Enter history format."),MB_OK|MB_ICONERROR);	
@@ -472,7 +472,7 @@ namespace
 
 					HWND hwndPopupFrmt = ::GetDlgItem(hWnd,IDC_EDIT_POPUP_FORMAT);
 					tstring sPopupFormat = get_window_text(hwndPopupFrmt);
-					if((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
+					if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndPopupFrmt);
 						Quotes_MessageBox(hWnd,TranslateT("Enter popup window format."),MB_OK|MB_ICONERROR);	
@@ -624,7 +624,7 @@ namespace
 					tstring sLogFile = get_window_text(hwndLogFile);
 					tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);					
 					
-					if((nLogMode&lmExternalFile))
+					if ((nLogMode&lmExternalFile))
 					{
 						if(true == sLogFile.empty())
 						{
@@ -642,7 +642,7 @@ namespace
 
 					HWND hwndHistoryFrmt = ::GetDlgItem(hWnd,IDC_EDIT_HISTORY_FORMAT);
 					tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
-					if((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
+					if ((true == bOk) && (nLogMode&lmInternalHistory) && (true == sHistoryFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 						Quotes_MessageBox(hWnd,TranslateT("Enter history format."),MB_OK|MB_ICONERROR);	
@@ -651,7 +651,7 @@ namespace
 
 					HWND hwndPopupFrmt = ::GetDlgItem(hWnd,IDC_EDIT_POPUP_FORMAT);
 					tstring sPopupFormat = get_window_text(hwndPopupFrmt);
-					if((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
+					if ((true == bOk) && (nLogMode&lmPopup) && (true == sPopupFormat.empty()))
 					{
 						prepare_edit_ctrl_for_error(hwndPopupFrmt);
 						Quotes_MessageBox(hWnd,TranslateT("Enter popup window format."),MB_OK|MB_ICONERROR);	

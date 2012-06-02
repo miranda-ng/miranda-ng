@@ -74,7 +74,7 @@ void FreeDisplayNameCache(SortedList *list)
 {
 	int i;
 
-	for( i=0; i < list->realCount; i++) {
+	for ( i=0; i < list->realCount; i++) {
 		FreeDisplayNameCacheItem(list->items[i] );
 		mir_free(list->items[i]);
 	}
@@ -333,7 +333,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				SortContacts();
 		}	}
 
-		if(!strcmp(cws->szModule,"CList")) {
+		if (!strcmp(cws->szModule,"CList")) {
 			/*
 			sprintf(buf,"CHANGE: module:CList setting:%s %s\r\n",cws->szSetting,cws->value.pszVal);
 			OutputDebugStringA(buf);
@@ -343,22 +343,22 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			if(pdnce->name == NULL||(!strcmp(cws->szSetting,"MyHandle")) )
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
-			if((!strcmp(cws->szSetting,"Group")) )
+			if ((!strcmp(cws->szSetting,"Group")) )
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
-			if(!strcmp(cws->szSetting,"Hidden")) {
+			if (!strcmp(cws->szSetting,"Hidden")) {
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);		
 				if(cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
 					char *szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
 					ChangeContactIcon((HANDLE)wParam,ExtIconFromStatusMode((HANDLE)wParam,szProto,szProto == NULL?ID_STATUS_OFFLINE:DBGetContactSettingWord((HANDLE)wParam,szProto,"Status",ID_STATUS_OFFLINE)),1);  //by FYR
 			}	}
 
-			if(!strcmp(cws->szSetting,"noOffline"))
+			if (!strcmp(cws->szSetting,"noOffline"))
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 		}
 
-		if(!strcmp(cws->szModule,"Protocol")) {
-			if(!strcmp(cws->szSetting,"p")) {
+		if (!strcmp(cws->szModule,"Protocol")) {
+			if (!strcmp(cws->szSetting,"p")) {
 				char *szProto;
 
 				OutputDebugStringA("CHANGE: proto\r\n");

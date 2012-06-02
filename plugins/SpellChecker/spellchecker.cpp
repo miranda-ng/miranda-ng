@@ -570,7 +570,7 @@ int FindURLEnd(Dialog *dlg, TCHAR *text, int start_pos, int *checked_until = NUL
 
 	int i = start_pos;
 
-	for(; IsURL(text[i]) || dlg->lang->isWordChar(text[i]); i++) 
+	for (; IsURL(text[i]) || dlg->lang->isWordChar(text[i]); i++) 
 	{
 		TCHAR c = text[i];
 
@@ -892,7 +892,7 @@ int CheckText(Dialog *dlg, BOOL check_all,
 			cur_sel = dlg->re->GetSel();
 		}
 
-		for(; line < lines; line++) 
+		for (; line < lines; line++) 
 		{
 			int first_char = dlg->re->GetFirstCharOfLine(line);
 

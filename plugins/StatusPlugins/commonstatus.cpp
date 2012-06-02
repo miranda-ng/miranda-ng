@@ -469,7 +469,7 @@ int GetProtoCount()
 	PROTOACCOUNT** protos;
 	ProtoEnumAccounts( &count, &protos );
 
-	for( int i=0; i < count; i++ )
+	for ( int i=0; i < count; i++ )
 		if ( IsSuitableProto( protos[i] ))
 			pCount ++;
 

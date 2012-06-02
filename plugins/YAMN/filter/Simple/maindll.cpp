@@ -67,7 +67,7 @@ extern "C" int __declspec(dllexport) LoadFilter(MIRANDASERVICE GetYAMNFcnPtr)
 	if(NULL==(POPFilePlugin=(HYAMNFILTERPLUGIN)pYAMNFcn->RegisterFilterPlugin((WPARAM)&FilterRegistration,(LPARAM)YAMN_FILTERREGISTRATIONVERSION)))
 		return 0;
 //And add our imported functions for YAMN
-	if(!pYAMNFcn->SetFilterPluginFcnImportFcn(POPFilePlugin,0xb0000000,&FilterFunctions,YAMN_FILTERIMPORTFCNVERSION))
+	if (!pYAMNFcn->SetFilterPluginFcnImportFcn(POPFilePlugin,0xb0000000,&FilterFunctions,YAMN_FILTERIMPORTFCNVERSION))
 		return 0;
 	return 1;		//Load luccess
 }
@@ -105,21 +105,21 @@ DWORD WINAPI FilterMail(HACCOUNT Account,DWORD AccountVer,HYAMNMAIL Mail,DWORD M
 		return 0;
 	fp=fopen(FilterPath,"rt");
 	if(fp != NULL) {
-		if(!(Mail->Flags & YAMN_MSG_VIRTUAL))
+		if (!(Mail->Flags & YAMN_MSG_VIRTUAL))
 			for(Browser=Mail->MailData->TranslatedHeader;Browser!=NULL;Browser=Browser->Next) {	//we browse all header stored in Mail->TranslatedHeader
-				if((!lstrcmp(Browser->name,"Return-Path")) || (!lstrcmp(Browser->name,"From"))) {		//and if we find 
+				if ((!lstrcmp(Browser->name,"Return-Path")) || (!lstrcmp(Browser->name,"From"))) {		//and if we find 
 					fseek(fp, 0L, SEEK_SET);
 					while(!feof(fp)) {				
 						if(fscanf(fp, "%255s", EmailSpam) != 0) {
-							if(!feof(fp))
+							if (!feof(fp))
 								if(fscanf(fp, "%d", &spamLevel)==0)
 									spamLevel=2;
 							if(spamLevel>4)
 								spamLevel=2;
 							if(strstr(Browser->value,EmailSpam)!=NULL) {
-								if((Mail->Flags & (YAMN_MSG_SPAMMASK==0)) && (spamLevel==0))
+								if ((Mail->Flags & (YAMN_MSG_SPAMMASK==0)) && (spamLevel==0))
 									Mail->Flags&=~(YAMN_MSG_SOUND | YAMN_MSG_APP | YAMN_MSG_POPUP | YAMN_MSG_SYSTRAY | YAMN_MSG_BROWSER);
-								else if((Mail->Flags & YAMN_MSG_SPAMMASK) < spamLevel)			//if some filter plugin set higher level of spam, we do nothing
+								else if ((Mail->Flags & YAMN_MSG_SPAMMASK) < spamLevel)			//if some filter plugin set higher level of spam, we do nothing
 									Mail->Flags=(Mail->Flags & ~YAMN_MSG_SPAMMASK)+spamLevel;	//else we set spam level 2 (clearing spam bits and then settting them to level 2
 							}
 						}

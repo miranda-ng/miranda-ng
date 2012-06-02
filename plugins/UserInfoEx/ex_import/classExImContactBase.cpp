@@ -266,7 +266,7 @@ HANDLE CExImContactBase::toDB()
 			_hContact = INVALID_HANDLE_VALUE;
 			return INVALID_HANDLE_VALUE;
 		}
-		if(!IsAccountEnabled(pszAccount)) {
+		if (!IsAccountEnabled(pszAccount)) {
 			;
 		}
 		// create new contact
@@ -347,7 +347,7 @@ VOID CExImContactBase::toIni(FILE* file, int modCount)
 			ci.szProto		= _pszProto;
 			ci.dwFlag		= CNF_DISPLAY;
 
-			if (!GetContactInfo(NULL, (LPARAM) &ci)){
+			if (!GetContactInfo(NULL, (LPARAM) &ci)) {
 				// CNF_DISPLAY always returns a string type
 				pszCI = (LPSTR)ci.pszVal;
 			}
@@ -398,9 +398,9 @@ BOOLEAN CExImContactBase::compareUID(DBVARIANT *dbv)
 		case DBVT_ASCIIZ:
 			hash = hashSetting_M2(dbv->pszVal);
 		case DBVT_WCHAR:
-			if(!hash) hash = hashSettingW_M2((const char *)dbv->pwszVal);
+			if (!hash) hash = hashSettingW_M2((const char *)dbv->pwszVal);
 		case DBVT_UTF8:
-			if(!hash) {
+			if (!hash) {
 				LPWSTR tmp = mir_utf8decodeW(dbv->pszVal);
 				hash = hashSettingW_M2((const char *)tmp);
 				mir_free(tmp);
@@ -473,7 +473,7 @@ LPSTR CExImContactBase::uid2String(BOOLEAN bPrependType)
 				INT_PTR baselen = Base64EncodeGetRequiredLength(_dbvUID.cpbVal, BASE64_FLAG_NOCRLF);
 				LPSTR t = (LPSTR)mir_alloc(baselen + 5 + bPrependType);
 				assert(t != NULL);
-				if (Base64Encode(_dbvUID.pbVal, _dbvUID.cpbVal, t + bPrependType, &baselen, BASE64_FLAG_NOCRLF)){
+				if (Base64Encode(_dbvUID.pbVal, _dbvUID.cpbVal, t + bPrependType, &baselen, BASE64_FLAG_NOCRLF)) {
 					if (baselen){
 						t[baselen + bPrependType] = 0;
 						if (bPrependType) t[0] = 'n';

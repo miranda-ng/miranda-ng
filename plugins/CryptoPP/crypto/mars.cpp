@@ -28,7 +28,7 @@ static word32 gen_mask(word32 x)
 	m = (~x ^ (x >> 1)) & 0x7fffffff;
 	m &= (m >> 1) & (m >> 2); m &= (m >> 3) & (m >> 6); 
 
-	if(!m)
+	if (!m)
 		return 0;
 
 	m <<= 1; m |= (m << 1); m |= (m << 2); m |= (m << 4);

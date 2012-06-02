@@ -32,7 +32,7 @@ INT_PTR QuickRepliesService(WPARAM, LPARAM)
 	return TRUE;
 }
 
-INT_PTR OnModulesLoaded(WPARAM wParam, LPARAM lParam)
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(hOnModulesLoaded);
 	HICON hIcon = NULL;
@@ -90,7 +90,7 @@ INT_PTR OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR OnButtonPressed(WPARAM wParam, LPARAM lParam)
+int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	char key[64];
 	int index = 0;
@@ -175,7 +175,7 @@ INT_PTR OnButtonPressed(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR OnPreShutdown(WPARAM wParam, LPARAM lParam)
+int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
 	if (ServiceExists(MS_BB_REMOVEBUTTON))
 	{

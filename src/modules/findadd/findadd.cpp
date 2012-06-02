@@ -801,7 +801,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat->bFlexSearchResult=TRUE;
 				psr=&(csr->psr);
 				// check if this is column names data (psr->cbSize==0)
-				if ( psr->cbSize==0 ){ // blob contain info about columns
+				if ( psr->cbSize==0 ) { // blob contain info about columns
 
 					int iColumn;
 					LVCOLUMN lvc={0};

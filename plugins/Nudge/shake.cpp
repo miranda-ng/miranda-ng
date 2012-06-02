@@ -46,7 +46,7 @@ INT_PTR ShakeClist( WPARAM wParam, LPARAM lParam )
 
 INT_PTR ShakeChat( WPARAM wParam, LPARAM lParam )
 {
-    if(((HANDLE) wParam) == NULL) return -1;
+    if (((HANDLE) wParam) == NULL) return -1;
         
 	DWORD tid;
 	//char srmmName[100];
@@ -142,7 +142,7 @@ int TriggerShakeChat( WPARAM wParam, LPARAM lParam )
 
 int CShake::ShakeChat(HWND hWnd)
 {
-	if(!ShakingChat)
+	if (!ShakingChat)
 	{
 		ShakingChat = true;
 		RECT rect;
@@ -166,7 +166,7 @@ int CShake::ShakeChat(HWND hWnd)
 
 int CShake::ShakeClist(HWND hWnd)
 {
-	if(!Shaking)
+	if (!Shaking)
 	{
 		Shaking = true;
 		RECT rect;

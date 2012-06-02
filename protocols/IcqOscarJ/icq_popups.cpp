@@ -124,7 +124,7 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_POPUP_LOG2_TIMEOUT:
 		case IDC_POPUP_LOG3_TIMEOUT:
 		case IDC_POPUP_SPAM_TIMEOUT:
-			if((HIWORD(wParam) == EN_CHANGE) && bInitDone)
+			if ((HIWORD(wParam) == EN_CHANGE) && bInitDone)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		default:

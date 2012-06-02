@@ -327,7 +327,7 @@ static _Bool parse_entity(const char *current, char **to,
 	const char **from, size_t maxlen)
 {
 	const char *end = (const char *)memchr(current, ';', maxlen);
-	if(!end) return 0;
+	if (!end) return 0;
 
 	if(current[1] == '#')
 	{
@@ -367,7 +367,7 @@ static _Bool parse_entity(const char *current, char **to,
 
 size_t decode_html_entities_utf8(char *dest, const char *src, size_t len)
 {
-	if(!src) src = dest;
+	if (!src) src = dest;
 
 	char *to = dest;
 	const char *from = src;

@@ -22,6 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 //============  THE INCLUDES  ===========
+
+#define _CRT_SECURE_NO_WARNINGS
 #include <m_stdhdr.h>
 
 #include <stdio.h>

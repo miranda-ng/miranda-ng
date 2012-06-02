@@ -133,12 +133,12 @@ void FacebookProto::ProcessFriendList( void* data )
 	    hContact;
 	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
 	{
-		if(!IsMyContact(hContact))
+		if (!IsMyContact(hContact))
 			continue;
 
 		DBVARIANT dbv;
 		facebook_user *fbu;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
 			std::string id = dbv.pszVal;
 			DBFreeVariant(&dbv);
 			

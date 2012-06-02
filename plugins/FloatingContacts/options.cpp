@@ -28,9 +28,9 @@ static SFontSettings s_rgFontSettingsMiranda[FLT_FONTIDS];
 #define FLT_SAME_AS_NONE	((BYTE)0xFF)
 #define FLT_SAME_AS_MIRANDA	((BYTE)0xFE)
 
-static char* s_rgszFontSizes[]={"8","10","14","16","18","20","24","28"};
+static char* s_rgszFontSizes[] = {"8","10","14","16","18","20","24","28"};
 
-static const TCHAR* s_rgszFontIdDescr[FLT_FONTIDS] =
+static const TCHAR* s_rgszFontIdDescr[FLT_FONTIDS]  = 
 {
 	_T("Standard contacts"),
 	_T("Online contacts to whom you have a different visibility"),
@@ -39,7 +39,7 @@ static const TCHAR* s_rgszFontIdDescr[FLT_FONTIDS] =
 	_T("Contacts which are 'not on list'"),
 };
 
-static WORD s_rgwFontSameAsDefault[FLT_FONTIDS] =
+static WORD s_rgwFontSameAsDefault[FLT_FONTIDS]  = 
 {
 	MAKEWORD(FLT_SAME_AS_MIRANDA, 0x0F),
 	MAKEWORD(FLT_SAME_AS_MIRANDA, 0x0F),
@@ -48,7 +48,7 @@ static WORD s_rgwFontSameAsDefault[FLT_FONTIDS] =
 	MAKEWORD(FLT_SAME_AS_MIRANDA, 0x0F),
 };
 
-static int s_rgnMirandaFontId[FLT_FONTIDS] =
+static int s_rgnMirandaFontId[FLT_FONTIDS]  = 
 {
 	FONTID_CONTACTS,
 	FONTID_INVIS,
@@ -106,25 +106,25 @@ OnOptionsInitialize
 	OPTIONSDIALOGPAGE odp;
 
 	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize			= sizeof(odp);
-	odp.hInstance		= hInst;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
-	odp.ptszTitle		= _T("Floating Contacts");
-	odp.ptszGroup		= _T("Plugins");
-	odp.ptszTab			= _T("Main Features");
-	odp.flags			= ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc		= (DLGPROC)OptWndProc;
+	odp.cbSize			 =  sizeof(odp);
+	odp.hInstance		 =  hInst;
+	odp.pszTemplate		 =  MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
+	odp.ptszTitle		 =  _T("Floating Contacts");
+	odp.ptszGroup		 =  _T("Plugins");
+	odp.ptszTab			 =  _T("Main Features");
+	odp.flags			 =  ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.pfnDlgProc		 =  (DLGPROC)OptWndProc;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 
 	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize			= sizeof(odp);
-	odp.hInstance		= hInst;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.ptszTitle		= _T("Floating Contacts");
-	odp.ptszGroup		= _T("Plugins");
-	odp.ptszTab			= _T("Appearance");
-	odp.flags			= ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc		= (DLGPROC)OptSknWndProc;
+	odp.cbSize			 =  sizeof(odp);
+	odp.hInstance		 =  hInst;
+	odp.pszTemplate		 =  MAKEINTRESOURCEA(IDD_OPT_SKIN);
+	odp.ptszTitle		 =  _T("Floating Contacts");
+	odp.ptszGroup		 =  _T("Plugins");
+	odp.ptszTab			 =  _T("Appearance");
+	odp.flags			 =  ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.pfnDlgProc		 =  (DLGPROC)OptSknWndProc;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 
 	return 0;
@@ -157,9 +157,9 @@ FillFontListThread
 	LOGFONTA lf = {0};
 	HDC hdc = GetDC(hwndDlg);
 
-	lf.lfCharSet		= DEFAULT_CHARSET;
-	lf.lfFaceName[0]	= 0;
-	lf.lfPitchAndFamily	= 0;
+	lf.lfCharSet		 =  DEFAULT_CHARSET;
+	lf.lfFaceName[0]	 =  0;
+	lf.lfPitchAndFamily	 =  0;
 	EnumFontFamiliesExA(hdc, &lf, (FONTENUMPROCA)EnumFontsProc, (LPARAM)GetDlgItem(hwndDlg,IDC_TYPEFACE), 0);
 	ReleaseDC(hwndDlg, hdc);
 	return;
@@ -280,8 +280,8 @@ GetFontSetting
 
 		wsprintfA(idstr, "Font%dAs", nFontId);
 		wSameAs = (WORD)DBGetContactSettingWord(NULL, sModule, idstr, s_rgwFontSameAsDefault[nFontId]);
-		bySameAs=LOBYTE(wSameAs);
-		bySameAsFlags=HIBYTE(wSameAs);
+		bySameAs = LOBYTE(wSameAs);
+		bySameAsFlags = HIBYTE(wSameAs);
 
 		if (FLT_SAME_AS_MIRANDA == bySameAs)
 		{
@@ -454,20 +454,20 @@ OptWndProc
 						
 						fcOpt.bFixedWidth = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
 						DBWriteContactSettingByte(NULL, sModule, "FixedWidth", (BYTE)fcOpt.bFixedWidth);
-						fcOpt.nThumbWidth	= GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
+						fcOpt.nThumbWidth	 =  GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
 						DBWriteContactSettingDword(NULL, sModule, "Width", fcOpt.nThumbWidth );
 						
-						if(bEnableTip)
+						if (bEnableTip)
 						{
 							fcOpt.bShowTip = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
 							DBWriteContactSettingByte(NULL, sModule, "ShowTip", (BYTE)fcOpt.bShowTip);
-							fcOpt.TimeIn	= GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
+							fcOpt.TimeIn	 =  GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
 							DBWriteContactSettingWord(NULL, sModule, "TimeIn", fcOpt.TimeIn );
 						}
 
 						fcOpt.bToTop = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
 						DBWriteContactSettingByte(NULL, sModule, "ToTop", (BYTE)fcOpt.bToTop);
-						fcOpt.ToTopTime	= GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
+						fcOpt.ToTopTime	 =  GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
 						DBWriteContactSettingWord(NULL, sModule, "ToTopTime", fcOpt.ToTopTime );
 	
 						fcOpt.bHideWhenCListShow = (BOOL)IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW);
@@ -605,7 +605,7 @@ OptSknWndProc
 						SIZE size;
 						HFONT hFont = CreateFontIndirectA(&lf);
 
-						hdc=GetDC(hwndDlg);
+						hdc = GetDC(hwndDlg);
 						SelectObject(hdc, hFont);
 						GetTextExtentPoint32A(hdc, "x", 1, &size);
 						ReleaseDC(hwndDlg, hdc);
@@ -790,8 +790,8 @@ OptSknWndProc
 			}
 			lf.lfHeight = GetDlgItemInt(hwndDlg, IDC_FONTSIZE, NULL, FALSE);
 			{
-				HDC hdc=GetDC(NULL);				
-				lf.lfHeight=-MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+				HDC hdc = GetDC(NULL);				
+				lf.lfHeight = -MulDiv(lf.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 				ReleaseDC(NULL,hdc);				
 			}
 			lf.lfWidth = 0;
@@ -895,7 +895,7 @@ OptSknWndProc
 														, 0
 														);
 			s_rgFontSettings[wParam].size = (char)GetDlgItemInt(hwndDlg, IDC_FONTSIZE, NULL, FALSE);
-			s_rgFontSettings[wParam].style= (IsDlgButtonChecked(hwndDlg, IDC_BOLD) ? DBFONTF_BOLD : 0)
+			s_rgFontSettings[wParam].style =  (IsDlgButtonChecked(hwndDlg, IDC_BOLD) ? DBFONTF_BOLD : 0)
 												| (IsDlgButtonChecked(hwndDlg, IDC_ITALIC) ? DBFONTF_ITALIC : 0)
 												| (IsDlgButtonChecked(hwndDlg, IDC_UNDERLINE) ? DBFONTF_UNDERLINE : 0);
 			s_rgFontSettings[wParam].colour = SendDlgItemMessage(hwndDlg, IDC_COLOUR, CPM_GETCOLOUR, 0, 0);
@@ -959,7 +959,7 @@ OptSknWndProc
 				char szPercent[20];
 
 				nPos = (BYTE)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0);
-				fcOpt.thumbAlpha	= (BYTE)(( nPos * 255 ) / 100 );
+				fcOpt.thumbAlpha	 =  (BYTE)(( nPos * 255 ) / 100 );
 				SetThumbsOpacity(fcOpt.thumbAlpha);
 				
 				wsprintfA(szPercent, "%d%%", nPos);
@@ -985,7 +985,7 @@ OptSknWndProc
 				case IDC_BROWSE:
 				{
 					char str[MAX_PATH];
-					OPENFILENAMEA ofn={0};
+					OPENFILENAMEA ofn = {0};
 					char filter[512];
 
 					GetDlgItemTextA(hwndDlg, IDC_FILENAME, str, sizeof(str));

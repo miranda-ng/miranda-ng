@@ -1735,7 +1735,7 @@ void CJabberProto::OnProcessPresence( HXML node, ThreadData* info )
 				Log( "Not hasXAvatar" );
 				for ( int i = 1; ( xNode=xmlGetNthChild( node, _T("x"), i )) != NULL; i++ ) {
 					if ( !lstrcmp( xmlGetAttrValue( xNode, _T("xmlns")), _T("vcard-temp:x:update"))) {
-						if (( xNode = xmlGetChild( xNode , "photo" )) != NULL ){
+						if (( xNode = xmlGetChild( xNode , "photo" )) != NULL ) {
 							LPCTSTR txt = xmlGetText( xNode );
 							if ( txt != NULL && txt[0] != 0) {
 								JSetByte( hContact, "AvatarXVcard", 1 );

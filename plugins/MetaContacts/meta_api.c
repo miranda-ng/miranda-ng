@@ -88,7 +88,7 @@ INT_PTR MetaAPI_SetDefaultContactNum(WPARAM wParam, LPARAM lParam) {
 	DWORD num_contacts = DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "NumContacts", -1);
 	if(num_contacts == -1)
 		return 1;
-	if((DWORD)lParam >= num_contacts || (DWORD)lParam < 0)
+	if ((DWORD)lParam >= num_contacts || (DWORD)lParam < 0)
 		return 1;
 	if(DBWriteContactSettingDword((HANDLE)wParam, META_PROTO, "Default", (DWORD)lParam))
 		return 1;
@@ -120,7 +120,7 @@ INT_PTR MetaAPI_SetDefaultContact(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = Meta_GetContactHandle((HANDLE)wParam, (int)lParam);
 	HANDLE hMeta = (HANDLE)DBGetContactSettingDword(hContact, META_PROTO, "Handle", 0);
-	if(!hContact || !hMeta || hMeta != (HANDLE)wParam || DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0)) 
+	if (!hContact || !hMeta || hMeta != (HANDLE)wParam || DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	DBWriteContactSettingDword(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -136,7 +136,7 @@ INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceSendContact(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = (HANDLE)lParam;
 	HANDLE hMeta = (HANDLE)DBGetContactSettingDword(hContact, META_PROTO, "Handle", 0);
-	if(!hContact || !hMeta || hMeta != (HANDLE)wParam || DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0)) 
+	if (!hContact || !hMeta || hMeta != (HANDLE)wParam || DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	DBWriteContactSettingDword(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -182,7 +182,7 @@ INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
 	HANDLE hMeta = (HANDLE)wParam;
 	HANDLE hContact;
 	
-	if(!hMeta) return 0;
+	if (!hMeta) return 0;
 	
 	if(DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0)) {
 		if(lParam) *(DWORD *)lParam = DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "Default", -1);
@@ -191,7 +191,7 @@ INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
 
 	hContact = (HANDLE)DBGetContactSettingDword(hMeta, META_PROTO, "ForceSend", 0);
 
-	if(!hContact) {
+	if (!hContact) {
 		if(lParam) *(DWORD *)lParam = -1;
 	} else {
 		if(lParam) *(DWORD *)lParam = (DWORD)Meta_GetContactNumber(hContact);

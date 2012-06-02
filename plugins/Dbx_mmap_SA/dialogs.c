@@ -212,7 +212,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
-			for(i = 0; i < ModulesCount; i++){
+			for(i = 0; i < ModulesCount; i++) {
 				char buf[100];
 
 				item.mask = LVIF_TEXT;
@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if ( hdr && hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1) ) {
 				iIndex = hdr->iItem;
 				if(hdr->uNewState & 0x2000){
-					for(i = 0; i < ModulesCount; i++){
+					for(i = 0; i < ModulesCount; i++) {
 						if(i != iIndex) ListView_SetCheckState(hwndList, i, 0);
 					}
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -296,19 +296,19 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
 				int alg = -1;
-				for(i = 0; i < ModulesCount; i++){
-					if(ListView_GetCheckState(hwndList, i)){
+				for(i = 0; i < ModulesCount; i++) {
+					if(ListView_GetCheckState(hwndList, i)) {
 						alg = i;
 						break;
 					}
 				}
 
 				if(alg > -1){
-					if(!bEncoding){
+					if (!bEncoding){
 						DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
 						EncryptDB();
 					}else{
-						if(Modules[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)){
+						if(Modules[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
 							DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", Modules[alg]->cryptor->uid);
 							RecryptDB();
 						}
@@ -321,7 +321,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
-				for(i = 0; i < ModulesCount; i++){
+				for(i = 0; i < ModulesCount; i++) {
 					if(uid == Modules[i]->cryptor->uid && bEncoding)
 						ListView_SetCheckState(hwndList, i, 1);
 
@@ -374,7 +374,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
 			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
 
-			if(!wrongPass)
+			if (!wrongPass)
 			{
 				tszDbName = mir_a2t((char*)lParam);
 				mir_sntprintf(tszHeaderTxt, SIZEOF(tszHeaderTxt), _T("%s\n%s"), TranslateT("Please type in your password for"), tszDbName);
@@ -419,7 +419,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			UINT uid = LOWORD(wParam);
 
 			if(uid == IDOK){
-				if(!GetWindowLongPtr(hDlg,GWLP_USERDATA))
+				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
 				{
 					encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, encryptKey, 254);
 					EndDialog(hDlg,IDOK);
@@ -485,7 +485,7 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			UINT uid = LOWORD(wParam);
 
 			if(uid == IDOK){
-				if(!GetWindowLongPtr(hDlg,GWLP_USERDATA))
+				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA))
 				{
 					char pass1[255], pass2[255];
 					if(GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
@@ -496,7 +496,7 @@ BOOL CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 					}else{
 
 						GetDlgItemTextA(hDlg, IDC_USERPASS2, pass2, 254);
-						if(!strcmp(pass1, pass2)){
+						if (!strcmp(pass1, pass2)) {
 							encryptKeyLength = strlen(pass1);
 							strcpy(encryptKey, pass1);
 							EndDialog(hDlg,IDOK);
@@ -573,7 +573,7 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if(uid == IDOK){
 					char pass1[255], pass2[255], oldpass[255];
 					GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-					if(strcmp(oldpass, encryptKey)){
+					if(strcmp(oldpass, encryptKey)) {
 						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
 						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 						break;
@@ -584,7 +584,7 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 					}else{
 						GetDlgItemTextA(hDlg, IDC_NEWPASS2, pass2, 254);
-						if(!strcmp(pass1, pass2)){
+						if (!strcmp(pass1, pass2)) {
 							strcpy(newPass, pass1);
 							EndDialog(hDlg,IDOK);
 						}else{
@@ -597,7 +597,7 @@ BOOL CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			}else if(uid == IDREMOVE){
 				char oldpass[255];
 				GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-				if(strcmp(oldpass, encryptKey)){
+				if(strcmp(oldpass, encryptKey)) {
 					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
 					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 					break;

@@ -31,7 +31,7 @@ int WorkUser(int firstTime)
 
 	if(firstTime) {
 		AddToStatus(STATUS_MESSAGE,TranslateT("Processing user data"));
-		if(!SignatureValid(dbhdr.ofsUser,DBCONTACT_SIGNATURE)) {
+		if (!SignatureValid(dbhdr.ofsUser,DBCONTACT_SIGNATURE)) {
 			AddToStatus(STATUS_ERROR,TranslateT("User corrupted, this could cause major problems"));
 			return ERROR_NO_MORE_ITEMS;
 		}
@@ -41,7 +41,7 @@ int WorkUser(int firstTime)
 			AddToStatus(STATUS_WARNING,TranslateT("More than one user contact: keeping only first"));
 			user.ofsNext=0;
 		}
-		if((ofsUser=WriteSegment(WSOFS_END,&user,sizeof(DBContact)))==WS_ERROR)
+		if ((ofsUser=WriteSegment(WSOFS_END,&user,sizeof(DBContact)))==WS_ERROR)
 			return ERROR_HANDLE_DISK_FULL;
 		dbhdr.ofsUser=ofsUser;
 		phase=0;

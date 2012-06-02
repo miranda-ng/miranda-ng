@@ -241,7 +241,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 
 	/* Need to remove the buddy from our Miranda Lists */
 	DBVARIANT dbv;
-	if (hContact != NULL && !DBGetContactSettingString( hContact, m_szModuleName, YAHOO_LOGINID, &dbv )){
+	if (hContact != NULL && !DBGetContactSettingString( hContact, m_szModuleName, YAHOO_LOGINID, &dbv )) {
 		DebugLog("Accepting buddy:%s", dbv.pszVal);    
 		accept(dbv.pszVal, GetWord(hContact, "yprotoid", 0));
 		DBFreeVariant(&dbv);
@@ -263,23 +263,23 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
 
-	if (( dbei.cbBlob = YAHOO_CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 ){
+	if (( dbei.cbBlob = YAHOO_CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 ) {
 		DebugLog("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
 	}
 
 	dbei.pBlob = ( PBYTE )alloca( dbei.cbBlob );
-	if ( YAHOO_CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei )){
+	if ( YAHOO_CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei )) {
 		DebugLog("YahooAuthDeny - Can't get db event!");
 		return 1;
 	}
 
-	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST ){
+	if ( dbei.eventType != EVENTTYPE_AUTHREQUEST ) {
 		DebugLog("YahooAuthDeny - not Authorization event");
 		return 1;
 	}
 
-	if ( strcmp( dbei.szModule, m_szModuleName )){
+	if ( strcmp( dbei.szModule, m_szModuleName )) {
 		DebugLog("YahooAuthDeny - wrong module?");
 		return 1;
 	}
@@ -289,7 +289,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 
 	/* Need to remove the buddy from our Miranda Lists */
 	DBVARIANT dbv;
-	if (hContact != NULL && !DBGetContactSettingString( hContact, m_szModuleName, YAHOO_LOGINID, &dbv )){
+	if (hContact != NULL && !DBGetContactSettingString( hContact, m_szModuleName, YAHOO_LOGINID, &dbv )) {
 		char *u_reason;
 		
 		u_reason = mir_utf8encodeT(reason);
@@ -720,7 +720,7 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 		
 	DebugLog("[YahooSetAwayMessage] Status: %s, Msg: %s",(char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, 0), (char*) c);
 	
-    if(!m_bLoggedIn){
+    if (!m_bLoggedIn){
 		if (m_iStatus == ID_STATUS_OFFLINE) {
 			DebugLog("[YahooSetAwayMessage] WARNING: WE ARE OFFLINE!"); 
 			mir_free(c);

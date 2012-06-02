@@ -92,23 +92,23 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
 	/* skip leading prefix */
 	arg=strchr(arg,':');
 	if(arg==NULL) return 1; /* parse failed */
-	for(++arg;*arg=='/';++arg);
+	for (++arg;*arg=='/';++arg);
 	/*
 		add user:      aim:addbuddy?screenname=NICK&groupname=GROUP
 		send message:  aim:goim?screenname=NICK&message=MSG
 		open chatroom: aim:gochat?roomname=ROOM&exchange=NUM
 	*/
     /* add a contact to the list */
-    if(!_strnicmp(arg,"addbuddy?",9)) {
+    if (!_strnicmp(arg,"addbuddy?",9)) {
         char *tok,*sn=NULL,*group=NULL;
         ADDCONTACTSTRUCT acs;
         PROTOSEARCHRESULT psr;
-		if(*(arg+=9)==0) return 1; /* parse failed */
+		if (*(arg+=9)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
-            if(!_strnicmp(tok,"screenname=",11) && *(tok+11)!=0)
+            if (!_strnicmp(tok,"screenname=",11) && *(tok+11)!=0)
                 sn=Netlib_UrlDecode(tok+11);
-            if(!_strnicmp(tok,"groupname=",10) && *(tok+10)!=0)
+            if (!_strnicmp(tok,"groupname=",10) && *(tok+10)!=0)
                 group=Netlib_UrlDecode(tok+10);  /* group is currently ignored */
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -125,15 +125,15 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
 		return 0;
     }
     /* send a message to a contact */
-    else if(!_strnicmp(arg,"goim?",5)) {
+    else if (!_strnicmp(arg,"goim?",5)) {
         char *tok,*sn=NULL,*msg=NULL;
         HANDLE hContact;
-        if(*(arg+=5)==0) return 1; /* parse failed */
+        if (*(arg+=5)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
-            if(!_strnicmp(tok,"screenname=",11) && *(tok+11)!=0)
+            if (!_strnicmp(tok,"screenname=",11) && *(tok+11)!=0)
                 sn=Netlib_UrlDecode(tok+11);
-            if(!_strnicmp(tok,"message=",8) && *(tok+8)!=0)
+            if (!_strnicmp(tok,"message=",8) && *(tok+8)!=0)
                 msg=Netlib_UrlDecode(tok+8);
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -151,15 +151,15 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
 		return 0;
     }
     /* open a chatroom */
-    else if(!_strnicmp(arg,"gochat?",7)) {
+    else if (!_strnicmp(arg,"gochat?",7)) {
         char *tok,*rm=NULL;
         int exchange=0;
-        if(*(arg+=7)==0) return 1; /* parse failed */
+        if (*(arg+=7)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
-            if(!_strnicmp(tok,"roomname=",9) && *(tok+9)!=0)
+            if (!_strnicmp(tok,"roomname=",9) && *(tok+9)!=0)
                 rm=Netlib_UrlDecode(tok+9);
-            if(!_strnicmp(tok,"exchange=",9))
+            if (!_strnicmp(tok,"exchange=",9))
                 exchange=atoi(Netlib_UrlDecode(tok+9)); 
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -341,9 +341,9 @@ static int IcqOpenFile(WPARAM wParam,LPARAM lParam)
 		if(IsEmpty(line)) continue;
 		if(line[0]=='[') {
 			ZeroMemory(&info,sizeof(info));
-			if(!lstrcmpiA(line,"[ICQ Message User]"))
+			if (!lstrcmpiA(line,"[ICQ Message User]"))
 				info.type=ICQFILE_MESSAGEUSER;
-			else if(!lstrcmpiA(line,"[ICQ User]"))
+			else if (!lstrcmpiA(line,"[ICQ User]"))
 				info.type=ICQFILE_ADDUSER;
 			continue;
 		}
@@ -351,11 +351,11 @@ static int IcqOpenFile(WPARAM wParam,LPARAM lParam)
 		sep=strchr(line,'=');
 		if(sep==NULL) { info.type=0; break; } /* format error */
 		*(sep++)='\0';
-		if(!lstrcmpA("UIN",line)) lstrcpynA(info.uin,sep,sizeof(info.uin)); /* buffer safe */
-		else if(!lstrcmpA("Email",line)) lstrcpynA(info.email,sep,sizeof(info.email)); /* buffer safe */
-		else if(!lstrcmpA("NickName",line)) lstrcpynA(info.nick,sep,sizeof(info.nick)); /* buffer safe */
-		else if(!lstrcmpA("FirstName",line)) lstrcpynA(info.firstName,sep,sizeof(info.firstName)); /* buffer safe */
-		else if(!lstrcmpA("LastName",line)) lstrcpynA(info.lastName,sep,sizeof(info.lastName)); /* buffer safe */
+		if (!lstrcmpA("UIN",line)) lstrcpynA(info.uin,sep,sizeof(info.uin)); /* buffer safe */
+		else if (!lstrcmpA("Email",line)) lstrcpynA(info.email,sep,sizeof(info.email)); /* buffer safe */
+		else if (!lstrcmpA("NickName",line)) lstrcpynA(info.nick,sep,sizeof(info.nick)); /* buffer safe */
+		else if (!lstrcmpA("FirstName",line)) lstrcpynA(info.firstName,sep,sizeof(info.firstName)); /* buffer safe */
+		else if (!lstrcmpA("LastName",line)) lstrcpynA(info.lastName,sep,sizeof(info.lastName)); /* buffer safe */
 	}
 	fclose(fp);
 	switch(info.type) {
@@ -424,13 +424,13 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
 	/* skip leading prefix */
 	arg=strchr(arg,':');
 	if(arg==NULL) return 1; /* parse failed */
-	for(++arg;*arg=='/';++arg);
+	for (++arg;*arg=='/';++arg);
     /* add a contact to the list */
-    if(!_strnicmp(arg,"addfriend?",10)) {
+    if (!_strnicmp(arg,"addfriend?",10)) {
         char *tok,*id=NULL;
         ADDCONTACTSTRUCT acs;
         PROTOSEARCHRESULT psr;
-        if(*(arg+=10)==0) return 1; /* parse failed */
+        if (*(arg+=10)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         if(tok!=NULL) id=Netlib_UrlDecode(tok);
         if(id==NULL || *id==0) return 1; /* parse failed */
@@ -446,14 +446,14 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
 		return 0;
     }
     /* send a message to a contact */
-    else if(!_strnicmp(arg,"sendim?",7)) {
+    else if (!_strnicmp(arg,"sendim?",7)) {
         char *tok,*id=NULL,*msg=NULL;
         HANDLE hContact;
-        if(*(arg+=7)==0) return 1; /* parse failed */
+        if (*(arg+=7)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         if(tok!=NULL) id=tok;
 		while(tok!=NULL) {
-            if(!_strnicmp(tok,"m=",2) && *(tok+2)!=0)
+            if (!_strnicmp(tok,"m=",2) && *(tok+2)!=0)
                 msg=Netlib_UrlDecode(tok+2);
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -466,9 +466,9 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
 		return 0;
 	}
     /* open a chatroom */
-    else if(!_strnicmp(arg,"chat?",5)) {
+    else if (!_strnicmp(arg,"chat?",5)) {
         char *tok,*rm=NULL;
-        if(*(arg+=5)==0) return 1; /* parse failed */
+        if (*(arg+=5)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         if(tok!=NULL) rm=Netlib_UrlDecode(tok);
         if(rm==NULL) return 1; /* parse failed */
@@ -536,16 +536,16 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
 	/* skip leading prefix */
 	arg=strchr(arg,':');
 	if(arg==NULL) return 1; /* parse failed */
-	for(++arg;*arg=='/';++arg);
+	for (++arg;*arg=='/';++arg);
     /* add a contact to the list */
-    if(!_strnicmp(arg,"add?",4)) {
+    if (!_strnicmp(arg,"add?",4)) {
         char *tok,*email=NULL;
         ADDCONTACTSTRUCT acs;
         PROTOSEARCHRESULT psr;
-        if(*(arg+=4)==0) return 1; /* parse failed */
+        if (*(arg+=4)==0) return 1; /* parse failed */
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
-            if(!_strnicmp(tok,"contact=",8) && *(tok+11)!=0)
+            if (!_strnicmp(tok,"contact=",8) && *(tok+11)!=0)
                 email=Netlib_UrlDecode(tok+11);
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -564,14 +564,14 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
     }
     /* send a message to a contact */
 	/* "voice" and "video" not yet implemented, perform same action as "chat" */
-    else if(!_strnicmp(arg,"chat?",5) || !_strnicmp(arg,"voice?",6) || !_strnicmp(arg,"video?",6)) {
+    else if (!_strnicmp(arg,"chat?",5) || !_strnicmp(arg,"voice?",6) || !_strnicmp(arg,"video?",6)) {
         char *tok,*email=NULL;
         HANDLE hContact;
-        if(*(arg+=5)==0) return 1; /* parse failed */
-		if(*arg=='?' && *(++arg)==0) return 1; /* for "voice?" and "video?" */
+        if (*(arg+=5)==0) return 1; /* parse failed */
+		if (*arg=='?' && *(++arg)==0) return 1; /* for "voice?" and "video?" */
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
-            if(!_strnicmp(tok,"contact=",8) && *(tok+11)!=0)
+            if (!_strnicmp(tok,"contact=",8) && *(tok+11)!=0)
                 email=Netlib_UrlDecode(tok+11);
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -640,7 +640,7 @@ static int ServiceParseLink(WPARAM wParam,LPARAM lParam)
 	/* skip leading prefix */
 	arg=strchr(arg,':');
 	if(arg==NULL) return 1; /* parse failed */
-	for(++arg;*arg=='/';++arg);
+	for (++arg;*arg=='/';++arg);
     /* send a message to a contact */
 	{	HANDLE hContact;
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) {
@@ -705,7 +705,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 	/* skip leading prefix */
 	arg=strchr(arg,':');
 	if(arg==NULL) return 1; /* parse failed */
-	for(++arg;*arg=='/';++arg);
+	for (++arg;*arg=='/';++arg);
 	/*
 		complete specification: http://www.xmpp.org/extensions/xep-0147.html
 		send message:           xmpp:JID?message;subject=TEXT&body=TEXT
@@ -716,9 +716,9 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 	arg=strchr(jid=arg,'?');
 	if(arg==NULL) arg+=lstrlenA(arg); /* points to terminating nul */
 	else *(arg++)=0;
-	if(*jid==0) return 1; /* parse failed */
+	if (*jid==0) return 1; /* parse failed */
     /* send a message to a contact */
-    else if(*arg==0 || (!_strnicmp(arg,"message",7) && (*(arg+7)==';' || *(arg+7)==0))) {
+    else if (*arg==0 || (!_strnicmp(arg,"message",7) && (*(arg+7)==';' || *(arg+7)==0))) {
         char *tok,*subj=NULL,*body=NULL;
         HANDLE hContact;
 		char msg[1024];
@@ -726,9 +726,9 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 		while(*arg==';') ++arg;
         tok=strtok(arg,"&"); /* first token */
         while(tok!=NULL) {
-            if(!_strnicmp(tok,"subject=",8) && *(tok+8)!=0)
+            if (!_strnicmp(tok,"subject=",8) && *(tok+8)!=0)
                 subj=Netlib_UrlDecode(tok+8);
-            if(!_strnicmp(tok,"body=",5) && *(tok+5)!=0)
+            if (!_strnicmp(tok,"body=",5) && *(tok+5)!=0)
                 body=Netlib_UrlDecode(tok+5);
             tok=strtok(NULL,"&"); /* next token */
         }
@@ -744,7 +744,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 		return 0;
     }
     /* add user to contact list */
-    else if(!_strnicmp(arg,"roster",6) && (*(arg+6)==';' || *(arg+6)==0)) {
+    else if (!_strnicmp(arg,"roster",6) && (*(arg+6)==';' || *(arg+6)==0)) {
         ADDCONTACTSTRUCT acs;
         PROTOSEARCHRESULT psr;
         if(JabberHContactFromJID(jid)==NULL) { /* does not yet check if jid belongs to current user */
@@ -759,7 +759,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 		return 0;
     }
 	/* remove user from contact list */
-    else if(!_strnicmp(arg,"remove",6) && (*(arg+6)==';' || *(arg+6)==0)) {
+    else if (!_strnicmp(arg,"remove",6) && (*(arg+6)==';' || *(arg+6)==0)) {
 		HANDLE hContact;
 		hContact=JabberHContactFromJID(jid);
         if(hContact==NULL) /* not yet implemented: show standard miranda dialog here */
@@ -767,12 +767,12 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
 		return 0;
     }
     /* add user subscription */
-    else if(!_strnicmp(arg,"subscribe",9) && (*(arg+9)==';' || *(arg+9)==0)) {
+    else if (!_strnicmp(arg,"subscribe",9) && (*(arg+9)==';' || *(arg+9)==0)) {
 		/* not yet implemented */
 		return 0;
     }
 	/* remove user subscription */
-    else if(!_strnicmp(arg,"unsubscribe",11) && (*(arg+11)==';' || *(arg+11)==0)) {
+    else if (!_strnicmp(arg,"unsubscribe",11) && (*(arg+11)==';' || *(arg+11)==0)) {
 		/* not yet implemented */
 		return 0;
     }

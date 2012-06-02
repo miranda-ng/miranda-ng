@@ -254,7 +254,7 @@ static int DSP_Read(DISPLAYPROFILESET *p)
          */
 
         mir_snprintf(szKey, 256, "{dw_%u_%u}", p->uID, j);
-        if(!cfg::getString(NULL, DSP_PROFILES_MODULE, szKey, &dbv)) {
+        if (!cfg::getString(NULL, DSP_PROFILES_MODULE, szKey, &dbv)) {
             sscanf(dbv.pszVal, "%u,%u,%u,%u,%u", dp->dwFlags, dp->dwExtraImageMask, dp->avatarBorder, dp->clcExStyle, dp->clcOfflineModes);
             DBFreeVariant(&dbv);
         }
@@ -266,7 +266,7 @@ static int DSP_Read(DISPLAYPROFILESET *p)
          */
 
         _snprintf(szKey, 256, "{b_%u_%u}", p->uID, j);
-        if(!cfg::getString(NULL, DSP_PROFILES_MODULE, szKey, &dbv)) {
+        if (!cfg::getString(NULL, DSP_PROFILES_MODULE, szKey, &dbv)) {
             if(lstrlenA(dbv.pszVal) >= 16) {
                 dp->exIconScale = (int)szBuf[i++];
                 dp->dualRowMode = szBuf[i++];
@@ -740,7 +740,7 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
     case WM_COMMAND:
         switch(LOWORD(wParam)) {
             case IDC_CLISTAVATARS:
-                if((HWND)lParam != GetFocus())
+                if ((HWND)lParam != GetFocus())
                     return 0;
                 break;
             case IDC_SHOWLOCALTIME:
@@ -992,7 +992,7 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
             return 0;
         }
     case WM_NOTIFY:
-        if(((LPNMHDR) lParam)->idFrom == IDC_EXTRAORDER) {
+        if (((LPNMHDR) lParam)->idFrom == IDC_EXTRAORDER) {
             switch (((LPNMHDR)lParam)->code) {
             case TVN_BEGINDRAGA:
             case TVN_BEGINDRAGW:
@@ -1034,7 +1034,7 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case WM_MOUSEMOVE:
 		{
-			if(!dragging)
+			if (!dragging)
                 break;
 			{
 				TVHITTESTINFO hti;
@@ -1063,7 +1063,7 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break;
 	case WM_LBUTTONUP:
 		{
-			if(!dragging) break;
+			if (!dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),NULL,0);
 			dragging=0;
 			ReleaseCapture();
@@ -1254,7 +1254,7 @@ static INT_PTR CALLBACK DlgProcDspProfiles(HWND hwnd, UINT msg, WPARAM wParam, L
       }
 
       case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-         if(!iInit)
+         if (!iInit)
              SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
          break;
       case WM_NOTIFY:
@@ -1363,7 +1363,7 @@ static INT_PTR CALLBACK TabOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
       }
 
        case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-         if(!iInit)
+         if (!iInit)
              SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
          break;
       case WM_NOTIFY:
@@ -1528,7 +1528,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
                                 int i;
                                 DWORD exStyle = cfg::getDword("CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
 
-                                if(!opt_clc_main_changed)
+                                if (!opt_clc_main_changed)
                                     return TRUE;
 
                                 for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++)
@@ -1665,7 +1665,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
                 case 0:
                     switch (((LPNMHDR) lParam)->code) {
                         case PSN_APPLY:
-                                if(!opt_clc_bkg_changed)
+                                if (!opt_clc_bkg_changed)
                                     return TRUE;
 
                                 cfg::writeByte("CLC", "UseBitmap", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_BITMAP)); {

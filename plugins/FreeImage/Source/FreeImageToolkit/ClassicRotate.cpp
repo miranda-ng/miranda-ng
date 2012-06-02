@@ -63,7 +63,7 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 	// background
 	const T pxlBlack[4] = {0, 0, 0, 0 };
 	const T *pxlBkg = static_cast<const T*>(bkcolor); // assume at least bytespp and 4*sizeof(T) max
-	if(!pxlBkg) {
+	if (!pxlBkg) {
 		// default background color is black
 		pxlBkg = pxlBlack;
 	}
@@ -98,7 +98,7 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 		}
 		// check boundaries 
 		iXPos = i + iOffset;
-		if((iXPos >= 0) && (iXPos < (int)dst_width)) {
+		if ((iXPos >= 0) && (iXPos < (int)dst_width)) {
 			// update left over on source
 			for(unsigned j = 0; j < samples; j++) {
 				pxlSrc[j] = pxlSrc[j] - (pxlLeft[j] - pxlOldLeft[j]);
@@ -115,7 +115,7 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 	// go to rightmost point of skew
 	iXPos = src_width + iOffset; 
 
-	if((iXPos >= 0) && (iXPos < (int)dst_width)) {
+	if ((iXPos >= 0) && (iXPos < (int)dst_width)) {
 		dst_bits = FreeImage_GetScanLine(dst, row) + iXPos * bytespp;
 
 		// If still in image bounds, put leftovers there
@@ -194,7 +194,7 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 	// background
 	const T pxlBlack[4] = {0, 0, 0, 0 };
 	const T *pxlBkg = static_cast<const T*>(bkcolor); // assume at least bytespp and 4*sizeof(T) max
-	if(!pxlBkg) {
+	if (!pxlBkg) {
 		// default background color is black
 		pxlBkg = pxlBlack;
 	}
@@ -235,7 +235,7 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 		}
 		// check boundaries
 		iYPos = i + iOffset;
-		if((iYPos >= 0) && (iYPos < (int)dst_height)) {
+		if ((iYPos >= 0) && (iYPos < (int)dst_height)) {
 			// update left over on source
 			for(unsigned j = 0; j < samples; j++) {
 				pxlSrc[j] = pxlSrc[j] - (pxlLeft[j] - pxlOldLeft[j]);
@@ -252,7 +252,7 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 	// go to bottom point of skew
 	iYPos = src_height + iOffset;
 
-	if((iYPos >= 0) && (iYPos < (int)dst_height)) {
+	if ((iYPos >= 0) && (iYPos < (int)dst_height)) {
 		dst_bits = FreeImage_GetScanLine(dst, iYPos) + index;
 
 		// if still in image bounds, put leftovers there				
@@ -367,7 +367,7 @@ Rotate90(FIBITMAP *src) {
 					}
 				}
 			}
-			else if((bpp == 8) || (bpp == 24) || (bpp == 32)) {
+			else if ((bpp == 8) || (bpp == 24) || (bpp == 32)) {
 				// anything other than BW :
 				// This optimized version of rotation rotates image by smaller blocks. It is quite
 				// a bit faster than obvious algorithm, because it produces much less CPU cache misses.
@@ -472,7 +472,7 @@ Rotate180(FIBITMAP *src) {
 				}
 				break;
 			}
-			// else if((bpp == 8) || (bpp == 24) || (bpp == 32)) FALL TROUGH
+			// else if ((bpp == 8) || (bpp == 24) || (bpp == 32)) FALL TROUGH
 		case FIT_UINT16:
 		case FIT_RGB16:
 		case FIT_RGBA16:
@@ -559,7 +559,7 @@ Rotate270(FIBITMAP *src) {
 					}
 				}
 			} 
-			else if((bpp == 8) || (bpp == 24) || (bpp == 32)) {
+			else if ((bpp == 8) || (bpp == 24) || (bpp == 32)) {
 				// anything other than BW :
 				// This optimized version of rotation rotates image by smaller blocks. It is quite
 				// a bit faster than obvious algorithm, because it produces much less CPU cache misses.
@@ -767,7 +767,7 @@ RotateAny(FIBITMAP *src, double dAngle, const void *bkcolor) {
 		// Bring angle to range of [0 .. 360) 
 		dAngle += 360;
 	}
-	if((dAngle > 45) && (dAngle <= 135)) {
+	if ((dAngle > 45) && (dAngle <= 135)) {
 		// Angle in (45 .. 135] 
 		// Rotate image by 90 degrees into temporary image,
 		// so it requires only an extra rotation angle 
@@ -775,7 +775,7 @@ RotateAny(FIBITMAP *src, double dAngle, const void *bkcolor) {
 		image = Rotate90(src);
 		dAngle -= 90;
 	}
-	else if((dAngle > 135) && (dAngle <= 225)) { 
+	else if ((dAngle > 135) && (dAngle <= 225)) { 
 		// Angle in (135 .. 225] 
 		// Rotate image by 180 degrees into temporary image,
 		// so it requires only an extra rotation angle 
@@ -783,7 +783,7 @@ RotateAny(FIBITMAP *src, double dAngle, const void *bkcolor) {
 		image = Rotate180(src);
 		dAngle -= 180;
 	}
-	else if((dAngle > 225) && (dAngle <= 315)) { 
+	else if ((dAngle > 225) && (dAngle <= 315)) { 
 		// Angle in (225 .. 315] 
 		// Rotate image by 270 degrees into temporary image,
 		// so it requires only an extra rotation angle 
@@ -825,7 +825,7 @@ RotateAny(FIBITMAP *src, double dAngle, const void *bkcolor) {
 
 FIBITMAP *DLL_CALLCONV 
 FreeImage_Rotate(FIBITMAP *dib, double angle, const void *bkcolor) {
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	if(0 == angle) {
 		return FreeImage_Clone(dib);
@@ -846,7 +846,7 @@ FreeImage_Rotate(FIBITMAP *dib, double angle, const void *bkcolor) {
 
 					// perform the rotation
 					FIBITMAP *dst = RotateAny(dib, angle, bkcolor);
-					if(!dst) throw(1);
+					if (!dst) throw(1);
 
 					// build a greyscale palette
 					RGBQUAD *dst_pal = FreeImage_GetPalette(dst);
@@ -863,9 +863,9 @@ FreeImage_Rotate(FIBITMAP *dib, double angle, const void *bkcolor) {
 
 					return dst;
 				}
-				else if((bpp == 8) || (bpp == 24) || (bpp == 32)) {
+				else if ((bpp == 8) || (bpp == 24) || (bpp == 32)) {
 					FIBITMAP *dst = RotateAny(dib, angle, bkcolor);
-					if(!dst) throw(1);
+					if (!dst) throw(1);
 					
 					if(bpp == 8) {
 						// copy original palette to rotated bitmap
@@ -878,7 +878,7 @@ FreeImage_Rotate(FIBITMAP *dib, double angle, const void *bkcolor) {
 
 						// copy background color 
 						RGBQUAD bkcolor; 
-						if( FreeImage_GetBackgroundColor(dib, &bkcolor) ) {
+						if ( FreeImage_GetBackgroundColor(dib, &bkcolor) ) {
 							FreeImage_SetBackgroundColor(dst, &bkcolor); 
 						}
 
@@ -898,7 +898,7 @@ FreeImage_Rotate(FIBITMAP *dib, double angle, const void *bkcolor) {
 			case FIT_RGBAF:
 			{
 				FIBITMAP *dst = RotateAny(dib, angle, bkcolor);
-				if(!dst) throw(1);
+				if (!dst) throw(1);
 
 				// copy metadata from src to dst
 				FreeImage_CloneMetadata(dst, dib);

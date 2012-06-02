@@ -27,7 +27,7 @@ UNICODE done
 
 INT_PTR GetContactStatusMessage(WPARAM wParam, LPARAM lParam)
 {
-	if(!cfg::shutDown)
+	if (!cfg::shutDown)
 		return SendMessage(pcli->hwndContactTree, CLM_GETSTATUSMSG, wParam, lParam);
 	return 0;
 }

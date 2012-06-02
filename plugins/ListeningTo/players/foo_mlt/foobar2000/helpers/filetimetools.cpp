@@ -31,7 +31,7 @@ t_filetimestamp foobar2000_io::filetimestamp_from_string(const char * date) {
 		t_size remaining = strlen(date);
 		SYSTEMTIME st = {};
 		st.wDay = 1; st.wMonth = 1;
-		for(;;) {
+		for (;;) {
 #define ADVANCE(n) { PFC_ASSERT( remaining >= n); date += n; remaining -= n; }
 #define ADVANCE_TEST(n) { if (remaining < n) throw exception_time_error(); }
 #define PARSE(var, digits) { ADVANCE_TEST(digits); var = (WORD) ParseDateElem(date, digits); ADVANCE(digits) ; }

@@ -202,7 +202,7 @@ TIFFRGBAImageEnd(TIFFRGBAImage* img)
 		_TIFFfree(img->ycbcr), img->ycbcr = NULL;
 	if (img->cielab)
 		_TIFFfree(img->cielab), img->cielab = NULL;
-	if( img->redcmap ) {
+	if ( img->redcmap ) {
 		_TIFFfree( img->redcmap );
 		_TIFFfree( img->greencmap );
 		_TIFFfree( img->bluecmap );
@@ -273,10 +273,10 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, TIFF* tif, int stop, char emsg[1024])
 	}
 
 #ifdef DEFAULT_EXTRASAMPLE_AS_ALPHA
-	if( !TIFFGetField(tif, TIFFTAG_PHOTOMETRIC, &img->photometric))
+	if ( !TIFFGetField(tif, TIFFTAG_PHOTOMETRIC, &img->photometric))
 		img->photometric = PHOTOMETRIC_MINISWHITE;
 
-	if( extrasamples == 0
+	if ( extrasamples == 0
 	    && img->samplesperpixel == 4
 	    && img->photometric == PHOTOMETRIC_RGB )
 	{
@@ -317,7 +317,7 @@ TIFFRGBAImageBegin(TIFFRGBAImage* img, TIFF* tif, int stop, char emsg[1024])
 			img->redcmap = (uint16 *) _TIFFmalloc(sizeof(uint16)*n_color);
 			img->greencmap = (uint16 *) _TIFFmalloc(sizeof(uint16)*n_color);
 			img->bluecmap = (uint16 *) _TIFFmalloc(sizeof(uint16)*n_color);
-			if( !img->redcmap || !img->greencmap || !img->bluecmap ) {
+			if ( !img->redcmap || !img->greencmap || !img->bluecmap ) {
 				sprintf(emsg, "Out of memory for colormap copy");
 				return (0);
 			}
@@ -1575,7 +1575,7 @@ static void putcontig8bitYCbCrGenericTile(
     (void) y;
     fromskew = (fromskew * group_size) / h_group;
 
-    for( yy = 0; yy < h; yy++ )
+    for ( yy = 0; yy < h; yy++ )
     {
         unsigned char *pp_line;
         int     y_line_group = yy / v_group;
@@ -1584,7 +1584,7 @@ static void putcontig8bitYCbCrGenericTile(
         pp_line = pp + v_line_group * 
 
         
-        for( xx = 0; xx < w; xx++ )
+        for ( xx = 0; xx < w; xx++ )
         {
             Cb = pp
         }
@@ -1818,7 +1818,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr41tile)
 	    pp += 6;
 	} while (--x);
 
-        if( (w&3) != 0 )
+        if ( (w&3) != 0 )
         {
 	    int32 Cb = pp[4];
 	    int32 Cr = pp[5];
@@ -1918,7 +1918,7 @@ DECLAREContigPutFunc(putcontig8bitYCbCr21tile)
 			pp += 4;
 		} while (--x);
 
-		if( (w&1) != 0 )
+		if ( (w&1) != 0 )
 		{
 			int32 Cb = pp[2];
 			int32 Cr = pp[3];
@@ -2093,7 +2093,7 @@ makebwmap(TIFFRGBAImage* img)
     int i;
     uint32* p;
 
-    if( nsamples == 0 )
+    if ( nsamples == 0 )
         nsamples = 1;
 
     img->BWmap = (uint32**) _TIFFmalloc(
@@ -2151,7 +2151,7 @@ setupMap(TIFFRGBAImage* img)
     range = (int32)((1L<<img->bitspersample)-1);
     
     /* treat 16 bit the same as eight bit */
-    if( img->bitspersample == 16 )
+    if ( img->bitspersample == 16 )
         range = (int32) 255;
 
     img->Map = (TIFFRGBValue*) _TIFFmalloc((range+1) * sizeof (TIFFRGBValue));
@@ -2528,7 +2528,7 @@ TIFFReadRGBAStrip(TIFF* tif, uint32 row, uint32 * raster )
     int 	ok;
     uint32	rowsperstrip, rows_to_read;
 
-    if( TIFFIsTiled( tif ) )
+    if ( TIFFIsTiled( tif ) )
     {
 		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif),
                   "Can't use TIFFReadRGBAStrip() with tiled file.");
@@ -2536,7 +2536,7 @@ TIFFReadRGBAStrip(TIFF* tif, uint32 row, uint32 * raster )
     }
     
     TIFFGetFieldDefaulted(tif, TIFFTAG_ROWSPERSTRIP, &rowsperstrip);
-    if( (row % rowsperstrip) != 0 )
+    if ( (row % rowsperstrip) != 0 )
     {
 		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif),
 				"Row passed to TIFFReadRGBAStrip() must be first in a strip.");
@@ -2548,7 +2548,7 @@ TIFFReadRGBAStrip(TIFF* tif, uint32 row, uint32 * raster )
         img.row_offset = row;
         img.col_offset = 0;
 
-        if( row + rowsperstrip > img.height )
+        if ( row + rowsperstrip > img.height )
             rows_to_read = img.height - row;
         else
             rows_to_read = rowsperstrip;
@@ -2586,7 +2586,7 @@ TIFFReadRGBATile(TIFF* tif, uint32 col, uint32 row, uint32 * raster)
      * tile boundary.
      */
     
-    if( !TIFFIsTiled( tif ) )
+    if ( !TIFFIsTiled( tif ) )
     {
 		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif),
 				  "Can't use TIFFReadRGBATile() with stripped file.");
@@ -2595,7 +2595,7 @@ TIFFReadRGBATile(TIFF* tif, uint32 col, uint32 row, uint32 * raster)
     
     TIFFGetFieldDefaulted(tif, TIFFTAG_TILEWIDTH, &tile_xsize);
     TIFFGetFieldDefaulted(tif, TIFFTAG_TILELENGTH, &tile_ysize);
-    if( (col % tile_xsize) != 0 || (row % tile_ysize) != 0 )
+    if ( (col % tile_xsize) != 0 || (row % tile_ysize) != 0 )
     {
 		TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif),
                   "Row/col passed to TIFFReadRGBATile() must be top"
@@ -2620,12 +2620,12 @@ TIFFReadRGBATile(TIFF* tif, uint32 col, uint32 row, uint32 * raster)
      * a full tile configuration afterwards.
      */
 
-    if( row + tile_ysize > img.height )
+    if ( row + tile_ysize > img.height )
         read_ysize = img.height - row;
     else
         read_ysize = tile_ysize;
     
-    if( col + tile_xsize > img.width )
+    if ( col + tile_xsize > img.width )
         read_xsize = img.width - col;
     else
         read_xsize = tile_xsize;
@@ -2649,10 +2649,10 @@ TIFFReadRGBATile(TIFF* tif, uint32 col, uint32 row, uint32 * raster)
      * bottom to top format. 
      */
 
-    if( read_xsize == tile_xsize && read_ysize == tile_ysize )
+    if ( read_xsize == tile_xsize && read_ysize == tile_ysize )
         return( ok );
 
-    for( i_row = 0; i_row < read_ysize; i_row++ ) {
+    for ( i_row = 0; i_row < read_ysize; i_row++ ) {
         memmove( raster + (tile_ysize - i_row - 1) * tile_xsize,
                  raster + (read_ysize - i_row - 1) * read_xsize,
                  read_xsize * sizeof(uint32) );
@@ -2660,7 +2660,7 @@ TIFFReadRGBATile(TIFF* tif, uint32 col, uint32 row, uint32 * raster)
                      0, sizeof(uint32) * (tile_xsize - read_xsize) );
     }
 
-    for( i_row = read_ysize; i_row < tile_ysize; i_row++ ) {
+    for ( i_row = read_ysize; i_row < tile_ysize; i_row++ ) {
         _TIFFmemset( raster + (tile_ysize - i_row - 1) * tile_xsize,
                      0, sizeof(uint32) * tile_xsize );
     }

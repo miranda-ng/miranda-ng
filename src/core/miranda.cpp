@@ -368,7 +368,7 @@ void* GetCurrentThreadEntryPoint()
 	if(NtQueryInformationThread == NULL) return 0;
 
 	hCurrentProcess = GetCurrentProcess();
-	if(!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)){
+	if(!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
 		SetLastError(ERROR_ACCESS_DENIED);
 		return NULL;
 	}

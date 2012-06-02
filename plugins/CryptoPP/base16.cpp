@@ -24,7 +24,7 @@ char *base16decode(const char *inBuffer, int *count) {
 	BYTE *outBufferPtr = (BYTE *) outBuffer;
 	bool big_endian = false;
 
-	if(*inBuffer == '0' && *(inBuffer+1) == 'x') {
+	if (*inBuffer == '0' && *(inBuffer+1) == 'x') {
 		inBuffer += *count;
 		big_endian = true;
 		*count -= 2;
@@ -39,7 +39,7 @@ char *base16decode(const char *inBuffer, int *count) {
 			c0 = decode16(*inBuffer++);
 			c1 = decode16(*inBuffer++);
 		}
-		if((c0 | c1) == BERR) {
+		if ((c0 | c1) == BERR) {
 			free(outBuffer);
 			*count = 0;
 			return(NULL);

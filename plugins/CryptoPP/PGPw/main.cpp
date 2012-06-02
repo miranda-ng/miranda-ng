@@ -45,7 +45,7 @@ void _pgp_memcpy(LPSTR dst, LPSTR src, UINT size)
 
 int __cdecl _pgp_init()
 {
-	if(!pgpErrMsg)
+	if (!pgpErrMsg)
 		pgpErrMsg = (LPSTR) LocalAlloc(LPTR,pgpErrMsgLen);
 
 	pgpVer = 0;
@@ -172,7 +172,7 @@ LPSTR __cdecl _pgp_encrypt_keydb(LPCSTR szPlainMsg, PVOID pgpKeyID)
     DWORD dwEncMsgLen;
 
 	ClearPGPError();
-	if(!pgpKeyDB)
+	if (!pgpKeyDB)
 		return 0;
 
 #if (PGP_WIN32 < 0x700)
@@ -221,7 +221,7 @@ LPSTR __cdecl _pgp_decrypt_keydb(LPCSTR szEncMsg)
     DWORD dwPlainMsgLen;
 
 	ClearPGPError();
-	if(!pgpKeyDB)
+	if (!pgpKeyDB)
 		return 0;
 
     int iTry = 0;

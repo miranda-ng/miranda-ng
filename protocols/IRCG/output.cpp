@@ -42,7 +42,7 @@ static CMString FormatOutput (const CIrcMessage* pmsg)
 			TCHAR temp[256]; *temp = '\0';
 			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s invites you to %s"), pmsg->prefix.sNick.c_str(), pmsg->parameters[1].c_str());
 			sMessage = temp;
-			for( int i=2; i < (int)pmsg->parameters.getCount(); i++ ) {
+			for ( int i=2; i < (int)pmsg->parameters.getCount(); i++ ) {
 				sMessage += _T(": ") + pmsg->parameters[i];
 				if ( i != pmsg->parameters.getCount()-1 )
 					sMessage += _T(" ");

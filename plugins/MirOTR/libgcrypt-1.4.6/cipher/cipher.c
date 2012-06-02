@@ -1294,7 +1294,7 @@ do_ofb_encrypt( gcry_cipher_hd_t c,
       return;
     }
 
-  if( c->unused )
+  if ( c->unused )
     {
       nbytes -= c->unused;
       for(ivp=c->u_iv.iv+blocksize - c->unused; c->unused; c->unused-- )
@@ -1331,7 +1331,7 @@ do_ofb_decrypt( gcry_cipher_hd_t c,
   byte *ivp;
   size_t blocksize = c->cipher->blocksize;
   
-  if( nbytes <= c->unused )
+  if ( nbytes <= c->unused )
     {
       /* Short enough to be encoded by the remaining XOR mask. */
       for (ivp=c->u_iv.iv+blocksize - c->unused; nbytes; nbytes--,c->unused--)
@@ -1874,7 +1874,7 @@ gcry_cipher_ctl( gcry_cipher_hd_t h, int cmd, void *buffer, size_t buflen)
     case GCRYCTL_DISABLE_ALGO:
       /* This command expects NULL for H and BUFFER to point to an
          integer with the algo number.  */
-      if( h || !buffer || buflen != sizeof(int) )
+      if ( h || !buffer || buflen != sizeof(int) )
 	return gcry_error (GPG_ERR_CIPHER_ALGO);
       disable_cipher_algo( *(int*)buffer );
       break;

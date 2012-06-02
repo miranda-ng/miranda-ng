@@ -381,7 +381,7 @@ namespace
 							}
 						}
 
-						if((false == sName.empty()) && (false == sType.empty()))
+						if ((false == sName.empty()) && (false == sType.empty()))
 						{
 							std::string s = quotes_t2a(sName.c_str());
 							dbs.szSetting = s.c_str();//T2CA(sName.c_str());
@@ -475,7 +475,7 @@ namespace
 								}
 							}
 
-							if((true == bCListModule) && (0 == quotes_stricmp(sName.c_str(),_T("Group"))))
+							if ((true == bCListModule) && (0 == quotes_stricmp(sName.c_str(),_T("Group"))))
 							{
 								CallService(MS_CLIST_GROUPCREATE,NULL,reinterpret_cast<LPARAM>(sValue.c_str()));
 							}
@@ -546,7 +546,7 @@ namespace
 		{
 			IXMLNode::TXMLNodePtr pNode = pXmlContact->GetChildNode(i);
 			tstring sName = pNode->GetName();
-			if((0 == quotes_stricmp(g_pszXmlModule,sName.c_str()))
+			if ((0 == quotes_stricmp(g_pszXmlModule,sName.c_str()))
 				&& (0 == quotes_stricmp(g_sQuotes.c_str(),pNode->GetText().c_str())))
 			{
 				return pNode;
@@ -593,7 +593,7 @@ namespace
 			if(pXMLSetting && (0 == quotes_stricmp(g_pszXmlSetting,pXMLSetting->GetName().c_str())))
 			{
 				TNameValue Item = parse_setting_node(pXMLSetting);
-				if((0 == quotes_stricmp(g_sQuotesProvider.c_str(),Item.first.c_str())) && (false == Item.second.empty()))
+				if ((0 == quotes_stricmp(g_sQuotesProvider.c_str(),Item.first.c_str())) && (false == Item.second.empty()))
 				{
 					return CModuleInfo::GetInstance().GetQuoteProvidersPtr()->FindProvider(Item.second);
 				}
@@ -649,7 +649,7 @@ namespace
 					}
 				}
 
-				if((false == sFromID.empty()) && (false == sToID.empty()))
+				if ((false == sFromID.empty()) && (false == sToID.empty()))
 				{
 					m_hContact = rProvider.GetContactByID(sFromID,sToID);
 				}

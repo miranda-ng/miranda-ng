@@ -49,7 +49,7 @@ inline TCHAR* GetString(char* key, const TCHAR* def)
 {
 	DBVARIANT dbv;
 	TCHAR* val;
-	if(!DBGetContactSettingTString(NULL, BOLTUN_KEY, key, &dbv))
+	if (!DBGetContactSettingTString(NULL, BOLTUN_KEY, key, &dbv))
 	{
 		size_t len = wcslen(dbv.ptszVal) + 1;
 		val = new TCHAR[len];

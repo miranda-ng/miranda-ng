@@ -101,7 +101,7 @@ BOOL load_pgp_sdk(int type, int id)
 	int r; char t[MAX_PATH];
 	pgpVer = 0;
 
-	if( isVista ){
+	if ( isVista ) {
 		sprintf(t,"%s\\pgpsdkw.dll",TEMP);
 		ExtractFile(t,type,id);
 		hpgpsdk = LoadLibraryA(t);
@@ -112,14 +112,14 @@ BOOL load_pgp_sdk(int type, int id)
 		hpgpsdk = MemLoadLibrary( pRS_pgp );
 	}
 	if (hpgpsdk) {
-		if( isVista )	load_pgpsdk_dll(hpgpsdk);
+		if ( isVista )	load_pgpsdk_dll(hpgpsdk);
 		else			load_pgpsdk_mem(hpgpsdk);
 		r = p_pgp_init();
 		if(r) {
 			pgpVer = p_pgp_get_version();
 			return r;
 		}
-		if( isVista ){
+		if ( isVista ) {
 			FreeLibrary(hpgpsdk);
 		}
 		else {
@@ -136,7 +136,7 @@ int __cdecl pgp_init()
 {
 	int r;
 
-	if( !hPGPPRIV ) {
+	if ( !hPGPPRIV ) {
 		// create context for private pgp keys
 		hPGPPRIV = (HANDLE) cpp_create_context(MODE_PGP|MODE_PRIV_KEY);
 		pCNTX tmp = (pCNTX) hPGPPRIV;
@@ -144,8 +144,8 @@ int __cdecl pgp_init()
 		memset(tmp->pdata,0,sizeof(PGPDATA));
 	}
 
-	if( r = load_pgp_sdk(666,6) ) return r;
-	if( r = load_pgp_sdk(666,8) ) return r;
+	if ( r = load_pgp_sdk(666,6) ) return r;
+	if ( r = load_pgp_sdk(666,8) ) return r;
 
 	hpgpsdk = 0;
 
@@ -159,7 +159,7 @@ int __cdecl pgp_done()
     pgpVer = 0;
     if(hpgpsdk) {
     	r = p_pgp_done();
-		if( isVista ){
+		if ( isVista ) {
 			FreeLibrary(hpgpsdk);
 		}
 		else {
@@ -208,7 +208,7 @@ LPSTR __cdecl pgp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 		szEncMsg = p_pgp_encrypt_key(szPlainMsg,(LPCSTR)p->pgpKey);
 	else
 		szEncMsg = p_pgp_encrypt_keydb(szPlainMsg,p->pgpKeyID);
-	if(!szEncMsg) return 0;
+	if (!szEncMsg) return 0;
 
 	ptr->tmp = (LPSTR) strdup(szEncMsg);
 	LocalFree((LPVOID)szEncMsg);
@@ -223,14 +223,14 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
     SAFE_FREE(ptr->tmp);
 
     LPSTR szPlainMsg = p_pgp_decrypt_keydb(szEncMsg);
-    if(!szPlainMsg) {
+    if (!szPlainMsg) {
 	ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
     	if(ptr) {
 	    pPGPDATA p = (pPGPDATA) ptr->pdata;
     	    if(p->pgpKey)
 		szPlainMsg = p_pgp_decrypt_key(szEncMsg,(LPCSTR)p->pgpKey);
 	}
-	if(!szPlainMsg) return NULL;
+	if (!szPlainMsg) return NULL;
     }
 
     ptr->tmp = (LPSTR) strdup(szPlainMsg);
@@ -242,9 +242,9 @@ LPSTR __cdecl pgp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 
 LPSTR __cdecl pgp_encode(HANDLE context, LPCSTR szPlainMsg)
 {
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return NULL;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
 	pPGPDATA p = (pPGPDATA) cpp_alloc_pdata(ptr);
-	if( !p->pgpKeyID && !p->pgpKey ) { ptr->error = ERROR_NO_PGP_KEY; return NULL; }
+	if ( !p->pgpKeyID && !p->pgpKey ) { ptr->error = ERROR_NO_PGP_KEY; return NULL; }
 
 	// utf8 message: encrypt.
 	return pgp_encrypt(ptr, szPlainMsg);
@@ -254,13 +254,13 @@ LPSTR __cdecl pgp_encode(HANDLE context, LPCSTR szPlainMsg)
 LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = pgp_decrypt(ptr, szEncMsg);
 
 	if(szOldMsg) {
-		if( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
+		if ( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
 			int slen = strlen(szOldMsg)+1;
 			LPWSTR wszMsg = (LPWSTR) alloca(slen*sizeof(WCHAR));
 			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
@@ -284,11 +284,11 @@ int __cdecl pgp_set_priv_key(LPCSTR LocalKey)
 
 int __cdecl pgp_set_key(HANDLE context, LPCSTR RemoteKey)
 {
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pPGPDATA p = (pPGPDATA) cpp_alloc_pdata(ptr);
    	ptr->error = ERROR_NONE;
 
-//   	if(!p_pgp_check_key(RemoteKey)) return 0;
+//   	if (!p_pgp_check_key(RemoteKey)) return 0;
 
    	SAFE_FREE(p->pgpKey);
 	p->pgpKey = (PBYTE) strdup(RemoteKey);
@@ -299,7 +299,7 @@ int __cdecl pgp_set_key(HANDLE context, LPCSTR RemoteKey)
 
 int __cdecl pgp_set_keyid(HANDLE context, PVOID RemoteKeyID)
 {
-    	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+    	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pPGPDATA p = (pPGPDATA) cpp_alloc_pdata(ptr);
    	ptr->error = ERROR_NONE;
 

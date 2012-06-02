@@ -117,7 +117,7 @@ PredictorSetupDecode(TIFF* tif)
 		 * Override default decoding method with one that does the
 		 * predictor stuff.
 		 */
-                if( tif->tif_decoderow != PredictorDecodeRow )
+                if ( tif->tif_decoderow != PredictorDecodeRow )
                 {
                     sp->decoderow = tif->tif_decoderow;
                     tif->tif_decoderow = PredictorDecodeRow;
@@ -150,7 +150,7 @@ PredictorSetupDecode(TIFF* tif)
 		 * Override default decoding method with one that does the
 		 * predictor stuff.
 		 */
-                if( tif->tif_decoderow != PredictorDecodeRow )
+                if ( tif->tif_decoderow != PredictorDecodeRow )
                 {
                     sp->decoderow = tif->tif_decoderow;
                     tif->tif_decoderow = PredictorDecodeRow;
@@ -195,7 +195,7 @@ PredictorSetupEncode(TIFF* tif)
 		 * Override default encoding method with one that does the
 		 * predictor stuff.
 		 */
-                if( tif->tif_encoderow != PredictorEncodeRow )
+                if ( tif->tif_encoderow != PredictorEncodeRow )
                 {
                     sp->encoderow = tif->tif_encoderow;
                     tif->tif_encoderow = PredictorEncodeRow;
@@ -212,7 +212,7 @@ PredictorSetupEncode(TIFF* tif)
 		 * Override default encoding method with one that does the
 		 * predictor stuff.
 		 */
-                if( tif->tif_encoderow != PredictorEncodeRow )
+                if ( tif->tif_encoderow != PredictorEncodeRow )
                 {
                     sp->encoderow = tif->tif_encoderow;
                     tif->tif_encoderow = PredictorEncodeRow;
@@ -580,7 +580,7 @@ PredictorEncodeTile(TIFF* tif, tidata_t bp0, tsize_t cc0, tsample_t s)
          * the callers buffer. http://trac.osgeo.org/gdal/ticket/1965
          */
         working_copy = (uint8*) _TIFFmalloc(cc0);
-        if( working_copy == NULL )
+        if ( working_copy == NULL )
         {
             TIFFErrorExt(tif->tif_clientdata, module, 
                          "Out of memory allocating %d byte temp buffer.",

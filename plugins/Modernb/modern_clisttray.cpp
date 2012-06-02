@@ -99,7 +99,7 @@ INT_PTR CListTray_GetGlobalStatus(WPARAM wparam,LPARAM lparam)
 	int connectingCount=0;
 	for (i=0;i<pcli->hClcProtoCount;i++)
 	{
-		if(!pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
+		if (!pcli->pfnGetProtocolVisibility(pcli->clcProto[i].szProto)) continue;
 		if (pcli->clcProto[i].dwStatus>=ID_STATUS_CONNECTING &&
 			pcli->clcProto[i].dwStatus<ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 		{
@@ -175,7 +175,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 	for(i=0,netProtoCount=0;i<count;i++) {
 		if ( pcli->pfnGetProtocolVisibility(accs[i]->szModuleName)==0 ) continue;
 		netProtoCount++;
-		if(!lstrcmpA(szChangedProto,accs[i]->szModuleName)) pcli->cycleStep=i;
+		if (!lstrcmpA(szChangedProto,accs[i]->szModuleName)) pcli->cycleStep=i;
 		if(averageMode==0) averageMode=CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0);
 		else if(averageMode!=CallProtoService(accs[i]->szModuleName,PS_GETSTATUS,0,0)) {averageMode=-1; break;}
 	}

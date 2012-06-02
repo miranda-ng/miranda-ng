@@ -6,7 +6,7 @@ const unsigned char IV[] = "PSKhell@MIRANDA!";
 // generate KeyA pair, return public key as ASCII
 LPSTR __cdecl cpp_init_keya(HANDLE context, int features) {
 
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return NULL;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
 	pSIMDATA p = (pSIMDATA) cpp_alloc_pdata(ptr);
 
 	int send_features = FEATURES;
@@ -70,19 +70,19 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features) {
 // store KeyB
 int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA) cpp_alloc_pdata(ptr);
 
 	int clen = rtrim(key);
 	ptr->features = 0;
 
 	LPSTR pub_binary;
-	if((clen==KEYSIZE*2) || (clen==(KEYSIZE+2)*2))
+	if ((clen==KEYSIZE*2) || (clen==(KEYSIZE+2)*2))
 		pub_binary = base16decode(key,&clen);
 	else 
 		pub_binary = base64decode(key,&clen);
 
-	if( !pub_binary || (clen!=KEYSIZE && clen!=KEYSIZE+2) ) {
+	if ( !pub_binary || (clen!=KEYSIZE && clen!=KEYSIZE+2) ) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("cpp_init_keyb: error bad_keyb");
 #endif
@@ -95,7 +95,7 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 		memcpy((PVOID)&ptr->features,(PVOID)(pub_binary+KEYSIZE),2);
 
 	if(p->KeyP) {
-		if(!(ptr->features & FEATURES_PSK)) { // if NO PSK on other side
+		if (!(ptr->features & FEATURES_PSK)) { // if NO PSK on other side
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 			Sent_NetLog("cpp_init_keyb: error no_psk");
 #endif
@@ -141,11 +141,11 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key) {
 // calculate secret key, return true or false
 int __cdecl cpp_calc_keyx(HANDLE context) {
 
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA) cpp_alloc_pdata(ptr);
 
-	if(!p->KeyA) { ptr->error = ERROR_NO_KEYA; return 0; }
-	if(!p->KeyB) { ptr->error = ERROR_NO_KEYB; return 0; }
+	if (!p->KeyA) { ptr->error = ERROR_NO_KEYA; return 0; }
+	if (!p->KeyB) { ptr->error = ERROR_NO_KEYB; return 0; }
    	ptr->error = ERROR_NONE;
 
 	BYTE agreeVal[KEYSIZE];
@@ -178,7 +178,7 @@ int __cdecl cpp_calc_keyx(HANDLE context) {
 // create pre-shared key from password
 int __cdecl cpp_init_keyp(HANDLE context, LPCSTR password) {
 
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA) cpp_alloc_pdata(ptr);
 
 	BYTE buffer[Tiger::DIGESTSIZE]; // buffer for hash

@@ -266,7 +266,7 @@ int FacebookProto::OnJoinChat(WPARAM,LPARAM suppress)
 	SetTopic("Omegle is a great way of meeting new friends!");
 
 	// Note: Initialization will finish up in SetChatStatus, called separately
-	if(!suppress)
+	if (!suppress)
 		SetChatStatus(m_iStatus);
 */
 	return 0;

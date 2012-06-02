@@ -349,7 +349,7 @@ INT_PTR GetStatus(WPARAM wp, LPARAM lp)
 }
 
 //register Updatersupport
-void registerUpdate(){	
+void registerUpdate() {	
 	Update update = {0};
 	char szVersion[16];
 	update.cbSize				= sizeof(Update);
@@ -374,7 +374,7 @@ void registerUpdate(){
 }
 
 //register Hotkey
-void LoadHotkey(){	
+void LoadHotkey() {	
 	HOTKEYDESC hk        = {0};
 	hk.cbSize            = sizeof(hk);
 	hk.dwFlags			 = HKD_TCHAR;
@@ -429,7 +429,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	//check if OptionLoaded
-	if(!OptionLoaded){
+	if (!OptionLoaded){
 		LoadOptions();
 	}
 /*/deprecatet stuff
@@ -661,7 +661,7 @@ MIRAPI int Load(PLUGINLINK *link)
 
 	hbmNoAvatar = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_NOAVATAR));
 
-	if(!OptionLoaded){
+	if (!OptionLoaded){
 		LoadOptions();
 	}
 

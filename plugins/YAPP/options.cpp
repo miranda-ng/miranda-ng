@@ -184,7 +184,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			char *strptr;
 			int i = 0;
-			for(; i < 10; i++) {
+			for (; i < 10; i++) {
 				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_OFFLINE + i), (LPARAM)0);
 				lvI.pszText = mir_a2t(strptr);
 				lvI.iItem = i;
@@ -290,7 +290,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case LVN_ITEMCHANGED:
 					{
 						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-						if((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
+						if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
 							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
 						}
 					}
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			options.global_hover = IsDlgButtonChecked(hwndDlg, IDC_CHK_GLOBALHOVER) ? true : false;
 
 			int i = 0;
-			for(; i < 10; i++)
+			for (; i < 10; i++)
 				options.disable_status[i] = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LST_STATUS), i) == 1);
 			options.disable_full_screen = (ListView_GetCheckState(GetDlgItem(hwndDlg, IDC_LST_STATUS), i) == 1);
 

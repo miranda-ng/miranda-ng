@@ -82,7 +82,7 @@ void CJabberProto::ListWipe( void )
 	int i;
 
 	EnterCriticalSection( &m_csLists );
-	for( i=0; i < m_lstRoster.getCount(); i++ )
+	for ( i=0; i < m_lstRoster.getCount(); i++ )
 		JabberListFreeItemInternal( m_lstRoster[i] );
 
 	m_lstRoster.destroy();
@@ -432,7 +432,7 @@ int CJabberProto::ListFindNext( JABBER_LIST list, int fromOffset )
 {
 	EnterCriticalSection( &m_csLists );
 	int i = ( fromOffset >= 0 ) ? fromOffset : 0;
-	for( ; i<m_lstRoster.getCount(); i++ )
+	for ( ; i<m_lstRoster.getCount(); i++ )
 		if ( m_lstRoster[i]->list == list ) {
 		  	LeaveCriticalSection( &m_csLists );
 			return i;

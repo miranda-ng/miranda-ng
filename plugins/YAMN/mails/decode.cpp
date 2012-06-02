@@ -226,10 +226,10 @@ int GetCharsetFromString(char *input,size_t size)
 #ifdef DEBUG_DECODECODEPAGE
 	DebugLog(DecodeFile,"<CodePage>%s</CodePage>",pout);
 #endif
-	for (int i=0;i<CPLENALL;i++){
+	for (int i=0;i<CPLENALL;i++) {
 		size_t len = strlen(CodePageNamesAll[i].NameBase);
-		if (0==strncmp(pout,CodePageNamesAll[i].NameBase,len)){
-			if (0==strcmp(pout+len,CodePageNamesAll[i].NameSub)){
+		if (0==strncmp(pout,CodePageNamesAll[i].NameBase,len)) {
+			if (0==strcmp(pout+len,CodePageNamesAll[i].NameSub)) {
 				delete[] pout;
 				return CodePageNamesAll[i].CP;
 			}
@@ -456,7 +456,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 	
 	size_t outind = 0;
 	while(*start!=0){
-		if (CODES(start)){
+		if (CODES(start)) {
 			finder=start+2;finderend=finder;
 			while(!CODED(finderend) && !EOS(finderend)) finderend++;
 			start = finderend;
@@ -534,7 +534,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 						finderend++;
 					}
 					WCHAR *oneWord=0;
-					if (ConvertStringToUnicode(DecodedResult,cp,&oneWord)){
+					if (ConvertStringToUnicode(DecodedResult,cp,&oneWord)) {
 						size_t len = wcslen(oneWord);
 						memcpy(&tempstore[outind],oneWord,len*sizeof(WCHAR));
 						outind += len;

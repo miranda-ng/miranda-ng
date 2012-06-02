@@ -182,7 +182,7 @@ void file_info_const_impl::copy(const file_info & p_source)
 	{
 //		profiler(file_info_const_impl__copy__pass2);
 		t_size index;
-		for( index = 0; index < m_meta_count; index ++ )
+		for ( index = 0; index < m_meta_count; index ++ )
 		{
 			t_size val; const t_size val_max = p_source.meta_enum_value_count(index);
 
@@ -204,12 +204,12 @@ void file_info_const_impl::copy(const file_info & p_source)
 			else
 			{
 				meta[index].m_valuemap = valuemap;
-				for( val = 0; val < val_max ; val ++ )
+				for ( val = 0; val < val_max ; val ++ )
 					*(valuemap ++ ) = stringbuffer_append(stringbuffer, p_source.meta_enum_value(index,val) );
 			}
 		}
 
-		for( index = 0; index < m_info_count; index ++ )
+		for ( index = 0; index < m_info_count; index ++ )
 		{
 			const char * name = p_source.info_enum_name(index);
 			const char * name_opt = optimize_infoname(name);

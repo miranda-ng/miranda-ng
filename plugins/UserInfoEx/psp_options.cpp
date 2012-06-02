@@ -709,7 +709,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 							DBWriteCheckBtn(hDlg, CHECK_OPT_GETCONTACTINFO_ENABLED, SET_GETCONTACTINFO_ENABLED);
 							DBWriteCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE);
-							if(!tmi.getTimeZoneTime) {
+							if (!tmi.getTimeZoneTime) {
 								DBWriteCheckBtn(hDlg, CHECK_OPT_AUTOTIMEZONE, SET_OPT_AUTOTIMEZONE);
 								if (IsDlgButtonChecked(hDlg, CHECK_OPT_AUTOTIMEZONE)) {
 									SvcTimezoneSyncWithWindows();

@@ -193,7 +193,7 @@ bool LoadDI(DISPLAYITEM *di, int index)
 
 	mir_snprintf(setting, SIZEOF(setting), "DIValue%d", index);
 	di->swzValue[0] = 0;
-	if(!DBGetContactSettingTString(0, MODULE_ITEMS, setting, &dbv)) 
+	if (!DBGetContactSettingTString(0, MODULE_ITEMS, setting, &dbv)) 
 	{
 		_tcsncpy(di->swzValue, dbv.ptszVal, SIZEOF(di->swzValue));
 		di->swzValue[SIZEOF(di->swzValue) - 1] = 0;

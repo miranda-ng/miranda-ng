@@ -126,14 +126,14 @@ int url_to_host_port_path(const char *url, char *host, int *port, char *path)
 	slash = strchr(urlcopy, '/');
 	colon = strchr(urlcopy, ':');
 
-	if(!colon || (slash && slash < colon)) {
+	if (!colon || (slash && slash < colon)) {
 		*port = 80;
 	} else {
 		*colon = 0;
 		*port = atoi(colon+1);
 	}
 
-	if(!slash) {
+	if (!slash) {
 		strcpy(path, "/");
 	} else {
 		strcpy(path, slash);
@@ -158,13 +158,13 @@ char *yahoo_urlencode(const char *instr)
 	char *str = NULL;
 	int len = strlen(instr);
 
-	if(!(str = y_new(char, 3*len + 1) ))
+	if (!(str = y_new(char, 3*len + 1) ))
 		return "";
 
 	while(instr[ipos]) {
 		while(isurlchar(instr[ipos]))
 			str[bpos++] = instr[ipos++];
-		if(!instr[ipos])
+		if (!instr[ipos])
 			break;
 		
 		snprintf(&str[bpos], 4, "%%%.2x", instr[ipos]);
@@ -188,7 +188,7 @@ char *yahoo_urldecode(const char *instr)
 	unsigned dec;
 	int len = strlen(instr);
 
-	if(!(str = y_new(char, len+1) ))
+	if (!(str = y_new(char, len+1) ))
 		return "";
 
 	while(instr[ipos]) {
@@ -198,7 +198,7 @@ char *yahoo_urldecode(const char *instr)
 				ipos++;
 			} else
 				str[bpos++] = instr[ipos++];
-		if(!instr[ipos])
+		if (!instr[ipos])
 			break;
 		
 		if(instr[ipos+1] && instr[ipos+2]) {
@@ -235,7 +235,7 @@ char *yahoo_xmldecode(const char *instr)
 	unsigned dec;
 	int len = strlen(instr);
 
-	if(!(str = y_new(char, len+1) ))
+	if (!(str = y_new(char, len+1) ))
 		return "";
 
 	while(instr[ipos]) {
@@ -245,7 +245,7 @@ char *yahoo_xmldecode(const char *instr)
 				ipos++;
 			} else
 				str[bpos++] = instr[ipos++];
-		if(!instr[ipos] || !instr[ipos+1])
+		if (!instr[ipos] || !instr[ipos+1])
 			break;
 		ipos++;
 
@@ -260,7 +260,7 @@ char *yahoo_xmldecode(const char *instr)
 		} else {
 			int i;
 			for (i=0; i<5; i++) 
-				if(!strncmp(instr+ipos, entitymap[i][0], 
+				if (!strncmp(instr+ipos, entitymap[i][0], 
 					       strlen(entitymap[i][0]))) {
 				       	str[bpos++] = entitymap[i][1][0];
 					ipos += strlen(entitymap[i][0]);
@@ -319,7 +319,7 @@ void yahoo_http_post(int id, const char *url, const char *cookies, long content_
 	char ck[2048];
 	char buff[4096];
 	
-	if(!url_to_host_port_path(url, host, &port, path))
+	if (!url_to_host_port_path(url, host, &port, path))
 		return;
 
 	if (cookies == NULL || cookies[0] == '\0') 
@@ -351,7 +351,7 @@ void yahoo_http_get(int id, const char *url, const char *cookies,
 	char ck[2048];
 	char buff[4096];
 	
-	if(!url_to_host_port_path(url, host, &port, path))
+	if (!url_to_host_port_path(url, host, &port, path))
 		return;
 
 	if (cookies == NULL || cookies[0] == '\0') 
@@ -394,17 +394,17 @@ static void yahoo_got_url_fd(int id, int fd, int error, void *data)
 
 	while((n=yahoo_tcp_readline(buff, sizeof(buff), fd)) > 0) {
 		LOG(("Read:%s:\n", buff));
-		if(!strcmp(buff, ""))
+		if (!strcmp(buff, ""))
 			break;
 
-		if( !strncasecmp(buff, "Content-length:", 
+		if ( !strncasecmp(buff, "Content-length:", 
 				strlen("Content-length:")) ) {
 			tmp = strrchr(buff, ' ');
 			if(tmp)
 				filesize = atol(tmp);
 		}
 
-		if( !strncasecmp(buff, "Content-disposition:", 
+		if ( !strncasecmp(buff, "Content-disposition:", 
 				strlen("Content-disposition:")) ) {
 			tmp = strstr(buff, "name=");
 			if(tmp) {
@@ -418,9 +418,9 @@ static void yahoo_got_url_fd(int id, int fd, int error, void *data)
 				} else {
 					char *tmp2;
 					tmp2 = strchr(tmp, ';');
-					if(!tmp2)
+					if (!tmp2)
 						tmp2 = strchr(tmp, '\r');
-					if(!tmp2)
+					if (!tmp2)
 						tmp2 = strchr(tmp, '\n');
 					if(tmp2)
 						*tmp2 = '\0';

@@ -141,7 +141,7 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 		TRIVERTEX tvtx[2];
 		int orig = 1, dest = 0;
 
-		if(!(FLG_GRADIENT & GRADIENT_ACTIVE)) {
+		if (!(FLG_GRADIENT & GRADIENT_ACTIVE)) {
 			tvtx[0].Red = tvtx[1].Red = (COLOR16)GetRValue(basecolor) << 8;
 			tvtx[0].Blue = tvtx[1].Blue = (COLOR16)GetBValue(basecolor) << 8;
 			tvtx[0].Green = tvtx[1].Green = (COLOR16)GetGValue(basecolor) << 8;

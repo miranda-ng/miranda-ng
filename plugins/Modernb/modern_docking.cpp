@@ -111,7 +111,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 	if(msg->message==WM_DESTROY) 
 		ModernWriteSettingByte(NULL,"CList","Docked",(BYTE)g_CluiData.fDocked);
 
-	if(!g_CluiData.fDocked && msg->message!=WM_CREATE && msg->message!=WM_MOVING && msg->message!=WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
+	if (!g_CluiData.fDocked && msg->message!=WM_CREATE && msg->message!=WM_MOVING && msg->message!=WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
 	switch(msg->message) {
 		case WM_CREATE:
 			//if(GetSystemMetrics(SM_CMONITORS)>1) return 0;
@@ -185,7 +185,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				dock_drag_dy=rcWindow.top-ptCursor.y;
 				Docking_GetMonitorRectFromPoint(ptCursor,&rcMonitor);
 
-				if(((ptCursor.x<rcMonitor.left+EDGESENSITIVITY) 
+				if (((ptCursor.x<rcMonitor.left+EDGESENSITIVITY) 
 					|| (ptCursor.x>=rcMonitor.right-EDGESENSITIVITY))
 					&& ModernGetSettingByte(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT))
 				{
@@ -272,7 +272,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 			{
 				if(msg->lParam) return 0;
 				BOOL toBeDocked = (BOOL) ModernGetSettingByte(NULL,"CLUI","DockToSides",SETTING_DOCKTOSIDES_DEFAULT);
-				if((msg->wParam && g_CluiData.fDocked<0) || (!msg->wParam && g_CluiData.fDocked>0)) g_CluiData.fDocked=-g_CluiData.fDocked;
+				if ((msg->wParam && g_CluiData.fDocked<0) || (!msg->wParam && g_CluiData.fDocked>0)) g_CluiData.fDocked=-g_CluiData.fDocked;
 				ZeroMemory(&abd,sizeof(abd));
 				abd.cbSize=sizeof(abd);
 				abd.hWnd=msg->hwnd;
@@ -305,7 +305,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 				return 0;
 			}
 		case WM_SYSCOMMAND:
-			if((msg->wParam&0xFFF0)!=SC_MOVE) return 0;
+			if ((msg->wParam&0xFFF0)!=SC_MOVE) return 0;
 			SetActiveWindow(msg->hwnd);
 			SetCapture(msg->hwnd);
 			draggingTitle=1;
@@ -313,11 +313,11 @@ int Docking_ProcessWindowMessage(WPARAM wParam,LPARAM lParam)
 			return TRUE;
 		case WM_MOUSEMOVE:
 
-			if(!draggingTitle) return 0;
+			if (!draggingTitle) return 0;
 			{	RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd,&rc);
-			if(((g_CluiData.fDocked==DOCKED_LEFT || g_CluiData.fDocked==-DOCKED_LEFT) && (short)LOWORD(msg->lParam)>rc.right) ||
+			if (((g_CluiData.fDocked==DOCKED_LEFT || g_CluiData.fDocked==-DOCKED_LEFT) && (short)LOWORD(msg->lParam)>rc.right) ||
 				((g_CluiData.fDocked==DOCKED_RIGHT || g_CluiData.fDocked==-DOCKED_RIGHT) && (short)LOWORD(msg->lParam)<0)) {
 					ReleaseCapture();
 					draggingTitle=0;

@@ -253,7 +253,7 @@ static void CALLBACK UpdateStatusIcons(LPARAM lParam)
 	msgwi.hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 	while(msgwi.hContact!=NULL) {
 		/* is a message window opened for this contact? */
-		if(!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState&MSG_WINDOW_STATE_EXISTS) {
+		if (!CallService(MS_MSG_GETWINDOWDATA,(WPARAM)&msgwi,(LPARAM)&msgw) && msgw.uState&MSG_WINDOW_STATE_EXISTS) {
 			countryNumber=ServiceDetectContactOriginCountry((WPARAM)msgwi.hContact,0);
 			if(fShow) SetStatusIcon(msgwi.hContact,countryNumber);
 			else UnsetStatusIcon(msgwi.hContact,countryNumber);
@@ -340,7 +340,7 @@ static int CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		{	BOOL checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TEXT_EXTRAIMGFLAGCOLUMN),checked);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_COMBO_EXTRAIMGFLAGCOLUMN),checked);
-			if(!checked) checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG);
+			if (!checked) checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG),checked);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY),checked);
 			return TRUE;
@@ -395,17 +395,17 @@ static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if((HANDLE)wParam==NULL) {
-		if(!lstrcmpA(dbcws->szModule,"Flags")) {
+	if ((HANDLE)wParam==NULL) {
+		if (!lstrcmpA(dbcws->szModule,"Flags")) {
 			/* Extra Image */
-			if(!lstrcmpA(dbcws->szSetting,"ShowExtraImgFlag") ||
+			if (!lstrcmpA(dbcws->szSetting,"ShowExtraImgFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"ExtraImgFlagColumn") ||
 			   !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
 				if(ServiceExists(MS_CLIST_EXTRA_SET_ICON))
 					CallFunctionBuffered(UpdateExtraImages,0,FALSE,EXTRAIMAGE_REFRESHDELAY);
 			/* Status Icon */
-			if(!lstrcmpA(dbcws->szSetting,"ShowStatusIconFlag") ||
+			if (!lstrcmpA(dbcws->szSetting,"ShowStatusIconFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
 			   if(ServiceExists(MS_MSG_ADDICON))
@@ -413,7 +413,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 	}
 	/* user details update */
-	else if(!lstrcmpA(dbcws->szSetting,"RealIP") ||
+	else if (!lstrcmpA(dbcws->szSetting,"RealIP") ||
 	        !lstrcmpA(dbcws->szSetting,"Country") ||
 	        !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
 		/* Extra Image */

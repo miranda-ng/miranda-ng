@@ -814,7 +814,7 @@ private:
 
 static bool IsPointInsideControl(const POINT& pt, HWND wnd) {
 	HWND walk = WindowFromPoint(pt);
-	for(;;) {
+	for (;;) {
 		if (walk == NULL) return false;
 		if (walk == wnd) return true;
 		if (GetWindowLong(walk,GWL_STYLE) & WS_POPUP) return false;

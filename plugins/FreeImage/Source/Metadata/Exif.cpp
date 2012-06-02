@@ -69,7 +69,7 @@ static int
 FreeImage_strnicmp(const char *s1, const char *s2, size_t len) {
 	unsigned char c1, c2;
 
-	if(!s1 || !s2) return -1;
+	if (!s1 || !s2) return -1;
 
 	c1 = 0;	c2 = 0;
 	if(len) {
@@ -182,7 +182,7 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 	FreeImage_GetMetadata(FIMD_EXIF_MAIN, dib, "Make", &tagMake);
 	const char *Maker = (char*)FreeImage_GetTagValue(tagMake);
 
-	if((memcmp("OLYMP\x00\x01", pval, 7) == 0) || (memcmp("OLYMP\x00\x02", pval, 7) == 0) || (memcmp("EPSON", pval, 5) == 0) || (memcmp("AGFA", pval, 4) == 0)) {
+	if ((memcmp("OLYMP\x00\x01", pval, 7) == 0) || (memcmp("OLYMP\x00\x02", pval, 7) == 0) || (memcmp("EPSON", pval, 5) == 0) || (memcmp("AGFA", pval, 4) == 0)) {
 		// Olympus Type 1 Makernote
 		// Epson and Agfa use Olympus maker note standard, 
 		// see: http://www.ozhiker.com/electronics/pjmt/jpeg_info/
@@ -280,11 +280,11 @@ processMakerNote(FIBITMAP *dib, char *pval, BOOL msb_order, DWORD *subdirOffset,
 			*subdirOffset = 0;
 		}
 	}	
-	else if((memcmp("SONY CAM\x20\x00\x00\x00", pval, 12) == 0) || (memcmp("SONY DSC\x20\x00\x00\x00", pval, 12) == 0)) {
+	else if ((memcmp("SONY CAM\x20\x00\x00\x00", pval, 12) == 0) || (memcmp("SONY DSC\x20\x00\x00\x00", pval, 12) == 0)) {
 		*md_model = TagLib::EXIF_MAKERNOTE_SONY;
 		*subdirOffset = 12;
 	}
-	else if((memcmp("SIGMA\x00\x00\x00", pval, 8) == 0) || (memcmp("FOVEON\x00\x00", pval, 8) == 0)) {
+	else if ((memcmp("SIGMA\x00\x00\x00", pval, 8) == 0) || (memcmp("FOVEON\x00\x00", pval, 8) == 0)) {
 		FITAG *tagModel = NULL;
 		FreeImage_GetMetadata(FIMD_EXIF_MAIN, dib, "Model", &tagModel);
 		const char *Model = (char*)FreeImage_GetTagValue(tagModel);
@@ -365,7 +365,7 @@ processCanonMakerNoteTag(FIBITMAP *dib, FITAG *tag) {
 
 	// create a tag
 	FITAG *canonTag = FreeImage_CreateTag();
-	if(!canonTag) return FALSE;
+	if (!canonTag) return FALSE;
 
 	// we intentionally skip the first array member (if needed)
     for (DWORD i = startIndex; i < FreeImage_GetTagCount(tag); i++) {
@@ -560,7 +560,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 
 	do {
 		// if there is anything on the stack then pop it off
-		if(!destack.empty()) {
+		if (!destack.empty()) {
 			ifdp		= ifdstack.top();	ifdstack.pop();
 			de			= destack.top();	destack.pop();
 			md_model	= modelstack.top();	modelstack.pop();
@@ -577,13 +577,13 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 		// determine how many entries there are in the current IFD
 		nde = ReadUint16(msb_order, ifdp);
 
-		for(; de < nde; de++) {
+		for (; de < nde; de++) {
 			char *pde = NULL;	// pointer to the directory entry
 			char *pval = NULL;	// pointer to the tag value
 			
 			// create a tag
 			FITAG *tag = FreeImage_CreateTag();
-			if(!tag) return FALSE;
+			if (!tag) return FALSE;
 
 			// point to the directory entry
 			pde = (char*) DIR_ENTRY_ADDR(ifdp, de);
@@ -592,7 +592,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 			FreeImage_SetTagID(tag, ReadUint16(msb_order, pde));
 			// get the tag type
 			WORD tag_type = (WORD)ReadUint16(msb_order, pde + 2);
-            if((tag_type - 1) >= EXIF_NUM_FORMATS) {
+            if ((tag_type - 1) >= EXIF_NUM_FORMATS) {
                 // a problem occured : delete the tag (not free'd after)
 			    FreeImage_DeleteTag(tag);
 				// break out of the for loop
@@ -658,7 +658,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 					next_ifd = (BYTE*)tiffp + sub_offset;
 				}
 
-				if((sub_offset < (DWORD) length) && (next_mdmodel != TagLib::UNKNOWN)) {
+				if ((sub_offset < (DWORD) length) && (next_mdmodel != TagLib::UNKNOWN)) {
 					// push our current directory state onto the stack
 					ifdstack.push(ifdp);
 					// bump to the next entry
@@ -675,7 +675,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 					// select a new metadata model
 					modelstack.push(next_mdmodel);
 					
-					// delete the tag as it won't be stored nor deleted in the for() loop
+					// delete the tag as it won't be stored nor deleted in the for () loop
 					FreeImage_DeleteTag(tag);
 					
 					break; // break out of the for loop
@@ -707,7 +707,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 	const WORD entriesCount0th = ReadUint16(msb_order, ifd0th);
 	
 	DWORD next_offset = ReadUint32(msb_order, DIR_ENTRY_ADDR(ifd0th, entriesCount0th));
-	if((next_offset == 0) || (next_offset >= length)) {
+	if ((next_offset == 0) || (next_offset >= length)) {
 		return TRUE; //< no thumbnail
 	}
 	
@@ -763,7 +763,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const BYTE *tiffp, unsigned long offset, unsig
 		}
 	}
 	
-	if(/*thCompression != 6 ||*/ thOffset == 0 || thSize == 0) {
+	if (/*thCompression != 6 ||*/ thOffset == 0 || thSize == 0) {
 		return TRUE;
 	}
 	

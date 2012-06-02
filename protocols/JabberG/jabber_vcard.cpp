@@ -817,7 +817,7 @@ static INT_PTR CALLBACK ContactDlgProc( HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 							HICON hIcon;
 
 							ListView_GetSubItemRect( nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, LVIR_LABEL, &rc );
-							if( nm->nmcd.lItemlParam==( LPARAM )( -1 ) && nm->iSubItem==3 )
+							if ( nm->nmcd.lItemlParam==( LPARAM )( -1 ) && nm->iSubItem==3 )
 								hIcon = ( HICON )LoadImage( hInst, MAKEINTRESOURCE( IDI_ADDCONTACT ), IMAGE_ICON, GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), 0 );
 							else if ( nm->iSubItem==2 && nm->nmcd.lItemlParam!=( LPARAM )( -1 ))
 								hIcon = ( HICON )LoadImage( hInst, MAKEINTRESOURCE( IDI_EDIT ), IMAGE_ICON, GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), 0 );
@@ -872,7 +872,7 @@ static INT_PTR CALLBACK ContactDlgProc( HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 							char idstr[33];
 							DBVARIANT dbv;
 
-							for( i=lvi.lParam;;i++ ) {
+							for ( i=lvi.lParam;;i++ ) {
 								WORD nFlag;
 
 								wsprintfA( idstr, szIdTemplate, i+1 );

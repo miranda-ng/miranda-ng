@@ -131,7 +131,7 @@ namespace pfc {
 		t_size estimate_utf8_to_wide(const char * p_in) {
 			t_size inptr = 0;
 			t_size retval = 1;//1 for null terminator
-			for(;;) {
+			for (;;) {
 				unsigned newchar = 0;
 				t_size delta = utf8_decode_char(p_in + inptr,newchar);
 				if (delta == 0 || newchar == 0) break;

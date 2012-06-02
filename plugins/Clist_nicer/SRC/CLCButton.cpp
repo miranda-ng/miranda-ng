@@ -240,7 +240,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
                         DeleteObject(hbr);
                     }
                 }
-                if(!ctl->bSkinned && ctl->buttonItem == 0) {
+                if (!ctl->bSkinned && ctl->buttonItem == 0) {
                     if (ctl->stateId == PBS_HOT || ctl->focus) {
                         if (ctl->pbState)
                             DrawEdge(hdcMem, &rc, EDGE_ETCHED, BF_RECT | BF_SOFT);
@@ -328,7 +328,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
             CopyRect(&rcText, &rcClient);
             SetBkMode(hdcMem, TRANSPARENT);
     // XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-            if(!ctl->bSkinned)
+            if (!ctl->bSkinned)
                 SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
             if (ctl->arrow)
                 DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
@@ -433,7 +433,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
                         bct->pbState = 1;
                     InvalidateRect(bct->hwnd, NULL, TRUE);
                 }
-                if(!bct->bSendOnDown)
+                if (!bct->bSendOnDown)
 					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
                 return 0;
             }
@@ -469,7 +469,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
                 return (LRESULT)(bct->hIconPrivate ? bct->hIconPrivate : bct->hIcon);
             break;
         case BM_SETIMAGE:
-            if(!lParam)
+            if (!lParam)
                 break;
             bct->hIml = 0;
             bct->iIcon = 0;
@@ -668,7 +668,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
                         bct->stateId = PBS_NORMAL;
                     InvalidateRect(bct->hwnd, NULL, TRUE);
                 }
-				if(!bct->bSendOnDown)
+				if (!bct->bSendOnDown)
 					SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
                 break;
             }

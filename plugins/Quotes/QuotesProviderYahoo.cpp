@@ -10,11 +10,11 @@ namespace
 {
 	void remove_quotes(tstring& s)
 	{
-		if(*s.begin() == _T('"'))
+		if (*s.begin() == _T('"'))
 		{
 			s.erase(s.begin());
 		}
-		if(*s.rbegin() == _T('"'))
+		if (*s.rbegin() == _T('"'))
 		{
 			tstring::iterator i(s.begin());
 			std::advance(i,s.size()-1);
@@ -24,13 +24,13 @@ namespace
 
 	void remove_end_of_line(tstring& s)
 	{
-		if(*s.rbegin() == _T('\n'))
+		if (*s.rbegin() == _T('\n'))
 		{
 			tstring::iterator i(s.begin());
 			std::advance(i,s.size()-1);
 			s.erase(i);
 		}
-		if(*s.rbegin() == _T('\r'))
+		if (*s.rbegin() == _T('\r'))
 		{
 			tstring::iterator i(s.begin());
 			std::advance(i,s.size()-1);
@@ -102,10 +102,10 @@ void CQuotesProviderYahoo::RefreshQuotes(TContracts& anContacts)
 	{
 		oURL << _T("&f=snl1ohgpc1");
 		CHTTPSession http;
-		if((true == http.OpenURL(oURL.str())) && (true == IsOnline()))
+		if ((true == http.OpenURL(oURL.str())) && (true == IsOnline()))
 		{
 			tstring sFile;
-			if((true == http.ReadResponce(sFile)) && (true == IsOnline()))
+			if ((true == http.ReadResponce(sFile)) && (true == IsOnline()))
 			{
 				tistringstream out_str(sFile.c_str());
 				while(false == out_str.eof())

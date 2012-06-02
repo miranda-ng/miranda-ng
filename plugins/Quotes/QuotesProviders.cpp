@@ -55,7 +55,7 @@ namespace
 	void convert_contact_settings(HANDLE hContact) 
 	{
 		WORD dwLogMode = DBGetContactSettingWord(hContact,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_LOG,static_cast<WORD>(lmDisabled));
-		if((dwLogMode&lmInternalHistory) || (dwLogMode&lmExternalFile))
+		if ((dwLogMode&lmInternalHistory) || (dwLogMode&lmExternalFile))
 		{
 			DBWriteContactSettingByte(hContact,QUOTES_PROTOCOL_NAME,DB_STR_CONTACT_SPEC_SETTINGS,1);
 		}

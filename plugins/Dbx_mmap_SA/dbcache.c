@@ -144,7 +144,7 @@ static VOID CALLBACK DoBufferFlushTimerProc(HWND hwnd, UINT message, UINT_PTR id
 
 void DBFlush(int setting)
 {
-	if(!setting) {
+	if (!setting) {
 		log0("nflush1");
 		if(safetyMode && pDbCache) {
 			if (FlushViewOfFile(pDbCache, 0) == 0) {

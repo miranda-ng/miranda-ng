@@ -134,7 +134,7 @@ static int GetGroupName(WPARAM wParam,LPARAM lParam)
 {
 	int ret;
 	ret=GetGroupName2(wParam,lParam);
-	if((int*)lParam)
+	if ((int*)lParam)
 		*(int*)lParam=0!=(*(int*)lParam&GROUPF_EXPANDED);
 	return ret;
 }

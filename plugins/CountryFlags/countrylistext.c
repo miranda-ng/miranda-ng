@@ -278,14 +278,14 @@ static int ServiceGetCountryByNumber(WPARAM wParam,LPARAM lParam)
 	int i;
 	UNREFERENCED_PARAMETER(lParam);
 	for(i=0; i<SIZEOF(countries); ++i)
-		if((int)wParam==countries[i].id)
+		if ((int)wParam==countries[i].id)
 			return (int)countries[i].szName;
 	return (int)(char*)NULL;
 }
 
 static int ServiceGetCountryList(WPARAM wParam,LPARAM lParam)
 {
-	if((int*)wParam==NULL || (void*)lParam==NULL) return 1;
+	if ((int*)wParam==NULL || (void*)lParam==NULL) return 1;
 	*(int*)wParam=SIZEOF(countries);
 	*(struct CountryListEntry**)lParam=countries;
 	return 0;

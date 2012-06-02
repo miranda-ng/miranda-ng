@@ -712,7 +712,7 @@ FreeImage_GetFIFFromFilenameU(const wchar_t *filename) {
 	// convert to single character - no national chars in extensions
 	char *extension = (char *)malloc(wcslen(place)+1);
 	unsigned int i=0;
-	for(; i < wcslen(place); i++) // convert 16-bit to 8-bit
+	for (; i < wcslen(place); i++) // convert 16-bit to 8-bit
 		extension[i] = (char)(place[i] & 0x00FF);
 	// set terminating 0
 	extension[i]=0;

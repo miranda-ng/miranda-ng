@@ -5,7 +5,7 @@ int hLangpack;
 // dllmain
 BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 	g_hInst = hInst;
-	if( dwReason == DLL_PROCESS_ATTACH ) {
+	if ( dwReason == DLL_PROCESS_ATTACH ) {
 		{
 		char temp[MAX_PATH];
 		GetTempPath(sizeof(temp),temp);

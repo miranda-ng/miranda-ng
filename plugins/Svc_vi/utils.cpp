@@ -51,10 +51,10 @@ int SplitStringInfo(const TCHAR *szWholeText, TCHAR *szStartText, TCHAR *szEndTe
 	const TCHAR *pos = _tcschr(szWholeText, '|');
 	if (pos) {
 		size_t index = pos - szWholeText;
-		lstrcpyn(szStartText, szWholeText, index);
+		lstrcpyn(szStartText, szWholeText, (int)index);
 		szStartText[index] = '\0';
 		StrTrim(szStartText, _T(" "));
-		lstrcpyn(szEndText, pos + 1, _tcslen(pos)); //copies the \0 as well ... :)
+		lstrcpyn(szEndText, pos + 1, (int)_tcslen(pos)); //copies the \0 as well ... :)
 		StrTrim(szEndText, _T(" "));
 	}
 	else szStartText[0] = szEndText[0] = '\0';
@@ -171,7 +171,7 @@ PLUGININFOEX *GetPluginInfo(const TCHAR *filename,HINSTANCE *hPlugin)
 	}
 	wsprintf(szPluginPath, _T("%s\\Plugins\\%s"), szMirandaPath, filename);
 	*hPlugin=LoadLibrary(szPluginPath);
-	if(*hPlugin==NULL) return NULL;
+	if (*hPlugin==NULL) return NULL;
 	MirandaPluginInfo=(PLUGININFOEX *(*)(DWORD))GetProcAddress(*hPlugin,"MirandaPluginInfo");
 	if(MirandaPluginInfo==NULL) {FreeLibrary(*hPlugin); *hPlugin=NULL; return NULL;}
 	pPlugInfo=MirandaPluginInfo(mirandaVersion);

@@ -112,8 +112,8 @@ void CInfoPanel::saveHeight(bool fFlush)
 	BYTE bSync = M->GetByte("syncAllPanels", 0);
 
 	if (m_height < 110 && m_height >= MIN_PANELHEIGHT) {          // only save valid panel splitter positions
-		if(!m_fPrivateHeight) {
-			if(!m_isChat || bSync) {
+		if (!m_fPrivateHeight) {
+			if (!m_isChat || bSync) {
 				if(m_dat->pContainer->settings->fPrivate)
 					m_dat->pContainer->settings->panelheight = m_height;
 				else {
@@ -155,8 +155,8 @@ void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 	m_height = newHeight;
 
 	if(fBroadcast) {
-		if(!m_fPrivateHeight) {
-			if(!m_dat->pContainer->settings->fPrivate)
+		if (!m_fPrivateHeight) {
+			if (!m_dat->pContainer->settings->fPrivate)
 				M->BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 			else
 				::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
@@ -176,7 +176,7 @@ void CInfoPanel::showHide() const
 	BITMAP 	bm;
 	HWND	hwndDlg = m_dat->hwnd;
 
-	if(!m_isChat) {
+	if (!m_isChat) {
 		::ShowWindow(m_dat->hwndPanelPicParent, m_active && (m_dat->hwndPanelPic || m_dat->hwndFlash) ? SW_SHOW : SW_HIDE);
 		//
 		m_dat->iRealAvatarHeight = 0;
@@ -298,7 +298,7 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool fAero, 
 				 * if new (= tabsrmm 3.x) skin item is not defined, use the old info panel
 				 * field background items. That should break less skins
 				 */
-				if(!item->IGNORED)
+				if (!item->IGNORED)
 					CSkin::DrawItem(hdc, &rc, item);
 			} else {
 				rc.bottom -= 2;
@@ -323,7 +323,7 @@ void CInfoPanel::renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool fAero, 
 void CInfoPanel::renderContent(const HDC hdc)
 {
 	if(m_active) {
-		if(!m_isChat) {
+		if (!m_isChat) {
 			RECT rc;
 
 			/*
@@ -335,7 +335,7 @@ void CInfoPanel::renderContent(const HDC hdc)
 			dis.rcItem = m_dat->rcPic;
 			dis.hDC = hdc;
 			dis.hwndItem = m_dat->hwnd;
-			if(::MsgWindowDrawHandler(0, (LPARAM)&dis, m_dat) == 0) {
+			if (::MsgWindowDrawHandler(0, (LPARAM)&dis, m_dat) == 0) {
 				::PostMessage(m_dat->hwnd, WM_SIZE, 0, 1);
 				::PostMessage(m_dat->hwnd, DM_FORCEREDRAW, 0, 0);
 			}
@@ -737,7 +737,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 	mii.fMask 	= MIIM_DATA | MIIM_ID | MIIM_BITMAP | MIIM_STRING;
 	mii.hbmpItem = HBMMENU_CALLBACK;
 
-	if(!(m_hoverFlags & HOVER_NICK))
+	if (!(m_hoverFlags & HOVER_NICK))
 		return(0);
 
 	HMENU m = ::CreatePopupMenu();
@@ -747,7 +747,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 					IDC_NAME, 0);
 		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_HISTORY), CTranslator::get(CTranslator::GEN_IP_MENU_HISTORY),
 					m_isChat ? IDC_CHAT_HISTORY : IDC_HISTORY, 0);
-		if(!m_isChat)
+		if (!m_isChat)
 			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, CTranslator::get(CTranslator::GEN_IP_MENU_MSGPREFS),
 						ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
 		else {
@@ -806,10 +806,10 @@ LRESULT CInfoPanel::cmdHandler(UINT cmd)
  */
 void CInfoPanel::handleClick(const POINT& pt)
 {
-	if(!m_active || m_hoverFlags == 0)
+	if (!m_active || m_hoverFlags == 0)
 		return;
 
-	if(!m_isChat) {
+	if (!m_isChat) {
 		::KillTimer(m_dat->hwnd, TIMERID_AWAYMSG);
 		m_dat->dwFlagsEx &= ~MWF_SHOW_AWAYMSGTIMER;
 	}
@@ -836,11 +836,11 @@ int CInfoPanel::hitTest(POINT pt)
 {
 	::ScreenToClient(m_dat->hwnd, &pt);
 
-	if(!m_isChat && ::PtInRect(&m_rcStatus, pt))
+	if (!m_isChat && ::PtInRect(&m_rcStatus, pt))
 		return(HTSTATUS);
-	else if(::PtInRect(&m_rcNick, pt))
+	else if (::PtInRect(&m_rcNick, pt))
 		return(HTNICK);
-	else if(::PtInRect(&m_rcUIN, pt))
+	else if (::PtInRect(&m_rcUIN, pt))
 		return(HTUIN);
 
 	return(HTNIRVANA);
@@ -853,7 +853,7 @@ int CInfoPanel::hitTest(POINT pt)
  */
 void CInfoPanel::trackMouse(POINT& pt)
 {
-	if(!m_active)
+	if (!m_active)
 		return;
 
 	int result = hitTest(pt);
@@ -924,7 +924,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 						  m_dat->cache->getStatusMsg() ? m_dat->cache->getStatusMsg() : CTranslator::get(CTranslator::GEN_NO_STATUS));
 			str->append(temp);
 
-			if((xStatus = m_dat->cache->getXStatusId())) {
+			if ((xStatus = m_dat->cache->getXStatusId())) {
 				TCHAR	*tszXStatusName = 0;
 				if(0 == M->GetTString(m_dat->cache->getContact(), m_dat->cache->getProto(), "XStatusName", &dbv))
 					tszXStatusName = dbv.ptszVal;
@@ -996,7 +996,7 @@ void CInfoPanel::hideTip(const HWND hwndNew)
 	if(m_tip) {
 		if(hwndNew == m_tip->getHwnd())
 			return;
-		if(::IsWindow(m_tip->getHwnd()))
+		if (::IsWindow(m_tip->getHwnd()))
 			::DestroyWindow(m_tip->getHwnd());
 		m_tip = 0;
 	}
@@ -1024,7 +1024,7 @@ INT_PTR CALLBACK CInfoPanel::avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wP
 
 				GetClientRect(hwnd, &rcItem);
 				rc = rcItem;
-				if(!IsWindowEnabled(hwnd) || !dat->Panel->isActive() || dat->showInfoPic == 0)
+				if (!IsWindowEnabled(hwnd) || !dat->Panel->isActive() || dat->showInfoPic == 0)
 					return(TRUE);
 
 				HDC 			dcWin = (HDC)wParam;
@@ -1147,7 +1147,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			Utils::showDlgControl(hwnd, IDC_IPCONFIG_PRIVATECONTAINER, m_dat->pContainer->settings->fPrivate ? SW_SHOW : SW_HIDE);
 
-			if(!m_isChat) {
+			if (!m_isChat) {
 				v = M->GetByte(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_UPREFS_IPGLOBAL));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_UPREFS_AVON));
@@ -1257,14 +1257,14 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 				case IDC_NOSYNC:
 					M->WriteByte(SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
-					if(!IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
+					if (!IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
 						loadHeight();
-						if(!m_dat->pContainer->settings->fPrivate)
+						if (!m_dat->pContainer->settings->fPrivate)
 							M->BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 						else
 							::BroadCastContainer(m_dat->pContainer, DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 					} else {
-						if(!m_dat->pContainer->settings->fPrivate)
+						if (!m_dat->pContainer->settings->fPrivate)
 							M->BroadcastMessage(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 						else
 							::BroadCastContainer(m_dat->pContainer,DM_SETINFOPANEL, (WPARAM)m_dat, 0);
@@ -1309,14 +1309,14 @@ int CInfoPanel::invokeConfigDialog(const POINT& pt)
 	RECT 	rc;
 	POINT	ptTest = pt;
 
-	if(!m_active)
+	if (!m_active)
 		return(0);
 
 	::GetWindowRect(m_dat->hwnd, &rc);
 	rc.bottom = rc.top + m_height;
 	rc.right -= m_dat->panelWidth;
 
-	if(!::PtInRect(&rc, ptTest))
+	if (!::PtInRect(&rc, ptTest))
 		return(0);
 
 	if(m_hwndConfig == 0) {
@@ -1356,7 +1356,7 @@ void CInfoPanel::dismissConfig(bool fForced)
 	POINT pt;
 	RECT  rc;
 
-	if(!m_fDialogCreated) {
+	if (!m_fDialogCreated) {
 		::GetCursorPos(&pt);
 		::GetWindowRect(m_hwndConfig, &rc);
 		if(fForced || !PtInRect(&rc, pt)) {
@@ -1668,7 +1668,7 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 
 		case WM_COMMAND: {
-			if((HWND)lParam == m_hRich && HIWORD(wParam) == EN_SETFOCUS)
+			if ((HWND)lParam == m_hRich && HIWORD(wParam) == EN_SETFOCUS)
 				::HideCaret(m_hRich);
 			break;
 		}
@@ -1681,11 +1681,11 @@ INT_PTR CALLBACK CTip::WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam
 				::KillTimer(hwnd, 1000);
 				::GetCursorPos(&pt);
 				::GetWindowRect(hwnd, &rc);
-				if(!PtInRect(&rc, pt))
+				if (!PtInRect(&rc, pt))
 					::DestroyWindow(hwnd);
 				else
 					break;
-				if(::GetActiveWindow() != hwnd)
+				if (::GetActiveWindow() != hwnd)
 					::DestroyWindow(hwnd);
 			}
 			break;

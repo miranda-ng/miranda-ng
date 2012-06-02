@@ -230,7 +230,7 @@ DWORD MraGetNLBData(LPSTR lpszHost,SIZE_T dwHostBuffSize,WORD *pwPort)
 
 		while(MraGetStatus(0,0)!=ID_STATUS_OFFLINE && bContinue)
 		{
-			switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)){
+			switch(CallService(MS_NETLIB_SELECT,0,(LPARAM)&nls)) {
 			case SOCKET_ERROR:
 			case 0:// Time out
 				bContinue=FALSE;
@@ -951,7 +951,7 @@ DWORD MraCommandDispather(mrim_packet_header_t *pmaHeader,DWORD *pdwPingPeriod,D
 	case MRIM_CS_ANKETA_INFO:
 		if (MraSendQueueFind(masMraSettings.hSendQueueHandle,pmaHeader->seq,NULL,&hContact,&dwAckType,(LPBYTE*)&lpsString.lpszData,&lpsString.dwSize)==NO_ERROR)
 		{
-			switch(GetUL(&lpbDataCurrent)){
+			switch(GetUL(&lpbDataCurrent)) {
 			case MRIM_ANKETA_INFO_STATUS_OK:// поиск успешно завершен
 				{
 					DWORD dwFeildsNum,dwMaxRows,dwServerTime,dwStatus;
@@ -1014,7 +1014,7 @@ DWORD MraCommandDispather(mrim_packet_header_t *pmaHeader,DWORD *pdwPingPeriod,D
 									}else
 									if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,pmralpsFeilds[i].lpszData,pmralpsFeilds[i].dwSize,"Sex",3)==CSTR_EQUAL)
 									{
-										switch(StrToUNum32(pmralpsValues[i].lpszData,pmralpsValues[i].dwSize)){
+										switch(StrToUNum32(pmralpsValues[i].lpszData,pmralpsValues[i].dwSize)) {
 										case 1:// мужской
 											DB_Mra_SetByte(hContact,"Gender",'M');
 											break;
@@ -1400,7 +1400,7 @@ DWORD MraCommandDispather(mrim_packet_header_t *pmaHeader,DWORD *pdwPingPeriod,D
 				dwControlParam=0;
 				for(j=0;j<dwGroupMaskSize;j++)//enumerating parameters
 				{
-					switch(szGroupMask[j]){
+					switch(szGroupMask[j]) {
 					case 's'://LPS
 						GetLPS(lpbData,dwDataSize,&lpbDataCurrent,&lpsString);
 						break;
@@ -1463,7 +1463,7 @@ DWORD MraCommandDispather(mrim_packet_header_t *pmaHeader,DWORD *pdwPingPeriod,D
 				dwControlParam=0;
 				for(j=0;j<dwContactMaskSize;j++)//enumerating parameters
 				{
-					switch(szContactMask[j]){
+					switch(szContactMask[j]) {
 					case 's'://LPS
 						GetLPS(lpbData,dwDataSize,&lpbDataCurrent,&lpsString);
 						break;
@@ -1645,7 +1645,7 @@ DWORD MraCommandDispather(mrim_packet_header_t *pmaHeader,DWORD *pdwPingPeriod,D
 							DebugBreak();
 						}else{
 							dwTemp=GetMiradaStatusFromMraStatus(dwStatus,GetMraXStatusIDFromMraUriStatus(lpsSpecStatusUri.lpszData,lpsSpecStatusUri.dwSize),&dwXStatus);
-							if((dwContactFlag&CONTACT_FLAG_UNICODE_NAME)) mralpsNick.dwSize/=sizeof(WCHAR);
+							if ((dwContactFlag&CONTACT_FLAG_UNICODE_NAME)) mralpsNick.dwSize/=sizeof(WCHAR);
 
 							if (bAdded)
 							{// update user info

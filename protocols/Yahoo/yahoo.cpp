@@ -238,12 +238,12 @@ void CYahooProto::AddBuddy( const char *who, int protocol, const char *group, co
 	
 	No refresh needed. */
 	
-	if ( !DBGetContactSettingString( NULL, m_szModuleName, "First Name", &dbv )){
+	if ( !DBGetContactSettingString( NULL, m_szModuleName, "First Name", &dbv )) {
 		fname = strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
 
-	if ( !DBGetContactSettingString( NULL, m_szModuleName, "Last Name", &dbv )){
+	if ( !DBGetContactSettingString( NULL, m_szModuleName, "Last Name", &dbv )) {
 		lname = strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
@@ -627,7 +627,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 	}
 
 	YAHOO_DEBUGLOG(("[ext_got_buddies] Walking buddy list..."));
-	for(; buds; buds = buds->next) {
+	for (; buds; buds = buds->next) {
 		HANDLE hContact;
 
 		yahoo_buddy *bud = ( yahoo_buddy* )buds->data;
@@ -979,7 +979,7 @@ void CYahooProto::ext_mail_notify(const char *from, const char *subj, int cnt)
 				snprintf(z, sizeof(z), Translate("From: %s\nSubject: %s"), from, subj);
 			}
 	
-			if(!ShowPopup( title, z, "http://mail.yahoo.com" ))
+			if (!ShowPopup( title, z, "http://mail.yahoo.com" ))
 				ShowNotification(title, z, NIIF_INFO);
 		}
 	}
@@ -1239,7 +1239,7 @@ void CYahooProto::ext_send_http_request(enum yahoo_connection_type type, const c
 	LOG(("[ext_send_http_request] type: %d, method: %s, url: %s, cookies: %s, content length: %ld",
 		type, method, url, cookies, content_length));
 	
-	if(!url_to_host_port_path(url, host, &port, path))
+	if (!url_to_host_port_path(url, host, &port, path))
 		return;
 
 	fd = ext_connect(host, port, type);

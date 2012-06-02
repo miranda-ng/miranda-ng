@@ -312,7 +312,7 @@ FIBITMAP * DLL_CALLCONV
 FreeImage_Dither(FIBITMAP *dib, FREE_IMAGE_DITHER algorithm) {
 	FIBITMAP *input = NULL, *dib8 = NULL;
 
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	const unsigned bpp = FreeImage_GetBPP(dib);
 
@@ -401,7 +401,7 @@ FIBITMAP * DLL_CALLCONV
 FreeImage_Threshold(FIBITMAP *dib, BYTE T) {
 	FIBITMAP *dib8 = NULL;
 
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	const unsigned bpp = FreeImage_GetBPP(dib);
 

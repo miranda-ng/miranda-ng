@@ -72,7 +72,7 @@ ThunderSetupDecode(TIFF* tif)
 {
 	static const char module[] = "ThunderSetupDecode";
 
-        if( tif->tif_dir.td_bitspersample != 4 )
+        if ( tif->tif_dir.td_bitspersample != 4 )
         {
                 TIFFErrorExt(tif->tif_clientdata, module,
                              "Wrong bitspersample value (%d), Thunder decoder only supports 4bits per sample.",

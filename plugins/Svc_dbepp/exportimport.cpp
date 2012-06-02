@@ -390,7 +390,7 @@ HANDLE Clist_GroupExists(WCHAR *tszGroup)
 	do {
 		_itoa(i, str, 10);
 		result = DBGetContactSettingTString(0, "CListGroups", str, &dbv);
-		if(!result) {
+		if (!result) {
 			match = (!lstrcmpW(tszGroup, (LPCWSTR)&dbv.ptszVal[1]) && (lstrlenW(tszGroup) == lstrlenW((LPCWSTR)&dbv.ptszVal[1])));
 			DBFreeVariant(&dbv);
 			if(match)
@@ -543,9 +543,9 @@ void importSettings(HANDLE hContact, char *importstring )
 					case 'g':
 					case 'G':
 						{	char *pstr;
-							for(pstr=end+2;*pstr;pstr++){
-								if(*pstr=='\\'){
-									switch(pstr[1]){
+							for(pstr=end+2;*pstr;pstr++) {
+								if (*pstr=='\\') {
+									switch(pstr[1]) {
 									case 'n': *pstr='\n'; break;
 									case 't': *pstr='\t'; break;
 									case 'r': *pstr='\r'; break;

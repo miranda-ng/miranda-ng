@@ -291,7 +291,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, struct ClcContact *contac
     BOOL fOverlay = (cfg::dat.dwFlags & CLUI_FRAME_OVERLAYICONS);
 
     contact->avatarLeft = -1;
-	if(!cfg::dat.bAvatarServiceAvail || dat->bisEmbedded)
+	if (!cfg::dat.bAvatarServiceAvail || dat->bisEmbedded)
 		return 0;
 
 	if(contact->ace != NULL && contact->ace->cbSize == sizeof(struct avatarCacheEntry)) {
@@ -338,7 +338,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, struct ClcContact *contac
 		newHeight = (float)(bmHeight * dScale) - skinMarginY;
 	}
 	topoffset = rowHeight > (int)newHeight ? (rowHeight - (int)newHeight) / 2 : 0;
-    if(!item->IGNORED) {
+    if (!item->IGNORED) {
         //topoffset += item->MARGIN_TOP;
         leftoffset = item->MARGIN_LEFT;
     }
@@ -395,7 +395,7 @@ static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, struct ClcContact *contac
 	SelectClipRgn(hdcMem, NULL);
 	DeleteObject(rgn);
 
-    if(!item->IGNORED) {
+    if (!item->IGNORED) {
         RECT rcFrame;
         BOOL inClCPaint_save = g_inCLCpaint;
         HDC  hdcTemp = 0, hdcSaved = 0;
@@ -514,7 +514,7 @@ void __inline PaintItem(HDC hdcMem, struct ClcGroup *group, struct ClcContact *c
 			bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 	}
 	else if(type == CLCIT_GROUP && API::pfnSetLayout != NULL) {
-		if((contact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO) || cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT) {
+		if ((contact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO) || cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT) {
 			g_RTL = TRUE;
 			bg_indent_r = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 		}
@@ -614,12 +614,12 @@ set_bg_l:
 		if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_OUTTOLUNCH) {
 			BYTE perstatus_ignored;
 
-            if((flags & CONTACTF_IDLE) && !StatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE].IGNORED)
+            if ((flags & CONTACTF_IDLE) && !StatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE].IGNORED)
                 sitem = &StatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE];
             else
                 sitem = &StatusItems[cstatus - ID_STATUS_OFFLINE];
 
-            if(!dat->bisEmbedded) {
+            if (!dat->bisEmbedded) {
                 pp_item = cEntry->status_item ? cEntry->status_item : cEntry->proto_status_item;
 
                 if (!(perstatus_ignored = sitem->IGNORED) && !(flags & CONTACTF_NOTONLIST))
@@ -627,11 +627,11 @@ set_bg_l:
 
                 if(cfg::dat.bUsePerProto && pp_item && !pp_item->IGNORED) {
                     sitem = pp_item;
-                    if((perstatus_ignored || cfg::dat.bOverridePerStatusColors) && sitem->TEXTCOLOR != -1)
+                    if ((perstatus_ignored || cfg::dat.bOverridePerStatusColors) && sitem->TEXTCOLOR != -1)
                         SetTextColor(hdcMem, sitem->TEXTCOLOR);
                 }
             }
-            else if(!sitem->IGNORED)
+            else if (!sitem->IGNORED)
                 SetTextColor(hdcMem, sitem->TEXTCOLOR);
 
 			sevencontact_pos = &StatusItems[ID_EXTBKEVEN_CNTCTPOS - ID_STATUS_OFFLINE];
@@ -885,7 +885,7 @@ set_bg_l:
         SetHotTrackColour(hdcMem,dat);
         if(ht->IGNORED == 0)
             SetTextColor(hdcMem, ht->TEXTCOLOR);
-		if(!g_hottrack_done) {
+		if (!g_hottrack_done) {
 		    if (ht->IGNORED == 0) {
                 DrawAlpha(hdcMem, &rc, ht->COLOR, ht->ALPHA, ht->COLOR2, ht->COLOR2_TRANSPARENT, ht->GRADIENT,
                           ht->CORNER, ht->BORDERSTYLE, ht->imageItem);
@@ -974,9 +974,9 @@ bgskipped:
 		int mode = ILD_NORMAL;
 		pi_selectiveIcon = g_selectiveIcon && (type == CLCIT_CONTACT);
 
-		if((dwFlags & CLUI_FRAME_STATUSICONS && !pi_selectiveIcon) || type != CLCIT_CONTACT || (pi_selectiveIcon && !avatar_done)) {
+		if ((dwFlags & CLUI_FRAME_STATUSICONS && !pi_selectiveIcon) || type != CLCIT_CONTACT || (pi_selectiveIcon && !avatar_done)) {
             HIMAGELIST hImgList = 0;
-            if(!dat->bisEmbedded && type == CLCIT_CONTACT && cEntry && (dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS) && cEntry->iExtraImage[EXTRA_ICON_ADV1] != 0xff) {
+            if (!dat->bisEmbedded && type == CLCIT_CONTACT && cEntry && (dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS) && cEntry->iExtraImage[EXTRA_ICON_ADV1] != 0xff) {
                 if(pcli->pfnIconFromStatusMode(contact->proto, contact->wStatus, contact->hContact) == iImage) {
                     hImgList = dat->himlExtraColumns;
                     iImage = cEntry->iExtraImage[EXTRA_ICON_ADV1];
@@ -1137,7 +1137,7 @@ text:
 		}
 
 		if (dat->exStyle & CLS_EX_LINEWITHGROUPS) {
-			if(!g_center) {
+			if (!g_center) {
 				rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
 				rc.left = rightLineStart;
 				rc.right = clRect->right - 1 - dat->extraColumnSpacing * dat->extraColumnsCount - dat->rightMargin;
@@ -1163,7 +1163,7 @@ text:
 
 		// avatar
 
-		if(!dat->bisEmbedded) {
+		if (!dat->bisEmbedded) {
 			if(av_local_wanted && !avatar_done && pi_avatar) {
 				if(av_rightwithnick) {
 					RECT rcAvatar = rcContent;
@@ -1180,7 +1180,7 @@ text:
 		}
 
 		// nickname
-		if(!twoRows) {
+		if (!twoRows) {
 			if(dt_nickflags)
                 DrawText(hdcMem, szText, -1, &rcContent, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE | dt_nickflags);
 			else
@@ -1273,7 +1273,7 @@ nodisplay:
 				TCHAR *szText = NULL;
 				BYTE smsgValid = cEntry->bStatusMsgValid;
 
-				if((dwFlags & CLUI_FRAME_SHOWSTATUSMSG && smsgValid > STATUSMSG_XSTATUSID) || smsgValid == STATUSMSG_XSTATUSNAME)
+				if ((dwFlags & CLUI_FRAME_SHOWSTATUSMSG && smsgValid > STATUSMSG_XSTATUSID) || smsgValid == STATUSMSG_XSTATUSNAME)
 					szText = cEntry->statusMsg;
 				else
 #if defined(_UNICODE)
@@ -1285,7 +1285,7 @@ nodisplay:
 					dt_2ndrowflags |= (DT_RTLREADING | DT_RIGHT);
 
 				if(rightIcons == 0) {
-					if((rcContent.bottom - rcContent.top) >= (2 * statusFontHeight)) {
+					if ((rcContent.bottom - rcContent.top) >= (2 * statusFontHeight)) {
 						dtFlags &= ~(DT_SINGLELINE | DT_BOTTOM | DT_NOCLIP);
 						dtFlags |= DT_WORDBREAK;
 						rcContent.bottom -= ((rcContent.bottom - rcContent.top) % statusFontHeight);
@@ -1293,7 +1293,7 @@ nodisplay:
 					DrawText(hdcMem, szText, -1, &rcContent, dtFlags | dt_2ndrowflags);
 				}
 				else {
-					if((rcContent.bottom - rcContent.top) < (2 * statusFontHeight) - 2)
+					if ((rcContent.bottom - rcContent.top) < (2 * statusFontHeight) - 2)
 						DrawText(hdcMem, szText, -1, &rcContent, dtFlags | dt_2ndrowflags);
 					else {
 						DRAWTEXTPARAMS dtp = {0};

@@ -274,7 +274,7 @@ static int    ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 		DBVARIANT dbv;
 		tbdat.mtb_bkColour=sttGetColor("ToolBar","BkColour",CLCDEFAULT_BKCOLOUR);
 		if(ModernGetSettingByte(NULL,"ToolBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if(!ModernGetSettingString(NULL,"ToolBar","BkBitmap",&dbv)) {
+			if (!ModernGetSettingString(NULL,"ToolBar","BkBitmap",&dbv)) {
 				tbdat.mtb_hBmpBackground=(HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 				ModernDBFreeVariant(&dbv);
 			}
@@ -1244,7 +1244,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		}
 	case WM_MOUSEMOVE:
 		{
-			if(!dragging) break;
+			if (!dragging) break;
 			{	
 				TVHITTESTINFO hti;
 				hti.pt.x=(short)LOWORD(lParam);
@@ -1273,7 +1273,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		break;
 	case WM_LBUTTONUP:
 		{
-			if(!dragging) break;
+			if (!dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_BTNORDER),NULL,0);
 			dragging=0;
 			ReleaseCapture();

@@ -725,8 +725,8 @@ out_of_loop1:
 	return r;
 }
 
-ToXMLStringTool::~ToXMLStringTool(){ freeBuffer(); }
-void ToXMLStringTool::freeBuffer(){ if (buf) free(buf); buf=NULL; buflen=0; }
+ToXMLStringTool::~ToXMLStringTool() { freeBuffer(); }
+void ToXMLStringTool::freeBuffer() { if (buf) free(buf); buf=NULL; buflen=0; }
 XMLSTR ToXMLStringTool::toXML(XMLCSTR source)
 {
 	if (!source)
@@ -2889,9 +2889,9 @@ const unsigned char base64DecodeTable[] = {
 	98,98,98,98,98,98,98,98,98,98,  98,98,98,98,98,98                                               //240 -255
 };
 
-XMLParserBase64Tool::~XMLParserBase64Tool(){ freeBuffer(); }
+XMLParserBase64Tool::~XMLParserBase64Tool() { freeBuffer(); }
 
-void XMLParserBase64Tool::freeBuffer(){ if (buf) free(buf); buf=NULL; buflen=0; }
+void XMLParserBase64Tool::freeBuffer() { if (buf) free(buf); buf=NULL; buflen=0; }
 
 int XMLParserBase64Tool::encodeLength(int inlen, char formatted)
 {
@@ -3033,7 +3033,7 @@ unsigned char *XMLParserBase64Tool::decode(XMLCSTR data, int *outlen, XMLError *
 	if (outlen) *outlen=len;
 	if (!len) return NULL;
 	alloc(len+1);
-	if(!decode(data,(unsigned char*)buf,len,xe)){ return NULL; }
+	if(!decode(data,(unsigned char*)buf,len,xe)) { return NULL; }
 	return (unsigned char*)buf;
 }
 

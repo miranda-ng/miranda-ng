@@ -39,7 +39,7 @@ static BOOL StoreDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const ch
 static void LoadDBText(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
 	DBVARIANT dbv;
-	if( !DBGetContactSettingTString(NULL, ppro->m_szModuleName, szSetting, &dbv) )
+	if ( !DBGetContactSettingTString(NULL, ppro->m_szModuleName, szSetting, &dbv) )
 	{
 		SetDlgItemText(hwnd, idCtrl, dbv.ptszVal);
 		DBFreeVariant(&dbv);

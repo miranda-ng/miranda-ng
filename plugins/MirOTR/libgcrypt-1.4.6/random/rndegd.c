@@ -58,7 +58,7 @@ my_make_filename (const char *first_part, const char *second_part)
     n += strlen (second_part) + 1;
 
   home = NULL;
-  if( *first_part == '~' && first_part[1] == '/'
+  if ( *first_part == '~' && first_part[1] == '/'
       && (home = getenv("HOME")) && *home )
     n += strlen(home);
 
@@ -83,9 +83,9 @@ do_write( int fd, void *buf, size_t nbytes )
   while( nleft > 0 ) 
     {
       nwritten = write( fd, buf, nleft);
-      if( nwritten < 0 )
+      if ( nwritten < 0 )
         {
-          if( errno == EINTR )
+          if ( errno == EINTR )
             continue;
           return -1;
 	}
@@ -107,9 +107,9 @@ do_read( int fd, void *buf, size_t nbytes )
           n = read(fd, (char*)buf + nread, nbytes );
         } 
       while( n == -1 && errno == EINTR );
-      if( n == -1)
+      if ( n == -1)
         return nread? nread:-1;
-      if( n == 0)
+      if ( n == 0)
         return -1;
       nread += n;
       nbytes -= n;
@@ -221,9 +221,9 @@ _gcry_rndegd_gather_random (void (*add)(const void*, size_t,
   int nbytes;
   int do_restart = 0;
 
-  if( !length )
+  if ( !length )
     return 0;
-  if( !level )
+  if ( !level )
     return 0;
 
  restart:
@@ -236,20 +236,20 @@ _gcry_rndegd_gather_random (void (*add)(const void*, size_t,
   /* First time we do it with a non blocking request */
   buffer[0] = 1; /* non blocking */
   buffer[1] = nbytes;
-  if( do_write( fd, buffer, 2 ) == -1 )
+  if ( do_write( fd, buffer, 2 ) == -1 )
     log_fatal("can't write to the EGD: %s\n", strerror(errno) );
   n = do_read( fd, buffer, 1 );
-  if( n == -1 )
+  if ( n == -1 )
     {
       log_error("read error on EGD: %s\n", strerror(errno));
       do_restart = 1;
       goto restart;
     }
   n = buffer[0];
-  if( n )
+  if ( n )
     {
       n = do_read( fd, buffer, n );
-      if( n == -1 )
+      if ( n == -1 )
         {
           log_error("read error on EGD: %s\n", strerror(errno));
           do_restart = 1;
@@ -259,7 +259,7 @@ _gcry_rndegd_gather_random (void (*add)(const void*, size_t,
       length -= n;
     }
 
-  if( length )
+  if ( length )
     {
       log_info (
       _("Please wait, entropy is being gathered. Do some work if it would\n"
@@ -272,10 +272,10 @@ _gcry_rndegd_gather_random (void (*add)(const void*, size_t,
 
       buffer[0] = 2; /* blocking */
       buffer[1] = nbytes;
-      if( do_write( fd, buffer, 2 ) == -1 )
+      if ( do_write( fd, buffer, 2 ) == -1 )
         log_fatal("can't write to the EGD: %s\n", strerror(errno) );
       n = do_read( fd, buffer, nbytes );
-      if( n == -1 )
+      if ( n == -1 )
         {
           log_error("read error on EGD: %s\n", strerror(errno));
           do_restart = 1;

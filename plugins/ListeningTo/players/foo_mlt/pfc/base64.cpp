@@ -48,7 +48,7 @@ namespace pfc {
 		{
 			const t_size max = textLen - 4;
 			t_size textWalk = 0;
-			for(; textWalk < max; textWalk ++) {
+			for (; textWalk < max; textWalk ++) {
 				const t_uint8 v = alphabetRev[(t_uint8)text[textWalk]];
 				if (v == 0xFF) throw pfc::exception_invalid_params();
 				bitWriter::set_bits(reinterpret_cast<t_uint8*>(out),outWritePtr,v,6);
@@ -57,7 +57,7 @@ namespace pfc {
 
 			t_uint8 temp[3];
 			t_size tempWritePtr = 0;
-			for(; textWalk < textLen; textWalk ++) {
+			for (; textWalk < textLen; textWalk ++) {
 				const char c = text[textWalk];
 				if (c == '=') break;
 				const t_uint8 v = alphabetRev[(t_uint8)c];
@@ -65,7 +65,7 @@ namespace pfc {
 				bitWriter::set_bits(temp,tempWritePtr,v,6);
 				tempWritePtr += 6;
 			}
-			for(; textWalk < textLen; textWalk ++) {
+			for (; textWalk < textLen; textWalk ++) {
 				if (text[textWalk] != '=') throw pfc::exception_invalid_params();
 			}
 			memcpy(reinterpret_cast<t_uint8*>(out) + (outWritePtr/8), temp, tempWritePtr/8);

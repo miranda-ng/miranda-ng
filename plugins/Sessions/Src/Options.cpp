@@ -80,18 +80,18 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 			return TRUE;
 	
 		case EM_SETSEL:
-			if(!hOpClistControl)
+			if (!hOpClistControl)
 				return HideCaret(hwnd);
 			break;
 		
 		case WM_GETDLGCODE:
-			if(!hOpClistControl)
+			if (!hOpClistControl)
 				return DLGC_WANTARROWS;
 			break;
 			
 		case WM_SETCURSOR:
 		{
-			if(!hOpClistControl)
+			if (!hOpClistControl)
 			{
 				SetCursor(LoadCursor(NULL, IDC_ARROW));
 				return TRUE;
@@ -111,7 +111,7 @@ static LRESULT CALLBACK ComboBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 		case WM_NCLBUTTONDBLCLK:
 		case WM_NCLBUTTONDOWN:
-			if(!bChecked)
+			if (!bChecked)
 			{
 				MarkUserDefSession(opses_count,1);
 				hIcon=hMarked;
@@ -238,7 +238,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			{
 				EnableWindow(GetDlgItem(hdlg,IDC_EDIT),TRUE);
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
-				if(!OpLoadSessionContacts(0,opses_count))
+				if (!OpLoadSessionContacts(0,opses_count))
 					EnableWindow(GetDlgItem(hdlg,IDC_DEL),FALSE);
 			}
 
@@ -280,7 +280,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 					if(IsDlgButtonChecked(hdlg, IDC_STARTDIALOG))
 					{ 
-						if(!IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
+						if (!IsDlgButtonChecked(hdlg, IDC_CHECKLAST))
 							DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 1);
 						else DBWriteContactSettingByte(NULL, __INTERNAL_NAME, "StartupMode", 3);
 					}
@@ -345,7 +345,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 									RedrawWindow(hComboBoxEdit, NULL, NULL, RDW_INVALIDATE|RDW_NOCHILDREN|RDW_UPDATENOW|RDW_FRAME);
 								}
 								OpLoadSessionContacts(0,opses_count);
-								if(!hOpClistControl)
+								if (!hOpClistControl)
 									EnableWindow(GetDlgItem(hdlg,IDC_DEL),TRUE);
 								else
 								{
@@ -368,7 +368,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 				case IDC_EDIT:
 				{
-					if(!hOpClistControl)
+					if (!hOpClistControl)
 					{
 						int i;
 						HANDLE hItem;
@@ -455,7 +455,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				{
 					EnableWindow(GetDlgItem(hdlg,IDC_EDIT),TRUE);
 					SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
-					if(!OpLoadSessionContacts(0,opses_count))
+					if (!OpLoadSessionContacts(0,opses_count))
 						EnableWindow(GetDlgItem(hdlg,IDC_DEL),FALSE);
 				}
 				else
@@ -528,7 +528,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			HideCaret(hComboBoxEdit);
 		}
 
-		if((HIWORD(wparam)!=CBN_DROPDOWN)&&(LOWORD(wparam)==IDC_LIST)&&!hOpClistControl)
+		if ((HIWORD(wparam)!=CBN_DROPDOWN)&&(LOWORD(wparam)==IDC_LIST)&&!hOpClistControl)
 		{
 			SendMessage(hComboBoxEdit,EM_SCROLLCARET ,0,0);
 			HideCaret(hComboBoxEdit);

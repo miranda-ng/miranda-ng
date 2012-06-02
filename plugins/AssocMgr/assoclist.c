@@ -95,7 +95,7 @@ void CleanupAssocEnabledSettings(void)
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][8];
 			mir_snprintf(szSetting, sizeof(szSetting), "module_%s", pszSuffix);
-			if(!DBGetContactSettingTString(NULL, "AssocMgr", szSetting, &dbv)) {
+			if (!DBGetContactSettingTString(NULL, "AssocMgr", szSetting, &dbv)) {
 				if(CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbv.ptszVal, (LPARAM)szDLL)) {
 					/* file still exists? */
 					hFile = CreateFile(szDLL, 0, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
@@ -129,7 +129,7 @@ static __inline BOOL WasMimeTypeAdded(const char *pszMimeType)
 	DBVARIANT dbv;
 	BOOL fAdded = FALSE;
 	mir_snprintf(szSetting, sizeof(szSetting), "mime_%s", pszMimeType);
-	if(!DBGetContactSetting(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
+	if (!DBGetContactSetting(NULL, "AssocMgr", szSetting, &dbv)) fAdded = TRUE;
 	else DBFreeVariant(&dbv);
 	return fAdded;
 }
@@ -147,10 +147,10 @@ void CleanupMimeTypeAddedSettings(void)
 		for(i = 0;i<nSettingsCount;++i) {
 			pszSuffix = &ppszSettings[i][5];
 			for(j = 0;j<nAssocListCount;++j)
-				if(!lstrcmpA(pszSuffix, pAssocList[j].pszMimeType))
+				if (!lstrcmpA(pszSuffix, pAssocList[j].pszMimeType))
 					break; /* mime type in current list */
 			if(j == nAssocListCount) { /* mime type not in current list */
-				if(!DBGetContactSetting(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
+				if (!DBGetContactSetting(NULL, "AssocMgr", ppszSettings[i], &dbv)) {
 					if(dbv.type == DBVT_ASCIIZ)
 						RemoveRegMimeType(pszSuffix, dbv.pszVal);
 					DBFreeVariant(&dbv);
@@ -201,7 +201,7 @@ static int FindAssocItem(const char *pszClassName)
 {
 	int i;
 	for(i = 0;i<nAssocListCount;++i)
-		if(!lstrcmpA(pszClassName, pAssocList[i].pszClassName))
+		if (!lstrcmpA(pszClassName, pAssocList[i].pszClassName))
 			return i;
 	return -1;
 }
@@ -292,7 +292,7 @@ static BOOL IsAssocRegistered(const ASSOCDATA *assoc)
 		fSuccess = IsRegClass(assoc->pszClassName, pszRunCmd);
 	mir_free(pszRunCmd); /* does NULL check */
 	/* file ext */
-	if(!fIsUrl)
+	if (!fIsUrl)
 		fSuccess = IsRegFileExt(assoc->pszFileExt, assoc->pszClassName);
 
 	return fSuccess;
@@ -312,10 +312,10 @@ static BOOL EnsureAssocRegistered(const ASSOCDATA *assoc)
 	if(pszRunCmd!= NULL) {
 		fSuccess = TRUE; /* tentatively */
 		/* do not overwrite user customized settings */
-		if(!IsRegClass(assoc->pszClassName, pszRunCmd)) {
+		if (!IsRegClass(assoc->pszClassName, pszRunCmd)) {
 			/* class icon */
-			if(!assoc->nIconResID && fIsUrl) pszIconLoc = MakeIconLocation(NULL, 0); /* miranda logo */
-			else if(!assoc->nIconResID) pszIconLoc = MakeIconLocation(hInst, IDI_MIRANDAFILE); /* generic file */
+			if (!assoc->nIconResID && fIsUrl) pszIconLoc = MakeIconLocation(NULL, 0); /* miranda logo */
+			else if (!assoc->nIconResID) pszIconLoc = MakeIconLocation(hInst, IDI_MIRANDAFILE); /* generic file */
 			else pszIconLoc = MakeIconLocation(assoc->hInstance, assoc->nIconResID);
 			/* register class */
 			if(fUseMainCmdLine) pszDdeCmd = NULL;
@@ -362,7 +362,7 @@ static BOOL UnregisterAssoc(const ASSOCDATA *assoc)
 	mir_free(pszRunCmd); /* does NULL check */
 
 	/* file type */
-	if(!fIsUrl) {
+	if (!fIsUrl) {
 		/* file extension */
 		RemoveRegFileExt(assoc->pszFileExt, assoc->pszClassName);
 		/* mime type */
@@ -473,7 +473,7 @@ static BOOL RemoveAssocItem_Worker(const char *pszClassName)
 	mir_free(assoc->pszMimeType); /* does NULL check */
 
 	/* resize storage array */
-	if((index+1)<nAssocListCount)
+	if ((index+1)<nAssocListCount)
 		MoveMemory(assoc, &pAssocList[index+1], ((nAssocListCount-index-1)*sizeof(ASSOCDATA)));
 	pAssocListBuf = (ASSOCDATA*)mir_realloc(pAssocList, (nAssocListCount-1)*sizeof(ASSOCDATA));
 	if(pAssocListBuf!= NULL) pAssocList = pAssocListBuf;
@@ -518,7 +518,7 @@ static INT_PTR ServiceRemoveFileType(WPARAM wParam, LPARAM lParam)
 	char *pszClassName;
 	UNREFERENCED_PARAMETER(wParam);
 
-	if((char*)lParam == NULL) return 2;
+	if ((char*)lParam == NULL) return 2;
 	pszClassName = MakeFileClassName((char*)lParam);
 	if(pszClassName!= NULL)
 		if(RemoveAssocItem_Worker(pszClassName)) {
@@ -557,7 +557,7 @@ static INT_PTR ServiceRemoveUrlType(WPARAM wParam, LPARAM lParam)
 	char *pszClassName;
 	UNREFERENCED_PARAMETER(wParam);
 
-	if((char*)lParam == NULL) return 2;
+	if ((char*)lParam == NULL) return 2;
 	pszClassName = MakeUrlClassName((char*)lParam);
 	if(pszClassName!= NULL)
 		if(RemoveAssocItem_Worker(pszClassName)) {
@@ -590,7 +590,7 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam
 		EnsureAssocRegistered(assoc);
 		NotifyAssocChange(FALSE);
 		/* try main command line */
-		if((int)ShellExecute(NULL, NULL, pszParam, NULL, NULL, SW_SHOWNORMAL) >= 32)
+		if ((int)ShellExecute(NULL, NULL, pszParam, NULL, NULL, SW_SHOWNORMAL) >= 32)
 			*res = 0; /* success */
 		return TRUE;
 	}
@@ -621,7 +621,7 @@ INT_PTR InvokeFileHandler(const TCHAR *pszFileName)
 			/* class name */
 			pszClassName = MakeFileClassName(pszFileExt);
 			if(pszClassName!= NULL)
-				if(!InvokeHandler_Worker(pszClassName, pszFileName, &res)) {
+				if (!InvokeHandler_Worker(pszClassName, pszFileName, &res)) {
 					/* correct registry on error (no longer in list) */
 					RemoveRegFileExt(pszFileExt, pszClassName);
 					RemoveRegClass(pszClassName);
@@ -647,7 +647,7 @@ INT_PTR InvokeUrlHandler(const TCHAR *pszUrl)
 			/* class name */
 			pszClassName = MakeUrlClassName(pszProtoPrefix);
 			if(pszClassName!= NULL)
-				if(!InvokeHandler_Worker(pszClassName, pszUrl, &res))
+				if (!InvokeHandler_Worker(pszClassName, pszUrl, &res))
 					/* correct registry on error (no longer in list) */
 					RemoveRegClass(pszClassName);
 			mir_free(pszClassName); /* does NULL check */
@@ -662,9 +662,9 @@ INT_PTR InvokeUrlHandler(const TCHAR *pszUrl)
 static int CALLBACK ListViewSortDesc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	int cmp;
-	if(((ASSOCDATA*)lParam1)->pszFileExt!= NULL && ((ASSOCDATA*)lParam2)->pszFileExt!= NULL)
+	if (((ASSOCDATA*)lParam1)->pszFileExt!= NULL && ((ASSOCDATA*)lParam2)->pszFileExt!= NULL)
 		cmp = CompareStringA((LCID)lParamSort, 0, ((ASSOCDATA*)lParam1)->pszFileExt, -1, ((ASSOCDATA*)lParam2)->pszFileExt, -1);
-	else if(((ASSOCDATA*)lParam1)->pszFileExt == ((ASSOCDATA*)lParam2)->pszFileExt) /* both NULL */
+	else if (((ASSOCDATA*)lParam1)->pszFileExt == ((ASSOCDATA*)lParam2)->pszFileExt) /* both NULL */
 		cmp = CompareStringA((LCID)lParamSort, 0, ((ASSOCDATA*)lParam1)->pszClassName, -1, ((ASSOCDATA*)lParam2)->pszClassName, -1);
 	else /* different types,  incomparable */
 		cmp = (((ASSOCDATA*)lParam1)->pszFileExt == NULL)?CSTR_LESS_THAN:CSTR_GREATER_THAN;
@@ -821,7 +821,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 						HTHEME hTheme;
 						hTheme = pfnGetWindowTheme((HWND)lParam);
 						if(hTheme!= NULL)
-							if(!pfnGetThemeColor(hTheme, BP_GROUPBOX, GBS_NORMAL, TMT_TEXTCOLOR, &clr)) {
+							if (!pfnGetThemeColor(hTheme, BP_GROUPBOX, GBS_NORMAL, TMT_TEXTCOLOR, &clr)) {
 								SetBkMode((HDC)wParam, TRANSPARENT);
 								SetTextColor((HDC)wParam, clr);
 							}
@@ -877,7 +877,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 									lvi.iItem = ListView_GetNextItem(nmhdr->hwndFrom, lvi.iItem, LVNI_ABOVE);
 									if(lvi.iItem!= -1)
 										if(ListView_GetItem(nmhdr->hwndFrom, &lvi))
-											if((ASSOCDATA*)lvi.lParam == NULL) /* groups */
+											if ((ASSOCDATA*)lvi.lParam == NULL) /* groups */
 												lvi.iItem = -1;
 									if(lvi.iItem == -1) {
 										SetWindowLong(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
@@ -893,7 +893,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 									lvi.iItem-= ListView_GetCountPerPage(nmhdr->hwndFrom);
 									if(lvi.iItem>= 0)
 										if(ListView_GetItem(nmhdr->hwndFrom, &lvi))
-											if((ASSOCDATA*)lvi.lParam == NULL) /* groups */
+											if ((ASSOCDATA*)lvi.lParam == NULL) /* groups */
 												lvi.iItem = -1;
 									if(lvi.iItem<0) {
 										ListView_SetItemState(nmhdr->hwndFrom, 0, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);

@@ -238,7 +238,7 @@ namespace pfc {
 		string acc;
 		if (iter.is_valid()) {
 			acc = *iter;
-			for(++iter; iter.is_valid(); ++iter) {
+			for (++iter; iter.is_valid(); ++iter) {
 				acc = acc + separator + *iter;
 			}
 		}

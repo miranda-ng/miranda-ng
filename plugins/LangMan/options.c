@@ -71,10 +71,10 @@ static HIMAGELIST CreateRadioImages(COLORREF clrBk,COLORREF clrText)
 							if(hTheme!=NULL) {
 								SetRect(&rc,0,0,size.cx,size.cy);
 								/* unchecked */
-								if(!pfnDrawThemeBackground(hTheme,hdc,BP_RADIOBUTTON,RBS_UNCHECKEDNORMAL,&rc,NULL)) {
+								if (!pfnDrawThemeBackground(hTheme,hdc,BP_RADIOBUTTON,RBS_UNCHECKEDNORMAL,&rc,NULL)) {
 									/* checked */
 									OffsetRect(&rc,size.cx,0);
-									if(!pfnDrawThemeBackground(hTheme,hdc,BP_RADIOBUTTON,RBS_CHECKEDNORMAL,&rc,NULL))
+									if (!pfnDrawThemeBackground(hTheme,hdc,BP_RADIOBUTTON,RBS_CHECKEDNORMAL,&rc,NULL))
 										himl=ImageList_Create(size.cx,size.cy,ILC_COLOR32|ILC_MASK,3,0);
 								}
 								pfnCloseThemeData(hTheme);
@@ -157,7 +157,7 @@ static void CleanupPluginName(char *szShortName)
 	int len;
 	/* strip-off anything in brackets */
 	for(p=szShortName;*p!='\0';++p)
-		if(*p=='(' || *p=='[') {
+		if (*p=='(' || *p=='[') {
 			*p='\0';
 			break;
 		}
@@ -181,7 +181,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox,const LANGPACK_INFO *pack
 	PLUGININFO *(__cdecl *MirandaPluginInfo)(DWORD);
 
 	/* enum plugins */
-	if(!(pack->flags&LPF_DEFAULT) && GetModuleFileName(NULL,szDir,SIZEOF(szDir))) {
+	if (!(pack->flags&LPF_DEFAULT) && GetModuleFileName(NULL,szDir,SIZEOF(szDir))) {
 		p=_tcsrchr(szDir,_T('\\'));
 		if(p!=NULL) *p=_T('\0');
 		mir_sntprintf(szSearch,SIZEOF(szSearch),_T("%s\\Plugins\\*.dll"),szDir);
@@ -192,7 +192,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox,const LANGPACK_INFO *pack
 			SendMessage(hwndListBox,LB_INITSTORAGE,128,lstrlenA(pack->szPluginsIncluded)); /* speed up */
 			do {
 				if(wfd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) continue;
-				if((lstrlen(wfd.cFileName)<4) || (wfd.cFileName[lstrlen(wfd.cFileName)-4]!=_T('.'))) continue;
+				if ((lstrlen(wfd.cFileName)<4) || (wfd.cFileName[lstrlen(wfd.cFileName)-4]!=_T('.'))) continue;
 				/* file name */
 				lstrcpy(szSearch,wfd.cFileName); /* buffer safe */
 				p=_tcsrchr(szSearch,_T('.'));
@@ -233,7 +233,7 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox,const LANGPACK_INFO *pack
 		}
 	}
 	/* all are included? */
-	if(!SendMessage(hwndListBox,LB_GETCOUNT,0,0))
+	if (!SendMessage(hwndListBox,LB_GETCOUNT,0,0))
 		SendMessage(hwndListBox,LB_ADDSTRING,0,(LPARAM)TranslateT("All installed plugins are included."));
 }
 
@@ -243,12 +243,12 @@ static void DisplayPackInfo(HWND hwndDlg,const LANGPACK_INFO *pack)
 	SendDlgItemMessage(hwndDlg,IDC_LANGNOTINCLUDED,LB_RESETCONTENT,0,0);
 	DisplayNotIncludedPlugins(GetDlgItem(hwndDlg,IDC_LANGNOTINCLUDED),pack);
 	/* locale string */
-	if(!(pack->flags&LPF_NOLOCALE)) {
+	if (!(pack->flags&LPF_NOLOCALE)) {
 		TCHAR szLocaleName[128];
 		szLocaleName[0]=_T('\0');
 		/* can't use LOCALE_SNAME as it is not present on pre WinVista */
-		if(!GetLocaleInfo(pack->Locale,LOCALE_SISO639LANGNAME,szLocaleName,SIZEOF(szLocaleName))) { /* Win98/NT4+ */
-			if(!GetLocaleInfo(pack->Locale,LOCALE_SLANGUAGE,szLocaleName,SIZEOF(szLocaleName))) /* not unique! */
+		if (!GetLocaleInfo(pack->Locale,LOCALE_SISO639LANGNAME,szLocaleName,SIZEOF(szLocaleName))) { /* Win98/NT4+ */
+			if (!GetLocaleInfo(pack->Locale,LOCALE_SLANGUAGE,szLocaleName,SIZEOF(szLocaleName))) /* not unique! */
 				szLocaleName[0]=_T('\0');
 		} else {
 			if(GetLocaleInfo(pack->Locale,LOCALE_SISO3166CTRYNAME,&szLocaleName[3],SIZEOF(szLocaleName)-3)) /* Win98/NT4+ */
@@ -256,7 +256,7 @@ static void DisplayPackInfo(HWND hwndDlg,const LANGPACK_INFO *pack)
 		}
 		/* add some note if its incompatible */
 		if(szLocaleName[0]) {
-			if(!IsValidLocale(pack->Locale,LCID_INSTALLED)) {
+			if (!IsValidLocale(pack->Locale,LCID_INSTALLED)) {
 				TCHAR *pszIncompat;
 				pszIncompat=TranslateT("(incompatible)");
 				szLocaleName[SIZEOF(szLocaleName)-lstrlen(pszIncompat)-1]=0;
@@ -278,7 +278,7 @@ static void DisplayPackInfo(HWND hwndDlg,const LANGPACK_INFO *pack)
 	/* version */
 	SetDlgItemTextA(hwndDlg,IDC_LANGVERSION,pack->szVersion);
 	if(pack->szVersion[0] && pack->szFLName[0]) {
-		if(!IsWindowVisible(GetDlgItem(hwndDlg,IDC_LANGVERSIONLABEL))) {
+		if (!IsWindowVisible(GetDlgItem(hwndDlg,IDC_LANGVERSIONLABEL))) {
 			ShowWindow(GetDlgItem(hwndDlg,IDC_LANGVERSIONLABEL),SW_SHOW);
 			ShowWindow(GetDlgItem(hwndDlg,IDC_LANGVERSION),SW_SHOW);
 		}
@@ -311,7 +311,7 @@ static void DeletePackFile(HWND hwndDlg,HWND hwndList,int iItem,LANGPACK_INFO *p
 		szFileName[lstrlen(szFileName)+1]=_T('\0');
 		sfo.pFrom=szFileName;
 		/* ask to delete file */
-		if(!SHFileOperation(&sfo) && !sfo.fAnyOperationsAborted) {
+		if (!SHFileOperation(&sfo) && !sfo.fAnyOperationsAborted) {
 			LVITEM lvi;
 			int nCount;
 			lvi.iItem=iItem;
@@ -342,7 +342,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack,WPARAM wParam,LPARAM lPar
 	CopyMemory(pack2,pack,sizeof(LANGPACK_INFO));
 	/* country flag icon */
 	lvi.mask=LVIF_TEXT|LVIF_PARAM|LVIF_STATE;
-	if((HIMAGELIST)lParam!=NULL) {
+	if ((HIMAGELIST)lParam!=NULL) {
 		HICON hIcon;
 		if(pack->flags&LPF_DEFAULT)
 			hIcon=(HICON)CallService(MS_FLAGS_CREATEMERGEDFLAGICON,CTRY_UNITED_STATES,CTRY_UNITED_KINGDOM);
@@ -350,7 +350,7 @@ static BOOL InsertPackItemEnumProc(LANGPACK_INFO *pack,WPARAM wParam,LPARAM lPar
 			int countryId=0xFFFF; /* Unknown */
 			TCHAR szBuf[6];
 			/* get country id from locale */
-			if(!(pack->flags&LPF_NOLOCALE))
+			if (!(pack->flags&LPF_NOLOCALE))
 				if(GetLocaleInfo(pack->Locale,LOCALE_ICOUNTRY,szBuf,SIZEOF(szBuf)))
 					countryId=_ttoi(szBuf);
 			hIcon=(HICON)CallService(MS_FLAGS_LOADFLAGICON,countryId,0);
@@ -429,7 +429,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		case M_SHOWFILECOL:
 		{	HWND hwndList;
 			hwndList=GetDlgItem(hwndDlg,IDC_LANGLIST);
-			if((BOOL)lParam && ListView_GetItemCount(hwndList)>1) {
+			if ((BOOL)lParam && ListView_GetItemCount(hwndList)>1) {
 				LVCOLUMN lvc;
 				LVITEM lvi;
 				LANGPACK_INFO *pack;
@@ -502,7 +502,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 					hti.iItem=ListView_GetNextItem((HWND)wParam,-1,LVNI_SELECTED);
 					if(hti.iItem!=-1)
 						break;
-					if(!ListView_GetItemRect((HWND)wParam,hti.iItem,&rc,LVIR_SELECTBOUNDS))
+					if (!ListView_GetItemRect((HWND)wParam,hti.iItem,&rc,LVIR_SELECTBOUNDS))
 						break;
 					hti.pt.x=rc.left+(rc.right-rc.left)/2;
 					hti.pt.y=rc.top+(rc.bottom-rc.top)/2;
@@ -517,10 +517,10 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 				lvi.iItem=hti.iItem;
 				lvi.iSubItem=0;
 				lvi.mask=LVIF_PARAM;
-				if(!ListView_GetItem((HWND)wParam,&lvi)) break;
+				if (!ListView_GetItem((HWND)wParam,&lvi)) break;
 				pack=(LANGPACK_INFO*)lvi.lParam;
 				/* context menu */
-				if(!(pack->flags&LPF_DEFAULT)) {
+				if (!(pack->flags&LPF_DEFAULT)) {
 					hContextMenu=CreatePopupMenu();
 					if(hContextMenu!=NULL) {
 						AppendMenu(hContextMenu,MF_STRING,2,TranslateT("&Remove..."));
@@ -553,7 +553,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 						}
 						case LVN_ITEMCHANGED:
 						{	NMLISTVIEW *nmlv=(NMLISTVIEW*)lParam;
-							if(!(nmlv->uChanged&LVIF_STATE)) break;
+							if (!(nmlv->uChanged&LVIF_STATE)) break;
 							/* display info and check radio item */
 							if(nmlv->uNewState&LVIS_SELECTED && !(nmlv->uOldState&LVIS_SELECTED)) {
 								ListView_SetItemState(nmhdr->hwndFrom,nmlv->iItem,INDEXTOSTATEIMAGEMASK(2),LVIS_STATEIMAGEMASK);
@@ -588,7 +588,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 									lvi.mask=LVIF_PARAM;
 									if(ListView_GetItem(nmhdr->hwndFrom,&lvi)) {
 										pack=(LANGPACK_INFO*)lvi.lParam;
-										if(!(pack->flags&LPF_DEFAULT))
+										if (!(pack->flags&LPF_DEFAULT))
 											DeletePackFile(hwndDlg,nmhdr->hwndFrom,iItem,pack);
 									}
 									break;

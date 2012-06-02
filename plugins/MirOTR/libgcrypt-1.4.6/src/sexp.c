@@ -84,9 +84,9 @@ dump_mpi( gcry_mpi_t a )
     char buffer[1000];
     size_t n = 1000;
 
-    if( !a )
+    if ( !a )
 	fputs("[no MPI]", stderr );
-    else if( gcry_mpi_print( GCRYMPI_FMT_HEX, buffer, &n, a ) )
+    else if ( gcry_mpi_print( GCRYMPI_FMT_HEX, buffer, &n, a ) )
 	fputs("[MPI too large to print]", stderr );
     else
 	fputs( buffer, stderr );
@@ -100,17 +100,17 @@ dump_string (const byte *p, size_t n, int delim )
     {
       if ((*p & 0x80) || iscntrl( *p ) || *p == delim ) 
         {
-          if( *p == '\n' )
+          if ( *p == '\n' )
             log_printf ("\\n");
-          else if( *p == '\r' )
+          else if ( *p == '\r' )
             log_printf ("\\r");
-          else if( *p == '\f' )
+          else if ( *p == '\f' )
             log_printf ("\\f");
-          else if( *p == '\v' )
+          else if ( *p == '\v' )
             log_printf ("\\v");
-	    else if( *p == '\b' )
+	    else if ( *p == '\b' )
               log_printf ("\\b");
-          else if( !*p )       
+          else if ( !*p )       
             log_printf ("\\0");
           else
             log_printf ("\\x%02x", *p );
@@ -145,7 +145,7 @@ gcry_sexp_dump (const gcry_sexp_t a)
           indent++;
           break;
         case ST_CLOSE:
-          if( indent )
+          if ( indent )
             indent--;
           log_printf ("%*s[close]\n", 2*indent, "");
           break;
@@ -831,19 +831,19 @@ hextobyte( const byte *s )
 {
     int c=0;
 
-    if( *s >= '0' && *s <= '9' )
+    if ( *s >= '0' && *s <= '9' )
 	c = 16 * (*s - '0');
-    else if( *s >= 'A' && *s <= 'F' )
+    else if ( *s >= 'A' && *s <= 'F' )
 	c = 16 * (10 + *s - 'A');
-    else if( *s >= 'a' && *s <= 'f' ) {
+    else if ( *s >= 'a' && *s <= 'f' ) {
 	c = 16 * (10 + *s - 'a');
     }
     s++;
-    if( *s >= '0' && *s <= '9' )
+    if ( *s >= '0' && *s <= '9' )
 	c += *s - '0';
-    else if( *s >= 'A' && *s <= 'F' )
+    else if ( *s >= 'A' && *s <= 'F' )
 	c += 10 + *s - 'A';
-    else if( *s >= 'a' && *s <= 'f' ) {
+    else if ( *s >= 'a' && *s <= 'f' ) {
 	c += 10 + *s - 'a';
     }
     return c;
@@ -942,7 +942,7 @@ unquote_string (const char *string, size_t length, unsigned char *buf)
 	    }
           esc = 0;
         }
-      else if( *s == '\\' )
+      else if ( *s == '\\' )
         esc = 1;
       else
         *d++ = *s;

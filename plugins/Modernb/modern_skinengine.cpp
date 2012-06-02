@@ -287,7 +287,7 @@ void IniParser::_DoInit()
 void IniParser::_LoadResourceIni( HINSTANCE hInst,  const char *  resourceName, const char * resourceType )
 {
 
-	if( _eType != IT_UNKNOWN ) return;
+	if ( _eType != IT_UNKNOWN ) return;
 
 	HRSRC hRSrc = FindResourceA( hInst, resourceName, resourceType );
 	if ( !hRSrc ) return;
@@ -2962,7 +2962,7 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 
 static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, DWORD ARGBcolor)
 {
-	if( !( lpString && lpRect ) )
+	if ( !( lpString && lpRect ) )
 	{
 		DebugBreak();
 		return 0;
@@ -2982,7 +2982,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 		BYTE redCf     = ModernGetSettingByte(NULL,"ModernData","AlphaTextOutRed Correction", 77 );
 		BYTE greenCf   = ModernGetSettingByte(NULL,"ModernData","AlphaTextOutGreen Correction", 151 );
 
-		for( int i = 0; i < 256; i++ )
+		for ( int i = 0; i < 256; i++ )
 		{
 			gammaTbl[i]= (BYTE)( 255 * pow( (double)i / 255, gammaCfPw ) );
 			blueMulTbl[i] = i * blueCf;
@@ -3168,7 +3168,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 					pDestScanLine = bits + lineBytes;
 					pBufScanLine  = bufbits + lineBytes;
 					
-					for( x = 2; x < width - 2; x++)
+					for ( x = 2; x < width - 2; x++)
 					{
 						pix    = pDestScanLine + ( x<<2 );
 						bufpix = pBufScanLine  + ( x<<2 );
@@ -3710,7 +3710,7 @@ static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)   
 						GetClientRect(frm->hWnd,&r);
 						r2=CreateRectRgn(r.left,r.top,r.right,r.bottom);
 					}
-					if(!frm->UpdateRgn)
+					if (!frm->UpdateRgn)
 					{
 						frm->UpdateRgn=CreateRectRgn(0,0,1,1);
 						CombineRgn(frm->UpdateRgn,r2,0,RGN_COPY);                                            

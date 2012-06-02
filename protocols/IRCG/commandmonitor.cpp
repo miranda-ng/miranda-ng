@@ -172,7 +172,7 @@ VOID CALLBACK OnlineNotifTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 
 								if ( DBNick && ( !DBWildcard || !WCCmp(CharLower(DBWildcard), CharLower(DBNick)))) 
 									ppro->m_namesToWho += CMString(DBNick) + _T(" ");
-								else if( DBWildcard )
+								else if ( DBWildcard )
 									ppro->m_namesToWho += CMString(DBWildcard) + _T(" ");
 
 								if ( DBNick )     DBFreeVariant(&dbv);
@@ -545,7 +545,7 @@ bool CIrcProto::OnIrc_MODE( const CIrcMessage* pmsg )
 				}
 				else if (*p1 != 'b' && *p1 != ' ' && *p1 != '+' && *p1 != '-' ) {
 					bContainsValidModes = true;
-					if(*p1 != 'l' && *p1 != 'k')
+					if (*p1 != 'l' && *p1 != 'k')
 						sModes += *p1;
 					flag = true;
 				}
@@ -669,7 +669,7 @@ bool CIrcProto::OnIrc_YOURHOST( const CIrcMessage* pmsg )
 	if ( pmsg->m_bIncoming ) {
 		static const TCHAR* lpszFmt = _T("Your host is %99[^ \x5b,], running version %99s");
 		TCHAR szHostName[100], szVersion[100];
-		if( _stscanf(pmsg->parameters[1].c_str(), lpszFmt, &szHostName, &szVersion) > 0 )
+		if ( _stscanf(pmsg->parameters[1].c_str(), lpszFmt, &szHostName, &szVersion) > 0 )
 			m_info.sServerName = szHostName;
 		if ( pmsg->parameters[0] != m_info.sNick)
 			m_info.sNick = pmsg->parameters[0];
@@ -940,7 +940,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 						// if all characters are number it indicates we have found the adress, port and size parameters
 						int ind = 0;
 						while ( sTemp[ind] != '\0' ) {
-							if( !_istdigit( sTemp[ind] ))
+							if ( !_istdigit( sTemp[ind] ))
 								break;
 							ind++;
 						}
@@ -1005,7 +1005,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 						int ind = 0;
 
 						while ( sTemp[ind] != '\0' ) {
-							if( !_istdigit( sTemp[ind] ))
+							if ( !_istdigit( sTemp[ind] ))
 								break;
 							ind++;
 						}
@@ -1183,7 +1183,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 						di->bTurbo = bTurbo;
 						di->bSSL = false;
 						di->bReverse = (iPort == 0 && !sToken.IsEmpty() ) ? true : false;
-						if( di->bReverse )
+						if ( di->bReverse )
 							di->sToken = sTokenBackup;
 
 						setTString(hContact, "User", pmsg->prefix.sUser.c_str());

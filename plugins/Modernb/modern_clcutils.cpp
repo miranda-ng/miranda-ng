@@ -149,7 +149,7 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 	if(desty>maxy) desty=maxy;
 	if(desty<0) desty=0;
 	if(abs(desty-dat->yScroll)<4) noSmooth=1;
-	if(!noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth=1;
+	if (!noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth=1;
 	previousy=dat->yScroll;
 
 	BOOL keyDown = (    ( GetKeyState( VK_UP    )
@@ -161,14 +161,14 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 						| GetKeyState( VK_HOME  )
 						| GetKeyState( VK_END   ) ) & 0x8000 );
 
-	if(!noSmooth && !keyDown) 
+	if (!noSmooth && !keyDown) 
 	{
 		startTick=GetTickCount();
-		for(;;) {
+		for (;;) {
 			nowTick=GetTickCount();
 			if(nowTick>=startTick+dat->scrollTime) break;
 			dat->yScroll=oldy+(desty-oldy)*(int)(nowTick-startTick)/dat->scrollTime;
-			if(/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground==NULL &&*/FALSE)
+			if (/*dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground==NULL &&*/FALSE)
 				ScrollWindowEx(hwnd,0,previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
 			else
 			{
@@ -182,7 +182,7 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 		}
 	}
 	dat->yScroll=desty;
-	if((dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground==NULL) && FALSE)
+	if ((dat->backgroundBmpUse&CLBF_SCROLL || dat->hBmpBackground==NULL) && FALSE)
 		ScrollWindowEx(hwnd,0,previousy-dat->yScroll,NULL,NULL,NULL,NULL,SW_INVALIDATE);
 	else
 		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
@@ -367,7 +367,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 	dat->selection=dat->iDragItem;
 	dat->iInsertionMark=-1;
 	dat->nInsertionLevel=0;
-	if(!PtInRect(&clRect,pt)) return DROPTARGET_OUTSIDE;
+	if (!PtInRect(&clRect,pt)) return DROPTARGET_OUTSIDE;
 
 	hit=cliHitTest(hwnd,dat,pt.x,pt.y,&contact,&group,&hitFlags);
 	cliGetRowByIndex(dat,dat->iDragItem,&movecontact,&movegroup);
@@ -431,7 +431,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 					group=bottomgroup;                    
 					if (bottomcontact==movecontact || group==movecontact->group)	return DROPTARGET_ONSELF;
 					dat->nInsertionLevel=-1; // decreasing here
-					for(;group;group=group->parent)
+					for (;group;group=group->parent)
 					{   
 						dat->nInsertionLevel++;
 						if (group==movecontact->group) return DROPTARGET_ONSELF;
@@ -450,7 +450,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 			if(movecontact->type==CLCIT_GROUP) 
 			{	 //check not moving onto its own subgroup
 				dat->iInsertionMark=hit+1;
-				for(;group;group=group->parent) 
+				for (;group;group=group->parent) 
 				{
 					dat->nInsertionLevel++;
 					if(group==movecontact->group) return DROPTARGET_ONSELF;
@@ -480,9 +480,9 @@ void LoadCLCFonts( HWND hwnd, struct ClcData *dat )
 	HDC hdc=GetDC(hwnd);
 	HFONT holdfont = (HFONT)GetCurrentObject( hdc, OBJ_FONT );
 	
-	for( int i = 0 ; i <= FONTID_MODERN_MAX; i++ ) 
+	for ( int i = 0 ; i <= FONTID_MODERN_MAX; i++ ) 
 	{
-		if( !dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont )
+		if ( !dat->fontModernInfo[i].changed && dat->fontModernInfo[i].hFont )
 		{
 			DeleteObject(dat->fontModernInfo[i].hFont);
 		}
@@ -718,13 +718,13 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	if (g_CluiData.fDisableSkinEngine)
 	{
 		DBVARIANT dbv;
-		if(!dat->bkChanged) 
+		if (!dat->bkChanged) 
 		{
 			dat->bkColour=sttGetColor("CLC","BkColour",GetSysColor(COLOR_3DFACE));
 			{	
 				if(ModernGetSettingByte(NULL,"CLC","UseBitmap",CLCDEFAULT_USEBITMAP)) 
 				{
-					if(!ModernGetSettingString(NULL,"CLC","BkBitmap",&dbv)) 
+					if (!ModernGetSettingString(NULL,"CLC","BkBitmap",&dbv)) 
 					{
 						dat->hBmpBackground=(HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);				
 						ModernDBFreeVariant(&dbv);						
@@ -740,7 +740,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 		dat->MenuTextHiColor=sttGetColor("Menu","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 		
 		if(ModernGetSettingByte(NULL,"Menu","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-			if(!ModernGetSettingString(NULL,"Menu","BkBitmap",&dbv)) {
+			if (!ModernGetSettingString(NULL,"Menu","BkBitmap",&dbv)) {
 				dat->hMenuBackground=(HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 				//mir_free_and_nill(dbv.pszVal);
 				ModernDBFreeVariant(&dbv);
@@ -755,7 +755,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	dat->selTextColour=ModernGetSettingDword(NULL,"CLC","SelTextColour",CLCDEFAULT_MODERN_SELTEXTCOLOUR);
 	dat->hotTextColour=ModernGetSettingDword(NULL,"CLC","HotTextColour",CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour=ModernGetSettingDword(NULL,"CLC","QuickSearchColour",CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
-	if(!g_szMetaModuleName && ServiceExists(MS_MC_GETPROTOCOLNAME)) g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
+	if (!g_szMetaModuleName && ServiceExists(MS_MC_GETPROTOCOLNAME)) g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	dat->IsMetaContactsEnabled=(!(GetWindowLong(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
 		g_szMetaModuleName && ModernGetSettingByte(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 

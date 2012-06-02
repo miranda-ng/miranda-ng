@@ -68,21 +68,21 @@ int SkinSelector_DeleteMask(MODERNMASK * mm)
 BOOL wildcmpi(TCHAR* name, TCHAR* mask)
 {
 	TCHAR* last='\0';
-	for(;; mask++, name++)
+	for (;; mask++, name++)
 	{
-		if(*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
-		if(*name == '\0') return ((BOOL)!*mask);
+		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
+		if (*name == '\0') return ((BOOL)!*mask);
 	}
-	if(*mask != '*') return FALSE;
-	for(;; mask++, name++)
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++)
 	{
 		while(*mask == '*')
 		{
 			last = mask++;
-			if(*mask == '\0') return ((BOOL)!*mask);   /* true */
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
 		}
-		if(*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if(*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
 
@@ -90,21 +90,21 @@ BOOL wildcmpi(TCHAR* name, TCHAR* mask)
 BOOL wildcmpi(char * name, char * mask)
 {
 	char * last='\0';
-	for(;; mask++, name++)
+	for (;; mask++, name++)
 	{
-		if(*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
-		if(*name == '\0') return ((BOOL)!*mask);
+		if (*mask != '?' && _qtoupper(*mask) != _qtoupper(*name)) break;
+		if (*name == '\0') return ((BOOL)!*mask);
 	}
-	if(*mask != '*') return FALSE;
-	for(;; mask++, name++)
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++)
 	{
 		while(*mask == '*')
 		{
 			last = mask++;
-			if(*mask == '\0') return ((BOOL)!*mask);   /* true */
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
 		}
-		if(*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if(*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
 #endif
@@ -112,21 +112,21 @@ BOOL wildcmpi(char * name, char * mask)
 BOOL __inline wildcmp(const char * name, const char * mask, BYTE option)
 {
 	const char * last='\0';
-	for(;; mask++, name++)
+	for (;; mask++, name++)
 	{
-		if(*mask != '?' && *mask != *name) break;
-		if(*name == '\0') return ((BOOL)!*mask);
+		if (*mask != '?' && *mask != *name) break;
+		if (*name == '\0') return ((BOOL)!*mask);
 	}
-	if(*mask != '*') return FALSE;
-	for(;; mask++, name++)
+	if (*mask != '*') return FALSE;
+	for (;; mask++, name++)
 	{
 		while(*mask == '*')
 		{
 			last = mask++;
-			if(*mask == '\0') return ((BOOL)!*mask);   /* true */
+			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
 		}
-		if(*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if(*mask != '?' && *mask != *name) name -= (size_t)(mask - last) - 1, mask = last;
+		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
+		if (*mask != '?' && *mask != *name) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
 

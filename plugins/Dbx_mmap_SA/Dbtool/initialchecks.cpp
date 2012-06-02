@@ -40,13 +40,13 @@ int WorkInitialChecks(int firstTime)
 	}
 	bEncrypted = false;
 	if(memcmp(dbhdr.signature,&dbSignature,sizeof(dbhdr.signature))) {
-		if(memcmp(dbhdr.signature,&dbSignatureEncrypted,sizeof(dbhdr.signature))){
+		if(memcmp(dbhdr.signature,&dbSignatureEncrypted,sizeof(dbhdr.signature))) {
 			AddToStatus(STATUS_FATAL,TranslateT("Database signature is corrupted, automatic repair is impossible"));
 			return ERROR_BAD_FORMAT;
 		}
 		AddToStatus(STATUS_SUCCESS,TranslateT("Database is Secured MMAP database"));
 		InitSecurity();
-		if(CheckPassword(dbhdr.checkWord, dbhdr.cryptorUID, (char*)Translate("your database"))){
+		if(CheckPassword(dbhdr.checkWord, dbhdr.cryptorUID, (char*)Translate("your database"))) {
 			AddToStatus(STATUS_SUCCESS,TranslateT("Secured MMAP: authorization successful"));
 			bEncrypted = true;
 		}

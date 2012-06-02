@@ -457,7 +457,7 @@ static INT_PTR CALLBACK DlgProcClistAdditionalOpts(HWND hwndDlg, UINT msg, WPARA
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SUBINDENTSPIN),t);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SUBINDENT),t);
 		}
-		if((LOWORD(wParam)==IDC_SUBINDENT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
+		if ((LOWORD(wParam)==IDC_SUBINDENT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		return TRUE;
 	case WM_NOTIFY:
@@ -542,14 +542,14 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			EnableWindow(GetDlgItem(hwndDlg,IDC_SMOOTHTIME),IsDlgButtonChecked(hwndDlg,IDC_NOTNOSMOOTHSCROLLING));
 		if(LOWORD(wParam)==IDC_GREYOUT)
 			EnableWindow(GetDlgItem(hwndDlg,IDC_GREYOUTOPTS),IsDlgButtonChecked(hwndDlg,IDC_GREYOUT));
-		if((/*LOWORD(wParam)==IDC_LEFTMARGIN ||*/ LOWORD(wParam)==IDC_SMOOTHTIME || LOWORD(wParam)==IDC_GROUPINDENT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
+		if ((/*LOWORD(wParam)==IDC_LEFTMARGIN ||*/ LOWORD(wParam)==IDC_SMOOTHTIME || LOWORD(wParam)==IDC_GROUPINDENT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		break;
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom) {
 	case IDC_GREYOUTOPTS:
 	case IDC_HIDEOFFLINEOPTS:
-		if(((LPNMHDR)lParam)->code==NM_CLICK) {
+		if (((LPNMHDR)lParam)->code==NM_CLICK) {
 			TVHITTESTINFO hti;
 			hti.pt.x=(short)LOWORD(GetMessagePos());
 			hti.pt.y=(short)HIWORD(GetMessagePos());
@@ -574,7 +574,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 			{
 				DWORD exStyle=0;
 				for(int i=0;i<SIZEOF(checkBoxToStyleEx);i++)
-					if((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id)==0)==checkBoxToStyleEx[i].neg)
+					if ((IsDlgButtonChecked(hwndDlg,checkBoxToStyleEx[i].id)==0)==checkBoxToStyleEx[i].neg)
 						exStyle|=checkBoxToStyleEx[i].flag;
 				ModernWriteSettingDword(NULL,"CLC","ExStyle",exStyle);
 			}
@@ -624,7 +624,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETDEFAULTCOLOUR,0,CLCDEFAULT_SELBKCOLOUR);
 		SendDlgItemMessage(hwndDlg,IDC_SELCOLOUR,CPM_SETCOLOUR,0,ModernGetSettingDword(NULL,"StatusBar","SelBkColour",CLCDEFAULT_SELBKCOLOUR));
 		{	DBVARIANT dbv={0};
-		if(!ModernGetSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
+		if (!ModernGetSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
 			SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
 			if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
 				char szPath[MAX_PATH];
@@ -686,7 +686,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = "bmp";
-			if(!GetOpenFileNameA(&ofn)) break;
+			if (!GetOpenFileNameA(&ofn)) break;
 			SetDlgItemTextA(hwndDlg,IDC_FILENAME,str);
 		}
 		else if(LOWORD(wParam)==IDC_FILENAME && HIWORD(wParam)!=EN_CHANGE) break;
@@ -936,12 +936,12 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 						  item=SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_ADDSTRING,0,(LPARAM)accs[i]->tszAccountName);
                     SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETITEMDATA,item,(LPARAM)accs[i]);
-                    if((dbv.type==DBVT_ASCIIZ || dbv.type==DBVT_UTF8)&& !strcmp(dbv.pszVal,accs[i]->szModuleName))
+                    if ((dbv.type==DBVT_ASCIIZ || dbv.type==DBVT_UTF8)&& !strcmp(dbv.pszVal,accs[i]->szModuleName))
                         SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETCURSEL,item,0);
                 }
                 ModernDBFreeVariant(&dbv);
             }
-            if(-1==(int)SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_GETCURSEL,0,0))
+            if (-1==(int)SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_GETCURSEL,0,0))
                 SendDlgItemMessage(hwndDlg,IDC_PRIMARYSTATUS,CB_SETCURSEL,0,0);
             SendDlgItemMessage(hwndDlg,IDC_BLINKSPIN,UDM_SETBUDDY,(WPARAM)GetDlgItem(hwndDlg,IDC_BLINKTIME),0);		// set buddy			
             SendDlgItemMessage(hwndDlg,IDC_BLINKSPIN,UDM_SETRANGE,0,MAKELONG(0x3FFF,250));
@@ -1111,7 +1111,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC13),mode!=0);
 		}
 
-		if(!IsDlgButtonChecked(hwndDlg,IDC_AUTOSIZE)) {
+		if (!IsDlgButtonChecked(hwndDlg,IDC_AUTOSIZE)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC21),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC22),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_MAXSIZEHEIGHT),FALSE);
@@ -1247,7 +1247,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			CheckDlgButton(hwndDlg, IDC_SHOWCAPTION, ModernGetSettingByte(NULL,"CLUI","ShowCaption",SETTING_SHOWCAPTION_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SHOWMAINMENU, ModernGetSettingByte(NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 			//EnableWindow(GetDlgItem(hwndDlg,IDC_CLIENTDRAG),!IsDlgButtonChecked(hwndDlg,IDC_DRAGTOSCROLL));
-			if(!IsDlgButtonChecked(hwndDlg,IDC_SHOWCAPTION)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOWCAPTION)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_MIN2TRAY),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TOOLWND),FALSE);
@@ -1289,7 +1289,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			DBVARIANT dbv={0};
 			TCHAR *s=NULL;
 			char szUin[20];
-			if(!ModernGetSettingTString(NULL,"CList","TitleText",&dbv))
+			if (!ModernGetSettingTString(NULL,"CList","TitleText",&dbv))
 				s=mir_tstrdup(dbv.ptszVal);
 			else
 				s=mir_tstrdup(_T(MIRANDANAME));
@@ -1302,32 +1302,32 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 			sprintf(szUin,"%u",ModernGetSettingDword(NULL,"ICQ","UIN",0));
 			SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)szUin);
 
-			if(!ModernGetSettingString(NULL,"ICQ","Nick",&dbv)) {
+			if (!ModernGetSettingString(NULL,"ICQ","Nick",&dbv)) {
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 				//mir_free_and_nill(dbv.pszVal);
 				ModernDBFreeVariant(&dbv);
 				dbv.pszVal=NULL;
 			}
-			if(!ModernGetSettingString(NULL,"ICQ","FirstName",&dbv)) {
+			if (!ModernGetSettingString(NULL,"ICQ","FirstName",&dbv)) {
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 				//mir_free_and_nill(dbv.pszVal);
 				ModernDBFreeVariant(&dbv);
 				dbv.pszVal=NULL;
 			}
-			if(!ModernGetSettingString(NULL,"ICQ","e-mail",&dbv)) {
+			if (!ModernGetSettingString(NULL,"ICQ","e-mail",&dbv)) {
 				SendDlgItemMessage(hwndDlg,IDC_TITLETEXT,CB_ADDSTRING,0,(LPARAM)dbv.pszVal);
 				//mir_free_and_nill(dbv.pszVal);
 				ModernDBFreeVariant(&dbv);
 				dbv.pszVal=NULL;
 			}
 		}
-		if(!IsWinVer2000Plus()) {
+		if (!IsWinVer2000Plus()) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
 		}
 		else CheckDlgButton(hwndDlg,IDC_TRANSPARENT,ModernGetSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
-		if(!IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
+		if (!IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC12),FALSE);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSACTIVE),FALSE);
@@ -1585,10 +1585,10 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				dat->item[indx].useWinColours = ModernGetSettingByte(NULL,module, "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);	
 				{	
 					DBVARIANT dbv;
-					if(!ModernGetSettingString(NULL,module,"BkBitmap",&dbv))
+					if (!ModernGetSettingString(NULL,module,"BkBitmap",&dbv))
 					{
 						int retval = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)dat->item[indx].filename);
-						if(!retval || retval == CALLSERVICE_NOTFOUND)
+						if (!retval || retval == CALLSERVICE_NOTFOUND)
 							lstrcpynA(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
 						mir_free(dbv.pszVal);
 					}
@@ -1741,7 +1741,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ofn.nMaxFile = SIZEOF(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = "bmp";
-				if(!GetOpenFileNameA(&ofn)) break;
+				if (!GetOpenFileNameA(&ofn)) break;
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 			}
 			else
@@ -1793,12 +1793,12 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 								{	
 									COLORREF col;
 
-									if((col = dat->item[indx].bkColor) == DEFAULT_BKCOLOUR)																		
+									if ((col = dat->item[indx].bkColor) == DEFAULT_BKCOLOUR)																		
 										ModernDeleteSetting(NULL, module, "BkColour");
 									else
 										ModernWriteSettingDword(NULL, module, "BkColour", col);
 
-									if((col = dat->item[indx].selColor) == DEFAULT_SELBKCOLOUR)
+									if ((col = dat->item[indx].selColor) == DEFAULT_SELBKCOLOUR)
 										ModernDeleteSetting(NULL, module, "SelBkColour");
 									else
 										ModernWriteSettingDword(NULL, module, "SelBkColour", col);
@@ -1810,7 +1810,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 									int retval = CallService(MS_UTILS_PATHTOABSOLUTE,
 										(WPARAM)dat->item[indx].filename,
 										(LPARAM)str);
-									if(!retval || retval == CALLSERVICE_NOTFOUND)
+									if (!retval || retval == CALLSERVICE_NOTFOUND)
 										ModernWriteSettingString(NULL, module, "BkBitmap", dat->item[indx].filename);
 									else
 										ModernWriteSettingString(NULL, module, "BkBitmap", str);
@@ -2035,14 +2035,14 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_SETRANGE,0,MAKELONG(900,1));
 			SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_SETPOS,0,MAKELONG(ModernGetSettingWord(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),0));
 
-			if(!IsWinVer2000Plus())
+			if (!IsWinVer2000Plus())
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
 			}
 
-			if(!IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT))
+			if (!IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT))
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC12),FALSE);

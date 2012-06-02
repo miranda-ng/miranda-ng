@@ -32,7 +32,7 @@ internalJSONNode::internalJSONNode(const internalJSONNode & orig) :
     #ifdef JSON_MUTEX_CALLBACKS
 	   _set_mutex(orig.mylock, false);  
     #endif
-    if (!orig.Children.empty()){
+    if (!orig.Children.empty()) {
 	   Children.reserve(orig.Children.size());
 	   json_foreach(orig.Children, myrunner){
 		  Children.push_back(JSONNode::newJSONNode((*myrunner) -> duplicate()));
@@ -61,7 +61,7 @@ internalJSONNode::internalJSONNode(const json_string & unparsed) : _type(), _nam
     initializeValid(0){
 	   
     incinternalAllocCount();
-    switch (unparsed[0]){
+    switch (unparsed[0]) {
 	   case JSON_TEXT('{'):  //node
 		  _type = JSON_NODE;
 		  #ifdef JSON_PREPARSE
@@ -89,7 +89,7 @@ internalJSONNode::internalJSONNode(const json_string & name_t, const json_string
 	   
     incinternalAllocCount();
 	   
-    if (value_t.empty()){
+    if (value_t.empty()) {
         _type = JSON_NULL;
 	   #ifdef JSON_VALIDATE
 		  isValid = true;
@@ -196,7 +196,7 @@ void internalJSONNode::FetchNumber(void) const {
 #ifndef JSON_PREPARSE
     void internalJSONNode::Fetch(void) const {
 	   if (fetched) return;
-	   switch (type()){
+	   switch (type()) {
 		  case JSON_STRING:
 			 FetchString();
 			 break;
@@ -288,7 +288,7 @@ bool internalJSONNode::IsEqualTo(const internalJSONNode * val) const {
 	   Fetch();
 	   val -> Fetch();
     #endif
-    switch (type()){
+    switch (type()) {
 	   case JSON_STRING:
 		  return val -> _string == _string;
 	   case JSON_NUMBER:
@@ -358,7 +358,7 @@ JSONNode * internalJSONNode::pop_back(json_index_t pos){
 }
 
 JSONNode * internalJSONNode::pop_back(const json_string & name_t){
-    if (JSONNode ** res = at(name_t)){
+    if (JSONNode ** res = at(name_t)) {
 	   JSONNode * result = *res;
 	   Children.erase(res);
 	   return result;
@@ -368,7 +368,7 @@ JSONNode * internalJSONNode::pop_back(const json_string & name_t){
 
 #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
     JSONNode * internalJSONNode::pop_back_nocase(const json_string & name_t){
-	   if (JSONNode ** res = at_nocase(name_t)){
+	   if (JSONNode ** res = at_nocase(name_t)) {
 		  JSONNode * result = *res;
 		  Children.erase(res);
 		  return result;
@@ -392,9 +392,9 @@ JSONNode ** internalJSONNode::at(const json_string & name_t){
 		  const json_char c_one = *ch_one;
 		  const json_char c_two = *ch_two;
 		  if (c_one != c_two){
-			 if ((c_two > 64) && (c_two < 91)){  //A - Z
+			 if ((c_two > 64) && (c_two < 91)) {  //A - Z
 				if (c_one != (json_char)(c_two + 32)) return false;
-			 } else if ((c_two > 96) && (c_two < 123)){  //a - z
+			 } else if ((c_two > 96) && (c_two < 123)) {  //a - z
 				if (c_one != (json_char)(c_two - 32)) return false;
 			 } else { //not a letter, so return false
 				return false;
@@ -434,7 +434,7 @@ JSONNode ** internalJSONNode::at(const json_string & name_t){
 				(*myrunner) -> internal -> Fetch();
 			 #endif
 			 if ((*myrunner) -> type() == JSON_NULL) return false;
-		  } else if (!((*myrunner) -> internal -> isValid)){
+		  } else if (!((*myrunner) -> internal -> isValid)) {
 			 JSON_FAIL(_name + JSON_TEXT(" is null and not valid"));
 			 return false;
 		  }
@@ -477,7 +477,7 @@ JSONNode ** internalJSONNode::at(const json_string & name_t){
 				dumpage.push_back(JSON_NEW(JSONNode(JSON_TEXT("_type"), JSON_TEXT(#ty))));\
 				break;
 		  
-		  switch(type()){
+		  switch(type()) {
 			 DUMPCASE(JSON_NULL)
 			 DUMPCASE(JSON_STRING)
 			 DUMPCASE(JSON_NUMBER)

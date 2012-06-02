@@ -142,7 +142,7 @@ HFONT CLCPaint::ChangeToFont( HDC hdc, struct ClcData *dat, int id, int *fontHei
     res = ( HFONT )SelectObject( hdc, dat->fontModernInfo[id].hFont );
     SetTextColor( hdc, dat->fontModernInfo[id].colour );
     
-	if( fontHeight ) 
+	if ( fontHeight ) 
 		*fontHeight = dat->fontModernInfo[id].fontHeight;
     ske_ResetTextEffect( hdc );
 
@@ -169,7 +169,7 @@ int   CLCPaint::GetBasicFontID( struct ClcContact * contact )
 			return FONTID_CLOSEDGROUPS;
 		break;
 	case CLCIT_INFO:
-		if( contact->flags & CLCIIF_GROUPFONT )
+		if ( contact->flags & CLCIIF_GROUPFONT )
 			return FONTID_OPENGROUPS;
 		else
 			return FONTID_CONTACTS;
@@ -306,42 +306,42 @@ void  CLCPaint::_FillQuickHash()
 
 void  CLCPaint::_SetHotTrackColour( HDC hdc, struct ClcData *dat )
 {
-    if( dat->gammaCorrection ) {
+    if ( dat->gammaCorrection ) {
         COLORREF oldCol, newCol;
         int oldLum, newLum;
 
         oldCol = GetTextColor( hdc );
         oldLum = ( GetRValue( oldCol )*30+GetGValue( oldCol )*59+GetBValue( oldCol )*11 )/100;
         newLum = ( GetRValue( dat->hotTextColour )*30+GetGValue( dat->hotTextColour )*59+GetBValue( dat->hotTextColour )*11 )/100;
-        if( newLum == 0 ) {
+        if ( newLum == 0 ) {
             SetTextColor( hdc, dat->hotTextColour );
             return;
         }
-        if( newLum>= oldLum+20 ) {
+        if ( newLum>= oldLum+20 ) {
             oldLum+= 20;
             newCol = RGB( GetRValue( dat->hotTextColour )*oldLum/newLum, GetGValue( dat->hotTextColour )*oldLum/newLum, GetBValue( dat->hotTextColour )*oldLum/newLum );
         }
-        else if( newLum<= oldLum ) {
+        else if ( newLum<= oldLum ) {
             int r, g, b;
             r = GetRValue( dat->hotTextColour )*oldLum/newLum;
             g = GetGValue( dat->hotTextColour )*oldLum/newLum;
             b = GetBValue( dat->hotTextColour )*oldLum/newLum;
-            if( r>255 ) {
+            if ( r>255 ) {
                 g+= ( r-255 )*3/7;
                 b+= ( r-255 )*3/7;
                 r = 255;
             }
-            if( g>255 ) {
+            if ( g>255 ) {
                 r+= ( g-255 )*59/41;
-                if( r>255 ) r = 255;
+                if ( r>255 ) r = 255;
                 b+= ( g-255 )*59/41;
                 g = 255;
             }
-            if( b>255 ) {
+            if ( b>255 ) {
                 r+= ( b-255 )*11/89;
-                if( r>255 ) r = 255;
+                if ( r>255 ) r = 255;
                 g+= ( b-255 )*11/89;
-                if( g>255 ) g = 255;
+                if ( g>255 ) g = 255;
                 b = 255;
             }
             newCol = RGB( r, g, b );
@@ -378,11 +378,11 @@ int   CLCPaint::_GetGeneralisedStatus()
     for ( int i = 0; i<pcli->hClcProtoCount; i++ ) 
 	{
         int thisStatus = pcli->clcProto[i].dwStatus;
-        if( thisStatus == ID_STATUS_INVISIBLE )
+        if ( thisStatus == ID_STATUS_INVISIBLE )
 			return ID_STATUS_INVISIBLE;
 
         int thisOnlineness = _GetStatusOnlineness( thisStatus );
-        if( thisOnlineness > statusOnlineness ) 
+        if ( thisOnlineness > statusOnlineness ) 
 		{
             status = thisStatus;
             statusOnlineness = thisOnlineness;
@@ -734,7 +734,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
     if ( Drawing->type == CLCIT_CONTACT )
         pdnce = ( PDNCE )pcli->pfnGetCacheEntry( Drawing->hContact );
 
-    if( Drawing->type == CLCIT_GROUP &&
+    if ( Drawing->type == CLCIT_GROUP &&
         Drawing->group->parent->groupId == 0 &&
         Drawing->group->parent->cl.items[0] != Drawing )
     {
@@ -770,12 +770,12 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                 // Store pos
                 if ( dat->text_rtl != 0 ) _RTLRect( &p_rect, free_row_rc.right, dx );
                 Drawing->pos_icon = p_rect;
-                if( hottrack )
+                if ( hottrack )
                 {
                     colourFg = dat->hotTextColour;
                     mode = ILD_NORMAL;
                 }
-                else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                 {
                     colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
                     mode = ILD_BLEND50;
@@ -813,11 +813,11 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                 int count = 0;
                 RECT rc;
                 int x = 0;
-                for( iImage = dat->extraColumnsCount-1; iImage>= 0 ; iImage-- )
+                for ( iImage = dat->extraColumnsCount-1; iImage>= 0 ; iImage-- )
                 {
                     COLORREF colourFg = dat->selBkColour;
                     int mode = BlendedInActiveState?BlendValue:ILD_NORMAL;
-                    if( Drawing->iExtraImage[iImage] == 0xFF && Drawing->iWideExtraImage[iImage] == 0xFFFF )
+                    if ( Drawing->iExtraImage[iImage] == 0xFF && Drawing->iWideExtraImage[iImage] == 0xFFFF )
                     {
                         {
                             x+= ( x>0 )?dat->extraColumnSpacing:ICON_HEIGHT;
@@ -829,13 +829,13 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                         continue;
                     }
 
-                    if( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
-                    else if( hottrack )
+                    if ( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
+                    else if ( hottrack )
                     {
                         mode = BlendedInActiveState?ILD_NORMAL:ILD_FOCUS;
                         colourFg = dat->hotTextColour;
                     }
-                    else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                    else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                     {
                         colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
                         mode = BlendValue;
@@ -881,7 +881,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                 int space_width = 0;
                 char * szCounts = pcli->pfnGetGroupCountsText( dat, Drawing );
                 // Has to draw the count?
-                if( szCounts && strlen( szCounts )>0 )
+                if ( szCounts && strlen( szCounts )>0 )
                 {
                     // calc width and height
                     ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
@@ -935,28 +935,28 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 
 
 
-                //if( !( szCounts && strlen( szCounts )>0 ) )
+                //if ( !( szCounts && strlen( szCounts )>0 ) )
                 //uTextFormat|= ( dat->row_align_group_mode == 2 )?DT_RIGHT:( dat->row_align_group_mode == 1 )?DT_CENTER:DT_LEFT;
 
                 uTextFormat|= DT_VCENTER;
                 ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPS:FONTID_CLOSEDGROUPS, NULL );
                 if ( selected )
                     SetTextColor( hdcMem, dat->selTextColour );
-                else if( hottrack )
+                else if ( hottrack )
                     _SetHotTrackColour( hdcMem, dat );
                 if ( dat->text_rtl != 0 ) _RTLRect( &nameRect, free_row_rc.right, dx );
                 _DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-                if( selected && dat->szQuickSearch[0] != '\0' )
+                if ( selected && dat->szQuickSearch[0] != '\0' )
                 {
                     SetTextColor( hdcMem, dat->quickSearchColour );
                     _DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
                 }
-                if( szCounts && strlen( szCounts )>0 )
+                if ( szCounts && strlen( szCounts )>0 )
                 {
                     ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
                     if ( selected )
                         SetTextColor( hdcMem, dat->selTextColour );
-                    else if( hottrack )
+                    else if ( hottrack )
                         _SetHotTrackColour( hdcMem, dat );
                     if ( dat->text_rtl != 0 ) _RTLRect( &countRect, free_row_rc.right, dx );
                     ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &countRect, uTextFormat );
@@ -974,7 +974,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 
                 szCounts = pcli->pfnGetGroupCountsText( dat, Drawing );
                 // Has to draw the count?
-                if( szCounts && szCounts[0] )
+                if ( szCounts && szCounts[0] )
                 {
                     RECT space_rc = fr_rc;
 
@@ -1018,11 +1018,11 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
             // Set color
             if ( selected )
                 SetTextColor( hdcMem, dat->selTextColour );
-            else if( hottrack )
+            else if ( hottrack )
                 _SetHotTrackColour( hdcMem, dat );
             if ( dat->text_rtl != 0 ) _RTLRect( &text_rect, free_row_rc.right, dx );
             _DrawTextSmiley( hdcMem, &text_rect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-            if( selected && dat->szQuickSearch[0] != '\0' )
+            if ( selected && dat->szQuickSearch[0] != '\0' )
             {
                 SetTextColor( hdcMem, dat->quickSearchColour );
                 _DrawTextSmiley( hdcMem, &text_rect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
@@ -1104,10 +1104,10 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                     {
                         if ( selected )
                             SetTextColor( hdcMem, dat->selTextColour );
-                        else if( hottrack )
+                        else if ( hottrack )
                             _SetHotTrackColour( hdcMem, dat );
                         _DrawTextSmiley( hdcMem, &p_rect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-                        if( selected && dat->szQuickSearch[0] != '\0' )
+                        if ( selected && dat->szQuickSearch[0] != '\0' )
                         {
                             SetTextColor( hdcMem, dat->quickSearchColour );
                             _DrawTextSmiley( hdcMem, &p_rect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
@@ -1130,7 +1130,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                         int space_width = 0;
                         char * szCounts = pcli->pfnGetGroupCountsText( dat, Drawing );
                         // Has to draw the count?
-                        if( szCounts && strlen( szCounts )>0 )
+                        if ( szCounts && strlen( szCounts )>0 )
                         {
 
 
@@ -1186,27 +1186,27 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
 
 
 
-                        //if( !( szCounts && strlen( szCounts )>0 ) )
+                        //if ( !( szCounts && strlen( szCounts )>0 ) )
                         //uTextFormat|= ( dat->row_align_group_mode == 2 )?DT_RIGHT:( dat->row_align_group_mode == 1 )?DT_CENTER:DT_LEFT;
 
                         uTextFormat|= DT_VCENTER;
                         ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPS:FONTID_CLOSEDGROUPS, NULL );
                         if ( selected )
                             SetTextColor( hdcMem, dat->selTextColour );
-                        else if( hottrack )
+                        else if ( hottrack )
                             _SetHotTrackColour( hdcMem, dat );
                         _DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( Drawing->szText ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
-                        if( selected && dat->szQuickSearch[0] != '\0' )
+                        if ( selected && dat->szQuickSearch[0] != '\0' )
                         {
                             SetTextColor( hdcMem, dat->quickSearchColour );
                             _DrawTextSmiley( hdcMem, &nameRect, &text_size, Drawing->szText, lstrlen( dat->szQuickSearch ), Drawing->ssText.plText, uTextFormat, dat->text_resize_smileys );
                         }
-                        if( szCounts && strlen( szCounts )>0 )
+                        if ( szCounts && strlen( szCounts )>0 )
                         {
                             ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
                             if ( selected )
                                 SetTextColor( hdcMem, dat->selTextColour );
-                            else if( hottrack )
+                            else if ( hottrack )
                                 _SetHotTrackColour( hdcMem, dat );
                             ske_DrawTextA( hdcMem, szCounts, lstrlenA( szCounts ), &countRect, uTextFormat );
                         }
@@ -1300,12 +1300,12 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                             int mode;
                             // Store pos
                             Drawing->pos_icon = p_rect;
-                            if( hottrack )
+                            if ( hottrack )
                             {
                                 colourFg = dat->hotTextColour;
                                 mode = ILD_NORMAL;
                             }
-                            else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                            else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                             {
                                 colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
                                 mode = ILD_BLEND50;
@@ -1333,9 +1333,9 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                 {
                     BOOL hasAvatar = ( dat->use_avatar_service && Drawing->avatar_data != NULL ) ||( !dat->use_avatar_service && Drawing->avatar_pos != AVATAR_POS_DONT_HAVE );
                     BYTE     blendmode = 255;
-                    if( hottrack )
+                    if ( hottrack )
                         blendmode = 255;
-                    else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                    else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                         blendmode = 128;
                     if ( Drawing->type == CLCIT_CONTACT && dat->showIdle && ( Drawing->flags&CONTACTF_IDLE ) &&
                         _GetRealStatus( Drawing, ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE )
@@ -1349,12 +1349,12 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                             int mode;
                             // Store pos
                             Drawing->pos_icon = p_rect;
-                            if( hottrack )
+                            if ( hottrack )
                             {
                                 colourFg = dat->hotTextColour;
                                 mode = ILD_NORMAL;
                             }
-                            else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                            else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                             {
                                 colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
                                 mode = ILD_BLEND50;
@@ -1568,11 +1568,11 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                         int count = 0;
                         RECT rc;
                         int x = 0;
-                        for( iImage = 0; iImage<dat->extraColumnsCount ; iImage++ )
+                        for ( iImage = 0; iImage<dat->extraColumnsCount ; iImage++ )
                         {
                             COLORREF colourFg = dat->selBkColour;
                             int mode = BlendedInActiveState?BlendValue:ILD_NORMAL;
-                            if( Drawing->iExtraImage[iImage] == 0xFF && Drawing->iWideExtraImage[iImage] == 0xFFFF )
+                            if ( Drawing->iExtraImage[iImage] == 0xFF && Drawing->iWideExtraImage[iImage] == 0xFFFF )
                             {
                                 if ( !dat->MetaIgnoreEmptyExtra )
                                 {
@@ -1585,13 +1585,13 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                                 continue;
                             }
 
-                            if( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
-                            else if( hottrack )
+                            if ( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
+                            else if ( hottrack )
                             {
                                 mode = BlendedInActiveState?ILD_NORMAL:ILD_FOCUS;
                                 colourFg = dat->hotTextColour;
                             }
-                            else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                            else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                             {
                                 colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
                                 mode = BlendValue;
@@ -1635,13 +1635,13 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, str
                                 if ( mode2 != -1 ) mode = mode2;
                                 else
                                 {
-                                    if( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
-                                    else if( hottrack )
+                                    if ( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
+                                    else if ( hottrack )
                                     {
                                         mode = BlendedInActiveState?ILD_NORMAL:ILD_FOCUS;
                                         colourFg = dat->hotTextColour;
                                     }
-                                    else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
+                                    else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
                                     {
                                         colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
                                         mode = BlendValue;
@@ -1713,7 +1713,7 @@ void CLCPaint::_DrawStatusIcon( struct ClcContact * Drawing, struct ClcData *dat
 
 BOOL CLCPaint::_DrawNonEnginedBackground( HWND hwnd, HDC hdcMem, RECT * rcPaint, RECT clRect, struct ClcData * dat )
 {   
-    if( dat->hBmpBackground ) 
+    if ( dat->hBmpBackground ) 
 	{
             BITMAP bmp;
             HBITMAP oldbm;
@@ -1734,8 +1734,8 @@ BOOL CLCPaint::_DrawNonEnginedBackground( HWND hwnd, HDC hdcMem, RECT * rcPaint,
             maxy = dat->backgroundBmpUse&CLBF_TILEV?maxy = rcPaint->bottom:y+1;
             switch( dat->backgroundBmpUse&CLBM_TYPE ) {
                 case CLB_STRETCH:
-                    if( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
-                        if( clRect.right*bmp.bmHeight<clRect.bottom*bmp.bmWidth ) {
+                    if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+                        if ( clRect.right*bmp.bmHeight<clRect.bottom*bmp.bmWidth ) {
                             desth = clRect.bottom;
                             destw = desth*bmp.bmWidth/bmp.bmHeight;
                         }
@@ -1750,7 +1750,7 @@ BOOL CLCPaint::_DrawNonEnginedBackground( HWND hwnd, HDC hdcMem, RECT * rcPaint,
                     }
                     break;
                 case CLB_STRETCHH:
-                    if( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+                    if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
                         destw = clRect.right;
                         desth = destw*bmp.bmHeight/bmp.bmWidth;
                     }
@@ -1765,7 +1765,7 @@ BOOL CLCPaint::_DrawNonEnginedBackground( HWND hwnd, HDC hdcMem, RECT * rcPaint,
                     }
                     break;
                 case CLB_STRETCHV:
-                    if( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
+                    if ( dat->backgroundBmpUse&CLBF_PROPORTIONAL ) {
                         desth = clRect.bottom;
                         destw = desth*bmp.bmWidth/bmp.bmHeight;
                     }
@@ -1783,9 +1783,9 @@ BOOL CLCPaint::_DrawNonEnginedBackground( HWND hwnd, HDC hdcMem, RECT * rcPaint,
                     }                           
                     break;
             }
-            for( ;y<maxy;y+= desth ) {
-                if( y<rcPaint->top-desth ) continue;
-                for( x = 0;x<maxx;x+= destw )
+            for ( ;y<maxy;y+= desth ) {
+                if ( y<rcPaint->top-desth ) continue;
+                for ( x = 0;x<maxx;x+= destw )
                     StretchBlt( hdcMem, x, y, destw, desth, hdcBmp, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY );
             }
             SelectObject( hdcBmp, oldbm );
@@ -1811,12 +1811,12 @@ int CLCPaint::_DetermineDrawMode( HWND hWnd, struct ClcData *dat )
 
     LONG lStyle =  GetWindowLong( hWnd, GWL_STYLE );
     int  nStatus = _GetGeneralisedStatus();
-    if( ( lStyle & WS_DISABLED )
+    if ( ( lStyle & WS_DISABLED )
         || ( dat->greyoutFlags & pcli->pfnClcStatusToPf2( nStatus ) )
         || ( ( dat->greyoutFlags & GREYF_UNFOCUS) && ( GetFocus() != hWnd ) ) )
         paintMode |= DM_GRAY;
 
-    if( lStyle&CLS_GREYALTERNATE )
+    if ( lStyle&CLS_GREYALTERNATE )
         paintMode |= DM_GREYALTERNATE;         
 
     return paintMode;
@@ -1928,7 +1928,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
             {
                 group = group->parent;
                 indent--;
-                if( group == NULL ) break;  // Finished list
+                if ( group == NULL ) break;  // Finished list
                 group->scanIndex++;
                 continue;
             }
@@ -2043,7 +2043,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                     if ( selected || hottrack )
                     {
                         RECT mrc = row_rc;
-                        if( Drawing->type == CLCIT_GROUP &&
+                        if ( Drawing->type == CLCIT_GROUP &&
                             Drawing->group->parent->groupId == 0 &&
                             Drawing->group->parent->cl.items[0] != Drawing )
                         {
@@ -2054,14 +2054,14 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                         {
                             if ( selected )
                                 SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL , ID = Selection " );
-                            if( hottrack )
+                            if ( hottrack )
                                 SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking" );
                         }
                         else if ( dat->HiLightMode == 2 ) // Less
                         {
                             if ( selected )
                                 SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=Selection" );      //instead of free_row_rc
-                            if( hottrack )
+                            if ( hottrack )
                                 SkinDrawGlyph( pc.hdcMem, &mrc, rcPaint, "CL,ID=HotTracking" );
                         }
                     }
@@ -2070,13 +2070,13 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                 else
                 {   
                     int checkboxWidth;
-                    if( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT ) ||
+                    if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT ) ||
                         ( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP ) ||
                         ( Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX ) )
                         checkboxWidth = dat->checkboxSize+2;
                     else checkboxWidth = 0;
                     //background
-                    if( selected ) {
+                    if ( selected ) {
                         switch ( dat->HiLightMode )
                         {
                         case 0:
@@ -2112,7 +2112,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 
                 }
                 // **** Checkboxes
-                if( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT ) ||
+                if ( ( lStyle&CLS_CHECKBOXES && Drawing->type == CLCIT_CONTACT ) ||
                     ( lStyle&CLS_GROUPCHECKBOXES && Drawing->type == CLCIT_GROUP ) ||
                     ( Drawing->type == CLCIT_INFO && Drawing->flags&CLCIIF_CHECKBOX ) )
                 {
@@ -2144,7 +2144,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
                     mpRequest->pl_Params[1].dwValueHash = mod_CalcHash( "Ovl" );
                     {
                         RECT mrc = row_rc;
-                        if( Drawing->type == CLCIT_GROUP &&
+                        if ( Drawing->type == CLCIT_GROUP &&
                             Drawing->group->parent->groupId == 0 &&
                             Drawing->group->parent->cl.items[0] != Drawing )
                         {
@@ -2171,7 +2171,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
 
         if ( subindex == -1 && group->scanIndex<group->cl.count )
         {
-            if( group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded )
+            if ( group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded )
             {
                 group = group->cl.items[group->scanIndex]->group;
                 indent++;
@@ -2226,12 +2226,12 @@ void CLCPaint::_DrawInsertionMark( struct ClcData * dat, RECT& clRect, _PaintCon
 
 void CLCPaint::_CopyPaintToDest( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc )
 {
-    if( !( paintMode&DM_GRAY ) && ( paintMode & DM_DRAW_OFFSCREEN ) )
+    if ( !( paintMode&DM_GRAY ) && ( paintMode & DM_DRAW_OFFSCREEN ) )
     {
         BitBlt( hdc, rcPaint->left, rcPaint->top, rcPaint->right-rcPaint->left, rcPaint->bottom-rcPaint->top, pc.hdcMem, rcPaint->left, rcPaint->top, SRCCOPY );
     }
 
-    if( ( paintMode&DM_GRAY ) && hdc && hdc != pc.hdcMem )
+    if ( ( paintMode&DM_GRAY ) && hdc && hdc != pc.hdcMem )
     {
         BLENDFUNCTION bf = {AC_SRC_OVER, 0, 80, AC_SRC_ALPHA };
         BOOL a = ( ( paintMode&DM_GRAY ) && ( ( paintMode&DM_NON_LAYERED) ) );
@@ -2242,7 +2242,7 @@ void CLCPaint::_CopyPaintToDest( HWND hWnd, struct ClcData * dat, HDC hdc, int p
 }
 void CLCPaint::_FreePaintContext( _PaintContext& pc )
 {
-    if( pc.hBrushAlternateGrey ) DeleteObject( pc.hBrushAlternateGrey );
+    if ( pc.hBrushAlternateGrey ) DeleteObject( pc.hBrushAlternateGrey );
     SelectObject( pc.hdcMem, (HFONT) GetStockObject( DEFAULT_GUI_FONT ) );
     if ( pc.fRelease&_PaintContext::release_hdcmem )
     {
@@ -2287,7 +2287,7 @@ void CLCPaint::_PaintClc( HWND hwnd, struct ClcData *dat, HDC hdc, RECT *_rcPain
         _DrawLines( hwnd, dat, hdc, paintMode, rcPaint, clRect, pc );
 
     //insertion mark
-    if( dat->iInsertionMark != -1 ) 
+    if ( dat->iInsertionMark != -1 ) 
         _DrawInsertionMark( dat, clRect, pc );
     
     // BitBlt from memory to destination 
@@ -2557,9 +2557,9 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
                     int count = 0;
                     RECT rc;
 
-                    for( iImage = dat->extraColumnsCount-1 ; iImage >= 0 ; iImage -- )
+                    for ( iImage = dat->extraColumnsCount-1 ; iImage >= 0 ; iImage -- )
                     {
-                        if( Drawing->iExtraImage[iImage] != 0xFF || Drawing->iWideExtraImage[iImage] != 0xFFFF || !dat->MetaIgnoreEmptyExtra )
+                        if ( Drawing->iExtraImage[iImage] != 0xFF || Drawing->iWideExtraImage[iImage] != 0xFFFF || !dat->MetaIgnoreEmptyExtra )
                         {
                             rc = _GetRectangle( dat, &row_rc, &free_row_rc, &left_pos, &right_pos, 
                                 left, dat->extraColumnSpacing, dat->extraColumnSpacing, ICON_HEIGHT, 0 );
@@ -2632,7 +2632,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
             szCounts = pcli->pfnGetGroupCountsText( dat, Drawing );
 
             // Has to draw the count?
-            if( szCounts && szCounts[0] )
+            if ( szCounts && szCounts[0] )
             {
                 RECT space_rc = free_row_rc;
                 RECT counts_rc = free_row_rc;
@@ -2854,7 +2854,7 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, struct
                     _StoreItemPos( Drawing, CIT_TEXT, &rc );
 
                     // Has to draw the count?
-                    if( counts_size.cx > 0 )
+                    if ( counts_size.cx > 0 )
                     {
                         RECT counts_rc = text_rc;
                         //counts_size.cx;
@@ -2964,17 +2964,17 @@ void CLCPaint::_GetBlendMode( IN struct ClcData *dat, IN struct ClcContact * Dra
     int mode;
     int BlendedInActiveState = ( dat->dbbBlendInActiveState );
     int BlendValue = dat->dbbBlend25 ? ILD_BLEND25 : ILD_BLEND50;
-    if( selected && ( bFlag&GIM_SELECTED_AFFECT ) )
+    if ( selected && ( bFlag&GIM_SELECTED_AFFECT ) )
     {
         colourFg = dat->selBkColour;
         mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
     }
-    else if( hottrack && ( bFlag&GIM_HOT_AFFECT ) )
+    else if ( hottrack && ( bFlag&GIM_HOT_AFFECT ) )
     {
         mode = BlendedInActiveState?ILD_NORMAL:ILD_FOCUS;
         colourFg = dat->hotTextColour;
     }
-    else if( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST && ( bFlag&GIM_TEMP_AFFECT ) )
+    else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST && ( bFlag&GIM_TEMP_AFFECT ) )
     {
         colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
         mode = BlendValue;
@@ -3153,7 +3153,7 @@ void CLCPaint::_DrawContactText( HDC hdcMem, struct ClcData *dat, struct ClcCont
 	ChangeToFont( hdcMem, dat, GetBasicFontID( Drawing ), NULL );
 	if ( selected )
 		SetTextColor( hdcMem,  dat->force_in_dialog ? GetSysColor( COLOR_HIGHLIGHTTEXT ) : dat->selTextColour );
-	else if( hottrack )
+	else if ( hottrack )
 		_SetHotTrackColour( hdcMem, dat );
 
 	if ( Drawing->type == CLCIT_GROUP )
@@ -3193,12 +3193,12 @@ void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcC
 		char * szCounts = pcli->pfnGetGroupCountsText( dat, Drawing );
 
 		// Has to draw the count?
-		if( szCounts && szCounts[0] )
+		if ( szCounts && szCounts[0] )
 		{
 			ChangeToFont( hdcMem, dat, Drawing->group->expanded?FONTID_OPENGROUPCOUNTS:FONTID_CLOSEDGROUPCOUNTS, NULL );
 			if ( selected )
 				SetTextColor( hdcMem, dat->selTextColour );
-			else if( hottrack )
+			else if ( hottrack )
 				_SetHotTrackColour( hdcMem, dat );
 			ske_DrawTextA( hdcMem, szCounts, -1, prcItem, uTextFormat );
 			ske_ResetTextEffect( hdcMem );
@@ -3214,7 +3214,7 @@ void CLCPaint::_DrawContactSubText( HDC hdcMem, struct ClcData *dat, struct ClcC
 			//draw second and third line
 			if ( selected )
 				SetTextColor( hdcMem, dat->selTextColour );
-			else if( hottrack )
+			else if ( hottrack )
 				_SetHotTrackColour( hdcMem, dat );
 			uTextFormat|= DT_VCENTER;
 			if ( itemType == CIT_SUBTEXT1 )
@@ -3248,7 +3248,7 @@ void CLCPaint::_DrawContactSelection( HDC hdcMem, struct ClcData *dat, struct Cl
 	{
 		if ( selected )
 			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/Selection" );
-		else if( hottrack )
+		else if ( hottrack )
 			SkinDrawGlyph( hdcMem, prcItem, rcPaint, "Contact List/HotTracking" );
 	}
 }

@@ -360,10 +360,10 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					Config.PauseDepends = IsDlgButtonChecked(hwndDlg, IDC_PAUSEDEPENDS)  == BST_CHECKED ? TRUE : FALSE;
 					Config.PauseRandom = IsDlgButtonChecked(hwndDlg, IDC_PAUSERANDOM)  == BST_CHECKED ? TRUE : FALSE;
 					Config.AnswerPauseTime = GetDlgItemInt(hwndDlg, IDC_WAITTIME, &bTranslated, FALSE);
-					if(!bTranslated) 
+					if (!bTranslated) 
 						Config.AnswerPauseTime = 2;
 					Config.AnswerThinkTime = GetDlgItemInt(hwndDlg, IDC_THINKTIME, &bTranslated, FALSE);
-					if(!bTranslated) 
+					if (!bTranslated) 
 						Config.AnswerThinkTime = 4;
 					TCHAR c[MAX_WARN_TEXT];
 					bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, MAX_WARN_TEXT);
@@ -443,7 +443,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						ofn.nMaxFile = fileNameSize;
 						ofn.Flags = OFN_FILEMUSTEXIST;
 						ofn.lpstrInitialDir = path;
-						if(!GetOpenFileName(&ofn))
+						if (!GetOpenFileName(&ofn))
 						{
 							delete filename;
 							delete[] filt;
@@ -471,7 +471,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					const TCHAR *c = Config.MindFileName;
 					int line;
 					bTranslated = blInit = LoadMind(c, line);
-					if(!bTranslated)
+					if (!bTranslated)
 					{
 						TCHAR* message = new TCHAR[5000];
 						wsprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
@@ -684,7 +684,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	}
 	int line;
 	blInit = LoadMind(Config.MindFileName, line);
-	if(!blInit)
+	if (!blInit)
 	{
 		TCHAR path[2000];
 		wsprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);

@@ -200,7 +200,7 @@ void __cdecl CMsnProto::MSNServerThread(void* arg)
 		}
 		else 
 		{
-			for(;;) 
+			for (;;) 
 			{
 				char* peol = strchr(info->mData, '\r');
 				if (peol == NULL)

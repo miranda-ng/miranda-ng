@@ -233,11 +233,11 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						{
 							DWORD tick = GetTickCount( );
 							res = GetOpenFileName( &ofn );
-							if( !res ) 
+							if ( !res ) 
 								if ( GetTickCount( )-tick<100 )
 								{
 									res = GetOpenFileName( &ofn );
-									if( !res ) break;
+									if ( !res ) break;
 								}
 								else break;
 						}
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							}
 							if ( !sd ) return 0;
 
-							if( sd->File && !_tcschr( sd->File, _T('%') ) )
+							if ( sd->File && !_tcschr( sd->File, _T('%') ) )
 							{
 								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
 								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );

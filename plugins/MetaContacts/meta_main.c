@@ -187,7 +187,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 		char *proto;
 		while(hContact != NULL) {
 			//proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-			if(!DBGetContactSetting(hContact, "Protocol", "p", &dbv)) {
+			if (!DBGetContactSetting(hContact, "Protocol", "p", &dbv)) {
 				proto = dbv.pszVal;
 				if (proto && !lstrcmp( META_PROTO, proto)) {
 					DBWriteContactSettingWord(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
@@ -218,7 +218,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 	// that metacontacts: have the correct number of subcontacts, and have reasonable defaults
 	if(Meta_SetHandles()) {
 		// error - db corruption
-		if(!DBGetContactSettingByte(0, META_PROTO, "DisabledMessageShown", 0)) {
+		if (!DBGetContactSettingByte(0, META_PROTO, "DisabledMessageShown", 0)) {
 			MessageBox(0, Translate("Error - Database corruption.\nPlugin disabled."), Translate("MetaContacts"), MB_OK | MB_ICONERROR);
 			DBWriteContactSettingByte(0, META_PROTO, "DisabledMessageShown", 1);
 		}

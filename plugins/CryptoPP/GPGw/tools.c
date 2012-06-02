@@ -78,7 +78,7 @@ void appendText(char **abuffer, const char *atext, int atextsize)
 {
   int size;
 
-  if(*abuffer==NULL) size=0;
+  if (*abuffer==NULL) size=0;
   else size=strlen(*abuffer);
   size++; // abschliessende 0
   if(atextsize==0) atextsize=strlen(atext);

@@ -603,7 +603,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 			item.pszText=L"";
 			{	CMimeItem *heads;
 				for (heads=msgq->MailData->TranslatedHeader;heads!=NULL;heads=heads->Next)	{
-					if (!_stricmp(heads->name,"Date")){ 
+					if (!_stricmp(heads->name,"Date")) { 
 						MimeDateToLocalizedDateTime(heads->value,LocalDateStr,128);
 						item.pszText=LocalDateStr;
 						break;
@@ -667,7 +667,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	{
 		char sMsg[250];
 		_snprintf(sMsg,249,Translate("%s : %d new mail message(s), %d total"),ActualAccount->Name,MN->Real.PopUpNC+MN->Virtual.PopUpNC,MN->Real.PopUpTC+MN->Virtual.PopUpTC);
-		if (!(nflags & YAMN_ACC_CONTNOEVENT)){
+		if (!(nflags & YAMN_ACC_CONTNOEVENT)) {
 			CLISTEVENT cEvent;
 			cEvent.cbSize = sizeof(CLISTEVENT);
 			cEvent.hContact = ActualAccount->hContact;
@@ -852,7 +852,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 					memcpy(MailParam,(PINT_PTR)PluginParam,sizeof(YAMN_MAILSHOWPARAM));
 					hContact = MailParam->account->hContact;
 					Account = MailParam->account;
-					if (NULL!=(MailParam->ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL))){
+					if (NULL!=(MailParam->ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL))) {
 						HANDLE NewThread;
 						if (NULL!=(NewThread=CreateThread(NULL,0,ShowEmailThread,(LPVOID)MailParam,0,NULL)))
 						{
@@ -905,7 +905,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 						DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
 					#endif
 				}
-				if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT)){
+				if ((Account->NewMailN.Flags & YAMN_ACC_CONT) && !(Account->NewMailN.Flags & YAMN_ACC_CONTNOEVENT)) {
 					CallService(MS_CLIST_REMOVEEVENT,(WPARAM)hContact,(LPARAM)hContact);
 				}
 			}
@@ -1095,8 +1095,8 @@ ULONGLONG MimeDateToFileTime(char *datein)
 			while (tmp[i]==' ')i++; if (day = strchr(&tmp[i],' ')){day[0]=0; day++;}
 		}
 		if (day)   {while (  day[0]==' ')  day++;if (month= strchr(day,  ' ')){month[0]=0; month++;}}
-		if (month) {while (month[0]==' ')month++;if (year = strchr(month,' ')){ year[0]=0; year++;}}
-		if (year)  {while ( year[0]==' ') year++;if (time = strchr(year, ' ')){ time[0]=0; time++;}}
+		if (month) {while (month[0]==' ')month++;if (year = strchr(month,' ')) { year[0]=0; year++;}}
+		if (year)  {while ( year[0]==' ') year++;if (time = strchr(year, ' ')) { time[0]=0; time++;}}
 		if (time)  {while ( time[0]==' ') time++;if (shift= strchr(time, ' ')){shift[0]=0; shift++;shift[5]=0;}}
 
 		if (year){
@@ -1108,7 +1108,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 		if (time) {
 			char *h, *m, *s;
 			h = time;
-			if (m = strchr(h,':')){
+			if (m = strchr(h,':')) {
 				m[0]=0; m++;
 				if (s = strchr(m,':')){s[0] = 0; s++;}
 			} else s=0;
@@ -1131,7 +1131,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 		}
 	} // if (datein)
 	FILETIME ft;
-	if (SystemTimeToFileTime(&st,&ft)){
+	if (SystemTimeToFileTime(&st,&ft)) {
 		res = ((ULONGLONG)ft.dwHighDateTime<<32)|((ULONGLONG)ft.dwLowDateTime);
 		LONGLONG w100nano = Int32x32To64((DWORD)wShiftSeconds,10000000);
 		res -=  w100nano;
@@ -1163,11 +1163,11 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateo
 	ft.dwLowDateTime = (DWORD)filetime;
 	ft.dwHighDateTime = (DWORD)(filetime >> 32);
 	FILETIME localft;
-	if (!FileTimeToLocalFileTime(&ft,&localft)){
+	if (!FileTimeToLocalFileTime(&ft,&localft)) {
 			// this should never happen
 			wcsncpy(dateout,L"Incorrect FileTime",lendateout);
 	} else {
-		if (!FileTimeToSystemTime(&localft,&st)){
+		if (!FileTimeToSystemTime(&localft,&st)) {
 			// this should never happen
 			wcsncpy(dateout,L"Incorrect LocalFileTime",lendateout);
 		} else {
@@ -1178,7 +1178,7 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateo
 				templen = GetDateFormatW(localeID,(optDateTime&SHOWDATELONG)?DATE_LONGDATE:DATE_SHORTDATE,&st,NULL,dateout,lendateout-2);
 				dateout[templen-1] = ' ';
 			}
-			if (templen<(lendateout-1)){
+			if (templen<(lendateout-1)) {
 				GetTimeFormatW(localeID,(optDateTime&SHOWDATENOSECONDS)?TIME_NOSECONDS:0,&st,NULL,&dateout[templen],lendateout-templen-1);
 			}
 		}
@@ -1406,10 +1406,10 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					split=new WCHAR*[count+1];
 					count=0; ofs=0;
 					split[0]=str2;
-					while (str2[ofs]){
+					while (str2[ofs]) {
 						if ((str2[ofs]==0x266A)||(str2[ofs]==0x25D9)||(str2[ofs]==0x25CB)||
 							(str2[ofs]==0x09)||(str2[ofs]==0x0A)||(str2[ofs]==0x0D)) {
-							if (str2[ofs-1]){
+							if (str2[ofs-1]) {
 								count++;
 							}
 							split[count]=(WCHAR *)(str2+ofs+1);
@@ -1422,7 +1422,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					item.iItem = 0;
 				else 
 					item.iItem = 999;
-				for (int i=0;i<=count;i++){
+				for (int i=0;i<=count;i++) {
 					item.iSubItem=0;
 					if (i==0)
 						item.pszText=str1;
@@ -1446,11 +1446,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				if (contentType) {
 					if (!_strnicmp(contentType,"text",4)) {
 						if (transEncoding){
-							if (!_stricmp(transEncoding,"base64")){
+							if (!_stricmp(transEncoding,"base64")) {
 								int size = (int)strlen(body)*3/4+5;
 								localBody = new char[size+1];
 								DecodeBase64(body,localBody,size); 
-							} else if (!_stricmp(transEncoding,"quoted-printable")){
+							} else if (!_stricmp(transEncoding,"quoted-printable")) {
 								int size = (int)strlen(body)+2;
 								localBody = new char[size+1];
 								DecodeQuotedPrintable(body,localBody,size,FALSE); 
@@ -1478,7 +1478,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN){
 					MailParam->mail->Flags&=~YAMN_MSG_UNSEEN; //mark the message as seen
 					HWND hMailBrowser;
-					if (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd,MailParam->account)){
+					if (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd,MailParam->account)) {
 						struct CChangeContent Params={MailParam->account->NewMailN.Flags|YAMN_ACC_MSGP,MailParam->account->NoNewMailN.Flags|YAMN_ACC_MSGP};	
 						SendMessageW(hMailBrowser,WM_YAMN_CHANGECONTENT,(WPARAM)MailParam->account,(LPARAM)&Params);
 					} else {
@@ -1581,7 +1581,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				MoveWindow(hEdit,5,localSplitPos+6,HeadSizeX-10,HeadSizeY-localSplitPos-11,TRUE);	//where to put text window while resizing
 				MoveWindow(hList,  5         ,5     ,HeadSizeX-10    ,(isBodyShown?localSplitPos:HeadSizeY)-10,TRUE);	//where to put headers list window while resizing
 				//if (changeX){
-					if (GetClientRect(hList,&coord)){
+					if (GetClientRect(hList,&coord)) {
 						localSizeX=coord.right-coord.left;
 					} else localSizeX=HeadSizeX;
 					LONG iNameWidth =  ListView_GetColumnWidth(hList,0);
@@ -1599,7 +1599,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					HTREEITEM hItem = 0;
 					if (pt.x==-1) pt.x = 0;
 					if (pt.y==-1) pt.y = 0;
-					if (int numRows = ListView_GetItemCount(hList)){
+					if (int numRows = ListView_GetItemCount(hList)) {
 						HMENU hMenu = CreatePopupMenu();
 						AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, TranslateT("Copy Selected"));
 						AppendMenu(hMenu, MF_STRING, (UINT_PTR)2, TranslateT("Copy All"));
@@ -1624,7 +1624,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 								HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE,(sizeNeeded+1)*sizeof(TCHAR));
 								TCHAR *buff = ( TCHAR* )GlobalLock(hData);
 								int courPos = 0;
-								for (courRow=0;courRow<numRows;courRow++){
+								for (courRow=0;courRow<numRows;courRow++) {
 									if ((nReturnCmd==1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED)==0)) continue;
 									ListView_GetItemText(hList, courRow, 0, headname, SIZEOF(headname));
 									ListView_GetItemText(hList, courRow, 1, headvalue, SIZEOF(headvalue));
@@ -1663,7 +1663,7 @@ DWORD WINAPI ShowEmailThread(LPVOID Param){
 			MyParam.mail->MsgWindow = 0;
 			goto CREADTEVIEWMESSAGEWINDOW;
 		}else{
-			if (IsIconic(MyParam.mail->MsgWindow)){
+			if (IsIconic(MyParam.mail->MsgWindow)) {
 				OpenIcon(MyParam.mail->MsgWindow);
 			}
 		}
@@ -1672,8 +1672,8 @@ CREADTEVIEWMESSAGEWINDOW:
 		MyParam.mail->MsgWindow = CreateDialogParamW(YAMNVar.hInst,MAKEINTRESOURCEW(IDD_DLGSHOWMESSAGE),NULL,(DLGPROC)DlgProcYAMNShowMessage,(LPARAM)&MyParam);
 		WindowList_Add(YAMNVar.MessageWnds,MyParam.mail->MsgWindow,NULL);
 		MSG msg;
-		while(GetMessage(&msg,NULL,0,0)){
-			if (!IsDialogMessage(MyParam.mail->MsgWindow, &msg)){
+		while(GetMessage(&msg,NULL,0,0)) {
+			if (!IsDialogMessage(MyParam.mail->MsgWindow, &msg)) {
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 		}	}
@@ -2013,7 +2013,7 @@ BOOL CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					PYAMN_MAILSHOWPARAM MailParam = new YAMN_MAILSHOWPARAM;
 					MailParam->account = GetWindowAccount(hDlg);
 					MailParam->mail = ActualMail;
-					if (NULL!=(MailParam->ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL))){
+					if (NULL!=(MailParam->ThreadRunningEV=CreateEvent(NULL,FALSE,FALSE,NULL))) {
 						HANDLE NewThread;
 						if (NULL!=(NewThread=CreateThread(NULL,0,ShowEmailThread,MailParam,0,NULL)))
 						{
@@ -2267,7 +2267,7 @@ BOOL CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							break;
 						case LVN_COLUMNCLICK:
 							HACCOUNT ActualAccount;
-							if (NULL!=(ActualAccount=GetWindowAccount(hDlg))){
+							if (NULL!=(ActualAccount=GetWindowAccount(hDlg))) {
 								NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)lParam;
 								if (WAIT_OBJECT_0==WaitToReadFcn(ActualAccount->AccountAccessSO))
 								{
@@ -2393,7 +2393,7 @@ BOOL CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 					HTREEITEM hItem = 0;
 					if (pt.x==-1) pt.x = 0;
 					if (pt.y==-1) pt.y = 0;
-					if (int numRows = ListView_GetItemCount(hList)){
+					if (int numRows = ListView_GetItemCount(hList)) {
 						HMENU hMenu = CreatePopupMenu();
 						AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, TranslateT("Copy Selected"));
 						AppendMenu(hMenu, MF_STRING, (UINT_PTR)2, TranslateT("Copy All"));
@@ -2405,7 +2405,7 @@ BOOL CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPa
 							int courRow=0;
 							size_t sizeNeeded = 0;
 							TCHAR from[128]={0}, subject[256]={0}, size[16]={0}, date[64]={0};
-							for (courRow=0;courRow<numRows;courRow++){
+							for (courRow=0;courRow<numRows;courRow++) {
 								if ((nReturnCmd==1) && (ListView_GetItemState(hList, courRow, LVIS_SELECTED)==0)) continue;
 								ListView_GetItemText(hList, courRow, 0, from, SIZEOF(from));
 								ListView_GetItemText(hList, courRow, 1, subject, SIZEOF(subject));

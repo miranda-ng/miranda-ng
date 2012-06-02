@@ -88,7 +88,7 @@ void LoadOptions() {
 	options.autoshow_verify = (DBGetContactSettingByte(0, MODULENAME, "AutoShowVerify", 1) == 1);
 	
 	DBVARIANT dbv;
-	if(!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
+	if (!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
 		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
 		DBFreeVariant(&dbv);

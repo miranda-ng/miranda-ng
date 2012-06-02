@@ -126,7 +126,7 @@ bool SaveXMLData(const Category cat) {
 		options.data_folder, (ts = GetTString(category_files[cat])));
 	mir_free(ts);
 
-	if(!CreatePath(options.data_folder)) {
+	if (!CreatePath(options.data_folder)) {
 		return false;
 	}
 	
@@ -144,7 +144,7 @@ bool SaveXMLData(const Category cat) {
 	return false;
 }
 
-extern "C" void bz_internal_error ( int errcode ){}
+extern "C" void bz_internal_error ( int errcode ) {}
 
 bool bz2_decompress_xml(char *in_data, int in_data_length, BYTE **pDat, int *data_length) {
 	const int BLOCKSIZE = 1024 * 100;
@@ -238,7 +238,7 @@ bool UpdateXMLData(const Category cat, const char *redirect_url /*= 0*/, int rec
 		strcat(buff, category_files[cat]);
 		cgs.szSetting = buff;
 		cgs.pValue = &dbv;
-		if(!CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&cgs)) {
+		if (!CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&cgs)) {
 			req.headersCount = 1;
 			req.headers = &etag_hdr;
 			etag_hdr.szName = "If-None-Match";
@@ -250,7 +250,7 @@ bool UpdateXMLData(const Category cat, const char *redirect_url /*= 0*/, int rec
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_GET;
 	char URL[MAX_PATH];
-	if(!redirect_url) {
+	if (!redirect_url) {
 		strcpy(URL, MIM_BACKEND_URL_PREFIX);
 		strcat(URL, category_files[cat]);
 		strcat(URL, ".bz2");
@@ -313,7 +313,7 @@ bool UpdateXMLData(const Category cat, const char *redirect_url /*= 0*/, int rec
 		}
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		resp = 0;
-		if(!ret) return LoadOldXMLData(cat, false);
+		if (!ret) return LoadOldXMLData(cat, false);
 
 		return ret;
 
@@ -331,7 +331,7 @@ bool UpdateXMLData(const Category cat, const char *redirect_url /*= 0*/, int rec
 	// resp->resultCode == 200
 	hNetlibHttp = resp->nlc;
 
-	if(!bz2_decompress_xml(resp->pData, resp->dataLength, &pData[cat], &dataLength[cat])) {
+	if (!bz2_decompress_xml(resp->pData, resp->dataLength, &pData[cat], &dataLength[cat])) {
 		ShowError(TranslateT("Failed to decompress XML data"));
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		resp = 0;
@@ -396,7 +396,7 @@ bool VersionLess(const char *current, const char *potential) {
 
 const char *FindVersion(int file_id, BYTE *pbVersionBytes, int cpbVersionBytes, const Category cat) {
 
-	if(!doc[cat]) return 0;
+	if (!doc[cat]) return 0;
 
 	char version_string[128];
 	strncpy(version_string, (char *)pbVersionBytes, cpbVersionBytes);

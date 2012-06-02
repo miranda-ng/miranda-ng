@@ -23,7 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MIRANDA_VER 0x0A00
 
-#define _USE_32BIT_TIME_T
+#if !defined( _WIN64 )
+	#define _USE_32BIT_TIME_T
+#endif
 
 #include <windows.h>
 #include <commctrl.h>

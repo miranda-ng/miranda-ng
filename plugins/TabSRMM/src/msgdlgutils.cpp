@@ -1539,7 +1539,7 @@ void TSAPI LoadSplitter(TWindowData *dat)
 	}
 #endif
 	if (!(dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE))
-		if(!dat->pContainer->settings->fPrivate)
+		if (!dat->pContainer->settings->fPrivate)
 			dat->splitterY = (int)M->GetDword("splitsplity", (DWORD) 60);
 		else
 			dat->splitterY = dat->pContainer->settings->splitterPos;
@@ -1620,7 +1620,7 @@ void TSAPI GetLocaleID(TWindowData *dat, const TCHAR *szKLName)
 				TCHAR*	p;
 
 				szLI[255] = 0;
-				if((p = _tcschr(szLI, ';')) != 0)
+				if ((p = _tcschr(szLI, ';')) != 0)
 					*p = 0;
 			}
 			RegCloseKey(hKey);
@@ -1833,7 +1833,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 						DestroyWindow(dat->hwndContactPic);
 						dat->hwndContactPic = NULL;
 					}
-					if(!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndContactPic == 0) {
+					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndContactPic == 0) {
 						dat->hwndContactPic =CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
 						SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, (WPARAM)0, (LPARAM)dat->hContact);
 					}
@@ -1857,7 +1857,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 			else {
 				if (dat->panelWidth) {
 					dat->panelWidth = -1;
-					if(!CSkin::m_skinEnabled)
+					if (!CSkin::m_skinEnabled)
 						SendMessage(hwndDlg, WM_SIZE, 0, 0);
 				}
 				return TRUE;
@@ -2067,7 +2067,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 		SelectObject(hdcDraw, hPenOld);
 		SelectObject(hdcDraw, hOldBrush);
 		DeleteObject(hPenBorder);
-		if(!bPanelPic)
+		if (!bPanelPic)
 			BitBlt(dis->hDC, 0, 0, cx, cy, hdcDraw, 0, 0, SRCCOPY);
 		SelectObject(hdcDraw, hbmOld);
 		DeleteObject(hbmDraw);
@@ -2400,7 +2400,7 @@ void TSAPI DetermineMinHeight(TWindowData* dat)
 		RECT rc;
 
 		LONG height = (dat->Panel->isActive() ? dat->Panel->getHeight() + 2 : 0);
-		if(!(dat->pContainer->dwFlags & CNT_HIDETOOLBAR))
+		if (!(dat->pContainer->dwFlags & CNT_HIDETOOLBAR))
 			height += DPISCALEY_S(24);								// toolbar
 		GetClientRect(GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE), &rc);
 		height += rc.bottom;										// input area
@@ -2461,10 +2461,10 @@ void TSAPI SendHBitmapAsFile(const TWindowData* dat, HBITMAP hbmp)
 	 * to determine whether the file can be sent. Throw a warning if any of
 	 * these checks fails.
 	 */
-	if(!(protoCaps & PF1_FILESEND))
+	if (!(protoCaps & PF1_FILESEND))
 		fSend = false;
 
-	if((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == dat->cache->getActiveStatus() && !(typeCaps & PF4_OFFLINEFILES)))
+	if ((ID_STATUS_OFFLINE == wMyStatus) || (ID_STATUS_OFFLINE == dat->cache->getActiveStatus() && !(typeCaps & PF4_OFFLINEFILES)))
 		fSend = false;
 
 	if (protoCaps & PF1_VISLIST && DBGetContactSettingWord(dat->cache->getActiveContact(), szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
@@ -2473,7 +2473,7 @@ void TSAPI SendHBitmapAsFile(const TWindowData* dat, HBITMAP hbmp)
 	if (protoCaps & PF1_INVISLIST && wMyStatus == ID_STATUS_INVISIBLE && DBGetContactSettingWord(dat->cache->getActiveContact(), szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		fSend = false;
 
-	if(!fSend) {
+	if (!fSend) {
 		CWarning::show(CWarning::WARN_SENDFILE, MB_OK|MB_ICONEXCLAMATION|CWarning::CWF_NOALLOWHIDE);
 		return;
 	}

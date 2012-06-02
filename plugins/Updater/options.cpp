@@ -67,7 +67,7 @@ static int EnumerateFuncFillList(char *szComponentName, UpdateOptions *update_op
 	lvI.mask = LVIF_TEXT;
 	lvI.iSubItem = 1;
 	//lvI.pszText = LPSTR_TEXTCALLBACK;
-	if(((int)lvI.lParam & 4) == 4) {
+	if (((int)lvI.lParam & 4) == 4) {
 		lvI.pszText = (((int)lvI.lParam & 2) == 2 ? TranslateT("FORCED") : TranslateT("N/A"));
 	} else {
 		lvI.pszText = (((int)lvI.lParam & 2) == 2 ? TranslateT("TRUE") : TranslateT("FALSE"));
@@ -94,7 +94,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		CheckDlgButton(hwndDlg, IDC_CHK_ONCE, options.check_once);
 		CheckDlgButton(hwndDlg, IDC_CHK_DAILY, options.check_daily);
-		if(!ServiceExists(MS_TRIGGER_REGISTERACTION)) {
+		if (!ServiceExists(MS_TRIGGER_REGISTERACTION)) {
 			HWND hw = GetDlgItem(hwndDlg, IDC_CHK_NOCONFIDLE);
 			EnableWindow(hw, (IsDlgButtonChecked(hwndDlg, IDC_CHK_DAILY) ? TRUE : FALSE));
 		}
@@ -219,7 +219,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					return TRUE;
 				case IDC_CHK_DAILY:
-					if(!ServiceExists(MS_TRIGGER_REGISTERACTION)) {
+					if (!ServiceExists(MS_TRIGGER_REGISTERACTION)) {
 						HWND hw = GetDlgItem(hwndDlg, IDC_CHK_NOCONFIDLE);
 						EnableWindow(hw, (IsDlgButtonChecked(hwndDlg, IDC_CHK_DAILY) ? TRUE : FALSE));
 					}
@@ -253,7 +253,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_NOTIFY:
-		if(((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_REGISTERED)) {
+		if (((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_REGISTERED)) {
 			switch (((LPNMHDR) lParam)->code) {
 			case NM_CLICK:
 				if (((LPNMLISTVIEW)lParam)->iSubItem == 1) {
@@ -262,13 +262,13 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					lvi.iItem = ((LPNMLISTVIEW)lParam)->iItem;
 					lvi.iSubItem = 0;
 					SendMessage(GetDlgItem(hwndDlg, IDC_LST_REGISTERED), LVM_GETITEM, 0, (LPARAM)&lvi);
-					if(((int)lvi.lParam & 4) == 0) {
+					if (((int)lvi.lParam & 4) == 0) {
 						lvi.lParam ^= 2;
 						ListView_SetItem(GetDlgItem(hwndDlg, IDC_LST_REGISTERED), &lvi);
 
 						lvi.iSubItem = 1;
 						lvi.mask = LVIF_TEXT;
-						if(((int)lvi.lParam & 4) == 4) {
+						if (((int)lvi.lParam & 4) == 4) {
 							lvi.pszText = (((int)lvi.lParam & 2) == 2 ? TranslateT("FORCED") : TranslateT("N/A"));
 						} else {
 							lvi.pszText = (((int)lvi.lParam & 2) == 2 ? TranslateT("TRUE") : TranslateT("FALSE"));
@@ -300,7 +300,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						MessageBox(0, _T("LVN_GETDISPINFO (0)"), _T("msg"), MB_OK);
 						break;
 					case 1:
-						if(((int)lvi.lParam & 4) == 4) {
+						if (((int)lvi.lParam & 4) == 4) {
 							((NMLVDISPINFO *)lParam)->item.pszText = ((lvi.lParam & 2) == 2 ? TranslateT("FORCED") : TranslateT("N/A"));
 							((NMLVDISPINFO *)lParam)->item.cchTextMax = (int)_tcslen(((NMLVDISPINFO *)lParam)->item.pszText);
 						} else {

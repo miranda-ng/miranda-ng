@@ -87,7 +87,7 @@ void LookupAllSmileys(SmileyPackType* smileyPack, SmileyPackCType* smileyCPack, 
 	long numCharsSoFar = 0;
 	bkstring::size_type smloff = 0;
 
-	for(;;) 
+	for (;;) 
 	{
 		int firstSml = -1;
 		int firstSmlRef = -1;

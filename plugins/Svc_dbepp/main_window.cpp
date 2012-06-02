@@ -354,7 +354,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			GetWindowRect(hwnd,&rc2);
 
-			if((HWND)lParam==GetDlgItem(hwnd,IDC_SPLITTER))
+			if ((HWND)lParam==GetDlgItem(hwnd,IDC_SPLITTER))
 			{
 				GetClientRect(hwnd,&rc);
 				pt.x=wParam; pt.y=0;

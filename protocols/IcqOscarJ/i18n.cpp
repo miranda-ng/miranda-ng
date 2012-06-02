@@ -228,11 +228,11 @@ WCHAR* __stdcall make_unicode_string_static(const char *utf8, WCHAR *unicode, si
 		while (c)
 		{
 			if (out_index + 1 >= unicode_size) break;
-			if((c & 0x80) == 0) 
+			if ((c & 0x80) == 0) 
 			{
 				unicode[out_index++] = c;
 			} 
-			else if((c & 0xe0) == 0xe0) 
+			else if ((c & 0xe0) == 0xe0) 
 			{
 				unicode[out_index] = (c & 0x1F) << 12;
 				c = utf8[index++];

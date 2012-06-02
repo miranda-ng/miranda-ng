@@ -497,13 +497,13 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	hwnd = M->FindWindow((HANDLE)wParam);
 
 	if (hwnd == 0 && wParam != 0) {     // we are not interested in this event if there is no open message window/tab
-		if(!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
+		if (!strcmp(setting, "Status") || !strcmp(setting, "MyHandle") || !strcmp(setting, "Nick") || !strcmp(cws->szModule, SRMSGMOD_T)) {
 			c = CContactCache::getContactCache((HANDLE)wParam);
 			if(c) {
 				fChanged = c->updateStatus();
 				if(strcmp(setting, "Status"))
 					c->updateNick();
-				if(!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
+				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}
@@ -519,8 +519,8 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 		c = CContactCache::getContactCache((HANDLE)wParam);
 		if(c) {
 			szProto = c->getProto();
-			if(!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
-				if(!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
+			if (!strcmp(cws->szModule, SRMSGMOD_T)) {					// catch own relevant settings
+				if (!strcmp(setting, "isFavorite") || !strcmp(setting, "isRecent"))
 					c->updateFavorite();
 			}
 		}

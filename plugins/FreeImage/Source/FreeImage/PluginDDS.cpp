@@ -444,7 +444,7 @@ LoadDXT_Helper (FreeImageIO *io, fi_handle handle, int page, int flags, void *da
 	typedef typename INFO::Block Block;
 
 	Block *input_buffer = new(std::nothrow) Block[(width + 3) / 4];
-	if(!input_buffer) return;
+	if (!input_buffer) return;
 
 	int widthRest = (int) width & 3;
 	int heightRest = (int) height & 3;

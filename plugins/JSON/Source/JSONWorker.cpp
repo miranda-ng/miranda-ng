@@ -3,7 +3,7 @@
 #ifdef JSON_VALIDATE
 JSONNode JSONWorker::validate(const json_string & json){
     JSONNode res = parse(json);
-    if (!res.validate()){
+    if (!res.validate()) {
 	   throw std::invalid_argument(EMPTY_STRING2);		  
     }
     return JSONNode(true, res);  //forces it to simply return the original interal, even with ref counting off
@@ -23,14 +23,14 @@ JSONNode JSONWorker::parse(const json_string & json){
 	   json_char firstchar = s.ptr[0];
 	   json_string _comment;
 	   json_char * runner = s.ptr;
-	   if (firstchar == '\5'){  //multiple comments will be consolidated into one
+	   if (firstchar == '\5') {  //multiple comments will be consolidated into one
 		  newcomment:
-		  while(*(++runner) != '\5'){
+		  while(*(++runner) != '\5') {
 			 JSON_ASSERT(*runner, JSON_TEXT("Removing white space failed"));
 			 _comment += *runner;
 		  } 
 		  firstchar = *(++runner); //step past the trailing tag
-		  if (firstchar == '\5'){
+		  if (firstchar == '\5') {
 			 _comment += '\n';
 			 goto newcomment;
 		  }
@@ -43,13 +43,13 @@ JSONNode JSONWorker::parse(const json_string & json){
         case '{':
         case '[':
 		  #if defined JSON_DEBUG || defined JSON_SAFE
-			 if (firstchar == '['){
-				if (lastchar != ']'){
+			 if (firstchar == '[') {
+				if (lastchar != ']') {
 				    JSON_FAIL(JSON_TEXT("Missing final ]"));
 				    break;
 				}
 			 } else {
-				if (lastchar != '}'){
+				if (lastchar != '}') {
 				    JSON_FAIL(JSON_TEXT("Missing final }"));
 				    break;
 				}
@@ -70,7 +70,7 @@ JSONNode JSONWorker::parse(const json_string & json){
 
 #define QUOTECASE()\
     case JSON_TEXT('\"'):\
-	   while (*(++p) != JSON_TEXT('\"')){\
+	   while (*(++p) != JSON_TEXT('\"')) {\
 		  JSON_ASSERT_SAFE(*p, JSON_TEXT("Null terminator inside of a quotation"), return json_string::npos;);\
 	   }\
 	   break;
@@ -88,7 +88,7 @@ JSONNode JSONWorker::parse(const json_string & json){
     case left: {\
 	   size_t brac = 1;\
 	   while (brac){\
-		  switch (*(++p)){\
+		  switch (*(++p)) {\
 			 case right:\
 				--brac;\
 				break;\
@@ -122,7 +122,7 @@ size_t JSONWorker::FindNextRelevant(json_char ch, const json_string & value_t, c
     #define AND_RUNNER ,runner
     inline void SingleLineComment(const json_char * & p, json_char * & runner){
 	   COMMENT_DELIMITER();
-	   while((*(++p)) && (*p != JSON_TEXT('\n'))){
+	   while((*(++p)) && (*p != JSON_TEXT('\n'))) {
 		  *runner++ = *p;
 	   }
 	   COMMENT_DELIMITER();
@@ -154,9 +154,9 @@ inline void SingleLineComment(const json_char * & p){
 			 case JSON_TEXT('\r'):  //defined as white space
 				break;
 			 case JSON_TEXT('/'):  //a C comment
-				if (*(++p) == JSON_TEXT('*')){  //a multiline comment
+				if (*(++p) == JSON_TEXT('*')) {  //a multiline comment
 				    COMMENT_DELIMITER();
-				    while ((*(++p) != JSON_TEXT('*')) || (*(p + 1) != JSON_TEXT('/'))){
+				    while ((*(++p) != JSON_TEXT('*')) || (*(p + 1) != JSON_TEXT('/'))) {
 					   JSON_ASSERT_SAFE(*p, JSON_TEXT("Null terminator inside of a multiline quote"), COMMENT_DELIMITER(); goto endofloop;);
 					   *runner++ = *p;
 				    }
@@ -171,7 +171,7 @@ inline void SingleLineComment(const json_char * & p){
 				break;
 			 case JSON_TEXT('\"'):  //a quote
 				*runner++ = JSON_TEXT('\"');
-				while(*(++p) != JSON_TEXT('\"')){  //find the end of the quotation, as white space is preserved within it
+				while(*(++p) != JSON_TEXT('\"')) {  //find the end of the quotation, as white space is preserved within it
 				    JSON_ASSERT_SAFE(*p, JSON_TEXT("Null terminator inside of a quotation"), goto endofloop;);
 				    switch(*p){
 					   case JSON_TEXT('\\'):
@@ -214,8 +214,8 @@ json_string JSONWorker::RemoveWhiteSpaceAndComments(const json_string & value_t)
 		  case JSON_TEXT('\r'):  //defined as white space
 			 break;
 		  case JSON_TEXT('/'):  //a C comment
-			 if (*(++p) == JSON_TEXT('*')){  //a multiline comment
-				while ((*(++p) != JSON_TEXT('*')) || (*(p + 1) != JSON_TEXT('/'))){
+			 if (*(++p) == JSON_TEXT('*')) {  //a multiline comment
+				while ((*(++p) != JSON_TEXT('*')) || (*(p + 1) != JSON_TEXT('/'))) {
 				    JSON_ASSERT_SAFE(*p, JSON_TEXT("Null terminator inside of a multiline quote"), goto endofloop;);
 				}
 				++p;
@@ -228,7 +228,7 @@ json_string JSONWorker::RemoveWhiteSpaceAndComments(const json_string & value_t)
 			 break;
 		  case JSON_TEXT('\"'):  //a quote
 			 result += JSON_TEXT('\"');
-			 while(*(++p) != JSON_TEXT('\"')){  //find the end of the quotation, as white space is preserved within it
+			 while(*(++p) != JSON_TEXT('\"')) {  //find the end of the quotation, as white space is preserved within it
 				JSON_ASSERT(*p, JSON_TEXT("Null terminator inside of a quotation"));
 				switch(*p){
 				    case JSON_TEXT('\\'):
@@ -269,11 +269,11 @@ json_string JSONWorker::RemoveWhiteSpaceAndComments(const json_string & value_t)
     json_string JSONWorker::UTF(const json_char * & pos){
 	   json_string result;
 	   unsigned json_char first = UTF8(pos);
-	   if ((*(pos + 1) == '\\') && (*(pos + 2) == 'u')){
+	   if ((*(pos + 1) == '\\') && (*(pos + 2) == 'u')) {
 		  pos += 2;
 		  unsigned json_char second = UTF8(pos);
 		  //surrogate pair, not two characters
-		  if ((first > 0xD800) && (first < 0xDBFF) && (second > 0xDC00) && (second < 0xDFFF)){
+		  if ((first > 0xD800) && (first < 0xDBFF) && (second > 0xDC00) && (second < 0xDFFF)) {
 			 result += SurrogatePair(first, second);
 		  } else {
 			 result += first;
@@ -564,7 +564,7 @@ json_string JSONWorker::UnfixString(const json_string & value_t, bool flag){
 			 res += JSON_TEXT("\\\'");
 			 break;
 		  default:
-			 /*if (((unsigned json_char)(*p) < 32) || ((unsigned json_char)(*p) > 126)){
+			 /*if (((unsigned json_char)(*p) < 32) || ((unsigned json_char)(*p) > 126)) {
 				//res += toUTF8((unsigned json_char)(*p));
 			 } else*/ {
 				res += *p;
@@ -587,13 +587,13 @@ inline void JSONWorker::NewNode(const internalJSONNode * parent, const json_stri
     #ifdef JSON_COMMENTS
     const json_char * runner = (array) ? value.c_str() : name.c_str();
 	   json_string _comment;
-	   if (*runner == '\5'){  //multiple comments will be consolidated into one
+	   if (*runner == '\5') {  //multiple comments will be consolidated into one
 		  newcomment:
-		  while(*(++runner) != '\5'){
+		  while(*(++runner) != '\5') {
 			 JSON_ASSERT(*runner, JSON_TEXT("Removing white space failed"));
 			 _comment += *runner;
 		  } 
-		  if (*(++runner) == '\5'){ //step past the trailing tag
+		  if (*(++runner) == '\5') { //step past the trailing tag
 			 _comment += '\n';
 			 goto newcomment;
 		  }

@@ -48,7 +48,7 @@ gcry_set_gettext_handler( const char *(*f)(const char*) )
 const char *
 _gcry_gettext( const char *key )
 {
-    if( user_gettext_handler )
+    if ( user_gettext_handler )
 	return user_gettext_handler( key );
     /* FIXME: switch the domain to gnupg and restore later */
     return key;

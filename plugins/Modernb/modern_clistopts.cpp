@@ -404,7 +404,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_SETCOLOUR, 0, (COLORREF)ModernGetSettingDword(NULL,"CList","AvatarsBorderColor",SETTINGS_AVATARBORDERCOLOR_DEFAULT));
 
-			if(!IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_SHOW_AVATARS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_DRAW_BORDER),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),FALSE);
@@ -427,16 +427,16 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS3),FALSE);
 				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 			}
-			if( !IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ) ) 
+			if ( !IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ) ) 
 			{
 				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 			}
-			if(!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_DRAW_BORDER)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR_L),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_BORDER_COLOR),FALSE);
 			}
-			if(!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_ROUND_CORNERS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
@@ -447,7 +447,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN),FALSE);
 			}	
-			if(!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS)) 
+			if (!IsDlgButtonChecked(hwndDlg,IDC_AVATAR_OVERLAY_ICONS)) 
 			{
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_NORMAL),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_OVERLAY_ICON_PROTOCOL),FALSE);
@@ -1466,7 +1466,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 	case WM_MOUSEMOVE:
 		{
-			if(!dragging) break;
+			if (!dragging) break;
 			{	
 				TVHITTESTINFO hti;
 				hti.pt.x=(short)LOWORD(lParam);
@@ -1496,7 +1496,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 	case WM_LBUTTONUP:
 		{
-			if(!dragging) break;
+			if (!dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_EXTRAORDER),NULL,0);
 			dragging=0;
 			ReleaseCapture();

@@ -141,7 +141,7 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			}
 			
 			if ( !isLink ) {
-				for( j=0; j<_countof(hyperlinkSubstrings); j++ )
+				for ( j=0; j<_countof(hyperlinkSubstrings); j++ )
 				{
 					if ( _tcsstr(wordsearch+1,hyperlinkSubstrings[j]) )
 					{
@@ -156,7 +156,7 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 				isLink = 1;	//e-mail addresses
 				type = LINK_MAIL;
 			}
-			else if( isLink ) {
+			else if ( isLink ) {
 				type = LINK_URL;
 			}
 			
@@ -164,11 +164,11 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			{
 				LPTSTR tok_ctx;
 
-				if( (_tcsstr(wordsearch, _T("www.")) != NULL) && (_tcsstr(wordsearch, _T("http://")) == NULL) )
+				if ( (_tcsstr(wordsearch, _T("www.")) != NULL) && (_tcsstr(wordsearch, _T("http://")) == NULL) )
 				{
 					_tcsncpy_s(link, _countof(link), _T("http://"), _mstrlen(_T("http://")));
 					// Link longer than defined max -> cut link to max
-					if( (i-wordStart+1) > (int)(LINK_MAX-_mstrlen(_T("http://"))) )
+					if ( (i-wordStart+1) > (int)(LINK_MAX-_mstrlen(_T("http://"))) )
 						_tcsncpy_s(link + _mstrlen(_T("http://")), _countof(link), word, LINK_MAX - _mstrlen(_T("http://")));
 					else
 						_tcsncpy_s(link + _mstrlen(_T("http://")), _countof(link), word, i-wordStart+1);
@@ -373,7 +373,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		{
 			linePos = GetLastLinePos(listStart);
 
-			if((realListCount - append) == 1)
+			if ((realListCount - append) == 1)
 				_tcscpy_s(lastDate, _countof(lastDate), actualElement->date);
 
 			for(appCount = 1; appCount <= (realListCount - append); appCount++)
@@ -410,7 +410,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			
 			if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN) )
 				filter1 = 1;
-			else if( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT) )
+			else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT) )
 				filter1 = 1;
 			
 			if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL) )
@@ -435,7 +435,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 						CallService(MS_DB_EVENT_GET, (WPARAM)actualElement->hEvent, (LPARAM)&dbe);
 						dbe.pBlob[dbe.cbBlob] = 0;
 						msg = DbGetEventTextT(&dbe, CP_ACP);
-						if( _tcsstr(msg, searchString) )
+						if ( _tcsstr(msg, searchString) )
 							filter3 = 1;						
 						
 						free(dbe.pBlob);
@@ -523,7 +523,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				linePos++;
 				actualElement->linePos = linePos;
 				actCount++;
-				if( hwndProgress && ( ((int)(((float)actCount/listCount)*100.00)) % 10 == 0 ) )
+				if ( hwndProgress && ( ((int)(((float)actCount/listCount)*100.00)) % 10 == 0 ) )
 						SendMessage(hwndProgress, WM_COMMAND, 100,((int)(((float)actCount/listCount)*100.00)));
 
 			}
@@ -531,7 +531,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		}
 		if ( listCount > 0 )
 		{
-			if((actCount < listCount) && (append == 0) && (options.showLine != 0))
+			if ((actCount < listCount) && (append == 0) && (options.showLine != 0))
 				DrawLine(hDlg, lineLen);
 		}
 		else if ( searchString == NULL )
@@ -857,12 +857,12 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 		else
 			filter3 = 1;
 
-		if((filter1 == 1) && (filter2 == 1) && (filter3 == 1))	
+		if ((filter1 == 1) && (filter2 == 1) && (filter3 == 1))	
 		{
 			(*elementCount)++;
 
 			tempLen = _tcslen(actualElement->link);
-			if(*maxLen < tempLen)
+			if (*maxLen < tempLen)
 				*maxLen = tempLen;
 		}
 		actualElement = actualElement->nextElement;
@@ -1324,13 +1324,13 @@ BOOL SaveEditAsStream( HWND hDlg )
 	ofn.lpstrTitle = _T("Save RTF File");
 	ofn.Flags = OFN_OVERWRITEPROMPT;
 	// Get a filename or quit
-	if( ! GetSaveFileName( &ofn ) )                   
+	if ( ! GetSaveFileName( &ofn ) )                   
 		return FALSE;
 	//  Create the specified file
 	hFile = CreateFile( szFilename, GENERIC_WRITE, 0, NULL,
 		CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
 	//  Quit if file creation fails
-	if( hFile == INVALID_HANDLE_VALUE )
+	if ( hFile == INVALID_HANDLE_VALUE )
 		return FALSE;
 	//  Pass file handle to callback
 	//  so the callback can do the file write
@@ -1347,7 +1347,7 @@ BOOL SaveEditAsStream( HWND hDlg )
 DWORD CALLBACK RTFSaveStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuffer, LONG lSize, LONG *plRead)
 {
 	// Sanity check...exit if nothing passed
-	if( ! lSize )                      
+	if ( ! lSize )                      
 		return 1;
 	// Initialize "amount read" variable for WriteFile()
 	*plRead = 0;           

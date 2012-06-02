@@ -102,9 +102,9 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 		pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0 );
 	
 	if ((HANDLE)wParam!=NULL&&!strcmp(cws->szModule,"CList")) {
-		if( !strcmp( cws->szSetting, "noOffline" ))
+		if ( !strcmp( cws->szSetting, "noOffline" ))
 			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, wParam, lParam );
-		else if(!strcmp(cws->szSetting,"StatusMsg")) 
+		else if (!strcmp(cws->szSetting,"StatusMsg")) 
 			pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED, wParam, lParam );
 	}
 	return 0;
@@ -157,7 +157,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		else status=cacheEntry->status;
 		
 		shouldShow=(GetWindowLong(hwnd,GWL_STYLE)&CLS_SHOWHIDDEN || !cacheEntry->Hidden) && (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline || CallService(MS_CLIST_GETCONTACTICON,wParam,0)!=LOWORD(lParam));	//this means an offline msg is flashing, so the contact should be shown
-		if(!FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL)) {				
+		if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL)) {				
 			if(shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if(dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL)!=-1)
 					hSelItem=pcli->pfnContactToHItem(selcontact);
@@ -178,7 +178,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if(contact->iImage== (WORD)lParam) break;				
 			if (sortByStatus) dat->NeedResort=1;
 
-			if(!shouldShow && !(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) {
+			if (!shouldShow && !(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) {
 				if(dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL)!=-1)
 					hSelItem=pcli->pfnContactToHItem(selcontact);
 				RemoveItemFromGroup(hwnd,group,contact,0);
@@ -189,7 +189,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				int oldflags;
 				contact->iImage=(WORD)lParam;
 				oldflags=contact->flags;
-				if(!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags|=CONTACTF_ONLINE;
+				if (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags|=CONTACTF_ONLINE;
 				else contact->flags&=~CONTACTF_ONLINE;
 				if (oldflags!=contact->flags)
 					dat->NeedResort=1;

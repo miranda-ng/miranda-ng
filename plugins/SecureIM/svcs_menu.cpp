@@ -12,7 +12,7 @@ INT_PTR __cdecl Service_CreateIM(WPARAM wParam,LPARAM lParam){
 		CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)wParam, (LPARAM)szModuleName);
 //	WPARAM flags = 0;
 //	HANDLE hMetaContact = getMetaContact((HANDLE)wParam);
-//	if( hMetaContact ) {
+//	if ( hMetaContact ) {
 //		wParam = (WPARAM)hMetaContact;
 //		flags = PREF_METANODB;
 //	}
@@ -24,7 +24,7 @@ INT_PTR __cdecl Service_CreateIM(WPARAM wParam,LPARAM lParam){
 INT_PTR __cdecl Service_DisableIM(WPARAM wParam,LPARAM lParam) {
 //	WPARAM flags = 0;
 //	HANDLE hMetaContact = getMetaContact((HANDLE)wParam);
-//	if( hMetaContact ) {
+//	if ( hMetaContact ) {
 //		wParam = (WPARAM)hMetaContact;
 //		flags = PREF_METANODB;
 //	}
@@ -111,7 +111,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
     	else
     	if(bPGPprivkey) {
     		char KeyPath[MAX_PATH]; KeyPath[0]='\0';
-    	  	if(ShowSelectKeyDlg(0,KeyPath)){
+    	  	if(ShowSelectKeyDlg(0,KeyPath)) {
     	  		char *publ = LoadKeys(KeyPath,false);
     	  		if(publ) {
     				DBDeleteContactSetting((HANDLE)wParam,szModuleName,"pgp");
@@ -178,18 +178,18 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam) {
     switch(--lParam) {
     case MODE_NATIVE:
     case MODE_RSAAES:
-    		if( isContactSecured((HANDLE)wParam)&SECURED ) {
+    		if ( isContactSecured((HANDLE)wParam)&SECURED ) {
     			msgbox(NULL, sim111, szModuleName, MB_OK);
     			return 0;
     		}
-		if( lParam!=MODE_NATIVE && ptr->status>STATUS_ENABLED ) {
+		if ( lParam!=MODE_NATIVE && ptr->status>STATUS_ENABLED ) {
 			Service_Status(wParam,STATUS_ENABLED+1);
 		}
     case MODE_PGP:
     case MODE_GPG:
     		// нужно много проверок и отключение активного контекста если необходимо
 		if(ptr) {
-			if( ptr->cntx ) {
+			if ( ptr->cntx ) {
 		    		cpp_delete_context(ptr->cntx);
 				ptr->cntx = 0;
 				ptr->keyLoaded = 0;

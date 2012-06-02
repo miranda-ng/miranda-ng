@@ -680,7 +680,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
       }
 
       // Checkbox size
-      if((style&CLS_CHECKBOXES && contact->type==CLCIT_CONTACT) ||
+      if ((style&CLS_CHECKBOXES && contact->type==CLCIT_CONTACT) ||
         (style&CLS_GROUPCHECKBOXES && contact->type==CLCIT_GROUP) ||
         (contact->type==CLCIT_INFO && contact->flags&CLCIIF_CHECKBOX))
       {

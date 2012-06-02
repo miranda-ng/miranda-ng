@@ -183,9 +183,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="updater.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

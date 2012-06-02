@@ -112,7 +112,7 @@ bool CTaskbarInteract::haveLargeIcons()
 		 * always returns S_OK, but the icon is simply ignored when using small taskbar icons.
 		 * also, figure out the button grouping mode.
 		 */
-		if(::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"), &hKey) == ERROR_SUCCESS) {
+		if (::RegOpenKey(HKEY_CURRENT_USER, _T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"), &hKey) == ERROR_SUCCESS) {
 			::RegQueryValueEx(hKey, _T("TaskbarSmallIcons"), 0, &dwType, (LPBYTE)&val, &size);
 			size = 4;
 			dwType = REG_DWORD;
@@ -281,7 +281,7 @@ CProxyWindow::~CProxyWindow()
  */
 void CProxyWindow::verifyDwmState()
 {
-	if(!M->isDwmActive()) {
+	if (!M->isDwmActive()) {
 		if(m_thumb) {
 			delete m_thumb;
 			m_thumb = 0;
@@ -360,7 +360,7 @@ void CProxyWindow::sendPreview()
 		 * use the last known client area size instead.
 		 */
 
-		if(!::IsIconic(m_dat->pContainer->hwnd)) {
+		if (!::IsIconic(m_dat->pContainer->hwnd)) {
 			::GetWindowRect(m_dat->pContainer->hwndActive, &rcLog);
 			::GetClientRect(m_dat->pContainer->hwnd, &rcContainer);
 			pt.x = rcLog.left;
@@ -580,7 +580,7 @@ LRESULT CALLBACK CProxyWindow::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARA
         		SendMessage(m_dat->hwnd, WM_CLOSE, 1, 3);
         	else
         		SendMessage(m_dat->hwnd, WM_CLOSE, 1, 2);
-        	if(!IsIconic(pC->hwnd))
+        	if (!IsIconic(pC->hwnd))
         		SetForegroundWindow(pC->hwnd);
         	return(0);
         }
@@ -832,7 +832,7 @@ void CThumbIM::renderContent()
 	 * status message and bottom line (either UID or nick name, depending on
 	 * task bar grouping mode). For chat rooms, it is the topic.
 	 */
-	if((m_rcBottom.bottom - m_rcBottom.top) < 2 * m_sz.cy)
+	if ((m_rcBottom.bottom - m_rcBottom.top) < 2 * m_sz.cy)
 		m_dtFlags |= DT_SINGLELINE;
 
 	m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
@@ -902,7 +902,7 @@ void CThumbMUC::renderContent()
 				wchar_t* _p = NULL;
 				if ( m_dat->si->ptszStatusbarText )
 					_p = wcschr(m_dat->si->ptszStatusbarText, ']');
-				if( _p ) {
+				if ( _p ) {
 					_p++;
 					wchar_t	_t = *_p;
 					*_p = 0;
@@ -926,7 +926,7 @@ void CThumbMUC::renderContent()
 			}
 		}
 
-		if((m_rcBottom.bottom - m_rcBottom.top) < 2 * m_sz.cy)
+		if ((m_rcBottom.bottom - m_rcBottom.top) < 2 * m_sz.cy)
 			m_dtFlags |= DT_SINGLELINE;
 
 		m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height

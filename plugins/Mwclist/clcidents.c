@@ -46,7 +46,7 @@ int GetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactI
 	int count=0;
 
 	group->scanIndex=0;
-	for(;;) {
+	for (;;) {
 		if(group->scanIndex==group->cl.count) {
 			group=group->parent;
 			if(group==NULL) break;
@@ -131,7 +131,7 @@ void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 		OutputDebugStringA(buf);		
 		}
 	}
-	if(!IsHContactGroup(hContact)&&!IsHContactInfo(hContact))
+	if (!IsHContactGroup(hContact)&&!IsHContactInfo(hContact))
 	{
 		cacheEntry=GetCLCFullCacheEntry(dat,hContact);
 		if (cacheEntry!=NULL)
@@ -142,7 +142,7 @@ void ClearClcContactCache(struct ClcData *dat,HANDLE hContact)
 void SetClcContactCacheItem(struct ClcData *dat,HANDLE hContact,void *contact)
 {
 	pdisplayNameCacheEntry cacheEntry;
-	if(!IsHContactGroup(hContact)&&!IsHContactInfo(hContact))
+	if (!IsHContactGroup(hContact)&&!IsHContactInfo(hContact))
 	{
 		cacheEntry=GetCLCFullCacheEntry(dat,hContact);
 		if (cacheEntry!=NULL)
@@ -205,25 +205,25 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 
 	group=&dat->list;
 
-	for(;;) {
+	for (;;) {
 		if(group->scanIndex==group->cl.count) {
 			struct ClcGroup *tgroup;
 			group=group->parent;
 			if(group==NULL) break;
 			nowVisible=1;
 			for(tgroup=group;tgroup;tgroup=tgroup->parent)
-				if(!group->expanded) {nowVisible=0; break;}
+				if (!group->expanded) {nowVisible=0; break;}
 				group->scanIndex++;
 				continue;
 		}
 		if(nowVisible) index++;
-		if((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_GROUP && ((UINT_PTR)hItem&~HCONTACT_ISGROUP)==group->cl.items[group->scanIndex]->groupId) ||
+		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_GROUP && ((UINT_PTR)hItem&~HCONTACT_ISGROUP)==group->cl.items[group->scanIndex]->groupId) ||
 			(IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact==hItem) ||
 			(IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type==CLCIT_INFO && group->cl.items[group->scanIndex]->hContact==(HANDLE)((UINT_PTR)hItem&~HCONTACT_ISINFO))) {
 			if(isVisible) {
-				if(!nowVisible) *isVisible=0;
+				if (!nowVisible) *isVisible=0;
 				else {
-					if((index+1)*dat->rowHeight<dat->yScroll) *isVisible=0;
+					if ((index+1)*dat->rowHeight<dat->yScroll) *isVisible=0;
 					else {
 						RECT clRect;
 						GetClientRect(hwnd,&clRect);
@@ -283,7 +283,7 @@ int GetRowByIndex(struct ClcData *dat,int testindex,struct ClcContact **contact,
 	//	}else
 	{
 		group->scanIndex=0;
-		for(;;) {
+		for (;;) {
 			if(group->scanIndex==group->cl.count) {
 				group=group->parent;
 				if(group==NULL) break;

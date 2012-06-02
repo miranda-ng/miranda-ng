@@ -121,12 +121,12 @@ FreeImage_ConvertLine32To24(BYTE *target, BYTE *source, int width_in_pixels) {
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_ConvertTo24Bits(FIBITMAP *dib) {
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	const unsigned bpp = FreeImage_GetBPP(dib);
 
 	const FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-	if((image_type != FIT_BITMAP) && (image_type != FIT_RGB16)) {
+	if ((image_type != FIT_BITMAP) && (image_type != FIT_RGB16)) {
 		return NULL;
 	}
 

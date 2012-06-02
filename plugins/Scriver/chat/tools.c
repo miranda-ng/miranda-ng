@@ -920,7 +920,7 @@ TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime)
 
 	if (g_Settings.pszLogDir[_tcslen(g_Settings.pszLogDir)-1] == '\\')
 		_tcscat(g_Settings.pszLogDir, _T("%userid%.log")); 
-	if(!tTime)
+	if (!tTime)
 	  time(&tTime);
 	
 	// day 1-31

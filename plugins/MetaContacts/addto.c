@@ -61,7 +61,7 @@ int FillList(HWND list, BOOL sort)
 
 	while(hMetaUser)	// The DB is searched through, to get all the metacontacts
 	{
-		if((metaID=DBGetContactSettingDword(hMetaUser,META_PROTO,META_ID,(DWORD)-1))==(DWORD)-1)
+		if ((metaID=DBGetContactSettingDword(hMetaUser,META_PROTO,META_ID,(DWORD)-1))==(DWORD)-1)
 		{
 			// This isn't a MetaContact, go to the next
 			hMetaUser = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hMetaUser,0);
@@ -257,13 +257,13 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					HANDLE hMeta, hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					int item;	// Get the index of the selected metacontact
-					if((item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST),LB_GETCURSEL, 0, 0))==-1)
+					if ((item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST),LB_GETCURSEL, 0, 0))==-1)
 						return IDOK == MessageBox(hwndDlg,Translate("Please select a MetaContact"),Translate("No MetaContact selected"),MB_ICONHAND);
 					
 					hMeta = (HANDLE)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, (WPARAM)item, 0);
 
 					{
-						if(!Meta_Assign(hContact,hMeta, FALSE))
+						if (!Meta_Assign(hContact,hMeta, FALSE))
 						{
 							MessageBox(hwndDlg, Translate("Assignment to the MetaContact failed."), Translate("Assignment failure"),MB_ICONERROR);
 						}

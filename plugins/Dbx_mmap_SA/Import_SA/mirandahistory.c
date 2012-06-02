@@ -92,7 +92,7 @@ static PBYTE ReadHistoryLines(FILE *fp,int *cbBlob)
 		blob=(char*)realloc(blob,*cbBlob+1);
 		lstrcpy(blob+ofs,str);
 	}
-	if(*cbBlob) {
+	if (*cbBlob) {
 		(*cbBlob)--;
 		blob[*cbBlob-1]=0;
 	}
@@ -150,7 +150,7 @@ static void OldMirandaHistoryImport(HWND hdlgProgress)
 		tmEventTime.tm_mon=atoi(timeofs+10)-1;
 		tmEventTime.tm_year=atoi(timeofs+13)-1900;
 		dbei.timestamp=mktime(&tmEventTime)+_timezone;
-		if(!(importOptions&historyTypeToOption[type])) continue;
+		if (!(importOptions&historyTypeToOption[type])) continue;
 		hContact=HistoryImportFindContact(hdlgProgress,uin,importOptions&IOPT_ADDUNKNOWN);
 		if(hContact==INVALID_HANDLE_VALUE) break;
 		dbei.flags=issent(type)?DBEF_SENT:DBEF_READ;

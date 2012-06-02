@@ -301,14 +301,14 @@ INT_PTR ServiceGetCountryByNumber(WPARAM wParam,LPARAM lParam)
 	int i;
 	UNREFERENCED_PARAMETER(lParam);
 	for(i=0; i<SIZEOF(countries); ++i)
-		if((int)wParam==countries[i].id)
+		if ((int)wParam==countries[i].id)
 			return (INT_PTR)countries[i].szName;
 	return NULL;
 }
 
 INT_PTR ServiceGetCountryList(WPARAM wParam,LPARAM lParam)
 {
-	if((int*)wParam==NULL || (void*)lParam==NULL) return 1;
+	if ((int*)wParam==NULL || (void*)lParam==NULL) return 1;
 	*(int*)wParam=SIZEOF(countries);
 	*(struct CountryListEntry**)lParam=countries;
 	return 0;
@@ -319,8 +319,8 @@ INT_PTR ServiceGetCountryList(WPARAM wParam,LPARAM lParam)
 VOID InitCountryListExt()
 {
 	/* hack to replace built-in country list */
-	if(!myDestroyServiceFunction(MS_UTILS_GETCOUNTRYLIST))
+	if (!myDestroyServiceFunction(MS_UTILS_GETCOUNTRYLIST))
 		myCreateServiceFunction(MS_UTILS_GETCOUNTRYLIST,ServiceGetCountryList);
-	if(!myDestroyServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER))
+	if (!myDestroyServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER))
 		myCreateServiceFunction(MS_UTILS_GETCOUNTRYBYNUMBER,ServiceGetCountryByNumber);
 }

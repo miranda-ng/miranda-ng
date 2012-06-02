@@ -101,12 +101,12 @@ FreeImage_ConvertLine32To8(BYTE *target, BYTE *source, int width_in_pixels) {
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_ConvertTo8Bits(FIBITMAP *dib) {
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	const int bpp = FreeImage_GetBPP(dib);
 
 	const FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-	if((image_type != FIT_BITMAP) && (image_type != FIT_UINT16)) {
+	if ((image_type != FIT_BITMAP) && (image_type != FIT_UINT16)) {
 		return NULL;
 	}
 
@@ -250,12 +250,12 @@ FreeImage_ConvertTo8Bits(FIBITMAP *dib) {
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_ConvertToGreyscale(FIBITMAP *dib) {
-	if(!FreeImage_HasPixels(dib)) return NULL;
+	if (!FreeImage_HasPixels(dib)) return NULL;
 
 	const FREE_IMAGE_COLOR_TYPE color_type = FreeImage_GetColorType(dib);
 	const int bpp = FreeImage_GetBPP(dib);
 
-	if((color_type == FIC_PALETTE) || (color_type == FIC_MINISWHITE)) {
+	if ((color_type == FIC_PALETTE) || (color_type == FIC_MINISWHITE)) {
 		const int width  = FreeImage_GetWidth(dib);
 		const int height = FreeImage_GetHeight(dib);
 		FIBITMAP *new_dib = FreeImage_Allocate(width, height, 8);

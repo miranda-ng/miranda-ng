@@ -99,7 +99,7 @@ TIFFReadScanline(TIFF* tif, tdata_t buf, uint32 row, tsample_t sample)
 
 	if (!TIFFCheckRead(tif, 0))
 		return (-1);
-	if( (e = TIFFSeek(tif, row, sample)) != 0) {
+	if ( (e = TIFFSeek(tif, row, sample)) != 0) {
 		/*
 		 * Decompress desired row into user buffer.
 		 */
@@ -141,7 +141,7 @@ TIFFReadEncodedStrip(TIFF* tif, tstrip_t strip, tdata_t buf, tsize_t size)
 	 * rows in the strip (check for truncated last strip on any
 	 * of the separations).
 	 */
-	if( td->td_rowsperstrip >= td->td_imagelength )
+	if ( td->td_rowsperstrip >= td->td_imagelength )
 		strips_per_sep = 1;
 	else
 		strips_per_sep = (td->td_imagelength+td->td_rowsperstrip-1)

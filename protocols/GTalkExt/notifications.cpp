@@ -369,7 +369,7 @@ void ClearNotificationContactHistory(LPCSTR acc)
 	HANDLE hContact = (HANDLE)DBGetContactSettingDword(0, acc, PSEUDOCONTACT_LINK, 0);
 	if (hContact && DBGetContactSettingByte(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		while ((hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0)) &&
-			!CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)hEvent)){};
+			!CallService(MS_DB_EVENT_DELETE, (WPARAM)hContact, (LPARAM)hEvent)) {};
 }
 
 DWORD ReadNotificationSettings(LPCSTR acc)

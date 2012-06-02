@@ -831,7 +831,7 @@ _TIFFFindOrRegisterFieldInfo( TIFF *tif, ttag_t tag, TIFFDataType dt )
     const TIFFFieldInfo *fld;
 
     fld = _TIFFFindFieldInfo( tif, tag, dt );
-    if( fld == NULL )
+    if ( fld == NULL )
     {
         fld = _TIFFCreateAnonFieldInfo( tif, tag, dt );
         if (!_TIFFMergeFieldInfo(tif, fld, 1))

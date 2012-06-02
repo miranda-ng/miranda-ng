@@ -615,7 +615,7 @@ void stream_reader::read_string_ex(pfc::string_base & p_out,t_size p_bytes,abort
 		pfc::array_t<char> temp;
 		t_size allocWalk = expBase;
 		t_size done = 0;
-		for(;;) {
+		for (;;) {
 			const t_size target = pfc::min_t(allocWalk, p_bytes);
 			temp.set_size(target);
 			read_object(temp.get_ptr() + done, target - done, p_abort);
@@ -640,7 +640,7 @@ void stream_reader::read_string_raw(pfc::string_base & p_out,abort_callback & p_
 	enum {delta = 256};
 	char buffer[delta];
 	p_out.reset();
-	for(;;) {
+	for (;;) {
 		t_size delta_done;
 		delta_done = read(buffer,delta,p_abort);
 		p_out.add_string(buffer,delta_done);

@@ -96,7 +96,7 @@ C_IStream::seekg (Imf::Int64 pos) {
 
 void
 C_OStream::write (const char c[/*n*/], int n) {
-	if((unsigned)n != _io->write_proc((void*)&c[0], 1, n, _handle)) {
+	if ((unsigned)n != _io->write_proc((void*)&c[0], 1, n, _handle)) {
 		Iex::throwErrnoExc();
 	}
 }
@@ -178,7 +178,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	bool bUseRgbaInterface = false;
 	FIBITMAP *dib = NULL;	
 
-	if(!handle) {
+	if (!handle) {
 		return NULL;
 	}
 
@@ -242,7 +242,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					bHandled = true;
 				}
 			}
-			if(!bHandled) {
+			if (!bHandled) {
 				THROW (Iex::InputExc, "Unable to handle mixed component types (color model = " << exr_color_model << ")");
 			} 
 		}
@@ -260,9 +260,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		// check for supported image color models
 		// --------------------------------------------------------------
 
-		if((components == 1) || (components == 2)) {				
+		if ((components == 1) || (components == 2)) {				
 			// if the image is gray-alpha (YA), ignore the alpha channel
-			if((components == 1) && channels.findChannel("Y")) {
+			if ((components == 1) && channels.findChannel("Y")) {
 				image_type = FIT_FLOAT;
 				components = 1;
 			} else {
@@ -307,7 +307,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 		// allocate a new dib
 		dib = FreeImage_AllocateHeaderT(header_only, image_type, width, height, 0);
-		if(!dib) THROW (Iex::NullExc, FI_MSG_ERROR_MEMORY);
+		if (!dib) THROW (Iex::NullExc, FI_MSG_ERROR_MEMORY);
 
 		// try to load the preview image
 		// --------------------------------------------------------------
@@ -410,7 +410,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					pitch,					// yStride
 					1, 1,					// x/y sampling
 					0.0));					// fillValue
-			} else if((components == 3) || (components == 4)) {
+			} else if ((components == 3) || (components == 4)) {
 				const char *channel_name[4] = { "R", "G", "B", "A" };
 
 				for(int c = 0; c < components; c++) {
@@ -450,12 +450,12 @@ Set the preview image using the dib embedded thumbnail
 */
 static BOOL
 SetPreviewImage(FIBITMAP *dib, Imf::Header& header) {
-	if(!FreeImage_GetThumbnail(dib)) {
+	if (!FreeImage_GetThumbnail(dib)) {
 		return FALSE;
 	}
 	FIBITMAP* thumbnail = FreeImage_GetThumbnail(dib);
 
-	if((FreeImage_GetImageType(thumbnail) != FIT_BITMAP) || (FreeImage_GetBPP(thumbnail) != 32)) {
+	if ((FreeImage_GetImageType(thumbnail) != FIT_BITMAP) || (FreeImage_GetBPP(thumbnail) != 32)) {
 		// invalid thumbnail - ignore it
 		FreeImage_OutputMessageProc(s_format_id, FI_MSG_WARNING_INVALID_THUMBNAIL);
 	} else {
@@ -560,16 +560,16 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 	BOOL bIsFlipped = FALSE;
 	half *halfData = NULL;
 
-	if(!dib || !handle) return FALSE;
+	if (!dib || !handle) return FALSE;
 
 	try {
 		// check for EXR_LC compression and verify that the format is RGB
-		if((flags & EXR_LC) == EXR_LC) {
+		if ((flags & EXR_LC) == EXR_LC) {
 			FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
-			if(((image_type != FIT_RGBF) && (image_type != FIT_RGBAF)) || ((flags & EXR_FLOAT) == EXR_FLOAT)) {
+			if (((image_type != FIT_RGBF) && (image_type != FIT_RGBAF)) || ((flags & EXR_FLOAT) == EXR_FLOAT)) {
 				THROW (Iex::IoExc, "EXR_LC compression is only available with RGB[A]F images");
 			}
-			if((FreeImage_GetWidth(dib) % 2) || (FreeImage_GetHeight(dib) % 2)) {
+			if ((FreeImage_GetWidth(dib) % 2) || (FreeImage_GetHeight(dib) % 2)) {
 				THROW (Iex::IoExc, "EXR_LC compression only works when the width and height are a multiple of 2");
 			}
 		}
@@ -579,19 +579,19 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 		// compression
 		Imf::Compression compress;
-		if((flags & EXR_NONE) == EXR_NONE) {
+		if ((flags & EXR_NONE) == EXR_NONE) {
 			// no compression
 			compress = Imf::NO_COMPRESSION;
-		} else if((flags & EXR_ZIP) == EXR_ZIP) {
+		} else if ((flags & EXR_ZIP) == EXR_ZIP) {
 			// zlib compression, in blocks of 16 scan lines
 			compress = Imf::ZIP_COMPRESSION;
-		} else if((flags & EXR_PIZ) == EXR_PIZ) {
+		} else if ((flags & EXR_PIZ) == EXR_PIZ) {
 			// piz-based wavelet compression
 			compress = Imf::PIZ_COMPRESSION;
-		} else if((flags & EXR_PXR24) == EXR_PXR24) {
+		} else if ((flags & EXR_PXR24) == EXR_PXR24) {
 			// lossy 24-bit float compression
 			compress = Imf::PXR24_COMPRESSION;
-		} else if((flags & EXR_B44) == EXR_B44) {
+		} else if ((flags & EXR_B44) == EXR_B44) {
 			// lossy 44% float compression
 			compress = Imf::B44_COMPRESSION;
 		} else {
@@ -615,13 +615,13 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		SetPreviewImage(dib, header);
 		
 		// check for EXR_LC compression
-		if((flags & EXR_LC) == EXR_LC) {
+		if ((flags & EXR_LC) == EXR_LC) {
 			return SaveAsEXR_LC(ostream, dib, header, width, height);
 		}
 
 		// output pixel type
 		Imf::PixelType pixelType;
-		if((flags & EXR_FLOAT) == EXR_FLOAT) {
+		if ((flags & EXR_FLOAT) == EXR_FLOAT) {
 			pixelType = Imf::FLOAT;	// save as float data type
 		} else {
 			// default value
@@ -667,7 +667,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		if(pixelType == Imf::HALF) {
 			// convert from float to half
 			halfData = new(std::nothrow) half[width * height * components];
-			if(!halfData) THROW (Iex::NullExc, FI_MSG_ERROR_MEMORY);
+			if (!halfData) THROW (Iex::NullExc, FI_MSG_ERROR_MEMORY);
 
 			for(int y = 0; y < height; y++) {
 				float *src_bits = (float*)FreeImage_GetScanLine(dib, height - 1 - y);
@@ -700,7 +700,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 				(char*)(bits),			// base
 				bytespp,				// xStride
 				pitch));				// yStride
-		} else if((image_type == FIT_RGBF) || (image_type == FIT_RGBAF)) {			
+		} else if ((image_type == FIT_RGBF) || (image_type == FIT_RGBAF)) {			
 			for(int c = 0; c < components; c++) {
 				char *channel_base = (char*)(bits) + c*bytespc;
 				frameBuffer.insert (channel_name[c],// name

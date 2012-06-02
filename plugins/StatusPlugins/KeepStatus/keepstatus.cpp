@@ -771,7 +771,7 @@ static VOID CALLBACK AfterCheckTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWO
 
 	int setStatus = FALSE;
 
-	for( int i=0; i <connectionSettings.getCount(); i++ ) {
+	for ( int i=0; i <connectionSettings.getCount(); i++ ) {
 		TConnectionSettings& cs = connectionSettings[i];
 		int realStatus = CallProtoService(cs.szName, PS_GETSTATUS, 0, 0);
 		int shouldBeStatus = GetStatus(cs);
@@ -802,7 +802,7 @@ static void CheckContinueslyFunction(void *arg)
 
 	// do a ping, even if reconnecting
 	BOOL doPing = FALSE;
-	for( int i=0; i < connectionSettings.getCount(); i++ ) {
+	for ( int i=0; i < connectionSettings.getCount(); i++ ) {
 		TConnectionSettings& cs = connectionSettings[i];
 		int shouldBeStatus = GetStatus(cs);
 		if (shouldBeStatus == ID_STATUS_LAST)

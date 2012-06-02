@@ -71,7 +71,7 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 
 	temp = RecvRest(NetClient->Recv(),POP3_SEARCHACK);
 	extern BOOL SSLLoaded;
-	if (!NoTLS & !(SSL)){
+	if (!NoTLS & !(SSL)) {
 		if (NetClient->Stopped)			//check if we can work with this POP3 client session
 			throw POP3Error=(DWORD)EPOP3_STOPPED;
 		NetClient->Send("STLS\r\n");

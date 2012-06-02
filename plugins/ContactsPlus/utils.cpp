@@ -697,11 +697,11 @@ WCHAR *make_unicode_string(const unsigned char *utf8)
   c = utf8[index++];
   while (c)
   {
-    if((c & 0x80) == 0) 
+    if ((c & 0x80) == 0) 
     {
       out[out_index++] = c;
     } 
-    else if((c & 0xe0) == 0xe0) 
+    else if ((c & 0xe0) == 0xe0) 
     {
       out[out_index] = (c & 0x1F) << 12;
       c = utf8[index++];
@@ -780,7 +780,7 @@ static int utf8_decode(const unsigned char *from, char **to)
     }
 
     *to = (char*)malloc((chars + 1)*sizeof(unsigned char));
-    if(*to == NULL)
+    if (*to == NULL)
     {
 //      fprintf(stderr, "Out of memory processing string to local charset\n");
       SAFE_FREE((void**)&unicode);

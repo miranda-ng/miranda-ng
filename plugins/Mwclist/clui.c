@@ -595,7 +595,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				CLUIFramesOnClistResize((WPARAM)hwnd,(LPARAM)0);
 
 			GetWindowRect(hwnd, &rc);		
-			if(!CallService(MS_CLIST_DOCKINGISDOCKED,0,0)) {
+			if (!CallService(MS_CLIST_DOCKINGISDOCKED,0,0)) {
 				//if docked, dont remember pos (except for width)
 				DBWriteContactSettingDword(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
 				DBWriteContactSettingDword(NULL,"CList","x",(DWORD)rc.left);
@@ -774,7 +774,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					}	}	}	}
 
 					if(hItem) break;
-					if((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS))==0) break;
+					if ((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS))==0) break;
 					if (DBGetContactSettingByte(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT)) {
 						POINT pt;
 						pt=nm->pt;
@@ -785,7 +785,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}
 			}
 		}
-		else if(((LPNMHDR)lParam)->hwndFrom==pcli->hwndStatus) {
+		else if (((LPNMHDR)lParam)->hwndFrom==pcli->hwndStatus) {
 			if (((LPNMHDR)lParam)->code == NM_CLICK ) {
 				int nParts=0, nPanel=0;
 				NMMOUSE *nm=(NMMOUSE*)lParam;
@@ -935,7 +935,7 @@ int LoadCLUIModule(void)
 
 	{	//int state=DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
 		hMenuMain=GetMenu(pcli->hwndContactList);
-		if(!DBGetContactSettingByte(NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT)) SetMenu(pcli->hwndContactList,NULL);
+		if (!DBGetContactSettingByte(NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT)) SetMenu(pcli->hwndContactList,NULL);
 		SetWindowPos(pcli->hwndContactList, DBGetContactSettingByte(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 	}
 

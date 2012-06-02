@@ -72,7 +72,7 @@ int WorkFinalTasks(int firstTime)
 		}
 		MoveFile(opts.filename,opts.backupFilename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to rename original file"));
 	}
-	else if(!opts.bCheckOnly) DeleteFile(opts.filename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to delete original file"));
-	if(!opts.bCheckOnly) MoveFile(opts.outputFilename,opts.filename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to rename output file"));
+	else if (!opts.bCheckOnly) DeleteFile(opts.filename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to delete original file"));
+	if (!opts.bCheckOnly) MoveFile(opts.outputFilename,opts.filename) || AddToStatus(STATUS_WARNING,TranslateT("Unable to rename output file"));
 	return ERROR_NO_MORE_ITEMS;
 }

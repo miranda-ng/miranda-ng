@@ -75,8 +75,8 @@ LPSTR to_hex(PBYTE bin, int len) {
 	SAFE_FREE(m_hex);
 	m_hex = (LPSTR) mir_alloc(len*3+1);
 	LPSTR m_ptr = m_hex;
-	for( int i=0; i<len; i++ ) {
-	   if( i ) {
+	for ( int i=0; i<len; i++ ) {
+	   if ( i ) {
  		*m_ptr = ' '; m_ptr++;
  	   }
 	   mir_snprintf(m_ptr,4,"%02X",bin[i]);
@@ -108,11 +108,11 @@ void __fastcall safe_delete(void** p)
 // преобразуем текст из чистого UTF8 в формат миранды
 LPSTR utf8_to_miranda(LPCSTR szUtfMsg, DWORD& flags) {
 	LPSTR szNewMsg;
-	if( iCoreVersion < 0x00060000 ) {
+	if ( iCoreVersion < 0x00060000 ) {
 		flags &= ~(PREF_UTF|PREF_UNICODE);
 		LPWSTR wszMsg = exp->utf8decode(szUtfMsg);
 		LPSTR szMsg = mir_u2a(wszMsg);
-		if( bCoreUnicode ) {
+		if ( bCoreUnicode ) {
 		    flags |= PREF_UNICODE;
 		    int olen = (int)wcslen((LPWSTR)wszMsg)+1;
 		    int nlen = olen*(sizeof(WCHAR)+1);

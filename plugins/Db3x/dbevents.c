@@ -137,7 +137,7 @@ static INT_PTR AddEvent(WPARAM wParam,LPARAM lParam)
 			// Loop through the chain, starting at the end
 			ofsThis = dbc.ofsLastEvent;
 			dbeTest = (struct DBEvent*)DBRead(ofsThis, sizeof(struct DBEvent), NULL);
-			for(;;) {
+			for (;;) {
 				// If the new event's timesstamp is equal to or greater than the
 				// current dbevent, it will be inserted after. If not, continue
 				// with the previous dbevent in chain.
@@ -161,7 +161,7 @@ static INT_PTR AddEvent(WPARAM wParam,LPARAM lParam)
 		}
 	}
 	dbc.eventCount++;
-	if(!(dbe.flags&(DBEF_READ|DBEF_SENT))) {
+	if (!(dbe.flags&(DBEF_READ|DBEF_SENT))) {
 		if(dbe.timestamp<dbc.timestampFirstUnread || dbc.timestampFirstUnread==0) {
 			dbc.timestampFirstUnread=dbe.timestamp;
 			dbc.ofsFirstUnreadEvent=ofsNew;
@@ -203,7 +203,7 @@ static INT_PTR DeleteEvent(WPARAM wParam,LPARAM lParam)
 	//check if this was the first unread, if so, recalc the first unread
 	if(dbc.ofsFirstUnreadEvent==(DWORD)lParam) {
 		dbeNext=&dbe;
-		for(;;) {
+		for (;;) {
 			if(dbeNext->ofsNext==0) {
 				dbc.ofsFirstUnreadEvent=0;
 				dbc.timestampFirstUnread=0;
@@ -211,7 +211,7 @@ static INT_PTR DeleteEvent(WPARAM wParam,LPARAM lParam)
 			}
 			ofsThis=dbeNext->ofsNext;
 			dbeNext=(struct DBEvent*)DBRead(ofsThis,sizeof(struct DBEvent),NULL);
-			if(!(dbeNext->flags&(DBEF_READ|DBEF_SENT))) {
+			if (!(dbeNext->flags&(DBEF_READ|DBEF_SENT))) {
 				dbc.ofsFirstUnreadEvent=ofsThis;
 				dbc.timestampFirstUnread=dbeNext->timestamp;
 				break;
@@ -331,7 +331,7 @@ static INT_PTR MarkEventRead(WPARAM wParam,LPARAM lParam)
 	DBWrite(lParam,dbe,sizeof(struct DBEvent));
 	ret=(INT_PTR)dbe->flags;
 	if(dbc.ofsFirstUnreadEvent==(DWORD)lParam) {
-		for(;;) {
+		for (;;) {
 			if(dbe->ofsNext==0) {
 				dbc.ofsFirstUnreadEvent=0;
 				dbc.timestampFirstUnread=0;
@@ -339,7 +339,7 @@ static INT_PTR MarkEventRead(WPARAM wParam,LPARAM lParam)
 			}
 			ofsThis=dbe->ofsNext;
 			dbe=(struct DBEvent*)DBRead(ofsThis,sizeof(struct DBEvent),NULL);
-			if(!(dbe->flags&(DBEF_READ|DBEF_SENT))) {
+			if (!(dbe->flags&(DBEF_READ|DBEF_SENT))) {
 				dbc.ofsFirstUnreadEvent=ofsThis;
 				dbc.timestampFirstUnread=dbe->timestamp;
 				break;

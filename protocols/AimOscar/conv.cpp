@@ -202,7 +202,7 @@ char* html_to_bbcodes(char *src)
 		*ptr = '[';
 		*(ptr+1) = 'b';
 		*(ptr+2) = ']';
-		if((ptr = strstr(dest, "</B>")) != NULL || (ptr = strstr(dest, "</b>")) != NULL)
+		if ((ptr = strstr(dest, "</B>")) != NULL || (ptr = strstr(dest, "</b>")) != NULL)
 		{
 			*ptr = '[';
 			*(ptr+2) = 'b';
@@ -219,7 +219,7 @@ char* html_to_bbcodes(char *src)
 		*ptr =  '[';
 		*(ptr+1) = 'i';
 		*(ptr+2) = ']';
-		if((ptr = strstr(dest, "</I>")) != NULL || (ptr = strstr(dest, "</i>")) != NULL)
+		if ((ptr = strstr(dest, "</I>")) != NULL || (ptr = strstr(dest, "</i>")) != NULL)
 		{
 			*ptr = '[';
 			*(ptr+2) = 'i';
@@ -236,7 +236,7 @@ char* html_to_bbcodes(char *src)
 		*ptr = '[';
 		*(ptr+1) = 'u';
 		*(ptr+2) = ']';
-		if((ptr = strstr(dest, "</U>")) != NULL || (ptr = strstr(dest, "</u>")) != NULL)
+		if ((ptr = strstr(dest, "</U>")) != NULL || (ptr = strstr(dest, "</u>")) != NULL)
 		{
 			*ptr = '[';
 			*(ptr+2) = 'u';
@@ -253,7 +253,7 @@ char* html_to_bbcodes(char *src)
 		*ptr = '[';
 		*(ptr+1) = 's';
 		*(ptr+2) = ']';
-		if((ptr = strstr(dest, "</S>")) != NULL || (ptr = strstr(dest, "</s>")) != NULL)
+		if ((ptr = strstr(dest, "</S>")) != NULL || (ptr = strstr(dest, "</s>")) != NULL)
 		{
 			*ptr = '[';
 			*(ptr+2) = 's';
@@ -718,7 +718,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			pos+=strlen(Face);
 			strcpy(&buf[pos],"\"");
 			pos++;
-			if(!(cfOld.dwEffects & CFE_AUTOBACKCOLOR))
+			if (!(cfOld.dwEffects & CFE_AUTOBACKCOLOR))
 			{
 				strcpy(&buf[pos]," back=#");
 				pos+=6;
@@ -734,7 +734,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				strcpy(&buf[pos],chBackColor);
 				pos+=6;
 			}
-			if(!(cfOld.dwEffects & CFE_AUTOCOLOR))
+			if (!(cfOld.dwEffects & CFE_AUTOCOLOR))
 			{
 				strcpy(&buf[pos]," color=#");
 				pos+=8;

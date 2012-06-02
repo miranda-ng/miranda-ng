@@ -102,19 +102,19 @@ void CIrcMessage::ParseIrcCommand(const TCHAR* lpszCmdLine)
 	const TCHAR* p2 = lpszCmdLine;
 
 	// prefix exists ?
-	if( *p1 == ':' ) {
+	if ( *p1 == ':' ) {
 		// break prefix into its components (nick!user@host)
 		p2 = ++p1;
 		while( *p2 && !_tcschr( _T(" !"), *p2 ))
 			++p2;
 		prefix.sNick.SetString(p1, p2 - p1);
-		if( *p2 != '!' )
+		if ( *p2 != '!' )
 			goto end_of_prefix;
 		p1 = ++p2;
 		while( *p2 && !_tcschr( _T(" @"), *p2 ))
 			++p2;
 		prefix.sUser.SetString(p1, p2 - p1);
-		if( *p2 != '@' )
+		if ( *p2 != '@' )
 			goto end_of_prefix;
 		p1 = ++p2;
 		while( *p2 && *p2 != ' ' )
@@ -245,7 +245,7 @@ void CIrcProto::Disconnect(void)
 {
 	static const DWORD dwServerTimeout = 5 * 1000;
 
-	if( con == NULL )
+	if ( con == NULL )
 		return;
 
 	KillIdent();
@@ -392,7 +392,7 @@ void CIrcProto::DoReceive()
 		int nLinesProcessed = 0;
 
 		int cbRead = NLReceive((unsigned char*)chBuf+cbInBuf, sizeof(chBuf)-cbInBuf-1);
-		if( cbRead <= 0 )
+		if ( cbRead <= 0 )
 			break;
 
 		cbInBuf += cbRead;
@@ -405,7 +405,7 @@ void CIrcProto::DoReceive()
 			// seek end-of-line
 			for(pEnd=pStart; *pEnd && *pEnd != '\r' && *pEnd != '\n'; ++pEnd)
 				;
-			if( *pEnd == '\0' )
+			if ( *pEnd == '\0' )
 				break; // uncomplete message. stop parsing.
 
 			++nLinesProcessed;
@@ -423,7 +423,7 @@ void CIrcProto::DoReceive()
 						char* p1 = pszTemp;
 						// replace end-of-line with NULLs
 						while( *p1 != '\0' ) {
-							if( *p1 == '\r' || *p1 == '\n')
+							if ( *p1 == '\r' || *p1 == '\n')
 								*p1 = '\0';
 							p1++;
 						}
@@ -750,7 +750,7 @@ unsigned long ConvertIPToInteger( char* IP )
 	IN_ADDR in;
 	IN_ADDR intemp;
 
-	if( IP == 0 || lstrlenA(IP) == 0)
+	if ( IP == 0 || lstrlenA(IP) == 0)
 		return 0;
 
 	intemp.S_un.S_addr = inet_addr(IP);
@@ -1098,7 +1098,7 @@ void __cdecl CDccSession::ThreadProc(void *pparam)
 	if ( pThis->di->iType == DCC_CHAT )
 		pThis->DoChatReceive(); // dcc chat
 
-	else if( !pThis->di->bSender )
+	else if ( !pThis->di->bSender )
 		pThis->DoReceiveFile(); // receive a file
 
 	else if ( pThis->di->bSender )
@@ -1178,7 +1178,7 @@ void CDccSession::DoSendFile()
 						dwRead = CallService( MS_NETLIB_GETMOREPACKETS, (WPARAM)hPackrcver, (LPARAM)&npr);
 						npr.bytesUsed = sizeof(DWORD);          
 
-						if( dwRead <= 0)
+						if ( dwRead <= 0)
 							break; // connection closed, or a timeout occurred.
 
 						dwPacket  = *(DWORD*)npr.buffer;
@@ -1245,7 +1245,7 @@ DCC_STOP:
 		else // file was not possible to open for reading
 		{
 			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (void *)di, 0);
-			if( con ) {
+			if ( con ) {
 				Netlib_CloseHandle(con);
 				con = NULL;
 	}	}	}
@@ -1353,7 +1353,7 @@ void CDccSession::DoChatReceive()
 		int nLinesProcessed = 0;
 		
 		cbRead = NLReceive((unsigned char*)chBuf+cbInBuf, sizeof(chBuf)-cbInBuf-1);
-		if( cbRead <= 0 )
+		if ( cbRead <= 0 )
 			break;
 
 		cbInBuf += cbRead;
@@ -1366,7 +1366,7 @@ void CDccSession::DoChatReceive()
 			// seek end-of-line
 			for(pEnd=pStart; *pEnd && *pEnd != '\r' && *pEnd != '\n'; ++pEnd)
 				;
-			if( *pEnd == '\0' )
+			if ( *pEnd == '\0' )
 				break; // uncomplete message. stop parsing.
 			
 			++nLinesProcessed;
@@ -1375,7 +1375,7 @@ void CDccSession::DoChatReceive()
 			while( *pEnd == '\r' || *pEnd == '\n' )
 				*pEnd++ = '\0';
 			
-			if( *pStart ) {
+			if ( *pStart ) {
 				// send it off to some messaging module
 
 				PROTORECVEVENT pre = {0};
@@ -1459,7 +1459,7 @@ void DoIdent(HANDLE hConnection, DWORD, void* extra )
 
 	for (;;) {
 		int cbRead = Netlib_Recv(hConnection, szBuf+cbTotal, sizeof(szBuf)-1-cbTotal, 0);
-		if( cbRead == SOCKET_ERROR || cbRead == 0)
+		if ( cbRead == SOCKET_ERROR || cbRead == 0)
 			break;
 
 		cbTotal += cbRead;

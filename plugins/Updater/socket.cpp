@@ -15,7 +15,7 @@ bool GetFile(char *url, TCHAR *temp_folder, char *plugin_name, char *version, bo
 		return false;
 
 	// ensure temp_folder exists
-	if(!CreatePath(options.temp_folder)) {
+	if (!CreatePath(options.temp_folder)) {
 		NLogF("GetFile: error creating temp folder, code %u", GetLastError());
 		return false;
 	}

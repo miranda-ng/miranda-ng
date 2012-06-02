@@ -480,7 +480,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI( WPARAM wParam, LPARAM l
 		return 1;
 
 	// skip //
-	for( ++szJid; *szJid == _T( '/' ); ++szJid );
+	for ( ++szJid; *szJid == _T( '/' ); ++szJid );
 
 	// empty jid?
 	if ( !*szJid )

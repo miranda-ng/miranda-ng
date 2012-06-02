@@ -87,7 +87,7 @@ extern "C" int __declspec(dllexport) LoadFilter(MIRANDASERVICE GetYAMNFcnPtr)
 	InitDebug();
 #endif
 
-	if(!LoadRules())
+	if (!LoadRules())
 		return 0;
 
 	pYAMNFcn->RegisterFilterPlugin=(MIRANDASERVICE)GetYAMNFcnPtr((WPARAM)MS_YAMN_REGISTERFILTERPLUGIN,(LPARAM)0);
@@ -96,7 +96,7 @@ extern "C" int __declspec(dllexport) LoadFilter(MIRANDASERVICE GetYAMNFcnPtr)
 	if(NULL==(POPFilePlugin=(HYAMNFILTERPLUGIN)pYAMNFcn->RegisterFilterPlugin((WPARAM)&FilterRegistration,(LPARAM)YAMN_FILTERREGISTRATIONVERSION)))
 		return 0;
 //And add our imported functions for YAMN
-	if(!pYAMNFcn->SetFilterPluginFcnImportFcn(POPFilePlugin,0xb0000000,&FilterFunctions,YAMN_FILTERIMPORTFCNVERSION))
+	if (!pYAMNFcn->SetFilterPluginFcnImportFcn(POPFilePlugin,0xb0000000,&FilterFunctions,YAMN_FILTERIMPORTFCNVERSION))
 		return 0;
 	return 1;		//Load luccess
 }
@@ -136,28 +136,28 @@ DWORD WINAPI FilterMail(HACCOUNT Account,DWORD AccountVer,HYAMNMAIL Mail,DWORD M
 #ifdef DEBUG_FILTER
 	DebugLog(FilterFile,"<New mail>\n");
 #endif
-	if(!(Mail->Flags & YAMN_MSG_VIRTUAL))
+	if (!(Mail->Flags & YAMN_MSG_VIRTUAL))
 		for(Browser=Mail->MailData->TranslatedHeader;Browser!=NULL;Browser=Browser->Next)	//we browse all header stored in Mail->TranslatedHeader
 		{
 #ifdef DEBUG_FILTER
 			DebugLog(FilterFile,"<Testing header item %s: %s>\n",Browser->name,Browser->value);
 #endif
 			for(int i=0;i<fts;i++)
-				if(!lstrcmpi(Browser->name,ft[i].name))
+				if (!lstrcmpi(Browser->name,ft[i].name))
 				{
 #ifdef DEBUG_FILTER
 					DebugLog(FilterFile,"\t\t<Found appropriate selector %s>\n",Browser->name);
 #endif
 					if(findsubstr(Browser->value,ft[i].value))		//and if we find
 					{
-						if((ft[i].sl==0) && ((Mail->Flags & YAMN_MSG_SPAMMASK)==0))
+						if ((ft[i].sl==0) && ((Mail->Flags & YAMN_MSG_SPAMMASK)==0))
 						{
 							Mail->Flags&=~(YAMN_MSG_POPUP | YAMN_MSG_SYSTRAY | YAMN_MSG_BROWSER | YAMN_MSG_SOUND | YAMN_MSG_APP | YAMN_MSG_NEVENT);
 #ifdef DEBUG_FILTER
 							DebugLog(FilterFile,"\t\tSetting individual flags not to notify mail, but does not consider as spam.");
 #endif
 						}
-						else if((Mail->Flags & YAMN_MSG_SPAMMASK) < ft[i].sl)			//if some filter plugin set higher level of spam, we do nothing
+						else if ((Mail->Flags & YAMN_MSG_SPAMMASK) < ft[i].sl)			//if some filter plugin set higher level of spam, we do nothing
 						{
 							Mail->Flags=(Mail->Flags & ~YAMN_MSG_SPAMMASK)+ft[i].sl;	//else we set spam level 2 (clearing spam bits and then settting them to level 2
 #ifdef DEBUG_FILTER
@@ -232,7 +232,7 @@ int findsubstr(char *original,char *pattern)
 	int pl=lstrlen(pattern);
 
 	for(int i=0;(i+pl)<=ol;i++)
-		if(!_strnicmp(original+i,pattern,pl))
+		if (!_strnicmp(original+i,pattern,pl))
 			return 1;
 	return 0;
 }

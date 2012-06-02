@@ -108,7 +108,7 @@ void CAimProto::start_connection(void *arg)
 			broadcast_status(ID_STATUS_OFFLINE);
 			return;
 		}
-		if(!getString(AIM_KEY_PW, &dbv))
+		if (!getString(AIM_KEY_PW, &dbv))
 			DBFreeVariant(&dbv);
 		else
 		{

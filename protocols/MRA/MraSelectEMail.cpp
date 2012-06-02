@@ -61,7 +61,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,L
 			EndDialog(hWndDlg,NO_ERROR);
 			break;
 		case WM_COMMAND:
-			switch(LOWORD(wParam)){
+			switch(LOWORD(wParam)) {
 			case IDC_LIST_EMAILS:
 				if (HIWORD(wParam)==LBN_DBLCLK)
 				{

@@ -110,7 +110,7 @@ void TSAPI DM_CheckAutoHide(const TWindowData* dat, WPARAM wParam, LPARAM lParam
 			*fResult = FALSE;
 			return;				// unread events, do not hide or close the container
 		}
-		if(((GetTickCount() - dat->dwLastActivity) / 1000) <= wParam)
+		if (((GetTickCount() - dat->dwLastActivity) / 1000) <= wParam)
 			*fResult = FALSE;		// time since last activity did not yet reach the threshold.
 	}
 }
@@ -123,7 +123,7 @@ void TSAPI DM_DismissTip(TWindowData *dat, const POINT& pt)
 {
 	RECT rc;
 
-	if(!IsWindowVisible(dat->hwndTip))
+	if (!IsWindowVisible(dat->hwndTip))
 		return;
 
 	GetWindowRect(dat->hwndTip, &rc);
@@ -570,7 +570,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 					break;
 				}
 
-				if(!dat->fIsAutosizingInput) {
+				if (!dat->fIsAutosizingInput) {
 					dat->iSplitterSaved = dat->splitterY;
 					dat->splitterY = rc.bottom / 2;
 					SendMessage(hwndDlg, WM_SIZE, 1, 1);
@@ -591,7 +591,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 				M->WriteTString(dat->hContact, "UserInfo", "MyNotes", buf);
 				SetDlgItemText(hwndDlg, IDC_MESSAGE, _T(""));
 
-				if(!dat->fIsAutosizingInput) {
+				if (!dat->fIsAutosizingInput) {
 					dat->splitterY = dat->iSplitterSaved;
 					SendMessage(hwndDlg, WM_SIZE, 0, 0);
 					DM_ScrollToBottom(dat, 0, 1);
@@ -654,7 +654,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 
 LRESULT TSAPI DM_ContainerCmdHandler(TContainerData *pContainer, UINT cmd, WPARAM wParam, LPARAM lParam)
 {
-	if(!pContainer)
+	if (!pContainer)
 		return(0);
 
 	HWND hwndDlg = pContainer->hwnd;
@@ -810,7 +810,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	dat->inputbg = fIsChat ? M->GetDword(FONTMODULE, "inputbg", SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.inputbg;
 	colour = fIsChat ? M->GetDword(FONTMODULE, SRMSGSET_BKGCOLOUR_MUC, SRMSGDEFSET_BKGCOLOUR) : dat->pContainer->theme.bg;
 
-	if(!fIsChat) {
+	if (!fIsChat) {
 		if (GetWindowTextLengthA(hwndEdit) > 0)
 			szStreamOut = Message_GetFromStream(hwndEdit, dat, (CP_UTF8 << 16) | (SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE));
 	}
@@ -827,7 +827,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	/*
 	 * correct the input area text color to avoid a color from the table of usable bbcode colors
 	 */
-	if(!fIsChat) {
+	if (!fIsChat) {
 		for (i = 0; i < Utils::rtf_ctable_size; i++) {
 			if (Utils::rtf_ctable[i].clr == inputcharcolor)
 				inputcharcolor = RGB(GetRValue(inputcharcolor), GetGValue(inputcharcolor), GetBValue(inputcharcolor) == 0 ? GetBValue(inputcharcolor) + 1 : GetBValue(inputcharcolor) - 1);
@@ -889,7 +889,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 		pf2.dxRightIndent = 30;
 	}
 	pf2.dxOffset = dat->pContainer->theme.left_indent + 30;
-	if(!fIsChat) {
+	if (!fIsChat) {
 		SetWindowText(hwndLog, _T(""));
 		SendMessage(hwndLog, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		SendMessage(hwndLog, EM_SETLANGOPTIONS, 0, (LPARAM) SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETLANGOPTIONS, 0, 0) & ~IMF_AUTOKEYBOARD);
@@ -899,7 +899,7 @@ void TSAPI DM_InitRichEdit(TWindowData *dat)
 	 * set the scrollbars etc to RTL/LTR (only for manual RTL mode)
 	 */
 
-	if(!fIsChat) {
+	if (!fIsChat) {
 		if (dat->dwFlags & MWF_LOG_RTL) {
 			SetWindowLongPtr(hwndEdit, GWL_EXSTYLE, GetWindowLongPtr(hwndEdit, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
 			SetWindowLongPtr(hwndLog, GWL_EXSTYLE, GetWindowLongPtr(hwndLog, GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
@@ -1169,7 +1169,7 @@ LRESULT TSAPI DM_LoadLocale(TWindowData *dat)
 				DBFreeVariant(&dbv);
 				CloseHandle((HANDLE)mir_forkthreadex(LoadKLThread, reinterpret_cast<void *>(dat->hContact), 16000, NULL));
 			} else {
-				if(!PluginConfig.m_dontUseDefaultKbd) {
+				if (!PluginConfig.m_dontUseDefaultKbd) {
 					TCHAR	szBuf[20];
 
 					GetLocaleInfo(LOCALE_SYSTEM_DEFAULT, LOCALE_ILANGUAGE, szBuf, 20);
@@ -1312,7 +1312,7 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPA
 
 HWND TSAPI DM_CreateClist(TWindowData *dat)
 {
-	if(!sendLater->isAvail()) {
+	if (!sendLater->isAvail()) {
 		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, CTranslator::get(CTranslator::QMGR_ERROR_NOMULTISEND));
 		dat->sendMode &= ~SMODE_MULTIPLE;
 		return(0);
@@ -1609,7 +1609,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 		} else {
 			struct TWindowData *dat_active = NULL;
 
-			if(!fForceOff) {
+			if (!fForceOff) {
 				dat->showTyping = 2;
 				dat->nTypeSecs = 86400;
 
@@ -1692,7 +1692,7 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 	GetWindowRect(dat->hwnd, &rcWin);
 
 	if(wParam == 0 && lParam == 0) {
-		if((dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) && dat != srcDat)
+		if ((dat->dwFlagsEx & MWF_SHOW_SPLITTEROVERRIDE) && dat != srcDat)
 			return(0);
 
 		if(srcDat->bType == dat->bType)
@@ -1725,12 +1725,12 @@ int TSAPI DM_SplitterGlobalEvent(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			return(0);
 		}
 
-		if(!fCntGlobal && dat->pContainer != srcCnt)
+		if (!fCntGlobal && dat->pContainer != srcCnt)
 			return(0);
 		if(srcCnt->settings->fPrivate && dat->pContainer != srcCnt)
 			return(0);
 
-		if(!PluginConfig.lastSPlitterPos.bSync && dat->bType != srcDat->bType)
+		if (!PluginConfig.lastSPlitterPos.bSync && dat->bType != srcDat->bType)
 			return(0);
 
 		/*
@@ -1950,7 +1950,7 @@ void TSAPI DM_HandleAutoSizeRequest(TWindowData *dat, REQRESIZE* rr)
 				}
 				else if (dat->si) {
 					dat->si->iSplitterY = (rc.bottom - (rc.bottom - iNewHeight + DPISCALEY_S(3))) + DPISCALEY_S(34);
-					if(!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR))
+					if (!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR))
 						dat->si->iSplitterY -= DPISCALEY_S(22);
 					SendMessage(dat->hwnd, WM_SIZE, 0, 0);
 				}

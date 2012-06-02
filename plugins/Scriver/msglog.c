@@ -104,7 +104,7 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 			if (ci.pszVal) {
 #if defined ( _UNICODE )
 				if(IsUnicodeMIM()) {
-					if(!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
+					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
 						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 							szName = a2t((char *)ci.pszVal);

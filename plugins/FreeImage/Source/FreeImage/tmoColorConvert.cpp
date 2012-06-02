@@ -275,7 +275,7 @@ ClampConvertRGBFTo24(FIBITMAP *src) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	FIBITMAP *dst = FreeImage_Allocate(width, height, 24, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-	if(!dst) return NULL;
+	if (!dst) return NULL;
 
 	const unsigned src_pitch  = FreeImage_GetPitch(src);
 	const unsigned dst_pitch  = FreeImage_GetPitch(dst);
@@ -321,7 +321,7 @@ ConvertRGBFToY(FIBITMAP *src) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	FIBITMAP *dst = FreeImage_AllocateT(FIT_FLOAT, width, height);
-	if(!dst) return NULL;
+	if (!dst) return NULL;
 
 	const unsigned src_pitch  = FreeImage_GetPitch(src);
 	const unsigned dst_pitch  = FreeImage_GetPitch(dst);
@@ -444,7 +444,7 @@ NormalizeY(FIBITMAP *Y, float minPrct, float maxPrct) {
 	int pitch = FreeImage_GetPitch(Y);
 
 	// find max & min luminance values
-	if((minPrct > 0) || (maxPrct < 1)) {
+	if ((minPrct > 0) || (maxPrct < 1)) {
 		maxLum = 0, minLum = 0;
 		findMaxMinPercentile(Y, minPrct, &minLum, maxPrct, &maxLum);
 	} else {

@@ -46,7 +46,7 @@ mpi_read_from_buffer (const unsigned char *buffer, unsigned *ret_nread,
 /*       log_debug ("mpi too large (%u bits)\n", nbits); */
       goto leave;
     }
-  else if( !nbits ) 
+  else if ( !nbits ) 
     {
 /*       log_debug ("an mpi of size 0 is not allowed\n"); */
       goto leave;
@@ -160,9 +160,9 @@ mpi_fromstr (gcry_mpi_t val, const char *str)
           c <<= 4;
           if ( c2 >= '0' && c2 <= '9' )
             c |= c2 - '0';
-          else if( c2 >= 'a' && c2 <= 'f' )
+          else if ( c2 >= 'a' && c2 <= 'f' )
             c |= c2 - 'a' + 10;
-          else if( c2 >= 'A' && c2 <= 'F' )
+          else if ( c2 >= 'A' && c2 <= 'F' )
             c |= c2 - 'A' + 10;
           else 
             {
@@ -601,7 +601,7 @@ gcry_mpi_print (enum gcry_mpi_format format,
       unsigned int n = (nbits + 7)/8;
       
       /* The PGP format can only handle unsigned integers.  */
-      if( a->sign )
+      if ( a->sign )
         return gcry_error (GPG_ERR_INV_ARG); 
 
       if (buffer && n+2 > len)

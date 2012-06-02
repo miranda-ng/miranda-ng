@@ -45,7 +45,7 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 {
 	TContracts::const_iterator i = std::find_if(m_aContacts.begin(),m_aContacts.end(),
 		boost::bind(is_rate_watched,_1,ri.m_from,ri.m_to));
-	if((true == bWatch) && (i == m_aContacts.end()))
+	if ((true == bWatch) && (i == m_aContacts.end()))
 	{
 		tstring sName = make_contact_name(ri.m_from.GetSymbol(),ri.m_to.GetSymbol());
 		HANDLE hContact = CreateNewContact(sName);
@@ -65,7 +65,7 @@ bool CQuotesProviderGoogle::WatchForRate(const CRateInfo& ri,
 			return true;
 		}
 	}
-	else if((false == bWatch) && (i != m_aContacts.end()))
+	else if ((false == bWatch) && (i != m_aContacts.end()))
 	{
 		HANDLE hContact = *i;
 		{// for CCritSection
@@ -125,7 +125,7 @@ namespace
 	bool parse_html_node(const THTMLNodePtr& pNode,double& rdRate)
 	{
 		tstring sID = pNode->GetAttribute(_T("id"));
-		if((false == sID.empty()) && (0 == quotes_stricmp(sID.c_str(),_T("currency_converter_result"))))
+		if ((false == sID.empty()) && (0 == quotes_stricmp(sID.c_str(),_T("currency_converter_result"))))
 		{
 			size_t cChild = pNode->GetChildCount();
 // 			assert(1 == cChild);
@@ -189,15 +189,15 @@ void CQuotesProviderGoogle::RefreshQuotes(TContracts& anContacts)
 
 		tstring sFullURL = build_url(hContact,sURL);
 // 		LogIt(Info,sFullURL);
-		if((true == http.OpenURL(sFullURL)) && (true == IsOnline()))
+		if ((true == http.OpenURL(sFullURL)) && (true == IsOnline()))
 		{
 			tstring sHTML;
-			if((true == http.ReadResponce(sHTML)) && (true == IsOnline()))
+			if ((true == http.ReadResponce(sHTML)) && (true == IsOnline()))
 			{
 // 				LogIt(Info,sHTML);
 
 				double dRate = 0.0;
-				if((true == parse_responce(sHTML,dRate)) && (true == IsOnline()))
+				if ((true == parse_responce(sHTML,dRate)) && (true == IsOnline()))
 				{
 					WriteContactRate(hContact,dRate);
 					continue;
@@ -253,7 +253,7 @@ namespace
 	tstring make_rate_name(const CQuotesProviderGoogle::CQuote& rFrom,
 						   const CQuotesProviderGoogle::CQuote& rTo)
 	{
-		if((false == rFrom.GetName().empty()) && (false == rTo.GetName().empty()))
+		if ((false == rFrom.GetName().empty()) && (false == rTo.GetName().empty()))
 		{
 			return make_contact_name(rFrom.GetName(),rTo.GetName());
 		}
@@ -395,11 +395,11 @@ namespace
 					{
 						size_t nFrom = static_cast<size_t>(::SendMessage(::GetDlgItem(hdlg,IDC_COMBO_CONVERT_FROM),CB_GETCURSEL,0,0));
 						size_t nTo = static_cast<size_t>(::SendMessage(::GetDlgItem(hdlg,IDC_COMBO_CONVERT_INTO),CB_GETCURSEL,0,0));
-						if((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo))
+						if ((CB_ERR != nFrom) && (CB_ERR != nTo) && (nFrom != nTo))
 						{
 							const CQuotesProviderGoogle::CQuoteSection& rSection = get_quotes();
 							size_t cQuotes = rSection.GetQuoteCount();
-							if((nFrom < cQuotes) && (nTo < cQuotes))
+							if ((nFrom < cQuotes) && (nTo < cQuotes))
 							{
 								CQuotesProviderGoogle::CRateInfo ri;
 								ri.m_from = rSection.GetQuote(nFrom);
@@ -421,7 +421,7 @@ namespace
 						int nSel = ::SendMessage(hWnd,LB_GETCURSEL,0,0);
 						if(LB_ERR != nSel)
 						{
-							if((LB_ERR != ::SendMessage(hWnd, LB_DELETESTRING,nSel,0))
+							if ((LB_ERR != ::SendMessage(hWnd, LB_DELETESTRING,nSel,0))
 								&& (nSel < static_cast<int>(g_aWatchedRates.size())))
 							{
 
@@ -485,15 +485,15 @@ double CQuotesProviderGoogle::Convert(double dAmount,const CQuote& from,const CQ
 // 	LogIt(Info,sFullURL);
 
 	CHTTPSession http;
-	if((true == http.OpenURL(sFullURL)))
+	if ((true == http.OpenURL(sFullURL)))
 	{
 		tstring sHTML;
-		if((true == http.ReadResponce(sHTML)))
+		if ((true == http.ReadResponce(sHTML)))
 		{
 // 			LogIt(Info,sHTML);
 
 			double dResult = 0.0;
-			if((true == parse_responce(sHTML,dResult)))
+			if ((true == parse_responce(sHTML,dResult)))
 			{
 				return dResult;
 			}

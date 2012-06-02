@@ -73,14 +73,14 @@ void JSONNode::lock(int thread){
     
     //make sure that the same thread isn't locking it more than once (possible due to complex ref counting)
     std::map<int, std::map<void *, unsigned int> >::iterator it = threadlocks.find(thread);
-    if (it == threadlocks.end()){
+    if (it == threadlocks.end()) {
 	   std::map<void *, unsigned int> newthread;
 	   newthread[thislock] = 1;
 	   threadlocks.insert(std::pair<int, std::map<void *, unsigned int> >(thread, newthread));
     } else {  //this thread already has some things locked, check if the current mutex is
 	   std::map<void *, unsigned int> & newthread = it -> second;
 	   std::map<void *, unsigned int>::iterator locker = newthread.find(thislock);
-	   if (locker == newthread.end()){  //current mutex is not locked, set it to locked
+	   if (locker == newthread.end()) {  //current mutex is not locked, set it to locked
 		  newthread.insert(std::pair<void *, unsigned int>(thislock, 1));
 	   } else {  //it's already locked, don't relock it
 		  ++(locker -> second);
@@ -133,7 +133,7 @@ void internalJSONNode::_set_mutex(void * mutex, bool unset){
     if (mutex){
 	   #ifdef JSON_MUTEX_MANAGE
 		  std::map<void *, unsigned int>::iterator it = mutex_manager.find(mutex);
-		  if (it == mutex_manager.end()){
+		  if (it == mutex_manager.end()) {
 			 mutex_manager.insert(std::pair<void *, unsigned int>(mutex, 1));
 		  } else {
 			 ++it -> second;
@@ -168,7 +168,7 @@ void internalJSONNode::_unset_mutex(void){
 			 if (mylock){
 				mut.push_back(JSON_NEW(JSONNode(JSON_TEXT("this"), (long)mylock)));
 				std::map<void *, unsigned int>::iterator it = mutex_manager.find(mylock);
-				if (it == mutex_manager.end()){
+				if (it == mutex_manager.end()) {
 				    mut.push_back(JSON_NEW(JSONNode(JSON_TEXT("references"), JSON_TEXT("error"))));
 				} else {
 				    mut.push_back(JSON_NEW(JSONNode(JSON_TEXT("references"), it -> second)));

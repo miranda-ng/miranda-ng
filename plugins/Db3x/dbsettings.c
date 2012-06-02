@@ -65,7 +65,7 @@ static DWORD GetSettingsGroupOfsByModuleNameOfs(struct DBContact *dbc,DWORD ofsC
 			settingsGroupOfsCache[nextSGOCacheEntry].ofsContact=ofsContact;
 			settingsGroupOfsCache[nextSGOCacheEntry].ofsModuleName=ofsModuleName;
 			settingsGroupOfsCache[nextSGOCacheEntry].ofsSettingsGroup=ofsThis;
-			if(++nextSGOCacheEntry==SETTINGSGROUPOFSCOUNT) nextSGOCacheEntry=0;
+			if (++nextSGOCacheEntry==SETTINGSGROUPOFSCOUNT) nextSGOCacheEntry=0;
 			return ofsThis;
 		}
 		ofsThis=dbcs->ofsNext;
@@ -319,7 +319,7 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 						NeedBytes(3+*(PWORD)(pBlob+1));
 						if(isStatic) {
 							dbcgs->pValue->cchVal--;
-							if(*(PWORD)(pBlob+1)<dbcgs->pValue->cchVal) dbcgs->pValue->cchVal=*(PWORD)(pBlob+1);
+							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cchVal) dbcgs->pValue->cchVal=*(PWORD)(pBlob+1);
 							CopyMemory(dbcgs->pValue->pszVal,pBlob+3,dbcgs->pValue->cchVal);
 							dbcgs->pValue->pszVal[dbcgs->pValue->cchVal]=0;
 							dbcgs->pValue->cchVal=*(PWORD)(pBlob+1);
@@ -333,7 +333,7 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 					case DBVT_BLOB:
 						NeedBytes(3+*(PWORD)(pBlob+1));
 						if(isStatic) {
-							if(*(PWORD)(pBlob+1)<dbcgs->pValue->cpbVal) dbcgs->pValue->cpbVal=*(PWORD)(pBlob+1);
+							if (*(PWORD)(pBlob+1)<dbcgs->pValue->cpbVal) dbcgs->pValue->cpbVal=*(PWORD)(pBlob+1);
 							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,dbcgs->pValue->cpbVal);
 						}
 						else {
@@ -716,7 +716,7 @@ static INT_PTR WriteContactSetting(WPARAM wParam,LPARAM lParam)
 	else bytesRequired=tmp.value.type;
 	bytesRequired+=2+settingNameLen;
 	bytesRequired+=ofsBlobPtr+1-(ofsSettingsGroup+offsetof(struct DBContactSettings,blob));
-	if((DWORD)bytesRequired>dbcs.cbBlob) {
+	if ((DWORD)bytesRequired>dbcs.cbBlob) {
 		//doesn't fit: move entire group
 		struct DBContactSettings *dbcsPrev;
 		DWORD ofsDbcsPrev,oldSize,ofsNew;
@@ -843,7 +843,7 @@ static INT_PTR DeleteContactSetting(WPARAM wParam,LPARAM lParam)
 		MoveAlong(1+GetSettingValueLength(pBlob));
 		NeedBytes(1);
 	}
-	if(!pBlob[0]) {     //setting didn't exist
+	if (!pBlob[0]) {     //setting didn't exist
 		LeaveCriticalSection(&csDbAccess);
 		return 1;
 	}
@@ -906,7 +906,7 @@ static INT_PTR EnumContactSettings(WPARAM wParam,LPARAM lParam)
 		return -1;
 	}
 	dbces->ofsSettings=GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsContact,ofsModuleName);
-	if(!dbces->ofsSettings) {
+	if (!dbces->ofsSettings) {
 		LeaveCriticalSection(&csDbAccess);
 		return -1;
 	}

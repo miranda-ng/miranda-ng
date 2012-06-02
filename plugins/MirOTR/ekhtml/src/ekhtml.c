@@ -89,7 +89,7 @@ static void ekhtml_buffer_grow(ekhtml_parser_t *parser){
     
     newsize = parser->nalloced + EKHTML_BLOCKSIZE;
     
-    if((newbuf = realloc(parser->buf, newsize)) == NULL){
+    if ((newbuf = realloc(parser->buf, newsize)) == NULL){
         fprintf(stderr, "BAD! Can't allocate %d bytes in ekhtml_buffer_grow\n",
                 newsize);
         fflush(stderr); /* Just in case someone changes the buffering scheme */
@@ -119,7 +119,7 @@ int parser_state_determine(const char *startp, const char *endp){
     
     assert(startp != endp);
     
-    if(*startp != '<')
+    if (*startp != '<')
         return EKHTML_STATE_INDATA;
     
     firstchar = startp + 1;
@@ -130,7 +130,7 @@ int parser_state_determine(const char *startp, const char *endp){
     if(newstate == EKHTML_STATE_NONE){
         if(firstchar + 2 >= endp) /* Not enough data to evaluate */
             return EKHTML_STATE_NONE;
-        if(*(firstchar + 1) == '-' && *(firstchar + 2) == '-')
+        if (*(firstchar + 1) == '-' && *(firstchar + 2) == '-')
             return EKHTML_STATE_COMMENT;
         else
             return EKHTML_STATE_SPECIAL;
@@ -238,7 +238,7 @@ void ekhtml_parser_feed(ekhtml_parser_t *parser, ekhtml_string_t *str){
         parser->nbuf += tocopy;
         if(parser->nalloced == parser->nbuf){
             /* Process the buffer */
-            if(!ekhtml_parser_flush(parser, 0)){
+            if (!ekhtml_parser_flush(parser, 0)) {
                 /* If we didn't actually process anything, grow our buffer */
                 ekhtml_buffer_grow(parser);
             }
@@ -270,7 +270,7 @@ ekhtml_parser_startendcb_add(ekhtml_parser_t *parser, const char *tag,
     unsigned int taglen;
     hnode_t *hn;
 
-    if(!tag){
+    if (!tag){
         if(isStart)
             parser->startcb_unk = startcb;
         else
@@ -289,7 +289,7 @@ ekhtml_parser_startendcb_add(ekhtml_parser_t *parser, const char *tag,
     lookup_str.str = newtag;
     lookup_str.len = taglen;
 
-    if((hn = hash_lookup(parser->startendcb, &lookup_str))){
+    if ((hn = hash_lookup(parser->startendcb, &lookup_str))) {
         cont = hnode_get(hn);
         free(newtag);
         if(isStart)
@@ -333,7 +333,7 @@ static hash_val_t ekhtml_string_hash(const void *key){
     size_t len = s->len;
     int c;
 
-    while(len--){
+    while(len--) {
         c = str[len];
         res = ((res << 5) + res) + c; /* res * 33 + c */
     }
@@ -353,7 +353,7 @@ void ekhtml_parser_destroy(ekhtml_parser_t *ekparser){
     hscan_t hs;
 
     hash_scan_begin(&hs, ekparser->startendcb);
-    while((hn = hash_scan_next(&hs))){
+    while((hn = hash_scan_next(&hs))) {
         ekhtml_string_t *key = (ekhtml_string_t *)hnode_getkey(hn);
         ekhtml_tag_container *cont = hnode_get(hn);
 

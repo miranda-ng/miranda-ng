@@ -195,7 +195,7 @@ LZWSetupDecode(TIFF* tif)
 	static const char module[] = " LZWSetupDecode";
 	int code;
 
-        if( sp == NULL )
+        if ( sp == NULL )
         {
             /*
              * Allocate state block so tag methods have storage to record 
@@ -257,7 +257,7 @@ LZWPreDecode(TIFF* tif, tsample_t s)
 
 	(void) s;
 	assert(sp != NULL);
-        if( sp->dec_codetab == NULL )
+        if ( sp->dec_codetab == NULL )
         {
             tif->tif_setupdecode( tif );
         }
@@ -764,7 +764,7 @@ LZWPreEncode(TIFF* tif, tsample_t s)
 	(void) s;
 	assert(sp != NULL);
         
-        if( sp->enc_hashtab == NULL )
+        if ( sp->enc_hashtab == NULL )
         {
             tif->tif_setupencode( tif );
         }

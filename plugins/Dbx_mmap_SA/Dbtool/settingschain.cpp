@@ -33,7 +33,7 @@ int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	}
 	if(ofsThisSettings==0)
 		return ERROR_NO_MORE_ITEMS;
-	if(!SignatureValid(ofsThisSettings,DBCONTACTSETTINGS_SIGNATURE)) {
+	if (!SignatureValid(ofsThisSettings,DBCONTACTSETTINGS_SIGNATURE)) {
 		AddToStatus(STATUS_ERROR,TranslateT("Settings chain corrupted, further entries ignored"));
 		return ERROR_NO_MORE_ITEMS;
 	}
@@ -45,12 +45,12 @@ int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 		return ERROR_SUCCESS;
 	}
 	dbcsNew=(DBContactSettings*)_alloca(offsetof(DBContactSettings,blob)+dbcsOld.cbBlob);
-	if((ret=ReadSegment(ofsThisSettings,dbcsNew,offsetof(DBContactSettings,blob)+dbcsOld.cbBlob))!=ERROR_SUCCESS) {
+	if ((ret=ReadSegment(ofsThisSettings,dbcsNew,offsetof(DBContactSettings,blob)+dbcsOld.cbBlob))!=ERROR_SUCCESS) {
 		if(ret!=ERROR_HANDLE_EOF) {   //eof is OK because blank space at the end doesn't matter
 			return ERROR_NO_MORE_ITEMS;
 		}
 	}
-	if((dbcsNew->ofsModuleName=ConvertModuleNameOfs(dbcsOld.ofsModuleName))==0) {
+	if ((dbcsNew->ofsModuleName=ConvertModuleNameOfs(dbcsOld.ofsModuleName))==0) {
 		ofsThisSettings=dbcsOld.ofsNext;
 		return ERROR_SUCCESS;
 	}
@@ -61,7 +61,7 @@ int WorkSettingsChain(DWORD ofsContact,DBContact *dbc,int firstTime)
 	}
 	dbcsNew->ofsNext=0;
 	//TODO? validate all settings in blob/compact if necessary
-	if((ofsDestThis=WriteSegment(WSOFS_END,dbcsNew,offsetof(DBContactSettings,blob)+dbcsNew->cbBlob))==WS_ERROR) {
+	if ((ofsDestThis=WriteSegment(WSOFS_END,dbcsNew,offsetof(DBContactSettings,blob)+dbcsNew->cbBlob))==WS_ERROR) {
 		return ERROR_HANDLE_DISK_FULL;
 	}
 	if(ofsDestPrevSettings) WriteSegment(ofsDestPrevSettings+offsetof(DBContactSettings,ofsNext),&ofsDestThis,sizeof(DWORD));

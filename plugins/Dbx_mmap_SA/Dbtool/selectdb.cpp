@@ -27,7 +27,7 @@ void GetProfileDirectory(TCHAR* szMirandaDir, TCHAR* szPath, int cbPath)
 	GetPrivateProfileString(_T("Database"),_T("ProfileDir"),_T("./Profiles"),szProfileDir,SIZEOF(szProfileDir),szMirandaBootIni);
 	ExpandEnvironmentStrings(szProfileDir,szExpandedProfileDir,SIZEOF(szExpandedProfileDir));
 	_tchdir(szMirandaDir);
-	if(!_tfullpath(szPath,szExpandedProfileDir,cbPath))
+	if (!_tfullpath(szPath,szExpandedProfileDir,cbPath))
 		lstrcpyn(szPath,szMirandaDir,cbPath);
 	if(szPath[lstrlen(szPath)-1]=='\\')
 		szPath[lstrlen(szPath)-1] = 0;
@@ -48,7 +48,7 @@ static int AddDatabaseToList(HWND hwndList, TCHAR* filename, TCHAR* dir)
 	lvi.iSubItem=0;
 	for(lvi.iItem=ListView_GetItemCount(hwndList)-1;lvi.iItem>=0;lvi.iItem--) {
 		ListView_GetItem(hwndList,&lvi);
-		if( !_tcsicmp(( TCHAR* )lvi.lParam,filename)) return lvi.iItem;
+		if ( !_tcsicmp(( TCHAR* )lvi.lParam,filename)) return lvi.iItem;
 	}
 	hDbFile=CreateFile(filename,GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,NULL,OPEN_EXISTING,0,NULL);
 	if ( hDbFile == INVALID_HANDLE_VALUE )
@@ -59,7 +59,7 @@ static int AddDatabaseToList(HWND hwndList, TCHAR* filename, TCHAR* dir)
 
 	broken = (bytesRead<sizeof(dbhdr) || memcmp(dbhdr.signature,&dbSignature,sizeof(dbhdr.signature)));
 
-	if(!broken) {
+	if (!broken) {
 		wasted = dbhdr.slackSpace;
 		if (totalSize>dbhdr.ofsFileEnd)
 			wasted+=totalSize-dbhdr.ofsFileEnd;
@@ -166,7 +166,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				TCHAR *str2;
 				GetModuleFileName(NULL,szMirandaPath,SIZEOF(szMirandaPath));
 				str2 = _tcsrchr(szMirandaPath,'\\');
-				if( str2 != NULL )
+				if ( str2 != NULL )
 					*str2=0;
 			}
 			{
@@ -181,7 +181,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				GetProfileDirectory(szMirandaPath,szProfileDir,SIZEOF(szProfileDir));
 
 				// search in profile dir (using ini file)
-				if( lstrcmpi(szProfileDir,szMirandaProfiles) )
+				if ( lstrcmpi(szProfileDir,szMirandaProfiles) )
 					FindAdd(hdlg, szProfileDir, _T("[ini]\\"));
 
 				FindAdd(hdlg, szMirandaProfiles, _T("[prf]\\"));
@@ -191,7 +191,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				// search in profile dir (using registry path + ini file)
 				if(RegOpenKeyEx(HKEY_LOCAL_MACHINE,_T("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe"),0,KEY_QUERY_VALUE,&hKey) == ERROR_SUCCESS) {
 					if(RegQueryValueEx(hKey,_T("Path"),NULL,NULL,(PBYTE)szMirandaPath,&cbData) == ERROR_SUCCESS) {
-						if( lstrcmp(szProfileDir,szMirandaPath) ) {
+						if ( lstrcmp(szProfileDir,szMirandaPath) ) {
 							GetProfileDirectory(szMirandaPath,szProfileDir,SIZEOF(szProfileDir));
 							FindAdd(hdlg, szProfileDir, _T("[reg]\\"));
 						}

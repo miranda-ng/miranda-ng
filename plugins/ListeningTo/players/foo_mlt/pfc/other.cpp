@@ -37,7 +37,7 @@ namespace pfc {
 
 		if (p_delta<0)
 		{
-			for(;p_delta<0;p_delta++)
+			for (;p_delta<0;p_delta++)
 			{
 				t_size idx;
 				for(idx=1;idx<count;idx++)
@@ -52,7 +52,7 @@ namespace pfc {
 		}
 		else
 		{
-			for(;p_delta>0;p_delta--)
+			for (;p_delta>0;p_delta--)
 			{
 				t_size idx;
 				for(idx=count-2;(int)idx>=0;idx--)

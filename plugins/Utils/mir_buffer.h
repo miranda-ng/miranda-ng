@@ -192,7 +192,7 @@ class Buffer
 		{
 			alloc(len + n + 1);
 
-			for(; n > 0; n--)
+			for (; n > 0; n--)
 			{
 				str[len] = app;
 				len++;

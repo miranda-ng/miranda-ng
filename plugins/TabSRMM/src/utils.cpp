@@ -856,7 +856,7 @@ HICON Utils::iconFromAvatar(const TWindowData *dat)
 	HIMAGELIST 	hIml_c = 0;
 	HICON		hIcon = 0;
 
-	if(!ServiceExists(MS_AV_GETAVATARBITMAP))
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
 		return(0);
 
 	if(dat) {
@@ -955,7 +955,7 @@ void Utils::addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const TC
  */
 int	TSAPI Utils::mustPlaySound(const TWindowData *dat)
 {
-	if(!dat)
+	if (!dat)
 		return(0);
 
 	if(dat->pContainer->fHidden)		// hidden container is treated as closed, so play the sound
@@ -1043,11 +1043,11 @@ void TSAPI Utils::extractResource(const HMODULE h, const UINT uID, const TCHAR *
 			char 	*pData = (char *)LockResource(hResource);
 			DWORD	dwSize = SizeofResource(g_hInst, hRes), written = 0;
 			mir_sntprintf(szFilename, MAX_PATH, _T("%s%s"), tszPath, tszFilename);
-			if(!fForceOverwrite) {
+			if (!fForceOverwrite) {
 				if(PathFileExists(szFilename))
 					return;
 			}
-			if((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
+			if ((hFile = CreateFile(szFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, 0)) != INVALID_HANDLE_VALUE) {
 				WriteFile(hFile, (void *)pData, dwSize, &written, NULL);
 				CloseHandle(hFile);
 			}
@@ -1194,7 +1194,7 @@ CWarning::~CWarning()
 
 LRESULT CWarning::ShowDialog() const
 {
-	if(!m_fIsModal) {
+	if (!m_fIsModal) {
 		::CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_WARNING), 0, stubDlgProc, reinterpret_cast<LPARAM>(this));
 		return(0);
 	}
@@ -1266,7 +1266,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 					_s = const_cast<wchar_t *>(CTranslator::getUntranslatedWarning(uId));
 			}
 		}
-		else if(-1 == uId && tszTxt) {
+		else if (-1 == uId && tszTxt) {
 			dwFlags |= CWF_NOALLOWHIDE;
 			_s = (dwFlags & CWF_UNTRANSLATED ? const_cast<wchar_t *>(tszTxt) : TranslateW(tszTxt));
 		}
@@ -1274,7 +1274,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 			return(-1);
 	}
 
-	if((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
+	if ((wcslen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != 0)) {
 
 		if(uId >= 0) {
 			mask = getMask();
@@ -1293,7 +1293,7 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 				separator_pos[0] = 0;
 
 				CWarning *w = new CWarning(s, &separator_pos[1], uId, dwFlags);
-				if(!(dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)) {
+				if (!(dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)) {
 					w->ShowDialog();
 					mir_free(s);
 				}
@@ -1412,7 +1412,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				hIcon = ::LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
 
 			::SendDlgItemMessageW(hwnd, IDC_WARNICON, STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
-			if(!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
+			if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
 				::ShowWindow(hwnd, SW_SHOWNORMAL);
 
 			WindowList_Add(hWindowList, hwnd, hwnd);
@@ -1450,7 +1450,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				case IDCANCEL:
 				case IDYES:
 				case IDNO:
-					if(!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) {		// modeless dialogs can receive a IDCANCEL from destroyAll()
+					if (!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) {		// modeless dialogs can receive a IDCANCEL from destroyAll()
 						::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 						delete this;
 						WindowList_Remove(hWindowList, hwnd);
@@ -1469,7 +1469,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 					newVal = mask | val64;
 
-					if(::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
+					if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
 						DWORD val = (DWORD)(newVal & 0x00000000ffffffff);
 						M->WriteDword(SRMSGMOD_T, "cWarningsL", val);
 						val = (DWORD)((newVal >> 32) & 0x00000000ffffffff);

@@ -50,7 +50,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 		return;
 	}
 
-	if(!msg) {
+	if (!msg) {
 		LOG(("Empty Incoming Message, exiting."));
 		return;
 	}
@@ -80,15 +80,15 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 			// strip the fade tag
 			!_strnicmp(c, "<FADE ",6) || !_strnicmp(c,"</FADE>",7) ||
 			// strip the alternate colors tag
-			!_strnicmp(c, "<ALT ",5) || !_strnicmp(c, "</ALT>",6)){ 
+			!_strnicmp(c, "<ALT ",5) || !_strnicmp(c, "</ALT>",6)) { 
 				while ((*c++ != '>') && (*c != '\0')); 
 		} else
 			// strip ANSI color combination
-			if ((*c == 0x1b) && (*(c+1) == '[')){ 
+			if ((*c == 0x1b) && (*(c+1) == '[')) { 
 				while ((*c++ != 'm') && (*c != '\0')); 
 			} else
 
-				if (*c != '\0'){
+				if (*c != '\0') {
 					umsg[oidx++] = *c;
 
 					/* Adding \r to \r\n conversion */
@@ -104,7 +104,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	/* Need to strip off formatting stuff first. Then do all decoding/converting */
 	LOG(("%s: %s", who, umsg));
 
-	//if(!strcmp(umsg, "<ding>")) 
+	//if (!strcmp(umsg, "<ding>")) 
 	//	:P("\a");
 
 	ccs.szProtoService = PSR_MESSAGE;
@@ -236,7 +236,7 @@ int __cdecl CYahooProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre )
 	DBDeleteContactSetting(hContact, "CList", "Hidden");
 
 	// NUDGES
-	if( !lstrcmpA(pre->szMessage, "<ding>")  && ServiceExists("NUDGE/Send")){
+	if ( !lstrcmpA(pre->szMessage, "<ding>")  && ServiceExists("NUDGE/Send")) {
 		DebugLog("[YahooRecvMessage] Doing Nudge Service!");
 		NotifyEventHooks(hYahooNudge, (WPARAM)hContact, pre->timestamp);
 		return 0;

@@ -28,7 +28,7 @@ namespace ThreadUtils {
 	
 	static void WaitAbortable_MsgLoop(HANDLE ev, abort_callback & abort) {
 		const HANDLE handles[2] = {ev, abort.get_abort_event()};
-		for(;;) {
+		for (;;) {
 			SetLastError(0);
 			const DWORD status = MsgWaitForMultipleObjects(2, handles, FALSE, INFINITE, QS_ALLEVENTS);
 			switch(status) {
@@ -54,7 +54,7 @@ namespace ThreadUtils {
 		pfc::array_t<HANDLE> handles; handles.set_size(evCount + 1);
 		handles[0] = abort.get_abort_event();
 		pfc::memcpy_t(handles.get_ptr() + 1, ev, evCount);
-		for(;;) {
+		for (;;) {
 			SetLastError(0);
 			const DWORD status = MsgWaitForMultipleObjects(handles.get_count(), handles.get_ptr(), FALSE, INFINITE, QS_ALLEVENTS);
 			switch(status) {
@@ -84,7 +84,7 @@ namespace ThreadUtils {
 		PFC_ASSERT( timeout != INFINITE );
 		const DWORD entry = GetTickCount();
 		const HANDLE handles[1] = {abort.get_abort_event()};
-		for(;;) {
+		for (;;) {
 			const DWORD done = GetTickCount() - entry;
 			if (done >= timeout) return;
 			SetLastError(0);
@@ -106,7 +106,7 @@ namespace ThreadUtils {
 		PFC_ASSERT( timeout != INFINITE );
 		const DWORD entry = GetTickCount();
 		const HANDLE handles[2] = {ev, abort.get_abort_event()};
-		for(;;) {
+		for (;;) {
 			const DWORD done = GetTickCount() - entry;
 			if (done >= timeout) return false;
 			SetLastError(0);
@@ -246,7 +246,7 @@ namespace ThreadUtils {
 			TRACK_CALL_TEXT("CSingleThreadWrapper entry");
 			try {
 				TBase instance;
-				for(;;) {
+				for (;;) {
 					command_ptr cmd;
 					if (processMsgs) m_commands.Get_MsgLoop(cmd, m_threadAbort);
 					else m_commands.Get(cmd, m_threadAbort);

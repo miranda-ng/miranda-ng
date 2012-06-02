@@ -245,7 +245,7 @@ static int GetHighestIndexEntry(void)
 	DWORD ofs;
 
 	ofs=*(PDWORD)(pIdx+12);
-	for(;;) {
+	for (;;) {
 		entry=(struct TIdxIndexEntry*)(pIdx+ofs);
 		if(entry->entryIdLow==(DWORD)-2) return ((struct TIdxDatEntry*)entry)->entryId;
 		if(entry->ofsHigher>=0xF0000000) ofs=entry->ofsInHere;
@@ -257,7 +257,7 @@ static int GetIdDatOfs(DWORD id)
 {
 	struct TIdxIndexEntry *entry;
 	DWORD ofs = *(PDWORD)(pIdx+12);
-	for(;;) {
+	for (;;) {
 		entry=(struct TIdxIndexEntry*)(pIdx+ofs);
 		if(entry->entryIdLow==(DWORD)-2) {
 			if(entry->entryIdHigh==id) return ((struct TIdxDatEntry*)entry)->datOfs;
@@ -390,7 +390,7 @@ DWORD ReadPropertyBlock(DWORD dwOffset, char* SearchWord, int* nSearchResult)
 
 		if ( SearchWord ) {
 			// Is this the property we are searching for?
-			if(!lstrcmpA((char*)(pDat+nameOfs),SearchWord)){
+			if (!lstrcmpA((char*)(pDat+nameOfs),SearchWord)) {
 				*nSearchResult = 1;
 				return dwOffset;
 		}	}
@@ -486,10 +486,10 @@ DWORD FindMyDetails(void)
 	DWORD dwOffset = GetIdDatOfs(1005);
 
 	if (!dwOffset) return 0;
-	if(*(PDWORD)(pDat+dwOffset+0x08) != 1005) return 0;
-	if(*(PBYTE)(pDat+dwOffset+0x0C) != 0xE4) return 0;
-	if(*(int*)(pDat+dwOffset+0x1e) != 'USER') return 0;
-	if(*(PDWORD)(pDat+dwOffset+0x22) != 6) return 0;
+	if (*(PDWORD)(pDat+dwOffset+0x08) != 1005) return 0;
+	if (*(PBYTE)(pDat+dwOffset+0x0C) != 0xE4) return 0;
+	if (*(int*)(pDat+dwOffset+0x1e) != 'USER') return 0;
+	if (*(PDWORD)(pDat+dwOffset+0x22) != 6) return 0;
 
 	return dwOffset;
 }
@@ -528,7 +528,7 @@ DWORD FindGroupList(DWORD dwOffset)
 		dwOffset += 0x04;                      // ++ UNKNOWN ++
 		dwPhoneEntries = *(PDWORD)(pDat+dwOffset); // Phonebook starts here
 		dwOffset += 0x04;
-		for(n = 0;n<dwPhoneEntries;n++){
+		for(n = 0;n<dwPhoneEntries;n++) {
 			dwOffset += *(PWORD)(pDat+dwOffset)+2;
 			dwOffset += *(PWORD)(pDat+dwOffset)+2;
 			dwOffset += *(PWORD)(pDat+dwOffset)+2;
@@ -598,7 +598,7 @@ DWORD FindGroupList(DWORD dwOffset)
 		dwOffset += 0x08;
 		dwPhoneEntries = *(PDWORD)(pDat+dwOffset); // Phonebook
 		dwOffset += 0x04;
-		for(n = 0;n<dwPhoneEntries;n++){
+		for(n = 0;n<dwPhoneEntries;n++) {
 			dwOffset += *(PWORD)(pDat+dwOffset)+2;
 			dwOffset += *(PWORD)(pDat+dwOffset)+2;
 			dwOffset += *(PWORD)(pDat+dwOffset)+2;
@@ -650,8 +650,8 @@ char* GetGroupName(DWORD dwGroupID)
 	switch (dwDBVersion) {
 	case DBV99A:
 	case DBV99B:
-		for (n = 0; n < dwGroups; n++){
-			if (dwGroupID == *(PDWORD)(pDat + dwOffset)){
+		for (n = 0; n < dwGroups; n++) {
+			if (dwGroupID == *(PDWORD)(pDat + dwOffset)) {
 				if (*(PWORD)(pDat + dwOffset + 4) > 1)
 					return 6 + (char*)(pDat + dwOffset);
 
@@ -666,10 +666,10 @@ char* GetGroupName(DWORD dwGroupID)
 	case DBV2000A:
 	case DBV2000B:
 	case DBV2001A:
-		for (n = 0; n < dwGroups; n++){
-			if (tmpOfs = ReadPropertyBlock(dwOffset, "GroupID", &nSearchResult)){
+		for (n = 0; n < dwGroups; n++) {
+			if (tmpOfs = ReadPropertyBlock(dwOffset, "GroupID", &nSearchResult)) {
 				if (nSearchResult) {
-					if (dwGroupID == *(PDWORD)(pDat + tmpOfs + 1)){
+					if (dwGroupID == *(PDWORD)(pDat + tmpOfs + 1)) {
 						strGroupName = 3 + (char*)(pDat + ReadPropertyBlock(dwOffset, "GroupName", &nSearchResult));
 						if (nSearchResult) {
 							if ((DWORD)*(strGroupName - 2) > 1)
@@ -746,7 +746,7 @@ int ImportGroups()
 	switch (nFormat) {
 	case ENTRYV99A:
 	case ENTRYV99B:
-		for (n = 0; n < dwGroups; n++){
+		for (n = 0; n < dwGroups; n++) {
 			if (*(PWORD)(pDat+dwOffset+4) > 1) {
 				if ( CreateGroup(DBVT_ASCIIZ, (char*)(pDat + dwOffset) + 6, NULL ))
 					nImported++;
@@ -759,8 +759,8 @@ int ImportGroups()
 	case ENTRYV2001A:
 	case ENTRYV2001B:
 	case ENTRYV2002A:
-		for (n = 0; n < dwGroups; n++){
-			if (tmpOfs = ReadPropertyBlock(dwOffset, "GroupName", &nSearchResult)){
+		for (n = 0; n < dwGroups; n++) {
+			if (tmpOfs = ReadPropertyBlock(dwOffset, "GroupName", &nSearchResult)) {
 				if (nSearchResult) {
 					if (CreateGroup( DBVT_ASCIIZ, (char*)(pDat + tmpOfs + 3), NULL ))
 						nImported++;

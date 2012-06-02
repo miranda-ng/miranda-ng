@@ -317,9 +317,9 @@ static void des_main_ks( unsigned long SK[32], unsigned char key[8] )
     /*
      * calculate subkeys
      */
-    for( i = 0; i < 16; i++ )
+    for ( i = 0; i < 16; i++ )
     {
-        if( i < 2 || i == 8 || i == 15 )
+        if ( i < 2 || i == 8 || i == 15 )
         {
             X = ((X <<  1) | (X >> 27)) & 0x0FFFFFFF;
             Y = ((Y <<  1) | (Y >> 27)) & 0x0FFFFFFF;
@@ -365,7 +365,7 @@ void des_set_key( des_context *ctx, unsigned char key[8] )
 
     des_main_ks( ctx->esk, key );
 
-    for( i = 0; i < 32; i += 2 )
+    for ( i = 0; i < 32; i += 2 )
     {
         ctx->dsk[i    ] = ctx->esk[30 - i];
         ctx->dsk[i + 1] = ctx->esk[31 - i];
@@ -431,7 +431,7 @@ void des_cbc_encrypt( des_context *ctx,
 
     while( len > 0 )
     {
-        for( i = 0; i < 8; i++ )
+        for ( i = 0; i < 8; i++ )
             output[i] = input[i] ^ iv[i];
 
         des_crypt( ctx->esk, output, output );
@@ -460,7 +460,7 @@ void des_cbc_decrypt( des_context *ctx,
         memcpy( temp, input, 8 );
         des_crypt( ctx->dsk, input, output );
 
-        for( i = 0; i < 8; i++ )
+        for ( i = 0; i < 8; i++ )
             output[i] = output[i] ^ iv[i];
 
         memcpy( iv, temp, 8 );
@@ -481,7 +481,7 @@ void des3_set_2keys( des3_context *ctx, unsigned char key[16] )
     des_main_ks( ctx->esk     , key     );
     des_main_ks( ctx->dsk + 32, key + 8 );
 
-    for( i = 0; i < 32; i += 2 )
+    for ( i = 0; i < 32; i += 2 )
     {
         ctx->dsk[i     ] = ctx->esk[30 - i];
         ctx->dsk[i +  1] = ctx->esk[31 - i];
@@ -508,7 +508,7 @@ void des3_set_3keys( des3_context *ctx, unsigned char key[24] )
     des_main_ks( ctx->dsk + 32, key +  8 );
     des_main_ks( ctx->esk + 64, key + 16 );
 
-    for( i = 0; i < 32; i += 2 )
+    for ( i = 0; i < 32; i += 2 )
     {
         ctx->dsk[i     ] = ctx->esk[94 - i];
         ctx->dsk[i +  1] = ctx->esk[95 - i];
@@ -598,7 +598,7 @@ void des3_cbc_encrypt( des3_context *ctx,
 
     while( len > 0 )
     {
-        for( i = 0; i < 8; i++ )
+        for ( i = 0; i < 8; i++ )
             output[i] = input[i] ^ iv[i];
 
         des3_crypt( ctx->esk, output, output );
@@ -627,7 +627,7 @@ void des3_cbc_decrypt( des3_context *ctx,
         memcpy( temp, input, 8 );
         des3_crypt( ctx->dsk, input, output );
 
-        for( i = 0; i < 8; i++ )
+        for ( i = 0; i < 8; i++ )
             output[i] = output[i] ^ iv[i];
 
         memcpy( iv, temp, 8 );

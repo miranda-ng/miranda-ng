@@ -249,7 +249,7 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 	int iCount = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
 
 	iCount += 20;
-	if( iCount < 300 )
+	if ( iCount < 300 )
 		iCount = 300;
 
 	cfg::eCache = reinterpret_cast<TExtraCache *>(malloc(sizeof(TExtraCache) * iCount));
@@ -301,7 +301,7 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 	if(cfg::dat.bFirstRun)
 		cfg::writeByte("CLUI", "firstrun", 0);
 
-	if(!cfg::getString(NULL, "CLUI", "exIconOrder", &dbv)) {
+	if (!cfg::getString(NULL, "CLUI", "exIconOrder", &dbv)) {
 		if(lstrlenA(dbv.pszVal) < EXICON_COUNT) {
 			for(i = 1; i <= EXICON_COUNT; i++)
 				cfg::dat.exIconOrder[i - 1] = i;
@@ -349,7 +349,7 @@ LBL_Error:
 		MessageBoxA( NULL, "This plugin requires Miranda IM 0.8.0.9 or later", "Fatal error", MB_OK );
 		return 1;
 	}
-	if ( pcli->version < 6 ) // don't join it with the previous if()
+	if ( pcli->version < 6 ) // don't join it with the previous if ()
 		goto LBL_Error;
 
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;

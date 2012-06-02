@@ -443,7 +443,7 @@ JSON_PRIVATE
     static JSONNode * newJSONNode(const JSONNode & orig     JSON_MUTEX_COPY_DECL2);
     static JSONNode * newJSONNode(internalJSONNode * internal_t);
     //used by JSONWorker
-    JSONNode(const json_string & unparsed) : internal(internalJSONNode::newInternal(unparsed)){ //root, specialized because it can only be array or node
+    JSONNode(const json_string & unparsed) : internal(internalJSONNode::newInternal(unparsed)) { //root, specialized because it can only be array or node
 	   incAllocCount();
     }
     JSONNode(internalJSONNode * internal_t) : internal(internal_t){ //do not increment anything, this is only used in one case and it's already taken care of 
@@ -484,7 +484,7 @@ JSON_PRIVATE
     file because they are inlined.
 */
 
-inline JSONNode::JSONNode(char mytype) : internal(internalJSONNode::newInternal(mytype)){
+inline JSONNode::JSONNode(char mytype) : internal(internalJSONNode::newInternal(mytype)) {
     JSON_ASSERT((mytype == JSON_NULL) ||
 			 (mytype == JSON_STRING) ||
 			 (mytype == JSON_NUMBER) ||
@@ -494,7 +494,7 @@ inline JSONNode::JSONNode(char mytype) : internal(internalJSONNode::newInternal(
     incAllocCount();
 }
 
-inline JSONNode::JSONNode(const JSONNode & orig): internal(orig.internal -> incRef()){
+inline JSONNode::JSONNode(const JSONNode & orig): internal(orig.internal -> incRef()) {
     incAllocCount();
 }
 
@@ -521,7 +521,7 @@ inline bool JSONNode::empty(void) const {
 
 inline void JSONNode::clear(void){
     JSON_CHECK_INTERNAL();
-    if (!empty()){
+    if (!empty()) {
 	   makeUniqueInternal();
 	   internal -> Children.clear();
     }
@@ -713,7 +713,7 @@ inline void JSONNode::decRef(void){ //decrements internal's counter, deletes it 
     JSON_CHECK_INTERNAL();
     #ifdef JSON_REF_COUNT
 	   internal -> decRef();
-	   if (internal -> hasNoReferences()){
+	   if (internal -> hasNoReferences()) {
 		  internalJSONNode::deleteInternal(internal);
 	   }
     #else
@@ -722,7 +722,7 @@ inline void JSONNode::decRef(void){ //decrements internal's counter, deletes it 
 }
 
 #ifdef JSON_REF_COUNT
-    inline void JSONNode::makeUniqueInternal(){ //makes internal it's own
+    inline void JSONNode::makeUniqueInternal() { //makes internal it's own
 	   JSON_CHECK_INTERNAL();
 	   internal = internal -> makeUnique();  //might return itself or a new one that's exactly the same
     }

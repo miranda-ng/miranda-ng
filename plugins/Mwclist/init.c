@@ -129,7 +129,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	__try	{
 		int *disableDefaultModule = 0;
 		disableDefaultModule=(int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
-		if(!disableDefaultModule[DEFMOD_UICLUI]) if( LoadCLUIModule()) return 1;
+		if (!disableDefaultModule[DEFMOD_UICLUI]) if ( LoadCLUIModule()) return 1;
 	}
 	__except (exceptFunction(GetExceptionInformation()) )
 	{

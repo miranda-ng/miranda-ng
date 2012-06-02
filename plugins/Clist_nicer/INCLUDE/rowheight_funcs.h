@@ -30,7 +30,7 @@ public:
 
 	    height = dat->fontInfo[GetBasicFontID(contact)].fontHeight;
 
-	    if(!dat->bisEmbedded) {
+	    if (!dat->bisEmbedded) {
 	        if(contact->bSecondLine != MULTIROW_NEVER && contact->bSecondLine != MULTIROW_IFSPACE && contact->type == CLCIT_CONTACT) {
 	            if ((contact->bSecondLine == MULTIROW_ALWAYS || ((cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG && contact->bSecondLine == MULTIROW_IFNEEDED) && (contact->xStatus > 0 || cfg::eCache[contact->extraCacheEntry].bStatusMsgValid > STATUSMSG_XSTATUSID))))
 	                height += (dat->fontInfo[FONTID_STATUS].fontHeight + cfg::dat.avatarPadding);
@@ -42,7 +42,7 @@ public:
 	    }
 
 	    // Checkbox size
-	    if((style&CLS_CHECKBOXES && contact->type==CLCIT_CONTACT) ||
+	    if ((style&CLS_CHECKBOXES && contact->type==CLCIT_CONTACT) ||
 	        (style&CLS_GROUPCHECKBOXES && contact->type==CLCIT_GROUP) ||
 	        (contact->type==CLCIT_INFO && contact->flags&CLCIIF_CHECKBOX))
 	    {

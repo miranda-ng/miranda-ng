@@ -69,7 +69,7 @@ INT_PTR OldCreatePopupA(WPARAM wParam, LPARAM lParam) {
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
-	if(!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
+	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -106,7 +106,7 @@ INT_PTR OldCreatePopupExA(WPARAM wParam, LPARAM lParam) {
 	pd_out->timeout = pd_in->iSeconds;
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	if(!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
+	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -143,7 +143,7 @@ INT_PTR OldCreatePopupW(WPARAM wParam, LPARAM lParam) {
 	pd_out->timeout = pd_in->iSeconds;
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
-	if(!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
+	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) {
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
 		mir_free(pd_out);
@@ -197,7 +197,7 @@ void ShowPopup(PopupData &pd_in)
 
 	lstPopupHistory.Add(pd_out->pwzTitle, pd_out->pwzText, time(0));
 
-	if(!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) 
+	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) 
 	{
 		mir_free(pd_out->pwzTitle);
 		mir_free(pd_out->pwzText);
@@ -352,7 +352,7 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
-	if(!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) return 0;
+	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAT pd = {0};
 	_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
@@ -367,7 +367,7 @@ INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam) {
-	if(!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) return 0;
+	if (!DBGetContactSettingByte(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAW pd = {0};
 	wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");

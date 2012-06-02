@@ -154,7 +154,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case 0:
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				if(!opt_gen_opts_changed)
+				if (!opt_gen_opts_changed)
 					return TRUE;
 
 				cfg::writeByte("CList", "HideOffline", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE));

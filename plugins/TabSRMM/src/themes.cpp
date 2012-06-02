@@ -857,7 +857,7 @@ TCHAR* CImageItem::Read(const TCHAR *szFilename)
 		//m_szName[sizeof(m_szName) - 1] = 0;
 		_tsplitpath(szFilename, szDrive, szPath, NULL, NULL);
 		mir_sntprintf(szFinalName, MAX_PATH, _T("%s\\%s%s"), szDrive, szPath, buffer);
-		if(!PathFileExists(szFinalName)) {
+		if (!PathFileExists(szFinalName)) {
 			delete[] szFinalName;
 			szFinalName = 0;
 		}
@@ -1647,7 +1647,7 @@ void CSkin::Load()
 	m_fHaveGlyph = false;
 
 	if(m_tszFileName[0]) {
-		if(::PathFileExists(m_tszFileName)) {
+		if (::PathFileExists(m_tszFileName)) {
 			TCHAR *p;
 			TCHAR *szSections = (TCHAR *)malloc(6004);
 			int i = 1, j = 0;
@@ -1962,7 +1962,7 @@ void CSkin::setupAeroSkins()
 	HBITMAP hbm;
 	BITMAP  bm;
 
-	if(!m_fAeroSkinsValid)
+	if (!m_fAeroSkinsValid)
 		return;
 
 	mir_sntprintf(tszBasePath, MAX_PATH, _T("%s"), M->getDataPath());
@@ -1974,7 +1974,7 @@ void CSkin::setupAeroSkins()
 	 */
 	if(0 == PluginConfig.g_hbmUnknown) {
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_unknown.png"), tszBasePath);
-		if(!PathFileExists(tszFilename))
+		if (!PathFileExists(tszFilename))
 			mir_sntprintf(tszFilename, MAX_PATH, _T("%sunknown.png"), tszBasePath);
 		PluginConfig.g_hbmUnknown = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
 		if (PluginConfig.g_hbmUnknown == 0) {
@@ -1985,7 +1985,7 @@ void CSkin::setupAeroSkins()
 	}
 
 	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero.png"), tszBasePath);
-	if(!PathFileExists(tszFilename))
+	if (!PathFileExists(tszFilename))
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero.png"), tszBasePath);
 
 	if(CMimAPI::m_pfnDwmGetColorizationColor && M->isAero())
@@ -2007,7 +2007,7 @@ void CSkin::setupAeroSkins()
 	 * TODO: this isn't perfect yet, for some colors, the result is a bit off...
 	 */
 
-	if(!isOpaque && alphafactor > 150 && !(fr == fg && fg == fb)) {
+	if (!isOpaque && alphafactor > 150 && !(fr == fg && fg == fb)) {
 		float fmax =  max(max(fr,fg), fb);
 
 		if(fmax == fr) {
@@ -2072,7 +2072,7 @@ void CSkin::setupAeroSkins()
 
 
 	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero_glow.png"), tszBasePath);
-	if(!PathFileExists(tszFilename))
+	if (!PathFileExists(tszFilename))
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero_glow.png"), tszBasePath);
 
 	fib = (FIBITMAP *)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR | IMGL_RETURNDIB);
@@ -2107,7 +2107,7 @@ void CSkin::setupAeroSkins()
 	 * background item for the button switch bar
 	 */
 	mir_sntprintf(tszFilename, MAX_PATH, _T("%scustom_tabskin_aero_button.png"), tszBasePath);
-	if(!PathFileExists(tszFilename))
+	if (!PathFileExists(tszFilename))
 		mir_sntprintf(tszFilename, MAX_PATH, _T("%stabskin_aero_button.png"), tszBasePath);
 
 	hbm  = (HBITMAP)CallService(MS_IMG_LOAD, (WPARAM)tszFilename, IMGL_TCHAR);
@@ -2409,7 +2409,7 @@ DWORD __fastcall CSkin::HexStringToLong(const TCHAR *szSource)
 
 int CSkin::RenderText(HDC hdc, HANDLE hTheme, const TCHAR *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
 {
-	if((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
+	if ((PluginConfig.m_bIsVista && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
 		DTTOPTS dto = {0};
 		dto.dwSize = sizeof(dto);
 		if(iGlowSize && (M->isAero() || fForceAero)) {
@@ -2478,7 +2478,7 @@ HBITMAP CSkin::ResizeBitmap(HBITMAP hBmpSrc, LONG width, LONG height, bool &must
  */
 bool __fastcall CSkin::DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item)
 {
-	if(!item->IGNORED) {
+	if (!item->IGNORED) {
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT,
 				  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
 		return(true);
@@ -2560,7 +2560,7 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		RECT 	rc, rcToolbar;;
 		POINT	pt;
 
-		if(!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {
+		if (!(dat->pContainer->dwFlags & CNT_BOTTOMTOOLBAR)) {
 			::GetWindowRect(::GetDlgItem(dat->hwnd, dat->bType == SESSIONTYPE_CHAT ? IDC_CHAT_LOG : IDC_LOG), &rc);
 			pt.y = rc.bottom + 0;
 			::ScreenToClient(dat->hwnd, &pt);
@@ -2616,7 +2616,7 @@ void CSkin::RenderToolbarBG(const TWindowData *dat, HDC hdc, const RECT &rcWindo
 		dat->pContainer->szOldToolbarSize.cx = cx;
 		dat->pContainer->szOldToolbarSize.cy = cy;
 
-		if(!fMustDrawNonThemed && M->isVSThemed()) {
+		if (!fMustDrawNonThemed && M->isVSThemed()) {
 			CMimAPI::m_pfnDrawThemeBackground(dat->hThemeToolbar, dat->pContainer->cachedToolbarDC, 6, 1,
 				&rcCachedToolbar, &rcCachedToolbar);
 			dat->pContainer->bTBRenderingMode = 1;				// tell TSButton how to render the tool bar buttons

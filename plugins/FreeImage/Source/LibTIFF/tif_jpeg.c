@@ -888,7 +888,7 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
     if (cc % sp->bytesperline)
 		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "fractional scanline not read");
 
-    if( nrows > (int) sp->cinfo.d.image_height )
+    if ( nrows > (int) sp->cinfo.d.image_height )
         nrows = sp->cinfo.d.image_height;
 
     /* data is expected to be read in multiples of a scanline */
@@ -901,7 +901,7 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
         ** For Mk1 always use it. 
         */
 #if !defined(JPEG_LIB_MK1)        
-        if( sp->cinfo.d.data_precision == 12 )
+        if ( sp->cinfo.d.data_precision == 12 )
 #endif
         {
             line_work_buf = (JSAMPROW) 
@@ -910,7 +910,7 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
         }
 
         do {
-            if( line_work_buf != NULL )
+            if ( line_work_buf != NULL )
             {
                 /* 
                 ** In the MK1 case, we aways read into a 16bit buffer, and then
@@ -920,13 +920,13 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
                 if (TIFFjpeg_read_scanlines(sp, &line_work_buf, 1) != 1)
                     return (0);
 
-                if( sp->cinfo.d.data_precision == 12 )
+                if ( sp->cinfo.d.data_precision == 12 )
                 {
                     int value_pairs = (sp->cinfo.d.output_width 
                                        * sp->cinfo.d.num_components) / 2;
                     int iPair;
 
-                    for( iPair = 0; iPair < value_pairs; iPair++ )
+                    for ( iPair = 0; iPair < value_pairs; iPair++ )
                     {
                         unsigned char *out_ptr = 
                             ((unsigned char *) buf) + iPair * 3;
@@ -938,13 +938,13 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
                         out_ptr[2] = ((in_ptr[1] & 0xff) >> 0);
                     }
                 }
-                else if( sp->cinfo.d.data_precision == 8 )
+                else if ( sp->cinfo.d.data_precision == 8 )
                 {
                     int value_count = (sp->cinfo.d.output_width 
                                        * sp->cinfo.d.num_components);
                     int iValue;
 
-                    for( iValue = 0; iValue < value_count; iValue++ )
+                    for ( iValue = 0; iValue < value_count; iValue++ )
                     {
                         ((unsigned char *) buf)[iValue] = 
                             line_work_buf[iValue] & 0xff;
@@ -968,7 +968,7 @@ JPEGDecode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
             cc -= sp->bytesperline;
         } while (--nrows > 0);
 
-        if( line_work_buf != NULL )
+        if ( line_work_buf != NULL )
             _TIFFfree( line_work_buf );
     }
 
@@ -992,7 +992,7 @@ JPEGDecodeRaw(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
     if (cc % sp->bytesperline)
 		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "fractional scanline not read");
 
-    if( nrows > (int) sp->cinfo.d.image_height )
+    if ( nrows > (int) sp->cinfo.d.image_height )
         nrows = sp->cinfo.d.image_height;
 
     /* data is expected to be read in multiples of a scanline */
@@ -1075,7 +1075,7 @@ JPEGDecodeRaw(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
 					int value_pairs = (sp->cinfo.d.output_width
 					    * sp->cinfo.d.num_components) / 2;
 					int iPair;
-					for( iPair = 0; iPair < value_pairs; iPair++ )
+					for ( iPair = 0; iPair < value_pairs; iPair++ )
 					{
 						unsigned char *out_ptr = ((unsigned char *) buf) + iPair * 3;
 						JSAMPLE *in_ptr = tmpbuf + iPair * 2;
@@ -1275,7 +1275,7 @@ JPEGSetupEncode(TIFF* tif)
 
 	/* Create a JPEGTables field if appropriate */
 	if (sp->jpegtablesmode & (JPEGTABLESMODE_QUANT|JPEGTABLESMODE_HUFF)) {
-                if( sp->jpegtables == NULL
+                if ( sp->jpegtables == NULL
                     || memcmp(sp->jpegtables,"\0\0\0\0\0\0\0\0\0",8) == 0 )
                 {
                         if (!prepare_JPEGTables(tif))
@@ -1443,7 +1443,7 @@ JPEGEncode(TIFF* tif, tidata_t buf, tsize_t cc, tsample_t s)
 		TIFFWarningExt(tif->tif_clientdata, tif->tif_name, "fractional scanline discarded");
 
         /* The last strip will be limited to image size */
-        if( !isTiled(tif) && tif->tif_row+nrows > tif->tif_dir.td_imagelength )
+        if ( !isTiled(tif) && tif->tif_row+nrows > tif->tif_dir.td_imagelength )
             nrows = tif->tif_dir.td_imagelength - tif->tif_row;
 
 	while (nrows-- > 0) {
@@ -1591,7 +1591,7 @@ JPEGCleanup(TIFF* tif)
 	tif->tif_tagmethods.vsetfield = sp->vsetparent;
 	tif->tif_tagmethods.printdir = sp->printdir;
 
-	if( sp->cinfo_initialized )
+	if ( sp->cinfo_initialized )
 	    TIFFjpeg_destroy(sp);	/* release libjpeg resources */
 	if (sp->jpegtables)		/* tag value */
 		_TIFFfree(sp->jpegtables);
@@ -1630,7 +1630,7 @@ JPEGResetUpsampled( TIFF* tif )
 	 * Must recalculate cached tile size in case sampling state changed.
 	 * Should we really be doing this now if image size isn't set? 
 	 */
-        if( tif->tif_tilesize > 0 )
+        if ( tif->tif_tilesize > 0 )
             tif->tif_tilesize = isTiled(tif) ? TIFFTileSize(tif) : (tsize_t) -1;
 
         if(tif->tif_scanlinesize > 0 )
@@ -1750,20 +1750,20 @@ JPEGFixupTestSubsampling( TIFF * tif )
      * this we actually have to scan the header of a strip or tile of
      * jpeg data to get the sampling.  
      */
-    if( !sp->cinfo.comm.is_decompressor 
+    if ( !sp->cinfo.comm.is_decompressor 
         || sp->ycbcrsampling_fetched  
         || td->td_photometric != PHOTOMETRIC_YCBCR )
         return;
 
     sp->ycbcrsampling_fetched = 1;
-    if( TIFFIsTiled( tif ) )
+    if ( TIFFIsTiled( tif ) )
     {
-        if( !TIFFFillTile( tif, 0 ) )
+        if ( !TIFFFillTile( tif, 0 ) )
 			return;
     }
     else
     {
-        if( !TIFFFillStrip( tif, 0 ) )
+        if ( !TIFFFillStrip( tif, 0 ) )
             return;
     }
 
@@ -1900,9 +1900,9 @@ static int JPEGInitializeLibJPEG( TIFF * tif, int force_encode, int force_decode
 
     if(sp->cinfo_initialized)
     {
-        if( force_encode && sp->cinfo.comm.is_decompressor )
+        if ( force_encode && sp->cinfo.comm.is_decompressor )
             TIFFjpeg_destroy( sp );
-        else if( force_decode && !sp->cinfo.comm.is_decompressor )
+        else if ( force_decode && !sp->cinfo.comm.is_decompressor )
             TIFFjpeg_destroy( sp );
         else
             return 1;
@@ -1915,26 +1915,26 @@ static int JPEGInitializeLibJPEG( TIFF * tif, int force_encode, int force_decode
      * the state in decompressor mode if we have tile data, even if we
      * are not in read-only file access mode. 
      */
-    if( TIFFIsTiled( tif ) 
+    if ( TIFFIsTiled( tif ) 
         && TIFFGetField( tif, TIFFTAG_TILEBYTECOUNTS, &byte_counts ) 
         && byte_counts != NULL )
     {
         data_is_empty = byte_counts[0] == 0;
     }
-    if( !TIFFIsTiled( tif ) 
+    if ( !TIFFIsTiled( tif ) 
         && TIFFGetField( tif, TIFFTAG_STRIPBYTECOUNTS, &byte_counts) 
         && byte_counts != NULL )
     {
         data_is_empty = byte_counts[0] == 0;
     }
 
-    if( force_decode )
+    if ( force_decode )
         decompress = 1;
-    else if( force_encode )
+    else if ( force_encode )
         decompress = 0;
-    else if( tif->tif_mode == O_RDONLY )
+    else if ( tif->tif_mode == O_RDONLY )
         decompress = 1;
-    else if( data_is_empty )
+    else if ( data_is_empty )
         decompress = 0;
     else
         decompress = 1;
@@ -2040,7 +2040,7 @@ TIFFInitJPEG(TIFF* tif, int scheme)
         ** the JPEGTables field.  It will be properly created the right
         ** size later. 
         */
-        if( tif->tif_diroff == 0 )
+        if ( tif->tif_diroff == 0 )
         {
 #define SIZE_OF_JPEGTABLES 2000
 /*

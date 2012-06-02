@@ -142,7 +142,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct Clc
         for (i = 5; i >= 0; i--) {
             if (cfg::eCache[hitcontact->extraCacheEntry].iExtraImage[i] == 0xFF)
                 continue;
-            if(!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
+            if (!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
                 continue;
             images_present++;
             if (testx < right - (rightOffset - (cfg::dat.exIconScale + 2) * images_present) && testx > right - (rightOffset - (cfg::dat.exIconScale + 2) * images_present + (cfg::dat.exIconScale))) {
@@ -240,7 +240,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCont
         ;
     }
 
-    if(!dat->bisEmbedded) {
+    if (!dat->bisEmbedded) {
         if(hitcontact->type == CLCIT_CONTACT) {
             if(mirror_mode == 1 || (mirror_mode == 2 && cfg::eCache[hitcontact->extraCacheEntry].dwCFlags & ECF_RTLNICK))
                 return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
@@ -298,7 +298,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCont
         for (i = 5; i >= 0; i--) {
             if (cfg::eCache[hitcontact->extraCacheEntry].iExtraImage[i] == 0xFF)
                 continue;
-            if(!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
+            if (!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
                 continue;
             images_present++;
             if (testx > (rightOffset - (cfg::dat.exIconScale + 2) * images_present) && testx < (rightOffset - (cfg::dat.exIconScale + 2) * images_present + (cfg::dat.exIconScale))) {
@@ -389,7 +389,7 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	}
 	dat->yScroll = desty;
 	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL) {
-		if(!noSmooth)
+		if (!noSmooth)
 			ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
 		else
 			InvalidateRect(hwnd, NULL, FALSE);
@@ -545,7 +545,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 #if defined(_UNICODE)
 	dat->hwndRenameEdit = CreateWindowEx(0, _T("RichEdit20W"),contact->szText,WS_CHILD|WS_BORDER|ES_MULTILINE|ES_AUTOHSCROLL,x,y,clRect.right-x,h,hwnd,NULL,g_hInst,NULL);
     {
-        if((contact->type == CLCIT_CONTACT && cfg::eCache[contact->extraCacheEntry].dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
+        if ((contact->type == CLCIT_CONTACT && cfg::eCache[contact->extraCacheEntry].dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
             PARAFORMAT2 pf2;
             ZeroMemory((void *)&pf2, sizeof(pf2));
             pf2.cbSize = sizeof(pf2);

@@ -32,10 +32,10 @@ void *gg_doregister(GGPROTO *gg, char *newPass, char *newEmail)
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_doregister(): Starting.");
 #endif
-	if(!newPass || !newEmail) return NULL;
+	if (!newPass || !newEmail) return NULL;
 
 	// Load token
-	if(!gg_gettoken(gg, &token)) return NULL;
+	if (!gg_gettoken(gg, &token)) return NULL;
 
 	if (!(h = gg_register3(newEmail, newPass, token.id, token.val, 0)) || !(s = h->data) || !s->success || !s->uin)
 	{
@@ -87,10 +87,10 @@ void *gg_dounregister(GGPROTO *gg, uin_t uin, char *password)
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_dounregister(): Starting.");
 #endif
-	if(!uin || !password) return NULL;
+	if (!uin || !password) return NULL;
 
 	// Load token
-	if(!gg_gettoken(gg, &token)) return NULL;
+	if (!gg_gettoken(gg, &token)) return NULL;
 
 	if (!(h = gg_unregister3(uin, password, token.id, token.val, 0)) || !(s = h->data) || !s->success || s->uin != uin)
 	{
@@ -141,7 +141,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_dochpass(): Starting.");
 #endif
-	if(!uin || !password || !newPass) return NULL;
+	if (!uin || !password || !newPass) return NULL;
 
 	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_EMAIL, &dbv_email)) 
     {
@@ -150,7 +150,7 @@ void *gg_dochpass(GGPROTO *gg, uin_t uin, char *password, char *newPass)
     }
     
 	// Load token
-	if(!gg_gettoken(gg, &token)) return NULL;
+	if (!gg_gettoken(gg, &token)) return NULL;
 
 	if (!(h = gg_change_passwd4(uin, email, password, newPass, token.id, token.val, 0)) || !(s = h->data) || !s->success)
 	{
@@ -199,10 +199,10 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 #ifdef DEBUGMODE
 	gg_netlog(gg, "gg_doemail(): Starting.");
 #endif
-	if(!uin || !email || !newEmail) return NULL;
+	if (!uin || !email || !newEmail) return NULL;
 
 	// Load token
-	if(!gg_gettoken(gg, &token)) return NULL;
+	if (!gg_gettoken(gg, &token)) return NULL;
 
 	if (!(h = gg_change_passwd4(uin, newEmail, password, password, token.id, token.val, 0)) || !(s = h->data) || !s->success)
 	{

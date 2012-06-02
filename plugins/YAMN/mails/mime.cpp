@@ -222,7 +222,7 @@ char *ExtractFromContentType(char *ContentType,char *value)
 	while(*temp!=0 && *temp!=';') temp++;				//jump to the end of setting (to the next ;)
 	temp--;
 	while(WS(temp))	temp--;						//remove whitespaces from the end
-	if (*finder=='\"'){ //remove heading and tailing quotes
+	if (*finder=='\"') { //remove heading and tailing quotes
 		finder++;
 		if (*temp=='\"') temp--;
 	}
@@ -540,7 +540,7 @@ void ParseAPart(APartDataType *data)
 			prev1=finder;
 
 			while(*finder!=':' && !EOS(finder) && !ENDLINE(finder)) finder++;
-			if (ENDLINE(finder)||EOS(finder)){
+			if (ENDLINE(finder)||EOS(finder)) {
 				// no ":" in the line? here the body begins;
 				data->body = prev1;
 				break;
@@ -559,9 +559,9 @@ void ParseAPart(APartDataType *data)
 				while(!ENDLINE(finder) && !EOS(finder)) finder++;
 			}while(ENDLINEWS(finder));
 
-			if (!_strnicmp(prev1,"Content-type",prev2-prev1)){
+			if (!_strnicmp(prev1,"Content-type",prev2-prev1)) {
 				data->ContType = prev3;
-			} else if (!_strnicmp(prev1,"Content-Transfer-Encoding",prev2-prev1)){
+			} else if (!_strnicmp(prev1,"Content-Transfer-Encoding",prev2-prev1)) {
 				data->TransEnc = prev3;
 			}
 
@@ -622,7 +622,7 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 		while (ENDLINE(partData[i].Src)) partData[i].Src++;
 	}
 	size_t resultSize=0;
-	for (i=0;i<numparts;i++){
+	for (i=0;i<numparts;i++) {
 		ParseAPart(&partData[i]);
 		if (partData[i].body){
 			if (partData[i].TransEnc){
@@ -655,7 +655,7 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 				}
 				ConvertStringToUnicode(localBody?localBody:partData[i].body,partData[i].CodePage,&partData[i].wBody);
 				if (localBody) delete[] localBody;
-			} else if (partData[i].ContType && !_strnicmp(partData[i].ContType,"multipart/",10)){
+			} else if (partData[i].ContType && !_strnicmp(partData[i].ContType,"multipart/",10)) {
 				//Multipart in mulitipart recursive? should be SPAM. Ah well
 				char *bondary=NULL;
 				if (NULL!=(bondary=ExtractFromContentType(partData[i].ContType,"boundary=")))
@@ -673,7 +673,7 @@ FailBackRaw:
 	}
 	dest = new WCHAR[resultSize+1];
 	size_t destpos = 0;
-	for (i=0;i<numparts;i++){
+	for (i=0;i<numparts;i++) {
 		if (i){ // part before first boudary should not have headers
 			char infoline[104]; size_t linesize = 0;
 			_snprintf(infoline,100,"%s %d",Translate("Part"),i);

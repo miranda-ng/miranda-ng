@@ -35,7 +35,7 @@
 
 #define MPN_MUL_N_RECURSE(prodp, up, vp, size, tspace) \
     do {						\
-	if( (size) < KARATSUBA_THRESHOLD )		\
+	if ( (size) < KARATSUBA_THRESHOLD )		\
 	    mul_n_basecase (prodp, up, vp, size);	\
 	else						\
 	    mul_n (prodp, up, vp, size, tspace);	\
@@ -80,8 +80,8 @@ mul_n_basecase( mpi_ptr_t prodp, mpi_ptr_t up,
     /* Multiply by the first limb in V separately, as the result can be
      * stored (not added) to PROD.  We also avoid a loop for zeroing.  */
     v_limb = vp[0];
-    if( v_limb <= 1 ) {
-	if( v_limb == 1 )
+    if ( v_limb <= 1 ) {
+	if ( v_limb == 1 )
 	    MPN_COPY( prodp, up, size );
 	else
 	    MPN_ZERO( prodp, size );
@@ -95,11 +95,11 @@ mul_n_basecase( mpi_ptr_t prodp, mpi_ptr_t up,
 
     /* For each iteration in the outer loop, multiply one limb from
      * U with one limb from V, and add it to PROD.  */
-    for( i = 1; i < size; i++ ) {
+    for ( i = 1; i < size; i++ ) {
 	v_limb = vp[i];
-	if( v_limb <= 1 ) {
+	if ( v_limb <= 1 ) {
 	    cy = 0;
-	    if( v_limb == 1 )
+	    if ( v_limb == 1 )
 	       cy = _gcry_mpih_add_n(prodp, prodp, up, size);
 	}
 	else
@@ -117,7 +117,7 @@ static void
 mul_n( mpi_ptr_t prodp, mpi_ptr_t up, mpi_ptr_t vp,
 			mpi_size_t size, mpi_ptr_t tspace )
 {
-    if( size & 1 ) {
+    if ( size & 1 ) {
       /* The size is odd, and the code below doesn't handle that.
        * Multiply the least significant (size - 1) limbs with a recursive
        * call, and handle the most significant limb of S1 and S2
@@ -167,7 +167,7 @@ mul_n( mpi_ptr_t prodp, mpi_ptr_t up, mpi_ptr_t vp,
 	/* Product M.	   ________________
 	 *		  |_(U1-U0)(V0-V1)_|
 	 */
-	if( _gcry_mpih_cmp(up + hsize, up, hsize) >= 0 ) {
+	if ( _gcry_mpih_cmp(up + hsize, up, hsize) >= 0 ) {
 	    _gcry_mpih_sub_n(prodp, up + hsize, up, hsize);
 	    negflg = 0;
 	}
@@ -175,7 +175,7 @@ mul_n( mpi_ptr_t prodp, mpi_ptr_t up, mpi_ptr_t vp,
 	    _gcry_mpih_sub_n(prodp, up, up + hsize, hsize);
 	    negflg = 1;
 	}
-	if( _gcry_mpih_cmp(vp + hsize, vp, hsize) >= 0 ) {
+	if ( _gcry_mpih_cmp(vp + hsize, vp, hsize) >= 0 ) {
 	    _gcry_mpih_sub_n(prodp + hsize, vp + hsize, vp, hsize);
 	    negflg ^= 1;
 	}
@@ -211,12 +211,12 @@ mul_n( mpi_ptr_t prodp, mpi_ptr_t up, mpi_ptr_t vp,
 	/* Add/copy Product L (twice) */
 
 	cy += _gcry_mpih_add_n(prodp + hsize, prodp + hsize, tspace, size);
-	if( cy )
+	if ( cy )
 	  _gcry_mpih_add_1(prodp + hsize + size, prodp + hsize + size, hsize, cy);
 
 	MPN_COPY(prodp, tspace, hsize);
 	cy = _gcry_mpih_add_n(prodp + hsize, prodp + hsize, tspace + hsize, hsize);
-	if( cy )
+	if ( cy )
 	    _gcry_mpih_add_1(prodp + size, prodp + size, size, 1);
     }
 }
@@ -232,8 +232,8 @@ _gcry_mpih_sqr_n_basecase( mpi_ptr_t prodp, mpi_ptr_t up, mpi_size_t size )
     /* Multiply by the first limb in V separately, as the result can be
      * stored (not added) to PROD.  We also avoid a loop for zeroing.  */
     v_limb = up[0];
-    if( v_limb <= 1 ) {
-	if( v_limb == 1 )
+    if ( v_limb <= 1 ) {
+	if ( v_limb == 1 )
 	    MPN_COPY( prodp, up, size );
 	else
 	    MPN_ZERO(prodp, size);
@@ -247,11 +247,11 @@ _gcry_mpih_sqr_n_basecase( mpi_ptr_t prodp, mpi_ptr_t up, mpi_size_t size )
 
     /* For each iteration in the outer loop, multiply one limb from
      * U with one limb from V, and add it to PROD.  */
-    for( i=1; i < size; i++) {
+    for ( i=1; i < size; i++) {
 	v_limb = up[i];
-	if( v_limb <= 1 ) {
+	if ( v_limb <= 1 ) {
 	    cy_limb = 0;
-	    if( v_limb == 1 )
+	    if ( v_limb == 1 )
 		cy_limb = _gcry_mpih_add_n(prodp, prodp, up, size);
 	}
 	else
@@ -267,7 +267,7 @@ void
 _gcry_mpih_sqr_n( mpi_ptr_t prodp,
                   mpi_ptr_t up, mpi_size_t size, mpi_ptr_t tspace)
 {
-    if( size & 1 ) {
+    if ( size & 1 ) {
 	/* The size is odd, and the code below doesn't handle that.
 	 * Multiply the least significant (size - 1) limbs with a recursive
 	 * call, and handle the most significant limb of S1 and S2
@@ -302,7 +302,7 @@ _gcry_mpih_sqr_n( mpi_ptr_t prodp,
 	/* Product M.	   ________________
 	 *		  |_(U1-U0)(U0-U1)_|
 	 */
-	if( _gcry_mpih_cmp( up + hsize, up, hsize) >= 0 )
+	if ( _gcry_mpih_cmp( up + hsize, up, hsize) >= 0 )
 	    _gcry_mpih_sub_n( prodp, up + hsize, up, hsize);
 	else
 	    _gcry_mpih_sub_n (prodp, up, up + hsize, hsize);
@@ -329,13 +329,13 @@ _gcry_mpih_sqr_n( mpi_ptr_t prodp,
 
 	/* Add/copy Product L (twice).	*/
 	cy += _gcry_mpih_add_n (prodp + hsize, prodp + hsize, tspace, size);
-	if( cy )
+	if ( cy )
 	    _gcry_mpih_add_1(prodp + hsize + size, prodp + hsize + size,
 							    hsize, cy);
 
 	MPN_COPY(prodp, tspace, hsize);
 	cy = _gcry_mpih_add_n (prodp + hsize, prodp + hsize, tspace + hsize, hsize);
-	if( cy )
+	if ( cy )
 	    _gcry_mpih_add_1 (prodp + size, prodp + size, size, 1);
     }
 }
@@ -348,8 +348,8 @@ _gcry_mpih_mul_n( mpi_ptr_t prodp,
 {
     int secure;
 
-    if( up == vp ) {
-	if( size < KARATSUBA_THRESHOLD )
+    if ( up == vp ) {
+	if ( size < KARATSUBA_THRESHOLD )
 	    _gcry_mpih_sqr_n_basecase( prodp, up, size );
 	else {
 	    mpi_ptr_t tspace;
@@ -360,7 +360,7 @@ _gcry_mpih_mul_n( mpi_ptr_t prodp,
 	}
     }
     else {
-	if( size < KARATSUBA_THRESHOLD )
+	if ( size < KARATSUBA_THRESHOLD )
 	    mul_n_basecase( prodp, up, vp, size );
 	else {
 	    mpi_ptr_t tspace;
@@ -382,8 +382,8 @@ _gcry_mpih_mul_karatsuba_case( mpi_ptr_t prodp,
 {
     mpi_limb_t cy;
 
-    if( !ctx->tspace || ctx->tspace_size < vsize ) {
-	if( ctx->tspace )
+    if ( !ctx->tspace || ctx->tspace_size < vsize ) {
+	if ( ctx->tspace )
 	    _gcry_mpi_free_limb_space( ctx->tspace, ctx->tspace_nlimbs );
         ctx->tspace_nlimbs = 2 * vsize;
 	ctx->tspace = mpi_alloc_limb_space( 2 * vsize,
@@ -397,9 +397,9 @@ _gcry_mpih_mul_karatsuba_case( mpi_ptr_t prodp,
     prodp += vsize;
     up += vsize;
     usize -= vsize;
-    if( usize >= vsize ) {
-	if( !ctx->tp || ctx->tp_size < vsize ) {
-	    if( ctx->tp )
+    if ( usize >= vsize ) {
+	if ( !ctx->tp || ctx->tp_size < vsize ) {
+	    if ( ctx->tp )
 		_gcry_mpi_free_limb_space( ctx->tp, ctx->tp_nlimbs );
             ctx->tp_nlimbs = 2 * vsize;
 	    ctx->tp = mpi_alloc_limb_space( 2 * vsize, gcry_is_secure( up )
@@ -417,12 +417,12 @@ _gcry_mpih_mul_karatsuba_case( mpi_ptr_t prodp,
 	} while( usize >= vsize );
     }
 
-    if( usize ) {
-	if( usize < KARATSUBA_THRESHOLD ) {
+    if ( usize ) {
+	if ( usize < KARATSUBA_THRESHOLD ) {
 	    _gcry_mpih_mul( ctx->tspace, vp, vsize, up, usize );
 	}
 	else {
-	    if( !ctx->next ) {
+	    if ( !ctx->next ) {
 		ctx->next = gcry_xcalloc( 1, sizeof *ctx );
 	    }
 	    _gcry_mpih_mul_karatsuba_case( ctx->tspace,
@@ -442,15 +442,15 @@ _gcry_mpih_release_karatsuba_ctx( struct karatsuba_ctx *ctx )
 {
     struct karatsuba_ctx *ctx2;
 
-    if( ctx->tp )
+    if ( ctx->tp )
 	_gcry_mpi_free_limb_space( ctx->tp, ctx->tp_nlimbs );
-    if( ctx->tspace )
+    if ( ctx->tspace )
 	_gcry_mpi_free_limb_space( ctx->tspace, ctx->tspace_nlimbs );
-    for( ctx=ctx->next; ctx; ctx = ctx2 ) {
+    for ( ctx=ctx->next; ctx; ctx = ctx2 ) {
 	ctx2 = ctx->next;
-	if( ctx->tp )
+	if ( ctx->tp )
             _gcry_mpi_free_limb_space( ctx->tp, ctx->tp_nlimbs );
-	if( ctx->tspace )
+	if ( ctx->tspace )
 	    _gcry_mpi_free_limb_space( ctx->tspace, ctx->tspace_nlimbs );
 	gcry_free( ctx );
     }
@@ -479,18 +479,18 @@ _gcry_mpih_mul( mpi_ptr_t prodp, mpi_ptr_t up, mpi_size_t usize,
     mpi_limb_t cy;
     struct karatsuba_ctx ctx;
 
-    if( vsize < KARATSUBA_THRESHOLD ) {
+    if ( vsize < KARATSUBA_THRESHOLD ) {
 	mpi_size_t i;
 	mpi_limb_t v_limb;
 
-	if( !vsize )
+	if ( !vsize )
 	    return 0;
 
 	/* Multiply by the first limb in V separately, as the result can be
 	 * stored (not added) to PROD.	We also avoid a loop for zeroing.  */
 	v_limb = vp[0];
-	if( v_limb <= 1 ) {
-	    if( v_limb == 1 )
+	if ( v_limb <= 1 ) {
+	    if ( v_limb == 1 )
 		MPN_COPY( prodp, up, usize );
 	    else
 		MPN_ZERO( prodp, usize );
@@ -504,11 +504,11 @@ _gcry_mpih_mul( mpi_ptr_t prodp, mpi_ptr_t up, mpi_size_t usize,
 
 	/* For each iteration in the outer loop, multiply one limb from
 	 * U with one limb from V, and add it to PROD.	*/
-	for( i = 1; i < vsize; i++ ) {
+	for ( i = 1; i < vsize; i++ ) {
 	    v_limb = vp[i];
-	    if( v_limb <= 1 ) {
+	    if ( v_limb <= 1 ) {
 		cy = 0;
-		if( v_limb == 1 )
+		if ( v_limb == 1 )
 		   cy = _gcry_mpih_add_n(prodp, prodp, up, usize);
 	    }
 	    else

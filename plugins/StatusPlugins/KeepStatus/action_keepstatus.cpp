@@ -44,7 +44,7 @@ static void BuildProtoList(HWND hList, BOOL bFromTrigger, char* szPrefix, DWORD 
 
 	char dbSetting[128];
 
-	for( int i=0; i < count; i++ ) {
+	for ( int i=0; i < count; i++ ) {
 		if ( !IsSuitableProto( protos[i] ))
 			continue;
 
@@ -140,7 +140,7 @@ static int TriggerChecking(DWORD actionID, REPORTINFO *ri)
 		PROTOACCOUNT** protos;
 		ProtoEnumAccounts( &count, &protos );
 
-		for( int i=0; i <count; i++ ) {
+		for ( int i=0; i <count; i++ ) {
 			if ( !IsSuitableProto( protos[i] ))
 				continue;
 

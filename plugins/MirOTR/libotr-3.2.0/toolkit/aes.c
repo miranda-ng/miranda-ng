@@ -74,7 +74,7 @@ void aes_gen_tables( void )
 
     /* compute pow and log tables over GF(2^8) */
 
-    for( i = 0, x = 1; i < 256; i++, x ^= XTIME( x ) )
+    for ( i = 0, x = 1; i < 256; i++, x ^= XTIME( x ) )
     {
         pow[i] = x;
         log[x] = i;
@@ -82,7 +82,7 @@ void aes_gen_tables( void )
 
     /* calculate the round constants */
 
-    for( i = 0, x = 1; i < 10; i++, x = XTIME( x ) )
+    for ( i = 0, x = 1; i < 10; i++, x = XTIME( x ) )
     {
         RCON[i] = (uint32) x << 24;
     }
@@ -92,7 +92,7 @@ void aes_gen_tables( void )
     FSb[0x00] = 0x63;
     RSb[0x63] = 0x00;
 
-    for( i = 1; i < 256; i++ )
+    for ( i = 1; i < 256; i++ )
     {
         x = pow[255 - log[i]];
 
@@ -108,7 +108,7 @@ void aes_gen_tables( void )
 
     /* generate the forward and reverse tables */
 
-    for( i = 0; i < 256; i++ )
+    for ( i = 0; i < 256; i++ )
     {
         x = (unsigned char) FSb[i]; y = XTIME( x );
 
@@ -441,7 +441,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
     int i;
     uint32 *RK, *SK;
 
-    if( do_init )
+    if ( do_init )
     {
         aes_gen_tables();
 
@@ -458,7 +458,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
 
     RK = ctx->erk;
 
-    for( i = 0; i < (nbits >> 5); i++ )
+    for ( i = 0; i < (nbits >> 5); i++ )
     {
         GET_UINT32( RK[i], key, i * 4 );
     }
@@ -469,7 +469,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
     {
     case 128:
 
-        for( i = 0; i < 10; i++, RK += 4 )
+        for ( i = 0; i < 10; i++, RK += 4 )
         {
             RK[4]  = RK[0] ^ RCON[i] ^
                         ( FSb[ (uint8) ( RK[3] >> 16 ) ] << 24 ) ^
@@ -485,7 +485,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
 
     case 192:
 
-        for( i = 0; i < 8; i++, RK += 6 )
+        for ( i = 0; i < 8; i++, RK += 6 )
         {
             RK[6]  = RK[0] ^ RCON[i] ^
                         ( FSb[ (uint8) ( RK[5] >> 16 ) ] << 24 ) ^
@@ -503,7 +503,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
 
     case 256:
 
-        for( i = 0; i < 7; i++, RK += 8 )
+        for ( i = 0; i < 7; i++, RK += 8 )
         {
             RK[8]  = RK[0] ^ RCON[i] ^
                         ( FSb[ (uint8) ( RK[7] >> 16 ) ] << 24 ) ^
@@ -530,9 +530,9 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
 
     /* setup decryption round keys */
 
-    if( KT_init )
+    if ( KT_init )
     {
-        for( i = 0; i < 256; i++ )
+        for ( i = 0; i < 256; i++ )
         {
             KT0[i] = RT0[ FSb[i] ];
             KT1[i] = RT1[ FSb[i] ];
@@ -550,7 +550,7 @@ int aes_set_key( aes_context *ctx, uint8 *key, int nbits )
     *SK++ = *RK++;
     *SK++ = *RK++;
 
-    for( i = 1; i < ctx->nr; i++ )
+    for ( i = 1; i < ctx->nr; i++ )
     {
         RK -= 8;
 
@@ -633,13 +633,13 @@ void aes_encrypt( aes_context *ctx, uint8 input[16], uint8 output[16] )
     AES_FROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );       /* round 8 */
     AES_FROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );       /* round 9 */
 
-    if( ctx->nr > 10 )
+    if ( ctx->nr > 10 )
     {
         AES_FROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );   /* round 10 */
         AES_FROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );   /* round 11 */
     }
 
-    if( ctx->nr > 12 )
+    if ( ctx->nr > 12 )
     {
         AES_FROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );   /* round 12 */
         AES_FROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );   /* round 13 */
@@ -723,13 +723,13 @@ void aes_decrypt( aes_context *ctx, uint8 input[16], uint8 output[16] )
     AES_RROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );       /* round 8 */
     AES_RROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );       /* round 9 */
 
-    if( ctx->nr > 10 )
+    if ( ctx->nr > 10 )
     {
         AES_RROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );   /* round 10 */
         AES_RROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );   /* round 11 */
     }
 
-    if( ctx->nr > 12 )
+    if ( ctx->nr > 12 )
     {
         AES_RROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );   /* round 12 */
         AES_RROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );   /* round 13 */
@@ -802,14 +802,14 @@ int main( void )
     unsigned char buf[16];
     unsigned char key[32];
 
-    for( m = 0; m < 2; m++ )
+    for ( m = 0; m < 2; m++ )
     {
         printf( "\n Rijndael Monte Carlo Test (ECB mode) - " );
 
-        if( m == 0 ) printf( "encryption\n\n" );
-        if( m == 1 ) printf( "decryption\n\n" );
+        if ( m == 0 ) printf( "encryption\n\n" );
+        if ( m == 1 ) printf( "decryption\n\n" );
 
-        for( n = 0; n < 3; n++ )
+        for ( n = 0; n < 3; n++ )
         {
             printf( " Test %d, key size = %3d bits: ",
                     n + 1, 128 + n * 64 );
@@ -819,34 +819,34 @@ int main( void )
             memset( buf, 0, 16 );
             memset( key, 0, 16 + n * 8 );
 
-            for( i = 0; i < 400; i++ )
+            for ( i = 0; i < 400; i++ )
             {
                 aes_set_key( &ctx, key, 128 + n * 64 );
 
-                for( j = 0; j < 9999; j++ )
+                for ( j = 0; j < 9999; j++ )
                 {
-                    if( m == 0 ) aes_encrypt( &ctx, buf, buf );
-                    if( m == 1 ) aes_decrypt( &ctx, buf, buf );
+                    if ( m == 0 ) aes_encrypt( &ctx, buf, buf );
+                    if ( m == 1 ) aes_decrypt( &ctx, buf, buf );
                 }
 
-                if( n > 0 )
+                if ( n > 0 )
                 {
-                    for( j = 0; j < (n << 3); j++ )
+                    for ( j = 0; j < (n << 3); j++ )
                     {
                         key[j] ^= buf[j + 16 - (n << 3)];
                     }
                 }
 
-                if( m == 0 ) aes_encrypt( &ctx, buf, buf );
-                if( m == 1 ) aes_decrypt( &ctx, buf, buf );
+                if ( m == 0 ) aes_encrypt( &ctx, buf, buf );
+                if ( m == 1 ) aes_decrypt( &ctx, buf, buf );
 
-                for( j = 0; j < 16; j++ )
+                for ( j = 0; j < 16; j++ )
                 {
                     key[j + (n << 3)] ^= buf[j];
                 }
             }
 
-            if( ( m == 0 && memcmp( buf, AES_enc_test[n], 16 ) != 0 ) ||
+            if ( ( m == 0 && memcmp( buf, AES_enc_test[n], 16 ) != 0 ) ||
                 ( m == 1 && memcmp( buf, AES_dec_test[n], 16 ) != 0 ) )
             {
                 printf( "failed!\n" );

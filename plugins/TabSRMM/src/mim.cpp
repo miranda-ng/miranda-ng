@@ -242,14 +242,14 @@ const TCHAR* CMimAPI::StriStr(const TCHAR *szString, const TCHAR *szSearchFor)
 		if (0 == szSearchFor || 0 == *szSearchFor)
 			return(szString);
 
-		for(; *szString; ++szString) {
+		for (; *szString; ++szString) {
 			if(_totupper(*szString) == _totupper(*szSearchFor)) {
 				const TCHAR *h, *n;
 				for(h = szString, n = szSearchFor; *h && *n; ++h, ++n) {
 					if(_totupper(*h) != _totupper(*n))
 						break;
 				}
-				if(!*n)
+				if (!*n)
 					return(szString);
 			}
 		}
@@ -574,7 +574,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 		}
 
 		if(M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST)) {
-			if(!hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
+			if (!hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGNOWINOPEN, 1))
 				fShowOnClist = FALSE;
 			if(hwnd && !M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINOPEN, 1))
 				fShowOnClist = FALSE;
@@ -582,7 +582,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 		else
 			fShowOnClist = FALSE;
 
-		if((!foundWin || !(pContainer->dwFlags&CNT_NOSOUND)) && preTyping != (lParam != 0)){
+		if ((!foundWin || !(pContainer->dwFlags&CNT_NOSOUND)) && preTyping != (lParam != 0)) {
 			if (lParam)
 				SkinPlaySound("TNStart");
 			else
@@ -598,7 +598,7 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 					fShow = TRUE;
 					break;
 				case 1:
-					if(!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
+					if (!foundWin || !(pContainer && pContainer->hwndActive == hwnd && GetForegroundWindow() == pContainer->hwnd))
 						fShow = TRUE;
 					break;
 				case 2:

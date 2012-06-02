@@ -117,9 +117,9 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 #ifndef PERMITNSN
 	SkinAddNewSoundEx("UserOnline",Translate("Alerts"),Translate("Online"));
 #endif
-	if (ServiceExists(MS_TIPPER_ADDTRANSLATION)){
+	if (ServiceExists(MS_TIPPER_ADDTRANSLATION)) {
 		int i=0;
-		for (i=0;i<TRANSNUMBER;i++){
+		for (i=0;i<TRANSNUMBER;i++) {
 			CallService(MS_TIPPER_ADDTRANSLATION,0,(LPARAM)&idleTr[i]);
 		}
 	}

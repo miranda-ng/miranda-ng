@@ -90,7 +90,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 		{	ATOM hSzApp,hSzTopic;
 			hSzApp=LOWORD(lParam); /* no UnpackDDElParam() here */
 			hSzTopic=HIWORD(lParam);
-			if((hSzApp==GlobalFindAtom(DDEAPP) && hSzTopic==GlobalFindAtom(DDETOPIC)) || !hSzApp) {
+			if ((hSzApp==GlobalFindAtom(DDEAPP) && hSzTopic==GlobalFindAtom(DDETOPIC)) || !hSzApp) {
 				hSzApp=GlobalAddAtom(DDEAPP);
 				hSzTopic=GlobalAddAtom(DDETOPIC);
 				if(hSzApp && hSzTopic) 
@@ -119,11 +119,11 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 						if(pszArg!=NULL) {
 							/* we are inside miranda here, we make it async so the shell does
 							 * not timeout regardless what the plugins try to do. */
-							if(!lstrcmpi(pszAction,_T("file")))
+							if (!lstrcmpi(pszAction,_T("file")))
 								ack.fAck=(short)(CallFunctionAsync(FileActionAsync,pszArg)!=0);
-							else if(!lstrcmpi(pszAction,_T("url")))
+							else if (!lstrcmpi(pszAction,_T("url")))
 								ack.fAck=(short)(CallFunctionAsync(UrlActionAsync,pszArg)!=0);
-							if(!ack.fAck) mir_free(pszArg); /* otherwise freed by asyncproc */
+							if (!ack.fAck) mir_free(pszArg); /* otherwise freed by asyncproc */
 						}
 						GlobalUnlock(hCommand);
 					}
@@ -131,7 +131,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 				}
 				#endif
 				lParam=ReuseDDElParam(lParam,msg,WM_DDE_ACK,*(PUINT)&ack,(UINT)hCommand);
-				if(!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {
+				if (!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {
 					GlobalFree(hCommand);
 					FreeDDElParam(WM_DDE_ACK,lParam);
 				}
@@ -151,7 +151,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			ZeroMemory(&ack,sizeof(ack));
 			if(UnpackDDElParam(msg,lParam,NULL,(PUINT)&hSzItem)) {
 				lParam=ReuseDDElParam(lParam,msg,WM_DDE_ACK,*(PUINT)&ack,(UINT)hSzItem);
-				if(!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {
+				if (!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {
 					if(hSzItem) GlobalDeleteAtom(hSzItem);
 					FreeDDElParam(WM_DDE_ACK,lParam);
 				}
@@ -170,7 +170,7 @@ static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 	STARTUPINFO si;
 
 	/* we are inside RunDll32 here */
-	if(!GetModuleFileName(hInst,szPath,SIZEOF(szPath))) return NULL;
+	if (!GetModuleFileName(hInst,szPath,SIZEOF(szPath))) return NULL;
 	p=_tcsrchr(szPath,_T('\\'));
 	if(p!=NULL) {	*p=0; p=_tcsrchr(szPath,_T('\\')); }
 	if(p==NULL) return NULL;
@@ -178,7 +178,7 @@ static HANDLE StartupMainProcess(TCHAR *pszDatabasePath)
 
 	/* inherit startup data from RunDll32 process */
 	GetStartupInfo(&si);
-	if(!CreateProcess(szPath,pszDatabasePath,NULL,NULL,TRUE,GetPriorityClass(GetCurrentProcess()),NULL,NULL,&si,&pi))
+	if (!CreateProcess(szPath,pszDatabasePath,NULL,NULL,TRUE,GetPriorityClass(GetCurrentProcess()),NULL,NULL,&si,&pi))
 		return NULL;
 	CloseHandle(pi.hThread);
 	return pi.hProcess;

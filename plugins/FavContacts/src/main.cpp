@@ -58,7 +58,7 @@ PLUGININFOEX pluginInfo = {
 
 HWND g_hwndMenuHost = NULL;
 static LRESULT CALLBACK MenuHostWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-static BOOL CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static void sttLoadOptions();
 static void sttSaveOptions();
@@ -1224,7 +1224,7 @@ static void sttActivateOptionsPage(HWND hwnd, TCHAR *aSection, TCHAR *aPage)
 	}
 }
 
-static BOOL CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bInitialized = false;
 	static HANDLE hSelectedContact = 0;

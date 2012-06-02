@@ -337,7 +337,7 @@ static BOOL DoPopup(SESSION_INFO* si, GCEVENT* gce, struct TWindowData* dat)
 		}
 		if (dat && pContainer != 0) {                // message window is open, need to check the container config if we want to see a popup nonetheless
 			if (nen_options.bWindowCheck) {                  // no popups at all for open windows... no exceptions
-				if(!PluginConfig.m_HideOnClose)
+				if (!PluginConfig.m_HideOnClose)
 					return(0);
 				if(pContainer->fHidden)
 					goto passed;
@@ -364,7 +364,7 @@ passed:
 		int iNewEvent = iEvent;
 		COLORREF clr = 0;
 
-		if((iNewEvent & GC_EVENT_HIGHLIGHT)) {
+		if ((iNewEvent & GC_EVENT_HIGHLIGHT)) {
 			clr = aFonts[16].color;
 			iNewEvent &= ~GC_EVENT_HIGHLIGHT;
 		}
@@ -541,7 +541,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO* si, GCEVENT * gce, BOOL bHighligh
 	params->bInactive = TRUE;
 	if(si->hWnd && si->dat) {
 		dat = si->dat;
-		if((si->hWnd == si->dat->pContainer->hwndActive) && GetForegroundWindow() == si->dat->pContainer->hwnd)
+		if ((si->hWnd == si->dat->pContainer->hwndActive) && GetForegroundWindow() == si->dat->pContainer->hwnd)
 			params->bInactive = FALSE;
 	}
 	params->bActiveTab = params->bMustFlash = params->bMustAutoswitch = FALSE;
@@ -776,7 +776,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	/*
      * check whether we have to log this event
     */
-	if(!(gce->pDest->iType & si->iDiskLogFlags))
+	if (!(gce->pDest->iType & si->iDiskLogFlags))
 		return FALSE;
 
 	szBuffer[0] = '\0';
@@ -919,7 +919,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 					mir_sntprintf(tszNewName, _MAX_DRIVE + _MAX_DIR + _MAX_FNAME + _MAX_EXT + 20, _T("%s%s-%s%s"), tszNewPath, tszName, tszTimestamp, tszExt);
 					fclose(hFile);
 					hFile = 0;
-					if(!PathFileExists(tszNewName))
+					if (!PathFileExists(tszNewName))
 						CopyFile(si->pszLogFileName, tszNewName, TRUE);
 					DeleteFile(si->pszLogFileName);
 				}
@@ -1272,7 +1272,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 	int 				i;
 	bool				fReparse = false;
 
-	if(!tTime)
+	if (!tTime)
 		time(&tTime);
 
 	/*
@@ -1331,7 +1331,7 @@ TCHAR* GetChatLogsFilename(SESSION_INFO *si, time_t tTime)
 		dat.variables = rva;
 		tszParsedName = (TCHAR*) CallService(MS_UTILS_REPLACEVARS, (WPARAM)g_Settings.pszLogDir, (LPARAM)&dat);
 
-		if(!M->pathIsAbsolute(tszParsedName))
+		if (!M->pathIsAbsolute(tszParsedName))
 			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s%s"), M->getChatLogPath(), tszParsedName);
 		else
 			mir_sntprintf(si->pszLogFileName, MAX_PATH, _T("%s"), tszParsedName);

@@ -314,7 +314,7 @@ INT_PTR __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 			if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
 				DBVARIANT dbv;
 
-				if ( !DBGetContactSettingString( (HANDLE) wParam, m_szModuleName, YAHOO_LOGINID, &dbv )){
+				if ( !DBGetContactSettingString( (HANDLE) wParam, m_szModuleName, YAHOO_LOGINID, &dbv )) {
 					DebugLog("Adding Permanently %s to list.", dbv.pszVal);
 					AddBuddy(dbv.pszVal,GetWord((HANDLE) wParam, "yprotoid", 0), "miranda", NULL);
 					DBFreeVariant(&dbv);
@@ -326,7 +326,7 @@ INT_PTR __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 
 		DebugLog("DB Setting changed.  YAHOO user's visible setting changed.");
 
-		if ( !DBGetContactSettingString( (HANDLE) wParam, m_szModuleName, YAHOO_LOGINID, &dbv )){
+		if ( !DBGetContactSettingString( (HANDLE) wParam, m_szModuleName, YAHOO_LOGINID, &dbv )) {
 			int iAdd = (ID_STATUS_OFFLINE == DBGetContactSettingWord((HANDLE) wParam, m_szModuleName, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
 			DBFreeVariant(&dbv);

@@ -105,7 +105,7 @@ string replaceIllegalNameChars(string fn, bool allowWC) {
 bool isInsideDirectory(pfc::string directory, pfc::string inside) {
 	//not very efficient
 	string walk = inside;
-	for(;;) {
+	for (;;) {
 		walk = getParent(walk);
 		if (walk == "") return false;
 		if (equals(directory,walk)) return true;

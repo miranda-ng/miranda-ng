@@ -45,7 +45,7 @@ LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting) 
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
 	DBGetContactSetting(hContact,szModule,szSetting,&dbv);
-	if( dbv.pszVal && (dbv.type==DBVT_ASCIIZ || dbv.type==DBVT_UTF8 || dbv.type==DBVT_WCHAR) )
+	if ( dbv.pszVal && (dbv.type==DBVT_ASCIIZ || dbv.type==DBVT_UTF8 || dbv.type==DBVT_WCHAR) )
 		val = mir_strdup(dbv.pszVal);
 	DBFreeVariant(&dbv);
 	return val;
@@ -54,7 +54,7 @@ LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting) 
 
 LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSetting) {
 	char *val = myDBGetString(hContact,szModule,szSetting);
-	if(!val) return NULL;
+	if (!val) return NULL;
 	size_t len = strlen(val)+64;
 	char *buf = (LPSTR)mir_alloc(len);
 	strncpy(buf,val,len); mir_free(val);
@@ -172,14 +172,14 @@ int ca2u=0;
 LPSTR TranslateU( LPCSTR lpText ) {
 	int i;
 	for(i=0;i<ca2u;i++) {
-		if( pa2u[i].a == lpText ) {
+		if ( pa2u[i].a == lpText ) {
 			return pa2u[i].u;
 		}
 	}
 	ca2u++;
 	pa2u = (pA2U) mir_realloc(pa2u,sizeof(A2U)*ca2u);
 	pa2u[i].a = (LPSTR) lpText;
-	if( bCoreUnicode ) {
+	if ( bCoreUnicode ) {
 		LPWSTR lpwText = mir_a2u(lpText);
 		LPWSTR lpwTran = TranslateW(lpwText);
 		mir_free(lpwText);
@@ -196,7 +196,7 @@ LPSTR TranslateU( LPCSTR lpText ) {
 }
 
 int msgbox( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType) {
-	if( bCoreUnicode ) {
+	if ( bCoreUnicode ) {
 		LPWSTR lpwText = mir_a2u(lpText);
 		LPWSTR lpwCaption = mir_a2u(lpCaption);
 		int r = MessageBoxW(hWnd,TranslateW(lpwText),TranslateW(lpwCaption),uType);

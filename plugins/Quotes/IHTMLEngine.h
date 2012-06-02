@@ -10,7 +10,7 @@ public:
 
 public:
 	IHTMLEngine(void){}
-	virtual ~IHTMLEngine(){}
+	virtual ~IHTMLEngine() {}
 
 	virtual THTMLParserPtr GetParserPtr()const = 0;
 };

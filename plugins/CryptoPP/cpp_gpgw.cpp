@@ -111,7 +111,7 @@ int load_gpg_mem(HMODULE mod) {
 int __cdecl gpg_init()
 {
 	int r; char t[MAX_PATH];
-	if( isVista ){
+	if ( isVista ) {
 		sprintf(t,"%s\\gnupgw.dll",TEMP);
 		ExtractFile(t,666,1);
 		hgpg = LoadLibraryA(t);
@@ -122,13 +122,13 @@ int __cdecl gpg_init()
 		hgpg = MemLoadLibrary( pRS_gpg );
 	}
 	if (hgpg) {
-		if( isVista )	load_gpg_dll(hgpg);
+		if ( isVista )	load_gpg_dll(hgpg);
 		else			load_gpg_mem(hgpg);
 		r = p_gpg_init();
 		if(r) {
 			return r;
 		}
-		if( isVista ){
+		if ( isVista ) {
 			FreeLibrary(hgpg);
 		}
 		else {
@@ -149,7 +149,7 @@ int __cdecl gpg_done()
     int r = 0;
     if(hgpg) {
     	r = p_gpg_done();
-		if( isVista ){
+		if ( isVista ) {
 			FreeLibrary(hgpg);
 		}
 		else {
@@ -201,7 +201,7 @@ LPSTR __cdecl gpg_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 
 	LPSTR szEncMsg;
 	szEncMsg = p_gpg_encrypt(szPlainMsg,(LPCSTR)p->gpgKeyID);
-	if(!szEncMsg) return 0;
+	if (!szEncMsg) return 0;
 
 	ptr->tmp = (LPSTR) strdup(szEncMsg);
 	LocalFree((LPVOID)szEncMsg);
@@ -216,11 +216,11 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
     SAFE_FREE(ptr->tmp);
 
     LPSTR szPlainMsg = p_gpg_decrypt(szEncMsg);
-/*	if(!szPlainMsg) {
+/*	if (!szPlainMsg) {
 	    ptr = get_context_on_id(hPGPPRIV); // find private pgp keys
     	if(ptr && ptr->pgpKey)
 			szPlainMsg = p_gpg_decrypt_key(szEncMsg,(LPCSTR)ptr->pgpKey);
-		if(!szPlainMsg) return NULL;
+		if (!szPlainMsg) return NULL;
     }*/
 
     ptr->tmp = (LPSTR) strdup(szPlainMsg);
@@ -232,13 +232,13 @@ LPSTR __cdecl gpg_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 
 LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 {
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return NULL;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return NULL;
 	pGPGDATA p = (pGPGDATA) cpp_alloc_pdata(ptr);
-	if(!p->gpgKeyID) { ptr->error = ERROR_NO_GPG_KEY; return NULL; }
+	if (!p->gpgKeyID) { ptr->error = ERROR_NO_GPG_KEY; return NULL; }
 
 	// utf8 message: encrypt.
 	LPSTR szUtfMsg;
-	if( ptr->mode & MODE_GPG_ANSI ) {
+	if ( ptr->mode & MODE_GPG_ANSI ) {
 		LPWSTR wszMsg = utf8decode(szPlainMsg);
 		int wlen = wcslen(wszMsg)+1;
 		szUtfMsg = (LPSTR) alloca(wlen);
@@ -254,13 +254,13 @@ LPSTR __cdecl gpg_encode(HANDLE context, LPCSTR szPlainMsg)
 LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 {
 	pCNTX ptr = get_context_on_id(context);
-	if(!ptr) return NULL;
+	if (!ptr) return NULL;
 
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = gpg_decrypt(ptr, szEncMsg);
 
 	if(szOldMsg) {
-		if( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
+		if ( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
 			int slen = strlen(szOldMsg)+1;
 			LPWSTR wszMsg = (LPWSTR) alloca(slen*sizeof(WCHAR));
 			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
@@ -279,10 +279,10 @@ LPSTR __cdecl gpg_decode(HANDLE context, LPCSTR szEncMsg)
 int __cdecl gpg_set_key(HANDLE context, LPCSTR RemoteKey)
 {
 /*    pCNTX ptr = get_context_on_id(context);
-    if(!ptr) return 0;
+    if (!ptr) return 0;
    	ptr->error = ERROR_NONE;
 
-//   	if(!p_gpg_check_key(RemoteKey)) return 0;
+//   	if (!p_gpg_check_key(RemoteKey)) return 0;
 
    	SAFE_FREE(ptr->pgpKey);
 	ptr->pgpKey = (BYTE *) malloc(strlen(RemoteKey)+1);
@@ -296,7 +296,7 @@ int __cdecl gpg_set_key(HANDLE context, LPCSTR RemoteKey)
 
 int __cdecl gpg_set_keyid(HANDLE context, LPCSTR RemoteKeyID)
 {
-	pCNTX ptr = get_context_on_id(context); if(!ptr) return 0;
+	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pGPGDATA p = (pGPGDATA) cpp_alloc_pdata(ptr);
    	ptr->error = ERROR_NONE;
 

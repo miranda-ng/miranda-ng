@@ -278,7 +278,7 @@ void CMsnProto::sttCustomSmiley(const char* msgBody, char* email, char* nick, in
 	unsigned iCount = 0;
 	bool parseSmiley = true;
 
-	for(;;)
+	for (;;)
 	{
 		tok2 = strchr(tok1, '\t');
 		if (tok2 == NULL) break;

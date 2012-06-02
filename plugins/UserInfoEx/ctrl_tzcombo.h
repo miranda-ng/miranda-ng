@@ -58,7 +58,7 @@ public:
 	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
 
 	virtual VOID	Release();
-//	virtual VOID	OnReset(){};
+//	virtual VOID	OnReset() {};
 	virtual BOOL	OnInfoChanged(HANDLE hContact, LPCSTR pszProto);
 	virtual VOID	OnApply(HANDLE hContact, LPCSTR pszProto);
 	virtual VOID	OnChangedByUser(WORD wChangedMsg);

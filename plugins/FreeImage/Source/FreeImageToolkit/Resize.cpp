@@ -68,7 +68,7 @@ CWeightsTable::CWeightsTable(CGenericFilter *pFilter, unsigned uDstSize, unsigne
 		int iRight = MIN ((int)ceil (dCenter + dWidth), int(uSrcSize) - 1); 
 
 		// cut edge points to fit in filter window in case of spill-off
-		if((iRight - iLeft + 1) > int(m_WindowSize)) {
+		if ((iRight - iLeft + 1) > int(m_WindowSize)) {
 			if(iLeft < (int(uSrcSize) - 1 / 2)) {
 				iLeft++; 
 			} else {
@@ -87,7 +87,7 @@ CWeightsTable::CWeightsTable(CGenericFilter *pFilter, unsigned uDstSize, unsigne
 			m_WeightTable[u].Weights[iSrc-iLeft] = weight;
 			dTotalWeight += weight;
 		}
-		if((dTotalWeight > 0) && (dTotalWeight != 1)) {
+		if ((dTotalWeight > 0) && (dTotalWeight != 1)) {
 			// normalize weight of neighbouring points
 			for(iSrc = iLeft; iSrc <= iRight; iSrc++) {
 				// normalize point
@@ -149,7 +149,7 @@ FIBITMAP* CResizeEngine::scale(FIBITMAP *src, unsigned dst_width, unsigned dst_h
 
 	// allocate the dst image
 	FIBITMAP *dst = FreeImage_AllocateT(image_type, dst_width, dst_height, bpp, redMask, greenMask, blueMask);
-	if(!dst) return NULL;
+	if (!dst) return NULL;
 	
 	if(bpp == 8) {
 		if(FreeImage_GetColorType(src) == FIC_MINISWHITE) {
@@ -191,7 +191,7 @@ FIBITMAP* CResizeEngine::scale(FIBITMAP *src, unsigned dst_width, unsigned dst_h
 
 		// allocate a temporary image
 		FIBITMAP *tmp = FreeImage_AllocateT(image_type, dst_width, src_height, bpp, redMask, greenMask, blueMask);
-		if(!tmp) {
+		if (!tmp) {
 			FreeImage_Unload(dst);
 			return NULL;
 		}
@@ -211,7 +211,7 @@ FIBITMAP* CResizeEngine::scale(FIBITMAP *src, unsigned dst_width, unsigned dst_h
 
 		// allocate a temporary image
 		FIBITMAP *tmp = FreeImage_AllocateT(image_type, src_width, dst_height, bpp, redMask, greenMask, blueMask);
-		if(!tmp) {
+		if (!tmp) {
 			FreeImage_Unload(dst);
 			return NULL;
 		}

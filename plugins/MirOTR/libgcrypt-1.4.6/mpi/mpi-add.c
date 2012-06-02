@@ -48,18 +48,18 @@ gcry_mpi_add_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
 
     /* If not space for W (and possible carry), increase space.  */
     wsize = usize + 1;
-    if( w->alloced < wsize )
+    if ( w->alloced < wsize )
 	mpi_resize(w, wsize);
 
     /* These must be after realloc (U may be the same as W).  */
     up = u->d;
     wp = w->d;
 
-    if( !usize ) {  /* simple */
+    if ( !usize ) {  /* simple */
 	wp[0] = v;
 	wsize = v? 1:0;
     }
-    else if( !usign ) {  /* mpi is not negative */
+    else if ( !usign ) {  /* mpi is not negative */
 	mpi_limb_t cy;
 	cy = _gcry_mpih_add_1(wp, up, usize, v);
 	wp[usize] = cy;
@@ -67,7 +67,7 @@ gcry_mpi_add_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
     }
     else {  /* The signs are different.  Need exact comparison to determine
 	     * which operand to subtract from which.  */
-	if( usize == 1 && up[0] < v ) {
+	if ( usize == 1 && up[0] < v ) {
 	    wp[0] = v - up[0];
 	    wsize = 1;
 	}
@@ -91,7 +91,7 @@ gcry_mpi_add(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
     mpi_size_t usize, vsize, wsize;
     int usign, vsign, wsign;
 
-    if( u->nlimbs < v->nlimbs ) { /* Swap U and V. */
+    if ( u->nlimbs < v->nlimbs ) { /* Swap U and V. */
 	usize = v->nlimbs;
 	usign = v->sign;
 	vsize = u->nlimbs;
@@ -116,31 +116,31 @@ gcry_mpi_add(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
     wp = w->d;
     wsign = 0;
 
-    if( !vsize ) {  /* simple */
+    if ( !vsize ) {  /* simple */
 	MPN_COPY(wp, up, usize );
 	wsize = usize;
 	wsign = usign;
     }
-    else if( usign != vsign ) { /* different sign */
+    else if ( usign != vsign ) { /* different sign */
 	/* This test is right since USIZE >= VSIZE */
-	if( usize != vsize ) {
+	if ( usize != vsize ) {
 	    _gcry_mpih_sub(wp, up, usize, vp, vsize);
 	    wsize = usize;
 	    MPN_NORMALIZE(wp, wsize);
 	    wsign = usign;
 	}
-	else if( _gcry_mpih_cmp(up, vp, usize) < 0 ) {
+	else if ( _gcry_mpih_cmp(up, vp, usize) < 0 ) {
 	    _gcry_mpih_sub_n(wp, vp, up, usize);
 	    wsize = usize;
 	    MPN_NORMALIZE(wp, wsize);
-	    if( !usign )
+	    if ( !usign )
 		wsign = 1;
 	}
 	else {
 	    _gcry_mpih_sub_n(wp, up, vp, usize);
 	    wsize = usize;
 	    MPN_NORMALIZE(wp, wsize);
-	    if( usign )
+	    if ( usign )
 		wsign = 1;
 	}
     }
@@ -148,7 +148,7 @@ gcry_mpi_add(gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v)
 	mpi_limb_t cy = _gcry_mpih_add(wp, up, usize, vp, vsize);
 	wp[usize] = cy;
 	wsize = usize + cy;
-	if( usign )
+	if ( usign )
 	    wsign = 1;
     }
 
@@ -174,19 +174,19 @@ gcry_mpi_sub_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
 
     /* If not space for W (and possible carry), increase space.  */
     wsize = usize + 1;
-    if( w->alloced < wsize )
+    if ( w->alloced < wsize )
 	mpi_resize(w, wsize);
 
     /* These must be after realloc (U may be the same as W).  */
     up = u->d;
     wp = w->d;
 
-    if( !usize ) {  /* simple */
+    if ( !usize ) {  /* simple */
 	wp[0] = v;
 	wsize = v? 1:0;
 	wsign = 1;
     }
-    else if( usign ) {	/* mpi and v are negative */
+    else if ( usign ) {	/* mpi and v are negative */
 	mpi_limb_t cy;
 	cy = _gcry_mpih_add_1(wp, up, usize, v);
 	wp[usize] = cy;
@@ -194,7 +194,7 @@ gcry_mpi_sub_ui(gcry_mpi_t w, gcry_mpi_t u, unsigned long v )
     }
     else {  /* The signs are different.  Need exact comparison to determine
 	     * which operand to subtract from which.  */
-	if( usize == 1 && up[0] < v ) {
+	if ( usize == 1 && up[0] < v ) {
 	    wp[0] = v - up[0];
 	    wsize = 1;
 	    wsign = 1;

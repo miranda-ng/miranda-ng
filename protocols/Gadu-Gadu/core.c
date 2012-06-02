@@ -207,10 +207,10 @@ int gg_decodehosts(char *var, GGHOST *hosts, int max)
 				*(var - 1) = 0;
 				portname = var;
 				while(var && *var && isdigit(*var)) var++;
-				if(*var) { *var = 0; var ++; }
+				if (*var) { *var = 0; var ++; }
 			}
 			else
-				if(*var) { *var = 0; var ++; }
+				if (*var) { *var = 0; var ++; }
 
 			// Insert new item
 			hosts[hp].hostname[127] = 0;
@@ -315,7 +315,7 @@ void __cdecl gg_mainthread(GGPROTO *gg, void *empty)
 	// Check out manual host setting
 	if(DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_MANUALHOST, GG_KEYDEF_MANUALHOST))
 	{
-		if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_SERVERHOSTS, &dbv))
+		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_SERVERHOSTS, &dbv))
 		{
 			hostcount = gg_decodehosts(dbv.pszVal, hosts, 64);
 			DBFreeVariant(&dbv);
@@ -323,7 +323,7 @@ void __cdecl gg_mainthread(GGPROTO *gg, void *empty)
 	}
 
 	// Readup password
-	if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv))
+	if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_PASSWORD, &dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM) dbv.pszVal);
 		p.password = mir_strdup(dbv.pszVal);
@@ -337,7 +337,7 @@ void __cdecl gg_mainthread(GGPROTO *gg, void *empty)
 	}
 
 	// Readup number
-	if(!(p.uin = DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0)))
+	if (!(p.uin = DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, 0)))
 	{
 		gg_netlog(gg, "gg_mainthread(%x): No Gadu-Gadu number specified. Exiting.", gg);
 		gg_broadcastnewstatus(gg, ID_STATUS_OFFLINE);
@@ -354,7 +354,7 @@ void __cdecl gg_mainthread(GGPROTO *gg, void *empty)
 
 	////////////////////////////// DCC STARTUP /////////////////////////////
 	// Uin is ok so startup dcc if not started already
-	if(!gg->dcc)
+	if (!gg->dcc)
 	{
 		gg->event = CreateEvent(NULL, TRUE, FALSE, NULL);
 		gg_dccstart(gg);
@@ -369,9 +369,9 @@ void __cdecl gg_mainthread(GGPROTO *gg, void *empty)
 	// Check if dcc is running and setup forwarding port
 	if(gg->dcc && DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_FORWARDING, GG_KEYDEF_FORWARDING))
 	{
-		if(!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_FORWARDHOST, &dbv))
+		if (!DBGetContactSettingString(NULL, GG_PROTO, GG_KEY_FORWARDHOST, &dbv))
 		{
-			if(!(p.external_addr = gg_dnslookup(gg, dbv.pszVal)))
+			if (!(p.external_addr = gg_dnslookup(gg, dbv.pszVal)))
 			{
 				char error[128];
 				mir_snprintf(error, sizeof(error), Translate("External direct connections hostname %s is invalid. Disabling external host forwarding."), dbv.pszVal);
@@ -399,7 +399,7 @@ retry:
 	// Check manual hosts
 	if(hostnum < hostcount)
 	{
-		if(!(p.server_addr = gg_dnslookup(gg, hosts[hostnum].hostname)))
+		if (!(p.server_addr = gg_dnslookup(gg, hosts[hostnum].hostname)))
 		{
 			char error[128];
 			mir_snprintf(error, sizeof(error), Translate("Server hostname %s is invalid. Using default hostname provided by the network."), hosts[hostnum].hostname);
@@ -510,7 +510,7 @@ retry:
 	while(gg_isonline(gg))
 	{
 		// Connection broken/closed
-		if(!(e = gg_watch_fd(gg->sess)))
+		if (!(e = gg_watch_fd(gg->sess)))
 		{
 			gg_netlog(gg, "gg_mainthread(%x): Connection closed.", gg);
 			EnterCriticalSection(&gg->sess_mutex);
@@ -814,12 +814,12 @@ retry:
 			// Received message
 			case GG_EVENT_MSG:
 				// This is CTCP request
-				if((e->event.msg.msgclass & GG_CLASS_CTCP))
+				if ((e->event.msg.msgclass & GG_CLASS_CTCP))
 				{
 					gg_dccconnect(gg, e->event.msg.sender);
 				}
 				// Check if not conference and block
-				else if(!e->event.msg.recipients_count || gg->gc_enabled)
+				else if (!e->event.msg.recipients_count || gg->gc_enabled)
 				{
 					// Check if groupchat
 					if(e->event.msg.recipients_count && gg->gc_enabled && !DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
@@ -844,7 +844,7 @@ retry:
 						}
 					}
 					// Check if not empty message ( who needs it? )
-					else if(!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && strcmp(e->event.msg.message, "\xA0\0"))
+					else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && strcmp(e->event.msg.message, "\xA0\0"))
 					{
 						CCSDATA ccs = {0};
 						PROTORECVEVENT pre = {0};
@@ -994,7 +994,7 @@ retry:
 					HANDLE hContact = gg_getcontact(gg, e->event.image_reply.sender, 1, 0, NULL);
 					void *img = (void *)gg_img_loadpicture(gg, e, 0);
 
-					if(!img)
+					if (!img)
 						break;
 
 					if(DBGetContactSettingByte(NULL, GG_PROTO, GG_KEY_IMGMETHOD, GG_KEYDEF_IMGMETHOD) == 1 || gg_img_opened(gg, e->event.image_reply.sender))
@@ -1038,7 +1038,7 @@ retry:
 					dcc7->contact = gg_getcontact(gg, dcc7->peer_uin, 0, 0, NULL);
 
 					// Check if user is on the list and if it is my uin
-					if(!dcc7->contact || DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, -1) != dcc7->uin) {
+					if (!dcc7->contact || DBGetContactSettingDword(NULL, GG_PROTO, GG_KEY_UIN, -1) != dcc7->uin) {
 						gg_dcc7_free(dcc7);
 						e->event.dcc7_new = NULL;
 						break;
@@ -1327,11 +1327,11 @@ int gg_dbsettingchanged(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 	char *szProto = NULL;
 
 	// Check if the contact is NULL or we are not online
-	if(!gg_isonline(gg))
+	if (!gg_isonline(gg))
 		return 0;
 
 	// If contact has been blocked
-	if(!strcmp(cws->szModule, GG_PROTO) && !strcmp(cws->szSetting, GG_KEY_BLOCK))
+	if (!strcmp(cws->szModule, GG_PROTO) && !strcmp(cws->szSetting, GG_KEY_BLOCK))
 	{
 		gg_notifyuser(gg, hContact, 1);
 		return 0;
@@ -1348,7 +1348,7 @@ int gg_dbsettingchanged(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 		{
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
-			if(!cascade && dbv.pszVal)
+			if (!cascade && dbv.pszVal)
 			{
 				GCDEST gcdest = {GG_PROTO, dbv.pszVal, GC_EVENT_CHANGESESSIONAME};
 				GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
@@ -1367,14 +1367,14 @@ int gg_dbsettingchanged(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 	}
 
 	// Contact list changes
-	if(!strcmp(cws->szModule, "CList"))
+	if (!strcmp(cws->szModule, "CList"))
 	{
 		// If name changed... change nick
-		if(!strcmp(cws->szSetting, "MyHandle") && cws->value.type == DBVT_ASCIIZ && cws->value.pszVal)
+		if (!strcmp(cws->szSetting, "MyHandle") && cws->value.type == DBVT_ASCIIZ && cws->value.pszVal)
 			DBWriteContactSettingString(hContact, GG_PROTO, GG_KEY_NICK, cws->value.pszVal);
 
 		// If not on list changed
-		if(!strcmp(cws->szSetting, "NotOnList"))
+		if (!strcmp(cws->szSetting, "NotOnList"))
 		{
 			if(DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
 				return 0;
@@ -1540,7 +1540,7 @@ HANDLE gg_getcontact(GGPROTO *gg, uin_t uin, int create, int inlist, char *szNic
 		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 		if(szProto != NULL && !strcmp(szProto, GG_PROTO))
 		{
-			if((uin_t)DBGetContactSettingDword(hContact, GG_PROTO, GG_KEY_UIN, 0) == uin
+			if ((uin_t)DBGetContactSettingDword(hContact, GG_PROTO, GG_KEY_UIN, 0) == uin
 				&& DBGetContactSettingByte(hContact, GG_PROTO, "ChatRoom", 0) == 0)
 			{
 				if(inlist)
@@ -1553,11 +1553,11 @@ HANDLE gg_getcontact(GGPROTO *gg, uin_t uin, int create, int inlist, char *szNic
 		}
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 	}
-	if(!create) return NULL;
+	if (!create) return NULL;
 
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 
-	if(!hContact)
+	if (!hContact)
 	{
 		gg_netlog(gg, "gg_getcontact(): Failed to create Gadu-Gadu contact %s", szNick);
 		return NULL;
@@ -1572,7 +1572,7 @@ HANDLE gg_getcontact(GGPROTO *gg, uin_t uin, int create, int inlist, char *szNic
 	}
 
 	gg_netlog(gg, "gg_getcontact(): Added buddy: %d", uin);
-	if(!inlist)
+	if (!inlist)
 	{
 		DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
 		//DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
@@ -1743,7 +1743,7 @@ void gg_changecontactstatus(GGPROTO *gg, uin_t uin, int status, const char *ides
 	HANDLE hContact = gg_getcontact(gg, uin, 0, 0, NULL);
 
 	// Check if contact is on list
-	if(!hContact) return;
+	if (!hContact) return;
 
 	// Write contact status
 	DBWriteContactSettingWord(hContact, GG_PROTO, GG_KEY_STATUS, (WORD)status_gg2m(gg, status));

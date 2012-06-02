@@ -55,7 +55,7 @@ void ShowPopup(const char *title, const char *description, int type)
 	POPUPDATAEX ppd;
 	int ret;
 
-	if(!ServiceExists(MS_POPUP_ADDPOPUPEX) || !EnablePopups) 
+	if (!ServiceExists(MS_POPUP_ADDPOPUPEX) || !EnablePopups) 
 	{
 		return;
 	}

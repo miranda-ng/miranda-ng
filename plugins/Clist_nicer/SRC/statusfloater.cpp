@@ -163,22 +163,22 @@ void FLT_SnapToFloater(HWND hwnd)
 	while(pCurrent) {
 		GetWindowRect(pCurrent->hwnd, &rcWindow);
 		//top
-		if((rcWindow.top - rcBase.bottom > -SNAP_FLT_TOLERANCE) && (rcWindow.top - rcBase.bottom < minTop)){
+		if ((rcWindow.top - rcBase.bottom > -SNAP_FLT_TOLERANCE) && (rcWindow.top - rcBase.bottom < minTop)) {
 			posTop = rcWindow.top;
 			minTop = rcWindow.top - rcBase.bottom;
 		}
 		//bottom
-		if((rcBase.top - rcWindow.bottom > -SNAP_FLT_TOLERANCE) && (rcBase.top - rcWindow.bottom  < minBottom)){
+		if ((rcBase.top - rcWindow.bottom > -SNAP_FLT_TOLERANCE) && (rcBase.top - rcWindow.bottom  < minBottom)) {
 			posBottom = rcWindow.bottom;
 			minBottom = rcBase.top - rcWindow.bottom;
 		}
 		//left
-		if((rcWindow.left - rcBase.right > -SNAP_FLT_TOLERANCE) && (rcWindow.left - rcBase.right < minLeft)){
+		if ((rcWindow.left - rcBase.right > -SNAP_FLT_TOLERANCE) && (rcWindow.left - rcBase.right < minLeft)) {
 			posLeft= rcWindow.left;
 			minLeft = rcWindow.left - rcBase.right;
 		}
 		//right
-		if((rcBase.left - rcWindow.right > -SNAP_FLT_TOLERANCE) && (rcBase.left - rcWindow.right  < minRight)){
+		if ((rcBase.left - rcWindow.right > -SNAP_FLT_TOLERANCE) && (rcBase.left - rcWindow.right  < minRight)) {
 			posRight= rcWindow.right;
 			minRight = rcBase.left - rcWindow.right;
 		}
@@ -315,7 +315,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				case IDC_FLT_SIMPLELAYOUT:
 					{
-						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)){
+						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
 							int isSimple = IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT);
 							Utils::enableDlgControl(hwndDlg, IDC_FLT_AVATARS, !isSimple);
 							Utils::enableDlgControl(hwndDlg, IDC_FLT_EXTRAICONS, !isSimple);
@@ -325,7 +325,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				case IDC_FLT_BORDER:
 					{
-						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)){
+						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
 							int isBorder = IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER);
 							Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDERCOLOUR, isBorder);
 						}
@@ -333,7 +333,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
 				case IDC_FLT_ROUNDED:
 					{
-						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)){
+						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
 							int isRounded = IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED);
 							Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUS, isRounded);
 							Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUSSPIN, isRounded);
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					break;
                 case IDC_FLT_SHOWTOOLTIPS:
                     {
-                        if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)){
+                        if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
                             int isTooltip = IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS);
                             int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
                             Utils::enableDlgControl(hwndDlg, IDC_FLT_DEFHOVERTIME, isTooltip);
@@ -353,7 +353,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
                     break;
                 case IDC_FLT_DEFHOVERTIME:
                     {
-                        if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED) && IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS)){
+                        if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED) && IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS)) {
                             int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
                             Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, !isDefHoverTime);
                             Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, !isDefHoverTime);
@@ -517,7 +517,7 @@ LRESULT CALLBACK StatusFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				GetCursorPos(&ptMouse);
 				GetWindowRect(hwnd, &rcWindow);
 				rcWindow.right = rcWindow.left + 25;
-				if(!PtInRect(&rcWindow, ptMouse))
+				if (!PtInRect(&rcWindow, ptMouse))
 					return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(ptMouse.x, ptMouse.y));
 				break;
 			}
@@ -631,12 +631,12 @@ LRESULT CALLBACK ContactFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 				GetCursorPos(&ptMouse);
 				GetWindowRect(hwnd, &rcWindow);
 				rcWindow.right = rcWindow.left + 25;
-				if(!PtInRect(&rcWindow, ptMouse))
+				if (!PtInRect(&rcWindow, ptMouse))
 					return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(ptMouse.x, ptMouse.y));
 				break;
 			}
 		case WM_MOUSEMOVE:
-			if( API::pfnTrackMouseEvent && !hover ) {
+			if ( API::pfnTrackMouseEvent && !hover ) {
 				TRACKMOUSEEVENT tme;
 				tme.cbSize = sizeof(TRACKMOUSEEVENT);
 				tme.dwFlags = TME_HOVER | TME_LEAVE;
@@ -664,7 +664,7 @@ LRESULT CALLBACK ContactFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 				while(pCurrent->hwnd != hwnd)
 					pCurrent = pCurrent->pNextFloater;
 
-				if(FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)){
+				if(FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {
 					g_floatoptions.trans = g_floatoptions.act_trans;
 					FLT_Update(cfg::clcdat, contact);
 					g_floatoptions.trans = oldTrans;
@@ -818,7 +818,7 @@ void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const TCHAR *szText, BO
 		sfl_statustext[99] = 0;
 	}
 
-	if(!hIcon) {
+	if (!hIcon) {
 		HICON p_hIcon;
 
 		if(refresh)
@@ -941,7 +941,7 @@ void FLT_SetSize(struct TExtraCache *centry, LONG width, LONG height)
 	int flags = SWP_SHOWWINDOW | SWP_NOMOVE | SWP_NOACTIVATE;
 
 	int iVis = pcli->pfnGetWindowVisibleState(pcli->hwndContactList, 0, 0);
-	if((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) //2 = GWVS_VISIBLE, 4 = GWVS_PARTIALLY_COVERED
+	if ((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) //2 = GWVS_VISIBLE, 4 = GWVS_PARTIALLY_COVERED
 		flags = SWP_NOMOVE | SWP_NOACTIVATE;
 
 	if(centry->floater) {
@@ -1093,19 +1093,19 @@ void FLT_Update(struct ClcData *dat, struct ClcContact *contact)
 			cfg::eCache[contact->extraCacheEntry].dwXMask = 0;
 		}
 		else{
-			if(!(g_floatoptions.dwFlags & FLT_AVATARS)) {
+			if (!(g_floatoptions.dwFlags & FLT_AVATARS)) {
                 contact->ace = 0;
                 g_list_avatars = 0;
             }
             else
                 g_list_avatars = 1;
 
-            if(!(g_floatoptions.dwFlags & FLT_DUALROW))
+            if (!(g_floatoptions.dwFlags & FLT_DUALROW))
                 contact->bSecondLine = MULTIROW_NEVER;
 			else
 				contact->bSecondLine = MULTIROW_ALWAYS;
 
-			if(!(g_floatoptions.dwFlags & FLT_EXTRAICONS)) {
+			if (!(g_floatoptions.dwFlags & FLT_EXTRAICONS)) {
 				cfg::dat.dwFlags &= ~(CLUI_SHOWCLIENTICONS | CLUI_SHOWVISI);
 				cfg::eCache[contact->extraCacheEntry].dwXMask = 0;
 			}
@@ -1178,10 +1178,10 @@ void FLT_SyncWithClist()
 	if(g_floatoptions.dwFlags & FLT_SYNCWITHCLIST){
 		while(pCurrent) {
 			hwnd = pCurrent->hwnd;
-			if(hwnd && IsWindow(hwnd)){
+			if(hwnd && IsWindow(hwnd)) {
 				if(FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {
                     FLT_Update(cfg::clcdat, contact);
-                    if(((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) || !(g_floatoptions.dwFlags & FLT_AUTOHIDE))
+                    if (((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) || !(g_floatoptions.dwFlags & FLT_AUTOHIDE))
                         ShowWindow(hwnd, SW_SHOWNOACTIVATE);
                     else
                         ShowWindow(hwnd, SW_HIDE);
@@ -1208,7 +1208,7 @@ void FLT_ShowHideAll(int showCmd)
 	if(g_floatoptions.dwFlags & FLT_AUTOHIDE){
 		while(pCurrent) {
 			hwnd = pCurrent->hwnd;
-			if(hwnd && IsWindow(hwnd)){
+			if(hwnd && IsWindow(hwnd)) {
 				if(showCmd == SW_SHOWNOACTIVATE && FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0))
 					ShowWindow(hwnd, SW_SHOWNOACTIVATE);
 				else if(showCmd != SW_SHOWNOACTIVATE)

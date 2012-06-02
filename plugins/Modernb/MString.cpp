@@ -79,7 +79,7 @@ bool CMStringData::IsShared() const
 void CMStringData::Lock()
 {
 	nRefs--;  // Locked buffers can't be shared, so no interlocked operation necessary
-	if( nRefs == 0 )
+	if ( nRefs == 0 )
 		nRefs = -1;
 }
 

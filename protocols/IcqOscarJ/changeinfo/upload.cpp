@@ -40,7 +40,7 @@ int CIcqProto::StringToListItemId(const char *szSetting,int def)
 	int i;
 
 	for(i=0;i<settingCount;i++)
-		if(!strcmpnull(szSetting,setting[i].szDbSetting))
+		if (!strcmpnull(szSetting,setting[i].szDbSetting))
 			break;
 
 	if (i==settingCount) return def;

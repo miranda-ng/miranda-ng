@@ -97,16 +97,12 @@ void MyBitmap::setAlphaRect(int x1, int y1, int x2, int y2, BYTE level)
 
 	GdiFlush();
 	for (int i = y1; i < y2; i++)
-		for (int j = x1; j < x2; j++)
-		{
+		for (int j = x1; j < x2; j++) {
 			int idx = i * width + j;
 			if (bits[idx] & 0xff000000)
-			{
 				bits[idx] = rgba(getr(bits[idx])*level/255, getg(bits[idx])*level/255, getb(bits[idx])*level/255, geta(bits[idx])*level/255);
-			} else
-			{
+			else
 				bits[idx] = rgba(getr(bits[idx])*level/255, getg(bits[idx])*level/255, getb(bits[idx])*level/255, level);
-			}
 		}
 }
 
@@ -125,8 +121,7 @@ void MyBitmap::makeOpaqueRect(int x1, int y1, int x2, int y2)
 
 	GdiFlush();
 	for (int i = y1; i < y2; i++)
-		for (int j = x1; j < x2; j++)
-		{
+		for (int j = x1; j < x2; j++) {
 			int idx = i * width + j;
 			bits[idx] |= 0xff000000;
 		}
@@ -155,7 +150,7 @@ void MyBitmap::saveAlpha(int x, int y, int w, int h)
 		{
 			if (j+x < 0) continue;
 			if (j+x >= width) break;
-			*p1++ = *p2++;
+			*p1++=*p2++;
 		}
 	}
 }
@@ -636,8 +631,8 @@ void MyBitmap::DrawNoAlpha(MyBitmap *bmp, int x, int y, int w, int h)
 
 static __forceinline int ReadP(long *p, int w, int h, int x, int y, int k)
 {
-	if (x<0) x=0; else if (x>=w) x=w-1;
-	if (y<0) y=0; else if (y>=h) y=h-1;
+	if (x<0) x = 0; else if (x>=w) x = w-1;
+	if (y<0) y = 0; else if (y>=h) y = h-1;
 	return p[(x+y*w)*4+k];
 }
 
@@ -682,9 +677,9 @@ void MyBitmap::Blur(int w, int h)
 	dst = buf_dst;
 
 	float mul = 1.f/((w*2+1)*(h*2+1));
-	for (y=0;y<height;y++)
+	for (y = 0;y<height;y++)
 	{
-		for (int x=0;x<width;x++)
+		for (int x = 0;x<width;x++)
 		{
 			for (int k = 0; k < 4; ++k)
 			{
@@ -805,23 +800,23 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 	sz.cx += (blur+2)*2; sz.cy += (blur+2)*2;
 	x -= blur+2; y -= blur+2;
 
-	static BYTE             pbGammaWeight[256]={0};
-	static BOOL             bGammaWeightFilled=FALSE;
+	static BYTE             pbGammaWeight[256] = {0};
+	static BOOL             bGammaWeightFilled = FALSE;
 
 	if (!bGammaWeightFilled)
 	{
 		int i;
-		for(i=0;i<256;i++)
+		for(i = 0;i<256;i++)
 		{
 			double f;
-			double gamma=(double)700/1000;
+			double gamma = (double)700/1000;
 
-			f=(double)i/255;
-			f=pow(f,(1/gamma));
+			f = (double)i/255;
+			f = pow(f,(1/gamma));
 
-			pbGammaWeight[i]=(BYTE)(255*f);
+			pbGammaWeight[i] = (BYTE)(255*f);
 		}
-		bGammaWeightFilled=1;
+		bGammaWeightFilled = 1;
 	}
 
 	MyBitmap tmp(sz.cx, sz.cy);
@@ -875,22 +870,22 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 		{
 			COLOR32 bx,rx,gx,mx;
 			{
-				bx=pbGammaWeight[getb(row_src[j])];
-				gx=pbGammaWeight[getg(row_src[j])];
-				rx=pbGammaWeight[getr(row_src[j])];
+				bx = pbGammaWeight[getb(row_src[j])];
+				gx = pbGammaWeight[getg(row_src[j])];
+				rx = pbGammaWeight[getr(row_src[j])];
 			}
 
-			bx=(pbGammaWeight[bx]*(255-b)+bx*(b))/255;
-			gx=(pbGammaWeight[gx]*(255-g)+gx*(g))/255;
-			rx=(pbGammaWeight[rx]*(255-r)+rx*(r))/255;
+			bx = (pbGammaWeight[bx]*(255-b)+bx*(b))/255;
+			gx = (pbGammaWeight[gx]*(255-g)+gx*(g))/255;
+			rx = (pbGammaWeight[rx]*(255-r)+rx*(r))/255;
 
-			mx=(BYTE)(max(max(bx,rx),gx));
+			mx = (BYTE)(max(max(bx,rx),gx));
 
 			if (1) 
 			{
-				bx=(bx<mx)?(BYTE)(((WORD)bx*7+(WORD)mx)>>3):bx;
-				rx=(rx<mx)?(BYTE)(((WORD)rx*7+(WORD)mx)>>3):rx;
-				gx=(gx<mx)?(BYTE)(((WORD)gx*7+(WORD)mx)>>3):gx;
+				bx = (bx<mx)?(BYTE)(((WORD)bx*7+(WORD)mx)>>3):bx;
+				rx = (rx<mx)?(BYTE)(((WORD)rx*7+(WORD)mx)>>3):rx;
+				gx = (gx<mx)?(BYTE)(((WORD)gx*7+(WORD)mx)>>3):gx;
 				// reduce boldeness at white fonts
 			}
 			COLOR32 cl = row_dst[j];
@@ -898,24 +893,24 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 			{
 				COLOR32 rrx,grx,brx;
 				COLOR32 rlx,glx,blx;
-				COLOR32 axx=geta(cl);
-				COLOR32 mmx=(bx+gx+rx)/3;
-				COLOR32 nx=mmx;;//pbGammaWeight[mx];//
+				COLOR32 axx = geta(cl);
+				COLOR32 mmx = (bx+gx+rx)/3;
+				COLOR32 nx = mmx;;//pbGammaWeight[mx];//
 				{
 					//Normalize components	to alpha level
-					bx=(nx*(255-axx)+bx*axx)/255;
-					gx=(nx*(255-axx)+gx*axx)/255;
-					rx=(nx*(255-axx)+rx*axx)/255;
-					mx=(nx*(255-axx)+mmx*axx)/255;
+					bx = (nx*(255-axx)+bx*axx)/255;
+					gx = (nx*(255-axx)+gx*axx)/255;
+					rx = (nx*(255-axx)+rx*axx)/255;
+					mx = (nx*(255-axx)+mmx*axx)/255;
 				}
 				{
 					blx = getb(cl);
 					glx = getg(cl);
 					rlx = getr(cl);
 
-					brx=(b-blx)*bx/255;
-					grx=(g-glx)*gx/255;
-					rrx=(r-rlx)*rx/255;
+					brx = (b-blx)*bx/255;
+					grx = (g-glx)*gx/255;
+					rrx = (r-rlx)*rx/255;
 					row_dst[j] = rgba(rlx+rrx, glx+grx, blx+brx, mx+(255-mx)*axx/255);
 				}
 			}
@@ -924,7 +919,7 @@ void MyBitmap::DrawText(TCHAR *str, int x, int y, int blur, int strength)
 }
 
 // based on code by Yuriy Zaporozhets from:
-// http://www.codeproject.com/gdi/coolrgn.asp?df=100&forumid=739&exp=0&select=6341
+// http://www.codeproject.com/gdi/coolrgn.asp?df = 100&forumid = 739&exp = 0&select = 6341
 // slightly modified to integrate with MyBitmap class.
 HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 {
@@ -1008,7 +1003,7 @@ static int hex2dec(char hex)
 bool MyBitmap::loadFromFile_pixel(const char *fn, const char *fnAlpha)
 {
 	allocate(1,1);
-	int r, g, b, a=255;
+	int r, g, b, a = 255;
 	const char *p = fn + lstrlenA("pixel:");
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
 	g = (hex2dec(p[2]) << 4) + hex2dec(p[3]);
@@ -1024,7 +1019,7 @@ bool MyBitmap::loadFromFile_gradient(const char *fn, const char *fnAlpha)
 	if (*p == 'h') allocate(256,1);
 	else allocate(1,256);
 
-	int r, g, b, a=255;
+	int r, g, b, a = 255;
 
 	p += 2;
 	r = (hex2dec(p[0]) << 4) + hex2dec(p[1]);
@@ -1082,8 +1077,8 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 
 		if (!cbFileSize) return false;
 
-		BITMAPINFO *bi=(BITMAPINFO*)pDib;
-		BYTE *pt=(BYTE*)bi;
+		BITMAPINFO *bi = (BITMAPINFO*)pDib;
+		BYTE *pt = (BYTE*)bi;
 		pt+=bi->bmiHeader.biSize;
 
 		if (bi->bmiHeader.biBitCount != 32)
@@ -1099,16 +1094,16 @@ bool MyBitmap::loadFromFile_png(const char *fn, const char *fnAlpha)
 		} else
 		{
 			allocate(abs(bi->bmiHeader.biWidth), abs(bi->bmiHeader.biHeight));
-			BYTE *p2=(BYTE *)pt;
-			for (int y=0; y<bi->bmiHeader.biHeight; ++y)
+			BYTE *p2 = (BYTE *)pt;
+			for (int y = 0; y<bi->bmiHeader.biHeight; ++y)
 			{
-				BYTE *p1=(BYTE *)bits + (bi->bmiHeader.biHeight-y-1)*bi->bmiHeader.biWidth*4;
-				for (int x=0; x<bi->bmiHeader.biWidth; ++x)
+				BYTE *p1 = (BYTE *)bits + (bi->bmiHeader.biHeight-y-1)*bi->bmiHeader.biWidth*4;
+				for (int x = 0; x<bi->bmiHeader.biWidth; ++x)
 				{
-					p1[0]= p2[0];
-					p1[1]= p2[1];
-					p1[2]= p2[2];
-					p1[3]= p2[3];
+					p1[0] =  p2[0];
+					p1[1] =  p2[1];
+					p1[2] =  p2[2];
+					p1[3] =  p2[3];
 					p1 += 4;
 					p2 += 4;
 				}
@@ -1138,7 +1133,7 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 
 	HDC dcTmp = CreateCompatibleDC(0);
 	GetBitmapDimensionEx(hBmpLoaded, &sz);
-	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp,  hBmpLoaded);
+	HBITMAP hBmpDcSave = (HBITMAP)SelectObject(dcTmp, hBmpLoaded);
 
 	allocate(sz.cx, sz.cy);
 	BitBlt(dcBmp, 0, 0, width, height, dcTmp, 0, 0, SRCCOPY);

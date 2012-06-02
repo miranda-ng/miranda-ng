@@ -282,7 +282,7 @@ static int OnExtraIconsApply(WPARAM wParam, LPARAM /*lParam*/)
 
 void remove_AT_icons(CAimProto* ppro)
 {
-	if(!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
+	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
 	
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact)
@@ -296,7 +296,7 @@ void remove_AT_icons(CAimProto* ppro)
 
 void remove_ES_icons(CAimProto* ppro)
 {
-	if(!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
+	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
 
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact)

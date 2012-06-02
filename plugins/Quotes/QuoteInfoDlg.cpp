@@ -198,7 +198,7 @@ INT_PTR QuotesMenu_OpenLogFile(WPARAM wp,LPARAM lp)
 	}
 
 	tstring sLogFileName;
-	if((true == get_log_file(hContact,sLogFileName)) && (false == sLogFileName.empty()))
+	if ((true == get_log_file(hContact,sLogFileName)) && (false == sLogFileName.empty()))
 	{
 		::ShellExecute(NULL,_T("open"),sLogFileName.c_str(),NULL,NULL,SW_SHOWNORMAL);
 	}
@@ -215,7 +215,7 @@ INT_PTR QuotesMenu_RefreshContact(WPARAM wp,LPARAM lp)
 	}
 
 	CQuotesProviders::TQuotesProviderPtr pProvider = CModuleInfo::GetQuoteProvidersPtr()->GetContactProviderPtr(hContact);
-	if(!pProvider)
+	if (!pProvider)
 	{
 		return 0;
 	}

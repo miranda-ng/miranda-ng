@@ -411,7 +411,7 @@ HYAMNMAIL WINAPI CreatePOP3Mail(HACCOUNT Account,DWORD MailDataVersion)
 }
 
 static void SetContactStatus(HACCOUNT account, int status){
-	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT)){
+	if ((account->hContact) && (account->NewMailN.Flags & YAMN_ACC_CONT)) {
 		DBWriteContactSettingWord(account->hContact, YAMN_DBMODULE, "Status", status);
 	}
 }
@@ -712,7 +712,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 			if (MsgQueuePtr->Flags&YAMN_MSG_BODYREQUESTED){
 				HYAMNMAIL NewMsgsPtr=NULL;
 				for (NewMsgsPtr=(HYAMNMAIL)NewMails;NewMsgsPtr!=NULL;NewMsgsPtr=NewMsgsPtr->Next){
-					if (!strcmp(MsgQueuePtr->ID,NewMsgsPtr->ID)){
+					if (!strcmp(MsgQueuePtr->ID,NewMsgsPtr->ID)) {
 						TCHAR accstatus[512];
 						wsprintf(accstatus,TranslateT("Reading body %s"),NewMsgsPtr->ID);
 						SetAccountStatus(ActualAccount,accstatus);
@@ -770,7 +770,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 		#endif
 		MsgsWriteDone(ActualAccount);
 		for (MsgQueuePtr=(HYAMNMAIL)ActualAccount->Mails;MsgQueuePtr!=NULL;MsgQueuePtr=MsgQueuePtr->Next){
-			if ((MsgQueuePtr->Flags&YAMN_MSG_BODYREQUESTED) && (MsgQueuePtr->Flags&YAMN_MSG_BODYRECEIVED)){
+			if ((MsgQueuePtr->Flags&YAMN_MSG_BODYREQUESTED) && (MsgQueuePtr->Flags&YAMN_MSG_BODYRECEIVED)) {
 				MsgQueuePtr->Flags&=~YAMN_MSG_BODYREQUESTED;
 				if (MsgQueuePtr->MsgWindow){
 					SendMessage(MsgQueuePtr->MsgWindow,WM_YAMN_CHANGECONTENT,0,0);

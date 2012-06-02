@@ -102,7 +102,7 @@ void CAimProto::aim_connection_authorization(void)
 	hServerPacketRecver = (HANDLE)CallService(MS_NETLIB_CREATEPACKETRECVER, (WPARAM)hServerConn, 2048 * 4);
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = 5000;
-	for(;;)
+	for (;;)
 	{
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
 		if (recvResult == 0)
@@ -118,12 +118,12 @@ void CAimProto::aim_connection_authorization(void)
 		else
 		{
 			unsigned short flap_length=0;
-			for(;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
 			{
-				if(!packetRecv.buffer)
+				if (!packetRecv.buffer)
 					break;
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],(unsigned short)(packetRecv.bytesAvailable-packetRecv.bytesUsed));
-				if(!flap.len())
+				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
 				if (flap.cmp(0x01))
@@ -180,7 +180,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 	NETLIBPACKETRECVER packetRecv = {0};
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER*1000;	
-	for(;;)
+	for (;;)
 	{
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0)
@@ -204,12 +204,12 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 		else if(recvResult>0)
 		{
 			unsigned short flap_length=0;
-			for(;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
 			{
-				if(!packetRecv.buffer)
+				if (!packetRecv.buffer)
 					break;
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],packetRecv.bytesAvailable-packetRecv.bytesUsed);
-				if(!flap.len())
+				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
 				if(flap.cmp(0x01))
@@ -314,12 +314,12 @@ void __cdecl CAimProto::aim_mail_negotiation( void* )
 		if(recvResult>0)
 		{
 			unsigned short flap_length=0;
-			for(;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
 			{
-				if(!packetRecv.buffer)
+				if (!packetRecv.buffer)
 					break;
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],packetRecv.bytesAvailable-packetRecv.bytesUsed);
-				if(!flap.len())
+				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
 				if(flap.cmp(0x01))
@@ -364,7 +364,7 @@ void __cdecl CAimProto::aim_avatar_negotiation( void* )
 	NETLIBPACKETRECVER packetRecv = {0};
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = 300000;//5 minutes connected
-	for(;;)
+	for (;;)
 	{
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
 		if (recvResult == 0)
@@ -376,7 +376,7 @@ void __cdecl CAimProto::aim_avatar_negotiation( void* )
 		if (recvResult > 0)
 		{
 			unsigned short flap_length=0;
-			for(; packetRecv.bytesUsed < packetRecv.bytesAvailable; packetRecv.bytesUsed = flap_length)
+			for (; packetRecv.bytesUsed < packetRecv.bytesAvailable; packetRecv.bytesUsed = flap_length)
 			{
 				if (!packetRecv.buffer)
 					break;
@@ -429,7 +429,7 @@ void __cdecl CAimProto::aim_chatnav_negotiation( void* )
 	NETLIBPACKETRECVER packetRecv = {0};
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER*1000;
-	for(;;)
+	for (;;)
 	{
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0)
@@ -454,12 +454,12 @@ void __cdecl CAimProto::aim_chatnav_negotiation( void* )
 		if(recvResult>0)
 		{
 			unsigned short flap_length=0;
-			for(;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
 			{
-				if(!packetRecv.buffer)
+				if (!packetRecv.buffer)
 					break;
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],packetRecv.bytesAvailable-packetRecv.bytesUsed);
-				if(!flap.len())
+				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
 				if(flap.cmp(0x01))
@@ -507,7 +507,7 @@ void __cdecl CAimProto::aim_chat_negotiation( void* param )
 	NETLIBPACKETRECVER packetRecv = {0};
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = DEFAULT_KEEPALIVE_TIMER*1000;
-	for(;;)
+	for (;;)
 	{
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM)hServerPacketRecver, (LPARAM)&packetRecv);
 		if (recvResult == 0)
@@ -527,12 +527,12 @@ void __cdecl CAimProto::aim_chat_negotiation( void* param )
 		if(recvResult>0)
 		{
 			unsigned short flap_length=0;
-			for(;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
 			{
-				if(!packetRecv.buffer)
+				if (!packetRecv.buffer)
 					break;
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],packetRecv.bytesAvailable-packetRecv.bytesUsed);
-				if(!flap.len())
+				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
 				if(flap.cmp(0x01))
@@ -581,7 +581,7 @@ void __cdecl CAimProto::aim_admin_negotiation( void* )
 	NETLIBPACKETRECVER packetRecv = {0};
 	packetRecv.cbSize = sizeof(packetRecv);
 	packetRecv.dwTimeout = 300000;//5 minutes connected
-	for(;;)
+	for (;;)
 	{
 		int recvResult = CallService(MS_NETLIB_GETMOREPACKETS, (WPARAM) hServerPacketRecver, (LPARAM) & packetRecv);
 		if (recvResult == 0)
@@ -593,12 +593,12 @@ void __cdecl CAimProto::aim_admin_negotiation( void* )
 		if(recvResult>0)
 		{
 			unsigned short flap_length=0;
-			for(;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
+			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
 			{
-				if(!packetRecv.buffer)
+				if (!packetRecv.buffer)
 					break;
 				FLAP flap((char*)&packetRecv.buffer[packetRecv.bytesUsed],packetRecv.bytesAvailable-packetRecv.bytesUsed);
-				if(!flap.len())
+				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
 				if(flap.cmp(0x01))

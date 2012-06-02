@@ -235,7 +235,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 		}
 		else if (g_szMetaModuleName && !strcmp(cws->szModule,g_szMetaModuleName))
 		{ 
-			if(!strcmp(cws->szSetting,"Handle"))
+			if (!strcmp(cws->szSetting,"Handle"))
 			{
 				pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED,0,0);	
 			}
@@ -252,30 +252,30 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 		else if (!strcmp(cws->szModule,"CList")) 
 		{
 			/*
-			if(!strcmp(cws->szSetting,"MyHandle"))
+			if (!strcmp(cws->szSetting,"MyHandle"))
 			pcli->pfnClcBroadcast( INTM_NAMECHANGED,wParam,lParam);
-			else if(!strcmp(cws->szSetting,"Group"))
+			else if (!strcmp(cws->szSetting,"Group"))
 			pcli->pfnClcBroadcast( INTM_GROUPCHANGED,wParam,lParam);
-			else if(!strcmp(cws->szSetting,"Hidden"))
+			else if (!strcmp(cws->szSetting,"Hidden"))
 			pcli->pfnClcBroadcast( INTM_HIDDENCHANGED,wParam,lParam);
-			else if(!strcmp(cws->szSetting,"noOffline"))
+			else if (!strcmp(cws->szSetting,"noOffline"))
 			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED,wParam,lParam);
-			else if(!strcmp(cws->szSetting,"NotOnList"))
+			else if (!strcmp(cws->szSetting,"NotOnList"))
 			pcli->pfnClcBroadcast( INTM_NOTONLISTCHANGED,wParam,lParam);
 
-			else if(!strcmp(cws->szSetting,"NameOrder"))
+			else if (!strcmp(cws->szSetting,"NameOrder"))
 			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED,0,0);
 			else
 
-			else if(!strcmp(cws->szSetting,"Status"))
+			else if (!strcmp(cws->szSetting,"Status"))
 			pcli->pfnClcBroadcast( INTM_STATUSCHANGED,wParam,0);
 			else
 			*/	
-			if(!strcmp(cws->szSetting,"StatusMsg")) 
+			if (!strcmp(cws->szSetting,"StatusMsg")) 
 				pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED,wParam,0); 
 
 		}
-		else if(!strcmp(cws->szModule,"ContactPhoto")) 
+		else if (!strcmp(cws->szModule,"ContactPhoto")) 
 		{
 			if (!strcmp(cws->szSetting,"File")) 
 				pcli->pfnClcBroadcast( INTM_AVATARCHANGED,wParam,0);
@@ -698,7 +698,7 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	case VK_DELETE: pcli->pfnDeleteFromContactList(hwnd,dat); SetCapture(hwnd);return 0;
 	case VK_ESCAPE: 
 		{
-			if((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_ACTIVE)
+			if ((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_ACTIVE)
 			{
 				dat->iDragItem=-1;
 				dat->iInsertionMark=-1;
@@ -1005,7 +1005,7 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		if(GetFocus()!=hwnd) SetFocus(hwnd);
 		if(hit!=-1 && !(hitFlags&CLCHT_NOWHERE)) 
 		{
-			if( hit==dat->selection && hitFlags&CLCHT_ONITEMLABEL && dat->exStyle&CLS_EX_EDITLABELS) 
+			if ( hit==dat->selection && hitFlags&CLCHT_ONITEMLABEL && dat->exStyle&CLS_EX_EDITLABELS) 
 			{
 				if ( !(dat->dragStage&DRAGSTAGEF_SKIPRENAME) )
 				{
@@ -1080,7 +1080,7 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 				nm.hItem=ContactToItemHandle(contact,&nm.flags);
 				SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
 			}
-			if(!(hitFlags&(CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK))) 
+			if (!(hitFlags&(CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK))) 
 			{
 				NMCLISTCONTROL nm;
 				nm.hdr.code=NM_CLICK;
@@ -1234,13 +1234,13 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		}
 		return 0;
 	}
-	if((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_NOTMOVED && !(dat->exStyle&CLS_EX_DISABLEDRAGDROP)) 
+	if ((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_NOTMOVED && !(dat->exStyle&CLS_EX_DISABLEDRAGDROP)) 
 	{
 		if(abs((short)LOWORD(lParam)-dat->ptDragStart.x)>=GetSystemMetrics(SM_CXDRAG) || abs((short)HIWORD(lParam)-dat->ptDragStart.y)>=GetSystemMetrics(SM_CYDRAG))
 			dat->dragStage=(dat->dragStage&~DRAGSTAGEM_STAGE)|DRAGSTAGE_ACTIVE;
 	}
 
-	if((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_ACTIVE) 
+	if ((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_ACTIVE) 
 	{
 		HCURSOR hNewCursor;
 		RECT clRect;
@@ -1340,7 +1340,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 
 					if(pt.x>=0 && pt.x<clRect.right && ((pt.y<0 && pt.y>-dat->dragAutoScrollHeight) || (pt.y>=clRect.bottom && pt.y<clRect.bottom+dat->dragAutoScrollHeight))) 
 					{
-						if(!dat->dragAutoScrolling) 
+						if (!dat->dragAutoScrolling) 
 						{
 							if(pt.y<0) dat->dragAutoScrolling=-1;
 							else dat->dragAutoScrolling=1;
@@ -1407,7 +1407,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	KillTimer(hwnd,TIMERID_DRAGAUTOSCROLL);
 	if(dat->dragStage==(DRAGSTAGE_NOTMOVED|DRAGSTAGEF_MAYBERENAME))
 		CLUI_SafeSetTimer(hwnd,TIMERID_RENAME,GetDoubleClickTime(),NULL);
-	else if((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_ACTIVE) 
+	else if ((dat->dragStage&DRAGSTAGEM_STAGE)==DRAGSTAGE_ACTIVE) 
 	{
 		POINT pt;
 		int target;         
@@ -1442,7 +1442,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 							if (res==1)
 							{
 								handle=(HANDLE)CallService(MS_MC_CONVERTTOMETA,(WPARAM)hDest,0);
-								if(!handle) return 0;
+								if (!handle) return 0;
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);                            
 							}
 						}
@@ -1458,7 +1458,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 							{
 
 								handle=(HANDLE)CallService(MS_MC_CONVERTTOMETA,(WPARAM)hdest,0);
-								if(!handle) return 0;
+								if (!handle) return 0;
 
 								CallService(MS_MC_REMOVEFROMMETA,(WPARAM)0,(LPARAM)hcontact);                            
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);                            
@@ -1490,7 +1490,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 							if (res==1)
 							{
 
-								if(!handle) return 0;                   
+								if (!handle) return 0;                   
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);                            
 							}
 						}
@@ -1519,7 +1519,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 								if (res==1)
 								{
 
-									if(!handle) return 0;
+									if (!handle) return 0;
 
 									CallService(MS_MC_REMOVEFROMMETA,(WPARAM)0,(LPARAM)hcontact);                            
 									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);                            
@@ -1550,7 +1550,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 							if (res==1)
 							{
 
-								if(!handle) return 0;                   
+								if (!handle) return 0;                   
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);                            
 							}
 						}
@@ -1567,7 +1567,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 								if (res==1)
 								{
 
-									if(!handle) return 0;
+									if (!handle) return 0;
 
 									CallService(MS_MC_REMOVEFROMMETA,(WPARAM)0,(LPARAM)hcontact);                            
 									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle); 
@@ -1842,7 +1842,7 @@ static LRESULT clcOnIntmAvatarChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 static LRESULT clcOnIntmTimeZoneChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct ClcContact *contact;
-	if(!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE)) 
+	if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE)) 
 		return corecli.pfnContactListControlWndProc(hwnd,msg,wParam,lParam);
 
 	if (contact) //!IsBadWritePtr(contact, sizeof(struct ClcContact)))
@@ -1859,7 +1859,7 @@ static LRESULT clcOnIntmNameChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 	int ret=corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 
 	pcli->pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
-	if(!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE)) 
+	if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE)) 
 		return ret;
 
 	lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam,0),SIZEOF(contact->szText));
@@ -1904,7 +1904,7 @@ static LRESULT clcOnIntmNotOnListChanged(struct ClcData *dat, HWND hwnd, UINT ms
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
 	struct ClcContact *contact;
 	
-	if(!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE))
+	if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE))
 		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 	
 	if(contact->type!=CLCIT_CONTACT) 

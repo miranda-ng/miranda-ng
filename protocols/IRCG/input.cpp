@@ -826,7 +826,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 		lstrcpyn( windowname, dbv.ptszVal, 255);
 		DBFreeVariant(&dbv);
 	}
-	else if( window )
+	else if ( window )
 		lstrcpyn( windowname, window, 255 );
 	else
 		lstrcpyn( windowname, SERVERWINDOW, 255 );
@@ -921,7 +921,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 					dcc->SendStuff( mess.c_str());
 				}
 			}
-			else if( IsConnected() ) {
+			else if ( IsConnected() ) {
 				FormatMsg( DoThis );
 				SendIrcMessage( DoThis.c_str(), false, codepage );
 			}
