@@ -57,7 +57,7 @@ public:
 	{
 		for (size_t i = 0; i < data.size(); i++)
 			numbers[i] = false;
-		freeNumbers = data.size();
+		freeNumbers = (int)data.size();
 	}
 
 	typename container::value_type GetString()

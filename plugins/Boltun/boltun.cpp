@@ -300,7 +300,7 @@ void UpdateEverybodyCheckboxes(HWND hwndDlg)
 	EnableWindow(wnd, Enable);
 }
 
-static int CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL bTranslated = FALSE;
 	static bool loading = true;
@@ -389,7 +389,7 @@ void UpdateUnderstandAlwaysCheckbox(HWND hwndDlg)
 	EnableWindow(wnd, Enable);
 }
 
-static int CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	WORD param;
 	BOOL bTranslated = FALSE;
@@ -572,17 +572,17 @@ static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 	return 0;
 }
 
-static int ContactClickAutoChat(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactClickAutoChat(WPARAM wParam, LPARAM lParam)
 {
 	return ContactClick(wParam, lParam, 0);
 }
 
-static int ContactClickNotToChat(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactClickNotToChat(WPARAM wParam, LPARAM lParam)
 {
 	return ContactClick(wParam, lParam, 1);
 }
 
-static int ContactClickStartChatting(WPARAM wParam, LPARAM lParam)
+static INT_PTR ContactClickStartChatting(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	StartChatting(hContact);

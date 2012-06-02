@@ -64,7 +64,7 @@ int MyCodeCvt::do_length(const _St& _State, const _To* _F1,
 #endif
 
 {
-	return (_N2 < (size_t)(_L1 - _F1)) ? _N2 : _L1 - _F1;
+	return (_N2 < (size_t)(_L1 - _F1)) ? (int)_N2 : (int)(_L1 - _F1);
 }
 
 bool MyCodeCvt::do_always_noconv() const _THROW0()

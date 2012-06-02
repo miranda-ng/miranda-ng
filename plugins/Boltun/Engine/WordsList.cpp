@@ -63,7 +63,7 @@ void WordsList::Parse(tstring s/*, bool allowUnstrict*/)
 	}
 	else
     	unstrict = false;*/
-	int len = s.length() - 1;
+	int len = (int)s.length() - 1;
 	while (len != -1 && _istspace(s[len]))
 		len--;
 	if (len < 0)

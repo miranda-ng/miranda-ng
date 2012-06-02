@@ -70,7 +70,7 @@ Mind& Mind::operator= (const Mind& mind)
 
 inline void format(tstring& s)
 {
-	int pos = s.length() - 1;
+	int pos = (int)s.length() - 1;
 	if (s[pos] == _T('\r'))
 		s.resize(pos);
 }
@@ -82,7 +82,7 @@ void toLowerStr(TCHAR* ch)
 
 vector<tstring> Mind::Parse(tstring s)
 {
-	int len = s.length() - 1;
+	int len = (int)s.length() - 1;
 	vector <tstring> res;
 	while (len != -1 && _istspace(s[len]))
 		len--;
@@ -268,7 +268,7 @@ void Mind::Load(tstring filename)
 					count -= 1;
 					toLowerStr(c);
 					tstring sc(c);
-					int count1 = s1.length();
+					int count1 = (int)s1.length();
 					TCHAR *c = new TCHAR[count1 + 1];
 					_tcscpy(c, s1.c_str());
 					CharLower(c);
@@ -419,7 +419,7 @@ void Mind::LoadSmiles(tstring filename)
 	{
 		getline(file, s);
 		if (s.length() > l)
-        	l = s.length();
+        	l = (int)s.length();
 		data->smiles.insert(s);
 	}
 	data->maxSmileLen = l;
@@ -438,7 +438,7 @@ void Mind::LoadSmiles(void *smiles, size_t size)
 			lend++;
 		tstring s(buf, lend - buf);
 		if ((unsigned)(lend - buf) > l)
-        	l = s.length();
+        	l = (int)s.length();
 		data->smiles.insert(s);
 		if (lend == end)
 			break;

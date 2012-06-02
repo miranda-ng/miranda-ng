@@ -111,7 +111,7 @@ static char *MsgServiceName(HANDLE hContact)
 static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 {
 	DBEVENTINFO ldbei;
-	int size = info->Answer.length() + 1;
+	int size = (int)info->Answer.length() + 1;
 	int bufsize = size;
 	char* msg;
 #ifdef UNICODE
@@ -166,7 +166,7 @@ void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = f
 	int waitTime, thinkTime = 0;
 	int defWaitTime = Config.AnswerPauseTime * 1000;
 	if (Config.PauseDepends)
-		waitTime = defWaitTime * info->Answer.length() / 25;
+		waitTime = defWaitTime * (int)info->Answer.length() / 25;
 	else
 		waitTime = defWaitTime;
 	if (Config.PauseRandom)

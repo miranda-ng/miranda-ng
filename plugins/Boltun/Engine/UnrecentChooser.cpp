@@ -31,7 +31,7 @@ void UnRecentChooser::AddChoice(tstring value, float prio)
 {
 	if (items.count(value) != 0)
 	{
-		int val = items[value];
+		int val = (int)items[value];
 		oldItems.insert(make_pair(val, value));
 		oldPrios.insert(make_pair(value, prio));
 		if (min > val || min == -1)

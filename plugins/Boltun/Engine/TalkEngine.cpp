@@ -99,13 +99,13 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 	const TCHAR dividers[] = _T(" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—\1");
 	tstring sentence = message;
 	tstring result;
-	int len = sentence.length();
+	int len = (int)sentence.length();
 	vector<tstring> words;
 	map<int, tstring> sm;
 	//Find smiles
 	for (size_t i = 0; i < sentence.length() - 1; i++)
 	{
-		unsigned max = sentence.length() - i;
+		unsigned max = (int)(sentence.length() - i);
 		if (max > mind.GetData()->maxSmileLen)
         	max = mind.GetData()->maxSmileLen;
 		for (unsigned j = max; j > 0; j--)
@@ -120,7 +120,7 @@ tstring TalkBot::ReplaceAliases(const tstring &message)
 			}
 		}
 	}
-    len = sentence.length();
+    len = (int)sentence.length();
 	bool hadQuestionSigns = false;
 	int it = 0;
 	while (it != len)
@@ -359,7 +359,7 @@ TalkBot::MessageInfo* TalkBot::Reply(void* contact, tstring incomingMessage, boo
 bool TalkBot::FindExact(ContactData* contactData, const tstring &incomingMessage,
 	const multimap<tstring, tstring>& map, tstring& res)
 {
-	int max = map.count(incomingMessage);
+	int max = (int)map.count(incomingMessage);
 	if (!max)
 	{
 		TCHAR c = incomingMessage[incomingMessage.length() - 1];
@@ -404,7 +404,7 @@ void TalkBot::SplitSectences(const tstring &incomingMessage, vector<tstring>& ve
 {
 	//FIXME: (THINK ABOUT IT:-) )these chars not always mark the end of sentence.
 	const TCHAR symbols[] = _T(".?!");
-    int it = 0, len = incomingMessage.length();
+    int it = 0, len = (int)incomingMessage.length();
 	while (it != len)
 	{
 		while (it != len && _istspace(incomingMessage[it]))
@@ -455,7 +455,7 @@ tstring TalkBot::ChooseResult(ContactData* contactData, Level maxValue, const mu
 	if (maxValue == NOTHING)
 		return _T("");
 	Level target = maxValue;
-	int num = mm.count(target);
+	int num = (int)mm.count(target);
 /*	if (!num)
 	{
 		target = maxValue;
@@ -523,13 +523,13 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 	vector<tstring>& otherwords, bool& isQuestion)
 {
 	const TCHAR dividers[] = _T(" \t\n\r,./?\\|;:'\"~!#^&*()_-+=[{]}—");
-	int len = sentence.length();
+	int len = (int)sentence.length();
 	vector<tstring> words;
 	map<int, tstring> sm;
 	//Find smiles
 	for (size_t i = 0; i < sentence.length() - 1; i++)
 	{
-		unsigned max = sentence.length() - i;
+		unsigned max = (int)(sentence.length() - i);
 		if (max > mind.GetData()->maxSmileLen)
         	max = mind.GetData()->maxSmileLen;
 		for (unsigned j = max; j > 0; j--)
@@ -544,7 +544,7 @@ void TalkBot::SplitAndSortWords(tstring sentence, vector<tstring>& keywords,
 			}
 		}
 	}
-    len = sentence.length();
+    len = (int)sentence.length();
 	bool hadQuestionSigns = false;
 	int it = 0;
 	while (it != len)
