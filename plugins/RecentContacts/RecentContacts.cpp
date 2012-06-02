@@ -179,7 +179,7 @@ void wfree(char **Data)
 
 HWND hwndContactTree = NULL;
 
-LRESULT WINAPI ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LASTUC_DLG_DATA *DlgDat;
 

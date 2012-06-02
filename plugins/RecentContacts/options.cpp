@@ -4,7 +4,7 @@
 extern HINSTANCE hInst;
 void LoadDBSettings();
 
-LRESULT CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char str[32];
 
