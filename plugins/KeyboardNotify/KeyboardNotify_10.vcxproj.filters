@@ -47,31 +47,31 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EnumProc.c">
+    <ClCompile Include="EnumProc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="flash.c">
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ignore.c">
+    <ClCompile Include="flash.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="keyboard.c">
+    <ClCompile Include="ignore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="keypresses.c">
+    <ClCompile Include="keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="keypresses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="trigger.c">
+    <ClCompile Include="options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.c">
+    <ClCompile Include="trigger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

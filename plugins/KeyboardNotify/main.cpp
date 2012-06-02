@@ -24,7 +24,7 @@
 
   Description
   -----------
-  This plugin for Miranda-IM notifies user of specified events (as incoming messages, 
+  This plugin for Miranda-IM notifies user of specified events (as incoming messages,
   incoming files, incoming URLs or other events). This plugin is based on the original one
   by Martin Öberg (aka strickz) and Std's modifications (mainly the idea of using direct
   port handling using a driver).
@@ -51,7 +51,7 @@
 
   Thanks
   ------
-  - Pete for the numerous patches he sent, actively helping to improve the code and 
+  - Pete for the numerous patches he sent, actively helping to improve the code and
   functionality
   - UnregistereD for great help in solving problem with Windows activity detection
   - Slacktarn, Sir_qwerty and Tweety for giving great help with ideas (most of the new
@@ -181,8 +181,6 @@
 
 #define WIN32_LEAN_AND_MEAN
 #define _WIN32_WINNT 0x0500
-
-#include "AggressiveOptimize.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -317,7 +315,7 @@ PLUGININFOEX pluginInfo={
 	"tioduke@yahoo.ca",
 	"© 2002-2003 M.Öberg, 2004 Std, 2005-2008 TioDuke",
 	"http://addons.miranda-im.org/",
-	0,		//not transient
+	UNICODE_AWARE,
 	0,		//doesn't replace anything built-in
 	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }} //{119D7288-2050-448d-9900-D86AC70426BF}
 };
@@ -391,7 +389,7 @@ BOOL isScreenSaverRunning()
 
 	SystemParametersInfo(SPI_GETSCREENSAVERRUNNING, 0, &screenSaverIsRunning, FALSE);
 	return screenSaverIsRunning;
-}	
+}
 
 
 /* this function is from the original idle module */
@@ -489,13 +487,13 @@ BOOL checkGlobalXstatus()
 	for(i=0, protosSupporting=0; i < ProtoList.protoCount; i++) {
 		if (!ProtoList.protoInfo[i].enabled || !ProtoList.protoInfo[i].xstatus.count) continue;
 
-		protosSupporting++;		
+		protosSupporting++;
 		// Retrieve xstatus for protocol
 		xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
 		xstatus.flags = CSSF_MASK_STATUS;
 		xstatus.status = &status;
 		CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
-			
+
 		if (ProtoList.protoInfo[i].xstatus.enabled[status]) return TRUE;
 	}
 
@@ -596,11 +594,11 @@ static void FlashThreadFunction()
 	BOOL bEvent = FALSE;
 	DWORD dwEventStarted, dwFlashStarted;
 	BYTE data, unchangedLeds;
-	
+
 	while (TRUE) {
 		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0])<<1) + ((LedState(VK_CAPITAL) * !bFlashLed[1])<<2));
 		GetAsyncKeyState(VK_PAUSE); // empty Pause/Break's keystroke buffer
-			
+
 		// Start flashing
 		while(bEvent && bFlashingEnabled)
 		{
@@ -631,7 +629,7 @@ static void FlashThreadFunction()
 
 			// Wait for exit event
 			if (WaitForSingleObject(hExitEvent, nWaitDelay) == WAIT_OBJECT_0)
-				return;				
+				return;
 		}
 		RestoreLEDState();
 
@@ -658,7 +656,7 @@ static void FlashThreadFunction()
 		dwFlashStarted = GetTickCount();
 
 	}
-	
+
 }
 
 
@@ -671,7 +669,7 @@ BOOL checkMsgTimestamp(HANDLE hEventCurrent, DWORD timestampCurrent)
 
 	for (hEvent=(HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEventCurrent, 0); hEvent; hEvent=(HANDLE)CallService(MS_DB_EVENT_FINDPREV, (WPARAM)hEvent, 0)) {
 		DBEVENTINFO einfo = {0};
-	
+
 		einfo.cbSize = sizeof(einfo);
 		einfo.cbBlob = 0;
 		einfo.pBlob = NULL;
@@ -702,7 +700,7 @@ BOOL checkStatus(char *szProto)
 {
 	if(!szProto)
 		return checkGlobalStatus();
-	
+
 	return isStatusEnabled(CallProtoService(szProto, PS_GETSTATUS, 0, 0));
 }
 
@@ -724,7 +722,7 @@ BOOL checkXstatus(char *szProto)
 			xstatus.flags = CSSF_MASK_STATUS;
 			xstatus.status = &status;
 			CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
-			
+
 			return ProtoList.protoInfo[i].xstatus.enabled[status];
 		}
 
@@ -971,7 +969,7 @@ void LoadSettings(void)
 			for(j=0; j < ProtoList.protoInfo[i].xstatus.count; j++)
 				ProtoList.protoInfo[i].xstatus.enabled[j] = DBGetContactSettingByte(NULL, KEYBDMODULE, fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), DEF_SETTING_XSTATUS);
 		}
-        
+
 	if (szMetaProto)
 		bMetaProtoEnabled = DBGetContactSettingByte(NULL, szMetaProto, "Enabled", 1);
 
@@ -1097,7 +1095,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	LoadProcsLibrary();
 	if (bWindowsNT && dWinVer >= 5)
 		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO)) GetProcAddress(GetModuleHandle(L"user32"), "GetLastInputInfo");
-	else 
+	else
 		MyGetLastInputInfo = NULL;
 
 	createProtocolList();
@@ -1143,7 +1141,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 
 
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
 {
 
 	pluginInfo.cbSize = sizeof(PLUGININFO);
@@ -1153,7 +1151,7 @@ __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
 
 
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 
 	pluginInfo.cbSize = sizeof(PLUGININFOEX);
@@ -1165,16 +1163,14 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 
 #define MIID_KBDNOTIFY	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }}
 static const MUUID interfaces[] = {MIID_KBDNOTIFY, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 
 	return interfaces;
 
 }
 
-
-
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 
 	pluginLink = link;
@@ -1207,7 +1203,7 @@ void destroyProtocolList(void)
 }
 
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 
 	UnhookWindowsHooks();
@@ -1366,7 +1362,7 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
 		if(cwpInfo->message == WM_ACTIVATEAPP && cwpInfo->wParam)
 			dwLastInput = GetTickCount();
 	}
- 
+
  	return CallNextHookEx(hMirandaWndProcHook, code, wParam, lParam);
 }
 
@@ -1434,7 +1430,7 @@ BOOL CheckMsgWnd(HANDLE hContact, BOOL *focus)
 	if (ServiceExists(MS_MSG_GETWINDOWDATA)) {	// use the new message API
 		MessageWindowData mwd;
 		MessageWindowInputData mwid;
-		mwid.cbSize = sizeof(MessageWindowInputData); 
+		mwid.cbSize = sizeof(MessageWindowInputData);
 		mwid.hContact = hContact;
 		mwid.uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 		mwd.cbSize = sizeof(MessageWindowData);

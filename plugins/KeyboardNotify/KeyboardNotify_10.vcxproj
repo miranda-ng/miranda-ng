@@ -177,15 +177,15 @@
     <ClInclude Include="utils.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EnumProc.c" />
-    <ClCompile Include="flash.c" />
-    <ClCompile Include="ignore.c" />
-    <ClCompile Include="keyboard.c" />
-    <ClCompile Include="keypresses.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="options.c" />
-    <ClCompile Include="trigger.c" />
-    <ClCompile Include="utils.c" />
+    <ClCompile Include="EnumProc.cpp" />
+    <ClCompile Include="flash.cpp" />
+    <ClCompile Include="ignore.cpp" />
+    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="keypresses.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="trigger.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resources.rc" />

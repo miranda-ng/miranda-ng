@@ -1450,7 +1450,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (bWindowsNT && dWinVer >= 5.01?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, imageCount, imageCount);
 			TreeView_SetImageList(hwndTree, hImageList, TVSIL_NORMAL);
 
-			ImageList_AddIcon(hImageList, hIconAux=LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
+			ImageList_AddIcon(hImageList, hIconAux=(HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 0, 0, 0));
 			if (hIconAux) DestroyIcon(hIconAux);
 
 			TreeView_SelectItem(hwndTree, NULL);

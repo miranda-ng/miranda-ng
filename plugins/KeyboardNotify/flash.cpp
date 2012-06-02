@@ -188,7 +188,7 @@ FLASHING_SEQUENCE *getTrillianSeq(void)
 
 void updateTrillianSeq(void)
 {
-	unsigned int i, msgCount=0, fileCount=0, urlCount=0, otherCount=0;
+	int i, msgCount=0, fileCount=0, urlCount=0, otherCount=0;
 
 	pFS->size = 2;
 	countUnopenEvents(&msgCount, &fileCount, &urlCount, &otherCount);

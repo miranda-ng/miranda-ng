@@ -87,7 +87,12 @@ void UnloadProcsLibrary(void)
 
 	hInstLib = hInstLib = NULL;
 	lpfCreateToolhelp32Snapshot = NULL;
-	lpfProcess32First = (void *)lpfProcess32Next = (void *)lpfEnumProcesses = (void *)lpfEnumProcessModules = (void *)lpfGetModuleBaseName = (void *)lpfVDMEnumTaskWOWEx = NULL;
+	lpfProcess32First = NULL;
+	lpfProcess32Next = NULL;
+	lpfEnumProcesses = NULL;
+	lpfEnumProcessModules = NULL;
+	lpfGetModuleBaseName = NULL;
+	lpfVDMEnumTaskWOWEx = NULL;
 }
 
 
