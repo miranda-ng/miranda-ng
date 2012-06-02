@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 #include <tchar.h> 
 #include <stdio.h> 
 #include <process.h>
-#include "..\..\m_listeningto.h"
+#include "m_listeningto.h"
 
 #include "wa_ipc.h" 
 #include "GEN.h" 
