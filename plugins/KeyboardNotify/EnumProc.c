@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "EnumProc.h"
 
 
-BOOL findFilename(char *);
-char *filename(char *);
-BOOL WINAPI Enum16(DWORD, WORD, WORD, char *, char *, LPARAM);
+BOOL findFilename(TCHAR *);
+TCHAR *filename(TCHAR *);
+BOOL WINAPI Enum16(DWORD, WORD, WORD, TCHAR *, TCHAR *, LPARAM);
 
 
 // Globals
@@ -102,7 +102,7 @@ BOOL areThereProcessesRunning(void)
 	DWORD          dwIndex;
 	HMODULE        hMod;
 	HANDLE         hProcess;
-	char           szFileName[MAX_PATH+1];
+	TCHAR           szFileName[MAX_PATH+1];
 
 
 	if (!ProcessList.count) // Process list is empty
@@ -144,7 +144,7 @@ BOOL areThereProcessesRunning(void)
 
 		// Loop through each ProcID.
 		for (dwIndex = 0; dwIndex < dwSize; dwIndex++) {
-			char *szFileNameAux;
+			TCHAR *szFileNameAux;
 			szFileName[0] = '\0';
 
 			// Open the process (if we can... security does not permit every process in the system to be opened).
@@ -168,7 +168,7 @@ BOOL areThereProcessesRunning(void)
 			}
 
 			// Did we just bump into an NTVDM?
-			if (!_stricmp(szFileNameAux, "NTVDM.EXE")) {
+			if (!_wcsicmp(szFileNameAux, L"NTVDM.EXE")) {
 				BOOL bFound = FALSE;
 
 				// Enum the 16-bit stuff.
@@ -195,14 +195,14 @@ BOOL areThereProcessesRunning(void)
 
          	// While there are processes, keep looping.
          	for (procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=lpfProcess32First(hSnapShot, &procentry); bFlag; procentry.dwSize=sizeof(PROCESSENTRY32), bFlag=lpfProcess32Next(hSnapShot, &procentry)) {
-				char *szFileNameAux = filename(procentry.szExeFile);
+				TCHAR *szFileNameAux = filename(procentry.szExeFile);
 
 				// Search szFileName in user-defined list
 				if (findFilename(szFileNameAux))
 					return TRUE;
 
 				// Did we just bump into an NTVDM?
-				if (lpfVDMEnumTaskWOWEx && !_stricmp(szFileNameAux, "NTVDM.EXE")) {
+				if (lpfVDMEnumTaskWOWEx && !_wcsicmp(szFileNameAux, L"NTVDM.EXE")) {
 					BOOL bFound = FALSE;
 
 					// Enum the 16-bit stuff.
@@ -219,7 +219,7 @@ BOOL areThereProcessesRunning(void)
 }
 
 
-BOOL WINAPI Enum16(DWORD dwThreadId, WORD hMod16, WORD hTask16, char *szModName, char *szFileName, LPARAM lpUserDefined)
+BOOL WINAPI Enum16(DWORD dwThreadId, WORD hMod16, WORD hTask16, TCHAR *szModName, TCHAR *szFileName, LPARAM lpUserDefined)
 {
 	BOOL bRet;
 	BOOL *pbFound = (BOOL *)lpUserDefined;
@@ -231,23 +231,23 @@ BOOL WINAPI Enum16(DWORD dwThreadId, WORD hMod16, WORD hTask16, char *szModName,
 }
 
 
-BOOL findFilename(char *fileName)
+BOOL findFilename(TCHAR *fileName)
 {
 	unsigned int i;
 
 	for (i=0; i < ProcessList.count; i++)
-		if (ProcessList.szFileName[i] && !_stricmp(ProcessList.szFileName[i], fileName))
+		if (ProcessList.szFileName[i] && !_wcsicmp(ProcessList.szFileName[i], fileName))
 			return TRUE;
 
 	return FALSE;
 }
 
 
-char *filename(char *fullFileName)
+TCHAR *filename(TCHAR *fullFileName)
 {
-	char *str;
+	TCHAR *str;
 
-	str = strrchr(fullFileName, '\\');
+	str = wcsrchr(fullFileName, '\\');
 	if (!str)
 		return fullFileName;
 

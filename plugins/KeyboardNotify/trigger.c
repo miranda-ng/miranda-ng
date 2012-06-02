@@ -167,7 +167,7 @@ int RegisterAction()
 	ar.actionFunction = TriggerStartBlinkFunction;
 	ar.hInstance = hInst;
 	ar.pfnDlgProc = DlgProcOptsActionKbdNotify;
-	ar.pszTemplate = MAKEINTRESOURCE(IDD_OPT_KN_ACTION);
+	ar.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KN_ACTION);
 	ar.flags = ARF_FUNCTION;
 	return CallService(MS_TRIGGER_REGISTERACTION, 0, (LPARAM)&ar);
 }

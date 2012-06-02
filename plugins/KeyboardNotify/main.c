@@ -208,8 +208,8 @@
 #include <m_message.h>
 #include <m_utils.h>
 #include <m_icq.h>
-#include "m_metacontacts.h"
-#include "m_updater.h"
+#include <m_metacontacts.h>
+#include <m_updater.h>
 #pragma comment(lib, "advapi32.lib")
 
 #define NCONVERS_BLINKID ((HANDLE)123456) //nconvers' random identifier used to flash an icon for "incoming message" on contact list
@@ -254,7 +254,7 @@ UINT hReminderTimer = 0;
 #pragma data_seg("Shared")
 HHOOK hMouseHook = NULL;
 HHOOK hKeyBoardHook = NULL;
-BYTE bEmulateKeypresses = FALSE;
+BYTE bEmulateKeypresses = 0;
 DWORD dwLastInput = 0;
 POINT lastGlobalMousePos = {0, 0};
 #pragma data_seg()
@@ -373,7 +373,7 @@ BOOL checkOpenWindow(HANDLE hContact)
 
 BOOL IsSaverOnNT4()
 {
-	HDESK hd = OpenDesktop("screen-saver", 0, FALSE, MAXIMUM_ALLOWED);
+	HDESK hd = OpenDesktop(L"screen-saver", 0, FALSE, MAXIMUM_ALLOWED);
 
 	if(hd == NULL)
 		return GetLastError()==ERROR_ACCESS_DENIED;
@@ -814,7 +814,7 @@ static int StartBlinkService(WPARAM wParam, LPARAM lParam)
 	nExternCount += (unsigned int)wParam;
 	if (bFlashOnOther && checkNotifyOptions() && checkGlobalStatus() && checkGlobalXstatus()) {
 		if (lParam)
-			useExternSequence((char *)lParam);
+			useExternSequence((TCHAR *)lParam);
 		SetEvent(hFlashEvent);
 	}
 
@@ -842,12 +842,12 @@ static int IsFlashingActiveService(WPARAM wParam, LPARAM lParam)
 }
 
 
-static int NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
+INT_PTR NormalizeSequenceService(WPARAM wParam, LPARAM lParam)
 {
-	char strAux[MAX_PATH+1], *strIn = (char *)lParam;
+	TCHAR strAux[MAX_PATH+1], *strIn = (TCHAR *)lParam;
 
-	mir_snprintf(strAux, MAX_PATH, "%s", strIn);
-	mir_snprintf(strIn, MAX_PATH, "%s", normalizeCustomString(strAux));
+	_snwprintf(strAux, MAX_PATH, _T("%s"), strIn);
+	_snwprintf(strIn, MAX_PATH, _T("%s"), normalizeCustomString(strAux));
 
 	return (int)strIn;
 }
@@ -880,15 +880,15 @@ void createProcessList(void)
 	count = (unsigned int)DBGetContactSettingWord(NULL, KEYBDMODULE, "processcount", 0);
 
 	ProcessList.count = 0;
-	ProcessList.szFileName = (char **)malloc(count * sizeof(char *));
+	ProcessList.szFileName = (TCHAR **)malloc(count * sizeof(TCHAR *));
 	if (ProcessList.szFileName) {
 		for(i=0; i < count; i++)
 			if (DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i), &dbv))
 				ProcessList.szFileName[i] = NULL;
 			else {
-				ProcessList.szFileName[i] = (char *)malloc(strlen(dbv.pszVal) + 1);
+				ProcessList.szFileName[i] = (TCHAR *)malloc(wcslen(dbv.ptszVal) + 1);
 				if (ProcessList.szFileName[i])
-					strcpy(ProcessList.szFileName[i], dbv.pszVal);
+					wcscpy(ProcessList.szFileName[i], dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
 		ProcessList.count = count;
@@ -1066,21 +1066,21 @@ void createProtocolList(void)
 
 // We use the profile name to create the first part of each event name
 // We do so to avoid problems between different instances of the plugin concurrently running
-void createEventPrefix(char *prefixName, size_t maxLen)
+void createEventPrefix(TCHAR *prefixName, size_t maxLen)
 {
 	size_t len;
-	char profileName[MAX_PATH+1], *str;
+	TCHAR profileName[MAX_PATH+1], *str;
 
 	getAbsoluteProfileName(profileName, MAX_PATH);
 
-	while (str = strchr(profileName, '\\'))
-		*str = '/';
-	if ((len = strlen(profileName)) <= maxLen)
-		strcpy(prefixName, profileName);
+	while (str = wcschr(profileName, _T('\\')))
+		*str = _T('/');
+	if ((len = wcslen(profileName)) <= maxLen)
+		wcscpy(prefixName, profileName);
 	else {
 		str = profileName + len - maxLen / 2;
-		mir_snprintf(prefixName, maxLen / 2, "%s", profileName);
-		strcat(prefixName, str);
+		_snwprintf(prefixName, maxLen / 2, L"%s", profileName);
+		wcscat(prefixName, str);
 	}
 }
 
@@ -1092,11 +1092,11 @@ void createEventPrefix(char *prefixName, size_t maxLen)
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	char eventPrefix[MAX_PATH+1], eventName[MAX_PATH+1];
+	TCHAR eventPrefix[MAX_PATH+1], eventName[MAX_PATH+1];
 
 	LoadProcsLibrary();
 	if (bWindowsNT && dWinVer >= 5)
-		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO)) GetProcAddress(GetModuleHandle("user32"), "GetLastInputInfo");
+		MyGetLastInputInfo = (BOOL (WINAPI *)(PLASTINPUTINFO)) GetProcAddress(GetModuleHandle(L"user32"), "GetLastInputInfo");
 	else 
 		MyGetLastInputInfo = NULL;
 
@@ -1105,9 +1105,9 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	// Create some synchronisation objects
 	createEventPrefix(eventPrefix, MAX_PATH - 11);
-	mir_snprintf(eventName, sizeof(eventName), "%s/FlashEvent", eventPrefix);
+	_snwprintf(eventName, sizeof(eventName), _T("%s/FlashEvent"), eventPrefix);
 	hFlashEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
-	mir_snprintf(eventName, sizeof(eventName), "%s/ExitEvent", eventPrefix);
+	_snwprintf(eventName, sizeof(eventName), _T("%s/ExitEvent"), eventPrefix);
 	hExitEvent = CreateEvent(NULL, FALSE, FALSE, eventName);
 
 	hThread = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)FlashThreadFunction, NULL, 0, &IDThread);
@@ -1382,7 +1382,7 @@ static LRESULT CALLBACK MirandaWndProcHookFunction(int code, WPARAM wParam, LPAR
 HWND findMessageWindow(HANDLE hContact)
 {
 	HWND hwnd;
-	char newtitle[256];
+	TCHAR newtitle[256];
 	char *szProto, *contactName, *szStatus;
 	CONTACTINFO ci = {0};
 
@@ -1390,17 +1390,17 @@ HWND findMessageWindow(HANDLE hContact)
 	contactName = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
 	szStatus = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto==NULL?ID_STATUS_OFFLINE:DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
-	mir_snprintf(newtitle, sizeof(newtitle), "%s (%s): %s", contactName, szStatus, Translate("Message Received"));
+	_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Received"));
 	if(hwnd = FindWindow(NULL, newtitle))
 		return hwnd;
 
-	mir_snprintf(newtitle, sizeof(newtitle), "%s %s", contactName, szStatus);
+	_snwprintf(newtitle, sizeof(newtitle), _T("%s %s"), contactName, szStatus);
 	if(hwnd = FindWindow(NULL, newtitle))
 		return hwnd;
-	mir_snprintf(newtitle, sizeof(newtitle), "%s (%s): %s", contactName, szStatus, Translate("Message Session"));
+	_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session"));
 	if(hwnd = FindWindow(NULL, newtitle))
 		return hwnd;
-	mir_snprintf(newtitle, sizeof(newtitle), "%s (%s): %s", contactName, szStatus, Translate("Message Session is typing..."));
+	_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s): %s"), contactName, szStatus, TranslateT("Message Session is typing..."));
 	if(hwnd = FindWindow(NULL, newtitle))
 		return hwnd;
 	// search for the nconvers++ message window that uses the UIN
@@ -1410,16 +1410,16 @@ HWND findMessageWindow(HANDLE hContact)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch(ci.type) {
 			case CNFT_BYTE:
-				mir_snprintf(newtitle, sizeof(newtitle), "%s (%d) %s", contactName, ci.bVal, szStatus);
+				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%d) %s"), contactName, ci.bVal, szStatus);
 				break;
 			case CNFT_WORD:
-				mir_snprintf(newtitle, sizeof(newtitle), "%s (%d) %s", contactName, ci.wVal, szStatus);
+				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%d) %s"), contactName, ci.wVal, szStatus);
 				break;
 			case CNFT_DWORD:
-				mir_snprintf(newtitle, sizeof(newtitle), "%s (%d) %s", contactName, ci.dVal, szStatus);
+				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%d) %s"), contactName, ci.dVal, szStatus);
 				break;
 			case CNFT_ASCIIZ:
-				mir_snprintf(newtitle, sizeof(newtitle), "%s (%s) %s", contactName, ci.pszVal, szStatus);
+				_snwprintf(newtitle, sizeof(newtitle), _T("%s (%s) %s"), contactName, ci.pszVal, szStatus);
 				break;
 		}
 		if(hwnd = FindWindow(NULL, newtitle))

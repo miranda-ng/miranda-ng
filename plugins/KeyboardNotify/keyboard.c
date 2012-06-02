@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // Globals
 extern BOOL bWindowsNT;
-extern BOOL bEmulateKeypresses;
+extern BYTE bEmulateKeypresses;
 HANDLE hKbdDev[10] = {INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE};
 
 // Defines
@@ -55,17 +55,17 @@ void outportb(UINT portid, BYTE value)
 BOOL OpenKeyboardDevice()
 {
 	int i = 0;
-	char aux1[MAX_PATH+1], aux2[MAX_PATH+1];
+	TCHAR aux1[MAX_PATH+1], aux2[MAX_PATH+1];
 
 	if (!bWindowsNT)
 		return TRUE;
 
 	do {
-		mir_snprintf(aux1, sizeof(aux1), "Kbd%d", i);
-		mir_snprintf(aux2, sizeof(aux2), "\\Device\\KeyboardClass%d", i);
+		_snwprintf(aux1, sizeof(aux1), _T("Kbd%d"), i);
+		_snwprintf(aux2, sizeof(aux2), _T("\\Device\\KeyboardClass%d"), i);
 		DefineDosDevice(DDD_RAW_TARGET_PATH, aux1, aux2);
 
-		mir_snprintf(aux1, sizeof(aux1), "\\\\.\\Kbd%d", i);
+		_snwprintf(aux1, sizeof(aux1), _T("\\\\.\\Kbd%d"), i);
 		hKbdDev[i] = CreateFile(aux1, GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);
@@ -102,7 +102,7 @@ BOOL ToggleKeyboardLights(BYTE byte)
 void CloseKeyboardDevice()
 {
 	int i = 0;
-	char aux[MAX_PATH+1];
+	TCHAR aux[MAX_PATH+1];
 
 	if (!bWindowsNT)
 		return;
@@ -111,7 +111,7 @@ void CloseKeyboardDevice()
 		if (hKbdDev[i] != INVALID_HANDLE_VALUE)
 			CloseHandle(hKbdDev[i]);
 
-		mir_snprintf(aux, sizeof(aux), "Kbd%d", i);
+		_snwprintf(aux, sizeof(aux), _T("Kbd%d"), i);
 		DefineDosDevice(DDD_REMOVE_DEFINITION, aux, NULL);
 
 	} while (hKbdDev[i] != INVALID_HANDLE_VALUE && ++i < MAX_KBDHANDLES);

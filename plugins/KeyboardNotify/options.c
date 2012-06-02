@@ -90,9 +90,9 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK DlgProcProcesses(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK DlgProcEventLeds(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK DlgProcXstatusList(HWND, UINT, WPARAM, LPARAM);
-void exportThemes(const char *);
-void importThemes(const char *, BOOL);
-void writeThemeToCombo(const char *, const char *, BOOL);
+void exportThemes(const TCHAR *);
+void importThemes(const TCHAR *, BOOL);
+void writeThemeToCombo(const TCHAR *, const TCHAR *, BOOL);
 void createProcessListAux(void);
 void destroyProcessListAux(void);
 void createXstatusListAux(void);
@@ -139,8 +139,8 @@ extern PROCESS_LIST ProcessList;
 
 HWND hwndProto, hwndBasic, hwndEffect, hwndTheme, hwndIgnore, hwndCurrentTab;
 
-char *AttendedName[]={"Miranda", "Windows"};
-char *OrderName[]={"left->right", "right->left", "left<->right"};
+TCHAR *AttendedName[]={_T("Miranda"), _T("Windows")};
+TCHAR *OrderName[]={_T("left->right"), _T("right->left"), _T("left<->right")};
 
 PROCESS_LIST ProcessListAux;
 XSTATUS_INFO *XstatusListAux;
@@ -159,7 +159,7 @@ int InitializeOptions(WPARAM wParam,LPARAM lParam)
 	HMODULE hUxTheme = NULL;
 
 	if(bWindowsNT && dWinVer >= 5.01) {
-		hUxTheme = GetModuleHandle("uxtheme.dll");
+		hUxTheme = GetModuleHandle(L"uxtheme.dll");
 
 		if(hUxTheme)
 			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
@@ -169,9 +169,9 @@ int InitializeOptions(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszTitle = Translate("Keyboard Flash");
-	odp.pszGroup = Translate("Plugins");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTitle = "Keyboard Flash";
+	odp.pszGroup = "Plugins";
 	odp.groupPosition = 910000000;
 	odp.flags=ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
@@ -190,15 +190,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TCITEM tci;
 			tc = GetDlgItem(hwndDlg, IDC_TABS);
 			tci.mask = TCIF_TEXT;
-			tci.pszText = Translate("Protocols");
+			tci.pszText = TranslateT("Protocols");
 			TabCtrl_InsertItem(tc, 0, &tci);
-			tci.pszText = Translate("Rules");
+			tci.pszText = TranslateT("Rules");
 			TabCtrl_InsertItem(tc, 1, &tci);
-			tci.pszText = Translate("Flashing");
+			tci.pszText = TranslateT("Flashing");
 			TabCtrl_InsertItem(tc, 2, &tci);
-			tci.pszText = Translate("Themes");
+			tci.pszText = TranslateT("Themes");
 			TabCtrl_InsertItem(tc, 3, &tci);
-			tci.pszText = Translate("Ignore");
+			tci.pszText = TranslateT("Ignore");
 			TabCtrl_InsertItem(tc, 4, &tci);
 			
 			hwndProto = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_PROTO_OPTIONS), hwndDlg, DlgProcProtoOptions, (LPARAM) NULL);
@@ -301,7 +301,7 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				ListView_SetExtendedListViewStyleEx(hList, LVS_EX_CHECKBOXES, LVS_EX_CHECKBOXES);
 				memset(&lvCol, 0, sizeof(lvCol));
 				lvCol.mask = LVCF_WIDTH|LVCF_TEXT;
-				lvCol.pszText = Translate("Protocol");
+				lvCol.pszText = TranslateT("Protocol");
 				lvCol.cx = 118;
 				ListView_InsertColumn(hList, 0, &lvCol);
 				// fill
@@ -311,12 +311,11 @@ INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				lvItem.iItem = 0;
 				lvItem.iSubItem = 0;
 				for(i=0; i < ProtoList.protoCount; i++) {
-					char protoName[MAX_PATH+1];
-					
+					int count; PROTOACCOUNT** protos;
+					ProtoEnumAccounts( &count, &protos );
 					if(ProtoList.protoInfo[i].visible) {
 						lvItem.lParam = (LPARAM)ProtoList.protoInfo[i].szProto;
-						CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-						lvItem.pszText = protoName;
+						lvItem.pszText = protos[i] -> tszAccountName;
 						ListView_InsertItem(hList, &lvItem);
 						ListView_SetCheckState(hList, lvItem.iItem, ProtoList.protoInfo[i].enabled);
 						lvItem.iItem++;
@@ -600,7 +599,7 @@ INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 						for (i=0, j=0; j < ProcessListAux.count; j++)
 							if (ProcessListAux.szFileName[j])
-								DBWriteContactSettingString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
+								DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
 						DBWriteContactSettingWord(NULL, KEYBDMODULE, "processcount", (WORD)i);
 						while (!DBDeleteContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("process%d", i++)));
 
@@ -650,7 +649,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			CheckDlgButton(hwndDlg, IDC_INTURN, bFlashEffect == FLASH_INTURN ? BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_INSEQUENCE, bFlashEffect == FLASH_INSEQUENCE ? BST_CHECKED:BST_UNCHECKED);
 			for (i=0; i < 3; i++) {
-				int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate(OrderName[i]));
+				int index = SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(OrderName[i]));
 				if (index != CB_ERR && index != CB_ERRSPACE)
 					SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
 			}
@@ -659,7 +658,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				EnableWindow(GetDlgItem(hwndDlg, IDC_SEQORDER), FALSE);
 			CheckDlgButton(hwndDlg, IDC_CUSTOM, bFlashEffect == FLASH_CUSTOM ? BST_CHECKED:BST_UNCHECKED);
 			for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
-				int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.pszVal);
+				int index = SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.ptszVal);
 				DBFreeVariant(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE)
 					SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_SETITEMDATA, (WPARAM)index, (LPARAM)i);
@@ -782,7 +781,7 @@ INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int i;
-	char *str;
+	TCHAR *str;
 	DBVARIANT dbv;
 	static BOOL initDlg=FALSE;
 
@@ -799,12 +798,12 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				int index = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)dbv.pszVal);
 				DBFreeVariant(&dbv);
 				if (index != CB_ERR && index != CB_ERRSPACE) {
-					str = (char *)malloc(MAX_PATH+1);
+					str = (TCHAR *)malloc(MAX_PATH+1);
 					if (str)
 						if (DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
-							str[0] = '\0';
+							str[0] = _T('\0');
 						else {
-							strcpy(str, dbv.pszVal);
+							wcscpy(str, dbv.ptszVal);
 							DBFreeVariant(&dbv);
 						}
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETITEMDATA, (WPARAM)index, (LPARAM)str);
@@ -817,7 +816,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 			else {
 				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
-				str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)wCustomTheme, 0);
+				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)wCustomTheme, 0);
 				if (str)
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 			}
@@ -832,15 +831,15 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_THEME:
 				switch (HIWORD(wParam)) {
 				int item;
-				char theme[MAX_PATH+1];
+				TCHAR theme[MAX_PATH+1];
 
 				case CBN_SELENDOK:
 				case CBN_SELCHANGE:
-					str = (char *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
+					str = (TCHAR *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
 					if (str)
 						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 					else
-						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, "");
+						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
@@ -848,15 +847,15 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case CBN_EDITCHANGE:
 					GetDlgItemText(hwndDlg, IDC_THEME, theme, sizeof(theme));
 					if ((item = SendMessage((HWND)lParam, CB_FINDSTRINGEXACT, -1, (LPARAM)theme)) == CB_ERR) {	//new theme
-						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, "");
+						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 					} else {
-						str = (char *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)item, 0);
+						str = (TCHAR *)SendMessage((HWND)lParam, CB_GETITEMDATA, (WPARAM)item, 0);
 						if (str)
 							SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 						else
-							SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, "");
+							SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 					}
@@ -867,15 +866,15 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_CUSTOMSTRING:
 				if(HIWORD(wParam) == EN_CHANGE) {
 					int item;
-					char theme[MAX_PATH+1], customAux[MAX_PATH+1];
+					TCHAR theme[MAX_PATH+1], customAux[MAX_PATH+1];
 
 					GetDlgItemText(hwndDlg, IDC_THEME, theme, sizeof(theme));
 					if ((item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme)) == CB_ERR)
 						return TRUE;
-					str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+					str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 					if (str) {
 						GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, customAux, MAX_PATH);
-						if (strcmp(str, customAux))
+						if (wcscmp(str, customAux))
 							EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), TRUE);
 						else
 							EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
@@ -884,7 +883,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_TEST:
 				{
-				char custom[MAX_PATH+1];
+				TCHAR custom[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, custom, MAX_PATH);
 				SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(custom));
@@ -894,13 +893,13 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_ADD:
 				{
 				int item;
-				char theme[MAX_PATH+1];
+				TCHAR theme[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, sizeof(theme));
 				if (!theme[0])
 					return TRUE;
 				item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-				str = (char *)malloc(MAX_PATH+1);
+				str = (TCHAR *)malloc(MAX_PATH+1);
 				if (str) {
 					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
@@ -915,11 +914,11 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_UPDATE:
 				{
 				int item;
-				char theme[MAX_PATH+1];
+				TCHAR theme[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, sizeof(theme));
 				item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
-				str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str) {
 					GetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str, MAX_PATH);
 					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, normalizeCustomString(str));
@@ -931,21 +930,21 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case IDC_DELETE:
 				{
 				int item;
-				char theme[MAX_PATH+1];
+				TCHAR theme[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_THEME, theme, sizeof(theme));
 				item = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
-				str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
 					free(str);
 				SendDlgItemMessage(hwndDlg, IDC_THEME, CB_DELETESTRING, (WPARAM)item, 0);
 				if (SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0) == 0) {
-					SetDlgItemText(hwndDlg, IDC_THEME, "");
-					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, "");
+					SetDlgItemText(hwndDlg, IDC_THEME, _T(""));
+					SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, _T(""));
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
 				} else {
 					SendDlgItemMessage(hwndDlg, IDC_THEME, CB_SETCURSEL, 0, 0);
-					str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, 0, 0);
+					str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, 0, 0);
 					if (str)
 						SetDlgItemText(hwndDlg, IDC_CUSTOMSTRING, str);
 				}
@@ -955,56 +954,56 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				return TRUE;
 			case IDC_EXPORT:
 				{
-				char path[MAX_PATH+1], filter[MAX_PATH+1], *pfilter;
+				TCHAR path[MAX_PATH+1], filter[MAX_PATH+1], *pfilter;
 				OPENFILENAME ofn={0};
 
-				path[0] = '\0';
+				path[0] = _T('\0');
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				strcpy(filter, Translate("Keyboard Notify Theme"));
-				strcat(filter, " (*.knt)");
-				pfilter = filter + strlen(filter) + 1;
-				strcpy(pfilter, "*.knt");
-				pfilter = pfilter + strlen(pfilter) + 1;
-				strcpy(pfilter, Translate("All Files"));
-				pfilter = pfilter + strlen(pfilter) + 1;
-				strcpy(pfilter, "*.*");
-				pfilter = pfilter + strlen(pfilter) + 1;
-				*pfilter = '\0';  
+				wcscpy(filter,_T("Keyboard Notify Theme"));
+				wcscat(filter, _T(" (*.knt)"));
+				pfilter = filter + wcslen(filter) + 1;
+				wcscpy(pfilter, _T("*.knt"));
+				pfilter = pfilter + wcslen(pfilter) + 1;
+				wcscpy(pfilter, _T("All Files"));
+				pfilter = pfilter + wcslen(pfilter) + 1;
+				wcscpy(pfilter, _T("*.*"));
+				pfilter = pfilter + wcslen(pfilter) + 1;
+				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
 				ofn.Flags = OFN_HIDEREADONLY|OFN_NOCHANGEDIR|OFN_NOREADONLYRETURN|OFN_PATHMUSTEXIST;
 				ofn.nMaxFile = sizeof(path);
-				ofn.lpstrDefExt = "knt";
+				ofn.lpstrDefExt = _T("knt");
 				if(GetSaveFileName(&ofn))
 					exportThemes(path);
 				}
 				return TRUE;
 			case IDC_IMPORT:
 				{
-				char path[MAX_PATH+1], filter[MAX_PATH+1], *pfilter;
+				TCHAR path[MAX_PATH+1], filter[MAX_PATH+1], *pfilter;
 				OPENFILENAME ofn={0};
 
-				path[0] = '\0';
+				path[0] = _T('\0');
 				ofn.lStructSize = sizeof(OPENFILENAME);
 				ofn.hwndOwner = hwndDlg;
 				ofn.hInstance = NULL;
-				strcpy(filter, Translate("Keyboard Notify Theme"));
-				strcat(filter, " (*.knt)");
-				pfilter = filter + strlen(filter) + 1;
-				strcpy(pfilter, "*.knt");
-				pfilter = pfilter + strlen(pfilter) + 1;
-				strcpy(pfilter, Translate("All Files"));
-				pfilter = pfilter + strlen(pfilter) + 1;
-				strcpy(pfilter, "*.*");
-				pfilter = pfilter + strlen(pfilter) + 1;
-				*pfilter = '\0';  
+				wcscpy(filter, _T("Keyboard Notify Theme"));
+				wcscat(filter, _T(" (*.knt)"));
+				pfilter = filter + wcslen(filter) + 1;
+				wcscpy(pfilter, _T("*.knt"));
+				pfilter = pfilter + wcslen(pfilter) + 1;
+				wcscpy(pfilter, _T("All Files"));
+				pfilter = pfilter + wcslen(pfilter) + 1;
+				wcscpy(pfilter, _T("*.*"));
+				pfilter = pfilter + wcslen(pfilter) + 1;
+				*pfilter = _T('\0');  
 				ofn.lpstrFilter = filter;
 				ofn.lpstrFile = path;
 				ofn.Flags = OFN_FILEMUSTEXIST|OFN_HIDEREADONLY|OFN_NOCHANGEDIR;
 				ofn.nMaxFile = sizeof(path);
-				ofn.lpstrDefExt = "knt";
+				ofn.lpstrDefExt = _T("knt");
 				if(GetOpenFileName(&ofn)) {
 					importThemes(path, IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED);
 					SendMessage(GetParent(GetParent(hwndDlg)), PSM_CHANGED, 0, 0);
@@ -1020,16 +1019,16 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case WM_NOTIFY:
 			{
 				int count;
-				char theme[MAX_PATH+1], themeAux[MAX_PATH+1], *str;
+				TCHAR theme[MAX_PATH+1], themeAux[MAX_PATH+1], *str;
 				//Here we have pressed either the OK or the APPLY button.
 				switch(((LPNMHDR)lParam)->idFrom) {
 				case 0:
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_APPLY:
 						if (!DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", wCustomTheme), &dbv))
-							strcpy(theme, dbv.pszVal);
+							wcscpy(theme, dbv.ptszVal);
 						else
-							theme[0] = '\0';
+							theme[0] = _T('\0');
 
 						// Here we will delete all the items in the theme combo on the Flashing tab: we will load them again later
 						for (i=0; SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_DELETESTRING, 0, (LPARAM)i) != CB_ERR; i++);
@@ -1037,14 +1036,14 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 						for (i=0, wCustomTheme=0; i < count; i++) {
 							SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETLBTEXT, (WPARAM)i, (LPARAM)themeAux);
-							DBWriteContactSettingString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
-							str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
+							DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), themeAux);
+							str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)i, 0);
 							if (str)
-								DBWriteContactSettingString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
+								DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), str);
 							else
-								DBWriteContactSettingString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), "");
+								DBWriteContactSettingWString(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), _T(""));
 
-							if (!strcmp(theme, themeAux))
+							if (!wcscmp(theme, themeAux))
 								wCustomTheme = i;
 
 							// Here we will update the theme combo on the Flashing tab: horrible but can't imagine a better way right now
@@ -1072,7 +1071,7 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			int item, count = SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETCOUNT, 0, 0);
 
 			for (item=0; item < count; item++) {
-				str = (char *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+				str = (TCHAR *)SendDlgItemMessage(hwndDlg, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 				if (str)
 					free(str);
 			}
@@ -1087,53 +1086,53 @@ INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 }
 
 
-void exportThemes(const char *filename)
+void exportThemes(const TCHAR *filename)
 {
 	int i;
 	FILE *fExport;
 	DBVARIANT dbv;
 
-	if (!(fExport = fopen(filename, "wt")))
+	if (!(fExport = _wfopen(filename, _T("wt"))))
 		return;
 
-	fprintf(fExport, "\n; Automatically generated Keyboard Notify Theme file\n\n\n");
+	fwprintf(fExport, TranslateT("\n; Automatically generated Keyboard Notify Theme file\n\n\n"));
 
 	for (i=0; !DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("theme%d", i), &dbv); i++) {
-		fprintf(fExport, "[%s]\n", dbv.pszVal);
+		fwprintf(fExport, _T("[%s]\n"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
 		if (DBGetContactSetting(NULL, KEYBDMODULE, fmtDBSettingName("custom%d", i), &dbv))
-			fprintf(fExport, "0\n\n");
+			fwprintf(fExport, _T("0\n\n"));
 		else {
-			fprintf(fExport, "%s\n\n", dbv.pszVal);
+			fwprintf(fExport, _T("%s\n\n"), dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 	}
 
-	fprintf(fExport, "\n; End of automatically generated Keyboard Notify Theme file\n");
+	fwprintf(fExport, TranslateT("\n; End of automatically generated Keyboard Notify Theme file\n"));
 
 	fclose(fExport);
 }
 
 
-void importThemes(const char *filename, BOOL overrideExisting)
+void importThemes(const TCHAR *filename, BOOL overrideExisting)
 {
 	int i, status=0;
 	FILE *fImport;
-	char buffer[MAX_PATH+1], theme[MAX_PATH+1], *str;
+	TCHAR buffer[MAX_PATH+1], theme[MAX_PATH+1], *str;
 
-	if (!(fImport = fopen(filename, "rt")))
+	if (!(fImport = _wfopen(filename, _T("rt"))))
 		return;
 
-	while (fgets(buffer, MAX_PATH, fImport) != NULL) {
+	while (fgetws(buffer, MAX_PATH, fImport) != NULL) {
 		for (str=buffer; *str && isspace(*str); str++); //ltrim
 		if (!*str || *str == ';') //empty line or comment
 			continue;
-		for (i=strlen(str)-1; isspace(str[i]); str[i--]='\0'); //rtrim
+		for (i=wcslen(str)-1; isspace(str[i]); str[i--]='\0'); //rtrim
 		switch (status) {
 			case 0:
 				if (i > 1 && str[0] == '[' && str[i] == ']') {
 					status = 1;
-					strcpy(theme, str+1);
+					wcscpy(theme, str+1);
 					theme[i-1] = '\0';
 				}
 				break;
@@ -1148,23 +1147,23 @@ void importThemes(const char *filename, BOOL overrideExisting)
 }
 
 
-void writeThemeToCombo(const char *theme, const char *custom, BOOL overrideExisting)
+void writeThemeToCombo(const TCHAR *theme, const TCHAR *custom, BOOL overrideExisting)
 {
 	int item;
-	char *str;
+	TCHAR *str;
 
 	item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_FINDSTRINGEXACT, -1, (LPARAM)theme);
 	if (item == CB_ERR) {
 		item = SendDlgItemMessage(hwndTheme, IDC_THEME, CB_ADDSTRING, 0, (LPARAM)theme);
-		str = (char *)malloc(MAX_PATH+1);
+		str = (TCHAR *)malloc(MAX_PATH+1);
 		if (str)
-			strcpy(str, custom);
+			wcscpy(str, custom);
 		SendDlgItemMessage(hwndTheme, IDC_THEME, CB_SETITEMDATA, (WPARAM)item, (LPARAM)str);
 	} else
 		if (overrideExisting) {
-			str = (char *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
+			str = (TCHAR *)SendDlgItemMessage(hwndTheme, IDC_THEME, CB_GETITEMDATA, (WPARAM)item, 0);
 			if (str)
-				strcpy(str, custom);
+				wcscpy(str, custom);
 		}
 }
 
@@ -1200,7 +1199,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_PROGRAMS:
 				switch (HIWORD(wParam)) {
 				int item;
-				char szFileName[MAX_PATH+1];
+				TCHAR szFileName[MAX_PATH+1];
 
 				case CBN_SELENDOK:
 				case CBN_SELCHANGE:
@@ -1222,7 +1221,7 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_ADDPGM:
 				{
 				int item;
-				char szFileName[MAX_PATH+1];
+				TCHAR szFileName[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, sizeof(szFileName));
 				if (!szFileName[0])
@@ -1235,13 +1234,13 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case IDC_DELETEPGM:
 				{
 				int item;
-				char szFileName[MAX_PATH+1];
+				TCHAR szFileName[MAX_PATH+1];
 
 				GetDlgItemText(hwndDlg, IDC_PROGRAMS, szFileName, sizeof(szFileName));
 				item = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_FINDSTRINGEXACT, -1, (LPARAM)szFileName);
 				SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_DELETESTRING, (WPARAM)item, 0);
 				if (SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0) == 0) {
-					SetDlgItemText(hwndDlg, IDC_PROGRAMS, "");
+					SetDlgItemText(hwndDlg, IDC_PROGRAMS, _T(""));
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEPGM), FALSE);
 				} else
 					SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_SETCURSEL, 0, 0);
@@ -1251,17 +1250,17 @@ INT_PTR CALLBACK DlgProcProcesses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				destroyProcessListAux();
 
 				ProcessListAux.count = SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETCOUNT, 0, 0);
-				ProcessListAux.szFileName = (char **)malloc(ProcessListAux.count * sizeof(char *));
+				ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(TCHAR *));
 				if (!ProcessListAux.szFileName)
 					ProcessListAux.count = 0;
 				else
 					for (i=0; i < ProcessListAux.count; i++) {
-						char szFileNameAux[MAX_PATH+1];
+						TCHAR szFileNameAux[MAX_PATH+1];
 
 						SendDlgItemMessage(hwndDlg, IDC_PROGRAMS, CB_GETLBTEXT, (WPARAM)i, (LPARAM)szFileNameAux);
-						ProcessListAux.szFileName[i] = (char *)malloc(strlen(szFileNameAux) + 1);
+						ProcessListAux.szFileName[i] = (TCHAR *)malloc(wcslen(szFileNameAux) + 1);
 						if (ProcessListAux.szFileName[i])
-							strcpy(ProcessListAux.szFileName[i], szFileNameAux);
+							wcscpy(ProcessListAux.szFileName[i], szFileNameAux);
 					}
 	
 			case IDC_CANCELPGM:
@@ -1280,7 +1279,7 @@ void createProcessListAux(void)
 	unsigned int i;
 
 	ProcessListAux.count = ProcessList.count;
-	ProcessListAux.szFileName = (char **)malloc(ProcessListAux.count * sizeof(char *));
+	ProcessListAux.szFileName = (TCHAR **)malloc(ProcessListAux.count * sizeof(char *));
 	if (!ProcessListAux.szFileName)
 		ProcessListAux.count = 0;
 	else
@@ -1288,9 +1287,9 @@ void createProcessListAux(void)
 			if (!ProcessList.szFileName[i])
 				ProcessListAux.szFileName[i] = NULL;
 			else {
-				ProcessListAux.szFileName[i] = (char *)malloc(strlen(ProcessList.szFileName[i]) + 1);
+				ProcessListAux.szFileName[i] = (TCHAR *)malloc(wcslen(ProcessList.szFileName[i]) + 1);
 				if (ProcessListAux.szFileName[i])
-					strcpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
+					wcscpy(ProcessListAux.szFileName[i], ProcessList.szFileName[i]);
 			}
 
 }
@@ -1461,14 +1460,14 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (i=0; i < ProtoList.protoCount; i++)
 				if (ProtoList.protoInfo[i].enabled && XstatusListAux[i].count) {
 					HTREEITEM hParent;
-					char szProtoName[MAXMODULELABELLENGTH];
 
-					CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETNAME, sizeof(szProtoName), (LPARAM)szProtoName);
+					int count; PROTOACCOUNT** protos;
+					ProtoEnumAccounts( &count, &protos );
 
 					tvis.hParent = NULL;
 					tvis.hInsertAfter = TVI_LAST;
 					tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_STATE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-					tvis.item.pszText = szProtoName;
+					tvis.item.pszText = protos[i] -> tszAccountName; 
 					tvis.item.lParam = (LPARAM)i;
 					tvis.item.stateMask = TVIS_BOLD|TVIS_EXPANDED;
 					tvis.item.state = TVIS_BOLD|TVIS_EXPANDED;
@@ -1476,17 +1475,17 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (hIconAux) DestroyIcon(hIconAux);
 					hParent = TreeView_InsertItem(hwndTree, &tvis);
 					for(j=0; j < XstatusListAux[i].count; j++) {
-						char szDefaultName[1024];
+						TCHAR szDefaultName[1024];
 						ICQ_CUSTOM_STATUS xstatus={0};
 
 						tvis.hParent = hParent;
 						tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-						if (!j)
-							tvis.item.pszText = Translate("None");
+						if (!j){
+							tvis.item.pszText = TranslateT("None"); }
 						else {
 							xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
-							xstatus.flags = CSSF_MASK_NAME|CSSF_DEFAULT_NAME;
-							xstatus.pszName = szDefaultName;
+							xstatus.flags = CSSF_MASK_NAME|CSSF_DEFAULT_NAME|CSSF_UNICODE;
+							xstatus.ptszName = szDefaultName;
 							xstatus.wParam = &j;
 							CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
 							tvis.item.pszText = szDefaultName;
