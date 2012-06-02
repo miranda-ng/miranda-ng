@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_WWI_EVENTS_H
 #define M_WWI_EVENTS_H
 
-#include "commonheaders.h"
-
 #define ME_WWI_SENDMESSAGE "WWI/ContactSendMessage"
 
 extern HANDLE heContactSendMessage;

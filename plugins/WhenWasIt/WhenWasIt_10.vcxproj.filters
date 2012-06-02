@@ -142,7 +142,7 @@
     <None Include="icons\refresh.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\docs\WhenWasIt_readme.txt" />
+    <None Include="docs\WhenWasIt_readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="version.rc">

@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_WWI_DIALOG_HANDLERS_H
 #define M_WWI_DIALOG_HANDLERS_H
 
-#include "commonheaders.h"
-
 #define FOREGROUND_COLOR RGB(0, 64, 128)
 #define BACKGROUND_COLOR RGB(255, 255, 255)
 

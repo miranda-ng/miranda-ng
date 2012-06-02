@@ -40,8 +40,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NOTFOUND_FORMAT "Could not find UID '%s [%s]' in current database, skipping"
 #endif
 
-#include "commonheaders.h"
-
 extern int bShouldCheckBirthdays;
 extern int bBirthdayFound;
 

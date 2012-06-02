@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define M_WWI_UTILS_H
 
 #include <stdarg.h>
-#include "commonheaders.h"
 
 #define LOG_FILE "wwi.log"
 

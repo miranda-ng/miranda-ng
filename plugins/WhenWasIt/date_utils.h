@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef H_WWI_DATE_UTILS_H
 #define H_WWI_DATE_UTILS_H
 
-#include "commonheaders.h"
 #include "errno.h"
 
 #define SAVE_MODE_STANDARD  0
