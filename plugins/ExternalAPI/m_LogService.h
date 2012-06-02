@@ -63,17 +63,17 @@ typedef struct {
 // returns 0 on success
 #define MS_LOGSERVICE_REGISTER "LogService/Register"
 
-__inline static int logservice_register(char *szID, TCHAR *tszTitle, TCHAR *tszDefLogPath, TCHAR *tszDefFormat)
+__inline static INT_PTR logservice_register(char *szID, TCHAR *tszTitle, TCHAR *tszDefLogPath, TCHAR *tszDefFormat)
 {
 	LS_REGINFO ri;
-  ZeroMemory(&ri, sizeof(LS_REGINFO));
-  ri.cbSize = sizeof(LS_REGINFO);
+	ZeroMemory(&ri, sizeof(LS_REGINFO));
+	ri.cbSize = sizeof(LS_REGINFO);
 	ri.szID = szID;
 	ri.tszTitle = tszTitle;
 	ri.tszDefLogPath = tszDefLogPath;
 	ri.tszDefFormat = tszDefFormat;
 	ri.Flags = LSRF_TCHAR;
-  return CallService(MS_LOGSERVICE_REGISTER, (WPARAM)&ri, 0);
+	return CallService(MS_LOGSERVICE_REGISTER, (WPARAM)&ri, 0);
 }
 
 
@@ -106,16 +106,16 @@ typedef struct {
 // returns 0 on success
 #define MS_LOGSERVICE_LOG "LogService/Log"
 
-__inline static int logservice_log(char *szID, HANDLE hContact, TCHAR *tszMsg)
+__inline static INT_PTR logservice_log(char *szID, HANDLE hContact, TCHAR *tszMsg)
 {
 	LS_MSGINFO mi;
-  ZeroMemory(&mi, sizeof(LS_MSGINFO));
-  mi.cbSize = sizeof(LS_MSGINFO);
+	ZeroMemory(&mi, sizeof(LS_MSGINFO));
+	mi.cbSize = sizeof(LS_MSGINFO);
 	mi.szID = szID;
 	mi.hContact = hContact;
 	mi.tszMsg = tszMsg;
 	mi.Flags = LSMF_TCHAR;
-  return CallService(MS_LOGSERVICE_LOG, (WPARAM)&mi, 0);
+	return CallService(MS_LOGSERVICE_LOG, (WPARAM)&mi, 0);
 }
 
 

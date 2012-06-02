@@ -341,7 +341,7 @@ static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
 	hevPrebuildMenu		= HookEvent( ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu );
 	hwndMiranda			= (HWND)CallService( MS_CLUI_GETHWND, 0, 0 );
 
-	oldMirandaWndProc	= (WNDPROC)SetWindowLong( hwndMiranda, GWL_WNDPROC, (LONG)newMirandaWndProc); 
+	oldMirandaWndProc	= (WNDPROC)SetWindowLong( hwndMiranda, GWLP_WNDPROC, (LONG)newMirandaWndProc); 
 
 	
 	

@@ -69,13 +69,26 @@ void EnablePopupOptDlgControls()
 	InvalidateRect(GetDlgItem(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_POPUPDELAY_SPIN), NULL, false); // update spin control
 }
 
+static struct {
+	TCHAR *Text;
+	int Action;
+}
+PopupActions[] = 
+{
+	LPGENT("Open message window"), PCA_OPENMESSAGEWND,
+	LPGENT("Close popup"), PCA_CLOSEPOPUP,
+	LPGENT("Open contact details window"), PCA_OPENDETAILS,
+	LPGENT("Open contact menu"), PCA_OPENMENU,
+	LPGENT("Open contact history"), PCA_OPENHISTORY,
+	LPGENT("Open log file"), PCA_OPENLOG,
+	LPGENT("Do nothing"), PCA_DONOTHING
+};
 
-int CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static int ChangeLock = 0;
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
 			ChangeLock++;
@@ -86,105 +99,78 @@ int CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			HWND hLCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_LCLICK_ACTION);
 			HWND hRCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_RCLICK_ACTION);
-			static struct {
-				TCHAR *Text;
-				int Action;
-			} PopupActions[] = {
-				LPGENT("Open message window"), PCA_OPENMESSAGEWND,
-				LPGENT("Close popup"), PCA_CLOSEPOPUP,
-				LPGENT("Open contact details window"), PCA_OPENDETAILS,
-				LPGENT("Open contact menu"), PCA_OPENMENU,
-				LPGENT("Open contact history"), PCA_OPENHISTORY,
-				LPGENT("Open log file"), PCA_OPENLOG,
-				LPGENT("Do nothing"), PCA_DONOTHING
-			};
 			int I;
-			for (I = 0; I < lengthof(PopupActions); I++)
-			{
+			for (I = 0; I < lengthof(PopupActions); I++) {
 				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[I].Text)), PopupActions[I].Action);
 				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[I].Text)), PopupActions[I].Action);
 			}
 			g_PopupOptPage.DBToMemToPage();
 			EnablePopupOptDlgControls();
 			ChangeLock--;
+		}
+		return true;
+
+	case WM_NOTIFY:
+		switch (((NMHDR*)lParam)->code) {
+		case PSN_APPLY: 
+			g_PopupOptPage.PageToMemToDB();
+			RecompileRegexps(*(TCString*)g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
 			return true;
-		} break;
-		case WM_NOTIFY:
-		{
-			switch (((NMHDR*)lParam)->code)
-			{
-				case PSN_APPLY:
-				{
-					g_PopupOptPage.PageToMemToDB();
-					RecompileRegexps(*(TCString*)g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_IGNORESTRINGS));
-					return true;
-				} break;
+		}
+		break;
+
+	case WM_COMMAND:
+		switch (HIWORD(wParam)) {
+		case BN_CLICKED:
+			switch (LOWORD(wParam)) {
+			case IDC_POPUPOPTDLG_POPUPNOTIFY:
+			case IDC_POPUPOPTDLG_DEFBGCOLOUR:
+			case IDC_POPUPOPTDLG_DEFTEXTCOLOUR:
+			case IDC_POPUPOPTDLG_VERCHGNOTIFY:
+				EnablePopupOptDlgControls();
+				// go through
+
+			case IDC_POPUPOPTDLG_SHOWPREVCLIENT:
+			case IDC_POPUPOPTDLG_SHOWVER:
+			case IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG:
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+				return 0;
+				
+			case IDC_POPUPOPTDLG_POPUPPREVIEW:
+				g_PreviewOptPage = new COptPage(g_PopupOptPage);
+				g_PreviewOptPage->PageToMem();
+				DBCONTACTWRITESETTING cws = {0};
+				cws.szModule = "ICQ";
+				cws.szSetting = DB_MIRVER;
+				DBWriteContactSettingString(NULL, MOD_NAME, DB_OLDMIRVER, "ICQ Lite v5");
+				ContactSettingChanged(NULL, (LPARAM)&cws); // simulate a version change
+				delete g_PreviewOptPage;
+				g_PreviewOptPage = NULL;
+				break;
 			}
-		} break;
-		case WM_COMMAND:
-		{
-			switch (HIWORD(wParam))
-			{
-				case BN_CLICKED:
-				{
-					switch (LOWORD(wParam))
-					{
-						case IDC_POPUPOPTDLG_POPUPNOTIFY:
-						case IDC_POPUPOPTDLG_DEFBGCOLOUR:
-						case IDC_POPUPOPTDLG_DEFTEXTCOLOUR:
-						case IDC_POPUPOPTDLG_VERCHGNOTIFY:
-						{
-							EnablePopupOptDlgControls();
-						} // go through
-						case IDC_POPUPOPTDLG_SHOWPREVCLIENT:
-						case IDC_POPUPOPTDLG_SHOWVER:
-						case IDC_POPUPOPTDLG_USESTATUSNOTIFYFLAG:
-						{
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-							return 0;
-						} break;
-						case IDC_POPUPOPTDLG_POPUPPREVIEW:
-						{
-							g_PreviewOptPage = new COptPage(g_PopupOptPage);
-							g_PreviewOptPage->PageToMem();
-							DBCONTACTWRITESETTING cws = {0};
-							cws.szModule = "ICQ";
-              cws.szSetting = DB_MIRVER;
-							DBWriteContactSettingString(NULL, MOD_NAME, DB_OLDMIRVER, "ICQ Lite v5");
-							ContactSettingChanged(NULL, (LPARAM)&cws); // simulate a version change
-							delete g_PreviewOptPage;
-							g_PreviewOptPage = NULL;
-						} break;
-					}
-				} break;
-				case EN_CHANGE:
-				{
-					if (LOWORD(wParam) == IDC_POPUPOPTDLG_POPUPDELAY || LOWORD(wParam) == IDC_POPUPOPTDLG_IGNORESTRINGS)
-					{
-						if (!ChangeLock && g_PopupOptPage.GetWnd())
-						{
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-						}
-					}
-				} break;
-				case CBN_SELCHANGE:
-				{
-					if ((LOWORD(wParam) == IDC_POPUPOPTDLG_LCLICK_ACTION) || (LOWORD(wParam) == IDC_POPUPOPTDLG_RCLICK_ACTION) || (LOWORD(wParam) == IDC_POPUPOPTDLG_BGCOLOUR) || (LOWORD(wParam) == IDC_POPUPOPTDLG_TEXTCOLOUR))
-					{
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-					}
-				} break;
-			}
-		} break;
-		case WM_DESTROY:
-		{
-			g_PopupOptPage.SetWnd(NULL);
-			return 0;
-		} break;
+			break;
+		
+		case EN_CHANGE:
+			if (LOWORD(wParam) == IDC_POPUPOPTDLG_POPUPDELAY || LOWORD(wParam) == IDC_POPUPOPTDLG_IGNORESTRINGS)
+				if (!ChangeLock && g_PopupOptPage.GetWnd())
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+
+			break;
+
+		case CBN_SELCHANGE:
+			if ((LOWORD(wParam) == IDC_POPUPOPTDLG_LCLICK_ACTION) || (LOWORD(wParam) == IDC_POPUPOPTDLG_RCLICK_ACTION) || (LOWORD(wParam) == IDC_POPUPOPTDLG_BGCOLOUR) || (LOWORD(wParam) == IDC_POPUPOPTDLG_TEXTCOLOUR))
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
+
+			break;
+		}
+		break;
+		
+	case WM_DESTROY:
+		g_PopupOptPage.SetWnd(NULL);
+		return 0;
 	}
 	return 0;
 }
-
 
 int OptionsDlgInit(WPARAM wParam, LPARAM lParam)
 {
@@ -200,7 +186,6 @@ int OptionsDlgInit(WPARAM wParam, LPARAM lParam)
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&optDi);
 	return 0;
 }
-
 
 void InitOptions()
 {
