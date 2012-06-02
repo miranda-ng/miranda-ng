@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS
+
 #define MIRANDA_VER 0x0A00
 
 #include <windows.h>

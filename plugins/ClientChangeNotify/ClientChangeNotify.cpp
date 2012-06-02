@@ -143,7 +143,7 @@ static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 }
 
 
-static VOID CALLBACK ShowContactMenu(UINT_PTR wParam)
+static VOID NTAPI ShowContactMenu(ULONG_PTR wParam)
 // wParam = hContact
 {
 	POINT pt;

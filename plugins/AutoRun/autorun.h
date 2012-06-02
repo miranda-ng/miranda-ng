@@ -1,6 +1,8 @@
 #define IDD_OPT_AUTORUN 101
 #define IDC_AUTORUN 102
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #define MIRANDA_VER 0x0A00
 #define SUB_KEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
 #define ModuleName "Autorun"
