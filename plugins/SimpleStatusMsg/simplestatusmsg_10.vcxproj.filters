@@ -35,12 +35,6 @@
     <ClInclude Include="commonheaders.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="m_simpleaway.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="m_simplestatusmsg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>

@@ -287,9 +287,6 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugins\RecentContacts\RecentContacts.vcxproj", "{07137F45-8B5F-4561-BEC8-B883E9123785}"
 EndProject
 Global
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -985,6 +982,11 @@ Global
 		{86704897-EABF-439D-BE0E-52CEA67C2C43}.Release|Win32.Build.0 = Release|Win32
 		{86704897-EABF-439D-BE0E-52CEA67C2C43}.Release|x64.ActiveCfg = Release|x64
 		{86704897-EABF-439D-BE0E-52CEA67C2C43}.Release|x64.Build.0 = Release|x64
+		{63E05ECA-0A63-479E-86BD-2CAF53869BDA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{63E05ECA-0A63-479E-86BD-2CAF53869BDA}.Debug|x64.ActiveCfg = Debug|x64
+		{63E05ECA-0A63-479E-86BD-2CAF53869BDA}.Debug|x64.Build.0 = Debug|x64
+		{63E05ECA-0A63-479E-86BD-2CAF53869BDA}.Release|Win32.ActiveCfg = Release|Win32
+		{63E05ECA-0A63-479E-86BD-2CAF53869BDA}.Release|x64.ActiveCfg = Release|x64
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Debug|Win32.ActiveCfg = Debug|Win32
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Debug|Win32.Build.0 = Debug|Win32
 		{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}.Debug|x64.ActiveCfg = Debug|x64
@@ -1427,7 +1429,8 @@ Global
 		{541BE2B3-4320-47B8-AB64-C7F7ED0EFABA}.Release|x64.Build.0 = Release|x64
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Debug|Win32.ActiveCfg = Debug|Win32
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Debug|Win32.Build.0 = Debug|Win32
-		{07137F45-8B5F-4561-BEC8-B883E9123785}.Debug|x64.ActiveCfg = Debug|Win32
+		{07137F45-8B5F-4561-BEC8-B883E9123785}.Debug|x64.ActiveCfg = Debug|x64
+		{07137F45-8B5F-4561-BEC8-B883E9123785}.Debug|x64.Build.0 = Debug|x64
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Release|Win32.ActiveCfg = Release|Win32
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Release|Win32.Build.0 = Release|Win32
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Release|x64.ActiveCfg = Release|x64
@@ -1435,5 +1438,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
 	EndGlobalSection
 EndGlobal

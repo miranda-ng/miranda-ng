@@ -4,7 +4,7 @@
 extern HINSTANCE hInst;
 void LoadDBSettings();
 
-BOOL CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char str[32];
 
@@ -19,7 +19,7 @@ BOOL CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		mir_snprintf(str, SIZEOF(str), "%s", LastUCOpt.DateTimeFormat.c_str());
 		SetDlgItemTextA(hwndDlg, IDC_DATETIME, str);
 
-		SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+		SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
 		return TRUE;
 
 	case WM_COMMAND:

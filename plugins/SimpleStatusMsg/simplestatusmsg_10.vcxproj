@@ -190,8 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />
-    <ClInclude Include="m_simpleaway.h" />
-    <ClInclude Include="m_simplestatusmsg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="simplestatusmsg.h" />
   </ItemGroup>

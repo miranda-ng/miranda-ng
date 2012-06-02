@@ -178,7 +178,6 @@
     <ClInclude Include="autoreplace.h" />
     <ClInclude Include="commons.h" />
     <ClInclude Include="dictionary.h" />
-    <ClInclude Include="m_spellchecker.h" />
     <ClInclude Include="..\utils\mir_icons.h" />
     <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />

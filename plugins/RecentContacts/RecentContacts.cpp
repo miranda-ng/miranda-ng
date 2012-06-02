@@ -25,7 +25,8 @@ HANDLE hMenuItemRemove = NULL;
 HANDLE hOptInitialise = NULL;
 HANDLE hContactSetting = NULL;
 
-LIST<void> ServiceList(10,0), HookList(10,0);
+const INT_PTR boo = 0;
+LIST<void> ServiceList(10,boo), HookList(10,boo);
 
 BOOL IsMessageAPI = FALSE;
 
@@ -178,11 +179,11 @@ void wfree(char **Data)
 
 HWND hwndContactTree = NULL;
 
-BOOL WINAPI ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT WINAPI ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	LASTUC_DLG_DATA *DlgDat;
 
-	DlgDat = (LASTUC_DLG_DATA *)GetWindowLong(hDlg, GWL_USERDATA);
+	DlgDat = (LASTUC_DLG_DATA *)GetWindowLong(hDlg, GWLP_USERDATA);
 	HWND hList = GetDlgItem(hDlg, IDC_CONTACTS_LIST);
 	if (hList == NULL)
 		return FALSE;
@@ -212,7 +213,7 @@ BOOL WINAPI ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			ScreenToClient(hDlg, &p);
 			DlgDat->ListUCRect.right = p.x;
 			DlgDat->ListUCRect.bottom = p.y;
-			SetWindowLong(hDlg, GWL_USERDATA, (LONG)DlgDat);
+			SetWindowLong(hDlg, GWLP_USERDATA, (LONG)DlgDat);
 
 			//set listview styles
 			ListView_SetExtendedListViewStyleEx(hList,
@@ -385,7 +386,7 @@ BOOL WINAPI ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return FALSE;
 }
 
-int OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
+INT_PTR OnMenuCommandShowList(WPARAM wParam, LPARAM lParam)
 {
 	cmultimap *contacts = new cmultimap;
 
@@ -572,7 +573,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
       update.cbSize = sizeof(Update);
       update.szComponentName = pluginInfo.shortName;
       update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-      update.cpbVersion = strlen((char *)update.pbVersion);
+      update.cpbVersion = (int)strlen((char *)update.pbVersion);
 
       update.szUpdateURL = UPDATER_AUTOREGISTER;
 
@@ -584,7 +585,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
       update.szBetaVersionURL     = "http://kildor.miranda.im/miranda/recentcontacts.txt";
       update.szBetaChangelogURL   = "http://kildor.miranda.im/miranda/recentcontacts_changes.txt";
       update.pbBetaVersionPrefix  = (BYTE *)"RecentContacts ";
-      update.cpbBetaVersionPrefix = strlen((char *)update.pbBetaVersionPrefix);
+      update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
 
       CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
    }
@@ -631,7 +632,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int ToggleIgnore (WPARAM wParam, LPARAM lParam)
+INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 {
 	if (wParam != NULL) {
 		HANDLE hContact = ( HANDLE )wParam;
