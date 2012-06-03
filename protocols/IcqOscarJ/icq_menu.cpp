@@ -240,7 +240,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 			!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0));
 	}
 	
-	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact));
+	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact) != 0);
 	BYTE bXStatus = getContactXStatus((HANDLE)wParam);
 	
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);

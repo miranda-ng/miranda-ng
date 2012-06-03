@@ -82,20 +82,26 @@ PBYTE msn_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST* nlhr, PBYTE buf, int len, int
 
 	if (nlhr->resultCode == 200)
 	{
+		char *xMsgr = NULL, *xHost = NULL;
+
 		for (int i=0; i < nlhr->headersCount; i++)
 		{
 			NETLIBHTTPHEADER& tHeader = nlhr->headers[i];
-			if (_stricmp(tHeader.szName, "X-MSN-Messenger") != 0)
-				continue;
+			if (_stricmp(tHeader.szName, "X-MSN-Messenger") == 0)
+				xMsgr = tHeader.szValue;
+			else if (_stricmp(tHeader.szName, "X-MSN-Host") == 0)
+				xHost = tHeader.szValue;
 
+		}
+
+		if (xMsgr)
+		{
 			isMsnPacket = true;
 
-			if (strstr(tHeader.szValue, "Session=close") == 0)
+			if (strstr(xMsgr, "Session=close") == 0)
 				isSessionClosed = false;
-			else
-				break;
 
-			T->processSessionData(tHeader.szValue);
+			T->processSessionData(xMsgr, xHost);
 			T->applyGatewayData(nlhr->nlc, false);
 		}
 	}

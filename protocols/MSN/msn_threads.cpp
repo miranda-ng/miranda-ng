@@ -747,24 +747,25 @@ void ThreadData::getGatewayUrl(char* dest, int destlen, bool isPoll)
 		mir_snprintf(dest, destlen, isPoll ? pollFmtStr : cmdFmtStr, mGatewayIP, mSessionID);
 }
 
-void ThreadData::processSessionData(const char* str)
+void ThreadData::processSessionData(const char* xMsgr, const char* xHost)
 {
-	char tSessionID[40], tGateIP[40];
+	char tSessionID[40], tGateIP[80];
 
-	char* tDelim = (char*)strchr(str, ';');
+	char* tDelim = (char*)strchr(xMsgr, ';');
 	if (tDelim == NULL)
 		return; 
 
 	*tDelim = 0; tDelim += 2;
 
-	if (!sscanf(str, "SessionID=%s", tSessionID))
+	if (!sscanf(xMsgr, "SessionID=%s", tSessionID))
 		return;
 
 	char* tDelim2 = strchr(tDelim, ';');
 	if (tDelim2 != NULL)
 		*tDelim2 = '\0';
-
-	if (!sscanf(tDelim, "GW-IP=%s", tGateIP))
+	if (xHost)
+		strcpy(tGateIP, xHost);
+	else if (!sscanf(tDelim, "GW-IP=%s", tGateIP))
 		return;
 
 	strcpy(mGatewayIP, tGateIP);

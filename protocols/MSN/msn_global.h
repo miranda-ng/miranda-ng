@@ -562,7 +562,7 @@ struct ThreadData
 	//----| methods |---------------------------------------------------------------------
 	void           applyGatewayData(HANDLE hConn, bool isPoll);
 	void           getGatewayUrl(char* dest, int destlen, bool isPoll);
-	void           processSessionData(const char*);
+	void           processSessionData(const char* xMsgr, const char* xHost);
 	void           startThread(MsnThreadFunc , CMsnProto *prt);
 
 	int            send(const char data[], size_t datalen);

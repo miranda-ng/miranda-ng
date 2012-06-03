@@ -735,8 +735,6 @@ struct CIcqProto : public PROTO_INTERFACE
 	DWORD  icq_removeServerPrivacyItem(HANDLE hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType);
 	DWORD  icq_addServerPrivacyItem(HANDLE hContact, DWORD dwUin, char *szUid, WORD wItemId, WORD wType);
 
-	time_t dwLastCListGroupsChange;
-
 	int __cdecl ServListDbSettingChanged(WPARAM wParam, LPARAM lParam);
 	int __cdecl ServListDbContactDeleted(WPARAM wParam, LPARAM lParam);
 	int __cdecl ServListCListGroupChange(WPARAM wParam, LPARAM lParam);
