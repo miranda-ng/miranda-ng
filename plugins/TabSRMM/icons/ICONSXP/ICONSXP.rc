@@ -56,7 +56,7 @@ IDI_STRIKEOUT           ICON                    "../../res/proxal/strikethrough.
 IDI_FONTFACE            ICON                    "../../res/proxal/font.ico"
 IDI_FONTCOLOR           ICON                    "../../res/proxal/font2.ico"
 IDI_SOUNDSON            ICON                    "../../res/proxal/sounds_on.ico"
-IDI_SOUNDSOFF           ICON                    "../../res/proxal/overlay_disabled.ico"
+IDI_SOUNDSOFF           ICON                    "../../res/proxal/sounds_off.ico"
 IDI_EMPTY               ICON                    "../../res/empty.ico"
 IDI_RESERVED10          ICON                    "../../res/empty.ico"
 IDI_SESSIONLIST         ICON                    "../../res/proxal/slist.ico"

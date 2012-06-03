@@ -286,7 +286,16 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dbx_tree_HC256", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RecentContacts", "..\plugins\RecentContacts\RecentContacts.vcxproj", "{07137F45-8B5F-4561-BEC8-B883E9123785}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags", "..\plugins\SpellChecker\spellchecker_flags.vcxproj", "{3B8B2642-716E-437C-B341-279B08FDC2C0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika", "..\plugins\SpellChecker\flags-angelika.vcxproj", "{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons_XP", "..\plugins\TabSRMM\icons\ICONSXP\iconsxp_10.vcxproj", "{987C5A57-A46B-4779-BB85-077E21F7BF7F}"
+EndProject
 Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -1430,11 +1439,32 @@ Global
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Release|Win32.Build.0 = Release|Win32
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Release|x64.ActiveCfg = Release|x64
 		{07137F45-8B5F-4561-BEC8-B883E9123785}.Release|x64.Build.0 = Release|x64
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Debug|Win32.Build.0 = Debug|Win32
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Debug|x64.ActiveCfg = Debug|x64
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Debug|x64.Build.0 = Debug|x64
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|Win32.ActiveCfg = Release|Win32
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|Win32.Build.0 = Release|Win32
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|x64.ActiveCfg = Release|x64
+		{3B8B2642-716E-437C-B341-279B08FDC2C0}.Release|x64.Build.0 = Release|x64
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|Win32.Build.0 = Debug|Win32
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|x64.ActiveCfg = Debug|x64
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Debug|x64.Build.0 = Debug|x64
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|Win32.ActiveCfg = Release|Win32
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|Win32.Build.0 = Release|Win32
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|x64.ActiveCfg = Release|x64
+		{3096A0CE-0CC1-42BC-B19C-BE0985B4CDC5}.Release|x64.Build.0 = Release|x64
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Debug|Win32.Build.0 = Debug|Win32
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Debug|x64.ActiveCfg = Debug|x64
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Debug|x64.Build.0 = Debug|x64
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Release|Win32.ActiveCfg = Release|Win32
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Release|Win32.Build.0 = Release|Win32
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Release|x64.ActiveCfg = Release|x64
+		{987C5A57-A46B-4779-BB85-077E21F7BF7F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
-		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
 	EndGlobalSection
 EndGlobal

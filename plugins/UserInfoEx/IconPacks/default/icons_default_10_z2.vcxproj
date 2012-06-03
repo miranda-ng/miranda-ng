@@ -76,7 +76,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\Res</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Res;..\..\include\msapi</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
@@ -87,7 +87,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\Res</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Res;..\..\include\msapi</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
@@ -98,7 +98,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\Res</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Res;..\..\include\msapi</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
@@ -109,7 +109,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ResourceCompile>
-      <AdditionalIncludeDirectories>..\..\Res</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Res;..\..\include\msapi</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
     <Link>
