@@ -143,8 +143,7 @@ char * GetPluginNameByInstance( HINSTANCE hInstance )
 {
 	int i = 0;
 	if ( pluginList.getCount() == 0) return NULL;
-	for (i = 0; i <  pluginList.getCount(); i++)
-	{
+	for (i = 0; i <  pluginList.getCount(); i++) {
 		pluginEntry* pe = pluginList[i];
 		if (pe->bpi.pluginInfo && pe->bpi.hInst == hInstance)
 			return pe->bpi.pluginInfo->shortName;
@@ -183,9 +182,9 @@ static int uuidToString(const MUUID uuid, char *szStr, int cbLen)
 	return 1;
 }
 
-static int equalUUID(MUUID u1, MUUID u2)
+static int equalUUID(const MUUID& u1, const MUUID& u2)
 {
-    return memcmp(&u1, &u2, sizeof(MUUID))?0:1;
+	return memcmp(&u1, &u2, sizeof(MUUID))?0:1;
 }
 
 static MUUID miid_last = MIID_LAST;
@@ -194,20 +193,12 @@ static MUUID miid_servicemode = MIID_SERVICEMODE;
 static int validInterfaceList(Miranda_Plugin_Interfaces ifaceProc)
 {
 	MUUID *piface = ( ifaceProc ) ? ifaceProc() : NULL;
-    int i = 0/*, j*/;
+	int i = 0/*, j*/;
     
 	if (!piface)
 		return 0;
 	if (equalUUID(miid_last, piface[0]))
 		return 0;
-    /*while (!equalUUID(miid_last, piface[i]) ) {
-        for (j=0; j<interfaceBannedListCount; j++) {
-            if (equalUUID(interfaceBannedList[j].uuid, piface[i]))
-                return 0;
-            i++;
-        }
-        break;
-    }*/
 	return 1;
 }
 
