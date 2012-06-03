@@ -726,32 +726,31 @@ typedef struct
 }
 	PluginListItemData;
 
-static BOOL dialogListPlugins(WIN32_FIND_DATA * fd, TCHAR * path, WPARAM, LPARAM lParam)
+static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM lParam)
 {
-	LVITEM it;
-	int iRow;
-	HWND hwndList=(HWND)lParam;
-	BASIC_PLUGIN_INFO pi;
-	int exports=0;
 	TCHAR buf[MAX_PATH];
-	int isdb = 0;
-	HINSTANCE gModule;
-	PluginListItemData* dat;
-
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, fd->cFileName);
+	HINSTANCE gModule = GetModuleHandle(buf);
+
 	CharLower(fd->cFileName);
-	gModule = GetModuleHandle(buf);
+	
+	int exports = 0;
+	BASIC_PLUGIN_INFO pi;
 	if ( checkAPI(buf, &pi, mirandaVersion, CHECKAPI_NONE, &exports) == 0 ) {
 		// failed to load anything, but if exports were good, show some info.
 		return TRUE;
 	}
-	isdb = pi.pluginInfo->replacesDefaultModule == DEFMOD_DB;
-	ZeroMemory(&it, sizeof(it));
+
+	int isdb = pi.pluginInfo->replacesDefaultModule == DEFMOD_DB;
+	PluginListItemData* dat = (PluginListItemData*)mir_alloc( sizeof( PluginListItemData ));
+	HWND hwndList = (HWND)lParam;
+
+	LVITEM it = { 0 };
 	it.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 	it.pszText = fd->cFileName;
 	it.iImage = ( pi.pluginInfo->flags & 1 ) ? 0 : 1;
-	it.lParam = (LPARAM)( dat = (PluginListItemData*)mir_alloc( sizeof( PluginListItemData )));
-	iRow=SendMessage( hwndList, LVM_INSERTITEM, 0, (LPARAM)&it );
+	it.lParam = (LPARAM)dat;
+	int iRow = SendMessage( hwndList, LVM_INSERTITEM, 0, (LPARAM)&it );
 	if ( isPluginOnWhiteList(fd->cFileName) )
 		ListView_SetItemState(hwndList, iRow, !isdb ? 0x2000 : 0x3000, LVIS_STATEIMAGEMASK);
 	if ( iRow != -1 ) {
@@ -770,9 +769,22 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA * fd, TCHAR * path, WPARAM, LPARAM
 		ListView_SetItemText(hwndList, iRow, 1, shortNameT);
 		mir_free(shortNameT);
 
-		mir_sntprintf(buf, SIZEOF(buf), _T("%d.%d.%d.%d"), HIBYTE(HIWORD(pi.pluginInfo->version)), 
-			LOBYTE(HIWORD(pi.pluginInfo->version)), HIBYTE(LOWORD(pi.pluginInfo->version)), 
-			LOBYTE(LOWORD(pi.pluginInfo->version)));
+		DWORD unused, verInfoSize = GetFileVersionInfoSize(buf, &unused);
+		if ( verInfoSize != 0 ) {
+			UINT blockSize;
+			VS_FIXEDFILEINFO* fi;
+			void* pVerInfo = mir_alloc(verInfoSize);
+			GetFileVersionInfo(buf, 0, verInfoSize, pVerInfo);
+			VerQueryValue(pVerInfo, _T("\\"), (LPVOID*)&fi, &blockSize);
+			mir_sntprintf(buf, SIZEOF(buf), _T("%d.%d.%d.%d"), HIWORD(fi->dwProductVersionMS),
+				LOWORD(fi->dwProductVersionMS), HIWORD(fi->dwProductVersionLS), LOWORD(fi->dwProductVersionLS));
+			mir_free( pVerInfo );
+		}
+		else
+			mir_sntprintf(buf, SIZEOF(buf), _T("%d.%d.%d.%d"), HIBYTE(HIWORD(pi.pluginInfo->version)), 
+				LOBYTE(HIWORD(pi.pluginInfo->version)), HIBYTE(LOWORD(pi.pluginInfo->version)), 
+				LOBYTE(LOWORD(pi.pluginInfo->version)));
+
 		ListView_SetItemText(hwndList, iRow, 2, buf);
 
 		it.mask = LVIF_IMAGE;
