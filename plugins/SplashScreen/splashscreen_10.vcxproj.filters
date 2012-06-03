@@ -47,9 +47,6 @@
     <ClInclude Include="src\headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\splash.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
