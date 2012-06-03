@@ -53,7 +53,7 @@
 
 // (C) 2005 Joe @ Whale - changed to compile with Miranda
 
-#include "commonheaders.h"
+#include "..\..\core\commonheaders.h"
 
 
 #define T_MASK ((mir_md5_word_t)~0)

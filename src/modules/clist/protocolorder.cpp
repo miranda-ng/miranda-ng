@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // written by daniel vijge
 // gpl license ect...
 
-#include "commonheaders.h"
+#include "..\..\core\commonheaders.h"
 #include "clc.h"
 
 typedef struct tagProtocolData

@@ -34,7 +34,7 @@
  *
  * ***** END LICENSE BLOCK ***** */
 
-#include "commonheaders.h"
+#include "..\..\core\commonheaders.h"
 
 static void shaHashBlock(mir_sha1_ctx *ctx);
 

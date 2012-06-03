@@ -262,122 +262,335 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="core\memory.cpp" />
     <ClCompile Include="core\miranda.cpp" />
     <ClCompile Include="core\modules.cpp" />
-    <ClCompile Include="modules\addcontact\addcontact.cpp" />
-    <ClCompile Include="modules\autoaway\autoaway.cpp" />
-    <ClCompile Include="modules\button\button.cpp" />
-    <ClCompile Include="modules\contacts\contacts.cpp" />
-    <ClCompile Include="modules\database\database.cpp" />
-    <ClCompile Include="modules\database\dbini.cpp" />
-    <ClCompile Include="modules\database\dblists.cpp" />
-    <ClCompile Include="modules\database\dbutils.cpp" />
-    <ClCompile Include="modules\database\profilemanager.cpp" />
-    <ClCompile Include="modules\findadd\findadd.cpp" />
-    <ClCompile Include="modules\findadd\searchresults.cpp" />
-    <ClCompile Include="modules\help\about.cpp" />
-    <ClCompile Include="modules\help\help.cpp" />
-    <ClCompile Include="modules\history\history.cpp" />
-    <ClCompile Include="modules\idle\idle.cpp" />
-    <ClCompile Include="modules\ignore\ignore.cpp" />
-    <ClCompile Include="modules\langpack\langpack.cpp" />
-    <ClCompile Include="modules\langpack\lpservices.cpp" />
-    <ClCompile Include="modules\netlib\netlib.cpp" />
-    <ClCompile Include="modules\netlib\netlibautoproxy.cpp" />
-    <ClCompile Include="modules\netlib\netlibbind.cpp" />
-    <ClCompile Include="modules\netlib\netlibhttp.cpp" />
-    <ClCompile Include="modules\netlib\netlibhttpproxy.cpp" />
-    <ClCompile Include="modules\netlib\netliblog.cpp" />
-    <ClCompile Include="modules\netlib\netlibopenconn.cpp" />
-    <ClCompile Include="modules\netlib\netlibopts.cpp" />
-    <ClCompile Include="modules\netlib\netlibpktrecver.cpp" />
-    <ClCompile Include="modules\netlib\netlibsecurity.cpp" />
-    <ClCompile Include="modules\netlib\netlibsock.cpp" />
-    <ClCompile Include="modules\netlib\netlibssl.cpp" />
-    <ClCompile Include="modules\netlib\netlibupnp.cpp" />
-    <ClCompile Include="modules\options\descbutton.cpp" />
-    <ClCompile Include="modules\options\filter.cpp" />
-    <ClCompile Include="modules\options\headerbar.cpp" />
-    <ClCompile Include="modules\options\iconheader.cpp" />
-    <ClCompile Include="modules\options\options.cpp" />
-    <ClCompile Include="modules\plugins\newplugins.cpp" />
-    <ClCompile Include="modules\protocols\protoaccs.cpp" />
-    <ClCompile Include="modules\protocols\protochains.cpp" />
-    <ClCompile Include="modules\protocols\protocols.cpp" />
-    <ClCompile Include="modules\protocols\protoint.cpp" />
-    <ClCompile Include="modules\protocols\protoopts.cpp" />
-    <ClCompile Include="modules\skin\hotkeys.cpp" />
-    <ClCompile Include="modules\skin\skinicons.cpp" />
-    <ClCompile Include="modules\skin\sounds.cpp" />
-    <ClCompile Include="modules\srauth\auth.cpp" />
-    <ClCompile Include="modules\srauth\authdialogs.cpp" />
-    <ClCompile Include="modules\srawaymsg\awaymsg.cpp" />
-    <ClCompile Include="modules\srawaymsg\sendmsg.cpp" />
-    <ClCompile Include="modules\sremail\email.cpp" />
-    <ClCompile Include="modules\srfile\file.cpp" />
-    <ClCompile Include="modules\srfile\fileexistsdlg.cpp" />
-    <ClCompile Include="modules\srfile\fileopts.cpp" />
-    <ClCompile Include="modules\srfile\filerecvdlg.cpp" />
-    <ClCompile Include="modules\srfile\filesenddlg.cpp" />
-    <ClCompile Include="modules\srfile\filexferdlg.cpp" />
-    <ClCompile Include="modules\srfile\ftmanager.cpp" />
-    <ClCompile Include="modules\srurl\url.cpp" />
-    <ClCompile Include="modules\srurl\urldialogs.cpp" />
-    <ClCompile Include="modules\updatenotify\updatenotify.cpp" />
-    <ClCompile Include="modules\userinfo\contactinfo.cpp" />
-    <ClCompile Include="modules\userinfo\stdinfo.cpp" />
-    <ClCompile Include="modules\userinfo\userinfo.cpp" />
-    <ClCompile Include="modules\useronline\useronline.cpp" />
-    <ClCompile Include="modules\utils\bmpfilter.cpp" />
-    <ClCompile Include="modules\utils\colourpicker.cpp" />
-    <ClCompile Include="modules\utils\hyperlink.cpp" />
-    <ClCompile Include="modules\utils\imgconv.cpp" />
-    <ClCompile Include="modules\utils\md5.cpp" />
-    <ClCompile Include="modules\utils\openurl.cpp" />
-    <ClCompile Include="modules\utils\path.cpp" />
-    <ClCompile Include="modules\utils\resizer.cpp" />
-    <ClCompile Include="modules\utils\sha1.cpp" />
-    <ClCompile Include="modules\utils\timeutils.cpp" />
-    <ClCompile Include="modules\utils\timezones.cpp" />
-    <ClCompile Include="modules\utils\utf.cpp" />
-    <ClCompile Include="modules\utils\utils.cpp" />
-    <ClCompile Include="modules\utils\windowlist.cpp" />
-    <ClCompile Include="modules\visibility\visibility.cpp" />
-    <ClCompile Include="modules\clist\clc.cpp" />
-    <ClCompile Include="modules\clist\clcfiledrop.cpp" />
-    <ClCompile Include="modules\clist\clcidents.cpp" />
-    <ClCompile Include="modules\clist\clcitems.cpp" />
-    <ClCompile Include="modules\clist\clcmsgs.cpp" />
-    <ClCompile Include="modules\clist\clcutils.cpp" />
-    <ClCompile Include="modules\clist\clistcore.cpp" />
-    <ClCompile Include="modules\clist\clistevents.cpp" />
-    <ClCompile Include="modules\clist\clistmenus.cpp" />
-    <ClCompile Include="modules\clist\clistmod.cpp" />
-    <ClCompile Include="modules\clist\clistsettings.cpp" />
-    <ClCompile Include="modules\clist\clisttray.cpp" />
-    <ClCompile Include="modules\clist\clui.cpp" />
-    <ClCompile Include="modules\clist\cluiservices.cpp" />
-    <ClCompile Include="modules\clist\contact.cpp" />
-    <ClCompile Include="modules\clist\Docking.cpp" />
-    <ClCompile Include="modules\clist\genmenu.cpp" />
-    <ClCompile Include="modules\clist\genmenuopt.cpp" />
-    <ClCompile Include="modules\clist\groups.cpp" />
-    <ClCompile Include="modules\clist\keyboard.cpp" />
-    <ClCompile Include="modules\clist\movetogroup.cpp" />
-    <ClCompile Include="modules\clist\protocolorder.cpp" />
-    <ClCompile Include="modules\fonts\FontOptions.cpp" />
-    <ClCompile Include="modules\fonts\FontService.cpp" />
-    <ClCompile Include="modules\fonts\services.cpp" />
-    <ClCompile Include="modules\icolib\extracticon.cpp" />
-    <ClCompile Include="modules\icolib\skin2icons.cpp" />
-    <ClCompile Include="modules\xml\xmlApi.cpp" />
-    <ClCompile Include="modules\xml\xmlParser.cpp" />
+    <ClCompile Include="modules\addcontact\addcontact.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\autoaway\autoaway.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\button\button.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\contacts\contacts.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\database.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\dbini.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\dblists.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\dbutils.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\database\profilemanager.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\findadd\findadd.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\findadd\searchresults.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\help\about.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\help\help.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\history\history.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\idle\idle.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\ignore\ignore.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\langpack.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\langpack\lpservices.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlib.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibautoproxy.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibbind.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibhttp.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibhttpproxy.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netliblog.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibopenconn.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibopts.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibpktrecver.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibsecurity.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibsock.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibssl.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\netlib\netlibupnp.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\options\descbutton.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\options\filter.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\options\headerbar.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\options\iconheader.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\options\options.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\plugins\newplugins.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\protocols\protoaccs.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\protocols\protochains.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\protocols\protocols.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\protocols\protoint.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\protocols\protoopts.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\skin\hotkeys.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\skin\skinicons.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\skin\sounds.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srauth\auth.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srauth\authdialogs.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srawaymsg\awaymsg.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srawaymsg\sendmsg.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\sremail\email.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\file.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\fileexistsdlg.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\fileopts.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\filerecvdlg.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\filesenddlg.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\filexferdlg.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srfile\ftmanager.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srurl\url.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\srurl\urldialogs.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\updatenotify\updatenotify.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\userinfo\contactinfo.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\userinfo\stdinfo.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\userinfo\userinfo.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\useronline\useronline.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\bmpfilter.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\colourpicker.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\hyperlink.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\imgconv.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\md5.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\openurl.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\path.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\resizer.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\sha1.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\timeutils.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\timezones.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\utf.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\utils.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\utils\windowlist.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\visibility\visibility.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clc.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clcfiledrop.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clcidents.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clcitems.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clcmsgs.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clcutils.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clistcore.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clistevents.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clistmenus.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clistmod.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clistsettings.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clisttray.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\clui.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\cluiservices.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\contact.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\Docking.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\genmenu.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\genmenuopt.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\groups.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\keyboard.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\movetogroup.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\clist\protocolorder.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\fonts\FontOptions.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\fonts\FontService.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\fonts\services.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\icolib\extracticon.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\icolib\skin2icons.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\xml\xmlApi.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\xml\xmlParser.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\Off.ico" />

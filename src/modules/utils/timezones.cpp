@@ -23,7 +23,7 @@ implements services to handle location - based timezones, instead of
 simple UTC offsets.
 */
 
-#include <commonheaders.h>
+#include <..\..\core\commonheaders.h>
 
 TIME_API tmi;
 

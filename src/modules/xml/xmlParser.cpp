@@ -50,7 +50,7 @@
 ****************************************************************************
 */
 
-#include "commonheaders.h"
+#include "..\..\core\commonheaders.h"
 #include "xmlParser.h"
 
 #include <memory.h>
