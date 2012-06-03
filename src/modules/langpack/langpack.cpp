@@ -539,10 +539,9 @@ int LoadLangPackModule(void)
 
 void UnloadLangPackModule()
 {
-	int i;
-
 	if ( !bModuleInitialized ) return;
 
+	int i;
 	for ( i=0; i < lMuuids.getCount(); i++ )
 		mir_free( lMuuids[i] );
 	lMuuids.destroy();
@@ -555,8 +554,7 @@ void UnloadLangPackModule()
 				mir_free( p2->local);
 				mir_free( p2->wlocal);
 				mir_free( p2 );
-			}
-		}
+		}	}
 
 		mir_free( p->local );
 		mir_free( p->wlocal );
@@ -567,3 +565,16 @@ void UnloadLangPackModule()
 		langPack.entry=0;
 		langPack.entryCount=0;
 }	}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+INT_PTR ReloadLangpack(WPARAM wParam, LPARAM lParam)
+{
+	TCHAR* pszStr = ( TCHAR* )lParam;
+	if ( pszStr == NULL )
+		pszStr = langPack.filename;
+
+	UnloadLangPackModule();
+	LoadLangPack(pszStr);
+	return 0;
+}

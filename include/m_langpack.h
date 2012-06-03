@@ -191,11 +191,15 @@ __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 #define MS_LANGPACK_REGISTER         "LangPack/Register"
 
 #if defined( MIRANDA_CUSTOM_LP )
-
 __forceinline void mir_getLP( const PLUGININFOEX* pInfo )
 {	CallService(MS_LANGPACK_REGISTER, (WPARAM)&hLangpack, (LPARAM)pInfo);
 }
-
 #endif
+
+//reloads langpack
+//wParam=0 (ignored)
+//lParam=(LPARAM)(TCHAR*)langpack file name or NULL to reload the current one
+//always returns 0
+#define MS_LANGPACK_RELOAD           "LangPack/Reload"
 
 #endif // M_LANGPACK_H__
