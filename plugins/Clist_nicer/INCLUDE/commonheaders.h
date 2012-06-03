@@ -35,6 +35,7 @@
 #define _WIN32_WINNT 0x0501
 #define _WIN32_IE 0x0501
 
+#define _CRT_SECURE_NO_WARNINGS
 #define  EXTRA_ICON_COUNT	11
 
 #undef FASTCALL
