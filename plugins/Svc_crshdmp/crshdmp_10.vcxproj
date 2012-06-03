@@ -89,8 +89,8 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Delayimp.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -121,8 +121,8 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Delayimp.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -149,8 +149,8 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Delayimp.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>
@@ -174,8 +174,8 @@
       <WarningLevel>Level3</WarningLevel>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Delayimp.lib;dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <DelayLoadDLLs>dbghelp.dll;advapi32.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <AdditionalDependencies>dbghelp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>dbghelp.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <SupportUnloadOfDelayLoadedDLL>true</SupportUnloadOfDelayLoadedDLL>

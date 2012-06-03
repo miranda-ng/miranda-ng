@@ -56,15 +56,6 @@
     <ClInclude Include="src\resource.h">
       <Filter>Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\m_folders.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="src\m_splash.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="src\m_updater.h">
-      <Filter>API</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\splash.rc">

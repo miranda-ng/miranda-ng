@@ -88,7 +88,6 @@
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x22620000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
     <ResourceCompile>
@@ -110,7 +109,6 @@
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x22620000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
     <ResourceCompile>
@@ -133,7 +131,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <BaseAddress>0x22620000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
     <ResourceCompile>
@@ -156,7 +153,6 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <BaseAddress>0x22620000</BaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
     </Link>
     <ResourceCompile>
