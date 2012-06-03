@@ -134,7 +134,7 @@ void UnloadClcModule(void);
 void UnloadContactListModule(void);
 void UnloadEventsModule(void);
 void UnloadIdleModule(void);
-void UnloadLangPackModule(bool);
+void UnloadLangPackModule(void);
 void UnloadSslModule(void);
 void UnloadNetlibModule(void);
 void UnloadNewPlugins(void);
@@ -236,7 +236,7 @@ void UnloadDefaultModules(void)
 	UnloadUpdateNotifyModule();
 	UnloadNetlibModule();
 	UnloadSslModule();
-	UnloadLangPackModule(true);
+	UnloadLangPackModule();
 }
 
 int InitialiseModularEngine(void)

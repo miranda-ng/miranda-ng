@@ -537,16 +537,14 @@ int LoadLangPackModule(void)
 	return 0;
 }
 
-void UnloadLangPackModule(bool bRemoveAll)
+void UnloadLangPackModule()
 {
 	if ( !bModuleInitialized ) return;
 
 	int i;
-	if ( bRemoveAll ) {
-		for ( i=0; i < lMuuids.getCount(); i++ )
-			mir_free( lMuuids[i] );
-		lMuuids.destroy();
-	}
+	for ( i=0; i < lMuuids.getCount(); i++ )
+		mir_free( lMuuids[i] );
+	lMuuids.destroy();
 
 	LangPackEntry* p = langPack.entry;
 	for ( i=0; i < langPack.entryCount; i++, p++ ) {
@@ -576,7 +574,7 @@ INT_PTR ReloadLangpack(WPARAM wParam, LPARAM lParam)
 	if ( pszStr == NULL )
 		pszStr = langPack.filename;
 
-	UnloadLangPackModule(false);
+	UnloadLangPackModule();
 	LoadLangPack(pszStr);
 	return 0;
 }
