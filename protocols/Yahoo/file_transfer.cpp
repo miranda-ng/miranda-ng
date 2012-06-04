@@ -107,7 +107,7 @@ static void free_ft(y_filetransfer* ft)
 	LOG(("[free_ft] token: %s", ft->ftoken));
 	
 	for(l = file_transfers; l; l = y_list_next(l)) {
-		if (l->data == ft){
+		if (l->data == ft) {
 			LOG(("[free_ft] Ft found and removed from the list"));
 			file_transfers = y_list_remove_link(file_transfers, l);
 			y_list_free_1(l);
@@ -324,7 +324,7 @@ static void dl_file(int id, int fd, int error,	const char *filename, unsigned lo
 			
 			LOG(("[dl_file] Got action: %ld", sf->action));
 			
-			switch(sf->action){
+			switch(sf->action) {
 				case FILERESUME_RENAME:
 				case FILERESUME_OVERWRITE:	
 				case FILERESUME_RESUME:	
@@ -742,7 +742,7 @@ HANDLE __cdecl CYahooProto::SendFile( HANDLE hContact, const PROTOCHAR* szDescri
 	DebugLog("Getting Yahoo ID");
 	*/
 	
-	if (!DBGetContactSettingString(hContact, m_szModuleName, YAHOO_LOGINID, &dbv)) {
+	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
 		long tFileSize = 0;
 		struct _stat statbuf;
 		struct yahoo_file_info *fi;

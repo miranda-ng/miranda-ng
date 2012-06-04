@@ -213,7 +213,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 		return 1;
 	}
 
-	if (!DBGetContactSettingString( hContact, m_szModuleName, YAHOO_LOGINID, &dbv)) {
+	if (!GetString( hContact, YAHOO_LOGINID, &dbv)) {
 		send_msg(dbv.pszVal, GetWord( hContact, "yprotoid", 0), msg, (!bANSI) ? 1 : 0);
 
 		if (!bANSI)
@@ -262,7 +262,7 @@ INT_PTR __cdecl CYahooProto::SendNudge(WPARAM wParam, LPARAM lParam)
 	}
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(hContact, m_szModuleName, YAHOO_LOGINID, &dbv)) {
+	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
 		send_msg(dbv.pszVal, GetWord(hContact, "yprotoid", 0), "<ding>", 0);
 		DBFreeVariant(&dbv);
 

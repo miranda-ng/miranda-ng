@@ -24,12 +24,12 @@
 #define IDI_CLOSEX                      135
 
 #define IDI_GOOGLE                      140
-#define IDI_BING						141
-#define IDI_WIKIPEDIA		  			142
-#define IDI_GOOGLE_MAPS					143
-#define IDI_GOOGLE_TRANSLATE			144
+#define IDI_BING                        141
+#define IDI_WIKIPEDIA                   142
+#define IDI_GOOGLE_MAPS                 143
+#define IDI_GOOGLE_TRANSLATE            144
 #define IDI_YAHOO                       145
-#define IDI_FOODNETWORK					146
+#define IDI_FOODNETWORK                 146
 
 #define IDR_CONTEXT                     180
 
@@ -193,7 +193,7 @@
 #define IDM_SEARCH_WIKIPEDIA            40082
 #define IDM_SEARCH_GOOGLE_MAPS          40083
 #define IDM_SEARCH_GOOGLE_TRANSLATE     40084
-#define IDM_SEARCH_YAHOO				40085
+#define IDM_SEARCH_YAHOO                40085
 #define IDM_SEARCH_FOODNETWORK          40086
 /* chat.dll resources */
 

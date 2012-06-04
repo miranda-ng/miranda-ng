@@ -105,7 +105,7 @@ INT_PTR __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 		return 0;
 	}
 	
-	if ( !DBGetContactSettingString(hContact, m_szModuleName, YAHOO_LOGINID, &dbv )) {
+	if (!GetString(hContact, YAHOO_LOGINID, &dbv)) {
 		DebugLog("[YahooContactDeleted] Removing %s", dbv.pszVal);
 		remove_buddy(dbv.pszVal, GetWord(hContact, "yprotoid", 0));
 		
@@ -265,7 +265,7 @@ INT_PTR __cdecl CYahooProto::OnShowProfileCommand( WPARAM wParam, LPARAM lParam 
 		return 0;
 	}
 	
-	if ( DBGetContactSettingString(( HANDLE )wParam, m_szModuleName, YAHOO_LOGINID, &dbv ))
+	if (GetString((HANDLE)wParam, YAHOO_LOGINID, &dbv))
 		return 0;
 		
 	_snprintf( tUrl, sizeof( tUrl ), "http://profiles.yahoo.com/%s", dbv.pszVal  );

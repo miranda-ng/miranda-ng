@@ -182,6 +182,10 @@ int CYahooProto::GetString( HANDLE hContact, const char* name, DBVARIANT* result
 {	return DBGetContactSettingString( hContact, m_szModuleName, name, result );
 }
 
+int CYahooProto::GetStringUtf( HANDLE hContact, const char* name, DBVARIANT* result )
+{	return DBGetContactSettingStringUtf(hContact, m_szModuleName, name, result);
+}
+
 void CYahooProto::SetString( const char* name, const char* value )
 {	DBWriteContactSettingString(NULL, m_szModuleName, name, value );
 }
@@ -301,33 +305,16 @@ INT_PTR __cdecl CYahooProto::OnSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 
-	if ((HANDLE) wParam == NULL)
-		return 0;
-	if (!m_bLoggedIn)
+	if (!wParam || !m_bLoggedIn)
 		return 0;
 
-	if (!strcmp(cws->szModule, "CList")) {
-		// A temporary contact has been added permanently
-		if (!strcmp(cws->szSetting, "NotOnList")) {
-			if (DBGetContactSettingByte((HANDLE) wParam, "CList", "Hidden", 0))
-				return 0;
-			if (cws->value.type == DBVT_DELETED || (cws->value.type == DBVT_BYTE && cws->value.bVal == 0)) {
-				DBVARIANT dbv;
-
-				if ( !DBGetContactSettingString( (HANDLE) wParam, m_szModuleName, YAHOO_LOGINID, &dbv )) {
-					DebugLog("Adding Permanently %s to list.", dbv.pszVal);
-					AddBuddy(dbv.pszVal,GetWord((HANDLE) wParam, "yprotoid", 0), "miranda", NULL);
-					DBFreeVariant(&dbv);
-				}
-			}
-		}
-	}else if (!strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, "ApparentMode")) {
+	if (!strcmp(cws->szSetting, "ApparentMode")) {
 		DBVARIANT dbv;
 
 		DebugLog("DB Setting changed.  YAHOO user's visible setting changed.");
 
-		if ( !DBGetContactSettingString( (HANDLE) wParam, m_szModuleName, YAHOO_LOGINID, &dbv )) {
-			int iAdd = (ID_STATUS_OFFLINE == DBGetContactSettingWord((HANDLE) wParam, m_szModuleName, "ApparentMode", 0));
+		if (!GetString((HANDLE)wParam, YAHOO_LOGINID, &dbv)) {
+			int iAdd = (ID_STATUS_OFFLINE == GetWord((HANDLE) wParam, "ApparentMode", 0));
 			stealth(dbv.pszVal, iAdd);
 			DBFreeVariant(&dbv);
 		}

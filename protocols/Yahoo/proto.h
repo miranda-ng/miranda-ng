@@ -225,6 +225,7 @@ struct CYahooProto : public PROTO_INTERFACE
 
 	int    GetString( const char* name, DBVARIANT* );
 	int    GetString( HANDLE hContact, const char* name, DBVARIANT* );
+	int    GetStringUtf( HANDLE hContact, const char* name, DBVARIANT* );
 	
 	void   SetString( const char* name, const char* value );
 	void   SetString( HANDLE hContact, const char* name, const char* value );
@@ -261,8 +262,8 @@ struct CYahooProto : public PROTO_INTERFACE
 
 	void   logout();
 
-	void   accept(const char *who, int protocol);
-	void   reject(const char *who, int protocol, const char *msg);
+	void   accept(const char *myid, const char *who, int protocol);
+	void   reject(const char *myid, const char *who, int protocol, const char *msg);
 	void   sendtyping(const char *who, int protocol, int stat);
 	void   set_status(int myyahooStatus, char *msg, int away);
 	void   stealth(const char *buddy, int add);
@@ -292,7 +293,7 @@ struct CYahooProto : public PROTO_INTERFACE
 	void   ext_login_response(int succ, const char *url);
 	void   ext_login(enum yahoo_status login_mode);
 
-	void   AddBuddy( const char *who, int protocol, const char *group, const char *msg);
+	void   AddBuddy(HANDLE hContact, const char *group, const TCHAR *msg);
 
 	void   YAHOO_utils_logversion();
 	
