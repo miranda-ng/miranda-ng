@@ -621,12 +621,12 @@ int CMimAPI::TypingMessage(WPARAM wParam, LPARAM lParam)
 		if ((int) lParam) {
 			TCHAR szTip[256];
 
-			_sntprintf(szTip, SIZEOF(szTip), CTranslator::get(CTranslator::GEN_MTN_STARTWITHNICK), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
+			_sntprintf(szTip, SIZEOF(szTip), TranslateT("%s is typing a message."), (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR));
 			if (fShowOnClist && ServiceExists(MS_CLIST_SYSTRAY_NOTIFY) && M->GetByte(SRMSGMOD, "ShowTypingBalloon", 0)) {
 				MIRANDASYSTRAYNOTIFY tn;
 				tn.szProto = NULL;
 				tn.cbSize = sizeof(tn);
-				tn.tszInfoTitle = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_MTN_TTITLE));
+				tn.tszInfoTitle = TranslateT("Typing Notification");
 				tn.tszInfo = szTip;
 				tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
 				tn.uTimeout = 1000 * 4;
@@ -922,7 +922,7 @@ nowindowcreate:
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "SRMsg/ReadMessage";
 			contactName = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR);
-			mir_sntprintf(toolTip, SIZEOF(toolTip), CTranslator::get(CTranslator::GEN_MSG_TTITLE), contactName);
+			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), contactName);
 			cle.ptszTooltip = toolTip;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
 		}

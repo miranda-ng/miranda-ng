@@ -1114,8 +1114,8 @@ void CSkin::Init(bool fStartup)
 bool CSkin::warnToClose() const
 {
 	if (::pFirstContainer) {
-		if (MessageBox(0, CTranslator::get(CTranslator::GEN_SKIN_WARNCLOSE),
-					   CTranslator::get(CTranslator::GEN_SKIN_WARNCLOSE_TITLE), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+		if (MessageBox(0, TranslateT("All message containers need to close before the skin can be changed\nProceed?"),
+					   TranslateT("Change skin"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			TContainerData *pContainer = ::pFirstContainer;
 			while (pFirstContainer)
 				SendMessage(pFirstContainer->hwnd, WM_CLOSE, 0, 1);

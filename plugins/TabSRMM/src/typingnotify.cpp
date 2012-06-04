@@ -165,9 +165,9 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 
 			if (!ServiceExists(MS_POPUP_ADDPOPUPT))
-				SetDlgItemText(hwndDlg, IDC_INFO, CTranslator::get(CTranslator::GEN_MTN_POPUP_WARNING));
+				SetDlgItemText(hwndDlg, IDC_INFO, TranslateT("Warning: Popup plugin not found."));
 			else if (!PopupService)
-				SetDlgItemText(hwndDlg, IDC_INFO, CTranslator::get(CTranslator::GEN_MTN_POPUP_UNSUPPORTED));
+				SetDlgItemText(hwndDlg, IDC_INFO, TranslateT("Warning: Current Popup plugin version is not supported."));
 			if (ColorMode == COLOR_WINDOWS) {
 				CheckDlgButton(hwndDlg, IDC_USEWINCOLORS, BST_CHECKED);
 				Utils::enableDlgControl(hwndDlg, IDC_USEPOPUPCOLORS, FALSE);
@@ -299,12 +299,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 						switch (i) {
 							case PROTOTYPE_CONTACTTYPING_OFF:
-								lstrcpy(ppd.lptzContactName, CTranslator::get(CTranslator::GEN_CONTACT));
+								lstrcpy(ppd.lptzContactName, TranslateT("Contact"));
 								lstrcpyn(ppd.lptzText, szStop, MAX_SECONDLINE);
 								notyping = 1;
 								break;
 							default:
-								lstrcpy(ppd.lptzContactName, CTranslator::get(CTranslator::GEN_CONTACT));
+								lstrcpy(ppd.lptzContactName, TranslateT("Contact"));
 								lstrcpyn(ppd.lptzText, szStart, MAX_SECONDLINE);
 								notyping = 0;
 								break;
@@ -539,8 +539,8 @@ int TN_ModuleInit()
 		for (i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
 			colorPicker[i].color = M->GetDword(Module,colorPicker[i].desc,0);
 
-	mir_sntprintf(szStart, sizeof(szStart), CTranslator::get(CTranslator::GEN_MTN_START));
-	mir_sntprintf(szStop, sizeof(szStop), CTranslator::get(CTranslator::GEN_MTN_STOP));
+	mir_sntprintf(szStart, sizeof(szStart), TranslateT("...is typing a message."));
+	mir_sntprintf(szStop, sizeof(szStop), TranslateT("...has stopped typing."));
 
 	if (PopupService && ShowMenu) {
 		CLISTMENUITEM mi = { 0 };

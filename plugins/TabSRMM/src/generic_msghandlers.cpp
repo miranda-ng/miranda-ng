@@ -521,7 +521,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 					if(sendLater->isAvail())
 						dat->sendMode ^= SMODE_SENDLATER;
 					else
-						CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, CTranslator::get(CTranslator::QMGR_ERROR_NOMULTISEND));
+						CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 					break;
 				case ID_SENDMENU_SENDWITHOUTTIMEOUTS:
 					dat->sendMode ^= SMODE_NOACK;
@@ -565,7 +565,7 @@ LRESULT TSAPI DM_MsgWindowCmdHandler(HWND hwndDlg, TContainerData *m_pContainer,
 			if(dat->fEditNotesActive) {
 				int iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 				if(iLen != 0) {
-					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)CTranslator::get(CTranslator::GEN_MSG_NO_EDIT_NOTES));
+					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)TranslateT("You cannot edit user notes when there are unsent messages"));
 					dat->fEditNotesActive = false;
 					break;
 				}
@@ -1219,7 +1219,7 @@ LRESULT TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 		if (dat->showTyping) {
 			TCHAR szBuf[80];
 
-			mir_sntprintf(szBuf, safe_sizeof(szBuf), CTranslator::get(CTranslator::GEN_MTN_STARTWITHNICK), dat->cache->getNick());
+			mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("%s is typing a message."), dat->cache->getNick());
 			SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM) szBuf);
 			SendMessage(dat->pContainer->hwndStatus, SB_SETICON, 0, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 			return 0;
@@ -1242,7 +1242,7 @@ LRESULT TSAPI DM_UpdateLastMessage(const TWindowData *dat)
 				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)fmt);
 			} else {
 				TCHAR fmt[100];
-				mir_sntprintf(fmt, safe_sizeof(fmt), CTranslator::get(CTranslator::GEN_SBAR_LASTRECEIVED), date, time);
+				mir_sntprintf(fmt, safe_sizeof(fmt), TranslateT("Last received: %s at %s"), date, time);
 				SendMessage(dat->pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM) fmt);
 			}
 		} else
@@ -1313,7 +1313,7 @@ LRESULT TSAPI DM_WMCopyHandler(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPA
 HWND TSAPI DM_CreateClist(TWindowData *dat)
 {
 	if (!sendLater->isAvail()) {
-		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, CTranslator::get(CTranslator::QMGR_ERROR_NOMULTISEND));
+		CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 		dat->sendMode &= ~SMODE_MULTIPLE;
 		return(0);
 	}
@@ -1614,7 +1614,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				dat->nTypeSecs = 86400;
 
 				mir_sntprintf(dat->szStatusBar, safe_sizeof(dat->szStatusBar),
-						  CTranslator::get(CTranslator::GEN_MTN_STOPPED), dat->cache->getNick());
+						  TranslateT("%s has entered text."), dat->cache->getNick());
 				if(hwndStatus && dat->pContainer->hwndActive == hwndDlg)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM) dat->szStatusBar);
 			}
@@ -1639,7 +1639,7 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 	}
 	else {
 		if (dat->nTypeSecs > 0) {
-			mir_sntprintf(dat->szStatusBar, safe_sizeof(dat->szStatusBar), CTranslator::get(CTranslator::GEN_MTN_STARTWITHNICK), dat->cache->getNick());
+			mir_sntprintf(dat->szStatusBar, safe_sizeof(dat->szStatusBar), TranslateT("%s is typing a message."), dat->cache->getNick());
 
 			dat->nTypeSecs--;
 			if (hwndStatus && dat->pContainer->hwndActive == hwndDlg) {
@@ -1848,7 +1848,7 @@ void TSAPI DM_EventAdded(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 						dat->iEventQueueSize += 10;
 					}
 					dat->hQueuedEvents[dat->iNextQueuedEvent++] = (HANDLE)lParam;
-					mir_sntprintf(szBuf, safe_sizeof(szBuf), CTranslator::get(CTranslator::GEN_MSG_LOGFROZENQUEUED),
+					mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)"),
 								  dat->iNextQueuedEvent);
 					SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, szBuf);
 					RedrawWindow(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), NULL, NULL, RDW_INVALIDATE);
@@ -2024,12 +2024,12 @@ void TSAPI DM_UpdateTitle(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 			SendMessage(hwndDlg, DM_UPDATEWINICON, 0, 0);
 			if (dat->bIsMeta)
 				mir_sntprintf(fulluin, safe_sizeof(fulluin),
-							  CTranslator::get(CTranslator::GEN_MSG_UINCOPY),
-							  iHasName ? dat->cache->getUIN() : CTranslator::get(CTranslator::GEN_MSG_NOUIN));
+							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites."),
+							  iHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 			else
 				mir_sntprintf(fulluin, safe_sizeof(fulluin),
-							  CTranslator::get(CTranslator::GEN_MSG_UINCOPY_NOMC),
-							  iHasName ? dat->cache->getUIN() : CTranslator::get(CTranslator::GEN_MSG_NOUIN));
+							  TranslateT("UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status."),
+							  iHasName ? dat->cache->getUIN() : TranslateT("No UID"));
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_NAME), BUTTONADDTOOLTIP, /*iHasName ?*/ (WPARAM)fulluin /*: (WPARAM)_T("")*/, 0);
 		}

@@ -308,7 +308,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_smcxicon = 16;
 	m_smcyicon = 16;
 	m_PasteAndSend = 					(int)M->GetByte("pasteandsend", 1);
-	m_szNoStatus = 						const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_NO_STATUS));
+	m_szNoStatus = 						TranslateT("No status message");
 	m_LangPackCP = 						ServiceExists(MS_LANGPACK_GETCODEPAGE) ? CallService(MS_LANGPACK_GETCODEPAGE, 0, 0) : CP_ACP;
 	m_visualMessageSizeIndicator = 		M->GetByte("msgsizebar", 0);
 	m_autoSplit = 						M->GetByte("autosplit", 0);
@@ -767,7 +767,7 @@ void CGlobals::RestoreUnreadMessageAlerts(void)
 
 				cle.hContact = hContact;
 				cle.hDbEvent = hDbEvent;
-				mir_sntprintf(toolTip, safe_sizeof(toolTip), CTranslator::get(CTranslator::GEN_STRING_MESSAGEFROM),
+				mir_sntprintf(toolTip, safe_sizeof(toolTip), TranslateT("Message from %s"),
 							  (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR));
 				cle.ptszTooltip = toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
@@ -818,11 +818,11 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 		if (c->isValid()) {
 			if (wStatus == ID_STATUS_OFFLINE)
-				mir_sntprintf(buffer, safe_sizeof(buffer), CTranslator::get(CTranslator::GEN_MSG_SIGNEDOFF));
+				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("signed off."));
 			else if (wOldStatus == ID_STATUS_OFFLINE)
-				mir_sntprintf(buffer, safe_sizeof(buffer), CTranslator::get(CTranslator::GEN_MSG_SIGNEDON), szNewStatus);
+				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("signed on and is now %s."), szNewStatus);
 			else
-				mir_sntprintf(buffer, safe_sizeof(buffer), CTranslator::get(CTranslator::GEN_MSG_CHANGEDSTATUS), szOldStatus, szNewStatus);
+				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 		}
 
 		char *szMsg = M->utf8_encodeT(buffer);

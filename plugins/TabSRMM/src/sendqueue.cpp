@@ -405,7 +405,7 @@ int SendQueue::sendQueued(TWindowData *dat, const int iEntry)
 		if(iSendLength >= iMinLength) {
 			TCHAR	tszError[256];
 
-			mir_sntprintf(tszError, 256, CTranslator::get(CTranslator::GEN_SQ_SENDLATER_ERROR_MSG_TOO_LONG), iMinLength);
+			mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), iMinLength);
 			::SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
 			sendQueue->clearJob(iEntry);
 			return(0);
@@ -478,7 +478,7 @@ send_unsplitted:
 
 				int iSendLength = getSendLength(iEntry, dat->sendMode);
 				if(iSendLength >= dat->nMax) {
-					mir_sntprintf(tszError, 256, CTranslator::get(CTranslator::GEN_SQ_SENDLATER_ERROR_MSG_TOO_LONG), dat->nMax);
+					mir_sntprintf(tszError, 256, TranslateT("The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes"), dat->nMax);
 					SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE, reinterpret_cast<LPARAM>(tszError));
 					clearJob(iEntry);
 					return(0);
@@ -705,7 +705,7 @@ void SendQueue::NotifyDeliveryFailure(const TWindowData *dat)
 		ZeroMemory((void *)&ppd, sizeof(ppd));
 		ppd.lchContact = dat->hContact;
 		mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), dat->cache->getNick());
-		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, _T("%s"), CTranslator::get(CTranslator::GEN_SQ_DELIVERYFAILED));
+		mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, _T("%s"), TranslateT("A message delivery has failed.\nClick to open the message window."));
 		if (!(BOOL)M->GetByte(MODULE, OPT_COLDEFAULT_ERR, TRUE))
 		{
 			ppd.colorText = (COLORREF)M->GetDword(MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
@@ -789,7 +789,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 
 			TCHAR *szAckMsg = mir_a2t((char *)ack->lParam);
 			mir_sntprintf(m_jobs[iFound].szErrorMsg, safe_sizeof(m_jobs[iFound].szErrorMsg),
-						 CTranslator::get(CTranslator::GEN_MSG_DELIVERYFAILURE), szAckMsg);
+						 TranslateT("Delivery failure: %s"), szAckMsg);
 			m_jobs[iFound].iStatus = SQ_ERROR;
 			mir_free(szAckMsg);
 			KillTimer(dat->hwnd, TIMERID_MSGSEND + iFound);
@@ -799,7 +799,7 @@ int SendQueue::ackMessage(TWindowData *dat, WPARAM wParam, LPARAM lParam)
 		}
 		else {
 inform_and_discard:
-			_DebugPopup(m_jobs[iFound].hOwner, CTranslator::get(CTranslator::GEN_SQ_DELIVERYFAILEDLATE));
+			_DebugPopup(m_jobs[iFound].hOwner, TranslateT("A message delivery has failed after the contacts chat window was closed. You may want to resend the last message"));
 			clearJob(iFound);
 			return 0;
 		}
@@ -874,8 +874,8 @@ inform_and_discard:
 
 LRESULT SendQueue::WarnPendingJobs(unsigned int uNrMessages)
 {
-	return(MessageBox(0, CTranslator::get(CTranslator::GEN_SQ_WARNING),
-					  CTranslator::get(CTranslator::GEN_SQ_WARNING_TITLE), MB_YESNO | MB_ICONHAND));
+	return(MessageBox(0, TranslateT("There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?"),
+					  TranslateT("Message window warning"), MB_YESNO | MB_ICONHAND));
 }
 
 /**
@@ -897,9 +897,9 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 
 	if(fIsSendLater && dat) {
 		if(fAvail)
-			szNote = CTranslator::get(CTranslator::GEN_SQ_QUEUED_MESSAGE);
+			szNote = TranslateT("Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.");
 		else
-			szNote = CTranslator::get(CTranslator::GEN_SQ_QUEUING_NOT_AVAIL);
+			szNote = TranslateT("The send later feature is not available on this protocol.");
 
 		char  *utfText = M->utf8_encodeT(szNote);
 		DBEVENTINFO dbei;
@@ -937,7 +937,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 			_tcsftime(tszTimestamp, 30, formatTime, _localtime32((__time32_t *)&now));
 			tszTimestamp[29] = 0;
 			mir_snprintf(szKeyName, 20, "S%d", now);
-			mir_sntprintf(tszHeader, safe_sizeof(tszHeader), CTranslator::get(CTranslator::GEN_SQ_SENDLATER_HEADER), tszTimestamp);
+			mir_sntprintf(tszHeader, safe_sizeof(tszHeader), TranslateT("\n(Sent delayed. Original timestamp %s)"), tszTimestamp);
 		}
 		else
 			mir_sntprintf(tszHeader, safe_sizeof(tszHeader), _T("M%d|"), time(0));

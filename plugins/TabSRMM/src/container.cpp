@@ -645,12 +645,12 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			iMenuItems = GetMenuItemCount(hSysmenu);
 
 			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
-			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_STAYONTOP, CTranslator::get(CTranslator::CNT_MENU_STAYONTOP));
+			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_STAYONTOP, TranslateT("Stay on Top"));
 			if (!CSkin::m_frameSkins)
-				InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_NOTITLE, CTranslator::get(CTranslator::CNT_MENU_HIDETITLEBAR));
+				InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_NOTITLE, TranslateT("Hide titlebar"));
 			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_SEPARATOR, 0, _T(""));
-			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_MOREOPTIONS, CTranslator::get(CTranslator::CNT_MENU_CONTAINEROPTIONS));
-			SetWindowText(hwndDlg, CTranslator::get(CTranslator::CNT_TITLE_DEFAULT));
+			InsertMenu(hSysmenu, iMenuItems++ - 2, MF_BYPOSITION | MF_STRING, IDM_MOREOPTIONS, TranslateT("Container options..."));
+			SetWindowText(hwndDlg, TranslateT("Message Session..."));
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)PluginConfig.g_iconContainer);
 
 			/*
@@ -2565,14 +2565,14 @@ HMENU TSAPI BuildContainerMenu()
 		if (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR) {
 			if (_tcsncmp(dbv.ptszVal, _T("**free**"), CONTAINER_NAMELEN))
 				AppendMenu(hMenu, MF_STRING, IDM_CONTAINERMENU + i, !_tcscmp(dbv.ptszVal, _T("default")) ?
-						   CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME) : dbv.ptszVal);
+						   TranslateT("Default container") : dbv.ptszVal);
 		}
 		DBFreeVariant(&dbv);
 		i++;
 	}
 	while (TRUE);
 
-	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_BYCOMMAND | MF_POPUP, (UINT_PTR) hMenu, CTranslator::get(CTranslator::CNT_ATTACH_TO));
+	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_BYCOMMAND | MF_POPUP, (UINT_PTR) hMenu, TranslateT("Attach to"));
 	PluginConfig.g_hMenuContainer = hMenu;
 	return hMenu;
 }
@@ -2600,7 +2600,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 	hMCSubForce = CreatePopupMenu();
 	hMCSubDefault = CreatePopupMenu();
 
-	AppendMenu(hMenu, MF_STRING | MF_DISABLED | MF_GRAYED | MF_CHECKED, 1, CTranslator::get(CTranslator::GEN_META_CONTACT));
+	AppendMenu(hMenu, MF_STRING | MF_DISABLED | MF_GRAYED | MF_CHECKED, 1, TranslateT("Meta Contact"));
 	AppendMenu(hMenu, MF_SEPARATOR, 1, _T(""));
 
 	iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)dat->hContact, 0);
@@ -2626,7 +2626,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 				szStatusText = (TCHAR *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, wStatus, GSMDF_TCHAR);
 			}
 			mir_sntprintf(szMenuLine, safe_sizeof(szMenuLine), _T("%s: %s [%s] %s"), acc->tszAccountName, nick, szStatusText,
-						  i == isForced ? CTranslator::get(CTranslator::GEN_META_FORCED) : _T(""));
+						  i == isForced ? TranslateT("(Forced)") : _T(""));
 			iChecked = MF_UNCHECKED;
 			if (hContactMostOnline != 0 && hContactMostOnline == handle)
 				iChecked = MF_CHECKED;
@@ -2636,9 +2636,9 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 		DBFreeVariant(&dbv);
 	}
 	AppendMenu(hMCSubForce, MF_SEPARATOR, 900, _T(""));
-	AppendMenu(hMCSubForce, MF_STRING | ((isForced == -1) ? MF_CHECKED : MF_UNCHECKED), 999, CTranslator::get(CTranslator::GEN_META_AUTOSELECT));
-	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR) hMCSubForce, CTranslator::get(CTranslator::GEN_META_USEPROTO));
-	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR) hMCSubDefault, CTranslator::get(CTranslator::GEN_META_SETDEFAULT));
+	AppendMenu(hMCSubForce, MF_STRING | ((isForced == -1) ? MF_CHECKED : MF_UNCHECKED), 999, TranslateT("Autoselect"));
+	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR) hMCSubForce, TranslateT("Use Protocol"));
+	InsertMenu(hMenu, 2, MF_BYPOSITION | MF_POPUP, (UINT_PTR) hMCSubDefault, TranslateT("Set Default Protocol"));
 
 	return hMenu;
 }

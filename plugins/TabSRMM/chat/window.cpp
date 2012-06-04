@@ -1493,9 +1493,9 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 			else {
 				TCHAR ptszBuf[ 1024 ];
 				mir_sntprintf( ptszBuf, SIZEOF(ptszBuf), _T("%s: %s\r\n%s: %s\r\n%s: %s"),
-					CTranslator::get(CTranslator::GEN_MUC_NICKNAME), ui1->pszNick,
-					CTranslator::get(CTranslator::GEN_MUC_UID), ui1->pszUID,
-					CTranslator::get(CTranslator::GEN_MUC_STATUS), TM_WordToString( parentdat->pStatuses, ui1->Status ));
+					TranslateT("Nick name"), ui1->pszNick,
+					TranslateT("Unique Id"), ui1->pszUID,
+					TranslateT("Status"), TM_WordToString( parentdat->pStatuses, ui1->Status ));
 				ti.lpszText = mir_tstrdup( ptszBuf );
 			}
 		}
@@ -2141,14 +2141,14 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
  					hIcon = dat->wStatus <= ID_STATUS_OFFLINE ? LoadSkinnedProtoIcon(si->pszModule, ID_STATUS_OFFLINE) : LoadSkinnedProtoIcon(si->pszModule, dat->wStatus);
  					fNoCopy = FALSE;
  					mir_sntprintf(szTemp, SIZEOF(szTemp),
- 								  (si->nUsersInNicklist == 1) ? CTranslator::get(CTranslator::GEN_MUC_ROOM_TITLE_USER) :
-								  CTranslator::get(CTranslator::GEN_MUC_ROOM_TITLE_USERS),
- 								  si->ptszName, si->nUsersInNicklist, si->bFilterEnabled ? CTranslator::get(CTranslator::GEN_MUC_ROOM_TITLE_FILTER) : _T(""));
+ 								  (si->nUsersInNicklist == 1) ? TranslateT("%s: Chat Room (%u user%s)") :
+								  TranslateT("%s: Chat Room (%u users%s)"),
+ 								  si->ptszName, si->nUsersInNicklist, si->bFilterEnabled ? TranslateT(", event filter active") : _T(""));
  					break;
 				case GCW_PRIVMESS:
 					mir_sntprintf(szTemp, SIZEOF(szTemp),
-								  (si->nUsersInNicklist == 1) ? CTranslator::get(CTranslator::GEN_MUC_PRIVSESSION) :
-								  CTranslator::get(CTranslator::GEN_MUC_PRIVSESSION_MULTI), si->ptszName, si->nUsersInNicklist);
+								  (si->nUsersInNicklist == 1) ? TranslateT("%s: Message Session") :
+								  TranslateT("%s: Message Session (%u users)"), si->ptszName, si->nUsersInNicklist);
 					break;
 				case GCW_SERVER:
 					mir_sntprintf(szTemp, SIZEOF(szTemp), _T("%s: Server"), si->ptszName);
@@ -2218,15 +2218,15 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						else if(diff > 59) {
 							DWORD hours = diff / 60;
 							DWORD minutes = diff % 60;
-							mir_sntprintf(mi->tszIdleMsg, 60, CTranslator::get(CTranslator::MUC_SBAR_IDLEFORMAT), hours, hours > 1 ?
-										  CTranslator::get(CTranslator::GEN_STRING_HOURS) : CTranslator::get(CTranslator::GEN_STRING_HOUR),
-										  minutes, minutes > 1 ? CTranslator::get(CTranslator::GEN_STRING_MINUTES) : CTranslator::get(CTranslator::GEN_STRING_MINUTE));
+							mir_sntprintf(mi->tszIdleMsg, 60, TranslateT(", %d %s, %d %s idle"), hours, hours > 1 ?
+										  TranslateT("hours") : TranslateT("hour"),
+										  minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
 						}
 						else
-							mir_sntprintf(mi->tszIdleMsg, 60, CTranslator::get(CTranslator::MUC_SBAR_IDLEFORMAT_SHORT),
-										  diff, diff > 1 ? CTranslator::get(CTranslator::GEN_STRING_MINUTES) : CTranslator::get(CTranslator::GEN_STRING_MINUTE));
+							mir_sntprintf(mi->tszIdleMsg, 60, TranslateT(", %d %s idle"),
+										  diff, diff > 1 ? TranslateT("minutes") : TranslateT("minute"));
 					}
-					mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), CTranslator::get(CTranslator::MUC_SBAR_ON_SERVER), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
+					mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), TranslateT("%s on %s%s"), dat->szMyNickname, mi->ptszModDispName, mi->tszIdleMsg);
 				} else {
 					if (si->ptszStatusbarText)
 						mir_sntprintf(szFinalStatusBarText, SIZEOF(szFinalStatusBarText), _T("%s %s"), mi->ptszModDispName, si->ptszStatusbarText);
@@ -3283,7 +3283,7 @@ LABEL_SHOWWINDOW:
 						break;
 
 					if (si->iLogFilterFlags == 0 && !si->bFilterEnabled) {
-						MessageBox(0, CTranslator::get(CTranslator::GEN_MUC_FILTER_ERROR), CTranslator::get(CTranslator::GEN_MUC_FILTER_ERROR_TITLE), MB_OK);
+						MessageBox(0, TranslateT("The filter canoot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
 						si->bFilterEnabled = 0;
 					} else
 						si->bFilterEnabled = !si->bFilterEnabled;
@@ -3540,7 +3540,7 @@ LABEL_SHOWWINDOW:
 		case DM_CONTAINERSELECTED: {
 			struct TContainerData *pNewContainer = 0;
 			TCHAR *szNewName = (TCHAR *)lParam;
-			if (!_tcscmp(szNewName, CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)))
+			if (!_tcscmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
 			if (!_tcsncmp(dat->pContainer->szName, szNewName, CONTAINER_NAMELEN))

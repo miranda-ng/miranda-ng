@@ -129,7 +129,7 @@ static int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 		bbd.dwDefPos =200;
 		bbd.hIcon = PluginConfig.g_buttonBarIconHandles[3];
 		bbd.pszModuleName = (char *)"Tabmodplus";
-		bbd.ptszTooltip = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_BB_IMGTOOLTIP));
+		bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
 
 		return (CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd));
 	}
@@ -222,7 +222,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 
 				_sntprintf(pszFormatedText,6*sizeof(TCHAR),_T("%s"),_T("[img]"));
 
-				bbd.ptszTooltip = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_BB_IMGTOOLTIP));
+				bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
 				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
 
 			}break;
@@ -233,7 +233,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 				ZeroMemory(pszFormatedText,7*sizeof(TCHAR));
 				_sntprintf(pszFormatedText,7*sizeof(TCHAR),_T("%s"),_T("[/img]"));
 
-				bbd.ptszTooltip = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_BB_IMGTOOLTIP));
+				bbd.ptszTooltip = TranslateT("Insert [img] tag / surround selected text with [img][/img]");
 				CallService(MS_BB_SETBUTTONSTATE, wParam, (LPARAM)&bbd);
 
 			}break;

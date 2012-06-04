@@ -144,15 +144,15 @@ CSendLaterJob::~CSendLaterJob()
 				ZeroMemory((void *)&ppd, sizeof(ppd));
 				ppd.lchContact = hContact;
 				ppd.cbSize = sizeof(ppd);
-				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : CTranslator::get(CTranslator::GEN_UNKNOWN_CONTACT));
+				mir_sntprintf(ppd.lptzContactName, MAX_CONTACTNAME, _T("%s"), tszName ? tszName : TranslateT("'(Unknown Contact)'"));
 				TCHAR *msgPreview = Utils::GetPreviewWithEllipsis(reinterpret_cast<TCHAR *>(&pBuf[lstrlenA((char *)pBuf) + 1]), 100);
 				if(fSuccess) {
-					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, CTranslator::get(CTranslator::GEN_SQ_SENDLATER_SUCCESS_POPUP),
+					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("A send later job completed successfully.\nThe original message: %s"),
 								  msgPreview);
 					mir_free(msgPreview);
 				}
 				else if(fFailed) {
-					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, CTranslator::get(CTranslator::GEN_SQ_SENDLATER_FAILED_POPUP),
+					mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("A send later job failed to complete.\nThe original message: %s"),
 						msgPreview);
 					mir_free(msgPreview);
 				}
@@ -605,7 +605,7 @@ void CSendLater::qMgrFillList(bool fClear)
 
 	m_sel = 0;
 	::SendMessage(m_hwndFilter, CB_INSERTSTRING, -1, 
-				  reinterpret_cast<LPARAM>(CTranslator::get(CTranslator::QMGR_FILTER_ALLCONTACTS)));
+				  reinterpret_cast<LPARAM>(TranslateT("<All contacts>")));
 	::SendMessage(m_hwndFilter, CB_SETITEMDATA, 0, 0);
 
 	lvItem.cchTextMax = 255;
@@ -650,23 +650,23 @@ void CSendLater::qMgrFillList(bool fClear)
 
 			if ((*it)->fFailed) {
 				tszStatusText = (*it)->bCode == CSendLaterJob::JOB_REMOVABLE ? 
-					CTranslator::get(CTranslator::QMGR_STATUS_REMOVED) : CTranslator::get(CTranslator::QMGR_STATUS_FAILED);
+					TranslateT("Removed") : TranslateT("Failed");
 			}
 			else if ((*it)->fSuccess)
-				tszStatusText = CTranslator::get(CTranslator::QMGR_STATUS_SENTOK);
+				tszStatusText = TranslateT("Sent OK");
 			else {
 				switch((*it)->bCode) {
 					case CSendLaterJob::JOB_DEFERRED:
-						tszStatusText = CTranslator::get(CTranslator::QMGR_STATUS_DEFERRED);
+						tszStatusText = TranslateT("Deferred");
 						break;
 					case CSendLaterJob::JOB_AGE:
-						tszStatusText = CTranslator::get(CTranslator::QMGR_STATUS_FAILED);
+						tszStatusText = TranslateT("Failed");
 						break;
 					case CSendLaterJob::JOB_HOLD:
-						tszStatusText = CTranslator::get(CTranslator::QMGR_STATUS_HOLD);
+						tszStatusText = TranslateT("Suspended");
 						break;
 					default:
-						tszStatusText = CTranslator::get(CTranslator::QMGR_STATUS_PENDING);
+						tszStatusText = TranslateT("Pending");
 						break;
 				}
 			}
@@ -724,23 +724,23 @@ void CSendLater::qMgrSetupColumns()
 
 	col.mask = LVCF_TEXT|LVCF_WIDTH|LVCF_SUBITEM;
 	col.cx = max(nWidths[0], 10);
-	col.pszText = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_CONTACT));
+	col.pszText = TranslateT("Contact");
 
 	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 0, reinterpret_cast<LPARAM>(&col));
 
-	col.pszText = const_cast<TCHAR *>(CTranslator::get(CTranslator::QMGR_COL_ODATE));
+	col.pszText = TranslateT("Original timestamp");
 	col.cx = max(nWidths[1], 10);
 	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 1, reinterpret_cast<LPARAM>(&col));
 
-	col.pszText = const_cast<TCHAR *>(CTranslator::get(CTranslator::QMGR_COL_MESSAGETEXT));
+	col.pszText = TranslateT("Message text");
 	col.cx = max((cxList - nWidths[0] - nWidths[1] - nWidths[3] - nWidths[4] - 10), 10);
 	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 2, reinterpret_cast<LPARAM>(&col));
 
-	col.pszText = const_cast<TCHAR *>(CTranslator::get(CTranslator::QMGR_COL_STATUS));
+	col.pszText = TranslateT("Status");
 	col.cx = max(nWidths[3], 10);
 	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 3, reinterpret_cast<LPARAM>(&col));
 
-	col.pszText = const_cast<TCHAR *>(CTranslator::get(CTranslator::QMGR_COL_LASTSENDINFO));
+	col.pszText = TranslateT("Last send info");
 	col.cx = max(nWidths[4], 10);
 	::SendMessage(m_hwndList, LVM_INSERTCOLUMN, 4, reinterpret_cast<LPARAM>(&col));
 
@@ -895,7 +895,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 						item.stateMask = LVIS_SELECTED;
 
 						if(HIWORD(wParam) != ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD) {
-							if(MessageBox(0, CTranslator::get(CTranslator::QMGR_WARNING_REMOVAL), CTranslator::get(CTranslator::QMGR_TITLE),
+							if(MessageBox(0, TranslateT("You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone."), TranslateT("Queue manager"),
 										  MB_ICONQUESTION | MB_OKCANCEL) == IDCANCEL)
 								break;
 						}

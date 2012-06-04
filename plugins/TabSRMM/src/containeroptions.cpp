@@ -116,20 +116,19 @@ void TSAPI ApplyContainerSetting(TContainerData *pContainer, DWORD flags, UINT m
 #define NR_O_OPTIONSPERPAGE 10
 
 static struct _tagPages {
-	UINT idTitle;
-	UINT idDesc;
+	const TCHAR *szTitle, *szDesc;
 	UINT uIds[10];
 } o_pages[] = {
-	{ CTranslator::CNT_OPT_TITLE_GEN, CTranslator::STR_LAST, IDC_O_NOTABS, IDC_O_STICKY, IDC_VERTICALMAX, IDC_AUTOSPLITTER, IDC_O_AUTOHIDE, IDC_AUTOCLOSETABTIME, IDC_AUTOCLOSETABSPIN, IDC_O_AUTOHIDESECONDS, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_LAYOUT, CTranslator::STR_LAST, IDC_CNTNOSTATUSBAR, IDC_HIDEMENUBAR, IDC_UIDSTATUSBAR, IDC_HIDETOOLBAR, IDC_INFOPANEL, IDC_BOTTOMTOOLBAR, 0, 0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_TABS, CTranslator::CNT_OPT_DESC_TABS, IDC_TABMODE, IDC_O_TABMODE, IDC_O_SBARLAYOUT, IDC_SBARLAYOUT, IDC_FLASHICON, IDC_FLASHLABEL, IDC_SINGLEROWTAB, IDC_BUTTONTABS, IDC_CLOSEBUTTONONTABS, 0},
-	{ CTranslator::CNT_OPT_TITLE_NOTIFY, CTranslator::CNT_OPT_DESC_NOTIFY, IDC_O_DONTREPORT, IDC_DONTREPORTUNFOCUSED2, IDC_DONTREPORTFOCUSED2, IDC_ALWAYSPOPUPSINACTIVE, IDC_O_EXPLAINGLOBALNOTIFY, 0, 0, 0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_FLASHING, CTranslator::STR_LAST, IDC_O_FLASHDEFAULT, IDC_O_FLASHALWAYS, IDC_O_FLASHNEVER, 0, 0, 0, 0, 0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_TITLEBAR, CTranslator::STR_LAST, IDC_O_HIDETITLE, IDC_TITLEFORMAT, IDC_O_TITLEBARFORMAT, IDC_O_HELP_TITLEFORMAT, 0, 0, 0, 0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_THEME, CTranslator::CNT_OPT_DESC_THEME, IDC_THEME, IDC_SELECTTHEME, IDC_USEGLOBALSIZE, IDC_SAVESIZEASGLOBAL, IDC_LABEL_PRIVATETHEME, IDC_TSLABEL_EXPLAINTHEME, 0, 0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_TRANS, CTranslator::CNT_OPT_DESC_TRANS, IDC_TRANSPARENCY, IDC_TRANSPARENCY_ACTIVE, IDC_TRANSPARENCY_INACTIVE, IDC_TSLABEL_ACTIVE, IDC_TSLABEL_INACTIVE, 0, 0,0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_AVATARS, CTranslator::STR_LAST, IDC_O_STATIC_AVATAR, IDC_O_STATIC_OWNAVATAR, IDC_AVATARMODE, IDC_OWNAVATARMODE, IDC_AVATARSONTASKBAR, 0, 0, 0, 0, 0},
-	{ CTranslator::CNT_OPT_TITLE_SOUNDS, CTranslator::STR_LAST, IDC_O_ENABLESOUNDS, IDC_O_SOUNDSMINIMIZED, IDC_O_SOUNDSUNFOCUSED, IDC_O_SOUNDSINACTIVE, IDC_O_SOUNDSFOCUSED, 0, 0, 0, 0, 0},
+	{ _T("General options"), NULL, IDC_O_NOTABS, IDC_O_STICKY, IDC_VERTICALMAX, IDC_AUTOSPLITTER, IDC_O_AUTOHIDE, IDC_AUTOCLOSETABTIME, IDC_AUTOCLOSETABSPIN, IDC_O_AUTOHIDESECONDS, 0, 0},
+	{ _T("Window layout"), NULL, IDC_CNTNOSTATUSBAR, IDC_HIDEMENUBAR, IDC_UIDSTATUSBAR, IDC_HIDETOOLBAR, IDC_INFOPANEL, IDC_BOTTOMTOOLBAR, 0, 0, 0, 0},
+	{ _T("Tabs and switch bar"), _T("Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them."), IDC_TABMODE, IDC_O_TABMODE, IDC_O_SBARLAYOUT, IDC_SBARLAYOUT, IDC_FLASHICON, IDC_FLASHLABEL, IDC_SINGLEROWTAB, IDC_BUTTONTABS, IDC_CLOSEBUTTONONTABS, 0},
+	{ _T("Notifications"), _T("Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window."), IDC_O_DONTREPORT, IDC_DONTREPORTUNFOCUSED2, IDC_DONTREPORTFOCUSED2, IDC_ALWAYSPOPUPSINACTIVE, IDC_O_EXPLAINGLOBALNOTIFY, 0, 0, 0, 0, 0},
+	{ _T("Flashing"), NULL, IDC_O_FLASHDEFAULT, IDC_O_FLASHALWAYS, IDC_O_FLASHNEVER, 0, 0, 0, 0, 0, 0, 0},
+	{ _T("Title bar"), NULL, IDC_O_HIDETITLE, IDC_TITLEFORMAT, IDC_O_TITLEBARFORMAT, IDC_O_HELP_TITLEFORMAT, 0, 0, 0, 0, 0, 0},
+	{ _T("Window size and theme"), _T("You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option."), IDC_THEME, IDC_SELECTTHEME, IDC_USEGLOBALSIZE, IDC_SAVESIZEASGLOBAL, IDC_LABEL_PRIVATETHEME, IDC_TSLABEL_EXPLAINTHEME, 0, 0, 0, 0},
+	{ _T("Transparency"), _T("This feature requires Windows 2000 or later and may be unavailable when using a container skin."), IDC_TRANSPARENCY, IDC_TRANSPARENCY_ACTIVE, IDC_TRANSPARENCY_INACTIVE, IDC_TSLABEL_ACTIVE, IDC_TSLABEL_INACTIVE, 0, 0, 0, 0, 0},
+	{ _T("Contact avatars"), NULL, IDC_O_STATIC_AVATAR, IDC_O_STATIC_OWNAVATAR, IDC_AVATARMODE, IDC_OWNAVATARMODE, IDC_AVATARSONTASKBAR, 0, 0, 0, 0, 0},
+	{ _T("Sound notifications"), NULL, IDC_O_ENABLESOUNDS, IDC_O_SOUNDSMINIMIZED, IDC_O_SOUNDSUNFOCUSED, IDC_O_SOUNDSINACTIVE, IDC_O_SOUNDSFOCUSED, 0, 0, 0, 0, 0},
 };
 
 static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
@@ -139,9 +138,9 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 			Utils::showDlgControl(hwndDlg, o_pages[iPage].uIds[i], fShow ? SW_SHOW : SW_HIDE);
 	}
 	if (fShow) {
-		SetDlgItemText(hwndDlg, IDC_TITLEBOX, CTranslator::get(o_pages[iPage].idTitle));
-		if (o_pages[iPage].idDesc != CTranslator::STR_LAST)
-			SetDlgItemText(hwndDlg, IDC_DESC, CTranslator::get(o_pages[iPage].idDesc));
+		SetDlgItemText(hwndDlg, IDC_TITLEBOX, TranslateTS(o_pages[iPage].szTitle));
+		if (o_pages[iPage].szDesc != NULL)
+			SetDlgItemText(hwndDlg, IDC_DESC, TranslateTS(o_pages[iPage].szDesc));
 		else
 			SetDlgItemText(hwndDlg, IDC_DESC, _T(""));
 	}
@@ -175,31 +174,31 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			pContainer = (TContainerData *) lParam;
 			pContainer->hWndOptions = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
-			SetWindowText(hwndDlg, CTranslator::get(CTranslator::CNT_OPT_TITLE));
-			mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), CTranslator::get(CTranslator::CNT_OPT_HEADERBAR), !_tcscmp(pContainer->szName, _T("default")) ?
-					  	  CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME) : pContainer->szName);
+			SetWindowText(hwndDlg, TranslateT("Container options"));
+			mir_sntprintf(szNewTitle, SIZEOF(szNewTitle), TranslateT("Configure container options for\n%s"), !_tcscmp(pContainer->szName, _T("default")) ?
+					  	  TranslateT("Default container") : pContainer->szName);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
 			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, CSkin::m_frameSkins ? FALSE : TRUE);
 			CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->settings->fPrivate ? BST_CHECKED : BST_UNCHECKED);
 
-			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::get(CTranslator::CNT_OPT_TABSTOP));
-			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::get(CTranslator::CNT_OPT_TABSBOTTOM));
-			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::get(CTranslator::CNT_OPT_TABSLEFT));
-			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::get(CTranslator::CNT_OPT_TABSRIGHT));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the top"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the bottom"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the left side"));
+			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Switch bar on the right side"));
 
 			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_GLOBALLY_ON));
+							   (LPARAM)TranslateT("Globally on"));
 			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_ON_IF_PRESENT));
+							   (LPARAM)TranslateT("On, if present"));
 			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_GLOBALLY_OFF));
+							   (LPARAM)TranslateT("Globally OFF"));
 			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_ON_ALWAYS_BOTTOM));
+							   (LPARAM)TranslateT("On, if present, always in bottom display"));
 
 			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_ON_IF_PRESENT));
+							   (LPARAM)TranslateT("On, if present"));
 			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_INSERTSTRING, -1,
-							   (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_DONT_SHOW));
+							   (LPARAM)TranslateT("Don't show them"));
 
 			for(i = 0; i < nr_layouts; i++)
 				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateTS(sblayouts[i].szName));
@@ -216,7 +215,7 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
-				tvis.item.pszText = const_cast<TCHAR *>(CTranslator::get(o_pages[i].idTitle));
+				tvis.item.pszText = TranslateTS(o_pages[i].szTitle);
 				tvis.item.lParam = i;
 				hItem = TreeView_InsertItem(hwndTree, &tvis);
 				if (i == 0)

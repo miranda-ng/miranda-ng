@@ -413,7 +413,7 @@ void CProxyWindow::sendPreview()
 		if(m_dat->hwndIEView)
 			::SendMessage(m_dat->hwndIEView, WM_PRINT, reinterpret_cast<WPARAM>(hdcRich), PRF_CLIENT | PRF_NONCLIENT);
 		else if(m_dat->hwndHPP) {
-			CSkin::RenderText(hdcRich, m_dat->hTheme, CTranslator::get(CTranslator::GEN_AEROPEEK_NOHPP),
+			CSkin::RenderText(hdcRich, m_dat->hTheme, TranslateT("Previews not availble when using History++ plugin for message log display."),
 							  &rcRich, DT_VCENTER | DT_CENTER | DT_WORDBREAK, 10, m_dat->pContainer->theme.fontColors[MSGFONTID_MYMSG], false);
 		}
 		else {
@@ -715,7 +715,7 @@ void CThumbBase::renderBase()
 		wchar_t	tszTemp[30];
 
 		m_rcIcon.top += m_sz.cy;
-		mir_sntprintf(tszTemp, 30, CTranslator::get(CTranslator::GEN_TASKBAR_STRING_UNREAD), m_dat->dwUnread);
+		mir_sntprintf(tszTemp, 30, TranslateT("%d Unread"), m_dat->dwUnread);
 		CSkin::RenderText(m_hdc, m_dat->hTheme, tszTemp, &m_rcIcon, m_dtFlags | DT_CENTER | DT_WORD_ELLIPSIS, 10, 0, true);
 	}
 	m_rcIcon= m_rcTop;
@@ -838,7 +838,7 @@ void CThumbIM::renderContent()
 	m_rcBottom.bottom -= ((m_rcBottom.bottom - m_rcBottom.top) % m_sz.cy);		// adjust to a multiple of line height
 
 	if(0 == (tszStatusMsg = m_dat->cache->getStatusMsg()))
-		tszStatusMsg = CTranslator::get(CTranslator::GEN_NO_STATUS);
+		tszStatusMsg = TranslateT("No status message");
 
 	CSkin::RenderText(m_hdc, m_dat->hTheme, tszStatusMsg, &m_rcBottom, DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | m_dtFlags, 10, 0, true);
 	m_rcBottom.bottom = m_rc.bottom;
@@ -894,7 +894,7 @@ void CThumbMUC::renderContent()
 
 		if(mi) {
 			if(m_dat->dwUnread) {
-				mir_sntprintf(szTemp, 30, CTranslator::get(CTranslator::GEN_TASKBAR_STRING_UNREAD), m_dat->dwUnread);
+				mir_sntprintf(szTemp, 30, TranslateT("%d Unread"), m_dat->dwUnread);
 				CSkin::RenderText(m_hdc, m_dat->hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 				m_rcIcon.top += m_sz.cy;
 			}
@@ -906,18 +906,18 @@ void CThumbMUC::renderContent()
 					_p++;
 					wchar_t	_t = *_p;
 					*_p = 0;
-					mir_sntprintf(szTemp, SIZEOF(szTemp), CTranslator::get(CTranslator::GEN_TASKBAR_STRING_CHAT_ROOM), m_dat->si->ptszStatusbarText);
+					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Chat room %s"), m_dat->si->ptszStatusbarText);
 					*_p = _t;
 				}
 				else
-					mir_sntprintf(szTemp, SIZEOF(szTemp), CTranslator::get(CTranslator::GEN_TASKBAR_STRING_CHAT_ROOM), L"");
+					mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Chat room %s"), L"");
 				CSkin::RenderText(m_hdc, m_dat->hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 				m_rcIcon.top += m_sz.cy;
-				mir_sntprintf(szTemp, SIZEOF(szTemp), CTranslator::get(CTranslator::GEN_TASKBAR_STRING_USERS), m_dat->si->nUsersInNicklist);
+				mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%d User(s)"), m_dat->si->nUsersInNicklist);
 				CSkin::RenderText(m_hdc, m_dat->hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 			}
 			else {
-				mir_sntprintf(szTemp, SIZEOF(szTemp), CTranslator::get(CTranslator::GEN_TASKBAR_STRING_SERVER_WINDOW));
+				mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("Server window"));
 				CSkin::RenderText(m_hdc, m_dat->hTheme, szTemp, &m_rcIcon, m_dtFlags | DT_SINGLELINE | DT_RIGHT, 10, 0, true);
 				if(mi->tszIdleMsg[0] && _tcslen(mi->tszIdleMsg) > 2) {
 					m_rcIcon.top += m_sz.cy;
@@ -933,10 +933,10 @@ void CThumbMUC::renderContent()
 
 		if(m_dat->si->iType != GCW_SERVER) {
 			if(0 == (szStatusMsg = m_dat->si->ptszTopic))
-				szStatusMsg = CTranslator::get(CTranslator::GEN_MUC_NO_TOPIC);
+				szStatusMsg = TranslateT("no topic set.");
 		}
 		else if(mi) {
-			mir_sntprintf(szTemp, SIZEOF(szTemp), CTranslator::get(CTranslator::MUC_SBAR_ON_SERVER), m_dat->szMyNickname, mi->ptszModDispName, L"");
+			mir_sntprintf(szTemp, SIZEOF(szTemp), TranslateT("%s on %s%s"), m_dat->szMyNickname, mi->ptszModDispName, L"");
 			szStatusMsg = szTemp;
 		}
 

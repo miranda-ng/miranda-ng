@@ -692,52 +692,52 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 			if (pszNick) {
 				if (!streamData->lin->bIsMe)
 					/* replace nick of a newcomer with a link */
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_JOINED), pszNick);
+					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has joined"), pszNick);
 				else
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_ME_JOINED), streamData->si->ptszName);
+					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You have joined %s"), streamData->si->ptszName);
 			}
 			break;
 		case GC_EVENT_PART:
 			if (pszNick)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_LEFT), pszNick);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has left"), pszNick);
 			if (streamData->lin->ptszText)
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
 			break;
 		case GC_EVENT_QUIT:
 			if (pszNick)
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_DISC), pszNick);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s has disconnected"), pszNick);
 			if (streamData->lin->ptszText)
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
 			break;
 		case GC_EVENT_NICK:
 			if (pszNick && streamData->lin->ptszText) {
 				if (!streamData->lin->bIsMe)
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_NICKCHANGE), pszNick, streamData->lin->ptszText);
+					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("%s is now known as %s"), pszNick, streamData->lin->ptszText);
 				else
-					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_ME_NICKCHANGE), streamData->lin->ptszText);
+					Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("You are now known as %s"), streamData->lin->ptszText);
 			}
 			break;
 		case GC_EVENT_KICK:
 			if (pszNick && streamData->lin->ptszStatus)
 				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  CTranslator::get(CTranslator::MUC_LOG_KICK), streamData->lin->ptszStatus, pszNick);
+							  TranslateT("%s kicked %s"), streamData->lin->ptszStatus, pszNick);
 
 			if (streamData->lin->ptszText)
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T(": %s"), streamData->lin->ptszText);
 			break;
 		case GC_EVENT_NOTICE:
 			if (pszNick && streamData->lin->ptszText) {
-				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_NOTICE), pszNick);
+				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced, TranslateT("Notice from %s: "), pszNick);
 				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), streamData->lin->ptszText);
 			}
 			break;
 		case GC_EVENT_TOPIC:
 			if (streamData->lin->ptszText)
-				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, CTranslator::get(CTranslator::MUC_LOG_TOPICIS), streamData->lin->ptszText, _T("%r"));
+				Log_AppendRTF(streamData, FALSE, buffer, bufferEnd, bufferAlloced, TranslateT("The topic is \'%s%s\'"), streamData->lin->ptszText, _T("%r"));
 			if (pszNick)
 				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  (streamData->lin->ptszUserInfo) ? CTranslator::get(CTranslator::MUC_LOG_TOPICSETBYON) :
-							  CTranslator::get(CTranslator::MUC_LOG_TOPICSETBY),
+							  (streamData->lin->ptszUserInfo) ? TranslateT(" (set by %s on %s)") :
+							  TranslateT(" (set by %s)"),
 							  pszNick, streamData->lin->ptszUserInfo);
 			break;
 		case GC_EVENT_INFORMATION:
@@ -747,13 +747,13 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 		case GC_EVENT_ADDSTATUS:
 			if (pszNick && streamData->lin->ptszText && streamData->lin->ptszStatus)
 				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  CTranslator::get(CTranslator::MUC_LOG_STATUSENABLE),
+							  TranslateT("%s enables \'%s\' status for %s"),
 							  streamData->lin->ptszText, streamData->lin->ptszStatus, pszNick);
 			break;
 		case GC_EVENT_REMOVESTATUS:
 			if (pszNick && streamData->lin->ptszText && streamData->lin->ptszStatus) {
 				Log_AppendRTF(streamData, TRUE, buffer, bufferEnd, bufferAlloced,
-							  CTranslator::get(CTranslator::MUC_LOG_STATUSDISABLE),
+							  TranslateT("%s disables \'%s\' status for %s"),
 							  streamData->lin->ptszText , streamData->lin->ptszStatus, pszNick);
 			}
 			break;

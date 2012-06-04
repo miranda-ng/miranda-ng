@@ -561,8 +561,8 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 				himlOptions = (HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_CHECKBOXES, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
 				ImageList_Destroy(himlOptions);
 
-				hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_MUC_OPTHEADER1)), TRUE);
-				hListHeading2 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_MUC_OPTHEADER2)), TRUE);
+				hListHeading1 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance and functionality of chat room windows"), TRUE);
+				hListHeading2 = InsertBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), TranslateT("Appearance of the message log"), TRUE);
 
 				FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading1, branch1, SIZEOF(branch1), 0x0000);
 				FillBranch(GetDlgItem(hwndDlg, IDC_CHECKBOXES), hListHeading2, branch2, SIZEOF(branch2), 0x0000);
@@ -956,31 +956,31 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n")
 						_T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
 						// contact vars
-						_T("%nick%"),					CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP1),
-						_T("%proto%"),					CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP2),
-						_T("%userid%"),					CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP3),
+						_T("%nick%"),					TranslateT("nick of current contact (if defined)"),
+						_T("%proto%"),					TranslateT("protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts"),
+						_T("%userid%"),					TranslateT("UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc."),
 						// global vars
-						_T("%miranda_path%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP4),
-						_T("%miranda_profile%"),		CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP5),
-						_T("%miranda_profilename%"),	CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP6),
-						_T("%miranda_userdata%"),		CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP7),
-						_T("%appdata%"),				CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP8),
-						_T("%username%"),				CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP9),
-						_T("%mydocuments%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP10),
-						_T("%desktop%"),				CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP11),
-						_T("%xxxxxxx%"),				CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP12),
+						_T("%miranda_path%"),			TranslateT("path to root miranda folder"),
+						_T("%miranda_profile%"),		TranslateT("path to current miranda profile"),
+						_T("%miranda_profilename%"),	TranslateT("name of current miranda profile (filename, without extension)"),
+						_T("%miranda_userdata%"),		TranslateT("will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%"),
+						_T("%appdata%"),				TranslateT("same as environment variable %APPDATA% for currently logged-on Windows user"),
+						_T("%username%"),				TranslateT("username for currently logged-on Windows user"),
+						_T("%mydocuments%"),			TranslateT("\"My Documents\" folder for currently logged-on Windows user"),
+						_T("%desktop%"),				TranslateT("\"Desktop\" folder for currently logged-on Windows user"),
+						_T("%xxxxxxx%"),				TranslateT("any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)"),
 						// date/time vars
-						_T("%d%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP13),
-						_T("%dd%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP14),
-						_T("%m%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP15),
-						_T("%mm%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP16),
-						_T("%mon%"),		CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP17),
-						_T("%month%"),		CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP18),
-						_T("%yy%"),			CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP19),
-						_T("%yyyy%"),		CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP20),
-						_T("%wday%"),		CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP21),
-						_T("%weekday%"),	CTranslator::getOpt(CTranslator::OPT_MUC_LOGTIP22));
-					hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_MUC_VARIABLES)));
+						_T("%d%"),			TranslateT("day of month, 1-31"),
+						_T("%dd%"),			TranslateT("day of month, 01-31"),
+						_T("%m%"),			TranslateT("month number, 1-12"),
+						_T("%mm%"),			TranslateT("month number, 01-12"),
+						_T("%mon%"),		TranslateT("abbreviated month name"),
+						_T("%month%"),		TranslateT("full month name"),
+						_T("%yy%"),			TranslateT("year without century, 01-99"),
+						_T("%yyyy%"),		TranslateT("year with century, 1901-9999"),
+						_T("%wday%"),		TranslateT("abbreviated weekday name"),
+						_T("%weekday%"),	TranslateT("full weekday name"));
+					hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"));
 				}
 
 			} else {
@@ -1061,7 +1061,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 						TCHAR tszTemp[MAX_PATH];
 						bi.hwndOwner = hwndDlg;
 						bi.pszDisplayName = tszDirectory;
-						bi.lpszTitle = const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_MUC_SELECTFOLDER));
+						bi.lpszTitle = TranslateT("Select Folder");
 						bi.ulFlags = BIF_NEWDIALOGSTYLE | BIF_EDITBOX | BIF_RETURNONLYFSDIRS;
 						bi.lpfn = BrowseCallbackProc;
 						bi.lParam = (LPARAM)tszDirectory;
@@ -1258,9 +1258,9 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					CheckDlgButton(hwndDlg, IDC_P1 + i, dwPopupFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 					CheckDlgButton(hwndDlg, IDC_T1 + i, dwTrayFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED);
 				}
-				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_MUC_NOMARKERS));
-				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_MUC_ASICONS));
-				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_MUC_ASSYMBOLS));
+				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("No markers"));
+				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as icons"));
+				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_ADDSTRING, -1, (LPARAM)TranslateT("Show as text symbols"));
 
 				SendDlgItemMessage(hwndDlg, IDC_LOGICONTYPE, CB_SETCURSEL, (g_Settings.LogSymbols ? 2 : (g_Settings.dwIconFlags ? 1 : 0)), 0);
 

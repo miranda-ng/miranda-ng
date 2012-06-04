@@ -164,8 +164,8 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 
 	if (CreateDirectory(szFinalPath, 0) == 0) {
 		if (GetLastError() != ERROR_ALREADY_EXISTS) {
-			MessageBox(0, CTranslator::get(CTranslator::GEN_MSG_SAVE_NODIR),
-					   CTranslator::get(CTranslator::GEN_MSG_SAVE), MB_OK | MB_ICONSTOP);
+			MessageBox(0, TranslateT("Error creating destination directory"),
+					   TranslateT("Save contact picture"), MB_OK | MB_ICONSTOP);
 			return;
 		}
 	}
@@ -201,8 +201,8 @@ static void SaveAvatarToFile(TWindowData *dat, HBITMAP hbm, int isOwnPic)
 	ofn.lCustData = (LPARAM) & setView;
 	if (GetSaveFileName(&ofn)) {
 		if (PathFileExists(szFinalFilename)) {
-			if (MessageBox(0, CTranslator::get(CTranslator::GEN_MSG_SAVE_FILE_EXISTS),
-						   CTranslator::get(CTranslator::GEN_MSG_SAVE), MB_YESNO | MB_ICONQUESTION) == IDNO)
+			if (MessageBox(0, TranslateT("The file exists. Do you want to overwrite it?"),
+						   TranslateT("Save contact picture"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 				return;
 		}
 		IMGSRVC_INFO ii;
@@ -357,12 +357,12 @@ int TSAPI MsgWindowUpdateMenu(TWindowData *dat, HMENU submenu, int menuID)
 		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, MF_BYCOMMAND | (PluginConfig.m_AlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED));
 		if (!fInfoPanel) {
 			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | (ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED));
-			szText = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_AVATAR_SETTINGS));
+			szText = TranslateT("Contact Picture Settings...");
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_ENABLED);
 		} else {
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_GRAYED);
 			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | ((ServiceExists(MS_AV_SETMYAVATAR) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(dat->cache->getActiveProto()), 0)) ? MF_ENABLED : MF_GRAYED));
-			szText = const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_AVATAR_SETOWN));
+			szText = TranslateT("Set Your Avatar...");
 		}
 		mii.dwTypeData = szText;
 		mii.cch = lstrlen(szText) + 1;
@@ -1719,7 +1719,7 @@ void TSAPI HandlePasteAndSend(const TWindowData *dat)
 	UINT ctrlID = dat->bType == SESSIONTYPE_IM ? IDC_MESSAGE : IDC_CHAT_MESSAGE;
 
 	if (!PluginConfig.m_PasteAndSend) {
-		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, ctrlID, (LPARAM)CTranslator::get(CTranslator::GEN_WARNING_PASTEANDSEND_DISABLED));
+		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, ctrlID, (LPARAM)TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section"));
 		return;                                     // feature disabled
 	}
 
@@ -2239,7 +2239,7 @@ void TSAPI SendNudge(const TWindowData *dat)
 		CallService(MS_NUDGE_SEND, (WPARAM)dat->cache->getActiveContact(), 0);
 	else
 		SendMessage(dat->hwnd, DM_ACTIVATETOOLTIP, IDC_MESSAGE,
-					(LPARAM)CTranslator::get(CTranslator::GEN_WARNING_NUDGE_DISABLED));
+					(LPARAM)TranslateT("Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event."));
 }
 
 void TSAPI GetClientIcon(TWindowData *dat)
@@ -2271,8 +2271,8 @@ void TSAPI GetMyNick(TWindowData *dat)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (lstrlen(reinterpret_cast<TCHAR *>(ci.pszVal)) < 1 || !_tcscmp(reinterpret_cast<TCHAR *>(ci.pszVal),
-																			  CTranslator::get(CTranslator::GEN_UNKNOWN_CONTACT))) {
-				mir_sntprintf(dat->szMyNickname, safe_sizeof(dat->szMyNickname), _T("%s"), dat->myUin[0] ? dat->myUin : CTranslator::get(CTranslator::GEN_UNKNOWN_CONTACT));
+																			  TranslateT("'(Unknown Contact)'"))) {
+				mir_sntprintf(dat->szMyNickname, safe_sizeof(dat->szMyNickname), _T("%s"), dat->myUin[0] ? dat->myUin : TranslateT("'(Unknown Contact)'"));
 				if (ci.pszVal) {
 					mir_free(ci.pszVal);
 					ci.pszVal = NULL;

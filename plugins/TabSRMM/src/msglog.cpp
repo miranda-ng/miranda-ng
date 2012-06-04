@@ -62,8 +62,16 @@ struct TCpTable cpTable[] = {
 	{   -1,     NULL}
 };
 
-static TCHAR    *Template_MakeRelativeDate(struct TWindowData *dat, HANDLE hTimeZone, time_t check, int groupBreak, TCHAR code);
-static void     ReplaceIcons(HWND hwndDlg, struct TWindowData *dat, LONG startAt, int fAppend, BOOL isSent);
+wchar_t* weekDays[7] = {LPGENT("Sunday"), LPGENT("Monday"), LPGENT("Tuesday"), LPGENT("Wednesday"), LPGENT("Thursday"), LPGENT("Friday"), LPGENT("Saturday")};
+
+wchar_t* months[12] = 
+{
+	LPGENT("January"), LPGENT("February"), LPGENT("March"), LPGENT("April"), LPGENT("May"), LPGENT("June"), 
+	LPGENT("July"), LPGENT("August"), LPGENT("September"), LPGENT("October"), LPGENT("November"), LPGENT("December")
+};
+
+static TCHAR *Template_MakeRelativeDate(struct TWindowData *dat, HANDLE hTimeZone, time_t check, int groupBreak, TCHAR code);
+static void  ReplaceIcons(HWND hwndDlg, struct TWindowData *dat, LONG startAt, int fAppend, BOOL isSent);
 
 static time_t today;
 
@@ -143,8 +151,8 @@ void TSAPI CacheLogFonts()
 	}
 	wsprintfA(rtfFontsGlobal[MSGDLGFONTCOUNT], "\\f%u\\cf%u\\b%d\\i%d\\fs%u", MSGDLGFONTCOUNT, MSGDLGFONTCOUNT, 0, 0, 0);
 
-	_tcsncpy(szToday, CTranslator::get(CTranslator::GEN_LOG_TODAY), 20);
-	_tcsncpy(szYesterday, CTranslator::get(CTranslator::GEN_LOG_YESTERDAY), 20);
+	_tcsncpy(szToday, TranslateT("Today"), 20);
+	_tcsncpy(szYesterday, TranslateT("Yesterday"), 20);
 	szToday[19] = szYesterday[19] = 0;
 
 	/*
@@ -887,12 +895,10 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 				case'O':            // month (name)
 					if (showTime && showDate) {
 						if (skipFont)
-							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, const_cast<TCHAR *>(CTranslator::getMonth(event_time.tm_mon)),
-												  MAKELONG(isSent, dat->isHistory));
+							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateTS( months[event_time.tm_mon]), MAKELONG(isSent, dat->isHistory));
 						else {
 							AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
-							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, const_cast<TCHAR *>(CTranslator::getMonth(event_time.tm_mon)),
-												  MAKELONG(isSent, dat->isHistory));
+							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateTS( months[ event_time.tm_mon]), MAKELONG(isSent, dat->isHistory));
 						}
 					} else
 						skipToNext = TRUE;
@@ -909,10 +915,10 @@ static char *Template_CreateRTFFromDbEvent(struct TWindowData *dat, HANDLE hCont
 				case 'w':           // day of week
 					if (showTime && showDate) {
 						if (skipFont)
-							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, const_cast<TCHAR *>(CTranslator::getWeekday(event_time.tm_wday)), MAKELONG(isSent, dat->isHistory));
+							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateTS( weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->isHistory));
 						else {
 							AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
-							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, const_cast<TCHAR *>(CTranslator::getWeekday(event_time.tm_wday)), MAKELONG(isSent, dat->isHistory));
+							AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, TranslateTS( weekDays[event_time.tm_wday]), MAKELONG(isSent, dat->isHistory));
 						}
 					} else
 						skipToNext = TRUE;
@@ -1581,16 +1587,16 @@ static BOOL CALLBACK LangAddCallback(LPTSTR str)
 	cp = _ttoi(str);
 	count = sizeof(cpTable) / sizeof(cpTable[0]);
 	for (i = 0; i < count && cpTable[i].cpId != cp; i++);
-	if (i < count) {
+	if (i < count)
 		AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
-	}
+
 	return TRUE;
 }
 
 void TSAPI BuildCodePageList()
 {
 	PluginConfig.g_hMenuEncoding = CreateMenu();
-	AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, 500, CTranslator::get(CTranslator::GEN_LOG_USEDEFAULTCP));
+	AppendMenu(PluginConfig.g_hMenuEncoding, MF_STRING, 500, TranslateT("Use default codepage"));
 	AppendMenuA(PluginConfig.g_hMenuEncoding, MF_SEPARATOR, 0, 0);
 	EnumSystemCodePages(LangAddCallback, CP_INSTALLED);
 }

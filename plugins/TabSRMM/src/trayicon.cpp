@@ -114,9 +114,9 @@ void TSAPI CreateTrayMenus(int mode)
 		PluginConfig.g_hMenuRecent = CreatePopupMenu();
 		PluginConfig.g_hMenuTrayContext = GetSubMenu(PluginConfig.g_hMenuContext, 6);
 		ModifyMenu(PluginConfig.g_hMenuTrayContext, 0, MF_BYPOSITION | MF_POPUP,
-				   (UINT_PTR)PluginConfig.g_hMenuFavorites, CTranslator::get(CTranslator::GEN_FAVORITES));
+				   (UINT_PTR)PluginConfig.g_hMenuFavorites, TranslateT("Favorites"));
 		ModifyMenu(PluginConfig.g_hMenuTrayContext, 2, MF_BYPOSITION | MF_POPUP,
-				   (UINT_PTR)PluginConfig.g_hMenuRecent, CTranslator::get(CTranslator::GEN_RECENT_SESSIONS));
+				   (UINT_PTR)PluginConfig.g_hMenuRecent, TranslateT("Recent Sessions"));
 		LoadFavoritesAndRecent();
 	}
 	else {

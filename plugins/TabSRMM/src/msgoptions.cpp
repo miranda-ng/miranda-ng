@@ -185,7 +185,7 @@ static int TSAPI RescanSkins(HWND hwndCombobox)
 	mir_sntprintf(tszFindMask, MAX_PATH, _T("%s*.*"), tszSkinRoot);
 
 	SendMessage(hwndCombobox, CB_RESETCONTENT, 0, 0);
-	SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_SKIN_NOSKINSELECT));
+	SendMessage(hwndCombobox, CB_INSERTSTRING, -1, (LPARAM)TranslateT("<no skin>"));
 
 	HANDLE h = FindFirstFile(tszFindMask, &fd);
 	while (h != INVALID_HANDLE_VALUE) {
@@ -349,8 +349,8 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					int   result;
 
 					if (szFilename != NULL) {
-						result = MessageBox(0, CTranslator::get(CTranslator::GEN_WARNING_LOADTEMPLATES),
-							CTranslator::get(CTranslator::GEN_TITLE_LOADTHEME), MB_YESNOCANCEL);
+						result = MessageBox(0, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all."),
+							TranslateT("Load theme"), MB_YESNOCANCEL);
 						if (result == IDCANCEL)
 							return 1;
 						else if (result == IDYES)
@@ -671,22 +671,22 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
 			have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
 
-			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_LOG_DEFAULT));
+			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Default"));
 			SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 0, 0);
 
 			if (have_ieview) {
-				SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_LOG_IEVIEW));
+				SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("IEView plugin"));
 				if (M->GetByte("default_ieview", 0))
 					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
 			}
 			if (have_hpp) {
-				SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_LOG_HPP));
+				SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("History++ plugin"));
 				if (M->GetByte("default_ieview", 0))
 					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, 1, 0);
 				else if (M->GetByte("default_hpp", 0))
 					SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_SETCURSEL, have_ieview ? 2 : 1, 0);
 			}
-			SetDlgItemText(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, CTranslator::getOpt(CTranslator::OPT_MSGLOG_EXPLAINSETTINGS));
+			SetDlgItemText(hwndDlg, IDC_EXPLAINMSGLOGSETTINGS, TranslateT("You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++."));
 			SendMessage(hwndDlg, WM_USER + 100, 0, 0);
 			return TRUE;
 		}
@@ -918,9 +918,9 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 				CLCINFOITEM cii = { 0 };
 				cii.cbSize = sizeof(cii);
 				cii.flags = CLCIIF_GROUPFONT | CLCIIF_CHECKBOX;
-				cii.pszText = CTranslator::getOpt(CTranslator::OPT_MTN_NEW);
+				cii.pszText = TranslateT("** New contacts **");
 				hItemNew = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
-				cii.pszText = CTranslator::getOpt(CTranslator::OPT_MTN_UNKNOWN);
+				cii.pszText = TranslateT("** Unknown contacts **");
 				hItemUnknown = (HANDLE) SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_ADDINFOITEM, 0, (LPARAM) & cii);
 			}
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE) | (CLS_SHOWHIDDEN));
@@ -947,12 +947,12 @@ static INT_PTR CALLBACK DlgProcTypeOptions(HWND hwndDlg, UINT msg, WPARAM wParam
 
 			if (!ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 				Utils::enableDlgControl(hwndDlg, IDC_NOTIFYBALLOON, FALSE);
-				SetWindowText(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), CTranslator::getOpt(CTranslator::OPT_MTN_UNSUPPORTED));
+				SetWindowText(GetDlgItem(hwndDlg, IDC_NOTIFYBALLOON), TranslateT("Show balloon popup (unsupported system)"));
 			}
 
-			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_GEN_ALWAYS));
-			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_MTN_NOTFOCUSED));
-			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_MTN_ONLYCLOSED));
+			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
+			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always, but no popup when window is focused"));
+			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Only when no message window is open"));
 
 			SendDlgItemMessage(hwndDlg, IDC_MTN_POPUPMODE, CB_SETCURSEL, (WPARAM)M->GetByte("MTN_PopupMode", 0), 0);
 
@@ -1076,9 +1076,9 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAX, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
 			Utils::enableDlgControl(hwndDlg, IDC_CUT_TITLEMAXSPIN, IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
 
-			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_CNT_ESCNORMAL));
-			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_CNT_ESCMINIMIZE));
-			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_CNT_ESCCLOS));
+			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Normal - close tab, if last tab is closed also close the window"));
+			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Minimize the window to the task bar"));
+			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Close or hide window, depends on the close button setting above"));
 			SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_SETCURSEL, (WPARAM)PluginConfig.m_EscapeCloses, 0);
 			break;
 		}
@@ -1309,30 +1309,30 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup = NULL;
 	odp.nIDBottomSimpleControl = 0;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTab = const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_GENERAL));
+	odp.ptszTab = TranslateT("General");
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
 
-	odp.ptszTab     = const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_TABS));
+	odp.ptszTab     = TranslateT("Tabs and layout");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABBEDMSG);
 	odp.pfnDlgProc  = DlgProcTabbedOptions;
 	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
 
-	odp.ptszTab     =  const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_CONTAINERS));
+	odp.ptszTab     =  TranslateT("Containers");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTAINERS);
 	odp.pfnDlgProc  = DlgProcContainerSettings;
 	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
 
-	odp.ptszTab     =  const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_LOG));
+	odp.ptszTab     =  TranslateT("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
 	odp.pfnDlgProc  = DlgProcLogOptions;
 	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
 
-	odp.ptszTab     =  const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_TOOLBAR));
+	odp.ptszTab     =  TranslateT("Tool bar");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
 	odp.pfnDlgProc  = DlgProcToolBar;
 	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
 
-	odp.ptszTab     =  const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_ADVANCED));
+	odp.ptszTab     =  TranslateT("Advanced tweaks");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
 	odp.pfnDlgProc  = PlusOptionsProc;
 	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
@@ -1355,14 +1355,14 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
 	odp.ptszTitle = LPGENT("Message window");
-	odp.ptszTab = 	const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TAB_SKINLOAD));
+	odp.ptszTab = 	TranslateT("Load and apply");
 	odp.pfnDlgProc = DlgProcSkinOpts;
 	odp.nIDBottomSimpleControl = 0;
 	odp.ptszGroup = LPGENT("Skins");
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
-	odp.ptszTab = 	  const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TAB_LAYOUTTWEAKS));
+	odp.ptszTab = 	  TranslateT("Window layout tweaks");
 	odp.pfnDlgProc = DlgProcTabConfig;
 	odp.nIDBottomSimpleControl = 0;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
@@ -1372,24 +1372,24 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup = 	LPGENT("Message Sessions");
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS1);
 	odp.ptszTitle = 	LPGENT("Group Chats");
-	odp.ptszTab = 		const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_MUC_SETTINGS));
+	odp.ptszTab = 		TranslateT("Settings");
 	odp.pfnDlgProc = DlgProcOptions1;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
 
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.ptszTab =		const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_MUC_LOG));
+	odp.ptszTab =		TranslateT("Log formatting");
 	odp.pfnDlgProc = 	DlgProcOptions2;
 	odp.nIDBottomSimpleControl = 0;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
 
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS3);
-	odp.ptszTab = 		const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_MUC_EVENTS));
+	odp.ptszTab = 		TranslateT("Events and filters");
 	odp.pfnDlgProc = 	DlgProcOptions3;
 	odp.nIDBottomSimpleControl = 0;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
 
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS4);
-	odp.ptszTab = 		const_cast<TCHAR *>(CTranslator::getOpt(CTranslator::OPT_TABS_MUC_HIGHLIGHT));
+	odp.ptszTab = 		TranslateT("Highlighting");
 	odp.pfnDlgProc = 	CMUCHighlight::dlgProc;
 	odp.nIDBottomSimpleControl = 0;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
@@ -1731,7 +1731,7 @@ INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 			dwStatusMask = lParam;
 
-			SetWindowText(hwndDlg, CTranslator::getOpt(CTranslator::OPT_SMODE_CHOOSE));
+			SetWindowText(hwndDlg, TranslateT("Choose status modes"));
 			for (i = ID_STATUS_ONLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				SetWindowText(GetDlgItem(hwndDlg, i), (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR));
 				if (dwStatusMask != -1 && (dwStatusMask & (1 << (i - ID_STATUS_ONLINE))))

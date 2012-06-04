@@ -388,7 +388,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 				break;
 			}
 			case 'c': {
-				TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? const_cast<TCHAR *>(CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)) : dat->pContainer->szName);
+				TCHAR	*c = (!_tcscmp(dat->pContainer->szName, _T("default")) ? TranslateT("Default container") : dat->pContainer->szName);
 				title.insert(tempmark + 2, c);
 				title.erase(tempmark, 2);
 				curpos = tempmark + lstrlen(c);
@@ -462,7 +462,7 @@ const TCHAR* Utils::FormatTitleBar(const TWindowData *dat, const TCHAR *szFormat
 					curpos = tempmark + lstrlen(tszStatusMsg);
 				}
 				else if(title[curpos] == 't') {
-					const TCHAR* tszStatusMsg = CTranslator::get(CTranslator::GEN_NO_STATUS);
+					const TCHAR* tszStatusMsg = TranslateT("No status message");
 					title.insert(tempmark + 2, tszStatusMsg);
 					curpos = tempmark + lstrlen(tszStatusMsg);
 				}
@@ -1165,9 +1165,43 @@ HMODULE Utils::loadSystemLibrary(const wchar_t* szFilename)
 	}
 	return(_h);
 }
+
 /**
  * implementation of the CWarning class
  */
+
+/** IMPORTANT note to translators for translation of the warning dialogs:
+ *
+ * Make sure to NOT remove the pipe character ( | ) from the strings. This separates the
+ * warning title from the actual warning text.
+ *
+ * Also, do NOT insert multiple | characters in the translated string. Not well-formatted
+ * warnings cannot be translated and the plugin will show the untranslated versions.
+ *
+ * strings marked with a NOT TRANSLATABLE comment cannot be translated at all. This
+ * will be used for important and critical error messages only.
+ *
+ * some strings are empty, this is intentional and used for error messages that share
+ * the message with other possible error notifications (popups, tool tips etc.)
+ *
+ * Entries that do not use the LPGENT() macro are NOT TRANSLATABLE, so don't bother translating them.
+ */
+
+static wchar_t* warnings[] = {
+	LPGENT("Important release notes|A test warning message"),							/* WARN_TEST */ /* reserved for important notes after upgrade - NOT translatable */
+	LPGENT("Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0"),			/* WARN_ICONPACKVERSION */ /* NOT TRANSLATABLE */
+	LPGENT("Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"),  /* WARN_EDITUSERNOTES */
+	LPGENT("Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available"),		/* WARN_ICONPACKMISSING */ /* NOT TRANSLATABLE */
+	LPGENT("Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature."),	/* WARN_AEROPEEKSKIN */
+	LPGENT("TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0"), /* WARN_CHAT_ENABLED */ /* NOT TRANSLATABLE */
+	L"Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.", /* WARN_IMGSVC_MISSING */ /* NOT TRANSLATABLE */
+	LPGENT("Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?"), /* WARN_HPP_APICHECK */
+	L" ", /* WARN_NO_SENDLATER */ /*uses "Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart." */
+	LPGENT("Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?"),		/* WARN_CLOSEWINDOW */
+	LPGENT("Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?"), /* WARN_OPTION_CLOSE */
+	LPGENT("Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?"), /* WARN_THEME_OVERWRITE */
+};
+
 CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags)
 {
 	m_szTitle = new std::basic_string<wchar_t>(tszTitle);
@@ -1254,16 +1288,16 @@ LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
 	else {
 		if(uId != -1) {
 			if(dwFlags & CWF_UNTRANSLATED)
-				_s = const_cast<wchar_t *>(CTranslator::getUntranslatedWarning(uId));
+				_s = TranslateTS(warnings[uId]);
 			else {
 				/*
 				* revert to untranslated warning when the translated message
 				* is not well-formatted.
 				*/
-				_s = const_cast<wchar_t *>(CTranslator::getWarning(uId));
+				_s = TranslateTS(warnings[uId]);
 
 				if(wcslen(_s) < 3 || 0 == wcschr(_s, '|'))
-					_s = const_cast<wchar_t *>(CTranslator::getUntranslatedWarning(uId));
+					_s = TranslateTS(warnings[uId]);
 			}
 		}
 		else if (-1 == uId && tszTxt) {
@@ -1356,7 +1390,7 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			m_hwnd = hwnd;
 
-			::SetWindowTextW(hwnd, CTranslator::get(CTranslator::GEN_STRING_WARNING_TITLE));
+			::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
 			::SendMessage(hwnd, WM_SETICON, ICON_BIG, reinterpret_cast<LPARAM>(::LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA)));
 			::SendMessage(hwnd, WM_SETICON, ICON_SMALL, reinterpret_cast<LPARAM>(::LoadSkinnedIcon(SKINICON_OTHER_MIRANDA)));
 			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, (WPARAM) TRUE, 0);

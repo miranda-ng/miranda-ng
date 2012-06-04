@@ -83,49 +83,49 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 		m_TbButtons[0].dwData = 0;
 
 		m_TbButtons[1].iBitmap = I_IMAGENONE;
-		m_TbButtons[1].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_FILE);
+		m_TbButtons[1].iString = (INT_PTR)TranslateT("&File");
 		m_TbButtons[1].fsState = TBSTATE_ENABLED;
 		m_TbButtons[1].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[1].idCommand = 101;
 		m_TbButtons[1].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 0));
 
 		m_TbButtons[2].iBitmap = I_IMAGENONE;
-		m_TbButtons[2].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_VIEW);
+		m_TbButtons[2].iString = (INT_PTR)TranslateT("&View");
 		m_TbButtons[2].fsState = TBSTATE_ENABLED;
 		m_TbButtons[2].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[2].idCommand = 102;
 		m_TbButtons[2].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 1));
 
 		m_TbButtons[3].iBitmap = I_IMAGENONE;
-		m_TbButtons[3].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_USER);
+		m_TbButtons[3].iString = (INT_PTR)TranslateT("&User");
 		m_TbButtons[3].fsState = TBSTATE_ENABLED;
 		m_TbButtons[3].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[3].idCommand = 103;
 		m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
 
 		m_TbButtons[4].iBitmap = I_IMAGENONE;
-		m_TbButtons[4].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_ROOM);
+		m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
 		m_TbButtons[4].fsState = TBSTATE_ENABLED;
 		m_TbButtons[4].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[4].idCommand = 104;
 		m_TbButtons[4].dwData = 0;
 
 		m_TbButtons[5].iBitmap = I_IMAGENONE;
-		m_TbButtons[5].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_LOG);
+		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &Log");
 		m_TbButtons[5].fsState = TBSTATE_ENABLED;
 		m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[5].idCommand = 105;
 		m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
 
 		m_TbButtons[6].iBitmap = I_IMAGENONE;
-		m_TbButtons[6].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_CONTAINER);
+		m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
 		m_TbButtons[6].fsState = TBSTATE_ENABLED;
 		m_TbButtons[6].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[6].idCommand = 106;
 		m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
 
 		m_TbButtons[7].iBitmap = I_IMAGENONE;
-		m_TbButtons[7].iString = (INT_PTR)CTranslator::get(CTranslator::GEN_MENUBAR_HELP);
+		m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
 		m_TbButtons[7].fsState = TBSTATE_ENABLED;
 		m_TbButtons[7].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
 		m_TbButtons[7].idCommand = 107;
@@ -1079,8 +1079,8 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						if ((int)iconNum == list_icons && pContainer) {
 							TCHAR wBuf[512];
 
-							mir_sntprintf(wBuf, safe_sizeof(wBuf), CTranslator::get(CTranslator::CNT_SBAR_SOUNDS),
-										  pContainer->dwFlags & CNT_NOSOUND ? CTranslator::get(CTranslator::GEN_DISABLED) : CTranslator::get(CTranslator::GEN_ENABLED));
+							mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers"),
+										  pContainer->dwFlags & CNT_NOSOUND ? TranslateT("disabled") : TranslateT("enabled"));
 							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 							tooltip_active = TRUE;
 						}
@@ -1088,15 +1088,15 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 							int mtnStatus = (int)M->GetByte(dat->hContact, SRMSGMOD, SRMSGSET_TYPING, M->GetByte(SRMSGMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 							TCHAR wBuf[512];
 
-							mir_sntprintf(wBuf, safe_sizeof(wBuf), CTranslator::get(CTranslator::CNT_SBAR_MTN),
-										  mtnStatus ? CTranslator::get(CTranslator::GEN_ENABLED) : CTranslator::get(CTranslator::GEN_DISABLED));
+							mir_sntprintf(wBuf, safe_sizeof(wBuf), TranslateT("Sending typing notifications is %s."),
+										  mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 							tooltip_active = TRUE;
 						}
 						else if ((int)iconNum == list_icons + 2) {
 							TCHAR wBuf[512];
 
-							mir_sntprintf(wBuf, safe_sizeof(wBuf), _T("%s"), CTranslator::get(CTranslator::CNT_SBAR_SLIST));
+							mir_sntprintf(wBuf, safe_sizeof(wBuf), _T("%s"), TranslateT("Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior"));
 
 							CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);
 							tooltip_active = TRUE;
@@ -1119,7 +1119,7 @@ LONG_PTR CALLBACK StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM wParam, LPAR
 						tooltip_active = TRUE;
 
 						TCHAR wBuf[512];
-						const TCHAR *szFormat = CTranslator::get(CTranslator::GEN_SBAR_TIP_MSGLENGTH);
+						const TCHAR *szFormat = TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery");
 
 						mir_sntprintf(wBuf, safe_sizeof(wBuf), szFormat, dat->iOpenJobs, iLength, dat->nMax ? dat->nMax : 20000, iQueued);
 						CallService(szTTService, (WPARAM)wBuf, (LPARAM)&ti);

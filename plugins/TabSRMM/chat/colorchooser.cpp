@@ -110,8 +110,8 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			pCC->yPosition -= height;
 
 
-			SetDlgItemText(hwndDlg, IDC_COLORTEXT, pCC->bForeground ? CTranslator::get(CTranslator::GEN_MUC_TEXTCOLOR) :
-						   CTranslator::get(CTranslator::GEN_MUC_BGCOLOR));
+			SetDlgItemText(hwndDlg, IDC_COLORTEXT, pCC->bForeground ? TranslateT("Text color") :
+						   TranslateT("Background color"));
 			SetWindowPos(GetDlgItem(hwndDlg, IDC_COLORTEXT), NULL,  0, 0, width, 20, 0);
 			SetWindowPos(hwndDlg, NULL, pCC->xPosition, pCC->yPosition, width, height, SWP_SHOWWINDOW);
 		}

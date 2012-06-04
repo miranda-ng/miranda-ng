@@ -53,11 +53,11 @@ static const UINT errorControls[] 			= { IDC_STATICERRORICON, IDC_STATICTEXT, ID
 
 static struct _tooltips {
 	int id;
-	int translate_id;
+	const TCHAR* text;
 } tooltips[] = {
-	IDC_ADD, CTranslator::GEN_TOOLTIP_ADDCONTACT,
-	IDC_CANCELADD, CTranslator::GEN_TOOLTIP_DONTADD,
-	IDC_TOGGLESIDEBAR, CTranslator::GEN_TOOLTIP_EXPANDSIDEBAR,
+	IDC_ADD, _T("Add this contact permanently to your contact list"),
+	IDC_CANCELADD, _T("Do not add this contact permanently"),
+	IDC_TOGGLESIDEBAR, _T("Expand or collapse the side bar")
 	-1, NULL
 };
 
@@ -150,7 +150,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 		int i;
 		//MAD: quote mod
 		InsertMenuA(hSubMenu, 6/*5*/, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
-		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, CTranslator::get(CTranslator::GEN_MSG_ENCODING));
+		InsertMenu(hSubMenu, 7/*6*/, MF_BYPOSITION | MF_POPUP, (UINT_PTR) PluginConfig.g_hMenuEncoding, TranslateT("Character Encoding"));
 		for (i = 0; i < GetMenuItemCount(PluginConfig.g_hMenuEncoding); i++)
 			CheckMenuItem(PluginConfig.g_hMenuEncoding, i, MF_BYPOSITION | MF_UNCHECKED);
 		if (dat->codePage == CP_ACP)
@@ -482,7 +482,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 			dat->bNotOnList = TRUE;
 			ShowMultipleControls(hwndDlg, addControls, 2, SW_SHOW);
 			Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, SW_SHOW);
-			SetWindowText(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), CTranslator::get(CTranslator::GEN_MSG_CONTACT_NOT_ON_LIST));
+			SetWindowText(GetDlgItem(hwndDlg, IDC_LOGFROZENTEXT), TranslateT("Contact not on list. You may add it..."));
 		} else {
 			ShowMultipleControls(hwndDlg, addControls, 2, SW_HIDE);
 			dat->bNotOnList = FALSE;
@@ -509,7 +509,7 @@ void TSAPI SetDialogToType(HWND hwndDlg)
 	if (dat->pContainer->hwndActive == hwndDlg)
 		UpdateReadChars(dat);
 
-	SetDlgItemText(hwndDlg, IDC_STATICTEXT, CTranslator::get(CTranslator::GEN_MSG_FAILEDSEND));
+	SetDlgItemText(hwndDlg, IDC_STATICTEXT, TranslateT("A message failed to send successfully."));
 
 	DM_RecalcPictureSize(dat);
 	GetAvatarVisibility(hwndDlg, dat);
@@ -716,9 +716,9 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 					if (lstrlenA((char *)hClip) > mwdat->nMax) {
 						TCHAR szBuffer[512];
 						if (M->GetByte("autosplit", 0))
-							_sntprintf(szBuffer, 512, CTranslator::get(CTranslator::GEN_MSG_TOO_LONG_SPLIT), mwdat->nMax - 10);
+							_sntprintf(szBuffer, 512, TranslateT("WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters"), mwdat->nMax - 10);
 						else
-							_sntprintf(szBuffer, 512, CTranslator::get(CTranslator::GEN_MSG_TOO_LONG_NOSPLIT), mwdat->nMax);
+							_sntprintf(szBuffer, 512, TranslateT("The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent."), mwdat->nMax);
 						SendMessage(hwndParent, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 					}
 				}
@@ -1336,8 +1336,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			DM_ThemeChanged(dat);
 
-			pszIDCSAVE_close = CTranslator::get(CTranslator::GEN_MSG_CLOSE);
-			pszIDCSAVE_save = CTranslator::get(CTranslator::GEN_MSG_SAVEANDCLOSE);
+			pszIDCSAVE_close = TranslateT("Close Session");
+			pszIDCSAVE_save = TranslateT("Save and close session");
 
 			dat->hContact = newData->hContact;
 
@@ -1473,15 +1473,15 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			for (i = 0;;i++) {
 				if (tooltips[i].id == -1)
 					break;
-				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)CTranslator::get(tooltips[i].translate_id), 0);
+				SendDlgItemMessage(hwndDlg, tooltips[i].id, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(tooltips[i].text), 0);
 			}
-			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? CTranslator::get(CTranslator::GEN_MSG_CONTACT_NOT_ON_LIST) :
-						   CTranslator::get(CTranslator::GEN_MSG_LOGFROZENSTATIC));
+			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
+						   TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_SAVE), BUTTONADDTOOLTIP, (WPARAM)pszIDCSAVE_close, 0);
-			SendMessage(GetDlgItem(hwndDlg, IDC_PROTOCOL), BUTTONADDTOOLTIP, (WPARAM) CTranslator::get(CTranslator::GEN_MSG_TIP_CONTACTMENU), 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_PROTOCOL), BUTTONADDTOOLTIP, (WPARAM) TranslateT("Click for contact menu\nClick dropdown for window settings"), 0);
 
-			SetWindowText(GetDlgItem(hwndDlg, IDC_RETRY), CTranslator::get(CTranslator::GEN_MSG_BUTTON_RETRY));
+			SetWindowText(GetDlgItem(hwndDlg, IDC_RETRY), TranslateT("Retry"));
 
 			{
 				UINT _ctrls[] = {IDC_RETRY, IDC_CANCELSEND, IDC_MSGSENDLATER};
@@ -1493,8 +1493,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				}
 			}
 
-			SetWindowText(GetDlgItem(hwndDlg, IDC_CANCELSEND), CTranslator::get(CTranslator::GEN_MSG_BUTTON_CANCEL));
-			SetWindowText(GetDlgItem(hwndDlg, IDC_MSGSENDLATER), CTranslator::get(CTranslator::GEN_MSG_BUTTON_SENDLATER));
+			SetWindowText(GetDlgItem(hwndDlg, IDC_CANCELSEND), TranslateT("Cancel"));
+			SetWindowText(GetDlgItem(hwndDlg, IDC_MSGSENDLATER), TranslateT("Send later"));
 
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETUNDOLIMIT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_KEYEVENTS | ENM_LINK);
@@ -1971,7 +1971,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 											RedrawWindow(hwndDlg, 0, 0, RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 										}
 										else
-											CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, CTranslator::get(CTranslator::QMGR_ERROR_NOMULTISEND));
+											CWarning::show(CWarning::WARN_NO_SENDLATER, MB_OK|MB_ICONINFORMATION, TranslateT("Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart."));
 										return(_dlgReturn(hwndDlg, 1));
 									case TABSRMM_HK_TOGGLERTL:
 									{
@@ -2119,9 +2119,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								dat->dwFlagsEx ^= MWF_SHOW_SCROLLINGDISABLED;
 								Utils::showDlgControl(hwndDlg, IDC_LOGFROZENTEXT, (dat->bNotOnList || dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED) ? SW_SHOW : SW_HIDE);
 								if (!(dat->dwFlagsEx & MWF_SHOW_SCROLLINGDISABLED))
-									SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, CTranslator::get(CTranslator::GEN_MSG_CONTACT_NOT_ON_LIST));
+									SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Contact not on list. You may add it..."));
 								else
-									SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, CTranslator::get(CTranslator::GEN_MSG_LOGFROZENSTATIC));
+									SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
 								SendMessage(hwndDlg, WM_SIZE, 0, 0);
 								DM_ScrollToBottom(dat, 1, 1);
 								return(_dlgReturn(hwndDlg, 1));
@@ -2264,7 +2264,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 												SendMessage(GetDlgItem(hwndDlg, IDC_LOG), WM_COPY, 0, 0);
 												SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 												if (m_pContainer->hwndStatus)
-													SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)CTranslator::get(CTranslator::GEN_MSG_SEL_COPIED));
+													SendMessage(m_pContainer->hwndStatus, SB_SETTEXT, 0, (LPARAM)TranslateT("Selection copied to clipboard"));
 											}
 										}
 									}
@@ -2616,8 +2616,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					StreamInEvents(hwndDlg, dat->hQueuedEvents[i], 1, 1, NULL);
 			}
 			dat->iNextQueuedEvent = 0;
-			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? CTranslator::get(CTranslator::GEN_MSG_CONTACT_NOT_ON_LIST) :
-						   CTranslator::get(CTranslator::GEN_MSG_LOGFROZENSTATIC));
+			SetDlgItemText(hwndDlg, IDC_LOGFROZENTEXT, dat->bNotOnList ? TranslateT("Contact not on list. You may add it...") :
+						   TranslateT("Autoscrolling is disabled (press F12 to enable it)"));
 			return 0;
 		}
 		case DM_SCROLLIEVIEW: {
@@ -2698,8 +2698,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (iIndex < SendQueue::NR_SENDJOBS) {     // single sendjob timer
 					SendJob *job = sendQueue->getJobByIndex(iIndex);
 					KillTimer(hwndDlg, wParam);
-					mir_sntprintf(job->szErrorMsg, safe_sizeof(job->szErrorMsg), CTranslator::get(CTranslator::GEN_MSG_DELIVERYFAILURE),
-								 CTranslator::get(CTranslator::GEN_MSG_SENDTIMEOUT));
+					mir_sntprintf(job->szErrorMsg, safe_sizeof(job->szErrorMsg), TranslateT("Delivery failure: %s"),
+								 TranslateT("The message send timed out"));
 					job->iStatus = SendQueue::SQ_ERROR;
 					if (!nen_options.iNoSounds && !(m_pContainer->dwFlags & CNT_NOSOUND))
 						SkinPlaySound("SendError");
@@ -2983,7 +2983,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			switch (LOWORD(wParam)) {
 				case IDOK: {
 					if(dat->fEditNotesActive) {
-						SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_PIC, (LPARAM)CTranslator::get(CTranslator::GEN_MSG_EDIT_NOTES_TIP));
+						SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_PIC, (LPARAM)TranslateT("You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode"));
 						return(0);
 					}
 					int bufSize = 0, memRequired = 0, flags = 0;
@@ -3322,7 +3322,7 @@ quote_from_last:
 			struct TContainerData *pNewContainer = 0;
 			TCHAR *szNewName = (TCHAR *)lParam;
 
-			if (!_tcscmp(szNewName, CTranslator::get(CTranslator::GEN_DEFAULT_CONTAINER_NAME)))
+			if (!_tcscmp(szNewName, TranslateT("Default container")))
 				szNewName = CGlobals::m_default_container_name;
 
 			int iOldItems = TabCtrl_GetItemCount(hwndTab);
@@ -3412,7 +3412,7 @@ quote_from_last:
 				mir_snprintf(szTemp, sizeof(szTemp), "Status%d", isForced);
 				if (DBGetContactSettingWord(dat->hContact, PluginConfig.szMetaName, szTemp, 0) == ID_STATUS_OFFLINE) {
 					TCHAR szBuffer[200];
-					mir_sntprintf(szBuffer, 200, CTranslator::get(CTranslator::GEN_MSG_MC_OFFLINEPROTOCOL));
+					mir_sntprintf(szBuffer, 200, TranslateT("Warning: you have selected a subprotocol for sending the following messages which is currently offline"));
 					SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 				}
 			}
@@ -3527,7 +3527,7 @@ quote_from_last:
 					if (!(pcaps & PF4_OFFLINEFILES)) {
 						TCHAR szBuffer[256];
 
-						_sntprintf(szBuffer, safe_sizeof(szBuffer), CTranslator::get(CTranslator::GEN_MSG_OFFLINE_NO_FILE));
+						_sntprintf(szBuffer, safe_sizeof(szBuffer), TranslateT("Contact is offline and this protocol does not support sending files to offline users."));
 						SendMessage(hwndDlg, DM_ACTIVATETOOLTIP, IDC_MESSAGE, (LPARAM)szBuffer);
 						break;
 					}

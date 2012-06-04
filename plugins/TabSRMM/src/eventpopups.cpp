@@ -559,12 +559,12 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 					return(buf);
 				}
 			}
-			commentFix = mir_tstrdup(CTranslator::get(CTranslator::GEN_POPUPS_MESSAGE));
+			commentFix = mir_tstrdup(TranslateT("Message"));
 			break;
 		case EVENTTYPE_FILE:
 			if(pBlob) {
 				if (!nen_options.bPreview) {
-					commentFix = mir_tstrdup(CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE));
+					commentFix = mir_tstrdup(TranslateT("Incoming file"));
 					break;
 				}
 				if(dbe->cbBlob > 5) {			// min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
@@ -582,9 +582,9 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 						TCHAR* tszDescr = DbGetEventStringT(dbe, szDescr);
 
 						if(tszFileName && tszDescr) {
-							size_t uRequired = sizeof(TCHAR) * (_tcslen(CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE)) + namelength + _tcslen(tszDescr) + 10);
+							size_t uRequired = sizeof(TCHAR) * (_tcslen(TranslateT("Incoming file")) + namelength + _tcslen(tszDescr) + 10);
 							buf = (TCHAR *)mir_alloc(uRequired);
-							mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE),
+							mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), TranslateT("Incoming file"),
 										  tszFileName, tszDescr);
 							mir_free(tszDescr);
 							mir_free(tszFileName);
@@ -593,21 +593,21 @@ static TCHAR *GetPreviewT(WORD eventType, DBEVENTINFO* dbe)
 					}
 
 					if(tszFileName) {
-						size_t uRequired = sizeof(TCHAR) * (_tcslen(CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE)) + namelength +
-								_tcslen(CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE_NODESC)) + 10);
+						size_t uRequired = sizeof(TCHAR) * (_tcslen(TranslateT("Incoming file")) + namelength +
+								_tcslen(TranslateT("No description given")) + 10);
 						buf = (TCHAR *)mir_alloc(uRequired);
-						mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE),
-									  tszFileName, CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE_NODESC));
+						mir_sntprintf(buf, uRequired, _T("%s: %s (%s)"), TranslateT("Incoming file"),
+									  tszFileName, TranslateT("No description given"));
 						mir_free(tszFileName);
 					}
 					if(buf)
 						return(buf);
 				}
 			}
-			commentFix = mir_tstrdup(CTranslator::get(CTranslator::GEN_STRING_EVENT_FILE_INVALID));
+			commentFix = mir_tstrdup(TranslateT("Incoming file (invalid format"));
 			break;
 		default:
-			commentFix = mir_tstrdup(CTranslator::get(CTranslator::GEN_POPUPS_UNKNOWN));
+			commentFix = mir_tstrdup(TranslateT("Unknown event"));
 			break;
 	}
 	return commentFix;
@@ -635,7 +635,7 @@ static int PopupUpdateT(HANDLE hContact, HANDLE hEvent)
 	if (hEvent) {
 		if (pdata->pluginOptions->bShowHeaders) {
 			mir_sntprintf(pdata->szHeader, safe_sizeof(pdata->szHeader), _T("%s %d\n"),
-						  CTranslator::get(CTranslator::GEN_POPUPS_NEW), pdata->nrMerged + 1);
+						  TranslateT("New messages: "), pdata->nrMerged + 1);
 			pdata->szHeader[255] = 0;
 		}
 		ZeroMemory(&dbe, sizeof(dbe));

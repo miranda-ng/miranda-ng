@@ -116,8 +116,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 
-	CTranslator::preTranslateAll();
-
 	M = new CMimAPI();
 
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);

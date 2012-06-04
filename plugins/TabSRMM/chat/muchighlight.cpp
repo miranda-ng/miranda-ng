@@ -386,14 +386,14 @@ INT_PTR CALLBACK CMUCHighlight::dlgProcAdd(HWND hwndDlg, UINT msg, WPARAM wParam
 			::SendDlgItemMessage(hwndDlg, IDC_ADDHIGHLIGHTTITLE, WM_SETFONT, (WPARAM)hFont, FALSE);
 			if(the->uCmd == THighLightEdit::CMD_ADD) {
 				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEDITLIST, SW_HIDE);
-				::SetDlgItemTextW(hwndDlg, IDC_ADDHIGHLIGHTTITLE, CTranslator::get(CTranslator::GEN_MUC_HIGHLIGHT_ADD));
+				::SetDlgItemTextW(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Add user to highlight list"));
 				::SendDlgItemMessageW(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszNick);
 				::SendDlgItemMessageW(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_INSERTSTRING, -1, (LPARAM)the->ui->pszUID);
 				::SendDlgItemMessageW(hwndDlg, IDC_ADDHIGHLIGHTNAME, CB_SETCURSEL, 1, 0);
 			} else {
 				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTNAME, SW_HIDE);
 				Utils::showDlgControl(hwndDlg, IDC_ADDHIGHLIGHTEXPLAIN, SW_HIDE);
-				::SetDlgItemTextW(hwndDlg, IDC_ADDHIGHLIGHTTITLE, CTranslator::get(CTranslator::GEN_MUC_HIGHLIGHT_EDIT));
+				::SetDlgItemTextW(hwndDlg, IDC_ADDHIGHLIGHTTITLE, TranslateT("Edit user highlight list"));
 			}
 			break;
 		}

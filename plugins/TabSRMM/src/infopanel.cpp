@@ -498,16 +498,16 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		TCHAR	temp[256];
 		DBVARIANT dbv = {0};
 		if ( !M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
-			mir_sntprintf(temp, SIZEOF(temp), CTranslator::get(CTranslator::GEN_IP_CLIENT), dbv.ptszVal);
+			mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client: %s"), dbv.ptszVal);
 			::DBFreeVariant(&dbv);
 		}
-		else mir_sntprintf(temp, SIZEOF(temp), CTranslator::get(CTranslator::GEN_IP_CLIENT_UNKNOWN));
+		else mir_sntprintf(temp, SIZEOF(temp), TranslateT("  Client not cached yet"));
 
 		if (m_dat->idle) {
 			time_t diff = time(NULL) - m_dat->idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
-			mir_sntprintf(szBuf, safe_sizeof(szBuf), CTranslator::get(CTranslator::GEN_IP_IDLENOTICE), tszUin, i_hrs, i_mins);
+			mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
 		} 
 		else _tcscpy_s (szBuf, 256, tszUin);
 		_tcscat_s(szBuf, 256, temp);
@@ -633,8 +633,8 @@ void CInfoPanel::Chat_RenderIPNickname(const HDC hdc, RECT& rcItem)
 	if(m_height < DEGRADE_THRESHOLD) {
 		TCHAR	tszText[2048];
 
-		mir_sntprintf(tszText, safe_sizeof(tszText), CTranslator::get(CTranslator::GEN_MUC_TOPIC_IS), si->ptszTopic ? si->ptszTopic :
-					  CTranslator::get(CTranslator::GEN_MUC_NO_TOPIC));
+		mir_sntprintf(tszText, safe_sizeof(tszText), TranslateT("Topic is: %s"), si->ptszTopic ? si->ptszTopic :
+					  TranslateT("no topic set."));
 
 		hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
 		CSkin::RenderText(hdc, m_dat->hThemeIP, tszText, &rcItem, DT_SINGLELINE | DT_END_ELLIPSIS | DT_NOPREFIX | DT_VCENTER,
@@ -692,7 +692,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	hOldFont = reinterpret_cast<HFONT>(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
 	clr = m_ipConfig.clrs[IPFONTID_UIN];
 
-	const TCHAR *szTopicTitle = CTranslator::get(CTranslator::GEN_MUC_TOPIC_IS);
+	const TCHAR *szTopicTitle = TranslateT("Topic is: %s");
 	mir_sntprintf(szPrefix, 100, szTopicTitle, _T(""));
 	::GetTextExtentPoint32(hdc, szPrefix, lstrlen(szPrefix), &szTitle);
 	mapRealRect(rcItem, m_rcUIN, szTitle);
@@ -706,7 +706,7 @@ void CInfoPanel::Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem)
 	if(si->ptszTopic && lstrlen(si->ptszTopic) > 1)
 		CSkin::RenderText(hdc, m_dat->hThemeIP, si->ptszTopic, &rcItem, DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX | DT_TOP, CSkin::m_glowSize, clr);
 	else
-		CSkin::RenderText(hdc, m_dat->hThemeIP, CTranslator::get(CTranslator::GEN_MUC_NO_TOPIC), &rcItem, DT_TOP| DT_SINGLELINE | DT_NOPREFIX, CSkin::m_glowSize, clr);
+		CSkin::RenderText(hdc, m_dat->hThemeIP, TranslateT("no topic set."), &rcItem, DT_TOP| DT_SINGLELINE | DT_NOPREFIX, CSkin::m_glowSize, clr);
 
 	if(hOldFont)
 		::SelectObject(hdc, hOldFont);
@@ -743,23 +743,23 @@ HMENU CInfoPanel::constructContextualMenu() const
 	HMENU m = ::CreatePopupMenu();
 
 	if(m_hoverFlags & HOVER_NICK) {
-		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS), CTranslator::get(CTranslator::GEN_IP_MENU_USER_DETAILS),
+		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS), TranslateT("Open User Details..."),
 					IDC_NAME, 0);
-		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_HISTORY), CTranslator::get(CTranslator::GEN_IP_MENU_HISTORY),
+		Utils::addMenuItem(m, mii, ::LoadSkinnedIcon(SKINICON_OTHER_HISTORY), TranslateT("Open History..."),
 					m_isChat ? IDC_CHAT_HISTORY : IDC_HISTORY, 0);
 		if (!m_isChat)
-			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, CTranslator::get(CTranslator::GEN_IP_MENU_MSGPREFS),
+			Utils::addMenuItem(m, mii, PluginConfig.g_iconContainer, TranslateT("Messaging Settings..."),
 						ID_MESSAGELOGSETTINGS_FORTHISCONTACT, 1);
 		else {
-			::AppendMenu(m, MF_STRING, IDC_CHANMGR, CTranslator::get(CTranslator::GEN_IP_MENU_ROOMPREFS));
+			::AppendMenu(m, MF_STRING, IDC_CHANMGR, TranslateT("Room Settings..."));
 			if(GCW_SERVER & m_dat->si->iType)
 				::EnableMenuItem(m, IDC_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
 		}
 		::AppendMenu(m, MF_SEPARATOR, 1000, 0);
-		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], CTranslator::get(CTranslator::GEN_MSG_CLOSE), IDC_SAVE, 4);
+		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close Session"), IDC_SAVE, 4);
 	}
 	::AppendMenu(m, MF_SEPARATOR, 1000, 0);
-	::AppendMenu(m, MF_STRING, CMD_IP_COPY, CTranslator::get(CTranslator::GEN_IP_MENU_COPY));
+	::AppendMenu(m, MF_STRING, CMD_IP_COPY, TranslateT("Copy To Clipboard"));
 
 	return(m);
 }
@@ -920,8 +920,8 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 
 			tstring *str = new tstring(temp);
 
-			mir_sntprintf(temp, 1024, CTranslator::get(CTranslator::GEN_INFOTIP_STATUSMSG),
-						  m_dat->cache->getStatusMsg() ? m_dat->cache->getStatusMsg() : CTranslator::get(CTranslator::GEN_NO_STATUS));
+			mir_sntprintf(temp, 1024, TranslateT("\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s"),
+						  m_dat->cache->getStatusMsg() ? m_dat->cache->getStatusMsg() : TranslateT("No status message"));
 			str->append(temp);
 
 			if ((xStatus = m_dat->cache->getXStatusId())) {
@@ -932,7 +932,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 					tszXStatusName = xStatusDescr[xStatus - 1];
 
 				if(tszXStatusName) {
-					str->append(CTranslator::get(CTranslator::GEN_INFOTIP_XSTATUS));
+					str->append(TranslateT("\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par "));
 					mir_sntprintf(temp, 1024, _T("%s%s%s"), tszXStatusName, m_dat->cache->getXStatusMsg() ? _T(" / ") : _T(""),
 								  m_dat->cache->getXStatusMsg() ? m_dat->cache->getXStatusMsg() : _T(""));
 					str->append(temp);
@@ -942,12 +942,12 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 			}
 
 			if(m_dat->cache->getListeningInfo()) {
-				mir_sntprintf(temp, 1024, CTranslator::get(CTranslator::GEN_INFOTIP_LISTENING), m_dat->cache->getListeningInfo());
+				mir_sntprintf(temp, 1024, TranslateT("\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s"), m_dat->cache->getListeningInfo());
 				str->append(temp);
 			}
 
 			if(0 == M->GetTString(m_dat->cache->getActiveContact(), m_dat->cache->getActiveProto(), "MirVer", &dbv)) {
-				mir_sntprintf(temp, 1024, CTranslator::get(CTranslator::GEN_INFOTIP_CLIENT), dbv.ptszVal);
+				mir_sntprintf(temp, 1024, TranslateT("\\par\\par\\ul\\b Client:\\ul0\\b0  %s"), dbv.ptszVal);
 				::DBFreeVariant(&dbv);
 				str->append(temp);
 			}
@@ -975,7 +975,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 			m_tip->show(rc, pt, m_dat->hTabIcon, m_dat->szStatus);
 			return;
 		}
-		mir_sntprintf(szTitle, safe_sizeof(szTitle), CTranslator::get(CTranslator::GEN_IP_TIP_TITLE));
+		mir_sntprintf(szTitle, safe_sizeof(szTitle), TranslateT("tabSRMM Information"));
 		::SendMessage(m_dat->hwndTip, TTM_UPDATETIPTEXT, 0, (LPARAM)&m_dat->ti);
 		::SendMessage(m_dat->hwndTip, TTM_SETMAXTIPWIDTH, 0, 350);
 
@@ -1122,24 +1122,24 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		case WM_INITDIALOG: {
 			TCHAR	tszTitle[100];
 
-			mir_sntprintf(tszTitle, 100, CTranslator::getOpt(CTranslator::OPT_IPANEL_VISBILITY_TITLE),
-						  m_isChat ? CTranslator::getOpt(CTranslator::OPT_IPANEL_VISIBILTY_CHAT) : CTranslator::getOpt(CTranslator::OPT_IPANEL_VISIBILTY_IM));
+			mir_sntprintf(tszTitle, 100, TranslateT("Set panel visibility for this %s"),
+						  m_isChat ? TranslateT("chat room") : TranslateT("contact"));
 			::SetDlgItemText(hwnd, IDC_STATIC_VISIBILTY, tszTitle);
 
-			mir_sntprintf(tszTitle, 100, m_isChat ? CTranslator::getOpt(CTranslator::OPT_IPANEL_SYNC_TITLE_IM) :
-						  CTranslator::getOpt(CTranslator::OPT_IPANEL_SYNC_TITLE_MUC));
+			mir_sntprintf(tszTitle, 100, m_isChat ? TranslateT("Do not synchronize the panel height with IM windows") :
+						  TranslateT("Do not synchronize the panel height with group chat windows"));
 
 			::SetDlgItemText(hwnd, IDC_NOSYNC, tszTitle);
 
-			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_IPANEL_VIS_INHERIT));
-			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_IPANEL_VIS_OFF));
-			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_IPANEL_VIS_ON));
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Inherit from container setting"));
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always off"));
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always on"));
 
 			BYTE v = M->GetByte(m_dat->hContact, "infopanel", 0);
 			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_SETCURSEL, (WPARAM)(v == 0 ? 0 : (v == (BYTE)-1 ? 1 : 2)), 0);
 
-			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_IPANEL_SIZE_GLOBAL));
-			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_IPANEL_SIZE_PRIVATE));
+			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use default size"));
+			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use private size"));
 
 			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_SETCURSEL, (WPARAM)(m_fPrivateHeight ? 1 : 0), 0);
 
@@ -1149,9 +1149,9 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			if (!m_isChat) {
 				v = M->GetByte(m_dat->hContact, SRMSGMOD_T, "hideavatar", -1);
-				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_UPREFS_IPGLOBAL));
-				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_UPREFS_AVON));
-				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)CTranslator::getOpt(CTranslator::OPT_UPREFS_AVOFF));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use Global Setting"));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (BYTE)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
 			}
 			else
