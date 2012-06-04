@@ -59,7 +59,7 @@ static const PLUGININFOEX pluginInfoEx =
 	"Smiley support for Miranda Instant Messanger",
 	"Peacow, nightwish, bid, borkra",
 	"borkra@miranda-im.org",
-	"Copyright© 2004 - 2011 Boris Krasnovskiy, portions by Rein-Peter de Boer",
+	"Copyright© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer",
 	"http://code.google.com/p/mirandaimplugins/downloads/list",
 	//	"http://addons.miranda-im.org/index.php?action=display&id=2152",
 #if defined(UNICODE) | defined(_UNICODE)

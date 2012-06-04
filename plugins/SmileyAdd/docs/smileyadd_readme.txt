@@ -26,8 +26,8 @@ Emoticon Images: Angeli-Ka
 Regular expression library: Jeff Stuart
 Hashing algorithm: Austin Appleby
 
-Date: November, 2010
-Current version: 0.2.3.16
+Date: June, 2012
+Current version: 0.2.3.17
 
 Licensing terms could be found below.
 
@@ -126,6 +126,10 @@ Thanks to:
 
 ChangeLog
 =========
+
+0.2.3.17
+---------
+ Added support for Omegle protocol
 
 0.2.3.16
 ---------
