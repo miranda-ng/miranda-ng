@@ -576,5 +576,6 @@ INT_PTR ReloadLangpack(WPARAM wParam, LPARAM lParam)
 
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);
+	LangPackDropUnusedItems();
 	return 0;
 }
