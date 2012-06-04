@@ -433,7 +433,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_INITDIALOG: {
 			BOOL translated;
 			TVINSERTSTRUCT tvi = {0};
-			int i = 0;
+			int i;
 
 			DWORD dwFlags = DBGetContactSettingDword(NULL, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 
@@ -449,22 +449,18 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			*/
 
 			TOptionListGroup *defaultGroups = CTranslator::getGroupTree(CTranslator::TREE_MSG);
-
-			while (defaultGroups[i].szName != NULL) {
+			for (i=0; defaultGroups[i].szName != NULL; i++) {
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 				tvi.item.pszText = TranslateTS(defaultGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
-				defaultGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), &tvi);
+				defaultGroups[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), &tvi);
 			}
 
-			i = 0;
-
 			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_MSG);
-
-			while (defaultItems[i].szName != 0) {
+			for (i=0; defaultItems[i].szName != 0; i++) {
 				tvi.hParent = (HTREEITEM)defaultGroups[defaultItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.pszText = TranslateTS(defaultItems[i].szName);
@@ -474,7 +470,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (defaultItems[i].uType == LOI_TYPE_SETTING)
 					tvi.item.state = INDEXTOSTATEIMAGEMASK(M->GetByte((char *)defaultItems[i].lParam, (BYTE)defaultItems[i].id) ? 3 : 2);
 				defaultItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), &tvi);
-				i++;
 			}
 
 			SetDlgItemInt(hwndDlg, IDC_MAXAVATARHEIGHT, M->GetDword("avatarheight", 100), FALSE);
@@ -542,7 +537,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						case PSN_APPLY: {
 							BOOL translated;
 							TVITEM item = {0};
-							int i = 0;
 
 							M->WriteDword(SRMSGMOD_T, "avatarheight", GetDlgItemInt(hwndDlg, IDC_MAXAVATARHEIGHT, &translated, FALSE));
 
@@ -553,8 +547,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							*/
 
 							TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_MSG);
-
-							while (defaultItems[i].szName != NULL) {
+							for (int i=0; defaultItems[i].szName != NULL; i++) {
 								item.mask = TVIF_HANDLE | TVIF_STATE;
 								item.hItem = (HTREEITEM)defaultItems[i].handle;
 								item.stateMask = TVIS_STATEIMAGEMASK;
@@ -562,8 +555,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 								SendDlgItemMessageA(hwndDlg, IDC_WINDOWOPTIONS, TVM_GETITEMA, 0, (LPARAM)&item);
 								if (defaultItems[i].uType == LOI_TYPE_SETTING)
 									M->WriteByte(SRMSGMOD_T, (char *)defaultItems[i].lParam, (BYTE)((item.state >> 12) == 3 ? 1 : 0));
-									//pMim->WriteByte(SRMSGMOD_T, (char *)defaultItems[i].lParam, (BYTE)((item.state >> 12) == 2 ? 1 : 0));
-								i++;
 							}
 							PluginConfig.reloadSettings();
 							M->BroadcastMessage(DM_OPTIONSAPPLIED, 1, 0);
@@ -589,7 +580,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 		case WM_INITDIALOG: {
 			TVINSERTSTRUCT tvi = {0};
-			int i = 0;
+			int i;
 			DWORD maxhist = M->GetDword("maxhist", 0);
 
 			TranslateDialogDefault(hwndDlg);
@@ -619,22 +610,18 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			*/
 
 			TOptionListGroup *lvGroups = CTranslator::getGroupTree(CTranslator::TREE_LOG);
-
-			while (lvGroups[i].szName != NULL) {
+			for (i=0; lvGroups[i].szName != NULL; i++) {
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 				tvi.item.pszText = TranslateTS(lvGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
-				lvGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), &tvi);
+				lvGroups[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), &tvi);
 			}
 
-			i = 0;
-
 			TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_LOG);
-
-			while (lvItems[i].szName != 0) {
+			for (i=0; lvItems[i].szName != 0; i++) {
 				tvi.hParent = (HTREEITEM)lvGroups[lvItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.pszText = TranslateTS(lvItems[i].szName);
@@ -646,8 +633,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				else if (lvItems[i].uType == LOI_TYPE_SETTING)
 					tvi.item.state = INDEXTOSTATEIMAGEMASK(M->GetByte((char *)lvItems[i].lParam, lvItems[i].id) ? 3 : 2);  // NOTE: was 2 : 1 without state image mask
 				lvItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), &tvi);
-				i++;
 			}
+			
 			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
 			SendDlgItemMessage(hwndDlg, IDC_LOADCOUNTSPIN, UDM_SETPOS, 0, DBGetContactSettingWord(NULL, SRMSGMOD, SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
 			SendDlgItemMessage(hwndDlg, IDC_LOADTIMESPIN, UDM_SETRANGE, 0, MAKELONG(24 * 60, 0));
@@ -781,7 +768,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				default:
 					switch (((LPNMHDR) lParam)->code) {
 						case PSN_APPLY: {
-							int i = 0;
+							int i;
 							TVITEM item = {0};
 							LRESULT msglogmode = SendDlgItemMessage(hwndDlg, IDC_MSGLOGDIDSPLAY, CB_GETCURSEL, 0, 0);
 
@@ -818,9 +805,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 							/*
 							* scan the tree view and obtain the options...
 							*/
+							
 							TOptionListItem *lvItems = CTranslator::getTree(CTranslator::TREE_LOG);
-
-							while (lvItems[i].szName != NULL) {
+							for (i=0; lvItems[i].szName != NULL; i++) {
 								item.mask = TVIF_HANDLE | TVIF_STATE;
 								item.hItem = (HTREEITEM)lvItems[i].handle;
 								item.stateMask = TVIS_STATEIMAGEMASK;
@@ -830,7 +817,6 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 									dwFlags |= (item.state >> 12) == 3/*2*/ ? lvItems[i].lParam : 0;
 								else if (lvItems[i].uType == LOI_TYPE_SETTING)
 									M->WriteByte(SRMSGMOD_T, (char *)lvItems[i].lParam, (BYTE)((item.state >> 12) == 3/*2*/ ? 1 : 0));  // NOTE: state image masks changed
-								i++;
 							}
 
 							M->WriteDword(SRMSGMOD_T, "mwflags", dwFlags);
@@ -1029,7 +1015,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 	switch (msg) {
 		case WM_INITDIALOG: {
 			TVINSERTSTRUCT tvi = {0};
-			int i = 0;
+			int i;
 
 			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
@@ -1042,22 +1028,18 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			*/
 
 			TOptionListGroup *tabGroups = CTranslator::getGroupTree(CTranslator::TREE_TAB);
-
-			while (tabGroups[i].szName != NULL) {
+			for (i=0; tabGroups[i].szName != NULL; i++) {
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
 				tvi.item.pszText = TranslateTS(tabGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
-				tabGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), &tvi);
+				tabGroups[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), &tvi);
 			}
 
-			i = 0;
-
 			TOptionListItem *tabItems = CTranslator::getTree(CTranslator::TREE_TAB);
-
-			while (tabItems[i].szName != 0) {
+			for (i=0; tabItems[i].szName != 0; i++) {
 				tvi.hParent = (HTREEITEM)tabGroups[tabItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.pszText = TranslateTS(tabItems[i].szName);
@@ -1067,8 +1049,8 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				if (tabItems[i].uType == LOI_TYPE_SETTING)
 					tvi.item.state = INDEXTOSTATEIMAGEMASK(M->GetByte((char *)tabItems[i].lParam, (BYTE)tabItems[i].id) ? 3 : 2/*2 : 1*/);
 				tabItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), &tvi);
-				i++;
 			}
+
 			CheckDlgButton(hwndDlg, IDC_CUT_TABTITLE, M->GetByte("cuttitle", 0));
 			SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETRANGE, 0, MAKELONG(20, 5));
 			SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_SETPOS, 0, (WPARAM)DBGetContactSettingWord(NULL, SRMSGMOD_T, "cut_at", 15));
@@ -1141,7 +1123,6 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 					switch (((LPNMHDR) lParam)->code) {
 						case PSN_APPLY: {
 							TVITEM item = {0};
-							int i = 0;
 							M->WriteByte(SRMSGMOD_T, "cuttitle", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_CUT_TABTITLE));
 							DBWriteContactSettingWord(NULL, SRMSGMOD_T, "cut_at", (WORD)SendDlgItemMessage(hwndDlg, IDC_CUT_TITLEMAXSPIN, UDM_GETPOS, 0, 0));
 
@@ -1150,8 +1131,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 							*/
 
 							TOptionListItem *tabItems = CTranslator::getTree(CTranslator::TREE_TAB);
-
-							while (tabItems[i].szName != NULL) {
+							for (int i=0; tabItems[i].szName != NULL; i++) {
 								item.mask = TVIF_HANDLE | TVIF_STATE;
 								item.hItem = (HTREEITEM)tabItems[i].handle;
 								item.stateMask = TVIS_STATEIMAGEMASK;
@@ -1159,7 +1139,6 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 								SendDlgItemMessageA(hwndDlg, IDC_TABMSGOPTIONS, TVM_GETITEMA, 0, (LPARAM)&item);
 								if (tabItems[i].uType == LOI_TYPE_SETTING)
 									M->WriteByte(SRMSGMOD_T, (char *)tabItems[i].lParam, (BYTE)((item.state >> 12) == 3/*2*/ ? 1 : 0));
-								i++;
 							}
 
 							PluginConfig.m_EscapeCloses = (int)SendDlgItemMessage(hwndDlg, IDC_ESCMODE, CB_GETCURSEL, 0, 0);

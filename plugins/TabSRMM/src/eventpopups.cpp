@@ -174,7 +174,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	switch (msg) {
 		case WM_INITDIALOG: {
 			TVINSERTSTRUCT tvi = {0};
-			int i = 0;
+			int i;
 			SetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hWnd, IDC_EVENTOPTIONS), GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 			TranslateDialogDefault(hWnd);
 			HIMAGELIST himl = (HIMAGELIST)SendDlgItemMessage(hWnd, IDC_EVENTOPTIONS, TVM_SETIMAGELIST, TVSIL_STATE, (LPARAM)CreateStateImageList());
@@ -195,24 +195,21 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			*/
 
 			TOptionListGroup *lGroups = CTranslator::getGroupTree(CTranslator::TREE_NEN);
-
-			while (lGroups[i].szName != NULL) {
+			for (i=0; lGroups[i].szName != NULL; i++) {
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
-				tvi.item.pszText = lGroups[i].szName;
+				tvi.item.pszText = TranslateTS(lGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
-				lGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hWnd, IDC_EVENTOPTIONS), &tvi);
+				lGroups[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hWnd, IDC_EVENTOPTIONS), &tvi);
 			}
-			i = 0;
 
 			TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
-
-			while (defaultItems[i].szName != 0) {
+			for (i=0; defaultItems[i].szName != 0; i++) {
 				tvi.hParent = (HTREEITEM)lGroups[defaultItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
-				tvi.item.pszText = defaultItems[i].szName;
+				tvi.item.pszText = TranslateTS(defaultItems[i].szName);
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 				tvi.item.lParam = i;
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -223,8 +220,8 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 					tvi.item.state = INDEXTOSTATEIMAGEMASK(uVal & defaultItems[i].id ? 3 : 2);//2 : 1);
 				}
 				defaultItems[i].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hWnd, IDC_EVENTOPTIONS), &tvi);
-				i++;
 			}
+
 			SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, options->colBackMsg);
 			SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, options->colTextMsg);
 			SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, options->colBackOthers);
@@ -377,13 +374,12 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 			switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY: {
-					int i = 0;
+					int i;
 					TVITEM item = {0};
 					struct TContainerData *pContainer = pFirstContainer;
 
 					TOptionListItem *defaultItems = CTranslator::getTree(CTranslator::TREE_NEN);
-
-					while (defaultItems[i].szName != NULL) {
+					for (i=0; defaultItems[i].szName != NULL; i++) {
 						item.mask = TVIF_HANDLE | TVIF_STATE;
 						item.hItem = (HTREEITEM)defaultItems[i].handle;
 						item.stateMask = TVIS_STATEIMAGEMASK;
@@ -397,8 +393,8 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 							UINT *uVal = (UINT *)defaultItems[i].lParam;
 							*uVal = ((item.state >> 12) == 3/*2*/) ? *uVal | defaultItems[i].id : *uVal & ~defaultItems[i].id;
 						}
-						i++;
 					}
+
 					M->WriteByte("Chat", "PopupStyle", (BYTE)g_Settings.iPopupStyle);
 					DBWriteContactSettingWord(NULL, "Chat", "PopupTimeout", g_Settings.iPopupTimeout);
 
