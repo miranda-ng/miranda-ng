@@ -454,7 +454,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
-				tvi.item.pszText = defaultGroups[i].szName;
+				tvi.item.pszText = TranslateTS(defaultGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
 				defaultGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_WINDOWOPTIONS), &tvi);
@@ -467,7 +467,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			while (defaultItems[i].szName != 0) {
 				tvi.hParent = (HTREEITEM)defaultGroups[defaultItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
-				tvi.item.pszText = defaultItems[i].szName;
+				tvi.item.pszText = TranslateTS(defaultItems[i].szName);
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 				tvi.item.lParam = i;
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -624,7 +624,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
-				tvi.item.pszText = lvGroups[i].szName;
+				tvi.item.pszText = TranslateTS(lvGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
 				lvGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_LOGOPTIONS), &tvi);
@@ -637,7 +637,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 			while (lvItems[i].szName != 0) {
 				tvi.hParent = (HTREEITEM)lvGroups[lvItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
-				tvi.item.pszText = lvItems[i].szName;
+				tvi.item.pszText = TranslateTS(lvItems[i].szName);
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 				tvi.item.lParam = i;
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -1047,7 +1047,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				tvi.hParent = 0;
 				tvi.hInsertAfter = TVI_LAST;
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE;
-				tvi.item.pszText = tabGroups[i].szName;
+				tvi.item.pszText = TranslateTS(tabGroups[i].szName);
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK | TVIS_EXPANDED | TVIS_BOLD;
 				tvi.item.state = INDEXTOSTATEIMAGEMASK(0) | TVIS_EXPANDED | TVIS_BOLD;
 				tabGroups[i++].handle = (LRESULT)TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_TABMSGOPTIONS), &tvi);
@@ -1060,7 +1060,7 @@ static INT_PTR CALLBACK DlgProcTabbedOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			while (tabItems[i].szName != 0) {
 				tvi.hParent = (HTREEITEM)tabGroups[tabItems[i].uGroup].handle;
 				tvi.hInsertAfter = TVI_LAST;
-				tvi.item.pszText = tabItems[i].szName;
+				tvi.item.pszText = TranslateTS(tabItems[i].szName);
 				tvi.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 				tvi.item.lParam = i;
 				tvi.item.stateMask = TVIS_STATEIMAGEMASK;
