@@ -5,6 +5,7 @@
 #define IDD_OPT_LANG                    101
 #define IDD_UPDATENOTIFY                102
 #define IDD_DOWNLOADLANG                103
+#define IDI_RELOAD                      104
 #define IDC_LANGLIST                    1001
 #define IDC_LANGINFOFRAME               1002
 #define IDC_LANGAUTHORSLABEL            1003
@@ -36,7 +37,7 @@
 #define IDC_NEWVERSIONLABEL             1028
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1

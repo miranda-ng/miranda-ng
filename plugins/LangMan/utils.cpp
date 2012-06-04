@@ -31,39 +31,37 @@ static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)
 	mir_free(mbp);
 }
 
-void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
+void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, ...)
 {
-	char szText[256]; /* max for systray */
-	MSGBOXPARAMSA *mbp;
-
 	va_list va;
-	va_start(va,pszTextFmt);
-	mir_vsnprintf(szText,SIZEOF(szText),pszTextFmt,va);
+	va_start(va, pszTextFmt);
+	char szText[256]; /* max for systray */
+	mir_vsnprintf(szText, SIZEOF(szText), pszTextFmt, va);
 	va_end(va);
 
-	if(ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
+	if (ServiceExists(MS_CLIST_SYSTRAY_NOTIFY)) {
 		MIRANDASYSTRAYNOTIFY msn;
-		msn.cbSize=sizeof(msn);
-		msn.szProto=NULL;
-		msn.szInfoTitle=(char*)pszTitle;
-		msn.szInfo=(char*)szText;
-		msn.uTimeout=30000; /* max timeout */
-		msn.dwInfoFlags=flags;
-		if (!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY,0,(LPARAM)&msn))
+		msn.cbSize = sizeof(msn);
+		msn.szProto = NULL;
+		msn.szInfoTitle = (char*)pszTitle;
+		msn.szInfo = (char*)szText;
+		msn.uTimeout = 30000; /* max timeout */
+		msn.dwInfoFlags = flags;
+		if (!CallServiceSync(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM)&msn))
 			return; /* success */
 	}
 
-	mbp=(MSGBOXPARAMSA*)mir_calloc(sizeof(*mbp));
-	if(mbp==NULL) return;
-	mbp->cbSize=sizeof(*mbp);
-	mbp->lpszCaption=mir_strdup(pszTitle);
-	mbp->lpszText=mir_strdup(szText);
-	mbp->dwStyle=MB_OK|MB_SETFOREGROUND|MB_TASKMODAL;
-	mbp->dwLanguageId=LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0));
+	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)mir_calloc(sizeof(*mbp));
+	if (mbp == NULL) return;
+	mbp->cbSize = sizeof(*mbp);
+	mbp->lpszCaption = mir_strdup(pszTitle);
+	mbp->lpszText = mir_strdup(szText);
+	mbp->dwStyle = MB_OK|MB_SETFOREGROUND|MB_TASKMODAL;
+	mbp->dwLanguageId = LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0));
 	switch(flags&NIIF_ICON_MASK) {
-		case NIIF_INFO:    mbp->dwStyle|=MB_ICONINFORMATION; break;
-		case NIIF_WARNING: mbp->dwStyle|=MB_ICONWARNING; break;
-		case NIIF_ERROR:   mbp->dwStyle|=MB_ICONERROR;
+		case NIIF_INFO:    mbp->dwStyle |= MB_ICONINFORMATION; break;
+		case NIIF_WARNING: mbp->dwStyle |= MB_ICONWARNING; break;
+		case NIIF_ERROR:   mbp->dwStyle |= MB_ICONERROR;
 	}
-	mir_forkthread(MessageBoxIndirectFree,mbp);
+	mir_forkthread(( pThreadFunc )MessageBoxIndirectFree, mbp);
 }

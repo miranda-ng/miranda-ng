@@ -39,11 +39,11 @@ typedef struct {
 #define LPF_DEFAULT   0x04  // pack is the english default (no langpack)
 
 /* Enum */
-BOOL GetPackPath(TCHAR *pszPath,int nSize,BOOL fEnabledPacks,const TCHAR *pszFile);
-typedef BOOL (*ENUM_PACKS_CALLBACK)(LANGPACK_INFO *pack,WPARAM wParam,LPARAM lParam);
-BOOL EnumPacks(ENUM_PACKS_CALLBACK callback,const TCHAR *pszFilePattern,const char *pszFileVersionHeader,BOOL fEnglishDefault,WPARAM wParam,LPARAM lParam);
-BOOL IsPluginIncluded(const LANGPACK_INFO *pack,char *pszFileBaseName);
+BOOL GetPackPath(TCHAR *pszPath, int nSize, BOOL fEnabledPacks, const TCHAR *pszFile);
+typedef BOOL (*ENUM_PACKS_CALLBACK)(LANGPACK_INFO *pack, WPARAM wParam, LPARAM lParam);
+BOOL EnumPacks(ENUM_PACKS_CALLBACK callback, const TCHAR *pszFilePattern, const char *pszFileVersionHeader, BOOL fEnglishDefault, WPARAM wParam, LPARAM lParam);
+BOOL IsPluginIncluded(const LANGPACK_INFO *pack, char *pszFileBaseName);
 
 /* Switch */
-BOOL EnablePack(const LANGPACK_INFO *pack,const TCHAR *pszFilePattern);
-void CorrectPacks(const TCHAR *pszFilePattern,BOOL fDisableAll);
+BOOL EnablePack(const LANGPACK_INFO *pack, const TCHAR *pszFilePattern);
+void CorrectPacks(const TCHAR *pszFilePattern, BOOL fDisableAll);
