@@ -68,7 +68,7 @@ PBYTE YAHOO_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, i
 	ylad->rpkts = buf[0] + buf[1] *256;
 	DebugLog("Got packets: %d", ylad->rpkts);
 	
-    if (len == 4){
+    if (len == 4) {
         *outBufLen = 0;
         return buf;
     } else  if ( (buf[4] == 'Y') && (buf[5] == 'M') && (buf[6] == 'S') && (buf[7] == 'G') ) {

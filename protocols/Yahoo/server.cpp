@@ -105,7 +105,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 		nls.hReadConns[ridx] = NULL;
 		nls.hWriteConns[widx] = NULL;
 
-		if (m_connections == NULL){
+		if (m_connections == NULL) {
 			DebugLog("Last connection closed.");
 			break;
 		}

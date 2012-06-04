@@ -169,7 +169,7 @@ void __cdecl CYahooProto::searchadv_thread(void *pHWND)
 	psr.id = _tcslwr(searchid);
 
 	int pid = SendDlgItemMessage(hwndDlg , IDC_SEARCH_PROTOCOL, CB_GETCURSEL, 0, 0);
-	switch (pid){
+	switch (pid) {
 		case 0: psr.firstName = _T("<Yahoo >");  pid = YAHOO_IM_YAHOO; break;
 		case 1: psr.firstName = _T("<Lotus Sametime>"); pid = YAHOO_IM_SAMETIME;break;
 		case 2: psr.firstName = _T("<LCS>"); pid = YAHOO_IM_LCS; break;
