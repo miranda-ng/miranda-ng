@@ -451,8 +451,8 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 	{
 		static const struct gc_item Items[] = 
 		{
-			{ TranslateT("&Invite user..."), 10, MENU_ITEM, FALSE },
-			{ TranslateT("&Leave chat session"), 20, MENU_ITEM, FALSE }
+			{ LPGENT("&Invite user..."), 10, MENU_ITEM, FALSE },
+			{ LPGENT("&Leave chat session"), 20, MENU_ITEM, FALSE }
 		};
 		gcmi->nItems = SIZEOF(Items);
 		gcmi->Item = (gc_item*)Items;
@@ -464,10 +464,10 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 		{
 			static const struct gc_item Items[] = 
 			{
-				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE },
+				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE },
 				{ _T(""), 100, MENU_SEPARATOR, FALSE },
-				{ TranslateT("&Leave chat session"), 110, MENU_ITEM, FALSE }
+				{ LPGENT("&Leave chat session"), 110, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
@@ -476,8 +476,8 @@ int CMsnProto::MSN_GCMenuHook(WPARAM, LPARAM lParam)
 		{
 			static const struct gc_item Items[] = 
 			{
-				{ TranslateT("User &details"), 10, MENU_ITEM, FALSE },
-				{ TranslateT("User &history"), 20, MENU_ITEM, FALSE }
+				{ LPGENT("User &details"), 10, MENU_ITEM, FALSE },
+				{ LPGENT("User &history"), 20, MENU_ITEM, FALSE }
 			};
 			gcmi->nItems = SIZEOF(Items);
 			gcmi->Item = (gc_item*)Items;
