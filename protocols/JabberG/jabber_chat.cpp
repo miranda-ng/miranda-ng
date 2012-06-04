@@ -454,9 +454,106 @@ static void sttShowGcMenuItems(GCMENUITEMS *items, DWORD *ids, int type)
 		sttShowGcMenuItem(items, *ids, type);
 }
 
+static gc_item sttLogListItems[] = 
+{
+	{ LPGENT("Change &nickname"),     IDM_NICK,               MENU_ITEM           },
+   { LPGENT("&Invite a user"),       IDM_INVITE,             MENU_ITEM           },
+   { NULL,                           0,                      MENU_SEPARATOR      },
+
+   { LPGENT("&Roles"),               IDM_ROLE,               MENU_NEWPOPUP       },
+   { LPGENT("&Participant list"),    IDM_LST_PARTICIPANT,    MENU_POPUPITEM      },
+   { LPGENT("&Moderator list"),      IDM_LST_MODERATOR,      MENU_POPUPITEM      },
+
+   { LPGENT("&Affiliations"),        IDM_AFFLTN,             MENU_NEWPOPUP       },
+   { LPGENT("&Member list"),         IDM_LST_MEMBER,         MENU_POPUPITEM      },
+   { LPGENT("&Admin list"),          IDM_LST_ADMIN,          MENU_POPUPITEM      },
+   { LPGENT("&Owner list"),          IDM_LST_OWNER,          MENU_POPUPITEM      },
+   { NULL,                           0,                      MENU_POPUPSEPARATOR },
+   { LPGENT("Outcast list (&ban)"),  IDM_LST_BAN,            MENU_POPUPITEM      },
+
+   { LPGENT("&Room options"),        0,                      MENU_NEWPOPUP       },
+   { LPGENT("View/change &topic"),   IDM_TOPIC,              MENU_POPUPITEM      },
+   { LPGENT("Add to &bookmarks"),    IDM_BOOKMARKS,          MENU_POPUPITEM      },
+   { LPGENT("&Configure..."),        IDM_CONFIG,             MENU_POPUPITEM      },
+   { LPGENT("&Destroy room"),        IDM_DESTROY,            MENU_POPUPITEM      },
+
+   { NULL,                           0,                      MENU_SEPARATOR      },
+
+   { LPGENT("Lin&ks"),               0,                      MENU_NEWPOPUP       },
+   { NULL,                           IDM_LINK0,              0                   },
+   { NULL,                           IDM_LINK1,              0                   },
+   { NULL,                           IDM_LINK2,              0                   },
+   { NULL,                           IDM_LINK3,              0                   },
+   { NULL,                           IDM_LINK4,              0                   },
+   { NULL,                           IDM_LINK5,              0                   },
+   { NULL,                           IDM_LINK6,              0                   },
+   { NULL,                           IDM_LINK7,              0                   },
+   { NULL,                           IDM_LINK8,              0                   },
+   { NULL,                           IDM_LINK9,              0                   },
+
+   { LPGENT("Copy room &JID"),       IDM_CPY_RJID,           MENU_ITEM           },
+   { LPGENT("Copy room topic"),      IDM_CPY_TOPIC,          MENU_ITEM           },
+   { NULL,                           0,                      MENU_SEPARATOR      },
+
+   { LPGENT("&Send presence"),       0,                      MENU_NEWPOPUP},
+   { LPGENT("Online"),               IDM_PRESENCE_ONLINE,    MENU_POPUPITEM      },
+   { LPGENT("Away"),                 IDM_PRESENCE_AWAY,      MENU_POPUPITEM      },
+   { LPGENT("NA"),                   IDM_PRESENCE_NA,        MENU_POPUPITEM      },
+   { LPGENT("DND"),                  IDM_PRESENCE_DND,       MENU_POPUPITEM      },
+   { LPGENT("Free for chat"),        IDM_PRESENCE_FREE4CHAT, MENU_POPUPITEM      },
+
+   { LPGENT("&Leave chat session"),  IDM_LEAVE,              MENU_ITEM           }
+};
+
+static TCHAR sttRJidBuf[JABBER_MAX_JID_LEN] = {0};
+static struct gc_item sttListItems[] =
+{
+	{ LPGENT("&Slap"),                IDM_SLAP,               MENU_ITEM           },   // 0
+	{ LPGENT("&User details"),        IDM_VCARD,              MENU_ITEM           },   // 1
+	{ LPGENT("Member &info"),         IDM_INFO,               MENU_ITEM           },   // 2
+
+	{ sttRJidBuf,                     0,                      MENU_NEWPOPUP       },   // 3 -> accessed explicitly by index!!!
+	{ LPGENT("User &details"),        IDM_RJID_VCARD,         MENU_POPUPITEM      },
+	{ LPGENT("&Add to roster"),       IDM_RJID_ADD,           MENU_POPUPITEM      },
+	{ LPGENT("&Copy to clipboard"),   IDM_RJID_COPY,          MENU_POPUPITEM      },
+
+	{ LPGENT("Invite to room"),       0,                      MENU_NEWPOPUP       },
+	{ NULL,                           IDM_LINK0,              0                   },
+	{ NULL,                           IDM_LINK1,              0                   },
+	{ NULL,                           IDM_LINK2,              0                   },
+	{ NULL,                           IDM_LINK3,              0                   },
+	{ NULL,                           IDM_LINK4,              0                   },
+	{ NULL,                           IDM_LINK5,              0                   },
+	{ NULL,                           IDM_LINK6,              0                   },
+	{ NULL,                           IDM_LINK7,              0                   },
+	{ NULL,                           IDM_LINK8,              0                   },
+	{ NULL,                           IDM_LINK9,              0                   },
+
+	{ NULL,                           0,                      MENU_SEPARATOR      },
+
+	{ LPGENT("Set &role"),            IDM_ROLE,               MENU_NEWPOPUP       },
+	{ LPGENT("&Visitor"),             IDM_SET_VISITOR,        MENU_POPUPITEM      },
+	{ LPGENT("&Participant"),         IDM_SET_PARTICIPANT,    MENU_POPUPITEM      },
+	{ LPGENT("&Moderator"),           IDM_SET_MODERATOR,      MENU_POPUPITEM      },
+
+	{ LPGENT("Set &affiliation"),     IDM_AFFLTN,             MENU_NEWPOPUP       },
+	{ LPGENT("&None"),                IDM_SET_NONE,           MENU_POPUPITEM      },
+	{ LPGENT("&Member"),              IDM_SET_MEMBER,         MENU_POPUPITEM      },
+	{ LPGENT("&Admin"),               IDM_SET_ADMIN,          MENU_POPUPITEM      },
+	{ LPGENT("&Owner"),               IDM_SET_OWNER,          MENU_POPUPITEM      },
+	{ NULL,                           0,                      MENU_POPUPSEPARATOR },
+	{ LPGENT("Outcast (&ban)"),       IDM_SET_BAN,            MENU_POPUPITEM      },
+
+	{ LPGENT("&Kick"),                IDM_KICK,               MENU_ITEM           },
+	{ NULL,                           0,                      MENU_SEPARATOR      },
+	{ LPGENT("Copy &nickname"),       IDM_CPY_NICK,           MENU_ITEM           },
+	{ LPGENT("Copy real &JID"),       IDM_CPY_RJID,           MENU_ITEM           },
+	{ LPGENT("Copy in-room JID"),     IDM_CPY_INROOMJID,      MENU_ITEM           }
+};
+
 int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 {
-	GCMENUITEMS* gcmi= ( GCMENUITEMS* )lParam;
+	GCMENUITEMS* gcmi = ( GCMENUITEMS* )lParam;
 	if ( gcmi == NULL )
 		return 0;
 
@@ -474,61 +571,10 @@ int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 		if ( !lstrcmp( p.resourceName, gcmi->pszUID ))  him = &p;
 	}
 
-	if ( gcmi->Type == MENU_ON_LOG )
-	{
+	if ( gcmi->Type == MENU_ON_LOG ) {
 		static TCHAR url_buf[1024] = {0};
-		static struct gc_item sttLogListItems[] = 
-		{
-			{ TranslateT("Change &nickname"),		IDM_NICK,				MENU_ITEM			},
-			{ TranslateT("&Invite a user"),			IDM_INVITE,				MENU_ITEM			},
-			{ NULL,									0,						MENU_SEPARATOR		},
 
-			{ TranslateT("&Roles"),					IDM_ROLE,				MENU_NEWPOPUP		},
-			{ TranslateT("&Participant list"),		IDM_LST_PARTICIPANT,	MENU_POPUPITEM		},
-			{ TranslateT("&Moderator list"),		IDM_LST_MODERATOR,		MENU_POPUPITEM		},
-
-			{ TranslateT("&Affiliations"),			IDM_AFFLTN,				MENU_NEWPOPUP		},
-			{ TranslateT("&Member list"),			IDM_LST_MEMBER,			MENU_POPUPITEM		},
-			{ TranslateT("&Admin list"),			IDM_LST_ADMIN,			MENU_POPUPITEM		},
-			{ TranslateT("&Owner list"),			IDM_LST_OWNER,			MENU_POPUPITEM		},
-			{ NULL,									0,						MENU_POPUPSEPARATOR	},
-			{ TranslateT("Outcast list (&ban)"),	IDM_LST_BAN,			MENU_POPUPITEM		},
-
-			{ TranslateT("&Room options"),			0,						MENU_NEWPOPUP		},
-			{ TranslateT("View/change &topic"),		IDM_TOPIC,				MENU_POPUPITEM		},
-			{ TranslateT("Add to &bookmarks"),		IDM_BOOKMARKS,			MENU_POPUPITEM		},
-			{ TranslateT("&Configure..."),			IDM_CONFIG,				MENU_POPUPITEM		},
-			{ TranslateT("&Destroy room"),			IDM_DESTROY,			MENU_POPUPITEM		},
-
-			{ NULL,									0,						MENU_SEPARATOR		},
-
-			{ TranslateT("Lin&ks"),					0,						MENU_NEWPOPUP		},
-			{ NULL,									IDM_LINK0,				0					},
-			{ NULL,									IDM_LINK1,				0					},
-			{ NULL,									IDM_LINK2,				0					},
-			{ NULL,									IDM_LINK3,				0					},
-			{ NULL,									IDM_LINK4,				0					},
-			{ NULL,									IDM_LINK5,				0					},
-			{ NULL,									IDM_LINK6,				0					},
-			{ NULL,									IDM_LINK7,				0					},
-			{ NULL,									IDM_LINK8,				0					},
-			{ NULL,									IDM_LINK9,				0					},
-
-			{ TranslateT("Copy room &JID"),			IDM_CPY_RJID,			MENU_ITEM			},
-			{ TranslateT("Copy room topic"),		IDM_CPY_TOPIC,			MENU_ITEM			},
-			{ NULL,									0,						MENU_SEPARATOR		},
-
-			{ TranslateT("&Send presence"),			0,						MENU_NEWPOPUP},
-			{ TranslateT("Online"),					IDM_PRESENCE_ONLINE,	MENU_POPUPITEM		},
-			{ TranslateT("Away"),					IDM_PRESENCE_AWAY,		MENU_POPUPITEM		},
-			{ TranslateT("NA"),						IDM_PRESENCE_NA,		MENU_POPUPITEM		},
-			{ TranslateT("DND"),					IDM_PRESENCE_DND,		MENU_POPUPITEM		},
-			{ TranslateT("Free for chat"),			IDM_PRESENCE_FREE4CHAT,	MENU_POPUPITEM		},
-
-			{ TranslateT("&Leave chat session"),	IDM_LEAVE,				MENU_ITEM			},
-		};
-
-		gcmi->nItems = sizeof( sttLogListItems ) / sizeof( sttLogListItems[0] );
+		gcmi->nItems = SIZEOF( sttLogListItems );
 		gcmi->Item = sttLogListItems;
 
 		static DWORD sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
@@ -538,11 +584,9 @@ int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 		sttSetupGcMenuItem(gcmi, 0, FALSE);
 
 		int idx = IDM_LINK0;
-		if (item->itemResource.statusMessage && *item->itemResource.statusMessage)
-		{
+		if (item->itemResource.statusMessage && *item->itemResource.statusMessage) {
 			TCHAR *bufPtr = url_buf;
-			for (TCHAR *p = _tcsstr(item->itemResource.statusMessage, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://")))
-			{
+			for (TCHAR *p = _tcsstr(item->itemResource.statusMessage, _T("http://")); p && *p; p = _tcsstr(p+1, _T("http://"))) {
 				lstrcpyn(bufPtr, p, SIZEOF(url_buf) - (bufPtr - url_buf));
 				gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
 				pItem->pszDesc = bufPtr;
@@ -556,86 +600,30 @@ int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 		for ( ; idx <= IDM_LINK9; ++idx)
 			sttFindGcMenuItem(gcmi, idx)->uType = 0;
 
-		if (!GetAsyncKeyState(VK_CONTROL))
-		{
-			//sttFindGcMenuItem(gcmi, IDM_DESTROY)->uType = 0;
-
-			if (me)
-			{
+		if ( !GetAsyncKeyState(VK_CONTROL)) {
+			if (me) {
 				sttSetupGcMenuItems(gcmi, sttModeratorItems, (me->role < ROLE_MODERATOR));
 				sttSetupGcMenuItems(gcmi, sttAdminItems, (me->affiliation < AFFILIATION_ADMIN));
 				sttSetupGcMenuItems(gcmi, sttOwnerItems, (me->affiliation < AFFILIATION_OWNER));
 			}
 			if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
 				sttSetupGcMenuItem(gcmi, IDM_BOOKMARKS, FALSE);
-		} else
-		{
-			//sttFindGcMenuItem(gcmi, IDM_DESTROY)->uType = MENU_ITEM;
 		}
-	} else
-	if ( gcmi->Type == MENU_ON_NICKLIST )
-	{
-		static TCHAR sttRJidBuf[JABBER_MAX_JID_LEN] = {0};
-		static struct gc_item sttListItems[] =
-		{
-			{ TranslateT("&Slap"),					IDM_SLAP,				MENU_ITEM			},	// 0
-			{ TranslateT("&User details"),			IDM_VCARD,				MENU_ITEM			},	// 1
-			{ TranslateT("Member &info"),			IDM_INFO,				MENU_ITEM			},	// 2
-
-			{ sttRJidBuf,							0,						MENU_NEWPOPUP		},	// 3 -> accessed explicitly by index!!!
-			{ TranslateT("User &details"),			IDM_RJID_VCARD,			MENU_POPUPITEM		},
-			{ TranslateT("&Add to roster"),			IDM_RJID_ADD,			MENU_POPUPITEM		},
-			{ TranslateT("&Copy to clipboard"),		IDM_RJID_COPY,			MENU_POPUPITEM		},
-
-			{ TranslateT("Invite to room"),			0,						MENU_NEWPOPUP		},
-			{ NULL,									IDM_LINK0,				0					},
-			{ NULL,									IDM_LINK1,				0					},
-			{ NULL,									IDM_LINK2,				0					},
-			{ NULL,									IDM_LINK3,				0					},
-			{ NULL,									IDM_LINK4,				0					},
-			{ NULL,									IDM_LINK5,				0					},
-			{ NULL,									IDM_LINK6,				0					},
-			{ NULL,									IDM_LINK7,				0					},
-			{ NULL,									IDM_LINK8,				0					},
-			{ NULL,									IDM_LINK9,				0					},
-
-			{ NULL,									0,						MENU_SEPARATOR		},
-
-			{ TranslateT("Set &role"),				IDM_ROLE,				MENU_NEWPOPUP		},
-			{ TranslateT("&Visitor"),				IDM_SET_VISITOR,		MENU_POPUPITEM		},
-			{ TranslateT("&Participant"),			IDM_SET_PARTICIPANT,	MENU_POPUPITEM		},
-			{ TranslateT("&Moderator"),				IDM_SET_MODERATOR,		MENU_POPUPITEM		},
-
-			{ TranslateT("Set &affiliation"),		IDM_AFFLTN,				MENU_NEWPOPUP		},
-			{ TranslateT("&None"),					IDM_SET_NONE,			MENU_POPUPITEM		},
-			{ TranslateT("&Member"),				IDM_SET_MEMBER,			MENU_POPUPITEM		},
-			{ TranslateT("&Admin"),					IDM_SET_ADMIN,			MENU_POPUPITEM		},
-			{ TranslateT("&Owner"),					IDM_SET_OWNER,			MENU_POPUPITEM		},
-			{ NULL,									0,						MENU_POPUPSEPARATOR	},
-			{ TranslateT("Outcast (&ban)"),			IDM_SET_BAN,			MENU_POPUPITEM		},
-
-			{ TranslateT("&Kick"),					IDM_KICK,				MENU_ITEM			},
-			{ NULL,									0,						MENU_SEPARATOR		},
-			{ TranslateT("Copy &nickname"),			IDM_CPY_NICK,			MENU_ITEM			},
-			{ TranslateT("Copy real &JID"),			IDM_CPY_RJID,			MENU_ITEM			},
-			{ TranslateT("Copy in-room JID"),		IDM_CPY_INROOMJID,		MENU_ITEM			},
-		};
-
+	} 
+	else if ( gcmi->Type == MENU_ON_NICKLIST ) {
 		gcmi->nItems = SIZEOF(sttListItems);
 		gcmi->Item = sttListItems;
 
 		static DWORD sttRJidItems[] = { IDM_RJID_VCARD, IDM_RJID_ADD, IDM_RJID_COPY, 0 };
 
-		if (me && him)
-		{
+		if (me && him) {
 			int i, idx;
 			BOOL force = GetAsyncKeyState(VK_CONTROL);
 			sttSetupGcMenuItem(gcmi, 0, FALSE);
 
 			idx = IDM_LINK0;
 			LISTFOREACH_NODEF(i, this, LIST_CHATROOM)
-				if (item = ListGetItemPtrFromIndex(i))
-				{
+				if (item = ListGetItemPtrFromIndex(i)) {
 					gc_item *pItem = sttFindGcMenuItem(gcmi, idx);
 					pItem->pszDesc = item->jid;
 					pItem->uType = MENU_POPUPITEM;
@@ -645,47 +633,42 @@ int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 			for ( ; idx <= IDM_LINK9; ++idx)
 				sttFindGcMenuItem(gcmi, idx)->uType = 0;
 
-			for (i = 0; i < SIZEOF(sttAffiliationItems); ++i)
-			{
+			for (i = 0; i < SIZEOF(sttAffiliationItems); ++i) {
 				struct gc_item *item = sttFindGcMenuItem(gcmi, sttAffiliationItems[i].id);
 				item->uType = (him->affiliation == sttAffiliationItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttAffiliationItems[i].check(me, him));
 			}
 
-			for (i = 0; i < SIZEOF(sttRoleItems); ++i)
-			{
+			for (i = 0; i < SIZEOF(sttRoleItems); ++i) {
 				struct gc_item *item = sttFindGcMenuItem(gcmi, sttRoleItems[i].id);
 				item->uType = (him->role == sttRoleItems[i].value) ? MENU_POPUPCHECK : MENU_POPUPITEM;
 				item->bDisabled = !(force || sttRoleItems[i].check(me, him));
 			}
 
-			if (him->szRealJid && *him->szRealJid)
-			{
+			if (him->szRealJid && *him->szRealJid) {
 				mir_sntprintf(sttRJidBuf, SIZEOF(sttRJidBuf), TranslateT("Real &JID: %s"), him->szRealJid);
 				if (TCHAR *tmp = _tcschr(sttRJidBuf, _T('/'))) *tmp = 0;
 
-				if (HANDLE hContact = HContactFromJID(him->szRealJid))
-				{
+				if (HANDLE hContact = HContactFromJID(him->szRealJid)) {
 					gcmi->Item[3].uType = MENU_HMENU;
 					gcmi->Item[3].dwID = CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 					sttShowGcMenuItems(gcmi, sttRJidItems, 0);
-				} else
-				{
+				} 
+				else {
 					gcmi->Item[3].uType = MENU_NEWPOPUP;
 					sttShowGcMenuItems(gcmi, sttRJidItems, MENU_POPUPITEM);
 				}
 
 				sttSetupGcMenuItem(gcmi, IDM_CPY_RJID, FALSE);
-			} else
-			{
+			} 
+			else {
 				gcmi->Item[3].uType = 0;
 				sttShowGcMenuItems(gcmi, sttRJidItems, 0);
 
 				sttSetupGcMenuItem(gcmi, IDM_CPY_RJID, TRUE);
 			}
 
-			if (!force)
-			{
+			if (!force) {
 				if (me->role < ROLE_MODERATOR || (me->affiliation <= him->affiliation))
 					sttSetupGcMenuItem(gcmi, IDM_KICK, TRUE);
 
@@ -693,13 +676,12 @@ int CJabberProto::JabberGcMenuHook( WPARAM, LPARAM lParam )
 					(me->affiliation == AFFILIATION_ADMIN) && (me->affiliation <= him->affiliation))
 					sttSetupGcMenuItem(gcmi, IDM_SET_BAN, TRUE);
 			}
-		} else
-		{
+		} 
+		else {
 			sttSetupGcMenuItem(gcmi, 0, TRUE);
 			gcmi->Item[2].uType = 0;
 			sttShowGcMenuItems(gcmi, sttRJidItems, 0);
-		}
-	}
+	}	}
 
 	return 0;
 }

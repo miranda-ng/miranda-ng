@@ -48,7 +48,7 @@ void CIrcProto::InitMainMenus(void)
 				CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )hMenuRoot, 0 );
 			hMenuRoot = NULL;
 		}
-		
+
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
 		mi.pszName = LPGEN("&Quick connect");
 		mi.icolibItem = GetIconHandle(IDI_QUICK);
@@ -138,7 +138,7 @@ int IrcPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois,        ( LPARAM )&clmi );
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,   ( LPARAM )&clmi );
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore,       ( LPARAM )&clmi );
-	
+
 	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuPreBuild(wParam, lParam) : 0;
 }
@@ -550,16 +550,12 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 						*pTemp = '\0';
 				}
 				else gchtemp->pDest->ptszID = NULL;
+
 				//MBOT CORRECTIONS
-//*
 				gchook->pDest->pszModule = mir_strdup( gchook->pDest->pszModule );
 				gchook->ptszText = mir_tstrdup( gchook->ptszText );
 				gchook->ptszUID = mir_tstrdup( gchook->ptszUID );
-/*/
-				gchtemp->pDest->pszModule = mir_strdup( gchook->pDest->pszModule );
-				gchtemp->ptszText = mir_tstrdup( gchook->ptszText );
-				gchtemp->ptszUID = mir_tstrdup( gchook->ptszUID );
-*/
+
 				if ( Scripting_TriggerMSPGuiOut(gchtemp) && gchtemp)
 					gch = gchtemp;
 				else
@@ -859,6 +855,79 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static gc_item logItems[] = {
+	{ LPGENT("&Change your nickname" ),     1, MENU_ITEM,           FALSE },
+	{ LPGENT("Channel &settings" ),         2, MENU_ITEM,           FALSE },
+	{ _T(""),                               0, MENU_SEPARATOR,      FALSE },
+	{ LPGENT("NickServ"),                   0, MENU_NEWPOPUP,       FALSE },
+	{ LPGENT("Register nick" ),             5, MENU_POPUPITEM,      TRUE  },
+	{ LPGENT("Auth nick" ),                 6, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Delete nick" ),               7, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Identify nick" ),             8, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Remind password " ),          9, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Set new password" ),         10, MENU_POPUPITEM,      TRUE  },
+	{ LPGENT("Set language" ),             11, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Set homepage" ),             12, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Set e-mail" ),               13, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Set info" ),                 14, MENU_POPUPITEM,      FALSE },
+	{ _T("" ),                              0, MENU_POPUPSEPARATOR, FALSE },
+	{ LPGENT("Hide e-mail from info" ),    20, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Show e-mail in info" ),      21, MENU_POPUPITEM,      FALSE },
+	{ _T("" ),                              0, MENU_POPUPSEPARATOR, FALSE },
+	{ LPGENT("Set security for nick" ),    22, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Remove security for nick" ), 23, MENU_POPUPITEM,      FALSE },
+	{ _T("" ),                              0, MENU_POPUPSEPARATOR, FALSE },
+	{ LPGENT("Link nick to current" ),     24, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Unlink nick from current" ), 25, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Set main nick" ),            26, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("List all your nicks" ),      27, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("List your channels" ),       28, MENU_POPUPITEM,      FALSE },
+	{ _T("" ),                              0, MENU_POPUPSEPARATOR, FALSE },
+	{ LPGENT("Kill unauthorized: off" ),   15, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Kill unauthorized: on" ),    16, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Kill unauthorized: quick" ), 17, MENU_POPUPITEM,      FALSE },
+	{ _T("" ),                              0, MENU_POPUPSEPARATOR, FALSE },
+	{ LPGENT("Hide nick from list" ),      18, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Show nick to list" ),        19, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Show the server &window" ),   4, MENU_ITEM,           FALSE },
+	{ _T(""),                               0, MENU_SEPARATOR,      FALSE },
+	{ LPGENT("&Leave the channel" ),        3, MENU_ITEM,           FALSE }
+};																								 
+																								 
+static gc_item nickItems[] = {														 
+	{ LPGENT("&WhoIs info"),               10, MENU_ITEM,           FALSE },       //0
+	{ LPGENT("&Invite to channel"),        23, MENU_ITEM,           FALSE },	 
+	{ LPGENT("Send &notice"),              22, MENU_ITEM,           FALSE },	 
+	{ LPGENT("&Slap"),                     31, MENU_ITEM,           FALSE },
+	{ LPGENT("Nickserv info"),             32, MENU_ITEM,           FALSE },
+	{ LPGENT("Nickserv kill ghost"),       33, MENU_ITEM,           FALSE },      //5
+	{ LPGENT("&Control"),                   0, MENU_NEWPOPUP,       FALSE },
+	{ LPGENT("Give Owner"),                18, MENU_POPUPITEM,      FALSE },      //7
+	{ LPGENT("Take Owner"),                19, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Give Admin"),                20, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Take Admin"),                21, MENU_POPUPITEM,      FALSE },      //10
+	{ LPGENT("Give &Op"),                   1, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Take O&p"),                   2, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Give &Halfop"),              16, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Take H&alfop"),              17, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Give &Voice"),                3, MENU_POPUPITEM,      FALSE },      //15
+	{ LPGENT("Take V&oice"),                4, MENU_POPUPITEM,      FALSE },
+	{ _T(""),                               0, MENU_POPUPSEPARATOR, FALSE },
+	{ LPGENT("&Kick"),                      5, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Ki&ck (reason)"),             6, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("&Ban"),                       7, MENU_POPUPITEM,      FALSE },      //20
+	{ LPGENT("Ban'&n kick"),                8, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Ban'n kick (&reason)"),       9, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("&Direct Connection"),         0, MENU_NEWPOPUP,       FALSE },
+	{ LPGENT("Request &Chat"),             13, MENU_POPUPITEM,      FALSE },
+	{ LPGENT("Send &File"),                14, MENU_POPUPITEM,      FALSE },      //25
+	{ LPGENT("Add to &ignore list"),       15, MENU_ITEM,           FALSE },
+	{ _T(""),                              12, MENU_SEPARATOR,      FALSE },
+	{ LPGENT("&Add User"),                 30, MENU_ITEM,           FALSE }
+};
+
 int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS *gcmi= (GCMENUITEMS*) lParam;
@@ -866,46 +935,8 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 		if ( !lstrcmpiA( gcmi->pszModule, m_szModuleName )) {
 			if ( gcmi->Type == MENU_ON_LOG ) {
 				if ( lstrcmpi( gcmi->pszID, SERVERWINDOW)) {
-					static gc_item Item[] = {
-						{ TranslateT("&Change your nickname" ),		1, MENU_ITEM,		FALSE},
-						{ TranslateT("Channel &settings" ),			2, MENU_ITEM,		FALSE},
-						{ _T(""),									0, MENU_SEPARATOR,	FALSE},
-						{ TranslateT("NickServ"),					0, MENU_NEWPOPUP,	FALSE},
-						{ TranslateT("Register nick" ),				5, MENU_POPUPITEM,	TRUE},
-						{ TranslateT("Auth nick" ),					6, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Delete nick" ),				7, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Identify nick" ),				8, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Remind password " ),			9, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Set new password" ),			10, MENU_POPUPITEM,	TRUE},
-						{ TranslateT("Set language" ),				11, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Set homepage" ),				12, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Set e-mail" ),				13, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Set info" ),					14, MENU_POPUPITEM,	FALSE},
-						{ _T("" ),									0,	MENU_POPUPSEPARATOR,FALSE},
-						{ TranslateT("Hide e-mail from info" ),		20, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Show e-mail in info" ),		21, MENU_POPUPITEM,	FALSE},
-						{ _T("" ),									0,	MENU_POPUPSEPARATOR,FALSE},
-						{ TranslateT("Set security for nick" ),		22, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Remove security for nick" ),	23, MENU_POPUPITEM,	FALSE},
-						{ _T("" ),									0,	MENU_POPUPSEPARATOR,FALSE},
-						{ TranslateT("Link nick to current" ),		24, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Unlink nick from current" ),	25, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Set main nick" ),				26, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("List all your nicks" ),		27, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("List your channels" ),		28, MENU_POPUPITEM,	FALSE},
-						{ _T("" ),									0,	MENU_POPUPSEPARATOR,FALSE},
-						{ TranslateT("Kill unauthorized: off" ),	15, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Kill unauthorized: on" ),		16, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Kill unauthorized: quick" ),	17, MENU_POPUPITEM,	FALSE},
-						{ _T("" ),									0,	MENU_POPUPSEPARATOR,FALSE},
-						{ TranslateT("Hide nick from list" ),		18, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Show nick to list" ),			19, MENU_POPUPITEM,	FALSE},
-						{ TranslateT("Show the server &window" ),	4, MENU_ITEM,		FALSE},
-						{ _T(""),									0, MENU_SEPARATOR,	FALSE},
-						{ TranslateT("&Leave the channel" ),		3, MENU_ITEM,		FALSE}
-						};
-						gcmi->nItems = SIZEOF(Item);
-						gcmi->Item = &Item[0];
+					gcmi->nItems = SIZEOF(logItems);
+					gcmi->Item = logItems;
 				}
 				else gcmi->nItems = 0;
 			}
@@ -914,40 +945,8 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				CONTACT user ={ (TCHAR*)gcmi->pszUID, NULL, NULL, false, false, false};
 				HANDLE hContact = CList_FindContact(&user);
 
-				static gc_item Item[] = {
-					{ TranslateT("&WhoIs info"),         10, MENU_ITEM,           FALSE },		//0
-					{ TranslateT("&Invite to channel"),  23, MENU_ITEM,           FALSE },
-					{ TranslateT("Send &notice"),        22, MENU_ITEM,           FALSE },
-					{ TranslateT("&Slap"),		         31, MENU_ITEM,           FALSE },
-					{ TranslateT("Nickserv info"),		 32, MENU_ITEM,           FALSE },
-					{ TranslateT("Nickserv kill ghost"), 33, MENU_ITEM,           FALSE },		//5
-					{ TranslateT("&Control"),             0, MENU_NEWPOPUP,       FALSE },
-					{ TranslateT("Give Owner"),          18, MENU_POPUPITEM,      FALSE },		//7
-					{ TranslateT("Take Owner"),          19, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Give Admin"),          20, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Take Admin"),          21, MENU_POPUPITEM,      FALSE },		//10
-					{ TranslateT("Give &Op"),             1, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Take O&p"),             2, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Give &Halfop"),        16, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Take H&alfop"),        17, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Give &Voice"),          3, MENU_POPUPITEM,      FALSE },		//15
-					{ TranslateT("Take V&oice"),          4, MENU_POPUPITEM,      FALSE },
-					{ _T(""),                             0, MENU_POPUPSEPARATOR, FALSE },
-					{ TranslateT("&Kick"),                5, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Ki&ck (reason)"),       6, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("&Ban"),                 7, MENU_POPUPITEM,      FALSE },		//20
-					{ TranslateT("Ban'&n kick"),          8, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Ban'n kick (&reason)"), 9, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("&Direct Connection"),   0, MENU_NEWPOPUP,       FALSE },
-					{ TranslateT("Request &Chat"),       13, MENU_POPUPITEM,      FALSE },
-					{ TranslateT("Send &File"),          14, MENU_POPUPITEM,      FALSE },		//25
-					{ TranslateT("Add to &ignore list"), 15, MENU_ITEM,           FALSE },
-					{ _T(""),                            12, MENU_SEPARATOR,      FALSE },
-					{ TranslateT("&Add User"),           30, MENU_ITEM,           FALSE }
-				};
-
-				gcmi->nItems = SIZEOF(Item);
-				gcmi->Item = &Item[0];
+				gcmi->nItems = SIZEOF(nickItems);
+				gcmi->Item = nickItems;
 				BOOL bIsInList = (hContact && DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 0);
 				gcmi->Item[gcmi->nItems-1].bDisabled = bIsInList;
 
@@ -1050,7 +1049,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 				if (bIsOnline) {
 					DBVARIANT dbv3;
 					if ( !getString( hContact, "Host", &dbv3) ) {
-						if (dbv3.pszVal[0] == 0)  
+						if (dbv3.pszVal[0] == 0)
 							clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 						DBFreeVariant( &dbv3 );
 					}

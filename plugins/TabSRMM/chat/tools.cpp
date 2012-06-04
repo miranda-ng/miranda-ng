@@ -988,27 +988,29 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 
 	for (i = 0; i < gcmi.nItems; i++) {
 		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags, 0);
+		TCHAR* ptszText = TranslateTS(ptszDescr);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {
 			hSubMenu = CreateMenu();
-			AppendMenu(*hMenu, dwState | MF_POPUP, (UINT_PTR)hSubMenu, ptszDescr);
-		} else if (gcmi.Item[i].uType == MENU_POPUPHMENU)
-			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_POPUP, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(*hMenu, dwState | MF_POPUP, (UINT_PTR)hSubMenu, ptszText);
+		}
+		else if (gcmi.Item[i].uType == MENU_POPUPHMENU)
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_POPUP, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_POPUPITEM)
-			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_STRING, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_STRING, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_POPUPCHECK)
-			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_POPUPSEPARATOR)
-			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, MF_SEPARATOR, 0, ptszDescr);
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, MF_SEPARATOR, 0, ptszText);
 		else if (gcmi.Item[i].uType == MENU_SEPARATOR)
-			AppendMenu(*hMenu, MF_SEPARATOR, 0, ptszDescr);
+			AppendMenu(*hMenu, MF_SEPARATOR, 0, ptszText);
 		else if (gcmi.Item[i].uType == MENU_HMENU)
-			AppendMenu(*hMenu, dwState | MF_POPUP, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(*hMenu, dwState | MF_POPUP, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_ITEM)
-			AppendMenu(*hMenu, dwState | MF_STRING, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(*hMenu, dwState | MF_STRING, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_CHECK)
-			AppendMenu(*hMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(*hMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 
 		mir_free(ptszDescr);
 	}

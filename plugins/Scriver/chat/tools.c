@@ -524,7 +524,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	PathRemoveFileSpec(tszFolder);
 	if (!PathIsDirectory(tszFolder))
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)tszFolder);
-	
+
 	lstrcpyn(szTime, MakeTimeStamp(g_Settings.pszTimeStampLog, gce->time), 99);
 
 	hFile = _tfopen(tszFile, _T("ab+"));
@@ -721,29 +721,30 @@ UINT CreateGCMenu(HWND hwnd, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO* s
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (i = 0; i < gcmi.nItems; i++) {
-		TCHAR* ptszDescr = a2tf( gcmi.Item[i].pszDesc, si->dwFlags );
+		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags);
+		TCHAR* ptszText = TranslateTS(ptszDescr);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 
-		if ( gcmi.Item[i].uType == MENU_NEWPOPUP ) {
+		if (gcmi.Item[i].uType == MENU_NEWPOPUP) {
 			hSubMenu = CreateMenu();
-			AppendMenu( *hMenu, dwState|MF_POPUP, (UINT_PTR)hSubMenu, ptszDescr );
+			AppendMenu(*hMenu, dwState | MF_POPUP, (UINT_PTR)hSubMenu, ptszText);
 		}
 		else if (gcmi.Item[i].uType == MENU_POPUPHMENU)
-			AppendMenu( hSubMenu==0?*hMenu:hSubMenu, dwState|MF_POPUP, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_POPUP, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_POPUPITEM)
-			AppendMenu( hSubMenu==0?*hMenu:hSubMenu, dwState|MF_STRING, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_STRING, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_POPUPCHECK)
-			AppendMenu( hSubMenu==0?*hMenu:hSubMenu, dwState|MF_CHECKED|MF_STRING, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_POPUPSEPARATOR)
-			AppendMenu( hSubMenu==0?*hMenu:hSubMenu, MF_SEPARATOR, 0, ptszDescr );
+			AppendMenu(hSubMenu == 0 ? *hMenu : hSubMenu, MF_SEPARATOR, 0, ptszText);
 		else if (gcmi.Item[i].uType == MENU_SEPARATOR)
-			AppendMenu( *hMenu, MF_SEPARATOR, 0, ptszDescr );
+			AppendMenu(*hMenu, MF_SEPARATOR, 0, ptszText);
 		else if (gcmi.Item[i].uType == MENU_HMENU)
-			AppendMenu( *hMenu, dwState|MF_POPUP, gcmi.Item[i].dwID, ptszDescr);
+			AppendMenu(*hMenu, dwState | MF_POPUP, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_ITEM)
-			AppendMenu( *hMenu, dwState|MF_STRING, gcmi.Item[i].dwID, ptszDescr );
+			AppendMenu(*hMenu, dwState | MF_STRING, gcmi.Item[i].dwID, ptszText);
 		else if (gcmi.Item[i].uType == MENU_CHECK)
-			AppendMenu( *hMenu, dwState|MF_CHECKED|MF_STRING, gcmi.Item[i].dwID, ptszDescr );
+			AppendMenu(*hMenu, dwState | MF_CHECKED | MF_STRING, gcmi.Item[i].dwID, ptszText);
 
 		mir_free( ptszDescr );
 	}
@@ -919,10 +920,10 @@ TCHAR* GetChatLogsFilename (HANDLE  hContact, time_t tTime)
 	int i;
 
 	if (g_Settings.pszLogDir[_tcslen(g_Settings.pszLogDir)-1] == '\\')
-		_tcscat(g_Settings.pszLogDir, _T("%userid%.log")); 
+		_tcscat(g_Settings.pszLogDir, _T("%userid%.log"));
 	if (!tTime)
 	  time(&tTime);
-	
+
 	// day 1-31
 	rva[0].lptzKey = _T("d");
 	rva[0].lptzValue = mir_tstrdup(MakeTimeStamp(_T("%#d"), tTime));
