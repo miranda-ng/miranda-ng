@@ -26,6 +26,7 @@ struct MM_INTERFACE mmi;
 int nCountriesCount;
 struct CountryListEntry *countries;
 int hLangpack;
+static char szEmail[100] = PLUGIN_EMAIL;
 
 static PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -37,7 +38,7 @@ static PLUGININFOEX pluginInfo={
 	"Service offering misc country utilities as flag icons and a IP-to-Country database.",  /* autotranslated */
 #endif
 	"H. Herkenrath",
-	PLUGIN_EMAIL,  /* @ will be set later */
+	szEmail,  /* @ will be set later */
 	"© 2006-2007 H. Herkenrath",
 	PLUGIN_WEBSITE,
 	UNICODE_AWARE,
@@ -100,7 +101,7 @@ __declspec(dllexport) const PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
 	if(mirandaVersion<PLUGIN_MAKE_VERSION(0,1,0,1)) return NULL;
 	pluginInfo.cbSize=sizeof(PLUGININFO); /* needed as v0.6 does equality check */
 	/* email obfuscated, made .rdata writable */
-	pluginInfo.authorEmail[PLUGIN_EMAIL_ATT_POS-1]='@';
+	szEmail[PLUGIN_EMAIL_ATT_POS-1] = '@';
 	return (PLUGININFO*)&pluginInfo; /* header is the same */
 }
 
@@ -109,7 +110,7 @@ __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersi
 	UNREFERENCED_PARAMETER(mirandaVersion);
 	pluginInfo.cbSize=sizeof(PLUGININFOEX);
 	/* email obfuscated, made .rdata writable */
-	pluginInfo.authorEmail[PLUGIN_EMAIL_ATT_POS-1]='@';
+	szEmail[PLUGIN_EMAIL_ATT_POS-1] = '@';
 	return &pluginInfo;
 }
 
