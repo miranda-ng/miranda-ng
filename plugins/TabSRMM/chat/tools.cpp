@@ -987,7 +987,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 		AppendMenu(*hMenu, MF_SEPARATOR, 0, 0);
 
 	for (i = 0; i < gcmi.nItems; i++) {
-		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags, 0);
+		TCHAR* ptszDescr = a2tf(gcmi.Item[i].pszDesc, si->dwFlags);
 		TCHAR* ptszText = TranslateTS(ptszDescr);
 		DWORD dwState = gcmi.Item[i].bDisabled ? MF_GRAYED : 0;
 

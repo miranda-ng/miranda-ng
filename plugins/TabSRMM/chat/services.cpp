@@ -179,7 +179,6 @@ INT_PTR Service_GetInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 {
-
 	GCREGISTER *gcr = (GCREGISTER *)lParam;
 	MODULEINFO * mi = NULL;
 	if (gcr == NULL)
@@ -192,7 +191,7 @@ INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 
 	mi = MM_AddModule(gcr->pszModule);
 	if (mi) {
-		mi->ptszModDispName = a2tf( gcr->ptszModuleDispName, gcr->dwFlags, 0);
+		mi->ptszModDispName = a2tf( gcr->ptszModuleDispName, gcr->dwFlags);
 		mi->bBold = gcr->dwFlags & GC_BOLD;
 		mi->bUnderline = gcr->dwFlags & GC_UNDERLINE ;
 		mi->bItalics = gcr->dwFlags & GC_ITALICS ;
@@ -232,7 +231,7 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 	EnterCriticalSection(&cs);
 
 	if ((mi = MM_FindModule(gcw->pszModule)) != NULL) {
-		TCHAR* ptszID = a2tf(gcw->ptszID, gcw->dwFlags, 0);
+		TCHAR* ptszID = a2tf(gcw->ptszID, gcw->dwFlags);
 		SESSION_INFO* si = SM_AddSession(ptszID, gcw->pszModule);
 
 		// create a new session and set the defaults
@@ -244,8 +243,8 @@ INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 				si->wStatus = ID_STATUS_ONLINE;
 			si->iType = gcw->iType;
 			si->dwFlags = gcw->dwFlags;
-			si->ptszName = a2tf(gcw->ptszName, gcw->dwFlags, 0);
-			si->ptszStatusbarText = a2tf(gcw->ptszStatusbarText, gcw->dwFlags, 0);
+			si->ptszName = a2tf(gcw->ptszName, gcw->dwFlags);
+			si->ptszStatusbarText = a2tf(gcw->ptszStatusbarText, gcw->dwFlags);
 			si->iSplitterX = g_Settings.iSplitterX;
 			si->bFilterEnabled = M->GetByte(si->hContact, "Chat", "FilterEnabled", M->GetByte("Chat", "FilterEnabled", 0));
 			si->bNicklistEnabled = M->GetByte("Chat", "ShowNicklist", 1);
@@ -642,15 +641,15 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 	if (!(gce->dwFlags & GC_UNICODE)) {
 		save_gce = *gce;
 		save_gcd = *gce->pDest;
-		gce->pDest->ptszID = a2tf(gce->pDest->ptszID, gce->dwFlags, 0);
-		gce->ptszUID       = a2tf(gce->ptszUID,       gce->dwFlags, 0);
-		gce->ptszNick      = a2tf(gce->ptszNick,      gce->dwFlags, 0);
-		gce->ptszStatus    = a2tf(gce->ptszStatus,    gce->dwFlags, 0);
+		gce->pDest->ptszID = a2tf(gce->pDest->ptszID, gce->dwFlags);
+		gce->ptszUID       = a2tf(gce->ptszUID,       gce->dwFlags);
+		gce->ptszNick      = a2tf(gce->ptszNick,      gce->dwFlags);
+		gce->ptszStatus    = a2tf(gce->ptszStatus,    gce->dwFlags);
 		if (gcd->iType != GC_EVENT_MESSAGE && gcd->iType != GC_EVENT_ACTION) {
-			gce->ptszText   = a2tf(gce->ptszText,      gce->dwFlags, 0);
+			gce->ptszText   = a2tf(gce->ptszText,      gce->dwFlags);
 			fFreeText = TRUE;
 		}
-		gce->ptszUserInfo  = a2tf(gce->ptszUserInfo,  gce->dwFlags, 0);
+		gce->ptszUserInfo  = a2tf(gce->ptszUserInfo,  gce->dwFlags);
 	}
 
 	EnterCriticalSection(&cs);
@@ -718,7 +717,7 @@ INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 				if (si)
 					gce->ptszText = a2tf(gce->ptszText, gce->dwFlags, M->GetDword(si->hContact, "ANSIcodepage", 0));
 				else
-					gce->ptszText = a2tf(gce->ptszText, gce->dwFlags, 0);
+					gce->ptszText = a2tf(gce->ptszText, gce->dwFlags);
 			}
 			if (!gce->bIsMe && gce->pDest->pszID && gce->pszText) {
 				if (si)

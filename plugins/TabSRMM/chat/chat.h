@@ -356,11 +356,11 @@ typedef struct{
 
 #define mir_tstrdup mir_wstrdup
 
-TCHAR* a2t( const char* str );
-char*  t2a( const TCHAR* str, DWORD codepage );
-TCHAR* a2tf( const TCHAR* str, int flags, DWORD cp );
-TCHAR* replaceStr( TCHAR** dest, const TCHAR* src );
-char*  replaceStrA( char** dest, const char* src );
+TCHAR* a2t(const char* str);
+char*  t2a(const TCHAR* str, DWORD codepage);
+TCHAR* a2tf(const TCHAR* str, int flags, DWORD cp = 0);
+TCHAR* replaceStr(TCHAR** dest, const TCHAR* src);
+char*  replaceStrA(char** dest, const char* src);
 
 extern char *szChatIconString;
 
