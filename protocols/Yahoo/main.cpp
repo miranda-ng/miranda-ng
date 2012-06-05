@@ -171,19 +171,7 @@ extern "C" int __declspec(dllexport) Unload(void)
  */
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	/*
-	 * This requires the latest trunk... [md5, sha, etc..]
-	 */
-    if (mirandaVersion < MIRANDA_VERSION_CORE ) {
-		MessageBoxA( NULL, 
-				"Yahoo plugin cannot be loaded. It requires Miranda IM " MIRANDA_VERSION_CORE_STRING " or later.",
-				"Yahoo",
-				MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-
-        return NULL;
-	}
-
-    return &pluginInfo;
+	return &pluginInfo;
 }
 
 /*

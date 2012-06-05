@@ -69,11 +69,6 @@ PLUGININFOEX pluginInfoEx={
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < PLUGIN_MAKE_VERSION( 0, 8, 0, 0 )) {
-		MessageBox(NULL, TranslateT("Startup requires Miranda IM of version 0.8, get it at www.miranda-im.org"), TranslateT("KeepStatus"), MB_OK);
-		return 0;
-	}
-
 	return &pluginInfoEx;
 }
 

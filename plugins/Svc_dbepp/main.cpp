@@ -41,10 +41,6 @@ PLUGININFOEX pluginInfoEx={
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 7, 0, 0)) // 0.4 better. 0.3 have too many bugs
-	{
-		return NULL;
-	}
 	return &pluginInfoEx;
 }
 

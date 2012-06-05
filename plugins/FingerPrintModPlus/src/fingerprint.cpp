@@ -150,12 +150,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 }
 
 extern "C"		__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{// Tell Miranda IM about plugin
-	if(mirandaVersion < 0x8000)
-	{
-		MessageBox(NULL, TranslateT("Fingerprint Mod+ plugin requires Miranda IM 0.8.0.0 or later"), TranslateT("Fatal error"), MB_OK);
-		return NULL;
-	}
+{
 	return &pluginInfoEx;
 }
 

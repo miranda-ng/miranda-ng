@@ -85,13 +85,7 @@ static const PLUGININFOEX pluginInfoEx =
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,0)) {
-		MessageBoxA(NULL, "Weather Protocol requires Miranda 0.8.0.0 or later to run.", "Weather Protocol", MB_OK|MB_ICONERROR|MB_APPLMODAL);
-		return NULL;
-	}
-	// if Miranda version is higher than 0.7.0
-	else	
-		return &pluginInfoEx;
+	return &pluginInfoEx;
 }
 
 // MirandaPluginInterfaces - returns the protocol interface to the core

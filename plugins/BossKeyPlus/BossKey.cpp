@@ -87,11 +87,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-		if ( mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,0)) {
-		MessageBox( NULL, _T("The BossKey+ cannot be loaded. It requires Miranda IM 0.8 or later."), _T("BossKey+"), MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-		return NULL;
-	}
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 

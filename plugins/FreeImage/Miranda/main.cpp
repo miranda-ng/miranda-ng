@@ -1269,7 +1269,5 @@ extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 
 extern "C" __declspec(dllexport) const PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 9, 0, 0))
-		return NULL;
 	return &pluginInfoEx;
 }

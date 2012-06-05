@@ -57,11 +57,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if(mirandaVersion < 0x0900)
-	{
-		MessageBox(NULL, TranslateT("News Aggregator plugin requires Miranda IM 0.9.0.0 or later"), TranslateT("Fatal error"), MB_OK);
-		return NULL;
-	}
 	return &pluginInfoEx;
 }
 

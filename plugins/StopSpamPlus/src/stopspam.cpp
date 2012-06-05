@@ -35,9 +35,6 @@ _inline unsigned int MakeVer(int a,int b,int c,int d)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < MakeVer(__PRODVERSION_STRING))
-		return NULL;
-
 	return &pluginInfoEx;
 }
 

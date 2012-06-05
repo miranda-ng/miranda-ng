@@ -174,10 +174,8 @@ _inline unsigned int MakeVer(int a, int b, int c, int d)
     return PLUGIN_MAKE_VERSION(a, b, c, d);
 }
 
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
-
-	if ( mirandaVersion < MakeVer(MINIMAL_COREVERSION) ) return NULL;
-    pluginInfoEx.version = MakeVer(PRODUCT_VERSION);
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
+{
 	return &pluginInfoEx;
 }
 

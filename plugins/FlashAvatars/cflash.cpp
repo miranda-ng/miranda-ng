@@ -644,29 +644,6 @@ static int systemModulesLoaded(WPARAM /*wParam*/, LPARAM /*lParam*/)
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 4, 0, 0))
-		return NULL;
-
-	TCHAR filename[MAX_PATH];
-	GetModuleFileName(g_hInst, filename, SIZEOF(filename));
-
-	DWORD unused;
-	DWORD verInfoSize = GetFileVersionInfoSize(filename, &unused);
-	PVOID pVerInfo = malloc(verInfoSize);
-	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
-
-	TCHAR *productVersion;
-	UINT blockSize;
-	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\040504b0\\FileVersion"), (PVOID*)&productVersion, &blockSize);
-
-#ifdef _UNICODE
-	_snprintf(pluginName, SIZEOF(pluginName), "Flash avatars service [build #%S]", _tcsrchr(productVersion, ' ') + 1);
-#else
-	_snprintf(pluginName, SIZEOF(pluginName), "Flash avatars service [build #%s]", strrchr(productVersion, ' ') + 1);
-#endif
-	pluginInfo.shortName = pluginName;
-
-	free(pVerInfo);
 	return &pluginInfo;
 }
 

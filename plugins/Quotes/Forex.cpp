@@ -435,12 +435,6 @@ extern "C"
 {
 	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	{
-		if ( mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,0) )
-		{
-			MessageBox(NULL, TranslateT("Quotes plugin requires Miranda IM 0.8.0.0 or later"), TranslateT("Fatal error"), MB_OK);
-			return NULL;
-		}
-
 		return &Global_pluginInfo;
 	}
 

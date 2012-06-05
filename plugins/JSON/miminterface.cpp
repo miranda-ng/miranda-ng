@@ -35,12 +35,8 @@ extern "C" {
 		return TRUE;
 	}
 
-	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
-		if (mirandaVersion<PLUGIN_MAKE_VERSION( 0, 9, 0, 0 )) {
-			MessageBoxA(NULL, "libJSON can only be loaded on Miranda IM 0.9.0.0 or later.", NULL, MB_OK|MB_ICONERROR|MB_SETFOREGROUND|MB_TOPMOST);
-			return NULL;
-		}
-
+	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
+	{
 		return &pluginInfo;
 	}
 

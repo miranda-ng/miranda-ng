@@ -54,11 +54,6 @@ BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID Reserved)
 
 extern "C" MRA_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion<MIN_MIR_VER_VERSION_DWORD) 
-	{
-		MessageBox(NULL, TranslateT("Please, update your Miranda IM, MRA will not load with this version."), NULL, (MB_OK|MB_ICONERROR));
-		return(NULL);
-	}
 	return(&pluginInfoEx);
 }
 

@@ -249,11 +249,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if(mirandaVersion<PLUGIN_MAKE_VERSION(0,8,0,0))
-	{
-		MessageBox(NULL,_T("Nudge Plugin needs at least Miranda IM 0.8 to work correctly."),_T("Nudge Plugin"),MB_OK);
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

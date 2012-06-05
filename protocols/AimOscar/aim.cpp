@@ -75,17 +75,6 @@ static const PLUGININFOEX pluginInfo =
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < MIRANDA_VERSION_CORE) 
-	{
-		MessageBox(NULL, 
-			_T("The AIM protocol plugin cannot be loaded. It requires Miranda IM ") 
-			_T(MIRANDA_VERSION_CORE_STRING) _T(" or later."),
-			_T("Miranda"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-		return NULL;
-	}
-
-	*(unsigned long*)(&AIM_CAP_MIRANDA[8]) = _htonl(mirandaVersion);
-	*(unsigned long*)(&AIM_CAP_MIRANDA[12]) = _htonl(__VERSION_DWORD);
 	return &pluginInfo;
 }
 

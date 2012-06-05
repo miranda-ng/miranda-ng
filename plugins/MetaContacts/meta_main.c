@@ -115,10 +115,6 @@ PLUGINLINK *pluginLink;	//!< Link between Miranda and this plugin
 */
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < PLUGIN_MAKE_VERSION( 0, 8, 0, 0 )) {
-		MessageBox( NULL, _T("The MetaContacts cannot be loaded. It requires Miranda IM 0.8.0.0 or later."), _T("Miranda"), MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

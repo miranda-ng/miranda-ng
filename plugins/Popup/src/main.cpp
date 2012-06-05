@@ -498,13 +498,6 @@ MIRAPI PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	g_popup.MirVer = mirandaVersion;
 
-#if defined(_UNICODE)
-	pluginInfoEx.flags = UNICODE_AWARE;
-#else
-	if (GetProcAddress(GetModuleHandle(_T("user32")), "DrawTextExW"))
-		pluginInfoEx.flags = 1; // dynamic UNICODE_AWARE
-#endif
-
 	return &pluginInfoEx;
 }
 

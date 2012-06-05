@@ -53,11 +53,6 @@ extern "C" __declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * Reserve
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD MirandaVersion)
 {
-	if (MirandaVersion < gMinMirVer)
-	{
-		MessageBoxA( 0, "The dbx_tree plugin cannot be loaded. It requires Miranda IM 0.8.0.0 or later.", gInternalName, MB_OK | MB_ICONEXCLAMATION | MB_SETFOREGROUND | MB_TOPMOST );
-		return NULL;
-	}
 	return &gPluginInfoEx;
 }
 

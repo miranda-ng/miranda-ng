@@ -174,10 +174,6 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 9, 0, 0)) {
-		MessageBox(0, _T("The installed version of the Clist Nicer+ plugin is not compatible with this Miranda installation. It requires Miranda core 0.9.0.0 or later"), _T("Clist Nicer+ error"), MB_OK);
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

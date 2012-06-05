@@ -173,9 +173,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion >= PLUGIN_MAKE_VERSION(0, 7, 0, 3))
-		bIcolibEmbededInCore = TRUE;
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);//Make sure cbSize is correct;
 	return &pluginInfo;
 }
 

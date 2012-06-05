@@ -144,16 +144,6 @@ const char *http_error_string(int h)
 // Gets plugin info
 __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < MIRANDA_VERSION_CORE)
-	{
-		MessageBox(
-			NULL,
-			"The Gadu-Gadu protocol plugin cannot be loaded. It requires Miranda IM " MIRANDA_VERSION_CORE_STRING " or later.",
-			"Gadu-Gadu Protocol Plugin",
-			MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST
-		);
-		return NULL;
-	}
 	return &pluginInfo;
 }
 __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
