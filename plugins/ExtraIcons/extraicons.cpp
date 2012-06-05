@@ -30,7 +30,7 @@ PLUGININFOEX pluginInfo = {
 		"",
 		"© 2009 Ricardo Pescuma Domenecci",
 		"http://pescuma.org/miranda/extraicons",
-		0,
+		UNICODE_AWARE,
 		0, //doesn't replace anything built-in
 		{ 0x112f7d30, 0xcd19, 0x4c74, { 0xa0, 0x3b, 0xbf, 0xbb, 0x76, 0xb7, 0x5b, 0xc4 } } // {112F7D30-CD19-4c74-A03BBFBB76B75BC4}
 };
@@ -72,15 +72,8 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 	return TRUE;
 }
 
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*) &pluginInfo;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 

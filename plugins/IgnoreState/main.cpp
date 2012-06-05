@@ -69,12 +69,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 // плагининфо
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 8, 0, 29))
-	{
-		MessageBox( NULL, TranslateT("The plugin requires Miranda IM 0.8.0.29 or later for correct applying its preferences."), TranslateT("IgnoreState"),
-			MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-	}
-
 	return &pluginInfo;
 }
 

@@ -307,7 +307,7 @@ BYTE bMetaProtoEnabled = 0;
 
 
 PLUGININFOEX pluginInfo={
-	sizeof(PLUGININFO),
+	sizeof(PLUGININFOEX),
 	"Keyboard Notify Ext.",
 	PLUGIN_MAKE_VERSION(1,5,7,7),
 	"Flashes your keyboard LEDs when a message has arrived",
@@ -1134,40 +1134,20 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 }
 
-
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*)&pluginInfo;
-
-}
-
-
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
-
 }
-
-
 
 #define MIID_KBDNOTIFY	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }}
 static const MUUID interfaces[] = {MIID_KBDNOTIFY, MIID_LAST};
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
-
 	return interfaces;
-
 }
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
-
 	pluginLink = link;
 	mir_getLP(&pluginInfo);
 	mir_getMMI(&mmi);

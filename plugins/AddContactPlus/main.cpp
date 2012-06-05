@@ -38,20 +38,15 @@ PLUGININFOEX pluginInfo = {
 	"AddContact+ (ANSI)",
 #endif
 	PLUGIN_MAKE_VERSION(0, 9, 9, 0),
-	"Provides the ability to quickly add new contacts",
+	"Provides the ability to quickly add new contacts.",
 	"Bartosz 'Dezeath' Bia³ek",
 	"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com",
 	"© 2007-2011 Bartosz 'Dezeath' Bia³ek",
 	"http://code.google.com/p/dezeath",
 	UNICODE_AWARE,
 	0,
-#ifdef _UNICODE
 	// {6471D451-2FE0-4ee2-850E-9F84F3C0D187}
 	{ 0x6471d451, 0x2fe0, 0x4ee2, { 0x85, 0xe, 0x9f, 0x84, 0xf3, 0xc0, 0xd1, 0x87 } }
-#else
-	// {64B41F85-A2D1-4cac-AA35-658DF950FE05}
-	{ 0x64b41f85, 0xa2d1, 0x4cac, { 0xaa, 0x35, 0x65, 0x8d, 0xf9, 0x50, 0xfe, 0x5 } }
-#endif
 };
 
 static const MUUID interfaces[] = {MIID_ADDCONTACTPLUS, MIID_LAST};
@@ -64,11 +59,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 9, 0, 0))
-	{
-		MessageBox(NULL, _T("The AddContact+ plugin cannot be loaded. It requires Miranda IM 0.9 or later."), _T("AddContact+ Plugin"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

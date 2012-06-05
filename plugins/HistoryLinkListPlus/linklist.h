@@ -131,7 +131,6 @@ typedef struct{
 
 BOOL WINAPI DllMain(HINSTANCE ,DWORD ,LPVOID );
 int __declspec(dllexport) Load(PLUGINLINK*);
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD);
 int __declspec(dllexport) Unload(void);
 static INT_PTR LinkList_Main(WPARAM, LPARAM);
 int InitOptionsDlg(WPARAM, LPARAM);

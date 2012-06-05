@@ -145,20 +145,6 @@ static void InitOptions() {
 	fcOpt.bShowIdle				 =  TRUE;
 }
 
-
-PLUGININFO pluginInfo  = {
-	sizeof(PLUGININFO), 
-		__PLUGIN_NAME, 
-		0, 
-		__DESC, 
-		__AUTHOR, 
-		__AUTHOREMAIL, 
-		__COPYRIGHT, 
-		__AUTHORWEB, 
-		UNICODE_AWARE, 
-		0
-};
-
 // {53C715A8-EB01-4136-A73C-441868610074}
 #define MIID_FLTCONT  { 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } }
 
@@ -213,17 +199,6 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 		
 	return( TRUE );
 }
-
-
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo( DWORD mirandaVersion )
-{
-	if ( mirandaVersion < MakeVer(MINIMAL_COREVERSION) ) return NULL;
-    pluginInfo.version = MakeVer(PRODUCT_VERSION);
-	return &pluginInfo;
-}
-
-
 
 extern "C" int __declspec(dllexport) Load( PLUGINLINK *link )
 {

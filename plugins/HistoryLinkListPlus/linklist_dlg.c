@@ -40,7 +40,6 @@
 
 extern HINSTANCE hInst;
 extern HANDLE hWindowList;
-extern PLUGININFO pluginInfo;
 extern HCURSOR splitCursor;
 
 MYCOLOURSET colourSet;

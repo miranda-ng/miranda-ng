@@ -62,13 +62,6 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LP
 
 extern "C" POPUPS2_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
-	if (!IsWinVerNT() && !GetModuleHandle(_T("unicows.dll")))
-	{
-		MessageBox(NULL, _T("The yapp plugin cannot be loaded. It requires unicows.dll."), 
-			_T("Miranda IM"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

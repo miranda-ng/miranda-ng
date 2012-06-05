@@ -171,16 +171,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	if (mirandaVersion >= PLUGIN_MAKE_VERSION(0, 7, 0, 3))
-		bIcolibEmbededInCore = TRUE;
-	pluginInfo.cbSize = sizeof(PLUGININFO);//Miranda pre-0.7.0.17 does not load the plugin if cbSize does not match.
-	return (PLUGININFO *) &pluginInfo;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	if (mirandaVersion >= PLUGIN_MAKE_VERSION(0, 7, 0, 3))

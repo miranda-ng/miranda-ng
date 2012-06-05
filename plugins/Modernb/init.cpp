@@ -67,11 +67,7 @@ PLUGININFOEX pluginInfo = {
 	"http://miranda-im.org/development",
 	UNICODE_AWARE,
 	DEFMOD_CLISTALL,
-#ifdef UNICODE
 	{0x43909b6, 0xaad8, 0x4d82, { 0x8e, 0xb5, 0x9f, 0x64, 0xcf, 0xe8, 0x67, 0xcd }} //{043909B6-AAD8-4d82-8EB5-9F64CFE867CD}
-#else
-	{0xf6588c56, 0x15dc, 0x4cd7, { 0x8c, 0xf9, 0x48, 0xab, 0x6c, 0x5f, 0xd2, 0xf }} //{F6588C56-15DC-4cd7-8CF9-48AB6C5FD20F}
-#endif
 };
 static const MUUID interfaces[] = {MIID_CLIST, MIID_LAST};
 
@@ -94,9 +90,6 @@ inline int MakeVer(int a, int b, int c, int d)
 
 PLUGININTERFACE PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < MINIMAL_COREVERSION_NUM )
-		return NULL;
-	pluginInfo.version=MakeVer(PRODUCT_VERSION);
 	return &pluginInfo;
 }
 

@@ -29,29 +29,19 @@ struct UTF8_INTERFACE utfi;
 static HANDLE hHookModulesLoaded;
 int hLangpack;
 
-static char szPluginInfoEmail[]=PLUGIN_EMAIL;
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"File Association Manager",
 	PLUGIN_VERSION,
-#if defined(_DEBUG)
-	"Development build not intended for release. ("__DATE__")", /* autotranslated */
-#else
 	"Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.", /* autotranslated */
-#endif
 	"H. Herkenrath",
-	szPluginInfoEmail,  /* @ will be set later */
+	"hrathh@users.sourceforge.net",
 	"© 2005-2007 H. Herkenrath",
 	PLUGIN_WEBSITE,
 	UNICODE_AWARE,
 	0,
-#if defined(_UNICODE)
 	// {52685CD7-0EC7-44c1-A1A6-381612418202}
-	{0x52685cd7,0xec7,0x44c1,{0xa1,0xa6,0x38,0x16,0x12,0x41,0x82,0x2}},
-#else
-	// {48692828-D4BA-43b5-BF81-44F384811569}
-	{0x48692828,0xd4ba,0x43b5,{0xbf,0x81,0x44,0xf3,0x84,0x81,0x15,0x69}}
-#endif
+	{0x52685cd7,0xec7,0x44c1,{0xa1,0xa6,0x38,0x16,0x12,0x41,0x82,0x2}}
 };
 static const MUUID interfaces[]={MIID_ASSOCMGR,MIID_AUTORUN,MIID_LAST};
 
@@ -110,19 +100,8 @@ static int AssocMgrModulesLoaded(WPARAM wParam,LPARAM lParam)
 extern "C" {
 #endif 
 
-__declspec(dllexport) const PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	if(mirandaVersion<PLUGIN_MAKE_VERSION(0,1,0,1)) return NULL;
-	pluginInfo.cbSize=sizeof(PLUGININFO); /* needed as v0.6 does equality check */
-	szPluginInfoEmail[PLUGIN_EMAIL_ATT_POS-1]='@'; /* email obfuscated */
-	return (PLUGININFO*)&pluginInfo; /* header is the same */
-}
-
 __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	UNREFERENCED_PARAMETER(mirandaVersion);
-	pluginInfo.cbSize=sizeof(PLUGININFOEX);
-	szPluginInfoEmail[PLUGIN_EMAIL_ATT_POS-1]='@'; /* email obfuscated */
 	return &pluginInfo;
 }
 

@@ -167,10 +167,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < PLUGIN_MAKE_VERSION(0,8,1,0)) {
-		MessageBox( NULL, _T("The ") _T(__PLUGIN_NAME_BASE) _T(" plugin cannot be loaded. It requires Miranda IM 0.8.1 or later."), _T(__PLUGIN_NAME_BASE), MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

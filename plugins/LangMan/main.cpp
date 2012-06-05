@@ -28,19 +28,13 @@ struct MM_INTERFACE mmi;
 static HANDLE hHookModulesLoaded;
 int hLangpack;
 
-static char szEmail[100] = PLUGIN_EMAIL;
-
 static PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
 	"Language Pack Manager", 
 	PLUGIN_VERSION, 
-#if defined(_DEBUG)
-	"Development build not intended for release. ("__DATE__")", /* autotranslated */
-#else
 	"Helps you manage Language Packs of different languages.", /* autotranslated */
-#endif
 	"H. Herkenrath", 
-	szEmail,  /* @ will be set later */
+	"hrathh@users.sourceforge.net",
 	"© 2005-2007 H. Herkenrath", 
 	PLUGIN_WEBSITE, 
 	UNICODE_AWARE, 
@@ -98,7 +92,6 @@ extern "C" {
 
 __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD)
 {
-	szEmail[PLUGIN_EMAIL_ATT_POS-1] = '@';
 	return &pluginInfo;
 }
 

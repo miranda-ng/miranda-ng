@@ -32,9 +32,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  #define USERAGENT_VERSION          "1.0.2.3"
 #endif
 
-#define PLUGIN_EMAIL               "hrathh users.sourceforge.net"
-#define PLUGIN_EMAIL_ATT_POS        7  /* position of the @-sign in the email adress above */
-
 #if defined(_UNICODE)
  #define PLUGIN_WEBSITE            "http://addons.miranda-im.org/details.php?action = viewfile&id = 3003"
 #else

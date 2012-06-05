@@ -84,58 +84,16 @@ DWORD my_make_version(const int a, const int b, const int c, const int d)
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"New Away System Mod ("
-#ifdef _DEBUG
-	"DEBUG "
-#endif
-#ifdef _UNICODE
-	"Unicode"
-#else
-	"ANSI"
-#endif
-	")",
-	0, // see VersionNo.h
-	"New Away System Mod plugin for Miranda IM.  Build #"STRSPECIALBUILD" [ "__DATE__"  "__TIME__
-#ifdef _DEBUG
-	" DEBUG"
-#endif
-#ifdef _UNICODE
-	" Unicode"
-#else
-	" ANSI"
-#endif
-	" ]",
+	"New Away System Mod",
+	my_make_version(PRODUCTVER), // see VersionNo.h
+	"New Away System Mod plugin for Miranda IM.",
 	"NightFox; Deathdemon; XF007; Goblineye Entertainment",
 	"NightFox@myied.org",
 	"© 2010 NightFox; © 2005-2007 Chervov Dmitry; © 2004-2005 Iksaif; © 2002-2003 Goblineye Entertainment",
 	"http://MyiEd.org/packs",
 	UNICODE_AWARE,
 	DEFMOD_SRAWAY,		// mwawawawa.
-#ifdef _UNICODE
-//	{0x75cc4fef, 0xb038, 0x4224, {0xb3, 0x75, 0x7, 0x21, 0xf9, 0x76, 0x18, 0x13}}
-// {75CC4FEF-B038-4224-B375-0721F9761813}
 	{0xb2dd9270, 0xce5e, 0x11df, {0xbd, 0x3d, 0x8, 0x0, 0x20, 0xc, 0x9a, 0x66}}
-// {b2dd9270-ce5d-11df-bd3b-0800200c9a66}
-#else
-//	{0x313e808f, 0x7162, 0x4319, {0xae, 0xe, 0xcc, 0xad, 0x4d, 0xe5, 0xeb, 0x71}}
-// {313E808F-7162-4319-AE0E-CCAD4DE5EB71}
-	{0x14254a00, 0xce5e, 0x11df, {0xbd, 0x3d, 0x8, 0x0, 0x20, 0xc, 0x9a, 0x66}}
-// {14254a00-ce5e-11df-bd3b-0800200c9a66}
-
-#endif
-};
-
-PLUGININFO oldPluginInfo = {
-	sizeof(PLUGININFO),
-	pluginInfo.shortName,
-	pluginInfo.version,
-	pluginInfo.description,
-	pluginInfo.author,
-	pluginInfo.authorEmail,
-	pluginInfo.copyright,
-	pluginInfo.homepage,
-	pluginInfo.flags,
-	pluginInfo.replacesDefaultModule
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -152,14 +110,7 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.version = my_make_version(PRODUCTVER);
 	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion)
-{
-	oldPluginInfo.version = my_make_version(PRODUCTVER);
-	return &oldPluginInfo;
 }
 
 //NightFox

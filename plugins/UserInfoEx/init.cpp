@@ -266,10 +266,6 @@ static BOOL CoreCheck()
  **/
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,45))
-	{
-		return NULL;
-	}
 	myGlobals.mirandaVersion = mirandaVersion;
 	return &pluginInfo;
 }

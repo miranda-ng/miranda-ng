@@ -69,7 +69,7 @@ PLUGININFOEX pluginInfo={
    "kostia@ngs.ru",
    "© 2006-2009 Kostia Romanov, based on AuthState by Alexander Turyak",
    "http://kildor.miranda.im/",
-   0,      // is not unicode
+   UNICODE_AWARE,      // is not unicode
    0,      //doesn't replace anything built-in
    {0x45230488, 0x977b, 0x405b, {0x85, 0x6d, 0xea, 0x27, 0x6d, 0x70, 0x83, 0xb7}}
 /* 45230488-977b-405b-856d-ea276d7083b7 */
@@ -85,12 +85,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 // плагининфо
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 8, 0, 29))
-	{
-		MessageBox( NULL, TranslateT("The plugin requires Miranda IM 0.8.0.29 or later for correct applying its preferences."), TranslateT("Contact` Rate"),
-			MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-	}
-
 	return &pluginInfo;
 }
 

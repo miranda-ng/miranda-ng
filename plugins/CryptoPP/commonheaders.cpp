@@ -17,18 +17,6 @@ char TEMP[MAX_PATH];
 int  TEMP_SIZE = 0;
 BOOL isVista = 0;
 
-PLUGININFO pluginInfo = {
-	sizeof(PLUGININFO),
-		MODULENAME,
-		__VERSION_DWORD,
-		MODULENAME" library for SecureIM plugin ("__DATE__")",
-		"Baloo",
-		"baloo@bk.ru",
-		"© 2006-09 Baloo",
-		"http://miranda-im.org/download/details.php?action=viewfile&id=2669",
-		0, 0
-};
-
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 		MODULENAME,

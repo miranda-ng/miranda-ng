@@ -71,22 +71,9 @@ PLUGININFOEX pluginInfo = {
 	"thief@miranda.im",
 	"© 2005 Anar Ibragimoff, © 2006 Scott Ellis, © 2007-2009 Alexander Turyak",
 	"http://thief.miranda.im",
-	0,
+	UNICODE_AWARE,
 	0,
 	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}} //{DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
-};
-
-PLUGININFO oldpluginInfo = {
-	sizeof(PLUGININFO),
-	pluginInfo.shortName, 
- 	pluginInfo.version, 
- 	pluginInfo.description, 
- 	pluginInfo.author, 
- 	pluginInfo.authorEmail, 
- 	pluginInfo.copyright, 
- 	pluginInfo.homepage, 
- 	pluginInfo.flags, 
- 	pluginInfo.replacesDefaultModule
 };
 
 /* 2D84F403-91F3-4E60-BF02-16C2F1716D86 */
@@ -884,11 +871,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	return &oldpluginInfo;
 }
 
 int ContactAdded(WPARAM wParam, LPARAM lParam)

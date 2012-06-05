@@ -29,10 +29,10 @@ HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 int hLangpack;
 
-int g_NewProtoAPI = FALSE;
+int g_NewProtoAPI = TRUE;
 
-int g_SendAckSupported = FALSE;
-int g_Utf8EventsSupported = FALSE;
+int g_SendAckSupported = TRUE;
+int g_Utf8EventsSupported = TRUE;
 
 HANDLE ghSendWindowList;
 HANDLE ghRecvWindowList;
@@ -64,7 +64,7 @@ PLUGININFOEX pluginInfo = {
   "jokusoftware@miranda-im.org",
   "(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum",
   "http://addons.miranda-im.org/details.php?action=viewfile&id=1253",
-  0, //no flags by default
+  UNICODE_AWARE, //no flags by default
   0, //doesn't replace anything built-in
   {0x0324785E, 0x74CE, 0x4600,  {0xB7, 0x81, 0x85, 0x17, 0x73, 0xB3, 0xEF, 0xC5 } } // {0324785E-74CE-4600-B781-851773B3EFC5}
 };
@@ -277,42 +277,9 @@ static INT_PTR ServiceReceiveCommand(WPARAM wParam, LPARAM lParam)
   return 0;
 }
 
-
-static void* PrepareMirandaPluginInfo(DWORD mirandaVersion)
-{ 
-  if (!(mirandaVersion >= PLUGIN_MAKE_VERSION(0,4,0,0)))
-    pluginInfo.description = "Allows you to send and receive contacts; Please upgrade your Miranda IM to version 0.4 for better functionality.";
-  else
-    g_SendAckSupported = TRUE;
-
-  if (mirandaVersion >= PLUGIN_MAKE_VERSION(0,7,0,0))
-    g_Utf8EventsSupported = TRUE;
-
-  if (mirandaVersion >= PLUGIN_MAKE_VERSION(0,8,0,8))
-    g_NewProtoAPI = TRUE;
-
-  if (mirandaVersion >= PLUGIN_MAKE_VERSION(0,3,3,0))
-  {
-    // Are we running under Unicode Windows version ?
-    if ((GetVersion() & 0x80000000) == 0)
-    {
-      pluginInfo.flags = 1; // UNICODE_AWARE
-    }
-    return &pluginInfo; 
-  }
-  return NULL;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-  pluginInfo.cbSize = sizeof(PLUGININFOEX);
-  return (PLUGININFOEX*)PrepareMirandaPluginInfo(mirandaVersion);
-}
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-  pluginInfo.cbSize = sizeof(PLUGININFO);
-  return (PLUGININFO*)PrepareMirandaPluginInfo(mirandaVersion);
+	return &pluginInfo; 
 }
 
 static const MUUID interfaces[] = {MIID_SRCONTACTS, MIID_LAST};

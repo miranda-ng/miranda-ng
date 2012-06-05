@@ -45,21 +45,13 @@ PLUGININFOEX pluginInfo = {
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	1, //unicode aware
+	UNICODE_AWARE, //unicode aware
 	0,
 	{0x2fe47261, 0x7f38, 0x45f4, {0x8f, 0xac, 0xb8, 0x7e, 0x97, 0x4a, 0x13, 0x50}} //{2fe47261-7f38-45f4-8fac-b87e974a1350}
-	}; //not used
-
-OLD_MIRANDAPLUGININFO_SUPPORT;
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
-//	Log("%s", "Entering function " __FUNCTION__);
-//	Log("%s", "Leaving function " __FUNCTION__);
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 6, 0, 0))
-	{
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

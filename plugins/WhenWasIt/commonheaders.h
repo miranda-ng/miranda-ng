@@ -75,24 +75,6 @@ extern HWND hBirthdaysDlg;
 extern HWND hUpcomingDlg;
 extern HANDLE hAddBirthdayWndsList;
 
-#define OLD_MIRANDAPLUGININFO_SUPPORT PLUGININFO oldPluginInfo = { \
-	sizeof(PLUGININFO), \
-	pluginInfo.shortName, \
-	pluginInfo.version, \
-	pluginInfo.description, \
-	pluginInfo.author, \
-	pluginInfo.authorEmail, \
-	pluginInfo.copyright, \
-	pluginInfo.homepage, \
-	pluginInfo.flags, \
-	pluginInfo.replacesDefaultModule \
-}; \
-\
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion) \
-{ \
-	return &oldPluginInfo; \
-}
-
 struct CommonData{
 	DWORD foreground;
 	DWORD background;

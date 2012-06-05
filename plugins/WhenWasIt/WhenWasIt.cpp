@@ -43,14 +43,8 @@ PLUGININFOEX pluginInfo = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	0,
-#ifdef _UNICODE	
 	{0x2ff96c84, 0xb0b5, 0x470e, {0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f}} //{2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
-#else
-	{0x2f369a01, 0x211a, 0x4f13, {0xbe, 0x3c, 0xbf, 0x4f, 0x8c, 0x62, 0xca, 0xce}} //{2f369a01-211a-4f13-be3c-bf4f8c62cace}
-#endif
-}; //not used
-
-OLD_MIRANDAPLUGININFO_SUPPORT;
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {

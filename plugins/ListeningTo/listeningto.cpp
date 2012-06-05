@@ -40,11 +40,7 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-#ifdef UNICODE
-	"ListeningTo (Unicode)",
-#else
 	"ListeningTo",
-#endif
 	PLUGIN_MAKE_VERSION(0,3,0,0),
 	"Handle listening information to/for contacts",
 	"Ricardo Pescuma Domenecci",
@@ -53,11 +49,7 @@ PLUGININFOEX pluginInfo={
 	"http://pescuma.org/miranda/listeningto",
 	UNICODE_AWARE,
 	0,		//doesn't replace anything built-in
-#ifdef UNICODE
 	{ 0xf981f3f5, 0x35a, 0x444f, { 0x98, 0x92, 0xca, 0x72, 0x2c, 0x19, 0x5a, 0xda } } // {F981F3F5-035A-444f-9892-CA722C195ADA}
-#else
-	{ 0xa4a8ff7a, 0xc48a, 0x4d2a, { 0xb5, 0xa9, 0x46, 0x46, 0x84, 0x43, 0x26, 0x3d } } // {A4A8FF7A-C48A-4d2a-B5A9-46468443263D}
-#endif
 };
 
 
@@ -131,13 +123,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 {
 	hInst = hinstDLL;
 	return TRUE;
-}
-
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion) 
-{
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*) &pluginInfo;
 }
 
 

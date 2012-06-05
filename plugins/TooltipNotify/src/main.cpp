@@ -10,10 +10,6 @@
 static const MUUID MIID_TOOLTIPNOTIFY_UNICODE = 
 { 0x5906a545, 0xf31a, 0x4726, { 0xb4, 0x8f, 0x3, 0xa0, 0x9f, 0x6, 0x3, 0x18 } };
 
-// {C4475C65-630F-4e70-980F-C0CA98767110}
-static const MUUID MIID_TOOLTIPNOTIFY_ANSI = 
-{ 0xc4475c65, 0x630f, 0x4e70, { 0x98, 0xf, 0xc0, 0xca, 0x98, 0x76, 0x71, 0x10 } };
-
 // {03CD82B6-0BB5-4f26-8EB4-06CD8ECD36FF}
 static const MUUID MIID_TOOLTIPNOTIFY = 
 { 0x3cd82b6, 0xbb5, 0x4f26, { 0x8e, 0xb4, 0x6, 0xcd, 0x8e, 0xcd, 0x36, 0xff } };
@@ -80,67 +76,25 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-	static char szWrongUsage9x[] = 
-		"Warning! You are trying to use unicode version of the plugin on win9x system! "
-		"It can not be working here. You must use ansi version of the plugin.";
-	
-	static char szWrongUsageNt[] = 
-		"Warning! You are using ansi version of the plugin on a unicode-aware system. "
-		"It is recommended to use unicode version of the plugin.";
-	
-	static char szFunctionalDescription[] = 
-		"Shows a small tooltip above system tray area when a contact status is changed.";
-
-
-	static PLUGININFOEX sPluginInfo =
-	{
-		sizeof(PLUGININFOEX),
-		"Tooltip Notify",
-		PLUGIN_MAKE_VERSION(MAJOR,MINOR,BUILD,REVISION),	// major, minor, revision, build
-#ifdef _UNICODE
-		g_bRightModule ? szFunctionalDescription : szWrongUsage9x,
-#else
-		g_bRightModule ? szFunctionalDescription : szWrongUsageNt,
-#endif
-		"perf",
-		"perf@mail333.com",
-		"© 2004-2008 Gneedah software",
-		"http://addons.miranda-im.org/details.php?action=viewfile&id=1290",
-		UNICODE_AWARE,
-		0,		//doesn't replace anything built-in
-#ifdef _UNICODE
-		MIID_TOOLTIPNOTIFY_UNICODE
-#else
-		MIID_TOOLTIPNOTIFY_ANSI
-#endif
-	};
+static PLUGININFOEX sPluginInfo =
+{
+	sizeof(PLUGININFOEX),
+	"Tooltip Notify",
+	PLUGIN_MAKE_VERSION(MAJOR,MINOR,BUILD,REVISION),	// major, minor, revision, build
+	"Shows a small tooltip above system tray area when a contact status is changed.",
+	"perf",
+	"perf@mail333.com",
+	"© 2004-2008 Gneedah software",
+	"http://addons.miranda-im.org/details.php?action=viewfile&id=1290",
+	UNICODE_AWARE,
+	0,		//doesn't replace anything built-in
+	MIID_TOOLTIPNOTIFY_UNICODE
+};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &sPluginInfo;
 }
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	PLUGININFOEX* pPluginInfoEx = MirandaPluginInfoEx(mirandaVersion);
-
-	static PLUGININFO sPluginInfo =
-	{
-		sizeof(PLUGININFO),
-		pPluginInfoEx->shortName,
-		pPluginInfoEx->version,
-		pPluginInfoEx->description,
-		pPluginInfoEx->author,
-		pPluginInfoEx->authorEmail,
-		pPluginInfoEx->copyright,
-		pPluginInfoEx->homepage,
-		pPluginInfoEx->flags,
-		pPluginInfoEx->replacesDefaultModule
-	};
-
-	return &sPluginInfo;
-}
-
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *pLink)
 {

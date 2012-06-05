@@ -67,26 +67,4 @@ extern HBITMAP hbUnmodified;
 extern HBITMAP hbNewlyModified;
 extern HIMAGELIST imgList;
 
-#define OLD_MIRANDAPLUGININFO_SUPPORT PLUGININFO oldPluginInfo = { \
-	sizeof(PLUGININFO), \
-	pluginInfo.shortName, \
-	pluginInfo.version, \
-	pluginInfo.description, \
-	pluginInfo.author, \
-	pluginInfo.authorEmail, \
-	pluginInfo.copyright, \
-	pluginInfo.homepage, \
-	pluginInfo.flags, \
-	pluginInfo.replacesDefaultModule \
-}; \
-\
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion) \
-{ \
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 6, 0, 0)) \
-	{ \
-		return NULL; \
-	} \
-	return &oldPluginInfo; \
-}
-
 #endif //M_WWI_COMMONHEADERS_H

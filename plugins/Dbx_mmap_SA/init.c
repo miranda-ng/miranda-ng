@@ -46,7 +46,6 @@ PLUGININFOEX pluginInfo = {
 	DEFMOD_DB,
     // {28FF9B91-3E4D-4f1c-B47C-C641B037FF40}
 	{ 0x28ff9b91, 0x3e4d, 0x4f1c, { 0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40 } }
-
 };
 
 static int getCapability( int flag )
@@ -197,10 +196,6 @@ __declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * reserved)
 
 __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < PLUGIN_MAKE_VERSION(0,7,0,0)) {
-		MessageBox( NULL, TranslateT("The dbx_mmap_sa plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later."), TranslateT("dbx_mmap_sa Plugin"), MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

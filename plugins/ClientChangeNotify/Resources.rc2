@@ -17,8 +17,8 @@
 //
 #include "VersionNo.h"
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION FILEVER
- PRODUCTVERSION PRODUCTVER
+ FILEVERSION __FILEVERSION_STRING
+ PRODUCTVERSION __FILEVERSION_STRING
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x21L
@@ -34,20 +34,11 @@ BEGIN
         BLOCK "040904b0"
         BEGIN
             VALUE "CompanyName", "Deathdemon"
-            VALUE "FileDescription", "ClientChangeNotify plugin for Miranda IM"
-            VALUE "FileVersion", STRFILEVER
+            VALUE "FileDescription", "ClientChangeNotify plugin for Miranda IM."
             VALUE "LegalCopyright", "© 2006-2008 Chervov Dmitry"
-#ifdef _UNICODE
-            VALUE "InternalName", "ClientChangeNotifyW"
+            VALUE "InternalName", "ClientChangeNotify"
             VALUE "OriginalFilename", "ClientChangeNotifyW.dll"
             VALUE "ProductName", "ClientChangeNotify (Unicode)"
-#else
-            VALUE "InternalName", "ClientChangeNotify"
-            VALUE "OriginalFilename", "ClientChangeNotify.dll"
-            VALUE "ProductName", "ClientChangeNotify (ANSI)"
-#endif
-            VALUE "ProductVersion", STRPRODUCTVER
-            VALUE "SpecialBuild", STRSPECIALBUILD
         END
     END
     BLOCK "VarFileInfo"

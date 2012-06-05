@@ -28,17 +28,10 @@ BOOL WINAPI DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 	return TRUE;
 }
 
-
-PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion) {
-	return &pluginInfo;
-}
-
-
 PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
-
 
 MUUID* MirandaPluginInterfaces(void)
 {

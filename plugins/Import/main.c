@@ -86,9 +86,6 @@ static INT_PTR ImportCommand(WPARAM wParam,LPARAM lParam)
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < MIRANDA_VERSION_CORE)
-		return NULL;
-
 	return &pluginInfo;
 }
 

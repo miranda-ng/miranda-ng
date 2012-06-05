@@ -653,7 +653,6 @@ CSList* cslist = NULL;
 BOOL WINAPI DllMain( HINSTANCE, DWORD, LPVOID );
 
 extern "C" __declspec( dllexport ) PLUGININFOEX* MirandaPluginInfoEx( DWORD );
-extern "C" __declspec( dllexport ) PLUGININFO* MirandaPluginInfo( DWORD );
 extern "C" __declspec( dllexport ) const MUUID* MirandaPluginInterfaces( void );
 
 extern "C" __declspec( dllexport ) int Load( PLUGINLINK* );

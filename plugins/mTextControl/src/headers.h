@@ -100,7 +100,6 @@ extern "C" {
 
 // globals
 extern HINSTANCE		hInst;
-extern PLUGININFO		pluginInfo;
 extern PLUGININFOEX		pluginInfoEx;
 
 // dlls

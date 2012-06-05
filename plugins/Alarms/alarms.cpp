@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo={
 	"mail@scottellis.com.au",
 	"© 2005 Scott Ellis",
 	"http://www.scottellis.com.au",
-	0,		//not transient
+	UNICODE_AWARE,		//not transient
 	0,		//doesn't replace anything built-in
 	{ 0x4dd7762b, 0xd612, 0x4f84, { 0xaa, 0x86, 0x6, 0x8f, 0x17, 0x85, 0x9b, 0x6d } } // {4DD7762B-D612-4f84-AA86-068F17859B6D}
 };
@@ -54,12 +54,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*)&pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_ALARMS, MIID_LAST};

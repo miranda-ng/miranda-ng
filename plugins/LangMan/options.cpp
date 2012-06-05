@@ -177,8 +177,8 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pac
 	char buf[128];
 	TCHAR buf2[128];
 	DWORD mirandaVersion;
-	PLUGININFO *pluginInfo;
-	PLUGININFO *(__cdecl *MirandaPluginInfo)(DWORD);
+	PLUGININFOEX *pluginInfo;
+	PLUGININFOEX *(__cdecl *MirandaPluginInfo)(DWORD);
 
 	/* enum plugins */
 	if (!(pack->flags&LPF_DEFAULT) && GetModuleFileName(NULL, szDir, SIZEOF(szDir))) {
@@ -215,12 +215,10 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pac
 					if (hModule == NULL) continue;
 				}
 				/* plugin info */
-				*(PROC*)&MirandaPluginInfo = GetProcAddress(hModule, "MirandaPluginInfo");
-				if (MirandaPluginInfo == NULL) /* v0.8 support */
-					*(PROC*)&MirandaPluginInfo = GetProcAddress(hModule, "MirandaPluginInfoEx");
+				*(PROC*)&MirandaPluginInfo = GetProcAddress(hModule, "MirandaPluginInfoEx");
 				if (MirandaPluginInfo!=NULL) { /* both structs have the same header */
 					pluginInfo = MirandaPluginInfo(mirandaVersion);
-					if (pluginInfo!=NULL && pluginInfo->cbSize >= sizeof(PLUGININFO) && pluginInfo->shortName!=NULL) {
+					if (pluginInfo!=NULL && pluginInfo->cbSize >= sizeof(PLUGININFOEX) && pluginInfo->shortName!=NULL) {
 						lstrcpynA(buf, pluginInfo->shortName, sizeof(buf)); /* buffer safe */
 						CleanupPluginName(buf);
 						mir_sntprintf(buf2, SIZEOF(buf2), TranslateT("%hs (%s)"), buf, CharLower(wfd.cFileName));

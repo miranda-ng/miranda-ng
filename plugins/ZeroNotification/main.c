@@ -46,21 +46,10 @@ PLUGININFOEX pluginInfoEx = {
 	"",
 	COPYRIGHT,
 	"",
-#if defined(UNICODE) | defined(_UNICODE)
 	UNICODE_AWARE,		//not transient
-#else
-	0,
-#endif
 	0,
 	UID
 };
-
-__declspec(dllexport) PLUGININFO * MirandaPluginInfo(DWORD mirandaVersion)
-{
-	pluginInfoEx.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*)&pluginInfoEx;
-	//return &pluginInfo;
-}
 
 __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {

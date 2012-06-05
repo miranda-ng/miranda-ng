@@ -51,13 +51,8 @@ PLUGININFOEX pluginInfo = {
 	"http://code.google.com/p/dezeath",
 	UNICODE_AWARE,
 	DEFMOD_SRAWAY,
-#ifdef _UNICODE
 	// {768CE156-34AC-45a3-B53B-0083C47615C4}
 	{ 0x768ce156, 0x34ac, 0x45a3, { 0xb5, 0x3b, 0x0, 0x83, 0xc4, 0x76, 0x15, 0xc4 } }
-#else
-	// {7D548A69-05E7-4d00-89BC-ACCE781022C1}
-	{ 0x7d548a69, 0x5e7, 0x4d00, { 0x89, 0xbc, 0xac, 0xce, 0x78, 0x10, 0x22, 0xc1 } }
-#endif
 };
 
 static const MUUID interfaces[] = {MIID_SRAWAY, MIID_LAST};
@@ -70,11 +65,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 9, 0, 0))
-	{
-		MessageBox(NULL, _T("The Simple Status Message plugin cannot be loaded. It requires Miranda IM 0.9.0 or later."), _T("Simple Status Message Plugin"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
-		return NULL;
-	}
 	return &pluginInfo;
 }
 

@@ -40,62 +40,19 @@ MM_INTERFACE mmi;
 TMyArray<HANDLE> hHooks, hServices;
 COptPage *g_PreviewOptPage; // we need to show popup even for the NULL contact if g_PreviewOptPage is not NULL (used for popup preview)
 
-
-// my_make_version is required to break up #define PRODUCTVER from VersionNo.h
-DWORD my_make_version(const int a, const int b, const int c, const int d)
-{
-	return PLUGIN_MAKE_VERSION(a, b, c, d);
-}
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"ClientChangeNotify ("
-#ifdef _DEBUG
-	"DEBUG "
-#endif
-#ifdef _UNICODE
-	"Unicode"
-#else
-	"ANSI"
-#endif
-	")",
-	0, // see VersionNo.h
-	"ClientChangeNotify plugin for Miranda IM.  Build #"STRSPECIALBUILD" [ "__DATE__"  "__TIME__
-#ifdef _DEBUG
-	" DEBUG"
-#endif
-#ifdef _UNICODE
-	" Unicode"
-#else
-	" ANSI"
-#endif
-	" ]",
+	"ClientChangeNotify",
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	"ClientChangeNotify plugin for Miranda IM.",
 	"Deathdemon",
 	"dchervov@yahoo.com",
 	"© 2006-2008 Chervov Dmitry",
 	"http://deathdemon.int.ru/",
 	UNICODE_AWARE,
 	0,
-#ifdef _UNICODE
+	// {B68A8906-748B-435d-930E-21CC6E8F3B3F}
 	{0xb68a8906, 0x748b, 0x435d, {0x93, 0xe, 0x21, 0xcc, 0x6e, 0x8f, 0x3b, 0x3f}}
-// {B68A8906-748B-435d-930E-21CC6E8F3B3F}
-#else
-	{0x4e8d06c6, 0xde4f, 0x4b72, {0x9c, 0x52, 0xc2, 0x78, 0x72, 0xed, 0x3, 0xb9}}
-// {4E8D06C6-DE4F-4b72-9C52-C27872ED03B9}
-#endif
-};
-
-PLUGININFO oldPluginInfo = {
-	sizeof(PLUGININFO),
-	pluginInfo.shortName,
-	pluginInfo.version,
-	pluginInfo.description,
-	pluginInfo.author,
-	pluginInfo.authorEmail,
-	pluginInfo.copyright,
-	pluginInfo.homepage,
-	pluginInfo.flags,
-	pluginInfo.replacesDefaultModule
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -115,16 +72,8 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.version = my_make_version(PRODUCTVER);
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion)
-{
-	oldPluginInfo.version = my_make_version(PRODUCTVER);
-	return &oldPluginInfo;
-}
-
 
 static int CALLBACK MenuWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -464,7 +413,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	char szVersion[16];
 	update.cbSize = sizeof(Update);
 	update.szComponentName = pluginInfo.shortName;
-	update.pbVersion = (BYTE*)CreateVersionString(my_make_version(PRODUCTVER), szVersion);
+	update.pbVersion = (BYTE*)CreateVersionString(PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), szVersion);
 	update.cpbVersion = (int)strlen((char*)update.pbVersion);
 	update.szUpdateURL = "http://deathdemon.int.ru/projects/ClientChangeNotify"
 #ifdef _UNICODE

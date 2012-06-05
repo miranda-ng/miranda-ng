@@ -26,30 +26,20 @@ struct MM_INTERFACE mmi;
 int nCountriesCount;
 struct CountryListEntry *countries;
 int hLangpack;
-static char szEmail[100] = PLUGIN_EMAIL;
 
 static PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Country Flags",
 	PLUGIN_VERSION,
-#if defined(_DEBUG)
-	"Development build not intended for release. ("__DATE__")",  /* autotranslated */
-#else
 	"Service offering misc country utilities as flag icons and a IP-to-Country database.",  /* autotranslated */
-#endif
 	"H. Herkenrath",
-	szEmail,  /* @ will be set later */
+	"hrathh@users.sourceforge.net",
 	"© 2006-2007 H. Herkenrath",
 	PLUGIN_WEBSITE,
 	UNICODE_AWARE,
 	0,
-#if defined(_UNICODE)
 	// {68C36842-3D95-4f4a-AB81-014D6593863B}
-	{0x68c36842,0x3d95,0x4f4a,{0xab,0x81,0x1,0x4d,0x65,0x93,0x86,0x3b}},
-#else
-	// {E0C4681C-E680-4262-8B44-7A9540C064FF}
-	{0xe0c4681c,0xe680,0x4262,{0x8b,0x44,0x7a,0x95,0x40,0xc0,0x64,0xff}}
-#endif
+	{0x68c36842,0x3d95,0x4f4a,{0xab,0x81,0x1,0x4d,0x65,0x93,0x86,0x3b}}
 };
 static const MUUID interfaces[]={MIID_FLAGS,MIID_LAST};
 
@@ -96,21 +86,8 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 extern "C" {
 #endif 
 
-__declspec(dllexport) const PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	if(mirandaVersion<PLUGIN_MAKE_VERSION(0,1,0,1)) return NULL;
-	pluginInfo.cbSize=sizeof(PLUGININFO); /* needed as v0.6 does equality check */
-	/* email obfuscated, made .rdata writable */
-	szEmail[PLUGIN_EMAIL_ATT_POS-1] = '@';
-	return (PLUGININFO*)&pluginInfo; /* header is the same */
-}
-
 __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	UNREFERENCED_PARAMETER(mirandaVersion);
-	pluginInfo.cbSize=sizeof(PLUGININFOEX);
-	/* email obfuscated, made .rdata writable */
-	szEmail[PLUGIN_EMAIL_ATT_POS-1] = '@';
 	return &pluginInfo;
 }
 

@@ -21,11 +21,7 @@ bool is_idle = false;
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
-#ifdef TESTING
-	0x00000001,
-#else
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
-#endif
 	__DESC,
 	__AUTHOR,
 	__AUTHOREMAIL,
@@ -33,12 +29,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,		//not transient
 	0,						//doesn't replace anything built-in
-
-#ifdef _UNICODE
 	{ 0x66dceb80, 0x384, 0x4507, { 0x97, 0x74, 0xcc, 0x20, 0xa7, 0xef, 0x1d, 0x6d } } // {66DCEB80-0384-4507-9774-CC20A7EF1D6D}
-#else
-	{ 0x37f59333, 0x8c51, 0x4886, { 0x96, 0xdb, 0xb9, 0xd9, 0xe3, 0x7c, 0xad, 0x38 } } // {37F59333-8C51-4886-96DB-B9D9E37CAD38}
-#endif
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -49,7 +40,7 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	return mirandaVersion < PLUGIN_MAKE_VERSION(0, 8, 0, 0) ? NULL :&pluginInfo;
+	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_UPDATER, MIID_LAST};

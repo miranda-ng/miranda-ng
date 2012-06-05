@@ -260,7 +260,7 @@ static INT_PTR LinkList_Main(WPARAM wParam,LPARAM lParam)
 			{
 				free(dbe.pBlob);
 				RemoveList(listStart);
-				MessageBox(NULL, TranslateTS("Could not allocate memory!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
+				MessageBox(NULL, TranslateT("Could not allocate memory!"), TranslateT("Error"), MB_OK | MB_ICONEXCLAMATION);
 				return -1;
 			}
 		}

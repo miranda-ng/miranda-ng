@@ -45,12 +45,10 @@ PLUGININFOEX pluginInfo = {
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	1,
+	UNICODE_AWARE,
 	0,
   {0x2f129563, 0x2c7d, 0x4a9a, {0xb9, 0x48, 0x97, 0xdf, 0xcc, 0x0a, 0xfd, 0xd7}} //{2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 }; //not used
-
-OLD_MIRANDAPLUGININFO_SUPPORT;
 
 #ifdef _DEBUG
 
@@ -163,11 +161,6 @@ HANDLE hTestPlugin;
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
-#if _MSC_VER >= 1300
-	Log("%s", "Entering function " __FUNCTION__);
-	Log("%s", "Leaving function " __FUNCTION__);
-#endif
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 

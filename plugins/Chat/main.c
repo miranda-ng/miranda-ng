@@ -67,11 +67,7 @@ PLUGININFOEX pluginInfo = {
 	"http://miranda-im.org/",
 	UNICODE_AWARE,
 	0,
-    #ifdef _UNICODE
     {0x9d6c3213, 0x2b4, 0x4fe1, { 0x92, 0xe6, 0x52, 0x6d, 0xe2, 0x4f, 0x8d, 0x65 }} //{9D6C3213-02B4-4fe1-92E6-526DE24F8D65}
-    #else
-    {0xd3d9f953, 0x85bc, 0x486c, { 0xa7, 0xbe, 0x31, 0x43, 0xa6, 0xfd, 0x29, 0xf }} //{D3D9F953-85BC-486c-A7BE-3143A6FD290F}
-    #endif
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -82,7 +78,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < MIRANDA_VERSION_CORE) return NULL;
 	return &pluginInfo;
 }
 

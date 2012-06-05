@@ -52,20 +52,6 @@ PLUGININFOEX pluginInfoEx =
 	MTEXT_UUID
 };
 
-PLUGININFO pluginInfo =
-{
-	sizeof(PLUGININFO),
-	pluginInfoEx.shortName,
-	pluginInfoEx.version,
-	pluginInfoEx.description,
-	pluginInfoEx.author,
-	pluginInfoEx.authorEmail,
-	pluginInfoEx.copyright,
-	pluginInfoEx.homepage,
-	pluginInfoEx.flags,
-	pluginInfoEx.replacesDefaultModule
-};
-
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInst=hinstDLL;
@@ -75,15 +61,8 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
 static HANDLE hModulesLoaded = 0;
 static int ModulesLoaded(WPARAM wParam,LPARAM lParam);
 
-extern "C" __declspec(dllexport) PLUGININFO *MirandaPluginInfo(DWORD mirandaVersion)
-{
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return &pluginInfo;
-}
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfoEx.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfoEx;
 }
 

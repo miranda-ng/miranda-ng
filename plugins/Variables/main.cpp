@@ -60,36 +60,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// MirandaPluginInfo - returns an information about a plugin
-
-PLUGININFO pluginInfo = {
-	sizeof(PLUGININFO),
-#ifdef _WIN64
-	"Variables (x64, Unicode)",
-#else
-#ifdef UNICODE
-	"Variables (Unicode)",
-#else
-	"Variables",
-#endif
-#endif
-	__VERSION_DWORD,
-	"Adds support for dynamic variables in strings for plugins",
-	"P Boon",
-	"unregistered@users.sourceforge.net",
-	"© 2003-2008 P. Boon, Ricardo Pescuma, George Hazan",
-	"http://www.miranda-im.org/",
-	UNICODE_AWARE,
-	0
-};
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	g_mirandaVersion = mirandaVersion;
-	return &pluginInfo;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns the extended information about a plugin
 
 PLUGININFOEX pluginInfoEx = {
@@ -104,7 +74,7 @@ PLUGININFOEX pluginInfoEx = {
 #endif
 #endif
 	__VERSION_DWORD,
-	"Adds support for dynamic variables in strings for plugins",
+	"Adds support for dynamic variables in strings for plugins.",
 	"P Boon",
 	"unregistered@users.sourceforge.net",
 	"© 2003-2008 P. Boon, Ricardo Pescuma, George Hazan",
@@ -135,7 +105,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces( void )
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	if (UnicodeCheck(pluginInfo.shortName, FALSE))
+	if (UnicodeCheck(pluginInfoEx.shortName, FALSE))
 		return 0;
 
 	mir_getMMI( &mmi );
