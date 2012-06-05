@@ -56,10 +56,14 @@ static HRESULT SubclassClistInterface();
 static HRESULT CreateHookableEvents();
 int EventArea_UnloadModule();
 
+__forceinline int MakeVer(int a, int b, int c, int d)
+{	return PLUGIN_MAKE_VERSION(a,b,c,d);
+}
+
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	DEBUG_AWARE_STR "Modern Contact List '09",
-	0,                              //will initialized later in MirandaPluginInfoEx
+	MakeVer(PRODUCT_VERSION),
 	"Display contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.",
 	"Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven",
 	"ashpynov@gmail.com" ,
@@ -81,11 +85,6 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 	g_hInst = hInstDLL;
 	DisableThreadLibraryCalls(g_hInst);
 	return TRUE;
-}
-
-inline int MakeVer(int a, int b, int c, int d)
-{
-	return PLUGIN_MAKE_VERSION(a,b,c,d);
 }
 
 PLUGININTERFACE PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
