@@ -49,22 +49,17 @@ PLUGINLINK *pluginLink = NULL;
 
 static const PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"Miranda Image services",
+	__PLUGIN_NAME,
 	__VERSION_DWORD,
-	"Generic image services for Miranda IM.",
-	"Nightwish, The FreeImage project (http://freeimage.sourceforge.net/)",
-	"",
-	"Copyright 2000-2012 Miranda-IM project, uses the FreeImage distribution",
-	"http://www.miranda-im.org",
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	0,
-	#if defined(_UNICODE)
-		// {7C070F7C-459E-46b7-8E6D-BC6EFAA22F78}
-		{ 0x7c070f7c, 0x459e, 0x46b7, { 0x8e, 0x6d, 0xbc, 0x6e, 0xfa, 0xa2, 0x2f, 0x78 } }
-	#else
-		// {287F31D5-147C-48bb-B428-D7C260272535}
-		{ 0x287f31d5, 0x147c, 0x48bb, { 0xb4, 0x28, 0xd7, 0xc2, 0x60, 0x27, 0x25, 0x35 } }
-	#endif
+	// {7C070F7C-459E-46b7-8E6D-BC6EFAA22F78}
+	{ 0x7c070f7c, 0x459e, 0x46b7, { 0x8e, 0x6d, 0xbc, 0x6e, 0xfa, 0xa2, 0x2f, 0x78 } }
 };
 
 /*

@@ -1,7 +1,7 @@
 // Microsoft Visual C++ generated resource script.
 //
 #include "Miranda\version.h"
-#include "winres.h"
+#include "afxres.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -66,30 +66,25 @@ LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
 VS_VERSION_INFO VERSIONINFO
  FILEVERSION __FILEVERSION_STRING
  PRODUCTVERSION __FILEVERSION_STRING
- FILEFLAGSMASK 0x37L
+ FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
- FILEFLAGS 0x21L
+ FILEFLAGS 0x1L
 #else
- FILEFLAGS 0x20L
+ FILEFLAGS 0x0L
 #endif
  FILEOS 0x4L
- FILETYPE 0x2L
+ FILETYPE 0x0L
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "Provides generic image services for Miranda IM"
-            VALUE "CompanyName", "Miranda IM and FreeImage"
-            VALUE "FileDescription", "Provides generic image services for Miranda IM"
-            VALUE "FileVersion", __FILEVERSION_STRING
-            VALUE "InternalName", "fe_imgsrvc"
-            VALUE "LegalCopyright", "Copyright (C) 2012, Nightwish, based on the FreeImage project (http://freeimage.sourceforge.net/)"
-            VALUE "LegalTrademarks", "Licensed under the Gnu General Public License V2 or any later version"
-            VALUE "OriginalFilename", "advaimg.dll"
-            VALUE "ProductName", "Miranda IM Image services"
-            VALUE "ProductVersion", __FILEVERSION_STRING
+            VALUE "FileDescription", __DESCRIPTION
+            VALUE "InternalName", __PLUGIN_NAME
+            VALUE "LegalCopyright", __COPYRIGHT
+            VALUE "OriginalFilename", __FILENAME
+            VALUE "ProductName", __PLUGIN_NAME
         END
     END
     BLOCK "VarFileInfo"
