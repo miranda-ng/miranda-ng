@@ -74,7 +74,6 @@ bool	CMimAPI::m_shutDown = 0;
 TCHAR	CMimAPI::m_userDir[] = _T("\0");
 
 bool	CMimAPI::m_haveBufferedPaint = false;
-DWORD	CMimAPI::m_MimVersion = 0;
 
 void CMimAPI::timerMsg(const char *szMsg)
 {

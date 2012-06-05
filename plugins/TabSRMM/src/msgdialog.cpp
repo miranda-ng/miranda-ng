@@ -3534,67 +3534,32 @@ quote_from_last:
 				}
 			}
 			if (dat->hContact != NULL) {
-				if (CMimAPI::m_MimVersion >= PLUGIN_MAKE_VERSION(0, 9, 0, 0)) {
-
-					TCHAR szFilename[MAX_PATH];
-					HDROP hDrop = (HDROP)wParam;
-					int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
-					TCHAR** ppFiles = NULL;
-					for (i = 0; i < fileCount; i++) {
-						DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
-						Utils::AddToFileList(&ppFiles, &totalCount, szFilename);
-					}
-
-					if (!not_sending) {
-						CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->hContact, (LPARAM)ppFiles);
-					} else {
-						if (ServiceExists(MS_HTTPSERVER_ADDFILENAME)) {
-							char *szHTTPText;
-							int i;
-
-							for (i = 0;i < totalCount;i++) {
-								char* szFileName = mir_t2a( ppFiles[i] );
-								char *szTemp = (char*)CallService(MS_HTTPSERVER_ADDFILENAME, (WPARAM)szFileName, 0);
-								mir_free( szFileName );
-							}
-							szHTTPText = "DEBUG";
-							SendDlgItemMessageA(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)szHTTPText);
-							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
-						}
-					}
-					for (i = 0;ppFiles[i];i++) mir_free(ppFiles[i]);
-					mir_free(ppFiles);
+				TCHAR szFilename[MAX_PATH];
+				HDROP hDrop = (HDROP)wParam;
+				int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
+				TCHAR** ppFiles = NULL;
+				for (i = 0; i < fileCount; i++) {
+					DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
+					Utils::AddToFileList(&ppFiles, &totalCount, szFilename);
 				}
-				else {
-					TCHAR szFilename[MAX_PATH];
-					HDROP hDrop = (HDROP)wParam;
-					int fileCount = DragQueryFile(hDrop, -1, NULL, 0), totalCount = 0, i;
-					char** ppFiles = NULL;
-					for (i = 0; i < fileCount; i++) {
-						DragQueryFile(hDrop, i, szFilename, SIZEOF(szFilename));
-						Utils::AddToFileList(&ppFiles, &totalCount, szFilename);
-					}
 
-					if (!not_sending) {
-						CallService(MS_FILE_SENDSPECIFICFILES, (WPARAM)dat->hContact, (LPARAM)ppFiles);
-					} else {
-						if (ServiceExists(MS_HTTPSERVER_ADDFILENAME)) {
-							char *szHTTPText;
-							int i;
-
-							for (i = 0;i < totalCount;i++) {
-								char* szFileName =  ppFiles[i];
-								char *szTemp = (char*)CallService(MS_HTTPSERVER_ADDFILENAME, (WPARAM)szFileName, 0);
-							}
-							szHTTPText = "DEBUG";
-							SendDlgItemMessageA(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)szHTTPText);
-							SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
+				if (!not_sending) {
+					CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM)dat->hContact, (LPARAM)ppFiles);
+				} else {
+					if (ServiceExists(MS_HTTPSERVER_ADDFILENAME)) {
+						for (int i = 0; i < totalCount; i++) {
+							char* szFileName = mir_t2a( ppFiles[i] );
+							char *szTemp = (char*)CallService(MS_HTTPSERVER_ADDFILENAME, (WPARAM)szFileName, 0);
+							mir_free( szFileName );
 						}
+						char *szHTTPText = "DEBUG";
+						SendDlgItemMessageA(hwndDlg, IDC_MESSAGE, EM_REPLACESEL, TRUE, (LPARAM)szHTTPText);
+						SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 					}
-					for (i = 0;ppFiles[i];i++)
-						mir_free(ppFiles[i]);
-					mir_free(ppFiles);
 				}
+				for (i = 0;ppFiles[i];i++)
+					mir_free(ppFiles[i]);
+				mir_free(ppFiles);
 			}
 		}
 		return 0;

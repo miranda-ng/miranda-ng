@@ -276,8 +276,6 @@ public:
 	static DSILP	m_pfnDwmSetIconicLivePreviewBitmap;
 	static bool		m_shutDown, m_haveBufferedPaint;
 
-	static DWORD	m_MimVersion;
-
 private:
 	UTF8_INTERFACE 	m_utfi;
 	TCHAR 		m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
