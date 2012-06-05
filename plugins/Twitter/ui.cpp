@@ -1,0 +1,529 @@
+/*
+Copyright © 2009 Jim Porter
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation,  either version 2 of the License,  or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful, 
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not,  see <http://www.gnu.org/licenses/>.
+*/
+
+#include "common.h"
+#include "ui.h"
+
+#include <cstdio>
+#include <commctrl.h>
+
+#include "proto.h"
+#include "twitter.h"
+
+static const TCHAR *sites[] = {
+	_T("https://twitter.com/"), 
+	_T("https://identi.ca/api/")
+};
+
+INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	TwitterProto *proto;
+
+	switch(msg) 
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		proto = reinterpret_cast<TwitterProto*>(lParam);
+		SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
+
+		DBVARIANT dbv;
+		if ( !DBGetContactSettingTString(0, proto->ModuleName(), TWITTER_KEY_UN, &dbv)) {
+			SetDlgItemText(hwndDlg, IDC_UN, dbv.ptszVal);
+			DBFreeVariant(&dbv);
+		}
+
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), TWITTER_KEY_PASS, &dbv)) {
+			CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, 
+				reinterpret_cast<LPARAM>(dbv.pszVal));
+			SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
+			DBFreeVariant(&dbv);
+		}
+
+		for(size_t i=0; i<SIZEOF(sites); i++)
+		{
+			SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_ADDSTRING, 0, 
+				reinterpret_cast<LPARAM>(sites[i]));
+		}
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), TWITTER_KEY_BASEURL, &dbv))
+		{
+			SetDlgItemTextA(hwndDlg, IDC_SERVER, dbv.pszVal);
+			DBFreeVariant(&dbv);
+		}
+		else
+		{
+			SendDlgItemMessage(hwndDlg, IDC_SERVER, CB_SETCURSEL, 0, 0);
+		}
+
+		return true;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_NEWACCOUNTLINK)
+		{
+			CallService(MS_UTILS_OPENURL, 1, reinterpret_cast<LPARAM>
+				("http://twitter.com/signup"));
+			return true;
+		}
+
+		if (GetWindowLong(hwndDlg, GWL_USERDATA)) // Window is done initializing
+		{
+			switch(HIWORD(wParam))
+			{
+			case EN_CHANGE:
+			case CBN_EDITCHANGE:
+			case CBN_SELCHANGE:
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+		}
+		break;
+
+	case WM_NOTIFY:
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) 
+		{
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg, GWL_USERDATA));
+			char str[128];
+
+			GetDlgItemTextA(hwndDlg, IDC_UN, str, sizeof(str));
+			DBWriteContactSettingString(0, proto->ModuleName(), TWITTER_KEY_UN, str);
+
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
+			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), reinterpret_cast<LPARAM>(str));
+			DBWriteContactSettingString(0, proto->ModuleName(), TWITTER_KEY_PASS, str);
+
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, str, sizeof(str)-1);
+			if (str[strlen(str)-1] != '/')
+				strncat(str, "/", sizeof(str));
+			DBWriteContactSettingString(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
+
+			return true;
+		}
+		break;
+	}
+
+	return false;
+}
+
+INT_PTR CALLBACK tweet_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	TwitterProto *proto;
+
+	switch(msg)
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		proto = reinterpret_cast<TwitterProto*>(lParam);
+		SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
+		SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_LIMITTEXT, 140, 0);
+		SetDlgItemText(hwndDlg, IDC_CHARACTERS, _T("140"));
+
+		// Set window title
+		TCHAR title[512];
+		mir_sntprintf(title, SIZEOF(title), _T("Send Tweet for %s"), proto->m_tszUserName);
+		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)title);
+
+		return true;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDOK)
+		{
+			TCHAR msg[141];
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg, GWL_USERDATA));
+
+			GetDlgItemText(hwndDlg, IDC_TWEETMSG, msg, SIZEOF(msg));
+			ShowWindow(hwndDlg, SW_HIDE);
+
+			char *narrow = mir_t2a_cp(msg, CP_UTF8);
+			ForkThread(&TwitterProto::SendTweetWorker,  proto, narrow);
+
+			EndDialog(hwndDlg,  wParam); 
+			return true;
+		}
+		else if (LOWORD(wParam) == IDCANCEL)
+		{
+			EndDialog(hwndDlg,  wParam);
+			return true;
+		}
+		else if (LOWORD(wParam) == IDC_TWEETMSG && HIWORD(wParam) == EN_CHANGE)
+		{
+			size_t len = SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, WM_GETTEXTLENGTH, 0, 0);
+			char str[4];
+			_snprintf(str, sizeof(str), "%d", 140-len);
+			SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
+
+			return true;
+		}
+
+		break;
+	case WM_SETREPLY:
+		{
+			char foo[512];
+			_snprintf(foo, sizeof(foo), "@%s ", (char*)wParam);
+			size_t len = strlen(foo);
+
+			SetDlgItemTextA(hwndDlg, IDC_TWEETMSG, foo);
+			SendDlgItemMessage(hwndDlg, IDC_TWEETMSG, EM_SETSEL, len, len);
+
+			char str[4];
+			_snprintf(str, sizeof(str), "%d", 140-len);
+			SetDlgItemTextA(hwndDlg, IDC_CHARACTERS, str);
+
+			return true;
+		}
+		break;
+	}
+
+	return false;
+}
+
+INT_PTR CALLBACK options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	TwitterProto *proto;
+
+	switch(msg) 
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		proto = reinterpret_cast<TwitterProto*>(lParam);
+
+		DBVARIANT dbv;
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), TWITTER_KEY_UN, &dbv))
+		{
+			SetDlgItemTextA(hwndDlg, IDC_UN, dbv.pszVal);
+			DBFreeVariant(&dbv);
+		}
+
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), TWITTER_KEY_PASS, &dbv))
+		{
+			CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal)+1, 
+				reinterpret_cast<LPARAM>(dbv.pszVal));
+			SetDlgItemTextA(hwndDlg, IDC_PW, dbv.pszVal);
+			DBFreeVariant(&dbv);
+		}
+
+		CheckDlgButton(hwndDlg, IDC_CHATFEED, DBGetContactSettingByte(0, 
+			proto->ModuleName(), TWITTER_KEY_CHATFEED, 0));
+
+		for(size_t i=0; i<SIZEOF(sites); i++)
+		{
+			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_ADDSTRING, 0, 
+				reinterpret_cast<LPARAM>(sites[i]));
+		}
+
+		if ( !DBGetContactSettingString(0, proto->ModuleName(), TWITTER_KEY_BASEURL, &dbv))
+		{
+			SetDlgItemTextA(hwndDlg, IDC_BASEURL, dbv.pszVal);
+			DBFreeVariant(&dbv);
+		}
+		else
+		{
+			SendDlgItemMessage(hwndDlg, IDC_BASEURL, CB_SETCURSEL, 0, 0);
+		}
+		
+		char pollrate_str[32];
+		mir_snprintf(pollrate_str, sizeof(pollrate_str), "%d", 
+			DBGetContactSettingDword(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, 80));
+		SetDlgItemTextA(hwndDlg, IDC_POLLRATE, pollrate_str);
+
+
+		// Do this last so that any events propagated by pre-filling the form don't
+		// instigate a PSM_CHANGED message
+		SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
+
+		break;
+	case WM_COMMAND:
+		if (GetWindowLong(hwndDlg, GWL_USERDATA)) // Window is done initializing
+		{
+			switch(HIWORD(wParam))
+			{
+			case EN_CHANGE:
+			case BN_CLICKED:
+			case CBN_EDITCHANGE:
+			case CBN_SELCHANGE:
+				switch(LOWORD(wParam))
+				{
+				case IDC_UN:
+				case IDC_PW:
+				case IDC_BASEURL:
+					ShowWindow(GetDlgItem(hwndDlg, IDC_RECONNECT), SW_SHOW);
+				}
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+		}
+			
+		break;
+	case WM_NOTIFY:
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) 
+		{
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg, GWL_USERDATA));
+			char str[128];
+
+			GetDlgItemTextA(hwndDlg, IDC_UN, str, sizeof(str));
+			DBWriteContactSettingString(0, proto->ModuleName(), TWITTER_KEY_UN, str);
+
+			GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
+			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), reinterpret_cast<LPARAM>(str));
+			DBWriteContactSettingString(0, proto->ModuleName(), TWITTER_KEY_PASS, str);
+
+			GetDlgItemTextA(hwndDlg, IDC_BASEURL, str, sizeof(str)-1);
+			if (str[strlen(str)-1] != '/')
+				strncat(str, "/", sizeof(str));
+			DBWriteContactSettingString(0, proto->ModuleName(), TWITTER_KEY_BASEURL, str);
+
+			DBWriteContactSettingByte(0, proto->ModuleName(), TWITTER_KEY_CHATFEED, 
+				IsDlgButtonChecked(hwndDlg, IDC_CHATFEED));
+
+			GetDlgItemTextA(hwndDlg, IDC_POLLRATE, str, sizeof(str));
+			int rate = atoi(str);
+			if (rate == 0)
+				rate = 80;
+			DBWriteContactSettingDword(0, proto->ModuleName(), TWITTER_KEY_POLLRATE, rate);
+
+			proto->UpdateSettings();
+			return true;
+		}
+	}
+
+	return false;
+}
+
+namespace popup_options
+{
+	static int get_timeout(HWND hwndDlg)
+	{
+		if (IsDlgButtonChecked(hwndDlg, IDC_TIMEOUT_PERMANENT))
+			return -1;
+		else if (IsDlgButtonChecked(hwndDlg, IDC_TIMEOUT_CUSTOM))
+		{
+			char str[32];
+			GetDlgItemTextA(hwndDlg, IDC_TIMEOUT, str, sizeof(str));
+			return atoi(str);
+		}
+		else // Default checked (probably)
+			return 0;
+	}
+
+	static COLORREF get_text_color(HWND hwndDlg, bool for_db)
+	{
+		if (IsDlgButtonChecked(hwndDlg, IDC_COL_WINDOWS))
+		{
+			if (for_db)
+				return -1;
+			else
+				return GetSysColor(COLOR_WINDOWTEXT);
+		}
+		else if (IsDlgButtonChecked(hwndDlg, IDC_COL_CUSTOM))
+			return SendDlgItemMessage(hwndDlg, IDC_COLTEXT, CPM_GETCOLOUR, 0, 0);
+		else // Default checked (probably)
+			return 0;
+	}
+
+	static COLORREF get_back_color(HWND hwndDlg, bool for_db)
+	{
+		if (IsDlgButtonChecked(hwndDlg, IDC_COL_WINDOWS))
+		{
+			if (for_db)
+				return -1;
+			else
+				return GetSysColor(COLOR_WINDOW);
+		}
+		else if (IsDlgButtonChecked(hwndDlg, IDC_COL_CUSTOM))
+			return SendDlgItemMessage(hwndDlg, IDC_COLBACK, CPM_GETCOLOUR, 0, 0);
+		else // Default checked (probably)
+			return 0;
+	}
+
+	struct
+	{
+		TCHAR *name;
+		TCHAR *text;
+	} const quotes[] = {
+		{ _T("Dorothy Parker"),  _T("If,  with the literate,  I am\n")
+		                        _T("Impelled to try an epigram, \n")
+		                        _T("I never seek to take the credit;\n")
+		                        _T("We all assume that Oscar said it.") }, 
+		{ _T("Steve Ballmer"),   _T("I have never,  honestly,  thrown a chair in my life.") }, 
+		{ _T("James Joyce"),     _T("I think I would know Nora's fart anywhere. I think ")
+		                        _T("I could pick hers out in a roomful of farting women.") }, 
+		{ _T("Brooke Shields"),  _T("Smoking kills. If you're killed,  you've lost a very ")
+		                        _T("important part of your life.") }, 
+		{ _T("Yogi Berra"),      _T("Always go to other peoples' funerals,  otherwise ")
+		                        _T("they won't go to yours.") }, 
+	};
+
+	static void preview(HWND hwndDlg)
+	{
+		POPUPDATAT popup = {};
+
+		// Pick a random contact
+		HANDLE hContact = 0;
+		int n_contacts = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
+
+		if (n_contacts != 0)
+		{
+			int contact = rand() % n_contacts;
+			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+			for(int i=0; i<contact; i++)
+				hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
+		}
+
+		// Pick a random quote
+		int q = rand() % SIZEOF(quotes);
+		_tcsncpy(popup.lptzContactName, quotes[q].name, MAX_CONTACTNAME);
+		_tcsncpy(popup.lptzText,        quotes[q].text, MAX_SECONDLINE);
+
+		popup.lchContact = hContact;
+		popup.iSeconds   = get_timeout(hwndDlg);
+		popup.colorText  = get_text_color(hwndDlg, false);
+		popup.colorBack  = get_back_color(hwndDlg, false);
+
+		CallService(MS_POPUP_ADDPOPUPT, reinterpret_cast<WPARAM>(&popup), 0);
+	}
+}
+
+void CheckAndUpdateDlgButton(HWND hWnd, int button, BOOL check)
+{
+	CheckDlgButton(hWnd, button, check);
+	SendMessage(hWnd, WM_COMMAND, MAKELONG(button, BN_CLICKED), 
+		(LPARAM)GetDlgItem(hWnd, button));
+}
+
+INT_PTR CALLBACK popup_options_proc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	using namespace popup_options;
+	TwitterProto *proto;
+
+	int text_color, back_color, timeout;
+
+	switch(msg) 
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		proto = reinterpret_cast<TwitterProto*>(lParam);
+
+		CheckAndUpdateDlgButton(hwndDlg, IDC_SHOWPOPUPS, 
+			db_byte_get(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, 0));
+		CheckDlgButton(hwndDlg, IDC_NOSIGNONPOPUPS, 
+			!db_byte_get(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, 0));
+
+
+		// ***** Get color information
+		back_color = db_dword_get(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLBACK, 0);
+		text_color = db_dword_get(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLTEXT, 0);
+
+		SendDlgItemMessage(hwndDlg, IDC_COLBACK, CPM_SETCOLOUR, 0, RGB(255, 255, 255));
+		SendDlgItemMessage(hwndDlg, IDC_COLTEXT, CPM_SETCOLOUR, 0, RGB(  0,   0,   0));
+
+		if (back_color == -1 && text_color == -1)            // Windows defaults
+			CheckAndUpdateDlgButton(hwndDlg, IDC_COL_WINDOWS, true);
+		else if (back_color == 0 && text_color == 0)         // Popup defaults
+			CheckAndUpdateDlgButton(hwndDlg, IDC_COL_POPUP, true);
+		else                                                // Custom colors
+		{
+			CheckAndUpdateDlgButton(hwndDlg, IDC_COL_CUSTOM, true);
+			SendDlgItemMessage(hwndDlg, IDC_COLBACK, CPM_SETCOLOUR, 0, back_color);
+			SendDlgItemMessage(hwndDlg, IDC_COLTEXT, CPM_SETCOLOUR, 0, text_color);
+		}
+
+		// ***** Get timeout information
+		timeout = db_dword_get(0, proto->ModuleName(), TWITTER_KEY_POPUP_TIMEOUT, 0);
+		SetDlgItemTextA(hwndDlg, IDC_TIMEOUT, "5");
+		
+		if (timeout == 0)
+			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_DEFAULT, true);
+		else if (timeout < 0)
+			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_PERMANENT, true);
+		else
+		{
+			char str[32];
+			_snprintf(str, sizeof(str), "%d", timeout);
+			SetDlgItemTextA(hwndDlg, IDC_TIMEOUT, str);
+			CheckAndUpdateDlgButton(hwndDlg, IDC_TIMEOUT_CUSTOM, true);
+		}
+
+		SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_SPIN, UDM_SETRANGE32, 1, INT_MAX);
+		SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
+
+		return true;
+	case WM_COMMAND:
+		switch(HIWORD(wParam))
+		{
+		case BN_CLICKED:
+			switch(LOWORD(wParam))
+			{
+			case IDC_SHOWPOPUPS:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NOSIGNONPOPUPS), 
+					IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS));
+				break;
+
+			case IDC_COL_CUSTOM:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COLBACK), true);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COLTEXT), true);
+				break;
+			case IDC_COL_WINDOWS:
+			case IDC_COL_POPUP:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COLBACK), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COLTEXT), false);
+				break;
+
+			case IDC_TIMEOUT_CUSTOM:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIMEOUT), true);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIMEOUT_SPIN), true);
+				break;
+			case IDC_TIMEOUT_DEFAULT:
+			case IDC_TIMEOUT_PERMANENT:
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIMEOUT), false);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_TIMEOUT_SPIN), false);
+				break;
+
+			case IDC_PREVIEW:
+				preview(hwndDlg);
+				break;
+			}
+
+		case EN_CHANGE:
+			if (GetWindowLong(hwndDlg, GWL_USERDATA)) // Window is done initializing
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		}
+		break;
+	case WM_NOTIFY:
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) 
+		{
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg, GWL_USERDATA));
+
+			DBWriteContactSettingByte(0, proto->ModuleName(), TWITTER_KEY_POPUP_SHOW, 
+				IsDlgButtonChecked(hwndDlg, IDC_SHOWPOPUPS));
+			DBWriteContactSettingByte(0, proto->ModuleName(), TWITTER_KEY_POPUP_SIGNON, 
+				!IsDlgButtonChecked(hwndDlg, IDC_NOSIGNONPOPUPS));
+
+			// ***** Write color settings
+			DBWriteContactSettingDword(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLBACK, 
+				get_back_color(hwndDlg, true));
+			DBWriteContactSettingDword(0, proto->ModuleName(), TWITTER_KEY_POPUP_COLTEXT, 
+				get_text_color(hwndDlg, true));
+
+			// ***** Write timeout setting
+			DBWriteContactSettingDword(0, proto->ModuleName(), TWITTER_KEY_POPUP_TIMEOUT, 
+				get_timeout(hwndDlg));
+
+			return true;
+		}
+		break;
+	}
+
+	return false;
+}

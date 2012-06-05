@@ -1,0 +1,224 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_TWITTERACCOUNT DIALOGEX 0, 0, 186, 134
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "Username:",IDC_STATIC,0,0,53,12
+    EDITTEXT        IDC_UN,54,0,131,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,0,16,53,12
+    EDITTEXT        IDC_PW,54,16,131,12,ES_PASSWORD | ES_AUTOHSCROLL
+    LTEXT           "Server:",IDC_STATIC,0,32,53,12
+    COMBOBOX        IDC_SERVER,54,32,131,12,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Create a new Twitter account",IDC_NEWACCOUNTLINK,
+                    "Hyperlink",WS_TABSTOP,0,57,174,12
+END
+
+IDD_TWEET DIALOGEX 0, 0, 186, 64
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Send Tweet"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_TWEETMSG,7,7,172,30,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    DEFPUSHBUTTON   "Send",IDOK,71,43,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,43,50,14
+    LTEXT           "",IDC_CHARACTERS,7,47,19,10
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 305, 217
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "User Details",IDC_USERDETAILS,7,7,152,51
+    LTEXT           "Username:",IDC_STATIC,15,20,41,8
+    EDITTEXT        IDC_UN,62,18,89,14,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,15,37,41,8
+    EDITTEXT        IDC_PW,62,35,89,14,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Misc. Options",IDC_MISC,7,67,152,65
+    CONTROL         "Use group chat for Twitter feed",IDC_CHATFEED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,81,133,10
+    LTEXT           "Base URL:",IDC_STATIC,15,96,41,8
+    COMBOBOX        IDC_BASEURL,62,94,89,30,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Polling rate:",IDC_STATIC,15,113,41,8
+    LTEXT           "Once every",IDC_STATIC,62,113,40,8
+    EDITTEXT        IDC_POLLRATE,103,111,30,14,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "sec",IDC_STATIC,138,113,19,8
+    LTEXT           "Please cycle your connection for these changes to take effect",IDC_RECONNECT,53,202,199,8,NOT WS_VISIBLE
+END
+
+IDD_OPTIONS_POPUPS DIALOGEX 0, 0, 305, 217
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    CONTROL         "Enable popup notifications for Tweets",IDC_SHOWPOPUPS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,7,137,10
+    GROUPBOX        "Colors",IDC_STATIC,6,32,164,59
+    CONTROL         "Use Windows colors",IDC_COL_WINDOWS,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,16,46,79,10
+    CONTROL         "Use Popup colors",IDC_COL_POPUP,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,16,60,71,10
+    CONTROL         "Use custom colors",IDC_COL_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,16,74,73,10
+    LTEXT           "Back",IDC_STATIC,103,64,16,8
+    LTEXT           "Text",IDC_STATIC,136,64,16,8
+    CONTROL         "",IDC_COLBACK,"ColourPicker",WS_TABSTOP,99,73,24,13
+    CONTROL         "",IDC_COLTEXT,"ColourPicker",WS_TABSTOP,132,73,24,13
+    GROUPBOX        "Timeouts",IDC_STATIC,184,32,115,59
+    CONTROL         "Use default",IDC_TIMEOUT_DEFAULT,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,196,46,53,10
+    CONTROL         "Custom",IDC_TIMEOUT_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,196,60,40,10
+    EDITTEXT        IDC_TIMEOUT,249,58,40,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_TIMEOUT_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,279,58,10,14
+    CONTROL         "Permanent",IDC_TIMEOUT_PERMANENT,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,196,74,51,10
+    PUSHBUTTON      "Preview",IDC_PREVIEW,184,99,50,14
+    CONTROL         "But not during sign-on",IDC_NOSIGNONPOPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,27,19,87,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_TWITTER             ICON                    "icons\\twitter.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_TWEET, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 57
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 298
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 210
+    END
+
+    IDD_OPTIONS_POPUPS, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 299
+        VERTGUIDE, 184
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 210
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,8,4
+ PRODUCTVERSION 0,0,8,4
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "FileDescription", "Twitter protocol plugin for Miranda IM"
+            VALUE "FileVersion", "0, 0, 8, 4"
+            VALUE "InternalName", "twitter"
+            VALUE "LegalCopyright", "Copyright © 2009"
+            VALUE "OriginalFilename", "twitter.dll"
+            VALUE "ProductName", "Miranda-Twitter"
+            VALUE "ProductVersion", "0, 0, 8, 4"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
