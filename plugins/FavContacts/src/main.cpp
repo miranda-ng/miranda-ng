@@ -43,13 +43,8 @@ PLUGININFOEX pluginInfo = {
 	"http://nullbie.miranda.im/",
 	UNICODE_AWARE,
 	0,	           // replace internal version (if any)
-#ifdef _UNICODE
 	// {CE2C0401-F9E0-40d7-8E95-1A4197D7AB04}
 	{ 0xce2c0401, 0xf9e0, 0x40d7, { 0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4 } }
-#else
-	// {DE1D765C-9DC2-4679-8633-EDAD492C8479}
-	{ 0xde1d765c, 0x9dc2, 0x4679, { 0x86, 0x33, 0xed, 0xad, 0x49, 0x2c, 0x84, 0x79 } }
-#endif
 };
 
 #define MS_FAVCONTACTS_SHOWMENU				"FavContacts/ShowMenu"
@@ -111,12 +106,6 @@ bool CoreCheck()
 } 
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	g_mirandaVersion = mirandaVersion;
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfo(DWORD mirandaVersion)
 {
 	g_mirandaVersion = mirandaVersion;
 	return &pluginInfo;
