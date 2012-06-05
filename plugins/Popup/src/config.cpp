@@ -70,7 +70,7 @@ PLUGININFOEX pluginInfoEx =
 	POPUP_EMAIL,
 	POPUP_COPYRIGHT,
 	POPUP_WEBPAGE,
-	0,
+	UNICODE_AWARE,
 	0,
 	POPUP_UUID
 };
@@ -150,7 +150,7 @@ void PopUpPreview()
 
 #if defined(_DEBUG)
 	// test per-contact popups
-	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact; 
+	for (HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); hContact;
 			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
 	{
 		if (DBGetContactSettingDword(hContact, "ICQ", "UIN", 0) == 256771455)

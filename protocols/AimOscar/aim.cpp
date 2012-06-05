@@ -44,7 +44,7 @@ OBJLIST<CAimProto> g_Instances(1, sttCompareProtocols);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Dll entry point
 
-extern "C" 
+extern "C"
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD /*fdwReason*/,LPVOID /*lpvReserved*/)
 {
 	hInstance = hinstDLL;
@@ -54,7 +54,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD /*fdwReason*/,LPVOID /*lpvReserved*
 /////////////////////////////////////////////////////////////////////////////////////////
 // Plugin information
 
-static const PLUGININFOEX pluginInfo = 
+static const PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
 	"AIM Protocol",
@@ -75,6 +75,8 @@ static const PLUGININFOEX pluginInfo =
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
+	*(unsigned long*)(&AIM_CAP_MIRANDA[8]) = _htonl(mirandaVersion);
+	*(unsigned long*)(&AIM_CAP_MIRANDA[12]) = _htonl(__VERSION_DWORD);
 	return &pluginInfo;
 }
 
