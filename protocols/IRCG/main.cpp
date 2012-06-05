@@ -28,7 +28,6 @@ UTF8_INTERFACE utfi;
 MM_INTERFACE   mmi;
 LIST_INTERFACE li;
 
-int mirVersion;
 int hLangpack;
 
 static int CompareServers( const SERVER_INFO* p1, const SERVER_INFO* p2 )
@@ -76,14 +75,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if ( mirandaVersion < MIRANDA_VERSION_CORE ) {
-		MessageBoxA( NULL, 
-			"The IRC protocol plugin cannot be loaded. It requires Miranda IM " MIRANDA_VERSION_CORE_STRING " or later.", 
-			"IRC Protocol Plugin", MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST );
-		return NULL;
-	}
-
-	mirVersion = mirandaVersion;
 	return &pluginInfo;
 }
 

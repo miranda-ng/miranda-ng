@@ -174,7 +174,7 @@ CMString CIrcProto::DoIdentifiers( CMString text, const TCHAR* )
 	ReplaceString( text, _T("%network"), m_info.sNetwork.c_str());
 	ReplaceString( text, _T("%me"), m_info.sNick.c_str());
 
-	mir_sntprintf( str, SIZEOF(str), _T("%d.%d.%d.%d"),(mirVersion>>24)&0xFF,(mirVersion>>16)&0xFF,(mirVersion>>8)&0xFF,mirVersion&0xFF);
+	mir_sntprintf( str, SIZEOF(str), _T("%d.%d.%d.%d"), MIRANDA_VERSION_FILEVERSION);
 	ReplaceString(text, _T("%mirver"), str);
 
 	ReplaceString(text, _T("%version"), _T(__VERSION_STRING));

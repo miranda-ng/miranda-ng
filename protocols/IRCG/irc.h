@@ -687,7 +687,6 @@ extern HINSTANCE hInst;
 
 extern LIST<CIrcProto> g_Instances;
 
-extern int mirVersion;
 extern OBJLIST<SERVER_INFO> g_servers;
 
 void   UpgradeCheck(void);
