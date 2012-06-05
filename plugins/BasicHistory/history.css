@@ -1,0 +1,34 @@
+h3 { color: #666666; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 16pt; }
+h4 { text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 14pt; }
+h6 { font-weight: normal; color: #000000; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8pt; }
+.mes { border-top-width: 1px; border-right-width: 1px; border-bottom-width: 0px;border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: #666666; border-bottom-color: #666666; border-left-color: #666666; border-right-color: #666666; padding: 4px; color: #000000; font: normal normal normal 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }
+.text { clear: both; }
+.nick { float: left; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }
+.date { float: left; padding-left:5px; padding-right:5px; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }
+.eventimg { float: left; }
+.nick#inc { color: #C83F6B; }
+.nick#out { color: #0860BD; }
+.date#inc { color: #000000; }
+.date#out { color: #000000; }
+.url { color: #0000FF; }
+.mes#event0 { background-color: #DBDBDB; }
+.mes#event1 { background-color: #EEEEEE; }
+.mes#event2 { background-color: #CCD9F4; }
+.mes#session { background-color: #FFFDD7; }
+.mes#bottom { border-right-width: 0px; border-left-width: 0px; }
+.mes .eventimg {padding-left:16px; }
+.mes#session .eventimg {padding-left:0px; }
+.mes .text {padding-left:37px; display:table; }
+.mes#session .text {padding-left:0px; clear: none; line-height: 16px; }
+.mes#session .date {line-height: 16px; }
+.group { display: none; margin: 0px; }
+.sessionimage { vertical-align:middle; }
+.smiley { vertical-align:middle; }
+#menubar { position:absolute; left:10px; top:10px; visibility:hidden; border: 1px solid #000000; background-color:#dddddd; padding: 3px 3px 3px 3px; }
+.mainmenu { text-decoration:none; color:#6666AA; background-color: transparent; }
+.mainmenusel { text-decoration:none; color:#6666AA; background-color: #BBBBBB; }
+.floatmenu { position: absolute; background-color: #dddddd; visibility: hidden; top: 36px; left: 10px; }
+.floatmenu table { border: 1px solid #000000; }
+.menuitem { text-decoration:none; color:#0860BD; }
+.menuitemunsel { background-color: transparent; }
+.menuitemsel { background-color: #BBBBBB; }
