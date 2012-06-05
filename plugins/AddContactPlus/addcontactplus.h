@@ -26,6 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <windows.h>
 #include <commctrl.h>
+
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_system.h>
@@ -45,7 +46,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "m_toolbar.h"
 #include "m_updater.h"
 #include "m_addcontactplus.h"
+
 #include "resource.h"
+#include "version.h"
 
 #define	ICON_ADD "AddContactPlus_Icon"
 

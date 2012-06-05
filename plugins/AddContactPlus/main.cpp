@@ -29,20 +29,14 @@ HANDLE hIconLibItem;
 struct MM_INTERFACE	mmi;
 
 PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX),
-#if defined(_WIN64)
-	"AddContact+ (x64)",
-#elif defined(_UNICODE)
-	"AddContact+ (Unicode)",
-#else
-	"AddContact+ (ANSI)",
-#endif
-	PLUGIN_MAKE_VERSION(0, 9, 9, 0),
-	"Provides the ability to quickly add new contacts.",
-	"Bartosz 'Dezeath' Bia³ek",
-	"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com",
-	"© 2007-2011 Bartosz 'Dezeath' Bia³ek",
-	"http://code.google.com/p/dezeath",
+    sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	0,
 	// {6471D451-2FE0-4ee2-850E-9F84F3C0D187}
@@ -81,7 +75,7 @@ static int OnIconsChanged(WPARAM, LPARAM)
 		return 0;
 
 	mi.cbSize = sizeof(mi);
-	mi.flags = CMIM_ICON | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_ICON | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconLibItem;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItem, (LPARAM)&mi);
 
@@ -112,9 +106,9 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 		mi.cbSize = sizeof(mi);
 		mi.position = 500020001;
-		mi.flags = CMIF_ICONFROMICOLIB;
+		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.icolibItem = hIconLibItem;
-		mi.pszName = LPGEN("&Add Contact...");
+		mi.ptszName = LPGENT("&Add Contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
 		hMainMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
 
