@@ -76,8 +76,6 @@ HANDLE hTTButton, hTButton;
 
 UINT SecTimer;
 
-BOOL bIcolibEmbededInCore = FALSE;
-
 HANDLE hMenuItemMain = 0;
 HANDLE hMenuItemCont = 0;
 HANDLE hMenuItemContApp = 0;
