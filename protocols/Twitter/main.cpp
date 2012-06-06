@@ -28,7 +28,6 @@ MD5_INTERFACE md5i;
 MM_INTERFACE mmi;
 UTF8_INTERFACE utfi;
 LIST_INTERFACE li;
-int hLangpack; 
 
 CLIST_INTERFACE* pcli;
 
