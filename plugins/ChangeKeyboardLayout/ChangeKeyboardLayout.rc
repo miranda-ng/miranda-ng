@@ -1,0 +1,305 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE MOVEABLE PURE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_POPUPICON           ICON    DISCARDABLE     "Ico\\Popup.ico"
+IDI_COPYICON            ICON    DISCARDABLE     "Ico\\CopyToClipboard.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP_WIN          BITMAP  DISCARDABLE     "Ico\\Win.bmp"
+IDB_BITMAP_ALT          BITMAP  DISCARDABLE     "Ico\\Alt.bmp"
+IDB_BITMAP_CTRL         BITMAP  DISCARDABLE     "Ico\\Ctrl.bmp"
+IDB_BITMAP_SHIFT        BITMAP  DISCARDABLE     "Ico\\Shift.bmp"
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,1,5
+ PRODUCTVERSION 0,0,1,5
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "Comments", "\0"
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "Plugin for change keyboard layout of text (multilayout)\0"
+            VALUE "FileVersion", "0, 0, 1, 5\0"
+            VALUE "InternalName", "ChangeKeyboardLayout\0"
+            VALUE "LegalCopyright", "Copyright © 2006-2009 Mikhail Yur'ev\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "ChangeKeyboardLayout.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "ChangeKeyboardLayout\0"
+            VALUE "ProductVersion", "0, 0, 1, 5\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END
+
+#endif    // !_MAC
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN_OPTION_FORM DIALOGEX 0, 0, 313, 249
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg"
+BEGIN
+    GROUPBOX        "Hotkeys",IDC_STATIC_GROUP_HOTKEYS,2,0,308,94
+    LTEXT           "Changing layout:",IDC_STATIC_HOTKEY_LAYOUT,8,11,296,8
+    CONTROL         "",IDC_HOTKEY_LAYOUT,"msctls_hotkey32",WS_BORDER | 
+                    WS_TABSTOP,162,21,23,12,WS_EX_ACCEPTFILES
+    CONTROL         "",IDC_CHECK_LAYOUT_CTRL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,70,22,9,10
+    CONTROL         "",IDC_CHECK_LAYOUT_ALT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,99,22,9,10
+    CONTROL         "",IDC_CHECK_LAYOUT_SHIFT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,22,9,10
+    CONTROL         "",IDC_CHECK_LAYOUT_WIN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,126,22,9,10
+    CONTROL         """Current word"" mode",IDC_CHECK_LAYOUT_MODE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,195,22,109,10
+    LTEXT           "Changing layout (alternative):",
+                    IDC_STATIC_HOTKEY_LAYOUT2,8,37,296,8
+    CONTROL         "",IDC_HOTKEY_LAYOUT2,"msctls_hotkey32",WS_BORDER | 
+                    WS_TABSTOP,162,48,23,12,WS_EX_ACCEPTFILES
+    CONTROL         "",IDC_CHECK_LAYOUT2_CTRL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,70,49,9,10
+    CONTROL         "",IDC_CHECK_LAYOUT2_ALT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,99,49,9,10
+    CONTROL         "",IDC_CHECK_LAYOUT2_SHIFT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,49,9,10
+    CONTROL         "",IDC_CHECK_LAYOUT2_WIN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,126,49,9,10
+    CONTROL         """Current word"" mode",IDC_CHECK_LAYOUT_MODE2,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,195,49,109,10
+    LTEXT           "Inverting lettercase:",IDC_STATIC_HOTKEY_CASE,8,64,296,
+                    8
+    CONTROL         "",IDC_HOTKEY_CASE,"msctls_hotkey32",WS_BORDER | 
+                    WS_TABSTOP,162,75,23,12,WS_EX_ACCEPTFILES
+    CONTROL         "",IDC_CHECK_CASE_CTRL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,70,76,9,10
+    CONTROL         "",IDC_CHECK_CASE_ALT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,99,76,9,10
+    CONTROL         "",IDC_CHECK_CASE_SHIFT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,39,76,9,10
+    CONTROL         "",IDC_CHECK_CASE_WIN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,126,76,9,10
+    CONTROL         """Current word"" mode",IDC_CHECK_CASE_MODE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,195,76,109,10
+    GROUPBOX        "Options",IDC_STATIC_GROUP_OPTIONS,158,96,152,81
+    CONTROL         "Two-way changing layout (experimental)",
+                    IDC_CHECK_TWOWAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    164,105,143,10
+    GROUPBOX        "Log operations",IDC_STATIC_GROUP_LOG,2,96,152,81
+    CONTROL         "Copy result to clipboard",IDC_CHECK_CLIPBOARD,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,108,141,10
+    CONTROL         "Show result in PopUp",IDC_CHECK_POPUP,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,8,121,141,10
+    GROUPBOX        "Strings for keyboard layouts",IDC_STATIC_GROUP_STRINGS,
+                    2,180,308,65
+    LTEXT           "EN",IDC_STATIC_EXAMPLE,10,194,10,8
+    EDITTEXT        IDC_EDIT_EXAMPLE,42,192,261,14,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    COMBOBOX        IDC_COMBO_LANG,8,209,32,63,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_EDIT_SET,42,208,261,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Default",IDC_BUTTON_DEFAULT,253,226,50,14
+    CONTROL         112,IDC_STATIC,"Static",SS_BITMAP,80,23,15,8
+    CONTROL         111,IDC_STATIC,"Static",SS_BITMAP,110,23,12,8
+    CONTROL         113,IDC_STATIC,"Static",SS_BITMAP,50,23,17,8
+    CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,136,23,13,8
+    LTEXT           "+",IDC_STATIC,153,22,8,8
+    CONTROL         112,IDC_STATIC,"Static",SS_BITMAP,80,50,15,8
+    CONTROL         111,IDC_STATIC,"Static",SS_BITMAP,110,50,12,8
+    CONTROL         113,IDC_STATIC,"Static",SS_BITMAP,50,50,17,8
+    CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,136,50,13,8
+    LTEXT           "+",IDC_STATIC,153,49,8,8
+    CONTROL         112,IDC_STATIC,"Static",SS_BITMAP,80,77,15,8
+    CONTROL         111,IDC_STATIC,"Static",SS_BITMAP,110,77,12,8
+    CONTROL         113,IDC_STATIC,"Static",SS_BITMAP,50,77,17,8
+    CONTROL         110,IDC_STATIC,"Static",SS_BITMAP,136,77,13,8
+    LTEXT           "+",IDC_STATIC,153,76,8,8
+    CONTROL         "Invert current state",IDC_RADIO_INVERTCAPS,"Button",
+                    BS_AUTORADIOBUTTON,171,145,133,10
+    CONTROL         "Switch off",IDC_RADIO_OFFCAPS,"Button",
+                    BS_AUTORADIOBUTTON,171,155,133,10
+    CONTROL         "Leave as it is",IDC_RADIO_IGNORECAPS,"Button",
+                    BS_AUTORADIOBUTTON,171,165,133,10
+    LTEXT           "Set Caps Lock state when inverting lettercase:",
+                    IDC_STATIC,164,128,140,18
+    CONTROL         "Change active keyboard layout in system",
+                    IDC_CHECK_SYSTEMLAYOUT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,164,116,143,10
+END
+
+IDD_POPUP_OPTION_FORM DIALOGEX 0, 0, 188, 126
+STYLE DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "Colours",IDC_GROUP_COLOURS,2,2,91,72,WS_GROUP
+    CONTROL         "PopUp colours",IDC_RADIO_COLOURS_POPUP,"Button",
+                    BS_AUTORADIOBUTTON,6,12,82,10
+    CONTROL         "Windows colours",IDC_RADIO_COLOURS_WINDOWS,"Button",
+                    BS_AUTORADIOBUTTON,6,23,82,10
+    CONTROL         "Custom colours",IDC_RADIO_COLOURS_CUSTOM,"Button",
+                    BS_AUTORADIOBUTTON,6,34,82,10
+    CTEXT           "Back",IDC_STATIC,8,46,39,8
+    CONTROL         "Custom1",IDC_CUSTOM_BACK,"ColourPicker",WS_TABSTOP,12,
+                    55,29,14
+    CTEXT           "Text",IDC_STATIC,51,46,39,8
+    CONTROL         "Custom1",IDC_CUSTOM_TEXT,"ColourPicker",WS_TABSTOP,56,
+                    55,29,14
+    GROUPBOX        "Timeout",IDC_GROUP_TIMEOUT,95,2,91,72,WS_GROUP
+    CONTROL         "From PopUp plugin",IDC_RADIO_TIMEOUT_POPUP,"Button",
+                    BS_AUTORADIOBUTTON,99,12,82,10
+    CONTROL         "Permanent",IDC_RADIO_TIMEOUT_PERMANENT,"Button",
+                    BS_AUTORADIOBUTTON,99,23,82,10
+    CONTROL         "Custom",IDC_RADIO_TIMEOUT_CUSTOM,"Button",
+                    BS_AUTORADIOBUTTON,99,33,82,10
+    EDITTEXT        IDC_EDIT_TIMEOUT,118,50,40,14,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "On left click",IDC_GROUP_LEFTCLICK,2,74,91,34,WS_GROUP
+    CONTROL         "Copy to clipboard",IDC_RADIO_LEFT_CLIPBOARD,"Button",
+                    BS_AUTORADIOBUTTON,8,84,82,10
+    CONTROL         "Dismiss",IDC_RADIO_LEFT_DISMISS,"Button",
+                    BS_AUTORADIOBUTTON,8,94,82,10
+    GROUPBOX        "On right click",IDC_GROUP_RIGHTCLICK,95,74,91,34,
+                    WS_GROUP
+    CONTROL         "Copy to clipboard",IDC_RADIO_RIGHT_CLIPBOARD,"Button",
+                    BS_AUTORADIOBUTTON,101,84,82,10
+    CONTROL         "Dismiss",IDC_RADIO_RIGHT_DISMISS,"Button",
+                    BS_AUTORADIOBUTTON,101,94,82,10
+    PUSHBUTTON      "Preview",IDC_BUTTON_PREVIEW,70,110,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO MOVEABLE PURE 
+BEGIN
+    IDD_MAIN_OPTION_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 310
+        TOPMARGIN, 3
+        BOTTOMMARGIN, 246
+    END
+
+    IDD_POPUP_OPTION_FORM, DIALOG
+    BEGIN
+        LEFTMARGIN, 2
+        RIGHTMARGIN, 186
+        TOPMARGIN, 2
+        BOTTOMMARGIN, 124
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
