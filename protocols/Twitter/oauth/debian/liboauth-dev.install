@@ -1,6 +1,0 @@
-usr/include/*
-usr/lib/pkgconfig/*
-usr/share/man/man3/oauth.3
-usr/lib/lib*.a
-usr/lib/lib*.so
-usr/lib/lib*.la
