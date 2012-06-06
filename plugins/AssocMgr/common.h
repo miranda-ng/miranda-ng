@@ -19,22 +19,19 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#define MIRANDA_VER  0x0A00
 #define _CRT_SECURE_NO_WARNINGS
 #define _WIN32_WINNT 0x0600
-#define __RPCASYNC_H__         /* VC6 has a mistake in there (warning) */
+
 #include <windows.h>
-#pragma warning(disable:4201)  /* nonstandard extension used : nameless struct/union */
-#pragma warning(disable:4115)  /* V6 has a mistake in there (warning) */
 #include <shlobj.h>            /* for SHChangeNotify() */
-#pragma warning(default:4115)
 #include <commctrl.h>
-#pragma warning(default:4201)
 #include <tchar.h>
 #include <stdio.h>             /* for mir_snprintf() */
 #include <Vsstyle.h>
 #include <Vssym32.h>
+#include <malloc.h>
 
-#define MIRANDA_VER  0x0A00
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>

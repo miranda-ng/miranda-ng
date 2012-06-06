@@ -26,8 +26,8 @@ void CleanupMimeTypeAddedSettings(void);
 /* Assoc List Utils */
 BOOL IsRegisteredAssocItem(const char *pszClassName);
 /* Open Handler */
-INT_PTR InvokeFileHandler(const TCHAR *pszFileName);
-INT_PTR InvokeUrlHandler(const TCHAR *pszUrl);
+INT_PTR InvokeFileHandler(TCHAR *pszFileName);
+INT_PTR InvokeUrlHandler(TCHAR *pszUrl);
 /* Misc */
 void InitAssocList(void);
 void UninitAssocList(void);

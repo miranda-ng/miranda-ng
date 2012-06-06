@@ -3,7 +3,7 @@
 #define __FILEVERSION_STRING        MIRANDA_VERSION_FILEVERSION
 #define __VERSION_STRING            MIRANDA_VERSION_STRING
 #define __VERSION_DWORD             MIRANDA_VERSION_DWORD
-#define __PLUGIN_NAME				"AdvaImg"
+#define __PLUGIN_NAME				"Miranda Image services"
 #define __INTERNAL_NAME				"AdvaImg"
 #define __FILENAME					"AdvaImg.dll"
 #define __DESCRIPTION 				"Generic image services for Miranda IM."

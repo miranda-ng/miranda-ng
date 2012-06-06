@@ -15,6 +15,7 @@
 #include <commctrl.h>
 
 #include "resource.h"
+#include "version.h"
 
 #include <newpluginapi.h>
 #include <m_system.h>

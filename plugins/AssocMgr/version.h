@@ -19,22 +19,23 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define NEEDED_MIRANDA_VERSION      PLUGIN_MAKE_VERSION(0,6,0,0)
-#define NEEDED_MIRANDA_VERSION_STR  "0.6"
-#define PLUGIN_VERSION              PLUGIN_MAKE_VERSION(0,1,1,0)
-#define FILE_VERSION                0,1,1,0
+#define __MAJOR_VERSION				0
+#define __MINOR_VERSION				1
+#define __RELEASE_NUM				1
+#define __BUILD_NUM					0
 
-#if defined(_DEBUG)
- #define FILE_VERSION_STR           "0.1.1.1 alpha"
-#else
- #define FILE_VERSION_STR           "0.1.1.0"
-#endif
+#define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-#define PLUGIN_EMAIL                "hrathh users.sourceforge.net"
-#define PLUGIN_EMAIL_ATT_POS        7  /* position of the @-sign in the email adress above */
+#define __STRINGIFY_IMPL(x)			#x
+#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
+#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#if defined(_UNICODE)
- #define PLUGIN_WEBSITE             "http://addons.miranda-im.org/details.php?action=viewfile&id=3458"
-#else
- #define PLUGIN_WEBSITE             "http://addons.miranda-im.org/details.php?action=viewfile&id=3457"
-#endif
+#define __PLUGIN_NAME				"File Association Manager"
+#define __INTERNAL_NAME				"AssocMgr"
+#define __FILENAME					"AssocMgr.dll"
+#define __DESCRIPTION 				"Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen."
+#define __AUTHOR					"H. Herkenrath"
+#define __AUTHOREMAIL				"hrathh@users.sourceforge.net"
+#define __AUTHORWEB					"http://addons.miranda-im.org/details.php?action=viewfile&id=3457"
+#define __COPYRIGHT					"© 2005-2007 H. Herkenrath"

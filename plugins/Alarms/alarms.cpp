@@ -33,13 +33,13 @@ WNDPROC old_clist_wndproc;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-	"Alarms",
-	PLUGIN_MAKE_VERSION(0,4,0,5),
-	"Set once-off, daily, weekly and weekday alarms.",
-	"Scott Ellis",
-	"mail@scottellis.com.au",
-	"© 2005 Scott Ellis",
-	"http://www.scottellis.com.au",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,		//not transient
 	0,		//doesn't replace anything built-in
 	{ 0x4dd7762b, 0xd612, 0x4f84, { 0xaa, 0x86, 0x6, 0x8f, 0x17, 0x85, 0x9b, 0x6d } } // {4DD7762B-D612-4f84-AA86-068F17859B6D}
@@ -61,8 +61,6 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
-
-
 
 static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {

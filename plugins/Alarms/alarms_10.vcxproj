@@ -204,6 +204,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="time_utils.h" />
     <ClInclude Include="trigger.h" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="clock.ico" />
@@ -214,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="Version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

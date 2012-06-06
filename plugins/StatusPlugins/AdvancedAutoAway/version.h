@@ -10,18 +10,10 @@
 #define __RELEASE_NUM				0
 #define __BUILD_NUM					42
 
-// minimal MirandaIM version number, with which this plugin supposed to work
-#define __PROD_MAJOR_VERSION		0
-#define __PROD_MINOR_VERSION		8
-#define __PROD_RELEASE_NUM			0
-#define __PROD_BUILD_NUM			0
-// if your plugin works only with Miranda core beginning from specific revision, you can include this information in Product Version resource
-//#define __PROD_REV_NUM				1234
-
 // stuff that will be used in PluginInfo section and in Version resource
 #define __PLUGIN_NAME				"Advanced Auto Away"
 #define __FILENAME					"AdvancedAutoAway.dll"
-#define __DESC						"AdvancedAutoAway, an Auto Away module with some more options than the original."
+#define __DESC						"An Auto Away module with some more options than the original."
 #define __AUTHOR					"P Boon"
 #define __AUTHOREMAIL				"unregistered@users.sourceforge.net"
 #define __AUTHORWEB					"http://www.miranda-im.org/"
@@ -45,12 +37,4 @@
 #else
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_STRING_DOTS)
 #endif
-#endif
-
-#define __PRODVERSION_STRING        __PROD_MAJOR_VERSION,__PROD_MINOR_VERSION,__PROD_RELEASE_NUM,__PROD_BUILD_NUM
-#define __PRODVERSION_STRING_DOTS	__PROD_MAJOR_VERSION.__PROD_MINOR_VERSION.__PROD_RELEASE_NUM.__PROD_BUILD_NUM
-#ifdef __PROD_REV_NUM
-#define __PROD_VERSION_STRING		__STRINGIFY(__PRODVERSION_STRING_DOTS rev. __PROD_REV_NUM)
-#else
-#define __PROD_VERSION_STRING		__STRINGIFY(__PRODVERSION_STRING_DOTS+)
 #endif

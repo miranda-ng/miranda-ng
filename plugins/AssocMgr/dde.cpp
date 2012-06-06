@@ -30,8 +30,9 @@ static HANDLE hHookModulesLoaded,hHookPreShutdown;
 /************************* Open Handler ***************************/
 
 // pszFilePath needs to be allocated using mir_alloc()
-static void __stdcall FileActionAsync(TCHAR *pszFilePath)
+static void __stdcall FileActionAsync(void *param)
 {
+	TCHAR *pszFilePath = (TCHAR*)param;
 	/* invoke main handler */
 	switch(InvokeFileHandler(pszFilePath)) { /* pszFilePath is always a long path name */
 		case 0: /* success */ break;
@@ -42,11 +43,13 @@ static void __stdcall FileActionAsync(TCHAR *pszFilePath)
 			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open file"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe file could not be processed."),pszFilePath);
 	}
 	mir_free(pszFilePath); /* async param */
+	mir_free(param);
 }
 
 // pszUrl needs to be allocated using mir_alloc()
-static void __stdcall UrlActionAsync(TCHAR *pszUrl)
+static void __stdcall UrlActionAsync(void *param)
 {
+	TCHAR *pszUrl = (TCHAR*)param;
 	/* invoke main handler */
 	switch(InvokeUrlHandler(pszUrl)) {
 		case 0: /* success */ break;
@@ -57,6 +60,7 @@ static void __stdcall UrlActionAsync(TCHAR *pszUrl)
 			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open URL"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe given URL is invalid and can not be parsed."),pszUrl);
 	}
 	mir_free(pszUrl); /* async param */
+	mir_free(param);
 }
 
 /************************* Conversation ***************************/
@@ -111,7 +115,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 				/* ANSI execute command can't happen for shell */
 				if(IsWindowUnicode((HWND)wParam)) {
 				#endif
-					pszCommand=GlobalLock(hCommand);
+					pszCommand = (TCHAR*)GlobalLock(hCommand);
 					if(pszCommand!=NULL) {
 						TCHAR *pszAction,*pszArg;
 						pszAction=GetExecuteParam(&pszCommand);
@@ -120,9 +124,9 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 							/* we are inside miranda here, we make it async so the shell does
 							 * not timeout regardless what the plugins try to do. */
 							if (!lstrcmpi(pszAction,_T("file")))
-								ack.fAck=(short)(CallFunctionAsync(FileActionAsync,pszArg)!=0);
+								ack.fAck=(short)(CallFunctionAsync(FileActionAsync, pszArg)!=0);
 							else if (!lstrcmpi(pszAction,_T("url")))
-								ack.fAck=(short)(CallFunctionAsync(UrlActionAsync,pszArg)!=0);
+								ack.fAck=(short)(CallFunctionAsync(UrlActionAsync, pszArg)!=0);
 							if (!ack.fAck) mir_free(pszArg); /* otherwise freed by asyncproc */
 						}
 						GlobalUnlock(hCommand);
