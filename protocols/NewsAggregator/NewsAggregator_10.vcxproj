@@ -19,8 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C619A811-8023-4441-B3D7-785388A09DF0}</ProjectGuid>
-    <ProjectName>Quotes</ProjectName>
+    <ProjectName>NewsAggregator</ProjectName>
+    <ProjectGuid>{6DE11A47-2268-4B08-8DE5-15A1705FCE28}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -75,20 +75,21 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;FOREX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>..\..\include;..\plugins\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\boost_1_49_0\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
@@ -99,19 +100,20 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;FOREX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>..\..\include;..\plugins\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalLibraryDirectories>..\..\..\boost_1_49_0\lib64</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
@@ -122,22 +124,22 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <Optimization>Full</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;FOREX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>..\..\include;..\plugins\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\..\boost_1_49_0\lib</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
@@ -148,22 +150,22 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <Optimization>Full</Optimization>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>..\..\include;..\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;FOREX_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>..\..\include;..\plugins\ExternalAPI;..\..\..\boost_1_49_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN64;NDEBUG;_WINDOWS;_USRDLL;NEWSAGGREGATOR_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <WarningLevel>Level3</WarningLevel>
+      <DisableSpecificWarnings>4996</DisableSpecificWarnings>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>comsuppw.lib;comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\..\boost_1_49_0\lib64</AdditionalLibraryDirectories>
     </Link>
     <ResourceCompile>
@@ -172,118 +174,37 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Base64.cpp" />
-    <ClCompile Include="ComHelper.cpp" />
-    <ClCompile Include="CommonOptionDlg.cpp" />
-    <ClCompile Include="CreateFilePath.cpp" />
-    <ClCompile Include="CurrencyConverter.cpp" />
-    <ClCompile Include="DBUtils.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="ExtraImages.cpp" />
-    <ClCompile Include="Forex.cpp" />
-    <ClCompile Include="HTMLParserMS.cpp" />
-    <ClCompile Include="HTTPSession.cpp" />
-    <ClCompile Include="IconLib.cpp" />
-    <ClCompile Include="ImportExport.cpp" />
-    <ClCompile Include="LightMutex.cpp" />
-    <ClCompile Include="Locale.cpp" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="ModuleInfo.cpp" />
-    <ClCompile Include="OptionDukasCopy.cpp" />
-    <ClCompile Include="QuoteChart.cpp" />
-    <ClCompile Include="QuoteInfoDlg.cpp" />
-    <ClCompile Include="QuotesProviderBase.cpp" />
-    <ClCompile Include="QuotesProviderDukasCopy.cpp" />
-    <ClCompile Include="QuotesProviderFinance.cpp" />
-    <ClCompile Include="QuotesProviderGoogle.cpp" />
-    <ClCompile Include="QuotesProviderGoogleFinance.cpp" />
-    <ClCompile Include="QuotesProviders.cpp" />
-    <ClCompile Include="QuotesProviderVisitorDbSettings.cpp" />
-    <ClCompile Include="QuotesProviderVisitorFormater.cpp" />
-    <ClCompile Include="QuotesProviderVisitorFormatSpecificator.cpp" />
-    <ClCompile Include="QuotesProviderVisitorTendency.cpp" />
-    <ClCompile Include="QuotesProviderYahoo.cpp" />
-    <ClCompile Include="SettingsDlg.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ResourceCompile Include="Resource.rc" />
+    <ResourceCompile Include="Version.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Src\Common.h" />
+    <ClInclude Include="Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\entities.cpp" />
+    <ClCompile Include="Src\Icons.cpp" />
+    <ClCompile Include="Src\Menus.cpp" />
+    <ClCompile Include="Src\Options.cpp" />
+    <ClCompile Include="Src\NewsAggregator.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="WinCtrlHelper.cpp" />
-    <ClCompile Include="WorkingThread.cpp" />
-    <ClCompile Include="XMLEngineMI.cpp" />
+    <ClCompile Include="Src\Services.cpp" />
+    <ClCompile Include="Src\Update.cpp" />
+    <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Base64.h" />
-    <ClInclude Include="Chart.h" />
-    <ClInclude Include="ComHelper.h" />
-    <ClInclude Include="CommonOptionDlg.h" />
-    <ClInclude Include="CreateFilePath.h" />
-    <ClInclude Include="CurrencyConverter.h" />
-    <ClInclude Include="DBUtils.h" />
-    <ClInclude Include="EconomicRateInfo.h" />
-    <ClInclude Include="ExtraImages.h" />
-    <ClInclude Include="HTMLParserMS.h" />
-    <ClInclude Include="HTTPSession.h" />
-    <ClInclude Include="IconLib.h" />
-    <ClInclude Include="IHTMLEngine.h" />
-    <ClInclude Include="IHTMLParser.h" />
-    <ClInclude Include="ImportExport.h" />
-    <ClInclude Include="IQuotesProvider.h" />
-    <ClInclude Include="IsWithinAccuracy.h" />
-    <ClInclude Include="IXMLEngine.h" />
-    <ClInclude Include="LightMutex.h" />
-    <ClInclude Include="Locale.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="ModuleInfo.h" />
-    <ClInclude Include="OptionDukasCopy.h" />
-    <ClInclude Include="QuoteChart.h" />
-    <ClInclude Include="QuoteInfoDlg.h" />
-    <ClInclude Include="QuotesProviderBase.h" />
-    <ClInclude Include="QuotesProviderDukasCopy.h" />
-    <ClInclude Include="QuotesProviderFinance.h" />
-    <ClInclude Include="QuotesProviderGoogle.h" />
-    <ClInclude Include="QuotesProviderGoogleFinance.h" />
-    <ClInclude Include="QuotesProviders.h" />
-    <ClInclude Include="QuotesProviderVisitor.h" />
-    <ClInclude Include="QuotesProviderVisitorDbSettings.h" />
-    <ClInclude Include="QuotesProviderVisitorFormater.h" />
-    <ClInclude Include="QuotesProviderVisitorFormatSpecificator.h" />
-    <ClInclude Include="QuotesProviderVisitorTendency.h" />
-    <ClInclude Include="QuotesProviderYahoo.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="SettingsDlg.h" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="version.h" />
-    <ClInclude Include="WinCtrlHelper.h" />
-    <ClInclude Include="WorkingThread.h" />
-    <ClInclude Include="XMLEngineMI.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\CurrencyConverter.ico" />
-    <None Include="res\down.ico" />
-    <None Include="res\Export quotes.ico" />
-    <None Include="res\Import quotes.ico" />
-    <None Include="res\main.ico" />
-    <None Include="res\notchanged.ico" />
-    <None Include="res\quote.ico" />
-    <None Include="res\Refresh.ico" />
-    <None Include="res\Section.ico" />
-    <None Include="res\swap.ico" />
-    <None Include="res\up.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Forex.rc" />
-    <ResourceCompile Include="Version.rc" />
+    <None Include="res\AddFeed.ico" />
+    <None Include="res\CheckAll.ico" />
+    <None Include="res\Export.ico" />
+    <None Include="res\Import.ico" />
+    <None Include="res\Main.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="Forex.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

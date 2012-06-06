@@ -172,7 +172,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "W7UI", "..\plugins\W7UI\w7u
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhenWasIt", "..\plugins\WhenWasIt\WhenWasIt_10.vcxproj", "{63E05ECA-0A63-479E-86BD-2CAF53869BDA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAMN", "..\plugins\YAMN\YAMN_10.vcxproj", "{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAMN", "..\protocols\YAMN\YAMN_10.vcxproj", "{C5A87409-F08C-4A07-A8F9-1F5D52BA6D72}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "YAPP", "..\plugins\YAPP\popups2_10.vcxproj", "{B6FC188B-8E54-4197-9444-8BADE9AA75E2}"
 EndProject
@@ -194,7 +194,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Alarms", "..\plugins\Alarms
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LangMan", "..\plugins\LangMan\langman.vcxproj", "{F2ABCBFB-FEB8-49DF-B166-C2FA5148ACE1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quotes", "..\plugins\Quotes\Forex.vcxproj", "{C619A811-8023-4441-B3D7-785388A09DF0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Quotes", "..\protocols\Quotes\Forex.vcxproj", "{C619A811-8023-4441-B3D7-785388A09DF0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZeroNotify", "..\plugins\ZeroNotification\Zero Notification_10.vcxproj", "{E37561EB-B9C5-4215-9FF9-DB559916FBA2}"
 EndProject
@@ -290,7 +290,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SpellChecker_Flags_Angelika
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons_XP", "..\plugins\TabSRMM\icons\ICONSXP\iconsxp_10.vcxproj", "{987C5A57-A46B-4779-BB85-077E21F7BF7F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\plugins\NewsAggregator\NewsAggregator_10.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewsAggregator", "..\protocols\NewsAggregator\NewsAggregator_10.vcxproj", "{6DE11A47-2268-4B08-8DE5-15A1705FCE28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
