@@ -28,6 +28,7 @@ MD5_INTERFACE md5i;
 MM_INTERFACE mmi;
 UTF8_INTERFACE utfi;
 LIST_INTERFACE li;
+int hLangpack; 
 
 CLIST_INTERFACE* pcli;
 
@@ -65,17 +66,6 @@ DWORD WINAPI DllMain(HINSTANCE hInstance,DWORD,LPVOID)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if(mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,29))
-	{
-		MessageBox(0,_T("The Twitter protocol plugin cannot be loaded. ")
-			_T("It requires Miranda IM 0.9.4 or later."),_T("Miranda"),
-			MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST);
-		return NULL;
-	}
-
-	/*unsigned long mv=_htonl(mirandaVersion);
-	memcpy(&AIM_CAP_MIRANDA[8],&mv,sizeof(DWORD));
-	memcpy(&AIM_CAP_MIRANDA[12],AIM_OSCAR_VERSION,sizeof(DWORD));*/
 	return &pluginInfo;
 }
 
@@ -144,6 +134,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mir_getMD5I(&md5i);
 	mir_getUTFI(&utfi);
 	mir_getLI(&li);
+	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
 		MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)) );

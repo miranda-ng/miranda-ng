@@ -17,7 +17,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define MIRANDA_VER 0x800
+#define MIRANDA_VER 0x0A00
 
 #include <string>
 using std::string;
