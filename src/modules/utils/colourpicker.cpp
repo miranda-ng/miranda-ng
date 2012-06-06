@@ -51,7 +51,7 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd,UINT message,WPARAM wParam
             cc.rgbResult=GetWindowLongPtr(hwnd,0);
             cc.lpCustColors=custColours;
             cc.Flags=CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
-            if(ChooseColor(&cc)) {
+            if (ChooseColor(&cc)) {
 				SetWindowLongPtr(hwnd,0,cc.rgbResult);
 				SendMessage(GetParent(hwnd),WM_COMMAND,MAKEWPARAM(GetDlgCtrlID(hwnd),CPN_COLOURCHANGED),(LPARAM)hwnd);
 				InvalidateRect(hwnd,NULL,FALSE);
@@ -72,7 +72,7 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd,UINT message,WPARAM wParam
 			GetClientRect(hwnd,&rc);
 			DrawEdge(hdc1,&rc,EDGE_ETCHED,BF_RECT);
 			InflateRect(&rc,-2,-2);
-			if(IsWindowEnabled(hwnd))
+			if (IsWindowEnabled(hwnd))
 				hBrush=CreateSolidBrush(GetWindowLongPtr(hwnd,0));
 			else
 				hBrush=CreateHatchBrush(HS_BDIAGONAL,GetSysColor(COLOR_GRAYTEXT));

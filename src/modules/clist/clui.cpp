@@ -635,7 +635,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	case WM_SETCURSOR:
-		if(cluiopt.transparent) {
+		if (cluiopt.transparent) {
 			if (!transparentFocus && GetForegroundWindow()!=hwnd && setLayeredWindowAttributes) {
 				setLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus=1;
@@ -968,7 +968,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case WM_MENUSELECT:
-		if(lParam && (HMENU)lParam == cli.hMenuMain) {
+		if (lParam && (HMENU)lParam == cli.hMenuMain) {
 			int pos = LOWORD(wParam);
 			POINT pt;
 			GetCursorPos(&pt);

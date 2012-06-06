@@ -75,7 +75,7 @@ int contactCacheCompare(void * a, void * b)
 	int rc=0;
 	// same protocol?
 	rc = strcmp(x->proto, y->proto);
-	if ( rc == 0 ) {
+	if ( rc  ==  0 ) {
 		// same id? id's might be missing
 		if ( x->id && y->id ) rc = strcmp(x->id, y->id);
 	}
@@ -137,7 +137,7 @@ void contactDir_Contact_Add(contactDir * cd, HANDLE hContact, char * proto, char
 {
 	// if a contact is gonna exist anywhere it's going to be in the ->protoCache which has a key of hContact
 	// if id is not null then the contact should be indexed via the ->contactCache instead
-	if ( id == NULL ) {
+	if ( id  ==  NULL ) {
 		int index = 0;
 		contactEntry e;
 		e.hContact=hContact;
@@ -184,7 +184,7 @@ void contactDir_Proto_Walk(contactDir * cd)
 		dbvProto.pszVal = (char *) &buf;
 		dbvProto.cchVal = SIZEOF(buf);
 		// figure out what hContact/Protocol/p is
-		if ( CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)hContact, (LPARAM)&gsProto) == 0 ) {
+		if ( CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)hContact, (LPARAM)&gsProto) ==  0 ) {
 			contactDir_Contact_Add(cd, hContact, buf, NULL);
 		}
 		// find next

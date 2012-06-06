@@ -79,7 +79,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam,LPARAM)
 	struct DetailsPageInit opi;
 	int i;
 
-	if(hwnd=WindowList_Find(hWindowList,(HANDLE)wParam)) {
+	if (hwnd=WindowList_Find(hWindowList,(HANDLE)wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 		return 0;
@@ -88,7 +88,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam,LPARAM)
 	opi.pageCount=0;
 	opi.odp=NULL;
 	NotifyEventHooks(hDetailsInitEvent,(WPARAM)&opi,wParam);
-	if(opi.pageCount==0) return 0;
+	if (opi.pageCount==0) return 0;
 	qsort(opi.odp,opi.pageCount,sizeof(OPTIONSDIALOGPAGE),(int (*)(const void*,const void*))PageSortProc);
 
 	ZeroMemory(&psh,sizeof(psh));
@@ -101,12 +101,12 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam,LPARAM)
 	psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
 	CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
-	for(i=0;i<opi.pageCount;i++) {
+	for (i=0;i<opi.pageCount;i++) {
 		//cleanup moved to WM_DESTROY
 		//mir_free((char*)opi.odp[i].pszTitle);
 		//mir_free((char*)opi.odp[i].pszTab);
-		if(opi.odp[i].pszGroup!=NULL) mir_free(opi.odp[i].pszGroup);
-		if((DWORD_PTR)opi.odp[i].pszTemplate&0xFFFF0000) mir_free((char*)opi.odp[i].pszTemplate);
+		if (opi.odp[i].pszGroup!=NULL) mir_free(opi.odp[i].pszGroup);
+		if ((DWORD_PTR)opi.odp[i].pszTemplate&0xFFFF0000) mir_free((char*)opi.odp[i].pszTemplate);
 	}
 	mir_free(opi.odp);
 	return 0;
@@ -117,8 +117,8 @@ static INT_PTR AddDetailsPage(WPARAM wParam,LPARAM lParam)
 	OPTIONSDIALOGPAGE *odp=(OPTIONSDIALOGPAGE*)lParam, *dst;
 	struct DetailsPageInit *opi=(struct DetailsPageInit*)wParam;
 
-	if(odp==NULL||opi==NULL) return 1;
-	if(odp->cbSize!=sizeof(OPTIONSDIALOGPAGE)
+	if (odp==NULL||opi==NULL) return 1;
+	if (odp->cbSize!=sizeof(OPTIONSDIALOGPAGE)
 			&& odp->cbSize != OPTIONPAGE_OLD_SIZE2
 			&& odp->cbSize != OPTIONPAGE_OLD_SIZE3)
 		return 1;
@@ -129,7 +129,7 @@ static INT_PTR AddDetailsPage(WPARAM wParam,LPARAM lParam)
 	dst->hInstance = odp->hInstance;
 	dst->pfnDlgProc = odp->pfnDlgProc;
 	dst->position = odp->position;
-	if((DWORD_PTR)odp->pszTemplate&0xFFFF0000) dst->pszTemplate = mir_strdup(odp->pszTemplate);
+	if ((DWORD_PTR)odp->pszTemplate&0xFFFF0000) dst->pszTemplate = mir_strdup(odp->pszTemplate);
 	else dst->pszTemplate = odp->pszTemplate;
 
 	#if defined(_UNICODE)
@@ -215,7 +215,7 @@ static int UserInfoContactDelete(WPARAM wParam,LPARAM)
 {
 	HWND hwnd;
 	hwnd=WindowList_Find(hWindowList,(HANDLE)wParam);
-	if(hwnd!=NULL) DestroyWindow(hwnd);
+	if (hwnd!=NULL) DestroyWindow(hwnd);
 	return 0;
 }
 
@@ -347,7 +347,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TCHAR str[128];
 			mir_sntprintf(str,SIZEOF(str), _T("%.*s%s%.*s"),dat->updateAnimFrame%10,_T("........."),dat->szUpdating,dat->updateAnimFrame%10,_T("........."));
 			SetDlgItemText(hwndDlg,IDC_UPDATING,str);
-			if(++dat->updateAnimFrame==UPDATEANIMFRAMES) dat->updateAnimFrame=0;
+			if (++dat->updateAnimFrame==UPDATEANIMFRAMES) dat->updateAnimFrame=0;
 			break;
 		}
 	case WM_CTLCOLORSTATIC:
@@ -386,9 +386,9 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			pshn.hdr.code=PSN_INFOCHANGED;
 			pshn.hdr.idFrom=0;
 			pshn.lParam=(LPARAM)dat->hContact;
-			for(i=0;i<dat->pageCount;i++) {
+			for (i=0;i<dat->pageCount;i++) {
 				pshn.hdr.hwndFrom=dat->opd[i].hwnd;
-				if(dat->opd[i].hwnd!=NULL)
+				if (dat->opd[i].hwnd!=NULL)
 					SendMessage(dat->opd[i].hwnd,WM_NOTIFY,0,(LPARAM)&pshn);
 			}
 			break;
@@ -398,8 +398,8 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			char *szProto;
 			if (dat->hContact != NULL) {
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);
-				if(szProto==NULL) {EnableWindow(GetDlgItem(hwndDlg,IDC_UPDATE),FALSE); break;}
-				if(CallProtoService(szProto,PS_GETSTATUS,0,0)<ID_STATUS_ONLINE) EnableWindow(GetDlgItem(hwndDlg,IDC_UPDATE),FALSE);
+				if (szProto==NULL) {EnableWindow(GetDlgItem(hwndDlg,IDC_UPDATE),FALSE); break;}
+				if (CallProtoService(szProto,PS_GETSTATUS,0,0)<ID_STATUS_ONLINE) EnableWindow(GetDlgItem(hwndDlg,IDC_UPDATE),FALSE);
 				else EnableWindow(GetDlgItem(hwndDlg,IDC_UPDATE),!IsWindowVisible(GetDlgItem(hwndDlg,IDC_UPDATING)));
 			}
 			break;
@@ -409,12 +409,12 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ACKDATA *ack=(ACKDATA*)lParam;
 			int i;
 
-			if(ack->hContact==NULL && ack->type==ACKTYPE_STATUS) {
+			if (ack->hContact==NULL && ack->type==ACKTYPE_STATUS) {
 				SendMessage(hwndDlg,M_CHECKONLINE,0,0);
 				break;
 			}
-			if(ack->hContact!=dat->hContact) break;
-			if(ack->type!=ACKTYPE_GETINFO) break;
+			if (ack->hContact!=dat->hContact) break;
+			if (ack->type!=ACKTYPE_GETINFO) break;
 			SendMessage(hwndDlg,PSM_FORCECHANGED,0,0);
 			/* if they're not gonna send any more ACK's don't let that mean we should crash */
 			if (!ack->hProcess && !ack->lParam) {
@@ -423,11 +423,11 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SendMessage(hwndDlg,M_CHECKONLINE,0,0);
 				break;
 			} //if
-			if(dat->infosUpdated==NULL) dat->infosUpdated=(int*)mir_calloc(sizeof(int)*(INT_PTR)ack->hProcess);
-			if(ack->result==ACKRESULT_SUCCESS || ack->result==ACKRESULT_FAILED) dat->infosUpdated[ack->lParam]=1;
-			for(i=0;i<(int)ack->hProcess;i++)
-				if(dat->infosUpdated[i]==0) break;
-			if(i==(int)ack->hProcess) {
+			if (dat->infosUpdated==NULL) dat->infosUpdated=(int*)mir_calloc(sizeof(int)*(INT_PTR)ack->hProcess);
+			if (ack->result==ACKRESULT_SUCCESS || ack->result==ACKRESULT_FAILED) dat->infosUpdated[ack->lParam]=1;
+			for (i=0;i<(int)ack->hProcess;i++)
+				if (dat->infosUpdated[i]==0) break;
+			if (i==(int)ack->hProcess) {
 				ShowWindow(GetDlgItem(hwndDlg,IDC_UPDATING),SW_HIDE);
 				KillTimer(hwndDlg,1);
 				SendMessage(hwndDlg,M_CHECKONLINE,0,0);
@@ -493,7 +493,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					TVITEM tvi = pnmtv->itemNew;
 					dat->currentPage = tvi.lParam;
 
-					if(dat->currentPage != -1)
+					if (dat->currentPage != -1)
 					{
 						CreateDetailsTabs(hwndDlg, dat, &dat->opd[dat->currentPage]);
 						if (dat->opd[dat->currentPage].hwnd == NULL)
@@ -517,8 +517,8 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			pshn.hdr.idFrom=0;
 			pshn.lParam=(LPARAM)dat->hContact;
 			pshn.hdr.code=PSN_RESET;
-			for(i=0;i<dat->pageCount;i++) {
-				if(dat->opd[i].hwnd==NULL || !dat->opd[i].changed) continue;
+			for (i=0;i<dat->pageCount;i++) {
+				if (dat->opd[i].hwnd==NULL || !dat->opd[i].changed) continue;
 				pshn.hdr.hwndFrom=dat->opd[i].hwnd;
 				SendMessage(dat->opd[i].hwnd,WM_NOTIFY,0,(LPARAM)&pshn);
 			}
@@ -531,20 +531,20 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			PSHNOTIFY pshn;
 			pshn.hdr.idFrom=0;
 			pshn.lParam=(LPARAM)dat->hContact;
-			if(dat->currentPage!=-1) {
+			if (dat->currentPage!=-1) {
 				pshn.hdr.code=PSN_KILLACTIVE;
 				pshn.hdr.hwndFrom=dat->opd[dat->currentPage].hwnd;
-				if(SendMessage(dat->opd[dat->currentPage].hwnd,WM_NOTIFY,0,(LPARAM)&pshn))
+				if (SendMessage(dat->opd[dat->currentPage].hwnd,WM_NOTIFY,0,(LPARAM)&pshn))
 					break;
 			}
 
 			pshn.hdr.code=PSN_APPLY;
-			for(i=0;i<dat->pageCount;i++) {
-				if(dat->opd[i].hwnd==NULL || !dat->opd[i].changed) continue;
+			for (i=0;i<dat->pageCount;i++) {
+				if (dat->opd[i].hwnd==NULL || !dat->opd[i].changed) continue;
 				pshn.hdr.hwndFrom=dat->opd[i].hwnd;
-				if(SendMessage(dat->opd[i].hwnd,WM_NOTIFY,0,(LPARAM)&pshn)==PSNRET_INVALID_NOCHANGEPAGE) {
+				if (SendMessage(dat->opd[i].hwnd,WM_NOTIFY,0,(LPARAM)&pshn)==PSNRET_INVALID_NOCHANGEPAGE) {
 					TreeView_Select(GetDlgItem(hwndDlg,IDC_PAGETREE), dat->opd[i].hItem, TVGN_CARET);
-					if(dat->currentPage!=-1) ShowWindow(dat->opd[dat->currentPage].hwnd,SW_HIDE);
+					if (dat->currentPage!=-1) ShowWindow(dat->opd[dat->currentPage].hwnd,SW_HIDE);
 					dat->currentPage=i;
 					ShowWindow(dat->opd[dat->currentPage].hwnd,SW_SHOW);
 					return 0;
@@ -554,8 +554,8 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 		case IDC_UPDATE:
-			if(dat->infosUpdated!=NULL) {mir_free(dat->infosUpdated); dat->infosUpdated=NULL;}
-			if(dat->hContact != NULL) {
+			if (dat->infosUpdated!=NULL) {mir_free(dat->infosUpdated); dat->infosUpdated=NULL;}
+			if (dat->hContact != NULL) {
 				if (!CallContactService(dat->hContact,PSS_GETINFO,0,0)) {
 					EnableWindow(GetDlgItem(hwndDlg,IDC_UPDATE),FALSE);
 					ShowWindow(GetDlgItem(hwndDlg,IDC_UPDATING),SW_SHOW);
@@ -587,9 +587,9 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		WindowList_Remove(hWindowList,hwndDlg);
 		UnhookEvent(dat->hProtoAckEvent);
 		{	int i;
-			for(i=0;i<dat->pageCount;i++)
+			for (i=0;i<dat->pageCount;i++)
 			{
-				if(dat->opd[i].hwnd!=NULL) DestroyWindow(dat->opd[i].hwnd);
+				if (dat->opd[i].hwnd!=NULL) DestroyWindow(dat->opd[i].hwnd);
 				mir_free(dat->opd[i].ptszTitle);
 				mir_free(dat->opd[i].ptszTab);
 			}

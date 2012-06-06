@@ -303,7 +303,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 					break;
 				}
 			if (szProto) {
-				for(i=0; i<cli.events.count; i++) {
+				for (i=0; i<cli.events.count; i++) {
 					char * eventProto=NULL;				
 					if (cli.events.items[i]->cle.hContact) 
 						eventProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
@@ -319,7 +319,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 					//lets  process backward try to find first event without desired proto in tray
 					int j;
 					if (click_in_first_icon)
-						for(i=0; i<cli.events.count; i++) {
+						for (i=0; i<cli.events.count; i++) {
 							char * eventProto=NULL;				
 							if (cli.events.items[i]->cle.hContact) 
 								eventProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
@@ -356,7 +356,7 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 	int j, hit;
 
 	/*
-	the for(;;) loop is used here since the cli.events.count can not be relied upon to take us
+	the for (;;) loop is used here since the cli.events.count can not be relied upon to take us
 	thru the cli.events.items[] array without suffering from shortsightedness about how many unseen
 	events remain, e.g. three events, we remove the first, we're left with 2, the event
 	loop exits at 2 and we never see the real new 2.

@@ -45,7 +45,7 @@ static CRITICAL_SECTION trayLockCS;
 #define lock cli.pfnLockTray()
 #define ulock cli.pfnUnlockTray()
 
-#define initcheck if(!fTrayInited) return
+#define initcheck if (!fTrayInited) return
 
 static BOOL fTrayInited=FALSE;
 
@@ -412,7 +412,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 			cli.pfnTrayIconMakeTooltip(szNewTip, cli.trayIcon[i].szProto);
 			mir_free( cli.trayIcon[i].ptszToolTip );
 			cli.trayIcon[i].ptszToolTip = mir_tstrdup( cli.szTip );
-			if(!mToolTipTrayTips)
+			if (!mToolTipTrayTips)
 				lstrcpyn(nid.szTip, cli.szTip, SIZEOF(nid.szTip));
 			Shell_NotifyIcon(NIM_MODIFY, &nid);
 
@@ -427,7 +427,7 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 				DWORD time1=DBGetContactSettingWord(NULL,"CList","CycleTime",SETTING_CYCLETIME_DEFAULT)*200;
 				DWORD time2=DBGetContactSettingWord(NULL,"CList","IconFlashTime",550)+1000;
 				DWORD time=max(max(2000,time1),time2);
-				if(RefreshTimerId) {KillTimer(NULL,RefreshTimerId); RefreshTimerId=0;}
+				if (RefreshTimerId) {KillTimer(NULL,RefreshTimerId); RefreshTimerId=0;}
 				RefreshTimerId=SetTimer(NULL,0,time,RefreshTimerProc);	// if unknown base was changed - than show preffered proto icon for 2 sec and reset it to original one after timeout
 			}
 			{ ulock; return i; }
@@ -454,7 +454,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 			ulock; return i;
 		}
 		if ((cli.pfnGetProtocolVisibility(szPreferredProto))
-			 && (GetAverageMode()==-1) 
+			 && (GetAverageMode() == -1) 
           && (DBGetContactSettingByte(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT)==SETTING_TRAYICON_MULTI) 
           && !(DBGetContactSettingByte(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;

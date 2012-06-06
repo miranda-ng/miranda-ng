@@ -33,7 +33,7 @@ static INT_PTR hkHideShow(WPARAM, LPARAM)
 INT_PTR hkSearch(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv={0};
-	if(!DBGetContactSettingString(NULL,"CList","SearchUrl",&dbv)) {
+	if (!DBGetContactSettingString(NULL,"CList","SearchUrl",&dbv)) {
 		CallService(MS_UTILS_OPENURL,DBGetContactSettingByte(NULL,"CList","HKSearchNewWnd",0),(LPARAM)dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
@@ -42,7 +42,7 @@ INT_PTR hkSearch(WPARAM wParam,LPARAM lParam)
 */
 static INT_PTR hkRead(WPARAM, LPARAM)
 {
-	if(cli.pfnEventsProcessTrayDoubleClick(0)==0) return TRUE;
+	if (cli.pfnEventsProcessTrayDoubleClick(0)==0) return TRUE;
 	SetForegroundWindow(cli.hwndContactList);
 	SetFocus(cli.hwndContactList);
 	return 0;

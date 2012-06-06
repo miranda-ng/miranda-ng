@@ -175,7 +175,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tvis.hInsertAfter = TVI_SORT;
 			tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-			for( i=0; i < soundCount; i++ ) {
+			for ( i=0; i < soundCount; i++ ) {
 				tvis.item.stateMask = TVIS_EXPANDED;
 				tvis.item.state = TVIS_EXPANDED;
 				tvis.hParent = FindNamedTreeItemAtRoot( hwndTree, soundList[i].section );
@@ -257,7 +257,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				 NotifyEventHooks(hPlayEvent, 1, (LPARAM)soundList[tvi.lParam].tempFile);
 			else {
 				DBVARIANT dbv;
-				if(!DBGetContactSettingString(NULL,"SkinSounds",soundList[tvi.lParam].name,&dbv)) {
+				if (!DBGetContactSettingString(NULL,"SkinSounds",soundList[tvi.lParam].name,&dbv)) {
 					char szPathFull[MAX_PATH];
 
 					pathToAbsolute(dbv.pszVal, szPathFull, NULL);
@@ -310,16 +310,16 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = "wav";
-			if(!GetOpenFileNameA(&ofn)) break;
+			if (!GetOpenFileNameA(&ofn)) break;
 			CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)str, (LPARAM)strFull);
 			soundList[tvi.lParam].tempFile = mir_strdup(strFull);
 			SetDlgItemTextA(hwndDlg, IDC_LOCATION, strFull);
 		}
-		if(LOWORD(wParam)==IDC_GETMORE) {
+		if (LOWORD(wParam)==IDC_GETMORE) {
 			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=5");
 			break;
 		}
-        if(LOWORD(wParam)==IDC_LOCATION) {
+        if (LOWORD(wParam)==IDC_LOCATION) {
             break;
         }
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -379,7 +379,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
 						if (soundList[tvi.lParam].tempFile)
 							SetDlgItemTextA(hwndDlg, IDC_LOCATION, soundList[tvi.lParam].tempFile);
-						else if(!DBGetContactSettingString(NULL,"SkinSounds",soundList[tvi.lParam].name,&dbv)) {
+						else if (!DBGetContactSettingString(NULL,"SkinSounds",soundList[tvi.lParam].name,&dbv)) {
 							SetDlgItemTextA(hwndDlg, IDC_LOCATION, dbv.pszVal);
 							DBFreeVariant(&dbv);
 						}
@@ -402,9 +402,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					hti.pt.x=(short)LOWORD(GetMessagePos());
 					hti.pt.y=(short)HIWORD(GetMessagePos());
 					ScreenToClient(((LPNMHDR)lParam)->hwndFrom,&hti.pt);
-					if(TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
+					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
 						if (hti.flags&TVHT_ONITEM)
-							if(hti.flags&TVHT_ONITEMSTATEICON)
+							if (hti.flags&TVHT_ONITEMSTATEICON)
 								if (TreeView_GetParent(hwndTree, hti.hItem)!=NULL)
 									SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
@@ -459,11 +459,11 @@ void UnloadSkinSounds(void)
 
 	if ( !bModuleInitialized ) return;
 
-	for(i=0;i<soundCount;i++) {
+	for (i=0;i<soundCount;i++) {
 		mir_free(soundList[i].name);
 		mir_free(soundList[i].section);
 		mir_free(soundList[i].description);
 		if (soundList[i].tempFile) mir_free(soundList[i].tempFile);
 	}
-	if(soundCount) mir_free(soundList);
+	if (soundCount) mir_free(soundList);
 }

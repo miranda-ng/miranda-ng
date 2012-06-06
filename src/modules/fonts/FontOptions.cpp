@@ -140,7 +140,7 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<TFontID>& flist, OBJL
 	char header[512], buff[1024], abuff[1024];
 
 	HANDLE fhand = CreateFile(filename, GENERIC_WRITE, 0, 0, CREATE_ALWAYS, 0, 0);
-	if(fhand == INVALID_HANDLE_VALUE) {
+	if (fhand == INVALID_HANDLE_VALUE) {
 		MessageBox(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
 		return FALSE;
 	}
@@ -191,7 +191,7 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<TFontID>& flist, OBJL
 
 			strcat(buff, _itoa((BYTE)size.cy, abuff, 10));
 		}
-		else if(F.flags & FIDF_SAVEPOINTSIZE) {
+		else if (F.flags & FIDF_SAVEPOINTSIZE) {
 			HDC hdc = GetDC(hwndDlg);
 			strcat(buff, _itoa((BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)), abuff, 10));
 			ReleaseDC(hwndDlg, hdc);
@@ -206,7 +206,7 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<TFontID>& flist, OBJL
 		WriteLine(fhand, buff);
 		mir_snprintf(buff, SIZEOF(buff), "%sCol=d%d", F.prefix, (DWORD)F.value.colour);
 		WriteLine(fhand, buff);
-		if(F.flags & FIDF_NOAS) {
+		if (F.flags & FIDF_NOAS) {
 			mir_snprintf(buff, SIZEOF(buff), "%sAs=w%d", F.prefix, (WORD)0x00FF);
 			WriteLine(fhand, buff);
 		}
@@ -219,7 +219,7 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<TFontID>& flist, OBJL
 		TColourID& C = clist[i];
 
 		mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", C.dbSettingsGroup );
-		if(strcmp(buff, header) != 0) {
+		if (strcmp(buff, header) != 0) {
 			strcpy(header, buff);
 			WriteLine(fhand, buff);
 		}
@@ -232,7 +232,7 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<TFontID>& flist, OBJL
         TEffectID& E = elist[i];
 
         mir_snprintf(buff, SIZEOF(buff), "\r\n[%s]", E.dbSettingsGroup );
-        if(strcmp(buff, header) != 0) {
+        if (strcmp(buff, header) != 0) {
             strcpy(header, buff);
             WriteLine(fhand, buff);
         }
@@ -265,7 +265,7 @@ UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT uiMsg, WPARAM wParam, LPARAM lParam
 
 			TranslateDialogDefault(hdlg);
 			ShowWindow(GetDlgItem(hdlg, 1095), SW_HIDE);
-			if(cf && (cf->lCustData & FIDF_DISABLESTYLES)) {
+			if (cf && (cf->lCustData & FIDF_DISABLESTYLES)) {
 				EnableWindow(GetDlgItem(hdlg, 1137), FALSE);
 				ShowWindow(GetDlgItem(hdlg, 1137), SW_HIDE);
 				ShowWindow(GetDlgItem(hdlg, 1095), SW_SHOW);
@@ -428,7 +428,7 @@ static void sttSaveCollapseState( HWND hwndTree )
 		tvi.stateMask = (DWORD)-1;
 		TreeView_GetItem( hwndTree, &tvi );
 
-		if( tvi.cChildren > 0 ) {
+		if ( tvi.cChildren > 0 ) {
 			treeItem = (TreeItem *)tvi.lParam;
 			if ( tvi.state & TVIS_EXPANDED )
 				DBWriteContactSettingByte(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED );
@@ -437,11 +437,11 @@ static void sttSaveCollapseState( HWND hwndTree )
 		}
 
 		ht = TreeView_GetChild( hwndTree, hti );
-		if( ht == NULL ) {
+		if ( ht == NULL ) {
 			ht = TreeView_GetNextSibling( hwndTree, hti );
 			while( ht == NULL ) {
 				hti = TreeView_GetParent( hwndTree, hti );
-				if( hti == NULL ) break;
+				if ( hti == NULL ) break;
 				ht = TreeView_GetNextSibling( hwndTree, hti );
 		}	}
 
@@ -810,7 +810,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
          FONTEFFECT Effect;
          FONTEFFECT * pEffect = NULL;
 
-		if(dis->CtlID != IDC_FONTLIST)
+		if (dis->CtlID != IDC_FONTLIST)
 			break;
 
 		if (!itemData) return FALSE;
@@ -1156,7 +1156,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					FSUIListItemData *itemData = (FSUIListItemData *)SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_GETITEMDATA, selItems[i], 0);
 					if (IsBadReadPtr(itemData, sizeof(FSUIListItemData))) continue; // prevent possible problems with corrupted itemData
 
-					if((itemData->font_id >= 0) && (font_id_list_w2[itemData->font_id].flags & FIDF_DEFAULTVALID)) {
+					if ((itemData->font_id >= 0) && (font_id_list_w2[itemData->font_id].flags & FIDF_DEFAULTVALID)) {
 						font_id_list_w2[itemData->font_id].value = font_id_list_w2[itemData->font_id].deffontsettings;
 
 						MEASUREITEMSTRUCT mis = { 0 };

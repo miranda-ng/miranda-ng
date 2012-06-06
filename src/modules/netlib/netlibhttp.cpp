@@ -100,7 +100,7 @@ static void AppendToCharBuffer(struct ResizableCharBuffer *rcb, const char *fmt,
 	for (;;) 
 	{
 		charsDone = mir_vsnprintf(rcb->sz + rcb->iEnd, rcb->cbAlloced-rcb->iEnd, fmt, va);
-		if(charsDone >= 0) break;
+		if (charsDone >= 0) break;
 		rcb->cbAlloced += 512;
 		rcb->sz = (char*)mir_realloc(rcb->sz, rcb->cbAlloced);
 	}
@@ -333,7 +333,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	char buffer[2048];
 	char *peol;
 
-	for(;;) 
+	for (;;) 
 	{
 		bytesPeeked = RecvWithTimeoutTime(nlc, dwTimeoutTime, buffer, SIZEOF(buffer) - 1, 
 			MSG_PEEK | recvFlags);
@@ -402,7 +402,7 @@ static int SendHttpRequestAndData(struct NetlibConnection *nlc,struct ResizableC
 {
 	bool sendData = (nlhr->requestType==REQUEST_POST || nlhr->requestType==REQUEST_PUT);
 
-	if(sendContentLengthHeader && sendData)
+	if (sendContentLengthHeader && sendData)
 		AppendToCharBuffer(httpRequest,"Content-Length: %d\r\n\r\n", nlhr->dataLength);
 	else
 		AppendToCharBuffer(httpRequest,"\r\n");
@@ -822,10 +822,10 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	if(nlhr->headers) 
+	if (nlhr->headers) 
 	{
 		int i;
-		for(i=0; i<nlhr->headersCount; i++)
+		for (i=0; i<nlhr->headersCount; i++)
 		{
 			mir_free(nlhr->headers[i].szName);
 			mir_free(nlhr->headers[i].szValue);
@@ -850,7 +850,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam,LPARAM lParam)
 	int headersCount = 0, bufferSize = 8192;
 	bool headersCompleted = false;
 
-	if(!NetlibEnterNestedCS(nlc,NLNCS_RECV))
+	if (!NetlibEnterNestedCS(nlc,NLNCS_RECV))
 		return 0;
 
 	dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
@@ -999,7 +999,7 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 			++nlhrSend.headersCount;
 			CallService(MS_SYSTEM_GETVERSIONTEXT,SIZEOF(szMirandaVer),(LPARAM)szMirandaVer);
 			pspace=strchr(szMirandaVer,' ');
-			if(pspace) 
+			if (pspace) 
 			{
 				*pspace++ = '\0';
 				mir_snprintf(szUserAgent, SIZEOF(szUserAgent), "Miranda/%s (%s)", szMirandaVer, pspace);
@@ -1217,7 +1217,7 @@ next:
 
 		while (chunksz != 0) 
 		{
-			for(;;) 
+			for (;;) 
 			{
 				recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT, 
 					nlhrReply->pData + nlhrReply->dataLength,
@@ -1242,7 +1242,7 @@ next:
 					{
 						dataBufferAlloced += 2048;
 						nlhrReply->pData = (char*)mir_realloc(nlhrReply->pData, dataBufferAlloced);
-						if(nlhrReply->pData == NULL) 
+						if (nlhrReply->pData == NULL) 
 						{
 							SetLastError(ERROR_OUTOFMEMORY);
 							NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);

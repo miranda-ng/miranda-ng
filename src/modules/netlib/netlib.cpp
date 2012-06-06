@@ -69,13 +69,13 @@ int NetlibEnterNestedCS(struct NetlibConnection *nlc,int which)
 	DWORD dwCurrentThreadId=GetCurrentThreadId();
 
 	WaitForSingleObject(hConnectionHeaderMutex,INFINITE);
-	if(nlc==NULL || nlc->handleType!=NLH_CONNECTION) {
+	if (nlc==NULL || nlc->handleType!=NLH_CONNECTION) {
 		ReleaseMutex(hConnectionHeaderMutex);
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
 	nlncs = (which == NLNCS_SEND) ? &nlc->ncsSend : &nlc->ncsRecv;
-	if(nlncs->lockCount && nlncs->dwOwningThreadId==dwCurrentThreadId) {
+	if (nlncs->lockCount && nlncs->dwOwningThreadId==dwCurrentThreadId) {
 		nlncs->lockCount++;
 		ReleaseMutex(hConnectionHeaderMutex);
 		return 1;
@@ -86,14 +86,14 @@ int NetlibEnterNestedCS(struct NetlibConnection *nlc,int which)
 	WaitForSingleObject(nlncs->hMutex,INFINITE);
 	nlncs->dwOwningThreadId=dwCurrentThreadId;
 	nlncs->lockCount=1;
-	if(InterlockedDecrement(&nlc->dontCloseNow)==0)
+	if (InterlockedDecrement(&nlc->dontCloseNow)==0)
 		SetEvent(nlc->hOkToCloseEvent);
 	return 1;
 }
 
 void NetlibLeaveNestedCS(struct NetlibNestedCriticalSection *nlncs)
 {
-	if(--nlncs->lockCount==0) {
+	if (--nlncs->lockCount==0) {
 		nlncs->dwOwningThreadId=0;
 		ReleaseMutex(nlncs->hMutex);
 	}
@@ -102,27 +102,27 @@ void NetlibLeaveNestedCS(struct NetlibNestedCriticalSection *nlncs)
 static INT_PTR GetNetlibUserSettingInt(const char *szUserModule,const char *szSetting,int defValue)
 {
 	DBVARIANT dbv;
-	if(DBGetContactSetting(NULL,szUserModule,szSetting,&dbv)
+	if (DBGetContactSetting(NULL,szUserModule,szSetting,&dbv)
 	   && DBGetContactSetting(NULL,"Netlib",szSetting,&dbv))
 		return defValue;
-	if(dbv.type==DBVT_BYTE) return dbv.bVal;
-	if(dbv.type==DBVT_WORD) return dbv.wVal;
+	if (dbv.type==DBVT_BYTE) return dbv.bVal;
+	if (dbv.type==DBVT_WORD) return dbv.wVal;
 	return dbv.dVal;
 }
 
 static char *GetNetlibUserSettingString(const char *szUserModule,const char *szSetting,int decode)
 {
 	DBVARIANT dbv;
-	if(DBGetContactSettingString(NULL,szUserModule,szSetting,&dbv)
+	if (DBGetContactSettingString(NULL,szUserModule,szSetting,&dbv)
 	   && DBGetContactSettingString(NULL,"Netlib",szSetting,&dbv)) {
 		return NULL;
 	}
 	else {
 		char *szRet;
-		if(decode) CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
+		if (decode) CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		szRet=mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
-		if(szRet==NULL) SetLastError(ERROR_OUTOFMEMORY);
+		if (szRet==NULL) SetLastError(ERROR_OUTOFMEMORY);
 		return szRet;
 	}
 }
@@ -132,7 +132,7 @@ static INT_PTR NetlibRegisterUser(WPARAM,LPARAM lParam)
 	NETLIBUSER *nlu=(NETLIBUSER*)lParam;
 	struct NetlibUser *thisUser;
 
-	if(nlu==NULL || nlu->cbSize!=sizeof(NETLIBUSER) || nlu->szSettingsModule==NULL
+	if (nlu==NULL || nlu->cbSize!=sizeof(NETLIBUSER) || nlu->szSettingsModule==NULL
 	   || (!(nlu->flags&NUF_NOOPTIONS) && nlu->szDescriptiveName==NULL)
 	   || (nlu->flags&NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit==NULL))) {
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -156,7 +156,7 @@ static INT_PTR NetlibRegisterUser(WPARAM,LPARAM lParam)
 	if (nlu->szDescriptiveName) {
 		thisUser->user.ptszDescriptiveName = (thisUser->user.flags&NUF_UNICODE ? mir_u2t((WCHAR*)nlu->ptszDescriptiveName) : mir_a2t(nlu->szDescriptiveName));
 	}
-	if((thisUser->user.szSettingsModule=mir_strdup(nlu->szSettingsModule))==NULL
+	if ((thisUser->user.szSettingsModule=mir_strdup(nlu->szSettingsModule))==NULL
 	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName ==NULL)
 	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent=mir_strdup(nlu->szHttpGatewayUserAgent))==NULL)) 
 	{
@@ -172,9 +172,9 @@ static INT_PTR NetlibRegisterUser(WPARAM,LPARAM lParam)
 	thisUser->settings.cbSize=sizeof(NETLIBUSERSETTINGS);
 	thisUser->settings.useProxy=GetNetlibUserSettingInt(thisUser->user.szSettingsModule,"NLUseProxy",0);
 	thisUser->settings.proxyType=GetNetlibUserSettingInt(thisUser->user.szSettingsModule,"NLProxyType",PROXYTYPE_SOCKS5);
-	if(thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType==PROXYTYPE_HTTPS)
+	if (thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType==PROXYTYPE_HTTPS)
 		thisUser->settings.proxyType=PROXYTYPE_HTTP;
-	if(!(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType==PROXYTYPE_HTTP) {
+	if (!(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType==PROXYTYPE_HTTP) {
 		thisUser->settings.useProxy=0;
 		thisUser->settings.proxyType=PROXYTYPE_SOCKS5;
 	}
@@ -204,7 +204,7 @@ static INT_PTR NetlibGetUserSettings(WPARAM wParam,LPARAM lParam)
 	NETLIBUSERSETTINGS *nlus=(NETLIBUSERSETTINGS*)lParam;
 	struct NetlibUser *nlu=(struct NetlibUser*)wParam;
 
-	if(GetNetlibHandleType(nlu)!=NLH_USER || nlus==NULL || nlus->cbSize!=sizeof(NETLIBUSERSETTINGS)) {
+	if (GetNetlibHandleType(nlu)!=NLH_USER || nlus==NULL || nlus->cbSize!=sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -217,7 +217,7 @@ static INT_PTR NetlibSetUserSettings(WPARAM wParam,LPARAM lParam)
 	NETLIBUSERSETTINGS *nlus=(NETLIBUSERSETTINGS*)lParam;
 	struct NetlibUser *nlu=(struct NetlibUser*)wParam;
 
-	if(GetNetlibHandleType(nlu)!=NLH_USER || nlus==NULL || nlus->cbSize!=sizeof(NETLIBUSERSETTINGS)) {
+	if (GetNetlibHandleType(nlu)!=NLH_USER || nlus==NULL || nlus->cbSize!=sizeof(NETLIBUSERSETTINGS)) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
@@ -274,7 +274,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			}
 			else
 			{
-				if(nlc->s != INVALID_SOCKET) {
+				if (nlc->s != INVALID_SOCKET) {
 					NetlibDoClose(nlc);
 				}
 				if (nlc->s2 != INVALID_SOCKET) closesocket(nlc->s2);
@@ -287,7 +287,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			waitHandles[2]=nlc->ncsRecv.hMutex;
 			waitHandles[3]=nlc->ncsSend.hMutex;
 			waitResult=WaitForMultipleObjects( SIZEOF(waitHandles),waitHandles,TRUE,INFINITE);
-			if(waitResult<WAIT_OBJECT_0 || waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
+			if (waitResult<WAIT_OBJECT_0 || waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
 				ReleaseMutex(hConnectionHeaderMutex);
 				SetLastError(ERROR_INVALID_PARAMETER);	  //already been closed
 				return 0;
@@ -415,11 +415,11 @@ INT_PTR NetlibHttpUrlEncode(WPARAM,LPARAM lParam)
 	unsigned char *pszIn,*pszOut;
 	int outputLen;
 
-	if(szInput==NULL) {
+	if (szInput==NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return (INT_PTR)(char*)NULL;
 	}
-	for(outputLen=0,pszIn=szInput;*pszIn;pszIn++) {
+	for (outputLen=0,pszIn=szInput;*pszIn;pszIn++) {
 		if ( (48 <= *pszIn && *pszIn <= 57) ||//0-9
              (65 <= *pszIn && *pszIn <= 90) ||//ABC...XYZ
              (97 <= *pszIn && *pszIn <= 122) ||//abc...xyz
@@ -427,16 +427,16 @@ INT_PTR NetlibHttpUrlEncode(WPARAM,LPARAM lParam)
 		else outputLen+=3;
 	}
 	szOutput=(unsigned char*)HeapAlloc(GetProcessHeap(),0,outputLen+1);
-	if(szOutput==NULL) {
+	if (szOutput==NULL) {
 		SetLastError(ERROR_OUTOFMEMORY);
 		return (INT_PTR)(unsigned char*)NULL;
 	}
-	for(pszOut=szOutput,pszIn=szInput;*pszIn;pszIn++) {
+	for (pszOut=szOutput,pszIn=szInput;*pszIn;pszIn++) {
 		if ( (48 <= *pszIn && *pszIn <= 57) ||
              (65 <= *pszIn && *pszIn <= 90) ||
              (97 <= *pszIn && *pszIn <= 122) ||
 			 *pszIn == '-' || *pszIn == '_' || *pszIn == '.') *pszOut++=*pszIn;
-		else if(*pszIn==' ') *pszOut++='+';
+		else if (*pszIn==' ') *pszOut++='+';
 		else {
 			*pszOut++='%';
 			*pszOut++=szHexDigits[*pszIn>>4];
@@ -455,18 +455,18 @@ INT_PTR NetlibBase64Encode(WPARAM, LPARAM lParam)
 	char *pszOut;
 	PBYTE pbIn;
 
-	if(nlb64==NULL || nlb64->pszEncoded==NULL || nlb64->pbDecoded==NULL) {
+	if (nlb64==NULL || nlb64->pszEncoded==NULL || nlb64->pbDecoded==NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	if(nlb64->cchEncoded<Netlib_GetBase64EncodedBufferSize(nlb64->cbDecoded)) {
+	if (nlb64->cchEncoded<Netlib_GetBase64EncodedBufferSize(nlb64->cbDecoded)) {
 		SetLastError(ERROR_BUFFER_OVERFLOW);
 		return 0;
 	}
 	nlb64->cchEncoded=Netlib_GetBase64EncodedBufferSize(nlb64->cbDecoded);
-	for(iIn=0,pbIn=nlb64->pbDecoded,pszOut=nlb64->pszEncoded;iIn<nlb64->cbDecoded;iIn+=3,pbIn+=3,pszOut+=4) {
+	for (iIn=0,pbIn=nlb64->pbDecoded,pszOut=nlb64->pszEncoded;iIn<nlb64->cbDecoded;iIn+=3,pbIn+=3,pszOut+=4) {
 		pszOut[0]=base64chars[pbIn[0]>>2];
-		if(nlb64->cbDecoded-iIn==1) {
+		if (nlb64->cbDecoded-iIn==1) {
 			pszOut[1]=base64chars[(pbIn[0]&3)<<4];
 			pszOut[2]='=';
 			pszOut[3]='=';
@@ -474,7 +474,7 @@ INT_PTR NetlibBase64Encode(WPARAM, LPARAM lParam)
 			break;
 		}
 		pszOut[1]=base64chars[((pbIn[0]&3)<<4)|(pbIn[1]>>4)];
-		if(nlb64->cbDecoded-iIn==2) {
+		if (nlb64->cbDecoded-iIn==2) {
 			pszOut[2]=base64chars[(pbIn[1]&0xF)<<2];
 			pszOut[3]='=';
 			pszOut+=4;
@@ -489,12 +489,12 @@ INT_PTR NetlibBase64Encode(WPARAM, LPARAM lParam)
 
 static BYTE Base64CharToInt(char c)
 {
-	if(c>='A' && c<='Z') return c-'A';
-	if(c>='a' && c<='z') return c-'a'+26;
-	if(c>='0' && c<='9') return c-'0'+52;
-	if(c=='+') return 62;
-	if(c=='/') return 63;
-	if(c=='=') return 64;
+	if (c>='A' && c<='Z') return c-'A';
+	if (c>='a' && c<='z') return c-'a'+26;
+	if (c>='0' && c<='9') return c-'0'+52;
+	if (c=='+') return 62;
+	if (c=='/') return 63;
+	if (c=='=') return 64;
 	return 255;
 }
 
@@ -506,32 +506,32 @@ INT_PTR NetlibBase64Decode(WPARAM, LPARAM lParam)
 	BYTE b1,b2,b3,b4;
 	int iIn;
 
-	if(nlb64==NULL || nlb64->pszEncoded==NULL || nlb64->pbDecoded==NULL) {
+	if (nlb64==NULL || nlb64->pszEncoded==NULL || nlb64->pbDecoded==NULL) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	if(nlb64->cchEncoded&3) {
+	if (nlb64->cchEncoded&3) {
 		SetLastError(ERROR_INVALID_DATA);
 		return 0;
 	}
-	if(nlb64->cbDecoded<Netlib_GetBase64DecodedBufferSize(nlb64->cchEncoded)) {
+	if (nlb64->cbDecoded<Netlib_GetBase64DecodedBufferSize(nlb64->cchEncoded)) {
 		SetLastError(ERROR_BUFFER_OVERFLOW);
 		return 0;
 	}
 	nlb64->cbDecoded=Netlib_GetBase64DecodedBufferSize(nlb64->cchEncoded);
-	for(iIn=0,pszIn=nlb64->pszEncoded,pbOut=nlb64->pbDecoded;iIn<nlb64->cchEncoded;iIn+=4,pszIn+=4,pbOut+=3) {
+	for (iIn=0,pszIn=nlb64->pszEncoded,pbOut=nlb64->pbDecoded;iIn<nlb64->cchEncoded;iIn+=4,pszIn+=4,pbOut+=3) {
 		b1=Base64CharToInt(pszIn[0]);
 		b2=Base64CharToInt(pszIn[1]);
 		b3=Base64CharToInt(pszIn[2]);
 		b4=Base64CharToInt(pszIn[3]);
-		if(b1==255 || b1==64 || b2==255 || b2==64 || b3==255 || b4==255) {
+		if (b1==255 || b1==64 || b2==255 || b2==64 || b3==255 || b4==255) {
 			SetLastError(ERROR_INVALID_DATA);
 			return 0;
 		}
 		pbOut[0]=(b1<<2)|(b2>>4);
-		if(b3==64) {nlb64->cbDecoded-=2; break;}
+		if (b3==64) {nlb64->cbDecoded-=2; break;}
 		pbOut[1]=(b2<<4)|(b3>>2);
-		if(b4==64) {nlb64->cbDecoded--; break;}
+		if (b4==64) {nlb64->cbDecoded--; break;}
 		pbOut[2]=b4|(b3<<6);
 	}
 	return 1;

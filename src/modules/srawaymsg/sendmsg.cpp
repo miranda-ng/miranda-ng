@@ -131,7 +131,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam
 	switch(msg) 
 	{
 	case WM_CHAR:
-		if(wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000) 
+		if (wParam == '\n' && GetKeyState(VK_CONTROL) & 0x8000) 
 		{
 			PostMessage(GetParent(hwnd), WM_COMMAND, IDOK, 0);
 			return 0;

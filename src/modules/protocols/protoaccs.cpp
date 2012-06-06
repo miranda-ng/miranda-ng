@@ -606,7 +606,7 @@ void UnloadAccountsModule()
 
 	if ( !bModuleInitialized ) return;
 
-	for( i=accounts.getCount()-1; i >= 0; i-- ) {
+	for ( i=accounts.getCount()-1; i >= 0; i-- ) {
 		PROTOACCOUNT* pa = accounts[ i ];
 		UnloadAccount( pa, false, false );
 		accounts.remove(i);

@@ -74,13 +74,13 @@ static const WORD oftenProxyPorts[]={1080,1080,1080,8080,8080,8080};
 static void ShowMultipleControls(HWND hwndDlg,const UINT *controls,int cControls,int state)
 {
 	int i;
-	for(i=0;i<cControls;i++) ShowWindow(GetDlgItem(hwndDlg,controls[i]),state);
+	for (i=0;i<cControls;i++) ShowWindow(GetDlgItem(hwndDlg,controls[i]),state);
 }
 
 static void EnableMultipleControls(HWND hwndDlg,const UINT *controls,int cControls,int state)
 {
 	int i;
-	for(i=0;i<cControls;i++) EnableWindow(GetDlgItem(hwndDlg,controls[i]),state);
+	for (i=0;i<cControls;i++) EnableWindow(GetDlgItem(hwndDlg,controls[i]),state);
 }
 
 static void AddProxyTypeItem(HWND hwndDlg,int type,int selectType)
@@ -94,32 +94,32 @@ static void AddProxyTypeItem(HWND hwndDlg,int type,int selectType)
 static void CopySettingsStruct(NETLIBUSERSETTINGS *dest,NETLIBUSERSETTINGS *source)
 {
 	*dest=*source;
-	if(dest->szIncomingPorts) dest->szIncomingPorts=mir_strdup(dest->szIncomingPorts);
-	if(dest->szOutgoingPorts) dest->szOutgoingPorts=mir_strdup(dest->szOutgoingPorts);
-	if(dest->szProxyAuthPassword) dest->szProxyAuthPassword=mir_strdup(dest->szProxyAuthPassword);
-	if(dest->szProxyAuthUser) dest->szProxyAuthUser=mir_strdup(dest->szProxyAuthUser);
-	if(dest->szProxyServer) dest->szProxyServer=mir_strdup(dest->szProxyServer);
+	if (dest->szIncomingPorts) dest->szIncomingPorts=mir_strdup(dest->szIncomingPorts);
+	if (dest->szOutgoingPorts) dest->szOutgoingPorts=mir_strdup(dest->szOutgoingPorts);
+	if (dest->szProxyAuthPassword) dest->szProxyAuthPassword=mir_strdup(dest->szProxyAuthPassword);
+	if (dest->szProxyAuthUser) dest->szProxyAuthUser=mir_strdup(dest->szProxyAuthUser);
+	if (dest->szProxyServer) dest->szProxyServer=mir_strdup(dest->szProxyServer);
 }
 
 static void CombineSettingsStrings(char **dest,char **source)
 {
-	if(*dest!=NULL && (*source==NULL || lstrcmpiA(*dest,*source))) {mir_free(*dest); *dest=NULL;}
+	if (*dest!=NULL && (*source==NULL || lstrcmpiA(*dest,*source))) {mir_free(*dest); *dest=NULL;}
 }
 
 static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest,DWORD *destFlags,NETLIBUSERSETTINGS *source,DWORD sourceFlags)
 {
-	if(sourceFlags&NUF_OUTGOING) {
-		if(*destFlags&NUF_OUTGOING) {
-			if(dest->validateSSL!=source->validateSSL) dest->validateSSL=2;
-			if(dest->useProxy!=source->useProxy) dest->useProxy=2;
-			if(dest->proxyType!=source->proxyType) dest->proxyType=0;
+	if (sourceFlags&NUF_OUTGOING) {
+		if (*destFlags&NUF_OUTGOING) {
+			if (dest->validateSSL!=source->validateSSL) dest->validateSSL=2;
+			if (dest->useProxy!=source->useProxy) dest->useProxy=2;
+			if (dest->proxyType!=source->proxyType) dest->proxyType=0;
 			CombineSettingsStrings(&dest->szProxyServer,&source->szProxyServer);
-			if(dest->wProxyPort!=source->wProxyPort) dest->wProxyPort=0;
-			if(dest->useProxyAuth!=source->useProxyAuth) dest->useProxyAuth=2;
+			if (dest->wProxyPort!=source->wProxyPort) dest->wProxyPort=0;
+			if (dest->useProxyAuth!=source->useProxyAuth) dest->useProxyAuth=2;
 			CombineSettingsStrings(&dest->szProxyAuthUser,&source->szProxyAuthUser);
 			CombineSettingsStrings(&dest->szProxyAuthPassword,&source->szProxyAuthPassword);
-			if(dest->dnsThroughProxy!=source->dnsThroughProxy) dest->dnsThroughProxy=2;
-			if(dest->specifyOutgoingPorts!=source->specifyOutgoingPorts) dest->specifyOutgoingPorts=2;
+			if (dest->dnsThroughProxy!=source->dnsThroughProxy) dest->dnsThroughProxy=2;
+			if (dest->specifyOutgoingPorts!=source->specifyOutgoingPorts) dest->specifyOutgoingPorts=2;
 			CombineSettingsStrings(&dest->szOutgoingPorts,&source->szOutgoingPorts);
 		}
 		else {
@@ -127,33 +127,33 @@ static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest,DWORD *destFlags,NET
 			dest->useProxy=source->useProxy;
 			dest->proxyType=source->proxyType;
 			dest->szProxyServer=source->szProxyServer;
-			if(dest->szProxyServer) dest->szProxyServer=mir_strdup(dest->szProxyServer);
+			if (dest->szProxyServer) dest->szProxyServer=mir_strdup(dest->szProxyServer);
 			dest->wProxyPort=source->wProxyPort;
 			dest->useProxyAuth=source->useProxyAuth;
 			dest->szProxyAuthUser=source->szProxyAuthUser;
-			if(dest->szProxyAuthUser) dest->szProxyAuthUser=mir_strdup(dest->szProxyAuthUser);
+			if (dest->szProxyAuthUser) dest->szProxyAuthUser=mir_strdup(dest->szProxyAuthUser);
 			dest->szProxyAuthPassword=source->szProxyAuthPassword;
-			if(dest->szProxyAuthPassword) dest->szProxyAuthPassword=mir_strdup(dest->szProxyAuthPassword);
+			if (dest->szProxyAuthPassword) dest->szProxyAuthPassword=mir_strdup(dest->szProxyAuthPassword);
 			dest->dnsThroughProxy=source->dnsThroughProxy;
 			dest->specifyOutgoingPorts=source->specifyOutgoingPorts;
 			dest->szOutgoingPorts=source->szOutgoingPorts;
 			if (dest->szOutgoingPorts) dest->szOutgoingPorts=mir_strdup(dest->szOutgoingPorts);
 		}
 	}
-	if(sourceFlags&NUF_INCOMING) {
-		if(*destFlags&NUF_INCOMING) {
-            if(dest->enableUPnP!=source->enableUPnP) dest->enableUPnP=2;
-			if(dest->specifyIncomingPorts!=source->specifyIncomingPorts) dest->specifyIncomingPorts=2;
+	if (sourceFlags&NUF_INCOMING) {
+		if (*destFlags&NUF_INCOMING) {
+            if (dest->enableUPnP!=source->enableUPnP) dest->enableUPnP=2;
+			if (dest->specifyIncomingPorts!=source->specifyIncomingPorts) dest->specifyIncomingPorts=2;
 			CombineSettingsStrings(&dest->szIncomingPorts,&source->szIncomingPorts);
 		}
 		else {
 			dest->enableUPnP=source->enableUPnP;
 			dest->specifyIncomingPorts=source->specifyIncomingPorts;
 			dest->szIncomingPorts=source->szIncomingPorts;
-			if(dest->szIncomingPorts) dest->szIncomingPorts=mir_strdup(dest->szIncomingPorts);
+			if (dest->szIncomingPorts) dest->szIncomingPorts=mir_strdup(dest->szIncomingPorts);
 		}
 	}
-	if((*destFlags&NUF_NOHTTPSOPTION)!=(sourceFlags&NUF_NOHTTPSOPTION))
+	if ((*destFlags&NUF_NOHTTPSOPTION)!=(sourceFlags&NUF_NOHTTPSOPTION))
 		*destFlags=(*destFlags|sourceFlags)&~NUF_NOHTTPSOPTION;
 	else *destFlags|=sourceFlags;
 }
@@ -188,21 +188,21 @@ static void ChangeSettingStringByEdit(HWND hwndDlg,UINT ctrlId,int iUser,int mem
 			if (!(tempSettings[i]->flags & NUF_NOOPTIONS))
 			{
 				ppszNew=(char**)(((PBYTE)&tempSettings[i]->settings)+memberOffset);
-				if(*ppszNew) mir_free(*ppszNew);
+				if (*ppszNew) mir_free(*ppszNew);
 				*ppszNew=mir_strdup(szNewValue);
 			}
 		mir_free(szNewValue);
 	}
 	else {
 		ppszNew=(char**)(((PBYTE)&tempSettings[iUser]->settings)+memberOffset);
-		if(*ppszNew) mir_free(*ppszNew);
+		if (*ppszNew) mir_free(*ppszNew);
 		*ppszNew=szNewValue;
 	}
 }
 
 static void WriteSettingsStructToDb(const char *szSettingsModule,NETLIBUSERSETTINGS *settings,DWORD flags)
 {
-	if(flags&NUF_OUTGOING) {
+	if (flags&NUF_OUTGOING) {
 		char szEncodedPassword[512];
 		DBWriteContactSettingByte(NULL,szSettingsModule,"NLValidateSSL",(BYTE)settings->validateSSL);
 		DBWriteContactSettingByte(NULL,szSettingsModule,"NLUseProxy",(BYTE)settings->useProxy);
@@ -218,7 +218,7 @@ static void WriteSettingsStructToDb(const char *szSettingsModule,NETLIBUSERSETTI
 		DBWriteContactSettingByte(NULL,szSettingsModule,"NLSpecifyOutgoingPorts",(BYTE)settings->specifyOutgoingPorts);
 		DBWriteContactSettingString(NULL,szSettingsModule,"NLOutgoingPorts",settings->szOutgoingPorts?settings->szOutgoingPorts:"");
 	}
-	if(flags&NUF_INCOMING) {
+	if (flags&NUF_INCOMING) {
         DBWriteContactSettingByte(NULL,szSettingsModule,"NLEnableUPnP",(BYTE)settings->enableUPnP);
 		DBWriteContactSettingByte(NULL,szSettingsModule,"NLSpecifyIncomingPorts",(BYTE)settings->specifyIncomingPorts);
 		DBWriteContactSettingString(NULL,szSettingsModule,"NLIncomingPorts",settings->szIncomingPorts?settings->szIncomingPorts:"");
@@ -252,13 +252,13 @@ void NetlibSaveUserSettingsStruct(const char *szSettingsModule,NETLIBUSERSETTING
 		if (thisUser->user.flags & NUF_NOOPTIONS) continue;
 		CombineSettingsStructs(&combinedSettings, &flags, &thisUser->settings, thisUser->user.flags);
 	}
-    if(combinedSettings.validateSSL==2) combinedSettings.validateSSL=0;
-	if(combinedSettings.useProxy==2) combinedSettings.useProxy=0;
-	if(combinedSettings.proxyType==0) combinedSettings.proxyType=PROXYTYPE_SOCKS5;
-	if(combinedSettings.useProxyAuth==2) combinedSettings.useProxyAuth=0;
-	if(combinedSettings.dnsThroughProxy==2) combinedSettings.dnsThroughProxy=1;
-    if(combinedSettings.enableUPnP==2) combinedSettings.enableUPnP=1;
-	if(combinedSettings.specifyIncomingPorts==2) combinedSettings.specifyIncomingPorts=0;
+    if (combinedSettings.validateSSL==2) combinedSettings.validateSSL=0;
+	if (combinedSettings.useProxy==2) combinedSettings.useProxy=0;
+	if (combinedSettings.proxyType==0) combinedSettings.proxyType=PROXYTYPE_SOCKS5;
+	if (combinedSettings.useProxyAuth==2) combinedSettings.useProxyAuth=0;
+	if (combinedSettings.dnsThroughProxy==2) combinedSettings.dnsThroughProxy=1;
+    if (combinedSettings.enableUPnP==2) combinedSettings.enableUPnP=1;
+	if (combinedSettings.specifyIncomingPorts==2) combinedSettings.specifyIncomingPorts=0;
 	WriteSettingsStructToDb("Netlib",&combinedSettings,flags);
 	NetlibFreeUserSettingsStruct(&combinedSettings);
 	LeaveCriticalSection(&csNetlibUser);
@@ -408,7 +408,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			switch(LOWORD(wParam)) 
 			{
 				case IDC_NETLIBUSERS:
-					if(HIWORD(wParam)==CBN_SELCHANGE) SendMessage(hwndDlg,M_REFRESHALL,0,0);
+					if (HIWORD(wParam)==CBN_SELCHANGE) SendMessage(hwndDlg,M_REFRESHALL,0,0);
 					return 0;
 
 				case IDC_LOGOPTIONS:
@@ -462,11 +462,11 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					ChangeSettingIntByCheckbox(hwndDlg,LOWORD(wParam),iUser,offsetof(NETLIBUSERSETTINGS,validateSSL));
                     break;
                 case IDC_PROXYHOST:
-					if(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
 					ChangeSettingStringByEdit(hwndDlg,LOWORD(wParam),iUser,offsetof(NETLIBUSERSETTINGS,szProxyServer));
 					break;
 				case IDC_PROXYPORT:
-					if(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
 					{	int newValue,i;
 						newValue=GetDlgItemInt(hwndDlg,LOWORD(wParam),NULL,FALSE);
 						if (iUser == -1)
@@ -479,19 +479,19 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					break;
 				case IDC_PROXYUSER:
-					if(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
 					ChangeSettingStringByEdit(hwndDlg,LOWORD(wParam),iUser,offsetof(NETLIBUSERSETTINGS,szProxyAuthUser));
 					break;
 				case IDC_PROXYPASS:
-					if(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
 					ChangeSettingStringByEdit(hwndDlg,LOWORD(wParam),iUser,offsetof(NETLIBUSERSETTINGS,szProxyAuthPassword));
 					break;
 				case IDC_PORTSRANGE:
-					if(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
 					ChangeSettingStringByEdit(hwndDlg,LOWORD(wParam),iUser,offsetof(NETLIBUSERSETTINGS,szIncomingPorts));
 					break;
 				case IDC_PORTSRANGEO:
-					if(HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
+					if (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) return 0;
 					ChangeSettingStringByEdit(hwndDlg,LOWORD(wParam),iUser,offsetof(NETLIBUSERSETTINGS,szOutgoingPorts));
 					break;
 			}

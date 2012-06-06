@@ -601,7 +601,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			POINT pt;
 			GetWindowRect(hwndDlg,&rc);
 			GetCursorPos(&pt);
-			if(!PtInRect(&rc,pt)) { // mouse must be gone, trigger mouse leave
+			if (!PtInRect(&rc,pt)) { // mouse must be gone, trigger mouse leave
 				PostMessage(hwndDlg,WM_MOUSELEAVE,0,0L);
 				KillTimer(hwndDlg,BUTTON_POLLID);
 		}	}

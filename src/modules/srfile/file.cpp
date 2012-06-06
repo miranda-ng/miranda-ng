@@ -145,14 +145,14 @@ int SRFile_GetRegValue(HKEY hKeyBase,const TCHAR *szSubKey,const TCHAR *szValue,
 
 void GetSensiblyFormattedSize(__int64 size,TCHAR *szOut,int cchOut,int unitsOverride,int appendUnits,int *unitsUsed)
 {
-	if(!unitsOverride) {
-		if(size<1000) unitsOverride=UNITS_BYTES;
-		else if(size<100*1024) unitsOverride=UNITS_KBPOINT1;
-		else if(size<1024*1024) unitsOverride=UNITS_KBPOINT0;
-		else if(size<1024*1024*1024) unitsOverride=UNITS_MBPOINT2;
+	if (!unitsOverride) {
+		if (size<1000) unitsOverride=UNITS_BYTES;
+		else if (size<100*1024) unitsOverride=UNITS_KBPOINT1;
+		else if (size<1024*1024) unitsOverride=UNITS_KBPOINT0;
+		else if (size<1024*1024*1024) unitsOverride=UNITS_MBPOINT2;
     else unitsOverride=UNITS_GBPOINT3;
 	}
-	if(unitsUsed) *unitsUsed=unitsOverride;
+	if (unitsUsed) *unitsUsed=unitsOverride;
 	switch(unitsOverride) {
 		case UNITS_BYTES: mir_sntprintf(szOut,cchOut,_T("%u%s%s"),(int)size,appendUnits?_T(" "):_T(""),appendUnits?TranslateT("bytes"):_T("")); break;
 		case UNITS_KBPOINT1: mir_sntprintf(szOut,cchOut,_T("%.1lf%s"),size/1024.0,appendUnits?_T(" KB"):_T("")); break;
@@ -185,8 +185,8 @@ void FreeFilesMatrix(TCHAR ***files)
 void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts)
 {
 	mir_free(fts->tszCurrentFile);
-	if(fts->ptszFiles) {
-		for( int i=0;i<fts->totalFiles;i++) mir_free(fts->ptszFiles[i]);
+	if (fts->ptszFiles) {
+		for ( int i=0;i<fts->totalFiles;i++) mir_free(fts->ptszFiles[i]);
 		mir_free(fts->ptszFiles);
 	}
 	mir_free(fts->tszWorkingDir);
@@ -198,7 +198,7 @@ void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFE
 	if ( src->tszCurrentFile ) dest->tszCurrentFile = PFTS_StringToTchar(src->flags, src->tszCurrentFile);
 	if ( src->ptszFiles ) {
 		dest->ptszFiles = (TCHAR**)mir_alloc(sizeof(TCHAR*)*src->totalFiles);
-		for( int i=0; i < src->totalFiles; i++ )
+		for ( int i=0; i < src->totalFiles; i++ )
 			dest->ptszFiles[i] = PFTS_StringToTchar(src->flags, src->ptszFiles[i] );
 	}
 	if ( src->tszWorkingDir ) dest->tszWorkingDir = PFTS_StringToTchar(src->flags, src->tszWorkingDir );
@@ -211,7 +211,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 	dest->hContact = src->hContact;
 	dest->flags = src->flags;
 	if ( dest->totalFiles != src->totalFiles ) {
-		for( int i=0;i<dest->totalFiles;i++) mir_free(dest->ptszFiles[i]);
+		for ( int i=0;i<dest->totalFiles;i++) mir_free(dest->ptszFiles[i]);
 		mir_free(dest->ptszFiles);
 		dest->ptszFiles = NULL;
 		dest->totalFiles = src->totalFiles;
@@ -229,7 +229,7 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 			}
 	}
 	else if (dest->ptszFiles) {
-		for( int i=0; i < dest->totalFiles; i++ )
+		for ( int i=0; i < dest->totalFiles; i++ )
 			mir_free(dest->ptszFiles[i]);
 		mir_free( dest->ptszFiles );
 		dest->ptszFiles = NULL;
@@ -272,7 +272,7 @@ static void RemoveUnreadFileEvents(void)
 		while(hDbEvent) {
 			dbei.cbBlob=0;
 			CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
-			if(!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_FILE)
+			if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_FILE)
 				CallService(MS_DB_EVENT_MARKREAD,(WPARAM)hContact,(LPARAM)hDbEvent);
 			hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
 		}

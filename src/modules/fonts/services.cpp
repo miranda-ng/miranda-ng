@@ -128,7 +128,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 
 	GetDefaultFontSetting(lf, colour);
 
-	if(flags & FIDF_APPENDNAME) mir_snprintf(idstr, SIZEOF(idstr), "%sName", prefix);
+	if (flags & FIDF_APPENDNAME) mir_snprintf(idstr, SIZEOF(idstr), "%sName", prefix);
 	else mir_snprintf(idstr, SIZEOF(idstr), "%s", prefix);
 
 	if ( !DBGetContactSettingTString(NULL, settings_group, idstr, &dbv )) {
@@ -147,7 +147,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 
 
 	//wsprintf(idstr, "%sFlags", prefix);
-	//if(DBGetContactSettingDword(NULL, settings_group, idstr, 0) & FIDF_SAVEACTUALHEIGHT) {
+	//if (DBGetContactSettingDword(NULL, settings_group, idstr, 0) & FIDF_SAVEACTUALHEIGHT) {
 	//	HDC hdc = GetDC(0);
 	//	lf->lfHeight = -lf->lfHeight;
 	//	ReleaseDC(0, hdc);
@@ -171,9 +171,9 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	lf->lfQuality = DEFAULT_QUALITY;
 	lf->lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 
-	if(lf->lfHeight > 0) {
+	if (lf->lfHeight > 0) {
 		HDC hdc = GetDC(0);
-		if(flags & FIDF_SAVEPOINTSIZE) {
+		if (flags & FIDF_SAVEPOINTSIZE) {
 			lf->lfHeight = -MulDiv(lf->lfHeight,GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		} else { // assume SAVEACTUALHEIGHT
 			TEXTMETRIC tm;

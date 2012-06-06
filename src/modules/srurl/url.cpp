@@ -48,7 +48,7 @@ static int UrlEventAdded(WPARAM wParam,LPARAM lParam)
 	dbei.cbSize=sizeof(dbei);
 	dbei.cbBlob=0;
 	CallService(MS_DB_EVENT_GET,lParam,(LPARAM)&dbei);
-	if(dbei.flags&(DBEF_SENT|DBEF_READ) || dbei.eventType!=EVENTTYPE_URL) return 0;
+	if (dbei.flags&(DBEF_SENT|DBEF_READ) || dbei.eventType!=EVENTTYPE_URL) return 0;
 
 	SkinPlaySound("RecvUrl");
 	ZeroMemory(&cle,sizeof(cle));
@@ -88,7 +88,7 @@ static void RestoreUnreadUrlAlerts(void)
 		while(hDbEvent) {
 			dbei.cbBlob=0;
 			CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
-			if(!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_URL) {
+			if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_URL) {
 				cle.hContact=hContact;
 				cle.hDbEvent=hDbEvent;
 				cle.flags = CLEF_TCHAR;
@@ -108,7 +108,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	char *szProto;
 
 	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
-	if(lstrcmpA(cws->szModule,"CList") && (szProto==NULL || lstrcmpA(cws->szModule,szProto))) return 0;
+	if (lstrcmpA(cws->szModule,"CList") && (szProto==NULL || lstrcmpA(cws->szModule,szProto))) return 0;
 	WindowList_Broadcast(hUrlWindowList,DM_UPDATETITLE,0,0);
 	return 0;
 }

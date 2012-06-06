@@ -367,7 +367,7 @@ static HTREEITEM MoveItemAbove(HWND hTreeWnd, HTREEITEM hItem, HTREEITEM hInsert
 		tvis.item.cchTextMax = sizeof( name );
 		tvis.item.hItem = hItem;
 		tvis.item.iImage = tvis.item.iSelectedImage = (( MenuItemOptData* )tvi.lParam)->show;
-		if(!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))
+		if (!SendMessage(hTreeWnd, TVM_GETITEM, 0, (LPARAM)&tvis.item))
 			return NULL;
 		if (!TreeView_DeleteItem(hTreeWnd,hItem))
 			return NULL;

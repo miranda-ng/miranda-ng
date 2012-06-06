@@ -133,7 +133,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
-	if(hwnd=WindowList_Find(hWindowList,(HANDLE)wParam)) {
+	if (hwnd=WindowList_Find(hWindowList,(HANDLE)wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}

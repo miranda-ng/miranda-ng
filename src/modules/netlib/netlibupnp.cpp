@@ -381,7 +381,7 @@ retrycon:
 
 				LongLog(szData);
 				sz = 0;
-				for(;;)
+				for (;;)
 				{
 					int bytesRecv;
 
@@ -632,7 +632,7 @@ static void discoverUPnP(void)
 
 	buf = (char*)mir_alloc(1500);
 
-	for(i = 3;  --i && szUrl[0] == 0;)
+	for (i = 3;  --i && szUrl[0] == 0;)
 	{
 		for (j = 0; j < nip; ++j)
 		{

@@ -42,13 +42,13 @@ static void SetFileListAndSizeControls(HWND hwndDlg,struct FileDlgData *dat)
 
 	GetSensiblyFormattedSize(totalSize,str,SIZEOF(str),0,1,NULL);
 	SetDlgItemText(hwndDlg,IDC_TOTALSIZE,str);
-	if(i>1) {
+	if (i>1) {
 		TCHAR szFormat[32];
-		if(fileCount && dirCount) {
+		if (fileCount && dirCount) {
 			mir_sntprintf(szFormat,SIZEOF(szFormat),_T("%s, %s"),TranslateTS(fileCount==1?_T("%d file"):_T("%d files")),TranslateTS(dirCount==1?_T("%d directory"):_T("%d directories")));
 			mir_sntprintf(str,SIZEOF(str),szFormat,fileCount,dirCount);
 		}
-		else if(fileCount) {
+		else if (fileCount) {
 			lstrcpy(szFormat,TranslateT("%d files"));
 			mir_sntprintf(str,SIZEOF(str),szFormat,fileCount);
 		}
@@ -112,11 +112,11 @@ static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHA
 			#if defined( _UNICODE )
 				CopyMemory(dat->files[nTemp], buf, (fileOffset-1)*sizeof( TCHAR ));
 				dat->files[nTemp][fileOffset-1] = '\\';
-				_tcscpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2]=='\\'?1:0), pBuf);
+				_tcscpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2] == '\\'?1:0), pBuf);
 			#else
 				CopyMemory(dat->files[nTemp], buf, fileOffset-1 );
 				dat->files[nTemp][fileOffset-1] = '\\';
-				strcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2]=='\\'?1:0), pBuf);
+				strcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2] == '\\'?1:0), pBuf);
 			#endif
 			// Move pointers to next file...
 			pBuf += cbFileNameLen + 1;
@@ -179,13 +179,13 @@ static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LP
 {
 	switch(msg) {
 		case WM_CHAR:
-			if(wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000) {
+			if (wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000) {
 				PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 				return 0;
 			}
 			break;
 		case WM_SYSCHAR:
-			if((wParam=='s' || wParam=='S') && GetKeyState(VK_MENU)&0x8000) {
+			if ((wParam=='s' || wParam=='S') && GetKeyState(VK_MENU)&0x8000) {
 				PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 				return 0;
 			}
@@ -223,11 +223,11 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
         EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
-		if(fsd->ppFiles!=NULL && fsd->ppFiles[0]!=NULL) {
+		if (fsd->ppFiles!=NULL && fsd->ppFiles[0]!=NULL) {
 			int totalCount,i;
-			for(totalCount=0;fsd->ppFiles[totalCount];totalCount++);
+			for (totalCount=0;fsd->ppFiles[totalCount];totalCount++);
 			dat->files = ( TCHAR** )mir_alloc( sizeof(TCHAR*)*(totalCount+1)); // Leaks
-			for(i=0;i<totalCount;i++)
+			for (i=0;i<totalCount;i++)
 				dat->files[i] = mir_tstrdup( fsd->ppFiles[i] );
 			dat->files[totalCount]=NULL;
 			SetFileListAndSizeControls(hwndDlg,dat);
@@ -281,7 +281,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
-			if(dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
+			if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);
@@ -294,17 +294,17 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return CallService(MS_CLIST_MENUDRAWITEM,wParam,lParam);
 		
 	case M_FILECHOOSEDONE:
-		if( lParam != 0 ) {
+		if ( lParam != 0 ) {
 			FilenameToFileList( hwndDlg, dat, ( TCHAR* )lParam );
 			mir_free(( TCHAR* )lParam );
 			dat->closeIfFileChooseCancelled = 0;
 		}
-		else if(dat->closeIfFileChooseCancelled) DestroyWindow(hwndDlg);
+		else if (dat->closeIfFileChooseCancelled) DestroyWindow(hwndDlg);
 		EnableWindow(hwndDlg,TRUE);
 		break;
 
 	case WM_COMMAND:
-		if(CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)dat->hContact))
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)dat->hContact))
 			break;
 		switch (LOWORD(wParam))
 		{

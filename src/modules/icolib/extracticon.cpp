@@ -103,7 +103,7 @@ IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void* prt, int resType, int* p
 	count = pDir->NumberOfIdEntries + pDir->NumberOfNamedEntries;
 	pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
 
-	for(i = 0; i < count; i++)
+	for (i = 0; i < count; i++)
 		if (pRes[i].Name == (DWORD)resType) break;
 
 	if (i == count) return NULL;
@@ -134,7 +134,7 @@ void* _FindResource(IMAGE_DOS_HEADER* pDosHeader, void* prt, int resIndex, int r
 
 	pRes = _FindResourceBase(prt, resType, &count);
 	if (resIndex < 0) {
-		for(index = 0; index < count; index++)
+		for (index = 0; index < count; index++)
 			if (pRes[index].Name == (DWORD)(-resIndex))
 				break;
 	}

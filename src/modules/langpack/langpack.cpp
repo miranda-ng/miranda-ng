@@ -82,7 +82,7 @@ void ConvertBackslashes(char *str, UINT fileCp)
 {
 	char *pstr;
 	for ( pstr = str; *pstr; pstr = CharNextExA( fileCp, pstr, 0 )) {
-		if( *pstr == '\\' ) {
+		if ( *pstr == '\\' ) {
 			switch( pstr[1] ) {
 			case 'n': *pstr = '\n'; break;
 			case 't': *pstr = '\t'; break;
@@ -237,7 +237,7 @@ static void LoadLangPackFile( FILE* fp, char* line, UINT fileCp )
 					fgets( line, SIZEOF(line), p );
 
 					UINT fileCp = CP_ACP;
-					if (strlen(line) >= 3 && line[0]=='\xef' && line[1]=='\xbb' && line[2]=='\xbf')
+					if (strlen(line) >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf')
 					{
 						fileCp = CP_UTF8;
 						fseek(p, 3, SEEK_SET);
@@ -342,7 +342,7 @@ static int LoadLangPack(const TCHAR *szLangPack)
 
 	UINT fileCp = CP_ACP;
 	size_t lineLen = strlen(line);
-	if (lineLen >= 3 && line[0]=='\xef' && line[1]=='\xbb' && line[2]=='\xbf')
+	if (lineLen >= 3 && line[0] == '\xef' && line[1] == '\xbb' && line[2] == '\xbf')
 	{
 		fileCp = CP_UTF8;
 		memmove(line, line + 3, lineLen - 2);
@@ -361,7 +361,7 @@ static int LoadLangPack(const TCHAR *szLangPack)
 			break;
 
 		lrtrim( line );
-		if( IsEmpty( line ) || line[0]==';' || line[0]==0)
+		if ( IsEmpty( line ) || line[0] == ';' || line[0]==0)
 			continue;
 
 		if ( line[0] == '[' || line[0] == '#' )
@@ -374,11 +374,11 @@ static int LoadLangPack(const TCHAR *szLangPack)
 		}
 
 		*pszColon++ = 0;
-		if(!lstrcmpA(line,"Language")) {mir_snprintf(langPack.language,sizeof(langPack.language),"%s",pszColon); lrtrim(langPack.language);}
-		else if(!lstrcmpA(line,"Last-Modified-Using")) {mir_snprintf(langPack.lastModifiedUsing,sizeof(langPack.lastModifiedUsing),"%s",pszColon); lrtrim(langPack.lastModifiedUsing);}
-		else if(!lstrcmpA(line,"Authors")) {mir_snprintf(langPack.authors,sizeof(langPack.authors),"%s",pszColon); lrtrim(langPack.authors);}
-		else if(!lstrcmpA(line,"Author-email")) {mir_snprintf(langPack.authorEmail,sizeof(langPack.authorEmail),"%s",pszColon); lrtrim(langPack.authorEmail);}
-		else if(!lstrcmpA(line, "Locale")) { 
+		if (!lstrcmpA(line,"Language")) {mir_snprintf(langPack.language,sizeof(langPack.language),"%s",pszColon); lrtrim(langPack.language);}
+		else if (!lstrcmpA(line,"Last-Modified-Using")) {mir_snprintf(langPack.lastModifiedUsing,sizeof(langPack.lastModifiedUsing),"%s",pszColon); lrtrim(langPack.lastModifiedUsing);}
+		else if (!lstrcmpA(line,"Authors")) {mir_snprintf(langPack.authors,sizeof(langPack.authors),"%s",pszColon); lrtrim(langPack.authors);}
+		else if (!lstrcmpA(line,"Author-email")) {mir_snprintf(langPack.authorEmail,sizeof(langPack.authorEmail),"%s",pszColon); lrtrim(langPack.authorEmail);}
+		else if (!lstrcmpA(line, "Locale")) { 
 			char szBuf[20], *stopped;
 
 			lrtrim(pszColon + 1);
@@ -529,7 +529,7 @@ int LoadLangPackModule(void)
 	LoadLangPackServices();
 	pathToAbsoluteT(_T("langpack_*.txt"), szSearch, NULL);
 	hFind = FindFirstFile( szSearch, &fd );
-	if( hFind != INVALID_HANDLE_VALUE ) {
+	if ( hFind != INVALID_HANDLE_VALUE ) {
 		pathToAbsoluteT(fd.cFileName, szSearch, NULL);
 		FindClose(hFind);
 		LoadLangPack(szSearch);

@@ -39,10 +39,10 @@ static void GetLowestExistingDirName(const TCHAR *szTestDir,TCHAR *szExistingDir
 	lstrcpyn(szExistingDir,szTestDir,cchExistingDir);
 	while((dwAttributes=GetFileAttributes(szExistingDir))!=INVALID_FILE_ATTRIBUTES && !(dwAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
 		pszLastBackslash=_tcsrchr(szExistingDir,'\\');
-		if(pszLastBackslash==NULL) {*szExistingDir='\0'; break;}
+		if (pszLastBackslash==NULL) {*szExistingDir='\0'; break;}
 		*pszLastBackslash='\0';
 	}
-	if(szExistingDir[0]=='\0') GetCurrentDirectory(cchExistingDir,szExistingDir);
+	if (szExistingDir[0] == '\0') GetCurrentDirectory(cchExistingDir,szExistingDir);
 }
 
 static const TCHAR InvalidFilenameChars[] = _T("\\/:*?\"<>|"); 
@@ -50,8 +50,8 @@ void RemoveInvalidFilenameChars(TCHAR *tszString)
 {
 	size_t i;
 	if (tszString) {
-		for(i=_tcscspn(tszString,InvalidFilenameChars); tszString[i]; i+=_tcscspn(tszString+i+1,InvalidFilenameChars)+1)
-			if(tszString[i] >= 0) 
+		for (i=_tcscspn(tszString,InvalidFilenameChars); tszString[i]; i+=_tcscspn(tszString+i+1,InvalidFilenameChars)+1)
+			if (tszString[i] >= 0) 
 				tszString[i] = _T('_');
 	}
 }
@@ -61,8 +61,8 @@ void RemoveInvalidPathChars(TCHAR *tszString)
 {
 	size_t i;
 	if (tszString) {
-		for(i=_tcscspn(tszString,InvalidPathChars); tszString[i]; i+=_tcscspn(tszString+i+1,InvalidPathChars)+1)
-			if(tszString[i] >= 0) 
+		for (i=_tcscspn(tszString,InvalidPathChars); tszString[i]; i+=_tcscspn(tszString+i+1,InvalidPathChars)+1)
+			if (tszString[i] >= 0) 
 				tszString[i] = _T('_');
 	}
 }
@@ -95,7 +95,7 @@ int BrowseForFolder(HWND hwnd,TCHAR *szPath)
 	bi.lParam=(LPARAM)szPath;
 
 	pidlResult=SHBrowseForFolder(&bi);
-	if(pidlResult) {
+	if (pidlResult) {
 		SHGetPathFromIDList(pidlResult,szPath);
 		lstrcat(szPath,_T("\\"));
 		CoTaskMemFree(pidlResult);
@@ -244,9 +244,9 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (shAutoComplete)
 				shAutoComplete(GetWindow(GetDlgItem(hwndDlg,IDC_FILEDIR),GW_CHILD),1);
 
-			for(i=0;i<MAX_MRU_DIRS;i++) {
+			for (i=0;i<MAX_MRU_DIRS;i++) {
 				mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d",i);
-				if(DBGetContactSettingTString(NULL,"SRFile",idstr,&dbv)) break;
+				if (DBGetContactSettingTString(NULL,"SRFile",idstr,&dbv)) break;
 				SendDlgItemMessage(hwndDlg,IDC_FILEDIR,CB_ADDSTRING,0,(LPARAM)dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
@@ -306,18 +306,18 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					SetDlgItemText(hwndDlg, IDC_NAME, contactName);
 		}	}
 
-		if(DBGetContactSettingByte(dat->hContact,"CList","NotOnList",0)) {
+		if (DBGetContactSettingByte(dat->hContact,"CList","NotOnList",0)) {
 			RECT rcBtn1,rcBtn2,rcDateCtrl;
 			GetWindowRect(GetDlgItem(hwndDlg,IDC_ADD),&rcBtn1);
 			GetWindowRect(GetDlgItem(hwndDlg,IDC_USERMENU),&rcBtn2);
 			GetWindowRect(GetDlgItem(hwndDlg,IDC_DATE),&rcDateCtrl);
 			SetWindowPos(GetDlgItem(hwndDlg,IDC_DATE),0,0,0,rcDateCtrl.right-rcDateCtrl.left-(rcBtn2.left-rcBtn1.left),rcDateCtrl.bottom-rcDateCtrl.top,SWP_NOZORDER|SWP_NOMOVE);
 		}
-		else if(DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0)) {
+		else if (DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0)) {
 			//don't check auto-min here to fix BUG#647620
 			PostMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDOK,BN_CLICKED),(LPARAM)GetDlgItem(hwndDlg,IDOK));
 		}
-		if(!DBGetContactSettingByte(dat->hContact,"CList","NotOnList",0))
+		if (!DBGetContactSettingByte(dat->hContact,"CList","NotOnList",0))
 			ShowWindow(GetDlgItem(hwndDlg, IDC_ADD),SW_HIDE);
 		return TRUE;
 	}
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_DRAWITEM:
 		{	LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
-			if(dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
+			if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);
@@ -352,7 +352,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				GetDlgItemText(hwndDlg,IDC_FILEDIR,szDirName,SIZEOF(szDirName));
 				GetLowestExistingDirName(szDirName,szExistingDirName,SIZEOF(szExistingDirName));
-				if(BrowseForFolder(hwndDlg,szExistingDirName))
+				if (BrowseForFolder(hwndDlg,szExistingDirName))
 					SetDlgItemText(hwndDlg,IDC_FILEDIR,szExistingDirName);
 			}
             break;
@@ -363,13 +363,13 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg,IDC_FILEDIR,szRecvDir,SIZEOF(szRecvDir));
 				RemoveInvalidPathChars(szRecvDir);
 				GetContactReceivedFilesDir(NULL,szDefaultRecvDir,SIZEOF(szDefaultRecvDir),TRUE);
-				if(_tcsnicmp(szRecvDir,szDefaultRecvDir,lstrlen(szDefaultRecvDir))) {
+				if (_tcsnicmp(szRecvDir,szDefaultRecvDir,lstrlen(szDefaultRecvDir))) {
 					char idstr[32];
 					int i;
 					DBVARIANT dbv;
-					for(i=MAX_MRU_DIRS-2;i>=0;i--) {
+					for (i=MAX_MRU_DIRS-2;i>=0;i--) {
 						mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d",i);
-						if(DBGetContactSettingTString(NULL,"SRFile",idstr,&dbv)) continue;
+						if (DBGetContactSettingTString(NULL,"SRFile",idstr,&dbv)) continue;
 						mir_snprintf(idstr, SIZEOF(idstr), "MruDir%d",i+1);
 						DBWriteContactSettingTString(NULL,"SRFile",idstr,dbv.ptszVal);
 						DBFreeVariant(&dbv);
@@ -388,7 +388,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			dat->hwndTransfer = FtMgr_AddTransfer(dat);
 			SetWindowLongPtr( hwndDlg, GWLP_USERDATA, 0);
 			//check for auto-minimize here to fix BUG#647620
-			if(DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0) && DBGetContactSettingByte(NULL,"SRFile","AutoMin",0)) {
+			if (DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0) && DBGetContactSettingByte(NULL,"SRFile","AutoMin",0)) {
 				ShowWindow(hwndDlg,SW_HIDE);
 				ShowWindow(hwndDlg,SW_SHOWMINNOACTIVE);
 			}
@@ -408,7 +408,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				acs.handleType=HANDLE_CONTACT;
 				acs.szProto="";
 				CallService(MS_ADDCONTACT_SHOW,(WPARAM)hwndDlg,(LPARAM)&acs);
-				if(!DBGetContactSettingByte(dat->hContact,"CList","NotOnList",0))
+				if (!DBGetContactSettingByte(dat->hContact,"CList","NotOnList",0))
 					ShowWindow(GetDlgItem(hwndDlg,IDC_ADD), SW_HIDE);
 			}
             break;

@@ -79,7 +79,7 @@ static INT_PTR CallRecvChain(WPARAM wParam,LPARAM lParam)
 
 	if ( wParam == (WPARAM)(-1)) return 1;   //shouldn't happen - sanity check
 	if ( wParam == 0 ) {	   //begin processing by finding end of chain
-		for( ;;wParam++ ) {
+		for ( ;;wParam++ ) {
 			_itoa( wParam, str, 10 );
 			if ( DBGetContactSettingString( ccs->hContact, "_Filter", str, &dbv ))
 				break;
@@ -165,17 +165,17 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam,LPARAM lParam)
 
     if (!lParam) return 0;
 
-	if(!DBGetContactSettingString((HANDLE)wParam,"Protocol","p",&dbv)) {
-		if(!_stricmp((char*)lParam,dbv.pszVal)) {
+	if (!DBGetContactSettingString((HANDLE)wParam,"Protocol","p",&dbv)) {
+		if (!_stricmp((char*)lParam,dbv.pszVal)) {
 			mir_free(dbv.pszVal);
 			return -1;
 		}
 		mir_free(dbv.pszVal);
 	}
-	for(i=0;;i++) {
+	for (i=0;;i++) {
 		_itoa(i,str,10);
-		if(DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
-		if(!strcmp((char*)lParam,dbv.pszVal)) {
+		if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
+		if (!strcmp((char*)lParam,dbv.pszVal)) {
 			mir_free(dbv.pszVal);
 			return i+1;
 		}
@@ -202,25 +202,25 @@ static INT_PTR Proto_AddToContact(WPARAM wParam,LPARAM lParam)
 		DBWriteContactSettingString((HANDLE)wParam,"Protocol","p",(char*)lParam);
 		return 0;
 	}
-	if(Proto_IsProtoOnContact(wParam,lParam)) return 1;
+	if (Proto_IsProtoOnContact(wParam,lParam)) return 1;
 	{ /* v:0.3.3 + PROTO FILTERS ARE NOW KEPT IN THEIR OWN DB MODULE! */
 		int i;
 		char str[10],*lastProto;
 		DBVARIANT dbv;
 
-		for(i=0;;i++) {
+		for (i=0;;i++) {
 			_itoa(i,str,10);
-			if(DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
+			if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
 			pdCompare = Proto_IsProtocolLoaded(( char* )dbv.pszVal );
 			mir_free(dbv.pszVal);
-			if(pdCompare==NULL) continue;
-			if(pd->type > pdCompare->type) break;
+			if (pdCompare==NULL) continue;
+			if (pd->type > pdCompare->type) break;
 		}
 		//put the new module at position i
 		lastProto=mir_strdup((char*)lParam);
-		for(;;i++) {
+		for (;;i++) {
 			_itoa(i,str,10);
-			if(DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
+			if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
 				DBWriteContactSettingString((HANDLE)wParam,"_Filter",str,lastProto);
 				mir_free(lastProto);
 				break;
@@ -240,13 +240,13 @@ static INT_PTR Proto_RemoveFromContact(WPARAM wParam,LPARAM lParam)
 	char str[10];
 
 	i = Proto_IsProtoOnContact(wParam,lParam);
-	if(!i) return 1;
-	if(i==-1)
+	if (!i) return 1;
+	if (i==-1)
 		DBDeleteContactSetting((HANDLE)wParam,"Protocol","p");
 	else {
-		for(i--;;i++) {			//we have to decrease i, as Proto_IsOnContact returns +1 more number than read from database
+		for (i--;;i++) {			//we have to decrease i, as Proto_IsOnContact returns +1 more number than read from database
 			_itoa(i+1,str,10);
-			if(0!=DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
+			if (0!=DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
 				_itoa(i,str,10);
 				DBDeleteContactSetting((HANDLE)wParam,"_Filter",str);
 				break;

@@ -1140,7 +1140,7 @@ int XMLNode::removeOrderElement(XMLNodeData *d, XMLElementType t, int index)
 	int n=d->nChild+d->nText+d->nClear, *o=d->pOrder,i=findPosition(d,index,t);
 	memmove(o+i, o+i+1, (n-i)*sizeof(int));
 	for (;i<n;i++)
-		if ((o[i]&3)==(int)t) o[i]-=4;
+		if ((o[i]&3) == (int)t) o[i]-=4;
 	// We should normally do:
 	// d->pOrder=(int)realloc(d->pOrder,n*sizeof(int));
 	// but we skip reallocation because it's too time consuming.
@@ -1166,7 +1166,7 @@ void *XMLNode::addToOrder(int memoryIncrease,int *_pos, int nc, void *p, int siz
 	if (pos==n) { *_pos=nc; o[n]=(int)((nc<<2)+xtype); return p; }
 
 	o[i]=o[pos];
-	for (i=pos+1;i<=n;i++) if ((o[i]&3)==(int)xtype) o[i]+=4;
+	for (i=pos+1;i<=n;i++) if ((o[i]&3) == (int)xtype) o[i]+=4;
 
 	*_pos=pos=o[pos]>>2;
 	memmove(((char*)p)+(pos+1)*size,((char*)p)+pos*size,(nc-pos)*size);
@@ -1356,7 +1356,7 @@ int XMLNode::ParseXMLElement(void *pa)
 	}
 
 	// Iterate through the tokens in the document
-	for(;;)
+	for (;;)
 	{
 		// Obtain the next token
 		token = GetNextToken(pXML, &cbToken, &xtype);
@@ -2213,7 +2213,7 @@ void XMLNode::emptyTheNode(char force)
 		if (d->pParent) detachFromParent(d);
 		int i;
 		XMLNode *pc;
-		for(i=0; i<dd->nChild; i++)
+		for (i=0; i<dd->nChild; i++)
 		{
 			pc=dd->pChild+i;
 			pc->d->pParent=NULL;
@@ -2221,11 +2221,11 @@ void XMLNode::emptyTheNode(char force)
 			pc->emptyTheNode(force);
 		}
 		myFree(dd->pChild);
-		for(i=0; i<dd->nText; i++) free((void*)dd->pText[i]);
+		for (i=0; i<dd->nText; i++) free((void*)dd->pText[i]);
 		myFree(dd->pText);
-		for(i=0; i<dd->nClear; i++) free((void*)dd->pClear[i].lpszValue);
+		for (i=0; i<dd->nClear; i++) free((void*)dd->pClear[i].lpszValue);
 		myFree(dd->pClear);
-		for(i=0; i<dd->nAttribute; i++)
+		for (i=0; i<dd->nAttribute; i++)
 		{
 			free((void*)dd->pAttribute[i].lpszName);
 			if (dd->pAttribute[i].lpszValue) free((void*)dd->pAttribute[i].lpszValue);
@@ -2905,7 +2905,7 @@ XMLSTR XMLParserBase64Tool::encode(unsigned char *inbuf, unsigned int inlen, cha
 	int i=encodeLength(inlen,formatted),k=17,eLen=inlen/3,j;
 	alloc(i*sizeof(XMLCHAR));
 	XMLSTR curr=(XMLSTR)buf;
-	for(i=0;i<eLen;i++)
+	for (i=0;i<eLen;i++)
 	{
 		// Copy next three bytes into lower 24 bits of int, paying attention to sign.
 		j=(inbuf[0]<<16)|(inbuf[1]<<8)|inbuf[2]; inbuf+=3;
@@ -2964,7 +2964,7 @@ unsigned char XMLParserBase64Tool::decode(XMLCSTR data, unsigned char *buf, int 
 	if (xe) *xe=eXMLErrorNone;
 	int i=0,p=0;
 	unsigned char d,c;
-	for(;;)
+	for (;;)
 	{
 
 #ifdef _XMLWIDECHAR

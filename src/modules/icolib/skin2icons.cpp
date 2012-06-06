@@ -1446,7 +1446,7 @@ static void SaveCollapseState( HWND hwndTree )
 		tvi.stateMask = (DWORD)-1;
 		TreeView_GetItem( hwndTree, &tvi );
 
-		if( tvi.cChildren > 0 ) {
+		if ( tvi.cChildren > 0 ) {
 			treeItem = (TreeItem *)tvi.lParam;
 			if ( tvi.state & TVIS_EXPANDED )
 				DBWriteContactSettingByte(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED );
@@ -1455,11 +1455,11 @@ static void SaveCollapseState( HWND hwndTree )
 		}
 
 		ht = TreeView_GetChild( hwndTree, hti );
-		if( ht == NULL ) {
+		if ( ht == NULL ) {
 			ht = TreeView_GetNextSibling( hwndTree, hti );
 			while( ht == NULL ) {
 				hti = TreeView_GetParent( hwndTree, hti );
-				if( hti == NULL ) break;
+				if ( hti == NULL ) break;
 				ht = TreeView_GetNextSibling( hwndTree, hti );
 		}	}
 
@@ -1776,7 +1776,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 
 		case IDC_PREVIEW:
-			if(((LPNMHDR)lParam)->code == LVN_GETINFOTIP)
+			if (((LPNMHDR)lParam)->code == LVN_GETINFOTIP)
 			{
 				IconItem *item;
 				NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
@@ -1785,11 +1785,11 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				lvi.iItem = pInfoTip->iItem;
 				ListView_GetItem(pInfoTip->hdr.hwndFrom, &lvi);
 
-				if( lvi.lParam < iconList.getCount() ) {
+				if ( lvi.lParam < iconList.getCount() ) {
 					item = iconList[lvi.lParam];
-					if( item->temp_file )
+					if ( item->temp_file )
 						_tcsncpy( pInfoTip->pszText, item->temp_file, pInfoTip->cchTextMax );
-					else if( item->default_file )
+					else if ( item->default_file )
 						mir_sntprintf( pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s,%d"), item->default_file, item->default_indx );
 				}
 			}

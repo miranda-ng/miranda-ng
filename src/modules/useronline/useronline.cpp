@@ -29,13 +29,13 @@ static int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 	int newStatus,oldStatus;
 
-	if((HANDLE)wParam==NULL || strcmp(cws->szSetting,"Status")) return 0;
+	if ((HANDLE)wParam==NULL || strcmp(cws->szSetting,"Status")) return 0;
 	newStatus=cws->value.wVal;
 	oldStatus=DBGetContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
 	DBWriteContactSettingWord((HANDLE)wParam,"UserOnline","OldStatus",(WORD)newStatus);
-	if(CallService(MS_IGNORE_ISIGNORED,wParam,IGNOREEVENT_USERONLINE)) return 0;
-	if(DBGetContactSettingByte((HANDLE)wParam,"CList","Hidden",0)) return 0;
-    if(newStatus==ID_STATUS_OFFLINE&&oldStatus!=ID_STATUS_OFFLINE) {
+	if (CallService(MS_IGNORE_ISIGNORED,wParam,IGNOREEVENT_USERONLINE)) return 0;
+	if (DBGetContactSettingByte((HANDLE)wParam,"CList","Hidden",0)) return 0;
+    if (newStatus==ID_STATUS_OFFLINE&&oldStatus!=ID_STATUS_OFFLINE) {
        // Remove the event from the queue if it exists since they are now offline     
        int lastEvent = (int)DBGetContactSettingDword((HANDLE)wParam,"UserOnline","LastEvent",0);
        
@@ -44,7 +44,7 @@ static int UserOnlineSettingChanged(WPARAM wParam,LPARAM lParam)
            DBWriteContactSettingDword((HANDLE)wParam,"UserOnline", "LastEvent", 0);
        }
     }
-	if((newStatus==ID_STATUS_ONLINE || newStatus==ID_STATUS_FREECHAT) &&
+	if ((newStatus==ID_STATUS_ONLINE || newStatus==ID_STATUS_FREECHAT) &&
 	   oldStatus!=ID_STATUS_ONLINE && oldStatus!=ID_STATUS_FREECHAT) {
 		{
 			DWORD ticked = db_dword_get(NULL, "UserOnline", cws->szModule, GetTickCount());

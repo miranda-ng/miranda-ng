@@ -365,17 +365,17 @@ void* GetCurrentThreadEntryPoint()
 	DWORD_PTR dwStartAddress;
 
 	pNtQIT NtQueryInformationThread = (pNtQIT)GetProcAddress(GetModuleHandle(_T("ntdll.dll")), "NtQueryInformationThread" );
-	if(NtQueryInformationThread == NULL) return 0;
+	if (NtQueryInformationThread == NULL) return 0;
 
 	hCurrentProcess = GetCurrentProcess();
-	if(!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
+	if (!DuplicateHandle(hCurrentProcess, GetCurrentThread(), hCurrentProcess, &hDupHandle, THREAD_QUERY_INFORMATION, FALSE, 0)) {
 		SetLastError(ERROR_ACCESS_DENIED);
 		return NULL;
 	}
 	ntStatus = NtQueryInformationThread(hDupHandle, ThreadQuerySetWin32StartAddress, &dwStartAddress, sizeof(DWORD_PTR), NULL);
 	CloseHandle(hDupHandle);
 
-	if(ntStatus != ERROR_SUCCESS) return 0;
+	if (ntStatus != ERROR_SUCCESS) return 0;
 	return ( void* )dwStartAddress;
 }
 
@@ -664,7 +664,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 	CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
 	dwEventTime=GetTickCount();
 	myPid=GetCurrentProcessId();
-	for(;messageloop;) {
+	while (messageloop) {
 		MSG msg;
 		DWORD rc;
 		BOOL dying=FALSE;
@@ -781,7 +781,7 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam,LPARAM lParam)
 
 INT_PTR WaitOnHandle(WPARAM wParam,LPARAM lParam)
 {
-	if(waitObjectCount>=MAXIMUM_WAIT_OBJECTS-1) return 1;
+	if (waitObjectCount>=MAXIMUM_WAIT_OBJECTS-1) return 1;
 	hWaitObjects[waitObjectCount]=(HANDLE)wParam;
 	pszWaitServices[waitObjectCount]=(char*)lParam;
 	waitObjectCount++;
@@ -792,9 +792,10 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 {
 	int i;
 
-	for(i=0;i<waitObjectCount;i++)
-		if(hWaitObjects[i]==(HANDLE)wParam) break;
-	if(i==waitObjectCount) return 1;
+	for (i=0;i<waitObjectCount;i++)
+		if (hWaitObjects[i] == (HANDLE)wParam) 
+			break;
+	if (i == waitObjectCount) return 1;
 	waitObjectCount--;
 	MoveMemory(&hWaitObjects[i],&hWaitObjects[i+1],sizeof(HANDLE)*(waitObjectCount-i));
 	MoveMemory(&pszWaitServices[i],&pszWaitServices[i+1],sizeof(char*)*(waitObjectCount-i));

@@ -28,12 +28,12 @@ INT_PTR NetlibPacketRecverCreate(WPARAM wParam,LPARAM lParam)
 	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
 	struct NetlibPacketRecver *nlpr;
 
-	if(GetNetlibHandleType(nlc)!=NLH_CONNECTION || lParam==0) {
+	if (GetNetlibHandleType(nlc)!=NLH_CONNECTION || lParam==0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return (INT_PTR)(struct NetlibPacketRecver*)NULL;
 	}
 	nlpr=(struct NetlibPacketRecver*)mir_calloc(sizeof(struct NetlibPacketRecver));
-	if(nlpr==NULL) {
+	if (nlpr==NULL) {
 		SetLastError(ERROR_OUTOFMEMORY);
 		return (INT_PTR)(struct NetlibPacketRecver*)NULL;
 	}
@@ -53,7 +53,7 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam,LPARAM lParam)
 	NETLIBPACKETRECVER *nlprParam=(NETLIBPACKETRECVER*)lParam;
 	INT_PTR recvResult;
 
-	if(GetNetlibHandleType(nlpr)!=NLH_PACKETRECVER || nlprParam==NULL || nlprParam->cbSize!=sizeof(NETLIBPACKETRECVER) || nlprParam->bytesUsed>nlpr->packetRecver.bytesAvailable) {
+	if (GetNetlibHandleType(nlpr)!=NLH_PACKETRECVER || nlprParam==NULL || nlprParam->cbSize!=sizeof(NETLIBPACKETRECVER) || nlprParam->bytesUsed>nlpr->packetRecver.bytesAvailable) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return SOCKET_ERROR;
 	}
@@ -62,8 +62,8 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam,LPARAM lParam)
 		return SOCKET_ERROR;
 	}
 	nlpr->packetRecver.dwTimeout=nlprParam->dwTimeout;
-	if(nlprParam->bytesUsed==0) {
-		if(nlpr->packetRecver.bytesAvailable==nlpr->packetRecver.bufferSize) {
+	if (nlprParam->bytesUsed==0) {
+		if (nlpr->packetRecver.bytesAvailable==nlpr->packetRecver.bufferSize) {
 			nlpr->packetRecver.bytesAvailable=0;
 			NetlibLogf(nlpr->nlc->nlu,"Packet recver: packet overflowed buffer, ditching");
 		}
@@ -72,14 +72,14 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam,LPARAM lParam)
 		MoveMemory(nlpr->packetRecver.buffer,nlpr->packetRecver.buffer+nlprParam->bytesUsed,nlpr->packetRecver.bytesAvailable-nlprParam->bytesUsed);
 		nlpr->packetRecver.bytesAvailable-=nlprParam->bytesUsed;
 	}
-	if(nlprParam->dwTimeout!=INFINITE) {
-		if(!si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s,nlprParam->dwTimeout) <= 0) {
+	if (nlprParam->dwTimeout!=INFINITE) {
+		if (!si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s,nlprParam->dwTimeout) <= 0) {
 			*nlprParam=nlpr->packetRecver;
 			return SOCKET_ERROR;
 		}
 	}
 	recvResult=NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer+nlpr->packetRecver.bytesAvailable,nlpr->packetRecver.bufferSize-nlpr->packetRecver.bytesAvailable,0);
-	if(recvResult>0) nlpr->packetRecver.bytesAvailable+=recvResult;
+	if (recvResult>0) nlpr->packetRecver.bytesAvailable+=recvResult;
 	*nlprParam=nlpr->packetRecver;
 	return recvResult;
 }

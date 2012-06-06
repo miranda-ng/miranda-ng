@@ -94,10 +94,10 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd,LPARAM lParam)
 	LangPackMuuid* uuid = LangPackLookupUuid( lptd->flags );
 
 	GetClassName( hwnd, szClass, SIZEOF(szClass));
-	if(!lstrcmpi(szClass,_T("static")) || !lstrcmpi(szClass,_T("hyperlink")) || !lstrcmpi(szClass,_T("button")) || !lstrcmpi(szClass,_T("MButtonClass")) || !lstrcmpi(szClass,_T("MHeaderbarCtrl")))
+	if (!lstrcmpi(szClass,_T("static")) || !lstrcmpi(szClass,_T("hyperlink")) || !lstrcmpi(szClass,_T("button")) || !lstrcmpi(szClass,_T("MButtonClass")) || !lstrcmpi(szClass,_T("MHeaderbarCtrl")))
 		TranslateWindow( uuid, hwnd );
 	else if ( !lstrcmpi( szClass,_T("edit"))) {
-		if( lptd->flags & LPTDF_NOIGNOREEDIT || GetWindowLongPtr(hwnd,GWL_STYLE) & ES_READONLY )
+		if ( lptd->flags & LPTDF_NOIGNOREEDIT || GetWindowLongPtr(hwnd,GWL_STYLE) & ES_READONLY )
 			TranslateWindow( uuid, hwnd );
 	}
 	return TRUE;

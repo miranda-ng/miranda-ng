@@ -84,8 +84,8 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			{	TCHAR szScanExe[MAX_PATH];
 				int i,iItem;
-				for( i=0; i < SIZEOF(virusScanners); i++ ) {
-					if(SRFile_GetRegValue(HKEY_LOCAL_MACHINE,virusScanners[i].szExeRegPath,virusScanners[i].szExeRegValue,szScanExe,SIZEOF(szScanExe))) {
+				for ( i=0; i < SIZEOF(virusScanners); i++ ) {
+					if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE,virusScanners[i].szExeRegPath,virusScanners[i].szExeRegValue,szScanExe,SIZEOF(szScanExe))) {
 						iItem=SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_ADDSTRING,0,(LPARAM)virusScanners[i].szProductName);
 						SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_SETITEMDATA,iItem,i);
 					}
@@ -98,12 +98,12 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			DBVARIANT dbv;
-			if(DBGetContactSettingTString(NULL,"SRFile","ScanCmdLine",&dbv)==0) {
+			if (DBGetContactSettingTString(NULL,"SRFile","ScanCmdLine",&dbv)==0) {
 				SetDlgItemText(hwndDlg,IDC_SCANCMDLINE,dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
 			else {
-				if(SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_GETCOUNT,0,0)) {
+				if (SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_GETCOUNT,0,0)) {
 					SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_SETCURSEL,0,0);
 					PostMessage(hwndDlg,M_SCANCMDLINESELCHANGE,0,0);
 				}
@@ -130,9 +130,9 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		{	TCHAR str[512];
 			TCHAR szScanExe[MAX_PATH];
 			int iScanner=SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_SCANCMDLINE,CB_GETCURSEL,0,0),0);
-			if(iScanner >= SIZEOF(virusScanners) || iScanner<0) break;
+			if (iScanner >= SIZEOF(virusScanners) || iScanner<0) break;
 			str[0]='\0';
-			if(SRFile_GetRegValue(HKEY_LOCAL_MACHINE,virusScanners[iScanner].szExeRegPath,virusScanners[iScanner].szExeRegValue,szScanExe,SIZEOF(szScanExe)))
+			if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE,virusScanners[iScanner].szExeRegPath,virusScanners[iScanner].szExeRegValue,szScanExe,SIZEOF(szScanExe)))
 				mir_sntprintf(str, SIZEOF(str), virusScanners[iScanner].szCommandLine,szScanExe);
 			SetDlgItemText(hwndDlg,IDC_SCANCMDLINE,str);
 			break;
@@ -140,12 +140,12 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case IDC_FILEDIR:
-					if((HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
+					if ((HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
 					break;
 				case IDC_FILEDIRBROWSE:
 				{	TCHAR str[MAX_PATH];
 					GetDlgItemText(hwndDlg,IDC_FILEDIR,str,SIZEOF(str));
-					if(BrowseForFolder(hwndDlg,str))
+					if (BrowseForFolder(hwndDlg,str))
 						SetDlgItemText(hwndDlg,IDC_FILEDIR,str);
 					break;
 				}
@@ -156,8 +156,8 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					SendMessage(hwndDlg,M_UPDATEENABLING,0,0);
 					break;
 				case IDC_SCANCMDLINE:
-					if(HIWORD(wParam)==CBN_SELCHANGE) PostMessage(hwndDlg,M_SCANCMDLINESELCHANGE,0,0);
-					else if(HIWORD(wParam)!=CBN_EDITCHANGE) return 0;
+					if (HIWORD(wParam)==CBN_SELCHANGE) PostMessage(hwndDlg,M_SCANCMDLINESELCHANGE,0,0);
+					else if (HIWORD(wParam)!=CBN_EDITCHANGE) return 0;
 					break;
 				case IDC_SCANCMDLINEBROWSE:
 				{	TCHAR str[MAX_PATH+2];
@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					ofn.lpstrFilter = filter;
 					ofn.lpstrFile = str;
 					ofn.nMaxFile = SIZEOF(str)-2;
-					if(str[0]=='"')	{
+					if (str[0] == '"')	{
 						TCHAR *pszQuote = _tcschr(str + 1, '"');
 						if (pszQuote) *pszQuote = 0;
 						MoveMemory(str, str + 1, _tcslen(str) * sizeof(TCHAR));

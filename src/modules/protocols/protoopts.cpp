@@ -173,7 +173,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg,UINT message, WPARAM wParam,
 					rtrim( buf );
 					if ( buf[0] == 0 ) {
 						int count = 1;
-						for( ;; ) {
+						for ( ;; ) {
 							DBVARIANT dbv;
 							mir_snprintf( buf, SIZEOF(buf), "%s_%d", pa->szProtoName, count++ );
 							if ( DBGetContactSettingString( NULL, buf, "AM_BaseProto", &dbv ))
@@ -245,8 +245,7 @@ static void sttClickButton(HWND hwndDlg, int idcButton)
 
 static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
-    {
+	switch (msg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
@@ -254,7 +253,7 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			return 0;
 
 		case VK_ESCAPE:
-            SetWindowLongPtr(hwnd, GWLP_WNDPROC, GetWindowLongPtr(hwnd, GWLP_USERDATA));
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			DestroyWindow(hwnd);
 			return 0;
 		}

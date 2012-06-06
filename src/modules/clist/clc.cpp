@@ -498,7 +498,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 			if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
 				CopyMemory(contact->iExtraImage, iExtraImage, SIZEOF(iExtraImage));
-				if(flags & CONTACTF_CHECKED)
+				if (flags & CONTACTF_CHECKED)
 					contact->flags |= CONTACTF_CHECKED;
 			}
 			nm.hdr.code = CLN_CONTACTMOVED;

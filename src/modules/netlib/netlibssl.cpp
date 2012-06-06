@@ -793,7 +793,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		// Locate data and (optional) extra buffers.
 		pDataBuffer  = NULL;
 		pExtraBuffer = NULL;
-		for(i = 1; i < 4; i++) 
+		for (i = 1; i < 4; i++) 
 		{
 			if (pDataBuffer == NULL && Buffers[i].BufferType == SECBUFFER_DATA)
 				pDataBuffer = &Buffers[i];

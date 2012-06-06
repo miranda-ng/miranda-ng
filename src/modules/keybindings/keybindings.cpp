@@ -95,9 +95,9 @@ static KeyBindingItem* findKeyBinding(char *actionGroup, DWORD key)
 	KeyBindingItem *ptr = NULL;
 	if (key != 0) {
 		for (ptr = keyBindingList; ptr != NULL; ptr = ptr->next)
-			if (strcmp(ptr->actionGroupName, actionGroup) == 0)
+			if (strcmp(ptr->actionGroupName, actionGroup) ==  0)
 				for (i = 0; i < 5; i++) 
-					if (ptr->key[i] == key) return ptr;
+					if (ptr->key[i] ==  key) return ptr;
 	}
 	return ptr;
 }
@@ -108,9 +108,9 @@ static KeyBindingItem* findTempKeyBinding(char *actionGroup, DWORD key)
 	KeyBindingItem *ptr = NULL;
 	if (key != 0) {
 		for (ptr = keyBindingList; ptr != NULL; ptr = ptr->next)
-			if (strcmp(ptr->actionGroupName, actionGroup) == 0)
+			if (strcmp(ptr->actionGroupName, actionGroup) ==  0)
 				for (i = 0; i < 5; i++)
-					if (ptr->tempKey[i] == key) return ptr;
+					if (ptr->tempKey[i] ==  key) return ptr;
 	}
 	return ptr;
 }
@@ -121,9 +121,9 @@ static void removeTempKeyBinding(char *actionGroup, DWORD key)
 	int i, j;
 	if (key != 0) {
 		for (ptr = keyBindingList; ptr != NULL; ptr = ptr->next)
-			if (strcmp(ptr->actionGroupName, actionGroup) == 0)
+			if (strcmp(ptr->actionGroupName, actionGroup) ==  0)
 				for (i = 0; i < 5; i++) 
-					if (ptr->tempKey[i] == key) {
+					if (ptr->tempKey[i] ==  key) {
 						for (j = i+1; j < 5; j++)
 							ptr->tempKey[j-1] = ptr->tempKey[j];
 						ptr->tempKey[4] = 0;
@@ -262,11 +262,11 @@ static void saveCollapseState( HWND hwndTree )
 				DBWriteContactSettingByte(NULL, "KeyBindingsUI", treeItem->paramName, 0 );
 		}
 		ht = TreeView_GetChild( hwndTree, hti );
-		if( ht == NULL ) {
+		if( ht  ==  NULL ) {
 			ht = TreeView_GetNextSibling( hwndTree, hti );
-			while( ht == NULL ) {
+			while( ht  ==  NULL ) {
 				hti = TreeView_GetParent( hwndTree, hti );
-				if( hti == NULL ) break;
+				if( hti  ==  NULL ) break;
 				ht = TreeView_GetNextSibling( hwndTree, hti );
 		}	}
 		hti = ht;
@@ -372,7 +372,7 @@ static LRESULT CALLBACK KeyBindingsEditProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				default:
 					break;
 			}
-			if (virtualKey == 0) {
+			if (virtualKey  ==  0) {
 				modifiers = tempModifiers;
 				refreshPreview(hwnd);
 			}
@@ -449,7 +449,7 @@ BOOL CALLBACK DlgProcKeyBindingsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				int i;
 				removeTempKeyBinding(currentTreeItem->keyBinding->actionGroupName, modifiers | virtualKey);
 				for (i=0; i<5; i++) {
-					if (currentTreeItem->keyBinding->tempKey[i] == 0) {
+					if (currentTreeItem->keyBinding->tempKey[i] ==  0) {
 						currentTreeItem->keyBinding->tempKey[i] = modifiers | virtualKey;
 						break;
 					}
@@ -497,14 +497,14 @@ BOOL CALLBACK DlgProcKeyBindingsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		case IDC_LIST:
-			if (HIWORD(wParam) == LBN_SELCHANGE) {
+			if (HIWORD(wParam) ==  LBN_SELCHANGE) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
 			}
 			break;
 		}
 		break;
 	case WM_NOTIFY:
-		if (((LPNMHDR) lParam)->idFrom == IDC_CATEGORYLIST)
+		if (((LPNMHDR) lParam)->idFrom  ==  IDC_CATEGORYLIST)
 		{
 			switch(((NMHDR*)lParam)->code) {
 			case TVN_SELCHANGEDA:
@@ -530,7 +530,7 @@ BOOL CALLBACK DlgProcKeyBindingsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				}
 			}
 		}
-		if (((LPNMHDR) lParam)->idFrom == 0 && ((LPNMHDR) lParam)->code == PSN_APPLY ) {
+		if (((LPNMHDR) lParam)->idFrom  ==  0 && ((LPNMHDR) lParam)->code  ==  PSN_APPLY ) {
 			saveKeyBindings();
 		}
 		break;

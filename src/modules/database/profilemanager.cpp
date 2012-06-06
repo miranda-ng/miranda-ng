@@ -570,7 +570,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			odp = ( OPTIONSDIALOGPAGE* )psh->ppsp;
 
 			tci.mask = TCIF_TEXT;
-			for( i=0; i < dat->pageCount; i++ ) {
+			for ( i=0; i < dat->pageCount; i++ ) {
 				dat->opd[i].pTemplate = (DLGTEMPLATE *)LockResource(LoadResource(odp[i].hInstance,FindResourceA(odp[i].hInstance,odp[i].pszTemplate,MAKEINTRESOURCEA(5))));
 				dat->opd[i].dlgProc = odp[i].pfnDlgProc;
 				dat->opd[i].hInst = odp[i].hInstance;
@@ -704,7 +704,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				pshn.hdr.idFrom=0;
 				pshn.lParam=0;
 				pshn.hdr.code=PSN_RESET;
-				for(i=0;i<dat->pageCount;i++) {
+				for (i=0;i<dat->pageCount;i++) {
 					if (dat->opd[i].hwnd==NULL || !dat->opd[i].changed) continue;
 					pshn.hdr.hwndFrom=dat->opd[i].hwnd;
 					SendMessage(dat->opd[i].hwnd,WM_NOTIFY,0,(LPARAM)&pshn);

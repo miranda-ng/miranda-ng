@@ -138,7 +138,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_DRAWITEM:
 		{	
 			LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
-			if(dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
+			if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 				
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);
@@ -158,7 +158,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_COMMAND:
 		if (dat)
-			if(CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)dat->hContact))
+			if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)dat->hContact))
 				break;
 		switch(LOWORD(wParam)) {
 		case IDOK:
@@ -180,7 +180,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						break;
 					case IDM_COPYLINK:
 					{	HGLOBAL hData;
-						if(!OpenClipboard(hwndDlg)) break;
+						if (!OpenClipboard(hwndDlg)) break;
 						EmptyClipboard();
 						hData=GlobalAlloc(GMEM_MOVEABLE,lstrlenA(url)+1);
 						lstrcpyA((char*)GlobalLock(hData),url);
@@ -267,7 +267,7 @@ static LRESULT DdeMessage(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	case WM_DDE_DATA:
 		UnpackDDElParam(msg,lParam,(PUINT_PTR)&hGlobalDdeData,(PUINT_PTR)&hSzItem);
 		ddeData = 1;
-		if( hGlobalDdeData ) {
+		if ( hGlobalDdeData ) {
 			DDEDATA* data = ( DDEDATA* )GlobalLock( hGlobalDdeData );
 			if ( data->fAckReq ) {
 				DDEACK ack = {0};
@@ -289,24 +289,24 @@ static HGLOBAL DoDdeRequest(const char *szItemName,HWND hwndDlg)
 	MSG msg;
 
 	hSzItemName=GlobalAddAtomA(szItemName);
-	if(!PostMessage(hwndDde,WM_DDE_REQUEST,(WPARAM)hwndDlg,MAKELPARAM(CF_TEXT,hSzItemName))) {
+	if (!PostMessage(hwndDde,WM_DDE_REQUEST,(WPARAM)hwndDlg,MAKELPARAM(CF_TEXT,hSzItemName))) {
 		GlobalDeleteAtom(hSzItemName);
 		return NULL;
 	}
 	timeoutTick=GetTickCount()+5000;
 	ddeData=0; ddeAcked=0;
 	do {
-		if(PeekMessage(&msg,NULL,0,0,PM_REMOVE)) {
+		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE)) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
-		if(ddeData || ddeAcked) break;
+		if (ddeData || ddeAcked) break;
 		thisTick=GetTickCount();
-		if(thisTick>timeoutTick) break;
+		if (thisTick>timeoutTick) break;
 	}
 		while(MsgWaitForMultipleObjects(0,NULL,FALSE,timeoutTick-thisTick,QS_ALLINPUT)==WAIT_OBJECT_0);
 
-	if(!ddeData) {
+	if (!ddeData) {
 		GlobalDeleteAtom(hSzItemName);
 		return NULL;
 	}
@@ -318,7 +318,7 @@ static void FreeDdeRequestData(HGLOBAL hData)
 {
 	DDEDATA *data;
 	data=(DDEDATA*)GlobalLock(hData);
-	if(data->fRelease) {
+	if (data->fRelease) {
 		GlobalUnlock(hData);
 		GlobalFree(hData);
 	}
@@ -329,35 +329,35 @@ static void AddBrowserPageToCombo(char *url,HWND hwndCombo)
 {
 	char *title,*frame,*end;
 
-	if(url[0]!='"') return;
+	if (url[0]!='"') return;
 	url++;
 	title=strchr(url,'"');
-	if(title==NULL) return;
+	if (title==NULL) return;
 	*title='\0'; title++;
-	if(*title) {
+	if (*title) {
 		title+=2;
 		frame=strchr(title,'"');
-		if(frame==NULL) return;
+		if (frame==NULL) return;
 		*frame='\0'; frame++;
-		if(*frame) {
+		if (*frame) {
 			frame+=2;
 			end=strchr(frame,'"');
-			if(end==NULL) return;
+			if (end==NULL) return;
 			*end='\0';
 		}
 		else frame=NULL;
 	}
 	else title=frame=NULL;
-	if(frame==NULL || *frame==0) {
+	if (frame==NULL || *frame==0) {
 		char *szItemData;
 		int i;
 		char szExistingUrl[1024];
 
-		for(i=SendMessage(hwndCombo,CB_GETCOUNT,0,0)-1;i>=0;i--) {
-			if(SendMessage(hwndCombo,CB_GETLBTEXTLEN,i,0) >= SIZEOF(szExistingUrl))
+		for (i=SendMessage(hwndCombo,CB_GETCOUNT,0,0)-1;i>=0;i--) {
+			if (SendMessage(hwndCombo,CB_GETLBTEXTLEN,i,0) >= SIZEOF(szExistingUrl))
 				continue;
 			SendMessageA(hwndCombo,CB_GETLBTEXT,i,(LPARAM)szExistingUrl);
-			if(!lstrcmpA(szExistingUrl,url)) return;
+			if (!lstrcmpA(szExistingUrl,url)) return;
 		}
 		i=SendMessageA(hwndCombo,CB_ADDSTRING,0,(LPARAM)url);
 		szItemData=mir_strdup(title);
@@ -380,14 +380,14 @@ static void GetOpenBrowserUrlsForBrowser(const char *szBrowser,HWND hwndDlg,HWND
 
 	hSzTopic=GlobalAddAtomA("WWW_ListWindows");
 	ddeAcked=0;
-	if(!SendMessageTimeout(HWND_BROADCAST,WM_DDE_INITIATE,(WPARAM)hwndDlg,MAKELPARAM(hSzBrowser,hSzTopic),SMTO_ABORTIFHUNG|SMTO_NORMAL,DDEMESSAGETIMEOUT,(PDWORD_PTR)&dwResult)
+	if (!SendMessageTimeout(HWND_BROADCAST,WM_DDE_INITIATE,(WPARAM)hwndDlg,MAKELPARAM(hSzBrowser,hSzTopic),SMTO_ABORTIFHUNG|SMTO_NORMAL,DDEMESSAGETIMEOUT,(PDWORD_PTR)&dwResult)
 	   || !ddeAcked) {
 		GlobalDeleteAtom(hSzTopic);
 		GlobalDeleteAtom(hSzBrowser);
 		return;
 	}
 	hData=DoDdeRequest("WWW_ListWindows",hwndDlg);
-	if(hData==NULL) {
+	if (hData==NULL) {
 		GlobalDeleteAtom(hSzTopic);
 		GlobalDeleteAtom(hSzBrowser);
 		return;
@@ -404,20 +404,20 @@ static void GetOpenBrowserUrlsForBrowser(const char *szBrowser,HWND hwndDlg,HWND
 
 	hSzTopic=GlobalAddAtomA("WWW_GetWindowInfo");
 	ddeAcked=0;
-	if(!SendMessageTimeout(HWND_BROADCAST,WM_DDE_INITIATE,(WPARAM)hwndDlg,MAKELPARAM(hSzBrowser,hSzTopic),SMTO_ABORTIFHUNG|SMTO_NORMAL,DDEMESSAGETIMEOUT,(PDWORD_PTR)&dwResult)
+	if (!SendMessageTimeout(HWND_BROADCAST,WM_DDE_INITIATE,(WPARAM)hwndDlg,MAKELPARAM(hSzBrowser,hSzTopic),SMTO_ABORTIFHUNG|SMTO_NORMAL,DDEMESSAGETIMEOUT,(PDWORD_PTR)&dwResult)
 	   || !ddeAcked) {
 		GlobalDeleteAtom(hSzTopic);
 		GlobalDeleteAtom(hSzBrowser);
 		mir_free(windowId);
 		return;
 	}
-	for(i=0;i<windowCount;i++) {
-		if(windowId[i]==0) break;
+	for (i=0;i<windowCount;i++) {
+		if (windowId[i]==0) break;
 		{	char str[16];
 			mir_snprintf(str, SIZEOF(str), "%d",windowId[i]);
 			hData=DoDdeRequest(str,hwndDlg);
 		}
-		if(hData!=NULL) {
+		if (hData!=NULL) {
 			dataLength=GlobalSize(hData)-offsetof(DDEDATA,Value);
 			data=(DDEDATA*)GlobalLock(hData);
 			AddBrowserPageToCombo((char*)data->Value,hwndCombo);
@@ -443,13 +443,13 @@ static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LP
 {
 	switch(msg) {
 	case WM_CHAR:
-		if(wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000) {
+		if (wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000) {
 			PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 			return 0;
 		}
 		break;
 	case WM_SYSCHAR:
-		if((wParam=='s' || wParam=='S') && GetKeyState(VK_MENU)&0x8000) {
+		if ((wParam=='s' || wParam=='S') && GetKeyState(VK_MENU)&0x8000) {
 			PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 			return 0;
 		}
@@ -536,7 +536,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_COMMAND:
-		if(CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)dat->hContact))
+		if (CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)dat->hContact))
 			break;
 		switch (LOWORD(wParam))
 		{
@@ -577,7 +577,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DestroyWindow(hwndDlg);
 				return TRUE;
 			case IDC_URLS:
-				if(HIWORD(wParam)==CBN_SELCHANGE) {
+				if (HIWORD(wParam)==CBN_SELCHANGE) {
 					int i, urlSize;
 					char *title;
 					i=SendDlgItemMessage(hwndDlg,IDC_URLS,CB_GETCURSEL,0,0);
@@ -586,7 +586,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					urlSize=SendDlgItemMessage(hwndDlg,IDC_URLS,CB_GETLBTEXTLEN,(WPARAM)i,0);
 					EnableWindow(GetDlgItem(hwndDlg,IDOK), (urlSize>0));
 				}
-				else if(HIWORD(wParam)==CBN_EDITCHANGE) {
+				else if (HIWORD(wParam)==CBN_EDITCHANGE) {
 					int urlSize = GetWindowTextLength(GetDlgItem(hwndDlg,IDC_URLS));
 					EnableWindow(GetDlgItem(hwndDlg,IDOK), (urlSize>0));
 				}
@@ -622,9 +622,9 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case HM_EVENTSENT:
 	{	ACKDATA *ack=(ACKDATA*)lParam;
 		DBEVENTINFO dbei;
-		if(ack->hProcess!=dat->hSendId) break;
-		if(ack->hContact!=dat->hContact) break;
-		if(ack->type!=ACKTYPE_URL || ack->result!=ACKRESULT_SUCCESS) break;
+		if (ack->hProcess!=dat->hSendId) break;
+		if (ack->hContact!=dat->hContact) break;
+		if (ack->type!=ACKTYPE_URL || ack->result!=ACKRESULT_SUCCESS) break;
 
 		ZeroMemory(&dbei,sizeof(dbei));
 		dbei.cbSize=sizeof(dbei);
@@ -649,12 +649,12 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		WindowList_Remove(hUrlWindowList, hwndDlg);
 		SetWindowLongPtr(GetWindow(GetDlgItem(hwndDlg,IDC_URLS),GW_CHILD),GWLP_WNDPROC,(LONG_PTR)OldSendEditProc);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_MESSAGE),GWLP_WNDPROC,(LONG_PTR)OldSendEditProc);
-		if(dat->hAckEvent) UnhookEvent(dat->hAckEvent);
-		if(dat->sendBuffer!=NULL) mir_free(dat->sendBuffer);
+		if (dat->hAckEvent) UnhookEvent(dat->hAckEvent);
+		if (dat->sendBuffer!=NULL) mir_free(dat->sendBuffer);
 		mir_free(dat);
 		Utils_SaveWindowPosition(hwndDlg,NULL,"SRUrl","send");
 		{	int i;
-			for(i=SendDlgItemMessage(hwndDlg,IDC_URLS,CB_GETCOUNT,0,0)-1;i>=0;i--)
+			for (i=SendDlgItemMessage(hwndDlg,IDC_URLS,CB_GETCOUNT,0,0)-1;i>=0;i--)
 				mir_free((char*)SendDlgItemMessage(hwndDlg,IDC_URLS,CB_GETITEMDATA,i,0));
 		}
 		break;

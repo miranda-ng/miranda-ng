@@ -644,7 +644,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 			else {
 	            int MenusProtoCount = 0;
 
-	            for( int i=0; i < accounts.getCount(); i++ )
+	            for ( int i=0; i < accounts.getCount(); i++ )
 		            if ( cli.pfnGetProtocolVisibility( accounts[i]->szModuleName ))
 			            MenusProtoCount++;
 

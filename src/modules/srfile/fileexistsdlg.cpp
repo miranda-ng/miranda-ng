@@ -52,7 +52,7 @@ static void SetControlToUnixTime(HWND hwndDlg, UINT idCtrl, time_t unixTime)
 static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POINT *ptCursor)
 {
 	IShellFolder *pDesktopFolder;
-	if(SHGetDesktopFolder(&pDesktopFolder)==NOERROR) {
+	if (SHGetDesktopFolder(&pDesktopFolder)==NOERROR) {
 		ITEMIDLIST *pCurrentIdl;
 		#if defined( _UNICODE )
 			WCHAR* wszFilename = ( LPWSTR )szFilename;
@@ -60,14 +60,14 @@ static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POI
 			WCHAR wszFilename[MAX_PATH];
 			MultiByteToWideChar(CP_ACP,0,szFilename,-1,wszFilename,SIZEOF(wszFilename));
 		#endif
-		if(pDesktopFolder->ParseDisplayName(NULL,NULL,wszFilename,NULL,&pCurrentIdl,NULL)==NOERROR) {
-			if(pCurrentIdl->mkid.cb) {
+		if (pDesktopFolder->ParseDisplayName(NULL,NULL,wszFilename,NULL,&pCurrentIdl,NULL)==NOERROR) {
+			if (pCurrentIdl->mkid.cb) {
 				ITEMIDLIST *pidl,*pidlNext,*pidlFilename;
 				IShellFolder *pFileFolder;
 
-				for(pidl=pCurrentIdl;;) {
+				for (pidl=pCurrentIdl;;) {
 					pidlNext=(ITEMIDLIST*)((PBYTE)pidl+pidl->mkid.cb);
-					if(pidlNext->mkid.cb==0) {
+					if (pidlNext->mkid.cb==0) {
 						pidlFilename = (ITEMIDLIST*)CoTaskMemAlloc(pidl->mkid.cb+sizeof(pidl->mkid.cb));
 						CopyMemory(pidlFilename,pidl,pidl->mkid.cb+sizeof(pidl->mkid.cb));
 						pidl->mkid.cb=0;
@@ -75,9 +75,9 @@ static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POI
 					}
 					pidl=pidlNext;
 				}
-				if(pDesktopFolder->BindToObject(pCurrentIdl,NULL,IID_IShellFolder,(void**)&pFileFolder)==NOERROR) {
+				if (pDesktopFolder->BindToObject(pCurrentIdl,NULL,IID_IShellFolder,(void**)&pFileFolder)==NOERROR) {
 					IContextMenu *pContextMenu;
-					if(pFileFolder->GetUIObjectOf(NULL,1,(LPCITEMIDLIST*)&pidlFilename,IID_IContextMenu,NULL,(void**)&pContextMenu)==NOERROR) {
+					if (pFileFolder->GetUIObjectOf(NULL,1,(LPCITEMIDLIST*)&pidlFilename,IID_IContextMenu,NULL,(void**)&pContextMenu)==NOERROR) {
 						switch(cmd) {
 							case C_PROPERTIES:
 							{	CMINVOKECOMMANDINFO ici={0};
@@ -91,10 +91,10 @@ static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POI
 							case C_CONTEXTMENU:
 							{	HMENU hMenu;
 								hMenu=CreatePopupMenu();
-								if(SUCCEEDED(pContextMenu->QueryContextMenu(hMenu,0,1000,65535,(GetKeyState(VK_SHIFT)&0x8000?CMF_EXTENDEDVERBS:0)|CMF_NORMAL))) {
+								if (SUCCEEDED(pContextMenu->QueryContextMenu(hMenu,0,1000,65535,(GetKeyState(VK_SHIFT)&0x8000?CMF_EXTENDEDVERBS:0)|CMF_NORMAL))) {
 									int cmd;
 									cmd=TrackPopupMenu(hMenu,TPM_RETURNCMD,ptCursor->x,ptCursor->y,0,hwnd,NULL);
-									if(cmd) {
+									if (cmd) {
 										CMINVOKECOMMANDINFO ici={0};
 										ici.cbSize=sizeof(ici);
 										ici.hwnd=hwnd;
@@ -165,7 +165,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 			szExtension[0]='\0';
 		}
 		CharUpper(szExtension);
-		if ( fileInfo.szTypeName[0]=='\0' )
+		if ( fileInfo.szTypeName[0] == '\0' )
 			mir_sntprintf( fileInfo.szTypeName, SIZEOF(fileInfo.szTypeName), TranslateT("%s File"),szExtension);
 		SetDlgItemText(info->hwndDlg,IDC_EXISTINGTYPE,fileInfo.szTypeName);
 		SetDlgItemText(info->hwndDlg,IDC_NEWTYPE,fileInfo.szTypeName);
@@ -176,9 +176,9 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		}
 		else {
 			TCHAR szTypeName[MAX_PATH];
-			if(SRFile_GetRegValue(HKEY_CLASSES_ROOT,pszExtension,NULL,szTypeName,SIZEOF(szTypeName))) {
+			if (SRFile_GetRegValue(HKEY_CLASSES_ROOT,pszExtension,NULL,szTypeName,SIZEOF(szTypeName))) {
 				lstrcat(szTypeName,_T("\\DefaultIcon"));
-				if(SRFile_GetRegValue(HKEY_CLASSES_ROOT,szTypeName,NULL,szIconFile,SIZEOF(szIconFile))) {
+				if (SRFile_GetRegValue(HKEY_CLASSES_ROOT,szTypeName,NULL,szIconFile,SIZEOF(szIconFile))) {
 					if ( _tcsstr( szIconFile, _T("%1")))
 						SRFile_GetRegValue(HKEY_LOCAL_MACHINE,_T("Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons"),_T("0"),szIconFile,SIZEOF(szIconFile));
 					else szIconFile[0]='\0';
@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			SetControlToUnixTime(hwndDlg,IDC_EXISTINGDATE,statbuf.st_mtime);
 			GetSensiblyFormattedSize(statbuf.st_size,szSize,SIZEOF(szSize),0,1,NULL);
 			SetDlgItemText(hwndDlg,IDC_EXISTINGSIZE,szSize);
-			if(statbuf.st_size>(int)fts->currentFileSize) {
+			if (statbuf.st_size>(int)fts->currentFileSize) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_RESUME),FALSE);
 				hwndFocus=GetDlgItem(hwndDlg,IDC_OVERWRITE);
 		}	}
@@ -307,7 +307,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ofn.lpstrFile = str;
 			ofn.nMaxFile = SIZEOF(str);
 			ofn.nMaxFileTitle = MAX_PATH;
-			if(!GetSaveFileName(&ofn))
+			if (!GetSaveFileName(&ofn))
 				return FALSE;
 
 			pfr.szFilename = mir_tstrdup(str);

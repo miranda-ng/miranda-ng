@@ -256,7 +256,7 @@ void DestroyModularEngine(void)
 	int i;
 	THook* p;
 	EnterCriticalSection( &csHooks );
-	for( i=0; i < hooks.getCount(); i++ ) {
+	for ( i=0; i < hooks.getCount(); i++ ) {
 		p = hooks[i];
  		if ( p->subscriberCount )
 			mir_free( p->subscriber );
@@ -596,13 +596,8 @@ static __inline TService* FindServiceByName( const char *name )
 
 static HANDLE CreateServiceInt( int type, const char *name, MIRANDASERVICE serviceProc, void* object, LPARAM lParam)
 {
-	if ( name == NULL ) {
-#ifdef _DEBUG
-		MessageBoxA(0,"Someone tried to create a NULL'd service, see call stack for more info","",0);
-		DebugBreak();
-#endif
+	if ( name == NULL )
 		return NULL;
-	}
 
 	TService tmp;
 	tmp.nameHash = hashstr( name );

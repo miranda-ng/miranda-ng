@@ -52,30 +52,30 @@ static int FindAddDlgResizer(HWND,LPARAM lParam,UTILRESIZECONTROL *urc)
 			return RD_ANCHORX_WIDTH|RD_ANCHORY_BOTTOM;
 		case IDC_PROTOIDGROUP:	//the resize is always processed in template order
 			nextY=y=urc->rcItem.top;
-			if(dat->showProtoId) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
+			if (dat->showProtoId) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
 			break;
 		case IDC_EMAILGROUP:
 			oldTop=urc->rcItem.top;
 			y=nextY;
-			if(dat->showEmail) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
+			if (dat->showEmail) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
 			OffsetRect(&urc->rcItem,0,y-oldTop);
 			return RD_ANCHORX_LEFT|RD_ANCHORY_CUSTOM;
 		case IDC_NAMEGROUP:
 			oldTop=urc->rcItem.top;
 			y=nextY;
-			if(dat->showName) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
+			if (dat->showName) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
 			OffsetRect(&urc->rcItem,0,y-oldTop);
 			return RD_ANCHORX_LEFT|RD_ANCHORY_CUSTOM;
 		case IDC_ADVANCEDGROUP:
 			oldTop=urc->rcItem.top;
 			y=nextY;
-			if(dat->showAdvanced) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
+			if (dat->showAdvanced) nextY=y+urc->rcItem.bottom-urc->rcItem.top+7;
 			OffsetRect(&urc->rcItem,0,y-oldTop);
 			return RD_ANCHORX_LEFT|RD_ANCHORY_CUSTOM;
 		case IDC_TINYEXTENDEDGROUP:
 			oldTop=urc->rcItem.top;
 			y=nextY;
-			if(dat->showTiny)
+			if (dat->showTiny)
 			{
 				int height= urc->dlgNewSize.cy-y-(urc->dlgOriginalSize.cy-urc->rcItem.bottom);
 				nextY=y+200;  //min height for custom dialog
@@ -191,14 +191,14 @@ static void ShowAdvancedSearchDlg(HWND hwndDlg,struct FindAddDlgData *dat)
 {
 	char *szProto=(char*)SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETCURSEL,0,0),0);
 
-	if(szProto==NULL) return;
-	if(dat->hwndAdvSearch==NULL) {
+	if (szProto==NULL) return;
+	if (dat->hwndAdvSearch==NULL) {
 		RECT rc;
 		dat->hwndAdvSearch=(HWND)CallProtoService(szProto,PS_CREATEADVSEARCHUI,0,(LPARAM)hwndDlg);
 		GetWindowRect(GetDlgItem(hwndDlg,IDC_RESULTS),&rc);
 		SetWindowPos(dat->hwndAdvSearch,0,rc.left,rc.top,0,0,SWP_NOZORDER|SWP_NOSIZE);
 	}
-	if(animateWindow) {
+	if (animateWindow) {
 		animateWindow(dat->hwndAdvSearch,150,AW_ACTIVATE|AW_SLIDE|AW_HOR_POSITIVE);
 		RedrawWindow(dat->hwndAdvSearch,NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 	} else ShowWindow(dat->hwndAdvSearch,SW_SHOW);
@@ -223,8 +223,8 @@ static void ReposTinySearchDlg(HWND hwndDlg,struct FindAddDlgData *dat)
 static void ShowTinySearchDlg(HWND hwndDlg,struct FindAddDlgData *dat)
 {
 	char *szProto=(char*)SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETCURSEL,0,0),0);
-	if(szProto==NULL) return;
-	if(dat->hwndTinySearch==NULL) {
+	if (szProto==NULL) return;
+	if (dat->hwndTinySearch==NULL) {
 		dat->hwndTinySearch=(HWND)CallProtoService(szProto,PS_CREATEADVSEARCHUI,0,(LPARAM)/*GetDlgItem(*/hwndDlg/*,IDC_TINYEXTENDEDGROUP)*/);
 		if (dat->hwndTinySearch)
 			ReposTinySearchDlg(hwndDlg, dat);
@@ -236,8 +236,8 @@ static void ShowTinySearchDlg(HWND hwndDlg,struct FindAddDlgData *dat)
 
 static void HideAdvancedSearchDlg(HWND hwndDlg,struct FindAddDlgData *dat)
 {
-	if(dat->hwndAdvSearch==NULL) return;
-	if(animateWindow && IsWinVerXPPlus())  //blending is quite slow on win2k
+	if (dat->hwndAdvSearch==NULL) return;
+	if (animateWindow && IsWinVerXPPlus())  //blending is quite slow on win2k
 		animateWindow(dat->hwndAdvSearch,150,AW_HIDE|AW_BLEND);
 	else ShowWindow(dat->hwndAdvSearch,SW_HIDE);
 	CheckDlgButton(hwndDlg,IDC_ADVANCED,BST_UNCHECKED);
@@ -253,7 +253,7 @@ static void CheckSearchTypeRadioButton(HWND hwndDlg,int idControl)
 {
 	int i;
 	static const int controls[]={IDC_BYPROTOID,IDC_BYEMAIL,IDC_BYNAME,IDC_BYADVANCED,IDC_BYCUSTOM};
-	for( i=0; i < SIZEOF(controls); i++ )
+	for ( i=0; i < SIZEOF(controls); i++ )
 		CheckDlgButton(hwndDlg,controls[i],idControl==controls[i]?BST_CHECKED:BST_UNCHECKED);
 }
 
@@ -342,7 +342,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if ( !DBGetContactSettingTString( NULL, "FindAdd", "LastSearched", &dbv ))
 					szProto = dbv.ptszVal;
 				
-				for( i=0, netProtoCount=0; i < accounts.getCount(); i++ ) {
+				for ( i=0, netProtoCount=0; i < accounts.getCount(); i++ ) {
 					if (!Proto_IsAccountEnabled( accounts[i] )) continue;
 					DWORD caps = (DWORD)CallProtoService( accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0 );
 					if (caps & PF1_BASICSEARCH || caps & PF1_EXTSEARCH || caps & PF1_SEARCHBYEMAIL || caps & PF1_SEARCHBYNAME)
@@ -354,7 +354,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				cbei.iItem=0;
 				hdc=GetDC(hwndDlg);
 				SelectObject(hdc,(HFONT)SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,WM_GETFONT,0,0));
-				if(netProtoCount>1) {
+				if (netProtoCount>1) {
 					cbei.pszText=TranslateT("All Networks");
 					GetTextExtentPoint32(hdc,cbei.pszText,lstrlen(cbei.pszText),&textSize);
 					if (textSize.cx>cbwidth) cbwidth = textSize.cx;
@@ -363,7 +363,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CBEM_INSERTITEM,0,(LPARAM)&cbei);
 					cbei.iItem++;
 				}
-				for( i=0; i < accounts.getCount(); i++ ) {
+				for ( i=0; i < accounts.getCount(); i++ ) {
 					PROTOACCOUNT* pa = accounts[i];
 					if (!Proto_IsAccountEnabled(pa)) continue;
 					DWORD caps=(DWORD)CallProtoService( pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0 );
@@ -405,7 +405,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CallService(MS_UTILS_RESIZEDIALOG,0,(LPARAM)&urd);
 			ReposTinySearchDlg(hwndDlg, dat);
 			SendDlgItemMessage(hwndDlg,IDC_STATUSBAR,WM_SIZE,0,0);
-			if(dat->notSearchedYet) {
+			if (dat->notSearchedYet) {
 				RECT rc;
 				GetClientRect(hwndList,&rc);
 				ListView_SetColumnWidth(hwndList,0,rc.right);
@@ -453,22 +453,22 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					PROTOACCOUNT* pa = accounts[i];
 					if (!Proto_IsAccountEnabled(pa)) continue;
 					protoCaps=(DWORD)CallProtoService(pa->szModuleName,PS_GETCAPS,PFLAGNUM_1,0);
-					if(protoCaps&PF1_SEARCHBYEMAIL) dat->showEmail=1;
-					if(protoCaps&PF1_SEARCHBYNAME) dat->showName=1;
+					if (protoCaps&PF1_SEARCHBYEMAIL) dat->showEmail=1;
+					if (protoCaps&PF1_SEARCHBYNAME) dat->showName=1;
 				}
 			}
 			else {
 				protoCaps=(DWORD)CallProtoService(szProto,PS_GETCAPS,PFLAGNUM_1,0);
-				if(protoCaps&PF1_BASICSEARCH) dat->showProtoId=1;
-				if(protoCaps&PF1_SEARCHBYEMAIL) dat->showEmail=1;
-				if(protoCaps&PF1_SEARCHBYNAME) dat->showName=1;
-				if(protoCaps&PF1_EXTSEARCH && !(protoCaps&PF1_EXTSEARCHUI))	dat->showTiny=1;
-				if(protoCaps&PF1_EXTSEARCHUI) dat->showAdvanced=1;
-				if(protoCaps&PF1_USERIDISEMAIL && dat->showProtoId) {dat->showProtoId=0; dat->showEmail=1;}
-				if(dat->showProtoId) {
+				if (protoCaps&PF1_BASICSEARCH) dat->showProtoId=1;
+				if (protoCaps&PF1_SEARCHBYEMAIL) dat->showEmail=1;
+				if (protoCaps&PF1_SEARCHBYNAME) dat->showName=1;
+				if (protoCaps&PF1_EXTSEARCH && !(protoCaps&PF1_EXTSEARCHUI))	dat->showTiny=1;
+				if (protoCaps&PF1_EXTSEARCHUI) dat->showAdvanced=1;
+				if (protoCaps&PF1_USERIDISEMAIL && dat->showProtoId) {dat->showProtoId=0; dat->showEmail=1;}
+				if (dat->showProtoId) {
 					char *szUniqueId;
 					szUniqueId=(char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDTEXT,0);
-					if(szUniqueId) {
+					if (szUniqueId) {
 						#if defined( _UNICODE )
 							TCHAR* p = mir_a2u(szUniqueId);
 							SetDlgItemText(hwndDlg,IDC_BYPROTOID,p);
@@ -478,7 +478,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						#endif
 					}
 					else SetDlgItemText(hwndDlg,IDC_BYPROTOID,TranslateT("Handle"));
-					if(protoCaps&PF1_NUMERICUSERID) SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOID),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOID),GWL_STYLE)|ES_NUMBER);
+					if (protoCaps&PF1_NUMERICUSERID) SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOID),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOID),GWL_STYLE)|ES_NUMBER);
 					else SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOID),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_PROTOID),GWL_STYLE)&~ES_NUMBER);
 				}
 			}
@@ -507,22 +507,22 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							 (dat->showTiny && IsDlgButtonChecked(hwndDlg,IDC_BYCUSTOM)) ||
 							 (dat->showName && IsDlgButtonChecked(hwndDlg,IDC_BYNAME)) ||
 							 (dat->showProtoId && IsDlgButtonChecked(hwndDlg,IDC_BYPROTOID));
-			if(!checkmarkVisible) {
-				if(dat->showProtoId) CheckSearchTypeRadioButton(hwndDlg,IDC_BYPROTOID);
-				else if(dat->showEmail) CheckSearchTypeRadioButton(hwndDlg,IDC_BYEMAIL);
-				else if(dat->showName) CheckSearchTypeRadioButton(hwndDlg,IDC_BYNAME);
-				else if(dat->showAdvanced) CheckSearchTypeRadioButton(hwndDlg,IDC_BYADVANCED);
-				else if(dat->showTiny) CheckSearchTypeRadioButton(hwndDlg,IDC_BYCUSTOM);
+			if (!checkmarkVisible) {
+				if (dat->showProtoId) CheckSearchTypeRadioButton(hwndDlg,IDC_BYPROTOID);
+				else if (dat->showEmail) CheckSearchTypeRadioButton(hwndDlg,IDC_BYEMAIL);
+				else if (dat->showName) CheckSearchTypeRadioButton(hwndDlg,IDC_BYNAME);
+				else if (dat->showAdvanced) CheckSearchTypeRadioButton(hwndDlg,IDC_BYADVANCED);
+				else if (dat->showTiny) CheckSearchTypeRadioButton(hwndDlg,IDC_BYCUSTOM);
 			}
 
 			SendMessage(hwndDlg,WM_SIZE,0,0);
 			SendMessage(hwndDlg,WM_GETMINMAXINFO,0,(LPARAM)&mmi);
 			GetWindowRect(hwndDlg,&rc);
-			if(rc.bottom-rc.top<mmi.ptMinTrackSize.y) SetWindowPos(hwndDlg,0,0,0,rc.right-rc.left,mmi.ptMinTrackSize.y,SWP_NOZORDER|SWP_NOMOVE);
+			if (rc.bottom-rc.top<mmi.ptMinTrackSize.y) SetWindowPos(hwndDlg,0,0,0,rc.right-rc.left,mmi.ptMinTrackSize.y,SWP_NOZORDER|SWP_NOMOVE);
 			break;
 		}
 		case WM_TIMER:
-			if(wParam==TIMERID_THROBBER) {
+			if (wParam==TIMERID_THROBBER) {
 				RECT rc;
 				HDC hdc;
 				int borders[3];
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		case WM_DRAWITEM:
 		{	DRAWITEMSTRUCT *dis=(DRAWITEMSTRUCT*)lParam;
-			if(dis->CtlID==IDC_STATUSBAR && dis->itemID==1) {
+			if (dis->CtlID==IDC_STATUSBAR && dis->itemID==1) {
 				RenderThrobber(dis->hDC,&dis->rcItem,&dat->throbbing,&dat->pivot);
 				return TRUE;
 			}
@@ -547,7 +547,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				switch(((LPNMHDR)lParam)->code) {
 				case LVN_ITEMCHANGED:
 					{	int count=ListView_GetSelectedCount(hwndList);
-						if(dat->notSearchedYet) count=0;
+						if (dat->notSearchedYet) count=0;
 						EnableResultButtons(hwndDlg,count);
 						break;
 					}
@@ -560,7 +560,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						hdi.fmt=HDF_LEFT|HDF_STRING;
 						Header_SetItem(ListView_GetHeader(hwndList),dat->iLastColumnSortIndex,&hdi);
 
-						if(nmlv->iSubItem!=dat->iLastColumnSortIndex)
+						if (nmlv->iSubItem!=dat->iLastColumnSortIndex)
 						{
 							dat->bSortAscending=TRUE;
 							dat->iLastColumnSortIndex=nmlv->iSubItem;
@@ -580,13 +580,13 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case IDC_PROTOLIST:
-					if(HIWORD(wParam)==CBN_SELCHANGE) {
+					if (HIWORD(wParam)==CBN_SELCHANGE) {
 						HideAdvancedSearchDlg(hwndDlg,dat);
-						if(dat->hwndAdvSearch) {
+						if (dat->hwndAdvSearch) {
 							DestroyWindow(dat->hwndAdvSearch);
 							dat->hwndAdvSearch=NULL;
 						}
-						if(dat->hwndTinySearch) {
+						if (dat->hwndTinySearch) {
 							DestroyWindow(dat->hwndTinySearch);
 							dat->hwndTinySearch=NULL;
 						}
@@ -603,14 +603,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					HideAdvancedSearchDlg(hwndDlg,dat);
 					break;
 				case IDC_PROTOID:
-					if(HIWORD(wParam)==EN_CHANGE) {
+					if (HIWORD(wParam)==EN_CHANGE) {
 						HideAdvancedSearchDlg(hwndDlg,dat);
 						CheckSearchTypeRadioButton(hwndDlg,IDC_BYPROTOID);
 						EnableWindow(GetDlgItem(hwndDlg,IDC_ADD),TRUE);
 					}
 					break;
 				case IDC_EMAIL:
-					if(HIWORD(wParam)==EN_CHANGE) {
+					if (HIWORD(wParam)==EN_CHANGE) {
 						HideAdvancedSearchDlg(hwndDlg,dat);
 						CheckSearchTypeRadioButton(hwndDlg,IDC_BYEMAIL);
 					}
@@ -618,14 +618,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				case IDC_NAMENICK:
 				case IDC_NAMEFIRST:
 				case IDC_NAMELAST:
-					if(HIWORD(wParam)==EN_CHANGE) {
+					if (HIWORD(wParam)==EN_CHANGE) {
 						HideAdvancedSearchDlg(hwndDlg,dat);
 						CheckSearchTypeRadioButton(hwndDlg,IDC_BYNAME);
 					}
 					break;
 				case IDC_ADVANCED:
 					EnableWindow(GetDlgItem(hwndDlg,IDC_ADD), ListView_GetSelectedCount(hwndList) > 0);
-					if(IsDlgButtonChecked(hwndDlg,IDC_ADVANCED))
+					if (IsDlgButtonChecked(hwndDlg,IDC_ADVANCED))
 						ShowAdvancedSearchDlg(hwndDlg,dat);
 					else
 						HideAdvancedSearchDlg(hwndDlg,dat);
@@ -637,42 +637,42 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				case IDOK:
 				{	
 					HideAdvancedSearchDlg(hwndDlg,dat);
-					if(dat->searchCount) {	 //cancel search
+					if (dat->searchCount) {	 //cancel search
 						SetDlgItemText(hwndDlg,IDOK,TranslateT("&Search"));
-						if(dat->hResultHook) {UnhookEvent(dat->hResultHook); dat->hResultHook=NULL;}
-						if(dat->search) {mir_free(dat->search); dat->search=NULL;}
+						if (dat->hResultHook) {UnhookEvent(dat->hResultHook); dat->hResultHook=NULL;}
+						if (dat->search) {mir_free(dat->search); dat->search=NULL;}
 						dat->searchCount=0;
 						StopThrobber(hwndDlg,dat);
 						SetStatusBarSearchInfo(GetDlgItem(hwndDlg,IDC_STATUSBAR),dat);
 						break;
 					}
 					char *szProto=(char*)SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETITEMDATA,SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETCURSEL,0,0),0);
-					if(dat->search) {mir_free(dat->search); dat->search=NULL;}
+					if (dat->search) {mir_free(dat->search); dat->search=NULL;}
 					dat->searchCount=0;
 					dat->hResultHook=HookEventMessage(ME_PROTO_ACK,hwndDlg,HM_SEARCHACK);
 					if (IsDlgButtonChecked(hwndDlg,IDC_BYCUSTOM))
 					{
 						BeginSearch(hwndDlg,dat,szProto,PS_SEARCHBYADVANCED,PF1_EXTSEARCHUI,dat->hwndTinySearch);
 					}
-					else if(IsDlgButtonChecked(hwndDlg,IDC_BYPROTOID)) {
+					else if (IsDlgButtonChecked(hwndDlg,IDC_BYPROTOID)) {
 						TCHAR str[256];
 						GetDlgItemText(hwndDlg,IDC_PROTOID,str,SIZEOF(str));
 						rtrim(str);
-						if(str[0]==0)
+						if (str[0]==0)
 							MessageBox(hwndDlg,sttErrMsg,sttErrTitle,MB_OK);
 						else
 							BeginSearch(hwndDlg,dat,szProto,PS_BASICSEARCHT,PF1_BASICSEARCH,str);
 					}
-					else if(IsDlgButtonChecked(hwndDlg,IDC_BYEMAIL)) {
+					else if (IsDlgButtonChecked(hwndDlg,IDC_BYEMAIL)) {
 						TCHAR str[256];
 						GetDlgItemText(hwndDlg,IDC_EMAIL,str,SIZEOF(str));
 						rtrim(str);
-						if(str[0]==0)
+						if (str[0]==0)
 							MessageBox(hwndDlg,sttErrMsg,sttErrTitle,MB_OK);
 						else
 							BeginSearch(hwndDlg,dat,szProto,PS_SEARCHBYEMAILT,PF1_SEARCHBYEMAIL,str);
 					}
-					else if(IsDlgButtonChecked(hwndDlg,IDC_BYNAME)) {
+					else if (IsDlgButtonChecked(hwndDlg,IDC_BYNAME)) {
 						TCHAR nick[256],first[256],last[256];
 						PROTOSEARCHBYNAME psbn;
 						GetDlgItemText(hwndDlg,IDC_NAMENICK,nick,SIZEOF(nick));
@@ -681,20 +681,20 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						psbn.pszFirstName = first;
 						psbn.pszLastName = last;
 						psbn.pszNick = nick;
-						if(nick[0]==0 && first[0]==0 && last[0]==0)
+						if (nick[0]==0 && first[0]==0 && last[0]==0)
 							MessageBox(hwndDlg,sttErrMsg,sttErrTitle,MB_OK);
 						else
 							BeginSearch(hwndDlg,dat,szProto,PS_SEARCHBYNAMET,PF1_SEARCHBYNAME,&psbn);
 					}
-					else if(IsDlgButtonChecked(hwndDlg,IDC_BYADVANCED)) {
-						if(dat->hwndAdvSearch==NULL)
+					else if (IsDlgButtonChecked(hwndDlg,IDC_BYADVANCED)) {
+						if (dat->hwndAdvSearch==NULL)
 							MessageBox(hwndDlg,sttErrMsg,sttErrTitle,MB_OK);
 						else
 							BeginSearch(hwndDlg,dat,szProto,PS_SEARCHBYADVANCED,PF1_EXTSEARCHUI,dat->hwndAdvSearch);
 					}
 
-					if(dat->searchCount==0) {
-						if(dat->hResultHook) {UnhookEvent(dat->hResultHook); dat->hResultHook=NULL;}
+					if (dat->searchCount==0) {
+						if (dat->hResultHook) {UnhookEvent(dat->hResultHook); dat->hResultHook=NULL;}
 						break;
 					}
 
@@ -764,9 +764,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ScreenToClient(hwndDlg,&pt);
 			switch(GetDlgCtrlID(ChildWindowFromPoint(hwndDlg,pt))) {
 				case IDC_RESULTS:
-					if(dat->notSearchedYet) return TRUE;
+					if (dat->notSearchedYet) return TRUE;
 					ScreenToClient(hwndList,&lvhti.pt);
-					if(ListView_HitTest(hwndList,&lvhti)==-1) break;
+					if (ListView_HitTest(hwndList,&lvhti) == -1) break;
 					ShowMoreOptionsMenu(hwndDlg,(short)LOWORD(lParam),(short)HIWORD(lParam));
 					return TRUE;
 			}
@@ -776,14 +776,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{	ACKDATA *ack=(ACKDATA*)lParam;
 			int i;
 
-			if(ack->type!=ACKTYPE_SEARCH) break;
-			for(i=0;i<dat->searchCount;i++)
-				if(dat->search[i].hProcess==ack->hProcess && dat->search[i].hProcess != NULL && !lstrcmpA(dat->search[i].szProto,ack->szModule)) break;
-			if(i==dat->searchCount) break;
-			if(ack->result==ACKRESULT_SUCCESS || ack->result==ACKRESULT_FAILED) {
+			if (ack->type!=ACKTYPE_SEARCH) break;
+			for (i=0;i<dat->searchCount;i++)
+				if (dat->search[i].hProcess==ack->hProcess && dat->search[i].hProcess != NULL && !lstrcmpA(dat->search[i].szProto,ack->szModule)) break;
+			if (i==dat->searchCount) break;
+			if (ack->result==ACKRESULT_SUCCESS || ack->result==ACKRESULT_FAILED) {
 				dat->searchCount--;
 				memmove(dat->search+i,dat->search+i+1,sizeof(struct ProtoSearchInfo)*(dat->searchCount-i));
-				if(dat->searchCount==0) {
+				if (dat->searchCount==0) {
 					mir_free(dat->search);
 					dat->search=NULL;
 					UnhookEvent(dat->hResultHook);
@@ -794,7 +794,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ListView_SortItemsEx(hwndList, SearchResultsCompareFunc, (LPARAM)hwndDlg);
 				SetStatusBarSearchInfo(GetDlgItem(hwndDlg,IDC_STATUSBAR),dat);
 			}
-			else if(ack->result==ACKRESULT_SEARCHRESULT && ack->lParam) {
+			else if (ack->result==ACKRESULT_SEARCHRESULT && ack->lParam) {
 
 				PROTOSEARCHRESULT *psr;
 				CUSTOMSEARCHRESULTS * csr=(CUSTOMSEARCHRESULTS*)ack->lParam;
@@ -876,7 +876,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 				break;
 			}
-			else if(ack->result==ACKRESULT_DATA) {
+			else if (ack->result==ACKRESULT_DATA) {
 				LVITEM lvi={0};
 				int i,col;
 				PROTOSEARCHRESULT *psr=(PROTOSEARCHRESULT*)ack->lParam;
@@ -897,11 +897,11 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				lvi.mask = LVIF_PARAM|LVIF_IMAGE;
 				lvi.lParam=(LPARAM)lsr;
-				for(i = SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETCOUNT,0,0); i--; ) 
+				for (i = SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETCOUNT,0,0); i--; ) 
 				{
 					szComboProto=(char*)SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CB_GETITEMDATA,i,0);
-					if(szComboProto==NULL) continue;
-					if(!lstrcmpA(szComboProto,ack->szModule)) {
+					if (szComboProto==NULL) continue;
+					if (!lstrcmpA(szComboProto,ack->szModule)) {
 						cbei.mask=CBEIF_IMAGE;
 						cbei.iItem=i;
 						SendDlgItemMessage(hwndDlg,IDC_PROTOLIST,CBEM_GETITEM,0,(LPARAM)&cbei);
@@ -933,15 +933,15 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DBWriteContactSettingTString(NULL, "FindAdd", "LastSearched", szProto?szProto:_T(""));
 			}
 			SaveColumnSizes(hwndList);
-			if(dat->hResultHook!=NULL) UnhookEvent(dat->hResultHook);
+			if (dat->hResultHook!=NULL) UnhookEvent(dat->hResultHook);
 			FreeSearchResults(hwndList);
 			ImageList_Destroy(dat->himlComboIcons);
 			mir_free(dat->search);
-			if(dat->hwndAdvSearch) {
+			if (dat->hwndAdvSearch) {
 				DestroyWindow(dat->hwndAdvSearch);
 				dat->hwndAdvSearch=NULL;
 			}
-			if(dat->hwndTinySearch) {
+			if (dat->hwndTinySearch) {
 				DestroyWindow(dat->hwndTinySearch);
 				dat->hwndTinySearch=NULL;
 			}
@@ -958,7 +958,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 static INT_PTR FindAddCommand(WPARAM, LPARAM)
 {
-	if(IsWindow(hwndFindAdd)) {
+	if (IsWindow(hwndFindAdd)) {
 		ShowWindow(hwndFindAdd,SW_SHOWNORMAL);
 		SetForegroundWindow(hwndFindAdd);
 		SetFocus(hwndFindAdd);

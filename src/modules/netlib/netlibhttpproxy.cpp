@@ -461,7 +461,7 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 	/*
 	 * Gena01 - Ok, we should be able to use just POST. Needed for Yahoo, NO GET requests
 	 */
-	if(nlc->nlhpi.szHttpPostUrl == NULL) 
+	if (nlc->nlhpi.szHttpPostUrl == NULL) 
 	{
 		SetLastError(ERROR_BAD_FORMAT);
 		return 0;

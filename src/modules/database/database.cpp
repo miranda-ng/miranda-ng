@@ -142,10 +142,10 @@ static int getProfileCmdLineArgs(TCHAR * szProfile, size_t cch)
 
 	while(szCmdLine[0]) 
 	{
-		if(szCmdLine[0]=='"') 
+		if (szCmdLine[0] == '"') 
 		{
 			szEndOfParam = _tcschr(szCmdLine+1, '"');
-			if(szEndOfParam == NULL) break;
+			if (szEndOfParam == NULL) break;
 			lstrcpyn(szThisParam, szCmdLine+1, min(SIZEOF(szThisParam), szEndOfParam - szCmdLine));
 			szCmdLine = szEndOfParam + 1;
 		}

@@ -146,8 +146,8 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 					int i,countryCount;
 					struct CountryListEntry *countries;
 					CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&countryCount,(LPARAM)&countries);
-					for(i=0;i<countryCount;i++) {
-						if(countries[i].id!=dbv.wVal) continue;
+					for (i=0;i<countryCount;i++) {
+						if (countries[i].id!=dbv.wVal) continue;
 
 						if ( ci->dwFlag & CNF_UNICODE ) {
 							int cbLen = MultiByteToWideChar( CP_ACP, 0, ( LPCSTR )countries[i].szName, -1, NULL, 0 );
@@ -169,9 +169,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			break;
 
 		case CNF_FIRSTLAST:
-			if( !GetDatabaseString( ci, "FirstName", &dbv )) {
+			if ( !GetDatabaseString( ci, "FirstName", &dbv )) {
 				DBVARIANT dbv2;
-				if(!GetDatabaseString(ci,"LastName",&dbv2)) {
+				if (!GetDatabaseString(ci,"LastName",&dbv2)) {
 					ci->type = CNFT_ASCIIZ;
 					if ( ci->dwFlag & CNF_UNICODE ) {
 						size_t len = wcslen(dbv.pwszVal) + wcslen(dbv2.pwszVal) + 2;
@@ -219,7 +219,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		case CNF_DISPLAY:
 		{
 			int i;
-			for( i=0; i < NAMEORDERCOUNT; i++ ) {
+			for ( i=0; i < NAMEORDERCOUNT; i++ ) {
 				switch(nameOrder[i])  {
 					case 0: // custom name
 					{
@@ -283,9 +283,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						break;
 					}
 					case 6: // first + last name
-						if(!GetDatabaseString(ci,"FirstName",&dbv)) {
+						if (!GetDatabaseString(ci,"FirstName",&dbv)) {
 							DBVARIANT dbv2;
-							if(!GetDatabaseString(ci,"LastName",&dbv2)) {
+							if (!GetDatabaseString(ci,"LastName",&dbv2)) {
 								ci->type = CNFT_ASCIIZ;
 
 								if ( ci->dwFlag & CNF_UNICODE ) {
@@ -371,7 +371,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT|TVIF_PARAM;
-				for(i=0; i < SIZEOF(nameOrderDescr); i++ ) {
+				for (i=0; i < SIZEOF(nameOrderDescr); i++ ) {
 					tvis.item.lParam = nameOrder[i];
 					tvis.item.pszText = TranslateTS( nameOrderDescr[ nameOrder[i]] );
 					TreeView_InsertItem( GetDlgItem(hwndDlg,IDC_NAMEORDER), &tvis );
@@ -416,27 +416,27 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 			}
 			break;
 		case WM_MOUSEMOVE:
-			if(!dat->dragging) break;
+			if (!dat->dragging) break;
 			{	TVHITTESTINFO hti;
 				hti.pt.x=(short)LOWORD(lParam);
 				hti.pt.y=(short)HIWORD(lParam);
 				ClientToScreen(hwndDlg,&hti.pt);
 				ScreenToClient(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti.pt);
 				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
-				if(hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
 					hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_NAMEORDER))/2;
 					TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
 					TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_NAMEORDER),hti.hItem,1);
 				}
 				else {
-					if(hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg,IDC_NAMEORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEUP,0),0);
-					if(hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg,IDC_NAMEORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEDOWN,0),0);
+					if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg,IDC_NAMEORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEUP,0),0);
+					if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg,IDC_NAMEORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEDOWN,0),0);
 					TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_NAMEORDER),NULL,0);
 				}
 			}
 			break;
 		case WM_LBUTTONUP:
-			if(!dat->dragging) break;
+			if (!dat->dragging) break;
 			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_NAMEORDER),NULL,0);
 			dat->dragging=0;
 			ReleaseCapture();
@@ -448,12 +448,12 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 				ScreenToClient(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti.pt);
 				hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_NAMEORDER))/2;
 				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
-				if(dat->hDragItem==hti.hItem) break;
+				if (dat->hDragItem==hti.hItem) break;
 				tvi.mask=TVIF_HANDLE|TVIF_PARAM;
 				tvi.hItem=hti.hItem;
 				TreeView_GetItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),&tvi);
-				if(tvi.lParam == SIZEOF(nameOrderDescr)-1) break;
-				if(hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+				if (tvi.lParam == SIZEOF(nameOrderDescr)-1) break;
+				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
 					TVINSERTSTRUCT tvis;
 					TCHAR name[128];
 					tvis.item.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
@@ -498,10 +498,10 @@ int LoadContactsModule(void) {
 		BYTE i;
 		DBVARIANT dbv;
 
-		for(i=0; i<NAMEORDERCOUNT; i++)
+		for (i=0; i<NAMEORDERCOUNT; i++)
 			nameOrder[i]=i;
 
-		if(!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv))
+		if (!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv))
 		{
 			CopyMemory(nameOrder,dbv.pbVal,dbv.cpbVal);
 			DBFreeVariant(&dbv);

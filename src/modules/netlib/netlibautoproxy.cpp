@@ -425,7 +425,7 @@ void NetlibLoadIeProxy(void)
 		}
 
 		char* szProxyBypass = szProxyBypassStr;
-		for(;;)
+		for (;;)
 		{
 			char *szProxyBypassEnd = strchr(szProxyBypass, ';');
 			if (szProxyBypassEnd) *szProxyBypassEnd = 0;
