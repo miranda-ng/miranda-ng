@@ -42,7 +42,7 @@ http::response mir_twitter::slurp(const std::string &url, http::method meth, con
 	req.szUrl = ( char* )url.c_str();
 
 	// probably not super-efficient to do this every time, but I don't really care
-	std::string auth = "Basic " + b64encode(username_) + ":" + password_;
+	std::string auth = "Basic " + b64encode(username_ + ":" + password_);
 
 	NETLIBHTTPHEADER hdr[2];
 	hdr[0].szName = "Authorization";
@@ -128,6 +128,6 @@ int ext_to_format(const std::string &ext)
 		if (ext == formats[i].ext)
 			return formats[i].fmt;
 	}
-	
+
 	return PA_FORMAT_UNKNOWN;
 }
