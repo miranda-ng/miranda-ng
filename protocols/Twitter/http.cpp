@@ -15,23 +15,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
 #include "http.h"
+
+#include <windows.h>
+#include <newpluginapi.h>
+#include <m_netlib.h>
 
 std::string http::url_encode(const std::string &s)
 {
-	char *encoded = (char*)CallService( MS_NETLIB_URLENCODE, 0, ( LPARAM )s.c_str());
-	std::string ret = encoded;
-	HeapFree(GetProcessHeap(),0,encoded);
-
-	return ret;
-}
-
-std::string http::url_encode(const std::wstring &s)
-{
-	char* data = mir_u2a( s.c_str());
-	char *encoded = (char*)CallService( MS_NETLIB_URLENCODE, 0, ( LPARAM )data);
-	mir_free( data );
+	char *encoded = reinterpret_cast<char*>(CallService( MS_NETLIB_URLENCODE,
+		0,reinterpret_cast<LPARAM>(s.c_str()) ));
 	std::string ret = encoded;
 	HeapFree(GetProcessHeap(),0,encoded);
 

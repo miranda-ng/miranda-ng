@@ -3,19 +3,18 @@ Copyright © 2009 Jim Porter
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation,  either version 2 of the License,  or
+the Free Software Foundation, either version 2 of the License, or
 (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not,  see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
 #include "proto.h"
 
 #include <set>
@@ -31,42 +30,65 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	gce.pDest    = &gcd;
 	gce.dwFlags  = GC_TCHAR|GCEF_ADDTOLOG;
 	gce.pDest    = &gcd;
-	gce.ptszUID  = mir_a2t( update.username.c_str());
+	gce.ptszUID  = mir_a2t(update.username.c_str());
 	gce.bIsMe    = (update.username == twit_.get_username());
-	gce.ptszText = ( TCHAR* )update.status.text.c_str();
+	//TODO: write code here to replace % with %% in update.status.text (which is a std::string)
+
+	std::string chatText = update.status.text;
+
+	replaceAll(chatText, "%", "%%");
+
+	gce.ptszText = mir_a2t_cp(chatText.c_str(),CP_UTF8);
+	//gce.ptszText = mir_a2t_cp(update.status.text.c_str(),CP_UTF8);
 	gce.time     = static_cast<DWORD>(update.status.time);
 
 	DBVARIANT nick;
-	HANDLE hContact = UsernameToHContact( _A2T(update.username.c_str()));
-	if (hContact && !DBGetContactSettingTString(hContact, "CList", "MyHandle", &nick)) {
-		gce.ptszNick = mir_tstrdup( nick.ptszVal );
+	HANDLE hContact = UsernameToHContact(update.username.c_str());
+	if(hContact && !DBGetContactSettingString(hContact,"CList","MyHandle",&nick) )
+	{
+		gce.ptszNick = mir_a2t(nick.pszVal);
 		DBFreeVariant(&nick);
 	}
-	else gce.ptszNick = mir_a2t( update.username.c_str());
+	else
+		gce.ptszNick = mir_a2t(update.username.c_str());
 
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 
 	mir_free(const_cast<TCHAR*>(gce.ptszNick));
 	mir_free(const_cast<TCHAR*>(gce.ptszUID));
 	mir_free(const_cast<TCHAR*>(gce.ptszText));
 }
 
-int TwitterProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
+int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 {
 	GCHOOK *hook = reinterpret_cast<GCHOOK*>(lParam);
-	if (strcmp(hook->pDest->pszModule, m_szModuleName))
+	char *text;
+
+	if(strcmp(hook->pDest->pszModule,m_szModuleName))
 		return 0;
 
-	TCHAR *text;
-	switch(hook->pDest->iType) {
-	case GC_USER_MESSAGE:
-		text = mir_tstrdup(hook->ptszText);
-		ForkThread(&TwitterProto::SendTweetWorker, this, text);
+	switch(hook->pDest->iType)
+	{
+	case GC_USER_MESSAGE: {
+		text = mir_t2a_cp(hook->ptszText,CP_UTF8);
+		LOG("**Chat - Outgoing message: %s", text);
+
+		std::string tweet(text);
+		replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
+
+		LOG("**Chat - Outgoing message after replace: %s", tweet);
+		
+		char * varTweet;
+		varTweet = mir_utf8encode(tweet.c_str());
+		//strncpy(varTweet, tweet.c_str(), tweet.length()+1);
+
+		ForkThread(&TwitterProto::SendTweetWorker, this,varTweet);
 		break;
-	
+	}
 	case GC_USER_PRIVMESS:
-		text = mir_tstrdup(hook->ptszUID);
-		CallService(MS_MSG_SENDMESSAGE, reinterpret_cast<WPARAM>( UsernameToHContact(text)), 0);
+		text = mir_t2a(hook->ptszUID);
+		CallService(MS_MSG_SENDMESSAGE,reinterpret_cast<WPARAM>(
+			UsernameToHContact(text) ),0);
 		mir_free(text);
 		break;
 	}
@@ -75,7 +97,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam, LPARAM lParam)
 }
 
 // TODO: remove nick?
-void TwitterProto::AddChatContact(const TCHAR *name, const TCHAR *nick)
+void TwitterProto::AddChatContact(const char *name,const char *nick)
 {
 	GCDEST gcd = { m_szModuleName };
 	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);
@@ -84,15 +106,18 @@ void TwitterProto::AddChatContact(const TCHAR *name, const TCHAR *nick)
 	GCEVENT gce    = {sizeof(gce)};
 	gce.pDest      = &gcd;
 	gce.dwFlags    = GC_TCHAR;
-	gce.ptszNick   = nick ? nick:name;
-	gce.ptszUID    = name;
+	gce.ptszNick   = mir_a2t(nick ? nick:name);
+	gce.ptszUID    = mir_a2t(name);
 	gce.bIsMe      = false;
 	gce.ptszStatus = _T("Normal");
 	gce.time       = static_cast<DWORD>(time(0));
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
+
+	mir_free(const_cast<TCHAR*>(gce.ptszNick));
+	mir_free(const_cast<TCHAR*>(gce.ptszUID));
 }
 
-void TwitterProto::DeleteChatContact(const TCHAR *name)
+void TwitterProto::DeleteChatContact(const char *name)
 {
 	GCDEST gcd = { m_szModuleName };
 	gcd.ptszID = const_cast<TCHAR*>(m_tszUserName);
@@ -101,15 +126,15 @@ void TwitterProto::DeleteChatContact(const TCHAR *name)
 	GCEVENT gce    = {sizeof(gce)};
 	gce.pDest      = &gcd;
 	gce.dwFlags    = GC_TCHAR;
-	gce.ptszNick   = name;
+	gce.ptszNick   = mir_a2t(name);
 	gce.ptszUID    = gce.ptszNick;
 	gce.time       = static_cast<DWORD>(time(0));
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 
 	mir_free(const_cast<TCHAR*>(gce.ptszNick));
 }
 
-int TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
+int TwitterProto::OnJoinChat(WPARAM,LPARAM suppress)
 {
 	GCSESSION gcw = {sizeof(gcw)};
 
@@ -119,9 +144,9 @@ int TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	gcw.pszModule = m_szModuleName;
 	gcw.ptszName  = m_tszUserName;
 	gcw.ptszID    = m_tszUserName;
-	CallServiceSync(MS_GC_NEWSESSION,  0,  (LPARAM)&gcw);
+	CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-	if (m_iStatus != ID_STATUS_ONLINE)
+	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
 	// ***** Create a group
@@ -134,20 +159,20 @@ int TwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 
 	gcd.iType = GC_EVENT_ADDGROUP;
 	gce.ptszStatus = _T("Normal");
-	CallServiceSync(MS_GC_EVENT, 0, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT,0,reinterpret_cast<LPARAM>(&gce));
 
 	// ***** Hook events
-	HookProtoEvent(ME_GC_EVENT, &TwitterProto::OnChatOutgoing, this);
+	HookProtoEvent(ME_GC_EVENT,&TwitterProto::OnChatOutgoing,this);
 
-	// Note: Initialization will finish up in SetChatStatus,  called separately
-	if (!suppress)
+	// Note: Initialization will finish up in SetChatStatus, called separately
+	if(!suppress)
 		SetChatStatus(m_iStatus);
 
 	in_chat_ = true;
 	return 0;
 }
 
-int TwitterProto::OnLeaveChat(WPARAM, LPARAM)
+int TwitterProto::OnLeaveChat(WPARAM,LPARAM)
 {
 	in_chat_ = false;
 
@@ -159,8 +184,8 @@ int TwitterProto::OnLeaveChat(WPARAM, LPARAM)
 	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
 
-	CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE,   reinterpret_cast<LPARAM>(&gce));
-	CallServiceSync(MS_GC_EVENT, SESSION_TERMINATE, reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,  reinterpret_cast<LPARAM>(&gce));
+	CallServiceSync(MS_GC_EVENT,SESSION_TERMINATE,reinterpret_cast<LPARAM>(&gce));
 
 	return 0;
 }
@@ -175,32 +200,34 @@ void TwitterProto::SetChatStatus(int status)
 	gce.dwFlags = GC_TCHAR;
 	gce.pDest = &gcd;
 
-	if (status == ID_STATUS_ONLINE) {
+	if(status == ID_STATUS_ONLINE)
+	{
 		// Add all friends to contact list
-		for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+		for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 			hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0))
+			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
 		{
-			if (!IsMyContact(hContact))
+			if(!IsMyContact(hContact))
 				continue;
 
-			DBVARIANT uid, nick;
-			if ( DBGetContactSettingTString(hContact, m_szModuleName, TWITTER_KEY_UN, &uid))
+			DBVARIANT uid,nick;
+			if( DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&uid) )
 				continue;
 
-			if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &nick))
-				AddChatContact(uid.ptszVal, nick.ptszVal);
+			if( !DBGetContactSettingString(hContact,"CList","MyHandle",&nick) )
+				AddChatContact(uid.pszVal,nick.pszVal);
 			else
-				AddChatContact(uid.ptszVal);
+				AddChatContact(uid.pszVal);
 
 			DBFreeVariant(&nick);
 			DBFreeVariant(&uid);
 		}
 
-		// For some reason,  I have to send an INITDONE message,  even if I'm not actually
+		// For some reason, I have to send an INITDONE message, even if I'm not actually
 		// initializing the room...
-		CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, reinterpret_cast<LPARAM>(&gce));
-		CallServiceSync(MS_GC_EVENT, SESSION_ONLINE,   reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT,SESSION_INITDONE,reinterpret_cast<LPARAM>(&gce));
+		CallServiceSync(MS_GC_EVENT,SESSION_ONLINE,  reinterpret_cast<LPARAM>(&gce));
 	}
-	else CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, reinterpret_cast<LPARAM>(&gce));
+	else
+		CallServiceSync(MS_GC_EVENT,SESSION_OFFLINE,reinterpret_cast<LPARAM>(&gce));
 }

@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
 #include "theme.h"
 #include "proto.h"
 
@@ -58,7 +57,7 @@ void InitIcons(void)
 
 	for (int i=0; i<SIZEOF(icons); i++) 
     {
-		if (icons[i].defIconID)
+		if(icons[i].defIconID)
 		{
 			mir_snprintf(setting_name,sizeof(setting_name),"%s_%s","Twitter",icons[i].name);
 
@@ -89,7 +88,7 @@ HANDLE GetIconHandle(const char* name)
 {
 	for(size_t i=0; i<SIZEOF(icons); i++)
 	{
-		if (strcmp(icons[i].name,name) == 0)
+		if(strcmp(icons[i].name,name) == 0)
 			return hIconLibItem[i];
 	}
 	return 0;
@@ -105,12 +104,12 @@ static HANDLE g_hMenuEvts[3];
 static TwitterProto * GetInstanceByHContact(HANDLE hContact)
 {
 	char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0));
-	if (!proto)
+		reinterpret_cast<WPARAM>(hContact),0) );
+	if(!proto)
 		return 0;
 
 	for(int i=0; i<g_Instances.getCount(); i++)
-		if (!strcmp(proto,g_Instances[i].m_szModuleName))
+		if(!strcmp(proto,g_Instances[i].m_szModuleName))
 			return &g_Instances[i];
 
 	return 0;
@@ -146,7 +145,7 @@ void InitContactMenus()
 	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService,
 		GlobalService<&TwitterProto::ReplyToTweet>);
 	g_hMenuItems[0] = reinterpret_cast<HANDLE>(
-		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi));
+		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
 
 	mi.position=-2000006000;
 	mi.icolibItem = GetIconHandle("homepage");
@@ -155,7 +154,7 @@ void InitContactMenus()
 	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService,
 		GlobalService<&TwitterProto::VisitHomepage>);
 	g_hMenuItems[1] = reinterpret_cast<HANDLE>(
-		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi));
+		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
 }
 
 void UninitContactMenus()
@@ -174,7 +173,7 @@ void ShowContactMenus(bool show)
 	{
 		CLISTMENUITEM item = { sizeof(item) };
 		item.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-		if (!show)
+		if(!show)
 			item.flags |= CMIF_HIDDEN;
 
 		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(g_hMenuItems[i]),

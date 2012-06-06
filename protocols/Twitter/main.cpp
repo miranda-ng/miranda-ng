@@ -28,7 +28,6 @@ MD5_INTERFACE md5i;
 MM_INTERFACE mmi;
 UTF8_INTERFACE utfi;
 LIST_INTERFACE li;
-int hLangpack = 0;
 
 CLIST_INTERFACE* pcli;
 
@@ -39,10 +38,10 @@ PLUGININFOEX pluginInfo={
 	"Twitter Plugin",
 	__VERSION_DWORD,
 	"Provides basic support for Twitter protocol. [Built: "__DATE__" "__TIME__"]",
-	"dentist",
+	"dentist, omniwolf, Thief",
 	"",
-	"© 2009-2010 dentist",
-	"http://github.com/dentist/miranda-twitter",
+	"© 2009-2010 dentist, 2010-2011 omniwolf and Thief",
+	"http://code.google.com/p/miranda-twitter-oauth/",
 	UNICODE_AWARE, //not transient
 	0,             //doesn't replace anything built-in
 	//{BC09A71B-B86E-4d33-B18D-82D30451DD3C}
@@ -66,6 +65,17 @@ DWORD WINAPI DllMain(HINSTANCE hInstance,DWORD,LPVOID)
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
+	if(mirandaVersion < PLUGIN_MAKE_VERSION(0,8,0,29))
+	{
+		MessageBox(0,_T("The Twitter protocol plugin cannot be loaded. ")
+			_T("It requires Miranda IM 0.9.4 or later."),_T("Miranda"),
+			MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST);
+		return NULL;
+	}
+
+	/*unsigned long mv=_htonl(mirandaVersion);
+	memcpy(&AIM_CAP_MIRANDA[8],&mv,sizeof(DWORD));
+	memcpy(&AIM_CAP_MIRANDA[12],AIM_OSCAR_VERSION,sizeof(DWORD));*/
 	return &pluginInfo;
 }
 
@@ -73,7 +83,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 // Interface information
 
 static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_LAST};
-
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
@@ -97,7 +106,7 @@ static int protoUninit(PROTO_INTERFACE *proto)
 
 int OnModulesLoaded(WPARAM,LPARAM)
 {
-	if (ServiceExists(MS_UPDATE_REGISTER))
+	if(ServiceExists(MS_UPDATE_REGISTER))
 	{
 		Update upd = {sizeof(upd)};
 		char curr_version[30];
@@ -106,18 +115,18 @@ int OnModulesLoaded(WPARAM,LPARAM)
 
 		upd.szUpdateURL = UPDATER_AUTOREGISTER;
 
-		upd.szBetaVersionURL     = "http://www.teamboxel.com/update/twitter/version";
-		upd.szBetaChangelogURL   = "http://code.google.com/p/miranda-twitter/wiki/Changes";
+		upd.szBetaVersionURL     = "http://twosx.net/mim/twitter/updater/version.html";
+		upd.szBetaChangelogURL   = "http://twosx.net/mim/twitter/updater/changelog.html";
 		upd.pbBetaVersionPrefix  = reinterpret_cast<BYTE*>("Twitter ");
 		upd.cpbBetaVersionPrefix = strlen(reinterpret_cast<char*>(upd.pbBetaVersionPrefix));
 #ifdef UNICODE
-		upd.szBetaUpdateURL      = "http://www.teamboxel.com/update/twitter";
+		upd.szBetaUpdateURL      = "http://twosx.net/mim/twitter/updater/twitter.zip";
 #else
 		upd.szBetaUpdateURL      = "http://www.teamboxel.com/update/twitter/ansi";
 #endif
 
 		upd.pbVersion = reinterpret_cast<BYTE*>( CreateVersionStringPlugin(
-			reinterpret_cast<PLUGININFO*>(&pluginInfo),curr_version));
+			reinterpret_cast<PLUGININFO*>(&pluginInfo),curr_version) );
 		upd.cpbVersion = strlen(reinterpret_cast<char*>(upd.pbVersion));
 
 		CallService(MS_UPDATE_REGISTER,0,(LPARAM)&upd);
@@ -135,10 +144,9 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mir_getMD5I(&md5i);
 	mir_getUTFI(&utfi);
 	mir_getLI(&li);
-	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
-		MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)));
+		MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)) );
 
 	PROTOCOLDESCRIPTOR pd = {sizeof(pd)};
 	pd.szName = "Twitter";

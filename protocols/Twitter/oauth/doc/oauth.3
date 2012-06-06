@@ -1,0 +1,1042 @@
+.TH "src/oauth.h" 3 "Tue Dec 13 2011" "Version 0.9.6" "OAuth library functions" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+src/oauth.h \- 
+.PP
+OAuth.net implementation in POSIX-C.  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Defines"
+
+.in +1c
+.ti -1c
+.RI "#define \fBOA_GCC_VERSION_AT_LEAST\fP(x, y)   0"
+.br
+.ti -1c
+.RI "#define \fBattribute_deprecated\fP"
+.br
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBOAuthMethod\fP { \fBOA_HMAC\fP = 0, \fBOA_RSA\fP, \fBOA_PLAINTEXT\fP }"
+.br
+.RI "\fIsignature method to used for signing the request. \fP"
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "char * \fBoauth_encode_base64\fP (int size, const unsigned char *src)"
+.br
+.RI "\fIBase64 encode and return size data in 'src'. \fP"
+.ti -1c
+.RI "int \fBoauth_decode_base64\fP (unsigned char *dest, const char *src)"
+.br
+.RI "\fIDecode the base64 encoded string 'src' into the memory pointed to by 'dest'. \fP"
+.ti -1c
+.RI "char * \fBoauth_url_escape\fP (const char *string)"
+.br
+.RI "\fIEscape 'string' according to RFC3986 and http://oauth.net/core/1.0/#encoding_parameters. \fP"
+.ti -1c
+.RI "char * \fBoauth_url_unescape\fP (const char *string, size_t *olen)"
+.br
+.RI "\fIParse RFC3986 encoded 'string' back to unescaped version. \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_hmac_sha1\fP (const char *m, const char *k)"
+.br
+.RI "\fIreturns base64 encoded HMAC-SHA1 signature for given message and key. \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_hmac_sha1_raw\fP (const char *m, const size_t ml, const char *k, const size_t kl)"
+.br
+.RI "\fIsame as \fBoauth_sign_hmac_sha1\fP but allows to specify length of message and key (in case they contain null chars). \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_plaintext\fP (const char *m, const char *k)"
+.br
+.RI "\fIreturns plaintext signature for the given key. \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_rsa_sha1\fP (const char *m, const char *k)"
+.br
+.RI "\fIreturns RSA-SHA1 signature for given data. \fP"
+.ti -1c
+.RI "int \fBoauth_verify_rsa_sha1\fP (const char *m, const char *c, const char *s)"
+.br
+.RI "\fIverify RSA-SHA1 signature. \fP"
+.ti -1c
+.RI "char * \fBoauth_catenc\fP (int len,...)"
+.br
+.RI "\fIurl-escape strings and concatenate with '&' separator. \fP"
+.ti -1c
+.RI "int \fBoauth_split_url_parameters\fP (const char *url, char ***argv)"
+.br
+.RI "\fIsplits the given url into a parameter array. \fP"
+.ti -1c
+.RI "int \fBoauth_split_post_paramters\fP (const char *url, char ***argv, short qesc)"
+.br
+.RI "\fIsplits the given url into a parameter array. \fP"
+.ti -1c
+.RI "char * \fBoauth_serialize_url\fP (int argc, int start, char **argv)"
+.br
+.RI "\fIbuild a url query string from an array. \fP"
+.ti -1c
+.RI "char * \fBoauth_serialize_url_sep\fP (int argc, int start, char **argv, char *sep, int mod)"
+.br
+.RI "\fIencode query parameters from an array. \fP"
+.ti -1c
+.RI "char * \fBoauth_serialize_url_parameters\fP (int argc, char **argv)"
+.br
+.RI "\fIbuild a query parameter string from an array. \fP"
+.ti -1c
+.RI "char * \fBoauth_gen_nonce\fP ()"
+.br
+.RI "\fIgenerate a random string between 15 and 32 chars length and return a pointer to it. \fP"
+.ti -1c
+.RI "int \fBoauth_cmpstringp\fP (const void *p1, const void *p2)"
+.br
+.RI "\fIstring compare function for oauth parameters. \fP"
+.ti -1c
+.RI "int \fBoauth_param_exists\fP (char **argv, int argc, char *key)"
+.br
+.RI "\fIsearch array for parameter key. \fP"
+.ti -1c
+.RI "void \fBoauth_add_param_to_array\fP (int *argcp, char ***argvp, const char *addparam)"
+.br
+.RI "\fIadd query parameter to array \fP"
+.ti -1c
+.RI "void \fBoauth_free_array\fP (int *argcp, char ***argvp)"
+.br
+.RI "\fIfree array args \fP"
+.ti -1c
+.RI "int \fBoauth_time_independent_equals_n\fP (const char *a, const char *b, size_t len_a, size_t len_b)"
+.br
+.RI "\fIcompare two strings in constant-time (as to not let an attacker guess how many leading chars are correct: http://rdist.root.org/2010/01/07/timing-independent-array-comparison/ ) \fP"
+.ti -1c
+.RI "int \fBoauth_time_indepenent_equals_n\fP (const char *a, const char *b, size_t len_a, size_t len_b) attribute_deprecated"
+.br
+.ti -1c
+.RI "int \fBoauth_time_independent_equals\fP (const char *a, const char *b)"
+.br
+.RI "\fIcompare two strings in constant-time. \fP"
+.ti -1c
+.RI "int \fBoauth_time_indepenent_equals\fP (const char *a, const char *b) attribute_deprecated"
+.br
+.ti -1c
+.RI "char * \fBoauth_sign_url2\fP (const char *url, char **postargs, \fBOAuthMethod\fP method, const char *http_method, const char *c_key, const char *c_secret, const char *t_key, const char *t_secret)"
+.br
+.RI "\fIcalculate OAuth-signature for a given HTTP request URL, parameters and oauth-tokens. \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_url\fP (const char *url, char **postargs, \fBOAuthMethod\fP method, const char *c_key, const char *c_secret, const char *t_key, const char *t_secret) attribute_deprecated"
+.br
+.ti -1c
+.RI "void \fBoauth_sign_array2_process\fP (int *argcp, char ***argvp, char **postargs, \fBOAuthMethod\fP method, const char *http_method, const char *c_key, const char *c_secret, const char *t_key, const char *t_secret)"
+.br
+.RI "\fIthe back-end behind by /ref oauth_sign_array2. \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_array2\fP (int *argcp, char ***argvp, char **postargs, \fBOAuthMethod\fP method, const char *http_method, const char *c_key, const char *c_secret, const char *t_key, const char *t_secret)"
+.br
+.RI "\fIsame as /ref oauth_sign_url with the url already split into parameter array \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_array\fP (int *argcp, char ***argvp, char **postargs, \fBOAuthMethod\fP method, const char *c_key, const char *c_secret, const char *t_key, const char *t_secret) attribute_deprecated"
+.br
+.ti -1c
+.RI "char * \fBoauth_body_hash_file\fP (char *filename)"
+.br
+.RI "\fIcalculate body hash (sha1sum) of given file and return a oauth_body_hash=xxxx parameter to be added to the request. \fP"
+.ti -1c
+.RI "char * \fBoauth_body_hash_data\fP (size_t length, const char *data)"
+.br
+.RI "\fIcalculate body hash (sha1sum) of given data and return a oauth_body_hash=xxxx parameter to be added to the request. \fP"
+.ti -1c
+.RI "char * \fBoauth_body_hash_encode\fP (size_t len, unsigned char *digest)"
+.br
+.RI "\fIbase64 encode digest, free it and return a URL parameter with the oauth_body_hash. \fP"
+.ti -1c
+.RI "char * \fBoauth_sign_xmpp\fP (const char *xml, \fBOAuthMethod\fP method, const char *c_secret, const char *t_secret)"
+.br
+.RI "\fIxep-0235 - TODO \fP"
+.ti -1c
+.RI "char * \fBoauth_http_get\fP (const char *u, const char *q)"
+.br
+.RI "\fIdo a HTTP GET request, wait for it to finish and return the content of the reply. \fP"
+.ti -1c
+.RI "char * \fBoauth_http_get2\fP (const char *u, const char *q, const char *customheader)"
+.br
+.RI "\fIdo a HTTP GET request, wait for it to finish and return the content of the reply. \fP"
+.ti -1c
+.RI "char * \fBoauth_http_post\fP (const char *u, const char *p)"
+.br
+.RI "\fIdo a HTTP POST request, wait for it to finish and return the content of the reply. \fP"
+.ti -1c
+.RI "char * \fBoauth_http_post2\fP (const char *u, const char *p, const char *customheader)"
+.br
+.RI "\fIdo a HTTP POST request, wait for it to finish and return the content of the reply. \fP"
+.ti -1c
+.RI "char * \fBoauth_post_file\fP (const char *u, const char *fn, const size_t len, const char *customheader)"
+.br
+.RI "\fIhttp post raw data from file. \fP"
+.ti -1c
+.RI "char * \fBoauth_post_data\fP (const char *u, const char *data, size_t len, const char *customheader)"
+.br
+.RI "\fIhttp post raw data the returned string needs to be freed by the caller (requires libcurl) \fP"
+.ti -1c
+.RI "char * \fBoauth_post_data_with_callback\fP (const char *u, const char *data, size_t len, const char *customheader, void(*callback)(void *, int, size_t, size_t), void *callback_data)"
+.br
+.RI "\fIhttp post raw data, with callback. \fP"
+.ti -1c
+.RI "char * \fBoauth_send_data\fP (const char *u, const char *data, size_t len, const char *customheader, const char *httpMethod)"
+.br
+.RI "\fIhttp send raw data. \fP"
+.ti -1c
+.RI "char * \fBoauth_send_data_with_callback\fP (const char *u, const char *data, size_t len, const char *customheader, void(*callback)(void *, int, size_t, size_t), void *callback_data, const char *httpMethod)"
+.br
+.RI "\fIhttp post raw data, with callback. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+OAuth.net implementation in POSIX-C. 
+
+\fBAuthor:\fP
+.RS 4
+Robin Gareus <robin@gareus.org>
+.RE
+.PP
+Copyright 2007-2011 Robin Gareus <robin@gareus.org>
+.PP
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+.PP
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+.PP
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+.PP
+Definition in file \fBoauth.h\fP.
+.SH "Define Documentation"
+.PP 
+.SS "#define attribute_deprecated"
+.PP
+Definition at line 54 of file oauth.h.
+.SS "#define OA_GCC_VERSION_AT_LEAST(x, y)   0"
+.PP
+Definition at line 47 of file oauth.h.
+.SH "Enumeration Type Documentation"
+.PP 
+.SS "enum \fBOAuthMethod\fP"
+.PP
+signature method to used for signing the request. 
+.PP
+\fBEnumerator: \fP
+.in +1c
+.TP
+\fB\fIOA_HMAC \fP\fP
+use HMAC-SHA1 request signing method 
+.TP
+\fB\fIOA_RSA \fP\fP
+use RSA signature 
+.TP
+\fB\fIOA_PLAINTEXT \fP\fP
+use plain text signature (for testing only) 
+.PP
+Definition at line 65 of file oauth.h.
+.SH "Function Documentation"
+.PP 
+.SS "void oauth_add_param_to_array (int * argcp, char *** argvp, const char * addparam)"
+.PP
+add query parameter to array \fBParameters:\fP
+.RS 4
+\fIargcp\fP pointer to array length int 
+.br
+\fIargvp\fP pointer to array values 
+.br
+\fIaddparam\fP parameter to add (eg. 'foo=bar') 
+.RE
+.PP
+
+.SS "char* oauth_body_hash_data (size_t length, const char * data)"
+.PP
+calculate body hash (sha1sum) of given data and return a oauth_body_hash=xxxx parameter to be added to the request. The returned string needs to be freed by the calling function. The returned string is not yet url-escaped and suitable to be passed as argument to \fBoauth_catenc\fP.
+.PP
+see http://oauth.googlecode.com/svn/spec/ext/body_hash/1.0/oauth-bodyhash.html
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlength\fP length of the data parameter in bytes 
+.br
+\fIdata\fP to calculate the hash for
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+URL oauth_body_hash parameter string 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthbodyhash.c\fP.
+.SS "char* oauth_body_hash_encode (size_t len, unsigned char * digest)"
+.PP
+base64 encode digest, free it and return a URL parameter with the oauth_body_hash. The returned hash needs to be freed by the calling function. The returned string is not yet url-escaped and thus suitable to be passed to \fBoauth_catenc\fP.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlen\fP length of the digest to encode 
+.br
+\fIdigest\fP hash value to encode
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+URL oauth_body_hash parameter string 
+.RE
+.PP
+
+.SS "char* oauth_body_hash_file (char * filename)"
+.PP
+calculate body hash (sha1sum) of given file and return a oauth_body_hash=xxxx parameter to be added to the request. The returned string needs to be freed by the calling function.
+.PP
+see http://oauth.googlecode.com/svn/spec/ext/body_hash/1.0/oauth-bodyhash.html
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP the filename to calculate the hash for
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+URL oauth_body_hash parameter string 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthbodyhash.c\fP.
+.SS "char* oauth_catenc (int len,  ...)"
+.PP
+url-escape strings and concatenate with '&' separator. The number of strings to be concatenated must be given as first argument. all arguments thereafter must be of type (char *)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlen\fP the number of arguments to follow this parameter
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+pointer to memory holding the concatenated strings - needs to be free(d) by the caller. or NULL in case we ran out of memory. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthbodyhash.c\fP.
+.SS "int oauth_cmpstringp (const void * p1, const void * p2)"
+.PP
+string compare function for oauth parameters. used with qsort. needed to normalize request parameters. see http://oauth.net/core/1.0/#anchor14 
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthexample.c\fP, \fBtests/oauthtest.c\fP, and \fBtests/oauthtest2.c\fP.
+.SS "int oauth_decode_base64 (unsigned char * dest, const char * src)"
+.PP
+Decode the base64 encoded string 'src' into the memory pointed to by 'dest'. \fBParameters:\fP
+.RS 4
+\fIdest\fP Pointer to memory for holding the decoded string. Must be large enough to receive the decoded string. 
+.br
+\fIsrc\fP A base64 encoded string. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the length of the decoded string if decode succeeded otherwise 0. 
+.RE
+.PP
+
+.SS "char* oauth_encode_base64 (int size, const unsigned char * src)"
+.PP
+Base64 encode and return size data in 'src'. The caller must free the returned string.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsize\fP The size of the data in src 
+.br
+\fIsrc\fP The data to be base64 encode 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+encoded string otherwise NULL 
+.RE
+.PP
+
+.SS "void oauth_free_array (int * argcp, char *** argvp)"
+.PP
+free array args \fBParameters:\fP
+.RS 4
+\fIargcp\fP pointer to array length int 
+.br
+\fIargvp\fP pointer to array values to be free()d 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthtest2.c\fP.
+.SS "char* oauth_gen_nonce ()"
+.PP
+generate a random string between 15 and 32 chars length and return a pointer to it. The value needs to be freed by the caller
+.PP
+\fBReturns:\fP
+.RS 4
+zero terminated random string. 
+.RE
+.PP
+
+.SS "char* oauth_http_get (const char * u, const char * q)"
+.PP
+do a HTTP GET request, wait for it to finish and return the content of the reply. (requires libcurl or a command-line HTTP client)
+.PP
+If compiled \fBwithout\fP libcurl this function calls a command-line executable defined in the environment variable OAUTH_HTTP_GET_CMD - it defaults to \fCcurl \-sA 'liboauth-agent/0.1' '%u'\fP where %u is replaced with the URL and query parameters.
+.PP
+bash & wget example: \fCexport OAUTH_HTTP_CMD='wget \-q \-U 'liboauth-agent/0.1' '%u' '\fP
+.PP
+WARNING: this is a tentative function. it's convenient and handy for testing or developing OAuth code. But don't rely on this function to become a stable part of this API. It does not do much error checking or handling for one thing..
+.PP
+NOTE: \fIu\fP and \fIq\fP are just concatenated with a '?' in between, unless \fIq\fP is NULL. in which case only \fIu\fP will be used.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP base url to get 
+.br
+\fIq\fP query string to send along with the HTTP request or NULL. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+In case of an error NULL is returned; otherwise a pointer to the replied content from HTTP server. latter needs to be freed by caller. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthexample.c\fP, and \fBtests/oauthtest.c\fP.
+.SS "char* oauth_http_get2 (const char * u, const char * q, const char * customheader)"
+.PP
+do a HTTP GET request, wait for it to finish and return the content of the reply. (requires libcurl)
+.PP
+This is equivalent to /ref oauth_http_get but allows to specifiy a custom HTTP header and has has no support for commandline-curl.
+.PP
+If liboauth is compiled \fBwithout\fP libcurl this function always returns NULL.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP base url to get 
+.br
+\fIq\fP query string to send along with the HTTP request or NULL. 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for none) Multiple header elements can be passed separating them with '\\r\\n' 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+In case of an error NULL is returned; otherwise a pointer to the replied content from HTTP server. latter needs to be freed by caller. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthtest2.c\fP.
+.SS "char* oauth_http_post (const char * u, const char * p)"
+.PP
+do a HTTP POST request, wait for it to finish and return the content of the reply. (requires libcurl or a command-line HTTP client)
+.PP
+If compiled \fBwithout\fP libcurl this function calls a command-line executable defined in the environment variable OAUTH_HTTP_CMD - it defaults to \fCcurl \-sA 'liboauth-agent/0.1' \-d '%p' '%u'\fP where %p is replaced with the postargs and %u is replaced with the URL.
+.PP
+bash & wget example: \fCexport OAUTH_HTTP_CMD='wget \-q \-U 'liboauth-agent/0.1' \-\-post-data='%p' '%u' '\fP
+.PP
+NOTE: This function uses the curl's default HTTP-POST Content-Type: application/x-www-form-urlencoded which is the only option allowed by oauth core 1.0 spec. Experimental code can use the Environment variable to transmit custom HTTP headers or parameters.
+.PP
+WARNING: this is a tentative function. it's convenient and handy for testing or developing OAuth code. But don't rely on this function to become a stable part of this API. It does not do much error checking for one thing..
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to query 
+.br
+\fIp\fP postargs to send along with the HTTP request. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+replied content from HTTP server. needs to be freed by caller. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthexample.c\fP, and \fBtests/oauthtest.c\fP.
+.SS "char* oauth_http_post2 (const char * u, const char * p, const char * customheader)"
+.PP
+do a HTTP POST request, wait for it to finish and return the content of the reply. (requires libcurl)
+.PP
+It's equivalent to /ref oauth_http_post, but offers the possibility to specify a custom HTTP header and has no support for commandline-curl.
+.PP
+If liboauth is compiled \fBwithout\fP libcurl this function always returns NULL.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to query 
+.br
+\fIp\fP postargs to send along with the HTTP request. 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for none) Multiple header elements can be passed separating them with '\\r\\n' 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+replied content from HTTP server. needs to be freed by caller. 
+.RE
+.PP
+
+.SS "int oauth_param_exists (char ** argv, int argc, char * key)"
+.PP
+search array for parameter key. \fBParameters:\fP
+.RS 4
+\fIargv\fP length of array to search 
+.br
+\fIargc\fP parameter array to search 
+.br
+\fIkey\fP key of parameter to check.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+FALSE (0) if array does not contain a parameter with given key, TRUE (1) otherwise. 
+.RE
+.PP
+
+.SS "char* oauth_post_data (const char * u, const char * data, size_t len, const char * customheader)"
+.PP
+http post raw data the returned string needs to be freed by the caller (requires libcurl) see dislaimer: /ref oauth_http_post
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to retrieve 
+.br
+\fIdata\fP data to post 
+.br
+\fIlen\fP length of the data in bytes. 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for default) Multiple header elements can be passed separating them with '\\r\\n' 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returned HTTP reply or NULL on error 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthbodyhash.c\fP.
+.SS "char* oauth_post_data_with_callback (const char * u, const char * data, size_t len, const char * customheader, void(*)(void *, int, size_t, size_t) callback, void * callback_data)"
+.PP
+http post raw data, with callback. the returned string needs to be freed by the caller (requires libcurl)
+.PP
+Invokes the callback - in no particular order - when HTTP-request status updates occur. The callback is called with: void * callback_data: supplied on function call. int type: 0=data received, 1=data sent. size_t size: amount of data received or amount of data sent so far size_t totalsize: original amount of data to send, or amount of data received
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to retrieve 
+.br
+\fIdata\fP data to post along 
+.br
+\fIlen\fP length of the file in bytes. set to '0' for autodetection 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for default) Multiple header elements can be passed separating them with '\\r\\n' 
+.br
+\fIcallback\fP specify the callback function 
+.br
+\fIcallback_data\fP specify data to pass to the callback function 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returned HTTP reply or NULL on error 
+.RE
+.PP
+
+.SS "char* oauth_post_file (const char * u, const char * fn, const size_t len, const char * customheader)"
+.PP
+http post raw data from file. the returned string needs to be freed by the caller (requires libcurl)
+.PP
+see dislaimer: /ref oauth_http_post
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to retrieve 
+.br
+\fIfn\fP filename of the file to post along 
+.br
+\fIlen\fP length of the file in bytes. set to '0' for autodetection 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for default). Multiple header elements can be passed separating them with '\\r\\n' 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returned HTTP reply or NULL on error 
+.RE
+.PP
+
+.SS "char* oauth_send_data (const char * u, const char * data, size_t len, const char * customheader, const char * httpMethod)"
+.PP
+http send raw data. similar to /ref oauth_http_post but provides for specifying the HTTP request method.
+.PP
+the returned string needs to be freed by the caller (requires libcurl)
+.PP
+see dislaimer: /ref oauth_http_post
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to retrieve 
+.br
+\fIdata\fP data to post 
+.br
+\fIlen\fP length of the data in bytes. 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for default) Multiple header elements can be passed separating them with '\\r\\n' 
+.br
+\fIhttpMethod\fP specify http verb ('GET'/'POST'/'PUT'/'DELETE') to be used. if httpMethod is NULL, a POST is executed. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returned HTTP reply or NULL on error 
+.RE
+.PP
+
+.SS "char* oauth_send_data_with_callback (const char * u, const char * data, size_t len, const char * customheader, void(*)(void *, int, size_t, size_t) callback, void * callback_data, const char * httpMethod)"
+.PP
+http post raw data, with callback. the returned string needs to be freed by the caller (requires libcurl)
+.PP
+Invokes the callback - in no particular order - when HTTP-request status updates occur. The callback is called with: void * callback_data: supplied on function call. int type: 0=data received, 1=data sent. size_t size: amount of data received or amount of data sent so far size_t totalsize: original amount of data to send, or amount of data received
+.PP
+\fBParameters:\fP
+.RS 4
+\fIu\fP url to retrieve 
+.br
+\fIdata\fP data to post along 
+.br
+\fIlen\fP length of the file in bytes. set to '0' for autodetection 
+.br
+\fIcustomheader\fP specify custom HTTP header (or NULL for default) Multiple header elements can be passed separating them with '\\r\\n' 
+.br
+\fIcallback\fP specify the callback function 
+.br
+\fIcallback_data\fP specify data to pass to the callback function 
+.br
+\fIhttpMethod\fP specify http verb ('GET'/'POST'/'PUT'/'DELETE') to be used. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+returned HTTP reply or NULL on error 
+.RE
+.PP
+
+.SS "char* oauth_serialize_url (int argc, int start, char ** argv)"
+.PP
+build a url query string from an array. \fBParameters:\fP
+.RS 4
+\fIargc\fP the total number of elements in the array 
+.br
+\fIstart\fP element in the array at which to start concatenating. 
+.br
+\fIargv\fP parameter-array to concatenate. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+url string needs to be freed by the caller. 
+.RE
+.PP
+
+.SS "char* oauth_serialize_url_parameters (int argc, char ** argv)"
+.PP
+build a query parameter string from an array. This function is a shortcut for \fBoauth_serialize_url\fP (argc, 1, argv). It strips the leading host/path, which is usually the first element when using oauth_split_url_parameters on an URL.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargc\fP the total number of elements in the array 
+.br
+\fIargv\fP parameter-array to concatenate. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+url string needs to be freed by the caller. 
+.RE
+.PP
+
+.SS "char* oauth_serialize_url_sep (int argc, int start, char ** argv, char * sep, int mod)"
+.PP
+encode query parameters from an array. \fBParameters:\fP
+.RS 4
+\fIargc\fP the total number of elements in the array 
+.br
+\fIstart\fP element in the array at which to start concatenating. 
+.br
+\fIargv\fP parameter-array to concatenate. 
+.br
+\fIsep\fP separator for parameters (usually '&') 
+.br
+\fImod\fP - bitwise modifiers: 1: skip all values that start with 'oauth_' 2: skip all values that don't start with 'oauth_' 4: double quotation marks are added around values (use with sep ', ' for HTTP Authorization header). 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+url string needs to be freed by the caller. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthtest2.c\fP.
+.SS "char* oauth_sign_array (int * argcp, char *** argvp, char ** postargs, \fBOAuthMethod\fP method, const char * c_key, const char * c_secret, const char * t_key, const char * t_secret)"\fBDeprecated\fP
+.RS 4
+Use \fBoauth_sign_array2()\fP instead.
+.RE
+.PP
+
+.SS "char* oauth_sign_array2 (int * argcp, char *** argvp, char ** postargs, \fBOAuthMethod\fP method, const char * http_method, const char * c_key, const char * c_secret, const char * t_key, const char * t_secret)"
+.PP
+same as /ref oauth_sign_url with the url already split into parameter array \fBParameters:\fP
+.RS 4
+\fIargcp\fP pointer to array length int 
+.br
+\fIargvp\fP pointer to array values (argv[0]='http://example.org:80/' argv[1]='first=QueryParamater' .. the array is modified: fi. oauth_ parameters are added) These arrays can be generated with /ref oauth_split_url_parameters or /ref oauth_split_post_paramters.
+.br
+\fIpostargs\fP This parameter points to an area where the return value is stored. If 'postargs' is NULL, no value is stored.
+.br
+\fImethod\fP specify the signature method to use. It is of type \fBOAuthMethod\fP and most likely \fBOA_HMAC\fP.
+.br
+\fIhttp_method\fP The HTTP request method to use (ie 'GET', 'PUT',..) If NULL is given as 'http_method' this defaults to 'GET' when 'postargs' is also NULL and when postargs is not NULL 'POST' is used.
+.br
+\fIc_key\fP consumer key 
+.br
+\fIc_secret\fP consumer secret 
+.br
+\fIt_key\fP token key 
+.br
+\fIt_secret\fP token secret
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the signed url or NULL if an error occurred. 
+.RE
+.PP
+
+.SS "void oauth_sign_array2_process (int * argcp, char *** argvp, char ** postargs, \fBOAuthMethod\fP method, const char * http_method, const char * c_key, const char * c_secret, const char * t_key, const char * t_secret)"
+.PP
+the back-end behind by /ref oauth_sign_array2. however it does not serialize the signed URL again. The user needs to call /ref oauth_serialize_url (oA) and /ref oauth_free_array to do so.
+.PP
+This allows to split parts of the URL to be used for OAuth HTTP Authorization header: see http://oauth.net/core/1.0a/#consumer_req_param the oauthtest2 example code does so.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIargcp\fP pointer to array length int 
+.br
+\fIargvp\fP pointer to array values (argv[0]='http://example.org:80/' argv[1]='first=QueryParamater' .. the array is modified: fi. oauth_ parameters are added) These arrays can be generated with /ref oauth_split_url_parameters or /ref oauth_split_post_paramters.
+.br
+\fIpostargs\fP This parameter points to an area where the return value is stored. If 'postargs' is NULL, no value is stored.
+.br
+\fImethod\fP specify the signature method to use. It is of type \fBOAuthMethod\fP and most likely \fBOA_HMAC\fP.
+.br
+\fIhttp_method\fP The HTTP request method to use (ie 'GET', 'PUT',..) If NULL is given as 'http_method' this defaults to 'GET' when 'postargs' is also NULL and when postargs is not NULL 'POST' is used.
+.br
+\fIc_key\fP consumer key 
+.br
+\fIc_secret\fP consumer secret 
+.br
+\fIt_key\fP token key 
+.br
+\fIt_secret\fP token secret
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+void 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthtest2.c\fP.
+.SS "char* oauth_sign_hmac_sha1 (const char * m, const char * k)"
+.PP
+returns base64 encoded HMAC-SHA1 signature for given message and key. both data and key need to be urlencoded.
+.PP
+the returned string needs to be freed by the caller
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP message to be signed 
+.br
+\fIk\fP key used for signing 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+signature string. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/selftest_wiki.c\fP.
+.SS "char* oauth_sign_hmac_sha1_raw (const char * m, const size_t ml, const char * k, const size_t kl)"
+.PP
+same as \fBoauth_sign_hmac_sha1\fP but allows to specify length of message and key (in case they contain null chars). \fBParameters:\fP
+.RS 4
+\fIm\fP message to be signed 
+.br
+\fIml\fP length of message 
+.br
+\fIk\fP key used for signing 
+.br
+\fIkl\fP length of key 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+signature string. 
+.RE
+.PP
+
+.SS "char* oauth_sign_plaintext (const char * m, const char * k)"
+.PP
+returns plaintext signature for the given key. the returned string needs to be freed by the caller
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP message to be signed 
+.br
+\fIk\fP key used for signing 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+signature string 
+.RE
+.PP
+
+.SS "char* oauth_sign_rsa_sha1 (const char * m, const char * k)"
+.PP
+returns RSA-SHA1 signature for given data. the returned signature needs to be freed by the caller.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP message to be signed 
+.br
+\fIk\fP private-key PKCS and Base64-encoded 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+base64 encoded signature string. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/selftest_wiki.c\fP.
+.SS "char* oauth_sign_url (const char * url, char ** postargs, \fBOAuthMethod\fP method, const char * c_key, const char * c_secret, const char * t_key, const char * t_secret)"\fBDeprecated\fP
+.RS 4
+Use \fBoauth_sign_url2()\fP instead.
+.RE
+.PP
+
+.SS "char* oauth_sign_url2 (const char * url, char ** postargs, \fBOAuthMethod\fP method, const char * http_method, const char * c_key, const char * c_secret, const char * t_key, const char * t_secret)"
+.PP
+calculate OAuth-signature for a given HTTP request URL, parameters and oauth-tokens. if 'postargs' is NULL a 'GET' request is signed and the signed URL is returned. Else this fn will modify 'postargs' to point to memory that contains the signed POST-variables and returns the base URL.
+.PP
+both, the return value and (if given) 'postargs' need to be freed by the caller.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIurl\fP The request URL to be signed. append all GET or POST query-parameters separated by either '?' or '&' to this parameter.
+.br
+\fIpostargs\fP This parameter points to an area where the return value is stored. If 'postargs' is NULL, no value is stored.
+.br
+\fImethod\fP specify the signature method to use. It is of type \fBOAuthMethod\fP and most likely \fBOA_HMAC\fP.
+.br
+\fIhttp_method\fP The HTTP request method to use (ie 'GET', 'PUT',..) If NULL is given as 'http_method' this defaults to 'GET' when 'postargs' is also NULL and when postargs is not NULL 'POST' is used.
+.br
+\fIc_key\fP consumer key 
+.br
+\fIc_secret\fP consumer secret 
+.br
+\fIt_key\fP token key 
+.br
+\fIt_secret\fP token secret
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+the signed url or NULL if an error occurred. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthbodyhash.c\fP, \fBtests/oauthexample.c\fP, and \fBtests/oauthtest.c\fP.
+.SS "char* oauth_sign_xmpp (const char * xml, \fBOAuthMethod\fP method, const char * c_secret, const char * t_secret)"
+.PP
+xep-0235 - TODO 
+.SS "int oauth_split_post_paramters (const char * url, char *** argv, short qesc)"
+.PP
+splits the given url into a parameter array. (see \fBoauth_serialize_url\fP and \fBoauth_serialize_url_parameters\fP for the reverse)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIurl\fP the url or query-string to parse. 
+.br
+\fIargv\fP pointer to a (char *) array where the results are stored. The array is re-allocated to match the number of parameters and each parameter-string is allocated with strdup. - The memory needs to be freed by the caller. 
+.br
+\fIqesc\fP use query parameter escape (vs post-param-escape) - if set to 1 all '+' are treated as spaces ' '
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of parameter(s) in array. 
+.RE
+.PP
+
+.SS "int oauth_split_url_parameters (const char * url, char *** argv)"
+.PP
+splits the given url into a parameter array. (see \fBoauth_serialize_url\fP and \fBoauth_serialize_url_parameters\fP for the reverse) (see \fBoauth_split_post_paramters\fP for a more generic version)
+.PP
+\fBParameters:\fP
+.RS 4
+\fIurl\fP the url or query-string to parse; may be NULL 
+.br
+\fIargv\fP pointer to a (char *) array where the results are stored. The array is re-allocated to match the number of parameters and each parameter-string is allocated with strdup. - The memory needs to be freed by the caller.
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of parameter(s) in array. 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/oauthexample.c\fP, \fBtests/oauthtest.c\fP, and \fBtests/oauthtest2.c\fP.
+.SS "int oauth_time_independent_equals (const char * a, const char * b)"
+.PP
+compare two strings in constant-time. wrapper to \fBoauth_time_independent_equals_n\fP which calls strlen() for each argument.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP string to compare 
+.br
+\fIb\fP string to compare
+.RE
+.PP
+returns 0 (false) if strings are not equal, and 1 (true) if strings are equal. 
+.SS "int oauth_time_independent_equals_n (const char * a, const char * b, size_t len_a, size_t len_b)"
+.PP
+compare two strings in constant-time (as to not let an attacker guess how many leading chars are correct: http://rdist.root.org/2010/01/07/timing-independent-array-comparison/ ) \fBParameters:\fP
+.RS 4
+\fIa\fP string to compare 
+.br
+\fIb\fP string to compare 
+.br
+\fIlen_a\fP length of string a 
+.br
+\fIlen_b\fP length of string b
+.RE
+.PP
+returns 0 (false) if strings are not equal, and 1 (true) if strings are equal. 
+.SS "int oauth_time_indepenent_equals (const char * a, const char * b)"\fBDeprecated\fP
+.RS 4
+Use \fBoauth_time_independent_equals()\fP instead.
+.RE
+.PP
+
+.SS "int oauth_time_indepenent_equals_n (const char * a, const char * b, size_t len_a, size_t len_b)"\fBDeprecated\fP
+.RS 4
+Use \fBoauth_time_independent_equals_n()\fP instead.
+.RE
+.PP
+
+.SS "char* oauth_url_escape (const char * string)"
+.PP
+Escape 'string' according to RFC3986 and http://oauth.net/core/1.0/#encoding_parameters. \fBParameters:\fP
+.RS 4
+\fIstring\fP The data to be encoded 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+encoded string otherwise NULL The caller must free the returned string. 
+.RE
+.PP
+
+.SS "char* oauth_url_unescape (const char * string, size_t * olen)"
+.PP
+Parse RFC3986 encoded 'string' back to unescaped version. \fBParameters:\fP
+.RS 4
+\fIstring\fP The data to be unescaped 
+.br
+\fIolen\fP unless NULL the length of the returned string is stored there. 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+decoded string or NULL The caller must free the returned string. 
+.RE
+.PP
+
+.SS "int oauth_verify_rsa_sha1 (const char * m, const char * c, const char * s)"
+.PP
+verify RSA-SHA1 signature. returns the output of EVP_VerifyFinal() for a given message, cert/pubkey and signature.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP message to be verified 
+.br
+\fIc\fP public-key or x509 certificate 
+.br
+\fIs\fP base64 encoded signature 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+1 for a correct signature, 0 for failure and \-1 if some other error occurred 
+.RE
+.PP
+
+.PP
+\fBExamples: \fP
+.in +1c
+\fBtests/selftest_wiki.c\fP.
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for OAuth library functions from the source code.

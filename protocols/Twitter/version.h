@@ -17,4 +17,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(0, 0, 8, 4)
+#define __VERSION_DWORD             PLUGIN_MAKE_VERSION(1, 0, 0, 0)

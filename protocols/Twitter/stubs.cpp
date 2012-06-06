@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
 #include "proto.h"
 
 HANDLE TwitterProto::AddToListByEvent(int flags,int iContact,HANDLE hDbEvent)
@@ -28,7 +27,7 @@ int TwitterProto::Authorize(HANDLE hContact)
 	return 0;
 }
 
-int TwitterProto::AuthDeny(HANDLE hContact,const TCHAR *reason)
+int TwitterProto::AuthDeny(HANDLE hContact,const char *reason)
 {
 	return 0;
 }
@@ -38,7 +37,7 @@ int TwitterProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
 	return 0;
 }
 
-int TwitterProto::AuthRequest(HANDLE hContact,const TCHAR *message)
+int TwitterProto::AuthRequest(HANDLE hContact,const char *message)
 {
 	return 0;
 }
@@ -49,7 +48,7 @@ HANDLE TwitterProto::ChangeInfo(int type,void *info_data)
 	return 0;
 }
 
-HANDLE TwitterProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const TCHAR *path)
+HANDLE TwitterProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const char *path)
 {
 	return 0;
 }
@@ -59,17 +58,18 @@ int TwitterProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
 	return 0;
 }
 
-int TwitterProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const TCHAR *reason)
+int TwitterProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const char *reason)
 {
 	return 0;
 }
 
-int TwitterProto::FileResume(HANDLE hTransfer,int *action,const TCHAR **filename)
+int TwitterProto::FileResume(HANDLE hTransfer,int *action,const char **filename)
 {
 	return 0;
 }
 
-HANDLE TwitterProto::SearchByName(const TCHAR *nick,const TCHAR *first_name, const TCHAR *last_name)
+HANDLE TwitterProto::SearchByName(const char *nick,const char *first_name,
+                                  const char *last_name)
 {
 	return 0;
 }
@@ -89,7 +89,7 @@ int TwitterProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
 	return 0;
 }
 
-int TwitterProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
+int TwitterProto::RecvFile(HANDLE hContact,PROTORECVFILE *)
 {
 	return 0;
 }
@@ -104,7 +104,7 @@ int TwitterProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *h
 	return 0;
 }
 
-HANDLE TwitterProto::SendFile(HANDLE hContact,const TCHAR *desc, TCHAR **files)
+HANDLE TwitterProto::SendFile(HANDLE hContact,const char *desc, char **files)
 {
 	return 0;
 }
@@ -129,7 +129,7 @@ int TwitterProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
 	return 0;
 }
 
-int TwitterProto::SetAwayMsg(int status,const TCHAR *msg)
+int TwitterProto::SetAwayMsg(int status,const char *msg)
 {
 	return 0;
 }

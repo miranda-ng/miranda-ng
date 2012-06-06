@@ -1,0 +1,19 @@
+Begin3
+Title:		liboauth
+Version:	@VERSION@
+Entered-date:	@ISODATE@
+Description:	OAuth - secure authentication for web applications
+		@configure_input@
+		liboauth implements request signing and url escape functions
+		according to the OAuth standard. see http://oauth.net/
+Keywords:	OAuth
+Author: 	robin@gareus.org (Robin Gareus)
+Maintained-by:	robin@gareus.org (Robin Gareus)
+Primary-site:	liboauth.sf.net /pool/
+		384k liboauth-@VERSION@.tar.gz
+		500 liboauth.lsm
+Alternate-site: 
+Original-site:  
+Platforms:      
+Copying-policy:	GNU copyleft
+End

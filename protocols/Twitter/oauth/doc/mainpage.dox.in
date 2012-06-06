@@ -1,0 +1,112 @@
+/**
+@mainpage OAuth library functions
+
+\image html libOAuth.png "libOAuth"
+
+@section intro Introduction
+
+ liboauth is a collection of POSIX-c functions implementing the <a href="http://oauth.net/">OAuth</a> Core <a href="http://tools.ietf.org/html/rfc5849">RFC 5849</a> standard.
+ liboauth provides functions to escape and encode parameters according to OAuth specification and offers high-level functionality to sign requests or verify OAuth signatures as well as perform HTTP requests.
+ 
+ liboauth depends on either on the <a href="http://openssl.org/">OpenSSL</a> library or on 
+ <a href="http://www.mozilla.org/projects/security/pki/nss/">NSS</a> (Mozilla's Network Security Services)
+ , which are used for generating the hash/signature, and optionally <a href="http://curl.haxx.se/libcurl/c/">libcurl</a> for issuing HTTP requests. 
+ 
+ The source includes example code and a self-tests based on <a href="http://wiki.oauth.net/TestCases">http://wiki.oauth.net/TestCases</a>. The library has been tested against the http://oauth-sandbox.mediamatic.nl (now offline) and http://term.ie/oauth/example test servers using commandline-cURL, libcurl and a QT4.3.2 QHttp C++ application on win32 (mingw), gnu/Linux and Mac/OSX.
+
+@section installation Installation
+ The source is debianized. On Debian systems <tt>debian-buildpackage</tt> can be used to compile and <tt>dpkg -i</tt> to install <em>liboauth</em> and <em>liboauth-dev</em> packages.
+
+ liboauth uses autotools and libtools. The tar.gz package includes the <tt>configure</tt> script, but if you get the source from the repository, you first need to generate the build environment with something alike:
+ <tt>aclocal; autoheader; libtoolize --copy; autoconf; automake --gnu --add-missing --copy</tt>. (<i>OSX users use <tt>glibtoolize</tt></i>). 
+ 
+ run <tt>./configure</tt> and build liboauth with <tt>make</tt>. see the INSTALL file for further instructions on gnu autotools.
+
+ run <tt>./configure --help</tt> for information on optional features (<tt>--disable-curl</tt>, <tt>--disable-libcurl</tt>, <tt>--enable-nss</tt>, <tt>--with-curltimeout[=&lt;int&gt;]</tt>).
+
+ If <a href="http://www.stack.nl/~dimitri/doxygen/">Doxygen</a> is available, the documentation can be rendered from the source by calling <tt>make dox</tt>. The http://wiki.oauth.net/TestCases scenarios in the example code can be run with <tt>make check</tt>.
+
+@section usage Usage
+ Consult \ref oauth.h for a detailed reference of available functions. This documentation is also available as unix manual page: <tt>man 3 oauth</tt>.  
+
+ See <tt>tests/oauthtest.c</tt> for the self-test code and example. <tt>tests/oauthexample.c</tt> implements a simple hardcoded OAuth-consumer.
+ If you simply want to calculate the OAuth-signature, all you need is \ref oauth_sign_url.  
+ Future releases might include more elaborate usage information: Feel free to ask questions.
+
+ <a href="http://rg42.org/oss/oauth/">oauth-utils</a> includes a command-line OAuth-consumer and signature-verification tool using liboauth.
+
+@section download Download
+
+  Download Source: <a href="http://sourceforge.net/projects/liboauth/files/liboauth-@VERSION@.tar.gz/download">liboauth-@VERSION@.tar.gz</a>
+  &nbsp;<a href="http://liboauth.svn.sourceforge.net/viewvc/liboauth/trunk/ChangeLog?revision=HEAD&view=markup">Changelog</a>.
+
+  liboauth is maintained at sourceforge subversion repositories:
+  <a href="http://liboauth.svn.sourceforge.net/viewvc/liboauth/">Browse Web SVN</a> URL: <tt>https://liboauth.svn.sourceforge.net/svnroot/liboauth/</tt>, and mirrored at the <a href="http://oauth.googlecode.com/svn/code/c/liboauth/">OAuth googlecode repository</a>.
+
+  <!--
+  The development branch is available from <tt>git://rg42.org/liboauth</tt> or download a <a href="http://rg42.org/gitweb/?p=liboauth.git;a=snapshot;h=head">snapshot</a>.
+  !-->
+
+@section bug Bugs
+ Send bug reports, patches or suggestions to robin @ gareus . org.
+
+ Ask the <a href="http://oauth.net/community/">oauth-community</a> or join the <a href="http://groups.google.com/group/oauth/">mailing list</a> for discussion.
+
+@section license License
+ The source-code of liboauth can be distributed under <a href="http://www.opensource.org/licenses/mit-license.php">MIT License</a>,
+ or at your option in terms of the the <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html">GNU General Public License</a>.
+
+ Note: OpenSSL is not strictly compatible with the GPL license.
+ An exemption (to the GPL) allowing to link and redistribute liboauth with the OpenSSL library is is included in the source files.
+ More information is available in the 
+ <a href="http://liboauth.svn.sourceforge.net/viewvc/liboauth/trunk/README?revision=HEAD&view=markup">README</a>.
+ You can avoid this whole issue by using NSS instead of OpenSSL, configuring liboauth with <tt>--enable-nss</tt>.
+
+ The Debian packaging that comes with the source-code is licensed under the GNU General Public License.
+
+MIT License (source-code):
+<pre>
+  Copyright 2007-2010 Robin Gareus 
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.
+</pre>
+
+GPL (Debian packaging and alternative source-code license):
+<pre>
+  This package is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public
+  License as published by the Free Software Foundation; either
+  version 2 of the License, or (at your option) any later version.
+
+  This package is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  General Public License for more details.
+
+  You should have received a copy of the GNU General Public
+  License along with this package; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+</pre>
+
+\example tests/oauthtest.c
+\example tests/oauthtest2.c
+\example tests/oauthexample.c
+\example tests/oauthbodyhash.c
+\example tests/selftest_wiki.c
+*/

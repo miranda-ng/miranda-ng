@@ -15,8 +15,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
 #include "utility.h"
+//#include "tc2.h"
 
 #include <io.h>
 
@@ -34,75 +34,173 @@ std::string b64encode(const std::string &s)
 	return ret;
 }
 
-http::response mir_twitter::slurp(const std::string &url, http::method meth, const std::string &post_data)
+http::response mir_twitter::slurp(const std::string &url,http::method meth,
+	 OAuthParameters postParams)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
 	NETLIBHTTPREQUEST *resp;
 	req.requestType = (meth == http::get) ? REQUEST_GET:REQUEST_POST;
-	req.szUrl = ( char* )url.c_str();
+	req.szUrl = const_cast<char*>(url.c_str());
 
-	// probably not super-efficient to do this every time, but I don't really care
-	std::string auth = "Basic " + b64encode(username_ + ":" + password_);
+	//std::wstring url_WSTR(url.length(),L' ');
+	//std::copy(url.begin(), url.end(), url_WSTR.begin());
+	std::wstring url_WSTR = UTF8ToWide(url);
+	std::string pdata_STR;
+	std::wstring pdata_WSTR;
 
-	NETLIBHTTPHEADER hdr[2];
+	std::wstring auth;
+	if (meth == http::get) {
+		if (url_WSTR.size()>0) { WLOG("**SLURP::GET - we have a URL: %s", url_WSTR); }
+		if (consumerKey_.size()>0) { LOG("**SLURP::GET - we have a consumerKey"); }
+		if (consumerSecret_.size()>0) { LOG("**SLURP::GET - we have a consumerSecret"); }
+		if (oauthAccessToken_.size()>0) { LOG("**SLURP::GET - we have a oauthAccessToken"); }
+		if (oauthAccessTokenSecret_.size()>0) { LOG("**SLURP::GET - we have a oauthAccessTokenSecret"); }
+		if (pin_.size()>0) { LOG("**SLURP::GET - we have a pin"); }
+		//WLOG("consumerSEcret is %s", consumerSecret_);
+		//WLOG("oauthAccessTok is %s", oauthAccessToken_);
+		//WLOG("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
+		//WLOG("pin is %s", pin_);
+		
+		auth = OAuthWebRequestSubmit(url_WSTR, L"GET", NULL, consumerKey_, consumerSecret_, 
+			oauthAccessToken_, oauthAccessTokenSecret_, pin_);
+	}
+	else if (meth == http::post) {
+
+		//OAuthParameters postParams;
+		if (url_WSTR.size()>0) { WLOG("**SLURP::POST - we have a URL: %s", url_WSTR); }
+		if (consumerKey_.size()>0) { LOG("**SLURP::POST - we have a consumerKey"); }
+		if (consumerSecret_.size()>0) { LOG("**SLURP::POST - we have a consumerSecret"); }
+		if (oauthAccessToken_.size()>0) { LOG("**SLURP::POST - we have a oauthAccessToken"); }
+		if (oauthAccessTokenSecret_.size()>0) { LOG("**SLURP::POST - we have a oauthAccessTokenSecret"); }
+		if (pin_.size()>0) { LOG("**SLURP::POST - we have a pin"); }
+
+		//WLOG("consumerKey is %s", consumerKey_);
+		//WLOG("consumerSEcret is %s", consumerSecret_);
+		//WLOG("oauthAccessTok is %s", oauthAccessToken_);
+		//WLOG("oautAccessTokSEc is %s", oauthAccessTokenSecret_);
+
+		//std::wstring pdata_WSTR(post_data.length(),L' ');
+		//std::copy(post_data.begin(), post_data.end(), pdata_WSTR.begin());
+
+		//postParams[L"status"] = UrlEncode(pdata_WSTR);
+		//postParams[L"source"] = L"mirandaim";
+
+		pdata_WSTR = BuildQueryString(postParams);
+
+		WLOG("**SLURP::POST - post data is: %s", pdata_WSTR); 
+
+		auth = OAuthWebRequestSubmit(url_WSTR, L"POST", &postParams, consumerKey_, consumerSecret_, 
+			oauthAccessToken_, oauthAccessTokenSecret_);
+		//WLOG("**SLURP::POST auth is %s", auth);
+	}
+	else {
+		LOG("**SLURP - There is something really wrong.. the http method was neither get or post.. WHY??");
+	}
+
+	//std::string auth_STR(auth.length(), ' ');
+	//std::copy(auth.begin(), auth.end(), auth_STR.begin());
+
+	std::string auth_STR = WideToUTF8(auth);
+
+	NETLIBHTTPHEADER hdr[3];
 	hdr[0].szName = "Authorization";
-	hdr[0].szValue = (char*)( auth.c_str());
+	hdr[0].szValue = const_cast<char*>(auth_STR.c_str());
 
 	req.headers = hdr;
 	req.headersCount = 1;
 
-	if (meth == http::post)
+	if(meth == http::post)
 	{
 		hdr[1].szName = "Content-Type";
 		hdr[1].szValue = "application/x-www-form-urlencoded";
+		hdr[2].szName  = "Cache-Control";
+		hdr[2].szValue = "no-cache";
 
-		req.headersCount = 2;
-		req.dataLength = post_data.size();
-		req.pData = ( char* )post_data.c_str();
+		//char *pdata_STR = new char[pdata_WSTR.length() + 1];
+		//sprintf(pdata_STR,"%ls",pdata_WSTR.c_str());
+
+		pdata_STR = WideToUTF8(pdata_WSTR);
+
+		req.headersCount = 3;
+		req.dataLength = pdata_STR.size();
+		req.pData = const_cast<char*>(pdata_STR.c_str());
+		LOG("**SLURP::POST - req.pdata is %s", req.pData);
 	}
 
+	req.flags = NLHRF_HTTP11 | NLHRF_PERSISTENT | NLHRF_REDIRECT;
+	req.nlc = httpPOST_;
 	http::response resp_data;
-
+	LOG("**SLURP - just before calling HTTPTRANSACTION");
 	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
-
-	if (resp)
+		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req) ));
+	LOG("**SLURP - HTTPTRANSACTION complete.");
+	if(resp)
 	{
+		LOG("**SLURP - the server has responded!");
+		httpPOST_ = resp->nlc;
 		resp_data.code = resp->resultCode;
 		resp_data.data = resp->pData ? resp->pData:"";
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)resp);
 	}
+	else { 
+		httpPOST_ = NULL; 
+		LOG("SLURP - there was no response!"); 
+	}
 
 	return resp_data;
 }
 
+int mir_twitter::LOG(const char *fmt,...)
+{
+	va_list va;
+	char text[1024];
+	if (!handle_)
+		return 0;
 
+	va_start(va,fmt);
+	mir_vsnprintf(text,sizeof(text),fmt,va);
+	va_end(va);
+
+	return CallService(MS_NETLIB_LOG,(WPARAM)handle_,(LPARAM)text);
+}
+
+int mir_twitter::WLOG(const char* first, const std::wstring last)
+{
+	char *str1 = new char[1024*96];
+	sprintf(str1,"%ls", last.c_str());
+
+	return LOG(first, str1); 
+}
 
 bool save_url(HANDLE hNetlib,const std::string &url,const std::string &filename)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
 	NETLIBHTTPREQUEST *resp;
 	req.requestType = REQUEST_GET;
+	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.szUrl = const_cast<char*>(url.c_str());
 
 	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(hNetlib), reinterpret_cast<LPARAM>(&req)));
+		reinterpret_cast<WPARAM>(hNetlib), reinterpret_cast<LPARAM>(&req) ));
 
 	if (resp)
 	{
-		// Create folder if necessary
-		std::string dir = filename.substr(0,filename.rfind('\\'));
-		if (_access(dir.c_str(),0))
-			CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)dir.c_str());
+		if (resp->resultCode == 200)
+		{
+			// Create folder if necessary
+			std::string dir = filename.substr(0,filename.rfind('\\'));
+			if(_access(dir.c_str(),0))
+				CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)dir.c_str());
 
-		// Write to file
-		FILE *f = fopen(filename.c_str(),"wb");
-		fwrite(resp->pData,1,resp->dataLength,f);
-		fclose(f);
+			// Write to file
+			FILE *f = fopen(filename.c_str(),"wb");
+			fwrite(resp->pData,1,resp->dataLength,f);
+			fclose(f);
+		}
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)resp);
-		return true;
+		return resp->resultCode == 200;
 	}
 	else
 		return false;
@@ -125,9 +223,9 @@ int ext_to_format(const std::string &ext)
 {
 	for(size_t i=0; i<SIZEOF(formats); i++)
 	{
-		if (ext == formats[i].ext)
+		if(ext == formats[i].ext)
 			return formats[i].fmt;
 	}
-
+	
 	return PA_FORMAT_UNKNOWN;
 }

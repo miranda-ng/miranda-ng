@@ -1,0 +1,36 @@
+Robin Gareus <robin@gareus.org> has written and is maintaining liboauth.
+
+The base64 code is used with permission from Jan-Henrik 
+Haukeland <hauk@tildeslash.com>.
+
+escape_url() contains code from curl by Daniel Stenberg <daniel@haxx.se>
+
+cheers to Arjan <arjan@scherpenisse.net> for using and testing this code; and 
+Ralph Meijer <ralphm@ik.nu> for fixing the debian package and quality control.
+
+Kudos to Marc Worrel - http://www.marcworrell.com/ - for an introduction
+to the OAuth API and helping to get this project alive. And last but not 
+standing ovations to the http://oauth.net team who made it possible in i
+the first place.
+
+Marc Powell suggested minor changes and contributed patches to make this 
+library more usable.
+
+Stephen Paul Weber <singpolyma@singpolyma.net> sent patches for the 
+initial Debian package.
+
+Dave Gamble <davegamble@gmail.com> has jumped on board. Writing a lightweight
+c-api for soundcloud, he sent fixes for windows MSVC support and added the
+oauth_curl_post_data_with_callback() function.
+
+Emil A Eklund provided a patch for CURLOPT_TIMEOUT to avoid problems with 
+HTTP timeouts.
+
+Many thanks to Diego Elio Pettenò who sent patches for the build-system and
+packages liboauth for Gentoo. Likewise Tom Parker for Debian, as well as 
+Paul Wise who metorered Bilal Akhtar on debian-mentors. All of which provided
+valuable feedback.
+
+Last but not least, Jeff Squyres inspired the '-Wl,--as-needed' linker flags
+check.
+

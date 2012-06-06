@@ -67,13 +67,13 @@ namespace json
 		{
 			std::string strString;
 
-			if (iUnicode < 0x0080)
+			if(iUnicode < 0x0080)
 			{
 				// character 0x0000 - 0x007f...
 
 				strString.push_back(0x00 | ((iUnicode & 0x007f) >> 0));
 			}
-			else if (iUnicode < 0x0800)
+			else if(iUnicode < 0x0800)
 			{
 				// character 0x0080 - 0x07ff...
 
@@ -138,7 +138,7 @@ namespace json
 				{
 					// 2.1: if it's no escape code, just append to the resulting string...
 
-					if (*szStart != static_cast< typename Iterator::value_type >('\\'))
+					if(*szStart != static_cast< typename Iterator::value_type >('\\'))
 					{
 						// 2.1.1: append the character...
 
@@ -346,7 +346,7 @@ namespace json
 
 					// 1.2: is it the end of the array? if yes => break the loop...
 
-					if (boost::any_cast< array_delimiter >(var.get()) != NULL)
+					if(boost::any_cast< array_delimiter >(var.get()) != NULL)
 					{
 						break;
 					}
@@ -403,7 +403,7 @@ namespace json
 
 					// 1.2: is it the end of the array? if yes => break the loop...
 					
-					if (boost::any_cast< object_delimiter >(var.get()) != NULL)
+					if(boost::any_cast< object_delimiter >(var.get()) != NULL)
 					{
 						break;
 					}
@@ -411,7 +411,7 @@ namespace json
 					// 1.3: if this is not a pair, we have a problem...
 
 					pair * pPair = boost::any_cast< pair >(var.get());
-					if (!pPair)
+					if(!pPair)
 					{
 						/* BIG PROBLEM!! */
 
@@ -571,7 +571,7 @@ namespace json
 
 		// 3: if the input's end wasn't reached or if there is more than one object on the stack => cancel...
 
-		if ((pi.stop != szEnd) || (st.size() != 1))
+		if((pi.stop != szEnd) || (st.size() != 1))
 		{
 			return json::grammar< typename Iterator::value_type >::variant(new boost::any());
 		}

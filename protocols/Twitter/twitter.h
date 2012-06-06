@@ -21,22 +21,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <vector>
 #include <string>
 
-#include "http.h"
-#include <tchar.h>
+using std::string;
+using std::wstring;
+using std::map;
+using std::vector;
 
-#if !defined(tstring)
-	#ifdef _UNICODE
-		#define tstring wstring 
-	#else
-		#define tstring string 
-	#endif
-#endif
+#include "http.h"
+#include "StringConv.h"
+#include "stdafx.h"
 
 typedef unsigned long long twitter_id;
+typedef std::map<std::wstring, std::wstring> OAuthParameters;
 
 struct twitter_status
 {
-	std::tstring text;
+	std::string text;
 	twitter_id id;
 	time_t time;
 };
@@ -44,7 +43,7 @@ struct twitter_status
 struct twitter_user
 {
 	std::string username;
-	std::tstring real_name;
+	std::string real_name;
 	std::string profile_image_url;
 	twitter_status status;
 };
@@ -64,33 +63,49 @@ class twitter
 {
 public:
 	typedef std::vector<twitter_user> status_list;
-	typedef std::map<std::tstring,status_list> status_map;
+	typedef std::map<std::string,status_list> status_map;
 
 	twitter();
 
-	bool set_credentials(const std::string &username,const std::string &password, bool test = true);
+	bool twitter::set_credentials(const std::string&, const std::wstring&, const std::wstring&, 
+		const std::wstring&, const std::wstring&, const std::wstring &, bool);
+
+	http::response twitter::request_token();
+	http::response twitter::request_access_tokens();
+
+
 	void set_base_url(const std::string &base_url);
 
 	const std::string & get_username() const;
 	const std::string & get_base_url() const;
 
-	bool get_info(const std::tstring &name,twitter_user *);
-	bool get_info_by_email(const std::tstring &email,twitter_user *);
+	bool get_info(const std::string &name,twitter_user *);
+	bool get_info_by_email(const std::string &email,twitter_user *);
 	std::vector<twitter_user> get_friends();
 
-	twitter_user add_friend(const std::tstring &name);
-	void remove_friend(const std::tstring &name);
+	twitter_user add_friend(const std::string &name);
+	void remove_friend(const std::string &name);
 
-	void set_status(const std::tstring &text);
+	void set_status(const std::string &text);
 	std::vector<twitter_user> get_statuses(int count=20,twitter_id id=0);
 
-	void send_direct(const std::tstring &name,const std::tstring &text);
+	void send_direct(const std::string &name,const std::string &text);
 	std::vector<twitter_user> get_direct(twitter_id id=0);
 
+	std::string urlencode(const std::string &c);
+	std::wstring UrlEncode( const std::wstring& url );
+	std::string char2hex( char dec );
+
 protected:
-	virtual http::response slurp(const std::string &,http::method, const std::string & = "") = 0;
+	virtual http::response slurp(const std::string &,http::method,
+		 OAuthParameters postParams = OAuthParameters() ) = 0;
 
 	std::string username_;
 	std::string password_;
 	std::string base_url_;
+	std::wstring consumerKey_;
+	std::wstring consumerSecret_;
+	std::wstring oauthAccessToken_;
+	std::wstring oauthAccessTokenSecret_;
+	std::wstring pin_;
 };

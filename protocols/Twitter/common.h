@@ -17,6 +17,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
+#define MIRANDA_VER 0x800
+
+#include <string>
+using std::string;
+using std::wstring;
+#include <map>
+using std::map;
+#include <vector>
+using std::vector;
+#include <list>
+using std::list;
+#include <algorithm>
+using std::min;
+
 #include <windows.h>
 
 #include "resource.h"
@@ -31,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_clist.h>
 #include <m_clistint.h>
 #include <m_clui.h>
+//#include "m_cluiframes.h"
 #include <m_database.h>
 #include <m_history.h>
 #include <m_idle.h>
@@ -45,7 +60,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_skin.h>
 #include <statusmodes.h>
 #include <m_system.h>
-#include <m_system_cpp.h>
 #include <m_userinfo.h>
 #include <m_addcontact.h>
 #include <m_icolib.h>
@@ -57,17 +71,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern HINSTANCE g_hInstance;
 
+#define TWITTER_KEY_NICK		   "Nick"  // we need one called Nick for the chat thingo to work
 #define TWITTER_KEY_UN             "Username"
 #define TWITTER_KEY_PASS           "Password"
+#define TWITTER_KEY_OAUTH_PIN	   "OAuthPIN"
+#define TWITTER_KEY_OAUTH_TOK	   "OAuthToken"
+#define TWITTER_KEY_OAUTH_TOK_SECRET "OAuthTokenSecret"
+#define TWITTER_KEY_OAUTH_ACCESS_TOK "OAuthAccessToken"
+#define TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET "OAuthAccessTokenSecret"
 #define TWITTER_KEY_BASEURL        "BaseURL"
 #define TWITTER_KEY_CHATFEED       "ChatFeed"
 #define TWITTER_KEY_POLLRATE       "PollRate"
+#define TWITTER_KEY_GROUP		   "DefaultGroup"
 
 #define TWITTER_KEY_POPUP_SHOW     "Popup/Show"
 #define TWITTER_KEY_POPUP_SIGNON   "Popup/Signon"
 #define TWITTER_KEY_POPUP_COLBACK  "Popup/ColorBack"
 #define TWITTER_KEY_POPUP_COLTEXT  "Popup/ColorText"
 #define TWITTER_KEY_POPUP_TIMEOUT  "Popup/Timeout"
+
+#define TWITTER_KEY_TWEET_TO_MSG   "TweetToMsg"
 
 #define TWITTER_KEY_SINCEID        "SinceID"
 #define TWITTER_KEY_DMSINCEID      "DMSinceID"
