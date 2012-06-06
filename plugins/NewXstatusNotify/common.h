@@ -26,6 +26,7 @@
 
 #define STRICT
 #define WIN32_LEAN_AND_MEAN
+#define _CRT_SECURE_NO_WARNINGS
 
 #define _WIN32_WINNT 0x0500
 #define WINVER 0x0600
@@ -42,9 +43,11 @@
 #include <stdlib.h>
 #include <tchar.h>
 
-#include "newpluginapi.h"
-#include "statusmodes.h"
-#include "win2k.h"
+#include <newpluginapi.h>
+#include <m_system.h>
+#include <m_system_cpp.h>
+#include <statusmodes.h>
+#include <win2k.h>
 
 #include "m_awaymsg.h"
 #include "m_button.h"

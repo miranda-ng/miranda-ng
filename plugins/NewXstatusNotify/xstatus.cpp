@@ -23,7 +23,7 @@
 #include "utils.h"
 #include "xstatus.h"
 
-extern SortedList *eventList;
+extern LIST<DBEVENT> eventList;
 extern OPTIONS opt;
 extern TEMPLATES templates;
 
@@ -52,13 +52,13 @@ void FreeXSC(XSTATUSCHANGE *xsc)
 
 void RemoveLoggedEvents(HANDLE hContact) 
 {
-	for (int i = eventList->realCount-1; i >= 0; i--)
+	for (int i = eventList.getCount()-1; i >= 0; i--)
 	{
-		DBEVENT *dbevent = (DBEVENT *)eventList->items[i];
+		DBEVENT *dbevent = eventList[i];
 		if (dbevent->hContact == hContact)
 		{
 			CallService(MS_DB_EVENT_DELETE, (WPARAM)dbevent->hContact, (LPARAM)dbevent->hDBEvent);
-			li.List_Remove(eventList, i);
+			eventList.remove(i);
 			mir_free(dbevent);
 		}	
 	}
@@ -312,7 +312,7 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 			DBEVENT *dbevent = (DBEVENT *)mir_alloc(sizeof(DBEVENT));
 			dbevent->hContact = xsc->hContact;
 			dbevent->hDBEvent = hDBEvent;	
-			li.List_Insert(eventList, dbevent, eventList->realCount);
+			eventList.insert(dbevent);
 		}
 	}
 }

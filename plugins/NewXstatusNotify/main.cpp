@@ -34,8 +34,8 @@ MM_INTERFACE mmi = {0};
 UTF8_INTERFACE utfi = {0};
 LIST_INTERFACE li = {0};
 
-SortedList *eventList;
-SortedList *xstatusList;
+LIST<DBEVENT> eventList( 10, 0 );
+LIST<XSTATUSCHANGE> xstatusList( 10, 0 );
 
 HANDLE hEnableDisableMenu, hOptionsInitialize, hModulesLoaded, hUserInfoInitialise;
 HANDLE hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
@@ -117,22 +117,20 @@ HANDLE GetIconHandle(char *szIcon)
 
 __inline void AddXSC(XSTATUSCHANGE *xsc)
 {
-	li.List_Insert(xstatusList, xsc, xstatusList->realCount);
+	xstatusList.insert(xsc);
 }
 
 __inline void RemoveXSC(XSTATUSCHANGE *xsc)
 {
-	int id = li.List_IndexOf(xstatusList, xsc);
+	int id = xstatusList.getIndex(xsc);
 	if (id != -1)
-		li.List_Remove(xstatusList, id);
+		xstatusList.remove(id);
 }
 
 XSTATUSCHANGE *FindXSC(HANDLE hContact)
 {
-	XSTATUSCHANGE *xsc;
-	for (int i = 0; i < xstatusList->realCount; i++)
-	{
-		xsc = (XSTATUSCHANGE *)xstatusList->items[i];
+	for (int i = 0; i < xstatusList.getCount(); i++) {
+		XSTATUSCHANGE* xsc = xstatusList[i];
 		if (xsc->hContact == hContact)
 			return xsc;
 	}
@@ -1383,9 +1381,6 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	InitMainMenuItem();
 	InitTopToolbar();
 
-	eventList = li.List_Create(0, 10);
-	xstatusList = li.List_Create(0, 10);
-
 	hUserInfoInitialise = HookEvent(ME_USERINFO_INITIALISE, UserInfoInitialise);
 	hContactStatusChanged = HookEvent(ME_STATUSCHANGE_CONTACTSTATUSCHANGED, ContactStatusChanged);
 	hMessageWindowOpen = HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
@@ -1439,11 +1434,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	li.List_Destroy(eventList);
-	li.List_Destroy(xstatusList);
-	mir_free(eventList);
-	mir_free(xstatusList);
-
 	UnhookEvent(hContactSettingChanged);
 	UnhookEvent(hOptionsInitialize);
 	UnhookEvent(hModulesLoaded);
