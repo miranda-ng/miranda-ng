@@ -171,6 +171,9 @@ int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 		if (cws->value.type == DBVT_DELETED)
 			return 0;
 
+		if (hContact == NULL)
+			return 0;
+
 		if (strstr(cws->szSetting, "/mood/") || strstr(cws->szSetting, "/activity/")) // Jabber mood or activity changed
 		{
 			char *szSetting;
