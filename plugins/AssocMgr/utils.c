@@ -112,7 +112,7 @@ static int EnumPrefixSettingsProc(const char *pszSetting,LPARAM lParam)
 	if (!strncmp(pszSetting,param->pszPrefix,param->nPrefixLen)) {
 		char **buf;
 		/* resize storage array */
-		buf = (char **)mir_realloc(param->settings,(param->nSettingsCount+1)*sizeof(char*));
+		buf=mir_realloc(param->settings,(param->nSettingsCount+1)*sizeof(char*));
 		if(buf!=NULL) {
 			param->settings=buf;
 			buf[param->nSettingsCount]=mir_strdup(pszSetting);
@@ -142,9 +142,8 @@ BOOL EnumDbPrefixSettings(const char *pszModule,const char *pszSettingPrefix,cha
 
 /************************* Error Output ***************************/
 
-static void MessageBoxIndirectFree(void *param)
+static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)
 {
-	MSGBOXPARAMSA *mbp = (MSGBOXPARAMSA*)param;
 	MessageBoxIndirectA(mbp);
 	mir_free((char*)mbp->lpszCaption); /* does NULL check */
 	mir_free((char*)mbp->lpszText);    /* does NULL check */
@@ -185,7 +184,7 @@ void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
 		case NIIF_WARNING: mbp->dwStyle|=MB_ICONWARNING; break;
 		case NIIF_ERROR:   mbp->dwStyle|=MB_ICONERROR;
 	}
-	mir_forkthread(MessageBoxIndirectFree, mbp);
+	mir_forkthread(MessageBoxIndirectFree,mbp);
 }
 
 // LocalFree() the return value

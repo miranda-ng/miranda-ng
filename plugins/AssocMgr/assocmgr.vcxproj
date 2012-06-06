@@ -182,12 +182,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="assoclist.cpp" />
-    <ClCompile Include="dde.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="reg.cpp" />
-    <ClCompile Include="test.cpp" />
-    <ClCompile Include="utils.cpp" />
+    <ClCompile Include="assoclist.c" />
+    <ClCompile Include="dde.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="reg.c" />
+    <ClCompile Include="test.c" />
+    <ClCompile Include="utils.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="assoclist.h" />
@@ -211,7 +211,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
-    <ResourceCompile Include="version.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

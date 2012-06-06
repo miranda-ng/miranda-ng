@@ -607,7 +607,7 @@ static BOOL InvokeHandler_Worker(const char *pszClassName, const TCHAR *pszParam
 	return TRUE;
 }
 
-INT_PTR InvokeFileHandler(TCHAR *pszFileName)
+INT_PTR InvokeFileHandler(const TCHAR *pszFileName)
 {
 	char *pszClassName, *pszFileExt;
 	TCHAR *p;
@@ -633,7 +633,7 @@ INT_PTR InvokeFileHandler(TCHAR *pszFileName)
 	return res;
 }
 
-INT_PTR InvokeUrlHandler(TCHAR *pszUrl)
+INT_PTR InvokeUrlHandler(const TCHAR *pszUrl)
 {
 	char *pszClassName, *pszProtoPrefix, *p;
 	INT_PTR res = CALLSERVICE_NOTFOUND;

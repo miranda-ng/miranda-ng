@@ -115,7 +115,7 @@ char *MakeUrlClassName(const char *pszUrl)
 	return pszClass;
 }
 
-static BOOL IsFileClassName(char *pszClassName, char **ppszFileExt)
+static BOOL IsFileClassName(const char *pszClassName,const char **ppszFileExt)
 {
 	*ppszFileExt=strchr(pszClassName,'.');
 	return *ppszFileExt!=NULL;
@@ -165,7 +165,7 @@ static BOOL IsValidRunCommand(const TCHAR *pszRunCmd)
 {
 	TCHAR *buf,*pexe,*pargs;
 	TCHAR szFullExe[MAX_PATH],*pszFilePart;
-	buf=lstrcpy((TCHAR*)_alloca((lstrlen(pszRunCmd)+1)*sizeof(TCHAR)),pszRunCmd);
+	buf=lstrcpy(_alloca((lstrlen(pszRunCmd)+1)*sizeof(TCHAR)),pszRunCmd);
 	/* split into executable path and arguments */
 	if(buf[0]==_T('\"')) {
 		pargs=_tcschr(&buf[1],_T('\"'));
