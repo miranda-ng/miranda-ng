@@ -20,6 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "utility.h"
 #include "theme.h"
 #include "ui.h"
+#include "oauth.dev.h"
 
 #include "m_folders.h"
 #include "m_historyevents.h"
@@ -35,8 +36,7 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 	m_szModuleName = mir_strdup (proto_name);
 	m_tszUserName  = mir_tstrdup(username);
 
-	CreateProtoService(m_szModuleName,PS_CREATEACCMGRUI,
-		&TwitterProto::SvcCreateAccMgrUI,this);
+	CreateProtoService(m_szModuleName,PS_CREATEACCMGRUI, &TwitterProto::SvcCreateAccMgrUI,this);
 	CreateProtoService(m_szModuleName,PS_GETNAME,  &TwitterProto::GetName,    this);
 	CreateProtoService(m_szModuleName,PS_GETSTATUS,&TwitterProto::GetStatus,  this);
 

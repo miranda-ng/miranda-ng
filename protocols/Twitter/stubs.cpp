@@ -27,7 +27,7 @@ int TwitterProto::Authorize(HANDLE hContact)
 	return 0;
 }
 
-int TwitterProto::AuthDeny(HANDLE hContact,const char *reason)
+int TwitterProto::AuthDeny(HANDLE hContact,const TCHAR *reason)
 {
 	return 0;
 }
@@ -37,7 +37,7 @@ int TwitterProto::AuthRecv(HANDLE hContact,PROTORECVEVENT *)
 	return 0;
 }
 
-int TwitterProto::AuthRequest(HANDLE hContact,const char *message)
+int TwitterProto::AuthRequest(HANDLE hContact,const TCHAR *message)
 {
 	return 0;
 }
@@ -48,7 +48,7 @@ HANDLE TwitterProto::ChangeInfo(int type,void *info_data)
 	return 0;
 }
 
-HANDLE TwitterProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const char *path)
+HANDLE TwitterProto::FileAllow(HANDLE hContact,HANDLE hTransfer,const TCHAR *path)
 {
 	return 0;
 }
@@ -58,18 +58,17 @@ int TwitterProto::FileCancel(HANDLE hContact,HANDLE hTransfer)
 	return 0;
 }
 
-int TwitterProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const char *reason)
+int TwitterProto::FileDeny(HANDLE hContact,HANDLE hTransfer,const TCHAR *reason)
 {
 	return 0;
 }
 
-int TwitterProto::FileResume(HANDLE hTransfer,int *action,const char **filename)
+int TwitterProto::FileResume(HANDLE hTransfer,int *action,const TCHAR **filename)
 {
 	return 0;
 }
 
-HANDLE TwitterProto::SearchByName(const char *nick,const char *first_name,
-                                  const char *last_name)
+HANDLE TwitterProto::SearchByName(const TCHAR *nick,const TCHAR *first_name, const TCHAR *last_name)
 {
 	return 0;
 }
@@ -89,7 +88,7 @@ int TwitterProto::RecvContacts(HANDLE hContact,PROTORECVEVENT *)
 	return 0;
 }
 
-int TwitterProto::RecvFile(HANDLE hContact,PROTORECVFILE *)
+int TwitterProto::RecvFile(HANDLE hContact,PROTORECVFILET *)
 {
 	return 0;
 }
@@ -104,7 +103,7 @@ int TwitterProto::SendContacts(HANDLE hContact,int flags,int nContacts,HANDLE *h
 	return 0;
 }
 
-HANDLE TwitterProto::SendFile(HANDLE hContact,const char *desc, char **files)
+HANDLE TwitterProto::SendFile(HANDLE hContact,const TCHAR *desc, TCHAR **files)
 {
 	return 0;
 }
@@ -129,7 +128,7 @@ int TwitterProto::SendAwayMsg(HANDLE hContact,HANDLE hProcess,const char *msg)
 	return 0;
 }
 
-int TwitterProto::SetAwayMsg(int status,const char *msg)
+int TwitterProto::SetAwayMsg(int status,const TCHAR *msg)
 {
 	return 0;
 }

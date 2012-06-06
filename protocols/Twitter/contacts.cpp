@@ -23,6 +23,7 @@ void TwitterProto::AddToListWorker(void *p)
 	// TODO: what happens if there is an error?
 	if(p == 0)
 		return;
+	
 	char *name = static_cast<char*>(p);
 
 	try
@@ -48,8 +49,8 @@ HANDLE TwitterProto::AddToList(int flags,PROTOSEARCHRESULT *result)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
-	ForkThread(&TwitterProto::AddToListWorker,this,mir_strdup(result->nick));
-	return AddToClientList(result->nick,"");
+	ForkThread(&TwitterProto::AddToListWorker,this,mir_utf8encodeT(result->nick));
+	return AddToClientList( _T2A(result->nick),"");
 }
 
 // *************************
@@ -98,9 +99,9 @@ int TwitterProto::GetInfo(HANDLE hContact,int info_type)
 
 struct search_query
 {
-	search_query(const std::string &query,bool by_email) : query(query),by_email(by_email)
+	search_query(const std::tstring &_query,bool _by_email) : query(_query),by_email(_by_email)
 	{}
-	std::string query;
+	std::tstring query;
 	bool by_email;
 };
 
@@ -116,11 +117,14 @@ void TwitterProto::DoSearch(void *p)
 	bool found;
 	try
 	{
+		char* p = mir_utf8encodeT( query->query.c_str());
+
 		ScopedLock s(twitter_lock_);
 		if(query->by_email)
-			found = twit_.get_info_by_email(query->query,&info);
+			found = twit_.get_info_by_email(p,&info);
 		else
-			found = twit_.get_info(query->query,&info);
+			found = twit_.get_info(p,&info);
+		mir_free( p );
 	}
 	catch(const std::exception &e)
 	{
@@ -129,14 +133,15 @@ void TwitterProto::DoSearch(void *p)
 		LOG("***** Error searching for contacts: %s",e.what());
 	}
 
-	if(found)
-	{
-		psr.nick      = const_cast<char*>( info.username. c_str() );
-		psr.firstName = const_cast<char*>( info.real_name.c_str() );
+	if(found) {
+		psr.nick      = mir_a2t( info.username. c_str());
+		psr.firstName = mir_a2t( info.real_name.c_str());
 
-		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_DATA,(HANDLE)1,
-			(LPARAM)&psr);
+		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_DATA,(HANDLE)1, (LPARAM)&psr);
 		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_SEARCH,ACKRESULT_SUCCESS,(HANDLE)1,0);
+
+		mir_free(psr.nick);
+		mir_free(psr.firstName);
 	}
 	else
 	{
@@ -146,13 +151,13 @@ void TwitterProto::DoSearch(void *p)
 	delete query;
 }
 
-HANDLE TwitterProto::SearchBasic(const char *username)
+HANDLE TwitterProto::SearchBasic(const TCHAR *username)
 {
 	ForkThread(&TwitterProto::DoSearch,this,new search_query(username,false));
 	return (HANDLE)1;
 }
 
-HANDLE TwitterProto::SearchByEmail(const char *email)
+HANDLE TwitterProto::SearchByEmail(const TCHAR *email)
 {
 	ForkThread(&TwitterProto::DoSearch,this,new search_query(email,true));
 	return (HANDLE)1;

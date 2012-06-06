@@ -30,6 +30,12 @@ using std::vector;
 #include "StringConv.h"
 #include "stdafx.h"
 
+#if defined( _UNICODE )
+	#define tstring wstring 
+#else
+	#define tstring string 
+#endif
+
 typedef unsigned long long twitter_id;
 typedef std::map<std::wstring, std::wstring> OAuthParameters;
 

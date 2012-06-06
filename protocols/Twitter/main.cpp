@@ -33,6 +33,7 @@ int hLangpack;
 CLIST_INTERFACE* pcli;
 
 HINSTANCE g_hInstance;
+int hLangpack = 0;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -51,6 +52,7 @@ PLUGININFOEX pluginInfo={
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances
+
 static int compare_protos(const TwitterProto *p1, const TwitterProto *p2)
 {
 	return _tcscmp(p1->m_tszUserName, p2->m_tszUserName);

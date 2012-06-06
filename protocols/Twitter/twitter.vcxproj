@@ -177,6 +177,7 @@
     <ClCompile Include="chat.cpp" />
     <ClCompile Include="connection.cpp" />
     <ClCompile Include="contacts.cpp" />
+    <ClCompile Include="Debug.c" />
     <ClCompile Include="http.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="oauth.cpp" />
