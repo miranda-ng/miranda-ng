@@ -1,22 +1,16 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "twitter", "twitter.vcproj", "{DADE9455-DC28-465A-9604-2CA28052B9FB}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "twitter", "twitter.vcxproj", "{DADE9455-DC28-465A-9604-2CA28052B9FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug ANSI|Win32 = Debug ANSI|Win32
 		Debug|Win32 = Debug|Win32
-		Release ANSI|Win32 = Release ANSI|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug ANSI|Win32.ActiveCfg = Debug ANSI|Win32
-		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug ANSI|Win32.Build.0 = Debug ANSI|Win32
 		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug|Win32.ActiveCfg = Debug|Win32
 		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Debug|Win32.Build.0 = Debug|Win32
-		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release ANSI|Win32.ActiveCfg = Release ANSI|Win32
-		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release ANSI|Win32.Build.0 = Release ANSI|Win32
 		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release|Win32.ActiveCfg = Release|Win32
 		{DADE9455-DC28-465A-9604-2CA28052B9FB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
