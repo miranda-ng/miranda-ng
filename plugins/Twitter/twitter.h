@@ -24,7 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "http.h"
 #include <tchar.h>
 
-#define tstring wstring 
+#if !defined(tstring)
+	#ifdef _UNICODE
+		#define tstring wstring 
+	#else
+		#define tstring string 
+	#endif
+#endif
+
 typedef unsigned long long twitter_id;
 
 struct twitter_status

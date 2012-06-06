@@ -133,7 +133,7 @@ private:
 
 	void ShowPopup(const wchar_t *);
 	void ShowPopup(const char *);
-	void ShowContactPopup(HANDLE, const std::wstring &);
+	void ShowContactPopup(HANDLE, const std::tstring &);
 
 	bool IsMyContact(HANDLE, bool include_chat = false);
 	HANDLE UsernameToHContact(const TCHAR *);

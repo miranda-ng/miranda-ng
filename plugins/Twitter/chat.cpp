@@ -33,7 +33,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 	gce.pDest    = &gcd;
 	gce.ptszUID  = mir_a2t( update.username.c_str());
 	gce.bIsMe    = (update.username == twit_.get_username());
-	gce.ptszText = update.status.text.c_str();
+	gce.ptszText = ( TCHAR* )update.status.text.c_str();
 	gce.time     = static_cast<DWORD>(update.status.time);
 
 	DBVARIANT nick;

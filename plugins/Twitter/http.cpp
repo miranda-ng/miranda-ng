@@ -29,7 +29,9 @@ std::string http::url_encode(const std::string &s)
 
 std::string http::url_encode(const std::wstring &s)
 {
-	char *encoded = (char*)CallService( MS_NETLIB_URLENCODE, 0, ( LPARAM )( char* )_T2A(s.c_str()));
+	char* data = mir_u2a( s.c_str());
+	char *encoded = (char*)CallService( MS_NETLIB_URLENCODE, 0, ( LPARAM )data);
+	mir_free( data );
 	std::string ret = encoded;
 	HeapFree(GetProcessHeap(),0,encoded);
 

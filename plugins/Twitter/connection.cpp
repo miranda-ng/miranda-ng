@@ -307,13 +307,10 @@ void TwitterProto::UpdateFriends()
 
 }
 
-void TwitterProto::ShowContactPopup(HANDLE hContact, const std::wstring &text)
+void TwitterProto::ShowContactPopup(HANDLE hContact, const std::tstring &text)
 {
-	if (!ServiceExists(MS_POPUP_ADDPOPUPT) || DBGetContactSettingByte(0, 
-		m_szModuleName, TWITTER_KEY_POPUP_SHOW, 0) == 0)
-	{
+	if (!ServiceExists(MS_POPUP_ADDPOPUPT) || DBGetContactSettingByte(0, m_szModuleName, TWITTER_KEY_POPUP_SHOW, 0) == 0)
 		return;
-	}
 
 	POPUPDATAT popup = {};
 	popup.lchContact = hContact;
