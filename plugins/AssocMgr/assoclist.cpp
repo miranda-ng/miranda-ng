@@ -614,7 +614,7 @@ INT_PTR InvokeFileHandler(const TCHAR *pszFileName)
 	INT_PTR res = CALLSERVICE_NOTFOUND;
 
 	/* find extension */
-	p = _tcsrchr(pszFileName, _T('.'));
+	p = (TCHAR*)_tcsrchr(pszFileName, _T('.'));
 	if(p!= NULL) {
 		pszFileExt = t2a(p);
 		if(pszFileExt!= NULL) {

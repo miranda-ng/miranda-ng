@@ -30,8 +30,9 @@ static HANDLE hHookModulesLoaded,hHookPreShutdown;
 /************************* Open Handler ***************************/
 
 // pszFilePath needs to be allocated using mir_alloc()
-static void __stdcall FileActionAsync(TCHAR *pszFilePath)
+static void __stdcall FileActionAsync(void *param)
 {
+	TCHAR *pszFilePath = (TCHAR*)param;
 	/* invoke main handler */
 	switch(InvokeFileHandler(pszFilePath)) { /* pszFilePath is always a long path name */
 		case 0: /* success */ break;
@@ -45,8 +46,9 @@ static void __stdcall FileActionAsync(TCHAR *pszFilePath)
 }
 
 // pszUrl needs to be allocated using mir_alloc()
-static void __stdcall UrlActionAsync(TCHAR *pszUrl)
+static void __stdcall UrlActionAsync(void *param)
 {
+	TCHAR *pszUrl = (TCHAR*)param;
 	/* invoke main handler */
 	switch(InvokeUrlHandler(pszUrl)) {
 		case 0: /* success */ break;
@@ -111,7 +113,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 				/* ANSI execute command can't happen for shell */
 				if(IsWindowUnicode((HWND)wParam)) {
 				#endif
-					pszCommand=GlobalLock(hCommand);
+					pszCommand = (TCHAR*)GlobalLock(hCommand);
 					if(pszCommand!=NULL) {
 						TCHAR *pszAction,*pszArg;
 						pszAction=GetExecuteParam(&pszCommand);

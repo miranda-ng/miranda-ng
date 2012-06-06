@@ -17,10 +17,6 @@
       <UniqueIdentifier>{6f8e30e0-bc03-46e7-b039-e0fbd019afb2}</UniqueIdentifier>
       <Extensions>txt</Extensions>
     </Filter>
-    <Filter Include="SDK">
-      <UniqueIdentifier>{cc674aae-3e65-4f1c-959f-c95acfe7111a}</UniqueIdentifier>
-      <Extensions>*.h</Extensions>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="assoclist.cpp">

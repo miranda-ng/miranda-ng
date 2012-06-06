@@ -33,6 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>             /* for mir_snprintf() */
 #include <Vsstyle.h>
 #include <Vssym32.h>
+#include <malloc.h>
 
 #define MIRANDA_VER  0x0A00
 #include <newpluginapi.h>
