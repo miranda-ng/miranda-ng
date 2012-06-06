@@ -23,22 +23,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="assoclist.c">
+    <ClCompile Include="assoclist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dde.c">
+    <ClCompile Include="dde.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="reg.c">
+    <ClCompile Include="reg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.c">
+    <ClCompile Include="test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.c">
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
