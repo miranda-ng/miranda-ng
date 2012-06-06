@@ -43,7 +43,6 @@ static void __stdcall FileActionAsync(void *param)
 			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open file"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe file could not be processed."),pszFilePath);
 	}
 	mir_free(pszFilePath); /* async param */
-	mir_free(param);
 }
 
 // pszUrl needs to be allocated using mir_alloc()
@@ -60,7 +59,6 @@ static void __stdcall UrlActionAsync(void *param)
 			ShowInfoMessage(NIIF_ERROR,Translate("Miranda IM could not open URL"),Translate("Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe given URL is invalid and can not be parsed."),pszUrl);
 	}
 	mir_free(pszUrl); /* async param */
-	mir_free(param);
 }
 
 /************************* Conversation ***************************/

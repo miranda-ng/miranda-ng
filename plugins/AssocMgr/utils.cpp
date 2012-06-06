@@ -149,7 +149,6 @@ static void MessageBoxIndirectFree(void *param)
 	mir_free((char*)mbp->lpszCaption); /* does NULL check */
 	mir_free((char*)mbp->lpszText);    /* does NULL check */
 	mir_free(mbp);
-	mir_free(param);
 }
 
 void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...)
