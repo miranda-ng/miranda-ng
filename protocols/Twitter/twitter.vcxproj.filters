@@ -107,9 +107,6 @@
     <ClInclude Include="Base64Coder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="oauth.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="icons\twitter.ico">

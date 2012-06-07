@@ -8,14 +8,16 @@ There is no warranty.
 */
 #define MIRANDA_VER 0x0A00
 
+#include <tchar.h>
 #include <windows.h>
+
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
 #include <m_langpack.h>
-#include <tchar.h>
-#include "resource.h"
+#include <win2k.h>
 
+#include "resource.h"
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
@@ -23,8 +25,6 @@ TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
 int hLangpack;
-
-#define SIZEOF(x) (sizeof(x)/sizeof(*x))
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -44,37 +44,42 @@ PLUGININFOEX pluginInfo={
 
 };
 
+__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfo;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInst=hinstDLL;
 	return TRUE;
 }
 
-static int ChangePM(WPARAM wParam,LPARAM lParam)
-{
-		GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
- 		ShellExecute(0, "open", fn, "/FORCESHOW", "", 1);
-		CallService("CloseAction", 0, 0);
-		return 0;
-}
-
-static int LoadPM(WPARAM wParam,LPARAM lParam)
-{
-		GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
- 		ShellExecute(0, "open", fn, "/FORCESHOW", "", 1);
-		return 0;
-}
-
-
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfo;
-}
+///////////////////////////////////////////////////////////////////////////////
 
 static const MUUID interfaces[] = {MIID_TESTPLUGIN, MIID_LAST};
 __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR ChangePM(WPARAM wParam,LPARAM lParam)
+{
+	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
+	ShellExecute(0, "open", fn, "/FORCESHOW", "", 1);
+	CallService("CloseAction", 0, 0);
+	return 0;
+}
+
+static INT_PTR LoadPM(WPARAM wParam,LPARAM lParam)
+{
+	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
+	ShellExecute(0, "open", fn, "/FORCESHOW", "", 1);
+	return 0;
 }
 
 int __declspec(dllexport) Load(PLUGINLINK *link)
@@ -106,6 +111,8 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
 	return 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////
 
 int __declspec(dllexport) Unload(void)
 {

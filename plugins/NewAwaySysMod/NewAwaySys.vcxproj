@@ -230,7 +230,7 @@
     <None Include="nas_translation.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Resources.rc" />
+    <ResourceCompile Include="NewAwaySys.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

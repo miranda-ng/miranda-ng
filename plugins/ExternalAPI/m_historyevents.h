@@ -209,7 +209,7 @@ Return: TRUE or FALSE
 
 
 
-static int HistoryEvents_Register(char *module, char *name, char *description, int eventType, HICON defaultIcon, 
+static INT_PTR HistoryEvents_Register(char *module, char *name, char *description, int eventType, HICON defaultIcon, 
 								  int supports, int flags, fGetHistoryEventText pfGetHistoryEventText)
 {
 	HISTORY_EVENT_HANDLER heh = {0};
@@ -229,7 +229,7 @@ static int HistoryEvents_Register(char *module, char *name, char *description, i
 	return CallService(MS_HISTORYEVENTS_REGISTER, (WPARAM) &heh, 0);
 }
 
-static int HistoryEvents_RegisterWithTemplates(char *module, char *name, char *description, int eventType, HICON defaultIcon, 
+static INT_PTR HistoryEvents_RegisterWithTemplates(char *module, char *name, char *description, int eventType, HICON defaultIcon, 
 								  int supports, int flags, fGetHistoryEventText pfGetHistoryEventText,
 								  char **templates, int numTemplates)
 {
@@ -252,7 +252,7 @@ static int HistoryEvents_RegisterWithTemplates(char *module, char *name, char *d
 	return CallService(MS_HISTORYEVENTS_REGISTER, (WPARAM) &heh, 0);
 }
 
-static int HistoryEvents_RegisterMessageStyle(char *module, char *name, char *description, int eventType, HICON defaultIcon, 
+static INT_PTR HistoryEvents_RegisterMessageStyle(char *module, char *name, char *description, int eventType, HICON defaultIcon, 
 										int flags, char **templates, int numTemplates)
 {
 	HISTORY_EVENT_HANDLER heh = {0};

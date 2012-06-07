@@ -108,7 +108,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			TCHAR *pszCommand;
 			DDEACK ack;
 			ZeroMemory(&ack,sizeof(ack));
-			if(UnpackDDElParam(msg,lParam,NULL,(PUINT)&hCommand)) {
+			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hCommand)) {
 				#if defined(_UNICODE)
 				/* ANSI execute command can't happen for shell */
 				if(IsWindowUnicode((HWND)wParam)) {
@@ -151,7 +151,7 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 		{	ATOM hSzItem;
 			DDEACK ack;
 			ZeroMemory(&ack,sizeof(ack));
-			if(UnpackDDElParam(msg,lParam,NULL,(PUINT)&hSzItem)) {
+			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hSzItem)) {
 				lParam=ReuseDDElParam(lParam,msg,WM_DDE_ACK,*(PUINT)&ack,(UINT)hSzItem);
 				if (!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {
 					if(hSzItem) GlobalDeleteAtom(hSzItem);

@@ -110,7 +110,7 @@ TwitterProto::~TwitterProto()
 
 // *************************
 
-DWORD TwitterProto::GetCaps(int type,HANDLE hContact)
+DWORD_PTR TwitterProto::GetCaps(int type,HANDLE hContact)
 {
 	switch(type)
 	{

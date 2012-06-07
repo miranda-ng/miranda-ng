@@ -15,6 +15,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+#define _CRT_SECURE_NO_WARNINGS
 #define MIRANDA_VER 0x0A00
 
 #include <m_stdhdr.h>

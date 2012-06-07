@@ -104,21 +104,21 @@ bool TwitterProto::NegotiateConnection()
 	wstring oauthAccessTokenSecret;
 	string screenName;
 
-	int dbTOK = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK,&dbv);
+	INT_PTR dbTOK = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK,&dbv);
 	if (!dbTOK) {
 		oauthToken = dbv.pwszVal;
 		DBFreeVariant(&dbv);
 		//WLOG("**NegotiateConnection - we have an oauthToken already in the db - %s", oauthToken);
 	}
  
-	int dbTOKSec = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET,&dbv);
+	INT_PTR dbTOKSec = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_TOK_SECRET,&dbv);
 	if (!dbTOKSec) {
 		oauthTokenSecret = dbv.pwszVal;
 		DBFreeVariant(&dbv);
 		//WLOG("**NegotiateConnection - we have an oauthTokenSecret already in the db - %s", oauthTokenSecret);
 	}
 
-	int dbName = DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_NICK,&dbv);
+	INT_PTR dbName = DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_NICK,&dbv);
 	if (!dbName) {
 		screenName = dbv.pszVal;
 		DBFreeVariant(&dbv);
@@ -591,7 +591,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 				DBEVENTINFO dbei = {sizeof(dbei)};
 			
 				dbei.pBlob = (BYTE*)(i->status.text.c_str());
-				dbei.cbBlob = i->status.text.size()+1;
+				dbei.cbBlob = (int)i->status.text.size()+1;
 				dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 				dbei.flags = DBEF_UTF;
 				dbei.flags = DBEF_READ; // i had commented this line out.. can't remember why :(  might need to do it again, uncommented for mrQQ for testing

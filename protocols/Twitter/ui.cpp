@@ -38,7 +38,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 		TranslateDialogDefault(hwndDlg);
 
 		proto = reinterpret_cast<TwitterProto*>(lParam);
-		SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+		SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
 
 		DBVARIANT dbv;
 
@@ -90,7 +90,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 			return true;
 		}
 
-		if(GetWindowLong(hwndDlg,GWL_USERDATA)) // Window is done initializing
+		if(GetWindowLong(hwndDlg,GWLP_USERDATA)) // Window is done initializing
 		{
 			switch(HIWORD(wParam))
 			{
@@ -105,7 +105,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 	case WM_NOTIFY: // might be able to get rid of this bit?
 		if(reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) 
 		{
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWL_USERDATA));
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWLP_USERDATA));
 			char str[128];
 			TCHAR tstr[128];
 			
@@ -144,7 +144,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		TranslateDialogDefault(hwndDlg);
 
 		proto = reinterpret_cast<TwitterProto*>(lParam);
-		SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+		SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
 		SendDlgItemMessage(hwndDlg,IDC_TWEETMSG,EM_LIMITTEXT,140,0);
 		SetDlgItemText(hwndDlg,IDC_CHARACTERS,_T("140"));
 
@@ -158,7 +158,7 @@ INT_PTR CALLBACK tweet_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		if(LOWORD(wParam) == IDOK)
 		{
 			TCHAR msg[141];
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWL_USERDATA));
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWLP_USERDATA));
 
 			GetDlgItemText(hwndDlg,IDC_TWEETMSG,msg,SIZEOF(msg));
 			ShowWindow(hwndDlg,SW_HIDE);
@@ -262,11 +262,11 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 
 		// Do this last so that any events propagated by pre-filling the form don't
 		// instigate a PSM_CHANGED message
-		SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+		SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
 
 		break;
 	case WM_COMMAND:
-		if(GetWindowLong(hwndDlg,GWL_USERDATA)) // Window is done initializing
+		if(GetWindowLong(hwndDlg,GWLP_USERDATA)) // Window is done initializing
 		{
 			switch(HIWORD(wParam))
 			{
@@ -289,7 +289,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 	case WM_NOTIFY:
 		if(reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) 
 		{
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWL_USERDATA));
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWLP_USERDATA));
 			char str[128];
 
 			GetDlgItemTextA(hwndDlg,IDC_UN,str,sizeof(str));
@@ -480,7 +480,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		}
 
 		SendDlgItemMessage(hwndDlg,IDC_TIMEOUT_SPIN,UDM_SETRANGE32,1,INT_MAX);
-		SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+		SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
 
 		return true;
 	case WM_COMMAND:
@@ -520,14 +520,14 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			}
 
 		case EN_CHANGE:
-			if(GetWindowLong(hwndDlg,GWL_USERDATA)) // Window is done initializing
+			if(GetWindowLong(hwndDlg,GWLP_USERDATA)) // Window is done initializing
 				SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 		}
 		break;
 	case WM_NOTIFY:
 		if(reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY) 
 		{
-			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWL_USERDATA));
+			proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWLP_USERDATA));
 
 			DBWriteContactSettingByte(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,
 				IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS));
@@ -562,13 +562,13 @@ INT_PTR CALLBACK pin_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 
-			SetWindowLong(hwndDlg,GWL_USERDATA,lParam);
+			SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
 
 			return true;
 		case WM_COMMAND:
 			if(LOWORD(wParam) == IDOK)
 			{
-				proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWL_USERDATA));
+				proto = reinterpret_cast<TwitterProto*>(GetWindowLong(hwndDlg,GWLP_USERDATA));
 				char str[128];
 
 				GetDlgItemTextA(hwndDlg,IDC_PIN,str,sizeof(str));

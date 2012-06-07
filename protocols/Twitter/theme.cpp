@@ -116,7 +116,7 @@ static TwitterProto * GetInstanceByHContact(HANDLE hContact)
 }
 
 template<int (__cdecl TwitterProto::*Fcn)(WPARAM,LPARAM)>
-int GlobalService(WPARAM wParam,LPARAM lParam)
+INT_PTR GlobalService(WPARAM wParam,LPARAM lParam)
 {
 	TwitterProto *proto = GetInstanceByHContact(reinterpret_cast<HANDLE>(wParam));
 	return proto ? (proto->*Fcn)(wParam,lParam) : 0;
@@ -142,10 +142,8 @@ void InitContactMenus()
 	mi.icolibItem = GetIconHandle("reply");
 	mi.pszName = LPGEN("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
-	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService,
-		GlobalService<&TwitterProto::ReplyToTweet>);
-	g_hMenuItems[0] = reinterpret_cast<HANDLE>(
-		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
+	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
+	g_hMenuItems[0] = reinterpret_cast<HANDLE>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
 
 	mi.position=-2000006000;
 	mi.icolibItem = GetIconHandle("homepage");

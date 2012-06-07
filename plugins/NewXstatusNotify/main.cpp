@@ -34,8 +34,8 @@ MM_INTERFACE mmi = {0};
 UTF8_INTERFACE utfi = {0};
 LIST_INTERFACE li = {0};
 
-LIST<DBEVENT> eventList( 10, 0 );
-LIST<XSTATUSCHANGE> xstatusList( 10, 0 );
+LIST<DBEVENT> eventList( 10 );
+LIST<XSTATUSCHANGE> xstatusList( 10 );
 
 HANDLE hEnableDisableMenu, hOptionsInitialize, hModulesLoaded, hUserInfoInitialise;
 HANDLE hContactSettingChanged, hHookContactStatusChanged, hContactStatusChanged;
@@ -329,7 +329,6 @@ WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
 	tmp = (WCHAR *) mir_alloc(size * sizeof(WCHAR));
 
 	MultiByteToWideChar(CodePage, 0, ptr, -1, tmp, size * sizeof(WCHAR));
-
 	return tmp;
 }
 

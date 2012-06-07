@@ -47,52 +47,52 @@ public:
 
 	//PROTO_INTERFACE
 
-	virtual	HANDLE __cdecl AddToList(int,PROTOSEARCHRESULT *);
-	virtual	HANDLE __cdecl AddToListByEvent(int,int,HANDLE);
+	virtual	HANDLE    __cdecl AddToList(int,PROTOSEARCHRESULT *);
+	virtual	HANDLE    __cdecl AddToListByEvent(int,int,HANDLE);
 
-	virtual	int    __cdecl Authorize(HANDLE);
-	virtual	int    __cdecl AuthDeny(HANDLE,const TCHAR *);
-	virtual	int    __cdecl AuthRecv(HANDLE,PROTORECVEVENT *);
-	virtual	int    __cdecl AuthRequest(HANDLE,const TCHAR *);
+	virtual	int       __cdecl Authorize(HANDLE);
+	virtual	int       __cdecl AuthDeny(HANDLE,const TCHAR *);
+	virtual	int       __cdecl AuthRecv(HANDLE,PROTORECVEVENT *);
+	virtual	int       __cdecl AuthRequest(HANDLE,const TCHAR *);
 
-	virtual	HANDLE __cdecl ChangeInfo(int,void *);
+	virtual	HANDLE    __cdecl ChangeInfo(int,void *);
 
-	virtual	HANDLE __cdecl FileAllow(HANDLE,HANDLE,const TCHAR *);
-	virtual	int    __cdecl FileCancel(HANDLE,HANDLE);
-	virtual	int    __cdecl FileDeny(HANDLE,HANDLE,const TCHAR *);
-	virtual	int    __cdecl FileResume(HANDLE,int *,const TCHAR **);
+	virtual	HANDLE    __cdecl FileAllow(HANDLE,HANDLE,const TCHAR *);
+	virtual	int       __cdecl FileCancel(HANDLE,HANDLE);
+	virtual	int       __cdecl FileDeny(HANDLE,HANDLE,const TCHAR *);
+	virtual	int       __cdecl FileResume(HANDLE,int *,const TCHAR **);
 
-	virtual	DWORD  __cdecl GetCaps(int,HANDLE = 0);
-	virtual	HICON  __cdecl GetIcon(int);
-	virtual	int    __cdecl GetInfo(HANDLE,int);
+	virtual	DWORD_PTR __cdecl GetCaps(int,HANDLE = 0);
+	virtual	HICON     __cdecl GetIcon(int);
+	virtual	int       __cdecl GetInfo(HANDLE,int);
 
-	virtual	HANDLE __cdecl SearchBasic(const TCHAR *);
-	virtual	HANDLE __cdecl SearchByEmail(const TCHAR *);
-	virtual	HANDLE __cdecl SearchByName(const TCHAR *,const TCHAR *,const TCHAR *);
-	virtual	HWND   __cdecl SearchAdvanced(HWND);
-	virtual	HWND   __cdecl CreateExtendedSearchUI(HWND);
+	virtual	HANDLE    __cdecl SearchBasic(const TCHAR *);
+	virtual	HANDLE    __cdecl SearchByEmail(const TCHAR *);
+	virtual	HANDLE    __cdecl SearchByName(const TCHAR *,const TCHAR *,const TCHAR *);
+	virtual	HWND      __cdecl SearchAdvanced(HWND);
+	virtual	HWND      __cdecl CreateExtendedSearchUI(HWND);
 
-	virtual	int    __cdecl RecvContacts(HANDLE,PROTORECVEVENT *);
-	virtual	int    __cdecl RecvFile(HANDLE,PROTORECVFILET *);
-	virtual	int    __cdecl RecvMsg(HANDLE,PROTORECVEVENT *);
-	virtual	int    __cdecl RecvUrl(HANDLE,PROTORECVEVENT *);
+	virtual	int       __cdecl RecvContacts(HANDLE,PROTORECVEVENT *);
+	virtual	int       __cdecl RecvFile(HANDLE,PROTORECVFILET *);
+	virtual	int       __cdecl RecvMsg(HANDLE,PROTORECVEVENT *);
+	virtual	int       __cdecl RecvUrl(HANDLE,PROTORECVEVENT *);
 
-	virtual	int    __cdecl SendContacts(HANDLE,int,int,HANDLE *);
-	virtual	HANDLE __cdecl SendFile(HANDLE,const TCHAR *,TCHAR **);
-	virtual	int    __cdecl SendMsg(HANDLE,int,const char *);
-	virtual	int    __cdecl SendUrl(HANDLE,int,const char *);
+	virtual	int       __cdecl SendContacts(HANDLE,int,int,HANDLE *);
+	virtual	HANDLE    __cdecl SendFile(HANDLE,const TCHAR *,TCHAR **);
+	virtual	int       __cdecl SendMsg(HANDLE,int,const char *);
+	virtual	int       __cdecl SendUrl(HANDLE,int,const char *);
 
-	virtual	int    __cdecl SetApparentMode(HANDLE,int);
-	virtual	int    __cdecl SetStatus(int);
+	virtual	int       __cdecl SetApparentMode(HANDLE,int);
+	virtual	int       __cdecl SetStatus(int);
 
-	virtual	HANDLE __cdecl GetAwayMsg(HANDLE);
-	virtual	int    __cdecl RecvAwayMsg(HANDLE,int,PROTORECVEVENT *);
-	virtual	int    __cdecl SendAwayMsg(HANDLE,HANDLE,const char *);
-	virtual	int    __cdecl SetAwayMsg(int,const TCHAR *);
+	virtual	HANDLE    __cdecl GetAwayMsg(HANDLE);
+	virtual	int       __cdecl RecvAwayMsg(HANDLE,int,PROTORECVEVENT *);
+	virtual	int       __cdecl SendAwayMsg(HANDLE,HANDLE,const char *);
+	virtual	int       __cdecl SetAwayMsg(int,const TCHAR *);
 
-	virtual	int    __cdecl UserIsTyping(HANDLE,int);
+	virtual	int       __cdecl UserIsTyping(HANDLE,int);
 
-	virtual	int    __cdecl OnEvent(PROTOEVENTTYPE,WPARAM,LPARAM);
+	virtual	int       __cdecl OnEvent(PROTOEVENTTYPE,WPARAM,LPARAM);
 
 	void UpdateSettings();
 
