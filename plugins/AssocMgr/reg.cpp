@@ -806,9 +806,9 @@ BOOL RemoveRegClass(const char *pszClassName)
 						if(ptszPrevRunCmd!=NULL && !IsValidRunCommand(ptszPrevRunCmd))
 							res=DeleteRegSubTree(hRootKey,ptszClassName); /* backup outdated, remove all */
 						mir_free(ptszPrevRunCmd); /* does NULL check */
-						RegCloseKey(hShellKey);
+						RegCloseKey(hVerbKey);
 					}
-					RegCloseKey(hVerbKey);
+					RegCloseKey(hShellKey);
 				}
 				RegCloseKey(hClassKey);
 			}
