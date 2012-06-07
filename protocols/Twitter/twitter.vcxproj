@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{DADE9455-DC28-465A-9604-2CA28052B9FB}</ProjectGuid>
+    <ProjectGuid>{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}</ProjectGuid>
     <RootNamespace>twitter</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <ProjectName>Twitter</ProjectName>
