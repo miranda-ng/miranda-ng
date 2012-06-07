@@ -97,8 +97,7 @@ static int protoUninit(PROTO_INTERFACE *proto)
 
 int OnModulesLoaded(WPARAM,LPARAM)
 {
-	if(ServiceExists(MS_UPDATE_REGISTER))
-	{
+	if(ServiceExists(MS_UPDATE_REGISTER)) {
 		Update upd = {sizeof(upd)};
 		char curr_version[30];
 
@@ -152,7 +151,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	InitIcons();
 	InitContactMenus();
 
-    return 0;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
