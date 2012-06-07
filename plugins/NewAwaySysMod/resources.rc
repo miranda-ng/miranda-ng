@@ -1,6 +1,0 @@
-#include "resource.h"
-#include "VersionNo.h"
-#include "NewAwaySys.rc"
-#include "version.rc"
-
-

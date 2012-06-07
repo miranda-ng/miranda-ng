@@ -1,4 +1,0 @@
-..\docs\pack files\*.*
-..\docs\*.*
-..\*.*
-..\sdk\*.*
