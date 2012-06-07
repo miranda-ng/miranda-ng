@@ -95,7 +95,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	Utils::createServiceFunction_Ex(MS_IEVIEW_WINDOW, HandleIEWindow);
 	Utils::createServiceFunction_Ex(MS_IEVIEW_EVENT, HandleIEEvent);
-	Utils::createServiceFunction_Ex(MS_IEVIEW_EVENT, HandleIENavigate);
+	Utils::createServiceFunction_Ex(MS_IEVIEW_NAVIGATE, HandleIENavigate);
 	hHookOptionsChanged = CreateHookableEvent(ME_IEVIEW_OPTIONSCHANGED);
 	return 0;
 }
