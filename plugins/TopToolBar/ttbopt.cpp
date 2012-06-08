@@ -84,26 +84,30 @@ void AssignBitmapsFromDir(TCHAR *dir)
 		wsprintf(curnameDN, _T("%s%s_DN.bmp"), dir, ChangedName);
 
 		if ( FileExists(curnameUP)) {
-			if (Buttons[i].UserDefinedbmUp != NULL){free(Buttons[i].UserDefinedbmUp);}
-			Buttons[i].UserDefinedbmUp = _tcsdup(curnameUP);
+			if (Buttons[i].UserDefinedbmUp != NULL)
+				mir_free(Buttons[i].UserDefinedbmUp);
+			Buttons[i].UserDefinedbmUp = mir_tstrdup(curnameUP);
 		}
 
 		if ( FileExists(curnameDN)) {
-			if (Buttons[i].UserDefinedbmDown != NULL){free(Buttons[i].UserDefinedbmDown);}
-			Buttons[i].UserDefinedbmDown = _tcsdup(curnameDN);
+			if (Buttons[i].UserDefinedbmDown != NULL)
+				mir_free(Buttons[i].UserDefinedbmDown);
+			Buttons[i].UserDefinedbmDown = mir_tstrdup(curnameDN);
 		}
 
 		wsprintf(curnameUP, _T("%s%s_UP.ico"), dir, ChangedName);
 		wsprintf(curnameDN, _T("%s%s_DN.ico"), dir, ChangedName);
 
 		if ( FileExists(curnameUP)) {
-			if (Buttons[i].UserDefinedbmUp != NULL){free(Buttons[i].UserDefinedbmUp);}
-			Buttons[i].UserDefinedbmUp = _tcsdup(curnameUP);
+			if (Buttons[i].UserDefinedbmUp != NULL)
+				mir_free(Buttons[i].UserDefinedbmUp);
+			Buttons[i].UserDefinedbmUp = mir_tstrdup(curnameUP);
 		}
 
 		if ( FileExists(curnameDN)) {
-			if (Buttons[i].UserDefinedbmDown != NULL){free(Buttons[i].UserDefinedbmDown);}
-			Buttons[i].UserDefinedbmDown = _tcsdup(curnameDN);
+			if (Buttons[i].UserDefinedbmDown != NULL)
+				mir_free(Buttons[i].UserDefinedbmDown);
+			Buttons[i].UserDefinedbmDown = mir_tstrdup(curnameDN);
 		}
 	}
 
@@ -418,8 +422,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				int curselect = ((ButtonOptData *)tvi.lParam)->pos; 
 				lockbut();
 
-				if (Buttons[curselect].UserDefinedbmUp != NULL) free(Buttons[curselect].UserDefinedbmUp);
-				if (Buttons[curselect].UserDefinedbmDown != NULL) free(Buttons[curselect].UserDefinedbmDown);
+				if (Buttons[curselect].UserDefinedbmUp != NULL) mir_free(Buttons[curselect].UserDefinedbmUp);
+				if (Buttons[curselect].UserDefinedbmDown != NULL) mir_free(Buttons[curselect].UserDefinedbmDown);
 				Buttons[curselect].UserDefinedbmUp = NULL;
 				Buttons[curselect].UserDefinedbmDown = NULL;
 				applyuserbitmaps(curselect);
@@ -476,12 +480,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (GetOpenFileName(&ofn)) {
 					lockbut();
 					if (ctrlid == IDC_BMPUP){
-						if (Buttons[curselect].UserDefinedbmUp != NULL){free(Buttons[curselect].UserDefinedbmUp);}
-						Buttons[curselect].UserDefinedbmUp = _tcsdup(ofn.lpstrFile);
+						if (Buttons[curselect].UserDefinedbmUp != NULL)
+							mir_free(Buttons[curselect].UserDefinedbmUp);
+						Buttons[curselect].UserDefinedbmUp = mir_tstrdup(ofn.lpstrFile);
 					}
 					if (ctrlid == IDC_BMPDN){
-						if (Buttons[curselect].UserDefinedbmDown != NULL){free(Buttons[curselect].UserDefinedbmDown);}
-						Buttons[curselect].UserDefinedbmDown = _tcsdup(ofn.lpstrFile);
+						if (Buttons[curselect].UserDefinedbmDown != NULL)
+							mir_free(Buttons[curselect].UserDefinedbmDown);
+						Buttons[curselect].UserDefinedbmDown = mir_tstrdup(ofn.lpstrFile);
 					}
 					applyuserbitmaps(curselect);
 					SetImagesForCurrent(hwndDlg, curselect);

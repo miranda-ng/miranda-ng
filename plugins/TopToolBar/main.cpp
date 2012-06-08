@@ -137,14 +137,14 @@ int DBLoadButtonSettings(int butpos)
 		Buttons[butpos].dwFlags |= TTBBF_VISIBLE;
 
 	Buttons[butpos].UserDefinedbmDown = DBGetStringT(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"));
-	if ((Buttons[butpos].UserDefinedbmDown != NULL) && *Buttons[butpos].UserDefinedbmDown == 0) {
-		free(Buttons[butpos].UserDefinedbmDown);
+	if ( Buttons[butpos].UserDefinedbmDown != NULL && Buttons[butpos].UserDefinedbmDown[0] == 0) {
+		mir_free(Buttons[butpos].UserDefinedbmDown);
 		Buttons[butpos].UserDefinedbmDown = NULL;
 	}
 
 	Buttons[butpos].UserDefinedbmUp = DBGetStringT(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"));
-	if ((Buttons[butpos].UserDefinedbmUp != NULL) && *Buttons[butpos].UserDefinedbmUp == 0) { 
-		free(Buttons[butpos].UserDefinedbmUp);
+	if ( Buttons[butpos].UserDefinedbmUp != NULL && Buttons[butpos].UserDefinedbmUp[0] == 0) { 
+		mir_free(Buttons[butpos].UserDefinedbmUp);
 		Buttons[butpos].UserDefinedbmUp = NULL;
 	}
 	return 0;
