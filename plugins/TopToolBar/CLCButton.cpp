@@ -5,7 +5,7 @@ Copyright (C) 2002 Robert Rainwater
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License,  or (at your option) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,17 +13,17 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not,  write to the Free Software
-Foundation,  Inc.,  59 Temple Place - Suite 330,  Boston,  MA  02111-1307,  USA.
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "common.h"
 
 // TODO:
 // - Support for bitmap buttons (simple call to DrawIconEx())
 extern HINSTANCE hInst;
-LONG g_cxsmIcon,  g_cysmIcon;
+LONG g_cxsmIcon, g_cysmIcon;
 
-static LRESULT CALLBACK TSButtonWndProc(HWND hwnd,  UINT  msg,  WPARAM wParam,  LPARAM lParam);
+static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT  msg, WPARAM wParam, LPARAM lParam);
 
 struct MButtonCtrl
 {
@@ -33,7 +33,7 @@ struct MButtonCtrl
 	HFONT hFont;   // font
 	HICON arrow;   // uses down arrow
 	int defbutton; // default button
-	HICON hIcon,  hIconPrivate;
+	HICON hIcon, hIconPrivate;
 	HBITMAP hBitmap;
 	int pushBtn;
 	int pbState;
@@ -50,15 +50,15 @@ struct MButtonCtrl
 
 // External theme methods and properties
 static HMODULE themeAPIHandle = NULL; // handle to uxtheme.dll
-static HANDLE   (WINAPI *MyOpenThemeData)(HWND,  LPCWSTR);
+static HANDLE   (WINAPI *MyOpenThemeData)(HWND, LPCWSTR);
 static HRESULT  (WINAPI *MyCloseThemeData)(HANDLE);
-static BOOL     (WINAPI *MyIsThemeBackgroundPartiallyTransparent)(HANDLE,  int, 
+static BOOL     (WINAPI *MyIsThemeBackgroundPartiallyTransparent)(HANDLE, int, 
                                                                   int);
-static HRESULT  (WINAPI *MyDrawThemeParentBackground)(HWND,  HDC,  RECT *);
-static HRESULT  (WINAPI *MyDrawThemeBackground)(HANDLE,  HDC,  int,  int, 
-                                                const RECT *,  const RECT *);
-static HRESULT  (WINAPI *MyDrawThemeText)(HANDLE,  HDC,  int,  int,  LPCWSTR,  int, 
-                                          DWORD,  DWORD,  const RECT *);
+static HRESULT  (WINAPI *MyDrawThemeParentBackground)(HWND, HDC, RECT *);
+static HRESULT  (WINAPI *MyDrawThemeBackground)(HANDLE, HDC, int, int, 
+                                                const RECT *, const RECT *);
+static HRESULT  (WINAPI *MyDrawThemeText)(HANDLE, HDC, int, int, LPCWSTR, int, 
+                                          DWORD, DWORD, const RECT *);
 
 static CRITICAL_SECTION csTips;
 static HWND hwndToolTips = NULL;
@@ -74,12 +74,12 @@ static int ThemeSupport()
 		if (!themeAPIHandle) {
 			themeAPIHandle = GetModuleHandleA("uxtheme");
 			if (themeAPIHandle) {
-				MyOpenThemeData = (HANDLE(WINAPI *)(HWND,  LPCWSTR))MGPROC("OpenThemeData");
+				MyOpenThemeData = (HANDLE(WINAPI *)(HWND, LPCWSTR))MGPROC("OpenThemeData");
 				MyCloseThemeData = (HRESULT(WINAPI *)(HANDLE))MGPROC("CloseThemeData");
-				MyIsThemeBackgroundPartiallyTransparent = (BOOL(WINAPI *)(HANDLE,  int,  int))MGPROC("IsThemeBackgroundPartiallyTransparent");
-				MyDrawThemeParentBackground = (HRESULT(WINAPI *)(HWND,  HDC,  RECT *))MGPROC("DrawThemeParentBackground");
-				MyDrawThemeBackground = (HRESULT(WINAPI *)(HANDLE,  HDC,  int,  int,  const RECT *,  const RECT *))MGPROC("DrawThemeBackground");
-				MyDrawThemeText = (HRESULT(WINAPI *)(HANDLE,  HDC,  int,  int,  LPCWSTR,  int,  DWORD,  DWORD,  const RECT *))MGPROC("DrawThemeText");
+				MyIsThemeBackgroundPartiallyTransparent = (BOOL(WINAPI *)(HANDLE, int, int))MGPROC("IsThemeBackgroundPartiallyTransparent");
+				MyDrawThemeParentBackground = (HRESULT(WINAPI *)(HWND, HDC, RECT *))MGPROC("DrawThemeParentBackground");
+				MyDrawThemeBackground = (HRESULT(WINAPI *)(HANDLE, HDC, int, int, const RECT *, const RECT *))MGPROC("DrawThemeBackground");
+				MyDrawThemeText = (HRESULT(WINAPI *)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, DWORD, const RECT *))MGPROC("DrawThemeText");
 			}
 		}
 		// Make sure all of these methods are valid (i would hope either all or none work)
@@ -107,8 +107,8 @@ static void LoadTheme(MButtonCtrl *ctl)
 {
 	if (ThemeSupport()) {
 		DestroyTheme(ctl);
-		ctl->hThemeButton = MyOpenThemeData(ctl->hwnd,  L"BUTTON");
-		ctl->hThemeToolbar = MyOpenThemeData(ctl->hwnd,  L"TOOLBAR");
+		ctl->hThemeButton = MyOpenThemeData(ctl->hwnd, L"BUTTON");
+		ctl->hThemeToolbar = MyOpenThemeData(ctl->hwnd, L"TOOLBAR");
 		ctl->bThemed = TRUE;
 	}
 }
@@ -125,19 +125,19 @@ static int TBStateConvert2Flat(int state)
 	return TS_NORMAL;
 }
 
-static void PaintWorker(MButtonCtrl *ctl,  HDC hdcPaint)
+static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 {
-	if (hdcPaint  == NULL)
+	if (hdcPaint == NULL)
 		return;
 
 	HFONT hOldFont = NULL;
 	RECT rcClient;
-	GetClientRect(ctl->hwnd,  &rcClient);
+	GetClientRect(ctl->hwnd, &rcClient);
 	HDC hdcMem = CreateCompatibleDC(hdcPaint);
-	HBITMAP hbmMem = CreateCompatibleBitmap(hdcPaint,  rcClient.right - rcClient.left,  rcClient.bottom - rcClient.top);
-	HDC hOld = (HDC)SelectObject(hdcMem,  hbmMem);
+	HBITMAP hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top);
+	HDC hOld = (HDC)SelectObject(hdcMem, hbmMem);
 
-	// If its a push button,  check to see if it should stay pressed
+	// If its a push button, check to see if it should stay pressed
 	if (ctl->pushBtn && ctl->pbState)
 		ctl->stateId = PBS_PRESSED;
 
@@ -146,10 +146,10 @@ static void PaintWorker(MButtonCtrl *ctl,  HDC hdcPaint)
 		if (ctl->hThemeToolbar && ctl->bThemed) {
 			RECT rc = rcClient;
 			int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->defbutton ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
-			if (MyIsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar,  TP_BUTTON,  TBStateConvert2Flat(state)))
-				MyDrawThemeParentBackground(ctl->hwnd,  hdcMem,  &rc);
+			if (MyIsThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state)))
+				MyDrawThemeParentBackground(ctl->hwnd, hdcMem, &rc);
 
-			MyDrawThemeBackground(ctl->hThemeToolbar,  hdcMem,  TP_BUTTON,  TBStateConvert2Flat(state),  &rc,  &rc);
+			MyDrawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rc, &rc);
 		}
 		else {
 			HBRUSH hbr;
@@ -160,113 +160,111 @@ static void PaintWorker(MButtonCtrl *ctl,  HDC hdcPaint)
 			else {
 				HWND hwndParent = GetParent(ctl->hwnd);
 				HDC dc = GetDC(hwndParent);
-				hbr = (HBRUSH) SendMessage(hwndParent,  WM_CTLCOLORDLG,  (WPARAM) dc,  (LPARAM) hwndParent);
-				ReleaseDC(hwndParent,  dc);
+				hbr = (HBRUSH) SendMessage(hwndParent, WM_CTLCOLORDLG, (WPARAM) dc, (LPARAM) hwndParent);
+				ReleaseDC(hwndParent, dc);
 			}
 			if (hbr) {
-				FillRect(hdcMem,  &rc,  hbr);
+				FillRect(hdcMem, &rc, hbr);
 				DeleteObject(hbr);
 			}
 			if (ctl->stateId == PBS_HOT || ctl->focus) {
 				if (ctl->pbState)
-					DrawEdge(hdcMem,  &rc,  EDGE_ETCHED,  BF_RECT | BF_SOFT);
+					DrawEdge(hdcMem, &rc, EDGE_ETCHED, BF_RECT | BF_SOFT);
 				else
-					DrawEdge(hdcMem,  &rc,  BDR_RAISEDOUTER,  BF_RECT | BF_SOFT);
+					DrawEdge(hdcMem, &rc, BDR_RAISEDOUTER, BF_RECT | BF_SOFT);
 			}
-			else if (ctl->stateId  == PBS_PRESSED)
-				DrawEdge(hdcMem,  &rc,  BDR_SUNKENOUTER,  BF_RECT | BF_SOFT);
+			else if (ctl->stateId == PBS_PRESSED)
+				DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT | BF_SOFT);
 		}
 	}
 	else {
 		// Draw background/border
 		if (ctl->hThemeButton && ctl->bThemed) {
 			int state = IsWindowEnabled(ctl->hwnd) ? (ctl->stateId == PBS_NORMAL && ctl->defbutton ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
-			if (MyIsThemeBackgroundPartiallyTransparent(ctl->hThemeButton,  BP_PUSHBUTTON,  state)) {
-				MyDrawThemeParentBackground(ctl->hwnd,  hdcMem,  &rcClient);
+			if (MyIsThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
+				MyDrawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
 			}
-			MyDrawThemeBackground(ctl->hThemeButton,  hdcMem,  BP_PUSHBUTTON,  state,  &rcClient,  &rcClient);
+			MyDrawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
 		}
 		else {
 			UINT uState = DFCS_BUTTONPUSH | ((ctl->stateId == PBS_HOT) ? DFCS_HOT : 0) | ((ctl->stateId == PBS_PRESSED) ? DFCS_PUSHED : 0);
 			if (ctl->defbutton && ctl->stateId == PBS_NORMAL)
 				uState  |=  DLGC_DEFPUSHBUTTON;
-			DrawFrameControl(hdcMem,  &rcClient,  DFC_BUTTON,  uState);
+			DrawFrameControl(hdcMem, &rcClient, DFC_BUTTON, uState);
 		}
 
 		// Draw focus rectangle if button has focus
 		if (ctl->focus) {
 			RECT focusRect = rcClient;
-			InflateRect(&focusRect,  -3,  -3);
-			DrawFocusRect(hdcMem,  &focusRect);
+			InflateRect(&focusRect, -3, -3);
+			DrawFocusRect(hdcMem, &focusRect);
 		}
 	}
 
-	// If we have an icon or a bitmap,  ignore text and only draw the image on the button
+	// If we have an icon or a bitmap, ignore text and only draw the image on the button
 	if (ctl->hIcon || ctl->hIconPrivate || ctl->iIcon) {
 		int ix = (rcClient.right - rcClient.left) / 2 - (g_cxsmIcon / 2);
 		int iy = (rcClient.bottom - rcClient.top) / 2 - (g_cxsmIcon / 2);
 		HICON hIconNew = ctl->hIconPrivate  !=  0 ? ctl->hIconPrivate : ctl->hIcon;
 		if (lstrlenA(ctl->szText) == 0) {
 			if (ctl->iIcon)
-				ImageList_DrawEx(ctl->hIml,  ctl->iIcon,  hdcMem,  ix,  iy,  g_cxsmIcon,  g_cysmIcon,  CLR_NONE,  CLR_NONE,  ILD_NORMAL);
+				ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 			else
-				DrawState(hdcMem,  NULL,  NULL,  (LPARAM) hIconNew,  0,  ix,  iy,  g_cxsmIcon,  g_cysmIcon,  IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+				DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 			ctl->sLabel.cx = ctl->sLabel.cy = 0;
 		}
 		else {
-			hOldFont = (HFONT)SelectObject(hdcMem,  ctl->hFont);
-			GetTextExtentPoint32A(hdcMem,  ctl->szText,  lstrlenA(ctl->szText),  &ctl->sLabel);
+			hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
+			GetTextExtentPoint32A(hdcMem, ctl->szText, lstrlenA(ctl->szText), &ctl->sLabel);
 			ix = (rcClient.right - rcClient.left) / 2 - ((g_cxsmIcon + ctl->sLabel.cx + 4) / 2);
 			if (ctl->iIcon)
-				ImageList_DrawEx(ctl->hIml,  ctl->iIcon,  hdcMem,  ix,  iy,  g_cxsmIcon,  g_cysmIcon,  CLR_NONE,  CLR_NONE,  ILD_NORMAL);
+				ImageList_DrawEx(ctl->hIml, ctl->iIcon, hdcMem, ix, iy, g_cxsmIcon, g_cysmIcon, CLR_NONE, CLR_NONE, ILD_NORMAL);
 			else
-				DrawState(hdcMem,  NULL,  NULL,  (LPARAM) hIconNew,  0,  ix,  iy,  g_cxsmIcon,  g_cysmIcon,  IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
+				DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 			ctl->sLabel.cx +=  (g_cxsmIcon + 4);
 		}
 	}
 	else if (ctl->hBitmap) {
 		BITMAP bminfo;
-		int ix,  iy;
-
-		GetObject(ctl->hBitmap,  sizeof(bminfo),  &bminfo);
-		ix = (rcClient.right - rcClient.left) / 2 - (bminfo.bmWidth / 2);
-		iy = (rcClient.bottom - rcClient.top) / 2 - (bminfo.bmHeight / 2);
+		GetObject(ctl->hBitmap, sizeof(bminfo), &bminfo);
+		int ix = (rcClient.right - rcClient.left) / 2 - (bminfo.bmWidth / 2);
+		int iy = (rcClient.bottom - rcClient.top) / 2 - (bminfo.bmHeight / 2);
 		if (ctl->stateId == PBS_PRESSED) {
 			ix++;
 			iy++;
 		}
-		DrawState(hdcMem,  NULL,  NULL,  (LPARAM) ctl->hBitmap,  0,  ix,  iy,  bminfo.bmWidth,  bminfo.bmHeight,  IsWindowEnabled(ctl->hwnd) ? DST_BITMAP : DST_BITMAP | DSS_DISABLED);
+		DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd) ? DST_BITMAP : DST_BITMAP | DSS_DISABLED);
 	}
 		
 	if (GetWindowTextLengthA(ctl->hwnd)) {
 		// Draw the text and optinally the arrow
 		RECT rcText;
 
-		CopyRect(&rcText,  &rcClient);
-		SetBkMode(hdcMem,  TRANSPARENT);
+		CopyRect(&rcText, &rcClient);
+		SetBkMode(hdcMem, TRANSPARENT);
 		// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-		SetTextColor(hdcMem,  IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
+		SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
 		if (ctl->arrow)
-			DrawState(hdcMem,  NULL,  NULL,  (LPARAM) ctl->arrow,  0,  rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0),  (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0),  g_cxsmIcon,  g_cysmIcon,  IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
-		SelectObject(hdcMem,  ctl->hFont);
-		DrawStateA(hdcMem,  NULL,  NULL,  (LPARAM) ctl->szText,  0,  (rcText.right - rcText.left - ctl->sLabel.cx) / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0) + g_cxsmIcon + 4,  ctl->hThemeButton ? (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + 1 : (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + (ctl->stateId == PBS_PRESSED ? 1 : 0),  ctl->sLabel.cx,  ctl->sLabel.cy,  IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton ? DST_PREFIXTEXT | DSS_NORMAL : DST_PREFIXTEXT | DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
+		SelectObject(hdcMem, ctl->hFont);
+		DrawStateA(hdcMem, NULL, NULL, (LPARAM) ctl->szText, 0, (rcText.right - rcText.left - ctl->sLabel.cx) / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0) + g_cxsmIcon + 4, ctl->hThemeButton ? (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + 1 : (rcText.bottom - rcText.top - ctl->sLabel.cy) / 2 + (ctl->stateId == PBS_PRESSED ? 1 : 0), ctl->sLabel.cx, ctl->sLabel.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton ? DST_PREFIXTEXT | DSS_NORMAL : DST_PREFIXTEXT | DSS_DISABLED);
 	}
 
 	if (hOldFont)
-		SelectObject(hdcMem,  hOldFont);
+		SelectObject(hdcMem, hOldFont);
 
-	BitBlt(hdcPaint,  0,  0,  rcClient.right - rcClient.left,  rcClient.bottom - rcClient.top,  hdcMem,  0,  0,  SRCCOPY);
-	SelectObject(hdcMem,  hOld);
+	BitBlt(hdcPaint, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, hdcMem, 0, 0, SRCCOPY);
+	SelectObject(hdcMem, hOld);
 	DeleteObject(hbmMem);
 	DeleteDC(hdcMem);
 }
 
-static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,  LPARAM lParam)
+static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	MButtonCtrl *bct = (MButtonCtrl *) GetWindowLongPtr(hwndDlg,  0);
+	MButtonCtrl *bct = (MButtonCtrl *) GetWindowLongPtr(hwndDlg, 0);
 	switch (msg) {
 	case WM_NCCREATE:
-		SetWindowLongPtr(hwndDlg,  GWL_STYLE,  GetWindowLongPtr(hwndDlg,  GWL_STYLE) | BS_OWNERDRAW);
+		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
 		bct = ( MButtonCtrl* )malloc(sizeof(MButtonCtrl));
 		if (bct == NULL)
 			return FALSE;
@@ -289,9 +287,9 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 		bct->flatBtn = 0;
 		bct->bThemed = FALSE;
 		LoadTheme(bct);
-		SetWindowLongPtr(hwndDlg,  0,  (LONG) bct);
+		SetWindowLongPtr(hwndDlg, 0, (LONG) bct);
 		if (((CREATESTRUCTA *) lParam)->lpszName)
-			SetWindowTextA(hwndDlg,  ((CREATESTRUCTA *) lParam)->lpszName);
+			SetWindowTextA(hwndDlg, ((CREATESTRUCTA *) lParam)->lpszName);
 		return TRUE;
 
 	case WM_SETTEXT:
@@ -305,8 +303,8 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 				}
 				tmp++;
 			}
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
-			strncpy(bct->szText,  (char*) lParam,  127);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
+			strncpy(bct->szText, (char*) lParam, 127);
 			bct->szText[127] = 0;
 		}
 		break;
@@ -318,18 +316,18 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 					bct->pbState = 0;
 				else
 					bct->pbState = 1;
-				InvalidateRect(bct->hwnd,  NULL,  TRUE);
+				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
-			SendMessage(GetParent(hwndDlg),  WM_COMMAND,  MAKELONG(GetDlgCtrlID(hwndDlg),  BN_CLICKED),  (LPARAM) hwndDlg);
+			SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 			return 0;
 		}
 		break;
 
 	case WM_THEMECHANGED:
-		// themed changed,  reload theme object
+		// themed changed, reload theme object
 		if (bct->bThemed)
 			LoadTheme(bct);
-		InvalidateRect(bct->hwnd,  NULL,  TRUE); // repaint it
+		InvalidateRect(bct->hwnd, NULL, TRUE); // repaint it
 		break;
 
 	case WM_SETFONT:
@@ -343,10 +341,10 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 			PAINTSTRUCT ps;
 			HDC hdcPaint;
 
-			hdcPaint = BeginPaint(hwndDlg,  &ps);
+			hdcPaint = BeginPaint(hwndDlg, &ps);
 			if (hdcPaint) {
-				PaintWorker(bct,  hdcPaint);
-				EndPaint(hwndDlg,  &ps);
+				PaintWorker(bct, hdcPaint);
+				EndPaint(hwndDlg, &ps);
 			}
 		}
 		break;
@@ -359,15 +357,15 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 				DestroyIcon(bct->hIconPrivate);
 
 			ICONINFO ii;
-			GetIconInfo((HICON) lParam,  &ii);
+			GetIconInfo((HICON) lParam, &ii);
 
 			BITMAP bm;
-			GetObject(ii.hbmColor,  sizeof(bm),  &bm);
+			GetObject(ii.hbmColor, sizeof(bm), &bm);
 			if (bm.bmWidth > g_cxsmIcon || bm.bmHeight > g_cysmIcon) {
 				HIMAGELIST hImageList;
-				hImageList = ImageList_Create(g_cxsmIcon,  g_cysmIcon,  IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK,  1,  0);
-				ImageList_AddIcon(hImageList,  (HICON) lParam);
-				bct->hIconPrivate = ImageList_GetIcon(hImageList,  0,  ILD_NORMAL);
+				hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, IsWinVerXPPlus() ? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+				ImageList_AddIcon(hImageList, (HICON) lParam);
+				bct->hIconPrivate = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
 				ImageList_RemoveAll(hImageList);
 				ImageList_Destroy(hImageList);
 				bct->hIcon = 0;
@@ -380,14 +378,14 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 			DeleteObject(ii.hbmMask);
 			DeleteObject(ii.hbmColor);
 			bct->hBitmap = NULL;
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		else if (wParam == IMAGE_BITMAP) {
 			bct->hBitmap = (HBITMAP) lParam;
 			if (bct->hIconPrivate)
 				DestroyIcon(bct->hIconPrivate);
 			bct->hIcon = bct->hIconPrivate = NULL;
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		break;
 	
@@ -396,7 +394,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 		bct->iIcon = 0;
 		if (bct->hIconPrivate)
 			DestroyIcon(bct->hIconPrivate);
-		bct->hIconPrivate = DuplicateIcon(hInst,  (HICON) lParam);
+		bct->hIconPrivate = DuplicateIcon(hInst, (HICON) lParam);
 		bct->hIcon = 0;
 		break;
 
@@ -406,7 +404,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 		bct->hIml = (HIMAGELIST) wParam;
 		bct->iIcon = (int) lParam;
 		bct->hIcon = bct->hIconPrivate = 0;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case BM_SETCHECK:
@@ -419,7 +417,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 			bct->pbState = 0;
 			bct->stateId = PBS_NORMAL;
 		}
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case BM_GETCHECK:
@@ -431,7 +429,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 	case BUTTONSETARROW:
 		// turn arrow on/off
 		if (wParam) {
-			//if (!bct->arrow) bct->arrow = (HICON) LoadImage(g_hInst,  MAKEINTRESOURCE(IDI_MINIMIZE),  IMAGE_ICON,  g_cxsmIcon,  g_cysmIcon,  0);
+			//if (!bct->arrow) bct->arrow = (HICON) LoadImage(g_hInst, MAKEINTRESOURCE(IDI_MINIMIZE), IMAGE_ICON, g_cxsmIcon, g_cysmIcon, 0);
 		}
 		else {
 			if (bct->arrow) {
@@ -439,22 +437,22 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 				bct->arrow = NULL;
 			}
 		}
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 	
 	case BUTTONSETDEFAULT:
 		bct->defbutton = wParam ? 1 : 0;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 	
 	case BUTTONSETASPUSHBTN:
 		bct->pushBtn = 1;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 	
 	case BUTTONSETASFLATBTN:
 		bct->flatBtn = lParam == 0 ? 1 : 0;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 	
 	case BUTTONSETASFLATBTN + 10:
@@ -465,20 +463,20 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 		if (wParam) {
 			EnterCriticalSection(&csTips);
 			if (!hwndToolTips)
-				hwndToolTips = CreateWindowExA(WS_EX_TOPMOST,  TOOLTIPS_CLASSA,  "",  WS_POPUP,  0,  0,  0,  0,  NULL,  NULL,  GetModuleHandle(NULL),  NULL);
+				hwndToolTips = CreateWindowExA(WS_EX_TOPMOST, TOOLTIPS_CLASSA, "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
-			TOOLINFOA ti = { 0 };
+			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND;
 			ti.hwnd = bct->hwnd;
 			ti.uId = (UINT) bct->hwnd;
-			if (SendMessage(hwndToolTips,  TTM_GETTOOLINFO,  0,  (LPARAM) &ti))
-				SendMessage(hwndToolTips,  TTM_DELTOOL,  0,  (LPARAM) &ti);
+			if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM) &ti))
+				SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM) &ti);
 
 			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			ti.uId = (UINT) bct->hwnd;
-			ti.lpszText = (char*) wParam;
-			SendMessageA(hwndToolTips,  TTM_ADDTOOLA,  0,  (LPARAM) &ti);
+			ti.lpszText = (TCHAR*) wParam;
+			SendMessage(hwndToolTips, TTM_ADDTOOL, 0, (LPARAM) &ti);
 			LeaveCriticalSection(&csTips);
 		}
 		break;
@@ -486,23 +484,23 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 	case WM_SETFOCUS:
 		// set keybord focus and redraw
 		bct->focus = 1;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case WM_KILLFOCUS:
 		// kill focus and redraw
 		bct->focus = 0;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case WM_WINDOWPOSCHANGED:
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case WM_ENABLE:
 		// windows tells us to enable/disable
 		bct->stateId = wParam ? PBS_NORMAL : PBS_DISABLED;
-		InvalidateRect(bct->hwnd,  NULL,  TRUE);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case WM_MOUSELEAVE:
@@ -510,7 +508,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 		if (bct->stateId  !=  PBS_DISABLED) {
 			// don't change states if disabled
 			bct->stateId = PBS_NORMAL;
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		break;
 
@@ -518,7 +516,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 		if (bct->stateId  !=  PBS_DISABLED) {
 			// don't change states if disabled
 			bct->stateId = PBS_PRESSED;
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		break;
 
@@ -535,32 +533,32 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 				bct->stateId = PBS_HOT;
 			else
 				bct->stateId = PBS_NORMAL;
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		// Tell your daddy you got clicked.
-		SendMessage(GetParent(hwndDlg),  WM_COMMAND,  MAKELONG(GetDlgCtrlID(hwndDlg),  BN_CLICKED),  (LPARAM) hwndDlg);
+		SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM) hwndDlg);
 		break;
 
 	case WM_MOUSEMOVE:
 		if (bct->stateId == PBS_NORMAL) {
 			bct->stateId = PBS_HOT;
-			InvalidateRect(bct->hwnd,  NULL,  TRUE);
+			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 
-		// Call timer,  used to start cheesy TrackMouseEvent faker
-		SetTimer(hwndDlg,  BUTTON_POLLID,  BUTTON_POLLDELAY,  NULL);
+		// Call timer, used to start cheesy TrackMouseEvent faker
+		SetTimer(hwndDlg, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
 		break;
 	case WM_TIMER:
 		// use a timer to check if they have did a mouseout
 		if (wParam == BUTTON_POLLID) {
 			RECT rc;
 			POINT pt;
-			GetWindowRect(hwndDlg,  &rc);
+			GetWindowRect(hwndDlg, &rc);
 			GetCursorPos(&pt);
-			if (!PtInRect(&rc,  pt)) {
-				// mouse must be gone,  trigger mouse leave
-				PostMessage(hwndDlg,  WM_MOUSELEAVE,  0,  0L);
-				KillTimer(hwndDlg,  BUTTON_POLLID);
+			if (!PtInRect(&rc, pt)) {
+				// mouse must be gone, trigger mouse leave
+				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);
+				KillTimer(hwndDlg, BUTTON_POLLID);
 			}
 		}
 		break;
@@ -577,10 +575,10 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
 				ti.uId = (UINT) bct->hwnd;
-				if (SendMessage(hwndToolTips,  TTM_GETTOOLINFO,  0,  (LPARAM) &ti))
-					SendMessage(hwndToolTips,  TTM_DELTOOL,  0,  (LPARAM) &ti);
+				if (SendMessage(hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM) &ti))
+					SendMessage(hwndToolTips, TTM_DELTOOL, 0, (LPARAM) &ti);
 
-				if (SendMessage(hwndToolTips,  TTM_GETTOOLCOUNT,  0,  (LPARAM) &ti) == 0) {
+				if (SendMessage(hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM) &ti) == 0) {
 					DestroyWindow(hwndToolTips);
 					hwndToolTips = NULL;
 				}
@@ -591,11 +589,11 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg,  UINT msg,  WPARAM wParam,
 			DestroyTheme(bct);
 			free(bct);
 		}
-		SetWindowLongPtr(hwndDlg,  0,  (LONG) NULL);
+		SetWindowLongPtr(hwndDlg, 0, (LONG) NULL);
 		break;  // DONT! fall thru
 	}
 
-	return DefWindowProc(hwndDlg,  msg,  wParam,  lParam);
+	return DefWindowProc(hwndDlg, msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -609,7 +607,7 @@ int LoadCLCButtonModule(void)
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = "CLCButtonClass";
 	wc.lpfnWndProc = TSButtonWndProc;
-	wc.hCursor = LoadCursor(NULL,  IDC_ARROW);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(MButtonCtrl *);
 	wc.hbrBackground = 0;
 	wc.style = CS_GLOBALCLASS;
@@ -618,7 +616,7 @@ int LoadCLCButtonModule(void)
 	return 0;
 }
 
-int UnloadTSButtonModule(WPARAM wParam,  LPARAM lParam)
+int UnloadTSButtonModule(WPARAM wParam, LPARAM lParam)
 {
 	DeleteCriticalSection(&csTips);
 	return 0;

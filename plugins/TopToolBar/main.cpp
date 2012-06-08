@@ -22,14 +22,14 @@ extern int SaveAllSeparators();
 extern INT_PTR InsertNewFreeSeparator(WPARAM wParam, LPARAM lParam);
 extern INT_PTR DeleteSeparator(WPARAM id, LPARAM lParam);
 
-#define MIID_TTB {0xf593c752,  0x51d8,  0x4d46,  {0xba,  0x27,  0x37,  0x57,  0x79,  0x53,  0xf5,  0x5c}}
+#define MIID_TTB {0xf593c752, 0x51d8, 0x4d46, {0xba, 0x27, 0x37, 0x57, 0x79, 0x53, 0xf5, 0x5c}}
 
 int nextButtonId = 200;
 int nButtonsCount = 0;
 int lastxpos = 1;
 int lastypos = 1;
 
-//  ==  ==  ==  ==  ==  ==  == options
+// ==  == ==  == ==  == == options
 COLORREF bkColour;
 HBITMAP hBmpBackground;
 int backgroundBmpUse;
@@ -48,13 +48,13 @@ int applyuserbitmaps(int pos)
 	Buttons[pos].hbBitmapDown = Buttons[pos].hbDefBitmapDown;
 	Buttons[pos].hbBitmapUp = Buttons[pos].hbDefBitmapUp;
 	if (Buttons[pos].UserDefinedbmDown != NULL) {
-		if (strstr(Buttons[pos].UserDefinedbmDown, ".ico")) 
+		if ( _tcsstr(Buttons[pos].UserDefinedbmDown, _T(".ico"))) 
 			t = IMAGE_ICON;
 		Buttons[pos].hbBitmapDown = ( HBITMAP )LoadImage(0, Buttons[pos].UserDefinedbmDown, t, 0, 0, LR_LOADFROMFILE);	
 	}
 
 	if (Buttons[pos].UserDefinedbmUp != NULL) {
-		if (strstr(Buttons[pos].UserDefinedbmUp, ".ico"))
+		if ( _tcsstr(Buttons[pos].UserDefinedbmUp, _T(".ico")))
 			t = IMAGE_ICON;
 		Buttons[pos].hbBitmapUp = ( HBITMAP )LoadImage(0, Buttons[pos].UserDefinedbmUp, t, 0, 0, LR_LOADFROMFILE);
 	}
@@ -86,7 +86,7 @@ void ulockbut()
 int idtopos(int id)
 {
 	for ( int i = 0;i<nButtonsCount;i++)
-		if (Buttons[i].id  == id)
+		if (Buttons[i].id == id)
 			return i;
 
 	return -1;
@@ -95,7 +95,7 @@ int idtopos(int id)
 int DBSaveButtonSettings(int butpos)
 {
 	char buf[255];
-	memset(buf, 0, sizeof(buf));	
+	memset(buf, 0, SIZEOF(buf));	
 
 	DBWriteContactSettingWord(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_Position"), Buttons[butpos].arrangedpos);
 
@@ -106,10 +106,10 @@ int DBSaveButtonSettings(int butpos)
 	DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"), "");
 	
 	if (Buttons[butpos].UserDefinedbmDown != NULL)
-		DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"), Buttons[butpos].UserDefinedbmDown);
+		DBWriteContactSettingTString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"), Buttons[butpos].UserDefinedbmDown);
 
 	if (Buttons[butpos].UserDefinedbmUp != NULL)
-		DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"), Buttons[butpos].UserDefinedbmUp);
+		DBWriteContactSettingTString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"), Buttons[butpos].UserDefinedbmUp);
 
 	return 0;
 }
@@ -127,7 +127,7 @@ int SaveAllButtonsOptions()
 int DBLoadButtonSettings(int butpos)
 {
 	char buf[255];
-	memset(buf, 0, sizeof(buf));	
+	memset(buf, 0, SIZEOF(buf));	
 
 	//bool
 	Buttons[butpos].arrangedpos = DBGetContactSettingWord(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_Position"), MAX_BUTTONS);
@@ -136,14 +136,14 @@ int DBLoadButtonSettings(int butpos)
 	if ( DBGetContactSettingDword(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_Visible"), oldv) > 0 )
 		Buttons[butpos].dwFlags |= TTBBF_VISIBLE;
 
-	Buttons[butpos].UserDefinedbmDown = DBGetString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"));
-	if ((Buttons[butpos].UserDefinedbmDown != NULL) && strlen(Buttons[butpos].UserDefinedbmDown)  == 0) {
+	Buttons[butpos].UserDefinedbmDown = DBGetStringT(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"));
+	if ((Buttons[butpos].UserDefinedbmDown != NULL) && *Buttons[butpos].UserDefinedbmDown == 0) {
 		free(Buttons[butpos].UserDefinedbmDown);
 		Buttons[butpos].UserDefinedbmDown = NULL;
 	}
 
-	Buttons[butpos].UserDefinedbmUp = DBGetString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"));
-	if ((Buttons[butpos].UserDefinedbmUp != NULL) && strlen(Buttons[butpos].UserDefinedbmUp)  == 0) { 
+	Buttons[butpos].UserDefinedbmUp = DBGetStringT(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"));
+	if ((Buttons[butpos].UserDefinedbmUp != NULL) && *Buttons[butpos].UserDefinedbmUp == 0) { 
 		free(Buttons[butpos].UserDefinedbmUp);
 		Buttons[butpos].UserDefinedbmUp = NULL;
 	}
@@ -245,7 +245,7 @@ static int UpdateToolTip(int bpos)
 bool nameexists(const char *name)
 {
 	for (int i = 0; i < nButtonsCount; i++)
-		if (strcmp(Buttons[i].name, name)  == 0)
+		if (strcmp(Buttons[i].name, name) == 0)
 			return TRUE;
 
 	return FALSE;
@@ -258,7 +258,7 @@ HICON LoadIconFromLibrary(char *SectName, char *Name, char *Description, HICON h
 
 	if (Name != NULL && *Name != 0) {				
 		char iconame[256];
-		_snprintf(iconame, sizeof(iconame), "toptoolbar_%s", Name);
+		_snprintf(iconame, SIZEOF(iconame), "toptoolbar_%s", Name);
 		if ( ServiceExists(MS_SKIN2_ADDICON)) {
 			if (RegisterIt) {
 				SKINICONDESC sid = {0};
@@ -268,12 +268,12 @@ HICON LoadIconFromLibrary(char *SectName, char *Name, char *Description, HICON h
 				sid.pszDefaultFile = NULL;
 				sid.pszDescription = Description;
 				sid.hDefaultIcon = hIcon;
-				CallService(MS_SKIN2_ADDICON,  0,  (LPARAM)&sid);
+				CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
 
 				if (RegistredOk)
 					*RegistredOk = TRUE;
 			}
-			return ((HICON)CallService(MS_SKIN2_GETICON,  0,  (LPARAM)iconame));
+			return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconame));
 		}
 	}
 
@@ -283,9 +283,9 @@ HICON LoadIconFromLibrary(char *SectName, char *Name, char *Description, HICON h
 int CreateOneWindow(int ButtonPos)
 {
 	if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseMirandaButtonClass", UseMirandaButtonClassDefaultValue) && !(Buttons[ButtonPos].dwFlags & TTBBF_ISSEPARATOR))
-		Buttons[ButtonPos].hwnd = CreateWindow(MYMIRANDABUTTONCLASS, "", BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
+		Buttons[ButtonPos].hwnd = CreateWindow(MYMIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
 	else 
-		Buttons[ButtonPos].hwnd = CreateWindow("STATIC", "", WS_CHILD|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
+		Buttons[ButtonPos].hwnd = CreateWindow( _T("STATIC"), _T(""), WS_CHILD|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
 
 	SetWindowLongPtr(Buttons[ButtonPos].hwnd, GWLP_USERDATA, Buttons[ButtonPos].id);
 	if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1))
@@ -297,30 +297,29 @@ int CreateOneWindow(int ButtonPos)
 INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 {
 	int i, retval;
-	TTBButtonV2 but;
 
-	if (wParam  == 0)
+	if (wParam == 0)
 		return -1;
-	if (hwndContactList  == 0)
+
+	if (hwndContactList == 0)
 		hwndContactList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 	//oops clui even now not loaded...sorry no buttons available
-	if (hwndContactList  == 0)
+	if (hwndContactList == 0)
 		return -1;
 
 	lockbut();
-	if (nButtonsCount  == MAX_BUTTONS)
+	if (nButtonsCount == MAX_BUTTONS)
 		return -1;
 
 	i = nButtonsCount;
-	memset(&but, 0, sizeof(but));
-
-	if (((TTBButton*)wParam)->cbSize  == sizeof(TTBButton))
+	TTBButtonV2 but = { 0 };
+	if (((TTBButton*)wParam)->cbSize == sizeof(TTBButton))
 		memcpy(&but, (void*)wParam, sizeof(TTBButton));
 
-	if (((TTBButton*)wParam)->cbSize  == sizeof(TTBButtonV2))
+	if (((TTBButton*)wParam)->cbSize == sizeof(TTBButtonV2))
 		memcpy(&but, (void*)wParam, sizeof(TTBButtonV2));
 
-	if ( but.name  == NULL|| nameexists(but.name)) {
+	if ( but.name == NULL|| nameexists(but.name)) {
 		ulockbut();
 		return -1;
 	}
@@ -363,18 +362,18 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		Buttons[i].hIconDn = LoadIconFromLibrary("TopToolBar", buf, buf, but.hIconUp, TRUE, NULL);
 	}
 
-	Buttons[i].hwndTip = CreateWindowEx(0,  TOOLTIPS_CLASS,  NULL, 
+	Buttons[i].hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, 
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, 
-		CW_USEDEFAULT,  CW_USEDEFAULT, 
-		CW_USEDEFAULT,  CW_USEDEFAULT, 
-		hwndTopToolBar,  NULL,  hInst, 
+		CW_USEDEFAULT, CW_USEDEFAULT, 
+		CW_USEDEFAULT, CW_USEDEFAULT, 
+		hwndTopToolBar, NULL, hInst, 
 		NULL);
 
-	SetWindowPos(Buttons[i].hwndTip,  HWND_TOPMOST, 0,  0,  0,  0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	SetWindowPos(Buttons[i].hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(ti);
-	ti.lpszText = "";
+	ti.lpszText = _T("");
 	ti.hinst = hInst;
 	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
 	ti.uId = (UINT_PTR)Buttons[i].hwnd;
@@ -463,7 +462,7 @@ int ArrangeButtons()
 	int i;
 	int newheight, cnt, perline;
 
-	if (StopArrange  == TRUE)
+	if (StopArrange == TRUE)
 		return 0;
 
 	BUTTHEIGHT = DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", 16);
@@ -492,11 +491,11 @@ int ArrangeButtons()
 			visbut++;
 		}
 
-		if (winrc.left  == 0)
+		if (winrc.left == 0)
 			return 0;
 
 		perline = winrc.left/(BUTTWIDTH+1);
-		if (perline  == 0)
+		if (perline == 0)
 			perline = 1;
 
 		cnt = (visbut)/perline;
@@ -522,7 +521,7 @@ int ArrangeButtons()
 			InvalidateRect(Buttons[arrangedbuts[i].oldpos].hwnd, NULL, TRUE);
 
 			//lastxpos += BUTTWIDTH+1;
-			if (i  == v-1)
+			if (i == v-1)
 				break;
 			if ( !(Buttons[arrangedbuts[i+1].oldpos].dwFlags & TTBBF_VISIBLE))
 				continue;
@@ -553,7 +552,7 @@ int ArrangeButtons()
 int SetButtBitmap(int pos)
 {
 	int t = IMAGE_BITMAP;
-	char *curname = (Buttons[pos].bPushed)?(Buttons[pos].UserDefinedbmDown):(Buttons[pos].UserDefinedbmUp);
+	TCHAR *curname = (Buttons[pos].bPushed)?(Buttons[pos].UserDefinedbmDown):(Buttons[pos].UserDefinedbmUp);
 
 	int curstyle = GetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE);
 	curstyle &= (~SS_BITMAP);
@@ -561,20 +560,20 @@ int SetButtBitmap(int pos)
 
 	if (!UseIcoLib||(Buttons[pos].dwFlags&TTBBF_ISSEPARATOR)) {
 		if (curname != NULL) {
-			if (strstr(curname, ".ico")) 
+			if ( _tcsstr(curname, _T(".ico"))) 
 				t = IMAGE_ICON;
 
-			curstyle |= (t  == IMAGE_ICON || UseIcoLib) ? SS_ICON : SS_BITMAP;
+			curstyle |= (t == IMAGE_ICON || UseIcoLib) ? SS_ICON : SS_BITMAP;
 			SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle);
 		}
-		else SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|(Buttons[pos].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
+		else SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|(Buttons[pos].hbBitmapDown == NULL?SS_ICON:SS_BITMAP));
 	}
 	else if (GetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE)&SS_ICON)
 		SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|SS_ICON);
 
 	if ( !UseIcoLib||(Buttons[pos].dwFlags & TTBBF_ISSEPARATOR)) {
 		if (!(Buttons[pos].dwFlags & TTBBF_DRAWBORDER)) {
-			if (Buttons[pos].hbBitmapDown  == NULL) {
+			if (Buttons[pos].hbBitmapDown == NULL) {
 				t = IMAGE_ICON;
 				SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
 				SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
@@ -618,7 +617,7 @@ INT_PTR TTBGetState(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 
-	int retval = (Buttons[pos].bPushed  == TRUE) ? TTBST_PUSHED : TTBST_RELEASED;
+	int retval = (Buttons[pos].bPushed == TRUE) ? TTBST_PUSHED : TTBST_RELEASED;
 	ulockbut();
 	return retval;
 }
@@ -693,7 +692,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 
 	switch(LOWORD(wParam)) {
 	case TTBO_FLAGS:
-		if (Buttons[pos].dwFlags  == lParam)
+		if (Buttons[pos].dwFlags == lParam)
 			break;
 
 		Buttons[pos].dwFlags = lParam;
@@ -722,11 +721,11 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		break;
 	
 	case TTBO_TIPNAME:
-		if (lParam  == 0)
+		if (lParam == 0)
 			break;
 		if (Buttons[pos].tooltip != NULL)
 			free(Buttons[pos].tooltip);
-		Buttons[pos].tooltip = _strdup((LPCSTR)lParam);
+		Buttons[pos].tooltip = _tcsdup((LPCTSTR)lParam);
 		UpdateToolTip(pos);
 		retval = 1;
 		break;
@@ -780,7 +779,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-LRESULT CALLBACK TopToolBarProc(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lParam)
+LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
 	case WM_CREATE:
@@ -817,7 +816,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lP
 			rcPaint = &(paintst.rcPaint);
 
 			GetClientRect(hwnd, &clRect);
-			if (rcPaint  == NULL) rcPaint = &clRect;
+			if (rcPaint == NULL) rcPaint = &clRect;
 			y = -yScroll;
 			hdcMem = CreateCompatibleDC(hdc);
 			hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
@@ -910,7 +909,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lP
 		if (DBGetContactSettingByte(NULL, "CLUI", "ClientAreaDrag", 0)) {
 			POINT pt;
 			GetCursorPos(&pt);
-			return SendMessage(GetParent(hwnd),  WM_SYSCOMMAND,  SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
+			return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
 		return 0;	
 
@@ -918,7 +917,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lP
 		return 0;
 
 	case WM_COMMAND:
-		if ((HIWORD(wParam)  == STN_CLICKED|| HIWORD(wParam)  == STN_DBLCLK)) {
+		if ((HIWORD(wParam) == STN_CLICKED|| HIWORD(wParam) == STN_DBLCLK)) {
 			int id = GetWindowLongPtr((HWND)lParam, GWLP_USERDATA);
 			if (id != 0) {
 				lockbut();
@@ -950,15 +949,15 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lP
 		break;
 
 	default:
-		return DefWindowProc(hwnd,  msg,  wParam,  lParam);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 	return(TRUE);
 }
 
+static TCHAR pluginname[] = _T("TopToolBar");
+
 int addTopToolBarWindow(HWND parent)
 {
-	char pluginname[] = "TopToolBar";
-
 	WNDCLASS wndclass;
 	wndclass.style         = 0;
 	wndclass.lpfnWndProc   = TopToolBarProc;
@@ -966,7 +965,7 @@ int addTopToolBarWindow(HWND parent)
 	wndclass.cbWndExtra    = 0;
 	wndclass.hInstance     = hInst;
 	wndclass.hIcon         = NULL;
-	wndclass.hCursor       = LoadCursor (NULL,  IDC_ARROW);
+	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_BTNFACE+1);//NULL;//(HBRUSH)(COLOR_3DFACE+1);
 	wndclass.lpszMenuName  = NULL;
 	wndclass.lpszClassName = pluginname;
@@ -978,31 +977,26 @@ int addTopToolBarWindow(HWND parent)
 	ttbOptionsChanged();
 
 	CLISTFrame Frame = { 0 };
-	Frame.name = (char *)malloc(255);
-	memset(Frame.name, 0, 255);
-	memcpy(Frame.name, pluginname, sizeof(pluginname));
 	Frame.cbSize = sizeof(Frame);
+	Frame.tname = pluginname;
 	Frame.hWnd = pluginwind;
 	Frame.align = alTop;
-	Frame.Flags = F_VISIBLE|F_NOBORDER|F_LOCKED;
+	Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_TCHAR;
 	Frame.height = 18;
-
-	int retval = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-	free(Frame.name);
-	return retval;
+	return (int)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 }
 
 VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	KillTimer(0, idEvent);
-	NotifyEventHooks(hHookTTBModuleLoaded,  0, 0);
+	NotifyEventHooks(hHookTTBModuleLoaded, 0, 0);
 }
 
 static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
 	StopArrange = FALSE;
-	NotifyEventHooks(hHookTTBModuleLoaded,  0, 0);
+	NotifyEventHooks(hHookTTBModuleLoaded, 0, 0);
 	return 0;
 }
 
@@ -1031,23 +1025,12 @@ static int OnBGChange(WPARAM wParam, LPARAM lParam)
 
 static int OnmodulesLoad(WPARAM wParam, LPARAM lParam)
 {
-	int ex = 0;
+	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		MessageBox(0, TranslateT("Frames Services not found - plugin disabled.You need MultiWindow plugin."), _T("TopToolBar"), 0);
+		return 0;
+	}
 
 	hwndContactList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-
-	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		MessageBox(0, "Frames Services not found - plugin disabled.You need MultiWindow plugin.", "TopToolBar", 0);
-		return 0;
-		ex = 1;
-	}
-	if (!ServiceExists(MS_CLUI_GETHWNDTREE)) {
-		MessageBox(0, "MS_CLUI_GETHWNDTREE Service not found - plugin disabled", "TopToolBar", 0);
-		return 0;
-		ex = 1;
-	}
-
-	if (ex  == 1)
-		return 0;
 
 	OptionsOpened = false;
 	CreateServiceFunction(MS_TTB_ADDBUTTON, TTBAddButton);
@@ -1092,7 +1075,7 @@ static int OnmodulesLoad(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const MUUID interfaces[] = {MIID_TTB,  MIID_LAST};
+static const MUUID interfaces[] = {MIID_TTB, MIID_LAST};
 
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {

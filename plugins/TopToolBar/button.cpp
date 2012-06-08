@@ -34,7 +34,7 @@ typedef struct {
 	int     pbState;
 	HANDLE  hThemeButton;
 	HANDLE  hThemeToolbar;
-	char	cHot;
+	TCHAR   cHot;
 	int     flatBtn;
 } MButtonCtrl;
 
@@ -60,7 +60,7 @@ static int ThemeSupport()
 {
 	if (IsWinVerXPPlus()) {
 		if (!themeAPIHandle) {
-			themeAPIHandle = GetModuleHandle("uxtheme");
+			themeAPIHandle = GetModuleHandleA("uxtheme");
 			if (themeAPIHandle) {
 				MyOpenThemeData = (HANDLE (WINAPI *)(HWND,LPCWSTR))MGPROC("OpenThemeData");
 				MyCloseThemeData = (HRESULT (WINAPI *)(HANDLE))MGPROC("CloseThemeData");
@@ -204,11 +204,9 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		}
 		else if (ctl->hBitmap) {
 			BITMAP bminfo;
-			int ix,iy;
-
 			GetObject(ctl->hBitmap, sizeof(bminfo), &bminfo);
-			ix = (rcClient.right-rcClient.left)/2 - (bminfo.bmWidth/2);
-			iy = (rcClient.bottom-rcClient.top)/2 - (bminfo.bmHeight/2);
+			int ix = (rcClient.right-rcClient.left)/2 - (bminfo.bmWidth/2);
+			int iy = (rcClient.bottom-rcClient.top)/2 - (bminfo.bmHeight/2);
 			if (ctl->stateId == PBS_PRESSED) {
 				ix++;
 				iy++;
@@ -217,12 +215,12 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		}
 		else if (GetWindowTextLength(ctl->hwnd)) {
 			// Draw the text and optinally the arrow
-			char szText[MAX_PATH];
+			TCHAR szText[MAX_PATH];
 			SIZE sz;
 			RECT rcText;
 			CopyRect(&rcText, &rcClient);
 
-			GetWindowText(ctl->hwnd, szText, sizeof(szText));
+			GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
 			SetBkMode(hdcMem, TRANSPARENT);
 			HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 			// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
@@ -230,8 +228,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
 			if (ctl->cHot) {
 				SIZE szHot;
-				
-				GetTextExtentPoint32(hdcMem, "&", 1, &szHot);
+				GetTextExtentPoint32(hdcMem, _T("&"), 1, &szHot);
 				sz.cx -= szHot.cx;
 			}
 			if (ctl->arrow) {
@@ -248,7 +245,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	}
 }
 
-static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	MButtonCtrl* bct =  (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
 	switch(msg) {
@@ -393,7 +390,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		if (wParam) {
 			EnterCriticalSection(&csTips);
 			if (!hwndToolTips)
-				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, "", WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
+				hwndToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
 
 			TOOLINFO ti = { 0 };
 			ti.cbSize = sizeof(ti);
@@ -405,7 +402,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId = (UINT)bct->hwnd;
-			ti.lpszText=(char*)wParam;
+			ti.lpszText = ( LPTSTR )wParam;
 			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 			LeaveCriticalSection(&csTips);
 		}
@@ -518,9 +515,7 @@ int UnloadButtonModule(WPARAM wParam, LPARAM lParam)
 
 int LoadButtonModule(void)
 {
-	WNDCLASSEX wc;
-	
-	ZeroMemory(&wc, sizeof(wc));
+	WNDCLASSEX wc = { 0 };
 	wc.cbSize         = sizeof(wc);
 	wc.lpszClassName  = MYMIRANDABUTTONCLASS;
 	wc.lpfnWndProc    = MButtonWndProc;

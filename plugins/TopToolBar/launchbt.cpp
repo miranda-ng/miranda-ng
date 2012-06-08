@@ -35,10 +35,10 @@ INT_PTR GetLButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	LBUTOPT *lbo = ( LBUTOPT* )lParam;
-	if (lbo  == NULL)
+	if (lbo == NULL)
 		return -1;
 
-	if (LBUTS[wParam].hframe  == 0)
+	if (LBUTS[wParam].hframe == 0)
 		return -1;
 
 	*lbo = LBUTS[wParam];
@@ -53,10 +53,10 @@ INT_PTR ModifyLButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	LBUTOPT *lbo = ( LBUTOPT* )lParam;
-	if (lbo  == NULL)
+	if (lbo == NULL)
 		return -1;
 	
-	if (LBUTS[wParam].hframe  == 0)
+	if (LBUTS[wParam].hframe == 0)
 		return -1;
 
 	DeleteLBut(wParam, 0);
@@ -68,14 +68,14 @@ INT_PTR ModifyLButton(WPARAM wParam, LPARAM lParam)
 	if (lbo->name != NULL)
 		LBUTS[wParam].name = _strdup(lbo->name);
 	if (lbo->lpath != NULL)
-		LBUTS[wParam].lpath = _strdup(lbo->lpath);
+		LBUTS[wParam].lpath = _tcsdup(lbo->lpath);
 	
 	LBUTS[wParam].hframe = InsertLBut(wParam);
 	SaveAllLButs();
 	return 0;
 }
 
-int InsertLBut(int id)
+INT_PTR InsertLBut(int id)
 {
 	HBITMAP DefLUp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_LAUNCHDN));
 	HBITMAP DefLDn = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_LAUNCHUP));
@@ -113,56 +113,48 @@ int LoadAllLButs()
 	char buf[255];
 	char buf1[10];
 	char fixname[255];
-	int id, i;
-//	char *oldtb;
+	int id;
 	
 	//must be locked
-	memset(buf, 0, sizeof(buf));	
+	memset(buf, 0, SIZEOF(buf));	
 
 	memset(LBUTS, 0, sizeof(LBUTS));
-	for (i = 0;i<MAXLBUTS;i++)
-	{
-	memset(buf1, 0, sizeof(buf1));
+	for (int i = 0; i < MAXLBUTS; i++) {
+		memset(buf1, 0, SIZEOF(buf1));
 		itoa(i, buf1, 10);
 		AS(fixname, "LBUT", buf1);
 		id = DBGetContactSettingWord(0, TTB_OPTDIR, AS(buf, fixname, ""), -1);
-		if (id != -1)
-		{
-		LBUTS[i].name = DBGetString(0, TTB_OPTDIR, AS(buf, fixname, "_name"));
-		LBUTS[i].lpath = DBGetString(0, TTB_OPTDIR, AS(buf, fixname, "_lpath"));
-		if (LBUTS[i].lpath  == NULL){LBUTS[i].lpath = _strdup("Execute Path");}
-		LBUTS[i].hframe = 0;
-		LBUTS[i].hframe = InsertLBut(i);
+		if (id != -1) {
+			LBUTS[i].name = DBGetString(0, TTB_OPTDIR, AS(buf, fixname, "_name"));
+			LBUTS[i].lpath = DBGetStringT(0, TTB_OPTDIR, AS(buf, fixname, "_lpath"));
+			if (LBUTS[i].lpath == NULL)
+				LBUTS[i].lpath = _tcsdup( _T("Execute Path"));
+			LBUTS[i].hframe = 0;
+			LBUTS[i].hframe = InsertLBut(i);
 		}
 	}
 	return 0;
-
 }
-
 
 int SaveAllLButs()
 {
 	char buf[255];
 	char buf1[10];
 	char fixname[255];
-	int i;
 	
 	//must be locked
-	memset(buf, 0, sizeof(buf));	
+	memset(buf, 0, SIZEOF(buf));	
 	
-	for (i = 0;i<MAXLBUTS;i++)
-	{
+	for (int i = 0;i<MAXLBUTS;i++) {
 		itoa(i, buf1, 10);
-		if (LBUTS[i].hframe != 0)
-		{
-		AS(fixname, "LBUT", buf1);
-		DBWriteContactSettingWord(0, TTB_OPTDIR, AS(buf, fixname, ""), i);
-		DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, fixname, "_name"), LBUTS[i].name);
-		DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, fixname, "_lpath"), LBUTS[i].lpath);
+		if (LBUTS[i].hframe != 0) {
+			AS(fixname, "LBUT", buf1);
+			DBWriteContactSettingWord(0, TTB_OPTDIR, AS(buf, fixname, ""), i);
+			DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, fixname, "_name"), LBUTS[i].name);
+			DBWriteContactSettingTString(0, TTB_OPTDIR, AS(buf, fixname, "_lpath"), LBUTS[i].lpath);
 		}
-		else
-		{
-		AS(fixname, "LBUT", buf1);
+		else {
+			AS(fixname, "LBUT", buf1);
 			DBWriteContactSettingWord(0, TTB_OPTDIR, AS(buf, fixname, ""), -1);
 			DBDeleteContactSetting(0, TTB_OPTDIR, AS(buf, fixname, ""));
 			DBDeleteContactSetting(0, TTB_OPTDIR, AS(buf, fixname, "_lpath"));
@@ -170,24 +162,19 @@ int SaveAllLButs()
 		}
 	}
 	return 0;
-
 }
-
 
 //return 0 on success, -1 on error
 INT_PTR InsertNewFreeLBut(WPARAM wParam, LPARAM lParam)
 {
 	char buf[256];
-	if (LButCnt<MAXLBUTS)
-	{
-		int i;
-		for (i = 0;i<MAXLBUTS;i++)
-		{
-			if (LBUTS[i].hframe  == 0)
+	if (LButCnt < MAXLBUTS) {
+		for (int i = 0;i<MAXLBUTS;i++) {
+			if (LBUTS[i].hframe == 0)
 			{
-				wsprintf(buf, "%s %d", Translate("Default"), i);
+				wsprintfA(buf, "%s %d", Translate("Default"), i);
 				LBUTS[i].name = _strdup(buf);
-				LBUTS[i].lpath = _strdup("Execute Path");
+				LBUTS[i].lpath = _tcsdup( _T("Execute Path"));
 				LBUTS[i].hframe = InsertLBut(i);
 				SaveAllLButs();
 				return 0;

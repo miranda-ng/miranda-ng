@@ -13,7 +13,7 @@ int InsertSeparator(int id)
 	HBITMAP Separator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 	
 	char buf[255];
-	wsprintf(buf, "%s %d", Translate("Separator"), id);
+	wsprintfA(buf, "%s %d", Translate("Separator"), id);
 
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
@@ -57,7 +57,7 @@ int LoadAllSeparators()
 		_itoa(i, buf1, 10);
 
 		int id = DBGetContactSettingWord(0, TTB_OPTDIR, AS(buf, "Sep", buf1), -1);
-		if (id  == i)
+		if (id == i)
 			Separators[i] = InsertSeparator(i);
 	}
 	return 0;
@@ -86,7 +86,7 @@ INT_PTR InsertNewFreeSeparator(WPARAM wParam, LPARAM lParam)
 {
 	if (SeparatorCnt < MAXSEPS) {
 		for (int i = 0; i < MAXSEPS; i++) {
-			if (Separators[i]  == 0) {
+			if (Separators[i] == 0) {
 				Separators[i] = InsertSeparator(i);
 				SaveAllSeparators();
 				return 0;

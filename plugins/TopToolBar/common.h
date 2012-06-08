@@ -49,7 +49,8 @@ int ttbOptionsChanged();
 int ArrangeButtons();
 int RecreateWindows();
 
-typedef struct {
+struct TopButtonInt 
+{
 	HWND hwnd;
 	HWND hwndTip;
 	int id;
@@ -62,24 +63,23 @@ typedef struct {
 	HICON hIconUp, hIconDn;
 	
 	char *pszServiceUp, *pszServiceDown;
-	char *tooltip;
 	char *name;
-
+	TCHAR *tooltip;
+	
 	LPARAM lParamUp;
 	WPARAM wParamUp;
 	LPARAM lParamDown;
 	WPARAM wParamDown;
 	WORD arrangedpos;
-	char *UserDefinedbmUp;
-	char *UserDefinedbmDown;
+	TCHAR *UserDefinedbmUp;
+	TCHAR *UserDefinedbmDown;
+};
 
-
-}TopButtonInt;
-
-typedef struct tagSortData {
+struct SortData
+{
 	int oldpos;
 	int arrangeval;
-} SortData;
+};
 
 #define MAX_BUTTONS		64
 //#define BUTTWIDTH		20
@@ -87,11 +87,12 @@ typedef struct tagSortData {
 //#define BUTTHEIGHT		16
 #define SEPWIDTH		3
 
-typedef struct tagButtonOptData {
+struct ButtonOptData
+{
 	char *name;
 	int pos;
 	bool show;
-} ButtonOptData;
+};
 
 extern bool OptionsOpened;
 extern HWND OptionshWnd;			
@@ -100,7 +101,7 @@ int OptionsPageRebuild();
 void lockbut();
 void ulockbut();
 
-//return - 0 success,  -1 on error
+//return - 0 success, -1 on error
 #define TTB_ADDSEPARATOR "TTB/AddSeparator"
 //wparam sepid
 #define TTB_REMOVESEPARATOR "TTB/RemoveSeparator"
@@ -127,7 +128,7 @@ char *AS(char *str, const char *setting, char *addstr)
 
 #define TTB_ADDLBUTTON "TTB/AddLButton"
 #define TTB_REMOVELBUTTON "TTB/RemoveLButton"
-#define MYMIRANDABUTTONCLASS "MyMIRANDABUTTONCLASS"
+#define MYMIRANDABUTTONCLASS _T("MyMIRANDABUTTONCLASS")
 
 int LoadInternalButtons( HWND );
 int UnLoadInternalButtons( void );
@@ -153,13 +154,12 @@ INT_PTR GetLButton(WPARAM, LPARAM);
 
 INT_PTR InsertLBut(int id);
 
-typedef struct 
+struct LBUTOPT
 {
 	int hframe;
-	char *lpath;
+	TCHAR *lpath;
 	char *name;
-}
-	LBUTOPT;
+};
 
 int LoadCLCButtonModule(void);
 #define BM_SETPRIVATEICON (WM_USER + 6)

@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 #ifdef _WIN32
-LANGUAGE LANG_NEUTRAL,  SUBLANG_NEUTRAL
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1251)
 #endif //_WIN32
 
@@ -26,9 +26,9 @@ LANGUAGE LANG_NEUTRAL,  SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_OPT_BUTORDER DIALOGEX 0,  0,  300,  231
+IDD_OPT_BUTORDER DIALOGEX 0, 0, 300, 231
 STYLE DS_SETFONT | WS_CHILD
-FONT 8,  "MS Sans Serif",  0,  0,  0x1
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Buttons Order && Visibility", IDC_STATIC, 10, 0, 150, 180
     CONTROL         "Tree1", IDC_BUTTONORDERTREE, "SysTreeView32", TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP, 20, 25, 132, 100
@@ -71,18 +71,18 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPT_BUTORDER,  DIALOG
+    IDD_OPT_BUTORDER, DIALOG
     BEGIN
-        VERTGUIDE,  8
-        VERTGUIDE,  140
-        VERTGUIDE,  158
-        VERTGUIDE,  290
-        VERTGUIDE,  297
-        BOTTOMMARGIN,  229
-        HORZGUIDE,  17
-        HORZGUIDE,  38
-        HORZGUIDE,  133
-        HORZGUIDE,  138
+        VERTGUIDE, 8
+        VERTGUIDE, 140
+        VERTGUIDE, 158
+        VERTGUIDE, 290
+        VERTGUIDE, 297
+        BOTTOMMARGIN, 229
+        HORZGUIDE, 17
+        HORZGUIDE, 38
+        HORZGUIDE, 133
+        HORZGUIDE, 138
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -96,7 +96,7 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 #ifdef _WIN32
-LANGUAGE LANG_RUSSIAN,  SUBLANG_DEFAULT
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
 
@@ -105,9 +105,9 @@ LANGUAGE LANG_RUSSIAN,  SUBLANG_DEFAULT
 // Dialog
 //
 
-IDD_FRAMEPLUG2 DIALOG  0,  0,  211,  11
+IDD_FRAMEPLUG2 DIALOG  0, 0, 211, 11
 STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
-FONT 8,  "MS Sans Serif"
+FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         262, IDC_P2ONLINEBUTT, "Static", SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE, 55, 0, 13, 10
     CONTROL         269, IDC_P2GROUPBUTT, "Static", SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE, 70, 0, 13, 10
@@ -122,10 +122,10 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_FRAMEPLUG2,  DIALOG
+    IDD_FRAMEPLUG2, DIALOG
     BEGIN
-        RIGHTMARGIN,  197
-        BOTTOMMARGIN,  10
+        RIGHTMARGIN, 197
+        BOTTOMMARGIN, 10
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -210,18 +210,18 @@ BEGIN
     BEGIN
         BLOCK "041904b0"
         BEGIN
-            VALUE "FileDescription",  "ToptoolBar adds buttons in top frame for fast  access."
-            VALUE "FileVersion",  "0.7.3.1"
-            VALUE "InternalName",  "TopToolBar"
-            VALUE "LegalCopyright",  "© 2003-2008 Bethoven"
-            VALUE "OriginalFilename",  "TopToolbar.dll"
-            VALUE "ProductName",  "TopToolBar"
-            VALUE "ProductVersion",  "0.7.3.1"
+            VALUE "FileDescription", "ToptoolBar adds buttons in top frame for fast  access."
+            VALUE "FileVersion", "0.7.3.1"
+            VALUE "InternalName", "TopToolBar"
+            VALUE "LegalCopyright", "© 2003-2008 Bethoven"
+            VALUE "OriginalFilename", "TopToolbar.dll"
+            VALUE "ProductName", "TopToolBar"
+            VALUE "ProductVersion", "0.7.3.1"
         END
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation",  0x419,  1200
+        VALUE "Translation", 0x419, 1200
     END
 END
 
@@ -234,7 +234,7 @@ END
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
 #ifdef _WIN32
-LANGUAGE LANG_ENGLISH,  SUBLANG_ENGLISH_UK
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
 #endif //_WIN32
 
@@ -256,7 +256,7 @@ IDI_TICK                ICON                    "icos\\notick1.ico"
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
 #ifdef _WIN32
-LANGUAGE LANG_ENGLISH,  SUBLANG_ENGLISH_CAN
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 #pragma code_page(1252)
 #endif //_WIN32
 
@@ -265,10 +265,10 @@ LANGUAGE LANG_ENGLISH,  SUBLANG_ENGLISH_CAN
 // Dialog
 //
 
-IDD_OPT_TTBBKG DIALOGEX 0,  0,  235,  132
+IDD_OPT_TTBBKG DIALOGEX 0, 0, 235, 132
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8,  "MS Shell Dlg",  0,  0,  0x1
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "TopToolBar Background", IDC_STATIC, 4, 4, 227, 124
     LTEXT           "Background colour:", IDC_STATIC, 12, 20, 72, 8, NOT WS_GROUP
@@ -295,21 +295,21 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPT_TTBBKG,  DIALOG
+    IDD_OPT_TTBBKG, DIALOG
     BEGIN
-        LEFTMARGIN,  4
-        RIGHTMARGIN,  231
-        VERTGUIDE,  12
-        VERTGUIDE,  22
-        VERTGUIDE,  122
-        TOPMARGIN,  4
-        BOTTOMMARGIN,  128
-        HORZGUIDE,  24
-        HORZGUIDE,  40
-        HORZGUIDE,  73
-        HORZGUIDE,  89
-        HORZGUIDE,  102
-        HORZGUIDE,  115
+        LEFTMARGIN, 4
+        RIGHTMARGIN, 231
+        VERTGUIDE, 12
+        VERTGUIDE, 22
+        VERTGUIDE, 122
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 128
+        HORZGUIDE, 24
+        HORZGUIDE, 40
+        HORZGUIDE, 73
+        HORZGUIDE, 89
+        HORZGUIDE, 102
+        HORZGUIDE, 115
     END
 END
 #endif    // APSTUDIO_INVOKED

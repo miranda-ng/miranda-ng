@@ -36,7 +36,7 @@ int OnSettingChanging(WPARAM wParam, LPARAM lParam)
 		return 0;
 	
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
-	if (dbcws  == NULL)
+	if (dbcws == NULL)
 		return 0;
 
 	if ( !strcmp(dbcws->szModule, "CList")) {
@@ -132,7 +132,7 @@ int UnLoadInternalButtons()
 bool framesexists = FALSE;
 int windhandle;	
 
-LRESULT CALLBACK TestProczzz(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lParam)
+LRESULT CALLBACK TestProczzz(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
 	case WM_CREATE:
@@ -149,20 +149,20 @@ LRESULT CALLBACK TestProczzz(HWND hwnd,  UINT msg,  WPARAM wParam,  LPARAM lPara
 			PAINTSTRUCT lp;
 			HDC hdc = BeginPaint(hwnd, &lp);
 			if (hdc) {
-				char buf[255];
-				wsprintf(buf, "%d", GetTickCount());
-				TextOutA(hdc, 4, 4, buf, strlen(buf));
+				TCHAR buf[255];
+				wsprintf(buf, _T("%d"), GetTickCount());
+				TextOut(hdc, 4, 4, buf, lstrlen(buf));
 				EndPaint(hwnd, &lp);
 			}
 			return 0;
 		}
 	} 
 		
-	return(DefWindowProc(hwnd,  msg,  wParam,  lParam));
+	return(DefWindowProc(hwnd, msg, wParam, lParam));
 }
 
 bool first = TRUE;
-char pluginname[] = "SimpleClassName";
+TCHAR pluginname[] = _T("SimpleClassName");
 
 INT_PTR test(WPARAM wParam, LPARAM lParam)
 {
@@ -170,7 +170,7 @@ INT_PTR test(WPARAM wParam, LPARAM lParam)
 		WNDCLASS wndclass = { 0 };
 		wndclass.lpfnWndProc   = TestProczzz;
 		wndclass.hInstance     = hInst;
-		wndclass.hCursor       = LoadCursor (NULL,  IDC_ARROW);
+		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 		wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);//NULL;//(HBRUSH)(COLOR_3DFACE+1);
 		wndclass.lpszClassName = pluginname;
 		RegisterClass(&wndclass);
@@ -190,7 +190,7 @@ INT_PTR test(WPARAM wParam, LPARAM lParam)
 		CLISTFrame Frame = { 0 };
 		Frame.name = (char *)malloc(255);
 		memset(Frame.name, 0, 255);
-		memcpy(Frame.name, pluginname, sizeof(pluginname));
+		memcpy(Frame.name, pluginname, SIZEOF(pluginname));
 		Frame.cbSize = sizeof(Frame);
 		Frame.hWnd = pluginwind;
 		Frame.align = alTop;
@@ -234,8 +234,6 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.name = "Show only Online Users";
 	hOnlineBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	memset(&ttb, 0, sizeof(ttb));
-	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = (ShowGroups?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
@@ -244,19 +242,14 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.name = "Groups On/Off";
 	hGroupBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	memset(&ttb, 0, sizeof(ttb));
-	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-
 	ttb.dwFlags = (SoundsEnabled?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 	ttb.pszServiceDown = TTBI_SOUNDSONOFF;
 	ttb.pszServiceUp = TTBI_SOUNDSONOFF;
 	ttb.name = "Sounds Enable/Disable";
 	hSoundsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	memset(&ttb, 0, sizeof(ttb));
-	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
@@ -265,19 +258,14 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.name = "Show Options Page";
 	hOptionsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	memset(&ttb, 0, sizeof(ttb));
-	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-
 	ttb.dwFlags = TTBBF_VISIBLE;
 	ttb.pszServiceDown = TTBI_MINIMIZEBUTT;
 	ttb.pszServiceUp = TTBI_MINIMIZEBUTT;
 	ttb.name = "Minimize Button";
 	hMinimizeBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	memset(&ttb, 0, sizeof(ttb));
-	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE;
@@ -286,8 +274,6 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.name = "Find/Add Contacts";
 	hFindUsers = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
-	memset(&ttb, 0, sizeof(ttb));
-	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MIRANDAUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MIRANDADN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
