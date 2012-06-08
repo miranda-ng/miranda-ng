@@ -519,6 +519,7 @@ static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 		if (contact->type != CLCIT_GROUP)
 			return 0;
 		SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+		SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) | CLS_USEGROUPS);
 		CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
 		return 0;
 	case POPUP_RENAMEGROUP:

@@ -1876,6 +1876,7 @@ buttons_done:
 					break;
 				case POPUP_NEWGROUP:
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
+					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
 					CallService(MS_CLIST_GROUPCREATE, 0, 0);
 					break;
 				case POPUP_HIDEOFFLINE:

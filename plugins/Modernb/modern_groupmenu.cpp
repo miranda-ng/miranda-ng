@@ -223,6 +223,15 @@ SendMessage(
 	return 0;
 };
 
+INT_PTR CreateGroupHelper(WPARAM wParam,LPARAM lParam)
+{
+	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE,0,0), CLM_SETHIDEEMPTYGROUPS, 0, 0);
+	SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE,0,0), CLM_SETUSEGROUPS, 1, 0);
+	CallService(MS_CLIST_GROUPCREATE, 0, 0);
+
+	return 0;
+};
+
 static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
 {
 	CLISTMENUITEM mi;
@@ -286,6 +295,7 @@ void GroupMenus_Init(void)
 	CreateServiceFunction("CLISTMENUSGroup/HideGroupsHelper",HideGroupsHelper);
 	CreateServiceFunction("CLISTMENUSGroup/UseGroupsHelper",UseGroupsHelper);
 	CreateServiceFunction("CLISTMENUSGroup/HideOfflineRootHelper",HideOfflineRootHelper);
+	CreateServiceFunction("CLISTMENUSGroup/CreateGroupHelper",CreateGroupHelper);
 
 	CreateServiceFunction(MS_CLIST_ADDGROUPMENUITEM,AddGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_REMOVEGROUPMENUITEM,RemoveGroupMenuItem);
@@ -399,7 +409,7 @@ void GroupMenus_Init(void)
 	mi.cbSize=sizeof(mi);
 	mi.position=100000;
 	mi.hIcon=ske_ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
-	mi.pszService=MS_CLIST_GROUPCREATE;
+	mi.pszService="CLISTMENUSGroup/CreateGroupHelper";
 	mi.pszName=LPGEN("&New Group");	
 	hNewGroupMenuItem=(HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
