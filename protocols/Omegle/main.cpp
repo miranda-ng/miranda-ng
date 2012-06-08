@@ -49,13 +49,8 @@ PLUGININFOEX pluginInfo = {
 	"http://code.google.com/p/robyer/",
 	UNICODE_AWARE, //not transient
 	0,             //doesn't replace anything built-in
-  #ifdef _WIN64
-	// {95A3FF9B-0124-4A34-A123-E3262858010F}
-	{ 0x95a3ff9b, 0x124, 0x4a34, { 0xa1, 0x23, 0xe3, 0x26, 0x28, 0x58, 0x1, 0xf } }
-  #else
 	// {9E1D9244-606C-4ef4-99A0-1D7D23CB7601}
 	{ 0x9e1d9244, 0x606c, 0x4ef4, { 0x99, 0xa0, 0x1d, 0x7d, 0x23, 0xcb, 0x76, 0x1 } }
-  #endif
 };
 
 /////////////////////////////////////////////////////////////////////////////

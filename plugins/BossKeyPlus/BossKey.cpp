@@ -70,13 +70,8 @@ static PLUGININFOEX pluginInfo = {
 	__FL __PLUGIN_ID_STR,
 	UNICODE_AWARE,
 	0,
-#if defined( _UNICODE )
 	//4fac353d-0a36-44a4-9064-6759c53ae782
 	{0x4fac353d, 0x0a36, 0x44a4, { 0x90, 0x64, 0x67, 0x59, 0xc5, 0x3a, 0xe7, 0x82 }}
-#else
-	//0be17104-518f-411c-9bb7-7c1042a2ed02
-	{0x0be17104, 0x518f, 0x411c, { 0x9b, 0xb7, 0x7c, 0x10, 0x42, 0xa2, 0xed, 0x02 }}
-#endif
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

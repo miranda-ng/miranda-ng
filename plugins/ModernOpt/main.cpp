@@ -7,14 +7,6 @@ MM_INTERFACE mmi;
 LIST_INTERFACE li;
 int hLangpack;
 
-#if defined( _UNICODE )
-	// {621f886b-a7f6-457f-9d62-8ee84c275993}
-	#define MIID_MODERNOPTS { 0x621f886b, 0xa7f6, 0x457f, { 0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93 }}
-#else
-	// {0a8e1133-d12d-4103-a912-39 96 3b 49 b3 5f}
-	#define MIID_MODERNOPTS { 0x0a8e1133, 0xd12d, 0x4103, { 0xa9, 0x12, 0x39, 0x96, 0x3b, 0x49, 0xb3, 0x5f }}
-#endif
-
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	"Support for new options design",
@@ -26,7 +18,7 @@ PLUGININFOEX pluginInfoEx = {
 	"http://www.miranda-im.org",
 	UNICODE_AWARE,
 	0,
-	MIID_MODERNOPTS
+	{ 0x621f886b, 0xa7f6, 0x457f, { 0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93 }} // {621f886b-a7f6-457f-9d62-8ee84c275993}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

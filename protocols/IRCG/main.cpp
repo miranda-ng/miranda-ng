@@ -60,11 +60,7 @@ PLUGININFOEX pluginInfo =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	0,
-    #if defined( _UNICODE )
     {0x92382b4d, 0x5572, 0x48a0, {0xb0, 0xb9, 0x13, 0x36, 0xa6, 0x1, 0xd6, 0x89}} // {92382B4D-5572-48a0-B0B9-1336A601D689}
-    #else
-    {0xc0ef6b61, 0xb3b0, 0x4fb7, {0xa2, 0x9e, 0x56, 0x32, 0xdd, 0x98, 0xae, 0x1c}} // {C0EF6B61-B3B0-4fb7-A29E-5632DD98AE1C}
-    #endif
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD, LPVOID)

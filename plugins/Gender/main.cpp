@@ -64,11 +64,7 @@ sizeof(PLUGININFOEX),
 	"http://thief.miranda.im/",
 	UNICODE_AWARE,
 	0,      //doesn't replace anything built-in
-#ifdef WIN64
-	{ 0x3a99592e, 0x20d5, 0x4b72, { 0xa5, 0x96, 0xe6, 0x7d, 0xd7, 0x13, 0xde, 0xfb } } 	// {3A99592E-20D5-4B72-A596-E67DD713DEFB}
-#else
 	{0xfb1c17e0, 0x77fc, 0x45a7, {0x9c, 0x8b, 0xe2, 0xbe, 0xf4, 0xf5, 0x6b, 0x28}} /* FB1C17E0-77FC-45A7-9C8B-E2BEF4F56B28 */
-#endif
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)

@@ -86,16 +86,8 @@ Boston, MA 02111-1307, USA.
 #include "m_updater.h"
 #include "m_smileyadd.h"
 
-#if defined _WIN64
-// {605103E8-27A1-4d41-B385-BE652047A833}
-#define	MIID_TIPPER { 0x605103e8, 0x27a1, 0x4d41, { 0xb3, 0x85, 0xbe, 0x65, 0x20, 0x47, 0xa8, 0x33 } }
-#elif defined _UNICODE
 // {8392DF1D-9090-4f8e-9DF6-2FE058EDD800}
 #define MIID_TIPPER	{ 0x8392df1d, 0x9090, 0x4f8e, { 0x9d, 0xf6, 0x2f, 0xe0, 0x58, 0xed, 0xd8, 0x00 } }
-#else
-// {63FD0B98-43AD-4c13-BD6E-2B550B9B20EF}
-#define	MIID_TIPPER { 0x63fd0b98, 0x43ad, 0x4c13, { 0xbd, 0x6e, 0x2b, 0x55, 0xb0, 0x9b, 0x20, 0xef } }
-#endif
 
 #define MODULE					"Tipper"
 #define MODULE_ITEMS			"Tipper_Items"

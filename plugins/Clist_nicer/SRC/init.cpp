@@ -113,11 +113,7 @@ PLUGININFOEX pluginInfo = {
 		"Pixel, egoDust, cyreve, Nightwish", "", "Copyright 2000-2010 Miranda-IM project", "http://www.miranda-im.org",
 		UNICODE_AWARE,
 		DEFMOD_CLISTALL,
-#if defined(_UNICODE)
 		{0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 }} //{8F79B4EE-EB48-4a03-873E-27BE6B7E9A25}
-#else
-		{0x5a070cec, 0xb2ab, 0x4bbe, { 0x8e, 0x48, 0x9c, 0x8d, 0xcd, 0xda, 0x14, 0xc3 }} //{5A070CEC-B2AB-4bbe-8E48-9C8DCDDA14C3}
-#endif
 };
 
 #if defined(_UNICODE)

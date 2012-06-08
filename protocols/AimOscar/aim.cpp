@@ -66,11 +66,7 @@ static const PLUGININFOEX pluginInfo =
 	"http://www.miranda-im.org",
 	UNICODE_AWARE,		//not transient
 	0,		//doesn't replace anything built-in
-	#if defined( _UNICODE )
 	{0x3750a5a3, 0xbf0d, 0x490e, {0xb6, 0x5d, 0x41, 0xac, 0x4d, 0x29, 0xae, 0xb3}} // {3750A5A3-BF0D-490e-B65D-41AC4D29AEB3}
-	#else
-	{0x591af304, 0xcf40, 0x47ad, {0x8c, 0xed, 0x58, 0xcd, 0x89, 0x8b, 0x1e, 0x69}} // {591AF304-CF40-47ad-8CED-58CD898B1E69}
-	#endif
 };
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)

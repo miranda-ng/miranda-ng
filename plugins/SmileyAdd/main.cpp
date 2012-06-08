@@ -68,14 +68,8 @@ static const PLUGININFOEX pluginInfoEx =
 	0,
 #endif
 	0,		//doesn't replace anything built-in
-#if defined(UNICODE) | defined(_UNICODE)
 	// {BD542BB4-5AE4-4d0e-A435-BA8DBE39607F}
 	{ 0xbd542bb4, 0x5ae4, 0x4d0e, { 0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f } }
-#else
-	// {9817B76A-603A-4616-806C-86ECB97EA05B}
-	{ 0x9817b76a, 0x603a, 0x4616, { 0x80, 0x6c, 0x86, 0xec, 0xb9, 0x7e, 0xa0, 0x5b } }
-#endif
-
 };
 
 static SKINICONDESC skinDesc = 

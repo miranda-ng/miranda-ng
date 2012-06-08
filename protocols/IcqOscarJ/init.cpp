@@ -63,11 +63,7 @@ PLUGININFOEX pluginInfo = {
 	"http://addons.miranda-im.org/details.php?action=viewfile&id=1683",
 	UNICODE_AWARE,
 	0,   //doesn't replace anything built-in
-#if defined( _UNICODE )
 	{0x73a9615c, 0x7d4e, 0x4555, {0xba, 0xdb, 0xee, 0x5, 0xdc, 0x92, 0x8e, 0xff}} // {73A9615C-7D4E-4555-BADB-EE05DC928EFF}
-#else
-	{0x89cf4c3d, 0x7014, 0x4658, {0xa1, 0x3b, 0x46, 0xdb, 0x49, 0x68, 0xc7, 0x3b}} // {89CF4C3D-7014-4658-A13B-46DB4968C73B}
-#endif
 };
 
 extern "C" PLUGININFOEX __declspec(dllexport) *MirandaPluginInfoEx(DWORD mirandaVersion)

@@ -48,13 +48,8 @@ PLUGININFOEX pluginInfo = {
 	"http://nullbie.miranda.im",
 	UNICODE_AWARE,
 	0,	           // replace internal version (if any)
-#ifdef _UNICODE
 	// {D38EEB0B-B8EE-4177-B9E5-91EBE101E054}
 	{ 0xd38eeb0b, 0xb8ee, 0x4177, { 0xb9, 0xe5, 0x91, 0xeb, 0xe1, 0x1, 0xe0, 0x54 } }
-#else
-	// {DEB3FAFA-6B24-4db3-AA34-9EC27B868B50}
-	{ 0xdeb3fafa, 0x6b24, 0x4db3, { 0xaa, 0x34, 0x9e, 0xc2, 0x7b, 0x86, 0x8b, 0x50 } }
-#endif
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)

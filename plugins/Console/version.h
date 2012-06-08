@@ -35,17 +35,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PLUGIN_FILE        "Console.dll"
 #define __PLUGIN_SHORTNAME   "Console"
 
+#define MIID_CONSOLE { 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 }} // {23D4F302-D513-45b7-9027-445F29557311}
 
 #ifdef _UNICODE
-	// {23D4F302-D513-45b7-9027-445F29557311}
-	#define MIID_CONSOLE { 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 }}
 	#define __PLUGIN_NAME __PLUGIN_SHORTNAME " (Unicode)"
 	#define __PLUGIN_URL "http://addons.miranda-im.org/details.php?action=viewfile&id=3791"
 #endif
 
 #ifndef _UNICODE
-	// {798A94B8-74F4-46fc-978B-353D22BD485E}
-	#define MIID_CONSOLE { 0x798a94b8, 0x74f4, 0x46fc, { 0x97, 0x8b, 0x35, 0x3d, 0x22, 0xbd, 0x48, 0x5e }}
 	#define __PLUGIN_NAME __PLUGIN_SHORTNAME " (ANSI)"
 	#define __PLUGIN_URL "http://addons.miranda-im.org/details.php?action=viewfile&id=3789"
 #endif

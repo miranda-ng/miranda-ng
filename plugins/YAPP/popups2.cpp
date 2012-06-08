@@ -40,12 +40,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHORWEB,
 	UNICODE_AWARE,		//not transient
 	0,					//doesn't replace anything built-in
-
-#ifndef _UNICODE
 	{ 0xefd15f16, 0x7ae4, 0x40d7, { 0xa8, 0xe3, 0xa4, 0x11, 0xed, 0x74, 0x7b, 0xd5 } } // {EFD15F16-7AE4-40d7-A8E3-A411ED747BD5}
-#else
-	{ 0x563780ef, 0xac7e, 0x40ba, { 0xa8, 0xa, 0xd, 0xcd, 0x4f, 0xd2, 0xf, 0x9 } } // {563780EF-AC7E-40ba-A80A-0DCD4FD20F09}
-#endif
 };
 
 PLUGINLINK *pluginLink;

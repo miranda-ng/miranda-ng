@@ -46,11 +46,7 @@ PLUGININFOEX pluginInfo={
 		"http://www.miranda-im.org",
 		UNICODE_AWARE, //not transient
 		0, //DEFMOD_PROTOCOLYAHOO - no core yahoo protocol
-        #if defined( _UNICODE )
         {0xaa7bfea, 0x1fc7, 0x45f0, {0x90, 0x6e, 0x2a, 0x46, 0xb6, 0xe1, 0x19, 0xcf}} // {0AA7BFEA-1FC7-45f0-906E-2A46B6E119CF}
-        #else
-        {0x6151b6e6, 0x3a7b, 0x45e6, {0x9a, 0x51, 0x18, 0x72, 0xc1, 0x7b, 0x5, 0xa9}} // {6151B6E6-3A7B-45e6-9A51-1872C17B05A9}
-        #endif
 };
 
 void YmsgrLinksInit(void);
