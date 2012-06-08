@@ -300,6 +300,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChangeKeyboardLayout", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CyrTranslit", "..\plugins\CyrTranslit\CyrTranslit_10.vcxproj", "{0BB52326-02D5-4698-A180-24078DA5DA0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1501,8 +1503,14 @@ Global
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|x64.ActiveCfg = Debug|x64
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|x64.Build.0 = Debug|x64
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.ActiveCfg = Release|Win32
-		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.Build.0 = Release|Win32
 		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|x64.ActiveCfg = Release|x64
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Debug|Win32.Build.0 = Debug|Win32
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Debug|x64.ActiveCfg = Debug|x64
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Debug|x64.Build.0 = Debug|x64
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Release|Win32.ActiveCfg = Release|Win32
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Release|Win32.Build.0 = Release|Win32
+		{0BB52326-02D5-4698-A180-24078DA5DA0E}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
