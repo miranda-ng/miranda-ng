@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7706e6ca-cf12-4f40-8864-82916b4669c8}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{872b8e16-3822-4f40-8957-4daf9343eb99}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{fbadd592-e14c-4abf-bf9e-5f2b3b808d64}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="button.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CLCButton.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InternalButtons.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="launchbt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="separators.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ttbopt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BkgrCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="m_toptoolbar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="bmp\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\bmp00002.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\borderup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\borederdn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\cpaneldn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\cpanelup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="find.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Find_Add Contacts_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Find_Add Contacts_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\finduser.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\finduserdn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\groupdn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Groups On_Off_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Groups On_Off_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\groupup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\launch.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\launchdn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\launchup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\menudn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\menuup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Minimize Button_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Minimize Button_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\minimize.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\minimizedn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\notick.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\notick1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\options.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Run.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\searchtest.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\sep.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Show Main Menu_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Show Main Menu_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Show only Online Users_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Show only Online Users_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Show Options Page_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Show Options Page_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Sounds Enable_Disable_DN.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="icos\Sounds Enable_Disable_UP.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\soundsdn.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\soundsup.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="bmp\test.bmp">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="main.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

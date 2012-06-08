@@ -298,6 +298,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Twitter", "..\protocols\Twi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChangeKeyboardLayout", "..\plugins\ChangeKeyboardLayout\ChangeKeyboardLayout.vcxproj", "{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1494,6 +1496,13 @@ Global
 		{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}.Release|Win32.Build.0 = Release|Win32
 		{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}.Release|x64.ActiveCfg = Release|x64
 		{D85D47E7-EAD3-71E0-EE3A-49A7821D4DE4}.Release|x64.Build.0 = Release|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|Win32.Build.0 = Debug|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|x64.ActiveCfg = Debug|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Debug|x64.Build.0 = Debug|x64
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.ActiveCfg = Release|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|Win32.Build.0 = Release|Win32
+		{ECE691D0-BFB3-483B-A699-084269EFCE89}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
