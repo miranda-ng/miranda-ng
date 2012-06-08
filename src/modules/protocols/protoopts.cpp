@@ -723,8 +723,6 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg,UINT message, WPARAM wParam, LPARAM 
 				if ( pa->bOldProto || pa->bDynDisabled )
 					AppendMenu(hMenu, MF_STRING, 5, TranslateT("Upgrade"));
 
-				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
-				AppendMenu(hMenu, MF_STRING, 0, TranslateT("Cancel"));
 				switch (TrackPopupMenu( hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL )) {
 				case 1:
 					PostMessage(hwndList, WM_MY_RENAME, 0, 0);

@@ -531,33 +531,39 @@ int LoadDatabaseModule(void)
 	else
 		dbe.pfnEnumCallback=( int(*) (const char*,void*,LPARAM) )FindDbPluginForProfile;
 
-	// find a driver to support the given profile
-	int rc = CallService(MS_PLUGINS_ENUMDBPLUGINS, 0, (LPARAM)&dbe);
-	switch ( rc ) {
-	case -1: {
-		// no plugins at all
-		TCHAR buf[256];
-		TCHAR* p = _tcsrchr(szProfile,'\\');
-		mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile );
-		MessageBox(0,buf,TranslateT("No profile support installed!"),MB_OK | MB_ICONERROR);
-		break;
-	}
-	case 1:
-		// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
-		if (fileExist(szProfile)) {
-			// file isn't locked, just no driver could open it.
+	// find a driver to support the given profile	
+	bool retry;
+	int rc;
+	do {
+		retry = false;
+		rc = CallService(MS_PLUGINS_ENUMDBPLUGINS, 0, (LPARAM)&dbe);
+		switch ( rc ) {
+		case -1: {
+			// no plugins at all
 			TCHAR buf[256];
 			TCHAR* p = _tcsrchr(szProfile,'\\');
-			mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed."), p ? ++p : szProfile);
-			MessageBox(0,buf,TranslateT("Miranda can't understand that profile"),MB_OK | MB_ICONERROR);
+			mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile );
+			MessageBox(0,buf,TranslateT("No profile support installed!"),MB_OK | MB_ICONERROR);
+			break;
 		}
-		else if (!FindMirandaForProfile(szProfile)) {
-			TCHAR buf[256];
-			TCHAR* p = _tcsrchr(szProfile,'\\');
-			mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);
-			MessageBox(0,buf,TranslateT("Miranda can't open that profile"),MB_OK | MB_ICONERROR);
+		case 1:
+			// if there were drivers but they all failed cos the file is locked, try and find the miranda which locked it
+			if (fileExist(szProfile)) {
+				// file isn't locked, just no driver could open it.
+				TCHAR buf[256];
+				TCHAR* p = _tcsrchr(szProfile,'\\');
+				mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed."), p ? ++p : szProfile);
+				MessageBox(0,buf,TranslateT("Miranda can't understand that profile"),MB_OK | MB_ICONERROR);
+			}
+			else if (!FindMirandaForProfile(szProfile)) {
+				TCHAR buf[256];
+				TCHAR* p = _tcsrchr(szProfile,'\\');
+				mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);
+				retry = MessageBox(0,buf,TranslateT("Miranda can't open that profile"),MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
+			}
+			break;
 		}
-		break;
-	}
+	} while (retry);
+
 	return (rc != 0);
 }
