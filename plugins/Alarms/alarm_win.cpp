@@ -60,7 +60,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 			}
 
-			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG)wd);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)wd);
 
 			// options
 			SendMessage(hwndDlg, WMU_SETOPT, 0, 0);
@@ -140,7 +140,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			// transparency
 		
 #ifdef WS_EX_LAYERED 
-			SetWindowLong(hwndDlg, GWL_EXSTYLE, GetWindowLong(hwndDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
+			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) | WS_EX_LAYERED);
 #endif
 #ifdef LWA_ALPHA
 			if (MySetLayeredWindowAttributes) 
@@ -157,7 +157,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetWindowText(hw, data->szTitle);
 
 			SetDlgItemText(hwndDlg, IDC_ED_DESC, data->szDesc);
-			((WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA))->alarm = data;
+			((WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA))->alarm = data;
 
 			if (data->action & AAF_SOUND && options.loop_sound) {
 				if (data->sound_num <= 3)
@@ -184,7 +184,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_TIMER: 
 		{
 			if (wParam == ID_TIMER_SOUND) {
-				WindowData *dw = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+				WindowData *dw = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				if (dw) {
 					ALARM *data = dw->alarm;
 					if (data && data->action & AAF_SOUND) {
@@ -206,14 +206,14 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 	case WM_MOVE:
 		{
-			//WindowData *wd = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			//WindowData *wd = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 		}
 		break;
 
 	case WMU_ADDSNOOZER:
 		{
-			WindowData *wd = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			WindowData *wd = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (wd) {
 				ALARM *data = wd->alarm;
 
@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				//drop through
 			case IDC_DISMISS:
 				{
-					WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+					WindowData *window_data = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					KillTimer(hwndDlg, ID_TIMER_SOUND);
 					if (window_data) {
 						if (window_data->alarm) {
@@ -265,7 +265,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 						}
 						delete window_data;
 					}
-					SetWindowLong(hwndDlg, GWLP_USERDATA, 0);
+					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 
 					win_num--;
 					//EndDialog(hwndDlg, IDOK); // not modal!
@@ -330,7 +330,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 			ClientToScreen(hwndDlg, &newp);
 
-			WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			WindowData *window_data = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			if (!window_data->moving) {
 				window_data->moving = true;
 			} else {
@@ -343,7 +343,7 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			window_data->p.y = newp.y;			
 		} else {
 			ReleaseCapture();
-			WindowData *window_data = (WindowData *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+			WindowData *window_data = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			window_data->moving = false;
 		}
 		return TRUE;

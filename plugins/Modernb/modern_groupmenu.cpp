@@ -199,7 +199,7 @@ return(0);
 
 INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
 {
-	int newVal=!(GetWindowLong(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS);
+	int newVal=!(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS);
 	ModernWriteSettingByte(NULL,"CList","HideEmptyGroups",(BYTE)newVal);
 	SendMessage(pcli->hwndContactTree,CLM_SETHIDEEMPTYGROUPS,newVal,0);
 	return 0;
@@ -207,7 +207,7 @@ INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
 
 INT_PTR UseGroupsHelper(WPARAM wParam,LPARAM lParam)
 {	
-	int newVal=!(GetWindowLong(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
+	int newVal=!(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
 	ModernWriteSettingByte(NULL,"CList","UseGroups",(BYTE)newVal);
 	SendMessage(pcli->hwndContactTree,CLM_SETUSEGROUPS,newVal,0);
 	return 0;
@@ -249,12 +249,12 @@ static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
 	
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.flags = CMIM_FLAGS | (GetWindowLong(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS?CMIF_CHECKED:0);
+	mi.flags = CMIM_FLAGS | (GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS?CMIF_CHECKED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideEmptyGroupsMenuItem, (LPARAM)&mi);	
 
 	ZeroMemory(&mi,sizeof(mi));
 	mi.cbSize = sizeof(mi);
-	mi.flags = CMIM_FLAGS | (GetWindowLong(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS?0:CMIF_CHECKED);
+	mi.flags = CMIM_FLAGS | (GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS?0:CMIF_CHECKED);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hDisableGroupsMenuItem, (LPARAM)&mi);
 
 	return 0;

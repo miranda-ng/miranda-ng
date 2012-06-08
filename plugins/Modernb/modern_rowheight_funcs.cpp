@@ -82,7 +82,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcContact *
   displayNameCacheEntry * pdnce; 
   BOOL hasAvatar=FALSE;
   DWORD style;
-  style=GetWindowLong(hwnd,GWL_STYLE);
+  style=GetWindowLongPtr(hwnd,GWL_STYLE);
   pdnce=(displayNameCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact);
   if (!RowHeights_Alloc(dat, item + 1))
     return -1;
@@ -438,7 +438,7 @@ BOOL RowHeights_Alloc(struct ClcData *dat, int size)
 int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
 {
   int max_height = 0, i, tmp;
-  DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+  DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
   
   if (!dat->text_ignore_size_for_row_height)
   {
@@ -626,7 +626,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, struct ClcCon
   else
   {
 	displayNameCacheEntry *pdnce=(displayNameCacheEntry *)pcli->pfnGetCacheEntry(contact->hContact);
-    DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+    DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
     //TODO replace futher code with new rowheight definition
     int tmp;
 	BOOL selected=((item==dat->selection) && (dat->hwndRenameEdit!=NULL || dat->showSelAlways || dat->exStyle&CLS_EX_SHOWSELALWAYS || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type!=CLCIT_DIVIDER);

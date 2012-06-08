@@ -211,10 +211,10 @@ void SetImagesForCurrent (HWND hwndDlg, int curselect)
 			t = IMAGE_ICON;
 		int st = WS_CHILDWINDOW | SS_NOTIFY | WS_VISIBLE;
 		st |= (t  == IMAGE_ICON) ? SS_ICON : SS_BITMAP;
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_BMPUP), GWL_STYLE, st);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BMPUP), GWL_STYLE, st);
 	}
 	else {									
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_BMPUP), GWL_STYLE, WS_CHILDWINDOW|WS_VISIBLE|SS_NOTIFY|(Buttons[curselect].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BMPUP), GWL_STYLE, WS_CHILDWINDOW|WS_VISIBLE|SS_NOTIFY|(Buttons[curselect].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
 		t = IMAGE_ICON;
 	}
 
@@ -226,10 +226,10 @@ void SetImagesForCurrent (HWND hwndDlg, int curselect)
 			t = IMAGE_ICON;
 		int st = WS_CHILDWINDOW | SS_NOTIFY | WS_VISIBLE;
 		st |= (t  == IMAGE_ICON) ? SS_ICON : SS_BITMAP;
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_BMPDN), GWL_STYLE, st);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BMPDN), GWL_STYLE, st);
 	}
 	else {
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_BMPDN), GWL_STYLE, WS_CHILDWINDOW|WS_VISIBLE|SS_NOTIFY|(Buttons[curselect].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BMPDN), GWL_STYLE, WS_CHILDWINDOW|WS_VISIBLE|SS_NOTIFY|(Buttons[curselect].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
 		t = IMAGE_ICON;
 	}
 
@@ -245,10 +245,10 @@ static BOOL CALLBACK ButOrderOpts(HWND hwndDlg,  UINT msg,  WPARAM wParam,  LPAR
 		{
 			TranslateDialogDefault(hwndDlg);
 			dat = (struct OrderData*)malloc(sizeof(struct OrderData));
-			SetWindowLong(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWLP_USERDATA, (LONG)dat);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWLP_USERDATA, (LONG)dat);
 			dat->dragging = 0;
 
-			SetWindowLong(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE)|TVS_NOHSCROLL);
 			{
 				HIMAGELIST himlCheckBoxes;
 				himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR4|ILC_MASK, 2, 2);

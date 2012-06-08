@@ -56,7 +56,7 @@ static int OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 
 static void InvalidateParentRect(HWND hwndChild, RECT * lpRect, BOOL fErase)
 {
-	LONG lExStyle=GetWindowLong(hwndChild,GWL_EXSTYLE);
+	LONG lExStyle=GetWindowLongPtr(hwndChild,GWL_EXSTYLE);
 	if (lExStyle&WS_EX_TRANSPARENT)
 	{
 		NMHDR hdr;
@@ -77,7 +77,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	{
 	case WM_NCCREATE:
 		{
-			SetWindowLong(hwndDlg, GWL_STYLE, GetWindowLong(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
+			SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
 			lpSBData = (TBBUTTONDATA *)malloc(sizeof(TBBUTTONDATA));
 			if (lpSBData == NULL)
 				return FALSE;
@@ -107,7 +107,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	case WM_DESTROY:
 		{
 			/* #ifdef _DEBUG
-			if (GetWindowLong(hwndButton, GWL_USERDATA))
+			if (GetWindowLongPtr(hwndButton, GWL_USERDATA))
 			DebugBreak();
 			#endif */
 
@@ -138,7 +138,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					DestroyIcon(lpSBData->hIconPrivate);
 				free(lpSBData);  // lpSBData was malloced by native malloc
 			}
-			SetWindowLong(hwndDlg, 0, (LONG) NULL);
+			SetWindowLongPtr(hwndDlg, 0, (LONG) NULL);
 			break;  // DONT! fall thru
 		}
 	case WM_SETTEXT:
@@ -503,7 +503,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 	case MBM_UPDATETRANSPARENTFLAG:
 		{
-			LONG flag=GetWindowLong(hwndDlg,GWL_EXSTYLE);
+			LONG flag=GetWindowLongPtr(hwndDlg,GWL_EXSTYLE);
 			LONG oldFlag=flag;
 			if (lParam==2) 
 				lParam=(g_CluiData.fDisableSkinEngine)?0:1;
@@ -511,7 +511,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			if (lParam) flag|=WS_EX_TRANSPARENT;
 			if (flag!=oldFlag)
 			{
-				SetWindowLong(hwndDlg,GWL_EXSTYLE,flag);
+				SetWindowLongPtr(hwndDlg,GWL_EXSTYLE,flag);
 				RedrawWindow(hwndDlg,NULL,NULL,RDW_INVALIDATE|RDW_UPDATENOW);
 			}
 			return 0;

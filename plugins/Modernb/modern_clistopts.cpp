@@ -1391,7 +1391,7 @@ INT_PTR CALLBACK DlgProcExtraIconsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			SetWindowLong(GetDlgItem(hwndDlg,IDC_EXTRAORDER),GWL_STYLE,GetWindowLong(GetDlgItem(hwndDlg,IDC_EXTRAORDER),GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_EXTRAORDER),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_EXTRAORDER),GWL_STYLE)|TVS_NOHSCROLL);
 
 			{	
 				HIMAGELIST himlCheckBoxes;

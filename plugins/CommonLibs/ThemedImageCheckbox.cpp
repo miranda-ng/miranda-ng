@@ -59,7 +59,7 @@ public:
 
 static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-	CCheckboxData *dat = (CCheckboxData*)GetWindowLong(hWnd, GWLP_USERDATA);
+	CCheckboxData *dat = (CCheckboxData*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 	if (!dat)
 	{
 		return 0;
@@ -355,7 +355,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 		} break;
 		case WM_DESTROY:
 		{
-			SetWindowLong(hWnd, GWLP_USERDATA, NULL);
+			SetWindowLongPtr(hWnd, GWLP_USERDATA, NULL);
 			CallWindowProc(dat->OldWndProc, hWnd, Msg, wParam, lParam);
 			delete dat;
 			return 0;
@@ -367,16 +367,16 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 int MakeThemedImageCheckbox(HWND hWndCheckbox)
 { // workaround to make checkbox with BS_ICON or BS_BITMAP work with windows themes enabled
 	CCheckboxData *dat = new CCheckboxData();
-	dat->OldWndProc = (WNDPROC)GetWindowLong(hWndCheckbox, GWLP_WNDPROC);
+	dat->OldWndProc = (WNDPROC)GetWindowLongPtr(hWndCheckbox, GWLP_WNDPROC);
 	dat->State = SendMessage(hWndCheckbox, BM_GETSTATE, 0, 0);
-	long Style = GetWindowLong(hWndCheckbox, GWL_STYLE);
+	long Style = GetWindowLongPtr(hWndCheckbox, GWL_STYLE);
 	_ASSERT(Style & BS_ICON || Style & BS_BITMAP);
 	dat->Style = Style & (BS_CHECKBOX | BS_AUTOCHECKBOX | BS_3STATE | BS_AUTO3STATE);
 	_ASSERT(dat->Style == BS_CHECKBOX || dat->Style == BS_AUTOCHECKBOX || dat->Style == BS_3STATE || dat->Style == BS_AUTO3STATE);
   Style &= ~(BS_CHECKBOX | BS_AUTOCHECKBOX | BS_3STATE | BS_AUTO3STATE);
   Style |= BS_OWNERDRAW;
-	SetWindowLong(hWndCheckbox, GWL_STYLE, Style);
-	SetWindowLong(hWndCheckbox, GWLP_USERDATA, (LONG)dat);
-	SetWindowLong(hWndCheckbox, GWLP_WNDPROC, (LONG)CheckboxWndProc);
+	SetWindowLongPtr(hWndCheckbox, GWL_STYLE, Style);
+	SetWindowLongPtr(hWndCheckbox, GWLP_USERDATA, (LONG)dat);
+	SetWindowLongPtr(hWndCheckbox, GWLP_WNDPROC, (LONG)CheckboxWndProc);
 	return 0;
 }

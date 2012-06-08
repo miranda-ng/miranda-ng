@@ -99,7 +99,7 @@ BOOL RowHeight::Alloc(ClcData *dat, int size)
 int RowHeight::getMaxRowHeight(ClcData *dat, const HWND hwnd)
 {
 	int max_height = 0, i;
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 
     int contact_fonts[] = {FONTID_CONTACTS, FONTID_INVIS, FONTID_OFFLINE, FONTID_NOTONLIST, FONTID_OFFINVIS};
     int other_fonts[] = {FONTID_GROUPS, FONTID_GROUPCOUNTS, FONTID_DIVIDERS};
@@ -144,7 +144,7 @@ void RowHeight::calcRowHeights(ClcData *dat, HWND hwnd)
 	int indent, subindex, line_num;
 	struct ClcContact *Drawing;
 	struct ClcGroup *group;
-    DWORD dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+    DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	// Draw lines
 	group=&dat->list;

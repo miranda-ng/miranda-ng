@@ -139,7 +139,7 @@ public:
 			GetWindowRect(LButton, &rect);
 			pt.y = rect.top;
 
-			if ((GetWindowLong(LButton, GWL_STYLE) & WS_VISIBLE) != 0)
+			if ((GetWindowLongPtr(LButton, GWL_STYLE) & WS_VISIBLE) != 0)
 				pt.x = rect.left - 28;
 			else
 				pt.x = rect.left;

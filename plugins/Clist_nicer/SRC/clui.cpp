@@ -163,7 +163,7 @@ static struct IconDesc myIcons[] = {
 
 static void Tweak_It(COLORREF clr)
 {
-	SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+	SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 	API::pfnSetLayeredWindowAttributes(pcli->hwndContactList, clr, 0, LWA_COLORKEY);
 	cfg::dat.colorkey = clr;
 }
@@ -924,7 +924,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 
 	GetWindowRect(hwnd, &rcWindow);
 	GetWindowRect(pcli->hwndContactTree, &rcTree);
-	winstyle = GetWindowLong(pcli->hwndContactTree, GWL_STYLE);
+	winstyle = GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE);
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
 	if (API::pfnMonitorFromWindow)
@@ -1119,8 +1119,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			g_oldSize.cx = g_oldSize.cy = 0;
 			old_cliststate = cfg::getByte("CList", "State", SETTING_STATE_NORMAL);
 			cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
-			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_VISIBLE);
-			SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
+			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
+			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
 			if (!cfg::dat.bFirstRun)
 				ConfigureEventArea(hwnd);
 			CluiProtocolStatusChanged(0, 0);
@@ -1131,12 +1131,12 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)
 			if (cfg::dat.bLayeredHack) {
-				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | (WS_EX_LAYERED));
+				SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | (WS_EX_LAYERED));
 				API::SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 255, LWA_ALPHA);
 			}
 
 			if (cfg::dat.isTransparent) {
-				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 				API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 			}
 			transparentFocus = 1;
@@ -1161,7 +1161,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				LONG style; 
 				BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 				ShowWindow(pcli->hwndContactList, SW_HIDE);
-				style = GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE);
+				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
 				if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT)
 				{
 					style |= WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE;
@@ -1176,7 +1176,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						style |= WS_EX_APPWINDOW;
 				}
 
-				SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, style);
+				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
 				ApplyCLUIBorderStyle(pcli->hwndContactList);
 
 				SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
@@ -1887,14 +1887,14 @@ buttons_done:
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
 					break;
 				case POPUP_HIDEEMPTYGROUPS: {
-					int newVal = !(GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
+					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
 					cfg::writeByte("CList", "HideEmptyGroups", (BYTE) newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 					break;
 				}
 				case POPUP_DISABLEGROUPS:
 				case IDC_TBHIDEGROUPS: {
-					int newVal = !(GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
+					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 					cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);

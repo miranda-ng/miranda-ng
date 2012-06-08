@@ -222,7 +222,7 @@ void cliRecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	si.nPage=clRect.bottom;
 	si.nPos=dat->yScroll;
 
-	if ( GetWindowLong(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
+	if ( GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
 		if ( dat->noVScrollbar==0 ) SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
 		//else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);
 	} 
@@ -333,7 +333,7 @@ void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
 		else
 			dat->hwndRenameEdit=CreateWindow(TEXT("EDIT"),pcli->pfnGetContactDisplayName(contact->hContact,0),WS_POPUP|WS_BORDER|ES_AUTOHSCROLL|a,x,y,w,h,hwnd,NULL,g_hInst,NULL);
 	}
-	SetWindowLong(dat->hwndRenameEdit,GWL_STYLE,GetWindowLong(dat->hwndRenameEdit,GWL_STYLE)&(~WS_CAPTION)|WS_BORDER);
+	SetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE,GetWindowLongPtr(dat->hwndRenameEdit,GWL_STYLE)&(~WS_CAPTION)|WS_BORDER);
 	SetWindowLongPtr(dat->hwndRenameEdit,GWLP_USERDATA,(LONG_PTR)dat);
 	OldRenameEditWndProc=(WNDPROC)SetWindowLongPtr(dat->hwndRenameEdit,GWLP_WNDPROC,(LONG_PTR)RenameEditSubclassProc);
 	SendMessage(dat->hwndRenameEdit,WM_SETFONT,(WPARAM)(contact->type==CLCIT_GROUP?dat->fontModernInfo[FONTID_OPENGROUPS].hFont:dat->fontModernInfo[FONTID_CONTACTS].hFont),0);
@@ -756,7 +756,7 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 	dat->hotTextColour=ModernGetSettingDword(NULL,"CLC","HotTextColour",CLCDEFAULT_MODERN_HOTTEXTCOLOUR);
 	dat->quickSearchColour=ModernGetSettingDword(NULL,"CLC","QuickSearchColour",CLCDEFAULT_MODERN_QUICKSEARCHCOLOUR);
 	if (!g_szMetaModuleName && ServiceExists(MS_MC_GETPROTOCOLNAME)) g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
-	dat->IsMetaContactsEnabled=(!(GetWindowLong(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
+	dat->IsMetaContactsEnabled=(!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
 		g_szMetaModuleName && ModernGetSettingByte(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	if (pcli->hwndContactTree==NULL || dat->hWnd==pcli->hwndContactTree)

@@ -1539,7 +1539,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 
 	//Call the default window procedure for WM_NCPAINT, with the
 	//new window region. ** region must be in SCREEN coordinates **
-	dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+	dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
     // If the window has WS_(H-V)SCROLL bits set, we should reset them
     // to avoid windows taking the scrollbars into account.
@@ -1549,14 +1549,14 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
     if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
     {
         sw->bPreventStyleChange = TRUE;
-        SetWindowLong(hwnd, GWL_STYLE, dwStyle & ~(WS_VSCROLL|WS_HSCROLL));
+        SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~(WS_VSCROLL|WS_HSCROLL));
     }
 	
 	ret = CallWindowProc(sw->oldproc, hwnd, WM_NCPAINT, (WPARAM)hrgn, lParam);
 	
     if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
     {
-        SetWindowLong(hwnd, GWL_STYLE, dwStyle);
+        SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle);
         sw->bPreventStyleChange = FALSE;
     }
 
@@ -2683,13 +2683,13 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	rect = &nccsp->rgrc[0];
 	oldrect = *rect;
 
-	dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+	dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	// TURN OFF SCROLL-STYLES.
     if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
     {
         sw->bPreventStyleChange = TRUE;
-        SetWindowLong(hwnd, GWL_STYLE, dwStyle & ~(WS_VSCROLL|WS_HSCROLL));
+        SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~(WS_VSCROLL|WS_HSCROLL));
     }
 	
 	//call the default procedure to get the borders allocated
@@ -2698,7 +2698,7 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	// RESTORE PREVIOUS STYLES (if present at all)
     if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
     {
-        SetWindowLong(hwnd, GWL_STYLE, dwStyle);
+        SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle);
         sw->bPreventStyleChange = FALSE;
     }
 
@@ -2900,7 +2900,7 @@ static LRESULT CoolSB_Timer(SCROLLWND *swnd, HWND hwnd, WPARAM wTimerId, LPARAM 
 }
 
 //
-//	We must intercept any calls to SetWindowLong, to check if
+//	We must intercept any calls to SetWindowLongPtr, to check if
 //  left-scrollbars are taking effect or not
 //
 static LRESULT CoolSB_StyleChange(SCROLLWND *swnd, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -2956,7 +2956,7 @@ static LRESULT SendToolTipMessage0(HWND hwndTT, UINT message, WPARAM wParam, LPA
 
 
 //
-//	We must intercept any calls to SetWindowLong, to make sure that
+//	We must intercept any calls to SetWindowLongPtr, to make sure that
 //	the user does not set the WS_VSCROLL or WS_HSCROLL styles
 //
 static LRESULT CoolSB_SetCursor(SCROLLWND *swnd, HWND hwnd, WPARAM wParam, LPARAM lParam)

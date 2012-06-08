@@ -405,7 +405,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 /*
 					// custom draw stuff - change colour of listview things - doesn't affect selection :(
 					} else if (((LPNMHDR)lParam)->code == NM_CUSTOMDRAW) {
-						SetWindowLong(hwndDlg, DWL_MSGRESULT, (LONG)ProcessCustomDraw(lParam));
+						SetWindowLongPtr(hwndDlg, DWL_MSGRESULT, (LONG)ProcessCustomDraw(lParam));
 						return TRUE;					
 */
 					}					

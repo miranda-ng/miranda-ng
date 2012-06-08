@@ -165,7 +165,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					RECT rcClient;
 					int nState;
 					HDC hdc = GetWindowDC(ru->hwnd);
-					LONG style = GetWindowLong(hwnd, GWL_STYLE);
+					LONG style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 					GetWindowRect(hwnd, &rcBorder);
 					rcBorder.right -= rcBorder.left; rcBorder.bottom -= rcBorder.top;

@@ -489,7 +489,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 
 			HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-			SetWindowLongPtr(tree, GWL_STYLE, GetWindowLong(tree, GWL_STYLE) | TVS_NOHSCROLL);
+			SetWindowLongPtr(tree, GWL_STYLE, GetWindowLongPtr(tree, GWL_STYLE) | TVS_NOHSCROLL);
 
 			int cx = GetSystemMetrics(SM_CXSMICON);
 			HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);

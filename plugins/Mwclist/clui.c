@@ -573,7 +573,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		hMsgGetProfile = RegisterWindowMessageA( "Miranda::GetProfile" ); // don't localise
 		
 		if ( DBGetContactSettingByte( NULL, "CList", "Transparent", 0 )) {
-			SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 			if ( MySetLayeredWindowAttributes )
 				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 		}
@@ -704,7 +704,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							maxHeight=DBGetContactSettingByte(NULL,"CLUI","MaxSizeHeight",75);
 							GetWindowRect(hwnd,&rcWindow);
 							GetWindowRect(pcli->hwndContactTree,&rcTree);
-							winstyle=GetWindowLong(pcli->hwndContactTree,GWL_STYLE);
+							winstyle=GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE);
 
 							SystemParametersInfo(SPI_GETWORKAREA,0,&rcWorkArea,FALSE);
 							lastreqh=nmc->pt.y;

@@ -131,7 +131,7 @@ static void Docking_SetSize(HWND hwnd, LPRECT rc, bool query, bool move)
 
 static bool Docking_IsWindowVisible(HWND hwnd)
 {
-	LONG style = GetWindowLong(hwnd, GWL_STYLE);
+	LONG style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	return style & WS_VISIBLE && !(style & WS_MINIMIZE);
 }
 

@@ -460,20 +460,20 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 	} else {
 		ShowWindow(dat->hwndStatus, SW_SHOW);
 	}
-	ws = GetWindowLong(dat->hwnd, GWL_STYLE) & ~(WS_CAPTION);
+	ws = GetWindowLongPtr(dat->hwnd, GWL_STYLE) & ~(WS_CAPTION);
 	if (dat->flags2 & SMF2_SHOWTITLEBAR) {
 		ws |= WS_CAPTION;
 	}
-	SetWindowLong(dat->hwnd, GWL_STYLE, ws);
+	SetWindowLongPtr(dat->hwnd, GWL_STYLE, ws);
 
-	ws = GetWindowLong(dat->hwnd, GWL_EXSTYLE)& ~WS_EX_LAYERED;
+	ws = GetWindowLongPtr(dat->hwnd, GWL_EXSTYLE)& ~WS_EX_LAYERED;
 	ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
-	SetWindowLong(dat->hwnd , GWL_EXSTYLE , ws);
+	SetWindowLongPtr(dat->hwnd , GWL_EXSTYLE , ws);
 	if (dat->flags2 & SMF2_USETRANSPARENCY) {
 		pSetLayeredWindowAttributes(dat->hwnd, RGB(255,255,255), (BYTE)(255-g_dat->inactiveAlpha), LWA_ALPHA);
 	}
 
-	ws = GetWindowLong(dat->hwndTabs, GWL_STYLE) & ~(TCS_BOTTOM | 0x2000);
+	ws = GetWindowLongPtr(dat->hwndTabs, GWL_STYLE) & ~(TCS_BOTTOM | 0x2000);
 	if (dat->flags2 & SMF2_TABSATBOTTOM) {
 		ws |= TCS_BOTTOM;
 	}
@@ -484,7 +484,7 @@ static void SetContainerWindowStyle(ParentWindowData *dat)
 	} else {
 		TabCtrl_SetPadding(dat->hwndTabs, GetSystemMetrics(SM_CXEDGE) + 4, GetSystemMetrics(SM_CYEDGE) + 1);
 	}
-	SetWindowLong(dat->hwndTabs, GWL_STYLE, ws);
+	SetWindowLongPtr(dat->hwndTabs, GWL_STYLE, ws);
 	GetWindowRect(dat->hwnd, &rc);
 	SetWindowPos(dat->hwnd, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
 				SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
@@ -784,9 +784,9 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_ACTIVATE:
 
 		if (LOWORD(wParam) == WA_INACTIVE) {
-			ws = GetWindowLong(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
+			ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
 			ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
-			SetWindowLong(hwndDlg , GWL_EXSTYLE , ws);
+			SetWindowLongPtr(hwndDlg , GWL_EXSTYLE , ws);
 			if (dat->flags2 & SMF2_USETRANSPARENCY) {
    				pSetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat->inactiveAlpha), LWA_ALPHA);
 //				RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
@@ -802,9 +802,9 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			FlashWindow(hwndDlg, FALSE);
 			dat->nFlash = 0;
 		}
-		ws = GetWindowLong(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
+		ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
 		ws |= dat->flags2 & SMF2_USETRANSPARENCY ? WS_EX_LAYERED : 0;
-		SetWindowLong(hwndDlg , GWL_EXSTYLE , ws);
+		SetWindowLongPtr(hwndDlg , GWL_EXSTYLE , ws);
 		if (dat->flags2 & SMF2_USETRANSPARENCY) {
    			pSetLayeredWindowAttributes(hwndDlg, RGB(255,255,255), (BYTE)(255-g_dat->activeAlpha), LWA_ALPHA);
 //				RedrawWindow(hwndDlg, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_FRAME | RDW_ALLCHILDREN);
@@ -1150,11 +1150,11 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		{
 			RECT rc;
 			dat->flags2 ^= SMF2_SHOWTITLEBAR;
-			ws = GetWindowLong(hwndDlg, GWL_STYLE) & ~(WS_CAPTION);
+			ws = GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~(WS_CAPTION);
 			if (dat->flags2 & SMF2_SHOWTITLEBAR) {
 				ws |= WS_CAPTION;
 			}
-			SetWindowLong(hwndDlg, GWL_STYLE, ws);
+			SetWindowLongPtr(hwndDlg, GWL_STYLE, ws);
 			GetWindowRect(hwndDlg, &rc);
 			SetWindowPos(hwndDlg, 0, 0, 0, rc.right - rc.left, rc.bottom - rc.top,
                          SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOZORDER  | SWP_FRAMECHANGED | SWP_NOSENDCHANGING);
@@ -1205,7 +1205,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 			RECT rect = lpDIS->rcItem;
 			RECT rectTab = lpDIS->rcItem;
 			int bSelected = lpDIS->itemState & ODS_SELECTED;
-			int atTop = (GetWindowLong(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
+			int atTop = (GetWindowLongPtr(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
 			UINT dwFormat;
 			if (!MyIsAppThemed || !MyIsAppThemed()) {
 				FillRect(lpDIS->hDC, &rect, GetSysColorBrush(COLOR_BTNFACE));
@@ -1477,7 +1477,7 @@ BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					IMAGEINFO info;
 					POINT pt;
 					RECT rect;
-					int atTop = (GetWindowLong(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
+					int atTop = (GetWindowLongPtr(hwnd, GWL_STYLE) & TCS_BOTTOM) == 0;
 					TabCtrl_GetItemRect(hwnd, dat->srcTab, &rect);
 					pt.x = LOWORD(lParam);
 					pt.y = HIWORD(lParam);

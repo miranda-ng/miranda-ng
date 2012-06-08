@@ -116,7 +116,7 @@ struct ClcGroup *cli_AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,
 {
 	struct ClcGroup* result;
 	ClearRowByIndexCache();	
-	if (!dat->force_in_dialog && !(GetWindowLong(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
+	if (!dat->force_in_dialog && !(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN))
 		if (!lstrcmp(_T("-@-HIDDEN-GROUP-@-"),szName))        //group is hidden
 		{   	
 			ClearRowByIndexCache();
@@ -363,7 +363,7 @@ int RestoreSelection( struct ClcData *dat, HANDLE hSelected )
 
 void cliRebuildEntireList(HWND hwnd,struct ClcData *dat)
 {
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 	HANDLE hContact;
 	struct ClcContact * cont;
 	struct ClcGroup *group;

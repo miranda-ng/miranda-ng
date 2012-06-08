@@ -342,7 +342,7 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd,LPARAM lParam)
 	if (!lstrcmpi(szClass,_T("static")) || !lstrcmpi(szClass,_T("hyperlink")) || !lstrcmpi(szClass,_T("button")) || !lstrcmpi(szClass,_T("MButtonClass")))
 		TranslateWindow(hwnd);
 	else if (!lstrcmpi(szClass,_T("edit"))) {
-		if ( GetWindowLong(hwnd,GWL_STYLE)&ES_READONLY)
+		if ( GetWindowLongPtr(hwnd,GWL_STYLE)&ES_READONLY)
 			TranslateWindow(hwnd);
 	}
 	return TRUE;

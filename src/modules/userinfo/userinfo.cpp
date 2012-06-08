@@ -184,8 +184,8 @@ static void CreateDetailsTabs( HWND hwndDlg, struct DetailsData* dat, struct Det
 	}
 	TabCtrl_SetCurSel(hwndTab,sel);
 
-	LONG style = GetWindowLong(hwndTab, GWL_STYLE);
-	SetWindowLong(hwndTab, GWL_STYLE, pages > 1 ? style | WS_TABSTOP : style & ~WS_TABSTOP);
+	LONG style = GetWindowLongPtr(hwndTab, GWL_STYLE);
+	SetWindowLongPtr(hwndTab, GWL_STYLE, pages > 1 ? style | WS_TABSTOP : style & ~WS_TABSTOP);
 }
 
 static void CreateDetailsPageWindow( HWND hwndDlg, struct DetailsData* dat, struct DetailsPageData* ppg )

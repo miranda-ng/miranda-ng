@@ -840,7 +840,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			break;
 #if defined(_UNICODE)
 		case WM_NOTIFYFORMAT:
-			SetWindowLong(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
+			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
 			return TRUE;
 #endif
 		case WM_NOTIFY:
@@ -880,7 +880,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 											if ((ASSOCDATA*)lvi.lParam == NULL) /* groups */
 												lvi.iItem = -1;
 									if(lvi.iItem == -1) {
-										SetWindowLong(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
+										SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
 										return TRUE;
 									}
 									break;
@@ -897,7 +897,7 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 												lvi.iItem = -1;
 									if(lvi.iItem<0) {
 										ListView_SetItemState(nmhdr->hwndFrom, 0, LVIS_SELECTED|LVIS_FOCUSED, LVIS_SELECTED|LVIS_FOCUSED);
-										SetWindowLong(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
+										SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, TRUE); /* eat it */
 										return TRUE;
 									}
 									break;

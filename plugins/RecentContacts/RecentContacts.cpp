@@ -183,7 +183,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 {
 	LASTUC_DLG_DATA *DlgDat;
 
-	DlgDat = (LASTUC_DLG_DATA *)GetWindowLong(hDlg, GWLP_USERDATA);
+	DlgDat = (LASTUC_DLG_DATA *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 	HWND hList = GetDlgItem(hDlg, IDC_CONTACTS_LIST);
 	if (hList == NULL)
 		return FALSE;
@@ -213,7 +213,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 			ScreenToClient(hDlg, &p);
 			DlgDat->ListUCRect.right = p.x;
 			DlgDat->ListUCRect.bottom = p.y;
-			SetWindowLong(hDlg, GWLP_USERDATA, (LONG)DlgDat);
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LONG)DlgDat);
 
 			//set listview styles
 			ListView_SetExtendedListViewStyleEx(hList,

@@ -71,7 +71,7 @@ void JabberFormCenterContent(HWND hwndStatic)
 	HWND hWndChild=GetWindow(hwndStatic,GW_CHILD);
 	while (hWndChild!=oldChild && hWndChild!=NULL)
 	{
-	   DWORD style=GetWindowLong(hWndChild, GWL_STYLE);
+	   DWORD style=GetWindowLongPtr(hWndChild, GWL_STYLE);
 	   RECT rc;
 	   GetWindowRect(hWndChild,&rc);
 	   if ((style&SS_RIGHT) && !(style&WS_TABSTOP))
@@ -102,7 +102,7 @@ void JabberFormCenterContent(HWND hwndStatic)
 		hWndChild=GetWindow(hwndStatic,GW_CHILD);
 		while (hWndChild!=oldChild && hWndChild!=NULL )
 		{
-			DWORD style=GetWindowLong(hWndChild, GWL_STYLE);
+			DWORD style=GetWindowLongPtr(hWndChild, GWL_STYLE);
 			RECT rc;
 			GetWindowRect(hWndChild,&rc);
 			if ((style&SS_RIGHT) && !(style&WS_TABSTOP))
@@ -158,11 +158,11 @@ void JabberFormSetInstruction( HWND hwndForm, const TCHAR *text )
 	RECT rcWindow; GetClientRect(hwndForm, &rcWindow);
 	if (rcText.bottom-rcText.top > (rcWindow.bottom-rcWindow.top)/5) {
 		HWND hwndEdit = GetDlgItem(hwndForm, IDC_INSTRUCTION);
-		SetWindowLong(hwndEdit, GWL_STYLE, WS_VSCROLL | GetWindowLong(hwndEdit, GWL_STYLE));
+		SetWindowLongPtr(hwndEdit, GWL_STYLE, WS_VSCROLL | GetWindowLongPtr(hwndEdit, GWL_STYLE));
 		rcText.bottom = rcText.top + (rcWindow.bottom-rcWindow.top)/5;
 	} else {
 		HWND hwndEdit = GetDlgItem(hwndForm, IDC_INSTRUCTION);
-		SetWindowLong(hwndEdit, GWL_STYLE, ~WS_VSCROLL & GetWindowLong(hwndEdit, GWL_STYLE));
+		SetWindowLongPtr(hwndEdit, GWL_STYLE, ~WS_VSCROLL & GetWindowLongPtr(hwndEdit, GWL_STYLE));
 	}
 	deltaHeight += rcText.bottom-rcText.top;
 
@@ -785,9 +785,9 @@ static INT_PTR CALLBACK JabberFormDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam
 			}
 
 			// Enable WS_EX_CONTROLPARENT on IDC_FRAME ( so tab stop goes through all its children )
-			frameExStyle = GetWindowLong( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE );
+			frameExStyle = GetWindowLongPtr( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE );
 			frameExStyle |= WS_EX_CONTROLPARENT;
-			SetWindowLong( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE, frameExStyle );
+			SetWindowLongPtr( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE, frameExStyle );
 
 			SetWindowLongPtr( hwndDlg, GWLP_USERDATA, ( LONG_PTR ) jfi );
 			if ( jfi->pfnSubmit != NULL )
@@ -796,9 +796,9 @@ static INT_PTR CALLBACK JabberFormDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
-		if ((GetWindowLong((HWND)lParam, GWL_ID) == IDC_WHITERECT) ||
-			(GetWindowLong((HWND)lParam, GWL_ID) == IDC_INSTRUCTION) ||
-			(GetWindowLong((HWND)lParam, GWL_ID) == IDC_TITLE))
+		if ((GetWindowLongPtr((HWND)lParam, GWL_ID) == IDC_WHITERECT) ||
+			(GetWindowLongPtr((HWND)lParam, GWL_ID) == IDC_INSTRUCTION) ||
+			(GetWindowLongPtr((HWND)lParam, GWL_ID) == IDC_TITLE))
 		{
 			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		}

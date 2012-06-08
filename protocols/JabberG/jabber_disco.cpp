@@ -1051,7 +1051,7 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CONTEXTMENU:
-		if (GetWindowLong((HWND)wParam, GWL_ID) == IDC_TREE_DISCO)
+		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TREE_DISCO)
 		{
 			HWND hwndList = (HWND)wParam;
 			POINT pt = { (signed short)LOWORD( lParam ), (signed short)HIWORD( lParam ) };
@@ -1139,11 +1139,11 @@ INT_PTR CJabberDlgDiscovery::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				HWND hwndFocus = GetFocus();
 				if (!hwndFocus) return TRUE;
-				if (GetWindowLong(hwndFocus, GWL_ID) == IDC_TXT_FILTERTEXT)
+				if (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_TXT_FILTERTEXT)
 					PostMessage( m_hwnd, WM_COMMAND, MAKEWPARAM( IDC_BTN_FILTERAPPLY, 0 ), 0 );
 				else if (m_hwnd == (hwndFocus = GetParent(hwndFocus)))
 					break;
-				else if ((GetWindowLong(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLong(hwndFocus, GWL_ID) == IDC_COMBO_JID))
+				else if ((GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_NODE) || (GetWindowLongPtr(hwndFocus, GWL_ID) == IDC_COMBO_JID))
 					PostMessage( m_hwnd, WM_COMMAND, MAKEWPARAM( IDC_BUTTON_BROWSE, 0 ), 0 );
 				return TRUE;
 			}

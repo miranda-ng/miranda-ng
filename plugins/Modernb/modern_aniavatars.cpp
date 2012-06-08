@@ -940,9 +940,9 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /* = NUL
 			else if (!g_proc_UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0,0,0), &bf, ULW_ALPHA ))
 			{
 				LONG exStyle;
-				exStyle=GetWindowLong(dat->hWindow,GWL_EXSTYLE);
+				exStyle=GetWindowLongPtr(dat->hWindow,GWL_EXSTYLE);
 				exStyle|=WS_EX_LAYERED;
-				SetWindowLong(dat->hWindow,GWL_EXSTYLE,exStyle);
+				SetWindowLongPtr(dat->hWindow,GWL_EXSTYLE,exStyle);
 				if ( !IMMEDIATE_DRAW )
 					SetWindowPos( pcli->hwndContactTree, dat->hWindow, 0, 0, 0, 0, SWP_ASYNCWINDOWPOS | SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOSENDCHANGING );
 				g_proc_UpdateLayeredWindow(dat->hWindow, hDC_animation, &ptWnd, &szWnd, copyFromDC, &pt_from, RGB(0,0,0), &bf, ULW_ALPHA );
@@ -1198,7 +1198,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		else
 		{
 			LONG exStyle;
-			exStyle=GetWindowLong(pcli->hwndContactList,GWL_EXSTYLE);
+			exStyle=GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 			SetWindowPos(pcli->hwndContactList,hwnd,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);			
 			if (!(exStyle&WS_EX_TOPMOST))
 				SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
@@ -1217,7 +1217,7 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			else
 			{
 				LONG exStyle;
-				exStyle=GetWindowLong(pcli->hwndContactList,GWL_EXSTYLE);
+				exStyle=GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 				SetWindowPos(pcli->hwndContactList,hwnd,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
 				if (!(exStyle&WS_EX_TOPMOST))
 					SetWindowPos(pcli->hwndContactList,HWND_NOTOPMOST,0,0,0,0,SWP_NOSIZE|SWP_NOMOVE|SWP_NOACTIVATE/*|SWP_ASYNCWINDOWPOS*/);
@@ -1249,11 +1249,11 @@ static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			//change layered mode
 			exStyle=GetWindowLongPtr(dat->hWindow,GWL_EXSTYLE);
 			exStyle|=WS_EX_LAYERED;
-			SetWindowLong(dat->hWindow,GWL_EXSTYLE,exStyle);
-			exStyle=GetWindowLong(dat->hWindow,GWL_STYLE);
+			SetWindowLongPtr(dat->hWindow,GWL_EXSTYLE,exStyle);
+			exStyle=GetWindowLongPtr(dat->hWindow,GWL_STYLE);
 			exStyle&=~WS_POPUP;
 			exStyle|=WS_CHILD;
-			SetWindowLong(dat->hWindow,GWL_STYLE,exStyle);
+			SetWindowLongPtr(dat->hWindow,GWL_STYLE,exStyle);
 			break;
 		}
 	case WM_TIMER:

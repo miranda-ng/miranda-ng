@@ -287,7 +287,7 @@ int CreateOneWindow(int ButtonPos)
 	else 
 		Buttons[ButtonPos].hwnd = CreateWindow("STATIC", "", WS_CHILD|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
 
-	SetWindowLong(Buttons[ButtonPos].hwnd, GWLP_USERDATA, Buttons[ButtonPos].id);
+	SetWindowLongPtr(Buttons[ButtonPos].hwnd, GWLP_USERDATA, Buttons[ButtonPos].id);
 	if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1))
 		SendMessage(Buttons[ButtonPos].hwnd, BUTTONSETASFLATBTN, 0, 0);
 
@@ -382,7 +382,7 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 
 	SendMessage(Buttons[i].hwndTip, TTM_ACTIVATE, (WPARAM)(Buttons[i].dwFlags&TTBBF_SHOWTOOLTIP)?TRUE:FALSE, 0);
 
-	SetWindowLong(Buttons[i].hwnd, GWLP_USERDATA, Buttons[i].id);
+	SetWindowLongPtr(Buttons[i].hwnd, GWLP_USERDATA, Buttons[i].id);
 
 	nButtonsCount++;
 
@@ -565,12 +565,12 @@ int SetButtBitmap(int pos)
 				t = IMAGE_ICON;
 
 			curstyle |= (t  == IMAGE_ICON || UseIcoLib) ? SS_ICON : SS_BITMAP;
-			SetWindowLong(Buttons[pos].hwnd, GWL_STYLE, curstyle);
+			SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle);
 		}
-		else SetWindowLong(Buttons[pos].hwnd, GWL_STYLE, curstyle|(Buttons[pos].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
+		else SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|(Buttons[pos].hbBitmapDown  == NULL?SS_ICON:SS_BITMAP));
 	}
 	else if (GetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE)&SS_ICON)
-		SetWindowLong(Buttons[pos].hwnd, GWL_STYLE, curstyle|SS_ICON);
+		SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|SS_ICON);
 
 	if ( !UseIcoLib||(Buttons[pos].dwFlags & TTBBF_ISSEPARATOR)) {
 		if (!(Buttons[pos].dwFlags & TTBBF_DRAWBORDER)) {
@@ -1094,7 +1094,7 @@ static int OnmodulesLoad(WPARAM wParam, LPARAM lParam)
 
 static const MUUID interfaces[] = {MIID_TTB,  MIID_LAST};
 
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
@@ -1116,14 +1116,14 @@ PLUGININFOEX pluginInfo  =
 	MIID_TTB
 };
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getMMI( &mmi );
@@ -1143,7 +1143,9 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	SaveAllSeparators();
 	UnInitLBut();

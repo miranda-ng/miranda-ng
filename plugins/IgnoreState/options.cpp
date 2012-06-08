@@ -140,7 +140,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					SendMessage(GetDlgItem(hwndDlg, IDC_ADVICON), CB_SETCURSEL, clistIcon, 0);
 			}
 
-			SetWindowLong(hTree,GWL_STYLE,GetWindowLong(hTree,GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(hTree,GWL_STYLE,GetWindowLongPtr(hTree,GWL_STYLE)|TVS_NOHSCROLL);
 			{
 				himlButtonIcons=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,2,2);
 				TreeView_SetImageList(hTree,himlButtonIcons,TVSIL_NORMAL);

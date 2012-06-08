@@ -253,7 +253,7 @@ static void SetAllContactChecks(HWND hwndList, HANDLE hReceiver) // doubtful nam
 
 INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-  TSendContactsData* wndData = (TSendContactsData*)GetWindowLong(hwndDlg, DWLP_USER);
+  TSendContactsData* wndData = (TSendContactsData*)GetWindowLongPtr(hwndDlg, DWLP_USER);
 
   switch (msg)
   {
@@ -265,7 +265,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
       SetAllContactChecks(GetDlgItem(hwndDlg,IDC_LIST), (HANDLE)lParam);
       WindowList_Add(ghSendWindowList, hwndDlg, (HANDLE)lParam);
       wndData = new TSendContactsData((HANDLE)lParam);
-      SetWindowLong(hwndDlg, DWLP_USER, (LONG)wndData);
+      SetWindowLongPtr(hwndDlg, DWLP_USER, (LONG)wndData);
       // new dlg init 
       wndData->hIcons[0] = InitMButton(hwndDlg, IDC_ADD, MAKEINTRESOURCEA(IDI_ADDCONTACT), "Add Contact Permanently to List");
       wndData->hIcons[1] = InitMButton(hwndDlg, IDC_DETAILS, MAKEINTRESOURCEA(IDI_USERDETAILS), "View User's Details");

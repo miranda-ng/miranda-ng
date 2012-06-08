@@ -611,13 +611,13 @@ void CLUI_UpdateLayeredMode()
 			BOOL fWasVisible=IsWindowVisible(pcli->hwndContactList);
 			if (fWasVisible) ShowWindow(pcli->hwndContactList,SW_HIDE);
 			//change layered mode
-			exStyle=GetWindowLong(pcli->hwndContactList,GWL_EXSTYLE);
+			exStyle=GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
 			if (tLayeredFlag) 
 				exStyle|=WS_EX_LAYERED;
 			else
 				exStyle&=~WS_EX_LAYERED;
-			SetWindowLong(pcli->hwndContactList,GWL_EXSTYLE,exStyle&~WS_EX_LAYERED);
-			SetWindowLong(pcli->hwndContactList,GWL_EXSTYLE,exStyle);
+			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,exStyle&~WS_EX_LAYERED);
+			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,exStyle);
 			g_CluiData.fLayered = tLayeredFlag;
 			Sync(CLUIFrames_SetLayeredMode, tLayeredFlag,pcli->hwndContactList);			
 			CLUI_ChangeWindowMode();
@@ -733,8 +733,8 @@ void CLUI_ChangeWindowMode()
 		g_CluiData.fOnDesktop=0;
 	}
 	//5- TODO Apply Style
-	oldStyleEx = curStyleEx = GetWindowLong(pcli->hwndContactList,GWL_EXSTYLE);
-	oldStyle = curStyle = GetWindowLong(pcli->hwndContactList,GWL_STYLE);	
+	oldStyleEx = curStyleEx = GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE);
+	oldStyle = curStyle = GetWindowLongPtr(pcli->hwndContactList,GWL_STYLE);	
 
 	curStyleEx = (curStyleEx & ~styleMaskEx) | styleEx;
 	curStyle = (curStyle & ~styleMask) | style;
@@ -747,8 +747,8 @@ void CLUI_ChangeWindowMode()
 			ShowWindow(pcli->hwndContactList,SW_HIDE);
 			Sync(CLUIFrames_OnShowHide, pcli->hwndContactList,0);
 		}
-		SetWindowLong(pcli->hwndContactList,GWL_EXSTYLE,curStyleEx);
-		SetWindowLong(pcli->hwndContactList,GWL_STYLE,curStyle);
+		SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,curStyleEx);
+		SetWindowLongPtr(pcli->hwndContactList,GWL_STYLE,curStyle);
 	}
 
 	CLUI_UpdateAeroGlass();
@@ -2758,7 +2758,7 @@ LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 	else
 		SetRect(&rcTree2,0,0,0,0);
 
-	winstyle=GetWindowLong(pcli->hwndContactTree,GWL_STYLE);
+	winstyle=GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE);
 
 	SystemParametersInfo(SPI_GETWORKAREA,0,&rcWorkArea,FALSE);
 	if (MyMonitorFromWindow)

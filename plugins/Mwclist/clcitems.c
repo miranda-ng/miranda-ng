@@ -195,7 +195,7 @@ void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTo
 	struct ClcGroup *group;
 	struct ClcContact * cont;
 	pdisplayNameCacheEntry cacheEntry;
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 	WORD status;
 	char *szProto;
 	
@@ -322,7 +322,7 @@ void DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 {
 //	char *szProto;
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 	HANDLE hContact;
 	struct ClcContact * cont;
 	struct ClcGroup *group;

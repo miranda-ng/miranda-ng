@@ -51,7 +51,7 @@ BOOL CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, HWND h
 		case WM_USER+100:
 		{
 			HANDLE hNotify = (HANDLE)lParam;
-			SetWindowLong(hwndDlg, GWL_USERDATA, lParam);
+			SetWindowLongPtr(hwndDlg, GWL_USERDATA, lParam);
 
 			TranslateDialogDefault(hwndDlg);
 
@@ -140,7 +140,7 @@ BOOL CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, HWND h
 					{
 						case PSN_APPLY:
 						{
-							HANDLE hNotify = (HANDLE)GetWindowLong(hwndDlg, GWL_USERDATA);
+							HANDLE hNotify = (HANDLE)GetWindowLongPtr(hwndDlg, GWL_USERDATA);
 							TCHAR tmp[1024];
 
 							for (int i = 0 ; i < controlsSize ; i++)

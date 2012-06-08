@@ -466,7 +466,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 		break;
 		//fall through
 	case WM_MOUSEWHEEL:
-		if ((GetWindowLong(hwnd, GWL_STYLE) & WS_VSCROLL) == 0) {
+		if ((GetWindowLongPtr(hwnd, GWL_STYLE) & WS_VSCROLL) == 0) {
 			SendMessage(GetDlgItem(GetParent(hwnd), IDC_LOG), WM_MOUSEWHEEL, wParam, lParam);
 		}
 		break;
@@ -527,7 +527,7 @@ static void SubclassLogEdit(HWND hwnd) {
 
 static void UnsubclassLogEdit(HWND hwnd) {
 	SendMessage(hwnd, EM_UNSUBCLASSED, 0, 0);
-	SetWindowLong(hwnd, GWLP_WNDPROC, (LONG_PTR) OldLogEditProc);
+	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldLogEditProc);
 }
 
 static void MessageDialogResize(HWND hwndDlg, struct MessageWindowData *dat, int w, int h) {
@@ -802,10 +802,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				pf2.dwMask = PFM_RTLPARA;
 				if (!(dat->flags & SMF_RTL)) {
 					pf2.wEffects = 0;
-					SetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
+					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) & ~(WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
 				} else {
 					pf2.wEffects = PFE_RTLPARA;
-					SetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
+					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
 				}
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 				/* Workaround to make Richedit display RTL messages correctly */
@@ -820,9 +820,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				pf2.wEffects = 0;
 				SendDlgItemMessage(hwndDlg, IDC_LOG, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 				if (dat->flags & SMF_RTL) {
-					SetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
+					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
 				} else {
-					SetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) & ~WS_EX_LEFTSCROLLBAR);
+					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) & ~WS_EX_LEFTSCROLLBAR);
 				}
 			}
 			dat->windowData.codePage = DBGetContactSettingWord(dat->windowData.hContact, SRMMMOD, "CodePage", (WORD) CP_ACP);
@@ -1338,12 +1338,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->flags ^= SMF_RTL;
 			if (dat->flags&SMF_RTL) {
 				pf2.wEffects = PFE_RTLPARA;
-				SetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
-				SetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) | WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR);
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) | WS_EX_LEFTSCROLLBAR);
 			} else {
 				pf2.wEffects = 0;
-				SetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) &~ (WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
-				SetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLong(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) &~ (WS_EX_LEFTSCROLLBAR));
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MESSAGE),GWL_EXSTYLE) &~ (WS_EX_RIGHT | WS_EX_RTLREADING | WS_EX_LEFTSCROLLBAR));
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE,GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG),GWL_EXSTYLE) &~ (WS_EX_LEFTSCROLLBAR));
 			}
 			SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETPARAFORMAT, 0, (LPARAM)&pf2);
 		}
@@ -1480,7 +1480,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case DM_SCROLLLOGTOBOTTOM:
 		if (dat->windowData.hwndLog == NULL) {
 			SCROLLINFO si = { 0 };
-			if ((GetWindowLong(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL) == 0)
+			if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LOG), GWL_STYLE) & WS_VSCROLL) == 0)
 				break;
 			si.cbSize = sizeof(si);
 			si.fMask = SIF_PAGE | SIF_RANGE | SIF_POS;

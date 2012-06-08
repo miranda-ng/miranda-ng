@@ -822,7 +822,7 @@ void ThumbInfo::UpdateContent()
 
 	if (pUpdateLayeredWindow)
 	{
-		SetWindowLong( hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED );
+		SetWindowLongPtr( hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED );
 
 		RECT rc; GetWindowRect(hwnd, &rc);
 		POINT ptDst = {rc.left, rc.top};

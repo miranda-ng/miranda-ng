@@ -417,7 +417,7 @@ BOOL isFullScreen()
 	while (hWnd = FindWindowEx(NULL, hWnd, NULL, NULL)) {
 		RECT WindowRect;
 
-		if (!(GetWindowLong(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST))
+		if (!(GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST))
 			continue;
 
 		GetWindowRect(hWnd, &WindowRect);

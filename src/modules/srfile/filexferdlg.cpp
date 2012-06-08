@@ -618,7 +618,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					fts = &dat->transferStatus;
 
 					bool firstTime = false;
-					if ((GetWindowLong(GetDlgItem(hwndDlg, IDC_ALLFILESPROGRESS), GWL_STYLE) & WS_VISIBLE) == 0)
+					if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_ALLFILESPROGRESS), GWL_STYLE) & WS_VISIBLE) == 0)
 					{
 						SetFtStatus(hwndDlg, ( fts->flags & PFTS_SENDING ) ? LPGENT("Sending...") : LPGENT("Receiving..."), FTS_PROGRESS);
 						SetFilenameControls(hwndDlg, dat, fts);

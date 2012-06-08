@@ -371,7 +371,7 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 			}
 			break;
    	}
-	return CallWindowProc((WNDPROC)GetWindowLong(hwnd, GWLP_USERDATA),hwnd,msg,wParam,lParam);
+	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA),hwnd,msg,wParam,lParam);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -379,7 +379,7 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam)
 {
 
-	LOGWIN *dat = (LOGWIN*)GetWindowLong(hwndDlg, GWLP_USERDATA);
+	LOGWIN *dat = (LOGWIN*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch(message) {
 	case WM_INITDIALOG:
@@ -391,8 +391,8 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 		dat->Paused = 0;
 		dat->hList = GetDlgItem(hwndDlg, IDC_LIST);
 
-		SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG)dat);
-		SetWindowLong(dat->hList, GWLP_USERDATA, SetWindowLong(dat->hList,GWLP_WNDPROC,(LONG)SubclassProc));
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)dat);
+		SetWindowLongPtr(dat->hList, GWLP_USERDATA, SetWindowLongPtr(dat->hList,GWLP_WNDPROC,(LONG)SubclassProc));
 
 		// init buttons
 		{
@@ -689,7 +689,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 		DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
-		SetWindowLong(dat->hList, GWLP_WNDPROC, GetWindowLong(dat->hList,GWLP_USERDATA));
+		SetWindowLongPtr(dat->hList, GWLP_WNDPROC, GetWindowLongPtr(dat->hList,GWLP_USERDATA));
 		SendMessage(hwndConsole, HM_REMOVE, 0, (LPARAM)dat);
 		break;
 	}

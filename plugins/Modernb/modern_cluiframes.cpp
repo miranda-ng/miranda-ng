@@ -159,7 +159,7 @@ int SetAlpha(BYTE Alpha)
 			if (g_proc_SetLayeredWindowAttributesNew)
 			{
 				long l;
-				l=GetWindowLong(hwnd,GWL_EXSTYLE);
+				l=GetWindowLongPtr(hwnd,GWL_EXSTYLE);
 				if (!(l&WS_EX_LAYERED))
 				{
 					HWND parent=NULL;
@@ -172,7 +172,7 @@ int SetAlpha(BYTE Alpha)
 
 					CLUI_ShowWindowMod(hwnd,SW_HIDE);
 					SetParent(hwnd,NULL);
-					SetWindowLong(hwnd,GWL_EXSTYLE,l|WS_EX_LAYERED);
+					SetWindowLongPtr(hwnd,GWL_EXSTYLE,l|WS_EX_LAYERED);
 					SetParent(hwnd,parent);
 					if (l&WS_VISIBLE)  CLUI_ShowWindowMod(hwnd,SW_SHOW);
 				}
@@ -1166,7 +1166,7 @@ static INT_PTR _us_DoGetFrameOptions(WPARAM wParam,LPARAM lParam)
 		if(g_pfwFrames[pos].TitleBar.ShowTitleBarTip) retval|=F_SHOWTBTIP;
 		if (!g_CluiData.fLayered)
 		{
-			if (!(GetWindowLong(g_pfwFrames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval|=F_NOBORDER;
+			if (!(GetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval|=F_NOBORDER;
 		}
 		else 
 			if (!g_pfwFrames[pos].UseBorder) retval|=F_NOBORDER;
@@ -1196,11 +1196,11 @@ static INT_PTR _us_DoGetFrameOptions(WPARAM wParam,LPARAM lParam)
 		break;
 
 	case FO_TBSTYLE:
-		retval=GetWindowLong(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE);
+		retval=GetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE);
 		break;
 
 	case FO_TBEXSTYLE:
-		retval=GetWindowLong(g_pfwFrames[pos].TitleBar.hwnd,GWL_EXSTYLE);
+		retval=GetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_EXSTYLE);
 		break;
 
 	case FO_ICON:
@@ -1284,13 +1284,13 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 
 		SendMessageA(g_pfwFrames[pos].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)g_pfwFrames[pos].TitleBar.ShowTitleBarTip,0);
 
-		style=(int)GetWindowLong(g_pfwFrames[pos].hWnd,GWL_STYLE);
+		style=(int)GetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE);
 		style&=(~WS_BORDER);
 
 		if ( !(flag&F_NOBORDER ) && !g_CluiData.fLayered ) style|=WS_BORDER;
 
-		SetWindowLong(g_pfwFrames[pos].hWnd,GWL_STYLE,(long)style);
-		SetWindowLong(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE,(long)style& ~(WS_VSCROLL | WS_HSCROLL));
+		SetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE,(long)style);
+		SetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE,(long)style& ~(WS_VSCROLL | WS_HSCROLL));
 
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
 		SetWindowPos(g_pfwFrames[pos].TitleBar.hwnd,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED|SWP_NOACTIVATE);
@@ -1351,12 +1351,12 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	case FO_TBSTYLE:
-		SetWindowLong(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE,lParam& ~(WS_VSCROLL | WS_HSCROLL));
+		SetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE,lParam& ~(WS_VSCROLL | WS_HSCROLL));
 
 		return 0;
 
 	case FO_TBEXSTYLE:
-		SetWindowLong(g_pfwFrames[pos].TitleBar.hwnd,GWL_EXSTYLE,lParam);						
+		SetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_EXSTYLE,lParam);						
 
 		return 0;
 
@@ -1999,8 +1999,8 @@ static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam)
 
 	SendMessageA(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)g_pfwFrames[g_nFramesCount].TitleBar.ShowTitleBarTip,0);
 
-	g_pfwFrames[g_nFramesCount].oldstyles=GetWindowLong(g_pfwFrames[g_nFramesCount].hWnd,GWL_STYLE);
-	g_pfwFrames[g_nFramesCount].TitleBar.oldstyles=GetWindowLong(g_pfwFrames[g_nFramesCount].TitleBar.hwnd,GWL_STYLE);
+	g_pfwFrames[g_nFramesCount].oldstyles=GetWindowLongPtr(g_pfwFrames[g_nFramesCount].hWnd,GWL_STYLE);
+	g_pfwFrames[g_nFramesCount].TitleBar.oldstyles=GetWindowLongPtr(g_pfwFrames[g_nFramesCount].TitleBar.hwnd,GWL_STYLE);
 	//Frames[nFramescount].FloatingPos.x=
 
 	retval=g_pfwFrames[g_nFramesCount].id;
@@ -2019,12 +2019,12 @@ static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam)
 
 	//    else Frames[nFramescount-1].height=Frames[nFramescount-1].HeightWhenCollapsed;
 
-	style=GetWindowLong(g_pfwFrames[g_nFramesCount-1].hWnd,GWL_STYLE);
+	style=GetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].hWnd,GWL_STYLE);
 	style&=(~WS_BORDER);
 	style|=(((g_pfwFrames[g_nFramesCount-1].UseBorder)&&!g_CluiData.fLayered)?WS_BORDER:0);
-	SetWindowLong(g_pfwFrames[g_nFramesCount-1].hWnd,GWL_STYLE,style);
-	SetWindowLong(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE,style& ~(WS_VSCROLL | WS_HSCROLL));
-	SetWindowLong(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE,GetWindowLong(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE)&~(WS_VSCROLL|WS_HSCROLL));
+	SetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].hWnd,GWL_STYLE,style);
+	SetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE,style& ~(WS_VSCROLL | WS_HSCROLL));
+	SetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE,GetWindowLongPtr(g_pfwFrames[g_nFramesCount-1].TitleBar.hwnd,GWL_STYLE)&~(WS_VSCROLL|WS_HSCROLL));
 
 	if (g_pfwFrames[g_nFramesCount-1].order==0){g_pfwFrames[g_nFramesCount-1].order=g_nFramesCount;};
 
@@ -2807,7 +2807,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColou
 	int y;
 	PAINTSTRUCT paintst={0};
 	HBITMAP hBmpOsb,hOldBmp;
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 	int grey=0;
 	HFONT oFont;
 	HBRUSH hBrushAlternateGrey=NULL;
@@ -3655,7 +3655,7 @@ static HWND CreateSubContainerWindow(HWND parent,int x,int y,int width,int heigh
 {
 	HWND hwnd;
 	hwnd=CreateWindowEx(g_proc_SetLayeredWindowAttributesNew ? WS_EX_LAYERED:0,CLUIFrameSubContainerClassName,TEXT("SubContainerWindow"),WS_POPUP|(!g_CluiData.fLayered ? WS_BORDER : 0),x,y,width,height,parent,0,g_hInst,0);
-	SetWindowLong(hwnd,GWL_STYLE,GetWindowLong(hwnd,GWL_STYLE)&~(WS_CAPTION|WS_BORDER));
+	SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)&~(WS_CAPTION|WS_BORDER));
 	if (g_CluiData.fOnDesktop)
 	{
 		HWND hProgMan=FindWindow(TEXT("Progman"),NULL);
@@ -3932,8 +3932,8 @@ static int _us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam)
 			int neww,newh;
 			BOOLEAN locked;
 
-			g_pfwFrames[pos].oldstyles=GetWindowLong(g_pfwFrames[pos].hWnd,GWL_STYLE);
-			g_pfwFrames[pos].TitleBar.oldstyles=GetWindowLong(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE);
+			g_pfwFrames[pos].oldstyles=GetWindowLongPtr(g_pfwFrames[pos].hWnd,GWL_STYLE);
+			g_pfwFrames[pos].TitleBar.oldstyles=GetWindowLongPtr(g_pfwFrames[pos].TitleBar.hwnd,GWL_STYLE);
 			locked=g_pfwFrames[pos].Locked;
 			g_pfwFrames[pos].Locked=FALSE;
 			g_pfwFrames[pos].minmaxenabled=FALSE;
@@ -3986,9 +3986,9 @@ static int _us_DoSetFrameFloat(WPARAM wParam,LPARAM lParam)
 
 			SetWindowText(g_pfwFrames[pos].ContainerWnd,g_pfwFrames[pos].TitleBar.tbname);
 
-			temp=GetWindowLong(g_pfwFrames[pos].ContainerWnd,GWL_EXSTYLE);
+			temp=GetWindowLongPtr(g_pfwFrames[pos].ContainerWnd,GWL_EXSTYLE);
 			temp|=WS_EX_TOOLWINDOW|WS_EX_TOPMOST ;
-			SetWindowLong(g_pfwFrames[pos].ContainerWnd,GWL_EXSTYLE,temp);
+			SetWindowLongPtr(g_pfwFrames[pos].ContainerWnd,GWL_EXSTYLE,temp);
 
 			g_pfwFrames[pos].floating=TRUE;
 			g_pfwFrames[pos].Locked=locked;
@@ -4230,9 +4230,9 @@ int CLUIFrames_UpdateBorders()
 	{
 		if ( !g_pfwFrames[i].floating )
 		{
-			DWORD style = (int)GetWindowLong( g_pfwFrames[i].hWnd, GWL_STYLE ) & ( ~WS_BORDER );
+			DWORD style = (int)GetWindowLongPtr( g_pfwFrames[i].hWnd, GWL_STYLE ) & ( ~WS_BORDER );
 			if ( !g_CluiData.fLayered && g_pfwFrames[i].UseBorder ) style|=WS_BORDER;
-			SetWindowLong( g_pfwFrames[i].hWnd, GWL_STYLE, style );
+			SetWindowLongPtr( g_pfwFrames[i].hWnd, GWL_STYLE, style );
 			CLUIFramesModifyMainMenuItems( g_pfwFrames[i].id, 0 );
 			RedrawWindow( g_pfwFrames[i].hWnd, NULL, NULL, RDW_FRAME | RDW_INVALIDATE );
 		};

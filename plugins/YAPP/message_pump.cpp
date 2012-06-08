@@ -39,7 +39,7 @@ bool is_full_screen() {
 			continue;
 			
 //		if(DBGetContactSettingByte(0, MODULE, "ShowForNonTopmostFullscreenWindows", 0) == 1) {
-			if (!(GetWindowLong(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST))
+			if (!(GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST))
 				continue;
 //		}
 

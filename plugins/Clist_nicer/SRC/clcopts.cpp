@@ -922,7 +922,7 @@ static INT_PTR CALLBACK DlgProcXIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		{
 			TranslateDialogDefault(hwndDlg);
-			SetWindowLong(GetDlgItem(hwndDlg, IDC_EXTRAORDER), GWL_STYLE, GetWindowLong(GetDlgItem(hwndDlg,IDC_EXTRAORDER),GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EXTRAORDER), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_EXTRAORDER),GWL_STYLE)|TVS_NOHSCROLL);
 			{
 				if(himlCheckBoxes == 0) {
 					CreateStateImageList();
@@ -1463,7 +1463,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
         case WM_INITDIALOG:
             TranslateDialogDefault(hwndDlg);
             opt_clc_main_changed = 0;
-            SetWindowLong(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLong(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+            SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
             {
 				int i;

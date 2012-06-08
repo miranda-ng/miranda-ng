@@ -247,11 +247,11 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						p.length = sizeof(p);
 						GetWindowPlacement(pcli->hwndContactList,&p);
 						ShowWindow(pcli->hwndContactList,SW_HIDE);
-						SetWindowLong(pcli->hwndContactList,GWL_EXSTYLE,GetWindowLong(pcli->hwndContactList,GWL_EXSTYLE)|WS_EX_TOOLWINDOW|WS_EX_WINDOWEDGE);
+						SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE)|WS_EX_TOOLWINDOW|WS_EX_WINDOWEDGE);
 						SetWindowPlacement(pcli->hwndContactList,&p);
 					}
 					else
-						SetWindowLong(pcli->hwndContactList,GWL_EXSTYLE,GetWindowLong(pcli->hwndContactList,GWL_EXSTYLE)&~WS_EX_TOOLWINDOW);
+						SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE,GetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE)&~WS_EX_TOOLWINDOW);
 
 					if (IsDlgButtonChecked(hwndDlg,IDC_ONDESKTOP)) {
 						HWND hProgMan=FindWindowA("Progman",NULL);
@@ -265,9 +265,9 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					DBWriteContactSettingByte(NULL,"CLUI","ClientAreaDrag",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_CLIENTDRAG));
 
 					if(IsDlgButtonChecked(hwndDlg,IDC_SHOWCAPTION))
-						SetWindowLong(pcli->hwndContactList,GWL_STYLE,GetWindowLong(pcli->hwndContactList,GWL_STYLE)|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX);
+						SetWindowLongPtr(pcli->hwndContactList,GWL_STYLE,GetWindowLongPtr(pcli->hwndContactList,GWL_STYLE)|WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX);
 					else
-						SetWindowLong(pcli->hwndContactList,GWL_STYLE,GetWindowLong(pcli->hwndContactList,GWL_STYLE)&~(WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX));
+						SetWindowLongPtr(pcli->hwndContactList,GWL_STYLE,GetWindowLongPtr(pcli->hwndContactList,GWL_STYLE)&~(WS_CAPTION|WS_SYSMENU|WS_MINIMIZEBOX));
 
 					if (!IsDlgButtonChecked(hwndDlg,IDC_SHOWMAINMENU)) SetMenu(pcli->hwndContactList,NULL);
 					else SetMenu(pcli->hwndContactList,hMenuMain);
@@ -297,11 +297,11 @@ static INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					DBWriteContactSettingByte(NULL,"CList","WindowShadow",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_DROPSHADOW));
 					DBWriteContactSettingByte(NULL,"CList","OnDesktop",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_ONDESKTOP));
 					if(IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT))	{
-						SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 						if(MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(pcli->hwndContactList, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 					}
 					else {
-						SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 					}
 					SendMessage(pcli->hwndContactTree,WM_SIZE,0,0);	//forces it to send a cln_listsizechanged
 

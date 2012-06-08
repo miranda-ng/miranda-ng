@@ -109,9 +109,9 @@ public:
 		m_proto->m_ThreadInfo->send( XmlNodeIq( _T("get"), iqId, m_jid ) << XQUERY( _T(JABBER_FEAT_REGISTER)));
 
 		// Enable WS_EX_CONTROLPARENT on IDC_FRAME ( so tab stop goes through all its children )
-		LONG frameExStyle = GetWindowLong( GetDlgItem( m_hwnd, IDC_FRAME ), GWL_EXSTYLE );
+		LONG frameExStyle = GetWindowLongPtr( GetDlgItem( m_hwnd, IDC_FRAME ), GWL_EXSTYLE );
 		frameExStyle |= WS_EX_CONTROLPARENT;
-		SetWindowLong( GetDlgItem( m_hwnd, IDC_FRAME ), GWL_EXSTYLE, frameExStyle );
+		SetWindowLongPtr( GetDlgItem( m_hwnd, IDC_FRAME ), GWL_EXSTYLE, frameExStyle );
 	}
 
 	virtual void OnDestroy()

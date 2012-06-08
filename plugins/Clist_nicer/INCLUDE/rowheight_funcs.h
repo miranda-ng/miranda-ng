@@ -20,7 +20,7 @@ public:
 	static int 				getRowHeight		(ClcData *dat, const HWND hwnd, ClcContact* contact, int item, DWORD style)
 	{
 		int height = 0;
-		//DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+		//DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 
 	    //if(contact->iRowHeight == item)
 	    //    return(dat->row_heights[item]);

@@ -70,7 +70,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<OmegleProto*>(lparam);
-		SetWindowLong(hwnd,GWLP_USERDATA,lparam);
+		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		SendDlgItemMessage(hwnd,IDC_INTERESTS, EM_LIMITTEXT, 512, 0);
 
@@ -112,7 +112,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 	case WM_NOTIFY:
 		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
 		{
-			proto = reinterpret_cast<OmegleProto*>(GetWindowLong(hwnd,GWLP_USERDATA));
+			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 			DBWriteContactSettingByte(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
 
@@ -130,7 +130,7 @@ INT_PTR CALLBACK OmegleAccountProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 
 INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	OmegleProto *proto = reinterpret_cast<OmegleProto*>(GetWindowLong(hwnd,GWLP_USERDATA));
+	OmegleProto *proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 	switch ( message )
 	{
@@ -140,7 +140,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 		TranslateDialogDefault(hwnd);
 
 		proto = reinterpret_cast<OmegleProto*>(lparam);
-		SetWindowLong(hwnd,GWLP_USERDATA,lparam);
+		SetWindowLongPtr(hwnd,GWLP_USERDATA,lparam);
 
 		SendDlgItemMessage(hwnd,IDC_INTERESTS, EM_LIMITTEXT, 250, 0);
 		SendDlgItemMessage(hwnd,IDC_HI_MESSAGE, EM_LIMITTEXT, 250, 0);
@@ -204,7 +204,7 @@ INT_PTR CALLBACK OmegleOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPAR
 	case WM_NOTIFY:
 		if ( reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY )
 		{
-			proto = reinterpret_cast<OmegleProto*>(GetWindowLong(hwnd,GWLP_USERDATA));
+			proto = reinterpret_cast<OmegleProto*>(GetWindowLongPtr(hwnd,GWLP_USERDATA));
 
 			DBWriteContactSettingByte(NULL, proto->m_szModuleName, OMEGLE_KEY_SERVER, SendDlgItemMessage(hwnd, IDC_SERVER, CB_GETCURSEL, 0, 0));
 

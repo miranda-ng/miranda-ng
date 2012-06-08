@@ -24,7 +24,7 @@ HWND hwndOptionsDialog = 0;
 
 static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	ALARM *add_edit_alarm = (ALARM *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+	ALARM *add_edit_alarm = (ALARM *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hw;
 
 	switch ( msg ) {
@@ -74,7 +74,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			BOOL edit = (BOOL)wParam;
 			add_edit_alarm = (ALARM *)lParam;
-			SetWindowLong(hwndDlg, GWLP_USERDATA, (LONG)add_edit_alarm);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)add_edit_alarm);
 
 			if (edit) {
 				SetDlgItemText(hwndDlg, IDC_TITLE, add_edit_alarm->szTitle);
@@ -614,7 +614,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDCANCEL:
 				// self-add (setting stored in invisible checkbox - see comments in WM_INITDIALOG
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_INVIS)) {
-					ALARM *add_edit_alarm = (ALARM *)GetWindowLong(hwndDlg, GWLP_USERDATA);
+					ALARM *add_edit_alarm = (ALARM *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					free_alarm_data(add_edit_alarm);
 					delete add_edit_alarm;
 				}

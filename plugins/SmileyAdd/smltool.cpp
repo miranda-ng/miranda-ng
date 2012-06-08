@@ -486,12 +486,12 @@ void SmileyToolWindowType::InitDialog(LPARAM lParam)
 	si.nPos   = 0; 
 	SetScrollInfo(m_hwndDialog, SB_VERT, &si, TRUE); 
 
-	if (GetWindowLong(m_hwndDialog, GWL_STYLE) & WS_VSCROLL)
+	if (GetWindowLongPtr(m_hwndDialog, GWL_STYLE) & WS_VSCROLL)
 		width += GetSystemMetrics(SM_CXVSCROLL);
 
 	RECT rc = { 0, 0, width, heightn };
-	AdjustWindowRectEx(&rc, GetWindowLong(m_hwndDialog, GWL_STYLE), 
-		FALSE, GetWindowLong(m_hwndDialog, GWL_EXSTYLE));
+	AdjustWindowRectEx(&rc, GetWindowLongPtr(m_hwndDialog, GWL_STYLE), 
+		FALSE, GetWindowLongPtr(m_hwndDialog, GWL_EXSTYLE));
 
 	width = rc.right - rc.left;
 	height =  rc.bottom - rc.top;

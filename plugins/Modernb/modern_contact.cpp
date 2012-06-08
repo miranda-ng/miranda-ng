@@ -200,7 +200,7 @@ INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam)
 
 INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
 {	
-	int newVal= !(GetWindowLong(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
+	int newVal= !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
 	if ( wParam != -1 )
 	{
 		if ( !newVal == wParam ) return 0;

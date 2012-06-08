@@ -36,7 +36,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 	HDC hdc;
 	HFONT oldfont;
 	RECT clRect;
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 
 	if(flags) *flags=0;
 	GetClientRect(hwnd,&clRect);
@@ -236,7 +236,7 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	
 	ShowScrollBar(hwnd,SB_VERT,sbar? FALSE : TRUE);
 	if (!sbar) {	
-		if ( GetWindowLong(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
+		if ( GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
 			if ( dat->noVScrollbar==0 ) SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
 			else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);
 		}
@@ -286,7 +286,7 @@ void LoadClcOptions(HWND hwnd,struct ClcData *dat)
 {
 	int i;
 
-	dat->style=GetWindowLong(hwnd,GWL_STYLE);
+	dat->style=GetWindowLongPtr(hwnd,GWL_STYLE);
 	dat->MetaIgnoreEmptyExtra=DBGetContactSettingByte(NULL,"CLC","MetaIgnoreEmptyExtra",1);
 	saveLoadClcOptions( hwnd, dat );
 

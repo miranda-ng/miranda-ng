@@ -19,7 +19,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		mir_snprintf(str, SIZEOF(str), "%s", LastUCOpt.DateTimeFormat.c_str());
 		SetDlgItemTextA(hwndDlg, IDC_DATETIME, str);
 
-		SetWindowLong(hwndDlg,GWLP_USERDATA,lParam);
+		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lParam);
 		return TRUE;
 
 	case WM_COMMAND:

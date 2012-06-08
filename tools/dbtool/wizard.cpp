@@ -25,8 +25,8 @@ static HENHMETAFILE hEmfHeaderLogo=NULL;
 
 static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd,LPARAM lParam)
 {
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
-	DWORD exstyle=GetWindowLong(hwnd,GWL_EXSTYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
+	DWORD exstyle=GetWindowLongPtr(hwnd,GWL_EXSTYLE);
 	char szClass[64];
 	int makeBold=0;
 
@@ -48,7 +48,7 @@ static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd,LPARAM lParam)
 			hBoldFont=CreateFontIndirect(&lf);
 		}
 		SendMessage(hwnd,WM_SETFONT,(WPARAM)hBoldFont,0);
-		SetWindowLong(hwnd,GWL_EXSTYLE,exstyle&~WS_EX_CLIENTEDGE);
+		SetWindowLongPtr(hwnd,GWL_EXSTYLE,exstyle&~WS_EX_CLIENTEDGE);
 		SetWindowPos(hwnd,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED);
 	}
 	return TRUE;
@@ -67,7 +67,7 @@ int DoMyControlProcessing(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam,INT
 			SendDlgItemMessage(hdlg,IDC_HDRLOGO,STM_SETIMAGE,IMAGE_ENHMETAFILE,(LPARAM)hEmfHeaderLogo);
 			break;
 		case WM_CTLCOLORSTATIC:
-			if((GetWindowLong((HWND)lParam,GWL_STYLE)&0xFFFF)==0) {
+			if((GetWindowLongPtr((HWND)lParam,GWL_STYLE)&0xFFFF)==0) {
 				char szText[256];
 				GetWindowTextA((HWND)lParam,szText,sizeof(szText));
 				if(!strcmp(szText,"whiterect")) {

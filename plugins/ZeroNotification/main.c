@@ -166,9 +166,9 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	{
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		SetWindowLong(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE,GetWindowLong(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
-		SetWindowLong(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE,GetWindowLong(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
-		SetWindowLong(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE,GetWindowLong(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOSOUND),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NOCLCBLINK),GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		CheckDlgButton(hwndDlg, IDC_HIDEMENU, DBGetContactSettingByte(NULL,PLUGINNAME_SHORT,"HideMenu",1) ? BST_CHECKED : BST_UNCHECKED);
 
 		FillCheckBoxTree(GetDlgItem(hwndDlg,IDC_NOSOUND),statusValues,sizeof(statusValues)/sizeof(statusValues[0]),DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoSound",DEFAULT_NOSOUND));

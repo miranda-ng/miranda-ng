@@ -72,11 +72,11 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 
 	case CLM_SETHIDEEMPTYGROUPS:
 		{
-			BOOL old=((GetWindowLong(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS)!=0);
+			BOOL old=((GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS)!=0);
 			BOOL newval=old;
-			if(wParam) SetWindowLong(hwnd,GWL_STYLE,GetWindowLong(hwnd,GWL_STYLE)|CLS_HIDEEMPTYGROUPS);
-			else SetWindowLong(hwnd,GWL_STYLE,GetWindowLong(hwnd,GWL_STYLE)&~CLS_HIDEEMPTYGROUPS);
-			newval=((GetWindowLong(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS)!=0);
+			if(wParam) SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)|CLS_HIDEEMPTYGROUPS);
+			else SetWindowLongPtr(hwnd,GWL_STYLE,GetWindowLongPtr(hwnd,GWL_STYLE)&~CLS_HIDEEMPTYGROUPS);
+			newval=((GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_HIDEEMPTYGROUPS)!=0);
 			if (newval!=old)
 				SendMessage(hwnd,CLM_AUTOREBUILD,0,0);
 		}

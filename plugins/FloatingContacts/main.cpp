@@ -306,7 +306,7 @@ static int OnModulesLoded( WPARAM wParam, LPARAM lParam )
 	hevPrebuildMenu		 =  HookEvent( ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu );
 	hwndMiranda			 =  (HWND)CallService( MS_CLUI_GETHWND, 0, 0 );
 
-	oldMirandaWndProc	 =  (WNDPROC)SetWindowLong( hwndMiranda, GWLP_WNDPROC, (LONG)newMirandaWndProc); 
+	oldMirandaWndProc	 =  (WNDPROC)SetWindowLongPtr( hwndMiranda, GWLP_WNDPROC, (LONG)newMirandaWndProc); 
 
 	
 	
@@ -826,7 +826,7 @@ static void CreateThumbWnd( TCHAR *ptszName, HANDLE hContact, int nX, int nY )
 		if ( hwnd != NULL ) 
 		{
 			pThumb = thumbList.AddThumb( hwnd, ptszName, hContact );
-			SetWindowLong( hwnd, GWLP_USERDATA, (long)pThumb );
+			SetWindowLongPtr( hwnd, GWLP_USERDATA, (long)pThumb );
 			pThumb->ResizeThumb();
 			
 			pThumb->SetThumbOpacity( fcOpt.thumbAlpha );
@@ -1152,7 +1152,7 @@ BOOL HideOnFullScreen()
 	
 		hWnd = GetForegroundWindow();
 
-		while (GetWindowLong(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST)
+		while (GetWindowLongPtr(hWnd, GWL_EXSTYLE) & WS_EX_TOPMOST)
 		{
 			RECT WindowRect;
 			GetWindowRect(hWnd, &WindowRect);

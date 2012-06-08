@@ -350,7 +350,7 @@ LBL_Def:
 				flags = contact->flags;
 			}
 			pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-			if (GetWindowLong(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((HANDLE)wParam, NULL, dat)) {
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((HANDLE)wParam, NULL, dat)) {
 				NMCLISTCONTROL nm;
 				pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 				if (FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
@@ -386,7 +386,7 @@ LBL_Def:
 			else
 				status = cfg::getWord((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
 
-			shouldShow = (GetWindowLong(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);// XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
+			shouldShow = (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat)) && ((cfg::dat.bFilterEffective ? TRUE : !pcli->pfnIsHiddenMode(dat, status)) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam);// XXX CLVM changed - this means an offline msg is flashing, so the contact should be shown
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
@@ -401,7 +401,7 @@ LBL_Def:
 				}
 			} else {
 				//item in list already
-				DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				if (contact->iImage == (WORD) lParam)
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed

@@ -390,10 +390,10 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc( HWND hwndDlg, UINT msg, WPAR
 			TranslateDialogDefault( hwndDlg );
 
 			//Firstly hide frame
-			LONG frameExStyle = GetWindowLong( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE );
+			LONG frameExStyle = GetWindowLongPtr( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE );
 			frameExStyle |= WS_EX_CONTROLPARENT;
 
-			SetWindowLong( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE, frameExStyle );
+			SetWindowLongPtr( GetDlgItem( hwndDlg, IDC_FRAME ), GWL_EXSTYLE, frameExStyle );
 	
 			int toHide[]={ IDC_FRAME, IDC_VSCROLL, IDC_PREV, IDC_NEXT, IDC_COMPLETE, IDC_FRAME_TEXT, 0}; 
 			sttShowControls(hwndDlg, FALSE, toHide );
@@ -437,9 +437,9 @@ static INT_PTR CALLBACK JabberAdHoc_CommandDlgProc( HWND hwndDlg, UINT msg, WPAR
 			return TRUE;
 		}
 	case WM_CTLCOLORSTATIC:
-		if ((GetWindowLong((HWND)lParam, GWL_ID) == IDC_WHITERECT) ||
-			(GetWindowLong((HWND)lParam, GWL_ID) == IDC_INSTRUCTION) ||
-			(GetWindowLong((HWND)lParam, GWL_ID) == IDC_TITLE))
+		if ((GetWindowLongPtr((HWND)lParam, GWL_ID) == IDC_WHITERECT) ||
+			(GetWindowLongPtr((HWND)lParam, GWL_ID) == IDC_INSTRUCTION) ||
+			(GetWindowLongPtr((HWND)lParam, GWL_ID) == IDC_TITLE))
 		{
 			return (INT_PTR)GetStockObject(WHITE_BRUSH);
 		} else

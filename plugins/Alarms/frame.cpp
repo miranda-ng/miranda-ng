@@ -52,7 +52,7 @@ LRESULT CALLBACK FrameContainerWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 			break;
 		case WM_SIZE:
 			{
-				HWND child = (HWND)GetWindowLong(hwnd, GWLP_USERDATA);
+				HWND child = (HWND)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 				RECT r;
 				GetClientRect(hwnd, &r);
 
@@ -232,7 +232,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						
 #define CLUIFrameTitleBarClassName				"CLUIFrameTitleBar"
 						
-						int height = height_client_to_frame(itemheight * count, GetWindowLong(GetParent(hwnd), GWL_STYLE), GetWindowLong(GetParent(hwnd), GWL_EXSTYLE));
+						int height = height_client_to_frame(itemheight * count, GetWindowLongPtr(GetParent(hwnd), GWL_STYLE), GetWindowLongPtr(GetParent(hwnd), GWL_EXSTYLE));
 						HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), 0, CLUIFrameTitleBarClassName, 0);
 						if (titleBarHwnd) {
 							RECT tbr;
@@ -561,7 +561,7 @@ int CreateFrame()
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
 			0,0,10,10, hwnd_frame, NULL,hInst,NULL);
 
-		SetWindowLong(hwnd_frame, GWLP_USERDATA, (LONG)hwnd_plugin);
+		SetWindowLongPtr(hwnd_frame, GWLP_USERDATA, (LONG)hwnd_plugin);
 
 		///////////////////////
 		// create menu item

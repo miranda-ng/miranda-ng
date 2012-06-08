@@ -212,10 +212,10 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 					GetWindowPlacement(pcli->hwndContactList, &p);
 					ShowWindow(pcli->hwndContactList, SW_HIDE);
 
-					style = GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE);
+					style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
 					style |= WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE;
 					style &= ~WS_EX_APPWINDOW;
-					SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, style);
+					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
 
 					SetWindowPlacement(pcli->hwndContactList, &p);
 					ShowWindow(pcli->hwndContactList, SW_SHOW);
@@ -223,7 +223,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				else
 				{
 					LONG style;
-					style = GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE);
+					style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
 					style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
 					if (cfg::getByte("CList", "AlwaysHideOnTB", 1))
 						style &= ~WS_EX_APPWINDOW;
@@ -232,7 +232,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 						style |= WS_EX_APPWINDOW;
 						AddToTaskBar(pcli->hwndContactList);
 					}
-					SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, style);
+					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
 				}
 
 				cfg::dat.bClipBorder = (BYTE)GetDlgItemInt(hwndDlg, IDC_CLIPBORDER, &translated, FALSE);
@@ -288,7 +288,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				cfg::writeByte("CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
 
 				if (cfg::dat.bLayeredHack)
-					SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 
 				if(g_CLUISkinnedBkColorRGB)
 					cfg::dat.colorkey = g_CLUISkinnedBkColorRGB;
@@ -300,8 +300,8 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
 				if (cfg::dat.isTransparent || cfg::dat.bFullTransparent) {
 					if(API::sysConfig.isWin2KPlus) {
-						SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
-						SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
 						API::SetLayeredWindowAttributes(pcli->hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
 						API::SetLayeredWindowAttributes(pcli->hwndContactList,
 							(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
@@ -311,7 +311,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				} else {
 					API::SetLayeredWindowAttributes(pcli->hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
 					if (!cfg::dat.bLayeredHack)
-						SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+						SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 				}
 
                 ConfigureCLUIGeometry(1);
@@ -456,18 +456,18 @@ void ApplyCLUIBorderStyle(HWND hwnd)
 	ShowWindow(pcli->hwndContactList, SW_HIDE);
 
 	if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT || windowStyle == SETTING_WINDOWSTYLE_TOOLWINDOW) {
-		SetWindowLong(pcli->hwndContactList, GWL_STYLE, GetWindowLong(pcli->hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME);
+		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME);
 		if(SETTING_WINDOWSTYLE_DEFAULT == windowStyle) {
-			SetWindowLong(pcli->hwndContactList, GWL_STYLE, GetWindowLong(pcli->hwndContactList, GWL_STYLE) & ~(WS_MAXIMIZEBOX/* | WS_MINIMIZEBOX*/));
+			SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_MAXIMIZEBOX/* | WS_MINIMIZEBOX*/));
 			minToTray = FALSE;
 		}
 	} else if(windowStyle == SETTING_WINDOWSTYLE_THINBORDER) {
-		SetWindowLong(pcli->hwndContactList, GWL_STYLE, GetWindowLong(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
-		SetWindowLong(pcli->hwndContactList, GWL_STYLE, GetWindowLong(pcli->hwndContactList, GWL_STYLE) | WS_BORDER | WS_CLIPCHILDREN);
+		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
+		SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_BORDER | WS_CLIPCHILDREN);
 	}
 	else {
-        SetWindowLong(pcli->hwndContactList, GWL_STYLE, GetWindowLong(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
-        SetWindowLong(pcli->hwndContactList, GWL_STYLE, GetWindowLong(pcli->hwndContactList, GWL_STYLE) | WS_CLIPCHILDREN);
+        SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_POPUPWINDOW | WS_THICKFRAME));
+        SetWindowLongPtr(pcli->hwndContactList, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_STYLE) | WS_CLIPCHILDREN);
     }
 	p.showCmd = SW_HIDE;
 	SetWindowPlacement(pcli->hwndContactList, &p);

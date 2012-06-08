@@ -127,7 +127,7 @@ int OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 			HWND hwndParent = FindParent(evt->hwndWindow);
 			if (hwndParent != evt->hwndWindow)
 			{
-				SetWindowLong(hwndParent, GWL_EXSTYLE, GetWindowLong(hwndParent, GWL_EXSTYLE) & ~WS_EX_APPWINDOW);
+				SetWindowLongPtr(hwndParent, GWL_EXSTYLE, GetWindowLongPtr(hwndParent, GWL_EXSTYLE) & ~WS_EX_APPWINDOW);
 				CSrmmProxyWindow *wnd = new CSrmmProxyWindow(evt->hContact, evt->hwndWindow, hwndParent);
 				HWND hwndProxy = wnd->hwnd();
 				g_pTaskbarList->UnregisterTab(hwndParent);

@@ -263,7 +263,7 @@ void	PopupWnd2::updateLayered(BYTE opacity)
 {
 	if (!m_hwnd) return;
 #if defined(_UNICODE)
-		if (SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED)) {
+		if (SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED)) {
 			RECT rc; GetWindowRect(m_hwnd, &rc);
 			POINT ptDst = {rc.left, rc.top};
 			POINT ptSrc = {0, 0};
@@ -282,7 +282,7 @@ void	PopupWnd2::updateLayered(BYTE opacity)
 		}
 #else
 	if (MyUpdateLayeredWindow) {
-		if (SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED))
+		if (SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED))
 		{
 			RECT rc; GetWindowRect(m_hwnd, &rc);
 			POINT ptDst = {rc.left, rc.top};
@@ -1579,7 +1579,7 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					POINT pt; GetCursorPos(&pt);
 					if (abs(pt.x-m_ptPrevCursor.x) + abs(pt.y-m_ptPrevCursor.y) > 4)
 					{
-						SetWindowLong(m_hwnd, GWL_EXSTYLE, GetWindowLong(m_hwnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);
+						SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);
 						KillTimer(m_hwnd, CURSOR_TIMER);
 					}
 					break;

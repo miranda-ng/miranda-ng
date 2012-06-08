@@ -532,7 +532,7 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 #if defined(_UNICODE)
 		case WM_NOTIFYFORMAT:
-			SetWindowLong(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
+			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
 			return TRUE;
 #endif
 		case WM_NOTIFY:

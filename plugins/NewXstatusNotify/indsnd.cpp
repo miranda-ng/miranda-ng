@@ -355,7 +355,7 @@ void ResetListOptions(HWND hwndList)
 	for (int i = 0; i <= FONTID_MAX; i++)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 
-	SetWindowLong(hwndList, GWL_STYLE, GetWindowLong(hwndList,GWL_STYLE) | CLS_SHOWHIDDEN);
+	SetWindowLongPtr(hwndList, GWL_STYLE, GetWindowLongPtr(hwndList,GWL_STYLE) | CLS_SHOWHIDDEN);
 }
 
 __inline int GetExtraImage(HWND hwndList, HANDLE hItem, int column)

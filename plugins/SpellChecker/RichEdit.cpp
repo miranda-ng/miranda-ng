@@ -55,7 +55,7 @@ LRESULT RichEdit::SendMessage(UINT Msg, WPARAM wParam, LPARAM lParam) const
 
 bool RichEdit::IsReadOnly() const
 {
-	return (GetWindowLong(hwnd, GWL_STYLE) & ES_READONLY) == ES_READONLY;
+	return (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == ES_READONLY;
 }
 
 void RichEdit::SuspendUndo()

@@ -667,7 +667,7 @@ INT_PTR CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 			if (MySetLayeredWindowAttributes)
 			{
-				SetWindowLong(hwndBox, GWL_EXSTYLE, GetWindowLong(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
 				MySetLayeredWindowAttributes(hwndBox, NULL, PopUpOptions.Alpha, LWA_ALPHA);
 			}
 */
@@ -719,7 +719,7 @@ INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_SHOWWINDOW);
 					SetWindowRgn(hwndBox, NULL, TRUE);
 				}
-				SetWindowLong(hwndBox, GWL_EXSTYLE, GetWindowLong(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
+				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
 				SetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);
 #else
 				if (MySetLayeredWindowAttributes)
@@ -733,7 +733,7 @@ INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARA
 							SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_SHOWWINDOW);
 						SetWindowRgn(hwndBox, NULL, TRUE);
 					}
-					SetWindowLong(hwndBox, GWL_EXSTYLE, GetWindowLong(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
+					SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
 					MySetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);
 				}
 #endif
@@ -744,11 +744,11 @@ INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		case WM_MOUSELEAVE:
 		{
 #if defined(_UNICODE)
-			SetWindowLong(hwndBox, GWL_EXSTYLE, GetWindowLong(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+			SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 			SetLayeredWindowAttributes(hwndBox, NULL, 255, LWA_ALPHA);
 #else
 			if (MySetLayeredWindowAttributes) {
-				SetWindowLong(hwndBox, GWL_EXSTYLE, GetWindowLong(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
+				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 				MySetLayeredWindowAttributes(hwndBox, NULL, 255, LWA_ALPHA);
 			}
 #endif

@@ -380,8 +380,8 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 			{
 			case WM_NCCREATE:
 				{
-					SetWindowLong(hwndDlg, GWL_STYLE, GetWindowLong(hwndDlg, GWL_STYLE)|BS_OWNERDRAW);
-					SetWindowLong(hwndDlg, GWLP_USERDATA, 0);
+					SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE)|BS_OWNERDRAW);
+					SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 					if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwndDlg, ((CREATESTRUCT *)lParam)->lpszName);  
 					return TRUE;
 				}

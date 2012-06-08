@@ -175,7 +175,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		SetWindowLongPtr(hwndProtoOrder, GWLP_USERDATA, (LONG_PTR)dat);
 		dat->dragging=0;
 
-		SetWindowLong(hwndProtoOrder, GWL_STYLE, GetWindowLong(hwndProtoOrder, GWL_STYLE) | TVS_NOHSCROLL);
+		SetWindowLongPtr(hwndProtoOrder, GWL_STYLE, GetWindowLongPtr(hwndProtoOrder, GWL_STYLE) | TVS_NOHSCROLL);
 		{
 			HIMAGELIST himlCheckBoxes = ImageList_Create( GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), ILC_COLOR32|ILC_MASK, 2, 2 );
 			ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);

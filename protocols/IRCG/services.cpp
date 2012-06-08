@@ -644,8 +644,8 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 							SetDlgItemText( question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
 							SetWindowText( GetDlgItem( question_hWnd, IDC_TEXT), TranslateT("Please enter your password") );
 							SetDlgItemText( question_hWnd, IDC_HIDDENEDIT, _T("/nickserv IDENTIFY %question=\"%s\",\"%s\""));
-							SetWindowLong(GetDlgItem( question_hWnd, IDC_EDIT), GWL_STYLE,
-								(LONG)GetWindowLong(GetDlgItem( question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
+							SetWindowLongPtr(GetDlgItem( question_hWnd, IDC_EDIT), GWL_STYLE,
+								(LONG)GetWindowLongPtr(GetDlgItem( question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
 							SendMessage(hEditCtrl, EM_SETPASSWORDCHAR,(WPARAM)_T('*'),0 );
 							SetFocus(hEditCtrl);
 							dlg->Activate();

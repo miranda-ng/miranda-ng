@@ -474,7 +474,7 @@ static LRESULT clcOnCreate(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPar
 	dat->NeedResort=1;
 	dat->MetaIgnoreEmptyExtra=ModernGetSettingByte(NULL,"CLC","MetaIgnoreEmptyExtra",SETTING_METAIGNOREEMPTYEXTRA_DEFAULT);
 
-	dat->IsMetaContactsEnabled=(!(GetWindowLong(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
+	dat->IsMetaContactsEnabled=(!(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_MANUALUPDATE)) &&
 		g_szMetaModuleName && ModernGetSettingByte(NULL,g_szMetaModuleName,"Enabled",1) && ServiceExists(MS_MC_GETDEFAULTCONTACT);
 
 	dat->expandMeta=ModernGetSettingByte(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT);		
@@ -518,8 +518,8 @@ static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	case POPUP_NEWSUBGROUP:
 		if (contact->type != CLCIT_GROUP)
 			return 0;
-		SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
-		SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) | CLS_USEGROUPS);
+		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | CLS_USEGROUPS);
 		CallService(MS_CLIST_GROUPCREATE, contact->groupId, 0);
 		return 0;
 	case POPUP_RENAMEGROUP:
@@ -1688,7 +1688,7 @@ static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, W
 		flags = contact->flags;
 	}
 	pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-	if (GetWindowLong(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !ModernGetSettingByte((HANDLE) wParam, "CList", "Hidden", 0)) {
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !ModernGetSettingByte((HANDLE) wParam, "CList", "Hidden", 0)) {
 		NMCLISTCONTROL nm;
 		pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 		if (pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
@@ -1732,7 +1732,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 
 	nHiddenStatus=CLVM_GetContactHiddenStatus((HANDLE)wParam, szProto, dat);
     
-	DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
     bool isVisiblebyFilter  = ( ( ( style & CLS_SHOWHIDDEN ) && nHiddenStatus != -1 ) || !nHiddenStatus );
     bool ifVisibleByClui    = !pcli->pfnIsHiddenMode( dat, status );      
     bool isVisible          = g_CluiData.bFilterEffective&CLVM_FILTER_STATUS ? TRUE : ifVisibleByClui;
@@ -1922,7 +1922,7 @@ static LRESULT clcOnIntmNotOnListChanged(struct ClcData *dat, HWND hwnd, UINT ms
 
 static LRESULT clcOnIntmScrollBarChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (GetWindowLong(hwnd, GWL_STYLE) & CLS_CONTACTLIST) 
+	if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) 
 	{
 		if (dat->noVScrollbar) ShowScrollBar(hwnd, SB_VERT, FALSE);
 		else pcli->pfnRecalcScrollBar(hwnd, dat);

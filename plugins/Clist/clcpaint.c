@@ -152,7 +152,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	struct ClcGroup *group;
 	HBITMAP hBmpOsb, hOldBitmap;
 	HFONT hOldFont;
-	DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int status = GetGeneralisedStatus();
 	int grey = 0, groupCountsFontTopShift;
 	HBRUSH hBrushAlternateGrey = NULL;

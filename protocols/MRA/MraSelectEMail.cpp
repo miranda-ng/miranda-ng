@@ -143,7 +143,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,L
 				break;
 			case MRA_SELECT_EMAIL_TYPE_VIEW_ALBUM:
 			case MRA_SELECT_EMAIL_TYPE_READ_BLOG:
-			//	SetWindowLongPtr(hWndList,GWL_STYLE,(LONG)(GetWindowLong(hWndList,GWL_STYLE)|LBS_NOSEL));
+			//	SetWindowLongPtr(hWndList,GWL_STYLE,(LONG)(GetWindowLongPtr(hWndList,GWL_STYLE)|LBS_NOSEL));
 				bMRAOnly=TRUE;
 				break;
 			default:

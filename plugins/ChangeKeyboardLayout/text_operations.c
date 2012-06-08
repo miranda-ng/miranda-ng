@@ -492,7 +492,7 @@ int ChangeLayout(HWND hTextWnd,BYTE TextOperation,BOOL CurrentWord)
 		
 		//if ((SendMessage(hTextWnd,EM_GETOPTIONS,0,0)&ECO_READONLY))
 		if ((WindowType==WTYPE_RichEdit)||(WindowType==WTYPE_Edit)) 
-			if (GetWindowLong(hTextWnd,GWL_STYLE)&ES_READONLY)
+			if (GetWindowLongPtr(hTextWnd,GWL_STYLE)&ES_READONLY)
 				WindowIsReadOnly=TRUE;
 
 		// Ћог »евью и ’историѕѕ в режиме эмул€ции »евью  и пол€ только дл€ чтени€.

@@ -996,7 +996,7 @@ INT_PTR CLUIFramesGetFrameOptions(WPARAM wParam, LPARAM lParam)
 			if (Frames[pos].TitleBar.ShowTitleBar) retval |= F_SHOWTB;
 			if (Frames[pos].TitleBar.ShowTitleBarTip) retval |= F_SHOWTBTIP;
 			if (Frames[pos].Skinned) retval |= F_SKINNED;
-			if (!(GetWindowLong(Frames[pos].hWnd, GWL_STYLE)&WS_BORDER)) retval |= F_NOBORDER;
+			if (!(GetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE)&WS_BORDER)) retval |= F_NOBORDER;
 			break;
 
 		case FO_NAME:
@@ -1012,11 +1012,11 @@ INT_PTR CLUIFramesGetFrameOptions(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case FO_TBSTYLE:
-			retval = GetWindowLong(Frames[pos].TitleBar.hwnd, GWL_STYLE);
+			retval = GetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_STYLE);
 			break;
 
 		case FO_TBEXSTYLE:
-			retval = GetWindowLong(Frames[pos].TitleBar.hwnd, GWL_EXSTYLE);
+			retval = GetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_EXSTYLE);
 			break;
 
 		case FO_ICON:
@@ -1082,7 +1082,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 
 			SendMessage(Frames[pos].TitleBar.hwndTip, TTM_ACTIVATE, (WPARAM)Frames[pos].TitleBar.ShowTitleBarTip, 0);
 
-			style = (int)GetWindowLong(Frames[pos].hWnd, GWL_STYLE);
+			style = (int)GetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE);
 			style |= WS_BORDER;
 			style |= CLS_SKINNEDFRAME;
 
@@ -1096,8 +1096,8 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			if (!(flag & F_SKINNED))
 				style &= ~CLS_SKINNEDFRAME;
 
-			SetWindowLong(Frames[pos].hWnd, GWL_STYLE, (LONG)style);
-			SetWindowLong(Frames[pos].TitleBar.hwnd, GWL_STYLE, (LONG)style & ~(WS_VSCROLL | WS_HSCROLL));
+			SetWindowLongPtr(Frames[pos].hWnd, GWL_STYLE, (LONG)style);
+			SetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_STYLE, (LONG)style & ~(WS_VSCROLL | WS_HSCROLL));
 
 			ulockfrm();
 			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList, (LPARAM)0);
@@ -1139,12 +1139,12 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		case FO_TBSTYLE:
-			SetWindowLong(Frames[pos].TitleBar.hwnd, GWL_STYLE, lParam);
+			SetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_STYLE, lParam);
 			ulockfrm();
 			return 0;
 
 		case FO_TBEXSTYLE:
-			SetWindowLong(Frames[pos].TitleBar.hwnd, GWL_EXSTYLE, lParam);
+			SetWindowLongPtr(Frames[pos].TitleBar.hwnd, GWL_EXSTYLE, lParam);
 			ulockfrm();
 			return 0;
 
@@ -1727,7 +1727,7 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 		result = 0;
 
 	if (pcli && pcli->hwndContactList && GetParent(hwnd) == pcli->hwndContactList) {
-		if (GetWindowLong(hwnd, GWL_STYLE) & CLS_SKINNEDFRAME) {
+		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SKINNEDFRAME) {
 			StatusItems_t *item = StatusItems ? (hasTitleBar ?  &StatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : &StatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
 			HDC realDC;
 			HBITMAP hbmDraw, hbmOld;
@@ -1762,7 +1762,7 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 			}
 			ReleaseDC(hwnd, hdc);
 			return 0;
-		} else if (GetWindowLong(hwnd, GWL_STYLE) & WS_BORDER) {
+		} else if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
 			HPEN hPenOld;
 			HBRUSH brold;
 
@@ -1788,7 +1788,7 @@ int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam,
 	StatusItems_t *item = StatusItems ? (hasTitleBar ?  &StatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : &StatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : 0;
 	LRESULT orig = oldWndProc ? CallWindowProc(oldWndProc, hwnd, WM_NCCALCSIZE, wParam, lParam) : 0;
 	NCCALCSIZE_PARAMS *nccp = (NCCALCSIZE_PARAMS *)lParam;
-	DWORD dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (item == 0 || pcli == 0)
 		return orig;
@@ -1912,7 +1912,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 		Frames[nFramescount].OwnerWindow = pcli->hwndContactList;
 
 	SetClassLong(clfrm->hWnd, GCL_STYLE, GetClassLong(clfrm->hWnd, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
-	SetWindowLong(clfrm->hWnd, GWL_STYLE, GetWindowLong(clfrm->hWnd, GWL_STYLE) | WS_CLIPCHILDREN);
+	SetWindowLongPtr(clfrm->hWnd, GWL_STYLE, GetWindowLongPtr(clfrm->hWnd, GWL_STYLE) | WS_CLIPCHILDREN);
 
 	if (GetCurrentThreadId() == GetWindowThreadProcessId(clfrm->hWnd, NULL)) {
 		if (clfrm->hWnd != pcli->hwndContactTree && clfrm->hWnd != g_hwndViewModeFrame && clfrm->hWnd != g_hwndEventArea) {
@@ -1981,8 +1981,8 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 
 	SendMessage(Frames[nFramescount].TitleBar.hwndTip, TTM_ACTIVATE, (WPARAM)Frames[nFramescount].TitleBar.ShowTitleBarTip, 0);
 
-	Frames[nFramescount].oldstyles = GetWindowLong(Frames[nFramescount].hWnd, GWL_STYLE);
-	Frames[nFramescount].TitleBar.oldstyles = GetWindowLong(Frames[nFramescount].TitleBar.hwnd, GWL_STYLE);
+	Frames[nFramescount].oldstyles = GetWindowLongPtr(Frames[nFramescount].hWnd, GWL_STYLE);
+	Frames[nFramescount].TitleBar.oldstyles = GetWindowLongPtr(Frames[nFramescount].TitleBar.hwnd, GWL_STYLE);
 	//Frames[nFramescount].FloatingPos.x=
 
 	retval = Frames[nFramescount].id;
@@ -1990,14 +1990,14 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 	nFramescount++;
 
 	CLUIFramesLoadFrameSettings(id2pos(retval));
-	style = GetWindowLong(Frames[nFramescount-1].hWnd, GWL_STYLE);
+	style = GetWindowLongPtr(Frames[nFramescount-1].hWnd, GWL_STYLE);
 	style &= ~(WS_BORDER);
 	style |= ((Frames[nFramescount-1].UseBorder) ? WS_BORDER : 0);
 
 	style |= Frames[nFramescount-1].Skinned ? CLS_SKINNEDFRAME : 0;
 
-	SetWindowLong(Frames[nFramescount-1].hWnd, GWL_STYLE, style);
-	SetWindowLong(Frames[nFramescount-1].TitleBar.hwnd, GWL_STYLE, style & ~(WS_VSCROLL | WS_HSCROLL));
+	SetWindowLongPtr(Frames[nFramescount-1].hWnd, GWL_STYLE, style);
+	SetWindowLongPtr(Frames[nFramescount-1].TitleBar.hwnd, GWL_STYLE, style & ~(WS_VSCROLL | WS_HSCROLL));
 
 	if (Frames[nFramescount-1].order == 0) {
 		Frames[nFramescount-1].order = nFramescount;
@@ -3047,7 +3047,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		}
 		break;
 		case WM_NCPAINT: {
-			if (GetWindowLong(hwnd, GWL_STYLE) & WS_BORDER) {
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & WS_BORDER) {
 				HDC hdc = GetWindowDC(hwnd);
 				HPEN hPenOld = reinterpret_cast<HPEN>(SelectObject(hdc, g_hPenCLUIFrames));
 				RECT rcWindow, rc;
@@ -3286,8 +3286,8 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
 			int neww, newh;
 			BOOLEAN locked;
 
-			Frames[wParam].oldstyles = GetWindowLong(Frames[wParam].hWnd, GWL_STYLE);
-			Frames[wParam].TitleBar.oldstyles = GetWindowLong(Frames[wParam].TitleBar.hwnd, GWL_STYLE);
+			Frames[wParam].oldstyles = GetWindowLongPtr(Frames[wParam].hWnd, GWL_STYLE);
+			Frames[wParam].TitleBar.oldstyles = GetWindowLongPtr(Frames[wParam].TitleBar.hwnd, GWL_STYLE);
 			locked = Frames[wParam].Locked;
 			Frames[wParam].Locked = FALSE;
 			Frames[wParam].minmaxenabled = FALSE;
@@ -3335,9 +3335,9 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam, LPARAM lParam)
 				SetWindowPos(Frames[wParam].ContainerWnd, HWND_TOPMOST, Frames[wParam].FloatingPos.x, Frames[wParam].FloatingPos.y, neww, newh, SWP_HIDEWINDOW);
 			}
 			SetWindowText(Frames[wParam].ContainerWnd, Frames[wParam].TitleBar.tbname);
-			temp = GetWindowLong(Frames[wParam].ContainerWnd, GWL_EXSTYLE);
+			temp = GetWindowLongPtr(Frames[wParam].ContainerWnd, GWL_EXSTYLE);
 			temp |= WS_EX_TOOLWINDOW | WS_EX_TOPMOST ;
-			SetWindowLong(Frames[wParam].ContainerWnd, GWL_EXSTYLE, temp);
+			SetWindowLongPtr(Frames[wParam].ContainerWnd, GWL_EXSTYLE, temp);
 			Frames[wParam].floating = TRUE;
 			Frames[wParam].Locked = locked;
 

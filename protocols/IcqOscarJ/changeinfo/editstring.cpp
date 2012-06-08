@@ -161,7 +161,7 @@ static LRESULT CALLBACK StringEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,
 		}
 		if (wParam==VK_RETURN) 
 		{
-			if (GetWindowLong(hwnd, GWL_STYLE) & ES_MULTILINE && !(GetKeyState(VK_CONTROL) & 0x8000)) break;
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_MULTILINE && !(GetKeyState(VK_CONTROL) & 0x8000)) break;
       if (dataStringEdit)
 			  dataStringEdit->EndStringEdit(1);
 			return 0;

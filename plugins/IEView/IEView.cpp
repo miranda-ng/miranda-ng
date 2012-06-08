@@ -91,8 +91,8 @@ static LRESULT CALLBACK IEViewDocWindowProcedure (HWND hwnd, UINT message, WPARA
 	if (view!=NULL) {
 		WNDPROC oldWndProc = view->getDocWndProc();
 		if (message == WM_PARENTNOTIFY && wParam == WM_CREATE) {
-			SetWindowLong(hwnd, GWLP_WNDPROC, (LONG_PTR) oldWndProc);
-			view->setServerWndProc((WNDPROC) SetWindowLong((HWND)lParam, GWLP_WNDPROC, (LONG_PTR) IEViewServerWindowProcedure));
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) oldWndProc);
+			view->setServerWndProc((WNDPROC) SetWindowLongPtr((HWND)lParam, GWLP_WNDPROC, (LONG_PTR) IEViewServerWindowProcedure));
 		}
 		return CallWindowProc(oldWndProc, hwnd, message, wParam, lParam);
 	}
@@ -104,8 +104,8 @@ static LRESULT CALLBACK IEViewWindowProcedure (HWND hwnd, UINT message, WPARAM w
 	if (view!=NULL) {
 		WNDPROC oldWndProc = view->getMainWndProc();
 		if (message == WM_PARENTNOTIFY && wParam == WM_CREATE) {
-			SetWindowLong(hwnd, GWLP_WNDPROC, (LONG_PTR) oldWndProc);
-			view->setDocWndProc((WNDPROC) SetWindowLong((HWND)lParam, GWLP_WNDPROC, (LONG_PTR) IEViewDocWindowProcedure));
+			SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) oldWndProc);
+			view->setDocWndProc((WNDPROC) SetWindowLongPtr((HWND)lParam, GWLP_WNDPROC, (LONG_PTR) IEViewDocWindowProcedure));
 		}
 		return CallWindowProc(oldWndProc, hwnd, message, wParam, lParam);
 	}
@@ -234,7 +234,7 @@ void IEView::waitWhileBusy() {
 }
 
 void IEView::setBorder() {
-	LONG style = GetWindowLong(hwnd, GWL_EXSTYLE);
+	LONG style = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 	LONG oldStyle = style;
 	if (Options::getGeneralFlags() & Options::GENERAL_NO_BORDER) {
 #ifndef GECKO
@@ -244,7 +244,7 @@ void IEView::setBorder() {
 		style |= (WS_EX_STATICEDGE);
 	}
 	if (oldStyle != style) {
-		SetWindowLong(hwnd,GWL_EXSTYLE,style);
+		SetWindowLongPtr(hwnd,GWL_EXSTYLE,style);
 		SetWindowPos(getHWND(), NULL, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
 	}
 //	RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_FRAME | RDW_UPDATENOW);
@@ -309,9 +309,9 @@ IEView::IEView(HWND parent, HTMLBuilder* builder, int x, int y, int cx, int cy) 
 			pCPContainer->Release();
 		}
 #ifndef GECKO
-		setMainWndProc((WNDPROC)SetWindowLong(hwnd, GWLP_WNDPROC, (LONG_PTR) IEViewWindowProcedure));
+		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) IEViewWindowProcedure));
 #else
-//		setMainWndProc((WNDPROC)SetWindowLong(hwnd, GWLP_WNDPROC, (LONG_PTR) MozillaWindowProcedure));
+//		setMainWndProc((WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) MozillaWindowProcedure));
 #endif
 	}
 	EnterCriticalSection(&mutex);

@@ -1322,7 +1322,7 @@ void IMG_LoadItems()
         cfg::writeByte("CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
         cfg::writeByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_NOBORDER);
         ApplyCLUIBorderStyle(pcli->hwndContactList);
-        SetWindowLong(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
+        SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
         API::SetLayeredWindowAttributes(pcli->hwndContactList, cfg::dat.colorkey, 0, LWA_COLORKEY);
     }
     CoolSB_SetupScrollBar();

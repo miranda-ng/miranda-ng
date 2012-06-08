@@ -88,7 +88,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct Clc
 {
     RECT clRect;
     int right, checkboxWidth, cxSmIcon, i, width;
-    DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+    DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
     SIZE textSize;
     HDC hdc;
     HFONT hFont;
@@ -198,7 +198,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcCont
     HDC hdc;
     RECT clRect;
     HFONT hFont;
-    DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+    DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	BYTE mirror_mode = cfg::dat.bUseDCMirroring;
 
     if (flags)
@@ -420,7 +420,7 @@ void RecalcScrollBar(HWND hwnd, struct ClcData *dat)
     si.nPage = clRect.bottom;
     si.nPos = dat->yScroll;
 
-    if (GetWindowLong(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
+    if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
         if (dat->noVScrollbar == 0) {
             if(cfg::dat.bSkinnedScrollbar && !dat->bisEmbedded)
                 CoolSB_SetScrollInfo(hwnd, SB_VERT, &si, TRUE);

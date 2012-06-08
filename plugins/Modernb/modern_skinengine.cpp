@@ -3866,7 +3866,7 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 			//MyAlphaBlend(g_pCachedWindow->hImageDC,x+x1,y+y1,w1,h1,hdc,x1,y1,w1,h1,bf);  
 		}
 		
-		if ( fnGetScrollBarInfo && (GetWindowLong(Frame->hWnd,GWL_STYLE) & WS_VSCROLL))
+		if ( fnGetScrollBarInfo && (GetWindowLongPtr(Frame->hWnd,GWL_STYLE) & WS_VSCROLL))
 		{
 			//Draw vertical scroll bar
 			//
@@ -4159,14 +4159,14 @@ void ske_ApplyTransluency()
 {
 	int IsTransparancy;
 	HWND hwnd=pcli->hwndContactList;
-	BOOL layered=(GetWindowLong(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED)?TRUE:FALSE;
+	BOOL layered=(GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED)?TRUE:FALSE;
 
 	IsTransparancy=g_CluiData.fSmoothAnimation || g_bTransparentFlag;
 	if (!g_bTransparentFlag && !g_CluiData.fSmoothAnimation && g_CluiData.bCurrentAlpha!=0)
 		g_CluiData.bCurrentAlpha=255;
 	if (!g_CluiData.fLayered && (/*(g_CluiData.bCurrentAlpha==255)||*/(g_proc_SetLayeredWindowAttributesNew && IsTransparancy)))
 	{
-		if (!layered) SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+		if (!layered) SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 		if (g_proc_SetLayeredWindowAttributesNew) g_proc_SetLayeredWindowAttributesNew(hwnd, RGB(0,0,0), (BYTE)g_CluiData.bCurrentAlpha, LWA_ALPHA);
 	}
 
@@ -4209,8 +4209,8 @@ int ske_JustUpdateWindowImageRect(RECT * rty)
 	sz.cy=rect.bottom-rect.top;
 	if (g_proc_UpdateLayeredWindow && g_CluiData.fLayered)
 	{
-		if (!(GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE)&WS_EX_LAYERED))
-			SetWindowLong(pcli->hwndContactList,GWL_EXSTYLE, GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) |WS_EX_LAYERED);
+		if (!(GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE)&WS_EX_LAYERED))
+			SetWindowLongPtr(pcli->hwndContactList,GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) |WS_EX_LAYERED);
 		Sync( SetAlpha, g_CluiData.bCurrentAlpha );
 
 		res=g_proc_UpdateLayeredWindow(pcli->hwndContactList,g_pCachedWindow->hScreenDC,&dest,&sz,g_pCachedWindow->hImageDC,&src,RGB(1,1,1),&bf,ULW_ALPHA);

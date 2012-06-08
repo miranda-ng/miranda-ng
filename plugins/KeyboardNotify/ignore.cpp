@@ -257,7 +257,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SendDlgItemMessage(hwndDlg, IDC_FILEICON, STM_SETICON, (WPARAM)hIcons[4], 0);
 			SendDlgItemMessage(hwndDlg, IDC_OTHERICON, STM_SETICON, (WPARAM)hIcons[5], 0);
 
-			SetWindowLong(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, GetWindowLong(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE) &~ (CLS_CHECKBOXES|CLS_GROUPCHECKBOXES));
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE) &~ (CLS_CHECKBOXES|CLS_GROUPCHECKBOXES));
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_AUTOREBUILD, 0, 0);
 
 			ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));

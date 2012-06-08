@@ -91,9 +91,9 @@ static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat )
 	if (!FieldDat || !FieldDat->Label || !FieldDat->Var) return FALSE;
 	HFONT hFont = ( HFONT ) SendMessage( hwndDlg, WM_GETFONT, 0, 0 );
 	HWND hwndParent=GetDlgItem(hwndDlg,IDC_FRAME);
-	LONG frameExStyle = GetWindowLong( hwndParent, GWL_EXSTYLE );
+	LONG frameExStyle = GetWindowLongPtr( hwndParent, GWL_EXSTYLE );
 	frameExStyle |= WS_EX_CONTROLPARENT;
-	SetWindowLong( hwndParent, GWL_EXSTYLE, frameExStyle );
+	SetWindowLongPtr( hwndParent, GWL_EXSTYLE, frameExStyle );
 	SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_FRAME),GWLP_WNDPROC,(LONG_PTR)JabberSearchFrameProc);
 
 	int CornerX=1;

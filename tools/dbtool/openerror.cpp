@@ -30,7 +30,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lP
 				SetDlgItemText(hdlg,IDC_ERRORTEXT,szError);
 			}
 			if(opts.error==ERROR_SHARING_VIOLATION) ShowWindow(GetDlgItem(hdlg,IDC_INUSE),SW_SHOW);
-			SetWindowLong( GetDlgItem( hdlg, IDC_FILE ), GWL_STYLE, GetWindowLong( GetDlgItem( hdlg, IDC_FILE ), GWL_STYLE ) | SS_PATHELLIPSIS );
+			SetWindowLongPtr( GetDlgItem( hdlg, IDC_FILE ), GWL_STYLE, GetWindowLongPtr( GetDlgItem( hdlg, IDC_FILE ), GWL_STYLE ) | SS_PATHELLIPSIS );
 			TranslateDialog( hdlg );
 			SetDlgItemText( hdlg, IDC_FILE, opts.filename );
 			return TRUE;

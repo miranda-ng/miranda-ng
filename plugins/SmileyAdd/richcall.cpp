@@ -397,7 +397,7 @@ bool SetRichCallback(HWND hwnd, HANDLE hContact, bool subany, bool subnew)
 
 		rdt->hwnd = hwnd;
 		rdt->hContact = hContact;
-		rdt->inputarea = (GetWindowLong(hwnd, GWL_STYLE) & ES_READONLY) == 0;
+		rdt->inputarea = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) == 0;
 		rdt->dontReplace = false;
 		rdt->tipActive = -1;
 		rdt->wpOrigWndProc = NULL;

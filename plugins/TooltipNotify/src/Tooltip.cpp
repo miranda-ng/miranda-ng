@@ -25,7 +25,7 @@ CTooltip::CTooltip(CTooltipNotify *pTooltipNotify)
 							WS_POPUP|WS_BORDER, 100, 100, 50, 50, 0, 0, 
 							m_pTooltipNotify->GetDllInstance(), NULL);
 
-	SetWindowLong(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG>(this));
+	SetWindowLongPtr(m_hWnd, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 }
 
 
@@ -62,7 +62,7 @@ CTooltip::~CTooltip()
 
 LRESULT CALLBACK CTooltip::WindowProcWrapper(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	CTooltip* pThis = reinterpret_cast<CTooltip *>(GetWindowLong(hWnd, GWLP_USERDATA));
+	CTooltip* pThis = reinterpret_cast<CTooltip *>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
 	return pThis->WindowProc(hWnd, message, wParam, lParam);
 }
 
@@ -186,7 +186,7 @@ VOID CTooltip::set_Translucency(BYTE bAlpha)
 		(GetProcAddress(GetModuleHandle(_T("user32.dll")), "SetLayeredWindowAttributes"));
 	
 	if (pfnSetLayeredWindowAttributes && 
-		SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED) != 0)
+		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED) != 0)
 	{
 		pfnSetLayeredWindowAttributes(m_hWnd, RGB(0,0,0), bAlpha, LWA_ALPHA);
 	}
@@ -195,9 +195,9 @@ VOID CTooltip::set_Translucency(BYTE bAlpha)
 VOID CTooltip::set_TransparentInput(BOOL bOnOff)
 {
 	if (bOnOff)
-		SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
+		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) | WS_EX_TRANSPARENT);
 	else
-		SetWindowLong(m_hWnd, GWL_EXSTYLE, GetWindowLong(m_hWnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);		
+		SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);		
 }
 
 

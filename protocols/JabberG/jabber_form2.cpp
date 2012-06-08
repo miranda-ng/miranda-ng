@@ -793,8 +793,8 @@ public:
 			WS_CHILD|WS_VISIBLE|WS_TABSTOP|WS_VSCROLL|ES_LEFT|ES_MULTILINE|ES_AUTOVSCROLL|ES_WANTRETURN,
 			0, 0, 0, 0,
 			m_parent->GetHwnd(), (HMENU)m_id, hInst, NULL);
-	//	WNDPROC oldWndProc = (WNDPROC)SetWindowLong(item->hCtrl, GWL_WNDPROC, (LPARAM)JabberFormMultiLineWndProc);
-	//	SetWindowLong(item->hCtrl, GWL_USERDATA, (LONG) oldWndProc);
+	//	WNDPROC oldWndProc = (WNDPROC)SetWindowLongPtr(item->hCtrl, GWL_WNDPROC, (LPARAM)JabberFormMultiLineWndProc);
+	//	SetWindowLongPtr(item->hCtrl, GWL_USERDATA, (LONG) oldWndProc);
 
 		mir_free(str);
 	}
@@ -984,7 +984,7 @@ BOOL CJabberDlgDataPage::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				SendMessage(m_hwnd, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
 		}
 
-		SetWindowLong(m_hwnd, DWL_MSGRESULT, 0);
+		SetWindowLongPtr(m_hwnd, DWL_MSGRESULT, 0);
 		return TRUE;
 	}
 
@@ -1038,10 +1038,10 @@ BOOL CJabberDlgDataPage::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	{
 		if (pThis = (CJabberDlgDataPage *)lParam)
 			pThis->m_hwnd = hwnd;
-		SetWindowLong(hwnd, GWL_USERDATA, lParam);
+		SetWindowLongPtr(hwnd, GWL_USERDATA, lParam);
 	} else
 	{
-		pThis = (CJabberDlgDataPage *)GetWindowLong(hwnd, GWL_USERDATA);
+		pThis = (CJabberDlgDataPage *)GetWindowLongPtr(hwnd, GWL_USERDATA);
 	}
 
 	if (pThis)
@@ -1050,7 +1050,7 @@ BOOL CJabberDlgDataPage::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		if (msg == WM_DESTROY)
 		{
 			pThis->m_hwnd = NULL;
-			SetWindowLong(hwnd, GWL_USERDATA, 0);
+			SetWindowLongPtr(hwnd, GWL_USERDATA, 0);
 		}
 		return result;
 	}

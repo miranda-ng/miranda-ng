@@ -779,8 +779,8 @@ public:
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
-		SetWindowLong(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
-			GetWindowLong(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE)|CLS_HIDEOFFLINE|CLS_CHECKBOXES|CLS_HIDEEMPTYGROUPS|CLS_USEGROUPS|CLS_GREYALTERNATE|CLS_GROUPCHECKBOXES);
+		SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE,
+			GetWindowLongPtr(GetDlgItem(m_hwnd, IDC_CLIST), GWL_STYLE)|CLS_HIDEOFFLINE|CLS_CHECKBOXES|CLS_HIDEEMPTYGROUPS|CLS_USEGROUPS|CLS_GREYALTERNATE|CLS_GROUPCHECKBOXES);
 		SendMessage(GetDlgItem(m_hwnd, IDC_CLIST), CLM_SETEXSTYLE, CLS_EX_DISABLEDRAGDROP|CLS_EX_TRACKSELECT, 0);
 		ResetListOptions(&m_clc);
 		FilterList(&m_clc);

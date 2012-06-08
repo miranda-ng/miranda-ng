@@ -157,7 +157,7 @@ namespace
 
 // 	inline HANDLE get_contact(HWND hWnd)
 // 	{
-// 		return reinterpret_cast<HANDLE>(GetWindowLong(hWnd,GWLP_USERDATA));
+// 		return reinterpret_cast<HANDLE>(GetWindowLongPtr(hWnd,GWLP_USERDATA));
 // 	}
 
 	void update_popup_controls_settings(HWND hDlg)

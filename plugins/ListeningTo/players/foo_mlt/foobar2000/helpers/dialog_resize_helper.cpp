@@ -87,8 +87,8 @@ BOOL dialog_resize_helper::ProcessWindowMessage(HWND hWnd, UINT uMsg, WPARAM wPa
 		{
 			RECT r;
 			LPMINMAXINFO info = (LPMINMAXINFO) lParam;
-			DWORD dwStyle = GetWindowLong(hWnd, GWL_STYLE);
-			DWORD dwExStyle = GetWindowLong(hWnd, GWL_EXSTYLE);
+			DWORD dwStyle = GetWindowLongPtr(hWnd, GWL_STYLE);
+			DWORD dwExStyle = GetWindowLongPtr(hWnd, GWL_EXSTYLE);
 			if (max_x && max_y)
 			{
 				r.left = 0; r.right = max_x;

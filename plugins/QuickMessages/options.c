@@ -565,19 +565,19 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			hButtonsList=GetDlgItem(hdlg,IDC_BUTTONSLIST);
 			hMenuTree=GetDlgItem(hdlg,IDC_MENUTREE);
 
-			style = GetWindowLong(hButtonsList,GWL_STYLE);
+			style = GetWindowLongPtr(hButtonsList,GWL_STYLE);
 			style |=TVS_NOHSCROLL;
-			SetWindowLong(hButtonsList,GWL_STYLE, style);
+			SetWindowLongPtr(hButtonsList,GWL_STYLE, style);
 
-			style = GetWindowLong(hMenuTree,GWL_STYLE);
+			style = GetWindowLongPtr(hMenuTree,GWL_STYLE);
 			style |=TVS_NOHSCROLL;			
-			SetWindowLong(hMenuTree,GWL_STYLE, style);
+			SetWindowLongPtr(hMenuTree,GWL_STYLE, style);
 			BuildButtonsList(hButtonsList);
 			
 			if (!TreeView_GetCount(hButtonsList)) EnableWindow(GetDlgItem(hdlg,IDC_RCLICKVALUE),FALSE);
 
-			oldBNameProc = (WNDPROC) SetWindowLong(GetDlgItem(hdlg,IDC_BUTTONNAME), GWLP_WNDPROC, (LONG) EditSubclassProc);
-			oldMNameProc = (WNDPROC) SetWindowLong(GetDlgItem(hdlg,IDC_MENUNAME)  , GWLP_WNDPROC, (LONG) EditSubclassProc);
+			oldBNameProc = (WNDPROC) SetWindowLongPtr(GetDlgItem(hdlg,IDC_BUTTONNAME), GWLP_WNDPROC, (LONG) EditSubclassProc);
+			oldMNameProc = (WNDPROC) SetWindowLongPtr(GetDlgItem(hdlg,IDC_MENUNAME)  , GWLP_WNDPROC, (LONG) EditSubclassProc);
 
 			
 			EnableWindow(GetDlgItem(hdlg,IDC_MENUVALUE),FALSE);
@@ -758,7 +758,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case TVN_BEGINLABELEDITA:
 		case TVN_BEGINLABELEDITW:
 			hwndEdit=TreeView_GetEditControl(hMenuTree);
-			oldEditProc = (WNDPROC) SetWindowLong(hwndEdit, GWLP_WNDPROC, (LONG) LabelEditSubclassProc);
+			oldEditProc = (WNDPROC) SetWindowLongPtr(hwndEdit, GWLP_WNDPROC, (LONG) LabelEditSubclassProc);
 			break;
 
 		case TVN_ENDLABELEDITA:
@@ -769,7 +769,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			TCHAR strbuf[256];
 			TCHAR szLabel[256];
 
-			SetWindowLong(hwndEdit, GWLP_WNDPROC, (LONG) oldEditProc);
+			SetWindowLongPtr(hwndEdit, GWLP_WNDPROC, (LONG) oldEditProc);
 
 			tvi.pszText = strbuf;
 			tvi.cchTextMax = sizeof(strbuf);
@@ -906,7 +906,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 		case TVN_BEGINLABELEDITA:
 		case TVN_BEGINLABELEDITW:
 			hwndEdit=TreeView_GetEditControl(hButtonsList);
-			oldEditProc = (WNDPROC) SetWindowLong(hwndEdit, GWLP_WNDPROC, (LONG) LabelEditSubclassProc);
+			oldEditProc = (WNDPROC) SetWindowLongPtr(hwndEdit, GWLP_WNDPROC, (LONG) LabelEditSubclassProc);
 			break;
 
 		case TVN_ENDLABELEDITA:
@@ -915,7 +915,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			TCHAR strbuf[128];
 			TCHAR szLabel[128];
 
-			SetWindowLong(hwndEdit, GWLP_WNDPROC, (LONG) oldEditProc);
+			SetWindowLongPtr(hwndEdit, GWLP_WNDPROC, (LONG) oldEditProc);
 
 			tvi.pszText = strbuf;
 			tvi.cchTextMax = sizeof(strbuf);
@@ -1135,8 +1135,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			}break;
 
 		case WM_NCDESTROY: 
-			if(oldBNameProc) SetWindowLong(GetDlgItem(hdlg,IDC_BUTTONNAME), GWLP_WNDPROC, (LONG) oldBNameProc);
-			if(oldMNameProc) SetWindowLong(GetDlgItem(hdlg,IDC_MENUNAME)  , GWLP_WNDPROC, (LONG) oldMNameProc);
+			if(oldBNameProc) SetWindowLongPtr(GetDlgItem(hdlg,IDC_BUTTONNAME), GWLP_WNDPROC, (LONG) oldBNameProc);
+			if(oldMNameProc) SetWindowLongPtr(GetDlgItem(hdlg,IDC_MENUNAME)  , GWLP_WNDPROC, (LONG) oldMNameProc);
 			break; 
 
 		case WM_CLOSE:

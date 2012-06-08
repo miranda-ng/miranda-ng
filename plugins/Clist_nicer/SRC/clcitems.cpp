@@ -178,7 +178,7 @@ int AddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hConta
 void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 {
 	char *szProto;
-	DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	HANDLE hContact;
 	struct ClcGroup *group;
 	DBVARIANT dbv = {0};

@@ -137,7 +137,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 	int y;
 	PAINTSTRUCT paintst={0};
 	HBITMAP hBmpOsb,holdbmp;
-	DWORD style=GetWindowLong(hwnd,GWL_STYLE);
+	DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);
 	int grey=0;
 	HFONT oFont;
 	HBRUSH hBrushAlternateGrey=NULL;

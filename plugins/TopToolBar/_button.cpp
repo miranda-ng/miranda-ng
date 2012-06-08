@@ -265,7 +265,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg,  UINT msg,   WPARAM wParam,
 	MButtonCtrl* bct =  (MButtonCtrl *)GetWindowLongPtr(hwndDlg,  0);
 	switch(msg) {
 	case WM_NCCREATE:
-		SetWindowLong(hwndDlg,  GWL_STYLE,  GetWindowLongPtr(hwndDlg,  GWL_STYLE)|BS_OWNERDRAW);
+		SetWindowLongPtr(hwndDlg,  GWL_STYLE,  GetWindowLongPtr(hwndDlg,  GWL_STYLE)|BS_OWNERDRAW);
 		bct = ( MButtonCtrl* )malloc(sizeof(MButtonCtrl));
 		if (bct == NULL)
 			return FALSE;
@@ -285,7 +285,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg,  UINT msg,   WPARAM wParam,
 		bct->cHot = 0;
 		bct->flatBtn = 0;
 		LoadTheme(bct);
-		SetWindowLong(hwndDlg,  0,  (LONG)bct);
+		SetWindowLongPtr(hwndDlg,  0,  (LONG)bct);
 		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwndDlg,  ((CREATESTRUCT *)lParam)->lpszName);
 		return TRUE;
 
@@ -312,7 +312,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg,  UINT msg,   WPARAM wParam,
 			DestroyTheme(bct);
 			free(bct);
 		}
-		SetWindowLong(hwndDlg, 0, (LONG)NULL);
+		SetWindowLongPtr(hwndDlg, 0, (LONG)NULL);
 		break;	// DONT! fall thru
 
 	case WM_SETTEXT:

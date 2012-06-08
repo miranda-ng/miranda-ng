@@ -304,7 +304,7 @@ INT_PTR CALLBACK ChangeInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 							ListView_GetItemRect(dat->hwndList, cd->nmcd.dwItemSpec, &rcItem, LVIR_BOUNDS);
 
-							if (GetWindowLong(dat->hwndList, GWL_STYLE) & WS_DISABLED)
+							if (GetWindowLongPtr(dat->hwndList, GWL_STYLE) & WS_DISABLED)
 							{  // Disabled List
 								SetTextColor(cd->nmcd.hdc, cd->clrText);
 								FillRect(cd->nmcd.hdc, &rcItem, GetSysColorBrush(COLOR_3DFACE));

@@ -137,7 +137,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	switch (msg) {
 	case WM_CREATE:
 		dat = (struct ClcData*)mir_calloc( sizeof(struct ClcData));
-		SetWindowLong(hwnd,0,(LPARAM)dat);
+		SetWindowLongPtr(hwnd,0,(LPARAM)dat);
 		InitDisplayNameCache(&dat->lCLCContactsCache);
 		break;
 
@@ -156,7 +156,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if(szProto==NULL) status=ID_STATUS_OFFLINE;
 		else status=cacheEntry->status;
 		
-		shouldShow=(GetWindowLong(hwnd,GWL_STYLE)&CLS_SHOWHIDDEN || !cacheEntry->Hidden) && (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline || CallService(MS_CLIST_GETCONTACTICON,wParam,0)!=LOWORD(lParam));	//this means an offline msg is flashing, so the contact should be shown
+		shouldShow=(GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_SHOWHIDDEN || !cacheEntry->Hidden) && (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline || CallService(MS_CLIST_GETCONTACTICON,wParam,0)!=LOWORD(lParam));	//this means an offline msg is flashing, so the contact should be shown
 		if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL)) {				
 			if(shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if(dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL)!=-1)
@@ -174,7 +174,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}
 		else {
 			//item in list already
-			DWORD style=GetWindowLong(hwnd,GWL_STYLE);				
+			DWORD style=GetWindowLongPtr(hwnd,GWL_STYLE);				
 			if(contact->iImage== (WORD)lParam) break;				
 			if (sortByStatus) dat->NeedResort=1;
 

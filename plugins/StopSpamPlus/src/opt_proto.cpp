@@ -54,7 +54,7 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_INITDIALOG: 
 		TranslateDialogDefault(hwnd);
 
-		SetWindowLong(hwndProto, GWL_STYLE, GetWindowLong(hwndProto, GWL_STYLE) | TVS_NOHSCROLL);
+		SetWindowLongPtr(hwndProto, GWL_STYLE, GetWindowLongPtr(hwndProto, GWL_STYLE) | TVS_NOHSCROLL);
 		{
 			HIMAGELIST himlCheckBoxes = ImageList_Create( GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), ILC_COLOR32|ILC_MASK, 2, 2 );
 			HICON Icon;

@@ -202,12 +202,12 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	GetScrollInfo(hwnd, SB_VERT, si);
 
 	//check to see if the window has left-aligned scrollbars
-	if(GetWindowLong(hwnd, GWL_EXSTYLE) & WS_EX_LEFTSCROLLBAR)
+	if(GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LEFTSCROLLBAR)
 		sw->fLeftScrollbar = TRUE;
 	else
 		sw->fLeftScrollbar = FALSE;
 
-	dwCurStyle = GetWindowLong(hwnd, GWL_STYLE);
+	dwCurStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	SetProp(hwnd, szPropStr, (HANDLE)sw);
 
@@ -518,7 +518,7 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 {
 	SCROLLBAR *sbar;
 	BOOL bFailed = FALSE;
-	DWORD dwStyle = GetWindowLong(hwnd, GWL_STYLE);
+	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (!CoolSB_IsCoolScrollEnabled(hwnd))
 		return ShowScrollBar(hwnd, wBar, fShow);
@@ -530,8 +530,8 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 		sbar->fScrollFlags |= (fShow == TRUE ? CSBS_VISIBLE : 0);
 		//bFailed = TRUE;
 
-		if(fShow)	SetWindowLong(hwnd, GWL_STYLE, dwStyle | WS_HSCROLL);
-		else		SetWindowLong(hwnd, GWL_STYLE, dwStyle & ~WS_HSCROLL);
+		if(fShow)	SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle | WS_HSCROLL);
+		else		SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~WS_HSCROLL);
 	}
 
 	if ((wBar == SB_VERT || wBar == SB_BOTH) && 
@@ -541,8 +541,8 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 		sbar->fScrollFlags |= (fShow == TRUE ? CSBS_VISIBLE : 0);
 		//bFailed = TRUE;
 
-		if(fShow)	SetWindowLong(hwnd, GWL_STYLE, dwStyle | WS_VSCROLL);
-		else		SetWindowLong(hwnd, GWL_STYLE, dwStyle & ~WS_VSCROLL);
+		if(fShow)	SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle | WS_VSCROLL);
+		else		SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~WS_VSCROLL);
 	}
 
 	if(bFailed)
@@ -551,11 +551,11 @@ BOOL WINAPI CoolSB_ShowScrollBar (HWND hwnd, int wBar, BOOL fShow)
 	}
 	else
 	{
-		//DWORD style = GetWindowLong(hwnd, GWL_STYLE);
+		//DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 		//style |= WS_VSCROLL;
 		
 		//if(s
-		//SetWindowLong(hwnd, GWL_STYLE, style);
+		//SetWindowLongPtr(hwnd, GWL_STYLE, style);
 
 		SetWindowPos(hwnd, 0, 0, 0, 0, 0, 
 			SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | 

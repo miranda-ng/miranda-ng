@@ -838,7 +838,7 @@ int EnableGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 	{
 		EnableWindow(hwnd,bEnable);
 		hwnd=GetWindow(hwnd,GW_HWNDNEXT);
-		if (!hwnd || GetWindowLong(hwnd,GWL_STYLE)&WS_GROUP) exit=TRUE;
+		if (!hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit=TRUE;
 	}while (!exit);
 	return 0;
 }
@@ -852,7 +852,7 @@ int ShowGroup(HWND hwndDlg, HWND first, BOOL bEnable)
 	{
 		ShowWindow(hwnd,bEnable?SW_SHOW:SW_HIDE);
 		hwnd=GetWindow(hwnd,GW_HWNDNEXT);
-		if (!hwnd || GetWindowLong(hwnd,GWL_STYLE)&WS_GROUP) exit=TRUE;
+		if (!hwnd || GetWindowLongPtr(hwnd,GWL_STYLE)&WS_GROUP) exit=TRUE;
 	}while (!exit);
 	return 0;
 }

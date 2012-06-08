@@ -228,7 +228,7 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 			DBFreeVariant(&dbv);
 
 			// load protocol list
-			SetWindowLong(GetDlgItem(hdlg,IDC_PROTOCOLLIST),GWL_STYLE,GetWindowLong(GetDlgItem(hdlg,IDC_PROTOCOLLIST),GWL_STYLE)|TVS_CHECKBOXES);
+			SetWindowLongPtr(GetDlgItem(hdlg,IDC_PROTOCOLLIST),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hdlg,IDC_PROTOCOLLIST),GWL_STYLE)|TVS_CHECKBOXES);
 			{	
 				TVINSERTSTRUCT tvis;
 				int numberOfProtocols,i;

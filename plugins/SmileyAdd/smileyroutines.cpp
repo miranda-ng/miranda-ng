@@ -293,7 +293,7 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 		SetRichCallback(hwnd, NULL, false, true);
 
-		bool rdo = (GetWindowLong(hwnd, GWL_STYLE) & ES_READONLY) != 0;
+		bool rdo = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) != 0;
 		if (rdo) SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
 
 		ITextSelection* TextSelection;
@@ -565,7 +565,7 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen)
 	long cnt;
 	TextDocument->Freeze(&cnt);
 
-	bool rdo = (GetWindowLong(hwnd, GWL_STYLE) & ES_READONLY) != 0;
+	bool rdo = (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY) != 0;
 	if (rdo) SendMessage(hwnd, EM_SETREADONLY, FALSE, 0);
 
 	CHARRANGE oldSel;

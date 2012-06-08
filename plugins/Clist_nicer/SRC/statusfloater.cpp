@@ -927,7 +927,7 @@ void SFL_Create()
 	else
 		return;
 
-	SetWindowLong(g_hwndSFL, GWL_STYLE, GetWindowLong(g_hwndSFL, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_OVERLAPPEDWINDOW | WS_POPUPWINDOW));
+	SetWindowLongPtr(g_hwndSFL, GWL_STYLE, GetWindowLongPtr(g_hwndSFL, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_OVERLAPPEDWINDOW | WS_POPUPWINDOW));
 
 	Utils_RestoreWindowPosition(g_hwndSFL, 0, "CLUI", "sfl");
 	SFL_SetSize();
@@ -989,7 +989,7 @@ void FLT_Create(int iEntry)
 			return;
 		}
 
-		SetWindowLong(centry->floater->hwnd, GWL_STYLE, GetWindowLong(centry->floater->hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_OVERLAPPEDWINDOW | WS_POPUPWINDOW));
+		SetWindowLongPtr(centry->floater->hwnd, GWL_STYLE, GetWindowLongPtr(centry->floater->hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_OVERLAPPEDWINDOW | WS_POPUPWINDOW));
 
         if(Utils_RestoreWindowPosition(centry->floater->hwnd, centry->hContact, "CList", "flt"))
 			if(Utils_RestoreWindowPositionNoMove(centry->floater->hwnd, centry->hContact, "CList", "flt"))

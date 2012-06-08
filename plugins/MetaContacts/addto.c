@@ -274,7 +274,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					break;
 
 				case IDC_CHK_SRT:
-					SetWindowLong(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE, GetWindowLong(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE) ^ LBS_SORT);
+					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE) ^ LBS_SORT);
 					if(BuildList(GetDlgItem(hwndDlg,IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE)<=0)
 					{
 						if(MessageBox(hwndDlg,Translate("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n"

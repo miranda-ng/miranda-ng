@@ -164,7 +164,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case WM_SIZE:
 		{
-			if (m_forceResizable || (GetWindowLong(m_hwnd, GWL_STYLE) & WS_SIZEBOX))
+			if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_SIZEBOX))
 			{
 				UTILRESIZEDIALOG urd;
 				urd.cbSize = sizeof(urd);

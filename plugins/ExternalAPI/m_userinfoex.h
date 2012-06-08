@@ -60,7 +60,7 @@ shown inforamtion up to date.
 wParam=NULL
 lParam=(HFONT*)&hFont
 get bold dialog font. wParam is pointer to a handle that retrieves the boldfont.
-You can also call GetWindowLong(hDlg, DWLP_MSGRESULT) to get the font.
+You can also call GetWindowLongPtr(hDlg, DWLP_MSGRESULT) to get the font.
 This function returns TRUE on success or FALSE otherwise.
 */
 #ifndef PSM_GETBOLDFONT
@@ -74,7 +74,7 @@ if another propertysheetpage is selected, a plugin should check this state and s
 the database if such a test if control's content changed does so.
 wParam=NULL
 lParam=NULL
-You can also call GetWindowLong(hDlg, DWLP_MSGRESULT) to get the handle.
+You can also call GetWindowLongPtr(hDlg, DWLP_MSGRESULT) to get the handle.
 This function returns TRUE if the PropertySheet is locked or FALSE otherwise.
 */
 #define PSM_ISLOCKED		(WM_USER+901)
@@ -84,7 +84,7 @@ You can get the handle to the contact the propertysheet is associated with by ca
 to the parent of your propertysheetpage - the propertysheet.
 wParam=index or -1 for current item
 lParam=(HANDLE*)&hContact
-You can also call GetWindowLong(hDlg, DWLP_MSGRESULT) to get the handle.
+You can also call GetWindowLongPtr(hDlg, DWLP_MSGRESULT) to get the handle.
 This function returns TRUE on success or FALSE otherwise.
 */
 #define PSM_GETCONTACT		(WM_USER+903)
@@ -95,7 +95,7 @@ wParam=index or -1 for current item
 lParam=(LPCSTR*)&pszProto
 The propertysheet loads the basic contact protocol on creation for a better handling
 of owners (ICQ) protocol used for changing details on the server. Should also reduce database traffic.
-You can also call GetWindowLong(hDlg, DWLP_MSGRESULT) to get the protocol.
+You can also call GetWindowLongPtr(hDlg, DWLP_MSGRESULT) to get the protocol.
 This function returns TRUE on success or FALSE otherwise.
 */
 #define PSM_GETBASEPROTO	(WM_USER+905)

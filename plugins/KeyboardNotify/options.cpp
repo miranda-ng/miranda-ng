@@ -1440,7 +1440,7 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TREE_XSTATUS);
 
 			TranslateDialogDefault(hwndDlg);
-			SetWindowLong(hwndTree, GWL_STYLE, GetWindowLong(hwndTree, GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+			SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 
 			if (!XstatusListAux) return TRUE;
 

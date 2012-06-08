@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef int (__cdecl * Miranda_Plugin_Load) ( PLUGINLINK * );
 typedef int (__cdecl * Miranda_Plugin_Unload) ( void );
 // version control
-typedef PLUGININFO * (__cdecl * Miranda_Plugin_Info) ( DWORD mirandaVersion );
 typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) ( DWORD mirandaVersion );
 // prototype for databases
 typedef DATABASELINK * (__cdecl * Database_Plugin_Info) ( void * reserved );
@@ -43,7 +42,6 @@ typedef struct { // can all be NULL
 	HINSTANCE hInst;
 	Miranda_Plugin_Load Load;
 	Miranda_Plugin_Unload Unload;
-	Miranda_Plugin_Info Info;
 	Miranda_Plugin_InfoEx InfoEx;
 	Miranda_Plugin_Interfaces Interfaces;
 	Database_Plugin_Info DbInfo;
@@ -244,8 +242,7 @@ static int checkPI( BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi )
 	}
 	
 	if ( !bHasValidInfo )
-		if ( bpi->Info && pi->cbSize != sizeof(PLUGININFO))
-			return FALSE;
+		return FALSE;
 
 	if ( pi->shortName == NULL || pi->description == NULL || pi->author == NULL ||
 		  pi->authorEmail == NULL || pi->copyright == NULL || pi->homepage == NULL )
@@ -278,17 +275,12 @@ static int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion,
 	// loaded, check for exports
 	bpi->Load = (Miranda_Plugin_Load) GetProcAddress(h, "Load");
 	bpi->Unload = (Miranda_Plugin_Unload) GetProcAddress(h, "Unload");
-	bpi->Info = (Miranda_Plugin_Info) GetProcAddress(h, "MirandaPluginInfo");
 	bpi->InfoEx = (Miranda_Plugin_InfoEx) GetProcAddress(h, "MirandaPluginInfoEx");
 	bpi->Interfaces = (Miranda_Plugin_Interfaces) GetProcAddress(h, "MirandaPluginInterfaces");
 
 	// if they were present
-	if ( bpi->Load && bpi->Unload && ( bpi->Info || ( bpi->InfoEx && bpi->Interfaces ))) {
-		PLUGININFOEX* pi = 0;
-		if (bpi->InfoEx)
-			pi = bpi->InfoEx(mirandaVersion);
-		else
-			pi = (PLUGININFOEX*)bpi->Info(mirandaVersion);
+	if ( bpi->Load && bpi->Unload && bpi->InfoEx && bpi->Interfaces ) {
+		PLUGININFOEX* pi = bpi->InfoEx(mirandaVersion);
 		{
 			// similar to the above hack but these plugins are checked for a valid interface first (in case there are updates to the plugin later)
 			TCHAR* p = _tcsrchr(plugin, '\\');
@@ -520,7 +512,7 @@ static BOOL scanPluginsDir (WIN32_FIND_DATA * fd, TCHAR * path, WPARAM, LPARAM)
 						continue;
 					p->pclass |= (PCLASS_SERVICE);
 					if ( pluginListSM != NULL ) p->nextclass = pluginListSM;
-					pluginListSM=p;
+					pluginListSM = p;
 					if (pluginList_crshdmp == NULL &&  lstrcmpi(fd->cFileName, _T("svc_crshdmp.dll")) == 0) {
 						pluginList_crshdmp = p;
 						p->pclass |= PCLASS_LAST;
@@ -608,7 +600,7 @@ int UnloadPlugin(TCHAR* buf, int bufLen)
 //
 //   Service plugins functions
 
-char **GetSeviceModePluginsList(void)
+char **GetServiceModePluginsList(void)
 {
 	int i = 0;
 	char **list = NULL;
@@ -648,10 +640,9 @@ int LoadServiceModePlugin(void)
 				p->pclass |= PCLASS_LOADED;
 				if ( CallService( MS_SERVICEMODE_LAUNCH, 0, 0 ) != CALLSERVICE_NOTFOUND )
 					return 1;
-				else {
-					MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, 0);
-					return -1;
-				}
+				
+				MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, 0);
+				return -1;
 			}
 			Plugin_Uninit( p );
 			return -1;
@@ -681,6 +672,7 @@ void UnloadNewPlugins(void)
 
 typedef struct
 {
+	HINSTANCE hInst;
 	int   flags;
 	char* author;
 	char* authorEmail;
@@ -695,7 +687,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 {
 	TCHAR buf[MAX_PATH];
 	mir_sntprintf(buf, SIZEOF(buf), _T("%s\\Plugins\\%s"), path, fd->cFileName);
-	HINSTANCE gModule = GetModuleHandle(buf);
+	HINSTANCE hInst = GetModuleHandle(buf);
 
 	CharLower(fd->cFileName);
 	
@@ -708,17 +700,26 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 
 	int isdb = pi.pluginInfo->replacesDefaultModule == DEFMOD_DB;
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc( sizeof( PluginListItemData ));
+	dat->hInst = hInst;
 	HWND hwndList = (HWND)lParam;
 
 	LVITEM it = { 0 };
 	it.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-	it.pszText = fd->cFileName;
 	it.iImage = ( pi.pluginInfo->flags & 1 ) ? 0 : 1;
+	it.pszText = fd->cFileName;
 	it.lParam = (LPARAM)dat;
 	int iRow = SendMessage( hwndList, LVM_INSERTITEM, 0, (LPARAM)&it );
 	if ( isPluginOnWhiteList(fd->cFileName) )
 		ListView_SetItemState(hwndList, iRow, !isdb ? 0x2000 : 0x3000, LVIS_STATEIMAGEMASK);
 	if ( iRow != -1 ) {
+		it.mask = LVIF_IMAGE;
+		it.iItem = iRow;
+		it.iSubItem = 1;
+		it.iImage = ( hInst != NULL ) ? 2 : 3;
+		ListView_SetItem( hwndList, &it );
+
+		ListView_SetItemText(hwndList, iRow, 2, fd->cFileName);
+
 		dat->flags = pi.pluginInfo->replacesDefaultModule;
 		dat->author = mir_strdup( pi.pluginInfo->author );
 		dat->authorEmail = mir_strdup( pi.pluginInfo->authorEmail );
@@ -731,7 +732,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 			memset( &dat->uuid, 0, sizeof(dat->uuid));
 
 		TCHAR *shortNameT = mir_a2t(pi.pluginInfo->shortName);
-		ListView_SetItemText(hwndList, iRow, 1, shortNameT);
+		ListView_SetItemText(hwndList, iRow, 3, shortNameT);
 		mir_free(shortNameT);
 
 		DWORD unused, verInfoSize = GetFileVersionInfoSize(buf, &unused);
@@ -750,13 +751,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 				LOBYTE(HIWORD(pi.pluginInfo->version)), HIBYTE(LOWORD(pi.pluginInfo->version)), 
 				LOBYTE(LOWORD(pi.pluginInfo->version)));
 
-		ListView_SetItemText(hwndList, iRow, 2, buf);
-
-		it.mask = LVIF_IMAGE;
-		it.iItem = iRow;
-		it.iSubItem = 3;
-		it.iImage = ( gModule != NULL ) ? 2 : 3;
-		ListView_SetItem( hwndList, &it );
+		ListView_SetItemText(hwndList, iRow, 4, buf);
 	}
 	else mir_free( dat );
 	FreeLibrary(pi.hInst);
@@ -779,12 +774,40 @@ static void RemoveAllItems( HWND hwnd )
 		lvi.iItem ++;
 }	}
 
+static LRESULT CALLBACK PluginListWndProc(HWND hwnd,UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	LVHITTESTINFO hi;
+
+	switch (msg) {
+	case WM_LBUTTONDOWN:
+		hi.pt.x = LOWORD(lParam); hi.pt.y = HIWORD(lParam);
+		ListView_SubItemHitTest(hwnd, &hi);
+		if ( hi.iSubItem == 1 ) {
+			LVITEM lvi;
+			lvi.mask = LVIF_PARAM;
+			lvi.iItem = hi.iItem;
+			if ( !ListView_GetItem( hwnd, &lvi ))
+				break;
+
+			PluginListItemData* dat = ( PluginListItemData* )lvi.lParam;
+			if (dat->hInst == NULL);
+		}
+		break;
+	}
+
+	WNDPROC wnProc = ( WNDPROC )GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	return CallWindowProc(wnProc, hwnd, msg, wParam, lParam);
+}	
+
 INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
 		HWND hwndList=GetDlgItem(hwndDlg, IDC_PLUGLIST);
+		SetWindowLongPtr(hwndList, GWLP_USERDATA, (LONG_PTR)GetWindowLongPtr(hwndList, GWLP_WNDPROC));
+		SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
+
 		LVCOLUMN col;
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 4, 0);
 		ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_UNICODE );
@@ -796,22 +819,25 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hwndDlg);
 
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
-		col.pszText = TranslateT("Plugin");
-		col.cx = 70;//max = 140;
+		col.pszText = _T("");
+		col.cx = 40;
 		ListView_InsertColumn(hwndList, 0, &col);
-
-		col.pszText = TranslateT("Name");
-		col.cx = 70;//max = 220;
-		ListView_InsertColumn(hwndList, 1, &col);
-
-		col.pszText = TranslateT("Version");
-		col.cx = 70;
-		ListView_InsertColumn(hwndList, 2, &col);
 
 		col.pszText = _T("");
 		col.cx = 20;
+		ListView_InsertColumn(hwndList, 1, &col);
+
+		col.pszText = TranslateT("Plugin");
+		col.cx = 70;
+		ListView_InsertColumn(hwndList, 2, &col);
+
+		col.pszText = TranslateT("Name");
+		col.cx = 70;//max = 220;
 		ListView_InsertColumn(hwndList, 3, &col);
-		//ListView_InsertColumn(hwndList, 4, &col);
+
+		col.pszText = TranslateT("Version");
+		col.cx = 70;
+		ListView_InsertColumn(hwndList, 4, &col);
 
 		// XXX: Won't work on windows 95 without IE3+ or 4.70
 		ListView_SetExtendedListViewStyleEx( hwndList, 0, LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP | LVS_EX_FULLROWSELECT );
@@ -821,17 +847,17 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			int w, max;
 
-			ListView_SetColumnWidth( hwndList, 0, LVSCW_AUTOSIZE ); // dll name
-			w = ListView_GetColumnWidth( hwndList, 0 );
-			if (w > 140) {
-				ListView_SetColumnWidth( hwndList, 0, 140 );
-				w = 140;
+			ListView_SetColumnWidth( hwndList, 2, LVSCW_AUTOSIZE ); // dll name
+			w = ListView_GetColumnWidth( hwndList, 2 );
+			if (w > 110) {
+				ListView_SetColumnWidth( hwndList, 2, 110 );
+				w = 110;
 			}
-			max = w<140? 220+140-w:220;
-			ListView_SetColumnWidth( hwndList, 1, LVSCW_AUTOSIZE ); // short name
-			w = ListView_GetColumnWidth( hwndList, 1 );
+			max = w < 110 ? 199+110-w:199;
+			ListView_SetColumnWidth( hwndList, 3, LVSCW_AUTOSIZE ); // short name
+			w = ListView_GetColumnWidth( hwndList, 3 );
 			if (w > max)
-				ListView_SetColumnWidth( hwndList, 1, max );
+				ListView_SetColumnWidth( hwndList, 3, max );
 		}
 		return TRUE;
 	}

@@ -379,8 +379,8 @@ public:
 
 #define uCallWindowProc CallWindowProc
 #define uDefWindowProc DefWindowProc
-#define uGetWindowLong GetWindowLong
-#define uSetWindowLong SetWindowLong
+#define uGetWindowLong GetWindowLongPtr
+#define uSetWindowLong SetWindowLongPtr
 
 #define uEndDialog EndDialog
 #define uDestroyWindow DestroyWindow
@@ -720,19 +720,19 @@ public:
 };
 
 static void uAddWindowStyle(HWND p_wnd,LONG p_style) {
-	SetWindowLong(p_wnd,GWL_STYLE, GetWindowLong(p_wnd,GWL_STYLE) | p_style);
+	SetWindowLongPtr(p_wnd,GWL_STYLE, GetWindowLongPtr(p_wnd,GWL_STYLE) | p_style);
 }
 
 static void uRemoveWindowStyle(HWND p_wnd,LONG p_style) {
-	SetWindowLong(p_wnd,GWL_STYLE, GetWindowLong(p_wnd,GWL_STYLE) & ~p_style);
+	SetWindowLongPtr(p_wnd,GWL_STYLE, GetWindowLongPtr(p_wnd,GWL_STYLE) & ~p_style);
 }
 
 static void uAddWindowExStyle(HWND p_wnd,LONG p_style) {
-	SetWindowLong(p_wnd,GWL_EXSTYLE, GetWindowLong(p_wnd,GWL_EXSTYLE) | p_style);
+	SetWindowLongPtr(p_wnd,GWL_EXSTYLE, GetWindowLongPtr(p_wnd,GWL_EXSTYLE) | p_style);
 }
 
 static void uRemoveWindowExStyle(HWND p_wnd,LONG p_style) {
-	SetWindowLong(p_wnd,GWL_EXSTYLE, GetWindowLong(p_wnd,GWL_EXSTYLE) & ~p_style);
+	SetWindowLongPtr(p_wnd,GWL_EXSTYLE, GetWindowLongPtr(p_wnd,GWL_EXSTYLE) & ~p_style);
 }
 
 static unsigned MapDialogWidth(HWND p_dialog,unsigned p_value) {
@@ -817,14 +817,14 @@ static bool IsPointInsideControl(const POINT& pt, HWND wnd) {
 	for (;;) {
 		if (walk == NULL) return false;
 		if (walk == wnd) return true;
-		if (GetWindowLong(walk,GWL_STYLE) & WS_POPUP) return false;
+		if (GetWindowLongPtr(walk,GWL_STYLE) & WS_POPUP) return false;
 		walk = GetParent(walk);
 	}
 }
 
 static bool IsWindowChildOf(HWND child, HWND parent) {
 	HWND walk = child;
-	while(walk != parent && walk != NULL && (GetWindowLong(walk,GWL_STYLE) & WS_CHILD) != 0) {
+	while(walk != parent && walk != NULL && (GetWindowLongPtr(walk,GWL_STYLE) & WS_CHILD) != 0) {
 		walk = GetParent(walk);
 	}
 	return walk == parent;

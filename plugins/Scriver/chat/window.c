@@ -283,7 +283,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
       return 0;
 
    case WM_MOUSEWHEEL:
-	  if ((GetWindowLong(hwnd, GWL_STYLE) & WS_VSCROLL) == 0) {
+	  if ((GetWindowLongPtr(hwnd, GWL_STYLE) & WS_VSCROLL) == 0) {
 		SendMessage(GetDlgItem(GetParent(hwnd), IDC_CHAT_LOG), WM_MOUSEWHEEL, wParam, lParam);
 	  }
       dat->lastEnterTime = 0;
@@ -1729,7 +1729,7 @@ LABEL_SHOWWINDOW:
    case GC_SCROLLTOBOTTOM:
       {
          SCROLLINFO si = { 0 };
-         if ((GetWindowLong(GetDlgItem(hwndDlg, IDC_CHAT_LOG), GWL_STYLE) & WS_VSCROLL) != 0){
+         if ((GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CHAT_LOG), GWL_STYLE) & WS_VSCROLL) != 0){
             CHARRANGE sel;
             si.cbSize = sizeof(si);
             si.fMask = SIF_PAGE | SIF_RANGE;

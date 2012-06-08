@@ -103,7 +103,7 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop( IDataObject *pData,DWORD fKeyState,
 
 	if ( hwndCurDrag == NULL ) return( S_OK );
 
-	pThumb	 =  (ThumbInfo*)GetWindowLong( hwndCurDrag, GWLP_USERDATA );
+	pThumb	 =  (ThumbInfo*)GetWindowLongPtr( hwndCurDrag, GWLP_USERDATA );
 	if ( pThumb == NULL ) return( S_OK );
 
 	if ( S_OK != pData->GetData( &fe,&stg ) )

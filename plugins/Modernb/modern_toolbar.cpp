@@ -1112,7 +1112,7 @@ static LRESULT CALLBACK ToolBar_OptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		{
 			HWND hTree=GetDlgItem(hwndDlg,IDC_BTNORDER);
 			TranslateDialogDefault(hwndDlg);
-			SetWindowLong(hTree,GWL_STYLE,GetWindowLong(hTree,GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(hTree,GWL_STYLE,GetWindowLongPtr(hTree,GWL_STYLE)|TVS_NOHSCROLL);
 			{					
 				himlButtonIcons=ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,2,2);
 				TreeView_SetImageList(hTree,himlButtonIcons,TVSIL_NORMAL);

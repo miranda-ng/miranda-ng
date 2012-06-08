@@ -810,7 +810,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return 0;
 
 	case WM_SETTINGCHANGE:
-		if (wParam == SPI_SETWORKAREA && (GetWindowLong(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE &&
+		if (wParam == SPI_SETWORKAREA && (GetWindowLongPtr(hwnd, GWL_STYLE) & (WS_VISIBLE | WS_MINIMIZE)) == WS_VISIBLE &&
 			!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
 		{
 			RECT rc; 

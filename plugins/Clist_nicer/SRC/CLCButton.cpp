@@ -350,7 +350,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
     switch (msg) {
         case WM_NCCREATE:
             {
-                SetWindowLong(hwndDlg, GWL_STYLE, GetWindowLong(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
+                SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
                 bct = reinterpret_cast<MButtonCtrl *>(malloc(sizeof(MButtonCtrl)));
                 if (bct == NULL)
                     return FALSE;

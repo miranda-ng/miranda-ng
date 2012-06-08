@@ -766,9 +766,9 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
             FillDialog(hwndDlg);
             EnableWindow(GetDlgItem(hwndDlg, IDC_ADDVIEWMODE), FALSE);
 			{
-				LONG style=GetWindowLong(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE);
+				LONG style=GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE);
 				style&=(~CLS_SHOWHIDDEN);
-				SetWindowLong(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE,style);
+				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST),GWL_STYLE,style);
 			}
             SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)himlViewModes);
             SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETEXTRACOLUMNS, ID_STATUS_OUTTOLUNCH - ID_STATUS_OFFLINE, 0);

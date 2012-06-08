@@ -67,7 +67,7 @@ struct ProfileEnumData {
 
 extern TCHAR mirandabootini[MAX_PATH]; 
 
-char **GetSeviceModePluginsList(void);
+char **GetServiceModePluginsList(void);
 void SetServiceModePlugin( int idx );
 
 static void ThemeDialogBackground(HWND hwnd)
@@ -603,7 +603,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		// service mode combobox
 		{
-			char **list = GetSeviceModePluginsList();
+			char **list = GetServiceModePluginsList();
 			if ( !list ) {
 				ShowWindow( GetDlgItem(hwndDlg, IDC_SM_LABEL ), FALSE );
 				ShowWindow( GetDlgItem(hwndDlg, IDC_SM_COMBO ), FALSE );

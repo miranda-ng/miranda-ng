@@ -69,11 +69,11 @@ static BOOL CALLBACK ProtocolOrderOpts(HWND hwndDlg,  UINT msg,  WPARAM wParam, 
 		int i, count;
 
 		dat = (struct ProtocolOrderData*)malloc(sizeof(struct ProtocolOrderData));
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_PROTOCOLORDER), GWL_USERDATA, (LONG)dat);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLORDER), GWL_USERDATA, (LONG)dat);
 		dat->dragging = 0;
 
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_PROTOCOLVISIBILITY), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLVISIBILITY), GWL_STYLE)|TVS_NOHSCROLL);
-		SetWindowLong(GetDlgItem(hwndDlg, IDC_PROTOCOLORDER), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLORDER), GWL_STYLE)|TVS_NOHSCROLL);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLVISIBILITY), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLVISIBILITY), GWL_STYLE)|TVS_NOHSCROLL);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLORDER), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_PROTOCOLORDER), GWL_STYLE)|TVS_NOHSCROLL);
 
 		{	HIMAGELIST himlCheckBoxes;
 			himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR4|ILC_MASK, 2, 2);

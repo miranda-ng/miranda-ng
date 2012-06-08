@@ -120,25 +120,25 @@ static INT_PTR ListEndRebuild(WPARAM wParam, LPARAM lParam)
 {
 	int rebuild = 0;
 	//CLC does this automatically, but we need to force it if hideoffline or hideempty has changed
-	if ((ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
+	if ((ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEOFFLINE) == 0)) {
 		if (ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))
-			SetWindowLong(pcli->hwndContactTree, GWL_STYLE, GetWindowLong(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEOFFLINE);
+			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEOFFLINE);
 		else
-			SetWindowLong(pcli->hwndContactTree, GWL_STYLE, GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEOFFLINE);
+			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEOFFLINE);
 		rebuild = 1;
 	}
-	if ((ModernGetSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
+	if ((ModernGetSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS) == 0)) {
 		if (ModernGetSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT))
-			SetWindowLong(pcli->hwndContactTree, GWL_STYLE, GetWindowLong(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
+			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_HIDEEMPTYGROUPS);
 		else
-			SetWindowLong(pcli->hwndContactTree, GWL_STYLE, GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
+			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_HIDEEMPTYGROUPS);
 		rebuild = 1;
 	}
-	if ((ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
+	if ((ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) == 0) != ((GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS) == 0)) {
 		if (ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT))
-			SetWindowLong(pcli->hwndContactTree, GWL_STYLE, GetWindowLong(pcli->hwndContactTree, GWL_STYLE) | CLS_USEGROUPS);
+			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) | CLS_USEGROUPS);
 		else
-			SetWindowLong(pcli->hwndContactTree, GWL_STYLE, GetWindowLong(pcli->hwndContactTree, GWL_STYLE) & ~CLS_USEGROUPS);
+			SetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE, GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & ~CLS_USEGROUPS);
 		rebuild = 1;
 	}
 	if (rebuild)

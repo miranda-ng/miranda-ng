@@ -556,7 +556,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 
 	}
 	else { //It needs to be hidden
-		if (GetWindowLong(pcli->hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)
+		if (GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)
 		{
 			CListMod_HideWindow(pcli->hwndContactList, SW_HIDE);
 			ModernWriteSettingByte(NULL,"CList","State",SETTING_STATE_HIDDEN);

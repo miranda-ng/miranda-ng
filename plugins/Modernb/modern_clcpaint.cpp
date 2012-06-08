@@ -1809,7 +1809,7 @@ int CLCPaint::_DetermineDrawMode( HWND hWnd, struct ClcData *dat )
     if ( !(paintMode&DM_CONTROL) && !CLUI_IsInMainWindow( hWnd ) )
         paintMode |= DM_FLOAT;
 
-    LONG lStyle =  GetWindowLong( hWnd, GWL_STYLE );
+    LONG lStyle =  GetWindowLongPtr( hWnd, GWL_STYLE );
     int  nStatus = _GetGeneralisedStatus();
     if ( ( lStyle & WS_DISABLED )
         || ( dat->greyoutFlags & pcli->pfnClcStatusToPf2( nStatus ) )
@@ -1918,7 +1918,7 @@ void CLCPaint::_DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMo
     int line_num = -1;
     int y = -dat->yScroll;
     BOOL is_foreground = IsForegroundWindow( hWnd );
-    LONG lStyle =  GetWindowLong( hWnd, GWL_STYLE );
+    LONG lStyle =  GetWindowLongPtr( hWnd, GWL_STYLE );
 
     while( y < rcPaint->bottom )
     {

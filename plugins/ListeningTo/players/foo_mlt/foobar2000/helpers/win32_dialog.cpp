@@ -227,7 +227,7 @@ namespace dialog_helper {
 			assert(thisptr->m_status == status_construction);
 			thisptr->m_wnd = wnd;
 			SetWindowLongPtr(wnd,DWLP_USER,lp);
-			if (GetWindowLong(wnd,GWL_STYLE) & WS_POPUP) {
+			if (GetWindowLongPtr(wnd,GWL_STYLE) & WS_POPUP) {
 				modeless_dialog_manager::g_add(wnd);
 			}
 		}
