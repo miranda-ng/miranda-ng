@@ -2,8 +2,8 @@
 //  Register of plugin's user
 //
 //  wParam = (WPARAM)szSetting - string that describes a user
-//           format: Category/ModuleName,
-//           eg: "Contact list background/CLUI",
+//           format: Category/ModuleName, 
+//           eg: "Contact list background/CLUI", 
 //               "Status bar background/StatusBar"
 //  lParam = (LPARAM)dwFlags
 //

@@ -25,6 +25,8 @@
 #include "m_langpack.h"
 #include "m_options.h"
 #include "resource.h"
+#include "m_protocols.h"
+#include "m_protosvc.h"
 #include "m_toptoolbar.h"
 #include "m_button.h"
 #include "m_icolib.h"
@@ -38,9 +40,9 @@
 #define TTBDEFAULT_USEBITMAP     0
 #define TTBDEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 
-int TTBOptInit(WPARAM wParam,LPARAM lParam);
+int TTBOptInit(WPARAM wParam, LPARAM lParam);
 //append string
-char __inline *AS(char *str,const char *setting,char *addstr);
+char __inline *AS(char *str, const char *setting, char *addstr);
 
 int ttbOptionsChanged();
 
@@ -53,13 +55,13 @@ typedef struct {
 	int id;
 	BOOL bPushed;
 	int dwFlags;
-	int x,y;
-	HBITMAP hbBitmapUp,hbBitmapDown;
-	HBITMAP hbDefBitmapUp,hbDefBitmapDown;
-	HBITMAP hbWBordBitmapUp,hbWBordBitmapDown;
-	HICON hIconUp,hIconDn;
+	int x, y;
+	HBITMAP hbBitmapUp, hbBitmapDown;
+	HBITMAP hbDefBitmapUp, hbDefBitmapDown;
+	HBITMAP hbWBordBitmapUp, hbWBordBitmapDown;
+	HICON hIconUp, hIconDn;
 	
-	char *pszServiceUp,*pszServiceDown;
+	char *pszServiceUp, *pszServiceDown;
 	char *tooltip;
 	char *name;
 
@@ -88,34 +90,31 @@ typedef struct tagSortData {
 typedef struct tagButtonOptData {
 	char *name;
 	int pos;
-	boolean show;
+	bool show;
 } ButtonOptData;
 
-boolean OptionsOpened;
-HWND OptionshWnd;			
+extern bool OptionsOpened;
+extern HWND OptionshWnd;			
+
 int OptionsPageRebuild();
 void lockbut();
 void ulockbut();
 
-//return - 0 success, -1 on error
+//return - 0 success,  -1 on error
 #define TTB_ADDSEPARATOR "TTB/AddSeparator"
 //wparam sepid
 #define TTB_REMOVESEPARATOR "TTB/RemoveSeparator"
 
 
 //append string
-char *AS(char *str,const char *setting,char *addstr)
+char *AS(char *str, const char *setting, char *addstr)
 {
-	if(str!=NULL) {
-		strcpy(str,setting);
-		strcat(str,addstr);
+	if (str != NULL) {
+		strcpy(str, setting);
+		strcat(str, addstr);
 	}
 	return str;
-};
-
-
-char *DBGetString(HANDLE hContact,const char *szModule,const char *szSetting);
-
+}
 
 #define TTB_LAUNCHSERVICE "TTB/LaunchSerice"
 //wparam -id
@@ -130,16 +129,37 @@ char *DBGetString(HANDLE hContact,const char *szModule,const char *szSetting);
 #define TTB_REMOVELBUTTON "TTB/RemoveLButton"
 #define MYMIRANDABUTTONCLASS "MyMIRANDABUTTONCLASS"
 
+int LoadInternalButtons( HWND );
+int UnLoadInternalButtons( void );
+int LoadButtonModule( void );
+
+int SetAllBitmaps( void );
+int SaveAllLButs( void );
+int SaveAllButtonsOptions( void );
+int SaveAllSeparators( void );
 
 int InitLBut();
 int UnInitLBut();
 
+void lockbut();
+void ulockbut();
+int applyuserbitmaps( int );
+
+INT_PTR TTBAddButton(WPARAM, LPARAM);
+INT_PTR TTBRemoveButton(WPARAM, LPARAM);
+INT_PTR DeleteLBut(WPARAM, LPARAM);
+INT_PTR ModifyLButton(WPARAM, LPARAM);
+INT_PTR GetLButton(WPARAM, LPARAM);
+
+INT_PTR InsertLBut(int id);
+
 typedef struct 
 {
-int hframe;
-char *lpath;
-char *name;
-}LBUTOPT;
+	int hframe;
+	char *lpath;
+	char *name;
+}
+	LBUTOPT;
 
 int LoadCLCButtonModule(void);
 #define BM_SETPRIVATEICON (WM_USER + 6)
