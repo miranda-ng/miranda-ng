@@ -217,7 +217,7 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 		xsc->stzText = mir_tstrdup(buff);
 	}
 
-	TCHAR *Template;
+	TCHAR *Template = _T("");
 	switch (xsc->action)
 	{
 		case NOTIFY_NEW_XSTATUS:
@@ -226,6 +226,8 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 			Template = templates.PopupNewMsg; break;
 		case NOTIFY_REMOVE:
 			Template = templates.PopupRemove; break;
+		case NOTIFY_OPENING_ML:
+			Template = templates.LogOpening; break;
 	}
 
 	TCHAR stzPopupText[2*MAX_TEXT_LEN]; 
@@ -264,7 +266,7 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		xsc->stzText = mir_tstrdup(buff);
 	}
 
-	TCHAR *Template;
+	TCHAR *Template = _T("");
 	switch (xsc->action)
 	{
 		case NOTIFY_NEW_XSTATUS:
