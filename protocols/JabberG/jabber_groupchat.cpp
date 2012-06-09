@@ -328,7 +328,7 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 			_tzset();
 			lasteventtime += _timezone + 1;
 			struct tm* time = localtime(&lasteventtime);
-			TCHAR lasteventdate[20];
+			TCHAR lasteventdate[40];
 			mir_sntprintf(lasteventdate, SIZEOF(lasteventdate), _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
 				time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
 			x << XCHILD( _T("history") ) << XATTR( _T("since"), lasteventdate);
