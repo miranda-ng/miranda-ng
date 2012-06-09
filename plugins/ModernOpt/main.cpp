@@ -38,7 +38,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInterfaces - returns the protocol interface to the core
 
-static const MUUID interfaces[] = { MIID_MODERNOPTS, MIID_LAST };
+static const MUUID interfaces[] = {{ 0x621f886b, 0xa7f6, 0x457f, { 0x9d, 0x62, 0x8e, 0xe8, 0x4c, 0x27, 0x59, 0x93 }}, MIID_LAST };
 
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
