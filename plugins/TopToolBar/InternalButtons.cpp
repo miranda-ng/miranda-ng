@@ -125,7 +125,8 @@ INT_PTR TTBInternalSoundsOnOff(WPARAM wParam, LPARAM lParam)
 
 int UnLoadInternalButtons()
 {
-	if (hSettingChangedHook){UnhookEvent(hSettingChangedHook);}
+	if (hSettingChangedHook)
+		UnhookEvent(hSettingChangedHook);
 	return 0;
 }
 
@@ -207,16 +208,16 @@ int LoadInternalButtons(HWND hwnd)
 {
 	hwndContactTree = hwnd;
 	hSettingChangedHook = 0;
-	CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide);
-	CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff);
+	arServices.insert( CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide));
+	arServices.insert( CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff));
 
-	CreateServiceFunction(TTBI_OPTIONSBUTT, TTBInternalOptionsButt);
-	CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt);
+	arServices.insert( CreateServiceFunction(TTBI_OPTIONSBUTT, TTBInternalOptionsButt));
+	arServices.insert( CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt));
 
-	CreateServiceFunction(TTBI_MINIMIZEBUTT, TTBInternalMinimizeButt);
-	CreateServiceFunction(TTBI_FINDADDBUTT, TTBInternalFindAddButt);
+	arServices.insert( CreateServiceFunction(TTBI_MINIMIZEBUTT, TTBInternalMinimizeButt));
+	arServices.insert( CreateServiceFunction(TTBI_FINDADDBUTT, TTBInternalFindAddButt));
 
-	CreateServiceFunction("TEST1", test);
+	arServices.insert( CreateServiceFunction("TEST1", test));
 
 	ShowOnline = DBGetContactSettingByte(NULL, "CList", "HideOffline", 0);
 	ShowGroups = DBGetContactSettingByte(NULL, "CList", "UseGroups", 2);
@@ -283,16 +284,16 @@ int LoadInternalButtons(HWND hwnd)
 	hMainMenuBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hOnlineBut), 
-		(LPARAM)((ShowOnline)?Translate("Hide Offline Users"):Translate("Show All Users")));
+		(LPARAM)((ShowOnline) ? "Hide Offline Users" : "Show All Users" ));
 
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hGroupBut), 
-		(LPARAM)((ShowGroups)?Translate("Hide Groups"):Translate("Show Groups")));
+		(LPARAM)((ShowGroups) ? "Hide Groups" : "Show Groups" ));
 
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hSoundsBut), 
-		(LPARAM)((SoundsEnabled)?Translate("Disable Sounds"):Translate("Enable Sounds")));
+		(LPARAM)((SoundsEnabled) ? "Disable Sounds" : "Enable Sounds" ));
 
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hOptionsBut), 
-		(LPARAM)Translate("Show Options"));
+		(LPARAM)"Show Options");
 
 	return 0;
 }

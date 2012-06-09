@@ -138,7 +138,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			else {
 				HBRUSH hbr;
 				
-				if (ctl->stateId==PBS_PRESSED||ctl->stateId==PBS_HOT)
+				if (ctl->stateId==PBS_PRESSED || ctl->stateId==PBS_HOT)
 					hbr = GetSysColorBrush(COLOR_3DLIGHT);
 				else {
 					HDC dc;
@@ -153,7 +153,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 					FillRect(hdcMem, &rcClient, hbr);
 					DeleteObject(hbr);
 				}
-				if (ctl->stateId==PBS_HOT||ctl->focus) {
+				if (ctl->stateId==PBS_HOT || ctl->focus) {
 					if (ctl->pbState)
 						DrawEdge(hdcMem,&rcClient, EDGE_ETCHED,BF_RECT|BF_SOFT);
 					else DrawEdge(hdcMem,&rcClient, BDR_RAISEDOUTER,BF_RECT|BF_SOFT|BF_FLAT);
@@ -224,7 +224,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			SetBkMode(hdcMem, TRANSPARENT);
 			HFONT hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 			// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-			SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd)||!ctl->hThemeButton?GetSysColor(COLOR_BTNTEXT):GetSysColor(COLOR_GRAYTEXT));
+			SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton?GetSysColor(COLOR_BTNTEXT):GetSysColor(COLOR_GRAYTEXT));
 			GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
 			if (ctl->cHot) {
 				SIZE szHot;
@@ -235,7 +235,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 				DrawState(hdcMem,NULL,NULL,(LPARAM)ctl->arrow,0,rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+(!ctl->hThemeButton&&ctl->stateId==PBS_PRESSED?1:0),(rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton&&ctl->stateId==PBS_PRESSED?1:0),GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
 			}
 			SelectObject(hdcMem, ctl->hFont);
-			DrawState(hdcMem,NULL,NULL,(LPARAM)szText,0,(rcText.right-rcText.left-sz.cx)/2+(!ctl->hThemeButton&&ctl->stateId==PBS_PRESSED?1:0),ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId==PBS_PRESSED?0:1),sz.cx,sz.cy,IsWindowEnabled(ctl->hwnd)||ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
+			DrawState(hdcMem,NULL,NULL,(LPARAM)szText,0,(rcText.right-rcText.left-sz.cx)/2+(!ctl->hThemeButton&&ctl->stateId==PBS_PRESSED?1:0),ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId==PBS_PRESSED?0:1),sz.cx,sz.cy,IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
 			SelectObject(hdcMem, hOldFont);
 		}
 		BitBlt(hdcPaint, 0, 0, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top, hdcMem, 0, 0, SRCCOPY);
@@ -249,7 +249,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	MButtonCtrl* bct =  (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
 	switch(msg) {
-		case WM_NCCREATE:
+	case WM_NCCREATE:
 		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE)|BS_OWNERDRAW);
 		bct = (MButtonCtrl*)malloc(sizeof(MButtonCtrl));
 		if (bct == NULL)
@@ -403,7 +403,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId = (UINT)bct->hwnd;
 			ti.lpszText = ( LPTSTR )wParam;
-			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
+			SendMessage(hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
 			LeaveCriticalSection(&csTips);
 		}
 		break;
@@ -502,16 +502,12 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			free(bct);
 		}
 		SetWindowLongPtr(hwndDlg,0,(LONG)NULL);
-		break;	// DONT! fall thru
+		break;
 	}
 	return DefWindowProc(hwndDlg, msg, wParam, lParam);
 }
 
-int UnloadButtonModule(WPARAM wParam, LPARAM lParam)
-{
-	DeleteCriticalSection(&csTips);
-	return 0;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int LoadButtonModule(void)
 {
@@ -524,7 +520,15 @@ int LoadButtonModule(void)
 	wc.hbrBackground  = 0;
 	wc.style          = CS_GLOBALCLASS;
 	RegisterClassEx(&wc);
+
 	InitializeCriticalSection(&csTips);
-	HookEvent(ME_SYSTEM_SHUTDOWN, UnloadButtonModule);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int UnloadButtonModule()
+{
+	DeleteCriticalSection(&csTips);
 	return 0;
 }

@@ -30,7 +30,7 @@ int InsertSeparator(int id)
 
 INT_PTR DeleteSeparator(WPARAM id, LPARAM lParam)
 {
-	if ((id<0)||(id >= MAXSEPS)) {
+	if ((id<0) || (id >= MAXSEPS)) {
 		MessageBoxA(0, "Wrong id", "Error", 0);
 		return 0;
 	}

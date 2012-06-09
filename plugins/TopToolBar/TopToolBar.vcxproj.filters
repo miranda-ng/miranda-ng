@@ -156,9 +156,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CLCButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InternalButtons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -175,6 +172,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="toolbar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

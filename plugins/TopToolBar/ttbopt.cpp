@@ -299,7 +299,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 		}
 
-		if ((HIWORD(wParam) == BN_CLICKED|| HIWORD(wParam) == BN_DBLCLK)) {
+		if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == BN_DBLCLK)) {
 			int ctrlid = LOWORD(wParam);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
@@ -386,9 +386,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TVITEM tvi;
 				memset(&tvi, 0, sizeof(tvi));
 				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
-				if (tvi.hItem == NULL){break;}
+				if (tvi.hItem == NULL)
+					break;
 
-				//MessageBoxA(0, "GetSelItem", "log", 0);
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				
 				int curselect = ((ButtonOptData *)tvi.lParam)->pos; 
 				if ( curselect >= 0 && curselect < nButtonsCount ) {
-					if (Buttons[curselect].dwFlags&TTBBF_ISSEPARATOR) {
+					if (Buttons[curselect].dwFlags & TTBBF_ISSEPARATOR) {
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 						CallService(TTB_REMOVESEPARATOR, Buttons[curselect].lParamDown, 0);
 					}
@@ -434,9 +434,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 		}
 
-		if ((HIWORD(wParam) == STN_CLICKED|| HIWORD(wParam) == STN_DBLCLK)) {
+		if ((HIWORD(wParam) == STN_CLICKED || HIWORD(wParam) == STN_DBLCLK)) {
 			int ctrlid = LOWORD(wParam);
-			if (ctrlid == IDC_BMPUP||ctrlid == IDC_BMPDN) {
+			if (ctrlid == IDC_BMPUP || ctrlid == IDC_BMPDN) {
 				TVITEM tvi;
 				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
 				if (tvi.hItem == NULL)
@@ -521,7 +521,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		case IDC_BUTTONORDERTREE:
 			switch (((LPNMHDR)lParam)->code) {
-			case TVN_BEGINDRAG:
+			case TVN_BEGINDRAGA:
+			case TVN_BEGINDRAGW:
 				SetCapture(hwndDlg);
 				dat->dragging = 1;
 				dat->hDragItem = ((LPNMTREEVIEW)lParam)->itemNew.hItem;
@@ -566,8 +567,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BMPDN), FALSE);							
 
 					SetImagesForCurrent(hwndDlg, ((ButtonOptData *)tvi.lParam)->pos);
-					//PostMessage(GetDlgItem(hwndDlg, IDC_BMPUP), STM_SETIMAGE, IMAGE_BITMAP, Buttons[((ButtonOptData *)tvi.lParam)->pos].hbBitmapUp);
-					//PostMessage(GetDlgItem(hwndDlg, IDC_BMPDN), STM_SETIMAGE, IMAGE_BITMAP, Buttons[((ButtonOptData *)tvi.lParam)->pos].hbBitmapDown);
 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), FALSE);
 					if (Buttons[((ButtonOptData *)tvi.lParam)->pos].dwFlags&TTBBF_ISSEPARATOR)
@@ -682,11 +681,11 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
 	odp.hInstance = hInst;
-	odp.pszGroup = Translate("TopToolBar");
+	odp.pszGroup = LPGEN("TopToolBar");
 
 	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {	
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TTBBKG);
-		odp.pszTitle = Translate("TTBBackground");
+		odp.pszTitle = LPGEN("TTBBackground");
 		odp.pfnDlgProc = DlgProcTTBBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
 		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
@@ -695,10 +694,10 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.position = -1000000000;
-	odp.hInstance = hInst;//GetModuleHandle(NULL);
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
-	odp.pszGroup = Translate("TopToolBar");
-	odp.pszTitle = Translate("Buttons");
+	odp.pszGroup = LPGEN("TopToolBar");
+	odp.pszTitle = LPGEN("Buttons");
 	odp.pfnDlgProc = ButOrderOpts;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);

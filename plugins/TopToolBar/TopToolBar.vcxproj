@@ -290,13 +290,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="button.cpp" />
-    <ClCompile Include="CLCButton.cpp" />
     <ClCompile Include="InternalButtons.cpp" />
     <ClCompile Include="launchbt.cpp" />
     <ClCompile Include="main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="separators.cpp" />
+    <ClCompile Include="toolbar.cpp" />
     <ClCompile Include="ttbopt.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

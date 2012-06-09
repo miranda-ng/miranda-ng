@@ -15,6 +15,7 @@
 #include "win2k.h"
 #include "newpluginapi.h"
 #include "m_system.h"
+#include "m_system_cpp.h"
 #include "m_database.h"
 #include "m_clist.h"
 #include "m_skin.h"
@@ -94,8 +95,11 @@ struct ButtonOptData
 	bool show;
 };
 
-extern bool OptionsOpened;
-extern HWND OptionshWnd;			
+extern bool OptionsOpened, UseIcoLib, StopArrange;
+extern HWND OptionshWnd;
+extern HANDLE hHookTTBModuleLoaded;
+extern HINSTANCE hInst;
+extern LIST<void> arHooks, arServices;
 
 int OptionsPageRebuild();
 void lockbut();
@@ -132,7 +136,14 @@ char *AS(char *str, const char *setting, char *addstr)
 
 int LoadInternalButtons( HWND );
 int UnLoadInternalButtons( void );
+
 int LoadButtonModule( void );
+int UnloadButtonModule( void );
+
+int LoadToolbarModule( void );
+int UnloadToolbarModule( void );
+
+int LoadAllSeparators( void );
 
 int SetAllBitmaps( void );
 int SaveAllLButs( void );
@@ -151,6 +162,10 @@ INT_PTR TTBRemoveButton(WPARAM, LPARAM);
 INT_PTR DeleteLBut(WPARAM, LPARAM);
 INT_PTR ModifyLButton(WPARAM, LPARAM);
 INT_PTR GetLButton(WPARAM, LPARAM);
+INT_PTR InsertNewFreeSeparator(WPARAM, LPARAM);
+INT_PTR DeleteSeparator(WPARAM, LPARAM);
+
+int OnModulesLoad(WPARAM, LPARAM);
 
 INT_PTR InsertLBut(int id);
 
@@ -161,7 +176,6 @@ struct LBUTOPT
 	char *name;
 };
 
-int LoadCLCButtonModule(void);
 #define BM_SETPRIVATEICON (WM_USER + 6)
 #define BM_SETIMLICON (WM_USER + 7)
 #define UseIcoLibDefaultValue 0

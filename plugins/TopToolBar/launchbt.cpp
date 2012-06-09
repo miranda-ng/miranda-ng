@@ -94,8 +94,7 @@ INT_PTR InsertLBut(int id)
 
 INT_PTR DeleteLBut(WPARAM id, LPARAM lParam)
 {
-	if (LBUTS[id].hframe != 0)
-	{
+	if (LBUTS[id].hframe != 0) {
 		TTBRemoveButton(LBUTS[id].hframe, 0);
 		LBUTS[id].hframe = 0;
 		if (LBUTS[id].name != NULL){free(LBUTS[id].name);}
@@ -170,8 +169,7 @@ INT_PTR InsertNewFreeLBut(WPARAM wParam, LPARAM lParam)
 	char buf[256];
 	if (LButCnt < MAXLBUTS) {
 		for (int i = 0;i<MAXLBUTS;i++) {
-			if (LBUTS[i].hframe == 0)
-			{
+			if (LBUTS[i].hframe == 0) {
 				wsprintfA(buf, "%s %d", Translate("Default"), i);
 				LBUTS[i].name = _strdup(buf);
 				LBUTS[i].lpath = _tcsdup( _T("Execute Path"));
@@ -187,17 +185,16 @@ INT_PTR InsertNewFreeLBut(WPARAM wParam, LPARAM lParam)
 
 int InitLBut()
 {
-	CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService);
-	CreateServiceFunction(TTB_ADDLBUTTON, InsertNewFreeLBut);
-	CreateServiceFunction(TTB_REMOVELBUTTON, DeleteLBut);
-	CreateServiceFunction(TTB_MODIFYLBUTTON, ModifyLButton);
-	CreateServiceFunction(TTB_GETLBUTTON, GetLButton);
-	
-
+	arServices.insert( CreateServiceFunction(TTB_LAUNCHSERVICE, LaunchService));
+	arServices.insert( CreateServiceFunction(TTB_ADDLBUTTON, InsertNewFreeLBut));
+	arServices.insert( CreateServiceFunction(TTB_REMOVELBUTTON, DeleteLBut));
+	arServices.insert( CreateServiceFunction(TTB_MODIFYLBUTTON, ModifyLButton));
+	arServices.insert( CreateServiceFunction(TTB_GETLBUTTON, GetLButton));
 
 	LoadAllLButs();
 	return 0;
 }
+
 int UnInitLBut()
 {
 	SaveAllLButs();	

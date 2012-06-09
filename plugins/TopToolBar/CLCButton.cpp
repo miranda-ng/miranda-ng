@@ -603,15 +603,16 @@ int LoadCLCButtonModule(void)
 	g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
 	g_cysmIcon = GetSystemMetrics(SM_CYSMICON);
 
-	WNDCLASSEXA wc = { 0 };
+	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
-	wc.lpszClassName = "CLCButtonClass";
+	wc.lpszClassName = _T("CLCButtonClass");
 	wc.lpfnWndProc = TSButtonWndProc;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.cbWndExtra = sizeof(MButtonCtrl *);
 	wc.hbrBackground = 0;
 	wc.style = CS_GLOBALCLASS;
-	RegisterClassExA(&wc);
+	RegisterClassEx(&wc);
+
 	InitializeCriticalSection(&csTips);
 	return 0;
 }
