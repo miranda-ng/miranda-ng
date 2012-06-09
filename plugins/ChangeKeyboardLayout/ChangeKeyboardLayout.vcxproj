@@ -174,7 +174,6 @@
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="hook_events.h" />
-    <ClInclude Include="m_changekeyboardlayout.h" />
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="text_operations.h" />
