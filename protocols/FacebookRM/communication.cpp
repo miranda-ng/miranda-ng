@@ -34,7 +34,7 @@ http::response facebook_client::flap( const int request_type, std::string* reque
 	std::string url = choose_request_url( request_type, request_data, request_get_data );
 	nlhr.szUrl = (char*)url.c_str( );
 	nlhr.flags = NLHRF_HTTP11 | NLHRF_NODUMP | choose_security_level( request_type );
-	nlhr.headers = get_request_headers( request_type, &nlhr.headersCount );
+	nlhr.headers = get_request_headers( nlhr.requestType, &nlhr.headersCount );
 	
 	switch (request_type)
 	{
@@ -234,6 +234,7 @@ DWORD facebook_client::choose_security_level( int request_type )
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
 //	case FACEBOOK_REQUEST_REQUEST_FRIEND:
 //	case FACEBOOK_REQUEST_APPROVE_FRIEND:
+//	case FACEBOOK_REQUEST_CANCEL_REQUEST:
 //	case FACEBOOK_REQUEST_FEEDS:
 //	case FACEBOOK_REQUEST_NOTIFICATIONS:
 //	case FACEBOOK_REQUEST_RECONNECT:
@@ -266,6 +267,7 @@ int facebook_client::choose_method( int request_type )
 	case FACEBOOK_REQUEST_DELETE_FRIEND:
 	case FACEBOOK_REQUEST_REQUEST_FRIEND:
 	case FACEBOOK_REQUEST_APPROVE_FRIEND:
+	case FACEBOOK_REQUEST_CANCEL_REQUEST:
 		return REQUEST_POST;
 
 //	case FACEBOOK_REQUEST_HOME:
@@ -283,40 +285,10 @@ int facebook_client::choose_method( int request_type )
 
 std::string facebook_client::choose_proto( int request_type )
 {
-	if (this->https_) {
-		if ( request_type != FACEBOOK_REQUEST_MESSAGES_RECEIVE
-			|| DBGetContactSettingByte( NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL ) )
-			return HTTP_PROTO_SECURE;
-	}			
-
-	switch ( request_type )
-	{
-//	case FACEBOOK_REQUEST_LOGOUT:
-//	case FACEBOOK_REQUEST_HOME:
-//	case FACEBOOK_REQUEST_FEEDS:
-//	case FACEBOOK_REQUEST_NOTIFICATIONS:
-//	case FACEBOOK_REQUEST_RECONNECT:
-//	case FACEBOOK_REQUEST_BUDDY_LIST:
-//	case FACEBOOK_REQUEST_LOAD_FRIENDS:
-//	case FACEBOOK_REQUEST_LOAD_REQUESTS:
-//	case FACEBOOK_REQUEST_SEARCH:
-//	case FACEBOOK_REQUEST_STATUS_SET:
-//	case FACEBOOK_REQUEST_MESSAGE_SEND:
-//	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
-//	case FACEBOOK_REQUEST_VISIBILITY:
-//	case FACEBOOK_REQUEST_TABS:
-//	case FACEBOOK_REQUEST_ASYNC:
-//	case FACEBOOK_REQUEST_TYPING_SEND:
-//  case FACEBOOK_REQUEST_DELETE_FRIEND:
-//	case FACEBOOK_REQUEST_REQUEST_FRIEND:
-//	case FACEBOOK_REQUEST_APPROVE_FRIEND:
-	default:
-		return HTTP_PROTO_REGULAR;
-
-	case FACEBOOK_REQUEST_LOGIN:
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
+	if (choose_security_level(request_type) == NLHRF_SSL)
 		return HTTP_PROTO_SECURE;
-	}
+	else
+		return HTTP_PROTO_REGULAR;	
 }
 
 std::string facebook_client::choose_server( int request_type, std::string* data, std::string* get_data )
@@ -358,6 +330,7 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 //	case FACEBOOK_REQUEST_SETUP_MACHINE:
 //  case FACEBOOK_REQUEST_DELETE_FRIEND:
 //	case FACEBOOK_REQUEST_REQUEST_FRIEND:
+//	case FACEBOOK_REQUEST_CANCEL_REQUEST:
 	default:
 		return FACEBOOK_SERVER_REGULAR;
 	}
@@ -420,6 +393,11 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 			action += "&" + (*get_data);
 		}
 		return action;
+	}
+
+	case FACEBOOK_REQUEST_CANCEL_REQUEST:
+	{
+		return "/ajax/friends/requests/cancel.php?__a=1";
 	}
 
 	case FACEBOOK_REQUEST_FEEDS:
@@ -508,72 +486,27 @@ std::string facebook_client::choose_request_url( int request_type, std::string* 
 
 NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* headers_count )
 {
-	switch ( request_type )
-	{
-	case FACEBOOK_REQUEST_LOGIN:
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
-	case FACEBOOK_REQUEST_BUDDY_LIST:
-	case FACEBOOK_REQUEST_LOAD_FRIENDS:
-	case FACEBOOK_REQUEST_LOAD_REQUESTS:
-	case FACEBOOK_REQUEST_SEARCH:
-	case FACEBOOK_REQUEST_STATUS_SET:
-	case FACEBOOK_REQUEST_MESSAGE_SEND:
-	case FACEBOOK_REQUEST_VISIBILITY:
-	case FACEBOOK_REQUEST_TABS:
-	case FACEBOOK_REQUEST_ASYNC:
-	case FACEBOOK_REQUEST_TYPING_SEND:
-	case FACEBOOK_REQUEST_DELETE_FRIEND:
-	case FACEBOOK_REQUEST_REQUEST_FRIEND:
-	case FACEBOOK_REQUEST_APPROVE_FRIEND:
+	if (request_type == REQUEST_POST)
 		*headers_count = 5;
-		break;
-
-	case FACEBOOK_REQUEST_HOME:
-	case FACEBOOK_REQUEST_FEEDS:
-	case FACEBOOK_REQUEST_NOTIFICATIONS:
-	case FACEBOOK_REQUEST_RECONNECT:
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
-	default:
+	else
 		*headers_count = 4;
-		break;
-	}
 
 	NETLIBHTTPHEADER* headers = ( NETLIBHTTPHEADER* )utils::mem::allocate( sizeof( NETLIBHTTPHEADER )*( *headers_count ) );
 
-	switch ( request_type )
+	if (request_type == REQUEST_POST)
 	{
-	case FACEBOOK_REQUEST_LOGIN:
-	case FACEBOOK_REQUEST_SETUP_MACHINE:
-	case FACEBOOK_REQUEST_BUDDY_LIST:
-	case FACEBOOK_REQUEST_LOAD_FRIENDS:
-	case FACEBOOK_REQUEST_LOAD_REQUESTS:
-	case FACEBOOK_REQUEST_SEARCH:
-	case FACEBOOK_REQUEST_STATUS_SET:
-	case FACEBOOK_REQUEST_MESSAGE_SEND:
-	case FACEBOOK_REQUEST_VISIBILITY:
-	case FACEBOOK_REQUEST_TABS:
-	case FACEBOOK_REQUEST_ASYNC:
-	case FACEBOOK_REQUEST_TYPING_SEND:
-	case FACEBOOK_REQUEST_DELETE_FRIEND:
-	case FACEBOOK_REQUEST_REQUEST_FRIEND:
-	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 		headers[4].szName = "Content-Type";
 		headers[4].szValue = "application/x-www-form-urlencoded; charset=utf-8";
-
-	case FACEBOOK_REQUEST_HOME:
-	case FACEBOOK_REQUEST_RECONNECT:
-	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
-	default:
-		headers[3].szName = "Cookie";
-		headers[3].szValue = load_cookies( );
-		headers[2].szName = "User-Agent";
-		headers[2].szValue = (char *)g_strUserAgent.c_str( );
-		headers[1].szName = "Accept";
-		headers[1].szValue = "*/*";
-		headers[0].szName = "Accept-Language";
-		headers[0].szValue = "en,en-US;q=0.9";
-		break;
 	}
+
+	headers[3].szName = "Cookie";
+	headers[3].szValue = load_cookies( );
+	headers[2].szName = "User-Agent";
+	headers[2].szValue = (char *)g_strUserAgent.c_str( );
+	headers[1].szName = "Accept";
+	headers[1].szValue = "*/*";
+	headers[0].szName = "Accept-Language";
+	headers[0].szValue = "en,en-US;q=0.9";
 
 	return headers;
 }

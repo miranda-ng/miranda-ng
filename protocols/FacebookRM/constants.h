@@ -93,12 +93,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_REQUEST_SEARCH                 111 // searching 
 #define FACEBOOK_REQUEST_BUDDY_LIST             120 // getting regular updates (friends online, ...)
 #define FACEBOOK_REQUEST_LOAD_FRIENDS			121 // getting list of all friends
-#define FACEBOOK_REQUEST_DELETE_FRIEND			122 // deleting friends
-#define FACEBOOK_REQUEST_REQUEST_FRIEND			123 // requesting friends
-#define FACEBOOK_REQUEST_APPROVE_FRIEND			124 // approving friends
-#define FACEBOOK_REQUEST_FEEDS                  125 // getting feeds
-#define FACEBOOK_REQUEST_NOTIFICATIONS			126 // getting notifications
-#define FACEBOOK_REQUEST_LOAD_REQUESTS			127 // getting friend requests
+#define FACEBOOK_REQUEST_FEEDS                  122 // getting feeds
+#define FACEBOOK_REQUEST_NOTIFICATIONS			123 // getting notifications
+#define FACEBOOK_REQUEST_LOAD_REQUESTS			125 // getting friend requests
+#define FACEBOOK_REQUEST_REQUEST_FRIEND			126 // requesting friends
+#define FACEBOOK_REQUEST_APPROVE_FRIEND			127 // approving friends
+#define FACEBOOK_REQUEST_DELETE_FRIEND			128 // deleting friends
+#define FACEBOOK_REQUEST_CANCEL_REQUEST			129 // cancel friends request
 #define FACEBOOK_REQUEST_RECONNECT              130 // getting __sequence_num__ and __channel_id__
 #define FACEBOOK_REQUEST_STATUS_SET             251 // setting my "What's on my mind?"
 #define FACEBOOK_REQUEST_MESSAGE_SEND           300 // sending message

@@ -34,5 +34,6 @@ void EnableMenuItem(HANDLE hMenuItem, bool enable);
 #define CMI_AUTH_REVOKE 1
 #define CMI_AUTH_ASK 2
 #define CMI_AUTH_GRANT 3
+#define CMI_AUTH_CANCEL 4
 
-#define CMITEMS_COUNT 4
+#define CMITEMS_COUNT 5

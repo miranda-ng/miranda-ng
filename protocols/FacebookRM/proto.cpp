@@ -64,7 +64,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	mir_sntprintf(descr,SIZEOF(descr),TranslateT("%s server connection"),m_tszUserName);
 	nlu.ptszDescriptiveName = descr;
 	m_hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
-	if(m_hNetlibUser == NULL)
+	if (m_hNetlibUser == NULL)
 		MessageBox(NULL,TranslateT("Unable to get Netlib connection for Facebook"),m_tszUserName,MB_OK);
 
 	facy.set_handle(m_hNetlibUser);
@@ -111,7 +111,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 {
 	switch(type)
 	{
-	case PFLAGNUM_1: // TODO: Other caps available: PF1_BASICSEARCH, PF1_SEARCHBYEMAIL
+	case PFLAGNUM_1:
 	{
 		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 		
@@ -143,7 +143,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 
 HICON FacebookProto::GetIcon(int index)
 {
-	if(LOWORD(index) == PLI_PROTOCOL)
+	if (LOWORD(index) == PLI_PROTOCOL)
 	{
 		HICON ico = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)"Facebook_facebook");
 		return CopyIcon(ico);
@@ -433,7 +433,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
 
 	odp.position    = 271830;
-	if(ServiceExists(MS_POPUP_ADDPOPUPT))
+	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 		odp.ptszGroup   = LPGENT("Popups");
 	odp.ptszTab     = LPGENT("Events");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_EVENTS);
@@ -551,6 +551,17 @@ int FacebookProto::ApproveFriendship(WPARAM wParam,LPARAM lParam)
 
 	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
 	ForkThread( &FacebookProto::ApproveContactToServer, this, ( void* )hContact );
+
+	return 0;
+}
+
+int FacebookProto::OnCancelFriendshipRequest(WPARAM wParam,LPARAM lParam)
+{
+	if (wParam == NULL || isOffline())
+		return 0;
+
+	HANDLE *hContact = new HANDLE(reinterpret_cast<HANDLE>(wParam));
+	ForkThread( &FacebookProto::CancelFriendsRequest, this, ( void* )hContact );
 
 	return 0;
 }

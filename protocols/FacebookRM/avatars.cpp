@@ -180,11 +180,19 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATION* AI = ( PROTO_AVATAR_INFORMATION* )lParam;
+	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	if (GetDbAvatarInfo(*AI, NULL))
 	{
-		if (_access(AI->filename, 0) || (wParam & GAIF_FORCE))
+		bool fileExist = _access(AI->filename, 0) == 0;
+		
+		bool needLoad;
+		if (AI->hContact)
+			needLoad = (wParam & GAIF_FORCE) && (!fileExist || DBGetContactSettingByte(AI->hContact, "ContactPhoto", "NeedUpdate", 0));
+		else
+			needLoad = (wParam & GAIF_FORCE) || !fileExist;
+
+		if (needLoad)
 		{												
 			LOG("***** Starting avatar request thread for %s", AI->filename);
 			ScopedLock s( avatar_lock_ );
@@ -196,12 +204,11 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 				if (is_empty)
 					ForkThread(&FacebookProto::UpdateAvatarWorker, this, NULL);
 			}
-			
 			return GAIR_WAITFOR;
 		}
+		else if (fileExist)
+			return GAIR_SUCCESS;
 
-		LOG("***** Giving AvatarInfo: %s", AI->filename);
-		return GAIR_SUCCESS;
 	}
 	return GAIR_NOAVATAR;
 }

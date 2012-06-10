@@ -119,6 +119,7 @@ public:
 	int  __cdecl CancelFriendship(WPARAM, LPARAM );
 	int  __cdecl RequestFriendship(WPARAM, LPARAM );
 	int  __cdecl ApproveFriendship(WPARAM, LPARAM );
+	int  __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM );
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -162,6 +163,7 @@ public:
 	void __cdecl DeleteContactFromServer(void*);
 	void __cdecl AddContactToServer(void*);
 	void __cdecl ApproveContactToServer(void*);	
+	void __cdecl CancelFriendsRequest(void*);
 
 	// Contacts handling
 	bool    IsMyContact(HANDLE, bool include_chat = false);
