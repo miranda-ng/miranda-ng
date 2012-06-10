@@ -54,8 +54,7 @@ MirandaContact::~MirandaContact()
 
 void MirandaContact::initialize()
 {
-    CreateServiceFunction(
-        MENU_COMMAND_CALLBACK_SERVICE,onMenuCommandTransliterate);
+    CreateServiceFunction(MENU_COMMAND_CALLBACK_SERVICE,onMenuCommandTransliterate);
     generateMenuItemsForAllContacts();
     
     HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPreBuildContactMenu);
@@ -148,7 +147,7 @@ void MirandaContact::activateTransliterationProtocolForSubscribedContacts()
 
 //------------------------------------------------------------------------------
 
-int MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
+INT_PTR MirandaContact::onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam)
 {
     HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
     if(!CallService(MS_DB_CONTACT_IS, wParam, 0)) return 0;

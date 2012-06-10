@@ -31,34 +31,34 @@ namespace CyrTranslit
 class TransliterationProtocol
 {
 public:
-    /**
-     * Initializes this protocol on Miranda start-up.
-     */
-    static void initialize();
-    
-    /**
-     * A call-back function called when a new outgoing message must be
-     * transferred by this protocol.
-     *
-     * @param wParam flags
-     * @param lParam (LPARAM)(const char*)szMessage
-     * @return a hProcess corresponding to the one in the ack event.
-     */
-    static int sendMessageA(WPARAM wParam, LPARAM lParam);
-    static int sendMessageW(WPARAM wParam, LPARAM lParam);
+	/**
+	* Initializes this protocol on Miranda start-up.
+	*/
+	static void initialize();
+
+	/**
+	* A call-back function called when a new outgoing message must be
+	* transferred by this protocol.
+	*
+	* @param wParam flags
+	* @param lParam (LPARAM)(const char*)szMessage
+	* @return a hProcess corresponding to the one in the ack event.
+	*/
+	static INT_PTR sendMessageA(WPARAM wParam, LPARAM lParam);
+	static INT_PTR sendMessageW(WPARAM wParam, LPARAM lParam);
 
 	static void TranslateMessageA(WPARAM wParam, LPARAM lParam);
- 	static void TranslateMessageW(WPARAM wParam, LPARAM lParam);
- 	static void TranslateMessageUTF(WPARAM wParam, LPARAM lParam);
-   
-    static void activateForContact(HANDLE hContact);
-    static void deactivateForContact(HANDLE hContact);
+	static void TranslateMessageW(WPARAM wParam, LPARAM lParam);
+	static void TranslateMessageUTF(WPARAM wParam, LPARAM lParam);
+
+	static void activateForContact(HANDLE hContact);
+	static void deactivateForContact(HANDLE hContact);
 
 private:
-    static char *MODULE_NAME;
+	static char *MODULE_NAME;
 
-    TransliterationProtocol();
-    ~TransliterationProtocol();
+	TransliterationProtocol();
+	~TransliterationProtocol();
 };
 
 }

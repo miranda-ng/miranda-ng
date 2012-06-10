@@ -83,7 +83,7 @@ private:
      * @param lParam hwndContactList
      * @return Always returns 0.
      */
-    static int onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam);
+    static INT_PTR onMenuCommandTransliterate(WPARAM wParam, LPARAM lParam);
     
     /**
      * This is a service name to bind the onMenuCommandTransliterate() method to

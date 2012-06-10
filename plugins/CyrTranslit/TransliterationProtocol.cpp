@@ -97,7 +97,7 @@ void TransliterationProtocol::TranslateMessageA(WPARAM wParam, LPARAM lParam)
 	strcpy(reinterpret_cast<char*>(ccs->lParam), txt.c_str());
 }
 
-int TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
+INT_PTR TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
 {
     CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 	LPARAM oldlParam = ccs->lParam;
@@ -113,7 +113,7 @@ int TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
 }
 //------------------------------------------------------------------------------
 
-int TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
+INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
 {
     CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 	LPARAM oldlParam = ccs->lParam;
