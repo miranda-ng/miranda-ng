@@ -53,12 +53,12 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			HWND hList = GetDlgItem(hwndDlg, IDC_BKGRLIST);
 			TranslateDialogDefault(hwndDlg);
 
-			dat=(struct BkgrData*)mir_alloc(sizeof(struct BkgrData));
+			dat = (struct BkgrData*)mir_alloc(sizeof(struct BkgrData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->count = bkgrCount;
 			dat->item = (struct BkgrItem*)mir_alloc(sizeof(struct BkgrItem)*dat->count);
 			dat->indx = CB_ERR;
-			for(indx = 0; indx < dat->count; indx++)
+			for (indx = 0; indx < dat->count; indx++)
 			{
 				char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
 				int jndx;
@@ -87,15 +87,15 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_BKGRLIST, CBN_SELCHANGE), 0);
 			{
 				HRESULT (STDAPICALLTYPE *MySHAutoComplete)(HWND,DWORD);
-				MySHAutoComplete=(HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandleA("shlwapi"),"SHAutoComplete");
-				if(MySHAutoComplete) MySHAutoComplete(GetDlgItem(hwndDlg,IDC_FILENAME),1);
+				MySHAutoComplete = (HRESULT (STDAPICALLTYPE*)(HWND,DWORD))GetProcAddress(GetModuleHandleA("shlwapi"),"SHAutoComplete");
+				if (MySHAutoComplete) MySHAutoComplete(GetDlgItem(hwndDlg,IDC_FILENAME),1);
 			}
 			return TRUE;
 		}
 		case WM_DESTROY:
-			if(dat)
+			if (dat)
 			{
-				if(dat->item) mir_free(dat->item);
+				if (dat->item) mir_free(dat->item);
 				mir_free(dat);
 			}
 		
@@ -104,7 +104,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case M_BKGR_GETSTATE:
 		{
 			int indx = wParam;
-			if(indx == CB_ERR || indx >= dat->count) break;
+			if (indx == CB_ERR || indx >= dat->count) break;
 			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
 			dat->item[indx].useBitmap = IsDlgButtonChecked(hwndDlg,IDC_BITMAP);
@@ -113,13 +113,13 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename, sizeof(dat->item[indx].filename));
 			{
 				WORD flags = 0;
-				if(IsDlgButtonChecked(hwndDlg,IDC_STRETCHH)) flags |= CLB_STRETCHH;
-				if(IsDlgButtonChecked(hwndDlg,IDC_STRETCHV)) flags |= CLB_STRETCHV;
-				if(IsDlgButtonChecked(hwndDlg,IDC_TILEH)) flags |= CLBF_TILEH;
-				if(IsDlgButtonChecked(hwndDlg,IDC_TILEV)) flags |= CLBF_TILEV;
-				if(IsDlgButtonChecked(hwndDlg,IDC_SCROLL)) flags |= CLBF_SCROLL;
-				if(IsDlgButtonChecked(hwndDlg,IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
-				if(IsDlgButtonChecked(hwndDlg,IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
+				if (IsDlgButtonChecked(hwndDlg,IDC_STRETCHH)) flags |= CLB_STRETCHH;
+				if (IsDlgButtonChecked(hwndDlg,IDC_STRETCHV)) flags |= CLB_STRETCHV;
+				if (IsDlgButtonChecked(hwndDlg,IDC_TILEH)) flags |= CLBF_TILEH;
+				if (IsDlgButtonChecked(hwndDlg,IDC_TILEV)) flags |= CLBF_TILEV;
+				if (IsDlgButtonChecked(hwndDlg,IDC_SCROLL)) flags |= CLBF_SCROLL;
+				if (IsDlgButtonChecked(hwndDlg,IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
+				if (IsDlgButtonChecked(hwndDlg,IDC_TILEVROWH)) flags |= CLBF_TILEVTOROWHEIGHT;
 				dat->item[indx].flags = flags;
 			}	
 			break;
@@ -128,7 +128,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			int indx = wParam;
 			int flags = dat->item[indx].flags;
-			if(indx == CB_ERR || indx >= dat->count) break;
+			if (indx == CB_ERR || indx >= dat->count) break;
 			indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);
 
 			CheckDlgButton(hwndDlg, IDC_BITMAP, dat->item[indx].useBitmap?BST_CHECKED:BST_UNCHECKED);
@@ -146,47 +146,6 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			CheckDlgButton(hwndDlg,IDC_SCROLL,flags&CLBF_SCROLL?BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg,IDC_PROPORTIONAL,flags&CLBF_PROPORTIONAL?BST_CHECKED:BST_UNCHECKED);
 			CheckDlgButton(hwndDlg,IDC_TILEVROWH,flags&CLBF_TILEVTOROWHEIGHT?BST_CHECKED:BST_UNCHECKED);
-/*
-			{
-				WORD visibility;
-				int cy = 55;
-				char *sz = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
-				sz += strlen(sz) + 1;
-				visibility = (WORD)~(*(DWORD*)(sz));
-//M_BKGR_BACKCOLOR,M_BKGR_SELECTCOLOR,M_BKGR_ALLOWBITMAPS,M_BKGR_STRETCH,M_BKGR_TILE}
-				if(visibility & M_BKGR_BACKCOLOR)
-				{
-					SetWindowPos(GetDlgItem(hwndDlg, IDC_BC_STATIC), 0,
-						20, cy,
-						0, 0,
-						SWP_NOACTIVATE|SWP_NOZORDER|SWP_NOSIZE);
-					SetWindowPos(GetDlgItem(hwndDlg, IDC_BKGCOLOUR), 0,
-						130, cy,
-						0, 0,
-						SWP_NOACTIVATE|SWP_NOZORDER|SWP_NOSIZE);
-					cy += 25;					
-				}
-				if(visibility & M_BKGR_SELECTCOLOR)
-				{
-					SetWindowPos(GetDlgItem(hwndDlg, IDC_SC_STATIC), 0,
-						20, cy,
-						0, 0,
-						SWP_NOACTIVATE|SWP_NOZORDER|SWP_NOSIZE);
-					SetWindowPos(GetDlgItem(hwndDlg, IDC_SELCOLOUR), 0,
-						130, cy,
-						0, 0,
-						SWP_NOACTIVATE|SWP_NOZORDER|SWP_NOSIZE);
-					cy += 25;					
-				}
-				ShowWindow(GetDlgItem(hwndDlg,IDC_STRETCHH),     visibility&CLB_STRETCHH?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg,IDC_STRETCHV),     visibility&CLB_STRETCHV?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg,IDC_TILEH),        visibility&CLBF_TILEH?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg,IDC_TILEV),        visibility&CLBF_TILEV?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg,IDC_SCROLL),       visibility&CLBF_SCROLL?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg,IDC_PROPORTIONAL), visibility&CLBF_PROPORTIONAL?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hwndDlg,IDC_TILEVROWH),    visibility&CLBF_TILEVTOROWHEIGHT?SW_SHOW:SW_HIDE);
-			}
-*/
 
 			SendMessage(hwndDlg, M_BKGR_UPDATE, 0,0);
 			break;
@@ -195,15 +154,15 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			int isChecked = IsDlgButtonChecked(hwndDlg,IDC_BITMAP);
 			int indx;
-			for(indx = 0; indx < ARRAY_SIZE(bitmapRelatedControls); indx++)
+			for (indx = 0; indx < ARRAY_SIZE(bitmapRelatedControls); indx++)
 				EnableWindow(GetDlgItem(hwndDlg, bitmapRelatedControls[indx]),isChecked);
 			break;
 		}
 		case WM_COMMAND:
-			if(LOWORD(wParam) == IDC_BROWSE)
+			if (LOWORD(wParam) == IDC_BROWSE)
 			{
 				char str[MAX_PATH];
-				OPENFILENAMEA ofn={0};
+				OPENFILENAMEA ofn = {0};
 				char filter[512];
 
 				GetDlgItemTextA(hwndDlg,IDC_FILENAME, str, sizeof(str));
@@ -221,14 +180,14 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 			}
 			else
-				if(LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE) break;
-			if(LOWORD(wParam) == IDC_BITMAP)
+				if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE) break;
+			if (LOWORD(wParam) == IDC_BITMAP)
 				SendMessage(hwndDlg, M_BKGR_UPDATE, 0,0);
-			if(LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
+			if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 				return 0;
-			if(LOWORD(wParam) == IDC_BKGRLIST)
+			if (LOWORD(wParam) == IDC_BKGRLIST)
 			{
-				if(HIWORD(wParam) == CBN_SELCHANGE)
+				if (HIWORD(wParam) == CBN_SELCHANGE)
 				{
 					SendMessage(hwndDlg, M_BKGR_GETSTATE, dat->indx, 0);
 					SendMessage(hwndDlg, M_BKGR_SETSTATE, dat->indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0), 0);
@@ -237,7 +196,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			{
 				int indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0);
-				if(indx != CB_ERR && indx < dat->count)
+				if (indx != CB_ERR && indx < dat->count)
 				{
 					indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);					
 					dat->item[indx].changed = TRUE;
@@ -256,8 +215,8 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						{
 							int indx;
 							SendMessage(hwndDlg, M_BKGR_GETSTATE, SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0), 0);
-							for(indx = 0; indx < dat->count; indx++)
-							if(dat->item[indx].changed)
+							for (indx = 0; indx < dat->count; indx++)
+							if (dat->item[indx].changed)
 							{
 								char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
 								DBWriteContactSettingByte(NULL, module, "UseBitmap", (BYTE)dat->item[indx].useBitmap);
@@ -307,7 +266,7 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam,LPARAM lParam)
 	value = (char *)mir_alloc(len + 4); // add room for flags (DWORD)
 	memcpy(value, szSetting, len);
 	tok = strchr(value, '/');
-	if(tok == NULL)
+	if (tok == NULL)
 	{
 		mir_free(value);
 		return 1;
@@ -353,11 +312,11 @@ int BGModuleLoad()
 
 int BGModuleUnload(void)
 {
-	if(bkgrList != NULL)
+	if (bkgrList != NULL)
 	{
 		int indx;
-		for(indx = 0; indx < bkgrCount; indx++)
-			if(bkgrList[indx] != NULL)
+		for (indx = 0; indx < bkgrCount; indx++)
+			if (bkgrList[indx] != NULL)
 				mir_free(bkgrList[indx]);
 		mir_free(bkgrList);
 	}

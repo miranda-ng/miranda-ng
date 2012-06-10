@@ -127,7 +127,6 @@ struct ClcData {
 
 	DWORD style;
 	SortedList lCLCContactsCache;
-	BYTE HiLightMode;
 	BYTE doubleClickExpand;
 	int MetaIgnoreEmptyExtra;
 };
@@ -194,12 +193,11 @@ typedef struct {
 typedef struct {
 	int cbSize;
 	void (*PaintClc)(HWND,struct ClcData *,HDC,RECT *,int ,ClcProtoStatus *,HIMAGELIST);
-
 } ExternDrawer,*pExternDrawer ;
 
-ExternDrawer SED;
+extern ExternDrawer SED;
 
-#define CLM_SETEXTRACOLUMNSSPACE   (CLM_FIRST+73)   //wParam=extra space between icons
+#define CLM_SETEXTRACOLUMNSSPACE   (CLM_FIRST+73)   //wParam = extra space between icons
 
 void FreeAndNil( void** p );
 

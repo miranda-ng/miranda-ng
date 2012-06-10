@@ -86,7 +86,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -146,7 +146,7 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\include;..\..\include\msapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Link>
       <AdditionalDependencies>comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -194,38 +194,39 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BkgrCfg.c" />
-    <ClCompile Include="clc.c" />
-    <ClCompile Include="clcidents.c" />
-    <ClCompile Include="clcitems.c" />
-    <ClCompile Include="clcopts.c" />
-    <ClCompile Include="clcpaint.c" />
-    <ClCompile Include="clcutils.c" />
-    <ClCompile Include="clistmenus.c" />
-    <ClCompile Include="clistmod.c" />
-    <ClCompile Include="clistopts.c" />
-    <ClCompile Include="clistsettings.c" />
-    <ClCompile Include="clisttray.c" />
-    <ClCompile Include="clui.c" />
-    <ClCompile Include="cluiopts.c" />
-    <ClCompile Include="cluiservices.c" />
-    <ClCompile Include="commonheaders.c">
+    <ClCompile Include="BkgrCfg.cpp" />
+    <ClCompile Include="clc.cpp" />
+    <ClCompile Include="clcfonts.cpp" />
+    <ClCompile Include="clcidents.cpp" />
+    <ClCompile Include="clcitems.cpp" />
+    <ClCompile Include="clcopts.cpp" />
+    <ClCompile Include="clcpaint.cpp" />
+    <ClCompile Include="clcutils.cpp" />
+    <ClCompile Include="clistmenus.cpp" />
+    <ClCompile Include="clistmod.cpp" />
+    <ClCompile Include="clistopts.cpp" />
+    <ClCompile Include="clistsettings.cpp" />
+    <ClCompile Include="clisttray.cpp" />
+    <ClCompile Include="clui.cpp" />
+    <ClCompile Include="cluiopts.cpp" />
+    <ClCompile Include="cluiservices.cpp" />
+    <ClCompile Include="commonheaders.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="contact.c" />
-    <ClCompile Include="groupmenu.c" />
-    <ClCompile Include="init.c" />
-    <ClCompile Include="keyboard.c" />
-    <ClCompile Include="CLUIFrames\cluiframes.c">
+    <ClCompile Include="contact.cpp" />
+    <ClCompile Include="groupmenu.cpp" />
+    <ClCompile Include="init.cpp" />
+    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="CLUIFrames\cluiframes.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\extraimage.c">
+    <ClCompile Include="CLUIFrames\extraimage.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\framesmenu.c">
+    <ClCompile Include="CLUIFrames\framesmenu.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\statusbar.c">
+    <ClCompile Include="CLUIFrames\statusbar.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
   </ItemGroup>
@@ -235,7 +236,6 @@
     <ClInclude Include="clist.h" />
     <ClInclude Include="commonheaders.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="statusmodes.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\1.ico" />

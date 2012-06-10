@@ -87,7 +87,6 @@
 #define IDD_ADDEMAIL                    226
 #define IDD_ICONINDEX                   227
 #define IDD_OPT_CLC                     228
-#define IDD_OPT_CLCTEXT                 229
 #define IDD_OPT_CLCBKG                  230
 #define IDD_INFO_LOCATION               231
 #define IDD_INFO_WORK                   232
@@ -96,7 +95,6 @@
 #define IDD_INSTALLINI                  235
 #define IDD_WARNINICHANGE               236
 #define IDD_INIIMPORTDONE               237
-#define IDD_OPT_CLCTEXTSIMPLE           239
 #define IDB_SORTCOLUP                   239
 #define IDB_SORTCOLDOWN                 240
 #define IDD_OPT_NETLIB                  246
@@ -592,12 +590,8 @@
 #define IDC_AALONGIDLE                  1656
 #define IDC_NOOFFLINEMOVE               1657
 #define IDC_HOTKEYTREE                  1657
-#define IDC_HILIGHTMODE                 1658
-#define IDC_HILIGHTMODE2                1659
 #define IDC_LOCATION                    1659
-#define IDC_HILIGHTMODE1                1660
 #define IDC_SGROUP                      1660
-#define IDC_HILIGHTMODE3                1661
 #define IDC_SLOC                        1661
 #define IDC_ONDESKTOP                   1662
 #define IDC_SETHOTKEY                   1759

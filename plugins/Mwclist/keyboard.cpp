@@ -32,32 +32,32 @@ INT_PTR hkCloseMiranda(WPARAM wParam,LPARAM lParam)
 INT_PTR hkRestoreStatus(WPARAM wParam,LPARAM lParam)
 {
 	int nStatus = DBGetContactSettingWord(NULL, "CList", "Status", ID_STATUS_OFFLINE);
-    CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
+	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
 
 	return 0;
 }
 
 int InitSkinHotKeys(void)
 {
-	HOTKEYDESC shk={0};
+	HOTKEYDESC shk = {0};
 
 	CreateServiceFunction("CLIST/HK/CloseMiranda",hkCloseMiranda);
 	CreateServiceFunction("CLIST/HK/RestoreStatus",hkRestoreStatus);
 
-	shk.cbSize=sizeof(shk);
+	shk.cbSize = sizeof(shk);
 
-	shk.pszDescription="Close Miranda";
-	shk.pszName="CloseMiranda";
-	shk.pszSection="Main";
-	shk.pszService="CLIST/HK/CloseMiranda";
-	shk.DefHotKey=0;
+	shk.pszDescription = "Close Miranda";
+	shk.pszName = "CloseMiranda";
+	shk.pszSection = "Main";
+	shk.pszService = "CLIST/HK/CloseMiranda";
+	shk.DefHotKey = 0;
 	CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&shk);
 
-	shk.pszDescription="Restore last status";
-	shk.pszName="RestoreLastStatus";
-	shk.pszSection="Status";
-	shk.pszService="CLIST/HK/RestoreStatus";
-	shk.DefHotKey=0;
+	shk.pszDescription = "Restore last status";
+	shk.pszName = "RestoreLastStatus";
+	shk.pszSection = "Status";
+	shk.pszService = "CLIST/HK/RestoreStatus";
+	shk.DefHotKey = 0;
 	CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&shk);
 
 	return 0;

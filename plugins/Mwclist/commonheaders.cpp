@@ -1,12 +1,12 @@
 #include "commonheaders.h"
 
-#define SAFE_PTR(a) a?(IsBadReadPtr(a,1)?a=NULL:a):a
+#define SAFE_PTR(a) a?(IsBadReadPtr(a,1)?a = NULL:a):a
 
 int __cdecl MyStrCmp (const char *a, const char *b)
 {
 	SAFE_PTR(a);
 	SAFE_PTR(b);
-	if (!(a&&b)) return a!=b;
+	if ( !(a && b)) return a != b;
 	return (strcmp(a,b));
 }
 

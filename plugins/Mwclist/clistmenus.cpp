@@ -30,28 +30,27 @@ void DestroyTrayMenu(HMENU hMenu)
     int i, cnt;
 
     cnt = GetMenuItemCount(hMenu);
-    for (i=0; i<cnt; ++i)
-    {
-        HMENU hSubMenu = GetSubMenu(hMenu, i);
-        if (hSubMenu == hMainStatusMenu || hSubMenu == hMainMenu)
-            RemoveMenu(hMenu, i--, MF_BYPOSITION);
-    }
-    DestroyMenu(hMenu);
+	 for (i = 0; i<cnt; ++i) {
+		 HMENU hSubMenu = GetSubMenu(hMenu, i);
+		 if (hSubMenu == hMainStatusMenu || hSubMenu == hMainMenu)
+			 RemoveMenu(hMenu, i--, MF_BYPOSITION);
+	 }
+	 DestroyMenu(hMenu);
 }
 
 INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 {
-	if (CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,(LPARAM)0))
+	if ( CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,(LPARAM)0))
 		DestroyWindow(pcli->hwndContactList);
 
-	return(0);
+	return 0;
 }
 
 int InitCustomMenus(void)
 {
 	CreateServiceFunction("CloseAction",CloseAction);
-    hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
-    hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
+	hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
+	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
 
 	return 0;
 }

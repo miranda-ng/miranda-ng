@@ -27,6 +27,9 @@
     <ClCompile Include="clcidents.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="clcfonts.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="clcitems.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -105,9 +108,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="statusmodes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

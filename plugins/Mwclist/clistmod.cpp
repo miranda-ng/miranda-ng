@@ -42,22 +42,22 @@ static HANDLE hSettingChanged, hProtoAckHook;
 /////////// End by FYR ////////
 int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 {
-	int result=-1;
+	int result = -1;
 	if (hContact && szProto) {
-		char * szActProto=(char*)szProto;
-		char AdvancedService[255]={0};
-		int  nActStatus=nStatus;
-		HANDLE hActContact=hContact;
+		char * szActProto = (char*)szProto;
+		char AdvancedService[255] = {0};
+		int  nActStatus = nStatus;
+		HANDLE hActContact = hContact;
 		if (!DBGetContactSettingByte(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
 			// substitute params by mostonline contact datas
-			HANDLE hMostOnlineContact=(HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
+			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
 			if (hMostOnlineContact && hMostOnlineContact != (HANDLE)CALLSERVICE_NOTFOUND) {
 				pdisplayNameCacheEntry cacheEntry;
-				cacheEntry=(pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
+				cacheEntry = (pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->szProto) {
-					szActProto=cacheEntry->szProto;
-					nActStatus=cacheEntry->status;
-					hActContact=hMostOnlineContact;
+					szActProto = cacheEntry->szProto;
+					nActStatus = cacheEntry->status;
+					hActContact = hMostOnlineContact;
 				}
 			}
 		}
@@ -66,11 +66,11 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		if (ServiceExists(AdvancedService))
 			result = CallService(AdvancedService,(WPARAM)hActContact, (LPARAM)0);
 
-		if (result==-1 || !(LOWORD(result))) 
+		if (result == -1 || !(LOWORD(result))) 
 			// result == -1 means no Advanced icon. LOWORD(result) == 0 happens when Advanced icon returned by ICQ (i.e. no transpot)
 			result = saveIconFromStatusMode(szActProto,nActStatus,NULL);
 	}
-	else result=saveIconFromStatusMode(szProto,nStatus,NULL);
+	else result = saveIconFromStatusMode(szProto,nStatus,NULL);
 	return result;
 }
 
@@ -83,10 +83,10 @@ int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 
 	if ( szProto != NULL ) {
 		if (strcmp(szProto,"MetaContacts") == 0 ) {
-			hContact=(HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
+			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
 			if ( hContact != 0 ) {
-				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
-				status=DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
+				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
+				status = DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 			}
 		}
 	}*/
@@ -98,8 +98,8 @@ int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 
 static int ProtocolAck(WPARAM wParam,LPARAM lParam)
 {
-	ACKDATA *ack=(ACKDATA*)lParam;
-	if (ack->type==ACKTYPE_AWAYMSG && ack->lParam) {
+	ACKDATA *ack = (ACKDATA*)lParam;
+	if (ack->type == ACKTYPE_AWAYMSG && ack->lParam) {
 		DBVARIANT dbv;
 		if (!DBGetContactSettingString(ack->hContact, "CList", "StatusMsg", &dbv)) {
 			if (!strcmp(dbv.pszVal, (char *)ack->lParam)) {
@@ -130,19 +130,19 @@ static int ContactListShutdownProc(WPARAM wParam,LPARAM lParam)
 int LoadContactListModule(void)
 {
 	HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while (hContact!=NULL) {
+	while (hContact != NULL) {
 		DBWriteContactSettingString(hContact, "CList", "StatusMsg", "");
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 	}
 
 	hCListImages = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0);
-	DefaultImageListColorDepth=DBGetContactSettingDword(NULL,"CList","DefaultImageListColorDepth",ILC_COLOR32);
+	DefaultImageListColorDepth = DBGetContactSettingDword(NULL,"CList","DefaultImageListColorDepth",ILC_COLOR32);
 
 	hProtoAckHook = (HANDLE) HookEvent(ME_PROTO_ACK, ProtocolAck);
 	HookEvent(ME_OPT_INITIALISE,CListOptInit);
 	HookEvent(ME_SYSTEM_SHUTDOWN,ContactListShutdownProc);
-	hSettingChanged=HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
-	hContactIconChangedEvent=CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
+	hSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
+	hContactIconChangedEvent = CreateHookableEvent(ME_CLIST_CONTACTICONCHANGED);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP,ContactChangeGroup);
 	CreateServiceFunction(MS_CLIST_HOTKEYSPROCESSMESSAGE,HotkeysProcessMessage);
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODE, GetStatusMode);

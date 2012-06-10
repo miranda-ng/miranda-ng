@@ -33,7 +33,7 @@ static int sortByProto;
 static int sortNoOfflineBottom;
 struct {
 	int status,order;
-} statusModeOrder[]={
+} statusModeOrder[] = {
 	{ID_STATUS_OFFLINE,500},
 	{ID_STATUS_ONLINE,0},
 	{ID_STATUS_AWAY,200},
@@ -51,8 +51,8 @@ static int GetContactStatus(HANDLE hContact)
 	
 	char *szProto;
 
-	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-	if(szProto==NULL) return ID_STATUS_OFFLINE;
+	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+	if (szProto == NULL) return ID_STATUS_OFFLINE;
 	return DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 	*/
 	return (GetContactCachedStatus(hContact));
@@ -68,8 +68,8 @@ void ChangeContactIcon(HANDLE hContact,int iIcon,int add)
 static int GetStatusModeOrdering(int statusMode)
 {
 	int i;
-	for(i=0; i< SIZEOF(statusModeOrder); i++)
-		if(statusModeOrder[i].status==statusMode) return statusModeOrder[i].order;
+	for (i = 0; i< SIZEOF(statusModeOrder); i++)
+		if (statusModeOrder[i].status == statusMode) return statusModeOrder[i].order;
 	return 1000;
 }
 
@@ -81,36 +81,36 @@ void LoadContactTree(void)
 		
 
 
-	tick=GetTickCount();
+	tick = GetTickCount();
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-	for(i=1;;i++) {
-		if ((char*)CallService(MS_CLIST_GROUPGETNAME2,i,(LPARAM)(int*)NULL)==NULL) break;
+	for (i = 1;;i++) {
+		if ((char*)CallService(MS_CLIST_GROUPGETNAME2,i,(LPARAM)(int*)NULL) == NULL) break;
 		CallService(MS_CLUI_GROUPADDED,i,0);
 	}
 
-	hideOffline=DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hideOffline = DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
+	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 
-	while(hContact!=NULL) {
-		cacheEntry=GetContactFullCacheEntry(hContact);
-		if (cacheEntry==NULL)
+	while(hContact != NULL) {
+		cacheEntry = GetContactFullCacheEntry(hContact);
+		if (cacheEntry == NULL)
 		{
 			MessageBoxA(0,"Fail To Get CacheEntry for hContact","!!!!!",0);
 			break;
 		}
-		status=cacheEntry->status;
-		if ((!hideOffline || status!=ID_STATUS_OFFLINE) && !cacheEntry->Hidden)
+		status = cacheEntry->status;
+		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !cacheEntry->Hidden)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
 	}
-	sortByStatus=DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
-	sortByProto=DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
-	sortNoOfflineBottom=DBGetContactSettingByte(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
+	sortByStatus = DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
+	sortByProto = DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
+	sortNoOfflineBottom = DBGetContactSettingByte(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
 
 	CallService(MS_CLUI_SORTLIST,0,0);
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
 	
-	tick=GetTickCount()-tick;
+	tick = GetTickCount()-tick;
 	{
 	char buf[255];
 	//sprintf(buf,"%s %s took %i ms",__FILE__,__LINE__,tick);
@@ -136,28 +136,28 @@ int CompareContacts( const struct ClcContact *contact1, const struct ClcContact 
 	if (sortByProto) {
 
 		/* deal with statuses, online contacts have to go above offline */
-		if (sortNoOfflineBottom==0) 
-			if ((statusa==ID_STATUS_OFFLINE)!=(statusb==ID_STATUS_OFFLINE)) {
-			return 2*(statusa==ID_STATUS_OFFLINE)-1;
+		if (sortNoOfflineBottom == 0) 
+			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)) {
+			return 2*(statusa == ID_STATUS_OFFLINE)-1;
 		}
 		/* both are online, now check protocols */
-		rc=strcmp(SAFESTRING(szProto1),SAFESTRING(szProto2)); /* strcmp() doesn't like NULL so feed in "" as needed */
+		rc = strcmp(SAFESTRING(szProto1),SAFESTRING(szProto2)); /* strcmp() doesn't like NULL so feed in "" as needed */
 		if (rc != 0 && (szProto1 != NULL && szProto2 != NULL)) return rc;
 		/* protocols are the same, order by display name */
 	} 
 
-	if(sortByStatus) {
+	if (sortByStatus) {
 		int ordera,orderb;
-		ordera=GetStatusModeOrdering(statusa);
-		orderb=GetStatusModeOrdering(statusb);
-		if(ordera!=orderb) return ordera-orderb;
+		ordera = GetStatusModeOrdering(statusa);
+		orderb = GetStatusModeOrdering(statusb);
+		if (ordera != orderb) return ordera-orderb;
 	}
 	else {
 		//one is offline: offline goes below online
-		if (sortNoOfflineBottom==0)
+		if (sortNoOfflineBottom == 0)
 			{
-			if ((statusa==ID_STATUS_OFFLINE)!=(statusb==ID_STATUS_OFFLINE)) {
-				return 2*(statusa==ID_STATUS_OFFLINE)-1;
+			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE)) {
+				return 2*(statusa == ID_STATUS_OFFLINE)-1;
 			}
 		}
 	}
@@ -168,27 +168,27 @@ int CompareContacts( const struct ClcContact *contact1, const struct ClcContact 
 
 #undef SAFESTRING
 
-static UINT_PTR resortTimerId=0;
+static UINT_PTR resortTimerId = 0;
 static VOID CALLBACK SortContactsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD dwTime)
 {
 	KillTimer(NULL,resortTimerId);
-	resortTimerId=0;
+	resortTimerId = 0;
 	CallService(MS_CLUI_SORTLIST,0,0);
 }
 
 void SortContacts(void)
 {
 	//avoid doing lots of resorts in quick succession
-	sortByStatus=DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
-	sortByProto=DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
-	if(resortTimerId) KillTimer(NULL,resortTimerId);
-	resortTimerId=SetTimer(NULL,0,50,SortContactsTimer);
+	sortByStatus = DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
+	sortByProto = DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
+	if (resortTimerId) KillTimer(NULL,resortTimerId);
+	resortTimerId = SetTimer(NULL,0,50,SortContactsTimer);
 }
 
 INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 {
 	CallService(MS_CLUI_CONTACTDELETED,wParam,0);
-	if ((HANDLE)lParam==NULL)
+	if ((HANDLE)lParam == NULL)
 		DBDeleteContactSetting((HANDLE)wParam,"CList","Group");
 	else
 		DBWriteContactSettingString((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));

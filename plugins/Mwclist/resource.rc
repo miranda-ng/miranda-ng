@@ -171,7 +171,7 @@ BEGIN
                     IDC_STATIC,7,18,239,14
 END
 
-IDD_OPT_CLIST DIALOGEX 0, 0, 314, 206
+IDD_OPT_CLIST DIALOGEX 0, 0, 314, 232
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -244,9 +244,20 @@ BEGIN
                     WS_TABSTOP,10,120,125,15
     CONTROL         "Disable icon blinking",IDC_ICONBLINK,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,10,84,97,10
+
+    GROUPBOX        "Rows",IDC_STATIC,2,199,174,31
+    LTEXT           "Row height:",IDC_STATIC,10,213,65,8
+    EDITTEXT        IDC_ROWHEIGHT,77,211,31,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "Spin1",IDC_ROWHEIGHTSPIN,"msctls_updown32",
+                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
+                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,97,210,10,14
+    LTEXT           "pixels",IDC_STATIC,112,213,62,8
+
+    CONTROL         "Gamma correction",IDC_GAMMACORRECT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,180,211,95,10
 END
 
-IDD_OPT_CLUI DIALOGEX 0, 0, 313, 232
+IDD_OPT_CLUI DIALOGEX 0, 0, 314, 232
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -401,73 +412,6 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,165,160,140,10
 END
 
-IDD_OPT_CLCTEXT DIALOGEX 0, 0, 277, 256
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    GROUPBOX        "Fonts",IDC_STATIC,5,5,269,125
-    COMBOBOX        IDC_FONTID,12,17,253,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "same",IDC_STSAMETEXT,19,32,45,10,SS_CENTERIMAGE
-    CONTROL         "Typeface",IDC_SAMETYPE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,64,32,52,10
-    CONTROL         "Size",IDC_SAMESIZE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,117,32,45,10
-    CONTROL         "Style",IDC_SAMESTYLE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,163,32,48,10
-    CONTROL         "Colour",IDC_SAMECOLOUR,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,32,53,10
-    LTEXT           "as:",IDC_STASTEXT,19,46,45,10,SS_CENTERIMAGE
-    COMBOBOX        IDC_SAMEAS,64,45,196,88,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    CONTROL         "",IDC_STHORZBAR,"Static",SS_ETCHEDFRAME,9,60,259,5
-    COMBOBOX        IDC_TYPEFACE,12,72,136,182,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_SCRIPT,156,72,60,68,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    COMBOBOX        IDC_FONTSIZE,225,72,40,69,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
-    CONTROL         "Bold",IDC_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,
-                    88,45,10
-    CONTROL         "Italic",IDC_ITALIC,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,65,88,52,10
-    CONTROL         "Underline",IDC_UNDERLINE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,117,88,66,10
-    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,206,87,59,12
-    EDITTEXT        IDC_SAMPLE,63,104,151,16,ES_CENTER | ES_READONLY | NOT 
-                    WS_TABSTOP
-    GROUPBOX        "Rows",IDC_STATIC,4,134,269,31
-    LTEXT           "Row height:",IDC_STATIC,12,148,65,8
-    EDITTEXT        IDC_ROWHEIGHT,77,146,31,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin1",IDC_ROWHEIGHTSPIN,"msctls_updown32",
-                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
-                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,97,145,10,
-                    14
-    LTEXT           "pixels",IDC_STATIC,112,148,62,8
-    GROUPBOX        "Additional Colours",IDC_STATIC,4,171,121,79
-    LTEXT           "Selected text:",IDC_STATIC,12,186,65,8
-    CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,77,184,29,12
-    LTEXT           "Hottrack text:",IDC_STATIC,12,201,65,8
-    CONTROL         "",IDC_HOTCOLOUR,"ColourPicker",WS_TABSTOP,77,199,29,12
-    CONTROL         "Gamma correction",IDC_GAMMACORRECT,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,12,235,95,10
-    LTEXT           "Quicksearch text:",IDC_STATIC,12,218,65,8
-    CONTROL         "",IDC_QUICKCOLOUR,"ColourPicker",WS_TABSTOP,77,216,29,
-                    12
-    LTEXT           "Size:",IDC_STSIZETEXT,231,114,34,8,NOT WS_VISIBLE
-    LTEXT           "Colour:",IDC_STCOLOURTEXT,228,102,37,8,NOT WS_VISIBLE
-    GROUPBOX        "Selection Mode",IDC_STATIC,130,171,144,79
-    CONTROL         "Default",IDC_HILIGHTMODE,"Button",BS_AUTORADIOBUTTON,
-                    145,185,120,10
-    CONTROL         "Less selection",IDC_HILIGHTMODE2,"Button",
-                    BS_AUTORADIOBUTTON,145,215,120,10
-    CONTROL         "Full selection",IDC_HILIGHTMODE1,"Button",
-                    BS_AUTORADIOBUTTON,145,200,120,10
-    CONTROL         "No selection",IDC_HILIGHTMODE3,"Button",
-                    BS_AUTORADIOBUTTON,145,230,120,10
-END
-
 IDD_OPT_CLCBKG DIALOGEX 0, 0, 235, 151
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
@@ -496,53 +440,6 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,121,97,101,10
     CONTROL         "Tile vertically according to Row Height",IDC_TILEVROWH,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,125,205,10
-END
-
-IDD_OPT_CLCTEXTSIMPLE DIALOGEX 0, 0, 277, 240
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
-EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 0, 0, 0x1
-BEGIN
-    GROUPBOX        "Fonts",IDC_STATIC,4,4,269,125
-    COMBOBOX        IDC_FONTID,12,17,253,87,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "as:",IDC_STASTEXT,25,34,52,10,SS_CENTERIMAGE
-    COMBOBOX        IDC_SAMEAS,77,33,163,88,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    CONTROL         "",IDC_STHORZBAR,"Static",SS_ETCHEDHORZ,9,51,259,1
-    COMBOBOX        IDC_TYPEFACE,12,58,172,182,CBS_DROPDOWN | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_SCRIPT,192,58,73,68,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "Size:",IDC_STSIZETEXT,33,76,34,8
-    COMBOBOX        IDC_FONTSIZE,67,74,54,69,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "Colour:",IDC_STCOLOURTEXT,147,76,37,8
-    CONTROL         "",IDC_COLOUR,"ColourPicker",WS_TABSTOP,184,74,59,12
-    CONTROL         "Bold",IDC_BOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,58,
-                    90,45,10
-    CONTROL         "Italic",IDC_ITALIC,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,117,90,52,10
-    CONTROL         "Underline",IDC_UNDERLINE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,179,90,66,10
-    EDITTEXT        IDC_SAMPLE,63,104,151,16,ES_CENTER | ES_READONLY | NOT 
-                    WS_TABSTOP
-    GROUPBOX        "Rows",IDC_STATIC,4,134,269,31
-    LTEXT           "Row height:",IDC_STATIC,12,148,65,8
-    EDITTEXT        IDC_ROWHEIGHT,77,146,31,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin1",IDC_ROWHEIGHTSPIN,"msctls_updown32",
-                    UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | 
-                    UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,97,145,10,
-                    14
-    LTEXT           "pixels",IDC_STATIC,112,148,62,8
-    GROUPBOX        "Additional Colours",IDC_STATIC,4,171,269,65
-    LTEXT           "Selected text:",IDC_STATIC,12,186,65,8
-    CONTROL         "",IDC_SELCOLOUR,"ColourPicker",WS_TABSTOP,77,184,29,12
-    LTEXT           "Hottrack text:",IDC_STATIC,12,202,65,8
-    CONTROL         "",IDC_HOTCOLOUR,"ColourPicker",WS_TABSTOP,77,200,29,12
-    LTEXT           "Quicksearch text:",IDC_STATIC,12,218,65,8
-    CONTROL         "",IDC_QUICKCOLOUR,"ColourPicker",WS_TABSTOP,77,216,29,
-                    12
 END
 
 IDD_OPT_META_CLC DIALOGEX 0, 0, 259, 97
@@ -629,27 +526,6 @@ BEGIN
         HORZGUIDE, 222
     END
 
-    IDD_OPT_CLCTEXT, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 273
-        VERTGUIDE, 12
-        VERTGUIDE, 19
-        VERTGUIDE, 77
-        VERTGUIDE, 258
-        VERTGUIDE, 265
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 252
-        HORZGUIDE, 37
-        HORZGUIDE, 51
-        HORZGUIDE, 79
-        HORZGUIDE, 94
-        HORZGUIDE, 152
-        HORZGUIDE, 190
-        HORZGUIDE, 205
-        HORZGUIDE, 222
-    END
-
     IDD_OPT_CLCBKG, DIALOG
     BEGIN
         LEFTMARGIN, 4
@@ -665,27 +541,6 @@ BEGIN
         HORZGUIDE, 89
         HORZGUIDE, 102
         HORZGUIDE, 115
-    END
-
-    IDD_OPT_CLCTEXTSIMPLE, DIALOG
-    BEGIN
-        LEFTMARGIN, 4
-        RIGHTMARGIN, 273
-        VERTGUIDE, 12
-        VERTGUIDE, 19
-        VERTGUIDE, 77
-        VERTGUIDE, 258
-        VERTGUIDE, 265
-        TOPMARGIN, 4
-        BOTTOMMARGIN, 236
-        HORZGUIDE, 37
-        HORZGUIDE, 64
-        HORZGUIDE, 80
-        HORZGUIDE, 95
-        HORZGUIDE, 152
-        HORZGUIDE, 190
-        HORZGUIDE, 206
-        HORZGUIDE, 222
     END
 
     IDD_OPT_META_CLC, DIALOG

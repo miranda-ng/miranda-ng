@@ -72,7 +72,8 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam);
 int  (*saveIconFromStatusMode)(const char *szProto,int nStatus, HANDLE hContact);
 int  cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact);
 
-
+//from clcfonts
+void RegisterCListFonts( void );
 //from bgrcfg
 extern int BGModuleLoad();
 extern int BGModuleUnload();
@@ -122,7 +123,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	__try	{
 		int *disableDefaultModule = 0;
-		disableDefaultModule=(int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
+		disableDefaultModule = (int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
 		if (!disableDefaultModule[DEFMOD_UICLUI]) if ( LoadCLUIModule()) return 1;
 	}
 	__except (exceptFunction(GetExceptionInformation()) )
@@ -131,21 +132,22 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	InitSkinHotKeys();
+	RegisterCListFonts();
 
 	return 0;
 }
 
 INT_PTR SetDrawer(WPARAM wParam,LPARAM lParam)
 {
-	pDrawerServiceStruct DSS=(pDrawerServiceStruct)wParam;
-	if (DSS->cbSize!=sizeof(*DSS)) return -1;
-	if (DSS->PluginName==NULL) return -1;
-	if (DSS->PluginName==NULL) return -1;
+	pDrawerServiceStruct DSS = (pDrawerServiceStruct)wParam;
+	if (DSS->cbSize != sizeof(*DSS)) return -1;
+	if (DSS->PluginName == NULL) return -1;
+	if (DSS->PluginName == NULL) return -1;
 	if (!ServiceExists(DSS->GetDrawFuncsServiceName)) return -1;
 
 
-	SED.cbSize=sizeof(SED);
-	SED.PaintClc=(void (__cdecl *)(HWND,struct ClcData *,HDC,RECT *,int ,ClcProtoStatus *,HIMAGELIST))CallService(DSS->GetDrawFuncsServiceName,CLUI_EXT_FUNC_PAINTCLC,0);
+	SED.cbSize = sizeof(SED);
+	SED.PaintClc = (void (__cdecl *)(HWND,struct ClcData *,HDC,RECT *,int ,ClcProtoStatus *,HIMAGELIST))CallService(DSS->GetDrawFuncsServiceName,CLUI_EXT_FUNC_PAINTCLC,0);
 	if (!SED.PaintClc) return -1;
 	return 0;
 }
@@ -165,8 +167,8 @@ static ClcCacheEntryBase* fnCreateCacheItem( HANDLE hContact )
 
 int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 {
-	int rc=0;
-	pluginLink=link;
+	int rc = 0;
+	pluginLink = link;
 	#ifdef _DEBUG
 		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
@@ -207,7 +209,7 @@ LBL_Error:
 		pcli->pfnRecalcScrollBar = RecalcScrollBar;
 		pcli->pfnScrollTo = ScrollTo;
 
-		saveIconFromStatusMode      = pcli->pfnIconFromStatusMode;
+		saveIconFromStatusMode = pcli->pfnIconFromStatusMode;
 		pcli->pfnIconFromStatusMode = cli_IconFromStatusMode;
 
 		saveAddGroup = pcli->pfnAddGroup; pcli->pfnAddGroup = AddGroup;
@@ -225,8 +227,8 @@ LBL_Error:
 		memset(&SED,0,sizeof(SED));
 		CreateServiceFunction(CLUI_SetDrawerService,SetDrawer);
 
-		rc=LoadContactListModule();
-		if (rc==0) rc=LoadCLCModule();
+		rc = LoadContactListModule();
+		if (rc == 0) rc = LoadCLCModule();
 
 		HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);
 		BGModuleLoad();
@@ -255,6 +257,6 @@ int __declspec(dllexport) Unload(void)
 	OutputDebugStringA("Unloading ClistMW\r\n");
 	if (IsWindow(pcli->hwndContactList)) DestroyWindow(pcli->hwndContactList);
 	BGModuleUnload();
-	pcli->hwndContactList=0;
+	pcli->hwndContactList = 0;
 	return 0;
 }
