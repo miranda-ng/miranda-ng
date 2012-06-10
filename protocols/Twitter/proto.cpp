@@ -186,6 +186,14 @@ int TwitterProto::SendMsg(HANDLE hContact,int flags,const char *msg)
 	if(m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
+	TCHAR* tszMsg;
+	if ( flags & PREF_UTF ) 
+		tszMsg = mir_utf8decodeT( msg );
+	else if ( flags & PREF_UNICODE )
+		tszMsg = mir_u2t(( wchar_t* )&msg[ strlen( msg )+1 ] );
+	else
+		tszMsg = mir_a2t( msg );
+
 	ForkThread(&TwitterProto::SendSuccess, this,new send_direct(hContact,msg));
 	return 1;
 }
@@ -505,24 +513,24 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }
 
-int TwitterProto::LOG(const char *fmt,...)
+int TwitterProto::LOG(TCHAR *fmt,...)
 {
 	va_list va;
-	char text[1024];
+	TCHAR text[1024];
 	if (!hNetlib_)
 		return 0;
 
 	va_start(va,fmt);
-	mir_vsnprintf(text,sizeof(text),fmt,va);
+	mir_vsntprintf(text,SIZEOF(text),fmt,va);
 	va_end(va);
 
 	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)text);
 }
 
-int TwitterProto::WLOG(const char* first, const wstring last)
+int TwitterProto::WLOG(TCHAR* first, const wstring last)
 {
-	char *str1 = new char[1024*96];
-	sprintf(str1,"%ls", last.c_str());
+	TCHAR *str1 = new TCHAR[1024*96];
+	_stprintf(str1,_T("%s"), last.c_str());
 
 	return LOG(first, str1); 
 }

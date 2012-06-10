@@ -71,12 +71,12 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 	{
 	case GC_USER_MESSAGE: {
 		text = mir_t2a_cp(hook->ptszText,CP_UTF8);
-		LOG("**Chat - Outgoing message: %s", text);
+		LOG (_T("**Chat - Outgoing message: %s", text));
 
 		std::string tweet(text);
 		replaceAll(tweet, "%%", "%"); // the chat plugin will turn "%" into "%%", so we have to change it back :/
 
-		LOG("**Chat - Outgoing message after replace: %s", tweet);
+		LOG (_T("**Chat - Outgoing message after replace: %s", tweet));
 		
 		char * varTweet;
 		varTweet = mir_utf8encode(tweet.c_str());

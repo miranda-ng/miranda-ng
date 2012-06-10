@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void CALLBACK TwitterProto::APC_callback(ULONG_PTR p)
 {
-	reinterpret_cast<TwitterProto*>(p)->LOG("***** Executing APC");
+	reinterpret_cast<TwitterProto*>(p)->LOG( _T("***** Executing APC"));
 }
 
 template<typename T>
@@ -62,16 +62,16 @@ inline static INT_PTR db_pod_set(HANDLE hContact,const char *module,const char *
 
 void TwitterProto::SignOn(void*)
 {
-	LOG("***** Beginning SignOn process");
+	LOG( _T("***** Beginning SignOn process"));
 	WaitForSingleObject(&signon_lock_,INFINITE);
 
 	// Kill the old thread if it's still around
 	// this doesn't seem to work.. should we wait infinitely?
 	if(hMsgLoop_)
 	{
-		LOG("***** Requesting MessageLoop to exit");
+		LOG( _T("***** Requesting MessageLoop to exit"));
 		QueueUserAPC(APC_callback,hMsgLoop_,(ULONG_PTR)this);
-		LOG("***** Waiting for old MessageLoop to exit");
+		LOG( _T("***** Waiting for old MessageLoop to exit"));
 		//WaitForSingleObject(hMsgLoop_,INFINITE);
 		WaitForSingleObject(hMsgLoop_,180000);
 		CloseHandle(hMsgLoop_);
@@ -86,12 +86,12 @@ void TwitterProto::SignOn(void*)
 	}
 
 	ReleaseMutex(signon_lock_);
-	LOG("***** SignOn complete");
+	LOG( _T("***** SignOn complete"));
 }
 
 bool TwitterProto::NegotiateConnection()
 {
-	LOG("***** Negotiating connection with Twitter");
+	LOG( _T("***** Negotiating connection with Twitter"));
 	disconnectionCount = 0;
 
 	// saving the current status to a temp var
@@ -138,19 +138,19 @@ bool TwitterProto::NegotiateConnection()
 	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1) ) {
 		// first, reset all the keys so we can start fresh
 		resetOAuthKeys();
-		LOG("**NegotiateConnection - Reset OAuth Keys");
+		LOG( _T("**NegotiateConnection - Reset OAuth Keys"));
 
 		//twit_.set_credentials(ConsumerKey, ConsumerSecret, oauthAccessToken, oauthAccessTokenSecret, L"", false);
 		// i think i was doin the wrong thing here.. i was setting the credentials as oauthAccessToken instead of oauthToken
 		// have to test..
-		LOG("**NegotiateConnection - Setting Consumer Keys...");
+		LOG( _T("**NegotiateConnection - Setting Consumer Keys..."));
 		/*WLOG("**NegotiateConnection - sending set_cred: consumerKey is %s", ConsumerKey);
 		WLOG("**NegotiateConnection - sending set_cred: consumerSecret is %s", ConsumerSecret);
 		WLOG("**NegotiateConnection - sending set_cred: oauthToken is %s", oauthToken);
 		WLOG("**NegotiateConnection - sending set_cred: oauthTokenSecret is %s", oauthTokenSecret);
 		LOG("**NegotiateConnection - sending set_cred: no pin");*/
 		twit_.set_credentials("", ConsumerKey, ConsumerSecret, oauthToken, oauthTokenSecret, L"", false);
-		LOG("**NegotiateConnection - Requesting oauthTokens");
+		LOG( _T("**NegotiateConnection - Requesting oauthTokens"));
 		http::response resp = twit_.request_token();
 
 		//wstring rdata_WSTR(resp.data.length(),L' ');
@@ -166,7 +166,7 @@ bool TwitterProto::NegotiateConnection()
 
 		if (oauthToken.length() < 1) {
 			ShowPopup("OAuth Tokens not received, check your internet connection?", 1);
-			LOG("**NegotiateConnection - OAuth tokens not received, stopping before we open the web browser..");
+			LOG( _T("**NegotiateConnection - OAuth tokens not received, stopping before we open the web browser.."));
 			return false;
 		}
 
@@ -178,7 +178,7 @@ bool TwitterProto::NegotiateConnection()
 		wchar_t buf[1024] = {};
 		swprintf_s(buf, SIZEOF(buf), AuthorizeUrl.c_str(), oauthToken.c_str());
 
-		WLOG("**NegotiateConnection - Launching %s", buf);
+		WLOG( _T("**NegotiateConnection - Launching %s"), buf);
 		ShellExecute(NULL, L"open", buf, NULL, NULL, SW_SHOWNORMAL);
 		
 		ShowPinDialog();
@@ -202,7 +202,7 @@ bool TwitterProto::NegotiateConnection()
 			realAccessTok = true; 
 			//WLOG("**NegotiateConnection - we have an oauthAccessToken already in the db - %s", oauthAccessToken); 
 		}
-		else { LOG("**NegotiateConnection - oauthAccesToken too small? this is.. weird."); }
+		else { LOG( _T("**NegotiateConnection - oauthAccesToken too small? this is.. weird.")); }
 	}
 
 	dbTOKSec = DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK_SECRET,&dbv);
@@ -213,12 +213,12 @@ bool TwitterProto::NegotiateConnection()
 			realAccessTokSecret = true; 
 			//WLOG("**NegotiateConnection - we have an oauthAccessTokenSecret already in the db - %s", oauthAccessTokenSecret); 
 		}
-		else { LOG("**NegotiateConnection - oauthAccessTokenSecret too small? weird"); }
+		else { LOG( _T("**NegotiateConnection - oauthAccessTokenSecret too small? weird")); }
 	}
 
 	if (!realAccessTok || !realAccessTokSecret) {  // if we don't have one of these beasties then lets go get 'em!
 		wstring pin;
-		LOG("**NegotiateConnection - either the accessToken or accessTokenSecret was not there..");
+		LOG( _T("**NegotiateConnection - either the accessToken or accessTokenSecret was not there.."));
 		if (!DBGetContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_PIN,&dbv)) {
 			pin = dbv.pwszVal;
 			//WLOG("**NegotiateConnection - we have an pin already in the db - %s", pin);
@@ -226,7 +226,7 @@ bool TwitterProto::NegotiateConnection()
 		}
 		else {
 			ShowPopup(TranslateT("OAuth variables are out of sequence, they have been reset.  Please reconnect and reauthorise Miranda to Twitter.com (do the PIN stuff again)"));
-			LOG("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline.");
+			LOG( _T("**NegotiateConnection - We don't have a PIN?  this doesn't make sense.  Resetting OAuth keys and setting offline."));
 			resetOAuthKeys();
 
 			ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,
@@ -241,7 +241,7 @@ bool TwitterProto::NegotiateConnection()
 			return false;
 		}
 
-		LOG("**NegotiateConnection - Setting Consumer Keys and PIN...");
+		LOG( _T("**NegotiateConnection - Setting Consumer Keys and PIN..."));
 		/*WLOG("**NegotiateConnection - sending set_cred: consumerKey is %s", ConsumerKey);
 		WLOG("**NegotiateConnection - sending set_cred: consumerSecret is %s", ConsumerSecret);
 		WLOG("**NegotiateConnection - sending set_cred: oauthToken is %s", oauthToken);
@@ -250,10 +250,10 @@ bool TwitterProto::NegotiateConnection()
 
 		twit_.set_credentials("", ConsumerKey, ConsumerSecret, oauthToken, oauthTokenSecret, pin, false);
 
-		LOG("**NegotiateConnection - requesting access tokens...");
+		LOG( _T("**NegotiateConnection - requesting access tokens..."));
 		http::response accessResp = twit_.request_access_tokens();
 		if (accessResp.code != 200) {
-			LOG("**NegotiateConnection - Failed to get Access Tokens, HTTP response code is: %d", accessResp.code);
+			LOG( _T("**NegotiateConnection - Failed to get Access Tokens, HTTP response code is: %d"), accessResp.code);
 			ShowPopup(TranslateT("Failed to get Twitter Access Tokens, please go offline and try again.  If this keeps happening, check your internet connection."));
 
 			resetOAuthKeys();
@@ -270,7 +270,7 @@ bool TwitterProto::NegotiateConnection()
 			return false;
 		}
 		else {
-			LOG("**NegotiateConnection - Successfully retrieved Access Tokens");
+			LOG( _T("**NegotiateConnection - Successfully retrieved Access Tokens"));
 
 			wstring rdata_WSTR2 = UTF8ToWide(accessResp.data);
 			//WLOG("**NegotiateConnection - accessToken STring is %s", rdata_WSTR2);
@@ -284,7 +284,7 @@ bool TwitterProto::NegotiateConnection()
 			//WLOG("**NegotiateConnection - oauthAccessTokenSecret is %s", oauthAccessTokenSecret);
 
 			screenName = WideToUTF8(accessTokenParameters[L"screen_name"]);
-			LOG("**NegotiateConnection - screen name is %s", screenName.c_str());
+			LOG( _T("**NegotiateConnection - screen name is %s"), screenName.c_str());
 	
 			//save em
 			DBWriteContactSettingWString(0,m_szModuleName,TWITTER_KEY_OAUTH_ACCESS_TOK,oauthAccessToken.c_str());
@@ -312,7 +312,7 @@ bool TwitterProto::NegotiateConnection()
 		DBFreeVariant(&dbv);
 	}
 
-	LOG("**NegotiateConnection - Setting Consumer Keys and verifying creds...");
+	LOG( _T("**NegotiateConnection - Setting Consumer Keys and verifying creds..."));
 	/*WLOG("**NegotiateConnection - sending set_cred: consumerKey is %s", ConsumerKey);
 	WLOG("**NegotiateConnection - sending set_cred: consumerSecret is %s", ConsumerSecret);
 	WLOG("**NegotiateConnection - sending set_cred: oauthAccessToken is %s", oauthAccessToken);
@@ -321,7 +321,7 @@ bool TwitterProto::NegotiateConnection()
 
 	if (screenName.empty()) {
 		ShowPopup(TranslateT("You're missing the Nick key in the database.  This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc).  To fix it either add it manually or reset your twitter account in the miranda account options"));
-		LOG("**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have");
+		LOG( _T("**NegotiateConnection - Missing the Nick key in the database.  Everything will still work, but it's nice to have"));
 	}
 
 	bool success;
@@ -333,7 +333,7 @@ bool TwitterProto::NegotiateConnection()
 
 	if(!success) {
 		//ShowPopup(TranslateT("Something went wrong with authorisation, OAuth keys have been reset.  Please try to reconnect.  If problems persist, please se your doctor"));
-		LOG("**NegotiateConnection - Verifying credentials failed!  No internet maybe?");
+		LOG( _T("**NegotiateConnection - Verifying credentials failed!  No internet maybe?"));
 
 		//resetOAuthKeys();
 		ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_FAILED,
@@ -359,7 +359,7 @@ bool TwitterProto::NegotiateConnection()
 
 void TwitterProto::MessageLoop(void*)
 {
-	LOG("***** Entering Twitter::MessageLoop");
+	LOG( _T("***** Entering Twitter::MessageLoop"));
 
 	since_id_    = db_pod_get<twitter_id>(0,m_szModuleName,TWITTER_KEY_SINCEID,0);
 	dm_since_id_ = db_pod_get<twitter_id>(0,m_szModuleName,TWITTER_KEY_DMSINCEID,0);
@@ -396,10 +396,10 @@ void TwitterProto::MessageLoop(void*)
 
 		if(m_iStatus != ID_STATUS_ONLINE)
 			goto exit;
-		LOG("***** TwitterProto::MessageLoop going to sleep...");
+		LOG( _T("***** TwitterProto::MessageLoop going to sleep..."));
 		if(SleepEx(poll_rate*1000,true) == WAIT_IO_COMPLETION)
 			goto exit;
-		LOG("***** TwitterProto::MessageLoop waking up...");
+		LOG( _T("***** TwitterProto::MessageLoop waking up..."));
 
 		popups = true;
 	}
@@ -409,7 +409,7 @@ exit:
 		ScopedLock s(twitter_lock_);
 		twit_.set_credentials("",L"",L"",L"",L"",L"", false);
 	}
-	LOG("***** Exiting TwitterProto::MessageLoop");
+	LOG( _T("***** Exiting TwitterProto::MessageLoop"));
 }
 
 struct update_avatar
@@ -438,17 +438,17 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	ai.format = ext_to_format(ext);
 
 	if (ai.format == PA_FORMAT_UNKNOWN) {
-		LOG("***** Update avatar: Terminated for this contact, extension format unknown for %s", data->url.c_str());
+		LOG( _T("***** Update avatar: Terminated for this contact, extension format unknown for %s"), data->url.c_str());
 		return; // lets just ignore unknown formats... if not it crashes miranda. should probably speak to borkra about this.
 	}
 	
 	strncpy(ai.filename,filename.c_str(),MAX_PATH);
 
-	LOG("***** Updating avatar: %s",data->url.c_str());
+	LOG( _T("***** Updating avatar: %s"), data->url.c_str());
 	WaitForSingleObjectEx(avatar_lock_,INFINITE,true);
 	if(CallService(MS_SYSTEM_TERMINATED,0,0))
 	{
-		LOG("***** Terminating avatar update early: %s",data->url.c_str());
+		LOG( _T("***** Terminating avatar update early: %s"),data->url.c_str());
 		return;
 	}
 
@@ -463,7 +463,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_AVATAR,
 			ACKRESULT_FAILED, &ai,0);
 	ReleaseMutex(avatar_lock_);
-	LOG("***** Done avatar: %s",data->url.c_str());
+	LOG( _T("***** Done avatar: %s"),data->url.c_str());
 }
 
 void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool force)
@@ -474,7 +474,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 	  ( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_AV_URL,&dbv) &&
 	    url == dbv.pszVal) )
 	{
-		LOG("***** Avatar already up-to-date: %s",url.c_str());
+		LOG( _T("***** Avatar already up-to-date: %s"), url.c_str());
 	}
 	else
 	{
@@ -513,14 +513,14 @@ void TwitterProto::UpdateFriends()
 			UpdateAvatar(hContact,i->profile_image_url);
 		}
 		disconnectionCount = 0; 
-		LOG("***** Friends list updated");
+		LOG( _T("***** Friends list updated"));
 	}
 	catch(const bad_response &)
 	{
 		++disconnectionCount;
-		LOG("***** UpdateFriends - Bad response from server, this has happened %d time(s)", disconnectionCount);
+		LOG( _T("***** UpdateFriends - Bad response from server, this has happened %d time(s)"), disconnectionCount);
 		if (disconnectionCount > 2) {
-			LOG("***** UpdateFriends - Too many bad responses from the server, signing off");
+			LOG( _T("***** UpdateFriends - Too many bad responses from the server, signing off"));
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
@@ -528,7 +528,7 @@ void TwitterProto::UpdateFriends()
 	{
 		ShowPopup( (std::string("While updating friends list, an error occurred: ")
 			+e.what()).c_str() );
-		LOG("***** Error updating friends list: %s",e.what());
+		LOG( _T("***** Error updating friends list: %s"), e.what());
 	}
 
 }
@@ -609,14 +609,14 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 
 		db_pod_set(0,m_szModuleName,TWITTER_KEY_SINCEID,since_id_);
 		disconnectionCount = 0;
-		LOG("***** Status messages updated");
+		LOG( _T("***** Status messages updated"));
 	}
 	catch(const bad_response &)
 	{
 		++disconnectionCount;
-		LOG("***** UpdateStatuses - Bad response from server, this has happened %d time(s)", disconnectionCount);
+		LOG( _T("***** UpdateStatuses - Bad response from server, this has happened %d time(s)"), disconnectionCount);
 		if (disconnectionCount > 2) {
-			LOG("***** UpdateStatuses - Too many bad responses from the server, signing off");
+			LOG( _T("***** UpdateStatuses - Too many bad responses from the server, signing off"));
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
@@ -624,7 +624,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 	{
 		ShowPopup( (std::string("While updating status messages, an error occurred: ")
 			+e.what()).c_str() );
-		LOG("***** Error updating status messages: %s",e.what());
+		LOG( _T("***** Error updating status messages: %s"), e.what());
 	}
 }
 
@@ -661,14 +661,14 @@ void TwitterProto::UpdateMessages(bool pre_read)
 
 		db_pod_set(0,m_szModuleName,TWITTER_KEY_DMSINCEID,dm_since_id_);
 		disconnectionCount = 0;
-		LOG("***** Direct messages updated");
+		LOG( _T("***** Direct messages updated"));
 	}
 	catch(const bad_response &)
 	{
 		++disconnectionCount;
-		LOG("***** UpdateMessages - Bad response from server, this has happened %d time(s)", disconnectionCount);
+		LOG( _T("***** UpdateMessages - Bad response from server, this has happened %d time(s)"), disconnectionCount);
 		if (disconnectionCount > 2) {
-			LOG("***** UpdateMessages - Too many bad responses from the server, signing off");
+			LOG( _T("***** UpdateMessages - Too many bad responses from the server, signing off"));
 			SetStatus(ID_STATUS_OFFLINE);
 		}
 	}
@@ -676,7 +676,7 @@ void TwitterProto::UpdateMessages(bool pre_read)
 	{
 		ShowPopup( (std::string("While updating direct messages, an error occurred: ")
 			+e.what()).c_str() );
-		LOG("***** Error updating direct messages: %s",e.what());
+		LOG( _T("***** Error updating direct messages: %s"), e.what());
 	}
 }
 

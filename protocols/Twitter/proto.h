@@ -146,8 +146,8 @@ private:
 	HANDLE AddToClientList(const char *,const char *);
 	void SetAllContactStatuses(int);
 
-	int LOG(const char *fmt,...);
-	int WLOG(const char* first, const wstring last);
+	int LOG(TCHAR *fmt,...);
+	int WLOG(TCHAR* first, const wstring last);
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	void UpdateChat(const twitter_user &update);
