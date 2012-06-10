@@ -1,28 +1,28 @@
 #include "hook_events.h"
 
-int APIChangeLayout(WPARAM wParam, LPARAM lParam)
+INT_PTR APIChangeLayout(WPARAM wParam, LPARAM lParam)
 {
 	BOOL CurrentWord;
-	CurrentWord=moOptions.CurrentWordLayout;
-	return ChangeLayout((HWND)wParam,TOT_Layout,CurrentWord);
+	CurrentWord = moOptions.CurrentWordLayout;
+	return ChangeLayout((HWND)wParam, TOT_Layout, CurrentWord);
 }
 
-int APIGetLayoutOfText(WPARAM wParam, LPARAM lParam)
+INT_PTR APIGetLayoutOfText(WPARAM wParam, LPARAM lParam)
 {
 	LPTSTR ptszInText;
-	ptszInText=(TCHAR*)lParam;
+	ptszInText = (TCHAR*)lParam;
 	return (int) GetLayoutOfText(ptszInText);
 }
 
-int APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
+INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
 {
 	LPTSTR ptszInText;
 	CKLLayouts *ckllFromToLay;
 
-	ptszInText=(TCHAR*)wParam;
-	ckllFromToLay=(CKLLayouts*)lParam;
+	ptszInText = (TCHAR*)wParam;
+	ckllFromToLay = (CKLLayouts*)lParam;
 
-	return (int) ChangeTextLayout(ptszInText,ckllFromToLay->hklFrom,ckllFromToLay->hklTo,ckllFromToLay->bTwoWay);
+	return (int) ChangeTextLayout(ptszInText, ckllFromToLay->hklFrom, ckllFromToLay->hklTo, ckllFromToLay->bTwoWay);
 }
 
 BOOL CoreCheck()
@@ -34,62 +34,62 @@ BOOL CoreCheck()
 	if (!strstr(strrchr(exepath, '\\'), "miranda") ||
 		strstr(version, "coffee") ||
 		!strncmp(version, "1.", 2) || strstr(version, " 1.") ||
-		(dwMirandaVersion >= PLUGIN_MAKE_VERSION(1,0,0,0)))
+		(dwMirandaVersion >= PLUGIN_MAKE_VERSION(1, 0, 0, 0)))
 			return FALSE;
 	else return TRUE;
 }
 
 void ReadMainOptions()
 {
-	moOptions.dwHotkey_Layout=DBGetContactSettingDword(NULL,ModuleName,"HotkeyLayout",119);
-	moOptions.dwHotkey_Layout2=DBGetContactSettingDword(NULL,ModuleName,"HotkeyLayout2",120);
-	moOptions.dwHotkey_Case=DBGetContactSettingDword(NULL,ModuleName,"HotkeyCase",121);
-	moOptions.CurrentWordLayout=DBGetContactSettingByte(NULL,ModuleName,"CurrentWordLayout",0);
-	moOptions.CurrentWordLayout2=DBGetContactSettingByte(NULL,ModuleName,"CurrentWordLayout2",1);
-	moOptions.CurrentWordCase=DBGetContactSettingByte(NULL,ModuleName,"CurrentWordCase",0);
-	moOptions.TwoWay=DBGetContactSettingByte(NULL,ModuleName,"TwoWay",1);
-	moOptions.ChangeSystemLayout=DBGetContactSettingByte(NULL,ModuleName,"ChangeSystemLayout",1);
-	moOptions.CopyToClipboard=DBGetContactSettingByte(NULL,ModuleName,"CopyToClipboard",0);
-	moOptions.ShowPopup=DBGetContactSettingByte(NULL,ModuleName,"ShowPopup",1);
-	moOptions.bCaseOperations=DBGetContactSettingByte(NULL,ModuleName,"CaseOperations",0);
+	moOptions.dwHotkey_Layout = DBGetContactSettingDword(NULL, ModuleName, "HotkeyLayout", 119);
+	moOptions.dwHotkey_Layout2 = DBGetContactSettingDword(NULL, ModuleName, "HotkeyLayout2", 120);
+	moOptions.dwHotkey_Case = DBGetContactSettingDword(NULL, ModuleName, "HotkeyCase", 121);
+	moOptions.CurrentWordLayout = DBGetContactSettingByte(NULL, ModuleName, "CurrentWordLayout", 0);
+	moOptions.CurrentWordLayout2 = DBGetContactSettingByte(NULL, ModuleName, "CurrentWordLayout2", 1);
+	moOptions.CurrentWordCase = DBGetContactSettingByte(NULL, ModuleName, "CurrentWordCase", 0);
+	moOptions.TwoWay = DBGetContactSettingByte(NULL, ModuleName, "TwoWay", 1);
+	moOptions.ChangeSystemLayout = DBGetContactSettingByte(NULL, ModuleName, "ChangeSystemLayout", 1);
+	moOptions.CopyToClipboard = DBGetContactSettingByte(NULL, ModuleName, "CopyToClipboard", 0);
+	moOptions.ShowPopup = DBGetContactSettingByte(NULL, ModuleName, "ShowPopup", 1);
+	moOptions.bCaseOperations = DBGetContactSettingByte(NULL, ModuleName, "CaseOperations", 0);
 }
 
 void WriteMainOptions()
 {
-	DBWriteContactSettingDword(NULL,ModuleName,"HotkeyLayout",moOptions.dwHotkey_Layout);
-	DBWriteContactSettingDword(NULL,ModuleName,"HotkeyLayout2",moOptions.dwHotkey_Layout2);
-	DBWriteContactSettingDword(NULL,ModuleName,"HotkeyCase",moOptions.dwHotkey_Case);
-	DBWriteContactSettingByte(NULL,ModuleName,"CurrentWordLayout",moOptions.CurrentWordLayout);
-	DBWriteContactSettingByte(NULL,ModuleName,"CurrentWordLayout2",moOptions.CurrentWordLayout2);
-	DBWriteContactSettingByte(NULL,ModuleName,"CurrentWordCase",moOptions.CurrentWordCase);
-	DBWriteContactSettingByte(NULL,ModuleName,"TwoWay",moOptions.TwoWay);
-	DBWriteContactSettingByte(NULL,ModuleName,"ChangeSystemLayout",moOptions.ChangeSystemLayout);
-	DBWriteContactSettingByte(NULL,ModuleName,"CopyToClipboard",moOptions.CopyToClipboard);
-	DBWriteContactSettingByte(NULL,ModuleName,"ShowPopup",moOptions.ShowPopup);
-	DBWriteContactSettingByte(NULL,ModuleName,"CaseOperations",moOptions.bCaseOperations);
+	DBWriteContactSettingDword(NULL, ModuleName, "HotkeyLayout", moOptions.dwHotkey_Layout);
+	DBWriteContactSettingDword(NULL, ModuleName, "HotkeyLayout2", moOptions.dwHotkey_Layout2);
+	DBWriteContactSettingDword(NULL, ModuleName, "HotkeyCase", moOptions.dwHotkey_Case);
+	DBWriteContactSettingByte(NULL, ModuleName, "CurrentWordLayout", moOptions.CurrentWordLayout);
+	DBWriteContactSettingByte(NULL, ModuleName, "CurrentWordLayout2", moOptions.CurrentWordLayout2);
+	DBWriteContactSettingByte(NULL, ModuleName, "CurrentWordCase", moOptions.CurrentWordCase);
+	DBWriteContactSettingByte(NULL, ModuleName, "TwoWay", moOptions.TwoWay);
+	DBWriteContactSettingByte(NULL, ModuleName, "ChangeSystemLayout", moOptions.ChangeSystemLayout);
+	DBWriteContactSettingByte(NULL, ModuleName, "CopyToClipboard", moOptions.CopyToClipboard);
+	DBWriteContactSettingByte(NULL, ModuleName, "ShowPopup", moOptions.ShowPopup);
+	DBWriteContactSettingByte(NULL, ModuleName, "CaseOperations", moOptions.bCaseOperations);
 }
 
 
 void ReadPopupOptions()
 {
-	poOptions.bColourType=DBGetContactSettingByte(NULL,ModuleName,"ColourType",0);
-	poOptions.crBackColour=(COLORREF)DBGetContactSettingDword(NULL,ModuleName,"BackColor",0xD2CABF);
-	poOptions.crTextColour=(COLORREF)DBGetContactSettingDword(NULL,ModuleName,"TextColor",0x000000);
-	poOptions.bTimeoutType=DBGetContactSettingByte(NULL,ModuleName,"TimeoutType",0);
-	poOptions.bTimeout=DBGetContactSettingByte(NULL,ModuleName,"Timeout",10);
-	poOptions.bLeftClick=DBGetContactSettingByte(NULL,ModuleName,"LeftClick",0);
-	poOptions.bRightClick=DBGetContactSettingByte(NULL,ModuleName,"RightClick",1);
+	poOptions.bColourType = DBGetContactSettingByte(NULL, ModuleName, "ColourType", 0);
+	poOptions.crBackColour = (COLORREF)DBGetContactSettingDword(NULL, ModuleName, "BackColor", 0xD2CABF);
+	poOptions.crTextColour = (COLORREF)DBGetContactSettingDword(NULL, ModuleName, "TextColor", 0x000000);
+	poOptions.bTimeoutType = DBGetContactSettingByte(NULL, ModuleName, "TimeoutType", 0);
+	poOptions.bTimeout = DBGetContactSettingByte(NULL, ModuleName, "Timeout", 10);
+	poOptions.bLeftClick = DBGetContactSettingByte(NULL, ModuleName, "LeftClick", 0);
+	poOptions.bRightClick = DBGetContactSettingByte(NULL, ModuleName, "RightClick", 1);
 }
 
 void WritePopupOptions()
 {
-	DBWriteContactSettingByte(NULL,ModuleName,"ColourType",poOptions.bColourType);
-	DBWriteContactSettingDword(NULL,ModuleName,"BackColor",poOptions.crBackColour);
-	DBWriteContactSettingDword(NULL,ModuleName,"TextColor",poOptions.crTextColour);
-	DBWriteContactSettingByte(NULL,ModuleName,"TimeoutType",poOptions.bTimeoutType);
-	DBWriteContactSettingByte(NULL,ModuleName,"Timeout",poOptions.bTimeout);
-	DBWriteContactSettingByte(NULL,ModuleName,"LeftClick",poOptions.bLeftClick);
-	DBWriteContactSettingByte(NULL,ModuleName,"RightClick",poOptions.bRightClick);
+	DBWriteContactSettingByte(NULL, ModuleName, "ColourType", poOptions.bColourType);
+	DBWriteContactSettingDword(NULL, ModuleName, "BackColor", poOptions.crBackColour);
+	DBWriteContactSettingDword(NULL, ModuleName, "TextColor", poOptions.crTextColour);
+	DBWriteContactSettingByte(NULL, ModuleName, "TimeoutType", poOptions.bTimeoutType);
+	DBWriteContactSettingByte(NULL, ModuleName, "Timeout", poOptions.bTimeout);
+	DBWriteContactSettingByte(NULL, ModuleName, "LeftClick", poOptions.bLeftClick);
+	DBWriteContactSettingByte(NULL, ModuleName, "RightClick", poOptions.bRightClick);
 }
 
 void RegPopupActions()
@@ -102,9 +102,8 @@ void RegPopupActions()
 		poOptions.paActions[0].flags = PAF_ENABLED;
 		poOptions.paActions[0].wParam = poOptions.paActions[0].lParam = 0;
 		poOptions.paActions[0].lchIcon = hCopyIcon;
-		CallService(MS_POPUP_REGISTERACTIONS,&poOptions.paActions,1);
+		CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)&poOptions.paActions, 1);
 	}
-
 }
 
 int OnIconsChanged(WPARAM wParam, LPARAM lParam)
@@ -124,37 +123,37 @@ int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 }
 
 
-int ModulesLoaded(WPARAM wParam,LPARAM lParam)
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	int i,iRes;
+	int i, iRes;
 	DBVARIANT dbv = {0};
-	LPCTSTR ptszEmptySting=_T("");
+	LPCTSTR ptszEmptySting = _T("");
 	LPTSTR ptszCurrLayout;
-	LPTSTR ptszTemp;
+	LPSTR ptszTemp;
 
 	SKINICONDESC sid = {0};
 	CHAR szFile[MAX_PATH];
 
 
 	//Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
-	for (i = 0;i < bLayNum; i++)
+	for (i = 0; i < bLayNum; i++)
 	{
-		ptszCurrLayout=GenerateLayoutString(hklLayouts[i]);
-		ptszTemp=GetNameOfLayout(hklLayouts[i]);
-		iRes=DBGetContactSettingTString(NULL,ModuleName,ptszTemp,&dbv);
-		if (iRes!=0)
-			ptszLayStrings[i]=ptszCurrLayout;
+		ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
+		ptszTemp = GetNameOfLayout(hklLayouts[i]);
+		iRes = DBGetContactSettingTString(NULL, ModuleName, ptszTemp, &dbv);
+		if (iRes != 0)
+			ptszLayStrings[i] = ptszCurrLayout;
 		else
-			if(_tcscmp((dbv.ptszVal),ptszEmptySting)==0)
+			if(_tcscmp((dbv.ptszVal), ptszEmptySting) == 0)
 			{
-				ptszLayStrings[i]=ptszCurrLayout;
+				ptszLayStrings[i] = ptszCurrLayout;
 				mir_free(dbv.ptszVal);
 			}
 			else 
 			{
-				ptszLayStrings[i]=dbv.ptszVal;
-				if(_tcscmp(ptszCurrLayout,ptszLayStrings[i])==0)
-					DBDeleteContactSetting(NULL,ModuleName,ptszTemp);
+				ptszLayStrings[i] = dbv.ptszVal;
+				if(_tcscmp(ptszCurrLayout, ptszLayStrings[i]) == 0)
+					DBDeleteContactSetting(NULL, ModuleName, ptszTemp);
 				mir_free(ptszCurrLayout);
 			}		
 			mir_free(ptszTemp);
@@ -171,12 +170,12 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	SkinAddNewSoundEx(SND_ChangeCase, Translate(ModuleName), Translate("Changing Case"));
 	
 	// Хук на нажатие клавиши
-	kbHook_All=SetWindowsHookEx(WH_KEYBOARD,(HOOKPROC)Keyboard_Hook,NULL,GetCurrentThreadId());
+	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());
 
 	// Зарегим сервисы
-	hChangeLayout=CreateServiceFunction(MS_CKL_CHANGELAYOUT, APIChangeLayout);
-	hGetLayoutOfText=CreateServiceFunction(MS_CKL_GETLAYOUTOFTEXT,APIGetLayoutOfText);
-	hChangeTextLayout=CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT,APIChangeTextLayout);
+	hChangeLayout = CreateServiceFunction(MS_CKL_CHANGELAYOUT, APIChangeLayout);
+	hGetLayoutOfText = CreateServiceFunction(MS_CKL_GETLAYOUTOFTEXT, APIGetLayoutOfText);
+	hChangeTextLayout = CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT, APIChangeTextLayout);
 
 	// IcoLib support
 	if(ServiceExists(MS_SKIN2_ADDICON))
@@ -198,7 +197,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 	}
-	OnIconsChanged(0,0);
+	OnIconsChanged(0, 0);
 	RegPopupActions();
 
 	//Поддержка Апдейтера
@@ -212,7 +211,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 	
 	
-	DBWriteContactSettingDword(NULL,ModuleName,"CurrentVer",VERSION);
+	DBWriteContactSettingDword(NULL, ModuleName, "CurrentVer", VERSION);
 
 
 	return 0;
@@ -224,22 +223,22 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_MAIN_OPTION_FORM);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
 	odp.pszTitle = Translate(ModuleName);
 	odp.pszGroup = Translate("Plugins");
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
 	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);	
 	
 	if (ServiceExists(MS_POPUP_ADDPOPUP))
 	{
-		ZeroMemory(&odp,sizeof(odp));
+		ZeroMemory(&odp, sizeof(odp));
 		odp.cbSize = sizeof(odp);
 		odp.hInstance = hInst;
-		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUP_OPTION_FORM);
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
 		odp.pszTitle = Translate(ModuleName);
 		odp.pszGroup = Translate("PopUps");
-		odp.flags=ODPF_BOLDGROUPS;
+		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = DlgPopupsProcOptions;
 		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);	
 	}
@@ -252,35 +251,35 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 {
 	DWORD lcode;
 
-	if (code==HC_ACTION)
+	if (code == HC_ACTION)
 	{
-		lcode=0;
-		if ((GetKeyState(VK_SHIFT)&0x8000)) lcode|=HOTKEYF_SHIFT;
-		if ((GetKeyState(VK_CONTROL)&0x8000)) lcode|=HOTKEYF_CONTROL;
-		if ((GetKeyState(VK_MENU)&0x8000)) lcode|=HOTKEYF_ALT;
-		if ((GetKeyState(VK_LWIN)&0x8000)||(GetKeyState(VK_RWIN)&0x8000)) lcode|=HOTKEYF_EXT;
-		lcode=lcode<<8;
+		lcode = 0;
+		if ((GetKeyState(VK_SHIFT)&0x8000)) lcode |= HOTKEYF_SHIFT;
+		if ((GetKeyState(VK_CONTROL)&0x8000)) lcode |= HOTKEYF_CONTROL;
+		if ((GetKeyState(VK_MENU)&0x8000)) lcode |= HOTKEYF_ALT;
+		if ((GetKeyState(VK_LWIN)&0x8000)||(GetKeyState(VK_RWIN)&0x8000)) lcode |= HOTKEYF_EXT;
+		lcode = lcode<<8;
 		
-		if ((wParam!=VK_SHIFT)&&(wParam!=VK_MENU)&&(wParam!=VK_CONTROL)&&(wParam!=VK_LWIN)&&(wParam!=VK_RWIN))
-			lcode+=wParam;
+		if ((wParam != VK_SHIFT) && (wParam != VK_MENU) && (wParam != VK_CONTROL) && (wParam != VK_LWIN) && (wParam != VK_RWIN))
+			lcode += wParam;
 
 		// Проверка на пустой хоткей. Иначе - пиздец, как в версии 1.4
-		if (lcode!=0)
-			if ((lcode==moOptions.dwHotkey_Layout)&&(!(lParam&0x40000000)))
+		if (lcode != 0)
+			if ((lcode == moOptions.dwHotkey_Layout) && (!(lParam&0x40000000)))
 			{
-				ChangeLayout(NULL,TOT_Layout,moOptions.CurrentWordLayout);
+				ChangeLayout(NULL, TOT_Layout, moOptions.CurrentWordLayout);
 				return 1;
 			}
 			else
-			if ((lcode==moOptions.dwHotkey_Layout2)&&(!(lParam&0x40000000)))
+			if ((lcode == moOptions.dwHotkey_Layout2) && (!(lParam&0x40000000)))
 			{
-				ChangeLayout(NULL,TOT_Layout,moOptions.CurrentWordLayout2);
+				ChangeLayout(NULL, TOT_Layout, moOptions.CurrentWordLayout2);
 				return 1;
 			}
 			else
-			if ((lcode==moOptions.dwHotkey_Case)&&(!(lParam&0x40000000)))
+			if ((lcode == moOptions.dwHotkey_Case) && (!(lParam&0x40000000)))
 			{
-				ChangeLayout(NULL,TOT_Case,moOptions.CurrentWordCase); 
+				ChangeLayout(NULL, TOT_Case, moOptions.CurrentWordCase); 
 				return 1;
 			}
 	}
@@ -291,14 +290,14 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 {
 	LPTSTR ptszPopupText;
 	
-	ptszPopupText=(LPTSTR)CallService(MS_POPUP_GETPLUGINDATA,(WPARAM)hWnd,(LPARAM)&ptszPopupText);
+	ptszPopupText = (LPTSTR)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&ptszPopupText);
 	switch(uiMessage)
 	{
 		case WM_COMMAND:
 			{
 				if (HIWORD(wParam) == STN_CLICKED)
 				{   					
-					if (!IsBadStringPtr(ptszPopupText,MaxTextSize))
+					if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
 						CopyTextToClipboard(ptszPopupText);					
 					PUDeletePopUp(hWnd);
 					
@@ -314,7 +313,7 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 		
 		case UM_POPUPACTION:
 			{
-				if ((lParam==0)&&(!IsBadStringPtr(ptszPopupText,MaxTextSize)))
+				if ((lParam == 0) && (!IsBadStringPtr(ptszPopupText, MaxTextSize)))
 				{
 					CopyTextToClipboard(ptszPopupText);
 				}

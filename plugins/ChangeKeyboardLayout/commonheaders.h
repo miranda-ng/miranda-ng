@@ -98,7 +98,7 @@ PLUGININFO pluginInfo;
 
 HINSTANCE hInst;
 
-HANDLE hChangeLayout,hGetLayoutOfText,hChangeTextLayout;
+HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
 HANDLE hIcoLibIconsChanged;
 
 HICON hPopupIcon, hCopyIcon;
@@ -115,7 +115,7 @@ LPCTSTR ptszSeparators;
 HHOOK kbHook_All;
 
 MainOptions moOptions;
-PopupOptions poOptions,poOptionsTemp;
+PopupOptions poOptions, poOptionsTemp;
 DWORD dwMirandaVersion;
 
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam);

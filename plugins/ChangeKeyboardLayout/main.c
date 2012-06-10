@@ -4,7 +4,7 @@ struct MM_INTERFACE mmi;
 PLUGINLINK *pluginLink;
 int hLangpack;
 
-PLUGININFOEX pluginInfoEx={
+PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	"Change Keyboard Layout",
 	VERSION,
@@ -12,16 +12,16 @@ PLUGININFOEX pluginInfoEx={
 	"Yasnovidyashii",
 	"Yasnovidyashii@gmail.com",
 	"© 2006-2009 Mikhail Yur'ev",
-	"http://lemnews.com/forum/viewtopic.php?t=1493",
+	"http://lemnews.com/forum/viewtopic.php?t = 1493",
 	0,		//not transient
 	UNICODE_AWARE,		//doesn't replace anything built-in
 	{0xc5ef53a8, 0x80d4, 0x4ce9, { 0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56 }} //{c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 };
 
-LPCTSTR ptszKeybEng=_T("`1234567890-=\\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
-HKL hklEng=(HKL)0x04090409;
+LPCTSTR ptszKeybEng = _T("`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?");
+HKL hklEng = (HKL)0x04090409;
 
-LPCTSTR ptszSeparators=_T(" \t\n\r");
+LPCTSTR ptszSeparators = _T(" \t\n\r");
 
 HANDLE hOptionsInitialize;
 HANDLE hModulesLoaded;
@@ -29,7 +29,7 @@ HANDLE hModulesLoaded;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -50,11 +50,11 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {	
-	pluginLink=link;
+	pluginLink = link;
 	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfoEx);
 	ZeroMemory(hklLayouts, 20 * sizeof(HKL));
-	bLayNum=GetKeyboardLayoutList(20,hklLayouts);
+	bLayNum = GetKeyboardLayoutList(20,hklLayouts);
 	if (bLayNum<2) 
 		return 1;
 	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
@@ -66,7 +66,7 @@ int __declspec(dllexport) Unload(void)
 {
 	DWORD i;
 
-	for (i=0;i<bLayNum;i++)	
+	for (i = 0;i<bLayNum;i++)	
 		mir_free(ptszLayStrings[i]);
 
 	UnhookEvent(hOptionsInitialize);
