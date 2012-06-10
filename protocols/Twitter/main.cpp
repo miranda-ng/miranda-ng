@@ -108,7 +108,7 @@ int OnModulesLoaded(WPARAM,LPARAM)
 		upd.szBetaVersionURL     = "http://twosx.net/mim/twitter/updater/version.html";
 		upd.szBetaChangelogURL   = "http://twosx.net/mim/twitter/updater/changelog.html";
 		upd.pbBetaVersionPrefix  = reinterpret_cast<BYTE*>("Twitter ");
-		upd.cpbBetaVersionPrefix = strlen(reinterpret_cast<char*>(upd.pbBetaVersionPrefix));
+		upd.cpbBetaVersionPrefix = (int)strlen(reinterpret_cast<char*>(upd.pbBetaVersionPrefix));
 #ifdef UNICODE
 		upd.szBetaUpdateURL      = "http://twosx.net/mim/twitter/updater/twitter.zip";
 #else
@@ -117,7 +117,7 @@ int OnModulesLoaded(WPARAM,LPARAM)
 
 		upd.pbVersion = reinterpret_cast<BYTE*>( CreateVersionStringPlugin(
 			reinterpret_cast<PLUGININFO*>(&pluginInfo),curr_version) );
-		upd.cpbVersion = strlen(reinterpret_cast<char*>(upd.pbVersion));
+		upd.cpbVersion = (int)strlen(reinterpret_cast<char*>(upd.pbVersion));
 
 		CallService(MS_UPDATE_REGISTER,0,(LPARAM)&upd);
 	}

@@ -350,7 +350,7 @@ namespace popup_options
 				return GetSysColor(COLOR_WINDOWTEXT);
 		}
 		else if(IsDlgButtonChecked(hwndDlg,IDC_COL_CUSTOM))
-			return SendDlgItemMessage(hwndDlg,IDC_COLTEXT,CPM_GETCOLOUR,0,0);
+			return (COLORREF)SendDlgItemMessage(hwndDlg,IDC_COLTEXT,CPM_GETCOLOUR,0,0);
 		else // Default checked (probably)
 			return 0;
 	}
@@ -365,7 +365,7 @@ namespace popup_options
 				return GetSysColor(COLOR_WINDOW);
 		}
 		else if(IsDlgButtonChecked(hwndDlg,IDC_COL_CUSTOM))
-			return SendDlgItemMessage(hwndDlg,IDC_COLBACK,CPM_GETCOLOUR,0,0);
+			return (COLORREF)SendDlgItemMessage(hwndDlg,IDC_COLBACK,CPM_GETCOLOUR,0,0);
 		else // Default checked (probably)
 			return 0;
 	}
@@ -394,7 +394,7 @@ namespace popup_options
 
 		// Pick a random contact
 		HANDLE hContact = 0;
-		int n_contacts = CallService(MS_DB_CONTACT_GETCOUNT,0,0);
+		int n_contacts = (int)CallService(MS_DB_CONTACT_GETCOUNT,0,0);
 
 		if(n_contacts != 0)
 		{

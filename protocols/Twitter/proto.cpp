@@ -149,7 +149,7 @@ HICON TwitterProto::GetIcon(int index)
 int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
 {
 	CCSDATA ccs = { hContact,PSR_MESSAGE,0,reinterpret_cast<LPARAM>(pre) };
-	return CallService(MS_PROTO_RECVMSG,0,reinterpret_cast<LPARAM>(&ccs));
+	return (int)CallService(MS_PROTO_RECVMSG,0,reinterpret_cast<LPARAM>(&ccs));
 }
 
 // *************************
@@ -258,7 +258,7 @@ int TwitterProto::SvcCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 
 int TwitterProto::GetName(WPARAM wParam,LPARAM lParam)
 {
-	lstrcpynA(reinterpret_cast<char*>(lParam),m_szProtoName,wParam);
+	lstrcpynA(reinterpret_cast<char*>(lParam), m_szProtoName, (int)wParam);
 	return 0;
 }
 
@@ -516,7 +516,7 @@ int TwitterProto::LOG(const char *fmt,...)
 	mir_vsnprintf(text,sizeof(text),fmt,va);
 	va_end(va);
 
-	return CallService(MS_NETLIB_LOG,(WPARAM)hNetlib_,(LPARAM)text);
+	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)text);
 }
 
 int TwitterProto::WLOG(const char* first, const wstring last)

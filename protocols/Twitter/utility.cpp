@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 std::string b64encode(const std::string &s)
 {
 	NETLIBBASE64 encode;
-	encode.cbDecoded = s.length();
+	encode.cbDecoded = (int)s.length();
 	encode.pbDecoded = (BYTE*)s.c_str();
 	encode.cchEncoded = Netlib_GetBase64EncodedBufferSize(encode.cbDecoded);
 	encode.pszEncoded = new char[encode.cchEncoded+1];
@@ -122,7 +122,7 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 		pdata_STR = WideToUTF8(pdata_WSTR);
 
 		req.headersCount = 3;
-		req.dataLength = pdata_STR.size();
+		req.dataLength = (int)pdata_STR.size();
 		req.pData = const_cast<char*>(pdata_STR.c_str());
 		LOG("**SLURP::POST - req.pdata is %s", req.pData);
 	}
@@ -162,7 +162,7 @@ int mir_twitter::LOG(const char *fmt,...)
 	mir_vsnprintf(text,sizeof(text),fmt,va);
 	va_end(va);
 
-	return CallService(MS_NETLIB_LOG,(WPARAM)handle_,(LPARAM)text);
+	return (int)CallService(MS_NETLIB_LOG,(WPARAM)handle_,(LPARAM)text);
 }
 
 int mir_twitter::WLOG(const char* first, const std::wstring last)

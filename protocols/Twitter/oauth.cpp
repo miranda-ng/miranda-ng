@@ -496,7 +496,7 @@ string mir_twitter::HMACSHA1( const string& keyBytes, const string& data )
 	if (!CryptHashData(
 		hHash,                    // handle of the hash object
 		(BYTE*)keyBytes.c_str(),                    // password to hash
-		keyBytes.size(),            // number of bytes of data to add
+		(DWORD)keyBytes.size(),            // number of bytes of data to add
 		0))                       // flags
 	{
 		_TRACE("Error in CryptHashData 0x%08x \n", 
@@ -522,7 +522,7 @@ string mir_twitter::HMACSHA1( const string& keyBytes, const string& data )
 	* be able to import longer keys (HMAC-SHA1 uses 20-byte key).
 	*/
 	key_blob.hdr.aiKeyAlg = CALG_RC2;
-	key_blob.len = keyBytes.size();
+	key_blob.len = (DWORD)keyBytes.size();
 	ZeroMemory(key_blob.key, sizeof(key_blob.key));
 
 	_ASSERTE(keyBytes.size() <= SIZEOF(key_blob.key));
@@ -578,7 +578,7 @@ string mir_twitter::HMACSHA1( const string& keyBytes, const string& data )
 	if (!CryptHashData(
 		hHmacHash,                // handle of the HMAC hash object
 		(BYTE*)data.c_str(),                    // message to hash
-		data.size(),            // number of bytes of data to add
+		(DWORD)data.size(),            // number of bytes of data to add
 		0))                       // flags
 	{
 		_TRACE("Error in CryptHashData 0x%08x \n", 
@@ -646,7 +646,7 @@ ErrorExit:
 wstring mir_twitter::Base64String( const string& hash ) 
 {
 	Base64Coder coder;
-	coder.Encode((BYTE*)hash.c_str(), hash.size());
+	coder.Encode((BYTE*)hash.c_str(), (DWORD)hash.size());
 	wstring encoded = UTF8ToWide(coder.EncodedMessage());
 	return encoded;
 }
