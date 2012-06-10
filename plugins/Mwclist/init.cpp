@@ -103,13 +103,13 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 	return TRUE;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_CLIST, MIID_LAST};
-__declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
@@ -165,7 +165,7 @@ static ClcCacheEntryBase* fnCreateCacheItem( HANDLE hContact )
 	return (ClcCacheEntryBase*)p;
 }
 
-int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 {
 	int rc = 0;
 	pluginLink = link;
@@ -244,7 +244,7 @@ LBL_Error:
 }
 
 // never called by a newer plugin loader.
-int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 {
 	OutputDebugStringA("Load ClistMW\r\n");
 	MessageBoxA(0,"You Running Old Miranda, use >30-10-2004 version!","MultiWindow Clist",0);
@@ -252,7 +252,7 @@ int __declspec(dllexport) Load(PLUGINLINK * link)
 	return 1;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	OutputDebugStringA("Unloading ClistMW\r\n");
 	if (IsWindow(pcli->hwndContactList)) DestroyWindow(pcli->hwndContactList);
