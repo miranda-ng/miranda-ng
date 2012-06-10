@@ -2,8 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#define IDB_CONSOLE_UP                  100
-#define IDB_CONSOLE_DOWN                101
+#define IDI_CONSOLE_UP                  100
+#define IDI_CONSOLE_DOWN                101
 #define IDD_MSG                         111
 #define IDD_CONSOLE                     112
 #define IDD_LOG                         113

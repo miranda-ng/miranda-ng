@@ -3,20 +3,17 @@
 #define M_TOPTOOLBAR_H
 
 //button flags
-#define TTBBF_DISABLED			1
-#define TTBBF_VISIBLE			2 
-#define TTBBF_PUSHED			4
-#define TTBBF_SHOWTOOLTIP		8
-#define TTBBF_DRAWBORDER		16//draw border for bitmap,bitmap must be WxH 16x12
-#define TTBBF_ISSEPARATOR		32
-
-//for internal launch buttons
+#define TTBBF_DISABLED         1
+#define TTBBF_VISIBLE          2 
+#define TTBBF_PUSHED           4
+#define TTBBF_SHOWTOOLTIP      8
+#define TTBBF_DRAWBORDER      16
+#define TTBBF_ISSEPARATOR     32
 #define TTBBF_ISLBUTTON			64
+#define TTBBF_ICONBYHANDLE   128 
 
 typedef struct {
 	int cbSize;
-	HBITMAP hbBitmapUp;
-	HBITMAP hbBitmapDown;
 	char *pszServiceUp;
 	char *pszServiceDown;
 	DWORD dwFlags;
@@ -25,26 +22,18 @@ typedef struct {
 	LPARAM lParamDown;
 	WPARAM wParamDown;
 	char *name;
-
-} TTBButton, * lpTTBButton;
-
-typedef struct {
-	int cbSize;
-	HBITMAP hbBitmapUp;
-	HBITMAP hbBitmapDown;
-	char *pszServiceUp;
-	char *pszServiceDown;
-	DWORD dwFlags;
-	LPARAM lParamUp;
-	WPARAM wParamUp;
-	LPARAM lParamDown;
-	WPARAM wParamDown;
-	char *name;
-	HICON hIconUp,hIconDn;
+	union {
+		HICON hIconUp;
+		HANDLE hIconHandleUp;
+	};
+	union {
+		HICON hIconDn;
+		HANDLE hIconHandleDn;
+	};
 	char *tooltipUp;
 	char *tooltipDn;
-
-} TTBButtonV2, * lpTTBButtonV2;
+}
+	TTBButton, * lpTTBButton;
 
 //=== EVENTS ===
 /*

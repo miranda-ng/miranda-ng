@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "..\\resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -53,8 +53,7 @@ END
 
 IDI_TTBDOWN             ICON                    "res\\ttbDown.ico"
 IDI_TTBUP               ICON                    "res\\ttbUp.ico"
-IDB_TTBDOWN             BITMAP                  "res\\ttbDown.bmp"
-IDB_TTBUP               BITMAP                  "res\\ttbUp.bmp"
+
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -69,4 +68,3 @@ IDB_TTBUP               BITMAP                  "res\\ttbUp.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

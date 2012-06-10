@@ -82,8 +82,8 @@ INT_PTR InsertLBut(int id)
 	
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	ttb.hbBitmapDown = DefLDn;
-	ttb.hbBitmapUp = DefLUp;
+	//ttb.hbBitmapDown = DefLDn;    !!!!!!!!!!!!!!
+	//ttb.hbBitmapUp = DefLUp;      !!!!!!!!!!!!!!
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISLBUTTON;
 	ttb.pszServiceDown = TTB_LAUNCHSERVICE;
 	ttb.lParamDown = id;
@@ -120,7 +120,7 @@ int LoadAllLButs()
 	memset(LBUTS, 0, sizeof(LBUTS));
 	for (int i = 0; i < MAXLBUTS; i++) {
 		memset(buf1, 0, SIZEOF(buf1));
-		itoa(i, buf1, 10);
+		_itoa(i, buf1, 10);
 		AS(fixname, "LBUT", buf1);
 		id = DBGetContactSettingWord(0, TTB_OPTDIR, AS(buf, fixname, ""), -1);
 		if (id != -1) {
@@ -145,7 +145,7 @@ int SaveAllLButs()
 	memset(buf, 0, SIZEOF(buf));	
 	
 	for (int i = 0;i<MAXLBUTS;i++) {
-		itoa(i, buf1, 10);
+		_itoa(i, buf1, 10);
 		if (LBUTS[i].hframe != 0) {
 			AS(fixname, "LBUT", buf1);
 			DBWriteContactSettingWord(0, TTB_OPTDIR, AS(buf, fixname, ""), i);

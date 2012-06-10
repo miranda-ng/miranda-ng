@@ -116,7 +116,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
@@ -147,14 +147,6 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDB_TTB_UP_DISABLED     BITMAP                  "res\\ttb_disabled.bmp"
-IDB_TTB_UP_ENABLED      BITMAP                  "res\\ttb_enabled.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Icon
 //
 
@@ -180,19 +172,19 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""resource.h""\r\n"
     "#include ""winresrc.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -214,4 +206,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

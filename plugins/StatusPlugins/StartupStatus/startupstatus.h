@@ -159,7 +159,6 @@ void RegisterButtons();
 
 int LoadProfileModule();
 int InitProfileModule();
-int ReinitProfileModule();
 int DeinitProfilesModule();
 
 #endif //__STARTUPSTATUSHEADER

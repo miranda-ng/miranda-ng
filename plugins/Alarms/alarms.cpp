@@ -200,12 +200,13 @@ HBITMAP LoadBmpFromIcon(int IdRes)
 	return hBmp;
 }
 
-static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam) {
+static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
+{
 	TTBButton ttb = {0};
 
 	ttb.cbSize = sizeof(ttb);
-	ttb.hbBitmapUp = LoadBmpFromIcon(IDI_TBUP); //LoadBitmap(hInst, MAKEINTRESOURCE(IDB_CLOCK));
-	ttb.hbBitmapDown = LoadBmpFromIcon(IDI_TBDN); //LoadBitmap(hInst, MAKEINTRESOURCE(IDB_CLOCK));
+	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
+	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
 	ttb.pszServiceDown = MODULE "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;// | TTBBF_DRAWBORDER;
 	ttb.name = Translate("Set Alarm");

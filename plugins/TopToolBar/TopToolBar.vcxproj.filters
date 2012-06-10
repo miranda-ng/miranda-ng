@@ -26,24 +26,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="bmp\bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\bmp00002.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\borderup.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\borederdn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\cpaneldn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\cpanelup.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="find.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -53,37 +35,10 @@
     <None Include="icos\Find_Add Contacts_UP.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="bmp\finduser.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\finduserdn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\groupdn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\Groups On_Off_DN.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\Groups On_Off_UP.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\groupup.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\launch.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\launchdn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\launchup.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\menudn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\menuup.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\Minimize Button_DN.ico">
@@ -92,28 +47,13 @@
     <None Include="icos\Minimize Button_UP.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="bmp\minimize.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\minimizedn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\notick.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\notick1.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="bmp\options.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\Run.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\searchtest.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\sep.bmp">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\Show Main Menu_DN.ico">
@@ -140,13 +80,7 @@
     <None Include="icos\Sounds Enable_Disable_UP.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="bmp\soundsdn.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\soundsup.bmp">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="bmp\test.bmp">
+    <None Include="bmp\sep.bmp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

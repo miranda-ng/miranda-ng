@@ -39,7 +39,6 @@ Last change by : $Author: ing.u.horn $
 #define SECT_BUTTONS			"UserInfoEx/Buttons"
 #define SECT_TREE				"UserInfoEx/TreeView"
 #define SECT_REMIND				"UserInfoEx/Reminder"
-#define SECT_TOOLBAR			"ToolBar" // global toolbar section as used by modern clist
 
 // icons
 #define ICO_COMMON_IM			MODNAME"_common_im"

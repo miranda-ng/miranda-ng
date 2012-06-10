@@ -14,16 +14,11 @@ int hLangpack = 0;
 MM_INTERFACE mmi;
 LIST_INTERFACE li;
 
-HANDLE hMenu = NULL;
-HANDLE hPrebuildMenu = NULL;
-HANDLE hSystemModulesLoaded = NULL;
-HANDLE hTopToolbarLoaded = NULL;
-HANDLE hTopToolbarButtonShowList = NULL;
-HANDLE hMsgWndEvent = NULL;
-HANDLE hWindowList = NULL;
-HANDLE hMenuItemRemove = NULL;
-HANDLE hOptInitialise = NULL;
-HANDLE hContactSetting = NULL;
+HANDLE hTopToolbarButtonShowList;
+HANDLE hMsgWndEvent;
+HANDLE hWindowList;
+HANDLE hMenuItemRemove;
+HANDLE hIcon;
 
 const INT_PTR boo = 0;
 LIST<void> ServiceList(10,boo), HookList(10,boo);
@@ -466,10 +461,8 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_TTB_ADDBUTTON)) {
 		TTBButton ttbb = { 0 };
 		ttbb.cbSize = sizeof(ttbb);
-		ttbb.hbBitmapUp =
-			ttbb.hbBitmapDown = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_CMD_SHOWLASTUSED));
-		ttbb.pszServiceUp =
-			ttbb.pszServiceDown = msLastUC_ShowList;
+		ttbb.hIconHandleDn = ttbb.hIconHandleDn = hIcon;
+		ttbb.pszServiceUp = ttbb.pszServiceDown = msLastUC_ShowList;
 		ttbb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_DRAWBORDER;
 		ttbb.name = Translate(msLastUC_ShowListName);
 
@@ -540,7 +533,7 @@ static void iconsInit(void)
 	sid.pszDescription = LPGEN("Main icon");
 	sid.pszName = "recent_main";
 	sid.iDefaultIndex = -IDI_SHOWRECENT;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hIcon = Skin_AddIcon(&sid);
 }
 
 static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)

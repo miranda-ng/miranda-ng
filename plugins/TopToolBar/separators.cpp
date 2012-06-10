@@ -10,15 +10,11 @@ static int SeparatorCnt = 0;
 
 int InsertSeparator(int id)
 {
-	HBITMAP Separator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
-	
 	char buf[255];
 	wsprintfA(buf, "%s %d", Translate("Separator"), id);
 
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	ttb.hbBitmapDown = Separator;
-	ttb.hbBitmapUp = Separator;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR;
 	ttb.pszServiceDown = "";
 	ttb.pszServiceUp = "";

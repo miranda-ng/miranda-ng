@@ -1087,26 +1087,16 @@ INT_PTR DlgAnniversaryListShow(WPARAM wParam, LPARAM lParam)
  *
  * @return	nothing
  **/
+
 VOID DlgAnniversaryListOnTopToolBarLoaded()
 {
-	TTBButton ttb;
-	HICON hIcon;
-	ICONINFO ii;
-
-	hIcon = IcoLib_RegisterIcon(TBB_ICONAME, LPGEN("Anniversary list"), 
-								SECT_TOOLBAR, IDI_ANNIVERSARY, 0);
-	if (hIcon) {
-		GetIconInfo(hIcon, &ii);
-
-		ZeroMemory(&ttb, sizeof(TTBButton));
-		ttb.cbSize = sizeof(TTBButton);
-		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-		ttb.pszServiceDown = MS_USERINFO_REMINDER_LIST;
-		ttb.hbBitmapUp = ttb.hbBitmapDown = ii.hbmColor;
-		ttb.name = Translate("Anniversary list");
-
-		CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
-	}
+	TTBButton ttb = { 0 };
+	ttb.cbSize = sizeof(ttb);
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttb.pszServiceDown = MS_USERINFO_REMINDER_LIST;
+	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);
+	ttb.name = "Anniversary list";
+	CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
 }
 
 /**
@@ -1119,22 +1109,14 @@ VOID DlgAnniversaryListOnTopToolBarLoaded()
  **/
 VOID DlgAnniversaryListOnToolBarLoaded()
 {
-	TBButton tbb;
-
-	ZeroMemory(&tbb, sizeof(tbb));
-	tbb.cbSize			= sizeof(tbb);
-	tbb.tbbFlags		= TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
-	tbb.defPos			= 2100;
-	tbb.pszButtonName	=
-	tbb.pszButtonID		= TBB_IDBTN;
-	tbb.pszServiceName	= MS_USERINFO_REMINDER_LIST;
-	tbb.pszTooltipDn	=
-	tbb.pszTooltipUp	= LPGEN("Anniversary list");
-	tbb.hPrimaryIconHandle		=
-	tbb.hSecondaryIconHandle	=
-			IcoLib_RegisterIconHandle(TBB_ICONAME, tbb.pszTooltipUp, 
-			SECT_TOOLBAR, IDI_ANNIVERSARY, 0);
-
+	TBButton tbb = { 0 };
+	tbb.cbSize = sizeof(tbb);
+	tbb.tbbFlags = TBBF_VISIBLE | TBBF_SHOWTOOLTIP;
+	tbb.defPos = 2100;
+	tbb.pszButtonName	= tbb.pszButtonID = TBB_IDBTN;
+	tbb.pszServiceName = MS_USERINFO_REMINDER_LIST;
+	tbb.pszTooltipDn = tbb.pszTooltipUp = LPGEN("Anniversary list");
+	tbb.hPrimaryIconHandle = tbb.hSecondaryIconHandle = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);
 	CallService(MS_TB_ADDBUTTON, 0, (LPARAM) &tbb);
 }
 

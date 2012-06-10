@@ -34,7 +34,7 @@ VOID UpDate_CountryIcon(HWND hCtrl, int countryID) {
 	HICON hIcon = LoadFlagIcon(countryID);
 	HICON hOld  = Static_SetIcon(hCtrl, hIcon);
 	ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hOld, 0);
+	Skin_ReleaseIcon(hOld);
 }
 
 /**

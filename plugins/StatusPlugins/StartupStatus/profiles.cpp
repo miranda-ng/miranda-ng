@@ -366,7 +366,7 @@ static int UnregisterHotKeys()
 	return 0;
 }
 
-int ReinitProfileModule()
+int LoadMainOptions()
 {
 	if (ServiceExists(MS_TTB_ADDBUTTON)) {
 		RemoveTopToolbarButtons();
@@ -376,17 +376,15 @@ int ReinitProfileModule()
 		RemoveTopToolbarButtons();
 		CreateTopToolbarButtons(0,0);
 	}
+
 	UnregisterHotKeys();
 	RegisterHotKeys();
-
 	return 0;
 }
 
 int LoadProfileModule()
 {
 	hLoadAndSetProfileService = CreateServiceFunction(MS_SS_LOADANDSETPROFILE, LoadAndSetProfile);
-	hTBModuleLoadedHook = HookEvent(ME_TB_MODULELOADED, CreateToolbarButtons);
-
 	RegisterButtons();
 	return 0;
 }
@@ -394,10 +392,11 @@ int LoadProfileModule()
 int InitProfileModule()
 {
 	hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
-	ReinitProfileModule();
+	hTBModuleLoadedHook = HookEvent(ME_TB_MODULELOADED, CreateToolbarButtons);
 	hPrebuildProfilesMenu = HookEvent( ME_CLIST_PREBUILDSTATUSMENU,  CreateMainMenuItems);
-	CreateMainMenuItems(0,0);
 
+	CreateMainMenuItems(0,0);
+	RegisterHotKeys();
 	return 0;
 }
 

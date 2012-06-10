@@ -34,8 +34,6 @@ Boston, MA 02111-1307, USA.
 #define MS_LISTENINGTO_HOTKEYS_DISABLE		"ListeningTo/HotkeysDisable"
 #define MS_LISTENINGTO_HOTKEYS_TOGGLE		"ListeningTo/HotkeysToggle"
 
-#define ICON_NAME "LISTENING_TO_ICON"
-
 int hLangpack; 
 
 PLUGININFOEX pluginInfo={
@@ -60,8 +58,8 @@ struct UTF8_INTERFACE utfi;
 
 static std::vector<HANDLE> hHooks;
 static std::vector<HANDLE> hServices;
-static HANDLE hEnableStateChangedEvent = NULL;
-HANDLE hExtraIcon = NULL;
+static HANDLE hEnableStateChangedEvent;
+HANDLE hExtraIcon, hIcon1, hIcon2;
 static HANDLE hMainMenuGroup = NULL;
 static HANDLE hListeningInfoChangedEvent = NULL;
 
@@ -73,7 +71,6 @@ static HANDLE hExtraImage = NULL;
 static DWORD lastInfoSetTime = 0;
 
 std::vector<ProtocolInfo> proto_itens;
-
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 int PreShutdown(WPARAM wParam, LPARAM lParam);
@@ -117,14 +114,11 @@ TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai);
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-
-
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
-
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -132,31 +126,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-
 static const MUUID interfaces[] = { MIID_LISTENINGTO, MIID_LAST };
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
-
-/*
-BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
-{
-	// Find the windows
-	char class_name[1024];
-	if (GetClassNameA(hwnd, class_name, sizeof(class_name)))
-	{
-		class_name[sizeof(class_name)-1] = '\0';
-OutputDebugStringA(class_name);
-OutputDebugStringA(" -> ");
-		GetWindowTextA(hwnd, class_name, 1024);
-OutputDebugStringA(class_name);
-OutputDebugStringA("\n");
-	}
-
-	return TRUE;
-}
-*/
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
 {
@@ -352,10 +326,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
-	IcoLib_Register(ICON_NAME, _T("Contact List"), _T("Listening to"), IDI_LISTENINGTO);
+	hIcon1 = IcoLib_Register("listening_to_icon", _T("Contact List"), _T("Listening to"), IDI_LISTENINGTO);
+	hIcon2 = IcoLib_Register("listening_off_icon", _T("Contact List"), _T("Listening to"), IDI_LISTENINGOFF);
 
 	// Extra icon support
-	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", ICON_NAME);
+	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");
 	if (hExtraIcon != NULL)
 	{
 		HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
@@ -390,8 +365,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.position = 500080000;
 		mi.pszPopupName = (char*) -1;
 		mi.pszName = "Listening to";
-		mi.flags = CMIF_ROOTPOPUP;
-		mi.hIcon = IcoLib_LoadIcon(ICON_NAME);
+		mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
+		mi.icolibItem = hIcon1;
 
 		hMainMenuGroup = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &mi);
 
@@ -594,11 +569,11 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 
 	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
-	ttb.hbBitmapUp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_TTB_UP_DISABLED));
-	ttb.hbBitmapDown = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_TTB_UP_ENABLED));
+	ttb.hIconHandleDn = hIcon2;
+	ttb.hIconHandleUp = hIcon1;
 	ttb.pszServiceUp = MS_LISTENINGTO_TTB;
 	ttb.pszServiceDown = MS_LISTENINGTO_TTB;
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ICONBYHANDLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
 	ttb.name = Translate("Enable/Disable sending Listening To info (to all protocols)");
 	
 	hTTB = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0);
@@ -1076,11 +1051,11 @@ void HasNewListeningInfo()
 
 int ClistExtraListRebuild(WPARAM wParam, LPARAM lParam)
 {
-	HICON hIcon = IcoLib_LoadIcon(ICON_NAME);
+	HICON hIcon = Skin_GetIconByHandle(hIcon1);
 
 	hExtraImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) hIcon, 0);
 
-	IcoLib_ReleaseIcon(hIcon);
+	Skin_ReleaseIcon(hIcon);
 
 	return 0;
 }
@@ -1089,7 +1064,7 @@ void SetExtraIcon(HANDLE hContact, BOOL set)
 {
 	if (hExtraIcon != NULL)
 	{
-		ExtraIcon_SetIcon(hExtraIcon, hContact, set ? ICON_NAME : NULL);
+		ExtraIcon_SetIcon(hExtraIcon, hContact, set ? "listening_to_icon" : NULL);
 	}
 	else if (opts.show_adv_icon && hExtraImage != NULL)
 	{
@@ -1248,5 +1223,3 @@ TCHAR* VariablesParsePlayer(ARGUMENTSINFO *ai)
 {
 	VARIABLES_PARSE_BODY(ptszPlayer);
 }
-
-

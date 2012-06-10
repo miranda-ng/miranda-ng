@@ -5,9 +5,8 @@
 #define IDD_OPTIONS                     119
 #define IDD_PLAYERS                     120
 #define IDD_FORMAT                      121
-#define IDB_TTB_UP_DISABLED             122
-#define IDB_TTB_UP_ENABLED              123
-#define IDI_LISTENINGTO                 124
+#define IDI_LISTENINGTO                 122
+#define IDI_LISTENINGOFF                123
 #define IDC_DELAY                       1001
 #define IDC_WINCOLORS                   1002
 #define IDC_DEFAULTCOLORS               1003
@@ -81,7 +80,7 @@
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NO_MFC                     1

@@ -180,14 +180,8 @@ IDI_OUT                 ICON                    "Res\\out.ico"
 IDI_ARROW               ICON                    "Res\\arrow.ico"
 IDI_INFO                ICON                    "Res\\info.ico"
 IDI_EMPTY               ICON                    "Res\\empty.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Bitmap
-//
-
-IDB_CONSOLE_UP          BITMAP                  "res\\console_up.bmp"
-IDB_CONSOLE_DOWN        BITMAP                  "res\\console_dn.bmp"
+IDI_CONSOLE_UP          ICON                    "Res\\console_up.ico"
+IDI_CONSOLE_DOWN        ICON                    "Res\\console_dn.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

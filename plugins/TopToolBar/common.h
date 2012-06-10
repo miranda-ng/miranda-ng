@@ -58,10 +58,9 @@ struct TopButtonInt
 	BOOL bPushed;
 	int dwFlags;
 	int x, y;
-	HBITMAP hbBitmapUp, hbBitmapDown;
-	HBITMAP hbDefBitmapUp, hbDefBitmapDown;
 	HBITMAP hbWBordBitmapUp, hbWBordBitmapDown;
 	HICON hIconUp, hIconDn;
+	HANDLE hIconHandleUp, hIconHandleDn;
 	
 	char *pszServiceUp, *pszServiceDown;
 	char *name;
@@ -72,8 +71,6 @@ struct TopButtonInt
 	LPARAM lParamDown;
 	WPARAM wParamDown;
 	WORD arrangedpos;
-	TCHAR *UserDefinedbmUp;
-	TCHAR *UserDefinedbmDown;
 };
 
 struct SortData
@@ -88,14 +85,7 @@ struct SortData
 //#define BUTTHEIGHT		16
 #define SEPWIDTH		3
 
-struct ButtonOptData
-{
-	char *name;
-	int pos;
-	bool show;
-};
-
-extern bool OptionsOpened, UseIcoLib, StopArrange;
+extern bool OptionsOpened, StopArrange;
 extern HWND OptionshWnd;
 extern HANDLE hHookTTBModuleLoaded;
 extern HINSTANCE hInst;
@@ -155,7 +145,6 @@ int UnInitLBut();
 
 void lockbut();
 void ulockbut();
-int applyuserbitmaps( int );
 
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);

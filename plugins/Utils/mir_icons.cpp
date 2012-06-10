@@ -17,6 +17,7 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
+#include <Windows.h>
 
 #include "mir_icons.h"
 
@@ -25,8 +26,6 @@ Boston, MA 02111-1307, USA.
 #include <m_icolib.h>
 
 extern HINSTANCE hInst;
-
-
 
 HICON IcoLib_LoadIcon(const char *iconName, BOOL copy)
 {
@@ -59,13 +58,12 @@ void IcoLib_ReleaseIcon(HICON hIcon)
 }
 
 
-void IcoLib_Register(char *name, TCHAR *section, TCHAR *description, int id)
+HANDLE IcoLib_Register(char *name, TCHAR *section, TCHAR *description, int id)
 {
 	HICON hIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) name);
-	if (hIcon != NULL)
-	{
+	if (hIcon != NULL) {
 		CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
-		return;
+		return NULL;
 	}
 
 	SKINICONDESC sid = {0};
@@ -77,10 +75,11 @@ void IcoLib_Register(char *name, TCHAR *section, TCHAR *description, int id)
 
 	int cx = GetSystemMetrics(SM_CXSMICON);
 	sid.hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(id), IMAGE_ICON, cx, cx, LR_DEFAULTCOLOR | LR_SHARED);
-
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	HANDLE hRes = Skin_AddIcon(&sid);
 
 	if (sid.hDefaultIcon)
 		DestroyIcon(sid.hDefaultIcon);
+
+	return hRes;
 }
 

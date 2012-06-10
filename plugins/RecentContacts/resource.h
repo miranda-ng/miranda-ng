@@ -4,10 +4,8 @@
 //
 #define IDD_LASTUC_OPT                  9
 #define IDI_FOLDER                      101
-#define IDB_FOLDER                      102
-#define IDI_CMD_BROWSE                  103
+#define IDI_CMD_BROWSE                  102
 #define IDI_SHOWRECENT                  103
-#define IDB_CMD_SHOWLASTUSED            104
 #define IDD_LASTUC_DIALOG               105
 #define IDC_LIST1                       1000
 #define IDC_CONTACTS_LIST               1000
@@ -16,7 +14,7 @@
 #define IDC_DATETIME                    1005
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        106

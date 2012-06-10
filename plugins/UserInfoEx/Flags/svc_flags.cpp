@@ -266,7 +266,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam) {
 					HICON hIcon=LoadFlag(countryNumber);	// Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
 					if(hIcon!=NULL) {
 						phExtraImageList[index]=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON,(WPARAM)hIcon,0);
-						CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0); /* does NULL check */
+						Skin_ReleaseIcon(hIcon); /* does NULL check */
 					}
 				}
 				iec.hImage=phExtraImageList[index];
@@ -502,7 +502,7 @@ MsgWndData::FlagsIconSet() {
 		/* copy icon as status icon API will call DestroyIcon() on it */
 		hIcon = LoadFlagIcon(m_contryID);
 		sid.hIcon			= (hIcon!=NULL)?CopyIcon(hIcon):NULL;
-		CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0); /* does NULL check */
+		Skin_ReleaseIcon(hIcon); /* does NULL check */
 		hIcon = sid.hIcon;
 		sid.dwId			= (DWORD)m_contryID;
 		sid.hIconDisabled	= sid.hIcon/*NULL*/;
@@ -565,14 +565,14 @@ IconList::~IconList() {
 // const char *pszName;			// [Optional] Name of an icon registered with icolib to be used in GUI.
 static __inline int MessageAPI_AddIcon(const char* pszName, const char* szModul/*StatusIconData *sid*/,int ID, int flags, const char* szTooltip)
 {
-	HICON hIcon				= (HICON)CallService(MS_SKIN2_GETICON,(WPARAM)0/* =small 1=big*/,(LPARAM)pszName);
+	HICON hIcon = Skin_GetIcon(pszName);
 
 	StatusIconData sid		= {0};
 	sid.cbSize				= sizeof(sid);
 	sid.szModule			= (char*)szModul;
 	sid.dwId				= (DWORD)ID;
 	sid.hIcon				= (hIcon!=NULL)?CopyIcon(hIcon):NULL;
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0); /* does NULL check */
+	Skin_ReleaseIcon(hIcon); /* does NULL check */
 //	sid.hIconDisabled		= sid.hIcon/*NULL*/;
 	sid.flags				= 0;
 	sid.szTooltip			= Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,ID,0));

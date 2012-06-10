@@ -153,7 +153,7 @@ BOOL IsCP_UTF8(void)
 
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
-	TTBButtonV2 ttbb = {0};
+	TTBButton ttbb = {0};
 	HICON ico = LoadIcon(hInst,MAKEINTRESOURCE(ICO_DBE_BUTT));
 	UnhookEvent(hTTBHook);
 

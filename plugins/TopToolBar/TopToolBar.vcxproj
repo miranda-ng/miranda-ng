@@ -238,36 +238,17 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="bmp\bitmap1.bmp" />
-    <None Include="bmp\bmp00002.bmp" />
-    <None Include="bmp\borderup.bmp" />
-    <None Include="bmp\borederdn.bmp" />
-    <None Include="bmp\cpaneldn.bmp" />
-    <None Include="bmp\cpanelup.bmp" />
+    <None Include="bmp\sep.bmp" />
     <None Include="find.ico" />
     <None Include="icos\Find_Add Contacts_DN.ico" />
     <None Include="icos\Find_Add Contacts_UP.ico" />
-    <None Include="bmp\finduser.bmp" />
-    <None Include="bmp\finduserdn.bmp" />
-    <None Include="bmp\groupdn.bmp" />
     <None Include="icos\Groups On_Off_DN.ico" />
     <None Include="icos\Groups On_Off_UP.ico" />
-    <None Include="bmp\groupup.bmp" />
-    <None Include="bmp\launch.bmp" />
-    <None Include="bmp\launchdn.bmp" />
-    <None Include="bmp\launchup.bmp" />
-    <None Include="bmp\menudn.bmp" />
-    <None Include="bmp\menuup.bmp" />
     <None Include="icos\Minimize Button_DN.ico" />
     <None Include="icos\Minimize Button_UP.ico" />
-    <None Include="bmp\minimize.bmp" />
-    <None Include="bmp\minimizedn.bmp" />
     <None Include="icos\notick.ico" />
     <None Include="icos\notick1.ico" />
-    <None Include="bmp\options.bmp" />
     <None Include="icos\Run.ico" />
-    <None Include="bmp\searchtest.bmp" />
-    <None Include="bmp\sep.bmp" />
     <None Include="icos\Show Main Menu_DN.ico" />
     <None Include="icos\Show Main Menu_UP.ico" />
     <None Include="icos\Show only Online Users_DN.ico" />
@@ -276,9 +257,6 @@
     <None Include="icos\Show Options Page_UP.ico" />
     <None Include="icos\Sounds Enable_Disable_DN.ico" />
     <None Include="icos\Sounds Enable_Disable_UP.ico" />
-    <None Include="bmp\soundsdn.bmp" />
-    <None Include="bmp\soundsup.bmp" />
-    <None Include="bmp\test.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="main.rc">

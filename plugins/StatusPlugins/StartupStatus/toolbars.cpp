@@ -53,35 +53,34 @@ int RemoveTopToolbarButtons()
 
 int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 {
-	TTBButton ttb;
-	int i, profileCount;
-	DBVARIANT dbv;
-	char setting[80];
-	
-	profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
+	int profileCount = CallService(MS_SS_GETPROFILECOUNT, 0, 0);
 	ttbButtons = ( HANDLE* )realloc(ttbButtons, profileCount*sizeof(HANDLE));
-	ZeroMemory(&ttb,sizeof(ttb));
-	ZeroMemory(&dbv,sizeof(dbv));
+
+	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.hbBitmapDown = LoadBitmap(hInst,MAKEINTRESOURCE(IDB_TTBDOWN));
-	ttb.hbBitmapUp = LoadBitmap(hInst,MAKEINTRESOURCE(IDB_TTBUP));
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
 	ttb.pszServiceDown = ttb.pszServiceUp = MS_SS_LOADANDSETPROFILE;
-	for (i=0;i<profileCount;i++) {
-		char profileName[128];
-		INT_PTR ttbAddResult = -1;
-		
+	for (int i=0; i < profileCount; i++) {
+		char setting[80];
 		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_CREATETTBBUTTON);
-		if (!DBGetContactSettingByte(NULL, MODULENAME, setting, FALSE)) continue;
+		if (!DBGetContactSettingByte(NULL, MODULENAME, setting, FALSE))
+			continue;
+		
+		DBVARIANT dbv;
 		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_PROFILENAME);
-		if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv)) continue;
+		if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv))
+			continue;
+
+		char profileName[128];
 		strncpy(profileName, dbv.pszVal, sizeof(profileName)-1);
 		ttb.name = profileName;
+		ttb.hIconHandleDn = hTtbDown;
+		ttb.hIconHandleUp = hTtbUp;
 		ttb.wParamDown = ttb.wParamUp = i;
-		ttbAddResult = CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0);
+		INT_PTR ttbAddResult = CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttb, 0);
 		if (ttbAddResult != -1) {
 			ttbButtons[ttbButtonCount] = (HANDLE)ttbAddResult;
-			// this tooltip makes miranda crash if changed > 3 times or so
+
 			CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,ttbButtons[ttbButtonCount]), (LPARAM)profileName);
 			DBFreeVariant(&dbv);
 			ttbButtonCount += 1;
@@ -182,10 +181,10 @@ void RegisterButtons()
 	sid.pszDescription = "Pressed toolbar icon";
 	sid.iDefaultIndex = -IDI_TTBDOWN;
 	sid.flags = SIDF_PATH_TCHAR;
-	hTtbDown = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hTtbDown = Skin_AddIcon(&sid);
 
 	sid.pszName = "StartupStatus/TtbUp";
 	sid.pszDescription = "Released toolbar icon";
 	sid.iDefaultIndex = -IDI_TTBUP;
-	hTtbUp = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hTtbUp = Skin_AddIcon(&sid);
 }

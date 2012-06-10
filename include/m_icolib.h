@@ -80,6 +80,10 @@ typedef struct {
 //
 #define MS_SKIN2_ADDICON "Skin2/Icons/AddIcon"
 
+__inline static HANDLE Skin_AddIcon(SKINICONDESC* si)
+{	return (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)si);
+}
+
 //
 //  Remove a icon from options UI
 //
@@ -89,6 +93,10 @@ typedef struct {
 //
 #define MS_SKIN2_REMOVEICON "Skin2/Icons/RemoveIcon"
 
+__inline static void Skin_RemoveIcon(const char* szIconName)
+{	CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)szIconName);
+}
+
 //
 //  Retrieve HICON with name specified in lParam
 //  wParam = (WPARAM)0 - small 1 - big
@@ -97,12 +105,24 @@ typedef struct {
 //
 #define MS_SKIN2_GETICON "Skin2/Icons/GetIcon"
 
+#ifdef __cplusplus
+__inline static HICON Skin_GetIcon(const char* szIconName, int size=0)
+#else
+__inline static HICON Skin_GetIcon(const char* szIconName, int size)
+#endif
+{	return (HICON)CallService(MS_SKIN2_GETICON, size, (LPARAM)szIconName);
+}
+
 //
 //  Retrieve an icolib handle for icon by name specified in lParam
 //  wParam = (WPARAM)0
 //  lParam = (LPARAM)(char*)pszName
 //
 #define MS_SKIN2_GETICONHANDLE "Skin2/Icons/GetIconHandle"
+
+__inline static HANDLE Skin_GetIconHandle(const char* szIconName)
+{	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szIconName);
+}
 
 //
 //  Retrieve HICON with HANDLE specified in lParam
@@ -111,6 +131,14 @@ typedef struct {
 //  Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
 //
 #define MS_SKIN2_GETICONBYHANDLE "Skin2/Icons/GetIconByHandle"
+
+#ifdef __cplusplus
+__inline static HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size=0)
+#else
+__inline static HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size)
+#endif
+{	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, size, (LPARAM)hIcolibIcon);
+}
 
 //
 //  Add reference to HICON
@@ -127,6 +155,19 @@ typedef struct {
 //  lParam = (LPARAM)(char*)pszName (optional)  // at least one needs to be specified
 //
 #define MS_SKIN2_RELEASEICON "Skin2/Icons/ReleaseIcon"
+
+__inline static void Skin_ReleaseIcon(const char* szIconName)
+{	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szIconName);
+}
+
+#ifdef __cplusplus
+__inline static void Skin_ReleaseIcon(HICON hIcon)
+#else
+__inline static void Skin_ReleaseIcon2(HICON hIcon)
+#endif
+{	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+}
+
 #define MS_SKIN2_RELEASEICONBIG "Skin2/Icons/ReleaseIconBig"
 
 //

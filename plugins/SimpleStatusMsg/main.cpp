@@ -1625,7 +1625,7 @@ VOID CALLBACK UpdateMsgTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD d
 
 static int AddTopToolbarButton(WPARAM wParam, LPARAM lParam)
 {
-	TTBButtonV2 ttbb = {0};
+	TTBButton ttbb = {0};
 
 	ttbb.cbSize = sizeof(ttbb);
 	ttbb.hIconUp = ttbb.hIconDn = LoadIconEx("csmsg");

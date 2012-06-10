@@ -84,7 +84,6 @@ int UnhookEvents()
 	UnhookEvent(hExtraImageApply);
 	UnhookEvent(hContactSettingChanged);
 	UnhookEvent(hTopToolBarModuleLoaded);
-	//UnhookEvent(hContactSendMessage);
 	
 	KillTimers();
 	
@@ -158,8 +157,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	cl.pszName = "Add/change user &birthday";
 	hmAddChangeBirthday = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &cl);
 
-	if(ServiceExists(MS_HOTKEY_REGISTER))
-	{
+	if(ServiceExists(MS_HOTKEY_REGISTER)) {
 		HOTKEYDESC hotkey = {0};
 		hotkey.cbSize = sizeof(hotkey);
 		hotkey.dwFlags = HKD_TCHAR;
@@ -185,13 +183,9 @@ int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.cbSize = sizeof(TTBButton);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszServiceDown = MS_WWI_CHECK_BIRTHDAYS;
-	HBITMAP bitmap = LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_TTB_CHECK));
-	ttb.hbBitmapUp = (HBITMAP) bitmap;
-	ttb.hbBitmapDown = (HBITMAP) bitmap;
-	ttb.name = Translate("Check for birthdays");
+	ttb.hIconUp = ttb.hIconDn = hiCheckMenu;
+	ttb.name = "Check for birthdays";
 	CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
-	//DeleteObject(icon);
-	
 	return 0;
 }
 

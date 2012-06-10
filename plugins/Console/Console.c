@@ -122,8 +122,6 @@ static int Openfile(TCHAR *outputFile, int selection);
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef TTB
-static HBITMAP BmpUp = NULL;
-static HBITMAP BmpDn = NULL;
 static HANDLE hTTBButt = 0;
 
 static INT_PTR HideConsoleButt(WPARAM wParam,LPARAM lParam)
@@ -149,12 +147,9 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 		CreateServiceFunction("Console/Hide", HideConsoleButt);
 		CreateServiceFunction("Console/Show", ShowConsoleButt);
 
-		BmpUp = LoadBitmap(hInst,MAKEINTRESOURCE(IDB_CONSOLE_UP));
-		BmpDn = LoadBitmap(hInst,MAKEINTRESOURCE(IDB_CONSOLE_DOWN));
-
 		ttbb.cbSize = sizeof(ttbb);
-		ttbb.hbBitmapUp = BmpUp;
-		ttbb.hbBitmapDown = BmpDn;
+		ttbb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE_UP));
+		ttbb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE_DOWN));
 		ttbb.dwFlags=(state?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 		ttbb.pszServiceDown = "Console/Show";
 		ttbb.pszServiceUp = "Console/Hide";
@@ -1485,11 +1480,6 @@ void ShutdownConsole(void)
 	for(i = 0; i < SIZEOF(hIcons); i++) {
 		if (hIcons[i]) DestroyIcon(hIcons[i]);
 	}
-
-#ifdef TBB
-	if (BmpUp) DeleteObject(BmpUp);
-	if (BmpDn) DeleteObject(BmpDn);
-#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////

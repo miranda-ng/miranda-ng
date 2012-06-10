@@ -141,11 +141,11 @@ HICON LoadFlag(int countryNumber)
 	char szId[20],*szCountry;
 	/* create identifier */
 	szCountry=(char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber,0);
-	if(szCountry==NULL) {
+	if(szCountry == NULL)
 		szCountry=(char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,countryNumber=0xFFFF,0);
-	}
+
 	wsprintfA(szId,(countryNumber==0xFFFF)?"%s_0x%X":"%s_%i","flags",countryNumber); /* buffer safe */
-	return (HICON)CallService(MS_SKIN2_GETICON,(WPARAM)0/* =small 1=big*/,(LPARAM)szId);
+	return Skin_GetIcon(szId);
 }
 
 int CountryNumberToIndex(int countryNumber)
@@ -431,7 +431,7 @@ VOID InitIcons()
 				skid.hDefaultIcon=ImageList_ExtractIcon(NULL, himl, index);
 				index = CountryNumberToIndex(countries[i].id);
 
-				phIconHandles[index]=(HANDLE)CallService(MS_SKIN2_ADDICON,0,(LPARAM)&skid);
+				phIconHandles[index] = Skin_AddIcon(&skid);
 				if(skid.hDefaultIcon!=NULL) DestroyIcon(skid.hDefaultIcon);
 				mir_free(skid.ptszDescription); skid.ptszDescription = NULL;
 			}
@@ -446,12 +446,11 @@ VOID InitIcons()
 
 VOID UninitIcons()
 {
-	int i;
-	char szId[20];
-	for(i=0;i<nCountriesCount;++i) {
+	for(int i=0;i<nCountriesCount;++i) {
 		/* create identifier */
+		char szId[20];
 		wsprintfA(szId,(countries[i].id==0xFFFF)?"%s0x%X":"%s%i","flags_",countries[i].id); /* buffer safe */
-		CallService(MS_SKIN2_REMOVEICON,0,(LPARAM)&szId);
+		Skin_RemoveIcon(szId);
 	}
 	mir_free(phIconHandles);  /* does NULL check */
 }

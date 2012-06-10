@@ -210,7 +210,7 @@ static VOID IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
  **/
 HICON IcoLib_GetIcon(LPCSTR pszIcon)
 {
-	return (pszIcon) ? (HICON)CallService(MS_SKIN2_GETICON, NULL, (LPARAM) pszIcon) : NULL;
+	return (pszIcon) ? Skin_GetIcon(pszIcon) : NULL;
 }
 
 /**
@@ -222,7 +222,7 @@ HICON IcoLib_GetIcon(LPCSTR pszIcon)
  **/
 HICON IcoLib_GetIconByHandle(HANDLE hIconItem)
 {
-	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, NULL, (LPARAM) hIconItem);
+	return Skin_GetIconByHandle(hIconItem);
 }
 
 /**
@@ -288,54 +288,42 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 {
 	HANDLE hIconHandle = NULL;
 
-	if (szIconID && szDescription && szSection)
-	{
-		SKINICONDESC sid;
-
-		ZeroMemory(&sid, sizeof(sid));
+	if (szIconID && szDescription && szSection) {
+		SKINICONDESC sid = { 0 };
 		sid.cbSize = sizeof(sid);
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.pszName = szIconID;
 		sid.ptszDescription = mir_a2t(szDescription);
 		sid.ptszSection = mir_a2t(szSection);
 
-		if (sid.ptszDescription && sid.ptszSection)
-		{
-			switch (Size)
-			{
-				// small icons (16x16)
-				case 0:
-					{
-						sid.cx = GetSystemMetrics(SM_CXSMICON);
-						sid.cy = GetSystemMetrics(SM_CYSMICON);
-						break;
-					}
-				// normal icons (32x32)
-				case 1:
-					{
-						sid.cx = GetSystemMetrics(SM_CXICON);
-						sid.cy = GetSystemMetrics(SM_CYICON);
-						break;
-					}
-				// custom icon size
-				default:
-					{
-						sid.cx = sid.cy = Size;
-						break;
-					}
+		if (sid.ptszDescription && sid.ptszSection) {
+			switch (Size) {
+			// small icons (16x16)
+			case 0:
+				sid.cx = GetSystemMetrics(SM_CXSMICON);
+				sid.cy = GetSystemMetrics(SM_CYSMICON);
+				break;
+
+			// normal icons (32x32)
+			case 1:
+				sid.cx = GetSystemMetrics(SM_CXICON);
+				sid.cy = GetSystemMetrics(SM_CYICON);
+				break;
+
+			// custom icon size
+			default:
+				sid.cx = sid.cy = Size;
+				break;
 			}
 
 			sid.ptszDefaultFile = szDefaultFile;
 			if (sid.ptszDefaultFile && sid.ptszDefaultFile[0])
-			{
-				sid.iDefaultIndex = ICONINDEX(idIcon);
-			}
-			else
-			{
+				sid.iDefaultIndex = -idIcon;
+			else {
 				sid.hDefaultIcon = hDefIcon;
 				sid.iDefaultIndex = -1;
 			}
-			hIconHandle = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+			hIconHandle = Skin_AddIcon(&sid);
 		}
 		MIR_FREE(sid.ptszDescription);
 		MIR_FREE(sid.ptszSection);
@@ -404,8 +392,7 @@ VOID IcoLib_LoadModule()
 	ghDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, 
 							 GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
-	for (i = 0; i < SIZEOF(icoDesc); i++) 
-	{	
+	for (i = 0; i < SIZEOF(icoDesc); i++) {	
 		IcoLib_RegisterIconHandleEx(
 			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection, 
 			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);

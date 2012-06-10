@@ -33,8 +33,6 @@ static int CountSettings(const char *szSetting,LPARAM lParam);
 static int DeleteSetting(const char *szSetting,LPARAM lParam);
 static int ClearDatabase(char* filter);
 
-int LoadMainOptions();
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static TSettingsList* GetCurrentProtoSettings()

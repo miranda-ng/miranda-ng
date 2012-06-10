@@ -211,7 +211,7 @@ static int IconsChanged(WPARAM wParam,LPARAM lParam){
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItemHistory,(LPARAM)&mi);
 
 	if (hTTButton >= 0) {
-		TTBButtonV2 btn = {0};
+		TTBButton btn = {0};
 		btn.cbSize = sizeof(btn);
 		btn.pszServiceUp = btn.pszServiceDown = MENUCOMMAND_SVC;
 		btn.lParamUp = 1;
@@ -230,7 +230,7 @@ static int IconsChanged(WPARAM wParam,LPARAM lParam){
 
 static int TTBLoaded(WPARAM wParam,LPARAM lParam){
 	if (hTTButton < 0) {
-		TTBButtonV2 btn		= {0};
+		TTBButton btn		= {0};
 		btn.cbSize			= sizeof(btn);
 		btn.pszServiceUp	= btn.pszServiceDown = MENUCOMMAND_SVC;
 		btn.lParamUp		= 1;

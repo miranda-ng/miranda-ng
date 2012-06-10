@@ -76,10 +76,10 @@ static INT OnCListRebuildIcons(WPARAM wParam, LPARAM lParam)
 {
 	HICON hIcon		= IcoLib_GetIcon(ICO_COMMON_FEMALE);
 	ghExtraIconF	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0);
+	Skin_ReleaseIcon(hIcon);
 	hIcon			= IcoLib_GetIcon(ICO_COMMON_MALE);
 	ghExtraIconM	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0);
+	Skin_ReleaseIcon(hIcon);
 	return 0;
 }
 

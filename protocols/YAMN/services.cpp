@@ -312,10 +312,10 @@ int AddTopToolbarIcon(WPARAM,LPARAM)
 			TTBButton btn = { 0 };
 			btn.cbSize = sizeof(TTBButton);
 			btn.pszServiceUp = MS_YAMN_FORCECHECK;
-			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+			btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
 			btn.name = Translate("Check mail");
-			btn.hbBitmapUp = LoadBmpFromIcon(g_LoadIconEx(5));
-			btn.hbBitmapDown = LoadBmpFromIcon(g_LoadIconEx(6));
+			btn.hIconHandleUp = g_GetIconHandle(5);
+			btn.hIconHandleDn = g_GetIconHandle(6);
 			hTTButton = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&btn, 0);
 			CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM((WORD)TTBO_TIPNAME, (WORD)hTTButton), (LPARAM)Translate("Check mail"));
 		}

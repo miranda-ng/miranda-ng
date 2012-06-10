@@ -284,12 +284,6 @@ static VOID CALLBACK SetStatusTimed(HWND hwnd,UINT message, UINT_PTR idEvent,DWO
 	CallService(MS_CS_SETSTATUSEX, (WPARAM)&startupSettings, 0);
 }
 
-int LoadMainOptions()
-{
-	ReinitProfileModule();
-	return 0;
-}
-
 static int Exit(WPARAM wParam, LPARAM lParam)
 {
 	DeinitProfilesModule();

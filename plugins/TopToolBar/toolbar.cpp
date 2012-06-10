@@ -17,7 +17,7 @@ int lastypos = 1;
 
 // ==  == ==  == ==  == == options
 COLORREF bkColour;
-HBITMAP hBmpBackground;
+HBITMAP hBmpBackground, hBmpSeparator;
 int backgroundBmpUse;
 
 static CRITICAL_SECTION csButtonsHook;
@@ -28,31 +28,10 @@ SortData arrangedbuts[MAX_BUTTONS];
 
 int SetButtBitmap(int pos);
 
-int applyuserbitmaps(int pos)
-{
-	int t = IMAGE_BITMAP;
-	Buttons[pos].hbBitmapDown = Buttons[pos].hbDefBitmapDown;
-	Buttons[pos].hbBitmapUp = Buttons[pos].hbDefBitmapUp;
-	if (Buttons[pos].UserDefinedbmDown != NULL) {
-		if ( _tcsstr(Buttons[pos].UserDefinedbmDown, _T(".ico"))) 
-			t = IMAGE_ICON;
-		Buttons[pos].hbBitmapDown = ( HBITMAP )LoadImage(0, Buttons[pos].UserDefinedbmDown, t, 0, 0, LR_LOADFROMFILE);	
-	}
-
-	if (Buttons[pos].UserDefinedbmUp != NULL) {
-		if ( _tcsstr(Buttons[pos].UserDefinedbmUp, _T(".ico")))
-			t = IMAGE_ICON;
-		Buttons[pos].hbBitmapUp = ( HBITMAP )LoadImage(0, Buttons[pos].UserDefinedbmUp, t, 0, 0, LR_LOADFROMFILE);
-	}
-
-	return 0;
-}
-
 int SetAllBitmaps()
 {
 	lockbut();
 	for (int i = 0; i < nButtonsCount; i++) {
-		applyuserbitmaps(i);
 		SetButtBitmap(i);
 	}
 	ulockbut();
@@ -90,13 +69,6 @@ int DBSaveButtonSettings(int butpos)
 
 	DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"), "");
 	DBWriteContactSettingString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"), "");
-	
-	if (Buttons[butpos].UserDefinedbmDown != NULL)
-		DBWriteContactSettingTString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"), Buttons[butpos].UserDefinedbmDown);
-
-	if (Buttons[butpos].UserDefinedbmUp != NULL)
-		DBWriteContactSettingTString(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"), Buttons[butpos].UserDefinedbmUp);
-
 	return 0;
 }
 
@@ -121,18 +93,6 @@ int DBLoadButtonSettings(int butpos)
 	Buttons[butpos].dwFlags = Buttons[butpos].dwFlags & (~TTBBF_VISIBLE);
 	if ( DBGetContactSettingDword(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_Visible"), oldv) > 0 )
 		Buttons[butpos].dwFlags |= TTBBF_VISIBLE;
-
-	Buttons[butpos].UserDefinedbmDown = DBGetStringT(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpDown"));
-	if ( Buttons[butpos].UserDefinedbmDown != NULL && Buttons[butpos].UserDefinedbmDown[0] == 0) {
-		mir_free(Buttons[butpos].UserDefinedbmDown);
-		Buttons[butpos].UserDefinedbmDown = NULL;
-	}
-
-	Buttons[butpos].UserDefinedbmUp = DBGetStringT(0, TTB_OPTDIR, AS(buf, Buttons[butpos].name, "_BmpUp"));
-	if ( Buttons[butpos].UserDefinedbmUp != NULL && Buttons[butpos].UserDefinedbmUp[0] == 0) { 
-		mir_free(Buttons[butpos].UserDefinedbmUp);
-		Buttons[butpos].UserDefinedbmUp = NULL;
-	}
 	return 0;
 }
 
@@ -192,23 +152,23 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	return 0;
 
 }
-static HBITMAP DrawBorderForBitmap(HBITMAP hb, BOOL up)
+static HBITMAP DrawBorderForBitmap(HICON hIcon, BOOL up)
 {
-	HBITMAP Border, workbmp;
-	HDC workdc, destdc, srcdc;
+	ICONINFO ii;
+	GetIconInfo(hIcon, &ii);
 
-	Border = LoadBitmap(hInst, MAKEINTRESOURCE(up?IDB_BORDERUP:IDB_BORDERDN));
-	workdc = GetDC(hwndContactList);
-	destdc = CreateCompatibleDC(workdc);
-	srcdc = CreateCompatibleDC(workdc);
+	HBITMAP Border = LoadBitmap(hInst, MAKEINTRESOURCE(up?IDB_BORDERUP:IDB_BORDERDN));
+	HDC workdc = GetDC(hwndContactList);
+	HDC destdc = CreateCompatibleDC(workdc);
+	HDC srcdc = CreateCompatibleDC(workdc);
 
-	workbmp = CreateBitmap(BUTTWIDTH, BUTTHEIGHT, 1, GetDeviceCaps(workdc, BITSPIXEL), NULL);
+	HBITMAP workbmp = CreateBitmap(BUTTWIDTH, BUTTHEIGHT, 1, GetDeviceCaps(workdc, BITSPIXEL), NULL);
 	SelectObject(destdc, workbmp);
 
 	SelectObject(srcdc, Border);
 
 	BitBlt(destdc, 0, 0, BUTTWIDTH, BUTTHEIGHT, srcdc, 0, 0, SRCCOPY);
-	SelectObject(srcdc, hb);
+	SelectObject(srcdc, ii.hbmColor);
 	BitBlt(destdc, 1, 1, BUTTWIDTH-4, BUTTHEIGHT-4, srcdc, 0, 0, SRCCOPY);
 			
 	DeleteDC(destdc);
@@ -237,7 +197,7 @@ bool nameexists(const char *name)
 	return FALSE;
 }
 
-HICON LoadIconFromLibrary(char *SectName, char *Name, char *Description, HICON hIcon, bool RegisterIt, bool *RegistredOk)
+HICON LoadIconFromLibrary(char *Name, char *Description, HICON hIcon, HANDLE* phIcolib, bool *RegistredOk)
 {		
 	if (RegistredOk)
 		*RegistredOk = FALSE;
@@ -245,22 +205,20 @@ HICON LoadIconFromLibrary(char *SectName, char *Name, char *Description, HICON h
 	if (Name != NULL && *Name != 0) {				
 		char iconame[256];
 		_snprintf(iconame, SIZEOF(iconame), "toptoolbar_%s", Name);
-		if ( ServiceExists(MS_SKIN2_ADDICON)) {
-			if (RegisterIt) {
-				SKINICONDESC sid = {0};
-				sid.cbSize = sizeof(sid);
-				sid.pszSection = Translate(SectName);				
-				sid.pszName = iconame;
-				sid.pszDefaultFile = NULL;
-				sid.pszDescription = Description;
-				sid.hDefaultIcon = hIcon;
-				CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		if (phIcolib) {
+			SKINICONDESC sid = {0};
+			sid.cbSize = sizeof(sid);
+			sid.pszSection = "Toolbar";				
+			sid.pszName = iconame;
+			sid.pszDefaultFile = NULL;
+			sid.pszDescription = Description;
+			sid.hDefaultIcon = hIcon;
+			*phIcolib = Skin_AddIcon(&sid);
 
-				if (RegistredOk)
-					*RegistredOk = TRUE;
-			}
-			return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconame));
+			if (RegistredOk)
+				*RegistredOk = TRUE;
 		}
+		return Skin_GetIcon(iconame);
 	}
 
 	return hIcon;
@@ -296,82 +254,78 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	int i = nButtonsCount;
-	TTBButtonV2 but = { 0 };
-	if (((TTBButton*)wParam)->cbSize == sizeof(TTBButton))
-		memcpy(&but, (void*)wParam, sizeof(TTBButton));
-
-	if (((TTBButton*)wParam)->cbSize == sizeof(TTBButtonV2))
-		memcpy(&but, (void*)wParam, sizeof(TTBButtonV2));
-
-	if ( but.name == NULL || nameexists(but.name)) {
+	TTBButton *but = (TTBButton*)wParam;
+	if (but->cbSize != sizeof(TTBButton) || but->name == NULL || nameexists(but->name)) {
 		ulockbut();
 		return -1;
 	}
 	
-	Buttons[i].id = nextButtonId++;
-	Buttons[i].hbBitmapDown = but.hbBitmapDown;
-	Buttons[i].hbBitmapUp = but.hbBitmapUp;
-	Buttons[i].hbDefBitmapDown = but.hbBitmapDown;
-	Buttons[i].hbDefBitmapUp  = but.hbBitmapUp;
+	TopButtonInt& b = Buttons[i];
+	b.id = nextButtonId++;
 	
-	if (but.pszServiceDown != NULL) Buttons[i].pszServiceDown = strdup(but.pszServiceDown);
-	if (but.pszServiceUp != NULL) Buttons[i].pszServiceUp = strdup(but.pszServiceUp);
-	Buttons[i].name = strdup(but.name);
-	Buttons[i].dwFlags = but.dwFlags;
+	if (but->pszServiceDown != NULL) b.pszServiceDown = _strdup(but->pszServiceDown);
+	if (but->pszServiceUp != NULL) b.pszServiceUp = _strdup(but->pszServiceUp);
+	b.name = _strdup(but->name);
+	b.dwFlags = but->dwFlags;
 
-	if (Buttons[i].dwFlags & TTBBF_DRAWBORDER) {
-		Buttons[i].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[i].hbBitmapDown, FALSE);
-		Buttons[i].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[i].hbBitmapUp, TRUE);
+	if (b.dwFlags & TTBBF_ICONBYHANDLE) {
+		b.hIconHandleDn = but->hIconHandleDn;
+		b.hIconHandleUp = but->hIconHandleUp;
+		b.hIconDn = Skin_GetIconByHandle(b.hIconHandleDn);
+		b.hIconUp = Skin_GetIconByHandle(b.hIconHandleUp);
+	}
+	else {
+		b.hIconDn = but->hIconDn;
+		b.hIconUp = but->hIconUp;
 	}
 
-	Buttons[i].wParamUp = but.wParamUp;
-	Buttons[i].lParamUp = but.lParamUp;
-	Buttons[i].wParamDown = but.wParamDown;
-	Buttons[i].lParamDown = but.lParamDown;
+	if (b.dwFlags & TTBBF_DRAWBORDER) {
+		b.hbWBordBitmapDown = DrawBorderForBitmap(b.hIconDn, FALSE);
+		b.hbWBordBitmapUp = DrawBorderForBitmap(b.hIconUp, TRUE);
+	}
 
-	Buttons[i].dwFlags = but.dwFlags;
-
-	Buttons[i].bPushed = (but.dwFlags&TTBBF_PUSHED)?TRUE:FALSE;
+	b.wParamUp = but->wParamUp;
+	b.lParamUp = but->lParamUp;
+	b.wParamDown = but->wParamDown;
+	b.lParamDown = but->lParamDown;
+	
+	b.bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 	CreateOneWindow(i);
-
-	Buttons[i].hIconUp  = but.hIconUp ;
-	Buttons[i].hIconDn  = but.hIconDn ;
 	
-	if (UseIcoLib && (!(Buttons[i].dwFlags & TTBBF_ISSEPARATOR))) {
+	if ( !(b.dwFlags & TTBBF_ISSEPARATOR)) {
 		char buf[256];
-		sprintf(buf, "%s_up", Buttons[i].name);
-		Buttons[i].hIconUp = LoadIconFromLibrary("TopToolBar", buf, buf, but.hIconDn, TRUE, NULL);
-		sprintf(buf, "%s_dn", Buttons[i].name);
-		Buttons[i].hIconDn = LoadIconFromLibrary("TopToolBar", buf, buf, but.hIconUp, TRUE, NULL);
+		sprintf(buf, "%s_up", b.name);
+		b.hIconUp = LoadIconFromLibrary(buf, buf, b.hIconDn, &b.hIconHandleDn, NULL);
+		sprintf(buf, "%s_dn", b.name);
+		b.hIconDn = LoadIconFromLibrary(buf, buf, b.hIconUp, &b.hIconHandleUp, NULL);
 	}
 
-	Buttons[i].hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, 
+	b.hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, 
 		WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, 
 		CW_USEDEFAULT, CW_USEDEFAULT, 
 		CW_USEDEFAULT, CW_USEDEFAULT, 
 		hwndTopToolBar, NULL, hInst, 
 		NULL);
 
-	SetWindowPos(Buttons[i].hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+	SetWindowPos(b.hwndTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
 	TOOLINFO ti = { 0 };
 	ti.cbSize = sizeof(ti);
 	ti.lpszText = _T("");
 	ti.hinst = hInst;
 	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
-	ti.uId = (UINT_PTR)Buttons[i].hwnd;
-	SendMessage(Buttons[i].hwndTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
+	ti.uId = (UINT_PTR)b.hwnd;
+	SendMessage(b.hwndTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 
-	SendMessage(Buttons[i].hwndTip, TTM_ACTIVATE, (WPARAM)(Buttons[i].dwFlags&TTBBF_SHOWTOOLTIP)?TRUE:FALSE, 0);
+	SendMessage(b.hwndTip, TTM_ACTIVATE, (WPARAM)(b.dwFlags&TTBBF_SHOWTOOLTIP)?TRUE:FALSE, 0);
 
-	SetWindowLongPtr(Buttons[i].hwnd, GWLP_USERDATA, Buttons[i].id);
+	SetWindowLongPtr(b.hwnd, GWLP_USERDATA, b.id);
 
 	nButtonsCount++;
 
-	int retval = Buttons[i].id;
+	int retval = b.id;
 	DBLoadButtonSettings(i);
-	applyuserbitmaps(i);
 
 	SetButtBitmap(i);
 	ulockbut();
@@ -538,39 +492,21 @@ int ArrangeButtons()
 
 int SetButtBitmap(int pos)
 {
-	int t = IMAGE_BITMAP;
-	TCHAR *curname = (Buttons[pos].bPushed)?(Buttons[pos].UserDefinedbmDown):(Buttons[pos].UserDefinedbmUp);
-
 	int curstyle = GetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE);
 	curstyle &= (~SS_BITMAP);
 	curstyle &= (~SS_ICON);
 
-	if (!UseIcoLib || (Buttons[pos].dwFlags&TTBBF_ISSEPARATOR)) {
-		if (curname != NULL) {
-			if ( _tcsstr(curname, _T(".ico"))) 
-				t = IMAGE_ICON;
+	if (Buttons[pos].dwFlags & TTBBF_ISSEPARATOR)
+		SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle | SS_BITMAP);
+	else if (GetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE) & SS_ICON)
+		SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle | SS_ICON);
 
-			curstyle |= (t == IMAGE_ICON || UseIcoLib) ? SS_ICON : SS_BITMAP;
-			SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle);
-		}
-		else SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|(Buttons[pos].hbBitmapDown == NULL?SS_ICON:SS_BITMAP));
-	}
-	else if (GetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE)&SS_ICON)
-		SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle|SS_ICON);
-
-	if ( !UseIcoLib || (Buttons[pos].dwFlags & TTBBF_ISSEPARATOR)) {
+	if (Buttons[pos].dwFlags & TTBBF_ISSEPARATOR) {
 		if (!(Buttons[pos].dwFlags & TTBBF_DRAWBORDER)) {
-			if (Buttons[pos].hbBitmapDown == NULL) {
-				t = IMAGE_ICON;
-				SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
-				SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
-			}
-			else {
-				SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hbBitmapDown):(Buttons[pos].hbBitmapUp)));
-				SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hbBitmapDown):(Buttons[pos].hbBitmapUp)));
-			}
+			SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
+			SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
 		}
-		else SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, t, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hbWBordBitmapDown):(Buttons[pos].hbWBordBitmapUp)));	
+		else SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hbWBordBitmapDown):(Buttons[pos].hbWBordBitmapUp)));	
 	}
 	else SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
 
@@ -648,8 +584,6 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			if (Buttons[pos].bPushed)
 				lpTTB->dwFlags |= TTBBF_PUSHED;
 
-			lpTTB->hbBitmapDown = Buttons[pos].hbBitmapDown;
-			lpTTB->hbBitmapUp = Buttons[pos].hbBitmapUp;
 			lpTTB->lParamUp = Buttons[pos].lParamUp;
 			lpTTB->wParamUp = Buttons[pos].wParamUp;
 			lpTTB->lParamDown = Buttons[pos].lParamDown;
@@ -688,8 +622,8 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		Buttons[pos].dwFlags = lParam;
       Buttons[pos].bPushed = (Buttons[pos].dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 		if (Buttons[pos].dwFlags & TTBBF_DRAWBORDER) {
-			Buttons[pos].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[pos].hbBitmapDown, FALSE);
-			Buttons[pos].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[pos].hbBitmapUp, TRUE);
+			Buttons[pos].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[pos].hIconDn, FALSE);
+			Buttons[pos].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[pos].hIconUp, TRUE);
 		}
 
 		SetButtBitmap(pos);
@@ -726,8 +660,6 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 				break;
 
 			Buttons[pos].dwFlags = lpTTB->dwFlags;
-			Buttons[pos].hbBitmapDown = lpTTB->hbBitmapDown;
-			Buttons[pos].hbBitmapUp = lpTTB->hbBitmapUp;
 			Buttons[pos].lParamUp = lpTTB->lParamUp;
 			Buttons[pos].wParamUp = lpTTB->wParamUp;
 			Buttons[pos].lParamDown = lpTTB->lParamDown;
@@ -742,8 +674,8 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			Buttons[pos].pszServiceUp = _strdup(lpTTB->pszServiceUp);
 
 			if (Buttons[pos].dwFlags & TTBBF_DRAWBORDER) {
-				Buttons[pos].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[pos].hbBitmapDown, FALSE);
-				Buttons[pos].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[pos].hbBitmapUp, TRUE);
+				Buttons[pos].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[pos].hIconDn, FALSE);
+				Buttons[pos].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[pos].hIconUp, TRUE);
 			}
 
 			Buttons[pos].bPushed = (Buttons[pos].dwFlags&TTBBF_PUSHED)?TRUE:FALSE;
@@ -987,9 +919,9 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 	for (int i = 0; i < nButtonsCount; i++) {
 		char buf[256];
 		sprintf(buf, "%s_up", Buttons[i].name);
-		Buttons[i].hIconUp = LoadIconFromLibrary("TopToolBar", buf, buf, Buttons[i].hIconUp, FALSE, NULL);
+		Buttons[i].hIconUp = LoadIconFromLibrary(buf, buf, Buttons[i].hIconUp, FALSE, NULL);
 		sprintf(buf, "%s_dn", Buttons[i].name);
-		Buttons[i].hIconDn = LoadIconFromLibrary("TopToolBar", buf, buf, Buttons[i].hIconDn, FALSE, NULL);
+		Buttons[i].hIconDn = LoadIconFromLibrary(buf, buf, Buttons[i].hIconDn, FALSE, NULL);
 	}
 	ulockbut();
 	RecreateWindows();
@@ -1016,9 +948,6 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 	hwndContactList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
 	OptionsOpened = false;
-	UseIcoLib = DBGetContactSettingByte(0, TTB_OPTDIR, "UseIcoLib", UseIcoLibDefaultValue);
-	if (UseIcoLib)
-		arHooks.insert( HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange));
 
 	hFrameTopWindow = addTopToolBarWindow(hwndContactList);
 	LoadInternalButtons(( HWND )CallService(MS_CLUI_GETHWNDTREE, 0, 0));
@@ -1050,8 +979,10 @@ int LoadToolbarModule()
 {
 	InitializeCriticalSection(&csButtonsHook);
 	StopArrange = TRUE;
+	hBmpSeparator = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_SEP));
 
 	arHooks.insert( HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad));
+	arHooks.insert( HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange));
 	arHooks.insert( HookEvent(ME_OPT_INITIALISE, TTBOptInit));
 
 	arServices.insert( CreateServiceFunction(MS_TTB_ADDBUTTON, TTBAddButton));
@@ -1078,6 +1009,7 @@ int UnloadToolbarModule()
 {
 	SaveAllSeparators();
 
+	DeleteObject(hBmpSeparator);
 	DeleteCriticalSection(&csButtonsHook);
 	return 0;
 }

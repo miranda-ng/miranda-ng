@@ -223,7 +223,7 @@ int LoadInternalButtons(HWND hwnd)
 	ShowGroups = DBGetContactSettingByte(NULL, "CList", "UseGroups", 2);
 	SoundsEnabled = DBGetContactSettingByte(NULL, "Skin", "UseSound", 1);
 
-	TTBButtonV2 ttb = { 0 };
+	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);

@@ -20,9 +20,7 @@
 #define IDI_DTB0                        117
 #define IDI_DTBMORE                     118
 #define IDD_ADD_BIRTHDAY                119
-#define IDI_ICON1                       120
-#define IDI_ADD                         120
-#define IDB_TTB_CHECK                   122
+#define IDI_ADD                         121
 #define IDI_REFRESH_USERDETAILS         123
 #define IDI_IMPORT                      125
 #define IDI_IMPORT_BIRTHDAYS            125
@@ -70,7 +68,7 @@
 #define IDC_OPENINBACKGROUND            1047
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        129

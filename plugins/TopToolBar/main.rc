@@ -16,10 +16,8 @@
 // Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 #pragma code_page(1251)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -30,36 +28,27 @@ IDD_OPT_BUTORDER DIALOGEX 0, 0, 300, 231
 STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Buttons Order && Visibility", IDC_STATIC, 10, 0, 150, 180
-    CONTROL         "Tree1", IDC_BUTTONORDERTREE, "SysTreeView32", TVS_NOTOOLTIPS | WS_BORDER | WS_TABSTOP, 20, 25, 132, 100
-    LTEXT           "Buttons order:", IDC_STATIC, 20, 15, 132, 8
-    CONTROL         268, IDC_BMPUP, "Static", SS_BITMAP | SS_NOTIFY, 60, 130, 13, 10
-    CONTROL         268, IDC_BMPDN, "Static", SS_BITMAP | SS_NOTIFY, 115, 130, 13, 10, WS_EX_TRANSPARENT
-    LTEXT           "Up:", IDC_STATIC1, 35, 130, 12, 8
-    LTEXT           "Down:", IDC_STATIC2, 85, 130, 22, 8
-    PUSHBUTTON      "Default", IDC_DEFAULT, 55, 146, 50, 14
-    LTEXT           "Click on images to select new bitmaps.", IDC_STATIC3, 15, 165, 140, 8
-    PUSHBUTTON      "Add Separator", IDC_ADDSEP, 175, 15, 55, 14
-    PUSHBUTTON      "Del Separator", IDC_REMOVESEP, 235, 15, 55, 14
-    PUSHBUTTON      "Add Launch", IDC_ADDLBUTTON, 180, 60, 100, 14
-    PUSHBUTTON      "Del Launch", IDC_DELLBUTTON, 180, 81, 100, 14
-    EDITTEXT        IDC_ENAME, 195, 100, 85, 14, ES_AUTOHSCROLL
-    LTEXT           "Name: ", IDC_LBUTTONNAME, 170, 100, 24, 8
-    EDITTEXT        IDC_EPATH, 195, 121, 85, 14, ES_AUTOHSCROLL
-    LTEXT           "Path:", IDC_LBUTTONPATH, 170, 121, 18, 8
-    PUSHBUTTON      "Set", IDC_LBUTTONSET, 205, 140, 50, 14
-    EDITTEXT        IDC_IMGDIR, 65, 190, 205, 14, ES_AUTOHSCROLL | ES_READONLY
-    GROUPBOX        "Separator Button", IDC_STATIC, 165, 0, 130, 40
-    GROUPBOX        "Launch Button", IDC_STATIC, 165, 45, 130, 115
-    PUSHBUTTON      "...", IDC_OPENIMGDIR, 275, 190, 14, 14
-    CONTROL         "Image Directory:", IDC_STATIC, "Static", SS_LEFTNOWORDWRAP | WS_GROUP, 5, 190, 55, 10
-    LTEXT           "Button Height:", IDC_STATIC, 11, 210, 46, 8
-    EDITTEXT        IDC_BUTTHEIGHT, 65, 207, 24, 14, ES_AUTOHSCROLL
-    LTEXT           "Button Width: ", IDC_STATIC, 99, 210, 46, 8
-    EDITTEXT        IDC_BUTTWIDTH, 147, 208, 24, 14, ES_AUTOHSCROLL
-    CONTROL         "Use Miranda Button Class", IDC_USEMIRANDABUTTON, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 185, 210, 97, 10
-    CONTROL         "Use Flat Mode", IDC_USEFLAT, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 201, 220, 62, 10
-    CONTROL         "Use IcoLib (need restart!)", IDC_USEICOLIB, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 170, 165, 95, 10
+    GROUPBOX        "Buttons Order && Visibility",IDC_STATIC,10,0,150,180
+    CONTROL         "Tree1",IDC_BUTTONORDERTREE,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,18,25,134,148
+    LTEXT           "Buttons order:",IDC_STATIC,18,15,132,8
+    PUSHBUTTON      "Add Separator",IDC_ADDSEP,175,15,55,14
+    PUSHBUTTON      "Del Separator",IDC_REMOVESEP,235,15,55,14
+    PUSHBUTTON      "Add Launch",IDC_ADDLBUTTON,180,60,100,14
+    PUSHBUTTON      "Del Launch",IDC_DELLBUTTON,180,81,100,14
+    EDITTEXT        IDC_ENAME,195,111,85,14,ES_AUTOHSCROLL
+    LTEXT           "Name: ",IDC_LBUTTONNAME,170,114,24,8
+    EDITTEXT        IDC_EPATH,195,134,85,14,ES_AUTOHSCROLL
+    LTEXT           "Path:",IDC_LBUTTONPATH,170,136,18,8
+    PUSHBUTTON      "Set",IDC_LBUTTONSET,205,158,50,14
+    GROUPBOX        "Separator Button",IDC_STATIC,165,0,130,40
+    GROUPBOX        "Launch Button",IDC_STATIC,165,45,130,136
+    LTEXT           "Button Height:",IDC_STATIC,11,190,46,8
+    EDITTEXT        IDC_BUTTHEIGHT,65,187,24,14,ES_AUTOHSCROLL
+    LTEXT           "Button Width: ",IDC_STATIC,11,211,46,8
+    EDITTEXT        IDC_BUTTWIDTH,65,209,24,14,ES_AUTOHSCROLL
+    CONTROL         "Use Miranda Button Class",IDC_USEMIRANDABUTTON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,196,97,10
+    CONTROL         "Use Flat Mode",IDC_USEFLAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,186,208,62,10
+    CONTROL         "Use IcoLib (need restart!)",IDC_USEICOLIB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,184,95,10
 END
 
 
@@ -92,25 +81,23 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Russian resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-#ifdef _WIN32
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_FRAMEPLUG2 DIALOG  0, 0, 211, 11
+IDD_FRAMEPLUG2 DIALOG 0, 0, 211, 11
 STYLE DS_SETFONT | WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 FONT 8, "MS Sans Serif"
 BEGIN
-    CONTROL         262, IDC_P2ONLINEBUTT, "Static", SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE, 55, 0, 13, 10
-    CONTROL         269, IDC_P2GROUPBUTT, "Static", SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE, 70, 0, 13, 10
+    CONTROL         262,IDC_P2ONLINEBUTT,"Static",SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE,55,0,13,10
+    CONTROL         269,IDC_P2GROUPBUTT,"Static",SS_BITMAP | SS_NOTIFY | NOT WS_VISIBLE,70,0,13,10
 END
 
 
@@ -136,8 +123,6 @@ END
 // Bitmap
 //
 
-IDB_TESTBITMAP          BITMAP                  "bmp\\test.bmp"
-IDB_OPTIONS             BITMAP                  "bmp\\options.bmp"
 IDB_SEP                 BITMAP                  "bmp\\sep.bmp"
 
 #ifdef APSTUDIO_INVOKED
@@ -146,18 +131,18 @@ IDB_SEP                 BITMAP                  "bmp\\sep.bmp"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -194,8 +179,8 @@ IDI_MIRANDADN           ICON                    "icos\\Show Main Menu_DN.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0, 7, 3, 1
- PRODUCTVERSION 0, 7, 3, 1
+ FILEVERSION 0,7,3,1
+ PRODUCTVERSION 0,7,3,1
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -225,18 +210,16 @@ BEGIN
     END
 END
 
-#endif    // Russian resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// English (United Kingdom) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -247,7 +230,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 // remains consistent on all systems.
 IDI_NOTICK              ICON                    "icos\\notick.ico"
 IDI_TICK                ICON                    "icos\\notick1.ico"
-#endif    // English (U.K.) resources
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -255,10 +238,8 @@ IDI_TICK                ICON                    "icos\\notick1.ico"
 // English (Canada) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENC)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_CAN
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -270,20 +251,20 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "TopToolBar Background", IDC_STATIC, 4, 4, 227, 124
-    LTEXT           "Background colour:", IDC_STATIC, 12, 20, 72, 8, NOT WS_GROUP
-    CONTROL         "", IDC_BKGCOLOUR, "ColourPicker", WS_TABSTOP, 84, 19, 32, 10
-    LTEXT           "Selection colour:", IDC_STATIC, 12, 36, 72, 8, NOT WS_VISIBLE
-    CONTROL         "", IDC_SELCOLOUR, "ColourPicker", NOT WS_VISIBLE | WS_TABSTOP, 84, 35, 32, 10
-    CONTROL         "Use background bitmap", IDC_BITMAP, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 12, 53, 161, 10
-    EDITTEXT        IDC_FILENAME, 22, 67, 184, 12, ES_AUTOHSCROLL
-    PUSHBUTTON      "...", IDC_BROWSE, 208, 67, 15, 11
-    CONTROL         "Stretch to width", IDC_STRETCHH, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 22, 84, 100, 10
-    CONTROL         "Stretch to height", IDC_STRETCHV, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 122, 84, 101, 10
-    CONTROL         "Tile horizontally", IDC_TILEH, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 22, 97, 100, 10
-    CONTROL         "Tile vertically", IDC_TILEV, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 122, 97, 101, 10
-    CONTROL         "Scroll with text", IDC_SCROLL, "Button", BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP, 22, 110, 100, 10
-    CONTROL         "Stretch proportionally", IDC_PROPORTIONAL, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 122, 110, 101, 10
+    GROUPBOX        "TopToolBar Background",IDC_STATIC,4,4,227,124
+    LTEXT           "Background colour:",IDC_STATIC,12,20,72,8,NOT WS_GROUP
+    CONTROL         "",IDC_BKGCOLOUR,"ColourPicker",WS_TABSTOP,84,19,32,10
+    LTEXT           "Selection colour:",IDC_STATIC,12,36,72,8,NOT WS_VISIBLE
+    CONTROL         "",IDC_SELCOLOUR,"ColourPicker",NOT WS_VISIBLE | WS_TABSTOP,84,35,32,10
+    CONTROL         "Use background bitmap",IDC_BITMAP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,53,161,10
+    EDITTEXT        IDC_FILENAME,22,67,184,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_BROWSE,208,67,15,11
+    CONTROL         "Stretch to width",IDC_STRETCHH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,84,100,10
+    CONTROL         "Stretch to height",IDC_STRETCHV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,84,101,10
+    CONTROL         "Tile horizontally",IDC_TILEH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,22,97,100,10
+    CONTROL         "Tile vertically",IDC_TILEV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,97,101,10
+    CONTROL         "Scroll with text",IDC_SCROLL,"Button",BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP,22,110,100,10
+    CONTROL         "Stretch proportionally",IDC_PROPORTIONAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,110,101,10
 END
 
 
@@ -328,3 +309,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

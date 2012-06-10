@@ -9,8 +9,6 @@
 #define IDD_CMDLOPTIONS                 106
 #define IDD_ADDPROFILE                  109
 #define IDD_OPT_STARTUPSTATUS           110
-#define IDB_TTBDOWN                     111
-#define IDB_TTBUP                       112
 #define IDD_PUOPT_KEEPSTATUS            113
 #define IDD_OPT_AUTOAWAYMSG             114
 #define IDI_TICK                        117

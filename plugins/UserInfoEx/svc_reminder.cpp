@@ -202,15 +202,12 @@ static HANDLE AddCListExtraIcon(const CEvent &evt)
 	{
 		hClistIcon = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIco, 0);
 		if (hClistIcon == (HANDLE)CALLSERVICE_NOTFOUND)
-		{
 			hClistIcon = INVALID_HANDLE_VALUE;
-		}
-		CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIco,0);
+
+		Skin_ReleaseIcon(hIco);
 	}
-	else
-	{
-		hClistIcon = INVALID_HANDLE_VALUE;
-	}
+	else hClistIcon = INVALID_HANDLE_VALUE;
+
 	return hClistIcon;
 }
 
@@ -907,28 +904,18 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 int hTTButton = -1;
 VOID SvcReminderOnTopToolBarLoaded()
 {
-	HICON hIcon = IcoLib_RegisterIcon(TBB_ICONAME, "Check anniversaries", SECT_TOOLBAR, IDI_BIRTHDAY, 0);
-	if (hIcon)
-	{ /* for later merge 
-		ICONINFO ii;
-		TTBButton ttb;
+	TTBButton ttb = { 0 };
+	ttb.cbSize = sizeof(ttb);
 
-		GetIconInfo(hIcon, &ii);
-		*/
-		TTBButtonV2 ttb;
-		ZeroMemory(&ttb, sizeof(TTBButtonV2));
-		ttb.cbSize = sizeof(TTBButtonV2);
-
-		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-		ttb.pszServiceDown = MS_USERINFO_REMINDER_CHECK;
-		ttb.name = Translate("Check anniversaries");
-		ttb.hIconUp = ttb.hIconDn = hIcon;
-		ttb.tooltipUp = ttb.tooltipDn = Translate("Check anniversaries");
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
+	ttb.pszServiceDown = MS_USERINFO_REMINDER_CHECK;
+	ttb.name = "Check anniversaries";
+	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
+	ttb.tooltipUp = ttb.tooltipDn = "Check anniversaries";
 				
-		hTTButton = CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
-		if (hTTButton)
-			CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hTTButton), (LPARAM)(Translate("Check anniversaries")));
-	}
+	hTTButton = CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
+	if (hTTButton)
+		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME, hTTButton), (LPARAM)"Check anniversaries");
 }
 
 /**
@@ -952,8 +939,7 @@ VOID SvcReminderOnToolBarLoaded()
 	tbb.pszServiceName = MS_USERINFO_REMINDER_CHECK;
 	tbb.pszTooltipDn =
 	tbb.pszTooltipUp = LPGEN("Check anniversaries");
-	tbb.hPrimaryIconHandle =
-	tbb.hSecondaryIconHandle = IcoLib_RegisterIconHandle(TBB_ICONAME, tbb.pszButtonName, SECT_TOOLBAR, IDI_BIRTHDAY, 0);
+	tbb.hPrimaryIconHandle = tbb.hSecondaryIconHandle = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
 
 	CallService(MS_TB_ADDBUTTON, 0, (LPARAM) &tbb);
 }
