@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Twitter", "twitter.vcxproj", "{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Twitter", "proto_twitter\Proto_Twitter.vcxproj", "{A82C682E-8596-4DCA-98A6-50436194714B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,14 @@ Global
 		{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}.Release|Win32.Build.0 = Release|Win32
 		{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}.Release|x64.ActiveCfg = Release|x64
 		{12FFF2B0-0D0B-430B-A4C6-1577CA98F598}.Release|x64.Build.0 = Release|x64
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Debug|Win32.Build.0 = Debug|Win32
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Debug|x64.ActiveCfg = Debug|x64
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Debug|x64.Build.0 = Debug|x64
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Release|Win32.ActiveCfg = Release|Win32
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Release|Win32.Build.0 = Release|Win32
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Release|x64.ActiveCfg = Release|x64
+		{A82C682E-8596-4DCA-98A6-50436194714B}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
