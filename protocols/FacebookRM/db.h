@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // DB keys
 #define FACEBOOK_KEY_LOGIN					"Email"
 #define FACEBOOK_KEY_ID						"ID"
+#define FACEBOOK_KEY_TID					"ThreadID"
 #define FACEBOOK_KEY_NAME					"RealName"
 #define FACEBOOK_KEY_NICK					"Nick"
 #define FACEBOOK_KEY_PASS					"Password"

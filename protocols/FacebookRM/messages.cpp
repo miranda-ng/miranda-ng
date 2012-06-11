@@ -83,7 +83,30 @@ void FacebookProto::SendChatMsgWorker(void *p)
 	send_chat *data = static_cast<send_chat*>(p);
 	std::string err_message = "";
 
-	facy.send_message(data->chat_id, data->msg, &err_message, false );
+	HANDLE hContact = ChatIDToHContact(data->chat_id);
+	if (hContact) {		
+		std::string tid;
+		DBVARIANT dbv;
+		if (!DBGetContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_TID, &dbv)) {
+			tid = dbv.pszVal;
+			DBFreeVariant(&dbv);
+		} else {
+			std::string post_data = "threads[group_ids][0]=" + data->chat_id;
+			post_data += "&fb_dtsg=" + (facy.dtsg_.length() ? facy.dtsg_ : "0");
+			post_data += "&__user=" + facy.self_.user_id;
+			post_data += "&phstamp=0";
+
+			http::response resp = facy.flap( FACEBOOK_REQUEST_THREAD_INFO, &post_data );
+			facy.validate_response(&resp);
+
+			tid = utils::text::source_get_value(&resp.data, 2, "\"thread_id\":\"", "\"");
+			DBWriteContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_TID, tid.c_str());
+			Log("      Got thread info: %s = %s", data->chat_id.c_str(), tid.c_str());
+		}		
+		
+		if (!tid.empty())
+			facy.send_message(tid, data->msg, &err_message, false, true );
+	}
 
 	delete data;
 }

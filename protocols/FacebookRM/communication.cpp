@@ -240,6 +240,7 @@ DWORD facebook_client::choose_security_level( int request_type )
 //	case FACEBOOK_REQUEST_RECONNECT:
 //	case FACEBOOK_REQUEST_STATUS_SET:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND:
+//	case FACEBOOK_REQUEST_THREAD_INFO:
 //	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 //	case FACEBOOK_REQUEST_VISIBILITY:
 //	case FACEBOOK_REQUEST_TABS:
@@ -259,6 +260,7 @@ int facebook_client::choose_method( int request_type )
 	case FACEBOOK_REQUEST_BUDDY_LIST:
 	case FACEBOOK_REQUEST_STATUS_SET:
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
+	case FACEBOOK_REQUEST_THREAD_INFO:
 	case FACEBOOK_REQUEST_VISIBILITY:
 	case FACEBOOK_REQUEST_TABS:
 	case FACEBOOK_REQUEST_ASYNC:
@@ -323,6 +325,7 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 //	case FACEBOOK_REQUEST_RECONNECT:
 //	case FACEBOOK_REQUEST_STATUS_SET:
 //	case FACEBOOK_REQUEST_MESSAGE_SEND:
+//	case FACEBOOK_REQUEST_THREAD_INFO:
 //	case FACEBOOK_REQUEST_VISIBILITY:
 //	case FACEBOOK_REQUEST_TABS:
 //	case FACEBOOK_REQUEST_ASYNC:
@@ -436,7 +439,10 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 		return "/ajax/updatestatus.php?__a=1";
 
 	case FACEBOOK_REQUEST_MESSAGE_SEND:
-		return "/ajax/messaging/send.php?__a=1";
+		return "/ajax/mercury/send_messages.php?__a=1";
+
+	case FACEBOOK_REQUEST_THREAD_INFO:
+		return "/ajax/mercury/thread_info.php?__a=1";
 
 	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 	{
@@ -611,7 +617,26 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		{
 			resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE );
 			
-			std::string inner_data = "machine_name=MirandaIM&submit[Save%20Device]=Save%20Device";
+			std::string inner_data;
+			if (resp.data.find("name=\"submit[Continue]\"") != std::string::npos) {
+				// Multi step with approving last unrecognized device
+				// 1) Continue
+				inner_data = "submit[Continue]=Continue";
+				inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
+				resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data );
+
+				// 2) Approve last unknown login
+				// inner_data = "submit[I%20don't%20recognize]=I%20don't%20recognize"; // Don't recognize - this will force to change account password
+				inner_data = "submit[This%20is%20Okay]=This%20is%20Okay"; // Recognize
+				inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
+				inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
+				resp = flap( FACEBOOK_REQUEST_SETUP_MACHINE, &inner_data );
+			}
+
+			// Save actual machine name
+			// inner_data = "machine_name=Miranda%20IM&submit[Don't%20Save]=Don't%20Save"; // Don't save
+			inner_data = "machine_name=Miranda%20IM&submit[Save%20Device]=Save%20Device"; // Save
 			inner_data += "&post_form_id=" + utils::text::source_get_value(&resp.data, 3, "name=\"post_form_id\"", "value=\"", "\"" );
 			inner_data += "&lsd=" + utils::text::source_get_value(&resp.data, 3, "name=\"lsd\"", "value=\"", "\"" );
 			inner_data += "&nh=" + utils::text::source_get_value(&resp.data, 3, "name=\"nh\"", "value=\"", "\"" );
@@ -1054,14 +1079,34 @@ bool facebook_client::channel( )
 	}
 }
 
-bool facebook_client::send_message( std::string message_recipient, std::string message_text, std::string *error_text, bool use_inbox )
+bool facebook_client::send_message( std::string message_recipient, std::string message_text, std::string *error_text, bool use_inbox, bool is_tid )
 {
 	handle_entry( "send_message" );
 
 	http::response resp;
 
-//	if (parent->isInvisible() || use_inbox) {
-		// Use inbox send message when invisible
+	if (is_tid)
+	{
+		std::string data = "message_batch[0][action_type]=ma-type:user-generated-message";
+		data += "&message_batch[0][thread_id]=" + message_recipient;
+		data += "&message_batch[0][author]=fbid:" + this->self_.user_id;
+		data += "&message_batch[0][timestamp]=" + utils::time::mili_timestamp();
+		data += "&message_batch[0][timestamp_absolute]=";
+		data += "&message_batch[0][timestamp_relative]=";
+		data += "&message_batch[0][is_unread]=false";
+		data += "&message_batch[0][is_cleared]=false";
+		data += "&message_batch[0][is_forward]=false";
+		data += "&message_batch[0][source]=source:chat:web";
+		data += "&message_batch[0][body]=" + utils::url::encode(message_text);
+		data += "&message_batch[0][has_attachment]=false";
+		data += "&message_batch[0][is_html]=false";
+		data += "&message_batch[0][message_id]=";
+		data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
+		data += "&__user=" + this->self_.user_id;
+		data += "&phstamp=0";
+
+		resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND, &data );
+	} else {
 		std::string data = "action=send&body=";
 		data += utils::url::encode( message_text );
 		data += "&recipients[0]=";
@@ -1072,48 +1117,7 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 		data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
 
 		resp = flap( FACEBOOK_REQUEST_ASYNC, &data );	
-/*	} else {
-		// Use standard send message
-		std::string timestamp = utils::time::mili_timestamp();
-		
-		std::string data = "mid=id." + timestamp;
-
-		//data += "&tids[0]=";
-/*		data += "&last_msg[subject]&last_msg[body]=" + utils::url::encode( message_text );
-		data += "&last_msg[timestamp]=" + timestamp;
-		data += "&last_msg[mid]=id." + timestamp;
-		//data += "&last_msg[tid]=";
-		data += "&last_msg[sender_fbid]=" + this->self_.user_id;
-		data += "&last_msg[offline_threading_id]&last_msg[sender]=Robyer%40facebook.com&last_msg[sender_name]=Robert%20P%C3%B6sel"
-		data += "&last_msg[tags]=source%3Atitan%3Aweb%2Cinbox&last_msg[source]=source%3Atitan%3Aweb&&last_msg[forward]=0&last_msg[replyActionType]=0&last_msg[coordinates]&last_msg[action_id]=0";
-*/		/*
-		data += "&mode=2&gigaboxx_reply=&&body=" + utils::url::encode(message_text);
-		data += "&action=send&force_sms&send_on_enter=true&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
-		data += "&__user=" + this->self_.user_id;
-		data += "&phstamp=0";
-		
-		std::string data = "msg_text=";
-		data += utils::url::encode( message_text );
-		data += "&msg_id=";
-		data += utils::time::mili_timestamp( );
-		data += "%3A";
-		data += utils::time::unix_timestamp( );
-		data += "&to=";
-		data += message_recipient;
-		data += "&__user=";
-		data += this->self_.user_id;
-		data += "&client_time=";
-		data += utils::time::mili_timestamp( );
-		data += "&pvs_time&fb_dtsg=";
-		data += ( dtsg_.length( ) ) ? dtsg_ : "0";
-		data += "&to_offline=false&to_idle=false&lsd&post_form_id_source=AsyncRequest&num_tabs=1";
-		data += "&window_id=0&sidebar_launched=false&sidebar_enabled=false&sidebar_capable=false&sidebar_should_show=false&sidebar_visible=false";
-		data += "&post_form_id=";
-		data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
-
-		resp = flap( FACEBOOK_REQUEST_MESSAGE_SEND, &data );
-	}*/
-
+	}
 	
 	validate_response(&resp);
 	*error_text = resp.error_text;

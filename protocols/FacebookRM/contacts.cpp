@@ -38,6 +38,31 @@ bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 	}
 }
 
+HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
+{
+	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	    hContact;
+	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+	{
+		if(!IsMyContact(hContact, true))
+			continue;
+
+		DBVARIANT dbv;
+		if( !DBGetContactSettingString(hContact,m_szModuleName,"ChatRoomID",&dbv) )
+		{
+			if( strcmp(chat_id.c_str(),dbv.pszVal) == 0 )
+			{
+				DBFreeVariant(&dbv);
+				return hContact;
+			} else {
+				DBFreeVariant(&dbv);
+			}
+		}
+	}
+
+	return 0;
+}
+
 HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 {
 	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
