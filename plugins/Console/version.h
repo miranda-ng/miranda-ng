@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 
 #define __PLUGIN_DESC        "Console log window for Miranda 0.8.0.3+"
-#define __PLUGIN_LONGDESC    __PLUGIN_DESC ". Compiled by Bio. Enjoy! 8-)          [ Built "__DATE__"  "__TIME__" ]"
+#define __PLUGIN_LONGDESC    __PLUGIN_DESC ". ["__DATE__"  "__TIME__"]"
 #define __PLUGIN_AUTHOR      "Bio"
 #define __PLUGIN_EMAIL       "bio@msx.ru"
 #define __PLUGIN_RIGHTS      "© 2005-2009 Bio"
@@ -37,12 +37,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MIID_CONSOLE { 0x23d4f302, 0xd513, 0x45b7, { 0x90, 0x27, 0x44, 0x5f, 0x29, 0x55, 0x73, 0x11 }} // {23D4F302-D513-45b7-9027-445F29557311}
 
-#ifdef _UNICODE
-	#define __PLUGIN_NAME __PLUGIN_SHORTNAME " (Unicode)"
-	#define __PLUGIN_URL "http://addons.miranda-im.org/details.php?action=viewfile&id=3791"
-#endif
-
-#ifndef _UNICODE
-	#define __PLUGIN_NAME __PLUGIN_SHORTNAME " (ANSI)"
-	#define __PLUGIN_URL "http://addons.miranda-im.org/details.php?action=viewfile&id=3789"
-#endif
+#define __PLUGIN_NAME __PLUGIN_SHORTNAME
+#define __PLUGIN_URL "http://addons.miranda-im.org/details.php?action=viewfile&id=3791"

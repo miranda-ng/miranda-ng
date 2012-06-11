@@ -724,8 +724,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		{
 			SAVEWINDOWPOS swp;
 			swp.hwnd=hwndDlg; swp.hContact=NULL; swp.szModule="Console"; swp.szNamePrefix="Console";
-			CallService(MS_UTILS_RESTOREWINDOWPOSITION,RWPF_NOACTIVATE,(LPARAM)&swp);
-			ShowWindow(hwndDlg,SW_HIDE);
+			CallService(MS_UTILS_RESTOREWINDOWPOSITION, RWPF_HIDDEN, (LPARAM)&swp);
 		}
 
 		if (CallService(MS_DB_GETPROFILENAME,(WPARAM)512,(LPARAM)ProfileName))
