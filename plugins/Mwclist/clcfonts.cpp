@@ -94,7 +94,7 @@ void RegisterCListFonts()
 			break;
 		}
 
-		if (fontListOrder[i] != 0) {
+		if (fontListOrder[i] != 0 || i == 0) {
 			strncpy(fontid.dbSettingsGroup, "CLC", sizeof(fontid.dbSettingsGroup));
 			_tcsncpy(fontid.group, _T("Contact List"), SIZEOF(fontid.group));
 			_tcsncpy(fontid.name, szClistFontIdDescr[fontListOrder[i]], SIZEOF(fontid.name));
