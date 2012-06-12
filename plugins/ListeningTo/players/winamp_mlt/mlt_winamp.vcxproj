@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectName>listeningto_winamp_mlt</ProjectName>
+    <ProjectName>ListeningTo_winamp_mlt</ProjectName>
     <ProjectGuid>{8BBB15B7-D08B-475A-A58C-0C71D39FADB8}</ProjectGuid>
     <RootNamespace>gen_mlt</RootNamespace>
   </PropertyGroup>
@@ -108,7 +108,7 @@
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;MLT_WINAMP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
@@ -131,6 +131,8 @@
       </DataExecutionPrevention>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>
+      </GenerateDebugInformation>
     </Link>
     <Bscmake>
       <OutputFile>$(OutDir)$(TargetName).bsc</OutputFile>

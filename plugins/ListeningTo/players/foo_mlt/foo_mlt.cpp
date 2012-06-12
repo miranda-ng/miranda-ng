@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "foobar2000/SDK/foobar2000.h"
 #include "foobar2000/helpers/helpers.h"
-#include "..\..\m_listeningto.h"
+#include "m_listeningto.h"
 #include <windows.h>
 #include <process.h>
 
