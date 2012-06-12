@@ -371,8 +371,10 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 
 			//background
 			if (selected) {
+				// default value - paint on text
+				int x=dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace-2+subident;
+				ImageList_DrawEx(dat->himlHighlight,0,hdcMem,x,y,min(width+5,clRect.right-x),dat->rowHeight,CLR_NONE,CLR_NONE,dat->exStyle&CLS_EX_NOTRANSLUCENTSEL?ILD_NORMAL:ILD_BLEND25);
 				SetTextColor(hdcMem,dat->selTextColour);	
-				break;
 			}
 			else if (hottrack)
 				SetHotTrackColour(hdcMem,dat);
