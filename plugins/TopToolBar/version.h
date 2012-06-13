@@ -21,15 +21,23 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+#define __MAJOR_VERSION				0
+#define __MINOR_VERSION				8
+#define __RELEASE_NUM				0
+#define __BUILD_NUM					1
 
-#define __FILEVERSION_STRING 0,8,0,1
-#define __VERSION_STRING     "0.8.0.1"
-#define __VERSION_DWORD      0x00080001
+// other stuff for Version resource
+#define __STRINGIFY_IMPL(x)			#x
+#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 
+#define __FILEVERSION_STRING       __MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
+#define __FILEVERSION_STRING_DOTS  __MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
+#define __VERSION_STRING           __STRINGIFY(__FILEVERSION_STRING_DOTS)
 
 #define __PLUGIN_DESC        "ToptoolBar adds buttons in top frame for fast access."
 #define __PLUGIN_LONGDESC    __PLUGIN_DESC
 #define __PLUGIN_AUTHOR      "Bethoven"
+#define __PLUGIN_AUTHORWEB   "http://www.miranda-im.org/"
 #define __PLUGIN_EMAIL       "Bethoven@mailgate.ru"
 #define __PLUGIN_RIGHTS      "© 2003-2008 Bethoven"
 #define __PLUGIN_FILE        "TopToolbar.dll"

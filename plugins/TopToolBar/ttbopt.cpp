@@ -142,7 +142,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			if (ctrlid == IDC_LBUTTONSET) {
-				int curselect;
 				TVITEM tvi;
 				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
 				if (tvi.hItem == NULL)
@@ -177,7 +176,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 
 			if (ctrlid == IDC_DELLBUTTON) {
-				int curselect;
 				TVITEM tvi;
 				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
 				if (tvi.hItem == NULL)

@@ -8,7 +8,7 @@ PLUGINLINK *pluginLink;
 MM_INTERFACE mmi;
 LIST_INTERFACE li;
 HANDLE hHookTTBModuleLoaded;
-int hLangpack; 
+int hLangpack;
 
 LIST<void> arHooks(10), arServices(10);
 
@@ -31,17 +31,17 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PLUGININFOEX pluginInfo  = 
+PLUGININFOEX pluginInfo  =
 {
-	sizeof(PLUGININFOEX), 
-	__PLUGIN_NAME, 
-	__VERSION_DWORD,
-	__PLUGIN_DESC, 
-	__PLUGIN_AUTHOR, 
-	__PLUGIN_EMAIL, 
-	__PLUGIN_RIGHTS, 
-	"http://www.miranda-im.org/", 
-	UNICODE_AWARE, 
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__PLUGIN_DESC,
+	__PLUGIN_AUTHOR,
+	__PLUGIN_EMAIL,
+	__PLUGIN_RIGHTS,
+	__PLUGIN_AUTHORWEB,
+	UNICODE_AWARE,
 	0, 		//doesn't replace anything built-in
 	MIID_TTB
 };
