@@ -13,11 +13,6 @@ extern SortData arrangedbuts[MAX_BUTTONS];
 bool OptionsOpened = false;
 HWND OptionshWnd = 0;
 
-struct ButtonOptData
-{
-	int pos;
-};
-
 struct OrderData
 {
 	int dragging;
@@ -43,8 +38,7 @@ int BuildTree(HWND hwndDlg)
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 
 	for (int i = 0; i < nButtonsCount; i++) {
-		ButtonOptData *PD = (ButtonOptData*)malloc(sizeof(ButtonOptData));
-		TopButtonInt &b = Buttons[PD->pos = arrangedbuts[i].oldpos];
+		TopButtonInt &b = Buttons[arrangedbuts[i].oldpos];
 
 		int index;
 		if (b.dwFlags & TTBBF_ICONBYHANDLE) {
@@ -54,11 +48,12 @@ int BuildTree(HWND hwndDlg)
 		}
 		else index = ImageList_AddIcon(dat->himlButtonIcons, b.hIconUp);
 
-		tvis.item.lParam = (LPARAM)PD;
-		tvis.item.pszText = TranslateTS( mir_a2t( b.name ));
+		TCHAR* tmp = mir_a2t( b.name );
+		tvis.item.lParam = (LPARAM)&b;
+		tvis.item.pszText = TranslateTS(tmp);
 		tvis.item.iImage = tvis.item.iSelectedImage = index;
 		HTREEITEM hti = TreeView_InsertItem(hTree, &tvis);
-		mir_free( tvis.item.pszText );
+		mir_free(tmp);
 
 		TreeView_SetCheckState(hTree, hti, (b.dwFlags & TTBBF_VISIBLE) ? TRUE : FALSE);
 	}
@@ -90,13 +85,13 @@ int SaveTree(HWND hwndDlg)
 		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 		TreeView_GetItem(hTree, &tvi);
 
-		int pos = ((ButtonOptData *)tvi.lParam)->pos;
-		if (pos >= 0 && pos < nButtonsCount) {
+		TopButtonInt* btn = (TopButtonInt*)tvi.lParam;
+		if (btn->arrangedpos >= 0 && btn->arrangedpos) {
 			if ((tvi.state >> 12 ) == 0x2)
-				Buttons[pos].dwFlags |= TTBBF_VISIBLE;
+				btn->dwFlags |= TTBBF_VISIBLE;
 			else
-				Buttons[pos].dwFlags &= ~TTBBF_VISIBLE;
-			Buttons[pos].arrangedpos = count;
+				btn->dwFlags &= ~TTBBF_VISIBLE;
+			btn->arrangedpos = count;
 		}
 
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
@@ -113,6 +108,7 @@ int SaveTree(HWND hwndDlg)
 
 static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	TopButtonInt* btn;
 	struct OrderData *dat = (struct OrderData*)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWLP_USERDATA);
 
 	switch (msg) {
@@ -123,13 +119,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dat->dragging = 0;
 
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE)|TVS_NOHSCROLL);
-		{
-			HIMAGELIST himlCheckBoxes;
-			himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR4|ILC_MASK, 2, 2);
-			ImageList_AddIcon(himlCheckBoxes, LoadIcon(hInst, MAKEINTRESOURCE(IDI_NOTICK)));
-			ImageList_AddIcon(himlCheckBoxes, LoadIcon(hInst, MAKEINTRESOURCE(IDI_TICK)));
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), himlCheckBoxes, TVSIL_NORMAL);
-		}
 
 		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", 16), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", 20), FALSE);
@@ -165,8 +154,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
-				curselect = ((ButtonOptData *)tvi.lParam)->pos;
-				if (Buttons[curselect].dwFlags & TTBBF_ISLBUTTON) {
+				btn = (TopButtonInt*)tvi.lParam;
+				if (btn->dwFlags & TTBBF_ISLBUTTON) {
 					LBUTOPT lbo = { 0 };
 					TCHAR buf[256];
 					GetDlgItemText(hwndDlg, IDC_ENAME, buf, 255);
@@ -175,7 +164,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					GetDlgItemText(hwndDlg, IDC_EPATH, buf, 255);
 					lbo.lpath = _tcsdup(buf);
 
-					CallService(TTB_MODIFYLBUTTON, Buttons[curselect].lParamDown, (LPARAM)&lbo);
+					CallService(TTB_MODIFYLBUTTON, btn->lParamDown, (LPARAM)&lbo);
 					free(lbo.name);
 					free(lbo.lpath);
 				}
@@ -199,10 +188,10 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
+				btn = (TopButtonInt*)tvi.lParam;
 
-				curselect = ((ButtonOptData *)tvi.lParam)->pos;
-				if (Buttons[curselect].dwFlags & TTBBF_ISLBUTTON) {
-					CallService(TTB_REMOVELBUTTON, Buttons[curselect].lParamDown, 0);
+				if (btn->dwFlags & TTBBF_ISLBUTTON) {
+					CallService(TTB_REMOVELBUTTON, btn->lParamDown, 0);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
 					BuildTree(hwndDlg);
@@ -227,7 +216,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
-
 				if (tvi.lParam == 0)
 					break;
 
@@ -236,12 +224,10 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 				}
 
-				int curselect = ((ButtonOptData *)tvi.lParam)->pos;
-				if ( curselect >= 0 && curselect < nButtonsCount ) {
-					if (Buttons[curselect].dwFlags & TTBBF_ISSEPARATOR) {
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						CallService(TTB_REMOVESEPARATOR, Buttons[curselect].lParamDown, 0);
-					}
+				btn = (TopButtonInt*)tvi.lParam;
+				if (btn->dwFlags & TTBBF_ISSEPARATOR) {
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					CallService(TTB_REMOVESEPARATOR, btn->lParamDown, 0);
 				}
 				break;
 			}
@@ -298,10 +284,10 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					tvi.hItem = hti;
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
-					TopButtonInt &b = Buttons[((ButtonOptData *)tvi.lParam)->pos];
+					TopButtonInt *btn = (TopButtonInt*)tvi.lParam;
 					lockbut();
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), FALSE);
-					if (b.dwFlags & TTBBF_ISSEPARATOR)
+					if (btn->dwFlags & TTBBF_ISSEPARATOR)
 						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), TRUE);
 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
@@ -311,9 +297,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
 					SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 
-					if (b.dwFlags & TTBBF_ISLBUTTON) {
+					if (btn->dwFlags & TTBBF_ISLBUTTON) {
 						LBUTOPT lbo = { 0 };
-						CallService(TTB_GETLBUTTON, b.lParamDown, (LPARAM)&lbo);
+						CallService(TTB_GETLBUTTON, btn->lParamDown, (LPARAM)&lbo);
 						if (lbo.hframe != 0) {
 							EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), TRUE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), TRUE);

@@ -264,6 +264,7 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ResourceCompile>
+    <ResourceCompile Include="version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InternalButtons.cpp" />

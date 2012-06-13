@@ -1,5 +1,6 @@
 
 #include "common.h"
+#include "version.h"
 #pragma hdrstop
 
 HINSTANCE hInst;
@@ -33,12 +34,12 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 PLUGININFOEX pluginInfo  = 
 {
 	sizeof(PLUGININFOEX), 
-	"TopToolbar", 
-	PLUGIN_MAKE_VERSION(0, 7, 3, 1), 
-	"ToptoolBar adds buttons in top frame for fast access.This plugin uses MultiWindow or CList_MW plugin.("__DATE__" "__TIME__")", 
-	"Bethoven", 
-	"Bethoven@mailgate.ru", 
-	"© 2003-2008 Bethoven", 
+	__PLUGIN_NAME, 
+	__VERSION_DWORD,
+	__PLUGIN_DESC, 
+	__PLUGIN_AUTHOR, 
+	__PLUGIN_EMAIL, 
+	__PLUGIN_RIGHTS, 
 	"http://www.miranda-im.org/", 
 	UNICODE_AWARE, 
 	0, 		//doesn't replace anything built-in

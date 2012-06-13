@@ -19,8 +19,6 @@
 #define IDI_ICON1                       138
 #define IDI_MIRANDADN                   139
 #define IDI_RUN                         140
-#define IDI_NOTICK                      205
-#define IDI_TICK                        206
 #define IDD_OPT_TTBBKG                  230
 #define IDD_OPT_INTERNALORDER           262
 #define IDD_OPT_BUTORDER                262
