@@ -706,9 +706,9 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 	LVITEM it = { 0 };
 	it.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 	it.iImage = ( pi.pluginInfo->flags & 1 ) ? 0 : 1;
-	it.pszText = fd->cFileName;
+	it.iItem = 100000; // add to the end
 	it.lParam = (LPARAM)dat;
-	int iRow = SendMessage( hwndList, LVM_INSERTITEM, 0, (LPARAM)&it );
+	int iRow = ListView_InsertItem( hwndList, &it );
 	if ( isPluginOnWhiteList(fd->cFileName) )
 		ListView_SetItemState(hwndList, iRow, !isdb ? 0x2000 : 0x3000, LVIS_STATEIMAGEMASK);
 	if ( iRow != -1 ) {
@@ -804,11 +804,10 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	switch (msg) {
 	case WM_INITDIALOG:
 	{
-		HWND hwndList=GetDlgItem(hwndDlg, IDC_PLUGLIST);
+		HWND hwndList = GetDlgItem(hwndDlg, IDC_PLUGLIST);
 		SetWindowLongPtr(hwndList, GWLP_USERDATA, (LONG_PTR)GetWindowLongPtr(hwndList, GWLP_WNDPROC));
 		SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
 
-		LVCOLUMN col;
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 4, 0);
 		ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_UNICODE );
 		ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_ANSI );
@@ -818,6 +817,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 		TranslateDialogDefault(hwndDlg);
 
+		LVCOLUMN col;
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.pszText = _T("");
 		col.cx = 40;
