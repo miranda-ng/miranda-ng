@@ -87,7 +87,7 @@ ITaskbarList3 * pTaskbarInterface;
 static DWORD MsgWaitForMultipleObjectsExWorkaround(DWORD nCount, const HANDLE *pHandles,
 	DWORD dwMsecs, DWORD dwWakeMask, DWORD dwFlags);
 
-static HANDLE hOkToExitEvent,hModulesLoadedEvent;
+HANDLE hOkToExitEvent,hModulesLoadedEvent;
 static HANDLE hShutdownEvent,hPreShutdownEvent;
 static HANDLE hWaitObjects[MAXIMUM_WAIT_OBJECTS-1];
 static char *pszWaitServices[MAXIMUM_WAIT_OBJECTS-1];

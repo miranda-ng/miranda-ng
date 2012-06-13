@@ -344,9 +344,41 @@ int SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook)
 	return 0;
 }
 
-int CallHookSubscribers( HANDLE hEvent, WPARAM wParam, LPARAM lParam )
+int CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
-	int i, returnVal = 0;
+	int returnVal = 0;
+	THook* p = ( THook* )hEvent;
+	if ( p == NULL )
+		return -1;
+
+	EnterCriticalSection( &p->csHook );
+	for ( int i = 0; i < p->subscriberCount; i++ ) {
+		THookSubscriber* s = &p->subscriber[i];
+		if ( s->hOwner != hInst )
+			continue;
+
+		switch ( s->type ) {
+			case 1:	returnVal = s->pfnHook( wParam, lParam );	break;
+			case 2:	returnVal = s->pfnHookParam( wParam, lParam, s->lParam ); break;
+			case 3:	returnVal = s->pfnHookObj( s->object, wParam, lParam ); break;
+			case 4:	returnVal = s->pfnHookObjParam( s->object, wParam, lParam, s->lParam ); break;
+			case 5:	returnVal = SendMessage( s->hwnd, s->message, wParam, lParam ); break;
+			default: continue;
+		}
+		if ( returnVal )
+			break;
+	}
+
+	if ( p->subscriberCount == 0 && p->pfnHook != 0 )
+		returnVal = p->pfnHook( wParam, lParam );
+
+	LeaveCriticalSection( &p->csHook );
+	return returnVal;
+}
+
+int CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
+{
+	int returnVal = 0;
 	THook* p = ( THook* )hEvent;
 	if ( p == NULL )
 		return -1;
@@ -354,7 +386,7 @@ int CallHookSubscribers( HANDLE hEvent, WPARAM wParam, LPARAM lParam )
 	EnterCriticalSection( &p->csHook );
 
 	// NOTE: We've got the critical section while all this lot are called. That's mostly safe, though.
-	for ( i = 0; i < p->subscriberCount; i++ ) {
+	for ( int i = 0; i < p->subscriberCount; i++ ) {
 		THookSubscriber* s = &p->subscriber[i];
 		switch ( s->type ) {
 			case 1:	returnVal = s->pfnHook( wParam, lParam );	break;

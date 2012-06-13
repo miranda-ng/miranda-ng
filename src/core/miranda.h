@@ -142,10 +142,12 @@ char*  mir_u2a( const wchar_t* src);
 /**** miranda.c ************************************************************************/
 
 extern HINSTANCE hMirandaInst;
+extern HANDLE hOkToExitEvent,hModulesLoadedEvent;
 extern pfnExceptionFilter pMirandaExceptFilter;
 
 /**** modules.c ************************************************************************/
 
+int  CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 void KillModuleEventHooks( HINSTANCE );
 void KillModuleServices( HINSTANCE );
 

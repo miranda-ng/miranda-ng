@@ -135,6 +135,18 @@ typedef struct {
     MUUID uuid; // Not required until 0.8.
 } PLUGININFOEX;
 
+//Miranda/System/LoadModule event
+//called when a plugin is being loaded dynamically
+//wParam=PLUGININFOEX*
+//lParam=0
+#define ME_SYSTEM_MODULELOAD "Miranda/System/LoadModule"
+
+//Miranda/System/UnloadModule event
+//called when a plugin is being unloaded dynamically
+//wParam=PLUGININFOEX*
+//lParam=0
+#define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
+
 #ifndef MODULES_H_
 	typedef int (*MIRANDAHOOK)(WPARAM,LPARAM);
 	typedef int (*MIRANDAHOOKPARAM)(WPARAM,LPARAM,LPARAM);
