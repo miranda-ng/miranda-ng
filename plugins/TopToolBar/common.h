@@ -58,7 +58,6 @@ struct TopButtonInt
 	BOOL bPushed;
 	int dwFlags;
 	int x, y;
-	HBITMAP hbWBordBitmapUp, hbWBordBitmapDown;
 	HICON hIconUp, hIconDn;
 	HANDLE hIconHandleUp, hIconHandleDn;
 	
@@ -122,13 +121,10 @@ char *AS(char *str, const char *setting, char *addstr)
 
 #define TTB_ADDLBUTTON "TTB/AddLButton"
 #define TTB_REMOVELBUTTON "TTB/RemoveLButton"
-#define MYMIRANDABUTTONCLASS _T("MyMIRANDABUTTONCLASS")
+#define MYMIRANDABUTTONCLASS _T("MButtonClass") //_T("MyMIRANDABUTTONCLASS")
 
 int LoadInternalButtons( HWND );
 int UnLoadInternalButtons( void );
-
-int LoadButtonModule( void );
-int UnloadButtonModule( void );
 
 int LoadToolbarModule( void );
 int UnloadToolbarModule( void );
@@ -167,7 +163,5 @@ struct LBUTOPT
 
 #define BM_SETPRIVATEICON (WM_USER + 6)
 #define BM_SETIMLICON (WM_USER + 7)
-#define UseIcoLibDefaultValue 0
-#define UseMirandaButtonClassDefaultValue 1
 
 #endif

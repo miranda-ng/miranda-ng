@@ -26,9 +26,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="find.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\Find_Add Contacts_DN.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -103,9 +100,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="toolbar.cpp">

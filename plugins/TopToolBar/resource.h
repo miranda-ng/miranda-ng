@@ -2,23 +2,7 @@
 // Microsoft Developer Studio generated include file.
 // Used by main.rc
 //
-#define IDB_SOUNDSUP                    103
-#define IDB_SOUNDSDN                    104
-#define IDB_BORDERDN                    105
-#define IDB_BORDERUP                    106
-#define IDB_TESTBITMAP                  108
-#define IDB_OPTIONS                     109
-#define IDB_CPANELDN                    112
-#define IDB_CPANELUP                    113
-#define IDB_MENUUP                      114
-#define IDB_MENUDN                      115
-#define IDB_LAUNCHDN                    117
 #define IDB_SEP                         118
-#define IDB_LAUNCHUP                    119
-#define IDB_MINIMIZEUP                  121
-#define IDB_MINIMIZEDN                  122
-#define IDB_FINDUSERDN                  123
-#define IDB_FINDUSERUP                  124
 #define IDI_SHOWONLINEUP                125
 #define IDI_SHOWONLINEDN                126
 #define IDI_GROUPSUP                    127
@@ -33,17 +17,14 @@
 #define IDI_FINDADDDN                   136
 #define IDI_MIRANDAUP                   137
 #define IDI_ICON1                       138
-#define IDI_MIRANDADN                   138
+#define IDI_MIRANDADN                   139
+#define IDI_RUN                         140
 #define IDI_NOTICK                      205
 #define IDI_TICK                        206
 #define IDD_OPT_TTBBKG                  230
-#define IDB_ONLINEUP                    262
 #define IDD_OPT_INTERNALORDER           262
 #define IDD_OPT_BUTORDER                262
-#define IDB_ONLINEDN                    264
 #define IDD_FRAMEPLUG2                  265
-#define IDB_GROUPUP                     268
-#define IDB_GROUPDN                     269
 #define IDC_BUTTON1                     1002
 #define IDC_ADDSEP                      1003
 #define IDC_REMOVESEP                   1004
@@ -57,9 +38,7 @@
 #define IDC_BUTTHEIGHT                  1015
 #define IDC_EDIT2                       1016
 #define IDC_BUTTWIDTH                   1016
-#define IDC_USEMIRANDABUTTON            1017
 #define IDC_USEFLAT                     1018
-#define IDC_USEICOLIB                   1019
 #define IDC_BROWSE                      1184
 #define IDC_BKGCOLOUR                   1269
 #define IDC_FILENAME                    1271

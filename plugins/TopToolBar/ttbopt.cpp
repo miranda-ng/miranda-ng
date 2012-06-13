@@ -15,42 +15,52 @@ HWND OptionshWnd = 0;
 
 struct ButtonOptData
 {
-	char *name;
 	int pos;
-	bool show;
 };
 
 struct OrderData
 {
 	int dragging;
 	HTREEITEM hDragItem;
+	HIMAGELIST himlButtonIcons;
 };
 
 int BuildTree(HWND hwndDlg)
 {
+	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
 	OrderData *dat = (struct OrderData*)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWLP_USERDATA);
 
-	TVINSERTSTRUCT tvis;
-	tvis.hParent = NULL;
-	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;	
-	TreeView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
+	dat->himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
+	TreeView_SetImageList(hTree, dat->himlButtonIcons, TVSIL_NORMAL);
+	SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree,GWL_STYLE)|TVS_NOHSCROLL);
+	TreeView_DeleteAllItems(hTree);
 
 	if (nButtonsCount == 0)
 		return FALSE;
 
+	TVINSERTSTRUCT tvis = { 0 };
+	tvis.hInsertAfter = TVI_LAST;
+	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+
 	for (int i = 0; i < nButtonsCount; i++) {
 		ButtonOptData *PD = (ButtonOptData*)malloc(sizeof(ButtonOptData));
-		PD->name = Buttons[arrangedbuts[i].oldpos].name;			
-		PD->show = Buttons[arrangedbuts[i].oldpos].dwFlags & TTBBF_VISIBLE?TRUE:FALSE;			
-		PD->pos = arrangedbuts[i].oldpos;					
+		TopButtonInt &b = Buttons[PD->pos = arrangedbuts[i].oldpos];
+
+		int index;
+		if (b.dwFlags & TTBBF_ICONBYHANDLE) {
+			HICON hIcon = Skin_GetIconByHandle(b.hIconHandleUp);
+			index = ImageList_AddIcon(dat->himlButtonIcons, hIcon);
+			Skin_ReleaseIcon(hIcon);
+		}
+		else index = ImageList_AddIcon(dat->himlButtonIcons, b.hIconUp);
+
 		tvis.item.lParam = (LPARAM)PD;
-		tvis.item.pszText = TranslateTS( mir_a2t( PD->name));
-		tvis.item.iImage = tvis.item.iSelectedImage = PD->show;
-		TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvis);
+		tvis.item.pszText = TranslateTS( mir_a2t( b.name ));
+		tvis.item.iImage = tvis.item.iSelectedImage = index;
+		HTREEITEM hti = TreeView_InsertItem(hTree, &tvis);
 		mir_free( tvis.item.pszText );
 
-		tvis.item.iImage = tvis.item.iSelectedImage = PD->show;
+		TreeView_SetCheckState(hTree, hti, (b.dwFlags & TTBBF_VISIBLE) ? TRUE : FALSE);
 	}
 
 	return (TRUE);
@@ -59,7 +69,7 @@ int BuildTree(HWND hwndDlg)
 //call this when options opened and buttons added/removed
 int OptionsPageRebuild()
 {
-	if (OptionsOpened)	
+	if (OptionsOpened)
 		BuildTree(OptionshWnd);
 
 	return 0;
@@ -67,27 +77,29 @@ int OptionsPageRebuild()
 
 int SaveTree(HWND hwndDlg)
 {
-	TCHAR idstr[100];
-	TVITEM tvi;
-	tvi.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
-	tvi.cchTextMax = 99;
-	tvi.mask = TVIF_TEXT|TVIF_PARAM|TVIF_HANDLE;
-	tvi.pszText = idstr;
+	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
+
+	TVITEM tvi = { 0 };
+	tvi.hItem = TreeView_GetRoot(hTree);
 
 	int count = 0;
 	lockbut();
 
 	while(tvi.hItem != NULL) {
-		TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
-		char* name = ((ButtonOptData *)tvi.lParam)->name;
+		tvi.stateMask = TVIS_STATEIMAGEMASK;
+		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
+		TreeView_GetItem(hTree, &tvi);
+
 		int pos = ((ButtonOptData *)tvi.lParam)->pos;
 		if (pos >= 0 && pos < nButtonsCount) {
-			Buttons[pos].dwFlags &= ~(TTBBF_VISIBLE);
-			Buttons[pos].dwFlags |= (((ButtonOptData *)tvi.lParam)->show == TRUE ) ? TTBBF_VISIBLE : 0;
+			if ((tvi.state >> 12 ) == 0x2)
+				Buttons[pos].dwFlags |= TTBBF_VISIBLE;
+			else
+				Buttons[pos].dwFlags &= ~TTBBF_VISIBLE;
 			Buttons[pos].arrangedpos = count;
 		}
 
-		tvi.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), tvi.hItem);
+		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 		count++;
 	}
 
@@ -121,19 +133,12 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", 16), FALSE);
 		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", 20), FALSE);
-		CheckDlgButton(hwndDlg, IDC_USEMIRANDABUTTON, DBGetContactSettingByte(0, TTB_OPTDIR, "UseMirandaButtonClass", UseMirandaButtonClassDefaultValue));
 		CheckDlgButton(hwndDlg, IDC_USEFLAT, DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1));
-
-		if ( !ServiceExists(MS_SKIN2_ADDICON))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_USEICOLIB), FALSE);
-
-		CheckDlgButton(hwndDlg, IDC_USEICOLIB, TRUE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_USEICOLIB), FALSE);
 
 		BuildTree(hwndDlg);
 		OptionsOpened = true;
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);							
+		EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELLBUTTON), FALSE);
 
 		SendMessage(hwndDlg, WM_COMMAND, 0, 0);
@@ -141,8 +146,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return TRUE;
 
 	case WM_COMMAND:
-		EnableWindow(GetDlgItem(hwndDlg, IDC_USEFLAT), IsDlgButtonChecked(hwndDlg, IDC_USEMIRANDABUTTON));
-
 		if (HIWORD(wParam) == EN_CHANGE ) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
@@ -162,7 +165,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
-				curselect = ((ButtonOptData *)tvi.lParam)->pos; 
+				curselect = ((ButtonOptData *)tvi.lParam)->pos;
 				if (Buttons[curselect].dwFlags & TTBBF_ISLBUTTON) {
 					LBUTOPT lbo = { 0 };
 					TCHAR buf[256];
@@ -179,10 +182,10 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				break;
 			}
 
-			if (ctrlid == IDC_ADDLBUTTON) {				
+			if (ctrlid == IDC_ADDLBUTTON) {
 				if (CallService(TTB_ADDLBUTTON, 0, 0) == 0) {
 					//	BuildTree(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);					
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
 			}
@@ -197,7 +200,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
-				curselect = ((ButtonOptData *)tvi.lParam)->pos; 
+				curselect = ((ButtonOptData *)tvi.lParam)->pos;
 				if (Buttons[curselect].dwFlags & TTBBF_ISLBUTTON) {
 					CallService(TTB_REMOVELBUTTON, Buttons[curselect].lParamDown, 0);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
@@ -205,12 +208,12 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					BuildTree(hwndDlg);
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-			}				
+			}
 
 			if (ctrlid == IDC_ADDSEP) {
 				if (CallService(TTB_ADDSEPARATOR, 0, 0) == 0) {
 					//	BuildTree(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);					
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
 			}
@@ -232,8 +235,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					MessageBoxA(0, "Bad Code Ptr: tvi.lParam", "log", 0);
 					break;
 				}
-				
-				int curselect = ((ButtonOptData *)tvi.lParam)->pos; 
+
+				int curselect = ((ButtonOptData *)tvi.lParam)->pos;
 				if ( curselect >= 0 && curselect < nButtonsCount ) {
 					if (Buttons[curselect].dwFlags & TTBBF_ISSEPARATOR) {
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -247,16 +250,12 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0: 
+		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, FALSE, FALSE));
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, FALSE, FALSE));
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "UseMirandaButtonClass", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEMIRANDABUTTON));
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT));
-
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "UseIcoLib", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEICOLIB));
-
 
 				SaveTree(hwndDlg);
 				RecreateWindows();
@@ -280,47 +279,41 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					hti.pt.x = (short)LOWORD(GetMessagePos());
 					hti.pt.y = (short)HIWORD(GetMessagePos());
 					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {						
-						if (hti.flags&TVHT_ONITEMICON) {
-							TVITEM tvi;
-							tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
-							tvi.hItem = hti.hItem;
-							TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
-							tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
-							((ButtonOptData *)tvi.lParam)->show = tvi.iImage;
-							TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
+					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
+						if (hti.flags & TVHT_ONITEMSTATEICON) {
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+							TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), hti.hItem);
 						}
-					}
 				}
 				break;
 
 			case TVN_SELCHANGED:
 				{
-					TVITEM tvi;
-					HTREEITEM hti;
+					HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
+					if (hti == NULL)
+						break;
 
-					hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
-					if (hti == NULL){break;}
-					tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
+					TVITEM tvi;
+					tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
 					tvi.hItem = hti;
 					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
+					TopButtonInt &b = Buttons[((ButtonOptData *)tvi.lParam)->pos];
 					lockbut();
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), FALSE);
-					if (Buttons[((ButtonOptData *)tvi.lParam)->pos].dwFlags & TTBBF_ISSEPARATOR)
-						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), TRUE);							
+					if (b.dwFlags & TTBBF_ISSEPARATOR)
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), TRUE);
 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);							
+					EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_DELLBUTTON), FALSE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), FALSE);
 					SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
 					SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 
-					if (Buttons[((ButtonOptData *)tvi.lParam)->pos].dwFlags & TTBBF_ISLBUTTON) {
+					if (b.dwFlags & TTBBF_ISLBUTTON) {
 						LBUTOPT lbo = { 0 };
-						CallService(TTB_GETLBUTTON, Buttons[((ButtonOptData *)tvi.lParam)->pos].lParamDown, (LPARAM)&lbo);
+						CallService(TTB_GETLBUTTON, b.lParamDown, (LPARAM)&lbo);
 						if (lbo.hframe != 0) {
 							EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), TRUE);
 							EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), TRUE);
@@ -349,63 +342,66 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ClientToScreen(hwndDlg, &hti.pt);
 			ScreenToClient(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &hti.pt);
 			TreeView_HitTest(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &hti);
-			if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE))/2;
 				TreeView_HitTest(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &hti);
 				TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), hti.hItem, 1);
 			}
 			else {
-				if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg, IDC_BUTTONORDERTREE, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
-				if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg, IDC_BUTTONORDERTREE, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
+				if (hti.flags & TVHT_ABOVE) SendDlgItemMessage(hwndDlg, IDC_BUTTONORDERTREE, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
+				if (hti.flags & TVHT_BELOW) SendDlgItemMessage(hwndDlg, IDC_BUTTONORDERTREE, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
 				TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), NULL, 0);
 			}
 		}
 		break;
 
 	case WM_DESTROY:
+		if (dat) {
+			ImageList_Destroy(dat->himlButtonIcons);
+			free(dat);
+		}
 		OptionsOpened = false;
 		return 0;
 
 	case WM_LBUTTONUP:
 		if (dat->dragging) {
-			TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), NULL, 0);
+			HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
+			TreeView_SetInsertMark(hTree, NULL, 0);
 			dat->dragging = 0;
 			ReleaseCapture();
 
 			TVHITTESTINFO hti;
-			TVITEM tvi;
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
 			ClientToScreen(hwndDlg, &hti.pt);
 			ScreenToClient(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &hti.pt);
 			hti.pt.y -= TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE))/2;
-			TreeView_HitTest(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &hti);
-			if (dat->hDragItem == hti.hItem) break;
+			TreeView_HitTest(hTree, &hti);
+			if (dat->hDragItem == hti.hItem)
+				break;
+
+			TVITEM tvi;
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 			tvi.hItem = hti.hItem;
-			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
+			TreeView_GetItem(hTree, &tvi);
 			if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
 				TVINSERTSTRUCT tvis;
 				TCHAR name[128];
-				tvis.item.mask = TVIF_HANDLE|TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
+				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 				tvis.item.stateMask = 0xFFFFFFFF;
 				tvis.item.pszText = name;
 				tvis.item.cchTextMax = SIZEOF(name);
 				tvis.item.hItem = dat->hDragItem;
-				//
-				tvis.item.iImage = tvis.item.iSelectedImage = ((ButtonOptData *)tvi.lParam)->show;
+				TreeView_GetItem(hTree, &tvis.item);
 
-				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvis.item);
-
-				TreeView_DeleteItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), dat->hDragItem);
+				TreeView_DeleteItem(hTree, dat->hDragItem);
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = hti.hItem;
-				TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvis));
+				TreeView_SelectItem(hTree, TreeView_InsertItem(hTree, &tvis));
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				SaveTree(hwndDlg);
 			}
 		}
-		break; 
+		break;
 	}
 	return FALSE;
 }
@@ -493,7 +489,7 @@ static INT_PTR CALLBACK DlgProcTTBBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				DBWriteContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
-				{	
+				{
 					COLORREF col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
 					if (col == TTBDEFAULT_BKCOLOUR)
 						DBDeleteContactSetting(NULL, TTB_OPTDIR, "BkColour");
@@ -518,7 +514,7 @@ static INT_PTR CALLBACK DlgProcTTBBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (IsDlgButtonChecked(hwndDlg, IDC_PROPORTIONAL)) flags |= CLBF_PROPORTIONAL;
 					DBWriteContactSettingWord(NULL, TTB_OPTDIR, "BkBmpUse", flags);
 				}
-							
+
 				ttbOptionsChanged();
 				return TRUE;
 			}
@@ -539,7 +535,7 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("TopToolBar");
 
-	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {	
+	if ( !ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TTBBKG);
 		odp.pszTitle = LPGEN("TTBBackground");
 		odp.pfnDlgProc = DlgProcTTBBkgOpts;

@@ -8,7 +8,6 @@ bool StopArrange;
 
 int BUTTWIDTH = 20;
 int BUTTHEIGHT = 16;
-bool UseIcoLib = false;
 
 int nextButtonId = 200;
 int nButtonsCount = 0;
@@ -152,31 +151,6 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	return 0;
 
 }
-static HBITMAP DrawBorderForBitmap(HICON hIcon, BOOL up)
-{
-	ICONINFO ii;
-	GetIconInfo(hIcon, &ii);
-
-	HBITMAP Border = LoadBitmap(hInst, MAKEINTRESOURCE(up?IDB_BORDERUP:IDB_BORDERDN));
-	HDC workdc = GetDC(hwndContactList);
-	HDC destdc = CreateCompatibleDC(workdc);
-	HDC srcdc = CreateCompatibleDC(workdc);
-
-	HBITMAP workbmp = CreateBitmap(BUTTWIDTH, BUTTHEIGHT, 1, GetDeviceCaps(workdc, BITSPIXEL), NULL);
-	SelectObject(destdc, workbmp);
-
-	SelectObject(srcdc, Border);
-
-	BitBlt(destdc, 0, 0, BUTTWIDTH, BUTTHEIGHT, srcdc, 0, 0, SRCCOPY);
-	SelectObject(srcdc, ii.hbmColor);
-	BitBlt(destdc, 1, 1, BUTTWIDTH-4, BUTTHEIGHT-4, srcdc, 0, 0, SRCCOPY);
-			
-	DeleteDC(destdc);
-	DeleteDC(srcdc);
-	ReleaseDC(hwndContactList, workdc);
-	return workbmp;
-}
-
 static int UpdateToolTip(int bpos)
 {
 	TOOLINFO ti = { 0 };
@@ -226,7 +200,7 @@ HICON LoadIconFromLibrary(char *Name, char *Description, HICON hIcon, HANDLE* ph
 
 int CreateOneWindow(int ButtonPos)
 {
-	if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseMirandaButtonClass", UseMirandaButtonClassDefaultValue) && !(Buttons[ButtonPos].dwFlags & TTBBF_ISSEPARATOR))
+	if (!(Buttons[ButtonPos].dwFlags & TTBBF_ISSEPARATOR))
 		Buttons[ButtonPos].hwnd = CreateWindow(MYMIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON|WS_CHILD|WS_TABSTOP|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
 	else 
 		Buttons[ButtonPos].hwnd = CreateWindow( _T("STATIC"), _T(""), WS_CHILD|SS_NOTIFY, 0, 0, BUTTWIDTH, BUTTHEIGHT, hwndTopToolBar, NULL, hInst, 0);
@@ -279,11 +253,6 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		b.hIconUp = but->hIconUp;
 	}
 
-	if (b.dwFlags & TTBBF_DRAWBORDER) {
-		b.hbWBordBitmapDown = DrawBorderForBitmap(b.hIconDn, FALSE);
-		b.hbWBordBitmapUp = DrawBorderForBitmap(b.hIconUp, TRUE);
-	}
-
 	b.wParamUp = but->wParamUp;
 	b.lParamUp = but->lParamUp;
 	b.wParamDown = but->wParamDown;
@@ -296,9 +265,9 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	if ( !(b.dwFlags & TTBBF_ISSEPARATOR)) {
 		char buf[256];
 		sprintf(buf, "%s_up", b.name);
-		b.hIconUp = LoadIconFromLibrary(buf, buf, b.hIconDn, &b.hIconHandleDn, NULL);
+		b.hIconUp = LoadIconFromLibrary(buf, buf, b.hIconUp, &b.hIconHandleUp, NULL);
 		sprintf(buf, "%s_dn", b.name);
-		b.hIconDn = LoadIconFromLibrary(buf, buf, b.hIconUp, &b.hIconHandleUp, NULL);
+		b.hIconDn = LoadIconFromLibrary(buf, buf, b.hIconDn, &b.hIconHandleDn, NULL);
 	}
 
 	b.hwndTip = CreateWindowEx(0, TOOLTIPS_CLASS, NULL, 
@@ -502,11 +471,8 @@ int SetButtBitmap(int pos)
 		SetWindowLongPtr(Buttons[pos].hwnd, GWL_STYLE, curstyle | SS_ICON);
 
 	if (Buttons[pos].dwFlags & TTBBF_ISSEPARATOR) {
-		if (!(Buttons[pos].dwFlags & TTBBF_DRAWBORDER)) {
-			SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
-			SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
-		}
-		else SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hbWBordBitmapDown):(Buttons[pos].hbWBordBitmapUp)));	
+		SendMessage(Buttons[pos].hwnd, STM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
+//!!		SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
 	}
 	else SendMessage(Buttons[pos].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((Buttons[pos].bPushed)?(Buttons[pos].hIconDn):(Buttons[pos].hIconUp)));
 
@@ -584,6 +550,8 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			if (Buttons[pos].bPushed)
 				lpTTB->dwFlags |= TTBBF_PUSHED;
 
+			lpTTB->hIconDn=Buttons[pos].hIconDn;
+			lpTTB->hIconUp=Buttons[pos].hIconUp;
 			lpTTB->lParamUp = Buttons[pos].lParamUp;
 			lpTTB->wParamUp = Buttons[pos].wParamUp;
 			lpTTB->lParamDown = Buttons[pos].lParamDown;
@@ -620,11 +588,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 			break;
 
 		Buttons[pos].dwFlags = lParam;
-      Buttons[pos].bPushed = (Buttons[pos].dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
-		if (Buttons[pos].dwFlags & TTBBF_DRAWBORDER) {
-			Buttons[pos].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[pos].hIconDn, FALSE);
-			Buttons[pos].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[pos].hIconUp, TRUE);
-		}
+		Buttons[pos].bPushed = (Buttons[pos].dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 		SetButtBitmap(pos);
 		SendMessage(Buttons[pos].hwndTip, TTM_ACTIVATE, (WPARAM)(Buttons[pos].dwFlags & TTBBF_SHOWTOOLTIP) ? TRUE : FALSE, 0);
@@ -660,6 +624,8 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 				break;
 
 			Buttons[pos].dwFlags = lpTTB->dwFlags;
+			Buttons[pos].hIconUp = lpTTB->hIconUp;
+			Buttons[pos].hIconDn = lpTTB->hIconDn;
 			Buttons[pos].lParamUp = lpTTB->lParamUp;
 			Buttons[pos].wParamUp = lpTTB->wParamUp;
 			Buttons[pos].lParamDown = lpTTB->lParamDown;
@@ -672,11 +638,6 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 
 			Buttons[pos].pszServiceDown = _strdup(lpTTB->pszServiceDown);
 			Buttons[pos].pszServiceUp = _strdup(lpTTB->pszServiceUp);
-
-			if (Buttons[pos].dwFlags & TTBBF_DRAWBORDER) {
-				Buttons[pos].hbWBordBitmapDown = DrawBorderForBitmap(Buttons[pos].hIconDn, FALSE);
-				Buttons[pos].hbWBordBitmapUp = DrawBorderForBitmap(Buttons[pos].hIconUp, TRUE);
-			}
 
 			Buttons[pos].bPushed = (Buttons[pos].dwFlags&TTBBF_PUSHED)?TRUE:FALSE;
 			SendMessage(Buttons[pos].hwndTip, TTM_ACTIVATE, (WPARAM)(Buttons[pos].dwFlags&TTBBF_SHOWTOOLTIP)?TRUE:FALSE, 0);
@@ -758,7 +719,7 @@ static void PaintToolbar(HWND hwnd)
 			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
 				destw = clRect.right;
 				desth = destw*bmp.bmHeight/bmp.bmWidth;
-				if (backgroundBmpUse&CLBF_TILEVTOROWHEIGHT)
+				if (backgroundBmpUse & CLBF_TILEVTOROWHEIGHT)
 					desth = BUTTHEIGHT+2;
 			}
 			else {
@@ -856,6 +817,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					if (Buttons[pos].pszServiceDown != NULL)
 						CallService(Buttons[pos].pszServiceDown, Buttons[pos].wParamDown, Buttons[pos].lParamDown);
 				}
+
 				ulockbut();
 			}
 		}

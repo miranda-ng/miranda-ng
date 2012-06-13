@@ -239,7 +239,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bmp\sep.bmp" />
-    <None Include="find.ico" />
     <None Include="icos\Find_Add Contacts_DN.ico" />
     <None Include="icos\Find_Add Contacts_UP.ico" />
     <None Include="icos\Groups On_Off_DN.ico" />
@@ -267,7 +266,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="button.cpp" />
     <ClCompile Include="InternalButtons.cpp" />
     <ClCompile Include="launchbt.cpp" />
     <ClCompile Include="main.cpp">

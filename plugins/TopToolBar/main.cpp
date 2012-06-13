@@ -59,7 +59,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mir_getLI( &li );
 	mir_getLP(&pluginInfo);
 
-	LoadButtonModule();
 	LoadToolbarModule();
 
 	hHookTTBModuleLoaded = CreateHookableEvent(ME_TTB_MODULELOADED);
@@ -73,7 +72,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnInitLBut();
 	UnLoadInternalButtons();
 	UnloadToolbarModule();
-	UnloadButtonModule();
 
 	for (int i=0; i < arHooks.getCount(); i++ )
 		UnhookEvent( arHooks[i] );

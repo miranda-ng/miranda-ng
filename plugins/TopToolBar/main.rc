@@ -29,26 +29,24 @@ STYLE DS_SETFONT | WS_CHILD
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Buttons Order && Visibility",IDC_STATIC,10,0,150,180
-    CONTROL         "Tree1",IDC_BUTTONORDERTREE,"SysTreeView32",TVS_NOTOOLTIPS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,18,25,134,148
+    CONTROL         "Tree1",IDC_BUTTONORDERTREE,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | WS_BORDER | WS_HSCROLL | WS_TABSTOP,18,25,134,148
     LTEXT           "Buttons order:",IDC_STATIC,18,15,132,8
     PUSHBUTTON      "Add Separator",IDC_ADDSEP,175,15,55,14
     PUSHBUTTON      "Del Separator",IDC_REMOVESEP,235,15,55,14
     PUSHBUTTON      "Add Launch",IDC_ADDLBUTTON,180,60,100,14
     PUSHBUTTON      "Del Launch",IDC_DELLBUTTON,180,81,100,14
-    EDITTEXT        IDC_ENAME,195,111,85,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ENAME,195,111,85,14,ES_AUTOHSCROLL | WS_TABSTOP
     LTEXT           "Name: ",IDC_LBUTTONNAME,170,114,24,8
-    EDITTEXT        IDC_EPATH,195,134,85,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EPATH,195,134,85,14,ES_AUTOHSCROLL | WS_TABSTOP
     LTEXT           "Path:",IDC_LBUTTONPATH,170,136,18,8
     PUSHBUTTON      "Set",IDC_LBUTTONSET,205,158,50,14
     GROUPBOX        "Separator Button",IDC_STATIC,165,0,130,40
     GROUPBOX        "Launch Button",IDC_STATIC,165,45,130,136
     LTEXT           "Button Height:",IDC_STATIC,11,190,46,8
-    EDITTEXT        IDC_BUTTHEIGHT,65,187,24,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BUTTHEIGHT,65,187,24,14,ES_AUTOHSCROLL | WS_TABSTOP
     LTEXT           "Button Width: ",IDC_STATIC,11,211,46,8
-    EDITTEXT        IDC_BUTTWIDTH,65,209,24,14,ES_AUTOHSCROLL
-    CONTROL         "Use Miranda Button Class",IDC_USEMIRANDABUTTON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,196,97,10
+    EDITTEXT        IDC_BUTTWIDTH,65,209,24,14,ES_AUTOHSCROLL | WS_TABSTOP
     CONTROL         "Use Flat Mode",IDC_USEFLAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,186,208,62,10
-    CONTROL         "Use IcoLib (need restart!)",IDC_USEICOLIB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,184,95,10
 END
 
 
@@ -131,18 +129,18 @@ IDB_SEP                 BITMAP                  "bmp\\sep.bmp"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -158,6 +156,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDI_RUN                 ICON                    "icos\\run.ico"
 IDI_SHOWONLINEUP        ICON                    "icos\\Show only Online Users_UP.ico"
 IDI_SHOWONLINEDN        ICON                    "icos\\Show only Online Users_DN.ico"
 IDI_GROUPSUP            ICON                    "icos\\Groups On_Off_UP.ico"
@@ -309,4 +308,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

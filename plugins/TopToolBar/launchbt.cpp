@@ -77,13 +77,10 @@ INT_PTR ModifyLButton(WPARAM wParam, LPARAM lParam)
 
 INT_PTR InsertLBut(int id)
 {
-	HBITMAP DefLUp = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_LAUNCHDN));
-	HBITMAP DefLDn = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_LAUNCHUP));
-	
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	//ttb.hbBitmapDown = DefLDn;    !!!!!!!!!!!!!!
-	//ttb.hbBitmapUp = DefLUp;      !!!!!!!!!!!!!!
+	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISLBUTTON;
 	ttb.pszServiceDown = TTB_LAUNCHSERVICE;
 	ttb.lParamDown = id;
