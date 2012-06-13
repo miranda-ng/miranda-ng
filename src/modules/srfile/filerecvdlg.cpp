@@ -37,9 +37,9 @@ static void GetLowestExistingDirName(const TCHAR *szTestDir,TCHAR *szExistingDir
 	TCHAR *pszLastBackslash;
 
 	lstrcpyn(szExistingDir,szTestDir,cchExistingDir);
-	while((dwAttributes=GetFileAttributes(szExistingDir))!=INVALID_FILE_ATTRIBUTES && !(dwAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
+	while ((dwAttributes=GetFileAttributes(szExistingDir)) != INVALID_FILE_ATTRIBUTES && !(dwAttributes&FILE_ATTRIBUTE_DIRECTORY)) {
 		pszLastBackslash=_tcsrchr(szExistingDir,'\\');
-		if (pszLastBackslash==NULL) {*szExistingDir='\0'; break;}
+		if (pszLastBackslash == NULL) {*szExistingDir='\0'; break;}
 		*pszLastBackslash='\0';
 	}
 	if (szExistingDir[0] == '\0') GetCurrentDirectory(cchExistingDir,szExistingDir);
@@ -327,7 +327,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case WM_DRAWITEM:
 		{	LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
-			if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
+			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);

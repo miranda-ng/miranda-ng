@@ -326,7 +326,7 @@ char** __fastcall Proto_FilesMatrixA( wchar_t **files )
 	if ( files == NULL ) return NULL;
 
 	int count = 0;
-	while( files[ count++ ] );
+	while ( files[ count++ ] );
 
 	char** filesA = ( char** )mir_alloc( count * sizeof( char* ));
 	for ( int i = 0; i < count; ++i )
@@ -340,7 +340,7 @@ static wchar_t** __fastcall Proto_FilesMatrixU( char **files )
 	if ( files == NULL ) return NULL;
 
 	int count = 0;
-	while( files[ count++ ] );
+	while ( files[ count++ ] );
 
 	wchar_t** filesU = ( wchar_t** )mir_alloc( count * sizeof( wchar_t* ));
 	for ( int i = 0; i < count; ++i )

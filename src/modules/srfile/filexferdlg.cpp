@@ -31,8 +31,8 @@ static int CheckVirusScanned(HWND hwnd,struct FileDlgData *dat,int i)
 	if (dat->send) return 1;
 	if (dat->fileVirusScanned == NULL) return 0;
 	if (dat->fileVirusScanned[i]) return 1;
-	if (DBGetContactSettingByte(NULL,"SRFile","WarnBeforeOpening",1)==0) return 1;
-	return IDYES==MessageBox(hwnd,TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"),TranslateT("File Received"),MB_YESNO|MB_DEFBUTTON2);
+	if (DBGetContactSettingByte(NULL,"SRFile","WarnBeforeOpening",1) == 0) return 1;
+	return IDYES == MessageBox(hwnd,TranslateT("This file has not yet been scanned for viruses. Are you certain you want to open it?"),TranslateT("File Received"),MB_YESNO|MB_DEFBUTTON2);
 }
 
 #define M_VIRUSSCANDONE  (WM_USER+100)
@@ -141,7 +141,7 @@ static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)
 			}
 			else lstrcpyn(szCmdLine, dbv.ptszVal, SIZEOF(szCmdLine));
 			if (CreateProcess(NULL,szCmdLine,NULL,NULL,FALSE,0,NULL,NULL,&si,&pi)) {
-				if (WaitForSingleObject(pi.hProcess,3600*1000)==WAIT_OBJECT_0)
+				if (WaitForSingleObject(pi.hProcess,3600*1000) == WAIT_OBJECT_0)
 					PostMessage(info->hwndReply,M_VIRUSSCANDONE,info->returnCode,0);
 				CloseHandle(pi.hProcess);
 				CloseHandle(pi.hThread);
@@ -334,7 +334,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				FILETIME ft;
 
 				GetSensiblyFormattedSize((dat->bytesRecvedHistory[0]-dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1])/dat->bytesRecvedHistorySize,szSpeed,SIZEOF(szSpeed),0,1,NULL);
-				if (dat->bytesRecvedHistory[0]==dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1])
+				if (dat->bytesRecvedHistory[0] == dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1])
 					lstrcpy(szTime,_T("??:??:??"));
 				else {
 					li.QuadPart=BIGI(10000000)*(dat->transferStatus.currentFileSize-dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize/(dat->bytesRecvedHistory[0]-dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]);
@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					FileTimeToSystemTime(&ft,&st);
 					GetTimeFormat(LOCALE_USER_DEFAULT,TIME_FORCE24HOURFORMAT|TIME_NOTIMEMARKER,&st,NULL,szTime,SIZEOF(szTime));
 				}
-				if (dat->bytesRecvedHistory[0]!=dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]) {
+				if (dat->bytesRecvedHistory[0] != dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]) {
 					li.QuadPart=BIGI(10000000)*(dat->transferStatus.totalBytes-dat->transferStatus.totalProgress)*dat->bytesRecvedHistorySize/(dat->bytesRecvedHistory[0]-dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]);
 					ft.dwHighDateTime=li.HighPart; ft.dwLowDateTime=li.LowPart;
 					FileTimeToSystemTime(&ft,&st);
@@ -512,13 +512,13 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					pfr->action=FILERESUME_RENAME;
 					{	TCHAR *pszExtension,*pszFilename;
 						int i;
-						if ((pszFilename = _tcsrchr(szOriginalFilename,'\\'))==NULL) pszFilename=szOriginalFilename;
-						if ((pszExtension = _tcsrchr(pszFilename+1,'.'))==NULL) pszExtension=pszFilename+lstrlen(pszFilename);
+						if ((pszFilename = _tcsrchr(szOriginalFilename,'\\')) == NULL) pszFilename=szOriginalFilename;
+						if ((pszExtension = _tcsrchr(pszFilename+1,'.')) == NULL) pszExtension=pszFilename+lstrlen(pszFilename);
 						if (pfr->szFilename) mir_free((TCHAR*)pfr->szFilename);
 						pfr->szFilename = (TCHAR*)mir_alloc(sizeof(TCHAR)*((pszExtension-szOriginalFilename)+21+lstrlen(pszExtension)));
 						for (i=1;;i++) {
 							_stprintf((TCHAR*)pfr->szFilename,_T("%.*s (%u)%s"),pszExtension-szOriginalFilename,szOriginalFilename,i,pszExtension);
-							if (_taccess(pfr->szFilename,0)!=0)
+							if (_taccess(pfr->szFilename,0) != 0)
 								break;
 						}
 					}
@@ -532,9 +532,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		case HM_RECVEVENT:
 		{	ACKDATA *ack=(ACKDATA*)lParam;
-			if (ack->hProcess!=dat->fs) break; /* icq abuses this sometimes */
-			if (ack->hContact!=dat->hContact) break;
-			if (ack->type!=ACKTYPE_FILE) break;
+			if (ack->hProcess != dat->fs) break; /* icq abuses this sometimes */
+			if (ack->hContact != dat->hContact) break;
+			if (ack->type != ACKTYPE_FILE) break;
 
 			if (dat->waitingForAcceptance) {
 				SetTimer(hwndDlg,1,1000,NULL);
@@ -550,9 +550,9 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				case ACKRESULT_NEXTFILE:
 					SetFtStatus(hwndDlg, LPGENT("Moving to next file..."), FTS_TEXT);
 					SetDlgItemTextA(hwndDlg,IDC_FILENAME,"");
-					if (dat->transferStatus.currentFileNumber==1 && dat->transferStatus.totalFiles>1 && !dat->send)
+					if (dat->transferStatus.currentFileNumber == 1 && dat->transferStatus.totalFiles>1 && !dat->send)
 						SetOpenFileButtonStyle(GetDlgItem(hwndDlg,IDC_OPENFILE),1);
-					if (dat->transferStatus.currentFileNumber!=-1 && dat->files && !dat->send && DBGetContactSettingByte(NULL,"SRFile","UseScanner",VIRUSSCAN_DISABLE)==VIRUSSCAN_DURINGDL) {
+					if (dat->transferStatus.currentFileNumber != -1 && dat->files && !dat->send && DBGetContactSettingByte(NULL,"SRFile","UseScanner",VIRUSSCAN_DISABLE) == VIRUSSCAN_DURINGDL) {
 						if (GetFileAttributes(dat->files[dat->transferStatus.currentFileNumber])&FILE_ATTRIBUTE_DIRECTORY)
 							PostMessage(hwndDlg,M_VIRUSSCANDONE,dat->transferStatus.currentFileNumber,0);
 						else {
@@ -576,7 +576,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						break;
 
 					SetFtStatus(hwndDlg, LPGENT("File already exists"), FTS_TEXT);
-					if (dat->resumeBehaviour==FILERESUME_ASK) {
+					if (dat->resumeBehaviour == FILERESUME_ASK) {
 						TDlgProcFileExistsParam param = { hwndDlg, fts };
 						ShowWindow(hwndDlg,SW_SHOWNORMAL);
 						CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_FILEEXISTS),hwndDlg,DlgProcFileExists,(LPARAM)&param);
@@ -689,11 +689,11 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								FTS_OPEN);
 
 							int useScanner=DBGetContactSettingByte(NULL,"SRFile","UseScanner",VIRUSSCAN_DISABLE);
-							if (useScanner!=VIRUSSCAN_DISABLE) {
+							if (useScanner != VIRUSSCAN_DISABLE) {
 								struct virusscanthreadstartinfo *vstsi;
 								vstsi=(struct virusscanthreadstartinfo*)mir_alloc(sizeof(struct virusscanthreadstartinfo));
 								vstsi->hwndReply=hwndDlg;
-								if (useScanner==VIRUSSCAN_DURINGDL) {
+								if (useScanner == VIRUSSCAN_DURINGDL) {
 									vstsi->returnCode=dat->transferStatus.currentFileNumber;
 									if ( GetFileAttributes(dat->files[dat->transferStatus.currentFileNumber])&FILE_ATTRIBUTE_DIRECTORY) {
 										PostMessage(hwndDlg,M_VIRUSSCANDONE,vstsi->returnCode,0);
@@ -724,7 +724,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		} break; // case HM_RECVEVENT
 		case M_VIRUSSCANDONE:
 		{	int done=1,i;
-			if ((int)wParam==-1) {
+			if ((int)wParam == -1) {
 				for (i=0;i<dat->transferStatus.totalFiles;i++) dat->fileVirusScanned[i]=1;
 			}
 			else {

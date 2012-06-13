@@ -534,7 +534,7 @@ int UnhookEvent( HANDLE hHook )
 	p->subscriber[subscriberId].type    = 0;
 	p->subscriber[subscriberId].pfnHook = NULL;
 	p->subscriber[subscriberId].hOwner  = NULL;
-	while( p->subscriberCount && p->subscriber[p->subscriberCount-1].type == 0 )
+	while ( p->subscriberCount && p->subscriber[p->subscriberCount-1].type == 0 )
 		p->subscriberCount--;
 	if ( p->subscriberCount == 0 ) {
 		if ( p->subscriber ) mir_free( p->subscriber );
@@ -671,18 +671,18 @@ int ServiceExists(const char *name)
 INT_PTR CallService(const char *name,WPARAM wParam,LPARAM lParam)
 {
 	#ifdef _DEBUG
-		if (name==NULL) {
+		if (name == NULL) {
 			MessageBoxA(0,"Someone tried to CallService(NULL,..) see stack trace for details","",0);
 			DebugBreak();
 			return CALLSERVICE_NOTFOUND;
 		}
 	#else
-		if (name==NULL) return CALLSERVICE_NOTFOUND;
+		if (name == NULL) return CALLSERVICE_NOTFOUND;
 	#endif
 
 	EnterCriticalSection(&csServices);
 	TService *pService = FindServiceByName(name);
-	if (pService==NULL) {
+	if (pService == NULL) {
 		LeaveCriticalSection(&csServices);
 		#ifdef _DEBUG
 			//MessageBoxA(NULL,"Attempt to call non-existant service",name,MB_OK);
@@ -721,7 +721,7 @@ INT_PTR CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam)
 {
 	extern HWND hAPCWindow;
 
-	if (name==NULL) return CALLSERVICE_NOTFOUND;
+	if (name == NULL) return CALLSERVICE_NOTFOUND;
 	// the service is looked up within the main thread, since the time it takes
 	// for the APC queue to clear the service being called maybe removed.
 	// even thou it may exists before the call, the critsec can't be locked between calls.

@@ -221,7 +221,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	sin6.sin6_family = AF_INET6;
 
 	/* if the netlib user wanted a free port given in the range, then
-	they better have given wPort==0, let's hope so */
+	they better have given wPort == 0, let's hope so */
 	if (nlu->settings.specifyIncomingPorts && nlu->settings.szIncomingPorts && nlb->wPort == 0) 
 	{
 		if (!BindSocketToPort(nlu->settings.szIncomingPorts, nlbp->s, nlbp->s6, &nlu->outportnum))
@@ -234,7 +234,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	}
 	else 
 	{
-		/* if ->wPort==0 then they'll get any free port, otherwise they'll
+		/* if ->wPort == 0 then they'll get any free port, otherwise they'll
 		be asking for whatever was in nlb->wPort*/
 		if (nlb->wPort != 0) 
 		{

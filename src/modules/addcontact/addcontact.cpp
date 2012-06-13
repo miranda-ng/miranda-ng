@@ -63,7 +63,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpara
 						CallService(MS_DB_EVENT_GET,(WPARAM)acs->handle,(LPARAM)&dbei);
 						hcontact=*((PHANDLE)(dbei.pBlob+sizeof(DWORD)));
 						mir_free(dbei.pBlob);
-						if (hcontact!=INVALID_HANDLE_VALUE) {
+						if (hcontact != INVALID_HANDLE_VALUE) {
 							szName = cli.pfnGetContactDisplayName( hcontact, 0 );
 							isSet = 1;
 						}

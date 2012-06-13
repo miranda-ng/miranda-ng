@@ -213,7 +213,7 @@ static INT_PTR Proto_AddToContact(WPARAM wParam,LPARAM lParam)
 			if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
 			pdCompare = Proto_IsProtocolLoaded(( char* )dbv.pszVal );
 			mir_free(dbv.pszVal);
-			if (pdCompare==NULL) continue;
+			if (pdCompare == NULL) continue;
 			if (pd->type > pdCompare->type) break;
 		}
 		//put the new module at position i
@@ -241,12 +241,12 @@ static INT_PTR Proto_RemoveFromContact(WPARAM wParam,LPARAM lParam)
 
 	i = Proto_IsProtoOnContact(wParam,lParam);
 	if (!i) return 1;
-	if (i==-1)
+	if (i == -1)
 		DBDeleteContactSetting((HANDLE)wParam,"Protocol","p");
 	else {
 		for (i--;;i++) {			//we have to decrease i, as Proto_IsOnContact returns +1 more number than read from database
 			_itoa(i+1,str,10);
-			if (0!=DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
+			if (0 != DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
 				_itoa(i,str,10);
 				DBDeleteContactSetting((HANDLE)wParam,"_Filter",str);
 				break;

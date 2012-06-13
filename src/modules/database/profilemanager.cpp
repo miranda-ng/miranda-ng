@@ -446,7 +446,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		if ( wParam ) 
 		{
 			SetWindowText(dat->hwndOK, TranslateT("&Run"));
-			EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList)==1);
+			EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList) == 1);
 		}
 		break;
 
@@ -705,7 +705,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				pshn.lParam=0;
 				pshn.hdr.code=PSN_RESET;
 				for (i=0;i<dat->pageCount;i++) {
-					if (dat->opd[i].hwnd==NULL || !dat->opd[i].changed) continue;
+					if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed) continue;
 					pshn.hdr.hwndFrom=dat->opd[i].hwnd;
 					SendMessage(dat->opd[i].hwnd,WM_NOTIFY,0,(LPARAM)&pshn);
 				}

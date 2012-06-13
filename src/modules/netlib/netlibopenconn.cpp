@@ -168,7 +168,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 	buf[0]=5;  //yep, socks5
 	buf[1]=1;  //one auth method
 	buf[2]=nlu->settings.useProxyAuth?2:0;
-	if (NLSend(nlc,(char*)buf,3,MSG_DUMPPROXY)==SOCKET_ERROR) {
+	if (NLSend(nlc,(char*)buf,3,MSG_DUMPPROXY) == SOCKET_ERROR) {
 		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"NLSend",GetLastError());
 		return 0;
 	}
@@ -178,13 +178,13 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"RecvUntilTimeout",GetLastError());
 		return 0;
 	}
-	if ((buf[1]!=0 && buf[1]!=2)) {
+	if ((buf[1] != 0 && buf[1] != 2)) {
 		SetLastError(ERROR_INVALID_ID_AUTHORITY);
 		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"NLRecv",GetLastError());
 		return 0;
 	}
 
-	if (buf[1]==2) {		//rfc1929
+	if (buf[1] == 2) {		//rfc1929
 		int nUserLen,nPassLen;
 		PBYTE pAuthBuf;
 
@@ -196,7 +196,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 		memcpy(pAuthBuf+2,nlu->settings.szProxyAuthUser,nUserLen);
 		pAuthBuf[2+nUserLen]=nPassLen;
 		memcpy(pAuthBuf+3+nUserLen,nlu->settings.szProxyAuthPassword,nPassLen);
-		if (NLSend(nlc,(char*)pAuthBuf,3+nUserLen+nPassLen,MSG_DUMPPROXY)==SOCKET_ERROR) {
+		if (NLSend(nlc,(char*)pAuthBuf,3+nUserLen+nPassLen,MSG_DUMPPROXY) == SOCKET_ERROR) {
 			NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"NLSend",GetLastError());
 			mir_free(pAuthBuf);
 			return 0;
@@ -237,7 +237,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 		pInit[0]=5;   //SOCKS5
 		pInit[1]= nloc->flags & NLOCF_UDP ? 3 : 1; //connect or UDP
 		pInit[2]=0;   //reserved
-		if (hostIP==INADDR_NONE) {		 //DNS lookup through proxy
+		if (hostIP == INADDR_NONE) {		 //DNS lookup through proxy
 			pInit[3]=3;
 			pInit[4]=nHostLen-1;
 			memcpy(pInit+5,nloc->szHost,nHostLen-1);
@@ -247,7 +247,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 			*(PDWORD)(pInit+4)=hostIP;
 		}
 		*(PWORD)(pInit+4+nHostLen)=htons(nloc->wPort);
-		if (NLSend(nlc,(char*)pInit,6+nHostLen,MSG_DUMPPROXY)==SOCKET_ERROR) {
+		if (NLSend(nlc,(char*)pInit,6+nHostLen,MSG_DUMPPROXY) == SOCKET_ERROR) {
 			NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"NLSend",GetLastError());
 			mir_free(pInit);
 			return 0;
@@ -260,7 +260,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc,struct Netlib
 		return 0;
 	}
 
-	if ( buf[0]!=5 || buf[1] ) {
+	if ( buf[0] != 5 || buf[1] ) {
 		const char* err = "Unknown response"; 
 		if ( buf[0] != 5 )
 			SetLastError(ERROR_BAD_FORMAT);
@@ -348,7 +348,7 @@ static bool NetlibInitHttpsConnection(struct NetlibConnection *nlc, struct Netli
 		}
 
 		NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
-		NetlibLogf(nlu,"%s %d: %s request failed (%u %s)",__FILE__,__LINE__,nlu->settings.proxyType==PROXYTYPE_HTTP?"HTTP":"HTTPS",nlhrReply->resultCode,nlhrReply->szResultDescr);
+		NetlibLogf(nlu,"%s %d: %s request failed (%u %s)",__FILE__,__LINE__,nlu->settings.proxyType == PROXYTYPE_HTTP?"HTTP":"HTTPS",nlhrReply->resultCode,nlhrReply->szResultDescr);
 		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 		return 0;
 	}
@@ -361,7 +361,7 @@ static void FreePartiallyInitedConnection(struct NetlibConnection *nlc)
 {
 	DWORD dwOriginalLastError=GetLastError();
 
-	if (nlc->s!=INVALID_SOCKET) closesocket(nlc->s);
+	if (nlc->s != INVALID_SOCKET) closesocket(nlc->s);
 	mir_free(nlc->nlhpi.szHttpPostUrl);
 	mir_free(nlc->nlhpi.szHttpGetUrl);
 	mir_free((char*)nlc->nloc.szHost);

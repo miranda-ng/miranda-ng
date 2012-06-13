@@ -272,10 +272,10 @@ static int MirandaWaitForMutex(HANDLE hEvent)
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
-		} else if ( rc==WAIT_OBJECT_0 ) {
+		} else if ( rc == WAIT_OBJECT_0 ) {
 			// got object
 			return 1;
-		} else if ( rc==WAIT_ABANDONED_0 || rc == WAIT_FAILED ) return 0;
+		} else if ( rc == WAIT_ABANDONED_0 || rc == WAIT_FAILED ) return 0;
 	}
 }
 
@@ -401,7 +401,7 @@ INT_PTR UnwindThreadPush(WPARAM wParam,LPARAM lParam)
 
 INT_PTR UnwindThreadPop(WPARAM,LPARAM)
 {
-	if (WaitForSingleObject(hStackMutex,INFINITE)==WAIT_OBJECT_0)
+	if (WaitForSingleObject(hStackMutex,INFINITE) == WAIT_OBJECT_0)
 	{
 		DWORD dwThreadId=GetCurrentThreadId();
 		int j;
@@ -432,7 +432,7 @@ INT_PTR UnwindThreadPop(WPARAM,LPARAM)
 
 INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
 {
-	return WaitForSingleObject(hMirandaShutdown,0)==WAIT_OBJECT_0;
+	return WaitForSingleObject(hMirandaShutdown,0) == WAIT_OBJECT_0;
 }
 
 static void __cdecl compactHeapsThread(void*)
@@ -452,7 +452,7 @@ static void __cdecl compactHeapsThread(void*)
 
 LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg==WM_NULL) SleepEx(0,TRUE);
+	if (msg == WM_NULL) SleepEx(0,TRUE);
 	if (msg == WM_TIMECHANGE) RecalculateTime();
 	return DefWindowProc(hwnd,msg,wParam,lParam);
 }
@@ -462,7 +462,7 @@ void (*SetIdleCallback) (void)=NULL;
 
 static INT_PTR SystemSetIdleCallback(WPARAM, LPARAM lParam)
 {
-	if (lParam && SetIdleCallback==NULL) {
+	if (lParam && SetIdleCallback == NULL) {
 		SetIdleCallback=(void (*)(void))lParam;
 		return 1;
 	}
@@ -595,11 +595,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 
 	shAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandleA("shlwapi"),"SHAutoComplete");
 
-	if (IsWinVerXPPlus())
-	{
+	if (IsWinVerXPPlus()) {
 		hThemeAPI = LoadLibraryA("uxtheme.dll");
-		if (hThemeAPI)
-		{
+		if (hThemeAPI) {
 			openThemeData = (pfnOpenThemeData)GetProcAddress(hThemeAPI, "OpenThemeData");
 			isThemeBackgroundPartiallyTransparent = (pfnIsThemeBackgroundPartiallyTransparent)GetProcAddress(hThemeAPI, "IsThemeBackgroundPartiallyTransparent");
 			drawThemeParentBackground  = (pfnDrawThemeParentBackground)GetProcAddress(hThemeAPI, "DrawThemeParentBackground");
@@ -621,11 +619,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 		}
 	}
 
-	if (IsWinVerVistaPlus())
-	{
+	if (IsWinVerVistaPlus()) {
 		hDwmApi = LoadLibraryA("dwmapi.dll");
-		if (hDwmApi)
-		{
+		if (hDwmApi) {
 			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi,"DwmExtendFrameIntoClientArea");
 			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
 		}
@@ -680,7 +676,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 				DWORD pid = 0;
 				checkIdle(&msg);
 				if ( h != NULL && GetWindowThreadProcessId(h, &pid) && pid == myPid && 
-					GetClassLongPtr(h, GCW_ATOM)==32770 ) 
+					GetClassLongPtr(h, GCW_ATOM) == 32770 ) 
 				{
 					if ( IsDialogMessage(h, &msg) ) 
 						continue;
@@ -729,7 +725,7 @@ exit:
 
 static INT_PTR OkToExit(WPARAM, LPARAM)
 {
-	return NotifyEventHooks(hOkToExitEvent,0,0)==0;
+	return NotifyEventHooks(hOkToExitEvent,0,0) == 0;
 }
 
 static INT_PTR GetMirandaVersion(WPARAM, LPARAM)

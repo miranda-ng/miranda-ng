@@ -42,7 +42,7 @@ static INT_PTR RemoveFromWindowList(WPARAM wParam,LPARAM lParam)
 {
 	int i;
 	for (i=0;i<windowListCount;i++)
-		if (windowList[i].hwnd==(HWND)lParam && windowList[i].hList==(HANDLE)wParam) {
+		if (windowList[i].hwnd == (HWND)lParam && windowList[i].hList == (HANDLE)wParam) {
 			MoveMemory(&windowList[i],&windowList[i+1],sizeof(WINDOWLISTENTRY)*(windowListCount-i-1));
 			windowListCount--;
 			return 0;
@@ -54,7 +54,7 @@ static INT_PTR FindInWindowList(WPARAM wParam,LPARAM lParam)
 {
 	int i;
 	for (i=0;i<windowListCount;i++)
-		if (windowList[i].hContact==(HANDLE)lParam && windowList[i].hList==(HANDLE)wParam)
+		if (windowList[i].hContact == (HANDLE)lParam && windowList[i].hList == (HANDLE)wParam)
 			return (INT_PTR)windowList[i].hwnd;
 	return (INT_PTR)(HWND)NULL;
 }
@@ -64,7 +64,7 @@ static INT_PTR BroadcastToWindowList(WPARAM wParam,LPARAM lParam)
 	int i;
 	MSG *msg=(MSG*)lParam;
 	for (i=0;i<windowListCount;i++)
-		if (windowList[i].hList==(HANDLE)wParam)
+		if (windowList[i].hList == (HANDLE)wParam)
 			SendMessage(windowList[i].hwnd,msg->message,msg->wParam,msg->lParam);
 	return 0;
 }
@@ -74,7 +74,7 @@ static INT_PTR BroadcastToWindowListAsync(WPARAM wParam,LPARAM lParam)
 	int i;
 	MSG *msg=(MSG*)lParam;
 	for (i=0;i<windowListCount;i++)
-		if (windowList[i].hList==(HANDLE)wParam)
+		if (windowList[i].hList == (HANDLE)wParam)
 			PostMessage(windowList[i].hwnd,msg->message,msg->wParam,msg->lParam);
 	return 0;
 }

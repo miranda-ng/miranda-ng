@@ -91,9 +91,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 	DBVARIANT dbv;
 	CONTACTINFO *ci = (CONTACTINFO*)lParam;
 
-	if (ci==NULL) return 1;
-	if (ci->szProto==NULL) ci->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT,(WPARAM)ci->hContact,0);
-	if (ci->szProto==NULL) return 1;
+	if (ci == NULL) return 1;
+	if (ci->szProto == NULL) ci->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT,(WPARAM)ci->hContact,0);
+	if (ci->szProto == NULL) return 1;
 	ci->type = 0;
 	switch(ci->dwFlag & 0x7F) {
 		case CNF_FIRSTNAME:  return ProcessDatabaseValueDefault( ci, "FirstName" );
@@ -141,13 +141,13 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			if ( !GetDatabaseString( ci, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "CountryName" : "CompanyCountryName", &dbv ))
 				return 0;
 
-			if ( !DBGetContactSetting( ci->hContact, ci->szProto, (ci->dwFlag & 0x7F)==CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv )) {
+			if ( !DBGetContactSetting( ci->hContact, ci->szProto, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv )) {
 				if ( dbv.type == DBVT_WORD ) {
 					int i,countryCount;
 					struct CountryListEntry *countries;
 					CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&countryCount,(LPARAM)&countries);
 					for (i=0;i<countryCount;i++) {
-						if (countries[i].id!=dbv.wVal) continue;
+						if (countries[i].id != dbv.wVal) continue;
 
 						if ( ci->dwFlag & CNF_UNICODE ) {
 							int cbLen = MultiByteToWideChar( CP_ACP, 0, ( LPCSTR )countries[i].szName, -1, NULL, 0 );
@@ -163,7 +163,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						return 0;
 					}
 				}
-				else return ProcessDatabaseValueDefault( ci, (ci->dwFlag & 0x7F)==CNF_COUNTRY ? "Country" : "CompanyCountry" );
+				else return ProcessDatabaseValueDefault( ci, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry" );
 				DBFreeVariant(&dbv);
 			}
 			break;
@@ -198,7 +198,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		case CNF_UNIQUEID:
 		{
 			char *uid = (char*)CallProtoService(ci->szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-			if ((INT_PTR)uid!=CALLSERVICE_NOTFOUND&&uid)
+			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND&&uid)
 				if (!ProcessDatabaseValueDefault(ci,uid))
 					return 0;
 
@@ -209,7 +209,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			if (!ProcessDatabaseValueDefault(ci, "display_uid"))
 				return 0;
 			char *uid = (char*)CallProtoService(ci->szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-			if ((INT_PTR)uid!=CALLSERVICE_NOTFOUND&&uid)
+			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND&&uid)
 				if (!ProcessDatabaseValueDefault(ci,uid))
 					return 0;
 
@@ -226,7 +226,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						// make sure we aren't in CNF_DISPLAYNC mode
 						// don't get custom name for NULL contact
 						char* saveProto = ci->szProto; ci->szProto = "CList";
-						if (ci->hContact!=NULL && (ci->dwFlag&0x7F)==CNF_DISPLAY && !ProcessDatabaseValueDefault(ci,"MyHandle")) {
+						if (ci->hContact != NULL && (ci->dwFlag&0x7F) == CNF_DISPLAY && !ProcessDatabaseValueDefault(ci,"MyHandle")) {
 							ci->szProto = saveProto;
 							return 0;
 						}
@@ -253,10 +253,10 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 					{
 						// protocol must define a PFLAG_UNIQUEIDSETTING
 						char *uid = (char*)CallProtoService(ci->szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-						if ((INT_PTR)uid!=CALLSERVICE_NOTFOUND&&uid) {
+						if ((INT_PTR)uid != CALLSERVICE_NOTFOUND&&uid) {
 							if (!GetDatabaseString(ci,uid,&dbv)) {
 								if ( dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD ) {
-									long value = (dbv.type == DBVT_BYTE) ? dbv.bVal:(dbv.type==DBVT_WORD ? dbv.wVal : dbv.dVal);
+									long value = (dbv.type == DBVT_BYTE) ? dbv.bVal:(dbv.type == DBVT_WORD ? dbv.wVal : dbv.dVal);
 									if ( ci->dwFlag & CNF_UNICODE ) {
 										WCHAR buf[ 40 ];
 										_ltow( value, buf, 10 );
@@ -392,7 +392,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 						cws.value.pbVal = nameOrder;
 						tvi.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_NAMEORDER));
 						i=0;
-						while( tvi.hItem != NULL ) {
+						while ( tvi.hItem != NULL ) {
 							tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 							TreeView_GetItem( GetDlgItem(hwndDlg,IDC_NAMEORDER), &tvi );
 							nameOrder[i++] = (BYTE)tvi.lParam;
@@ -405,7 +405,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 				case IDC_NAMEORDER:
 					if (((LPNMHDR)lParam)->code == TVN_BEGINDRAGA) {
 						LPNMTREEVIEWA notify = (LPNMTREEVIEWA)lParam;
-						if ( notify->itemNew.lParam==0 || notify->itemNew.lParam == SIZEOF(nameOrderDescr)-1 )
+						if ( notify->itemNew.lParam == 0 || notify->itemNew.lParam == SIZEOF(nameOrderDescr)-1 )
 							break;
 						SetCapture(hwndDlg);
 						dat->dragging=1;
@@ -448,7 +448,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 				ScreenToClient(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti.pt);
 				hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_NAMEORDER))/2;
 				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
-				if (dat->hDragItem==hti.hItem) break;
+				if (dat->hDragItem == hti.hItem) break;
 				tvi.mask=TVIF_HANDLE|TVIF_PARAM;
 				tvi.hItem=hti.hItem;
 				TreeView_GetItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),&tvi);

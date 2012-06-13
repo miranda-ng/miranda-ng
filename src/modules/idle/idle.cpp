@@ -383,8 +383,8 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEONWINDOWS), checked);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_IDLEONMIRANDA), checked);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_IDLE1STTIME), checked);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_AASTATUS), IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE)==BST_CHECKED?1:0);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_IDLESTATUSLOCK), IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE)==BST_CHECKED?1:0);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_AASTATUS), IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED?1:0);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_IDLESTATUSLOCK), IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED?1:0);
 		break;
 	}
 	case WM_NOTIFY:
@@ -401,8 +401,8 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEONLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED));
 			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEONTSDC, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLETERMINAL) == BST_CHECKED));
 			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLEPRIVATE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLEPRIVATE) == BST_CHECKED));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE)==BST_CHECKED?1:0));
-			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESTATUSLOCK)==BST_CHECKED?1:0));
+			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_AASHORTIDLE) == BST_CHECKED?1:0));
+			DBWriteContactSettingByte(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLESTATUSLOCK) == BST_CHECKED?1:0));
 			{
 				int curSel = SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_GETCURSEL, 0, 0);
 				if ( curSel != CB_ERR ) {

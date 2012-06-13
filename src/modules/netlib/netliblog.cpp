@@ -137,8 +137,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			break;
 */
 		case IDC_FILENAME:
-			if (HIWORD(wParam)!=EN_CHANGE) break;
-			if ((HWND)lParam==GetFocus())
+			if (HIWORD(wParam) != EN_CHANGE) break;
+			if ((HWND)lParam == GetFocus())
 				CheckDlgButton(hwndDlg,IDC_TOFILE,BST_CHECKED);
 
 			{	
@@ -161,7 +161,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			ofn.lStructSize=OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner=hwndDlg;
 			ofn.Flags=OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-			if (LOWORD(wParam)==IDC_FILENAMEBROWSE) {
+			if (LOWORD(wParam) == IDC_FILENAMEBROWSE) {
 				ofn.lpstrTitle=TranslateT("Select where log file will be created");
 			} else {
 				ofn.Flags|=OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
@@ -177,12 +177,12 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			ofn.lpstrFile=str;
 			ofn.nMaxFile=SIZEOF(str)-2;
 			ofn.nMaxFileTitle=MAX_PATH;
-			if (LOWORD(wParam)==IDC_FILENAMEBROWSE) {
+			if (LOWORD(wParam) == IDC_FILENAMEBROWSE) {
 				if (!GetSaveFileName(&ofn)) return 1;
 			} else {
 				if (!GetOpenFileName(&ofn)) return 1;
 			}
-			if (LOWORD(wParam)==IDC_RUNATSTARTBROWSE && _tcschr(str,' ')!=NULL) {
+			if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str,' ') != NULL) {
 				MoveMemory(str+1,str,SIZEOF(str)-2);
 				str[0]='"';
 				lstrcat(str,_T("\""));
@@ -241,10 +241,10 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_STATE|TVIF_TEXT;
 				tvi.hItem=TreeView_GetRoot(hwndFilter);
 
-				while(tvi.hItem)
+				while (tvi.hItem)
 				{
 					TreeView_GetItem(hwndFilter,&tvi);
-					checked = ((tvi.state&TVIS_STATEIMAGEMASK)>>12==2);
+					checked = ((tvi.state&TVIS_STATEIMAGEMASK)>>12 == 2);
 
 					if (tvi.lParam == -1) {
 						logOptions.toLog = checked;
@@ -298,7 +298,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 
 void NetlibLogShowOptions(void)
 {
-	if (logOptions.hwndOpts==NULL)
+	if (logOptions.hwndOpts == NULL)
 		logOptions.hwndOpts=CreateDialog(hMirandaInst,MAKEINTRESOURCE(IDD_NETLIBLOGOPTS),NULL,LogOptionsDlgProc);
 	SetForegroundWindow(logOptions.hwndOpts);
 }
@@ -490,7 +490,7 @@ void NetlibDumpData(struct NetlibConnection *nlc,PBYTE buf,int len,int sent,int 
 			int i;
 			for (i = 0; i<len; i++)
 			{
-				if ((buf[i]<' ' && buf[i]!='\t' && buf[i]!='\r' && buf[i]!='\n') || buf[i]>=0x80)
+				if ((buf[i]<' ' && buf[i] != '\t' && buf[i] != '\r' && buf[i] != '\n') || buf[i]>=0x80)
 				{
 					isText = 0;
 					break;
@@ -533,7 +533,7 @@ void NetlibDumpData(struct NetlibConnection *nlc,PBYTE buf,int len,int sent,int 
 				pszBuf += wsprintfA(pszBuf, "%08X: ", line);
 				// Dump data as hex
 				for (col = 0; col < colsInLine; col++)
-					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col&3)==3 && col != 15)?'-':' ');
+					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col&3) == 3 && col != 15)?'-':' ');
 				// Fill out last line with blanks
 				for ( ; col<16; col++)
 					{

@@ -1437,7 +1437,7 @@ static void SaveCollapseState( HWND hwndTree )
 	TVITEM tvi;
 
 	hti = TreeView_GetRoot( hwndTree );
-	while( hti != NULL ) {
+	while ( hti != NULL ) {
 		HTREEITEM ht;
 		TreeItem *treeItem;
 
@@ -1457,7 +1457,7 @@ static void SaveCollapseState( HWND hwndTree )
 		ht = TreeView_GetChild( hwndTree, hti );
 		if ( ht == NULL ) {
 			ht = TreeView_GetNextSibling( hwndTree, hti );
-			while( ht == NULL ) {
+			while ( ht == NULL ) {
 				hti = TreeView_GetParent( hwndTree, hti );
 				if ( hti == NULL ) break;
 				ht = TreeView_GetNextSibling( hwndTree, hti );

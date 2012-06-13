@@ -140,7 +140,7 @@ static int getProfileCmdLineArgs(TCHAR * szProfile, size_t cch)
 	TCHAR szThisParam[1024];
 	int firstParam=1;
 
-	while(szCmdLine[0]) 
+	while (szCmdLine[0]) 
 	{
 		if (szCmdLine[0] == '"') 
 		{
@@ -155,7 +155,7 @@ static int getProfileCmdLineArgs(TCHAR * szProfile, size_t cch)
 			lstrcpyn(szThisParam, szCmdLine, min(SIZEOF(szThisParam), szEndOfParam - szCmdLine+1));
 			szCmdLine = szEndOfParam;
 		}
-		while(*szCmdLine && *szCmdLine<=' ') szCmdLine++;
+		while (*szCmdLine && *szCmdLine<=' ') szCmdLine++;
 		if (firstParam) { firstParam=0; continue; }   //first param is executable name
 		if (szThisParam[0] == '/' || szThisParam[0] == '-') continue;  //no switches supported
 
@@ -254,7 +254,7 @@ static void moveProfileDirProfiles(TCHAR * profiledir, BOOL isRootDir = TRUE)
 			}
 			mir_free(profile);
 		}
-		while(FindNextFile(hFind, &ffd));
+		while (FindNextFile(hFind, &ffd));
 	}
 	FindClose(hFind);
 }
@@ -488,7 +488,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	TCHAR classname[256];
 	ENUMMIRANDAWINDOW * x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res=0;
-	if ( GetClassName(hwnd,classname,SIZEOF(classname)) && lstrcmp( _T("Miranda"),classname)==0 ) {
+	if ( GetClassName(hwnd,classname,SIZEOF(classname)) && lstrcmp( _T("Miranda"),classname) == 0 ) {
 		if ( SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res ) {
 			x->found++;
 			return FALSE;

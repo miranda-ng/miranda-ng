@@ -173,7 +173,7 @@ static VOID CALLBACK UpdateNotifyTimerCheck(HWND, UINT, UINT_PTR, DWORD)
 	KillTimer(NULL, updateTimerId);
 	if (!DBGetContactSettingByte(NULL, UN_MOD, UN_ENABLE, UN_ENABLE_DEF))
 		return;
-	if (dwUpdateThreadID!=0) {
+	if (dwUpdateThreadID != 0) {
 		Netlib_Logf(hNetlibUser, "Update notification already running, ignoring attempt");
 		return;
 	}
@@ -271,8 +271,8 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
 	DBWriteContactSettingDword(NULL, UN_MOD, UN_LASTCHECK, und->reqTime);
 	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(szVersionText), (LPARAM)szVersionText);
 	isUnicode = strstr(szVersionText, "Unicode") != NULL ? 1 : 0;
-	isBetaCheck = DBGetContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_DEF)==UN_NOTIFYTYPE_BETA?1:0;
-	isAlphaCheck = DBGetContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_DEF)==UN_NOTIFYTYPE_ALPHA?1:0;
+	isBetaCheck = DBGetContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_DEF) == UN_NOTIFYTYPE_BETA?1:0;
+	isAlphaCheck = DBGetContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_DEF) == UN_NOTIFYTYPE_ALPHA?1:0;
 	dwVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
 	mir_snprintf(szVersion, sizeof(szVersion), "%d.%d.%d.%d",
 		HIBYTE(HIWORD(dwVersion)), LOBYTE(HIWORD(dwVersion)),
@@ -658,7 +658,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_NOTIFY:
 		{
 			NMHDR *hdr = (NMHDR *)lParam;
-			if (hdr&&hdr->code==PSN_APPLY) {
+			if (hdr&&hdr->code == PSN_APPLY) {
 				DBWriteContactSettingByte(NULL, UN_MOD, UN_ENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEUPDATES)));
                 if (IsDlgButtonChecked(hwndDlg, IDC_ENABLESTABLE))
                     DBWriteContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_STABLE);

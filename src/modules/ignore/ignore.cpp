@@ -30,8 +30,8 @@ static const DWORD ignoreIdToPf4[IGNOREEVENT_MAX]={0xFFFFFFFF,0xFFFFFFFF,0xFFFFF
 static DWORD GetMask(HANDLE hContact)
 {
 	DWORD mask=DBGetContactSettingDword(hContact,"Ignore","Mask1",(DWORD)(-1));
-	if (mask==(DWORD)(-1)) {
-		if (hContact==NULL) mask=0;
+	if (mask == (DWORD)(-1)) {
+		if (hContact == NULL) mask=0;
 		else {
 			if (DBGetContactSettingByte(hContact,"CList","Hidden",0) || DBGetContactSettingByte(hContact,"CList","NotOnList",0))
 				mask=DBGetContactSettingDword(NULL,"Ignore","Mask1",0);
@@ -52,23 +52,23 @@ static void SetListGroupIcons(HWND hwndList,HANDLE hFirstItem,HANDLE hParentItem
 
 	typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
 	//check groups
-	if (typeOfFirst==CLCIT_GROUP) hItem=hFirstItem;
+	if (typeOfFirst == CLCIT_GROUP) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
-	while(hItem) {
+	while (hItem) {
 		hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if (hChildItem) SetListGroupIcons(hwndList,hChildItem,hItem,childCount);
 		for (i=0; i < SIZEOF(iconOn); i++)
-			if (iconOn[i] && SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,i)==0) iconOn[i]=0;
+			if (iconOn[i] && SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,i) == 0) iconOn[i]=0;
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
 	}
 	//check contacts
-	if (typeOfFirst==CLCIT_CONTACT) hItem=hFirstItem;
+	if (typeOfFirst == CLCIT_CONTACT) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hFirstItem);
-	while(hItem) {
+	while (hItem) {
 		for ( i=0; i < SIZEOF(iconOn); i++ ) {
 			iImage=SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,i);
-			if (iconOn[i] && iImage==0) iconOn[i]=0;
-			if (iImage!=0xFF) childCount[i]++;
+			if (iconOn[i] && iImage == 0) iconOn[i]=0;
+			if (iImage != 0xFF) childCount[i]++;
 		}
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hItem);
 	}
@@ -88,19 +88,19 @@ static void SetAllChildIcons(HWND hwndList,HANDLE hFirstItem,int iColumn,int iIm
 
 	typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
 	//check groups
-	if (typeOfFirst==CLCIT_GROUP) hItem=hFirstItem;
+	if (typeOfFirst == CLCIT_GROUP) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
-	while(hItem) {
+	while (hItem) {
 		hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if (hChildItem) SetAllChildIcons(hwndList,hChildItem,iColumn,iImage);
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
 	}
 	//check contacts
-	if (typeOfFirst==CLCIT_CONTACT) hItem=hFirstItem;
+	if (typeOfFirst == CLCIT_CONTACT) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hFirstItem);
-	while(hItem) {
+	while (hItem) {
 		iOldIcon=SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (iOldIcon!=0xFF && iOldIcon!=iImage) SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
+		if (iOldIcon != 0xFF && iOldIcon != iImage) SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hItem);
 	}
 }
@@ -124,16 +124,16 @@ static void SetIconsForColumn(HWND hwndList,HANDLE hItem,HANDLE hItemAll,int iCo
 	int itemType;
 
 	itemType=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hItem,0);
-	if (itemType==CLCIT_CONTACT) {
+	if (itemType == CLCIT_CONTACT) {
 		int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (oldiImage!=0xFF&&oldiImage!=iImage)
+		if (oldiImage != 0xFF&&oldiImage != iImage)
 			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
 	}
-	else if (itemType==CLCIT_INFO) {
-		if (hItem==hItemAll) SetAllChildIcons(hwndList,hItem,iColumn,iImage);
+	else if (itemType == CLCIT_INFO) {
+		if (hItem == hItemAll) SetAllChildIcons(hwndList,hItem,iColumn,iImage);
 		else SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage)); //hItemUnknown
 	}
-	else if (itemType==CLCIT_GROUP) {
+	else if (itemType == CLCIT_GROUP) {
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if (hItem) SetAllChildIcons(hwndList,hItem,iColumn,iImage);
 	}
@@ -146,7 +146,7 @@ static void InitialiseItem(HWND hwndList,HANDLE hContact,HANDLE hItem,DWORD prot
 	
 	mask=GetMask(hContact);
 	for (i=0;i<IGNOREEVENT_MAX;i++)
-		if ((ignoreIdToPf1[i]==0xFFFFFFFF&&ignoreIdToPf4[i]==0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i]||proto4Caps&ignoreIdToPf4[i]))
+		if ((ignoreIdToPf1[i] == 0xFFFFFFFF&&ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i]||proto4Caps&ignoreIdToPf4[i]))
 			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,mask&(1<<i)?i+3:0));
 	SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(IGNOREEVENT_MAX,1));
 	SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(IGNOREEVENT_MAX+1,2));
@@ -160,7 +160,7 @@ static void SaveItemMask(HWND hwndList,HANDLE hContact,HANDLE hItem,const char *
 	mask=0;
 	for (i=0;i<IGNOREEVENT_MAX;i++) {
 		iImage=SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(i,0));
-		if (iImage && iImage!=0xFF) mask|=1<<i;
+		if (iImage && iImage != 0xFF) mask|=1<<i;
 	}
 	DBWriteContactSettingDword(hContact,"Ignore",pszSetting,mask);
 }
@@ -174,9 +174,9 @@ static void SetAllContactIcons(HWND hwndList)
 	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 	do {
 		hItem=(HANDLE)SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
-		if (hItem && SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(IGNOREEVENT_MAX,0))==0xFF) {
+		if (hItem && SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(IGNOREEVENT_MAX,0)) == 0xFF) {
 			szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-			if (szProto==NULL) proto1Caps=proto4Caps=0;
+			if (szProto == NULL) proto1Caps=proto4Caps=0;
 			else {
                 proto1Caps=CallProtoService(szProto,PS_GETCAPS,PFLAGNUM_1,0);
                 proto4Caps=CallProtoService(szProto,PS_GETCAPS,PFLAGNUM_4,0);
@@ -185,7 +185,7 @@ static void SetAllContactIcons(HWND hwndList)
 			if (!DBGetContactSettingByte(hContact,"CList","Hidden",0))
 				SendMessage(hwndList,CLM_SETCHECKMARK,(WPARAM)hItem,1);
 		}
-	} while(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+	} while (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
 }
 
 static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -275,22 +275,22 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 							DWORD hitFlags;
 							int iImage;
 
-							if (nm->iColumn==-1) break;
+							if (nm->iColumn == -1) break;
 							hItem=(HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
-							if (hItem==NULL) break;
+							if (hItem == NULL) break;
 							if (!(hitFlags&CLCHT_ONITEMEXTRA)) break;
-							if (nm->iColumn==IGNOREEVENT_MAX) {   //ignore all
+							if (nm->iColumn == IGNOREEVENT_MAX) {   //ignore all
 								for (iImage=0;iImage<IGNOREEVENT_MAX;iImage++)
 									SetIconsForColumn(GetDlgItem(hwndDlg,IDC_LIST),hItem,hItemAll,iImage,iImage+3);
 							}
-							else if (nm->iColumn==IGNOREEVENT_MAX+1) {	//ignore none
+							else if (nm->iColumn == IGNOREEVENT_MAX+1) {	//ignore none
 								for (iImage=0;iImage<IGNOREEVENT_MAX;iImage++)
 									SetIconsForColumn(GetDlgItem(hwndDlg,IDC_LIST),hItem,hItemAll,iImage,0);
 							}
 							else {
 								iImage=SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
-								if (iImage==0) iImage=nm->iColumn+3;
-								else if (iImage!=0xFF) iImage=0;
+								if (iImage == 0) iImage=nm->iColumn+3;
+								else if (iImage != 0xFF) iImage=0;
 								SetIconsForColumn(GetDlgItem(hwndDlg,IDC_LIST),hItem,hItemAll,nm->iColumn,iImage);
 							}
 							SetListGroupIcons(GetDlgItem(hwndDlg,IDC_LIST),(HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_GETNEXTITEM,CLGN_ROOT,0),hItemAll,NULL);
@@ -313,7 +313,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 									DBDeleteContactSetting(hContact,"CList","Hidden");
 								else
 									DBWriteContactSettingByte(hContact,"CList","Hidden",1);
-							} while(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+							} while (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
 							SaveItemMask(GetDlgItem(hwndDlg,IDC_LIST),NULL,hItemAll,"Default1");
 							SaveItemMask(GetDlgItem(hwndDlg,IDC_LIST),NULL,hItemUnknown,"Mask1");
 							return TRUE;
@@ -367,8 +367,8 @@ static INT_PTR IsIgnored(WPARAM wParam,LPARAM lParam)
 static INT_PTR Ignore(WPARAM wParam,LPARAM lParam)
 {
 	DWORD mask=GetMask((HANDLE)wParam);
-	if ((lParam<1 || lParam>IGNOREEVENT_MAX) && lParam!=IGNOREEVENT_ALL) return 1;
-	if (lParam==IGNOREEVENT_ALL) mask=(1<<IGNOREEVENT_MAX)-1;
+	if ((lParam<1 || lParam>IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL) return 1;
+	if (lParam == IGNOREEVENT_ALL) mask=(1<<IGNOREEVENT_MAX)-1;
 	else mask|=1<<(lParam-1);
 	DBWriteContactSettingDword((HANDLE)wParam,"Ignore","Mask1",mask);
 	return 0;
@@ -377,8 +377,8 @@ static INT_PTR Ignore(WPARAM wParam,LPARAM lParam)
 static INT_PTR Unignore(WPARAM wParam,LPARAM lParam)
 {
 	DWORD mask=GetMask((HANDLE)wParam);
-	if ((lParam<1 || lParam>IGNOREEVENT_MAX) && lParam!=IGNOREEVENT_ALL) return 1;
-	if (lParam==IGNOREEVENT_ALL) mask=0;
+	if ((lParam<1 || lParam>IGNOREEVENT_MAX) && lParam != IGNOREEVENT_ALL) return 1;
+	if (lParam == IGNOREEVENT_ALL) mask=0;
 	else mask&=~(1<<(lParam-1));
 	DBWriteContactSettingDword((HANDLE)wParam,"Ignore","Mask1",mask);
 	return 0;
@@ -417,7 +417,7 @@ static INT_PTR IgnoreRecvAuth(WPARAM wParam,LPARAM lParam)
 static int IgnoreAddedNotify(WPARAM, LPARAM lParam)
 {
 	DBEVENTINFO *dbei=(DBEVENTINFO*)lParam;
-	if (dbei && dbei->eventType==EVENTTYPE_ADDED && dbei->pBlob!=NULL) {
+	if (dbei && dbei->eventType == EVENTTYPE_ADDED && dbei->pBlob != NULL) {
 		HANDLE hContact;
 		
 		hContact=*((PHANDLE)(dbei->pBlob+sizeof(DWORD)));

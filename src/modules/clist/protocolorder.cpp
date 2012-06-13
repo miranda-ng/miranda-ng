@@ -211,7 +211,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				while ( tvi.hItem != NULL ) {
 					TreeView_GetItem(hwndProtoOrder, &tvi);
 
-					if (tvi.lParam!=0) {
+					if (tvi.lParam != 0) {
 						ProtocolData* ppd = ( ProtocolData* )tvi.lParam;
 						PROTOACCOUNT* pa = Proto_GetAccount( ppd->RealName );
 						if ( pa != NULL ) {

@@ -298,7 +298,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 	switch(msg) {
 	case WM_NCCREATE:
 		itc = new MHeaderbarCtrl; //(MHeaderbarCtrl*)mir_alloc(sizeof(MHeaderbarCtrl));
-		if (itc==NULL)
+		if (itc == NULL)
 			return FALSE;
 
 		SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)itc);

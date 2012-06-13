@@ -72,38 +72,38 @@ static void SetValue(HWND hwndDlg,int idCtrl,HANDLE hContact,char *szModule,char
 	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
 	dbv.type=DBVT_DELETED;
-	if (szModule==NULL) unspecified=1;
+	if (szModule == NULL) unspecified=1;
 	else if (proto_service) unspecified=Proto_GetContactInfoSetting(hContact,szProto,szModule,szSetting,&dbv,0);
 	else unspecified=DBGetContactSettingW(hContact,szModule,szSetting,&dbv);
 	if (!unspecified) {
 		switch(dbv.type) {
 			case DBVT_BYTE:
-				if (special==SVS_GENDER) {
-					if (dbv.cVal=='M') ptstr=TranslateT("Male");
-					else if (dbv.cVal=='F') ptstr=TranslateT("Female");
+				if (special == SVS_GENDER) {
+					if (dbv.cVal == 'M') ptstr=TranslateT("Male");
+					else if (dbv.cVal == 'F') ptstr=TranslateT("Female");
 					else unspecified=1;
 				}
-				else if (special==SVS_MONTH) {
+				else if (special == SVS_MONTH) {
 					if (dbv.bVal>0 && dbv.bVal<=12) {
 						pstr=str;
 						GetLocaleInfoA(LOCALE_USER_DEFAULT,LOCALE_SABBREVMONTHNAME1-1+dbv.bVal,str,SIZEOF(str));
 					}
 					else unspecified=1;
 				}
-				else if (special==SVS_TIMEZONE) {
-					if (dbv.cVal==-100) unspecified=1;
+				else if (special == SVS_TIMEZONE) {
+					if (dbv.cVal == -100) unspecified=1;
 					else {
 						pstr=str;
 						mir_snprintf(str, SIZEOF(str), dbv.cVal?"UTC%+d:%02d":"UTC",-dbv.cVal/2,(dbv.cVal&1)*30);
 					}
 				}
 				else {
-					unspecified=(special==SVS_ZEROISUNSPEC && dbv.bVal==0);
-					pstr=_itoa(special==SVS_SIGNED?dbv.cVal:dbv.bVal,str,10);
+					unspecified=(special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
+					pstr=_itoa(special == SVS_SIGNED?dbv.cVal:dbv.bVal,str,10);
 				}
 				break;
 			case DBVT_WORD:
-				if (special==SVS_COUNTRY) {
+				if (special == SVS_COUNTRY) {
 					WORD wSave = dbv.wVal;
 					if (wSave == ( WORD )-1) {
 						char szSettingName[100];
@@ -116,29 +116,29 @@ static void SetValue(HWND hwndDlg,int idCtrl,HANDLE hContact,char *szModule,char
 					}
 
 					pstr = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,wSave,0));
-					unspecified=pstr==NULL;
+					unspecified=pstr == NULL;
 				}
 				else {
-					unspecified=(special==SVS_ZEROISUNSPEC && dbv.wVal==0);
-					pstr=_itoa(special==SVS_SIGNED?dbv.sVal:dbv.wVal,str,10);
+					unspecified=(special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
+					pstr=_itoa(special == SVS_SIGNED?dbv.sVal:dbv.wVal,str,10);
 				}
 				break;
 			case DBVT_DWORD:
-				unspecified=(special==SVS_ZEROISUNSPEC && dbv.dVal==0);
-				if (special==SVS_IP) {
+				unspecified=(special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
+				if (special == SVS_IP) {
 					struct in_addr ia;
 					ia.S_un.S_addr=htonl(dbv.dVal);
 					pstr=inet_ntoa(ia);
-					if (dbv.dVal==0) unspecified=1;
+					if (dbv.dVal == 0) unspecified=1;
 				}
-				else pstr=_itoa(special==SVS_SIGNED?dbv.lVal:dbv.dVal,str,10);
+				else pstr=_itoa(special == SVS_SIGNED?dbv.lVal:dbv.dVal,str,10);
 				break;
 			case DBVT_ASCIIZ:
-				unspecified=(special==SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+				unspecified=(special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 				pstr=dbv.pszVal;
 				break;
 			case DBVT_UTF8:
-				unspecified=(special==SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+				unspecified=(special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 				#if defined( _UNICODE )
 				if ( !unspecified )
 				{	WCHAR* wszStr;
@@ -186,7 +186,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				HANDLE hContact=(HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
 					szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-					if (szProto==NULL) break;
+					if (szProto == NULL) break;
 					SetValue(hwndDlg,IDC_NICK,hContact,szProto,"Nick",0);
 					SetValue(hwndDlg,IDC_FIRSTNAME,hContact,szProto,"FirstName",0);
 					SetValue(hwndDlg,IDC_LASTNAME,hContact,szProto,"LastName",0);
@@ -262,7 +262,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					HANDLE hContact=(HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 					if (hContact != NULL) {
 						szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-						if (szProto==NULL) break;
+						if (szProto == NULL) break;
 						SetValue(hwndDlg,IDC_STREET,hContact,szProto,"Street",SVS_ZEROISUNSPEC);
 						SetValue(hwndDlg,IDC_CITY,hContact,szProto,"City",SVS_ZEROISUNSPEC);
 						SetValue(hwndDlg,IDC_STATE,hContact,szProto,"State",SVS_ZEROISUNSPEC);
@@ -310,7 +310,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					HANDLE hContact=(HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 					if (hContact != NULL) {
 						szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-						if (szProto==NULL) break;
+						if (szProto == NULL) break;
 						SetValue(hwndDlg,IDC_COMPANY,hContact,szProto,"Company",SVS_ZEROISUNSPEC);
 						SetValue(hwndDlg,IDC_DEPARTMENT,hContact,szProto,"CompanyDepartment",SVS_ZEROISUNSPEC);
 						SetValue(hwndDlg,IDC_POSITION,hContact,szProto,"CompanyPosition",SVS_ZEROISUNSPEC);
@@ -348,7 +348,7 @@ void ResizeColumns(HWND hwndLV)
 {
 	int nCol = 0; LVCOLUMN lvCol;
     	lvCol.mask = LVCF_WIDTH;
-	while(ListView_GetColumn(hwndLV, nCol++, &lvCol))
+	while (ListView_GetColumn(hwndLV, nCol++, &lvCol))
 		ListView_SetColumnWidth(hwndLV, nCol-1, LVSCW_AUTOSIZE);
 }
 
@@ -385,7 +385,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				if (hContact != NULL) {
 					char *szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-					if (szProto==NULL) break;
+					if (szProto == NULL) break;
 					bool proto_service = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
 					SetValue(hwndDlg,IDC_WEBPAGE,hContact,szProto,"Homepage",SVS_ZEROISUNSPEC);
 
@@ -524,7 +524,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						HANDLE hContact=(HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 						if (hContact != NULL) {
 							szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-							if (szProto==NULL) break;
+							if (szProto == NULL) break;
 							SetValue(hwndDlg,IDC_ABOUT,hContact,szProto,"About",0);
 						}
 						break;
@@ -544,9 +544,9 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		break;
 	case WM_COMMAND:
-		if (wParam==MAKEWPARAM(IDC_MYNOTES,EN_CHANGE))
+		if (wParam == MAKEWPARAM(IDC_MYNOTES,EN_CHANGE))
 			SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
-		else if (LOWORD(wParam)==IDCANCEL)
+		else if (LOWORD(wParam) == IDCANCEL)
 			SendMessage(GetParent(hwndDlg),msg,wParam,lParam);
 		break;
 	case WM_DESTROY:

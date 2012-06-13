@@ -400,7 +400,7 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 
 static int SendHttpRequestAndData(struct NetlibConnection *nlc,struct ResizableCharBuffer *httpRequest,NETLIBHTTPREQUEST *nlhr,int sendContentLengthHeader)
 {
-	bool sendData = (nlhr->requestType==REQUEST_POST || nlhr->requestType==REQUEST_PUT);
+	bool sendData = (nlhr->requestType == REQUEST_POST || nlhr->requestType == REQUEST_PUT);
 
 	if (sendContentLengthHeader && sendData)
 		AppendToCharBuffer(httpRequest,"Content-Length: %d\r\n\r\n", nlhr->dataLength);

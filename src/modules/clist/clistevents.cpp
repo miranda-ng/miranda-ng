@@ -91,7 +91,7 @@ static void ShowEventsInTray()
 	char nTrayProtoCnt;
 	int nTrayCnt=cli.trayIconCount;
 	if (!cli.events.count || !nTrayCnt)  return; 
-	if (cli.events.count ==1 || nTrayCnt == 1) 
+	if (cli.events.count  == 1 || nTrayCnt == 1) 
 	{ 
 		ShowOneEventInTray(0); //for only one icon in tray show topmost event
 		return;
@@ -153,7 +153,7 @@ struct CListEvent* fnAddEvent( CLISTEVENT *cle )
 	int i;
 	struct CListEvent* p;
 
-	if (cle==NULL || cle->cbSize != sizeof(CLISTEVENT))
+	if (cle == NULL || cle->cbSize != sizeof(CLISTEVENT))
 		return NULL;
 
 	if (cle->flags & CLEF_URGENT) {
@@ -297,9 +297,9 @@ int fnEventsProcessTrayDoubleClick(int index)
 			int i;
 			char * szProto=NULL;
 			for (i=0; i<cli.trayIconCount; i++)
-				if (cli.trayIcon[i].id==index)	{
+				if (cli.trayIcon[i].id == index)	{
 					szProto=cli.trayIcon[i].szProto;
-					if (i==0) click_in_first_icon=TRUE;
+					if (i == 0) click_in_first_icon=TRUE;
 					break;
 				}
 			if (szProto) {
@@ -315,7 +315,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 						break;
 				}	}
 				
-				if (i==cli.events.count) { //EventNotFound
+				if (i == cli.events.count) { //EventNotFound
 					//lets  process backward try to find first event without desired proto in tray
 					int j;
 					if (click_in_first_icon)
@@ -330,11 +330,11 @@ int fnEventsProcessTrayDoubleClick(int index)
 									if (cli.trayIcon[j].szProto && !_strcmpi(eventProto, cli.trayIcon[j].szProto))
 										break;
 								
-								if (j==cli.trayIconCount) {
+								if (j == cli.trayIconCount) {
 									eventIndex=i;
 									break;
 						}	}	}
-					if (i==cli.events.count) { //not found 
+					if (i == cli.events.count) { //not found 
 						cli.pfnUnlockTray();
 						return 1;	//continue processing to show contact list
 		}	}	}	}

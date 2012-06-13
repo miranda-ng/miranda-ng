@@ -455,7 +455,7 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 		}
 		if ((cli.pfnGetProtocolVisibility(szPreferredProto))
 			 && (GetAverageMode() == -1) 
-          && (DBGetContactSettingByte(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT)==SETTING_TRAYICON_MULTI) 
+          && (DBGetContactSettingByte(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) 
           && !(DBGetContactSettingByte(NULL,"CList","AlwaysMulti",SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
 	}
@@ -970,7 +970,7 @@ void   fnUnlockTray( void )
 //	return;				//stub to be removed
 	initcheck;
 #ifdef _DEBUG
-	if (trayLockCS.RecursionCount==0) DebugBreak();	   //try to unlock already
+	if (trayLockCS.RecursionCount == 0) DebugBreak();	   //try to unlock already
 #endif
 	LeaveCriticalSection( &trayLockCS );
 }

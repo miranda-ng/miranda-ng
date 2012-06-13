@@ -61,28 +61,28 @@ INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 	int procResult;
 	int extendedDlg,itemCount;
 
-	if (urd==NULL||urd->cbSize!=sizeof(UTILRESIZEDIALOG)) return 1;
+	if (urd == NULL||urd->cbSize != sizeof(UTILRESIZEDIALOG)) return 1;
 	pTemplate=(DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance,FindResourceA(urd->hInstance,urd->lpTemplate,MAKEINTRESOURCEA(5))));
 	pTemplateEx=(START_OF_DLGTEMPLATEEX*)pTemplate;
-	extendedDlg=pTemplateEx->signature==0xFFFF;
-	if (extendedDlg && pTemplateEx->dlgVer!=1)
+	extendedDlg=pTemplateEx->signature == 0xFFFF;
+	if (extendedDlg && pTemplateEx->dlgVer != 1)
 		return 1;
 
 	if (extendedDlg) pWord=(PWORD)(pTemplateEx+1);
 	else pWord=(PWORD)(pTemplate+1);
-	if (*pWord==0xFFFF) pWord+=2; else while(*pWord++);   //menu
-	if (*pWord==0xFFFF) pWord+=2; else while(*pWord++);   //class
-	while(*pWord++);   //title
+	if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //menu
+	if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //class
+	while (*pWord++);   //title
 	if (extendedDlg) {
 		if (pTemplateEx->style&DS_SETFONT) {
 			pWord+=3;    //font size,weight,italic
-			while(*pWord++);   //font name
+			while (*pWord++);   //font name
 		}
 	}
 	else {
 		if (pTemplate->style&DS_SETFONT) {
 			pWord++;    //font size
-			while(*pWord++);   //font name
+			while (*pWord++);   //font name
 		}
 	}
 
@@ -117,11 +117,11 @@ INT_PTR ResizeDialog(WPARAM, LPARAM lParam)
 			urc.rcItem.left=pItem->x; urc.rcItem.top=pItem->y;
 			urc.rcItem.right=urc.rcItem.left+pItem->cx; urc.rcItem.bottom=urc.rcItem.top+pItem->cy;
 		}
-		if (*pWord==0xFFFF) pWord+=2; else while(*pWord++);   //menu
-		if (*pWord==0xFFFF) pWord+=2; else while(*pWord++);   //class
+		if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //menu
+		if (*pWord == 0xFFFF) pWord+=2; else while (*pWord++);   //class
 		pWord+=1+(1+*pWord)/2;     //creation data
 
-		if (urc.wId==65535) continue;  //using this breaks the dwp, so just ignore it
+		if (urc.wId == 65535) continue;  //using this breaks the dwp, so just ignore it
 
 		MapDialogRect(urd->hwndDlg,&urc.rcItem);
 		procResult=(urd->pfnResizer)(urd->hwndDlg,urd->lParam,&urc);

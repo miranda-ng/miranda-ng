@@ -183,7 +183,7 @@ void FreeSearchResults(HWND hwndResults)
 		lvi.mask=LVIF_PARAM;
 		ListView_GetItem(hwndResults,&lvi);
 		lsr=(struct ListSearchResult*)lvi.lParam;
-		if (lsr==NULL) continue;
+		if (lsr == NULL) continue;
 		mir_free(lsr->psr.id);
 		mir_free(lsr->psr.email);
 		mir_free(lsr->psr.nick);
@@ -229,7 +229,7 @@ int BeginSearch(HWND,struct FindAddDlgData *dat,const char *szProto,const char *
 		}
 		if (failures) {
 			//infuriatingly vague error message. fixme.
-			if (dat->searchCount==0) {
+			if (dat->searchCount == 0) {
 				forkthread(BeginSearchFailed,0,NULL);
 				mir_free(dat->search);
 				dat->search=NULL;
@@ -241,7 +241,7 @@ int BeginSearch(HWND,struct FindAddDlgData *dat,const char *szProto,const char *
 		dat->searchCount=1;
 		dat->search[0].hProcess=(HANDLE)CallProtoService(szProto,szSearchService,0,(LPARAM)pvSearchParams);
 		dat->search[0].szProto=szProto;
-		if (dat->search[0].hProcess==NULL) {
+		if (dat->search[0].hProcess == NULL) {
 			//infuriatingly vague error message. fixme.
             PROTOACCOUNT* pa = Proto_GetAccount(szProto);
 			forkthread(BeginSearchFailed, 0, mir_tstrdup(pa->tszAccountName));
@@ -296,14 +296,14 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 		lvi.mask=LVIF_PARAM;
 		ListView_GetItem(hwndResults,&lvi);
 		lsr=(struct ListSearchResult*)lvi.lParam;
-		if (lsr==NULL) continue;
+		if (lsr == NULL) continue;
 		for (i=0;i<subtotalCount;i++) {
-			if (subtotal[i].szProto==lsr->szProto) {
+			if (subtotal[i].szProto == lsr->szProto) {
 				subtotal[i].count++;
 				break;
 			}
 		}
-		if (i==subtotalCount) {
+		if (i == subtotalCount) {
 			subtotal=(struct ProtoResultsSummary*)mir_realloc(subtotal,sizeof(struct ProtoResultsSummary)*(subtotalCount+1));
 			subtotal[subtotalCount].szProto=lsr->szProto;
 			subtotal[subtotalCount++].count=1;
@@ -316,7 +316,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 			return;
 
 		if ( subtotalCount == 1 ) {
-			if (total==1) mir_sntprintf( str, SIZEOF(str), TranslateT("1 %s user found"), pa->tszAccountName );
+			if (total == 1) mir_sntprintf( str, SIZEOF(str), TranslateT("1 %s user found"), pa->tszAccountName );
 			else         mir_sntprintf( str, SIZEOF(str), TranslateT("%d %s users found"), total, pa->tszAccountName );
 		}
 		else {
@@ -341,7 +341,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 void CreateResultsColumns(HWND hwndResults,struct FindAddDlgData *dat,char *szProto)
 {
 	SaveColumnSizes(hwndResults);
-	while(ListView_DeleteColumn(hwndResults,0));
+	while (ListView_DeleteColumn(hwndResults,0));
 	ListView_SetImageList(hwndResults,dat->himlComboIcons,LVSIL_SMALL);
 	LoadColumnSizes(hwndResults,szProto);
 }
@@ -356,7 +356,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg,int x,int y)
 	dat=(struct FindAddDlgData*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 
 	{	LVITEM lvi;
-		if (ListView_GetSelectedCount(GetDlgItem(hwndDlg,IDC_RESULTS))!=1) return;
+		if (ListView_GetSelectedCount(GetDlgItem(hwndDlg,IDC_RESULTS)) != 1) return;
 		lvi.mask=LVIF_PARAM;
 		lvi.iItem=ListView_GetNextItem(GetDlgItem(hwndDlg,IDC_RESULTS),-1,LVNI_ALL|LVNI_SELECTED);
 		ListView_GetItem(GetDlgItem(hwndDlg,IDC_RESULTS),&lvi);

@@ -52,7 +52,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		ClcContact *groupContact;
 		ClcGroup *group;
 		CLCINFOITEM *cii = (CLCINFOITEM *) lParam;
-		if (cii==NULL || cii->cbSize != sizeof(CLCINFOITEM))
+		if (cii == NULL || cii->cbSize != sizeof(CLCINFOITEM))
 			return (LRESULT) (HANDLE) NULL;
 		if (cii->hParentGroup == NULL)
 			group = &dat->list;

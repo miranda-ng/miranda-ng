@@ -93,7 +93,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM, LPARAM lParam)
 static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
 	char * pszFile = (char *) lParam;
-	if ( pszFile && (DBGetContactSettingByte(NULL,"Skin","UseSound",0) || (int)wParam==1))
+	if ( pszFile && (DBGetContactSettingByte(NULL,"Skin","UseSound",0) || (int)wParam == 1))
 		PlaySoundA(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
 
 	return 0;
@@ -106,10 +106,10 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 
 	for (j=0; j<soundCount; j++) {
 		if ( pszSoundName && strcmp( soundList[j].name, pszSoundName ) == 0) {
-			if (DBGetContactSettingByte(NULL, "SkinSoundsOff", pszSoundName, 0)==0) {
+			if (DBGetContactSettingByte(NULL, "SkinSoundsOff", pszSoundName, 0) == 0) {
 				DBVARIANT dbv;
 
-				if (DBGetContactSettingString(NULL, "SkinSounds", pszSoundName, &dbv)==0) {
+				if (DBGetContactSettingString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
 					char szFull[MAX_PATH];
 
 					pathToAbsolute(dbv.pszVal, szFull, NULL);
@@ -132,7 +132,7 @@ static HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
 	tvi.pszText = str;
 	tvi.cchTextMax = SIZEOF(str);
 	tvi.hItem = TreeView_GetRoot(hwndTree);
-	while( tvi.hItem != NULL ) {
+	while ( tvi.hItem != NULL ) {
 		TreeView_GetItem( hwndTree, &tvi );
 		if ( !_tcsicmp( str, name ))
 			return tvi.hItem;
@@ -248,11 +248,11 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ZeroMemory(&tvi,sizeof(tvi));
 			ZeroMemory(&hti,sizeof(hti));
 			hti=TreeView_GetSelection(hwndTree);
-			if (hti==NULL) break;
+			if (hti == NULL) break;
 			tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM|TVIF_TEXT;
 			tvi.hItem = hti;
-			if (TreeView_GetItem(hwndTree, &tvi)==FALSE) break;
-			if (tvi.lParam==-1) break;
+			if (TreeView_GetItem(hwndTree, &tvi) == FALSE) break;
+			if (tvi.lParam == -1) break;
 			if (soundList[tvi.lParam].tempFile)
 				 NotifyEventHooks(hPlayEvent, 1, (LPARAM)soundList[tvi.lParam].tempFile);
 			else {
@@ -275,18 +275,18 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ZeroMemory(&tvi,sizeof(tvi));
 			ZeroMemory(&hti,sizeof(hti));
 			hti=TreeView_GetSelection(hwndTree);
-			if (hti==NULL) break;
+			if (hti == NULL) break;
 			tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM|TVIF_TEXT;
 			tvi.hItem = hti;
-			if (TreeView_GetItem(hwndTree, &tvi)==FALSE) break;
-			if (tvi.lParam==-1) break;
+			if (TreeView_GetItem(hwndTree, &tvi) == FALSE) break;
+			if (tvi.lParam == -1) break;
 			if (soundList[tvi.lParam].tempFile)
 				mir_snprintf(strFull, SIZEOF(strFull), "%s", soundList[tvi.lParam].tempFile);
 			else {
-				if (DBGetContactSettingByte(NULL, "SkinSoundsOff", soundList[tvi.lParam].name, 0)==0) {
+				if (DBGetContactSettingByte(NULL, "SkinSoundsOff", soundList[tvi.lParam].name, 0) == 0) {
 					DBVARIANT dbv;
 
-					if (DBGetContactSettingString(NULL, "SkinSounds", soundList[tvi.lParam].name, &dbv)==0) {
+					if (DBGetContactSettingString(NULL, "SkinSounds", soundList[tvi.lParam].name, &dbv) == 0) {
 						pathToAbsolute(dbv.pszVal, strdir, NULL);
 						DBFreeVariant(&dbv);
 			}	}	}
@@ -315,11 +315,11 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			soundList[tvi.lParam].tempFile = mir_strdup(strFull);
 			SetDlgItemTextA(hwndDlg, IDC_LOCATION, strFull);
 		}
-		if (LOWORD(wParam)==IDC_GETMORE) {
+		if (LOWORD(wParam) == IDC_GETMORE) {
 			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=5");
 			break;
 		}
-        if (LOWORD(wParam)==IDC_LOCATION) {
+        if (LOWORD(wParam) == IDC_LOCATION) {
             break;
         }
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -368,7 +368,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
 					TVITEM tvi = pnmtv->itemNew;
 
-					if (tvi.lParam==-1) {
+					if (tvi.lParam == -1) {
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					}
 					else {
@@ -392,7 +392,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				{
 					NMTVKEYDOWN* ptkd = (NMTVKEYDOWN*)lParam;
 
-					if (ptkd&&ptkd->wVKey==VK_SPACE&&TreeView_GetSelection(ptkd->hdr.hwndFrom))
+					if (ptkd&&ptkd->wVKey == VK_SPACE&&TreeView_GetSelection(ptkd->hdr.hwndFrom))
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
@@ -405,7 +405,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
 						if (hti.flags&TVHT_ONITEM)
 							if (hti.flags&TVHT_ONITEMSTATEICON)
-								if (TreeView_GetParent(hwndTree, hti.hItem)!=NULL)
+								if (TreeView_GetParent(hwndTree, hti.hItem) != NULL)
 									SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					break;
 			}	}

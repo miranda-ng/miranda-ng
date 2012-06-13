@@ -45,7 +45,7 @@ static void SetFileListAndSizeControls(HWND hwndDlg,struct FileDlgData *dat)
 	if (i>1) {
 		TCHAR szFormat[32];
 		if (fileCount && dirCount) {
-			mir_sntprintf(szFormat,SIZEOF(szFormat),_T("%s, %s"),TranslateTS(fileCount==1?_T("%d file"):_T("%d files")),TranslateTS(dirCount==1?_T("%d directory"):_T("%d directories")));
+			mir_sntprintf(szFormat,SIZEOF(szFormat),_T("%s, %s"),TranslateTS(fileCount == 1?_T("%d file"):_T("%d files")),TranslateTS(dirCount == 1?_T("%d directory"):_T("%d directories")));
 			mir_sntprintf(str,SIZEOF(str),szFormat,fileCount,dirCount);
 		}
 		else if (fileCount) {
@@ -102,7 +102,7 @@ static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHA
 		// Fill the array
 		pBuf = buf + fileOffset;
 		nTemp = 0;
-		while(*pBuf)
+		while (*pBuf)
 		{
 			// Allocate space for path+filename
 			int cbFileNameLen = lstrlen( pBuf );
@@ -179,13 +179,13 @@ static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LP
 {
 	switch(msg) {
 		case WM_CHAR:
-			if (wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000) {
+			if (wParam == '\n' && GetKeyState(VK_CONTROL)&0x8000) {
 				PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 				return 0;
 			}
 			break;
 		case WM_SYSCHAR:
-			if ((wParam=='s' || wParam=='S') && GetKeyState(VK_MENU)&0x8000) {
+			if ((wParam == 's' || wParam == 'S') && GetKeyState(VK_MENU)&0x8000) {
 				PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
 				return 0;
 			}
@@ -223,7 +223,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
         EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 
-		if (fsd->ppFiles!=NULL && fsd->ppFiles[0]!=NULL) {
+		if (fsd->ppFiles != NULL && fsd->ppFiles[0] != NULL) {
 			int totalCount,i;
 			for (totalCount=0;fsd->ppFiles[totalCount];totalCount++);
 			dat->files = ( TCHAR** )mir_alloc( sizeof(TCHAR*)*(totalCount+1)); // Leaks
@@ -281,7 +281,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis=(LPDRAWITEMSTRUCT)lParam;
-			if (dis->hwndItem==GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
+			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);

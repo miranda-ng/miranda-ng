@@ -302,7 +302,7 @@ static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 	int i;
 
 	for (i=0; i < SIZEOF(countries); i++ )
-		if ((int)wParam==countries[i].id) return (INT_PTR)countries[i].szName;
+		if ((int)wParam == countries[i].id) return (INT_PTR)countries[i].szName;
 	return (INT_PTR)NULL;
 }
 
@@ -388,7 +388,7 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam,LPARAM lParam)
 	x=DBGetContactSettingDword(swp->hContact,swp->szModule,szSettingName,-1);
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sy", swp->szNamePrefix);
 	y=(int)DBGetContactSettingDword(swp->hContact,swp->szModule,szSettingName,-1);
-	if (x==-1) return 1;
+	if (x == -1) return 1;
 	if (wParam&RWPF_NOSIZE) {
 		OffsetRect(&wp.rcNormalPosition,x-wp.rcNormalPosition.left,y-wp.rcNormalPosition.top);
 	}
@@ -542,7 +542,7 @@ bool __fastcall wildcmp(char * name, char * mask)
 	if (*mask != '*') return FALSE;
 	for (;; mask++, name++)
 	{
-		while(*mask == '*')
+		while (*mask == '*')
 		{
 			last = mask++;
 			if (*mask == '\0') return ((BOOL)!*mask);   /* true */

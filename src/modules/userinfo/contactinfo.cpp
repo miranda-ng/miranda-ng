@@ -43,7 +43,7 @@ static INT_PTR CALLBACK EditUserEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				case IDCANCEL:
 					EndDialog(hwndDlg,wParam);
 				case IDC_EMAIL:
-					if (HIWORD(wParam)==EN_CHANGE)
+					if (HIWORD(wParam) == EN_CHANGE)
 						EnableWindow(GetDlgItem(hwndDlg,IDOK),GetWindowTextLength(GetDlgItem(hwndDlg,IDC_EMAIL)));
 					break;
 			}
@@ -73,7 +73,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg,IDC_NUMBER,EM_LIMITTEXT,63,0);
 			CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&countryCount,(LPARAM)&countries);
 			for (i=0;i<countryCount;i++) {
-				if (countries[i].id==0 || countries[i].id==0xFFFF) continue;
+				if (countries[i].id == 0 || countries[i].id == 0xFFFF) continue;
 				item=SendDlgItemMessageA(hwndDlg,IDC_COUNTRY,CB_ADDSTRING,0,(LPARAM)Translate(countries[i].szName));
 				SendDlgItemMessage(hwndDlg,IDC_COUNTRY,CB_SETITEMDATA,item,countries[i].id);
 			}
@@ -86,7 +86,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					{	char *szText=(char*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 						int isValid=1;
 						GetDlgItemTextA(hwndDlg,IDC_PHONE,szText,252);
-						if (lstrlenA(szText)<7 || szText[0]!='+') isValid=0;
+						if (lstrlenA(szText)<7 || szText[0] != '+') isValid=0;
 						if (isValid) isValid=(lstrlenA(szText+1) == (int)strspn(szText+1,"0123456789 ()-"));
 						if (!isValid) {
 							MessageBox(hwndDlg,TranslateT("The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only."),TranslateT("Invalid Phone Number"),MB_OK);
@@ -98,10 +98,10 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 				case IDCANCEL:
 					EndDialog(hwndDlg,wParam);
 				case IDC_COUNTRY:
-					if (HIWORD(wParam)!=CBN_SELCHANGE) break;
+					if (HIWORD(wParam) != CBN_SELCHANGE) break;
 				case IDC_AREA:
 				case IDC_NUMBER:
-					if (LOWORD(wParam)!=IDC_COUNTRY && HIWORD(wParam)!=EN_CHANGE) break;
+					if (LOWORD(wParam) != IDC_COUNTRY && HIWORD(wParam) != EN_CHANGE) break;
 					if (noRecursion) break;
 					EnableWindow(GetDlgItem(hwndDlg,IDOK),TRUE);
 					{	char szPhone[96],szArea[32],szNumber[64];
@@ -114,7 +114,7 @@ static INT_PTR CALLBACK EditUserPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 					}
 					break;
 				case IDC_PHONE:
-					if (HIWORD(wParam)!=EN_UPDATE) break;
+					if (HIWORD(wParam) != EN_UPDATE) break;
 					if (noRecursion) break;
 					noRecursion=1;
 					{	
@@ -178,7 +178,7 @@ static int IsOverEmail(HWND hwndDlg,TCHAR* szEmail,int cchEmail)
 	GetClientRect(hwndEmails,&rc);
 	if (!PtInRect(&rc,hti.pt)) return 0;
 	if (ListView_SubItemHitTest(hwndEmails,&hti) == -1) return 0;
-	if (hti.iSubItem!=1) return 0;
+	if (hti.iSubItem != 1) return 0;
 	if (!(hti.flags&LVHT_ONITEMLABEL)) return 0;
 	ListView_GetSubItemRect(hwndEmails,hti.iItem,1,LVIR_LABEL,&rc);
 	szText[0] = 0;
@@ -207,7 +207,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				lf.lfUnderline=1;
 				hEmailFont=CreateFontIndirect(&lf);
 			}
-			if (hHandCursor==NULL) {
+			if (hHandCursor == NULL) {
 				if (IsWinVer2000Plus()) hHandCursor=LoadCursor(NULL,IDC_HAND);
 				else hHandCursor=LoadCursor(hMirandaInst,MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 			}
@@ -246,7 +246,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (hContact != NULL) {
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-				if (szProto==NULL) break;
+				if (szProto == NULL) break;
 				//e-mails
 				ListView_DeleteAllItems(GetDlgItem(hwndDlg,IDC_EMAILS));
 				lvi.mask=LVIF_TEXT|LVIF_PARAM;
@@ -254,7 +254,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				lvi.iSubItem=0;
 				lvi.iItem=0;
 				for (i=-1;;i++) {
-					if (i==-1) {
+					if (i == -1) {
 						if (DBGetContactSettingTString(hContact,szProto,"e-mail",&dbv))
 							continue;
 						lvi.pszText=TranslateT("Primary");
@@ -378,7 +378,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								{
 									RECT rc;
 									ListView_GetSubItemRect(nm->nmcd.hdr.hwndFrom,nm->nmcd.dwItemSpec,nm->iSubItem,LVIR_LABEL,&rc);
-									if (nm->iSubItem==1 && nm->nmcd.hdr.idFrom==IDC_EMAILS) {
+									if (nm->iSubItem == 1 && nm->nmcd.hdr.idFrom == IDC_EMAILS) {
 										HFONT hoFont;
 										TCHAR szText[256] = {0};
 										ListView_GetItemText(nm->nmcd.hdr.hwndFrom,nm->nmcd.dwItemSpec,nm->iSubItem,szText,SIZEOF(szText));
@@ -391,16 +391,16 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									}
 
 									HICON hIcon = NULL;
-									if (nm->nmcd.lItemlParam==(LPARAM)(-2) && nm->iSubItem-3==(nm->nmcd.hdr.idFrom==IDC_PHONES))
+									if (nm->nmcd.lItemlParam == (LPARAM)(-2) && nm->iSubItem-3 == (nm->nmcd.hdr.idFrom == IDC_PHONES))
 										hIcon = LoadSkinIcon( SKINICON_OTHER_ADDCONTACT );
-									else if (nm->iSubItem>1 && nm->nmcd.lItemlParam!=(LPARAM)(-1) && nm->nmcd.lItemlParam!=(LPARAM)(-2)) {
+									else if (nm->iSubItem>1 && nm->nmcd.lItemlParam != (LPARAM)(-1) && nm->nmcd.lItemlParam != (LPARAM)(-2)) {
 										static int iconResources[3]={SKINICON_OTHER_RENAME,SKINICON_OTHER_DELETE};
-										if (nm->iSubItem==2 && nm->nmcd.hdr.idFrom==IDC_PHONES) {
+										if (nm->iSubItem == 2 && nm->nmcd.hdr.idFrom == IDC_PHONES) {
 											TCHAR szText[2];
 											ListView_GetItemText(nm->nmcd.hdr.hwndFrom,nm->nmcd.dwItemSpec,nm->iSubItem,szText,SIZEOF(szText));
 											if (szText[0]) hIcon = LoadSkinIcon( SKINICON_OTHER_SMS );
 										}
-										else hIcon = LoadSkinIcon( iconResources[nm->iSubItem-3+(nm->nmcd.hdr.idFrom==IDC_EMAILS)] );
+										else hIcon = LoadSkinIcon( iconResources[nm->iSubItem-3+(nm->nmcd.hdr.idFrom == IDC_EMAILS)] );
 									}
 									else break;
 									DrawIconEx(nm->nmcd.hdc,(rc.left+rc.right-GetSystemMetrics(SM_CXSMICON))/2,(rc.top+rc.bottom-GetSystemMetrics(SM_CYSMICON))/2,hIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL);
@@ -416,7 +416,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							LVITEM lvi;
 							TCHAR szEmail[256];
 							HANDLE hContact=(HANDLE)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-							char *szIdTemplate=nm->hdr.idFrom==IDC_PHONES?"MyPhone%d":"Mye-mail%d";
+							char *szIdTemplate=nm->hdr.idFrom == IDC_PHONES?"MyPhone%d":"Mye-mail%d";
 							LVHITTESTINFO hti;
 
 							if (IsOverEmail(hwndDlg,szEmail,SIZEOF(szEmail))) {
@@ -434,14 +434,14 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							lvi.iItem=hti.iItem;
 							lvi.iSubItem=0;
 							ListView_GetItem(nm->hdr.hwndFrom,&lvi);
-							if (lvi.lParam==(LPARAM)(-1)) break;
-							if (lvi.lParam==(LPARAM)(-2)) {
-								if (hti.iSubItem-3==(nm->hdr.idFrom==IDC_PHONES)) {
+							if (lvi.lParam == (LPARAM)(-1)) break;
+							if (lvi.lParam == (LPARAM)(-2)) {
+								if (hti.iSubItem-3 == (nm->hdr.idFrom == IDC_PHONES)) {
 									//add
 									char szNewData[256]="",idstr[33];
 									int i;
 									DBVARIANT dbv;
-									if (IDOK!=DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(nm->hdr.idFrom==IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL),hwndDlg,nm->hdr.idFrom==IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc,(LPARAM)szNewData))
+									if (IDOK != DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL),hwndDlg,nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc,(LPARAM)szNewData))
 										break;
 									for (i=0;;i++) {
 										mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate,i);
@@ -453,7 +453,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								}
 							}
 							else {
-								if (hti.iSubItem-3==(nm->hdr.idFrom==IDC_PHONES)) {
+								if (hti.iSubItem-3 == (nm->hdr.idFrom == IDC_PHONES)) {
 									//delete
 									int i;
 									char idstr[33];
@@ -469,7 +469,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									DBDeleteContactSetting(hContact,"UserInfo",idstr);
 									SendMessage(hwndDlg,M_REMAKELISTS,0,0);
 								}
-								else if (hti.iSubItem-2==(nm->hdr.idFrom==IDC_PHONES)) {
+								else if (hti.iSubItem-2 == (nm->hdr.idFrom == IDC_PHONES)) {
 									//edit
 									char szText[256],idstr[33];
 									DBVARIANT dbv;
@@ -477,7 +477,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									if (DBGetContactSettingString(hContact,"UserInfo",idstr,&dbv)) break;
 									lstrcpynA(szText,dbv.pszVal,SIZEOF(szText));
 									DBFreeVariant(&dbv);
-									if (IDOK!=DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(nm->hdr.idFrom==IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL),hwndDlg,nm->hdr.idFrom==IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc,(LPARAM)szText))
+									if (IDOK != DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL),hwndDlg,nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc,(LPARAM)szText))
 										break;
 									DBWriteContactSettingString(hContact,"UserInfo",idstr,szText);
 									SendMessage(hwndDlg,M_REMAKELISTS,0,0);
@@ -490,8 +490,8 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			break;
 		case WM_SETCURSOR:
-			if (LOWORD(lParam)!=HTCLIENT) break;
-			if (GetForegroundWindow()==GetParent(hwndDlg)) {
+			if (LOWORD(lParam) != HTCLIENT) break;
+			if (GetForegroundWindow() == GetParent(hwndDlg)) {
 				POINT pt;
 				GetCursorPos(&pt);
 				ScreenToClient(hwndDlg,&pt);

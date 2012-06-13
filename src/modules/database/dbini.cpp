@@ -203,7 +203,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 	bool warnThisSection = false;
 	char szSection[128]; szSection[0] = 0;
 
-	while(!feof(fp)) {
+	while (!feof(fp)) {
 		char szLine[2048];
 		if (fgets(szLine,sizeof(szLine),fp) == NULL) 
 			break;
@@ -286,7 +286,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			warnInfo.szValue=szValue;
 			warnInfo.warnNoMore=0;
 			warnInfo.cancel=0;
-			if (warnThisSection && IDNO==DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(IDD_WARNINICHANGE),NULL,WarnIniChangeDlgProc,(LPARAM)&warnInfo))
+			if (warnThisSection && IDNO == DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(IDD_WARNINICHANGE),NULL,WarnIniChangeDlgProc,(LPARAM)&warnInfo))
 				continue;
 			if (warnInfo.cancel)
 				break;
@@ -322,7 +322,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		case 'G':
 			{	char *pstr;
 				for (pstr=szValue+1;*pstr;pstr++) {
-					if (*pstr=='\\') {
+					if (*pstr == '\\') {
 						switch(pstr[1]) {
 						case 'n': *pstr='\n'; break;
 						case 't': *pstr='\t'; break;
@@ -347,7 +347,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 				buf=(PBYTE)mir_alloc(lstrlenA(szValue+1));
 				for (len=0,pszValue=szValue+1;;len++) {
 					buf[len]=(BYTE)strtol(pszValue,&pszEnd,0x10);
-					if (pszValue==pszEnd) break;
+					if (pszValue == pszEnd) break;
 					pszValue=pszEnd;
 				}
 				cws.szModule=szSection;
@@ -420,8 +420,8 @@ static void DoAutoExec(void)
 		mir_sntprintf(szIniPath, SIZEOF(szIniPath), _T("%s%s"), szFindPath, fd.cFileName);
 		if (!lstrcmpi(szUse,_T("prompt")) && !secFN) {
 			int result=DialogBoxParam(hMirandaInst,MAKEINTRESOURCE(IDD_INSTALLINI),NULL,InstallIniDlgProc,(LPARAM)szIniPath);
-			if (result==IDC_NOTOALL) break;
-			if (result==IDCANCEL) continue;
+			if (result == IDC_NOTOALL) break;
+			if (result == IDCANCEL) continue;
 		}
 
 		ProcessIniFile(szIniPath, szSafeSections, szUnsafeSections, secur, secFN);

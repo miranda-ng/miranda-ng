@@ -227,7 +227,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 	switch(msg) {
 	case WM_NCCREATE:
 		dat = (MDescButtonCtrl*)mir_alloc(sizeof(MDescButtonCtrl));
-		if (dat==NULL)
+		if (dat == NULL)
 			return FALSE;
 
 		memset(dat, 0, sizeof(MDescButtonCtrl));

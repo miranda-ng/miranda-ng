@@ -323,7 +323,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if ( index == LB_ERR )
 					break;
 
-				if ( MessageBox(hwndDlg,TranslateT("Are you sure you want to delete this history item?"),TranslateT("Delete History"),MB_YESNO|MB_ICONQUESTION)==IDYES) {
+				if ( MessageBox(hwndDlg,TranslateT("Are you sure you want to delete this history item?"),TranslateT("Delete History"),MB_YESNO|MB_ICONQUESTION) == IDYES) {
 					hDbevent = (HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,LB_GETITEMDATA,index,0);
 					CallService(MS_DB_EVENT_DELETE,(WPARAM)hContact,(LPARAM)hDbevent);
 					SendMessage(hwndDlg,DM_HREBUILD,0,0);
@@ -337,7 +337,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				DBEVENTINFO dbei;
 				int sel;
 				sel=SendDlgItemMessage(hwndDlg,IDC_LIST,LB_GETCURSEL,0,0);
-				if (sel==LB_ERR) { EnableWindow(GetDlgItem(hwndDlg,IDC_DELETEHISTORY),FALSE); break; }
+				if (sel == LB_ERR) { EnableWindow(GetDlgItem(hwndDlg,IDC_DELETEHISTORY),FALSE); break; }
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DELETEHISTORY),TRUE);
 				contactName = cli.pfnGetContactDisplayName( hContact, 0 );
 				hDbEvent=(HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,LB_GETITEMDATA,sel,0);
@@ -381,7 +381,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					index = -1;
 					continue;
 				}
-				if (hDbEvent==hDbEventStart) break;
+				if (hDbEvent == hDbEventStart) break;
 				newBlobSize=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)hDbEvent,0);
 				if (newBlobSize>oldBlobSize) {
 					dbei.pBlob=(PBYTE)mir_realloc(dbei.pBlob,newBlobSize);
@@ -392,7 +392,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				GetObjectDescription(&dbei,str,SIZEOF(str));
 				if (str[0]) {
 					CharUpperBuff(str,lstrlen(str));
-					if ( _tcsstr(str,(const TCHAR*)lParam)!=NULL) {
+					if ( _tcsstr(str,(const TCHAR*)lParam) != NULL) {
 						SendDlgItemMessage(hwndDlg,IDC_LIST,LB_SETCURSEL,index,0);
 						SendMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDC_LIST,LBN_SELCHANGE),0);
 						break;

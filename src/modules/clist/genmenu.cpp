@@ -1121,7 +1121,7 @@ static int MO_RegisterIcon( PMO_IntMenuItem pmi, void* )
 				break;
 
 			memmove(start,start+1,strlen(start+1)+1);
-			if (*start!='\0') start++;
+			if (*start != '\0') start++;
 			else break;
 		}
 

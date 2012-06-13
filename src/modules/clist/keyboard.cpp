@@ -42,7 +42,7 @@ INT_PTR hkSearch(WPARAM wParam,LPARAM lParam)
 */
 static INT_PTR hkRead(WPARAM, LPARAM)
 {
-	if (cli.pfnEventsProcessTrayDoubleClick(0)==0) return TRUE;
+	if (cli.pfnEventsProcessTrayDoubleClick(0) == 0) return TRUE;
 	SetForegroundWindow(cli.hwndContactList);
 	SetFocus(cli.hwndContactList);
 	return 0;

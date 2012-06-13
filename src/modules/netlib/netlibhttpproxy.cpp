@@ -505,7 +505,7 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam,LPARAM lParam)
 INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam)
 {
 	struct NetlibUser * nu = (struct NetlibUser*)wParam;
-	if (GetNetlibHandleType(nu)!=NLH_USER) return ERROR_INVALID_PARAMETER;
+	if (GetNetlibHandleType(nu) != NLH_USER) return ERROR_INVALID_PARAMETER;
 	mir_free(nu->szStickyHeaders); 
 	nu->szStickyHeaders = mir_strdup((char*)lParam); // pointer is ours
 	return 0;
@@ -515,7 +515,7 @@ INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam, LPARAM lParam)
 {
 	int oldTimeout;
 	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
-	if (GetNetlibHandleType(nlc)!=NLH_CONNECTION) return -1;
+	if (GetNetlibHandleType(nlc) != NLH_CONNECTION) return -1;
 	oldTimeout = nlc->pollingTimeout;
 	nlc->pollingTimeout = lParam;
 	return oldTimeout;

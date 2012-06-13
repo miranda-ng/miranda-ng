@@ -98,7 +98,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 			DBVARIANT dbv;
-			if (DBGetContactSettingTString(NULL,"SRFile","ScanCmdLine",&dbv)==0) {
+			if (DBGetContactSettingTString(NULL,"SRFile","ScanCmdLine",&dbv) == 0) {
 				SetDlgItemText(hwndDlg,IDC_SCANCMDLINE,dbv.ptszVal);
 				DBFreeVariant(&dbv);
 			}
@@ -140,7 +140,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case IDC_FILEDIR:
-					if ((HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
+					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
 					break;
 				case IDC_FILEDIRBROWSE:
 				{	TCHAR str[MAX_PATH];
@@ -156,8 +156,8 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					SendMessage(hwndDlg,M_UPDATEENABLING,0,0);
 					break;
 				case IDC_SCANCMDLINE:
-					if (HIWORD(wParam)==CBN_SELCHANGE) PostMessage(hwndDlg,M_SCANCMDLINESELCHANGE,0,0);
-					else if (HIWORD(wParam)!=CBN_EDITCHANGE) return 0;
+					if (HIWORD(wParam) == CBN_SELCHANGE) PostMessage(hwndDlg,M_SCANCMDLINESELCHANGE,0,0);
+					else if (HIWORD(wParam) != CBN_EDITCHANGE) return 0;
 					break;
 				case IDC_SCANCMDLINEBROWSE:
 				{	TCHAR str[MAX_PATH+2];

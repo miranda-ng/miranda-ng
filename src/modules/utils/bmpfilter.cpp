@@ -96,7 +96,7 @@ static INT_PTR sttBitmapLoader( const TCHAR* ptszFileName )
 		return 0;
 
 	pic->get_Type(&picType);
-	if (picType!=PICTYPE_BITMAP) {
+	if (picType != PICTYPE_BITMAP) {
 		pic->Release();
 		return 0;
 	}

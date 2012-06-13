@@ -375,7 +375,7 @@ static INT_PTR BuildContactMenu(WPARAM wParam, LPARAM)
 //lparam - lparam from winproc
 INT_PTR ContactMenuExecService(WPARAM wParam,LPARAM lParam)
 {
-	if (wParam!=0) {
+	if (wParam != 0) {
 		lpContactMenuExecParam cmep=(lpContactMenuExecParam)wParam;
 		//call with wParam=(WPARAM)(HANDLE)hContact,lparam=popupposition
 		CallService(cmep->szServiceName,lParam,cmep->param);
@@ -603,7 +603,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				CallService(smep->svc, 0, (LPARAM)smep->hMenuItem);
 		}
 		else {
-			if ( smep->status == 0 && smep->protoindex !=0 && smep->proto != NULL ) {
+			if ( smep->status == 0 && smep->protoindex  != 0 && smep->proto != NULL ) {
 				PMO_IntMenuItem pimi;
 				char *prot = smep->proto;
 				char szHumanName[64]={0};
@@ -1118,7 +1118,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	tmi.cbSize=sizeof(tmi);
 	if (overallStatus >= ID_STATUS_OFFLINE) {
 		int pos = statustopos(cli.currentStatusMenuItem);
-		if (pos==-1) pos=0;
+		if (pos == -1) pos=0;
 		{   // reset all current possible checked statuses
 			int pos2;
 			for (pos2=0; pos2<hStatusMainMenuHandlesCnt; pos2++)
@@ -1258,7 +1258,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam,LPARAM lParam)
 		{
 			char *buf=mir_strdup(mi->pszService);
 			int i=0;
-			while(buf[i]!='\0' && buf[i]!='/') i++;
+			while (buf[i] != '\0' && buf[i] != '/') i++;
 			buf[i]='\0';
 				smep->proto=mir_strdup(buf);
 			mir_free(buf);

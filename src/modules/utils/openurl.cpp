@@ -87,7 +87,7 @@ static int DoDdeRequest(const char *szItemName,HWND hwndDdeMsg)
 		if (dat->fData || dat->fAcked) break;
 		thisTick=GetTickCount();
 		if (thisTick>timeoutTick) break;
-	} while(MsgWaitForMultipleObjects(0,NULL,FALSE,timeoutTick-thisTick,QS_ALLINPUT)==WAIT_OBJECT_0);
+	} while (MsgWaitForMultipleObjects(0,NULL,FALSE,timeoutTick-thisTick,QS_ALLINPUT) == WAIT_OBJECT_0);
 
 	if (!dat->fData) {
 		GlobalDeleteAtom(hSzItemName);
@@ -155,17 +155,17 @@ static void OpenURLThread(void *arg)
 	if (!_strnicmp(hUrlInfo->szUrl,"news:",5)) pszProtocol="news";
 	else pszProtocol="http";
 	wsprintfA(szSubkey,"%s\\shell\\open\\command",pszProtocol);
-	if (RegOpenKeyExA(HKEY_CURRENT_USER,szSubkey,0,KEY_QUERY_VALUE,&hKey)==ERROR_SUCCESS
-	   || RegOpenKeyExA(HKEY_CLASSES_ROOT,szSubkey,0,KEY_QUERY_VALUE,&hKey)==ERROR_SUCCESS) {
+	if (RegOpenKeyExA(HKEY_CURRENT_USER,szSubkey,0,KEY_QUERY_VALUE,&hKey) == ERROR_SUCCESS
+	   || RegOpenKeyExA(HKEY_CLASSES_ROOT,szSubkey,0,KEY_QUERY_VALUE,&hKey) == ERROR_SUCCESS) {
 		dataLength=SIZEOF(szCommandName);
-		if (RegQueryValueEx(hKey,NULL,NULL,NULL,(PBYTE)szCommandName,&dataLength)==ERROR_SUCCESS) {
+		if (RegQueryValueEx(hKey,NULL,NULL,NULL,(PBYTE)szCommandName,&dataLength) == ERROR_SUCCESS) {
 			_strlwr(szCommandName);
 			if (strstr(szCommandName,"mozilla") || strstr(szCommandName,"netscape"))
-				success=(DdeOpenUrl("mozilla",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg)==0 || DdeOpenUrl("netscape",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg)==0);
+				success=(DdeOpenUrl("mozilla",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg) == 0 || DdeOpenUrl("netscape",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg) == 0);
 			else if (strstr(szCommandName,"iexplore") || strstr(szCommandName,"msimn"))
-				success=0==DdeOpenUrl("iexplore",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg);
+				success=0 == DdeOpenUrl("iexplore",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg);
 			else if (strstr(szCommandName,"opera"))
-				success=0==DdeOpenUrl("opera",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg);
+				success=0 == DdeOpenUrl("opera",hUrlInfo->szUrl,hUrlInfo->newWindow,hwndDdeMsg);
 			//opera's the default anyway
 		}
 		RegCloseKey(hKey);

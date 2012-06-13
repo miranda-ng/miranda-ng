@@ -382,7 +382,7 @@ WNDPROC MyOldWindowProc=NULL;
 
 LRESULT CALLBACK LBTNDOWNProc(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	if (uMsg==WM_LBUTTONDOWN && !(GetKeyState(VK_CONTROL)&0x8000)) {
+	if (uMsg == WM_LBUTTONDOWN && !(GetKeyState(VK_CONTROL)&0x8000)) {
 
 		TVHITTESTINFO hti;
 		hti.pt.x=(short)LOWORD(lParam);
@@ -409,7 +409,7 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd,UINT uMsg, WPARAM wParam, LPARAM lParam)
 						tvi.hItem=hit;
 						TreeView_GetItem(tvw, &tvi);
 
-						if (hti.hItem!=hit)
+						if (hti.hItem != hit)
 							((MenuItemOptData *)tvi.lParam)->isSelected=0;
 						else
 							((MenuItemOptData *)tvi.lParam)->isSelected=1;
@@ -477,7 +477,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					MenuItemOptData *iod;
 
 					hti=TreeView_GetSelection(GetDlgItem(hwndDlg,IDC_MENUITEMS));
-					if (hti==NULL)
+					if (hti == NULL)
 						break;
 
 					tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
@@ -619,7 +619,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 										tvi.hItem=hit;
 										TreeView_GetItem(tvw,&tvi);
 
-										if (hti.hItem!=hit)
+										if (hti.hItem != hit)
 											((MenuItemOptData *)tvi.lParam)->isSelected=0;
 										else
 											((MenuItemOptData *)tvi.lParam)->isSelected=1;
@@ -634,7 +634,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					LPNMTREEVIEW pn;
 					pn = (LPNMTREEVIEW) lParam;
 					//((MenuItemOptData *)(pn->itemNew.lParam))->isSelected=1;
-					/*if (pn->action==NotKeyPressed)
+					/*if (pn->action == NotKeyPressed)
 					{
 					remove all selection
 					}
@@ -654,7 +654,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					EnableWindow(GetDlgItem(hwndDlg,IDC_GENMENU_SET),FALSE);
 
 					hti=TreeView_GetSelection(GetDlgItem(hwndDlg,IDC_MENUITEMS));
-					if (hti==NULL)
+					if (hti == NULL)
 						break;
 
 					tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM;
@@ -725,9 +725,9 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_MENUITEMS))/2;
 			TreeView_HitTest(GetDlgItem(hwndDlg,IDC_MENUITEMS),&hti);
 			if (hti.flags&TVHT_ABOVE) hti.hItem=TVI_FIRST;
-			if (dat->hDragItem==hti.hItem) break;
+			if (dat->hDragItem == hti.hItem) break;
 			dat->hDragItem=NULL;
-			if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)||(hti.hItem==TVI_FIRST)) {
+			if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)||(hti.hItem == TVI_FIRST)) {
 				HWND tvw;
 				HTREEITEM * pSIT;
 				HTREEITEM FirstItem=NULL;

@@ -419,7 +419,7 @@ static void sttSaveCollapseState( HWND hwndTree )
 	TVITEM tvi;
 
 	hti = TreeView_GetRoot( hwndTree );
-	while( hti != NULL ) {
+	while ( hti != NULL ) {
 		HTREEITEM ht;
 		TreeItem *treeItem;
 
@@ -439,7 +439,7 @@ static void sttSaveCollapseState( HWND hwndTree )
 		ht = TreeView_GetChild( hwndTree, hti );
 		if ( ht == NULL ) {
 			ht = TreeView_GetNextSibling( hwndTree, hti );
-			while( ht == NULL ) {
+			while ( ht == NULL ) {
 				hti = TreeView_GetParent( hwndTree, hti );
 				if ( hti == NULL ) break;
 				ht = TreeView_GetNextSibling( hwndTree, hti );
@@ -505,7 +505,7 @@ static INT_PTR CALLBACK ChooseEffectDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 			int cnt=SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETCOUNT, 0, 0 );
 			for ( i = 0; i < cnt; i++ ) {
-				if (SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_GETITEMDATA,i,0)==pEffect->effectIndex ) {
+				if (SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_GETITEMDATA,i,0) == pEffect->effectIndex ) {
 					SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_SETCURSEL, i, 0 );
 					break;
 		}	}	}

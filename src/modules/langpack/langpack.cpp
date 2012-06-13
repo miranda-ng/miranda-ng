@@ -71,7 +71,7 @@ static int IsEmpty(char *str)
 
 	while (str[i])
 	{
-		if (str[i]!=' '&&str[i]!='\r'&&str[i]!='\n')
+		if (str[i] != ' '&&str[i] != '\r'&&str[i] != '\n')
 			return 0;
 		i++;
 	}
@@ -110,7 +110,7 @@ unsigned int __fastcall hash(const void * key, unsigned int len)
 	// Mix 4 bytes at a time into the hash
 	const unsigned char * data = (const unsigned char *)key;
 
-	while(len >= 4)
+	while (len >= 4)
 	{
 		unsigned int k = *(unsigned int *)data;
 
@@ -361,7 +361,7 @@ static int LoadLangPack(const TCHAR *szLangPack)
 			break;
 
 		lrtrim( line );
-		if ( IsEmpty( line ) || line[0] == ';' || line[0]==0)
+		if ( IsEmpty( line ) || line[0] == ';' || line[0] == 0)
 			continue;
 
 		if ( line[0] == '[' || line[0] == '#' )

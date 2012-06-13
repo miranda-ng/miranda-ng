@@ -636,7 +636,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_SETCURSOR:
 		if (cluiopt.transparent) {
-			if (!transparentFocus && GetForegroundWindow()!=hwnd && setLayeredWindowAttributes) {
+			if (!transparentFocus && GetForegroundWindow() != hwnd && setLayeredWindowAttributes) {
 				setLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus=1;
 				SetTimer(hwnd, TM_AUTOALPHA,250,NULL);

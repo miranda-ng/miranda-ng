@@ -52,7 +52,7 @@ static void SetControlToUnixTime(HWND hwndDlg, UINT idCtrl, time_t unixTime)
 static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POINT *ptCursor)
 {
 	IShellFolder *pDesktopFolder;
-	if (SHGetDesktopFolder(&pDesktopFolder)==NOERROR) {
+	if (SHGetDesktopFolder(&pDesktopFolder) == NOERROR) {
 		ITEMIDLIST *pCurrentIdl;
 		#if defined( _UNICODE )
 			WCHAR* wszFilename = ( LPWSTR )szFilename;
@@ -60,14 +60,14 @@ static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POI
 			WCHAR wszFilename[MAX_PATH];
 			MultiByteToWideChar(CP_ACP,0,szFilename,-1,wszFilename,SIZEOF(wszFilename));
 		#endif
-		if (pDesktopFolder->ParseDisplayName(NULL,NULL,wszFilename,NULL,&pCurrentIdl,NULL)==NOERROR) {
+		if (pDesktopFolder->ParseDisplayName(NULL,NULL,wszFilename,NULL,&pCurrentIdl,NULL) == NOERROR) {
 			if (pCurrentIdl->mkid.cb) {
 				ITEMIDLIST *pidl,*pidlNext,*pidlFilename;
 				IShellFolder *pFileFolder;
 
 				for (pidl=pCurrentIdl;;) {
 					pidlNext=(ITEMIDLIST*)((PBYTE)pidl+pidl->mkid.cb);
-					if (pidlNext->mkid.cb==0) {
+					if (pidlNext->mkid.cb == 0) {
 						pidlFilename = (ITEMIDLIST*)CoTaskMemAlloc(pidl->mkid.cb+sizeof(pidl->mkid.cb));
 						CopyMemory(pidlFilename,pidl,pidl->mkid.cb+sizeof(pidl->mkid.cb));
 						pidl->mkid.cb=0;
@@ -75,9 +75,9 @@ static void DoAnnoyingShellCommand(HWND hwnd,const TCHAR *szFilename,int cmd,POI
 					}
 					pidl=pidlNext;
 				}
-				if (pDesktopFolder->BindToObject(pCurrentIdl,NULL,IID_IShellFolder,(void**)&pFileFolder)==NOERROR) {
+				if (pDesktopFolder->BindToObject(pCurrentIdl,NULL,IID_IShellFolder,(void**)&pFileFolder) == NOERROR) {
 					IContextMenu *pContextMenu;
-					if (pFileFolder->GetUIObjectOf(NULL,1,(LPCITEMIDLIST*)&pidlFilename,IID_IContextMenu,NULL,(void**)&pContextMenu)==NOERROR) {
+					if (pFileFolder->GetUIObjectOf(NULL,1,(LPCITEMIDLIST*)&pidlFilename,IID_IContextMenu,NULL,(void**)&pContextMenu) == NOERROR) {
 						switch(cmd) {
 							case C_PROPERTIES:
 							{	CMINVOKECOMMANDINFO ici={0};
@@ -231,7 +231,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		pfnIconWindowProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_EXISTINGICON),GWLP_WNDPROC,(LONG_PTR)IconCtrlSubclassProc);
 
 		hwndFocus=GetDlgItem(hwndDlg,IDC_RESUME);
-		if ( _tstati64(fts->tszCurrentFile,&statbuf)==0) {
+		if ( _tstati64(fts->tszCurrentFile,&statbuf) == 0) {
 			SetControlToUnixTime(hwndDlg,IDC_EXISTINGDATE,statbuf.st_mtime);
 			GetSensiblyFormattedSize(statbuf.st_size,szSize,SIZEOF(szSize),0,1,NULL);
 			SetDlgItemText(hwndDlg,IDC_EXISTINGSIZE,szSize);

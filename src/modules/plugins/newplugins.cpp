@@ -46,7 +46,7 @@ typedef struct { // can all be NULL
 	Miranda_Plugin_Interfaces Interfaces;
 	Database_Plugin_Info DbInfo;
 	CList_Initialise clistlink;
-	PLUGININFOEX * pluginInfo;	 // must be freed if hInst==NULL then its a copy
+	PLUGININFOEX * pluginInfo;	 // must be freed if hInst == NULL then its a copy
 	DATABASELINK * dblink;		 // only valid during module being in memory
 } BASIC_PLUGIN_INFO;
 
@@ -307,7 +307,7 @@ static int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion,
 					// fetch internal database function pointers
 					bpi->dblink = bpi->DbInfo(NULL);
 					// validate returned link structure
-					if ( bpi->dblink && bpi->dblink->cbSize==sizeof(DATABASELINK) ) {
+					if ( bpi->dblink && bpi->dblink->cbSize == sizeof(DATABASELINK) ) {
 						bpi->hInst=h;
 						return 1;
 					}
@@ -957,7 +957,7 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				char *p = &buf[7];
 				lstrcpyA(buf, "mailto:");
 				if ( GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7))
-					CallService(MS_UTILS_OPENURL, 0, (LPARAM) (LOWORD(wParam)==IDC_PLUGINEMAIL ? buf : p) );
+					CallService(MS_UTILS_OPENURL, 0, (LPARAM) (LOWORD(wParam) == IDC_PLUGINEMAIL ? buf : p) );
 				break;
 			}
 			case IDC_GETMOREPLUGINS:

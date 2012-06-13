@@ -294,16 +294,16 @@ public:
 	XMLSTR createXMLString(int nFormat=1, int *pnSize=NULL) const;
 	/**< The returned string should be free'd using the "freeXMLString" function.
 	*
-	*   If nFormat==0, no formatting is required otherwise this returns an user friendly XML string from a given element
+	*   If nFormat == 0, no formatting is required otherwise this returns an user friendly XML string from a given element
 	*   with appropriate white spaces and carriage returns. if pnSize is given it returns the size in character of the string. */
 
 	/// Save the content of an xmlNode inside a file
 	XMLError writeToFile(XMLCSTR filename,
 		const char *encoding=NULL,
 		char nFormat=1) const;
-	/**< If nFormat==0, no formatting is required otherwise this returns an user friendly XML string from a given element with appropriate white spaces and carriage returns.
-	* If the global parameter "characterEncoding==encoding_UTF8", then the "encoding" parameter is ignored and always set to "utf-8".
-	* If the global parameter "characterEncoding==encoding_ShiftJIS", then the "encoding" parameter is ignored and always set to "SHIFT-JIS".
+	/**< If nFormat == 0, no formatting is required otherwise this returns an user friendly XML string from a given element with appropriate white spaces and carriage returns.
+	* If the global parameter "characterEncoding == encoding_UTF8", then the "encoding" parameter is ignored and always set to "utf-8".
+	* If the global parameter "characterEncoding == encoding_ShiftJIS", then the "encoding" parameter is ignored and always set to "SHIFT-JIS".
 	* If "_XMLWIDECHAR=1", then the "encoding" parameter is ignored and always set to "utf-16".
 	* If no "encoding" parameter is given the "ISO-8859-1" encoding is used. */
 	/** @} */
@@ -317,7 +317,7 @@ public:
 	int nText() const;                                             ///< nbr of text field
 	XMLNode getParentNode() const;                                 ///< return the parent node
 	XMLNode getChildNode(int i=0) const;                           ///< return ith child node
-	XMLNode getChildNode(XMLCSTR name, int i)  const;              ///< return ith child node with specific name (return an empty node if failing). If i==-1, this returns the last XMLNode with the given name.
+	XMLNode getChildNode(XMLCSTR name, int i)  const;              ///< return ith child node with specific name (return an empty node if failing). If i == -1, this returns the last XMLNode with the given name.
 	XMLNode getChildNode(XMLCSTR name, int *i=NULL) const;         ///< return next child node with specific name (return an empty node if failing)
 	XMLNode getChildNodeWithAttribute(XMLCSTR tagName,
 		XMLCSTR attributeName,
@@ -354,7 +354,7 @@ public:
 	XMLNode(const XMLNode &A);                                     ///< to allow shallow/fast copy:
 	XMLNode& operator=( const XMLNode& A );                        ///< to allow shallow/fast copy:
 
-	XMLNode(): d(NULL){};
+	XMLNode(): d(NULL) {};
 	static XMLNode emptyXMLNode;
 	static XMLClear emptyXMLClear;
 	static XMLAttribute emptyXMLAttribute;
@@ -483,7 +483,7 @@ public:
 	XMLElementPosition positionOfClear(XMLClear *a) const;
 	XMLElementPosition positionOfChildNode(int i=0) const;
 	XMLElementPosition positionOfChildNode(XMLNode x) const;
-	XMLElementPosition positionOfChildNode(XMLCSTR name, int i=0) const; ///< return the position of the ith childNode with the specified name if (name==NULL) return the position of the ith childNode
+	XMLElementPosition positionOfChildNode(XMLCSTR name, int i=0) const; ///< return the position of the ith childNode with the specified name if (name == NULL) return the position of the ith childNode
 	/** @} */
 
 	/// Enumeration for XML character encoding.
@@ -630,7 +630,7 @@ typedef struct XMLNodeContents
 XMLDLLENTRY XMLSTR stringDup(XMLCSTR source, int cbData=-1);
 /**< This is
 * a very handy function when used with all the "XMLNode::*_WOSD" functions (\link xmlWOSD \endlink).
-* @param cbData If !=0 then cbData is the number of chars to duplicate. New strings allocated with
+* @param cbData If  != 0 then cbData is the number of chars to duplicate. New strings allocated with
 * this function should be free'd using the "freeXMLString" function. */
 
 /// to free the string allocated inside the "stringDup" function or the "createXMLString" function.
@@ -670,7 +670,7 @@ XMLDLLENTRY XMLCHAR xmltoc(XMLCSTR xmlString,const XMLCHAR defautValue=_CXML('\0
 typedef struct XMLDLLENTRY ToXMLStringTool
 {
 public:
-	ToXMLStringTool(): buf(NULL),buflen(0){}
+	ToXMLStringTool(): buf(NULL),buflen(0) {}
 	~ToXMLStringTool();
 	void freeBuffer();///<call this function when you have finished using this object to release memory used by the internal buffer.
 
@@ -703,7 +703,7 @@ private:
 typedef struct XMLDLLENTRY XMLParserBase64Tool
 {
 public:
-	XMLParserBase64Tool(): buf(NULL),buflen(0){}
+	XMLParserBase64Tool(): buf(NULL),buflen(0) {}
 	~XMLParserBase64Tool();
 	void freeBuffer();///< Call this function when you have finished using this object to release memory used by the internal buffer.
 
