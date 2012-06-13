@@ -156,17 +156,14 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	if ( !DBGetContactSettingByte(NULL, "CLUI", "SBarBevel", 1))
 		flags |= SBT_NOBORDERS;
 
-	for (partCount = 0, i = 0; i<protoCount; i++)      //count down since built in ones tend to go at the end
-	{
-		ProtocolData	*PD;
-
+	for (partCount = 0, i = 0; i<protoCount; i++) {    //count down since built in ones tend to go at the end
 		int ind = pcli->pfnGetAccountIndexByPos(i);
 		if (ind < 0) continue;
 
 		if (!pcli->pfnGetProtocolVisibility(accs[ind]->szModuleName))
 			continue;
 
-		PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
+		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = mir_strdup(accs[ind]->szModuleName);
 		PD->protopos = accs[ind]->iOrder;
 

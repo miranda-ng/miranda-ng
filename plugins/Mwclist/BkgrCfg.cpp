@@ -159,8 +159,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 		case WM_COMMAND:
-			if (LOWORD(wParam) == IDC_BROWSE)
-			{
+			if (LOWORD(wParam) == IDC_BROWSE) {
 				char str[MAX_PATH];
 				OPENFILENAMEA ofn = {0};
 				char filter[512];
@@ -179,16 +178,15 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!GetOpenFileNameA(&ofn)) break;
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 			}
-			else
-				if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE) break;
+			else if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE) 
+				break;
+
 			if (LOWORD(wParam) == IDC_BITMAP)
 				SendMessage(hwndDlg, M_BKGR_UPDATE, 0,0);
 			if (LOWORD(wParam) == IDC_FILENAME && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
 				return 0;
-			if (LOWORD(wParam) == IDC_BKGRLIST)
-			{
-				if (HIWORD(wParam) == CBN_SELCHANGE)
-				{
+			if (LOWORD(wParam) == IDC_BKGRLIST) {
+				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					SendMessage(hwndDlg, M_BKGR_GETSTATE, dat->indx, 0);
 					SendMessage(hwndDlg, M_BKGR_SETSTATE, dat->indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0), 0);
 				}
@@ -196,8 +194,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			{
 				int indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETCURSEL, 0,0);
-				if (indx != CB_ERR && indx < dat->count)
-				{
+				if (indx != CB_ERR && indx < dat->count) {
 					indx = SendDlgItemMessage(hwndDlg, IDC_BKGRLIST, CB_GETITEMDATA, indx, 0);					
 					dat->item[indx].changed = TRUE;
 				
@@ -266,8 +263,7 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam,LPARAM lParam)
 	value = (char *)mir_alloc(len + 4); // add room for flags (DWORD)
 	memcpy(value, szSetting, len);
 	tok = strchr(value, '/');
-	if (tok == NULL)
-	{
+	if (tok == NULL) {
 		mir_free(value);
 		return 1;
 	}

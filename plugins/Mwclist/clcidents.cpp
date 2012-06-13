@@ -49,15 +49,18 @@ int GetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactI
 	for (;;) {
 		if (group->scanIndex == group->cl.count) {
 			group = group->parent;
-			if (group == NULL) break;
+			if (group == NULL)
+				break;
 			group->scanIndex++;
 			continue;
 		}
-		if (group == subgroup && contactIndex == group->scanIndex) return count;
+
+		if (group == subgroup && contactIndex == group->scanIndex)
+			return count;
+
 		count++;
-		if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) && (group->cl.items[group->scanIndex]->flags & CONTACTF_STATUSMSG)) {
+		if ((group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) && (group->cl.items[group->scanIndex]->flags & CONTACTF_STATUSMSG))
 			count++;
-		}
 
 		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
 			if (group->cl.items[group->scanIndex]->group == subgroup && contactIndex == -1)
@@ -79,22 +82,21 @@ int GetRowsPriorTo(struct ClcGroup *group,struct ClcGroup *subgroup,int contactI
 
 pdisplayNameCacheEntry GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
 {
-	int idx;
-	displayNameCacheEntry dnce, *pdnce,*pdnce2;
+	if (hContact == 0)
+		return NULL;
 
-	if (hContact == 0) return NULL;
+	displayNameCacheEntry dnce;
 	dnce.hContact = hContact;
-
-	pdnce = (displayNameCacheEntry*)li.List_Find(&dat->lCLCContactsCache,&dnce);
-
-	if (pdnce == NULL)
-	{
+	displayNameCacheEntry *pdnce = (displayNameCacheEntry*)li.List_Find(&dat->lCLCContactsCache,&dnce);
+	if (pdnce == NULL) {
 		pdnce = (displayNameCacheEntry*)mir_calloc(sizeof(displayNameCacheEntry));
 		pdnce->hContact = hContact;
+	
+		int idx;
 		li.List_GetIndex(&dat->lCLCContactsCache,pdnce,&idx);
 		li.List_Insert(&dat->lCLCContactsCache,pdnce,idx);
 
-		pdnce2 = (displayNameCacheEntry*)li.List_Find(&dat->lCLCContactsCache,&dnce);//for check
+		displayNameCacheEntry *pdnce2 = (displayNameCacheEntry*)li.List_Find(&dat->lCLCContactsCache,&dnce);//for check
 		if (pdnce2->hContact != pdnce->hContact)
 			return NULL;
 

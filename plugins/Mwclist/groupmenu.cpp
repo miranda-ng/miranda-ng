@@ -145,29 +145,23 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL) return 0;
 
-	if (hHideShowMainMenuItem == (HANDLE)lParam)
-	{
-		mii->fMask|=MIIM_STATE;
-		mii->fState|=MFS_DEFAULT;
-
-	}
-	if (hGroupMainMenuItemProxy == (HANDLE)lParam)
-	{
-				mii->fMask|=MIIM_SUBMENU;
-				//mi.fType = MFT_STRING;
-				mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);		
+	if (hHideShowMainMenuItem == (HANDLE)lParam) {
+		mii->fMask |= MIIM_STATE;
+		mii->fState |= MFS_DEFAULT;
 	}
 
-	if (hGroupStatusMenuItemProxy == (HANDLE)lParam)
-	{
-				mii->fMask|=MIIM_SUBMENU;
-				//mi.fType = MFT_STRING;
-				mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);		
+	if (hGroupMainMenuItemProxy == (HANDLE)lParam) {
+		mii->fMask |= MIIM_SUBMENU;
+		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);		
+	}
+
+	if (hGroupStatusMenuItemProxy == (HANDLE)lParam) {
+		mii->fMask |= MIIM_SUBMENU;
+		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);		
 	}
 	
-	return(TRUE);
+	return TRUE;
 }
-
 
 //called with:
 //wparam - ownerdata

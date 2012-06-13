@@ -416,16 +416,13 @@ static INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				
 					frameopt = frameopt & (~F_VISIBLE);		
 
-					if (IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR)) 
-					{
+					if (IsDlgButtonChecked(hwndDlg,IDC_SHOWSBAR)) {
 						ShowWindow(pcli->hwndStatus,SW_SHOW);
-						frameopt|=F_VISIBLE;
+						frameopt |= F_VISIBLE;
 					}
-					else 
-					{
-						ShowWindow(pcli->hwndStatus,SW_HIDE);
-					}
-				    CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,hFrameHelperStatusBar),frameopt);
+					else ShowWindow(pcli->hwndStatus,SW_HIDE);
+
+					CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,hFrameHelperStatusBar),frameopt);
 
 					SendMessage(pcli->hwndContactList,WM_SIZE,0,0);
 					

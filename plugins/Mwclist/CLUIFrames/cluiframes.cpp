@@ -826,40 +826,40 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam,LPARAM lParam)
 		ModifyMItem((WPARAM)contMITitle,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].visible) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].visible) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMIVisible,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].Locked) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].Locked) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMILock,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].TitleBar.ShowTitleBar) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].TitleBar.ShowTitleBar) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMITBVisible,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].floating) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].floating) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMIFloating,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if ((Frames[pos].UseBorder)) mi.flags|=CMIF_CHECKED;
+		if ((Frames[pos].UseBorder)) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMIBorder,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alTop) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].align&alTop) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMIAlignTop,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alClient) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].align&alClient) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMIAlignClient,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alBottom) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
 		ModifyMItem((WPARAM)contMIAlignBottom,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].collapsed) mi.flags|=CMIF_CHECKED;
-		if ((!Frames[pos].visible)||(Frames[pos].Locked)||(pos == CLUIFramesGetalClientFrame())) mi.flags|=CMIF_GRAYED;
+		if (Frames[pos].collapsed) mi.flags |= CMIF_CHECKED;
+		if ((!Frames[pos].visible)||(Frames[pos].Locked)||(pos == CLUIFramesGetalClientFrame())) mi.flags |= CMIF_GRAYED;
 		ModifyMItem((WPARAM)contMIColl,(LPARAM)&mi);
 	}
 	ulockfrm();
@@ -879,40 +879,40 @@ INT_PTR CLUIFramesModifyMainMenuItems(WPARAM wParam,LPARAM lParam)
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MITitle,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].visible) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].visible) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIVisible,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].Locked) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].Locked) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MILock,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].TitleBar.ShowTitleBar) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].TitleBar.ShowTitleBar) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MITBVisible,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].floating) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].floating) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIFloating,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if ((Frames[pos].UseBorder)) mi.flags|=CMIF_CHECKED;
+		if ((Frames[pos].UseBorder)) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIBorder,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP|((Frames[pos].align&alClient)?CMIF_GRAYED:0);
-		if (Frames[pos].align&alTop) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].align&alTop) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIAlignTop,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].align&alClient) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].align&alClient) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIAlignClient,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP|((Frames[pos].align&alClient)?CMIF_GRAYED:0);
-		if (Frames[pos].align&alBottom) mi.flags|=CMIF_CHECKED;
+		if (Frames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIAlignBottom,(LPARAM)&mi);
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
-		if (Frames[pos].collapsed) mi.flags|=CMIF_CHECKED;
-		if ((!Frames[pos].visible)||Frames[pos].Locked||(pos == CLUIFramesGetalClientFrame())) mi.flags|=CMIF_GRAYED;
+		if (Frames[pos].collapsed) mi.flags |= CMIF_CHECKED;
+		if ((!Frames[pos].visible)||Frames[pos].Locked||(pos == CLUIFramesGetalClientFrame())) mi.flags |= CMIF_GRAYED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MIColl,(LPARAM)&mi);
 	}
 	ulockfrm();
@@ -936,12 +936,12 @@ INT_PTR CLUIFramesGetFrameOptions(WPARAM wParam,LPARAM lParam)
 	switch(LOWORD(wParam)) {
 	case FO_FLAGS:
 		retval = 0;
-		if (Frames[pos].visible) retval|=F_VISIBLE;
-		if (!Frames[pos].collapsed) retval|=F_UNCOLLAPSED;
-		if (Frames[pos].Locked) retval|=F_LOCKED;
-		if (Frames[pos].TitleBar.ShowTitleBar) retval|=F_SHOWTB;
-		if (Frames[pos].TitleBar.ShowTitleBarTip) retval|=F_SHOWTBTIP;
-		if (!(GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval|=F_NOBORDER;
+		if (Frames[pos].visible) retval |= F_VISIBLE;
+		if (!Frames[pos].collapsed) retval |= F_UNCOLLAPSED;
+		if (Frames[pos].Locked) retval |= F_LOCKED;
+		if (Frames[pos].TitleBar.ShowTitleBar) retval |= F_SHOWTB;
+		if (Frames[pos].TitleBar.ShowTitleBarTip) retval |= F_SHOWTBTIP;
+		if (!(GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval |= F_NOBORDER;
 		break;
 
 	case FO_NAME:
@@ -1025,7 +1025,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		SendMessage(Frames[pos].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)Frames[pos].TitleBar.ShowTitleBarTip,0);
 
 		style = (int)GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE);
-		style|=WS_BORDER;
+		style |= WS_BORDER;
 		if (flag&F_NOBORDER) {style &= (~WS_BORDER);}
 			SetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE,(LONG)style);
 		ulockfrm();
@@ -1569,10 +1569,10 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 	Frames[nFramescount].floating = FALSE;
 
 	//override tbbtip
-	//clfrm->Flags|=F_SHOWTBTIP;
+	//clfrm->Flags != F_SHOWTBTIP;
 	//
 	if (DBGetContactSettingByte(0,CLUIFrameModule,"RemoveAllBorders",0) == 1)
-		clfrm->Flags|=F_NOBORDER;
+		clfrm->Flags |= F_NOBORDER;
 
 	Frames[nFramescount].dwFlags = clfrm->Flags;
 
@@ -1633,7 +1633,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 	CLUIFramesLoadFrameSettings(id2pos(retval));
 	style = GetWindowLongPtr(Frames[nFramescount-1].hWnd,GWL_STYLE);
 	style &= (~WS_BORDER);
-	style|=((Frames[nFramescount-1].UseBorder)?WS_BORDER:0);
+	style |= ((Frames[nFramescount-1].UseBorder)?WS_BORDER:0);
 	SetWindowLongPtr(Frames[nFramescount-1].hWnd,GWL_STYLE,style);
 
 	if (Frames[nFramescount-1].order == 0){Frames[nFramescount-1].order = nFramescount;}
@@ -2815,7 +2815,7 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam,LPARAM lParam)
 		SetWindowText(frame->ContainerWnd,frame->TitleBar.tbname);
 
 		temp = GetWindowLongPtr(frame->ContainerWnd,GWL_EXSTYLE);
-		temp|=WS_EX_TOOLWINDOW|WS_EX_TOPMOST ;
+		temp |= WS_EX_TOOLWINDOW | WS_EX_TOPMOST ;
 		SetWindowLongPtr(frame->ContainerWnd,GWL_EXSTYLE,temp);
 
 		frame->floating = TRUE;

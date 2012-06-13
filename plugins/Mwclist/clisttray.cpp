@@ -155,26 +155,21 @@ INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL) return 0;
 
-	if (hHideShowMainMenuItem == (HANDLE)lParam)
-	{
-		mii->fMask|=MIIM_STATE;
-		mii->fState|=MFS_DEFAULT;
-
-	}
-	if (hTrayMainMenuItemProxy == (HANDLE)lParam)
-	{
-				mii->fMask|=MIIM_SUBMENU;
-				//mi.fType = MFT_STRING;
-				mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);		
+	if (hHideShowMainMenuItem == (HANDLE)lParam) {
+		mii->fMask |= MIIM_STATE;
+		mii->fState |= MFS_DEFAULT;
 	}
 
-	if (hTrayStatusMenuItemProxy == (HANDLE)lParam)
-	{
-				mii->fMask|=MIIM_SUBMENU;
-				//mi.fType = MFT_STRING;
-				mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);		
+	if (hTrayMainMenuItemProxy == (HANDLE)lParam) {
+		mii->fMask |= MIIM_SUBMENU;
+		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);		
 	}
-	
+
+	if (hTrayStatusMenuItemProxy == (HANDLE)lParam) {
+		mii->fMask |= MIIM_SUBMENU;
+		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);		
+	}
+
 	return(TRUE);
 }
 

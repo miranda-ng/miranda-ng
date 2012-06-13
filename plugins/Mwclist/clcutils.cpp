@@ -42,20 +42,20 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 	GetClientRect(hwnd,&clRect);
 	if (testx<0 || testy<0 || testy>=clRect.bottom || testx>=clRect.right) {
 		if (flags) {
-			if (testx<0) *flags|=CLCHT_TOLEFT;
-			else if (testx>=clRect.right) *flags|=CLCHT_TORIGHT;
-			if (testy<0) *flags|=CLCHT_ABOVE;
-			else if (testy>=clRect.bottom) *flags|=CLCHT_BELOW;
+			if (testx<0) *flags |= CLCHT_TOLEFT;
+			else if (testx>=clRect.right) *flags |= CLCHT_TORIGHT;
+			if (testy<0) *flags |= CLCHT_ABOVE;
+			else if (testy>=clRect.bottom) *flags |= CLCHT_BELOW;
 		}
 		return -1;
 	}
 	if (testx<dat->leftMargin) {
-		if (flags) *flags|=CLCHT_INLEFTMARGIN|CLCHT_NOWHERE;
+		if (flags) *flags |= CLCHT_INLEFTMARGIN|CLCHT_NOWHERE;
 		return -1;
 	}
 	hit = GetRowByIndex(dat ,(testy+dat->yScroll)/dat->rowHeight,&hitcontact,&hitgroup);
 	if (hit == -1) {
-		if (flags) *flags|=CLCHT_NOWHERE|CLCHT_BELOWITEMS;
+		if (flags) *flags |= CLCHT_NOWHERE|CLCHT_BELOWITEMS;
 		return -1;
 	}
 	if (contact) *contact = hitcontact;
@@ -68,7 +68,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 
 	for (indent = 0;hitgroup->parent;indent++,hitgroup = hitgroup->parent);
 	if (testx<dat->leftMargin+indent*dat->groupIndent+subident) {
-		if (flags) *flags|=CLCHT_ONITEMINDENT;
+		if (flags) *flags |= CLCHT_ONITEMINDENT;
 		return hit;
 	}
 	checkboxWidth = 0;
@@ -76,11 +76,11 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 	if (style&CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP) checkboxWidth = dat->checkboxSize+2;
 	if (hitcontact->type == CLCIT_INFO && hitcontact->flags&CLCIIF_CHECKBOX) checkboxWidth = dat->checkboxSize+2;
 	if (testx<dat->leftMargin+indent*dat->groupIndent+checkboxWidth+subident) {
-		if (flags) *flags|=CLCHT_ONITEMCHECK;
+		if (flags) *flags |= CLCHT_ONITEMCHECK;
 		return hit;
 	}
 	if (testx<dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace+subident) {
-		if (flags) *flags|=CLCHT_ONITEMICON;
+		if (flags) *flags |= CLCHT_ONITEMICON;
 		return hit;
 	}
 	
@@ -119,7 +119,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 
 		if (testx>=x &&
 		   testx<x+cxSmIcon) {
-			if (flags) *flags|=CLCHT_ONITEMEXTRA|(i<<24);
+			if (flags) *flags |= CLCHT_ONITEMEXTRA|(i<<24);
 			
 			ReleaseDC(hwnd,hdc);
 			return hit;
@@ -145,10 +145,10 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 	SelectObject(hdc,oldfont);
 	ReleaseDC(hwnd,hdc);
 	if (testx<dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace+width+4+subident) {
-		if (flags) *flags|=CLCHT_ONITEMLABEL;
+		if (flags) *flags |= CLCHT_ONITEMLABEL;
 		return hit;
 	}
-	if (flags) *flags|=CLCHT_NOWHERE;
+	if (flags) *flags |= CLCHT_NOWHERE;
 	return -1;
 }
 
@@ -241,7 +241,7 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 void CalcEipPosition( struct ClcData *dat, struct ClcContact *contact, struct ClcGroup *group, POINT *result)
 {
 	int indent;
-	for (indent = 0; group->parent; indent++, group == group->parent);
+	for (indent = 0; group->parent; indent++, group = group->parent);
 	result->x = indent * dat->groupIndent + dat->iconXSpace - 2;
 	result->y = dat->selection * dat->rowHeight - dat->yScroll;
 

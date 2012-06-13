@@ -177,7 +177,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		else {
 			//item in list already
 			DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);				
-			if (contact->iImage ==  (WORD)lParam) break;				
+			if (contact->iImage == (WORD)lParam) break;				
 			if (sortByStatus) dat->NeedResort = 1;
 
 			if (!shouldShow && !(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) {
@@ -191,7 +191,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				int oldflags;
 				contact->iImage = (WORD)lParam;
 				oldflags = contact->flags;
-				if (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags|=CONTACTF_ONLINE;
+				if (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags |= CONTACTF_ONLINE;
 				else contact->flags &= ~CONTACTF_ONLINE;
 				if (oldflags != contact->flags)
 					dat->NeedResort = 1;
