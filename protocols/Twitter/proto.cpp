@@ -524,7 +524,7 @@ int TwitterProto::LOG(TCHAR *fmt,...)
 	mir_vsntprintf(text,SIZEOF(text),fmt,va);
 	va_end(va);
 
-	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)text);
+	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)( char* )_T2A(text));
 }
 
 int TwitterProto::WLOG(TCHAR* first, const wstring last)
