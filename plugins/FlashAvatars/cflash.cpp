@@ -35,7 +35,7 @@
 
 PLUGININFOEX pluginInfo = {
   sizeof(PLUGININFOEX),
-	NULL,
+	"Flash Avatars",
 	PLUGIN_MAKE_VERSION(0, 0, 1, 14),
 	"Load and display flash avatars",
 	"Big Muscle",

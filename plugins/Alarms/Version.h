@@ -10,7 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#define __PLUGIN_NAME "Alarms"
+#define __PLUGIN_NAME				"Alarms"
 #define __INTERNAL_NAME				"Alarms"
 #define __FILENAME					"Alarms.dll"
 #define __DESCRIPTION 				"Set once-off, daily, weekly and weekday alarms."

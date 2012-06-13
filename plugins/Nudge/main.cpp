@@ -25,14 +25,8 @@ int hLangpack = 0;
 //========================
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
-#ifdef WIN64
-	"Nudge (x64)",
-#elif UNICODE
 	"Nudge",
-#else
-	"Nudge (ANSI)",
-#endif
-	PLUGIN_MAKE_VERSION(0,0,2,0),
+	 PLUGIN_MAKE_VERSION(0,0,2,0),
 	"Plugin to shake the clist and chat window",
 	"Tweety/GouZ, FREAK_THEMIGHTY",
 	"francois.mean@skynet.be, Sylvain.gougouzian@gmail.com, wishmaster51@googlemail.com",

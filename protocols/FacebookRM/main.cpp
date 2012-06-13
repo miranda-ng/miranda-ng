@@ -37,11 +37,7 @@ DWORD g_mirandaVersion;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-  #ifdef _WIN64
-	  "Facebook Protocol RM x64",
-  #else
-	  "Facebook Protocol RM",
-  #endif
+	"Facebook Protocol RM",
 	__VERSION_DWORD,
 	"Provides basic support for Facebook Chat protocol. [Built: "__DATE__" "__TIME__"]",
 	"Michal Zelinka, Robert Posel",

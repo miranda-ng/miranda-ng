@@ -35,29 +35,15 @@ Last change by : $Author: Merlin_de $
 	#define MODULNAME					"PopUp"
 	#define MODULNAME_LONG				"Popup Plus"		//dont use "PopUp Plus" coz notify register use "Popup Plus"
 	#define MODULNAME_PLU				"PopUps"
-	#ifdef _UNICODE
-		#define POPUP_FILENAME			"PopUpW.dll"
-		#ifdef _WIN64
-			#define POPUP_DISPLAYNAME	"PopUp Plus (Unicode x64)"
-			#define __FLVersionURL		"http://addons.miranda-im.org/details.php?action=viewfile&id=4293"
-			#define __FLVersionPrefix	"<span class=\"fileNameHeader\">PopUp Plus (Unicode x64) "
-			#define __FLUpdateURL		"http://addons.miranda-im.org/feed.php?dlfile=4293"			//.zip
-			#define __BetaUpdateURL		"http://merlins-miranda.googlecode.com/files/PopUpW_x64.zip"
-		#else
-			#define POPUP_DISPLAYNAME	"PopUp Plus (Unicode)"
-			#define __FLVersionURL		"http://addons.miranda-im.org/details.php?action=viewfile&id=4292"
-			#define __FLVersionPrefix	"<span class=\"fileNameHeader\">PopUp Plus (Unicode) "
-			#define __FLUpdateURL		"http://addons.miranda-im.org/feed.php?dlfile=4292"			//.zip
-			#define __BetaUpdateURL		"http://merlins-miranda.googlecode.com/files/PopUpW_x32.zip"
-		#endif //_WIN64
-	#else
-		#define POPUP_DISPLAYNAME		"PopUp Plus (2in1)"
-		#define POPUP_FILENAME			"PopUp.dll"
-			#define __FLVersionURL		"http://addons.miranda-im.org/details.php?action=viewfile&id=4294"
-			#define __FLVersionPrefix	"<span class=\"fileNameHeader\">PopUp Plus (2in1) "
-			#define __FLUpdateURL		"http://addons.miranda-im.org/feed.php?dlfile=4294"			//.zip
-			#define __BetaUpdateURL		"http://merlins-miranda.googlecode.com/files/PopUp_2in1.zip"
-	#endif //_UNICODE
+	
+	#define POPUP_FILENAME				"PopUp.dll"
+	#define POPUP_DISPLAYNAME			"PopUp Plus"
+	#define __FLVersionURL				"http://addons.miranda-im.org/details.php?action=viewfile&id=4292"
+	#define __FLVersionPrefix			"<span class=\"fileNameHeader\">PopUp Plus (Unicode) "
+	#define __FLUpdateURL				"http://addons.miranda-im.org/feed.php?dlfile=4292"			//.zip
+	#define __BetaUpdateURL				""
+		
+	
 	#define __BetaVersionURL			"http://svn.miranda.im/mainrepo/popup/trunk/docs/Changelog.txt"
 	#define __BetaVersionPrefix			"beta: "
 	#define __BetaChangelogURL			"http://svn.miranda.im/mainrepo/popup/trunk/docs/Changelog.txt"

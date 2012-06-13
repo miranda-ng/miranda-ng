@@ -10,15 +10,8 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "SimpleAR (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "SimpleAR (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "SimpleAR"
-#endif
+
+#define __PLUGIN_NAME				"SimpleAR"
 #define __INTERNAL_NAME				"Simple Auto Replier"
 #define __FILENAME					"SimpleAR.dll"
 #define __DESCRIPTION 				"Simple Auto Replier."

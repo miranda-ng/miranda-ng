@@ -10,15 +10,8 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "Bass_interface (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "Bass_interface (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "Bass_interface"
-#endif
+
+#define __PLUGIN_NAME				"Bass_interface"
 #define __INTERNAL_NAME				"Bass_interface"
 #define __FILENAME					"Bass_interface.dll"
 #define __DESCRIPTION 				"un4seen's bass interface Miranda IM plugin."

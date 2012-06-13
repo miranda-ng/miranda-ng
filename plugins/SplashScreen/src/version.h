@@ -10,15 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "Splash Screen (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "Splash Screen (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "Splash Screen"
-#endif
+#define __PLUGIN_NAME				"Splash Screen"
 #define __INTERNAL_NAME				"AdvSplashScreen"
 #define __FILENAME					"AdvSplashScreen.dll"
 #define __DESCRIPTION 				"Shows a splash at Miranda startup."

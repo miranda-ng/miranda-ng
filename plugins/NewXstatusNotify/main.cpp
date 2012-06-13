@@ -51,15 +51,7 @@ extern OPTIONS opt;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-#ifdef _UNICODE
-	#ifdef _WIN64
-		"NewXstatusNotify YM (Unicode x64)",
-	#else
-		"NewXstatusNotify YM (Unicode)",
-	#endif
-#else
 	"NewXstatusNotify YM",
-#endif
 	__VERSION_DWORD,
 	"Notifies you when a contact changes his/her (X)status or status message.",
 	"Luca Santarelli, Vasilich, yaho",

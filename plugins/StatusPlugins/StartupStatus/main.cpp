@@ -51,11 +51,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
-	#if defined( _UNICODE )
-		__PLUGIN_NAME __PLATFORM_NAME " (Unicode)",
-	#else
-		__PLUGIN_NAME,
-	#endif
+	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESC,
 	__AUTHOR,

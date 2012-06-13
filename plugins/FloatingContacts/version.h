@@ -8,19 +8,13 @@
 #define MINIMAL_COREVERSION 0, 6, 0, 0
 #define MINIMAL_COREVERSION_STR "0, 6, 0, 0"
 
-#ifdef UNICODE
-#define UNICODE_AWARE_STR " (Unicode)"
-#else
-#define UNICODE_AWARE_STR " (Ansi)"
-#endif
-
 #define FILE_VERSION	COREVERSION_NUM BUILD_NUM
-#define FILE_VERSION_STR COREVERSION_NUM_STR  UNICODE_AWARE_STR " build " BUILD_NUM_STR	" " REVISION 
+#define FILE_VERSION_STR COREVERSION_NUM_STR  " build " BUILD_NUM_STR	" " REVISION 
 
 #define PRODUCT_VERSION	FILE_VERSION
 #define PRODUCT_VERSION_STR	FILE_VERSION_STR
 
-#define __PLUGIN_NAME				"Floating Contacts" UNICODE_AWARE_STR
+#define __PLUGIN_NAME				"Floating Contacts"
 #define __FILENAME					"FltContacts.dll"
 #define __DESC						"Floating Contacts plugin for Miranda"
 #define __AUTHOR					"Iavor Vajarov, Kosh&chka, Victor Pavlychko"

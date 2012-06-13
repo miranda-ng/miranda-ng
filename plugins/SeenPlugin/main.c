@@ -33,12 +33,8 @@ int hLangpack;
 char authemail[] = "fscking@spammer.oip.info";//the correct e-mail shall be constructed in DllMain
 PLUGININFOEX pluginInfo={
 		sizeof(PLUGININFOEX),
-#ifndef PERMITNSN
 		"Last seen",
-#else	
-		"Last seen",
-#endif
-		PLUGIN_MAKE_VERSION(5,0,4,7),
+	     PLUGIN_MAKE_VERSION(5,0,4,7),
 		"Log when a user was last seen online and which users were online while you were away.",
 		"Heiko Schillinger, YB",
 		authemail,

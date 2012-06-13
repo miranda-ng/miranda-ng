@@ -59,15 +59,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-#ifdef _WIN64
-	"Variables (x64, Unicode)",
-#else
-#ifdef UNICODE
-	"Variables (Unicode)",
-#else
 	"Variables",
-#endif
-#endif
 	__VERSION_DWORD,
 	"Adds support for dynamic variables in strings for plugins.",
 	"P Boon",

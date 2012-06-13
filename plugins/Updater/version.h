@@ -17,15 +17,7 @@
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
 #define __COPYRIGHT					"© 2005,2006 Scott Ellis, 2009-2011 Boris Krasnovskiy"
 #define __AUTHORWEB					"http://www.scottellis.com.au"
-
-#if defined(_WIN64)
-#define __PLUGIN_NAME				"Updater x64"
-#elif defined(_UNICODE)
-#define __PLUGIN_NAME				"Updater (Unicode)"
-#else
-#define __PLUGIN_NAME				"Updater (ANSI)"
-#endif
-
+#define __PLUGIN_NAME				"Updater"
 #define __FILENAME					"updater.dll"
 
 

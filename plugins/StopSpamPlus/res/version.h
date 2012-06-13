@@ -21,11 +21,7 @@
 //#define __PROD_REV_NUM				1234
 
 // stuff that will be used in PluginInfo section and in Version resource
-#if defined (_UNICODE)
-#define __PLUGIN_NAME				"StopSpam+ (Unicode)"
-#else
 #define __PLUGIN_NAME				"StopSpam+"
-#endif
 #define __FILENAME					"StopSpam.dll"
 #define __DESC						"No more spam! Robots can't go! Only human beings invited!"
 #define __AUTHOR					"Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"

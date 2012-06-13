@@ -39,15 +39,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __AUTHOREMAIL           "hrk@users.sourceforge.net, eblis102@yahoo.com, ghazan@miranda.im"
 #define __COPYRIGHT             "© 2002-2005 Luca Santarelli, © 2005-2009 Cristian Libotean"
 #define __AUTHORWEB             "http://www.miranda-im.org/"
-
-#if defined(WIN64) || defined(_WIN64)
-  #define __PLUGIN_DISPLAY_NAME   "Version Information x64 (Unicode)"
-#else
-  #if defined(UNICODE)
-    #define __PLUGIN_DISPLAY_NAME   "Version Information (Unicode)"
-  #else
-    #define __PLUGIN_DISPLAY_NAME   "Version Information"
-  #endif
-#endif
+#define __PLUGIN_DISPLAY_NAME   "Version Information"
 
 #endif //M_VERSIONINFO_VERSION_H

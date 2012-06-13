@@ -50,16 +50,8 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-#ifdef _WIN64
-	"History Linklist Plus (x64, Unicode)",
-#else 
-#ifdef _UNICODE
-	"History Linklist Plus (Unicode)",
-#else
 	"History Linklist Plus",
-#endif
-#endif
-	PLUGIN_MAKE_VERSION(0,0,0,2),
+	 PLUGIN_MAKE_VERSION(0,0,0,2),
 	"Generates a list of extracted URIs from the history",
 	"Thomas Wendel, gureedo",
 	"gureedo@gmail.com",

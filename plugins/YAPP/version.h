@@ -17,11 +17,7 @@
 #define __COPYRIGHT			"© 2005,2006 Scott Ellis"
 #define __AUTHORWEB			"http://www.scottellis.com.au"
 
-#ifdef _WIN64
-#define __PLUGIN_NAME			"YAPP x64"
-#else
-#define __PLUGIN_NAME			"YAPP"
-#endif
+#define __PLUGIN_NAME		"YAPP"
 
 #define __FILENAME			"yapp.dll"
 

@@ -99,11 +99,7 @@ FI_INTERFACE *fei = 0;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-#if defined(_UNICODE)
-	"Avatar service (Unicode)",
-#else
 	"Avatar service",
-#endif
 	__VERSION_DWORD,
 	"Load and manage contact pictures for other plugins.",
 	"Nightwish, Pescuma",

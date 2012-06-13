@@ -33,11 +33,7 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo={
 		sizeof(PLUGININFOEX),
-#ifdef YAHOO_CVSBUILD
-		"Yahoo Protocol Beta/Nightly",
-#else
 		"Yahoo Protocol",
-#endif
 		__VERSION_DWORD,
 		"Yahoo Protocol support via libyahoo2 library. [Built: "__DATE__" "__TIME__"]",
 		"Gennady Feldman",

@@ -58,15 +58,7 @@ PLUGININFOEX pluginInfo = {
 #ifdef __GNUWIN32__
 	"TabSRMM (MINGW32)",
 #else
-#ifdef _WIN64
-	"TabSRMM (x64, Unicode)",
-#else
-#ifdef _UNICODE
-	"TabSRMM (Unicode)",
-#else
 	"TabSRMM",
-#endif
-#endif
 #endif
 	PLUGIN_MAKE_VERSION(_VER_MAJOR, _VER_MINOR, _VER_REVISION, _VER_BUILD),
 	"IM and group chat module for Miranda IM.",

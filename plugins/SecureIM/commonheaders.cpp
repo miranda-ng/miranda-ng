@@ -28,7 +28,7 @@ CRITICAL_SECTION localQueueMutex;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-		MODULENAME" (2in1)",
+		MODULENAME,
 		__VERSION_DWORD,
 		MODULENAME" plugin for Miranda IM ("__DATE__")",
 		"Johell, Ghost, Nightwish, __alex, Baloo",

@@ -51,11 +51,7 @@ extern int onOptInitialise(WPARAM wParam, LPARAM lParam);
 
 PLUGININFOEX pluginInfo={
 sizeof(PLUGININFOEX),
-#ifdef WIN64
-	"Show Contact Gender (x64)",
-#else
 	"Show Contact Gender",
-#endif
 	PLUGIN_MAKE_VERSION(0,0,2,1),
 	"Shows contacts gender as an icon in contact list",
 	"Thief, idea by nile, icons by a0x",

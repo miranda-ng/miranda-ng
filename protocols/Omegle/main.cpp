@@ -36,11 +36,7 @@ DWORD g_mirandaVersion;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-  #ifdef _WIN64
-	  "Omegle Protocol x64",
-  #else
-	  "Omegle Protocol",
-  #endif
+	"Omegle Protocol",
 	__VERSION_DWORD,
 	"Provides basic support for Omegle Chat protocol. [Built: "__DATE__" "__TIME__"]",
 	"Robert Posel",

@@ -80,11 +80,7 @@ extern int BGModuleUnload();
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	#if defined( _UNICODE )
-		"MultiWindow Contact List Unicode",
-	#else
-		"MultiWindow Contact List",
-	#endif
+	"MultiWindow Contact List",
 	PLUGIN_MAKE_VERSION(0,9,0,0),
 	"Display contacts, event notifications, protocol status with MW modifications",
 	"",

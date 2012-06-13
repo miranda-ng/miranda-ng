@@ -67,7 +67,7 @@ static PLUGININFOEX pluginInfo = {
 	__AUTHORS,
 	__EMAIL,
 	__COPYRIGHTS,
-	__FL __PLUGIN_ID_STR,
+	__FL,
 	UNICODE_AWARE,
 	0,
 	//4fac353d-0a36-44a4-9064-6759c53ae782

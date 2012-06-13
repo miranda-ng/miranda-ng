@@ -40,19 +40,6 @@ PLUGININFOEX pluginInfoEx={
 	MIID_V_CYRTRANSLIT,
 };
 
-PLUGININFO pluginInfo = {
-    sizeof(PLUGININFO),
-    PLG_SHORTNAME,
-	PLG_VERSION,
-	PLG_DESCRIPTION,
-    PLG_AUTHOR,
-    PLG_AUTHOREMAIL,
-    PLG_COPYRIGHT,
-    PLG_HOMEPAGE,
-	PLG_FLAGS,
-	PLG_REPLACESDEFMODULE,
-};
-
 //------------------------------------------------------------------------------
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -66,11 +53,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
-}
-
-extern "C" __declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_V_CYRTRANSLIT, MIID_LAST};

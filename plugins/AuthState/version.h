@@ -10,15 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "Authorization State (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "Authorization State (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "Authorization State"
-#endif
+#define __PLUGIN_NAME				"Authorization State"
 #define __INTERNAL_NAME				"AuthState"
 #define __FILENAME					"AuthState.dll"
 #define __DESCRIPTION 				"If contact didn't authorized you this plugin puts an icon in front of contacts name."

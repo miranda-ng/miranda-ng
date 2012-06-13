@@ -31,24 +31,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 #define __VERSION_DWORD             PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM)
 
-#ifdef _UNICODE
-#ifdef _WIN64
-#define __INTERNAL_NAME_STRING "Fingerprint Mod+ (x64)"
-#define __PLUGIN_ID 4302
-#define __PLUGIN_ID_STR "4302"
-#define __BETA_FILE_TITLE "fingerprint_x64"
-#else //!_WIN64
-#define __INTERNAL_NAME_STRING "Fingerprint Mod+ (Unicode)"
-#define __PLUGIN_ID 4301
-#define __PLUGIN_ID_STR "4301"
-#define __BETA_FILE_TITLE "fingerprint_unicode"
-#endif //_WIN64
-#else //!_UNICODE
+
 #define __INTERNAL_NAME_STRING "Fingerprint Mod+"
 #define __PLUGIN_ID 4300
 #define __PLUGIN_ID_STR "4300"
 #define __BETA_FILE_TITLE "fingerprint"
-#endif //_UNICODE
+
 
 #define __LEGAL_COPYRIGHT_STRING "©2009-2010 HierOS, ©2006-2007 Artem Shpynov aka FYR, Bio, Faith Healer."
 

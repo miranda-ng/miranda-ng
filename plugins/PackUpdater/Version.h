@@ -10,15 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "PackUpdater (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "PackUpdater (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "PackUpdater"
-#endif
+#define __PLUGIN_NAME				"PackUpdater"
 #define __INTERNAL_NAME				"PackUpdater"
 #define __FILENAME					"PackUpdater.dll"
 #define __DESCRIPTION 				"Simple updater for Miranda IM premodified packs."

@@ -52,15 +52,7 @@ int hLangpack;
 PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX),
-#if defined (_UNICODE)
-	#if defined _WIN64 
-		"Tipper YM (Unicode x64)",
-	#else
-		"Tipper YM (Unicode)",
-	#endif
-#else
 	"Tipper YM",
-#endif
 	__VERSION_DWORD,
 	"Tool Tip notification windows.",
 	"Scott Ellis, yaho",

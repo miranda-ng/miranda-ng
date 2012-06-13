@@ -10,15 +10,9 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "Custom Status List (Unicode x64) mod"
-#else
-	#define __PLUGIN_NAME "Custom Status List (Unicode) mod"
-#endif
-#else
-	#define __PLUGIN_NAME "Custom Status List mod"
-#endif
+
+
+#define __PLUGIN_NAME				"Custom Status List mod"
 #define __INTERNAL_NAME				"CSList"
 #define __FILENAME					"CSList.dll"
 #define __DESCRIPTION 				"This plugin offers simple management functions to keep your extra statuses on one place."

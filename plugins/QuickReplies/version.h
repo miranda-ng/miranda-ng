@@ -10,11 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#if defined (_UNICODE)
-#define __PLUGIN_NAME				"Quick Replies (Unicode)"
-#else
 #define __PLUGIN_NAME				"Quick Replies"
-#endif
 #define __INTERNAL_NAME				"QuickReplies"
 #define __FILENAME					"quickreplies.dll"
 #define __DESCRIPTION 				"Plugin for quick insert (or sending) pre-defined messages in message input area."

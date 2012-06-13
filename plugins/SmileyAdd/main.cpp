@@ -48,13 +48,7 @@ UTF8_INTERFACE utfi;
 static const PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX), 
-#if defined(_WIN64)
-	"SmileyAdd x64",
-#elif defined(UNICODE) | defined(_UNICODE)
-	"SmileyAdd Unicode",
-#else
 	"SmileyAdd",
-#endif
 	__VERSION_DWORD,
 	"Smiley support for Miranda Instant Messanger",
 	"Peacow, nightwish, bid, borkra",

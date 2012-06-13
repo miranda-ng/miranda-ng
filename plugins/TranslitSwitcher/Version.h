@@ -10,15 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "Switch Layout or Transliterate (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "Switch Layout or Transliterate (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "Switch Layout or Transliterate"
-#endif
+#define __PLUGIN_NAME				"Switch Layout or Transliterate"
 #define __INTERNAL_NAME				"TranslitSwitcher"
 #define __FILENAME					"TranslitSwitcher.dll"
 #define __DESCRIPTION 				"Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support."

@@ -31,13 +31,10 @@ Last change by : $Author$
 	#define MODULNAME					"MTextControl"		//DB modul for this plugin
 	#define MODULTITLE					"Text Display"
 
-	#ifdef _UNICODE
-		#define MTEXT_DISPLAYNAME		"Miranda Text Control (Unicode)"
-		#define MTEXT_FILENAME			"mtextcontrolW.dll"
-	#else
-		#define MTEXT_DISPLAYNAME		"Miranda Text Control (Ansi)"
-		#define MTEXT_FILENAME			"mtextcontrol.dll"
-	#endif
+	
+	#define MTEXT_DISPLAYNAME			"Miranda Text Control"
+	#define MTEXT_FILENAME				"mtextcontrol.dll"
+	
 	#define __MAJOR_VERSION				0
 	#define __MINOR_VERSION				8
 	#define __RELEASE_NUM				0

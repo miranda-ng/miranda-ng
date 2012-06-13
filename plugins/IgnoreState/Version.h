@@ -10,15 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "IgnoreState (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "IgnoreState (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "IgnoreState"
-#endif
+#define __PLUGIN_NAME				"IgnoreState"
 #define __INTERNAL_NAME				"IgnoreState"
 #define __FILENAME					"IgnoreState.dll"
 #define __DESCRIPTION 				"Show ignore state of contact in contacts list."

@@ -53,12 +53,8 @@ int g_UnicodeCore;
 
 PLUGININFOEX pluginInfo = {
   sizeof(PLUGININFOEX),
-#ifdef WIN64
-  "Send/Receive Contacts+ (x64)",
-#else
   "Send/Receive Contacts+",
-#endif
-  PLUGIN_MAKE_VERSION(1,5,2,0),
+   PLUGIN_MAKE_VERSION(1,5,2,0),
   "Allows you to send and receive contacts",
   "Joe Kucera, Todor Totev",
   "jokusoftware@miranda-im.org",

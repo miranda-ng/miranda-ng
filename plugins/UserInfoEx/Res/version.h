@@ -45,20 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __COPYRIGHT   "© 2006-2009 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol"
 #define __AUTHORWEB   "http://addons.miranda-im.org/details.php?action=viewfile&id=" __STRINGIFY(__UPDATER_DOWNLOAD_ID)
 
-#ifdef _WIN64
- #ifdef _UNICODE
-  #define __UPDATER_DOWNLOAD_ID 3333
-  #define __PLUGIN_DISPLAY_NAME "UserInfoEx x64 (Unicode)"
-  #define __PLUGIN_FILENAME     "uinfoexw.dll"
- #endif
-#else
- #ifdef _UNICODE
-  #define __UPDATER_DOWNLOAD_ID 2537
-  #define __PLUGIN_DISPLAY_NAME	"UserInfoEx (Unicode)"	//ensure plugin shortName matches file listing! <title>UserInfoEx (Unicode)</title>
-  #define __PLUGIN_FILENAME     "uinfoexw.dll"
- #else
-  #define __UPDATER_DOWNLOAD_ID 1971
-  #define __PLUGIN_DISPLAY_NAME	"UserInfoEx"			//ensure plugin shortName matches file listing! <title>UserInfoEx</title>
-  #define __PLUGIN_FILENAME     "uinfoex.dll"
- #endif
-#endif
+#define __UPDATER_DOWNLOAD_ID 2537
+#define __PLUGIN_DISPLAY_NAME	"UserInfoEx"
+#define __PLUGIN_FILENAME		"uinfoex.dll"
+ 

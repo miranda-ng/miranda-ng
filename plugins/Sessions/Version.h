@@ -10,15 +10,8 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "Sessions (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "Sessions (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "Sessions"
-#endif
+
+#define __PLUGIN_NAME				"Sessions"
 #define __INTERNAL_NAME				"Sessions"
 #define __FILENAME					"Sessions.dll"
 #define __DESCRIPTION 				"Sessions Manager for Miranda IM."

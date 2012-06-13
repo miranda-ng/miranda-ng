@@ -10,11 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#if defined (_UNICODE)
-#define __PLUGIN_NAME				"Quotes (Unicode)"
-#else
 #define __PLUGIN_NAME				"Quotes"
-#endif
 #define __INTERNAL_NAME				"Quotes"
 #define __FILENAME					"Quotes.dll"
 #define __DESCRIPTION 				"Show currency rates and economic quotes."

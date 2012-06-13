@@ -47,7 +47,7 @@
 /****** PLUGIN DEFINES *******************************************************/
 
 // pluginInfo:
-#define PLG_SHORTNAME			"CyrTranslit (UNICODE)"
+#define PLG_SHORTNAME			"CyrTranslit"
 #define PLG_VERSION				PLUGIN_MAKE_VERSION(1, 0, 3, 0)
 #define PLG_DESCRIPTION		    "Replaces (for the selected contacts only) the Cyrillic letters in the "\
 								"outgoing messages with the phonetically equivalent Latin letter "\

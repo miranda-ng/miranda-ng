@@ -49,13 +49,7 @@ bool dtsubfldr;
 static const PLUGININFOEX pluginInfoEx = 
 {
 	sizeof(PLUGININFOEX),
-#if defined(_WIN64) 
-	"Crash Dumper x64",
-#elif defined(_UNICODE)
-	"Crash Dumper Unicode",
-#else
 	"Crash Dumper",
-#endif
 	__VERSION_DWORD,
 	"Crash Dumper for Miranda IM.",
 	"borkra",

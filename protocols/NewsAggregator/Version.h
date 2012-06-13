@@ -10,15 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#ifdef _UNICODE
-#if defined(WIN64) || defined(_WIN64)
-	#define __PLUGIN_NAME "NewsAggregator (Unicode x64)"
-#else
-	#define __PLUGIN_NAME "NewsAggregator (Unicode)"
-#endif
-#else
-	#define __PLUGIN_NAME "NewsAggregator"
-#endif
+#define __PLUGIN_NAME				"NewsAggregator"
 #define __INTERNAL_NAME				"NewsAggregator"
 #define __FILENAME					"NewsAggregator.dll"
 #define __DESCRIPTION 				"RSS/Atom news aggregator."
