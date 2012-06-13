@@ -280,12 +280,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (hti == NULL)
 						break;
 
-					TVITEM tvi;
-					tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
-					tvi.hItem = hti;
-					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
-
-					TopButtonInt *btn = (TopButtonInt*)tvi.lParam;
+					TopButtonInt *btn = (TopButtonInt*)((LPNMTREEVIEW)lParam)->itemNew.lParam;
 					lockbut();
 					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), FALSE);
 					if (btn->dwFlags & TTBBF_ISSEPARATOR)
