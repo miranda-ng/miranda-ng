@@ -909,8 +909,6 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 
 	hwndContactList = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 
-	OptionsOpened = false;
-
 	hFrameTopWindow = addTopToolBarWindow(hwndContactList);
 	LoadInternalButtons(( HWND )CallService(MS_CLUI_GETHWNDTREE, 0, 0));
 	SaveAllButtonsOptions();

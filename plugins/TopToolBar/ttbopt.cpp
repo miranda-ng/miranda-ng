@@ -10,7 +10,6 @@ extern int nButtonsCount;
 
 extern SortData arrangedbuts[MAX_BUTTONS];
 
-bool OptionsOpened = false;
 HWND OptionshWnd = 0;
 
 struct OrderData
@@ -64,7 +63,7 @@ int BuildTree(HWND hwndDlg)
 //call this when options opened and buttons added/removed
 int OptionsPageRebuild()
 {
-	if (OptionsOpened)
+	if (OptionshWnd)
 		BuildTree(OptionshWnd);
 
 	return 0;
@@ -125,17 +124,15 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		CheckDlgButton(hwndDlg, IDC_USEFLAT, DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1));
 
 		BuildTree(hwndDlg);
-		OptionsOpened = true;
 		EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DELLBUTTON), FALSE);
 
-		SendMessage(hwndDlg, WM_COMMAND, 0, 0);
 		OptionshWnd = hwndDlg;
 		return TRUE;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == EN_CHANGE ) {
+		if (HIWORD(wParam) == EN_CHANGE && OptionshWnd) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 		}
@@ -346,7 +343,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ImageList_Destroy(dat->himlButtonIcons);
 			free(dat);
 		}
-		OptionsOpened = false;
+		OptionshWnd = NULL;
 		return 0;
 
 	case WM_LBUTTONUP:

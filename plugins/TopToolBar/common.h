@@ -84,7 +84,7 @@ struct SortData
 //#define BUTTHEIGHT		16
 #define SEPWIDTH		3
 
-extern bool OptionsOpened, StopArrange;
+extern bool StopArrange;
 extern HWND OptionshWnd;
 extern HANDLE hHookTTBModuleLoaded;
 extern HINSTANCE hInst;
