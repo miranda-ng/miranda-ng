@@ -133,7 +133,12 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		if (HIWORD(wParam) == EN_CHANGE && OptionshWnd) {
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			switch(LOWORD(wParam)) {
+			case IDC_ENAME: case IDC_EPATH:
+				break;
+			default:
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
 			break;
 		}
 
@@ -268,7 +273,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				}
 				break;
 
-			case TVN_SELCHANGED:
+			case TVN_SELCHANGEDA:
+			case TVN_SELCHANGEDW:
 				{
 					HTREEITEM hti = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
 					if (hti == NULL)
@@ -512,7 +518,6 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = hInst;
 	odp.pszGroup = LPGEN("TopToolBar");
 
@@ -524,10 +529,7 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
 	}
 
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize = sizeof(odp);
 	odp.position = -1000000000;
-	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_BUTORDER);
 	odp.pszGroup = LPGEN("TopToolBar");
 	odp.pszTitle = LPGEN("Buttons");
