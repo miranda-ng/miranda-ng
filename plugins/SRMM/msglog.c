@@ -180,11 +180,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 	return textCharsCount;
 }
 
-#ifdef _UNICODE
-	#define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
-#else
-	#define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %s;}"
-#endif
+#define FONT_FORMAT "{\\f%u\\fnil\\fcharset%u %S;}"
 
 static char *CreateRTFHeader(struct MessageWindowData *dat)
 {

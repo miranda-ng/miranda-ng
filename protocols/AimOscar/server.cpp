@@ -1925,13 +1925,9 @@ void CAimProto::snac_mail_response(SNAC &snac)//family 0x0018
 		if (new_mail && num_msgs)
 		{
 			TCHAR msg[1024];
-#ifdef _UNICODE
+
 			int len = mir_sntprintf(msg, SIZEOF(msg), _T("%S@%S (%d)\r\n%s "), sn, address, num_msgs,
 				TranslateT("You've got mail! Checked at")) ;
-#else
-			int len = mir_sntprintf(msg, SIZEOF(msg), _T("%s@%s (%d)\r\n%s "), sn, address, num_msgs,
-				TranslateT("You've got mail! Checked at")) ;
-#endif
 
 			SYSTEMTIME stLocal;
 			GetLocalTime(&stLocal);

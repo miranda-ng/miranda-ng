@@ -354,12 +354,9 @@ void __stdcall JabberUtfToTchar( const char* pszValue, size_t cbLen, LPTSTR& des
 
 	JabberUrlDecode( pszCopy );
 
-	#if defined( _UNICODE )
-		mir_utf8decode( pszCopy, &dest );
-	#else
-		mir_utf8decode( pszCopy, NULL );
-		dest = mir_strdup( pszCopy );
-	#endif
+	
+	mir_utf8decode( pszCopy, &dest );
+	
 
 	if ( bNeedsFree )
 		free( pszCopy );
@@ -678,7 +675,6 @@ char* __stdcall JabberBase64Encode( const char* buffer, int bufferLen )
 
 static unsigned char b64rtable[256];
 
-#ifdef _UNICODE
 char* __stdcall JabberBase64DecodeW( const WCHAR* str, int *resultLen )
 {
 	char *stra = mir_u2a(str);
@@ -686,7 +682,6 @@ char* __stdcall JabberBase64DecodeW( const WCHAR* str, int *resultLen )
 	mir_free(stra);
 	return res;
 }
-#endif
 
 char* __stdcall JabberBase64Decode( const char* str, int *resultLen )
 {
@@ -1291,11 +1286,7 @@ void JabberCopyText(HWND hwnd, TCHAR *text)
 	TCHAR *s = (TCHAR *)GlobalLock(hMem);
 	lstrcpy(s, text);
 	GlobalUnlock(hMem);
-#ifdef UNICODE
 	SetClipboardData(CF_UNICODETEXT, hMem);
-#else
-	SetClipboardData(CF_TEXT, hMem);
-#endif
 	CloseClipboard();
 }
 

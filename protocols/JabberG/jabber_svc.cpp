@@ -521,12 +521,9 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI( WPARAM wParam, LPARAM l
 						szDelim = 0;
 					JabberHttpUrlDecode( szMsgBody );
 			}	}
-			#if defined(_UNICODE)
-				CallService(MS_MSG_SENDMESSAGE "W",(WPARAM)hContact, (LPARAM)szMsgBody);
-			#else
-				CallService( MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)szMsgBody );
-			#endif
-
+			
+			CallService(MS_MSG_SENDMESSAGE "W",(WPARAM)hContact, (LPARAM)szMsgBody);
+			
 			return 0;
 		}
 		return 1;
@@ -759,11 +756,7 @@ INT_PTR __cdecl CJabberProto::JabberGetApi( WPARAM wParam, LPARAM lParam )
 
 DWORD CJabberInterface::GetFlags() const
 {
-#ifdef _UNICODE
 	return JIF_UNICODE;
-#else
-	return 0;
-#endif
 }
 
 int CJabberInterface::GetVersion() const

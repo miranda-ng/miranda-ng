@@ -1382,11 +1382,7 @@ TCHAR* a2tf( const TCHAR* str, BOOL unicode )
 	if ( str == NULL )
 		return NULL;
 
-	#if defined( _UNICODE )
-		return ( unicode ) ? mir_tstrdup( str ) : mir_a2t(( char* )str );
-	#else
-		return mir_strdup( str );
-	#endif
+	return ( unicode ) ? mir_tstrdup( str ) : mir_a2t(( char* )str );
 }
 
 void overrideStr( TCHAR*& dest, const TCHAR* src, BOOL unicode, const TCHAR* def = NULL )

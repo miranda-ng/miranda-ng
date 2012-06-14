@@ -136,11 +136,9 @@ void CIcqProto::icq_LogUsingErrorCode(int level, DWORD dwError, const char *szMs
 
 			if (FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, dwError, 0, err, SIZEOF(err), NULL))
 			{
-#if defined( _UNICODE )
-        pszErrorMsg = make_utf8_string(err);
-#else
-				utf8_encode(err, &pszErrorMsg);
-#endif
+
+				pszErrorMsg = make_utf8_string(err);
+
 				bNeedFree = TRUE;
 			}
 			break;

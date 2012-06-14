@@ -65,21 +65,11 @@ int   __stdcall utf8_decode(const char *from, char **to);
 int   __stdcall utf8_decode_codepage(const char *from, char **to, WORD wCp);
 int   __stdcall utf8_decode_static(const char *from, char *to, int to_size);
 
-#ifdef _UNICODE
-	#define tchar_to_utf8 make_utf8_string
-	#define utf8_to_tchar_static make_unicode_string_static
-	#define utf8_to_tchar make_unicode_string
-	#define ansi_to_tchar ansi_to_unicode
-	#define tchar_to_ansi unicode_to_ansi
-#else
-	__inline char* utf8_decode_func(const char *utf8) { char *ansi = NULL; utf8_decode(utf8, &ansi); return ansi; };
-
-	#define tchar_to_utf8 ansi_to_utf8
-	#define utf8_to_tchar_static utf8_decode_static
-	#define utf8_to_tchar utf8_decode_func
-	#define ansi_to_tchar null_strdup
-	#define tchar_to_ansi null_strdup
-#endif
+#define tchar_to_utf8 make_utf8_string
+#define utf8_to_tchar_static make_unicode_string_static
+#define utf8_to_tchar make_unicode_string
+#define ansi_to_tchar ansi_to_unicode
+#define tchar_to_ansi unicode_to_ansi
 
 void InitI18N(void);
 

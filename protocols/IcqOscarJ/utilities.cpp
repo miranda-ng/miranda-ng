@@ -1964,7 +1964,6 @@ const char* ExtractFileName(const char *fullname)
 
 char* FileNameToUtf(const TCHAR *filename)
 {
-#if defined( _UNICODE )
 	// reasonable only on NT systems
 	HINSTANCE hKernel = GetModuleHandle(_T("KERNEL32"));
 	DWORD (CALLBACK *RealGetLongPathName)(LPCWSTR, LPWSTR, DWORD);
@@ -1981,9 +1980,6 @@ char* FileNameToUtf(const TCHAR *filename)
 		return make_utf8_string(usFileName);
 	}
 	return make_utf8_string(filename);
-#else
-	return ansi_to_utf8(filename);
-#endif
 }
 
 
@@ -2059,41 +2055,16 @@ int OpenFileUtf(const char *filename, int oflag, int pmode)
 WCHAR *GetWindowTextUcs(HWND hWnd)
 {
 	WCHAR *utext;
-
-#if defined( _UNICODE )
 	int nLen = GetWindowTextLengthW(hWnd);
-
 	utext = (WCHAR*)SAFE_MALLOC((nLen+2)*sizeof(WCHAR));
 	GetWindowTextW(hWnd, utext, nLen + 1);
-#else
-	char *text;
-	int wchars, nLen = GetWindowTextLengthA(hWnd);
-
-	text = (char*)_alloca(nLen+2);
-	GetWindowTextA(hWnd, text, nLen + 1);
-
-	wchars = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, text,
-		strlennull(text), NULL, 0);
-
-	utext = (WCHAR*)SAFE_MALLOC((wchars + 1)*sizeof(WCHAR));
-
-	MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, text,
-		strlennull(text), utext, wchars);
-#endif
 	return utext;
 }
 
 
 void SetWindowTextUcs(HWND hWnd, WCHAR *text)
 {
-#if defined( _UNICODE )
 	SetWindowTextW(hWnd, text);
-#else
-	char *tmp = (char*)SAFE_MALLOC(strlennull(text) + 1);
-	WideCharToMultiByte(CP_ACP, 0, text, -1, tmp, strlennull(text)+1, NULL, NULL);
-	SetWindowTextA(hWnd, tmp);
-	SAFE_FREE((void**)&tmp);
-#endif
 }
 
 
@@ -2135,19 +2106,9 @@ static int ControlAddStringUtf(HWND ctrl, DWORD msg, const char *szString)
 	char str[MAX_PATH];
 	char *szItem = ICQTranslateUtfStatic(szString, str, MAX_PATH);
 	int item = -1;
-
-#if defined( _UNICODE )
 	WCHAR *wItem = make_unicode_string(szItem);
 	item = SendMessage(ctrl, msg, 0, (LPARAM)wItem);
 	SAFE_FREE((void**)&wItem);
-#else
-	int size = strlennull(szItem) + 2;
-	char *aItem = (char*)_alloca(size);
-
-	if (utf8_decode_static(szItem, aItem, size))
-		item = SendMessage(ctrl, msg, 0, (LPARAM)aItem);
-#endif
-
 	return item;
 }
 
@@ -2169,23 +2130,11 @@ int MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uTy
 	int res;
 	char str[1024];
 	char cap[MAX_PATH];
-
-#if defined( _UNICODE )
 	WCHAR *text = make_unicode_string(ICQTranslateUtfStatic(szText, str, 1024));
 	WCHAR *caption = make_unicode_string(ICQTranslateUtfStatic(szCaption, cap, MAX_PATH));
 	res = MessageBoxW(hWnd, text, caption, uType);
 	SAFE_FREE((void**)&caption);
 	SAFE_FREE((void**)&text);
-#else
-	int size = strlennull(szText) + 2, size2 = strlennull(szCaption) + 2;
-	char *text = (char*)_alloca(size);
-	char *caption = (char*)_alloca(size2);
-
-	utf8_decode_static(ICQTranslateUtfStatic(szText, str, 1024), text, size);
-	utf8_decode_static(ICQTranslateUtfStatic(szCaption, cap, MAX_PATH), caption, size2);
-	res = MessageBoxA(hWnd, text, caption, uType);
-#endif
-
 	return res;
 }
 

@@ -231,7 +231,6 @@ void __stdcall RemoveLinebreaks( CMString& Message )
 		Message.Delete(Message.GetLength()-2, 2);
 }
 
-#if defined( _UNICODE )
 String& __stdcall ReplaceString ( String& text, const char* replaceme, const char* newword )
 {
 	if ( !text.IsEmpty() && replaceme != NULL) {
@@ -244,7 +243,6 @@ String& __stdcall ReplaceString ( String& text, const char* replaceme, const cha
 
 	return text;
 }
-#endif
 
 CMString& __stdcall ReplaceString ( CMString& text, const TCHAR* replaceme, const TCHAR* newword)
 {
@@ -321,7 +319,6 @@ bool CIrcProto::IsChannel(const TCHAR* sName)
 	return ( sChannelPrefixes.Find( sName[0] ) != -1 );
 }
 
-#if defined( _UNICODE )
 String __stdcall GetWord(const char* text, int index)
 {
 	if ( text && text[0] ) {
@@ -358,7 +355,6 @@ bool CIrcProto::IsChannel(const char* sName)
 {
 	return ( sChannelPrefixes.Find( sName[0] ) != -1 );
 }
-#endif
 
 TCHAR* __stdcall my_strstri(const TCHAR* s1, const TCHAR* s2) 
 { 

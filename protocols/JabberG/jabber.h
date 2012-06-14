@@ -656,9 +656,7 @@ void  __stdcall replaceStr( char*& dest, const char* src );
 void  __stdcall replaceStr( WCHAR*& dest, const WCHAR* src );
 int lstrcmp_null(const TCHAR *s1, const TCHAR *s2);
 char* __stdcall rtrim( char *string );
-#if defined( _UNICODE )
-	TCHAR* __stdcall rtrim( TCHAR *string );
-#endif
+TCHAR* __stdcall rtrim( TCHAR *string );
 
 //---- jabber_menu.c ------------------------------------------------
 
@@ -762,13 +760,8 @@ TCHAR*        __stdcall JabberStripJid( const TCHAR* jid, TCHAR* dest, size_t de
 int           __stdcall JabberGetPictureType( const char* buf );
 int           __stdcall JabberGetPacketID( HXML n );
 
-#if defined( _UNICODE )
-	#define JabberUnixToDosT JabberUnixToDosW
-	#define JabberBase64DecodeT JabberBase64DecodeW
-#else
-	#define JabberUnixToDosT JabberUnixToDos
-	#define JabberBase64DecodeT JabberBase64Decode
-#endif
+#define JabberUnixToDosT JabberUnixToDosW
+#define JabberBase64DecodeT JabberBase64DecodeW
 
 const TCHAR *JabberStrIStr( const TCHAR *str, const TCHAR *substr);
 void JabberCopyText(HWND hwnd, TCHAR *text);

@@ -859,12 +859,7 @@ int __cdecl CIrcProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc )
 			else result = mir_a2t_cp( pszSrc, codepage );
 		}
 		else if ( flags & PREF_UTF ) {
-			#if defined( _UNICODE )
-				mir_utf8decode( NEWSTR_ALLOCA(pszSrc), &result );
-			#else
-				result = mir_strdup( pszSrc );
-				mir_utf8decodecp( result, codepage, NULL );
-			#endif
+			mir_utf8decode( NEWSTR_ALLOCA(pszSrc), &result );
 		}
 		else result = mir_a2t_cp( pszSrc, codepage );
 

@@ -66,7 +66,6 @@ void CIrcProto::ReadSettings( TDbSetting* sets, int count )
 					*( char** )ptr = NULL;
 			}
 			break;
-		#if defined( _UNICODE )
 			case DBVT_TCHAR:
 				if ( !getTString( p->name, &dbv )) {
 					if ( p->size != -1 ) {
@@ -87,7 +86,6 @@ void CIrcProto::ReadSettings( TDbSetting* sets, int count )
 					else *( TCHAR** )ptr = mir_tstrdup( p->defStr );
 				}
 				break;
-		#endif
 }	}	}
 
 void CIrcProto::WriteSettings( TDbSetting* sets, int count )
@@ -109,14 +107,12 @@ void CIrcProto::WriteSettings( TDbSetting* sets, int count )
 					setString( p->name, (char*)ptr );
 				break;
 
-		#if defined( _UNICODE )
 			case DBVT_TCHAR:
 				if ( p->size == -1 )
 					setTString( p->name, *(TCHAR**)ptr );
 				else
 					setTString( p->name, (TCHAR*)ptr );
 				break;
-		#endif
 }	}	}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1098,12 +1094,8 @@ void COtherPrefsDlg::OnInitDialog()
 	m_add.Enable( m_proto->m_perform );
 	m_delete.Enable( m_proto->m_perform );
 
-	#if defined( _UNICODE )
-		fnGetCPInfoEx = ( pfnGetCPInfoEx )GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "GetCPInfoExW" );
-	#else
-		fnGetCPInfoEx = ( pfnGetCPInfoEx )GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "GetCPInfoExA" );
-	#endif
-
+	fnGetCPInfoEx = ( pfnGetCPInfoEx )GetProcAddress( GetModuleHandleA( "kernel32.dll" ), "GetCPInfoExW" );
+	
 	m_codepage.AddString( TranslateT("Default ANSI codepage"), CP_ACP );
 	if ( fnGetCPInfoEx == NULL )
 		m_codepage.AddString( TranslateT("UTF-8"), CP_UTF8 );
@@ -1118,10 +1110,7 @@ void COtherPrefsDlg::OnInitDialog()
 			break;
 	}	}
 
-	#if !defined( _UNICODE )
-		m_codepage.Enable( FALSE );
-	#endif
-
+	
 	if ( m_proto->m_codepage == CP_UTF8 )
 		m_autodetect.Disable();
 

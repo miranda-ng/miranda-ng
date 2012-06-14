@@ -1620,9 +1620,7 @@ create_it:
 		newItem->nextItem = 0;
 		curItem->nextItem = newItem;
 	}
-#ifdef _UNICODE
 	mir_free((void *)szItemNameA);
-#endif
 	return;
 }
 

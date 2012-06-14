@@ -308,7 +308,6 @@ int CIrcProto::NLSend( const TCHAR* fmt, ...)
 	return result;
 }
 
-#if defined( _UNICODE )
 int CIrcProto::NLSend( const char* fmt, ...)
 {
 	va_list marker;
@@ -320,7 +319,6 @@ int CIrcProto::NLSend( const char* fmt, ...)
 
 	return NLSend((unsigned char*)szBuf, cbLen );
 }
-#endif
 
 int CIrcProto::NLSendNoScript( const unsigned char* buf, int cbBuf)
 {
@@ -355,15 +353,8 @@ void CIrcProto::createMessageFromPchar( const char* p )
 {
 	TCHAR* ptszMsg;
 	if ( codepage != CP_UTF8 && m_utfAutodetect ) {
-		#if defined( _UNICODE )
-			if ( mir_utf8decodecp( NEWSTR_ALLOCA(p), codepage, &ptszMsg ) == NULL )
+		if ( mir_utf8decodecp( NEWSTR_ALLOCA(p), codepage, &ptszMsg ) == NULL )
 				ptszMsg = mir_a2t_cp( p, codepage );
-		#else
-			if ( mir_utf8decodecp( NEWSTR_ALLOCA(p), codepage, NULL ) == NULL )
-				ptszMsg = mir_a2t_cp( p, codepage );
-			else
-				ptszMsg = mir_strdup( p );
-		#endif
 	}
 	else ptszMsg = mir_a2t_cp( p, codepage );
 	CIrcMessage msg( this, ptszMsg, codepage, true );

@@ -515,9 +515,7 @@ struct CIrcProto : public PROTO_INTERFACE, public CCallocBase
 	INT_PTR  DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszNick, const TCHAR* pszText, const TCHAR* pszStatus, const TCHAR* pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe,time_t timestamp = 1);
 	void     FindLocalIP(HANDLE con);
 	bool     FreeWindowItemData(CMString window, CHANNELINFO* wis);
-	#if defined( _UNICODE )
-		bool  IsChannel(const char* sName);
-	#endif
+	bool  IsChannel(const char* sName);
 	bool     IsChannel(const TCHAR* sName);
 	void     KillChatTimer(UINT_PTR &nIDEvent);
 	CMString MakeWndID(const TCHAR* sWindow);
@@ -578,9 +576,7 @@ struct CIrcProto : public PROTO_INTERFACE, public CCallocBase
 	void Disconnect(void);
 	void KillIdent(void);
 
-	#if defined( _UNICODE )
-		int NLSend(const TCHAR* fmt, ...);
-	#endif
+	int NLSend(const TCHAR* fmt, ...);
 	int NLSend(const char* fmt, ...);
 	int NLSend(const unsigned char* buf, int cbBuf);
 	int NLSendNoScript( const unsigned char* buf, int cbBuf);
@@ -733,10 +729,8 @@ TCHAR*       __stdcall my_strstri(const TCHAR *s1, const TCHAR *s2) ;
 TCHAR*       __stdcall DoColorCodes (const TCHAR* text, bool bStrip, bool bReplacePercent);
 char*        __stdcall rtrim( char *string );
 
-#if defined( _UNICODE )
-	String&  __stdcall ReplaceString (String& text, const char* replaceme, const char* newword);
-	String   __stdcall GetWord(const char* text, int index);
-#endif
+String&  __stdcall ReplaceString (String& text, const char* replaceme, const char* newword);
+String   __stdcall GetWord(const char* text, int index);
 
 #define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
 #define NEWTSTR_ALLOCA(A) (A==NULL)?NULL:_tcscpy((TCHAR*)alloca(sizeof(TCHAR)*(_tcslen(A)+1)),A)

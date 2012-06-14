@@ -940,9 +940,7 @@ HANDLE __cdecl CIcqProto::SearchBasic( const PROTOCHAR *pszSearch )
 		{ // we remove spaces and slashes
 			if ((pszSearch[i]!=0x20) && (pszSearch[i]!='-'))
 			{
-#ifdef _UNICODE
 				if (pszSearch[i] >= 0x80) continue;
-#endif
 				pszUIN[j] = pszSearch[i];
 				j++;
 			}

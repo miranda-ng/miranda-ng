@@ -149,12 +149,10 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 	return 0;
 }
 
-#if defined(_UNICODE)
 static INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 {
 	return SendMessageCmd((HANDLE)wParam, (char*)lParam, TRUE);
 }
-#endif
 
 static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
@@ -192,9 +190,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 			tn.tszInfoTitle = TranslateT("Typing Notification");
 			tn.tszInfo = szTip;
 			tn.dwInfoFlags = NIIF_INFO;
-#ifdef _UNICODE
 			tn.dwInfoFlags |= NIIF_INTERN_UNICODE;
-#endif			
 			tn.uTimeout = 1000 * 4;
 			CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & tn);
 		}
@@ -458,9 +454,7 @@ int LoadSendRecvMessageModule(void)
 	hHooks[7] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	hServices[0] = CreateServiceFunction(MS_MSG_SENDMESSAGE, SendMessageCommand);
-#ifdef _UNICODE
 	hServices[1] = CreateServiceFunction(MS_MSG_SENDMESSAGEW, SendMessageCommand_W);
-#endif
 	hServices[2] = CreateServiceFunction(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	hServices[3] = CreateServiceFunction(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	hServices[4] = CreateServiceFunction(MS_MSG_GETWINDOWDATA, GetWindowData);

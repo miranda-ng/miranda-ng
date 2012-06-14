@@ -76,25 +76,17 @@ static char* u2a( const wchar_t* src, int codepage ) {
 }
 
 static char* t2acp( const TCHAR* src, int codepage ) {
-	#if defined( _UNICODE )
-		return u2a( src, codepage );
-	#else
-		return mir_strdup( src );
-	#endif
+	return u2a( src, codepage );
 }
 
 static TCHAR *a2tcp(const char *text, int cp) {
 	if ( text != NULL ) {
-	#if defined ( _UNICODE )
 		int cbLen = MultiByteToWideChar( cp, 0, text, -1, NULL, 0 );
 		TCHAR* result = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
 		if ( result == NULL )
 			return NULL;
 		MultiByteToWideChar(cp, 0, text, -1, result, cbLen);
 		return result;
-	#else
-		return mir_strdup(text);
-	#endif
 	}
 	return NULL;
 }
@@ -200,13 +192,11 @@ static void AddEventToBufferIEView(TCHAR **buffer, int *bufferEnd, int *bufferAl
 			if ( streamData->lin->ptszText ) {
 				TCHAR *ptszTemp = NULL;
 				TCHAR *ptszText = streamData->lin->ptszText;
-		#if defined( _UNICODE )
 				if (streamData->dat->codePage != CP_ACP) {
 					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
 					ptszText = ptszTemp = a2tcp(aText, streamData->dat->codePage);
 					mir_free(aText);
 				}
-		#endif
 				Log_AppendIEView( streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), ptszText );
 				mir_free(ptszTemp);
 			}
@@ -344,9 +334,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 	}
 	ied.dwData |= g_Settings.ShowTime ? IEEDD_GC_SHOW_TIME : 0;
 	ied.dwData |= IEEDD_GC_SHOW_ICON;
-#if defined( _UNICODE )
 	ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-#endif
 	ied.next = NULL;
 	CallService(streamData->dat->hwndIEView ? MS_IEVIEW_EVENT : MS_HPP_EG_EVENT, 0, (LPARAM)&event);
 	mir_free(buffer);

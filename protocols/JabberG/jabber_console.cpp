@@ -53,13 +53,8 @@ struct StringBuf
 };
 
 static void sttAppendBufRaw(StringBuf *buf, const char *str);
-
-#ifdef UNICODE
-	static void sttAppendBufW(StringBuf *buf, const WCHAR *str);
-	#define sttAppendBufT(a,b)		(sttAppendBufW((a),(b)))
-#else
-	#define sttAppendBufT(a,b)		(sttAppendBufA((a),(b)))
-#endif
+static void sttAppendBufW(StringBuf *buf, const WCHAR *str);
+#define sttAppendBufT(a,b)		(sttAppendBufW((a),(b)))
 static void sttEmptyBuf(StringBuf *buf);
 
 #define RTF_HEADER	\
@@ -186,7 +181,6 @@ static void sttAppendBufRaw(StringBuf *buf, const char *str)
 	buf->offset += length;
 }
 
-#ifdef UNICODE
 static void sttAppendBufW(StringBuf *buf, const WCHAR *str)
 {
 	char tmp[32];
@@ -214,38 +208,6 @@ static void sttAppendBufW(StringBuf *buf, const WCHAR *str)
 	}
 	sttAppendBufRaw(buf, "}");
 }
-#else
-	static void sttAppendBufA(StringBuf *buf, const char *str)
-	
-	{
-		char tmp[32];
-	
-		if (!str) return;
-	
-		for (const char *p = str; *p; ++p)
-	
-		{
-			if ((*p == '\\') || (*p == '{') || (*p == '}'))
-			{
-				tmp[0] = '\\';
-				tmp[1] = (char)*p;
-				tmp[2] = 0;
-			} else
-	
-			{
-				tmp[0] = (char)*p;
-				tmp[1] = 0;
-	
-	
-	
-			}
-			sttAppendBufRaw(buf, tmp);
-		}
-	
-	}
-	
-	#define sttAppendBufW sttAppendBufA
-#endif
 
 static void sttEmptyBuf(StringBuf *buf)
 {

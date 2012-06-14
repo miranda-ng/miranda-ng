@@ -500,11 +500,8 @@ void CJabberDlgGcJoin::OnInitDialog()
 	else
 	{
 		OpenClipboard(m_hwnd);
-#ifdef UNICODE
 		HANDLE hData = GetClipboardData(CF_UNICODETEXT);
-#else
-		HANDLE hData = GetClipboardData(CF_TEXT);
-#endif
+
 		if (hData)
 		{
 			TCHAR *buf = (TCHAR *)GlobalLock(hData);

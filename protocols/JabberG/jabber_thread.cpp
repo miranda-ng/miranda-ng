@@ -498,12 +498,8 @@ recvRest:
 			buffer[datalen] = '\0';
 
 			TCHAR* str;
-			#if defined( _UNICODE )
-				str = mir_utf8decodeW( buffer );
-			#else
-				str = buffer;
-			#endif
-
+			str = mir_utf8decodeW( buffer );
+			
 			int bytesParsed = 0;
 			XmlNode root( str, &bytesParsed, tag );
 			if ( root && tag )
@@ -516,18 +512,14 @@ recvRest:
 					root = XmlNode();
 					bytesParsed = 0;
 				}
-				#if defined( _UNICODE )
-					mir_free(str);
-				#endif
+				
+				mir_free(str);
+				
 			} 
 			else {
-			#if defined( _UNICODE )
 				if ( root ) str[ bytesParsed ] = 0;
 				bytesParsed = ( root ) ? mir_utf8lenW( str ) : 0;
 				mir_free(str);
-			#else
-				bytesParsed = ( root ) ? bytesParsed : 0;
-			#endif
 			}
 
 			Log( "bytesParsed = %d", bytesParsed );
@@ -1480,12 +1472,8 @@ void CJabberProto::OnProcessMessage( HXML node, ThreadData* info )
 		if (( szMessage = JabberUnixToDosT( szMessage )) == NULL )
 			szMessage = mir_tstrdup( _T(""));
 
-		#if defined( _UNICODE )
 			char* buf = mir_utf8encodeW( szMessage );
-		#else
-			char* buf = mir_utf8encode( szMessage );
-		#endif
-
+		
 		if ( item != NULL ) {
 			if ( resourceStatus ) resourceStatus->bMessageSessionActive = TRUE;
 			if ( hContact != NULL )
@@ -2134,11 +2122,9 @@ int ThreadData::send( HXML node )
 	// strip forbidden control characters from outgoing XML stream
 	TCHAR *q = str;
 	for (TCHAR *p = str; *p; ++p) {
-		#if defined( _UNICODE )
+		
 			WCHAR c = *p;
-		#else
-			WCHAR c = *( BYTE* )p;
-		#endif
+		
 		if (c < 0x9 || c > 0x9 && c < 0xA || c > 0xA && c < 0xD || c > 0xD && c < 0x20 || c > 0xD7FF && c < 0xE000 || c > 0xFFFD)
 			continue;
 
@@ -2146,13 +2132,11 @@ int ThreadData::send( HXML node )
 	}
 	*q = 0;
 
-	#if defined( _UNICODE )
+	
 		char* utfStr = mir_utf8encodeT( str );
 		int result = send( utfStr, (int)strlen( utfStr ));
 		mir_free( utfStr );
-	#else
-		int result = send( str, (int)strlen( str ));
-	#endif
+	
 	xi.freeMem( str );
 	return result;
 }

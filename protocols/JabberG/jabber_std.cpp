@@ -240,13 +240,8 @@ TCHAR* CJabberProto::JGetStringCrypt( HANDLE hContact, char* valueName )
 		return NULL;
 
 	sttCryptString(dbv.pszVal);
-
-#ifdef UNICODE
 	WCHAR *res = mir_utf8decodeW(dbv.pszVal);
-#else
-	mir_utf8decode(dbv.pszVal, NULL);
-	char *res = mir_strdup(dbv.pszVal);
-#endif
+
 
 	DBFreeVariant(&dbv);
 	return res;

@@ -422,25 +422,16 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				}
 
 				if ( dbcws->value.type == DBVT_ASCIIZ ) {
-					#if defined( UNICODE )
-						WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal+1);
-						eq = !lstrcmp( szFullName, wszGrpName );
-						mir_free( wszGrpName );
-					#else
-						eq = !lstrcmp( szFullName, dbcws->value.pszVal+1 );
-					#endif
+					WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal+1);
+					eq = !lstrcmp( szFullName, wszGrpName );
+					mir_free( wszGrpName );
 				}
 				else {
 					char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal+1);
-					#if defined( UNICODE )
-						WCHAR* wszGrpName;
-						Utf8Decode(szGrpName, &wszGrpName );
-						eq = !lstrcmp( szFullName, wszGrpName );
-						mir_free( wszGrpName );
-					#else
-						Utf8Decode(szGrpName, NULL);
-						eq = !lstrcmp( szFullName, szGrpName );
-					#endif
+					WCHAR* wszGrpName;
+					Utf8Decode(szGrpName, &wszGrpName );
+					eq = !lstrcmp( szFullName, wszGrpName );
+					mir_free( wszGrpName );
 				}
 				if ( eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
 					break;  //only expanded has changed: no action reqd

@@ -30,29 +30,7 @@ Last change by : $Author: george.hazan $
 #define TAG_MAX_LEN 128
 #define ATTR_MAX_LEN 8192
 
-#if defined( _UNICODE )
-	#define T2UTF(A) A 
-#else
-
-struct T2UTF
-{
-	T2UTF( const TCHAR* str ) :
-		m_text( mir_utf8encodeT( str ))
-		{}
-
-	~T2UTF()
-	{	mir_free( m_text );
-	}
-
-	__inline operator TCHAR*() const
-	{	return m_text;
-	}
-
-private:
-	TCHAR* m_text;
-};
-
-#endif
+#define T2UTF(A) A 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // XmlNodeIq class members
@@ -240,7 +218,6 @@ HXML __fastcall xmlGetChild( HXML hXml, LPCTSTR key )
 	return xi.getNthChild( hXml, key, 0 );
 }
 
-#if defined( _UNICODE )
 HXML __fastcall xmlGetChild( HXML hXml, LPCSTR key )
 {
 	LPTSTR wszKey = mir_a2t( key );
@@ -253,7 +230,6 @@ HXML __fastcall xmlGetChildByTag( HXML hXml, LPCTSTR key, LPCTSTR attrName, LPCT
 {
 	return xi.getChildByAttrValue( hXml, key, attrName, attrValue );
 }
-#endif
 
 HXML __fastcall xmlGetChildByTag( HXML hXml, LPCSTR key, LPCSTR attrName, LPCTSTR attrValue )
 {

@@ -44,11 +44,7 @@ typedef HRESULT (STDAPICALLTYPE *pfnSHGetSpecialFolderPathW)(HWND, LPWSTR, int, 
 extern pfnSHGetSpecialFolderPathA shGetSpecialFolderPathA;
 extern pfnSHGetSpecialFolderPathW shGetSpecialFolderPathW;
 
-#ifdef _UNICODE
 #define shGetSpecialFolderPath shGetSpecialFolderPathW
-#else
-#define shGetSpecialFolderPath shGetSpecialFolderPathA
-#endif
 
 typedef HDESK (WINAPI* pfnOpenInputDesktop)(DWORD, BOOL, DWORD);
 extern pfnOpenInputDesktop openInputDesktop;
@@ -177,13 +173,8 @@ char* Utf8EncodeUcs2( const wchar_t* str );
 
 int   Ucs2toUtf8Len(const wchar_t *src);
 
-#if defined( _UNICODE )
-	#define Utf8DecodeT Utf8DecodeUcs2
-	#define Utf8EncodeT Utf8EncodeUcs2
-#else
-	#define Utf8DecodeT Utf8DecodeA
-	#define Utf8EncodeT Utf8Encode
-#endif
+#define Utf8DecodeT Utf8DecodeUcs2
+#define Utf8EncodeT Utf8EncodeUcs2
 
 /**** langpack.c ***********************************************************************/
 
@@ -215,18 +206,12 @@ __inline unsigned int hashstr(const wchar_t * key)
 int pathToAbsolute(const char *pSrc, char *pOut, char* base);
 void CreatePathToFile( char* wszFilePath );
 int CreateDirectoryTree(const char *szDir);
-#if defined( _UNICODE )
-	void CreatePathToFileW( WCHAR* wszFilePath );
-	int CreateDirectoryTreeW(const WCHAR *szDir);
-	int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base);
-	#define pathToAbsoluteT pathToAbsoluteW
-	#define CreatePathToFileT CreatePathToFileW
-	#define CreateDirectoryTreeT CreateDirectoryTreeW
-#else
-	#define pathToAbsoluteT pathToAbsolute
-	#define CreatePathToFileT CreatePathToFile
-	#define CreateDirectoryTreeT CreateDirectoryTree
-#endif
+void CreatePathToFileW( WCHAR* wszFilePath );
+int CreateDirectoryTreeW(const WCHAR *szDir);
+int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base);
+#define pathToAbsoluteT pathToAbsoluteW
+#define CreatePathToFileT CreatePathToFileW
+#define CreateDirectoryTreeT CreateDirectoryTreeW
 
 /**** skin2icons.c *********************************************************************/
 
@@ -309,9 +294,7 @@ __inline static INT_PTR CallProtoService( const char* szModule, const char* szSe
 
 /**** utils.c **************************************************************************/
 
-#if defined( _UNICODE )
-	char*  __fastcall rtrim(char* str);
-#endif
+char*  __fastcall rtrim(char* str);
 TCHAR* __fastcall rtrim(TCHAR* str);
 char*  __fastcall ltrim(char* str);
 char* __fastcall ltrimp(char* str);
@@ -353,19 +336,9 @@ public:
 	operator const LPARAM () const { return ( LPARAM )m_body; }
 };
 
-#ifdef _UNICODE
-
 #define StrConvT( x ) StrConvUT( x )
 #define StrConvTu( x ) x
 #define StrConvA( x ) StrConvAT( x )
 #define StrConvU( x ) x
 
-#else
-
-#define StrConvT( x ) x
-#define StrConvTu( x ) StrConvAT( x )
-#define StrConvA( x ) x
-#define StrConvU( x ) StrConvUT( x )
-
-#endif
 

@@ -928,13 +928,9 @@ void CManagerDlg::OnClose()
 
 	if ( !S.IsEmpty() && m_proto->IsConnected() ) {
 		mir_sntprintf( temp, SIZEOF(temp), _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
-		#if defined( _UNICODE )
-			char* p = mir_t2a(temp);
-			m_proto->setTString(p, S.c_str());
-			mir_free(p);
-		#else
-			m_proto->setString(temp, S.c_str());
-		#endif
+		char* p = mir_t2a(temp);
+		m_proto->setTString(p, S.c_str());
+		mir_free(p);
 	}
 	DestroyWindow( m_hwnd);
 }
@@ -1280,11 +1276,8 @@ void CManagerDlg::InitManager( int mode, const TCHAR* window )
 			TCHAR temp[1000];
 			mir_sntprintf(temp, SIZEOF(temp), _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
 
-			#if defined( _UNICODE )
-				char* p = mir_t2a(temp);
-			#else
-				char* p = temp;
-			#endif
+			char* p = mir_t2a(temp);
+			
 			DBVARIANT dbv;
 			if ( !m_proto->getTString( p, &dbv )) {
 				for ( int i = 0; i<5; i++ ) {
@@ -1298,9 +1291,7 @@ void CManagerDlg::InitManager( int mode, const TCHAR* window )
 				}	}
 				DBFreeVariant(&dbv);
 			}
-			#if defined( _UNICODE )
-				mir_free(p);
-			#endif
+			mir_free(p);
 		}
 
 		if ( wi->pszTopic )

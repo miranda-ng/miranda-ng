@@ -296,11 +296,7 @@ BOOL CJabberProto::OnIqRequestVersion( HXML, CJabberIqInfo* pInfo )
 
 	XmlNodeIq iq( _T("result"), pInfo );
 	HXML query = iq << XQUERY( _T(JABBER_FEAT_VERSION));
-	#if defined( _UNICODE )
-		query << XCHILD( _T("name"), _T("Miranda IM Jabber (Unicode)") );
-	#else
-		query << XCHILD( _T("name"), _T("Miranda IM Jabber") );
-	#endif
+	query << XCHILD( _T("name"), _T("Miranda IM Jabber (Unicode)") );
 	query << XCHILD( _T("version"), _T(__VERSION_STRING) );
 
 	if ( m_options.ShowOSVersion )

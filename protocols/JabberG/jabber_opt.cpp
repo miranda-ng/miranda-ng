@@ -38,11 +38,7 @@ static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberRegisterDlgProc - the dialog proc for registering new account
 
-#if defined( _UNICODE )
-	#define STR_FORMAT _T("%s %s@%S:%d?")
-#else
-	#define STR_FORMAT _T("%s %s@%s:%d?")
-#endif
+#define STR_FORMAT _T("%s %s@%S:%d?")
 
 struct { TCHAR *szCode; TCHAR *szDescription; } g_LanguageCodes[] = {
 	{	_T("aa"),	_T("Afar")	},
@@ -968,11 +964,7 @@ public:
 
 #include <io.h>
 #define JM_STATUSCHANGED WM_USER+0x0001
-#ifdef UNICODE
 #define fopent(name, mode) _wfopen(name, mode)
-#else
-#define fopent(name, mode) fopen(name, mode)
-#endif
 
 enum {
 	RRA_FILLLIST = 0,

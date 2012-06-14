@@ -63,7 +63,6 @@ int lstrcmp_null(const TCHAR *s1, const TCHAR *s2)
 	return lstrcmp(s1, s2);
 }
 
-#if defined( _UNICODE )
 TCHAR* __stdcall rtrim( TCHAR *string )
 {
    TCHAR* p = string + _tcslen( string ) - 1;
@@ -76,4 +75,3 @@ TCHAR* __stdcall rtrim( TCHAR *string )
    }
    return string;
 }
-#endif

@@ -366,7 +366,6 @@ public:
 		va_end(args);
 	}
 
-#ifdef _UNICODE
 	XPathFmt(HXML hXml, char *path, ...): XPath(hXml, m_buf)
 	{
 		*m_buf = 0;
@@ -379,7 +378,6 @@ public:
 		MultiByteToWideChar(CP_ACP, 0, buf, -1, m_buf, BUFSIZE);
 		va_end(args);
 	}
-#endif
 
 private:
 	TCHAR m_buf[BUFSIZE];

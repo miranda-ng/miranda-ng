@@ -132,16 +132,12 @@ void CYahooProto::SendAvatar(const TCHAR *szFile)
 	yahoo_file_info *sf = y_new(struct yahoo_file_info, 1);
 	sf->filesize = statbuf.st_size;
 
-#ifdef _UNICODE
 	wchar_t tszFilename[MAX_PATH];
 	wcscpy(tszFilename, szFile);
 	GetShortPathNameW(szFile, tszFilename, SIZEOF(tszFilename));
 	char szFilename[MAX_PATH];
 	WideCharToMultiByte(CP_ACP, 0, tszFilename, -1, szFilename, MAX_PATH, 0, 0);
 	sf->filename = strdup(szFilename);
-#else
-	sf->filename = strdup(szFile);
-#endif
 
 	DebugLog("[Uploading avatar] filename: %s size: %ld", sf->filename, sf->filesize);
 
@@ -253,12 +249,8 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	AI.cbSize = sizeof AI;
 	AI.format = PA_FORMAT_PNG;
 	AI.hContact = hContact;
-	#if defined( _UNICODE )
-		WideCharToMultiByte( CP_ACP, 0, buf, -1, AI.filename, sizeof AI.filename, 0, 0 );
-	#else
-		lstrcpyA( AI.filename, buf );
-	#endif
-
+	WideCharToMultiByte( CP_ACP, 0, buf, -1, AI.filename, sizeof AI.filename, 0, 0 );
+	
 	if (error) 
 		SetDword(hContact, "PictCK", 0);
 

@@ -156,19 +156,9 @@ static void DeleteLastUploadLogLine(HWND hwndDlg)
 
 static void GetLastUploadLogLine(HWND hwndDlg, char *szBuf, size_t cbBuf)
 {
-	#if defined( _UNICODE )
-		WCHAR str[MAX_PATH];
-		SendDlgItemMessageW(hwndDlg, IDC_LOG, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0)-1, (LPARAM)str);
-		make_utf8_string_static(str, szBuf, cbBuf);
-	#else
-		char str[MAX_PATH];
-		char *ustr = NULL;
-
-		SendDlgItemMessageA(hwndDlg, IDC_LOG, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0)-1, (LPARAM)str);
-		utf8_encode(str, &ustr);
-		strcpy((char*)szBuf, (char*)ustr);
-		SAFE_FREE((void**)&ustr);
-	#endif
+	WCHAR str[MAX_PATH];
+	SendDlgItemMessageW(hwndDlg, IDC_LOG, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_LOG, LB_GETCOUNT, 0, 0)-1, (LPARAM)str);
+	make_utf8_string_static(str, szBuf, cbBuf);
 }
 
 static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)

@@ -28,12 +28,8 @@ Last change by : $Author: george.hazan $
 #ifndef _JABBER_DISCO_H_
 #define _JABBER_DISCO_H_
 
-#ifdef _UNICODE
-	#define	CHR_BULLET	((WCHAR)0x2022)
+#define	CHR_BULLET	((WCHAR)0x2022)
 //	#define	STR_BULLET	L" \u2022 "
-#else
-	#define	CHR_BULLET	'-'
-#endif
 
 #define JABBER_DISCO_RESULT_NOT_REQUESTED			0
 #define JABBER_DISCO_RESULT_ERROR					-1

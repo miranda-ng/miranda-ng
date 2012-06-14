@@ -235,7 +235,6 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 		strcat(szSetting, "Timeout");
 		ppd.iSeconds = getSettingDword(NULL, szSetting, ppd.iSeconds);
 
-#if defined( _UNICODE )
 		// call unicode popup module - only on unicode OS otherwise it will not work properly :(
 		// due to Popup Plug bug in ADDPOPUPW implementation
 		if ( ServiceExists( MS_POPUP_ADDPOPUPW ))
@@ -254,7 +253,7 @@ int CIcqProto::ShowPopUpMsg(HANDLE hContact, const char *szTitle, const char *sz
 			return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&ppdw, 0);
 		}
 		else
-#endif
+
 		{
 			char str[MAX_PATH];
 

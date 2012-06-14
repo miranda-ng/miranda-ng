@@ -57,7 +57,6 @@ static void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type) {
 
 static char *MsgServiceName(HANDLE hContact)
 {
-#ifdef _UNICODE
 	char szServiceName[100];
 	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if (szProto == NULL)
@@ -66,7 +65,6 @@ static char *MsgServiceName(HANDLE hContact)
 	mir_snprintf(szServiceName, SIZEOF(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
 	if (ServiceExists(szServiceName))
 		return PSS_MESSAGE "W";
-#endif
 	return PSS_MESSAGE;
 }
 
@@ -124,7 +122,7 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 			return NULL;
 		}
 		bufSize = (int)strlen(sendBuffer) + 1;
-#ifdef _UNICODE
+
 		{
 			size_t bufSizeT = (_tcslen(szMsg) + 1) * sizeof(TCHAR) ;
 
@@ -132,7 +130,7 @@ HANDLE SendMessageDirect(const TCHAR *szMsg, HANDLE hContact, char *szProto)
 			memcpy((TCHAR*)&sendBuffer[bufSize], szMsg, bufSizeT);
 			bufSize += (int)bufSizeT;
 		}
-#endif
+
 	}
 
 	if (hContact == NULL)
@@ -772,11 +770,11 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (newData->szInitialText) 
 			{
 				int len;
-#ifdef _UNICODE
+
 				if(newData->isWchar)
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR *)newData->szInitialText);
 				else
-#endif
+
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
 				len = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE));
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
@@ -1133,11 +1131,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				hData = GlobalAlloc(GMEM_MOVEABLE, _tcslen(buf) * sizeof(TCHAR) + 1);
 				_tcscpy(GlobalLock(hData), buf);
 				GlobalUnlock(hData);
-#ifdef _UNICODE
 				SetClipboardData(CF_UNICODETEXT, hData);
-#else
-				SetClipboardData(CF_TEXT, hData);
-#endif
 				CloseClipboard();
 			}
 		}
@@ -1298,17 +1292,9 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						{
 							char* blob = ( char* )alloca(1000);
-#if defined( _UNICODE )
 							int ansiLen = WideCharToMultiByte(CP_ACP, 0, buffer, -1, blob, 1000, 0, 0);
 							memcpy( blob+ansiLen, buffer, sizeof(TCHAR)*(iLen+1));
 							dbei.cbBlob = ansiLen + sizeof(TCHAR)*(iLen+1);
-#else
-							int wLen = MultiByteToWideChar(CP_ACP, 0, buffer, -1, NULL, 0 );
-							memcpy( blob, buffer, iLen+1 );
-							MultiByteToWideChar(CP_ACP, 0, buffer, -1, (WCHAR*)&blob[iLen+1], wLen+1 );
-							dbei.cbBlob = iLen+1 + sizeof(WCHAR)*wLen;
-#endif
-
 							dbei.cbSize = sizeof(dbei);
 							dbei.pBlob = (PBYTE) blob;
 							dbei.eventType = EVENTTYPE_STATUSCHANGE;
@@ -1936,11 +1922,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									hData = GlobalAlloc(GMEM_MOVEABLE, (_tcslen(tr.lpstrText) + 1) * sizeof(TCHAR));
 									_tcscpy(GlobalLock(hData), tr.lpstrText);
 									GlobalUnlock(hData);
-#ifdef _UNICODE
 									SetClipboardData(CF_UNICODETEXT, hData);
-#else
-									SetClipboardData(CF_TEXT, hData);
-#endif
 									CloseClipboard();
 								}
 								break;

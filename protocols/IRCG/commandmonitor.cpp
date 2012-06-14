@@ -228,18 +228,11 @@ int CIrcProto::AddOutgoingMessageToDB(HANDLE hContact, TCHAR* msg)
 	dbei.szModule = m_szModuleName;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.timestamp = (DWORD)time(NULL);
-	#if defined( _UNICODE )
-		dbei.flags = DBEF_SENT + DBEF_UTF;
-		dbei.pBlob = ( PBYTE )mir_utf8encodeW( S.c_str());
-	#else
-		dbei.flags = DBEF_SENT;
-		dbei.pBlob = ( PBYTE )S.c_str();
-	#endif
+	dbei.flags = DBEF_SENT + DBEF_UTF;
+	dbei.pBlob = ( PBYTE )mir_utf8encodeW( S.c_str());
 	dbei.cbBlob = (DWORD)strlen(( char* )dbei.pBlob) + 1;
 	CallService( MS_DB_EVENT_ADD, (WPARAM) hContact, (LPARAM) & dbei);
-	#if defined( _UNICODE )
-		mir_free( dbei.pBlob );
-	#endif
+	mir_free( dbei.pBlob );
 	return 1;
 }
 
@@ -733,18 +726,12 @@ bool CIrcProto::OnIrc_PRIVMSG( const CIrcMessage* pmsg )
 			ccs.hContact = CList_AddContact( &user, false, true );
 			ccs.lParam = (LPARAM)&pre;
 			pre.timestamp = (DWORD)time(NULL);
-			#if defined( _UNICODE )
-				pre.flags = PREF_UTF;
-				pre.szMessage = mir_utf8encodeW( mess.c_str());
-			#else
-				pre.szMessage = ( char* )mess.c_str();
-			#endif
+			pre.flags = PREF_UTF;
+			pre.szMessage = mir_utf8encodeW( mess.c_str());
 			setTString(ccs.hContact, "User", pmsg->prefix.sUser.c_str());
 			setTString(ccs.hContact, "Host", pmsg->prefix.sHost.c_str());
 			CallService( MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
-			#if defined( _UNICODE )
-				mir_free( pre.szMessage );
-			#endif
+			mir_free( pre.szMessage );
 			return true;
 		}
 		
@@ -841,12 +828,8 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 		else if (pmsg->m_bIncoming && command == _T("version")) {
 			PostIrcMessage( _T("/NOTICE %s \001VERSION Miranda IM %s (IRC v.%s%s), (c) 2003-09 J.Persson, G.Hazan\001"), 
 				pmsg->prefix.sNick.c_str(), _T("%mirver"), _T("%version"),
-				#if defined( _UNICODE )
-					_T(" Unicode"));
-				#else
-					"" );
-				#endif
-
+				_T(" Unicode"));
+				
 			TCHAR temp[300];
 			mir_sntprintf( temp, SIZEOF(temp), TranslateT("CTCP VERSION requested by %s"), pmsg->prefix.sNick.c_str());
 			DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, NULL, temp, NULL, NULL, NULL, true, false); 

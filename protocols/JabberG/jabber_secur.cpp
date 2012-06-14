@@ -70,13 +70,9 @@ TNtlmAuth::~TNtlmAuth()
 
 bool TNtlmAuth::getSpn( TCHAR* szSpn, size_t dwSpnLen )
 {
-#ifdef UNICODE
 	GetUserNameExType myGetUserNameEx = 
 		( GetUserNameExType )GetProcAddress( GetModuleHandleA( "secur32.dll" ), "GetUserNameExW" );
-#else
-	GetUserNameExType myGetUserNameEx = 
-		( GetUserNameExType )GetProcAddress( GetModuleHandleA( "secur32.dll" ), "GetUserNameExA" );
-#endif
+
 	if ( !myGetUserNameEx ) return false;
 
 	TCHAR szFullUserName[128] = _T( "" );

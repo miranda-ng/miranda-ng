@@ -489,14 +489,10 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				SendMessage(bct->hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId = (UINT_PTR)bct->hwnd;
-			#if defined( _UNICODE )
-				if ( lParam & BATF_UNICODE )
-					ti.lpszText = mir_wstrdup( TranslateW(( WCHAR* )wParam ));
-				else
-					ti.lpszText = LangPackPcharToTchar(( char* )wParam );
-			#else
-				ti.lpszText = Translate(( char* )wParam );
-			#endif
+			if ( lParam & BATF_UNICODE )
+				ti.lpszText = mir_wstrdup( TranslateW(( WCHAR* )wParam ));
+			else
+				ti.lpszText = LangPackPcharToTchar(( char* )wParam );
 			if (bct->pAccPropServices) {
 				wchar_t *tmpstr = mir_t2u(ti.lpszText);
 				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT, 
@@ -504,9 +500,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				mir_free(tmpstr);
 			}
 			SendMessage( bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
-			#if defined( _UNICODE )
-				mir_free( ti.lpszText );
-			#endif
+			mir_free( ti.lpszText );
 		}
 		break;
 	case WM_SETFOCUS: // set keybord focus and redraw

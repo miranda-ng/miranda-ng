@@ -889,7 +889,6 @@ void CCtrlListView::AddColumn(int iSubItem, TCHAR *name, int cx)
 
 void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 {
-#ifdef UNICODE
 	if (IsWinVerXPPlus())
 	{
 		LVGROUP lvg = {0};
@@ -900,7 +899,6 @@ void CCtrlListView::AddGroup(int iGroupId, TCHAR *name)
 		lvg.iGroupId = iGroupId;
 		InsertGroup(-1, &lvg);
 	}
-#endif
 }
 
 int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
@@ -912,13 +910,13 @@ int CCtrlListView::AddItem(TCHAR *text, int iIcon, LPARAM lParam, int iGroupId)
 	lvi.iImage = iIcon;
 	lvi.lParam = lParam;
 
-#ifdef UNICODE
+
 	if ((iGroupId >= 0) && IsWinVerXPPlus())
 	{
 		lvi.mask |= LVIF_GROUPID;
 		lvi.iGroupId = iGroupId;
 	}
-#endif
+
 
 	return InsertItem(&lvi);
 }
@@ -2334,14 +2332,10 @@ TCHAR* CCtrlBase::GetText()
 
 char* CCtrlBase::GetTextA()
 {
-	#ifdef UNICODE
-		int length = GetWindowTextLength(m_hwnd) + 1;
-		char *result = (char *)mir_alloc(length * sizeof(char));
-		GetWindowTextA(m_hwnd, result, length);
-		return result;
-	#else
-		return GetText();
-	#endif
+	int length = GetWindowTextLength(m_hwnd) + 1;
+	char *result = (char *)mir_alloc(length * sizeof(char));
+	GetWindowTextA(m_hwnd, result, length);
+	return result;
 }
 
 TCHAR* CCtrlBase::GetText(TCHAR *buf, int size)
@@ -2353,13 +2347,9 @@ TCHAR* CCtrlBase::GetText(TCHAR *buf, int size)
 
 char* CCtrlBase::GetTextA(char *buf, int size)
 {
-	#ifdef UNICODE
-		GetWindowTextA(m_hwnd, buf, size);
-		buf[size-1] = 0;
-		return buf;
-	#else
-		return GetText(buf, size);
-	#endif
+	GetWindowTextA(m_hwnd, buf, size);
+	buf[size-1] = 0;
+	return buf;
 }
 
 int CCtrlBase::GetInt()
@@ -2495,11 +2485,8 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		case WM_SETTEXT:
-#ifdef UNICODE
-			if (m_show_label && IsWindowUnicode(m_hwnd))
-#else
-			if (m_show_label && !IsWindowUnicode(m_hwnd))
-#endif
+		if (m_show_label && IsWindowUnicode(m_hwnd))
+
 			{
 				TCHAR *szTitle = (TCHAR *)lParam;
 				if (!_tcsstr(szTitle, m_proto_interface->m_tszUserName))

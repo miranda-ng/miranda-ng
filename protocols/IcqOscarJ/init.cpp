@@ -136,7 +136,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 		}
 
 		// Check if _UNICODE matches Miranda's _UNICODE
-#if defined( _UNICODE )
 		if (strstrnull(szVer, "unicode") == NULL)
 		{
 			char szMsg[MAX_PATH], szCaption[100];
@@ -145,14 +144,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 				ICQTranslateUtfStatic("ICQ Plugin", szCaption, 100), MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST);
 			return 1; // Failure
 		}
-#else
-		if (strstrnull(szVer, "unicode") != NULL)
-		{
-			MessageBox(NULL, Translate("You cannot use Ansi version of ICQ Protocol plug-in with Unicode version of Miranda IM."), Translate("ICQ Plugin"),
-				MB_OK|MB_ICONWARNING|MB_SETFOREGROUND|MB_TOPMOST);
-			return 1; // Failure
-		}
-#endif
 	}
 
 	srand(time(NULL));

@@ -1685,14 +1685,10 @@ TCHAR* CCtrlBase::GetText()
 
 char* CCtrlBase::GetTextA()
 {
-	#ifdef UNICODE
-		int length = GetWindowTextLength(m_hwnd) + 1;
-		char *result = (char *)mir_alloc(length * sizeof(char));
-		GetWindowTextA(m_hwnd, result, length);
-		return result;
-	#else
-		return GetText();
-	#endif
+	int length = GetWindowTextLength(m_hwnd) + 1;
+	char *result = (char *)mir_alloc(length * sizeof(char));
+	GetWindowTextA(m_hwnd, result, length);
+	return result;
 }
 
 TCHAR* CCtrlBase::GetText(TCHAR *buf, int size)
@@ -1704,13 +1700,9 @@ TCHAR* CCtrlBase::GetText(TCHAR *buf, int size)
 
 char* CCtrlBase::GetTextA(char *buf, int size)
 {
-	#ifdef UNICODE
-		GetWindowTextA(m_hwnd, buf, size);
-		buf[size-1] = 0;
-		return buf;
-	#else
-		return GetText(buf, size);
-	#endif
+	GetWindowTextA(m_hwnd, buf, size);
+	buf[size-1] = 0;
+	return buf;
 }
 
 int CCtrlBase::GetInt()

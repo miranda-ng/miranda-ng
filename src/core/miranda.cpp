@@ -578,11 +578,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 	MyMonitorFromPoint = (pfnMyMonitorFromPoint)GetProcAddress(hUser32, "MonitorFromPoint");
 	MyMonitorFromRect = (pfnMyMonitorFromRect)GetProcAddress(hUser32, "MonitorFromRect");
 	MyMonitorFromWindow = (pfnMyMonitorFromWindow)GetProcAddress(hUser32, "MonitorFromWindow");
-#ifdef _UNICODE
 	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoW");
-#else
-	MyGetMonitorInfo = (pfnMyGetMonitorInfo)GetProcAddress(hUser32, "GetMonitorInfoA");
-#endif
 
 	hShFolder = GetModuleHandleA("shell32");
 	shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
@@ -769,8 +765,6 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	mir_snprintf(( char* )lParam, wParam, "%S x64 Unicode", productVersion );
 #elif defined( _UNICODE )
 	mir_snprintf(( char* )lParam, wParam, "%S Unicode", productVersion );
-#else
-	lstrcpyn((char*)lParam, productVersion, wParam);
 #endif
 	mir_free(pVerInfo);
 	return 0;
