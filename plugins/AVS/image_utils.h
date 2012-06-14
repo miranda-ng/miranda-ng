@@ -16,12 +16,8 @@ INT_PTR BmpFilterLoadBitmap32(WPARAM wParam,LPARAM lParam);
 // wParam = HBITMAP
 // lParam = full path of filename
 INT_PTR BmpFilterSaveBitmap(WPARAM wParam,LPARAM lParam);
-#if defined(_UNICODE)
-	INT_PTR BmpFilterSaveBitmapW(WPARAM wParam,LPARAM lParam);
-	#define BmpFilterSaveBitmapT BmpFilterSaveBitmapW
-#else
-	#define BmpFilterSaveBitmapT BmpFilterSaveBitmap
-#endif
+INT_PTR BmpFilterSaveBitmapW(WPARAM wParam,LPARAM lParam);
+#define BmpFilterSaveBitmapT BmpFilterSaveBitmapW
 
 // Returns != 0 if can save that type of image, = 0 if cant
 // wParam = 0
@@ -35,12 +31,8 @@ INT_PTR BmpFilterResizeBitmap(WPARAM wParam,LPARAM lParam);
 
 
 int BmpFilterSaveBitmap(HBITMAP hBmp, char *szFile, int flags);
-#if defined(_UNICODE)
-	int BmpFilterSaveBitmapW(HBITMAP hBmp, wchar_t *wszFile, int flags);
-	#define BmpFilterSaveBitmapT BmpFilterSaveBitmapW
-#else
-	#define BmpFilterSaveBitmapT BmpFilterSaveBitmap
-#endif
+int BmpFilterSaveBitmapW(HBITMAP hBmp, wchar_t *wszFile, int flags);
+#define BmpFilterSaveBitmapT BmpFilterSaveBitmapW
 
 HBITMAP CopyBitmapTo32(HBITMAP hBitmap);
 

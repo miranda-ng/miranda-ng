@@ -246,7 +246,7 @@ int FetchAvatarFor(HANDLE hContact, char *szProto = NULL)
 			pai_s.hContact = hContact;
 			//_DebugTrace(hContact, "schedule request");
 			INT_PTR res = CallProtoService(szProto, PS_GETAVATARINFOT, GAIF_FORCE, (LPARAM)&pai_s);
-#ifdef _UNICODE
+
 			if (res == CALLSERVICE_NOTFOUND)
 			{
 				PROTO_AVATAR_INFORMATION pai = {0};
@@ -256,7 +256,7 @@ int FetchAvatarFor(HANDLE hContact, char *szProto = NULL)
 				MultiByteToWideChar( CP_ACP, 0, pai.filename, -1, pai_s.filename, SIZEOF(pai_s.filename));
 				pai_s.format = pai.format;
 			}
-#endif
+
 			if (res != CALLSERVICE_NOTFOUND) result = res;
 			ProcessAvatarInfo(pai_s.hContact, result, &pai_s, szProto);
 		}

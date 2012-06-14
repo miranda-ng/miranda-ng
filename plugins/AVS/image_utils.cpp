@@ -317,7 +317,6 @@ INT_PTR BmpFilterSaveBitmap(WPARAM wParam,LPARAM lParam)
 	return -1;
 }
 
-#if defined(_UNICODE)
 INT_PTR BmpFilterSaveBitmapW(WPARAM wParam,LPARAM lParam)
 {
 	if ( fei == NULL )
@@ -334,7 +333,6 @@ INT_PTR BmpFilterSaveBitmapW(WPARAM wParam,LPARAM lParam)
 
 	return -1;
 }
-#endif
 
 // Returns != 0 if can save that type of image, = 0 if cant
 // wParam = 0
@@ -742,16 +740,14 @@ BOOL MakeTransparentBkg(HANDLE hContact, HBITMAP *hBitmap)
 int SaveAvatar( const char* protocol, const TCHAR* tszFileName )
 {
 	int result = CallProtoService(protocol, PS_SETMYAVATART, 0, ( LPARAM )tszFileName);
-	#if defined( _UNICODE )
-		if ( result == CALLSERVICE_NOTFOUND ) {
-			if ( tszFileName != NULL ) {
-				char szFileName[ MAX_PATH ];
-				WideCharToMultiByte( CP_ACP, 0, tszFileName, -1, szFileName, SIZEOF(szFileName), 0, 0 );
-				result = CallProtoService(protocol, PS_SETMYAVATAR, 0, ( LPARAM )szFileName);
-			}
-			else result = CallProtoService(protocol, PS_SETMYAVATAR, 0, 0);
+	if ( result == CALLSERVICE_NOTFOUND ) {
+		if ( tszFileName != NULL ) {
+			char szFileName[ MAX_PATH ];
+			WideCharToMultiByte( CP_ACP, 0, tszFileName, -1, szFileName, SIZEOF(szFileName), 0, 0 );
+			result = CallProtoService(protocol, PS_SETMYAVATAR, 0, ( LPARAM )szFileName);
 		}
-	#endif
-
+		else result = CallProtoService(protocol, PS_SETMYAVATAR, 0, 0);
+	}
+	
 	return result;
 }

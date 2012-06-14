@@ -502,7 +502,6 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				if (CallProtoService(szProto, PS_GETMYAVATART, (WPARAM)tszFilename, (LPARAM)MAX_PATH))
 					tszFilename[0] = '\0';
 			}
-#if defined( _UNICODE )
 			else if (ProtoServiceExists(szProto, PS_GETMYAVATAR)) {
 				char szFileName[ MAX_PATH ];
 				if (CallProtoService(szProto, PS_GETMYAVATAR, (WPARAM)szFileName, (LPARAM)MAX_PATH))
@@ -510,7 +509,6 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 				else
 					MultiByteToWideChar( CP_ACP, 0, szFileName, -1, tszFilename, SIZEOF( tszFilename ));
 			}
-#endif
 			else if (!DBGetContactSettingTString(NULL, szProto, "AvatarFile", &dbv)) {
 				AVS_pathToAbsolute(dbv.ptszVal, tszFilename);
 				DBFreeVariant(&dbv);
@@ -932,11 +930,9 @@ INT_PTR SetAvatar(WPARAM wParam, LPARAM lParam)
 {	return avSetAvatar(( HANDLE )wParam, A2T(( const char* )lParam ));
 }
 
-#if defined( _UNICODE )
 INT_PTR SetAvatarW(WPARAM wParam, LPARAM lParam)
 {	return avSetAvatar(( HANDLE )wParam, ( TCHAR* )lParam );
 }
-#endif
 
 /*
  * see if is possible to set the avatar for the expecified protocol
@@ -1481,11 +1477,9 @@ static INT_PTR SetMyAvatar( WPARAM wParam, LPARAM lParam )
 {	return avSetMyAvatar(( char* )wParam, A2T(( const char* )lParam ));
 }
 
-#if defined( _UNICODE )
 static INT_PTR SetMyAvatarW( WPARAM wParam, LPARAM lParam )
 {	return avSetMyAvatar(( char* )wParam, ( TCHAR* )lParam );
 }
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2442,12 +2436,9 @@ static int LoadAvatarModule()
 	arServices.insert( CreateServiceFunction( MS_AV_SAVEBITMAP, BmpFilterSaveBitmap ));
 	arServices.insert( CreateServiceFunction( MS_AV_CANSAVEBITMAP, BmpFilterCanSaveBitmap ));
 	arServices.insert( CreateServiceFunction( MS_AV_RESIZEBITMAP, BmpFilterResizeBitmap ));
-
-	#if defined( _UNICODE )
-		arServices.insert( CreateServiceFunction( MS_AV_SETAVATARW, SetAvatarW ));
-		arServices.insert( CreateServiceFunction( MS_AV_SETMYAVATARW, SetMyAvatarW ));
-	#endif
-
+	arServices.insert( CreateServiceFunction( MS_AV_SETAVATARW, SetAvatarW ));
+	arServices.insert( CreateServiceFunction( MS_AV_SETMYAVATARW, SetMyAvatarW ));
+	
 	hEventChanged = CreateHookableEvent(ME_AV_AVATARCHANGED);
 	hEventContactAvatarChanged = CreateHookableEvent(ME_AV_CONTACTAVATARCHANGED);
 	hMyAvatarChanged = CreateHookableEvent(ME_AV_MYAVATARCHANGED);
