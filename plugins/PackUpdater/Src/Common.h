@@ -20,19 +20,15 @@ Boston, MA 02111-1307, USA.
 #define MIRANDA_VER    0x0A00
 
 // Windows Header Files:
+#include <time.h>
 #include <stdio.h>
 #include <windows.h>
-#include <deque>
-#include "Wininet.h"
-#include "Urlmon.h"
-#include <prsht.h>
-#include <string>
-#include <commctrl.h>
-#include "win2k.h"
+#include <Windowsx.h>
 #include "vector"       // stl vector header
 #include <Shlobj.h>
 
 // Miranda header files
+#include "win2k.h"
 #include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_skin.h>
@@ -41,12 +37,13 @@ Boston, MA 02111-1307, USA.
 #include <m_database.h>
 #include <m_utils.h>
 #include <m_system.h>
-#include <m_folders.h>
 #include <m_popup.h>
 #include <m_hotkeys.h>
-#include "m_popup2.h"
 #include <m_netlib.h>
 #include <m_icolib.h>
+
+#include <m_folders.h>
+#include "m_popup2.h"
 
 #include "..\version.h"
 #include "..\resource.h"
@@ -95,7 +92,11 @@ struct PackUpdaterIconList
 };
 
 #define DEFAULT_REMINDER					1
-#define DEFAULT_AUTOUPDATE					1
+#define DEFAULT_UPDATEONSTARTUP				1
+#define DEFAULT_ONLYONCEADAY				0
+#define DEFAULT_UPDATEONPERIOD				0
+#define DEFAULT_PERIOD						1
+#define DEFAULT_PERIODMEASURE				1
 #define DEFAULT_FILECOUNT					0
 #define DEFAULT_FILETYPE					0 //0 - not defined, 1 - pack, 2 - plugin, 3 - icon, 4 - files in miranda root (e.g. langpack, dbtool), 5 - same as 4 without restart
 
@@ -107,9 +108,9 @@ using std::wstring;
 using namespace std;
 
 extern HINSTANCE hInst;
-extern INT FileCount, CurrentFile, Number, UpdatesCount;
+extern INT FileCount, CurrentFile, Number, UpdatesCount, Period;
 extern BOOL Silent, DlgDld;
-extern BYTE Reminder, AutoUpdate;
+extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 extern TCHAR tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
 extern FILEURL* pFileUrl;
@@ -117,6 +118,7 @@ extern HANDLE CheckThread, hOnPreShutdown, hOptHook, hLoadHook;
 extern MYOPTIONS MyOptions;
 extern aPopups PopupsList[POPUPS];
 extern LPCTSTR Title, Text;
+extern HANDLE Timer;
 
 VOID InitPopupList();
 VOID LoadOptions();
@@ -136,3 +138,5 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 INT_PTR CALLBACK DlgMsgPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 void __stdcall ExitMe(void*);
 void __stdcall RestartMe(void*);
+BOOL AllowUpdateOnStartup();
+VOID InitTimer();

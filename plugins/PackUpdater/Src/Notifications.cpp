@@ -8,13 +8,13 @@ version 2 of the License, or (at your option) any later version.
 
 This is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 Library General Public License for more details.
 
 You should have received a copy of the GNU Library General Public
-License along with this file; see the file license.txt.  If
+License along with this file; see the file license.txt. If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -26,7 +26,7 @@ void PopupAction(HWND hWnd, BYTE action)
 {
 	switch (action)
 	{
-		case PCA_CLOSEPOPUP: 
+		case PCA_CLOSEPOPUP:
 			break;
 		case PCA_DONOTHING:
 			return;
@@ -87,12 +87,12 @@ static INT_PTR CALLBACK PopupDlgProc2(HWND hDlg, UINT uMsg, WPARAM wParam, LPARA
 {
 	switch (uMsg)
 	{
-		case WM_COMMAND: 
+		case WM_COMMAND:
 		{
 			PopupAction(hDlg, MyOptions.LeftClickAction);
-			break; 
+			break;
 		}
-		case WM_CONTEXTMENU: 
+		case WM_CONTEXTMENU:
 		{
 			PopupAction(hDlg, MyOptions.RightClickAction);
 			break;
@@ -131,7 +131,7 @@ static VOID MakePopupAction(POPUPACTION &pa, INT id)
 		break;
 	}
 }
-		
+
 VOID show_popup(HWND hDlg, LPCTSTR Title, LPCTSTR Text, int Number, int ActType)
 {
 	POPUPDATAT_V2 pd;
@@ -216,7 +216,7 @@ INT_PTR CALLBACK DlgDownloadPop(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 static void __stdcall CreateDownloadDialog(void*)
 {
-	if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL,MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
+	if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups3", DEFAULT_POPUP_ENABLED))
 		hDlgDld = CreateDialog(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgDownloadPop);
 	else if (DBGetContactSettingByte(NULL,MODNAME, "Popups3M", DEFAULT_MESSAGE_ENABLED))
 	{
@@ -237,7 +237,7 @@ void DlgDownloadProc()
 	{
 		Title = TranslateT("Pack Updater");
 		Text = TranslateT("An error occured while downloading the update.");
-		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
+		if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups1", DEFAULT_POPUP_ENABLED))
 		{
 			Number = 1;
 			show_popup(0, Title, Text, Number, 0);
@@ -260,26 +260,26 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 				SetWindowLongPtr(hDlg, GWLP_USERDATA, 0);
 				SendMessage(hwndList, LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-				LVCOLUMN lvc = {0}; 
+				LVCOLUMN lvc = {0};
 				// Initialize the LVCOLUMN structure.
 				// The mask specifies that the format, width, text, and
-				// subitem members of the structure are valid. 
-				lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM; 
+				// subitem members of the structure are valid.
+				lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 				lvc.fmt = LVCFMT_LEFT;
-	  
+	
 				lvc.iSubItem = 0;
-				lvc.pszText = TranslateT("Component Name");	
-				lvc.cx = 145;     // width of column in pixels
+				lvc.pszText = TranslateT("Component Name");
+				lvc.cx = 145; // width of column in pixels
 				ListView_InsertColumn(hwndList, 0, &lvc);
 
 				lvc.iSubItem = 1;
-				lvc.pszText = TranslateT("Current Version");	
-				lvc.cx = 95;     // width of column in pixels
+				lvc.pszText = TranslateT("Current Version");
+				lvc.cx = 95; // width of column in pixels
 				ListView_InsertColumn(hwndList, 1, &lvc);
 
 				lvc.iSubItem = 2;
-				lvc.pszText = TranslateT("New Version");	
-				lvc.cx = 82;     // width of column in pixels
+				lvc.pszText = TranslateT("New Version");
+				lvc.cx = 82; // width of column in pixels
 				ListView_InsertColumn(hwndList, 2, &lvc);
 
 				//enumerate plugins, fill in list
@@ -290,20 +290,20 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 				// Some code to create the list-view control.
 				// Initialize LVITEM members that are common to all
-				// items. 
-				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE; 
+				// items.
+				lvI.mask = LVIF_TEXT | LVIF_PARAM | LVIF_NORECOMPUTE;// | LVIF_IMAGE;
 
 				vector<FILEINFO> &todo = *(vector<FILEINFO> *)lParam;
-				for (int i = 0; i < (int)todo.size(); ++i) 
+				for (int i = 0; i < (int)todo.size(); ++i)
 				{
-					lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE; 
+					lvI.mask = LVIF_TEXT | LVIF_PARAM;// | LVIF_IMAGE;
 					lvI.iSubItem = 0;
 					lvI.lParam = (LPARAM)&todo[i];
 					lvI.pszText = todo[i].tszDescr;
 					lvI.iItem = i;
 					ListView_InsertItem(hwndList, &lvI);
 
-					lvI.mask = LVIF_TEXT;// | LVIF_IMAGE; 
+					lvI.mask = LVIF_TEXT;// | LVIF_IMAGE;
 
 					lvI.iSubItem = 1;
 					lvI.pszText = todo[i].tszCurVer;
@@ -322,7 +322,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					bool check = todo[i].enabled;
 					if (!DBGetContactSettingTString(0, MODNAME, stored_setting, &dbv))
 					{
-						if(dbv.ptszVal && lstrcmp(dbv.ptszVal, todo[i].tszNewVer) == 0)
+						if (dbv.ptszVal && lstrcmp(dbv.ptszVal, todo[i].tszNewVer) == 0)
 							check = false;
 						else
 							DBDeleteContactSetting(0, MODNAME, stored_setting);
@@ -349,12 +349,12 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 					{
 						case LVN_ITEMCHANGED:
 							{
-								if(GetWindowLongPtr(hDlg, GWLP_USERDATA))
+								if (GetWindowLongPtr(hDlg, GWLP_USERDATA))
 								{
 									NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
 
 									LVITEM lvI = {0};
-					
+
 									lvI.iItem = nmlv->iItem;
 									lvI.iSubItem = 0;
 									lvI.mask = LVIF_PARAM;
@@ -387,7 +387,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 										HWND hwOk = GetDlgItem(hDlg, IDOK);
 										EnableWindow(hwOk, enableOk ? TRUE : FALSE);
 									}
-									if(nmlv->uNewState & LVIS_SELECTED)
+									if (nmlv->uNewState & LVIS_SELECTED)
 									{
 										if (lstrcmp(todo[lvI.iItem].tszInfoURL, _T("")))
 											EnableWindow(GetDlgItem(hDlg, IDC_INFO), TRUE);
@@ -445,13 +445,13 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								/*DBWriteContactSettingByte(NULL, "Updater", "DefaultConfAll", IsDlgButtonChecked(hwndDlg, IDC_CHK_CONFALL) ? 1 : 0);
 								DBWriteContactSettingByte(NULL, "Updater", "NoInstall", IsDlgButtonChecked(hwndDlg, IDC_CHK_NOINSTALL) ? 1 : 0);
 
-								if(IsDlgButtonChecked(hDlg, IDC_CHK_CONFALL))
+								if (IsDlgButtonChecked(hDlg, IDC_CHK_CONFALL))
 									EndDialog(hDlg, CD_CONFALL);
-								else if(IsDlgButtonChecked(hDlg, IDC_CHK_NOINSTALL))
+								else if (IsDlgButtonChecked(hDlg, IDC_CHK_NOINSTALL))
 									EndDialog(hDlg, CD_NOINSTALL);
 								else
 								*/
-								
+
 								arFileType.clear();
 								arFilePath.clear();
 								arFileName.clear();
@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 											i = (int)todo.size();
 									}
 								}
-										
+
 								if (UpdatesCount > 1 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
 									lstrcpyn(tszBuff, TranslateT("Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed."), SIZEOF(tszBuff));
 								else if (UpdatesCount == 1 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
@@ -539,7 +539,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 									INT rc = -1;
 									Title = TranslateT("Pack Updater");
 									Text = tszBuff;
-									if (ServiceExists(MS_POPUP_ADDPOPUPEX)  && ServiceExists(MS_POPUP_REGISTERACTIONS) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1))
+									if (ServiceExists(MS_POPUP_ADDPOPUPEX) && ServiceExists(MS_POPUP_REGISTERACTIONS) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL,MODNAME, "Popups0", DEFAULT_POPUP_ENABLED) && (DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1))
 										rc = DialogBox(hInst, MAKEINTRESOURCE(IDD_POPUPDUMMI), NULL, DlgMsgPop);
 									else
 										rc = MessageBox(NULL, tszBuff, Title, MB_YESNO | MB_ICONQUESTION);
@@ -550,7 +550,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 											TCHAR* tszUtilRootPlug = NULL; 
 											TCHAR* tszUtilRootIco = NULL;
 											TCHAR* tszUtilRoot = NULL;
-						
+
 											switch (arFileType[i])
 											{
 												case 0:
@@ -625,7 +625,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 										mir_sntprintf(tszBuff, SIZEOF(tszBuff), TranslateT("You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s"), arFilePath[0].c_str());
 										Title = TranslateT("Pack Updater");
 										Text = tszBuff;
-										if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) &&  DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
+										if (ServiceExists(MS_POPUP_ADDPOPUPEX) && DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) && DBGetContactSettingByte(NULL, MODNAME, "Popups2", DEFAULT_POPUP_ENABLED))
 										{
 											Number = 2;
 											show_popup(0, Title, Text, Number, 0);

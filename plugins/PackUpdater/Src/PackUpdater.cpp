@@ -21,13 +21,13 @@ Boston, MA 02111-1307, USA.
 
 HINSTANCE hInst = NULL;
 PLUGINLINK *pluginLink;
-HANDLE hOptHook = NULL,  hLoadHook = NULL, hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL, hOnPreShutdown = NULL;
+HANDLE hOptHook = NULL, hLoadHook = NULL, hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL, hOnPreShutdown = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
 struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfoEx = {
-    sizeof(PLUGININFOEX),
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfoEx = {
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	0,
-    //{29517BE5-779A-48e5-8950-CB4DE1D43172}
+	//{29517BE5-779A-48e5-8950-CB4DE1D43172}
 	{0x29517be5, 0x779a, 0x48e5, {0x89, 0x50, 0xcb, 0x4d, 0xe1, 0xd4, 0x31, 0x72}} 
 };
 
@@ -88,7 +88,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.ptszName = _T("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
-	
 	// Add empty updates folder menu item
 	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 	ZeroMemory(&mi, sizeof(mi));

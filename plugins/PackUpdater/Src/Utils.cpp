@@ -23,6 +23,8 @@ vector<FILEINFO> Files;
 BOOL DlgDld;
 INT FileCount = 0, CurrentFile = 0, Number = 0;
 BYTE Reminder, AutoUpdate;
+BYTE UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
+INT Period;
 TCHAR tszDialogMsg[2048] = {0};
 FILEINFO* pFileInfo = NULL;
 FILEURL* pFileUrl = NULL;
@@ -112,7 +114,11 @@ VOID LoadOptions()
 	MyOptions.LeftClickAction= DBGetContactSettingByte(NULL, MODNAME, "LeftClickAction", DEFAULT_POPUP_LCLICK);
 	MyOptions.RightClickAction = DBGetContactSettingByte(NULL, MODNAME, "RightClickAction", DEFAULT_POPUP_RCLICK);
 	MyOptions.Timeout = DBGetContactSettingDword(NULL, MODNAME, "Timeout", DEFAULT_TIMEOUT_VALUE);
-	AutoUpdate = DBGetContactSettingByte(NULL, MODNAME, "AutoUpdate", DEFAULT_AUTOUPDATE);
+	UpdateOnStartup = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnStartup", DEFAULT_UPDATEONSTARTUP);
+	OnlyOnceADay = DBGetContactSettingByte(NULL, MODNAME, "OnlyOnceADay", DEFAULT_ONLYONCEADAY);
+	UpdateOnPeriod = DBGetContactSettingByte(NULL, MODNAME, "UpdateOnPeriod", DEFAULT_UPDATEONPERIOD);
+	Period = DBGetContactSettingDword(NULL, MODNAME, "Period", DEFAULT_PERIOD);
+	PeriodMeasure = DBGetContactSettingByte(NULL, MODNAME, "PeriodMeasure", DEFAULT_PERIODMEASURE);
 	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
 	FileCount = DBGetContactSettingDword(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
 }
@@ -143,7 +149,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 	NETLIBHTTPREQUEST* pReply = NULL;
 	pReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)hNetlibUser,(LPARAM)&nlhr);
 
-	if(pReply)
+	if (pReply)
 	{
 		if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) 
 		{
@@ -175,13 +181,13 @@ VOID __stdcall RestartMe(void*)
 }
 
 BOOL Exists(LPCTSTR strName)
-{   
-    return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;   
+{
+	return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;
 }
 
 BOOL IsPluginDisabled(TCHAR* filename)
 {
-    char* fname = mir_t2a(filename);
+	char* fname = mir_t2a(filename);
 	int res = DBGetContactSettingByte(NULL, "PluginDisable", fname, 0);
 	mir_free(fname);
 	return res;
@@ -203,11 +209,11 @@ static void CheckUpdates(void *)
 	vector<FILEINFO> UpdateFiles;
 
 	if (!Exists(tszRoot))
-        CreateDirectory(tszRoot, NULL);
+		CreateDirectory(tszRoot, NULL);
 	Files.clear();
 	Reminder = DBGetContactSettingByte(NULL, MODNAME, "Reminder", DEFAULT_REMINDER);
 	FileCount = DBGetContactSettingDword(NULL, MODNAME, "FileCount", DEFAULT_FILECOUNT);
-	
+
 	// Load files info
 	DBGetContactSettingTString(NULL, MODNAME, "File_VersionURL", &dbVar);
 	if (lstrcmp(dbVar.ptszVal, NULL) == 0)// URL is not set
@@ -275,7 +281,7 @@ static void CheckUpdates(void *)
 		GetPrivateProfileString(tszFileInfo, _T("AdvFolder"), _T(""), Files[CurrentFile].tszAdvFolder, SIZEOF(Files[CurrentFile].tszAdvFolder), tszTmpIni);
 		GetPrivateProfileString(tszFileInfo, _T("Descr"), _T(""), Files[CurrentFile].tszDescr, SIZEOF(Files[CurrentFile].tszDescr), tszTmpIni);
 		GetPrivateProfileString(tszFileInfo, _T("DiskFileName"), _T(""), tszBuff, MAX_PATH, tszTmpIni);
-		
+
 		if (_tcsstr(tszBuff, _T("\\"))) //check update name
 		{
 			Title = TranslateT("Pack Updater");
@@ -326,7 +332,7 @@ static void CheckUpdates(void *)
 				TCHAR* tszUtilRootPlug = NULL; 
 				TCHAR* tszUtilRootIco = NULL;
 				TCHAR* tszUtilRoot = NULL;
-						
+
 				switch (Files[CurrentFile].FileType)
 				{
 					case 0:
@@ -424,5 +430,61 @@ void DoCheck(int iFlag, int iFlag2)
 	else if (iFlag)
 	{
 		CheckThread = mir_forkthread(CheckUpdates, 0);
+		DBWriteContactSettingDword(NULL, MODNAME, "LastUpdate", time(NULL));
+	}
+}
+
+BOOL AllowUpdateOnStartup()
+{
+	if(OnlyOnceADay)
+	{
+		time_t now = time(NULL);
+		time_t was = DBGetContactSettingDword(NULL, MODNAME, "LastUpdate", 0);
+
+		if((now - was) < 86400)
+			return FALSE;
+	}
+	return TRUE;
+}
+
+LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
+{
+	LONG result = period * 1000;
+	switch(periodMeasure)
+	{
+		case 1:
+			// day
+			result *= 60 * 60 * 24;
+			break;
+
+		default:
+			// hour
+			if(periodMeasure != 0)
+				periodMeasure = 0;
+			result *= 60 * 60;
+			break;
+	}
+	return result;
+}
+
+VOID CALLBACK TimerAPCProc(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue)
+{
+	DoCheck(1, (int)CheckThread);
+}
+
+VOID InitTimer()
+{
+	CancelWaitableTimer(Timer);
+	if(UpdateOnPeriod)
+	{
+		LONG interval = PeriodToMilliseconds(Period, PeriodMeasure);
+
+		_int64 qwDueTime = -10000i64 * interval;
+
+		LARGE_INTEGER li = {0};
+		li.LowPart = (DWORD) ( qwDueTime & 0xFFFFFFFF );
+		li.HighPart = (LONG) ( qwDueTime >> 32 );
+
+		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, NULL, 0);
 	}
 }

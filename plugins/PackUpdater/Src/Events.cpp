@@ -19,6 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
+HANDLE Timer;
 BOOL Silent;
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
@@ -36,7 +37,12 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.lParam = FALSE;
 	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
 
-	DoCheck(AutoUpdate, (int)CheckThread);
+	if (AllowUpdateOnStartup())
+		DoCheck(UpdateOnStartup, (int)CheckThread);
+
+	Timer = CreateWaitableTimer(NULL, FALSE, NULL);
+	InitTimer();
+
 	return 0;
 }
 
@@ -67,6 +73,9 @@ INT_PTR EmptyFolder(WPARAM wParam,LPARAM lParam)
 
 INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
 {
+	CancelWaitableTimer(Timer);
+	CloseHandle(Timer);
+
 	UnhookEvent(hOptHook);
 	UnhookEvent(hOnPreShutdown);
 	return 0;

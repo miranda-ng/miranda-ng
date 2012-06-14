@@ -69,19 +69,21 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Pack update options",IDC_STATIC,2,32,253,56
-    CONTROL         "Automatically check for pack updates",IDC_ENABLEUPDATES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,50,237,10
-    CONTROL         "Remind about not installed pack update",IDC_REMINDER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,64,198,10
+    GROUPBOX        "Pack update options",IDC_STATIC,2,32,253,63
+    CONTROL         "On startup",IDC_UPDATEONSTARTUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,44,52,10
+    CONTROL         "Remind about not installed pack update",IDC_REMINDER,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,72,198,10
     GROUPBOX        "Hotkey",IDC_STATIC,2,0,253,26
-    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,
-                    "Hyperlink",WS_TABSTOP,9,11,199,10
-    GROUPBOX        "Notifications",IDC_NOTIFY2,1,92,253,79
+    CONTROL         "Go to Customize -> Hotkeys to change the hotkey",IDC_LINK_HOTKEY,"Hyperlink",WS_TABSTOP,9,11,199,10
+    GROUPBOX        "Notifications",IDC_NOTIFY2,1,95,253,76
     CONTROL         "Message boxes",IDC_MSG_BOXES2,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,7,111,79,10
     CONTROL         "Errors",IDC_ERRORS2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,124,57,10
     CONTROL         "Info messages",IDC_INFO_MESSAGES2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,137,80,10
     CONTROL         "Progress dialogs",IDC_PROGR_DLG2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,151,80,10
+    CONTROL         "Every",IDC_UPDATEONPERIOD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,58,52,10
+    EDITTEXT        IDC_PERIOD,65,56,28,14,ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
+    CONTROL         "",IDC_PERIODSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | WS_DISABLED,92,56,10,15
+    COMBOBOX        IDC_PERIODMEASURE,114,56,58,30,CBS_DROPDOWNLIST | CBS_SORT | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "(but only once a day)",IDC_ONLYONCEADAY,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,92,44,161,10
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 182
@@ -173,10 +175,6 @@ BEGIN
     IDD_OPT_UPDATENOTIFY, DIALOG
     BEGIN
         BOTTOMMARGIN, 95
-    END
-
-    IDD_POPUP, DIALOG
-    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
