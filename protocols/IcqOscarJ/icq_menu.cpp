@@ -100,7 +100,7 @@ static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 static void sttEnableMenuItem( HANDLE hMenuItem, bool bEnable )
 {
 	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof( CLISTMENUITEM );
+	clmi.cbSize = sizeof(CLISTMENUITEM);
 	clmi.flags = CMIM_FLAGS;
 	if ( !bEnable )
 		clmi.flags |= CMIF_HIDDEN;
@@ -134,7 +134,7 @@ void g_MenuInit(void)
 	strcpy( str, "ICQ" );
 	
 	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof( CLISTMENUITEM );
+	mi.cbSize = sizeof(CLISTMENUITEM);
 	mi.pszService = str;
 	mi.flags = CMIF_ICONFROMICOLIB;
 

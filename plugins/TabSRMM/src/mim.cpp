@@ -706,7 +706,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 
 		CLISTMENUITEM clmi = {0};
-		clmi.cbSize = sizeof( CLISTMENUITEM );
+		clmi.cbSize = sizeof(CLISTMENUITEM);
 		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
 
 		if ( szProto ) {

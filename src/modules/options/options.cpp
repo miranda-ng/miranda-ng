@@ -437,7 +437,7 @@ static void CALLBACK FilterSearchTimerFunc( HWND hwnd, UINT, UINT_PTR, DWORD )
 		FindFilterStrings( TRUE, dat->currentPage == FilterPage, hFilterSearchWnd, &( dat->opd[FilterPage]) );		
 
 	FilterPage++;
-	FilterLoadProgress = FilterPage*100/( (dat->pageCount) ? dat->pageCount : FilterPage );
+	FilterLoadProgress = FilterPage*100/((dat->pageCount) ? dat->pageCount : FilterPage );
 	if ( FilterPage >= dat->pageCount )
 	{
 		KillTimer( hwnd, FilterTimerId );
@@ -1086,7 +1086,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		switch(LOWORD(wParam)) {
 		case IDC_KEYWORD_FILTER:
 			//add a timer - when the timer elapses filter the option pages
-			if ( (HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE))
+			if ((HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == CBN_EDITCHANGE))
 				if (!SetTimer(hdlg, FILTER_TIMEOUT_TIMER, 400, NULL))
 					MessageBeep(MB_ICONSTOP);
 

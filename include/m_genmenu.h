@@ -233,6 +233,7 @@ typedef struct
 	};
 	DWORD hotKey;
 	void *ownerdata;
+	int   hLangpack;
 }
 	TMO_MenuItem,*PMO_MenuItem;
 

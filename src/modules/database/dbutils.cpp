@@ -93,7 +93,7 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 	BOOL bIsDenyUnicode = (egt->datatype & DBVTF_DENYUNICODE);
 
 	DBEVENTINFO* dbei = egt->dbei;
-	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )DbEventTypeGet( ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
+	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )DbEventTypeGet(( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
 
 	if ( et && ServiceExists( et->textService ))
 		return CallService( et->textService, wParam, lParam );
@@ -163,7 +163,7 @@ static INT_PTR DbEventGetIcon( WPARAM wParam, LPARAM lParam )
 {
 	DBEVENTINFO* dbei = ( DBEVENTINFO* )lParam;
 	HICON icon = NULL;
-	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )DbEventTypeGet( ( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
+	DBEVENTTYPEDESCR* et = ( DBEVENTTYPEDESCR* )DbEventTypeGet(( WPARAM )dbei->szModule, ( LPARAM )dbei->eventType );
 
 	if ( et && ServiceExists( et->iconService )) {
 		icon = ( HICON )CallService( et->iconService, wParam, lParam );

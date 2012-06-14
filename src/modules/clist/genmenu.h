@@ -48,6 +48,7 @@ typedef struct _tagIntMenuItem
 	HANDLE       hIcolibItem;     // handle of iconlib item
 	HBITMAP      hBmp;
 	int          originalPosition;
+	int          hLangpack;
 
 	struct _tagIntMenuItem *next; // next item in list
 	struct TIntMenuObject  *parent;

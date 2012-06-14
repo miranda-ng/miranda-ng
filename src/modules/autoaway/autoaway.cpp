@@ -53,7 +53,7 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				continue;
 		}
 		if ( currentstatus >= ID_STATUS_ONLINE && currentstatus != ID_STATUS_INVISIBLE ) {			
-			if ( (lParam&IDF_ISIDLE) && ( currentstatus == ID_STATUS_ONLINE || currentstatus == ID_STATUS_FREECHAT ))  {
+			if ((lParam&IDF_ISIDLE) && ( currentstatus == ID_STATUS_ONLINE || currentstatus == ID_STATUS_FREECHAT ))  {
 				DBWriteContactSettingByte( NULL, AA_MODULE, pa->szModuleName, 1 );
 				Proto_SetStatus( pa->szModuleName, status );
 			}

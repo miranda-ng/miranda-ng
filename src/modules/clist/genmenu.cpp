@@ -208,7 +208,7 @@ INT_PTR MO_ProcessHotKeys( HANDLE menuHandle, INT_PTR vKey )
 
 	EnterCriticalSection( &csMenuHook );
 
-	int objidx = GetMenuObjbyId( (int)menuHandle );
+	int objidx = GetMenuObjbyId((int)menuHandle );
 	if ( objidx == -1 ) {
 		LeaveCriticalSection( &csMenuHook );
 		return FALSE;
@@ -318,22 +318,17 @@ int MO_ModifyMenuItem( PMO_IntMenuItem menuHandle, PMO_MenuItem pmi )
 		FreeAndNil(( void** )&pimi->mi.pszName );
 
 		if ( pmi->flags & CMIF_UNICODE )
-			pimi->mi.ptszName = mir_tstrdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName : TranslateTS( pmi->ptszName ));
-		else {
-			if ( pmi->flags & CMIF_KEEPUNTRANSLATED ) {
-				int len = lstrlenA( pmi->pszName );
-				pimi->mi.ptszName = ( TCHAR* )mir_alloc( sizeof( TCHAR )*( len+1 ));
-				MultiByteToWideChar( CP_ACP, 0, pmi->pszName, -1, pimi->mi.ptszName, len+1 );
-				pimi->mi.ptszName[ len ] = 0;
-			}
-			else pimi->mi.ptszName = LangPackPcharToTchar( pmi->pszName );
-		}
+			pimi->mi.ptszName = mir_tstrdup(pmi->ptszName);
+		else
+			pimi->mi.ptszName = mir_a2t(pmi->pszName);
 	}
+
 	if ( pmi->flags & CMIM_FLAGS ) {
 		oldflags = pimi->mi.flags & ( CMIF_ROOTHANDLE | CMIF_ICONFROMICOLIB );
 		pimi->mi.flags = (pmi->flags & ~CMIM_ALL) | oldflags;
 	}
-	if ( (pmi->flags & CMIM_ICON) && !bIconsDisabled ) {
+
+	if ((pmi->flags & CMIM_ICON) && !bIconsDisabled ) {
 		if ( pimi->mi.flags & CMIF_ICONFROMICOLIB ) {
 			HICON hIcon = IcoLib_GetIconByHandle( pmi->hIcolibItem, false );
 			if ( hIcon != NULL ) {
@@ -350,7 +345,10 @@ int MO_ModifyMenuItem( PMO_IntMenuItem menuHandle, PMO_MenuItem pmi )
 			else
 				pimi->iconId = -1;	  //fixme, should remove old icon & shuffle all iconIds
 		}
-		if (pimi->hBmp) DeleteObject(pimi->hBmp); pimi->hBmp = NULL;
+		if (pimi->hBmp) {
+			DeleteObject(pimi->hBmp);
+			pimi->hBmp = NULL;
+		}
 	}
 
 	if ( pmi->flags & CMIM_HOTKEY )
@@ -504,7 +502,7 @@ int MO_SetOptionsMenuObject( HANDLE handle, int setting, INT_PTR value )
 	EnterCriticalSection( &csMenuHook );
 	__try 
 	{
-		pimoidx = GetMenuObjbyId( (int)handle );
+		pimoidx = GetMenuObjbyId((int)handle );
 		res = pimoidx != -1;
 		if ( res ) {
 			TIntMenuObject* pmo = g_menus[pimoidx];
@@ -637,7 +635,7 @@ PMO_IntMenuItem MO_AddNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi )
 		return MO_AddOldNewMenuItem( menuobjecthandle, pmi );
 
 	EnterCriticalSection( &csMenuHook );
-	int objidx = GetMenuObjbyId( (int)menuobjecthandle );
+	int objidx = GetMenuObjbyId((int)menuobjecthandle );
 	if ( objidx == -1 ) {
 		LeaveCriticalSection( &csMenuHook );
 		return NULL;
@@ -655,13 +653,9 @@ PMO_IntMenuItem MO_AddNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi )
 	p->originalPosition = pmi->position;
 
 	if ( pmi->flags & CMIF_UNICODE ) 
-		p->mi.ptszName = mir_tstrdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName : TranslateTS( pmi->ptszName ));
-	else {
-		if ( pmi->flags & CMIF_KEEPUNTRANSLATED )
-			p->mi.ptszName = mir_a2u(pmi->pszName);
-		else
-			p->mi.ptszName = LangPackPcharToTchar( pmi->pszName );
-	}
+		p->mi.ptszName = mir_tstrdup(pmi->ptszName);
+	else
+		p->mi.ptszName = mir_a2u(pmi->pszName);
 
 	if ( pmi->hIcon != NULL && !bIconsDisabled ) {
 		if ( pmi->flags & CMIF_ICONFROMICOLIB ) {
@@ -715,7 +709,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi 
 	if ( !bIsGenMenuInited || pmi == NULL )
 		return NULL;
 
-	int objidx = GetMenuObjbyId( (int)menuobjecthandle );
+	int objidx = GetMenuObjbyId((int)menuobjecthandle );
 	if ( objidx == -1 )
 		return NULL;
 
@@ -873,7 +867,7 @@ INT_PTR MO_BuildMenu(WPARAM wParam, LPARAM lParam)
 	EnterCriticalSection( &csMenuHook );
 
 	ListParam *lp = ( ListParam* )lParam;
-	int pimoidx = GetMenuObjbyId( (int)lp->MenuObjectHandle );
+	int pimoidx = GetMenuObjbyId((int)lp->MenuObjectHandle );
 	if ( pimoidx == -1 ) {
 		LeaveCriticalSection( &csMenuHook );
 		return 0;
@@ -1073,7 +1067,7 @@ int OnIconLibChanges(WPARAM, LPARAM)
 {
 	EnterCriticalSection( &csMenuHook );
 	for ( int mo=0; mo < g_menus.getCount(); mo++ )
-		if ( (int)hStatusMenuObject != g_menus[mo]->id ) //skip status menu
+		if ((int)hStatusMenuObject != g_menus[mo]->id ) //skip status menu
 			MO_RecursiveWalkMenu( g_menus[mo]->m_items.first, MO_ReloadIcon, 0 );
 
 	LeaveCriticalSection( &csMenuHook );
@@ -1151,7 +1145,7 @@ int RegisterAllIconsInIconLib()
 {
 	//register all icons
 	for ( int mo=0; mo < g_menus.getCount(); mo++ ) {
-		if ( (int)hStatusMenuObject == g_menus[mo]->id ) //skip status menu
+		if ((int)hStatusMenuObject == g_menus[mo]->id ) //skip status menu
 			continue;
 
 		MO_RecursiveWalkMenu( g_menus[mo]->m_items.first, MO_RegisterIcon, 0 );
@@ -1162,7 +1156,7 @@ int RegisterAllIconsInIconLib()
 
 int TryProcessDoubleClick( HANDLE hContact )
 {
-	int iMenuID = GetMenuObjbyId( (int)hContactMenuObject );
+	int iMenuID = GetMenuObjbyId((int)hContactMenuObject );
 	if ( iMenuID != -1 ) {
 		NotifyEventHooks(hPreBuildContactMenuEvent, (WPARAM)hContact, 0);
 

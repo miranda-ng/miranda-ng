@@ -420,7 +420,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_IDLE1STTIME:
 		{
 			int min;
-			if ( (HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE ) return FALSE;
+			if ((HWND)lParam != GetFocus() || HIWORD(wParam) != EN_CHANGE ) return FALSE;
 			min=GetDlgItemInt(hwndDlg, IDC_IDLE1STTIME, NULL, FALSE);
 			if ( min == 0 && GetWindowTextLength(GetDlgItem(hwndDlg, IDC_IDLE1STTIME)) )
 				SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) 1, 0));

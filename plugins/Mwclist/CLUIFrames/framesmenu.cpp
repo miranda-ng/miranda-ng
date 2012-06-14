@@ -37,34 +37,24 @@ INT_PTR FreeOwnerDataFrameMenu (WPARAM wParam,LPARAM lParam)
 
 static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 	TMO_MenuItem tmi;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	if ( !pcli->pfnConvertMenu(mi, &tmi))
+		return 0;
 
-	if (mi->cbSize != sizeof(CLISTMENUITEM)) return 0;
-
-	memset(&tmi,0,sizeof(tmi));
-
-	tmi.cbSize = sizeof(tmi);
-	tmi.flags = mi->flags;
-	tmi.hIcon = mi->hIcon;
-	tmi.hotKey = mi->hotKey;
-	tmi.position = mi->position;
-	tmi.pszName = mi->pszName;
-
-	if (mi->flags&CMIF_ROOTPOPUP||mi->flags&CMIF_CHILDPOPUP)
+	if ((mi->flags & CMIF_ROOTPOPUP) || (mi->flags & CMIF_CHILDPOPUP))
 		tmi.root = mi->hParentMenu;
-	{
-		lpFrameMenuExecParam fmep;
-		fmep = (lpFrameMenuExecParam)mir_alloc(sizeof(FrameMenuExecParam));
-		if (fmep == NULL){return 0;}
-		fmep->szServiceName = mir_strdup(mi->pszService);
-		fmep->Frameid = mi->popupPosition;
-		fmep->param1 = (INT_PTR)mi->pszContactOwner;
 
-		tmi.ownerdata = fmep;
-	}
+	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mir_alloc(sizeof(FrameMenuExecParam));
+	if (fmep == NULL)
+		return 0;
 
-	return(CallService(MO_ADDNEWMENUITEM,(WPARAM)hFrameMenuObject,(LPARAM)&tmi));
+	fmep->szServiceName = mir_strdup(mi->pszService);
+	fmep->Frameid = mi->popupPosition;
+	fmep->param1 = (INT_PTR)mi->pszContactOwner;
+	tmi.ownerdata = fmep;
+
+	return CallService(MO_ADDNEWMENUITEM, (WPARAM)hFrameMenuObject, (LPARAM)&tmi);
 }
 
 static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)

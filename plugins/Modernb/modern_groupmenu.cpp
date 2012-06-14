@@ -80,54 +80,34 @@ INT_PTR BuildGroupMenu(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM *mi=(CLISTMENUITEM*)lParam;
-	lpGroupMenuParam gmp=(lpGroupMenuParam)wParam;
-	char buf[1024];
-
 	TMO_MenuItem tmi;
-	OptParam op;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	if ( !pcli->pfnConvertMenu(mi, &tmi))
+		return NULL;
 
-	if(mi->cbSize!=sizeof(CLISTMENUITEM)) return 0;
-	
-	memset(&tmi,0,sizeof(tmi));
-	tmi.cbSize=sizeof(tmi);
-	tmi.flags=mi->flags;
-	tmi.hIcon=mi->hIcon;
-	tmi.hotKey=mi->hotKey;
-	tmi.pszName=mi->pszName;
-	tmi.position=mi->position;
-
-	//pszPopupName for new system mean root level
-        //pszPopupName for old system mean that exists popup
-	tmi.root = mi->hParentMenu;
-
-	tmi.ownerdata=NULL;
-	
-	{
-		lpGroupMenuExecParam mmep;
-		mmep=(lpGroupMenuExecParam)mir_calloc(sizeof(GroupMenuExecParam));
-		if(mmep==NULL){return(0);};
+	lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)mir_calloc(sizeof(GroupMenuExecParam));
+	if (mmep == NULL)
+		return 0;
 		
-		//we need just one parametr.
-		mmep->szServiceName=mir_strdup(mi->pszService);
-		mmep->Param1=mi->popupPosition;
-		if (gmp!=NULL)
-		{
-			mmep->Param1=gmp->wParam;
-			mmep->Param2=gmp->lParam;
-		}
-
-		tmi.ownerdata=mmep;
+	//we need just one parametr.
+	mmep->szServiceName = mir_strdup(mi->pszService);
+	mmep->Param1 = mi->popupPosition;
+	lpGroupMenuParam gmp = (lpGroupMenuParam)wParam;
+	if (gmp != NULL) {
+		mmep->Param1 = gmp->wParam;
+		mmep->Param2 = gmp->lParam;
 	}
-	op.Handle=(HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hGroupMenuObject,(LPARAM)&tmi);
-	op.Setting=OPT_MENUITEMSETUNIQNAME;	
+	tmi.ownerdata=mmep;
+
+	char buf[1024];
 	sprintf(buf,"%s/%s",mi->pszService,mi->pszName);
-	op.Value=(INT_PTR)buf;
+
+	OptParam op;
+	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hGroupMenuObject,(LPARAM)&tmi);
+	op.Setting = OPT_MENUITEMSETUNIQNAME;	
+	op.Value = (INT_PTR)buf;
 	CallService(MO_SETOPTIONSMENUITEM,(WPARAM)0,(LPARAM)&op);
 	return (INT_PTR)op.Handle;
-
-//	mainItemCount++;
-//	return MENU_CUSTOMITEMMAIN|(mainMenuItem[mainItemCount-1].id);
 }
 
 int GroupMenuCheckService(WPARAM wParam,LPARAM lParam) {
@@ -545,54 +525,34 @@ HMENU cliBuildGroupPopupMenu(struct ClcGroup *group)
 }
 static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM *mi=(CLISTMENUITEM*)lParam;
-	lpGroupMenuParam gmp=(lpGroupMenuParam)wParam;
-	char buf[1024];
 	TMO_MenuItem tmi;
-	OptParam op;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	if ( !pcli->pfnConvertMenu(mi, &tmi))
+		return NULL;
 
-	if(mi->cbSize!=sizeof(CLISTMENUITEM)) return 0;
-	memset(&tmi,0,sizeof(tmi));
-	tmi.cbSize=sizeof(tmi);
-	tmi.flags=mi->flags;
-	tmi.hIcon=mi->hIcon;
-	tmi.hotKey=mi->hotKey;
-	tmi.pszName=mi->pszName;
-	tmi.position=mi->position;
-
-	//pszPopupName for new system mean root level
-        //pszPopupName for old system mean that exists popup
-	tmi.root = mi->hParentMenu;
-
-	tmi.ownerdata=NULL;
-	
-	{
-		lpSubGroupMenuExecParam mmep;
-		mmep=(lpSubGroupMenuExecParam)mir_calloc(sizeof(SubGroupMenuExecParam));
-		if(mmep==NULL){return(0);};
+	lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)mir_calloc(sizeof(SubGroupMenuExecParam));
+	if ( mmep == NULL)
+		return 0;
 		
-		//we need just one parametr.
-		mmep->szServiceName=mir_strdup(mi->pszService);
-		mmep->Param1=mi->popupPosition;
-		if (gmp!=NULL)
-		{
-			mmep->Param1=gmp->wParam;
-			mmep->Param2=gmp->lParam;
-
-		}
-		
-		
-		tmi.ownerdata=mmep;
+	//we need just one parametr.
+	mmep->szServiceName = mir_strdup(mi->pszService);
+	mmep->Param1 = mi->popupPosition;
+	lpGroupMenuParam gmp=(lpGroupMenuParam)wParam;
+	if (gmp != NULL) {
+		mmep->Param1 = gmp->wParam;
+		mmep->Param2 = gmp->lParam;
 	}
+	tmi.ownerdata=mmep;
+
+	char buf[1024];
+	sprintf(buf,"%s/%s",mi->pszService,mi->pszName);
+
+	OptParam op;
 	op.Handle=(HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hSubGroupMenuObject,(LPARAM)&tmi);
 	op.Setting=OPT_MENUITEMSETUNIQNAME;
-	sprintf(buf,"%s/%s",mi->pszService,mi->pszName);
 	op.Value=(INT_PTR)buf;
 	CallService(MO_SETOPTIONSMENUITEM,(WPARAM)0,(LPARAM)&op);
 	return (INT_PTR)op.Handle;
-
-//	mainItemCount++;
-//	return MENU_CUSTOMITEMMAIN|(mainMenuItem[mainItemCount-1].id);
 }
 
 INT_PTR SubGroupMenuCheckService(WPARAM wParam,LPARAM lParam) {

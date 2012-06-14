@@ -240,7 +240,7 @@ static int xmlapiGetElement( HXML _n, XML_ELEMENT_POS pos, XML_ELEMENT_TYPE *typ
 
 	if ( !type || pos >= XMLNode(_n).nElement())
 		return false;
-	XMLNodeContents c( XMLNode(_n).enumContents( ( XMLElementPosition )pos ));
+	XMLNodeContents c( XMLNode(_n).enumContents(( XMLElementPosition )pos ));
 	switch ( c.etype ) {
 		case eNodeChild:
 		{

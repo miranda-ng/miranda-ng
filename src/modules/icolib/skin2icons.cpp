@@ -42,7 +42,7 @@ struct IcoLibOptsData {
 
 CRITICAL_SECTION csIconList;
 
-#define SECTIONPARAM_MAKE(index, level, flags) MAKELONG( (index)&0xFFFF, MAKEWORD( level, flags ) )
+#define SECTIONPARAM_MAKE(index, level, flags) MAKELONG((index)&0xFFFF, MAKEWORD( level, flags ) )
 #define SECTIONPARAM_INDEX(lparam) LOWORD( lparam )
 #define SECTIONPARAM_LEVEL(lparam) LOBYTE( HIWORD(lparam) )
 #define SECTIONPARAM_FLAGS(lparam) HIBYTE( HIWORD(lparam) )

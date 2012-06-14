@@ -649,7 +649,7 @@ char **GetServiceModePluginsList(void)
 		p = p->nextclass;
 	}
 	if ( i ) {
-		list = (char**)mir_calloc( (i + 1) * sizeof(char*) );
+		list = (char**)mir_calloc((i + 1) * sizeof(char*) );
 		p = pluginListSM;
 		i = 0;
 		while ( p != NULL ) {

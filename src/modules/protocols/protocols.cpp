@@ -248,7 +248,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 	if ( pre->flags & PREF_UTF )
 		dbei.flags |= DBEF_UTF;
 	if ( pre->flags & PREF_UNICODE )
-		dbei.cbBlob += sizeof( wchar_t )*( (DWORD)wcslen(( wchar_t* )&pre->szMessage[dbei.cbBlob+1] )+1 );
+		dbei.cbBlob += sizeof( wchar_t )*((DWORD)wcslen(( wchar_t* )&pre->szMessage[dbei.cbBlob+1] )+1 );
 
 	dbei.pBlob = ( PBYTE ) pre->szMessage;
 	return CallService( MS_DB_EVENT_ADD, ( WPARAM ) ccs->hContact, ( LPARAM )&dbei );
@@ -436,7 +436,7 @@ INT_PTR CallProtoServiceInt( HANDLE hContact, const char *szModule, const char *
 						return ( INT_PTR )ppi->AddToList( wParam, (PROTOSEARCHRESULT*)lParam ); 
 #endif
 					case  2: return ( INT_PTR )ppi->AddToListByEvent( LOWORD(wParam), HIWORD(wParam), (HANDLE)lParam ); 
-					case  3: return ( INT_PTR )ppi->Authorize( ( HANDLE )wParam ); 
+					case  3: return ( INT_PTR )ppi->Authorize(( HANDLE )wParam ); 
 					case  4:
 						if ( ppi->m_iVersion > 1 )
 							return ( INT_PTR )ppi->AuthDeny(( HANDLE )wParam,  StrConvT(( char* )lParam )); 
@@ -496,8 +496,8 @@ INT_PTR CallProtoServiceInt( HANDLE hContact, const char *szModule, const char *
 						else
 							return ( INT_PTR )ppi->SearchByName( psbn->pszNick, psbn->pszFirstName, psbn->pszLastName ); 
 					}
-					case 18: return ( INT_PTR )ppi->SearchAdvanced( ( HWND )lParam ); 
-					case 19: return ( INT_PTR )ppi->CreateExtendedSearchUI ( ( HWND )lParam ); 
+					case 18: return ( INT_PTR )ppi->SearchAdvanced(( HWND )lParam ); 
+					case 19: return ( INT_PTR )ppi->CreateExtendedSearchUI (( HWND )lParam ); 
 					case 20: return ( INT_PTR )ppi->RecvContacts( hContact, ( PROTORECVEVENT* )lParam ); 
 					case 21: return ( INT_PTR )ppi->RecvFile( hContact, ( PROTOFILEEVENT* )lParam ); 
 					case 22: return ( INT_PTR )ppi->RecvMsg( hContact, ( PROTORECVEVENT* )lParam ); 
@@ -527,7 +527,7 @@ INT_PTR CallProtoServiceInt( HANDLE hContact, const char *szModule, const char *
 							return ( INT_PTR )ppi->SetAwayMsg( wParam, StrConvT(( char* )lParam ));
 						else
 							return ( INT_PTR )ppi->SetAwayMsg( wParam, ( TCHAR* )lParam ); 
-					case 34: return ( INT_PTR )ppi->UserIsTyping( ( HANDLE )wParam, lParam ); 
+					case 34: return ( INT_PTR )ppi->UserIsTyping(( HANDLE )wParam, lParam ); 
 					case 35: lstrcpynA(( char* )lParam, ppi->m_szModuleName, wParam ); return 0; 
 					case 36: return ppi->m_iStatus; 
 					

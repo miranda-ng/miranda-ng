@@ -220,7 +220,7 @@ typedef struct
 	int    ( *pfnGetRowsPriorTo )( struct ClcGroup *group, struct ClcGroup *subgroup, int contactIndex );
 	int    ( *pfnFindItem )( HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, struct ClcGroup **subgroup, int *isVisible );
 	int    ( *pfnGetRowByIndex )( struct ClcData *dat, int testindex, struct ClcContact **contact, struct ClcGroup **subgroup );
-   HANDLE ( *pfnContactToHItem )( struct ClcContact* contact );
+	HANDLE ( *pfnContactToHItem )( struct ClcContact* contact );
 	HANDLE ( *pfnContactToItemHandle )( struct ClcContact * contact, DWORD * nmFlags );
 
 	/* clcitems.c */
@@ -262,7 +262,7 @@ typedef struct
 	void  ( *pfnCalcEipPosition )( struct ClcData *dat, struct ClcContact *contact, struct ClcGroup *group, POINT *result);
 	int   ( *pfnGetDropTargetInformation )( HWND hwnd, struct ClcData *dat, POINT pt );
 	int   ( *pfnClcStatusToPf2 )( int status );
-   int   ( *pfnIsHiddenMode )( struct ClcData *dat, int status );
+	int   ( *pfnIsHiddenMode )( struct ClcData *dat, int status );
 	void  ( *pfnHideInfoTip )( HWND hwnd, struct ClcData *dat );
 	void  ( *pfnNotifyNewContact )( HWND hwnd, HANDLE hContact );
 	DWORD ( *pfnGetDefaultExStyle )( void );
@@ -327,7 +327,7 @@ typedef struct
 
 	/* group.c */
 	TCHAR* ( *pfnGetGroupName )( int idx, DWORD* pdwFlags );
-   int    ( *pfnRenameGroup )( int groupID, TCHAR* newName );
+	int    ( *pfnRenameGroup )( int groupID, TCHAR* newName );
 
 	/* keyboard.c */
 	int   ( *pfnHotKeysRegister )( HWND hwnd );
@@ -382,7 +382,7 @@ typedef struct
 	int      trayIconCount;
 	int      shellVersion;
 	UINT_PTR cycleTimerId;
-    int      cycleStep;
+	int      cycleStep;
 	TCHAR*   szTip;
 	BOOL     bTrayMenuOnScreen;
 
@@ -408,6 +408,7 @@ typedef struct
 	 * version 6 additions (0.8.0.x) - accounts
 	 *************************************************************************************/
 	int    ( *pfnGetAccountIndexByPos )( int pos );
+	int    ( *pfnConvertMenu )( CLISTMENUITEM*, TMO_MenuItem* );
 }
 	CLIST_INTERFACE;
 

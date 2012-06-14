@@ -10,7 +10,8 @@ typedef struct{
 	char *szServiceName;
 	int Frameid;
 	INT_PTR param1;
-}FrameMenuExecParam,*lpFrameMenuExecParam;
+}
+	FrameMenuExecParam,*lpFrameMenuExecParam;
 
 void FreeAndNil( void **p )
 {
@@ -20,40 +21,29 @@ void FreeAndNil( void **p )
 	if ( *p != NULL ) {
 		mir_free( *p );
 		*p = NULL;
-	}	}
+}	}
 
 static INT_PTR AddContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM *mi=(CLISTMENUITEM*)lParam;
-	TMO_MenuItem tmi={0};
+	TMO_MenuItem tmi;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	if ( !pcli->pfnConvertMenu(mi, &tmi))
+		return NULL;
 
-	if(mi->cbSize!=sizeof(CLISTMENUITEM)) return 0;
+	tmi.root = (mi->flags & CMIF_ROOTHANDLE) ? mi->hParentMenu : NULL;
 
-	memset(&tmi,0,sizeof(tmi));
+	lpFrameMenuExecParam fmep = (lpFrameMenuExecParam)mir_alloc(sizeof(FrameMenuExecParam));
+	if (fmep == NULL)
+		return 0;
 
-	tmi.cbSize=sizeof(tmi);
-	tmi.flags=mi->flags;
-	tmi.hIcon=mi->hIcon;
-	tmi.hotKey=mi->hotKey;
-	tmi.position=mi->position;
-	tmi.pszName=mi->pszName;
+	memset(fmep, 0, sizeof(FrameMenuExecParam));
+	fmep->szServiceName = mir_strdup(mi->pszService);
+	fmep->Frameid = mi->popupPosition;
+	fmep->param1 = (INT_PTR)mi->pszContactOwner;
+	tmi.ownerdata = fmep;
 
-	if ( mi->flags & CMIF_ROOTHANDLE ) tmi.root = mi->hParentMenu;
-	{
-		lpFrameMenuExecParam fmep;
-		fmep=(lpFrameMenuExecParam)mir_alloc(sizeof(FrameMenuExecParam));
-		if (fmep==NULL){return(0);};
-		memset(fmep,0,sizeof(FrameMenuExecParam));
-		fmep->szServiceName=mir_strdup(mi->pszService);
-		fmep->Frameid=mi->popupPosition;
-		fmep->param1=(INT_PTR)mi->pszContactOwner;
-
-		tmi.ownerdata=fmep;
-	};
-
-	return(CallService(MO_ADDNEWMENUITEM,(WPARAM)hFrameMenuObject,(LPARAM)&tmi));
+	return CallService(MO_ADDNEWMENUITEM,(WPARAM)hFrameMenuObject,(LPARAM)&tmi);
 }
-
 
 static INT_PTR RemoveContextFrameMenuItem(WPARAM wParam,LPARAM lParam)
 {

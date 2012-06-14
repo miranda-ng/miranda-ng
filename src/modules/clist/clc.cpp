@@ -71,7 +71,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	char *szProto;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-	if ( (HANDLE)wParam != NULL && !strcmp(cws->szModule, "CList")) {
+	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule, "CList")) {
 		if (!strcmp(cws->szSetting, "MyHandle")) {
 			cli.pfnInvalidateDisplayNameCacheEntry((HANDLE) wParam);
 			cli.pfnClcBroadcast( INTM_NAMECHANGED, wParam, lParam);

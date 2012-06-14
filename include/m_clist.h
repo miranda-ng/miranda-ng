@@ -117,6 +117,8 @@ typedef struct {
 }
 	CLISTMENUITEM;
 
+#define CLISTMENUITEM_OLDSIZE_V1 (offsetof(CLISTMENUITEM,hLangpack))
+
 #define HGENMENU_ROOT      (( HGENMENU )-1)
 
 #define CMIF_GRAYED     1

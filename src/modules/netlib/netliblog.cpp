@@ -111,12 +111,12 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			{
 				tvis.item.pszText=netlibUser[i]->user.ptszDescriptiveName;
 				tvis.item.lParam=i;
-				tvis.item.state=INDEXTOSTATEIMAGEMASK( (netlibUser[i]->toLog) ? 2 : 1 );
+				tvis.item.state=INDEXTOSTATEIMAGEMASK((netlibUser[i]->toLog) ? 2 : 1 );
 				TreeView_InsertItem(hwndFilter, &tvis);
 			}
 			tvis.item.lParam=-1;
 			tvis.item.pszText=TranslateT("(Miranda Core Logging)");
-			tvis.item.state=INDEXTOSTATEIMAGEMASK( (logOptions.toLog) ? 2 : 1 );
+			tvis.item.state=INDEXTOSTATEIMAGEMASK((logOptions.toLog) ? 2 : 1 );
 			TreeView_InsertItem(hwndFilter, &tvis);
 		}
 		return TRUE;

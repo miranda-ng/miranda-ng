@@ -396,12 +396,12 @@ static INT_PTR sttLoadSkinIcon( WPARAM wParam, LPARAM lParam )
 
 static INT_PTR sttLoadSkinProtoIcon( WPARAM wParam, LPARAM lParam )
 {
-	return (INT_PTR)LoadSkinProtoIcon( (char*)wParam, (int)lParam, false );
+	return (INT_PTR)LoadSkinProtoIcon((char*)wParam, (int)lParam, false );
 }
 
 static INT_PTR sttLoadSkinProtoIconBig( WPARAM wParam, LPARAM lParam )
 {
-	return (INT_PTR)LoadSkinProtoIcon( (char*)wParam, (int)lParam, true );
+	return (INT_PTR)LoadSkinProtoIcon((char*)wParam, (int)lParam, true );
 }
 
 int LoadSkinIcons(void)

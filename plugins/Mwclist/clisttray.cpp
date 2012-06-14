@@ -106,38 +106,20 @@ static INT_PTR BuildTrayMenu(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
 	TMO_MenuItem tmi;
+	CLISTMENUITEM *mi = (CLISTMENUITEM*)lParam;
+	if ( !pcli->pfnConvertMenu(mi, &tmi))
+		return NULL;
+
+	lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)mir_alloc(sizeof(TrayMenuExecParam));
+	if (mmep == NULL)
+		return 0;
+
+	mmep->szServiceName = mir_strdup(mi->pszService);
+	mmep->Param1 = mi->popupPosition;
+	tmi.ownerdata = mmep;
+
 	OptParam op;
-
-	if (mi->cbSize != sizeof(CLISTMENUITEM)) return 0;
-
-	memset(&tmi,0,sizeof(tmi));
-	tmi.cbSize = sizeof(tmi);
-	tmi.flags = mi->flags;
-	tmi.hIcon = mi->hIcon;
-	tmi.hotKey = mi->hotKey;
-	tmi.pszName = mi->pszName;
-	tmi.position = mi->position;
-
-	//pszPopupName for new system mean root level
-        //pszPopupName for old system mean that exists popup
-	tmi.root = (HGENMENU)mi->pszPopupName;
-
-	tmi.ownerdata = NULL;
-
-	{
-		lpTrayMenuExecParam mmep;
-		mmep = (lpTrayMenuExecParam)mir_alloc(sizeof(TrayMenuExecParam));
-		if (mmep == NULL)
-			return 0;
-
-		//we need just one parametr.
-		mmep->szServiceName = mir_strdup(mi->pszService);
-		mmep->Param1 = mi->popupPosition;
-
-		tmi.ownerdata = mmep;
-	}
 	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hTrayMenuObject,(LPARAM)&tmi);
 	op.Setting = OPT_MENUITEMSETUNIQNAME;
 	op.Value = (INT_PTR)mi->pszService;

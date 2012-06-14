@@ -131,7 +131,7 @@ static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
 int IrcPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
 	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof( CLISTMENUITEM );
+	clmi.cbSize = sizeof(CLISTMENUITEM);
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&clmi );

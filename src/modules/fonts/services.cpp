@@ -312,7 +312,7 @@ INT_PTR RegisterFont(WPARAM wParam, LPARAM)
 {
 	#if defined( _UNICODE )
 		TFontID temp;
-		ConvertFontID( ( FontID* )wParam, &temp );
+		ConvertFontID(( FontID* )wParam, &temp );
 		return sttRegisterFontWorker( &temp );
 	#else
 		return sttRegisterFontWorker(( TFontID* )wParam );
@@ -486,7 +486,7 @@ INT_PTR RegisterEffect(WPARAM wParam, LPARAM lParam)
 {
 #if defined( _UNICODE )
     TEffectID temp;
-    ConvertEffectID( ( EffectID* )wParam, &temp );
+    ConvertEffectID(( EffectID* )wParam, &temp );
     return sttRegisterEffectWorker( &temp );
 #else
     return sttRegisterEffectWorker(( TEffectID* )wParam );
