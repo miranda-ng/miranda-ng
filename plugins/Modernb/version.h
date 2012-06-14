@@ -8,18 +8,6 @@
 #define MINIMAL_COREVERSION 0, 9, 0, 0
 #define MINIMAL_COREVERSION_STR "0, 9, 0, 0 "
 
-#ifdef UNICODE
-#define VER_UNICODE " UNICODE"
-#else
-#define VER_UNICODE " ANSI"
-#endif
-
-#ifdef UNICODE
-#define UNICODE_AWARE_STR "(UNICODE)"
-#else
-#define UNICODE_AWARE_STR "(ANSI)"
-#endif
-
 #ifdef DEBUG
 #define DEBUG_AWARE_STR "Debug "
 #else
