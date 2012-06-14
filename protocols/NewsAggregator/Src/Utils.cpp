@@ -420,7 +420,7 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		return ( time_t ) 0;
 }
 
-TCHAR* StrReplace (TCHAR* Search, TCHAR* Replace, TCHAR* Resource)
+VOID StrReplace(TCHAR* Search, TCHAR* Replace, TCHAR*& Resource)
 {
 	int i = 0;
 	int SearchLen = (int)_tcslen(Search);
@@ -450,8 +450,6 @@ TCHAR* StrReplace (TCHAR* Search, TCHAR* Replace, TCHAR* Resource)
 		Pointer = _tcsstr(Resource + (ResourceLen - PointerLen + ReplaceLen), Search);
 	}
 	mir_free(Work);
-
-	return Resource;
 }
 
 BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
@@ -1014,33 +1012,33 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									message = mir_tstrdup(dbMsg.ptszVal);
 								DBFreeVariant(&dbMsg);
 								if (!title)
-									message = StrReplace(_T("#<title>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<title>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<title>#"), title, message);
+									StrReplace(_T("#<title>#"), title, message);
 								if (!link)
-									message = StrReplace(_T("#<link>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<link>#"), link, message);
+									StrReplace(_T("#<link>#"), link, message);
 								if (!descr)
-									message = StrReplace(_T("#<description>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<description>#"), descr, message);
+									StrReplace(_T("#<description>#"), descr, message);
 								if (!author)
-									message = StrReplace(_T("#<author>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<author>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<author>#"), author, message);
+									StrReplace(_T("#<author>#"), author, message);
 								if (!comments)
-									message = StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<comments>#"), comments, message);
+									StrReplace(_T("#<comments>#"), comments, message);
 								if (!guid)
-									message = StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<guid>#"), guid, message);
+									StrReplace(_T("#<guid>#"), guid, message);
 								if (!category)
-									message = StrReplace(_T("#<category>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<category>#"), category, message);
+									StrReplace(_T("#<category>#"), category, message);
 
 								ClearText(message);
 								char* pszUtf;
@@ -1348,46 +1346,46 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								DBFreeVariant(&dbMsg);
 
 								if (!title)
-									message = StrReplace(_T("#<title>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<title>#"), TranslateT("empty"), message);
 								else
 								{
-									message = StrReplace(_T("#<title>#"), title, message);
+									StrReplace(_T("#<title>#"), title, message);
 									mir_free(title);
 								}
 								if (!link)
-									message = StrReplace(_T("#<link>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<link>#"), link, message);
+									StrReplace(_T("#<link>#"), link, message);
 								if (!descr)
-									message = StrReplace(_T("#<description>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 								else
 								{
-									message = StrReplace(_T("#<description>#"), descr, message);
+									StrReplace(_T("#<description>#"), descr, message);
 									mir_free(descr);
 								}
 								if (!author)
-									message = StrReplace(_T("#<author>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<author>#"), TranslateT("empty"), message);
 								else
 								{
-									message = StrReplace(_T("#<author>#"), author, message);
+									StrReplace(_T("#<author>#"), author, message);
 									mir_free(author);
 								}
 								if (!comments)
-									message = StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
 								else
 								{
-									message = StrReplace(_T("#<comments>#"), comments, message);
+									StrReplace(_T("#<comments>#"), comments, message);
 									mir_free(comments);
 								}
 								if (!guid)
-									message = StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 								else
-									message = StrReplace(_T("#<guid>#"), guid, message);
+									StrReplace(_T("#<guid>#"), guid, message);
 								if (!category)
-									message = StrReplace(_T("#<category>#"), TranslateT("empty"), message);
+									StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 								else
 								{
-									message = StrReplace(_T("#<category>#"), category, message);
+									StrReplace(_T("#<category>#"), category, message);
 									mir_free(category);
 								}
 
