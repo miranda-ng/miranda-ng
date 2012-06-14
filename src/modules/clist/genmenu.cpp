@@ -726,14 +726,10 @@ PMO_IntMenuItem MO_AddOldNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi 
 	}
 	else { // no, search for needed root and create it if need
 		TCHAR* tszRoot;
-#if defined( _UNICODE )
 		if ( pmi->flags & CMIF_UNICODE )
-			tszRoot = mir_tstrdup(TranslateTS(( TCHAR* )pmi->root ));
+			tszRoot = mir_tstrdup(( TCHAR* )pmi->root );
 		else
-			tszRoot = LangPackPcharToTchar(( char* )pmi->root );
-#else
-		tszRoot = mir_tstrdup(TranslateTS(( TCHAR* )pmi->root ));
-#endif
+			tszRoot = mir_a2t(( char* )pmi->root );
 
 		PMO_IntMenuItem oldroot = MO_RecursiveWalkMenu( g_menus[objidx]->m_items.first, FindRoot, tszRoot );
 		mir_free( tszRoot );

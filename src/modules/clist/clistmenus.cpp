@@ -215,8 +215,7 @@ static INT_PTR AddMainMenuItem(WPARAM, LPARAM lParam)
 	if ( !cli.pfnConvertMenu(mi, &tmi))
 		return 0;
 
-	lpMainMenuExecParam mmep;
-	mmep = ( lpMainMenuExecParam )mir_alloc( sizeof( MainMenuExecParam ));
+	lpMainMenuExecParam mmep = ( lpMainMenuExecParam )mir_alloc( sizeof( MainMenuExecParam ));
 	if ( mmep == NULL )
 		return 0;
 
@@ -1060,33 +1059,27 @@ int statustopos(int status)
 
 static int MenuProtoAck(WPARAM, LPARAM lParam)
 {
-	int i;
 	ACKDATA* ack=(ACKDATA*)lParam;
-	int overallStatus;
-	TMO_MenuItem tmi;
-
 	if ( ack->type != ACKTYPE_STATUS ) return 0;
 	if ( ack->result != ACKRESULT_SUCCESS ) return 0;
 	if ( hStatusMainMenuHandles == NULL ) return 0;
+	if ( cli.pfnGetProtocolVisibility( ack->szModule ) == 0 ) return 0;
 
-    if ( cli.pfnGetProtocolVisibility( ack->szModule ) == 0 ) return 0;
+	int overallStatus = GetAverageMode();
 
-    overallStatus = GetAverageMode();
-
-	memset(&tmi, 0, sizeof(tmi));
-	tmi.cbSize=sizeof(tmi);
+	TMO_MenuItem tmi = { 0 };
+	tmi.cbSize = sizeof(tmi);
 	if (overallStatus >= ID_STATUS_OFFLINE) {
 		int pos = statustopos(cli.currentStatusMenuItem);
-		if (pos == -1) pos=0;
-		{   // reset all current possible checked statuses
-			int pos2;
-			for (pos2=0; pos2<hStatusMainMenuHandlesCnt; pos2++)
-			{
-				if (pos2>=0 && pos2 < hStatusMainMenuHandlesCnt)
-				{
-					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
-					MO_ModifyMenuItem( hStatusMainMenuHandles[pos2], &tmi );
-		}	}	}
+		if (pos == -1) 
+			pos=0;
+
+		// reset all current possible checked statuses
+		for (int pos2 = 0; pos2<hStatusMainMenuHandlesCnt; pos2++) {
+			if (pos2 >= 0 && pos2 < hStatusMainMenuHandlesCnt) {
+				tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
+				MO_ModifyMenuItem( hStatusMainMenuHandles[pos2], &tmi );
+		}	}
 
 		cli.currentStatusMenuItem=overallStatus;
 		pos = statustopos(cli.currentStatusMenuItem);
@@ -1107,7 +1100,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 		cli.currentStatusMenuItem=0;
 	}
 
-	for ( i=0; i < accounts.getCount(); i++ ) {
+	for ( int i=0; i < accounts.getCount(); i++ ) {
 		if ( !lstrcmpA( accounts[i]->szModuleName, ack->szModule )) {
 			if ((( int )ack->hProcess >= ID_STATUS_OFFLINE || ( int )ack->hProcess == 0 ) && ( int )ack->hProcess < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
 				int pos = statustopos(( int )ack->hProcess);
@@ -1116,7 +1109,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 				for ( pos = 0; pos < SIZEOF(statusModeList); pos++ ) {
 					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
 					MO_ModifyMenuItem( hStatusMenuHandles[i].menuhandle[pos], &tmi );
-				}	}
+			}	}
 
 			if ( ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
 				int pos = statustopos(( int )ack->lParam );
@@ -1143,7 +1136,7 @@ int fnConvertMenu( CLISTMENUITEM* mi, TMO_MenuItem* pmi )
 		return FALSE;
 
 	memset(pmi, 0, sizeof(TMO_MenuItem));
-	pmi->cbSize = sizeof(tmi);
+	pmi->cbSize = sizeof(TMO_MenuItem);
 	pmi->root = mi->hParentMenu;
 	pmi->flags = mi->flags;
 	pmi->hIcon = mi->hIcon;
