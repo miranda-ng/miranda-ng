@@ -1021,7 +1021,6 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	int i = 0, len = strlennull(m_szModuleName);
 	char srvFce[MAX_PATH + 64];
 	char szItem[MAX_PATH + 64];
-	HANDLE hXStatusRoot;
 	int bXStatusMenuBuilt = 0;
 
 	BYTE bXStatus = getContactXStatus(NULL);
@@ -1036,7 +1035,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 	null_snprintf(szItem, sizeof(szItem), Translate("%s Custom Status"), m_szModuleName);
 	mi.cbSize = sizeof(mi);
 	mi.pszPopupName = szItem;
-	mi.popupPosition= 500084000;
+	mi.popupPosition = 500084000;
 	mi.position = 2000040000;
 
 	for (i = 0; i <= XSTATUS_COUNT; i++) 
