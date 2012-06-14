@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 PLUGININFOEX pluginInfo = {
 		sizeof(PLUGININFOEX),
-		"Skin editor for clist_nicer+ (unicode)",
+		"Skin editor for clist_nicer+",
 		PLUGIN_MAKE_VERSION(0, 0, 0, 4),
 		"Allow inline skin item editing for clist nicer+.",
 		"Nightwish, Pixel",
