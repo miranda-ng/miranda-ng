@@ -467,7 +467,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 					CLISTMENUITEM mi2 = {0};
 					mi2.cbSize = sizeof(mi2);
 					mi2.flags = CMIM_NAME | CMIF_TCHAR;
-					mi2.ptszName = timi->mi.hIcon ? timi->mi.ptszName : LPGENT("Custom status");
+					mi2.ptszName = LangPackTranslateStringT(timi->mi.hLangpack, timi->mi.hIcon ? timi->mi.ptszName : LPGENT("Custom status"));
 
 					timiParent = MO_GetIntMenuItem( timi->mi.root );
 
