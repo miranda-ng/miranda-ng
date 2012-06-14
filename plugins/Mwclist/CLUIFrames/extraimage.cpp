@@ -182,7 +182,6 @@ int OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
 	hicon = LoadIconFromExternalFile("clisticons.dll",4,TRUE,FALSE,"Web","Contact List","Web Icon",-IDI_GLOBUS);
 	ExtraImageIconsIndex[2] = ImageList_ReplaceIcon(hExtraImageList,ExtraImageIconsIndex[2],hicon );		
 
-	NotifyEventHooks(ME_SKIN_ICONSCHANGED,0,0);
 	pcli->pfnClcBroadcast( INTM_INVALIDATE,0,0);
 	return 0;
 }
