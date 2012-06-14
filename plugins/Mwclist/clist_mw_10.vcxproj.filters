@@ -18,80 +18,80 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BkgrCfg.c">
+    <ClCompile Include="BkgrCfg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clc.c">
+    <ClCompile Include="clc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcidents.c">
+    <ClCompile Include="clcfonts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcfonts.c">
+    <ClCompile Include="clcidents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcitems.c">
+    <ClCompile Include="clcitems.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcopts.c">
+    <ClCompile Include="clcopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcpaint.c">
+    <ClCompile Include="clcpaint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcutils.c">
+    <ClCompile Include="clcutils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clistmenus.c">
+    <ClCompile Include="clistmenus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clistmod.c">
+    <ClCompile Include="clistmod.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clistopts.c">
+    <ClCompile Include="clistopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clistsettings.c">
+    <ClCompile Include="clistsettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clisttray.c">
+    <ClCompile Include="clisttray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clui.c">
+    <ClCompile Include="clui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cluiopts.c">
+    <ClCompile Include="cluiopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cluiservices.c">
+    <ClCompile Include="cluiservices.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="commonheaders.c">
+    <ClCompile Include="commonheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="contact.c">
+    <ClCompile Include="contact.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="groupmenu.c">
+    <ClCompile Include="groupmenu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="init.c">
+    <ClCompile Include="init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="keyboard.c">
+    <ClCompile Include="keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\cluiframes.c">
-      <Filter>Source Files\CLUIFrames</Filter>
+    <ClCompile Include="CLUIFrames\cluiframes.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\extraimage.c">
-      <Filter>Source Files\CLUIFrames</Filter>
+    <ClCompile Include="CLUIFrames\extraimage.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\framesmenu.c">
-      <Filter>Source Files\CLUIFrames</Filter>
+    <ClCompile Include="CLUIFrames\framesmenu.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CLUIFrames\statusbar.c">
-      <Filter>Source Files\CLUIFrames</Filter>
+    <ClCompile Include="CLUIFrames\statusbar.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
