@@ -467,7 +467,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 					CLISTMENUITEM mi2 = {0};
 					mi2.cbSize = sizeof(mi2);
 					mi2.flags = CMIM_NAME | CMIF_TCHAR;
-					mi2.ptszName = timi->mi.hIcon ? timi->mi.ptszName : TranslateT("Custom status");
+					mi2.ptszName = timi->mi.hIcon ? timi->mi.ptszName : LPGENT("Custom status");
 
 					timiParent = MO_GetIntMenuItem( timi->mi.root );
 
@@ -587,7 +587,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 					TCHAR buf[256];
 					pimi->mi.flags|=CMIF_CHECKED;
 					if ( cli.bDisplayLocked ) {
-						mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s (locked)"), acc->tszAccountName);
+						mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s (locked)"), acc->tszAccountName);
 						pimi->mi.ptszName = mir_tstrdup( buf );
 						root->mi.ptszName = mir_tstrdup( buf );
 					}
@@ -881,7 +881,7 @@ void RebuildMenuOrder( void )
 		tmi.hIcon = ic = (HICON)CallProtoService( pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0 );
 
 		if ( Proto_IsAccountLocked( pa ) && cli.bDisplayLocked ) {
-			mir_sntprintf( tbuf, SIZEOF(tbuf), TranslateT("%s (locked)"), pa->tszAccountName );
+			mir_sntprintf( tbuf, SIZEOF(tbuf), LPGENT("%s (locked)"), pa->tszAccountName );
 			tmi.ptszName = tbuf;
 		}
 		else tmi.ptszName = pa->tszAccountName;
@@ -912,7 +912,7 @@ void RebuildMenuOrder( void )
 			tmi.flags |= CMIF_CHECKED;
 
 		if (( tmi.flags & CMIF_CHECKED ) && cli.bDisplayLocked ) {
-			mir_sntprintf( tbuf, SIZEOF(tbuf), TranslateT("%s (locked)"), pa->tszAccountName );
+			mir_sntprintf( tbuf, SIZEOF(tbuf), LPGENT("%s (locked)"), pa->tszAccountName );
 			tmi.ptszName = tbuf;
 		}
 		else tmi.ptszName = pa->tszAccountName;
@@ -1005,7 +1005,7 @@ void RebuildMenuOrder( void )
 				TCHAR buf[ 256 ], hotkeyName[ 100 ];
 				WORD hotKey = GetHotkeyValue( statusHotkeys[j] );
 				HotkeyToName( hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_sntprintf( buf, SIZEOF( buf ), TranslateT("%s\t%s"), 
+				mir_sntprintf( buf, SIZEOF( buf ), LPGENT("%s\t%s"), 
 					cli.pfnGetStatusModeDescription( statusModeList[j], 0 ), hotkeyName );
 				tmi.ptszName = buf;
 				tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1035,7 +1035,7 @@ static int sttRebuildHotkeys( WPARAM, LPARAM )
 		TCHAR buf[ 256 ], hotkeyName[ 100 ];
 		WORD hotKey = GetHotkeyValue( statusHotkeys[j] );
 		HotkeyToName( hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_sntprintf( buf, SIZEOF( buf ), TranslateT("%s\t%s"), 
+		mir_sntprintf( buf, SIZEOF( buf ), LPGENT("%s\t%s"), 
 			cli.pfnGetStatusModeDescription( statusModeList[j], 0 ), hotkeyName );
 		tmi.ptszName = buf;
 		tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));

@@ -55,7 +55,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 
         for (psz=szPorts;*psz;) 
 		{
-	        while (*psz == ' ' || *psz == ', ') psz++;
+	        while (*psz == ' ' || *psz == ',') psz++;
 	        portMin = strtol(psz, &pszEnd, 0);
 	        if (pszEnd == psz) break;
 	        while (*pszEnd == ' ') pszEnd++;

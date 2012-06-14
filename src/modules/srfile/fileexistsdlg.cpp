@@ -187,7 +187,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 		if ( szIconFile[0]) {
 			int iconIndex;
 			HICON hIcon;
-			TCHAR *pszComma = _tcsrchr(szIconFile, ', ');
+			TCHAR *pszComma = _tcsrchr(szIconFile, ',');
 			if ( pszComma == NULL )
 				iconIndex=0;
 			else {
