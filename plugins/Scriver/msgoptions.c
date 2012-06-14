@@ -135,76 +135,10 @@ int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#if defined( _UNICODE )
 static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 {
   return DEFAULT_CHARSET;
 }
-#else
-// get font charset according to current CP
-static BYTE MsgDlgGetCPDefaultCharset()
-{
-	switch (GetACP()) {
-		case 1250:
-			return EASTEUROPE_CHARSET;
-		case 1251:
-			return RUSSIAN_CHARSET;
-		case 1252:
-			return ANSI_CHARSET;
-		case 1253:
-			return GREEK_CHARSET;
-		case 1254:
-			return TURKISH_CHARSET;
-		case 1255:
-			return HEBREW_CHARSET;
-		case 1256:
-			return ARABIC_CHARSET;
-		case 1257:
-			return BALTIC_CHARSET;
-		case 1361:
-			return JOHAB_CHARSET;
-		case 874:
-			return THAI_CHARSET;
-		case 932:
-			return SHIFTJIS_CHARSET;
-		case 936:
-			return GB2312_CHARSET;
-		case 949:
-			return HANGEUL_CHARSET;
-		case 950:
-			return CHINESEBIG5_CHARSET;
-		default:
-			return DEFAULT_CHARSET;
-	}
-}
-
-static int CALLBACK EnumFontFamExProc(const LOGFONT *lpelfe, const TEXTMETRIC *lpntme, DWORD FontType, LPARAM lParam)
-{
-	*(int*)lParam = 1;
-	return 0;
-}
-
-// get font charset according to current CP, if available for specified font
-static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
-{
-	HDC hdc;
-	LOGFONT lf = {0};
-	int found = 0;
-
-	_tcscpy(lf.lfFaceName, szFont);
-	lf.lfCharSet = MsgDlgGetCPDefaultCharset();
-
-	// check if the font supports specified charset
-	hdc = GetDC(0);
-	EnumFontFamiliesEx(hdc, &lf, &EnumFontFamExProc, (LPARAM)&found, 0);
-	ReleaseDC(0, hdc);
-
-	if (found)
-		return lf.lfCharSet;
-	else // no, give default
-		return DEFAULT_CHARSET;
-}
-#endif
 
 void RegisterFontServiceFonts() {
 	int i;

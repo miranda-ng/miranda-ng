@@ -121,9 +121,7 @@ void CListSettings_FreeCacheItemDataOption( pdisplayNameCacheEntry pDst, DWORD f
 	        if (!pDst->isUnknown && pDst->m_cache_tcsName!=UnknownConctactTranslatedName) mir_free_and_nill(pDst->m_cache_tcsName);
 	
 	    }
-	    #if defined( _UNICODE )
-			if (pDst->m_cache_szName) mir_free_and_nill(pDst->m_cache_szName);
-		#endif
+	    if (pDst->m_cache_szName) mir_free_and_nill(pDst->m_cache_szName);
 	}
 
     if ( flag & CCI_GROUP ) 
@@ -155,9 +153,7 @@ void CListSettings_CopyCacheItems(pdisplayNameCacheEntry pDst, pdisplayNameCache
 		    pDst->m_cache_tcsName = pSrc->m_cache_tcsName;
         else
 		    pDst->m_cache_tcsName=mir_tstrdup(pSrc->m_cache_tcsName);
-		#if defined( _UNICODE )
-	        pDst->m_cache_szName=mir_strdup(pSrc->m_cache_szName);
-		#endif
+			pDst->m_cache_szName=mir_strdup(pSrc->m_cache_szName);
 	}
 	if ( flag & CCI_GROUP )  pDst->m_cache_tcsGroup=mir_tstrdup(pSrc->m_cache_tcsGroup);
 	if ( flag & CCI_PROTO )	pDst->m_cache_cszProto=pSrc->m_cache_cszProto;
@@ -233,9 +229,7 @@ void cliFreeCacheItem( pdisplayNameCacheEntry p )
     TRACEVAR("cliFreeCacheItem hContact=%d",hContact);
 	if ( !p->isUnknown && p->m_cache_tcsName && p->m_cache_tcsName!=UnknownConctactTranslatedName) mir_free_and_nill(p->m_cache_tcsName);
 	p->m_cache_tcsName = NULL; 
-	#if defined( _UNICODE )
-		if ( p->m_cache_szName) { mir_free_and_nill(p->m_cache_szName); p->m_cache_szName = NULL; }
-	#endif
+	if ( p->m_cache_szName) { mir_free_and_nill(p->m_cache_szName); p->m_cache_szName = NULL; }
 	if ( p->m_cache_tcsGroup) { mir_free_and_nill(p->m_cache_tcsGroup); p->m_cache_tcsGroup = NULL; }
 	if ( p->szSecondLineText) mir_free_and_nill(p->szSecondLineText);
 	if ( p->szThirdLineText) mir_free_and_nill(p->szThirdLineText);
@@ -263,9 +257,7 @@ void cliCheckCacheItem(pdisplayNameCacheEntry pdnce)
 		if (pdnce->m_cache_hContact==NULL) //selfcontact
 		{
 			if (!pdnce->m_cache_tcsName) pdnce->m_cache_tcsName=GetNameForContact(pdnce->m_cache_hContact,0,&pdnce->isUnknown);
-#ifdef _UNICODE
 			if (!pdnce->m_cache_szName) pdnce->m_cache_szName=mir_t2a(pdnce->m_cache_tcsName);
-#endif
 			return;
 		}
 		if (pdnce->m_cache_cszProto==NULL&&pdnce->m_cache_bProtoNotExists==FALSE)
@@ -307,9 +299,7 @@ void cliCheckCacheItem(pdisplayNameCacheEntry pdnce)
                     // what to return here???
 					pdnce->m_cache_tcsName = GetNameForContact(pdnce->m_cache_hContact,0,&pdnce->isUnknown); //TODO UNICODE
 			}	
-#if defined( _UNICODE )
 			if (pdnce->m_cache_szName) mir_free_and_nill(pdnce->m_cache_szName);
-#endif
 		}
 		else
 		{
@@ -380,9 +370,7 @@ void cliCheckCacheItem(pdisplayNameCacheEntry pdnce)
 			pdnce->dwLastMsgTime=ModernGetSettingDword(pdnce->m_cache_hContact, "CList", "mf_lastmsg", 0);
 			if (pdnce->dwLastMsgTime==0) pdnce->dwLastMsgTime=CompareContacts2_getLMTime(pdnce->m_cache_hContact);
 		}
-#ifdef _UNICODE
 		if (!pdnce->m_cache_szName) pdnce->m_cache_szName=mir_t2a(pdnce->m_cache_tcsName);
-#endif
 	}
 }
 

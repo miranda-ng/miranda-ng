@@ -7,11 +7,8 @@
 #include <windows.h>
 
 #undef RICHEDIT_CLASS
-#if defined ( UNICODE )
+
 #define RICHEDIT_CLASS "RichEdit20W"
-#else
-#define RICHEDIT_CLASS "RichEdit20A"
-#endif
 
 #ifndef IDC_STATIC
 #define IDC_STATIC (-1)

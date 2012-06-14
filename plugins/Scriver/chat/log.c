@@ -208,11 +208,7 @@ static int Log_AppendRTF(LOGSTREAMDATA* streamData, BOOL simpleMode, char **buff
 		else if (*line > 0 && *line < 128) {
 			*d++ = (char) *line;
 		} else {
-		#if defined( _UNICODE )
 			d += sprintf(d, "\\u%u ?", (WORD)*line);
-		#else
-			d += sprintf(d, "\\'%02x", (BYTE)*line);
-		#endif
 		}
 	}
 
@@ -323,13 +319,12 @@ static void AddEventToBuffer(char **buffer, int *bufferEnd, int *bufferAlloced, 
 			if ( streamData->lin->ptszText ) {
 				TCHAR *ptszTemp = NULL;
 				TCHAR *ptszText = streamData->lin->ptszText;
-		#if defined( _UNICODE )
 				if (streamData->si->windowData.codePage != CP_ACP) {
 					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
 					ptszText = ptszTemp = a2tcp(aText, streamData->si->windowData.codePage);
 					mir_free(aText);
 				}
-		#endif
+
 				Log_AppendRTF( streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), ptszText );
 				mir_free(ptszTemp);
 			}
@@ -416,13 +411,12 @@ static void AddEventToBufferIEView(TCHAR **buffer, int *bufferEnd, int *bufferAl
 			if ( streamData->lin->ptszText ) {
 				TCHAR *ptszTemp = NULL;
 				TCHAR *ptszText = streamData->lin->ptszText;
-		#if defined( _UNICODE )
 				if (streamData->si->windowData.codePage != CP_ACP) {
 					char *aText = t2acp(streamData->lin->ptszText, CP_ACP);
 					ptszText = ptszTemp = a2tcp(aText, streamData->si->windowData.codePage);
 					mir_free(aText);
 				}
-		#endif
+
 				Log_AppendIEView( streamData, FALSE, buffer, bufferEnd, bufferAlloced, _T("%s"), ptszText );
 				mir_free(ptszTemp);
 			}
@@ -567,9 +561,7 @@ static void LogEventIEView(LOGSTREAMDATA *streamData, TCHAR *ptszNick)
 	}
 	ied.dwData |= g_Settings.ShowTime ? IEEDD_GC_SHOW_TIME : 0;
 	ied.dwData |= IEEDD_GC_SHOW_ICON;
-#if defined( _UNICODE )
 	ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-#endif
 	ied.next = NULL;
 	/*
 	ied.color = event->color;
@@ -881,15 +873,6 @@ char * Log_CreateRtfHeader(MODULEINFO * mi, SESSION_INFO* si)
 	int charset = 0;
 	BOOL forceCharset = FALSE;
 
-#if !defined ( _UNICODE )
-		if (si->windowData.codePage != CP_ACP) {
-			CHARSETINFO csi;
- 			if(TranslateCharsetInfo((DWORD*)si->windowData.codePage, &csi, TCI_SRCCODEPAGE)) {
-				forceCharset = TRUE;
-				charset = csi.ciCharset;
-			}
-		}
-#endif
 	// guesstimate amount of memory for the RTF header
 	bufferEnd = 0;
 	bufferAlloced = 4096;

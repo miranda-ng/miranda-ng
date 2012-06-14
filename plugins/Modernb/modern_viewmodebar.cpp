@@ -118,7 +118,6 @@ int FillModes(char *szsetting)
     if(szsetting[0] == (char)13)
         return 1;
 
-#ifdef _UNICODE
 	{	
 		TCHAR * temp;
 		//temp=alloca((strlen(szSetting)+1)*sizeof(TCHAR));
@@ -129,10 +128,7 @@ int FillModes(char *szsetting)
 				mir_free(temp);
 			}
 	}
-#else
-	SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_INSERTSTRING, -1, (LPARAM)szsetting);    
-#endif
-    return 1;
+	return 1;
 }
 
 static void ShowPage(HWND hwnd, int page)
@@ -489,13 +485,11 @@ void SaveState()
             //if(vastring)
             //    GetDlgItemTextA(clvmHwnd, IDC_VARIABLES, vastring, len);
             SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempModeName);
-#ifdef _UNICODE
+
 			{
 				szModeName=mir_utf8encodeT(szTempModeName);
 			}
-#else
-			szModeName=szTempModeName;
-#endif
+
             dwGlobalMask = GetMaskForItem(hInfoItem);
             hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
             while(hContact) 
@@ -574,12 +568,8 @@ static void UpdateFilters()
     szTempBuf= (TCHAR *)mir_alloc((iLen + 1)*sizeof(TCHAR));
     SendDlgItemMessage(clvmHwnd, IDC_VIEWMODES, LB_GETTEXT, clvm_curItem, (LPARAM)szTempBuf);
  
-#ifdef _UNICODE
 	szBuf=mir_utf8encodeT(szTempBuf);
-#else
-	szBuf=mir_strdup(szTempBuf);
-#endif
-    strncpy(g_szModename, szBuf, SIZEOF(g_szModename));
+	strncpy(g_szModename, szBuf, SIZEOF(g_szModename));
     g_szModename[SIZEOF(g_szModename) - 1] = 0;
     mir_sntprintf(szTemp, 100, TranslateT("Configuring view mode: %s"), szTempBuf);
     SetDlgItemText(clvmHwnd, IDC_CURVIEWMODE2, szTemp);
@@ -790,12 +780,8 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
             if ( g_CluiData.current_viewmode[0]!='\0' )
             {
                 TCHAR * temp=
-#ifdef _UNICODE 
-                    mir_utf8decodeW( g_CluiData.current_viewmode );
-#else
-                    mir_strdup( g_CluiData.current_viewmode );
-#endif
-
+				mir_utf8decodeW( g_CluiData.current_viewmode );
+				
                 if(temp)
                 {
                     index = SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_FINDSTRING, -1, (LPARAM)temp );
@@ -869,11 +855,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                                 
                                 
                                 SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETTEXT, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), (LPARAM)szTempBuf);
-#ifdef _UNICODE
 								szBuf=mir_utf8encodeT(szTempBuf);
-#else
-								szBuf=szTempBuf;
-#endif
 								DeleteViewMode( szBuf );
 
 								SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_DELETESTRING, SendDlgItemMessage(hwndDlg, IDC_VIEWMODES, LB_GETCURSEL, 0, 0), 0);
@@ -907,12 +889,9 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                     if(lstrlen(szBuf) > 0) 
 					{
 						char  *szUTF8Buf=NULL;
-#ifdef UNICODE
 						szUTF8Buf=mir_utf8encodeT(szBuf);
-#else
-						szUTF8Buf=_strdup(szBuf);
-#endif
-                        if(ModernGetSettingDword(NULL, CLVM_MODULE, szUTF8Buf, -1) != -1)
+						
+						if(ModernGetSettingDword(NULL, CLVM_MODULE, szUTF8Buf, -1) != -1)
                             MessageBox(0, TranslateT("A view mode with this name does alredy exist"), TranslateT("Duplicate name"), MB_OK);
                         else 
 						{
@@ -1053,7 +1032,7 @@ static int FillMenuCallback(char *szSetting)
         return 1;
 	if(szSetting[0] == (char)13)
 		return 1;
-#ifdef _UNICODE
+	
 	{	
 		TCHAR * temp;
 		//temp=alloca((strlen(szSetting)+1)*sizeof(TCHAR));
@@ -1064,10 +1043,7 @@ static int FillMenuCallback(char *szSetting)
 			mir_free(temp);
 		}
 	}
-#else
-    AppendMenuA(hViewModeMenu, MF_STRING, menuCounter++, szSetting);
-#endif
-    return 1;
+	return 1;
 }
 
 void BuildViewModeMenu()
@@ -1176,7 +1152,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
             }
             if(g_CluiData.bFilterEffective)
 			{
-#ifdef _UNICODE				
+			
 			{
 				TCHAR * temp;
 				//temp=alloca((strlen(szSetting)+1)*sizeof(TCHAR));
@@ -1187,9 +1163,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					mir_free(temp);
 				}
 			}
-#else
-				SetWindowTextA(GetDlgItem(hwnd, IDC_SELECTMODE), g_CluiData.current_viewmode);
-#endif
+
 			}
             else
                 SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("All contacts"));
@@ -1337,15 +1311,13 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
                         mii.dwTypeData = szTemp;
                         mii.cch = 256;
                         GetMenuItemInfo(hViewModeMenu, selection, FALSE, &mii);
-#ifdef _UNICODE
+
 						{
 							char * temp=mir_utf8encodeT(szTemp);
 							ApplyViewMode(temp);
 							if (temp) mir_free(temp);
 						}
-#else
-                        ApplyViewMode(szTemp);
-#endif
+
                     }
                     break;
                 }
@@ -1705,15 +1677,13 @@ void ApplyViewMode(const char *Name, bool onlySelector )
         }
 
         }
-#ifdef _UNICODE
+
 	{
 		TCHAR * temp = mir_utf8decodeW( ( name[0] == (char)13 ) ? name + 1 : name );
 		SetWindowText(hwndSelector, temp);
 		mir_free(temp);
 	}	
-#else
-		SetWindowText(hwndSelector, ( name[0] == (char)13 ) ? name + 1 : name );
-#endif
+
     pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
     CLUI__cliInvalidateRect( pcli->hwndStatus, NULL, FALSE );
 //    SetButtonStates(pcli->hwndContactList);

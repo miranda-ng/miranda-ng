@@ -258,11 +258,9 @@ typedef struct SESSION_INFO_TYPE
 	TCHAR*      ptszTopic;
 
 	// I hate m3x, Unicode, IRC, chats etc...
-	#if defined( _UNICODE )
-		char*    pszID;		// ugly fix for returning static ANSI strings in GC_INFO
-		char*    pszName;   // just to fix a bug quickly, should die after porting IRC to Unicode
-	#endif
-
+	char*    pszID;		// ugly fix for returning static ANSI strings in GC_INFO
+	char*    pszName;   // just to fix a bug quickly, should die after porting IRC to Unicode
+	
 	int         iType;
 	int         iFG;
 	int         iBG;

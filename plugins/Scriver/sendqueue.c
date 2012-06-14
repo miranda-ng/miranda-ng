@@ -28,7 +28,7 @@ static MessageSendQueueItem *global_sendQueue = NULL;
 static CRITICAL_SECTION queueMutex;
 static char *MsgServiceName(HANDLE hContact)
 {
-#ifdef _UNICODE
+
     char szServiceName[100];
     char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
     if (szProto == NULL)
@@ -37,28 +37,21 @@ static char *MsgServiceName(HANDLE hContact)
     mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
     if (ServiceExists(szServiceName))
         return PSS_MESSAGE "W";
-#endif
+
     return PSS_MESSAGE;
 }
 
 TCHAR * GetSendBufferMsg(MessageSendQueueItem *item) {
     TCHAR *szMsg = NULL;
     size_t len = strlen(item->sendBuffer);
-#if defined( _UNICODE )
+
     if (item->flags & PREF_UTF) {
         szMsg = mir_utf8decodeW(item->sendBuffer);
     } else {
         szMsg = (TCHAR *)mir_alloc(item->sendBufferSize - len - 1);
         memcpy(szMsg, item->sendBuffer + len + 1, item->sendBufferSize - len - 1);
     }
-#else
-    if (item->flags & PREF_UTF) {
-        szMsg = mir_utf8decodecp(mir_strdup(item->sendBuffer), item->codepage, NULL);
-    } else {
-		szMsg = (char *)mir_alloc(len + 1);
-		memcpy(szMsg, item->sendBuffer, len + 1);
-    }
-#endif
+
     return szMsg;
 }
 

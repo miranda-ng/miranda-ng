@@ -153,11 +153,7 @@ TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xE2\x80\xA2");
-#else
-				strcpy(InsertThis, "\x95");
-#endif
 			}
 			else if ( !memcmp(p1, "\\b", 2 )) { //bold
 				bTextHasStarted = bJustRemovedRTF = TRUE;
@@ -198,61 +194,37 @@ TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xE2\x80\x93");
-#else
-				strcpy(InsertThis, "\x96");
-#endif
 			}
 			else if (!memcmp(p1, "\\emdash", 7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xE2\x80\x94");
-#else
-				strcpy(InsertThis, "\x97");
-#endif
 			} 
 			else if (!memcmp(p1, "\\lquote",7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xE2\x80\x98");
-#else
-				strcpy(InsertThis, "\x91");
-#endif
 			}
 			else if (!memcmp(p1, "\\rquote",7)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 7;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xE2\x80\x99");
-#else
-				strcpy(InsertThis, "\x92");
-#endif
 			}
 			else if (!memcmp(p1, "\\ldblquote",10)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 10;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xe2\x80\x9c");
-#else
-				strcpy(InsertThis, "\"");
-#endif
 			}
 			else if (!memcmp(p1, "\\rdblquote",10)) {
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = TRUE;
 				iRemoveChars = 10;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xe2\x80\x9d");
-#else
-				strcpy(InsertThis, "\"");
-#endif
 			}
 			else if ( p1[1] == '\\' ||  p1[1] == '{' || p1[1] == '}' ) { // escaped characters
 				bTextHasStarted = TRUE;
@@ -264,11 +236,7 @@ TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
 				bTextHasStarted = TRUE;
 				bJustRemovedRTF = FALSE;
 				iRemoveChars = 2;
-#if defined(_UNICODE)
 				strcpy(InsertThis, "\xC2\xA0");
-#else
-				strcpy(InsertThis, "\xA0");
-#endif
 			}
 			else if ( p1[1] == '\'' ) { // special character
 				char tmp[4], *p3 = tmp;
@@ -340,11 +308,7 @@ TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
 
 	mir_free(pIndex);
 
-	#if !defined( _UNICODE )
-		return pszText;
-	#else
-		return mir_utf8decodeW(pszText);
-	#endif
+	return mir_utf8decodeW(pszText);
 }
 
 static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
@@ -386,11 +350,7 @@ char* Message_GetFromStream(HWND hwndDlg, SESSION_INFO* si)
 	stream.pfnCallback = Message_StreamCallback;
 	stream.dwCookie = (DWORD_PTR) &pszText; // pass pointer to pointer
 
-	#if defined(_UNICODE)
-		dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	#else
-		dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF;
-	#endif
+	dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
 	SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_STREAMOUT, dwFlags, (LPARAM) & stream);
 	return pszText; // pszText contains the text
 }

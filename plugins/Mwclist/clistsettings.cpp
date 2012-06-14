@@ -63,9 +63,7 @@ void FreeDisplayNameCacheItem(ClcCacheEntryBase *_p)
 {
 	pdisplayNameCacheEntry p = (pdisplayNameCacheEntry)_p;
 	if ( p->name) { mir_free(p->name); p->name = NULL; }
-	#if defined( _UNICODE )
-		if ( p->szName) { mir_free(p->szName); p->szName = NULL; }
-	#endif
+	if ( p->szName) { mir_free(p->szName); p->szName = NULL; }
 	if ( p->szProto) { mir_free(p->szProto); p->szProto = NULL; }
 	if ( p->szGroup) { mir_free(p->szGroup); p->szGroup = NULL; }
 }

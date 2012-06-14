@@ -693,16 +693,12 @@ static HWND ModernSkinButtonCreateWindow(ModernSkinButtonCtrl * bct, HWND parent
 	HWND hwnd;
 
 	if (bct==NULL) return FALSE;
-#ifdef _UNICODE
 	{
 		TCHAR *UnicodeID;
 		UnicodeID=mir_a2u(bct->ID);
 		hwnd=CreateWindow(_T(MODERNSKINBUTTONCLASS),UnicodeID,WS_VISIBLE|WS_CHILD,bct->Left,bct->Top,bct->Right-bct->Left,bct->Bottom-bct->Top,parent,NULL,g_hInst,NULL);       
 		mir_free(UnicodeID);
 	}
-#else
-	hwnd=CreateWindow(_T(MODERNSKINBUTTONCLASS),bct->ID,WS_VISIBLE|WS_CHILD,bct->Left,bct->Top,bct->Right-bct->Left,bct->Bottom-bct->Top,parent,NULL,g_hInst,NULL);         
-#endif
 
 	bct->hwnd = hwnd;	
 	bct->focus = 0;

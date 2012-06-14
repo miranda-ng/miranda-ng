@@ -82,16 +82,12 @@ int safe_wcslen(wchar_t *msg, int maxLen) {
 
 TCHAR *a2tcp(const char *text, int cp) {
 	if ( text != NULL ) {
-	#if defined ( _UNICODE )
 		int cbLen = MultiByteToWideChar( cp, 0, text, -1, NULL, 0 );
 		TCHAR* result = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
 		if ( result == NULL )
 			return NULL;
 		MultiByteToWideChar(cp, 0, text, -1, result, cbLen);
 		return result;
-	#else
-		return mir_strdup(text);
-	#endif
 	}
 	return NULL;
 }
@@ -120,28 +116,15 @@ wchar_t* a2u( const char* src, int codepage ) {
 TCHAR *a2t(const char *text) {
 	if ( text == NULL )
 		return NULL;
-
-	#if defined ( _UNICODE )
 		return a2tcp(text, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ));
-	#else
-		return a2tcp(text, CP_ACP);
-	#endif
 }
 
 char* t2a( const TCHAR* src ) {
-	#if defined( _UNICODE )
-		return u2a( src, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ) );
-	#else
-		return mir_strdup( src );
-	#endif
+return u2a( src, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ) );
 }
 
 char* t2acp( const TCHAR* src, int codepage ) {
-	#if defined( _UNICODE )
-		return u2a( src, codepage );
-	#else
-		return mir_strdup( src );
-	#endif
+	return u2a( src, codepage );
 }
 
 wchar_t *a2w(const char *src, int len) {
@@ -216,9 +199,7 @@ TCHAR *GetRichText(HWND hwnd, int codepage) {
 	GETTEXTEX  gt = {0};
 	TCHAR *textBuffer = NULL;
 	int textBufferSize;
-#if defined( _UNICODE )
 	codepage = 1200;
-#endif
 	textBufferSize = GetRichTextLength(hwnd, codepage, TRUE);
 	if (textBufferSize > 0) {
 		textBufferSize += sizeof(TCHAR);
@@ -232,7 +213,6 @@ TCHAR *GetRichText(HWND hwnd, int codepage) {
 }
 
 char *GetRichTextEncoded(HWND hwnd, int codepage) {
-#if defined( _UNICODE )
 	TCHAR *textBuffer = GetRichText(hwnd, codepage);
 	char *textUtf = NULL;
 	if (textBuffer != NULL) {
@@ -240,26 +220,16 @@ char *GetRichTextEncoded(HWND hwnd, int codepage) {
 		mir_free(textBuffer);
 	}
 	return textUtf;
-#else
-	return GetRichText(hwnd, codepage);
-#endif
 }
 
 int SetRichTextEncoded(HWND hwnd, const char *text, int codepage) {
 	TCHAR *textToSet;
 	SETTEXTEX  st;
 	st.flags = ST_DEFAULT;
-	#ifdef _UNICODE
-		st.codepage = 1200;
-		textToSet = mir_utf8decodeW(text);
-	#else
-    	st.codepage = codepage;
-		textToSet = (char *)text;
-	#endif
+	st.codepage = 1200;
+	textToSet = mir_utf8decodeW(text);
 	SendMessage(hwnd, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)textToSet);
-	#ifdef _UNICODE
-		mir_free(textToSet);
-	#endif
+	mir_free(textToSet);
 	return GetRichTextLength(hwnd, st.codepage, FALSE);
 }
 
@@ -309,12 +279,7 @@ char* GetRichTextRTF(HWND hwnd)
 	ZeroMemory(&stream, sizeof(stream));
 	stream.pfnCallback = RichTextStreamCallback;
 	stream.dwCookie = (DWORD_PTR) &pszText; // pass pointer to pointer
-
-	#if defined( _UNICODE )
-		dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
-	#else
-		dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF;
-	#endif
+	dwFlags = SF_RTFNOOBJS | SFF_PLAINRTF | SF_USECODEPAGE | (CP_UTF8 << 16);
 	SendMessage(hwnd, EM_STREAMOUT, dwFlags, (LPARAM) & stream);
 	return pszText; // pszText contains the text
 }
@@ -400,11 +365,7 @@ TCHAR *GetRichEditSelection(HWND hwnd)
 		ZeroMemory(&stream, sizeof(stream));
 		stream.pfnCallback = StreamOutCallback;
 		stream.dwCookie = (DWORD_PTR) &msi;
-#if defined( _UNICODE )
 		dwFlags = SF_TEXT|SF_UNICODE|SFF_SELECTION;
-#else
-		dwFlags = SF_TEXT|SFF_SELECTION;
-#endif
 		msi.sendBuffer = NULL;
 		msi.sendBufferSize = 0;
 		SendMessage(hwnd, EM_STREAMOUT, (WPARAM)dwFlags, (LPARAM) & stream);

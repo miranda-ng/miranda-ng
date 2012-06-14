@@ -46,14 +46,8 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				if (ewd->szText) {
 					SETTEXTEX  st = {0};
 					st.flags = ST_DEFAULT;
-					#ifdef _UNICODE
-						st.codepage = 1200;
-					#else
-						st.codepage = CP_ACP;
-						if (ewd->queueItem != NULL) {
-							st.codepage = ewd->queueItem->codepage;
-						}
-					#endif
+					st.codepage = 1200;
+					
 					SendDlgItemMessage(hwndDlg, IDC_MSGTEXT, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)ewd->szText);
 				}
 				if (ewd->szName) {

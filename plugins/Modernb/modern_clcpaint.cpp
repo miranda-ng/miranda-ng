@@ -668,16 +668,12 @@ MODERNMASK * CLCPaint::_GetCLCContactRowBackModernMask( struct ClcGroup * group,
         m = lstrlen( b2 );
         for ( i = 0; i<m;i++ )
             if ( b2[i] == TEXT( ',' ) ) b2[i] = TEXT( '.' );
-#ifdef UNICODE
-        {
+		{
             char* b3 = mir_utf8encodeT( b2 );
             AddParam( mpModernMask, HASH[hi_Name], b3, 0 );
             mir_free( b3 );
         }
 
-#else
-        AddParam( mpModernMask, HASH[hi_Name], b2, 0 );
-#endif
         mir_free_and_nill( b2 );
     }
     if ( group->parent )
@@ -687,15 +683,12 @@ MODERNMASK * CLCPaint::_GetCLCContactRowBackModernMask( struct ClcGroup * group,
         m = lstrlen( b2 );
         for ( i = 0; i<m;i++ )
             if ( b2[i] == TEXT( ',' ) ) b2[i] = TEXT( '.' );
-#ifdef UNICODE
-        {
+		{
             char * b3 = mir_utf8encodeT( b2 );
             AddParam( mpModernMask, HASH[hi_Group], b3, 0 );
             mir_free( b3 );
         }
-#else
-        AddParam( mpModernMask, HASH[hi_Group], b2, 0 );
-#endif
+
         mir_free_and_nill( b2 );
     }
     return mpModernMask;

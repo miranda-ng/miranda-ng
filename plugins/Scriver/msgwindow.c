@@ -1264,13 +1264,9 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 				rect.bottom -= GetSystemMetrics(SM_CYEDGE) + 2;
 			}
 			if (hTheme) {
-#ifdef _UNICODE
+
 				MyDrawThemeText(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, szLabel, -1, dwFormat, 0, &rect);
-#else
-				wchar_t* text = mir_a2u(szLabel);
-				MyDrawThemeText(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, text, -1, dwFormat, 0, &rect);
-				mir_free(text);
-#endif
+
 			}
 			else
 				DrawText(lpDIS->hDC, szLabel, -1, &rect, dwFormat);

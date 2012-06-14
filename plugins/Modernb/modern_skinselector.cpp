@@ -86,7 +86,6 @@ BOOL wildcmpi(TCHAR* name, TCHAR* mask)
 	}
 }
 
-#if defined( _UNICODE )
 BOOL wildcmpi(char * name, char * mask)
 {
 	char * last='\0';
@@ -107,7 +106,6 @@ BOOL wildcmpi(char * name, char * mask)
 		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
-#endif
 
 BOOL __inline wildcmp(const char * name, const char * mask, BYTE option)
 {
@@ -574,15 +572,11 @@ SKINOBJECTDESCRIPTOR *  skin_FindObjectByRequest(char * szValue,LISTMODERNMASK *
 
 TCHAR * GetParamNT(char * string, TCHAR * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
 {
-#ifdef UNICODE
 	char *ansibuf=(char*)mir_alloc(buflen/sizeof(TCHAR));
 	GetParamN(string, ansibuf, buflen/sizeof(TCHAR), paramN, Delim, SkipSpaces);
 	MultiByteToWideChar(CP_UTF8,0,ansibuf,-1,buf,buflen);
 	mir_free_and_nill(ansibuf);
 	return buf;
-#else
-	return GetParamN(string, buf, buflen, paramN, Delim, SkipSpaces);
-#endif
 }
 
 char * GetParamN(char * string, char * buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)

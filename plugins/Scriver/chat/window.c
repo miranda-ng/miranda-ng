@@ -339,11 +339,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
             end = HIWORD(lResult);
             SendMessage(hwnd, EM_SETSEL, end, end);
 
-			#if defined( _UNICODE )
-				gt.codepage = 1200;
-			#else
-				gt.codepage = CP_ACP;
-			#endif
+			gt.codepage = 1200;
 			iLen = GetRichTextLength(hwnd, gt.codepage, TRUE);
             if (iLen >0) {
 				TCHAR *pszName = NULL;
@@ -1318,11 +1314,8 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			sid.cbSize = sizeof(sid);
 			sid.szModule = SRMMMOD;
 			sid.dwId = 0;
-   #if defined( _UNICODE )
 			sid.flags = 0;
-   #else
-			sid.flags = MBF_DISABLED;
-   #endif
+
 			ModifyStatusIcon((WPARAM)si->windowData.hContact, (LPARAM) &sid);
       //   SendMessage(hwndDlg, GC_FIXTABICONS, 0, (LPARAM)si);
 		}
@@ -1900,9 +1893,7 @@ LABEL_SHOWWINDOW:
 
             DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, (LPARAM)NULL);
             mir_free(pszRtf);
-            #if defined( _UNICODE )
-               mir_free(ptszText);
-            #endif
+            mir_free(ptszText);
             SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
          }
          break;

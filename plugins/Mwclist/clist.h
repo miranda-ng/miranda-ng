@@ -34,9 +34,7 @@ int GetContactInfosForSort(HANDLE hContact,char **Proto,TCHAR **Name,int *Status
 typedef struct  {
 	HANDLE hContact;
 	TCHAR *name;
-	#if defined( _UNICODE )
-		char *szName;
-	#endif
+	char *szName;
 	TCHAR* szGroup;
 	int Hidden;
 	int noHiddenOffline;

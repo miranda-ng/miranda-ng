@@ -235,11 +235,7 @@ INT_PTR CLUIGetCapsService(WPARAM wParam,LPARAM lParam)
 		case CLUIF2_PLUGININFO:
 			return (INT_PTR)&pluginInfo;
 		case CLUIF2_CLISTTYPE:
-	#ifdef UNICODE
-				return 0x0107;
-	#else
-				return 0x0007;
-	#endif
+			return 0x0107;
 		case CLUIF2_EXTRACOLUMNCOUNT:
 			return EXTRA_ICON_COUNT;
 		case CLUIF2_USEREXTRASTART:
@@ -314,11 +310,7 @@ HRESULT  CluiLoadModule()
 		HINSTANCE hUser = GetModuleHandleA("USER32");
 		MyMonitorFromPoint  = ( pfnMyMonitorFromPoint )GetProcAddress( hUser,"MonitorFromPoint" );
 		MyMonitorFromWindow = ( pfnMyMonitorFromWindow )GetProcAddress( hUser, "MonitorFromWindow" );
-		#if defined( _UNICODE )
-			MyGetMonitorInfo = ( pfnMyGetMonitorInfo )GetProcAddress( hUser, "GetMonitorInfoW");
-		#else
-			MyGetMonitorInfo = ( pfnMyGetMonitorInfo )GetProcAddress( hUser, "GetMonitorInfoA");
-		#endif
+		MyGetMonitorInfo = ( pfnMyGetMonitorInfo )GetProcAddress( hUser, "GetMonitorInfoW");
 	}
 	CLUI::InitClui();
 	

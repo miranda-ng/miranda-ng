@@ -1231,7 +1231,7 @@ int ReserveExtraSlot(WPARAM wParam,LPARAM lParam)
         {
             OrderTreeData[iLastFree].fReserved=TRUE;
             OrderTreeData[iLastFree].KeyName=pESINFO->pszSlotID;
-#ifdef UNICODE
+
             if (pESINFO->fUnicode)
                 OrderTreeData[iLastFree].Name=pESINFO->ptszSlotName;
             else
@@ -1239,16 +1239,7 @@ int ReserveExtraSlot(WPARAM wParam,LPARAM lParam)
                 OrderTreeData[iLastFree].Name=mir_a2u(pESINFO->pszSlotName); //potential memory leak but should not be more than once
                 OrderTreeData[iLastFree].fReserved=(BOOL)2; //need to free KeyName
             }
-#else
-            if (pESINFO->fUnicode)
-            {
-                OrderTreeData[iLastFree].Name=mir_u2a(pESINFO->pszSlotName); //potential memory leak but should not be more than once
-                OrderTreeData[iLastFree].fReserved=(BOOL)2; //need to free KeyName
-            }
-            else
-                OrderTreeData[iLastFree].Name=pESINFO->pszSlotName; 
-#endif
-        }
+		}
         else return -1; // Already reserved
     }
     return iLastFree;

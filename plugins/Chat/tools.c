@@ -786,7 +786,6 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 	gcd->pszModule = mir_strdup( pszModule );
 
-#if defined( _UNICODE )
 	{
 		SESSION_INFO* si;
 		if (( si = SM_FindSession(pszID, pszModule)) == NULL )
@@ -803,11 +802,6 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 			gch->ptszText = mir_tstrdup( pszText );
 		}
 	}
-#else
-	gcd->pszID = mir_strdup( pszID );
-	gch->pszUID = mir_strdup( pszUID );
-	gch->pszText = mir_strdup( pszText );
-#endif
 
 	gcd->iType = iType;
 	gch->dwData = dwItem;
@@ -823,7 +817,6 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 
 	gcd.pszModule = (char*)pszModule;
 
-#ifdef _UNICODE
 	{
 		SESSION_INFO* si;
 		if (( si = SM_FindSession(pszID, pszModule)) == NULL )
@@ -840,11 +833,6 @@ BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCH
 			gch.ptszText = mir_tstrdup( pszText );
 		}
 	}
-#else
-	gcd.pszID = mir_strdup( pszID );
-	gch.pszUID = mir_strdup( pszUID );
-	gch.pszText = mir_strdup( pszText );
-#endif
 
 	gcd.iType = iType;
 	gch.dwData = dwItem;
@@ -909,14 +897,10 @@ TCHAR* a2tf( const TCHAR* str, int flags )
 	if ( str == NULL )
 		return NULL;
 
-	#if defined( _UNICODE )
-		if ( flags & GC_UNICODE )
-			return mir_tstrdup( str );
-		else
-			return mir_a2u((char*)str);
-	#else
-		return mir_strdup( str );
-	#endif
+	if ( flags & GC_UNICODE )
+		return mir_tstrdup( str );
+	else
+		return mir_a2u((char*)str);
 }
 
 TCHAR* replaceStr( TCHAR** dest, const TCHAR* src )

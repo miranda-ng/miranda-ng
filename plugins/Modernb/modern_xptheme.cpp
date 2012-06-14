@@ -238,10 +238,6 @@ HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int sta
 
 HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, DWORD flag1, DWORD flag2, const RECT * textRect)
 {
-#ifndef _UNICODE
-	ske_DrawText(hdc,lpStr,len, (RECT*)textRect, flag1);
-	return S_OK;
-#else
 	HRESULT res=S_FALSE;
 	xptcheck S_FALSE;
 	xptlock();
@@ -251,7 +247,6 @@ HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPC
 		ske_DrawText(hdc,lpStr,len, (RECT*)textRect, flag1);
 	xptunlock();
 	return S_OK;
-#endif
 }
 BOOL xpt_EnableThemeDialogTexture(HWND hwnd, DWORD flags)
 {

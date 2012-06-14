@@ -174,7 +174,6 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#if defined(_UNICODE)
 static INT_PTR SendMessageCommandW(WPARAM wParam, LPARAM lParam)
 {
    HWND hwnd;
@@ -217,7 +216,6 @@ static INT_PTR SendMessageCommandW(WPARAM wParam, LPARAM lParam)
    }
    return 0;
 }
-#endif
 
 static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 {
@@ -291,11 +289,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
          tn.cbSize = sizeof(tn);
          tn.tszInfoTitle = TranslateT("Typing Notification");
          tn.tszInfo = szTip;
-#ifdef UNICODE
 		 tn.dwInfoFlags = NIIF_INFO | NIIF_INTERN_UNICODE;
-#else
-		 tn.dwInfoFlags = NIIF_INFO;
-#endif
 		 tn.uTimeout = 1000 * 4;
          CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & tn);
       }
@@ -461,15 +455,6 @@ static void RegisterStatusIcons() {
 	sid.flags = MBF_HIDDEN;
 	sid.szTooltip = NULL;
 	AddStickyStatusIcon((WPARAM) 0, (LPARAM) &sid);
-
-#if !defined( _UNICODE )
-	sid.dwId = 0;
-	sid.hIcon = CopyIcon(GetCachedIcon("scriver_UNICODEOFF"));
-	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_UNICODEOFF"));
-	sid.flags = 0;
-	sid.szTooltip = NULL;
-	AddStickyStatusIcon((WPARAM) 0, (LPARAM) &sid);
-#endif
 }
 
 void ChangeStatusIcons() {
@@ -626,9 +611,7 @@ int OnLoadModule(void) {
 	HookEvent_Ex(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 
 	CreateServiceFunction_Ex(MS_MSG_SENDMESSAGE, SendMessageCommand);
- #if defined(_UNICODE)
 	CreateServiceFunction_Ex(MS_MSG_SENDMESSAGEW, SendMessageCommandW);
- #endif
 	CreateServiceFunction_Ex(MS_MSG_GETWINDOWAPI, GetWindowAPI);
 	CreateServiceFunction_Ex(MS_MSG_GETWINDOWCLASS, GetWindowClass);
 	CreateServiceFunction_Ex(MS_MSG_GETWINDOWDATA, GetWindowData);

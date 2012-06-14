@@ -93,12 +93,8 @@ void AddMessage( const char* fmt, ... )
 	}
 	#endif
 
-	#if defined( _UNICODE )
 	{	TCHAR* str = mir_a2t( msgBuf );
 		SendMessage( hdlgProgress, PROGM_ADDMESSAGE, 0, ( LPARAM )str );
 		mir_free( str );
 	}
-	#else
-		SendMessage( hdlgProgress, PROGM_ADDMESSAGE, 0, ( LPARAM )msgBuf );
-	#endif
 }

@@ -2683,16 +2683,12 @@ static int ske_DeleteAllSettingInSection(char * SectionName)
 
 BOOL ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount)
 {
-#ifdef UNICODE
 	TCHAR *buf=(TCHAR *)mir_alloc((2+nCount)*sizeof(TCHAR));
 	BOOL res;
 	MultiByteToWideChar(CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ), 0, lpString, -1, buf, (2+nCount)*sizeof(TCHAR)); 
 	res=ske_TextOut(hdc,x,y,buf,nCount);
 	mir_free_and_nill(buf);
 	return res;
-#else
-	return ske_TextOut(hdc,x,y,lpString,nCount);
-#endif
 }
 
 BOOL ske_TextOut(HDC hdc, int x, int y, LPCTSTR lpString, int nCount)
@@ -3266,15 +3262,11 @@ INT_PTR ske_Service_DrawTextWithEffect( WPARAM wParam, LPARAM lParam )
 
 BOOL ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT * lpRect, UINT format)
 {
-#ifdef UNICODE
 	TCHAR *buf=mir_a2u(lpString);
 	BOOL res;
 	res=ske_DrawText(hdc,buf,nCount,lpRect,format);
 	mir_free(buf);
 	return res;
-#else
-	return ske_DrawText(hdc,lpString,nCount,lpRect,format);
-#endif
 }
 
 
@@ -4285,11 +4277,7 @@ TCHAR* ske_ReplaceVar(TCHAR *var)
 			buf[i]='\0';
 		}
 		mir_free_and_nill(var);
-#ifdef UNICODE
 		return mir_a2u(buf);
-#else
-		return mir_strdup(buf);
-#endif
 	} 
 
 	mir_free_and_nill(var);
@@ -4397,13 +4385,8 @@ static void OLDske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineS
 
 			glText->dwColor=ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),7,',',TRUE));
 			glText->dwShadow=ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),8,',',TRUE));
-#ifdef _UNICODE
 			glText->stValueText=mir_a2u(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
 			glText->stText=ske_ParseText(glText->stValueText);
-#else
-			glText->stValueText=mir_strdup(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
-			glText->stText=ske_ParseText(glText->stValueText);
-#endif
 			li.List_Insert(globj->plTextList,(void*)glText,globj->plTextList->realCount);     
 			qsort(globj->plTextList->items,globj->plTextList->realCount,sizeof(void*),(int(*)(const void*, const void*))globj->plTextList->sortFunc);
 		}
@@ -4441,13 +4424,9 @@ static void ske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineStri
 
 		glText->dwColor=ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),7,',',TRUE));
 		glText->dwShadow=ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),8,',',TRUE));
-#ifdef _UNICODE
 		glText->stValueText=mir_a2u(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
 		glText->stText=ske_ParseText(glText->stValueText);
-#else
-		glText->stValueText=mir_strdup(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
-		glText->stText=ske_ParseText(glText->stValueText);
-#endif
+		
 		if (!Skin->pTextList)
 			Skin->pTextList=li.List_Create(0,1);
 		li.List_InsertPtr(Skin->pTextList,glText);

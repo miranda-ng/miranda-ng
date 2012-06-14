@@ -83,12 +83,8 @@ void RefreshInfobar(InfobarWindowData* idat) {
 	else
 		mir_sntprintf(szText, 2047, _T("%s"), TranslateTS(szXStatusName));
     st.flags = ST_DEFAULT;
-#ifdef _UNICODE
-    st.codepage = 1200;
-#else
-    st.codepage = CP_ACP;
-#endif
-    SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactName);
+	st.codepage = 1200;
+	SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactName);
     SendDlgItemMessage(hwnd, IDC_INFOBAR_STATUS, EM_SETTEXTEX, (WPARAM) &st, (LPARAM)szContactStatusMsg);
     hIcon = (HICON)SendDlgItemMessage(hwnd, IDC_XSTATUSICON, STM_SETICON, (WPARAM)hIcon, 0);
     if (hIcon) {

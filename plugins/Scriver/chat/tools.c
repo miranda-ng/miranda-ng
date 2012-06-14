@@ -531,10 +531,8 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 	if (hFile) {
 		TCHAR szTemp[512], szTemp2[512];
 		TCHAR* pszNick = NULL;
-#ifdef _UNICODE
 		if (bFileJustCreated)
 			fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
-#endif
 		if ( gce->ptszNick ) {
 			if ( g_Settings.LogLimitNames && lstrlen(gce->ptszNick) > 20 ) {
 				lstrcpyn(szTemp2, gce->ptszNick, 20);
@@ -652,9 +650,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 					if (read > 0) {
 						hFile = _tfopen(tszFile, _T("wb"));
 						if (hFile) {
-#ifdef _UNICODE
 							fputws((const wchar_t*)"\377\376", hFile);		//UTF-16 LE BOM == FF FE
-#endif
 							fwrite(pBufferTemp, 1, read, hFile);
 							fclose(hFile);
 							hFile = NULL;
@@ -766,9 +762,7 @@ void DestroyGCMenu(HMENU *hMenu, int iIndex)
 
 BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int iType, TCHAR* pszUID, TCHAR* pszText, DWORD dwItem)
 {
-	#if defined( _UNICODE )
-		SESSION_INFO* si;
-	#endif
+	SESSION_INFO* si;
 	GCHOOK* gch = (GCHOOK*)mir_alloc( sizeof( GCHOOK ));
 	GCDEST* gcd = (GCDEST*)mir_alloc( sizeof( GCDEST ));
 
@@ -776,23 +770,20 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 	memset( gcd, 0, sizeof( GCDEST ));
 
 	replaceStrA( &gcd->pszModule, pszModule);
-	#if defined( _UNICODE )
-		if (( si = SM_FindSession(pszID, pszModule)) == NULL )
-			return FALSE;
-
-		if ( !( si->dwFlags & GC_UNICODE )) {
-			gcd->pszID = t2a( pszID );
-			gch->pszUID = t2a( pszUID );
-			gch->pszText = t2a( pszText );
-		}
-		else {
-	#endif
-			replaceStr( &gcd->ptszID, pszID );
-			replaceStr( &gch->ptszUID, pszUID);
-			replaceStr( &gch->ptszText, pszText);
-	#if defined( _UNICODE )
-		}
-	#endif
+	if (( si = SM_FindSession(pszID, pszModule)) == NULL )
+		return FALSE;
+	
+	if ( !( si->dwFlags & GC_UNICODE )) {
+		gcd->pszID = t2a( pszID );
+		gch->pszUID = t2a( pszUID );
+		gch->pszText = t2a( pszText );
+	}
+	else {
+		replaceStr( &gcd->ptszID, pszID );
+		replaceStr( &gch->ptszUID, pszUID);
+		replaceStr( &gch->ptszText, pszText);
+	}
+	
 	gcd->iType = iType;
 	gch->dwData = dwItem;
 	gch->pDest = gcd;
@@ -802,30 +793,24 @@ BOOL DoEventHookAsync(HWND hwnd, const TCHAR* pszID, const char* pszModule, int 
 
 BOOL DoEventHook(const TCHAR* pszID, const char* pszModule, int iType, const TCHAR* pszUID, const TCHAR* pszText, DWORD dwItem)
 {
-	#if defined( _UNICODE )
-		SESSION_INFO* si;
-	#endif
+	SESSION_INFO* si;
 	GCHOOK gch = {0};
 	GCDEST gcd = {0};
 
 	gcd.pszModule = (char*)pszModule;
-	#if defined( _UNICODE )
-		if (( si = SM_FindSession(pszID, pszModule)) == NULL )
-			return FALSE;
+	if (( si = SM_FindSession(pszID, pszModule)) == NULL )
+		return FALSE;
 
-		if ( !( si->dwFlags & GC_UNICODE )) {
-			gcd.pszID = t2a( pszID );
-			gch.pszUID = t2a( pszUID );
-			gch.pszText = t2a( pszText );
-		}
-		else {
-	#endif
-			gcd.ptszID = mir_tstrdup( pszID );
-			gch.ptszUID = mir_tstrdup( pszUID );
-			gch.ptszText = mir_tstrdup( pszText );
-	#if defined( _UNICODE )
-		}
-	#endif
+	if ( !( si->dwFlags & GC_UNICODE )) {
+		gcd.pszID = t2a( pszID );
+		gch.pszUID = t2a( pszUID );
+		gch.pszText = t2a( pszText );
+	}
+	else {
+		gcd.ptszID = mir_tstrdup( pszID );
+		gch.ptszUID = mir_tstrdup( pszUID );
+		gch.ptszText = mir_tstrdup( pszText );
+	}
 
 	gcd.iType = iType;
 	gch.dwData = dwItem;
@@ -878,24 +863,20 @@ TCHAR* a2tf( const TCHAR* str, int flags )
 	if ( str == NULL )
 		return NULL;
 
-	#if defined( _UNICODE )
-		if ( flags & GC_UNICODE )
-			return mir_tstrdup( str );
-		else {
-			int codepage = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
+	if ( flags & GC_UNICODE )
+		return mir_tstrdup( str );
+	else {
+		int codepage = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
 
-			int cbLen = MultiByteToWideChar( codepage, 0, (char*)str, -1, 0, 0 );
-			TCHAR* result = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
-			if ( result == NULL )
-				return NULL;
+		int cbLen = MultiByteToWideChar( codepage, 0, (char*)str, -1, 0, 0 );
+		TCHAR* result = ( TCHAR* )mir_alloc( sizeof(TCHAR)*( cbLen+1 ));
+		if ( result == NULL )
+			return NULL;
 
-			MultiByteToWideChar( codepage, 0, (char*)str, -1, result, cbLen );
-			result[ cbLen ] = 0;
-			return result;
-		}
-	#else
-		return mir_strdup( str );
-	#endif
+		MultiByteToWideChar( codepage, 0, (char*)str, -1, result, cbLen );
+		result[ cbLen ] = 0;
+		return result;
+	}
 }
 
 TCHAR* replaceStr( TCHAR** dest, const TCHAR* src )

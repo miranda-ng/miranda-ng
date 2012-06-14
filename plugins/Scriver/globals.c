@@ -280,12 +280,7 @@ void InitGlobals() {
 	ZeroMemory(g_dat, sizeof(struct GlobalMessageData));
 	g_dat->hMessageWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	g_dat->hParentWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-#if !defined(_UNICODE)
-	g_dat->hMenuANSIEncoding = CreatePopupMenu();
-	AppendMenu(g_dat->hMenuANSIEncoding, MF_STRING, 500, TranslateT("Default codepage"));
-	AppendMenuA(g_dat->hMenuANSIEncoding, MF_SEPARATOR, 0, 0);
-	EnumSystemCodePagesA(LangAddCallback, CP_INSTALLED);
-#endif
+
 	HookEvent_Ex(ME_PROTO_ACK, ackevent);
 	ReloadGlobals();
 	g_dat->lastParent = NULL;
@@ -486,10 +481,8 @@ static int ackevent(WPARAM wParam, LPARAM lParam) {
 			dbei.szModule = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) item->hContact, 0);
 			dbei.timestamp = time(NULL);
 			dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
-	#if defined( _UNICODE )
 			if ( !( item->flags & PREF_UTF ))
 				dbei.cbBlob *= sizeof(TCHAR) + 1;
-	#endif
 			dbei.pBlob = (PBYTE) item->sendBuffer;
 			hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) item->hContact, (LPARAM) & dbei);
 

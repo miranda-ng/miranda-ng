@@ -426,11 +426,7 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 				hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
 				lstrcpy(GlobalLock(hData), tr.lpstrText);
 				GlobalUnlock(hData);
-			#if defined( _UNICODE )
 				SetClipboardData(CF_UNICODETEXT, hData);
-			#else
-				SetClipboardData(CF_TEXT, hData);
-			 #endif
 				CloseClipboard();
 				break;
 			}

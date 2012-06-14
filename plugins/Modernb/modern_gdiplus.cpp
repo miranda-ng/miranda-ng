@@ -214,13 +214,7 @@ COLORREF __inline _revcolref(COLORREF colref)
 BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
 {
 	int nFrameCount=0;
-#ifndef _UNICODE
-	WCHAR * temp=mir_a2u(szName);
-	Image image(temp);
-	mir_free(temp);
-#else
 	Image image(szName);
-#endif
 	UINT count = 0;
 
 	count = image.GetFrameDimensionsCount();
@@ -240,13 +234,7 @@ BOOL GDIPlus_IsAnimatedGIF(TCHAR * szName)
 void GDIPlus_ExtractAnimatedGIF(TCHAR * szName, int width, int height, HBITMAP * pBitmap, int ** pframesDelay, int * pframesCount, SIZE * pSizeAvatar)
 {
 	int nFrameCount=0;
-#ifndef _UNICODE
-	WCHAR * temp=mir_a2u(szName);
-	Bitmap image(temp);
-	mir_free(temp);
-#else
 	Bitmap image(szName);
-#endif
 	PropertyItem * pPropertyItem;
 
 	UINT count = 0;

@@ -117,20 +117,11 @@ static INT_PTR Service_GetInfo(WPARAM wParam,LPARAM lParam)
 		if ( gci->Flags & TYPE )     gci->iType = si->iType;
 		if ( gci->Flags & COUNT )    gci->iCount = si->nUsersInNicklist;
 		if ( gci->Flags & USERS )    gci->pszUsers = SM_GetUsers(si);
-
-		#if defined( _UNICODE )
-			if ( si->dwFlags & GC_UNICODE ) {
-				if ( gci->Flags & ID )    gci->pszID = si->ptszID;
-				if ( gci->Flags & NAME )  gci->pszName = si->ptszName;
-			}
-			else {
-				if ( gci->Flags & ID )    gci->pszID = ( TCHAR* )si->pszID;
-				if ( gci->Flags & NAME )  gci->pszName = ( TCHAR* )si->pszName;
-			}
-		#else
+		if ( si->dwFlags & GC_UNICODE ) {
 			if ( gci->Flags & ID )    gci->pszID = si->ptszID;
 			if ( gci->Flags & NAME )  gci->pszName = si->ptszName;
-		#endif
+		}
+			
 
 		LeaveCriticalSection(&cs);
 		return 0;
@@ -170,11 +161,6 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 
 	if (gcr->cbSize != SIZEOF_STRUCT_GCREGISTER_V1)
 		return GC_REGISTER_WRONGVER;
-
-	#ifndef _UNICODE
-		if (gcr->dwFlags & GC_UNICODE)
-			return GC_REGISTER_NOUNICODE;
-	#endif
 
 	EnterCriticalSection(&cs);
 
@@ -243,12 +229,12 @@ static INT_PTR Service_NewChat(WPARAM wParam, LPARAM lParam)
 			si->iLogFilterFlags = (int)DBGetContactSettingDword(NULL, "Chat", "FilterFlags", 0x03E0);
 			si->bFilterEnabled = DBGetContactSettingByte(NULL, "Chat", "FilterEnabled", 0);
 			si->bNicklistEnabled = DBGetContactSettingByte(NULL, "Chat", "ShowNicklist", 1);
-			#if defined( _UNICODE )
-				if ( !( gcw->dwFlags & GC_UNICODE )) {
-					si->pszID = mir_strdup( gcw->pszID );
-					si->pszName = mir_strdup( gcw->pszName );
-				}
-			#endif
+			
+			if ( !( gcw->dwFlags & GC_UNICODE )) {
+				si->pszID = mir_strdup( gcw->pszID );
+				si->pszName = mir_strdup( gcw->pszName );
+			}
+			
 
 			if ( mi->bColor ) {
 				si->iFG = 4;
@@ -480,18 +466,16 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 
 	EnterCriticalSection(&cs);
 
-	#if defined( _UNICODE )
-		if ( !( gce->dwFlags & GC_UNICODE )) {
-			save_gce = *gce;
-			save_gcd = *gce->pDest;
-			gce->pDest->ptszID = a2tf( gce->pDest->ptszID, gce->dwFlags );
-			gce->ptszUID       = a2tf( gce->ptszUID,       gce->dwFlags );
-			gce->ptszNick      = a2tf( gce->ptszNick,      gce->dwFlags );
-			gce->ptszStatus    = a2tf( gce->ptszStatus,    gce->dwFlags );
-			gce->ptszText      = a2tf( gce->ptszText,      gce->dwFlags );
-			gce->ptszUserInfo  = a2tf( gce->ptszUserInfo,  gce->dwFlags );
-		}
-	#endif
+	if ( !( gce->dwFlags & GC_UNICODE )) {
+		save_gce = *gce;
+		save_gcd = *gce->pDest;
+		gce->pDest->ptszID = a2tf( gce->pDest->ptszID, gce->dwFlags );
+		gce->ptszUID       = a2tf( gce->ptszUID,       gce->dwFlags );
+		gce->ptszNick      = a2tf( gce->ptszNick,      gce->dwFlags );
+		gce->ptszStatus    = a2tf( gce->ptszStatus,    gce->dwFlags );
+		gce->ptszText      = a2tf( gce->ptszText,      gce->dwFlags );
+		gce->ptszUserInfo  = a2tf( gce->ptszUserInfo,  gce->dwFlags );
+	}
 
 	// Do different things according to type of event
 	switch(gcd->iType) {
@@ -627,18 +611,16 @@ static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)
 LBL_Exit:
 	LeaveCriticalSection(&cs);
 
-	#if defined( _UNICODE )
-		if ( !( gce->dwFlags & GC_UNICODE )) {
-			mir_free((void*)gce->ptszText );
-			mir_free((void*)gce->ptszNick );
-			mir_free((void*)gce->ptszUID );
-			mir_free((void*)gce->ptszStatus );
-			mir_free((void*)gce->ptszUserInfo );
-			mir_free((void*)gce->pDest->ptszID );
-			*gce = save_gce;
-			*gce->pDest = save_gcd;
-		}
-	#endif
+	if ( !( gce->dwFlags & GC_UNICODE )) {
+		mir_free((void*)gce->ptszText );
+		mir_free((void*)gce->ptszNick );
+		mir_free((void*)gce->ptszUID );
+		mir_free((void*)gce->ptszStatus );
+		mir_free((void*)gce->ptszUserInfo );
+		mir_free((void*)gce->pDest->ptszID );
+		*gce = save_gce;
+		*gce->pDest = save_gcd;
+	}
 
 	return iRetVal;
 }

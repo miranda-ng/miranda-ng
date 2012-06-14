@@ -65,12 +65,11 @@ int __cdecl ModernWriteSettingString(HANDLE hContact,const char *szModule,const 
 {
     return DBWriteContactSettingString( hContact, szModule, szSetting, val );
 }
-#ifdef _UNICODE
+
 int __cdecl ModernWriteSettingWString(HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val)
 {
     return DBWriteContactSettingWString( hContact, szModule, szSetting, val );
 }
-#endif
 
 int __cdecl ModernDBFreeVariant(DBVARIANT *dbv)
 {

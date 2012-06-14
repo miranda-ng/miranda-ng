@@ -68,11 +68,7 @@ static TCHAR *GetIEViewSelection(struct MessageWindowData *dat) {
 	IEVIEWEVENT event;
 	ZeroMemory(&event, sizeof(event));
 	event.cbSize = sizeof(event);
-#ifdef _UNICODE
 	event.dwFlags = 0;
-#else
-	event.dwFlags = IEEF_NO_UNICODE;
-#endif
 	event.codepage = dat->windowData.codePage;
 	event.hwnd = dat->windowData.hwndLog;
 	event.hContact = dat->windowData.hContact;
@@ -83,11 +79,7 @@ static TCHAR *GetIEViewSelection(struct MessageWindowData *dat) {
 static TCHAR *GetQuotedTextW(TCHAR * text) {
 	int i, j, l, newLine, wasCR;
 	TCHAR *out;
-#ifdef _UNICODE
 	l = (int)wcslen(text);
-#else
-	l = strlen(text);
-#endif
 	newLine = 1;
 	wasCR = 0;
 	for (i=j=0; i<l; i++) {
@@ -180,7 +172,6 @@ static BOOL IsUtfSendAvailable(HANDLE hContact)
 	return ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF ) ? TRUE : FALSE;
 }
 
-#if defined(_UNICODE)
 int RTL_Detect(WCHAR *pszwText)
 {
     WORD *infoTypeC2;
@@ -204,7 +195,6 @@ int RTL_Detect(WCHAR *pszwText)
     }
     return 0;
 }
-#endif
 
 static void AddToFileList(TCHAR ***pppFiles,int *totalCount,const TCHAR* szFilename)
 {
@@ -838,16 +828,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			WindowList_Add(g_dat->hMessageWindowList, hwndDlg, dat->windowData.hContact);
 
 			if (newData->szInitialText) {
-	#if defined(_UNICODE)
 				if(newData->isWchar)
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR *)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
-	#else
-				SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
-	#endif
-			} else if (g_dat->flags & SMF_SAVEDRAFTS) {
-				TCmdList *draft = tcmdlist_get2(g_dat->draftList, dat->windowData.hContact);
+				} else if (g_dat->flags & SMF_SAVEDRAFTS) {
+					TCmdList *draft = tcmdlist_get2(g_dat->draftList, dat->windowData.hContact);
 				if (draft != NULL) {
 					len = SetRichTextEncoded(GetDlgItem(hwndDlg, IDC_MESSAGE), draft->szCmd, dat->windowData.codePage);
 				}
@@ -1174,20 +1160,13 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
                             }
                             mir_free(szOldStatus);
                             mir_free(szNewStatus);
-                        #if defined( _UNICODE )
+                        
                             {
                                 int ansiLen = WideCharToMultiByte(CP_ACP, 0, buffer, -1, blob, sizeof(blob), 0, 0);
                                 memcpy( blob+ansiLen, buffer, sizeof(TCHAR)*(iLen+1));
                                 dbei.cbBlob = ansiLen + sizeof(TCHAR)*(iLen+1);
                             }
-                        #else
-                            {
-                                int wLen = MultiByteToWideChar(CP_ACP, 0, buffer, -1, NULL, 0 );
-                                memcpy( blob, buffer, iLen+1 );
-                                MultiByteToWideChar(CP_ACP, 0, buffer, -1, (WCHAR*)&blob[iLen+1], wLen+1 );
-                                dbei.cbBlob = iLen+1 + sizeof(WCHAR)*wLen;
-                            }
-                        #endif
+                      
                             //iLen = strlen(buffer) + 1;
                             //MultiByteToWideChar(CP_ACP, 0, buffer, iLen, (LPWSTR) & buffer[iLen], iLen);
                             dbei.cbSize = sizeof(dbei);
@@ -1657,12 +1636,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			item->codepage = dat->windowData.codePage;
 			if ( IsUtfSendAvailable( dat->windowData.hContact )) {
 				char* szMsgUtf;
-				#if defined( _UNICODE )
-					szMsgUtf = mir_utf8encodeW( (TCHAR *)&msi->sendBuffer[strlen(msi->sendBuffer) + 1] );
-					item->flags &= ~PREF_UNICODE;
-				#else
-					szMsgUtf = mir_utf8encodecp(msi->sendBuffer, dat->windowData.codePage);
-				#endif
+				szMsgUtf = mir_utf8encodeW( (TCHAR *)&msi->sendBuffer[strlen(msi->sendBuffer) + 1] );
+				item->flags &= ~PREF_UNICODE;
 				if (!szMsgUtf) {
 					break;
 				}
@@ -1820,9 +1795,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETPARAFORMAT, 0, (LPARAM)&pf2);
 				if (pf2.wEffects & PFE_RTLPARA)
 					msi.flags |= PREF_RTL;
-				#if defined( _UNICODE )
 					bufSize += GetRichTextLength(GetDlgItem(hwndDlg, IDC_MESSAGE), 1200, TRUE) + 2;
-				#endif
+				
 				msi.sendBufferSize = bufSize;
 				msi.sendBuffer = (char *) mir_alloc(msi.sendBufferSize);
 				msi.flags |= PREF_TCHAR;
@@ -1831,13 +1805,12 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				gt.cb = ansiBufSize;
 				gt.codepage = dat->windowData.codePage;
 				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM) &gt, (LPARAM) msi.sendBuffer);
-				#if defined( _UNICODE )
-					gt.cb = bufSize - ansiBufSize;
-					gt.codepage = 1200;
-					SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM) &gt, (LPARAM) &msi.sendBuffer[ansiBufSize]);
-					if ( RTL_Detect((wchar_t *)&msi.sendBuffer[ansiBufSize] ))
-						msi.flags |= PREF_RTL;
-				#endif
+				gt.cb = bufSize - ansiBufSize;
+				gt.codepage = 1200;
+				SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_GETTEXTEX, (WPARAM) &gt, (LPARAM) &msi.sendBuffer[ansiBufSize]);
+				if ( RTL_Detect((wchar_t *)&msi.sendBuffer[ansiBufSize] ))
+					msi.flags |= PREF_RTL;
+
 				if (msi.sendBuffer[0] == 0) {
 					mir_free (msi.sendBuffer);
 					break;
@@ -1923,11 +1896,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				SETTEXTEX  st;
 				TCHAR *buffer = NULL;
 				st.flags = ST_SELECTION;
-#ifdef _UNICODE
 				st.codepage = 1200;
-#else
-				st.codepage = CP_ACP;
-#endif
+
 				if (dat->hDbEventLast==NULL) break;
 				if (dat->windowData.hwndLog != NULL) {
 					buffer = GetIEViewSelection(dat);

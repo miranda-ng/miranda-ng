@@ -401,12 +401,8 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 					gt.cb = iLen+99;
 					gt.flags = GT_DEFAULT;
-					#if defined( _UNICODE )
-						gt.codepage = 1200;
-					#else
-						gt.codepage = CP_ACP;
-					#endif
-
+					gt.codepage = 1200;
+					
 					SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
 					while ( start >0 && pszText[start-1] != ' ' && pszText[start-1] != 13 && pszText[start-1] != VK_TAB)
 						start--;
@@ -2378,11 +2374,7 @@ LABEL_SHOWWINDOW:
 										hData = GlobalAlloc(GMEM_MOVEABLE, sizeof(TCHAR)*(lstrlen(tr.lpstrText) + 1));
 										lstrcpy(( TCHAR* )GlobalLock(hData), tr.lpstrText);
 										GlobalUnlock(hData);
-										#if defined( _UNICODE )
-											SetClipboardData(CF_UNICODETEXT, hData);
-										#else
-											SetClipboardData(CF_TEXT, hData);
-										#endif
+										SetClipboardData(CF_UNICODETEXT, hData);
 										CloseClipboard();
 										SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 										break;
@@ -2490,9 +2482,7 @@ LABEL_SHOWWINDOW:
 
 				DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, (LPARAM)NULL);
 				mir_free(pszRtf);
-				#if defined( _UNICODE )
-					mir_free(ptszText);
-				#endif
+				mir_free(ptszText);
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
 			}
 			break;

@@ -145,11 +145,9 @@ int SM_RemoveSession( const TCHAR* pszID, const char* pszModule)
 			mir_free( pTemp->ptszName );
 			mir_free( pTemp->ptszStatusbarText );
 			mir_free( pTemp->ptszTopic );
-			#if defined( _UNICODE )
-				mir_free( pTemp->pszID );
-				mir_free( pTemp->pszName );
-			#endif
-
+			mir_free( pTemp->pszID );
+			mir_free( pTemp->pszName );
+			
 			// delete commands
 			pCurComm = pTemp->lpCommands;
 			while (pCurComm != NULL)
@@ -787,11 +785,9 @@ BOOL SM_RemoveAll (void)
 		mir_free( m_WndList->ptszName );
 		mir_free( m_WndList->ptszStatusbarText );
 		mir_free( m_WndList->ptszTopic );
-		#if defined( _UNICODE )
-			mir_free( m_WndList->pszID );
-			mir_free( m_WndList->pszName );
-		#endif
-
+		mir_free( m_WndList->pszID );
+		mir_free( m_WndList->pszName );
+		
 		while (m_WndList->lpCommands != NULL) {
 			COMMAND_INFO *pNext = m_WndList->lpCommands->next;
 			mir_free(m_WndList->lpCommands->lpCommand);
@@ -941,11 +937,7 @@ char* SM_GetUsers(SESSION_INFO* si)
 		if ( pLen + nameLen + 2 > alloced )
 			p = mir_realloc( p, alloced += 4096 );
 
-		#if !defined( _UNICODE )
-			lstrcpy( p + pLen, utemp->pszUID );
-		#else
-			WideCharToMultiByte( CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen+1, 0, 0 );
-		#endif
+		WideCharToMultiByte( CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen+1, 0, 0 );
 		lstrcpyA( p + pLen + nameLen, " " );
 		utemp = utemp->next;
 	}

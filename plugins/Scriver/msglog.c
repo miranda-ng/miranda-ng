@@ -28,9 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LOGICON_MSG_OUT     1
 #define LOGICON_MSG_NOTICE  2
 
-#if defined ( _UNICODE )
 extern int RTL_Detect(WCHAR *pszwText);
-#endif
 extern HINSTANCE g_hInst;
 static int logPixelSY;
 static PBYTE pLogIconBmpBits[3];
@@ -94,15 +92,13 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 	ci.hContact = hContact;
     ci.szProto = (char *)szProto;
 	ci.dwFlag = CNF_DISPLAY;
-#if defined ( _UNICODE )
 	if(IsUnicodeMIM()) {
 		ci.dwFlag |= CNF_UNICODE;
     }
-#endif
+
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
-#if defined ( _UNICODE )
 				if(IsUnicodeMIM()) {
 					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
@@ -115,9 +111,7 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 				} else {
 					szName = a2t((char *)ci.pszVal);
 				}
-#else
-				szName = mir_tstrdup((TCHAR *)ci.pszVal);
-#endif
+
 				miranda_sys_free(ci.pszVal);
 				if (szName != NULL) {
 					return szName;
@@ -127,16 +121,12 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 	}
 	szBaseNick = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
 	if (szBaseNick != NULL) {
-#if defined ( _UNICODE )
 		int len;
 		len = (int)strlen(szBaseNick) + 1;
 		szName = (TCHAR *) mir_alloc(len * 2);
 	    MultiByteToWideChar(CP_ACP, 0, szBaseNick, -1, szName, len);
 		szName[len - 1] = 0;
 	    return szName;
-#else
-	    return mir_tstrdup(szBaseNick);
-#endif
 	}
     return mir_tstrdup(TranslateT("Unknown Contact"));
 }
@@ -203,9 +193,8 @@ EventData *getEventFromDB(struct MessageWindowData *dat, HANDLE hContact, HANDLE
 	}
 	event->eventType = event->custom ? EVENTTYPE_MESSAGE : dbei.eventType;
 	event->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
-#if defined( _UNICODE )
 	event->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-#endif
+
 	if ( dat->flags & SMF_RTL) {
 		event->dwFlags |= IEEDF_RTL;
 	}
@@ -218,7 +207,7 @@ EventData *getEventFromDB(struct MessageWindowData *dat, HANDLE hContact, HANDLE
 	} else {
 		event->pszNickT = GetNickname(hContact, dat->szProto);
 	}
-#if defined( _UNICODE )
+
 	if (event->eventType == EVENTTYPE_FILE) {
 		char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
 		char* descr = filename + lstrlenA( filename ) + 1;
@@ -234,18 +223,7 @@ EventData *getEventFromDB(struct MessageWindowData *dat, HANDLE hContact, HANDLE
 			event->dwFlags |= IEEDF_RTL;
 		}
 	}
-#else
-	if (event->eventType == EVENTTYPE_FILE) {
-		char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
-		char* descr = filename + lstrlenA( filename ) + 1;
-		event->pszTextT = mir_strdup(filename);
-		if ( *descr != 0 ) {
-			event->pszText2T = mir_strdup(descr);
-		}
-	} else {
-		event->pszTextT = DbGetEventTextT( &dbei, dat->windowData.codePage );
-	}
-#endif
+
 	mir_free(dbei.pBlob);
 	return event;
 }
@@ -256,9 +234,7 @@ static EventData *GetTestEvent(DWORD flags)
 	memset(event, 0, sizeof(EventData));
 	event->eventType = EVENTTYPE_MESSAGE;
 	event->dwFlags = IEEDF_READ | flags;
-#if defined( _UNICODE )
 	event->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
-#endif
 	event->time = time(NULL);
 	event->codePage = CP_ACP;
     return event;
@@ -383,11 +359,7 @@ static int AppendUnicodeToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferA
 
 static int AppendTToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced, TCHAR * line)
 {
-#if defined ( _UNICODE )
 	return AppendUnicodeToBuffer(buffer, cbBufferEnd, cbBufferAlloced, line);
-#else
-	return AppendAnsiToBuffer(buffer, cbBufferEnd, cbBufferAlloced, line);
-#endif
 }
 
 //mir_free() the return value
@@ -401,15 +373,6 @@ static char *CreateRTFHeader(struct MessageWindowData *dat, struct GlobalMessage
 	HDC hdc;
 	int charset = 0;
 	BOOL forceCharset = FALSE;
-#if !defined ( _UNICODE )
-		if (dat->windowData.codePage != CP_ACP) {
-			CHARSETINFO csi;
- 			if(TranslateCharsetInfo((DWORD*)dat->windowData.codePage, &csi, TCI_SRCCODEPAGE)) {
-				forceCharset = TRUE;
-				charset = csi.ciCharset;
-			}
-		}
-#endif
 
 	hdc = GetDC(NULL);
 	logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
@@ -764,15 +727,13 @@ static char *CreateRTFFromEvent(struct MessageWindowData *dat, EventData *event,
 		} else {
 			AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "%s ", SetToStyle(MSGFONTID_NOTICE));
 		}
-#if defined( _UNICODE )
+
 		if (event->dwFlags & IEEDF_UNICODE_NICK) {
 			AppendUnicodeToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszNickW);
 		} else {
 			AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszNick);
 		}
-#else
-		AppendAnsiToBuffer(&buffer, &bufferEnd, &bufferAlloced, event->pszNick);
-#endif
+
 		showColon = 1;
 		if (event->eventType == EVENTTYPE_MESSAGE && gdat->flags & SMF_GROUPMESSAGES) {
 			if (gdat->flags & SMF_MARKFOLLOWUPS) {
@@ -1101,12 +1062,8 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 	if (fAppend) {
         GETTEXTLENGTHEX gtxl = {0};
         gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
-#if defined( _UNICODE )
-        gtxl.codepage = 1200;
-#else
-        gtxl.codepage = CP_ACP;
-#endif
-        gtxl.codepage = 1200;
+		gtxl.codepage = 1200;
+		gtxl.codepage = 1200;
         fi.chrg.cpMin = SendDlgItemMessage(hwndDlg, IDC_LOG, EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
         sel.cpMin = sel.cpMax = GetRichTextLength(GetDlgItem(hwndDlg, IDC_LOG), dat->windowData.codePage, FALSE);
         SendDlgItemMessage(hwndDlg, IDC_LOG, EM_EXSETSEL, 0, (LPARAM) & sel);

@@ -256,11 +256,8 @@ void * AddTempGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flag
 	int f=0;
 	TCHAR * szGroupName;
 	DWORD groupFlags;
-#ifdef UNICODE
 	char *mbuf=mir_u2a((TCHAR *)szName);
-#else
-	char *mbuf=mir_strdup((char *)szName);
-#endif
+
 	if (wildcmp(mbuf,"-@-HIDDEN-GROUP-@-",0))
 	{
 		mir_free_and_nill(mbuf);
