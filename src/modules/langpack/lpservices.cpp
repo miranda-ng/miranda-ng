@@ -38,18 +38,23 @@ static INT_PTR TranslateString(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)LangPackTranslateString( LangPackLookupUuid(wParam), (const char *)lParam, (wParam & LANG_UNICODE) ? 1 : 0);
 }
 
+TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish)
+{
+	LangPackMuuid* pUuid = (hLangpack) ? LangPackLookupUuid(hLangpack) : 0;
+	return (TCHAR*)LangPackTranslateString(pUuid, (LPCSTR)tszEnglish, 1);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR TranslateMenu(WPARAM wParam, LPARAM lParam)
 {
-	HMENU        hMenu = ( HMENU )wParam;
-	int          i;
-	MENUITEMINFO mii;
-	TCHAR        str[256];
+	HMENU hMenu = ( HMENU )wParam;
 	LangPackMuuid* uuid = LangPackLookupUuid( lParam );
 
+	MENUITEMINFO mii;
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
-	for ( i = GetMenuItemCount( hMenu )-1; i >= 0; i--) {
+	for (int i = GetMenuItemCount( hMenu )-1; i >= 0; i--) {
+		TCHAR str[256];
 		mii.fMask = MIIM_TYPE|MIIM_SUBMENU;
 		mii.dwTypeData = ( TCHAR* )str;
 		mii.cch = SIZEOF(str);

@@ -774,82 +774,64 @@ static int WhereToPlace( HMENU hMenu, PMO_MenuItem mi )
 
 static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *lpmii)
 {
-	int needSeparator = 0;
-	MENUITEMINFO mii;
-
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem(( HGENMENU )lpmii->dwItemData );
-	if ( pimi == NULL )
+	if (pimi == NULL)
 		return;
 
-	int thisItemPosition = pimi->mi.position;
-
-	ZeroMemory( &mii, sizeof( mii ));
+	MENUITEMINFO mii = { 0 };
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
 	//check for separator before
 	if ( uItem ) {
 		mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
 		GetMenuItemInfo( hMenu, uItem-1, TRUE, &mii );
-		pimi = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
-		if ( pimi != NULL ) {
-			if ( mii.fType == MFT_SEPARATOR )
-				needSeparator = 0;
-			else
-				needSeparator = ( pimi->mi.position / SEPARATORPOSITIONINTERVAL ) != thisItemPosition / SEPARATORPOSITIONINTERVAL;
-		}
-		if ( needSeparator) {
-			//but might be supposed to be after the next one instead
-			mii.fType = 0;
-			if ( uItem < GetMenuItemCount( hMenu )) {
-				mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
-				GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
-			}
-			if ( mii.fType != MFT_SEPARATOR) {
-				mii.fMask = MIIM_TYPE;
-				mii.fType = MFT_SEPARATOR;
-				InsertMenuItem( hMenu, uItem, TRUE, &mii );
-			}
-			uItem++;
-	}	}
+		PMO_IntMenuItem p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
+		if ( p != NULL && mii.fType != MFT_SEPARATOR) {
+			int needSeparator = (p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL);
+			if ( needSeparator) {
+				//but might be supposed to be after the next one instead
+				mii.fType = 0;
+				if ( uItem < GetMenuItemCount( hMenu )) {
+					mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
+					GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
+				}
+				if ( mii.fType != MFT_SEPARATOR) {
+					mii.fMask = MIIM_TYPE;
+					mii.fType = MFT_SEPARATOR;
+					InsertMenuItem( hMenu, uItem, TRUE, &mii );
+				}
+				uItem++;
+	}	}	}
 
 	//check for separator after
 	if ( uItem < GetMenuItemCount( hMenu )) {
 		mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
 		mii.cch = 0;
 		GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
-		pimi = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
-		if ( pimi != NULL ) {
-			if ( mii.fType == MFT_SEPARATOR )
-				needSeparator=0;
-			else
-				needSeparator = pimi->mi.position / SEPARATORPOSITIONINTERVAL != thisItemPosition / SEPARATORPOSITIONINTERVAL;
-		}
-		if ( needSeparator) {
-			mii.fMask = MIIM_TYPE;
-			mii.fType = MFT_SEPARATOR;
-			InsertMenuItem( hMenu, uItem, TRUE, &mii );
-	}	}
-
-	if ( uItem == GetMenuItemCount( hMenu )-1 ) {
-		TCHAR str[32];
-		mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
-		mii.dwTypeData = str;
-		mii.cch = SIZEOF( str );
-		GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
-	}
+		PMO_IntMenuItem p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
+		if ( p != NULL && mii.fType == MFT_SEPARATOR ) {
+			int needSeparator = (p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL);
+			if ( needSeparator) {
+				mii.fMask = MIIM_TYPE;
+				mii.fType = MFT_SEPARATOR;
+				InsertMenuItem( hMenu, uItem, TRUE, &mii );
+	}	}	}
 
 	// create local copy *lpmii so we can change some flags
-	MENUITEMINFO mii_copy = *lpmii;
-	lpmii = &mii_copy;
+	mii = *lpmii;
 
-	if (( GetMenuItemCount( hMenu ) % 35 ) == 33 /* will be 34 after addition :) */ && pimi != NULL )
+	int count = GetMenuItemCount( hMenu );
+	if (count != 0 && (count % 33 ) == 0)
 		if ( pimi->mi.root != NULL ) {
-			if ( !( lpmii->fMask & MIIM_FTYPE ))
-				lpmii->fType = 0;
-			lpmii->fMask |= MIIM_FTYPE;
-			lpmii->fType |= MFT_MENUBARBREAK;
+			if ( !( mii.fMask & MIIM_FTYPE ))
+				mii.fType = 0;
+			mii.fMask |= MIIM_FTYPE;
+			mii.fType |= MFT_MENUBARBREAK;
 		}
 
-	InsertMenuItem( hMenu, uItem, TRUE, lpmii );
+	if ( !( pimi->mi.flags & CMIF_KEEPUNTRANSLATED))
+		mii.dwTypeData = LangPackTranslateStringT(pimi->mi.hLangpack, mii.dwTypeData);
+
+	InsertMenuItem( hMenu, uItem, TRUE, &mii);
 }
 
 //wparam started hMenu
@@ -993,15 +975,15 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 						pmi->hBmp = ConvertIconToBitmap(NULL, pmi->parent->m_hMenuIcons, pmi->iconId);
 					mii.hbmpItem = pmi->hBmp;
 				}
-				else
-					mii.hbmpItem = HBMMENU_CALLBACK;
+				else mii.hbmpItem = HBMMENU_CALLBACK;
 			}
 		}
 
 		mii.fMask |= MIIM_STATE;
 		mii.fState = (( pmi->mi.flags & CMIF_GRAYED ) ? MFS_GRAYED : MFS_ENABLED );
 		mii.fState |= (( pmi->mi.flags & CMIF_CHECKED) ? MFS_CHECKED : MFS_UNCHECKED );
-		if ( pmi->mi.flags & CMIF_DEFAULT ) mii.fState |= MFS_DEFAULT;
+		if ( pmi->mi.flags & CMIF_DEFAULT )
+			mii.fState |= MFS_DEFAULT;
 
 		mii.dwTypeData = ( pmi->CustomName ) ? pmi->CustomName : mi->ptszName;
 
@@ -1018,9 +1000,9 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 				}
 			#endif
 
-			InsertMenuItemWithSeparators( hMenu, i, &mii);
+			InsertMenuItemWithSeparators(hMenu, i, &mii);
 			localparam.rootlevel = LPARAM( pmi );
-			BuildRecursiveMenu( mii.hSubMenu, pmi->submenu.first, &localparam );
+			BuildRecursiveMenu(mii.hSubMenu, pmi->submenu.first, &localparam);
 		}
 		else {
 			mii.wID = pmi->iCommand;

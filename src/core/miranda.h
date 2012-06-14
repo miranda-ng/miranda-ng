@@ -182,6 +182,7 @@ int    LangPackGetDefaultCodePage();
 int    LangPackGetDefaultLocale();
 TCHAR* LangPackPcharToTchar( const char* pszStr );
 char*  LangPackTranslateString(struct LangPackMuuid* pUuid, const char *szEnglish, const int W);
+TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
 
 unsigned int __fastcall hash(const void * key, unsigned int len);
 
