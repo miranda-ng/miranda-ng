@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -26,18 +26,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef struct{
 	int handleType;						//one of the HANDLE_ constants
-	HANDLE handle;						//hDbEvent if acs.handleType==HANDLE_EVENT, hContact if acs.handleType==HANDLE_CONTACT, ignored if acs.handleType==HANDLE_SEARCHRESULT
-	const char *szProto;				//ignored if acs.handleType!=HANDLE_SEARCHRESULT
-	PROTOSEARCHRESULT *psr;				//ignored if acs.handleType!=HANDLE_SEARCHRESULT
+	HANDLE handle;						//hDbEvent if acs.handleType == HANDLE_EVENT, hContact if acs.handleType == HANDLE_CONTACT, ignored if acs.handleType == HANDLE_SEARCHRESULT
+	const char *szProto;				//ignored if acs.handleType != HANDLE_SEARCHRESULT
+	PROTOSEARCHRESULT *psr;				//ignored if acs.handleType != HANDLE_SEARCHRESULT
 }ADDCONTACTSTRUCT;
 
 /*
 	Description: Open the add contact dialog, see notes
-	
+
 	wParam=[ (WPARAM)hWndParent ]
 	lParam=(LPARAM)(ADDCONTACTSTRUCT*)&acs
 
-	Notes: 
+	Notes:
 
 	During 0.3.0.0 development (circa 2003/06/08)
 
@@ -47,10 +47,10 @@ typedef struct{
 	if you pass a structure that is bigger than PROTOSEARCHRESULT
 	then do not use pointers in the newly defined area because
 	they will not be copied.
-	
-	passing wParam==NULL will result in a dialog that is created modeless
 
-	Before the circa, a modal dialog was *always* created and 
+	passing wParam == NULL will result in a dialog that is created modeless
+
+	Before the circa, a modal dialog was *always* created and
 	strings within PROTOSEARCHRESULT were not copied.
 
 */

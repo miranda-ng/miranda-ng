@@ -567,17 +567,17 @@ int CreateFrame()
 		// create menu item
 		CreateServiceFunction(MODULE "/ShowHideReminders", ShowHideMenuFunc);
 
-		CLISTMENUITEM menu = {0};
+		CLISTMENUITEM mi = {0};
 
-		menu.cbSize=sizeof(menu);
-		menu.flags = CMIM_ALL;
+		mi.cbSize=sizeof(mi);
+		mi.flags = CMIM_ALL;
 
-		menu.hIcon=hIconMenuShowHide;
-		menu.pszName = Translate("Show Reminders");
-		menu.pszService= MODULE "/ShowHideReminders";
-		menu.pszPopupName = Translate("Alarms");
-		menu.position = 500010000;
-		hMenuShowReminders = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&menu);
+		mi.hIcon=hIconMenuShowHide;
+		mi.pszName = Translate("Show Reminders");
+		mi.pszService= MODULE "/ShowHideReminders";
+		mi.pszPopupName = Translate("Alarms");
+		mi.position = 500010000;
+		hMenuShowReminders = Menu_AddMainMenuItem(&mi);
 		/////////////////////
 
 		if (!options.auto_showhide) {

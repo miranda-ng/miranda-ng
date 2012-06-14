@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2005 Miranda ICQ/IM project,
+Copyright 2000-2005 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IdleObject_SetIdle(obj) (obj->state|=0x1)
 #define IdleObject_ClearIdle(obj) (obj->state&=~0x1)
 
-// either use meth 0,1 or figure out which one
+// either use meth 0, 1 or figure out which one
 #define IdleObject_UseMethod0(obj) (obj->state&=~0x2)
 #define IdleObject_UseMethod1(obj) (obj->state|=0x2)
 #define IdleObject_GetMethod(obj) (obj->state&0x2)
@@ -84,23 +84,23 @@ typedef enum _WTS_CONNECTSTATE_CLASS {
 
 
 typedef enum _WTS_INFO_CLASS {
-    WTSInitialProgram,
-    WTSApplicationName,
-    WTSWorkingDirectory,
-    WTSOEMId,
-    WTSSessionId,
-    WTSUserName,
-    WTSWinStationName,
-    WTSDomainName,
-    WTSConnectState,
-    WTSClientBuildNumber,
-    WTSClientName,
-    WTSClientDirectory,
-    WTSClientProductId,
-    WTSClientHardwareId,
-    WTSClientAddress,
-    WTSClientDisplay,
-    WTSClientProtocolType,
+    WTSInitialProgram, 
+    WTSApplicationName, 
+    WTSWorkingDirectory, 
+    WTSOEMId, 
+    WTSSessionId, 
+    WTSUserName, 
+    WTSWinStationName, 
+    WTSDomainName, 
+    WTSConnectState, 
+    WTSClientBuildNumber, 
+    WTSClientName, 
+    WTSClientDirectory, 
+    WTSClientProductId, 
+    WTSClientHardwareId, 
+    WTSClientAddress, 
+    WTSClientDisplay, 
+    WTSClientProtocolType, 
 } WTS_INFO_CLASS;
 
 #endif
@@ -208,7 +208,7 @@ static int IdleObject_IsUserIdle(IdleObject * obj)
 	
 	if ( MyGetLastInputInfo != NULL ) {
 		LASTINPUTINFO ii;
-		ZeroMemory(&ii,sizeof(ii));
+		ZeroMemory(&ii, sizeof(ii));
 		ii.cbSize=sizeof(ii);
 		if ( MyGetLastInputInfo(&ii) ) 
 			return GetTickCount() - ii.dwTime > (obj->minutes * 60 * 1000);
@@ -349,23 +349,23 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 	{
 		int j;
-		int method = DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLEMETHOD, 0);
+		int method = DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEMETHOD, 0);
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_IDLESHORT, DBGetContactSettingByte(NULL,IDLEMOD,IDL_USERIDLECHECK,0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLESHORT, DBGetContactSettingByte(NULL, IDLEMOD, IDL_USERIDLECHECK, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLEONWINDOWS, method == 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLEONMIRANDA, method ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SCREENSAVER, DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLEONSAVER,0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_FULLSCREEN, DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLEONFULLSCR,0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOCKED, DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLEONLOCK,0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IDLEPRIVATE, DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLEPRIVATE,0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IDLESTATUSLOCK, DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLESTATUSLOCK,0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SCREENSAVER, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONSAVER, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FULLSCREEN, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOCKED, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLEPRIVATE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLESTATUSLOCK, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
 		if ( !bIsWTSApiPresent )
 			EnableWindow( GetDlgItem( hwndDlg, IDC_IDLETERMINAL ), FALSE );
 		else
-			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLEONTSDC,0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_IDLE1STTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETRANGE32, 1, 60);
-		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) DBGetContactSettingByte(NULL,IDLEMOD,IDL_IDLETIME1ST, 10), 0));
+		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
 		SendDlgItemMessage(hwndDlg, IDC_IDLE1STTIME, EM_LIMITTEXT, (WPARAM)2, 0);
 
       CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
@@ -476,7 +476,7 @@ static int IdleModernOptInit(WPARAM wParam, LPARAM)
 {
 	static const int iBoldControls[] =
 	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
+		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
 		MODERNOPT_CTRL_LAST
 	};
 

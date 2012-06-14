@@ -2,7 +2,7 @@
 
   Miranda IM: the free IM client for Microsoft* Windows*
 
-  Copyright 2000-2010 Miranda ICQ/IM project,
+  Copyright 2000-2010 Miranda ICQ/IM project, 
   all portions of this codebase are copyrighted to the people
   listed in contributors.txt.
 
@@ -11,7 +11,7 @@
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
+  This program is distributed in the hope that it will be useful, 
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
@@ -52,7 +52,7 @@ void fnLoadCluiGlobalOpts()
 {
 	cluiopt.showsbar = DBGetContactSettingByte(NULL, "CLUI", "ShowSBar", 1);
 	cluiopt.showgrip = DBGetContactSettingByte(NULL, "CLUI", "ShowGrip", 1);
-	cluiopt.transparent = DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT);
+	cluiopt.transparent = DBGetContactSettingByte(NULL, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT);
 	cluiopt.alpha = DBGetContactSettingByte(NULL, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
 }
 
@@ -205,8 +205,8 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						DBWriteContactSettingByte((HANDLE) wParam, "CList", "Delete", 1);
-						MessageBox( NULL,
-							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
+						MessageBox( NULL, 
+							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."), 
 							TranslateT("Delete Contact"), MB_OK);
 						return 0;
 			}	}	}
@@ -322,13 +322,13 @@ int LoadCLUIModule(void)
 	Utils_AssertInsideScreen(&pos);
 
 	cli.hwndContactList = CreateWindowEx(
-		(DBGetContactSettingByte(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW),
-		_T(MIRANDACLASS),
-		titleText,
+		(DBGetContactSettingByte(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) ? WS_EX_TOOLWINDOW : WS_EX_APPWINDOW), 
+		_T(MIRANDACLASS), 
+		titleText, 
 		WS_POPUPWINDOW | WS_THICKFRAME | WS_CLIPCHILDREN |
 		(DBGetContactSettingByte(NULL, "CLUI", "ShowCaption", SETTING_SHOWCAPTION_DEFAULT) ?  WS_CAPTION | WS_SYSMENU | 
-			(DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? 0 : WS_MINIMIZEBOX) : 0),
-		pos.left, pos.top, pos.right - pos.left, pos.bottom - pos.top,
+			(DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT) ? 0 : WS_MINIMIZEBOX) : 0), 
+		pos.left, pos.top, pos.right - pos.left, pos.bottom - pos.top, 
 		NULL, NULL, cli.hInst, NULL);
 
 	if (DBGetContactSettingByte(NULL, "CList", "OnDesktop", 0)) {
@@ -365,7 +365,7 @@ int LoadCLUIModule(void)
 		mi.pszContactOwner = NULL;      //on every contact
 		mi.pszName = LPGEN("De&lete");
 		mi.pszService = "CList/DeleteContactCommand";
-		CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		Menu_AddContactMenuItem(&mi);
 
 		CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
 		mi.position = 2000050000;
@@ -373,7 +373,7 @@ int LoadCLUIModule(void)
 		mi.pszContactOwner = NULL;      //on every contact
 		mi.pszName = LPGEN("&Rename");
 		mi.pszService = "CList/RenameContactCommand";
-		hRenameMenuItem = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		hRenameMenuItem = Menu_AddContactMenuItem(&mi);
 
 		CreateServiceFunction("CList/AddToListContactCommand", MenuItem_AddContactToList);
 		mi.position = -2050000000;
@@ -381,7 +381,7 @@ int LoadCLUIModule(void)
 		mi.icolibItem = GetSkinIconHandle( SKINICON_OTHER_ADDCONTACT );
 		mi.pszName = LPGEN("&Add permanently to list");
 		mi.pszService = "CList/AddToListContactCommand";
-		CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		Menu_AddContactMenuItem(&mi);
 
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, MenuItem_PreBuild);
 	}
@@ -527,7 +527,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case M_CREATECLC:
-		cli.hwndContactTree = CreateWindow( CLISTCONTROL_CLASS, _T(""),
+		cli.hwndContactTree = CreateWindow( CLISTCONTROL_CLASS, _T(""), 
 			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 			| CLS_CONTACTLIST
 			| (DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
@@ -637,9 +637,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_SETCURSOR:
 		if (cluiopt.transparent) {
 			if (!transparentFocus && GetForegroundWindow() != hwnd && setLayeredWindowAttributes) {
-				setLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)cluiopt.alpha, LWA_ALPHA);
+				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus=1;
-				SetTimer(hwnd, TM_AUTOALPHA,250,NULL);
+				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
 			}
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -711,7 +711,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				thisTick = GetTickCount();
 				if (thisTick >= startTick + 200)
 					break;
-				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0),
+				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 
 					(BYTE) (sourceAlpha + (destAlpha - sourceAlpha) * (int) (thisTick - startTick) / 200), LWA_ALPHA);
 			}
 			setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) destAlpha, LWA_ALPHA);
@@ -906,7 +906,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						if (rcWindow.bottom > rcWorkArea.bottom)
 							rcWindow.bottom = rcWorkArea.bottom;
 					}
-					SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top,
+					SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, 
 						SWP_NOZORDER | SWP_NOACTIVATE);
 					break;
 				}
@@ -1004,10 +1004,10 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				HMENU hMenu;
 				hMenu = GetSubMenu(LoadMenu(cli.hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 1);
 				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hMenu, 0);
-				CheckMenuItem(hMenu, POPUP_HIDEOFFLINE,
+				CheckMenuItem(hMenu, POPUP_HIDEOFFLINE, 
 					DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) ? MF_CHECKED : MF_UNCHECKED);
 				CheckMenuItem(hMenu, POPUP_HIDEOFFLINEROOT, SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) ? MF_CHECKED : MF_UNCHECKED);
-				CheckMenuItem(hMenu, POPUP_HIDEEMPTYGROUPS,
+				CheckMenuItem(hMenu, POPUP_HIDEEMPTYGROUPS, 
 					GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS ? MF_CHECKED : MF_UNCHECKED);
 				CheckMenuItem(hMenu, POPUP_DISABLEGROUPS, GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS ? MF_UNCHECKED : MF_CHECKED);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
@@ -1047,15 +1047,15 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				x = dis->rcItem.left;
 				if (showOpts & 1) {
 					HICON hIcon = LoadSkinProtoIcon(szProto, status);
-					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
+					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon, 
 						g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
-					IconLib_ReleaseIcon(hIcon,0);
+					IconLib_ReleaseIcon(hIcon, 0);
 					if ( Proto_IsAccountLocked( Proto_GetAccount( szProto ))) {
 						hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != NULL) {
-							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
+							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon, 
 								g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
-							IconLib_ReleaseIcon(hIcon,0);
+							IconLib_ReleaseIcon(hIcon, 0);
 						}
 
 					}

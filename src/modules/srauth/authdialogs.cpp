@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -41,7 +41,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			DBEVENTINFO dbei = {0};
 			dbei.cbSize = sizeof(dbei);
-			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)hDbEvent,0);
+			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
 			dbei.pBlob  = (PBYTE)alloca(dbei.cbBlob);
 			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
 
@@ -115,7 +115,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 				HANDLE hContact = (HANDLE)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_DETAILS), GWLP_USERDATA);
                 if ((hContact == INVALID_HANDLE_VALUE) || !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
-                    ShowWindow(GetDlgItem(hwndDlg,IDC_ADD),FALSE);
+                    ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 				break;
 			}
 			case IDC_DETAILS:
@@ -141,8 +141,8 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_DESTROY:
-		Button_FreeIcon_IcoLib(hwndDlg,IDC_ADD);
-		Button_FreeIcon_IcoLib(hwndDlg,IDC_DETAILS);
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_ADD);
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_DETAILS);
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 		break;
@@ -164,13 +164,13 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			DBEVENTINFO dbei = {0};
 			DWORD uin;
-			char *nick,*first,*last,*email,*reason;
+			char *nick, *first, *last, *email, *reason;
 			HANDLE hContact;		
 			
 			hDbEvent = (HANDLE)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
-			//blob is: uin(DWORD),hcontact(HANDLE),nick(ASCIIZ),first(ASCIIZ),last(ASCIIZ),email(ASCIIZ),reason(ASCIIZ)
+			//blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 			dbei.cbSize = sizeof(dbei);
 			dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
 			dbei.pBlob  = (PBYTE)alloca(dbei.cbBlob);
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_DENYREASON, EM_LIMITTEXT, 255, 0);
-			if (CallProtoService(dbei.szModule, PS_GETCAPS,PFLAGNUM_4, 0) & PF4_NOAUTHDENYREASON)
+			if (CallProtoService(dbei.szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_NOAUTHDENYREASON)
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DENYREASON), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DENYREASON, TranslateT("Feature is not supported by protocol"));
@@ -267,7 +267,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBEVENTINFO dbei = {0};
 				dbei.cbSize = sizeof(dbei);
 				CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-				CallProtoService(dbei.szModule, PS_AUTHALLOW, (WPARAM)hDbEvent,0);
+				CallProtoService(dbei.szModule, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ADDCHECK))
 				{
@@ -302,8 +302,8 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
-		Button_FreeIcon_IcoLib(hwndDlg,IDC_ADD);
-		Button_FreeIcon_IcoLib(hwndDlg,IDC_DETAILS);
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_ADD);
+		Button_FreeIcon_IcoLib(hwndDlg, IDC_DETAILS);
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		DestroyIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 		break;

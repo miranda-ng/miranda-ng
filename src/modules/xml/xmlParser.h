@@ -66,7 +66,7 @@
  * 	problem, during all the debugging session, I am now using a very fast DLL version of the
  * 	XMLParser Library (the DLL is compiled in release mode). Using the DLL version of
  * 	the XMLParser Library allows me to have lightening XML parsing speed even in debug!
- * 	Other than that, the DLL version is useless: In the release version of my tool,
+ * 	Other than that, the DLL version is useless: In the release version of my tool, 
  * 	I always use the normal, ".cpp"-based, XMLParser Library (I simply include the
  * <a href="../../xmlParser.cpp">xmlParser.cpp</a> and
  * <a href="../../xmlParser.h">xmlParser.h</a> files into the project).
@@ -156,27 +156,27 @@
 /// Enumeration for XML parse errors.
 typedef enum XMLError
 {
-	eXMLErrorNone = 0,
-	eXMLErrorMissingEndTag,
-	eXMLErrorNoXMLTagFound,
-	eXMLErrorEmpty,
-	eXMLErrorMissingTagName,
-	eXMLErrorMissingEndTagName,
-	eXMLErrorUnmatchedEndTag,
-	eXMLErrorUnmatchedEndClearTag,
-	eXMLErrorUnexpectedToken,
-	eXMLErrorNoElements,
-	eXMLErrorFileNotFound,
-	eXMLErrorFirstTagNotFound,
-	eXMLErrorUnknownCharacterEntity,
-	eXMLErrorCharacterCodeAbove255,
-	eXMLErrorCharConversionError,
-	eXMLErrorCannotOpenWriteFile,
-	eXMLErrorCannotWriteFile,
+	eXMLErrorNone = 0, 
+	eXMLErrorMissingEndTag, 
+	eXMLErrorNoXMLTagFound, 
+	eXMLErrorEmpty, 
+	eXMLErrorMissingTagName, 
+	eXMLErrorMissingEndTagName, 
+	eXMLErrorUnmatchedEndTag, 
+	eXMLErrorUnmatchedEndClearTag, 
+	eXMLErrorUnexpectedToken, 
+	eXMLErrorNoElements, 
+	eXMLErrorFileNotFound, 
+	eXMLErrorFirstTagNotFound, 
+	eXMLErrorUnknownCharacterEntity, 
+	eXMLErrorCharacterCodeAbove255, 
+	eXMLErrorCharConversionError, 
+	eXMLErrorCannotOpenWriteFile, 
+	eXMLErrorCannotWriteFile, 
 
-	eXMLErrorBase64DataSizeIsNotMultipleOf4,
-	eXMLErrorBase64DecodeIllegalCharacter,
-	eXMLErrorBase64DecodeTruncatedData,
+	eXMLErrorBase64DataSizeIsNotMultipleOf4, 
+	eXMLErrorBase64DecodeIllegalCharacter, 
+	eXMLErrorBase64DecodeTruncatedData, 
 	eXMLErrorBase64DecodeBufferTooSmall
 } XMLError;
 
@@ -184,10 +184,10 @@ typedef enum XMLError
 /// Enumeration used to manage type of data. Use in conjunction with structure XMLNodeContents
 typedef enum XMLElementType
 {
-	eNodeChild=0,
-	eNodeAttribute=1,
-	eNodeText=2,
-	eNodeClear=3,
+	eNodeChild=0, 
+	eNodeAttribute=1, 
+	eNodeText=2, 
+	eNodeClear=3, 
 	eNodeNULL=4
 } XMLElementType;
 
@@ -195,7 +195,7 @@ typedef enum XMLElementType
 typedef struct XMLResults
 {
 	enum XMLError error;
-	int  nLine,nColumn,nChars;
+	int  nLine, nColumn, nChars;
 } XMLResults;
 
 /// Structure for XML clear (unformatted) node (usually comments)
@@ -298,8 +298,8 @@ public:
 	*   with appropriate white spaces and carriage returns. if pnSize is given it returns the size in character of the string. */
 
 	/// Save the content of an xmlNode inside a file
-	XMLError writeToFile(XMLCSTR filename,
-		const char *encoding=NULL,
+	XMLError writeToFile(XMLCSTR filename, 
+		const char *encoding=NULL, 
 		char nFormat=1) const;
 	/**< If nFormat == 0, no formatting is required otherwise this returns an user friendly XML string from a given element with appropriate white spaces and carriage returns.
 	* If the global parameter "characterEncoding == encoding_UTF8", then the "encoding" parameter is ignored and always set to "utf-8".
@@ -319,9 +319,9 @@ public:
 	XMLNode getChildNode(int i=0) const;                           ///< return ith child node
 	XMLNode getChildNode(XMLCSTR name, int i)  const;              ///< return ith child node with specific name (return an empty node if failing). If i == -1, this returns the last XMLNode with the given name.
 	XMLNode getChildNode(XMLCSTR name, int *i=NULL) const;         ///< return next child node with specific name (return an empty node if failing)
-	XMLNode getChildNodeWithAttribute(XMLCSTR tagName,
-		XMLCSTR attributeName,
-		XMLCSTR attributeValue=NULL,
+	XMLNode getChildNodeWithAttribute(XMLCSTR tagName, 
+		XMLCSTR attributeName, 
+		XMLCSTR attributeValue=NULL, 
 		int *i=NULL)  const;         ///< return child node with specific name/attribute (return an empty node if failing)
 	XMLNode getChildNodeByPath(XMLSTR  path, char createNodeIfMissing=0, XMLCHAR sep='/');
 	///< return the first child node with specific path. WARNING: the value of the parameter "path" is destroyed!
@@ -342,7 +342,7 @@ public:
 	int nAttribute() const;                                        ///< nbr of attribute
 	XMLClear getClear(int i=0) const;                              ///< return ith clear field (comments)
 	int nClear() const;                                            ///< nbr of clear field
-	XMLNodeContents enumContents(XMLElementPosition i) const;      ///< enumerate all the different contents (attribute,child,text, clear) of the current XMLNode. The order is reflecting the order of the original file/string. NOTE: 0 <= i < nElement();
+	XMLNodeContents enumContents(XMLElementPosition i) const;      ///< enumerate all the different contents (attribute, child, text, clear) of the current XMLNode. The order is reflecting the order of the original file/string. NOTE: 0 <= i < nElement();
 	int nElement() const;                                          ///< nbr of different contents for current node
 	char isEmpty() const;                                          ///< is this node Empty?
 	char isDeclaration() const;                                    ///< is this node a declaration <? .... ?>
@@ -397,12 +397,12 @@ public:
 	*/
 	XMLCSTR       updateName(XMLCSTR lpszName);                                                  ///< change node's name
 	XMLAttribute *updateAttribute(XMLAttribute *newAttribute, XMLAttribute *oldAttribute);       ///< if the attribute to update is missing, a new one will be added
-	XMLAttribute *updateAttribute(XMLCSTR lpszNewValue, XMLCSTR lpszNewName=NULL,int i=0);       ///< if the attribute to update is missing, a new one will be added
-	XMLAttribute *updateAttribute(XMLCSTR lpszNewValue, XMLCSTR lpszNewName,XMLCSTR lpszOldName);///< set lpszNewName=NULL if you don't want to change the name of the attribute if the attribute to update is missing, a new one will be added
+	XMLAttribute *updateAttribute(XMLCSTR lpszNewValue, XMLCSTR lpszNewName=NULL, int i=0);       ///< if the attribute to update is missing, a new one will be added
+	XMLAttribute *updateAttribute(XMLCSTR lpszNewValue, XMLCSTR lpszNewName, XMLCSTR lpszOldName);///< set lpszNewName=NULL if you don't want to change the name of the attribute if the attribute to update is missing, a new one will be added
 	XMLCSTR       updateText(XMLCSTR lpszNewValue, int i=0);                                     ///< if the text to update is missing, a new one will be added
 	XMLCSTR       updateText(XMLCSTR lpszNewValue, XMLCSTR lpszOldValue);                        ///< if the text to update is missing, a new one will be added
 	XMLClear     *updateClear(XMLCSTR lpszNewContent, int i=0);                                  ///< if the clearTag to update is missing, a new one will be added
-	XMLClear     *updateClear(XMLClear *newP,XMLClear *oldP);                                    ///< if the clearTag to update is missing, a new one will be added
+	XMLClear     *updateClear(XMLClear *newP, XMLClear *oldP);                                    ///< if the clearTag to update is missing, a new one will be added
 	XMLClear     *updateClear(XMLCSTR lpszNewValue, XMLCSTR lpszOldValue);                       ///< if the clearTag to update is missing, a new one will be added
 	/** @} */
 
@@ -431,14 +431,14 @@ public:
 	*  will be free'd by the XMLNode class. For example, it means that this is incorrect:
 	*  \code
 	*     xNode.addText_WOSD("foo");
-	*     xNode.updateAttribute_WOSD("#newcolor" ,NULL,"color");
+	*     xNode.updateAttribute_WOSD("#newcolor" , NULL, "color");
 	*  \endcode
 	*  In opposition, this is correct:
 	*  \code
 	*     xNode.addText("foo");
 	*     xNode.addText_WOSD(stringDup("foo"));
-	*     xNode.updateAttribute("#newcolor" ,NULL,"color");
-	*     xNode.updateAttribute_WOSD(stringDup("#newcolor"),NULL,"color");
+	*     xNode.updateAttribute("#newcolor" , NULL, "color");
+	*     xNode.updateAttribute_WOSD(stringDup("#newcolor"), NULL, "color");
 	*  \endcode
 	*  Typically, you will never do:
 	*  \code
@@ -461,12 +461,12 @@ public:
 
 	XMLCSTR        updateName_WOSD(XMLSTR lpszName);                                                  ///< change node's name
 	XMLAttribute  *updateAttribute_WOSD(XMLAttribute *newAttribute, XMLAttribute *oldAttribute);      ///< if the attribute to update is missing, a new one will be added
-	XMLAttribute  *updateAttribute_WOSD(XMLSTR lpszNewValue, XMLSTR lpszNewName=NULL,int i=0);        ///< if the attribute to update is missing, a new one will be added
-	XMLAttribute  *updateAttribute_WOSD(XMLSTR lpszNewValue, XMLSTR lpszNewName,XMLCSTR lpszOldName); ///< set lpszNewName=NULL if you don't want to change the name of the attribute if the attribute to update is missing, a new one will be added
+	XMLAttribute  *updateAttribute_WOSD(XMLSTR lpszNewValue, XMLSTR lpszNewName=NULL, int i=0);        ///< if the attribute to update is missing, a new one will be added
+	XMLAttribute  *updateAttribute_WOSD(XMLSTR lpszNewValue, XMLSTR lpszNewName, XMLCSTR lpszOldName); ///< set lpszNewName=NULL if you don't want to change the name of the attribute if the attribute to update is missing, a new one will be added
 	XMLCSTR        updateText_WOSD(XMLSTR lpszNewValue, int i=0);                                     ///< if the text to update is missing, a new one will be added
 	XMLCSTR        updateText_WOSD(XMLSTR lpszNewValue, XMLCSTR lpszOldValue);                        ///< if the text to update is missing, a new one will be added
 	XMLClear      *updateClear_WOSD(XMLSTR lpszNewContent, int i=0);                                  ///< if the clearTag to update is missing, a new one will be added
-	XMLClear      *updateClear_WOSD(XMLClear *newP,XMLClear *oldP);                                   ///< if the clearTag to update is missing, a new one will be added
+	XMLClear      *updateClear_WOSD(XMLClear *newP, XMLClear *oldP);                                   ///< if the clearTag to update is missing, a new one will be added
 	XMLClear      *updateClear_WOSD(XMLSTR lpszNewValue, XMLCSTR lpszOldValue);                       ///< if the clearTag to update is missing, a new one will be added
 	/** @} */
 
@@ -489,12 +489,12 @@ public:
 	/// Enumeration for XML character encoding.
 	typedef enum XMLCharEncoding
 	{
-		char_encoding_error=0,
-		char_encoding_UTF8=1,
-		char_encoding_legacy=2,
-		char_encoding_ShiftJIS=3,
-		char_encoding_GB2312=4,
-		char_encoding_Big5=5,
+		char_encoding_error=0, 
+		char_encoding_UTF8=1, 
+		char_encoding_legacy=2, 
+		char_encoding_ShiftJIS=3, 
+		char_encoding_GB2312=4, 
+		char_encoding_Big5=5, 
 		char_encoding_GBK=6     // this is actually the same as Big5
 	} XMLCharEncoding;
 
@@ -502,7 +502,7 @@ public:
 	* @{ */
 
 	/// Sets the global options for the conversions
-	static char setGlobalOptions(XMLCharEncoding characterEncoding=XMLNode::char_encoding_UTF8, char guessWideCharChars=1,
+	static char setGlobalOptions(XMLCharEncoding characterEncoding=XMLNode::char_encoding_UTF8, char guessWideCharChars=1, 
 		char dropWhiteSpace=1, char removeCommentsInMiddleOfText=1);
 	/**< The "setGlobalOptions" function allows you to change four global parameters that affect string & file
 	* parsing. First of all, you most-probably will never have to change these 3 global parameters.
@@ -519,7 +519,7 @@ public:
 	*
 	* @param characterEncoding This parameter is only meaningful when compiling in char* mode (multibyte character mode).
 	*     In wchar_t* (wide char mode), this parameter is ignored. This parameter should be one of the
-	*     three currently recognized encodings: XMLNode::encoding_UTF8, XMLNode::encoding_ascii,
+	*     three currently recognized encodings: XMLNode::encoding_UTF8, XMLNode::encoding_ascii, 
 	*     XMLNode::encoding_ShiftJIS.
 	*
 	* @param dropWhiteSpace In most situations, text fields containing only white spaces (and carriage returns)
@@ -532,7 +532,7 @@ public:
 	*
 	* @param removeCommentsInMiddleOfText To explain this parameter, let's consider this code:
 	* \code
-	*        XMLNode x=XMLNode::parseString("<a>foo<!-- hello -->bar<!DOCTYPE world >chu</a>","a");
+	*        XMLNode x=XMLNode::parseString("<a>foo<!-- hello -->bar<!DOCTYPE world >chu</a>", "a");
 	* \endcode
 	*     If removeCommentsInMiddleOfText=0, then we will have:
 	* \code
@@ -585,7 +585,7 @@ private:
 		XMLCSTR                *pText;          // Array of text fields
 		XMLClear               *pClear;         // Array of clear fields
 		XMLAttribute           *pAttribute;     // Array of attributes
-		int                    *pOrder;         // order of the child_nodes,text_fields,clear_fields
+		int                    *pOrder;         // order of the child_nodes, text_fields, clear_fields
 		int                    ref_count;       // for garbage collection (smart pointers)
 		XMLSTR                 pInnerText;      // cached value of inner text, for memory manadgement purposes
 	} XMLNodeData;
@@ -597,10 +597,10 @@ private:
 	void *addToOrder(int memInc, int *_pos, int nc, void *p, int size, XMLElementType xtype);
 	int indexText(XMLCSTR lpszValue) const;
 	int indexClear(XMLCSTR lpszValue) const;
-	XMLNode addChild_priv(int,XMLSTR,char,int);
-	XMLAttribute *addAttribute_priv(int,XMLSTR,XMLSTR);
-	XMLCSTR addText_priv(int,XMLSTR,int);
-	XMLClear *addClear_priv(int,XMLSTR,XMLCSTR,XMLCSTR,int);
+	XMLNode addChild_priv(int, XMLSTR, char, int);
+	XMLAttribute *addAttribute_priv(int, XMLSTR, XMLSTR);
+	XMLCSTR addText_priv(int, XMLSTR, int);
+	XMLClear *addClear_priv(int, XMLSTR, XMLCSTR, XMLCSTR, int);
 	void emptyTheNode(char force);
 	void invalidateInnerText();
 	static inline XMLElementPosition findPosition(XMLNodeData *d, int index, XMLElementType xtype);
@@ -646,21 +646,21 @@ XMLDLLENTRY void freeXMLString(XMLSTR t); // {free(t);}
 * delete them without any trouble.
 *
 * @{ */
-XMLDLLENTRY char    xmltob(XMLCSTR xmlString,char   defautValue=0);
-XMLDLLENTRY int     xmltoi(XMLCSTR xmlString,int    defautValue=0);
-XMLDLLENTRY long    xmltol(XMLCSTR xmlString,long   defautValue=0);
-XMLDLLENTRY double  xmltof(XMLCSTR xmlString,double defautValue=.0);
-XMLDLLENTRY XMLCSTR xmltoa(XMLCSTR xmlString,XMLCSTR defautValue=_CXML(""));
-XMLDLLENTRY XMLCHAR xmltoc(XMLCSTR xmlString,const XMLCHAR defautValue=_CXML('\0'));
+XMLDLLENTRY char    xmltob(XMLCSTR xmlString, char   defautValue=0);
+XMLDLLENTRY int     xmltoi(XMLCSTR xmlString, int    defautValue=0);
+XMLDLLENTRY long    xmltol(XMLCSTR xmlString, long   defautValue=0);
+XMLDLLENTRY double  xmltof(XMLCSTR xmlString, double defautValue=.0);
+XMLDLLENTRY XMLCSTR xmltoa(XMLCSTR xmlString, XMLCSTR defautValue=_CXML(""));
+XMLDLLENTRY XMLCHAR xmltoc(XMLCSTR xmlString, const XMLCHAR defautValue=_CXML('\0'));
 /** @} */
 
-/** @defgroup ToXMLStringTool Helper class to create XML files using "printf", "fprintf", "cout",... functions.
+/** @defgroup ToXMLStringTool Helper class to create XML files using "printf", "fprintf", "cout", ... functions.
 * @ingroup XMLParserGeneral
 * @{ */
-/// Helper class to create XML files using "printf", "fprintf", "cout",... functions.
-/** The ToXMLStringTool class helps you creating XML files using "printf", "fprintf", "cout",... functions.
+/// Helper class to create XML files using "printf", "fprintf", "cout", ... functions.
+/** The ToXMLStringTool class helps you creating XML files using "printf", "fprintf", "cout", ... functions.
 * The "ToXMLStringTool" class is processing strings so that all the characters
-* &,",',<,> are replaced by their XML equivalent:
+* &, ", ', <, > are replaced by their XML equivalent:
 * \verbatim &amp;, &quot;, &apos;, &lt;, &gt; \endverbatim
 * Using the "ToXMLStringTool class" and the "fprintf function" is THE most efficient
 * way to produce VERY large XML documents VERY fast.
@@ -670,7 +670,7 @@ XMLDLLENTRY XMLCHAR xmltoc(XMLCSTR xmlString,const XMLCHAR defautValue=_CXML('\0
 typedef struct XMLDLLENTRY ToXMLStringTool
 {
 public:
-	ToXMLStringTool(): buf(NULL),buflen(0) {}
+	ToXMLStringTool(): buf(NULL), buflen(0) {}
 	~ToXMLStringTool();
 	void freeBuffer();///<call this function when you have finished using this object to release memory used by the internal buffer.
 
@@ -679,7 +679,7 @@ public:
 	/** The "toXMLUnSafe" function is deprecated because there is a possibility of
 	* "destination-buffer-overflow". It converts the string
 	* "source" to the string "dest". */
-	static XMLSTR toXMLUnSafe(XMLSTR dest,XMLCSTR source); ///< deprecated: use "toXML" instead
+	static XMLSTR toXMLUnSafe(XMLSTR dest, XMLCSTR source); ///< deprecated: use "toXML" instead
 	static int lengthXMLString(XMLCSTR source);            ///< deprecated: use "toXML" instead
 
 private:
@@ -692,7 +692,7 @@ private:
 * @ingroup XMLParserGeneral
 * @{ */
 /// Helper class to include binary data inside XML strings using "Base64 encoding".
-/** The "XMLParserBase64Tool" class allows you to include any binary data (images, sounds,...)
+/** The "XMLParserBase64Tool" class allows you to include any binary data (images, sounds, ...)
 * into an XML document using "Base64 encoding". This class is completely
 * separated from the rest of the xmlParser library and can be removed without any problem.
 * To include some binary data into an XML file, you must convert the binary data into
@@ -703,7 +703,7 @@ private:
 typedef struct XMLDLLENTRY XMLParserBase64Tool
 {
 public:
-	XMLParserBase64Tool(): buf(NULL),buflen(0) {}
+	XMLParserBase64Tool(): buf(NULL), buflen(0) {}
 	~XMLParserBase64Tool();
 	void freeBuffer();///< Call this function when you have finished using this object to release memory used by the internal buffer.
 

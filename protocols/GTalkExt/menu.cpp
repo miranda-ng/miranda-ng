@@ -67,7 +67,7 @@ BOOL InitMenus(BOOL init)
 		cmi.hIcon = g_hPopupIcon;
 		cmi.ptszName = _T(OPEN_MAILBOX_ITEM_CAPTION);
 		cmi.pszService = MS_GTALKEXT_OPENMAILBOX;
-		hOpenMailboxMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&cmi);
+		hOpenMailboxMenuItem = Menu_AddContactMenuItem(&cmi);
 
 		if (!hOpenMailboxMenuItem) {
 			InitMenus(FALSE);

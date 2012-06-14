@@ -3,7 +3,7 @@
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project,
+Copyright 2000-2007 Miranda ICQ/IM project, 
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -13,7 +13,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -171,8 +171,8 @@ static void MIcoTab_DrawGradient(HDC hdc, int x, int y, int width, int height, R
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
 	for ( int i=y+height; --i >= y; ) {
 		COLORREF color = RGB(
-			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height,
-			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
+			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
+			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
 			((height-i-1)*rgb0->rgbBlue  + i*rgb1->rgbBlue)  / height);
 		rc.top = rc.bottom = i;
 		++rc.bottom;
@@ -244,7 +244,7 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
 	textRect.right=itemX+dat->itemWidth;
 	textRect.top=textTop;
 	textRect.bottom=iconTop+dat->itemHeight;
-	DrawIcon(hdc,itemX+dat->itemWidth/2-16, iconTop, tab->hIcon);	  
+	DrawIcon(hdc, itemX+dat->itemWidth/2-16, iconTop, tab->hIcon);	  
 
 	if (IsVSMode()) {
 		DTTOPTS dto = {0};
@@ -257,7 +257,7 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
         mir_free(tcsNameW);
 		closeThemeData(hTheme);
 	} 
-	else DrawText(hdc,tab->tcsName,-1,&textRect, DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS);
+	else DrawText(hdc, tab->tcsName, -1, &textRect, DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS);
 
 	if (hFntSave)
 		DeleteObject(SelectObject(hdc, hFntSave));
@@ -270,7 +270,7 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit, UINT  msg, WPARAM
 	RECT temprc;
 	int i;
 
-	HDC hdc=BeginPaint(hwndDlg,&ps);
+	HDC hdc=BeginPaint(hwndDlg, &ps);
 	HDC tempDC=CreateCompatibleDC(hdc);
 
 	HFONT hFont = 0;
@@ -284,7 +284,7 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit, UINT  msg, WPARAM
 	bmi.bmiHeader.biCompression = BI_RGB;
 	hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
 
-	hOldBmp=(HBITMAP)SelectObject(tempDC,hBmp);
+	hOldBmp=(HBITMAP)SelectObject(tempDC, hBmp);
 
 	if (IsAeroMode()) {
 		temprc.left=0;
@@ -295,7 +295,7 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit, UINT  msg, WPARAM
 	} 
 	else {
 		if (mit->hBkgBmp)
-			StretchBlt(tempDC,0,0,mit->width,mit->height,mit->hBkgDC,0,0,mit->BkgSize.cx,mit->BkgSize.cy,SRCCOPY);
+			StretchBlt(tempDC, 0, 0, mit->width, mit->height, mit->hBkgDC, 0, 0, mit->BkgSize.cx, mit->BkgSize.cy, SRCCOPY);
 		else {
 			if (IsVSMode())
 				MIcoTab_FillRect(tempDC, 0, 0, mit->width, mit->height, GetSysColor(COLOR_WINDOW));
@@ -308,8 +308,8 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit, UINT  msg, WPARAM
 
 	//Draw Items
 	hFont = mit->hFont;
-	SelectObject(tempDC,hFont);
-	SetBkMode(tempDC,TRANSPARENT);
+	SelectObject(tempDC, hFont);
+	SetBkMode(tempDC, TRANSPARENT);
 
 	for (i=0; i<mit->pList.getCount(); i++) {
 		MIcoTab *tab = (MIcoTab *)mit->pList[i];
@@ -317,12 +317,12 @@ static LRESULT MIcoTab_OnPaint(HWND hwndDlg, MIcoTabCtrl *mit, UINT  msg, WPARAM
 	}
 
 	//Copy to output
-	BitBlt(hdc,mit->rc.left,mit->rc.top,mit->width,mit->height,tempDC,0,0,SRCCOPY);
-	SelectObject(tempDC,hOldBmp);
+	BitBlt(hdc, mit->rc.left, mit->rc.top, mit->width, mit->height, tempDC, 0, 0, SRCCOPY);
+	SelectObject(tempDC, hOldBmp);
 	DeleteObject(hBmp);
 	DeleteDC(tempDC);
 
-	EndPaint(hwndDlg,&ps);
+	EndPaint(hwndDlg, &ps);
 
 	return TRUE;
 }
@@ -342,7 +342,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 		if (IsAeroMode()) {
 			RECT rc; GetWindowRect(hwndDlg, &rc);
-			MARGINS margins = {0,0,rc.bottom-rc.top,0};
+			MARGINS margins = {0, 0, rc.bottom-rc.top, 0};
 			dwmExtendFrameIntoClientArea(GetParent(hwndDlg), &margins);
 		}
 
@@ -353,7 +353,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		break;
 
 	case WM_SIZE:
-		GetClientRect(hwndDlg,&itc->rc);
+		GetClientRect(hwndDlg, &itc->rc);
 		itc->width=itc->rc.right-itc->rc.left;
 		itc->height=itc->rc.bottom-itc->rc.top;
 
@@ -397,8 +397,8 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			itc->nSelectedIdx = itc->nHotIdx;
 			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
-			SendMessage(GetParent(hwndDlg), WM_COMMAND,
-				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGED),
+			SendMessage(GetParent(hwndDlg), WM_COMMAND, 
+				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGED), 
 				itc->nSelectedIdx);
 		}
 		return 0;
@@ -454,8 +454,8 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			itc->nSelectedIdx = newIdx;
 			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
-			SendMessage(GetParent(hwndDlg), WM_COMMAND,
-				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGEDKBD),
+			SendMessage(GetParent(hwndDlg), WM_COMMAND, 
+				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGEDKBD), 
 				itc->nSelectedIdx);
 		}
 		return 0;
@@ -518,8 +518,8 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			itc->nSelectedIdx = wParam;
 			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
-			SendMessage(GetParent(hwndDlg), WM_COMMAND,
-				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGED),
+			SendMessage(GetParent(hwndDlg), WM_COMMAND, 
+				MAKEWPARAM(GetWindowLongPtr(hwndDlg, GWL_ID), ITCN_SELCHANGED), 
 				itc->nSelectedIdx);
 		}
 		return TRUE;
@@ -537,7 +537,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 			SelectObject(itc->hBkgDC, itc->hBkgOldBmp);
 			DeleteDC(itc->hBkgDC);
 		}
-		li_ListDestruct(itc->pList,MITListDestructor);
+		li_ListDestruct(itc->pList, MITListDestructor);
 		delete itc;
 		return TRUE;
 	}

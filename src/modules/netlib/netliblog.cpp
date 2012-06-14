@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -42,8 +42,8 @@ struct {
 	TCHAR* szUserFile;
 	int    timeFormat;
 	int    showUser;
-	int    dumpSent,dumpRecv,dumpProxy,dumpSsl;
-	int    textDumps,autoDetectText;
+	int    dumpSent, dumpRecv, dumpProxy, dumpSsl;
+	int    textDumps, autoDetectText;
 	CRITICAL_SECTION cs;
 	int    save;
 } logOptions = {0};
@@ -53,44 +53,44 @@ typedef struct {
 	const char* pszMsg;
 } LOGMSG;
 
-static __int64 mirandaStartTime,perfCounterFreq;
+static __int64 mirandaStartTime, perfCounterFreq;
 static int bIsActive = TRUE;
 static HANDLE hLogEvent = NULL;
 
 static const TCHAR* szTimeFormats[] =
 {
-	_T( "No times" ),
-	_T( "Standard hh:mm:ss times" ),
-	_T( "Times in milliseconds" ),
+	_T( "No times" ), 
+	_T( "Standard hh:mm:ss times" ), 
+	_T( "Times in milliseconds" ), 
 	_T( "Times in microseconds" )
 };
 
-static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
 	case WM_INITDIALOG:
 		logOptions.hwndOpts=hwndDlg;
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg,IDC_DUMPRECV,logOptions.dumpRecv?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_DUMPSENT,logOptions.dumpSent?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_DUMPPROXY,logOptions.dumpProxy?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_DUMPSSL,logOptions.dumpSsl?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_TEXTDUMPS,logOptions.textDumps?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_AUTODETECTTEXT,logOptions.autoDetectText?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DUMPRECV, logOptions.dumpRecv?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DUMPSENT, logOptions.dumpSent?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DUMPPROXY, logOptions.dumpProxy?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DUMPSSL, logOptions.dumpSsl?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TEXTDUMPS, logOptions.textDumps?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AUTODETECTTEXT, logOptions.autoDetectText?BST_CHECKED:BST_UNCHECKED);
 		{	int i;
 			for ( i=0; i < SIZEOF(szTimeFormats); i++ )
-				SendDlgItemMessage(hwndDlg,IDC_TIMEFORMAT,CB_ADDSTRING,0,(LPARAM)TranslateTS( szTimeFormats[i] ));
+				SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateTS( szTimeFormats[i] ));
 		}
-		SendDlgItemMessage(hwndDlg,IDC_TIMEFORMAT,CB_SETCURSEL,logOptions.timeFormat,0);
-		CheckDlgButton(hwndDlg,IDC_SHOWNAMES,logOptions.showUser?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_TOOUTPUTDEBUGSTRING,logOptions.toOutputDebugString?BST_CHECKED:BST_UNCHECKED);
-		CheckDlgButton(hwndDlg,IDC_TOFILE,logOptions.toFile?BST_CHECKED:BST_UNCHECKED);
-		SetDlgItemText(hwndDlg,IDC_FILENAME,logOptions.szUserFile);
-		SetDlgItemText(hwndDlg,IDC_PATH,logOptions.szFile);
-		CheckDlgButton(hwndDlg,IDC_SHOWTHISDLGATSTART,DBGetContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart",0)?BST_CHECKED:BST_UNCHECKED);
+		SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_SETCURSEL, logOptions.timeFormat, 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWNAMES, logOptions.showUser?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TOOUTPUTDEBUGSTRING, logOptions.toOutputDebugString?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_TOFILE, logOptions.toFile?BST_CHECKED:BST_UNCHECKED);
+		SetDlgItemText(hwndDlg, IDC_FILENAME, logOptions.szUserFile);
+		SetDlgItemText(hwndDlg, IDC_PATH, logOptions.szFile);
+		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, DBGetContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", 0)?BST_CHECKED:BST_UNCHECKED);
 		{	DBVARIANT dbv;
-			if (!DBGetContactSettingString(NULL, "Netlib", "RunAtStart",&dbv)) {
-				SetDlgItemTextA(hwndDlg,IDC_RUNATSTART,dbv.pszVal);
+			if (!DBGetContactSettingString(NULL, "Netlib", "RunAtStart", &dbv)) {
+				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, dbv.pszVal);
 				DBFreeVariant(&dbv);
 			}
 		}
@@ -98,7 +98,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 		{
 			TVINSERTSTRUCT tvis = {0};
 			int i;
-			HWND hwndFilter = GetDlgItem(hwndDlg,IDC_FILTER);
+			HWND hwndFilter = GetDlgItem(hwndDlg, IDC_FILTER);
 
 			SetWindowLongPtr(hwndFilter, GWL_STYLE, GetWindowLongPtr(hwndFilter, GWL_STYLE) | (TVS_NOHSCROLL | TVS_CHECKBOXES));
 
@@ -139,7 +139,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 		case IDC_FILENAME:
 			if (HIWORD(wParam) != EN_CHANGE) break;
 			if ((HWND)lParam == GetFocus())
-				CheckDlgButton(hwndDlg,IDC_TOFILE,BST_CHECKED);
+				CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
 
 			{	
 				TCHAR path[MAX_PATH];
@@ -155,9 +155,9 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 		case IDC_RUNATSTARTBROWSE:
 		{	TCHAR str[MAX_PATH+2];
 			OPENFILENAME ofn={0};
-			TCHAR filter[512],*pfilter;
+			TCHAR filter[512], *pfilter;
 
-			GetWindowText(GetWindow((HWND)lParam,GW_HWNDPREV),str,SIZEOF(str));
+			GetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str, SIZEOF(str));
 			ofn.lStructSize=OPENFILENAME_SIZE_VERSION_400;
 			ofn.hwndOwner=hwndDlg;
 			ofn.Flags=OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
@@ -167,10 +167,10 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				ofn.Flags|=OFN_PATHMUSTEXIST|OFN_FILEMUSTEXIST;
 				ofn.lpstrTitle=TranslateT("Select program to be run");
 			}
-			_tcscpy(filter,TranslateT("All Files"));
-			_tcscat(filter,_T(" (*)"));
+			_tcscpy(filter, TranslateT("All Files"));
+			_tcscat(filter, _T(" (*)"));
 			pfilter=filter+lstrlen(filter)+1;
-			_tcscpy(pfilter,_T("*"));
+			_tcscpy(pfilter, _T("*"));
 			pfilter=pfilter+lstrlen(pfilter)+1;
 			*pfilter='\0';
 			ofn.lpstrFilter=filter;
@@ -182,21 +182,21 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 			} else {
 				if (!GetOpenFileName(&ofn)) return 1;
 			}
-			if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str,' ') != NULL) {
-				MoveMemory(str+1,str,SIZEOF(str)-2);
+			if (LOWORD(wParam) == IDC_RUNATSTARTBROWSE && _tcschr(str, ' ') != NULL) {
+				MoveMemory(str+1, str, SIZEOF(str)-2);
 				str[0]='"';
-				lstrcat(str,_T("\""));
+				lstrcat(str, _T("\""));
 			}
-			SetWindowText(GetWindow((HWND)lParam,GW_HWNDPREV),str);
+			SetWindowText(GetWindow((HWND)lParam, GW_HWNDPREV), str);
 			break;
 		}
 		case IDC_RUNNOW:
 			{	TCHAR str[MAX_PATH+1];
 				STARTUPINFO si={0};
 				PROCESS_INFORMATION pi;
-				GetDlgItemText(hwndDlg,IDC_RUNATSTART,str,MAX_PATH);
+				GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
 				si.cb=sizeof(si);
-				if (str[0]) CreateProcess(NULL,str,NULL,NULL,FALSE,0,NULL,NULL,&si,&pi);
+				if (str[0]) CreateProcess(NULL, str, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 			}
 			break;
 		case IDC_SAVE:
@@ -207,29 +207,29 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 				TCHAR str[MAX_PATH];
 
 				GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
-				DBWriteContactSettingTString(NULL, "Netlib", "RunAtStart",str);
-				DBWriteContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart",(BYTE)IsDlgButtonChecked(hwndDlg,IDC_SHOWTHISDLGATSTART));
+				DBWriteContactSettingTString(NULL, "Netlib", "RunAtStart", str);
+				DBWriteContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
 				EnterCriticalSection(&logOptions.cs);
 
 				mir_free(logOptions.szUserFile);
-				GetWindowText(GetDlgItem(hwndDlg,IDC_FILENAME), str, MAX_PATH );
+				GetWindowText(GetDlgItem(hwndDlg, IDC_FILENAME), str, MAX_PATH );
 				logOptions.szUserFile = mir_tstrdup(str);
 
 				mir_free(logOptions.szFile);
-				GetWindowText(GetDlgItem(hwndDlg,IDC_PATH), str, MAX_PATH );
+				GetWindowText(GetDlgItem(hwndDlg, IDC_PATH), str, MAX_PATH );
 				logOptions.szFile = mir_tstrdup(str);
 
-				logOptions.dumpRecv=IsDlgButtonChecked(hwndDlg,IDC_DUMPRECV);
-				logOptions.dumpSent=IsDlgButtonChecked(hwndDlg,IDC_DUMPSENT);
-				logOptions.dumpProxy=IsDlgButtonChecked(hwndDlg,IDC_DUMPPROXY);
-				logOptions.dumpSsl=IsDlgButtonChecked(hwndDlg,IDC_DUMPSSL);
-				logOptions.textDumps=IsDlgButtonChecked(hwndDlg,IDC_TEXTDUMPS);
-				logOptions.autoDetectText=IsDlgButtonChecked(hwndDlg,IDC_AUTODETECTTEXT);
-				logOptions.timeFormat=SendDlgItemMessage(hwndDlg,IDC_TIMEFORMAT,CB_GETCURSEL,0,0);
-				logOptions.showUser=IsDlgButtonChecked(hwndDlg,IDC_SHOWNAMES);
-				logOptions.toOutputDebugString=IsDlgButtonChecked(hwndDlg,IDC_TOOUTPUTDEBUGSTRING);
-				logOptions.toFile=IsDlgButtonChecked(hwndDlg,IDC_TOFILE);
+				logOptions.dumpRecv=IsDlgButtonChecked(hwndDlg, IDC_DUMPRECV);
+				logOptions.dumpSent=IsDlgButtonChecked(hwndDlg, IDC_DUMPSENT);
+				logOptions.dumpProxy=IsDlgButtonChecked(hwndDlg, IDC_DUMPPROXY);
+				logOptions.dumpSsl=IsDlgButtonChecked(hwndDlg, IDC_DUMPSSL);
+				logOptions.textDumps=IsDlgButtonChecked(hwndDlg, IDC_TEXTDUMPS);
+				logOptions.autoDetectText=IsDlgButtonChecked(hwndDlg, IDC_AUTODETECTTEXT);
+				logOptions.timeFormat=SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_GETCURSEL, 0, 0);
+				logOptions.showUser=IsDlgButtonChecked(hwndDlg, IDC_SHOWNAMES);
+				logOptions.toOutputDebugString=IsDlgButtonChecked(hwndDlg, IDC_TOOUTPUTDEBUGSTRING);
+				logOptions.toFile=IsDlgButtonChecked(hwndDlg, IDC_TOFILE);
 
 				LeaveCriticalSection(&logOptions.cs);
 			}
@@ -243,36 +243,36 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 
 				while (tvi.hItem)
 				{
-					TreeView_GetItem(hwndFilter,&tvi);
+					TreeView_GetItem(hwndFilter, &tvi);
 					checked = ((tvi.state&TVIS_STATEIMAGEMASK)>>12 == 2);
 
 					if (tvi.lParam == -1) {
 						logOptions.toLog = checked;
 					if ( logOptions.save )
-						DBWriteContactSettingDword(NULL, "Netlib", "NLlog",checked);
+						DBWriteContactSettingDword(NULL, "Netlib", "NLlog", checked);
 					}
 					else
 					if (tvi.lParam < netlibUser.getCount()) {
 						netlibUser[tvi.lParam]->toLog = checked;
 						if ( logOptions.save )
-							DBWriteContactSettingDword(NULL,netlibUser[tvi.lParam]->user.szSettingsModule,"NLlog",checked);
+							DBWriteContactSettingDword(NULL, netlibUser[tvi.lParam]->user.szSettingsModule, "NLlog", checked);
 					}
 
-					tvi.hItem=TreeView_GetNextSibling(hwndFilter,tvi.hItem);
+					tvi.hItem=TreeView_GetNextSibling(hwndFilter, tvi.hItem);
 				}
 			}
 
 			if ( logOptions.save ) {
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpRecv",(BYTE)logOptions.dumpRecv);
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpSent",(BYTE)logOptions.dumpSent);
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpProxy",(BYTE)logOptions.dumpProxy);
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpSsl",(BYTE)logOptions.dumpSsl);
-				DBWriteContactSettingByte(NULL, "Netlib", "TextDumps",(BYTE)logOptions.textDumps);
-				DBWriteContactSettingByte(NULL, "Netlib", "AutoDetectText",(BYTE)logOptions.autoDetectText);
-				DBWriteContactSettingByte(NULL, "Netlib", "TimeFormat",(BYTE)logOptions.timeFormat);
-				DBWriteContactSettingByte(NULL, "Netlib", "ShowUser",(BYTE)logOptions.showUser);
-				DBWriteContactSettingByte(NULL, "Netlib", "ToOutputDebugString",(BYTE)logOptions.toOutputDebugString);
-				DBWriteContactSettingByte(NULL, "Netlib", "ToFile",(BYTE)logOptions.toFile);
+				DBWriteContactSettingByte(NULL, "Netlib", "DumpRecv", (BYTE)logOptions.dumpRecv);
+				DBWriteContactSettingByte(NULL, "Netlib", "DumpSent", (BYTE)logOptions.dumpSent);
+				DBWriteContactSettingByte(NULL, "Netlib", "DumpProxy", (BYTE)logOptions.dumpProxy);
+				DBWriteContactSettingByte(NULL, "Netlib", "DumpSsl", (BYTE)logOptions.dumpSsl);
+				DBWriteContactSettingByte(NULL, "Netlib", "TextDumps", (BYTE)logOptions.textDumps);
+				DBWriteContactSettingByte(NULL, "Netlib", "AutoDetectText", (BYTE)logOptions.autoDetectText);
+				DBWriteContactSettingByte(NULL, "Netlib", "TimeFormat", (BYTE)logOptions.timeFormat);
+				DBWriteContactSettingByte(NULL, "Netlib", "ShowUser", (BYTE)logOptions.showUser);
+				DBWriteContactSettingByte(NULL, "Netlib", "ToOutputDebugString", (BYTE)logOptions.toOutputDebugString);
+				DBWriteContactSettingByte(NULL, "Netlib", "ToFile", (BYTE)logOptions.toFile);
 				DBWriteContactSettingTString(NULL, "Netlib", "File", logOptions.szFile ? logOptions.szUserFile: _T(""));
 				logOptions.save = 0;
 			}
@@ -299,7 +299,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 void NetlibLogShowOptions(void)
 {
 	if (logOptions.hwndOpts == NULL)
-		logOptions.hwndOpts=CreateDialog(hMirandaInst,MAKEINTRESOURCE(IDD_NETLIBLOGOPTS),NULL,LogOptionsDlgProc);
+		logOptions.hwndOpts=CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), NULL, LogOptionsDlgProc);
 	SetForegroundWindow(logOptions.hwndOpts);
 }
 
@@ -354,7 +354,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	case TIMEFORMAT_MICROSECONDS:
 		QueryPerformanceCounter(&liTimeNow);
 		liTimeNow.QuadPart -= mirandaStartTime;
-		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u", liTimeNow.QuadPart / perfCounterFreq,
+		mir_snprintf(szTime, SIZEOF(szTime), "%I64u.%06I64u", liTimeNow.QuadPart / perfCounterFreq, 
 			1000000 * (liTimeNow.QuadPart % perfCounterFreq) / perfCounterFreq);
 		break;
 
@@ -364,7 +364,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 	if (logOptions.timeFormat || logOptions.showUser)
 		mir_snprintf(szHead, SIZEOF(szHead) - 1, "[%s%s%s] ", szTime, 
-			(logOptions.showUser && logOptions.timeFormat) ? " " : "",
+			(logOptions.showUser && logOptions.timeFormat) ? " " : "", 
 			logOptions.showUser ? nlu->user.szSettingsModule : "");
 	else
 		szHead[0]=0;
@@ -391,7 +391,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 		if (fp) 
 		{
 			size_t len = strlen(pszMsg);
-			fprintf(fp,"%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
+			fprintf(fp, "%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
 			fclose(fp);
 		}	
 		LeaveCriticalSection(&logOptions.cs);
@@ -429,7 +429,7 @@ void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 	va_list va;
 	char szText[1024];
 
-	va_start(va,fmt);
+	va_start(va, fmt);
 	mir_vsnprintf(szText, sizeof(szText), fmt, va);
 	va_end(va);
 
@@ -437,7 +437,7 @@ void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 }
 
 
-void NetlibDumpData(struct NetlibConnection *nlc,PBYTE buf,int len,int sent,int flags)
+void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
 {
 	int isText=1;
 	char szTitleLine[128];
@@ -526,8 +526,8 @@ void NetlibDumpData(struct NetlibConnection *nlc,PBYTE buf,int len,int sent,int 
 			if (colsInLine == 16) {
 				PBYTE p = buf + line;
 				pszBuf += wsprintfA(
-					pszBuf, "%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ",
-					line, p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8],p[9],p[10],p[11],p[12],p[13],p[14],p[15] );
+					pszBuf, "%08X: %02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X-%02X %02X %02X %02X  ", 
+					line, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9], p[10], p[11], p[12], p[13], p[14], p[15] );
 			}
 			else {
 				pszBuf += wsprintfA(pszBuf, "%08X: ", line);
@@ -555,7 +555,7 @@ void NetlibDumpData(struct NetlibConnection *nlc,PBYTE buf,int len,int sent,int 
 		*pszBuf = '\0';
 	}
 
-	NetlibLog((WPARAM)nlu,(LPARAM)szBuf);
+	NetlibLog((WPARAM)nlu, (LPARAM)szBuf);
     if (!useStack) mir_free(szBuf);
 }
 

@@ -6,7 +6,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -20,13 +20,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define NAMEORDERCOUNT 8
 static TCHAR* nameOrderDescr[ NAMEORDERCOUNT ] =
 {
-	_T( "My custom name (not moveable)" ),
-	_T( "Nick" ),
-	_T( "FirstName" ),
-	_T( "E-mail" ),
-	_T( "LastName" ),
-	_T( "Username" ),
-	_T( "FirstName LastName" ),
+	_T( "My custom name (not moveable)" ), 
+	_T( "Nick" ), 
+	_T( "FirstName" ), 
+	_T( "E-mail" ), 
+	_T( "LastName" ), 
+	_T( "Username" ), 
+	_T( "FirstName LastName" ), 
 	_T( "'(Unknown Contact)' (not moveable)" )
 };
 
@@ -44,9 +44,9 @@ static int GetDatabaseString( CONTACTINFO *ci, const char* setting, DBVARIANT* d
     }
 
 	if ( ci->dwFlag & CNF_UNICODE )
-		return DBGetContactSettingWString(ci->hContact,ci->szProto,setting,dbv);
+		return DBGetContactSettingWString(ci->hContact, ci->szProto, setting, dbv);
 
-	return DBGetContactSettingString(ci->hContact,ci->szProto,setting,dbv);
+	return DBGetContactSettingString(ci->hContact, ci->szProto, setting, dbv);
 }
 
 static int ProcessDatabaseValueDefault(CONTACTINFO *ci, const char* setting)
@@ -92,7 +92,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 	CONTACTINFO *ci = (CONTACTINFO*)lParam;
 
 	if (ci == NULL) return 1;
-	if (ci->szProto == NULL) ci->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT,(WPARAM)ci->hContact,0);
+	if (ci->szProto == NULL) ci->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)ci->hContact, 0);
 	if (ci->szProto == NULL) return 1;
 	ci->type = 0;
 	switch(ci->dwFlag & 0x7F) {
@@ -143,9 +143,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 
 			if ( !DBGetContactSetting( ci->hContact, ci->szProto, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry", &dbv )) {
 				if ( dbv.type == DBVT_WORD ) {
-					int i,countryCount;
+					int i, countryCount;
 					struct CountryListEntry *countries;
-					CallService(MS_UTILS_GETCOUNTRYLIST,(WPARAM)&countryCount,(LPARAM)&countries);
+					CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&countryCount, (LPARAM)&countries);
 					for (i=0;i<countryCount;i++) {
 						if (countries[i].id != dbv.wVal) continue;
 
@@ -171,7 +171,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		case CNF_FIRSTLAST:
 			if ( !GetDatabaseString( ci, "FirstName", &dbv )) {
 				DBVARIANT dbv2;
-				if (!GetDatabaseString(ci,"LastName",&dbv2)) {
+				if (!GetDatabaseString(ci, "LastName", &dbv2)) {
 					ci->type = CNFT_ASCIIZ;
 					if ( ci->dwFlag & CNF_UNICODE ) {
 						size_t len = wcslen(dbv.pwszVal) + wcslen(dbv2.pwszVal) + 2;
@@ -197,9 +197,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 
 		case CNF_UNIQUEID:
 		{
-			char *uid = (char*)CallProtoService(ci->szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
+			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND&&uid)
-				if (!ProcessDatabaseValueDefault(ci,uid))
+				if (!ProcessDatabaseValueDefault(ci, uid))
 					return 0;
 
 			break;
@@ -208,9 +208,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		{
 			if (!ProcessDatabaseValueDefault(ci, "display_uid"))
 				return 0;
-			char *uid = (char*)CallProtoService(ci->szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
+			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND&&uid)
-				if (!ProcessDatabaseValueDefault(ci,uid))
+				if (!ProcessDatabaseValueDefault(ci, uid))
 					return 0;
 
 			break;
@@ -226,7 +226,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						// make sure we aren't in CNF_DISPLAYNC mode
 						// don't get custom name for NULL contact
 						char* saveProto = ci->szProto; ci->szProto = "CList";
-						if (ci->hContact != NULL && (ci->dwFlag&0x7F) == CNF_DISPLAY && !ProcessDatabaseValueDefault(ci,"MyHandle")) {
+						if (ci->hContact != NULL && (ci->dwFlag&0x7F) == CNF_DISPLAY && !ProcessDatabaseValueDefault(ci, "MyHandle")) {
 							ci->szProto = saveProto;
 							return 0;
 						}
@@ -252,9 +252,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 					case 5: // Unique id
 					{
 						// protocol must define a PFLAG_UNIQUEIDSETTING
-						char *uid = (char*)CallProtoService(ci->szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
+						char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 						if ((INT_PTR)uid != CALLSERVICE_NOTFOUND&&uid) {
-							if (!GetDatabaseString(ci,uid,&dbv)) {
+							if (!GetDatabaseString(ci, uid, &dbv)) {
 								if ( dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD ) {
 									long value = (dbv.type == DBVT_BYTE) ? dbv.bVal:(dbv.type == DBVT_WORD ? dbv.wVal : dbv.dVal);
 									if ( ci->dwFlag & CNF_UNICODE ) {
@@ -283,9 +283,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						break;
 					}
 					case 6: // first + last name
-						if (!GetDatabaseString(ci,"FirstName",&dbv)) {
+						if (!GetDatabaseString(ci, "FirstName", &dbv)) {
 							DBVARIANT dbv2;
-							if (!GetDatabaseString(ci,"LastName",&dbv2)) {
+							if (!GetDatabaseString(ci, "LastName", &dbv2)) {
 								ci->type = CNFT_ASCIIZ;
 
 								if ( ci->dwFlag & CNF_UNICODE ) {
@@ -338,7 +338,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		}
 		case CNF_MYNOTES: {
 			char* saveProto = ci->szProto; ci->szProto = "UserInfo";
-			if (!ProcessDatabaseValueDefault(ci,"MyNotes")) {
+			if (!ProcessDatabaseValueDefault(ci, "MyNotes")) {
 				ci->szProto = saveProto;
 				return 0;
 			}
@@ -357,15 +357,15 @@ struct ContactOptionsData {
 static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {	struct ContactOptionsData *dat;
 
-	dat=(struct ContactOptionsData*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
+	dat=(struct ContactOptionsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{	TranslateDialogDefault(hwndDlg);
 			dat=(struct ContactOptionsData*)mir_alloc(sizeof(struct ContactOptionsData));
-			SetWindowLongPtr(hwndDlg,GWLP_USERDATA,(LONG_PTR)dat);
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->dragging=0;
-			SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NAMEORDER),GWL_STYLE,GetWindowLongPtr(GetDlgItem(hwndDlg,IDC_NAMEORDER),GWL_STYLE)|TVS_NOHSCROLL);
+			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NAMEORDER), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_NAMEORDER), GWL_STYLE)|TVS_NOHSCROLL);
 			{	TVINSERTSTRUCT tvis;
 				int i;
 				tvis.hParent = NULL;
@@ -374,7 +374,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 				for (i=0; i < SIZEOF(nameOrderDescr); i++ ) {
 					tvis.item.lParam = nameOrder[i];
 					tvis.item.pszText = TranslateTS( nameOrderDescr[ nameOrder[i]] );
-					TreeView_InsertItem( GetDlgItem(hwndDlg,IDC_NAMEORDER), &tvis );
+					TreeView_InsertItem( GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvis );
 			}	}
 			return TRUE;
 		}
@@ -390,16 +390,16 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 						cws.value.type = DBVT_BLOB;
 						cws.value.cpbVal = SIZEOF(nameOrderDescr);
 						cws.value.pbVal = nameOrder;
-						tvi.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg,IDC_NAMEORDER));
+						tvi.hItem = TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_NAMEORDER));
 						i=0;
 						while ( tvi.hItem != NULL ) {
 							tvi.mask = TVIF_PARAM | TVIF_HANDLE;
-							TreeView_GetItem( GetDlgItem(hwndDlg,IDC_NAMEORDER), &tvi );
+							TreeView_GetItem( GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvi );
 							nameOrder[i++] = (BYTE)tvi.lParam;
-							tvi.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg,IDC_NAMEORDER),tvi.hItem);
+							tvi.hItem = TreeView_GetNextSibling(GetDlgItem(hwndDlg, IDC_NAMEORDER), tvi.hItem);
 						}
-						CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)(HANDLE)NULL,(LPARAM)&cws);
-						CallService(MS_CLIST_INVALIDATEDISPLAYNAME,(WPARAM)INVALID_HANDLE_VALUE,0);
+						CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cws);
+						CallService(MS_CLIST_INVALIDATEDISPLAYNAME, (WPARAM)INVALID_HANDLE_VALUE, 0);
 					}
 					break;
 				case IDC_NAMEORDER:
@@ -410,7 +410,7 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 						SetCapture(hwndDlg);
 						dat->dragging=1;
 						dat->hDragItem=((LPNMTREEVIEW)lParam)->itemNew.hItem;
-						TreeView_SelectItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),dat->hDragItem);
+						TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), dat->hDragItem);
 					}
 					break;
 			}
@@ -420,38 +420,38 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 			{	TVHITTESTINFO hti;
 				hti.pt.x=(short)LOWORD(lParam);
 				hti.pt.y=(short)HIWORD(lParam);
-				ClientToScreen(hwndDlg,&hti.pt);
-				ScreenToClient(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti.pt);
-				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
+				ClientToScreen(hwndDlg, &hti.pt);
+				ScreenToClient(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti.pt);
+				TreeView_HitTest(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti);
 				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
-					hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_NAMEORDER))/2;
-					TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
-					TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_NAMEORDER),hti.hItem,1);
+					hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_NAMEORDER))/2;
+					TreeView_HitTest(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti);
+					TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_NAMEORDER), hti.hItem, 1);
 				}
 				else {
-					if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg,IDC_NAMEORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEUP,0),0);
-					if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg,IDC_NAMEORDER,WM_VSCROLL,MAKEWPARAM(SB_LINEDOWN,0),0);
-					TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_NAMEORDER),NULL,0);
+					if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg, IDC_NAMEORDER, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
+					if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg, IDC_NAMEORDER, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
+					TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_NAMEORDER), NULL, 0);
 				}
 			}
 			break;
 		case WM_LBUTTONUP:
 			if (!dat->dragging) break;
-			TreeView_SetInsertMark(GetDlgItem(hwndDlg,IDC_NAMEORDER),NULL,0);
+			TreeView_SetInsertMark(GetDlgItem(hwndDlg, IDC_NAMEORDER), NULL, 0);
 			dat->dragging=0;
 			ReleaseCapture();
 			{	TVHITTESTINFO hti;
 				TVITEM tvi;
 				hti.pt.x=(short)LOWORD(lParam);
 				hti.pt.y=(short)HIWORD(lParam);
-				ClientToScreen(hwndDlg,&hti.pt);
-				ScreenToClient(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti.pt);
-				hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg,IDC_NAMEORDER))/2;
-				TreeView_HitTest(GetDlgItem(hwndDlg,IDC_NAMEORDER),&hti);
+				ClientToScreen(hwndDlg, &hti.pt);
+				ScreenToClient(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti.pt);
+				hti.pt.y-=TreeView_GetItemHeight(GetDlgItem(hwndDlg, IDC_NAMEORDER))/2;
+				TreeView_HitTest(GetDlgItem(hwndDlg, IDC_NAMEORDER), &hti);
 				if (dat->hDragItem == hti.hItem) break;
 				tvi.mask=TVIF_HANDLE|TVIF_PARAM;
 				tvi.hItem=hti.hItem;
-				TreeView_GetItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),&tvi);
+				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvi);
 				if (tvi.lParam == SIZEOF(nameOrderDescr)-1) break;
 				if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
 					TVINSERTSTRUCT tvis;
@@ -461,11 +461,11 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 					tvis.item.pszText=name;
 					tvis.item.cchTextMax=SIZEOF(name);
 					tvis.item.hItem=dat->hDragItem;
-					TreeView_GetItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),&tvis.item);
-					TreeView_DeleteItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),dat->hDragItem);
+					TreeView_GetItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvis.item);
+					TreeView_DeleteItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), dat->hDragItem);
 					tvis.hParent=NULL;
 					tvis.hInsertAfter=hti.hItem;
-					TreeView_SelectItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),TreeView_InsertItem(GetDlgItem(hwndDlg,IDC_NAMEORDER),&tvis));
+					TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), TreeView_InsertItem(GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvis));
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 			}
@@ -501,13 +501,13 @@ int LoadContactsModule(void) {
 		for (i=0; i<NAMEORDERCOUNT; i++)
 			nameOrder[i]=i;
 
-		if (!DBGetContactSetting(NULL,"Contact","NameOrder",&dbv))
+		if (!DBGetContactSetting(NULL, "Contact", "NameOrder", &dbv))
 		{
-			CopyMemory(nameOrder,dbv.pbVal,dbv.cpbVal);
+			CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
 			DBFreeVariant(&dbv);
 		}
 	}
-	CreateServiceFunction(MS_CONTACT_GETCONTACTINFO,GetContactInfo);
-	HookEvent(ME_OPT_INITIALISE,ContactOptInit);
+	CreateServiceFunction(MS_CONTACT_GETCONTACTINFO, GetContactInfo);
+	HookEvent(ME_OPT_INITIALISE, ContactOptInit);
 	return 0;
 }

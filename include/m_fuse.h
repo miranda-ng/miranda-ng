@@ -4,8 +4,8 @@
 
 #define CALLSERVICE_NOTFOUND      ((int)0x80000000)
 #define MAXMODULELABELLENGTH 64
-typedef int (*MIRANDAHOOK)(WPARAM,LPARAM);
-typedef INT_PTR (*MIRANDASERVICE)(WPARAM,LPARAM);
+typedef int (*MIRANDAHOOK)(WPARAM, LPARAM);
+typedef INT_PTR (*MIRANDASERVICE)(WPARAM, LPARAM);
 
 #define FUSE_INIT	0			// core started, Param=**FUSE_LINK
 #define FUSE_DEINIT 1			// core stopped
@@ -16,16 +16,16 @@ typedef struct {
 	int cbSize;
 	HANDLE (*CreateHookableEvent)(const char *);
 	int (*DestroyHookableEvent)(HANDLE);
-	int (*NotifyEventHooks)(HANDLE,WPARAM,LPARAM);
-	HANDLE (*HookEvent)(const char *,MIRANDAHOOK);
-	HANDLE (*HookEventMessage)(const char *,HWND,UINT);
+	int (*NotifyEventHooks)(HANDLE, WPARAM, LPARAM);
+	HANDLE (*HookEvent)(const char *, MIRANDAHOOK);
+	HANDLE (*HookEventMessage)(const char *, HWND, UINT);
 	int (*UnhookEvent)(HANDLE);
-	HANDLE (*CreateServiceFunction)(const char *,MIRANDASERVICE);
-	HANDLE (*CreateTransientServiceFunction)(const char *,MIRANDASERVICE);
+	HANDLE (*CreateServiceFunction)(const char *, MIRANDASERVICE);
+	HANDLE (*CreateTransientServiceFunction)(const char *, MIRANDASERVICE);
 	int (*DestroyServiceFunction)(HANDLE);
-	int (*CallService)(const char *,WPARAM,LPARAM);
+	int (*CallService)(const char *, WPARAM, LPARAM);
 	int (*ServiceExists)(const char *);		  //v0.1.0.1+
-	int (*CallServiceSync)(const char*,WPARAM,LPARAM); //v0.1.2.2+
+	int (*CallServiceSync)(const char*, WPARAM, LPARAM); //v0.1.2.2+
 } FUSE_LINK;
 
 #endif

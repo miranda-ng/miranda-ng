@@ -508,7 +508,7 @@ int LoadAwayMsgModule(void)
 	mi.position = -2000005000;
 	mi.ptszName = LPGENT("Re&ad Away Message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
-	hAwayMsgMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_ICONFROMICOLIB;
 	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
@@ -516,14 +516,14 @@ int LoadAwayMsgModule(void)
 	mi.icolibItem = GetIconHandle(IDI_COPY);
 	mi.ptszName = LPGENT("Copy Away Message");
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
-	hCopyMsgMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
 	mi.icolibItem = GetIconHandle(IDI_GOTOURL);
 	mi.ptszName = LPGENT("&Go to URL in Away Message");
 	mi.pszService = MS_SIMPLESTATUSMSG_GOTOURLMSG;
-	hGoToURLMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hGoToURLMenuItem = Menu_AddContactMenuItem(&mi);
 
 	HookEventEx(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);
 

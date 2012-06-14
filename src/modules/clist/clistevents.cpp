@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -113,7 +113,7 @@ static void ShowEventsInTray()
 		{
 			int j;
 			for (j=0; j<nTrayProtoCnt; j++)
-				if ( iEventProto && pTrayProtos[j] && !lstrcmpA(pTrayProtos[j],iEventProto))
+				if ( iEventProto && pTrayProtos[j] && !lstrcmpA(pTrayProtos[j], iEventProto))
 					break;
 			if ( j>=nTrayProtoCnt )  j=0;	//event was not found so assume first icon
 			if ( pTrayProtos[j] )		//if not already set
@@ -218,8 +218,8 @@ int fnRemoveEvent( HANDLE hContact, HANDLE dbEvent )
 
 	// Update contact's icon
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	cli.pfnChangeContactIcon(cli.events.items[i]->cle.hContact,
-		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)cli.events.items[i]->cle.hContact, 1),
+	cli.pfnChangeContactIcon(cli.events.items[i]->cle.hContact, 
+		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)cli.events.items[i]->cle.hContact, 1), 
 		0);
 
 	// Free any memory allocated to the event
@@ -236,7 +236,7 @@ int fnRemoveEvent( HANDLE hContact, HANDLE dbEvent )
 				szEventProto=(char *) cli.events.items[i]->cle.lpszProtocol;
 			else 
 				szEventProto = NULL;
-			if (szEventProto && szProto && !lstrcmpA(szEventProto,szProto))
+			if (szEventProto && szProto && !lstrcmpA(szEventProto, szProto))
 				nSameProto++;
 
 		}
@@ -391,10 +391,10 @@ static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
 
 /***************************************************************************************/
 
-INT_PTR AddEventSyncStub(WPARAM wParam, LPARAM lParam) { return CallServiceSync(MS_CLIST_ADDEVENT"_SYNC",wParam, lParam); }
+INT_PTR AddEventSyncStub(WPARAM wParam, LPARAM lParam) { return CallServiceSync(MS_CLIST_ADDEVENT"_SYNC", wParam, lParam); }
 INT_PTR AddEventStub(WPARAM, LPARAM lParam) { return cli.pfnAddEvent((CLISTEVENT*)lParam ) == NULL; }
-INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent((HANDLE)wParam,(HANDLE)lParam ); }
-INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent((HANDLE)wParam,(int)lParam); }
+INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent((HANDLE)wParam, (HANDLE)lParam ); }
+INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent((HANDLE)wParam, (int)lParam); }
 
 int InitCListEvents(void)
 {

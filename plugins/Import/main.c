@@ -145,7 +145,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 		mi.pszName = LPGEN("&Import...");
 		mi.position = 500050000;
 		mi.pszService = IMPORT_SERVICE;
-		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		Menu_AddMainMenuItem(&mi);
 	}
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hHookOnExit = HookEvent(ME_SYSTEM_OKTOEXIT, OnExit);

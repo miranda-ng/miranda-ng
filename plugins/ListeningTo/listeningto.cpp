@@ -60,7 +60,7 @@ static std::vector<HANDLE> hHooks;
 static std::vector<HANDLE> hServices;
 static HANDLE hEnableStateChangedEvent;
 HANDLE hExtraIcon, hIcon1, hIcon2;
-static HANDLE hMainMenuGroup = NULL;
+static HGENMENU hMainMenuGroup = NULL;
 static HANDLE hListeningInfoChangedEvent = NULL;
 
 static HANDLE hTTB = NULL;
@@ -237,7 +237,7 @@ void RebuildMenu()
 				| (ListeningToEnabled(info->proto, TRUE) ? CMIF_CHECKED : 0)
 				| (opts.enable_sending ? 0 : CMIF_GRAYED);
 
-		info->hMenu = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		info->hMenu = Menu_AddMainMenuItem(&mi);
 	}
 
 	UpdateGlobalStatusMenus();
@@ -367,12 +367,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.pszName = "Listening to";
 		mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
 		mi.icolibItem = hIcon1;
-
-		hMainMenuGroup = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &mi);
+		hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
 		IcoLib_ReleaseIcon(mi.hIcon);
 
-		mi.pszPopupName = (char *) hMainMenuGroup;
+		mi.hParentMenu = hMainMenuGroup;
 		mi.popupPosition = 500080000;
 		mi.position = 0;
 		mi.pszService = MS_LISTENINGTO_MAINMENU;
@@ -384,7 +383,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				| (ListeningToEnabled(NULL, TRUE) ? CMIF_CHECKED : 0)
 				| (opts.enable_sending ? 0 : CMIF_GRAYED);
 		proto_itens.resize(1);
-		proto_itens[0].hMenu = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		proto_itens[0].hMenu = Menu_AddMainMenuItem(&mi);
 		proto_itens[0].proto[0] = 0;
 		proto_itens[0].account[0] = 0;
 		proto_itens[0].old_xstatus = 0;

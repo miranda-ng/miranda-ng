@@ -27,8 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //globals, defined int main.cpp
 extern HANDLE hEvent1, hContactMenuItem;
 
-LIST<HANDLE> menuHandleArray(5);
-
+LIST<void> menuHandleArray(5);
 
 //implementation of service functions
 
@@ -444,7 +443,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		mi.pszService    = MS_SMILEYADD_CUSTOMCATMENU;
 
 		bool nonecheck = true;
-		HANDLE* hMenu;
+		HGENMENU hMenu;
 
 		for (i = 0; i < smc.getCount(); i++)
 		{
@@ -462,7 +461,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 				nonecheck = false;
 			}
 
-			hMenu = (HANDLE*)CallService(MS_CLIST_ADDCONTACTMENUITEM, ind, (LPARAM)&mi);
+			hMenu = Menu_AddContactMenuItem(&mi);
 			menuHandleArray.insert(hMenu);
 			mi.flags &= ~CMIF_CHECKED;
 		}
@@ -470,13 +469,12 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		mi.position      = 1;
 		mi.popupPosition = 1;
 		mi.ptszName      = _T("<None>");
-		if (cat == _T("<None>"))
-		{
+		if (cat == _T("<None>")) {
 			mi.flags |= CMIF_CHECKED; 
 			nonecheck = false;
 		}
 
-		hMenu = (HANDLE*)CallService(MS_CLIST_ADDCONTACTMENUITEM, 1, (LPARAM)&mi);
+		hMenu = Menu_AddContactMenuItem(&mi);
 		menuHandleArray.insert(hMenu);
 
 		mi.position      = 2;
@@ -484,7 +482,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		mi.ptszName      = _T("Protocol specific");
 		if (nonecheck) mi.flags |= CMIF_CHECKED; else mi.flags &= ~CMIF_CHECKED;
 
-		hMenu = (HANDLE*)CallService(MS_CLIST_ADDCONTACTMENUITEM, 2, (LPARAM)&mi);
+		hMenu = Menu_AddContactMenuItem(&mi);
 		menuHandleArray.insert(hMenu);
 	}
 

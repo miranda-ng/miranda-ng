@@ -1079,7 +1079,7 @@ static void LoadMenus()
 	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( IDI_HIDE ) );
 	mi.ptszName = _T("Remove thumb");
 	mi.pszService = sModule "/RemoveThumb";
-	hMenuItemRemove = (HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, ( LPARAM )&mi );
+	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
 	// Hide all thumbs main menu item
 	hMainHideAllThumbs = CreateServiceFunction( sModule "/MainHideAllThumbs", OnMainMenu_HideAll );
@@ -1091,7 +1091,7 @@ static void LoadMenus()
 	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ) );
 	mi.ptszName = fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
 	mi.pszService = sModule "/MainHideAllThumbs";
-	hMainMenuItemHideAll	 =  (HANDLE)CallService( MS_CLIST_ADDMAINMENUITEM, 0, ( LPARAM )&mi );
+	Menu_AddMainMenuItem(&mi);
 
 	if (ServiceExists(MS_HOTKEY_REGISTER)) {
 		HOTKEYDESC hkd = {0};

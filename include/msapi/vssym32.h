@@ -442,7 +442,7 @@ enum GLYPHFONTSIZINGTYPE {
 
 
 //
-//  LINK class parts and states 
+//  LINK class parts and states
 //
 #define VSCLASS_LINK	L"LINK"
 
@@ -457,7 +457,7 @@ enum HYPERLINKSTATES {
 
 
 //
-//  EMPTYMARKUP class parts and states 
+//  EMPTYMARKUP class parts and states
 //
 #define VSCLASS_EMPTYMARKUP	L"EMPTYMARKUP"
 
@@ -472,7 +472,7 @@ enum MARKUPTEXTSTATES {
 
 
 //
-//  STATIC class parts and states 
+//  STATIC class parts and states
 //
 #define VSCLASS_STATIC	L"STATIC"
 
@@ -482,7 +482,7 @@ enum STATICPARTS {
 
 
 //
-//  PAGE class parts and states 
+//  PAGE class parts and states
 //
 #define VSCLASS_PAGE	L"PAGE"
 
@@ -495,7 +495,7 @@ enum PAGEPARTS {
 
 
 //
-//  MONTHCAL class parts and states 
+//  MONTHCAL class parts and states
 //
 #define VSCLASS_MONTHCAL	L"MONTHCAL"
 
@@ -563,7 +563,7 @@ enum NAVPREVSTATES {
 
 
 //
-//  CLOCK class parts and states 
+//  CLOCK class parts and states
 //
 #define VSCLASS_CLOCK	L"CLOCK"
 
@@ -579,7 +579,7 @@ enum CLOCKSTATES {
 
 
 //
-//  TRAYNOTIFY class parts and states 
+//  TRAYNOTIFY class parts and states
 //
 #define VSCLASS_TRAYNOTIFY	L"TRAYNOTIFY"
 
@@ -590,7 +590,7 @@ enum TRAYNOTIFYPARTS {
 
 
 //
-//  TASKBAR class parts and states 
+//  TASKBAR class parts and states
 //
 #define VSCLASS_TASKBAR	L"TASKBAR"
 
@@ -607,7 +607,7 @@ enum TASKBARPARTS {
 
 
 //
-//  TASKBAND class parts and states 
+//  TASKBAND class parts and states
 //
 #define VSCLASS_TASKBAND	L"TASKBAND"
 
@@ -619,7 +619,7 @@ enum TASKBANDPARTS {
 
 
 //
-//  STARTPANEL class parts and states 
+//  STARTPANEL class parts and states
 //
 #define VSCLASS_STARTPANEL	L"STARTPANEL"
 
@@ -689,7 +689,7 @@ enum LOGOFFBUTTONSSTATES {
 
 
 //
-//  MENUBAND class parts and states 
+//  MENUBAND class parts and states
 //
 #define VSCLASS_MENUBAND	L"MENUBAND"
 

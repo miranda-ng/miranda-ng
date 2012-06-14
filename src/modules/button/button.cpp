@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -146,8 +146,8 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 				HDC dc = GetDC(hwndParent);
 				HBRUSH oldBrush = (HBRUSH)GetCurrentObject( dc, OBJ_BRUSH );
 				hbr = (HBRUSH)SendMessage(hwndParent, WM_CTLCOLORDLG, (WPARAM)dc, (LPARAM)hwndParent);
-				SelectObject(dc,oldBrush);
-				ReleaseDC(hwndParent,dc);
+				SelectObject(dc, oldBrush);
+				ReleaseDC(hwndParent, dc);
 			}
 			if (hbr) {
 				FillRect(hdcMem, &rcClient, hbr);
@@ -155,11 +155,11 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			}
 			if (ctl->stateId == PBS_HOT||ctl->focus) {
 				if (ctl->pbState)
-					DrawEdge(hdcMem,&rcClient, EDGE_ETCHED,BF_RECT|BF_SOFT);
-				else DrawEdge(hdcMem,&rcClient, BDR_RAISEDOUTER,BF_RECT|BF_SOFT|BF_FLAT);
+					DrawEdge(hdcMem, &rcClient, EDGE_ETCHED, BF_RECT|BF_SOFT);
+				else DrawEdge(hdcMem, &rcClient, BDR_RAISEDOUTER, BF_RECT|BF_SOFT|BF_FLAT);
 			}
 			else if (ctl->stateId == PBS_PRESSED)
-				DrawEdge(hdcMem, &rcClient, BDR_SUNKENOUTER,BF_RECT|BF_SOFT);
+				DrawEdge(hdcMem, &rcClient, BDR_SUNKENOUTER, BF_RECT|BF_SOFT);
 		}
 	}
 	else {
@@ -197,10 +197,10 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			HIMAGELIST hImageList;
 			HICON hIconNew;
 
-			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
 			ImageList_AddIcon(hImageList, ctl->hIcon);
 			hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
-			DrawState(hdcMem,NULL,NULL,(LPARAM)hIconNew,0,ix,iy,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),IsWindowEnabled(ctl->hwnd)?DST_ICON|DSS_NORMAL:DST_ICON|DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON|DSS_NORMAL:DST_ICON|DSS_DISABLED);
 			ImageList_RemoveAll(hImageList);
 			ImageList_Destroy(hImageList);
 			DestroyIcon(hIconNew);
@@ -208,7 +208,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	}
 	else if (ctl->hBitmap) {
 		BITMAP bminfo;
-		int ix,iy;
+		int ix, iy;
 
 		GetObject(ctl->hBitmap, sizeof(bminfo), &bminfo);
 		ix = (rcClient.right-rcClient.left)/2 - (bminfo.bmWidth/2);
@@ -217,7 +217,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			ix++;
 			iy++;
 		}
-		DrawState(hdcMem,NULL,NULL,(LPARAM)ctl->hBitmap,0,ix,iy,bminfo.bmWidth,bminfo.bmHeight,IsWindowEnabled(ctl->hwnd)?DST_BITMAP:DST_BITMAP|DSS_DISABLED);
+		DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd)?DST_BITMAP:DST_BITMAP|DSS_DISABLED);
 	}
 	else if (GetWindowTextLength(ctl->hwnd)) {
 		// Draw the text and optinally the arrow
@@ -240,10 +240,10 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			sz.cx -= szHot.cx;
 		}
 		if (ctl->arrow) {
-			DrawState(hdcMem,NULL,NULL,(LPARAM)ctl->arrow,0,rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0),(rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0),GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
 		}
 		SelectObject(hdcMem, ctl->hFont);
-		DrawState(hdcMem,NULL,NULL,(LPARAM)szText,0,(rcText.right-rcText.left-sz.cx)/2+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0),ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1),sz.cx,sz.cy,IsWindowEnabled(ctl->hwnd)||ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
+		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0, (rcText.right-rcText.left-sz.cx)/2+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1), sz.cx, sz.cy, IsWindowEnabled(ctl->hwnd)||ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
 		SelectObject(hdcMem, hOldFont);
 	}
 	BitBlt(hdcPaint, 0, 0, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top, hdcMem, 0, 0, SRCCOPY);
@@ -566,17 +566,17 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 		}
 		// Call timer, used to start cheesy TrackMouseEvent faker
-		SetTimer(hwndDlg,BUTTON_POLLID,BUTTON_POLLDELAY,NULL);
+		SetTimer(hwndDlg, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
 		break;
 	case WM_TIMER: // use a timer to check if they have did a mouseout
 		if (wParam == BUTTON_POLLID) {
 			RECT rc;
 			POINT pt;
-			GetWindowRect(hwndDlg,&rc);
+			GetWindowRect(hwndDlg, &rc);
 			GetCursorPos(&pt);
-			if (!PtInRect(&rc,pt)) { // mouse must be gone, trigger mouse leave
-				PostMessage(hwndDlg,WM_MOUSELEAVE,0,0L);
-				KillTimer(hwndDlg,BUTTON_POLLID);
+			if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
+				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);
+				KillTimer(hwndDlg, BUTTON_POLLID);
 		}	}
 		break;
 

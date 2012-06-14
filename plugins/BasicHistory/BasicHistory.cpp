@@ -140,18 +140,18 @@ void InitMenuItems()
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 	mi.pszName = LPGEN("View &History");
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	hContactMenu = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hContactMenu = Menu_AddContactMenuItem(&mi);
 
 	mi.position = 500060000;
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 	
 	mi.position = 1000090001;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
 	mi.pszName = LPGEN("Delete All User History");
 	mi.pszService = MS_HISTORY_DELETEALLCONTACTHISTORY;
-	hDeleteContactMenu = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hDeleteContactMenu = Menu_AddContactMenuItem(&mi);
 
 	hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 }
@@ -168,7 +168,7 @@ void InitTaskMenuItems()
 			mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
 			mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
 			mi.pszName = LPGEN("Execute history task");
-			hTaskMainMenu = (HGENMENU)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+			hTaskMainMenu = Menu_AddMainMenuItem(&mi);
 		}
 		
 		std::vector<TaskOptions>::iterator taskIt = Options::instance->taskOptions.begin();
@@ -202,7 +202,7 @@ void InitTaskMenuItems()
 			mi.hParentMenu = hTaskMainMenu;
 			mi.popupPosition = pos++;	
 			mi.ptszName = (TCHAR*)taskIt->taskName.c_str();
-			HGENMENU menu = (HGENMENU)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+			HGENMENU menu = Menu_AddMainMenuItem(&mi);
 			taskMenus.push_back(menu);
 		}
 	}

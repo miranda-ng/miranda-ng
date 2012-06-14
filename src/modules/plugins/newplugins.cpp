@@ -854,7 +854,7 @@ static int UnloadPluginDynamically(PluginListItemData* dat)
 	return TRUE;
 }
 
-static LRESULT CALLBACK PluginListWndProc(HWND hwnd,UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_LBUTTONDOWN) {
 		LVHITTESTINFO hi;

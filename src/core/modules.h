@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -34,15 +34,15 @@ restructuring modules.c for performance.
 */
 #define MAXMODULELABELLENGTH 64
 
-typedef int (*MIRANDAHOOK)(WPARAM,LPARAM);
-typedef int (*MIRANDAHOOKPARAM)(WPARAM,LPARAM,LPARAM);
-typedef int (*MIRANDAHOOKOBJ)(void*,WPARAM,LPARAM);
-typedef int (*MIRANDAHOOKOBJPARAM)(void*,WPARAM,LPARAM,LPARAM);
+typedef int (*MIRANDAHOOK)(WPARAM, LPARAM);
+typedef int (*MIRANDAHOOKPARAM)(WPARAM, LPARAM, LPARAM);
+typedef int (*MIRANDAHOOKOBJ)(void*, WPARAM, LPARAM);
+typedef int (*MIRANDAHOOKOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 
-typedef INT_PTR (*MIRANDASERVICE)(WPARAM,LPARAM);
-typedef INT_PTR (*MIRANDASERVICEPARAM)(WPARAM,LPARAM,LPARAM);
-typedef INT_PTR (*MIRANDASERVICEOBJ)(void*,LPARAM,LPARAM);
-typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*,WPARAM,LPARAM,LPARAM);
+typedef INT_PTR (*MIRANDASERVICE)(WPARAM, LPARAM);
+typedef INT_PTR (*MIRANDASERVICEPARAM)(WPARAM, LPARAM, LPARAM);
+typedef INT_PTR (*MIRANDASERVICEOBJ)(void*, LPARAM, LPARAM);
+typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 
 typedef struct
 {
@@ -116,7 +116,7 @@ considerably slower than from the main thread, but will consume only slightly
 more actual CPU time, the rest will mostly be spent waiting for the main thread
 to return to the message loop so it can be interrupted neatly.
 */
-int NotifyEventHooks(HANDLE hEvent,WPARAM wParam,LPARAM lParam);
+int NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 
 /* CallHookSubscribers
 Works precisely like NotifyEventHooks, but without switching to the first thread
@@ -144,7 +144,7 @@ referring to the hook otherwise. Note that debug builds will warn with a
 MessageBoxA if a hook is attempted on an unknown event. All hooks will be
 automatically destroyed when their parent event is destroyed or the programme
 ends, but can be unhooked earlier using UnhookEvent(). hookProc() is defined as
-  int HookProc(WPARAM wParam,LPARAM lParam)
+  int HookProc(WPARAM wParam, LPARAM lParam)
 where you can substitute your own name for HookProc. wParam and lParam are
 defined by the creator of the event when NotifyEventHooks() is called.
 The return value is 0 to continue processing the other hooks, or nonzero
@@ -152,9 +152,9 @@ to stop immediately. This abort value is returned to the caller of
 NotifyEventHooks() and should not be -1 since that is a special return code
 for NotifyEventHooks() (see above)
 */
-HANDLE HookEvent(const char *name,MIRANDAHOOK hookProc);
+HANDLE HookEvent(const char *name, MIRANDAHOOK hookProc);
 HANDLE HookEventParam(const char *name, MIRANDAHOOKPARAM hookProc, LPARAM lParam);
-HANDLE HookEventObj(const char *name,MIRANDAHOOKOBJ hookProc, void* object);
+HANDLE HookEventObj(const char *name, MIRANDAHOOKOBJ hookProc, void* object);
 HANDLE HookEventObjParam(const char *name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam);
 
 /* HookEventMessage
@@ -167,7 +167,7 @@ The window procedure is called with the message 'message' and the wParam and
 lParam given to NotifyEventHooks(). The return value of SendMessage() is used
 in the same way as the return value in HookEvent().
 */
-HANDLE HookEventMessage(const char *name,HWND hwnd,UINT message);
+HANDLE HookEventMessage(const char *name, HWND hwnd, UINT message);
 
 /* UnhookEvent
 Removes a hook from its event chain. It will no longer receive any events.
@@ -185,37 +185,37 @@ on exit, but can be removed from the list earlier using
 DestroyServiceFunction()
 Returns NULL if name has already been used. serviceProc is defined by the
 caller as
-  int ServiceProc(WPARAM wParam,LPARAM lParam)
+  int ServiceProc(WPARAM wParam, LPARAM lParam)
 where the creator publishes the meanings of wParam, lParam and the return value
 Service functions must not return CALLSERVICE_NOTFOUND since that would confuse
 callers of CallService().
 */
-HANDLE CreateServiceFunction(const char *name,MIRANDASERVICE serviceProc);
+HANDLE CreateServiceFunction(const char *name, MIRANDASERVICE serviceProc);
 
 /* CreateServiceFunctionParam
 Same as CreateServiceFunction - adds new parameter, to pass to service handler function.
 serviceProc is defined by the caller as
-  int ServiceProc(WPARAM wParam,LPARAM lParam,LPARAM fnParam)
+  int ServiceProc(WPARAM wParam, LPARAM lParam, LPARAM fnParam)
 where fnParam does not need to be publicly known. Gives the ability to handle multiple services
 with the same function.
 
 added during 0.7+ (2007/04/24) 
 */
-HANDLE CreateServiceFunctionParam(const char *name,MIRANDASERVICEPARAM serviceProc,LPARAM lParam);
+HANDLE CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam);
 
 /* CreateServiceFunctionObj
    CreateServiceFunctionObjParam
 Same as CreateServiceFunction - adds new parameter, an object, to pass to service handler function.
 serviceProc is defined by the caller as
-  int ServiceProc(void* object, WPARAM wParam,LPARAM lParam[,LPARAM fnParam])
+  int ServiceProc(void* object, WPARAM wParam, LPARAM lParam[, LPARAM fnParam])
 where fnParam does not need to be publicly known. Gives the ability to handle multiple services
 with the same function.
 
 added during 0.7+ (2007/04/24) 
 */
 
-HANDLE CreateServiceFunctionObj(const char *name,MIRANDASERVICEOBJ serviceProc,void* object);
-HANDLE CreateServiceFunctionObjParam(const char *name,MIRANDASERVICEOBJPARAM serviceProc,void* object,LPARAM lParam);
+HANDLE CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object);
+HANDLE CreateServiceFunctionObjParam(const char *name, MIRANDASERVICEOBJPARAM serviceProc, void* object, LPARAM lParam);
 
 /* DestroyServiceFunction
 Removes the function associated with hService from the global service function
@@ -236,7 +236,7 @@ created, or the value the service function returned otherwise.
 #else
     #define CALLSERVICE_NOTFOUND      ((int)0x80000000)
 #endif
-INT_PTR CallService(const char *name,WPARAM wParam,LPARAM lParam);
+INT_PTR CallService(const char *name, WPARAM wParam, LPARAM lParam);
 
 /* ServiceExists
 Finds if a service with the given name exists

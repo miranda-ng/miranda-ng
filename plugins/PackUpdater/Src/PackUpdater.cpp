@@ -87,7 +87,8 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"check_update");
 	mi.ptszName = _T("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
+	
 	// Add empty updates folder menu item
 	hEmptyFolder = CreateServiceFunction(MODNAME"/EmptyFolder", EmptyFolder);
 	ZeroMemory(&mi, sizeof(mi));
@@ -97,7 +98,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"empty_folder");
 	mi.ptszName = _T("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	// Add options hook
 	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);

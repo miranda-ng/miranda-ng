@@ -659,7 +659,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 	mi.ptszName = _T("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 
-	g_hMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	g_hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	g_hmGenMenuInit = HookEvent(ME_CLIST_PREBUILDMAINMENU, GenMenuInit);
 }

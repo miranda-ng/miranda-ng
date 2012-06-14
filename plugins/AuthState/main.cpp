@@ -369,7 +369,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 		mi.flags = CMIF_TCHAR;
 		mi.ptszName = _T("Enable AuthState icons");
 		mi.pszService = "AuthState/MenuItem";
-		hUserMenu = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		hUserMenu = Menu_AddContactMenuItem(&mi);
 	}
 
 	g_IECClear.cbSize = sizeof(IconExtraColumn);

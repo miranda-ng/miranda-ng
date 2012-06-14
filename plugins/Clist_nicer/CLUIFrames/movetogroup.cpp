@@ -23,7 +23,7 @@ static int OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 			if (SendMessage(pcli->hwndContactTree, CLM_QUERYFLOATINGCONTACT, wParam, 0))
 				mi.flags=CMIF_CHECKED;
 		}
-		hFloatingItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hFloatingItem = Menu_AddContactMenuItem(&mi);
 	}
 	else if (!bSetting && hFloatingItem)
 	{

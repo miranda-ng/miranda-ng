@@ -5,6 +5,8 @@
    #include <m_clist.h>
 #endif
 
+extern int hLangpack;
+
 /*
   Main features:
   1) Independet from clist,may be used in any module.
@@ -96,6 +98,13 @@ plugin may add different menu items with some service.
 */
 
 // SubGroup MENU
+
+// Group MENU
+typedef struct{
+int wParam;
+int lParam;
+}GroupMenuParam,*lpGroupMenuParam;
+
 //remove a item from SubGroup menu
 //wParam=hMenuItem returned by MS_CLIST_ADDSubGroupMENUITEM
 //lParam=0
@@ -110,22 +119,18 @@ plugin may add different menu items with some service.
 //add a new item to the SubGroup menus
 //wParam=lpGroupMenuParam, params to call when exec menuitem
 //lParam=(LPARAM)(CLISTMENUITEM*)&mi
-#define MS_CLIST_ADDSUBGROUPMENUITEM						"CList/AddSubGroupMenuItem"
+
+__inline static HGENMENU Menu_AddSubGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddSubGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
+}
 
 //the SubGroup menu is about to be built
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDSUBGROUPMENU						"CList/PreBuildSubGroupMenu"
 
-// SubGroup MENU
-
-// Group MENU
-typedef struct{
-int wParam;
-int lParam;
-}GroupMenuParam,*lpGroupMenuParam;
-
 //remove a item from Group menu
-//wParam=hMenuItem returned by MS_CLIST_ADDGroupMENUITEM
+//wParam=hMenuItem returned by MS_CLIST_ADDGROUPMENUITEM
 //lParam=0
 //returns 0 on success, nonzero on failure
 #define MS_CLIST_REMOVEGROUPMENUITEM					"CList/RemoveGroupMenuItem"
@@ -138,7 +143,11 @@ int lParam;
 //add a new item to the Group menus
 //wParam=lpGroupMenuParam, params to call when exec menuitem
 //lParam=(LPARAM)(CLISTMENUITEM*)&mi
-#define MS_CLIST_ADDGROUPMENUITEM						"CList/AddGroupMenuItem"
+
+__inline static HGENMENU Menu_AddGroupMenuItem(lpGroupMenuParam gmp, CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddGroupMenuItem", (WPARAM)gmp, (LPARAM)mi);
+}
 
 //the Group menu is about to be built
 //wParam=lParam=0
@@ -162,7 +171,11 @@ int lParam;
 //add a new item to the tray menus
 //wParam=0
 //lParam=(LPARAM)(CLISTMENUITEM*)&mi
-#define MS_CLIST_ADDTRAYMENUITEM					"CList/AddTrayMenuItem"
+
+__inline static HGENMENU Menu_AddTrayMenuItem(CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddTrayMenuItem", 0, (LPARAM)mi);
+}
 
 //the tray menu is about to be built
 //wParam=lParam=0
@@ -173,11 +186,6 @@ int lParam;
 //the status menu is about to be built
 //wParam=lParam=0
 #define ME_CLIST_PREBUILDSTATUSMENU "CList/PreBuildStatusMenu"
-
-//add a new item to the status menu
-//wParam=0
-//lParam=(LPARAM)(CLISTMENUITEM*)&mi
-#define MS_CLIST_ADDSTATUSMENUITEM "CList/AddStatusMenuItem"
 
 //remove a item from main menu
 //wParam=hMenuItem returned by MS_CLIST_ADDMAINMENUITEM

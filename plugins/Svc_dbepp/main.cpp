@@ -302,14 +302,6 @@ INT_PTR ImportFromFile(WPARAM wParam,LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
-	CLISTMENUITEM mi;
-/*
-	#ifndef NDEBUG //mem leak detector :-) Thanks Tornado!
-	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); // Get current flag
-	flag |= _CRTDBG_LEAK_CHECK_DF; // Turn on leak-checking bit
-	_CrtSetDbgFlag(flag); // Set flag to the new value
-	#endif
-*/
 	pluginLink = link;
 	mir_getMMI(&mmi);
 	mir_getUTFI( &utfi );
@@ -327,7 +319,8 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	sRegisterModule = CreateServiceFunction("DBEditorpp/RegisterModule", RegisterModule);
 	sRegisterSingleModule = CreateServiceFunction("DBEditorpp/RegisterSingleModule", RegisterSingleModule);
 	sImport = CreateServiceFunction("DBEditorpp/Import", ImportFromFile);
-	ZeroMemory(&mi, sizeof(mi));
+	
+	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
 	mi.flags = CMIF_TCHAR;
@@ -335,7 +328,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.ptszName = _T(modFullname);
 	mi.pszService = "DBEditorpp/MenuCommand";
 	mi.pszContactOwner = NULL;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
@@ -345,7 +338,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.ptszName = LPGENT("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
 	mi.pszContactOwner = NULL;
-	hUserMenu = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+	hUserMenu = Menu_AddContactMenuItem(&mi);
 
 	sServicemodeLaunch = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
 

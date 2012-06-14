@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "netlib.h"
 
-INT_PTR NetlibPacketRecverCreate(WPARAM wParam,LPARAM lParam)
+INT_PTR NetlibPacketRecverCreate(WPARAM wParam, LPARAM lParam)
 {
 	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
 	struct NetlibPacketRecver *nlpr;
@@ -47,7 +47,7 @@ INT_PTR NetlibPacketRecverCreate(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)nlpr;
 }
 
-INT_PTR NetlibPacketRecverGetMore(WPARAM wParam,LPARAM lParam)
+INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam)
 {
 	struct NetlibPacketRecver *nlpr=(struct NetlibPacketRecver*)wParam;
 	NETLIBPACKETRECVER *nlprParam=(NETLIBPACKETRECVER*)lParam;
@@ -65,20 +65,20 @@ INT_PTR NetlibPacketRecverGetMore(WPARAM wParam,LPARAM lParam)
 	if (nlprParam->bytesUsed == 0) {
 		if (nlpr->packetRecver.bytesAvailable == nlpr->packetRecver.bufferSize) {
 			nlpr->packetRecver.bytesAvailable=0;
-			NetlibLogf(nlpr->nlc->nlu,"Packet recver: packet overflowed buffer, ditching");
+			NetlibLogf(nlpr->nlc->nlu, "Packet recver: packet overflowed buffer, ditching");
 		}
 	}
 	else {
-		MoveMemory(nlpr->packetRecver.buffer,nlpr->packetRecver.buffer+nlprParam->bytesUsed,nlpr->packetRecver.bytesAvailable-nlprParam->bytesUsed);
+		MoveMemory(nlpr->packetRecver.buffer, nlpr->packetRecver.buffer+nlprParam->bytesUsed, nlpr->packetRecver.bytesAvailable-nlprParam->bytesUsed);
 		nlpr->packetRecver.bytesAvailable-=nlprParam->bytesUsed;
 	}
 	if (nlprParam->dwTimeout != INFINITE) {
-		if (!si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s,nlprParam->dwTimeout) <= 0) {
+		if (!si.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
 			*nlprParam=nlpr->packetRecver;
 			return SOCKET_ERROR;
 		}
 	}
-	recvResult=NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer+nlpr->packetRecver.bytesAvailable,nlpr->packetRecver.bufferSize-nlpr->packetRecver.bytesAvailable,0);
+	recvResult=NLRecv(nlpr->nlc, (char*)nlpr->packetRecver.buffer+nlpr->packetRecver.bytesAvailable, nlpr->packetRecver.bufferSize-nlpr->packetRecver.bytesAvailable, 0);
 	if (recvResult>0) nlpr->packetRecver.bytesAvailable+=recvResult;
 	*nlprParam=nlpr->packetRecver;
 	return recvResult;

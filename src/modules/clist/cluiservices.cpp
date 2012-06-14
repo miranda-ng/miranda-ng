@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -135,7 +135,7 @@ static INT_PTR GetCaps(WPARAM wParam, LPARAM)
 void LoadCluiServices(void)
 {
 	CreateServiceFunction(MS_CLUI_GETHWND, GetHwnd);
-	CreateServiceFunction(MS_CLUI_GETHWNDTREE,GetHwndTree);
+	CreateServiceFunction(MS_CLUI_GETHWNDTREE, GetHwndTree);
 	CreateServiceFunction(MS_CLUI_PROTOCOLSTATUSCHANGED, CluiProtocolStatusChanged);
 	CreateServiceFunction(MS_CLUI_GROUPADDED, GroupAdded);
 	CreateServiceFunction(MS_CLUI_CONTACTSETICON, ContactSetIcon);

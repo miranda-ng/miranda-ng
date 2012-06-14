@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -398,14 +398,14 @@ static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime,
 	return 1;
 }
 
-static int SendHttpRequestAndData(struct NetlibConnection *nlc,struct ResizableCharBuffer *httpRequest,NETLIBHTTPREQUEST *nlhr,int sendContentLengthHeader)
+static int SendHttpRequestAndData(struct NetlibConnection *nlc, struct ResizableCharBuffer *httpRequest, NETLIBHTTPREQUEST *nlhr, int sendContentLengthHeader)
 {
 	bool sendData = (nlhr->requestType == REQUEST_POST || nlhr->requestType == REQUEST_PUT);
 
 	if (sendContentLengthHeader && sendData)
-		AppendToCharBuffer(httpRequest,"Content-Length: %d\r\n\r\n", nlhr->dataLength);
+		AppendToCharBuffer(httpRequest, "Content-Length: %d\r\n\r\n", nlhr->dataLength);
 	else
-		AppendToCharBuffer(httpRequest,"\r\n");
+		AppendToCharBuffer(httpRequest, "\r\n");
 
 	DWORD hflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) | 
 		(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND | NLHRF_NODUMPHEADERS) ? 
@@ -420,7 +420,7 @@ static int SendHttpRequestAndData(struct NetlibConnection *nlc,struct ResizableC
 				MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
-		int sendResult = NLSend(nlc,nlhr->pData,nlhr->dataLength, sflags);
+		int sendResult = NLSend(nlc, nlhr->pData, nlhr->dataLength, sflags);
 
 		bytesSent = sendResult != SOCKET_ERROR ? bytesSent + sendResult : SOCKET_ERROR;
 	}
@@ -611,7 +611,7 @@ INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam)
 			DWORD dwTimeOutTime = hdrTimeout < 0 ? -1 : GetTickCount() + hdrTimeout;
 			if (!HttpPeekFirstResponseLine(nlc, dwTimeOutTime, fflags, &resultCode, NULL, NULL))
 			{
-				NetlibLogf(nlc->nlu, "%s %d: %s Failed (%u %u)",__FILE__,__LINE__,"HttpPeekFirstResponseLine",GetLastError(), count);
+				NetlibLogf(nlc->nlu, "%s %d: %s Failed (%u %u)", __FILE__, __LINE__, "HttpPeekFirstResponseLine", GetLastError(), count);
 				DWORD err = GetLastError();
 				if (err == ERROR_TIMEOUT || err == ERROR_BAD_FORMAT || err == ERROR_BUFFER_OVERFLOW || 
 					lastFirstLineFail || nlc->termRequested || nlhr->requestType == REQUEST_CONNECT)
@@ -839,7 +839,7 @@ INT_PTR NetlibHttpFreeRequestStruct(WPARAM, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR NetlibHttpRecvHeaders(WPARAM wParam,LPARAM lParam)
+INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 {
 	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 	NETLIBHTTPREQUEST *nlhr;
@@ -850,7 +850,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam,LPARAM lParam)
 	int headersCount = 0, bufferSize = 8192;
 	bool headersCompleted = false;
 
-	if (!NetlibEnterNestedCS(nlc,NLNCS_RECV))
+	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return 0;
 
 	dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
@@ -859,7 +859,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam,LPARAM lParam)
 	nlhr->nlc = nlc;  // Needed to id connection in the protocol HTTP gateway wrapper functions
 	nlhr->requestType = REQUEST_RESPONSE;
 	
-	if (!HttpPeekFirstResponseLine(nlc, dwRequestTimeoutTime, lParam | MSG_PEEK,
+	if (!HttpPeekFirstResponseLine(nlc, dwRequestTimeoutTime, lParam | MSG_PEEK, 
 		&nlhr->resultCode, &nlhr->szResultDescr, &firstLineLength))
 	{
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
@@ -992,13 +992,13 @@ INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam)
 		}
 		if (!doneUserAgentHeader) 
 		{
-			char *pspace,szMirandaVer[64];
+			char *pspace, szMirandaVer[64];
 
 			nlhrSend.headers[nlhrSend.headersCount].szName = "User-Agent";
 			nlhrSend.headers[nlhrSend.headersCount].szValue = szUserAgent;
 			++nlhrSend.headersCount;
-			CallService(MS_SYSTEM_GETVERSIONTEXT,SIZEOF(szMirandaVer),(LPARAM)szMirandaVer);
-			pspace=strchr(szMirandaVer,' ');
+			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(szMirandaVer), (LPARAM)szMirandaVer);
+			pspace=strchr(szMirandaVer, ' ');
 			if (pspace) 
 			{
 				*pspace++ = '\0';
@@ -1220,14 +1220,14 @@ next:
 			for (;;) 
 			{
 				recvResult = RecvWithTimeoutTime(nlc, GetTickCount() + HTTPRECVDATATIMEOUT, 
-					nlhrReply->pData + nlhrReply->dataLength,
+					nlhrReply->pData + nlhrReply->dataLength, 
 					dataBufferAlloced - nlhrReply->dataLength - 1, 
 					dflags | (cenctype ? MSG_NODUMP : 0));
 
 				if (recvResult == 0) break;
 				if (recvResult == SOCKET_ERROR) 
 				{
-					NetlibHttpFreeRequestStruct(0,(LPARAM)nlhrReply);
+					NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 					return NULL;
 				}
 				nlhrReply->dataLength += recvResult;

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -103,7 +103,7 @@ struct ClcGroup* fnRemoveItemFromGroup(HWND hwnd, struct ClcGroup *group, struct
 void fnFreeContact( struct ClcContact *p );
 void fnFreeGroup( struct ClcGroup *group );
 int  fnAddInfoItemToGroup(struct ClcGroup *group, int flags, const TCHAR *pszText);
-int  fnAddItemToGroup( struct ClcGroup *group,int iAboveItem );
+int  fnAddItemToGroup( struct ClcGroup *group, int iAboveItem );
 void fnAddContactToTree( HWND hwnd, struct ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline);
 int  fnAddContactToGroup( struct ClcData *dat, struct ClcGroup *group, HANDLE hContact);
 void fnDeleteItemFromTree( HWND hwnd, HANDLE hItem );
@@ -149,9 +149,9 @@ int fnGetRowTotalHeight(struct ClcData *dat);
 int fnRowHitTest(struct ClcData *dat, int y);
 
 /* clcopts.c */
-int ClcOptInit(WPARAM wParam,LPARAM lParam);
+int ClcOptInit(WPARAM wParam, LPARAM lParam);
 DWORD GetDefaultExStyle(void);
-void GetFontSetting(int i,LOGFONTA *lf,COLORREF *colour);
+void GetFontSetting(int i, LOGFONTA *lf, COLORREF *colour);
 
 /* clistmenus.c */
 HGENMENU fnGetProtocolMenu( const char* );
@@ -224,7 +224,7 @@ VOID CALLBACK fnTrayCycleTimerProc(HWND hwnd, UINT message, UINT_PTR idEvent, DW
 /* clui.c */
 LRESULT CALLBACK fnContactListWndProc ( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam );
 void fnLoadCluiGlobalOpts( void );
-void fnCluiProtocolStatusChanged(int,const char*);
+void fnCluiProtocolStatusChanged(int, const char*);
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon);
 
 /* contact.c */

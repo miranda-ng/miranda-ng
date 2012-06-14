@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -30,14 +30,14 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 INT_PTR ShowReqWindow(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_AUTHREQ), NULL, DlgProcAuthReq,
+	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_AUTHREQ), NULL, DlgProcAuthReq, 
 		(LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
 	return 0;
 }
 
 INT_PTR ShowAddedWindow(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_ADDED), NULL, DlgProcAdded,
+	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_ADDED), NULL, DlgProcAdded, 
 		(LPARAM)((CLISTEVENT *)lParam)->hDbEvent);
 	return 0;
 }
@@ -50,7 +50,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	CallService(MS_DB_EVENT_GET,(WPARAM)lParam,(LPARAM)&dbei);
+	CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || 
 		(dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED)) 
 		return 0;

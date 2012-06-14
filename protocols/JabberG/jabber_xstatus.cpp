@@ -498,7 +498,7 @@ void CPepGuiService::RebuildMenu()
 
 		mi.icolibItem = m_hIcolibItem;
 		mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
-		m_hMenuItem = ( HANDLE )CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM)&mi);
+		m_hMenuItem = Menu_AddProtoMenuItem(&mi);
 }	}
 
 bool CPepGuiService::LaunchSetGui(BYTE bQuiet)

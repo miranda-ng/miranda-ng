@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -33,11 +33,11 @@ static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 	struct FileSendData fsd;
 	fsd.hContact=(HANDLE)wParam;
 	fsd.ppFiles=NULL;
-	CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_FILESEND),NULL,DlgProcSendFile,(LPARAM)&fsd);
+	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
 
-static INT_PTR SendSpecificFiles(WPARAM wParam,LPARAM lParam)
+static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
 	fsd.hContact=(HANDLE)wParam;
@@ -54,7 +54,7 @@ static INT_PTR SendSpecificFiles(WPARAM wParam,LPARAM lParam)
 	#else
 		fsd.ppFiles=(const char**)lParam;
 	#endif
-	CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_FILESEND),NULL,DlgProcSendFile,(LPARAM)&fsd);
+	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	#if defined( _UNICODE )
 		for ( int j=0; j < count; j++ )
 			mir_free(( void* )fsd.ppFiles[j] );
@@ -62,28 +62,28 @@ static INT_PTR SendSpecificFiles(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR SendSpecificFilesT(WPARAM wParam,LPARAM lParam)
+static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 {
 	FileSendData fsd;
 	fsd.hContact=(HANDLE)wParam;
 	fsd.ppFiles=(const TCHAR**)lParam;
-	CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_FILESEND),NULL,DlgProcSendFile,(LPARAM)&fsd);
+	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
 
-static INT_PTR GetReceivedFilesFolder(WPARAM wParam,LPARAM lParam)
+static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 {
   TCHAR buf[MAX_PATH];
-	GetContactReceivedFilesDir((HANDLE)wParam,buf,MAX_PATH,TRUE);
+	GetContactReceivedFilesDir((HANDLE)wParam, buf, MAX_PATH, TRUE);
   char* dir = mir_t2a(buf);
-  lstrcpynA((char*)lParam,dir,MAX_PATH);
+  lstrcpynA((char*)lParam, dir, MAX_PATH);
   mir_free(dir);
 	return 0;
 }
 
 static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_FILERECV),NULL,DlgProcRecvFile,lParam);
+	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, lParam);
 	return 0;
 }
 
@@ -94,23 +94,23 @@ void PushFileEvent( HANDLE hContact, HANDLE hdbe, LPARAM lParam )
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
-	if ( DBGetContactSettingByte(NULL,"SRFile","AutoAccept",0) && !DBGetContactSettingByte(hContact,"CList","NotOnList",0)) {
-		CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_FILERECV),NULL,DlgProcRecvFile,(LPARAM)&cle);
+	if ( DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0) && !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)) {
+		CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {
 		SkinPlaySound("RecvFile");
 
 		TCHAR szTooltip[256];
-		mir_sntprintf(szTooltip,SIZEOF(szTooltip),TranslateT("File from %s"), cli.pfnGetContactDisplayName( hContact, 0 ));
+		mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("File from %s"), cli.pfnGetContactDisplayName( hContact, 0 ));
 		cle.ptszTooltip = szTooltip;
 
 		cle.flags |= CLEF_TCHAR;
 		cle.hIcon = LoadSkinIcon( SKINICON_EVENT_FILE );
 		cle.pszService = "SRFile/RecvFile";
-		CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
+		CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 }	}
 
-static int FileEventAdded(WPARAM wParam,LPARAM lParam)
+static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
 	DWORD dwSignature;
 
@@ -126,15 +126,15 @@ static int FileEventAdded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int SRFile_GetRegValue(HKEY hKeyBase,const TCHAR *szSubKey,const TCHAR *szValue,TCHAR *szOutput,int cbOutput)
+int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValue, TCHAR *szOutput, int cbOutput)
 {
 	HKEY hKey;
 	DWORD cbOut=cbOutput;
 
-	if ( RegOpenKeyEx( hKeyBase,szSubKey,0,KEY_QUERY_VALUE,&hKey ) != ERROR_SUCCESS)
+	if ( RegOpenKeyEx( hKeyBase, szSubKey, 0, KEY_QUERY_VALUE, &hKey ) != ERROR_SUCCESS)
 		return 0;
 	
-	if ( RegQueryValueEx( hKey,szValue,NULL,NULL,(PBYTE)szOutput, &cbOut ) != ERROR_SUCCESS ) {
+	if ( RegQueryValueEx( hKey, szValue, NULL, NULL, (PBYTE)szOutput, &cbOut ) != ERROR_SUCCESS ) {
 		RegCloseKey(hKey);
 		return 0;
 	}
@@ -143,7 +143,7 @@ int SRFile_GetRegValue(HKEY hKeyBase,const TCHAR *szSubKey,const TCHAR *szValue,
 	return 1;
 }
 
-void GetSensiblyFormattedSize(__int64 size,TCHAR *szOut,int cchOut,int unitsOverride,int appendUnits,int *unitsUsed)
+void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed)
 {
 	if (!unitsOverride) {
 		if (size<1000) unitsOverride=UNITS_BYTES;
@@ -154,11 +154,11 @@ void GetSensiblyFormattedSize(__int64 size,TCHAR *szOut,int cchOut,int unitsOver
 	}
 	if (unitsUsed) *unitsUsed=unitsOverride;
 	switch(unitsOverride) {
-		case UNITS_BYTES: mir_sntprintf(szOut,cchOut,_T("%u%s%s"),(int)size,appendUnits?_T(" "):_T(""),appendUnits?TranslateT("bytes"):_T("")); break;
-		case UNITS_KBPOINT1: mir_sntprintf(szOut,cchOut,_T("%.1lf%s"),size/1024.0,appendUnits?_T(" KB"):_T("")); break;
-		case UNITS_KBPOINT0: mir_sntprintf(szOut,cchOut,_T("%u%s"),(int)(size/1024),appendUnits?_T(" KB"):_T("")); break;
-		case UNITS_GBPOINT3: mir_sntprintf(szOut,cchOut,_T("%.3f%s"),(size >> 20)/1024.0,appendUnits?_T(" GB"):_T("")); break;
-		default: mir_sntprintf(szOut,cchOut,_T("%.2lf%s"),size/1048576.0,appendUnits?_T(" MB"):_T("")); break;
+		case UNITS_BYTES: mir_sntprintf(szOut, cchOut, _T("%u%s%s"), (int)size, appendUnits?_T(" "):_T(""), appendUnits?TranslateT("bytes"):_T("")); break;
+		case UNITS_KBPOINT1: mir_sntprintf(szOut, cchOut, _T("%.1lf%s"), size/1024.0, appendUnits?_T(" KB"):_T("")); break;
+		case UNITS_KBPOINT0: mir_sntprintf(szOut, cchOut, _T("%u%s"), (int)(size/1024), appendUnits?_T(" KB"):_T("")); break;
+		case UNITS_GBPOINT3: mir_sntprintf(szOut, cchOut, _T("%.3f%s"), (size >> 20)/1024.0, appendUnits?_T(" GB"):_T("")); break;
+		default: mir_sntprintf(szOut, cchOut, _T("%.2lf%s"), size/1048576.0, appendUnits?_T(" MB"):_T("")); break;
 	}
 }
 
@@ -263,20 +263,20 @@ void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANS
 static void RemoveUnreadFileEvents(void)
 {
 	DBEVENTINFO dbei={0};
-	HANDLE hDbEvent,hContact;
+	HANDLE hDbEvent, hContact;
 
 	dbei.cbSize=sizeof(dbei);
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact) {
-		hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);
+		hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
 		while (hDbEvent) {
 			dbei.cbBlob=0;
-			CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
+			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
 			if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_FILE)
-				CallService(MS_DB_EVENT_MARKREAD,(WPARAM)hContact,(LPARAM)hDbEvent);
-			hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
+				CallService(MS_DB_EVENT_MARKREAD, (WPARAM)hContact, (LPARAM)hDbEvent);
+			hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
 		}
-		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
+		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}
 }
 
@@ -288,8 +288,8 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto != NULL) {
-		if ( CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0 ) & PF1_FILESEND) {
-			if ( CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_4, 0 ) & PF4_OFFLINEFILES )
+		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0 ) & PF1_FILESEND) {
+			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0 ) & PF4_OFFLINEFILES )
 				mi.flags = CMIM_FLAGS;
 			else if ( DBGetContactSettingWord(( HANDLE )wParam, szProto, "Status", ID_STATUS_OFFLINE ) != ID_STATUS_OFFLINE )
 				mi.flags = CMIM_FLAGS;
@@ -308,7 +308,7 @@ static int SRFileModulesLoaded(WPARAM, LPARAM)
 	mi.pszName = LPGEN("&File");
 	mi.pszService = MS_FILE_SENDFILE;
 	mi.flags = CMIF_ICONFROMICOLIB;
-	hSRFileMenuItem = ( HANDLE )CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hSRFileMenuItem = Menu_AddContactMenuItem(&mi);
 
 	RemoveUnreadFileEvents();
 	return 0;
@@ -324,7 +324,7 @@ INT_PTR openContRecDir(WPARAM wparam, LPARAM)
 {
 	TCHAR szContRecDir[MAX_PATH];
 	HANDLE hContact = (HANDLE)wparam;
-	GetContactReceivedFilesDir(hContact, szContRecDir, SIZEOF(szContRecDir),TRUE);
+	GetContactReceivedFilesDir(hContact, szContRecDir, SIZEOF(szContRecDir), TRUE);
 	ShellExecute(0, _T("open"), szContRecDir, 0, 0, SW_SHOW);
 	return 0;
 }
@@ -348,21 +348,21 @@ int LoadSendRecvFileModule(void)
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("File &Transfers...");
 	mi.pszService = "FtMgr/Show"; //MS_PROTO_SHOWFTMGR;
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, ( LPARAM )&mi );
+	Menu_AddMainMenuItem(&mi);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED,SRFileModulesLoaded);
-	HookEvent(ME_DB_EVENT_ADDED,FileEventAdded);
-	HookEvent(ME_OPT_INITIALISE,FileOptInitialise);
+	HookEvent(ME_SYSTEM_MODULESLOADED, SRFileModulesLoaded);
+	HookEvent(ME_DB_EVENT_ADDED, FileEventAdded);
+	HookEvent(ME_OPT_INITIALISE, FileOptInitialise);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, SRFilePreBuildMenu);
 
-	CreateServiceFunction(MS_FILE_SENDFILE,SendFileCommand);
-	CreateServiceFunction(MS_FILE_SENDSPECIFICFILES,SendSpecificFiles);
-	CreateServiceFunction(MS_FILE_SENDSPECIFICFILEST,SendSpecificFilesT);
-	CreateServiceFunction(MS_FILE_GETRECEIVEDFILESFOLDER,GetReceivedFilesFolder);
-	CreateServiceFunction("SRFile/RecvFile",RecvFileCommand);
+	CreateServiceFunction(MS_FILE_SENDFILE, SendFileCommand);
+	CreateServiceFunction(MS_FILE_SENDSPECIFICFILES, SendSpecificFiles);
+	CreateServiceFunction(MS_FILE_SENDSPECIFICFILEST, SendSpecificFilesT);
+	CreateServiceFunction(MS_FILE_GETRECEIVEDFILESFOLDER, GetReceivedFilesFolder);
+	CreateServiceFunction("SRFile/RecvFile", RecvFileCommand);
 
-	CreateServiceFunction("SRFile/OpenContRecDir",openContRecDir);
-	CreateServiceFunction("SRFile/OpenRecDir",openRecDir);
+	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);
+	CreateServiceFunction("SRFile/OpenRecDir", openRecDir);
 
 	SkinAddNewSoundEx("RecvFile",   "File", "Incoming");
 	SkinAddNewSoundEx("FileDone",   "File", "Complete");

@@ -93,7 +93,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_HELP);
 	mi.pszName=LPGEN("User Guide");
 	mi.pszService="UserGuide/ShowGuide";
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 	
 	return 0;
 }

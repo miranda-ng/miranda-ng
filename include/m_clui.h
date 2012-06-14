@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -141,14 +141,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLUIF_HASAUTOHIDEOPTION 8   //the clui options page provides a way to
           //change the list auto hide options. It should read and write the
 		  //byte "CList"/"AutoHide" and the word "CList"/"HideTime". No other
-		  //action is needed. 
+		  //action is needed.
 
 #define CLUICAPS_FLAGS2   1			//Returns info about extra icons
 		  //HIWORD is the first extra icon number, LOWORD is the extra icons count
 
 //LPARAMS for CLUICAPS_FLAGS2
 #define CLUIF2_PLUGININFO			1	//returns pointer to plugininfo
-#define CLUIF2_CLISTTYPE			2	// the genaration of list in chronologic 
+#define CLUIF2_CLISTTYPE			2	// the genaration of list in chronologic
 // modern layered return 0x07 (assuming classic, mw, meta, nicer1, modern1, nicer++, modernLayered)
 // +0x0100 for unicode
 #define CLUIF2_EXTRACOLUMNCOUNT		3   // return max number of extra icon available to be set in main window
@@ -158,13 +158,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 //a contact is being dragged outside the main window     v0.1.2.0+
 //wParam=(WPARAM)(HANDLE)hContact
-//lParam=MAKELPARAM(screenX,screenY)
+//lParam=MAKELPARAM(screenX, screenY)
 //return nonzero to make the cursor a 'can drop here', or zero for 'no'
 #define ME_CLUI_CONTACTDRAGGING     "CLUI/ContactDragging"
 
 //a contact has just been dropped outside the main window   v0.1.2.0+
 //wParam=(WPARAM)(HANDLE)hContact
-//lParam=MAKELPARAM(screenX,screenY)
+//lParam=MAKELPARAM(screenX, screenY)
 //return nonzero if your hook processed this, so no other hooks get it
 #define ME_CLUI_CONTACTDROPPED      "CLUI/ContactDropped"
 

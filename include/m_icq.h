@@ -1,33 +1,27 @@
 // ---------------------------------------------------------------------------80
 //                ICQ plugin for Miranda Instant Messenger
 //                ________________________________________
-// 
+//
 // Copyright © 2000-2001 Richard Hughes, Roland Rabien, Tristan Van de Vreede
 // Copyright © 2001-2002 Jon Keating, Richard Hughes
 // Copyright © 2002-2004 Martin ÷berg, Sam Kothari, Robert Rainwater
 // Copyright © 2004-2010 Joe Kucera
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 //
 // -----------------------------------------------------------------------------
-//
-// File name      : $URL: http://miranda.googlecode.com/svn/trunk/miranda/include/m_icq.h $
-// Revision       : $Revision: 11723 $
-// Last change on : $Date: 2010-05-09 14:55:59 +0300 (–í—Å, 09 –º–∞–π 2010) $
-// Last change by : $Author: borkra $
-//
 // DESCRIPTION:
 //
 //  Public headers for ICQ protocol plug-in
@@ -106,7 +100,7 @@ typedef struct {
 //"<sms_message><source>MTN</source><destination_UIN>[UIN of recipient, ie this account]</destination_UIN><sender>[sending phone number, without +]</sender><senders_network>[contains one space, because I sent from ICQ]</senders_network><text>[body of the message]</text><time>Fri, 16 Nov 2001 03:12:33 GMT</time></sms_message>"
 #define ICQACKTYPE_SMS      1001
 #define ICQEVENTTYPE_SMS    2001    //database event type
-#define MS_ICQ_SENDSMS      "/SendSMS" 
+#define MS_ICQ_SENDSMS      "/SendSMS"
 
 //e-mail express
 //db event added to NULL contact
@@ -229,7 +223,7 @@ typedef struct {
 
 // Sets owner current custom status (obsolete)
 //wParam = (int)N   // custom status id (1-32)
-//lParam = 0         
+//lParam = 0
 //return = N (id of status set) or 0 (failed - probably bad params)
 #define PS_ICQ_SETCUSTOMSTATUS "/SetXStatus"
 
@@ -261,7 +255,7 @@ typedef struct {
 
 // Request Custom status details (messages) for specified contact
 //wParam = hContact  // request custom status details for this contact
-//lParam = 0  
+//lParam = 0
 //return = (int)dwSequence   // if successful it is sequence for ICQACKTYPE_XSTATUS_RESPONSE
                              // 0 failed to request (e.g. auto-request enabled)
                              // -1 delayed (rate control) - sequence unknown
@@ -272,7 +266,7 @@ typedef struct {
 //lParam = hIcon       // HANDLE to clist extra icon set as custom status
 #define ME_ICQ_CUSTOMSTATUS_EXTRAICON_CHANGED "/XStatusExtraIconChanged"
 
-// Called when a contact changes its custom status 
+// Called when a contact changes its custom status
 // wParam = hContact
 // lParam = 0
 #define ME_ICQ_CUSTOMSTATUS_CHANGED "/XStatusChanged"

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -53,7 +53,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM, LPARAM lParam)
 	DBVARIANT dbv;
 	DWORD dwFlags = ( ssd->cbSize == sizeof(SKINSOUNDDESCEX)) ? ssd->dwFlags : 0;
 
-	soundList=(struct SoundItem*)mir_realloc(soundList,sizeof(struct SoundItem)*(soundCount+1));
+	soundList=(struct SoundItem*)mir_realloc(soundList, sizeof(struct SoundItem)*(soundCount+1));
 	SoundItem* item = &soundList[soundCount++];
 	item->name = mir_strdup( ssd->pszName );
 	item->tempFile = NULL;
@@ -93,7 +93,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM, LPARAM lParam)
 static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
 	char * pszFile = (char *) lParam;
-	if ( pszFile && (DBGetContactSettingByte(NULL,"Skin","UseSound",0) || (int)wParam == 1))
+	if ( pszFile && (DBGetContactSettingByte(NULL, "Skin", "UseSound", 0) || (int)wParam == 1))
 		PlaySoundA(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
 
 	return 0;
@@ -156,7 +156,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		hwndTree = GetDlgItem(hwndDlg, IDC_SOUNDTREE);
-		SetWindowLongPtr(hwndTree,GWL_STYLE,GetWindowLongPtr(hwndTree,GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+		SetWindowLongPtr(hwndTree, GWL_STYLE, GetWindowLongPtr(hwndTree, GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 		SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 		SendMessage(hwndDlg, DM_REBUILD_STREE, 0, 0);
 		TreeView_SetItemState(hwndTree, 0, TVIS_SELECTED, TVIS_SELECTED);
@@ -188,7 +188,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					TreeView_SetItem( hwndTree, &tvis.item );
 				}
 				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-				tvis.item.state = INDEXTOSTATEIMAGEMASK(!DBGetContactSettingByte(NULL,"SkinSoundsOff",soundList[i].name,0)?2:1);
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(!DBGetContactSettingByte(NULL, "SkinSoundsOff", soundList[i].name, 0)?2:1);
 				tvis.item.lParam = i;
 				tvis.item.pszText = soundList[i].description;
 				TreeView_InsertItem( hwndTree, &tvis );
@@ -201,7 +201,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if ( tvi.lParam == -1 )
 					TreeView_SetItemState(hwndTree, tvi.hItem, INDEXTOSTATEIMAGEMASK(0), TVIS_STATEIMAGEMASK);
 
-				tvi.hItem=TreeView_GetNextSibling(hwndTree,tvi.hItem);
+				tvi.hItem=TreeView_GetNextSibling(hwndTree, tvi.hItem);
 		}	}
 
 		ShowWindow(hwndTree, SW_SHOW);
@@ -245,8 +245,8 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			TVITEM tvi;
 			HTREEITEM hti;
 
-			ZeroMemory(&tvi,sizeof(tvi));
-			ZeroMemory(&hti,sizeof(hti));
+			ZeroMemory(&tvi, sizeof(tvi));
+			ZeroMemory(&hti, sizeof(hti));
 			hti=TreeView_GetSelection(hwndTree);
 			if (hti == NULL) break;
 			tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM|TVIF_TEXT;
@@ -257,7 +257,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				 NotifyEventHooks(hPlayEvent, 1, (LPARAM)soundList[tvi.lParam].tempFile);
 			else {
 				DBVARIANT dbv;
-				if (!DBGetContactSettingString(NULL,"SkinSounds",soundList[tvi.lParam].name,&dbv)) {
+				if (!DBGetContactSettingString(NULL, "SkinSounds", soundList[tvi.lParam].name, &dbv)) {
 					char szPathFull[MAX_PATH];
 
 					pathToAbsolute(dbv.pszVal, szPathFull, NULL);
@@ -272,8 +272,8 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			TVITEM tvi;
 			HTREEITEM hti;
 
-			ZeroMemory(&tvi,sizeof(tvi));
-			ZeroMemory(&hti,sizeof(hti));
+			ZeroMemory(&tvi, sizeof(tvi));
+			ZeroMemory(&hti, sizeof(hti));
 			hti=TreeView_GetSelection(hwndTree);
 			if (hti == NULL) break;
 			tvi.mask=TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE|TVIF_PARAM|TVIF_TEXT;
@@ -316,7 +316,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemTextA(hwndDlg, IDC_LOCATION, strFull);
 		}
 		if (LOWORD(wParam) == IDC_GETMORE) {
-			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=5");
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://addons.miranda-im.org/index.php?action=display&id=5");
 			break;
 		}
         if (LOWORD(wParam) == IDC_LOCATION) {
@@ -334,9 +334,9 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
             DBWriteContactSettingByte(NULL, "Skin", "UseSound", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
 				for ( i=0; i < soundCount; i++ )
 					if ( soundList[i].tempFile )
-						DBWriteContactSettingString(NULL,"SkinSounds",soundList[i].name,soundList[i].tempFile);
+						DBWriteContactSettingString(NULL, "SkinSounds", soundList[i].name, soundList[i].tempFile);
 				{
-					TVITEM tvi,tvic;
+					TVITEM tvi, tvic;
 					tvi.hItem = TreeView_GetRoot(hwndTree);
 					while ( tvi.hItem != NULL ) {
 						tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
@@ -350,13 +350,13 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 									DBCONTACTGETSETTING cgs;
 									cgs.szModule = "SkinSoundsOff";
 									cgs.szSetting = soundList[tvic.lParam].name;
-									CallService(MS_DB_CONTACT_DELETESETTING,(WPARAM)(HANDLE)NULL,(LPARAM)&cgs);
+									CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cgs);
 								}
-								else DBWriteContactSettingByte(NULL,"SkinSoundsOff",soundList[tvic.lParam].name,1);
-								tvic.hItem=TreeView_GetNextSibling(hwndTree,tvic.hItem);
+								else DBWriteContactSettingByte(NULL, "SkinSoundsOff", soundList[tvic.lParam].name, 1);
+								tvic.hItem=TreeView_GetNextSibling(hwndTree, tvic.hItem);
 						}	}
 
-						tvi.hItem=TreeView_GetNextSibling(hwndTree,tvi.hItem);
+						tvi.hItem=TreeView_GetNextSibling(hwndTree, tvi.hItem);
 				}	}
 				return TRUE;
 			}
@@ -379,7 +379,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
 						if (soundList[tvi.lParam].tempFile)
 							SetDlgItemTextA(hwndDlg, IDC_LOCATION, soundList[tvi.lParam].tempFile);
-						else if (!DBGetContactSettingString(NULL,"SkinSounds",soundList[tvi.lParam].name,&dbv)) {
+						else if (!DBGetContactSettingString(NULL, "SkinSounds", soundList[tvi.lParam].name, &dbv)) {
 							SetDlgItemTextA(hwndDlg, IDC_LOCATION, dbv.pszVal);
 							DBFreeVariant(&dbv);
 						}
@@ -401,8 +401,8 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					TVHITTESTINFO hti;
 					hti.pt.x=(short)LOWORD(GetMessagePos());
 					hti.pt.y=(short)HIWORD(GetMessagePos());
-					ScreenToClient(((LPNMHDR)lParam)->hwndFrom,&hti.pt);
-					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom,&hti))
+					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
+					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
 						if (hti.flags&TVHT_ONITEM)
 							if (hti.flags&TVHT_ONITEMSTATEICON)
 								if (TreeView_GetParent(hwndTree, hti.hItem) != NULL)
@@ -435,7 +435,7 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 
 static int SkinSystemModulesLoaded(WPARAM, LPARAM)
 {
-	HookEvent(ME_OPT_INITIALISE,SkinOptionsInit);
+	HookEvent(ME_OPT_INITIALISE, SkinOptionsInit);
 	return 0;
 }
 
@@ -445,9 +445,9 @@ int LoadSkinSounds(void)
 
 	soundList=NULL;
 	soundCount=0;
-	CreateServiceFunction(MS_SKIN_ADDNEWSOUND,ServiceSkinAddNewSound);
-	CreateServiceFunction(MS_SKIN_PLAYSOUND,ServiceSkinPlaySound);
-	HookEvent(ME_SYSTEM_MODULESLOADED,SkinSystemModulesLoaded);
+	CreateServiceFunction(MS_SKIN_ADDNEWSOUND, ServiceSkinAddNewSound);
+	CreateServiceFunction(MS_SKIN_PLAYSOUND, ServiceSkinPlaySound);
+	HookEvent(ME_SYSTEM_MODULESLOADED, SkinSystemModulesLoaded);
 	hPlayEvent=CreateHookableEvent(ME_SKIN_PLAYINGSOUND);
 	SetHookDefaultForHookableEvent(hPlayEvent, SkinPlaySoundDefault);
 	return 0;

@@ -82,7 +82,7 @@ int gg_img_init(GGPROTO *gg)
 	mi.pszName = LPGEN("&Image");
 	mi.pszService = service;
 	mi.pszContactOwner = GG_PROTO;
-	gg->hImageMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mi);
+	gg->hImageMenuItem = Menu_AddContactMenuItem(&mi);
 
 	// Receive image
 	mir_snprintf(service, sizeof(service), GGS_RECVIMAGE, GG_PROTO);

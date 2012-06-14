@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -337,11 +337,11 @@ int InitUtils()
 
 	CreateServiceFunction(MS_DB_MODULE_DELETE, DbDeleteModule);
 
-	CreateServiceFunction(MS_DB_GETPROFILEPATH,GetProfilePath);
-	CreateServiceFunction(MS_DB_GETPROFILENAME,GetProfileName);
+	CreateServiceFunction(MS_DB_GETPROFILEPATH, GetProfilePath);
+	CreateServiceFunction(MS_DB_GETPROFILENAME, GetProfileName);
 	#if defined( _UNICODE )
-		CreateServiceFunction(MS_DB_GETPROFILEPATHW,GetProfilePathW);
-		CreateServiceFunction(MS_DB_GETPROFILENAMEW,GetProfileNameW);
+		CreateServiceFunction(MS_DB_GETPROFILEPATHW, GetProfilePathW);
+		CreateServiceFunction(MS_DB_GETPROFILENAMEW, GetProfileNameW);
 	#endif
 	return 0;
 }

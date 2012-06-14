@@ -143,7 +143,7 @@ __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RELOAD));
 	mi.pszName = LPGEN("Reload langpack");
 	mi.pszService = MS_LANGPACK_RELOAD;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	/* installation */
 	InstallFile(_T("LangMan-Readme.txt"), _T("Docs\\"));

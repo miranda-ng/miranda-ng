@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2003 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2003 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -42,7 +42,7 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 	case TIM_CALLBACK:
 		if (msg->lParam == WM_RBUTTONUP)
 		{
-			POINT pt;	
+			POINT pt;
 			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDTRAY,(WPARAM)0,(LPARAM)0);
 
 			SetForegroundWindow(msg->hwnd);
@@ -56,7 +56,7 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 		*((LRESULT*)lParam) = 0;
 		return TRUE;
 	}
-	
+
 	return saveTrayIconProcessMessage( wParam, lParam );
 }
 
@@ -95,7 +95,7 @@ static INT_PTR BuildTrayMenu(WPARAM wParam,LPARAM lParam)
 	hMenu = CreatePopupMenu();
 	//hMenu = wParam;
 	tick = GetTickCount();
-	
+
 	NotifyEventHooks(hPreBuildTrayMenuEvent,0,0);
 
 	CallService(MO_BUILDMENU,(WPARAM)hMenu,(LPARAM)&param);
@@ -125,17 +125,17 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 	tmi.root = (HGENMENU)mi->pszPopupName;
 
 	tmi.ownerdata = NULL;
-	
+
 	{
 		lpTrayMenuExecParam mmep;
 		mmep = (lpTrayMenuExecParam)mir_alloc(sizeof(TrayMenuExecParam));
 		if (mmep == NULL)
 			return 0;
-		
+
 		//we need just one parametr.
 		mmep->szServiceName = mir_strdup(mi->pszService);
 		mmep->Param1 = mi->popupPosition;
-		
+
 		tmi.ownerdata = mmep;
 	}
 	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hTrayMenuObject,(LPARAM)&tmi);
@@ -145,12 +145,12 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)op.Handle;
 }
 
-INT_PTR TrayMenuCheckService(WPARAM wParam,LPARAM lParam) 
+INT_PTR TrayMenuCheckService(WPARAM wParam,LPARAM lParam)
 {
 	return 0;
 }
 
-INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam) 
+INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 {
 	MENUITEMINFO *mii = (MENUITEMINFO* )wParam;
 	if (mii == NULL) return 0;
@@ -162,12 +162,12 @@ INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 
 	if (hTrayMainMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);		
+		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
 	}
 
 	if (hTrayStatusMenuItemProxy == (HANDLE)lParam) {
 		mii->fMask |= MIIM_SUBMENU;
-		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);		
+		mii->hSubMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 	}
 
 	return(TRUE);
@@ -180,13 +180,13 @@ INT_PTR TrayMenuonAddService(WPARAM wParam,LPARAM lParam)
 INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam != 0)
 	{
-		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;	
+		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
 		if (!strcmp(mmep->szServiceName,"Help/AboutCommand"))
 		{
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
 		}
-		CallService(mmep->szServiceName,mmep->Param1,lParam);	
+		CallService(mmep->szServiceName,mmep->Param1,lParam);
 	}
 	return(1);
 }
@@ -216,21 +216,21 @@ void InitTrayMenus(void)
 	tmp.ExecService = "CLISTMENUSTRAY/ExecService";
 	tmp.name = "TrayMenu";
 	hTrayMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,(WPARAM)0,(LPARAM)&tmp);
-	
+
 	CreateServiceFunction("CLISTMENUSTRAY/ExecService",TrayMenuExecService);
 	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu",FreeOwnerDataTrayMenu);
 	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService",TrayMenuonAddService);
 
-	CreateServiceFunction(MS_CLIST_ADDTRAYMENUITEM,AddTrayMenuItem);
+	CreateServiceFunction("CList/AddTrayMenuItem",AddTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM,RemoveTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY,BuildTrayMenu);
 	hPreBuildTrayMenuEvent = CreateHookableEvent(ME_CLIST_PREBUILDTRAYMENU);
-		
+
 	op.Handle = hTrayMenuObject;
 	op.Setting = OPT_USERDEFINEDITEMS;
 	op.Value = TRUE;
 	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
-	
+
 	op.Handle = hTrayMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSTRAY/FreeOwnerDataTrayMenu";
@@ -241,7 +241,7 @@ void InitTrayMenus(void)
 	op.Value = (INT_PTR)"CLISTMENUSTRAY/TrayMenuonAddService";
 	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
 
-	{	
+	{
 		//add  exit command to menu
 		CLISTMENUITEM mi;
 
@@ -266,7 +266,7 @@ void InitTrayMenus(void)
 		mi.pszService = "FindAdd/FindAddCommand";
 		mi.pszName = LPGEN("&Find/Add Contacts...");
 		AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
-	
+
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 300000;

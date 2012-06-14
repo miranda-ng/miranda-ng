@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -30,7 +30,7 @@ INT_PTR __fastcall MyCallProtoService( const char *szModule, const char *szServi
 {
 	char str[MAXMODULELABELLENGTH];
 	mir_snprintf( str, sizeof(str), "%s%s", szModule, szService );
-	return CallService(str,wParam,lParam);
+	return CallService(str, wParam, lParam);
 }
 
 struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
@@ -180,7 +180,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 	}
 
 	int __cdecl SendContacts( HANDLE hContact, int flags, int nContacts, HANDLE* hContactsList )
-	{	CCSDATA ccs = { hContact, PSS_CONTACTS, MAKEWPARAM(flags,nContacts), (LPARAM)hContactsList };
+	{	CCSDATA ccs = { hContact, PSS_CONTACTS, MAKEWPARAM(flags, nContacts), (LPARAM)hContactsList };
 		return ( int )MyCallProtoService( m_szModuleName, PSS_CONTACTS, 0, (LPARAM)&ccs );
 	}
 

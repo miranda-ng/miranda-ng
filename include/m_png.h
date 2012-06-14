@@ -23,11 +23,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-File name      : $Source: /cvsroot/miranda/miranda/include/m_png.h,v $
-Revision       : $Revision: 2876 $
-Last change on : $Date: 2006-05-17 00:56:03 +0300 (Ср, 17 май 2006) $
-Last change by : $Author: rainwater $
-
 */
 
 /* Image/Dib2Png

@@ -17,7 +17,7 @@ HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent;
 CLISTMENUITEM mi;
-int noSoundMenu;
+HGENMENU noSoundMenu;
 int hLangpack;
 
 struct CheckBoxValues_t {
@@ -281,8 +281,8 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 		mi.flags=0;
 		UpdateMenuItem();
 
-		mi.pszService=PLUGINNAME_SHORT "/MenuCommand";
-		noSoundMenu = CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+		mi.pszService = PLUGINNAME_SHORT "/MenuCommand";
+		noSoundMenu = Menu_AddMainMenuItem(&mi);
 	}
 	//The menu item - end
 

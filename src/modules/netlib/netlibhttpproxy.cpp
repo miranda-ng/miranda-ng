@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project,
+Copyright 2000-2012 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -25,10 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef enum
 {
-	reqHelloGet,
-	reqOldGet,
-	reqOldPost,
-	reqNewPost,
+	reqHelloGet, 
+	reqOldGet, 
+	reqOldPost, 
+	reqNewPost, 
 } 
 RequestType;
 
@@ -151,7 +151,7 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 //	nlhrSend.headers[3].szName  = "Accept-Encoding";
 //	nlhrSend.headers[3].szValue = "deflate, gzip";
 
-	return NetlibHttpSendRequest((WPARAM)nlc,(LPARAM)&nlhrSend) != SOCKET_ERROR; 
+	return NetlibHttpSendRequest((WPARAM)nlc, (LPARAM)&nlhrSend) != SOCKET_ERROR; 
 }
 
 static bool NetlibHttpGatewayStdPost(NetlibConnection *nlc, int& numPackets)
@@ -476,7 +476,7 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 	return 1;
 }
 
-INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam,LPARAM lParam)
+INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 {
 	NETLIBHTTPPROXYINFO *nlhpi=(NETLIBHTTPPROXYINFO*)lParam;
 	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;

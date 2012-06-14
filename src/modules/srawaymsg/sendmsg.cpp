@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -79,7 +79,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 	if (DBGetContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Ignore"), 0))
 		return NULL;
 
-	if (DBGetContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(statusMode, "UsePrev"),0)) 
+	if (DBGetContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(statusMode, "UsePrev"), 0)) 
 	{
 		if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Msg"), &dbv))
 			dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusMode));
@@ -87,7 +87,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 	else {
 		int i;
 		TCHAR substituteStr[128];
-		if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusMode,"Default"), &dbv))
+		if (DBGetContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Default"), &dbv))
 			dbv.ptszVal = mir_tstrdup(GetDefaultMessage(statusMode));
 
 		for (i=0; dbv.ptszVal[i]; i++) 
@@ -126,7 +126,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 
 static WNDPROC OldMessageEditProc;
 
-static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) 
 	{
@@ -182,7 +182,7 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 		}
 	}
 	else 
-		CallProtoService(szProto, PS_SETAWAYMSGT, statusMode,(LPARAM)msg);
+		CallProtoService(szProto, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
 }
 
 struct SetAwayMsgData 
@@ -217,7 +217,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			dat->szProto = newdat->szProto;
 			mir_free(newdat);
 			SendDlgItemMessage(hwndDlg, IDC_MSG, EM_LIMITTEXT, 1024, 0);
-			OldMessageEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_MSG), GWLP_WNDPROC, (LONG_PTR)MessageEditSubclassProc);
+			OldMessageEditProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)MessageEditSubclassProc);
 			{	
 				TCHAR str[256], format[128];
 				GetWindowText(hwndDlg, format, SIZEOF(format));
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			dat->countdown = 6;
 			SendMessage(hwndDlg, WM_TIMER, 0, 0);
 			Window_SetProtoIcon_IcoLib(hwndDlg, dat->szProto, dat->statusMode);
-			Utils_RestoreWindowPosition(hwndDlg,NULL,"SRAway","AwayMsgDlg");
+			Utils_RestoreWindowPosition(hwndDlg, NULL, "SRAway", "AwayMsgDlg");
 			SetTimer(hwndDlg, 1, 1000, 0);
 			dat->hPreshutdown = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, DM_SRAWAY_SHUTDOWN);
 		}
@@ -294,11 +294,11 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		break;
 
 	case WM_DESTROY:
-		Utils_SaveWindowPosition(hwndDlg,NULL,"SRAway","AwayMsgDlg");
+		Utils_SaveWindowPosition(hwndDlg, NULL, "SRAway", "AwayMsgDlg");
 		KillTimer(hwndDlg, 1);
 		UnhookEvent(dat->hPreshutdown); 
 		Window_FreeIcon_IcoLib(hwndDlg);
-		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_MSG), GWLP_WNDPROC, (LONG_PTR)OldMessageEditProc);
+		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_MSG), GWLP_WNDPROC, (LONG_PTR)OldMessageEditProc);
 		mir_free(dat);
 		hwndStatusMsg = NULL;
 		break;
@@ -323,7 +323,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		// If its a single protocol check the PFLAGNUM_3 for the single protocol
-		if (!(CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
+		if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
 			!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 			return 0;
 	}
@@ -346,7 +346,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		newdat->statusMode = statusMode;
 		if (hwndStatusMsg)
 			DestroyWindow(hwndStatusMsg);
-		hwndStatusMsg = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_SETAWAYMSG),
+		hwndStatusMsg = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_SETAWAYMSG), 
 			NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
 	}
 	return 0;
@@ -354,8 +354,8 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 
 static const int statusModes[] = 
 { 
-	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND,
-	ID_STATUS_FREECHAT,ID_STATUS_INVISIBLE,ID_STATUS_OUTTOLUNCH,ID_STATUS_ONTHEPHONE, ID_STATUS_IDLE
+	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, ID_STATUS_DND, 
+	ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_OUTTOLUNCH, ID_STATUS_ONTHEPHONE, ID_STATUS_IDLE
 };
 
 struct AwayMsgInfo 
@@ -377,7 +377,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 	HWND hLst = GetDlgItem(hwndDlg, IDC_LST_STATUS);
 
-	dat=(struct AwayMsgDlgData*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
+	dat=(struct AwayMsgDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
@@ -480,7 +480,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 						CheckDlgButton(hwndDlg, IDC_USEPREVIOUS, i < 0 ? 0 : dat->info[i].usePrevious);
 						CheckDlgButton(hwndDlg, IDC_USESPECIFIC, i < 0 ? 0 : !dat->info[i].usePrevious);
 
-						SetDlgItemText(hwndDlg,IDC_MSG, i < 0 ? _T("") : dat->info[i].msg);
+						SetDlgItemText(hwndDlg, IDC_MSG, i < 0 ? _T("") : dat->info[i].msg);
 
 						EnableWindow(GetDlgItem(hwndDlg, IDC_NODIALOG),    i < 0 ? 0 : !dat->info[i].ignore);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_USEPREVIOUS), i < 0 ? 0 : !dat->info[i].ignore);
@@ -493,7 +493,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				case IDC_DONTREPLY:
 				case IDC_USEPREVIOUS:
 				case IDC_USESPECIFIC:
-					SendMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDC_STATUS,CBN_SELCHANGE),0);
+					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 					break;
 
 				case IDC_MSG:
@@ -511,7 +511,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					{
 						case PSN_APPLY:
 						{	int i, status;
-							SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS,CBN_SELCHANGE), 0);
+							SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 							i = hLst ?
 								(SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETCOUNT, 0, 0) - 1) :
 								(SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETCOUNT, 0, 0) - 1);
@@ -520,10 +520,10 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 								status = hLst ?
 									SendDlgItemMessage(hwndDlg, IDC_LST_STATUS, LB_GETITEMDATA, i, 0):
 									SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_GETITEMDATA, i, 0);
-								DBWriteContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(status,"Ignore"), (BYTE)dat->info[i].ignore);
-								DBWriteContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(status,"NoDlg"),  (BYTE)dat->info[i].noDialog);
-								DBWriteContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(status,"UsePrev"),(BYTE)dat->info[i].usePrevious);
-								DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(status,"Default"), dat->info[i].msg);
+								DBWriteContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(status, "Ignore"), (BYTE)dat->info[i].ignore);
+								DBWriteContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(status, "NoDlg"),  (BYTE)dat->info[i].noDialog);
+								DBWriteContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(status, "UsePrev"), (BYTE)dat->info[i].usePrevious);
+								DBWriteContactSettingTString(NULL, "SRAway", StatusModeToDbSetting(status, "Default"), dat->info[i].msg);
 							}
 							return TRUE;
 						}
@@ -564,7 +564,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 
 	static const int iBoldControls[] =
 	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
+		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
 		MODERNOPT_CTRL_LAST
 	};
 
@@ -624,7 +624,7 @@ static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 
 int LoadAwayMessageSending(void)
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED,AwayMsgSendModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, AwayMsgSendModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AwayMsgSendAccountsChanged);
 
 #ifdef UNICODE

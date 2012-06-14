@@ -399,7 +399,7 @@ DWORD           ProtoBroadcastAckAsynchEx        (const char *szModule,HANDLE hC
 void            MraUserAPCThreadProc            (LPVOID lpParameter);
 
 DWORD           CreateBlobFromContact            (HANDLE hContact,LPWSTR lpwszRequestReason,SIZE_T dwRequestReasonSize,LPBYTE lpbBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet);
-void            CListCreateMenu                    (LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR pszContactOwner,LPSTR lpszCListMenuType,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult);
+void            CListCreateMenu                    (LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR pszContactOwner,BOOL bIsStatus,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult);
 void            CListDestroyMenu                (const GUI_DISPLAY_ITEM *pgdiItems,SIZE_T dwCount);
 void            CListShowMenuItem                (HANDLE hMenuItem,BOOL bShow);
 int             ExtraSetIcon                    (HANDLE hExtraIcon,HANDLE hContact,HANDLE hImage,int iColumnType);

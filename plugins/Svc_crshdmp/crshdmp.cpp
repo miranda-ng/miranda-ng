@@ -321,7 +321,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.icolibItem = GetIconHandle("versionInfo");
 	mi.ptszName = LPGENT("Version Information");
 	mi.pszPopupName = (char *)-1;
-	HANDLE hMenuRoot = (HANDLE)CallService( MS_CLIST_ADDMAINMENUITEM,  (WPARAM)0, (LPARAM)&mi);
+	HANDLE hMenuRoot = Menu_AddMainMenuItem(&mi);
 
 	mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.pszPopupName = (char *)hMenuRoot;
@@ -331,46 +331,46 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.ptszName = LPGENT("Copy to clipboard");
 	mi.icolibItem = GetIconHandle("storeToClip");
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089996;
 	mi.ptszName = LPGENT("Store to file");
 	mi.icolibItem = GetIconHandle("storeToFile");
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.position  = 2000089997;
 	mi.ptszName = LPGENT("Show");
 	mi.icolibItem = GetIconHandle("showInfo");
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 1;
 	mi.position  = 2000089998;
 	mi.ptszName = LPGENT("Show with DLLs");
 	mi.icolibItem = GetIconHandle("showInfo");
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 0;
 	mi.position  = 2000089999;
 	mi.ptszName = LPGENT("Upload");
 	mi.icolibItem = GetIconHandle("uploadInfo");
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.position  = 2000099990;
 	mi.ptszName = LPGENT("Open crash report directory");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_FILE);
 	mi.pszService = MS_CRASHDUMPER_URL;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 1;
 	mi.position  = 2000099991;
 	mi.ptszName = LPGENT("Open miranda-vi.org");
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_URL);
 	mi.pszService = MS_CRASHDUMPER_URL;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	HOTKEYDESC hk = {0};
 	hk.cbSize = sizeof(hk);

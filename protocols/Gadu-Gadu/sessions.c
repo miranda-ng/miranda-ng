@@ -441,5 +441,5 @@ void gg_sessions_menus_init(GGPROTO* gg, HGENMENU hRoot)
 	mi.icolibItem = GetIconHandle(IDI_SESSIONS);
 	mi.ptszName = LPGENT("Concurrent &sessions");
 	mi.pszService = service;
-	CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddProtoMenuItem(&mi);
 }

@@ -50,10 +50,9 @@ void AddHookFunction(LPCSTR eventName, MIRANDAHOOK hookFunction) {
 }
 
 
-HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WPARAM wParam=0) {
-
-	CLISTMENUITEM mi;
-	memset(&mi,0,sizeof(mi));
+HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WPARAM wParam=0)
+{
+	CLISTMENUITEM mi = { 0 };
 	mi.cbSize=sizeof(mi);
 	mi.flags=flags | CMIF_HIDDEN;
 	mi.position=pos;
@@ -61,23 +60,23 @@ HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WP
 	mi.pszName= (char*)name;
 	mi.pszPopupName=(char*)-1;
 	mi.pszService=(char*)service;
-	return((HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,wParam,(LPARAM)&mi));
+	return Menu_AddContactMenuItem(&mi);
 }
 
 
-HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WPARAM wParam=0) {
-
-    CLISTMENUITEM mi;
-    memset(&mi,0,sizeof(mi));
-    mi.cbSize=sizeof(mi);
-    mi.flags=CMIF_CHILDPOPUP | CMIF_HIDDEN;
-    mi.position=pos;
-    mi.popupPosition=poppos;
-    mi.hIcon=NULL;
-    mi.pszName=(char*)name;
-    mi.pszPopupName=(char*)rootid;
-    mi.pszService=(char*)service;
-    return((HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,wParam,(LPARAM)&mi));
+HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WPARAM wParam=0)
+{
+	CLISTMENUITEM mi = { 0 };
+	memset(&mi,0,sizeof(mi));
+	mi.cbSize=sizeof(mi);
+	mi.flags=CMIF_CHILDPOPUP | CMIF_HIDDEN;
+	mi.position=pos;
+	mi.popupPosition=poppos;
+	mi.hIcon=NULL;
+	mi.pszName=(char*)name;
+	mi.pszPopupName=(char*)rootid;
+	mi.pszService=(char*)service;
+	return Menu_AddContactMenuItem(&mi);
 }
 
 
@@ -416,7 +415,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	g_hMenu[0] = AddMenuItem(sim301,110000,g_hICO[ICO_CM_EST],MODULENAME"/SIM_EST",CMIF_NOTOFFLINE);
 	g_hMenu[1] = AddMenuItem(sim302,110001,g_hICO[ICO_CM_DIS],MODULENAME"/SIM_DIS",CMIF_NOTOFFLINE);
 
-	if(ServiceExists(MS_CLIST_ADDSUBGROUPMENUITEM)) {
+	if(ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
 	    g_hMenu[2] = AddMenuItem(sim312[0],110002,NULL,NULL,CMIF_ROOTPOPUP);
 	    g_hMenu[3] = AddSubItem(g_hMenu[2],sim232[0],110003,110002,MODULENAME"/SIM_ST_DIS");
 	    g_hMenu[4] = AddSubItem(g_hMenu[2],sim232[1],110004,110002,MODULENAME"/SIM_ST_ENA");
@@ -450,7 +449,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("create Mode menu");
 #endif
-	if(ServiceExists(MS_CLIST_ADDSUBGROUPMENUITEM)) {
+	if(ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
 	    g_hMenu[10] = AddMenuItem(sim311[0],110010,NULL,NULL,CMIF_ROOTPOPUP);
 	    g_hMenu[11] = AddSubItem(g_hMenu[10],sim231[0],110011,110010,MODULENAME"/MODE_NAT");
 	    g_hMenu[12] = AddSubItem(g_hMenu[10],sim231[1],110012,110010,MODULENAME"/MODE_PGP");

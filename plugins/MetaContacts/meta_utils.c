@@ -43,7 +43,7 @@ INT_PTR MyDBGetContactSetting(HANDLE hContact, const char *szModule, const char 
 	if (!strsvcset) {strsvc = ServiceExists(MS_DB_CONTACT_GETSETTING_STR); strsvcset = TRUE;}
 	
 	// preserve unicode strings - this service should return other data types unchanged
-	if(strsvc) return DBGetContactSettingW(hContact, szModule, szSetting, dbv);
+	if (strsvc) return DBGetContactSettingW(hContact, szModule, szSetting, dbv);
 	
 	return DBGetContactSetting(hContact, szModule, szSetting, dbv);
 }
@@ -51,7 +51,7 @@ INT_PTR MyDBGetContactSetting(HANDLE hContact, const char *szModule, const char 
 int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id) {
 	DWORD res = 1;
 	int i;
-	if(dbv->type == id->type)
+	if (dbv->type == id->type)
 	{	// If the id parameter and the value returned by the DBGetContactSetting
 		// are the same, this is the correct HANDLE, return it.
 		switch(dbv->type)
@@ -59,13 +59,13 @@ int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id) {
 			case DBVT_DELETED:
 				return 1;
 			case DBVT_BYTE:
-				if(dbv->bVal == id->bVal)
+				if (dbv->bVal == id->bVal)
 					return 1;
 			case DBVT_WORD:
-				if(dbv->wVal == id->wVal)
+				if (dbv->wVal == id->wVal)
 					return 1;
 			case DBVT_DWORD:
-				if(dbv->dVal == id->dVal)
+				if (dbv->dVal == id->dVal)
 					return 1;
 				break;
 			case DBVT_ASCIIZ:
@@ -76,18 +76,18 @@ int Meta_EqualDBV(DBVARIANT *dbv, DBVARIANT *id) {
 				if (!wcscmp(dbv->pwszVal,id->pwszVal))
 					return 1;
 			case DBVT_BLOB:
-				if(dbv->cpbVal == id->cpbVal)
+				if (dbv->cpbVal == id->cpbVal)
 				{
-					for(i=dbv->cpbVal;res && i<=0;i--)
+					for (i=dbv->cpbVal;res && i<=0;i--)
 						res = (dbv->pbVal[i] == id->pbVal[i]);
-					if(res)
+					if (res)
 					{
 						return 1;
 					}
 				}
 				break;
 		} // end switch
-	} // end if(dbv.type == id.type)
+	} // end if (dbv.type == id.type)
 
 	return 0;
 }
@@ -119,7 +119,7 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 	{	// Scan the database and retrieve the field for each contact
 		if (!DBGetContactSetting(hUser,protocol,field,&dbv))
 		{
-			if(dbv.type == id->type)
+			if (dbv.type == id->type)
 			{	// If the id parameter and the value returned by the DBGetContactSetting
 				// are the same, this is the correct HANDLE, return it.
 				switch(dbv.type)
@@ -127,15 +127,15 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 					case DBVT_DELETED:
 						break;
 					case DBVT_BYTE:
-						if(dbv.bVal == id->bVal)
+						if (dbv.bVal == id->bVal)
 							return hUser;
 						break;
 					case DBVT_WORD:
-						if(dbv.wVal == id->wVal)
+						if (dbv.wVal == id->wVal)
 							return hUser;
 						break;
 					case DBVT_DWORD:
-						if(dbv.dVal == id->dVal)
+						if (dbv.dVal == id->dVal)
 							return hUser;
 						break;
 					case DBVT_ASCIIZ:
@@ -162,11 +162,11 @@ HANDLE Meta_GetHandle(const char *protocol, DBVARIANT *id)
 							break;
 						}
 					case DBVT_BLOB:
-						if(dbv.cpbVal == id->cpbVal)
+						if (dbv.cpbVal == id->cpbVal)
 						{
-							for(i=dbv.cpbVal;res && i<=0;i--)
+							for (i=dbv.cpbVal;res && i<=0;i--)
 								res = (dbv.pbVal[i] == id->pbVal[i]);
-							if(res)
+							if (res)
 							{
 								DBFreeVariant(&dbv);
 								return hUser;
@@ -201,29 +201,29 @@ int Meta_SetNick(char *proto)
 	ci.dwFlag = CNF_DISPLAY;
 	ci.hContact = NULL;
 	ci.szProto = proto;
-	if(CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci))
+	if (CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci))
 		return 1;
 	switch(ci.type)
 	{
 		case CNFT_BYTE:
-			if(DBWriteContactSettingByte(NULL,META_PROTO,"Nick",ci.bVal))
+			if (DBWriteContactSettingByte(NULL,META_PROTO,"Nick",ci.bVal))
 				return 1;
 			break;
 		case CNFT_WORD:
-			if(DBWriteContactSettingWord(NULL,META_PROTO,"Nick",ci.wVal))
+			if (DBWriteContactSettingWord(NULL,META_PROTO,"Nick",ci.wVal))
 				return 1;
 			break;
 		case CNFT_DWORD:
-			if(DBWriteContactSettingDword(NULL,META_PROTO,"Nick",ci.dVal))
+			if (DBWriteContactSettingDword(NULL,META_PROTO,"Nick",ci.dVal))
 				return 1;
 			break;
 		case CNFT_ASCIIZ:
-			if(DBWriteContactSettingString(NULL,META_PROTO,"Nick",ci.pszVal))
+			if (DBWriteContactSettingString(NULL,META_PROTO,"Nick",ci.pszVal))
 				return 1;
 			mir_free(ci.pszVal);
 			break;
 		default:
-			if(DBWriteContactSettingString(NULL,META_PROTO,"Nick",(char *)Translate("Sender")))
+			if (DBWriteContactSettingString(NULL,META_PROTO,"Nick",(char *)Translate("Sender")))
 				return 1;
 			break;
 	}
@@ -264,20 +264,20 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 
 	// Get the login of the subcontact
 	field = (char *)CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-	if(DBGetContactSetting(src,proto,field,&cws.value)) {
+	if (DBGetContactSetting(src,proto,field,&cws.value)) {
 		MessageBox(0, Translate("Could not get unique id of contact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Check that is is 'on the list'
-	if(DBGetContactSettingByte(src, "CList", "NotOnList", 0) == 1) {
+	if (DBGetContactSettingByte(src, "CList", "NotOnList", 0) == 1) {
 		MessageBox(0, Translate("Contact is 'Not on List' - please add the contact to your contact list before assigning."), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		DBFreeVariant(&cws.value);
 		return FALSE;
 	}
 
 	num_contacts++;
-	if(num_contacts >= MAX_CONTACTS) {
+	if (num_contacts >= MAX_CONTACTS) {
 		MessageBox(0, Translate("MetaContact is full"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		DBFreeVariant(&cws.value);
 		return FALSE;
@@ -287,7 +287,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	strcpy(buffer, "Protocol");
 	strcat(buffer, _itoa((int)(num_contacts -1), buffer2, 10));
 
-	if(DBWriteContactSettingString(dest, META_PROTO, buffer, proto)) {
+	if (DBWriteContactSettingString(dest, META_PROTO, buffer, proto)) {
 		MessageBox(0, Translate("Could not write contact protocol to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		DBFreeVariant(&cws.value);
 		return FALSE;
@@ -300,7 +300,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	cws.szModule=META_PROTO;
 	cws.szSetting=buffer;
 
-	if(CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)dest,(LPARAM)&cws)) {
+	if (CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)dest,(LPARAM)&cws)) {
 		MessageBox(0, Translate("Could not write unique id of contact to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		DBFreeVariant(&cws.value);
 		return FALSE;
@@ -317,7 +317,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		cws.szModule=META_PROTO;
 		cws.szSetting=buffer;
 
-		if(CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)dest,(LPARAM)&cws)) {
+		if (CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)dest,(LPARAM)&cws)) {
 			MessageBox(0, Translate("Could not write nickname of contact to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 			return FALSE;
 		}
@@ -334,7 +334,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		strcpy(buffer, "CListName");
 		strcat(buffer, _itoa((int)(num_contacts - 1), buffer2, 10));
 
-		if(wname && strncmp(name, (char *)wname, strlen(name)) != 0) {
+		if (wname && strncmp(name, (char *)wname, strlen(name)) != 0) {
 			DBWriteContactSettingWString(dest, META_PROTO, buffer, wname);
 		} else
 			DBWriteContactSettingString(dest, META_PROTO, buffer, name);
@@ -349,7 +349,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	// write the status
 	strcpy(buffer, "Status");
 	strcat(buffer, _itoa((int)(num_contacts - 1), buffer2, 10));
-	if(DBWriteContactSettingWord(dest, META_PROTO, buffer, status)) {
+	if (DBWriteContactSettingWord(dest, META_PROTO, buffer, status)) {
 		MessageBox(0, Translate("Could not write contact status to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
@@ -357,7 +357,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	// write the handle
 	strcpy(buffer, "Handle");
 	strcat(buffer, _itoa((int)(num_contacts - 1), buffer2, 10));
-	if(DBWriteContactSettingDword(dest, META_PROTO, buffer, (DWORD)src)) {
+	if (DBWriteContactSettingDword(dest, META_PROTO, buffer, (DWORD)src)) {
 		MessageBox(0, Translate("Could not write contact handle to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
@@ -366,7 +366,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	strcpy(buffer, "StatusString");
 	strcat(buffer, _itoa((int)(num_contacts - 1), buffer2, 10));
 	Meta_GetStatusString(status, buffer2, 512);
-	if(DBWriteContactSettingString(dest, META_PROTO, buffer, buffer2)) {
+	if (DBWriteContactSettingString(dest, META_PROTO, buffer, buffer2)) {
 		MessageBox(0, Translate("Could not write contact status string to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
@@ -377,30 +377,30 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		CallService( MS_PROTO_ADDTOCONTACT, (WPARAM)src, ( LPARAM )META_FILTER );
 
 	// Write the link in the contact
-	if(DBWriteContactSettingDword(src,META_PROTO,META_LINK,metaID)) {
+	if (DBWriteContactSettingDword(src,META_PROTO,META_LINK,metaID)) {
 		MessageBox(0, Translate("Could not write MetaContact id to contact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Write the contact number in the contact
-	if(DBWriteContactSettingDword(src,META_PROTO,"ContactNumber",(DWORD)(num_contacts - 1))) {
+	if (DBWriteContactSettingDword(src,META_PROTO,"ContactNumber",(DWORD)(num_contacts - 1))) {
 		MessageBox(0, Translate("Could not write MetaContact contact number to contact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Write the handle in the contact
-	if(DBWriteContactSettingDword(src,META_PROTO,"Handle",(DWORD)dest)) {
+	if (DBWriteContactSettingDword(src,META_PROTO,"Handle",(DWORD)dest)) {
 		MessageBox(0, Translate("Could not write MetaContact contact number to contact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// update count of contacts
-	if(DBWriteContactSettingDword(dest,META_PROTO,"NumContacts",num_contacts)) {
+	if (DBWriteContactSettingDword(dest,META_PROTO,"NumContacts",num_contacts)) {
 		MessageBox(0, Translate("Could not write contact count to MetaContact"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
-	if(set_as_default) {
+	if (set_as_default) {
 		DBWriteContactSettingDword(dest, META_PROTO, "Default", (WORD)(num_contacts - 1));
 		NotifyEventHooks(hEventDefaultChanged, (WPARAM)dest, (LPARAM)src);
 	}
@@ -415,7 +415,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 
 	// if the new contact is the most online contact with avatar support, get avatar info
 	most_online = Meta_GetMostOnlineSupporting(dest, PFLAGNUM_4, PF4_AVATARS);
-	if(most_online == src) {
+	if (most_online == src) {
 		PROTO_AVATAR_INFORMATION AI;
 
 		AI.cbSize = sizeof(AI);
@@ -431,11 +431,11 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	Meta_SetGroup(src);
 
 	// copy history
-	if(options.copy_subcontact_history)
+	if (options.copy_subcontact_history)
 		copyHistory(src, dest);
 
 	// Ignore status if the option is on
-	if(options.suppress_status)
+	if (options.suppress_status)
 		CallService(MS_IGNORE_IGNORE, (WPARAM)src, (WPARAM)IGNOREEVENT_USERONLINE);
 
 	// copy other data
@@ -477,36 +477,36 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 	}
 
 	// if the default is beyond the end of the list (eek!) return null
-	if(default_contact_number >= (num_contacts = DBGetContactSettingDword(hMeta, META_PROTO, "NumContacts", 0)))
+	if (default_contact_number >= (num_contacts = DBGetContactSettingDword(hMeta, META_PROTO, "NumContacts", 0)))
 		return NULL;
 
 	most_online_contact = Meta_GetContactHandle(hMeta, default_contact_number);
 	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online_contact, 0);
 	caps = proto ? CallProtoService(proto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
-	if(proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
+	if (proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
 	// we are forced to do use default for sending - '-1' capability indicates no specific capability, but respect 'Force Default'
-	if(proto && DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0) && capability != 0 && (capability == -1 || (caps & capability) == capability)) // capability is 0 when we're working out status
+	if (proto && DBGetContactSettingByte(hMeta, META_PROTO, "ForceDefault", 0) && capability != 0 && (capability == -1 || (caps & capability) == capability)) // capability is 0 when we're working out status
 		return most_online_contact;
 
 	// a subcontact is being temporarily 'forced' to do sending
 	if ((most_online_contact = (HANDLE)DBGetContactSettingDword(hMeta, META_PROTO, "ForceSend", 0))) {
 		caps = proto ? CallProtoService(proto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
-		if(proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
-		if(proto && (caps & capability) == capability && capability != 0) // capability is 0 when we're working out status
+		if (proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
+		if (proto && (caps & capability) == capability && capability != 0) // capability is 0 when we're working out status
 			return most_online_contact;
 	}
 
 	most_online_contact = Meta_GetContactHandle(hMeta, default_contact_number);
 	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online_contact, 0);
-	if(proto && CallProtoService(proto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
+	if (proto && CallProtoService(proto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
 		caps = proto ? CallProtoService(proto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
-		if(proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
-		if(proto && (capability == -1 || (caps & capability) == capability)) {
+		if (proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
+		if (proto && (capability == -1 || (caps & capability) == capability)) {
 			most_online_status = DBGetContactSettingWord(most_online_contact, proto, "Status", ID_STATUS_OFFLINE);
 
 			// if our default is not offline, and option to use default is set - return default
 			// and also if our default is online, return it
-			if(most_online_status == ID_STATUS_ONLINE || (most_online_status != ID_STATUS_OFFLINE && options.always_use_default)) {
+			if (most_online_status == ID_STATUS_ONLINE || (most_online_status != ID_STATUS_OFFLINE && options.always_use_default)) {
 				return most_online_contact;
 			}
 		} else
@@ -516,8 +516,8 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 
 	most_online_proto = proto;
 	// otherwise, check all the subcontacts for the one closest to the ONLINE state which supports the required capability
-	for(i = 0; i < num_contacts; i++) {
-		if(i == default_contact_number) // already checked that (i.e. initial value of most_online_contact and most_online_status are those of the default contact)
+	for (i = 0; i < num_contacts; i++) {
+		if (i == default_contact_number) // already checked that (i.e. initial value of most_online_contact and most_online_status are those of the default contact)
 			continue;
 
 		hContact = Meta_GetContactHandle(hMeta, i);
@@ -527,19 +527,19 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 			continue;
 
 		caps = proto ? CallProtoService(proto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
-		if(proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
-		if(proto && (capability == -1 || (caps & capability) == capability)) {
+		if (proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
+		if (proto && (capability == -1 || (caps & capability) == capability)) {
 
 			status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
 
-			if(status == ID_STATUS_ONLINE) {
+			if (status == ID_STATUS_ONLINE) {
 				most_online_contact = hContact;
 				most_online_proto = proto;
 				return most_online_contact;
-			} else if(status <= ID_STATUS_OFFLINE) // status below ID_STATUS_OFFLINE is a connecting status
+			} else if (status <= ID_STATUS_OFFLINE) // status below ID_STATUS_OFFLINE is a connecting status
 				continue;
 			else {
-				if(GetRealPriority(proto, status) < GetRealPriority(most_online_proto, most_online_status)) {
+				if (GetRealPriority(proto, status) < GetRealPriority(most_online_proto, most_online_status)) {
 					most_online_status = status;
 					most_online_contact = hContact;
 					most_online_proto = proto;
@@ -549,9 +549,9 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 	}
 
 	// no online contacts? if we're trying to message, use 'send offline' contact
-	if(most_online_status == ID_STATUS_OFFLINE && capability == PF1_IM) {
+	if (most_online_status == ID_STATUS_OFFLINE && capability == PF1_IM) {
 		HANDLE hOffline = Meta_GetContactHandle(hMeta, DBGetContactSettingDword(hMeta, META_PROTO, "OfflineSend", (DWORD)-1));
-		if(hOffline)
+		if (hOffline)
 			most_online_contact = hOffline;
 	}
 
@@ -563,7 +563,7 @@ int Meta_GetContactNumber(HANDLE hContact) {
 }
 
 BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2) {
-	if(dbv1->type != dbv2->type) return FALSE;
+	if (dbv1->type != dbv2->type) return FALSE;
 
 	switch(dbv1->type) {
 	case DBVT_BYTE:
@@ -597,36 +597,36 @@ BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2) {
 	BOOL use_default = FALSE;
 	int source_contact = (use_default ? default_contact : most_online);
 
-	if(source_contact < 0 || source_contact >= num_contacts) return;
+	if (source_contact < 0 || source_contact >= num_contacts) return;
 
-	for(i = 0; i < num_settings; i++) {
+	for (i = 0; i < num_settings; i++) {
 		bDataWritten = FALSE;
-		for(j = 0; j < num_contacts && !bDataWritten; j++) {
+		for (j = 0; j < num_contacts && !bDataWritten; j++) {
 			// do source (most online) first
-			if(j == 0) 
+			if (j == 0) 
 				hContact = Meta_GetContactHandle(hMeta, source_contact);
-			else if(j <= source_contact)
+			else if (j <= source_contact)
 				hContact = Meta_GetContactHandle(hMeta, j - 1);
 			else
 				hContact = Meta_GetContactHandle(hMeta, j);
 
-			if(hContact) {
+			if (hContact) {
 				if (!module) {
 					used_mod = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 					if (!used_mod) continue; // next contact
 				} else
 					used_mod = module;
 
-				if(j == 0 && strcmp(settings[i], "MirVer") == 0) { //Always reset MirVer
+				if (j == 0 && strcmp(settings[i], "MirVer") == 0) { //Always reset MirVer
 					DBDeleteContactSetting(hMeta, (module ? used_mod : META_PROTO), settings[i]);
 				}
 					
 				got_val = !MyDBGetContactSetting(hContact, used_mod, settings[i], &dbv2);
-				if(got_val) {
+				if (got_val) {
 					free = !MyDBGetContactSetting(hMeta, (module ? used_mod : META_PROTO), settings[i], &dbv1);
 					
-					if(strcmp(settings[i], "MirVer") == 0) {
-						if(DBGetContactSettingWord(hContact, used_mod, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
+					if (strcmp(settings[i], "MirVer") == 0) {
+						if (DBGetContactSettingWord(hContact, used_mod, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 							if (!free || (dbv1.pszVal == NULL || strcmp(dbv1.pszVal, "") == 0 || strlen(dbv1.pszVal) < 2)) {
 								MyDBWriteContactSetting(hMeta, (module ? used_mod : META_PROTO), settings[i], &dbv2);
 								bDataWritten = TRUE; //only break if found something to copy
@@ -636,11 +636,11 @@ BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2) {
 					} else {
 						if (!free || !dbv_same(&dbv1, &dbv2)) {
 							MyDBWriteContactSetting(hMeta, (module ? used_mod : META_PROTO), settings[i], &dbv2);
-							if(dbv2.type == DBVT_ASCIIZ || dbv2.type == DBVT_UTF8) {
-								if(dbv2.pszVal != NULL && strcmp(dbv2.pszVal, "") != 0)
+							if (dbv2.type == DBVT_ASCIIZ || dbv2.type == DBVT_UTF8) {
+								if (dbv2.pszVal != NULL && strcmp(dbv2.pszVal, "") != 0)
 									bDataWritten = TRUE; //only break if found something to copy
-							} else if(dbv2.type == DBVT_WCHAR) {
-								if(dbv2.pwszVal != 0 && wcscmp(dbv2.pwszVal, L"") != 0)
+							} else if (dbv2.type == DBVT_WCHAR) {
+								if (dbv2.pwszVal != 0 && wcscmp(dbv2.pwszVal, L"") != 0)
 									bDataWritten = TRUE; //only break if found something to copy
 							} else
 								bDataWritten = TRUE; //only break if found something to copy
@@ -650,7 +650,7 @@ BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2) {
 
 					}		
 					DBFreeVariant(&dbv2);
-					if(free)DBFreeVariant(&dbv1);
+					if (free)DBFreeVariant(&dbv1);
 				} 
 			}
 		}
@@ -695,17 +695,17 @@ void CopyStatusData(HANDLE hMeta) {
 	BOOL bDoneStatus = FALSE, bDoneXStatus = FALSE;
 	int i;
 
-	for(i = 0; i < num_contacts; i++) {
-		if(i == 0) 
+	for (i = 0; i < num_contacts; i++) {
+		if (i == 0) 
 			hContact = Meta_GetContactHandle(hMeta, most_online);
-		else if(i <= most_online)
+		else if (i <= most_online)
 			hContact = Meta_GetContactHandle(hMeta, i - 1);
 		else
 			hContact = Meta_GetContactHandle(hMeta, i);
 
 		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
-		if(proto && DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE) == status) {
+		if (proto && DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE) == status) {
 			if (!bDoneStatus && !MyDBGetContactSetting(hContact, "CList", "StatusMsg", &dbv)) {
 				MyDBWriteContactSetting(hMeta, "CList", "StatusMsg", &dbv);
 				DBFreeVariant(&dbv);
@@ -728,7 +728,7 @@ void CopyStatusData(HANDLE hMeta) {
 			}
 		}
 
-		if(bDoneStatus && bDoneXStatus) break;
+		if (bDoneStatus && bDoneXStatus) break;
 	}
 
 	if (!bDoneStatus) DBDeleteContactSetting(hMeta, "CList", "StatusMsg");
@@ -740,14 +740,14 @@ void CopyStatusData(HANDLE hMeta) {
 }
 
 void Meta_CopyData(HANDLE hMeta) {
-	if(options.copydata) {
+	if (options.copydata) {
 		CopyStatusData(hMeta);
 
 		copy_settings_array(hMeta, 0, ProtoSettings, 25);
 		copy_settings_array(hMeta, "mBirthday", UserInfoSettings, 3);
 		copy_settings_array(hMeta, "ContactPhoto", ContactPhotoSettings, 5);
 
-		if(options.copy_userinfo) 
+		if (options.copy_userinfo) 
 			copy_settings_array(hMeta, "UserInfo", UserInfoSettings, 71);
 	}
 }
@@ -757,7 +757,7 @@ HANDLE Meta_GetContactHandle(HANDLE hMeta, int contact_number) {
 	char buffer[512], buffer2[512];
 	int num_contacts = DBGetContactSettingDword(hMeta, META_PROTO, "NumContacts", 0);
 
-	if(contact_number >= num_contacts || contact_number < 0) return 0;
+	if (contact_number >= num_contacts || contact_number < 0) return 0;
 	
 	strcpy(buffer, "Handle");
 	strcat(buffer, _itoa(contact_number, buffer2, 10));
@@ -784,7 +784,7 @@ int Meta_SetHandles(void) {
 			strcat(nick_buffer, ", contact num: ");
 			strcat(nick_buffer, _itoa(contact_number, buffer2, 10));
 
-			if(contact_number < 0) {
+			if (contact_number < 0) {
 				// problem!
 				MessageBox(0, "Subcontact contact number < 0 - deleting MetaContact", nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
@@ -804,7 +804,7 @@ int Meta_SetHandles(void) {
 			hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 
 			while ( hContact2 != NULL ) {
-				if(DBGetContactSettingDword(hContact2,META_PROTO,META_ID,(DWORD)-1) == meta_id) {
+				if (DBGetContactSettingDword(hContact2,META_PROTO,META_ID,(DWORD)-1) == meta_id) {
 					found = TRUE;
 					
 					// set handle
@@ -815,7 +815,7 @@ int Meta_SetHandles(void) {
 						(unsigned char)(DBGetContactSettingByte(hContact2, META_PROTO, "ContactCountCheck", 0) + 1));
 
 					num_contacts = DBGetContactSettingDword(hContact2, META_PROTO, "NumContacts", (DWORD)-1);
-					if(contact_number >= 0 && contact_number < num_contacts) {
+					if (contact_number >= 0 && contact_number < num_contacts) {
 						// set metacontact's handle to us
 						strcpy(buffer, "Handle");
 						strcat(buffer, _itoa((int)contact_number, buffer2, 10));
@@ -851,7 +851,7 @@ int Meta_SetHandles(void) {
 				
 				CallService(MS_PROTO_REMOVEFROMCONTACT, (WPARAM)hContact, (LPARAM)META_FILTER);
 				// stop ignoring, if we were
-				if(options.suppress_status)
+				if (options.suppress_status)
 					CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 				
 			} else {
@@ -876,7 +876,7 @@ int Meta_SetHandles(void) {
 			contact_number = DBGetContactSettingDword(hContact, META_PROTO, "Default", -1);
 			num_contacts = DBGetContactSettingDword(hContact, META_PROTO, "NumContacts", (DWORD)-1);
 
-			if(num_contacts < 0) {
+			if (num_contacts < 0) {
 				// problem
 				MessageBox(0, "MetaContact number of contacts < 0 - deleting MetaContact", nick_buffer, MB_OK | MB_ICONERROR);
 				//CallService(MS_DB_CONTACT_DELETE, (WPARMA)hContact, 0);
@@ -887,7 +887,7 @@ int Meta_SetHandles(void) {
 				//return 1;
 			}
 			
-			if(contact_number < 0 || contact_number >= num_contacts) {
+			if (contact_number < 0 || contact_number >= num_contacts) {
 				// problem
 				MessageBox(0, "MetaContact default contact number out of range - deleting MetaContact", nick_buffer, MB_OK | MB_ICONERROR);
 				hNextContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
@@ -911,9 +911,9 @@ int Meta_SetHandles(void) {
 			strcat(nick_buffer, _itoa(meta_id, buffer2, 10));
 
 			num_contacts = DBGetContactSettingByte(hContact, META_PROTO, "ContactCountCheck", -2);
-			if(num_contacts != (DWORD)DBGetContactSettingDword(hContact, META_PROTO, "NumContacts", (DWORD)-1)) {
+			if (num_contacts != (DWORD)DBGetContactSettingDword(hContact, META_PROTO, "NumContacts", (DWORD)-1)) {
 				// mismatch
-				//if(MessageBox(0, Translate("MetaContact corrupted - the number of subcontacts is incorrect.\nDelete MetaContact?"), nick_buffer, MB_YESNO | MB_ICONERROR) == IDYES) {
+				//if (MessageBox(0, Translate("MetaContact corrupted - the number of subcontacts is incorrect.\nDelete MetaContact?"), nick_buffer, MB_YESNO | MB_ICONERROR) == IDYES) {
 				//	Meta_Delete((WPARAM)hContact, (LPARAM)1); // second param prevents confirm dialog
 				//} else
 				//	return 1;
@@ -950,7 +950,7 @@ int Meta_HideLinkedContacts(void) {
 	// (sometimes protocol server side groups are to blame - msn and icq)
 	if (!meta_group_hack_disabled) do {
 		group_name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-		if(group_name && !strcmp(group_name, META_HIDDEN_GROUP)) {
+		if (group_name && !strcmp(group_name, META_HIDDEN_GROUP)) {
 			// disabled because it shows a message box
 			//CallService(MS_CLIST_GROUPDELETE, (WPARAM)hGroup, 0);
 			MessageBox(0, Translate("The 'MetaContacts Hidden Group' has been added to your contact list.\n"
@@ -988,9 +988,9 @@ int Meta_HideLinkedContacts(void) {
 			hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 
 			while ( hContact2 != NULL ) {
-				if(DBGetContactSettingDword(hContact2,META_PROTO,META_ID,(DWORD)-1) == meta_id) {
+				if (DBGetContactSettingDword(hContact2,META_PROTO,META_ID,(DWORD)-1) == meta_id) {
 					num_contacts = DBGetContactSettingDword(hContact2, META_PROTO, "NumContacts", (DWORD)-1);
-					if(contact_number >= 0 && contact_number < num_contacts) {
+					if (contact_number >= 0 && contact_number < num_contacts) {
 
 						if (!proto)
 							status = ID_STATUS_OFFLINE;
@@ -1003,14 +1003,14 @@ int Meta_HideLinkedContacts(void) {
 						DBWriteContactSettingWord(hContact2, META_PROTO, buffer, status);
 
 						// update metacontact's record of nick for this contact
-						if(proto && !DBGetContactSetting(hContact, proto, "Nick", &dbv)) {
+						if (proto && !DBGetContactSetting(hContact, proto, "Nick", &dbv)) {
 							strcpy(buffer, "Nick");
 							strcat(buffer, _itoa(contact_number, buffer2, 10));
 							MyDBWriteContactSetting(hContact2, META_PROTO, buffer, &dbv);
 							
 							strcpy(buffer, "CListName");
 							strcat(buffer, _itoa(contact_number, buffer2, 10));
-							if(DBGetContactSetting(hContact, "CList", "MyHandle", &dbv2)) {
+							if (DBGetContactSetting(hContact, "CList", "MyHandle", &dbv2)) {
 								MyDBWriteContactSetting(hContact2, META_PROTO, buffer, &dbv);
 							} else {
 								MyDBWriteContactSetting(hContact2, META_PROTO, buffer, &dbv2);
@@ -1032,7 +1032,7 @@ int Meta_HideLinkedContacts(void) {
 				hContact2 = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact2, 0 );
 			}
 
-			if(options.suppress_status)
+			if (options.suppress_status)
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 		}
 
@@ -1042,7 +1042,7 @@ int Meta_HideLinkedContacts(void) {
 	// do metacontacts after handles set properly above
 	hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 	while ( hContact != NULL ) {
-		if(DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
+		if (DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
 			// is a meta contact
 			HANDLE hMostOnline = Meta_GetMostOnline(hContact); // set nick
 			Meta_CopyContactNick(hContact, hMostOnline);
@@ -1065,7 +1065,7 @@ int Meta_UnhideLinkedContacts(void) {
 	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 
 	while ( hContact != NULL ) {
-		if(DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// has a link - unhide it
 			// restore old group
 			Meta_RestoreGroup(hContact);			
@@ -1083,21 +1083,21 @@ int Meta_HideMetaContacts(int hide) {
 	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 
 	// set status suppression
-	if(hide) Meta_SuppressStatus(FALSE);
+	if (hide) Meta_SuppressStatus(FALSE);
 	else Meta_SuppressStatus(options.suppress_status);
 
 	while ( hContact != NULL ) {
-		if(DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
+		if (DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
 			// is a meta contact
 
-			if(hide)
+			if (hide)
 				DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
 			else
 				DBDeleteContactSetting(hContact, "CList", "Hidden");
 
-		} else if(DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		} else if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// when metacontacts are hidden, show subcontacts, and vice versa
-			if(hide) {
+			if (hide) {
 				Meta_RestoreGroup(hContact);
 			} else {
 				Meta_SetGroup(hContact);
@@ -1114,16 +1114,16 @@ int Meta_HideMetaContacts(int hide) {
 
 void Meta_RestoreGroup(HANDLE hContact) {
 
-	if(meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
+	if (meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
 
 	// the existence of this service means that clist_meta_mw is active and will do the hiding for us
-	if(ServiceExists(MS_CLUI_METASUPPORT)) return;
+	if (ServiceExists(MS_CLUI_METASUPPORT)) return;
 
 	// show it anyway - users are reporting contacts removed from meta remain 'hidden'
 	// possible suspect - server side groups cause hidden group hack to fail, users hide contacts via clist->delete->hide option
 	DBDeleteContactSetting(hContact, META_PROTO, "Hidden");
 
-	if(DBGetContactSettingByte(hContact, META_PROTO, "Hidden", 0) == 1)
+	if (DBGetContactSettingByte(hContact, META_PROTO, "Hidden", 0) == 1)
 	{
 		// if we hid it, unhide it
 		DBDeleteContactSetting(hContact, META_PROTO, "Hidden");
@@ -1141,14 +1141,14 @@ void Meta_RestoreGroup(HANDLE hContact) {
 				BOOL found = FALSE;
 				do {
 					name = (char *)CallService(MS_CLIST_GROUPGETNAME, (WPARAM)hGroup, 0);
-					if(name && !strcmp(name, cws.value.pszVal)) {
+					if (name && !strcmp(name, cws.value.pszVal)) {
 						found = TRUE;
 						break;
 					}
 					hGroup++;
 				} while(name);
 
-				if(found) {
+				if (found) {
 					cws.szModule = "CList";
 					cws.szSetting = "Group";
 					CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
@@ -1157,7 +1157,7 @@ void Meta_RestoreGroup(HANDLE hContact) {
 					// put back into metacontact's group
 					DBVARIANT dbv;
 					HANDLE hMeta = (HANDLE)DBGetContactSettingDword(hContact, META_PROTO, "Handle", 0);
-					if(hMeta && !MyDBGetContactSetting(hMeta, "CList", "Group", &dbv)) {
+					if (hMeta && !MyDBGetContactSetting(hMeta, "CList", "Group", &dbv)) {
 						MyDBWriteContactSetting(hContact, "CList", "Group", &dbv);
 						DBFreeVariant(&dbv);
 					} else
@@ -1184,16 +1184,16 @@ void Meta_RestoreGroup(HANDLE hContact) {
 void Meta_SetGroup(HANDLE hContact) {
 	char *proto, *uid;
 
-	if(meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
+	if (meta_group_hack_disabled) return; // clist has called api function to disable group hack - yay!
 
 	// the existence of this service means that clist_meta_mw is active and will do the hiding for us
-	if(ServiceExists(MS_CLUI_METASUPPORT)) return;
+	if (ServiceExists(MS_CLUI_METASUPPORT)) return;
 
 	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (proto)
 		uid   = (char *)CallProtoService(proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 
-	if(proto && uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND && !strcmp(JABBER_UNIQUE_ID_SETTING, uid)) {
+	if (proto && uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND && !strcmp(JABBER_UNIQUE_ID_SETTING, uid)) {
 		// if it's a jabber contact, hide it, and record the fact that it was us who did
 		DBWriteContactSettingByte(hContact, META_PROTO, "Hidden", 1);
 		DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
@@ -1261,9 +1261,9 @@ int Meta_SuppressStatus(BOOL suppress) {
 	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
 
 	while ( hContact != NULL ) {
-		if(DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// is a subcontact
-			if(suppress)
+			if (suppress)
 				CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
 			else
 				CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, (WPARAM)IGNOREEVENT_USERONLINE);
@@ -1279,7 +1279,7 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 	DBVARIANT dbv, dbv_proto;
 	char *proto;
 
-	if(options.lockHandle) {
+	if (options.lockHandle) {
 		hContact = Meta_GetContactHandle(hMeta, 0);
 	}
 
@@ -1290,7 +1290,7 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 	if (!DBGetContactSetting(hContact, "Protocol", "p", &dbv_proto)) {
 
 		proto = dbv_proto.pszVal;
-		if(options.clist_contact_name == CNNT_NICK && proto) {
+		if (options.clist_contact_name == CNNT_NICK && proto) {
 			if (!MyDBGetContactSetting(hContact, proto, "Nick", &dbv)) {
 				MyDBWriteContactSetting(hMeta, META_PROTO, "Nick", &dbv);
 				DBFreeVariant(&dbv);
@@ -1299,12 +1299,12 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 				DBFreeVariant(&dbv_proto);
 				return 0;
 			}
-		} else if(options.clist_contact_name == CNNT_DISPLAYNAME) {
+		} else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
 			char *name = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
 			wchar_t *wname = (wchar_t *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_UNICODE);
 	
-			if(name && strcmp(name, Translate("(Unknown Contact)")) != 0) {
-				if(wname && strncmp(name, (char *)wname, strlen(name)) != 0) {
+			if (name && strcmp(name, Translate("(Unknown Contact)")) != 0) {
+				if (wname && strncmp(name, (char *)wname, strlen(name)) != 0) {
 					DBVARIANT dbv;
 					dbv.pwszVal = wname;
 					dbv.type = DBVT_WCHAR;
@@ -1327,7 +1327,7 @@ int Meta_SetAllNicks() {
 	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 ), most_online;
 
 	while ( hContact != NULL ) {
-		if(DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
+		if (DBGetContactSettingDword(hContact,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1) {
 			most_online = Meta_GetMostOnline(hContact);
 			Meta_CopyContactNick(hContact, most_online);
 			Meta_FixStatus(hContact);
@@ -1340,7 +1340,7 @@ int Meta_SetAllNicks() {
 }
 
 int Meta_IsHiddenGroup(const char *group_name) {
-	if(group_name && !strcmp(group_name, META_HIDDEN_GROUP)) return 1;
+	if (group_name && !strcmp(group_name, META_HIDDEN_GROUP)) return 1;
 
 	return 0;
 }
@@ -1360,11 +1360,11 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok2 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	}
-	if(ok2) {
+	if (ok2) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
 	}
@@ -1376,11 +1376,11 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	}
-	if(ok2) {
+	if (ok2) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
 	}
@@ -1392,11 +1392,11 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok2 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	}
-	if(ok2) {
+	if (ok2) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
 	}
@@ -1408,12 +1408,12 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok2 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		DBDeleteContactSetting(hMeta, META_PROTO, buff2);
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	}
-	if(ok2) {
+	if (ok2) {
 		DBDeleteContactSetting(hMeta, META_PROTO, buff1);
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
@@ -1426,13 +1426,13 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok2 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	} else {
 		DBDeleteContactSetting(hMeta, META_PROTO, buff2);
 	}
-	if(ok2) {
+	if (ok2) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
 	} else {
@@ -1446,13 +1446,13 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok2 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	} else {
 		DBDeleteContactSetting(hMeta, META_PROTO, buff2);
 	}
-	if(ok2) {
+	if (ok2) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
 	} else {
@@ -1466,13 +1466,13 @@ int Meta_SwapContacts(HANDLE hMeta, DWORD contact_number1, DWORD contact_number2
 	strcat(buff2, _itoa(contact_number2, buff22, 10));
 	ok1 = !MyDBGetContactSetting(hMeta, META_PROTO, buff1, &dbv1);
 	ok2 = !MyDBGetContactSetting(hMeta, META_PROTO, buff2, &dbv2);
-	if(ok1) {
+	if (ok1) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff2, &dbv1);
 		DBFreeVariant(&dbv1);
 	} else {
 		DBDeleteContactSetting(hMeta, META_PROTO, buff2);
 	}
-	if(ok2) {
+	if (ok2) {
 		MyDBWriteContactSetting(hMeta, META_PROTO, buff1, &dbv2);
 		DBFreeVariant(&dbv2);
 	} else {
@@ -1544,15 +1544,15 @@ void copyHistory(HANDLE hContactFrom,HANDLE hContactTo)
 			break; 
 
 		// i.e. optoins.days_history == 0;
-		if(time_now == earliest_time) earliest_time = dbei.timestamp;
+		if (time_now == earliest_time) earliest_time = dbei.timestamp;
 
-		if(dbei.timestamp < earliest_time)
+		if (dbei.timestamp < earliest_time)
 			continue;
 
-		if(dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE && dbei.eventType != EVENTTYPE_URL)
+		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE && dbei.eventType != EVENTTYPE_URL)
 			continue;
 
-		if(time_now > earliest_time) { // just in case!
+		if (time_now > earliest_time) { // just in case!
 			SendMessage(prog, PBM_SETPOS, (WPARAM)(int)(100.0 * (dbei.timestamp - earliest_time) / (time_now - earliest_time)), 0);	
 			UpdateWindow(progress_dialog);
 		}
@@ -1567,7 +1567,7 @@ void copyHistory(HANDLE hContactFrom,HANDLE hContactTo)
 	//CallService(MS_DB_SETSAFETYMODE, (WPARAM)TRUE, 0);
 
 	DestroyWindow(progress_dialog);
-	if(buffer) mir_free(buffer);
+	if (buffer) mir_free(buffer);
 	//mir_free(id);
 }
 
@@ -1608,19 +1608,19 @@ void Meta_RemoveHistory(HANDLE hContactRemoveFrom, HANDLE hContactSource) {
 
 		if (CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei)) break; 
 
-		if(dbei.timestamp < earliest_time)
+		if (dbei.timestamp < earliest_time)
 			earliest_time = dbei.timestamp;
 
-		if(dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE && dbei.eventType != EVENTTYPE_URL) {
+		if (dbei.eventType != EVENTTYPE_MESSAGE && dbei.eventType != EVENTTYPE_FILE && dbei.eventType != EVENTTYPE_URL) {
 			hDbEvent=(HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0); 
 			continue;
 		}
 
-		if(dbei.cbBlob >= id_length && strncmp((char *)(dbei.pBlob + dbei.cbBlob - id_length), id, id_length - 1) == 0) {
+		if (dbei.cbBlob >= id_length && strncmp((char *)(dbei.pBlob + dbei.cbBlob - id_length), id, id_length - 1) == 0) {
 			// event is tagged with source contact id - remove
 			HANDLE hDbEventNext;
 
-			if(time_now > earliest_time) { // just in case
+			if (time_now > earliest_time) { // just in case
 				SendMessage(prog, PBM_SETPOS, (WPARAM)(int)(100.0 * (dbei.timestamp - earliest_time) / (time_now - earliest_time)), 0);	
 				UpdateWindow(progress_dialog);
 			}
@@ -1636,7 +1636,7 @@ void Meta_RemoveHistory(HANDLE hContactRemoveFrom, HANDLE hContactSource) {
 	//CallService(MS_DB_SETSAFETYMODE, (WPARAM)TRUE, 0);
 
 	DestroyWindow(progress_dialog);
-	if(buffer) mir_free(buffer);
+	if (buffer) mir_free(buffer);
 	mir_free(id);
 }
 
@@ -1681,7 +1681,7 @@ char *Meta_GetUniqueIdentifier(HANDLE hContact, DWORD *pused) {
 	DBFreeVariant(&dbv);
 
 	strncpy(id + used, buff, 256 - used);
-	if(used) {
+	if (used) {
 		*pused = (DWORD)(used + strlen(buff) + 1);
 		if (*pused > 256) *pused = 256;
 	}
@@ -1691,9 +1691,9 @@ char *Meta_GetUniqueIdentifier(HANDLE hContact, DWORD *pused) {
 */
 void Meta_FixStatus(HANDLE hMeta) {
 	HANDLE most_online = Meta_GetMostOnlineSupporting(hMeta, PFLAGNUM_1, 0);
-	if(most_online) {
+	if (most_online) {
 		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
-		if(proto) {
+		if (proto) {
 			WORD status = (WORD)DBGetContactSettingWord(most_online, proto, "Status", (WORD)ID_STATUS_OFFLINE);
 			DBWriteContactSettingWord(hMeta, META_PROTO, "Status", status);
 		} else 
@@ -1702,7 +1702,7 @@ void Meta_FixStatus(HANDLE hMeta) {
 		DBWriteContactSettingWord(hMeta, META_PROTO, "Status", (WORD)ID_STATUS_OFFLINE);
 
 	// trigger setting changed in mw_clist to reset extra icons
-	if(ServiceExists(MS_CLIST_EXTRA_SET_ICON)) {
+	if (ServiceExists(MS_CLIST_EXTRA_SET_ICON)) {
 		DBWriteContactSettingString(hMeta, "DummyModule", "e-mail", "blah");
 		//DBDeleteContactSetting(hMeta, "DummyModule", "e-mail"); // causes 'empty settings group' error in dbtool
 	}

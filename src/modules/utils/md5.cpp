@@ -5,7 +5,7 @@
   warranty.  In no event will the authors be held liable for any damages
   arising from the use of this software.
 
-  Permission is granted to anyone to use this software for any purpose,
+  Permission is granted to anyone to use this software for any purpose, 
   including commercial applications, and to alter it and redistribute it
   freely, subject to the following restrictions:
 
@@ -126,7 +126,7 @@
 static void md5_process(mir_md5_state_t *pms, const mir_md5_byte_t *data /*[64]*/)
 {
 	mir_md5_word_t
-		a = pms->abcd[0], b = pms->abcd[1],
+		a = pms->abcd[0], b = pms->abcd[1], 
 		c = pms->abcd[2], d = pms->abcd[3];
 	mir_md5_word_t t;
 	/* Define storage for little-endian or both types of CPUs. */
@@ -175,10 +175,10 @@ static void md5_process(mir_md5_state_t *pms, const mir_md5_byte_t *data /*[64]*
 
 	/* Round 1. */
 	/* Let [abcd k s i] denote the operation
-	a = b + ((a + F(b,c,d) + X[k] + T[i]) <<< s). */
+	a = b + ((a + F(b, c, d) + X[k] + T[i]) <<< s). */
 #define F(x, y, z) (((x) & (y)) | (~(x) & (z)))
 #define SET1(a, b, c, d, k, s, Ti)\
-	t = a + F(b,c,d) + X[k] + Ti;\
+	t = a + F(b, c, d) + X[k] + Ti;\
 	a = ROTATE_LEFT(t, s) + b
 	/* Do the following 16 operations. */
 	SET1(a, b, c, d,  0,  7,  T1);
@@ -200,10 +200,10 @@ static void md5_process(mir_md5_state_t *pms, const mir_md5_byte_t *data /*[64]*
 
 	/* Round 2. */
 	/* Let [abcd k s i] denote the operation
-	a = b + ((a + G(b,c,d) + X[k] + T[i]) <<< s). */
+	a = b + ((a + G(b, c, d) + X[k] + T[i]) <<< s). */
 #define G(x, y, z) (((x) & (z)) | ((y) & ~(z)))
 #define SET2(a, b, c, d, k, s, Ti)\
-	t = a + G(b,c,d) + X[k] + Ti;\
+	t = a + G(b, c, d) + X[k] + Ti;\
 	a = ROTATE_LEFT(t, s) + b
 	/* Do the following 16 operations. */
 	SET2(a, b, c, d,  1,  5, T17);
@@ -225,10 +225,10 @@ static void md5_process(mir_md5_state_t *pms, const mir_md5_byte_t *data /*[64]*
 
 	/* Round 3. */
 	/* Let [abcd k s t] denote the operation
-	a = b + ((a + H(b,c,d) + X[k] + T[i]) <<< s). */
+	a = b + ((a + H(b, c, d) + X[k] + T[i]) <<< s). */
 #define H(x, y, z) ((x) ^ (y) ^ (z))
 #define SET3(a, b, c, d, k, s, Ti)\
-	t = a + H(b,c,d) + X[k] + Ti;\
+	t = a + H(b, c, d) + X[k] + Ti;\
 	a = ROTATE_LEFT(t, s) + b
 	/* Do the following 16 operations. */
 	SET3(a, b, c, d,  5,  4, T33);
@@ -250,10 +250,10 @@ static void md5_process(mir_md5_state_t *pms, const mir_md5_byte_t *data /*[64]*
 
 	/* Round 4. */
 	/* Let [abcd k s t] denote the operation
-	a = b + ((a + I(b,c,d) + X[k] + T[i]) <<< s). */
+	a = b + ((a + I(b, c, d) + X[k] + T[i]) <<< s). */
 #define I(x, y, z) ((y) ^ ((x) | ~(z)))
 #define SET4(a, b, c, d, k, s, Ti)\
-	t = a + I(b,c,d) + X[k] + Ti;\
+	t = a + I(b, c, d) + X[k] + Ti;\
 	a = ROTATE_LEFT(t, s) + b
 	/* Do the following 16 operations. */
 	SET4(a, b, c, d,  0,  6, T49);
@@ -331,9 +331,9 @@ void md5_append(mir_md5_state_t *pms, const mir_md5_byte_t *data, int nbytes)
 void md5_finish(mir_md5_state_t *pms, mir_md5_byte_t digest[16])
 {
 	static const mir_md5_byte_t pad[64] = {
-		0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	};
 	mir_md5_byte_t data[8];

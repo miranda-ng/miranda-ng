@@ -630,7 +630,7 @@ void gg_import_init(GGPROTO *gg, HGENMENU hRoot)
 	mi.icolibItem = GetIconHandle(IDI_IMPORT_SERVER);
 	mi.pszName = LPGEN("Import List From &Server");
 	mi.pszService = service;
- 	gg->hMainMenu[2] = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+ 	gg->hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Import from textfile
 	mir_snprintf(service, sizeof(service), GGS_IMPORT_TEXT, GG_PROTO);
@@ -639,7 +639,7 @@ void gg_import_init(GGPROTO *gg, HGENMENU hRoot)
 	mi.icolibItem = GetIconHandle(IDI_IMPORT_TEXT);
 	mi.pszName = LPGEN("Import List From &Text File...");
 	mi.pszService = service;
-	gg->hMainMenu[3] = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+	gg->hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Remove from server
 	mir_snprintf(service, sizeof(service), GGS_REMOVE_SERVER, GG_PROTO);
@@ -648,7 +648,7 @@ void gg_import_init(GGPROTO *gg, HGENMENU hRoot)
 	mi.icolibItem = GetIconHandle(IDI_REMOVE_SERVER);
 	mi.pszName = LPGEN("&Remove List From Server");
 	mi.pszService = service;
-	gg->hMainMenu[4] = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+	gg->hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to server
 	mir_snprintf(service, sizeof(service), GGS_EXPORT_SERVER, GG_PROTO);
@@ -657,7 +657,7 @@ void gg_import_init(GGPROTO *gg, HGENMENU hRoot)
 	mi.icolibItem = GetIconHandle(IDI_EXPORT_SERVER);
 	mi.pszName = LPGEN("Export List To &Server");
 	mi.pszService = service;
-	gg->hMainMenu[5] = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+	gg->hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
 
 	// Export to textfile
 	mir_snprintf(service, sizeof(service), GGS_EXPORT_TEXT, GG_PROTO);
@@ -666,5 +666,5 @@ void gg_import_init(GGPROTO *gg, HGENMENU hRoot)
 	mi.icolibItem = GetIconHandle(IDI_EXPORT_TEXT);
 	mi.pszName = LPGEN("Export List To &Text File...");
 	mi.pszService = service;
-	gg->hMainMenu[6] = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+	gg->hMainMenu[6] = Menu_AddProtoMenuItem(&mi);
 }

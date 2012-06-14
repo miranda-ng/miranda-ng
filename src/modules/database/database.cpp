@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-2010 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -333,9 +333,9 @@ static int getProfile(TCHAR * szProfile, size_t cch)
 	getProfileCmdLine(szProfile, cch, g_profileDir);
 	if (IsInsideRootDir(g_profileDir, true)) 
 	{
-		MessageBox(NULL,
+		MessageBox(NULL, 
 			_T("Profile cannot be placed into Miranda root folder.\n")
-			_T("Please move Miranda profile to some other location."),
+			_T("Please move Miranda profile to some other location."), 
 			_T("Miranda IM"), MB_ICONERROR | MB_OK);
 		return 0;
 	}
@@ -395,8 +395,8 @@ int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg)
 		sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s\0"), profile);
 		if ( SHFileOperation(&sf) != 0 ) {
-			mir_sntprintf(buf, SIZEOF(buf),TranslateT("Couldn't move '%s' to the Recycle Bin, Please select another profile name."),file);
-			MessageBox(0,buf,TranslateT("Problem moving profile"),MB_ICONINFORMATION|MB_OK);
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin, Please select another profile name."), file);
+			MessageBox(0, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION|MB_OK);
 			return 0;
 		}
 		// now the file should be gone!
@@ -405,8 +405,8 @@ int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg)
 	CreatePathToFileT(profile);
 	char *prf = makeFileName(profile);
 	if (link->makeDatabase(prf, &err)) {
-		mir_sntprintf(buf, SIZEOF(buf),TranslateT("Unable to create the profile '%s', the error was %x"),file, err);
-		MessageBox(hwndDlg,buf,TranslateT("Problem creating profile"),MB_ICONERROR|MB_OK);
+		mir_sntprintf(buf, SIZEOF(buf), TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
+		MessageBox(hwndDlg, buf, TranslateT("Problem creating profile"), MB_ICONERROR|MB_OK);
 		mir_free(prf);
 		return 0;
 	}
@@ -488,7 +488,7 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	TCHAR classname[256];
 	ENUMMIRANDAWINDOW * x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res=0;
-	if ( GetClassName(hwnd,classname,SIZEOF(classname)) && lstrcmp( _T("Miranda"),classname) == 0 ) {
+	if ( GetClassName(hwnd, classname, SIZEOF(classname)) && lstrcmp( _T("Miranda"), classname) == 0 ) {
 		if ( SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res ) {
 			x->found++;
 			return FALSE;
@@ -527,9 +527,9 @@ int LoadDatabaseModule(void)
 	dbe.lParam = (LPARAM)szProfile;
 
 	if ( _taccess(szProfile, 0) && shouldAutoCreate( szProfile ))
-		dbe.pfnEnumCallback=( int(*) (const char*,void*,LPARAM) )FindDbPluginAutoCreate;
+		dbe.pfnEnumCallback=( int(*) (const char*, void*, LPARAM) )FindDbPluginAutoCreate;
 	else
-		dbe.pfnEnumCallback=( int(*) (const char*,void*,LPARAM) )FindDbPluginForProfile;
+		dbe.pfnEnumCallback=( int(*) (const char*, void*, LPARAM) )FindDbPluginForProfile;
 
 	// find a driver to support the given profile	
 	bool retry;
@@ -541,9 +541,9 @@ int LoadDatabaseModule(void)
 		case -1: {
 			// no plugins at all
 			TCHAR buf[256];
-			TCHAR* p = _tcsrchr(szProfile,'\\');
-			mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile );
-			MessageBox(0,buf,TranslateT("No profile support installed!"),MB_OK | MB_ICONERROR);
+			TCHAR* p = _tcsrchr(szProfile, '\\');
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile );
+			MessageBox(0, buf, TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
 			break;
 		}
 		case 1:
@@ -551,15 +551,15 @@ int LoadDatabaseModule(void)
 			if (fileExist(szProfile)) {
 				// file isn't locked, just no driver could open it.
 				TCHAR buf[256];
-				TCHAR* p = _tcsrchr(szProfile,'\\');
-				mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed."), p ? ++p : szProfile);
-				MessageBox(0,buf,TranslateT("Miranda can't understand that profile"),MB_OK | MB_ICONERROR);
+				TCHAR* p = _tcsrchr(szProfile, '\\');
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed."), p ? ++p : szProfile);
+				MessageBox(0, buf, TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
 			else if (!FindMirandaForProfile(szProfile)) {
 				TCHAR buf[256];
-				TCHAR* p = _tcsrchr(szProfile,'\\');
-				mir_sntprintf(buf,SIZEOF(buf),TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);
-				retry = MessageBox(0,buf,TranslateT("Miranda can't open that profile"),MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
+				TCHAR* p = _tcsrchr(szProfile, '\\');
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);
+				retry = MessageBox(0, buf, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
 			}
 			break;
 		}

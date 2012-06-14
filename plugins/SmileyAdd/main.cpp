@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //globals
 HINSTANCE g_hInst;
 HANDLE hEvent1, hContactMenuItem;
-extern LIST<HANDLE> menuHandleArray;
+extern LIST<void> menuHandleArray;
 
 char* metaProtoName;
 
@@ -105,7 +105,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.icolibItem = hSkinIcon;
 	mi.pszPopupName = (char*)-1;
 	mi.pszName = "Assign Smiley Category";
-	hContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 	DownloadInit();
 
@@ -123,7 +123,6 @@ static int MirandaShutdown(WPARAM, LPARAM)
 	CloseSmileys();
 	return 0;
 }
-
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {

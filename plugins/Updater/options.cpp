@@ -9,30 +9,28 @@ HWND hwndOptions;
 HANDLE hMainMenuItemRestart, hMainMenuItemUpdateAndExit;
 HANDLE hBackupPath, hDataPath, hArchivePath;
 
-void add_restart_menu_item() {
-	CLISTMENUITEM menu = {0};
-
-	menu.cbSize=sizeof(menu);
-	menu.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
-	menu.icolibItem = GetIconHandle(I_RSTRT);
-
-	menu.pszName = "Restart";
-	menu.pszService= MS_UPDATE_MENURESTART;
-	menu.position = 2000099900;
-	hMainMenuItemRestart = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+void add_restart_menu_item()
+{
+	CLISTMENUITEM mi = {0};
+	mi.cbSize=sizeof(mi);
+	mi.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
+	mi.icolibItem = GetIconHandle(I_RSTRT);
+	mi.pszName = "Restart";
+	mi.pszService= MS_UPDATE_MENURESTART;
+	mi.position = 2000099900;
+	hMainMenuItemRestart = Menu_AddMainMenuItem(&mi);
 }
 
-void add_update_and_exit_menu_item() {
-	CLISTMENUITEM menu = {0};
-
-	menu.cbSize=sizeof(menu);
-	menu.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
-	menu.icolibItem = GetIconHandle(I_CHKUPDEXT);
-
-	menu.pszName = "Update and Exit";
-	menu.pszService= MS_UPDATE_MENUUPDATEANDEXIT;
-	menu.position = 2000099901;
-	hMainMenuItemUpdateAndExit = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+void add_update_and_exit_menu_item()
+{
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi);
+	mi.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
+	mi.icolibItem = GetIconHandle(I_CHKUPDEXT);
+	mi.pszName = "Update and Exit";
+	mi.pszService = MS_UPDATE_MENUUPDATEANDEXIT;
+	mi.position = 2000099901;
+	hMainMenuItemUpdateAndExit = Menu_AddMainMenuItem(&mi);
 }
 
 void remove_restart_menu_item() {

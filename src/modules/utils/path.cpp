@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -231,7 +231,7 @@ static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
 int InitPathUtilsW(void)
 {
 	GetModuleFileName(hMirandaInst, szMirandaPathW, SIZEOF(szMirandaPathW));
-	TCHAR *p = _tcsrchr(szMirandaPathW,'\\');
+	TCHAR *p = _tcsrchr(szMirandaPathW, '\\');
 	if ( p )
 		p[1] = 0;
 	mir_sntprintf(szMirandaPathWLower, SIZEOF(szMirandaPathWLower), _T("%s"), szMirandaPathW);
@@ -457,7 +457,7 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
 		if (!_xcscmp(theKey, XSTR(key, "nick")))
 			theValue = GetContactNickX(key, hContact);
 		else if (!_xcscmp(theKey, XSTR(key, "proto")))
-			theValue = mir_a2x(key, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact,0));
+			theValue = mir_a2x(key, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
 		else if (!_xcscmp(theKey, XSTR(key, "userid"))) 
 			theValue = GetContactIDX(key, hContact);
 	}
@@ -478,11 +478,11 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
 		else if (!_xcscmp(theKey, XSTR(key, "username")))
 			theValue = GetUserNameX(key);
 		else if (!_xcscmp(theKey, XSTR(key, "miranda_avatarcache")))
-			theValue = GetPathVarX(key,1);
+			theValue = GetPathVarX(key, 1);
 		else if (!_xcscmp(theKey, XSTR(key, "miranda_logpath")))
-			theValue = GetPathVarX(key,2);
+			theValue = GetPathVarX(key, 2);
 		else if (!_xcscmp(theKey, XSTR(key, "miranda_userdata")))
-			theValue = GetPathVarX(key,3);
+			theValue = GetPathVarX(key, 3);
 	}
 
 	if (!theValue)
@@ -583,7 +583,7 @@ int InitPathUtils(void)
 {
 	char *p = 0;
 	GetModuleFileNameA(hMirandaInst, szMirandaPath, SIZEOF(szMirandaPath));
-	p = strrchr(szMirandaPath,'\\');
+	p = strrchr(szMirandaPath, '\\');
 	if ( p )
 		p[1] = 0;
 	mir_snprintf(szMirandaPathLower, MAX_PATH, "%s", szMirandaPath);

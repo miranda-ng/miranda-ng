@@ -877,6 +877,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	hHooks.AddElem(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
 	g_hReadWndList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	int SendOnEvent = CContactSettings(g_ProtoStates[(char*)NULL].Status).Autoreply;
+
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 	mi.position = 1000020000;
@@ -884,18 +885,16 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(SendOnEvent ? IDI_SOE_ENABLED : IDI_SOE_DISABLED));
 	mi.ptszName = SendOnEvent ? DISABLE_SOE_COMMAND : ENABLE_SOE_COMMAND;
 	mi.pszService = MS_AWAYSYS_AUTOREPLY_TOGGLE;
-	g_hToggleSOEMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	g_hToggleSOEMenuItem = Menu_AddMainMenuItem(&mi);
+
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000005000;
 	mi.flags = CMIF_TCHAR | CMIF_NOTOFFLINE | CMIF_HIDDEN;
-	mi.hIcon = NULL;
-	mi.pszContactOwner = NULL;
 	mi.ptszName = LPGENT("Read status message"); // never seen...
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
-	g_hReadStatMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
-	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM))
-	{
+	g_hReadStatMenuItem = Menu_AddContactMenuItem(&mi);
+	if (g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_USEMENUITEM)) {
 		ZeroMemory(&mi, sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.flags = CMIF_TCHAR | CMIF_HIDDEN;
@@ -903,7 +902,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		mi.position = 1000020000;
 		mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_MSGICON));
 		mi.pszService = MS_AWAYSYS_SETCONTACTSTATMSG;
-		g_hContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		g_hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		ZeroMemory(&mi, sizeof(mi));
 		mi.cbSize = sizeof(mi);
@@ -912,25 +911,27 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		mi.pszPopupName = (char*)-1;
 		mi.position = 1000020000;
 		mi.ptszName = LPGENT("Autoreply");
-		g_hToggleSOEContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		g_hToggleSOEContactMenuItem = Menu_AddContactMenuItem(&mi);
 
 		mi.flags = CMIF_TCHAR | CMIF_CHILDPOPUP;
 		mi.pszPopupName = (char*)g_hToggleSOEContactMenuItem;
-    mi.popupPosition = 1000020000;
+		mi.popupPosition = 1000020000;
 		mi.position = 1000020000;
 
 		mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_ENABLED));
 		mi.ptszName = LPGENT("On");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_ON;
-		g_hAutoreplyOnContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		g_hAutoreplyOnContactMenuItem = Menu_AddContactMenuItem(&mi);
+
 		mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_SOE_DISABLED));
 		mi.ptszName = LPGENT("Off");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_OFF;
-		g_hAutoreplyOffContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		g_hAutoreplyOffContactMenuItem = Menu_AddContactMenuItem(&mi);
+
 		mi.hIcon = LoadIcon(g_hInstance, MAKEINTRESOURCE(IDI_DOT));
 		mi.ptszName = LPGENT("Use the default setting");
 		mi.pszService = MS_AWAYSYS_AUTOREPLY_USEDEFAULT;
-		g_hAutoreplyUseDefaultContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		g_hAutoreplyUseDefaultContactMenuItem = Menu_AddContactMenuItem(&mi);
 	}
 	// add that funky thingy (just tweaked a bit, was spotted in Miranda's src code)
 	// we have to read the status message from contacts too... err

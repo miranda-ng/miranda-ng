@@ -178,7 +178,7 @@ setting would be successfully read (which was a bug because the pValue
 was often garbage and maybe not even NULL terminated)
 
 To test for existing but 'deleted' settings, the return value will
-be 2, and pValue->type==DBVT_DELETED, at this point pValue is undefined.
+be 2, and pValue->type == DBVT_DELETED, at this point pValue is undefined.
 */
 typedef struct {
 	const char *szModule;	// pointer to name of the module that wrote the
@@ -287,7 +287,7 @@ Use db/modules/enum to get a complete list of module names
 szSetting is only guaranteed to be valid for the duration of the callback. If
 you want to keep it for longer you must allocation your own storage.
 */
-typedef int (*DBSETTINGENUMPROC)(const char *szSetting,LPARAM lParam);
+typedef int (*DBSETTINGENUMPROC)(const char *szSetting, LPARAM lParam);
 typedef struct {
 	DBSETTINGENUMPROC pfnEnumProc;
 	LPARAM lParam;    //passed direct to pfnEnumProc
@@ -516,17 +516,17 @@ typedef struct {
 
 __inline static char* DbGetEventTextA( DBEVENTINFO* dbei, int codepage )
 {  DBEVENTGETTEXT temp = { dbei, DBVT_ASCIIZ, codepage };
-   return (char*)CallService(MS_DB_EVENT_GETTEXT,0,(LPARAM)&temp);
+   return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 __inline static WCHAR* DbGetEventTextW( DBEVENTINFO* dbei, int codepage )
 {  DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
-   return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT,0,(LPARAM)&temp);
+   return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 __inline static TCHAR* DbGetEventTextT( DBEVENTINFO* dbei, int codepage )
 {  DBEVENTGETTEXT temp = { dbei, DBVT_TCHAR, codepage };
-   return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT,0,(LPARAM)&temp);
+   return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 /* DB/Event/GetIcon (0.7.0.1+)
@@ -749,11 +749,11 @@ Writing to the database while module names are being enumerated will cause
 unpredictable results in the enumeration, but the write will work.
 szModuleName is only guaranteed to be valid for the duration of the callback.
 If you want to keep it for longer you must allocation your own storage.
-**BUG**: Prior to 0.1.2.0 dbmep was called as (lParam)(szMod,ofsMod,lParam).
+**BUG**: Prior to 0.1.2.0 dbmep was called as (lParam)(szMod, ofsMod, lParam).
   This means that the lParam parameter to dbmep was useless, and explains the
   slightly odd 'wParam=lParam' in the definition.
 */
-typedef int (*DBMODULEENUMPROC)(const char *szModuleName,DWORD ofsModuleName,LPARAM lParam);
+typedef int (*DBMODULEENUMPROC)(const char *szModuleName, DWORD ofsModuleName, LPARAM lParam);
 #define MS_DB_MODULES_ENUM    "DB/Modules/Enum"
 
 /* DB/Module/Delete  0.8.0+
@@ -860,34 +860,34 @@ Disables a setting saving to the database.
 
 #ifndef DB_NOHELPERFUNCTIONS
 
-#define db_byte_get(a,b,c,d)                   DBGetContactSettingByte(a,b,c,d)
-#define db_word_get(a,b,c,d)                   DBGetContactSettingWord(a,b,c,d)
-#define db_dword_get(a,b,c,d)                  DBGetContactSettingDword(a,b,c,d)
-#define db_get(a,b,c,d)                        DBGetContactSetting(a,b,c,d)
+#define db_byte_get(a, b, c, d)                   DBGetContactSettingByte(a, b, c, d)
+#define db_word_get(a, b, c, d)                   DBGetContactSettingWord(a, b, c, d)
+#define db_dword_get(a, b, c, d)                  DBGetContactSettingDword(a, b, c, d)
+#define db_get(a, b, c, d)                        DBGetContactSetting(a, b, c, d)
 
-#define db_byte_set(a,b,c,d)                   DBWriteContactSettingByte(a,b,c,d)
-#define db_word_set(a,b,c,d)                   DBWriteContactSettingWord(a,b,c,d)
-#define db_dword_set(a,b,c,d)                  DBWriteContactSettingDword(a,b,c,d)
-#define db_string_set(a,b,c,d)                 DBWriteContactSettingString(a,b,c,d)
+#define db_byte_set(a, b, c, d)                   DBWriteContactSettingByte(a, b, c, d)
+#define db_word_set(a, b, c, d)                   DBWriteContactSettingWord(a, b, c, d)
+#define db_dword_set(a, b, c, d)                  DBWriteContactSettingDword(a, b, c, d)
+#define db_string_set(a, b, c, d)                 DBWriteContactSettingString(a, b, c, d)
 
-#define db_unset(a,b,c)                        DBDeleteContactSetting(a,b,c);
+#define db_unset(a, b, c)                        DBDeleteContactSetting(a, b, c);
 
 #ifdef _DEBUG
-	#define DBGetContactSettingByte(a,b,c,d)       DBGetContactSettingByte_Helper(a,b,c,d,__FILE__,__LINE__)
-	#define DBGetContactSettingWord(a,b,c,d)       DBGetContactSettingWord_Helper(a,b,c,d,__FILE__,__LINE__)
-	#define DBGetContactSettingDword(a,b,c,d)      DBGetContactSettingDword_Helper(a,b,c,d,__FILE__,__LINE__)
-	#define DBGetContactSetting(a,b,c,d)           DBGetContactSetting_Helper(a,b,c,d,__FILE__,__LINE__)
-	#define DBGetContactSettingString(a,b,c,d)     DBGetContactSettingString_Helper(a,b,c,d,__FILE__,__LINE__,DBVT_ASCIIZ)
-	#define DBGetContactSettingWString(a,b,c,d)    DBGetContactSettingString_Helper(a,b,c,d,__FILE__,__LINE__,DBVT_WCHAR)
-	#define DBGetContactSettingUTF8String(a,b,c,d) DBGetContactSettingString_Helper(a,b,c,d,__FILE__,__LINE__,DBVT_UTF8)
+	#define DBGetContactSettingByte(a, b, c, d)       DBGetContactSettingByte_Helper(a, b, c, d, __FILE__, __LINE__)
+	#define DBGetContactSettingWord(a, b, c, d)       DBGetContactSettingWord_Helper(a, b, c, d, __FILE__, __LINE__)
+	#define DBGetContactSettingDword(a, b, c, d)      DBGetContactSettingDword_Helper(a, b, c, d, __FILE__, __LINE__)
+	#define DBGetContactSetting(a, b, c, d)           DBGetContactSetting_Helper(a, b, c, d, __FILE__, __LINE__)
+	#define DBGetContactSettingString(a, b, c, d)     DBGetContactSettingString_Helper(a, b, c, d, __FILE__, __LINE__, DBVT_ASCIIZ)
+	#define DBGetContactSettingWString(a, b, c, d)    DBGetContactSettingString_Helper(a, b, c, d, __FILE__, __LINE__, DBVT_WCHAR)
+	#define DBGetContactSettingUTF8String(a, b, c, d) DBGetContactSettingString_Helper(a, b, c, d, __FILE__, __LINE__, DBVT_UTF8)
 #else
-	#define DBGetContactSettingByte(a,b,c,d)       DBGetContactSettingByte_Helper(a,b,c,d)
-	#define DBGetContactSettingWord(a,b,c,d)       DBGetContactSettingWord_Helper(a,b,c,d)
-	#define DBGetContactSettingDword(a,b,c,d)      DBGetContactSettingDword_Helper(a,b,c,d)
-	#define DBGetContactSetting(a,b,c,d)           DBGetContactSetting_Helper(a,b,c,d)
-	#define DBGetContactSettingString(a,b,c,d)     DBGetContactSettingString_Helper(a,b,c,d,DBVT_ASCIIZ)
-	#define DBGetContactSettingWString(a,b,c,d)    DBGetContactSettingString_Helper(a,b,c,d,DBVT_WCHAR)
-	#define DBGetContactSettingUTF8String(a,b,c,d) DBGetContactSettingString_Helper(a,b,c,d,DBVT_UTF8)
+	#define DBGetContactSettingByte(a, b, c, d)       DBGetContactSettingByte_Helper(a, b, c, d)
+	#define DBGetContactSettingWord(a, b, c, d)       DBGetContactSettingWord_Helper(a, b, c, d)
+	#define DBGetContactSettingDword(a, b, c, d)      DBGetContactSettingDword_Helper(a, b, c, d)
+	#define DBGetContactSetting(a, b, c, d)           DBGetContactSetting_Helper(a, b, c, d)
+	#define DBGetContactSettingString(a, b, c, d)     DBGetContactSettingString_Helper(a, b, c, d, DBVT_ASCIIZ)
+	#define DBGetContactSettingWString(a, b, c, d)    DBGetContactSettingString_Helper(a, b, c, d, DBVT_WCHAR)
+	#define DBGetContactSettingUTF8String(a, b, c, d) DBGetContactSettingString_Helper(a, b, c, d, DBVT_UTF8)
 #endif
 
 #ifdef _UNICODE
@@ -896,15 +896,15 @@ Disables a setting saving to the database.
 #define DBGetContactSettingTString DBGetContactSettingString
 #endif
 
-#define db_msg_dbg(s) MessageBoxA(0,(s),"",0);
+#define db_msg_dbg(s) MessageBoxA(0, (s), "", 0);
 
 /* Deprecated & bizarre aliases */
 #define DBGetContactSettingStringUtf           DBGetContactSettingUTF8String
 #define DBWriteContactSettingStringUtf         DBWriteContactSettingUTF8String
 #ifdef _DEBUG
-	#define DBGetContactSettingW(a,b,c,d)          DBGetContactSettingString_Helper(a,b,c,d,__FILE__,__LINE__,0)
+	#define DBGetContactSettingW(a, b, c, d)          DBGetContactSettingString_Helper(a, b, c, d, __FILE__, __LINE__, 0)
 #else
-	#define DBGetContactSettingW(a,b,c,d)          DBGetContactSettingString_Helper(a,b,c,d,0)
+	#define DBGetContactSettingW(a, b, c, d)          DBGetContactSettingString_Helper(a, b, c, d, 0)
 #endif
 
 #ifdef _DEBUG
@@ -913,7 +913,7 @@ Disables a setting saving to the database.
 
 __inline static int DBGetContactSettingByte_Helper(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue
 #ifdef _DEBUG
-	,const char *szFile, const int nLine
+	, const char *szFile, const int nLine
 #endif
 )
 {
@@ -923,12 +923,12 @@ __inline static int DBGetContactSettingByte_Helper(HANDLE hContact, const char *
 	cgs.szModule=szModule;
 	cgs.szSetting=szSetting;
 	cgs.pValue=&dbv;
-	if(CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs))
+	if(CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
 		return errorValue;
 #ifdef _DEBUG
-	if(dbv.type!=DBVT_BYTE) {
+	if(dbv.type != DBVT_BYTE) {
 		char buf[128];
-		_snprintf(buf,sizeof(buf),"%s:%d for %s/%s not a byte, return: %d",szFile,nLine,szModule,szSetting,dbv.type);
+		_snprintf(buf, sizeof(buf), "%s:%d for %s/%s not a byte, return: %d", szFile, nLine, szModule, szSetting, dbv.type);
 		buf[sizeof(buf)-1]=0;
 		db_msg_dbg(buf);
 	}
@@ -936,9 +936,9 @@ __inline static int DBGetContactSettingByte_Helper(HANDLE hContact, const char *
 	return dbv.bVal;
 }
 
-__inline static int DBGetContactSettingWord_Helper(HANDLE hContact,const char *szModule,const char *szSetting,int errorValue
+__inline static int DBGetContactSettingWord_Helper(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue
 #ifdef _DEBUG
-	,const char *szFile, const int nLine
+	, const char *szFile, const int nLine
 #endif
 )
 {
@@ -948,12 +948,12 @@ __inline static int DBGetContactSettingWord_Helper(HANDLE hContact,const char *s
 	cgs.szModule=szModule;
 	cgs.szSetting=szSetting;
 	cgs.pValue=&dbv;
-	if(CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs))
+	if(CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
 		return errorValue;
 #ifdef _DEBUG
-	if(dbv.type!=DBVT_WORD) {
+	if(dbv.type != DBVT_WORD) {
 		char buf[128];
-		_snprintf(buf,sizeof(buf),"%s:%d for %s/%s not a word, return: %d",szFile,nLine,szModule,szSetting,dbv.type);
+		_snprintf(buf, sizeof(buf), "%s:%d for %s/%s not a word, return: %d", szFile, nLine, szModule, szSetting, dbv.type);
 		buf[sizeof(buf)-1]=0;
 		db_msg_dbg(buf);
 	}
@@ -961,9 +961,9 @@ __inline static int DBGetContactSettingWord_Helper(HANDLE hContact,const char *s
 	return dbv.wVal;
 }
 
-__inline static DWORD DBGetContactSettingDword_Helper(HANDLE hContact,const char *szModule, const char *szSetting, DWORD errorValue
+__inline static DWORD DBGetContactSettingDword_Helper(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue
 #ifdef _DEBUG
-	,const char *szFile, const int nLine
+	, const char *szFile, const int nLine
 #endif
 )
 {
@@ -973,12 +973,12 @@ __inline static DWORD DBGetContactSettingDword_Helper(HANDLE hContact,const char
 	cgs.szModule=szModule;
 	cgs.szSetting=szSetting;
 	cgs.pValue=&dbv;
-	if(CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs))
+	if(CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs))
 		return errorValue;
 #ifdef _DEBUG
-	if(dbv.type!=DBVT_DWORD) {
+	if(dbv.type != DBVT_DWORD) {
 		char buf[128];
-		_snprintf(buf,sizeof(buf),"%s:%d for %s/%s not a dword, return: %d",szFile,nLine,szModule,szSetting,dbv.type);
+		_snprintf(buf, sizeof(buf), "%s:%d for %s/%s not a dword, return: %d", szFile, nLine, szModule, szSetting, dbv.type);
 		buf[sizeof(buf)-1]=0;
 		db_msg_dbg(buf);
 	}
@@ -986,9 +986,9 @@ __inline static DWORD DBGetContactSettingDword_Helper(HANDLE hContact,const char
 	return dbv.dVal;
 }
 
-__inline static INT_PTR DBGetContactSetting_Helper(HANDLE hContact,const char *szModule,const char *szSetting,DBVARIANT *dbv
+__inline static INT_PTR DBGetContactSetting_Helper(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv
 #if defined(_DEBUG)
-	,const char *szFile, const int nLine
+	, const char *szFile, const int nLine
 #endif
 )
 {
@@ -998,18 +998,18 @@ __inline static INT_PTR DBGetContactSetting_Helper(HANDLE hContact,const char *s
 	cgs.szSetting=szSetting;
 	cgs.pValue=dbv;
 
-	rc=CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs);
+	rc=CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&cgs);
 #if defined(_DEBUG) && defined(DBCHECKSETTINGS)
 	if (rc != 0) {
 		char buf[128];
-		_snprintf(buf,sizeof(buf),"%s:%d failed to fetch %s/%s",szFile,nLine,szModule,szSetting);
+		_snprintf(buf, sizeof(buf), "%s:%d failed to fetch %s/%s", szFile, nLine, szModule, szSetting);
 		db_msg_dbg(buf);
 	}
 #endif
 	return rc;
 }
 
-__inline static INT_PTR DBGetContactSettingString_Helper(HANDLE hContact,const char *szModule,const char *szSetting,DBVARIANT *dbv,
+__inline static INT_PTR DBGetContactSettingString_Helper(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv,
 #if defined(_DEBUG)
 	const char *szFile, const int nLine,
 #endif
@@ -1022,11 +1022,11 @@ __inline static INT_PTR DBGetContactSettingString_Helper(HANDLE hContact,const c
 	cgs.pValue=dbv;
 	dbv->type=(BYTE)nType;
 
-	rc=CallService(MS_DB_CONTACT_GETSETTING_STR,(WPARAM)hContact,(LPARAM)&cgs);
+	rc=CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&cgs);
 #if defined(_DEBUG) && defined(DBCHECKSETTINGS)
 	if (rc != 0) {
 		char buf[128];
-		_snprintf(buf,sizeof(buf),"%s:%d failed to fetch %s/%s",szFile,nLine,szModule,szSetting);
+		_snprintf(buf, sizeof(buf), "%s:%d failed to fetch %s/%s", szFile, nLine, szModule, szSetting);
 		db_msg_dbg(buf);
 	}
 #endif
@@ -1035,15 +1035,15 @@ __inline static INT_PTR DBGetContactSettingString_Helper(HANDLE hContact,const c
 
 __inline static INT_PTR DBFreeVariant(DBVARIANT *dbv)
 {
-	return CallService(MS_DB_CONTACT_FREEVARIANT,0,(LPARAM)dbv);
+	return CallService(MS_DB_CONTACT_FREEVARIANT, 0, (LPARAM)dbv);
 }
 
-__inline static char *DBGetString(HANDLE hContact,const char *szModule,const char *szSetting)
+__inline static char *DBGetString(HANDLE hContact, const char *szModule, const char *szSetting)
 {
 	char *str=NULL;
 	DBVARIANT dbv={0};
-	DBGetContactSettingString(hContact,szModule,szSetting,&dbv);
-	if(dbv.type==DBVT_ASCIIZ)
+	DBGetContactSettingString(hContact, szModule, szSetting, &dbv);
+	if(dbv.type == DBVT_ASCIIZ)
 		str=mir_strdup(dbv.pszVal);
 	DBFreeVariant(&dbv);
 	return str;
@@ -1051,12 +1051,12 @@ __inline static char *DBGetString(HANDLE hContact,const char *szModule,const cha
 
 #define DBGetStringA DBGetString
 
-__inline static wchar_t *DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting)
+__inline static wchar_t *DBGetStringW(HANDLE hContact, const char *szModule, const char *szSetting)
 {
 	wchar_t *str=NULL;
 	DBVARIANT dbv={0};
-	DBGetContactSettingWString(hContact,szModule,szSetting,&dbv);
-	if(dbv.type==DBVT_WCHAR)
+	DBGetContactSettingWString(hContact, szModule, szSetting, &dbv);
+	if(dbv.type == DBVT_WCHAR)
 		str=mir_wstrdup(dbv.pwszVal);
 	DBFreeVariant(&dbv);
 	return str;
@@ -1068,15 +1068,15 @@ __inline static wchar_t *DBGetStringW(HANDLE hContact,const char *szModule,const
 #define DBGetStringT DBGetString
 #endif
 
-__inline static INT_PTR DBDeleteContactSetting(HANDLE hContact,const char *szModule,const char *szSetting)
+__inline static INT_PTR DBDeleteContactSetting(HANDLE hContact, const char *szModule, const char *szSetting)
 {
 	DBCONTACTGETSETTING cgs;
 	cgs.szModule=szModule;
 	cgs.szSetting=szSetting;
-	return CallService(MS_DB_CONTACT_DELETESETTING,(WPARAM)hContact,(LPARAM)&cgs);
+	return CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM)hContact, (LPARAM)&cgs);
 }
 
-__inline static INT_PTR DBWriteContactSettingByte(HANDLE hContact,const char *szModule,const char *szSetting,BYTE val)
+__inline static INT_PTR DBWriteContactSettingByte(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1084,10 +1084,10 @@ __inline static INT_PTR DBWriteContactSettingByte(HANDLE hContact,const char *sz
 	cws.szSetting=szSetting;
 	cws.value.type=DBVT_BYTE;
 	cws.value.bVal=val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
-__inline static INT_PTR DBWriteContactSettingWord(HANDLE hContact,const char *szModule,const char *szSetting,WORD val)
+__inline static INT_PTR DBWriteContactSettingWord(HANDLE hContact, const char *szModule, const char *szSetting, WORD val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1095,10 +1095,10 @@ __inline static INT_PTR DBWriteContactSettingWord(HANDLE hContact,const char *sz
 	cws.szSetting=szSetting;
 	cws.value.type=DBVT_WORD;
 	cws.value.wVal=val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
-__inline static INT_PTR DBWriteContactSettingDword(HANDLE hContact,const char *szModule,const char *szSetting,DWORD val)
+__inline static INT_PTR DBWriteContactSettingDword(HANDLE hContact, const char *szModule, const char *szSetting, DWORD val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1106,10 +1106,10 @@ __inline static INT_PTR DBWriteContactSettingDword(HANDLE hContact,const char *s
 	cws.szSetting=szSetting;
 	cws.value.type=DBVT_DWORD;
 	cws.value.dVal=val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
-__inline static INT_PTR DBWriteContactSettingString(HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+__inline static INT_PTR DBWriteContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, const char *val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1117,10 +1117,10 @@ __inline static INT_PTR DBWriteContactSettingString(HANDLE hContact,const char *
 	cws.szSetting=szSetting;
 	cws.value.type=DBVT_ASCIIZ;
 	cws.value.pszVal=(char*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
-__inline static INT_PTR DBWriteContactSettingWString(HANDLE hContact,const char *szModule,const char *szSetting,const WCHAR *val)
+__inline static INT_PTR DBWriteContactSettingWString(HANDLE hContact, const char *szModule, const char *szSetting, const WCHAR *val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1128,7 +1128,7 @@ __inline static INT_PTR DBWriteContactSettingWString(HANDLE hContact,const char 
 	cws.szSetting=szSetting;
 	cws.value.type=DBVT_WCHAR;
 	cws.value.pwszVal=(WCHAR*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
 #ifdef _UNICODE
@@ -1137,7 +1137,7 @@ __inline static INT_PTR DBWriteContactSettingWString(HANDLE hContact,const char 
 #define DBWriteContactSettingTString DBWriteContactSettingString
 #endif
 
-__inline static INT_PTR DBWriteContactSettingUTF8String(HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+__inline static INT_PTR DBWriteContactSettingUTF8String(HANDLE hContact, const char *szModule, const char *szSetting, const char *val)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1145,10 +1145,10 @@ __inline static INT_PTR DBWriteContactSettingUTF8String(HANDLE hContact,const ch
 	cws.szSetting=szSetting;
 	cws.value.type=DBVT_UTF8;
 	cws.value.pszVal=(char*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
-__inline static INT_PTR DBWriteContactSettingBlob(HANDLE hContact,const char *szModule,const char *szSetting,void *val,unsigned len)
+__inline static INT_PTR DBWriteContactSettingBlob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len)
 {
 	DBCONTACTWRITESETTING cws;
 
@@ -1157,7 +1157,7 @@ __inline static INT_PTR DBWriteContactSettingBlob(HANDLE hContact,const char *sz
 	cws.value.type=DBVT_BLOB;
     cws.value.cpbVal = (WORD)len;
 	cws.value.pbVal=(unsigned char*)val;
-	return CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)hContact,(LPARAM)&cws);
+	return CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)hContact, (LPARAM)&cws);
 }
 
 /* inlined range tolerate versions */
@@ -1168,9 +1168,9 @@ __inline static BYTE DBGetContactSettingRangedByte(HANDLE hContact, const char *
 	if (bVal < minValue || bVal > maxValue) {
 #ifdef _DEBUG
 		char szBuf[MAX_PATH];
-		_snprintf(szBuf,sizeof(szBuf),"(%s:%s) not in range of %d..%d",szModule,szSetting,minValue,maxValue);
+		_snprintf(szBuf, sizeof(szBuf), "(%s:%s) not in range of %d..%d", szModule, szSetting, minValue, maxValue);
 		szBuf[sizeof(szBuf)-1]=0;
-		MessageBoxA(0,szBuf,"DBGetContactSettingRangedByte failed",MB_ICONERROR);
+		MessageBoxA(0, szBuf, "DBGetContactSettingRangedByte failed", MB_ICONERROR);
 #endif
 		return errorValue;
 	}
@@ -1183,9 +1183,9 @@ __inline static WORD DBGetContactSettingRangedWord(HANDLE hContact, const char *
 	if (wVal < minValue || wVal > maxValue) {
 #ifdef _DEBUG
 		char szBuf[MAX_PATH];
-		_snprintf(szBuf,sizeof(szBuf),"(%s:%s) not in range of %d..%d",szModule,szSetting,minValue,maxValue);
+		_snprintf(szBuf, sizeof(szBuf), "(%s:%s) not in range of %d..%d", szModule, szSetting, minValue, maxValue);
 		szBuf[sizeof(szBuf)-1]=0;
-		MessageBoxA(0,szBuf,"DBGetContactSettingRangedWord failed",MB_ICONERROR);
+		MessageBoxA(0, szBuf, "DBGetContactSettingRangedWord failed", MB_ICONERROR);
 #endif
 		return errorValue;
 	}
@@ -1198,9 +1198,9 @@ __inline static DWORD DBGetContactSettingRangedDword(HANDLE hContact, const char
 	if (dVal < minValue || dVal > maxValue) {
 #ifdef _DEBUG
 		char szBuf[MAX_PATH];
-		_snprintf(szBuf,sizeof(szBuf),"(%s:%s) not in range of %d..%d",szModule,szSetting,minValue,maxValue);
+		_snprintf(szBuf, sizeof(szBuf), "(%s:%s) not in range of %d..%d", szModule, szSetting, minValue, maxValue);
 		szBuf[sizeof(szBuf)-1]=0;
-		MessageBoxA(0,szBuf,"DBGetContactSettingRangedDword failed",MB_ICONERROR);
+		MessageBoxA(0, szBuf, "DBGetContactSettingRangedDword failed", MB_ICONERROR);
 #endif
 		return errorValue;
 	}

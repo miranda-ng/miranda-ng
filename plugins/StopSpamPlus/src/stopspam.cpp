@@ -78,7 +78,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 	mi.ptszName = _T("Remove Temporary Contacts");
 	mi.pszService = pluginName"/RemoveTempContacts";
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	miranda::EventHooker::HookAll();
 	return 0;

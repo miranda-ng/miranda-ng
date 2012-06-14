@@ -127,35 +127,35 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	cl.pszName = "Check for birthdays";
 	cl.pszPopupName = "Birthdays (When Was It)";
-	hmCheckBirthdays = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_LIST_SHOW;
 	cl.pszName = "Birthday list";
 	cl.hIcon = hiListMenu;
-	hmBirthdayList = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmBirthdayList = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
 	cl.position = 10100000;
 	cl.pszName = "Refresh user details";
 	cl.hIcon = hiRefreshUserDetails;
-	hmRefreshDetails = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	cl.position = 10200000;
 	cl.pszName = "Import birthdays";
 	cl.hIcon = hiImportBirthdays;
-	hmImportBirthdays = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
 	cl.pszName = "Export birthdays";
 	cl.hIcon = hiExportBirthdays;
-	hmExportBirthdays = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_ADD_BIRTHDAY;
 	cl.position = 10000000;
 	cl.hIcon = hiAddBirthdayContact;
 	cl.pszName = "Add/change user &birthday";
-	hmAddChangeBirthday = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &cl);
+	hmAddChangeBirthday = Menu_AddMainMenuItem(&cl);
 
 	if(ServiceExists(MS_HOTKEY_REGISTER)) {
 		HOTKEYDESC hotkey = {0};

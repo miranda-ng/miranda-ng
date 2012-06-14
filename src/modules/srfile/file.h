@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define VIRUSSCAN_DURINGDL 2
 
 #define FILERESUME_ASK         0
-//1,2,3,4: resume, overwrite, rename, skip: from proto library
+//1, 2, 3, 4: resume, overwrite, rename, skip: from proto library
 #define FILERESUMEF_ALL         0x80
 #define FILERESUME_RESUMEALL    (FILERESUME_RESUME|FILERESUMEF_ALL)
 #define FILERESUME_OVERWRITEALL (FILERESUME_OVERWRITE|FILERESUMEF_ALL)
@@ -72,21 +72,21 @@ struct FileDlgData {
 #define UNITS_MBPOINT2  4   // 1024*1024<=size: "%.2f MB"
 #define UNITS_GBPOINT3  5   // 1024*1024*1024<=size: "%.3f GB"
 
-void GetSensiblyFormattedSize(__int64 size,TCHAR *szOut,int cchOut,int unitsOverride,int appendUnits,int *unitsUsed);
+void GetSensiblyFormattedSize(__int64 size, TCHAR *szOut, int cchOut, int unitsOverride, int appendUnits, int *unitsUsed);
 void FreeFilesMatrix(TCHAR ***files);	  //loving that triple indirection
 void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
-void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest,PROTOFILETRANSFERSTATUS *src);
-void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest,PROTOFILETRANSFERSTATUS *src);
-int SRFile_GetRegValue(HKEY hKeyBase,const TCHAR *szSubKey,const TCHAR *szValue,TCHAR *szOutput,int cbOutput);
+void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
+void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
+int SRFile_GetRegValue(HKEY hKeyBase, const TCHAR *szSubKey, const TCHAR *szValue, TCHAR *szOutput, int cbOutput);
 //filesenddlg.c
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 //filerecv.c
 INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void RemoveInvalidFilenameChars(TCHAR *tszString);
 void RemoveInvalidPathChars(TCHAR *tszString);
-void GetContactReceivedFilesDir(HANDLE hContact,TCHAR *szDir,int cchDir,BOOL substVars);
-void GetReceivedFilesDir(TCHAR *szDir,int cchDir);
-int BrowseForFolder(HWND hwnd,TCHAR *szPath);
+void GetContactReceivedFilesDir(HANDLE hContact, TCHAR *szDir, int cchDir, BOOL substVars);
+void GetReceivedFilesDir(TCHAR *szDir, int cchDir);
+int BrowseForFolder(HWND hwnd, TCHAR *szPath);
 //fileexistsdlg.c
 struct TDlgProcFileExistsParam
 {
@@ -97,7 +97,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 //filexferdlg.c
 INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 //fileopts.c
-int FileOptInitialise(WPARAM wParam,LPARAM lParam);
+int FileOptInitialise(WPARAM wParam, LPARAM lParam);
 //ftmanager.c
 #define WM_FT_ADD			(WM_USER+701)
 #define WM_FT_RESIZE		(WM_USER+702)

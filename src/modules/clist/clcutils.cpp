@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -410,7 +410,7 @@ void fnEndRename(HWND, struct ClcData *dat, int save)
 				if (contact->type == CLCIT_GROUP) {
 					if (contact->group->parent && contact->group->parent->parent) {
 						TCHAR szFullName[256];
-						mir_sntprintf(szFullName, SIZEOF(szFullName), _T("%s\\%s"),
+						mir_sntprintf(szFullName, SIZEOF(szFullName), _T("%s\\%s"), 
 							cli.pfnGetGroupName(contact->group->parent->groupId, NULL), text);
 						cli.pfnRenameGroup(contact->groupId, szFullName);
 					}
@@ -734,7 +734,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 			dat->fontInfo[i].hFont = CreateFontIndirect(&lf);
 			dat->fontInfo[i].changed = 0;
 
-			HFONT holdfont = (HFONT)SelectObject(hdc,dat->fontInfo[i].hFont);
+			HFONT holdfont = (HFONT)SelectObject(hdc, dat->fontInfo[i].hFont);
 			GetTextExtentPoint32(hdc, _T("x"), 1, &fontSize);
 			SelectObject(hdc, holdfont);
 

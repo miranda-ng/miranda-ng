@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -215,7 +215,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	item->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
 	item->Hotkey = DBGetContactSettingWord(NULL, DBMODULENAME, item->pszName, item->DefHotkey);
 	item->type = item->pszService ?
-		( THotkeyType )DBGetContactSettingByte(NULL, DBMODULENAME "Types", item->pszName,
+		( THotkeyType )DBGetContactSettingByte(NULL, DBMODULENAME "Types", item->pszName, 
 			(desc->DefHotKey & HKF_MIRANDA_LOCAL) ? HKT_LOCAL : HKT_GLOBAL) : HKT_MANUAL;
 	item->lParam = desc->lParam;
 
@@ -403,11 +403,11 @@ static TCHAR *sttHokeyVkToName(WORD vkKey)
 
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key)
 {
-	mir_sntprintf(buf, size, _T("%s%s%s%s%s"),
-		(shift & HOTKEYF_CONTROL)	? _T("Ctrl + ")		: _T(""),
-		(shift & HOTKEYF_ALT)		? _T("Alt + ")		: _T(""),
-		(shift & HOTKEYF_SHIFT)		? _T("Shift + ")	: _T(""),
-		(shift & HOTKEYF_EXT)		? _T("Win + ")		: _T(""),
+	mir_sntprintf(buf, size, _T("%s%s%s%s%s"), 
+		(shift & HOTKEYF_CONTROL)	? _T("Ctrl + ")		: _T(""), 
+		(shift & HOTKEYF_ALT)		? _T("Alt + ")		: _T(""), 
+		(shift & HOTKEYF_SHIFT)		? _T("Shift + ")	: _T(""), 
+		(shift & HOTKEYF_EXT)		? _T("Win + ")		: _T(""), 
 		sttHokeyVkToName(key));
 }
 
@@ -853,7 +853,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				szSetting = mir_t2a(lvi.pszText);
 
-				ListView_SetCheckState(hwndHotkey, lvi.iItem,
+				ListView_SetCheckState(hwndHotkey, lvi.iItem, 
 					DBGetContactSettingByte(NULL, DBMODULENAME "UI", szSetting, TRUE));
 
 				mir_free(szSetting);
@@ -891,7 +891,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			szSetting = mir_t2a(lvi.pszText);
 
-			DBWriteContactSettingByte(NULL, DBMODULENAME "UI", szSetting,
+			DBWriteContactSettingByte(NULL, DBMODULENAME "UI", szSetting, 
 				(BYTE) ListView_GetCheckState(hwndHotkey, lvi.iItem));
 
 			mir_free(szSetting);
@@ -1060,10 +1060,10 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (item->type != HKT_MANUAL) {
 					AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);
 					AppendMenu(hMenu, MF_STRING|
-						((item->OptType == HKT_GLOBAL) ? MF_CHECKED : 0),
+						((item->OptType == HKT_GLOBAL) ? MF_CHECKED : 0), 
 						(UINT_PTR)MI_SYSTEM, TranslateT("System scope"));
 					AppendMenu(hMenu, MF_STRING|
-						((item->OptType == HKT_LOCAL) ? MF_CHECKED : 0),
+						((item->OptType == HKT_LOCAL) ? MF_CHECKED : 0), 
 						(UINT_PTR)MI_LOCAL, TranslateT("Miranda scope"));
 				}
 				AppendMenu(hMenu, MF_SEPARATOR, 0, NULL);

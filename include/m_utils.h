@@ -70,7 +70,7 @@ typedef struct {
 	SIZE dlgOriginalSize;	//size of dialog client area in template
 	SIZE dlgNewSize;		//current size of dialog client area
 } UTILRESIZECONTROL;
-typedef int (*DIALOGRESIZERPROC)(HWND hwndDlg,LPARAM lParam,UTILRESIZECONTROL *urc);
+typedef int (*DIALOGRESIZERPROC)(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc);
 typedef struct {
 	int cbSize;
 	HWND hwndDlg;
@@ -130,18 +130,18 @@ typedef struct {
 	HANDLE hContact;
 } WINDOWLISTENTRY;
 #define MS_UTILS_ADDTOWINDOWLIST "Utils/AddToWindowList"
-__inline static INT_PTR WindowList_Add(HANDLE hList,HWND hwnd,HANDLE hContact) {
+__inline static INT_PTR WindowList_Add(HANDLE hList, HWND hwnd, HANDLE hContact) {
 	WINDOWLISTENTRY wle;
 	wle.hList=hList; wle.hwnd=hwnd; wle.hContact=hContact;
-	return CallService(MS_UTILS_ADDTOWINDOWLIST,0,(LPARAM)&wle);
+	return CallService(MS_UTILS_ADDTOWINDOWLIST, 0, (LPARAM)&wle);
 }
 //removes a window from the specified window list  v0.1.0.1+
 //wParam=(WPARAM)(HANDLE)hList
 //lParam=(LPARAM)(HWND)hwnd
 //returns 0 on success, nonzero on failure
 #define MS_UTILS_REMOVEFROMWINDOWLIST "Utils/RemoveFromWindowList"
-__inline static INT_PTR WindowList_Remove(HANDLE hList,HWND hwnd) {
-	return CallService(MS_UTILS_REMOVEFROMWINDOWLIST,(WPARAM)hList,(LPARAM)hwnd);
+__inline static INT_PTR WindowList_Remove(HANDLE hList, HWND hwnd) {
+	return CallService(MS_UTILS_REMOVEFROMWINDOWLIST, (WPARAM)hList, (LPARAM)hwnd);
 }
 
 //finds a window given the hContact  v0.1.0.1+
@@ -149,8 +149,8 @@ __inline static INT_PTR WindowList_Remove(HANDLE hList,HWND hwnd) {
 //lParam=(WPARAM)(HANDLE)hContact
 //returns the window handle on success, or NULL on failure
 #define MS_UTILS_FINDWINDOWINLIST "Utils/FindWindowInList"
-__inline static HWND WindowList_Find(HANDLE hList,HANDLE hContact) {
-	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST,(WPARAM)hList,(LPARAM)hContact);
+__inline static HWND WindowList_Find(HANDLE hList, HANDLE hContact) {
+	return (HWND)CallService(MS_UTILS_FINDWINDOWINLIST, (WPARAM)hList, (LPARAM)hContact);
 }
 
 //broadcasts a message to all windows in a list  v0.1.0.1+
@@ -159,10 +159,10 @@ __inline static HWND WindowList_Find(HANDLE hList,HANDLE hContact) {
 //returns 0 on success, nonzero on failure
 //Only msg.message, msg.wParam and msg.lParam are used
 #define MS_UTILS_BROADCASTTOWINDOWLIST "Utils/BroadcastToWindowList"
-__inline static INT_PTR WindowList_Broadcast(HANDLE hList,UINT message,WPARAM wParam,LPARAM lParam) {
+__inline static INT_PTR WindowList_Broadcast(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
 	MSG msg;
 	msg.message=message; msg.wParam=wParam; msg.lParam=lParam;
-	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST,(WPARAM)hList,(LPARAM)&msg);
+	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST, (WPARAM)hList, (LPARAM)&msg);
 }
 
 /*
@@ -178,10 +178,10 @@ __inline static INT_PTR WindowList_Broadcast(HANDLE hList,UINT message,WPARAM wP
 */
 #define MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC "Utils/BroadcastToWindowListAsync"
 
-__inline static INT_PTR WindowList_BroadcastAsync(HANDLE hList,UINT message,WPARAM wParam,LPARAM lParam) {
+__inline static INT_PTR WindowList_BroadcastAsync(HANDLE hList, UINT message, WPARAM wParam, LPARAM lParam) {
 	MSG msg;
 	msg.message=message; msg.wParam=wParam; msg.lParam=lParam;
-	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC,(WPARAM)hList,(LPARAM)&msg);
+	return CallService(MS_UTILS_BROADCASTTOWINDOWLIST_ASYNC, (WPARAM)hList, (LPARAM)&msg);
 }
 
 /***************************** Hyperlink windows ********************************/
@@ -213,10 +213,10 @@ typedef struct {
 	const char *szNamePrefix;	//text to prefix on "x", "width", etc, to form setting names
 } SAVEWINDOWPOS;
 #define MS_UTILS_SAVEWINDOWPOSITION  "Utils/SaveWindowPos"
-__inline static INT_PTR Utils_SaveWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,const char *szNamePrefix) {
+__inline static INT_PTR Utils_SaveWindowPosition(HWND hwnd, HANDLE hContact, const char *szModule, const char *szNamePrefix) {
 	SAVEWINDOWPOS swp;
 	swp.hwnd=hwnd; swp.hContact=hContact; swp.szModule=szModule; swp.szNamePrefix=szNamePrefix;
-	return CallService(MS_UTILS_SAVEWINDOWPOSITION,0,(LPARAM)&swp);
+	return CallService(MS_UTILS_SAVEWINDOWPOSITION, 0, (LPARAM)&swp);
 }
 
 //restores the position of a window from the database	 v0.1.1.0+
@@ -232,18 +232,18 @@ __inline static INT_PTR Utils_SaveWindowPosition(HWND hwnd,HANDLE hContact,const
 #define RWPF_NOACTIVATE 4  //show but don't activate v0.3.3.0+
 #define RWPF_HIDDEN		8  //make it hidden
 #define MS_UTILS_RESTOREWINDOWPOSITION	"Utils/RestoreWindowPos"
-__inline static INT_PTR Utils_RestoreWindowPositionEx(HWND hwnd,int flags,HANDLE hContact,const char *szModule,const char *szNamePrefix) {
+__inline static INT_PTR Utils_RestoreWindowPositionEx(HWND hwnd, int flags, HANDLE hContact, const char *szModule, const char *szNamePrefix) {
 	SAVEWINDOWPOS swp;
 	swp.hwnd=hwnd; swp.hContact=hContact; swp.szModule=szModule; swp.szNamePrefix=szNamePrefix;
-	return CallService(MS_UTILS_RESTOREWINDOWPOSITION,flags,(LPARAM)&swp);
+	return CallService(MS_UTILS_RESTOREWINDOWPOSITION, flags, (LPARAM)&swp);
 }
-__inline static INT_PTR Utils_RestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,const char *szNamePrefix) {
+__inline static INT_PTR Utils_RestoreWindowPosition(HWND hwnd, HANDLE hContact, const char *szModule, const char *szNamePrefix) {
 	return Utils_RestoreWindowPositionEx(hwnd, 0, hContact, szModule, szNamePrefix);
 }
-__inline static INT_PTR Utils_RestoreWindowPositionNoSize(HWND hwnd,HANDLE hContact,const char *szModule,const char *szNamePrefix) {
+__inline static INT_PTR Utils_RestoreWindowPositionNoSize(HWND hwnd, HANDLE hContact, const char *szModule, const char *szNamePrefix) {
 	return Utils_RestoreWindowPositionEx(hwnd, RWPF_NOSIZE, hContact, szModule, szNamePrefix);
 }
-__inline static INT_PTR Utils_RestoreWindowPositionNoMove(HWND hwnd,HANDLE hContact,const char *szModule,const char *szNamePrefix) {
+__inline static INT_PTR Utils_RestoreWindowPositionNoMove(HWND hwnd, HANDLE hContact, const char *szModule, const char *szNamePrefix) {
 	return Utils_RestoreWindowPositionEx(hwnd, RWPF_NOMOVE, hContact, szModule, szNamePrefix);
 }
 
@@ -253,7 +253,7 @@ __inline static INT_PTR Utils_RestoreWindowPositionNoMove(HWND hwnd,HANDLE hCont
 //returns <0 on error, 0 if not changed the rect, 1 if changed the rect
 #define MS_UTILS_ASSERTINSIDESCREEN	"Utils/AssertInsideScreen"
 __inline static INT_PTR Utils_AssertInsideScreen(RECT *rc) {
-	return CallService(MS_UTILS_ASSERTINSIDESCREEN,(WPARAM)rc,0);
+	return CallService(MS_UTILS_ASSERTINSIDESCREEN, (WPARAM)rc, 0);
 }
 
 /************************ Colour Picker Control (0.1.2.1+) **********************/
@@ -474,7 +474,7 @@ typedef struct {
   mir_sha1_long_t H[5];
   mir_sha1_long_t W[80];
   int lenW;
-  mir_sha1_long_t sizeHi,sizeLo;
+  mir_sha1_long_t sizeHi, sizeLo;
 } mir_sha1_ctx;
 
 struct SHA1_INTERFACE

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project,
+Copyright 2000-2012 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -42,7 +42,7 @@ pfnMyMonitorFromRect MyMonitorFromRect;
 pfnMyMonitorFromWindow MyMonitorFromWindow;
 pfnMyGetMonitorInfo MyGetMonitorInfo;
 
-typedef DWORD (WINAPI *pfnMsgWaitForMultipleObjectsEx)(DWORD,CONST HANDLE*,DWORD,DWORD,DWORD);
+typedef DWORD (WINAPI *pfnMsgWaitForMultipleObjectsEx)(DWORD, CONST HANDLE*, DWORD, DWORD, DWORD);
 pfnMsgWaitForMultipleObjectsEx msgWaitForMultipleObjectsEx;
 
 pfnSHAutoComplete shAutoComplete;
@@ -84,16 +84,17 @@ LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 ITaskbarList3 * pTaskbarInterface;
 
-static DWORD MsgWaitForMultipleObjectsExWorkaround(DWORD nCount, const HANDLE *pHandles,
+static DWORD MsgWaitForMultipleObjectsExWorkaround(DWORD nCount, const HANDLE *pHandles, 
 	DWORD dwMsecs, DWORD dwWakeMask, DWORD dwFlags);
 
-HANDLE hOkToExitEvent,hModulesLoadedEvent;
-static HANDLE hShutdownEvent,hPreShutdownEvent;
+HANDLE hOkToExitEvent, hModulesLoadedEvent;
+static HANDLE hShutdownEvent, hPreShutdownEvent;
 static HANDLE hWaitObjects[MAXIMUM_WAIT_OBJECTS-1];
 static char *pszWaitServices[MAXIMUM_WAIT_OBJECTS-1];
-static int waitObjectCount=0;
-HANDLE hStackMutex,hMirandaShutdown,hThreadQueueEmpty;
+static int waitObjectCount = 0;
+HANDLE hStackMutex, hMirandaShutdown, hThreadQueueEmpty;
 HINSTANCE hMirandaInst;
+int hLangpack = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // exception handling
@@ -148,7 +149,7 @@ void __cdecl forkthread_r(void * arg)
 	struct FORK_ARG * fa = (struct FORK_ARG *) arg;
 	void (*callercode)(void*)=fa->threadcode;
 	void * cookie=fa->arg;
-	CallService(MS_SYSTEM_THREAD_PUSH,0,(LPARAM)callercode);
+	CallService(MS_SYSTEM_THREAD_PUSH, 0, (LPARAM)callercode);
 	SetEvent(fa->hEvent);
 	__try
 	{
@@ -160,24 +161,24 @@ void __cdecl forkthread_r(void * arg)
 	}
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-	CallService(MS_SYSTEM_THREAD_POP,0,0);
+	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
 	return;
 }
 
 UINT_PTR forkthread (
-	void (__cdecl *threadcode)(void*),
-	unsigned long stacksize,
+	void (__cdecl *threadcode)(void*), 
+	unsigned long stacksize, 
 	void *arg
 	)
 {
 	UINT_PTR rc;
 	struct FORK_ARG fa;
-	fa.hEvent=CreateEvent(NULL,FALSE,FALSE,NULL);
+	fa.hEvent=CreateEvent(NULL, FALSE, FALSE, NULL);
 	fa.threadcode=threadcode;
 	fa.arg=arg;
-	rc=_beginthread(forkthread_r,stacksize,&fa);
+	rc=_beginthread(forkthread_r, stacksize, &fa);
 	if ((UINT_PTR)-1L != rc)
-		WaitForSingleObject(fa.hEvent,INFINITE);
+		WaitForSingleObject(fa.hEvent, INFINITE);
 
 	CloseHandle(fa.hEvent);
 	return rc;
@@ -215,16 +216,16 @@ unsigned __stdcall forkthreadex_r(void * arg)
 	}
 
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_TIME_CRITICAL);
-	CallService(MS_SYSTEM_THREAD_POP,0,0);
+	CallService(MS_SYSTEM_THREAD_POP, 0, 0);
 	return rc;
 }
 
 UINT_PTR forkthreadex(
-	void *sec,
-	unsigned stacksize,
-	unsigned (__stdcall *threadcode)(void*),
-	void* owner,
-	void *arg,
+	void *sec, 
+	unsigned stacksize, 
+	unsigned (__stdcall *threadcode)(void*), 
+	void* owner, 
+	void *arg, 
 	unsigned *thraddr )
 {
 	UINT_PTR rc;
@@ -232,10 +233,10 @@ UINT_PTR forkthreadex(
 	fa.threadcodeex = threadcode;
 	fa.arg = arg;
 	fa.owner = owner;
-	fa.hEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
-	rc = _beginthreadex(sec,stacksize,forkthreadex_r,(void *)&fa,0,thraddr);
+	fa.hEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	rc = _beginthreadex(sec, stacksize, forkthreadex_r, (void *)&fa, 0, thraddr);
 	if (rc)
-		WaitForSingleObject(fa.hEvent,INFINITE);
+		WaitForSingleObject(fa.hEvent, INFINITE);
 
 	CloseHandle(fa.hEvent);
 	return rc;
@@ -286,7 +287,7 @@ VOID CALLBACK KillAllThreads(HWND, UINT, UINT_PTR, DWORD)
 			THREAD_WAIT_ENTRY* p = threads[j];
 			char szModuleName[ MAX_PATH ];
 			GetModuleFileNameA( p->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf( NULL, "Thread %p was abnormally terminated because module '%s' didn't release it. Entry point: %p",
+			Netlib_Logf( NULL, "Thread %p was abnormally terminated because module '%s' didn't release it. Entry point: %p", 
 				p->hThread, szModuleName, p->addr );
 			TerminateThread( p->hThread, 9999 );
 			CloseHandle(p->hThread);
@@ -342,7 +343,7 @@ static void UnwindThreadWait(void)
 	if ( MirandaWaitForMutex(hStackMutex) ) {
 		int j;
 		for ( j=0; j < threads.getCount(); j++ )
-			QueueUserAPC(DummyAPCFunc,threads[j]->hThread, 0);
+			QueueUserAPC(DummyAPCFunc, threads[j]->hThread, 0);
 		ReleaseMutex(hStackMutex);
 	}
 
@@ -379,7 +380,7 @@ void* GetCurrentThreadEntryPoint()
 	return ( void* )dwStartAddress;
 }
 
-INT_PTR UnwindThreadPush(WPARAM wParam,LPARAM lParam)
+INT_PTR UnwindThreadPush(WPARAM wParam, LPARAM lParam)
 {
 	ResetEvent(hThreadQueueEmpty); // thread list is not empty
 	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0)
@@ -399,9 +400,9 @@ INT_PTR UnwindThreadPush(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR UnwindThreadPop(WPARAM,LPARAM)
+INT_PTR UnwindThreadPop(WPARAM, LPARAM)
 {
-	if (WaitForSingleObject(hStackMutex,INFINITE) == WAIT_OBJECT_0)
+	if (WaitForSingleObject(hStackMutex, INFINITE) == WAIT_OBJECT_0)
 	{
 		DWORD dwThreadId=GetCurrentThreadId();
 		int j;
@@ -432,7 +433,7 @@ INT_PTR UnwindThreadPop(WPARAM,LPARAM)
 
 INT_PTR MirandaIsTerminated(WPARAM, LPARAM)
 {
-	return WaitForSingleObject(hMirandaShutdown,0) == WAIT_OBJECT_0;
+	return WaitForSingleObject(hMirandaShutdown, 0) == WAIT_OBJECT_0;
 }
 
 static void __cdecl compactHeapsThread(void*)
@@ -441,20 +442,20 @@ static void __cdecl compactHeapsThread(void*)
 	{
 		HANDLE hHeaps[256];
 		DWORD hc;
-		SleepEx((1000*60)*5,TRUE); // every 5 minutes
-		hc=GetProcessHeaps(255,(PHANDLE)&hHeaps);
+		SleepEx((1000*60)*5, TRUE); // every 5 minutes
+		hc=GetProcessHeaps(255, (PHANDLE)&hHeaps);
 		if (hc != 0 && hc < 256) {
 			DWORD j;
-			for (j=0;j<hc;j++) HeapCompact(hHeaps[j],0);
+			for (j=0;j<hc;j++) HeapCompact(hHeaps[j], 0);
 		}
 	} //while
 }
 
 LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_NULL) SleepEx(0,TRUE);
+	if (msg == WM_NULL) SleepEx(0, TRUE);
 	if (msg == WM_TIMECHANGE) RecalculateTime();
-	return DefWindowProc(hwnd,msg,wParam,lParam);
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 HWND hAPCWindow=NULL;
@@ -486,7 +487,7 @@ static INT_PTR SystemGetIdle(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static DWORD MsgWaitForMultipleObjectsExWorkaround(DWORD nCount, const HANDLE *pHandles,
+static DWORD MsgWaitForMultipleObjectsExWorkaround(DWORD nCount, const HANDLE *pHandles, 
 	DWORD dwMsecs, DWORD dwWakeMask, DWORD dwFlags)
 {
 	DWORD rc;
@@ -584,16 +585,16 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 #endif
 
 	hShFolder = GetModuleHandleA("shell32");
-	shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder,"SHGetSpecialFolderPathA");
-	shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder,"SHGetSpecialFolderPathW");
+	shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
+	shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder, "SHGetSpecialFolderPathW");
 	if (shGetSpecialFolderPathA == NULL)
 	{
 		hShFolder = LoadLibraryA("ShFolder.dll");
-		shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder,"SHGetSpecialFolderPathA");
-		shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder,"SHGetSpecialFolderPathW");
+		shGetSpecialFolderPathA = (pfnSHGetSpecialFolderPathA)GetProcAddress(hShFolder, "SHGetSpecialFolderPathA");
+		shGetSpecialFolderPathW = (pfnSHGetSpecialFolderPathW)GetProcAddress(hShFolder, "SHGetSpecialFolderPathW");
 	}
 
-	shAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandleA("shlwapi"),"SHAutoComplete");
+	shAutoComplete = (pfnSHAutoComplete)GetProcAddress(GetModuleHandleA("shlwapi"), "SHAutoComplete");
 
 	if (IsWinVerXPPlus()) {
 		hThemeAPI = LoadLibraryA("uxtheme.dll");
@@ -604,7 +605,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 			drawThemeBackground = (pfnDrawThemeBackground)GetProcAddress(hThemeAPI, "DrawThemeBackground");
 			drawThemeText = (pfnDrawThemeText)GetProcAddress(hThemeAPI, "DrawThemeText");
 			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
-			getThemeBackgroundContentRect = (pfnGetThemeBackgroundContentRect)GetProcAddress(hThemeAPI ,"GetThemeBackgroundContentRect");
+			getThemeBackgroundContentRect = (pfnGetThemeBackgroundContentRect)GetProcAddress(hThemeAPI , "GetThemeBackgroundContentRect");
 			getThemeFont = (pfnGetThemeFont)GetProcAddress(hThemeAPI, "GetThemeFont");
 			closeThemeData  = (pfnCloseThemeData)GetProcAddress(hThemeAPI, "CloseThemeData");
 			enableThemeDialogTexture = (pfnEnableThemeDialogTexture)GetProcAddress(hThemeAPI, "EnableThemeDialogTexture");
@@ -622,8 +623,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 	if (IsWinVerVistaPlus()) {
 		hDwmApi = LoadLibraryA("dwmapi.dll");
 		if (hDwmApi) {
-			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi,"DwmExtendFrameIntoClientArea");
-			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
+			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
+			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
 		}
 	}
 
@@ -644,19 +645,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int )
 //	ParseCommandLine();
 
 	if (LoadDefaultModules()) {
-		NotifyEventHooks(hShutdownEvent,0,0);
+		NotifyEventHooks(hShutdownEvent, 0, 0);
 		UnloadDefaultModules();
 
 		result = 1;
 		goto exit;
 	}
-	NotifyEventHooks(hModulesLoadedEvent,0,0);
+	NotifyEventHooks(hModulesLoadedEvent, 0, 0);
 
 	// ensure that the kernel hooks the SystemShutdownProc() after all plugins
-	HookEvent(ME_SYSTEM_SHUTDOWN,SystemShutdownProc);
+	HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
 
-	forkthread(compactHeapsThread,0,NULL);
-	CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK,SystemSetIdleCallback);
+	forkthread(compactHeapsThread, 0, NULL);
+	CreateServiceFunction(MS_SYSTEM_SETIDLECALLBACK, SystemSetIdleCallback);
 	CreateServiceFunction(MS_SYSTEM_GETIDLE, SystemGetIdle);
 	dwEventTime=GetTickCount();
 	myPid=GetCurrentProcessId();
@@ -725,7 +726,7 @@ exit:
 
 static INT_PTR OkToExit(WPARAM, LPARAM)
 {
-	return NotifyEventHooks(hOkToExitEvent,0,0) == 0;
+	return NotifyEventHooks(hOkToExitEvent, 0, 0) == 0;
 }
 
 static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
@@ -738,11 +739,11 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 	VS_FIXEDFILEINFO *vsffi;
 	DWORD ver;
 
-	GetModuleFileName(NULL,filename,SIZEOF(filename));
-	verInfoSize=GetFileVersionInfoSize(filename,&unused);
+	GetModuleFileName(NULL, filename, SIZEOF(filename));
+	verInfoSize=GetFileVersionInfoSize(filename, &unused);
 	pVerInfo=mir_alloc(verInfoSize);
-	GetFileVersionInfo(filename,0,verInfoSize,pVerInfo);
-	VerQueryValue(pVerInfo,_T("\\"),(PVOID*)&vsffi,&blockSize);
+	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+	VerQueryValue(pVerInfo, _T("\\"), (PVOID*)&vsffi, &blockSize);
 	ver=(((vsffi->dwProductVersionMS>>16)&0xFF)<<24)|
 		((vsffi->dwProductVersionMS&0xFF)<<16)|
 		(((vsffi->dwProductVersionLS>>16)&0xFF)<<8)|
@@ -751,7 +752,7 @@ static INT_PTR GetMirandaVersion(WPARAM, LPARAM)
 	return (INT_PTR)ver;
 }
 
-static INT_PTR GetMirandaVersionText(WPARAM wParam,LPARAM lParam)
+static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR filename[MAX_PATH], *productVersion;
 	DWORD unused;
@@ -759,23 +760,23 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam,LPARAM lParam)
 	UINT blockSize;
 	PVOID pVerInfo;
 
-	GetModuleFileName(NULL,filename,SIZEOF(filename));
-	verInfoSize=GetFileVersionInfoSize(filename,&unused);
+	GetModuleFileName(NULL, filename, SIZEOF(filename));
+	verInfoSize=GetFileVersionInfoSize(filename, &unused);
 	pVerInfo=mir_alloc(verInfoSize);
-	GetFileVersionInfo(filename,0,verInfoSize,pVerInfo);
-	VerQueryValue(pVerInfo,_T("\\StringFileInfo\\000004b0\\ProductVersion"),(LPVOID*)&productVersion,&blockSize);
+	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
 #if defined( _WIN64 )
 	mir_snprintf(( char* )lParam, wParam, "%S x64 Unicode", productVersion );
 #elif defined( _UNICODE )
 	mir_snprintf(( char* )lParam, wParam, "%S Unicode", productVersion );
 #else
-	lstrcpyn((char*)lParam,productVersion,wParam);
+	lstrcpyn((char*)lParam, productVersion, wParam);
 #endif
 	mir_free(pVerInfo);
 	return 0;
 }
 
-INT_PTR WaitOnHandle(WPARAM wParam,LPARAM lParam)
+INT_PTR WaitOnHandle(WPARAM wParam, LPARAM lParam)
 {
 	if (waitObjectCount>=MAXIMUM_WAIT_OBJECTS-1) return 1;
 	hWaitObjects[waitObjectCount]=(HANDLE)wParam;
@@ -793,8 +794,8 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 			break;
 	if (i == waitObjectCount) return 1;
 	waitObjectCount--;
-	MoveMemory(&hWaitObjects[i],&hWaitObjects[i+1],sizeof(HANDLE)*(waitObjectCount-i));
-	MoveMemory(&pszWaitServices[i],&pszWaitServices[i+1],sizeof(char*)*(waitObjectCount-i));
+	MoveMemory(&hWaitObjects[i], &hWaitObjects[i+1], sizeof(HANDLE)*(waitObjectCount-i));
+	MoveMemory(&pszWaitServices[i], &pszWaitServices[i+1], sizeof(char*)*(waitObjectCount-i));
 	return 0;
 }
 
@@ -904,38 +905,38 @@ int LoadSystemModule(void)
 	InitCommonControlsEx(&icce);
 
 	if (IsWinVerXPPlus()) {
-		hAPCWindow=CreateWindowEx(0,_T("ComboLBox"),NULL,0, 0,0,0,0, NULL,NULL,NULL,NULL);
+		hAPCWindow=CreateWindowEx(0, _T("ComboLBox"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL);
 		SetClassLongPtr(hAPCWindow, GCL_STYLE, GetClassLongPtr(hAPCWindow, GCL_STYLE) | CS_DROPSHADOW);
 		DestroyWindow(hAPCWindow);
 		hAPCWindow = NULL;
 	}
 
-	hAPCWindow=CreateWindowEx(0,_T("STATIC"),NULL,0, 0,0,0,0, NULL,NULL,NULL,NULL); // lame
-	SetWindowLongPtr(hAPCWindow,GWLP_WNDPROC,(LONG_PTR)APCWndProc);
-	hStackMutex=CreateMutex(NULL,FALSE,NULL);
-	hMirandaShutdown=CreateEvent(NULL,TRUE,FALSE,NULL);
-	hThreadQueueEmpty=CreateEvent(NULL,TRUE,TRUE,NULL);
+	hAPCWindow=CreateWindowEx(0, _T("STATIC"), NULL, 0, 0, 0, 0, 0, NULL, NULL, NULL, NULL); // lame
+	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
+	hStackMutex=CreateMutex(NULL, FALSE, NULL);
+	hMirandaShutdown=CreateEvent(NULL, TRUE, FALSE, NULL);
+	hThreadQueueEmpty=CreateEvent(NULL, TRUE, TRUE, NULL);
 
 	hShutdownEvent=CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
 	hPreShutdownEvent=CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);
 	hModulesLoadedEvent=CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
 	hOkToExitEvent=CreateHookableEvent(ME_SYSTEM_OKTOEXIT);
 
-	CreateServiceFunction(MS_SYSTEM_FORK_THREAD,ForkThreadService);
-	CreateServiceFunction(MS_SYSTEM_FORK_THREAD_EX,ForkThreadServiceEx);
-	CreateServiceFunction(MS_SYSTEM_THREAD_PUSH,UnwindThreadPush);
-	CreateServiceFunction(MS_SYSTEM_THREAD_POP,UnwindThreadPop);
-	CreateServiceFunction(MS_SYSTEM_TERMINATED,MirandaIsTerminated);
-	CreateServiceFunction(MS_SYSTEM_OKTOEXIT,OkToExit);
-	CreateServiceFunction(MS_SYSTEM_GETVERSION,GetMirandaVersion);
-	CreateServiceFunction(MS_SYSTEM_GETVERSIONTEXT,GetMirandaVersionText);
-	CreateServiceFunction(MS_SYSTEM_WAITONHANDLE,WaitOnHandle);
-	CreateServiceFunction(MS_SYSTEM_REMOVEWAIT,RemoveWait);
-	CreateServiceFunction(MS_SYSTEM_GET_LI,GetListInterface);
-	CreateServiceFunction(MS_SYSTEM_GET_MMI,GetMemoryManagerInterface);
-	CreateServiceFunction(MS_SYSTEM_GET_UTFI,GetUtfInterface);
-	CreateServiceFunction(MS_SYSTEM_GETEXCEPTFILTER,GetExceptionFilter);
-	CreateServiceFunction(MS_SYSTEM_SETEXCEPTFILTER,SetExceptionFilter);
+	CreateServiceFunction(MS_SYSTEM_FORK_THREAD, ForkThreadService);
+	CreateServiceFunction(MS_SYSTEM_FORK_THREAD_EX, ForkThreadServiceEx);
+	CreateServiceFunction(MS_SYSTEM_THREAD_PUSH, UnwindThreadPush);
+	CreateServiceFunction(MS_SYSTEM_THREAD_POP, UnwindThreadPop);
+	CreateServiceFunction(MS_SYSTEM_TERMINATED, MirandaIsTerminated);
+	CreateServiceFunction(MS_SYSTEM_OKTOEXIT, OkToExit);
+	CreateServiceFunction(MS_SYSTEM_GETVERSION, GetMirandaVersion);
+	CreateServiceFunction(MS_SYSTEM_GETVERSIONTEXT, GetMirandaVersionText);
+	CreateServiceFunction(MS_SYSTEM_WAITONHANDLE, WaitOnHandle);
+	CreateServiceFunction(MS_SYSTEM_REMOVEWAIT, RemoveWait);
+	CreateServiceFunction(MS_SYSTEM_GET_LI, GetListInterface);
+	CreateServiceFunction(MS_SYSTEM_GET_MMI, GetMemoryManagerInterface);
+	CreateServiceFunction(MS_SYSTEM_GET_UTFI, GetUtfInterface);
+	CreateServiceFunction(MS_SYSTEM_GETEXCEPTFILTER, GetExceptionFilter);
+	CreateServiceFunction(MS_SYSTEM_SETEXCEPTFILTER, SetExceptionFilter);
 
 	InitPathUtils();
 	return 0;

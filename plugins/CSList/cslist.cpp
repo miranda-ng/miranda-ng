@@ -424,7 +424,7 @@ void CSList::addProtoStatusMenuItem( char* protoName, void* arg )
 	mi.position = 2000040000;
 	mi.pszService = buf;
 	mi.ptszPopupName = pdescr->tszAccountName;
-	CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddStatusMenuItem(&mi);
 
 	cslist->registerHotkeys(buf, pdescr->tszAccountName, pdescr->iOrder);
 }

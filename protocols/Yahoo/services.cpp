@@ -389,7 +389,7 @@ void CYahooProto::MenuMainInit( void )
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle( IDI_YAHOO );
 		mi.ptszName = m_tszUserName;
-		hRoot = mainMenuRoot = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM,  (WPARAM)0, (LPARAM)&mi);
+		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else {
 		if ( mainMenuRoot )
@@ -408,7 +408,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.icolibItem = GetIconHandle( IDI_SET_STATUS );
 	mi.pszName = LPGEN( "Set &Custom Status" );
 	
-	menuItemsAll[0] = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM)&mi );
+	menuItemsAll[0] = Menu_AddProtoMenuItem(&mi);
 
 	// Edit My profile
 	lstrcpyA( tDest, YAHOO_EDIT_MY_PROFILE );
@@ -417,7 +417,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.position = 290005;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
 	mi.pszName = LPGEN( "&Edit My Profile" );
-	menuItemsAll[1] = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, ( LPARAM )&mi );
+	menuItemsAll[1] = Menu_AddProtoMenuItem(&mi);
 
 	// Show My profile
 	lstrcpyA( tDest, YAHOO_SHOW_MY_PROFILE );
@@ -426,7 +426,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.position = 290006;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
 	mi.pszName = LPGEN( "&My Profile" );
-	menuItemsAll[2] = ( HGENMENU ) YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, ( LPARAM )&mi );
+	menuItemsAll[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Yahoo mail 
 	strcpy( tDest, YAHOO_YAHOO_MAIL );
@@ -435,7 +435,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.position = 290010;
 	mi.icolibItem = GetIconHandle( IDI_INBOX );
 	mi.pszName = LPGEN( "&Yahoo Mail" );
-	menuItemsAll[3] = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, ( LPARAM )&mi );
+	menuItemsAll[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Address Book    
 	strcpy( tDest, YAHOO_AB );
@@ -444,7 +444,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.position = 290015;
 	mi.icolibItem = GetIconHandle( IDI_YAB );
 	mi.pszName = LPGEN( "&Address Book" );
-	menuItemsAll[4] = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, ( LPARAM )&mi );
+	menuItemsAll[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Calendar
 	strcpy( tDest, YAHOO_CALENDAR );
@@ -453,7 +453,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.position = 290017;
 	mi.icolibItem = GetIconHandle( IDI_CALENDAR );
 	mi.pszName = LPGEN( "&Calendar" );
-	menuItemsAll[5] = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, ( LPARAM )&mi );
+	menuItemsAll[5] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Refresh     
 	/*strcpy( tDest, YAHOO_REFRESH );
@@ -462,7 +462,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.position = 500090015;
 	mi.icolibItem = GetIconHandle( IDI_REFRESH );
 	mi.pszName = LPGEN( "&Refresh" );
-	menuItemsAll[6] = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDPROTOMENUITEM, 0, ( LPARAM )&mi );
+	menuItemsAll[6] = Menu_AddProtoMenuItem(&mi);
 	*/
 }
 	
@@ -485,7 +485,7 @@ void CYahooProto::MenuContactInit( void )
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
 	mi.pszName = LPGEN( "&Show Profile" );
-	hShowProfileMenuItem = ( HGENMENU )YAHOO_CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, ( LPARAM )&mi );
+	hShowProfileMenuItem = Menu_AddContactMenuItem(&mi);
 	
 }
 

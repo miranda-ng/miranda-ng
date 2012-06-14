@@ -57,7 +57,7 @@ typedef struct
 /* use this macro to defile hotkey codes like this:
   hkd.DefHotkey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'A');
 */
-#define HOTKEYCODE(mod,vk)			(MAKEWORD((vk),(mod)))
+#define HOTKEYCODE(mod, vk)			(MAKEWORD((vk), (mod)))
 
 /* CoreHotkeys/Register service
 Registers new hotkey

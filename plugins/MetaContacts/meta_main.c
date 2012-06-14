@@ -169,7 +169,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 
 	os_unicode_enabled = IsUnicodeOS();
 
-	if(ServiceExists(MS_DB_SETSETTINGRESIDENT)) { // 0.6+
+	if (ServiceExists(MS_DB_SETSETTINGRESIDENT)) { // 0.6+
 		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Status"));
 		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/IdleTS"));
 		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/ContactCountCheck"));
@@ -191,7 +191,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 					DBWriteContactSettingByte(hContact, META_PROTO, "ContactCountCheck", 0);
 
 					// restore any saved defaults that might have remained if miranda was closed or crashed while a convo was happening
-					if(DBGetContactSettingDword(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
+					if (DBGetContactSettingDword(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
 						DBWriteContactSettingDword(hContact, META_PROTO, "Default", DBGetContactSettingDword(hContact, META_PROTO, "SavedDefault", 0));
 						DBWriteContactSettingDword(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
 					}
@@ -212,7 +212,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 
 	// also verifies that subcontacts: have metacontacts, and that contact numbers are reasonable, 
 	// that metacontacts: have the correct number of subcontacts, and have reasonable defaults
-	if(Meta_SetHandles()) {
+	if (Meta_SetHandles()) {
 		// error - db corruption
 		if (!DBGetContactSettingByte(0, META_PROTO, "DisabledMessageShown", 0)) {
 			MessageBox(0, Translate("Error - Database corruption.\nPlugin disabled."), Translate("MetaContacts"), MB_OK | MB_ICONERROR);
@@ -255,7 +255,7 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 	// check protocol for jabber hack, and the proto modules must be loaded
 	//Meta_HideLinkedContactsAndSetHandles();
 
-	if(ServiceExists(MS_MSG_GETWINDOWAPI)) {
+	if (ServiceExists(MS_MSG_GETWINDOWAPI)) {
 		message_window_api_enabled = TRUE;
 	}
 

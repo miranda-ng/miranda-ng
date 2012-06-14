@@ -668,19 +668,19 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 		mi.pszContactOwner     = NULL;
 		mi.pszName             = BOLTUN_AUTO_CHAT;
 		mi.pszService          = SERV_CONTACT_AUTO_CHAT;
-		hMenuItemAutoChat      = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+		hMenuItemAutoChat      = Menu_AddContactMenuItem(&mi);
 
 		mi.position            = -50010001; //TODO: check the warning
 		mi.pszName             = BOLTUN_NOT_TO_CHAT;
 		mi.pszService          = SERV_CONTACT_NOT_TO_CHAT;
-		hMenuItemNotToChat     = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+		hMenuItemNotToChat     = Menu_AddContactMenuItem(&mi);
 
 		mi.flags               = CMIF_NOTOFFLINE;
 		mi.position            = -50010000; //TODO: check the warning
-		mi.hIcon			   = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
+		mi.hIcon               = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RECVMSG));
 		mi.pszName             = BOLTUN_START_CHATTING;
 		mi.pszService          = SERV_CONTACT_START_CHATTING;
-		hMenuItemStartChatting = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
 	}
 	int line;
 	blInit = LoadMind(Config.MindFileName, line);

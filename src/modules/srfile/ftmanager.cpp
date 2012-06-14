@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -179,7 +179,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		if (i == dat->wnds->realCount)
 			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
 	
- 		if (dat->runningCount == 0 && (int)wParam == ACKRESULT_SUCCESS && DBGetContactSettingByte(NULL,"SRFile","AutoClose",0))
+ 		if (dat->runningCount == 0 && (int)wParam == ACKRESULT_SUCCESS && DBGetContactSettingByte(NULL, "SRFile", "AutoClose", 0))
  			ShowWindow(hwndFtMgr, SW_HIDE);
  		break;
  	}
@@ -532,7 +532,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 {
-	bool bAutoMin = DBGetContactSettingByte(NULL,"SRFile","AutoMin",0) != 0; /* lqbe */
+	bool bAutoMin = DBGetContactSettingByte(NULL, "SRFile", "AutoMin", 0) != 0; /* lqbe */
 
  	bool bJustCreated = (hwndFtMgr == NULL);
  	if (bJustCreated)

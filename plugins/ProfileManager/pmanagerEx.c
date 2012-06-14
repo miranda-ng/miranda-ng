@@ -97,7 +97,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	mi.pszPopupName = "Database";
 	mi.pszName=LPGEN("Load profile");
 	mi.pszService="Database/LoadPM";
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 	
 	CreateServiceFunction("Database/ChangePM",ChangePM);
 	ZeroMemory(&mi,sizeof(mi));
@@ -108,7 +108,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	mi.pszPopupName = "Database";
 	mi.pszName=LPGEN("Change profile");
 	mi.pszService="Database/ChangePM";
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 	return 0;
 }
 

@@ -48,6 +48,7 @@
 #include <m_metacontacts.h>
 #include <m_updater.h>	
 #include <m_icolib.h>	
+#include <win2k.h>
 #include "resource.h"
 #include "m_nudge.h"
 

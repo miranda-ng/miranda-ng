@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project,
+Copyright 2000-2012 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -74,7 +74,7 @@ struct NetlibConnection
 	CRITICAL_SECTION csHttpSequenceNums;
 	HANDLE hOkToCloseEvent;
 	LONG dontCloseNow;
-	struct NetlibNestedCriticalSection ncsSend,ncsRecv;
+	struct NetlibNestedCriticalSection ncsSend, ncsRecv;
 	HSSL hSsl;
 	struct NetlibHTTPProxyPacketQueue * pHttpProxyPacketQueue;
 	char *szNewUrl;
@@ -107,16 +107,16 @@ struct NetlibPacketRecver {
 //netlib.c
 void NetlibFreeUserSettingsStruct(NETLIBUSERSETTINGS *settings);
 void NetlibDoClose(NetlibConnection *nlc, bool noShutdown = false);
-INT_PTR NetlibCloseHandle(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM lParam);
 void NetlibInitializeNestedCS(struct NetlibNestedCriticalSection *nlncs);
 void NetlibDeleteNestedCS(struct NetlibNestedCriticalSection *nlncs);
 #define NLNCS_SEND  0
 #define NLNCS_RECV  1
-int NetlibEnterNestedCS(struct NetlibConnection *nlc,int which);
+int NetlibEnterNestedCS(struct NetlibConnection *nlc, int which);
 void NetlibLeaveNestedCS(struct NetlibNestedCriticalSection *nlncs);
-INT_PTR NetlibBase64Encode(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibBase64Decode(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibHttpUrlEncode(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibBase64Encode(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibBase64Decode(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibHttpUrlEncode(WPARAM wParam, LPARAM lParam);
 
 extern CRITICAL_SECTION csNetlibUser;
 extern LIST<NetlibUser> netlibUser;
@@ -129,62 +129,62 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps);
 
 //netlibbind.c
 int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp);
-INT_PTR NetlibBindPort(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam);
 bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 //netlibhttp.c
-INT_PTR NetlibHttpSendRequest(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibHttpRecvHeaders(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibHttpFreeRequestStruct(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibHttpTransaction(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibHttpSendRequest(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibHttpFreeRequestStruct(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibHttpTransaction(WPARAM wParam, LPARAM lParam);
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect = false);
 void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
 
 //netlibhttpproxy.c
-int NetlibInitHttpConnection(struct NetlibConnection *nlc,struct NetlibUser *nlu,NETLIBOPENCONNECTION *nloc);
-int NetlibHttpGatewayRecv(struct NetlibConnection *nlc,char *buf,int len,int flags);
-int NetlibHttpGatewayPost(struct NetlibConnection *nlc,const char *buf,int len,int flags);
+int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nlu, NETLIBOPENCONNECTION *nloc);
+int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int flags);
+int NetlibHttpGatewayPost(struct NetlibConnection *nlc, const char *buf, int len, int flags);
 void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck);
 
-INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibHttpSetPollingTimeout(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam);
 
 //netliblog.c
 void NetlibLogShowOptions(void);
-void NetlibDumpData(struct NetlibConnection *nlc,PBYTE buf,int len,int sent,int flags);
+void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags);
 void NetlibLogf(NetlibUser* nlu, const char *fmt, ...);
 void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 
 //netlibopenconn.c
-DWORD DnsLookup(struct NetlibUser *nlu,const char *szHost);
-int WaitUntilReadable(SOCKET s,DWORD dwTimeout, bool check = false);
-int WaitUntilWritable(SOCKET s,DWORD dwTimeout);
+DWORD DnsLookup(struct NetlibUser *nlu, const char *szHost);
+int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check = false);
+int WaitUntilWritable(SOCKET s, DWORD dwTimeout);
 bool NetlibDoConnect(NetlibConnection *nlc);
 bool NetlibReconnect(NetlibConnection *nlc);
-INT_PTR NetlibOpenConnection(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam);
 INT_PTR NetlibStartSsl(WPARAM wParam, LPARAM lParam);
 
 //netlibopts.c
-int NetlibOptInitialise(WPARAM wParam,LPARAM lParam);
-void NetlibSaveUserSettingsStruct(const char *szSettingsModule,NETLIBUSERSETTINGS *settings);
+int NetlibOptInitialise(WPARAM wParam, LPARAM lParam);
+void NetlibSaveUserSettingsStruct(const char *szSettingsModule, NETLIBUSERSETTINGS *settings);
 
 //netlibpktrecver.c
-INT_PTR NetlibPacketRecverCreate(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibPacketRecverGetMore(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibPacketRecverCreate(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibPacketRecverGetMore(WPARAM wParam, LPARAM lParam);
 
 //netlibsock.c
 #define NL_SELECT_READ  0x0001
 #define NL_SELECT_WRITE 0x0002
 #define NL_SELECT_ALL   (NL_SELECT_READ+NL_SELECT_WRITE)
 
-INT_PTR NetlibSend(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibRecv(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibSelect(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibSelectEx(WPARAM wParam,LPARAM lParam);
-INT_PTR NetlibShutdown(WPARAM wParam,LPARAM lParam);
+INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibSelect(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibSelectEx(WPARAM wParam, LPARAM lParam);
+INT_PTR NetlibShutdown(WPARAM wParam, LPARAM lParam);
 
 bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr);
 char* NetlibAddressToString(SOCKADDR_INET_M* addr);
@@ -192,7 +192,7 @@ void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo);
 NETLIBIPLIST* GetMyIp(unsigned flags);
 
 //netlibupnp.c
-bool NetlibUPnPAddPortMapping(WORD intport, char *proto,
+bool NetlibUPnPAddPortMapping(WORD intport, char *proto, 
 							  WORD *extport, DWORD *extip, bool search);
 void NetlibUPnPDeletePortMapping(WORD extport, char* proto);
 void NetlibUPnPCleanup(void*);
@@ -211,11 +211,11 @@ char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge
 									   bool http, unsigned& complete);
 
 
-static __inline INT_PTR NLSend(struct NetlibConnection *nlc,const char *buf,int len,int flags) {
-	NETLIBBUFFER nlb={(char*)buf,len,flags};
-	return NetlibSend((WPARAM)nlc,(LPARAM)&nlb);
+static __inline INT_PTR NLSend(struct NetlibConnection *nlc, const char *buf, int len, int flags) {
+	NETLIBBUFFER nlb={(char*)buf, len, flags};
+	return NetlibSend((WPARAM)nlc, (LPARAM)&nlb);
 }
-static __inline INT_PTR NLRecv(struct NetlibConnection *nlc,char *buf,int len,int flags) {
-	NETLIBBUFFER nlb={buf,len,flags};
-	return NetlibRecv((WPARAM)nlc,(LPARAM)&nlb);
+static __inline INT_PTR NLRecv(struct NetlibConnection *nlc, char *buf, int len, int flags) {
+	NETLIBBUFFER nlb={buf, len, flags};
+	return NetlibRecv((WPARAM)nlc, (LPARAM)&nlb);
 }

@@ -481,7 +481,7 @@ int Create_MenuitemShowList(void)
 	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )"recent_main" );
 	mi.pszName = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;
-	CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	ZeroMemory( &mi, sizeof( mi ));
 	mi.cbSize = sizeof( mi );
@@ -489,8 +489,7 @@ int Create_MenuitemShowList(void)
 	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )"recent_main" );
 	mi.ptszName = _T("Toggle Ignore");
 	mi.pszService	= V_RECENTCONTACTS_TOGGLE_IGNORE;
-	hMenuItemRemove = (HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM,0, ( LPARAM )&mi );
-
+	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 	return 0;
 }
 

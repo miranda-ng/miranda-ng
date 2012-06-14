@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //  wParam=(WPARAM)(HANDLE)hContact
 //  lParam=0
 //hContact can be NULL to show system messages
-#define MS_HISTORY_SHOWCONTACTHISTORY       "History/ShowContactHistory" 
+#define MS_HISTORY_SHOWCONTACTHISTORY       "History/ShowContactHistory"
 
 #endif // M_HISTORY_H__
 

@@ -341,8 +341,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.flags = CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 	mi.position = 1001;
 
-	HANDLE m_hMenuRoot = reinterpret_cast<HGENMENU>( CallService(
-		MS_CLIST_ADDSTATUSMENUITEM,0,reinterpret_cast<LPARAM>(&mi)) );
+	HANDLE m_hMenuRoot = Menu_AddStatusMenuItem(&mi);
 
 	// TODO: Disable this menu item when offline
 	// "Send Tweet..."
@@ -351,9 +350,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.pszName = LPGEN("Send Tweet...");
 	mi.popupPosition = 200001;
 	mi.icolibItem = GetIconHandle("tweet");
-	HANDLE m_hMenuBookmarks = reinterpret_cast<HGENMENU>( CallService(
-		MS_CLIST_ADDSTATUSMENUITEM,0,reinterpret_cast<LPARAM>(&mi)) );
-
+	HANDLE m_hMenuBookmarks = Menu_AddStatusMenuItem(&mi);
 	return 0;
 }
 

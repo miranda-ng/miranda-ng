@@ -36,39 +36,39 @@ VOID InitMenu()
 	mi.icolibItem = GetIconHandle("main");
 	mi.ptszName = LPGENT("Check All Feeds");
 	mi.pszService = MS_NEWSAGGR_CHECKALLFEEDS;
-	hService2[0] = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	hService2[0] = Menu_AddMainMenuItem(&mi);
 
 	mi.position=10100002;
 	mi.icolibItem = GetIconHandle("addfeed");
 	mi.ptszName = LPGENT("Add Feed");
 	mi.pszService = MS_NEWSAGGR_ADDFEED;
-	hService2[1] = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	hService2[1] = Menu_AddMainMenuItem(&mi);
 
 	mi.position=10100003;
 	mi.icolibItem = GetIconHandle("importfeeds");
 	mi.ptszName = LPGENT("Import Feeds");
 	mi.pszService = MS_NEWSAGGR_IMPORTFEEDS;
-	hService2[2] = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	hService2[2] = Menu_AddMainMenuItem(&mi);
 
 	mi.position=10100004;
 	mi.icolibItem = GetIconHandle("exportfeeds");
 	mi.ptszName = LPGENT("Export Feeds");
 	mi.pszService = MS_NEWSAGGR_EXPORTFEEDS;
-	hService2[3] = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	hService2[3] = Menu_AddMainMenuItem(&mi);
 
 	// adding contact menu items
 	mi.position=-0x7FFFFFFA;
 	mi.icolibItem = GetIconHandle("checkfeed");
 	mi.ptszName = LPGENT("Check feed");
 	mi.pszService = MS_NEWSAGGR_CHECKFEED;
-	hService2[4] = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hService2[4] = Menu_AddContactMenuItem(&mi);
 
 	// adding contact menu items
 	mi.position=-0x7FFFFFFA;
 	//mi.icolibItem = GetIconHandle("checkfeed");
 	mi.ptszName = LPGENT("Change feed");
 	mi.pszService = MS_NEWSAGGR_CHANGEFEED;
-	hService2[5] = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hService2[5] = Menu_AddContactMenuItem(&mi);
 
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);

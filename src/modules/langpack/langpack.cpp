@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -153,7 +153,7 @@ unsigned int __fastcall hashstrW(const char * key)
 	return hash(buf, len);
 }
 
-static int SortLangPackHashesProc(LangPackEntry *arg1,LangPackEntry *arg2)
+static int SortLangPackHashesProc(LangPackEntry *arg1, LangPackEntry *arg2)
 {
 	if (arg1->englishHash < arg2->englishHash) return -1;
 	if (arg1->englishHash > arg2->englishHash) return 1;
@@ -333,7 +333,7 @@ static int LoadLangPack(const TCHAR *szLangPack)
 	if ( p )
 		p[1] = 0;
 
-	FILE *fp = _tfopen(szLangPack,_T("rt"));
+	FILE *fp = _tfopen(szLangPack, _T("rt"));
 	if ( fp == NULL )
 		return 1;
 
@@ -367,17 +367,17 @@ static int LoadLangPack(const TCHAR *szLangPack)
 		if ( line[0] == '[' || line[0] == '#' )
 			break;
 
-		char* pszColon = strchr( line,':' );
+		char* pszColon = strchr( line, ':' );
 		if ( pszColon == NULL ) {
 			fclose( fp );
 			return 3;
 		}
 
 		*pszColon++ = 0;
-		if (!lstrcmpA(line,"Language")) {mir_snprintf(langPack.language,sizeof(langPack.language),"%s",pszColon); lrtrim(langPack.language);}
-		else if (!lstrcmpA(line,"Last-Modified-Using")) {mir_snprintf(langPack.lastModifiedUsing,sizeof(langPack.lastModifiedUsing),"%s",pszColon); lrtrim(langPack.lastModifiedUsing);}
-		else if (!lstrcmpA(line,"Authors")) {mir_snprintf(langPack.authors,sizeof(langPack.authors),"%s",pszColon); lrtrim(langPack.authors);}
-		else if (!lstrcmpA(line,"Author-email")) {mir_snprintf(langPack.authorEmail,sizeof(langPack.authorEmail),"%s",pszColon); lrtrim(langPack.authorEmail);}
+		if (!lstrcmpA(line, "Language")) {mir_snprintf(langPack.language, sizeof(langPack.language), "%s", pszColon); lrtrim(langPack.language);}
+		else if (!lstrcmpA(line, "Last-Modified-Using")) {mir_snprintf(langPack.lastModifiedUsing, sizeof(langPack.lastModifiedUsing), "%s", pszColon); lrtrim(langPack.lastModifiedUsing);}
+		else if (!lstrcmpA(line, "Authors")) {mir_snprintf(langPack.authors, sizeof(langPack.authors), "%s", pszColon); lrtrim(langPack.authors);}
+		else if (!lstrcmpA(line, "Author-email")) {mir_snprintf(langPack.authorEmail, sizeof(langPack.authorEmail), "%s", pszColon); lrtrim(langPack.authorEmail);}
 		else if (!lstrcmpA(line, "Locale")) { 
 			char szBuf[20], *stopped;
 
@@ -399,13 +399,13 @@ static int LoadLangPack(const TCHAR *szLangPack)
 	LoadLangPackFile( fp, line, fileCp );
 	fclose(fp);
 
-	qsort(langPack.entry,langPack.entryCount,sizeof(LangPackEntry),(int(*)(const void*,const void*))SortLangPackHashesProc);
+	qsort(langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int SortLangPackHashesProc2(LangPackEntry *arg1,LangPackEntry *arg2)
+static int SortLangPackHashesProc2(LangPackEntry *arg1, LangPackEntry *arg2)
 {
 	if (arg1->englishHash < arg2->englishHash) return -1;
 	if (arg1->englishHash > arg2->englishHash) return 1;
@@ -417,9 +417,9 @@ char *LangPackTranslateString(LangPackMuuid* pUuid, const char *szEnglish, const
 	if ( langPack.entryCount == 0 || szEnglish == NULL )
 		return (char*)szEnglish;
 
-	LangPackEntry key,*entry;
+	LangPackEntry key, *entry;
 	key.englishHash = W ? hashstrW(szEnglish) : hashstr(szEnglish);
-	entry = (LangPackEntry*)bsearch(&key, langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*,const void*))SortLangPackHashesProc2 );
+	entry = (LangPackEntry*)bsearch(&key, langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2 );
 	if ( entry == NULL )
 		return (char*)szEnglish;
 
@@ -511,7 +511,7 @@ void LangPackDropUnusedItems( void )
 
 	if ( bSortNeeded ) {
 		langPack.entryCount = ( int )( d - langPack.entry );
-		qsort(langPack.entry,langPack.entryCount,sizeof(LangPackEntry),(int(*)(const void*,const void*))SortLangPackHashesProc);
+		qsort(langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
 	}
 }
 
@@ -525,7 +525,7 @@ int LoadLangPackModule(void)
 
 	bModuleInitialized = TRUE;
 
-	ZeroMemory(&langPack,sizeof(langPack));
+	ZeroMemory(&langPack, sizeof(langPack));
 	LoadLangPackServices();
 	pathToAbsoluteT(_T("langpack_*.txt"), szSearch, NULL);
 	hFind = FindFirstFile( szSearch, &fd );

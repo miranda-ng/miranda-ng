@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -116,7 +116,7 @@ int LoadUpdateNotifyModule(void) {
 	mi.position = 2000030000;
 	mi.pszName = LPGEN("Check for Update");
 	mi.pszService = "UpdateNotify/UpdateCommand";
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 	
 	hHookModules = HookEvent(ME_SYSTEM_MODULESLOADED, UpdateNotifyModulesLoaded);
 	hHookPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, UpdateNotifyPreShutdown);
@@ -163,7 +163,7 @@ static INT_PTR UpdateNotifyMenuCommand(WPARAM, LPARAM) {
 		DBWriteContactSettingDword(NULL, UN_MOD, UN_CURRENTVERSIONFND, und.reqTime);
 	}
 	und.isManual = 1;
-	DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc,(LPARAM)&und);
+	DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc, (LPARAM)&und);
 	hwndManualUpdateDlg = 0;
 	return 0;	
 }
@@ -207,7 +207,7 @@ static VOID CALLBACK UpdateNotifyTimerCheck(HWND, UINT, UINT_PTR, DWORD)
 }
 
 static DWORD UpdateNotifyMakeVersion(char *str) {
-    DWORD a1,a2,a3,a4;
+    DWORD a1, a2, a3, a4;
     if (!str)
         return 0;
     sscanf(str, "%u.%u.%u.%u", &a1, &a2, &a3, &a4);
@@ -274,8 +274,8 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
 	isBetaCheck = DBGetContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_DEF) == UN_NOTIFYTYPE_BETA?1:0;
 	isAlphaCheck = DBGetContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_DEF) == UN_NOTIFYTYPE_ALPHA?1:0;
 	dwVersion = CallService(MS_SYSTEM_GETVERSION, 0, 0);
-	mir_snprintf(szVersion, sizeof(szVersion), "%d.%d.%d.%d",
-		HIBYTE(HIWORD(dwVersion)), LOBYTE(HIWORD(dwVersion)),
+	mir_snprintf(szVersion, sizeof(szVersion), "%d.%d.%d.%d", 
+		HIBYTE(HIWORD(dwVersion)), LOBYTE(HIWORD(dwVersion)), 
 		HIBYTE(LOWORD(dwVersion)), LOBYTE(LOWORD(dwVersion)));
 	if (!DBGetContactSettingString(NULL, UN_MOD, UN_CUSTOMXMLURL, &dbv)) {
 		mir_snprintf(szUrl, sizeof(szUrl), "%s", dbv.pszVal?dbv.pszVal:UN_URLXML);
@@ -535,7 +535,7 @@ static void UpdateNotifyPerform(void *)
 		if (notify) {
 			DBWriteContactSettingString(NULL, UN_MOD, UN_CURRENTVERSION, und.versionReal);
 			DBWriteContactSettingDword(NULL, UN_MOD, UN_CURRENTVERSIONFND, und.reqTime);
-			DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc,(LPARAM)&und);
+			DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc, (LPARAM)&und);
 			hwndUpdateDlg = 0;
 		}
 	}

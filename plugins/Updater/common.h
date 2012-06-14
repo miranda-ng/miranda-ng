@@ -27,6 +27,7 @@
 #include <m_netlib.h>
 #include <m_utils.h>
 #include <m_clist.h>
+#include <m_genmenu.h>
 #include <m_icoLib.h>
 
 #include <win2k.h>

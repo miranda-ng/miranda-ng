@@ -143,7 +143,7 @@ void InitContactMenus()
 	mi.pszName = LPGEN("Reply...");
 	mi.pszService = "Twitter/ReplyToTweet";
 	g_hMenuEvts[1] = CreateServiceFunction(mi.pszService, GlobalService<&TwitterProto::ReplyToTweet>);
-	g_hMenuItems[0] = reinterpret_cast<HANDLE>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
+	g_hMenuItems[0] = Menu_AddContactMenuItem(&mi);
 
 	mi.position=-2000006000;
 	mi.icolibItem = GetIconHandle("homepage");
@@ -151,8 +151,7 @@ void InitContactMenus()
 	mi.pszService = "Twitter/VisitHomepage";
 	g_hMenuEvts[2] = CreateServiceFunction(mi.pszService,
 		GlobalService<&TwitterProto::VisitHomepage>);
-	g_hMenuItems[1] = reinterpret_cast<HANDLE>(
-		CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi) );
+	g_hMenuItems[1] = Menu_AddContactMenuItem(&mi);
 }
 
 void UninitContactMenus()

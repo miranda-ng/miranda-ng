@@ -41,15 +41,15 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 //These macros use the above order, not release order.
 #define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
 #define WinVerMinor()      HIBYTE(LOWORD(GetVersion()))
-#define IsWinVerNT()       ((GetVersion()&0x80000000)==0)
+#define IsWinVerNT()       ((GetVersion()&0x80000000) == 0)
 // IsWinVerNT4Plus() is buggy, Windows 98 is 4.10.1998
 #define IsWinVerNT4Plus()  (WinVerMajor()>=5 || WinVerMinor()>0 || IsWinVerNT())
-#define IsWinVer98Plus()   (LOWORD(GetVersion())!=4)
+#define IsWinVer98Plus()   (LOWORD(GetVersion()) != 4)
 #define IsWinVerMEPlus()   (WinVerMajor()>=5 || WinVerMinor()>10)
 #define IsWinVer2000Plus() (WinVerMajor()>=5 && IsWinVerNT())
-#define IsWinVerXPPlus()   (WinVerMajor()>=5 && LOWORD(GetVersion())!=5)
+#define IsWinVerXPPlus()   (WinVerMajor()>=5 && LOWORD(GetVersion()) != 5)
 #define IsWinVerVistaPlus() (WinVerMajor()>=6)
-#define IsWinVer7Plus()     (WinVerMajor()>6 || (WinVerMajor()==6 && WinVerMinor()>=1))
+#define IsWinVer7Plus()     (WinVerMajor()>6 || (WinVerMajor() == 6 && WinVerMinor()>=1))
 
 // put stuff that's not apart of any SDKs but is used nonetheless
 
@@ -59,7 +59,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 #define MENUITEMINFO_V4_SIZE sizeof(MENUITEMINFO)
 #else
 //mii was extended for NT5/Win98, so need the old length for some stuff
-#define MENUITEMINFO_V4_SIZE (offsetof(MENUITEMINFO,cch)+sizeof((*((MENUITEMINFO*)0)).cch))
+#define MENUITEMINFO_V4_SIZE (offsetof(MENUITEMINFO, cch)+sizeof((*((MENUITEMINFO*)0)).cch))
 #endif
 
 #if _MSC_VER >= 1300
@@ -96,9 +96,9 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		#define DTBG_OMITCONTENT        0x00000008  // don't draw content area of part
 		#define DTBG_COMPUTINGREGION    0x00000010  // TRUE if calling to compute region
 		#define DTBG_MIRRORDC           0x00000020  // assume the hdc is mirrorred and
-																  // flip images as appropriate (currently 
+																  // flip images as appropriate (currently
 																  // only supported for bgtype=imagefile)
-		#define DTBG_NOMIRROR           0x00000040  // don't mirror the output, overrides everything else 
+		#define DTBG_NOMIRROR           0x00000040  // don't mirror the output, overrides everything else
 
 		typedef struct _DTBGOPTS
 		{
@@ -123,7 +123,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		#define DTT_CALLBACK        (1UL << 12)     // pfnDrawTextCallback has been specified
 		#define DTT_COMPOSITED      (1UL << 13)     // Draws text with antialiased alpha (needs a DIB section)
 
-		typedef 
+		typedef
 		int
 		(WINAPI *DTT_CALLBACK_PROC)
 		(
@@ -151,7 +151,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 			int               iGlowSize;           // Glow radious around text
 			DTT_CALLBACK_PROC pfnDrawTextCallback; // Callback for DrawText
 			LPARAM            lParam;              // Parameter for callback
-		} DTTOPTS, *PDTTOPTS; 
+		} DTTOPTS, *PDTTOPTS;
 
 		#define WTNCA_NODRAWCAPTION       0x00000001    // don't draw the window caption
 		#define WTNCA_NODRAWICON          0x00000002    // don't draw the system icon
@@ -181,7 +181,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#ifdef __cplusplus
 	extern "C" {
 	#endif
-		WINGDIAPI BOOL WINAPI AlphaBlend(HDC,int,int,int,int,HDC,int,int,int,int,BLENDFUNCTION);
+		WINGDIAPI BOOL WINAPI AlphaBlend(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
 	#ifdef __cplusplus
 	}
 	#endif
@@ -192,7 +192,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 			(((int)((LPBYTE)(&((structname*)0)->member) - ((LPBYTE)((structname*)0)))) + sizeof(((structname*)0)->member))
 	#endif
 	#ifndef OPENFILENAME_SIZE_VERSION_400
-		#define OPENFILENAME_SIZE_VERSION_400	CDSIZEOF_STRUCT(OPENFILENAME,lpTemplateName)
+		#define OPENFILENAME_SIZE_VERSION_400	CDSIZEOF_STRUCT(OPENFILENAME, lpTemplateName)
 	#endif
 	#ifndef NOTIFYICONDATAA_V1_SIZE
 		#define NOTIFYICONDATAA_V1_SIZE			CDSIZEOF_STRUCT(NOTIFYICONDATAA, szTip[64])
@@ -201,7 +201,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		#define NOTIFYICONDATA_V1_SIZE			CDSIZEOF_STRUCT(NOTIFYICONDATA, szTip[64])
 	#endif
 	#ifndef OPENFILENAMEW_SIZE_VERSION_400
-		#define OPENFILENAMEW_SIZE_VERSION_400	CDSIZEOF_STRUCT(OPENFILENAMEW,lpTemplateName)
+		#define OPENFILENAMEW_SIZE_VERSION_400	CDSIZEOF_STRUCT(OPENFILENAMEW, lpTemplateName)
 	#endif
 	#ifndef NOTIFYICONDATAW_V1_SIZE
 		#define NOTIFYICONDATAW_V1_SIZE			CDSIZEOF_STRUCT(NOTIFYICONDATAW, szTip[64])
@@ -255,7 +255,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#define CBS_CHECKEDNORMAL   5
 	#define CBS_CHECKEDHOT      6
 	#define	CFM_WEIGHT			0x00400000
-	#define	CFM_UNDERLINETYPE	0x00800000	
+	#define	CFM_UNDERLINETYPE	0x00800000
 	#define CFM_BACKCOLOR		0x04000000
 	#define CFU_UNDERLINE		1
 	#define CFU_UNDERLINEWORD	2
@@ -499,7 +499,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 
 		typedef
 			enum TBPFLAG
-		{	
+		{
 			TBPF_NOPROGRESS	= 0,
 			TBPF_INDETERMINATE	= 0x1,
 			TBPF_NORMAL	= 0x2,
@@ -508,7 +508,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 		} TBPFLAG;
 
 		typedef struct THUMBBUTTON *LPTHUMBBUTTON;
-		                                        
+		                                
 		static const GUID IID_ITaskbarList3 = { 0xea1afb91, 0x9e28, 0x4b86, { 0x90, 0xE9, 0x9e, 0x9f, 0x8a, 0x5e, 0xef, 0xaf } };
 
 	#ifdef INTERFACE
@@ -533,7 +533,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 			// ITaskbarList3 members
 			STDMETHOD (SetProgressValue)     (THIS_ HWND hwnd, ULONGLONG ullCompleted, ULONGLONG ullTotal) PURE;
 			STDMETHOD (SetProgressState)     (THIS_ HWND hwnd, TBPFLAG tbpFlags) PURE;
-			STDMETHOD (RegisterTab)          (THIS_ HWND hwndTab,HWND hwndMDI) PURE;
+			STDMETHOD (RegisterTab)          (THIS_ HWND hwndTab, HWND hwndMDI) PURE;
 			STDMETHOD (UnregisterTab)        (THIS_ HWND hwndTab) PURE;
 			STDMETHOD (SetTabOrder)          (THIS_ HWND hwndTab, HWND hwndInsertBefore) PURE;
 			STDMETHOD (SetTabActive)         (THIS_ HWND hwndTab, HWND hwndMDI, DWORD dwReserved) PURE;

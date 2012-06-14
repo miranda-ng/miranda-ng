@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns immediately, just after the dialog is shown
 //szText is the text to put in the edit box of the window (but not send)
 //szText=NULL will not use any text
-//szText!=NULL is only supported on v0.1.2.0+
+//szText != NULL is only supported on v0.1.2.0+
 #define MS_MSG_SENDMESSAGE   "SRMsg/SendCommand"
 #define MS_MSG_SENDMESSAGEW  "SRMsg/SendCommandW"
 
@@ -71,7 +71,7 @@ typedef struct {
 //wparam=0
 //lparam=0
 //Returns a dword with the current message api version
-//Current version is 0,0,0,4
+//Current version is 0, 0, 0, 4
 
 #define MS_MSG_GETWINDOWCLASS "MessageAPI/WindowClass"
 //wparam=(char*)szBuf

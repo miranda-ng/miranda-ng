@@ -166,7 +166,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 
 	if (!pcli->pfnGetProtocolVisibility(szChangedProto)) return;
 
-	pcli->pfnLockTray();	
+	pcli->pfnLockTray();
 	if ( pcli->cycleTimerId ) {
 		KillTimer( NULL, pcli->cycleTimerId);
 		pcli->cycleTimerId=0;
@@ -258,7 +258,7 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 						pcli->cycleTimerId=0;
 						{
 							HICON hIcon;
-							// 1 check if multi connecting icon							
+							// 1 check if multi connecting icon
 							if (g_bMultiConnectionMode)
 								if (_strcmpi(szChangedProto,g_szConnectingProto))
 								{ pcli->pfnUnlockTray(); return; }
@@ -323,26 +323,26 @@ void cliTrayIconUpdateBase(const char *szChangedProto)
 				break;
 		}	}
 	}
-	else if ( pcli->pfnGetProtocolVisibility( szChangedProto )) 
+	else if ( pcli->pfnGetProtocolVisibility( szChangedProto ))
 	{
 		DBVARIANT dbv={DBVT_DELETED};
 		char *szProto;
 		int status=CallProtoService(szChangedProto,PS_GETSTATUS,0,0);
-		
-		if ((g_StatusBarData.connectingIcon==1)&&status>=ID_STATUS_CONNECTING&&status<=ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) 
+
+		if ((g_StatusBarData.connectingIcon==1)&&status>=ID_STATUS_CONNECTING&&status<=ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES)
 		{
 			HICON hIcon = ( HICON )CLUI_GetConnectingIconService((WPARAM)szChangedProto,0);;
-			if (hIcon) 
+			if (hIcon)
 				changed=pcli->pfnTrayIconSetBaseInfo(hIcon,NULL);
 		}
-		else if (status>=ID_STATUS_OFFLINE && status<=ID_STATUS_IDLE) 
+		else if (status>=ID_STATUS_OFFLINE && status<=ID_STATUS_IDLE)
 		{
 			if(ModernGetSettingString(NULL,"CList","PrimaryStatus",&dbv))
 				szProto=NULL;
-			else 
+			else
 				szProto=dbv.pszVal;
 			changed=pcli->pfnTrayIconSetBaseInfo(cliGetIconFromStatusMode(NULL,szProto,status),NULL);
-			if (szProto) 
+			if (szProto)
 				mir_free_and_nill(szProto);
 		}
 	}
@@ -370,7 +370,7 @@ static VOID CALLBACK TrayIconAutoHideTimer(HWND hwnd,UINT message,UINT_PTR idEve
 
 INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
 {
-	if (ModernGetSettingByte(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT)) 
+	if (ModernGetSettingByte(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT))
 	{
 		if (GetActiveWindow() != pcli->hwndContactList
 			&& GetWindow(GetParent(GetActiveWindow()),GW_OWNER) != pcli->hwndContactList)
@@ -420,7 +420,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 			if(ModernGetSettingByte(NULL,"CList","AutoHide",SETTING_AUTOHIDE_DEFAULT)) {
 				if (LOWORD(msg->wParam)==WA_INACTIVE && h2!=h4)
 					autoHideTimerId=CLUI_SafeSetTimer(NULL,0,1000*ModernGetSettingWord(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),TrayIconAutoHideTimer);
-				else { 
+				else {
 					KillTimer(NULL,autoHideTimerId);
 					autoHideTimerId = 0;
 				}
@@ -628,10 +628,10 @@ void InitTrayMenus(void)
 	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu",FreeOwnerDataTrayMenu);
 	CreateServiceFunction("CLISTMENUSTRAY/TrayMenuonAddService",TrayMenuonAddService);
 
-	CreateServiceFunction(MS_CLIST_ADDTRAYMENUITEM,AddTrayMenuItem);
+	CreateServiceFunction("CList/AddTrayMenuItem",AddTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_REMOVETRAYMENUITEM,RemoveTrayMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDTRAY,BuildTrayMenu);
-	
+
 
 	//Tray menu
 	memset(&tmp,0,sizeof(tmp));

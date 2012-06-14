@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -92,7 +92,7 @@ typedef struct
 	void    ( *setClear )( HXML, int i, LPCTSTR lpszValue );
 	int     ( *getElementCount )( HXML );
 	int     ( *getElement )( HXML, XML_ELEMENT_POS n, XML_ELEMENT_TYPE *type, HXML *child, LPCTSTR *value, LPCTSTR *name, LPCTSTR *openTag, LPCTSTR *closeTag );
-	// With getElement() it's possible to enumerate all the different contents (attribute,child,text, clear) of the current node. The order is reflecting the order of the original file/string. NOTE: 0 <= i < getElementCount().
+	// With getElement() it's possible to enumerate all the different contents (attribute, child, text, clear) of the current node. The order is reflecting the order of the original file/string. NOTE: 0 <= i < getElementCount().
 	// type, child, value, name, openTag, closeTag will be filled on return, depending on type:
 	// for XML_ELEM_TYPE_CHILD, child is valid;
 	// for XML_ELEM_TYPE_ATTRIBUTE, name and value are valid;
@@ -119,7 +119,7 @@ typedef struct
 extern XML_API xi;
 
 /*
-a service to obtain the XML API 
+a service to obtain the XML API
 
 wParam = 0;
 lParam = (LPARAM)(XML_API*).

@@ -818,7 +818,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.position = 200000;
 		mi.pszName = Translate("Enable Miss You");
 		mi.pszService = "BuddyExpectator/actionMissYouClick";
-		hContactMenu = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		hContactMenu = Menu_AddContactMenuItem(&mi);
 	}
 	
 	// Updater plugin support

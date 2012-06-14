@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -48,16 +48,16 @@ Cavets:
 
 */
 UINT_PTR forkthread (
-	void (__cdecl *threadcode)(void*),
-	unsigned long stacksize,
+	void (__cdecl *threadcode)(void*), 
+	unsigned long stacksize, 
 	void *arg
 );
 
 UINT_PTR forkthreadex(
-	void *sec,
-	unsigned stacksize,
-	unsigned (__stdcall *threadcode)(void*),
-	void *owner,
-	void *arg,
+	void *sec, 
+	unsigned stacksize, 
+	unsigned (__stdcall *threadcode)(void*), 
+	void *owner, 
+	void *arg, 
 	unsigned *thraddr
 );

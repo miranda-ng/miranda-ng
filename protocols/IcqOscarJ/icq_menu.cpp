@@ -143,7 +143,7 @@ void g_MenuInit(void)
 	mi.position = 1000030000;
 	mi.icolibItem = hStaticIcons[ISI_AUTH_REQUEST]->Handle();
 	strcpy(pszDest, MS_REQ_AUTH);
-	g_hContactMenuItems[ICMI_AUTH_REQUEST] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuItems[ICMI_AUTH_REQUEST] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_AUTH_REQUEST] = CreateServiceFunction( str, IcqMenuHandleRequestAuth );
 
 	// "Grant authorization"
@@ -151,7 +151,7 @@ void g_MenuInit(void)
 	mi.position = 1000029999;
 	mi.icolibItem = hStaticIcons[ISI_AUTH_GRANT]->Handle();
 	strcpy(pszDest, MS_GRANT_AUTH);
-	g_hContactMenuItems[ICMI_AUTH_GRANT] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuItems[ICMI_AUTH_GRANT] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_AUTH_GRANT] = CreateServiceFunction(mi.pszService, IcqMenuHandleGrantAuth);
 
 	// "Revoke authorization"
@@ -159,7 +159,7 @@ void g_MenuInit(void)
 	mi.position = 1000029998;
 	mi.icolibItem = hStaticIcons[ISI_AUTH_REVOKE]->Handle();
 	strcpy(pszDest, MS_REVOKE_AUTH);
-	g_hContactMenuItems[ICMI_AUTH_REVOKE] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuItems[ICMI_AUTH_REVOKE] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_AUTH_REVOKE] = CreateServiceFunction(mi.pszService, IcqMenuHandleRevokeAuth);
 
 	// "Add to server list"
@@ -167,7 +167,7 @@ void g_MenuInit(void)
 	mi.position = -2049999999;
 	mi.icolibItem = hStaticIcons[ISI_ADD_TO_SERVLIST]->Handle();
 	strcpy(pszDest, MS_ICQ_ADDSERVCONTACT);
-	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuItems[ICMI_ADD_TO_SERVLIST] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_ADD_TO_SERVLIST] = CreateServiceFunction(mi.pszService, IcqMenuHandleAddServContact);
 
 	// "Show custom status details"
@@ -175,14 +175,14 @@ void g_MenuInit(void)
 	mi.position = -2000004999;
 	mi.flags = 0;
 	strcpy(pszDest, MS_XSTATUS_SHOWDETAILS);
-	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuItems[ICMI_XSTATUS_DETAILS] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_XSTATUS_DETAILS] = CreateServiceFunction(mi.pszService, IcqMenuHandleXStatusDetails);
 
 	// "Open ICQ profile"
 	mi.pszName = LPGEN("Open ICQ profile");
 	mi.position = 1000029997;
 	strcpy(pszDest, MS_OPEN_PROFILE);
-	g_hContactMenuItems[ICMI_OPEN_PROFILE] = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	g_hContactMenuItems[ICMI_OPEN_PROFILE] = Menu_AddContactMenuItem(&mi);
 	g_hContactMenuSvc[ICMI_OPEN_PROFILE] = CreateServiceFunction(mi.pszService, IcqMenuHandleOpenProfile);
 }
 

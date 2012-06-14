@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2005 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2005 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -24,25 +24,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CONTACTDIR_H__
 #define M_CONTACTDIR_H__ 1
 
-/* Contactdir module was created on 2005/05/17, 0.4.0.1 
+/* Contactdir module was created on 2005/05/17, 0.4.0.1
 
    -- How you use this module as a protocol --
-   
+
    On Load() Register your protocol with the setting name that stores unique IDs, example:
-   
+
 	if ( ContactDir_SupportExists() ) g_Atom=ContactDir_Register("ICQ", "UIN");
-	
+
 	This will register your protocol and walk the database looking for all contacts on PROTOCOL_NAME which have
-	a "UIN" setting and store it in memory (converting to a string as needed) You of course have to 
+	a "UIN" setting and store it in memory (converting to a string as needed) You of course have to
 	provide fallback if the services don't exist, it's an idea to keep existing code for that.
-	
+
 	-
-	
-	When you add a new contact via MS_DB_CONTACT_ADD, you must register it with your protocol atom too, via 
+
+	When you add a new contact via MS_DB_CONTACT_ADD, you must register it with your protocol atom too, via
 	ContactDir_AddContact(atom, "UIN #", hContact) and when it is deleted ContactDir_RemoveContact(atom, "UIN #")
-	
+
 	-
-	
+
 	To find a contact, use ContactDir_Lookup(atom, "ICQ #") which will return the hContact.
 
 */
@@ -128,7 +128,7 @@ static HANDLE ContactDir_Register(char * szProto, char * szSetting)
 	return cd.atom;
 }
 
-static __inline HANDLE ContactDir_Lookup(HANDLE atom, char * szID) 
+static __inline HANDLE ContactDir_Lookup(HANDLE atom, char * szID)
 {
 	CONTACTDIRECTORYLOOKUP f;
 	f.cbSize=sizeof(f);
@@ -142,7 +142,7 @@ static __inline HANDLE ContactDir_Lookup(HANDLE atom, char * szID)
 static __inline void ContactDir_AddContact(HANDLE atom, char * szID, HANDLE hContact)
 {
 	CONTACTDIRECTORYLOOKUP c = {0};
-	c.cbSize=sizeof(CONTACTDIRECTORYLOOKUP);		
+	c.cbSize=sizeof(CONTACTDIRECTORYLOOKUP);
 	c.atom=atom;
 	c.szID=szID;
 	c.hContact=hContact;
@@ -152,7 +152,7 @@ static __inline void ContactDir_AddContact(HANDLE atom, char * szID, HANDLE hCon
 static __inline void ContactDir_RemoveContact(HANDLE atom, char * szID)
 {
 	CONTACTDIRECTORYLOOKUP c = {0};
-	c.cbSize=sizeof(CONTACTDIRECTORYLOOKUP);		
+	c.cbSize=sizeof(CONTACTDIRECTORYLOOKUP);
 	c.atom=atom;
 	c.szID=szID;
 	c.hContact=NULL;

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-2010 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -115,7 +115,7 @@ int MO_MeasureMenuItem( LPMEASUREITEMSTRUCT mis )
 	if ( pimi->iconId == -1 )
 		return FALSE;
 
-	mis->itemWidth = max(0,GetSystemMetrics(SM_CXSMICON)-GetSystemMetrics(SM_CXMENUCHECK)+4);
+	mis->itemWidth = max(0, GetSystemMetrics(SM_CXSMICON)-GetSystemMetrics(SM_CXMENUCHECK)+4);
 	mis->itemHeight = GetSystemMetrics(SM_CYSMICON)+2;
 	return TRUE;
 }
@@ -154,16 +154,16 @@ int MO_DrawMenuItem( LPDRAWITEMSTRUCT dis )
 			RECT rc;
 			rc.left = 0; rc.right = GetSystemMetrics(SM_CXSMICON)+4;
 			rc.top = y-2; rc.bottom = rc.top + GetSystemMetrics(SM_CYSMICON)+4;
-			DrawEdge(dis->hDC,&rc,BDR_SUNKENOUTER,BF_RECT);
-			InflateRect(&rc,-1,-1);
+			DrawEdge(dis->hDC, &rc, BDR_SUNKENOUTER, BF_RECT);
+			InflateRect(&rc, -1, -1);
 			COLORREF menuCol = GetSysColor(COLOR_MENU);
 			COLORREF hiliteCol = GetSysColor(COLOR_3DHIGHLIGHT);
-			HBRUSH hBrush = CreateSolidBrush(RGB((GetRValue(menuCol)+GetRValue(hiliteCol))/2,(GetGValue(menuCol)+GetGValue(hiliteCol))/2,(GetBValue(menuCol)+GetBValue(hiliteCol))/2));
-			FillRect(dis->hDC,&rc,GetSysColorBrush(COLOR_MENU));
+			HBRUSH hBrush = CreateSolidBrush(RGB((GetRValue(menuCol)+GetRValue(hiliteCol))/2, (GetGValue(menuCol)+GetGValue(hiliteCol))/2, (GetBValue(menuCol)+GetBValue(hiliteCol))/2));
+			FillRect(dis->hDC, &rc, GetSysColorBrush(COLOR_MENU));
 			DeleteObject(hBrush);
-			ImageList_DrawEx(pimi->parent->m_hMenuIcons,pimi->iconId,dis->hDC,2,y,0,0,CLR_NONE,GetSysColor(COLOR_MENU),ILD_BLEND50);
+			ImageList_DrawEx(pimi->parent->m_hMenuIcons, pimi->iconId, dis->hDC, 2, y, 0, 0, CLR_NONE, GetSysColor(COLOR_MENU), ILD_BLEND50);
 		}
-		else ImageList_DrawEx(pimi->parent->m_hMenuIcons,pimi->iconId,dis->hDC,2,y,0,0,CLR_NONE,CLR_NONE,ILD_NORMAL);
+		else ImageList_DrawEx(pimi->parent->m_hMenuIcons, pimi->iconId, dis->hDC, 2, y, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 	}
 	LeaveCriticalSection( &csMenuHook );
 	return TRUE;
@@ -230,7 +230,7 @@ INT_PTR MO_ProcessHotKeys( HANDLE menuHandle, INT_PTR vKey )
 	return FALSE;
 }
 
-INT_PTR MO_GetProtoRootMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR MO_GetProtoRootMenu(WPARAM wParam, LPARAM lParam)
 {
 	char* szProto = ( char* )wParam;
 	if ( szProto == NULL )
@@ -257,7 +257,7 @@ INT_PTR MO_GetProtoRootMenu(WPARAM wParam,LPARAM lParam)
 
 //wparam=MenuItemHandle
 //lparam=PMO_MenuItem
-INT_PTR MO_GetMenuItem(WPARAM wParam,LPARAM lParam)
+INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam)
 {
 	PMO_MenuItem mi = (PMO_MenuItem)lParam;
 	if ( !bIsGenMenuInited || mi == NULL )
@@ -316,7 +316,7 @@ int MO_ModifyMenuItem( PMO_IntMenuItem menuHandle, PMO_MenuItem pmi )
 
 	if ( pmi->flags & CMIM_NAME ) {
 		FreeAndNil(( void** )&pimi->mi.pszName );
-#if defined( _UNICODE )
+
 		if ( pmi->flags & CMIF_UNICODE )
 			pimi->mi.ptszName = mir_tstrdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName : TranslateTS( pmi->ptszName ));
 		else {
@@ -328,9 +328,6 @@ int MO_ModifyMenuItem( PMO_IntMenuItem menuHandle, PMO_MenuItem pmi )
 			}
 			else pimi->mi.ptszName = LangPackPcharToTchar( pmi->pszName );
 		}
-#else
-		pimi->mi.ptszName = mir_strdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName :  Translate( pmi->ptszName ));
-#endif
 	}
 	if ( pmi->flags & CMIM_FLAGS ) {
 		oldflags = pimi->mi.flags & ( CMIF_ROOTHANDLE | CMIF_ICONFROMICOLIB );
@@ -364,7 +361,7 @@ int MO_ModifyMenuItem( PMO_IntMenuItem menuHandle, PMO_MenuItem pmi )
 }
 
 //wparam MenuItemHandle
-//return ownerdata useful to free ownerdata before delete menu item,
+//return ownerdata useful to free ownerdata before delete menu item, 
 //NULL on error.
 INT_PTR MO_MenuItemGetOwnerData(WPARAM wParam, LPARAM)
 {
@@ -432,7 +429,7 @@ int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam)
 	return -1;
 }
 
-INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam,LPARAM lParam)
+INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam)
 {
 	if ( !bIsGenMenuInited )
 		return -1;
@@ -656,18 +653,15 @@ PMO_IntMenuItem MO_AddNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi )
 	p->iconId = -1;
 	p->OverrideShow = TRUE;
 	p->originalPosition = pmi->position;
-	#if defined( _UNICODE )
-		if ( pmi->flags & CMIF_UNICODE ) 
-			p->mi.ptszName = mir_tstrdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName : TranslateTS( pmi->ptszName ));
-		else {
-			if ( pmi->flags & CMIF_KEEPUNTRANSLATED )
-				p->mi.ptszName = mir_a2u(pmi->pszName);
-			else
-				p->mi.ptszName = LangPackPcharToTchar( pmi->pszName );
-		}
-	#else
-		p->mi.ptszName = mir_strdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName : Translate( pmi->ptszName ));
-	#endif
+
+	if ( pmi->flags & CMIF_UNICODE ) 
+		p->mi.ptszName = mir_tstrdup(( pmi->flags & CMIF_KEEPUNTRANSLATED ) ? pmi->ptszName : TranslateTS( pmi->ptszName ));
+	else {
+		if ( pmi->flags & CMIF_KEEPUNTRANSLATED )
+			p->mi.ptszName = mir_a2u(pmi->pszName);
+		else
+			p->mi.ptszName = LangPackPcharToTchar( pmi->pszName );
+	}
 
 	if ( pmi->hIcon != NULL && !bIconsDisabled ) {
 		if ( pmi->flags & CMIF_ICONFROMICOLIB ) {
@@ -733,10 +727,10 @@ PMO_IntMenuItem MO_AddOldNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi 
 
 	//is item with popup or not
 	if ( pmi->root == 0 ) {
-		//yes,this without popup
+		//yes, this without popup
 		pmi->root = NULL; //first level
 	}
-	else { // no,search for needed root and create it if need
+	else { // no, search for needed root and create it if need
 		TCHAR* tszRoot;
 #if defined( _UNICODE )
 		if ( pmi->flags & CMIF_UNICODE )
@@ -751,7 +745,7 @@ PMO_IntMenuItem MO_AddOldNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi 
 		mir_free( tszRoot );
 
 		if ( oldroot == NULL ) {
-			//not found,creating root
+			//not found, creating root
 			TMO_MenuItem tmi = { 0 };
 			tmi = *pmi;
 			tmi.flags |= CMIF_ROOTHANDLE;
@@ -871,7 +865,7 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 //wparam started hMenu
 //lparam ListParam*
 //result hMenu
-INT_PTR MO_BuildMenu(WPARAM wParam,LPARAM lParam)
+INT_PTR MO_BuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	if ( !bIsGenMenuInited )
 		return -1;
@@ -1029,7 +1023,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			#ifdef PUTPOSITIONSONMENU
 				if ( GetKeyState(VK_CONTROL) & 0x8000) {
 					TCHAR str[256];
-					mir_sntprintf( str, SIZEOF(str), _T( "%s (%d,id %x)" ), mi->pszName, mi->position, mii.dwItemData );
+					mir_sntprintf( str, SIZEOF(str), _T( "%s (%d, id %x)" ), mi->pszName, mi->position, mii.dwItemData );
 					mii.dwTypeData = str;
 				}
 			#endif
@@ -1044,7 +1038,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			#ifdef PUTPOSITIONSONMENU
 				if ( GetKeyState(VK_CONTROL) & 0x8000) {
 					TCHAR str[256];
-					mir_sntprintf( str, SIZEOF(str), _T("%s (%d,id %x)"), mi->pszName, mi->position, mii.dwItemData );
+					mir_sntprintf( str, SIZEOF(str), _T("%s (%d, id %x)"), mi->pszName, mi->position, mii.dwItemData );
 					mii.dwTypeData = str;
 				}
 			#endif
@@ -1069,7 +1063,7 @@ static int MO_ReloadIcon( PMO_IntMenuItem pmi, void* )
 		if ( newIcon )
 			ImageList_ReplaceIcon( pmi->parent->m_hMenuIcons, pmi->iconId, newIcon );
 
-		IconLib_ReleaseIcon(newIcon,0);
+		IconLib_ReleaseIcon(newIcon, 0);
 	}
 
 	return FALSE;
@@ -1120,7 +1114,7 @@ static int MO_RegisterIcon( PMO_IntMenuItem pmi, void* )
 			if (( start = strchr( start, '&' )) == NULL )
 				break;
 
-			memmove(start,start+1,strlen(start+1)+1);
+			memmove(start, start+1, strlen(start+1)+1);
 			if (*start != '\0') start++;
 			else break;
 		}
@@ -1170,7 +1164,7 @@ int TryProcessDoubleClick( HANDLE hContact )
 {
 	int iMenuID = GetMenuObjbyId( (int)hContactMenuObject );
 	if ( iMenuID != -1 ) {
-		NotifyEventHooks(hPreBuildContactMenuEvent,(WPARAM)hContact,0);
+		NotifyEventHooks(hPreBuildContactMenuEvent, (WPARAM)hContact, 0);
 
 		PMO_IntMenuItem pimi = ( PMO_IntMenuItem )MO_GetDefaultMenuItem(( WPARAM )g_menus[ iMenuID ]->m_items.first, 0 );
 		if ( pimi != NULL ) {
@@ -1195,7 +1189,7 @@ static VOID CALLBACK PostRegisterIcons( HWND, UINT, UINT_PTR, DWORD )
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	posttimerid = SetTimer(( HWND )NULL, 0, 5, ( TIMERPROC )PostRegisterIcons );
-	HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibChanges);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconLibChanges);
 	return 0;
 }
 

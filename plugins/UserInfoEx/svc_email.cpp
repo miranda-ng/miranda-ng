@@ -265,7 +265,7 @@ VOID SvcEMailRebuildMenu()
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EMAIL);
 			mi.pszName = "&E-mail";
 			mi.pszService = MS_EMAIL_SENDEMAIL;
-			ghMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+			ghMenuItem = Menu_AddContactMenuItem(&mi);
 		}
 	}
 	else 

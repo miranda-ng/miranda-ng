@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -205,7 +205,7 @@ int fnAddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hCon
 	idleMode = szProto != NULL ? DBGetContactSettingDword(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
 		group->cl.items[i]->flags |= CONTACTF_IDLE;
-	lstrcpyn(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact,0), SIZEOF(group->cl.items[i]->szText));
+	lstrcpyn(group->cl.items[i]->szText, cli.pfnGetContactDisplayName(hContact, 0), SIZEOF(group->cl.items[i]->szText));
 
 	{	ClcCacheEntryBase* p = cli.pfnGetCacheEntry(hContact);
 		if ( p != NULL ) {
@@ -573,7 +573,7 @@ void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 		}
 		if (hSelItem)
 			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl,selcontact));
+				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 				
 		cli.pfnRecalcScrollBar(hwnd, dat);				
 	}
@@ -637,7 +637,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
 			SavedContactState_t* p = new SavedContactState_t;
 			p->hContact = group->cl.items[group->scanIndex]->hContact;
-			CopyMemory( p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage,
+			CopyMemory( p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, 
 				sizeof(group->cl.items[group->scanIndex]->iExtraImage));
 			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
 			saveContact.insert( p );
@@ -676,7 +676,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 			SavedContactState_t tmp, *p;
 			tmp.hContact = group->cl.items[group->scanIndex]->hContact;
 			if (( p = saveContact.find( &tmp )) != NULL ) {
-				CopyMemory(group->cl.items[group->scanIndex]->iExtraImage, p->iExtraImage,
+				CopyMemory(group->cl.items[group->scanIndex]->iExtraImage, p->iExtraImage, 
 						SIZEOF(group->cl.items[group->scanIndex]->iExtraImage));
 				if (p->checked)
 					group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;

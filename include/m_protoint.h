@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_PROTOINT_H__
 #define M_PROTOINT_H__ 1
 
-typedef enum 
+typedef enum
 {
 	EV_PROTO_ONLOAD,
 	EV_PROTO_ONREADYTOEXIT,

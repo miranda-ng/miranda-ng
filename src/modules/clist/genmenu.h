@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-2010 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -54,7 +54,7 @@ typedef struct _tagIntMenuItem
 	TMO_LinkedList         *owner;
 	TMO_LinkedList         submenu;
 }
-	TMO_IntMenuItem,*PMO_IntMenuItem;
+	TMO_IntMenuItem, *PMO_IntMenuItem;
 
 struct TIntMenuObject
 {
@@ -118,7 +118,7 @@ INT_PTR MO_ProcessHotKeys( HANDLE menuHandle, INT_PTR vKey );
 int MO_SetOptionsMenuItem( PMO_IntMenuItem menuobjecthandle, int setting, INT_PTR value );
 int MO_SetOptionsMenuObject( HANDLE menuobjecthandle, int setting, INT_PTR value );
 
-INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam,LPARAM lParam);
+INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam);
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 
 // function returns TRUE if the walk should be immediately stopped
@@ -138,9 +138,9 @@ BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles 
 
 int GenMenuOptInit(WPARAM wParam, LPARAM lParam);
 int GetMenuObjbyId(const int id);
-int GetMenuItembyId(const int objpos,const int id);
-INT_PTR MO_GetMenuItem(WPARAM wParam,LPARAM lParam);
+int GetMenuItembyId(const int objpos, const int id);
+INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam);
 void FreeAndNil(void **p);
-static int RemoveFromList(int pos,void **lpList,int *ListElemCount,int ElemSize);
-static int RemoveFromList(int pos,void **lpList,int *ListElemCount,int ElemSize);
+static int RemoveFromList(int pos, void **lpList, int *ListElemCount, int ElemSize);
+static int RemoveFromList(int pos, void **lpList, int *ListElemCount, int ElemSize);
 #endif

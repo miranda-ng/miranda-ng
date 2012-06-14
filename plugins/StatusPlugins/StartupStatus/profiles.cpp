@@ -132,17 +132,10 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 		mi.pszService = servicename;
-		if (ServiceExists(MS_CLIST_ADDSTATUSMENUITEM)) {
-			if (CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi)) {
-				menuprofiles[mcount] = i;
-				mcount += 1;
-			}	
-		}
-		else {
-			if (CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi)) {
-				menuprofiles[mcount] = i;
-				mcount += 1;
-	}	}	}
+		if (Menu_AddStatusMenuItem(&mi)) {
+			menuprofiles[mcount] = i;
+			mcount += 1;
+	}	}
 
 	return 0;
 }

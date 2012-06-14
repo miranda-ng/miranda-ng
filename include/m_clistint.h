@@ -30,8 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HCONTACT_ISGROUP    0x80000000
 #define HCONTACT_ISINFO     0xFFFF0000
 #define IsHContactGroup(h)  (((UINT_PTR)(h)^HCONTACT_ISGROUP)<(HCONTACT_ISGROUP^HCONTACT_ISINFO))
-#define IsHContactInfo(h)   (((UINT_PTR)(h)&HCONTACT_ISINFO)==HCONTACT_ISINFO)
-#define IsHContactContact(h) (((UINT_PTR)(h)&HCONTACT_ISGROUP)==0)
+#define IsHContactInfo(h)   (((UINT_PTR)(h)&HCONTACT_ISINFO) == HCONTACT_ISINFO)
+#define IsHContactContact(h) (((UINT_PTR)(h)&HCONTACT_ISGROUP) == 0)
 #define MAXEXTRACOLUMNS     16
 
 #define MAX_TIP_SIZE 2048
@@ -89,7 +89,7 @@ typedef struct
 struct ClcGroup
 {
 	ContactList cl;
-	int expanded,hideOffline,groupId;
+	int expanded, hideOffline, groupId;
 	struct ClcGroup *parent;
 	int scanIndex;
 	int totalMembers;
@@ -98,7 +98,7 @@ struct ClcGroup
 struct ClcFontInfo
 {
 	HFONT hFont;
-	int fontHeight,changed;
+	int fontHeight, changed;
 	COLORREF colour;
 };
 
@@ -155,8 +155,8 @@ typedef struct _menuProto
 #define CLCDEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 #define CLCDEFAULT_TEXTCOLOUR    GetSysColor(COLOR_WINDOWTEXT)
 #define CLCDEFAULT_SELTEXTCOLOUR GetSysColor(COLOR_HIGHLIGHTTEXT)
-#define CLCDEFAULT_HOTTEXTCOLOUR (IsWinVer98Plus()?RGB(0,0,255):GetSysColor(COLOR_HOTLIGHT))
-#define CLCDEFAULT_QUICKSEARCHCOLOUR RGB(255,255,0)
+#define CLCDEFAULT_HOTTEXTCOLOUR (IsWinVer98Plus()?RGB(0, 0, 255):GetSysColor(COLOR_HOTLIGHT))
+#define CLCDEFAULT_QUICKSEARCHCOLOUR RGB(255, 255, 0)
 #define CLCDEFAULT_LEFTMARGIN    0
 #define CLCDEFAULT_GAMMACORRECT  1
 #define CLCDEFAULT_SHOWIDLE      1
@@ -232,7 +232,7 @@ typedef struct
 	void ( *pfnFreeGroup )( struct ClcGroup *group );
 
 	int  ( *pfnAddInfoItemToGroup )(struct ClcGroup *group, int flags, const TCHAR *pszText);
-	int  ( *pfnAddItemToGroup )( struct ClcGroup *group,int iAboveItem );
+	int  ( *pfnAddItemToGroup )( struct ClcGroup *group, int iAboveItem );
 	int  ( *pfnAddContactToGroup )( struct ClcData *dat, struct ClcGroup *group, HANDLE hContact );
 	void ( *pfnAddContactToTree )( HWND hwnd, struct ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline);
 	void ( *pfnDeleteItemFromTree )( HWND hwnd, HANDLE hItem );
@@ -312,7 +312,7 @@ typedef struct
 	void ( *pfnCluiProtocolStatusChanged )( int status, const char* szProto );
 	void ( *pfnDrawMenuItem )( LPDRAWITEMSTRUCT, HICON, HICON );
 	void ( *pfnLoadCluiGlobalOpts )( void );
-	BOOL ( *pfnInvalidateRect )( HWND hwnd, CONST RECT* lpRect,BOOL bErase );
+	BOOL ( *pfnInvalidateRect )( HWND hwnd, CONST RECT* lpRect, BOOL bErase );
 	void ( *pfnOnCreateClc )( void );
 
 	/* contact.c */

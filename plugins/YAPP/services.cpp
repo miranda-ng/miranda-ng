@@ -242,11 +242,11 @@ INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam) {
 }
 
 void UpdateMenu() {
-	CLISTMENUITEM menu = {0};
-	menu.cbSize = sizeof(CLISTMENUITEM);
-	menu.pszName = (char*)(DBGetContactSettingByte(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
-	menu.flags = CMIM_NAME;// | CMIM_ICON;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggleOnOff, (LPARAM)&menu);
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(CLISTMENUITEM);
+	mi.pszName = (char*)(DBGetContactSettingByte(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
+	mi.flags = CMIM_NAME;// | CMIM_ICON;
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggleOnOff, (LPARAM)&mi);
 }
 
 INT_PTR PopupQuery(WPARAM wParam, LPARAM lParam) {
@@ -485,25 +485,25 @@ void InitServices()
 	hService[i++] = CreateServiceFunction("YAPP/RegisterClass", RegisterPopupClass);
 	hService[i++] = CreateServiceFunction("YAPP/ClassInstance", CreateClassPopup);
 
-	CLISTMENUITEM menu = {0};
+	CLISTMENUITEM mi = {0};
 
-	menu.cbSize = sizeof(menu);
-	menu.flags = CMIM_ALL;
+	mi.cbSize = sizeof(mi);
+	mi.flags = CMIM_ALL;
 
-	menu.position = 500010000;
-	menu.pszPopupName = LPGEN("PopUps");
+	mi.position = 500010000;
+	mi.pszPopupName = LPGEN("PopUps");
 
 	hiPopupHistory = LoadIcon(hInst, MAKEINTRESOURCE(IDI_POPUP_HISTORY));
-	menu.hIcon = hiPopupHistory;
-	menu.pszService= MS_POPUP_SHOWHISTORY;
-	menu.pszName = LPGEN("Popup History");
-	hMenuShowHistory = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&menu);
+	mi.hIcon = hiPopupHistory;
+	mi.pszService= MS_POPUP_SHOWHISTORY;
+	mi.pszName = LPGEN("Popup History");
+	hMenuShowHistory = Menu_AddMainMenuItem(&mi);
 	
-	menu.hIcon = NULL;
-	menu.pszService = "PopUp/ToggleEnabled";
-	menu.pszName = (char*)(DBGetContactSettingByte(0, MODULE, "Enabled", 1) ? 
+	mi.hIcon = NULL;
+	mi.pszService = "PopUp/ToggleEnabled";
+	mi.pszName = (char*)(DBGetContactSettingByte(0, MODULE, "Enabled", 1) ? 
 		LPGEN("Disable Popups") : LPGEN("Enable Popups"));
-	hMenuToggleOnOff = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&menu);
+	hMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
 
 	hEventBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildMenu);
 }

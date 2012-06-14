@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project,
+Copyright 2000-2012 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -55,7 +55,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 
         for (psz=szPorts;*psz;) 
 		{
-	        while (*psz == ' ' || *psz == ',') psz++;
+	        while (*psz == ' ' || *psz == ', ') psz++;
 	        portMin = strtol(psz, &pszEnd, 0);
 	        if (pszEnd == psz) break;
 	        while (*pszEnd == ' ') pszEnd++;
@@ -122,7 +122,7 @@ int NetlibFreeBoundPort(struct NetlibBoundPort *nlbp)
 {
 	closesocket(nlbp->s);
 	closesocket(nlbp->s6);
-	WaitForSingleObject(nlbp->hThread,INFINITE);
+	WaitForSingleObject(nlbp->hThread, INFINITE);
 	CloseHandle(nlbp->hThread);
 	NetlibLogf(nlbp->nlu, "(%u) Port %u closed for incoming connections", nlbp->s, nlbp->wPort);
 	mir_free(nlbp);
@@ -213,7 +213,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	nlbp->pExtra = (nlb->cbSize != NETLIBBIND_SIZEOF_V1) ? nlb->pExtra : NULL;
 	if (nlbp->s == INVALID_SOCKET && nlbp->s6 == INVALID_SOCKET) 
 	{
-		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"socket",WSAGetLastError());
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "socket", WSAGetLastError());
 		mir_free(nlbp);
 		return 0;
 	}
@@ -238,7 +238,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		be asking for whatever was in nlb->wPort*/
 		if (nlb->wPort != 0) 
 		{
-			NetlibLogf(nlu,"%s %d: trying to bind port %d, this 'feature' can be abused, please be sure you want to allow it.",__FILE__,__LINE__,nlb->wPort);
+			NetlibLogf(nlu, "%s %d: trying to bind port %d, this 'feature' can be abused, please be sure you want to allow it.", __FILE__, __LINE__, nlb->wPort);
 			sin.sin_port = htons(nlb->wPort);
 			sin6.sin6_port = htons(nlb->wPort);
 		}
@@ -256,7 +256,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	}
 	if (!foundPort) 
 	{
-		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"bind",WSAGetLastError());
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
 		closesocket(nlbp->s);
 		closesocket(nlbp->s6);
 		mir_free(nlbp);
@@ -265,7 +265,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 
 	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5)) 
 	{
-		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"listen",WSAGetLastError());
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
 		closesocket(nlbp->s);
 		closesocket(nlbp->s6);
 		mir_free(nlbp);
@@ -274,7 +274,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 
 	if (nlbp->s6 != INVALID_SOCKET && listen(nlbp->s6, 5)) 
 	{
-		NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"listen",WSAGetLastError());
+		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
 		closesocket(nlbp->s);
 		closesocket(nlbp->s6);
 		mir_free(nlbp);
@@ -293,7 +293,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 			nlb->wPort = ntohs(sin.Ipv6.sin6_port);
 		else
 		{
-			NetlibLogf(nlu,"%s %d: %s() failed (%u)",__FILE__,__LINE__,"getsockname",WSAGetLastError());
+			NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "getsockname", WSAGetLastError());
 			closesocket(nlbp->s);
 			closesocket(nlbp->s6);
 			mir_free(nlbp);

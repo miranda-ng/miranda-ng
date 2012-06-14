@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project,
+Copyright 2000-2012 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -117,14 +117,14 @@ static int ConnectionListToSocketList(HANDLE *hConns, fd_set *fd, int& pending)
 			SetLastError(ERROR_INVALID_DATA);
 			return 0;
 		}
-		FD_SET(nlcCheck->s,fd);
+		FD_SET(nlcCheck->s, fd);
 		if (si.pending(nlcCheck->hSsl))
 			pending++;
 	}
 	return 1;
 }
 
-INT_PTR NetlibSelect(WPARAM,LPARAM lParam)
+INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
 {
 	NETLIBSELECT *nls = (NETLIBSELECT*)lParam;
 	if (nls == NULL || nls->cbSize != sizeof(NETLIBSELECT))
@@ -197,19 +197,19 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 		if (conn->usingHttpGateway && conn->nlhpi.szHttpGetUrl == NULL && conn->dataBuffer == NULL)
 			nls->hReadStatus[j] = (conn->pHttpProxyPacketQueue != NULL);
 		else
-			nls->hReadStatus[j] = FD_ISSET(conn->s,&readfd);
+			nls->hReadStatus[j] = FD_ISSET(conn->s, &readfd);
 	}
 	for (j = 0; j < FD_SETSIZE; j++)
 	{
 		conn = (NetlibConnection*)nls->hWriteConns[j];
 		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
-		nls->hWriteStatus[j] = FD_ISSET(conn->s,&writefd);
+		nls->hWriteStatus[j] = FD_ISSET(conn->s, &writefd);
 	}
 	for (j = 0; j < FD_SETSIZE; j++)
 	{
 		conn = (NetlibConnection*)nls->hExceptConns[j];
 		if (conn == NULL || conn == INVALID_HANDLE_VALUE) break;
-		nls->hExceptStatus[j] = FD_ISSET(conn->s,&exceptfd);
+		nls->hExceptStatus[j] = FD_ISSET(conn->s, &exceptfd);
 	}
 	ReleaseMutex(hConnectionHeaderMutex);
 	return rc;

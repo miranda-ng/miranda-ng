@@ -77,7 +77,7 @@ typedef struct
 extern TIME_API tmi;
 
 /*
-a service to obtain the Time API 
+a service to obtain the Time API
 
 wParam = 0;
 lParam = (LPARAM)(TIME_API*).

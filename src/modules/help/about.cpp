@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -40,25 +40,25 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			UINT blockSize;
 			PVOID pVerInfo;
 
-			GetModuleFileName(NULL,filename,SIZEOF(filename));
-			verInfoSize=GetFileVersionInfoSize(filename,&unused);
+			GetModuleFileName(NULL, filename, SIZEOF(filename));
+			verInfoSize=GetFileVersionInfoSize(filename, &unused);
 			pVerInfo=mir_alloc(verInfoSize);
-			GetFileVersionInfo(filename,0,verInfoSize,pVerInfo);
-			VerQueryValue(pVerInfo,_T("\\StringFileInfo\\000004b0\\LegalCopyright"),(LPVOID*)&productCopyright,&blockSize);
-			SetDlgItemText(hwndDlg,IDC_DEVS,productCopyright);
+			GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+			VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\LegalCopyright"), (LPVOID*)&productCopyright, &blockSize);
+			SetDlgItemText(hwndDlg, IDC_DEVS, productCopyright);
 			mir_free(pVerInfo);
 		}
 		{	char productVersion[56], *p;
             int isAnsi = 0;
 			TCHAR str[64];
-			CallService(MS_SYSTEM_GETVERSIONTEXT,SIZEOF(productVersion),(LPARAM)productVersion);
+			CallService(MS_SYSTEM_GETVERSIONTEXT, SIZEOF(productVersion), (LPARAM)productVersion);
             // Hide Unicode from version text as it is assumed at this point
             p = strstr(productVersion, " Unicode"); 
 			if (p)
 				*p = '\0';
             else
                 isAnsi = 1;
-			mir_sntprintf(str,SIZEOF(str),_T(STR_VERSION_FORMAT), TranslateT("v"), productVersion, isAnsi?" ANSI":"");
+			mir_sntprintf(str, SIZEOF(str), _T(STR_VERSION_FORMAT), TranslateT("v"), productVersion, isAnsi?" ANSI":"");
             {
                 TCHAR oldTitle[256], newTitle[256];
 				GetDlgItemText( hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
@@ -66,14 +66,14 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				SetDlgItemText( hwndDlg, IDC_HEADERBAR, newTitle );
 			}
             
-			mir_sntprintf(str,SIZEOF(str),TranslateT("Built %s %s"),_T(__DATE__),_T(__TIME__));
-			SetDlgItemText(hwndDlg,IDC_BUILDTIME,str);
+			mir_sntprintf(str, SIZEOF(str), TranslateT("Built %s %s"), _T(__DATE__), _T(__TIME__));
+			SetDlgItemText(hwndDlg, IDC_BUILDTIME, str);
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{	
-			HRSRC   hResInfo  = FindResource(hMirandaInst,MAKEINTRESOURCE(IDR_CREDITS),_T("TEXT"));
-			DWORD   ResSize   = SizeofResource(hMirandaInst,hResInfo);
-			HGLOBAL hRes      = LoadResource(hMirandaInst,hResInfo);
+			HRSRC   hResInfo  = FindResource(hMirandaInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
+			DWORD   ResSize   = SizeofResource(hMirandaInst, hResInfo);
+			HGLOBAL hRes      = LoadResource(hMirandaInst, hResInfo);
 			char*   pszMsg    = (char*)LockResource(hRes);
 			if (pszMsg)
 			{
@@ -127,7 +127,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		case IDC_BUILDTIME:
 		case IDC_CREDITSFILE:
 		case IDC_DEVS:
-			SetTextColor((HDC)wParam,GetSysColor(COLOR_WINDOWTEXT));
+			SetTextColor((HDC)wParam, GetSysColor(COLOR_WINDOWTEXT));
 			break;
 		default:
 			return FALSE;
@@ -138,8 +138,8 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib( hwndDlg );
 		{	
-			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_VERSION,WM_GETFONT,0,0);
-			SendDlgItemMessage(hwndDlg,IDC_VERSION,WM_SETFONT,SendDlgItemMessage(hwndDlg,IDOK,WM_GETFONT,0,0),0);
+			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_GETFONT, 0, 0);
+			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);
 			DeleteObject(hFont);				
 		}
 		break;

@@ -126,7 +126,7 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	menu.pszService = MS_DB_CHANGEPASSWORD;
 	menu.position = 500100000;
 
-	hSetPwdMenu = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+	hSetPwdMenu = Menu_AddMainMenuItem(&menu);
 
 	ZeroMemory(&menu,sizeof(menu));
 	menu.cbSize	=	sizeof(menu);

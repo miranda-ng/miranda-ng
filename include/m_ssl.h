@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -45,7 +45,7 @@ typedef struct
 extern SSL_API si;
 
 /*
-a service to obtain the SSL API 
+a service to obtain the SSL API
 
 wParam = 0;
 lParam = (LPARAM)(SSL_API*).

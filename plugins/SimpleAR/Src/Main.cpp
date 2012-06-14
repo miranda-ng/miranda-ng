@@ -335,7 +335,7 @@ extern "C" int __declspec(dllexport)Load(PLUGINLINK *link)
 	mi.position = 500090000;
 	mi.ptszName = _T("");
 	mi.pszService = protocolname"/ToggleEnable";
-	hEnableMenu = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	hEnableMenu = Menu_AddMainMenuItem(&mi);
 
 	hToggleAutoanswer = CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
 	ZeroMemory(&mi, sizeof(mi));
@@ -343,7 +343,7 @@ extern "C" int __declspec(dllexport)Load(PLUGINLINK *link)
 	mi.position=-0x7FFFFFFF;
 	mi.ptszName=_T("");
 	mi.pszService=protocolname"/ToggleAutoanswer";
-	hToggle = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hToggle = Menu_AddContactMenuItem(&mi);
 
 	//add hook
 	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);

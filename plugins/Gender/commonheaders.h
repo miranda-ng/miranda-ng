@@ -26,6 +26,7 @@
 #ifndef COMMHEADERS_H
 #define COMMHEADERS_H
 
+#define _CRT_SECURE_NO_WARNINGS
 #define MIRANDA_VER 0x0A00
 
 #include <stdio.h> //needed by m_utils.h

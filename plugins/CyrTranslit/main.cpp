@@ -20,21 +20,21 @@
 #include "plugin.h"
 #include "MirandaContact.h"
 
-
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 struct UTF8_INTERFACE utfi;
 struct MM_INTERFACE mmi;
+int hLangpack = 0;
 
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
-    PLG_SHORTNAME,
+	PLG_SHORTNAME,
 	PLG_VERSION,
 	PLG_DESCRIPTION,
-    PLG_AUTHOR,
-    PLG_AUTHOREMAIL,
-    PLG_COPYRIGHT,
-    PLG_HOMEPAGE,
+	PLG_AUTHOR,
+	PLG_AUTHOREMAIL,
+	PLG_COPYRIGHT,
+	PLG_HOMEPAGE,
 	PLG_FLAGS,
 	PLG_REPLACESDEFMODULE,
 	MIID_V_CYRTRANSLIT,
@@ -59,12 +59,8 @@ static const MUUID interfaces[] = {MIID_V_CYRTRANSLIT, MIID_LAST};
 
 extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
-	//#if defined (_UNICODE)
-	pluginInfoEx.flags = 1; // dynamic UNICODE_AWARE
-	//#endif
 	return interfaces;
 }
-
 
 //------------------------------------------------------------------------------
 
@@ -72,19 +68,13 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	//system inits:
 	pluginLink = link;
-    
-	memset(&utfi, 0, sizeof(utfi));
 	mir_getUTFI(&utfi);
-
-	memset(&mmi, 0, sizeof(mmi));
 	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfoEx);
 
 	//plugin inits: PLACE IT ONLY AFTER THIS LINE
 
-    CyrTranslit::MirandaContact::initialize();
-
-
+	CyrTranslit::MirandaContact::initialize();
 	return 0;
 }
 

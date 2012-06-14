@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-2010 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -76,13 +76,13 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	if ( checked )
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
-	HANDLE result = ( HANDLE )CallService(MS_CLIST_ADDCONTACTMENUITEM, param, (LPARAM)&mi);
+	HANDLE result = Menu_AddContactMenuItem(&mi);
 	mir_free( mi.ptszName );
 
 	lphGroupsItems.insert((HANDLE*)result);
 }
 
-static int OnContactMenuBuild(WPARAM wParam,LPARAM)
+static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 {
 	int i;
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);	
@@ -97,7 +97,7 @@ static int OnContactMenuBuild(WPARAM wParam,LPARAM)
 		mi.flags = CMIF_ROOTHANDLE | CMIF_ICONFROMICOLIB;
 		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_GROUP);
 
-		hMoveToGroupItem = (HGENMENU)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hMoveToGroupItem = Menu_AddContactMenuItem(&mi);
 	}
 
 	for (i = 0; i < lphGroupsItems.getCount(); i++)
@@ -139,7 +139,7 @@ static int OnContactMenuBuild(WPARAM wParam,LPARAM)
 	return 0;
 }
 
-static INT_PTR MTG_DOMOVE(WPARAM wParam,LPARAM lParam)
+static INT_PTR MTG_DOMOVE(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_CLIST_CONTACTCHANGEGROUP, wParam, lParam < 0 ? 0 : lParam);
 	return 0;
@@ -147,8 +147,8 @@ static INT_PTR MTG_DOMOVE(WPARAM wParam,LPARAM lParam)
 
 void MTG_OnmodulesLoad()
 {
-	hOnCntMenuBuild=HookEvent(ME_CLIST_PREBUILDCONTACTMENU,OnContactMenuBuild);
-	CreateServiceFunction(MTG_MOVE,MTG_DOMOVE);
+	hOnCntMenuBuild=HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
+	CreateServiceFunction(MTG_MOVE, MTG_DOMOVE);
 }
 
 int UnloadMoveToGroup(void)

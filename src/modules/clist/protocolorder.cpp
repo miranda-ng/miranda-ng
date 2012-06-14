@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project,
+Copyright 2000-2010 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -254,19 +254,19 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					TVHITTESTINFO hti;
 					hti.pt.x=(short)LOWORD(GetMessagePos());
 					hti.pt.y=(short)HIWORD(GetMessagePos());
-					ScreenToClient(((LPNMHDR)lParam)->hwndFrom,&hti.pt);
+					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 					if ( TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti )) {
 						if ( hti.flags & TVHT_ONITEMICON ) {
 							TVITEMA tvi;
 							tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 							tvi.hItem = hti.hItem;
-							TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom,&tvi);
+							TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 
 							ProtocolData *pData = ( ProtocolData* )tvi.lParam;
 							if ( pData->enabled ) {
 								tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
 								pData->show = tvi.iImage;
-								TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom,&tvi);
+								TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 								SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 			}	}	}	}	}
 			break;

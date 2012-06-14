@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -190,8 +190,8 @@ typedef struct {
 #define CLM_SETTEXTCOLOR   (CLM_FIRST+52)   //wParam=FONTID_, lParam=COLORREF
 
 //DO NOT USE IT EXTERNALLY CAN BE NOT SUPPORTED BY CLIST
-#define CLM_SETWIDEEXTRAIMAGE	  (CLM_FIRST+60)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),iImage). iImage=0xFFFF is a blank
-#define CLM_GETWIDEEXTRAIMAGE     (CLM_FIRST+61)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),0), returns iImage or 0xFF
+#define CLM_SETWIDEEXTRAIMAGE	  (CLM_FIRST+60)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based), iImage). iImage=0xFFFF is a blank
+#define CLM_GETWIDEEXTRAIMAGE     (CLM_FIRST+61)   //wParam=hItem, lParam=MAKELPARAM(iColumn (0 based), 0), returns iImage or 0xFF
 #define CLM_GETWIDEEXTRAIMAGELIST (CLM_FIRST+62)   //returns HWIDEIMAGELIST
 
 //notifications  (most are omitted because the control processes everything)
@@ -208,16 +208,16 @@ typedef struct {
 #define CLN_FIRST        (0U-100U)
 #define CLN_EXPANDED     (CLN_FIRST-0)      //hItem=hGroup, action=CLE_*
 #define CLN_LISTREBUILT  (CLN_FIRST-1)
-#define CLN_ITEMCHECKED  (CLN_FIRST-2)      //todo	//hItem,action,flags valid
-#define CLN_DRAGGING     (CLN_FIRST-3)		//hItem,pt,flags valid. only sent when cursor outside window, return nonzero if processed
-#define CLN_DROPPED      (CLN_FIRST-4)		//hItem,pt,flags valid. only sent when cursor outside window, return nonzero if processed
+#define CLN_ITEMCHECKED  (CLN_FIRST-2)      //todo	//hItem, action, flags valid
+#define CLN_DRAGGING     (CLN_FIRST-3)		//hItem, pt, flags valid. only sent when cursor outside window, return nonzero if processed
+#define CLN_DROPPED      (CLN_FIRST-4)		//hItem, pt, flags valid. only sent when cursor outside window, return nonzero if processed
 #define CLN_LISTSIZECHANGE (CLN_FIRST-5)    //pt.y valid. the vertical height of the visible items in the list has changed.
 #define CLN_OPTIONSCHANGED (CLN_FIRST-6)	//nothing valid. If you set some extended options they have been overwritten and should be re-set
-#define CLN_DRAGSTOP     (CLN_FIRST-7)		//hItem,flags valid. sent when cursor goes back in to the window having been outside, return nonzero if processed
-#define CLN_NEWCONTACT   (CLN_FIRST-8)      //hItem,flags valid. sent when a new contact is added without a full list rebuild
-#define CLN_CONTACTMOVED (CLN_FIRST-9)      //hItem,flags valid. sent when contact is moved without a full list rebuild
-#define CLN_CHECKCHANGED (CLN_FIRST-10)     //hItem,flags valid. sent when any check mark is changed, but only for one change if there are many
-//NM_CLICK        							//hItem,iColumn,pt,flags valid
+#define CLN_DRAGSTOP     (CLN_FIRST-7)		//hItem, flags valid. sent when cursor goes back in to the window having been outside, return nonzero if processed
+#define CLN_NEWCONTACT   (CLN_FIRST-8)      //hItem, flags valid. sent when a new contact is added without a full list rebuild
+#define CLN_CONTACTMOVED (CLN_FIRST-9)      //hItem, flags valid. sent when contact is moved without a full list rebuild
+#define CLN_CHECKCHANGED (CLN_FIRST-10)     //hItem, flags valid. sent when any check mark is changed, but only for one change if there are many
+//NM_CLICK        							//hItem, iColumn, pt, flags valid
 //NM_KEYDOWN                                //NMKEY structure, only sent when key is not already processed, return nonzero to prevent further processing
 
 //an infotip for an item should be shown now
@@ -266,7 +266,7 @@ typedef struct {
 //wParam=newTime
 //lParam=0
 //Returns 0 on success or nonzero on failure
-//The value of this setting is applied to all current CLC windows, and saved 
+//The value of this setting is applied to all current CLC windows, and saved
 //to be applied to all future windows, including after restarts.
 //newTime is in ms.
 //The default is 750ms.

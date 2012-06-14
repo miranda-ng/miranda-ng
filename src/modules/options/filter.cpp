@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -50,7 +50,7 @@ INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_ENABLE_KEYWORDFILTERING:
-			SendMessage(GetParent(hWnd), PSM_CHANGED,0,0);
+			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
 			break;
 		}
 		break;
@@ -151,7 +151,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 		AddFilterString(key, title);
 	
 	TCHAR szClass[64];
-	GetClassName(hWndDlg,szClass, SIZEOF(szClass));
+	GetClassName(hWndDlg, szClass, SIZEOF(szClass));
 	
 	if (lstrcmpi(szClass, _T("SysTreeView32")) == 0) {
 		HTREEITEM hItem = TreeView_GetRoot(hWndDlg);
@@ -194,7 +194,7 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 								AddFilterString(key, title);
 }	}	}	}	}	}	}
 
-static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd,LPARAM lParam)
+static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd, LPARAM lParam)
 {
 	AddDialogString(hWnd, lParam);
 	

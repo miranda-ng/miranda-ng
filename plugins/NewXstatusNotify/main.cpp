@@ -1293,7 +1293,7 @@ void InitMainMenuItem()
 	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	mi.ptszPopupName = ServiceExists(MS_POPUP_ADDPOPUP) ? _T("PopUps") : NULL;
 	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
-	hEnableDisableMenu = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 
 	opt.TempDisabled = !opt.TempDisabled;
 	EnableDisableMenuCommand(0, 0);

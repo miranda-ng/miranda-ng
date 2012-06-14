@@ -128,7 +128,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		//mi.pszService="ContactRate MenuItem NoService Fake";
 		mi.flags=CMIF_ROOTPOPUP|CMIF_TCHAR;
 		if (!hFavoriteContactMenu) 
-			hFavoriteContactMenu=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);				
+			hFavoriteContactMenu = Menu_AddContactMenuItem(&mi);
 		else
 		{
 			mi.flags|=CMIM_FLAGS|CMIM_ICON|CMIM_NAME;
@@ -164,26 +164,22 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 				mi.flags|=CMIM_FLAGS|CMIM_ICON;
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hFavoriteContactMenuItems[i], (LPARAM)&mi);
 			}
-			else
-				hFavoriteContactMenuItems[i]=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+			else hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
 			CallService(MS_SKIN2_RELEASEICON,(WPARAM)mi.hIcon,0);
 			if (mi.hIcon && NeedFree) DestroyIcon(mi.hIcon);
 		}
-		{
-			mi.hIcon=NULL;
-			mi.ptszName=_T("Show even if offline");
-			mi.flags=CMIF_CHILDPOPUP|CMIF_TCHAR|(ModernGetSettingByte((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
-			mi.pszService=CLUI_FAVTOGGLESHOWOFFLINE;
-			mi.popupPosition=i+100000000;
-			mi.position=-100000000;
-			if (bModifyMenu && hShowIfOflineItem)
-			{
-				mi.flags|=CMIM_FLAGS|CMIM_ICON;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hShowIfOflineItem, (LPARAM)&mi);            
-			}
-			else
-				hShowIfOflineItem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);            
+		
+		mi.hIcon=NULL;
+		mi.ptszName=_T("Show even if offline");
+		mi.flags=CMIF_CHILDPOPUP|CMIF_TCHAR|(ModernGetSettingByte((HANDLE)wParam,"CList","noOffline",0)?CMIF_CHECKED:0);
+		mi.pszService=CLUI_FAVTOGGLESHOWOFFLINE;
+		mi.popupPosition=i+100000000;
+		mi.position=-100000000;
+		if (bModifyMenu && hShowIfOflineItem) {
+			mi.flags|=CMIM_FLAGS|CMIM_ICON;
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hShowIfOflineItem, (LPARAM)&mi);            
 		}
+		else hShowIfOflineItem = Menu_AddContactMenuItem(&mi);
 	}
 	return 0;
 }

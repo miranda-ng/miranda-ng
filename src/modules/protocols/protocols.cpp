@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -26,7 +26,7 @@ int LoadProtoChains(void);
 int LoadProtoOptions( void );
 
 HANDLE hAccListChanged;
-static HANDLE hAckEvent,hTypeEvent;
+static HANDLE hAckEvent, hTypeEvent;
 static BOOL bModuleInitialized = FALSE;
 
 typedef struct
@@ -86,7 +86,7 @@ INT_PTR srvProto_IsLoaded(WPARAM, LPARAM lParam)
 	return (INT_PTR)Proto_GetAccount(( char* )lParam );
 }
 
-INT_PTR Proto_EnumProtocols(WPARAM wParam,LPARAM lParam)
+INT_PTR Proto_EnumProtocols(WPARAM wParam, LPARAM lParam)
 {
 	*( int* )wParam = protos.getCount();
 	*( PROTOCOLDESCRIPTOR*** )lParam = protos.getArray();
@@ -144,7 +144,7 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic core services
 
-static INT_PTR Proto_RecvFile(WPARAM,LPARAM lParam)
+static INT_PTR Proto_RecvFile(WPARAM, LPARAM lParam)
 {
 	CCSDATA* ccs = ( CCSDATA* )lParam;
 	PROTORECVEVENT* pre = ( PROTORECVEVENT* )ccs->lParam;
@@ -195,7 +195,7 @@ static void sttRecvCreateBlob( DBEVENTINFO& dbei, int fileCount, char** pszFiles
 	strcpy(( char* )p, ( szDescr == NULL ) ? "" : szDescr );
 }
 
-static INT_PTR Proto_RecvFileT(WPARAM,LPARAM lParam)
+static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 {
 	CCSDATA* ccs = ( CCSDATA* )lParam;
 	PROTORECVFILET* pre = ( PROTORECVFILET* )ccs->lParam;
@@ -230,7 +230,7 @@ static INT_PTR Proto_RecvFileT(WPARAM,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Proto_RecvMessage(WPARAM,LPARAM lParam)
+static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 {
 	CCSDATA *ccs = ( CCSDATA* )lParam;
 	PROTORECVEVENT *pre = ( PROTORECVEVENT* )ccs->lParam;
@@ -262,10 +262,10 @@ static int Proto_ValidTypingContact(HANDLE hContact, char *szProto)
 	if ( !hContact || !szProto )
 		return 0;
 
-	return ( CallProtoService(szProto,PS_GETCAPS,PFLAGNUM_4,0) & PF4_SUPPORTTYPING ) ? 1 : 0;
+	return ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SUPPORTTYPING ) ? 1 : 0;
 }
 
-static INT_PTR Proto_SelfIsTyping(WPARAM wParam,LPARAM lParam)
+static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if ( lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON ) {
 		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, wParam, 0 );
@@ -279,7 +279,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Proto_ContactIsTyping(WPARAM wParam,LPARAM lParam)
+static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	int type = (int)lParam;
 	char *szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, wParam, 0 );

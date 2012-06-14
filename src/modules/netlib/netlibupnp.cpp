@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project,
+Copyright 2000-2012 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -115,12 +115,12 @@ static char szCtlUrl[256], szDev[256];
 
 typedef enum
 {
-	DeviceGetReq,
-	ControlAction,
+	DeviceGetReq, 
+	ControlAction, 
 	ControlQuery
 } ReqType;
 
-static bool txtParseParam(char* szData, char* presearch,
+static bool txtParseParam(char* szData, char* presearch, 
 	char* start, char* finish, char* param, size_t size)
 {
 	char *cp, *cp1;
@@ -156,14 +156,14 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 	char *ppath, *phost, *pport;
 	int sz;
 
-	phost = strstr(szUrl,"://");
+	phost = strstr(szUrl, "://");
 	if (phost == NULL) phost = szUrl;
 	else phost += 3;
 
-	ppath = strchr(phost,'/');
+	ppath = strchr(phost, '/');
 	if (ppath == NULL) ppath = phost + strlen(phost);
 
-	pport = strchr(phost,':');
+	pport = strchr(phost, ':');
 	if (pport == NULL) pport = ppath;
 
 	if (szHost != NULL)
@@ -272,11 +272,11 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 				char szData1[1024];
 
 				szReq = mir_strdup(szResult);
-				sz = mir_snprintf (szData1, sizeof(szData1),
+				sz = mir_snprintf (szData1, sizeof(szData1), 
 					soap_action, szActionName, szDev, szReq, szActionName);
 
-				sz = mir_snprintf (szData, 4096,
-					szPostHdr, szPath, szHost, sPort,
+				sz = mir_snprintf (szData, 4096, 
+					szPostHdr, szPath, szHost, sPort, 
 					sz, szDev, szActionName, szData1);
 			}
 			break;
@@ -285,11 +285,11 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 			{
 				char szData1[1024];
 
-				sz = mir_snprintf (szData1, sizeof(szData1),
+				sz = mir_snprintf (szData1, sizeof(szData1), 
 					soap_query, szActionName);
 
-				sz = mir_snprintf (szData, 4096,
-					szPostHdr, szPath, szHost, sPort,
+				sz = mir_snprintf (szData, 4096, 
+					szPostHdr, szPath, szHost, sPort, 
 					sz, "urn:schemas-upnp-org:control-1-0", "QueryStateVariable", szData1);
 			}
 			break;
@@ -742,7 +742,7 @@ bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *e
 		do
 		{
 			++*extport;
-			mir_snprintf(szData, 4096, add_port_mapping,
+			mir_snprintf(szData, 4096, add_port_mapping, 
 				*extport, proto, intport, inet_ntoa(locIP.sin_addr));
 			res = httpTransact(szCtlUrl, szData, 4096, "AddPortMapping", ControlAction);
 			txtParseParam(szData, NULL, "<errorCode>", "</errorCode>", szExtIP, sizeof(szExtIP));
@@ -795,7 +795,7 @@ void NetlibUPnPDeletePortMapping(WORD extport, char* proto)
 
 void NetlibUPnPCleanup(void*)
 {
-	if (DBGetContactSettingByte(NULL,"Netlib","NLEnableUPnP",1) == 0)
+	if (DBGetContactSettingByte(NULL, "Netlib", "NLEnableUPnP", 1) == 0)
 		// upnp is disabled globally, no need for a cleanup
 		return;
 

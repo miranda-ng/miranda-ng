@@ -46,21 +46,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int hLangpack;
 
 __inline static char* Translate(const char* str)
-{	return (char*)CallService(MS_LANGPACK_TRANSLATESTRING,hLangpack,(LPARAM)(str));
+{	return (char*)CallService(MS_LANGPACK_TRANSLATESTRING, hLangpack, (LPARAM)(str));
 }
 
 __inline static WCHAR* TranslateW(const WCHAR* str)
-{	return (WCHAR*)CallService(MS_LANGPACK_TRANSLATESTRING,hLangpack+LANG_UNICODE,(LPARAM)(str));
+{	return (WCHAR*)CallService(MS_LANGPACK_TRANSLATESTRING, hLangpack+LANG_UNICODE, (LPARAM)(str));
 }
 
 #else
 
 __inline static char* Translate(const char* str)
-{	return (char*)CallService(MS_LANGPACK_TRANSLATESTRING,0,(LPARAM)(str));
+{	return (char*)CallService(MS_LANGPACK_TRANSLATESTRING, 0, (LPARAM)(str));
 }
 
 __inline static WCHAR* TranslateW(const WCHAR* str)
-{	return (WCHAR*)CallService(MS_LANGPACK_TRANSLATESTRING,LANG_UNICODE,(LPARAM)(str));
+{	return (WCHAR*)CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, (LPARAM)(str));
 }
 
 #endif
@@ -114,7 +114,7 @@ __inline static INT_PTR TranslateDialogDefault(HWND hwndDlg)
 	lptd.flags=hLangpack;
 	lptd.hwndDlg=hwndDlg;
 	lptd.ignoreControls=NULL;
-	return CallService(MS_LANGPACK_TRANSLATEDIALOG,0,(LPARAM)&lptd);
+	return CallService(MS_LANGPACK_TRANSLATEDIALOG, 0, (LPARAM)&lptd);
 }
 
 #else
@@ -126,7 +126,7 @@ __inline static INT_PTR TranslateDialogDefault(HWND hwndDlg)
 	lptd.flags=0;
 	lptd.hwndDlg=hwndDlg;
 	lptd.ignoreControls=NULL;
-	return CallService(MS_LANGPACK_TRANSLATEDIALOG,0,(LPARAM)&lptd);
+	return CallService(MS_LANGPACK_TRANSLATEDIALOG, 0, (LPARAM)&lptd);
 }
 
 #endif

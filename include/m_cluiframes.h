@@ -1,5 +1,5 @@
 /*
-Miranda ICQ: the free icq client for MS Windows 
+Miranda ICQ: the free icq client for MS Windows
 Copyright (C) 2000-2  Richard Hughes, Roland Rabien & Tristan Van de Vreede
 
 This program is free software; you can redistribute it and/or
@@ -16,6 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
+#if !defined(M_GENMENU_H)
+#include "m_genmenu.h"
+#endif
 
 //Extra columns type.
 //column arranged in this way
@@ -55,7 +59,7 @@ typedef struct
 //See above for supported columns
 #define MS_CLIST_EXTRA_SET_ICON			"CListFrames/SetIconForExraColumn"
 
-//Adding icon to extra image list. 
+//Adding icon to extra image list.
 //Call this in ME_CLIST_EXTRA_LIST_REBUILD event
 //
 //wparam=hIcon
@@ -110,7 +114,7 @@ typedef struct tagCLISTFrame {
 #define F_NOBORDER			16 //Dont apply WS_BORDER style for window
 #define F_SHOWTBTIP			32 //Show titlebar tooltip
 #define F_CANBEVERTICAL		64 //frames can be vertical
-#define F_CANNOTBEHORIZONTAL 128 //frames can NOT be horizontal	F_CANBEVERTICAL have to be set 
+#define F_CANNOTBEHORIZONTAL 128 //frames can NOT be horizontal	F_CANBEVERTICAL have to be set
 #define F_NO_SUBCONTAINER   1024   //Support skining no subcontainer needed
 #define F_SKINNED           2048    // skinned frame (for owned subframe only)
 #define F_UNICODE			32768 //Use unicode text
@@ -125,11 +129,11 @@ typedef struct tagCLISTFrame {
 #define alBottom	0x00000002
 #define alClient	0x00000004				//only one alClient frame
 
-// since 0.7.0.20 
+// since 0.7.0.20
 #define alLeft		0x00000011			   // frame is vertical
 #define alRight		0x00000012
 
-#define alVertFrameMask 0x00000010			
+#define alVertFrameMask 0x00000010
 
 #define FU_TBREDRAW			1 //redraw titlebar
 #define FU_FMREDRAW			2 //redraw Frame
@@ -194,14 +198,14 @@ typedef struct tagCLISTFrame {
 //wParam=lParam=0
 //returns 0 on success, -1 on failure
 #define MS_CLIST_FRAMES_HIDEALLFRAMESTB		"CListFrames/HideALLFramesTB"
- 
+
 //////////////////////////////////////////////////////////////////////////
 //shows the frame if it is hidden,
 //hides the frame if it is shown
 //wParam = FrameId
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
-//note that Frame number will be taken only if wParam == 0 
+//note that Frame number will be taken only if wParam == 0
 #define MS_CLIST_FRAMES_SHFRAME				"CListFrames/SHFrame"
 
 //////////////////////////////////////////////////////////////////////////
@@ -210,7 +214,7 @@ typedef struct tagCLISTFrame {
 //wParam=FrameId
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
-//note that Frame number will be taken only if wParam == 0 
+//note that Frame number will be taken only if wParam == 0
 #define MS_CLIST_FRAMES_SHFRAMETITLEBAR		"CListFrame/SHFrameTitleBar"
 
 //////////////////////////////////////////////////////////////////////////
@@ -219,7 +223,7 @@ typedef struct tagCLISTFrame {
 //wParam=FrameId
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
-//note that Frame number will be taken only if wParam == 0 
+//note that Frame number will be taken only if wParam == 0
 #define MS_CLIST_FRAMES_ULFRAME				"CListFrame/ULFrame"
 
 //////////////////////////////////////////////////////////////////////////
@@ -228,7 +232,7 @@ typedef struct tagCLISTFrame {
 //wParam=FrameId
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
-//note that Frame number will be taken only if wParam == 0 
+//note that Frame number will be taken only if wParam == 0
 #define MS_CLIST_FRAMES_UCOLLFRAME			"CListFrame/UCOLLFrame"
 
 //////////////////////////////////////////////////////////////////////////
@@ -236,7 +240,7 @@ typedef struct tagCLISTFrame {
 //wparam=frameid
 //lParam = Frame number (can be shown in profile in CLUIFrames key)
 //returns 0 on success, -1 on failure
-//note that Frame number will be taken only if wParam == 0 
+//note that Frame number will be taken only if wParam == 0
 #define MS_CLIST_FRAMES_SETUNBORDER			"CListFrame/SetUnBorder"
 
 //////////////////////////////////////////////////////////////////////////
@@ -278,7 +282,11 @@ typedef struct tagCLISTFrame {
 //returns a handle to the new item
 //popupposition=frameid
 //contactowner=advanced parameter
-#define MS_CLIST_ADDCONTEXTFRAMEMENUITEM			"CList/AddContextFrameMenuItem"
+
+__inline static HGENMENU Menu_AddContextFrameMenuItem(CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddContextFrameMenuItem", 0, (LPARAM)mi);
+}
 
 //////////////////////////////////////////////////////////////////////////
 //remove a item from context frame menu
@@ -296,14 +304,14 @@ typedef struct tagCLISTFrame {
 
 //////////////////////////////////////////////////////////////////////////
 //	the frame menu is about to be built
-//		wparam=frameid 
+//		wparam=frameid
 //		lparam=
 //	-1 for build from titlebar,
 //		use
-//			MS_CLIST_ADDCONTEXTFRAMEMENUITEM 
+//			MS_CLIST_ADDCONTEXTFRAMEMENUITEM
 //			MS_CLIST_REMOVECONTEXTFRAMEMENUITEM
 //
-//	>0 for build in main menu, 
+//	>0 for build in main menu,
 //		must be popupname=lparam to place your items in right popup of main menu.
 //		use
 //			MS_CLIST_ADDMAINMENUITEM
@@ -315,4 +323,3 @@ typedef struct tagCLISTFrame {
 //needed by cluiframes module to add frames menu to main menu.
 //it just calls NotifyEventHooks(hPreBuildFrameMenuEvent,wParam,lParam);
 #define MS_CLIST_FRAMEMENUNOTIFY					"CList/ContextFrameMenuNotify"
-

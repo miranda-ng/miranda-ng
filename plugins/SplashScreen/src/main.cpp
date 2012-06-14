@@ -356,8 +356,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.position = -0x7FFFFFFF;
 		mi.ptszName = _T("Call Splash Service");
 		mi.pszService = "Splash/Test";
-
-		CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+		Menu_AddMainMenuItem(&mi);
 	#endif
 
 	if (ServiceExists(MS_UPDATE_REGISTER))

@@ -315,7 +315,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	// Adding menu items, submenu even if clist supports that
 	if (bContactMenuItems)
 	{
-		if(ServiceExists(MS_CLIST_ADDSUBGROUPMENUITEM))
+		if(ServiceExists(MS_CLIST_MENUBUILDSUBGROUP))
 		{
 			CLISTMENUITEM mi = {0};
 			mi.cbSize = sizeof(CLISTMENUITEM);
@@ -325,7 +325,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 			mi.position = 203;
 			mi.ptszName = LPGENT("Set Gender");
 			mi.pszService = NULL;
-			hContactMenu = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mi);
+			hContactMenu = Menu_AddContactMenuItem(&mi);
 			
 			mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 			mi.position = 1001;
@@ -334,46 +334,42 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 			mi.ptszName = LPGENT("Male");
 			mi.icolibItem = g_hIconMale;
 			mi.pszService = "Gender/MenuItemSetMale";
-			hContactMenuMale = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mi);
+			hContactMenuMale = Menu_AddContactMenuItem(&mi);
 			
 			mi.ptszName = LPGENT("Female");
 			mi.icolibItem = g_hIconFemale;
 			mi.pszService = "Gender/MenuItemSetFemale";
-			hContactMenuFemale = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mi);
+			hContactMenuFemale = Menu_AddContactMenuItem(&mi);
 			
 			mi.ptszName = LPGENT("Undefined");
 			mi.hIcon = NULL;
 			mi.pszService = "Gender/MenuItemSetUndef";
-			hContactMenuNotDef = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mi);
+			hContactMenuNotDef = Menu_AddContactMenuItem(&mi);
 		}
 		else
 		{
-			CLISTMENUITEM mimale = {0};
-			mimale.cbSize = sizeof(CLISTMENUITEM);
-			mimale.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-			mimale.position = 1001;
-			mimale.ptszName = LPGENT("Set Male");
-			mimale.icolibItem = g_hIconMale;
-			mimale.pszService = "Gender/MenuItemSetMale";
-			hContactMenuMale = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mimale);
+			CLISTMENUITEM mi = {0};
+			mi.cbSize = sizeof(CLISTMENUITEM);
+			mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+			mi.position = 1001;
+			mi.ptszName = LPGENT("Set Male");
+			mi.icolibItem = g_hIconMale;
+			mi.pszService = "Gender/MenuItemSetMale";
+			hContactMenuMale = Menu_AddContactMenuItem(&mi);
 			
-			CLISTMENUITEM mifemale = {0};
-			mifemale.cbSize = sizeof(CLISTMENUITEM);
-			mifemale.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-			mifemale.position = 1002;
-			mifemale.ptszName = LPGENT("Set Female");
-			mifemale.icolibItem = g_hIconFemale;
-			mifemale.pszService = "Gender/MenuItemSetFemale";
-			hContactMenuFemale = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &mifemale);
+			mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+			mi.position = 1002;
+			mi.ptszName = LPGENT("Set Female");
+			mi.icolibItem = g_hIconFemale;
+			mi.pszService = "Gender/MenuItemSetFemale";
+			hContactMenuFemale = Menu_AddContactMenuItem(&mi);
 			
-			CLISTMENUITEM miundef = {0};
-			miundef.cbSize = sizeof(CLISTMENUITEM);
-			miundef.flags =  CMIF_TCHAR;
-			miundef.position = 1003;
-			miundef.ptszName = LPGENT("Set Undefined");
-			miundef.pszService = "Gender/MenuItemSetUndef";
-			miundef.hIcon = NULL;
-			hContactMenuNotDef = (HANDLE) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) &miundef);
+			mi.flags =  CMIF_TCHAR;
+			mi.position = 1003;
+			mi.ptszName = LPGENT("Set Undefined");
+			mi.pszService = "Gender/MenuItemSetUndef";
+			mi.hIcon = NULL;
+			hContactMenuNotDef = Menu_AddContactMenuItem(&mi);
 		}
 	}
 	

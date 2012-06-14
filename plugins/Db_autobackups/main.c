@@ -86,22 +86,22 @@ static void IcoLibInit(void)
 
 static void MenuInit(void)
 {
-	CLISTMENUITEM menu = {0};
-	menu.cbSize = sizeof(menu);
-	menu.flags = CMIF_TCHAR;
-	menu.hIcon=(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"backup");
-	menu.ptszPopupName = LPGENT("Database");
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi);
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon=(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"backup");
+	mi.ptszPopupName = LPGENT("Database");
 
-	menu.ptszName = LPGENT("Backup Profile");
-	menu.pszService = MS_AB_BACKUP;
-	menu.position = 500100000;
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+	mi.ptszName = LPGENT("Backup Profile");
+	mi.pszService = MS_AB_BACKUP;
+	mi.position = 500100000;
+	Menu_AddMainMenuItem(&mi);
 
-	menu.hIcon=(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"saveas");
-	menu.ptszName = LPGENT("Save Profile As...");
-	menu.pszService = MS_AB_SAVEAS;
-	menu.position = 500100001;
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+	mi.hIcon=(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"saveas");
+	mi.ptszName = LPGENT("Save Profile As...");
+	mi.pszService = MS_AB_SAVEAS;
+	mi.position = 500100001;
+	Menu_AddMainMenuItem(&mi);
 }
 
 static void TriggerActionInit(void)

@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -33,7 +33,7 @@ int LangPackMarkPluginLoaded( PLUGININFOEX* pInfo );
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR TranslateString(WPARAM wParam,LPARAM lParam)
+static INT_PTR TranslateString(WPARAM wParam, LPARAM lParam)
 {
 	return (INT_PTR)LangPackTranslateString( LangPackLookupUuid(wParam), (const char *)lParam, (wParam & LANG_UNICODE) ? 1 : 0);
 }
@@ -80,11 +80,11 @@ static void TranslateWindow( LangPackMuuid* pUuid, HWND hwnd )
 			SetWindowText(hwnd, result );
 }	}
 
-static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd,LPARAM lParam)
+static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
 {
 	LANGPACKTRANSLATEDIALOG *lptd = (LANGPACKTRANSLATEDIALOG*)lParam;
 	TCHAR szClass[32];
-	int i,id = GetDlgCtrlID( hwnd );
+	int i, id = GetDlgCtrlID( hwnd );
 
 	if ( lptd->ignoreControls != NULL )
 		for ( i=0; lptd->ignoreControls[i]; i++ )
@@ -94,10 +94,10 @@ static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd,LPARAM lParam)
 	LangPackMuuid* uuid = LangPackLookupUuid( lptd->flags );
 
 	GetClassName( hwnd, szClass, SIZEOF(szClass));
-	if (!lstrcmpi(szClass,_T("static")) || !lstrcmpi(szClass,_T("hyperlink")) || !lstrcmpi(szClass,_T("button")) || !lstrcmpi(szClass,_T("MButtonClass")) || !lstrcmpi(szClass,_T("MHeaderbarCtrl")))
+	if (!lstrcmpi(szClass, _T("static")) || !lstrcmpi(szClass, _T("hyperlink")) || !lstrcmpi(szClass, _T("button")) || !lstrcmpi(szClass, _T("MButtonClass")) || !lstrcmpi(szClass, _T("MHeaderbarCtrl")))
 		TranslateWindow( uuid, hwnd );
-	else if ( !lstrcmpi( szClass,_T("edit"))) {
-		if ( lptd->flags & LPTDF_NOIGNOREEDIT || GetWindowLongPtr(hwnd,GWL_STYLE) & ES_READONLY )
+	else if ( !lstrcmpi( szClass, _T("edit"))) {
+		if ( lptd->flags & LPTDF_NOIGNOREEDIT || GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY )
 			TranslateWindow( uuid, hwnd );
 	}
 	return TRUE;
@@ -126,7 +126,7 @@ static INT_PTR LPRegister(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR GetDefaultCodePage(WPARAM,LPARAM)
+static INT_PTR GetDefaultCodePage(WPARAM, LPARAM)
 {
 	return LangPackGetDefaultCodePage();
 }
@@ -166,14 +166,14 @@ INT_PTR ReloadLangpack(WPARAM wParam, LPARAM lParam);
 
 int LoadLangPackServices(void)
 {
-	CreateServiceFunction(MS_LANGPACK_TRANSLATESTRING,TranslateString);
-	CreateServiceFunction(MS_LANGPACK_TRANSLATEMENU,TranslateMenu);
-	CreateServiceFunction(MS_LANGPACK_TRANSLATEDIALOG,TranslateDialog);
-	CreateServiceFunction(MS_LANGPACK_GETCODEPAGE,GetDefaultCodePage);
-	CreateServiceFunction(MS_LANGPACK_GETLOCALE,GetDefaultLocale);
-	CreateServiceFunction(MS_LANGPACK_PCHARTOTCHAR,PcharToTchar);
-	CreateServiceFunction(MS_LANGPACK_REGISTER,LPRegister);
-	CreateServiceFunction(MS_LANGPACK_RELOAD,ReloadLangpack);
+	CreateServiceFunction(MS_LANGPACK_TRANSLATESTRING, TranslateString);
+	CreateServiceFunction(MS_LANGPACK_TRANSLATEMENU, TranslateMenu);
+	CreateServiceFunction(MS_LANGPACK_TRANSLATEDIALOG, TranslateDialog);
+	CreateServiceFunction(MS_LANGPACK_GETCODEPAGE, GetDefaultCodePage);
+	CreateServiceFunction(MS_LANGPACK_GETLOCALE, GetDefaultLocale);
+	CreateServiceFunction(MS_LANGPACK_PCHARTOTCHAR, PcharToTchar);
+	CreateServiceFunction(MS_LANGPACK_REGISTER, LPRegister);
+	CreateServiceFunction(MS_LANGPACK_RELOAD, ReloadLangpack);
 	return 0;
 }
 

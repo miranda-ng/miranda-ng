@@ -31,9 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "modern_defsettings.h"
 #include "modern_clist.h"
 
-
-
-
 #define SETTING_TRAYICON_SINGLE   0
 #define SETTING_TRAYICON_CYCLE    1
 #define SETTING_TRAYICON_MULTI    2
@@ -172,11 +169,6 @@ struct ClcGroup;
 #define TEXT_LISTENING_TO 5
 
 #define TEXT_TEXT_MAX_LENGTH 1024
-
-
-#define IsHContactGroup(h)  (((UINT_PTR)(h)^HCONTACT_ISGROUP)<(HCONTACT_ISGROUP^HCONTACT_ISINFO))
-#define IsHContactInfo(h)   (((UINT_PTR)(h)&HCONTACT_ISINFO)==HCONTACT_ISINFO)
-#define IsHContactContact(h) (((UINT_PTR)(h)&HCONTACT_ISGROUP)==0)
 
 typedef struct tagClcContactTextPiece
 {

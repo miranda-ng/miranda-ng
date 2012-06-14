@@ -224,7 +224,7 @@ VOID SvcHomepageRebuildMenu()
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
 			mi.pszName = "&Homepage";
 			mi.pszService = MS_USERINFO_HOMEPAGE_OPENURL;
-			ghMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+			ghMenuItem = Menu_AddContactMenuItem(&mi);
 		}
 	}
 	else 

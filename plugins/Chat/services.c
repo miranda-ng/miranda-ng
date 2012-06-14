@@ -227,14 +227,14 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );
 		mi.pszName = LPGEN("&Join");
 		mi.pszService = "GChat/JoinChat";
-		hJoinMenuItem = ( HANDLE )CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		hJoinMenuItem = Menu_AddContactMenuItem(&mi);
 
 		mi.position = -2000090000;
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_LEAVE );
 		mi.flags = CMIF_NOTOFFLINE | CMIF_ICONFROMICOLIB;
 		mi.pszName = LPGEN("&Leave");
 		mi.pszService = "GChat/LeaveChat";
-		hLeaveMenuItem = ( HANDLE )CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		hLeaveMenuItem = Menu_AddContactMenuItem(&mi);
 	}
 
 	g_hFontsChanged  = HookEvent(ME_FONT_RELOAD, FontsChanged);

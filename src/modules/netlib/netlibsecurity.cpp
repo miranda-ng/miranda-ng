@@ -1,7 +1,7 @@
 /*
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -10,7 +10,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -67,7 +67,7 @@ static HANDLE hSecMutex;
 static void ReportSecError(SECURITY_STATUS scRet, int line)
 {
 	char szMsgBuf[256];
-	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+	FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
 		NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
 
 	char *p = strchr(szMsgBuf, 13); if (p) *p = 0;
@@ -197,8 +197,8 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 
 	SecBuffer inBuffers[2] = 
 	{
-		{ sizeof(inDataBuffer), SECBUFFER_DATA, inDataBuffer },
-		{ chlsz, SECBUFFER_STREAM, szChallenge },
+		{ sizeof(inDataBuffer), SECBUFFER_DATA, inDataBuffer }, 
+		{ chlsz, SECBUFFER_STREAM, szChallenge }, 
 	};
 
 	SecBufferDesc inBuffersDesc = { SECBUFFER_VERSION, 2, inBuffers };
@@ -229,8 +229,8 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 
 	SecBuffer outBuffers[3] = 
 	{
-		{ sizes.cbSecurityTrailer, SECBUFFER_TOKEN, tokenBuffer },
-		{ sizeof(outDataBuffer), SECBUFFER_DATA, outDataBuffer },
+		{ sizes.cbSecurityTrailer, SECBUFFER_TOKEN, tokenBuffer }, 
+		{ sizeof(outDataBuffer), SECBUFFER_DATA, outDataBuffer }, 
 		{ sizes.cbBlockSize, SECBUFFER_PADDING, paddingBuffer }
 	};
 	SecBufferDesc outBuffersDesc = { SECBUFFER_VERSION, 3, outBuffers };
@@ -259,7 +259,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	nlb64.pbDecoded = response;
 	nlb64.cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64.cbDecoded);
 	nlb64.pszEncoded = (char*)alloca(nlb64.cchEncoded);
-	if (!NetlibBase64Encode(0,(LPARAM)&nlb64)) return NULL;
+	if (!NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
 
 	return mir_strdup(nlb64.pszEncoded);
 } 
@@ -268,8 +268,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 									  bool http, unsigned& complete)
 {
 	SECURITY_STATUS sc;
-	SecBufferDesc outputBufferDescriptor,inputBufferDescriptor;
-	SecBuffer outputSecurityToken,inputSecurityToken;
+	SecBufferDesc outputBufferDescriptor, inputBufferDescriptor;
+	SecBuffer outputSecurityToken, inputSecurityToken;
 	TimeStamp tokenExpiration;
 	ULONG contextAttributes;
 	NETLIBBASE64 nlb64 = { 0 };
@@ -422,10 +422,10 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		outputSecurityToken.cbBuffer = hNtlm->cbMaxToken;
 		outputSecurityToken.pvBuffer = alloca(outputSecurityToken.cbBuffer);
 
-		sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential,
-			hasChallenge ? &hNtlm->hClientContext : NULL,
-			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP,
-			hasChallenge ? &inputBufferDescriptor : NULL, 0, &hNtlm->hClientContext,
+		sc = g_pSSPI->InitializeSecurityContext(&hNtlm->hClientCredential, 
+			hasChallenge ? &hNtlm->hClientContext : NULL, 
+			hNtlm->szPrincipal, isGSSAPI ? ISC_REQ_MUTUAL_AUTH | ISC_REQ_STREAM : 0, 0, SECURITY_NATIVE_DREP, 
+			hasChallenge ? &inputBufferDescriptor : NULL, 0, &hNtlm->hClientContext, 
 			&outputBufferDescriptor, &contextAttributes, &tokenExpiration);
 
 		complete = (sc != SEC_I_COMPLETE_AND_CONTINUE && sc != SEC_I_CONTINUE_NEEDED);
@@ -454,7 +454,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		size_t authLen = strlen(szLogin) + strlen(szPassw) + 5;
 		char *szAuth = (char*)alloca(authLen);
 		
-		nlb64.cbDecoded = mir_snprintf(szAuth, authLen,"%s:%s", szLogin, szPassw);
+		nlb64.cbDecoded = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
 		nlb64.pbDecoded=(PBYTE)szAuth;
 		complete = true;
 
@@ -464,7 +464,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 	nlb64.cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64.cbDecoded);
 	nlb64.pszEncoded = (char*)alloca(nlb64.cchEncoded);
-	if (!NetlibBase64Encode(0,(LPARAM)&nlb64)) return NULL;
+	if (!NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
 
 	char* result;
 	if (http)

@@ -93,7 +93,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //wParam=(WPARAM)(HANDLE)hObject
 //lParam=(LPARAM)(const char*)pszService
 //returns 0 on success or nonzero on failure
-//Causes pszService to be CallService()d (wParam=hObject,lParam=0) from the
+//Causes pszService to be CallService()d (wParam=hObject, lParam=0) from the
 //main thread whenever hObject is signalled.
 //The Miranda message loop has a MsgWaitForMultipleObjects() call in it to
 //implement this feature. See the documentation for that function for
@@ -172,19 +172,19 @@ __forceinline INT_PTR mir_getMMI( struct MM_INTERFACE* dest )
 	extern struct MM_INTERFACE mmi;
 	#define mir_alloc(n) mmi.mmi_malloc(n)
 	#define mir_free(ptr) mmi.mmi_free(ptr)
-	#define mir_realloc(ptr,size) mmi.mmi_realloc(ptr,size)
+	#define mir_realloc(ptr, size) mmi.mmi_realloc(ptr, size)
 
 	#define mir_calloc(n) mmi.mmi_calloc(n)
 	#define mir_strdup(str) mmi.mmi_strdup(str)
 	#define mir_wstrdup(str) mmi.mmi_wstrdup(str)
 	#define mir_snprintf   mmi.mir_snprintf
-	#define mir_sntprintf  mmi.mir_sntprintf 
+	#define mir_sntprintf  mmi.mir_sntprintf
 	#define mir_vsnprintf  mmi.mir_vsnprintf
 	#define mir_vsntprintf mmi.mir_vsntprintf
 
-	#define mir_a2u_cp(src,cp) mmi.mir_a2u_cp(src,cp) 
+	#define mir_a2u_cp(src, cp) mmi.mir_a2u_cp(src, cp)
 	#define mir_a2u(src)       mmi.mir_a2u(src)
-	#define mir_u2a_cp(src,cp) mmi.mir_u2a_cp(src,cp)
+	#define mir_u2a_cp(src, cp) mmi.mir_u2a_cp(src, cp)
 	#define mir_u2a(src)       mmi.mir_u2a(src)
 #else
 	char* mir_strdup(const char *src);
@@ -212,9 +212,9 @@ wParam=0, lParam = (LPARAM)LIST_INTERFACE*
 
 typedef int ( *FSortFunc )( void*, void* );
 
-// Assumes first 32 bit value of the data is the numeric key 
+// Assumes first 32 bit value of the data is the numeric key
 // and uses it to perform sort/search operations, this results
-// in much better performance as no compare function calls needed 
+// in much better performance as no compare function calls needed
 // Incredibly useful for Hash Tables
 #define NumericKeySort (FSortFunc)(void*) -1
 #define HandleKeySort  (FSortFunc)(void*) -2
@@ -293,7 +293,7 @@ struct UTF8_INTERFACE
 	// the input buffer remains unchanged
 	wchar_t* ( *utf8_decodeW )( const char* str );
 
-	// returns the predicted length of the utf-8 string 
+	// returns the predicted length of the utf-8 string
 	int ( *utf8_lenW )( const wchar_t* src );
 };
 
@@ -307,11 +307,11 @@ __forceinline INT_PTR mir_getUTFI( struct UTF8_INTERFACE* dest )
 
 extern struct UTF8_INTERFACE utfi;
 
-#define mir_utf8decode(A,B)     utfi.utf8_decode(A,B)
-#define mir_utf8decodecp(A,B,C) utfi.utf8_decodecp(A,B,C)
+#define mir_utf8decode(A, B)     utfi.utf8_decode(A, B)
+#define mir_utf8decodecp(A, B, C) utfi.utf8_decodecp(A, B, C)
 #define mir_utf8decodeW(A)	     utfi.utf8_decodeW(A)
 #define mir_utf8encode(A)       utfi.utf8_encode(A)
-#define mir_utf8encodecp(A,B)   utfi.utf8_encodecp(A,B)
+#define mir_utf8encodecp(A, B)   utfi.utf8_encodecp(A, B)
 #define mir_utf8encodeW(A)      utfi.utf8_encodeW(A)
 #define mir_utf8lenW(A)         utfi.utf8_lenW(A)
 
@@ -385,10 +385,10 @@ __forceinline char* mir_utf8decodeA(const char* src)
 		int run=1;
 		for (;run;)
 		{
-			Beep(4391,500);
-			SleepEx(1500,TRUE);
+			Beep(4391, 500);
+			SleepEx(1500, TRUE);
 			if (Miranda_Terminated()) {
-				Beep(5000,150); run=0;
+				Beep(5000, 150); run=0;
 			} //if
 		} //for
 	}
@@ -577,7 +577,7 @@ __inline static INT_PTR Miranda_Terminated(void)
 #else
 __inline static INT_PTR Miranda_Terminated(void)
 {
-	return CallService(MS_SYSTEM_TERMINATED,0,0);
+	return CallService(MS_SYSTEM_TERMINATED, 0, 0);
 }
 #endif
 

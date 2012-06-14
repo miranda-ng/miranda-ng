@@ -99,8 +99,7 @@ void InitMenuitem()
 	cmi.pszContactOwner=NULL;
 	cmi.pszName="<none>";
 	cmi.pszService="LastSeenUserDetails";
-	
-	hmenuitem=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&cmi);
+	hmenuitem = Menu_AddContactMenuItem(&cmi);
 	
 	hBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildContactMenu);
 

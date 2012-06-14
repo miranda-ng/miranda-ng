@@ -55,10 +55,10 @@ typedef struct NETLIBOPENCONNECTION_tag NETLIBOPENCONNECTION;
 //of the netlib options page.
 //See notes below this function for the behaviour of HTTP gateways
 //Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, ERROR_DUP_NAME
-typedef int (*NETLIBHTTPGATEWAYINITPROC)(HANDLE hConn,NETLIBOPENCONNECTION *nloc,NETLIBHTTPREQUEST *nlhr);
-typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HANDLE hConn,NETLIBOPENCONNECTION *nloc);
-typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HANDLE hConn,PBYTE buf,int len,int flags,MIRANDASERVICE pfnNetlibSend);
-typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr,PBYTE buf,int len,int *outBufLen,void *(*NetlibRealloc)(void*,size_t));
+typedef int (*NETLIBHTTPGATEWAYINITPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPREQUEST *nlhr);
+typedef int (*NETLIBHTTPGATEWAYBEGINPROC)(HANDLE hConn, NETLIBOPENCONNECTION *nloc);
+typedef int (*NETLIBHTTPGATEWAYWRAPSENDPROC)(HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend);
+typedef PBYTE (*NETLIBHTTPGATEWAYUNWRAPRECVPROC)(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *(*NetlibRealloc)(void*, size_t));
 typedef struct {
 	int cbSize;
 	char *szSettingsModule;         //used for db settings and log
@@ -150,7 +150,7 @@ MSG_NOHTTPGATEWAYWRAP. nlu.pfnHttpGatewayWrapSend should return the a
 number of the same type as MS_NETLIB_SEND, ie the number of bytes sent or
 SOCKET_ERROR. The number of wrapping bytes should be subtracted so that the
 return value appears as if the proxy wasn't there.
-pfnNetlibSend() is identical to CallService(MS_NETLIB_SEND,...) but it's
+pfnNetlibSend() is identical to CallService(MS_NETLIB_SEND, ...) but it's
 quicker to call using this pointer than to do the CallService() lookup again.
 
 Whenever an HTTP reply is received inside MS_NETLIB_RECV the headers and data
@@ -196,7 +196,7 @@ typedef struct {
 	int useProxyAuthNtlm;       // 1 or 0, only used by HTTP, HTTPS
 	int dnsThroughProxy;        // 1 or 0
 	int specifyIncomingPorts;   // 1 or 0
-	char *szIncomingPorts;      // can be NULL. Of form "1024-1050,1060-1070,2000"
+	char *szIncomingPorts;      // can be NULL. Of form "1024-1050, 1060-1070, 2000"
 	int specifyOutgoingPorts;   // 0.3.3a+
 	char *szOutgoingPorts;      // 0.3.3a+
     int enableUPnP;             // 0.6.1+ only for NUF_INCOMING
@@ -224,7 +224,7 @@ typedef struct {
 //socket will be closed.
 //Errors: ERROR_INVALID_PARAMETER
 #define MS_NETLIB_CLOSEHANDLE   "Netlib/CloseHandle"
-__inline static INT_PTR Netlib_CloseHandle(HANDLE h) {return CallService(MS_NETLIB_CLOSEHANDLE,(WPARAM)h,0);}
+__inline static INT_PTR Netlib_CloseHandle(HANDLE h) {return CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)h, 0);}
 
 //Open a port and wait for connections on it
 //wParam=(WPARAM)(HANDLE)hUser
@@ -248,7 +248,7 @@ __inline static INT_PTR Netlib_CloseHandle(HANDLE h) {return CallService(MS_NETL
 // for such conditions.
 //
 // passing wPort != 0 is for people who need to open a set port for
-// daemon activities, usually passing wPort==0 is what you want and
+// daemon activities, usually passing wPort == 0 is what you want and
 // will result in a free port given by the TCP/IP socket layer and/or
 // seeded from the user selected port ranges.
 //
@@ -260,8 +260,8 @@ it shouldnt matter */
 #define NETLIBBIND_SIZEOF_V1 16 // sizeof(NETLIBBIND) prior to 0.3.4+ (2004/08/05)
 #define NETLIBBIND_SIZEOF_V2 20 // sizeof(NETLIBBIND) prior to 0.6+ (2006/07/03)
 
-typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection,DWORD dwRemoteIP, void * pExtra);
-typedef void (*NETLIBNEWCONNECTIONPROC)(HANDLE hNewConnection,DWORD dwRemoteIP);
+typedef void (*NETLIBNEWCONNECTIONPROC_V2)(HANDLE hNewConnection, DWORD dwRemoteIP, void * pExtra);
+typedef void (*NETLIBNEWCONNECTIONPROC)(HANDLE hNewConnection, DWORD dwRemoteIP);
 /* This is NETLIBBIND prior to 2004/08/05+, DONT use this anymore unless you want to work
 with older cores, pExtra isnt available on older cores and never will be - for a period of time, the ABI
 for this service was broken and older NETLIBBINDs were not supported, if NULL is returned and the
@@ -364,7 +364,7 @@ typedef struct {
 	DWORD flags;
 	char *szHttpPostUrl;
 	char *szHttpGetUrl;
-	int firstGetSequence,firstPostSequence;
+	int firstGetSequence, firstPostSequence;
 	int combinePackets;
 } NETLIBHTTPPROXYINFO;
 #define MS_NETLIB_SETHTTPPROXYINFO   "Netlib/SetHttpProxyInfo"
@@ -384,7 +384,7 @@ typedef struct {
 //wParam=0
 //lParam=(LPARAM)(const char *)pszString
 //Returns a char* containing the new string. This must be freed with
-//HeapFree(GetProcessHeap(),0,pszReturnString) when you're done with it.
+//HeapFree(GetProcessHeap(), 0, pszReturnString) when you're done with it.
 //Returns NULL on error.
 //Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY
 #define MS_NETLIB_URLENCODE     "Netlib/UrlEncode"
@@ -575,10 +575,10 @@ struct NETLIBHTTPREQUEST_tag {
 //szValue=NULL.
 //In the return value headers, headerCount, pData, dataLength, resultCode and
 //szResultDescr are all valid.
-//In the return value pData[dataLength]==0 always, as an extra safeguard
+//In the return value pData[dataLength] == 0 always, as an extra safeguard
 //against programming slips.
 //Note that the function can succeed (ie not return NULL) yet result in an HTTP
-//error code. You should check that resultCode==2xx before proceeding.
+//error code. You should check that resultCode == 2xx before proceeding.
 //Errors: ERROR_INVALID_PARAMETER, ERROR_OUTOFMEMORY, anything from the above
 //    list of functions
 #define MS_NETLIB_HTTPTRANSACTION   "Netlib/HttpTransaction"
@@ -605,9 +605,9 @@ typedef struct {
 	int flags;
 } NETLIBBUFFER;
 #define MS_NETLIB_SEND	   "Netlib/Send"
-static __inline INT_PTR Netlib_Send(HANDLE hConn,const char *buf,int len,int flags) {
-	NETLIBBUFFER nlb={(char*)buf,len,flags};
-	return CallService(MS_NETLIB_SEND,(WPARAM)hConn,(LPARAM)&nlb);
+static __inline INT_PTR Netlib_Send(HANDLE hConn, const char *buf, int len, int flags) {
+	NETLIBBUFFER nlb={(char*)buf, len, flags};
+	return CallService(MS_NETLIB_SEND, (WPARAM)hConn, (LPARAM)&nlb);
 }
 
 //Receive data over a connection
@@ -632,9 +632,9 @@ static __inline INT_PTR Netlib_Send(HANDLE hConn,const char *buf,int len,int fla
 //						  nlu.pfnHttpGatewayUnwrapRecv, socket(), connect(),
 //						  MS_NETLIB_SENDHTTPREQUEST
 #define MS_NETLIB_RECV	   "Netlib/Recv"
-static __inline INT_PTR Netlib_Recv(HANDLE hConn,char *buf,int len,int flags) {
-	NETLIBBUFFER nlb={buf,len,flags};
-	return CallService(MS_NETLIB_RECV,(WPARAM)hConn,(LPARAM)&nlb);
+static __inline INT_PTR Netlib_Recv(HANDLE hConn, char *buf, int len, int flags) {
+	NETLIBBUFFER nlb={buf, len, flags};
+	return CallService(MS_NETLIB_RECV, (WPARAM)hConn, (LPARAM)&nlb);
 }
 
 //Determine the status of one or more connections
@@ -676,7 +676,7 @@ typedef struct {
 //lParam=(LPARAM)0
 //Returns 0
 #define MS_NETLIB_SHUTDOWN	   "Netlib/Shutdown"
-__inline static void Netlib_Shutdown(HANDLE h) {CallService(MS_NETLIB_SHUTDOWN,(WPARAM)h,0);}
+__inline static void Netlib_Shutdown(HANDLE h) {CallService(MS_NETLIB_SHUTDOWN, (WPARAM)h, 0);}
 
 //Create a packet receiver
 //wParam=(WPARAM)(HANDLE)hConnection
@@ -776,7 +776,7 @@ static INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 
 		__try
 		{
-			va_start(va,fmt);
+			va_start(va, fmt);
 			mir_vsntprintf(szText, sizeof(szText), fmt, va);
 			va_end(va);
 			return CallService(MS_NETLIB_LOGW, (WPARAM)hUser, (LPARAM)szText);

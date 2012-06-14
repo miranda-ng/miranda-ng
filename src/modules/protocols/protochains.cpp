@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protomod.h>
 
 //Protocol chain is list of integers "0".."n", with network protocol named "p"
-INT_PTR Proto_CallContactService(WPARAM wParam,LPARAM lParam)
+INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 //note that this is ChainSend() too, due to a quirk of function definitions
 {
 	CCSDATA *ccs=(CCSDATA*)lParam;
@@ -68,7 +68,7 @@ INT_PTR Proto_CallContactService(WPARAM wParam,LPARAM lParam)
 	return ret;
 }
 
-static INT_PTR CallRecvChain(WPARAM wParam,LPARAM lParam)
+static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs=(CCSDATA*)lParam;
 	int i;
@@ -121,10 +121,10 @@ static INT_PTR CallRecvChain(WPARAM wParam,LPARAM lParam)
 	return ret;
 }
 
-static INT_PTR Proto_ChainRecv(WPARAM wParam,LPARAM lParam)
+static INT_PTR Proto_ChainRecv(WPARAM wParam, LPARAM lParam)
 {
 	/* this will switch threads just like before */
-	return CallServiceSync(MS_PROTO_CHAINRECV "ThreadSafe",wParam,lParam);
+	return CallServiceSync(MS_PROTO_CHAINRECV "ThreadSafe", wParam, lParam);
 }
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(HANDLE hContact)
@@ -157,7 +157,7 @@ static INT_PTR Proto_GetContactBaseAccount(WPARAM wParam, LPARAM)
     return (INT_PTR)(pa ? pa->szModuleName : NULL);
 }
 
-static INT_PTR Proto_IsProtoOnContact(WPARAM wParam,LPARAM lParam)
+static INT_PTR Proto_IsProtoOnContact(WPARAM wParam, LPARAM lParam)
 {
 	int i;
 	char str[10];
@@ -165,17 +165,17 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam,LPARAM lParam)
 
     if (!lParam) return 0;
 
-	if (!DBGetContactSettingString((HANDLE)wParam,"Protocol","p",&dbv)) {
-		if (!_stricmp((char*)lParam,dbv.pszVal)) {
+	if (!DBGetContactSettingString((HANDLE)wParam, "Protocol", "p", &dbv)) {
+		if (!_stricmp((char*)lParam, dbv.pszVal)) {
 			mir_free(dbv.pszVal);
 			return -1;
 		}
 		mir_free(dbv.pszVal);
 	}
 	for (i=0;;i++) {
-		_itoa(i,str,10);
-		if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
-		if (!strcmp((char*)lParam,dbv.pszVal)) {
+		_itoa(i, str, 10);
+		if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) break;
+		if (!strcmp((char*)lParam, dbv.pszVal)) {
 			mir_free(dbv.pszVal);
 			return i+1;
 		}
@@ -184,33 +184,33 @@ static INT_PTR Proto_IsProtoOnContact(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Proto_AddToContact(WPARAM wParam,LPARAM lParam)
+static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 {
-	PROTOCOLDESCRIPTOR *pd,*pdCompare;
+	PROTOCOLDESCRIPTOR *pd, *pdCompare;
 
 	pd = Proto_IsProtocolLoaded(( char* )lParam );
 	if ( pd == NULL ) {
 		PROTOACCOUNT* pa = Proto_GetAccount(( char* )lParam );
 		if ( pa ) {
-			DBWriteContactSettingString((HANDLE)wParam,"Protocol","p",(char*)lParam);
+			DBWriteContactSettingString((HANDLE)wParam, "Protocol", "p", (char*)lParam);
 			return 0;
 		}
 		return 1;
 	}
 
 	if ( pd->type == PROTOTYPE_PROTOCOL ) {
-		DBWriteContactSettingString((HANDLE)wParam,"Protocol","p",(char*)lParam);
+		DBWriteContactSettingString((HANDLE)wParam, "Protocol", "p", (char*)lParam);
 		return 0;
 	}
-	if (Proto_IsProtoOnContact(wParam,lParam)) return 1;
+	if (Proto_IsProtoOnContact(wParam, lParam)) return 1;
 	{ /* v:0.3.3 + PROTO FILTERS ARE NOW KEPT IN THEIR OWN DB MODULE! */
 		int i;
-		char str[10],*lastProto;
+		char str[10], *lastProto;
 		DBVARIANT dbv;
 
 		for (i=0;;i++) {
-			_itoa(i,str,10);
-			if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) break;
+			_itoa(i, str, 10);
+			if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) break;
 			pdCompare = Proto_IsProtocolLoaded(( char* )dbv.pszVal );
 			mir_free(dbv.pszVal);
 			if (pdCompare == NULL) continue;
@@ -219,13 +219,13 @@ static INT_PTR Proto_AddToContact(WPARAM wParam,LPARAM lParam)
 		//put the new module at position i
 		lastProto=mir_strdup((char*)lParam);
 		for (;;i++) {
-			_itoa(i,str,10);
-			if (DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
-				DBWriteContactSettingString((HANDLE)wParam,"_Filter",str,lastProto);
+			_itoa(i, str, 10);
+			if (DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) {
+				DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, lastProto);
 				mir_free(lastProto);
 				break;
 			}
-			DBWriteContactSettingString((HANDLE)wParam,"_Filter",str,lastProto);
+			DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, lastProto);
 			mir_free(lastProto);
 			lastProto=dbv.pszVal;
 		}
@@ -233,26 +233,26 @@ static INT_PTR Proto_AddToContact(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR Proto_RemoveFromContact(WPARAM wParam,LPARAM lParam)
+static INT_PTR Proto_RemoveFromContact(WPARAM wParam, LPARAM lParam)
 {
 	int i;
 	DBVARIANT dbv;
 	char str[10];
 
-	i = Proto_IsProtoOnContact(wParam,lParam);
+	i = Proto_IsProtoOnContact(wParam, lParam);
 	if (!i) return 1;
 	if (i == -1)
-		DBDeleteContactSetting((HANDLE)wParam,"Protocol","p");
+		DBDeleteContactSetting((HANDLE)wParam, "Protocol", "p");
 	else {
 		for (i--;;i++) {			//we have to decrease i, as Proto_IsOnContact returns +1 more number than read from database
-			_itoa(i+1,str,10);
-			if (0 != DBGetContactSettingString((HANDLE)wParam,"_Filter",str,&dbv)) {
-				_itoa(i,str,10);
-				DBDeleteContactSetting((HANDLE)wParam,"_Filter",str);
+			_itoa(i+1, str, 10);
+			if (0 != DBGetContactSettingString((HANDLE)wParam, "_Filter", str, &dbv)) {
+				_itoa(i, str, 10);
+				DBDeleteContactSetting((HANDLE)wParam, "_Filter", str);
 				break;
 			}
-			_itoa(i,str,10);
-			DBWriteContactSettingString((HANDLE)wParam,"_Filter",str,dbv.pszVal);
+			_itoa(i, str, 10);
+			DBWriteContactSettingString((HANDLE)wParam, "_Filter", str, dbv.pszVal);
 			mir_free(dbv.pszVal);
 		}
 	}
@@ -261,14 +261,14 @@ static INT_PTR Proto_RemoveFromContact(WPARAM wParam,LPARAM lParam)
 
 int LoadProtoChains(void)
 {
-	CreateServiceFunction(MS_PROTO_CALLCONTACTSERVICE,Proto_CallContactService);
-	CreateServiceFunction(MS_PROTO_CHAINSEND,Proto_CallContactService);
-	CreateServiceFunction(MS_PROTO_CHAINRECV,Proto_ChainRecv);
-	CreateServiceFunction(MS_PROTO_CHAINRECV "ThreadSafe",CallRecvChain);
-	CreateServiceFunction(MS_PROTO_GETCONTACTBASEPROTO,Proto_GetContactBaseProto);
-	CreateServiceFunction(MS_PROTO_GETCONTACTBASEACCOUNT,Proto_GetContactBaseAccount);
-	CreateServiceFunction(MS_PROTO_ISPROTOONCONTACT,Proto_IsProtoOnContact);
-	CreateServiceFunction(MS_PROTO_ADDTOCONTACT,Proto_AddToContact);
-	CreateServiceFunction(MS_PROTO_REMOVEFROMCONTACT,Proto_RemoveFromContact);
+	CreateServiceFunction(MS_PROTO_CALLCONTACTSERVICE, Proto_CallContactService);
+	CreateServiceFunction(MS_PROTO_CHAINSEND, Proto_CallContactService);
+	CreateServiceFunction(MS_PROTO_CHAINRECV, Proto_ChainRecv);
+	CreateServiceFunction(MS_PROTO_CHAINRECV "ThreadSafe", CallRecvChain);
+	CreateServiceFunction(MS_PROTO_GETCONTACTBASEPROTO, Proto_GetContactBaseProto);
+	CreateServiceFunction(MS_PROTO_GETCONTACTBASEACCOUNT, Proto_GetContactBaseAccount);
+	CreateServiceFunction(MS_PROTO_ISPROTOONCONTACT, Proto_IsProtoOnContact);
+	CreateServiceFunction(MS_PROTO_ADDTOCONTACT, Proto_AddToContact);
+	CreateServiceFunction(MS_PROTO_REMOVEFROMCONTACT, Proto_RemoveFromContact);
 	return 0;
 }

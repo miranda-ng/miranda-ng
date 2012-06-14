@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_plugins.h"
 
-#define PLUGIN_MAKE_VERSION(a,b,c,d)   (((((DWORD)(a))&0xFF)<<24)|((((DWORD)(b))&0xFF)<<16)|((((DWORD)(c))&0xFF)<<8)|(((DWORD)(d))&0xFF))
+#define PLUGIN_MAKE_VERSION(a, b, c, d)   (((((DWORD)(a))&0xFF)<<24)|((((DWORD)(b))&0xFF)<<16)|((((DWORD)(c))&0xFF)<<8)|(((DWORD)(d))&0xFF))
 #define MAXMODULELABELLENGTH 64
 
 #if defined( _UNICODE )
@@ -148,15 +148,15 @@ typedef struct {
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
 #ifndef MODULES_H_
-	typedef int (*MIRANDAHOOK)(WPARAM,LPARAM);
-	typedef int (*MIRANDAHOOKPARAM)(WPARAM,LPARAM,LPARAM);
-	typedef int (*MIRANDAHOOKOBJ)(void*,WPARAM,LPARAM);
-	typedef int (*MIRANDAHOOKOBJPARAM)(void*,WPARAM,LPARAM,LPARAM);
+	typedef int (*MIRANDAHOOK)(WPARAM, LPARAM);
+	typedef int (*MIRANDAHOOKPARAM)(WPARAM, LPARAM, LPARAM);
+	typedef int (*MIRANDAHOOKOBJ)(void*, WPARAM, LPARAM);
+	typedef int (*MIRANDAHOOKOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 
-	typedef INT_PTR (*MIRANDASERVICE)(WPARAM,LPARAM);
-	typedef INT_PTR (*MIRANDASERVICEPARAM)(WPARAM,LPARAM,LPARAM);
-	typedef INT_PTR (*MIRANDASERVICEOBJ)(void*,WPARAM,LPARAM);
-	typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*,WPARAM,LPARAM,LPARAM);
+	typedef INT_PTR (*MIRANDASERVICE)(WPARAM, LPARAM);
+	typedef INT_PTR (*MIRANDASERVICEPARAM)(WPARAM, LPARAM, LPARAM);
+	typedef INT_PTR (*MIRANDASERVICEOBJ)(void*, WPARAM, LPARAM);
+	typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 
 #ifdef _WIN64
     #define CALLSERVICE_NOTFOUND      ((INT_PTR)0x8000000000000000)
@@ -170,27 +170,27 @@ typedef struct {
 typedef struct tagPLUGINLINK {
 	HANDLE (*CreateHookableEvent)(const char *);
 	int (*DestroyHookableEvent)(HANDLE);
-	int (*NotifyEventHooks)(HANDLE,WPARAM,LPARAM);
-	HANDLE (*HookEvent)(const char *,MIRANDAHOOK);
-	HANDLE (*HookEventMessage)(const char *,HWND,UINT);
+	int (*NotifyEventHooks)(HANDLE, WPARAM, LPARAM);
+	HANDLE (*HookEvent)(const char *, MIRANDAHOOK);
+	HANDLE (*HookEventMessage)(const char *, HWND, UINT);
 	int (*UnhookEvent)(HANDLE);
-	HANDLE (*CreateServiceFunction)(const char *,MIRANDASERVICE);
-	HANDLE (*CreateTransientServiceFunction)(const char *,MIRANDASERVICE);
+	HANDLE (*CreateServiceFunction)(const char *, MIRANDASERVICE);
+	HANDLE (*CreateTransientServiceFunction)(const char *, MIRANDASERVICE);
 	int (*DestroyServiceFunction)(HANDLE);
-	INT_PTR (*CallService)(const char *,WPARAM,LPARAM);
+	INT_PTR (*CallService)(const char *, WPARAM, LPARAM);
 	int (*ServiceExists)(const char *);		  //v0.1.0.1+
-	INT_PTR (*CallServiceSync)(const char *,WPARAM,LPARAM);		//v0.3.3+
+	INT_PTR (*CallServiceSync)(const char *, WPARAM, LPARAM);		//v0.3.3+
 	int (*CallFunctionAsync) (void (__stdcall *)(void *), void *);	//v0.3.4+
 	int (*SetHookDefaultForHookableEvent) (HANDLE, MIRANDAHOOK); // v0.3.4 (2004/09/15)
-	HANDLE (*CreateServiceFunctionParam)(const char *,MIRANDASERVICEPARAM,LPARAM); // v0.7+ (2007/04/24)
-	int (*NotifyEventHooksDirect)(HANDLE,WPARAM,LPARAM); // v0.7+
+	HANDLE (*CreateServiceFunctionParam)(const char *, MIRANDASERVICEPARAM, LPARAM); // v0.7+ (2007/04/24)
+	int (*NotifyEventHooksDirect)(HANDLE, WPARAM, LPARAM); // v0.7+
 	INT_PTR (*CallProtoService)(const char *, const char *, WPARAM, LPARAM );
 	INT_PTR (*CallContactService)( HANDLE, const char *, WPARAM, LPARAM );
-	HANDLE (*HookEventParam)(const char *,MIRANDAHOOKPARAM,LPARAM);
-	HANDLE (*HookEventObj)(const char *,MIRANDAHOOKOBJ, void* );
+	HANDLE (*HookEventParam)(const char *, MIRANDAHOOKPARAM, LPARAM);
+	HANDLE (*HookEventObj)(const char *, MIRANDAHOOKOBJ, void* );
 	HANDLE (*HookEventObjParam)(const char *, MIRANDAHOOKOBJPARAM, void*, LPARAM);
-	HANDLE (*CreateServiceFunctionObj)(const char *,MIRANDASERVICEOBJ,void*);
-	HANDLE (*CreateServiceFunctionObjParam)(const char *,MIRANDASERVICEOBJPARAM,void*,LPARAM);
+	HANDLE (*CreateServiceFunctionObj)(const char *, MIRANDASERVICEOBJ, void*);
+	HANDLE (*CreateServiceFunctionObjParam)(const char *, MIRANDASERVICEOBJPARAM, void*, LPARAM);
 	void (*KillObjectServices)(void *);
 	void (*KillObjectEventHooks)(void *);
 } PLUGINLINK;
@@ -201,27 +201,27 @@ typedef struct tagPLUGINLINK {
 		extern PLUGINLINK *pluginLink;
 		#define CreateHookableEvent(a)                    pluginLink->CreateHookableEvent(a)
 		#define DestroyHookableEvent(a)                   pluginLink->DestroyHookableEvent(a)
-		#define NotifyEventHooks(a,b,c)                   pluginLink->NotifyEventHooks(a,b,c)
-		#define HookEventMessage(a,b,c)                   pluginLink->HookEventMessage(a,b,c)
-		#define HookEvent(a,b)                            pluginLink->HookEvent(a,b)
+		#define NotifyEventHooks(a, b, c)                   pluginLink->NotifyEventHooks(a, b, c)
+		#define HookEventMessage(a, b, c)                   pluginLink->HookEventMessage(a, b, c)
+		#define HookEvent(a, b)                            pluginLink->HookEvent(a, b)
 		#define UnhookEvent(a)                            pluginLink->UnhookEvent(a)
-		#define CreateServiceFunction(a,b)                pluginLink->CreateServiceFunction(a,b)
-		#define CreateTransientServiceFunction(a,b)       pluginLink->CreateTransientServiceFunction(a,b)
+		#define CreateServiceFunction(a, b)                pluginLink->CreateServiceFunction(a, b)
+		#define CreateTransientServiceFunction(a, b)       pluginLink->CreateTransientServiceFunction(a, b)
 		#define DestroyServiceFunction(a)                 pluginLink->DestroyServiceFunction(a)
-		#define CallService(a,b,c)                        pluginLink->CallService(a,b,c)
+		#define CallService(a, b, c)                        pluginLink->CallService(a, b, c)
 		#define ServiceExists(a)                          pluginLink->ServiceExists(a)
-		#define CallServiceSync(a,b,c)                    pluginLink->CallServiceSync(a,b,c)
-		#define CallFunctionAsync(a,b)                    pluginLink->CallFunctionAsync(a,b)
-		#define SetHookDefaultForHookableEvent(a,b)       pluginLink->SetHookDefaultForHookableEvent(a,b)
-		#define CreateServiceFunctionParam(a,b,c)         pluginLink->CreateServiceFunctionParam(a,b,c)
-		#define NotifyEventHooksDirect(a,b,c)             pluginLink->NotifyEventHooksDirect(a,b,c)
-		#define CallProtoService(a,b,c,d)              pluginLink->CallProtoService(a,b,c,d)
-		#define CallContactService(a,b,c,d)            pluginLink->CallContactService(a,b,c,d)
-		#define HookEventParam(a,b,c)                  pluginLink->HookEventParam(a,b,c)
-		#define HookEventObj(a,b,c)                    pluginLink->HookEventObj(a,b,c)
-		#define HookEventObjParam(a,b,c,d)             pluginLink->HookEventObjParam(a,b,c,d)
-		#define CreateServiceFunctionObj(a,b,c)        pluginLink->CreateServiceFunctionObj(a,b,c)
-		#define CreateServiceFunctionObjParam(a,b,c,d) pluginLink->CreateServiceFunctionObjParam(a,b,c,d)
+		#define CallServiceSync(a, b, c)                    pluginLink->CallServiceSync(a, b, c)
+		#define CallFunctionAsync(a, b)                    pluginLink->CallFunctionAsync(a, b)
+		#define SetHookDefaultForHookableEvent(a, b)       pluginLink->SetHookDefaultForHookableEvent(a, b)
+		#define CreateServiceFunctionParam(a, b, c)         pluginLink->CreateServiceFunctionParam(a, b, c)
+		#define NotifyEventHooksDirect(a, b, c)             pluginLink->NotifyEventHooksDirect(a, b, c)
+		#define CallProtoService(a, b, c, d)              pluginLink->CallProtoService(a, b, c, d)
+		#define CallContactService(a, b, c, d)            pluginLink->CallContactService(a, b, c, d)
+		#define HookEventParam(a, b, c)                  pluginLink->HookEventParam(a, b, c)
+		#define HookEventObj(a, b, c)                    pluginLink->HookEventObj(a, b, c)
+		#define HookEventObjParam(a, b, c, d)             pluginLink->HookEventObjParam(a, b, c, d)
+		#define CreateServiceFunctionObj(a, b, c)        pluginLink->CreateServiceFunctionObj(a, b, c)
+		#define CreateServiceFunctionObjParam(a, b, c, d) pluginLink->CreateServiceFunctionObjParam(a, b, c, d)
 		#define KillObjectServices(a)                  pluginLink->KillObjectServices(a)
 		#define KillObjectEventHooks(a)                pluginLink->KillObjectEventHooks(a)
 	#endif

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -73,7 +73,7 @@ typedef struct
 
 // other static variables
 static BOOL bServiceMode = FALSE;
-static CRITICAL_SECTION csHooks,csServices;
+static CRITICAL_SECTION csHooks, csServices;
 static DWORD  mainThreadId;
 static int    hookId = 1;
 static HANDLE hMainThread;
@@ -176,7 +176,7 @@ int LoadDefaultModules(void)
 	}
 
 	//this info will be available at LoadNewPluginsModule()
-	INT_PTR *disableDefaultModule=(INT_PTR*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
+	INT_PTR *disableDefaultModule=(INT_PTR*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY, 0, 0);
 
 	if (LoadSkinSounds()) return 1;
 	if (LoadSkinHotkeys()) return 1;
@@ -245,7 +245,7 @@ int InitialiseModularEngine(void)
 	InitializeCriticalSection(&csServices);
 
 	mainThreadId=GetCurrentThreadId();
-	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&hMainThread,0,FALSE,DUPLICATE_SAME_ACCESS);
+	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, 0, FALSE, DUPLICATE_SAME_ACCESS);
 
 	hMissingService = CreateHookableEvent(ME_SYSTEM_MISSINGSERVICE);
 	return 0;
@@ -443,7 +443,7 @@ int NotifyEventHooks( HANDLE hEvent, WPARAM wParam, LPARAM lParam )
 	if ( GetCurrentThreadId() != mainThreadId ) {
 		THookToMainThreadItem item;
 
-		item.hDoneEvent = CreateEvent(NULL,FALSE,FALSE,NULL);
+		item.hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		item.hook = ( THook* )hEvent;
 		item.wParam = wParam;
 		item.lParam = lParam;
@@ -518,7 +518,7 @@ HANDLE HookEventMessage( const char* name, HWND hwnd, UINT message )
 	EnterCriticalSection( &csHooks );
 	if (( idx = hooks.getIndex(( THook* )name )) == -1 ) {
 		#ifdef _DEBUG
-			MessageBoxA(NULL,"Attempt to hook non-existant event",name,MB_OK);
+			MessageBoxA(NULL, "Attempt to hook non-existant event", name, MB_OK);
 		#endif
 		LeaveCriticalSection(&csHooks);
 		return NULL;
@@ -589,7 +589,7 @@ void KillModuleEventHooks( HINSTANCE hInst )
 			if ( hooks[i]->subscriber[j].hOwner == hInst ) {
 				char szModuleName[ MAX_PATH ];
 				GetModuleFileNameA( hooks[i]->subscriber[j].hOwner, szModuleName, sizeof(szModuleName));
-				Netlib_Logf( NULL, "A hook %08x for event '%s' was abnormally deleted because module '%s' didn't released it",
+				Netlib_Logf( NULL, "A hook %08x for event '%s' was abnormally deleted because module '%s' didn't released it", 
 					hooks[i]->subscriber[j].pfnHook, hooks[i]->name, szModuleName );
 				UnhookEvent(( HANDLE )(( hooks[i]->id << 16 ) + j + 1 ));
 				if ( hooks[i]->subscriberCount == 0 )
@@ -660,17 +660,17 @@ HANDLE CreateServiceFunction( const char *name, MIRANDASERVICE serviceProc )
 	return CreateServiceInt( 0, name, serviceProc, 0, 0 );
 }
 
-HANDLE CreateServiceFunctionParam(const char *name,MIRANDASERVICEPARAM serviceProc,LPARAM lParam)
+HANDLE CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam)
 {
 	return CreateServiceInt( 1, name, (MIRANDASERVICE)serviceProc, 0, lParam );
 }
 
-HANDLE CreateServiceFunctionObj(const char *name,MIRANDASERVICEOBJ serviceProc,void* object)
+HANDLE CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object)
 {
 	return CreateServiceInt( 2, name, (MIRANDASERVICE)serviceProc, object, 0 );
 }
 
-HANDLE CreateServiceFunctionObjParam(const char *name,MIRANDASERVICEOBJPARAM serviceProc,void* object,LPARAM lParam)
+HANDLE CreateServiceFunctionObjParam(const char *name, MIRANDASERVICEOBJPARAM serviceProc, void* object, LPARAM lParam)
 {
 	return CreateServiceInt( 3, name, (MIRANDASERVICE)serviceProc, object, lParam );
 }
@@ -700,11 +700,11 @@ int ServiceExists(const char *name)
 	return ret;
 }
 
-INT_PTR CallService(const char *name,WPARAM wParam,LPARAM lParam)
+INT_PTR CallService(const char *name, WPARAM wParam, LPARAM lParam)
 {
 	#ifdef _DEBUG
 		if (name == NULL) {
-			MessageBoxA(0,"Someone tried to CallService(NULL,..) see stack trace for details","",0);
+			MessageBoxA(0, "Someone tried to CallService(NULL, ..) see stack trace for details", "", 0);
 			DebugBreak();
 			return CALLSERVICE_NOTFOUND;
 		}
@@ -717,13 +717,13 @@ INT_PTR CallService(const char *name,WPARAM wParam,LPARAM lParam)
 	if (pService == NULL) {
 		LeaveCriticalSection(&csServices);
 		#ifdef _DEBUG
-			//MessageBoxA(NULL,"Attempt to call non-existant service",name,MB_OK);
+			//MessageBoxA(NULL, "Attempt to call non-existant service", name, MB_OK);
 			OutputDebugStringA("Missing service called: \t");
 			OutputDebugStringA(name);
 			OutputDebugStringA("\n");
 		#endif
 /*		{	MISSING_SERVICE_PARAMS params = { name, wParam, lParam };
-			int result = NotifyEventHooks(hMissingService,0,(LPARAM)&params);
+			int result = NotifyEventHooks(hMissingService, 0, (LPARAM)&params);
 			if (result != 0)
 				return params.lParam;
 		} */
@@ -736,10 +736,10 @@ INT_PTR CallService(const char *name,WPARAM wParam,LPARAM lParam)
 	void* object = pService->object;
 	LeaveCriticalSection(&csServices);
 	switch( flags ) {
-		case 1:  return ((MIRANDASERVICEPARAM)pfnService)(wParam,lParam,fnParam);
-		case 2:  return ((MIRANDASERVICEOBJ)pfnService)(object,wParam,lParam);
-		case 3:  return ((MIRANDASERVICEOBJPARAM)pfnService)(object,wParam,lParam,fnParam);
-		default: return pfnService(wParam,lParam);
+		case 1:  return ((MIRANDASERVICEPARAM)pfnService)(wParam, lParam, fnParam);
+		case 2:  return ((MIRANDASERVICEOBJ)pfnService)(object, wParam, lParam);
+		case 3:  return ((MIRANDASERVICEOBJPARAM)pfnService)(object, wParam, lParam, fnParam);
+		default: return pfnService(wParam, lParam);
 }	}
 
 static void CALLBACK CallServiceToMainAPCFunc(ULONG_PTR dwParam)
@@ -764,7 +764,7 @@ INT_PTR CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam)
 		item.name = name;
 		item.hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		QueueUserAPC(CallServiceToMainAPCFunc, hMainThread, (ULONG_PTR) &item);
-		PostMessage(hAPCWindow,WM_NULL,0,0); // let this get processed in its own time
+		PostMessage(hAPCWindow, WM_NULL, 0, 0); // let this get processed in its own time
 		WaitForSingleObject(item.hDoneEvent, INFINITE);
 		CloseHandle(item.hDoneEvent);
 		return item.result;
@@ -777,7 +777,7 @@ int CallFunctionAsync( void (__stdcall *func)(void *), void *arg)
 {
 	extern HWND hAPCWindow;
 	int r = QueueUserAPC(( void (__stdcall *)( ULONG_PTR ))func, hMainThread, ( ULONG_PTR )arg );
-	PostMessage(hAPCWindow,WM_NULL,0,0);
+	PostMessage(hAPCWindow, WM_NULL, 0, 0);
 	return r;
 }
 
@@ -790,7 +790,7 @@ void KillModuleServices( HINSTANCE hInst )
 		if ( services[i]->hOwner == hInst ) {
 			char szModuleName[ MAX_PATH ];
 			GetModuleFileNameA( services[i]->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf( NULL, "A service function '%s' was abnormally deleted because module '%s' didn't released it",
+			Netlib_Logf( NULL, "A service function '%s' was abnormally deleted because module '%s' didn't released it", 
 				services[i]->name, szModuleName );
 			DestroyServiceFunction(( HANDLE )services[i]->nameHash );
 	}	}

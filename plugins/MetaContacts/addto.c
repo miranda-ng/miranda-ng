@@ -73,16 +73,16 @@ int FillList(HWND list, BOOL sort)
 			// get contact display name from clist
 			char *szCDN = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMetaUser, 0);
 
-			if(os_unicode_enabled) {
+			if (os_unicode_enabled) {
 				wchar_t *swzCDN = (wchar_t *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMetaUser, GCDNF_UNICODE),
 					*swzContactDisplayName;
 
 				// detect if the clist provided unicode display name by comparing with non-unicode
-				if(szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0) { 
+				if (szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0) { 
 					swzContactDisplayName = swzCDN;
 				} else {
 					// no? convert to unicode
-					if(szCDN) {
+					if (szCDN) {
 						swzContactDisplayName = (wchar_t *) _alloca(sizeof(wchar_t) * (strlen(szCDN) + 1));
 						MultiByteToWideChar(CP_ACP, 0, (char *) szCDN, -1, swzContactDisplayName, (int)strlen((char *)szCDN) + 1);
 					} else {
@@ -91,15 +91,15 @@ int FillList(HWND list, BOOL sort)
 				}				
 
 				// don't insert huge strings that we have to compare with later
-				if(wcslen(swzContactDisplayName) > 1023)
+				if (wcslen(swzContactDisplayName) > 1023)
 					swzContactDisplayName[1024] = 0;
 
-				if(sort) {
+				if (sort) {
 					int j;
 					wchar_t buff[1024];
-					for(j = 0; j < i; j++) {
+					for (j = 0; j < i; j++) {
 						SendMessageW(list, LB_GETTEXT, j, (LPARAM)buff);
-						if(wcscmp(buff, swzContactDisplayName) > 0) break;
+						if (wcscmp(buff, swzContactDisplayName) > 0) break;
 					}
 					index = SendMessageW(list, LB_INSERTSTRING, (WPARAM)j, (LPARAM)swzContactDisplayName);
 				} else {
@@ -107,15 +107,15 @@ int FillList(HWND list, BOOL sort)
 				}
 			} else {
 				// don't insert huge strings that we have to compare with later
-				if(strlen(szCDN) > 1023)
+				if (strlen(szCDN) > 1023)
 					szCDN[1024] = 0;
 
-				if(sort) {
+				if (sort) {
 					int j;
 					char buff[1024];
-					for(j = 0; j < i; j++) {
+					for (j = 0; j < i; j++) {
 						SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
-						if(strcmp(buff, szCDN) > 0) break;
+						if (strcmp(buff, szCDN) > 0) break;
 					}
 					index = SendMessage(list, LB_INSERTSTRING, (WPARAM)j, (LPARAM)szCDN);
 				} else {
@@ -172,14 +172,14 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TranslateDialogDefault( hwndDlg );
 
 
-			if(DBGetContactSettingDword((HANDLE)lParam,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1)
+			if (DBGetContactSettingDword((HANDLE)lParam,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1)
 			{
 				MessageBox(hwndDlg,Translate("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
 					Translate("MetaContact Conflict"),MB_ICONERROR);
 				DestroyWindow(hwndDlg);
 				return TRUE;
 			}
-			if(DBGetContactSettingDword((HANDLE)lParam,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1)
+			if (DBGetContactSettingDword((HANDLE)lParam,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1)
 			{
 				MessageBox(hwndDlg,Translate("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
 					Translate("Multiple MetaContacts"),MB_ICONERROR);
@@ -195,9 +195,9 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			// Initialize the graphical part
 			CheckDlgButton(hwndDlg,IDC_ONLYAVAIL,BST_CHECKED);	// Initially checked; display all metacontacts is only an option
 																// Besides, we can check if there is at least one metacontact to add the contact to.
-			if(BuildList(GetDlgItem(hwndDlg,IDC_METALIST), FALSE)<=0)
+			if (BuildList(GetDlgItem(hwndDlg,IDC_METALIST), FALSE)<=0)
 			{
-				if(MessageBox(hwndDlg,Translate("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n"
+				if (MessageBox(hwndDlg,Translate("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n"
 					"or there is none that can host this contact.\n"
 					"Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?"),
 					Translate("No suitable MetaContact found"),MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON1)==IDYES)
@@ -211,17 +211,17 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				// get contact display name from clist
 				char *szCDN = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)lParam, 0);
-				if(os_unicode_enabled) {
+				if (os_unicode_enabled) {
 					wchar_t *swzCDN = (wchar_t *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)lParam, GCDNF_UNICODE),
 						*swzContactDisplayName;
 					wchar_t buf[256];
 
 					// detect if the clist provided unicode display name by comparing with non-unicode
-					if(szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0) { 
+					if (szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0) { 
 						swzContactDisplayName = swzCDN;
 					} else {
 						// no? convert to unicode
-						if(szCDN) {
+						if (szCDN) {
 							swzContactDisplayName = (wchar_t *) _alloca(sizeof(wchar_t) * (strlen(szCDN) + 1));
 							MultiByteToWideChar(CP_ACP, 0, (char *) szCDN, -1, swzContactDisplayName, (int)strlen((char *)szCDN) + 1);
 						} else {
@@ -249,7 +249,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		}
 		case WM_COMMAND:
-			if(HIWORD(wParam)!=BN_CLICKED)
+			if (HIWORD(wParam)!=BN_CLICKED)
 				break;	// Only clicks of buttons are relevant, let other COMMANDs through
 			switch(LOWORD(wParam))
 			{
@@ -275,9 +275,9 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				case IDC_CHK_SRT:
 					SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_METALIST), GWL_STYLE) ^ LBS_SORT);
-					if(BuildList(GetDlgItem(hwndDlg,IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE)<=0)
+					if (BuildList(GetDlgItem(hwndDlg,IDC_METALIST), IsDlgButtonChecked(hwndDlg, IDC_CHK_SRT) ? TRUE : FALSE)<=0)
 					{
-						if(MessageBox(hwndDlg,Translate("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n"
+						if (MessageBox(hwndDlg,Translate("Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n"
 							"or there is none that can host this contact.\n"
 							"Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?"),
 							Translate("No suitable MetaContact found"),MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON1)==IDYES)

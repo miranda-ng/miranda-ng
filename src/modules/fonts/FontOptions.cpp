@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -486,47 +486,47 @@ static INT_PTR CALLBACK ChooseEffectDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wPa
 			int i;
 			TCHAR * ModernEffectNames[]=
 			{
-				_T("<none>"),
-				_T("Shadow at left"),
-				_T("Shadow at right"),
-				_T("Outline"),
-				_T("Outline smooth"),
-				_T("Smooth bump"),
-				_T("Contour thin"),
-				_T("Contour heavy"),
+				_T("<none>"), 
+				_T("Shadow at left"), 
+				_T("Shadow at right"), 
+				_T("Outline"), 
+				_T("Outline smooth"), 
+				_T("Smooth bump"), 
+				_T("Contour thin"), 
+				_T("Contour heavy"), 
 			};
 
 			for ( i=0; i<SIZEOF(ModernEffectNames) ; i++ )
 			{
-				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING,0,(LPARAM)TranslateTS(ModernEffectNames[i]));
+				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(ModernEffectNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETITEMDATA, itemid, i );
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, 0, 0 );
 			}
 
 			int cnt=SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETCOUNT, 0, 0 );
 			for ( i = 0; i < cnt; i++ ) {
-				if (SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_GETITEMDATA,i,0) == pEffect->effectIndex ) {
-					SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_SETCURSEL, i, 0 );
+				if (SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETITEMDATA, i, 0) == pEffect->effectIndex ) {
+					SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, i, 0 );
 					break;
 		}	}	}
 
-		SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR1,CPM_SETCOLOUR,0,pEffect->baseColour&0x00FFFFFF);
-		SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR2,CPM_SETCOLOUR,0,pEffect->secondaryColour&0x00FFFFFF);
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR1, CPM_SETCOLOUR, 0, pEffect->baseColour&0x00FFFFFF);
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR2, CPM_SETCOLOUR, 0, pEffect->secondaryColour&0x00FFFFFF);
 
-		SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR_SPIN1,UDM_SETRANGE,0,MAKELONG(255,0));
-		SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR_SPIN2,UDM_SETRANGE,0,MAKELONG(255,0));
-		SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR_SPIN1,UDM_SETPOS,0,MAKELONG((BYTE)~((BYTE)((pEffect->baseColour&0xFF000000)>>24)),0));
-		SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR_SPIN2,UDM_SETPOS,0,MAKELONG((BYTE)~((BYTE)((pEffect->secondaryColour&0xFF000000)>>24)),0));
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_SETRANGE, 0, MAKELONG(255, 0));
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_SETRANGE, 0, MAKELONG(255, 0));
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_SETPOS, 0, MAKELONG((BYTE)~((BYTE)((pEffect->baseColour&0xFF000000)>>24)), 0));
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_SETPOS, 0, MAKELONG((BYTE)~((BYTE)((pEffect->secondaryColour&0xFF000000)>>24)), 0));
 		return TRUE;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
 			{
-				int i = SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_GETCURSEL, 0, 0 );
-				pEffect->effectIndex=(BYTE)SendDlgItemMessage(hwndDlg,IDC_EFFECT_COMBO,CB_GETITEMDATA,i,0);
-				pEffect->baseColour=SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR1,CPM_GETCOLOUR,0,0)|((~(BYTE)SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR_SPIN1,UDM_GETPOS,0,0))<<24);
-				pEffect->secondaryColour=SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR2,CPM_GETCOLOUR,0,0)|((~(BYTE)SendDlgItemMessage(hwndDlg,IDC_EFFECT_COLOUR_SPIN2,UDM_GETPOS,0,0))<<24);;
+				int i = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETCURSEL, 0, 0 );
+				pEffect->effectIndex=(BYTE)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETITEMDATA, i, 0);
+				pEffect->baseColour=SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR1, CPM_GETCOLOUR, 0, 0)|((~(BYTE)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_GETPOS, 0, 0))<<24);
+				pEffect->secondaryColour=SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR2, CPM_GETCOLOUR, 0, 0)|((~(BYTE)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_GETPOS, 0, 0))<<24);;
 			}
 			EndDialog( hwndDlg, IDOK );
 			return TRUE;
@@ -879,10 +879,10 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				hbrBack = CreateBrushIndirect(&lb);
 			}
 
-			SetRect(&rc,
-				dis->rcItem.left+FSUI_COLORBOXLEFT,
-				dis->rcItem.top+FSUI_FONTFRAMEVERT,
-				dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH,
+			SetRect(&rc, 
+				dis->rcItem.left+FSUI_COLORBOXLEFT, 
+				dis->rcItem.top+FSUI_FONTFRAMEVERT, 
+				dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH, 
 				dis->rcItem.bottom-FSUI_FONTFRAMEVERT);
 
 			FillRect(dis->hDC, &rc, hbrBack);
@@ -910,10 +910,10 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			RECT rc;
 			HBRUSH hbrTmp;
-			SetRect(&rc,
-				dis->rcItem.left+FSUI_COLORBOXLEFT,
-				dis->rcItem.top+FSUI_FONTFRAMEVERT,
-				dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH,
+			SetRect(&rc, 
+				dis->rcItem.left+FSUI_COLORBOXLEFT, 
+				dis->rcItem.top+FSUI_FONTFRAMEVERT, 
+				dis->rcItem.left+FSUI_COLORBOXLEFT+FSUI_COLORBOXWIDTH, 
 				dis->rcItem.bottom-FSUI_FONTFRAMEVERT);
 
 			hbrTmp = CreateSolidBrush(clText);
@@ -1311,7 +1311,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	odp.flags						= ODPF_BOLDGROUPS;
 	odp.nIDBottomSimpleControl	= 0;
 	odp.pfnDlgProc					= DlgProcLogOptions;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
 	return 0;
 }
 
@@ -1479,7 +1479,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM lParam)
 {
 	static int iBoldControls[] =
 	{
-		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3,
+		IDC_TXT_TITLE1, IDC_TXT_TITLE2, IDC_TXT_TITLE3, 
 		MODERNOPT_CTRL_LAST
 	};
 

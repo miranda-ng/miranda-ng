@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -29,7 +29,7 @@ static BOOL bModuleInitialized = FALSE;
 static HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
 static HICON hIconBlank = NULL;
 
-HANDLE hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2,
+HANDLE hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2, 
        hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
 
 static int iconEventActive = 0;
@@ -363,7 +363,7 @@ IconSourceItem* GetIconSourceItemFromPath( const TCHAR* path, int cxIcon, int cy
 		return NULL;
 
 	lstrcpyn( file, path, SIZEOF( file ));
-	comma = _tcsrchr( file, ',' );
+	comma = _tcsrchr( file, ', ' );
 	if ( !comma )
 		n = 0;
 	else {
@@ -429,7 +429,7 @@ static HICON ExtractIconFromPath( const TCHAR *path, int cxIcon, int cyIcon )
 		return (HICON)NULL;
 
 	lstrcpyn( file, path, SIZEOF( file ));
-	comma = _tcsrchr( file, ',' );
+	comma = _tcsrchr( file, ', ' );
 	if ( !comma )
 		n = 0;
 	else {
@@ -955,7 +955,7 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 	HICON hIcon;
 	int indx;
 
-	mir_sntprintf( path, SIZEOF(path), _T("%s,"), filename );
+	mir_sntprintf( path, SIZEOF(path), _T("%s, "), filename );
 	suffIndx = lstrlen( path );
 
 	EnterCriticalSection( &csIconList );
@@ -1067,28 +1067,28 @@ static int OpenPopupMenu(HWND hwndDlg)
 static TCHAR* OpenFileDlg( HWND hParent, const TCHAR* szFile, BOOL bAll )
 {
 	OPENFILENAME ofn = {0};
-	TCHAR filter[512],*pfilter,file[MAX_PATH*2];
+	TCHAR filter[512], *pfilter, file[MAX_PATH*2];
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	ofn.hwndOwner = hParent;
 
-	lstrcpy(filter,TranslateT("Icon Sets"));
+	lstrcpy(filter, TranslateT("Icon Sets"));
 	if (bAll)
-		lstrcat(filter,_T(" (*.dll;*.icl;*.exe;*.ico)"));
+		lstrcat(filter, _T(" (*.dll;*.icl;*.exe;*.ico)"));
 	else
-		lstrcat(filter,_T(" (*.dll)"));
+		lstrcat(filter, _T(" (*.dll)"));
 
 	pfilter=filter+lstrlen(filter)+1;
 	if (bAll)
-		lstrcpy(pfilter,_T("*.DLL;*.ICL;*.EXE;*.ICO"));
+		lstrcpy(pfilter, _T("*.DLL;*.ICL;*.EXE;*.ICO"));
 	else
-		lstrcpy(pfilter,_T("*.DLL"));
+		lstrcpy(pfilter, _T("*.DLL"));
 
 	pfilter += lstrlen(pfilter) + 1;
 	lstrcpy(pfilter, TranslateT("All Files"));
-	lstrcat(pfilter,_T(" (*)"));
+	lstrcat(pfilter, _T(" (*)"));
 	pfilter += lstrlen(pfilter) + 1;
-	lstrcpy(pfilter,_T("*"));
+	lstrcpy(pfilter, _T("*"));
 	pfilter += lstrlen(pfilter) + 1;
 	*pfilter='\0';
 
@@ -1199,9 +1199,9 @@ static int IconDlg_Resize(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	static HWND hwndParent,hwndDragOver;
+	static HWND hwndParent, hwndDragOver;
 	static int dragging;
-	static int dragItem,dropHiLite;
+	static int dragItem, dropHiLite;
 	static HWND hPreview = NULL;
 
 	switch (msg) {
@@ -1210,37 +1210,37 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		hwndParent = (HWND)lParam;
 		hPreview = GetDlgItem(hwndDlg, IDC_PREVIEW);
 		dragging = dragItem = 0;
-		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,0,100), LVSIL_NORMAL);
+		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32|ILC_MASK, 0, 100), LVSIL_NORMAL);
 		ListView_SetIconSpacing(hPreview, 56, 67);
 		{
 			RECT rcThis, rcParent;
 			int cxScreen = GetSystemMetrics(SM_CXSCREEN);
 
-			GetWindowRect(hwndDlg,&rcThis);
-			GetWindowRect(hwndParent,&rcParent);
-			OffsetRect(&rcThis,rcParent.right-rcThis.left,0);
-			OffsetRect(&rcThis,0,rcParent.top-rcThis.top);
-			GetWindowRect(GetParent(hwndParent),&rcParent);
+			GetWindowRect(hwndDlg, &rcThis);
+			GetWindowRect(hwndParent, &rcParent);
+			OffsetRect(&rcThis, rcParent.right-rcThis.left, 0);
+			OffsetRect(&rcThis, 0, rcParent.top-rcThis.top);
+			GetWindowRect(GetParent(hwndParent), &rcParent);
 			if (rcThis.right > cxScreen) {
-				OffsetRect(&rcParent,cxScreen-rcThis.right,0);
-				OffsetRect(&rcThis,cxScreen-rcThis.right,0);
-				MoveWindow(GetParent(hwndParent),rcParent.left,rcParent.top,rcParent.right-rcParent.left,rcParent.bottom-rcParent.top,TRUE);
+				OffsetRect(&rcParent, cxScreen-rcThis.right, 0);
+				OffsetRect(&rcThis, cxScreen-rcThis.right, 0);
+				MoveWindow(GetParent(hwndParent), rcParent.left, rcParent.top, rcParent.right-rcParent.left, rcParent.bottom-rcParent.top, TRUE);
 			}
-			MoveWindow(hwndDlg,rcThis.left,rcThis.top,rcThis.right-rcThis.left,rcThis.bottom-rcThis.top,FALSE);
+			MoveWindow(hwndDlg, rcThis.left, rcThis.top, rcThis.right-rcThis.left, rcThis.bottom-rcThis.top, FALSE);
 			GetClientRect(hwndDlg, &rcThis);
 			SendMessage(hwndDlg, WM_SIZE, 0, MAKELPARAM(rcThis.right-rcThis.left, rcThis.bottom-rcThis.top));
 		}
 
-        if (shAutoComplete) shAutoComplete(GetDlgItem(hwndDlg,IDC_ICONSET), 1);
-		SetDlgItemText(hwndDlg,IDC_ICONSET,_T("icons.dll"));
+        if (shAutoComplete) shAutoComplete(GetDlgItem(hwndDlg, IDC_ICONSET), 1);
+		SetDlgItemText(hwndDlg, IDC_ICONSET, _T("icons.dll"));
 		return TRUE;
 
 	case DM_REBUILDICONSPREVIEW:
 		{
 			LVITEM lvi;
-			TCHAR filename[MAX_PATH],caption[64];
+			TCHAR filename[MAX_PATH], caption[64];
 			HIMAGELIST hIml;
-			int count,i;
+			int count, i;
 			HICON hIcon;
 
 			MySetCursor(IDC_WAIT);
@@ -1249,14 +1249,14 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ImageList_RemoveAll(hIml);
 			GetDlgItemText(hwndDlg, IDC_ICONSET, filename, SIZEOF(filename));
 			{
-				RECT rcPreview,rcGroup;
+				RECT rcPreview, rcGroup;
 
 				GetWindowRect(hPreview, &rcPreview);
-				GetWindowRect(GetDlgItem(hwndDlg,IDC_IMPORTMULTI),&rcGroup);
-				//SetWindowPos(hPreview,0,0,0,rcPreview.right-rcPreview.left,rcGroup.bottom-rcPreview.top,SWP_NOZORDER|SWP_NOMOVE);
+				GetWindowRect(GetDlgItem(hwndDlg, IDC_IMPORTMULTI), &rcGroup);
+				//SetWindowPos(hPreview, 0, 0, 0, rcPreview.right-rcPreview.left, rcGroup.bottom-rcPreview.top, SWP_NOZORDER|SWP_NOMOVE);
 			}
 
-			if (_taccess(filename,0) != 0) {
+			if (_taccess(filename, 0) != 0) {
 				MySetCursor(IDC_ARROW);
 				break;
 			}
@@ -1264,12 +1264,12 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			lvi.mask = LVIF_TEXT|LVIF_IMAGE|LVIF_PARAM;
 			lvi.iSubItem = 0;
 			lvi.iItem = 0;
-			count = (int)_ExtractIconEx( filename, -1, 16,16, NULL, LR_DEFAULTCOLOR );
+			count = (int)_ExtractIconEx( filename, -1, 16, 16, NULL, LR_DEFAULTCOLOR );
 			for (i = 0; i < count; lvi.iItem++, i++) {
 				mir_sntprintf(caption, SIZEOF(caption), _T("%d"), i+1);
 				lvi.pszText = caption;
 				//hIcon = ExtractIcon(hMirandaInst, filename, i);
-				_ExtractIconEx( filename, i, 16,16, &hIcon, LR_DEFAULTCOLOR );
+				_ExtractIconEx( filename, i, 16, 16, &hIcon, LR_DEFAULTCOLOR );
 				lvi.iImage = ImageList_AddIcon(hIml, hIcon);
 				DestroyIcon(hIcon);
 				lvi.lParam = i;
@@ -1286,9 +1286,9 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				TCHAR str[MAX_PATH];
 				TCHAR *file;
 
-				GetDlgItemText(hwndDlg,IDC_ICONSET,str,SIZEOF(str));
+				GetDlgItemText(hwndDlg, IDC_ICONSET, str, SIZEOF(str));
 				if (!(file = OpenFileDlg(GetParent(hwndDlg), str, TRUE))) break;
-				SetDlgItemText(hwndDlg,IDC_ICONSET,file);
+				SetDlgItemText(hwndDlg, IDC_ICONSET, file);
 				SAFE_FREE(( void** )&file );
 			}
 			break;
@@ -1358,7 +1358,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ImageList_EndDrag();
 			dragging = 0;
 			if (dropHiLite != -1) {
-				TCHAR path[MAX_PATH],fullPath[MAX_PATH],filename[MAX_PATH];
+				TCHAR path[MAX_PATH], fullPath[MAX_PATH], filename[MAX_PATH];
 				LVITEM lvi;
 
 				GetDlgItemText(hwndDlg, IDC_ICONSET, fullPath, SIZEOF(fullPath));
@@ -1366,7 +1366,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				lvi.mask=LVIF_PARAM;
 				lvi.iItem = dragItem; lvi.iSubItem = 0;
 				ListView_GetItem(hPreview, &lvi);
-				mir_sntprintf(path, MAX_PATH, _T("%s,%d"), filename, (int)lvi.lParam);
+				mir_sntprintf(path, MAX_PATH, _T("%s, %d"), filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
 				ListView_SetItemState(GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
 		}	}
@@ -1399,7 +1399,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_CLOSE:
 		DestroyWindow(hwndDlg);
-		EnableWindow(GetDlgItem(hwndParent,IDC_IMPORT),TRUE);
+		EnableWindow(GetDlgItem(hwndParent, IDC_IMPORT), TRUE);
 		break;
 
 	case WM_SIZE:
@@ -1499,7 +1499,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		//
 		ListView_SetUnicodeFormat(hPreview, TRUE);
 		ListView_SetExtendedListViewStyleEx(hPreview, LVS_EX_INFOTIP, LVS_EX_INFOTIP);
-		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,0,30), LVSIL_NORMAL);
+		ListView_SetImageList(hPreview, ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32|ILC_MASK, 0, 30), LVSIL_NORMAL);
 		ListView_SetIconSpacing(hPreview, 56, 67);
 
 		SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
@@ -1790,7 +1790,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					if ( item->temp_file )
 						_tcsncpy( pInfoTip->pszText, item->temp_file, pInfoTip->cchTextMax );
 					else if ( item->default_file )
-						mir_sntprintf( pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s,%d"), item->default_file, item->default_indx );
+						mir_sntprintf( pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s, %d"), item->default_file, item->default_indx );
 				}
 			}
 			if ( bNeedRebuild )	{
@@ -1857,7 +1857,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 static UINT iconsExpertOnlyControls[]={IDC_IMPORT};
 
-static int SkinOptionsInit( WPARAM wParam,LPARAM )
+static int SkinOptionsInit( WPARAM wParam, LPARAM )
 {
 	OPTIONSDIALOGPAGE odp = {0};
 
@@ -1916,7 +1916,7 @@ int LoadIcoLibModule(void)
 {
 	bModuleInitialized = TRUE;
 
-	hIconBlank = LoadIconEx(NULL, MAKEINTRESOURCE(IDI_BLANK),0);
+	hIconBlank = LoadIconEx(NULL, MAKEINTRESOURCE(IDI_BLANK), 0);
 
 	InitializeCriticalSection(&csIconList);
 	hIcoLib_AddNewIcon    = CreateServiceFunction(MS_SKIN2_ADDICON,         sttIcoLib_AddNewIcon);

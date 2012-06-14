@@ -98,7 +98,7 @@ typedef struct {
 // long to be delivered". If no error message is specified, lParam must be NULL.
 // Right now only explanations from ACKTYPE_MESSAGE is shown.
 
-//when type==ACKTYPE_FILE && (result==ACKRESULT_DATA || result==ACKRESULT_FILERESUME),
+//when type == ACKTYPE_FILE && (result == ACKRESULT_DATA || result == ACKRESULT_FILERESUME),
 //lParam points to this
 
 #define FNAMECHAR TCHAR
@@ -114,7 +114,7 @@ typedef struct {
 	#define PFTS_TCHAR  0
 #endif
 
-typedef struct tagPROTOFILETRANSFERSTATUS 
+typedef struct tagPROTOFILETRANSFERSTATUS
 {
 	size_t cbSize;
 	HANDLE hContact;
@@ -146,7 +146,7 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 	unsigned __int64 currentFileSize;
 	unsigned __int64 currentFileProgress;
 	unsigned __int64 currentFileTime;  //as seconds since 1970
-} 
+}
 PROTOFILETRANSFERSTATUS;
 
 //Enumerate the currently running protocols
@@ -161,7 +161,7 @@ PROTOFILETRANSFERSTATUS;
 //program's lifetime. Do not use this list in the global context, copy protocols
 //names otherwise.
 //IMPORTANT NOTE #2: in version 0.8 this service is mapped to the MS_PROTO_ENUMACCOUNTS
-//service to provide the compatibility with old plugins (first three members of 
+//service to provide the compatibility with old plugins (first three members of
 //PROTOACCOUNT are equal to the old PROTOCOLDESCRIPTOR format). If you declare the
 //MIRANDA_VER macro with value greater or equal to 0x800, use MS_PROTO_ENUMPROTOS
 //service instead to obtain the list of running protocols instead of accounts.
@@ -267,7 +267,7 @@ typedef struct {
 //lParam=(LPARAM)(int)typing state
 #define ME_PROTO_CONTACTISTYPING "Proto/ContactIsTypingEvent"
 
-// -------------- accounts support --------------------- 0.8.0+ 
+// -------------- accounts support --------------------- 0.8.0+
 
 typedef struct tagACCOUNT
 {
@@ -323,7 +323,7 @@ __inline static PROTOACCOUNT* ProtoGetAccount( const char* accName )
 //displays the Account Manager
 //wParam=0
 //lParam=0
-#define MS_PROTO_SHOWACCMGR "Protos/ShowAccountManager" 
+#define MS_PROTO_SHOWACCMGR "Protos/ShowAccountManager"
 
 //determines if an account is enabled or not
 //wParam = 0

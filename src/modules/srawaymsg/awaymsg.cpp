@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -99,8 +99,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 #endif	
 				SetDlgItemTextA(hwndDlg, IDC_MSG, (const char*)ack->lParam);
 
-			ShowWindow(GetDlgItem(hwndDlg,IDC_RETRIEVING), SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg,IDC_MSG), SW_SHOW);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_RETRIEVING), SW_HIDE);
+			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
 			break;
 		}
@@ -121,8 +121,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 
 		case WM_DESTROY:
 			if (dat->hAwayMsgEvent) UnhookEvent(dat->hAwayMsgEvent);
-			Utils_SaveWindowPosition(hwndDlg,dat->hContact,"SRAway","AwayMsgDlg");
-			WindowList_Remove(hWindowList,hwndDlg);
+			Utils_SaveWindowPosition(hwndDlg, dat->hContact, "SRAway", "AwayMsgDlg");
+			WindowList_Remove(hWindowList, hwndDlg);
 			Window_FreeIcon_IcoLib(hwndDlg);
 			mir_free(dat);
 			break;
@@ -133,11 +133,11 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 {
 	HWND hwnd;
-	if (hwnd=WindowList_Find(hWindowList,(HANDLE)wParam)) {
+	if (hwnd=WindowList_Find(hWindowList, (HANDLE)wParam)) {
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(hMirandaInst,MAKEINTRESOURCE(IDD_READAWAYMSG),NULL,ReadAwayMsgDlgProc,wParam);
+	else CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }
 
@@ -147,15 +147,15 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	TCHAR str[128];
 	char *szProto;
 
-	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
-	ZeroMemory(&clmi,sizeof(clmi));
+	szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	ZeroMemory(&clmi, sizeof(clmi));
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if ( szProto != NULL ) {
 	   int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 	   if ( !chatRoom ) {
-			int status = DBGetContactSettingWord((HANDLE)wParam,szProto,"Status",ID_STATUS_OFFLINE);
+			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf( str, SIZEOF(str), TranslateT("Re&ad %s Message"), cli.pfnGetStatusModeDescription( status, 0 ));
 			clmi.ptszName = str;
 			if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0 ) & PF1_MODEMSGRECV ) {
@@ -165,13 +165,13 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	}	}	}	}
 
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hAwayMsgMenuItem, ( LPARAM )&clmi );
-	IconLib_ReleaseIcon(clmi.hIcon,0);
+	IconLib_ReleaseIcon(clmi.hIcon, 0);
 	return 0;
 }
 
 static int AwayMsgPreShutdown(WPARAM, LPARAM)
 {
-	if (hWindowList) WindowList_BroadcastAsync(hWindowList,WM_CLOSE,0,0);
+	if (hWindowList) WindowList_BroadcastAsync(hWindowList, WM_CLOSE, 0, 0);
 	return 0;
 }
 
@@ -179,16 +179,16 @@ int LoadAwayMsgModule(void)
 {
 	CLISTMENUITEM mi = { 0 };
 
-	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
-	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG,GetMessageCommand);
+	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
+	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	
 	mi.cbSize     = sizeof(mi);
 	mi.position   = -2000005000;
 	mi.flags      = CMIF_NOTOFFLINE;
 	mi.pszName    = LPGEN("Re&ad Status Message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
-	hAwayMsgMenuItem = ( HANDLE )CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
-	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,AwayMsgPreBuildMenu);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN,AwayMsgPreShutdown);
+	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, AwayMsgPreShutdown);
 	return LoadAwayMessageSending();
 }

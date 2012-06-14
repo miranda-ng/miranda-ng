@@ -1393,7 +1393,7 @@ return(dwRetErrorCode);
 
 
 
-void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR pszContactOwner,LPSTR lpszCListMenuType,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult)
+void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR pszContactOwner,BOOL bIsMain,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult)
 {
 	if (pgdiItems && hIcoLibIcons && dwCount && hResult)
 	{
@@ -1423,7 +1423,7 @@ void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR p
 				mi.flags=(CMIF_UNICODE);
 			}
 			
-			hResult[i]=(HANDLE)CallService(lpszCListMenuType,0,(LPARAM)&mi);
+			hResult[i] = (bIsMain) ? Menu_AddMainMenuItem(&mi) : Menu_AddContactMenuItem(&mi);
 			
 			if (i==0 && hMainIcon)
 			{

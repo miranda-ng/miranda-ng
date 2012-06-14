@@ -375,7 +375,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("&Favourite Contacts...");
 	mi.pszService = MS_FAVCONTACTS_SHOWMENU;
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, ( LPARAM )&mi );
+	Menu_AddMainMenuItem(&mi);
 #endif
 
 	return 0;

@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -69,7 +69,7 @@ typedef struct
 }
 	AccFormDlgParam;
 
-static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg,UINT message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch( message ) {
 	case WM_INITDIALOG:
@@ -277,7 +277,7 @@ static LRESULT CALLBACK sttEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 	return CallWindowProc((WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA), hwnd, msg, wParam, lParam);
 }
 
-static LRESULT CALLBACK AccListWndProc(HWND hwnd,UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	struct TAccListData *dat = (struct TAccListData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	if ( !dat )
@@ -461,7 +461,7 @@ static void sttUpdateAccountInfo(HWND hwndDlg, struct TAccMgrData *dat)
 	SetWindowText(GetDlgItem(hwndDlg, IDC_TXT_INFO), TranslateT(welcomeMsg));
 }
 
-INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg,UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	struct TAccMgrData *dat = (struct TAccMgrData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -783,8 +783,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg,UINT message, WPARAM wParam, LPARAM 
 							else {
 								DWORD dwStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
 								if (dwStatus >= ID_STATUS_ONLINE) {
-									if (IDCANCEL == ::MessageBox(hwndDlg,
-										                  TranslateT("Account is online. Disable account?"),
+									if (IDCANCEL == ::MessageBox(hwndDlg, 
+										                  TranslateT("Account is online. Disable account?"), 
 															   TranslateT("Accounts"), MB_OKCANCEL)) {
 										pa->bIsEnabled = 1;	//stay enabled
 									}
@@ -852,7 +852,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg,UINT message, WPARAM wParam, LPARAM 
 					TCHAR buf[ 200 ];
 					mir_sntprintf( buf, SIZEOF(buf), TranslateT( "Account %s is being deleted" ), pa->tszAccountName );
 					if (pa->bOldProto) {
-						MessageBox( NULL, TranslateT( "You need to disable plugin to delete this account" ), buf,
+						MessageBox( NULL, TranslateT( "You need to disable plugin to delete this account" ), buf, 
 							MB_ICONERROR | MB_OK );
 						break;
 					}
@@ -1041,7 +1041,7 @@ int OptProtosLoaded(WPARAM, LPARAM)
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("&Accounts...");
 	mi.pszService = MS_PROTO_SHOWACCMGR;
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, ( LPARAM )&mi );
+	Menu_AddMainMenuItem(&mi);
 	return 0;
 }
 

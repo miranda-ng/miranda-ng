@@ -1711,7 +1711,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	mi.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	mi.ptszName = LPGENT("Status Message...");
 	mi.position = 2000200000;
-	CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+	Menu_AddStatusMenuItem(&mi);
 
 	mi.popupPosition = 500084000;
 	mi.position = 2000040000;
@@ -1746,7 +1746,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 			mi.ptszPopupName = szBuffer;
 		}
 		else mi.ptszPopupName = pa[i]->tszAccountName;
-		hProtoStatusMenuItem[i] = (HANDLE)CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+		hProtoStatusMenuItem[i] = Menu_AddStatusMenuItem(&mi);
 	}
 
 	return 0;

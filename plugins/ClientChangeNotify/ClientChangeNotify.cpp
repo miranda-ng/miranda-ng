@@ -442,7 +442,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 
 		mi.pszService = MS_CCN_TOGGLEPOPUPS;
 		mi.ptszPopupName = TranslateT("PopUps");
-		g_hTogglePopupsMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 
 	// seems that Fingerprint is not installed

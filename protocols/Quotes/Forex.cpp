@@ -86,7 +86,7 @@ namespace
 		mi.ptszName = _T("Quotes");
 		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTPOPUP;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
-		HGENMENU hMenuRoot = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDMAINMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenuRoot);
 		
 		mi.ptszName = _T("Refresh All Quotes\\Rates");
@@ -95,7 +95,7 @@ namespace
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		mi.pszService = "Quotes/RefreshAll";
 		mi.hParentMenu = hMenuRoot;
-		HGENMENU hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDMAINMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		HGENMENU hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		HANDLE h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshAll);
 		g_ahServices.push_back(h);
@@ -105,7 +105,7 @@ namespace
 		//mi.position = 0x0FFFFFFF;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_CURRENCY_CONVERTER);
 		mi.pszService = "Quotes/CurrencyConverter";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDMAINMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_CurrencyConverter);
 		g_ahServices.push_back(h);
@@ -115,7 +115,7 @@ namespace
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_EXPORT);
 		mi.pszService = "Quotes/ExportAll";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDMAINMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_ExportAll);
 		g_ahServices.push_back(h);
@@ -124,13 +124,13 @@ namespace
 		//mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_IMPORT);
 		mi.pszService = "Quotes/ImportAll";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDMAINMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_ImportAll);
 		g_ahServices.push_back(h);
 #endif 
 
-		bool bSubGroups = 1 == ServiceExists(MS_CLIST_ADDSUBGROUPMENUITEM);
+		bool bSubGroups = 1 == ServiceExists(MS_CLIST_MENUBUILDSUBGROUP);
 
 		h = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,Quotes_PrebuildContactMenu);
 		g_ahEvents.push_back(h);
@@ -148,7 +148,7 @@ namespace
 			mi.ptszName = const_cast<TCHAR*>(sProtocolName.c_str());//A2T(QUOTES_PROTOCOL_NAME);
 			mi.position = 0;
 			
-			hMenuRoot = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+			hMenuRoot = Menu_AddContactMenuItem(&mi);
 		}
 
 		mi.flags = CMIF_TCHAR;
@@ -163,7 +163,7 @@ namespace
 		mi.flags |= CMIF_ICONFROMICOLIB;
 		mi.icolibItem =  Quotes_GetIconHandle(IDI_ICON_REFRESH);
 		mi.pszService = "Quotes/RefreshContact";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddContactMenuItem(&mi);
 		g_hMenuRefresh = hMenu;
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_RefreshContact);
@@ -173,7 +173,7 @@ namespace
 		mi.popupPosition = 1;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/OpenLogFile";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddContactMenuItem(&mi);
 		g_hMenuOpenLogFile = hMenu;
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_OpenLogFile);
@@ -184,7 +184,7 @@ namespace
 		mi.popupPosition = 2;
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/Chart";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddContactMenuItem(&mi);
 		g_hMenuChart = hMenu;
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_Chart);
@@ -199,7 +199,7 @@ namespace
 #endif
 		mi.icolibItem = NULL;
 		mi.pszService = "Quotes/EditSettings";
-		hMenu = reinterpret_cast<HGENMENU>(CallService(MS_CLIST_ADDCONTACTMENUITEM,0,reinterpret_cast<LPARAM>(&mi)));
+		hMenu = Menu_AddContactMenuItem(&mi);
 		g_hMenuEditSettings = hMenu;
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_EditSettings);

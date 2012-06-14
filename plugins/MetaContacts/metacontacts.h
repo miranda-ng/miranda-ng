@@ -103,15 +103,7 @@ extern HINSTANCE hInstance;
 extern PLUGININFOEX pluginInfo;
 
 // contact menu items
-extern HANDLE	hMenuConvert,
-				hMenuAdd,
-				hMenuEdit,
-				hMenuDelete,
-				hMenuDefault,
-				hMenuForceDefault;
-
-// main menu item
-extern HANDLE hMenuOnOff;
+extern HGENMENU hMenuConvert, hMenuAdd, hMenuEdit, hMenuDelete, hMenuDefault, hMenuForceDefault, hMenuOnOff;
 
 extern DWORD nextMetaID;
 extern int mcStatus;

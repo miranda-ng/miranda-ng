@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -44,7 +44,7 @@ static struct ClcContact* fnCreateClcContact( void )
 	return ( struct ClcContact* )mir_calloc( sizeof( struct ClcContact ));
 }
 
-static BOOL fnInvalidateRect( HWND hwnd, CONST RECT* lpRect,BOOL bErase )
+static BOOL fnInvalidateRect( HWND hwnd, CONST RECT* lpRect, BOOL bErase )
 {
 	return InvalidateRect( hwnd, lpRect, bErase );
 }
@@ -58,7 +58,7 @@ static void fnReloadProtoMenus( void )
 	RebuildMenuOrder();
 	if (DBGetContactSettingByte(NULL, "CList", "MoveProtoMenus", TRUE))
 		BuildProtoMenus();
-	cli.pfnCluiProtocolStatusChanged(0,0);
+	cli.pfnCluiProtocolStatusChanged(0, 0);
 }
 
 static INT_PTR srvRetrieveInterface( WPARAM, LPARAM lParam )

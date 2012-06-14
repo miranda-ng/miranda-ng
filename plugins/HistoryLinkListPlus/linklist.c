@@ -120,7 +120,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	linklistmenuitem.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
 	linklistmenuitem.ptszName = LPGENT("&Create Linklist");
 	linklistmenuitem.pszService = "Linklist/MenuCommand";
-	CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&linklistmenuitem);
+	Menu_AddContactMenuItem(&linklistmenuitem);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;

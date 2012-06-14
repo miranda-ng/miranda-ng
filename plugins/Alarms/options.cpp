@@ -696,22 +696,20 @@ void AddMenuItem()
 {
 	if (hMainMenuItem) return;
 
-	CLISTMENUITEM menu = {0};
-
-	menu.cbSize=sizeof(menu);
-	menu.flags = CMIM_ALL;
-	menu.hIcon=hIconMenuSet;
-
-	menu.pszName = Translate("Set Alarm");
-	menu.pszService= MODULE "/NewAlarm";
-	menu.position = 500010000;
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi);
+	mi.flags = CMIM_ALL;
+	mi.hIcon = hIconMenuSet;
+	mi.pszName = "Set Alarm";
+	mi.pszService = MODULE "/NewAlarm";
+	mi.position = 500010000;
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		menu.pszPopupName = Translate("Alarms");
-	if (ServiceExists(MS_CLIST_ADDGROUPMENUITEM)) {
+		mi.pszPopupName = "Alarms";
+	if (ServiceExists(MS_CLIST_REMOVEGROUPMENUITEM)) {
 		GroupMenuParam gmp = {0};
-		hGroupMenuItem = (HANDLE)CallService(MS_CLIST_ADDGROUPMENUITEM,(WPARAM)&gmp,(LPARAM)&menu);
+		hGroupMenuItem = Menu_AddGroupMenuItem(&gmp, &mi);
 	}
-	hMainMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 }
 
 ///////////////////////

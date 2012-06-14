@@ -127,9 +127,6 @@ typedef struct {
 #define DOCKED_LEFT						1
 #define DOCKED_RIGHT					2
 
-#ifndef MS_CLIST_ADDSTATUSMENUITEM
-#define MS_CLIST_ADDSTATUSMENUITEM		"CList/AddStatusMenuItem"
-#endif
 #define MS_SS_MENUSETPROFILEPREFIX		"StartupStatus/SetProfile_"
 
 // options

@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "statusmodes.h"
 
+extern int hLangpack;
+
 #if defined _STATIC
 	typedef struct _tagIntMenuItem* HGENMENU;
 #else
@@ -106,12 +108,14 @@ typedef struct {
 	int popupPosition;      //position of the popup menu on the root menu. Ignored
                            //if pszPopupName is NULL or the popup menu already
                            //existed
-	DWORD hotKey;           //keyboard accelerator, same as lParam of WM_HOTKEY,0 for none
+	DWORD hotKey;           //keyboard accelerator, same as lParam of WM_HOTKEY, 0 for none
 	char *pszContactOwner;  //contact menus only. The protocol module that owns
                            //the contacts to which this menu item applies. NULL if it
                            //applies to all contacts. If it applies to multiple but not all
                            //protocols, add multiple menu items or use ME_CLIST_PREBUILDCONTACTMENU
-} CLISTMENUITEM;
+	int hLangpack;          //plugin's hLangpack (added automatically)
+}
+	CLISTMENUITEM;
 
 #define HGENMENU_ROOT      (( HGENMENU )-1)
 
@@ -139,7 +143,10 @@ typedef struct {
 #define CMIF_ROOTPOPUP  128   //root item for new popup(save return id for childs)
 #define CMIF_CHILDPOPUP 256   //child for rootpopup menu
 
-#define MS_CLIST_ADDMAINMENUITEM        "CList/AddMainMenuItem"
+__inline static HGENMENU Menu_AddMainMenuItem(CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddMainMenuItem", 0, (LPARAM)mi);
+}
 
 //add a new item to the user contact menus
 //identical to clist/addmainmenuitem except when item is selected the service
@@ -149,11 +156,21 @@ typedef struct {
 //If ctrl is held down when right clicking, the menu position numbers will be
 //displayed in brackets after the menu item text. This only works in debug
 //builds.
-#define MS_CLIST_ADDCONTACTMENUITEM     "CList/AddContactMenuItem"
-#define MS_CLIST_ADDSTATUSMENUITEM      "CList/AddStatusMenuItem"
 
-//adds a protocol menu item        v0.9+
-#define MS_CLIST_ADDPROTOMENUITEM        "CList/AddProtoMenuItem"
+__inline static HGENMENU Menu_AddContactMenuItem(CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddContactMenuItem", 0, (LPARAM)mi);
+}
+
+__inline static HGENMENU Menu_AddStatusMenuItem(CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddStatusMenuItem", 0, (LPARAM)mi);
+}
+
+__inline static HGENMENU Menu_AddProtoMenuItem(CLISTMENUITEM *mi)
+{	mi->hLangpack = hLangpack;
+	return (HGENMENU)CallService("CList/AddProtoMenuItem", 0, (LPARAM)mi);
+}
 
 //modify an existing menu item     v0.1.0.1+
 //wParam=(WPARAM)(HANDLE)hMenuItem
@@ -363,7 +380,7 @@ typedef struct {
 
 
 //processes a menu selection from a menu                    v0.1.1.0+
-//wParam=MAKEWPARAM(LOWORD(wParam from WM_COMMAND),flags)
+//wParam=MAKEWPARAM(LOWORD(wParam from WM_COMMAND), flags)
 //lParam=(LPARAM)(HANDLE)hContact
 //returns TRUE if it processed the command, FALSE otherwise
 //hContact is the currently selected contact. It it not used if this is a main
@@ -478,7 +495,7 @@ typedef struct {
 
 //changes the flags for a group                             v0.1.2.1+
 //wParam=(WPARAM)(HANDLE)hGroup
-//lParam=MAKELPARAM(flags,flagsMask)
+//lParam=MAKELPARAM(flags, flagsMask)
 //returns 0 on success, nonzero on failure
 //Only the flags given in flagsMask are altered.
 //CLUI is called on changes to GROUPF_HIDEOFFLINE.

@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -29,7 +29,7 @@ open.
 wParam=lParam=0
 returns 0 always
 */
-#define MS_FINDADD_FINDADD  "FindAdd/FindAddCommand" 
+#define MS_FINDADD_FINDADD  "FindAdd/FindAddCommand"
 
 #endif // M_FINDADD_H__
 

@@ -121,21 +121,15 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	}
 
 	//Menu item
-	//if (DBGetContactSettingByte(NULL, ModuleName, "MenuItem", TRUE)) 	{
-	{
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
-		mi.position = mi.popupPosition = 2000089999;
-		mi.flags = 0;
-		mi.hIcon = hiVIIcon;
-		mi.pszName = Translate("Version Information");
-		mi.pszService = MS_VERSIONINFO_MENU_COMMAND;
-		CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
-//		mi.pszPopupName = "Version Information";
-//		mi.popupPosition = 2;
-//		mi.pszName = "Test 1";
-//		CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &mi);
-	}
+	CLISTMENUITEM mi = { 0 };
+	mi.cbSize = sizeof(mi);
+	mi.position = mi.popupPosition = 2000089999;
+	mi.flags = 0;
+	mi.hIcon = hiVIIcon;
+	mi.pszName = Translate("Version Information");
+	mi.pszService = MS_VERSIONINFO_MENU_COMMAND;
+	Menu_AddMainMenuItem(&mi);
+
 	if (LoadLibraryA("RichEd32.dll") == NULL)
 		MessageBoxA(NULL, "d'oh", "d'oh", MB_OK);
 	

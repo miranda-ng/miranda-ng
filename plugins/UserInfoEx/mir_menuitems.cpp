@@ -118,7 +118,7 @@ VOID RebuildContact()
 			mi.popupPosition = 1000050000;
 			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
 			mi.pszName = LPGEN(MODULELONGNAME);
-			mhRoot = (HGENMENU) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+			mhRoot = Menu_AddContactMenuItem(&mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;
 			break;
@@ -128,7 +128,7 @@ VOID RebuildContact()
 			mi.popupPosition = 1000050100;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import contact");
-			mhExIm = (HGENMENU) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+			mhExIm = Menu_AddContactMenuItem(&mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
 			break;
@@ -146,7 +146,7 @@ VOID RebuildContact()
 		mi.position = 1000050000;
 		mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
 		mi.hotKey = MAKELPARAM(VK_F3, MOD_ALT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 		mi.hotKey = NULL;
 	}
 
@@ -158,14 +158,14 @@ VOID RebuildContact()
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Export") : LPGEN("&Export User Details");
 		mi.position = 1000050200;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORT;
 		mi.pszName = mhExIm != HGENMENU_ROOT ? LPGEN("&Import") : LPGEN("&Import User Details");
 		mi.position = 1000050300;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddContactMenuItem(&mi);
 	}
 }
 
@@ -217,7 +217,7 @@ VOID RebuildMain()
 			mi.popupPosition = 500050000;
 			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
 			mi.pszName = LPGEN(MODULELONGNAME);
-			mhRoot = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+			mhRoot = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;
 			break;
@@ -227,7 +227,7 @@ VOID RebuildMain()
 			mi.popupPosition = 500050000;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import contact");
-			mhExIm = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+			mhExIm = Menu_AddMainMenuItem(&mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
 			break;
@@ -244,7 +244,7 @@ VOID RebuildMain()
 		mi.pszName = LPGEN("View/Change My &Details...");
 		mi.position = 500050000;
 		mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
 	// VCard's Ex/Import menuitems
@@ -255,14 +255,14 @@ VOID RebuildMain()
 		mi.pszName = LPGEN("Export all contacts");
 		mi.position = 500150000;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 		mi.pszName = LPGEN("Import all contacts");
 		mi.position = 500151000;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
 	mi.hParentMenu = mhRoot;
@@ -278,13 +278,13 @@ VOID RebuildMain()
 			mi.pszName = LPGEN("Backup birthdays");
 			mi.position = 500253000;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_BDAY_BACKUP);
-			hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+			hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 			// Check anniversaries
 			mi.pszService = MS_USERINFO_REMINDER_CHECK;
 			mi.pszName = LPGEN("Check anniversaries");
 			mi.position = 500251000;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_SEARCH);
-			hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+			hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 		}
 		else {
 			hMenuItem[item++] = NULL;
@@ -295,7 +295,7 @@ VOID RebuildMain()
 		mi.pszName = LPGEN("Refresh Contact Details");
 		mi.position = 500254000;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_UPDATE);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 
 	// anniversary list
@@ -304,7 +304,7 @@ VOID RebuildMain()
 		mi.pszName = LPGEN("Anniversary list");
 		mi.position = 500252000;
 		mi.hIcon = IcoLib_GetIcon(ICO_COMMON_ANNIVERSARY);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
 	}
 }
 
@@ -363,7 +363,7 @@ VOID RebuildGroup()
 			mi.popupPosition = 250000;
 			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
 			mi.pszName = LPGEN(MODULELONGNAME);
-			mhRoot = (HGENMENU) CallService(MS_CLIST_ADDGROUPMENUITEM, 0, (LPARAM)&mi);
+			mhRoot = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;
 			break;
@@ -373,7 +373,7 @@ VOID RebuildGroup()
 			mi.popupPosition = 250100;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import contact");
-			mhExIm = (HGENMENU) CallService(MS_CLIST_ADDGROUPMENUITEM, 0, (LPARAM)&mi);
+			mhExIm = Menu_AddGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
 			break;
@@ -391,14 +391,14 @@ VOID RebuildGroup()
 		mi.pszName = LPGEN("Export all contacts");
 		mi.position = 250200;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDGROUPMENUITEM, (WPARAM)&gmp, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 
 		// Import
 		mi.pszService = MS_USERINFO_VCARD_IMPORTALL;
 		mi.pszName = LPGEN("Import all contacts");
 		mi.position = 250300;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDGROUPMENUITEM, (WPARAM)&gmp, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddGroupMenuItem(0, &mi);
 	}
 }
 
@@ -461,7 +461,7 @@ VOID RebuildSubGroup()
 			mi.popupPosition = 1050000;
 			mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
 			mi.pszName = LPGEN(MODULELONGNAME);
-			mhRoot = (HGENMENU) CallService(MS_CLIST_ADDSUBGROUPMENUITEM, 0, (LPARAM)&mi);
+			mhRoot = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhRoot;
 			mhExIm = mhRoot;
 			break;
@@ -471,7 +471,7 @@ VOID RebuildSubGroup()
 			mi.popupPosition = 1050100;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 			mi.pszName = LPGEN("Ex-/Import Group");
-			mhExIm = (HGENMENU) CallService(MS_CLIST_ADDSUBGROUPMENUITEM, 0, (LPARAM)&mi);
+			mhExIm = Menu_AddSubGroupMenuItem(0, &mi);
 			hMenuItem[item++] = mhExIm;
 			mhRoot = HGENMENU_ROOT;
 			break;
@@ -492,7 +492,7 @@ VOID RebuildSubGroup()
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
 		gmp.lParam=0;
 		gmp.wParam=TRUE;
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDSUBGROUPMENUITEM, (WPARAM)&gmp, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
 
 		// Import
 		strcpy( tDest, "/ImportGroup");		//mi.pszService
@@ -502,7 +502,7 @@ VOID RebuildSubGroup()
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
 		gmp.lParam=0;
 		gmp.wParam=FALSE;
-		hMenuItem[item++] = (HGENMENU) CallService(MS_CLIST_ADDSUBGROUPMENUITEM, (WPARAM)&gmp, (LPARAM)&mi);
+		hMenuItem[item++] = Menu_AddSubGroupMenuItem(&gmp, &mi);
 	}
 }
 
@@ -588,14 +588,14 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 				mhExIm = mhRoot;
 				// seperator
 				mi.position = 50100;
-				hMenuItemAccount[mItems*i + item++]  = (HGENMENU) CallService( MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+				hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 				break;
 			case 5:
 				//cascade all
 				mi.position = 50100;
 				mi.hIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_MAIN), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CXSMICON), 0);
 				mi.ptszName = TranslateT(MODULELONGNAME);
-				hMenuItemAccount[mItems*i + item] = (HGENMENU) CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+				hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 				mhRoot = hMenuItemAccount[mItems*i + item++];
 				mhExIm = mhRoot;
 				break;
@@ -605,7 +605,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 				mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXIMPORT);
 				mir_sntprintf(sztName, SIZEOF(sztName),_T("%s %s"), pAccountName->tszAccountName, TranslateT("Ex-/Import"));
 				mi.ptszName = sztName;
-				hMenuItemAccount[mItems*i + item] = (HGENMENU) CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+				hMenuItemAccount[mItems*i + item] = Menu_AddStatusMenuItem(&mi);
 				mhExIm = hMenuItemAccount[mItems*i + item++];
 				break;
 			default:
@@ -624,7 +624,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mi.ptszName = sztName;
 			mi.position = 50200;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_EXPORT);
-			hMenuItemAccount[mItems*i + item++] = (HGENMENU) CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 
 			// Import
 			strcpy( tDest, "/ImportAccount");		//mi.pszService
@@ -633,7 +633,7 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 			mi.ptszName = sztName;
 			mi.position = 50300;
 			mi.hIcon = IcoLib_GetIcon(ICO_BTN_IMPORT);
-			hMenuItemAccount[mItems*i + item++] = (HGENMENU) CallService(MS_CLIST_ADDSTATUSMENUITEM, 0, (LPARAM)&mi);
+			hMenuItemAccount[mItems*i + item++] = Menu_AddStatusMenuItem(&mi);
 		}
 	}
 	return 0;

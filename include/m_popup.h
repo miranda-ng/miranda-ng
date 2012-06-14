@@ -1,10 +1,10 @@
 /*
-===============================================================================
+ == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
                                 PopUp plugin
 Plugin Name: PopUp
 Plugin authors: Luca Santarelli aka hrk (hrk@users.sourceforge.net)
                 Victor Pavlychko aka zazoo (nullbie@gmail.com)
-===============================================================================
+ == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 The purpose of this plugin is to give developers a common "platform/interface"
 to show PopUps. It is born from the source code of NewStatusNotify, another
 plugin I've made.
@@ -12,7 +12,7 @@ plugin I've made.
 Remember that users *must* have this plugin enabled, or they won't get any
 popup. Write this in the requirements, do whatever you wish ;-)... but tell
 them!
-===============================================================================
+ == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
 */
 
 #ifndef M_POPUP_H
@@ -125,17 +125,17 @@ You may pass additional creation flags via lParam:
 
 #define MS_POPUP_ADDPOPUP "PopUp/AddPopUp"
 static INT_PTR __inline PUAddPopUp(POPUPDATA* ppdp) {
-	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp,0);
+	return CallService(MS_POPUP_ADDPOPUP, (WPARAM)ppdp, 0);
 }
 
 #define MS_POPUP_ADDPOPUPEX "PopUp/AddPopUpEx"
 static INT_PTR __inline PUAddPopUpEx(POPUPDATAEX* ppdp) {
-	return CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)ppdp,0);
+	return CallService(MS_POPUP_ADDPOPUPEX, (WPARAM)ppdp, 0);
 }
 
 #define MS_POPUP_ADDPOPUPW "PopUp/AddPopUpW"
 static INT_PTR __inline PUAddPopUpW(POPUPDATAW* ppdp) {
-	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp,0);
+	return CallService(MS_POPUP_ADDPOPUPW, (WPARAM)ppdp, 0);
 }
 
 #if defined(_UNICODE) || defined(UNICODE)
@@ -157,7 +157,7 @@ Returns: the HANDLE of the contact. Can return NULL, meaning it's the main conta
 */
 #define MS_POPUP_GETCONTACT "PopUp/GetContact"
 static HANDLE __inline PUGetContact(HWND hPopUpWindow) {
-	return (HANDLE)CallService(MS_POPUP_GETCONTACT, (WPARAM)hPopUpWindow,0);
+	return (HANDLE)CallService(MS_POPUP_GETCONTACT, (WPARAM)hPopUpWindow, 0);
 }
 
 /* PopUp/GetPluginData
@@ -179,7 +179,7 @@ and it will work. Just look at the example I've written above (PopUpDlgProc).
 #define MS_POPUP_GETPLUGINDATA "PopUp/GetPluginData"
 static void __inline * PUGetPluginData(HWND hPopUpWindow) {
 	long * uselessPointer = NULL;
-	return (void*)CallService(MS_POPUP_GETPLUGINDATA,(WPARAM)hPopUpWindow,(LPARAM)uselessPointer);
+	return (void*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hPopUpWindow, (LPARAM)uselessPointer);
 }
 
 /* PopUp/IsSecondLineShown
@@ -192,7 +192,7 @@ Returns: 0 if the user has chosen not to have the second line, 1 if he choose to
 */
 #define MS_POPUP_ISSECONDLINESHOWN "PopUp/IsSecondLineShown"
 static BOOL __inline PUIsSecondLineShown() {
-	return (BOOL)CallService(MS_POPUP_ISSECONDLINESHOWN,0,0);
+	return (BOOL)CallService(MS_POPUP_ISSECONDLINESHOWN, 0, 0);
 }
 
 /* PopUp/Query
@@ -226,7 +226,7 @@ lParam = 0
 */
 #define UM_DESTROYPOPUP          (WM_USER + 0x0201)
 static int __inline PUDeletePopUp(HWND hWndPopUp) {
-	return (int)SendMessage(hWndPopUp, UM_DESTROYPOPUP,0,0);
+	return (int)SendMessage(hWndPopUp, UM_DESTROYPOPUP, 0, 0);
 }
 
 /* UM_INITPOPUP
@@ -333,11 +333,11 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 #define MS_POPUP_SHOWMESSAGEW "PopUp/ShowMessageW"
 
 static int __inline PUShowMessage(char *lpzText, DWORD kind) {
-	return (int)CallService(MS_POPUP_SHOWMESSAGE, (WPARAM)lpzText,(LPARAM)kind);
+	return (int)CallService(MS_POPUP_SHOWMESSAGE, (WPARAM)lpzText, (LPARAM)kind);
 }
 
 static int __inline PUShowMessageW(wchar_t *lpwzText, DWORD kind) {
-	return (int)CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)lpwzText,(LPARAM)kind);
+	return (int)CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)lpwzText, (LPARAM)kind);
 }
 
 #ifdef _UNICODE

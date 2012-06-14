@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 
 struct HyperlinkWndData {
-	HFONT hEnableFont,hDisableFont;
+	HFONT hEnableFont, hDisableFont;
 	RECT rcText;
 	COLORREF enableColor, disableColor, focusColor;
 	BYTE flags; /* see HLKF_* */
@@ -37,18 +37,18 @@ struct HyperlinkWndData {
 #define HLK_MEASURETEXT  (WM_USER+1)
 #define HLK_INVALIDATE   (WM_USER+2) 
 
-static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)
+static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct HyperlinkWndData *dat=(struct HyperlinkWndData*)GetWindowLongPtr(hwnd,0);
+	struct HyperlinkWndData *dat=(struct HyperlinkWndData*)GetWindowLongPtr(hwnd, 0);
 	switch(msg) {
 		case WM_NCCREATE:
 			dat=(struct HyperlinkWndData*)mir_calloc(sizeof(struct HyperlinkWndData));
 			if (dat == NULL) return FALSE; /* fail creation */
-			SetWindowLongPtr(hwnd,0,(LONG_PTR)dat); /* always succeeds */
+			SetWindowLongPtr(hwnd, 0, (LONG_PTR)dat); /* always succeeds */
 			/* fall thru */
 		case WM_SYSCOLORCHANGE:
 			if (!(dat->flags&HLKF_HASENABLECOLOR)) {
-				if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) dat->enableColor=RGB(0,0,255);
+				if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL) dat->enableColor=RGB(0, 0, 255);
 				else dat->enableColor=GetSysColor(COLOR_HOTLIGHT);
 				dat->focusColor = RGB(GetRValue(dat->enableColor) / 2, GetGValue(dat->enableColor) / 2, GetBValue(dat->enableColor) / 2);
 			}
@@ -92,7 +92,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			{
 			case VK_SPACE:
 			case VK_RETURN:
-				SendMessage(GetParent(hwnd),WM_COMMAND,MAKEWPARAM(GetDlgCtrlID(hwnd),STN_CLICKED),(LPARAM)hwnd);
+				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), STN_CLICKED), (LPARAM)hwnd);
 				break;
 			}
 			return 0;
@@ -100,9 +100,9 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 
 		case WM_LBUTTONDOWN:
 		{	POINT pt;
-			POINTSTOPOINT(pt,MAKEPOINTS(lParam));
-			if (!PtInRect(&dat->rcText,pt)) break;
-			SendMessage(GetParent(hwnd),WM_COMMAND,MAKEWPARAM(GetDlgCtrlID(hwnd),STN_CLICKED),(LPARAM)hwnd);
+			POINTSTOPOINT(pt, MAKEPOINTS(lParam));
+			if (!PtInRect(&dat->rcText, pt)) break;
+			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), STN_CLICKED), (LPARAM)hwnd);
 			return 0;
 		}
 		case WM_SETFONT:
@@ -112,14 +112,14 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 				dat->hEnableFont=dat->hDisableFont=NULL;
 				return 0;
 			}
-			if (GetObject((HFONT)wParam,sizeof(lf),&lf)) {
+			if (GetObject((HFONT)wParam, sizeof(lf), &lf)) {
 				lf.lfUnderline=1;
 				hFont=CreateFontIndirect(&lf);
 				if (hFont != NULL) {
 					dat->hEnableFont=hFont;
 					dat->hDisableFont=(HFONT)wParam;
-					if (LOWORD(lParam)) SendMessage(hwnd,HLK_INVALIDATE,0,0);
-					SendMessage(hwnd,HLK_MEASURETEXT,0,0);
+					if (LOWORD(lParam)) SendMessage(hwnd, HLK_INVALIDATE, 0, 0);
+					SendMessage(hwnd, HLK_MEASURETEXT, 0, 0);
 				}
 			}
 			return 0;
@@ -131,17 +131,17 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 		{	RECT rcWnd;
 			POINT pt;
 			HWND hwndParent;
-			if (!GetWindowRect(hwnd,&rcWnd)) break;
+			if (!GetWindowRect(hwnd, &rcWnd)) break;
 			pt.x=rcWnd.left;
 			pt.y=rcWnd.top;
 			hwndParent=GetParent(hwnd);
 			if (hwndParent == NULL) hwndParent=hwnd;
-			if (!ScreenToClient(hwndParent,&pt)) break;
+			if (!ScreenToClient(hwndParent, &pt)) break;
 			rcWnd.right=pt.x+(rcWnd.right-rcWnd.left);
 			rcWnd.bottom=pt.y+(rcWnd.bottom-rcWnd.top);
 			rcWnd.left=pt.x;
 			rcWnd.top=pt.y;
-			InvalidateRect(hwndParent,&rcWnd,TRUE);
+			InvalidateRect(hwndParent, &rcWnd, TRUE);
 			return 0;
 		}
 		case WM_GETFONT:
@@ -149,7 +149,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 		case WM_CREATE:
 		case HLK_MEASURETEXT:
 		{	TCHAR szText[256];
-			if (!GetWindowText(hwnd,szText,SIZEOF(szText))) return 0;
+			if (!GetWindowText(hwnd, szText, SIZEOF(szText))) return 0;
 			lParam=(LPARAM)szText;
 			/* fall thru */
 		case WM_SETTEXT:
@@ -161,35 +161,35 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			BOOL fMeasured=FALSE;
 			hdc=GetDC(hwnd);
 			if (hdc == NULL) return 0; /* text change failed */
-			if (dat->hEnableFont != NULL) hPrevFont=(HFONT)SelectObject(hdc,dat->hEnableFont);
+			if (dat->hEnableFont != NULL) hPrevFont=(HFONT)SelectObject(hdc, dat->hEnableFont);
 			if (dat->hEnableFont == NULL || hPrevFont != NULL) /* select failed? */
-				if (GetTextExtentPoint32(hdc,(TCHAR*)lParam,lstrlen((TCHAR*)lParam),&textSize))
-					if (GetClientRect(hwnd,&rc)) {
+				if (GetTextExtentPoint32(hdc, (TCHAR*)lParam, lstrlen((TCHAR*)lParam), &textSize))
+					if (GetClientRect(hwnd, &rc)) {
 						dat->rcText.top=0;
 						dat->rcText.bottom=dat->rcText.top+textSize.cy;
-						style=GetWindowLongPtr(hwnd,GWL_STYLE);
+						style=GetWindowLongPtr(hwnd, GWL_STYLE);
 						if (style&SS_CENTER) dat->rcText.left=(rc.right-textSize.cx)/2;
 						else if (style&SS_RIGHT) dat->rcText.left=rc.right-textSize.cx;
 						else dat->rcText.left=0;
 						dat->rcText.right=dat->rcText.left+textSize.cx;
 						fMeasured=TRUE;
 					}
-			if (dat->hEnableFont != NULL && hPrevFont != NULL) SelectObject(hdc,hPrevFont);
-			ReleaseDC(hwnd,hdc);
+			if (dat->hEnableFont != NULL && hPrevFont != NULL) SelectObject(hdc, hPrevFont);
+			ReleaseDC(hwnd, hdc);
 			if (!fMeasured) return 0; /* text change failed */
-			SendMessage(hwnd,HLK_INVALIDATE,0,0);
+			SendMessage(hwnd, HLK_INVALIDATE, 0, 0);
 			break;
 		}}
 		case WM_SETCURSOR:
 		{	POINT pt;
 			HCURSOR hCursor;
 			if (!GetCursorPos(&pt)) return FALSE;
-			if (!ScreenToClient(hwnd,&pt)) return FALSE;
-			if (PtInRect(&dat->rcText,pt)) {
-				hCursor=(HCURSOR)GetClassLongPtr(hwnd,GCLP_HCURSOR);
-				if (hCursor == NULL) hCursor=LoadCursor(NULL,IDC_HAND); /* Win2000+ */
+			if (!ScreenToClient(hwnd, &pt)) return FALSE;
+			if (PtInRect(&dat->rcText, pt)) {
+				hCursor=(HCURSOR)GetClassLongPtr(hwnd, GCLP_HCURSOR);
+				if (hCursor == NULL) hCursor=LoadCursor(NULL, IDC_HAND); /* Win2000+ */
 			}
-			else hCursor=LoadCursor(NULL,IDC_ARROW);
+			else hCursor=LoadCursor(NULL, IDC_ARROW);
 			SetCursor(hCursor);
 			return TRUE;
 		}
@@ -217,16 +217,16 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			PAINTSTRUCT ps;
 			HDC hdc;
 			
-			hdc=BeginPaint(hwnd,&ps);
+			hdc=BeginPaint(hwnd, &ps);
 			if (hdc != NULL) {
 				if (IsWindowEnabled(hwnd)) {
-					hPrevFont=(HFONT)SelectObject(hdc,dat->hEnableFont);
+					hPrevFont=(HFONT)SelectObject(hdc, dat->hEnableFont);
 					textColor = (GetFocus() == hwnd) ? dat->focusColor : dat->enableColor;
 				} else {
-					hPrevFont=(HFONT)SelectObject(hdc,dat->hDisableFont);
+					hPrevFont=(HFONT)SelectObject(hdc, dat->hDisableFont);
 					textColor=dat->disableColor;
 				}
-				if (GetClientRect(hwnd,&rc) && GetWindowText(hwnd,szText,SIZEOF(szText))) {
+				if (GetClientRect(hwnd, &rc) && GetWindowText(hwnd, szText, SIZEOF(szText))) {
 					if (drawThemeParentBackground && IsWinVerXPPlus())
 					{
 						BOOL fSmoothing;
@@ -236,13 +236,13 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 						if (fSmoothing && fSmoothingType == FE_FONTSMOOTHINGCLEARTYPE)
 							drawThemeParentBackground(hwnd, hdc, &rc);
 					}
-					SetBkMode(hdc,TRANSPARENT);
-					SetTextColor(hdc,textColor);
-					alignFlag=(GetWindowLongPtr(hwnd,GWL_STYLE)&(SS_CENTER|SS_RIGHT|SS_LEFT));
-					DrawText(hdc,szText,-1,&rc,alignFlag|DT_NOPREFIX|DT_SINGLELINE|DT_TOP);
+					SetBkMode(hdc, TRANSPARENT);
+					SetTextColor(hdc, textColor);
+					alignFlag=(GetWindowLongPtr(hwnd, GWL_STYLE)&(SS_CENTER|SS_RIGHT|SS_LEFT));
+					DrawText(hdc, szText, -1, &rc, alignFlag|DT_NOPREFIX|DT_SINGLELINE|DT_TOP);
 				}
-				if (hPrevFont != NULL) SelectObject(hdc,hPrevFont);
-				EndPaint(hwnd,&ps);
+				if (hPrevFont != NULL) SelectObject(hdc, hPrevFont);
+				EndPaint(hwnd, &ps);
 			}
 			return 0;
 		}
@@ -251,7 +251,7 @@ static LRESULT CALLBACK HyperlinkWndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			mir_free(dat);			
 			break;
 	}
-	return DefWindowProc(hwnd,msg,wParam,lParam);
+	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
 int InitHyperlink(void)
@@ -263,7 +263,7 @@ int InitHyperlink(void)
 	wcl.cbWndExtra=sizeof(struct HyperlinkWndData*);
 	wcl.hInstance=hMirandaInst;
 	if (IsWinVer2000Plus()) wcl.hCursor=NULL;
-	else wcl.hCursor=LoadCursor(wcl.hInstance,MAKEINTRESOURCE(IDC_HYPERLINKHAND));
+	else wcl.hCursor=LoadCursor(wcl.hInstance, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 	wcl.lpszClassName=WNDCLASS_HYPERLINK;
 	wcl.hbrBackground=NULL;
 	wcl.hIcon=NULL;

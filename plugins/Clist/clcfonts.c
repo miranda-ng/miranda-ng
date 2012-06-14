@@ -59,11 +59,6 @@ static int fontListOrder[CLIST_FONTID_MAX + 1] =
 	CLIST_FONTID_DIVIDERS
 };
 
-#define CLCDEFAULT_BKCOLOUR      GetSysColor(COLOR_3DFACE)
-#define CLCDEFAULT_SELTEXTCOLOUR GetSysColor(COLOR_HIGHLIGHTTEXT)
-#define CLCDEFAULT_HOTTEXTCOLOUR (IsWinVer98Plus()?RGB(0,0,255):GetSysColor(COLOR_HOTLIGHT))
-#define CLCDEFAULT_QUICKSEARCHCOLOUR RGB(255,255,0)
-
 static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
 {
 	pcli->pfnClcOptionsChanged();

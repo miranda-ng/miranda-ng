@@ -788,26 +788,26 @@ VOID CALLBACK StartupTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwT
 
 HANDLE hEventServicesModulesLoaded2;
 
-int ServicesModulesLoaded(WPARAM wParam, LPARAM lParam) {
+int ServicesModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
 	// add main menu item
 
-	CLISTMENUITEM menu = {0};
+	CLISTMENUITEM mi = {0};
 
-	menu.cbSize=sizeof(menu);
-	menu.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
-	menu.icolibItem = GetIconHandle(I_CHKUPD);
+	mi.cbSize=sizeof(mi);
+	mi.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
+	mi.icolibItem = GetIconHandle(I_CHKUPD);
 
-	menu.pszName = "Check for updates";
-	menu.pszService= MS_UPDATE_CHECKFORUPDATES;
-	menu.position = 500010000;
+	mi.pszName = "Check for updates";
+	mi.pszService= MS_UPDATE_CHECKFORUPDATES;
+	mi.position = 500010000;
 
-#ifdef MS_CLIST_ADDGROUPMENUITEM
-	if (ServiceExists(MS_CLIST_ADDGROUPMENUITEM)) {
+	if (ServiceExists(MS_CLIST_REMOVEGROUPMENUITEM)) {
 		GroupMenuParam gmp = {0};
-		hGroupMenuItem = (HANDLE)CallService(MS_CLIST_ADDGROUPMENUITEM,(WPARAM)&gmp,(LPARAM)&menu);
+		hGroupMenuItem = Menu_AddGroupMenuItem(&gmp, &mi);
 	}
-#endif
-	hMainMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&menu);
+
+	hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	hEventServicesModulesLoaded2 = HookEvent(ME_SYSTEM_MODULESLOADED, ServicesModulesLoaded2);
 	startup_timer_id = SetTimer(0, 0, 5000, StartupTimerProc);

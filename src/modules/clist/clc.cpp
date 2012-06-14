@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -151,7 +151,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 	int i;
 
 	if (ack->type == ACKTYPE_STATUS) {
-		WindowList_BroadcastAsync(hClcWindowList,INTM_INVALIDATE,0,0);
+		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 		if (ack->result == ACKRESULT_SUCCESS) {
 			for (i = 0; i < cli.hClcProtoCount; i++) {
 				if (!lstrcmpA(cli.clcProto[i].szProto, ack->szModule)) {
@@ -166,25 +166,25 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 
 static int ClcContactAdded(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(hClcWindowList,INTM_CONTACTADDED,wParam,lParam);
+	WindowList_BroadcastAsync(hClcWindowList, INTM_CONTACTADDED, wParam, lParam);
 	return 0;
 }
 
 static int ClcContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(hClcWindowList,INTM_CONTACTDELETED,wParam,lParam);
+	WindowList_BroadcastAsync(hClcWindowList, INTM_CONTACTDELETED, wParam, lParam);
 	return 0;
 }
 
 static int ClcContactIconChanged(WPARAM wParam, LPARAM lParam)
 {
-	WindowList_BroadcastAsync(hClcWindowList,INTM_ICONCHANGED,wParam,lParam);
+	WindowList_BroadcastAsync(hClcWindowList, INTM_ICONCHANGED, wParam, lParam);
 	return 0;
 }
 
 static int ClcIconsChanged(WPARAM, LPARAM)
 {
-	WindowList_BroadcastAsync(hClcWindowList,INTM_INVALIDATE,0,0);
+	WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 	return 0;
 }
 
@@ -287,10 +287,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		dat->needsResort = 1;
 		cli.pfnLoadClcOptions(hwnd, dat);
 		if (!IsWindowVisible(hwnd))
-			SetTimer(hwnd,TIMERID_REBUILDAFTER,10,NULL);
+			SetTimer(hwnd, TIMERID_REBUILDAFTER, 10, NULL);
 		else
 		{
-			cli.pfnRebuildEntireList(hwnd,dat);
+			cli.pfnRebuildEntireList(hwnd, dat);
 			NMCLISTCONTROL nm;
 			nm.hdr.code = CLN_LISTREBUILT;
 			nm.hdr.hwndFrom = hwnd;
@@ -321,7 +321,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnRecalcScrollBar(hwnd, dat);
 		{ // creating imagelist containing blue line for highlight
 			HBITMAP hBmp, hBmpMask, hoBmp, hoMaskBmp;
-			HDC hdc,hdcMem;
+			HDC hdc, hdcMem;
 			RECT rc;
 			int depth;
 			HBRUSH hBrush;
@@ -509,7 +509,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
 			dat->needsResort = 1;
 		}
-		SetTimer(hwnd,TIMERID_REBUILDAFTER,1,NULL);
+		SetTimer(hwnd, TIMERID_REBUILDAFTER, 1, NULL);
 		break;
 	}
 	case INTM_ICONCHANGED:
@@ -579,7 +579,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (!cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 
-		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam,0), SIZEOF(contact->szText));
+		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
 		dat->needsResort = 1;
 		SortClcByTimer(hwnd);
 		break;
@@ -591,7 +591,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		contact->proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 		cli.pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
-		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam,0), SIZEOF(contact->szText));
+		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
 		SortClcByTimer(hwnd);
 		break;
 	}
@@ -680,7 +680,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		HDC hdc;
 		PAINTSTRUCT ps;
 		hdc = BeginPaint(hwnd, &ps);
-		/* we get so many cli.pfnInvalidateRect()'s that there is no point painting,
+		/* we get so many cli.pfnInvalidateRect()'s that there is no point painting, 
 		Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
 		we'll just ignore them */
 		if (IsWindowVisible(hwnd))
@@ -909,16 +909,16 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		}
 		case TIMERID_REBUILDAFTER:
-			KillTimer(hwnd,TIMERID_REBUILDAFTER);
-			cli.pfnInvalidateRect(hwnd,NULL,FALSE);
-			cli.pfnSaveStateAndRebuildList(hwnd,dat);
+			KillTimer(hwnd, TIMERID_REBUILDAFTER);
+			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+			cli.pfnSaveStateAndRebuildList(hwnd, dat);
 			break;
 
 		case TIMERID_DELAYEDRESORTCLC:
-			KillTimer(hwnd,TIMERID_DELAYEDRESORTCLC);
-			cli.pfnInvalidateRect(hwnd,NULL,FALSE);
-			cli.pfnSortCLC(hwnd,dat,1);
-			cli.pfnRecalcScrollBar(hwnd,dat);
+			KillTimer(hwnd, TIMERID_DELAYEDRESORTCLC);
+			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+			cli.pfnSortCLC(hwnd, dat, 1);
+			cli.pfnRecalcScrollBar(hwnd, dat);
 			break;
 		}
 		break;
@@ -958,7 +958,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				cli.pfnSetGroupExpand(hwnd, dat, contact->group, -1);
 				if (dat->selection != -1) {
 					dat->selection =
-						cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl,selcontact));
+						cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 					if (dat->selection == -1)
 						dat->selection = cli.pfnGetRowsPriorTo(&dat->list, contact->group, -1);
 				}
@@ -1321,7 +1321,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		case POPUP_GROUPHIDEOFFLINE:
 			if (contact->type != CLCIT_GROUP)
 				break;
-			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId,
+			CallService(MS_CLIST_GROUPSETFLAGS, contact->groupId, 
 				MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
 			break;
 		}

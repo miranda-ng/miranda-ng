@@ -968,23 +968,23 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	cl.ptszPopupName = _T("Sessions Manager");
 	cl.hIcon = hiSessions;
 	cl.pszService = MS_SESSIONS_SAVEUSERSESSION;
-	hmSaveCurrentSession = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmSaveCurrentSession = Menu_AddMainMenuItem(&cl);
 
 	cl.ptszName = _T("Load session...");
 	cl.pszService = MS_SESSIONS_OPENMANAGER;
 	cl.hIcon = hiSessionsLoad;
-	hmLoadLastSession = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmLoadLastSession = Menu_AddMainMenuItem(&cl);
 
 	cl.ptszName = _T("Close session");
 	cl.pszService = MS_SESSIONS_CLOSESESSION;
 	cl.hIcon = 0;
-	hmLoadSession = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmLoadSession = Menu_AddMainMenuItem(&cl);
 
 	cl.ptszName = _T("Load last session");
 	cl.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	cl.hIcon = hiSessionsLoadLast;
 	cl.position = 10100000;
-	hmLoadSession = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) &cl);
+	hmLoadSession = Menu_AddMainMenuItem(&cl);
 
 	ZeroMemory(&cl, sizeof(cl));
 	cl.cbSize = sizeof(cl);

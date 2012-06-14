@@ -537,8 +537,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 		bInitDone = false;
 
 		TranslateDialogDefault(hwndDlg);
-		if (ServiceExists(MS_CLIST_ADDSTATUSMENUITEM))
-			SetDlgItemText(hwndDlg, IDC_CREATEMMI, TranslateT("Create a status menu item"));
+		SetDlgItemText(hwndDlg, IDC_CREATEMMI, TranslateT("Create a status menu item"));
 
 		profileCount = GetProfileCount((WPARAM)&defProfile, 0);
 		if (profileCount == 0) {

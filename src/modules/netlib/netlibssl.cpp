@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -54,8 +54,8 @@ static pfnCertVerifyCertificateChainPolicy fnCertVerifyCertificateChainPolicy;
 
 typedef enum
 {
-	sockOpen,
-	sockClosed,
+	sockOpen, 
+	sockClosed, 
 	sockError
 } SocketState;
 
@@ -96,7 +96,7 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool showPopup = fal
 		break;
 
 	default:
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, 
 			NULL, scRet, LANG_USER_DEFAULT, szMsgBuf, SIZEOF(szMsgBuf), NULL);
 	}
 
@@ -133,7 +133,7 @@ static bool AcquireCredentials(void)
 		&SchannelCred,          // Package specific data
 		NULL,                   // Pointer to GetKey() func
 		NULL,                   // Value to pass to GetKey()
-		&hCreds,				// (out) Cred Handle
+		&hCreds, 				// (out) Cred Handle
 		&tsExpiry);             // (out) Lifetime (optional)
 
 	ReportSslError(scRet, __LINE__);
@@ -207,8 +207,8 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	static LPSTR rgszUsages[] = 
 	{  
-		szOID_PKIX_KP_SERVER_AUTH,
-		szOID_SERVER_GATED_CRYPTO,
+		szOID_PKIX_KP_SERVER_AUTH, 
+		szOID_SERVER_GATED_CRYPTO, 
 		szOID_SGC_NETSCAPE 
 	};
 
@@ -222,7 +222,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	PWSTR pwszServerName = mir_a2u(pszServerName);
 
-	scRet = g_pSSPI->QueryContextAttributesA(&ssl->hContext,
+	scRet = g_pSSPI->QueryContextAttributesA(&ssl->hContext, 
 		SECPKG_ATTR_REMOTE_CERT_CONTEXT, &pServerCert);
 	if (scRet != SEC_E_OK)
 		goto cleanup;
@@ -255,7 +255,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	PolicyStatus.cbSize = sizeof(PolicyStatus);
 
-	if (!fnCertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext,
+	if (!fnCertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext, 
 		&PolicyPara, &PolicyStatus))
 	{
 		scRet = GetLastError();
@@ -386,17 +386,17 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		OutBuffer.ulVersion     = SECBUFFER_VERSION;
 
 		scRet = g_pSSPI->InitializeSecurityContextA(
-			&hCreds,
-			&ssl->hContext,
-			NULL,
-			dwSSPIFlags,
-			0,
-			SECURITY_NATIVE_DREP,
-			&InBuffer,
-			0,
-			NULL,
-			&OutBuffer,
-			&dwSSPIOutFlags,
+			&hCreds, 
+			&ssl->hContext, 
+			NULL, 
+			dwSSPIFlags, 
+			0, 
+			SECURITY_NATIVE_DREP, 
+			&InBuffer, 
+			0, 
+			NULL, 
+			&OutBuffer, 
+			&dwSSPIOutFlags, 
 			&tsExpiry);
 
 		// If success (or if the error was one of the special extended ones), 
@@ -431,8 +431,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 			// Store remaining data for further use
 			if (InBuffers[1].BufferType == SECBUFFER_EXTRA) 
 			{
-				memmove(ssl->pbIoBuffer,
-					ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer),
+				memmove(ssl->pbIoBuffer, 
+					ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), 
 					InBuffers[1].cbBuffer);
 				ssl->cbIoBuffer = InBuffers[1].cbBuffer;
 			}
@@ -460,8 +460,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		// Copy any leftover data from the buffer, and go around again.
 		if (InBuffers[1].BufferType == SECBUFFER_EXTRA) 
 		{
-			memmove(ssl->pbIoBuffer,
-				ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer),
+			memmove(ssl->pbIoBuffer, 
+				ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), 
 				InBuffers[1].cbBuffer);
 
 			ssl->cbIoBuffer = InBuffers[1].cbBuffer;
@@ -518,17 +518,17 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 	scRet = g_pSSPI->InitializeSecurityContextA(
-		&hCreds,
-		NULL,
-		(SEC_CHAR*)host,
-		dwSSPIFlags,
-		0,
-		SECURITY_NATIVE_DREP,
-		NULL,
-		0,
-		&ssl->hContext,
-		&OutBuffer,
-		&dwSSPIOutFlags,
+		&hCreds, 
+		NULL, 
+		(SEC_CHAR*)host, 
+		dwSSPIFlags, 
+		0, 
+		SECURITY_NATIVE_DREP, 
+		NULL, 
+		0, 
+		&ssl->hContext, 
+		&OutBuffer, 
+		&dwSSPIOutFlags, 
 		&tsExpiry);
 
 	if (scRet != SEC_I_CONTINUE_NEEDED)
@@ -631,17 +631,17 @@ void NetlibSslShutdown(SslHandle *ssl)
 	OutBuffer.ulVersion = SECBUFFER_VERSION;
 
 	scRet = g_pSSPI->InitializeSecurityContextA(
-		&hCreds,
-		&ssl->hContext,
-		NULL,
-		dwSSPIFlags,
-		0,
-		SECURITY_NATIVE_DREP,
-		NULL,
-		0,
-		&ssl->hContext,
-		&OutBuffer,
-		&dwSSPIOutFlags,
+		&hCreds, 
+		&ssl->hContext, 
+		NULL, 
+		dwSSPIFlags, 
+		0, 
+		SECURITY_NATIVE_DREP, 
+		NULL, 
+		0, 
+		&ssl->hContext, 
+		&OutBuffer, 
+		&dwSSPIOutFlags, 
 		&tsExpiry);
 
 	if (FAILED(scRet)) return;
@@ -953,10 +953,10 @@ static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
 	if (si->cbSize != sizeof(SSL_API))
 		return FALSE;
 
-	si->connect  = (HSSL (__cdecl *)(SOCKET,const char *,int))NetlibSslConnect;
+	si->connect  = (HSSL (__cdecl *)(SOCKET, const char *, int))NetlibSslConnect;
 	si->pending  = (BOOL (__cdecl *)(HSSL))NetlibSslPending;
-	si->read     = (int  (__cdecl *)(HSSL,char *,int,int))NetlibSslRead;
-	si->write    = (int  (__cdecl *)(HSSL,const char *,int))NetlibSslWrite;
+	si->read     = (int  (__cdecl *)(HSSL, char *, int, int))NetlibSslRead;
+	si->write    = (int  (__cdecl *)(HSSL, const char *, int))NetlibSslWrite;
 	si->shutdown = (void (__cdecl *)(HSSL))NetlibSslShutdown;
 	si->sfree    = (void (__cdecl *)(HSSL))NetlibSslFree;
 

@@ -3,7 +3,7 @@
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project,
+Copyright 2000-2007 Miranda ICQ/IM project, 
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -13,7 +13,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -129,8 +129,8 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 	for (i=y+height; --i >= y; )
 	{
 		COLORREF color = RGB(
-			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height,
-			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
+			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
+			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
 			((height-i-1)*rgb0->rgbBlue  + i*rgb1->rgbBlue)  / height);
 		rc.top = rc.bottom = i;
 		++rc.bottom;
@@ -155,7 +155,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 	TCHAR *szSubTitle = _tcschr(szTitle, _T('\n'));
 	if (szSubTitle) *szSubTitle++ = 0;
 
-	HDC hdc=BeginPaint(hwndDlg,&ps);
+	HDC hdc=BeginPaint(hwndDlg, &ps);
 	HDC tempDC=CreateCompatibleDC(hdc);
 
 	BITMAPINFO bmi;
@@ -167,7 +167,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 	bmi.bmiHeader.biCompression = BI_RGB;
 	hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, NULL, NULL, 0);
 
-	hOldBmp=(HBITMAP)SelectObject(tempDC,hBmp);
+	hOldBmp=(HBITMAP)SelectObject(tempDC, hBmp);
 
 	if (IsAeroMode()) {
 		RECT temprc;
@@ -177,7 +177,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		temprc.bottom=mit->width;
 		FillRect(tempDC, &temprc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
-		MARGINS margins = {0,0,mit->height,0};
+		MARGINS margins = {0, 0, mit->height, 0};
 		dwmExtendFrameIntoClientArea(GetParent(hwndDlg), &margins);
 
 		WTA_OPTIONS opts;
@@ -275,19 +275,19 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 			CombineRgn(hRgn, hRgn, hRgnTmp, RGN_DIFF);
 			DeleteObject(hRgnTmp);
 		}
-		SelectClipRgn(hdc,hRgn);
+		SelectClipRgn(hdc, hRgn);
 		DeleteObject(hRgn);
 	}
 
-	BitBlt(hdc,mit->rc.left,mit->rc.top,mit->width,mit->height,tempDC,0,0,SRCCOPY);
+	BitBlt(hdc, mit->rc.left, mit->rc.top, mit->width, mit->height, tempDC, 0, 0, SRCCOPY);
 
-	SelectClipRgn(hdc,NULL);
+	SelectClipRgn(hdc, NULL);
 
-	SelectObject(tempDC,hOldBmp);
+	SelectObject(tempDC, hOldBmp);
 	DeleteObject(hBmp);
 	DeleteDC(tempDC);
 
-	EndPaint(hwndDlg,&ps);
+	EndPaint(hwndDlg, &ps);
 
 	return TRUE;
 }
@@ -332,7 +332,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		break;
 
 	case WM_SIZE:
-		GetClientRect(hwndDlg,&itc->rc);
+		GetClientRect(hwndDlg, &itc->rc);
 		itc->width=itc->rc.right-itc->rc.left;
 		itc->height=itc->rc.bottom-itc->rc.top;
 		return TRUE;

@@ -200,8 +200,8 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
     mi.flags |= CMIF_UNICODE;
   mi.pszService = MS_CONTACTS_SEND; 
   mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
+  hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-  hContactMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
   hHookPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
 
   ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this

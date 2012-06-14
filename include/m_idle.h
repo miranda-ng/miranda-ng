@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2005 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2005 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* The idle module checks how long the user has been idle, it can be at the Miranda level
 or the OS level - the user has optional two settings, one for "short" idle and another
 for "long" idle. Thie module will generate long/short events based on these user preferences
-and other information too. If you are unsure which idle mode to report for, report it 
+and other information too. If you are unsure which idle mode to report for, report it
 for short idle.*/
 
 #define IDF_ISIDLE		0x1 // idle has become active (if not set, inactive)
@@ -63,7 +63,7 @@ typedef struct {
 /*
 	wParam; 0
 	lParam: &MIRANDA_IDLE_INFO
-	Affect: Return information about current idle settings, like short/long idle time in mins 
+	Affect: Return information about current idle settings, like short/long idle time in mins
 		and if the user wants that info kept private, etc
 	Returns: zero on success, non zero on failure
 	Version: 0.3.4 (2004/09/16)

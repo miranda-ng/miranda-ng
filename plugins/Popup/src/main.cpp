@@ -321,7 +321,7 @@ void InitMenuItems(void) {
 	mi.position		= -1000000000 /*1000001*/;
 	mi.ptszName		= LPGENT(MODULNAME_PLU);
 	mi.hIcon		= IcoLib_GetIcon(PopUpOptions.ModuleIsEnabled ? ICO_POPUP_ON : ICO_POPUP_OFF ,0);
-	hMenuRoot		= (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+	hMenuRoot		= Menu_AddMainMenuItem(&mi);
 
 	// Add item to main menu
 	mi.hParentMenu		= (HGENMENU)hMenuRoot;
@@ -329,7 +329,7 @@ void InitMenuItems(void) {
 	hTogglePopup = CreateServiceFunction(MENUCOMMAND_SVC, svcEnableDisableMenuCommand);
 	mi.ptszName			= PopUpOptions.ModuleIsEnabled ? LPGENT("Disable &popup module") : LPGENT("Enable &popup module");
 	mi.pszService		= MENUCOMMAND_SVC;
-	hMenuItem			= (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, (WPARAM)0, (LPARAM)&mi);
+	hMenuItem			= Menu_AddMainMenuItem(&mi);
 
 	// Popup History
 	hShowHistory = CreateServiceFunction(MENUCOMMAND_HISTORY, svcShowHistory);
@@ -338,7 +338,7 @@ void InitMenuItems(void) {
 	mi.ptszName			= LPGENT("Popup History");
 	mi.hIcon			= IcoLib_GetIcon(ICO_HISTORY, 0);
 	mi.pszService		= MENUCOMMAND_HISTORY;
-	hMenuItemHistory	= (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, (WPARAM)0, (LPARAM)&mi);
+	hMenuItemHistory	= Menu_AddMainMenuItem(&mi);
 
 }
 

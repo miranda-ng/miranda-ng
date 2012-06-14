@@ -1483,7 +1483,7 @@ static int OptModulesLoaded(WPARAM, LPARAM)
 	mi.position = 1900000000;
 	mi.pszName = LPGEN("&Options...");
 	mi.pszService = "Options/OptionsCommand";
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, ( LPARAM )&mi );
+	Menu_AddMainMenuItem(&mi);
 	return 0;
 }
 

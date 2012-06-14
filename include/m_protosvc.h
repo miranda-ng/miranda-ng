@@ -36,9 +36,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ******************************************
 
 Only new style protocols (Miranda 0.9+) with m_iVersion set to 2 or higher
-support Unicode services documented below, all other support only ANSI. 
+support Unicode services documented below, all other support only ANSI.
 
-For all other that do not support Unicode services, Miranda core will 
+For all other that do not support Unicode services, Miranda core will
 convert Unicode to ANSI and call the appropriate service.
 */
 
@@ -412,7 +412,7 @@ typedef struct {
 #define PS_ADDTOLIST   "/AddToList"
 
 //Adds a contact to the contact list given an auth, added or contacts event
-//wParam=MAKEWPARAM(flags,iContact)
+//wParam=MAKEWPARAM(flags, iContact)
 //lParam=(LPARAM)(HANDLE)hDbEvent
 //Returns a HANDLE to the new contact, or NULL on failure
 //hDbEvent must be either EVENTTYPE_AUTHREQ or EVENTTYPE_ADDED
@@ -457,7 +457,7 @@ typedef struct {
 #define FILERESUME_SKIP       4
 typedef struct {
 	int action;    //a FILERESUME_ flag
-	const FNAMECHAR *szFilename;  //full path. Only valid if action==FILERESUME_RENAME
+	const FNAMECHAR *szFilename;  //full path. Only valid if action == FILERESUME_RENAME
 } PROTOFILERESUME;
 #define PS_FILERESUME     "/FileResume"
 #define PS_FILERESUMEW    "/FileResumeW"
@@ -490,7 +490,7 @@ typedef struct {
 // Asks protocol for the status message for a status
 // wParam=(WORD) 0 for current status or a status id
 // lParam=SGMA_xxx
-// Returns status msg or NULL if there is none.  The protocol have to handle only the current 
+// Returns status msg or NULL if there is none.  The protocol have to handle only the current
 // status. Handling messages for other statuses is optional.
 // Remember to mir_free the return value
 
@@ -595,7 +595,7 @@ typedef struct {
 #define PSS_URL          "/SendUrl"
 
 //Send a set of contacts
-//wParam=MAKEWPARAM(flags,nContacts)
+//wParam=MAKEWPARAM(flags, nContacts)
 //lParam=(LPARAM)(HANDLE*)hContactsList
 //returns a hProcess corresponding to the one in the ack event, NULL on
 //failure.

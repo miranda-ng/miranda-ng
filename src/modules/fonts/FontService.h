@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -46,7 +46,7 @@ struct TFontID
 	char  prefix[32];              // this is prepended to the settings used to store this font's data in the db
 	DWORD flags;                   // bitwise OR of the FIDF_* flags above
 	TFontSettings deffontsettings; // defaults, valid if flags & FIDF_DEFAULTVALID
-	int   order;                   // controls the order in the font group in which the fonts are listed in the UI (if order fields are equal,
+	int   order;                   // controls the order in the font group in which the fonts are listed in the UI (if order fields are equal, 
                                   // they will be ordered alphabetically by name)
 	TCHAR 	 backgroundGroup[64];
 	TCHAR 	 backgroundName[64];

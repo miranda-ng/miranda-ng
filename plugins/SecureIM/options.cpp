@@ -1131,13 +1131,6 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 	SendMessage(GetDlgItem(hDlg,IDC_AAK),BM_SETCHECK,(bAAK)?BST_CHECKED:BST_UNCHECKED,0L);
 	SendMessage(GetDlgItem(hDlg,IDC_MCM),BM_SETCHECK,(bMCM)?BST_CHECKED:BST_UNCHECKED,0L);
 
-/*	// CList_classic
-	if (!ServiceExists(MS_CLIST_ADDSUBGROUPMENUITEM)) {
-		EnableWindow(GetDlgItem(hDlg,IDC_ASI),FALSE);
-		for(i=2;i<ADV_CNT;i++)
-			EnableWindow(GetDlgItem(hDlg,IDC_ADV1+i),FALSE);
-	}	
-*/
 	// Advanced
 	SendMessage(GetDlgItem(hDlg, IDC_ADVICON), CB_SETCURSEL, bADV, 0);
 	if ( g_hCLIcon ) {

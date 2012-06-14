@@ -1057,7 +1057,7 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		mi.pszService = srvFce;
 		mi.pszContactOwner = m_szModuleName;
 
-		hXStatusItems[i] = (HANDLE)CallService(MS_CLIST_ADDSTATUSMENUITEM, (WPARAM)&hXStatusRoot, (LPARAM)&mi);
+		hXStatusItems[i] = Menu_AddStatusMenuItem(&mi);
 
 		// CMIF_HIDDEN does not work for adding services
 		CListShowMenuItem(hXStatusItems[i], !(m_bHideXStatusUI || m_bHideXStatusMenu));

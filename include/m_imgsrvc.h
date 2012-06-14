@@ -1,8 +1,8 @@
 /*
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2012 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 -----------------------------------------------------------------------
 Miranda Image services plugin / API definitions
-Provides various services for image loading, saving and manipulations. 
+Provides various services for image loading, saving and manipulations.
 
 This module is based on the freeimage library, copyrighted by the FreeImage
 Project members.
@@ -82,9 +82,9 @@ typedef struct _tagFI_interface {
     FIBITMAP *(DLL_CALLCONV *FI__AllocateT)(FREE_IMAGE_TYPE type, int width, int height, int bpp FI_DEFAULT(8), unsigned red_mask FI_DEFAULT(0), unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_Clone)(FIBITMAP *dib);
     void (DLL_CALLCONV *FI_Unload)(FIBITMAP *dib);
-    
+
     // Load / Save routines -----------------------------------------------------
-    
+
     FIBITMAP *(DLL_CALLCONV *FI_Load)(FREE_IMAGE_FORMAT fif, const char *filename, int flags FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_LoadU)(FREE_IMAGE_FORMAT fif, const wchar_t *filename, int flags FI_DEFAULT(0));
     FIBITMAP *(DLL_CALLCONV *FI_LoadFromHandle)(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_handle handle, int flags FI_DEFAULT(0));
@@ -356,7 +356,7 @@ typedef struct _tagFI_interface {
 
 /*
  * image services
- * 
+ *
  * only basic functionality is wrapped around Miranda services, because otherwise we would get a huge
  * load of services with complex parameter marshalling requirements.
  */
@@ -376,21 +376,21 @@ typedef struct _tagFI_interface {
 // the interface is populated during the _DllMain() handler, so you can assume it is ready when Miranda
 // calls the Load() handler of your plugin and you can return 1 in your Load() to disable your plugin when
 // it depends on the freeimage interface and the freeimage plugin is missing
-// 
+//
 // example:
-// 
+//
 // FI_INTERFACE *fii = NULL;
-// 
+//
 // result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
-// 
+//
 // if(result != S_OK)
 //     failed, in this case, fei will be NULL and your plugin will crash when using the interface,
-//     so ALWAYS check it   
+//     so ALWAYS check it
 
 #define MS_IMG_GETINTERFACE "IMG/GetInterface"
 
 
-#define IMGL_RETURNDIB 1        // will NOT return a HBITMAP but a FIBITMAP * instead (useful, if you 
+#define IMGL_RETURNDIB 1        // will NOT return a HBITMAP but a FIBITMAP * instead (useful, if you
                                 // want to do further image manipulations before converting to a Win32 bitmap
                                 // caller MUST then free the FIBITMAP * using fii->FI_Unload() or MS_IMG_UNLOAD (see below)
 
@@ -474,7 +474,7 @@ typedef struct _tagIMGSRVC_INFO {
 */
 
 #define RESIZEBITMAP_STRETCH 0				// Distort bitmap to size in (max_width, max_height)
-#define RESIZEBITMAP_KEEP_PROPORTIONS 1		// Keep bitmap proportions (probabily only one of the 
+#define RESIZEBITMAP_KEEP_PROPORTIONS 1		// Keep bitmap proportions (probabily only one of the
 											// max_width/max_height will be respected, and the other will be
 											// smaller)
 #define RESIZEBITMAP_CROP 2					// Keep bitmap proportions but crop it to fix exactly in (max_width, max_height)
@@ -506,10 +506,10 @@ typedef struct {
 
 /*
  * format conversion helpers
- * 
+ *
  * these helper macros allow converting HBITMAP to FIBITMAP * format and vice vera. In any case,
  * the caller is responsible for freeing or deleting the original object.
- * These macros wrap around the FI_CreateHBITMAPFromDib() and FI_CreateDIBFromHBITMAP() interface 
+ * These macros wrap around the FI_CreateHBITMAPFromDib() and FI_CreateDIBFromHBITMAP() interface
  * functions.
  */
 

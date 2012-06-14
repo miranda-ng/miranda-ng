@@ -3,7 +3,7 @@
 Miranda IM: the free IM client for Microsoft* Windows*
 
 Copyright 2007 Artem Shpynov
-Copyright 2000-2007 Miranda ICQ/IM project,
+Copyright 2000-2007 Miranda ICQ/IM project, 
 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
@@ -13,7 +13,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -130,8 +130,8 @@ static void MDescButton_DrawGradient(HDC hdc, int x, int y, int width, int heigh
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
 	for (int i=y+height; --i >= y; ) {
 		COLORREF color = RGB(
-			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height,
-			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height,
+			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
+			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
 			((height-i-1)*rgb0->rgbBlue  + i*rgb1->rgbBlue)  / height);
 		rc.top = rc.bottom = i;
 		++rc.bottom;
@@ -150,13 +150,13 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 	RECT temprc;
 	HFONT hfntSave;
 
-	HDC hdc=BeginPaint(hwndDlg,&ps);
+	HDC hdc=BeginPaint(hwndDlg, &ps);
 	HDC tempDC=CreateCompatibleDC(hdc);
 
 	SIZE titleSize = {0};
 
-	hBmp=CreateCompatibleBitmap(hdc,dat->width, dat->height);
-	hOldBmp=(HBITMAP)SelectObject(tempDC,hBmp);
+	hBmp=CreateCompatibleBitmap(hdc, dat->width, dat->height);
+	hOldBmp=(HBITMAP)SelectObject(tempDC, hBmp);
 
 	temprc.left=0;
 	temprc.right=dat->width;
@@ -212,11 +212,11 @@ static LRESULT MDescButton_OnPaint(HWND hwndDlg, MDescButtonCtrl *dat, UINT  msg
 	SelectObject(tempDC, hfntSave);
 
 	//Copy to output
-	BitBlt(hdc,dat->rc.left,dat->rc.top,dat->width,dat->height,tempDC,0,0,SRCCOPY);
-	SelectObject(tempDC,hOldBmp);
+	BitBlt(hdc, dat->rc.left, dat->rc.top, dat->width, dat->height, tempDC, 0, 0, SRCCOPY);
+	SelectObject(tempDC, hOldBmp);
 	DeleteObject(hBmp);
 	DeleteDC(tempDC);
-	EndPaint(hwndDlg,&ps);
+	EndPaint(hwndDlg, &ps);
 
 	return TRUE;
 }
@@ -240,7 +240,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		break;
 
 	case WM_SIZE:
-		GetClientRect(hwndDlg,&dat->rc);
+		GetClientRect(hwndDlg, &dat->rc);
 		dat->width=dat->rc.right-dat->rc.left;
 		dat->height=dat->rc.bottom-dat->rc.top;
 		return TRUE;

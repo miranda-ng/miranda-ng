@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2012 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2012 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -78,7 +78,7 @@ typedef struct PLUGIN_DB_ENUM {
 //this is primarily for use by the core's module initialiser, but could also
 //be used by modules that are doing naughty things that are very
 //feature-dependent
-#define MS_PLUGINS_GETDISABLEDEFAULTARRAY	   "Plugins/GetDisableDefaultArray" 
+#define MS_PLUGINS_GETDISABLEDEFAULTARRAY	   "Plugins/GetDisableDefaultArray"
 
 #endif // M_PLUGINS_H__
 

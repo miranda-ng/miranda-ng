@@ -258,7 +258,7 @@ void CGlobals::reloadSystemModulesChanged()
 	}
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
-	PluginConfig.m_hMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+	PluginConfig.m_hMenuItem = Menu_AddContactMenuItem(&mi);
 
 	m_useAeroPeek = M->GetByte("useAeroPeek", 1);
 }
@@ -444,7 +444,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszContactOwner = NULL;
 	mi.pszName = LPGEN("&Messaging settings...");
 	mi.pszService = MS_TABMSG_SETUSERPREFS;
-	PluginConfig.m_UserMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if(sendLater->isAvail()) {
 		mi.cbSize = sizeof(mi);
@@ -453,7 +453,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.pszContactOwner = NULL;
 		mi.pszName = LPGEN("&Send later job list...");
 		mi.pszService = MS_TABMSG_SLQMGR;
-		PluginConfig.m_UserMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM) & mi);
+		PluginConfig.m_UserMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 	RestoreUnreadMessageAlerts();
 

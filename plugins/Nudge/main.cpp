@@ -795,44 +795,36 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	newNudge->next = NudgeList;
 	NudgeList = newNudge;
 	
-	if(ServiceExists(MS_SKIN2_ADDICON))
-	{
-		SKINICONDESC sid = {0};
-		TCHAR szFilename[MAX_PATH];
-		char iconName[MAXMODULELABELLENGTH + 10];
-		TCHAR iconDesc[MAXMODULELABELLENGTH + 10];
-		GetModuleFileName(hInst,szFilename,MAX_PATH);
+	char iconName[MAXMODULELABELLENGTH + 10];
+	mir_snprintf(iconName,sizeof(iconName),"Nudge_%s",proto->szModuleName);
 
-		sid.cbSize = SKINICONDESC_SIZE;
-		sid.flags = SIDF_ALL_TCHAR;
-		sid.ptszSection = LPGENT("Nudge");
-		sid.ptszDefaultFile = szFilename;
-		mir_snprintf(iconName,sizeof(iconName),"Nudge_%s",proto->szModuleName);
-		sid.pszName = iconName;
-		mir_sntprintf(iconDesc,sizeof(iconDesc),TranslateT("Nudge for %s"),proto->tszAccountName);
-		sid.ptszDescription = iconDesc;
-		sid.iDefaultIndex = -IDI_NUDGE;
-		sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
-		newNudge->item.hIcoLibItem = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-	}
+	TCHAR szFilename[MAX_PATH], iconDesc[MAXMODULELABELLENGTH + 10];
+	GetModuleFileName(hInst,szFilename,MAX_PATH);
+	mir_sntprintf(iconDesc, SIZEOF(iconDesc), TranslateT("Nudge for %s"), proto->tszAccountName);
+
+	SKINICONDESC sid = {0};
+	sid.cbSize = SKINICONDESC_SIZE;
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszSection = LPGENT("Nudge");
+	sid.ptszDefaultFile = szFilename;
+	sid.pszName = iconName;
+	sid.ptszDescription = iconDesc;
+	sid.iDefaultIndex = -IDI_NUDGE;
+	sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
+	newNudge->item.hIcoLibItem = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
 	
 	//Add contact menu entry
-	if(ServiceExists(MS_CLIST_ADDCONTACTMENUITEM))
-	{
-		//Add contact menu entry
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(mi);
-
-		mi.popupPosition = 500085000;
-		mi.pszContactOwner = proto->szModuleName;
-		mi.pszPopupName = proto->szModuleName;
-		mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
-		mi.position = -500050004;
-		mi.icolibItem = newNudge->item.hIcoLibItem;
-		mi.ptszName = LPGENT( "Send &Nudge" );
-		mi.pszService = MS_NUDGE_SEND;
-		newNudge->item.hContactMenu = (HANDLE) CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, ( LPARAM )&mi );
-	}
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi);
+	mi.popupPosition = 500085000;
+	mi.pszContactOwner = proto->szModuleName;
+	mi.pszPopupName = proto->szModuleName;
+	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.position = -500050004;
+	mi.icolibItem = newNudge->item.hIcoLibItem;
+	mi.ptszName = LPGENT( "Send &Nudge" );
+	mi.pszService = MS_NUDGE_SEND;
+	newNudge->item.hContactMenu = Menu_AddContactMenuItem(&mi);
 }
 
 void AutoResendNudge(void *wParam) 

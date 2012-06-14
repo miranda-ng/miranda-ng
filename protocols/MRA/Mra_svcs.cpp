@@ -30,8 +30,7 @@ INT_PTR LoadServices(void)
 	pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
 
 	// Service creation
-	for (SIZE_T i=0;i<SIZEOF(siPluginServices);i++)
-	{
+	for (SIZE_T i=0;i<SIZEOF(siPluginServices);i++) {
 		memmove(pszServiceFunctionName,siPluginServices[i].lpszName,(lstrlenA(siPluginServices[i].lpszName)+1));
 		CreateServiceFunction(szServiceFunction,siPluginServices[i].lpFunc);
 	}
@@ -67,28 +66,24 @@ INT_PTR LoadModules(void)
 
 
 	// Main menu initialization
-	CListCreateMenu(2000060000,500085000,(HANDLE)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(IDI_MRA),IMAGE_ICON,0,0,LR_SHARED),NULL,MS_CLIST_ADDMAINMENUITEM,gdiMenuItems,masMraSettings.hMainMenuIcons,SIZEOF(gdiMenuItems),masMraSettings.hMainMenuItems);
+	CListCreateMenu(2000060000,500085000,(HANDLE)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(IDI_MRA),IMAGE_ICON,0,0,LR_SHARED),NULL,TRUE,gdiMenuItems,masMraSettings.hMainMenuIcons,SIZEOF(gdiMenuItems),masMraSettings.hMainMenuItems);
 
 	// Contact menu initialization
-	CListCreateMenu(2000060000,-500050000,NULL,NULL,MS_CLIST_ADDCONTACTMENUITEM,gdiContactMenuItems,masMraSettings.hContactMenuIcons,(SIZEOF(gdiContactMenuItems) - ((masMraSettings.heNudgeReceived==NULL)? 0:1)),masMraSettings.hContactMenuItems);
+	CListCreateMenu(2000060000,-500050000,NULL,NULL,FALSE,gdiContactMenuItems,masMraSettings.hContactMenuIcons,(SIZEOF(gdiContactMenuItems) - ((masMraSettings.heNudgeReceived==NULL)? 0:1)),masMraSettings.hContactMenuItems);
 
 	// xstatus menu
-	if (ServiceExists(MS_CLIST_ADDSTATUSMENUITEM))
-	{
-		InitXStatusIcons();
-		for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) 
-		{
-			mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
-			CreateServiceFunctionParam(szServiceFunction,MraXStatusMenu,i);
-		}
-
-		masMraSettings.bHideXStatusUI=FALSE;
-		masMraSettings.dwXStatusMode=DB_Mra_GetByte(NULL,DBSETTING_XSTATUSID,MRA_MIR_XSTATUS_NONE);
-		if (IsXStatusValid(masMraSettings.dwXStatusMode)==FALSE) masMraSettings.dwXStatusMode=MRA_MIR_XSTATUS_NONE;
-
-		masMraSettings.hHookRebuildStatusMenu=HookEvent(ME_CLIST_PREBUILDSTATUSMENU,MraRebuildStatusMenu);
-		MraRebuildStatusMenu(0,0);
+	InitXStatusIcons();
+	for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) {
+		mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
+		CreateServiceFunctionParam(szServiceFunction,MraXStatusMenu,i);
 	}
+
+	masMraSettings.bHideXStatusUI=FALSE;
+	masMraSettings.dwXStatusMode=DB_Mra_GetByte(NULL,DBSETTING_XSTATUSID,MRA_MIR_XSTATUS_NONE);
+	if (IsXStatusValid(masMraSettings.dwXStatusMode)==FALSE) masMraSettings.dwXStatusMode=MRA_MIR_XSTATUS_NONE;
+
+	masMraSettings.hHookRebuildStatusMenu=HookEvent(ME_CLIST_PREBUILDSTATUSMENU,MraRebuildStatusMenu);
+	MraRebuildStatusMenu(0,0);
 
 	MraExtraIconsRebuild(0,0);
 
@@ -119,19 +114,19 @@ void UnloadModules()
 	}
 
 	// xstatus menu destroy
-	if (ServiceExists(MS_CLIST_ADDSTATUSMENUITEM))
-	{
-		if (masMraSettings.hHookRebuildStatusMenu)	{UnhookEvent(masMraSettings.hHookRebuildStatusMenu);	masMraSettings.hHookRebuildStatusMenu=NULL;}
-
-		bzero(masMraSettings.hXStatusMenuItems,sizeof(masMraSettings.hXStatusMenuItems));
-		// Service deletion
-		for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) 
-		{
-			mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
-			DestroyServiceFunction(szServiceFunction);
-		}
-		DestroyXStatusIcons();
+	if (masMraSettings.hHookRebuildStatusMenu) {
+		UnhookEvent(masMraSettings.hHookRebuildStatusMenu);
+		masMraSettings.hHookRebuildStatusMenu=NULL;
 	}
+
+	bzero(masMraSettings.hXStatusMenuItems,sizeof(masMraSettings.hXStatusMenuItems));
+	
+	// Service deletion
+	for(SIZE_T i=0;i<MRA_XSTATUS_COUNT;i++) {
+		mir_snprintf(pszServiceFunctionName,(SIZEOF(szServiceFunction)-PROTOCOL_NAME_LEN),"/menuXStatus%ld",i);
+		DestroyServiceFunction(szServiceFunction);
+	}
+	DestroyXStatusIcons();
 
 	// Main menu destroy
 	CListDestroyMenu(gdiMenuItems,SIZEOF(gdiMenuItems));
@@ -943,7 +938,6 @@ int MraRebuildStatusMenu(WPARAM wParam,LPARAM lParam)
 {
 	CHAR szServiceFunction[MAX_PATH*2],*pszServiceFunctionName,szValueName[MAX_PATH];
 	WCHAR szItem[MAX_PATH+64],szStatusTitle[STATUS_TITLE_MAX+4];
-	HANDLE hXStatusRoot;
 	CLISTMENUITEM mi={0};
 
 	memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
@@ -979,7 +973,7 @@ int MraRebuildStatusMenu(WPARAM wParam,LPARAM lParam)
 			mi.ptszName=lpcszXStatusNameDef[i];
 			mi.hIcon=NULL;
 		}
-		masMraSettings.hXStatusMenuItems[i]=(HANDLE)CallService(MS_CLIST_ADDSTATUSMENUITEM,(WPARAM)&hXStatusRoot,(LPARAM)&mi);
+		masMraSettings.hXStatusMenuItems[i] = Menu_AddStatusMenuItem(&mi);
 	}
 return(0);
 }

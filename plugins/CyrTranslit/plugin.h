@@ -41,7 +41,7 @@
 #include "m_protosvc.h"
 #include "m_system.h"
 #include "m_clist.h"
-
+#include "m_langpack.h"
 
 
 /****** PLUGIN DEFINES *******************************************************/

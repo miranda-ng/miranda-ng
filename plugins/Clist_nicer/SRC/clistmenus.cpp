@@ -478,7 +478,7 @@ int InitCustomMenus(void)
             mi.pszPopupName = ( char* )-1;
             mi.pszService = "CList/SetContactIgnore";
             mi.pszName = LPGEN("&Contact list settings...");
-            hIgnoreItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+            hIgnoreItem = Menu_AddContactMenuItem(&mi);
         }
     }
     hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);

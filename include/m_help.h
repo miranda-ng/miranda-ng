@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -27,8 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // wParam = 0
 // lParam = (char *)url;
-// Sends the bug report url in lParam.  Is usually called from 
-// the Help/Report Bug menu.  
+// Sends the bug report url in lParam.  Is usually called from
+// the Help/Report Bug menu.
 #define ME_HELP_BUGREPORT "Help/ReportBug"
 
 #endif // M_HELP_H__

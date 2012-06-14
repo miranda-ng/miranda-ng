@@ -194,7 +194,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mi.hIcon=0;
 	mi.pszName=Translate("Test folders");
 	mi.pszService=MS_FOLDERS_TEST_PLUGIN;
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 #endif
 #if _MSC_VER >= 1300
 	Log("%s", "Hooking events ...");	

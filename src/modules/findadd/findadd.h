@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -35,12 +35,12 @@ struct FindAddDlgData {
 	int bSortAscending;
 	int iLastColumnSortIndex;
 	HIMAGELIST himlComboIcons;
-	int showProtoId,showEmail,showName,showAdvanced,showTiny;
+	int showProtoId, showEmail, showName, showAdvanced, showTiny;
 	int minDlgHeight;
 	int notSearchedYet;
 	struct ProtoSearchInfo *search;
 	int searchCount;
-	HBITMAP hBmpSortUp,hBmpSortDown;
+	HBITMAP hBmpSortUp, hBmpSortDown;
 	int throbbing;
 	int pivot;
 	HWND hwndAdvSearch;
@@ -50,10 +50,10 @@ struct FindAddDlgData {
 
 int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 void FreeSearchResults(HWND hwndResults);
-int BeginSearch(HWND hwndDlg,struct FindAddDlgData *dat,const char *szProto,const char *szSearchService,DWORD requiredCapability,void *pvSearchParams);
-void SetStatusBarSearchInfo(HWND hwndStatus,struct FindAddDlgData *dat);
+int BeginSearch(HWND hwndDlg, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams);
+void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat);
 void SetStatusBarResultInfo(HWND hwndDlg);
-void CreateResultsColumns(HWND hwndResults,struct FindAddDlgData *dat,char *szProto);
-void EnableResultButtons(HWND hwndDlg,int enable);
-void ShowMoreOptionsMenu(HWND hwndDlg,int x,int y);
+void CreateResultsColumns(HWND hwndResults, struct FindAddDlgData *dat, char *szProto);
+void EnableResultButtons(HWND hwndDlg, int enable);
+void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y);
 void SaveColumnSizes(HWND hwndResults);

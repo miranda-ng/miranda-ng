@@ -120,11 +120,7 @@ void MirandaContact::generateMenuItemsForAllContacts()
 {
     CLISTMENUITEM mi;
     fillInMenuItem(mi);
-    
-    int hItem = CallService(
-        MS_CLIST_ADDCONTACTMENUITEM, 0, reinterpret_cast<LPARAM>(&mi));
-    
-    hTransliterateCmdMenuItem = reinterpret_cast<HANDLE>(hItem);
+    hTransliterateCmdMenuItem = Menu_AddContactMenuItem(&mi);
 }
 
 //------------------------------------------------------------------------------

@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -31,32 +31,32 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Sets whether a dropdown arrow is used
 // wParam = TRUE/FALSE turns arrow on or off
 // lParam = not used
-// Usage: SendMessage(hwndbutton,BUTTONSETARROW,1,0);
+// Usage: SendMessage(hwndbutton, BUTTONSETARROW, 1, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETARROW       (WM_USER+1)
 
 // Sets whether the button is a default button
 // wParam = TRUE/FALSE default on/off
 // lParam = not used
-// Usage: SendMessage(hwndbutton,BUTTONSETDEFAULT,1,0);
+// Usage: SendMessage(hwndbutton, BUTTONSETDEFAULT, 1, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETDEFAULT     (WM_USER+2)
 
 // Sets the button as a push button
 // wParam = lParam = not used
-// Usage: SendMessage(hwndbutton,BUTTONSETASPUSHBTN,0,0);
+// Usage: SendMessage(hwndbutton, BUTTONSETASPUSHBTN, 0, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETASPUSHBTN   (WM_USER+3)
 
 // Sets the button type as a flat button without borders v0.3.3+
-// Usage: SendMessage(hwndbutton,BUTTONSETASFLATBTN,0,0);
+// Usage: SendMessage(hwndbutton, BUTTONSETASFLATBTN, 0, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETASFLATBTN   (WM_USER+4)
 
 // Sets a tooltip for the button v0.3.3+
 // wParam = (WPARAM)(char *)szTip
 // lParam = not used
-// Usage: SendMessage(hwndButton,BUTTONADDTOOLTIP,(WPARAM)"My Tip",BATF_* flags);
+// Usage: SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)"My Tip", BATF_* flags);
 #define BATF_UNICODE 1
 #if defined( _UNICODE )
 	#define BATF_TCHAR BATF_UNICODE

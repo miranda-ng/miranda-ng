@@ -15,7 +15,7 @@
 
 
 //
-//  AEROWIZARDSTYLE class parts and states 
+//  AEROWIZARDSTYLE class parts and states
 //
 #define VSCLASS_AEROWIZARDSTYLE	L"AEROWIZARDSTYLE"
 #define VSCLASS_AEROWIZARD	L"AEROWIZARD"
@@ -45,7 +45,7 @@ enum CONTENTAREASTATES {
 
 
 //
-//  BUTTONSTYLE class parts and states 
+//  BUTTONSTYLE class parts and states
 //
 #define VSCLASS_BUTTONSTYLE	L"BUTTONSTYLE"
 #define VSCLASS_BUTTON	L"BUTTON"
@@ -129,7 +129,7 @@ enum COMMANDLINKGLYPHSTATES {
 
 
 //
-//  COMBOBOXSTYLE class parts and states 
+//  COMBOBOXSTYLE class parts and states
 //
 #define VSCLASS_COMBOBOXSTYLE	L"COMBOBOXSTYLE"
 #define VSCLASS_COMBOBOX	L"COMBOBOX"
@@ -198,7 +198,7 @@ enum CUEBANNERSTATES {
 
 
 //
-//  COMMUNICATIONSSTYLE class parts and states 
+//  COMMUNICATIONSSTYLE class parts and states
 //
 #define VSCLASS_COMMUNICATIONSSTYLE	L"COMMUNICATIONSSTYLE"
 #define VSCLASS_COMMUNICATIONS	L"COMMUNICATIONS"
@@ -217,7 +217,7 @@ enum TABSTATES {
 
 
 //
-//  CONTROLPANELSTYLE class parts and states 
+//  CONTROLPANELSTYLE class parts and states
 //
 #define VSCLASS_CONTROLPANELSTYLE	L"CONTROLPANELSTYLE"
 #define VSCLASS_CONTROLPANEL	L"CONTROLPANEL"
@@ -275,7 +275,7 @@ enum SECTIONTITLELINKSTATES {
 
 
 //
-//  DATEPICKERSTYLE class parts and states 
+//  DATEPICKERSTYLE class parts and states
 //
 #define VSCLASS_DATEPICKERSTYLE	L"DATEPICKERSTYLE"
 #define VSCLASS_DATEPICKER	L"DATEPICKER"
@@ -310,7 +310,7 @@ enum SHOWCALENDARBUTTONRIGHTSTATES {
 
 
 //
-//  DRAGDROPSTYLE class parts and states 
+//  DRAGDROPSTYLE class parts and states
 //
 #define VSCLASS_DRAGDROPSTYLE	L"DRAGDROPSTYLE"
 #define VSCLASS_DRAGDROP	L"DRAGDROP"
@@ -360,7 +360,7 @@ enum NONESTATES {
 
 
 //
-//  EDITSTYLE class parts and states 
+//  EDITSTYLE class parts and states
 //
 #define VSCLASS_EDITSTYLE	L"EDITSTYLE"
 #define VSCLASS_EDIT	L"EDIT"
@@ -436,7 +436,7 @@ enum EDITBORDER_HVSCROLLSTATES {
 
 
 //
-//  EXPLORERBARSTYLE class parts and states 
+//  EXPLORERBARSTYLE class parts and states
 //
 #define VSCLASS_EXPLORERBARSTYLE	L"EXPLORERBARSTYLE"
 #define VSCLASS_EXPLORERBAR	L"EXPLORERBAR"
@@ -505,7 +505,7 @@ enum SPECIALGROUPEXPANDSTATES {
 
 
 //
-//  FLYOUTSTYLE class parts and states 
+//  FLYOUTSTYLE class parts and states
 //
 #define VSCLASS_FLYOUTSTYLE	L"FLYOUTSTYLE"
 #define VSCLASS_FLYOUT	L"FLYOUT"
@@ -547,7 +547,7 @@ enum LINKHEADERSTATES {
 
 
 //
-//  HEADERSTYLE class parts and states 
+//  HEADERSTYLE class parts and states
 //
 #define VSCLASS_HEADERSTYLE	L"HEADERSTYLE"
 #define VSCLASS_HEADER	L"HEADER"
@@ -620,7 +620,7 @@ enum HEADEROVERFLOWSTATES {
 
 
 //
-//  LISTBOXSTYLE class parts and states 
+//  LISTBOXSTYLE class parts and states
 //
 #define VSCLASS_LISTBOXSTYLE	L"LISTBOXSTYLE"
 #define VSCLASS_LISTBOX	L"LISTBOX"
@@ -672,7 +672,7 @@ enum ITEMSTATES {
 
 
 //
-//  LISTVIEWSTYLE class parts and states 
+//  LISTVIEWSTYLE class parts and states
 //
 #define VSCLASS_LISTVIEWSTYLE	L"LISTVIEWSTYLE"
 #define VSCLASS_LISTVIEW	L"LISTVIEW"
@@ -753,7 +753,7 @@ enum COLLAPSEBUTTONSTATES {
 
 
 //
-//  MENUSTYLE class parts and states 
+//  MENUSTYLE class parts and states
 //
 #define VSCLASS_MENUSTYLE	L"MENUSTYLE"
 #define VSCLASS_MENU	L"MENU"
@@ -844,7 +844,7 @@ enum SYSTEMRESTORESTATES {
 
 
 //
-//  NAVIGATION class parts and states 
+//  NAVIGATION class parts and states
 //
 #define VSCLASS_NAVIGATION	L"NAVIGATION"
 
@@ -877,7 +877,7 @@ enum NAV_MENUBUTTONSTATES {
 
 
 //
-//  PROGRESSSTYLE class parts and states 
+//  PROGRESSSTYLE class parts and states
 //
 #define VSCLASS_PROGRESSSTYLE	L"PROGRESSSTYLE"
 #define VSCLASS_PROGRESS	L"PROGRESS"
@@ -925,7 +925,7 @@ enum FILLVERTSTATES {
 
 
 //
-//  REBARSTYLE class parts and states 
+//  REBARSTYLE class parts and states
 //
 #define VSCLASS_REBARSTYLE	L"REBARSTYLE"
 #define VSCLASS_REBAR	L"REBAR"
@@ -969,7 +969,7 @@ enum SPLITTERVERTSTATES {
 
 
 //
-//  SCROLLBARSTYLE class parts and states 
+//  SCROLLBARSTYLE class parts and states
 //
 #define VSCLASS_SCROLLBARSTYLE	L"SCROLLBARSTYLE"
 #define VSCLASS_SCROLLBAR	L"SCROLLBAR"
@@ -1033,7 +1033,7 @@ enum SIZEBOXSTATES {
 
 
 //
-//  SPINSTYLE class parts and states 
+//  SPINSTYLE class parts and states
 //
 #define VSCLASS_SPINSTYLE	L"SPINSTYLE"
 #define VSCLASS_SPIN	L"SPIN"
@@ -1077,7 +1077,7 @@ enum DOWNHORZSTATES {
 
 
 //
-//  STATUSSTYLE class parts and states 
+//  STATUSSTYLE class parts and states
 //
 #define VSCLASS_STATUSSTYLE	L"STATUSSTYLE"
 #define VSCLASS_STATUS	L"STATUS"
@@ -1092,7 +1092,7 @@ enum STATUSPARTS {
 
 
 //
-//  TABSTYLE class parts and states 
+//  TABSTYLE class parts and states
 //
 #define VSCLASS_TABSTYLE	L"TABSTYLE"
 #define VSCLASS_TAB	L"TAB"
@@ -1179,7 +1179,7 @@ enum TOPTABITEMBOTHEDGESTATES {
 
 
 //
-//  TASKDIALOGSTYLE class parts and states 
+//  TASKDIALOGSTYLE class parts and states
 //
 #define VSCLASS_TASKDIALOGSTYLE	L"TASKDIALOGSTYLE"
 #define VSCLASS_TASKDIALOG	L"TASKDIALOG"
@@ -1225,7 +1225,7 @@ enum EXPANDOBUTTONSTATES {
 
 
 //
-//  TEXTSTYLE class parts and states 
+//  TEXTSTYLE class parts and states
 //
 #define VSCLASS_TEXTSTYLE	L"TEXTSTYLE"
 
@@ -1255,7 +1255,7 @@ enum CONTROLLABELSTATES {
 
 
 //
-//  TOOLBARSTYLE class parts and states 
+//  TOOLBARSTYLE class parts and states
 //
 #define VSCLASS_TOOLBARSTYLE	L"TOOLBARSTYLE"
 #define VSCLASS_TOOLBAR	L"TOOLBAR"
@@ -1285,7 +1285,7 @@ enum TOOLBARSTYLESTATES {
 
 
 //
-//  TOOLTIPSTYLE class parts and states 
+//  TOOLTIPSTYLE class parts and states
 //
 #define VSCLASS_TOOLTIPSTYLE	L"TOOLTIPSTYLE"
 #define VSCLASS_TOOLTIP	L"TOOLTIP"
@@ -1335,7 +1335,7 @@ enum WRENCHSTATES {
 
 
 //
-//  TRACKBARSTYLE class parts and states 
+//  TRACKBARSTYLE class parts and states
 //
 #define VSCLASS_TRACKBARSTYLE	L"TRACKBARSTYLE"
 #define VSCLASS_TRACKBAR	L"TRACKBAR"
@@ -1425,7 +1425,7 @@ enum TICSVERTSTATES {
 
 
 //
-//  TREEVIEWSTYLE class parts and states 
+//  TREEVIEWSTYLE class parts and states
 //
 #define VSCLASS_TREEVIEWSTYLE	L"TREEVIEWSTYLE"
 #define VSCLASS_TREEVIEW	L"TREEVIEW"
@@ -1460,7 +1460,7 @@ enum HOTGLYPHSTATES {
 
 
 //
-//  WINDOWSTYLE class parts and states 
+//  WINDOWSTYLE class parts and states
 //
 #define VSCLASS_WINDOWSTYLE	L"WINDOWSTYLE"
 #define VSCLASS_WINDOW	L"WINDOW"

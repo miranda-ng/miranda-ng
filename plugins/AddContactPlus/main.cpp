@@ -110,7 +110,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		mi.icolibItem = hIconLibItem;
 		mi.ptszName = LPGENT("&Add Contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
-		hMainMenuItem = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi);
+		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 		if (ServiceExists(MS_TB_ADDBUTTON))
 		{

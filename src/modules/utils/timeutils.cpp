@@ -1,7 +1,7 @@
 /*
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2010 Miranda ICQ/IM project,
+Copyright 2010 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -10,7 +10,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -93,16 +93,16 @@ void FormatTime(const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int 
 
 		if (iso)
 		{
-			dateTimeStrLen = mir_sntprintf(dateTimeStr, SIZEOF(dateTimeStr),
+			dateTimeStrLen = mir_sntprintf(dateTimeStr, SIZEOF(dateTimeStr), 
 				_T("%d-%02d-%02dT%02d:%02d:%02dZ"), 
 				st->wYear, st->wMonth, st->wDay, 
 				st->wHour, st->wMinute, st->wSecond) + 1;
 		}
 		else if (date) 
-			dateTimeStrLen = GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL,
+			dateTimeStrLen = GetDateFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, 
 				dateTimeStr, SIZEOF(dateTimeStr));
 		else
-			dateTimeStrLen = GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL,
+			dateTimeStrLen = GetTimeFormat(LOCALE_USER_DEFAULT, fmt, st, NULL, 
 				dateTimeStr, SIZEOF(dateTimeStr));
 
 		if (dateTimeStrLen) --dateTimeStrLen;
@@ -158,7 +158,7 @@ void ConvertToAbsolute (const SYSTEMTIME * pstLoc, const SYSTEMTIME * pstDst, SY
 
           // Now iDay is a day of the month ranging from 1 to 7.
           // Recall that the wDay field of the structure can range
-          //   from 1 to 5, 1 meaning "first", 2 meaning "second",
+          //   from 1 to 5, 1 meaning "first", 2 meaning "second", 
           //   and 5 meaning "last".
           // So, increase iDay so it's the proper day of the month.
 

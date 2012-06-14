@@ -63,7 +63,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 	LvItemW.mask=LVIF_TEXT;   // Text Style
 	LvItemW.cchTextMax = 256; // Max size of test
 
-	for(i = 0; i < chg->num_contacts; i++)  {
+	for (i = 0; i < chg->num_contacts; i++)  {
 		LvItem.iItem = i;
 		LvItemW.iItem = i;
 		
@@ -71,18 +71,18 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 
 			char *szCDN = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)chg->hContact[i], 0);
 
-			if(os_unicode_enabled) {
+			if (os_unicode_enabled) {
 				wchar_t *swzCDN = (wchar_t *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)chg->hContact[i], GCDNF_UNICODE),
 					*swzContactDisplayName;
 
 				LvItemW.iSubItem = 0; // clist display name
 
 				// detect if the clist provided unicode display name by comparing with non-unicode
-				if(szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0 && wcslen(swzCDN) >= strlen(szCDN)) { 
+				if (szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0 && wcslen(swzCDN) >= strlen(szCDN)) { 
 					swzContactDisplayName = swzCDN;
 				} else {
 					// no? convert to unicode
-					if(szCDN) {
+					if (szCDN) {
 						swzContactDisplayName = (wchar_t *) _alloca(sizeof(wchar_t) * (strlen(szCDN) + 1));
 						MultiByteToWideChar(CP_ACP, 0, (char *) szCDN, -1, swzContactDisplayName, (int)strlen((char *)szCDN) + 1);
 					} else {
@@ -104,7 +104,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 		LvItem.iSubItem = 1; // id
 
 		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)chg->hContact[i], 0);
-		if(proto) {
+		if (proto) {
 			field = (char *)CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
 
 			DBGetContactSetting(chg->hContact[i],proto,field,&dbv);
@@ -176,31 +176,31 @@ void ApplyChanges(CHANGES *chg)
 	int i;
 
 	// remove removed contacts
-	for(i = 0; i < chg->num_deleted; i++) {
+	for (i = 0; i < chg->num_deleted; i++) {
 		Meta_Delete((WPARAM)chg->hDeletedContacts[i], 0);
-		if(chg->hDeletedContacts[i] == chg->hDefaultContact)
+		if (chg->hDeletedContacts[i] == chg->hDefaultContact)
 			chg->hDefaultContact = 0;
-		if(chg->hDeletedContacts[i] == chg->hOfflineContact)
+		if (chg->hDeletedContacts[i] == chg->hOfflineContact)
 			chg->hOfflineContact = 0;
 	}
 
 	// set contact positions
-	for(i = 0; i < chg->num_contacts; i++) {
-		if(Meta_GetContactNumber(chg->hContact[i]) != i)
+	for (i = 0; i < chg->num_contacts; i++) {
+		if (Meta_GetContactNumber(chg->hContact[i]) != i)
 			Meta_SwapContacts(chg->hMeta, Meta_GetContactNumber(chg->hContact[i]), i);
 	}
 
 	NotifyEventHooks(hSubcontactsChanged, (WPARAM)chg->hMeta, (LPARAM)chg->hDefaultContact);
 
 	// set default
-	if(chg->hDefaultContact)
+	if (chg->hDefaultContact)
 		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "Default", Meta_GetContactNumber(chg->hDefaultContact));
 	else
 		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "Default", 0);
 	NotifyEventHooks(hEventDefaultChanged, (WPARAM)chg->hMeta, (LPARAM)chg->hDefaultContact);
 
 	// set offline
-	if(chg->hOfflineContact)
+	if (chg->hOfflineContact)
 		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->hOfflineContact));
 	else
 		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "OfflineSend", (DWORD)-1);
@@ -214,7 +214,7 @@ void ApplyChanges(CHANGES *chg)
 
 	// fix avatar
 	most_online = Meta_GetMostOnlineSupporting(chg->hMeta, PFLAGNUM_4, PF4_AVATARS);
-	if(most_online) {
+	if (most_online) {
 		PROTO_AVATAR_INFORMATION AI;
 
 		AI.cbSize = sizeof(AI);
@@ -226,7 +226,7 @@ void ApplyChanges(CHANGES *chg)
 	        DBWriteContactSettingString(chg->hMeta, "ContactPhoto", "File",AI.filename);
 	}
 
-	if(MetaAPI_GetForceState((WPARAM)chg->hMeta, 0) != chg->force_default)
+	if (MetaAPI_GetForceState((WPARAM)chg->hMeta, 0) != chg->force_default)
 		MetaAPI_ForceDefault((WPARAM)chg->hMeta, 0);
 }
 
@@ -253,7 +253,7 @@ LRESULT ProcessCustomDraw (LPARAM lParam)
                 lplvcd->clrTextBk = RGB(255,255,255);
             }
 			*/
-			if(changes.hContact[(int)lplvcd->nmcd.dwItemSpec] == changes.hDefaultContact) {
+			if (changes.hContact[(int)lplvcd->nmcd.dwItemSpec] == changes.hDefaultContact) {
                 lplvcd->clrText = RGB(255, 0, 0);
 			}
             return CDRF_NEWFONT;
@@ -346,7 +346,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			changes.num_deleted = 0;
 			changes.hDefaultContact = Meta_GetContactHandle((HANDLE)lParam, default_contact_number);
 			changes.hOfflineContact = Meta_GetContactHandle((HANDLE)lParam, offline_contact_number);
-			for(i = 0; i < nb_contacts; i++)
+			for (i = 0; i < nb_contacts; i++)
 				changes.hContact[i] = Meta_GetContactHandle((HANDLE)lParam, i);
 			changes.force_default = MetaAPI_GetForceState((WPARAM)lParam, 0);
 
@@ -361,16 +361,16 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			{
 
 				char *szCDN = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)lParam, 0);
-				if(os_unicode_enabled) {
+				if (os_unicode_enabled) {
 					wchar_t *swzCDN = (wchar_t *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)lParam, GCDNF_UNICODE),
 						*swzContactDisplayName;
 
 					// detect if the clist provided unicode display name by comparing with non-unicode
-					if(szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0 && wcslen(swzCDN) >= strlen(szCDN)) { 
+					if (szCDN && swzCDN && strncmp(szCDN, (char *)swzCDN, strlen(szCDN)) != 0 && wcslen(swzCDN) >= strlen(szCDN)) { 
 						swzContactDisplayName = swzCDN;
 					} else {
 						// no? convert to unicode
-						if(szCDN) {
+						if (szCDN) {
 							swzContactDisplayName = (wchar_t *) _alloca(sizeof(wchar_t) * (strlen(szCDN) + 1));
 							MultiByteToWideChar(CP_ACP, 0, (char *) szCDN, -1, swzContactDisplayName, (int)strlen((char *)szCDN) + 1);
 						} else {
@@ -419,9 +419,9 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					switch(LOWORD(wParam))
 					{
 						case IDC_VALIDATE:			// Apply changes, if there is still one contact attached to the metacontact.
-							if(changes.num_contacts == 0)	// Otherwise, delete the metacontact.
+							if (changes.num_contacts == 0)	// Otherwise, delete the metacontact.
 							{
-								if(MessageBox(hwndDlg,Translate("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"),
+								if (MessageBox(hwndDlg,Translate("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"),
 									Translate("Delete MetaContact?"),MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON1)!=IDYES)
 									return TRUE;
 								else
@@ -437,11 +437,11 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							EnableWindow(GetDlgItem(hwndDlg,IDC_VALIDATE),FALSE);
 							break;
 						case IDOK:
-							if(IsWindowEnabled(GetDlgItem(hwndDlg,IDC_VALIDATE)))
+							if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_VALIDATE)))
 							{							// If there are changes that could be made,
-								if(changes.num_contacts == 0)	// do the work that would have be done if
+								if (changes.num_contacts == 0)	// do the work that would have be done if
 								{						// the button 'Apply' has been clicked.
-									if(MessageBox(hwndDlg,Translate("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"),
+									if (MessageBox(hwndDlg,Translate("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"),
 										Translate("Delete MetaContact?"),MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON1)!=IDYES)
 									{
 										return TRUE;
@@ -494,8 +494,8 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							sel=SendMessage(hwnd,LVM_GETNEXTITEM,-1,LVNI_FOCUSED|LVNI_SELECTED); // return item selected
 							changes.num_contacts--;
 							changes.hDeletedContacts[changes.num_deleted++] = changes.hContact[sel];
-							if(changes.hDefaultContact == changes.hContact[sel]) {
-								if(changes.num_contacts > 0) {
+							if (changes.hDefaultContact == changes.hContact[sel]) {
+								if (changes.num_contacts > 0) {
 									changes.hDefaultContact = changes.hContact[0];
 									str = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)changes.hDefaultContact, 0);
 									SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT),str);
@@ -506,7 +506,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 							}
 
-							for(i = sel; i < changes.num_contacts; i++)
+							for (i = sel; i < changes.num_contacts; i++)
 								changes.hContact[i] = changes.hContact[i + 1];
 							FillContactList(hwndDlg, &changes);
 							// disable buttons

@@ -1384,7 +1384,7 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		mi.position=1000000000;
 		mi.ptszName=(IsWindowVisible(hwndConsole))?TranslateT("Hide Console"):TranslateT("Show Console");
 		mi.pszService=MS_CONSOLE_SHOW_HIDE;
-		hMenu = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+		hMenu = Menu_AddMainMenuItem(&mi);
 
 		OnFontChange(0,0);
 		OnColourChange(0,0);

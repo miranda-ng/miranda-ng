@@ -558,7 +558,7 @@ int TN_ModuleInit()
 		}
 		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
 		mi.pszPopupName = LPGEN("PopUps");
-		hDisableMenu = (HANDLE) CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
 	SkinAddNewSoundEx("TNStart", "Instant messages", "Contact started typing");
 	SkinAddNewSoundEx("TNStop", "Instant messages", "Contact stopped typing");

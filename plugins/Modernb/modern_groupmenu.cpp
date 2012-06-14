@@ -297,7 +297,7 @@ void GroupMenus_Init(void)
 	CreateServiceFunction("CLISTMENUSGroup/HideOfflineRootHelper",HideOfflineRootHelper);
 	CreateServiceFunction("CLISTMENUSGroup/CreateGroupHelper",CreateGroupHelper);
 
-	CreateServiceFunction(MS_CLIST_ADDGROUPMENUITEM,AddGroupMenuItem);
+	CreateServiceFunction("CList/AddGroupMenuItem",AddGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_REMOVEGROUPMENUITEM,RemoveGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDGROUP,BuildGroupMenu);
 
@@ -689,23 +689,22 @@ void InitSubGroupMenus(void)
 {
 	TMenuParam tmp;
 	OptParam op;
-	
+
 	CreateServiceFunction("CLISTMENUSSubGroup/ExecService",SubGroupMenuExecService);
 	CreateServiceFunction("CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu",FreeOwnerDataSubGroupMenu);
 	CreateServiceFunction("CLISTMENUSSubGroup/SubGroupMenuonAddService",SubGroupMenuonAddService);
-  CreateServiceFunction("CLISTMENUSSubGroup/SubGroupMenuCheckService",SubGroupMenuCheckService);
+	CreateServiceFunction("CLISTMENUSSubGroup/SubGroupMenuCheckService",SubGroupMenuCheckService);
 	CreateServiceFunction("CLISTMENUSSubGroup/GroupMenuExecProxy",GroupMenuExecProxy);
 
 	//CreateServiceFunction("CLISTMENUSSubGroup/HideSubGroupsHelper",HideSubGroupsHelper);
 	//CreateServiceFunction("CLISTMENUSSubGroup/UseSubGroupsHelper",UseSubGroupsHelper);
 	//CreateServiceFunction("CLISTMENUSSubGroup/HideOfflineRootHelper",HideOfflineRootHelper);
 
-	CreateServiceFunction(MS_CLIST_ADDSUBGROUPMENUITEM,AddSubGroupMenuItem);
+	CreateServiceFunction("CList/AddSubGroupMenuItem",AddSubGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_REMOVESUBGROUPMENUITEM,RemoveSubGroupMenuItem);
 	CreateServiceFunction(MS_CLIST_MENUBUILDSUBGROUP,BuildSubGroupMenu);
 
 	ModernHookEvent(ME_CLIST_PREBUILDSUBGROUPMENU,OnBuildSubGroupMenu);
-
 
 	//SubGroup menu
 	memset(&tmp,0,sizeof(tmp));
@@ -714,13 +713,12 @@ void InitSubGroupMenus(void)
 	tmp.ExecService="CLISTMENUSSubGroup/ExecService";
 	tmp.name=LPGEN("SubGroupMenu");
 	hSubGroupMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,(WPARAM)0,(LPARAM)&tmp);
-	
-	
+
 	op.Handle=hSubGroupMenuObject;
 	op.Setting=OPT_USERDEFINEDITEMS;
 	op.Value=TRUE;
 	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
-	
+
 	op.Handle=hSubGroupMenuObject;
 	op.Setting=OPT_MENUOBJECT_SET_FREE_SERVICE;
 	op.Value=(INT_PTR)"CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu";
@@ -731,17 +729,15 @@ void InitSubGroupMenus(void)
 	op.Value=(INT_PTR)"CLISTMENUSSubGroup/SubGroupMenuonAddService";
 	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
 
-    op.Handle=hSubGroupMenuObject;
+	op.Handle=hSubGroupMenuObject;
 	op.Setting=OPT_MENUOBJECT_SET_CHECK_SERVICE;
 	op.Value=(INT_PTR)"CLISTMENUSSubGroup/SubGroupMenuCheckService";
 	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
 
-  
-	{	
 	//add  exit command to menu
 	CLISTMENUITEM mi;
 	GroupMenuParam gmp;
-	
+
 	memset(&mi,0,sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=1000;
@@ -782,7 +778,7 @@ void InitSubGroupMenus(void)
 	gmp.lParam=0;gmp.wParam=POPUP_RENAMEGROUP;
 	AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
-	
+
 	memset(&mi,0,sizeof(mi));
 	mi.cbSize=sizeof(mi);
 	mi.position=900002;
@@ -793,9 +789,6 @@ void InitSubGroupMenus(void)
 	gmp.lParam=0;gmp.wParam=POPUP_DELETEGROUP;
 	AddSubGroupMenuItem((WPARAM)&gmp,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
-	//MS_CLIST_SubGroupCREATE
-
-	};
 }
 
 //////////////////////////////END SubGroup MENU/////////////////////////

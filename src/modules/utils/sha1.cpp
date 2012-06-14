@@ -6,7 +6,7 @@
  * the License. You may obtain a copy of the License at
  * http://www.mozilla.org/MPL/
  *
- * Software distributed under the License is distributed on an "AS IS" basis,
+ * Software distributed under the License is distributed on an "AS IS" basis, 
  * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
  * for the specific language governing rights and limitations under the
  * License.
@@ -22,7 +22,7 @@
  *
  * Alternatively, the contents of this file may be used under the terms of
  * either the GNU General Public License Version 2 or later (the "GPL"), or
- * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"), 
  * in which case the provisions of the GPL or the LGPL are applicable instead
  * of those above. If you wish to allow use of your version of this file only
  * under the terms of either the GPL or the LGPL, and not to allow others to
@@ -119,11 +119,11 @@ void shaBlock(mir_sha1_byte_t *dataIn, int len, mir_sha1_byte_t hashout[20]) {
 }
 
 
-#define SHA_ROTL(X,n) (((X) << (n)) | ((X) >> (32-(n))))
+#define SHA_ROTL(X, n) (((X) << (n)) | ((X) >> (32-(n))))
 
 static void shaHashBlock(mir_sha1_ctx *ctx) {
   int t;
-  unsigned long A,B,C,D,E,TEMP;
+  unsigned long A, B, C, D, E, TEMP;
 
   for (t = 16; t <= 79; t++)
     ctx->W[t] =
@@ -136,19 +136,19 @@ static void shaHashBlock(mir_sha1_ctx *ctx) {
   E = ctx->H[4];
 
   for (t = 0; t <= 19; t++) {
-    TEMP = SHA_ROTL(A,5) + (((C^D)&B)^D)     + E + ctx->W[t] + 0x5a827999L;
+    TEMP = SHA_ROTL(A, 5) + (((C^D)&B)^D)     + E + ctx->W[t] + 0x5a827999L;
     E = D; D = C; C = SHA_ROTL(B, 30); B = A; A = TEMP;
   }
   for (t = 20; t <= 39; t++) {
-    TEMP = SHA_ROTL(A,5) + (B^C^D)           + E + ctx->W[t] + 0x6ed9eba1L;
+    TEMP = SHA_ROTL(A, 5) + (B^C^D)           + E + ctx->W[t] + 0x6ed9eba1L;
     E = D; D = C; C = SHA_ROTL(B, 30); B = A; A = TEMP;
   }
   for (t = 40; t <= 59; t++) {
-    TEMP = SHA_ROTL(A,5) + ((B&C)|(D&(B|C))) + E + ctx->W[t] + 0x8f1bbcdcL;
+    TEMP = SHA_ROTL(A, 5) + ((B&C)|(D&(B|C))) + E + ctx->W[t] + 0x8f1bbcdcL;
     E = D; D = C; C = SHA_ROTL(B, 30); B = A; A = TEMP;
   }
   for (t = 60; t <= 79; t++) {
-    TEMP = SHA_ROTL(A,5) + (B^C^D)           + E + ctx->W[t] + 0xca62c1d6L;
+    TEMP = SHA_ROTL(A, 5) + (B^C^D)           + E + ctx->W[t] + 0xca62c1d6L;
     E = D; D = C; C = SHA_ROTL(B, 30); B = A; A = TEMP;
   }
 

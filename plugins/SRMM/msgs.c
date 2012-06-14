@@ -326,7 +326,7 @@ static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
 		mi.pszName = LPGEN("&Message");
 		mi.pszService = MS_MSG_SENDMESSAGE;
-		hMsgMenuItem = ( HANDLE )CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM) & mi);
+		hMsgMenuItem = Menu_AddContactMenuItem(&mi);
 	}
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 

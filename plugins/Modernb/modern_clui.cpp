@@ -334,7 +334,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 	mi.hIcon=LoadSmallIcon(g_hInst,MAKEINTRESOURCE(IDI_SHOW_AVATAR));
 	mi.pszName=LPGEN("Show Contact &Avatar");
 	mi.pszService="CList/ShowContactAvatar";
-	hShowAvatarMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	CreateServiceFunction("CList/HideContactAvatar",CLUI::Service_Menu_HideContactAvatar);
@@ -342,7 +342,7 @@ HRESULT CLUI::RegisterAvatarMenu()
 	mi.hIcon=LoadSmallIcon(g_hInst,MAKEINTRESOURCE(IDI_HIDE_AVATAR));
 	mi.pszName=LPGEN("Hide Contact &Avatar");
 	mi.pszService="CList/HideContactAvatar";
-	hHideAvatarMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
+	hHideAvatarMenuItem = Menu_AddContactMenuItem(&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	ModernHookEvent(ME_CLIST_PREBUILDCONTACTMENU, CLUI::OnEvent_ContactMenuPreBuild);

@@ -317,7 +317,7 @@ static void gg_block_init(GGPROTO *gg)
 	mi.pszName = LPGEN("&Block");
 	mi.pszService = service;
 	mi.pszContactOwner = GG_PROTO;
-	gg->hBlockMenuItem = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	gg->hBlockMenuItem = Menu_AddContactMenuItem(&mi);
 
 	gg->hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, gg_prebuildcontactmenu);
 }
@@ -345,7 +345,7 @@ void gg_menus_init(GGPROTO *gg)
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 		mi.icolibItem = GetIconHandle(IDI_GG);
-		hGCRoot = hCLRoot = hRoot = gg->hMenuRoot = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+		hGCRoot = hCLRoot = hRoot = gg->hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
 	else
 	{
@@ -355,12 +355,12 @@ void gg_menus_init(GGPROTO *gg)
 		mi.ptszName = LPGENT("Conference");
 		mi.position = 200001;
 		mi.icolibItem = GetIconHandle(IDI_CONFERENCE);
-		hGCRoot = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+		hGCRoot = Menu_AddProtoMenuItem(&mi);
 
 		mi.ptszName = LPGENT("Contact list");
 		mi.position = 200002;
 		mi.icolibItem = GetIconHandle(IDI_LIST);
-		hCLRoot = (HANDLE)CallService(MS_CLIST_ADDPROTOMENUITEM, 0, (LPARAM) &mi);
+		hCLRoot = Menu_AddProtoMenuItem(&mi);
 
 		if (gg->hMenuRoot)
 			CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)gg->hMenuRoot, 0);

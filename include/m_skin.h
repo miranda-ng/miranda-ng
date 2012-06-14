@@ -31,9 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns NULL if id is invalid, but will always succeed for a valid id
 #define MS_SKIN_LOADICON     "Skin/Icons/Load"
 //nice function to wrap this:
-__inline static HICON LoadSkinnedIcon(int id) {return (HICON)CallService(MS_SKIN_LOADICON,id,0);}
-__inline static HANDLE LoadSkinnedIconHandle(int id) {return (HANDLE)CallService(MS_SKIN_LOADICON,id,1);}
-__inline static HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_SKIN_LOADICON,id,2);}
+__inline static HICON LoadSkinnedIcon(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 0);}
+__inline static HANDLE LoadSkinnedIconHandle(int id) {return (HANDLE)CallService(MS_SKIN_LOADICON, id, 1);}
+__inline static HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_SKIN_LOADICON, id, 2);}
 
 //event icons
 #define SKINICON_EVENT_MESSAGE      100
@@ -109,8 +109,8 @@ __inline static HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_S
 #define MS_SKIN_LOADPROTOICON     "Skin/Icons/LoadProto"
 #define MS_SKIN_LOADPROTOICONBIG  "Skin/Icons/LoadProtoBig"
 //nice function to wrap this:
-__inline static HICON LoadSkinnedProtoIcon(const char *szProto,int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICON,(WPARAM)szProto,status);}
-__inline static HICON LoadSkinnedProtoIconBig(const char *szProto,int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG,(WPARAM)szProto,status);}
+__inline static HICON LoadSkinnedProtoIcon(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)szProto, status);}
+__inline static HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG, (WPARAM)szProto, status);}
 
 //add a new sound so it has a default and can be changed in the options dialog
 //wParam=0
@@ -157,10 +157,10 @@ typedef struct {
 #define MS_SKIN_ADDNEWSOUND      "Skin/Sounds/AddNew"
 
 // inline only works after 0.3.4+ (2004/10/*)
-__inline static INT_PTR SkinAddNewSoundEx(const char *name,const char *section,const char *description)
+__inline static INT_PTR SkinAddNewSoundEx(const char *name, const char *section, const char *description)
 {
 	SKINSOUNDDESCEX ssd;
-	ZeroMemory(&ssd,sizeof(ssd));
+	ZeroMemory(&ssd, sizeof(ssd));
 	ssd.cbSize=sizeof(ssd);
 	ssd.pszName=name;
 	ssd.pszSection=section;
@@ -168,10 +168,10 @@ __inline static INT_PTR SkinAddNewSoundEx(const char *name,const char *section,c
 	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
 }
 
-__inline static INT_PTR SkinAddNewSound(const char *name,const char *description,const char *defaultFile)
+__inline static INT_PTR SkinAddNewSound(const char *name, const char *description, const char *defaultFile)
 {
 	SKINSOUNDDESC ssd;
-	ZeroMemory(&ssd,sizeof(ssd));
+	ZeroMemory(&ssd, sizeof(ssd));
 	ssd.cbSize=sizeof(ssd);
 	ssd.pszName=name;
 	ssd.pszDescription=description;
@@ -180,7 +180,7 @@ __inline static INT_PTR SkinAddNewSound(const char *name,const char *description
 }
 
 // 0.9.0+
-__inline static INT_PTR SkinAddNewSoundExT(const char *name,const TCHAR *section,const TCHAR *description)
+__inline static INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize=sizeof(ssd);
@@ -191,7 +191,7 @@ __inline static INT_PTR SkinAddNewSoundExT(const char *name,const TCHAR *section
 	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
 }
 
-__inline static INT_PTR SkinAddNewSoundT(const char *name,const TCHAR *description,const TCHAR *defaultFile)
+__inline static INT_PTR SkinAddNewSoundT(const char *name, const TCHAR *description, const TCHAR *defaultFile)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize=sizeof(ssd);
@@ -208,7 +208,7 @@ __inline static INT_PTR SkinAddNewSoundT(const char *name,const TCHAR *descripti
 //pszName should have been added with Skin/Sounds/AddNew, but if not the
 //function will not fail, it will play the Windows default sound instead.
 #define MS_SKIN_PLAYSOUND        "Skin/Sounds/Play"
-__inline static INT_PTR SkinPlaySound(const char *name) {return CallService(MS_SKIN_PLAYSOUND,0,(LPARAM)name);}
+__inline static INT_PTR SkinPlaySound(const char *name) {return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);}
 
 //sent when the icons DLL has been changed in the options dialog, and everyone
 //should re-make their image lists

@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2008 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2008 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -65,12 +65,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //If they are called with CallContactService() (PSS_ and PSR_ services) then
 //they are called with lParam=(CCSDATA*)&ccs and wParam an opaque internal
 //reference that should be passed unchanged to MS_PROTO_CHAIN*.
-__inline static HANDLE CreateProtoServiceFunction(const char *szModule,const char *szService,MIRANDASERVICE serviceProc)
+__inline static HANDLE CreateProtoServiceFunction(const char *szModule, const char *szService, MIRANDASERVICE serviceProc)
 {
 	char str[MAXMODULELABELLENGTH];
 	_snprintf(str, sizeof(str), "%s%s", szModule, szService);
     str[MAXMODULELABELLENGTH-1] = 0;
-	return CreateServiceFunction(str,serviceProc);
+	return CreateServiceFunction(str, serviceProc);
 }
 
 //Call the next service in the chain for this send operation
@@ -81,7 +81,7 @@ __inline static HANDLE CreateProtoServiceFunction(const char *szModule,const cha
 //called with. wParam must remain untouched but lParam is a CCSDATA structure
 //that can be copied and modified if needed.
 //Typically, the last line of any chaining protocol function is
-//return CallService(MS_PROTO_CHAINSEND,wParam,lParam);
+//return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 #define MS_PROTO_CHAINSEND       "Proto/ChainSend"
 
 //Call the next service in the chain for this receive operation
@@ -106,14 +106,14 @@ __inline static HANDLE CreateProtoServiceFunction(const char *szModule,const cha
 //Thread safety: me_proto_ack is completely thread safe since 0.1.2.0
 //See the notes in core/modules.h under NotifyEventHooks()
 #define MS_PROTO_BROADCASTACK    "Proto/BroadcastAck"
-__inline static INT_PTR ProtoBroadcastAck(const char *szModule,HANDLE hContact,int type,int result,HANDLE hProcess,LPARAM lParam)
+__inline static INT_PTR ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA ack={0};
 	ack.cbSize=sizeof(ACKDATA);
 	ack.szModule=szModule; ack.hContact=hContact;
 	ack.type=type; ack.result=result;
 	ack.hProcess=hProcess; ack.lParam=lParam;
-	return CallService(MS_PROTO_BROADCASTACK,0,(LPARAM)&ack);
+	return CallService(MS_PROTO_BROADCASTACK, 0, (LPARAM)&ack);
 }
 
 /* -- Added during 0.3.4 (2004/09/27) development! -----

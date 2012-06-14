@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project,
+Copyright 2000-2009 Miranda ICQ/IM project, 
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
+This program is distributed in the hope that it will be useful, 
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -115,7 +115,7 @@ static void GetDefaultFontSetting(LOGFONT* lf, COLORREF* colour)
 	lf->lfHeight = 10;
 	
 	HDC hdc = GetDC(0);
-	lf->lfHeight = -MulDiv(lf->lfHeight,GetDeviceCaps(hdc, LOGPIXELSY), 72);
+	lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 	ReleaseDC(0, hdc);
 }
 
@@ -174,7 +174,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	if (lf->lfHeight > 0) {
 		HDC hdc = GetDC(0);
 		if (flags & FIDF_SAVEPOINTSIZE) {
-			lf->lfHeight = -MulDiv(lf->lfHeight,GetDeviceCaps(hdc, LOGPIXELSY), 72);
+			lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		} else { // assume SAVEACTUALHEIGHT
 			TEXTMETRIC tm;
 			HFONT hFont = CreateFontIndirect(lf);
@@ -236,8 +236,8 @@ void UpdateFontSettings(TFontID* font_id, TFontSettings* fontsettings)
 static COLORREF sttMixColor(COLORREF cl1, COLORREF cl2, int q)
 {
 	return RGB(
-			(GetRValue(cl1) * q + GetRValue(cl2) * (255 - q)) / 255,
-			(GetGValue(cl1) * q + GetGValue(cl2) * (255 - q)) / 255,
+			(GetRValue(cl1) * q + GetRValue(cl2) * (255 - q)) / 255, 
+			(GetGValue(cl1) * q + GetGValue(cl2) * (255 - q)) / 255, 
 			(GetBValue(cl1) * q + GetBValue(cl2) * (255 - q)) / 255
 		);
 }
@@ -255,10 +255,10 @@ COLORREF GetColorFromDefault(COLORREF cl)
 		case MIRCOLOR_BTNHALF:	return sttMixColor(GetSysColor(COLOR_BTNFACE), GetSysColor(COLOR_BTNTEXT), 128);
 		case MIRCOLOR_WNDHALF:	return sttMixColor(GetSysColor(COLOR_WINDOW), GetSysColor(COLOR_WINDOWTEXT), 128);
 		case MIRCOLOR_SELHALF:	return sttMixColor(GetSysColor(COLOR_HIGHLIGHT), GetSysColor(COLOR_HIGHLIGHTTEXT), 128);
-		case MIRCOLOR_INBACK:	return sttMixColor(GetSysColor(COLOR_WINDOW), RGB(0,0,255), 245);
+		case MIRCOLOR_INBACK:	return sttMixColor(GetSysColor(COLOR_WINDOW), RGB(0, 0, 255), 245);
 		case MIRCOLOR_INTEXT:	return GetSysColor(COLOR_WINDOWTEXT);
 		case MIRCOLOR_INHALF:	return sttMixColor(GetColorFromDefault(MIRCOLOR_INBACK), GetColorFromDefault(MIRCOLOR_INTEXT), 128);
-		case MIRCOLOR_OUTBACK:	return sttMixColor(GetSysColor(COLOR_WINDOW), RGB(0,255,0), 245);
+		case MIRCOLOR_OUTBACK:	return sttMixColor(GetSysColor(COLOR_WINDOW), RGB(0, 255, 0), 245);
 		case MIRCOLOR_OUTTEXT:	return GetSysColor(COLOR_WINDOWTEXT);
 		case MIRCOLOR_OUTHALF:	return sttMixColor(GetColorFromDefault(MIRCOLOR_OUTBACK), GetColorFromDefault(MIRCOLOR_OUTTEXT), 128);
 		}
