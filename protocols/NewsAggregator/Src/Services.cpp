@@ -22,6 +22,16 @@ Boston, MA 02111-1307, USA.
 int g_nStatus = ID_STATUS_OFFLINE;
 UINT_PTR timerId = 0;
 
+HANDLE hOpenMessageWindow = NULL;
+
+int OnMessageWindowOpen(WPARAM,LPARAM lParam)
+{
+	MessageWindowEventData *hWindowEvent = (MessageWindowEventData*) lParam;
+	if (hWindowEvent->uType == MSG_WINDOW_EVT_OPENING && IsMyContact(hWindowEvent->hContact))
+		CheckCurrentFeed(hWindowEvent->hContact);
+	return 0;
+}
+	
 void SetContactStatus(HANDLE hContact,int nNewStatus)
 {
 	if(DBGetContactSettingWord(hContact,MODULE,"Status",ID_STATUS_OFFLINE) != nNewStatus)
@@ -58,6 +68,8 @@ int NewsAggrInit(WPARAM wParam,LPARAM lParam)
 	InitIcons();
 	InitMenu();
 
+	hOpenMessageWindow = HookEvent(ME_MSG_WINDOWEVENT,OnMessageWindowOpen);
+
 	// timer for the first update
 	timerId = SetTimer(NULL, 0, 5000, timerProc2);  // first update is 5 sec after load
 
@@ -75,6 +87,8 @@ int NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam)
 	mir_forkthread(WorkingThread, (void*)ID_STATUS_OFFLINE);
 	KillTimer(NULL, timerId);
 	NetlibUnInit();
+
+	if(hOpenMessageWindow) UnhookEvent(hOpenMessageWindow);
 
 	return 0;
 }

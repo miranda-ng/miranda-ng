@@ -29,8 +29,7 @@ Boston, MA 02111-1307, USA.
 #include <string.h>
 #include <stdlib.h>
 #include <sys\stat.h>
-
-#include <boost/regex.hpp>
+#include <mshtml.h>
 
 // Miranda header files
 #include <newpluginapi.h>
@@ -45,6 +44,7 @@ Boston, MA 02111-1307, USA.
 #include <m_hotkeys.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
+#include <m_message.h>
 #include <win2k.h>
 #include <m_protocols.h>
 #include <m_protomod.h>
@@ -134,7 +134,6 @@ VOID DeleteAllItems(HWND hwndList);
 time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType);
 VOID CheckCurrentFeed (HANDLE hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
-size_t decode_html_entities_utf8(char *dest, const char *src);
 
 // ===============  NewsAggr SERVICES  ================
 // Check all Feeds info

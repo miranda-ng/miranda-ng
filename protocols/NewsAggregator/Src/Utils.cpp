@@ -62,37 +62,33 @@ static void arrayToHex(BYTE* data, size_t datasz, char* res)
 
 int GetImageFormat(const TCHAR* ext)
 {
-	if(lstrcmp(ext,_T(".jpg")) || lstrcmp(ext,_T(".jpeg")))
+	if(!lstrcmp(ext,_T(".jpg")) || !lstrcmp(ext,_T(".jpeg")))
 	{
 		return PA_FORMAT_JPEG;
 	}
-	else if(lstrcmp(ext,_T(".png")))
+	else if(!lstrcmp(ext,_T(".png")))
 	{
 		return PA_FORMAT_PNG;
 	}
-	else if(lstrcmp(ext,_T(".gif")))
+	else if(!lstrcmp(ext,_T(".gif")))
 	{
 		return PA_FORMAT_GIF;
 	}
-	else if(lstrcmp(ext,_T(".ico")))
+	else if(!lstrcmp(ext,_T(".ico")))
 	{
 		return PA_FORMAT_ICON;
 	}
-	else if(lstrcmp(ext,_T(".bmp")))
+	else if(!lstrcmp(ext,_T(".bmp")))
 	{
 		return PA_FORMAT_BMP;
 	}
-	else if(lstrcmp(ext,_T(".swf")))
+	else if(!lstrcmp(ext,_T(".swf")))
 	{
 		return PA_FORMAT_SWF;
 	}
-	else if(lstrcmp(ext,_T(".xml")))
+	else if(!lstrcmp(ext,_T(".xml")))
 	{
 		return PA_FORMAT_XML;
-	}
-	else if(lstrcmp(ext,_T(".jpg")) || lstrcmp(ext,_T(".jpeg")))
-	{
-		return PA_FORMAT_JPEG;
 	}
 	else
 	{
@@ -108,17 +104,13 @@ void CreateAuthString(char* auth, HANDLE hContact, HWND hwndDlg)
 		DBVARIANT dbLogin = {0};
 		if (!DBGetContactSettingTString(hContact, MODULE, "Login", &dbLogin))
 		{
-			tlogin = (TCHAR*)mir_alloc(_tcslen(dbLogin.ptszVal)*sizeof(TCHAR));
-			memcpy(tlogin, dbLogin.ptszVal, _tcslen(dbLogin.ptszVal)*sizeof(TCHAR));
-			tlogin[_tcslen(dbLogin.ptszVal)] = 0;
+			tlogin = mir_tstrdup(dbLogin.ptszVal);
 			DBFreeVariant(&dbLogin);
 		}
 		DBVARIANT dbPass = {0};
 		if (!DBGetContactSettingTString(hContact, MODULE, "Password", &dbPass))
 		{
-			tpass = (TCHAR*)mir_alloc(_tcslen(dbPass.ptszVal)*sizeof(TCHAR));
-			memcpy(tpass, dbPass.ptszVal, _tcslen(dbPass.ptszVal)*sizeof(TCHAR));
-			tpass[_tcslen(dbPass.ptszVal)] = 0;
+			tpass = mir_tstrdup(dbPass.ptszVal);
 			DBFreeVariant(&dbPass);
 		}
 	}
@@ -136,6 +128,8 @@ void CreateAuthString(char* auth, HANDLE hContact, HWND hwndDlg)
     int len = mir_snprintf(str, SIZEOF(str), "%s:%s", user, pass);
 	mir_free(user);
 	mir_free(pass);
+	mir_free(tlogin);
+	mir_free(tpass);
 
 	strcpy(auth, "Basic ");
 	NETLIBBASE64 nlb = { auth+6, 250, (PBYTE)str, len };
@@ -342,33 +336,33 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		if (_tcsstr(p, _T(",")))
 		{
 			_stscanf( p, _T("%3s, %d %3s %d %d:%d:%d %1s%02d%02d"), &weekday, &day, &monthstr, &year, &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (lstrcmpi(monthstr, _T("Jan")) ==0)
+			if (!lstrcmpi(monthstr, _T("Jan")))
 				month = 1;
-			if (lstrcmpi(monthstr, _T("Feb")) ==0)
+			if (!lstrcmpi(monthstr, _T("Feb")))
 				month = 2;
-			if (lstrcmpi(monthstr, _T("Mar")) ==0)
+			if (!lstrcmpi(monthstr, _T("Mar")))
 				month = 3;
-			if (lstrcmpi(monthstr, _T("Apr")) ==0)
+			if (!lstrcmpi(monthstr, _T("Apr")))
 				month = 4;
-			if (lstrcmpi(monthstr, _T("May")) ==0)
+			if (!lstrcmpi(monthstr, _T("May")))
 				month = 5;
-			if (lstrcmpi(monthstr, _T("Jun")) ==0)
+			if (!lstrcmpi(monthstr, _T("Jun")))
 				month = 6;
-			if (lstrcmpi(monthstr, _T("Jul")) ==0)
+			if (!lstrcmpi(monthstr, _T("Jul")))
 				month = 7;
-			if (lstrcmpi(monthstr, _T("Aug")) ==0)
+			if (!lstrcmpi(monthstr, _T("Aug")))
 				month = 8;
-			if (lstrcmpi(monthstr, _T("Sep")) ==0)
+			if (!lstrcmpi(monthstr, _T("Sep")))
 				month = 9;
-			if (lstrcmpi(monthstr, _T("Oct")) ==0)
+			if (!lstrcmpi(monthstr, _T("Oct")))
 				month = 10;
-			if (lstrcmpi(monthstr, _T("Nov")) ==0)
+			if (!lstrcmpi(monthstr, _T("Nov")))
 				month = 11;
-			if (lstrcmpi(monthstr, _T("Dec")) ==0)
+			if (!lstrcmpi(monthstr, _T("Dec")))
 				month = 12;
-			if (lstrcmp(timezonesign, _T("+")) ==0)
+			if (!lstrcmp(timezonesign, _T("+")))
 				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
-			else if (lstrcmp(timezonesign, _T("-")) ==0)
+			else if (!lstrcmp(timezonesign, _T("-")))
 				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
 			else
 				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
@@ -376,9 +370,9 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		else
 		{
 			_stscanf( p, _T("%d-%d-%d %d:%d:%d %1s%02d%02d"), &year, &month, &day,  &hour, &min, &sec, &timezonesign, &timezoneh, &timezonem);
-			if (lstrcmp(timezonesign, _T("+")) ==0)
+			if (!lstrcmp(timezonesign, _T("+")))
 				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour-timezoneh, min-timezonem, sec);
-			else if (lstrcmp(timezonesign, _T("-")) ==0)
+			else if (!lstrcmp(timezonesign, _T("-")))
 				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour+timezoneh, min+timezonem, sec);
 			else
 				mir_sntprintf(p, 4+2+2+1+2+1+2+1+2+1, _T("%04d%02d%02dT%02d:%02d:%02d"), year, month, day, hour, min, sec);
@@ -492,12 +486,12 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 			char *date = NULL, *size = NULL;
 			for (int i = 0; i < pReply->headersCount; i++)
 			{
-				if (lstrcmpiA(pReply->headers[i].szName, "Last-Modified") == 0)
+				if (!lstrcmpiA(pReply->headers[i].szName, "Last-Modified"))
 				{
 					date = pReply->headers[i].szValue;
 					continue;
 				}
-				if (lstrcmpiA(pReply->headers[i].szName, "Content-Length") == 0)
+				if (!lstrcmpiA(pReply->headers[i].szName, "Content-Length"))
 				{
 					size = pReply->headers[i].szValue;
 					continue;
@@ -553,7 +547,109 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 }
 
 size_t PathToRelative(const TCHAR *pSrc, TCHAR *pOut)
-{	return CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)pSrc, (LPARAM)pOut );
+{
+	return CallService( MS_UTILS_PATHTORELATIVET, (WPARAM)pSrc, (LPARAM)pOut );
+}
+
+typedef HRESULT (MarkupCallback)(IHTMLDocument3*, BSTR& message);
+
+HRESULT TestMarkupServices(BSTR bstrHtml, MarkupCallback* pCallback, BSTR& message)
+{
+    IHTMLDocument3* pHtmlDocRoot = NULL;
+
+    // Create the root document -- a "workspace" for parsing.
+    HRESULT hr = CoCreateInstance(CLSID_HTMLDocument, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pHtmlDocRoot));
+    if (SUCCEEDED(hr) && pHtmlDocRoot)
+    {
+        IPersistStreamInit *pPersistStreamInit = NULL;
+
+        HRESULT hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pPersistStreamInit));
+        if (SUCCEEDED(hr))
+        {
+            // Initialize the root document to a default state -- ready for parsing.
+            hr = pPersistStreamInit->InitNew();
+
+            IMarkupServices *pMarkupServices = NULL;
+            hr = pHtmlDocRoot->QueryInterface(IID_PPV_ARGS(&pMarkupServices));
+            if (SUCCEEDED(hr))
+            {
+                IMarkupPointer *pMarkupBegin       = NULL;
+                IMarkupPointer *pMarkupEnd         = NULL;
+
+                // These markup pointers indicate the insertion point.
+                hr = pMarkupServices->CreateMarkupPointer(&pMarkupBegin);
+                if (SUCCEEDED(hr))
+                    hr = pMarkupServices->CreateMarkupPointer(&pMarkupEnd);
+
+                if (SUCCEEDED(hr) && pMarkupBegin && pMarkupEnd)
+                {
+                    IMarkupContainer *pMarkupContainer = NULL;
+
+                    // Parse the string -- the markup container contains the parsed HTML.
+                    // Markup pointers are updated to point to begining and end of new container.
+                    hr = pMarkupServices->ParseString(bstrHtml, 0, &pMarkupContainer, pMarkupBegin, pMarkupEnd);
+                    if (SUCCEEDED(hr) && pMarkupContainer)
+                    {
+                        IHTMLDocument3 *pHtmlDoc = NULL;
+
+                        // Retrieve the document interface to the markup container.
+                        hr = pMarkupContainer->QueryInterface(IID_PPV_ARGS(&pHtmlDoc));
+                        if (SUCCEEDED(hr) && pHtmlDoc)
+                        {
+                            // Invoke the user-defined action for this new fragment.
+                            hr = pCallback(pHtmlDoc, message);
+
+                            // Clean up.
+                            pHtmlDoc->Release();
+                        }
+                        pMarkupContainer->Release();
+                    }
+                    pMarkupEnd->Release();
+                }
+                if (pMarkupBegin)
+                    pMarkupBegin->Release();
+                pMarkupServices->Release();
+            }
+            pPersistStreamInit->Release();
+        }
+        pHtmlDocRoot->Release();
+    }
+    return hr;
+}
+
+HRESULT TestDocumentText(IHTMLDocument3* pHtmlDoc, BSTR& message)
+{
+    IHTMLDocument2 *pDoc = NULL;
+    IHTMLElement *pElem = NULL;
+    BSTR bstrId = SysAllocString(L"test");
+
+    HRESULT hr = pHtmlDoc->QueryInterface(IID_PPV_ARGS(&pDoc));
+    if (SUCCEEDED(hr) && pDoc)
+    {
+        hr = pDoc->get_body(&pElem);
+        if (SUCCEEDED(hr) && pElem)
+        {
+            BSTR bstrText = NULL;
+            pElem->get_innerText(&bstrText);
+			message = SysAllocString(bstrText);
+            SysFreeString(bstrText);
+            pElem->Release();
+        }
+        
+        pDoc->Release();
+    }
+
+    SysFreeString(bstrId);
+    return hr;
+}
+
+VOID ClearText(TCHAR*& message)
+{
+	CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	BSTR bstrHtml = SysAllocString(message);
+	HRESULT hr = TestMarkupServices(bstrHtml, &TestDocumentText, message);
+	SysFreeString(bstrHtml);
+	CoUninitialize();
 }
 
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
@@ -583,13 +679,13 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 				HXML node = xi.getChild(hXml, childcount);
 				while(node)
 				{
-					if (lstrcmpi(xi.getName(node), _T("rss")) == 0 || lstrcmpi(xi.getName(node), _T("rdf")) == 0)
+					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
 					{
 						HXML chan = xi.getChild(node, 0);
 						for (int j = 0; j < xi.getChildCount(chan); j++)
 						{
 							HXML child = xi.getChild(chan, j);
-							if (lstrcmpi(xi.getName(child), _T("title")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("title")))
 							{
 								TCHAR mes[MAX_PATH];
 								mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
@@ -608,12 +704,12 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 							}
 						}
 					}
-					else if (lstrcmpi(xi.getName(node), _T("feed")) == 0)
+					else if (!lstrcmpi(xi.getName(node), _T("feed")))
 					{
 						for (int j = 0; j < xi.getChildCount(node); j++)
 						{
 							HXML child = xi.getChild(node, j);
-							if (lstrcmpi(xi.getName(child), _T("title")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("title")))
 							{
 								TCHAR mes[MAX_PATH];
 								mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
@@ -678,13 +774,13 @@ VOID CheckCurrentFeed(HANDLE hContact)
 				HXML node = xi.getChild(hXml, childcount);
 				while(node)
 				{
-					if (lstrcmpi(xi.getName(node), _T("rss")) == 0 || lstrcmpi(xi.getName(node), _T("rdf")) == 0)
+					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
 					{
-						if (lstrcmpi(xi.getName(node), _T("rss")) == 0)
+						if (!lstrcmpi(xi.getName(node), _T("rss")))
 						{
 							for (int i = 0; i < xi.getAttrCount(node); i++)
 							{
-								if (lstrcmpi(xi.getAttrName(node, i), _T("version")) == 0)
+								if (!lstrcmpi(xi.getAttrName(node, i), _T("version")))
 								{
 									TCHAR ver[MAX_PATH];
 									mir_sntprintf(ver, SIZEOF(ver), _T("RSS %s"), xi.getAttrValue(node, xi.getAttrName(node, i)));
@@ -693,7 +789,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 							}
 						}
-						else if (lstrcmpi(xi.getName(node), _T("rdf")) == 0)
+						else if (!lstrcmpi(xi.getName(node), _T("rdf")))
 						{
 							DBWriteContactSettingTString(hContact, MODULE, "MirVer", _T("RSS 1.0"));
 						}
@@ -702,129 +798,114 @@ VOID CheckCurrentFeed(HANDLE hContact)
 						for (int j = 0; j < xi.getChildCount(chan); j++)
 						{
 							HXML child = xi.getChild(chan, j);
-							if (lstrcmpi(xi.getName(child), _T("title")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("title")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "FirstName", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "FirstName", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("link")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("link")))
 							{
 								DBWriteContactSettingTString(hContact, MODULE, "Homepage", xi.getText(child));
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("description")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("description")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "About", tszstring);
 									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "About", tszstring);
-									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "About", string);
+									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("language")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("language")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "Language1", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Language1", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("managingEditor")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("managingEditor")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "e-mail", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "e-mail", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "e-mail", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("category")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("category")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("image")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("image")))
 							{
 								for (int x = 0; x < xi.getChildCount(child); x++)
 								{
 									HXML imageval = xi.getChild(child, x);
-									if (lstrcmpi(xi.getName(imageval), _T("url")) == 0)
+									if (!lstrcmpi(xi.getName(imageval), _T("url")))
 									{
 										LPCTSTR url = xi.getText(imageval);
 										DBWriteContactSettingTString(hContact, MODULE, "ImageURL", url);
@@ -859,7 +940,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									}
 								}
 							}
-							if (lstrcmpi(xi.getName(child), _T("lastBuildDate")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("lastBuildDate")) && xi.getText(child))
 							{
 								TCHAR *lastupdtime = (TCHAR*)xi.getText(child);
 								time_t stamp = DateToUnixTime(lastupdtime, 0);
@@ -873,53 +954,53 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("item")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("item")))
 							{
 								TCHAR *title = NULL, *link = NULL, *datetime = NULL, *descr = NULL, *author = NULL, *comments = NULL, *guid = NULL, *category = NULL;
 								for (int z = 0; z < xi.getChildCount(child); z++)
 								{
 									HXML itemval = xi.getChild(child, z);
-									if (lstrcmpi(xi.getName(itemval), _T("title")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("title")))
 									{
 										title = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("link")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("link")))
 									{
 										link = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("pubDate")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("pubDate")))
 									{
 										datetime = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("dc:date")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("dc:date")))
 									{
 										datetime = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("description")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("description")))
 									{
 										descr = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("author")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("author")))
 									{
 										author = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("comments")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("comments")))
 									{
 										comments = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("guid")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("guid")))
 									{
 										guid = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("category")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("category")))
 									{
 										category = (TCHAR*)xi.getText(itemval);
 										continue;
@@ -930,60 +1011,46 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								if (DBGetContactSettingTString(hContact, MODULE, "MsgFormat", &dbMsg))
 									message = _T(TAGSDEFAULT);
 								else
-								{
-									message = (TCHAR*)mir_alloc(_tcslen(dbMsg.ptszVal)*sizeof(TCHAR));
-									memcpy(message, dbMsg.ptszVal, _tcslen(dbMsg.ptszVal)*sizeof(TCHAR));
-									message[_tcslen(dbMsg.ptszVal)] = 0;
-									DBFreeVariant(&dbMsg);
-								}
-								if (lstrcmp(title, NULL) == 0)
+									message = mir_tstrdup(dbMsg.ptszVal);
+								DBFreeVariant(&dbMsg);
+								if (!title)
 									message = StrReplace(_T("#<title>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<title>#"), title, message);
-								if (lstrcmp(link, NULL) == 0)
+								if (!link)
 									message = StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<link>#"), link, message);
-								if (lstrcmp(descr, NULL) == 0)
+								if (!descr)
 									message = StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<description>#"), descr, message);
-								if (lstrcmp(author, NULL) == 0)
+								if (!author)
 									message = StrReplace(_T("#<author>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<author>#"), author, message);
-								if (lstrcmp(comments, NULL) == 0)
+								if (!comments)
 									message = StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<comments>#"), comments, message);
-								if (lstrcmp(guid, NULL) == 0)
+								if (!guid)
 									message = StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<guid>#"), guid, message);
-								if (lstrcmp(category, NULL) == 0)
+								if (!category)
 									message = StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<category>#"), category, message);
 
-								message = StrReplace(_T("<br>"), _T("\n"), message);
-								message = StrReplace(_T("<br/>"), _T("\n"), message);
-								message = StrReplace(_T("<br />"), _T("\n"), message);
-
+								ClearText(message);
 								char* pszUtf;
 								if (!UtfEncode)
 									pszUtf = mir_utf8encodeT(message);
 								else
 									pszUtf = mir_t2a(message);
-								decode_html_entities_utf8(pszUtf, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(pszUtf);
-								strcpy(pszUtf, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-								xRegEx = "^\\s+";
-								xStr = pszUtf;
-								strcpy(pszUtf, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
 
 								time_t stamp;
-								if (lstrcmpi(datetime, NULL) ==0)
+								if (!datetime)
 									stamp = time(NULL);
 								else
 									stamp = DateToUnixTime(datetime, 0);
@@ -998,7 +1065,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									olddbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
 									olddbei.pBlob = (PBYTE)mir_alloc(olddbei.cbBlob);
 									CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&olddbei);
-									if (olddbei.cbBlob == lstrlenA(pszUtf) + 1 && lstrcmpA((char*)olddbei.pBlob, pszUtf) == 0)
+									if (olddbei.cbBlob == lstrlenA(pszUtf) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszUtf))
 										MesExist = TRUE;
 									hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
 									mir_free(olddbei.pBlob);
@@ -1017,106 +1084,97 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 								}
 								mir_free(pszUtf);
-								mir_free(message);
+								SysFreeString(message);
 							}
 						}
 					}
-					else if (lstrcmpi(xi.getName(node), _T("feed")) == 0)
+					else if (!lstrcmpi(xi.getName(node), _T("feed")))
 					{
 						DBWriteContactSettingTString(hContact, MODULE, "MirVer", _T("Atom 3"));
 						for (int j = 0; j < xi.getChildCount(node); j++)
 						{
 							HXML child = xi.getChild(node, j);
-							if (lstrcmpi(xi.getName(child), _T("title")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("title")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "FirstName", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "FirstName", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("link")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("link")))
 							{
 								for (int x = 0; x < xi.getAttrCount(child); x++)
 								{
-									if (lstrcmpi(xi.getAttrName(child, x), _T("rel")) == 0)
+									if (!lstrcmpi(xi.getAttrName(child, x), _T("rel")))
 									{
-										if (lstrcmpi(xi.getAttrValue(child, xi.getAttrName(child, x)), _T("self")) == 0)
+										if (!lstrcmpi(xi.getAttrValue(child, xi.getAttrName(child, x)), _T("self")))
 											break;
 									}
-									if (lstrcmpi(xi.getAttrName(child, x), _T("href")) == 0)
+									if (!lstrcmpi(xi.getAttrName(child, x), _T("href")))
 									{
 										DBWriteContactSettingTString(hContact, MODULE, "Homepage", xi.getAttrValue(child, xi.getAttrName(child, x)));
 									}
 								}
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("subtitle")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("subtitle")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "About", tszstring);
 									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "About", tszstring);
-									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "About", string);
+									DBWriteContactSettingTString(hContact, "CList", "StatusMsg", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("language")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("language")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "Language1", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Language1", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("author")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("author")))
 							{
 								for (int x = 0; x < xi.getChildCount(child); x++)
 								{
 									HXML authorval = xi.getChild(child, x);
-									if (lstrcmpi(xi.getName(authorval), _T("name")) == 0)
+									if (!lstrcmpi(xi.getName(authorval), _T("name")))
 									{
 										DBWriteContactSettingTString(hContact, MODULE, "e-mail", xi.getText(authorval));
 										break;
@@ -1124,34 +1182,31 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("category")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("category")) && xi.getText(child))
 							{
-								char* szstring = mir_t2a(xi.getText(child));
-								decode_html_entities_utf8(szstring, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(szstring);
-								strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
+								TCHAR *string = mir_tstrdup(xi.getText(child));
+								ClearText(string);
 								if (UtfEncode)
 								{
+									char *szstring = mir_t2a(string);
 									TCHAR* tszstring = mir_utf8decodeT(szstring);
 									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", tszstring);
 									mir_free(tszstring);
+									mir_free(szstring);
 								}
 								else
 								{
-									TCHAR* tszstring = mir_a2t(szstring);
-									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", tszstring);
-									mir_free(tszstring);
+									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
 								}
-								mir_free(szstring);
+								SysFreeString(string);
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("icon")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("icon")))
 							{
 								for (int x = 0; x < xi.getChildCount(child); x++)
 								{
 									HXML imageval = xi.getChild(child, x);
-									if (lstrcmpi(xi.getName(imageval), _T("url")) == 0)
+									if (!lstrcmpi(xi.getName(imageval), _T("url")))
 									{
 										LPCTSTR url = xi.getText(imageval);
 										DBWriteContactSettingTString(hContact, MODULE, "ImageURL", url);
@@ -1186,7 +1241,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									}
 								}
 							}
-							if (lstrcmpi(xi.getName(child), _T("updated")) == 0 && xi.getText(child))
+							if (!lstrcmpi(xi.getName(child), _T("updated")) && xi.getText(child))
 							{
 								TCHAR *lastupdtime = (TCHAR*)xi.getText(child);
 								time_t stamp = DateToUnixTime(lastupdtime, 1);
@@ -1200,28 +1255,25 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								}
 								continue;
 							}
-							if (lstrcmpi(xi.getName(child), _T("entry")) == 0)
+							if (!lstrcmpi(xi.getName(child), _T("entry")))
 							{
 								TCHAR *title = NULL, *link = NULL, *datetime = NULL, *descr = NULL, *author = NULL, *comments = NULL, *guid = NULL, *category = NULL;
 								for (int z = 0; z < xi.getChildCount(child); z++)
 								{
 									HXML itemval = xi.getChild(child, z);
-									if (lstrcmpi(xi.getName(itemval), _T("title")) == 0 && xi.getText(itemval))
+									if (!lstrcmpi(xi.getName(itemval), _T("title")) && xi.getText(itemval))
 									{
-										char* szstring = mir_t2a(xi.getText(itemval));
-										decode_html_entities_utf8(szstring, 0);
-										boost::regex xRegEx("<(.|\n)*?>");
-										std::string xStr(szstring);
-										strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-										title = mir_a2t(szstring);
-										mir_free(szstring);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										title = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("link")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("link")))
 									{
 										for (int x = 0; x < xi.getAttrCount(itemval); x++)
 										{
-											if (lstrcmpi(xi.getAttrName(itemval, x), _T("href")) == 0)
+											if (!lstrcmpi(xi.getAttrName(itemval, x), _T("href")))
 											{
 												link = (TCHAR*)xi.getAttrValue(itemval, xi.getAttrName(itemval, x));
 												break;
@@ -1229,70 +1281,58 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										}
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("updated")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("updated")))
 									{
 										datetime = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if ((lstrcmpi(xi.getName(itemval), _T("summary")) == 0 || lstrcmpi(xi.getName(itemval), _T("content")) == 0) && xi.getText(itemval))
+									if ((!lstrcmpi(xi.getName(itemval), _T("summary")) || !lstrcmpi(xi.getName(itemval), _T("content"))) && xi.getText(itemval))
 									{
-										char* szstring = mir_t2a(xi.getText(itemval));
-										decode_html_entities_utf8(szstring, 0);
-										boost::regex xRegEx("<(.|\n)*?>");
-										std::string xStr(szstring);
-										strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-										descr = mir_a2t(szstring);
-										mir_free(szstring);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										descr = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("author")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("author")))
 									{
 										for (int x = 0; x < xi.getChildCount(itemval); x++)
 										{
 											HXML authorval = xi.getChild(itemval, x);
-											if (lstrcmpi(xi.getName(authorval), _T("name")) == 0 && xi.getText(authorval))
+											if (!lstrcmpi(xi.getName(authorval), _T("name")) && xi.getText(authorval))
 											{
-												char* szstring = mir_t2a(xi.getText(authorval));
-												decode_html_entities_utf8(szstring, 0);
-												boost::regex xRegEx("<(.|\n)*?>");
-												std::string xStr(szstring);
-												strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-												author = mir_a2t(szstring);
-												mir_free(szstring);
+												TCHAR *string = mir_tstrdup(xi.getText(authorval));
+												ClearText(string);
+												author = mir_tstrdup(string);
+												SysFreeString(string);
 												break;
 											}
 										}
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("comments")) == 0 && xi.getText(itemval))
+									if (!lstrcmpi(xi.getName(itemval), _T("comments")) && xi.getText(itemval))
 									{
-										char* szstring = mir_t2a(xi.getText(itemval));
-										decode_html_entities_utf8(szstring, 0);
-										boost::regex xRegEx("<(.|\n)*?>");
-										std::string xStr(szstring);
-										strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-										comments = mir_a2t(szstring);
-										mir_free(szstring);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										comments = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("id")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("id")))
 									{
 										guid = (TCHAR*)xi.getText(itemval);
 										continue;
 									}
-									if (lstrcmpi(xi.getName(itemval), _T("category")) == 0)
+									if (!lstrcmpi(xi.getName(itemval), _T("category")))
 									{
 										for (int x = 0; x < xi.getAttrCount(itemval); x++)
 										{
-											if (lstrcmpi(xi.getAttrName(itemval, x), _T("term")) == 0 && xi.getText(itemval))
+											if (!lstrcmpi(xi.getAttrName(itemval, x), _T("term")) && xi.getText(itemval))
 											{
-												char* szstring = mir_t2a(xi.getAttrValue(itemval, xi.getAttrName(itemval, x)));
-												decode_html_entities_utf8(szstring, 0);
-												boost::regex xRegEx("<(.|\n)*?>");
-												std::string xStr(szstring);
-												strcpy(szstring, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-												category = mir_a2t(szstring);
-												mir_free(szstring);
+												TCHAR *string = mir_tstrdup(xi.getAttrValue(itemval, xi.getAttrName(itemval, x)));
+												ClearText(string);
+												category = mir_tstrdup(string);
+												SysFreeString(string);
 												break;
 											}
 										}
@@ -1304,60 +1344,62 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								if (DBGetContactSettingTString(hContact, MODULE, "MsgFormat", &dbMsg))
 									message = _T(TAGSDEFAULT);
 								else
-								{
-									message = (TCHAR*)mir_alloc(_tcslen(dbMsg.ptszVal)*sizeof(TCHAR));
-									memcpy(message, dbMsg.ptszVal, _tcslen(dbMsg.ptszVal)*sizeof(TCHAR));
-									message[_tcslen(dbMsg.ptszVal)] = 0;
-									DBFreeVariant(&dbMsg);
-								}
-								if (lstrcmp(title, NULL) == 0)
+									message = mir_tstrdup(dbMsg.ptszVal);
+								DBFreeVariant(&dbMsg);
+
+								if (!title)
 									message = StrReplace(_T("#<title>#"), TranslateT("empty"), message);
 								else
+								{
 									message = StrReplace(_T("#<title>#"), title, message);
-								if (lstrcmp(link, NULL) == 0)
+									mir_free(title);
+								}
+								if (!link)
 									message = StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<link>#"), link, message);
-								if (lstrcmp(descr, NULL) == 0)
+								if (!descr)
 									message = StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 								else
+								{
 									message = StrReplace(_T("#<description>#"), descr, message);
-								if (lstrcmp(author, NULL) == 0)
+									mir_free(descr);
+								}
+								if (!author)
 									message = StrReplace(_T("#<author>#"), TranslateT("empty"), message);
 								else
+								{
 									message = StrReplace(_T("#<author>#"), author, message);
-								if (lstrcmp(comments, NULL) == 0)
+									mir_free(author);
+								}
+								if (!comments)
 									message = StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
 								else
+								{
 									message = StrReplace(_T("#<comments>#"), comments, message);
-								if (lstrcmp(guid, NULL) == 0)
+									mir_free(comments);
+								}
+								if (!guid)
 									message = StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 								else
 									message = StrReplace(_T("#<guid>#"), guid, message);
-								if (lstrcmp(category, NULL) == 0)
+								if (!category)
 									message = StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 								else
+								{
 									message = StrReplace(_T("#<category>#"), category, message);
+									mir_free(category);
+								}
 
-								message = StrReplace(_T("<br>"), _T("\n"), message);
-								message = StrReplace(_T("<br/>"), _T("\n"), message);
-								message = StrReplace(_T("<br />"), _T("\n"), message);
-
+								ClearText(message);
 								char* pszUtf;
 								if (!UtfEncode)
 									pszUtf = mir_utf8encodeT(message);
 								else
 									pszUtf = mir_t2a(message);
-								decode_html_entities_utf8(pszUtf, 0);
-								boost::regex xRegEx("<(.|\n)*?>");
-								std::string xStr(pszUtf);
-								strcpy(pszUtf, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
-								xRegEx = "^\\s+";
-								xStr = pszUtf;
-								strcpy(pszUtf, boost::regex_replace(xStr, xRegEx, "", boost::match_default | boost::format_perl).c_str());
 
 								time_t stamp;
-								if (lstrcmpi(datetime, NULL) ==0)
+								if (!datetime)
 									stamp = time(NULL);
 								else
 									stamp = DateToUnixTime(datetime, 1);
@@ -1372,7 +1414,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									olddbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0);
 									olddbei.pBlob = (PBYTE)malloc(olddbei.cbBlob);
 									CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&olddbei);
-									if (olddbei.cbBlob == lstrlenA(pszUtf) + 1 && lstrcmpA((char*)olddbei.pBlob, pszUtf) == 0)
+									if (olddbei.cbBlob == lstrlenA(pszUtf) + 1 && !lstrcmpA((char*)olddbei.pBlob, pszUtf))
 										MesExist = TRUE;
 									hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT, (WPARAM)hDbEvent, 0);
 								}
