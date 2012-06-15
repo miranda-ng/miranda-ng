@@ -98,13 +98,11 @@ int WorkModuleChain(int firstTime)
 						}
 					if (n) {
 						TCHAR *pszModuleName;
-#ifdef UNICODE
+
 						TCHAR szModuleName[257];
 						MultiByteToWideChar(CP_ACP, 0, modChain[iCurrentModName].name, -1, szModuleName, sizeof(szModuleName) / sizeof(TCHAR));
 						pszModuleName = szModuleName;
-#else
-						pszModuleName = modChain[iCurrentModName].name;
-#endif
+
 						AddToStatus(STATUS_WARNING,TranslateT("Module name '%s' is not unique: %d duplicates found)"), pszModuleName, n);
 					}
 				}

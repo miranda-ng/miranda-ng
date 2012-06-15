@@ -316,17 +316,12 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	static Update upd = {0};
 	static const char *szPrefix = "clist_nicer_plus ";
 
-#if defined(_UNICODE)
+
 	static char *component = "CList Nicer+ (Unicode)";
 	static char szCurrentVersion[30];
 	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/versionW.txt";
 	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plusW.zip";
-#else
-	static char *component = "CList Nicer+";
-	static char szCurrentVersion[30];
-	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/version.txt";
-	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plus.zip";
-#endif
+
 
 	// updater plugin support
 
@@ -2314,11 +2309,9 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				char str[64];
 				DWORD v = pluginInfo.version;
-#if defined(_UNICODE)
+
 				mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d (Unicode)", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
-#else
-				mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
-#endif
+
 				SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
 				mir_snprintf(str, sizeof(str), Translate("Built %s %s"), __DATE__, __TIME__);
 				SetDlgItemTextA(hwndDlg, IDC_BUILDTIME, str);
@@ -2335,11 +2328,9 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					DestroyWindow(hwndDlg);
 					return TRUE;
 				case IDC_SUPPORT:
-#if defined(_UNICODE)
+
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-im.org/download/details.php?action=viewfile&id=2365");
-#else
-					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-im.org/download/details.php?action=viewfile&id=2189");
-#endif
+
 					break;
 			}
 			break;

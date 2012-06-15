@@ -101,7 +101,7 @@ VS_VERSION_INFO VERSIONINFO
  FILESUBTYPE 0x0L
 BEGIN
     BLOCK "StringFileInfo"
-#if defined(UNICODE)    
+   
     BEGIN
         BLOCK "0c0704b0"
         BEGIN
@@ -115,21 +115,7 @@ BEGIN
             VALUE "ProductVersion", "0, 0, 0, 2"
         END
     END
-#else
-    BEGIN
-        BLOCK "0c0704b0"
-        BEGIN
-            VALUE "FileDescription", "Skin Editor (ANSI)"
-            VALUE "FileVersion", "0, 0, 0, 2"
-            VALUE "InternalName", "CLN SkinEdit (ANSI)"
-            VALUE "LegalCopyright", "Copyright (C) 2006"
-            VALUE "LegalTrademarks", "GPL"
-            VALUE "OriginalFilename", "cln_skinedit.dll"
-            VALUE "ProductName", "Clist Nicer+ skin editor"
-            VALUE "ProductVersion", "0, 0, 0, 2"
-        END
-    END
-#endif    
+   
     BLOCK "VarFileInfo"
     BEGIN
         VALUE "Translation", 0xc07, 1200

@@ -1210,12 +1210,10 @@ static void BTN_ReadItem(char *itemName, char *file)
 
     GetPrivateProfileStringA(itemName, "Tip", "None", szBuffer, 1000, file);
     if(strcmp(szBuffer, "None")) {
-#if defined(_UNICODE)
+
         MultiByteToWideChar(cfg::dat.langPackCP, 0, szBuffer, -1, tmpItem.szTip, 256);
         tmpItem.szTip[255] = 0;
-#else
-        mir_snprintf(tmpItem.szTip, 256, "%s", szBuffer);
-#endif
+
     }
     else
         tmpItem.szTip[0] = 0;
@@ -1267,9 +1265,9 @@ void IMG_LoadItems()
      * rewrite the skin loading in TCHAR manner
      */
 
-#if defined(_UNICODE)
+
     WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, 0, 0);
-#endif
+
 
     DBFreeVariant(&dbv);
 
@@ -1335,13 +1333,10 @@ void LoadPerContactSkins(TCHAR *tszFileName)
     StatusItems_t *items = NULL, *this_item;
     HANDLE hContact;
     int i = 1;
-#if defined(_UNICODE)
-    char    file[MAX_PATH];
+	char    file[MAX_PATH];
     WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, file, MAX_PATH, 0, 0);
     file[MAX_PATH - 1] = 0;
-#else
-    char    *file = tszFileName;
-#endif
+
 
     ReadItem(&default_item, "%Default", file);
     ZeroMemory(szSections, 3000);
@@ -1573,11 +1568,9 @@ static void ApplyCLUISkin()
     char        szFinalName[MAX_PATH];
     if (!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
         MY_pathToAbsolute(dbv.ptszVal, tszFinalName);
-#if defined(_UNICODE)
+
         WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, 0, 0);
-#else
-        mir_sntprintf(szFinalName, MAX_PATH, _T("%s"), tszFinalName);
-#endif
+
         if(cfg::getByte("CLUI", "skin_changed", 0)) {
             extbk_import(szFinalName, 0);
             SaveCompleteStructToDB();

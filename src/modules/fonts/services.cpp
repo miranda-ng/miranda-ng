@@ -341,7 +341,6 @@ INT_PTR GetFontW(WPARAM wParam, LPARAM lParam)
 
 INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 {
-	#if defined( _UNICODE )
 		TFontID temp;
 		LOGFONT lftemp;
 		ConvertFontID((FontID *)wParam, &temp);
@@ -349,9 +348,6 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 			ConvertLOGFONT( &lftemp, ( LOGFONTA* )lParam );
 			return ret;
 		}
-	#else
-		return sttGetFontWorker(( TFontID* )wParam, ( LOGFONT* )lParam );
-	#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

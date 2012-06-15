@@ -118,7 +118,7 @@ PLUGININFOEX pluginInfo =
 	{0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 }} //{8F79B4EE-EB48-4a03-873E-27BE6B7E9A25}
 };
 
-#if defined(_UNICODE)
+
 void _DebugTraceW(const wchar_t *fmt, ...)
 {
 #ifdef _DEBUG
@@ -133,7 +133,7 @@ void _DebugTraceW(const wchar_t *fmt, ...)
     OutputDebugStringW(debug);
 #endif
 }
-#endif
+
 
 void _DebugTraceA(const char *fmt, ...)
 {
@@ -324,12 +324,10 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 
 	CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szProfilePath);
 
-#if defined(_UNICODE)
+
 	MultiByteToWideChar(CP_ACP, 0, szProfilePath, MAX_PATH, cfg::dat.tszProfilePath, MAX_PATH);
 	cfg::dat.tszProfilePath[MAX_PATH - 1] = 0;
-#else
-	mir_sntprintf(cfg::dat.tszProfilePath, MAX_PATH, "%s", szProfilePath);
-#endif
+
 
 	_tcslwr(cfg::dat.tszProfilePath);
 

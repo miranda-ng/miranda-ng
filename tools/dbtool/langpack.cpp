@@ -317,11 +317,7 @@ char *LangPackTranslateString(const char *szEnglish, const int W)
 	return W ? (char *)entry->wlocal : entry->local;
 }
 
-#if defined( _UNICODE )
-	#define FLAGS 1
-#else
-	#define FLAGS 0
-#endif
+#define FLAGS 1
 
 static void TranslateWindow( HWND hwnd )
 {

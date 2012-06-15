@@ -581,19 +581,11 @@ HANDLE IcoLib_AddNewIcon( SKINICONDESC* sid )
 
 	if ( sid->pszDefaultFile ) {
 		if ( utf_path ) {
-			#ifdef _UNICODE
+			
 				WCHAR fileFull[ MAX_PATH ];
 
 				pathToAbsoluteW( sid->pwszDefaultFile, fileFull, NULL );
 				item->default_file = mir_wstrdup( fileFull );
-			#else
-				char* file = mir_u2a( sid->pwszDefaultFile );
-				char fileFull[ MAX_PATH ];
-
-				pathToAbsolute( file, fileFull, NULL );
-				SAFE_FREE(( void** )&file );
-				item->default_file = mir_strdup( fileFull );
-			#endif
 		}
 		else {
 			WCHAR *file = mir_a2u( sid->pszDefaultFile );

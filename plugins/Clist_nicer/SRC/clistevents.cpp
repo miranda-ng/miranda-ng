@@ -283,14 +283,12 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 				if (nmi) {
 					TCHAR szBuffer[128];
 					TCHAR* szStatus = pcli->pfnGetStatusModeDescription(cfg::getWord(p->cle.hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
-#if defined(_UNICODE)
+
 					TCHAR szwProto[64];
 					MultiByteToWideChar(CP_ACP, 0, szProto, -1, szwProto, 64);
 					szwProto[63] = 0;
 					_snwprintf(szBuffer, SIZEOF(szBuffer), L"%s: %s (%s)", szwProto, szName, szStatus);
-#else
-					_snprintf(szBuffer, SIZEOF(szBuffer), "%s: %s (%s)", szProto, szName, szStatus);
-#endif
+
 					szBuffer[127] = 0;
 					AppendMenu(cfg::dat.hMenuNotify, MF_BYCOMMAND | MF_STRING, cfg::dat.wNextMenuID, szBuffer);
 					mii.hbmpItem = HBMMENU_CALLBACK;

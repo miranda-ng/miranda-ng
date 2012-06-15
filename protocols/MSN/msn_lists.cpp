@@ -545,13 +545,11 @@ static void SaveSettings(HANDLE hItem, HWND hwndList, CMsnProto* proto)
 			}
 			else if (IsHContactInfo(hItem))
 			{
-#ifdef _UNICODE
+
 				TCHAR buf[MSN_MAX_EMAIL_LEN];
 				SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)buf);
 				WideCharToMultiByte(CP_ACP, 0, buf, -1, szEmail, sizeof(szEmail), 0, 0);
-#else
-				SendMessage(hwndList, CLM_GETITEMTEXT, (WPARAM)hItem, (LPARAM)szEmail);
-#endif
+
 			}
 
 			int dwMask = proto->Lists_GetMask(szEmail);
