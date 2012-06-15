@@ -148,13 +148,6 @@ static void InitOptions() {
 // {53C715A8-EB01-4136-A73C-441868610074}
 #define MIID_FLTCONT  { 0x53c715a8, 0xeb01, 0x4136, { 0xa7, 0x3c, 0x44, 0x18, 0x68, 0x61, 0x0, 0x74 } }
 
-static const MUUID interfaces[] = {MIID_FLTCONT, MIID_LAST};
-
-extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 PLUGININFOEX pluginInfoEx  = {
 	sizeof(PLUGININFOEX), 
 		__PLUGIN_NAME, 

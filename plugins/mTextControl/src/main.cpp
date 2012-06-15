@@ -66,12 +66,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = { MTEXT_UUID, MIID_LAST };
-	return interfaces;
-}
-
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;

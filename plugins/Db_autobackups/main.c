@@ -170,12 +170,6 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_DB_AUTOBACKUPS, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink=link;

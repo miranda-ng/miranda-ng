@@ -154,12 +154,6 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfoEx;
 }
 
-static const MUUID interfaces[] = {MIID_HISTORYSWEEPERLIGHT, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;

@@ -39,12 +39,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_BASSINT, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 #define MAXCHAN	5
 static TCHAR CurrBassPath[MAX_PATH], tmp[MAX_PATH];
 static int sndNSnd = 0, sndLimSnd;
