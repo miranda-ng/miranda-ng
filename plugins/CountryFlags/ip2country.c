@@ -98,7 +98,7 @@ static void LeaveRecordCache(void)
 /************************* Services *******************************/
 
 
-int ServiceIpToCountry(WPARAM wParam,LPARAM lParam)
+INT_PTR ServiceIpToCountry(WPARAM wParam,LPARAM lParam)
 {
 	BYTE *data;
 	DWORD dwFrom,dwTo;

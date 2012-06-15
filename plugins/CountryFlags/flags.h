@@ -69,7 +69,7 @@ void InitIcons(void);
 void UninitIcons(void);
 
 /* ip2country.c */
-int ServiceIpToCountry(WPARAM wParam,LPARAM lParam);
+INT_PTR ServiceIpToCountry(WPARAM wParam,LPARAM lParam);
 void InitIpToCountry(void);
 void UninitIpToCountry(void);
 

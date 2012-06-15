@@ -165,7 +165,7 @@ int FASTCALL CountryNumberToIndex(int countryNumber)
 
 /************************* Services *******************************/
 
-static int ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	/* return handle */
 	if ((BOOL)lParam) {
@@ -176,7 +176,7 @@ static int ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 	return (int)LoadFlagIcon(wParam);
 }
 
-static int ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 {
 	HICON hUpperIcon,hLowerIcon;
 	ICONINFO icoi;

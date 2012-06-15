@@ -273,7 +273,7 @@ static struct CountryListEntry countries[]={
 	{263 ,"Zimbabwe"},
 };
 
-static int ServiceGetCountryByNumber(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceGetCountryByNumber(WPARAM wParam,LPARAM lParam)
 {
 	int i;
 	UNREFERENCED_PARAMETER(lParam);
@@ -283,7 +283,7 @@ static int ServiceGetCountryByNumber(WPARAM wParam,LPARAM lParam)
 	return (int)(char*)NULL;
 }
 
-static int ServiceGetCountryList(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceGetCountryList(WPARAM wParam,LPARAM lParam)
 {
 	if ((int*)wParam==NULL || (void*)lParam==NULL) return 1;
 	*(int*)wParam=SIZEOF(countries);

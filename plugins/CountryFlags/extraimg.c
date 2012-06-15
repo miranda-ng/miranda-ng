@@ -35,7 +35,7 @@ static HANDLE hHookModulesLoaded;
 
 /************************* Services *******************************/
 
-static int ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
+static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
 	int countryNumber=0xFFFF;
 	char *pszProto;
@@ -276,7 +276,7 @@ static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 
 #define M_ENABLE_SUBCTLS  (WM_APP+1)
 
-static int CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
 	switch(msg) {

@@ -36,7 +36,7 @@ static struct BufferedCallData *callList;
 static int nCallListCount;
 
 // always gets called in main message loop
-static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT idTimer,DWORD currentTick)
+static void CALLBACK BufferedProcTimer(HWND hwnd,UINT msg,UINT_PTR idTimer,DWORD currentTick)
 {
 	int i;
 	struct BufferedCallData *buf;
