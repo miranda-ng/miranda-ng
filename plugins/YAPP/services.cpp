@@ -23,19 +23,19 @@ void StripBBCodesInPlace(wchar_t *text) {
 		}
 		if(read > len) break;
 
-		if(len - read >= 3 && (wcsnicmp(text + read, L"[b]", 3) == 0 || wcsnicmp(text + read, L"[i]", 3) == 0))
+		if(len - read >= 3 && (_wcsnicmp(text + read, L"[b]", 3) == 0 || _wcsnicmp(text + read, L"[i]", 3) == 0))
 			read += 3;
-		else if(len - read >= 4 && (wcsnicmp(text + read, L"[/b]", 4) == 0 || wcsnicmp(text + read, L"[/i]", 4) == 0))
+		else if(len - read >= 4 && (_wcsnicmp(text + read, L"[/b]", 4) == 0 || _wcsnicmp(text + read, L"[/i]", 4) == 0))
 			read += 4;
-		else if(len - read >= 6 && (wcsnicmp(text + read, L"[color", 6) == 0)) {
+		else if(len - read >= 6 && (_wcsnicmp(text + read, L"[color", 6) == 0)) {
 			while(read < len && text[read] != L']') read++; 
 			read++;// skip the ']'
-		} else if(len - read >= 8 && (wcsnicmp(text + read, L"[/color]", 8) == 0))
+		} else if(len - read >= 8 && (_wcsnicmp(text + read, L"[/color]", 8) == 0))
 			read += 8;
-		else if(len - read >= 5 && (wcsnicmp(text + read, L"[size", 5) == 0)) {
+		else if(len - read >= 5 && (_wcsnicmp(text + read, L"[size", 5) == 0)) {
 			while(read < len && text[read] != L']') read++; 
 			read++;// skip the ']'
-		} else if(len - read >= 7 && (wcsnicmp(text + read, L"[/size]", 7) == 0))
+		} else if(len - read >= 7 && (_wcsnicmp(text + read, L"[/size]", 7) == 0))
 			read += 7;
 		else {
 			if(text[read] != text[write]) text[write] = text[read];
