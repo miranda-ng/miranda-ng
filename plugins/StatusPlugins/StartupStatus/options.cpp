@@ -185,33 +185,23 @@ HRESULT CreateLink(TSettingsList& protoSettings)
 		TCHAR path[MAX_PATH];
 		GetModuleFileName(NULL, path, SIZEOF(path));
 		psl->SetPath(path);
-		#if defined( _UNICODE )
+		
 			TCHAR* p = mir_a2t( desc );
 			psl->SetDescription( p );
 			mir_free( p );
 			p = mir_a2t( args );
 			psl->SetArguments( p );
 			mir_free( p );
-		#else
-			psl->SetDescription(desc);
-			psl->SetArguments(args);
-		#endif
-
+		
 		// Query IShellLink for the IPersistFile interface for saving the
 		// shortcut in persistent storage.
 		IPersistFile* ppf;
 		hres = psl->QueryInterface(IID_IPersistFile, ( void** )&ppf);
 
 		if (SUCCEEDED(hres)) {
-			#if defined( _UNICODE )
+			
 				WCHAR* wsz = savePath;
-			#else
-				WCHAR wsz[MAX_PATH];
-			
-				// Ensure that the string is ANSI.
-				MultiByteToWideChar(CP_ACP, 0, savePath, -1, wsz, MAX_PATH);
-			#endif
-			
+				
 			// Save the link by calling IPersistFile::Save.
 			hres = ppf->Save(wsz, TRUE);
 			ppf->Release();
@@ -959,11 +949,8 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 }
 
 // from: http://www.codeproject.com/winhelp/msdnintegrator/
-#ifdef _UNICODE
+
 	static const CHAR _szSpecialFolderPath[] = "SHGetSpecialFolderPathW";
-#else
-	static const CHAR _szSpecialFolderPath[] = "SHGetSpecialFolderPathA";
-#endif
 
 BOOL MyGetSpecialFolderPath(HWND hwndOwner, LPTSTR lpszPath, int nFolder, BOOL fCreate)
 {

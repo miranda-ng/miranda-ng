@@ -111,11 +111,9 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 						HANDLE hData=NULL;
 						TCHAR* chBuffer=NULL; 
 						int textLength=0;
-#ifdef _UNICODE
+
 						hData= GetClipboardData(CF_UNICODETEXT);
-#else 
-						hData = GetClipboardData(CF_TEXT);
-#endif
+
 						chBuffer= (TCHAR*)GlobalLock(hData);
 						textLength=(int)_tcslen(chBuffer);
 						pszCBText=mir_tstrdup(chBuffer);
@@ -136,11 +134,9 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 				if(qd->ptszValue){
 						ptszQValue=ParseString(mwpd->hContact,qd->ptszValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(qd->ptszValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
 					if ((bIsService=qd->bIsService)&&ptszQValue)
-#ifdef _UNICODE
+
 						CallService(mir_u2a(ptszQValue),(WPARAM)mwpd->hContact,0);
-#else
-						CallService(ptszQValue,(WPARAM)mwpd->hContact,0);
-#endif
+
 					}
 
 				if(ptszQValue)
@@ -190,11 +186,9 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			HANDLE hData=NULL;
 			TCHAR* chBuffer=NULL; 
 			int textLength=0;
-#ifdef _UNICODE
+
 			hData= GetClipboardData(CF_UNICODETEXT);
-#else 
-			hData = GetClipboardData(CF_TEXT);
-#endif
+
 			chBuffer= (TCHAR*)GlobalLock(hData);
 			textLength=(int)_tcslen(chBuffer);
 			pszCBText=mir_tstrdup(chBuffer);
@@ -236,11 +230,9 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			if(ButtonsList[cbcd->dwButtonId]->ptszQValue)
 				ptszQValue=ParseString(cbcd->hContact,ButtonsList[cbcd->dwButtonId]->ptszQValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(ButtonsList[cbcd->dwButtonId]->ptszQValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
 			if ((bIsService=ButtonsList[cbcd->dwButtonId]->bIsServName)&&ptszQValue)
-#ifdef _UNICODE
+
 				CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
-#else
-				CallService(ptszQValue,(WPARAM)cbcd->hContact,0);
-#endif	
+
 			break;
 		case 2:
 			{
@@ -249,11 +241,9 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			if(bd&&bd->pszValue){
 				ptszQValue=ParseString(cbcd->hContact,bd->pszValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(bd->pszValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
 				if ((bIsService=bd->bIsServName)&&ptszQValue)
-#ifdef _UNICODE
+
 						CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
-#else
-						CallService(ptszQValue,(WPARAM)cbcd->hContact,0);
-#endif			
+			
 				}
 			}
 			break;
@@ -300,11 +290,9 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 			if(bd->pszValue){
 				ptszQValue=ParseString(cbcd->hContact,bd->pszValue,pszText?pszText:_T(""),pszCBText?pszCBText:_T(""),(int)_tcslen(bd->pszValue),textlenght,pszCBText?(int)_tcslen(pszCBText):0);
 					if ((bIsService=bd->bIsServName)&&ptszQValue)
-#ifdef _UNICODE
+
 						CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
-#else
-						CallService(ptszQValue,(WPARAM)cbcd->hContact,0);
-#endif
+
 				}
 			}break;
 		}

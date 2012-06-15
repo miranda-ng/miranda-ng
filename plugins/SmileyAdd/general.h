@@ -51,25 +51,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #pragma warning( disable : 4275 )
 #pragma warning( disable : 4390 )
 
-#if defined _UNICODE || defined UNICODE
-
 #include <wcpattern.h>
 #include <wcmatcher.h>
 
 typedef WCPattern _TPattern;
 typedef WCMatcher _TMatcher;
 #define createTMatcher createWCMatcher
-
-#else
-
-#include <pattern.h>
-#include <matcher.h>
-
-typedef Pattern _TPattern;
-typedef Matcher _TMatcher;
-#define createTMatcher createMatcher
-
-#endif
 
 #pragma warning( pop )
 
@@ -164,18 +151,10 @@ public:
 	operator char*() const { return m_psz; }
 };
 
-#if defined _UNICODE || defined UNICODE
 #define T2A_SM     (char*)W2A_SM
 #define T2W_SM(p1) (wchar_t*)p1
 #define A2T_SM     (wchar_t*)A2W_SM
 #define W2T_SM(p1) (TCHAR*)p1
-#else
-#define T2A_SM(p1) (char*)p1
-#define T2W_SM     A2W_SM
-#define A2T_SM(p1) (TCHAR*)p1
-#define W2T_SM     W2A_SM
-#endif
-
 
 template<class T> struct SMOBJLIST : public OBJLIST<T>
 {

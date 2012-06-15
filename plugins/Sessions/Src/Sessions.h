@@ -76,11 +76,9 @@ extern BOOL g_bIncompletedSave;
 #define TIMERID_SHOW          11
 #define TIMERID_REBUILDAFTER   14
 
-#ifdef _UNICODE
-#define SESSIONS_NAME "sessions_u"
-#else
-#define SESSIONS_NAME "sessions_a"
-#endif
+
+#define SESSIONS_NAME "sessions"
+
 
 #define SESSIONS_VERSION_URL "http://miranda.radicaled.ru/public/updater/sessions.txt"
 

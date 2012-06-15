@@ -11,7 +11,7 @@ tstring db_usage::DBGetPluginSetting(std::string const &name, tstring const &def
 	return value;
 }
 
-#ifdef _UNICODE
+
 std::string db_usage::DBGetPluginSetting(std::string const &name, std::string const &defValue)
 {
 	DBVARIANT dbv;
@@ -21,7 +21,7 @@ std::string db_usage::DBGetPluginSetting(std::string const &name, std::string co
 	DBFreeVariant(&dbv);
 	return value;
 }
-#endif
+
 
 bool db_usage::DBGetPluginSetting(std::string const &name, bool const &defValue)
 {
@@ -39,12 +39,12 @@ void db_usage::DBSetPluginSetting(std::string const &name, tstring const &value)
 	DBWriteContactSettingTString(NULL, pluginName, name.c_str(), value.c_str());
 }
 
-#ifdef _UNICODE
+
 void db_usage::DBSetPluginSetting(std::string const &name, std::string const &value)
 {
 	DBWriteContactSettingString(NULL, pluginName, name.c_str(), value.c_str());
 }
-#endif
+
 
 void db_usage::DBSetPluginSetting(std::string const &name, bool const &value)
 {

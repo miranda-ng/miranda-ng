@@ -26,9 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
 #include "m_popup.h"
-#if defined _UNICODE || defined UNICODE
-#include "m_popupw.h"
-#endif
 */
 static ULONG_PTR g_gdiplusToken = 0;
 static bool gdiPlusFail = false;
@@ -278,22 +275,18 @@ void ReportError(const TCHAR* errmsg)
 {
 	static const TCHAR title[] = _T("Miranda SmileyAdd");
 /*
-#if defined _UNICODE || defined UNICODE
+
 	POPUPDATAW pd = {0};
-#else
-	POPUPDATAEX pd = {0};
-#endif
+
 
 	_tcscpy(pd.lpwzContactName, title);
 	_tcscpy(pd.lpwzText, errmsg);
 
 	pd.iSeconds = -1;
 
-#if defined _UNICODE || defined UNICODE
+
 	bool popupFail = PUAddPopUpW(&pd)  != CALLSERVICE_NOTFOUND;
-#else
-	bool popupFail = PUAddPopUpEx(&pd) != CALLSERVICE_NOTFOUND;
-#endif
+
 	if (popupFail)
 */		
 		MessageBox(NULL, errmsg, title, MB_OK | MB_ICONWARNING | MB_TOPMOST);
@@ -302,14 +295,5 @@ void ReportError(const TCHAR* errmsg)
 #pragma warning( disable : 4786 )
 #undef _MT
 
-#if defined _UNICODE || defined UNICODE
-
 #include <wcpattern.cpp>
 #include <wcmatcher.cpp>
-
-#else
-
-#include <pattern.cpp>
-#include <matcher.cpp>
-
-#endif

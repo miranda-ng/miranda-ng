@@ -56,11 +56,7 @@ static const PLUGININFOEX pluginInfoEx =
 	"Copyright© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer",
 	"http://code.google.com/p/mirandaimplugins/downloads/list",
 	//	"http://addons.miranda-im.org/index.php?action=display&id=2152",
-#if defined(UNICODE) | defined(_UNICODE)
 	UNICODE_AWARE,		//not transient
-#else
-	0,
-#endif
 	0,		//doesn't replace anything built-in
 	// {BD542BB4-5AE4-4d0e-A435-BA8DBE39607F}
 	{ 0xbd542bb4, 0x5ae4, 0x4d0e, { 0xa4, 0x35, 0xba, 0x8d, 0xbe, 0x39, 0x60, 0x7f } }
@@ -145,19 +141,13 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	char temp[80];
 	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(temp), (LPARAM)temp);
 
-#ifdef _UNICODE
+
 	if (strstr(temp, "Unicode") == NULL)
 	{
 		ReportError(TranslateT("Please update SmileyAdd to ANSI Version"));
 		return 1;
 	}
-#else
-	if (strstr(temp, "Unicode") != NULL)
-	{
-		ReportError(Translate("Please update SmileyAdd to Unicode Version"));
-		return 1;
-	}
-#endif
+
 
 	InitImageCache();
 
@@ -190,9 +180,9 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	hService[10] = CreateServiceFunction(MS_SMILEYADD_RELOAD, ReloadPack);
 	hService[11] = CreateServiceFunction(MS_SMILEYADD_LOADCONTACTSMILEYS, LoadContactSmileys); 
 
-#if defined(UNICODE) | defined(_UNICODE)
+
 	hService[12] = CreateServiceFunction(MS_SMILEYADD_PARSEW, ParseTextW);
-#endif
+
 
 	return 0;
 }

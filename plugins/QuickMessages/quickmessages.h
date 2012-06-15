@@ -72,11 +72,9 @@ int OptionsInit(WPARAM,LPARAM);
 
 #define SIZEOF(X)(sizeof(X)/sizeof(X[0]))
 
-#ifdef _UNICODE
-#define QMESSAGES_NAME "quickmessages_u"
-#else
-#define QMESSAGES_NAME "quickmessages_a"
-#endif 
+
+#define QMESSAGES_NAME "quickmessages"
+
 
 #define QMESSAGES_VERSION_URL "http://miranda.radicaled.ru/public/updater/quickmessages.txt"
 

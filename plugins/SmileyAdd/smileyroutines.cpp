@@ -29,12 +29,9 @@ ISmileyBase* CreateSmileyObject(SmileyType* sml);
 ISmileyBase* CreateAniSmileyObject(SmileyType* sml, COLORREF clr, bool ishpp);
 
 
-#ifdef _UNICODE
+
 bool g_HiddenTextSupported = true;
-#else
-int RichEditVersion(void);
-bool g_HiddenTextSupported = (RichEditVersion() == 3);
-#endif
+
 
 // {8CC497C0-A1DF-11CE-8098-00AA0047BE5D}
 const GUID IID_ITextDocument = 
@@ -272,11 +269,6 @@ void ReplaceSmileys(HWND hwnd, SmileyPackType* smp, SmileyPackCType* smcp, const
 
 	SmileysQueueType smllist;
 
-#if !defined(_UNICODE) && !defined(UNICODE)
-	size_t len = SysStringLen(btxt);
-	for (unsigned i=0; i<len; ++i)
-		if (btxt[i] == 65532) btxt[i] = L' ';
-#endif
 
 	LookupAllSmileys(smp, smcp, W2T_SM(btxt), smllist, false);
 
@@ -616,39 +608,3 @@ void ReplaceSmileysWithText(HWND hwnd, CHARRANGE& sel, bool keepFrozen)
 	TextDocument->Release();
 	RichEditOle->Release();
 }
-
-
-#if !defined(_UNICODE) && !defined(UNICODE)
-int RichEditVersion(void) 
-{
-	int ret = -1;
-
-	HMODULE hLib = GetModuleHandle(_T("riched20.dll"));
-	HRSRC hVersion = FindResource(hLib, MAKEINTRESOURCE(VS_VERSION_INFO), RT_VERSION);
-	if (hVersion != NULL)
-	{
-		HGLOBAL hGlobal = LoadResource(hLib, hVersion); 
-		if (hGlobal != NULL)  
-		{  
-			LPVOID versionInfo  = LockResource(hGlobal);  
-			if (versionInfo != NULL)
-			{
-				int vl = *(unsigned short*)versionInfo;
-				unsigned *res = (unsigned*)versionInfo;
-				while (*res != 0xfeef04bd && ((char*)res - (char*)versionInfo) < vl) ++res;
-
-				if (((char*)res - (char*)versionInfo) < vl)
-				{
-					VS_FIXEDFILEINFO *vsInfo = (VS_FIXEDFILEINFO*)res;
-					ret = LOWORD(vsInfo->dwFileVersionMS) ? 3 : 2;
-				}
-			}
-			UnlockResource(hGlobal);  
-			FreeResource(hGlobal);  
-		}
-	}
-	return ret;
-}
-#endif
-
-

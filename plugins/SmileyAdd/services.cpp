@@ -253,7 +253,7 @@ INT_PTR ParseText(WPARAM, LPARAM lParam)
 	return TRUE;
 }
 
-#if defined(UNICODE) | defined(_UNICODE)
+
 INT_PTR ParseTextW(WPARAM, LPARAM lParam)
 {
 	SMADD_PARSEW* smre = (SMADD_PARSEW*) lParam;
@@ -294,7 +294,7 @@ INT_PTR ParseTextW(WPARAM, LPARAM lParam)
 
 	return TRUE;
 }
-#endif
+
 
 INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 {
@@ -341,11 +341,8 @@ INT_PTR ParseTextBatch(WPARAM, LPARAM lParam)
 	}
 
 	smre->numSmileys = smllist.getCount();
-#if defined(UNICODE) | defined(_UNICODE)
+
 	smre->oflag = smre->flag | SAFL_UNICODE;
-#else
-	smre->oflag = smre->flag & ~SAFL_UNICODE;
-#endif
 
 	return (INT_PTR)res;
 }
@@ -363,16 +360,14 @@ INT_PTR RegisterPack(WPARAM, LPARAM lParam)
 	if (smre == NULL || smre->cbSize < sizeof(SMADD_REGCAT)) return FALSE;
 	if (IsBadStringPtrA(smre->name, 50) || IsBadStringPtrA(smre->dispname, 50)) return FALSE;
 
-#if (defined _UNICODE || defined UNICODE)
+
 	unsigned lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	if (lpcp == CALLSERVICE_NOTFOUND) lpcp = CP_ACP;
-#endif
 
-#if (defined _UNICODE || defined UNICODE)
+
+
 	bkstring nmd(A2W_SM(smre->dispname, lpcp));
-#else
-	bkstring nmd(smre->dispname);
-#endif
+
 
 	bkstring nm(A2T_SM(smre->name));
 	g_SmileyCategories.AddAndLoad(nm, nmd);

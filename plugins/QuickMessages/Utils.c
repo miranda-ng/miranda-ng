@@ -474,11 +474,9 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 					TCHAR* p=NULL;
 					int NameLenght=0;
 					TCHAR* ptszName=NULL;
-#ifdef _UNICODE
+
 					ptszName=mir_a2u((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
-#else
-					ptszName=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-#endif
+
 					NameLenght=(int)_tcslen(ptszName);
 
 					p=realloc(tempQValue, (QVSize+NameLenght+1)*sizeof(TCHAR));
@@ -538,11 +536,9 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 					ZeroMemory(&ci,sizeof(CONTACTINFO));
 					ci.cbSize = sizeof(CONTACTINFO);
 					ci.hContact = hContact;
-#ifdef UNICODE
+
 					ci.dwFlag =CNF_FIRSTNAME|CNF_UNICODE;
-#else
-					ci.dwFlag =CNF_FIRSTNAME;
-#endif
+
 					ci.szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 					if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)&&ci.pszVal){
 						NameLenght=(int)_tcslen(ci.pszVal);
@@ -578,11 +574,9 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 					ci.cbSize = sizeof(CONTACTINFO);
 					ci.hContact = hContact;
 					ci.szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-#ifdef UNICODE
+
 					ci.dwFlag =CNF_LASTNAME|CNF_UNICODE;
-#else
-					ci.dwFlag =CNF_LASTNAME;
-#endif
+
 					if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)&&ci.pszVal){
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;

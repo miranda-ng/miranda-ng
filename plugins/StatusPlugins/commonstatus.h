@@ -21,10 +21,6 @@
 #ifndef COMMONSTATUSHEADER
 #define COMMONSTATUSHEADER
 
-#if defined( UNICODE ) && !defined( _UNICODE )
-	#define _UNICODE
-#endif
-
 #define MIRANDA_VER 0x0A00
 
 #define _CRT_SECURE_NO_WARNINGS

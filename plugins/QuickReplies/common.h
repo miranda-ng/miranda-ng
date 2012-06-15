@@ -59,11 +59,7 @@ extern HANDLE hQuickRepliesService;
 extern HANDLE hOnModulesLoaded;
 extern HANDLE hOnPreShutdown;
 
-#ifdef _UNICODE
-	typedef std::wstring tString;
-#else
-	typedef std::string tString;
-#endif //_UNICODE
+typedef std::wstring tString;
 
 INT_PTR QuickRepliesService(WPARAM wParam, LPARAM lParam);
 

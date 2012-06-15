@@ -34,27 +34,23 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_ADDED, wParam, lParam)
 		{
 			if (!plSets->HandleAuthReq.Get())
 			{
-				#ifdef _UNICODE
+				
 					char * buf=mir_utf8encodeW(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
 					CallContactService(hcntct, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 					mir_free(buf);
-				#else
-					CallContactService(hcntct, PSS_MESSAGE, 0, (LPARAM)(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str()));
-				#endif
+				
 			}
 			char *AuthRepl;
-			#ifdef _UNICODE
+			
 				AuthRepl=mir_u2a(variables_parse(plSets->AuthRepl.Get(), hcntct).c_str());
-			#else
-				AuthRepl=variables_parse(plSets->AuthRepl.Get(), hcntct).c_str();
-			#endif
+			
 			// ...send message
 			std::string allowService = dbei.szModule;
 			allowService += PS_AUTHDENY;
 			CallService(allowService.c_str(), (WPARAM)hDbEvent, (LPARAM)AuthRepl);
-			#ifdef _UNICODE
+		
 				mir_free(AuthRepl);
-			#endif
+		
 			DBWriteContactSettingByte(hcntct, "CList", "NotOnList", 1);
 			DBWriteContactSettingByte(hcntct, "CList", "Hidden", 1);
 			if (!plSets->HistLog.Get())
@@ -108,23 +104,17 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	
 	if(dbei->flags & DBEF_UTF){
 		WCHAR* msg_u=mir_utf8decodeW((char*)dbei->pBlob);
-#ifdef _UNICODE
+
 		message = msg_u;
-#else
-		char* msg_a = mir_u2a(msg_u);
-		message = msg_a;
-		mir_free(msg_a);
-#endif
+
 		mir_free(msg_u);
 	}
 	else{
-#ifdef _UNICODE
+
 		WCHAR* msg_u = mir_a2u((char*)(dbei->pBlob));
 		message = msg_u;
 		mir_free(msg_u);
-#else
-		message = (char*)(dbei->pBlob);
-#endif
+
 	}
 
 	// if message equal right answer...	
@@ -156,14 +146,11 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 					DBDeleteContactSetting(hContact, "CList", "NotOnList");
 
 				// send congratulation
-		#ifdef _UNICODE
+		
 				char * buf=mir_utf8encodeW(variables_parse(plSets->Congratulation.Get(), hContact).c_str());
 				CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 				mir_free(buf);
-		#else
-				CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)(variables_parse(plSets->Congratulation.Get(), hContact).c_str()));
-		#endif
-
+		
 				// process the event
 				return 1;
 			}
@@ -179,13 +166,11 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		// send question
 		tstring q = infTalkProtPrefix + variables_parse((tstring)(plSets->Question), hContact);
 
-#ifdef _UNICODE
+
 		char * buf=mir_utf8encodeW(q.c_str());
 		CallContactService(hContact, PSS_MESSAGE, PREF_UTF, (LPARAM)buf);
 		mir_free(buf);
-#else
-		CallContactService(hContact, PSS_MESSAGE, 0, (LPARAM)q.c_str());
-#endif
+
 		
 		// increment question count
 		DWORD questCount = DBGetContactSettingDword(hContact, pluginName, questCountSetting, 0);

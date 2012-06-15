@@ -7,16 +7,12 @@ class db_usage
 public:
 	//reading from database
 	static tstring DBGetPluginSetting(std::string const &name, tstring const &defValue);
-#ifdef _UNICODE
 	static std::string DBGetPluginSetting(std::string const &name, std::string const &defValue);
-#endif
 	static bool DBGetPluginSetting(std::string const &name, bool const &defValue);
 	static DWORD DBGetPluginSetting(std::string const &name, DWORD const &defValue);
 	//writting to database
 	static void DBSetPluginSetting(std::string const &name, tstring const &value);
-#ifdef _UNICODE
 	static void DBSetPluginSetting(std::string const &name, std::string const &value);
-#endif
 	static void DBSetPluginSetting(std::string const &name, bool const &value);
 	static void DBSetPluginSetting(std::string const &name, DWORD const &value);
 

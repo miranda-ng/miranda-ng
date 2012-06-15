@@ -45,11 +45,9 @@ TCHAR *Hlp_GetProtocolName(const char *proto) {
 	if ( (!ProtoServiceExists(proto, PS_GETNAME)) || (CallProtoService(proto, PS_GETNAME, (WPARAM)sizeof(protoname), (LPARAM)protoname)) ) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	return a2u(protoname);
-#else
-	return _strdup(protoname);
-#endif
+
 }
 
 char *Hlp_GetDlgItemTextA(HWND hwndDlg, int nIDDlgItem) {
@@ -195,11 +193,9 @@ int AddDebugLogMessage(const TCHAR* fmt, ...) {
 	_tcsncpy(tszFinal, tszText, sizeof(tszFinal));
 #endif
 
-#ifdef UNICODE
+
 	szFinal = u2a(tszFinal);
-#else
-	szFinal = _strdup(tszFinal);
-#endif
+
 	res = WriteToDebugLogA(szFinal);
 	free(szFinal);
 
@@ -242,11 +238,9 @@ int AddErrorLogMessage(const TCHAR* fmt, ...) {
 	_tcsncpy(tszFinal, tszText, sizeof(tszFinal));
 #endif
 
-#ifdef UNICODE
+
 	szFinal = u2a(tszFinal);
-#else
-	szFinal = _strdup(tszFinal);
-#endif
+
 	res = WriteToDebugLogA(szFinal);
 	MessageBoxA(NULL, szFinal, "Error", MB_OK|MB_ICONERROR);
 	free(szFinal);
@@ -268,11 +262,9 @@ TCHAR *itot(int num) {
 	// check this
 	_itoa(num, tRes, 10);
 
-#ifdef UNICODE
+
 	return a2u(tRes);
-#else
-	return _strdup(tRes);
-#endif
+
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -427,7 +419,7 @@ int Hlp_UnicodeCheck(char *szPluginName, BOOL bForce, const char *szModule) {
 
 	if (!CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(szVersionText), (LPARAM)szVersionText)) {
 		ptr = strstr(szVersionText, "Unicode");
-#ifdef UNICODE
+
 		if ( (ptr == NULL) && (!DBGetContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 0)) ) {
 			if (bForce) {
 				MessageBoxA(NULL, "You are running the ANSI version Miranda. Please use the ANSI build of this plugin.", szPluginName, MB_OK);
@@ -441,21 +433,6 @@ int Hlp_UnicodeCheck(char *szPluginName, BOOL bForce, const char *szModule) {
 				return 0;
 			}
 		}
-#else
-		if ( (ptr != NULL) && (!DBGetContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 0)) ) {
-			if (bForce) {
-				MessageBoxA(NULL, "You are running the UNICODE version Miranda. Please use the UNICODE build of this plugin.", szPluginName, MB_OK);
-			
-				return -1;
-			}
-			else {
-				MessageBoxA(NULL, "You are running the UNICODE version Miranda. It's recommened to use the UNICODE build of this plugin.", szPluginName, MB_OK);
-				DBWriteContactSettingByte(NULL, szModule, SETTING_NOENCODINGCHECK, 1);
-
-				return 0;
-			}
-		}
-#endif
 	}
 #endif
 

@@ -75,11 +75,9 @@ static HMODULE LoadDll(const bkstring& file)
 	{
 		FreeLibrary(lastmodule);
 		lastdllname = file;
-#if (defined _UNICODE || defined UNICODE)
+
 		lastmodule = LoadLibraryEx(file.c_str(), NULL, LOAD_LIBRARY_AS_DATAFILE);
-#else
-		lastmodule = LoadLibraryEx(file.c_str(), NULL, DONT_RESOLVE_DLL_REFERENCES);
-#endif
+
 	}
 	laststamp = time(NULL);
 

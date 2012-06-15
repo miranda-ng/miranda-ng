@@ -993,10 +993,10 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 
 	const bkstring& defaultFile = GetSmileyCategory(tname)->GetFilename();
 
-#if (defined _UNICODE || defined UNICODE)
+
 	unsigned lpcp = (unsigned)CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 	if (lpcp == CALLSERVICE_NOTFOUND) lpcp = CP_ACP;
-#endif
+
 
 	PROTOCOLDESCRIPTOR **protoList;
 	PROTOACCOUNT **accList;
@@ -1029,11 +1029,9 @@ void SmileyCategoryListType::AddAllProtocolsAsCategory(void)
 				char protoName[128];
 				CallProtoService(protoList[i]->szName, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
 
-#if (defined _UNICODE || defined UNICODE)
+
 				displayName = A2W_SM(protoName, lpcp);
-#else
-				displayName = protoName;
-#endif
+
 				tname = A2T_SM(protoList[i]->szName);
 				AddCategory(tname, displayName, smcProto, paths); 
 			}
