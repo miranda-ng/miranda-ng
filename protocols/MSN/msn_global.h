@@ -220,16 +220,6 @@ __inline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 
 char* arrayToHex(BYTE* data, size_t datasz);
 
-#if defined(_UNICODE) || defined(_WIN64)
-
-#define MyInterlockedIncrement InterlockedIncrement
-
-#else
-
-extern LONG (WINAPI *MyInterlockedIncrement)(LONG volatile* pVal);
-
-#endif
-
 inline unsigned short _htons(unsigned short s)
 {
 	return s>>8|s<<8;

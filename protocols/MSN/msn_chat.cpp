@@ -43,7 +43,7 @@ HANDLE CMsnProto::MSN_GetChatInernalHandle(HANDLE hContact)
 int CMsnProto::MSN_ChatInit(WPARAM wParam, LPARAM)
 {
 	ThreadData *info = (ThreadData*)wParam;
-	MyInterlockedIncrement(&sttChatID);
+	InterlockedIncrement(&sttChatID);
 	_ltot(sttChatID, info->mChatID, 10);
 
 	TCHAR szName[512];

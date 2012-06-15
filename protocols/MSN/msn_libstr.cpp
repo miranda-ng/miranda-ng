@@ -195,9 +195,7 @@ static int SingleHexToDecimal(char c)
 }
 
 template void UrlDecode(char* str);
-#ifdef _UNICODE
 template void UrlDecode(wchar_t* str);
-#endif
 
 template <class chartype> void UrlDecode(chartype* str)
 {

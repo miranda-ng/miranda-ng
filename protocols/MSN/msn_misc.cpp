@@ -22,44 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "msn_proto.h"
 #include "version.h"
 
-#if !defined(_UNICODE) && !defined(_WIN64)
-
-typedef LONG (WINAPI pIncrementFunc)(LONG volatile*);
-static pIncrementFunc  MyInterlockedIncrement95;
-static pIncrementFunc  MyInterlockedIncrementInit;
-
-pIncrementFunc *MyInterlockedIncrement = MyInterlockedIncrementInit;
-
-static CRITICAL_SECTION csInterlocked95;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// InterlockedIncrement emulation
-
-static LONG WINAPI MyInterlockedIncrement95(LONG volatile* pVal)
-{
-	DWORD ret;
-	EnterCriticalSection(&csInterlocked95);
-	ret=++*pVal;
-	LeaveCriticalSection(&csInterlocked95);
-	return ret;
-}
-
-//there's a possible hole here if too many people call this at the same time, but that doesn't happen
-static LONG WINAPI MyInterlockedIncrementInit(LONG volatile* pVal)
-{
-	DWORD ver = GetVersion();
-	if ((ver & 0x80000000) && LOWORD(ver) == 0x0004)
-	{
-		InitializeCriticalSection(&csInterlocked95);
-		MyInterlockedIncrement = MyInterlockedIncrement95;
-	}
-	else
-		MyInterlockedIncrement = (pIncrementFunc*)InterlockedIncrement;
-
-	return MyInterlockedIncrement(pVal);
-}
-
-#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaStatusToMSN - status helper functions
@@ -650,7 +612,7 @@ int ThreadData::sendRawMessage(int msgType, const char* data, int datLen)
 
 	char* buf = (char*)alloca(datLen + 100);
 
-	int thisTrid = MyInterlockedIncrement(&mTrid);
+	int thisTrid = InterlockedIncrement(&mTrid);
 	int nBytes = mir_snprintf(buf, 100, "MSG %d %c %d\r\nMIME-Version: 1.0\r\n",
 		thisTrid, msgType, datLen + 19);
 	memcpy(buf + nBytes, data, datLen);
@@ -814,7 +776,7 @@ int ThreadData::sendPacket(const char* cmd, const char* fmt,...)
 		mir_snprintf(str, strsize, "%s", cmd);
 	else
 	{
-		thisTrid = MyInterlockedIncrement(&mTrid);
+		thisTrid = InterlockedIncrement(&mTrid);
 		if (fmt[0] == '\0')
 			mir_snprintf(str, strsize, "%s %d", cmd, thisTrid);
 		else {
