@@ -10,7 +10,7 @@ in Miranda IM.
 
 Requirements
 ------------
- - Miranda IM 0.4
+ - Miranda  IM 0.4
 
 
 History
