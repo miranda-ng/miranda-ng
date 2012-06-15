@@ -269,13 +269,19 @@ void CMsnProto::sttNotificationMessage(char* msgBody, bool isInitial)
 		wchar_t* mimeFromW = tFileInfo.decode(From);
 		wchar_t* mimeSubjectW = tFileInfo.decode(Subject);
 
-
+#ifdef _UNICODE
 		mir_sntprintf(tBuffer2, SIZEOF(tBuffer2), TranslateT("Subject: %s"), mimeSubjectW);
+#else
+		mir_sntprintf(tBuffer2, SIZEOF(tBuffer2), TranslateT("Subject: %S"), mimeSubjectW);
+#endif
 
-
+#ifdef _UNICODE
 		TCHAR* msgtxt = _stricmp(From, Fromaddr) ?
 			TranslateT("Hotmail from %s (%S)") : TranslateT("Hotmail from %s");
-
+#else
+		TCHAR* msgtxt = _strcmpi(From, Fromaddr) ?
+			TranslateT("Hotmail from %S (%s)") : TranslateT("Hotmail from %S");
+#endif
 		mir_sntprintf(tBuffer, SIZEOF(tBuffer), msgtxt, mimeFromW, Fromaddr);
 		mir_free(mimeFromW);
 		mir_free(mimeSubjectW);

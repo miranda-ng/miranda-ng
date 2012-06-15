@@ -220,7 +220,7 @@ __inline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
 
 char* arrayToHex(BYTE* data, size_t datasz);
 
-#if defined(_WIN64)
+#if defined(_UNICODE) || defined(_WIN64)
 
 #define MyInterlockedIncrement InterlockedIncrement
 
