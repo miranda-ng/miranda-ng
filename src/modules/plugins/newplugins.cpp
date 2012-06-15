@@ -174,16 +174,20 @@ static int equalUUID(const MUUID& u1, const MUUID& u2)
 static MUUID miid_last = MIID_LAST;
 static MUUID miid_servicemode = MIID_SERVICEMODE;
 
-static int validInterfaceList(Miranda_Plugin_Interfaces ifaceProc)
+static bool validInterfaceList(Miranda_Plugin_Interfaces ifaceProc)
 {
-	MUUID *piface = ( ifaceProc ) ? ifaceProc() : NULL;
-	int i = 0/*, j*/;
+	// we don't need'em anymore in the common case
+	if (ifaceProc == NULL)
+		return true;
 
-	if (!piface)
-		return 0;
-	if (equalUUID(miid_last, piface[0]))
-		return 0;
-	return 1;
+	MUUID *piface = ifaceProc();
+	if (piface == NULL)
+		return false;
+
+	if ( equalUUID(miid_last, piface[0]))
+		return false;
+
+	return true;
 }
 
 static int isPluginBanned(MUUID u1, DWORD dwVersion)
@@ -282,7 +286,7 @@ static int checkAPI(TCHAR* plugin, BASIC_PLUGIN_INFO* bpi, DWORD mirandaVersion,
 	bpi->Interfaces = (Miranda_Plugin_Interfaces) GetProcAddress(h, "MirandaPluginInterfaces");
 
 	// if they were present
-	if ( !bpi->Load || !bpi->Unload || !bpi->InfoEx || !bpi->Interfaces ) {
+	if ( !bpi->Load || !bpi->Unload || !bpi->InfoEx) {
 LBL_Error:
 		FreeLibrary(h);
 		return 0;
