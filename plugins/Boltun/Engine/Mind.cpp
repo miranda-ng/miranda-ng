@@ -26,9 +26,7 @@
 
 #include <windows.h>
 
-#ifdef UNICODE
 #include "MyCodeCvt.h"
-#endif
 
 using namespace std;
 
@@ -108,19 +106,19 @@ void Mind::Load(tstring filename)
 {
 	basic_ifstream<TCHAR, char_traits<TCHAR> > file;
 	setlocale(LC_ALL, "");
-#ifdef UNICODE
+
 	locale ulocale(locale(), new MyCodeCvt);
 	file.imbue(ulocale);
-#endif
+
 	file.open(filename.c_str(), ios_base::in | ios_base::binary);
 	tstring s1, st;
 	TCHAR *c, *co;
 	size_t count;
 	int error = 0;
 	int line = 1;
-#ifdef UNICODE
+
 	bool start = true;
-#endif
+
 	try
 	{
 		while (file.good())
@@ -129,7 +127,7 @@ void Mind::Load(tstring filename)
 			if (st.empty())
 				break;
 			line++;
-#ifdef UNICODE
+
 			if (start)
 			{
 				if (st[0] == 65279)
@@ -141,7 +139,7 @@ void Mind::Load(tstring filename)
 					fileTypeMark = false;
 				start = false;
 			}
-#endif
+
 			format(st);
 			count = st.length();
 			c = co = new TCHAR[count+1];
@@ -317,15 +315,15 @@ void Mind::Load(tstring filename)
 void Mind::Save(tstring filename) const
 {
 	basic_ofstream<TCHAR, char_traits<TCHAR> > file;
-#ifdef UNICODE
+
 	locale ulocale(locale(), new MyCodeCvt);
 	file.imbue(ulocale);
-#endif
+
 	file.open(filename.c_str(), ios_base::out | ios_base::binary);
-#ifdef UNICODE
+
 	if (fileTypeMark)
 		file << TCHAR(65279);
-#endif
+
 	for (string_mmap::iterator it = data->study.begin(); it != data->study.end(); it++)
 	{
 		file << (*it).first << _T('\r') << endl;

@@ -138,14 +138,7 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 	RECT rc;
 //	SystemParametersInfo(SPI_GETWORKAREA, 0, &rc, 0);
 
-#if !defined(_UNICODE)
-	//Win95 or NT don't have the support for multi monitor.
-	if (!MyGetMonitorInfo) {
-		SystemParametersInfo(SPI_GETWORKAREA,0,&rc,0);
-	}
-	//Windows 98/ME/2000/XP do have it.
-	else
-#endif
+
 	if (GetSystemMetrics(SM_CMONITORS)==1) { //we have only one monitor (cant check it together with 1.if)
 		SystemParametersInfo(SPI_GETWORKAREA,0,&rc,0);
 	}
@@ -161,13 +154,10 @@ bool UpdatePopupPosition(PopupWnd2 *prev, PopupWnd2 *wnd)
 
 		mnti.cbSize = sizeof(MONITORINFOEX);
 
-#if defined(_UNICODE)
+
 		hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
 		if (GetMonitorInfo(hMonitor, (LPMONITORINFO)&mnti) == TRUE) //It worked
-#else
-		hMonitor = MyMonitorFromWindow(hWnd, MONITOR_DEFAULTTOPRIMARY);
-		if (MyGetMonitorInfo(hMonitor, (LPMONITORINFO)&mnti) == TRUE) //It worked
-#endif
+
 			CopyMemory(&rc, &(mnti.rcWork), sizeof(RECT));
 		else
 			SystemParametersInfo(SPI_GETWORKAREA,0,&rc,0);

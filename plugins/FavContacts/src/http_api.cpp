@@ -97,14 +97,14 @@ public:
 		m_socket->Send(s);
 	}
 
-#ifdef UNICODE
+
 	void Send(WCHAR *ws)
 	{
 		char *s = mir_utf8encodeW(ws);
 		m_socket->Send(s);
 		mir_free(s);
 	}
-#endif
+
 
 	void Send(int i)
 	{

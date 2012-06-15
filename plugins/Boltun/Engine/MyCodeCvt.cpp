@@ -18,8 +18,6 @@
 //
 //***********************************************************
 
-#ifdef UNICODE
-
 #include "MyCodeCvt.h"
 
 using namespace std;
@@ -81,5 +79,3 @@ int MyCodeCvt::do_encoding() const _THROW0()
 {
 	return 2;
 }
-
-#endif

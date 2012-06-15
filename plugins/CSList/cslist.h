@@ -43,16 +43,11 @@
 #ifndef __CSLIST_H
 #define __CSLIST_H 1
 
-#if defined UNICODE
+
 #define WINVER          0x501
 #define _WIN32_WINNT    0x501
 #define _WIN32_IE	    0x600
-#else
-#define WINVER          0x400
-#define _WIN32_WINNT    0x400
-#define _WIN32_IE       0x400
-#define LVIF_GROUPID    0
-#endif
+
 #define MIRANDA_VER   0x0A00
 
 #pragma warning( disable: 4996 )

@@ -19,9 +19,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#if defined( UNICODE ) && !defined( _UNICODE )
-	#define _UNICODE
-#endif
 
 #include <tchar.h>
 
@@ -116,13 +113,8 @@ __inline LPSTR Translate(LPSTR source)
 {	return ( LPSTR )LangPackTranslateString( source, 0 );
 }
 
-#if defined( _UNICODE )
-	#define TranslateT(s) (TCHAR*)LangPackTranslateString((LPCSTR)_T(s),1)
-	#define TranslateTS(s) (TCHAR*)LangPackTranslateString((LPCSTR)s,1)
-#else
-	#define TranslateT(s) LangPackTranslateString(s,0)
-	#define TranslateTS(s) LangPackTranslateString(s,0)
-#endif
+#define TranslateT(s) (TCHAR*)LangPackTranslateString((LPCSTR)_T(s),1)
+#define TranslateTS(s) (TCHAR*)LangPackTranslateString((LPCSTR)s,1)
 
 char* Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2);
 char* Utf8EncodeUcs2(const wchar_t* src);

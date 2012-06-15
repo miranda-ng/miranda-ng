@@ -298,7 +298,6 @@ static int __inline CheckStr(char *str, int not_empty, int empty) {
 		return not_empty;
 }
 
-#ifdef UNICODE
 
 static int __inline CheckStrW(WCHAR *str, int not_empty, int empty) {
 	if (str == NULL || str[0] == L'\0')
@@ -307,7 +306,6 @@ static int __inline CheckStrW(WCHAR *str, int not_empty, int empty) {
 		return not_empty;
 }
 
-#endif
 
 WCHAR *mir_dupToUnicodeEx(char *ptr, UINT CodePage)
 {
@@ -334,7 +332,7 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 			smi->newstatusmsg = NULL;
 			break;
 		case DBVT_ASCIIZ:
-#ifdef UNICODE
+
 			smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(cws_new->value.pszVal, CP_ACP));
 			break;
 		case DBVT_UTF8:
@@ -342,9 +340,7 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 			break;
 		case DBVT_WCHAR:
 			smi->newstatusmsg = (CheckStrW(cws_new->value.pwszVal, 0, 1) ? NULL : mir_wstrdup(cws_new->value.pwszVal));
-#else
-			smi->newstatusmsg = (CheckStr(cws_new->value.pszVal, 0, 1) ? NULL : mir_strdup(cws_new->value.pszVal));
-#endif
+
 			break;
 		default:
 			smi->newstatusmsg = NULL;
@@ -352,17 +348,15 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 	}
 
 	if (!
-#ifdef UNICODE
+
 	DBGetContactSettingW(smi->hContact, "UserOnline", "OldStatusMsg", &dbv_old)
-#else
-	DBGetContactSetting(smi->hContact, "UserOnline", "OldStatusMsg", &dbv_old)
-#endif
+
 	)
 	{
 		switch (dbv_old.type)
 		{
 			case DBVT_ASCIIZ:
-#ifdef UNICODE
+
 				smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_dupToUnicodeEx(dbv_old.pszVal, CP_ACP));
 				break;
 			case DBVT_UTF8:
@@ -370,9 +364,7 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 				break;
 			case DBVT_WCHAR:
 				smi->oldstatusmsg = (CheckStrW(dbv_old.pwszVal, 0, 1) ? NULL : mir_wstrdup(dbv_old.pwszVal));
-#else
-				smi->oldstatusmsg = (CheckStr(dbv_old.pszVal, 0, 1) ? NULL : mir_strdup(dbv_old.pszVal));
-#endif
+
 				break;
 			default:
 				smi->oldstatusmsg = NULL;
@@ -381,29 +373,27 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 
 		if (cws_new->value.type == DBVT_DELETED)
 			if (
-#ifdef UNICODE
+
 				dbv_old.type == DBVT_WCHAR)
 				ret = CheckStrW(dbv_old.pwszVal, 2, 0);
 			else if (dbv_old.type == DBVT_UTF8 ||
-#endif
+
 				dbv_old.type == DBVT_ASCIIZ)
 				ret = CheckStr(dbv_old.pszVal, 2, 0);
 			else
 				ret = 2;
 		else if (dbv_old.type != cws_new->value.type)
-#ifdef UNICODE
+
 			ret = (lstrcmpW(smi->newstatusmsg, smi->oldstatusmsg) ? CheckStrW(smi->newstatusmsg, 1, 2) : 0);
-#else
-			ret = 1;
-#endif;
+
 		else if (dbv_old.type == DBVT_ASCIIZ)
 			ret = (lstrcmpA(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, 1, 2) : 0);
-#ifdef UNICODE
+
 		else if (dbv_old.type == DBVT_UTF8)
 			ret = (lstrcmpA(cws_new->value.pszVal, dbv_old.pszVal) ? CheckStr(cws_new->value.pszVal, 1, 2) : 0);
 		else if (dbv_old.type == DBVT_WCHAR)
 			ret = (lstrcmpW(cws_new->value.pwszVal, dbv_old.pwszVal) ? CheckStrW(cws_new->value.pwszVal, 1, 2) : 0);
-#endif
+
 		DBFreeVariant(&dbv_old);
 	}
 	else
@@ -411,11 +401,11 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 		if (cws_new->value.type == DBVT_DELETED)
 			ret = 0;
 		else if (
-#ifdef UNICODE
+
 			cws_new->value.type == DBVT_WCHAR)
 			ret = CheckStrW(cws_new->value.pwszVal, 1, 0);
 		else if (cws_new->value.type == DBVT_UTF8 ||
-#endif
+
 			cws_new->value.type == DBVT_ASCIIZ)
 			ret = CheckStr(cws_new->value.pszVal, 1, 0);
 		else
@@ -1219,11 +1209,7 @@ void InitUpdaterSupport()
 		update.szComponentName = pluginInfoEx.shortName;
 		update.pbVersion = (BYTE *)CreateVersionString(pluginInfoEx.version, szVersion);
 		update.cpbVersion = strlen((char *)update.pbVersion);
-#ifdef _UNICODE
 		update.szUpdateURL = "http://miranda-easy.net/addons/updater/nxsn-ym.zip";
-#else
-		update.szUpdateURL = "http://miranda-easy.net/addons/updater/nxsn-ym_ansi.zip";
-#endif
 		update.szVersionURL = "http://miranda-easy.net/addons/updater/nxsn_version.txt";
 		update.pbVersionPrefix = (BYTE *)"NewXstatusNotify YM ";
 		update.cpbVersionPrefix = strlen((char *)update.pbVersionPrefix);

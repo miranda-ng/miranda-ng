@@ -87,15 +87,10 @@ bool	LoadPopupWnd2()
 	// register custom class for edit box with drop-shadow attribute
 	if (IsWinVerXPPlus())
 	{
-		#if defined(_UNICODE) || defined(_WIN64)
+		
 			#define MyRegisterClassExW RegisterClassExW
 			#define MyGetClassInfoExW  GetClassInfoExW
-		#else
-			ATOM (WINAPI *MyRegisterClassExW)(CONST WNDCLASSEXW *);
-			MyRegisterClassExW = (ATOM (WINAPI *)(CONST WNDCLASSEXW *))GetProcAddress(hUserDll, "RegisterClassExW");
-			BOOL (WINAPI *MyGetClassInfoExW)(HINSTANCE, LPCWSTR, LPWNDCLASSEXW);
-			MyGetClassInfoExW = (BOOL (WINAPI *)(HINSTANCE, LPCWSTR, LPWNDCLASSEXW))GetProcAddress(hUserDll, "GetClassInfoExW");
-		#endif
+		
 		WNDCLASSEXW wclw = {0};
 		wclw.cbSize = sizeof(wclw);
 		if (!MyGetClassInfoExW(NULL, L"EDIT", &wclw))
@@ -262,7 +257,7 @@ void	PopupWnd2::create()
 void	PopupWnd2::updateLayered(BYTE opacity)
 {
 	if (!m_hwnd) return;
-#if defined(_UNICODE)
+
 		if (SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED)) {
 			RECT rc; GetWindowRect(m_hwnd, &rc);
 			POINT ptDst = {rc.left, rc.top};
@@ -280,28 +275,7 @@ void	PopupWnd2::updateLayered(BYTE opacity)
 
 			UpdateWindow(m_hwnd);
 		}
-#else
-	if (MyUpdateLayeredWindow) {
-		if (SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED))
-		{
-			RECT rc; GetWindowRect(m_hwnd, &rc);
-			POINT ptDst = {rc.left, rc.top};
-			POINT ptSrc = {0, 0};
 
-			BLENDFUNCTION blend;
-			blend.BlendOp =             AC_SRC_OVER;
-			blend.BlendFlags =          0;
-			blend.SourceConstantAlpha = opacity; //m_options->UseTransparency ? opacity : 255;
-			blend.AlphaFormat =         AC_SRC_ALPHA;
-
-			MyUpdateLayeredWindow(m_hwnd, NULL, &ptDst, &m_sz,
-				m_bmpAnimate ? m_bmpAnimate->getDC() : m_bmp->getDC(),
-				&ptSrc, 0xffffffff, &blend, ULW_ALPHA);
-
-			UpdateWindow(m_hwnd);
-		}
-	}
-#endif
 }
 
 SIZE	PopupWnd2::measure()
@@ -380,16 +354,10 @@ void	PopupWnd2::animate()
 	if (m_bReshapeWindow)
 	{
 		m_bReshapeWindow = false;
-#if defined(_UNICODE)
+
 		if (m_hwnd && m_bmp && m_options->DropShadow && PopUpOptions.EnableFreeformShadows /*DoWeNeedRegionForThisSkin()*/)
 			SetWindowRgn(m_hwnd, m_bmp->buildOpaqueRgn(skin->getShadowRegionOpacity()), FALSE);
-#else
-		if (!MyUpdateLayeredWindow && m_hwnd && m_bmp && PopUpOptions.Enable9xTransparency)
-			SetWindowRgn(m_hwnd, m_bmp->buildOpaqueRgn(skin->getLegacyRegionOpacity()), FALSE);
 
-		if (MyUpdateLayeredWindow && m_hwnd && m_bmp && m_options->DropShadow && PopUpOptions.EnableFreeformShadows /*DoWeNeedRegionForThisSkin()*/)
-			SetWindowRgn(m_hwnd, m_bmp->buildOpaqueRgn(skin->getShadowRegionOpacity()), FALSE);
-#endif
 
 		if (MyDwmEnableBlurBehindWindow && PopUpOptions.EnableAeroGlass)
 		{
@@ -1146,11 +1114,9 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 					{
 						WCHAR msg[2048];
 						LPWSTR bufW = NULL;
-#if defined(_UNICODE)
+
 						SendMessageW(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
-#else
-						MySendMessageW(hwnd, WM_GETTEXT, SIZEOF(msg), (LPARAM)msg);
-#endif
+
 						if(wcslen(msg)==0){
 							DestroyWindow(hwnd);
 							return 0;
@@ -1220,13 +1186,9 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 
 	if (oldWndProc)
 	{
-#if defined(_UNICODE)
+
 		return CallWindowProcW(oldWndProc, hwnd, message, wParam, lParam);
-#else
-		if (IsWindowUnicode(hwnd) && MyCallWindowProcW)
-			return MyCallWindowProcW(oldWndProc, hwnd, message, wParam, lParam);
-		return CallWindowProc(oldWndProc, hwnd, message, wParam, lParam);
-#endif
+
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
@@ -1294,41 +1256,21 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					//RECT rc = renderInfo.textRect;
 					//MapWindowPoints(hwnd, NULL, (LPPOINT)&rc, 2);
 					RECT rc; GetWindowRect(m_hwnd, &rc);
-#if defined(_UNICODE)
+
 					HWND hwndEditBox = CreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_TOPMOST,
 					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
 					NULL,
 					WS_BORDER|WS_POPUP|WS_VISIBLE|ES_AUTOVSCROLL|ES_LEFT|ES_MULTILINE|ES_NOHIDESEL|ES_WANTRETURN,
 					rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, NULL, NULL, hInst, NULL);
-#else
-					HWND hwndEditBox = 0;
-					if(MyCreateWindowExW && g_popup.isMirUnicode) {
-						//create unicode window only if miranda is unicode
-						//coz many protocol make trouble with unicode text on utf8 send inside ansi release
-						hwndEditBox = MyCreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_TOPMOST,
-						g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
-						NULL,
-						WS_BORDER|WS_POPUP|WS_VISIBLE|ES_AUTOVSCROLL|ES_LEFT|ES_MULTILINE|ES_NOHIDESEL|ES_WANTRETURN,
-						rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, NULL, NULL, hInst, NULL);
-					}
-					else {
-						hwndEditBox = CreateWindowExA(WS_EX_TOOLWINDOW|WS_EX_TOPMOST,
-						g_wndClass.cPopupEditBox ? "PopupEditBox" : "EDIT",
-						NULL,
-						WS_BORDER|WS_POPUP|WS_VISIBLE|ES_AUTOVSCROLL|ES_LEFT|ES_MULTILINE|ES_NOHIDESEL|ES_WANTRETURN,
-						rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, NULL, NULL, hInst, NULL);
-					}
-#endif
+
 					ReplyEditData *dat = (ReplyEditData *)mir_alloc(sizeof(ReplyEditData));
 					dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);
 					dat->hwndPopup = m_hwnd;
 					dat->hContact = m_hContact;
 					if(IsWindowUnicode(hwndEditBox)) {
-#if defined(_UNICODE)
+
 						SendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-#else
-						MySendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-#endif
+
 						SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
 						SetWindowLongPtrW(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
 					}
@@ -1382,11 +1324,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					break;
 				case ACT_DEF_COPY:
 				{
-					#ifdef UNICODE 
-						#define CF_TCHAR CF_UNICODETEXT 
-					#else 
-						#define CF_TCHAR CF_TEXT
-					#endif
+					#define CF_TCHAR CF_UNICODETEXT 
+					
 					HGLOBAL clipbuffer;
 					static TCHAR * buffer, *text;
 					char* sztext;
@@ -1658,13 +1597,10 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			tme.hwndTrack = m_hwnd;
 			_TrackMouseEvent(&tme);
 			if (!m_customPopup) PopupThreadLock();
-#if defined(_UNICODE)
+
 			if (m_options->OpaqueOnHover)
 				updateLayered(255);
-#else
-			if (MySetLayeredWindowAttributes && m_options->OpaqueOnHover)
-				updateLayered(255);
-#endif
+
 			m_bIsHovered = true;
 			break;
 		}
@@ -1676,13 +1612,10 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					animate();
 
 			if (!m_bIsHovered) break;
-#if defined(_UNICODE)
+
 			if (m_options->OpaqueOnHover)
 				updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
-#else
-			if (MySetLayeredWindowAttributes && m_options->OpaqueOnHover)
-				updateLayered(m_options->UseTransparency ? m_options->Alpha : 255);
-#endif
+
 			if (!m_customPopup) PopupThreadUnlock();
 			m_bIsHovered = false;
 			break;

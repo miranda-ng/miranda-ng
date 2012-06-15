@@ -90,9 +90,9 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			{ 
 				break;
 			}
-#ifndef _UNICODE
+
 			if(IsDBCSLeadByte(msg[i]) && msg[i+1]) i++;
-#endif
+
 			i++;
 			if ( msg[i] != _T('\n') ) charCount++;
 		}
@@ -103,10 +103,10 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			
 		while ( msg[i] && !_istspace(msg[i]) ) 
 		{
-#ifndef _UNICODE
+
 			if ( IsDBCSLeadByte(msg[i] ) && msg[i+1]) i++;
 			else
-#endif
+
 			if ( _istalnum(msg[i]) || msg[i]==_T('/') ) 
 			{
 				cpLastAlphaNum = charCount; 

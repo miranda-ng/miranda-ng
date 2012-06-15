@@ -32,16 +32,12 @@ CDataBase *gDataBase = NULL;
 CDataBase::CDataBase(const char* FileName)
 {
 	int len;
-#ifdef UNICODE
+
 	len = MultiByteToWideChar(CP_ACP, 0, FileName, -1, NULL, 0);
 	m_FileName[0] = new TCHAR[len + 1];
 	MultiByteToWideChar(CP_ACP, 0, FileName, -1, m_FileName[0], len + 1);
 	m_FileName[0][len] = 0;
-#else
-	len = strlen(FileName);
-	m_FileName[0] = new TCHAR[len + 1];
-	strcpy_s(m_FileName[0], len + 1, FileName);
-#endif
+
 
 	TCHAR * tmp = _tcsrchr(m_FileName[0], '.');
 	if (tmp)

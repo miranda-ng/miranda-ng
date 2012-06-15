@@ -52,15 +52,9 @@ Boston, MA 02111-1307, USA.
 #define MODNAME					"PackUpdater"
 #define MODULEA					"Pack Updater"
 #define MODULEW					L"Pack Updater"
-#ifdef _UNICODE
-	#define DEFAULT_UPDATES_FOLDER	L"Pack Updates"
-	typedef std::wstring tString;
-	#define MODULE	MODULEW
-#else
-	#define DEFAULT_UPDATES_FOLDER	"Pack Updates"
-	typedef std::string tString;
-	#define MODULE	MODULEA
-#endif
+#define DEFAULT_UPDATES_FOLDER	L"Pack Updates"
+typedef std::wstring tString;
+#define MODULE	MODULEW
 
 struct FILEURL
 {

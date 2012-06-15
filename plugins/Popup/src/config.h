@@ -196,35 +196,6 @@ extern PLUGININFOEX pluginInfoEx;
 #define INVALID_FILE_ATTRIBUTES (DWORD (-1))
 #endif
 
-// MLU layer for ansi release
-#if !defined(_UNICODE)
-//===== DLLs =====
-extern HMODULE hUserDll;
-extern HMODULE hMsimgDll;
-extern HMODULE hKernelDll;
-extern HMODULE hGdiDll;
-extern HMODULE hDwmapiDll;
-
-extern BOOL		(WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-extern BOOL		(WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);
-extern BOOL		(WINAPI *MyGetMonitorInfo)(HMONITOR hMonitor, LPMONITORINFO lpmi);
-extern BOOL		(WINAPI *MyUpdateLayeredWindow)
-	(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
-	 COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-extern HMONITOR	(WINAPI* MyMonitorFromWindow)(HWND hWnd, DWORD dwFlags);
-extern BOOL		(WINAPI *MyTransparentBlt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
-extern BOOL		(WINAPI *MyAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-
-extern BOOL		(WINAPI *MyGetTextExtentPoint32W)(HDC, LPCWSTR, int, LPSIZE);
-extern int		(WINAPI *MyDrawTextW)(HDC, LPCWSTR, int, LPRECT, UINT);
-extern int		(WINAPI *MyDrawTextExW)(HDC, LPCWSTR, int, LPRECT, UINT, LPDRAWTEXTPARAMS);
-extern BOOL		(WINAPI *MySetWindowTextW)(HWND, LPCWSTR);
-extern LRESULT	(WINAPI *MySendMessageW)(HWND, UINT, WPARAM, LPARAM);
-extern LRESULT	(WINAPI *MyCallWindowProcW)(WNDPROC, HWND, UINT, WPARAM, LPARAM);
-extern HWND		(WINAPI *MyCreateWindowExW)(DWORD, LPCWSTR, LPCWSTR, DWORD, int, int, int, int, HWND, HMENU, HINSTANCE, LPVOID);
-
-#endif
-
 #define DWM_BB_ENABLE					0x00000001
 #define DWM_BB_BLURREGION				0x00000002
 #define DWM_BB_TRANSITIONONMAXIMIZED	0x00000004

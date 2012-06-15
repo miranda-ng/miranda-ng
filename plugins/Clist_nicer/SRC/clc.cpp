@@ -449,9 +449,9 @@ LBL_Def:
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
 			lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
-#if defined(_UNICODE)
+
 			RTL_DetectAndSet(contact, 0);
-#endif
+
 			dat->bNeedSort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 			goto LBL_Def;
@@ -537,9 +537,9 @@ LBL_Def:
 			contact->proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 			CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
 			lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
-#if defined(_UNICODE)
+
 			RTL_DetectAndSet(contact, 0);
-#endif
+
 			dat->bNeedSort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 			goto LBL_Def;

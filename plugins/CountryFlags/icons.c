@@ -231,11 +231,11 @@ void InitIcons(void)
 	char szId[20];
 	int i,index;
 	HICON hIcon;
-#if defined(_UNICODE)
+
 	WCHAR szName[64];
 	LCID locale;
 	locale=(LCID)CallService(MS_LANGPACK_GETLOCALE,0,0);
-#endif
+
 
 	/* register icons */
 	ZeroMemory(&sid,sizeof(sid));
@@ -252,13 +252,11 @@ void InitIcons(void)
 		phIconHandles=(HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
 		if(phIconHandles!=NULL)
 			for(i=0;i<nCountriesCount;++i) {
-#if defined(_UNICODE)
+
 				MultiByteToWideChar(locale,0,countries[i].szName,-1,szName,SIZEOF(szName));
 				szName[SIZEOF(szName)-1]=L'\0';
 				sid.pwszDescription=TranslateW(szName);
-#else
-				sid.pszDescription=Translate(countries[i].szName);
-#endif
+
 				/* create identifier */
 				wsprintfA(szId,(countries[i].id==0xFFFF)?"%s0x%X":"%s%i","flags_",countries[i].id); /* buffer safe */
 				index=CountryNumberToBitmapIndex(countries[i].id);

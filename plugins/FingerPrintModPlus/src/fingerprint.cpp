@@ -49,10 +49,9 @@ int OnPreShutdown(WPARAM wParam, LPARAM lParam);
 
 INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam);
 INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam);
-#ifdef UNICODE
 INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam);
 INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam);
-#endif // !UNICODE
+
 
 HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop);
 HBITMAP __inline CreateBitmap32(int cx, int cy);
@@ -65,13 +64,8 @@ BOOL FASTCALL WildCompareW(LPWSTR name, LPWSTR mask);
 BOOL __inline WildCompareProcA(LPSTR name, LPSTR mask);
 BOOL __inline WildCompareProcW(LPWSTR name, LPWSTR mask);
 
-#ifdef UNICODE
-	#define WildCompare		WildCompareW
-	#define GetIconsIndexes	GetIconsIndexesW
-#else
-	#define WildCompare		WildCompareA
-	#define GetIconsIndexes	GetIconsIndexesA
-#endif // !UNICODE
+#define WildCompare		WildCompareW
+#define GetIconsIndexes	GetIconsIndexesW
 
 HINSTANCE		g_hInst;
 PLUGINLINK*		pluginLink;
@@ -92,11 +86,11 @@ HANDLE hExtraIconClick			= NULL;		// hook event handle for ME_CLIST_EXTRA_CLICK
 
 HANDLE compClientServA			= NULL;
 HANDLE getClientIconA			= NULL;
-#ifdef UNICODE
+
 HANDLE compClientServW			= NULL;
 HANDLE getClientIconW			= NULL;
 LPSTR  g_szClientDescription	= NULL;
-#endif // !UNICODE
+
 HANDLE hStaticHooks[1]			= { NULL };
 HANDLE hExtraIcon				= NULL;
 HANDLE hFolderChanged			= NULL,		hIconFolder	= NULL;
@@ -170,10 +164,10 @@ extern "C" int	__declspec(dllexport) Load(PLUGINLINK* link)
 	hPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 	compClientServA = CreateServiceFunction(MS_FP_SAMECLIENTS, ServiceSameClientsA);
 	getClientIconA = CreateServiceFunction(MS_FP_GETCLIENTICON, ServiceGetClientIconA);
-#ifdef UNICODE
+
 	compClientServW = CreateServiceFunction(MS_FP_SAMECLIENTSW, ServiceSameClientsW);
 	getClientIconW = CreateServiceFunction(MS_FP_GETCLIENTICONW, ServiceGetClientIconW);
-#endif // !UNICODE
+
 	hHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
 	gbUnicodeAPI = IsWinVerNT();
 	return 0;
@@ -182,9 +176,9 @@ extern "C" int	__declspec(dllexport) Load(PLUGINLINK* link)
 extern "C" int	__declspec(dllexport) Unload()
 {
 	size_t i;
-#ifdef UNICODE
+
 	if(g_szClientDescription != NULL) mir_free(g_szClientDescription);
-#endif // !UNICODE
+
 	HeapDestroy(hHeap);
 	ClearFI();
 
@@ -403,10 +397,9 @@ int OnPreShutdown(WPARAM wParam, LPARAM lParam)
 	UnhookEvent(hFolderChanged);
 	DestroyServiceFunction(compClientServA);
 	DestroyServiceFunction(getClientIconA);
-#ifdef UNICODE
 	DestroyServiceFunction(compClientServW);
 	DestroyServiceFunction(getClientIconW);
-#endif // !UNICODE
+
 	return 0;
 }
 
@@ -534,7 +527,7 @@ int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		{
 			if(cws->value.type == DBVT_UTF8)
 			{
-#ifdef UNICODE
+
 				LPWSTR wszVal = NULL;
 				int iValLen;
 
@@ -546,31 +539,11 @@ int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 				ApplyFingerprintImage((HANDLE)wParam, wszVal);
 				mir_free(wszVal);
-#else
-				LPSTR szVal = NULL;
-				int iValLenW;
-				int iValLenA;
 
-				iValLenW = MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, NULL, 0);
-				if(iValLenW > 0)
-				{
-					LPWSTR wszVal = (LPWSTR)mir_alloc(iValLenW * sizeof(WCHAR));
-					MultiByteToWideChar(CP_UTF8, 0, cws->value.pszVal, -1, wszVal, iValLenW);
-					mir_free(wszVal);
-					iValLenA = WideCharToMultiByte(g_LPCodePage, 0, wszVal, -1, NULL, 0, NULL, NULL);
-					if(iValLenA > 0)
-					{
-						szVal = (LPSTR)mir_alloc(iValLenA * sizeof(CHAR));
-						WideCharToMultiByte(g_LPCodePage, 0, wszVal, -1, szVal, iValLenA, NULL, NULL);
-					}
-				}
-				ApplyFingerprintImage((HANDLE)wParam, szVal);
-				mir_free(szVal);
-#endif // !UNICODE
 			}
 			else if(cws->value.type == DBVT_ASCIIZ)
 			{
-#ifdef UNICODE
+
 				LPWSTR wszVal = NULL;
 				int iValLen;
 
@@ -582,27 +555,13 @@ int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				}
 				ApplyFingerprintImage((HANDLE)wParam, wszVal);
 				mir_free(wszVal);
-#else
-				ApplyFingerprintImage((HANDLE)wParam, cws->value.pszVal);
-#endif // !UNICODE
+
 			}
 			else if(cws->value.type == DBVT_WCHAR)
 			{
-#ifdef UNICODE
-				ApplyFingerprintImage((HANDLE)wParam, cws->value.pwszVal);
-#else
-				LPSTR szVal = NULL;
-				int iValLen;
 
-				iValLen = WideCharToMultiByte(g_LPCodePage, 0, cws->value.pwszVal, -1, NULL, 0, NULL, NULL);
-				if(iValLen > 0)
-				{
-					szVal = (LPSTR)mir_alloc(iValLen * sizeof(CHAR));
-					 WideCharToMultiByte(g_LPCodePage, 0, cws->value.pwszVal, -1, szVal, iValLen, NULL, NULL);
-				}
-				ApplyFingerprintImage((HANDLE)wParam, szVal);
-				mir_free(szVal);
-#endif // !UNICODE
+				ApplyFingerprintImage((HANDLE)wParam, cws->value.pwszVal);
+
 			}
 			else
 				ApplyFingerprintImage((HANDLE)wParam, NULL);
@@ -1063,17 +1022,13 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 		return;
 	}
 
-#ifdef UNICODE
+
 	iMirVerUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVer, -1, NULL, 0);
-#else
-	iMirVerUpLen = strlen(szMirVer) + 1;
-#endif // !UNICODE
+
 	tszMirVerUp = (LPTSTR)mir_alloc(iMirVerUpLen * sizeof(TCHAR));
-#ifdef UNICODE
+
 	MultiByteToWideChar(g_LPCodePage, 0, szMirVer, -1, tszMirVerUp, iMirVerUpLen);
-#else
-	_tcscpy_s(tszMirVerUp, iMirVerUpLen, szMirVer);	
-#endif // !UNICODE
+
 	_tcsupr_s(tszMirVerUp, iMirVerUpLen);
 
 	while(i < DEFAULT_KN_FP_MASK_COUNT)
@@ -1140,7 +1095,7 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 /*	GetIconsIndexesW
 *	Retrieves Icons indexes by Mirver
 */
-#ifdef UNICODE
+
 void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
 {
 	LPWSTR wszMirVerUp;
@@ -1222,7 +1177,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 
 	mir_free(wszMirVerUp);
 }
-#endif // !UNICODE
+
 
 /*
 * CreateIconFromIndexes
@@ -1347,22 +1302,16 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 	{
 		LPTSTR tszMirVerFirstUp, tszMirVerSecondUp;
 		int iMirVerFirstUpLen, iMirVerSecondUpLen;
-#ifdef UNICODE
+
 		iMirVerFirstUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, NULL, 0);
 		iMirVerSecondUpLen = MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, NULL, 0);
-#else
-		iMirVerFirstUpLen = strlen(szMirVerFirst) + 1;
-		iMirVerSecondUpLen = strlen(szMirVerSecond) + 1;
-#endif // !UNICODE
+
 		tszMirVerFirstUp = (LPTSTR)mir_alloc(iMirVerFirstUpLen * sizeof(TCHAR));
 		tszMirVerSecondUp = (LPTSTR)mir_alloc(iMirVerSecondUpLen * sizeof(TCHAR));
-#ifdef UNICODE
+
 		MultiByteToWideChar(g_LPCodePage, 0, szMirVerFirst, -1, tszMirVerFirstUp, iMirVerFirstUpLen);
 		MultiByteToWideChar(g_LPCodePage, 0, szMirVerSecond, -1, tszMirVerSecondUp, iMirVerSecondUpLen);
-#else
-		strcpy_s(tszMirVerFirstUp, iMirVerFirstUpLen, szMirVerFirst);
-		strcpy_s(tszMirVerSecondUp, iMirVerSecondUpLen, szMirVerSecond);
-#endif // !UNICODE
+
 		_tcsupr_s(tszMirVerFirstUp, iMirVerFirstUpLen);
 		_tcsupr_s(tszMirVerSecondUp, iMirVerSecondUpLen);
 
@@ -1390,7 +1339,7 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 
 		if(firstIndex == secondIndex && firstIndex < DEFAULT_KN_FP_MASK_COUNT)
 		{
-#ifdef UNICODE
+
 			int iClientDescriptionLen = WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, NULL, 0, NULL, NULL);
 			if(iClientDescriptionLen > 0)
 				g_szClientDescription = (LPSTR)mir_realloc(g_szClientDescription, iClientDescriptionLen * sizeof(CHAR));
@@ -1398,9 +1347,7 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 				return (INT_PTR)NULL;
 			WideCharToMultiByte(g_LPCodePage, 0, def_kn_fp_mask[firstIndex].szClientDescription, -1, g_szClientDescription, iClientDescriptionLen, NULL, NULL);
 			return (INT_PTR)g_szClientDescription;
-#else
-			return (INT_PTR)def_kn_fp_mask[firstIndex].szClientDescription;
-#endif // !UNICODE
+
 		}
 	}
 	return (INT_PTR)NULL;
@@ -1413,7 +1360,7 @@ INT_PTR ServiceSameClientsA(WPARAM wParam, LPARAM lParam)
 *	lParam - int noCopy - if wParam is equal to "1"	will return icon handler without copiing icon.
 *	ICON IS ALWAYS COPIED!!!
 */
-#ifdef UNICODE
+
 INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
 {
 	LPWSTR wszMirVer = (LPWSTR)wParam;			// MirVer value to get client for.
@@ -1509,7 +1456,6 @@ INT_PTR ServiceSameClientsW(WPARAM wParam, LPARAM lParam)
 	}
 	return (INT_PTR)NULL;
 }
-#endif // !UNICODE
 
 /******************************************************************************
  *	Futher routines is for creating joined 'overlay' icons.

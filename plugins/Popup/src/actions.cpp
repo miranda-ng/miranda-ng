@@ -155,13 +155,10 @@ DWORD MouseOverride(HWND hCombo, int number)
 }
 
 // options
-#if defined(_UNICODE)
+
 #define ListView_InsertItemW(hwnd, pitem)   \
 	(int)SendMessageW((hwnd), LVM_INSERTITEMW, 0, (LPARAM)(const LVITEMW *)(pitem))
-#else
-#define ListView_InsertItemW(hwnd, pitem)   \
-	(int)MySendMessageW((hwnd), LVM_INSERTITEMW, 0, (LPARAM)(const LVITEMW *)(pitem))
-#endif
+
 
 void LoadOption_Actions() {
 	PopUpOptions.actions			= DBGetContactSettingDword(NULL, MODULNAME, "Actions",

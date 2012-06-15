@@ -14,9 +14,9 @@ CShake shake;
 CNudge GlobalNudge;
 
 MM_INTERFACE mmi;
-#ifdef UNICODE
+
 UTF8_INTERFACE utfi;
-#endif
+
 int hLangpack = 0;
 
 
@@ -512,13 +512,13 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 		MessageBox(NULL,_T("Cannot retrieve Miranda Memory Manager Interface.\nYou need to update Miranda IM to the latest version."),_T("Nudge Plugin"),MB_OK);
 		return 1;
 	}
-#ifdef UNICODE
+
 	if(mir_getUTFI(&utfi))
 	{
 		MessageBox(NULL,_T("Cannot retrieve Miranda UTF8 Interface.\nYou need to update Miranda IM to the latest version."),_T("Nudge Plugin"),MB_OK);
 		return 1;
 	}
-#endif
+
 	mir_getLP(&pluginInfo);
 
 	g_hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
@@ -696,13 +696,10 @@ void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 
 	NudgeEvent.cbSize = sizeof(NudgeEvent);
 	NudgeEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-#ifdef _UNICODE
+
 	char *buff = mir_utf8encodeT(n.senText);
 	NudgeEvent.flags = DBEF_SENT | DBEF_UTF;
-#else
-	char *buff = mir_strdup(n.senText);
-	NudgeEvent.flags = DBEF_SENT;
-#endif
+
 	NudgeEvent.timestamp = ( DWORD )time(NULL);
 	NudgeEvent.eventType = EVENTTYPE_STATUSCHANGE;
 	NudgeEvent.cbBlob = (DWORD)strlen(buff) + 1;
@@ -726,13 +723,10 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 
 	NudgeEvent.cbSize = sizeof(NudgeEvent);
 	NudgeEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-#ifdef _UNICODE
+
 	char *buff = mir_utf8encodeT(n.recText);
 	NudgeEvent.flags = DBEF_UTF;
-#else
-	char *buff = mir_strdup(n.recText);
-	NudgeEvent.flags = 0;
-#endif
+
 	NudgeEvent.timestamp = timestamp;
 	NudgeEvent.eventType = EVENTTYPE_STATUSCHANGE;
 	NudgeEvent.cbBlob = (DWORD)strlen(buff) + 1;

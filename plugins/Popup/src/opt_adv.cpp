@@ -144,14 +144,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			//Group: Monitor
 			{
 			BOOL bMonitor = 0;
-#if defined(_UNICODE)
+
 			bMonitor = GetSystemMetrics(SM_CMONITORS)>1;
-#else
-			if(MyGetMonitorInfo) {
-				//os support multimonitor, check if monitor > 1
-				bMonitor = GetSystemMetrics(SM_CMONITORS)>1;
-			}
-#endif
+
 			CheckDlgButton(hwnd, IDC_MIRANDAWND, bMonitor ? (PopUpOptions.Monitor == MN_MIRANDA) : TRUE);
 			CheckDlgButton(hwnd, IDC_ACTIVEWND,  bMonitor ? (PopUpOptions.Monitor == MN_ACTIVE)  : FALSE);
 			EnableWindow(GetDlgItem(hwnd, IDC_GRP_MULTIMONITOR),  bMonitor);
@@ -175,11 +170,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			CheckDlgButton(hwnd, IDC_TRANS_OPAQUEONHOVER, PopUpOptions.OpaqueOnHover);
 			{
-#if defined(_UNICODE)
+
 				BOOL how = TRUE;
-#else
-				BOOL how = (BOOL)(MySetLayeredWindowAttributes);
-#endif
+
 				EnableWindow(GetDlgItem(hwnd, IDC_TRANS)				,how);
 				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1)			,how && PopUpOptions.UseTransparency);
 				EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER)			,how && PopUpOptions.UseTransparency);
@@ -214,11 +207,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			{
 				DWORD dwItem, dwActiveItem = 0;
 
-#if defined(_UNICODE)
+
 				BOOL how = TRUE;
-#else
-				BOOL how = (BOOL)(MySetLayeredWindowAttributes) /*&& !PopUpOptions.UseAnimations*/;
-#endif
+
 				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT),		how);
 				EnableWindow(GetDlgItem(hwnd, IDC_EFFECT_TXT),	how);
 
@@ -336,11 +327,9 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 							case IDC_TRANS:
 								{
 								PopUpOptions.UseTransparency = !PopUpOptions.UseTransparency;
-#if defined(_UNICODE)
+
 								BOOL how = TRUE;
-#else
-								BOOL how = (BOOL)(MySetLayeredWindowAttributes);
-#endif
+
 								EnableWindow(GetDlgItem(hwnd, IDC_TRANS_TXT1)			,how && PopUpOptions.UseTransparency);
 								EnableWindow(GetDlgItem(hwnd, IDC_TRANS_SLIDER)			,how && PopUpOptions.UseTransparency);
 								EnableWindow(GetDlgItem(hwnd, IDC_TRANS_PERCENT)		,how && PopUpOptions.UseTransparency);
@@ -709,7 +698,7 @@ INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
 			if (oldVal != newVal)
 			{
-#if defined(_UNICODE)
+
 				if (oldVal < 0)
 				{
 					SetWindowLongPtr(hwndBox, GWLP_USERDATA, 1);
@@ -721,37 +710,17 @@ INT_PTR CALLBACK AlphaTrackBarWndProc (HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				}
 				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
 				SetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);
-#else
-				if (MySetLayeredWindowAttributes)
-				{
-					if (oldVal < 0)
-					{
-						SetWindowLongPtr(hwndBox, GWLP_USERDATA, 1);
-						RECT rc; GetWindowRect(hwnd, &rc);
-						SetWindowPos(hwndBox, NULL,
-							(rc.left+rc.right-170)/2, rc.bottom+2, 170, 50,
-							SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_SHOWWINDOW);
-						SetWindowRgn(hwndBox, NULL, TRUE);
-					}
-					SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) | WS_EX_LAYERED);
-					MySetLayeredWindowAttributes(hwndBox, NULL, newVal, LWA_ALPHA);
-				}
-#endif
+
 				oldVal = newVal;
 			}
 			break;
 		}
 		case WM_MOUSELEAVE:
 		{
-#if defined(_UNICODE)
+
 			SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 			SetLayeredWindowAttributes(hwndBox, NULL, 255, LWA_ALPHA);
-#else
-			if (MySetLayeredWindowAttributes) {
-				SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE) & ~WS_EX_LAYERED);
-				MySetLayeredWindowAttributes(hwndBox, NULL, 255, LWA_ALPHA);
-			}
-#endif
+
 			ShowWindow(hwndBox, SW_HIDE);
 			oldVal = -1;
 			break;

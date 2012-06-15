@@ -93,16 +93,11 @@ void InitSecurity()
 				_snprintf(buf,SIZEOF(buf),"%d.%d.%d.%d", HIBYTE(HIWORD(Modules[ModulesCount]->cryptor->Version)), LOBYTE(HIWORD(Modules[ModulesCount]->cryptor->Version)), HIBYTE(LOWORD(Modules[ModulesCount]->cryptor->Version)), LOBYTE(LOWORD(Modules[ModulesCount]->cryptor->Version)));
 				// Unsane: none
 /*
-#ifdef _UNICODE
+
 				mbstowcs(Name, Modules[ModulesCount]->cryptor->Name, 100);
 				mbstowcs(Version, buf, 100);
 				mbstowcs(DllName, Modules[ModulesCount]->dllname, 100);
-#else
 
-				strcpy(Name, Modules[ModulesCount]->cryptor->Name);
-				strcpy(Version, buf);
-				strcpy(DllName, Modules[ModulesCount]->dllname);
-#endif
 */
 				AddMessage(LPGEN("Cryptor loaded: %s [%s] (%s)"), Modules[ModulesCount]->cryptor->Name, buf, Modules[ModulesCount]->dllname);
 				

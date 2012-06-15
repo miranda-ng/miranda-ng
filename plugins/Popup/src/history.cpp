@@ -358,7 +358,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 				int width = wndPreview->getContent()->getWidth();
 				int height = wndPreview->getContent()->getHeight();
-#if defined(_UNICODE)
+
 				{
 					BLENDFUNCTION bf;
 					bf.BlendOp = AC_SRC_OVER;
@@ -369,25 +369,7 @@ static INT_PTR CALLBACK HistoryDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						wndPreview->getContent()->getDC(),
 						0, 0, width, height, bf);
 				}
-#else
-				if (MyAlphaBlend)
-				{
-					BLENDFUNCTION bf;
-					bf.BlendOp = AC_SRC_OVER;
-					bf.BlendFlags = 0;
-					bf.SourceConstantAlpha = 255;
-					bf.AlphaFormat = AC_SRC_ALPHA;
-					MyAlphaBlend(lpdis->hDC, lpdis->rcItem.left+5, lpdis->rcItem.top+3, width, height,
-						wndPreview->getContent()->getDC(),
-						0, 0, width, height, bf);
-				}
-				else {
-					BitBlt(lpdis->hDC,
-						lpdis->rcItem.left+5, lpdis->rcItem.top+5, lpdis->rcItem.left+5+width, lpdis->rcItem.top+3+height,
-						wndPreview->getContent()->getDC(),
-						0, 0, SRCCOPY);
-				}
-#endif
+
 			}
 
 			return TRUE;

@@ -314,11 +314,9 @@ void CopyToClipboard(HWND hwnd,LPSTR pszMsg, LPTSTR ptszMsg)
 
 	OpenClipboard(NULL);
 	EmptyClipboard(); 
-#ifdef _UNICODE
+
 	SetClipboardData(CF_UNICODETEXT, hglbCopy);
-#else
-	SetClipboardData(CF_TEXT, hglbCopy);
-#endif
+
 	CloseClipboard();
 }
 
@@ -500,7 +498,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	case IDOK:
 		{
 			char szReason[256] = {0};
-#ifdef _UNICODE
+
 			WCHAR wszReason[256] = {0};
 
 			if (CallService(MS_SYSTEM_GETVERSION, 0, 0) < 0x00090007)
@@ -513,10 +511,7 @@ INT_PTR CALLBACK AuthReqWndProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				GetDlgItemText(hdlg,IDC_REASON,wszReason,255);
 				CallContactService(hcontact,PSS_AUTHREQUESTW,0,(LPARAM)wszReason);
 			}
-#else
-			GetDlgItemTextA(hdlg,IDC_REASON,szReason,255);
-			CallContactService(hcontact,PSS_AUTHREQUEST,0,(LPARAM)szReason);
-#endif
+
 		} // fall through
 	case IDCANCEL:
 		DestroyWindow(hdlg);

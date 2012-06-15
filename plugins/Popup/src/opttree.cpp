@@ -40,7 +40,7 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 		WCHAR unicode[64];
 	} buf;
 
-#if defined(_UNICODE)
+
 	TVITEMW tvi = {0};
 	tvi.mask = TVIF_HANDLE|TVIF_TEXT;
 	tvi.hItem = hItem;
@@ -50,32 +50,6 @@ static void OptTree_TranslateItem(HWND hwndTree, HTREEITEM hItem)
 	tvi.pszText = TranslateW(tvi.pszText);
 	tvi.cchTextMax = lstrlenW(tvi.pszText);
 	SendMessageW(hwndTree, TVM_SETITEMW, 0, (LPARAM)&tvi);
-
-#else
-	if (g_popup.isOsUnicode && MySendMessageW)
-	{
-		TVITEMW tvi = {0};
-		tvi.mask = TVIF_HANDLE|TVIF_TEXT;
-		tvi.hItem = hItem;
-		tvi.pszText = buf.unicode;
-		tvi.cchTextMax = SIZEOF(buf.unicode);
-		MySendMessageW(hwndTree, TVM_GETITEMW, 0, (LPARAM)&tvi);
-		tvi.pszText = TranslateW(tvi.pszText);
-		tvi.cchTextMax = lstrlenW(tvi.pszText);
-		MySendMessageW(hwndTree, TVM_SETITEMW, 0, (LPARAM)&tvi);
-	}
-	else {
-		TVITEMA tvi = {0};
-		tvi.mask = TVIF_HANDLE|TVIF_TEXT;
-		tvi.hItem = hItem;
-		tvi.pszText = buf.ansi;
-		tvi.cchTextMax = SIZEOF(buf.ansi);
-		SendMessageA(hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi);
-		tvi.pszText = Translate(tvi.pszText);
-		tvi.cchTextMax = lstrlenA(tvi.pszText);
-		SendMessageA(hwndTree, TVM_SETITEMA, 0, (LPARAM)&tvi);
-	}
-#endif
 }
 
 void OptTree_Translate(HWND hwndTree)

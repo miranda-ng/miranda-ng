@@ -602,11 +602,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 						pchData = (TCHAR*)GlobalLock(hClipboardData);
 						_tcscpy(pchData, buf);
 						GlobalUnlock(hClipboardData);
-						#ifdef UNICODE
-							SetClipboardData(CF_UNICODETEXT,hClipboardData);
-						#else
-							SetClipboardData(CF_TEXT,hClipboardData);
-						#endif
+						SetClipboardData(CF_UNICODETEXT,hClipboardData);
 					}
 					CloseClipboard();
 				}
@@ -790,14 +786,11 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		{
 			tci.mask = TCIF_PARAM | TCIF_TEXT;
 			tci.lParam = (LPARAM)lw;
-#ifdef _UNICODE
+
 			tci.pszText = mir_a2u(lw->Module);
 			idx = TabCtrl_InsertItem(hTabs, tabCount, &tci);
 			mir_free(tci.pszText);
-#else
-			tci.pszText = lw->Module;
-			idx = TabCtrl_InsertItem(hTabs, tabCount, &tci);
-#endif
+
 			tabCount++;
 		}
 
@@ -1067,7 +1060,6 @@ static int OnFastDump(WPARAM wParam,LPARAM lParam)
 
 		strncpy(dumpMsg->szModule, ((NETLIBUSER*)wParam)->szDescriptiveName, sizeof(dumpMsg->szModule))[ sizeof(dumpMsg->szModule)-1 ] = 0;
 
-#ifdef _UNICODE
 		{
 			wchar_t *ucs2;
 
@@ -1083,13 +1075,7 @@ static int OnFastDump(WPARAM wParam,LPARAM lParam)
 			wcscat( str, ucs2 );
 			mir_free( ucs2 );
 		}
-#else
-		memcpy( str, logMsg->pszHead, headlen );
-		memcpy( str + headlen, logMsg->pszMsg, msglen + 1 );
 
-		// try to detect utf8
-		mir_utf8decode( str + headlen, NULL );
-#endif
 		InMsgs++;
 		PostMessage(hwndConsole, HM_DUMP, 0, (LPARAM)dumpMsg);
 	}

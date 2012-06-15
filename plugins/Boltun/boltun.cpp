@@ -81,11 +81,9 @@ static HANDLE hMenuItemAutoChat;
 static HANDLE hMenuItemNotToChat;
 static HANDLE hMenuItemStartChatting;
 
-#ifdef UNICODE
+
 #define MIND_DIALOG_FILTER _T("%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1")
-#else
-#define MIND_DIALOG_FILTER "%s (*.mind)\1*.mind\1%s (*.*)\1*.*\1"
-#endif
+
 
 #ifdef DEBUG_LOAD_TIME
 #include <intrin.h>

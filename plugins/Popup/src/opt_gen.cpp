@@ -349,7 +349,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 									rcBox.right-rcBox.left,
 									rcBox.bottom-rcBox.top,
 									FALSE);
-#if defined(_UNICODE)
+
 								SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE)|WS_EX_LAYERED);
 								SetLayeredWindowAttributes(hwndBox, NULL, 0, LWA_ALPHA);
 								ShowWindow(hwndBox, SW_SHOW);
@@ -359,19 +359,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 									Sleep(1);
 								}
 								SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE)&~WS_EX_LAYERED);
-#else
-								if (MySetLayeredWindowAttributes) {
-									SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE)|WS_EX_LAYERED);
-									MySetLayeredWindowAttributes(hwndBox, NULL, 0, LWA_ALPHA);
-									ShowWindow(hwndBox, SW_SHOW);
-									for (int i = 0; i <= 255; i += 15) {
-										MySetLayeredWindowAttributes(hwndBox, NULL, i, LWA_ALPHA);
-										UpdateWindow(hwndBox);
-										Sleep(1);
-									}
-									SetWindowLongPtr(hwndBox, GWL_EXSTYLE, GetWindowLongPtr(hwndBox, GWL_EXSTYLE)&~WS_EX_LAYERED);
-								}
-#endif
+
 								ShowWindow(hwndBox, SW_SHOW);
 								SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 								}

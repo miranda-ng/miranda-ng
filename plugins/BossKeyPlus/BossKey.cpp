@@ -758,9 +758,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 
 	RegisterCoreHotKeys();
 
-#ifndef _UNICODE
-	if (IsWinVer2000Plus())
-#endif
+
 		g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, 
 						NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
 

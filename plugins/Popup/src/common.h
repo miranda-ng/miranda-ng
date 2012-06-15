@@ -143,7 +143,7 @@ inline INT_PTR DBGetContactSettingStringX(HANDLE hContact, const char *ModuleNam
 }
 
 /* not used
-#if !defined(_UNICODE)
+
 inline void SetWindowTextTraslated(HWND hwnd, const char *text)
 {
 	if (!(hwnd && text)) return;
@@ -160,7 +160,7 @@ inline void SetWindowTextTraslated(HWND hwnd, const char *text)
 		SetWindowTextA(hwnd, Translate(text));
 	}
 }
-#endif
+
 */
 /*/dedrecatet (tricky thing to minimize memory fragmentation)
 inline wchar_t* a2u( char* src )
@@ -204,7 +204,7 @@ inline wchar_t* a2u( char* src )
 
 inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, char *text)
 {
-#if defined(_UNICODE)
+
 		TOOLINFO ti = {0};
 		ti.cbSize = sizeof(TOOLINFO);
 
@@ -224,45 +224,6 @@ inline void AddTooltipTranslated(HWND hwndToolTip, HWND hwnd, int id, RECT rc, c
 
 		mir_free(wtext);
 
-#else
-	if (g_popup.isOsUnicode && MySendMessageW)
-	{
-		TOOLINFOW ti = {0};
-		ti.cbSize = sizeof(TOOLINFO);
-
-		ti.hwnd = hwnd;
-		ti.uId = id;
-		MySendMessageW(hwndToolTip, TTM_DELTOOLW, 0, (LPARAM) (LPTOOLINFOW) &ti);
-
-		LPWSTR wtext = mir_a2u(text);
-
-		ti.uFlags = TTF_SUBCLASS;
-		ti.hwnd = hwnd;
-		ti.uId = id;
-		ti.hinst = hInst;
-		ti.lpszText = TranslateW(wtext);
-		ti.rect = rc;
-		MySendMessageW(hwndToolTip, TTM_ADDTOOLW, 0, (LPARAM) (LPTOOLINFOW) &ti);
-
-		mir_free(wtext);
-	} else
-	{
-		TOOLINFOA ti = {0};
-		ti.cbSize = sizeof(TOOLINFO);
-
-		ti.hwnd = hwnd;
-		ti.uId = id;
-		SendMessage(hwndToolTip, TTM_DELTOOLA, 0, (LPARAM) (LPTOOLINFOA) &ti);
-
-		ti.uFlags = TTF_SUBCLASS;
-		ti.hwnd = hwnd;
-		ti.uId = id;
-		ti.hinst = hInst;
-		ti.lpszText = Translate(text);
-		ti.rect = rc;
-		SendMessage(hwndToolTip, TTM_ADDTOOLA, 0, (LPARAM) (LPTOOLINFOA) &ti);
-	}
-#endif
 }
 
 /* not used

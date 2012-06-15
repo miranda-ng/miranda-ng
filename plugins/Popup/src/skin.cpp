@@ -75,25 +75,13 @@ SIZE PopupSkin::measureAction(HDC hdc, POPUPACTION *act) const
 
 		SIZE szText, szSpace;
 
-#if defined(_UNICODE)
+
 		LPWSTR wname = mir_a2u(name);
 		WCHAR *str = TranslateW(wname);
 		GetTextExtentPoint32W(hdc, str, lstrlenW(str), &szText);
 		mir_free(wname);
 		GetTextExtentPoint32W(hdc, L" ", 1, &szSpace);
-#else
-		if (g_popup.isOsUnicode && MyGetTextExtentPoint32W) {
-			LPWSTR wname = mir_a2u(name);
-			WCHAR *str = TranslateW(wname);
-			MyGetTextExtentPoint32W(hdc, str, lstrlenW(str), &szText);
-			mir_free(wname);
-		}
-		else {
-			char *str = Translate(name);
-			GetTextExtentPoint32A(hdc, str, lstrlenA(str), &szText);
-		}
-		GetTextExtentPoint32A(hdc, " ", 1, &szSpace);
-#endif
+
 		sz.cy = max(sz.cy, szText.cy);
 		sz.cx += szSpace.cx;
 		sz.cx += szText.cx;
@@ -154,7 +142,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 
 		GetTextExtentPoint32A(bmp->getDC(), " ", 1, &szSpace);
 
-#if defined(_UNICODE)
+
 		LPWSTR wname = mir_a2u(name);
 		WCHAR *str = TranslateW(wname);
 		GetTextExtentPoint32W(bmp->getDC(), str, lstrlenW(str), &szText);
@@ -165,31 +153,7 @@ void PopupSkin::drawAction(MyBitmap *bmp, POPUPACTION *act, int x, int y, bool h
 				y+2 + (((PopUpOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy)/2
 			));
 		mir_free(wname);
-#else
-		if (g_popup.isOsUnicode && MyGetTextExtentPoint32W)
-		{
-			LPWSTR wname = mir_a2u(name);
-			WCHAR *str = TranslateW(wname);
-			MyGetTextExtentPoint32W(bmp->getDC(), str, lstrlenW(str), &szText);
-			bmp->Draw_TextW(str,
-				(PopUpOptions.actions&ACT_LARGE) ? (x+szSpace.cx+32) : (x+szSpace.cx+16),
-				max(
-					y+2,
-					y+2 + (((PopUpOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy)/2
-				));
-			mir_free(wname);
-		}
-		else {
-			char *str = Translate(name);
-			GetTextExtentPoint32A(bmp->getDC(), str, lstrlenA(str), &szText);
-			bmp->Draw_TextA(str,
-				(PopUpOptions.actions&ACT_LARGE) ? (x+szSpace.cx+32) : (x+szSpace.cx+16),
-				max(
-					y+2,
-					y+2 + (((PopUpOptions.actions&ACT_LARGE) ? 32 : 16) - szText.cy)/2
-				));
-		}
-#endif
+
 		SelectObject(bmp->getDC(), hFntSave);
 	}
 	else {
@@ -322,22 +286,13 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 					}
 					case PopupWnd2::TT_UNICODE:
 					{
-#if defined(_UNICODE)
+
 						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
 						DrawTextExW(hdc, wnd->getTextW(), lstrlenW(wnd->getTextW()), &rc,
 							DT_CALCRECT|DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 						szNew.cx = rc.right;
 						szNew.cy = rc.bottom;
-#else
-						if (g_popup.isOsUnicode && MyDrawTextExW)
-						{
-							RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-							MyDrawTextExW(hdc, wnd->getTextW(), lstrlenW(wnd->getTextW()), &rc,
-								DT_CALCRECT|DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-							szNew.cx = rc.right;
-							szNew.cy = rc.bottom;
-						}
-#endif
+
 						break;
 					}
 					case PopupWnd2::TT_MTEXT:
@@ -390,22 +345,13 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 				}
 				case PopupWnd2::TT_UNICODE:
 				{
-#if defined(_UNICODE)
+
 					RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
 					DrawTextExW(hdc, wnd->getTitleW(), lstrlenW(wnd->getTitleW()), &rc,
 						DT_CALCRECT|DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					szNew.cx = rc.right;
 					szNew.cy = rc.bottom;
-#else
-					if (g_popup.isOsUnicode && MyDrawTextExW)
-					{
-						RECT rc; SetRect(&rc, 0, 0, szNew.cx, 0);
-						MyDrawTextExW(hdc, wnd->getTitleW(), lstrlenW(wnd->getTitleW()), &rc,
-							DT_CALCRECT|DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-						szNew.cx = rc.right;
-						szNew.cy = rc.bottom;
-					}
-#endif
+
 					break;
 				}
 				case PopupWnd2::TT_MTEXT:
@@ -665,18 +611,11 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 					}
 					case PopupWnd2::TT_UNICODE:
 					{
-#if defined(_UNICODE)
+
 						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x+sz.cx, pos.y+sz.cy);
 						DrawTextExW(hdc, wnd->getTextW(), lstrlenW(wnd->getTextW()), &rc,
 							DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-#else
-						if (g_popup.isOsUnicode && MyDrawTextExW)
-						{
-							RECT rc; SetRect(&rc, pos.x, pos.y, pos.x+sz.cx, pos.y+sz.cy);
-							MyDrawTextExW(hdc, wnd->getTextW(), lstrlenW(wnd->getTextW()), &rc,
-								DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-						}
-#endif
+
 						break;
 					}
 					case PopupWnd2::TT_MTEXT:
@@ -738,22 +677,13 @@ void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *o
 				}
 				case PopupWnd2::TT_UNICODE:
 				{
-#if defined(_UNICODE)
+
 					HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
 					RECT rc; SetRect(&rc, pos.x, pos.y, pos.x+sz.cx, pos.y+sz.cy);
 					DrawTextExW(hdc, wnd->getTitleW(), lstrlenW(wnd->getTitleW()), &rc,
 						DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
 					SelectObject(hdc, hFntSave);
-#else
-					if (g_popup.isOsUnicode && MyDrawTextExW)
-					{
-						HFONT hFntSave = (HFONT)SelectObject(hdc, fonts.title);
-						RECT rc; SetRect(&rc, pos.x, pos.y, pos.x+sz.cx, pos.y+sz.cy);
-						MyDrawTextExW(hdc, wnd->getTitleW(), lstrlenW(wnd->getTitleW()), &rc,
-							DT_EXPANDTABS|DT_LEFT|DT_NOPREFIX|DT_TOP|DT_WORDBREAK/*|DT_RTLREADING*/, NULL);
-						SelectObject(hdc, hFntSave);
-					}
-#endif
+
 					break;
 				}
 				case PopupWnd2::TT_MTEXT:
@@ -1153,15 +1083,10 @@ void PopupSkin::loadSkin(std::istream &f)
 void PopupSkin::loadSkin(LPCTSTR fn)
 {
 	if (!fn) return;
-#if defined (_UNICODE) && _MSC_VER <= 1200
-	char* temp= mir_t2a(fn);
-	std::ifstream theFile;
-	theFile.open(temp, std::ios::in);
-	mir_free(temp);
-#else
+
 	std::ifstream theFile;
 	theFile.open(fn, std::ios::in);
-#endif
+
 	if (!theFile) return;
 	loadSkin(theFile);
 	theFile.close();
@@ -1350,22 +1275,18 @@ void PopupSkin::freeSkin(SKINELEMENT *head)
 void PopupSkin::saveOpts() const
 {
 	char buf[128];
-#if defined( _UNICODE )
+
 	mir_snprintf(buf, sizeof(buf), "skin.%.120S", m_name);
-#else
-	mir_snprintf(buf, sizeof(buf), "skin.%.120s", m_name);
-#endif
+
 	DBWriteContactSettingDword(NULL, MODULNAME, buf, m_flags);
 }
 
 void PopupSkin::loadOpts() const
 {
 	char buf[128];
-#if defined( _UNICODE )
+
 	mir_snprintf(buf, sizeof(buf), "skin.%.120S", m_name);
-#else
-	mir_snprintf(buf, sizeof(buf), "skin.%.120s", m_name);
-#endif
+
 	m_flags = DBGetContactSettingDword(NULL, MODULNAME, buf, m_flags);
 }
 

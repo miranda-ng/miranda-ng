@@ -27,20 +27,7 @@ LRESULT ComboBoxAddStringW(HWND hCombo, LPCWSTR szString, DWORD data);
 LRESULT ListBoxAddStringUtf(HWND hList, const char* szString);
 LRESULT ListBoxAddStringW(HWND hList, LPCWSTR szString);
 
-#ifdef UNICODE
 #define ControlAddString	ControlAddStringW
-#else
-#define ControlAddString	ControlAddStringUtf
-#endif // !UNICODE
-
-#ifdef UNICODE
 #define ComboBoxAddString	ComboBoxAddStringW
-#else	
-#define ComboBoxAddString	ComboBoxAddStringUtf
-#endif // !UNICODE
-
-#ifdef UNICODE
 #define ListBoxAddString	ListBoxAddStringW
-#else
-#define ListBoxAddString	ListBoxAddStringUtf
-#endif // !UNICODE
+

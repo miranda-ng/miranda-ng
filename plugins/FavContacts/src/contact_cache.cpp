@@ -135,9 +135,8 @@ static bool AppendInfo(TCHAR *buf, int size, HANDLE hContact, int info)
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
 	ci.dwFlag = info;
-#if defined(UNICODE) || defined(_UNICODE)
 	ci.dwFlag |= CNF_UNICODE;
-#endif
+
 
 	bool ret = false;
 

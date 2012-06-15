@@ -143,7 +143,7 @@ INT_PTR MText_Create(WPARAM wParam, LPARAM lParam) {
 // allocate text object (unicode)
 HANDLE DLL_CALLCONV 
 MTI_MTextCreateW (HANDLE userHandle, WCHAR *text) {
-#ifdef UNICODE
+
 	TextObject *result = new TextObject;
 	result->options = TextUserGetOptions(userHandle);
 	result->ftd = new CFormattedTextDraw;
@@ -155,19 +155,15 @@ MTI_MTextCreateW (HANDLE userHandle, WCHAR *text) {
 	MText_InitFormatting1(result);
 
 	return (HANDLE)result;
-#else
-	return 0;
-#endif
+
 }
 
 INT_PTR MText_CreateW(WPARAM wParam, LPARAM lParam) {
-#ifdef UNICODE
+
 	//HANDLE userHandle = (HANDLE)wParam;
 	//WCHAR *wtext = (WCHAR *)lParam;
 	return (INT_PTR)(HANDLE)MTI_MTextCreateW ((HANDLE)wParam, (WCHAR *)lParam);
-#else
-	return 0;
-#endif
+
 }
 
 //---------------------------------------------------------------------------

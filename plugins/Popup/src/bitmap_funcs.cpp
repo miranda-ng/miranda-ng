@@ -687,22 +687,12 @@ void MyBitmap::Draw_TextA(char *str, int x, int y)
 
 void MyBitmap::Draw_TextW(WCHAR *str, int x, int y)
 {
-#if defined(_UNICODE)
+
 	SIZE sz; GetTextExtentPoint32W(this->getDC(), str, lstrlenW(str), &sz);
 	RECT rc; SetRect(&rc, x, y, x+10000, y+10000);
 	this->saveAlpha(x,y,sz.cx,sz.cy);
 	DrawTextW(this->getDC(), str, lstrlenW(str), &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
 	this->restoreAlpha(x,y,sz.cx,sz.cy);
-#else
-	if (MyGetTextExtentPoint32W && MyDrawTextW)
-	{
-		SIZE sz; MyGetTextExtentPoint32W(this->getDC(), str, lstrlenW(str), &sz);
-		RECT rc; SetRect(&rc, x, y, x+10000, y+10000);
-		this->saveAlpha(x,y,sz.cx,sz.cy);
-		MyDrawTextW(this->getDC(), str, lstrlenW(str), &rc, DT_LEFT | DT_TOP | DT_SINGLELINE | DT_NOPREFIX);
-		this->restoreAlpha(x,y,sz.cx,sz.cy);
-	}
-#endif
 }
 
 // based on code by Yuriy Zaporozhets from:

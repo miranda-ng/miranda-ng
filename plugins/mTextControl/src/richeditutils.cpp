@@ -83,11 +83,9 @@ public:
 		MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, sizeof(szwName) / sizeof(szwName[0]));
 		if (this->pictStg == NULL)
 			return STG_E_MEDIUMFULL;
-#ifdef UNICODE
+
 	    return this->pictStg->CreateStorage(szwName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
-#else
-	    return this->pictStg->CreateStorage(szName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
-#endif
+
 	}
 
 	HRESULT STDMETHODCALLTYPE  QueryAcceptData(LPDATAOBJECT lpdataobj, CLIPFORMAT * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)

@@ -75,30 +75,6 @@ PLUGININFOEX pluginInfoEx =
 	POPUP_UUID
 };
 
-// MLU layer for ansi release
-#if !defined(_UNICODE)
-BOOL		(WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
-BOOL		(WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);
-BOOL		(WINAPI *MyGetMonitorInfo)(HMONITOR hMonitor, LPMONITORINFO lpmi);
-BOOL		(WINAPI *MyUpdateLayeredWindow)
-				(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc,
-				COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-HMONITOR	(WINAPI *MyMonitorFromWindow)(HWND hWnd, DWORD dwFlags);
-BOOL		(WINAPI *MyTransparentBlt)(HDC, int, int, int, int, HDC, int, int, int, int, UINT);
-BOOL		(WINAPI *MyAlphaBlend)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION);
-
-// gdi32.dll
-BOOL		(WINAPI *MyGetTextExtentPoint32W)(HDC, LPCWSTR, int, LPSIZE);
-
-//user32.dll
-int			(WINAPI *MyDrawTextW)(HDC, LPCWSTR, int, LPRECT, UINT);
-int			(WINAPI *MyDrawTextExW)(HDC, LPCWSTR, int, LPRECT, UINT, LPDRAWTEXTPARAMS);
-BOOL		(WINAPI *MySetWindowTextW)(HWND, LPCWSTR);
-LRESULT		(WINAPI *MySendMessageW)(HWND, UINT, WPARAM, LPARAM);
-LRESULT		(WINAPI *MyCallWindowProcW)(WNDPROC, HWND, UINT, WPARAM, LPARAM);
-HWND		(WINAPI *MyCreateWindowExW)(DWORD, LPCWSTR, LPCWSTR, DWORD, int, int, int, int, HWND, HMENU, HINSTANCE, LPVOID);
-
-#endif
 
 HRESULT		(WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 

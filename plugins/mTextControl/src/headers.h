@@ -20,17 +20,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #ifndef __headers_h__
 #define __headers_h__
 
-#if defined(UNICODE) && !defined(_UNICODE)
-	#define _UNICODE
-#elif defined(_UNICODE) && !defined(UNICODE)
-	#define UNICODE
-#endif
-
-#ifndef UNICODE
-	#define OLE2ANSI
-#elif defined(OLE2ANSI)
-	#undef OLE2ANSI
-#endif
 
 #define _CRT_SECURE_NO_DEPRECATE
 

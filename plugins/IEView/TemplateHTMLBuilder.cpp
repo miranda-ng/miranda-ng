@@ -63,9 +63,8 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 				result = ace->szFilename;
 			else {
 				// compatibility: in M0.9 it will always be char*
-				#if defined( _UNICODE )
-					MultiByteToWideChar( CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, SIZEOF(tmpPath));
-				#endif
+				MultiByteToWideChar( CP_ACP, 0, (char*)ace->szFilename, -1, tmpPath, SIZEOF(tmpPath));
+				
 			}
 		}
 	}

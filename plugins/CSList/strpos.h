@@ -31,15 +31,12 @@
  * You might want to place this next block in a header file somewhere:
  */
 
-#ifndef UNICODE
-# define        TCHAR   char
-# define        STRING  char *
-#else
+
 # ifndef TCHAR
 #  define       TCHAR   wchar_t
 # endif /* TCHAR */
 # define        STRING  wchar_t *
-#endif /* UNICODE */
+
 
 
 
@@ -52,32 +49,21 @@ int strpos( STRING haystack, STRING needle )
 	TCHAR lpBuf[1024];
 #endif /* def DEBUG_VERBOSE */
 	
-	#ifndef UNICODE
-		pDest = (STRING) strstr( haystack, needle );
-	#else
-		pDest = (STRING) wcsstr( haystack, needle );
-	#endif /* UNICODE */
+	pDest = (STRING) wcsstr( haystack, needle );
+	
 
 	if ( pDest )
 		position = pDest - haystack;
 	else
 	{
 #ifdef DEBUG_VERBOSE
-# ifdef UNICODE
-		printf( L"strpos(): Could not find '%s' in '%s'.\tFAIL.", needle, haystack );
-# else
-		printf( "strpos(): Could not find '%s' in '%s'.\tFAIL.", needle, haystack );
-# endif /* def UNICODE */
+	printf( L"strpos(): Could not find '%s' in '%s'.\tFAIL.", needle, haystack );
 #endif /* def DEBUG_VERBOSE */
 		return -1;
 	}
 
 #ifdef DEBUG_VERBOSE
-# ifdef UNICODE
-		printf( L"strpos(): Found '%s' at position: %d.\t\tOK.", needle, position );
-# else
-		printf( "strpos(): Found '%s' at position: %d.\t\tOK.", needle, position );
-# endif /* def UNICODE */
+	printf( L"strpos(): Found '%s' at position: %d.\t\tOK.", needle, position );
 #endif /* def DEBUG_VERBOSE */
 
 	return position;

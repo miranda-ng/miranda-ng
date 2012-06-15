@@ -289,11 +289,9 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		DBWriteContactSettingTString(xsc->hContact, MODULE, DB_LASTLOG, stzLogText);
 
 		char *blob;
-#ifdef _UNICODE
+
 		blob = mir_utf8encodeT(stzLogText);
-#else
-		blob = mir_strdup(stzLogText);
-#endif
+
 
 		DBEVENTINFO dbei = {0};
 		dbei.cbSize = sizeof(dbei);
@@ -301,9 +299,9 @@ void LogToMessageWindow(XSTATUSCHANGE *xsc, BOOL opening)
 		dbei.pBlob = (PBYTE) blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ;
-#ifdef _UNICODE
+
 		dbei.flags |= DBEF_UTF;
-#endif
+
 		dbei.timestamp = (DWORD)time(NULL);
 		dbei.szModule = xsc->szProto;
 		HANDLE hDBEvent = (HANDLE)CallService(MS_DB_EVENT_ADD, (WPARAM)xsc->hContact, (LPARAM)&dbei);

@@ -97,7 +97,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 	SelectObject(hdcTmp, hBitmap);
 	SetStretchBltMode(bmp->getDC(), HALFTONE);
 
-#if defined(_UNICODE)
+
 	if (av->dwFlags & AVS_PREMULTIPLIED)
 	{
 		BLENDFUNCTION bf;
@@ -106,16 +106,7 @@ void GifAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS *op
 		bf.SourceConstantAlpha = 255;
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		AlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, frameSize.cx*activeFrame, 0, frameSize.cx, frameSize.cy, bf);
-#else
-	if (MyAlphaBlend && (av->dwFlags & AVS_PREMULTIPLIED))
-	{
-		BLENDFUNCTION bf;
-		bf.BlendOp = AC_SRC_OVER;
-		bf.BlendFlags = 0;
-		bf.SourceConstantAlpha = 255;
-		bf.AlphaFormat = AC_SRC_ALPHA;
-		MyAlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, frameSize.cx*activeFrame, 0, frameSize.cx, frameSize.cy, bf);
-#endif
+
 		if (options->avatarBorders && options->avatarPNGBorders)
 		{
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);

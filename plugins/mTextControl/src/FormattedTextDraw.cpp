@@ -78,7 +78,7 @@ HRESULT CFormattedTextDraw::putRTFTextA(char *newVal)
 
 HRESULT CFormattedTextDraw::putRTFTextW(WCHAR *newVal)
 {
-#ifdef UNICODE
+
 	HRESULT hr;
 	LRESULT lResult = 0;
 	EDITSTREAM editStream;
@@ -95,9 +95,7 @@ HRESULT CFormattedTextDraw::putRTFTextW(WCHAR *newVal)
 	editStream.pfnCallback = (EDITSTREAMCALLBACK)EditStreamInCallback;
 	hr = m_spTextServices->TxSendMessage(EM_STREAMIN, (WPARAM)(SF_RTF|SF_UNICODE), (LPARAM)&editStream, &lResult);
 	return S_OK;
-#else
-	return E_FAIL;
-#endif
+
 }
 
 HRESULT CFormattedTextDraw::putTextA(char *newVal)
@@ -130,7 +128,7 @@ HRESULT CFormattedTextDraw::putTextA(char *newVal)
 
 HRESULT CFormattedTextDraw::putTextW(WCHAR *newVal)
 {
-#ifdef UNICODE
+
 	HRESULT hr;
 	LRESULT lResult = 0;
 	EDITSTREAM editStream;
@@ -155,9 +153,7 @@ HRESULT CFormattedTextDraw::putTextW(WCHAR *newVal)
 	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
 
 	return S_OK;
-#else
-	return E_FAIL;
-#endif
+
 }
 
 HRESULT CFormattedTextDraw::Draw(void *hdcDraw, RECT *prc)
@@ -510,11 +506,9 @@ HRESULT CFormattedTextDraw::CharFormatFromHFONT(CHARFORMAT2W* pCF, HFONT hFont)
 	pCF->bCharSet = lf.lfCharSet;
 	pCF->bPitchAndFamily = lf.lfPitchAndFamily;
 
-#ifdef UNICODE
+
 	lstrcpyW(pCF->szFaceName, lf.lfFaceName);
-#else
-	MultiByteToWideChar(CP_ACP, 0, lf.lfFaceName, LF_FACESIZE, pCF->szFaceName, LF_FACESIZE);
-#endif
+
 
 	return S_OK;
 }

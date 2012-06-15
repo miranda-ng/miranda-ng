@@ -95,7 +95,7 @@ static bool NotifyTyping(HANDLE hContact)
 
 static char *MsgServiceName(HANDLE hContact)
 {
-#ifdef _UNICODE
+
     char szServiceName[100];
     char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
     if (szProto == NULL)
@@ -104,7 +104,7 @@ static char *MsgServiceName(HANDLE hContact)
     mir_snprintf(szServiceName, sizeof(szServiceName), "%s%sW", szProto, PSS_MESSAGE);
     if (ServiceExists(szServiceName))
         return PSS_MESSAGE "W";
-#endif
+
     return PSS_MESSAGE;
 }
 
@@ -114,7 +114,7 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 	int size = (int)info->Answer.length() + 1;
 	int bufsize = size;
 	char* msg;
-#ifdef UNICODE
+
 	bufsize *= sizeof(TCHAR) + 1;
 	msg = new char[bufsize];
 	//msg[size - 1] = '\0';
@@ -123,9 +123,7 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 		NULL, NULL))
 		FillMemory(msg, size - 1, '-'); //In case of fault return "----" in ANSI part
 	CopyMemory(msg + size, info->Answer.c_str(), size * 2);
-#else
-	msg = respItem->szMes;
-#endif
+
 
 	CallContactService(hContact, MsgServiceName(hContact), PREF_TCHAR, (LPARAM)msg);
 
@@ -142,9 +140,9 @@ static void TimerAnswer(HANDLE hContact, const TalkBot::MessageInfo* info)
 	CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&ldbei);
 	bot->AnswerGiven(hContact, *info);
 	delete info;
-#ifdef UNICODE
+
 	delete msg;
-#endif
+
 	typingContactsLock.Enter();
 	typingContacts.erase(hContact);
 	typingContactsLock.Leave();

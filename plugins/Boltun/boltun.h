@@ -23,11 +23,9 @@
 
 //Should use different keys in UNICODE and ANSI builds, because usage of plugin
 //with old (another) configs will cause crashes.
-#ifdef _UNICODE
-#define BOLTUN_KEY  "BoltunW"
-#else
+
 #define BOLTUN_KEY  "Boltun"
-#endif
+
 
 //Service names
 #define SERV_CONTACT_AUTO_CHAT "Boltun/ContactAutoChat"
@@ -43,11 +41,7 @@
 #define BOLTUN_GROUP "Message sessions"
 
 //Filename depends on UNICODE
-#ifdef UNICODE
 #define DEFAULT_MIND_FILE _T("boltun.mindw")
-#else
-#define DEFAULT_MIND_FILE _T("boltun.mind")
-#endif
 
 //===============================================
 // These are strings for translation:

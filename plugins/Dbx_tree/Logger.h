@@ -31,13 +31,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __WFILE__ WIDEN(__FILE__)
 #define __WFUNCTION__ WIDEN(__FUNCTION__)
 
-#ifdef UNICODE
-	#define LOG(Level, Message, ...) CLogger::Instance().Append(__WFILE__, __WFUNCTION__, __LINE__, 0, CLogger:: ## Level, Message, __VA_ARGS__)
-	#define LOGSYS(Level, Message, ...) CLogger::Instance().Append(__WFILE__, __WFUNCTION__, __LINE__, GetLastError(), CLogger:: ## Level, Message, __VA_ARGS__)
-#else
-	#define LOG(Level, Message, ...) CLogger::Instance().Append(__FILE__, __FUNCTION__, __LINE__, 0, CLogger:: ## Level, Message, __VA_ARGS__)
-	#define LOGSYS(Level, Message, ...) CLogger::Instance().Append(__FILE__, __FUNCTION__, __LINE__, GetLastError(), CLogger:: ## Level, Message, __VA_ARGS__)
-#endif
+
+#define LOG(Level, Message, ...) CLogger::Instance().Append(__WFILE__, __WFUNCTION__, __LINE__, 0, CLogger:: ## Level, Message, __VA_ARGS__)
+#define LOGSYS(Level, Message, ...) CLogger::Instance().Append(__WFILE__, __WFUNCTION__, __LINE__, GetLastError(), CLogger:: ## Level, Message, __VA_ARGS__)
+
 
 #define CHECK(Assertion, Level, Message, ...) if (!(Assertion)) LOG(Level, Message, __VA_ARGS__)
 #define CHECKSYS(Assertion, Level, Message, ...) if (!(Assertion)) LOGSYS(Level, Message, __VA_ARGS__)

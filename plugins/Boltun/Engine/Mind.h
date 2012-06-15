@@ -59,9 +59,8 @@ class Mind
 {
 private:
 	MindData *data;
-#ifdef UNICODE
 	bool fileTypeMark;	
-#endif
+
 	std::vector<tstring> Parse(tstring s);
 public:
 	Mind();

@@ -10,10 +10,6 @@
 #define __PLUGIN_NAME "MenuItemEx (Unicode) plugin for Miranda IM"
 #define __PLUGIN_ID 4036
 #define __PLUGIN_ID_STR "4036"
-#else
-#define __PLUGIN_NAME "MenuItemEx plugin for Miranda IM"
-#define __PLUGIN_ID 4303
-#define __PLUGIN_ID_STR "4303"
 #endif
 
 #define __WEB "http://addons.miranda-im.org/details.php?action=viewfile&id="

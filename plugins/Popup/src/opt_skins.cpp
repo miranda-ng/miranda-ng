@@ -143,7 +143,7 @@ static void DrawPreview(HWND hwnd, HDC hdc)
 		int left = (rc.right - width) / 2;
 		int top = (rc.bottom - height) / 2;
 
-#if defined(_UNICODE)
+
 		BLENDFUNCTION bf;
 		bf.BlendOp = AC_SRC_OVER;
 		bf.BlendFlags = 0;
@@ -152,24 +152,7 @@ static void DrawPreview(HWND hwnd, HDC hdc)
 		AlphaBlend(hdc, left, top, width, height,
 			wndPreview->getContent()->getDC(),
 			0, 0, width, height, bf);
-#else
-		if (MyAlphaBlend) {
-			BLENDFUNCTION bf;
-			bf.BlendOp = AC_SRC_OVER;
-			bf.BlendFlags = 0;
-			bf.SourceConstantAlpha = 255;
-			bf.AlphaFormat = AC_SRC_ALPHA;
-			MyAlphaBlend(hdc, left, top, width, height,
-				wndPreview->getContent()->getDC(),
-				0, 0, width, height, bf);
-		}
-		else {
-			BitBlt(hdc,
-				left, top, left+width, top+height,
-				wndPreview->getContent()->getDC(),
-				0, 0, SRCCOPY);
-		}
-#endif
+
 	}
 
 	FrameRect(hdc, &rc, GetStockBrush(LTGRAY_BRUSH));

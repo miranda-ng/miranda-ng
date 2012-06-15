@@ -84,12 +84,8 @@ LRESULT CALLBACK MTextControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int textLength = GetWindowTextLength(hwnd);
 			data->text = new TCHAR[textLength+1];
 			GetWindowText(hwnd, data->text, textLength+1);
-			#if defined(UNICODE) || defined (_UNICODE)
-				data->mtext = MTI_MTextCreateW(data->htu, data->text);
-			#else
-				data->mtext = MTI_MTextCreate(data->htu, data->text);
-			#endif
-
+			data->mtext = MTI_MTextCreateW(data->htu, data->text);
+			
 			RECT rc; GetClientRect(hwnd, &rc);
 			MTI_MTextSetParent(data->mtext, hwnd, rc);
 

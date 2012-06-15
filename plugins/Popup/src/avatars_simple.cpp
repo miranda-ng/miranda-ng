@@ -104,7 +104,7 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 	SelectObject(hdcTmp, av->hbmPic);
 	SetStretchBltMode(bmp->getDC(), HALFTONE);
 
-#if defined(_UNICODE)
+
 	if (av->dwFlags & AVS_HASTRANSPARENCY)
 	{
 		BLENDFUNCTION bf;
@@ -113,17 +113,7 @@ void SimpleAvatar::draw(MyBitmap *bmp, int x, int y, int w, int h, POPUPOPTIONS 
 		bf.SourceConstantAlpha = 255;
 		bf.AlphaFormat = AC_SRC_ALPHA;
 		AlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, 0, 0, av->bmWidth, av->bmHeight, bf);
-#else
-//	if (MyAlphaBlend && (av->dwFlags & AVS_PREMULTIPLIED))
-	if (MyAlphaBlend && (av->dwFlags & AVS_HASTRANSPARENCY))
-	{
-		BLENDFUNCTION bf;
-		bf.BlendOp = AC_SRC_OVER;
-		bf.BlendFlags = 0;
-		bf.SourceConstantAlpha = 255;
-		bf.AlphaFormat = AC_SRC_ALPHA;
-		MyAlphaBlend(bmp->getDC(), x, y, w, h, hdcTmp, 0, 0, av->bmWidth, av->bmHeight, bf);
-#endif
+
 		if (options->avatarBorders && options->avatarPNGBorders)
 		{
 			HBRUSH hbr = CreateSolidBrush(fonts.clAvatarBorder);
