@@ -11,10 +11,10 @@
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
 
-#define __PLUGIN_NAME				"Bass_interface"
-#define __INTERNAL_NAME				"Bass_interface"
-#define __FILENAME					"Bass_interface.dll"
-#define __DESCRIPTION 				"un4seen's bass interface Miranda IM plugin."
+#define __PLUGIN_NAME				"BASS_interface"
+#define __INTERNAL_NAME				"BASS_interface"
+#define __FILENAME					"BASS_interface.dll"
+#define __DESCRIPTION 				"un4seen's BASS interface Miranda IM plugin."
 #define __AUTHOR					"tico-tico"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					""
