@@ -22,17 +22,17 @@
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo = {
-		sizeof(PLUGININFOEX),
-		"Extra Icons Service",
-		PLUGIN_MAKE_VERSION(0,2,5,0),
-		"Extra Icons Service",
-		"Ricardo Pescuma Domenecci",
-		"",
-		"© 2009 Ricardo Pescuma Domenecci",
-		"http://pescuma.org/miranda/extraicons",
-		UNICODE_AWARE,
-		0, //doesn't replace anything built-in
-		{ 0x112f7d30, 0xcd19, 0x4c74, { 0xa0, 0x3b, 0xbf, 0xbb, 0x76, 0xb7, 0x5b, 0xc4 } } // {112F7D30-CD19-4c74-A03BBFBB76B75BC4}
+	sizeof(PLUGININFOEX),
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
+	0, //doesn't replace anything built-in
+	{ 0x112f7d30, 0xcd19, 0x4c74, { 0xa0, 0x3b, 0xbf, 0xbb, 0x76, 0xb7, 0x5b, 0xc4 } } // {112F7D30-CD19-4c74-A03BBFBB76B75BC4}
 };
 
 HINSTANCE hInst;
@@ -152,11 +152,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		upd.szBetaVersionURL = "http://pescuma.org/miranda/extraicons_version.txt";
 		upd.szBetaChangelogURL = "http://pescuma.org/miranda/extraicons#Changelog";
 		upd.pbBetaVersionPrefix = (BYTE *) "Extra Icons Service ";
-		upd.cpbBetaVersionPrefix = strlen((char *) upd.pbBetaVersionPrefix);
+		upd.cpbBetaVersionPrefix = (int)strlen((char *) upd.pbBetaVersionPrefix);
 		upd.szBetaUpdateURL = "http://pescuma.org/miranda/extraicons.zip";
 
 		upd.pbVersion = (BYTE *) CreateVersionStringPlugin((PLUGININFO*) &pluginInfo, szCurrentVersion);
-		upd.cpbVersion = strlen((char *) upd.pbVersion);
+		upd.cpbVersion = (int)strlen((char *) upd.pbVersion);
 
 		CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
 	}
@@ -398,7 +398,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		return extra->getID();
 	}
 
-	size_t id = registeredExtraIcons.size() + 1;
+	int id = (int)registeredExtraIcons.size() + 1;
 
 	switch (ei->type)
 	{

@@ -186,6 +186,7 @@
     <ClInclude Include="options.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="usedIcons.h" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\AlwaysVis.ico" />
@@ -201,6 +202,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseExtraIcon.cpp" />

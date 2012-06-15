@@ -545,7 +545,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			sort.lpfnCompare = CompareFunc;
 			TreeView_SortChildrenCB(tree, &sort, 0);
 
-			origTreeProc = (WNDPROC) SetWindowLongPtr(tree, -4, (INT_PTR)TreeProc);
+			origTreeProc = (WNDPROC) SetWindowLongPtr(tree, GWLP_WNDPROC, (INT_PTR)TreeProc);
 
 			return TRUE;
 		}
@@ -642,14 +642,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					CallService(MS_DB_MODULE_DELETE, 0, (LPARAM) MODULE_NAME "Groups");
-					DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", "Count", groups.size());
+					DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
 					for (i = 0; i < groups.size(); ++i)
 					{
 						ExtraIconGroup *group = groups[i];
 
 						char setting[512];
 						mir_snprintf(setting, MAX_REGS(setting), "%d_count", i);
-						DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", setting, group->items.size());
+						DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
 
 						for (unsigned int j = 0; j < group->items.size(); ++j)
 						{

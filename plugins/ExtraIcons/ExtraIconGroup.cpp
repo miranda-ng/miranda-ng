@@ -122,8 +122,8 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 	}
 
 	ExtraIcon *current = getCurrentItem(hContact);
-	int currentPos = items.size();
-	int storePos = items.size();
+	int currentPos = (int)items.size();
+	int storePos = (int)items.size();
 	for (unsigned int i = 0; i < items.size(); ++i)
 	{
 		if (items[i]->getID() == id)
@@ -162,7 +162,7 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 
 			insideApply = true;
 
-			for (++storePos; storePos < items.size(); ++storePos)
+			for (++storePos; storePos < (int)items.size(); ++storePos)
 			{
 				items[storePos]->applyIcon(hContact);
 

@@ -63,6 +63,7 @@ using namespace std;
 #include "..\utils\mir_icons.h"
 
 #include "resource.h"
+#include "Version.h"
 #include "m_extraicons.h"
 
 #include "ExtraIcon.h"
