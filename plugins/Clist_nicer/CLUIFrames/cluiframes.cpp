@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <commonheaders.h>
 #include "cluiframes.h"
-void RefreshButtons();
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
 extern HIMAGELIST himlExtraImages;
@@ -2012,7 +2011,6 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam, LPARAM lParam)
 		CLUIFrameSetFloat(retval, 1);//lparam=1 use stored width and height
 	}
 	RedrawWindow(pcli->hwndContactList, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
-	RefreshButtons();
 	return retval;
 }
 

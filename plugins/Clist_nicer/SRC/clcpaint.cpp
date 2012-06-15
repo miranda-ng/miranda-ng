@@ -497,7 +497,7 @@ void __inline PaintItem(HDC hdcMem, struct ClcGroup *group, struct ClcContact *c
 	else
 		cEntry = cfg::eCache;
 
-
+#if defined(_UNICODE)
     if(dat->bisEmbedded)
         goto set_bg_l;
 
@@ -525,7 +525,16 @@ void __inline PaintItem(HDC hdcMem, struct ClcGroup *group, struct ClcContact *c
 		bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 
 set_bg_l:
-
+#else
+	if(type == CLCIT_GROUP && cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT && !dat->bisEmbedded && API::pfnSetLayout != 0) {
+		g_RTL = TRUE;
+		bg_indent_r = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
+	}
+	else {
+		g_RTL = FALSE;
+		bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
+	}
+#endif
 
 	g_hottrack = dat->exStyle & CLS_EX_TRACKSELECT && type == CLCIT_CONTACT && dat->iHotTrack == index;
 	if (g_hottrack == selected)
@@ -1267,9 +1276,11 @@ nodisplay:
 				if ((dwFlags & CLUI_FRAME_SHOWSTATUSMSG && smsgValid > STATUSMSG_XSTATUSID) || smsgValid == STATUSMSG_XSTATUSNAME)
 					szText = cEntry->statusMsg;
 				else
-
+#if defined(_UNICODE)
 					szText = &statusNames[cstatus - ID_STATUS_OFFLINE][0];
-
+#else
+					szText = statusNames[cstatus - ID_STATUS_OFFLINE];
+#endif
 				if(cEntry->dwCFlags & ECF_RTLSTATUSMSG && cfg::dat.bUseDCMirroring == 3)
 					dt_2ndrowflags |= (DT_RTLREADING | DT_RIGHT);
 

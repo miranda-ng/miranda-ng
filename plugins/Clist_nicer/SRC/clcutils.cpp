@@ -542,7 +542,7 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
         for (i=0; i <= FONTID_LAST; i++)
            if (h<dat->fontInfo[i].fontHeight+2) h=dat->fontInfo[i].fontHeight+2;
     }
-
+#if defined(_UNICODE)
 	dat->hwndRenameEdit = CreateWindowEx(0, _T("RichEdit20W"),contact->szText,WS_CHILD|WS_BORDER|ES_MULTILINE|ES_AUTOHSCROLL,x,y,clRect.right-x,h,hwnd,NULL,g_hInst,NULL);
     {
         if ((contact->type == CLCIT_CONTACT && cfg::eCache[contact->extraCacheEntry].dwCFlags & ECF_RTLNICK) || (contact->type == CLCIT_GROUP && contact->isRtl)) {
@@ -556,7 +556,9 @@ void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
             SetWindowText(dat->hwndRenameEdit, contact->szText);
         }
     }
-
+#else
+    dat->hwndRenameEdit = CreateWindow(_T("EDIT"),contact->szText,WS_CHILD|WS_BORDER|ES_MULTILINE|ES_AUTOHSCROLL,x,y,clRect.right-x,h,hwnd,NULL,g_hInst,NULL);
+#endif
     //dat->hwndRenameEdit = CreateWindow(_T("EDIT"), contact->szText, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, x, y, clRect.right - x, dat->rowHeight, hwnd, NULL, g_hInst, NULL);
     OldRenameEditWndProc = (WNDPROC) SetWindowLongPtr(dat->hwndRenameEdit, GWLP_WNDPROC, (LONG_PTR) RenameEditSubclassProc);
     SendMessage(dat->hwndRenameEdit, WM_SETFONT, (WPARAM) (contact->type == CLCIT_GROUP ? dat->fontInfo[FONTID_GROUPS].hFont : dat->fontInfo[FONTID_CONTACTS].hFont), 0);

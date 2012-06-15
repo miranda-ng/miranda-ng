@@ -76,10 +76,13 @@ struct ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, D
 {
 	struct ClcGroup *p = saveAddGroup( hwnd, dat, szName, flags, groupId, calcTotalMembers);
 
-	
+	#if defined(_UNICODE)
 		if ( p && p->parent )
 			RTL_DetectGroupName( p->parent->cl.items[ p->parent->cl.count-1] );
-	
+	#else
+		if ( p && p->parent )
+			p->parent->cl.items[ p->parent->cl.count -1]->isRtl = 0;
+	#endif
 	return p;
 }
 
@@ -163,9 +166,9 @@ int AddContactToGroup(struct ClcData *dat, struct ClcGroup *group, HANDLE hConta
         // notify other plugins to re-supply their extra images (icq for xstatus, mBirthday etc...)
         NotifyEventHooks(hExtraImageApplying, (WPARAM)hContact, 0);
 	}
-
+#if defined(_UNICODE)
 	RTL_DetectAndSet( p, p->hContact);
-
+#endif
 	p->avatarLeft = p->extraIconRightBegin = -1;
 	p->flags |= cfg::getByte(p->hContact, "CList", "Priority", 0) ? CONTACTF_PRIORITY : 0;
 
@@ -339,7 +342,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 	if ( !result )
 		DBFreeVariant( &dbv );
 
-
+#if defined(_UNICODE)
 	if(cEntry->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];
 		int iLen, i
@@ -355,7 +358,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 			}
 		}
 	}
-
+#endif
 	if(cEntry->hTimeZone == NULL)
 		TZ_LoadTimeZone(hContact, cEntry, szProto);
 	return cEntry->bStatusMsgValid;;
@@ -394,7 +397,7 @@ void ReloadExtraInfo(HANDLE hContact)
  * autodetect RTL property of the nickname, evaluates the first 10 characters of the nickname only
  */
 
-
+#if defined(_UNICODE)
 void RTL_DetectAndSet(struct ClcContact *contact, HANDLE hContact)
 {
     WORD infoTypeC2[12];
@@ -444,7 +447,7 @@ void RTL_DetectGroupName(struct ClcContact *group)
         }
     }
 }
-
+#endif
 /*
  * check for exteneded user information - email, phone numbers, homepage
  * set extra icons accordingly

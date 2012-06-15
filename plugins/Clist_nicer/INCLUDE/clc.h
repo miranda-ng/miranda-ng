@@ -290,7 +290,7 @@ struct ClcData {
     int  oldSelection;
 };
 
-#define CLUI_FRAME_SHOWTOPBUTTONS 1
+//#define CLUI_FRAME_SHOWTOPBUTTONS 1
 #define CLUI_FRAME_SHOWBOTTOMBUTTONS 2
 #define CLUI_SHOWCLIENTICONS 4
 #define CLUI_SHOWVISI 8
@@ -306,7 +306,7 @@ struct ClcData {
 #define CLUI_STATUSASTEXT 8192
 #define CLUI_FULLROWSELECT 16384
 #define CLUI_FRAME_EVENTAREASUNKEN 32768
-#define CLUI_FRAME_BUTTONBARSUNKEN 65536
+//#define CLUI_FRAME_BUTTONBARSUNKEN 65536
 #define CLUI_FRAME_AVATARS         0x20000
 #define CLUI_FRAME_AVATARSLEFT     0x40000
 #define CLUI_FRAME_GDIPLUS         0x80000
@@ -340,18 +340,12 @@ struct TCluiData {
 	DWORD dwFlags;
 	DWORD topOffset, bottomOffset;
 	int statusBarHeight;
-	int soundsOff;
 	BYTE tabSRMM_Avail;
-	BYTE IcoLib_Avail;
 	BYTE bMetaAvail;
-    BYTE bFontServiceAvail;
 	BYTE bAvatarServiceAvail;
 	HICON hIconVisible, hIconInvisible, hIconChatactive, hIconConnecting;
-	DWORD dwButtonHeight, dwButtonWidth;
-	DWORD toolbarVisibility;
 	DWORD winFlags;
 	DWORD winFlagsEx;
-	HMENU hMenuButtons;
 	int notifyActive;
 	int hIconNotify;
 	HMENU hMenuNotify;
@@ -463,22 +457,7 @@ struct NotifyMenuItemExData {
 	HANDLE hDbEvent;
 };
 
-#define BUTTON_HEIGHT_D 21
-#define BUTTON_WIDTH_D 21
 // #define NOTIFY_HEIGHT 24
-
-#define TOPBUTTON_PUSH 1
-#define TOPBUTTON_SENDONDOWN 2
-
-struct CluiTopButton {
-	HWND hwnd;
-	HICON hIcon, hAltIcon;
-	UINT id, idIcon, idAltIcon;
-	char *szIcoLibIcon, *szIcoLibAltIcon;
-	DWORD flags;
-	DWORD visibilityOrder;
-	TCHAR *szTooltip;
-};
 
 struct TrayIconInfo {
 	union {
@@ -569,7 +548,6 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);
 void __inline PaintItem(HDC hdcMem, struct ClcGroup *group, struct ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
 void Reload3dBevelColors();
 void ReloadThemedOptions();
-void CreateButtonBar(HWND hWnd);
 void SetButtonToSkinned();
 void RTL_DetectAndSet(struct ClcContact *contact, HANDLE hContact);
 void RTL_DetectGroupName(struct ClcContact *group);
@@ -611,8 +589,6 @@ void _DebugTraceA(const char *fmt, ...);
 int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
 
 // Menus
-
-int ClcSoundHook(WPARAM wParam, LPARAM lParam);
 
 void IMG_DeleteItems();
 int CoolSB_SetupScrollBar();

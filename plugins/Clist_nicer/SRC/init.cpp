@@ -118,7 +118,7 @@ PLUGININFOEX pluginInfo =
 	{0x8f79b4ee, 0xeb48, 0x4a03, { 0x87, 0x3e, 0x27, 0xbe, 0x6b, 0x7e, 0x9a, 0x25 }} //{8F79B4EE-EB48-4a03-873E-27BE6B7E9A25}
 };
 
-
+#if defined(_UNICODE)
 void _DebugTraceW(const wchar_t *fmt, ...)
 {
 #ifdef _DEBUG
@@ -133,7 +133,7 @@ void _DebugTraceW(const wchar_t *fmt, ...)
     OutputDebugStringW(debug);
 #endif
 }
-
+#endif
 
 void _DebugTraceA(const char *fmt, ...)
 {
@@ -204,7 +204,6 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if(cfg::dat.bAvatarServiceAvail)
 		HookEvent(ME_AV_AVATARCHANGED, AvatarChanged);
 	cfg::dat.tabSRMM_Avail = ServiceExists("SRMsg_MOD/GetWindowFlags") ? TRUE : FALSE;
-	cfg::dat.IcoLib_Avail = ServiceExists(MS_SKIN2_ADDICON) ? TRUE : FALSE;
 
 	ZeroMemory((void *)overlayicons, sizeof(HICON) * 10);
 
@@ -235,7 +234,6 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 	mir_getLP( &pluginInfo );
 
 	API::onInit();
-	LoadCLCButtonModule();
 	RegisterCLUIFrameClasses();
 
 	ZeroMemory((void*) &cfg::dat, sizeof(cfg::dat));
@@ -252,8 +250,6 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 	cfg::maxCacheEntry = iCount;
 	cfg::init();
 
-	cfg::dat.toolbarVisibility = 		cfg::getDword("CLUI", "TBVisibility", DEFAULT_TB_VISIBILITY);
-	cfg::dat.hMenuButtons = 			GetSubMenu(LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 3);
 	cfg::dat.hMenuNotify = 				CreatePopupMenu();
 	cfg::dat.wNextMenuID = 				1;
 	cfg::dat.sortTimer = 				cfg::getDword("CLC", "SortTimer", 150);
@@ -317,22 +313,16 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 	himlExtraImages = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 30, 2);
 	ImageList_SetIconSize(himlExtraImages, cfg::dat.exIconScale, cfg::dat.exIconScale);
 
-	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_SHOWTOPBUTTONS | CLUI_FRAME_STATUSICONS |
-                                                  CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
+	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS |
+	                                                       CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
 	cfg::dat.dwFlags |= (cfg::getByte("CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
-	cfg::dat.soundsOff = cfg::getByte("CLUI", "NoSounds", 0);
 
 	CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szProfilePath);
-
 
 	MultiByteToWideChar(CP_ACP, 0, szProfilePath, MAX_PATH, cfg::dat.tszProfilePath, MAX_PATH);
 	cfg::dat.tszProfilePath[MAX_PATH - 1] = 0;
 
-
 	_tcslwr(cfg::dat.tszProfilePath);
-
-	if(cfg::getByte("Skin", "UseSound", 0) != cfg::dat.soundsOff)
-		cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
 
 	// get the clist interface
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);

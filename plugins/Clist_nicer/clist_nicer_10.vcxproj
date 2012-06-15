@@ -193,7 +193,6 @@
     <ClCompile Include="coolsb\coolscroll.cpp" />
     <ClCompile Include="SRC\alphablend.cpp" />
     <ClCompile Include="SRC\clc.cpp" />
-    <ClCompile Include="SRC\CLCButton.cpp" />
     <ClCompile Include="SRC\clcidents.cpp" />
     <ClCompile Include="SRC\clcitems.cpp" />
     <ClCompile Include="SRC\clcmsgs.cpp" />

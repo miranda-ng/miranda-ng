@@ -72,13 +72,11 @@ int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *
 	}
 
 	if(status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE && phIcon != NULL) {
-		if(szProto && cfg::dat.IcoLib_Avail) {
+		if(szProto) {
 			char szBuf[128];
 			mir_snprintf(szBuf, 128, "%s_conn", szProto);
 			*phIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szBuf);
 		}
-		else if(szProto)
-			*phIcon = cfg::dat.hIconConnecting;;
 	}
 	return saveIconFromStatusMode(szFinalProto, finalStatus, hContact);
 }

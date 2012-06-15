@@ -93,7 +93,6 @@ void FLT_SnapToEdges(HWND hwnd);
 void DestroyTrayMenu(HMENU hMenu);
 
 extern LONG g_cxsmIcon, g_cysmIcon;
-extern HANDLE hSoundHook;
 extern HANDLE hIcoLibChanged;
 extern HANDLE hExtraImageListRebuilding, hExtraImageApplying;
 
@@ -107,45 +106,7 @@ static HBITMAP hbmLockedPoint = 0, hbmOldLockedPoint = 0;
 
 HICON overlayicons[10];
 
-struct CluiTopButton top_buttons[] = {
-	0, 0, 0, IDC_TBTOPMENU, IDI_TBTOPMENU, 0,           "CLN_topmenu", NULL, TOPBUTTON_PUSH | TOPBUTTON_SENDONDOWN, 1, LPGENT("Show menu"),
-	0, 0, 0, IDC_TBHIDEOFFLINE, IDI_HIDEOFFLINE, 0,     "CLN_online", NULL, 0, 2, LPGENT("Show / hide offline contacts"),
-	0, 0, 0, IDC_TBHIDEGROUPS, IDI_HIDEGROUPS, 0,       "CLN_groups", NULL, 0, 4, LPGENT("Toggle group mode"),
-	0, 0, 0, IDC_TBFINDANDADD, IDI_FINDANDADD, 0,       "CLN_findadd", NULL, TOPBUTTON_PUSH, 8, LPGENT("Find and add contacts"),
-	0, 0, 0, IDC_TBACCOUNTS, IDI_TBACCOUNTS, 0,         "CLN_accounts", NULL, TOPBUTTON_PUSH, 8192, LPGENT("Accounts"),
-	0, 0, 0, IDC_TBOPTIONS, IDI_TBOPTIONS, 0,           "CLN_options", NULL, TOPBUTTON_PUSH, 16, LPGENT("Open preferences"),
-	0, 0, 0, IDC_TBSOUND, IDI_SOUNDSON, IDI_SOUNDSOFF,  "CLN_sound", "CLN_soundsoff", 0, 32, LPGENT("Toggle sounds"),
-	0, 0, 0, IDC_TBMINIMIZE, IDI_MINIMIZE, 0,           "CLN_minimize", NULL, TOPBUTTON_PUSH, 64, LPGENT("Minimize contact list"),
-	0, 0, 0, IDC_TBTOPSTATUS, 0, 0,                     "CLN_topstatus", NULL, TOPBUTTON_PUSH  | TOPBUTTON_SENDONDOWN, 128, LPGENT("Status menu"),
-	0, 0, 0, IDC_TABSRMMSLIST, IDI_TABSRMMSESSIONLIST, 0, "CLN_slist", NULL, TOPBUTTON_PUSH | TOPBUTTON_SENDONDOWN, 256, LPGENT("tabSRMM session list"),
-	0, 0, 0, IDC_TABSRMMMENU, IDI_TABSRMMMENU, 0,       "CLN_menu", NULL, TOPBUTTON_PUSH | TOPBUTTON_SENDONDOWN, 512, LPGENT("tabSRMM Menu"),
-
-	0, 0, 0, IDC_TBSELECTVIEWMODE, IDI_CLVM_SELECT, 0,  "CLN_CLVM_select", NULL, TOPBUTTON_PUSH | TOPBUTTON_SENDONDOWN, 1024, LPGENT("Select view mode"),
-	0, 0, 0, IDC_TBCONFIGUREVIEWMODE, IDI_CLVM_OPTIONS, 0, "CLN_CLVM_options", NULL, TOPBUTTON_PUSH, 2048, LPGENT("Setup view modes"),
-	0, 0, 0, IDC_TBCLEARVIEWMODE, IDI_DELETE, 0,        "CLN_CLVM_reset", NULL, TOPBUTTON_PUSH, 4096, LPGENT("Clear view mode"),
-
-	0, 0, 0, IDC_TBGLOBALSTATUS, 0, 0, "", NULL, TOPBUTTON_PUSH | TOPBUTTON_SENDONDOWN, 0, LPGENT("Set status modes"),
-	0, 0, 0, IDC_TBMENU, IDI_MINIMIZE, 0, "", NULL, TOPBUTTON_PUSH | TOPBUTTON_SENDONDOWN, 0, LPGENT("Open main menu"),
-	(HWND) - 1, 0, 0, 0, 0, 0, 0, 0, 0
-};
-
-static struct IconDesc myIcons[] = {
-	"CLN_online", LPGEN("Toggle show online/offline"), -IDI_HIDEOFFLINE,
-	"CLN_groups", LPGEN("Toggle groups"), -IDI_HIDEGROUPS,
-	"CLN_findadd", LPGEN("Find contacts"), -IDI_FINDANDADD,
-	"CLN_options", LPGEN("Open preferences"), -IDI_TBOPTIONS,
-	"CLN_sound", LPGEN("Toggle sounds"), -IDI_SOUNDSON,
-	"CLN_minimize", LPGEN("Minimize contact list"), -IDI_MINIMIZE,
-	"CLN_slist", LPGEN("Show tabSRMM session list"), -IDI_TABSRMMSESSIONLIST,
-	"CLN_menu", LPGEN("Show tabSRMM menu"), -IDI_TABSRMMMENU,
-	"CLN_soundsoff", LPGEN("Sounds are off"), -IDI_SOUNDSOFF,
-	"CLN_CLVM_select", LPGEN("Select view mode"), -IDI_CLVM_SELECT,
-	"CLN_CLVM_reset", LPGEN("Reset view mode"), -IDI_DELETE,
-	"CLN_CLVM_options", LPGEN("Configure view modes"), -IDI_CLVM_OPTIONS,
-	"CLN_topmenu", LPGEN("Show menu"), -IDI_TBTOPMENU,
-	"CLN_accounts", LPGEN("Setup accounts"), -IDI_TBACCOUNTS,
-	NULL, NULL, 0
-};
+HWND hTbMenu, hTbGlobalStatus;
 
 /*
  * simple service for testing purpose
@@ -170,7 +131,6 @@ static void Tweak_It(COLORREF clr)
 
 static void LayoutButtons(HWND hwnd, RECT *rc)
 {
-	int i;
 	RECT rect;
 	BYTE rightButton = 1, leftButton = 0;
 	BYTE left_offset = cfg::dat.bCLeft - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
@@ -185,48 +145,12 @@ static void LayoutButtons(HWND hwnd, RECT *rc)
 
 	rect.bottom -= cfg::dat.bCBottom;
 
-	if (g_ButtonItems) {
-		while (btnItems) {
-			LONG x = (btnItems->xOff >= 0) ? rect.left + btnItems->xOff : rect.right - abs(btnItems->xOff);
-			LONG y = (btnItems->yOff >= 0) ? rect.top + btnItems->yOff : rect.bottom - cfg::dat.statusBarHeight;
+	SetWindowPos(hTbMenu, 0, 2 + left_offset, rect.bottom - cfg::dat.statusBarHeight - 21 - 1,
+				 21 * 3, 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
 
-			SetWindowPos(btnItems->hWnd, 0, x, y, btnItems->width, btnItems->height,
-						 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-			btnItems = btnItems->nextItem;
-		}
-		SetWindowPos(top_buttons[15].hwnd, 0, 2 + left_offset, rect.bottom - cfg::dat.statusBarHeight - BUTTON_HEIGHT_D - 1,
-					 BUTTON_WIDTH_D * 3, BUTTON_HEIGHT_D + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-		SetWindowPos(top_buttons[14].hwnd, 0, left_offset + (3 * BUTTON_WIDTH_D) + 3, rect.bottom - cfg::dat.statusBarHeight - BUTTON_HEIGHT_D - 1,
-					 rect.right - delta - (3 * BUTTON_WIDTH_D + 5), BUTTON_HEIGHT_D + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-		return;
-	}
+	SetWindowPos(hTbGlobalStatus, 0, left_offset + (3 * 21) + 3, rect.bottom - cfg::dat.statusBarHeight - 21 - 1,
+				 rect.right - delta - (3 * 21 + 5), 21 + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
 
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-		if (top_buttons[i].hwnd == 0)
-			continue;
-		if (top_buttons[i].id == IDC_TBMENU) {
-			SetWindowPos(top_buttons[i].hwnd, 0, 2 + left_offset, rect.bottom - cfg::dat.statusBarHeight - BUTTON_HEIGHT_D - 1,
-						 BUTTON_WIDTH_D * 3, BUTTON_HEIGHT_D + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-
-		} else if (top_buttons[i].id == IDC_TBGLOBALSTATUS) {
-			SetWindowPos(top_buttons[i].hwnd, 0, left_offset + (3 * BUTTON_WIDTH_D) + 3, rect.bottom - cfg::dat.statusBarHeight - BUTTON_HEIGHT_D - 1,
-						 rect.right - delta - (3 * BUTTON_WIDTH_D + 5), BUTTON_HEIGHT_D + 1, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-		}
-		if (!(top_buttons[i].visibilityOrder & cfg::dat.toolbarVisibility))
-			continue;
-		if (top_buttons[i].id == IDC_TBTOPSTATUS || top_buttons[i].id == IDC_TBMINIMIZE || top_buttons[i].id == IDC_TABSRMMMENU || top_buttons[i].id == IDC_TABSRMMSLIST) {
-			SetWindowPos(top_buttons[i].hwnd, 0, rect.right - right_offset - 2 - (rightButton * (cfg::dat.dwButtonWidth + 1)), 2 + cfg::dat.bCTop, cfg::dat.dwButtonWidth, cfg::dat.dwButtonHeight - 2,
-						 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-			rightButton++;
-			continue;
-		} else {
-			SetWindowPos(top_buttons[i].hwnd, 0, left_offset + 3 + (leftButton * (cfg::dat.dwButtonWidth + 1)), 2 + cfg::dat.bCTop, cfg::dat.dwButtonWidth, cfg::dat.dwButtonHeight - 2,
-						 SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOCOPYBITS | SWP_NOREDRAW);
-			leftButton++;
-		}
-	}
 }
 
 static int FS_FontsChanged(WPARAM wParam, LPARAM lParam)
@@ -316,12 +240,10 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	static Update upd = {0};
 	static const char *szPrefix = "clist_nicer_plus ";
 
-
-	static char *component = "CList Nicer+ (Unicode)";
+	static char *component = "CList Nicer+";
 	static char szCurrentVersion[30];
 	static char *szVersionUrl = "http://download.miranda.or.at/clist_nicer/0.9/versionW.txt";
 	static char *szUpdateUrl = "http://download.miranda.or.at/clist_nicer/0.9/clist_nicer_plusW.zip";
-
 
 	// updater plugin support
 
@@ -339,11 +261,8 @@ static int CluiModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);
 
 	MTG_OnmodulesLoad(wParam, lParam);
-	if (ServiceExists(MS_FONT_REGISTER)) {
-		cfg::dat.bFontServiceAvail = TRUE;
-		FS_RegisterFonts();
-		HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
-	}
+	FS_RegisterFonts();
+	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 	return 0;
 }
 
@@ -401,28 +320,32 @@ static void InitIcoLib()
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszSection = LPGEN("CList - Nicer/Default");
 	sid.ptszDefaultFile = szFilename;
-	i = 0;
-	do {
-		if (myIcons[i].szName == NULL)
-			break;
-		sid.pszName = myIcons[i].szName;
-		sid.pszDescription = myIcons[i].szDesc;
-		sid.iDefaultIndex = myIcons[i].uId;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
-	} while (++i);
 
+	sid.pszName = "CLN_CLVM_select";
+	sid.pszDescription = LPGEN("Select view mode");
+	sid.iDefaultIndex = -IDI_CLVM_SELECT;
+	Skin_AddIcon(&sid);
+	sid.pszName = "CLN_CLVM_reset";
+	sid.pszDescription = LPGEN("Reset view mode");
+	sid.iDefaultIndex = -IDI_DELETE;
+	Skin_AddIcon(&sid);
+	sid.pszName = "CLN_CLVM_options";
+	sid.pszDescription = LPGEN("Configure view modes");
+	sid.iDefaultIndex = -IDI_CLVM_OPTIONS;
+	Skin_AddIcon(&sid);
+	
 	sid.pszName = "CLN_visible";
 	sid.pszDescription = LPGEN("Contact on visible list");
 	sid.iDefaultIndex = -IDI_CLVISIBLE;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+	Skin_AddIcon(&sid);
 	sid.pszName = "CLN_invisible";
 	sid.pszDescription = LPGEN("Contact on invisible list or blocked");
 	sid.iDefaultIndex = -IDI_CLINVISIBLE;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+	Skin_AddIcon(&sid);
 	sid.pszName = "CLN_chatactive";
 	sid.pszDescription = LPGEN("Chat room/IRC channel activity");
 	sid.iDefaultIndex = -IDI_OVL_FREEFORCHAT;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+	Skin_AddIcon(&sid);
 
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("CList - Nicer/Overlay Icons");
@@ -431,7 +354,7 @@ static void InitIcoLib()
 		sid.pszName = szBuffer;
 		sid.ptszDescription = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), GSMDF_TCHAR);
 		sid.iDefaultIndex = -i;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+		Skin_AddIcon(&sid);
 	}
 	sid.ptszSection = LPGENT("CList - Nicer/Connecting Icons");
 	ProtoEnumAccounts( &p_count, &accs );
@@ -444,7 +367,7 @@ static void InitIcoLib()
 		mir_sntprintf(szDescr, 128, TranslateT("%s Connecting"), accs[i]->tszAccountName );
 		sid.ptszDescription = szDescr;
 		sid.iDefaultIndex = -IDI_PROTOCONNECTING;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+		Skin_AddIcon(&sid);
 	}
 }
 
@@ -452,6 +375,28 @@ static int IcoLibChanged(WPARAM wParam, LPARAM lParam)
 {
 	IcoLibReloadIcons();
 	return 0;
+}
+
+void CreateButtonBar(HWND hWnd)
+{
+//	if (!hTbMenu)
+	{
+		hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBMENU, g_hInst, NULL);
+		SetWindowText(hTbMenu, TranslateT("Menu"));
+		SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+		SendMessage(hTbMenu, BM_SETASMENUACTION, 1, 0);
+		SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM) TranslateTS(LPGENT("Open main menu")), BATF_UNICODE);
+	}
+
+//	if (!hTbGlobalStatus)	
+	{
+		hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBGLOBALSTATUS, g_hInst, NULL);
+		SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
+		SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
+		SendMessage(hTbGlobalStatus, BM_SETASMENUACTION, 1, 0);
+		SendMessage(hTbGlobalStatus, BUTTONADDTOOLTIP, (WPARAM) TranslateTS(LPGENT("Set status modes")), BATF_UNICODE);
+	}
+
 }
 
 /*
@@ -491,52 +436,14 @@ void ConfigureEventArea(HWND hwnd)
 
 void ConfigureFrame()
 {
-	int i;
-	int showCmd;
-
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-		if (top_buttons[i].hwnd == 0)
-			continue;
-		switch (top_buttons[i].id) {
-			case IDC_TBMENU:
-			case IDC_TBGLOBALSTATUS:
-				ShowWindow(top_buttons[i].hwnd, cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? SW_SHOW : SW_HIDE);
-				break;
-			default:
-				if (cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS) {
-					showCmd = (top_buttons[i].visibilityOrder & cfg::dat.toolbarVisibility) ? SW_SHOW : SW_HIDE;
-					CheckMenuItem(cfg::dat.hMenuButtons, 50000 + i, MF_BYCOMMAND | (showCmd == SW_SHOW ? MF_CHECKED : MF_UNCHECKED));
-				} else
-					showCmd = SW_HIDE;
-				ShowWindow(top_buttons[i].hwnd, showCmd);
-				break;
-		}
-	}
+  int show = cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? SW_SHOW : SW_HIDE;
+  ShowWindow(hTbMenu,show);
+  ShowWindow(hTbGlobalStatus,show);
 }
 
 void IcoLibReloadIcons()
 {
-	int i;
-	HICON hIcon;
 
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-
-		if ((top_buttons[i].id == IDC_TABSRMMMENU || top_buttons[i].id == IDC_TABSRMMSLIST) && !cfg::dat.tabSRMM_Avail)
-			continue;
-
-		if (top_buttons[i].id == IDC_TBMENU || top_buttons[i].id == IDC_TBGLOBALSTATUS || top_buttons[i].id == IDC_TBTOPSTATUS)
-			continue;
-
-		hIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) top_buttons[i].szIcoLibIcon);
-		if (top_buttons[i].hwnd && IsWindow(top_buttons[i].hwnd)) {
-			SendMessage(top_buttons[i].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
-			InvalidateRect(top_buttons[i].hwnd, NULL, TRUE);
-		}
-	}
 	cfg::dat.hIconVisible = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_visible");
 	cfg::dat.hIconInvisible = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_invisible");
 	cfg::dat.hIconChatactive = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_chatactive");
@@ -557,92 +464,6 @@ void IcoLibReloadIcons()
 	SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);
 }
 
-
-static void SetButtonStyle()
-{
-	int i;
-
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-		if (top_buttons[i].hwnd == 0 || top_buttons[i].id == IDC_TBGLOBALSTATUS || top_buttons[i].id == IDC_TBMENU)
-			continue;
-		SendMessage(top_buttons[i].hwnd, BUTTONSETASFLATBTN, 0, cfg::dat.dwFlags & CLUI_FRAME_BUTTONSFLAT ? 0 : 1);
-		SendMessage(top_buttons[i].hwnd, BUTTONSETASFLATBTN + 10, 0, cfg::dat.dwFlags & CLUI_FRAME_BUTTONSCLASSIC ? 0 : 1);
-	}
-}
-
-void CreateButtonBar(HWND hWnd)
-{
-	int i;
-	HICON hIcon;
-	HMENU hMenuButtonList = GetSubMenu(cfg::dat.hMenuButtons, 0);
-
-	DeleteMenu(hMenuButtonList, 0, MF_BYPOSITION);
-
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-		if (top_buttons[i].hwnd)
-			continue;
-
-		if (g_ButtonItems && top_buttons[i].id != IDC_TBGLOBALSTATUS && top_buttons[i].id != IDC_TBMENU)
-			continue;
-
-		if ((top_buttons[i].id == IDC_TABSRMMMENU || top_buttons[i].id == IDC_TABSRMMSLIST) && !cfg::dat.tabSRMM_Avail)
-			continue;
-
-		top_buttons[i].hwnd = CreateWindowEx(0, _T("CLCButtonClass"), _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) top_buttons[i].id, g_hInst, NULL);
-		if (top_buttons[i].id != IDC_TBMENU && top_buttons[i].id != IDC_TBGLOBALSTATUS)
-			AppendMenu(hMenuButtonList, MF_STRING, 50000 + i, TranslateTS(top_buttons[i].szTooltip));
-		if (!cfg::dat.IcoLib_Avail) {
-			hIcon = top_buttons[i].hIcon = (HICON) LoadImage(g_hInst, MAKEINTRESOURCE(top_buttons[i].idIcon), IMAGE_ICON, g_cxsmIcon, g_cysmIcon, LR_SHARED);
-			if (top_buttons[i].idAltIcon)
-				top_buttons[i].hAltIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(top_buttons[i].idAltIcon), IMAGE_ICON, g_cxsmIcon, g_cysmIcon, LR_SHARED));
-		} else {
-			hIcon = top_buttons[i].hIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) top_buttons[i].szIcoLibIcon);
-			if (top_buttons[i].szIcoLibAltIcon)
-				top_buttons[i].hAltIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) top_buttons[i].szIcoLibAltIcon);
-		}
-		if (top_buttons[i].id == IDC_TBMENU) {
-			SetWindowText(top_buttons[i].hwnd, TranslateT("Menu"));
-			SendMessage(top_buttons[i].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
-		} else
-			SendMessage(top_buttons[i].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
-		if (top_buttons[i].id == IDC_TBGLOBALSTATUS) {
-			SetWindowText(top_buttons[i].hwnd, TranslateT("Offline"));
-			SendMessage(top_buttons[i].hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
-		}
-		if (!(top_buttons[i].flags & TOPBUTTON_PUSH))
-			SendMessage(top_buttons[i].hwnd, BUTTONSETASPUSHBTN, 0, 0);
-		if (top_buttons[i].id != IDC_TBGLOBALSTATUS && top_buttons[i].id != IDC_TBMENU)
-			SendMessage(top_buttons[i].hwnd, BUTTONSETASFLATBTN, 0, 0);
-
-		if (top_buttons[i].flags & TOPBUTTON_SENDONDOWN)
-			SendMessage(top_buttons[i].hwnd, BM_SETASMENUACTION, 1, 0);
-
-		SendMessage(top_buttons[i].hwnd, BUTTONADDTOOLTIP, (WPARAM) TranslateTS(top_buttons[i].szTooltip), 0);
-	}
-	SetButtonStyle();
-}
-
-void SetTBSKinned(int mode)
-{
-	int i;
-
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-		if (top_buttons[i].hwnd == 0 || top_buttons[i].id == IDC_TBGLOBALSTATUS || top_buttons[i].id == IDC_TBMENU)
-			continue;
-		SendMessage(top_buttons[i].hwnd, BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(top_buttons[i].hwnd, BUTTONSETASFLATBTN + 10, 0, 0);
-		SendMessage(top_buttons[i].hwnd, BM_SETSKINNED, 0, mode ? MAKELONG(mode, 1) : 0);
-	}
-	if (!mode)
-		SetButtonStyle();           // restore old style
-}
-
 void ConfigureCLUIGeometry(int mode)
 {
 	RECT rcStatus;
@@ -653,8 +474,6 @@ void ConfigureCLUIGeometry(int mode)
 	cfg::dat.bCTop = LOBYTE(HIWORD(clmargins));
 	cfg::dat.bCBottom = HIBYTE(HIWORD(clmargins));
 
-	cfg::dat.dwButtonWidth = cfg::dat.dwButtonHeight = cfg::getByte("CLUI", "TBSize", 19);
-
 	if (mode) {
 		if (cfg::dat.dwFlags & CLUI_FRAME_SBARSHOW) {
 			SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
@@ -664,27 +483,14 @@ void ConfigureCLUIGeometry(int mode)
 			cfg::dat.statusBarHeight = 0;
 	}
 
-	cfg::dat.topOffset = (cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS ? 2 + cfg::dat.dwButtonHeight : 0) + cfg::dat.bCTop;
-	cfg::dat.bottomOffset = (cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? 2 + BUTTON_HEIGHT_D : 0) + cfg::dat.bCBottom;
+	cfg::dat.topOffset = cfg::dat.bCTop;
+	cfg::dat.bottomOffset = (cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? 2 + 21 : 0) + cfg::dat.bCBottom;
 
 	if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
 		cfg::dat.topOffset += 2;
 		cfg::dat.bottomOffset += 2;
 		cfg::dat.bCLeft += 3;
 		cfg::dat.bCRight += 3;
-	}
-}
-
-void RefreshButtons()
-{
-	int i;
-
-	for (i = 0; ; i++) {
-		if (top_buttons[i].szTooltip == NULL)
-			break;
-		if (top_buttons[i].hwnd == 0 || top_buttons[i].id == IDC_TBGLOBALSTATUS || top_buttons[i].id == IDC_TBMENU)
-			continue;
-		InvalidateRect(top_buttons[i].hwnd, NULL, FALSE);
 	}
 }
 
@@ -759,39 +565,6 @@ void SetDBButtonStates(HANDLE hPassedContact)
 	}
 }
 
-/*
- * set states of standard buttons (pressed/unpressed
- */
-void SetButtonStates(HWND hwnd)
-{
-	BYTE iMode;
-	ButtonItem *buttonItem = g_ButtonItems;
-
-	iMode = cfg::getByte("CList", "HideOffline", 0);
-	if (!g_ButtonItems) {
-		SendDlgItemMessage(hwnd, IDC_TBSOUND, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(cfg::dat.soundsOff ? top_buttons[6].hAltIcon : top_buttons[6].hIcon));
-		CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_TBHIDEOFFLINE, iMode ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwnd, IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
-	} else {
-		while (buttonItem) {
-			if (buttonItem->dwFlags & BUTTON_ISINTERNAL) {
-				switch (buttonItem->uId) {
-					case IDC_TBSOUND:
-						SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED, 0);
-						break;
-					case IDC_TBHIDEOFFLINE:
-						SendMessage(buttonItem->hWnd, BM_SETCHECK, iMode ? BST_CHECKED : BST_UNCHECKED, 0);
-						break;
-					case IDC_TBHIDEGROUPS:
-						SendMessage(buttonItem->hWnd, BM_SETCHECK, cfg::getByte("CList", "UseGroups", 0) ? BST_CHECKED : BST_UNCHECKED, 0);
-						break;
-				}
-			}
-			buttonItem = buttonItem->nextItem;
-		}
-	}
-}
 
 void BlitWallpaper(HDC hdc, RECT *rc, RECT *rcPaint, struct ClcData *dat)
 {
@@ -873,7 +646,6 @@ void BlitWallpaper(HDC hdc, RECT *rc, RECT *rcPaint, struct ClcData *dat)
 
 void ReloadThemedOptions()
 {
-	cfg::dat.bSkinnedToolbar = 		cfg::getByte("CLUI", "tb_skinned", 1);
 	cfg::dat.bSkinnedStatusBar = 	cfg::getByte("CLUI", "sb_skinned", 0);
 	cfg::dat.bUsePerProto = 		cfg::getByte("CLCExt", "useperproto", 0);
 	cfg::dat.bOverridePerStatusColors = cfg::getByte("CLCExt", "override_status", 0);
@@ -1177,12 +949,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
 			}
 
-			if (cfg::dat.soundsOff)
-				hSoundHook = HookEvent(ME_SKIN_PLAYINGSOUND, ClcSoundHook);
-			if (cfg::dat.bSkinnedToolbar)
-				SetTBSKinned(1);
 			ConfigureFrame();
-			SetButtonStates(hwnd);
 
 			CreateCLC(hwnd);
 			cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
@@ -1310,17 +1077,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			//	rcFrame.bottom -= (g_CluiData.bottomOffset);
 			rcFrame.bottom++;
 			rcFrame.bottom -= cfg::dat.statusBarHeight;
-			if (cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS && cfg::dat.dwFlags & CLUI_FRAME_BUTTONBARSUNKEN) {
-				rc.top = cfg::dat.bCTop;;
-				rc.bottom = cfg::dat.dwButtonHeight + 2 + cfg::dat.bCTop;
-				rc.left++;
-				rc.right--;
-				DrawEdge(hdc, &rc, BDR_SUNKENOUTER, BF_RECT);
-			}
-			if (cfg::dat.bSkinnedToolbar && !(cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN))
-				rcFrame.top = 0;
-			else
-				rcFrame.top += (cfg::dat.topOffset - 1);
+			rcFrame.top += (cfg::dat.topOffset - 1);
 
 			//if(g_CluiData.neeedSnap)
 			//    goto skipbg;
@@ -1343,19 +1100,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				ClientToScreen(hwnd, &cfg::dat.ptW);
 			}
 skipbg:
-			if (cfg::dat.bSkinnedToolbar && cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS) {
-				StatusItems_t *item = &StatusItems[ID_EXTBKBUTTONBAR - ID_STATUS_OFFLINE];
-				RECT rc = {rcClient.left, 0, rcClient.right, cfg::dat.dwButtonHeight + 2};
-
-				if (!item->IGNORED) {
-					rc.left += item->MARGIN_LEFT;
-					rc.right -= item->MARGIN_RIGHT;
-					rc.top += item->MARGIN_TOP;
-					rc.bottom -= item->MARGIN_BOTTOM;
-					DrawAlpha(hdc, &rc, item->COLOR, item->ALPHA, item->COLOR2, item->COLOR2_TRANSPARENT, item->GRADIENT,
-							  item->CORNER, item->BORDERSTYLE, item->imageItem);
-				}
-			}
 			BitBlt(hdcReal, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, hdc, 0, 0, SRCCOPY);
 			if (rgn) {
 				SelectClipRgn(hdc, NULL);
@@ -1805,8 +1549,7 @@ skipbg:
 					goto buttons_done;
 				}
 				switch (LOWORD(wParam)) {
-					case IDC_TBMENU:
-					case IDC_TBTOPMENU: {
+					case IDC_TBMENU: {
 						RECT rc;
 						HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 
@@ -1814,27 +1557,14 @@ skipbg:
 						TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBMENU ? rc.top : rc.bottom, 0, hwnd, NULL);
 						return 0;
 					}
-					case IDC_TBGLOBALSTATUS:
-					case IDC_TBTOPSTATUS: {
+					case IDC_TBGLOBALSTATUS: {
 						RECT rc;
 						HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 						GetWindowRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hmenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.top, 0, hwnd, NULL);
 						return 0;
 					}
-					case IDC_TABSRMMSLIST:
-					case IDC_TABSRMMMENU: {
-						if (ServiceExists("SRMsg_MOD/GetWindowFlags"))
-							CallService("SRMsg_MOD/Show_TrayMenu", 0, LOWORD(wParam) == IDC_TABSRMMSLIST ? 0 : 1);
 
-						return 0;
-					}
-					case IDC_TBSOUND: {
-						cfg::dat.soundsOff = !cfg::dat.soundsOff;
-						cfg::writeByte("CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
-						cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
-						return 0;
-					}
 					case IDC_TBSELECTVIEWMODE:
 						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_SELECTMODE, lParam);
 						break;
@@ -1844,15 +1574,6 @@ skipbg:
 					case IDC_TBCONFIGUREVIEWMODE:
 						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_CONFIGUREMODES, lParam);
 						break;
-					case IDC_TBFINDANDADD:
-						CallService(MS_FINDADD_FINDADD, 0, 0);
-						return 0;
-					case IDC_TBACCOUNTS:
-						CallService(MS_PROTO_SHOWACCMGR, 0, 0);
-						break;
-					case IDC_TBOPTIONS:
-						CallService("Options/OptionsCommand", 0, 0);
-						return 0;
 				}
 			} else if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), (LPARAM)(HANDLE) NULL))
 				return 0;
@@ -1865,7 +1586,6 @@ buttons_done:
 					if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
 						DestroyWindow(hwnd);
 					break;
-				case IDC_TBMINIMIZE:
 				case ID_TRAY_HIDE:
 					pcli->pfnShowHide(0, 0);
 					break;
@@ -1875,7 +1595,6 @@ buttons_done:
 					CallService(MS_CLIST_GROUPCREATE, 0, 0);
 					break;
 				case POPUP_HIDEOFFLINE:
-				case IDC_TBHIDEOFFLINE:
 					CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
 					break;
 				case POPUP_HIDEOFFLINEROOT:
@@ -1887,12 +1606,10 @@ buttons_done:
 					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 					break;
 				}
-				case POPUP_DISABLEGROUPS:
-				case IDC_TBHIDEGROUPS: {
+				case POPUP_DISABLEGROUPS: {
 					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 					cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
 					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
 					break;
 				}
 				case POPUP_HIDEMIRANDA:
@@ -1907,9 +1624,6 @@ buttons_done:
 					break;
 				case POPUP_FRAME:
 					cfg::dat.dwFlags ^= CLUI_FRAME_CLISTSUNKEN;
-					break;
-				case POPUP_TOOLBAR:
-					cfg::dat.dwFlags ^= CLUI_FRAME_SHOWTOPBUTTONS;
 					break;
 				case POPUP_BUTTONS:
 					cfg::dat.dwFlags ^= CLUI_FRAME_SHOWBOTTOMBUTTONS;
@@ -1941,31 +1655,23 @@ buttons_done:
 			if (dwOldFlags != cfg::dat.dwFlags) {
 				InvalidateRect(pcli->hwndContactTree, NULL, FALSE);
 				cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
-				if ((dwOldFlags & (CLUI_FRAME_SHOWTOPBUTTONS | CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN)) != (cfg::dat.dwFlags & (CLUI_FRAME_SHOWTOPBUTTONS | CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN))) {
+				if ((dwOldFlags & (CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN)) != (cfg::dat.dwFlags & (CLUI_FRAME_SHOWBOTTOMBUTTONS | CLUI_FRAME_CLISTSUNKEN))) {
 					ConfigureFrame();
 					ConfigureCLUIGeometry(1);
 				}
 				ConfigureEventArea(pcli->hwndContactList);
-				SetButtonStyle();
 				PostMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			}
 			return FALSE;
 		}
 		case WM_LBUTTONDOWN: {
-			if (cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS || g_ButtonItems) {
+			if (g_ButtonItems) {
 				POINT ptMouse, pt;
-				RECT rcClient;
 
 				GetCursorPos(&ptMouse);
 				pt = ptMouse;
-				if (g_ButtonItems)
-					return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
-				ScreenToClient(hwnd, &ptMouse);
-				GetClientRect(hwnd, &rcClient);
-				rcClient.bottom = cfg::dat.topOffset;
-				if (PtInRect(&rcClient, ptMouse))
-					return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
+				return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 			}
 			break;
 		}
@@ -2033,69 +1739,6 @@ buttons_done:
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				return 0;
 			}
-			if (cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS) {
-				HMENU hMenu;
-				int iSelection;
-				RECT rcHit;
-
-				GetClientRect(hwnd, &rcHit);
-				GetCursorPos(&pt);
-				ScreenToClient(hwnd, &pt);
-				hMenu = cfg::dat.hMenuButtons;
-				rcHit.bottom = cfg::dat.dwButtonHeight + cfg::dat.bCTop;
-				if (!PtInRect(&rcHit, pt))
-					break;
-				ClientToScreen(hwnd, &pt);
-				EnableMenuItem(hMenu, ID_BUTTONBAR_DECREASEBUTTONSIZE, MF_BYCOMMAND | (cfg::dat.dwButtonHeight <= 17 ? MF_GRAYED : MF_ENABLED));
-				EnableMenuItem(hMenu, ID_BUTTONBAR_INCREASEBUTTONSIZE, MF_BYCOMMAND | (cfg::dat.dwButtonHeight >= 24 ? MF_GRAYED : MF_ENABLED));
-				CheckMenuItem(hMenu, ID_BUTTONBAR_FLATBUTTONS, MF_BYCOMMAND | ((cfg::dat.dwFlags & CLUI_FRAME_BUTTONSFLAT) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(hMenu, ID_BUTTONBAR_NOVISUALSTYLES, MF_BYCOMMAND | ((cfg::dat.dwFlags & CLUI_FRAME_BUTTONSCLASSIC) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(hMenu, ID_BUTTONBAR_DRAWSUNKENFRAME, MF_BYCOMMAND | ((cfg::dat.dwFlags & CLUI_FRAME_BUTTONBARSUNKEN) ? MF_CHECKED : MF_UNCHECKED));
-				CheckMenuItem(hMenu, ID_BUTTONBAR_SKINNEDTOOLBAR, MF_BYCOMMAND | (cfg::dat.bSkinnedToolbar ? MF_CHECKED : MF_UNCHECKED));
-				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hMenu, 0);
-
-				iSelection = TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
-				if (iSelection >= 50000) {
-					int iIndex = iSelection - 50000;
-					cfg::dat.toolbarVisibility ^= top_buttons[iIndex].visibilityOrder;
-					cfg::writeDword("CLUI", "TBVisibility", cfg::dat.toolbarVisibility);
-					ConfigureFrame();
-					SendMessage(hwnd, WM_SIZE, 0, 0);
-					InvalidateRect(hwnd, NULL, TRUE);
-					break;
-				}
-				switch (iSelection) {
-					case ID_BUTTONBAR_DECREASEBUTTONSIZE:
-					case ID_BUTTONBAR_INCREASEBUTTONSIZE:
-						cfg::dat.dwButtonHeight += (iSelection == ID_BUTTONBAR_DECREASEBUTTONSIZE ? -1 : 1);
-						cfg::dat.dwButtonWidth = cfg::dat.dwButtonHeight;
-						cfg::writeByte("CLUI", "TBSize", (BYTE) cfg::dat.dwButtonHeight);
-						ConfigureCLUIGeometry(1);
-						SendMessage(hwnd, WM_SIZE, 0, 0);
-						InvalidateRect(hwnd, NULL, TRUE);
-						break;
-					case ID_BUTTONBAR_NOVISUALSTYLES:
-						cfg::dat.dwFlags ^= CLUI_FRAME_BUTTONSCLASSIC;
-						SetButtonStyle();
-						break;
-					case ID_BUTTONBAR_FLATBUTTONS:
-						cfg::dat.dwFlags ^= CLUI_FRAME_BUTTONSFLAT;
-						SetButtonStyle();
-						break;
-					case ID_BUTTONBAR_DRAWSUNKENFRAME:
-						cfg::dat.dwFlags ^= CLUI_FRAME_BUTTONBARSUNKEN;
-						InvalidateRect(hwnd, NULL, FALSE);
-						break;
-					case ID_BUTTONBAR_SKINNEDTOOLBAR:
-						cfg::dat.bSkinnedToolbar = !cfg::dat.bSkinnedToolbar;
-						SetTBSKinned(cfg::dat.bSkinnedToolbar);
-						cfg::writeByte("CLUI", "tb_skinned", (BYTE)cfg::dat.bSkinnedToolbar);
-						PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
-						break;
-				}
-				cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
-				return 0;
-			}
 		}
 		break;
 
@@ -2136,12 +1779,9 @@ buttons_done:
 					HICON hIcon;
 
 					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
-						if (cfg::dat.IcoLib_Avail) {
-							char szBuffer[128];
-							mir_snprintf(szBuffer, 128, "%s_conn", pd->RealName);
-							hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szBuffer);
-						} else
-							hIcon = cfg::dat.hIconConnecting;
+						char szBuffer[128];
+						mir_snprintf(szBuffer, 128, "%s_conn", pd->RealName);
+						hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szBuffer);
 					} else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
 						ICQ_CUSTOM_STATUS cst = {0};
 						char szServiceName[128];
@@ -2248,7 +1888,6 @@ buttons_done:
 				DeleteObject(cfg::dat.bmpBackground);
 				cfg::dat.bmpBackground = NULL;
 			}
-			DestroyMenu(cfg::dat.hMenuButtons);
 			FreeProtocolData();
 			if (hdcLockedPoint) {
 				SelectObject(hdcLockedPoint, hbmOldLockedPoint);
@@ -2309,9 +1948,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			{
 				char str[64];
 				DWORD v = pluginInfo.version;
-
-				mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d (Unicode)", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
-
+				mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
 				SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
 				mir_snprintf(str, sizeof(str), Translate("Built %s %s"), __DATE__, __TIME__);
 				SetDlgItemTextA(hwndDlg, IDC_BUILDTIME, str);
@@ -2328,9 +1965,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					DestroyWindow(hwndDlg);
 					return TRUE;
 				case IDC_SUPPORT:
-
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-im.org/download/details.php?action=viewfile&id=2365");
-
 					break;
 			}
 			break;

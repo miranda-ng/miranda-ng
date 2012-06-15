@@ -30,9 +30,6 @@
     <ClCompile Include="SRC\clc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SRC\CLCButton.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="SRC\clcidents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

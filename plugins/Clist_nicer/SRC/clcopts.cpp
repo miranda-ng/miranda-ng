@@ -469,15 +469,7 @@ void DSP_Apply(DISPLAYPROFILE *p)
     if(oldexIconScale != cfg::dat.exIconScale) {
         ImageList_RemoveAll(himlExtraImages);
         ImageList_SetIconSize(himlExtraImages, cfg::dat.exIconScale, cfg::dat.exIconScale);
-        if(cfg::dat.IcoLib_Avail)
-            IcoLibReloadIcons();
-        else {
-            CLN_LoadAllIcons(0);
-            pcli->pfnReloadProtoMenus();
-            //FYR: Not necessary. It is already notified in pfnReloadProtoMenus
-            //NotifyEventHooks(pcli->hPreBuildStatusMenuEvent, 0, 0);
-            ReloadExtraIcons();
-        }
+        IcoLibReloadIcons();
     }
     pcli->pfnClcOptionsChanged();
     pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);

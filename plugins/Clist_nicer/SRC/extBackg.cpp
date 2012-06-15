@@ -28,7 +28,6 @@ extern int g_hottrack;
 
 extern HWND g_hwndViewModeFrame;
 extern HIMAGELIST himlExtraImages;
-extern struct CluiTopButton top_buttons[];
 
 StatusItems_t *StatusItems = NULL;
 ImageItem *g_ImageItems = NULL, *g_glyphItem = NULL;
@@ -39,7 +38,7 @@ COLORREF g_CLUISkinnedBkColorRGB = 0;
 
 int ID_EXTBK_LAST = ID_EXTBK_LAST_D;
 
-void SetTBSKinned(int mode);
+//void SetTBSKinned(int mode);
 void ReloadThemedOptions();
 void ReloadExtraIcons();
 static void SaveCompleteStructToDB(void);
@@ -489,7 +488,6 @@ struct {char *szModule; char *szSetting; unsigned int size; int defaultval;} _ta
     "CLCExt", "applyindentbg", 1, 0,
     "CLCExt", "override_status", 1, 0,
     "CLCExt", "useperproto", 1, 0,
-    "CLUI", "tb_skinned", 1, 0,
     "CLUI", "sb_skinned", 1, 0,
     "CLC", "RowGap", 1, 0,
     "CLC", "ExIconScale", 1, 0,
@@ -498,7 +496,6 @@ struct {char *szModule; char *szSetting; unsigned int size; int defaultval;} _ta
     "CLUIFrames", "GapBetweenFrames", 4, 0,
     "CLC", "BkColour", 4, RGB(224, 224, 224),
     "CLCExt", "EXBK_CenterGroupnames", 1, 0,
-    "CLUI", "TBSize", 1, 19,
     "CLC", "BkBmpUse", 2, 0,
     "CLUI", "clmargins", 4, 0,
     // frame stuff
@@ -1190,7 +1187,7 @@ static void BTN_ReadItem(char *itemName, char *file)
     }
     else if(_stricmp(szBuffer, "Custom")) {
         int i = 0;
-
+/*
         while(top_buttons[i].id) {
             if (!_stricmp(top_buttons[i].szIcoLibIcon, szBuffer)) {
                 tmpItem.uId = top_buttons[i].id;
@@ -1199,6 +1196,7 @@ static void BTN_ReadItem(char *itemName, char *file)
             }
             i++;
         }
+*/
     }
     GetPrivateProfileStringA(itemName, "PassContact", "None", szBuffer, 1000, file);
     if(_stricmp(szBuffer, "None")) {
@@ -1210,10 +1208,12 @@ static void BTN_ReadItem(char *itemName, char *file)
 
     GetPrivateProfileStringA(itemName, "Tip", "None", szBuffer, 1000, file);
     if(strcmp(szBuffer, "None")) {
-
+#if defined(_UNICODE)
         MultiByteToWideChar(cfg::dat.langPackCP, 0, szBuffer, -1, tmpItem.szTip, 256);
         tmpItem.szTip[255] = 0;
-
+#else
+        mir_snprintf(tmpItem.szTip, 256, "%s", szBuffer);
+#endif
     }
     else
         tmpItem.szTip[0] = 0;
@@ -1235,7 +1235,7 @@ static void BTN_ReadItem(char *itemName, char *file)
         newItem->nextItem = 0;
         curItem->nextItem = newItem;
     }
-    newItem->hWnd = CreateWindowEx(0, _T("CLCButtonClass"), _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
+    newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
     SendMessage(newItem->hWnd, BM_SETBTNITEM, 0, (LPARAM)newItem);
     SendMessage(newItem->hWnd, BUTTONSETASFLATBTN, 0, 0);
     SendMessage(newItem->hWnd, BUTTONSETASFLATBTN + 10, 0, 0);
@@ -1243,7 +1243,7 @@ static void BTN_ReadItem(char *itemName, char *file)
         SendMessage(newItem->hWnd, BUTTONSETASPUSHBTN, 0, 0);
 
     if(newItem->szTip[0])
-        SendMessage(newItem->hWnd, BUTTONADDTOOLTIP, (WPARAM)newItem->szTip, 0);
+        SendMessage(newItem->hWnd, BUTTONADDTOOLTIP, (WPARAM)newItem->szTip, BATF_UNICODE);
     return;
 }
 
@@ -1265,16 +1265,14 @@ void IMG_LoadItems()
      * rewrite the skin loading in TCHAR manner
      */
 
-
     WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, szFileName, MAX_PATH, 0, 0);
-
 
     DBFreeVariant(&dbv);
 
     if (!PathFileExists(tszFileName))
         return;
 
-	IMG_DeleteItems();
+		IMG_DeleteItems();
 
     szSections = reinterpret_cast<char *>(malloc(3002));
     ZeroMemory(szSections, 3002);
@@ -1295,21 +1293,8 @@ void IMG_LoadItems()
             BTN_ReadItem(p, szFileName);
         p += (lstrlenA(p) + 1);
     }
-    if(pcli && pcli->hwndContactList)
-        SetButtonStates(pcli->hwndContactList);
     free(szSections);
 
-    if(g_ButtonItems) {
-        while(top_buttons[i].id) {
-            if(top_buttons[i].hwnd != 0 && top_buttons[i].id != IDC_TBGLOBALSTATUS && top_buttons[i].id != IDC_TBMENU) {
-                DestroyWindow(top_buttons[i].hwnd);
-                top_buttons[i].hwnd = 0;
-            }
-            i++;
-        }
-        cfg::dat.dwFlags &= ~CLUI_FRAME_SHOWTOPBUTTONS;
-        ConfigureCLUIGeometry(0);
-    }
     if(g_ImageItems) {
     	cfg::writeByte("CLCExt", "bskinned", 1);
         SetButtonToSkinned();
@@ -1333,10 +1318,13 @@ void LoadPerContactSkins(TCHAR *tszFileName)
     StatusItems_t *items = NULL, *this_item;
     HANDLE hContact;
     int i = 1;
-	char    file[MAX_PATH];
+#if defined(_UNICODE)
+    char    file[MAX_PATH];
     WideCharToMultiByte(CP_ACP, 0, tszFileName, MAX_PATH, file, MAX_PATH, 0, 0);
     file[MAX_PATH - 1] = 0;
-
+#else
+    char    *file = tszFileName;
+#endif
 
     ReadItem(&default_item, "%Default", file);
     ZeroMemory(szSections, 3000);
@@ -1537,7 +1525,6 @@ void extbk_import(char *file, HWND hwndDlg)
 
     Reload3dBevelColors();
     ReloadThemedOptions();
-    SetTBSKinned(cfg::dat.bSkinnedToolbar);
     // refresh
     if(hwndDlg && ServiceExists(MS_CLNSE_FILLBYCURRENTSEL))
         CallService(MS_CLNSE_FILLBYCURRENTSEL, (WPARAM)hwndDlg, 0);
@@ -1547,16 +1534,7 @@ void extbk_import(char *file, HWND hwndDlg)
     RedrawWindow(pcli->hwndContactList,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
     if(oldexIconScale != cfg::dat.exIconScale) {
         ImageList_SetIconSize(himlExtraImages, cfg::dat.exIconScale, cfg::dat.exIconScale);
-        if(cfg::dat.IcoLib_Avail)
-            IcoLibReloadIcons();
-        else {
-            CLN_LoadAllIcons(0);
-            //FYR: may be better to call pfnReloadProtoMenus
-            pcli->pfnReloadProtoMenus();
-            //FYR: Not necessary. It is already notified in pfnReloadProtoMenus
-            //NotifyEventHooks(pcli->hPreBuildStatusMenuEvent, 0, 0);
-            ReloadExtraIcons();
-        }
+        IcoLibReloadIcons();
         pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
     }
 }
@@ -1568,9 +1546,11 @@ static void ApplyCLUISkin()
     char        szFinalName[MAX_PATH];
     if (!cfg::getTString(NULL, "CLC", "AdvancedSkin", &dbv)) {
         MY_pathToAbsolute(dbv.ptszVal, tszFinalName);
-
+#if defined(_UNICODE)
         WideCharToMultiByte(CP_ACP, 0, tszFinalName, MAX_PATH, szFinalName, MAX_PATH, 0, 0);
-
+#else
+        mir_sntprintf(szFinalName, MAX_PATH, _T("%s"), tszFinalName);
+#endif
         if(cfg::getByte("CLUI", "skin_changed", 0)) {
             extbk_import(szFinalName, 0);
             SaveCompleteStructToDB();
@@ -1640,11 +1620,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
                 }
                 case IDC_UNLOAD:
                     IMG_DeleteItems();
-                    CreateButtonBar(pcli->hwndContactList);
-                    if(cfg::dat.bSkinnedToolbar)
-                        SetTBSKinned(1);
                     ConfigureFrame();
-                    SetButtonStates(pcli->hwndContactList);
                     SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
                     PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
                     break;

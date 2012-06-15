@@ -144,12 +144,11 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 		mii->hSubMenu=(HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 	}
 	if (hAppearanceMenuItemProxy==(HANDLE)lParam) {
-		hMenuOldContext = GetSubMenu(LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 4);
+		hMenuOldContext = GetSubMenu(LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 3);
 		CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hMenuOldContext, 0);
 
 		CheckMenuItem(hMenuOldContext, POPUP_VISIBILITY, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_SHOWVISI ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_FRAME, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(hMenuOldContext, POPUP_TOOLBAR, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_BUTTONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_SHOWMETAICONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_USEMETAICONS ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_SHOWSTATUSICONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_STATUSICONS ? MF_CHECKED : MF_UNCHECKED));

@@ -72,7 +72,6 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 		}
 
-		CheckDlgButton(hwndDlg, IDC_SHOWBUTTONBAR, cfg::dat.dwFlags & CLUI_FRAME_SHOWTOPBUTTONS);
 		CheckDlgButton(hwndDlg, IDC_SHOWBOTTOMBUTTONS, cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS);
 		CheckDlgButton(hwndDlg, IDC_CLISTSUNKEN, cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN);
 		CheckDlgButton(hwndDlg, IDC_EVENTAREAAUTOHIDE, cfg::dat.dwFlags & CLUI_FRAME_AUTOHIDENOTIFY);
@@ -185,7 +184,6 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				__setFlag(CLUI_FRAME_EVENTAREASUNKEN, IsDlgButtonChecked(hwndDlg, IDC_EVENTAREASUNKEN));
 				__setFlag(CLUI_FRAME_AUTOHIDENOTIFY, IsDlgButtonChecked(hwndDlg, IDC_EVENTAREAAUTOHIDE));
 
-				__setFlag(CLUI_FRAME_SHOWTOPBUTTONS, IsDlgButtonChecked(hwndDlg, IDC_SHOWBUTTONBAR));
 				__setFlag(CLUI_FRAME_SHOWBOTTOMBUTTONS, IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTTOMBUTTONS));
 				__setFlag(CLUI_FRAME_CLISTSUNKEN, IsDlgButtonChecked(hwndDlg, IDC_CLISTSUNKEN));
 

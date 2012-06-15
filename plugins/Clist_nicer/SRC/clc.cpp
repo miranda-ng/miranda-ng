@@ -49,7 +49,7 @@ extern StatusItems_t *StatusItems;
 HIMAGELIST hCListImages;
 extern HIMAGELIST himlExtraImages;
 
-HANDLE hSoundHook = 0, hIcoLibChanged = 0, hSvc_GetContactStatusMsg = 0;
+HANDLE hIcoLibChanged = 0, hSvc_GetContactStatusMsg = 0;
 
 static HANDLE hClcSettingsChanged, hClcDBEvent = 0;
 
@@ -108,11 +108,6 @@ static int ClcEventAdded(WPARAM wParam, LPARAM lParam)
 			}
 		}
 	}
-	return 0;
-}
-
-int ClcSoundHook(WPARAM wParam, LPARAM lParam)
-{
 	return 0;
 }
 
@@ -182,18 +177,6 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 		if (bMetaEnabled != (BYTE)cfg::dat.bMetaEnabled) {
 			cfg::dat.bMetaEnabled = bMetaEnabled;
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-		}
-	} else if (wParam == 0 && !__strcmp(cws->szModule, "Skin")) {
-		if (!__strcmp(cws->szSetting, "UseSound")) {
-			if (hSoundHook) {
-				UnhookEvent(hSoundHook);
-				hSoundHook = 0;
-			}
-			cfg::dat.soundsOff = cfg::getByte(cws->szModule, cws->szSetting, 0) ? 0 : 1;
-			if (cfg::dat.soundsOff && hSoundHook == 0)
-				hSoundHook = HookEvent(ME_SKIN_PLAYINGSOUND, ClcSoundHook);
-			CheckDlgButton(pcli->hwndContactList, IDC_TBSOUND, cfg::dat.soundsOff ? BST_UNCHECKED : BST_CHECKED);
-			SetButtonStates(pcli->hwndContactList);
 		}
 	} else if (szProto == NULL && wParam == 0) {
 		if (!__strcmp(cws->szSetting, "XStatusId"))
@@ -466,9 +449,9 @@ LBL_Def:
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
 			lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
-
+#if defined(_UNICODE)
 			RTL_DetectAndSet(contact, 0);
-
+#endif
 			dat->bNeedSort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 			goto LBL_Def;
@@ -554,9 +537,9 @@ LBL_Def:
 			contact->proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 			CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
 			lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
-
+#if defined(_UNICODE)
 			RTL_DetectAndSet(contact, 0);
-
+#endif
 			dat->bNeedSort = TRUE;
 			PostMessage(hwnd, INTM_SORTCLC, 0, 0);
 			goto LBL_Def;

@@ -47,4 +47,10 @@ void SortContacts(void);
 #define CLVM_INCLUDED_UNGROUPED 8
 #define CLVM_USELASTMSG 16
 
-#define CLVM_MODULE "CLVM_W"
+#if defined(_UNICODE)
+    #define CLVM_MODULE "CLVM_W"
+#else
+    #define CLVM_MODULE "CLVM"
+#endif
+    
+

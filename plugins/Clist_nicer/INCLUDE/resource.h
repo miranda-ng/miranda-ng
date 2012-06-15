@@ -242,7 +242,6 @@
 #define IDC_AVATARBORDERCLR             1733
 #define IDC_AVATARSROUNDED              1734
 #define IDC_DUALROWMODE                 1735
-#define IDC_SHOWBUTTONBAR               1736
 #define IDC_CLISTALIGN                  1737
 #define IDC_CLISTSUNKEN                 1738
 #define IDC_EVENTAREAAUTOHIDE           1740
@@ -339,7 +338,6 @@
 #define IDC_STATIC5                     40023
 #define IDC_CLIST                       40025
 #define IDC_STATIC8                     40026
-#define POPUP_TOOLBAR                   40027
 #define IDC_STATIC9                     40027
 #define POPUP_BUTTONS                   40028
 #define IDC_CLEARALL                    40028
@@ -350,14 +348,10 @@
 #define IDC_GROUPSTATUSOP               40031
 #define IDC_LASTMESSAGEOP               40032
 #define ID_BUTTONS_ONLINE               40033
-#define ID_BUTTONBAR_INCREASEBUTTONSIZE 40034
 #define IDC_SKINFILE                    40034
 #define IDC_LASTMESSAGEUNIT             40034
-#define ID_BUTTONBAR_DECREASEBUTTONSIZE 40035
-#define ID_BUTTONBAR_FLATBUTTONS        40036
 #define IDC_FLT_AVATARS                 40036
 #define IDC_HIDECONTACT                 40036
-#define ID_BUTTONBAR_NOVISUALSTYLES     40037
 #define IDC_FLT_DUALROWS                40037
 #define IDC_FLT_EXTRAICONS              40038
 #define ID_TRAY_HIDE                    40038
@@ -377,7 +371,6 @@
 #define IDC_RELOADSKIN                  40047
 #define IDC_FLT_PADBOTTOMSPIN           40048
 #define IDC_UNLOAD                      40048
-#define ID_BUTTONBAR_DRAWSUNKENFRAME    40049
 #define POPUP_NEWGROUP                  40050
 #define IDC_SECONDLINEMODE              40050
 #define POPUP_SHOWSTATUSICONS           40051
@@ -386,7 +379,6 @@
 #define POPUP_RENAMEGROUP               40052
 #define POPUP_DELETEGROUP               40053
 #define IDC_DSP_ADD                     -25483
-#define ID_BUTTONBAR_SKINNEDTOOLBAR     40054
 #define IDC_DSP_DELETE                  40054
 #define IDC_FLT_ENABLED                 40054
 #define IDC_DSP_RENAME                  40055
