@@ -28,13 +28,10 @@
 #define MS_AB_BACKUPTRGR	"AB/Backuptrg"
 #define MS_AB_SAVEAS		"AB/SaveAs"
 
-#ifdef _UNICODE
-	#define SUB_DIR L"\\AutoBackups"
-	#define DIR L"%miranda_userdata%"
-#else
-	#define SUB_DIR "\\AutoBackups"
-	#define DIR "%miranda_userdata%"
-#endif
+
+#define SUB_DIR L"\\AutoBackups"
+#define DIR L"%miranda_userdata%"
+
 
 void ShowPopup(TCHAR* text, TCHAR* header);
 INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam);

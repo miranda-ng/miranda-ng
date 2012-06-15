@@ -763,7 +763,7 @@ static INT_PTR GetMirandaVersionText(WPARAM wParam, LPARAM lParam)
 	VerQueryValue(pVerInfo, _T("\\StringFileInfo\\000004b0\\ProductVersion"), (LPVOID*)&productVersion, &blockSize);
 #if defined( _WIN64 )
 	mir_snprintf(( char* )lParam, wParam, "%S x64 Unicode", productVersion );
-#elif defined( _UNICODE )
+#else defined( _UNICODE )
 	mir_snprintf(( char* )lParam, wParam, "%S Unicode", productVersion );
 #endif
 	mir_free(pVerInfo);

@@ -6,7 +6,7 @@
 #define __PLUGIN_NAME "MenuItemEx (x64) plugin for Miranda IM"
 #define __PLUGIN_ID 4304
 #define __PLUGIN_ID_STR "4304"
-#elif  (_UNICODE)
+#else  (_UNICODE)
 #define __PLUGIN_NAME "MenuItemEx (Unicode) plugin for Miranda IM"
 #define __PLUGIN_ID 4036
 #define __PLUGIN_ID_STR "4036"

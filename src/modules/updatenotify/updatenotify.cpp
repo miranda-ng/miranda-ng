@@ -234,7 +234,7 @@ static void UpdateNotifyReleaseLogUpdate(UpdateNotifyReleaseData *d) {
         return;
     #ifdef _WIN64
     Netlib_Logf(hNetlibUser, "Update server version: %s [%s] [64-bit]", d->szVersionPublic, d->szVersion);
-    #elif defined(_UNICODE)
+    #else defined(_UNICODE)
     Netlib_Logf(hNetlibUser, "Update server version: %s [%s] [Unicode]", d->szVersionPublic, d->szVersion);
     #endif
 }
@@ -288,7 +288,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
 	headers[0].szValue = szUserAgent;
     #ifdef _WIN64
     mir_snprintf(szUserAgent, sizeof(szUserAgent), "Miranda/%s (x64)", szVersion);
-    #elif defined(_UNICODE)
+    #else defined(_UNICODE)
     mir_snprintf(szUserAgent, sizeof(szUserAgent), "Miranda/%s (Unicode)", szVersion);
     #endif
 	req.headersCount = 1;
@@ -321,7 +321,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                 if ((n = xun.getChildByPath(nodeDoc, _T("releases/releasestable/downloadx64exe"), 0)) != NULL && xun.getText(n)) {
                     rdStable.szDownload = mir_t2a(xun.getText(n));
                 }
-                #elif defined(_UNICODE)
+                #else defined(_UNICODE)
                 if ((n = xun.getChildByPath(nodeDoc, _T("releases/releasestable/downloadunicodeexe"), 0)) != NULL && xun.getText(n)) {
                     rdStable.szDownload = mir_t2a(xun.getText(n));
                 }
@@ -346,7 +346,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                 if ((n = xun.getChildByPath(nodeDoc, _T("releases/releasebeta/downloadx64zip"), 0)) != NULL && xun.getText(n)) {
                     rdBeta.szDownload = mir_t2a(xun.getText(n));
                 }
-                #elif defined(_UNICODE)
+                #else defined(_UNICODE)
                 if ((n = xun.getChildByPath(nodeDoc, _T("releases/releasebeta/downloadunicodeexe"), 0)) != NULL && xun.getText(n)) {
                     rdBeta.szDownload = mir_t2a(xun.getText(n));
                 }
@@ -371,7 +371,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                 if ((n = xun.getChildByPath(nodeDoc, _T("releases/releasealpha/downloadx64zip"), 0)) != NULL && xun.getText(n)) {
                     rdAlpha.szDownload = mir_t2a(xun.getText(n));
                 }
-                #elif defined(_UNICODE)
+                #else defined(_UNICODE)
                 if ((n = xun.getChildByPath(nodeDoc, _T("releases/releasealpha/downloadunicodezip"), 0)) != NULL && xun.getText(n)) {
                     rdAlpha.szDownload = mir_t2a(xun.getText(n));
                 }

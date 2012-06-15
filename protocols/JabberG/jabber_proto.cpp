@@ -1212,11 +1212,9 @@ int __cdecl CJabberProto::SendMsg( HANDLE hContact, int flags, const char* pszSr
 	else isEncrypted = 0;
 
 	if ( flags & PREF_UTF ) {
-		#if defined( _UNICODE )
+		
 			mir_utf8decode( NEWSTR_ALLOCA( pszSrc ), &msg );
-		#else
-			msg = mir_strdup( mir_utf8decode( NEWSTR_ALLOCA( pszSrc ), 0 ));
-		#endif
+		
 	}
 	else if ( flags & PREF_UNICODE )
 		msg = mir_u2t(( wchar_t* )&pszSrc[ strlen( pszSrc )+1 ] );
