@@ -79,7 +79,7 @@ static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
 
 	if ( wParam == (WPARAM)(-1)) return 1;   //shouldn't happen - sanity check
 	if ( wParam == 0 ) {	   //begin processing by finding end of chain
-		for ( ;;wParam++ ) {
+		for (;;wParam++ ) {
 			_itoa( wParam, str, 10 );
 			if ( DBGetContactSettingString( ccs->hContact, "_Filter", str, &dbv ))
 				break;

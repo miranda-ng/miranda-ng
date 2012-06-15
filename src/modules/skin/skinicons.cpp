@@ -428,7 +428,7 @@ int LoadSkinIcons(void)
 		DBDeleteContactSetting( NULL, "Icons", moduleName );
 	}
 
-	for ( ;; ) {
+	for (;; ) {
 		// get the next protocol name
 		moduleName[0] = 'p';
 		moduleName[1] = 0;

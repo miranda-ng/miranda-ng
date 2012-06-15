@@ -731,7 +731,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				HWND tvw;
 				HTREEITEM * pSIT;
 				HTREEITEM FirstItem=NULL;
-				UINT uITCnt, uSic ;
+				UINT uITCnt, uSic;
 				tvw=GetDlgItem(hwndDlg, IDC_MENUITEMS);
 				uITCnt=TreeView_GetCount(tvw);
 				uSic=0;

@@ -520,7 +520,7 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
         szBuf = (char*)(useStack ? alloca(sz) : mir_alloc(sz));
 		CopyMemory(szBuf, szTitleLine, titleLineLen);
 		pszBuf = szBuf + titleLineLen;
-		for ( line = 0; ; line += 16 ) {
+		for ( line = 0;; line += 16 ) {
 			colsInLine = min(16, len - line);
 
 			if (colsInLine == 16) {
@@ -535,7 +535,7 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 				for (col = 0; col < colsInLine; col++)
 					pszBuf += wsprintfA(pszBuf, "%02X%c", buf[line + col], ((col&3) == 3 && col != 15)?'-':' ');
 				// Fill out last line with blanks
-				for ( ; col<16; col++)
+				for (; col<16; col++)
 					{
 					lstrcpyA(pszBuf, "   ");
 					pszBuf += 3;

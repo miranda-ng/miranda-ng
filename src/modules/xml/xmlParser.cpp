@@ -2261,7 +2261,7 @@ XMLNode& XMLNode::operator=( const XMLNode& A )
 	{
 		if (d) { d->ref_count--; emptyTheNode(0); }
 		d=A.d;
-		if (d) (d->ref_count) ++ ;
+		if (d) (d->ref_count) ++;
 	}
 	return *this;
 }
@@ -2270,7 +2270,7 @@ XMLNode::XMLNode(const XMLNode &A)
 {
 	// shallow copy
 	d=A.d;
-	if (d) (d->ref_count)++ ;
+	if (d) (d->ref_count)++;
 }
 
 XMLNode XMLNode::deepCopy() const

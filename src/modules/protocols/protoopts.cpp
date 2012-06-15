@@ -173,7 +173,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					rtrim( buf );
 					if ( buf[0] == 0 ) {
 						int count = 1;
-						for ( ;; ) {
+						for (;; ) {
 							DBVARIANT dbv;
 							mir_snprintf( buf, SIZEOF(buf), "%s_%d", pa->szProtoName, count++ );
 							if ( DBGetContactSettingString( NULL, buf, "AM_BaseProto", &dbv ))

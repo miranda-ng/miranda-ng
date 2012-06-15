@@ -251,7 +251,7 @@ static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWnd
 	char * temp = GetPluginNameByInstance( page->hInst );
 	if ( temp ) PluginFullName = mir_a2t( temp );
 	GetDialogStrings(enableKeywordFiltering, key, GetPluginName(page->hInst, pluginName, SIZEOF(pluginName)), hWnd, page->pszGroup, page->pszTitle, page->pszTab, PluginFullName );
-	if ( PluginFullName ) mir_free( PluginFullName ) ;
+	if ( PluginFullName ) mir_free( PluginFullName );
 	
 	if (enableKeywordFiltering && !current)
 		DestroyWindow(hWnd); //destroy the page, we're done with it

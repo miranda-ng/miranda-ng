@@ -905,7 +905,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 		}
 		buffer[bytesPeeked] = 0;
 
-		for (pbuffer = buffer, headersCount = 0; ; pbuffer = peol + 1, ++headersCount)
+		for (pbuffer = buffer, headersCount = 0;; pbuffer = peol + 1, ++headersCount)
 		{
 			peol = strchr(pbuffer, '\n');
 			if (peol == NULL) break;
@@ -933,7 +933,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 	nlhr->headersCount = headersCount;
 	nlhr->headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER) * headersCount);
 
-	for (pbuffer = buffer, headersCount = 0; ; pbuffer = peol + 1, ++headersCount) 
+	for (pbuffer = buffer, headersCount = 0;; pbuffer = peol + 1, ++headersCount) 
 	{
 		peol = strchr(pbuffer, '\n');
 		if (peol == NULL || peol == pbuffer || (peol == (pbuffer + 1) &&  *pbuffer == '\r')) break;

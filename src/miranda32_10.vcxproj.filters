@@ -273,6 +273,9 @@
     <ClInclude Include="..\include\m_timezones.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="modules\plugins\plugins.h">
+      <Filter>Modules\plugins</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">
@@ -610,6 +613,9 @@
     </ClCompile>
     <ClCompile Include="modules\utils\timeutils.cpp">
       <Filter>Modules\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\plugins\pluginopts.cpp">
+      <Filter>Modules\plugins</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

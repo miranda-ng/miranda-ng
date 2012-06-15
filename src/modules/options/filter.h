@@ -66,7 +66,7 @@ public:
 	{
 		TCHAR * plwrWord = _tcslwr_locale( mir_tstrdup( ptKeyWord ) );
 		if ( _pageKeyWords.getIndex( plwrWord ) == -1 )
-			_pageKeyWords.insert( plwrWord ) ;
+			_pageKeyWords.insert( plwrWord );
 		else
 			mir_free( plwrWord );
 	};

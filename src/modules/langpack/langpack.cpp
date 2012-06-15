@@ -148,7 +148,7 @@ unsigned int __fastcall hashstrW(const char * key)
 	if (key == NULL) return 0;
 	const unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
 	char* buf = (char*)alloca(len + 1);
-	for (unsigned i = 0; i <= len ; ++i)
+	for (unsigned i = 0; i <= len; ++i)
 		buf[i] = key[i << 1];
 	return hash(buf, len);
 }

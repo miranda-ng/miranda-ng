@@ -488,7 +488,7 @@ static INT_PTR CALLBACK ChooseEffectDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wPa
 				_T("Contour heavy"), 
 			};
 
-			for ( i=0; i<SIZEOF(ModernEffectNames) ; i++ )
+			for ( i=0; i < SIZEOF(ModernEffectNames); i++ )
 			{
 				int itemid = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_ADDSTRING, 0, (LPARAM)TranslateTS(ModernEffectNames[i]));
 				SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETITEMDATA, itemid, i );

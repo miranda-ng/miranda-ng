@@ -772,6 +772,17 @@ static int WhereToPlace( HMENU hMenu, PMO_MenuItem mi )
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static DWORD GetMenuItemType(HMENU hMenu, int uItem)
+{
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	mii.fMask = MIIM_TYPE;
+	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
+	return mii.fType;
+}
+
 static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *lpmii)
 {
 	PMO_IntMenuItem pimi = MO_GetIntMenuItem(( HGENMENU )lpmii->dwItemData );
@@ -782,20 +793,14 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
 	//check for separator before
 	if ( uItem ) {
-		mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
+		mii.fMask = MIIM_DATA;
 		GetMenuItemInfo( hMenu, uItem-1, TRUE, &mii );
 		PMO_IntMenuItem p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
 		if ( p != NULL && mii.fType != MFT_SEPARATOR) {
 			int needSeparator = (p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL);
 			if ( needSeparator) {
 				//but might be supposed to be after the next one instead
-				memset(&mii, 0, sizeof(mii));
-				mii.cbSize = MENUITEMINFO_V4_SIZE;
-				if ( uItem < GetMenuItemCount( hMenu )) {
-					mii.fMask = MIIM_TYPE;
-					GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
-				}
-				if ( mii.fType != MFT_SEPARATOR) {
+				if ( uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) != MFT_SEPARATOR) {
 					mii.fMask = MIIM_TYPE;
 					mii.fType = MFT_SEPARATOR;
 					InsertMenuItem( hMenu, uItem, TRUE, &mii );
@@ -834,9 +839,11 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 	InsertMenuItem( hMenu, uItem, TRUE, &mii);
 }
 
-//wparam started hMenu
-//lparam ListParam*
-//result hMenu
+/////////////////////////////////////////////////////////////////////////////////////////
+// wparam started hMenu
+// lparam ListParam*
+// result hMenu
+
 INT_PTR MO_BuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	if ( !bIsGenMenuInited )

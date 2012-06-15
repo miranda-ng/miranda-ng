@@ -184,7 +184,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
 	for (hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0); 
-		 hContact ; 
+		 hContact; 
 		 hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0))
 	{
 		if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
@@ -541,7 +541,7 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 
 int InitGroupServices(void)
 {
-	for (int i = 0; ; i++) 
+	for (int i = 0;; i++) 
 	{
 		char str[32];
 		_itoa(i, str, 10);

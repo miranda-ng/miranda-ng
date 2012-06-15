@@ -816,7 +816,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					for (iColumn=0; iColumn<csr->nFieldCount; iColumn++)
 					{
 						lvc.pszText=TranslateTS(csr->pszFields[iColumn]);
-						ListView_InsertColumn (hwndList, iColumn+1, &lvc) ;
+						ListView_InsertColumn (hwndList, iColumn+1, &lvc);
 					}
 					// Column inserting Done
 				} else {	//  blob contain info about found contacts

@@ -247,6 +247,7 @@
     <ClInclude Include="modules\netlib\netlib.h" />
     <ClInclude Include="modules\options\filter.h" />
     <ClInclude Include="..\include\m_protoint.h" />
+    <ClInclude Include="modules\plugins\plugins.h" />
     <ClInclude Include="modules\srfile\file.h" />
     <ClInclude Include="modules\srurl\url.h" />
     <ClInclude Include="modules\clist\clc.h" />
@@ -373,6 +374,9 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\plugins\newplugins.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\plugins\pluginopts.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\protocols\protoaccs.cpp">

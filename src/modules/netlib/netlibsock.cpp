@@ -334,7 +334,7 @@ static NETLIBIPLIST* GetMyIpv4(void)
 	PHOSTENT he = gethostbyname(hostname);
 
 	unsigned n;
-	for (n = 0; he->h_addr_list[n]; ++n) ;
+	for (n = 0; he->h_addr_list[n]; ++n);
 
 	NETLIBIPLIST *addr = (NETLIBIPLIST*)mir_calloc(n * 64 + 4);
 	addr->cbNum = n;
