@@ -93,11 +93,7 @@ static void GetUrlDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
 	if ( len >= cbBuf )
 		len = cbBuf-1;
 
-	#if !defined( _UNICODE )
-		memcpy( buf, dbei->pBlob, len );
-	#else
-		MultiByteToWideChar( CP_ACP, 0, ( LPCSTR )dbei->pBlob, len, buf, cbBuf );
-	#endif
+	MultiByteToWideChar( CP_ACP, 0, ( LPCSTR )dbei->pBlob, len, buf, cbBuf );
 	buf[ len ] = 0;
 
 	if ( len < cbBuf-3 )
@@ -110,11 +106,7 @@ static void GetFileDescription( DBEVENTINFO *dbei, TCHAR* buf, int cbBuf )
 	if ( len >= cbBuf )
 		len = cbBuf-1;
 
-	#if !defined( _UNICODE )
-		memcpy( buf, dbei->pBlob + sizeof( DWORD ), len );
-	#else
-		MultiByteToWideChar( CP_ACP, 0, ( LPCSTR )dbei->pBlob + sizeof( DWORD ), len, buf, cbBuf );
-	#endif
+	MultiByteToWideChar( CP_ACP, 0, ( LPCSTR )dbei->pBlob + sizeof( DWORD ), len, buf, cbBuf );
 	buf[ len ] = 0;
 
 	if ( len < cbBuf-3 )

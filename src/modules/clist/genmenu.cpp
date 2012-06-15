@@ -1062,14 +1062,9 @@ static int MO_RegisterIcon( PMO_IntMenuItem pmi, void* )
 	char *uname, *descr;
 	uname = pmi->UniqName;
 	if ( uname == NULL )
-		#ifdef UNICODE
-			uname = mir_u2a(pmi->CustomName);
-			descr = mir_u2a(pmi->mi.ptszName);
-		#else
-			uname = pmi->CustomName;
-			descr = pmi->mi.pszName;
-		#endif
-
+		uname = mir_u2a(pmi->CustomName);
+		descr = mir_u2a(pmi->mi.ptszName);
+		
 	if ( !uname && !descr )
 		return FALSE;
 
@@ -1110,11 +1105,11 @@ static int MO_RegisterIcon( PMO_IntMenuItem pmi, void* )
 			IconLib_ReleaseIcon( hIcon, 0 );
 	}	}
 
-	#ifdef UNICODE
+	
 		if ( !pmi->UniqName )
 			mir_free( uname );
 		mir_free( descr );
-	#endif
+
 
 	return FALSE;
 }

@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 COLORREF GetColorFromDefault(COLORREF cl);
 
-#if defined( _UNICODE )
+
 void ConvertFontSettings( FontSettings* fs, TFontSettings* fsw)
 {
 	fsw->colour = fs->colour;
@@ -104,7 +104,6 @@ void ConvertLOGFONT(LOGFONTW *lfw, LOGFONTA *lfa)
 
 	WideCharToMultiByte( code_page, 0, lfw->lfFaceName, -1, lfa->lfFaceName, LF_FACESIZE, 0, 0);
 }
-#endif
 
 static void GetDefaultFontSetting(LOGFONT* lf, COLORREF* colour)
 {
@@ -301,22 +300,16 @@ static int sttRegisterFontWorker( TFontID* font_id )
 	return 0;
 }
 
-#if defined( _UNICODE )
 INT_PTR RegisterFontW(WPARAM wParam, LPARAM )
 {
 	return sttRegisterFontWorker(( TFontID* )wParam );
 }
-#endif
 
 INT_PTR RegisterFont(WPARAM wParam, LPARAM)
 {
-	#if defined( _UNICODE )
-		TFontID temp;
-		ConvertFontID(( FontID* )wParam, &temp );
-		return sttRegisterFontWorker( &temp );
-	#else
-		return sttRegisterFontWorker(( TFontID* )wParam );
-	#endif
+	TFontID temp;
+	ConvertFontID(( FontID* )wParam, &temp );
+	return sttRegisterFontWorker( &temp );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -341,12 +334,10 @@ static int sttGetFontWorker( TFontID* font_id, LOGFONT* lf )
 	return (int)colour;
 }
 
-#if defined( _UNICODE )
 INT_PTR GetFontW(WPARAM wParam, LPARAM lParam)
 {
 	return sttGetFontWorker(( TFontID* )wParam, ( LOGFONT* )lParam );
 }
-#endif
 
 INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 {
@@ -386,22 +377,16 @@ static int sttRegisterColourWorker( TColourID* colour_id )
 	return 0;
 }
 
-#if defined( _UNICODE )
 INT_PTR RegisterColourW(WPARAM wParam, LPARAM)
 {
 	return sttRegisterColourWorker(( TColourID* )wParam );
 }
-#endif
 
 INT_PTR RegisterColour(WPARAM wParam, LPARAM)
 {
-	#if defined( _UNICODE )
-		TColourID temp;
-		ConvertColourID(( ColourID* )wParam, &temp );
-		return sttRegisterColourWorker( &temp );
-	#else
-		return sttRegisterColourWorker(( TColourID* )wParam );
-	#endif
+	TColourID temp;
+	ConvertColourID(( ColourID* )wParam, &temp );
+	return sttRegisterColourWorker( &temp );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -420,22 +405,16 @@ static int sttGetColourWorker( TColourID* colour_id )
 	return -1;
 }
 
-#if defined( _UNICODE )
 INT_PTR GetColourW(WPARAM wParam, LPARAM)
 {
 	return sttGetColourWorker(( TColourID* )wParam );
 }
-#endif
 
 INT_PTR GetColour(WPARAM wParam, LPARAM)
 {
-	#if defined( _UNICODE )
-		TColourID temp;
-		ConvertColourID(( ColourID* )wParam, &temp );
-		return sttGetColourWorker( &temp );
-	#else
-		return sttGetColourWorker(( TColourID* )wParam );
-	#endif
+	TColourID temp;
+	ConvertColourID(( ColourID* )wParam, &temp );
+	return sttGetColourWorker( &temp );
 }
 
 
@@ -475,22 +454,16 @@ static int sttRegisterEffectWorker( TEffectID* effect_id )
     return 0;
 }
 
-#if defined( _UNICODE )
 INT_PTR RegisterEffectW(WPARAM wParam, LPARAM lParam)
 {
     return sttRegisterEffectWorker(( TEffectID* )wParam );
 }
-#endif
 
 INT_PTR RegisterEffect(WPARAM wParam, LPARAM lParam)
 {
-#if defined( _UNICODE )
-    TEffectID temp;
+	TEffectID temp;
     ConvertEffectID(( EffectID* )wParam, &temp );
     return sttRegisterEffectWorker( &temp );
-#else
-    return sttRegisterEffectWorker(( TEffectID* )wParam );
-#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -515,20 +488,14 @@ static int sttGetEffectWorker( TEffectID* effect_id, FONTEFFECT* effect )
 	return (int)FALSE;
 }
 
-#if defined( _UNICODE )
 INT_PTR GetEffectW(WPARAM wParam, LPARAM lParam)
 {
     return sttGetEffectWorker(( TEffectID* )wParam, ( FONTEFFECT* )lParam );
 }
-#endif
 
 INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 {
-#if defined( _UNICODE )
-    TEffectID temp;
+	TEffectID temp;
     ConvertEffectID((EffectID *)wParam, &temp);
     return sttGetEffectWorker( &temp, ( FONTEFFECT* )lParam );
-#else
-    return sttGetEffectWorker(( TEffectID* )wParam, ( FONTEFFECT* )lParam );
-#endif
 }

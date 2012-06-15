@@ -109,15 +109,10 @@ static void FilenameToFileList(HWND hwndDlg, struct FileDlgData* dat, const TCHA
 			dat->files[nTemp] = ( TCHAR* )mir_alloc( sizeof(TCHAR)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array
-			#if defined( _UNICODE )
-				CopyMemory(dat->files[nTemp], buf, (fileOffset-1)*sizeof( TCHAR ));
-				dat->files[nTemp][fileOffset-1] = '\\';
-				_tcscpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2] == '\\'?1:0), pBuf);
-			#else
-				CopyMemory(dat->files[nTemp], buf, fileOffset-1 );
-				dat->files[nTemp][fileOffset-1] = '\\';
-				strcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2] == '\\'?1:0), pBuf);
-			#endif
+			CopyMemory(dat->files[nTemp], buf, (fileOffset-1)*sizeof( TCHAR ));
+			dat->files[nTemp][fileOffset-1] = '\\';
+			_tcscpy(dat->files[nTemp] + fileOffset - (buf[fileOffset-2] == '\\'?1:0), pBuf);
+			
 			// Move pointers to next file...
 			pBuf += cbFileNameLen + 1;
 			nTemp++;

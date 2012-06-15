@@ -156,12 +156,10 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 	return hSecurity;
 }
 
-#ifdef UNICODE
 HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal)
 {
 	return NetlibInitSecurityProvider(StrConvT(szProvider), StrConvT(szPrincipal));
 }
-#endif
 
 void NetlibDestroySecurityProvider(HANDLE hSecurity)
 {
@@ -307,7 +305,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				NtlmType2packet* pkt = ( NtlmType2packet* )nlb64.pbDecoded;
 				if (!strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2) 
 				{
-#ifdef UNICODE
+
 					wchar_t* domainName = (wchar_t*)&nlb64.pbDecoded[pkt->targetName.offset];
 					int domainLen = pkt->targetName.len;
 
@@ -321,19 +319,6 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					}
 					else
 						domainLen /= sizeof(wchar_t);
-#else
-					char* domainName = (char*)&nlb64.pbDecoded[pkt->targetName.offset];
-					int domainLen = pkt->targetName.len;
-
-					// Negotiate Unicode? if yes, convert the unicode name to ANSI
-					if (pkt->flags & 1) 
-					{
-						int bufsz = WideCharToMultiByte(CP_ACP, 0, (WCHAR*)domainName, domainLen, NULL, 0, NULL, NULL);
-						char* buf = (char*)alloca(bufsz);
-						domainLen = WideCharToMultiByte(CP_ACP, 0, (WCHAR*)domainName, domainLen, buf, bufsz, NULL, NULL) - 1;
-						domainName = buf;
-					}
-#endif
 
 					if (domainLen) 
 					{
@@ -360,11 +345,9 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			if (login != NULL && login[0] != '\0') 
 			{
 				memset(&auth, 0, sizeof(auth));
-#ifdef _UNICODE
+
 				NetlibLogf(NULL, "Security login requested, user: %S pssw: %s", login, psw ? "(exist)" : "(no psw)");
-#else
-				NetlibLogf(NULL, "Security login requested, user: %s pssw: %s", login, psw ? "(exist)" : "(no psw)");
-#endif
+
 
 				const TCHAR* loginName = login;
 				const TCHAR* domainName = _tcschr(login, '\\');
@@ -384,7 +367,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					domainLen = lstrlen(++domainName);
 				}
 
-#ifdef UNICODE
+
 				auth.User = (PWORD)loginName;
 				auth.UserLength = loginLen;
 				auth.Password = (PWORD)psw;
@@ -392,15 +375,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				auth.Domain = (PWORD)domainName;
 				auth.DomainLength = domainLen;
 				auth.Flags = SEC_WINNT_AUTH_IDENTITY_UNICODE;
-#else
-				auth.User = (PBYTE)loginName;
-				auth.UserLength = loginLen;
-				auth.Password = (PBYTE)psw;
-				auth.PasswordLength = lstrlen(psw);
-				auth.Domain = (PBYTE)domainName;
-				auth.DomainLength = domainLen;
-				auth.Flags = SEC_WINNT_AUTH_IDENTITY_ANSI;
-#endif
+
 
 				hNtlm->hasDomain = domainLen != 0;
 			}
@@ -496,11 +471,11 @@ static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
 
 	HANDLE hSecurity;
 
-#ifdef UNICODE
+
 	if (req->flags & NNR_UNICODE)
 		hSecurity = NetlibInitSecurityProvider(req->szProviderName, req->szPrincipal);
 	else
-#endif
+
 		hSecurity = NetlibInitSecurityProvider((char*)req->szProviderName, (char*)req->szPrincipal);
 
 	return (INT_PTR)hSecurity;
@@ -530,7 +505,7 @@ static INT_PTR NtlmCreateResponseService2( WPARAM wParam, LPARAM lParam )
 
 	char* response;
 
-#ifdef UNICODE
+
 	if (req->flags & NNR_UNICODE)
 	{
 		response = NtlmCreateResponseFromChallenge(( HANDLE )wParam, req->szChallenge, 
@@ -545,10 +520,7 @@ static INT_PTR NtlmCreateResponseService2( WPARAM wParam, LPARAM lParam )
 		mir_free(szLogin);
 		mir_free(szPassw);
 	}
-#else
-	response = NtlmCreateResponseFromChallenge(( HANDLE )wParam, req->szChallenge, 
-		req->szUserName, req->szPassword, false, req->complete );
-#endif
+
 
 	return (INT_PTR)response;
 }

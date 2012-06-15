@@ -226,24 +226,16 @@ static int DetectDbProvider(const char*, DATABASELINK * dblink, LPARAM lParam)
 {
 	int error;
 
-#ifdef _UNICODE
-	char* fullpath = makeFileName(( TCHAR* )lParam );
-#else
-	char* fullpath = (char*)lParam;
-#endif
+char* fullpath = makeFileName(( TCHAR* )lParam );
 
 	int ret = dblink->grokHeader(fullpath, &error);
-#ifdef _UNICODE
 	mir_free( fullpath );
-#endif
 	if ( ret == 0) {
-#ifdef _UNICODE
+
 		char tmp[ MAX_PATH ];
 		dblink->getFriendlyName(tmp, SIZEOF(tmp), 1);
 		MultiByteToWideChar(CP_ACP, 0, tmp, -1, (TCHAR*)lParam, MAX_PATH);
-#else
-		dblink->getFriendlyName((TCHAR*)lParam, MAX_PATH, 1);
-#endif
+
 		return DBPE_HALT;
 	}
 

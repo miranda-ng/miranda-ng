@@ -204,9 +204,7 @@ void   NetlibSecurityInit(void);
 void   NetlibSecurityDestroy(void);
 void   NetlibDestroySecurityProvider(HANDLE hSecurity);
 HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrincipal);
-#ifdef UNICODE
 HANDLE NetlibInitSecurityProvider(const char* szProvider, const char* szPrincipal);
-#endif
 char*  NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, 
 									   bool http, unsigned& complete);
 

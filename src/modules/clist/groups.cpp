@@ -342,14 +342,10 @@ int fnRenameGroup( int groupID, TCHAR* newName )
 
 static INT_PTR RenameGroup(WPARAM wParam, LPARAM lParam)
 {
-	#if defined( _UNICODE )
-		WCHAR* temp = mir_a2u(( char* )lParam );
-		int result = ( -1 != RenameGroupWithMove(wParam - 1, temp, 1));
-		mir_free( temp );
-		return result;
-	#else
-		return -1 != RenameGroupWithMove(wParam - 1, (TCHAR*) lParam, 1);
-	#endif
+	WCHAR* temp = mir_a2u(( char* )lParam );
+	int result = ( -1 != RenameGroupWithMove(wParam - 1, temp, 1));
+	mir_free( temp );
+	return result;
 }
 
 static INT_PTR SetGroupExpandedState(WPARAM wParam, LPARAM lParam)

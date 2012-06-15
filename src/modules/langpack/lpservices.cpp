@@ -22,11 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
-#if defined( _UNICODE )
-	#define FLAGS LANG_UNICODE
-#else
-	#define FLAGS 0
-#endif
+#define FLAGS LANG_UNICODE
 
 LangPackMuuid* __fastcall LangPackLookupUuid( WPARAM );
 int LangPackMarkPluginLoaded( PLUGININFOEX* pInfo );
@@ -153,16 +149,12 @@ static INT_PTR PcharToTchar(WPARAM wParam, LPARAM lParam)
 
 	LangPackMuuid* uuid = LangPackLookupUuid( wParam );
 
-	#if defined( _UNICODE )
 	{	int len = (int)strlen( pszStr );
 		TCHAR* result = ( TCHAR* )alloca(( len+1 )*sizeof( TCHAR ));
 		MultiByteToWideChar( LangPackGetDefaultCodePage(), 0, pszStr, -1, result, len );
 		result[len] = 0;
 		return ( INT_PTR )mir_wstrdup(( wchar_t* )LangPackTranslateString( uuid, ( char* )result, 1 ));
 	}
-	#else
-		return ( INT_PTR )mir_strdup( LangPackTranslateString( uuid, pszStr, 0 ));
-	#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -123,16 +123,15 @@ static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* buf1 = cli.pfnGetStatusModeDescription( wParam, lParam );
 
-	#ifdef UNICODE
-		if ( !( lParam & GSMDF_TCHAR ))
-		{
-			static char szMode[64];
-			char *buf2 = mir_u2a(buf1);
-			mir_snprintf(szMode, SIZEOF(szMode), "%s", buf2);
-			mir_free(buf2);
-			return (INT_PTR)szMode;
-		}
-	#endif
+	if ( !( lParam & GSMDF_TCHAR ))
+	{
+		static char szMode[64];
+		char *buf2 = mir_u2a(buf1);
+		mir_snprintf(szMode, SIZEOF(szMode), "%s", buf2);
+		mir_free(buf2);
+		return (INT_PTR)szMode;
+	}
+	
 
 	return (INT_PTR)buf1;
 }

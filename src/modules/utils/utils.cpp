@@ -460,7 +460,6 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#if defined( _UNICODE )
 char* __fastcall rtrim(char* str)
 {
 	if (str == NULL) return NULL;
@@ -477,7 +476,6 @@ char* __fastcall rtrim(char* str)
 	}
 	return str;
 }
-#endif
 
 TCHAR* __fastcall rtrim(TCHAR *str)
 {

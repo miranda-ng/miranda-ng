@@ -524,13 +524,9 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 			prot = smep->proto;
 		else
 		{
-			#ifdef UNICODE
-				char *prn=mir_u2a(timi->mi.ptszName);
-				prot = NEWSTR_ALLOCA( prn );
-				if (prn) mir_free(prn);
-			#else
-				prot = timi->mi.ptszName;
-			#endif
+			char *prn=mir_u2a(timi->mi.ptszName);
+			prot = NEWSTR_ALLOCA( prn );
+			if (prn) mir_free(prn);
 		}
 		if ( Proto_GetAccount( prot ) == NULL )
 			return TRUE;
@@ -1192,13 +1188,9 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 		MenuProto* mp = FindProtocolMenu( mi->pszContactOwner );
 		if ( mp && mi->pszPopupName ) {
 			if ( mp->pMenu ) {
-				#if defined _UNICODE
-					TCHAR* ptszName = ( mi->flags & CMIF_UNICODE ) ? mir_tstrdup(mi->ptszPopupName) : mir_a2t(mi->pszPopupName);
-					pRoot = MO_RecursiveWalkMenu( mp->pMenu->submenu.first, FindRoot, ptszName );
-					mir_free( ptszName );
-				#else
-					pRoot = MO_RecursiveWalkMenu( mp->pMenu->submenu.first, FindRoot, mi->pszPopupName );
-				#endif
+				TCHAR* ptszName = ( mi->flags & CMIF_UNICODE ) ? mir_tstrdup(mi->ptszPopupName) : mir_a2t(mi->pszPopupName);
+				pRoot = MO_RecursiveWalkMenu( mp->pMenu->submenu.first, FindRoot, ptszName );
+				mir_free( ptszName );	
 			}
 			if ( pRoot == NULL ) {
 				TMO_MenuItem tmi = { 0 };
@@ -1241,15 +1233,13 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 		smep->hMenuItem = menuHandle;
 
 	char buf[MAX_PATH+64];
-	#if defined( _UNICODE )
+	
 	{
 		char* p = ( pRoot ) ? mir_t2a( pRoot->mi.ptszName ) : NULL;
 		mir_snprintf( buf, SIZEOF(buf), "%s/%s", ( p ) ? p : "", mi->pszService ? mi->pszService : "" );
 		mir_free( p );
 	}
-	#else
-		mir_snprintf( buf, SIZEOF(buf), "%s/%s", pRoot ? pRoot->mi.ptszName : _T(""), mi->pszService ? mi->pszService : "" );
-	#endif
+	
 	MO_SetOptionsMenuItem( menuHandle, OPT_MENUITEMSETUNIQNAME, ( INT_PTR )buf );
 
 	return ( INT_PTR )menuHandle;

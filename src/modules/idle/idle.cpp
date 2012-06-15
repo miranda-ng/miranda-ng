@@ -117,12 +117,8 @@ BOOL InitWTSAPI()
 	HMODULE hDll = LoadLibraryA("wtsapi32.dll");
 	if (hDll) {
 		_WTSFreeMemory = (VOID (WINAPI *)(PVOID))GetProcAddress(hDll, "WTSFreeMemory");
-		#ifdef UNICODE
-			_WTSQuerySessionInformation = (BOOL (WINAPI *)(HANDLE, DWORD, WTS_INFO_CLASS, PVOID, DWORD*))GetProcAddress(hDll, "WTSQuerySessionInformationW");
-		#else
-			_WTSQuerySessionInformation = (BOOL (WINAPI *)(HANDLE, DWORD, WTS_INFO_CLASS, PVOID, DWORD*))GetProcAddress(hDll, "WTSQuerySessionInformationA");
-		#endif
-
+		_WTSQuerySessionInformation = (BOOL (WINAPI *)(HANDLE, DWORD, WTS_INFO_CLASS, PVOID, DWORD*))GetProcAddress(hDll, "WTSQuerySessionInformationW");
+		
 		if (_WTSFreeMemory && _WTSQuerySessionInformation) return 1;
 	}
 	return 0;

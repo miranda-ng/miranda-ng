@@ -80,7 +80,6 @@ int LoadFontserviceModule( void )
 	CreateServiceFunction(MS_EFFECT_REGISTER, RegisterEffect);
 	CreateServiceFunction(MS_EFFECT_GET, GetEffect);
 
-#if defined( _UNICODE )
 	CreateServiceFunction(MS_FONT_REGISTERW, RegisterFontW);
 	CreateServiceFunction(MS_FONT_GETW, GetFontW);
 
@@ -89,7 +88,6 @@ int LoadFontserviceModule( void )
 
 	CreateServiceFunction(MS_EFFECT_REGISTERW, RegisterEffectW);
 	CreateServiceFunction(MS_EFFECT_GETW, GetEffectW);
-#endif
 
 	hFontReloadEvent = CreateHookableEvent(ME_FONT_RELOAD);
 	hColourReloadEvent = CreateHookableEvent(ME_COLOUR_RELOAD);

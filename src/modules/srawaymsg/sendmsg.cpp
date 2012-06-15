@@ -612,7 +612,7 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam);
 }
 
-#ifdef UNICODE
+
 static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* msg = GetAwayMessage((int)wParam, (char*)lParam);
@@ -620,18 +620,16 @@ static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 	mir_free(msg);
 	return (INT_PTR)res;
 }
-#endif
+
 
 int LoadAwayMessageSending(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, AwayMsgSendModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, AwayMsgSendAccountsChanged);
 
-#ifdef UNICODE
+
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
 	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
-#else
-	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessageT);
-#endif
+
 	return 0;
 }

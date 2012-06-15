@@ -88,14 +88,12 @@
 
 #include <stdlib.h>
 
-#ifdef _UNICODE
 // If you comment the next "define" line then the library will never "switch to" _UNICODE (wchar_t*) mode (16/32 bits per characters).
 // This is useful when you get error messages like:
 //    'XMLNode::openFileHelper' : cannot convert parameter 2 from 'const char [5]' to 'const wchar_t *'
 // The _XMLWIDECHAR preprocessor variable force the XMLParser library into either utf16/32-mode (the proprocessor variable
 // must be defined) or utf8-mode(the pre-processor variable must be undefined).
 #define _XMLWIDECHAR
-#endif
 
 #if defined(WIN32) || defined(UNDER_CE) || defined(_WIN32) || defined(WIN64) || defined(__BORLANDC__)
 // comment the next line if you are under windows and the compiler is not Microsoft Visual Studio (6.0 or .NET) or Borland

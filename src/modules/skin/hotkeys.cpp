@@ -170,20 +170,16 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	THotkeyItem *item = ( THotkeyItem* )mir_alloc(sizeof(THotkeyItem));
-	#if defined( _UNICODE )
-		DWORD dwFlags = ( desc->cbSize >= sizeof(HOTKEYDESC)) ? desc->dwFlags : 0;
-		if ( dwFlags & HKD_UNICODE ) {
-			item->ptszSection = mir_tstrdup( desc->ptszSection );
-			item->ptszDescription = mir_tstrdup( desc->ptszDescription );
-		}
-		else {
-			item->ptszSection = mir_a2u( desc->pszSection );
-			item->ptszDescription = mir_a2u( desc->pszDescription );
-		}
-	#else
-		item->ptszSection = mir_tstrdup( desc->pszSection );
-		item->ptszDescription = mir_tstrdup( desc->pszDescription );
-	#endif
+	DWORD dwFlags = ( desc->cbSize >= sizeof(HOTKEYDESC)) ? desc->dwFlags : 0;
+	if ( dwFlags & HKD_UNICODE ) {
+		item->ptszSection = mir_tstrdup( desc->ptszSection );
+		item->ptszDescription = mir_tstrdup( desc->ptszDescription );
+	}
+	else {
+		item->ptszSection = mir_a2u( desc->pszSection );
+		item->ptszDescription = mir_a2u( desc->pszDescription );
+	}
+	
 	item->ptszSection_tr = TranslateTS(item->ptszSection);
 	item->ptszDescription_tr = TranslateTS(item->ptszDescription);
 	item->allowSubHotkeys = TRUE;

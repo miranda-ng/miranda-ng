@@ -57,7 +57,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM, LPARAM lParam)
 	SoundItem* item = &soundList[soundCount++];
 	item->name = mir_strdup( ssd->pszName );
 	item->tempFile = NULL;
-	#if defined( _UNICODE )
+	
 		TCHAR* ptszDefaultFile;
 		if ( dwFlags & SSDF_UNICODE ) {
 			item->description = mir_tstrdup( TranslateTS( ssd->ptszDescription ));
@@ -77,16 +77,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM, LPARAM lParam)
 				DBFreeVariant(&dbv);
 			mir_free( ptszDefaultFile );
 		}
-	#else
-		item->description = mir_tstrdup( TranslateTS( ssd->pszDescription ));
-		item->section = mir_tstrdup( TranslateTS( ssd->cbSize != SKINSOUNDDESC_SIZE_V1 && ssd->pszSection != NULL ? ssd->pszSection : "Other" ));
-		if ( ssd->pszDefaultFile ) {
-			if ( DBGetContactSettingString(NULL, "SkinSounds", item->name, &dbv))
-				DBWriteContactSettingString(NULL, "SkinSounds", item->name, ssd->pszDefaultFile);
-			else
-				DBFreeVariant(&dbv);
-		}
-	#endif
+
 	return 0;
 }
 

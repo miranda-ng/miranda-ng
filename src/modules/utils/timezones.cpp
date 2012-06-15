@@ -97,13 +97,7 @@ void FormatTime (const SYSTEMTIME *st, const TCHAR *szFormat, TCHAR *szDest, int
 void UnixTimeToFileTime(time_t ts, LPFILETIME pft);
 time_t FileTimeToUnixTime(LPFILETIME pft);
 
-#ifdef _UNICODE
 #define fnSystemTimeToTzSpecificLocalTime SystemTimeToTzSpecificLocalTime
-#else
-BOOL MySystemTimeToTzSpecificLocalTime(LPTIME_ZONE_INFORMATION ptzi, LPSYSTEMTIME pstUtc, LPSYSTEMTIME pstLoc);
-#define fnSystemTimeToTzSpecificLocalTime MySystemTimeToTzSpecificLocalTime
-#endif
-
 
 static int timeapiGetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st)
 {
@@ -490,7 +484,6 @@ static INT_PTR TimestampToStringT(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#ifdef _UNICODE
 static INT_PTR TimestampToStringA(WPARAM wParam, LPARAM lParam)
 {
 	DBTIMETOSTRING *tts = (DBTIMETOSTRING*)lParam;
@@ -501,7 +494,6 @@ static INT_PTR TimestampToStringA(WPARAM wParam, LPARAM lParam)
 	WideCharToMultiByte(CP_ACP, 0, szDest, -1, tts->szDest, tts->cbDest, NULL, NULL);
 	return 0;
 }
-#endif
 
 void GetLocalizedString(HKEY hSubKey, const TCHAR *szName, wchar_t *szBuf, DWORD cbLen)
 {
@@ -522,15 +514,9 @@ void GetLocalizedString(HKEY hSubKey, const TCHAR *szName, wchar_t *szBuf, DWORD
 	{
 		DWORD dwLength = cbLen * sizeof(wchar_t);
 
-#ifdef _UNICODE
+
 		RegQueryValueEx(hSubKey, szName, NULL, NULL, (unsigned char *)szBuf, &dwLength);
 		szBuf[min(dwLength / sizeof(TCHAR), cbLen - 1)] = 0;
-#else
-		char* szBufP = (char*)alloca(dwLength);
-		RegQueryValueEx(hSubKey, szName, NULL, NULL, (unsigned char *)szBufP, &dwLength);
-		szBufP[min(dwLength, cbLen * sizeof(wchar_t) - 1)] = 0;
-		MultiByteToWideChar(CP_ACP, 0, szBufP, -1, szBuf, cbLen);
-#endif
 	}
 }
 
@@ -644,11 +630,9 @@ void InitTimeZones(void)
 
 	CreateServiceFunction(MS_DB_TIME_TIMESTAMPTOLOCAL, TimestampToLocal);
 	CreateServiceFunction(MS_DB_TIME_TIMESTAMPTOSTRINGT, TimestampToStringT);
-#ifdef _UNICODE
+
 	CreateServiceFunction(MS_DB_TIME_TIMESTAMPTOSTRING, TimestampToStringA);
-#else
-	CreateServiceFunction(MS_DB_TIME_TIMESTAMPTOSTRING, TimestampToStringT);
-#endif
+
 
 
 	tmi.cbSize = sizeof(tmi);

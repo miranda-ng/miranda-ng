@@ -367,7 +367,6 @@ static INT_PTR stub42( PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam )
 {	return ppi->m_iStatus;
 }
 
-#ifdef _UNICODE
 
 static INT_PTR stub43( PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam )
 {	
@@ -409,7 +408,6 @@ static INT_PTR stub45( PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam )
 	return CallProtoService( ppi->m_szModuleName, PS_SETMYAVATARW, wParam, ( LPARAM )( LPCTSTR )StrConvT(( char* )lParam ));
 }
 
-#endif
 
 static HANDLE CreateProtoServiceEx( const char* szModule, const char* szService, MIRANDASERVICEOBJ pFunc, void* param )
 {
@@ -454,7 +452,7 @@ BOOL ActivateAccount( PROTOACCOUNT* pa )
 	CreateProtoServiceEx( pa->szModuleName, PS_GETNAME, (MIRANDASERVICEOBJ)stub41, pa->ppro );
 	CreateProtoServiceEx( pa->szModuleName, PS_GETSTATUS, (MIRANDASERVICEOBJ)stub42, pa->ppro );
 
-#ifdef _UNICODE
+
 		char szServiceName[ 200 ];
 		mir_snprintf( szServiceName, SIZEOF(szServiceName), "%s%s", pa->szModuleName, PS_GETAVATARINFO );
 		if ( !ServiceExists( szServiceName )) {
@@ -476,7 +474,7 @@ BOOL ActivateAccount( PROTOACCOUNT* pa )
 			if ( ServiceExists( szServiceName ))
 				CreateProtoServiceEx( pa->szModuleName, PS_SETMYAVATAR, (MIRANDASERVICEOBJ)stub45, pa->ppro );
 		}
-	#endif
+
 	return TRUE;
 }
 

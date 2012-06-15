@@ -22,11 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
-#if defined( _UNICODE )
-	#define STR_VERSION_FORMAT "%s%S%S"
-#else
-	#define STR_VERSION_FORMAT "%s%s%s"
-#endif
+#define STR_VERSION_FORMAT "%s%S%S"
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {

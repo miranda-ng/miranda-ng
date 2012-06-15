@@ -318,9 +318,7 @@ LBL_Ok:
 	// check clist ?
 	if ( checkTypeAPI == CHECKAPI_CLIST ) {
 		bpi->clistlink = (CList_Initialise) GetProcAddress(h, "CListInitialise");
-		#if defined( _UNICODE )
-			if ( pi->flags & UNICODE_AWARE )
-		#endif
+		if ( pi->flags & UNICODE_AWARE )
 		if ( bpi->clistlink )
 			goto LBL_Ok;
 	}

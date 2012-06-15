@@ -80,9 +80,7 @@ void fnCheckCacheItem( ClcCacheEntryBase* p )
 void fnFreeCacheItem( ClcCacheEntryBase* p )
 {
 	if ( p->name ) { mir_free( p->name ); p->name = NULL; }
-	#if defined( _UNICODE )
-		if ( p->szName ) { mir_free( p->szName); p->szName = NULL; }
-	#endif
+	if ( p->szName ) { mir_free( p->szName); p->szName = NULL; }
 	if ( p->group ) { mir_free( p->group ); p->group = NULL; }
 	p->isHidden = -1;
 }
@@ -141,9 +139,7 @@ TCHAR* fnGetContactDisplayName( HANDLE hContact, int mode )
 				return ci.pszVal;
 
 			cacheEntry->name = ci.pszVal;
-			#if defined( _UNICODE )
-				cacheEntry->szName = mir_u2a( ci.pszVal );
-			#endif
+			cacheEntry->szName = mir_u2a( ci.pszVal );
 			return ci.pszVal;
 		}
 
@@ -157,9 +153,7 @@ TCHAR* fnGetContactDisplayName( HANDLE hContact, int mode )
 				buffer = (TCHAR*) mir_alloc(15 * sizeof( TCHAR ));
 				_ltot(ci.dVal, buffer, 10 );
 				cacheEntry->name = buffer;
-				#if defined( _UNICODE )
-					cacheEntry->szName = mir_u2a( buffer );
-				#endif
+				cacheEntry->szName = mir_u2a( buffer );
 				return buffer;
 	}	}	}
 
@@ -180,13 +174,8 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 
 	if ((int) lParam != GCDNF_NOMYHANDLE) {
 		cacheEntry = cli.pfnGetCacheEntry(hContact);
-		#if defined( _UNICODE )
-			if ( cacheEntry->szName )
-				return (INT_PTR)cacheEntry->szName;
-		#else
-			if ( cacheEntry->name )
-				return (INT_PTR)cacheEntry->name;
-		#endif
+		if ( cacheEntry->szName )
+			return (INT_PTR)cacheEntry->szName;
 	}
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
@@ -197,22 +186,14 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (cacheEntry == NULL) {
-				#if defined( _UNICODE )
-					buffer = mir_u2a( ci.pszVal );
-					mir_free(ci.pszVal);
-				#else
-					buffer = ci.pszVal;
-				#endif
+				buffer = mir_u2a( ci.pszVal );
+				mir_free(ci.pszVal);
 				return (INT_PTR) buffer;
 			}
 			else {
 				cacheEntry->name = ci.pszVal;
-				#if defined( _UNICODE )
-					cacheEntry->szName = mir_u2a( ci.pszVal );
-					return (INT_PTR)cacheEntry->szName;
-				#else
-					return (INT_PTR)cacheEntry->name;
-				#endif
+				cacheEntry->szName = mir_u2a( ci.pszVal );
+				return (INT_PTR)cacheEntry->szName;
 			}
 		}
 		if (ci.type == CNFT_DWORD) {
@@ -224,12 +205,8 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 			else {
 				buffer = ( char* )mir_alloc(15);
 				_ltoa(ci.dVal, buffer, 10 );
-				#if defined( _UNICODE )
-					cacheEntry->szName = buffer;
-					cacheEntry->name = mir_a2u( buffer );
-				#else
-					cacheEntry->name = buffer;
-				#endif
+				cacheEntry->szName = buffer;
+				cacheEntry->name = mir_a2u( buffer );
 				return (INT_PTR) buffer;
 	}	}	}
 

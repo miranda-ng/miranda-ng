@@ -206,17 +206,10 @@ static INT_PTR DbEventGetStringT( WPARAM wParam, LPARAM lParam )
 	DBEVENTINFO* dbei = ( DBEVENTINFO* )wParam;
 	char* string = ( char* )lParam;
 
-	#if defined( _UNICODE )
-		if ( dbei->flags & DBEF_UTF )
-			return ( INT_PTR )Utf8DecodeUcs2( string );
+	if ( dbei->flags & DBEF_UTF )
+		return ( INT_PTR )Utf8DecodeUcs2( string );
 
-		return ( INT_PTR )mir_a2t( string );
-	#else
-		char* res = mir_strdup( string );
-		if ( dbei->flags & DBEF_UTF )
-			Utf8Decode( res, NULL );
-		return ( INT_PTR )res;
-	#endif
+	return ( INT_PTR )mir_a2t( string );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -253,14 +246,10 @@ static INT_PTR GetProfilePath(WPARAM wParam, LPARAM lParam)
 
 	char* dst = (char*)lParam;
 
-	#if defined( _UNICODE )
-		char* tmp = mir_t2a( g_profileDir );
-		strncpy( dst, tmp, wParam );
-		mir_free( tmp );
-	#else
-		strncpy( dst, g_profileDir, wParam );
-	#endif
-
+	char* tmp = mir_t2a( g_profileDir );
+	strncpy( dst, tmp, wParam );
+	mir_free( tmp );
+	
 	if (wParam <= _tcslen(g_profileName))
 	{
 		dst[wParam - 1] = 0;
@@ -276,14 +265,10 @@ static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 
 	char* dst = (char*)lParam;
 
-	#if defined( _UNICODE )
-		char* tmp = makeFileName( g_profileName );
-		strncpy( dst, tmp, wParam );
-		mir_free( tmp );
-	#else
-		strncpy( dst, g_profileName, wParam );
-	#endif
-
+	char* tmp = makeFileName( g_profileName );
+	strncpy( dst, tmp, wParam );
+	mir_free( tmp );
+	
 	if (wParam <= _tcslen(g_profileName))
 	{
 		dst[wParam - 1] = 0;
@@ -291,8 +276,6 @@ static INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-
-#if defined( _UNICODE )
 
 static INT_PTR GetProfilePathW(WPARAM wParam, LPARAM lParam)
 {
@@ -321,8 +304,6 @@ static INT_PTR GetProfileNameW(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#endif
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 int InitUtils()
@@ -339,10 +320,8 @@ int InitUtils()
 
 	CreateServiceFunction(MS_DB_GETPROFILEPATH, GetProfilePath);
 	CreateServiceFunction(MS_DB_GETPROFILENAME, GetProfileName);
-	#if defined( _UNICODE )
-		CreateServiceFunction(MS_DB_GETPROFILEPATHW, GetProfilePathW);
-		CreateServiceFunction(MS_DB_GETPROFILENAMEW, GetProfileNameW);
-	#endif
+	CreateServiceFunction(MS_DB_GETPROFILEPATHW, GetProfilePathW);
+	CreateServiceFunction(MS_DB_GETPROFILENAMEW, GetProfileNameW);
 	return 0;
 }
 

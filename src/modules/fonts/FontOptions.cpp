@@ -84,11 +84,7 @@ typedef struct DrawTextWithEffectParam_tag
 #define MS_DRAW_TEXT_WITH_EFFECTA "Modern/SkinEngine/DrawTextWithEffectA"
 #define MS_DRAW_TEXT_WITH_EFFECTW "Modern/SkinEngine/DrawTextWithEffectW"
 
-#ifdef _UNICODE
-    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW
-#else
-    #define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTA
-#endif
+#define MS_DRAW_TEXT_WITH_EFFECT MS_DRAW_TEXT_WITH_EFFECTW
 
 // Helper
 int __inline DrawTextWithEffect( HDC hdc, LPCTSTR lpchText, int cchText, RECT * lprc, UINT dwDTFormat, FONTEFFECT * pEffect )
@@ -164,13 +160,9 @@ BOOL ExportSettings(HWND hwndDlg, TCHAR *filename, OBJLIST<TFontID>& flist, OBJL
 		else
 			mir_snprintf( buff, SIZEOF(buff), "%s=s", F.prefix );
 
-		#if defined( _UNICODE )
-			WideCharToMultiByte(code_page, 0, F.value.szFace, -1, abuff, 1024, 0, 0);
-			abuff[1023]=0;
-			strcat( buff, abuff );
-		#else
-			strcat( buff, F.value.szFace );
-		#endif
+		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, abuff, 1024, 0, 0);
+		abuff[1023]=0;
+		strcat( buff, abuff );
 		WriteLine(fhand, buff);
 
 		mir_snprintf(buff, SIZEOF(buff), "%sSize=b", F.prefix);
@@ -559,11 +551,9 @@ static void sttSaveFontData(HWND hwndDlg, TFontID &F)
 		mir_snprintf(str, SIZEOF(str), "%s", F.prefix);
 
 	if ( DBWriteContactSettingTString( NULL, F.dbSettingsGroup, str, F.value.szFace )) {
-		#if defined( _UNICODE )
-			char buff[1024];
-			WideCharToMultiByte(code_page, 0, F.value.szFace, -1, buff, 1024, 0, 0);
-			DBWriteContactSettingString(NULL, F.dbSettingsGroup, str, buff);
-		#endif
+		char buff[1024];
+		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, buff, 1024, 0, 0);
+		DBWriteContactSettingString(NULL, F.dbSettingsGroup, str, buff);
 	}
 
 	mir_snprintf(str, SIZEOF(str), "%sSize", F.prefix);

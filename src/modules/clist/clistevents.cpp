@@ -171,14 +171,10 @@ struct CListEvent* fnAddEvent( CLISTEVENT *cle )
 	p->imlIconIndex = fnGetImlIconIndex(cli.events.items[i]->cle.hIcon);
 	p->flashesDone = 12;
 	p->cle.pszService = mir_strdup(cli.events.items[i]->cle.pszService);
-	#if defined( _UNICODE )
-		if (p->cle.flags & CLEF_UNICODE)
-			p->cle.ptszTooltip = mir_tstrdup((TCHAR*)p->cle.ptszTooltip);
-		else
-			p->cle.ptszTooltip = mir_a2u((char*)p->cle.pszTooltip); //if no flag defined it handled as unicode
-	#else
-		p->cle.ptszTooltip = mir_tstrdup(p->cle.ptszTooltip); 
-	#endif	
+	if (p->cle.flags & CLEF_UNICODE)
+		p->cle.ptszTooltip = mir_tstrdup((TCHAR*)p->cle.ptszTooltip);
+	else
+		p->cle.ptszTooltip = mir_a2u((char*)p->cle.pszTooltip); //if no flag defined it handled as unicode
 	if (cli.events.count == 1) {
 		char *szProto;
 		if (cle->hContact == NULL)

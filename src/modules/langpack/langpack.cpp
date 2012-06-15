@@ -449,16 +449,12 @@ TCHAR* LangPackPcharToTchar( const char* pszStr )
 	if ( pszStr == NULL )
 		return NULL;
 
-	#if defined( _UNICODE )
 	{	int len = (int)strlen( pszStr );
 		TCHAR* result = ( TCHAR* )alloca(( len+1 )*sizeof( TCHAR ));
 		MultiByteToWideChar( LangPackGetDefaultCodePage(), 0, pszStr, -1, result, len );
 		result[len] = 0;
 		return mir_wstrdup( TranslateW( result ));
 	}
-	#else
-		return mir_strdup( Translate( pszStr ));
-	#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

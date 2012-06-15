@@ -129,7 +129,6 @@ static INT_PTR createDirTree(WPARAM, LPARAM lParam)
 	return CreateDirectoryTree(( char* )lParam );
 }
 
-#ifdef _UNICODE
 static TCHAR szMirandaPathW[MAX_PATH];
 static TCHAR szMirandaPathWLower[MAX_PATH];
 
@@ -241,7 +240,6 @@ int InitPathUtilsW(void)
 	CreateServiceFunction(MS_UTILS_CREATEDIRTREEW, createDirTreeW);
 	return 0;
 }
-#endif
 
 TCHAR *GetContactID(HANDLE hContact)
 {
@@ -362,7 +360,6 @@ static __forceinline char *GetPathVarX(char *, int code)
 	return makeFileName( szFullPath );
 }
 
-#ifdef _UNICODE
 static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return _tcscmp(s1, s2); }
 static __forceinline int _xcsncmp(const TCHAR *s1, const TCHAR *s2, size_t n) { return _tcsncmp(s1, s2, n); }
 static __forceinline size_t _xcslen(const TCHAR *s1) { return _tcslen(s1); }
@@ -443,7 +440,6 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 	}
 	return mir_tstrdup( szFullPath );
 }
-#endif
 
 template<typename XCHAR>
 XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
@@ -572,11 +568,8 @@ static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 	if (!(data->dwFlags & RVF_UNICODE))
 		return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
 
-#ifdef _UNICODE
+
 	return (INT_PTR)ReplaceVariables<WCHAR>((WCHAR *)wParam, data);
-#else
-	return NULL;
-#endif
 }
 
 int InitPathUtils(void)
@@ -592,9 +585,6 @@ int InitPathUtils(void)
 	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTE, pathToAbsolute);
 	CreateServiceFunction(MS_UTILS_CREATEDIRTREE, createDirTree);
 	CreateServiceFunction(MS_UTILS_REPLACEVARS, replaceVars);
-#ifdef _UNICODE
+
 	return InitPathUtilsW();
-#else
-	return 0;
-#endif
 }

@@ -641,33 +641,21 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if ( odp->pszTitle == NULL )
 					opd->pszTitle = NULL;
 				else if ( odp->flags & ODPF_UNICODE ) {
-					#if defined ( _UNICODE )
-						opd->pszTitle = ( TCHAR* )mir_wstrdup( odp->ptszTitle );
-					#else
-						opd->pszTitle = mir_u2a(( WCHAR* )odp->ptszTitle );
-					#endif
+					opd->pszTitle = ( TCHAR* )mir_wstrdup( odp->ptszTitle );
 				}
 				else opd->pszTitle = ( TCHAR* )mir_strdup( odp->pszTitle );
 
 				if ( odp->pszGroup == NULL )
 					opd->pszGroup = NULL;
 				else if ( odp->flags & ODPF_UNICODE ) {
-					#if defined ( _UNICODE )
-						opd->pszGroup = ( TCHAR* )mir_wstrdup( odp->ptszGroup );
-					#else
-						opd->pszGroup = mir_u2a(( WCHAR* )odp->ptszGroup );
-					#endif
+					opd->pszGroup = ( TCHAR* )mir_wstrdup( odp->ptszGroup );
 				}
 				else opd->pszGroup = ( TCHAR* )mir_strdup( odp->pszGroup );
 
 				if ( odp->pszTab == NULL )
 					opd->pszTab = NULL;
 				else if ( odp->flags & ODPF_UNICODE ) {
-					#if defined ( _UNICODE )
-						opd->pszTab = ( TCHAR* )mir_wstrdup( odp->ptszTab );
-					#else
-						opd->pszTab = mir_u2a(( WCHAR* )odp->ptszTab );
-					#endif
+					opd->pszTab = ( TCHAR* )mir_wstrdup( odp->ptszTab );
 				}
 				else opd->pszTab = ( TCHAR* )mir_strdup( odp->pszTab );
 
@@ -1416,55 +1404,39 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 
 	if ( odp->ptszTitle != NULL ) {
 		if ( odp->flags & ODPF_DONTTRANSLATE ) {
-			#if defined( _UNICODE )
-				if ( odp->flags & ODPF_UNICODE )
-					dst->ptszTitle = mir_wstrdup( odp->ptszTitle );
-				else {
-					dst->ptszTitle = mir_a2u( odp->pszTitle );
-					dst->flags |= ODPF_UNICODE;
-				}
-			#else
-				dst->pszTitle = mir_strdup( odp->pszTitle );
-			#endif
+			if ( odp->flags & ODPF_UNICODE )
+				dst->ptszTitle = mir_wstrdup( odp->ptszTitle );
+			else {
+				dst->ptszTitle = mir_a2u( odp->pszTitle );
+				dst->flags |= ODPF_UNICODE;
+			}	
 		}
 		else {
-			#if defined( _UNICODE )
-				if ( odp->flags & ODPF_UNICODE )
-					dst->ptszTitle = mir_wstrdup( TranslateW( odp->ptszTitle ));
-				else {
-					dst->ptszTitle = LangPackPcharToTchar( odp->pszTitle );
-					dst->flags |= ODPF_UNICODE;
-				}
-			#else
-				dst->pszTitle = mir_strdup( Translate( odp->pszTitle ));
-			#endif
+			if ( odp->flags & ODPF_UNICODE )
+				dst->ptszTitle = mir_wstrdup( TranslateW( odp->ptszTitle ));
+			else {
+				dst->ptszTitle = LangPackPcharToTchar( odp->pszTitle );
+				dst->flags |= ODPF_UNICODE;
+			}	
 		}
 	}
 
 	if ( odp->ptszGroup != NULL ) {
-		#if defined( _UNICODE )
-			if ( odp->flags & ODPF_UNICODE )
-				dst->ptszGroup = mir_wstrdup( TranslateW( odp->ptszGroup ));
-			else {
-				dst->ptszGroup = LangPackPcharToTchar( odp->pszGroup );
-				dst->flags |= ODPF_UNICODE;
-			}
-		#else
-			dst->pszGroup = mir_strdup( Translate( odp->pszGroup ));
-		#endif
+		if ( odp->flags & ODPF_UNICODE )
+			dst->ptszGroup = mir_wstrdup( TranslateW( odp->ptszGroup ));
+		else {
+			dst->ptszGroup = LangPackPcharToTchar( odp->pszGroup );
+			dst->flags |= ODPF_UNICODE;
+		}	
 	}
 
 	if ( odp->cbSize > OPTIONPAGE_OLD_SIZE2 && odp->ptszTab != NULL ) {
-		#if defined( _UNICODE )
-			if ( odp->flags & ODPF_UNICODE )
-				dst->ptszTab = mir_wstrdup( TranslateW( odp->ptszTab ));
-			else {
-				dst->ptszTab = LangPackPcharToTchar( odp->pszTab );
-				dst->flags |= ODPF_UNICODE;
-			}
-		#else
-			dst->pszTab = mir_strdup( Translate( odp->pszTab ));
-		#endif
+		if ( odp->flags & ODPF_UNICODE )
+			dst->ptszTab = mir_wstrdup( TranslateW( odp->ptszTab ));
+		else {
+			dst->ptszTab = LangPackPcharToTchar( odp->pszTab );
+			dst->flags |= ODPF_UNICODE;
+		}
 	}
 
 	if (( DWORD_PTR )odp->pszTemplate & 0xFFFF0000 )

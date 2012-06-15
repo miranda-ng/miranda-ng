@@ -692,16 +692,12 @@ static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 			ti.rcItem.bottom = pt.y + 10;
 			ti.cbSize = sizeof( ti );
 			ti.isTreeFocused = GetFocus() == cli.hwndContactList ? 1 : 0;
-			#if defined( _UNICODE )
-	        if (CallService( "mToolTip/ShowTipW", (WPARAM)szTipCur, (LPARAM)&ti ) == CALLSERVICE_NOTFOUND)
+			if (CallService( "mToolTip/ShowTipW", (WPARAM)szTipCur, (LPARAM)&ti ) == CALLSERVICE_NOTFOUND)
 			{	
 				char* p = mir_u2a( szTipCur );
 	        	CallService( "mToolTip/ShowTip", (WPARAM)p, (LPARAM)&ti );
 				mir_free( p );
 			}
-			#else
-	        	CallService( "mToolTip/ShowTip", (WPARAM)szTipCur, (LPARAM)&ti );
-			#endif
 			GetCursorPos( &tray_hover_pos );
 			SetTimer( cli.hwndContactList, TIMERID_TRAYHOVER_2, 600, TrayHideToolTipTimerProc );
 			g_trayTooltipActive = TRUE;
@@ -884,7 +880,6 @@ int fnCListTrayNotify( MIRANDASYSTRAYNOTIFY* msn )
 	}
 	else iconId = cli.trayIcon[0].id;
 
-#if defined(_UNICODE)
 	if ( msn->dwInfoFlags & NIIF_INTERN_UNICODE ) {
 		NOTIFYICONDATAW nid = {0};
 		nid.cbSize = ( cli.shellVersion >= 5 ) ? sizeof(nid) : NOTIFYICONDATAW_V1_SIZE;
@@ -900,7 +895,7 @@ int fnCListTrayNotify( MIRANDASYSTRAYNOTIFY* msn )
 		return Shell_NotifyIconW( NIM_MODIFY, &nid ) == 0;
 	}
 	else
-#endif
+
 	{
 		NOTIFYICONDATAA nid = { 0 };
 		nid.cbSize = ( cli.shellVersion >= 5 ) ? sizeof(nid) : NOTIFYICONDATAA_V1_SIZE;

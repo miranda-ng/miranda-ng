@@ -142,11 +142,9 @@ void GetContactReceivedFilesDir(HANDLE hContact, TCHAR *szDir, int cchDir, BOOL 
 	}
 
 	if ( !szTemp[0] )
-#ifdef _UNICODE
+
 		mir_sntprintf( szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), TranslateT("My Received Files"));
-#else
-		mir_sntprintf( szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s\\%%userid%%"), "My Received Files");
-#endif
+
 
 	if ( hContact ) {
 		REPLACEVARSDATA dat = { 0 };
@@ -193,11 +191,9 @@ void GetReceivedFilesDir(TCHAR *szDir, int cchDir)
 	}
 
 	if ( !szTemp[0] )
-#ifdef _UNICODE
+
 		mir_sntprintf( szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s"), TranslateT("My Received Files"));
-#else
-		mir_sntprintf( szTemp, SIZEOF(szTemp), _T("%%mydocuments%%\\%s"), "My Received Files");
-#endif
+
 
 	patchDir( szTemp, SIZEOF(szTemp));
 	RemoveInvalidPathChars(szTemp);

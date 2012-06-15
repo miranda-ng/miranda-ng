@@ -86,12 +86,8 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			{
 				if (szProto)
 				{
-					#if defined( _UNICODE )
-						bNeedsFree = TRUE;
-						lvc.pszText = mir_a2t((char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
-					#else
-						lvc.pszText = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
-					#endif
+					bNeedsFree = TRUE;
+					lvc.pszText = mir_a2t((char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
 				}
 				else
 					lvc.pszText = _T("ID");
@@ -100,10 +96,9 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
 			lvc.cx = DBGetContactSettingWord(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
-			#if defined( _UNICODE )
-				if (bNeedsFree)
+			
+			if (bNeedsFree)
 					mir_free(lvc.pszText);
-			#endif
 		}
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
 		columnOrder[i] = DBGetContactSettingByte(NULL, "FindAdd", szSetting, -1);

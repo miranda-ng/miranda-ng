@@ -129,12 +129,10 @@ static INT_PTR BmpFilterLoadBitmap(WPARAM, LPARAM lParam)
 	return sttBitmapLoader( StrConvT(( const char* )lParam ));
 }
 
-#if defined( _UNICODE )
 static INT_PTR BmpFilterLoadBitmapW(WPARAM, LPARAM lParam)
 {
 	return sttBitmapLoader(( const wchar_t* )lParam );
 }
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -183,7 +181,6 @@ static INT_PTR BmpFilterGetStrings(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#if defined( _UNICODE )
 static INT_PTR BmpFilterGetStringsW(WPARAM wParam, LPARAM lParam)
 {
 	int bytesLeft=wParam;
@@ -228,15 +225,12 @@ static INT_PTR BmpFilterGetStringsW(WPARAM wParam, LPARAM lParam)
 	if (bytesLeft) *pfilter='\0';
 	return 0;
 }
-#endif
 
 int InitBitmapFilter(void)
 {
 	CreateServiceFunction(MS_UTILS_LOADBITMAP, BmpFilterLoadBitmap);
 	CreateServiceFunction(MS_UTILS_GETBITMAPFILTERSTRINGS, BmpFilterGetStrings);
-	#if defined( _UNICODE )
-		CreateServiceFunction(MS_UTILS_GETBITMAPFILTERSTRINGSW, BmpFilterGetStringsW);
-		CreateServiceFunction(MS_UTILS_LOADBITMAPW, BmpFilterLoadBitmapW);
-	#endif
+	CreateServiceFunction(MS_UTILS_GETBITMAPFILTERSTRINGSW, BmpFilterGetStringsW);
+	CreateServiceFunction(MS_UTILS_LOADBITMAPW, BmpFilterLoadBitmapW);
 	return 0;
 }

@@ -70,14 +70,11 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE __cdecl FileAllow( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath )
 	{	CCSDATA ccs = { hContact, PSS_FILEALLOW, (WPARAM)hTransfer, (LPARAM)szPath };
-#ifdef _UNICODE
+
 		ccs.lParam = ( LPARAM )mir_t2a( szPath ); 
 		HANDLE res = ( HANDLE )MyCallProtoService( m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs );
 		mir_free(( char* )ccs.lParam );
 		return res;
-#else
-		return ( HANDLE )MyCallProtoService( m_szModuleName, PSS_FILEALLOW, 0, (LPARAM)&ccs );
-#endif
 	}
 
 	int __cdecl FileCancel( HANDLE hContact, HANDLE hTransfer )
@@ -87,27 +84,21 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	int __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason )
 	{	CCSDATA ccs = { hContact, PSS_FILEDENY, (WPARAM)hTransfer, (LPARAM)szReason };
-#ifdef _UNICODE
+
 		ccs.lParam = ( LPARAM )mir_t2a( szReason ); 
 		int res = ( int )MyCallProtoService( m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs );
 		mir_free(( char* )ccs.lParam );
 		return res;
-#else
-		return ( int )MyCallProtoService( m_szModuleName, PSS_FILEDENY, 0, (LPARAM)&ccs );
-#endif
 	}
 
 	int __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename )
 	{	PROTOFILERESUME pfr = { *action, *szFilename };
-#ifdef _UNICODE
+
 		pfr.szFilename = ( PROTOCHAR* )mir_t2a( pfr.szFilename );
 		int res = ( int )MyCallProtoService( m_szModuleName, PS_FILERESUME, ( WPARAM )hTransfer, ( LPARAM )&pfr);
 		mir_free(( PROTOCHAR* )*szFilename );
 		*action = pfr.action; *szFilename = (PROTOCHAR*)pfr.szFilename;
-#else
-		int res = ( int )MyCallProtoService( m_szModuleName, PS_FILERESUME, ( WPARAM )hTransfer, ( LPARAM )&pfr );
-		*action = pfr.action; *szFilename = (PROTOCHAR*)pfr.szFilename;
-#endif
+
 		return res;
 	}
 
@@ -134,7 +125,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE __cdecl SearchByName( const PROTOCHAR* nick, const PROTOCHAR* firstName, const PROTOCHAR* lastName )
 	{	PROTOSEARCHBYNAME psn;
-#ifdef _UNICODE
+
 		psn.pszNick = ( PROTOCHAR* )mir_t2a( nick );
 		psn.pszFirstName = ( PROTOCHAR* )mir_t2a( firstName );
 		psn.pszLastName = ( PROTOCHAR* )mir_t2a( lastName );
@@ -143,12 +134,7 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 		mir_free( psn.pszFirstName );
 		mir_free( psn.pszLastName );
 		return res;
-#else
-		psn.pszNick = ( char* )nick;
-		psn.pszFirstName = ( char* )firstName;
-		psn.pszLastName = ( char* )lastName;
-		return ( HANDLE )MyCallProtoService( m_szModuleName, PS_SEARCHBYNAME, 0, ( LPARAM )&psn );
-#endif
+
 	}
 
 	HWND __cdecl SearchAdvanced( HWND owner )
@@ -186,16 +172,13 @@ struct DEFAULT_PROTO_INTERFACE : public PROTO_INTERFACE
 
 	HANDLE __cdecl SendFile( HANDLE hContact, const PROTOCHAR* szDescription, PROTOCHAR** ppszFiles )
 	{	CCSDATA ccs = { hContact, PSS_FILE, (WPARAM)szDescription, (LPARAM)ppszFiles };
-#ifdef _UNICODE
+
 		ccs.wParam = ( WPARAM )mir_t2a( szDescription ); 
 		ccs.lParam = ( LPARAM )Proto_FilesMatrixA( ppszFiles );
 		HANDLE res = ( HANDLE )MyCallProtoService( m_szModuleName, PSS_FILE, 0, ( LPARAM )&ccs );
 		if ( res == 0 ) FreeFilesMatrix(( TCHAR*** )&ccs.lParam );
 		mir_free(( char* )ccs.wParam );
 		return res;
-#else
-		return ( HANDLE )MyCallProtoService( m_szModuleName, PSS_FILE, 0, (LPARAM)&ccs );
-#endif
 	}
 
 	int __cdecl SendMsg( HANDLE hContact, int flags, const char* msg )

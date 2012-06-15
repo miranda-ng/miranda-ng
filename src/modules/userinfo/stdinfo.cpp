@@ -139,7 +139,6 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 				break;
 			case DBVT_UTF8:
 				unspecified=(special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-				#if defined( _UNICODE )
 				if ( !unspecified )
 				{	WCHAR* wszStr;
 					Utf8Decode( dbv.pszVal, &wszStr );
@@ -147,7 +146,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 					mir_free( wszStr );
                goto LBL_Exit;
 				}
-				#endif
+				
 				pstr=dbv.pszVal;
 				Utf8Decode( dbv.pszVal, NULL );
 				break;
@@ -161,9 +160,9 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 	else
 		SetDlgItemTextA(hwndDlg, idCtrl, pstr);
 
-#if defined( _UNICODE )
+
 LBL_Exit:
-#endif
+
 	EnableWindow(GetDlgItem(hwndDlg, idCtrl), !unspecified);
 	if (proto_service)
 		Proto_FreeInfoVariant(&dbv);

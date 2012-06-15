@@ -132,14 +132,14 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	if ((DWORD_PTR)odp->pszTemplate&0xFFFF0000) dst->pszTemplate = mir_strdup(odp->pszTemplate);
 	else dst->pszTemplate = odp->pszTemplate;
 
-	#if defined(_UNICODE)
+	
 	if ( odp->flags & ODPF_UNICODE )
 	{
 		dst->ptszTitle = (odp->ptszTitle == 0) ? NULL : mir_wstrdup(odp->ptszTitle);
 		dst->ptszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->ptszTab) ? NULL : mir_wstrdup(odp->ptszTab);
 	}
 	else
-	#endif
+	
 	{
 		if ( odp->flags & ODPF_DONTTRANSLATE )
 			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : mir_a2t(odp->pszTitle);

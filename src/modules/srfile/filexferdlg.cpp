@@ -44,26 +44,16 @@ struct virusscanthreadstartinfo {
 
 TCHAR* PFTS_StringToTchar( int flags, const PROTOCHAR* s )
 {
-#ifdef  _UNICODE
 	if ( flags & PFTS_UTF )
 		return Utf8DecodeUcs2(( char* )s );
 	else if ( flags & PFTS_UNICODE )
 		return mir_tstrdup( s );
 	else
 		return mir_a2t(( char* )s );
-#else
-	if ( flags & PFTS_UTF ) {
-		char *szAnsi = mir_strdup(( char* )s );
-		return Utf8Decode(szAnsi, NULL);
-	}
-	else
-		return mir_strdup( s );
-#endif
 }
 
 int PFTS_CompareWithTchar( PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR* r )
 {
-#ifdef _UNICODE
 	if ( ft->flags & PFTS_UTF ) {
 		TCHAR* ts = Utf8DecodeUcs2(( char* )s );
 		int res = _tcscmp( ts, r );
@@ -78,14 +68,6 @@ int PFTS_CompareWithTchar( PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHA
 	  mir_free( ts );
 	  return res;
 	}
-#else
-	if ( ft->flags & PFTS_UTF ) {
-		char *ts = NEWSTR_ALLOCA(( char* )s );
-		return _tcscmp( Utf8Decode(( char* )ts, NULL), r );
-	}
-	else
-		return _tcscmp( s, r );
-#endif
 }
 
 static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
@@ -100,12 +82,8 @@ void FillSendData( FileDlgData* dat, DBEVENTINFO& dbei )
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(NULL);
-	#if defined( _UNICODE )
-		char *szFileNames = Utf8EncodeT(dat->szFilenames), *szMsg = Utf8EncodeT(dat->szMsg);
-		dbei.flags |= DBEF_UTF;
-	#else
-		char *szFileNames = dat->szFilenames, *szMsg = dat->szMsg;
-	#endif
+	char *szFileNames = Utf8EncodeT(dat->szFilenames), *szMsg = Utf8EncodeT(dat->szMsg);
+	dbei.flags |= DBEF_UTF;
 
 	dbei.cbBlob = sizeof(DWORD) + lstrlenA(szFileNames)+lstrlenA(szMsg)+2;
 	dbei.pBlob=(PBYTE)mir_alloc(dbei.cbBlob);
@@ -113,9 +91,8 @@ void FillSendData( FileDlgData* dat, DBEVENTINFO& dbei )
 	lstrcpyA((char*)dbei.pBlob+sizeof(DWORD), szFileNames);
 	lstrcpyA((char*)dbei.pBlob+sizeof(DWORD)+lstrlenA(szFileNames)+1, szMsg);
 
-	#if defined( _UNICODE )
-		mir_free( szFileNames ), mir_free( szMsg );
-	#endif
+	mir_free( szFileNames ), mir_free( szMsg );
+	
 }
 
 static void __cdecl RunVirusScannerThread(struct virusscanthreadstartinfo *info)

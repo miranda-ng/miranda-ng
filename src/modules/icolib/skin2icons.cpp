@@ -564,24 +564,13 @@ HANDLE IcoLib_AddNewIcon( SKINICONDESC* sid )
 	item->name = mir_strdup( sid->pszName );
 	if ( utf ) {
 		item->description = mir_u2t( sid->pwszDescription );
-		#ifdef _UNICODE
-			item->section = IcoLib_AddSection( sid->pwszSection, TRUE );
-		#else
-			char* pszSection = sid->pwszSection ? mir_u2a( sid->pwszSection ) : NULL;
-			item->section = IcoLib_AddSection( pszSection, TRUE );
-			SAFE_FREE(( void** )&pszSection );
-		#endif
+		item->section = IcoLib_AddSection( sid->pwszSection, TRUE );
 	}
 	else {
 		item->description = mir_a2t( sid->pszDescription );
-		#ifdef _UNICODE
-			WCHAR* pwszSection = sid->pszSection ? mir_a2u( sid->pszSection ) : NULL;
-
-			item->section = IcoLib_AddSection( pwszSection, TRUE );
-			SAFE_FREE(( void** )&pwszSection );
-		#else
-			item->section = IcoLib_AddSection( sid->pszSection, TRUE );
-		#endif
+		WCHAR* pwszSection = sid->pszSection ? mir_a2u( sid->pszSection ) : NULL;
+		item->section = IcoLib_AddSection( pwszSection, TRUE );
+		SAFE_FREE(( void** )&pwszSection );
 	}
 	if ( item->section ) {
 		item->section->ref_count++;
@@ -607,19 +596,11 @@ HANDLE IcoLib_AddNewIcon( SKINICONDESC* sid )
 			#endif
 		}
 		else {
-			#ifdef _UNICODE
-				WCHAR *file = mir_a2u( sid->pszDefaultFile );
-				WCHAR fileFull[ MAX_PATH ];
-
-				pathToAbsoluteW( file, fileFull, NULL );
-				SAFE_FREE(( void** )&file );
-				item->default_file = mir_wstrdup( fileFull );
-			#else
-				char fileFull[ MAX_PATH ];
-
-				pathToAbsolute( sid->pszDefaultFile, fileFull, NULL );
-				item->default_file = mir_strdup( fileFull );
-			#endif
+			WCHAR *file = mir_a2u( sid->pszDefaultFile );
+			WCHAR fileFull[ MAX_PATH ];
+			pathToAbsoluteW( file, fileFull, NULL );
+			SAFE_FREE(( void** )&file );
+			item->default_file = mir_wstrdup( fileFull );
 	}	}
 	item->default_indx = sid->iDefaultIndex;
 
