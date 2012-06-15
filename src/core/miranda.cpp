@@ -88,7 +88,7 @@ static DWORD MsgWaitForMultipleObjectsExWorkaround(DWORD nCount, const HANDLE *p
 	DWORD dwMsecs, DWORD dwWakeMask, DWORD dwFlags);
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
-static HANDLE hShutdownEvent, hPreShutdownEvent;
+HANDLE hShutdownEvent, hPreShutdownEvent;
 static HANDLE hWaitObjects[MAXIMUM_WAIT_OBJECTS-1];
 static char *pszWaitServices[MAXIMUM_WAIT_OBJECTS-1];
 static int waitObjectCount = 0;

@@ -113,7 +113,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "&Yes", IDYES, 58, 38, 65, 14
     DEFPUSHBUTTON   "&No", IDNO, 172, 38, 65, 14
-    CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings", IDC_HIDE, 
+    CONTROL         "Hide from list only, in order to keep their history and ignore/visibility settings", IDC_HIDE,
                     "Button", BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP, 7, 65, 270, 9
     LTEXT           "Use Options->Ignore (expert mode) to unhide contacts.", IDC_STATIC, 20, 78, 257, 8
     CONTROL         "Are you sure you want to delete %s?", IDC_TOPLINE, "Static", SS_SIMPLE | SS_NOPREFIX | WS_GROUP, 7, 7, 270, 8
@@ -175,7 +175,7 @@ BEGIN
     PUSHBUTTON      "Add to list", IDC_ADD, 354, 225, 68, 14, WS_DISABLED
     CONTROL         "", IDC_STATUSBAR, "msctls_statusbar32", WS_TABSTOP | 0x100, 0, 244, 427, 10
     CONTROL         "Custom", IDC_BYCUSTOM, "Button", BS_AUTORADIOBUTTON, 11, 190, 89, 10
-    CONTROL         "Find/Add Contacts\nHere you can add contacts to your contact list", IDC_HEADERBAR, 
+    CONTROL         "Find/Add Contacts\nHere you can add contacts to your contact list", IDC_HEADERBAR,
                     "MHeaderbarCtrl", 0x0, 0, 0, 427, 25
 END
 
@@ -186,7 +186,7 @@ CAPTION "Options"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_KEYWORD_FILTER, 336, 6, 88, 79, CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Options\nConfigure your Miranda Instant Messenger options", IDC_HEADERBAR, 
+    CONTROL         "Options\nConfigure your Miranda Instant Messenger options", IDC_HEADERBAR,
                     "MHeaderbarCtrl", 0x0, 0, 0, 428, 25
     DEFPUSHBUTTON   "OK", IDOK, 265, 283, 50, 14
     PUSHBUTTON      "Cancel", IDCANCEL, 319, 283, 50, 14
@@ -204,7 +204,7 @@ CAPTION "Options"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     COMBOBOX        IDC_KEYWORD_FILTER, 336, 37, 88, 79, CBS_DROPDOWN | CBS_SORT | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Options\nConfigure your Miranda Instant Messenger options", IDC_HEADERBAR, 
+    CONTROL         "Options\nConfigure your Miranda Instant Messenger options", IDC_HEADERBAR,
                     "MHeaderbarCtrl", 0x0, 0, 0, 325, 25
     DEFPUSHBUTTON   "OK", IDOK, 158, 283, 50, 14
     PUSHBUTTON      "Cancel", IDCANCEL, 212, 283, 50, 14
@@ -242,7 +242,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 CAPTION "%s: User Details"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "%s\nView personal user details and more", IDC_HEADERBAR, 
+    CONTROL         "%s\nView personal user details and more", IDC_HEADERBAR,
                     "MHeaderbarCtrl", 0x0, 0, 0, 318, 25
     CONTROL         "", IDC_PAGETREE, "SysTreeView32", TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_NOTOOLTIPS | TVS_TRACKSELECT | TVS_FULLROWSELECT | TVS_NONEVENHEIGHT | WS_HSCROLL | WS_TABSTOP, 3, 30, 76, 176, WS_EX_STATICEDGE
     CONTROL         "Tab1", IDC_TABS, "SysTabControl32", TCS_HOTTRACK | TCS_MULTILINE | WS_TABSTOP, 85, 29, 228, 158
@@ -421,7 +421,7 @@ BEGIN
     CONTROL         "", IDC_NEWVALUE, "Static", SS_SIMPLE | SS_NOPREFIX | WS_GROUP, 12, 51, 170, 8
     LTEXT           "", IDC_SECURITYINFO, 5, 60, 177, 8
     LTEXT           "Do you want to allow this change?", IDC_STATIC, 5, 71, 177, 8
-    CONTROL         "&Allow all further changes to this section", IDC_WARNNOMORE, 
+    CONTROL         "&Allow all further changes to this section", IDC_WARNNOMORE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 13, 80, 169, 10
     DEFPUSHBUTTON   "&Yes", IDYES, 5, 94, 50, 14
     PUSHBUTTON      "&No", IDNO, 59, 94, 50, 14
@@ -454,7 +454,7 @@ BEGIN
     CONTROL         "Tree1", IDC_FILTER, "SysTreeView32", TVS_DISABLEDRAGDROP | TVS_NOTOOLTIPS | TVS_NONEVENHEIGHT | WS_BORDER | WS_HSCROLL | WS_TABSTOP, 14, 13, 160, 81
     CONTROL         "Received bytes", IDC_DUMPRECV, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 181, 13, 122, 10
     CONTROL         "Sent bytes", IDC_DUMPSENT, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 181, 26, 122, 10
-    CONTROL         "Additional data due to proxy communication", IDC_DUMPPROXY, 
+    CONTROL         "Additional data due to proxy communication", IDC_DUMPPROXY,
                     "Button", BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP, 181, 39, 122, 18
     CONTROL         "Text dumps where available", IDC_TEXTDUMPS, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 181, 69, 122, 10
     CONTROL         "Auto-detect text", IDC_AUTODETECTTEXT, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 181, 83, 122, 10
@@ -470,7 +470,7 @@ BEGIN
     EDITTEXT        IDC_RUNATSTART, 14, 200, 203, 12, ES_AUTOHSCROLL
     PUSHBUTTON      "...", IDC_RUNATSTARTBROWSE, 220, 200, 15, 12
     PUSHBUTTON      "Run now", IDC_RUNNOW, 241, 200, 60, 12
-    CONTROL         "Show this dialog box when Miranda IM starts", IDC_SHOWTHISDLGATSTART, 
+    CONTROL         "Show this dialog box when Miranda IM starts", IDC_SHOWTHISDLGATSTART,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 14, 226, 294, 10
     PUSHBUTTON      "Save as default", IDC_SAVE, 6, 241, 79, 14
     DEFPUSHBUTTON   "Ok", IDOK, 173, 241, 54, 14
@@ -554,7 +554,7 @@ BEGIN
     CONTROL         "", IDC_ALLFILESPROGRESS, "msctls_progress32", PBS_SMOOTH | NOT WS_VISIBLE | WS_DISABLED, 25, 16, 190, 12
     CONTROL         "", IDC_STATUS, "Static", SS_LEFTNOWORDWRAP | SS_NOPREFIX | WS_GROUP, 25, 17, 190, 10
     ICON            "", IDC_FILEICON, 25, 15, 16, 14, SS_CENTERIMAGE | SS_REALSIZEIMAGE
-    CONTROL         "Transfer completed, open file(s).", IDC_TRANSFERCOMPLETED, 
+    CONTROL         "Transfer completed, open file(s).", IDC_TRANSFERCOMPLETED,
                     "Hyperlink", NOT WS_VISIBLE | WS_TABSTOP, 42, 17, 173, 10
     LTEXT           "No data transferred", IDC_ALLTRANSFERRED, 25, 29, 226, 14, SS_NOPREFIX | SS_CENTERIMAGE
     RTEXT           "", IDC_ALLSPEED, 25, 29, 226, 14, SS_NOPREFIX | SS_CENTERIMAGE
@@ -736,11 +736,11 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Status Messages", IDC_STATIC, 4, 5, 255, 142
     COMBOBOX        IDC_STATUS, 12, 19, 240, 97, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Do not reply to requests for this message", IDC_DONTREPLY, 
+    CONTROL         "Do not reply to requests for this message", IDC_DONTREPLY,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 37, 227, 10
-    CONTROL         "Do not pop up dialog asking for new message", IDC_NODIALOG, 
+    CONTROL         "Do not pop up dialog asking for new message", IDC_NODIALOG,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 24, 50, 227, 10
-    CONTROL         "By default, use the same message as last time", IDC_USEPREVIOUS, 
+    CONTROL         "By default, use the same message as last time", IDC_USEPREVIOUS,
                     "Button", BS_AUTORADIOBUTTON, 23, 65, 227, 10
     CONTROL         "By default, use this message:", IDC_USESPECIFIC, "Button", BS_AUTORADIOBUTTON, 23, 78, 227, 10
     EDITTEXT        IDC_MSG, 33, 91, 219, 38, ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
@@ -783,7 +783,7 @@ BEGIN
     LTEXT           "Port:", IDC_STATIC23, 177, 58, 35, 8, WS_DISABLED
     EDITTEXT        IDC_PROXYPORT, 213, 56, 35, 12, ES_AUTOHSCROLL | ES_NUMBER | WS_DISABLED
     LTEXT           "(often %d)", IDC_STOFTENPORT, 258, 57, 48, 8, WS_DISABLED
-    CONTROL         "Use Custom Login (Domain login picked up automatically)", IDC_PROXYAUTH, 
+    CONTROL         "Use Custom Login (Domain login picked up automatically)", IDC_PROXYAUTH,
                     "Button", BS_3STATE | WS_DISABLED | WS_TABSTOP, 20, 80, 286, 10
     LTEXT           "Username:", IDC_STATIC31, 32, 94, 47, 8, WS_DISABLED
     EDITTEXT        IDC_PROXYUSER, 80, 92, 86, 12, ES_AUTOHSCROLL | WS_DISABLED
@@ -812,25 +812,25 @@ BEGIN
     EDITTEXT        IDC_FILEDIR, 92, 13, 190, 12, ES_AUTOHSCROLL
     PUSHBUTTON      "...", IDC_FILEDIRBROWSE, 287, 14, 15, 11
     LTEXT           "Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%", IDC_STATIC, 8, 27, 294, 11, WS_DISABLED
-    CONTROL         "Auto-accept incoming files from people on my contact list", IDC_AUTOACCEPT, 
+    CONTROL         "Auto-accept incoming files from people on my contact list", IDC_AUTOACCEPT,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 8, 39, 294, 10
     CONTROL         "Minimize the file transfer window", IDC_AUTOMIN, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 17, 52, 285, 10
-    CONTROL         "Close window when transfer completes", IDC_AUTOCLOSE, 
+    CONTROL         "Close window when transfer completes", IDC_AUTOCLOSE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 8, 65, 294, 10
-    CONTROL         "Clear completed transfers on window closing", IDC_AUTOCLEAR, 
+    CONTROL         "Clear completed transfers on window closing", IDC_AUTOCLEAR,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 8, 76, 294, 10
     GROUPBOX        "Virus scanner", IDC_VIRUSSCANNERGROUP, 0, 90, 313, 93
     LTEXT           "Scan files:", IDC_STATIC, 8, 102, 43, 9, SS_CENTERIMAGE
     CONTROL         "Never, do not use virus scanning", IDC_NOSCANNER, "Button", BS_AUTORADIOBUTTON, 52, 102, 250, 10
-    CONTROL         "When all files have been downloaded", IDC_SCANAFTERDL, 
+    CONTROL         "When all files have been downloaded", IDC_SCANAFTERDL,
                     "Button", BS_AUTORADIOBUTTON, 52, 114, 250, 10
-    CONTROL         "As each file finishes downloading", IDC_SCANDURINGDL, 
+    CONTROL         "As each file finishes downloading", IDC_SCANDURINGDL,
                     "Button", BS_AUTORADIOBUTTON, 52, 126, 250, 10
     LTEXT           "Command line:", IDC_ST_CMDLINE, 7, 142, 62, 8
     COMBOBOX        IDC_SCANCMDLINE, 70, 141, 213, 71, CBS_DROPDOWN | CBS_AUTOHSCROLL | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "...", IDC_SCANCMDLINEBROWSE, 287, 142, 15, 11
     LTEXT           "%f will be replaced by the file or folder name to be scanned", IDC_ST_CMDLINEHELP, 70, 155, 232, 8
-    CONTROL         "Warn me before opening a file that has not been scanned", IDC_WARNBEFOREOPENING, 
+    CONTROL         "Warn me before opening a file that has not been scanned", IDC_WARNBEFOREOPENING,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 8, 168, 294, 10
     GROUPBOX        "If incoming files already exist", IDC_STATIC, 0, 187, 313, 41
     CONTROL         "Ask me", IDC_ASK, "Button", BS_AUTORADIOBUTTON, 8, 200, 73, 10
@@ -845,28 +845,28 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_BORDER
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Become idle if the following is left unattended:", IDC_IDLESHORT, 
+    CONTROL         "Become idle if the following is left unattended:", IDC_IDLESHORT,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 18, 259, 9
     CONTROL         "Windows", IDC_IDLEONWINDOWS, "Button", BS_AUTORADIOBUTTON, 45, 31, 104, 9
     CONTROL         "Miranda", IDC_IDLEONMIRANDA, "Button", BS_AUTORADIOBUTTON, 45, 43, 103, 9
     EDITTEXT        IDC_IDLE1STTIME, 59, 59, 27, 14, ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin2", IDC_IDLESPIN, "msctls_updown32", UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK, 71, 55, 12, 23
-    CONTROL         "Become idle if the screen saver is active", IDC_SCREENSAVER, 
+    CONTROL         "Become idle if the screen saver is active", IDC_SCREENSAVER,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 83, 265, 9
-    CONTROL         "Become idle if the computer is locked (2000/XP+ only)", IDC_LOCKED, 
+    CONTROL         "Become idle if the computer is locked (2000/XP+ only)", IDC_LOCKED,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 105, 265, 9
-    CONTROL         "Become idle if a terminal session is disconnected", IDC_IDLETERMINAL, 
+    CONTROL         "Become idle if a terminal session is disconnected", IDC_IDLETERMINAL,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 116, 265, 10
-    CONTROL         "Do not let protocols report any idle information", IDC_IDLEPRIVATE, 
+    CONTROL         "Do not let protocols report any idle information", IDC_IDLEPRIVATE,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 131, 251, 9
     LTEXT           "minute(s)", IDC_STATIC, 91, 61, 76, 9
     RTEXT           "for", IDC_STATIC, 12, 59, 41, 9
     COMBOBOX        IDC_AASTATUS, 161, 146, 64, 50, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Change my status mode to:", IDC_AASHORTIDLE, "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 147, 132, 11
-    CONTROL         "Do not set status back to online when returning from idle", IDC_IDLESTATUSLOCK, 
+    CONTROL         "Do not set status back to online when returning from idle", IDC_IDLESTATUSLOCK,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 35, 164, 254, 10
     GROUPBOX        "Idle Options", IDC_STATIC, 3, 3, 304, 182
-    CONTROL         "Become idle if application full screen", IDC_FULLSCREEN, 
+    CONTROL         "Become idle if application full screen", IDC_FULLSCREEN,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 25, 94, 265, 9
 END
 
@@ -1050,7 +1050,7 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Update Notification Options", IDC_STATIC, 2, 0, 265, 94
-    CONTROL         "Automatically check for new versions of Miranda IM", IDC_ENABLEUPDATES, 
+    CONTROL         "Automatically check for new versions of Miranda IM", IDC_ENABLEUPDATES,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 11, 13, 237, 10
     LTEXT           "Check for updates for the following:", IDC_STATIC, 12, 32, 230, 8
     CONTROL         "Stable releases", IDC_ENABLESTABLE, "Button", BS_AUTORADIOBUTTON | WS_TABSTOP, 25, 46, 230, 10
@@ -1092,7 +1092,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTI
 CAPTION "Accounts"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Accounts\nConfigure your IM accounts", IDC_HEADERBAR, 
+    CONTROL         "Accounts\nConfigure your IM accounts", IDC_HEADERBAR,
                     "MHeaderbarCtrl", 0x0, 0, 0, 350, 25
     LISTBOX         IDC_ACCLIST, 7, 32, 130, 187, LBS_SORT | LBS_OWNERDRAWVARIABLE | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Account information:", IDC_TXT_ACCOUNT, 142, 32, 201, 8
@@ -1142,7 +1142,7 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Enable keyword search in options dialog", IDC_ENABLE_KEYWORDFILTERING, 
+    CONTROL         "Enable keyword search in options dialog", IDC_ENABLE_KEYWORDFILTERING,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 4, 4, 243, 10
     LTEXT           "If this option is checked it allows you to search for option pages that contain the search string or plugin name.", IDC_STATIC, 4, 20, 243, 49, NOT WS_GROUP
 END
@@ -1226,11 +1226,11 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     COMBOBOX        IDC_STATUS, 2, 54, 16, 97, CBS_DROPDOWNLIST | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Do not reply to requests for this message", IDC_DONTREPLY, 
+    CONTROL         "Do not reply to requests for this message", IDC_DONTREPLY,
                     "Button", BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP, 0, 33, 10, 10
-    CONTROL         "Do not pop up dialog asking for new message", IDC_NODIALOG, 
+    CONTROL         "Do not pop up dialog asking for new message", IDC_NODIALOG,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 105, 93, 264, 10
-    CONTROL         "By default, use the same message as last time", IDC_USEPREVIOUS, 
+    CONTROL         "By default, use the same message as last time", IDC_USEPREVIOUS,
                     "Button", BS_AUTORADIOBUTTON, 105, 13, 227, 10
     CONTROL         "By default, use this message:", IDC_USESPECIFIC, "Button", BS_AUTORADIOBUTTON, 105, 26, 227, 10
     EDITTEXT        IDC_MSG, 125, 39, 244, 38, ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
@@ -1244,24 +1244,24 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Become idle if computer is left unattended for:", IDC_IDLESHORT, 
+    CONTROL         "Become idle if computer is left unattended for:", IDC_IDLESHORT,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 13, 171, 9
     CONTROL         "Windows", IDC_IDLEONWINDOWS, "Button", BS_AUTORADIOBUTTON | NOT WS_VISIBLE, 325, 25, 26, 9
     CONTROL         "Miranda", IDC_IDLEONMIRANDA, "Button", BS_AUTORADIOBUTTON | NOT WS_VISIBLE, 287, 37, 15, 9
     EDITTEXT        IDC_IDLE1STTIME, 181, 11, 27, 12, ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "", IDC_IDLESPIN, "msctls_updown32", UDS_WRAP | UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK, 193, 7, 11, 23
-    CONTROL         "Become idle if the screen saver is active", IDC_SCREENSAVER, 
+    CONTROL         "Become idle if the screen saver is active", IDC_SCREENSAVER,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 25, 268, 9
-    CONTROL         "Become idle if the computer is locked (2000/XP+ only)", IDC_LOCKED, 
+    CONTROL         "Become idle if the computer is locked (2000/XP+ only)", IDC_LOCKED,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 37, 249, 9
-    CONTROL         "Become idle if a terminal session is disconnected", IDC_IDLETERMINAL, 
+    CONTROL         "Become idle if a terminal session is disconnected", IDC_IDLETERMINAL,
                     "Button", BS_AUTOCHECKBOX | WS_TABSTOP, 10, 49, 265, 10
-    CONTROL         "Do not let protocols report any idle information", IDC_IDLEPRIVATE, 
+    CONTROL         "Do not let protocols report any idle information", IDC_IDLEPRIVATE,
                     "Button", BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP, 303, 13, 22, 9
     LTEXT           "minute(s)", IDC_STATIC, 213, 13, 76, 9, SS_CENTERIMAGE
     COMBOBOX        IDC_AASTATUS, 325, 46, 23, 50, CBS_DROPDOWNLIST | NOT WS_VISIBLE | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Change my status mode to:", IDC_AASHORTIDLE, "Button", BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP, 334, 11, 23, 11
-    CONTROL         "Do not set status back to online when returning from idle", IDC_IDLESTATUSLOCK, 
+    CONTROL         "Do not set status back to online when returning from idle", IDC_IDLESTATUSLOCK,
                     "Button", BS_AUTOCHECKBOX | NOT WS_VISIBLE | WS_TABSTOP, 299, 24, 16, 10
     LTEXT           "Idle (auto-away):", IDC_TXT_TITLE1, 0, 0, 246, 8
 END
@@ -1914,7 +1914,9 @@ IDI_TICK                ICON                    "res/check_on.ico"
 IDI_UNICODE             ICON                    "res/icon_unicode.ico"
 IDI_ANSI                ICON                    "res/icon_ansi.ico"
 IDI_LOADED              ICON                    "res/icon_loaded.ico"
+IDI_LOADED_GRAY         ICON                    "res/icon_loaded_gray.ico"
 IDI_NOTLOADED           ICON                    "res/icon_notloaded.ico"
+IDI_NOTLOADED_GRAY      ICON                    "res/icon_notloaded_gray.ico"
 IDI_BLANK               ICON                    "res/_blank.ico"
 IDI_UNDO                ICON                    "res/icon_undo.ico"
 IDI_WINDOW              ICON                    "res/icon_window.ico"

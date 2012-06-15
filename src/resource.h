@@ -18,6 +18,8 @@
 #define IDD_OPT_ICOLIB                  110
 #define IDD_ICOLIB_IMPORT               111
 #define IDD_MODERNOPT_FONTS             112
+#define IDI_LOADED_GRAY                 113
+#define IDI_NOTLOADED_GRAY              114
 #define IDD_ADDED                       115
 #define IDD_URLSEND                     119
 #define IDD_URLRECV                     120
@@ -517,7 +519,7 @@
 #define POPUP_DELETEGROUP               40053
 
 // Next default values for new objects
-// 
+//
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        323

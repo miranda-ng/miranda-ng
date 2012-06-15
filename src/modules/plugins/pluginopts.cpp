@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "plugins.h"
 
+extern HANDLE hShutdownEvent, hPreShutdownEvent;
 static HANDLE hevLoadModule, hevUnloadModule;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +59,8 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 		return TRUE;
 
 	int isdb = pi.pluginInfo->replacesDefaultModule == DEFMOD_DB;
+	int isclist = pi.pluginInfo->replacesDefaultModule == DEFMOD_CLISTALL;
+
 	PluginListItemData* dat = (PluginListItemData*)mir_alloc( sizeof( PluginListItemData ));
 	dat->hInst = hInst;
 	_tcsncpy(dat->fileName, fd->cFileName, SIZEOF(dat->fileName));
@@ -76,6 +79,8 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA* fd, TCHAR* path, WPARAM, LPARAM l
 		it.iItem = iRow;
 		it.iSubItem = 1;
 		it.iImage = ( hInst != NULL ) ? 2 : 3;
+		if (isdb || isclist)
+			it.iImage += 2;
 		ListView_SetItem( hwndList, &it );
 
 		ListView_SetItemText(hwndList, iRow, 2, fd->cFileName);
@@ -181,6 +186,9 @@ static int UnloadPluginDynamically(PluginListItemData* dat)
 
 	CallHookSubscribers(hevUnloadModule, (WPARAM)pPlug->bpi.InfoEx, 0);
 
+	CallPluginEventHook(pPlug->bpi.hInst, hPreShutdownEvent, 0, 0);
+	CallPluginEventHook(pPlug->bpi.hInst, hShutdownEvent, 0, 0);
+
 	dat->hInst = NULL;
 	Plugin_Uninit(pPlug, true);
 	return TRUE;
@@ -194,20 +202,21 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		ListView_SubItemHitTest(hwnd, &hi);
 		if ( hi.iSubItem == 1 ) {
 			LVITEM lvi;
-			lvi.mask = LVIF_PARAM;
+			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
+			lvi.stateMask = -1;
 			lvi.iItem = hi.iItem;
 			if ( ListView_GetItem( hwnd, &lvi )) {
 				lvi.iSubItem = 1;
 				lvi.mask = LVIF_IMAGE;
 
 				PluginListItemData* dat = ( PluginListItemData* )lvi.lParam;
-				if (dat->hInst == NULL) {
+				if (lvi.iImage == 3) {
 					if ( LoadPluginDynamically(dat)) {
 						lvi.iImage = 2;
 						ListView_SetItem(hwnd, &lvi);
 					}
 				}
-				else {
+				else if (lvi.iImage == 2) {
 					if ( UnloadPluginDynamically(dat)) {
 						lvi.iImage = 3;
 						ListView_SetItem(hwnd, &lvi);
@@ -228,11 +237,13 @@ INT_PTR CALLBACK DlgPluginOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			SetWindowLongPtr(hwndList, GWLP_WNDPROC, (LONG_PTR)PluginListWndProc);
 
 			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 4, 0);
-			ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_UNICODE );
-			ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_ANSI );
-			ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_LOADED );
-			ImageList_AddIcon_IconLibLoaded( hIml, SKINICON_OTHER_NOTLOADED );
-			ListView_SetImageList( hwndList, hIml, LVSIL_SMALL );
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNICODE);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ANSI);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_LOADED);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_NOTLOADED);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_LOADEDGRAY);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_NOTLOADEDGRAY);
+			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
 
 			LVCOLUMN col;
 			col.mask = LVCF_TEXT | LVCF_WIDTH;
