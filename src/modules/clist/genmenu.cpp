@@ -789,9 +789,10 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 			int needSeparator = (p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL);
 			if ( needSeparator) {
 				//but might be supposed to be after the next one instead
-				mii.fType = 0;
+				memset(&mii, 0, sizeof(mii));
+				mii.cbSize = MENUITEMINFO_V4_SIZE;
 				if ( uItem < GetMenuItemCount( hMenu )) {
-					mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
+					mii.fMask = MIIM_TYPE;
 					GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
 				}
 				if ( mii.fType != MFT_SEPARATOR) {
@@ -804,8 +805,7 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 
 	//check for separator after
 	if ( uItem < GetMenuItemCount( hMenu )) {
-		mii.fMask = MIIM_SUBMENU | MIIM_DATA | MIIM_TYPE;
-		mii.cch = 0;
+		mii.fMask = MIIM_TYPE;
 		GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
 		PMO_IntMenuItem p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
 		if ( p != NULL && mii.fType == MFT_SEPARATOR ) {
