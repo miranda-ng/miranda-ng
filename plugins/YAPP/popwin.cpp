@@ -767,11 +767,9 @@ void InitWindowStack() {
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
 		MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
 		MyMonitorFromRect=(HMONITOR (WINAPI*)(LPCRECT,DWORD))GetProcAddress(hUserDll, "MonitorFromRect");
-		#if defined( _UNICODE )
+		
 			MyGetMonitorInfo=(BOOL (WINAPI*)(HMONITOR,LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
-		#else
-			MyGetMonitorInfo=(BOOL (WINAPI*)(HMONITOR,LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoA");
-		#endif
+		
 	}
 }
 

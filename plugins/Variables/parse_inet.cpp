@@ -29,11 +29,9 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	res = u2a(ai->targv[1]);
-#else
-	res = _strdup(ai->argv[1]);
-#endif
+
 	if (res == NULL) {
 		return NULL;
 	}

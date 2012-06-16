@@ -69,7 +69,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 
 int ReloadFont(WPARAM wParam, LPARAM lParam) 
 {
-#ifdef _UNICODE
+
 	if(ServiceExists(MS_FONT_GETW)) {
 		LOGFONTW log_font;
 		if(hFontFirstLine) DeleteObject(hFontFirstLine);
@@ -87,7 +87,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 		colSidebar = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_sidebarw, 0);
 		colTitleUnderline = CallService(MS_COLOUR_GETW, (WPARAM)&colour_id_titleunderlinew, 0);
 	} else
-#endif
+
 	{
 		LOGFONTA log_font;
 		if(hFontFirstLine) DeleteObject(hFontFirstLine);
@@ -148,7 +148,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 	}
 
-#ifdef _UNICODE
+
 	if(ServiceExists(MS_FONT_REGISTERW)) 
 	{
 		font_id_firstlinew.cbSize = sizeof(FontIDW);
@@ -221,7 +221,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		hEventReloadFont = HookEvent(ME_FONT_RELOAD, ReloadFont);
 	} 
 	else 
-#endif
+
 		if(ServiceExists(MS_FONT_REGISTER)) 
 	{
 		font_id_firstline.cbSize = sizeof(FontID);

@@ -48,18 +48,14 @@ extern HANDLE DecodeFile;
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
-	#ifndef UNICODE
-#define ReadStringFromMemoryW	ReadStringFromMemory
-	#else
+	
 DWORD ReadStringFromMemoryW(char **Parser,TCHAR *End,char **StoreTo,TCHAR *DebugString);
-	#endif
+	
 #else
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo);
-	#ifndef UNICODE
-#define ReadStringFromMemoryW	ReadStringFromMemory
-	#else
+	
 DWORD ReadStringFromMemoryW(WCHAR **Parser,WCHAR *End,WCHAR **StoreTo);
-	#endif
+	
 #endif
 
 //#ifdef DEBUG_ACCOUNTS

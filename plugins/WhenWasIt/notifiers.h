@@ -21,13 +21,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_WWI_NOTIFIERS_H
 #define M_WWI_NOTIFIERS_H
 
-#ifdef _UNICODE
+
 #define POPUPDATAT POPUPDATAW
 #define PUAddPopUpT PUAddPopUpW
-#else
-#define POPUPDATAT POPUPDATAEX
-#define PUAddPopUpT PUAddPopUpEx
-#endif
+
 
 #define BIRTHDAY_TODAY_SOUND "WWIBirthdayToday"
 #define BIRTHDAY_NEAR_SOUND "WWIBirthdayNear"

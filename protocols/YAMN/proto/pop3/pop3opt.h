@@ -33,10 +33,8 @@ int POP3OptInit(WPARAM wParam,LPARAM lParam);
 BOOL DlgSetItemText(HWND hDlg,WPARAM wParam,const char*);
 BOOL DlgSetItemTextW(HWND hDlg,WPARAM wParam,const WCHAR*);
 
-#if defined( _UNICODE )
-	#define DlgSetItemTextT DlgSetItemTextW
-#else
-	#define DlgSetItemTextT DlgSetItemText
-#endif
+
+#define DlgSetItemTextT DlgSetItemTextW
+
 
 #endif

@@ -30,15 +30,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define REFRESH_DETAILS_DELAY 3000
 
-#ifdef _UNICODE
+
 #define BIRTHDAY_EXTENSION ".bdaysW"
 #define BIRTHDAYS_EXPORT_FORMAT "%s@%S : %02d/%02d/%04d\n"
 #define NOTFOUND_FORMAT "Could not find UID '%s [%S]' in current database, skipping"
-#else
-#define BIRTHDAY_EXTENSION ".bdays"
-#define BIRTHDAYS_EXPORT_FORMAT "%s@%s : %02d/%02d/%04d\n"
-#define NOTFOUND_FORMAT "Could not find UID '%s [%s]' in current database, skipping"
-#endif
+
 
 extern int bShouldCheckBirthdays;
 extern int bBirthdayFound;

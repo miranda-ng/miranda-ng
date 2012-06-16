@@ -28,11 +28,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define HOST "http://eblis.tla.ro/projects"
 
-#ifdef _UNICODE
-	#define WHENWASIT_DATA "WhenWasIt%20unicode"
-#else
-	#define WHENWASIT_DATA "WhenWasIt"
-#endif
+
+#define WHENWASIT_DATA "WhenWasIt%20unicode"
+
 
 #if defined(WIN64) || defined(_WIN64)
 #define WHENWASIT_VERSION_URL HOST "/miranda/WhenWasIt/updater/x64/WhenWasIt.html"

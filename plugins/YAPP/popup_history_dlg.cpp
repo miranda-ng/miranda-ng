@@ -336,14 +336,11 @@ IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 	{
 		eventData->cbSize = sizeof(IEVIEWEVENTDATA);
 		eventData->iType = IEED_EVENT_MESSAGE;
-#ifdef UNICODE
+
 		eventData->dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT | IEEDF_UNICODE_TEXT2;
 		eventData->pszNickW = popupItem->titleT;
 		eventData->pszTextW = popupItem->messageT;
-#else
-		eventData->pszNick = popupItem->titleT;
-		eventData->pszText = popupItem->messageT;
-#endif
+
 		eventData->time = (DWORD) popupItem->timestamp;
 		eventData->next = NULL;
 	}
@@ -479,11 +476,9 @@ void CopyPopupDataToClipboard(HWND hList, int selection)
 			int found = 0;
 			int count = ListView_GetItemCount(hList);
 			int textType;
-#ifdef _UNICODE
+
 			textType = CF_UNICODETEXT;
-#else
-			textType = CF_TEXT;
-#endif
+
 			
 			for (i = 0; i < count; i++)
 			{

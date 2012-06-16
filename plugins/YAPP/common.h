@@ -25,9 +25,6 @@
 #define _WIN32_IE 0x0600	// Change this to the appropriate value to target other versions of IE.
 #endif
 
-#if defined( UNICODE ) && !defined( _UNICODE )
-#define _UNICODE
-#endif
 
 #include <m_stdhdr.h>
 
@@ -108,11 +105,8 @@ typedef struct {
 } PopupData;
 
 #define PDF_UNICODE		0x0001
-#ifdef _UNICODE
+
 #define PDF_TCHAR		PDF_UNICODE
-#else
-#define PDF_TCHAR		0
-#endif
 
 // windowProc messages
 #define PM_INIT			(WM_USER + 0x0202)				// message sent to your windowProc after the window has been initialized

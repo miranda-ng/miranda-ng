@@ -524,11 +524,9 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 							case DOB_PROTOCOL:
 								{
 									DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_PROTOCOL);
-#ifdef _UNICODE
+
 									_stprintf(buffer, TranslateT("%S protocol"), protocol);
-#else
-									_stprintf(buffer, TranslateT("%s protocol"), protocol);
-#endif
+
 									
 									szCurrentModuleTooltip = buffer;
 									
@@ -652,11 +650,9 @@ TCHAR *GetBirthdayModule(int module, HANDLE hContact, TCHAR *birthdayModule, int
 				{
 					char protocol[512];
 					GetContactProtocol(hContact, protocol, sizeof(protocol));
-#ifdef _UNICODE
+
 					_sntprintf(birthdayModule, size, TranslateT("%S protocol"), protocol);
-#else
-					_sntprintf(birthdayModule, size, TranslateT("%s protocol"), protocol);
-#endif
+
 					
 					break;
 				}
@@ -793,11 +789,9 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 			item.lParam = (LPARAM) hContact;
 
 			GetContactProtocol(hContact, protocol, sizeof(protocol));
-#ifdef _UNICODE
+
 			MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, protocol, -1, buffer, maxSize);
-#else
-			strcpy(buffer, protocol);
-#endif
+
 			item.pszText = buffer;
 			
 			if (bAdd)

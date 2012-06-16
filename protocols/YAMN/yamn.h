@@ -103,23 +103,13 @@ DWORD FileToMemory(TCHAR *FileName,char **MemFile,char **End);
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
 #endif
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo);
-#ifndef UNICODE
-	#if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemoryW(WCHAR **Parser,WCHAR *End,WCHAR **StoreTo,WCHAR *DebugString);
-	#endif  //if defined(DEBUG...)
-DWORD ReadStringFromMemoryW(WCHAR **Parser,WCHAR *End,WCHAR **StoreTo);
-#endif	//ifdef Unicode
-
 DWORD ReadMessagesFromMemory(HACCOUNT Which,char **Parser,char *End);
 DWORD ReadAccountFromMemory(HACCOUNT Which,char **Parser,TCHAR *End);
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam,LPARAM lParam);
 
 DWORD WriteStringToFile(HANDLE File,char *Source);
-#ifndef UNICODE
-#define WriteStringToFileW	WriteStringToFile
-#else
 DWORD WriteStringToFileW(HANDLE File,WCHAR *Source);
-#endif
+
 
 DWORD WriteMessagesToFile(HANDLE File,HACCOUNT Which);
 DWORD WINAPI WritePOP3Accounts();

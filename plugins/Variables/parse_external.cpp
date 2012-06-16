@@ -153,11 +153,9 @@ static TCHAR *parseAMIPEval(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	cmd = u2a(ai->targv[1]);
-#else
-	cmd = _strdup(ai->targv[1]);
-#endif
+
 	if (checkAMIP() != 0) {
 		log_debugA("checkAMIP failed");
 	

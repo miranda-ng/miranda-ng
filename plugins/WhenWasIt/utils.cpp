@@ -174,9 +174,9 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 			ctInfo.szProto = proto;
 		}
 	ctInfo.dwFlag = CNF_DISPLAY;
-#ifdef _UNICODE
+
 	ctInfo.dwFlag += CNF_UNICODE;
-#endif	
+
 	ctInfo.hContact = hContact;
 	//_debug_message("retrieving contact name for %d", hContact);
 	ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
@@ -221,9 +221,9 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 	ctInfo.cbSize = sizeof(ctInfo);
 	ctInfo.szProto = szProto;
 	ctInfo.dwFlag = CNF_UNIQUEID;
-#ifdef _UNICODE
+
 	ctInfo.dwFlag |= CNF_UNICODE;
-#endif
+
 	ctInfo.hContact = hContact;
 	ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
 	TCHAR *buffer;
