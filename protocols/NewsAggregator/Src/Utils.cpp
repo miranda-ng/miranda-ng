@@ -809,9 +809,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -854,9 +852,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -873,9 +869,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "e-mail", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -892,9 +886,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -931,11 +923,6 @@ VOID CheckCurrentFeed(HANDLE hContact)
 											break;
 										}
 									}
-									else
-									{
-										DBDeleteContactSetting(hContact, MODULE, "ImageURL");
-										DBDeleteContactSetting(hContact, MODULE, "ImagePath");
-									}
 								}
 							}
 							if (!lstrcmpi(xi.getName(child), _T("lastBuildDate")) && xi.getText(child))
@@ -960,12 +947,18 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									HXML itemval = xi.getChild(child, z);
 									if (!lstrcmpi(xi.getName(itemval), _T("title")))
 									{
-										title = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										title = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("link")))
 									{
-										link = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										link = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("pubDate")))
@@ -980,27 +973,42 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("description")))
 									{
-										descr = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										descr = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("author")))
 									{
-										author = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										author = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("comments")))
 									{
-										comments = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										comments = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("guid")))
 									{
-										guid = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										guid = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("category")))
 									{
-										category = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										category = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 								}
@@ -1014,33 +1022,53 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								if (!title)
 									StrReplace(_T("#<title>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<title>#"), title, message);
+									mir_free(title);
+								}
 								if (!link)
 									StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<link>#"), link, message);
+									mir_free(link);
+								}
 								if (!descr)
 									StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<description>#"), descr, message);
+									mir_free(descr);
+								}
 								if (!author)
 									StrReplace(_T("#<author>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<author>#"), author, message);
+									mir_free(author);
+								}
 								if (!comments)
 									StrReplace(_T("#<comments>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<comments>#"), comments, message);
+									mir_free(comments);
+								}
 								if (!guid)
 									StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<guid>#"), guid, message);
+									mir_free(guid);
+								}
 								if (!category)
 									StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<category>#"), category, message);
+									mir_free(category);
+								}
 
-								ClearText(message);
 								char* pszUtf;
 								if (!UtfEncode)
 									pszUtf = mir_utf8encodeT(message);
@@ -1082,7 +1110,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 								}
 								mir_free(pszUtf);
-								SysFreeString(message);
+								mir_free(message);
 							}
 						}
 					}
@@ -1105,9 +1133,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "FirstName", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -1161,9 +1187,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "Language1", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -1193,9 +1217,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(szstring);
 								}
 								else
-								{
 									DBWriteContactSettingTString(hContact, MODULE, "Interest0Text", string);
-								}
 								SysFreeString(string);
 								continue;
 							}
@@ -1231,11 +1253,6 @@ VOID CheckCurrentFeed(HANDLE hContact)
 											DBFreeVariant(&dbVar);
 											break;
 										}
-									}
-									else
-									{
-										DBDeleteContactSetting(hContact, MODULE, "ImageURL");
-										DBDeleteContactSetting(hContact, MODULE, "ImagePath");
 									}
 								}
 							}
@@ -1273,7 +1290,10 @@ VOID CheckCurrentFeed(HANDLE hContact)
 										{
 											if (!lstrcmpi(xi.getAttrName(itemval, x), _T("href")))
 											{
-												link = (TCHAR*)xi.getAttrValue(itemval, xi.getAttrName(itemval, x));
+												TCHAR *string = mir_tstrdup(xi.getAttrValue(itemval, xi.getAttrName(itemval, x)));
+												ClearText(string);
+												link = mir_tstrdup(string);
+												SysFreeString(string);
 												break;
 											}
 										}
@@ -1318,7 +1338,10 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("id")))
 									{
-										guid = (TCHAR*)xi.getText(itemval);
+										TCHAR *string = mir_tstrdup(xi.getText(itemval));
+										ClearText(string);
+										guid = mir_tstrdup(string);
+										SysFreeString(string);
 										continue;
 									}
 									if (!lstrcmpi(xi.getName(itemval), _T("category")))
@@ -1355,7 +1378,10 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								if (!link)
 									StrReplace(_T("#<link>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<link>#"), link, message);
+									mir_free(link);
+								}
 								if (!descr)
 									StrReplace(_T("#<description>#"), TranslateT("empty"), message);
 								else
@@ -1380,7 +1406,10 @@ VOID CheckCurrentFeed(HANDLE hContact)
 								if (!guid)
 									StrReplace(_T("#<guid>#"), TranslateT("empty"), message);
 								else
+								{
 									StrReplace(_T("#<guid>#"), guid, message);
+									mir_free(guid);
+								}
 								if (!category)
 									StrReplace(_T("#<category>#"), TranslateT("empty"), message);
 								else
@@ -1389,7 +1418,6 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									mir_free(category);
 								}
 
-								ClearText(message);
 								char* pszUtf;
 								if (!UtfEncode)
 									pszUtf = mir_utf8encodeT(message);
@@ -1430,6 +1458,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 								}
 								mir_free(pszUtf);
+								mir_free(message);
 							}
 						}
 					}
