@@ -74,7 +74,7 @@
 #include <fstream>
 #include <map>
 
-#ifdef _UNICODE
+
 typedef std::wstring tstring;
 typedef std::wostringstream tostringstream;
 typedef std::wistringstream tistringstream;
@@ -84,17 +84,6 @@ typedef std::wostream tostream;
 typedef std::wistream tistream;
 typedef boost::posix_time::wtime_input_facet ttime_input_facet;
 typedef boost::posix_time::wtime_facet ttime_facet;
-#else
-typedef std::string tstring;
-typedef std::ostringstream tostringstream;
-typedef std::istringstream tistringstream;
-typedef std::ofstream tofstream;
-typedef std::ifstream tifstream;
-typedef std::ostream tostream;
-typedef std::istream tistream;
-typedef boost::posix_time::time_input_facet ttime_input_facet;
-typedef boost::posix_time::time_facet ttime_facet;
-#endif
 
 inline int quotes_stricmp(LPCTSTR p1,LPCTSTR p2)
 {

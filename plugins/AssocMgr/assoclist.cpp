@@ -687,9 +687,9 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			TranslateDialogDefault(hwndDlg);
 			CoInitialize(NULL);
 			hwndList = GetDlgItem(hwndDlg, IDC_ASSOCLIST);
-#if defined(_UNICODE)
+
 			ListView_SetUnicodeFormat(hwndList, TRUE);
-#endif
+
 			SendDlgItemMessage(hwndDlg, IDC_HEADERTEXT, WM_SETFONT, SendMessage(GetParent(hwndDlg), PSM_GETBOLDFONT, 0, 0), 0);
 			/* checkboxes won't show up on Win95 without IE3+ or 4.70 (plugin opts uses the same) */
 			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_CHECKBOXES|LVS_EX_FULLROWSELECT|LVS_EX_LABELTIP);
@@ -838,11 +838,11 @@ static INT_PTR CALLBACK AssocListOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			/* enable apply */
 			PostMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
-#if defined(_UNICODE)
+
 		case WM_NOTIFYFORMAT:
 			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
 			return TRUE;
-#endif
+
 		case WM_NOTIFY:
 		{	NMHDR *nmhdr = (NMHDR*)lParam;
 			switch(nmhdr->idFrom) {

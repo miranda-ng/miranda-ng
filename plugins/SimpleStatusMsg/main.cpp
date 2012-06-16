@@ -212,19 +212,16 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 		else if (!_tcsnicmp(msg+i, _T("%fortunemsg%"), 12))
 		{
 			TCHAR *FortuneMsg;
-#ifdef _UNICODE
+
 			char *FortuneMsgA;
-#endif
+
 			
 			if (!ServiceExists(MS_FORTUNEMSG_GETMESSAGE))
 				continue;
 
-#ifdef _UNICODE
+
 			FortuneMsgA = (char*)CallService(MS_FORTUNEMSG_GETMESSAGE, 0, 0);
 			FortuneMsg = mir_a2u(FortuneMsgA);
-#else
-			FortuneMsg = (char*)CallService(MS_FORTUNEMSG_GETMESSAGE, 0, 0);
-#endif
 
 			if (lstrlen(FortuneMsg) > 12)
 				msg = (TCHAR *)mir_realloc(msg, (lstrlen(msg) + 1 + lstrlen(FortuneMsg) - 12) * sizeof(TCHAR));
@@ -232,29 +229,25 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			MoveMemory(msg + i + lstrlen(FortuneMsg), msg + i + 12, (lstrlen(msg) - i - 11) * sizeof(TCHAR));
 			CopyMemory(msg + i, FortuneMsg, lstrlen(FortuneMsg) * sizeof(TCHAR));
 			
-#ifdef _UNICODE
+
 			mir_free(FortuneMsg);
 			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsgA);
-#else
-			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsg);
-#endif
+
 		}
 		else if (!_tcsnicmp(msg+i, _T("%protofortunemsg%"), 17))
 		{
 			TCHAR *FortuneMsg;
-#ifdef _UNICODE
+
 			char *FortuneMsgA;
-#endif
+
 			
 			if (!ServiceExists(MS_FORTUNEMSG_GETPROTOMSG))
 				continue;
 
-#ifdef _UNICODE
+
 			FortuneMsgA = (char*)CallService(MS_FORTUNEMSG_GETPROTOMSG, (WPARAM)szProto, 0);
 			FortuneMsg = mir_a2u(FortuneMsgA);
-#else
-			FortuneMsg = (char*)CallService(MS_FORTUNEMSG_GETPROTOMSG, (WPARAM)szProto, 0);
-#endif
+
 
 			if (lstrlen(FortuneMsg) > 17)
 				msg = (TCHAR *)mir_realloc(msg, (lstrlen(msg) + 1 + lstrlen(FortuneMsg) - 17) * sizeof(TCHAR));
@@ -262,29 +255,25 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			MoveMemory(msg + i + lstrlen(FortuneMsg), msg + i + 17, (lstrlen(msg) - i - 16) * sizeof(TCHAR));
 			CopyMemory(msg + i, FortuneMsg, lstrlen(FortuneMsg) * sizeof(TCHAR));
 			
-#ifdef _UNICODE
+
 			mir_free(FortuneMsg);
 			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsgA);
-#else
-			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsg);
-#endif
+
 		}
 		else if (!_tcsnicmp(msg+i, _T("%statusfortunemsg%"), 18))
 		{
 			TCHAR *FortuneMsg;
-#ifdef _UNICODE
+
 			char *FortuneMsgA;
-#endif
+
 			
 			if (!ServiceExists(MS_FORTUNEMSG_GETSTATUSMSG))
 				continue;
 
-#ifdef _UNICODE
+
 			FortuneMsgA = (char*)CallService(MS_FORTUNEMSG_GETSTATUSMSG, (WPARAM)status, 0);
 			FortuneMsg = mir_a2u(FortuneMsgA);
-#else
-			FortuneMsg = (char*)CallService(MS_FORTUNEMSG_GETSTATUSMSG, (WPARAM)status, 0);
-#endif
+
 
 			if (lstrlen(FortuneMsg) > 18)
 				msg = (TCHAR *)mir_realloc(msg, (lstrlen(msg) + 1 + lstrlen(FortuneMsg) - 18) * sizeof(TCHAR));
@@ -292,12 +281,10 @@ TCHAR *InsertBuiltinVarsIntoMsg(TCHAR *in, const char *szProto, int status)
 			MoveMemory(msg + i + lstrlen(FortuneMsg), msg + i + 18, (lstrlen(msg) - i - 17) * sizeof(TCHAR));
 			CopyMemory(msg + i, FortuneMsg, lstrlen(FortuneMsg) * sizeof(TCHAR));
 			
-#ifdef _UNICODE
+
 			mir_free(FortuneMsg);
 			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsgA);
-#else
-			CallService(MS_FORTUNEMSG_FREEMEMORY, 0, (LPARAM)FortuneMsg);
-#endif
+
 		}
 		else if (!_tcsnicmp(msg + i, _T("%time%"), 6))
 		{
@@ -727,16 +714,14 @@ static void Proto_SetAwayMsgT(const char *szProto, int iStatus, TCHAR *tszMsg)
 {
 	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
 	{
-#ifdef _UNICODE
+
 		if (CallProtoService(szProto, PS_SETAWAYMSGW, (WPARAM)iStatus, (LPARAM)tszMsg) == CALLSERVICE_NOTFOUND)
 		{
 			char *szMsg = mir_u2a(tszMsg);
 			CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iStatus, (LPARAM)szMsg);
 			mir_free(szMsg);
 		}
-#else
-		CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iStatus, (LPARAM)tszMsg);
-#endif
+
 	}
 }
 
@@ -748,16 +733,14 @@ static void Proto_SetStatus(const char *szProto, int iInitialStatus, int iStatus
 		if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_INDIVMODEMSG))
 		{
 			int iMsgStatus = CheckProtoSettings(szProto, iInitialStatus);
-#ifdef _UNICODE
+
 			if (CallProtoService(szProto, PS_SETAWAYMSGW, (WPARAM)iMsgStatus, (LPARAM)tszMsg) == CALLSERVICE_NOTFOUND)
 			{
 				char *szMsg = mir_u2a(tszMsg);
 				CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iMsgStatus, (LPARAM)szMsg);
 				mir_free(szMsg);
 			}
-#else
-			CallProtoService(szProto, PS_SETAWAYMSG, (WPARAM)iMsgStatus, (LPARAM)tszMsg);
-#endif
+
 			CallProtoService(szProto, PS_SETSTATUS, (WPARAM)iMsgStatus, 0);
 		}
 		if (ServiceExists(MS_KS_ANNOUNCESTATUSCHANGE))
@@ -1376,15 +1359,13 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 	if (ack->type == ACKTYPE_AWAYMSG && ack->result == ACKRESULT_SENTREQUEST && !ack->lParam)
 	{
 		TCHAR *tszMsg = GetAwayMessage(CallProtoService((char *)ack->szModule, PS_GETSTATUS, 0, 0), (char *)ack->szModule, TRUE, NULL);
-#ifdef _UNICODE
+
 		{
 			char *szMsg = mir_u2a(tszMsg);
 			CallContactService(ack->hContact, PSS_AWAYMSG, (WPARAM)(HANDLE)ack->hProcess, (LPARAM)szMsg);
 			if (szMsg) mir_free(szMsg);
 		}
-#else
-		CallContactService(ack->hContact, PSS_AWAYMSG, (WPARAM)(HANDLE)ack->hProcess, (LPARAM)tszMsg);
-#endif
+
 #ifdef _DEBUG
 		log2file("ProcessProtoAck(): Send away message \"" TCHAR_STR_PARAM "\" reply.", tszMsg);
 #endif
@@ -1843,9 +1824,9 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 			DBVARIANT dbv;
 			char buff[80];
 			BOOL found = FALSE;
-#ifdef _UNICODE
+
 			wchar_t *szMsgW = mir_a2u(ps[i]->szMsg);
-#endif
+
 
 #ifdef _DEBUG
 			log2file("CSStatusChange(): Set \"%s\" status message for %s.", ps[i]->szMsg, ps[i]->szName);
@@ -1856,11 +1837,9 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 				mir_snprintf(buff, SIZEOF(buff), "SMsg%d", j);
 				if (!DBGetContactSettingTString(NULL, "SimpleStatusMsg", buff, &dbv))
 				{
-#ifdef _UNICODE
+
 					if (!lstrcmp(dbv.ptszVal, szMsgW))
-#else
-					if (!lstrcmp(dbv.ptszVal, ps[i]->szMsg))
-#endif
+
 					{
 						found = TRUE;
 						mir_snprintf(szSetting, SIZEOF(szSetting), "Last%sMsg", ps[i]->szName);
@@ -1879,16 +1858,12 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 			}
 
 			mir_snprintf(szSetting, SIZEOF(szSetting), "%sMsg", ps[i]->szName);
-#ifdef _UNICODE
+
 			DBWriteContactSettingWString(NULL, "SRAway", StatusModeToDbSetting(status_mode, szSetting), szMsgW);
 			msg = InsertVarsIntoMsg(szMsgW, ps[i]->szName, status_mode, NULL);
 			SaveMessageToDB(ps[i]->szName, szMsgW, TRUE);
 			mir_free(szMsgW);
-#else
-			DBWriteContactSettingString(NULL, "SRAway", StatusModeToDbSetting(status_mode, szSetting), ps[i]->szMsg);
-			msg = InsertVarsIntoMsg(ps[i]->szMsg, ps[i]->szName, status_mode, NULL);
-			SaveMessageToDB(ps[i]->szName, ps[i]->szMsg, TRUE);
-#endif
+
 			SaveMessageToDB(ps[i]->szName, msg, FALSE);
 			mir_free(msg);
 		}
@@ -2031,10 +2006,8 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_UPDATE_REGISTERFL))
 #if defined(_WIN64)
 		CallService(MS_UPDATE_REGISTERFL, 4322, (LPARAM)&pluginInfo);
-#elif defined(_UNICODE)
-		CallService(MS_UPDATE_REGISTERFL, 4321, (LPARAM)&pluginInfo);
 #else
-		CallService(MS_UPDATE_REGISTERFL, 4320, (LPARAM)&pluginInfo);
+		CallService(MS_UPDATE_REGISTERFL, 4321, (LPARAM)&pluginInfo);
 #endif
 
 	IconsInit();
@@ -2179,7 +2152,7 @@ static INT_PTR sttGetAwayMessageT(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR)GetAwayMessage((int)wParam, (char*)lParam, TRUE, NULL);
 }
 
-#ifdef UNICODE
+
 static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* msg = GetAwayMessage((int)wParam, (char*)lParam, TRUE, NULL);
@@ -2187,7 +2160,7 @@ static INT_PTR sttGetAwayMessage(WPARAM wParam, LPARAM lParam)
 	mir_free(msg);
 	return (INT_PTR)res;
 }
-#endif
+
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
@@ -2202,12 +2175,10 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	HookEventEx(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEventEx(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
 
-#ifdef UNICODE
+
 	CreateServiceFunctionEx(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
 	CreateServiceFunctionEx(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
-#else
-	CreateServiceFunctionEx(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessageT);
-#endif
+
 	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_SETSTATUS, SetStatusModeFromExtern);
 	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_SHOWDIALOG, ShowStatusMessageDialog);
 	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, ChangeStatusMsg);

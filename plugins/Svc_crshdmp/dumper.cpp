@@ -116,11 +116,9 @@ void GetLinkedModulesInfo(TCHAR *moduleName, bkstring &buffer)
 
 	LPVOID dllAddr = MapViewOfFile(hDllMapping, FILE_MAP_READ, 0, 0, 0);
 
-#ifdef _UNICODE
+
 	static const TCHAR format[] = TEXT("    Plugin statically linked to missing module: %S\r\n");
-#else
-	static const TCHAR format[] = TEXT("    Plugin statically linked to missing module: %s\r\n");
-#endif
+
 
 	__try
 	{
@@ -198,11 +196,9 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 	bkstring ubuffer;
 	ListItem* dlllist = NULL;
 
-#ifdef _UNICODE
+
 	static const TCHAR format[] = TEXT("%c %s v.%s%d.%d.%d.%d%s [%s] - %S %s\r\n");
-#else
-	static const TCHAR format[] = TEXT("%c %s v.%s%d.%d.%d.%d%s [%s] - %s %s\r\n");
-#endif
+
 
 	do 
 	{
@@ -435,11 +431,9 @@ static void GetWeatherStrings(bkstring& buffer, unsigned flags)
 			TCHAR timebuf[30] = TEXT("");
 			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-#ifdef _UNICODE
+
 			static const TCHAR format[] = TEXT(" %s v.%s%S%s [%s] - %S\r\n");
-#else
-			static const TCHAR format[] = TEXT(" %s v.%s%s%s [%s] - $s\r\n");
-#endif
+
 			buffer.appendfmt(format, FindFileData.cFileName, 
 				(flags & VI_FLAG_FORMAT) ? TEXT("[b]") : TEXT(""),
 				ver,
@@ -711,11 +705,9 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 			PLUGININFO *pi = GetMirInfo(hModule);
 			if (pi != NULL)
 			{
-#ifdef _UNICODE
+
 				static const TCHAR formatc[] = TEXT("\r\nLikely cause of the crash plugin: %S\r\n\r\n");
-#else
-				static const TCHAR formatc[] = TEXT("\r\nLikely cause of the crash plugin: %s\r\n\r\n");
-#endif
+
 				if (pi->shortName)
 				{
 					bkstring crashcause;
@@ -726,11 +718,9 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 			}
 		}
 
-#ifdef _UNICODE
+
 		static const TCHAR formatd[] = TEXT("%p (%S %p): %S (%d): %S\r\n");
-#else
-		static const TCHAR formatd[] = TEXT("%p (%s %p): %s (%d): %s\r\n");
-#endif
+
 		buffer.appendfmt(formatd, 
 			(LPVOID)frame.AddrPC.Offset, moduleName, (LPVOID)Module.BaseOfImage, 
 			lineFileName, Line.LineNumber, name);
@@ -740,7 +730,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 
 	PrintVersionInfo(buffer, VI_FLAG_PRNDLL);
 
-#ifdef _UNICODE
+
 	int len = WideCharToMultiByte(CP_UTF8, 0, buffer.c_str(), -1, NULL, 0, NULL, NULL);
 	char* dst = (char*)(len > 8192 ? malloc(len) : alloca(len));
 	WideCharToMultiByte(CP_UTF8, 0, buffer.c_str(), -1, dst, len, NULL, NULL);
@@ -748,10 +738,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 	WriteUtfFile(hDumpFile, dst);
 
 	if (len > 8192) free(dst);
-#else
-	DWORD bytes;
-	WriteFile(hDumpFile, buffer.c_str(), buffer.sizebytes(), &bytes, NULL);
-#endif
+
 
 	if (msg && MessageBox(NULL, msg, TEXT("Miranda Crash Dumper"), MB_YESNO | MB_ICONERROR | MB_TASKMODAL | MB_DEFBUTTON2 | MB_TOPMOST) == IDYES)
 		StoreStringToClip(buffer);

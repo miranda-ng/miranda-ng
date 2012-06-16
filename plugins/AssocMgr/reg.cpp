@@ -419,12 +419,9 @@ static void BackupRegTree_Worker(HKEY hKey,const char *pszSubKey,struct BackupRe
 						ptszName=a2t(pszName);
 						if(ptszName!=NULL) {
 							if (!RegQueryValueEx(hKey,ptszName,NULL,&dwType,pData,&cbData)) {
-								#ifdef _UNICODE
+							
 								WriteDbBackupData(*param->ppszDbPrefix,dwType,pData,cbData);
-								#else
-								if (!(dwType&REGF_ANSI)) /* sanity check, never happens */
-									WriteDbBackupData(*param->ppszDbPrefix,dwType&REGF_ANSI,pData,cbData);
-								#endif
+								
 							}
 							mir_free(ptszName);
 						}

@@ -18,9 +18,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <windows.h>
 
-//#ifdef _UNICODE
+
 //#define DBGHELP_TRANSLATE_TCHAR
-//#endif
+
 
 #ifndef __in_bcount_opt
 #define __in_bcount_opt(x)

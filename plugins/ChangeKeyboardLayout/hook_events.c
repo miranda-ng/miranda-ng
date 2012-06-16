@@ -203,11 +203,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	//Поддержка Апдейтера
 	if(ServiceExists(MS_UPDATE_REGISTERFL))
 	{
-		#if defined (_UNICODE)
+		
 			CallService(MS_UPDATE_REGISTERFL, (WPARAM)3632, (LPARAM)&pluginInfo);
-		#else
-			CallService(MS_UPDATE_REGISTERFL, (WPARAM)3631, (LPARAM)&pluginInfo);
-		#endif
+	
 	}
 	
 	

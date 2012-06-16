@@ -109,7 +109,7 @@ typedef TString<WCHAR> WCString;
 
 __inline CString TCHAR2ANSI(TCString Str)
 {
-#ifdef _UNICODE
+
 	if (Str == NULL)
 	{
 		return CString();
@@ -123,15 +123,13 @@ __inline CString TCHAR2ANSI(TCString Str)
 		AStr.ReleaseBuffer(Str.GetLen());
 	}
 	return AStr;
-#else
-	return Str;
-#endif
+
 }
 
 
 __inline TCString ANSI2TCHAR(CString Str)
 {
-#ifdef _UNICODE
+
 	if (Str == NULL)
 	{
 		return TCString();
@@ -146,64 +144,30 @@ __inline TCString ANSI2TCHAR(CString Str)
 		TStr.ReleaseBuffer(Len - 1);
 	}
 	return TStr;
-#else
-	return Str;
-#endif
+
 }
 
 
 __inline WCString TCHAR2WCHAR(TCString Str)
 {
-#ifdef _UNICODE
+
 	return Str;
-#else
-	if (Str == NULL)
-	{
-		return WCString();
-	}
-	WCString WStr;
-	int Len = MultiByteToWideChar(CP_ACP, 0, Str, -1, NULL, 0);
-	if (!MultiByteToWideChar(CP_ACP, 0, Str, -1, WStr.GetBuffer(Len), Len))
-	{
-		WStr.ReleaseBuffer(0);
-	} else
-	{
-		WStr.ReleaseBuffer(Len - 1);
-	}
-	return WStr;
-#endif
+
 }
 
 
 __inline TCString WCHAR2TCHAR(WCString Str)
 {
-#ifdef _UNICODE
+
 	return Str;
-#else
-	if (Str == NULL)
-	{
-		return TCString();
-	}
-	CString AStr;
-	if (!WideCharToMultiByte(CP_ACP, 0, Str, -1, AStr.GetBuffer(Str.GetLen() + 1), Str.GetLen() + 1, NULL, NULL))
-	{
-		AStr.ReleaseBuffer(0);
-	} else
-	{
-		AStr.ReleaseBuffer(Str.GetLen());
-	}
-	return AStr;
-#endif
+
 }
 
 
-#ifdef _UNICODE
+
 #define WCHAR2ANSI TCHAR2ANSI
 #define ANSI2WCHAR ANSI2TCHAR
-#else
-#define WCHAR2ANSI WCHAR2TCHAR
-#define ANSI2WCHAR TCHAR2WCHAR
-#endif
+
 
 
 #ifdef CHARARRAY_CONVERT
@@ -247,7 +211,7 @@ __inline CHARARRAY ANSI2WCHAR_ARRAY(CHARARRAY &c)
 	return Result;
 }
 
-#ifdef _UNICODE // utf8 conversion doesn't work on win95
+
 __inline CHARARRAY WCHAR2UTF8(WCString Str)
 {
 	CHARARRAY Result;
@@ -262,7 +226,7 @@ __inline CHARARRAY WCHAR2UTF8(WCString Str)
 	}
 	return Result;
 }
-#endif
+
 
 #endif // CHARARRAY_CONVERT
 
@@ -308,11 +272,8 @@ private:
 	wchar_t *p;
 };
 
-#ifdef _UNICODE
+
 #define UTF8Decode UTF8DecodeW
-#else
-#define UTF8Decode UTF8DecodeA
-#endif
 
 
 /*class mallocStrA
@@ -339,9 +300,7 @@ private:
 	wchar_t *p;
 };
 
-#ifdef _UNICODE
+
 #define mallocStr mallocStrW
-#else
-#define mallocStr mallocStrA
-#endif
+
 */

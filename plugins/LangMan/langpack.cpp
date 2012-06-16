@@ -217,11 +217,9 @@ static BOOL LoadPackData(LANGPACK_INFO *pack, BOOL fEnabledPacks, const char *ps
 		if (GetLocaleInfoA(pack->Locale, LOCALE_IDEFAULTANSICODEPAGE, line, 6))
 			pack->codepage = (WORD)atoi(line); /* CP_ACP on error */
 	/* language */
-#if defined(_UNICODE)
+
 	MultiByteToWideChar(pack->codepage, 0, szLanguageA, -1, pack->szLanguage, SIZEOF(pack->szLanguage));
-#else
-	lstrcpyA(pack->szLanguage, szLanguageA); /* buffer safe */
-#endif
+
 	/* ensure the pack always has a language name */
 	if (!pack->szLanguage[0] && !GetLocaleInfo(pack->Locale, LOCALE_SENGLANGUAGE, pack->szLanguage, SIZEOF(pack->szLanguage))) {
 		TCHAR *p;

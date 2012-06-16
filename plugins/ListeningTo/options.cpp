@@ -145,7 +145,7 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 	if (lti == NULL)
 		return TRUE;
 
-#ifdef UNICODE
+
 	if (lti->dwFlags & LTI_UNICODE) {
 		if (lstrcmpi(lti->ptszType, _T("Music")) == 0)
 			return opts.enable_music;
@@ -156,7 +156,7 @@ BOOL IsTypeEnabled(LISTENINGTOINFO *lti)
 		return opts.enable_others;
 	}
 	else
-#endif
+
 	{
 		if (strcmpi(lti->pszType, "Music") == 0)
 			return opts.enable_music;

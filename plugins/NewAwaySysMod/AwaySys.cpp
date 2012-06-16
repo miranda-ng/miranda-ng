@@ -980,15 +980,15 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	update.pbVersion = (BYTE*)CreateVersionString(my_make_version(PRODUCTVER), szVersion);
 	update.cpbVersion = strlen((char*)update.pbVersion);
 	update.szUpdateURL = "http://myied.org/packs/NAS"
-#ifdef _UNICODE
+
 		"W"
-#endif
+
 		".zip";
 	update.szVersionURL = "http://myied.org/packs/NAS/updaterinfo.php";
 	update.pbVersionPrefix = (BYTE*)"New Away System Mod"
-#ifdef _UNICODE
+
 		" Unicode"
-#endif
+
 		" version ";
 	update.cpbVersionPrefix = strlen((char*)update.pbVersionPrefix);
 	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);

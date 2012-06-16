@@ -120,20 +120,16 @@ protected:
 
 inline void mbcs_to_tcs(UINT code_page,const char *mbstr,TCHAR *tstr,int tlen)
 {
-#ifdef UNICODE
+
 	MultiByteToWideChar(code_page,0,mbstr,-1,tstr,tlen);
-#else
-	strncpy(tstr,mbstr,tlen);
-#endif
+
 }
 
 inline void wcs_to_tcs(UINT code_page,const wchar_t *wstr,TCHAR *tstr,int tlen)
 {
-#ifdef UNICODE
+
 	wcsncpy(tstr,wstr,tlen);
-#else
-	WideCharToMultiByte(code_page,0,wstr,-1,tstr,tlen,0,0);		
-#endif
+
 }
 
 class ScopedLock

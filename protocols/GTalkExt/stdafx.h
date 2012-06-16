@@ -26,10 +26,6 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #define _CRT_SECURE_NO_WARNINGS
 
-#if defined( UNICODE ) && !defined( _UNICODE )
-	#define _UNICODE
-#endif
-
 #include <assert.h>
 #include <malloc.h>
 #include <time.h>

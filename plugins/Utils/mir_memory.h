@@ -73,7 +73,6 @@ static int strcmpnullW(WCHAR *str1, WCHAR *str2)
 }
 
 
-#ifdef UNICODE
 
 #define CHECK_VERSION(_NAME_)																\
 	if (!mir_is_unicode())																	\
@@ -93,27 +92,6 @@ static int strcmpnullW(WCHAR *str1, WCHAR *str2)
 #define INPLACE_TCHAR_TO_CHAR(_new_var_, _size_, _old_var_)									\
 	char _new_var_[_size_];																	\
 	WideCharToMultiByte(CP_ACP, 0, _old_var_, -1, _new_var_, _size_, NULL, NULL);
-
-#else
-
-#define CHECK_VERSION(_NAME_)																\
-	if (mir_is_unicode())																	\
-	{																						\
-		MessageBox(NULL, _T("Your Miranda is unicode. You have to install unicode ") _T(_NAME_),	\
-						_T(_NAME_), MB_OK | MB_ICONERROR);									\
-		return -1;																			\
-	}
-
-# define lstrcmpnull strcmpnull
-
-#define INPLACE_CHAR_TO_TCHAR(_new_var_, _size_, _old_var_)									\
-	TCHAR *_new_var_ = _old_var_
-
-#define INPLACE_TCHAR_TO_CHAR(_new_var_, _size_, _old_var_)									\
-	char *_new_var_ = _old_var_;
-
-#endif
-
 
 
 // Free memory and set to NULL

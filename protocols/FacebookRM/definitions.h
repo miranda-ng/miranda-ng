@@ -39,10 +39,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define LOG_FAILURE             3
 #define LOG_CRITICAL            4
 
-#if defined( _UNICODE )
+
 #define NIIF_INTERN_TCHAR NIIF_INTERN_UNICODE // m_clist.h
 #define mir_tstrdup mir_wstrdup // m_system.h
-#else
-#define NIIF_INTERN_TCHAR 0
-#define mir_tstrdup mir_strdup
-#endif
+

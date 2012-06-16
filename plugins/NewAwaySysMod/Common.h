@@ -290,7 +290,7 @@ typedef struct
 #define MTYPE_AUTOONLINE 0xE7 // required to support ICQ Plus online status messages
 /*
 // additional m_popup.h declarations
-#ifdef _UNICODE
+
 	typedef struct
 	{
 		HANDLE lchContact;
@@ -306,10 +306,7 @@ typedef struct
 	} POPUPDATAT;
 
 	#define MS_POPUP_ADDPOPUPT MS_POPUP_ADDPOPUPW
-#else
-	#define POPUPDATAT POPUPDATAEX
-	#define MS_POPUP_ADDPOPUPT MS_POPUP_ADDPOPUPEX
-#endif
+
 */
 // Beware of conflicts between two different windows trying to use the same page at a time!
 // Other windows than the owner of the Page must copy the page to their own memory,

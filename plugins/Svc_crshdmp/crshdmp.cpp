@@ -301,10 +301,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	FoldersPathChanged(0, 0);
 
-#ifndef _UNICODE
-	if (_tcsstr(vertxt, TEXT("Unicode")) != NULL)
-		ShowMessage(2, TEXT("Please update Crash Dumper to Unicode Version"));
-#endif
+
 
 	hHooks[2] = HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
 	if (hHooks[3] == NULL) hHooks[3] = HookEvent(ME_TB_MODULELOADED, ToolbarModulesLoaded);

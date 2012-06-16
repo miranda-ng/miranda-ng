@@ -86,17 +86,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	update.pbVersion = (BYTE *)CreateVersionString(&pluginInfo, szVersion);
 	update.cpbVersion = strlen((char *)update.pbVersion);
 
-#ifdef _UNICODE
+
 	update.szUpdateURL = BETA_HOST_URL_PREFIX "/ver_updater_unicode.zip";
 	update.szVersionURL = BETA_HOST_URL_PREFIX "/updater_unicode.html";
 	update.pbVersionPrefix = (BYTE *)"Updater (Unicode) version ";
 	update.cpbVersionPrefix = strlen((char *)update.pbVersionPrefix);
-#else //!_UNICODE
-	update.szUpdateURL = BETA_HOST_URL_PREFIX "/updater.zip";
-	update.szVersionURL = BETA_HOST_URL_PREFIX "/ver_updater.html";
-	update.pbVersionPrefix = (BYTE *)"Updater version ";
-	update.cpbVersionPrefix = strlen((char *)update.pbVersionPrefix);
-#endif //_UNICODE
 
 
 	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
@@ -115,7 +109,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	update.szBetaChangelogURL = "https://server.scottellis.com.au/wsvn/mim_plugs/updater/?op=log&rev=0&sc=0&isdir=1";
 
 	
-#ifdef _UNICODE
+
 
 #ifdef REGISTER_AUTO
 		update.szUpdateURL = UPDATER_AUTOREGISTER;
@@ -134,35 +128,14 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		update.szBetaVersionURL = BETA_HOST_URL_PREFIX "/ver_updater_unicode.html";
 		update.pbBetaVersionPrefix = (BYTE *)"Updater (Unicode) version ";
 		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-#else
 
-#ifdef REGISTER_AUTO
-		update.szUpdateURL = UPDATER_AUTOREGISTER;
-#else //!REGISTER_AUTO
-		update.szUpdateURL = MIM_DOWNLOAD_URL_PREFIX "2254";
-		update.szVersionURL = MIM_VIEW_URL_PREFIX "2254";
-		update.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">Updater ";
-		update.cpbVersionPrefix = strlen((char *)update.pbVersionPrefix);
-#endif //REGISTER_AUTO
-
-#ifdef _WIN64
-		update.szBetaUpdateURL = BETA_HOST_URL_PREFIX "/updater_x64.zip";
-#else
-		update.szBetaUpdateURL = BETA_HOST_URL_PREFIX "/updater.zip";
-#endif
-		update.szBetaVersionURL = BETA_HOST_URL_PREFIX "/ver_updater.html";
-		update.pbBetaVersionPrefix = (BYTE *)"Updater version ";
-		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-#endif
 
 	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 #else // !REGISTER_BETA
 
-#ifdef _UNICODE
+
 	CallService(MS_UPDATE_REGISTERFL, (WPARAM)2596, (LPARAM)&pluginInfo);
-#else //!_UNICODE
-	CallService(MS_UPDATE_REGISTERFL, (WPARAM)2254, (LPARAM)&pluginInfo);
-#endif //_UNICODE
+
 
 #endif // REGISTER_BETA
 

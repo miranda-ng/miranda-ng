@@ -313,17 +313,7 @@ bool ReadTLine(HANDLE hDatFile, TCHAR *line, int bsize, int &offset) {
 	BOOL bResult;
 	while((bResult = ReadFile(hDatFile, line + offset, sizeof(TCHAR), &bytes_read, 0)) && offset < bsize && bytes_read == sizeof(TCHAR) && line[offset] && (line[offset] != _T('\n') || (offset > 0 && line[offset - 1] != _T('\r')))) offset++;
 
-#ifndef _UNICODE
-	if(offset == 1 && line[1] == 0) {
-		wchar_t wline[MAX_PATH];
-		wline[0] = *(wchar_t *)line;
 
-		while((bResult = ReadFile(hDatFile, wline + offset, sizeof(wchar_t), &bytes_read, 0)) && offset < bsize && bytes_read == sizeof(wchar_t) && wline[offset] && (wline[offset] != L'\n' || (offset > 0 && wline[offset - 1] != L'\r'))) offset++;
-		if(offset > 0) wline[offset - 1] = 0; // cut off /r/n
-
-		WideCharToMultiByte(CP_ACP, 0, wline, -1, line, bsize, 0, 0);
-	}
-#endif
 	if(offset > 0) line[offset - 1] = 0; // cut off /r/n
 	return true;
 }

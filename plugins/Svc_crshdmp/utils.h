@@ -77,19 +77,13 @@ int  crs_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
 	MultiByteToWideChar(CP_ACP, 0, src, -1, dst, cbLen); \
 }
 
-#ifdef _UNICODE
+
 
 #define crsi_t2a(d,s) crsi_u2a(d,s)
 #define crsi_a2t(d,s) crsi_a2u(d,s,alloca)
 #define crs_a2t(d,s) crsi_a2u(d,s,mir_alloc)
 
-#else
 
-#define crsi_t2a(d,s) (d=s)
-#define crsi_a2t(d,s) (d=s)
-#define crs_a2t(d,s) (d=mir_strdup(s))
-
-#endif
 
 #define SIZEOF(X) (sizeof(X)/sizeof(X[0]))
 

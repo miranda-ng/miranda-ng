@@ -344,11 +344,9 @@ bool CVersionInfo::GetHWSettings() {
 	HMODULE hKernel32;
 	hKernel32 = LoadLibraryA("kernel32.dll");
 	if (hKernel32) {
-		#if defined( _UNICODE )
+		
 			MyGetDiskFreeSpaceEx = (BOOL (WINAPI *)(LPCTSTR,PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER))GetProcAddress(hKernel32, "GetDiskFreeSpaceExW");
-		#else
-			MyGetDiskFreeSpaceEx = (BOOL (WINAPI *)(LPCTSTR,PULARGE_INTEGER, PULARGE_INTEGER, PULARGE_INTEGER))GetProcAddress(hKernel32, "GetDiskFreeSpaceExA");
-		#endif
+		
 
 		MyIsWow64Process = (BOOL (WINAPI *) (HANDLE, PBOOL)) GetProcAddress(hKernel32, "IsWow64Process");
 		MyGetSystemInfo = (void (WINAPI *) (LPSYSTEM_INFO)) GetProcAddress(hKernel32, "GetNativeSystemInfo");
@@ -1190,11 +1188,9 @@ void CVersionInfo::PrintInformationsToClipboard(bool showLog)
 	lptstrCopy[length] = '\0';
 	GlobalUnlock(hData);
 	//Now set the clipboard data.
-	#if defined( _UNICODE )
+	
 		SetClipboardData(CF_UNICODETEXT, hData);
-	#else
-		SetClipboardData(CF_TEXT, hData);
-	#endif
+
 	//Remove the lock on the clipboard.
 	CloseClipboard();
 	if (showLog)

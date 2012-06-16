@@ -109,11 +109,9 @@ int OnModulesLoaded(WPARAM,LPARAM)
 		upd.szBetaChangelogURL   = "http://twosx.net/mim/twitter/updater/changelog.html";
 		upd.pbBetaVersionPrefix  = reinterpret_cast<BYTE*>("Twitter ");
 		upd.cpbBetaVersionPrefix = (int)strlen(reinterpret_cast<char*>(upd.pbBetaVersionPrefix));
-#ifdef UNICODE
+
 		upd.szBetaUpdateURL      = "http://twosx.net/mim/twitter/updater/twitter.zip";
-#else
-		upd.szBetaUpdateURL      = "http://www.teamboxel.com/update/twitter/ansi";
-#endif
+
 
 		upd.pbVersion = reinterpret_cast<BYTE*>( CreateVersionStringPlugin(
 			reinterpret_cast<PLUGININFO*>(&pluginInfo),curr_version) );

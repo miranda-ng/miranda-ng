@@ -14,9 +14,9 @@ static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 	CopyMemory(esd->pbBuff+esd->iCurrent, pbBuff, cb);
 	esd->iCurrent += cb;
 	esd->pbBuff[esd->iCurrent] = 0;
-	#if defined (_UNICODE)
+	
 		esd->pbBuff[esd->iCurrent+1] = 0;
-	#endif
+	
 	*pcb = cb;
 	return 0;
 }
@@ -56,11 +56,9 @@ BOOL CopyTextToClipboard(LPTSTR ptszText)
 		_tcscpy((TCHAR*)GlobalLock(hCopy), ptszText);
 		GlobalUnlock(hCopy);
 
-		#if defined (_UNICODE)
+	
 			SetClipboardData(CF_UNICODETEXT, hCopy);
-		#else
-			SetClipboardData(CF_TEXT, hCopy);
-		#endif
+		
 		
 		CloseClipboard(); 
 		return TRUE;
@@ -129,15 +127,11 @@ LPTSTR GenerateLayoutString(HKL hklLayout)
 		shVirtualKey = MapVirtualKeyEx(iScanCode, 1, hklLayout);
 		bState[shVirtualKey&0x00FF] = 0x80;
 
-		#if defined (_UNICODE)
+		
 			iRes = ToUnicodeEx(shVirtualKey, iScanCode, bState, ptszTemp, 3, 0, hklLayout);
 			// Защита от дэд-кеев
 			if (iRes<0) ToUnicodeEx(shVirtualKey, iScanCode, bState, ptszTemp, 3, 0, hklLayout);
-		#else
-			iRes = ToAsciiEx(shVirtualKey, iScanCode, bState, ptszTemp, 0, hklLayout);
-			// Защита от дэд-кеев
-			if (iRes<0) ToAsciiEx(shVirtualKey, iScanCode, bState, ptszTemp, 0, hklLayout);
-		#endif
+		
 			
 			//Если нам вернули нулевой символ, или не вернули ничего, то присвоим "звоночек"
 			if (ptszTemp[0] == 0) ptszLayStr[i] = 3; else ptszLayStr[i] = ptszTemp[0];
@@ -302,9 +296,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		ieEvent.dwFlags = 0;
 		ieEvent.iType = IEE_GET_SELECTION;
 		//event.codepage = 1200;			
-		#if !defined(_UNICODE)
-			ieEvent.dwFlags  |=  IEEF_NO_UNICODE;
-		#endif
+		
 
 		if (ServiceExists(MS_HPP_EG_EVENT))
 		{
@@ -361,11 +353,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				if (WindowType == WTYPE_RichEdit)
 				{
 					ZeroMemory(&esdData, sizeof(esdData));
-					#if defined (_UNICODE)
+					
 						if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT|SF_UNICODE|SFF_SELECTION, (LPARAM)&esStream)>0)
-					#else
-						if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT|SFF_SELECTION, (LPARAM)&esStream)>0)
-					#endif					
+										
 							ptszInText = GeTStringFromStreamData(&esdData);
 						else
 						{
@@ -405,11 +395,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					crTemp.cpMin = 0;
 					crTemp.cpMax = -1;
 					SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crTemp);
-					#if defined (_UNICODE)
+					
 						if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT|SF_UNICODE|SFF_SELECTION, (LPARAM)&esStream) != 0)
-					#else
-						if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT|SFF_SELECTION, (LPARAM)&esStream) != 0)
-					#endif
+					
 						ptszInText = GeTStringFromStreamData(&esdData);
 						else
 						{
@@ -450,11 +438,9 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					{
 						SendMessage(hTextWnd, EM_EXSETSEL, 0, (LPARAM)&crTemp);					
 						ZeroMemory(&esdData, sizeof(esdData));
-						#if defined (_UNICODE)
+					
 							if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT|SF_UNICODE|SFF_SELECTION, (LPARAM)&esStream) != 0)
-						#else
-							if (SendMessage(hTextWnd, EM_STREAMOUT, SF_TEXT|SFF_SELECTION, (LPARAM)&esStream) != 0)
-						#endif
+						
 							ptszInText = GeTStringFromStreamData(&esdData);
 						else
 						{

@@ -51,10 +51,10 @@ int m_log(const TCHAR *function, const TCHAR *fmt, ...)
 
 	if (fp != NULL)
 	{
-#ifdef UNICODE
+
 		if (writeBOM)
 			fwprintf(fp, L"\xFEFF");
-#endif
+
 
 		_ftprintf(fp, _T("%s\r\n"), text);
 		fclose(fp);
@@ -157,12 +157,9 @@ void GenericPlayer::ProcessReceived()
 	Player *player = this;
 	for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++)
 	{
-#ifdef UNICODE
+
 		WCHAR *player_name = players[i]->name;
-#else
-		WCHAR player_name[128];
-		MultiByteToWideChar(CP_ACP, 0, players[i]->name, -1, player_name, MAX_REGS(player_name));
-#endif
+
 		if (_wcsicmp(parts[1], player_name) == 0)
 		{
 			player = players[i];
@@ -274,11 +271,9 @@ void GenericPlayer::NewData(const WCHAR *data, size_t len)
 		wcsncpy(received, data, len);
 		received[len] = L'\0';
 
-//#ifdef UNICODE
+
 //		m_log(_T("NewData"), _T("Text: %s"), received);
-//#else
-//		m_log(_T("NewData"), _T("Text: %S"), received);
-//#endif
+
 
 		if (hTimer)
 			KillTimer(NULL, hTimer);

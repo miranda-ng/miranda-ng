@@ -41,11 +41,9 @@ extern TCHAR PLUGIN_UUID_MARK[];
 
 //using namespace std;
 
-#if defined( _UNICODE )
+
 	#define tstring wstring
-#else
-	#define tstring string
-#endif
+
 
 class CPlugin {
 	private:

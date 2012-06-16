@@ -39,20 +39,13 @@ inline std::wstring UTF8ToWide(const std::string& str)  { return MBToWide(str, C
 inline std::string ANSIToUTF8(const std::string& str, UINT codePage = CP_ACP) { return WideToUTF8(MBToWide(str, codePage)); }
 inline std::string UTF8ToANSI(const std::string& str, UINT codePage = CP_ACP) { return WideToMB(UTF8ToWide(str), codePage); }
 
-#ifdef _UNICODE
+
 #define TCHARToUTF8 WideToUTF8
 #define UTF8ToTCHAR UTF8ToWide
 #define TCHARToWide
 #define WideToTCHAR
 #define TCHARToMB WideToMB 
 #define MBToTCHAR MBToWide
-#else
-#define TCHARToUTF8 ANSIToUTF8
-#define UTF8ToTCHAR UTF8ToANSI
-#define TCHARToWide MBToWide
-#define WideToTCHAR WideToMB
-#define TCHARToMB
-#define MBToTCHAR
-#endif
+
 
 #endif // StringConv_h__

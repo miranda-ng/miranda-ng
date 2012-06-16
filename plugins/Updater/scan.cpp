@@ -15,11 +15,9 @@ static const AlternateShortName alternate_shortname_map[] =
 	{ "Version Informations", "Version Information" },
 	{ "Jabber Protocol", "JabberG Protocol" },
 	{ "Jabber Protocol (Unicode)", "JabberG Protocol (Unicode)" },
-#ifdef _UNICODE
+
 	{ "PopUp Interoperability", "PopUp Plus (Unicode)" },
-#else
-	{ "PopUp Interoperability", "PopUp Plus" },
-#endif
+
 	//{ "Messaging Style Conversation", "nConvers++" }, // will this conflict with other nConvers'?
 	{ "MimQQ-libeva", "MirandaQQ (libeva Version)" },
 
@@ -35,14 +33,14 @@ char* findAlternateShortName(const char* name)
         if (strcmp(name, alternate_shortname_map[i].from) == 0)
             return mir_strdup(alternate_shortname_map[i].to);
     }
-#ifdef _UNICODE
+
 	if (!strstr(name, "Unicode"))
 	{
 		char *buf = (char*)mir_alloc(256);
 		mir_snprintf(buf, 256, "%s (Unicode)", name);
 		return buf;
 	}
-#endif
+
     return NULL;
 }
 

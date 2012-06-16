@@ -129,13 +129,11 @@ DEFINE_GUIDXXX(IID_ITextDocument,0x8CC497C0,0xA1DF,0x11CE,0x80,0x98,
 
 HICON IcoLib_LoadIcon(Dictionary *dict, BOOL copy)
 {
-#ifdef UNICODE
+
 	char lang[32];
 	WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
 	return IcoLib_LoadIcon(lang, copy);
-#else
-	return IcoLib_LoadIcon(dict->language, copy);
-#endif
+
 }
 
 
@@ -212,14 +210,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		upd.szBetaUpdateURL = "http://pescuma.googlecode.com/files/spellchecker64.%VERSION%.zip";
 //		upd.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=";
 		upd.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">Spell Checker (x64) ";
-#elif UNICODE
+#else
 		upd.szBetaUpdateURL = "http://pescuma.googlecode.com/files/spellcheckerW.%VERSION%.zip";
 		upd.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=3691";
 		upd.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">Spell Checker (Unicode) ";
-#else
-		upd.szBetaUpdateURL = "http://pescuma.googlecode.com/files/spellchecker.%VERSION%.zip";
-		upd.szVersionURL = "http://addons.miranda-im.org/details.php?action=viewfile&id=3690";
-		upd.pbVersionPrefix = (BYTE *)"<span class=\"fileNameHeader\">Spell Checker (Ansi) ";
 #endif
 		upd.cpbVersionPrefix = (int)strlen((char *)upd.pbVersionPrefix);
 
@@ -291,13 +285,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		for(int i = 0; i < languages.getCount(); i++)
 		{
 			sid.ptszDescription = languages[i]->full_name;
-#ifdef UNICODE
+
 			char lang[32];
 			mir_snprintf(lang, MAX_REGS(lang), "%S", languages[i]->language);
 			sid.pszName = lang;
-#else
-			sid.pszName = languages[i]->language;
-#endif
+
 
 			HICON hFlag = IcoLib_LoadIcon(sid.pszName);
 			if (hFlag != NULL)
@@ -2273,7 +2265,7 @@ TCHAR *lstrtrim(TCHAR *str)
 
 BOOL lstreq(TCHAR *a, TCHAR *b, size_t len)
 {
-#ifdef UNICODE
+
 	a = CharLower(_tcsdup(a));
 	b = CharLower(_tcsdup(b));
 	BOOL ret;
@@ -2284,12 +2276,7 @@ BOOL lstreq(TCHAR *a, TCHAR *b, size_t len)
 	free(a);
 	free(b);
 	return ret;
-#else
-	if (len > 0)
-		return !_tcsnicmp(a, b, len);
-	else
-		return !_tcsicmp(a, b);
-#endif
+
 }
 
 

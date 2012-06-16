@@ -29,11 +29,9 @@ tGetSystemDefaultUILanguage pGetSystemDefaultUILanguage = (tGetSystemDefaultUILa
 tIsWow64Process pIsWow64Process = (tIsWow64Process) GetProcAddress(hKernel, "IsWow64Process");
 tIsProcessorFeaturePresent pIsProcessorFeaturePresent = (tIsProcessorFeaturePresent) GetProcAddress(hKernel, "IsProcessorFeaturePresent");
 
-#ifdef _UNICODE
+
 tGetDiskFreeSpaceEx pGetDiskFreeSpaceEx = (tGetDiskFreeSpaceEx) GetProcAddress(hKernel, "GetDiskFreeSpaceExW");
-#else
-tGetDiskFreeSpaceEx pGetDiskFreeSpaceEx = (tGetDiskFreeSpaceEx) GetProcAddress(hKernel, "GetDiskFreeSpaceExA");
-#endif
+
 
 
 void CheckForOtherCrashReportingPlugins(void)
@@ -824,12 +822,9 @@ void StoreStringToClip(bkstring& buffer)
 	OpenClipboard(NULL);
 	EmptyClipboard();
 
-#ifdef _UNICODE
+
 	SetClipboardData(CF_UNICODETEXT, hData);
-#else
-	SetClipboardData(CF_TEXT, hData);
-#endif
-	CloseClipboard();
+
 }
 
 bool IsPluginEnabled(TCHAR* filename)

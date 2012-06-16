@@ -76,25 +76,19 @@ char* u2a(const WCHAR *pszUnicode,BOOL fMirCp)
 // mir_free() the return value
 TCHAR* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp)
 {
-#if defined(_UNICODE)
+
 	if(fUnicode) return mir_wstrdup((WCHAR*)pszStr);
 	return a2u((char*)pszStr,fMirCp);
-#else
-	if(fUnicode) return u2a((WCHAR*)pszStr,fMirCp);
-	return mir_strdup((char*)pszStr);
-#endif
+
 }
 
 // mir_free() the return value
 void* t2s(const TCHAR *pszStr,DWORD fUnicode,BOOL fMirCp)
 {
-#if defined(_UNICODE)
+
 	if (!fUnicode) return (void*)u2a(pszStr,fMirCp);
 	return (void*)mir_wstrdup(pszStr);
-#else
-	if(fUnicode) return (void*)a2u(pszStr,fMirCp);
-	return (void*)mir_strdup(pszStr);
-#endif
+
 }
 
 /************************* Database *******************************/

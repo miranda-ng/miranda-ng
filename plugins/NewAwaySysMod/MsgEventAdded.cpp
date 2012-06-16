@@ -60,15 +60,13 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		_ASSERT(0);
 		return;
 	}
-#ifdef _UNICODE
+
 	int ReplyLen = (ad->Reply.GetLen() + 1) * (sizeof(char) + sizeof(WCHAR));
 	PBYTE pBuf = (PBYTE)malloc(ReplyLen);
 	memcpy(pBuf, TCHAR2ANSI(ad->Reply), ad->Reply.GetLen() + 1);
 	memcpy(pBuf + ad->Reply.GetLen() + 1, ad->Reply, (ad->Reply.GetLen() + 1) * sizeof(WCHAR));
 	CallContactService(ad->hContact, ServiceExists(CString(szProto) + PSS_MESSAGE "W") ? (PSS_MESSAGE "W") : PSS_MESSAGE, PREF_UNICODE, (LPARAM)pBuf);
-#else
-	CallContactService(ad->hContact, PSS_MESSAGE, 0, (LPARAM)(char*)ad->Reply);
-#endif
+
 	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY))
 	{ // store in the history
 		DBEVENTINFO dbeo = {0};
@@ -77,19 +75,16 @@ void __cdecl AutoreplyDelayThread(void *_ad)
 		dbeo.flags = DBEF_SENT;
 		dbeo.szModule = szProto;
 		dbeo.timestamp = time(NULL);
-#ifdef _UNICODE
+
 		dbeo.cbBlob = ReplyLen;
 		dbeo.pBlob = pBuf;
-#else
-		dbeo.cbBlob = ad->Reply.GetLen() + 1;
-		dbeo.pBlob = (PBYTE)(char*)ad->Reply;
-#endif
+
 		SleepEx(1000, true); // delay before sending the reply, as we need it to be later than the message we're replying to (without this delay, srmm puts the messages in a wrong order)
 		CallService(MS_DB_EVENT_ADD, (WPARAM)ad->hContact, (LPARAM)&dbeo);
 	}
-#ifdef _UNICODE
+
 	free(pBuf);
-#endif
+
 /*
 	char *utf8Reply = mir_utf8encodeT(ad->Reply); // todo: use this instead of the code above, when 0.7 will be released
 	if (g_AutoreplyOptPage.GetDBValueCopy(IDC_REPLYDLG_LOGREPLY))

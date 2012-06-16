@@ -127,9 +127,9 @@ void* memmem (const void *buf1, size_t size1, const void *buf2,  size_t size2);
 void NLog(char *msg);
 void NLogF(const char *fmt, ...);
 
-#ifdef _UNICODE
+
 void NLog(wchar_t *msg);
-#endif
+
 
 // clist 'exit' menu item command id
 #define ID_ICQ_EXIT		40001

@@ -154,11 +154,9 @@ void WindowsMediaPlayer::NewData(const WCHAR *data, size_t len)
 		wcsncpy(received, data, len);
 		received[len] = L'\0';
 
-/*#ifdef UNICODE
+/*
 		m_log(_T("ReceiverWndProc"), _T("WMP : New data: [%d] %s"), len, received);
-#else
-		m_log(_T("ReceiverWndProc"), _T("WMP : New data: [%d] %S"), len, received);
-#endif
+
 */
 		if (hTimer)
 			KillTimer(NULL, hTimer);

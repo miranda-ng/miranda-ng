@@ -197,15 +197,13 @@ static void DisplayNotIncludedPlugins(HWND hwndListBox, const LANGPACK_INFO *pac
 				lstrcpy(szSearch, wfd.cFileName); /* buffer safe */
 				p = _tcsrchr(szSearch, _T('.'));
 				if (p!=NULL) *p = _T('\0');
-#if defined(_UNICODE)
+
 				{	char cFileNameA[MAX_PATH];
 					cFileNameA[0] = '\0';
 					WideCharToMultiByte(CP_ACP, 0, szSearch, -1, cFileNameA, sizeof(cFileNameA), NULL, NULL);
 					if (IsPluginIncluded(pack, cFileNameA)) continue;
 				}
-#else
-				if (IsPluginIncluded(pack, szSearch)) continue;
-#endif
+
 				/* friendly name of the plugin */
 				mir_sntprintf(szSearch, SIZEOF(szSearch), _T("%s\\Plugins\\%s"), szDir, wfd.cFileName);
 				hModule = GetModuleHandle(szSearch);
@@ -530,11 +528,11 @@ static INT_PTR CALLBACK LangOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				return TRUE;
 			}
 			break;
-#if defined(_UNICODE)
+
 		case WM_NOTIFYFORMAT:
 			SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, NFR_UNICODE);
 			return TRUE;
-#endif
+
 		case WM_NOTIFY:
 		{	NMHDR *nmhdr = (NMHDR*)lParam;
 			switch(nmhdr->idFrom) {

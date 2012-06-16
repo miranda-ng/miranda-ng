@@ -128,11 +128,9 @@ TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring, int ID)
 			}
 			Regexp.ReleaseBuffer();
 		}
-#ifdef _UNICODE
+
 		PcreCompileData[NewID].pPcre = pcre_compile(WCHAR2UTF8(Regexp).GetData(), PCRE_UTF8 | PCRE_NO_UTF8_CHECK | Flags, &Err, &ErrOffs, NULL);
-#else
-		PcreCompileData[NewID].pPcre = pcre_compile(Regexp, Flags, &Err, &ErrOffs, NULL);
-#endif
+
 		if (PcreCompileData[NewID].pPcre) {
 			PcreCompileData[NewID].pExtra = NULL;
 			if (pcre_study)
@@ -164,7 +162,7 @@ HMODULE LoadPcreLibrary(const char *szPath)
 	*(FARPROC*)&pcre_free = *(FARPROC*)GetProcAddress(hModule, "pcre_free"); // pcre_free is a pointer to a variable containing pointer to the function %)
 	if (pcre_compile && pcre_exec && pcre_free)
 	{
-#ifdef _UNICODE
+
 		int Utf8Supported = 0;
 		if (pcre_config)
 		{
@@ -174,9 +172,7 @@ HMODULE LoadPcreLibrary(const char *szPath)
 		{
 			return hModule;
 		}
-#else
-		return hModule; 
-#endif
+
 	}
 	FreeLibrary(hModule);
 	return NULL;
@@ -256,12 +252,10 @@ int PcreCheck(TCString Str, int StartingID)
 	{
 		if (hPcreDLL && PcreCompileData[I].pPcre)
 		{
-#ifdef _UNICODE
+
 			CHARARRAY Utf8Str = WCHAR2UTF8(Str);
 			int Res = pcre_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Utf8Str.GetData(), Utf8Str.GetSize() - 1, 0, PCRE_NOTEMPTY | PCRE_NO_UTF8_CHECK, NULL, 0);
-#else
-			int Res = pcre_exec(PcreCompileData[I].pPcre, PcreCompileData[I].pExtra, Str, Str.GetLen(), 0, PCRE_NOTEMPTY, NULL, 0);
-#endif				
+			
 			if (Res >= 0)
 			{
 				return PcreCompileData[I].ID;

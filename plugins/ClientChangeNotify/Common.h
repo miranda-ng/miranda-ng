@@ -136,13 +136,10 @@ struct SHOWPOPUP_DATA
 
 
 // additional m_popup.h declarations
-#ifdef _UNICODE
+
 	#define POPUPDATAT POPUPDATAW
 	#define MS_POPUP_ADDPOPUPT MS_POPUP_ADDPOPUPW
-#else
-	#define POPUPDATAT POPUPDATAEX
-	#define MS_POPUP_ADDPOPUPT MS_POPUP_ADDPOPUPEX
-#endif
+
 
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);

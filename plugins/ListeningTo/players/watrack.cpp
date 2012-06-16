@@ -87,19 +87,13 @@ void WATrack::NewStatus(int event, int value)
 
 void WATrack::GetData()
 {
-#ifdef UNICODE
+
 
 	SONGINFO *si = NULL;
 
 	int playing = CallService(MS_WAT_GETMUSICINFO, WAT_INF_UNICODE, (LPARAM) &si);
 
-#else
 
-	SONGINFOA *si = NULL;
-
-	int playing = CallService(MS_WAT_GETMUSICINFO, WAT_INF_ANSI, (LPARAM) &si);
-
-#endif
 
 	FreeData();
 

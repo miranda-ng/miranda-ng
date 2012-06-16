@@ -48,7 +48,7 @@ static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* 
 
 	if (!DBGetContactSettingTString(hContact, module, setting, &dbv))
 	{
-#ifdef UNICODE
+
 		if (dbv.type == DBVT_ASCIIZ)
 		{
 			MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, out, (int)len);
@@ -61,12 +61,7 @@ static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* 
 		{
 			lstrcpyn(out, dbv.pwszVal, (int)len);
 		}
-#else
-		if (dbv.type == DBVT_ASCIIZ)
-		{
-			lstrcpyn(out, dbv.pszVal, len);
-		}
-#endif
+
 		else
 		{
 			if (def != NULL)

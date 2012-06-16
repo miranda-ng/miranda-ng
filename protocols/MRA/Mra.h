@@ -8,9 +8,6 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#if defined( UNICODE ) && !defined( _UNICODE )
-	#define _UNICODE
-#endif
 
 //#define CRTDLL
 

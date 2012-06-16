@@ -53,11 +53,9 @@ __inline static wchar_t *safe_wstrdup(const wchar_t *s) {
 	return ret;
 }
 
-#ifdef _UNICODE
+
 #define safe_tstrdup(x)		safe_wstrdup(x)
-#else
-#define sage_tstrdup(x)		safe_strdup(x)
-#endif
+
 
 __inline static BYTE *safe_bytedup(BYTE *bytes, int size) {
 	if (!bytes || size == 0) return 0;

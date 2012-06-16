@@ -310,7 +310,7 @@ CString DBGetContactSettingString(HANDLE hContact, const char *szModule, const c
 }
 
 
-#ifdef _UNICODE
+
 TCString DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *szDefaultValue)
 {
 	DBVARIANT dbv = {0};
@@ -334,7 +334,7 @@ TCString DBGetContactSettingString(HANDLE hContact, const char *szModule, const 
 	}
 	return Result;
 }
-#endif
+
 
 
 int DBGetContactSettingString(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
@@ -355,12 +355,10 @@ TCString DBGetContactSettingAsString(HANDLE hContact, const char *szModule, cons
 	dbcgs.szModule = szModule;
 	dbcgs.pValue = &dbv;
 	dbcgs.szSetting = szSetting;
-#ifdef _UNICODE
+
 	dbv.type = DBVT_WCHAR;
 	int iRes = CallService(MS_DB_CONTACT_GETSETTING_STR, (WPARAM)hContact, (LPARAM)&dbcgs);
-#else
-	int iRes = CallService(MS_DB_CONTACT_GETSETTING, (WPARAM)hContact, (LPARAM)&dbcgs);
-#endif
+
 	TCString Result;
 	if (!iRes && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_WCHAR))
 	{

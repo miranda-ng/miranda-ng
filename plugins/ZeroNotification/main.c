@@ -257,19 +257,13 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(temp), (LPARAM)temp);
 
-#ifdef _UNICODE
+
     if (strstr(temp, "Unicode") == NULL)
     {
 		//ReportError(TranslateT("Please update "PLUGINNAME" to ANSI Version")); //debug
         return 1;
     }
-#else
-    if (strstr(temp, "Unicode") != NULL)
-    {
-		//ReportError(Translate("Please update "PLUGINNAME" to Unicode Version"));
-        return 1;
-    }
-#endif
+
 
 	//The menu item - begin
 	if (!DBGetContactSettingByte(NULL,PLUGINNAME_SHORT,"HideMenu",1))

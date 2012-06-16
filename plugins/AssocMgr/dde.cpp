@@ -109,10 +109,10 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 			DDEACK ack;
 			ZeroMemory(&ack,sizeof(ack));
 			if(UnpackDDElParam(msg,lParam,NULL,(PUINT_PTR)&hCommand)) {
-				#if defined(_UNICODE)
+				
 				/* ANSI execute command can't happen for shell */
 				if(IsWindowUnicode((HWND)wParam)) {
-				#endif
+				
 					pszCommand = (TCHAR*)GlobalLock(hCommand);
 					if(pszCommand!=NULL) {
 						TCHAR *pszAction,*pszArg;
@@ -129,9 +129,9 @@ static LRESULT CALLBACK DdeMessageWindow(HWND hwnd,UINT msg,WPARAM wParam,LPARAM
 						}
 						GlobalUnlock(hCommand);
 					}
-				#if defined(_UNICODE)
+				
 				}
-				#endif
+				
 				lParam=ReuseDDElParam(lParam,msg,WM_DDE_ACK,*(PUINT)&ack,(UINT)hCommand);
 				if (!PostMessage((HWND)wParam,WM_DDE_ACK,(WPARAM)hwnd,lParam)) {
 					GlobalFree(hCommand);

@@ -238,11 +238,9 @@ void NLogF(const char *fmt, ...)
 }
 
 
-#ifdef _UNICODE
 void NLog(wchar_t *msg) 
 {
 	char* a = mir_utf8encodeW(msg);
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlibUser, (LPARAM)a);
 	mir_free(a);
 }
-#endif

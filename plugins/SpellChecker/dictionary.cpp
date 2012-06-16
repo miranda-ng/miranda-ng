@@ -116,25 +116,19 @@ protected:
 
 	void toHunspell(char *hunspellWord, const TCHAR *word, size_t hunspellWordLen)
 	{
-#ifdef UNICODE
+
 		WideCharToMultiByte(codePage, 0, word, -1, hunspellWord, hunspellWordLen, NULL, NULL);
-#else
-		// TODO
-		strncpy(hunspellWord, word, hunspellWordLen);
-#endif
+
 	}
 
 	TCHAR * fromHunspell(const char *hunspellWord)
 	{
-#ifdef UNICODE
+
 		int len = MultiByteToWideChar(codePage, 0, hunspellWord, -1, NULL, 0);
 		WCHAR *ret = (WCHAR *) malloc((len + 1) * sizeof(WCHAR));
 		MultiByteToWideChar(codePage, 0, hunspellWord, -1, ret, len + 1);
 		return ret;
-#else
-		// TODO
-		return strdup(hunspellWord);
-#endif
+
 	}
 
 	TCHAR * fromHunspellAndFree(char *hunspellWord)
@@ -235,13 +229,10 @@ public:
 		char dic[1024];
 		char aff[1024];
 
-#ifdef UNICODE
+
 		mir_snprintf(dic, MAX_REGS(dic), "%S.dic", fileWithoutExtension);
 		mir_snprintf(aff, MAX_REGS(aff), "%S.aff", fileWithoutExtension);
-#else
-		mir_snprintf(dic, MAX_REGS(dic), "%s.dic", fileWithoutExtension);
-		mir_snprintf(aff, MAX_REGS(aff), "%s.aff", fileWithoutExtension);
-#endif
+
 
 		hunspell = new Hunspell(aff, dic);
 
@@ -253,13 +244,10 @@ public:
 		{
 			codePage = CP_UTF8;
 
-#ifdef UNICODE
+
 			int wcs_len;
 			hwordchars = fromHunspell((char *) hunspell->get_wordchars_utf16(&wcs_len));
-#else
-			// No option
-			hwordchars = NULL;
-#endif
+
 		}
 		else
 		{
@@ -525,13 +513,11 @@ void GetDictsInfo(LIST<Dictionary> &dicts)
 		if (dict->full_name[0] == _T('\0'))
 		{
 			DBVARIANT dbv;
-#ifdef UNICODE
+
 			char lang[128];
 			WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
 			if (!DBGetContactSettingTString(NULL, MODULE_NAME, lang, &dbv))
-#else
-			if (!DBGetContactSettingTString(NULL, MODULE_NAME, dict->language, &dbv))
-#endif
+
 			{
 				lstrcpyn(dict->localized_name, dbv.ptszVal, MAX_REGS(dict->localized_name));
 				DBFreeVariant(&dbv);

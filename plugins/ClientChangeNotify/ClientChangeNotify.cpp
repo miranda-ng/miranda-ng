@@ -416,15 +416,15 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	update.pbVersion = (BYTE*)CreateVersionString(PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), szVersion);
 	update.cpbVersion = (int)strlen((char*)update.pbVersion);
 	update.szUpdateURL = "http://deathdemon.int.ru/projects/ClientChangeNotify"
-#ifdef _UNICODE
+
 		"W"
-#endif
+
 		".zip";
 	update.szVersionURL = "http://deathdemon.int.ru/updaterinfo.php";
 	update.pbVersionPrefix = (BYTE*)"ClientChangeNotify"
-#ifdef _UNICODE
+
 		" Unicode"
-#endif
+
 		" version ";
 	update.cpbVersionPrefix = (int)strlen((char*)update.pbVersionPrefix);
 	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);

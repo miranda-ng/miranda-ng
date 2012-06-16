@@ -26,13 +26,10 @@ WCHAR* a2u(const char *pszAnsi,BOOL fMirCp);
 char* u2a(const WCHAR *pszUnicode,BOOL fMirCp);
 TCHAR* s2t(const void *pszStr,DWORD fUnicode,BOOL fMirCp);
 void* t2s(const TCHAR *pszStr,DWORD fUnicode,BOOL fMirCp);
-#ifdef _UNICODE
+
  #define t2a(s) u2a(s,FALSE)
  #define a2t(s) a2u(s,FALSE)
-#else
- #define t2a(s) mir_strdup(s)
- #define a2t(s) mir_strdup(s)
-#endif
+
 
 /* Database */
 BOOL EnumDbPrefixSettings(const char *pszModule,const char *pszSettingPrefix,char ***pSettings,int *pnSettingsCount);

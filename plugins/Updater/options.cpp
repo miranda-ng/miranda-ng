@@ -389,13 +389,10 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-#ifdef _UNICODE
+
 #define DBGetString			DBGetContactSettingTString
 #define DBWriteString		DBWriteContactSettingTString
-#else
-#define DBGetString			DBGetContactSetting
-#define DBWriteString		DBWriteContactSettingString
-#endif
+
 
 void InitOptionsMenuItems() {
 	if(options.restart_menu_item)
@@ -451,9 +448,9 @@ void LoadOptions(void)
 	{
 		FOLDERSDATA fd = {0};
 		fd.cbSize = sizeof(fd);
-#ifdef _UNICODE
+
 		fd.flags = FF_UNICODE;
-#endif
+
 		strcpy(fd.szSection, "Updates");
 
 		strcpy(fd.szName, "Backups");

@@ -97,13 +97,11 @@ void _TRACE(LPCSTR fmt, ...)
 	TCHAR buf[DEBUG_TRACE_BUF_SIZE + 3] = _T("");
 	va_list va;
 
-#ifndef UNICODE
-	char* tfmt = fmt;
-#else
+
 	wchar_t tfmt[DEBUG_TRACE_FMT_SIZE];
 	size_t tmp = 0;
 	mbstowcs_s(&tmp, tfmt, SIZEOF(tfmt), fmt, _TRUNCATE);
-#endif
+
 
 	va_start(va, fmt);
 	len = _vsntprintf_s(buf, SIZEOF(buf), _TRUNCATE, tfmt, va);

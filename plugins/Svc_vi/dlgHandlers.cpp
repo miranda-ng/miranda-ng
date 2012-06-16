@@ -559,11 +559,9 @@ INT_PTR CALLBACK DialogBoxProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 				lptstrCopy[length] = '\0';
 				GlobalUnlock(hData);
 				//Now set the clipboard data.
-				#if defined( _UNICODE )
+				
 					SetClipboardData(CF_UNICODETEXT, hData);
-				#else
-					SetClipboardData(CF_TEXT, hData);
-				#endif
+				
 				//Remove the lock on the clipboard.
 				CloseClipboard();
 			}

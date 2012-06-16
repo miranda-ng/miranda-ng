@@ -184,11 +184,9 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		for (int i = 0; i < profileCount; ++i)
 		{
 			CallService(MS_SS_GETPROFILENAME, (WPARAM)i, (LPARAM)buff1);
-#ifdef _UNICODE
+
 			status_desc = mir_a2u(buff1);
-#else
-			status_desc = (char*)buff1;
-#endif
+
 			cbei.iItem          = j;
 			cbei.pszText        = (LPTSTR)status_desc;
 			cbei.cchTextMax     = sizeof(status_desc);
@@ -200,9 +198,9 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 				cbei.iSelectedImage = statusicon_nr[k];
 			}
 			cbei.lParam	= (LPARAM)40083+i;
-#ifdef _UNICODE
+
 			mir_free(status_desc);
-#endif
+
 			if (SendMessage(handle, CBEM_INSERTITEM, 0, (LPARAM)&cbei) == -1)
 				break;
 			j++;
@@ -498,11 +496,9 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 			break;
 
 		case ID__VARIABLES:
-#ifdef _UNICODE
+
 			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://addons.miranda-im.org/details.php?action=viewfile&id=3815");
-#else
-			CallService(MS_UTILS_OPENURL,1,(LPARAM)"http://addons.miranda-im.org/details.php?action=viewfile&id=3814");
-#endif
+
 			break;
 
 		case ID__VARIABLES_MOREVARIABLES:
@@ -539,11 +535,9 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 					memcpy(lptstrCopy, item_string, len * sizeof(TCHAR)); 
 					lptstrCopy[len] = (TCHAR)0;
 					GlobalUnlock(hglbCopy);
-#ifdef _UNICODE
+
 					SetClipboardData(CF_UNICODETEXT, hglbCopy);
-#else
-					SetClipboardData(CF_TEXT, hglbCopy);
-#endif 
+
 				}
 			}
 			CloseClipboard();
@@ -878,13 +872,11 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	else if (iStatus > ID_STATUS_CURRENT)
 	{
 		TCHAR buff[128];
-#ifdef _UNICODE
+
 		char buff1[128];
 		CallService(MS_SS_GETPROFILENAME, iStatus - 40083, (LPARAM)buff1);
 		MultiByteToWideChar(CallService(MS_LANGPACK_GETCODEPAGE, 0, 0), 0, buff1, -1, buff, 128);
-#else
-		CallService(MS_SS_GETPROFILENAME, iStatus - 40083, (LPARAM)buff);
-#endif
+
 		mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("%s Message (%s)"), (TCHAR*)buff, szProtoName);
 	}
 	else

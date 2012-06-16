@@ -54,7 +54,7 @@ static char *StrNormNewlineA(char *szStr)
 	return szNewStr;
 }
 
-#ifdef _UNICODE
+
 static TCHAR *StrNormNewline(TCHAR *tszStr)
 {
 	if (tszStr == NULL) return NULL;
@@ -76,7 +76,7 @@ static TCHAR *StrNormNewline(TCHAR *tszStr)
 
 	return tszNewStr;
 }
-#endif
+
 
 struct AwayMsgDlgData
 {
@@ -137,7 +137,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (ack->result != ACKRESULT_SUCCESS) break;
 			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
 
-#ifdef _UNICODE
+
 			DBVARIANT dbv;
 			bool unicode = !DBGetContactSetting(dat->hContact, "CList", "StatusMsg", &dbv) && 
 				(dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
@@ -151,7 +151,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 				DBFreeVariant(&dbv);
 			}
 			else
-#endif
+
 			{
 				char *szMsg = StrNormNewlineA((char *)ack->lParam);
 				SetDlgItemTextA(hwndDlg, IDC_MSG, szMsg);
@@ -192,11 +192,9 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 							memcpy(lptstrCopy, msg, len * sizeof(TCHAR));
 							lptstrCopy[len] = (TCHAR)0;
 							GlobalUnlock(hglbCopy);
-#ifdef _UNICODE
+
 							SetClipboardData(CF_UNICODETEXT, hglbCopy);
-#else
-							SetClipboardData(CF_TEXT, hglbCopy);
-#endif
+
 						}
 					}
 					CloseClipboard();
@@ -270,7 +268,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			{
 				TCHAR msg[1024];
 				int len;
-#ifdef _UNICODE
+
 				DBVARIANT dbv;
 				bool unicode = !DBGetContactSetting(dat->hContact, "CList", "StatusMsg", &dbv) && 
 					(dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
@@ -284,7 +282,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 					DBFreeVariant(&dbv);
 				}
 				else
-#endif
+
 				{
 					char *szMsg = StrNormNewlineA((char *)ack->lParam);
 					mir_sntprintf(msg, SIZEOF(msg), _T("%hs"), szMsg);
@@ -306,11 +304,9 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 					memcpy(lptstrCopy, msg, len * sizeof(TCHAR));
 					lptstrCopy[len] = (TCHAR)0;
 					GlobalUnlock(hglbCopy);
-#ifdef _UNICODE
+
 					SetClipboardData(CF_UNICODETEXT, hglbCopy);
-#else
-					SetClipboardData(CF_TEXT, hglbCopy);
-#endif
+
 				}
 			}
 			CloseClipboard();
@@ -375,7 +371,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	char *szMsg;
 
-#ifdef _UNICODE
+
 	int unicode = !DBGetContactSetting((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
 	DBFreeVariant(&dbv);
 	if (unicode)
@@ -384,7 +380,7 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 		szMsg = mir_u2a(dbv.pwszVal);
 	}
 	else
-#endif
+
 	{
 		DBGetContactSettingString((HANDLE)wParam, "CList", "StatusMsg", &dbv);
 		szMsg = mir_strdup(dbv.pszVal);
@@ -446,7 +442,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	if (!iHidden)
 	{
 		DBVARIANT dbv;
-#ifdef _UNICODE
+
 		int unicode = !DBGetContactSetting((HANDLE)wParam, "CList", "StatusMsg", &dbv) && (dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
 		DBFreeVariant(&dbv);
 		if (unicode)
@@ -455,7 +451,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 			szMsg = mir_u2a(dbv.pwszVal);
 		}
 		else
-#endif
+
 		{
 			DBGetContactSettingString((HANDLE)wParam, "CList", "StatusMsg", &dbv);
 			szMsg = mir_strdup(dbv.pszVal);
