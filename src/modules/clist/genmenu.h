@@ -137,11 +137,12 @@ int FindRoot( PMO_IntMenuItem pimi, void* param );
 TMO_IntMenuItem * GetMenuItemByGlobalID(int globalMenuID);
 BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c
 
+LPTSTR GetMenuItemText(PMO_IntMenuItem);
+
 int GenMenuOptInit(WPARAM wParam, LPARAM lParam);
 int GetMenuObjbyId(const int id);
 int GetMenuItembyId(const int objpos, const int id);
+
 INT_PTR MO_GetMenuItem(WPARAM wParam, LPARAM lParam);
 void FreeAndNil(void **p);
-static int RemoveFromList(int pos, void **lpList, int *ListElemCount, int ElemSize);
-static int RemoveFromList(int pos, void **lpList, int *ListElemCount, int ElemSize);
 #endif

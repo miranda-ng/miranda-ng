@@ -72,6 +72,14 @@ int GetMenuObjbyId( const int id )
 	return -1;
 }
 
+LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
+{
+	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
+		return pimi->mi.ptszName;
+		
+	return LangPackTranslateStringT(pimi->mi.hLangpack, pimi->mi.ptszName);
+}
+
 PMO_IntMenuItem MO_RecursiveWalkMenu( PMO_IntMenuItem parent, pfnWalkFunc func, void* param )
 {
 	if ( parent == NULL )
@@ -825,16 +833,14 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 	mii = *lpmii;
 
 	int count = GetMenuItemCount( hMenu );
-	if (count != 0 && (count % 33 ) == 0)
-		if ( pimi->mi.root != NULL ) {
-			if ( !( mii.fMask & MIIM_FTYPE ))
-				mii.fType = 0;
-			mii.fMask |= MIIM_FTYPE;
-			mii.fType |= MFT_MENUBARBREAK;
-		}
+	if (count != 0 && (count % 33 ) == 0 && pimi->mi.root != NULL ) {
+		if ( !( mii.fMask & MIIM_FTYPE ))
+			mii.fType = 0;
+		mii.fMask |= MIIM_FTYPE;
+		mii.fType |= MFT_MENUBARBREAK;
+	}
 
-	if ( !( pimi->mi.flags & CMIF_KEEPUNTRANSLATED))
-		mii.dwTypeData = LangPackTranslateStringT(pimi->mi.hLangpack, mii.dwTypeData);
+	mii.dwTypeData = GetMenuItemText(pimi);
 
 	InsertMenuItem( hMenu, uItem, TRUE, &mii);
 }

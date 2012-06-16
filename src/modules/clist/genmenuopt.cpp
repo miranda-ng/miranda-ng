@@ -265,11 +265,11 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 					PD->name = mir_tstrdup( dbv.ptszVal );
 					DBFreeVariant( &dbv );
 				}
-				else PD->name = mir_tstrdup( p->mi.ptszName );
+				else PD->name = mir_tstrdup( GetMenuItemText(p));
 			}
 
 			PD->pimi = p;
-			PD->defname = mir_tstrdup( p->mi.ptszName );
+			PD->defname = mir_tstrdup( GetMenuItemText(p));
 
 			mir_snprintf( buf, SIZEOF(buf), "%s_visible", menuItemName );
 			PD->show = DBGetContactSettingByte( NULL, MenuNameItems, buf, 1 );
