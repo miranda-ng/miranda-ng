@@ -63,13 +63,10 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	if (ai->argc != 3) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	szStyleSheet = u2a(ai->targv[1]);
 	szDoc = u2a(ai->targv[2]);
-#else
-	szStyleSheet = _strdup(ai->argv[1]);
-	szDoc = _strdup(ai->argv[2]);
-#endif
+
 
 	log_debugA("calling xsltParseMemory");
 	sdoc = pXmlParseMemory(szStyleSheet, strlen(szStyleSheet));
@@ -123,11 +120,9 @@ static TCHAR *parseXslts(ARGUMENTSINFO *ai) {
 	free(szStyleSheet);
 	log_debugA("calling free");
 	free(szDoc);
-#ifdef UNICODE
+
 	tszRes = a2u((char *)xmlChRes);
-#else
-	tszRes = _strdup((const char *)xmlChRes);
-#endif
+
 	log_debugA("calling xmlFree");
 	pXmlFree(xmlChRes);
 	
@@ -149,13 +144,10 @@ static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
 	if (ai->argc != 3) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	szStyleSheet = u2a(ai->targv[1]);
 	szDoc = u2a(ai->targv[2]);
-#else
-	szStyleSheet = _strdup(ai->argv[1]);
-	szDoc = _strdup(ai->argv[2]);
-#endif
+
 
 	log_debugA("xslt with %s and %s", szStyleSheet, szDoc);
 
@@ -206,11 +198,9 @@ static TCHAR *parseXsltf(ARGUMENTSINFO *ai) {
 
 	free(szStyleSheet);
 	free(szDoc);
-#ifdef UNICODE
+
 	tszRes = a2u((char *)xmlChRes);
-#else
-	tszRes = _strdup((const char *)xmlChRes);
-#endif
+
 	log_debugA("calling xmlFree");
 	pXmlFree(xmlChRes);
 	

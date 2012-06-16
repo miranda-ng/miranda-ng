@@ -61,12 +61,12 @@ bool DBGetContactSettingAsString(HANDLE hContact, const char *szModuleName, cons
 			if (dbv.pszVal) utf2t(dbv.pszVal, buff, bufflen);
 			buff[bufflen - 1] = 0;
 			break;
-#ifdef _UNICODE
+
 		case DBVT_WCHAR:
 			if (dbv.pwszVal) wcsncpy(buff, dbv.pwszVal, bufflen);
 			buff[bufflen - 1] = 0;
 			break;
-#endif
+
 		}
 
 		DBFreeVariant(&dbv);
@@ -847,7 +847,7 @@ TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
 	{
 		swzText = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGT, wStatus, 0);
 	}
-#ifdef _UNICODE
+
 	else if (swzText == NULL)
 	{
 		// try to use service without SGMA_TCHAR
@@ -858,7 +858,7 @@ TCHAR *GetProtoStatusMessage(char *szProto, WORD wStatus)
 			mir_free(tmpMsg);
 		}
 	}
-#endif	
+
 
 	if (swzText && !swzText[0])
 	{

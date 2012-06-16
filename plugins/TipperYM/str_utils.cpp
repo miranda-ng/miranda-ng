@@ -70,60 +70,46 @@ bool utf2a(const char *us, char *buff, int bufflen)
 
 bool t2w(const TCHAR *ts, wchar_t *buff, int bufflen) 
 {
-#ifdef _UNICODE
+
 	wcsncpy(buff, ts, bufflen);
 	return true;
-#else
-	return a2w(ts, buff, bufflen);
-#endif
+
 }
 
 bool w2t(const wchar_t *ws, TCHAR *buff, int bufflen)
 {
-#ifdef _UNICODE
+
 	wcsncpy(buff, ws, bufflen);
 	return true;
-#else
-	return w2a(ws, buff, bufflen);
-#endif
+
 }
 
 bool t2a(const TCHAR *ts, char *buff, int bufflen) 
 {
-#ifdef _UNICODE
+
 	return w2a(ts, buff, bufflen);
-#else
-	strncpy(buff, ts, bufflen);
-	return true;
-#endif
+
 }
 
 bool a2t(const char *as, TCHAR *buff, int bufflen) 
 {
-#ifdef _UNICODE
+
 	return a2w(as, buff, bufflen);
-#else
-	strncpy(buff, as, bufflen);
-	return true;
-#endif
+
 }
 
 bool t2utf(const TCHAR *ts, char *buff, int bufflen)
 {
-#ifdef _UNICODE
+
 	return w2utf(ts, buff, bufflen);
-#else
-	return a2utf(ts, buff, bufflen);
-#endif
+
 }
 
 bool utf2t(const char *us, TCHAR *buff, int bufflen) 
 {
-#ifdef _UNICODE
+
 	return utf2w(us, buff, bufflen);
-#else
-	return utf2a(us, buff, bufflen);
-#endif
+
 }
 
 wchar_t *utf2w(const char *us)
@@ -190,63 +176,43 @@ char *a2utf(const char *as)
 
 TCHAR *w2t(const wchar_t *ws)
 {
-#ifdef _UNICODE
+
 	return mir_wstrdup(ws);
-#else
-	return w2a(ws);
-#endif
+
 }
 
 wchar_t *t2w(const TCHAR *ts)
 {
-#ifdef _UNICODE
+
 	return mir_tstrdup(ts);
-#else
-	return a2w(ts);
-#endif
+
 }
 
 
 char *t2a(const TCHAR *ts)
 {
-#ifdef _UNICODE
+
 	return w2a(ts);
-#else
-	return mir_strdup(ts);
-#endif
+
 }
 
 TCHAR *a2t(const char *as) 
 {
-#ifdef _UNICODE
+
 	return a2w(as);
-#else
-	return mir_strdup(as);
-#endif
+
 }
 
 TCHAR *utf2t(const char *utfs)
 {
-#ifdef _UNICODE
+
 	return utf2w(utfs);
-#else
-	wchar_t *ws = utf2w(utfs);
-	char *ret = w2a(ws);
-	mir_free(ws);
-	return ret;
-#endif
 }
 
 char *t2utf(const TCHAR *ts)
 {
-#ifdef _UNICODE
+
 	return w2utf(ts);
-#else
-	wchar_t *ws = a2w(ts);
-	char *ret = w2utf(ws);
-	mir_free(ws);
-	return ret;
-#endif
 }
 
 TCHAR *myfgets(TCHAR *Buf, int MaxCount, FILE *File)

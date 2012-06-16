@@ -170,17 +170,12 @@ namespace Setting {
 	static	FORCEINLINE
 	BYTE	WriteUString  (LPCSTR pszSetting, LPSTR value) { return WriteUString(MODNAME, pszSetting, value); }
 
-#ifdef _UNICODE
+
 	#define GetTString			GetWString
 	#define GetTStringEx		GetWStringEx
 	#define GetTStringCtrl		GetWStringCtrl
 	#define WriteTString		WriteWString
-#else
-	#define GetTString			GetAString
-	#define GetTStringEx		GetAStringEx
-	#define GetTStringCtrl		GetAStringCtrl
-	#define WriteTString		WriteAString
-#endif
+
 
 	/**
 	 * misc operations

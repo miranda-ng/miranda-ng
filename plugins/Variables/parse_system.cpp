@@ -498,11 +498,9 @@ static TCHAR *parseProcessRunning(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	szProc = ref = u2a(ai->targv[1]);
-#else
-	szProc = ref = _strdup(ai->argv[1]);
-#endif
+
 	EnumProcs((PROCENUMPROC) MyProcessEnumerator, (LPARAM)&szProc);
 	if (szProc != NULL) {
 		ai->flags |= AIF_FALSE;
@@ -692,11 +690,9 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		SetFilePointer(hFile, 0, NULL, FILE_BEGIN);
 	}
 	else {
-#ifndef UNICODE
-		return NULL;
-#else
+
 		csz = sizeof(TCHAR);
-#endif
+
 	}
 	totalReadSz = 0;
 	lineCount = 1;
@@ -713,7 +709,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 			return NULL;
 		}
 		CloseHandle(hFile);
-#ifdef UNICODE
+
 		if (tUC) {
 			res = (TCHAR *)pBuf;
 		}
@@ -721,9 +717,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 			res = a2u((char *)pBuf);
 			free(pBuf);
 		}
-#else
-		res = (char*)pBuf;
-#endif
+
 
 		return res;
 	}
@@ -837,7 +831,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				else {
 					*(char *)pCur = '\0';
 				}
-#ifdef UNICODE
+
 				if (tUC) {
 					res = (TCHAR *)pBuf;
 				}
@@ -845,15 +839,13 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 					res = a2u((char *)pBuf);
 					free(pBuf);
 				}
-#else
-				res = (char *)pBuf;
-#endif
+
 				return res;
 			}
 		}
 		if ( ((DWORD)(linePos+(pCur-pBuf)) == fileSz) ) { // eof
 			CloseHandle(hFile);
-#ifdef UNICODE
+
 			if (tUC) {
 				res = (TCHAR *)pBuf;
 			}
@@ -861,9 +853,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				res = a2u((char *)pBuf);
 				free(pBuf);
 			}
-#else
-			res = (char *)pBuf;
-#endif
+
 			return res;
 		}
 		if (readSz == bufSz-csz) {
@@ -964,11 +954,9 @@ static TCHAR *parseClipboard(ARGUMENTSINFO *ai) {
 			HANDLE hData = NULL;
 			TCHAR* tszText = NULL; 
 			int len = 0;
-#ifdef _UNICODE
+
 			hData = GetClipboardData(CF_UNICODETEXT);
-#else 
-			hData = GetClipboardData(CF_TEXT);
-#endif
+
 			if (hData != NULL) {
 				tszText = (TCHAR*)GlobalLock(hData);
 				len = _tcslen(tszText);

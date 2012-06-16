@@ -251,9 +251,9 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 // dialog box for the tokens
 static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 
-#ifdef UNICODE
+
 	TCHAR *res;
-#endif
+
 	char *cat, *cur, *helpText;
 
 	if (tr == NULL) {
@@ -269,24 +269,20 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 		if (*cur == _T('\t')) {
 			*cur = _T('\0');
 			helpText = ( char* )realloc(helpText, strlen(helpText)+1);
-#ifdef UNICODE
+
 			res = a2u(helpText);
 			free(helpText);
 			return res;
-#else
-			return helpText;
-#endif
+
 		}
 		cur++;
 	}
 
-#ifdef UNICODE
+
 	res = a2u(helpText);
 	free(helpText);
 	return res;
-#else
-	return helpText;
-#endif
+
 }
 
 static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
@@ -297,23 +293,19 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 	char *cur = tr->szHelpText + strlen(tr->szHelpText);
 	while (cur > tr->szHelpText) {
 		if (*cur == _T('\t')) {
-#ifdef UNICODE
+
 			cur = _strdup(cur+1);
 			TCHAR *res = a2u(cur);
 			free(cur);
 			return res;
-#else
-			return _strdup(cur+1);
-#endif
+
 		}
 		cur--;
 	}
 
-#ifdef UNICODE
+
 	return a2u(tr->szHelpText);
-#else
-	return _strdup(tr->szHelpText);
-#endif
+
 }
 
 static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
@@ -361,11 +353,9 @@ static TCHAR *getTokenDescription(TOKENREGISTEREX *tr)
 		mir_sntprintf(desc, len, _T("%c%s%c"), _T(FIELD_CHAR), tr->szTokenString, _T(FIELD_CHAR));
 	else {
 		if (args != NULL)
-#ifdef UNICODE
+
 			tArgs = a2u(args);
-#else
-			tArgs = _strdup(args);
-#endif
+
 		mir_sntprintf(desc, len, _T("%c%s%s"), _T(FUNC_CHAR), tr->tszTokenString, (tArgs!=NULL?tArgs:_T("")));
 	}
 	if (tArgs != NULL)
@@ -451,11 +441,9 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 						continue;
 					}
 					else if (hdd->vhs->szSubjectDesc != NULL) {
-#ifdef UNICODE
+
 						tszHelpDesc = a2u(hdd->vhs->szSubjectDesc);
-#else
-						tszHelpDesc = _strdup(hdd->vhs->szSubjectDesc);
-#endif
+
 					}
 				}
 				if (!_tcscmp(tr->tszTokenString, _T(EXTRATEXT))) {
@@ -463,11 +451,9 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 						continue;
 					}
 					else if (hdd->vhs->szExtraTextDesc != NULL) {
-#ifdef UNICODE
+
 						tszHelpDesc = a2u(hdd->vhs->szExtraTextDesc);
-#else
-						tszHelpDesc = _strdup(hdd->vhs->szExtraTextDesc);
-#endif
+
 					}
 				}
 			}
@@ -961,13 +947,11 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				if (dat->vhs->fi->flags & FIF_UNICODE)
 					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
 				else {
-#ifdef UNICODE
+
 					WCHAR *wszFormatString = a2u(dat->vhs->fi->szFormat);
 					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)wszFormatString);
 					free(wszFormatString);
-#else
-					SendMessageA(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->szFormat);
-#endif
+
 				}
 			}
 			else if (dat->vhs->hwndCtrl != NULL) {
@@ -1022,13 +1006,11 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				if (dat->vhs->fi->flags & FIF_UNICODE)
 					SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
 				else {
-#ifdef UNICODE
+
 					WCHAR *wszSource = a2u(dat->vhs->fi->szExtraText);
 					SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)wszSource);
 					free(wszSource);
-#else
-					SendMessageA(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->szExtraText);
-#endif
+
 				}
 			}
 			if (dat->vhs->flags&VHF_EXTRATEXT) {
@@ -1066,7 +1048,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			if ( (dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT)) ) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
-#ifdef UNICODE
+
 					if ((dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 						if (dat->vhs->fi->flags&FIF_UNICODE) {
 							dat->vhs->fi->tszFormat = ( TCHAR* )calloc((len+1), sizeof(WCHAR));
@@ -1077,10 +1059,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 							SendMessageA(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szFormat);
 						}
 					}
-#else
-					dat->vhs->fi->szFormat = (char*)calloc(len+1, 1);
-					SendMessageA(hwndDlg, VARM_GETINPUTTEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szFormat);
-#endif
+
 				}
 			}
 
@@ -1110,7 +1089,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 
 				len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
 				if (len > 0) {
-#ifdef UNICODE
+
 					if (dat->vhs->fi->flags&FIF_UNICODE) {
 						dat->vhs->fi->tszExtraText = ( TCHAR* )calloc((len+1), sizeof(WCHAR));
 						SendMessage(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->tszExtraText);
@@ -1119,10 +1098,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 						dat->vhs->fi->szExtraText = ( char* )calloc(len+1, 1);
 						SendMessageA(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szExtraText);
 					}
-#else
-					dat->vhs->fi->szExtraText = (char*)calloc(len+1, 1);
-					SendMessageA(hwndDlg, VARM_GETEXTRATEXT, (WPARAM)len+1, (LPARAM)dat->vhs->fi->szExtraText);
-#endif
+
 				}
 				dat->vhs->fi->hContact = (HANDLE)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			}

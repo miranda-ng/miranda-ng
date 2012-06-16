@@ -54,11 +54,9 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD fdwReason, LPVOID lpvReserved)
 			OsVersionInfo.dwOSVersionInfoSize = sizeof(OsVersionInfo);
 			GetVersionEx(&OsVersionInfo);
 
-#ifdef _UNICODE			
+		
 			g_bRightModule = (OsVersionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT);
-#else
-			g_bRightModule = (OsVersionInfo.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS);
-#endif
+
 
 			break;
 		}
@@ -98,11 +96,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *pLink)
 {
-#ifdef _UNICODE
+
 	if (!g_bRightModule) return 0;
-#else
-	// ansi version can work ok on winnt platform
-#endif
+
 
 	pluginLink = pLink;
 	mir_getLP(&sPluginInfo);

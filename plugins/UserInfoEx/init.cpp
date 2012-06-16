@@ -183,15 +183,13 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		update.cpbBetaVersionPrefix	= (INT)strlen((LPSTR)update.pbBetaVersionPrefix);
 
 #ifdef _WIN64
- #ifdef _UNICODE
+
 		update.szBetaUpdateURL		= "http://userinfoex.googlecode.com/files/uinfoex64.zip";
- #endif
+
 #else
- #ifdef _UNICODE
+
 		update.szBetaUpdateURL		= "http://userinfoex.googlecode.com/files/uinfoexW.zip";
- #else
-		update.szBetaUpdateURL		= "http://userinfoex.googlecode.com/files/uinfoex.zip";
- #endif
+
 #endif
 
 		// url for displaying changelog for beta versions
@@ -240,12 +238,10 @@ static BOOL CoreCheck()
 	strlwr(szVer);
 	_tcslwr(tszExePath);
 
-#ifdef _UNICODE
+
 	bOk *= (GetVersion() & 0x80000000) == 0;
 	bOk *= strstr(szVer, "unicode") != 0;
-#else
-	bOk *= strstr(szVer, "unicode") == 0;
-#endif
+
 	
 	bOk *= _tcsstr(_tcsrchr(tszExePath, '\\'), _T("miranda")) != 0;
 	bOk *= !strstr(szVer, "coffee") && strncmp(szVer, "1.", 2) && !strstr(szVer, " 1.");

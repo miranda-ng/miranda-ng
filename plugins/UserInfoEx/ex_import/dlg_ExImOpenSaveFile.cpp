@@ -30,14 +30,14 @@ Last change by : $Author: ing.u.horn $
 
 #include "commonheaders.h"
 
-#ifdef _UNICODE
+
  #include <dlgs.h>
-#endif
+
 
 #include "m_db3xSA.h"
 #include "dlg_ExImOpenSaveFile.h"
 
-#ifdef _UNICODE
+
 
 #define HKEY_MIRANDA_PLACESBAR	_T("Software\\Miranda IM\\PlacesBar")
 #define HKEY_WINPOL_PLACESBAR	_T("Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar")
@@ -227,7 +227,7 @@ static UINT_PTR CALLBACK OpenSaveFileDialogHook(HWND hDlg, UINT uMsg, WPARAM wPa
 	return FALSE;
 }
 
-#endif
+
 
 /**
  * name:		GetInitialDir
@@ -305,7 +305,7 @@ static VOID InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
 	GetInitialDir(pszInitialDir);
 	pofn->lpstrInitialDir = pszInitialDir;
 
-#ifdef _UNICODE
+
 	if (IsWinVer2000Plus()) {
 		pofn->lStructSize = sizeof (OPENFILENAME);
 		pofn->Flags		 |= OFN_ENABLEHOOK|OFN_EXPLORER;
@@ -314,9 +314,7 @@ static VOID InitOpenFileNameStruct(OPENFILENAMEA *pofn, HWND hWndParent, LPCSTR 
 	else {
 		pofn->lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	}
-#else
-	pofn->lStructSize = sizeof (OPENFILENAME);
-#endif
+
 }
 
 

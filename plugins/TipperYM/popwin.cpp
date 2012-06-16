@@ -469,7 +469,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					// fingerprint icon
 					if (pwd->bIsIconVisible[5]) 
 					{
-#ifdef _UNICODE
+
 						if (ServiceExists(MS_FP_GETCLIENTICONT))
 						{
 							for (i = 0; opt.exIconsOrder[i] != 5; i++);
@@ -481,7 +481,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 							}
 						}
 						else
-#endif
+
 						if (ServiceExists(MS_FP_GETCLIENTICON)) 
 						{
 							for (i = 0; opt.exIconsOrder[i] != 5; i++);
@@ -1017,11 +1017,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						}
 
 						GlobalUnlock(hClipboardData);
-#ifdef _UNICODE
+
 						SetClipboardData(CF_UNICODETEXT, hClipboardData);
-#else
-						SetClipboardData(CF_TEXT, hClipboardData);
-#endif
+
 					}
 
 					CloseClipboard();

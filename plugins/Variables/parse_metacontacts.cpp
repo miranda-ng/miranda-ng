@@ -69,11 +69,9 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR* tszProto;
-	#ifdef UNICODE
+	
 		tszProto = a2u(szProto);
-	#else
-		tszProto = _strdup(szProto);
-	#endif
+	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
@@ -130,11 +128,9 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR* tszProto;
-	#ifdef UNICODE
+
 		tszProto = a2u(szProto);
-	#else
-		tszProto = _strdup(szProto);
-	#endif
+	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
@@ -191,11 +187,9 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 	}
 
 	TCHAR* tszProto;
-	#ifdef UNICODE
+	
 		tszProto = a2u(szProto);
-	#else
-		tszProto = _strdup(szProto);
-	#endif
+	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);

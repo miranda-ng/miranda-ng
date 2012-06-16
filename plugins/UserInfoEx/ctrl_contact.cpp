@@ -319,22 +319,10 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 							EDITBALLOONTIP btt;
 
 							btt.cbStruct = SIZEOF(btt);
-#ifdef _UNICODE
+
 							btt.pszTitle = TranslateW(L"Syntax Error");
 							btt.pszText = TranslateW(L"The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.");
-#else
-							WCHAR wszTitle[MAX_PATH];
-							WCHAR wszText[MAX_PATH];
-							LPSTR pszTitle = Translate("Syntax Error");
-							LPSTR pszText = Translate("The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.");
-							INT cbTitle = mir_strlen(pszTitle) + 1;
-							INT cbText = mir_strlen(pszText) + 1;
 
-							MultiByteToWideChar(myGlobals.CodePage, 0, pszTitle, -1, wszTitle, cbTitle);
-							MultiByteToWideChar(myGlobals.CodePage, 0, pszText, -1, wszText, cbText);
-							btt.pszTitle = wszTitle;
-							btt.pszText = wszText;
-#endif
 							SendDlgItemMessage(hDlg, EDIT_PHONE, EM_SHOWBALLOONTIP, NULL, (LPARAM)&btt);
 							SetDlgItemText(hDlg, EDIT_PHONE, cbi->pszVal);
 							SendDlgItemMessage(hDlg, EDIT_PHONE, EM_SETSEL, errorPos, errorPos);

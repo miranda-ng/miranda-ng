@@ -52,11 +52,9 @@ static TCHAR *parseUrlEnc(ARGUMENTSINFO *ai) {
 		strncpy(res+cur, hex, strlen(hex));
 		cur+=strlen(hex);
 	}
-#ifdef UNICODE
+
 	tres = a2u(res);
-#else
-	tres = _strdup(res);
-#endif
+
 	free(res);
 
 	return tres;
@@ -71,11 +69,9 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	res = u2a(ai->targv[1]);
-#else
-	res = _strdup(ai->argv[1]);
-#endif
+
 	if (res == NULL) {
 		return NULL;
 	}
@@ -90,11 +86,9 @@ static TCHAR *parseUrlDec(ARGUMENTSINFO *ai) {
 		cur++;
 	}
 	res = ( char* )realloc(res, strlen(res)+1);
-#ifdef UNICODE
+
 	tres = a2u(res);
-#else
-	tres = _strdup(res);
-#endif
+
 	free(res);
 	
 	return tres;
@@ -112,11 +106,9 @@ static TCHAR *parseNToA(ARGUMENTSINFO *ai) {
 	in.s_addr = ttoi(ai->targv[1]);
 	res = inet_ntoa(in);
 	if (res != NULL) {
-#ifdef UNICODE
+
 		return a2u(res);
-#else
-		return _strdup(res);
-#endif
+
 	}
 
 	return NULL;
@@ -134,11 +126,9 @@ static TCHAR *parseHToA(ARGUMENTSINFO *ai) {
 	in.s_addr = htonl(ttoi(ai->targv[1]));
 	res = inet_ntoa(in);
 	if (res != NULL) {
-#ifdef UNICODE
+
 		return a2u(res);
-#else
-		return _strdup(res);
-#endif
+
 	}
 
 	return NULL;

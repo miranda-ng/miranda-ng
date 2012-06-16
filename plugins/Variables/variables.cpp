@@ -436,7 +436,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 	}
 	orgFormat = fi->tszFormat;
 	orgSource = fi->tszExtraText;
-#ifdef UNICODE
+
 	if (!(fi->flags&FIF_TCHAR)) {
  		copied = TRUE;
 		log_debugA("a2u (%s)", fi->szExtraText);
@@ -451,23 +451,12 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
  		tszFormat = fi->tszFormat;
  		tszSource = fi->tszExtraText;
 	}
-#else
-	if (fi->flags&FIF_UNICODE) {
-		if (!bWarningShown) {
-			MessageBoxA(NULL, "A plugin using UNICODE encoding tries to make use of the ANSI version of Variables.\r\nPlease use the UNICODE version of Variables or the ANSI version of the plugin using Variables.", "Variables", MB_OK);
-			bWarningShown = TRUE;
-		}
-		return (int)NULL;
-	}
- 	copied = FALSE;
- 	tszFormat = fi->szFormat;
- 	tszSource = fi->szExtraText;
-#endif
+
 	fi->tszFormat = tszFormat;
 	fi->tszExtraText = tszSource;
 
 	tRes = formatString(fi);
-#ifdef UNICODE
+
 	if (!(fi->flags&FIF_TCHAR)) {
 		res = (int)u2a(tRes);
 		free(tRes);
@@ -475,9 +464,7 @@ static INT_PTR formatStringService(WPARAM wParam, LPARAM lParam) {
 	else {
 		res = (int)tRes;
 	}
-#else
-	res = (int)tRes;
-#endif
+
  	if (copied) {
  		if (tszFormat != NULL) {
  			free(tszFormat);

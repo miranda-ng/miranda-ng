@@ -725,16 +725,14 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 						lvi.iSubItem = 0;
 						lvi.iItem = i; 
 						lvi.lParam = i;
-#ifdef _UNICODE
+
 						WCHAR wszProto[128];
 						long lLen = MultiByteToWideChar(CP_ACP, 0, ppProtos[i]->szName,
 							(int)strlen(ppProtos[i]->szName), wszProto, ARRAY_SIZE(wszProto));
 						wszProto[lLen] = L'\0';
 
 						lvi.pszText = wszProto;
-#else
-						lvi.pszText = ppProtos[lvi.iItem]->szName;
-#endif 
+
 						int new_item = ListView_InsertItem(GetDlgItem(hDlg,IDC_PROTOS),&lvi);
 
 						BYTE bProtoState = ReadSettingByte(ppProtos[i]->szName, ProtoUserBit|ProtoIntBit);
@@ -762,24 +760,20 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 						TCHAR szProto[64];
 
 						ListView_GetItemText(GetDlgItem(hDlg,IDC_PROTOS), i, 0, szProto, ARRAY_SIZE(szProto));
-#ifdef _UNICODE
+
 						char szMultiByteProto[128];
 						long lLen = WideCharToMultiByte(CP_ACP, 0, szProto, lstrlen(szProto), 
 							szMultiByteProto, sizeof(szMultiByteProto), NULL, NULL);
 						szMultiByteProto[lLen] = '\0';
 
 						BYTE bProtoState = ReadSettingByte(szMultiByteProto, ProtoUserBit|ProtoIntBit);
-#else
-						BYTE bProtoState = ReadSettingByte(szProto, ProtoUserBit|ProtoIntBit);
-#endif 
+
 
 						BOOL bProtoEnabled = ListView_GetCheckState(GetDlgItem(hDlg,IDC_PROTOS), i);
 						bProtoState = bProtoEnabled ? bProtoState|ProtoUserBit : bProtoState&~ProtoUserBit;
-#ifdef _UNICODE
+
 						WriteSettingByte(szMultiByteProto, bProtoState);		
-#else
-						WriteSettingByte(szProto, bProtoState);		
-#endif 
+ 
 					}
 
 					EndDialog(hDlg, LOWORD(wParam));
@@ -1007,15 +1001,13 @@ TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *sz
 
 	memset(szString, 0, iBufSize*sizeof(TCHAR));
 
-#ifdef _UNICODE
+
 	WCHAR wszProto[32];
 	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)strlen(szProto), wszProto, ARRAY_SIZE(wszProto));
 	wszProto[lLen] = _T('\0');
 
 	_sntprintf(szString, iBufSize-1, szFormatString, wszProto, _T(": "), szContactName);
-#else
-	_sntprintf(szString, iBufSize-1, szFormatString, szProto, _T(": "), szContactName);
-#endif 
+
 
 	TruncateWithDots(szString, iBufSize-1-_tcslen(szStatus)-_tcslen(szIs)-2); // 2 spaces around szIs
 	_sntprintf(szString+_tcslen(szString), iBufSize-1-_tcslen(szString), _T(" %s %s"), szIs, szStatus);

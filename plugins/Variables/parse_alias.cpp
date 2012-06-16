@@ -189,11 +189,9 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 			_tcscat(szArgs, _T(","));
 	}
 	if ( (szArgs != NULL) && (argc > 0) ) {
-#ifdef UNICODE
+
 		szArgsA = u2a(szArgs);
-#else
-		szArgsA = _strdup(szArgs);
-#endif
+
 		szHelp = ( char* )malloc(32 + strlen(szArgsA));
 		memset(szHelp, '\0', 32 + strlen(szArgsA));
 		sprintf(szHelp, "Alias\t(%s)\tuser defined", szArgsA);

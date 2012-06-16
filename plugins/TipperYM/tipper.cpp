@@ -274,11 +274,9 @@ void InitUpdaterSupport()
 		update.szComponentName = pluginInfoEx.shortName;
 		update.pbVersion = (BYTE *)CreateVersionString(pluginInfoEx.version, szVersion);
 		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-#ifdef _UNICODE
+
 		update.szUpdateURL = "http://miranda-easy.net/addons/updater/tipper-ym.zip";
-#else
-		update.szUpdateURL = "http://miranda-easy.net/addons/updater/tipper-ym_ansi.zip";
-#endif
+
 		update.szVersionURL = "http://miranda-easy.net/addons/updater/tipper_version.txt";
 		update.pbVersionPrefix = (BYTE *)"Tipper YM ";
 		update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
@@ -369,9 +367,9 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	// for compatibility with mToolTip status tooltips
 	hShowTipService = CreateServiceFunction("mToolTip/ShowTip", ShowTip);
-#ifdef _UNICODE
+
 	hShowTipWService = CreateServiceFunction("mToolTip/ShowTipW", ShowTipW);
-#endif
+
 	hHideTipService = CreateServiceFunction("mToolTip/HideTip", HideTip);
 
 	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, Shutdown);

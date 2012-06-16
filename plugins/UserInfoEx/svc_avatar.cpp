@@ -116,16 +116,14 @@ namespace NServices
 			if (!CallService(MS_DB_GETPROFILEPATH, (WPARAM)cchFileName, (LPARAM)szFileName)) 
 			{
 				size_t len = mir_strlen(szFileName);
-		#ifdef _UNICODE
+	
 				CHAR tmp[64];
 
 				if (WideCharToMultiByte(CP_ACP, 0, zodiac, 64, tmp, SIZEOF(tmp),0,0) > 0) 
 				{
 					mir_snprintf(szFileName + len, cchFileName - len, "\\avatars\\%s.png", tmp);
 				}
-		#else
-				mir_snprintf(szFileName + len, cchFileName - len, "\\avatars\\%s.png", zodiac);
-		#endif
+
 				return !PathFileExistsA(szFileName);
 			}
 			return 1;

@@ -180,11 +180,9 @@ static TCHAR *parseDBProfileName(ARGUMENTSINFO *ai)
 	if (CallService(MS_DB_GETPROFILENAME, SIZEOF(name), (LPARAM)name))
 		return NULL;
 
-	#ifdef UNICODE
+
 		return a2u(name);
-	#else
-		return _strdup(name);
-	#endif
+	
 }
 
 static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai) {
@@ -197,11 +195,9 @@ static TCHAR *parseDBProfilePath(ARGUMENTSINFO *ai) {
 	if (CallService(MS_DB_GETPROFILEPATH, SIZEOF(path), (LPARAM)path))
 		return NULL;
 
-	#ifdef UNICODE
+	
 		return a2u(path);
-	#else
-		return _strdup(path);
-	#endif
+	
 }
 
 static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* defaultValue) {
@@ -223,26 +219,19 @@ static TCHAR* getDBSetting(HANDLE hContact, char* module, char* setting, TCHAR* 
 		var = itot(dbv.dVal);
 		break;
 	case DBVT_ASCIIZ:
-		#ifdef UNICODE
+		
 			var = a2u(dbv.pszVal);
-		#else
-			var = _strdup(dbv.pszVal);
-		#endif
+		
 		break;
 	case DBVT_WCHAR:
-		#ifdef UNICODE
+	
 			var = _wcsdup(dbv.pwszVal);
-		#else
-			var = u2a(dbv.pwszVal);
-		#endif
+	
 		break;
 	case DBVT_UTF8:
-		#ifdef UNICODE
+	
 			Utf8Decode(dbv.pszVal, &var);
-		#else
-			var = _strdup(dbv.pszVal);
-			Utf8Decode(var, NULL);
-		#endif
+		
 		break;
 	}
 
@@ -281,13 +270,10 @@ static TCHAR *parseDBSetting(ARGUMENTSINFO *ai)
 		}
 	}
 
-	#ifdef UNICODE
+	
 		szModule = u2a(ai->targv[2]);
 		szSetting = u2a(ai->targv[3]);
-	#else
-		szModule = _strdup(ai->argv[2]);
-		szSetting = _strdup(ai->argv[3]);
-	#endif
+	
 
 	if ( ai->argc > 4 && _tcslen(ai->targv[4]) > 0 )
 		szDefaultValue = _tcsdup(ai->targv[4]);
@@ -495,11 +481,9 @@ static TCHAR *parseMyStatus(ARGUMENTSINFO *ai) {
 	if ( ai->argc == 1 || _tcslen(ai->targv[1]) == 0 )
 		status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 	else {
-#ifdef UNICODE
+
 		szProto = u2a(ai->targv[1]);
-#else
-		szProto = _strdup(ai->targv[1]);
-#endif
+
 		status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 		free(szProto);
 	}
@@ -520,11 +504,9 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 
 	szRes = NULL;
 	tszRes = NULL;
-#ifdef UNICODE
+
 	szProto = u2a(ai->targv[1]);
-#else
-	szProto = _strdup(ai->targv[1]);
-#endif
+
 	if (!_tcscmp(ai->targv[2], _T(STR_PINAME)))
 		tszRes = Hlp_GetProtocolName(szProto);
 	else if (!_tcscmp(ai->targv[2], _T(STR_PIUIDTEXT))) {
@@ -551,12 +533,10 @@ static TCHAR *parseProtoInfo(ARGUMENTSINFO *ai)
 		return NULL;
 
 	if ( szRes != NULL && tszRes == NULL ) {
-		#ifdef UNICODE
+		
 			tszRes = a2u(szRes);
 			free(szRes);
-		#else
-			tszRes = szRes;
-		#endif
+		
 	}
 	else if ( szRes != NULL && tszRes != NULL )
 		free(szRes);
@@ -592,11 +572,9 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 		return NULL;
 	}
 
-	#ifdef UNICODE
+	
 		tszProto = a2u(szProto);
-	#else
-		tszProto = _strdup(szProto);
-	#endif
+	
 
 	if ( tszProto != NULL && szUniqueID != NULL ) {
 		wsprintf(res, _T("<%s:%s>"), tszProto, szUniqueID);
@@ -758,7 +736,7 @@ static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
 	else {
 		char *pszSrc = ( char* )dbei->pBlob;
 		size_t len = strlen(( char* )dbei->pBlob )+1;
-		#if defined( _UNICODE )
+		
 			if ( dbei->cbBlob > len ) {
 				int len2 = dbei->cbBlob - len;
 
@@ -771,10 +749,7 @@ static TCHAR *GetMessageDescription(DBEVENTINFO *dbei)
 				tszRes = a2u(szRes);
 				free(szRes);
 			}
-		#else
-			tszRes = ( char* )calloc(len, sizeof(char));
-			strncpy( tszRes, ( const char* )pszSrc, len );
-		#endif
+		
 	}
 
 	return tszRes;
@@ -876,11 +851,9 @@ static TCHAR *parseVersionString(ARGUMENTSINFO *ai) {
 	if (CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(versionString), (LPARAM)versionString))
 		return NULL;
 
-	#ifdef UNICODE
+	
 		return a2u(versionString);
-	#else
-		return _strdup(versionString);
-	#endif
+	
 }
 
 static TCHAR *parseContactNameString(ARGUMENTSINFO *ai)
@@ -940,18 +913,16 @@ static TCHAR *parseMirSrvExists(ARGUMENTSINFO *ai)
 		return NULL;
 
 	char* serviceName;
-	#ifdef _UNICODE
+	
 		serviceName = u2a( ai->targv[1] );
-	#else
-		serviceName = ai->targv[1];
-	#endif
+	
 
 	if ( !ServiceExists( serviceName ))
 		ai->flags |= AIF_FALSE;
 
-	#ifdef _UNICODE
+
 		free( serviceName );
-	#endif
+	
 
 	return _tcsdup(_T(""));
 }

@@ -303,11 +303,9 @@ static TCHAR* getContactInfo(BYTE type, HANDLE hContact)
 TCHAR *getContactInfoT(BYTE type, HANDLE hContact, int tchar)
 {
 	if (tchar) {
-		#ifdef UNICODE
+		
 			return getContactInfo((BYTE)(type|CNF_UNICODE), hContact);
-		#else
-			return getContactInfo(type, hContact);
-		#endif
+		
 	}
 
 	return getContactInfo(type, hContact);
@@ -330,22 +328,16 @@ int getContactFromString( CONTACTSINFO* ci )
 		return -1;
 
 	if (ci->flags&CI_UNICODE) {
-		#ifdef UNICODE
+		
 			tszContact = NEWTSTR_ALLOCA(ci->tszContact);
-		#else
-			char* tmp = u2a(ci->wszContact);
-			tszContact = NEWTSTR_ALLOCA(tmp);
-			free( tmp );
-		#endif
+	
 	}
 	else {
-		#ifdef UNICODE
+	
 			WCHAR* tmp = a2u(ci->szContact);
 			tszContact = NEWTSTR_ALLOCA(tmp);
 			free(tmp);
-		#else
-			tszContact = NEWTSTR_ALLOCA(ci->szContact);
-		#endif
+		
 	}
 	if ( (tszContact == NULL) || (_tcslen(tszContact) == 0) )
 		return -1;
@@ -399,11 +391,9 @@ int getContactFromString( CONTACTSINFO* ci )
 			else {
 				szFind = ( TCHAR* )malloc((_tcslen(cInfo) + strlen(szProto) + 4)*sizeof(TCHAR));
 				if (szFind != NULL) {
-#ifdef UNICODE
+
 					tszProto = a2u(szProto);
-#else
-					tszProto = _strdup(szProto);
-#endif
+
 					if ( (tszProto != NULL) && (szFind != NULL) ) {
 						wsprintf(szFind, _T("<%s:%s>"), tszProto, cInfo);
 						free(cInfo);
@@ -603,11 +593,9 @@ TCHAR *encodeContactToString(HANDLE hContact)
 	if (tszResult == NULL)
 		return NULL;
 
-	#ifdef UNICODE
+	
 		tszProto = a2u(szProto);
-	#else
-		tszProto = _strdup(szProto);
-	#endif
+	
 	if (tszProto == NULL)
 		return NULL;
 

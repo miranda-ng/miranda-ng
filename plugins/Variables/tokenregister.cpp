@@ -115,17 +115,14 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 		hash = NameHashFunction( newVr->tszTokenString );
 	}
 	else {
-#ifdef UNICODE
+
 		WCHAR *wtoken;
 
 		wtoken = a2u( newVr->szTokenString );
 		deRegisterToken( wtoken );
 		hash = NameHashFunction( wtoken );
 		free( wtoken );
-#else
-		deRegisterToken( newVr->szTokenString );
-		hash = NameHashFunction( newVr->szTokenString );
-#endif
+
 	}
 
 	tre = ( TokenRegisterEntry* )malloc( sizeof( TokenRegisterEntry ));
@@ -143,11 +140,9 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 	if ( newVr->flags & TRF_TCHAR )
 		tre->tr.tszTokenString = _tcsdup( newVr->tszTokenString );
 	else
-#ifdef UNICODE
+
 		tre->tr.tszTokenString = a2u( newVr->szTokenString );
-#else
-		tre->tr.szTokenString = _strdup( newVr->szTokenString );
-#endif
+
 
 	if ( newVr->szHelpText != NULL )
 		tre->tr.szHelpText = _strdup( newVr->szHelpText );
@@ -205,7 +200,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 
 	trCopy = *thisVr;
 
-#ifdef UNICODE
+
 	// ai contains WCHARs, convert to chars because the tr doesn't support WCHARs
 	if ( !( thisVr->flags & TRF_TCHAR )) {
 		// unicode variables calls a non-unicode plugin
@@ -239,17 +234,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		if (( TCHAR* )callRes != NULL )
 			res = _tcsdup(( TCHAR* )callRes );
 	}
-#else
-	// non-unicode variables, should call non-unicode plugin (assume)
-	// ai contains chars, tr shouldn't use WCHARs
-	if ( thisVr->flags & TRF_PARSEFUNC )
-		callRes = (int)thisVr->parseFunction(ai);
-	else if ( thisVr->szService != NULL )
-		callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)ai );
 
-	if (( char* )callRes != NULL )
-		res = _strdup(( char* )callRes );
-#endif
 
 	if (( void* )callRes != NULL ) {
 		if ( trCopy.flags & TRF_CLEANUP ) {

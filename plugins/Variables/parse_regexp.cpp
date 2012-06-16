@@ -45,13 +45,10 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	ai->flags = AIF_FALSE;
-#ifdef UNICODE
+
 	arg1 = u2a(ai->targv[1]);
 	arg2 = u2a(ai->targv[2]);
-#else
-	arg1 = _strdup(ai->argv[1]);
-	arg2 = _strdup(ai->argv[2]);
-#endif
+
 	ppat = pcreCompile(arg1, 0, &err, &erroffset, NULL);
 	if (ppat == NULL) {
 		free(arg1);
@@ -65,11 +62,9 @@ static TCHAR *parseRegExpCheck(ARGUMENTSINFO *ai) {
 	if (nmat > 0) {
 		ai->flags &= ~AIF_FALSE;
 		_ltoa(nmat, szVal, 10);
-#ifdef UNICODE
+
 		res = a2u(szVal);
-#else
-		res = _strdup(szVal);
-#endif
+
 		return res;
 	}
 
@@ -92,15 +87,11 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 	if (ai->argc != 4) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	arg1 = u2a(ai->targv[1]);
 	arg2 = u2a(ai->targv[2]);
 	arg3 = u2a(ai->targv[3]);
-#else
-	arg1 = _strdup(ai->argv[1]);
-	arg2 = _strdup(ai->argv[2]);
-	arg3 = _strdup(ai->argv[3]);
-#endif
+
 	number = atoi(arg3);
 	if (number < 0) {
 		free(arg1);
@@ -128,11 +119,9 @@ static TCHAR *parseRegExpSubstr(ARGUMENTSINFO *ai) {
 		res = _strdup(substring);
 		pcreFreeSubstring(substring);
 
-#ifdef UNICODE
+
 		tres = a2u(res);
-#else
-		tres = _strdup(res);
-#endif
+
 		free(res);
 		free(arg1);
 		free(arg2);
@@ -192,13 +181,10 @@ int registerRegExpTokens() {
 		return -1;
 	}
 
-#ifdef UNICODE
+
 	registerIntToken(_T(REGEXPCHECK), parseRegExpCheck, TRF_FUNCTION, "Regular Expressions\t(x,y)\t(ANSI input only) the number of substring matches found in y with pattern x");
 	registerIntToken(_T(REGEXPSUBSTR), parseRegExpSubstr, TRF_FUNCTION, "Regular Expressions\t(x,y,z)\t(ANSI input only) substring match number z found in subject y with pattern x");
-#else
-	registerIntToken(_T(REGEXPCHECK), parseRegExpCheck, TRF_FUNCTION, "Regular Expressions\t(x,y)\tthe number of substring matches found in y with pattern x");
-	registerIntToken(_T(REGEXPSUBSTR), parseRegExpSubstr, TRF_FUNCTION, "Regular Expressions\t(x,y,z)\tsubstring match number z found in subject y with pattern x");
-#endif
+
 
 	return 0;
 }

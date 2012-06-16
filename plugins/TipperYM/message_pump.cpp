@@ -260,11 +260,8 @@ void InitMessagePump()
 		MyUpdateLayeredWindow = (BOOL (WINAPI *)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags))GetProcAddress(hUserDll, "UpdateLayeredWindow");
 		MyAnimateWindow =(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll, "AnimateWindow");
 		MyMonitorFromPoint = (HMONITOR (WINAPI*)(POINT, DWORD))GetProcAddress(hUserDll, "MonitorFromPoint");
-#ifdef _UNICODE
 		MyGetMonitorInfo = (BOOL (WINAPI*)(HMONITOR, LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoW");
-#else
-		MyGetMonitorInfo = (BOOL (WINAPI*)(HMONITOR, LPMONITORINFO))GetProcAddress(hUserDll, "GetMonitorInfoA");
-#endif
+
 	}
 
 	HMODULE hDwmapiDll = LoadLibrary(_T("dwmapi.dll"));

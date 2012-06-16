@@ -165,11 +165,9 @@ static TCHAR *parseAMIPEval(ARGUMENTSINFO *ai) {
 	}
 	ZeroMemory(&szRes, sizeof(szRes));
 	if (AC_ERR_NOERROR == acEval(cmd, szRes)) {
-#ifdef UNICODE
+
 		tszRes = a2u(szRes);
-#else
-		tszRes = _strdup(szRes);
-#endif
+
 	}
 	else {
 		lastAMIPFailure = GetTickCount();
@@ -189,21 +187,17 @@ static TCHAR *parseAMIPFormat(ARGUMENTSINFO *ai) {
 	if (ai->argc != 2) {
 		return NULL;
 	}
-#ifdef UNICODE
+
 	cmd = u2a(ai->targv[1]);
-#else
-	cmd = _strdup(ai->targv[1]);
-#endif
+
 	if (checkAMIP() != 0) {
 	
 		return NULL;
 	}
 	if (AC_ERR_NOERROR == acFormat(cmd, szRes)) {
-#ifdef UNICODE
+
 		tszRes = a2u(szRes);
-#else
-		tszRes = _strdup(szRes);
-#endif
+
 	}
 	else {
 		lastAMIPFailure = GetTickCount();
