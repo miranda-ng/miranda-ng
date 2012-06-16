@@ -629,9 +629,7 @@ static DWORD __stdcall waitThread(logthread_info* infoParam)
 	return 0;
 }
 
-#ifndef PERMITNSN
-static int uniqueEventId=0;
-#endif
+
 
 int UpdateValues(HANDLE hContact,LPARAM lparam)
 {
@@ -730,48 +728,7 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 			}
 			contactQueue[index]->courStatus = isIdleEvent?DBGetContactSettingWord(hContact,cws->szModule,"Status",ID_STATUS_OFFLINE):cws->value.wVal;
 	}	}	
-#ifndef PERMITNSN
-	//Some useronline.c functionality
-	{
-		int newStatus,oldStatus;
-		newStatus=(cws->value.wVal|0x8000);
-		oldStatus=DBGetContactSettingWord(hContact,"UserOnline","OldStatus",ID_STATUS_OFFLINE);
-		DBWriteContactSettingWord(hContact,"UserOnline","OldStatus",(WORD)newStatus);
-		if(DBGetContactSettingByte(hContact,"CList","Hidden",0)) return 0;
-		if ((newStatus==ID_STATUS_ONLINE || newStatus==ID_STATUS_FREECHAT) &&
-		   oldStatus!=ID_STATUS_ONLINE && oldStatus!=ID_STATUS_FREECHAT) {
-			BYTE supp = db_byte_get(NULL, S_MOD, "SuppCListOnline", 3); //By default no online allert :P
-			BOOL willAlert = FALSE;
-			switch (supp) {
-			case 3: willAlert = FALSE; break;
-			case 2: willAlert = !IsWatchedProtocol(cws->szModule); break;
-			case 1: willAlert = IsWatchedProtocol(cws->szModule); break;
-			case 0: willAlert = TRUE; break;
-			}
-			if (willAlert) {
-				DWORD ticked = db_dword_get(NULL, "UserOnline", cws->szModule, GetTickCount());
-				// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
-				if ( GetTickCount() - ticked > (1000*10) ) { 
-					CLISTEVENT cle;
-					char tooltip[256];
 
-					ZeroMemory(&cle,sizeof(cle));
-					cle.cbSize=sizeof(cle);
-					cle.flags=CLEF_ONLYAFEW;
-					cle.hContact=hContact;
-					cle.hDbEvent=(HANDLE)(uniqueEventId++);
-					cle.hIcon=LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
-					cle.pszService="UserOnline/Description";
-					mir_snprintf(tooltip,256,Translate("%s is Online"),(char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0));
-					cle.pszTooltip=tooltip;
-					CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
-
-					SkinPlaySound("UserOnline");
-				}
-			}
-		}
-	}
-#endif
 	return 0;
 }
 

@@ -54,12 +54,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfoEx;
 }
 
-static const MUUID interfaces[] = {MIID_TS, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 //-------------------------------------------------------------------------------------------------------
 #define MS_TS_SWITCHLAYOUT "TranslitSwitcher/SwitchLayout"
 INT_PTR ServiceSwitch(WPARAM wParam, LPARAM lParam)

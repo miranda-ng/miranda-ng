@@ -41,13 +41,8 @@ PLUGININFOEX pluginInfo={
 		"© 2001-2002 Heiko Schillinger, 2003 modified by Bruno Rino, 2005-7 Modified by YB",
 		"http://forums.miranda-im.org/showthread.php?t=2822",
 		0,
-#ifndef PERMITNSN
-		DEFMOD_RNDUSERONLINE,
-		{ 0x0beac488,0x578d,0x458d,{0xbb, 0x93, 0x8f, 0x2f, 0x53, 0x9b, 0x2a, 0xe4}}/* 0beac488-578d-458d-bb93-8f2f539b2ae4 */
-#else	
 		0,
 		{ 0x2d506d46,0xc94e,0x4ef8,{0x85, 0x37, 0xf1, 0x12, 0x33, 0xa8, 0x03, 0x81}}/* 2d506d46-c94e-4ef8-8537-f11233a80381 */
-#endif
 };
 
 #define TRANSNUMBER 2
@@ -110,9 +105,7 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)S_MOD, 0);
 	DBWriteContactSettingString(NULL,"Uninstall",Translate("Last seen"),S_MOD);
 
-#ifndef PERMITNSN
-	SkinAddNewSoundEx("UserOnline",Translate("Alerts"),Translate("Online"));
-#endif
+
 	if (ServiceExists(MS_TIPPER_ADDTRANSLATION)) {
 		int i=0;
 		for (i=0;i<TRANSNUMBER;i++) {
@@ -130,11 +123,7 @@ __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 }
 
 #define MIID_LASTSEEN     {0x0df23e71, 0x7950, 0x43d5, {0xb9, 0x86, 0x7a, 0xbf, 0xf5, 0xa5, 0x40, 0x18}}
-static const MUUID interfaces[] = {MIID_LASTSEEN,
-#ifndef PERMITNSN
-MIID_USERONLINE, 
-#endif
-MIID_LAST};
+static const MUUID interfaces[] = {MIID_LASTSEEN, MIID_LAST};
 __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 {
 	return interfaces;

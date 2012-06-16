@@ -69,12 +69,6 @@ PLUGININFOEX pluginInfo={
 	MIID_SPLASHSCREEN
 };
 
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	static const MUUID interfaces[] = {MIID_SPLASHSCREEN, MIID_LAST};
-	return interfaces;
-}
-
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;

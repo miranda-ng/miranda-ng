@@ -44,17 +44,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	return TRUE;
 }
 
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// returns plugin's interfaces information
-
-static const MUUID interfaces[] = { MIID_STOPSPAM, MIID_LAST };
-
-extern "C"  __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM mi;
