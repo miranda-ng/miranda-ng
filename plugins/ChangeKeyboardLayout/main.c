@@ -40,13 +40,6 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfoEx;
 }
 
-static const MUUID interfaces[] = {{0xc5ef53a8, 0x80d4, 0x4ce9, { 0xb3, 0x41, 0xec, 0x90, 0xd3, 0xec, 0x91, 0x56 }}, MIID_LAST};
-
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 
 int __declspec(dllexport) Load(PLUGINLINK *link)
 {	

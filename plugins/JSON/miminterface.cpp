@@ -11,8 +11,6 @@
 MM_INTERFACE   mmi;
 PLUGINLINK* pluginLink;				// Struct of functions pointers for service calls
 
-static const MUUID interfaces[] = {MIID_LIBJSON,MIID_LAST};
-
 static HANDLE s_services[53];
 
 PLUGININFOEX pluginInfo={
@@ -40,9 +38,6 @@ extern "C" {
 		return &pluginInfo;
 	}
 
-	__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void) {
-		return interfaces;
-	}
 
 	__declspec(dllexport) int Unload(void) {
 		for (HANDLE* service=s_services; *service; service++) {

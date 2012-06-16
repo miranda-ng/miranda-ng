@@ -305,6 +305,7 @@ BOOL bReminderDisabled = FALSE;
 char *szMetaProto = NULL;
 BYTE bMetaProtoEnabled = 0;
 
+#define MIID_KBDNOTIFY	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }}
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -317,7 +318,7 @@ PLUGININFOEX pluginInfo={
 	"http://addons.miranda-im.org/",
 	UNICODE_AWARE,
 	0,		//doesn't replace anything built-in
-	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }} //{119D7288-2050-448d-9900-D86AC70426BF}
+	MIID_KBDNOTIFY //{119D7288-2050-448d-9900-D86AC70426BF}
 };
 
 
@@ -1137,13 +1138,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
-}
-
-#define MIID_KBDNOTIFY	{0x119d7288, 0x2050, 0x448d, { 0x99, 0x00, 0xd8, 0x6a, 0xc7, 0x04, 0x26, 0xbf }}
-static const MUUID interfaces[] = {MIID_KBDNOTIFY, MIID_LAST};
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
 }
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)

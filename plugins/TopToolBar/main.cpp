@@ -22,15 +22,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const MUUID interfaces[] = {MIID_TTB, MIID_LAST};
-
-extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 PLUGININFOEX pluginInfo  =
 {
 	sizeof(PLUGININFOEX),
