@@ -510,26 +510,26 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }
 
-int TwitterProto::LOG(TCHAR *fmt,...)
+void TwitterProto::LOG(TCHAR *fmt,...)
 {
-	va_list va;
-	TCHAR text[1024];
 	if (!hNetlib_)
-		return 0;
+		return;
 
+	va_list va;
 	va_start(va,fmt);
+
+	TCHAR text[1024];
 	mir_vsntprintf(text,SIZEOF(text),fmt,va);
 	va_end(va);
 
-	return CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)( char* )_T2A(text));
+	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)( char* )_T2A(text));
 }
 
-int TwitterProto::WLOG(TCHAR* first, const wstring last)
+void TwitterProto::WLOG(TCHAR* first, const wstring last)
 {
 	TCHAR *str1 = new TCHAR[1024*96];
 	_stprintf(str1,_T("%s"), last.c_str());
-
-	return LOG(first, str1); 
+	LOG(first, str1); 
 }
 
 // TODO: the more I think about it, the more I think all twit.* methods should
