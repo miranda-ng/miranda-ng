@@ -791,49 +791,56 @@ static DWORD GetMenuItemType(HMENU hMenu, int uItem)
 	return mii.fType;
 }
 
+static UINT GetMenuItemTypeData(HMENU hMenu, int uItem, PMO_IntMenuItem& p)
+{
+	MENUITEMINFO mii = { 0 };
+	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	mii.fMask = MIIM_DATA | MIIM_TYPE;
+	GetMenuItemInfo(hMenu, uItem, TRUE, &mii);
+	p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
+	return mii.fType;
+}
+
+static void InsertSeparator(HMENU hMenu, int uItem)
+{
+	MENUITEMINFO mii;
+	mii.cbSize = MENUITEMINFO_V4_SIZE;
+	mii.fMask = MIIM_TYPE;
+	mii.fType = MFT_SEPARATOR;
+	InsertMenuItem( hMenu, uItem, TRUE, &mii );
+}
+
 static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *lpmii)
 {
-	PMO_IntMenuItem pimi = MO_GetIntMenuItem(( HGENMENU )lpmii->dwItemData );
+	PMO_IntMenuItem pimi = MO_GetIntMenuItem(( HGENMENU )lpmii->dwItemData ), p;
 	if (pimi == NULL)
 		return;
 
-	MENUITEMINFO mii = { 0 };
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
 	//check for separator before
-	if ( uItem ) {
-		mii.fMask = MIIM_DATA;
-		GetMenuItemInfo( hMenu, uItem-1, TRUE, &mii );
-		PMO_IntMenuItem p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
-		if ( p != NULL && mii.fType != MFT_SEPARATOR) {
-			int needSeparator = (p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL);
-			if ( needSeparator) {
+	if (uItem) {
+		UINT fType = GetMenuItemTypeData( hMenu, uItem-1, p);
+		if (p != NULL && fType != MFT_SEPARATOR) {
+			if ((p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL)) {
 				//but might be supposed to be after the next one instead
-				if ( uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) != MFT_SEPARATOR) {
-					mii.fMask = MIIM_TYPE;
-					mii.fType = MFT_SEPARATOR;
-					InsertMenuItem( hMenu, uItem, TRUE, &mii );
-				}
+				if ( uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) != MFT_SEPARATOR)
+					InsertSeparator(hMenu, uItem);
+
 				uItem++;
 	}	}	}
 
 	//check for separator after
 	if ( uItem < GetMenuItemCount( hMenu )) {
-		mii.fMask = MIIM_TYPE;
-		GetMenuItemInfo( hMenu, uItem, TRUE, &mii );
-		PMO_IntMenuItem p = MO_GetIntMenuItem(( HGENMENU )mii.dwItemData );
-		if ( p != NULL && mii.fType == MFT_SEPARATOR ) {
-			int needSeparator = (p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL);
-			if ( needSeparator) {
-				mii.fMask = MIIM_TYPE;
-				mii.fType = MFT_SEPARATOR;
-				InsertMenuItem( hMenu, uItem, TRUE, &mii );
-	}	}	}
+		UINT fType = GetMenuItemTypeData( hMenu, uItem, p);
+		if (p != NULL && fType != MFT_SEPARATOR)
+			if ((p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL))
+					InsertSeparator(hMenu, uItem);
+	}
 
 	// create local copy *lpmii so we can change some flags
-	mii = *lpmii;
+	MENUITEMINFO mii = *lpmii;
 
-	int count = GetMenuItemCount( hMenu );
-	if (count != 0 && (count % 33 ) == 0 && pimi->mi.root != NULL ) {
+	int count = GetMenuItemCount(hMenu);
+	if (count != 0 && (count % 33) == 0 && pimi->mi.root != NULL ) {
 		if ( !( mii.fMask & MIIM_FTYPE ))
 			mii.fType = 0;
 		mii.fMask |= MIIM_FTYPE;
