@@ -194,6 +194,7 @@
     <ClInclude Include="hunspell\replist.hxx" />
     <ClInclude Include="hunspell\suggestmgr.hxx" />
     <ClInclude Include="hunspell\w_char.hxx" />
+    <ClInclude Include="Version.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="res\no_spellcheck.ico" />
@@ -206,6 +207,7 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
+    <ResourceCompile Include="Version.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ardialog.cpp" />

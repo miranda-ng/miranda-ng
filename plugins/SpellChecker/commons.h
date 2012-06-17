@@ -76,6 +76,7 @@ using namespace std;
 #include "../utils/scope.h"
 
 #include "resource.h"
+#include "Version.h"
 #include "m_spellchecker.h"
 #include "options.h"
 #include "autoreplace.h"
