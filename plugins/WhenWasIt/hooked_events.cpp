@@ -196,7 +196,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
 	odp.ptszTitle = _T("When Was It");
-	odp.ptszGroup = _T("Plugins");
+	odp.ptszGroup = _T("Contact List");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = DlgProcOptions;
