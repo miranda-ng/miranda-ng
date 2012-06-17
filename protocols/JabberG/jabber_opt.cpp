@@ -1692,7 +1692,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_LJTALK, ACC_FBOOK, ACC_VK, ACC_SMS };
 
 	void OnInitDialog()
 	{
@@ -1742,6 +1742,7 @@ protected:
 		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
 		m_cbType.AddString(TranslateT("Facebook Chat"), ACC_FBOOK);
+		m_cbType.AddString(TranslateT("Vkontakte"), ACC_VK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		m_cbServer.GetTextA(server, SIZEOF(server));
@@ -1765,6 +1766,11 @@ protected:
 		else if (!lstrcmpA(server, "chat.facebook.com"))
 		{
 			m_cbType.SetCurSel(ACC_FBOOK);
+			m_canregister = false;
+		}
+		else if (!lstrcmpA(server, "vk.com"))
+		{
+			m_cbType.SetCurSel(ACC_VK);
 			m_canregister = false;
 		}
 		else if (!lstrcmpA(server, "S.ms"))
@@ -1856,6 +1862,7 @@ protected:
 		case ACC_FBOOK:
 			m_proto->m_options.IgnoreRosterGroups = TRUE;
 
+		case ACC_VK:
 		case ACC_PUBLIC:
 			m_proto->m_options.UseSSL = m_proto->m_options.UseTLS = FALSE;
 			break;
@@ -2036,6 +2043,7 @@ private:
 	void setupGoogle();
 	void setupLJ();
 	void setupFB();
+	void setupVK();
 	void setupSMS();
 	void RefreshServers( HXML node);
 	static void QueryServerListThread(void *arg);
@@ -2074,6 +2082,7 @@ void CJabberDlgAccMgrUI::setupConnection(int type)
 		case ACC_GTALK: setupGoogle(); break;
 		case ACC_LJTALK: setupLJ(); break;
 		case ACC_FBOOK: setupFB(); break;
+		case ACC_VK: setupVK(); break;
 		case ACC_SMS: setupSMS(); break;
 	}
 }
@@ -2170,6 +2179,25 @@ void CJabberDlgAccMgrUI::setupFB()
 	m_chkManualHost.SetState(BST_UNCHECKED);
 	m_txtManualHost.SetTextA("");
 	m_txtPort.SetInt(443);
+
+	m_cbServer.Disable();
+	m_chkManualHost.Disable();
+	m_txtManualHost.Disable();
+	m_txtPort.Disable();
+	m_btnRegister.Disable();
+//	m_cbResource.Disable();
+}
+
+void CJabberDlgAccMgrUI::setupVK()
+{
+	m_canregister = false;
+	m_gotservers = true;
+	m_cbServer.ResetContent();
+	m_cbServer.SetTextA("VK.com");
+	m_cbServer.AddStringA("VK.com");
+	m_chkManualHost.SetState(BST_UNCHECKED);
+	m_txtManualHost.SetTextA("");
+	m_txtPort.SetInt(5222);
 
 	m_cbServer.Disable();
 	m_chkManualHost.Disable();
