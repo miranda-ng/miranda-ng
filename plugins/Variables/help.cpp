@@ -104,22 +104,22 @@ static INT_PTR CALLBACK extratextDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 }
 
 // dialog box for the %subject% selection
-void ResetCList(HWND hwndDlg)  {
+void ResetCList(HWND hwndDlg) {
 
-    int i;
-	
-    if ((CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT)) || !(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE)&CLS_USEGROUPS))
-        SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
-    else
-        SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
-    SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
-    SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
-    SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
-    SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM) (HBITMAP) NULL);
-    SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-    SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT, 10, 0);
-    for (i = 0; i <= FONTID_MAX; i++)
-        SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
+	int i;
+
+	if ((CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_DISABLEGROUPS && !DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT)) || !(GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_CLIST), GWL_STYLE)&CLS_USEGROUPS))
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) FALSE, 0);
+	else
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETUSEGROUPS, (WPARAM) TRUE, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETHIDEEMPTYGROUPS, 1, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETGREYOUTFLAGS, 0, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETLEFTMARGIN, 2, 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKBITMAP, 0, (LPARAM) (HBITMAP) NULL);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
+	SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETINDENT, 10, 0);
+	for (i = 0; i <= FONTID_MAX; i++)
+		SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
 static int clistDialogResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *urc) {
@@ -194,7 +194,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			urd.lpTemplate = MAKEINTRESOURCEA(IDD_CLIST_DIALOG);
 			urd.pfnResizer = clistDialogResize;
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
-	
+
 			SendMessage(hwndDlg, WM_MOVE, 0, 0);
 		}
 		break;
@@ -251,7 +251,6 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 // dialog box for the tokens
 static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 
-
 	TCHAR *res;
 
 	char *cat, *cur, *helpText;
@@ -278,7 +277,6 @@ static TCHAR *getTokenCategory(TOKENREGISTEREX *tr) {
 		cur++;
 	}
 
-
 	res = a2u(helpText);
 	free(helpText);
 	return res;
@@ -302,7 +300,6 @@ static TCHAR *getHelpDescription(TOKENREGISTEREX *tr)
 		}
 		cur--;
 	}
-
 
 	return a2u(tr->szHelpText);
 
@@ -469,7 +466,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			lvItem.pszText = tszTokenDesc;
 			ListView_InsertItem(hList, &lvItem);
 			free(tszTokenDesc);
-			
+
 			lvItem.mask = LVIF_TEXT;
 			if (tszHelpDesc == NULL) {
 				tszHelpDesc = getHelpDescription(tr);
@@ -500,7 +497,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			}
 			else {
 				text = NULL;
-			}				
+			}
 			if ( (text != NULL) && ((last == NULL) || (_tcsicmp(last, text))) ) {
 				lvItem.mask = LVIF_TEXT;
 				lvItem.pszText = text;
@@ -530,7 +527,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			int len, item;
 			TCHAR *tokenString;
 			TOKENREGISTER *tr;
-			
+
 			hwndInputDlg = (HWND)SendMessage(GetParent(hwndDlg), VARM_GETDIALOG, (WPARAM)VHF_INPUT, 0);
 			if (hwndInputDlg == NULL) {
 				break;
@@ -601,7 +598,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 {
 	switch (msg) {
 	case WM_NCHITTEST:
-	  return HTCLIENT;
+		return HTCLIENT;
 
 	case WM_SETCURSOR:
 	{
@@ -703,11 +700,11 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 			dat->minResultSize.x = rc.right - rc.left;
 			dat->minResultSize.y = rc.bottom - rc.top;
 		}
-		
+
 		dat->hwndHelpDlg = GetParent(hwndDlg);
 		SendMessage(hwndDlg, VARM_PARSE, 0, 0);
 		SetTimer(hwndDlg, IDT_PARSE, 1000, NULL);
-		
+
 		SetFocus(GetDlgItem(hwndDlg, IDC_TESTSTRING));
 		break;
 
@@ -729,7 +726,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				if ( (((rcTeststring.bottom - rcTeststring.top) - (dat->splitterPos - oldSplitterY)) < dat->minInputSize.y) || (((rcResult.bottom - rcResult.top) + (dat->splitterPos - oldSplitterY)) < dat->minResultSize.y)) 
 					dat->splitterPos = oldSplitterY;
 		}	}
-	
+
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
 		break;
 
@@ -807,7 +804,7 @@ static INT_PTR CALLBACK inputDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT,
 			SendMessage(GetDlgItem(hwndDlg, IDC_TESTSTRING), WM_GETTEXTLENGTH, wParam, lParam));
 		return TRUE;
-	
+
 	case VARM_GETINPUTTEXT:
 		SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, 
 			SendMessage(GetDlgItem(hwndDlg, IDC_TESTSTRING), WM_GETTEXT, wParam, lParam));
@@ -975,7 +972,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			if (pfnEnableThemeDialogTexture) {
 				pfnEnableThemeDialogTexture(hPage, ETDT_ENABLETAB);
 			}
-			
+
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
 
@@ -1103,7 +1100,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				dat->vhs->fi->hContact = (HANDLE)SendMessage(hwndDlg, VARM_GETSUBJECT, 0, 0);
 			}
 			// fall through
-			
+
 		case IDC_CANCEL:
 			if (GetParent(hwndDlg) == NULL)
 				DestroyWindow(hwndDlg);
@@ -1160,7 +1157,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			return TRUE;
 		}
 		break;
-		
+
 	case WM_GETMINMAXINFO: {
 		int i, count;
 		TCITEM tci;
@@ -1171,7 +1168,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		GetWindowRect(hwndDlg, &rcParent);
 		// defaults
 		((MINMAXINFO*)lParam)->ptMinTrackSize.x = 400;
-         ((MINMAXINFO*)lParam)->ptMinTrackSize.y = 400;
+		((MINMAXINFO*)lParam)->ptMinTrackSize.y = 400;
 		hTab = GetDlgItem(hwndDlg, IDC_TABS);
 		tci.mask = TCIF_PARAM;
 		count = TabCtrl_GetItemCount(hTab);
@@ -1285,7 +1282,7 @@ INT_PTR showHelpExService(WPARAM wParam, LPARAM lParam)
 		return -1;
 
 	iFrameX = GetSystemMetrics(SM_CXSIZEFRAME);
-	iFrameY = 4 * GetSystemMetrics(SM_CYSIZEFRAME);
+	iFrameY = 3 * GetSystemMetrics(SM_CYSIZEFRAME);
 
 	if (wParam)
 		DialogBoxParam((HINSTANCE)hInst, (LPCTSTR)MAKEINTRESOURCE(IDD_HELP_DIALOG), (HWND)wParam, (DLGPROC)helpDlgProc, (LPARAM)lParam);
@@ -1314,7 +1311,7 @@ INT_PTR showHelpService(WPARAM wParam, LPARAM lParam)
 	vhs->fi = fi;
 	vhs->hwndCtrl = (HWND)wParam;
 	vhs->flags = VHF_FULLDLG|VHF_DONTFILLSTRUCT;
-	
+
 	return showHelpExService(0, (LPARAM)vhs);
 }
 
@@ -1332,15 +1329,15 @@ INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
 
 			if (hHelpIcon == NULL)
 				hHelpIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_V), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
-		}		
-	
+		}
+
 		return (int)hHelpIcon;
 
 	case VSI_HELPTIPTEXT:
 		return (int)Translate("Open String Formatting Help");
 	}
 
-	return (int)NULL;	
+	return (int)NULL;
 }
 
 int iconsChanged(WPARAM wParam, LPARAM lParam)
