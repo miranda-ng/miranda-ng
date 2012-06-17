@@ -15,12 +15,6 @@ extern HINSTANCE hInst;
 
 HANDLE hSettingChangedHook;
 
-static HBITMAP OnlineUp, OnlineDn, GroupsUp, GroupsDn, SoundsUp;
-static HBITMAP SoundsDn, hbOptUp, hbOptDn, testsearch;
-static HBITMAP MainMenuUp, MainMenuDn;
-static HBITMAP MinimizeUp, MinimizeDn;
-static HBITMAP FindUserUp, FindUserDn;
-
 static int ShowOnline, ShowGroups, SoundsEnabled;
 static HANDLE hOnlineBut, hGroupBut, hSoundsBut, hOptionsBut, hMainMenuBut;
 static HANDLE hMinimizeBut;
@@ -228,58 +222,50 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = (ShowOnline?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.pszServiceDown = MS_CLIST_SETHIDEOFFLINE;
-	ttb.pszServiceUp = MS_CLIST_SETHIDEOFFLINE;
-	ttb.wParamUp = -1;
-	ttb.wParamDown = -1;
+	ttb.pszServiceDown = ttb.pszServiceUp = MS_CLIST_SETHIDEOFFLINE;
+	ttb.wParamUp = ttb.wParamDown = -1;
 	ttb.name = "Show only Online Users";
 	hOnlineBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = (ShowGroups?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.pszServiceDown = TTBI_GROUPSHOWHIDE;
-	ttb.pszServiceUp = TTBI_GROUPSHOWHIDE;
+	ttb.pszServiceDown = ttb.pszServiceUp = TTBI_GROUPSHOWHIDE;
 	ttb.name = "Groups On/Off";
 	hGroupBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = (SoundsEnabled?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.pszServiceDown = TTBI_SOUNDSONOFF;
-	ttb.pszServiceUp = TTBI_SOUNDSONOFF;
+	ttb.pszServiceDown = ttb.pszServiceUp = TTBI_SOUNDSONOFF;
 	ttb.name = "Sounds Enable/Disable";
 	hSoundsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.pszServiceDown = TTBI_OPTIONSBUTT;
-	ttb.pszServiceUp = TTBI_OPTIONSBUTT;
+	ttb.pszServiceDown = ttb.pszServiceUp = TTBI_OPTIONSBUTT;
 	ttb.name = "Show Options Page";
 	hOptionsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE;
-	ttb.pszServiceDown = TTBI_MINIMIZEBUTT;
-	ttb.pszServiceUp = TTBI_MINIMIZEBUTT;
+	ttb.pszServiceDown = ttb.pszServiceUp = TTBI_MINIMIZEBUTT;
 	ttb.name = "Minimize Button";
 	hMinimizeBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE;
-	ttb.pszServiceDown = TTBI_FINDADDBUTT;
-	ttb.pszServiceUp = TTBI_FINDADDBUTT;
+	ttb.pszServiceDown = ttb.pszServiceUp = TTBI_FINDADDBUTT;
 	ttb.name = "Find/Add Contacts";
 	hFindUsers = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MIRANDAUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MIRANDADN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.pszServiceDown = TTBI_MAINMENUBUTT;
-	ttb.pszServiceUp = TTBI_MAINMENUBUTT;
+	ttb.pszServiceDown = ttb.pszServiceUp = TTBI_MAINMENUBUTT;
 	ttb.name = "Show Main Menu";
 	hMainMenuBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 

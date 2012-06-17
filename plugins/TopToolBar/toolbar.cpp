@@ -861,12 +861,6 @@ int addTopToolBarWindow(HWND parent)
 	return (int)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 }
 
-VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
-{
-	KillTimer(0, idEvent);
-	NotifyEventHooks(hHookTTBModuleLoaded, 0, 0);
-}
-
 static INT_PTR OnEventFire(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_SYSTEM_REMOVEWAIT, wParam, 0);
