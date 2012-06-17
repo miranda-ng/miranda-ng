@@ -201,12 +201,12 @@ static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		hi.pt.x = LOWORD(lParam); hi.pt.y = HIWORD(lParam);
 		ListView_SubItemHitTest(hwnd, &hi);
 		if ( hi.iSubItem == 1 ) {
-			LVITEM lvi;
+			LVITEM lvi = {0};
 			lvi.mask = LVIF_IMAGE | LVIF_PARAM;
 			lvi.stateMask = -1;
 			lvi.iItem = hi.iItem;
+			lvi.iSubItem = 1;
 			if ( ListView_GetItem( hwnd, &lvi )) {
-				lvi.iSubItem = 1;
 				lvi.mask = LVIF_IMAGE;
 
 				PluginListItemData* dat = ( PluginListItemData* )lvi.lParam;
