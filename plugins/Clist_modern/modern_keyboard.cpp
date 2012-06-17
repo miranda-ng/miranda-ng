@@ -34,7 +34,7 @@ INT_PTR hkCloseMiranda(WPARAM wParam,LPARAM lParam)
 INT_PTR hkRestoreStatus(WPARAM wParam,LPARAM lParam)
 {
 	int nStatus = ModernGetSettingWord(NULL, "CList", "Status", ID_STATUS_OFFLINE);
-    CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
+	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
 
 	return 0;
 }
@@ -46,17 +46,18 @@ int InitSkinHotKeys(void)
 
 	HOTKEYDESC shk = {0};
 	shk.cbSize=sizeof(shk);
+	shk.dwFlags=HKD_TCHAR;
 
-	shk.pszDescription=LPGEN("Close Miranda");
+	shk.ptszDescription=LPGENT("Close Miranda");
 	shk.pszName="CloseMiranda";
-	shk.pszSection=LPGEN("Main");
+	shk.ptszSection=LPGENT("Main");
 	shk.pszService="CLIST/HK/CloseMiranda";
 	shk.DefHotKey=0;
 	CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&shk);	
 
-	shk.pszDescription=LPGEN("Restore last status");
+	shk.ptszDescription=LPGENT("Restore last status");
 	shk.pszName="RestoreLastStatus";
-	shk.pszSection=LPGEN("Status");
+	shk.ptszSection=LPGENT("Status");
 	shk.pszService="CLIST/HK/RestoreStatus";
 	shk.DefHotKey=0;
 	CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&shk);	

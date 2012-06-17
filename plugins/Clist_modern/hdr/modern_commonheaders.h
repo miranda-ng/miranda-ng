@@ -180,6 +180,7 @@ extern int __cdecl mir_strcmp (const char *a, const char *b);
 extern int __cdecl mir_strlen (const char *a);
 extern int __cdecl mir_strcmpi(const char *a, const char *b);
 extern int __cdecl mir_tstrcmpi(const TCHAR *a, const TCHAR *b);
+extern BOOL __cdecl mir_bool_tstrcmpi(const TCHAR *a, const TCHAR *b);
 extern DWORD exceptFunction(LPEXCEPTION_POINTERS EP);
 
 extern HANDLE ModernHookEvent( char *EventID, MIRANDAHOOK HookProc );
