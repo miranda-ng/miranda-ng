@@ -911,7 +911,6 @@ VOID SvcReminderOnTopToolBarLoaded()
 	ttb.pszServiceDown = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = "Check anniversaries";
 	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
-	ttb.tooltipUp = ttb.tooltipDn = "Check anniversaries";
 				
 	hTTButton = CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);
 	if (hTTButton)

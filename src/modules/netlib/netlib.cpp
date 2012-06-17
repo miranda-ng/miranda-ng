@@ -157,7 +157,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 		thisUser->user.ptszDescriptiveName = (thisUser->user.flags&NUF_UNICODE ? mir_u2t((WCHAR*)nlu->ptszDescriptiveName) : mir_a2t(nlu->szDescriptiveName));
 	}
 	if ((thisUser->user.szSettingsModule=mir_strdup(nlu->szSettingsModule)) == NULL
-	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName  == NULL)
+	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName == NULL)
 	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent=mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL)) 
 	{
 		mir_free(thisUser);

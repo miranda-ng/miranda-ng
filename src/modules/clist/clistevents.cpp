@@ -91,7 +91,7 @@ static void ShowEventsInTray()
 	char nTrayProtoCnt;
 	int nTrayCnt=cli.trayIconCount;
 	if (!cli.events.count || !nTrayCnt)  return; 
-	if (cli.events.count  == 1 || nTrayCnt == 1) 
+	if (cli.events.count == 1 || nTrayCnt == 1) 
 	{ 
 		ShowOneEventInTray(0); //for only one icon in tray show topmost event
 		return;
