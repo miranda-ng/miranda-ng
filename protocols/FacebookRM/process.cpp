@@ -593,14 +593,14 @@ void FacebookProto::ProcessFriendRequests( void* )
 				dbei.cbSize = sizeof( DBEVENTINFO );
 				dbei.szModule = m_szModuleName;
 				dbei.timestamp = ::time( NULL );
-				dbei.flags = 0; //DBEF_UTF;
+				dbei.flags = DBEF_UTF;
 				dbei.eventType = EVENTTYPE_AUTHREQUEST;
 				dbei.cbBlob = (DWORD)(sizeof( DWORD )+ sizeof( HANDLE ) + fbu->real_name.length() + 5);
 					
 				PBYTE pCurBlob = dbei.pBlob = ( PBYTE ) mir_alloc( dbei.cbBlob );					
 				*(PDWORD)pCurBlob = 0; pCurBlob += sizeof(DWORD);									// UID
 				*(PHANDLE)pCurBlob = hContact; pCurBlob += sizeof(HANDLE);							// Contact Handle
-				strcpy((char*)pCurBlob, fbu->real_name.c_str()); pCurBlob += fbu->real_name.length()+1;	// Nickname
+				strcpy((char*)pCurBlob, fbu->real_name.data()); pCurBlob += fbu->real_name.length()+1;	// Nickname
 				*pCurBlob = '\0'; pCurBlob++;														// First Name
 				*pCurBlob = '\0'; pCurBlob++;														// Last Name
 				*pCurBlob = '\0'; pCurBlob++;														// E-mail

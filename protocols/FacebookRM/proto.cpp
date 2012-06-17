@@ -492,18 +492,17 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	char str[256];
+	TCHAR tstr[256];
 
-	if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
-		mir_snprintf(str,SIZEOF(str),Translate("Do you want to cancel your friendship with '%s'?"), dbv.pszVal);
+	if ( !DBGetContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
+		mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
-	} else if ( !DBGetContactSettingUTF8String(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
-		mir_snprintf(str,SIZEOF(str),Translate("Do you want to cancel your friendship with '%s'?"), dbv.pszVal);
+	} else if ( !DBGetContactSettingTString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+		mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
 
-	TCHAR *text = mir_a2t_cp(str, CP_UTF8);
-	if (MessageBox( 0, text, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
+	if (MessageBox( 0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
 		
 		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
 		{
@@ -521,7 +520,6 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 		}
 				
 	}
-	mir_free(text);
 
 	return 0;
 }
