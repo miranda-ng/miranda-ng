@@ -23,7 +23,7 @@ void TwitterProto::AddToListWorker(void *p)
 	// TODO: what happens if there is an error?
 	if(p == 0)
 		return;
-	
+
 	char *name = static_cast<char*>(p);
 
 	try
@@ -59,7 +59,7 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 {
 	twitter_user user;
 	std::string username;
-	
+
 	DBVARIANT dbv;
 	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
 	{
@@ -171,17 +171,11 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 		return;
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,"CList","StatusMsg",&dbv) )
-	{
-		ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS,
-			(HANDLE)1,(LPARAM)dbv.pszVal);
+	if( !DBGetContactSettingTString(hContact,"CList","StatusMsg",&dbv)) {
+		ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS, (HANDLE)1,(LPARAM)dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-	else
-	{
-		ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED,
-			(HANDLE)1,(LPARAM)0);
-	}
+	else ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,(LPARAM)0);
 }
 
 HANDLE TwitterProto::GetAwayMsg(HANDLE hContact)

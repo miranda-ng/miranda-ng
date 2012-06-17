@@ -93,7 +93,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				UnhookEvent(awayData->hAwayMsgEvent);
 				awayData->hAwayMsgEvent = NULL;
 			}
-			SetDlgItemTextA(hwndDlg, IDC_READAWAYMSG_MSG, (const char*)ack->lParam);
+			SetDlgItemText(hwndDlg, IDC_READAWAYMSG_MSG, (const TCHAR*)ack->lParam);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_RETRIEVE), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_READAWAYMSG_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));

@@ -94,11 +94,11 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CMsnProto::OnGroupChange);
 	HookProtoEvent(ME_OPT_INITIALISE,            &CMsnProto::OnOptionsInit);
 	HookProtoEvent(ME_CLIST_DOUBLECLICKED,       &CMsnProto::OnContactDoubleClicked);
-	
+
 	LoadOptions();
 
 	HANDLE hContact = (HANDLE)MSN_CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while (hContact != NULL) 
+	while (hContact != NULL)
 	{
 		if (MSN_IsMyContact(hContact))
 		{
@@ -120,9 +120,9 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	if (MyOptions.SlowSend)
 	{
-		if (DBGetContactSettingDword(NULL, "SRMsg", "MessageTimeout", 10000) < 60000) 
+		if (DBGetContactSettingDword(NULL, "SRMsg", "MessageTimeout", 10000) < 60000)
 			DBWriteContactSettingDword(NULL, "SRMsg", "MessageTimeout", 60000);
-		if (DBGetContactSettingDword(NULL, "SRMM", "MessageTimeout", 10000) < 60000) 
+		if (DBGetContactSettingDword(NULL, "SRMM", "MessageTimeout", 10000) < 60000)
 			DBWriteContactSettingDword(NULL, "SRMM", "MessageTimeout", 60000);
 	}
 
@@ -142,7 +142,7 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 	P2pSessions_Init();
 	InitCustomFolders();
 
-	TCHAR szBuffer[MAX_PATH]; 
+	TCHAR szBuffer[MAX_PATH];
 	char  szDbsettings[64];
 
 	NETLIBUSER nlu1 = {0};
@@ -209,7 +209,7 @@ CMsnProto::~CMsnProto()
 
 int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (msnHaveChatDll) 
+	if (msnHaveChatDll)
 	{
 		GCREGISTER gcr = {0};
 		gcr.cbSize = sizeof(GCREGISTER);
@@ -252,15 +252,15 @@ HANDLE CMsnProto::AddToListByEmail(const char *email, const char *nick, DWORD fl
 {
 	HANDLE hContact = MSN_HContactFromEmail(email, nick, true, flags & PALF_TEMPORARY);
 
-	if (flags & PALF_TEMPORARY) 
+	if (flags & PALF_TEMPORARY)
 	{
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1) 
+		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1)
 			DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
 	}
-	else 
+	else
 	{
 		DBDeleteContactSetting(hContact, "CList", "Hidden");
-		if (msnLoggedIn) 
+		if (msnLoggedIn)
 		{
 //			int netId = Lists_GetNetId(email);
 //			if (netId == NETID_UNKNOWN)
@@ -285,8 +285,8 @@ HANDLE __cdecl CMsnProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 {
 	TCHAR *id = psr->id ? psr->id : psr->email;
 	return AddToListByEmail(
-		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)id) : UTF8((char*)id), 
-		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)psr->nick) : UTF8((char*)psr->nick), 
+		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)id) : UTF8((char*)id),
+		psr->flags & PSR_UNICODE ? UTF8((wchar_t*)psr->nick) : UTF8((char*)psr->nick),
 		flags);
 }
 
@@ -333,11 +333,11 @@ int CMsnProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 // PSS_AUTHREQUEST
 
 int __cdecl CMsnProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
-{	
-	if (msnLoggedIn) 
+{
+	if (msnLoggedIn)
 	{
 		char email[MSN_MAX_EMAIL_LEN];
-		if (getStaticString(hContact, "e-mail", email, sizeof(email))) 
+		if (getStaticString(hContact, "e-mail", email, sizeof(email)))
 			return 1;
 
 		char* szMsg = mir_utf8encodeT(szMessage);
@@ -361,7 +361,7 @@ int __cdecl CMsnProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo 
+// ChangeInfo
 
 HANDLE __cdecl CMsnProto::ChangeInfo(int iInfoType, void* pInfoData)
 {
@@ -489,7 +489,7 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
 		}
 		break;
-	
+
 	case 1:
 		if (strstr(email, "@yahoo.com") == NULL)
 			SendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, arg, 0);
@@ -512,8 +512,8 @@ void __cdecl CMsnProto::MsnSearchAckThread(void* arg)
 HANDLE __cdecl CMsnProto::SearchBasic(const PROTOCHAR* id)
 {
 	if (!msnLoggedIn) return 0;
-	
-	TCHAR* email = mir_tstrdup(id); 
+
+	TCHAR* email = mir_tstrdup(id);
 	ForkThread(&CMsnProto::MsnSearchAckThread, email);
 
 	return email;
@@ -546,7 +546,7 @@ HWND __cdecl CMsnProto::CreateExtendedSearchUI(HWND parent)
 void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 {
 	filetransfer* ft = (filetransfer*)arg;
-	
+
 	TCHAR filefull[MAX_PATH];
 	mir_sntprintf(filefull, SIZEOF(filefull), _T("%s\\%s"), ft->std.tszWorkingDir, ft->std.tszCurrentFile);
 	replaceStr(ft->std.tszCurrentFile, filefull);
@@ -556,7 +556,7 @@ void __cdecl CMsnProto::MsnFileAckThread(void* arg)
 
 	bool fcrt = ft->create() != -1;
 
-	if (ft->p2p_appID != 0) 
+	if (ft->p2p_appID != 0)
 	{
 		if (fcrt)
 			p2p_sendFeedStart(ft);
@@ -575,13 +575,13 @@ HANDLE __cdecl CMsnProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const PRO
 	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
 		return 0;
 
-	if ((ft->std.tszWorkingDir = mir_tstrdup(szPath)) == NULL) 
+	if ((ft->std.tszWorkingDir = mir_tstrdup(szPath)) == NULL)
 	{
 		TCHAR szCurrDir[MAX_PATH];
 		GetCurrentDirectory(SIZEOF(szCurrDir), szCurrDir);
 		ft->std.tszWorkingDir = mir_tstrdup(szCurrDir);
 	}
-	else 
+	else
 	{
 		size_t len = _tcslen(ft->std.tszWorkingDir) - 1;
 		if (ft->std.tszWorkingDir[len] == '\\')
@@ -603,14 +603,14 @@ int __cdecl CMsnProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
 	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
 		return 0;
 
-	if  (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1) 
+	if  (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1)
 	{
 		if (ft->p2p_appID != 0)
 			p2p_sendStatus(ft, 603);
 		else
 			msnftp_sendAcceptReject (ft, false);
 	}
-	else 
+	else
 	{
 		ft->bCanceled = true;
 		if (ft->p2p_appID != 0)
@@ -636,14 +636,14 @@ int __cdecl CMsnProto::FileDeny(HANDLE hContact, HANDLE hTransfer, const PROTOCH
 	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
 		return 1;
 
-	if (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1) 
+	if (!(ft->std.flags & PFTS_SENDING) && ft->fileId == -1)
 	{
 		if (ft->p2p_appID != 0)
 			p2p_sendStatus(ft, 603);
 		else
 			msnftp_sendAcceptReject (ft, false);
 	}
-	else 
+	else
 	{
 		ft->bCanceled = true;
 		if (ft->p2p_appID != 0)
@@ -663,7 +663,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 	if (!msnLoggedIn || !p2p_sessionRegistered(ft))
 		return 1;
 
-	switch (*action) 
+	switch (*action)
 	{
 	case FILERESUME_SKIP:
 		if (ft->p2p_appID != 0)
@@ -677,7 +677,7 @@ int __cdecl CMsnProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 
 	default:
 		bool fcrt = ft->create() != -1;
-		if (ft->p2p_appID != 0) 
+		if (ft->p2p_appID != 0)
 		{
 			if (fcrt)
 				p2p_sendFeedStart(ft);
@@ -709,9 +709,8 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 
 	AwayMsgInfo *inf = (AwayMsgInfo*)arg;
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(inf->hContact, "CList", "StatusMsg", &dbv)) 
-	{
-		SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.pszVal);
+	if (!DBGetContactSettingTString(inf->hContact, "CList", "StatusMsg", &dbv)) {
+		SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
 		MSN_FreeVariant(&dbv);
 	}
 	else SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)0);
@@ -734,7 +733,7 @@ HANDLE __cdecl CMsnProto::GetAwayMsg(HANDLE hContact)
 
 DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HANDLE hContact)
 {
-	switch(type) 
+	switch(type)
 	{
 	case PFLAGNUM_1:
 	{	int result = PF1_IM | PF1_SERVERCLIST | PF1_AUTHREQ | PF1_BASICSEARCH |
@@ -749,7 +748,7 @@ DWORD_PTR __cdecl CMsnProto::GetCaps(int type, HANDLE hContact)
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LIGHTDND;
 
 	case PFLAGNUM_4:
-		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SUPPORTIDLE | PF4_IMSENDUTF | 
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SUPPORTIDLE | PF4_IMSENDUTF |
 			PF4_IMSENDOFFLINE | PF4_NOAUTHDENYREASON;
 
 	case PFLAGNUM_5:
@@ -785,7 +784,7 @@ HICON __cdecl CMsnProto::GetIcon(int iconIndex)
 	{
 		if (iconIndex & PLIF_ICOLIBHANDLE)
 			return (HICON)GetIconHandle(IDI_MSN);
-		
+
 		bool big = (iconIndex & PLIF_SMALL) == 0;
 		HICON hIcon = LoadIconEx("main", big);
 
@@ -872,7 +871,7 @@ HANDLE __cdecl CMsnProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 	sft->std.flags |= PFTS_SENDING;
 
 	int count = 0;
-	while (ppszFiles[count] != NULL) 
+	while (ppszFiles[count] != NULL)
 	{
 		struct _stati64 statbuf;
 		if (_tstati64(ppszFiles[count++], &statbuf) == 0 && (statbuf.st_mode & _S_IFDIR) == 0)
@@ -882,7 +881,7 @@ HANDLE __cdecl CMsnProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 		}
 	}
 
-	if (sft->openNext() == -1) 
+	if (sft->openNext() == -1)
 	{
 		delete sft;
 		return 0;
@@ -923,7 +922,7 @@ void CMsnProto::MsnFakeAck(void* arg)
 	TFakeAckParams* tParam = (TFakeAckParams*)arg;
 
 	Sleep(150);
-	tParam->proto->SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE, 
+	tParam->proto->SendBroadcast(tParam->hContact, ACKTYPE_MESSAGE,
 		tParam->msg ? ACKRESULT_FAILED : ACKRESULT_SUCCESS,
 		(HANDLE)tParam->id, LPARAM(tParam->msg));
 
@@ -942,7 +941,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	}
 
 	char tEmail[MSN_MAX_EMAIL_LEN];
-	if (MSN_IsMeByContact(hContact, tEmail)) 
+	if (MSN_IsMeByContact(hContact, tEmail))
 	{
 		errMsg = MSN_Translate("You cannot send message to yourself");
 		ForkThread(&CMsnProto::MsnFakeAck, new TFakeAckParams(hContact, 999999, errMsg, this));
@@ -988,7 +987,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 		break;
 
 	case NETID_YAHOO:
-		if (strlen(msg) > 1202) 
+		if (strlen(msg) > 1202)
 		{
 			seq = 999996;
 			errMsg = MSN_Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
@@ -1002,7 +1001,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 		break;
 
 	default:
-		if (strlen(msg) > 1202) 
+		if (strlen(msg) > 1202)
 		{
 			seq = 999996;
 			errMsg = MSN_Translate("Message is too long: MSN messages are limited by 1202 UTF8 chars");
@@ -1015,7 +1014,7 @@ int __cdecl CMsnProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 			ThreadData* thread = MSN_StartSB(tEmail, isOffline);
 			if (thread == NULL)
 			{
-				if (isOffline) 
+				if (isOffline)
 				{
 					if (netId != NETID_LCS)
 					{
@@ -1083,7 +1082,7 @@ int __cdecl CMsnProto::SetAwayMsg(int status, const TCHAR* msg)
 // PSR_AWAYMSG
 
 int __cdecl CMsnProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVENT* evt)
-{	
+{
 	return 1;
 }
 
@@ -1091,7 +1090,7 @@ int __cdecl CMsnProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVE
 // PSS_AWAYMSG
 
 int __cdecl CMsnProto::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg)
-{	
+{
 	return 1;
 }
 
@@ -1114,25 +1113,25 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 	{
 		char szPassword[100];
 		int ps = getStaticString(NULL, "Password", szPassword, sizeof(szPassword));
-		if (ps != 0  || *szPassword == 0) 
+		if (ps != 0  || *szPassword == 0)
 		{
 			SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_WRONGPASSWORD);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			return 0;
-		}	
-		 
-		if (*MyOptions.szEmail == 0) 
+		}
+
+		if (*MyOptions.szEmail == 0)
 		{
 			SendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 			m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 			return 0;
-		}	
+		}
 
 		sessionList.destroy();
 		dcList.destroy();
 
 		usingGateway = false;
-		
+
 		int oldMode = m_iStatus;
 		m_iStatus = ID_STATUS_CONNECTING;
 		SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldMode, m_iStatus);
@@ -1144,7 +1143,7 @@ int __cdecl CMsnProto::SetStatus(int iNewStatus)
 
 		newThread->startThread(&CMsnProto::MSNServerThread, this);
 	}
-	else 
+	else
 		if (m_iStatus > ID_STATUS_OFFLINE) MSN_SetServerStatus(m_iDesiredStatus);
 
 	return 0;
@@ -1172,7 +1171,7 @@ int __cdecl CMsnProto::UserIsTyping(HANDLE hContact, int type)
 			bool isOffline;
 			ThreadData* thread = MSN_StartSB(tEmail, isOffline);
 
-			if (thread == NULL) 
+			if (thread == NULL)
 			{
 				if (isOffline) return 0;
 				MsgQueue_Add(tEmail, 2571, NULL, 0, NULL, typing);
@@ -1218,15 +1217,15 @@ int __cdecl CMsnProto::SetApparentMode(HANDLE hContact, int mode)
 
 int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch(eventType) 
+	switch(eventType)
 	{
-	case EV_PROTO_ONLOAD:    
+	case EV_PROTO_ONLOAD:
 		return OnModulesLoaded(0, 0);
 
-	case EV_PROTO_ONEXIT:    
+	case EV_PROTO_ONEXIT:
 		return OnPreShutdown(0, 0);
 
-	case EV_PROTO_ONOPTIONS: 
+	case EV_PROTO_ONOPTIONS:
 		return OnOptionsInit(wParam, lParam);
 
 	case EV_PROTO_ONMENU:
@@ -1242,8 +1241,8 @@ int __cdecl CMsnProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 		}
 
 	case EV_PROTO_ONRENAME:
-		if (mainMenuRoot) 
-		{	
+		if (mainMenuRoot)
+		{
 			CLISTMENUITEM clmi = {0};
 			clmi.cbSize = sizeof(CLISTMENUITEM);
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;

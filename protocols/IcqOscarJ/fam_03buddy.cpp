@@ -760,20 +760,12 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 				deleteSetting(hContact, DBSETTING_STATUS_NOTE);
 			setSettingDword(hContact, DBSETTING_STATUS_NOTE_TIME, dwStatusNoteTS);
 
-			{ // Broadcast a notification
-				int nNoteLen = strlennull(szStatusNote);
-				char *szNoteAnsi = NULL;
+			if (getContactXStatus(hContact) != 0 || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES)) {
+				setStatusMsgVar(hContact, szStatusNote, false);
 
-				if (nNoteLen)
-				{ // the broadcast does not support unicode
-					szNoteAnsi = (char*)_alloca(nNoteLen + 1);
-					utf8_decode_static(szStatusNote, szNoteAnsi, strlennull(szStatusNote) + 1);
-				}
-				if (getContactXStatus(hContact) != 0 || !CheckContactCapabilities(hContact, CAPF_STATUS_MESSAGES))
-				{
-					setStatusMsgVar(hContact, szStatusNote, false);
-					BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)szNoteAnsi);
-				}
+				TCHAR* tszNote = mir_utf8decodeT(szStatusNote);
+				BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszNote);
+				mir_free(tszNote);
 			}
 		}
 		SAFE_FREE(&szStatusNote);

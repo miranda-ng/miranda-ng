@@ -85,19 +85,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (ack->result != ACKRESULT_SUCCESS) break;
 			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
 
-
-			DBVARIANT dbv;
-			bool unicode = !DBGetContactSetting(dat->hContact, "CList", "StatusMsg", &dbv) && 
-				(dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-			DBFreeVariant(&dbv);
-			if (unicode) 
-			{
-				DBGetContactSettingWString(dat->hContact, "CList", "StatusMsg", &dbv);
-				SetDlgItemText(hwndDlg, IDC_MSG, dbv.pwszVal);
-			}
-			else 
-	
-				SetDlgItemTextA(hwndDlg, IDC_MSG, (const char*)ack->lParam);
+			SetDlgItemText(hwndDlg, IDC_MSG, (const TCHAR*)ack->lParam);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_RETRIEVING), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG), SW_SHOW);

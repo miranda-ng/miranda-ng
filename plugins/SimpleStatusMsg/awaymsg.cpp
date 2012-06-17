@@ -137,28 +137,12 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (ack->result != ACKRESULT_SUCCESS) break;
 			if (dat->hAwayMsgEvent && ack->hProcess == dat->hSeq) { UnhookEvent(dat->hAwayMsgEvent); dat->hAwayMsgEvent = NULL; }
 
+			TCHAR *tszMsg = StrNormNewline((TCHAR*)ack->lParam);
+			SetDlgItemText(hwndDlg, IDC_MSG, tszMsg);
+			mir_free(tszMsg);
 
-			DBVARIANT dbv;
-			bool unicode = !DBGetContactSetting(dat->hContact, "CList", "StatusMsg", &dbv) && 
-				(dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-			DBFreeVariant(&dbv);
-			if (unicode)
-			{
-				DBGetContactSettingWString(dat->hContact, "CList", "StatusMsg", &dbv);
-				TCHAR *tszMsg = StrNormNewline(dbv.pwszVal);
-				SetDlgItemText(hwndDlg, IDC_MSG, tszMsg);
-				mir_free(tszMsg);
-				DBFreeVariant(&dbv);
-			}
-			else
-
-			{
-				char *szMsg = StrNormNewlineA((char *)ack->lParam);
-				SetDlgItemTextA(hwndDlg, IDC_MSG, szMsg);
-				mir_free(szMsg);
-			}
-
-			if (ack->lParam && *((char*)ack->lParam) != '\0') EnableWindow(GetDlgItem(hwndDlg, IDC_COPY), TRUE);
+			if (ack->lParam && *((char*)ack->lParam) != '\0')
+				EnableWindow(GetDlgItem(hwndDlg, IDC_COPY), TRUE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_RETRIEVING), SW_HIDE);
 			ShowWindow(GetDlgItem(hwndDlg, IDC_MSG), SW_SHOW);
 			SetDlgItemText(hwndDlg, IDOK, TranslateT("&Close"));
@@ -257,7 +241,7 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 		}
 
 		case HM_AWAYMSG:
-		{	
+		{
 			ACKDATA *ack = (ACKDATA*)lParam;
 			if (ack->hContact != dat->hContact || ack->type != ACKTYPE_AWAYMSG) { DestroyWindow(hwndDlg); break; }
 			if (ack->result != ACKRESULT_SUCCESS) { DestroyWindow(hwndDlg); break; }
@@ -267,35 +251,15 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (EmptyClipboard())
 			{
 				TCHAR msg[1024];
-				int len;
-
-				DBVARIANT dbv;
-				bool unicode = !DBGetContactSetting(dat->hContact, "CList", "StatusMsg", &dbv) && 
-					(dbv.type == DBVT_UTF8 || dbv.type == DBVT_WCHAR);
-				DBFreeVariant(&dbv);
-				if (unicode)
-				{
-					DBGetContactSettingWString(dat->hContact, "CList", "StatusMsg", &dbv);
-					TCHAR *tszMsg = StrNormNewline(dbv.pwszVal);
-					mir_sntprintf(msg, SIZEOF(msg), _T("%s"), tszMsg);
-					mir_free(tszMsg);
-					DBFreeVariant(&dbv);
-				}
-				else
-
-				{
-					char *szMsg = StrNormNewlineA((char *)ack->lParam);
-					mir_sntprintf(msg, SIZEOF(msg), _T("%hs"), szMsg);
-					mir_free(szMsg);
-				}
-				len = lstrlen(msg);
-
+				TCHAR *tszMsg = StrNormNewline((TCHAR*)ack->lParam);
+				mir_sntprintf(msg, SIZEOF(msg), _T("%s"), tszMsg);
+				mir_free(tszMsg);
+				size_t len = lstrlen(msg);
 				if (len)
 				{
 					LPTSTR  lptstrCopy;
 					HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(TCHAR));
-					if (hglbCopy == NULL)
-					{
+					if (hglbCopy == NULL) {
 						CloseClipboard();
 						DestroyWindow(hwndDlg);
 						break;
@@ -306,7 +270,6 @@ static INT_PTR CALLBACK CopyAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 					GlobalUnlock(hglbCopy);
 
 					SetClipboardData(CF_UNICODETEXT, hglbCopy);
-
 				}
 			}
 			CloseClipboard();
@@ -362,7 +325,7 @@ static char *StrFindURL(char *pszStr)
 		if (pszURL == NULL)
 			pszURL = strstr(pszStr, "ftp://");
 	}
-	
+
 	return pszURL;
 }
 

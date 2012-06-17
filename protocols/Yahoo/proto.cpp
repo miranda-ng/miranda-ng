@@ -1,9 +1,9 @@
 /*
  * $Id: proto.cpp 13497 2011-03-25 04:55:36Z borkra $
  *
- * myYahoo Miranda Plugin 
+ * myYahoo Miranda Plugin
  *
- * Authors: Gennady Feldman (aka Gena01) 
+ * Authors: Gennady Feldman (aka Gena01)
  *          Laurent Marechal (aka Peorth)
  *
  * This code is under GPL and is based on AIM, MSN and Miranda source code.
@@ -29,7 +29,7 @@
 #endif
 
 CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
-	m_bLoggedIn( FALSE ), poll_loop( 0 ) 
+	m_bLoggedIn( FALSE ), poll_loop( 0 )
 {
 	m_iVersion = 2;
 	m_tszUserName = mir_tstrdup( aUserName );
@@ -38,11 +38,11 @@ CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
 	m_startStatus = ID_STATUS_ONLINE;
 	m_connections = NULL;
 	m_connection_tags = 0;
-	
+
 	logoff_buddies();
 
 	SkinAddNewSoundExT("mail", m_tszUserName, LPGENT("New E-mail available in Inbox"));
-	
+
 	LoadYahooServices();
 	IconsInit();
 	InitCustomFolders();
@@ -52,19 +52,19 @@ CYahooProto::~CYahooProto()
 {
 	if (m_bLoggedIn)
 		logout();
-	
+
 	DebugLog("Logged out");
 
 	DestroyHookableEvent(hYahooNudge);
 
 	MenuUninit();
-	
+
 	mir_free( m_szModuleName );
 	mir_free( m_tszUserName );
 
 	FREE(m_startMsg);
-	FREE(m_pw_token); 
-	
+	FREE(m_pw_token);
+
 	Netlib_CloseHandle( m_hNetlibUser );
 }
 
@@ -81,7 +81,7 @@ INT_PTR CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 
 	TCHAR tModuleDescr[ 100 ];
 	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT( "%s plugin connections" ), m_tszUserName);
-	
+
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
 #ifdef HTTP_GATEWAY
@@ -91,20 +91,20 @@ INT_PTR CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 #endif
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.ptszDescriptiveName = tModuleDescr;
-	
+
 #ifdef HTTP_GATEWAY
-	// Here comes the Gateway Code! 
+	// Here comes the Gateway Code!
 	nlu.szHttpGatewayHello = NULL;
 	nlu.szHttpGatewayUserAgent = "User-Agent: Mozilla/4.01 [en] (Win95; I)";
  	nlu.pfnHttpGatewayInit = YAHOO_httpGatewayInit;
 	nlu.pfnHttpGatewayBegin = NULL;
 	nlu.pfnHttpGatewayWrapSend = YAHOO_httpGatewayWrapSend;
 	nlu.pfnHttpGatewayUnwrapRecv = YAHOO_httpGatewayUnwrapRecv;
-#endif	
-	
+#endif
+
 	m_hNetlibUser = ( HANDLE )YAHOO_CallService( MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
 	MenuContactInit();
-	
+
 	return 0;
 }
 
@@ -191,14 +191,14 @@ HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDL
 //once, you should just do lots of calls.
 
 	/* TYPE ADDED
-		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), 
-		last(ASCIIZ), email(ASCIIZ) 
-	
+		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ),
+		last(ASCIIZ), email(ASCIIZ)
+
 	   TYPE AUTH REQ
-		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), 
+		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ),
 		last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	*/
-	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD ) ), sizeof(HANDLE)); 
+	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD ) ), sizeof(HANDLE));
 
 	if (hContact != NULL) {
 		DebugLog("Temp Buddy found at: %p ", hContact);
@@ -236,7 +236,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 		return 1;
 
 	HANDLE hContact;
-	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD ) ), sizeof(HANDLE)); 
+	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD ) ), sizeof(HANDLE));
 
 	/* Need to remove the buddy from our Miranda Lists */
 
@@ -246,7 +246,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 
 		char *myid = DBGetString(hContact, m_szModuleName, "MyIdentity");
 
-		DebugLog("Accepting buddy:%s", who);    
+		DebugLog("Accepting buddy:%s", who);
 		accept(myid, who, GetWord(hContact, "yprotoid", 0));
 
 		mir_free(myid);
@@ -291,7 +291,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	}
 
 	HANDLE hContact;
-	memcpy(&hContact, dbei.pBlob + sizeof(DWORD), sizeof(HANDLE)); 
+	memcpy(&hContact, dbei.pBlob + sizeof(DWORD), sizeof(HANDLE));
 
 	/* Need to remove the buddy from our Miranda Lists */
 	if (hContact != NULL)
@@ -301,11 +301,11 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 
 		char *myid = DBGetString(hContact, m_szModuleName, "MyIdentity");
 		char *u_reason = mir_utf8encodeT(reason);
-		
-		DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);    
+
+		DebugLog("Rejecting buddy:%s msg: %s", who, u_reason);
 		reject(myid, who, GetWord(hContact, "yprotoid", 0), u_reason);
 		YAHOO_CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
-		
+
 		mir_free(u_reason);
 		mir_free(myid);
 		mir_free(who);
@@ -342,19 +342,19 @@ int __cdecl CYahooProto::AuthRecv( HANDLE hContact, PROTORECVEVENT* pre )
 // PSS_AUTHREQUEST
 
 int __cdecl CYahooProto::AuthRequest( HANDLE hContact, const TCHAR* msg )
-{	
+{
 	DebugLog("[YahooSendAuthRequest]");
-	
+
 	if (hContact && m_bLoggedIn) {
 		AddBuddy(hContact, "miranda", msg);
 		return 0; // Success
 	}
-	
+
 	return 1; // Failure
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo 
+// ChangeInfo
 
 HANDLE __cdecl CYahooProto::ChangeInfo( int /*iInfoType*/, void* )
 {
@@ -367,19 +367,19 @@ HANDLE __cdecl CYahooProto::ChangeInfo( int /*iInfoType*/, void* )
 DWORD_PTR __cdecl CYahooProto::GetCaps( int type, HANDLE /*hContact*/ )
 {
 	int ret = 0;
-	switch ( type ) {        
+	switch ( type ) {
 	case PFLAGNUM_1:
 		ret = PF1_IM  | PF1_ADDED | PF1_AUTHREQ | PF1_MODEMSGRECV | PF1_MODEMSGSEND |  PF1_BASICSEARCH |
 			PF1_EXTSEARCH | PF1_FILESEND  | PF1_FILERECV| PF1_VISLIST | PF1_SERVERCLIST ;
 		break;
 
 	case PFLAGNUM_2:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE | 
+		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
 			PF2_OUTTOLUNCH | PF2_INVISIBLE | PF2_LIGHTDND /*| PF2_HEAVYDND*/;
 		break;
 
 	case PFLAGNUM_3:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE | 
+		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
 			PF2_OUTTOLUNCH | PF2_LIGHTDND ;
 		break;
 
@@ -409,7 +409,7 @@ HICON __cdecl CYahooProto::GetIcon( int iconIndex )
 	{
 		if (iconIndex & PLIF_ICOLIBHANDLE)
 			return (HICON)GetIconHandle(IDI_YAHOO);
-		
+
 		bool big = (iconIndex & PLIF_SMALL) == 0;
 		HICON hIcon = LoadIconEx("yahoo", big);
 
@@ -426,7 +426,7 @@ HICON __cdecl CYahooProto::GetIcon( int iconIndex )
 ////////////////////////////////////////////////////////////////////////////////////////
 // GetInfo - retrieves a contact info
 
-void __cdecl CYahooProto::get_info_thread(HANDLE hContact) 
+void __cdecl CYahooProto::get_info_thread(HANDLE hContact)
 {
 	SleepEx(500, TRUE);
 	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
@@ -517,11 +517,11 @@ int __cdecl CYahooProto::SetApparentMode( HANDLE hContact, int mode )
 int __cdecl CYahooProto::SetStatus( int iNewStatus )
 {
 	LOG(("[SetStatus] New status %s", (char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, iNewStatus, 0)));
-	
+
 	if (iNewStatus == ID_STATUS_OFFLINE) {
-		
+
 		logout();
-		
+
 	} else if (!m_bLoggedIn) {
 		DBVARIANT dbv;
 		int err = 0;
@@ -577,15 +577,15 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 			iNewStatus = ID_STATUS_ONLINE;
 
 		FREE(m_pw_token); // No Token yet.
-		
+
 		if (!GetString(YAHOO_PWTOKEN, &dbv)) {
 			if (lstrlenA(dbv.pszVal) > 0) {
 				m_pw_token = strdup(dbv.pszVal);
-			} 
-			
+			}
+
 			DBFreeVariant(&dbv);
 		}
-		
+
 		//DBWriteContactSettingWord(NULL, m_szModuleName, "StartupStatus", status);
 		m_startStatus = iNewStatus;
 
@@ -673,7 +673,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 
 	FREE(sm);
 
-	SendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, ( LPARAM ) fm );
+	SendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, ( LPARAM )( TCHAR* )_A2T(fm));
 }
 
 HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
@@ -685,7 +685,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
 			return 0; /* user offline, what Status message? */
 
 		YForkThread(&CYahooProto::get_status_thread, hContact);
-		return (HANDLE)1; //Success		
+		return (HANDLE)1; //Success
 	}
 
 	return 0; // Failure
@@ -695,7 +695,7 @@ HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
 // PSR_AWAYMSG
 
 int __cdecl CYahooProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, PROTORECVEVENT* )
-{	
+{
 	return 1;
 }
 
@@ -703,7 +703,7 @@ int __cdecl CYahooProto::RecvAwayMsg( HANDLE /*hContact*/, int /*statusMode*/, P
 // PSS_AWAYMSG
 
 int __cdecl CYahooProto::SendAwayMsg( HANDLE /*hContact*/, HANDLE /*hProcess*/, const char* )
-{	
+{
 	return 1;
 }
 
@@ -713,12 +713,12 @@ int __cdecl CYahooProto::SendAwayMsg( HANDLE /*hContact*/, HANDLE /*hProcess*/, 
 int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 {
 	char *c = msg && msg[0] ? mir_utf8encodeT(msg) : NULL;
-		
+
 	DebugLog("[YahooSetAwayMessage] Status: %s, Msg: %s",(char *) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, 0), (char*) c);
-	
+
     if (!m_bLoggedIn) {
 		if (m_iStatus == ID_STATUS_OFFLINE) {
-			DebugLog("[YahooSetAwayMessage] WARNING: WE ARE OFFLINE!"); 
+			DebugLog("[YahooSetAwayMessage] WARNING: WE ARE OFFLINE!");
 			mir_free(c);
 			return 1;
 		} else {
@@ -729,26 +729,26 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 			mir_free(c);
 			return 0;
 		}
-	}              
-	
+	}
+
 	/* need to tell ALL plugins that we are changing status */
 	BroadcastStatus(status);
-	
+
 	if (m_startMsg) free(m_startMsg);
-	
+
 	/* now decide what we tell the server */
 	if (c != 0) {
 		m_startMsg = strdup(c);
 		if(status == ID_STATUS_ONLINE) {
 			set_status(YAHOO_CUSTOM_STATUS, c, 0);
-		} else if(status != ID_STATUS_INVISIBLE) { 
+		} else if(status != ID_STATUS_INVISIBLE) {
 			set_status(YAHOO_CUSTOM_STATUS, c, 1);
 		}
     } else {
 		set_status(status, NULL, 0);
 		m_startMsg = NULL;
 	}
-	
+
 	mir_free(c);
 	return 0;
 }
@@ -760,7 +760,7 @@ INT_PTR __cdecl CYahooProto::GetMyAwayMsg(WPARAM wParam, LPARAM lParam)
 {
 	if (!m_bLoggedIn || ! m_startMsg)
 		return 0;
-	
+
 	if (lParam & SGMA_UNICODE)  {
 		return (INT_PTR) mir_utf8decodeW(m_startMsg);
 	} else {
@@ -805,7 +805,7 @@ int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 			break;
 
 		case EV_PROTO_ONRENAME:
-			if ( mainMenuRoot ) {	
+			if ( mainMenuRoot ) {
 				CLISTMENUITEM clmi = { 0 };
 				clmi.cbSize = sizeof(CLISTMENUITEM);
 				clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -819,13 +819,13 @@ int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARA
 
 		case EV_PROTO_DBSETTINGSCHANGED:
 			return OnSettingChanged(wParam, lParam);
-	}	
+	}
 	return 1;
 }
 
 INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
+	switch (msg)
 	{
 	case WM_INITDIALOG:
 		{
@@ -847,26 +847,26 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, dbv.pszVal);
 				DBFreeVariant(&dbv);
 			}
-			
+
 			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ) );
 			return TRUE;
 		}
 
 	case WM_COMMAND:
 		if ( LOWORD( wParam ) == IDC_NEWYAHOOACCOUNTLINK ) {
-			CallService( MS_UTILS_OPENURL, 
-							1, 
+			CallService( MS_UTILS_OPENURL,
+							1,
 							(( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ) == 1) ?
 							( LPARAM ) "http://edit.yahoo.co.jp/config/eval_register" :
-							( LPARAM ) "http://edit.yahoo.com/config/eval_register" 
+							( LPARAM ) "http://edit.yahoo.com/config/eval_register"
 						);
 			return TRUE;
 		}
 
-		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) 
+		if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus())
 		{
 			switch( LOWORD( wParam )) {
-			case IDC_HANDLE:			
+			case IDC_HANDLE:
 			case IDC_PASSWORD:
 			case IDC_YAHOO_JAPAN:
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -875,40 +875,40 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY ) 
+		if (((LPNMHDR)lParam)->code == (UINT)PSN_APPLY )
 		{
 			CYahooProto* ppro = (CYahooProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			char str[128];
 			DBVARIANT dbv;
 			BOOL reconnectRequired = FALSE;
-			
+
 			GetDlgItemTextA(hwndDlg, IDC_HANDLE, str, sizeof(str));
-			
+
 			dbv.pszVal = NULL;
-			
+
 			if ( ppro->GetString( YAHOO_LOGINID, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
-			
+
 			if ( dbv.pszVal != NULL )
 				DBFreeVariant( &dbv );
-			
+
 			ppro->SetString(YAHOO_LOGINID, str);
 			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, str, sizeof(str));
-			
+
 			dbv.pszVal = NULL;
 			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 			if ( dbv.pszVal != NULL )
 				DBFreeVariant( &dbv );
-			
+
 			if (reconnectRequired ) {
 				DBDeleteContactSetting(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);
 			}
-			
+
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 			ppro->SetString(YAHOO_PASSWORD, str);
 			ppro->SetByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
-			
+
 			if ( reconnectRequired && ppro->m_bLoggedIn )
 				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
 
@@ -923,7 +923,6 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 INT_PTR CYahooProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)CreateDialogParam (hInstance, MAKEINTRESOURCE( IDD_YAHOOACCOUNT ), 
+	return (INT_PTR)CreateDialogParam (hInstance, MAKEINTRESOURCE( IDD_YAHOOACCOUNT ),
 		 (HWND)lParam, first_run_dialog, (LPARAM)this );
 }
-

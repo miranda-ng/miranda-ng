@@ -2055,28 +2055,8 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 					if(ModernGetSettingByte(ack->hContact, ack->szModule, "ChatRoom", 0) != 0) return 0;
 			}
 
-			{
-				DBVARIANT dbv={0};
-				BOOL bUnicode = (!ModernGetSetting(ack->hContact, "CList", "StatusMsg", &dbv) && (dbv.type !=DBVT_ASCIIZ) );
-				ModernDBFreeVariant(&dbv);
-				if (!bUnicode)
-				{
-					char * val= ModernGetStringA(ack->hContact,"CList","StatusMsg");
-					if (val) 
-					{
-						if (!mir_bool_strcmpi(val,(const char *)ack->lParam))
-							ModernWriteSettingString(ack->hContact,"CList","StatusMsg",(const char *)ack->lParam);
-						else
-							gtaRenewText(ack->hContact);
-						mir_free_and_nill(val);
-					}
-					else 
-						ModernWriteSettingString(ack->hContact,"CList","StatusMsg",(const char *)ack->lParam);
-
-					//pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED,(WPARAM)ack->hContact,(LPARAM)ack->lParam);      
-				}
-				gtaRenewText(ack->hContact);
-			}
+			ModernWriteSettingTString(ack->hContact,"CList","StatusMsg",(const TCHAR *)ack->lParam);
+			gtaRenewText(ack->hContact);
 		} 
 		else
 		{

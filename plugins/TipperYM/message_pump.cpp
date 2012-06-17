@@ -15,7 +15,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -30,7 +30,7 @@ BOOL (WINAPI *MyUpdateLayeredWindow)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE 
 BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags) = 0;
 HMONITOR (WINAPI *MyMonitorFromPoint)(POINT, DWORD);
 BOOL (WINAPI *MyGetMonitorInfo)(HMONITOR, LPMONITORINFO);
-HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = 0; 
+HRESULT (WINAPI *MyDwmEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind) = 0;
 
 unsigned int uintMessagePumpThreadId = 0;
 POINT pt = {-1};
@@ -43,11 +43,11 @@ __inline bool IsContactTooltip(CLCINFOTIPEX *clc)
 	return (clc->szProto || clc->swzText) == false;
 }
 
-void CALLBACK TimerProcWaitForContent(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
+void CALLBACK TimerProcWaitForContent(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 {
 	KillTimer(0, WaitForContentTimerID);
 	WaitForContentTimerID = 0;
-	bStatusMsgReady = true;	
+	bStatusMsgReady = true;
 	bAvatarReady = true;
 	PostMPMessage(MUM_CREATEPOPUP, 0, 0);
 }
@@ -61,13 +61,13 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)clcitex->hItem, 0);
 		if (!szProto) return false;
 
-		if (opt.bWaitForStatusMsg && !bStatusMsgReady) 
+		if (opt.bWaitForStatusMsg && !bStatusMsgReady)
 		{
 			DBDeleteContactSetting(clcitex->hItem, MODULE, "TempStatusMsg");
 			if (CanRetrieveStatusMsg(clcitex->hItem, szProto) &&
-				CallContactService(clcitex->hItem, PSS_GETAWAYMSG, 0, 0)) 
+				CallContactService(clcitex->hItem, PSS_GETAWAYMSG, 0, 0))
 			{
-				if (WaitForContentTimerID) 
+				if (WaitForContentTimerID)
 					KillTimer(0, WaitForContentTimerID);
 
 				WaitForContentTimerID = SetTimer(NULL, 0, WAIT_TIMER_INTERVAL, TimerProcWaitForContent);
@@ -75,41 +75,41 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 			}
 		}
 
-		if (opt.bWaitForAvatar && !bAvatarReady && 
-			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0)) 
+		if (opt.bWaitForAvatar && !bAvatarReady &&
+			CallProtoService(szProto, PS_GETAVATARCAPS, AF_ENABLED, 0))
 		{
 			DBVARIANT dbv;
 			if (!DBGetContactSettingString(clcitex->hItem, "ContactPhoto", "File", &dbv))
-			{		
-				if (!strstr(dbv.pszVal, ".xml")) 
+			{
+				if (!strstr(dbv.pszVal, ".xml"))
 				{
 					AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)clcitex->hItem, 0);
-					if (!ace) 
+					if (!ace)
 					{
-						if (WaitForContentTimerID) 
+						if (WaitForContentTimerID)
 							KillTimer(0, WaitForContentTimerID);
 
 						WaitForContentTimerID = SetTimer(NULL, 0, WAIT_TIMER_INTERVAL, TimerProcWaitForContent);
 						bNeedWait = true;
-					} 
+					}
 					else
 						bAvatarReady = true;
-				} 
+				}
 				else
 					bAvatarReady = true;
 
 				DBFreeVariant(&dbv);
-			} 
+			}
 			else
 				bAvatarReady = true;
 		}
-		
-	} 
+
+	}
 
 	return bNeedWait;
 }
 
-unsigned int CALLBACK MessagePumpThread(void *param) 
+unsigned int CALLBACK MessagePumpThread(void *param)
 {
 	HWND hwndTip = 0;
 	CLCINFOTIPEX *clcitex = 0;
@@ -117,23 +117,23 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 	MSG hwndMsg = {0};
 	while (GetMessage(&hwndMsg, 0, 0, 0) > 0 && !Miranda_Terminated())
 	{
-		if (!IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) 
+		if (!IsDialogMessage(hwndMsg.hwnd, &hwndMsg))
 		{
-			switch (hwndMsg.message) 
+			switch (hwndMsg.message)
 			{
 				case MUM_CREATEPOPUP:
 				{
-					if (!clcitex) 
+					if (!clcitex)
 					{
 						if (hwndMsg.lParam) clcitex = (CLCINFOTIPEX *)hwndMsg.lParam;
 						else break;
 					}
 
-					if (!NeedWaitForContent(clcitex)) 
+					if (!NeedWaitForContent(clcitex))
 					{
 						if (hwndTip) MyDestroyWindow(hwndTip);
 						hwndTip = CreateWindowEx(WS_EX_TOOLWINDOW | WS_EX_TOPMOST, POP_WIN_CLASS, NULL, WS_POPUP, 0, 0, 0, 0, 0, 0, hInst, (LPVOID)clcitex);
-							
+
 						if (clcitex)
 						{
 							mir_free(clcitex);
@@ -144,10 +144,10 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 						bAvatarReady = false;
 					}
 					break;
-				}	
+				}
 				case MUM_DELETEPOPUP:
 				{
-					if (hwndTip) 
+					if (hwndTip)
 					{
 						MyDestroyWindow(hwndTip);
 						hwndTip = 0;
@@ -168,47 +168,10 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 					HANDLE hContact = (HANDLE)hwndMsg.wParam;
 					TCHAR *swzMsg = (TCHAR *)hwndMsg.lParam;
 
-					if (opt.bWaitForContent && 
-						bStatusMsgReady == false && 
-						clcitex && 
+					if (opt.bWaitForContent &&
+						bStatusMsgReady == false &&
+						clcitex &&
 						clcitex->hItem == hContact)
-					{
-						if (WaitForContentTimerID) 
-						{
-							KillTimer(0, WaitForContentTimerID);
-							WaitForContentTimerID = 0;
-						}
-
-						if (swzMsg)
-						{
-							DBWriteContactSettingTString(clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);	
-							mir_free(swzMsg);
-						}
-
-						bStatusMsgReady = true;
-						PostMPMessage(MUM_CREATEPOPUP, 0, 0);
-					} 
-					else if (!opt.bWaitForContent && hwndTip) 
-						SendMessage(hwndTip, PUM_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)swzMsg);
-					else if (swzMsg) 
-						mir_free(swzMsg);
-
-					break;
-				}	
-				case MUM_GOTXSTATUS:
-				{
-					if (hwndTip && !opt.bWaitForContent) 
-						SendMessage(hwndTip, PUM_SHOWXSTATUS, hwndMsg.wParam, 0);
-					break;
-				}
-				case MUM_GOTAVATAR:
-				{
-					HANDLE hContact = (HANDLE)hwndMsg.wParam;
-
-					if (opt.bWaitForContent && 
-						bAvatarReady == false && 
-						clcitex && 
-						clcitex->hItem == hContact) 
 					{
 						if (WaitForContentTimerID)
 						{
@@ -216,10 +179,47 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 							WaitForContentTimerID = 0;
 						}
 
-						bAvatarReady = true;		
+						if (swzMsg)
+						{
+							DBWriteContactSettingTString(clcitex->hItem, MODULE, "TempStatusMsg", swzMsg);
+							mir_free(swzMsg);
+						}
+
+						bStatusMsgReady = true;
 						PostMPMessage(MUM_CREATEPOPUP, 0, 0);
-					} 
-					else if (!opt.bWaitForContent && hwndTip) 
+					}
+					else if (!opt.bWaitForContent && hwndTip)
+						SendMessage(hwndTip, PUM_SETSTATUSTEXT, (WPARAM)hContact, (LPARAM)swzMsg);
+					else if (swzMsg)
+						mir_free(swzMsg);
+
+					break;
+				}
+				case MUM_GOTXSTATUS:
+				{
+					if (hwndTip && !opt.bWaitForContent)
+						SendMessage(hwndTip, PUM_SHOWXSTATUS, hwndMsg.wParam, 0);
+					break;
+				}
+				case MUM_GOTAVATAR:
+				{
+					HANDLE hContact = (HANDLE)hwndMsg.wParam;
+
+					if (opt.bWaitForContent &&
+						bAvatarReady == false &&
+						clcitex &&
+						clcitex->hItem == hContact)
+					{
+						if (WaitForContentTimerID)
+						{
+							KillTimer(0, WaitForContentTimerID);
+							WaitForContentTimerID = 0;
+						}
+
+						bAvatarReady = true;
+						PostMPMessage(MUM_CREATEPOPUP, 0, 0);
+					}
+					else if (!opt.bWaitForContent && hwndTip)
 						SendMessage(hwndTip, PUM_SETAVATAR, hwndMsg.wParam, 0);
 
 					break;
@@ -237,12 +237,12 @@ unsigned int CALLBACK MessagePumpThread(void *param)
 	return 0;
 }
 
-void PostMPMessage(UINT msg, WPARAM wParam, LPARAM lParam) 
+void PostMPMessage(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	PostThreadMessage(uintMessagePumpThreadId, msg, wParam, lParam);
 }
 
-void InitMessagePump() 
+void InitMessagePump()
 {
 	WNDCLASSEX wcl = {0};
 	wcl.cbSize = sizeof(wcl);
@@ -254,7 +254,7 @@ void InitMessagePump()
 	RegisterClassEx(&wcl);
 
 	HMODULE hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll) 
+	if (hUserDll)
 	{
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
 		MyUpdateLayeredWindow = (BOOL (WINAPI *)(HWND hwnd, HDC hdcDST, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags))GetProcAddress(hUserDll, "UpdateLayeredWindow");
@@ -271,13 +271,13 @@ void InitMessagePump()
 	CloseHandle(mir_forkthreadex(MessagePumpThread, NULL, 0, &uintMessagePumpThreadId));
 }
 
-void DeinitMessagePump() 
+void DeinitMessagePump()
 {
 	PostMPMessage(WM_QUIT, 0, 0);
 	UnregisterClass(POP_WIN_CLASS, hInst);
 }
 
-INT_PTR ShowTip(WPARAM wParam, LPARAM lParam) 
+INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 {
 	CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
 	HWND clist = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
@@ -294,7 +294,7 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 	clcit2->swzText = NULL;
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
-	{ 
+	{
 		clcit2->swzText = a2t((char *)wParam);
 		GetCursorPos(&clcit2->ptCursor);
 	}
@@ -303,13 +303,13 @@ INT_PTR ShowTip(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-int ShowTipHook(WPARAM wParam, LPARAM lParam) 
+int ShowTipHook(WPARAM wParam, LPARAM lParam)
 {
     ShowTip(wParam, lParam);
     return 0;
 }
 
-INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam) 
+INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 {
 	CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
 	HWND clist = (HWND)CallService(MS_CLUI_GETHWNDTREE, 0, 0);
@@ -326,7 +326,7 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 	clcit2->swzText = NULL;
 
 	if (wParam) // wParam is char pointer containing text - e.g. status bar tooltip
-	{ 
+	{
 		clcit2->swzText = mir_tstrdup((TCHAR *)wParam);
 		GetCursorPos(&clcit2->ptCursor);
 	}
@@ -335,7 +335,7 @@ INT_PTR ShowTipW(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-INT_PTR HideTip(WPARAM wParam, LPARAM lParam) 
+INT_PTR HideTip(WPARAM wParam, LPARAM lParam)
 {
 	//CLCINFOTIP *clcit = (CLCINFOTIP *)lParam;
 	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
@@ -346,29 +346,23 @@ INT_PTR HideTip(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-int HideTipHook(WPARAM wParam, LPARAM lParam) 
+int HideTipHook(WPARAM wParam, LPARAM lParam)
 {
     HideTip(wParam, lParam);
     return 0;
 }
 
-int ProtoAck(WPARAM wParam, LPARAM lParam) 
+int ProtoAck(WPARAM wParam, LPARAM lParam)
 {
-	DBVARIANT dbv;
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->result != ACKRESULT_SUCCESS)
 		return 0;
 
-	if (ack->type == ACKTYPE_AWAYMSG) 
-	{
-		if (!DBGetContactSettingTString(ack->hContact, "CList", "StatusMsg", &dbv))
-		{
-			if (dbv.ptszVal[0]) 
-				PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_tstrdup(dbv.ptszVal));
-
-			DBFreeVariant(&dbv);
-		}
-	} 
+	if (ack->type == ACKTYPE_AWAYMSG) {
+		TCHAR* tszMsg = ( TCHAR* )ack->lParam;
+		if ( lstrlen(tszMsg))
+			PostMPMessage(MUM_GOTSTATUS, (WPARAM)ack->hContact, (LPARAM)mir_tstrdup(tszMsg));
+	}
 	else if (ack->type == ICQACKTYPE_XSTATUS_RESPONSE)
 	{
 		PostMPMessage(MUM_GOTXSTATUS, (WPARAM)ack->hContact, 0);
@@ -377,14 +371,14 @@ int ProtoAck(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int AvatarChanged(WPARAM wParam, LPARAM lParam) 
+int AvatarChanged(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	PostMPMessage(MUM_GOTAVATAR, (WPARAM)hContact, 0);
 	return 0;
 }
 
-int FramesShowSBTip(WPARAM wParam, LPARAM lParam) 
+int FramesShowSBTip(WPARAM wParam, LPARAM lParam)
 {
 	if (opt.bStatusBarTips)
 	{
@@ -402,9 +396,9 @@ int FramesShowSBTip(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int FramesHideSBTip(WPARAM wParam, LPARAM lParam) 
+int FramesHideSBTip(WPARAM wParam, LPARAM lParam)
 {
-	if (opt.bStatusBarTips) 
+	if (opt.bStatusBarTips)
 	{
 		PostMPMessage(MUM_DELETEPOPUP, 0, 0);
 		return 1;
@@ -412,7 +406,7 @@ int FramesHideSBTip(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-BOOL MyDestroyWindow(HWND hwnd) 
+BOOL MyDestroyWindow(HWND hwnd)
 {
 	SendMessage(hwnd, PUM_FADEOUTWINDOW, 0, 0);
 	return DestroyWindow(hwnd);

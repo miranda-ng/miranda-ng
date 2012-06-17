@@ -1709,7 +1709,7 @@ bool CIrcProto::OnIrc_WHOIS_END( const CIrcMessage* pmsg )
 		CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, true};
 		HANDLE hContact = CList_FindContact( &user );
 		if ( hContact )
-			ProtoBroadcastAck( m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM)( char* )_T2A( WhoisAwayReply.c_str(), getCodepage()));
+			ProtoBroadcastAck( m_szModuleName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM)WhoisAwayReply.c_str());
 	}
 
 	m_manualWhoisCount--;

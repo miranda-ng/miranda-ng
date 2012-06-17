@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName)
 	: chat_rooms(5)
 {
-	m_iVersion = 2; 
+	m_iVersion = 2;
 	m_tszUserName = mir_tstrdup(aUserName);
 	m_szModuleName = mir_strdup(aProtoName);
 	m_szProtoName = mir_strdup(aProtoName);
@@ -39,7 +39,7 @@ CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName)
 	InitializeCriticalSection(&connMutex);
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CAimProto::SvcCreateAccMgrUI);
-	
+
 	CreateProtoService(PS_GETMYAWAYMSG,   &CAimProto::GetMyAwayMsg);
 
 	CreateProtoService(PS_GETAVATARINFOT,  &CAimProto::GetAvatarInfo);
@@ -118,7 +118,7 @@ CAimProto::~CAimProto()
 	mir_free(CHATNAV_COOKIE);
 	mir_free(ADMIN_COOKIE);
 	mir_free(username);
-	
+
 	mir_free(m_szModuleName);
 	mir_free(m_tszUserName);
 	mir_free(m_szProtoName);
@@ -185,13 +185,13 @@ int __cdecl CAimProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* evt)
 // PSS_AUTHREQUEST
 
 int __cdecl CAimProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
-{	
+{
 	//Not a real authrequest- only used b/c we don't know the group until now.
 	if (state != 1)
 		return 1;
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0]) 
+	if (!DBGetContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_GP, &dbv) && dbv.pszVal[0])
 	{
 		add_contact_to_group(hContact, dbv.pszVal);
 		DBFreeVariant(&dbv);
@@ -202,7 +202,7 @@ int __cdecl CAimProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-// ChangeInfo 
+// ChangeInfo
 
 HANDLE __cdecl CAimProto::ChangeInfo(int iInfoType, void* pInfoData)
 {
@@ -215,7 +215,7 @@ HANDLE __cdecl CAimProto::ChangeInfo(int iInfoType, void* pInfoData)
 HANDLE __cdecl CAimProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szPath)
 {
 	file_transfer *ft = (file_transfer*)hTransfer;
-	if (ft && ft_list.find_by_ft(ft)) 
+	if (ft && ft_list.find_by_ft(ft))
 	{
 		char *path = mir_utf8encodeT(szPath);
 
@@ -227,7 +227,7 @@ HANDLE __cdecl CAimProto::FileAllow(HANDLE hContact, HANDLE hTransfer, const PRO
 			path = (char*)mir_realloc(path, path_len + len);
 			mir_snprintf(&path[path_len], len, "%s\\", ft->file);
 		}
-		
+
 		mir_free(ft->file);
 		ft->file = path;
 
@@ -249,12 +249,12 @@ int __cdecl CAimProto::FileCancel(HANDLE hContact, HANDLE hTransfer)
 
 	aim_chat_deny(hServerConn, seqno, ft->sn, ft->icbm_cookie);
 
-	if (ft->hConn) 
+	if (ft->hConn)
 	{
 		Netlib_Shutdown(ft->hConn);
 		SetEvent(ft->hResumeEvent);
 	}
-	else 
+	else
 		ft_list.remove_by_ft(ft);
 
 	return 0;
@@ -282,7 +282,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 	file_transfer *ft = (file_transfer*)hTransfer;
 	if (!ft_list.find_by_ft(ft)) return 0;
 
-	switch (*action) 
+	switch (*action)
 	{
 	case FILERESUME_RESUME:
 		{
@@ -320,7 +320,7 @@ int __cdecl CAimProto::FileResume(HANDLE hTransfer, int* action, const PROTOCHAR
 
 DWORD_PTR __cdecl CAimProto::GetCaps(int type, HANDLE hContact)
 {
-	switch (type) 
+	switch (type)
 	{
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_MODEMSG | PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_FILE;
@@ -367,7 +367,7 @@ HICON __cdecl CAimProto::GetIcon(int iconIndex)
 	{
 		if (iconIndex & PLIF_ICOLIBHANDLE)
 			return (HICON)GetIconHandle("aim");
-		
+
 		bool big = (iconIndex & PLIF_SMALL) == 0;
 		HICON hIcon = LoadIconEx("aim", big);
 
@@ -397,11 +397,11 @@ void __cdecl CAimProto::basic_search_ack_success(void* p)
 	char *sn = normalize_name((char*)p);
 	if (sn) // normalize it
 	{
-		if (strlen(sn) > 32) 
+		if (strlen(sn) > 32)
 		{
 			sendBroadcast(NULL, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
 		}
-		else 
+		else
 		{
 			PROTOSEARCHRESULT psr = {0};
 			psr.cbSize = sizeof(psr);
@@ -483,7 +483,7 @@ int __cdecl CAimProto::RecvMsg(HANDLE hContact, PROTORECVEVENT* pre)
 
 	char *omsg = pre->szMessage;
 	char *bbuf = NULL;
-	if (getByte(AIM_KEY_FI, 1)) 		
+	if (getByte(AIM_KEY_FI, 1))
 	{
 		LOG("Converting from html to bbcodes then stripping leftover html.");
 		pre->szMessage = bbuf = html_to_bbcodes(pre->szMessage);
@@ -521,16 +521,16 @@ HANDLE __cdecl CAimProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 {
 	if (state != 1) return 0;
 
-	if (hContact && szDescription && ppszFiles) 
+	if (hContact && szDescription && ppszFiles)
 	{
 		DBVARIANT dbv;
-		if (!getString(hContact, AIM_KEY_SN, &dbv)) 
+		if (!getString(hContact, AIM_KEY_SN, &dbv))
 		{
 			file_transfer *ft = new file_transfer(hContact, dbv.pszVal, NULL);
 
 			bool isDir = false;
 			int count = 0;
-			while (ppszFiles[count] != NULL) 
+			while (ppszFiles[count] != NULL)
 			{
 				struct _stati64 statbuf;
 				if (_tstati64(ppszFiles[count++], &statbuf) == 0)
@@ -564,12 +564,12 @@ HANDLE __cdecl CAimProto::SendFile(HANDLE hContact, const PROTOCHAR* szDescripti
 
 			ft_list.insert(ft);
 
-			if (ft->me_force_proxy) 
+			if (ft->me_force_proxy)
 			{
 				LOG("We are forcing a proxy file transfer.");
 				ForkThread(&CAimProto::accept_file_thread, ft);
 			}
-			else 
+			else
 			{
 				aim_send_file(hServerConn, seqno, detected_ip, local_port, false, ft);
 			}
@@ -591,10 +591,10 @@ void __cdecl CAimProto::msg_ack_success(void* param)
 	msg_ack_param *msg_ack = (msg_ack_param*)param;
 
 	Sleep(150);
-	sendBroadcast(msg_ack->hContact, ACKTYPE_MESSAGE, 
-		msg_ack->success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, 
+	sendBroadcast(msg_ack->hContact, ACKTYPE_MESSAGE,
+		msg_ack->success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED,
 		(HANDLE)msg_ack->id, (LPARAM)msg_ack->msg);
-	
+
 	mir_free(msg_ack);
 }
 
@@ -621,10 +621,10 @@ int __cdecl CAimProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	}
 
 	char* msg;
-	if (flags & PREF_UNICODE) 
+	if (flags & PREF_UNICODE)
 	{
 		const char* p = strchr(pszSrc, '\0');
-		if (p != pszSrc) 
+		if (p != pszSrc)
 		{
 			while (*(++p) == '\0');
 		}
@@ -638,12 +638,12 @@ int __cdecl CAimProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 	char* smsg = html_encode(msg);
 	mir_free(msg);
 
-	if (getByte(AIM_KEY_FO, 1)) 
+	if (getByte(AIM_KEY_FO, 1))
 	{
 		msg = bbcodes_to_html(smsg);
 		mir_free(smsg);
 	}
-	else 
+	else
 		msg = smsg;
 
 	bool blast = getBool(hContact, AIM_KEY_BLS, false);
@@ -651,7 +651,7 @@ int __cdecl CAimProto::SendMsg(HANDLE hContact, int flags, const char* pszSrc)
 
 	mir_free(msg);
 	mir_free(sn);
-	
+
 	if (!res || blast || 0 == getByte(AIM_KEY_DC, 1))
 	{
 		msg_ack_param *msg_ack = (msg_ack_param*)mir_alloc(sizeof(msg_ack_param));
@@ -723,7 +723,7 @@ int __cdecl CAimProto::SetStatus(int iNewStatus)
 	}
 	else if (m_iStatus > ID_STATUS_OFFLINE)
 	{
-		switch(iNewStatus) 
+		switch(iNewStatus)
 		{
 		case ID_STATUS_ONLINE:
 			aim_set_status(hServerConn, seqno, AIM_STATUS_ONLINE);
@@ -744,7 +744,7 @@ int __cdecl CAimProto::SetStatus(int iNewStatus)
 			aim_set_status(hServerConn, seqno, AIM_STATUS_AWAY);
 			broadcast_status(ID_STATUS_AWAY);
 			break;
-		}	
+		}
 	}
 
 	return 0;
@@ -759,9 +759,8 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 
 	const HANDLE hContact = arg;
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) 
-	{
-		sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.pszVal);
+	if (!DBGetContactSettingTString(hContact, MOD_KEY_CL, OTH_KEY_SM, &dbv)) {
+		sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
 	else sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)0);
@@ -773,8 +772,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)
 		return 0;
 
 	int status = getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE);
-	switch (status)
-	{
+	switch (status) {
 	case ID_STATUS_AWAY:
 	case ID_STATUS_ONLINE:
 		ForkThread(&CAimProto::get_online_msg_thread, hContact);
@@ -791,7 +789,7 @@ HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)
 // PSR_AWAYMSG
 
 int __cdecl CAimProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVENT* pre)
-{	
+{
 	sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)pre->szMessage);
 	return 0;
 }
@@ -800,7 +798,7 @@ int __cdecl CAimProto::RecvAwayMsg(HANDLE hContact, int statusMode, PROTORECVEVE
 // PSS_AWAYMSG
 
 int __cdecl CAimProto::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char* msg)
-{	
+{
 	return 1;
 }
 
@@ -843,7 +841,7 @@ int __cdecl CAimProto::SetAwayMsg(int status, const TCHAR* msg)
 		mir_free(last_status_msg);
 		last_status_msg = mir_strdup(nmsg);
 		aim_set_statusmsg(hServerConn, seqno, nmsg);
-		aim_set_away(hServerConn, seqno, nmsg, 
+		aim_set_away(hServerConn, seqno, nmsg,
 			status == ID_STATUS_AWAY || status == ID_STATUS_OCCUPIED);
 	}
 	return 0;
@@ -860,7 +858,7 @@ int __cdecl CAimProto::UserIsTyping(HANDLE hContact, int type)
 		return 0;
 
 	DBVARIANT dbv;
-	if (!getBool(hContact, AIM_KEY_BLS, false) && !getString(hContact, AIM_KEY_SN, &dbv)) 
+	if (!getBool(hContact, AIM_KEY_BLS, false) && !getString(hContact, AIM_KEY_SN, &dbv))
 	{
 		if (type == PROTOTYPE_SELFTYPING_ON)
 			aim_typing_notification(hServerConn, seqno, dbv.pszVal, 0x0002);
@@ -876,19 +874,19 @@ int __cdecl CAimProto::UserIsTyping(HANDLE hContact, int type)
 
 int __cdecl CAimProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (eventType) 
+	switch (eventType)
 	{
-		case EV_PROTO_ONLOAD:    
+		case EV_PROTO_ONLOAD:
 			return OnModulesLoaded(0, 0);
 
-//		case EV_PROTO_ONEXIT:    
+//		case EV_PROTO_ONEXIT:
 //            return OnPreShutdown(0, 0);
 
 		case EV_PROTO_ONMENU:
 			InitMainMenus();
 			break;
 
-		case EV_PROTO_ONOPTIONS: 
+		case EV_PROTO_ONOPTIONS:
 			return OnOptionsInit(wParam, lParam);
 
 		case EV_PROTO_ONERASE:
@@ -901,7 +899,7 @@ int __cdecl CAimProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM l
 
 		case EV_PROTO_ONRENAME:
 			if (hMenuRoot)
-			{	
+			{
 				CLISTMENUITEM clmi = { 0 };
 				clmi.cbSize = sizeof(CLISTMENUITEM);
 				clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;

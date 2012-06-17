@@ -26,14 +26,14 @@
 
 extern OPTIONS opt;
 
-void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp) 
+void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 {
 	HANDLE hContact = PUGetContact(hWnd);
 	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	if (szProto) 
+	if (szProto)
 	{
 		if ((CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0) & PF1_MODEMSGRECV) &&
-			(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pdp->newStatus))) 
+			(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(pdp->newStatus)))
 		{
 			//The following HookEventMessage will hook the ME_PROTO_ACK event and send a WM_AWAYMSG to hWnd when the hooks get notified.
 			pdp->hAwayMsgHook = HookEventMessage(ME_PROTO_ACK, hWnd, WM_AWAYMSG);
@@ -43,46 +43,38 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 	}
 }
 
-void ReceivedAwayMessage(HWND hWnd, LPARAM lParam, PLUGINDATA * pdp) 
+void ReceivedAwayMessage(HWND hWnd, LPARAM lParam, PLUGINDATA * pdp)
 {
-	HANDLE hContact = PUGetContact(hWnd);
 	ACKDATA *ack = (ACKDATA *)lParam;
-
-	if (ack->type != ACKTYPE_AWAYMSG) 
+	if (ack->type != ACKTYPE_AWAYMSG || ack->hProcess != pdp->hAwayMsgProcess)
 		return;
 
-	if (ack->hProcess == pdp->hAwayMsgProcess) //It's my hProcess, so it's ok to continue.
-	{
-		//The first thing we go is removing the hook from the chain to avoid useless calls.
-		UnhookEvent(pdp->hAwayMsgHook);
-		pdp->hAwayMsgHook = NULL;
+	//The first thing we go is removing the hook from the chain to avoid useless calls.
+	UnhookEvent(pdp->hAwayMsgHook);
+	pdp->hAwayMsgHook = NULL;
 
-		if (ack->result != ACKRESULT_SUCCESS)
-			return;
+	if (ack->result != ACKRESULT_SUCCESS)
+		return;
 
-		DBVARIANT dbv;
-		TCHAR stzText[MAX_SECONDLINE];
+	DBVARIANT dbv;
+	HANDLE hContact = PUGetContact(hWnd);
 
-		if (!DBGetContactSettingTString(hContact, MODULE, "LastPopupText", &dbv))
-		{
-			_tcscpy(stzText, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+	if ( DBGetContactSettingTString(hContact, MODULE, "LastPopupText", &dbv))
+		return;
 
-			if (!DBGetContactSettingTString(ack->hContact, "CList", "StatusMsg", &dbv))
-			{
-				if (dbv.ptszVal && dbv.ptszVal[0]) 
-				{
-					if (stzText[0]) _tcscat(stzText, _T("\n"));
-					_tcscat(stzText, dbv.ptszVal);
-					SendMessage(hWnd, WM_SETREDRAW, FALSE, 0);
-					PUChangeTextT(hWnd, stzText);
-					SendMessage(hWnd, WM_SETREDRAW, TRUE, 0);
-				}
-				DBFreeVariant(&dbv);
-			}
+	TCHAR stzText[MAX_SECONDLINE], *tszStatus = (TCHAR*)ack->lParam;
+	_tcscpy(stzText, dbv.ptszVal);
+	DBFreeVariant(&dbv);
 
-		}
-	}
+	if (tszStatus == NULL || *tszStatus == 0)
+		return;
+
+	if (stzText[0])
+		_tcscat(stzText, _T("\n"));
+	_tcscat(stzText, tszStatus);
+	SendMessage(hWnd, WM_SETREDRAW, FALSE, 0);
+	PUChangeTextT(hWnd, stzText);
+	SendMessage(hWnd, WM_SETREDRAW, TRUE, 0);
 }
 
 void PopupAction(HWND hWnd, BYTE action)
@@ -98,7 +90,7 @@ void PopupAction(HWND hWnd, BYTE action)
 				break;
 			}
 			case PCA_OPENMENU:
-			{		
+			{
 				POINT pt = {0};
 				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)hContact, 0);
 				GetCursorPos(&pt);
@@ -107,7 +99,7 @@ void PopupAction(HWND hWnd, BYTE action)
 				return;
 			}
 			case PCA_OPENDETAILS:
-			{	
+			{
 				CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 				break;
 			}
@@ -116,7 +108,7 @@ void PopupAction(HWND hWnd, BYTE action)
 				CallServiceSync(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)hContact, 0);
 				break;
 			}
-			case PCA_CLOSEPOPUP: 
+			case PCA_CLOSEPOPUP:
 				break;
 			case PCA_DONOTHING:
 				return;
@@ -126,36 +118,36 @@ void PopupAction(HWND hWnd, BYTE action)
 	}
 }
 
-INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PLUGINDATA *pdp = NULL;
 
-	switch(message) 
+	switch(message)
 	{
 		case WM_MEASUREITEM: //Needed by the contact's context menu
 			return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 		case WM_DRAWITEM: //Needed by the contact's context menu
 			return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
-		case WM_COMMAND: 
+		case WM_COMMAND:
 		{
 			//This one returns TRUE if it processed the menu command, and FALSE if it did not process it.
-			if (CallServiceSync(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)PUGetContact(hwnd))) 
+			if (CallServiceSync(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)PUGetContact(hwnd)))
 				break;
 
 			PopupAction(hwnd, opt.LeftClickAction);
-			break; 
+			break;
 		}
-		case WM_CONTEXTMENU: 
+		case WM_CONTEXTMENU:
 		{
 			PopupAction(hwnd, opt.RightClickAction);
 			break;
 		}
-		case UM_FREEPLUGINDATA: 
+		case UM_FREEPLUGINDATA:
 		{
 			PLUGINDATA *pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
-			if (pdp != NULL) 
+			if (pdp != NULL)
 			{
-				if (pdp->hAwayMsgHook != NULL) 
+				if (pdp->hAwayMsgHook != NULL)
 				{
 					UnhookEvent(pdp->hAwayMsgHook);
 					pdp->hAwayMsgHook = NULL;
@@ -165,15 +157,15 @@ INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			}
 			return FALSE;
 		}
-		case UM_INITPOPUP: 
+		case UM_INITPOPUP:
 		{
 			pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
 			if (pdp != NULL)
 			{
 				char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)PUGetContact(hwnd), 0);
-				if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) 
+				if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus))
 				{
-					WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0); 
+					WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 					if (myStatus != ID_STATUS_INVISIBLE)
 						QueryAwayMessage(hwnd, pdp);
 				}
@@ -182,13 +174,12 @@ INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			return FALSE;
 		}
 		case WM_AWAYMSG: //We're here because ME_PROTO_ACK has been hooked to this window (too!).
-		{ 
+		{
 			pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
 			if (pdp != NULL) ReceivedAwayMessage(hwnd, lParam, pdp);
 			return FALSE;
-		} 
+		}
 	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
-

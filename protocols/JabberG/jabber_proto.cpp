@@ -1407,7 +1407,7 @@ void __cdecl CJabberProto::GetAwayMsgThread( void* hContact )
 	JABBER_LIST_ITEM *item;
 	JABBER_RESOURCE_STATUS *r;
 	int i, msgCount;
-    size_t len;
+	size_t len;
 
 	if ( !JGetStringT( hContact, "jid", &dbv )) {
 		if (( item = ListGetItemPtr( LIST_ROSTER, dbv.ptszVal )) != NULL ) {
@@ -1416,15 +1416,15 @@ void __cdecl CJabberProto::GetAwayMsgThread( void* hContact )
 				Log( "resourceCount > 0" );
 				r = item->resource;
 				len = msgCount = 0;
-				for ( i=0; i<item->resourceCount; i++ ) {
+				for ( i=0; i<item->resourceCount; i++ )
 					if ( r[i].statusMessage ) {
 						msgCount++;
 						len += ( _tcslen( r[i].resourceName ) + _tcslen( r[i].statusMessage ) + 8 );
-				}	}
+					}
 
 				TCHAR* str = ( TCHAR* )alloca( sizeof( TCHAR )*( len+1 ));
 				str[0] = str[len] = '\0';
-				for ( i=0; i < item->resourceCount; i++ ) {
+				for ( i=0; i < item->resourceCount; i++ )
 					if ( r[i].statusMessage ) {
 						if ( str[0] != '\0' ) _tcscat( str, _T("\r\n" ));
 						if ( msgCount > 1 ) {
@@ -1433,27 +1433,21 @@ void __cdecl CJabberProto::GetAwayMsgThread( void* hContact )
 							_tcscat( str, _T(" ): "));
 						}
 						_tcscat( str, r[i].statusMessage );
-				}	}
+					}
 
-				char* msg = mir_t2a(str);
-				char* msg2 = JabberUnixToDos(msg);
-				JSendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE ) 1, ( LPARAM )msg2 );
-				mir_free(msg);
-				mir_free(msg2);
+				JSendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)str);
 				return;
 			}
 
 			if ( item->itemResource.statusMessage != NULL ) {
-				char* msg = mir_t2a(item->itemResource.statusMessage);
-				JSendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE ) 1, ( LPARAM )msg );
-				mir_free(msg);
+				JSendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)item->itemResource.statusMessage);
 				return;
 			}
 		}
 		else JFreeVariant( &dbv );
 	}
 
-	JSendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE ) 1, ( LPARAM )"" );
+	JSendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE ) 1, ( LPARAM )0 );
 }
 
 HANDLE __cdecl CJabberProto::GetAwayMsg( HANDLE hContact )

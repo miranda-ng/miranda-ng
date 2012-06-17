@@ -2130,25 +2130,20 @@ struct status_message_thread_data
 void __cdecl CIcqProto::GetAwayMsgThread( void *pStatusData )
 {
 	status_message_thread_data *pThreadData = (status_message_thread_data*)pStatusData;
-
-	if (pThreadData)
-	{
-		char *szAnsiMsg = NULL;
-
+	if (pThreadData) {
 		// wait a little
 		Sleep(100);
 
 		setStatusMsgVar(pThreadData->hContact, pThreadData->szMessage, false);
 
-		if (utf8_decode(pThreadData->szMessage, &szAnsiMsg))
-			BroadcastAck(pThreadData->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, pThreadData->hProcess, (LPARAM)szAnsiMsg);
+		TCHAR *tszMsg = mir_utf8decodeT(pThreadData->szMessage);
+		BroadcastAck(pThreadData->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, pThreadData->hProcess, (LPARAM)tszMsg);
+		mir_free(tszMsg);
 
-		SAFE_FREE(&szAnsiMsg);
 		SAFE_FREE(&pThreadData->szMessage);
 		SAFE_FREE((void**)&pThreadData);
 	}
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // PS_GetAwayMsg - returns a contact's away message
@@ -2249,19 +2244,16 @@ HANDLE __cdecl CIcqProto::GetAwayMsg( HANDLE hContact )
 
 int __cdecl CIcqProto::RecvAwayMsg( HANDLE hContact, int statusMode, PROTORECVEVENT* evt )
 {
-	if (evt->flags & PREF_UTF)
-	{
+	if (evt->flags & PREF_UTF) {
 		setStatusMsgVar(hContact, evt->szMessage, false);
 
-		char* pszMsg = NULL;
-		utf8_decode(evt->szMessage, &pszMsg);
+		TCHAR* pszMsg = mir_utf8decodeT(evt->szMessage);
 		BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)pszMsg);
-		SAFE_FREE(&pszMsg);
+		mir_free(pszMsg);
 	}
-	else
-	{
+	else {
 		setStatusMsgVar(hContact, evt->szMessage, true);
-		BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)evt->szMessage);
+		BroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)evt->lParam, (LPARAM)(TCHAR*)_A2T(evt->szMessage));
 	}
 	return 0;
 }

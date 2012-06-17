@@ -288,7 +288,7 @@ HANDLE gg_basicsearch(PROTO_INTERFACE *proto, const PROTOCHAR *id)
 		return (HANDLE)1;
 	}
 
-	ida = gg_t2a(id); 
+	ida = gg_t2a(id);
 
 	// Add uin and search it
 	gg_pubdir50_add(req, GG_PUBDIR50_UIN, ida);
@@ -332,7 +332,7 @@ static HANDLE gg_searchbydetails(PROTO_INTERFACE *proto, const PROTOCHAR *nick, 
 	// Add uin and search it
 	if(nick)
 	{
-		char *nickA = gg_t2a(nick); 
+		char *nickA = gg_t2a(nick);
 		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickA);
 		strncat(data, nickA, sizeof(data) - strlen(data));
 		mir_free(nickA);
@@ -341,7 +341,7 @@ static HANDLE gg_searchbydetails(PROTO_INTERFACE *proto, const PROTOCHAR *nick, 
 
 	if(firstName)
 	{
-		char *firstNameA = gg_t2a(firstName); 
+		char *firstNameA = gg_t2a(firstName);
 		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstNameA);
 		strncat(data, firstNameA, sizeof(data) - strlen(data));
 		mir_free(firstNameA);
@@ -350,7 +350,7 @@ static HANDLE gg_searchbydetails(PROTO_INTERFACE *proto, const PROTOCHAR *nick, 
 
 	if(lastName)
 	{
-		char *lastNameA = gg_t2a(lastName); 
+		char *lastNameA = gg_t2a(lastName);
 		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastNameA);
 		strncat(data, lastNameA, sizeof(data) - strlen(data));
 		mir_free(lastNameA);
@@ -479,10 +479,10 @@ void __cdecl gg_getawaymsgthread(GGPROTO *gg, void *hContact)
 	DBVARIANT dbv;
 
 	SleepEx(100, FALSE);
-	if (!DBGetContactSettingString(hContact, "CList", GG_KEY_STATUSDESCR, &dbv))
+	if (!DBGetContactSettingTString(hContact, "CList", GG_KEY_STATUSDESCR, &dbv))
 	{
-		ProtoBroadcastAck(GG_PROTO, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.pszVal);
-		gg_netlog(gg, "gg_getawaymsg(): Reading away msg \"%s\".", dbv.pszVal);
+		ProtoBroadcastAck(GG_PROTO, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
+		gg_netlog(gg, "gg_getawaymsg(): Reading away msg <" TCHAR_STR_PARAM ">.", dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
 	else
@@ -533,7 +533,7 @@ int gg_setawaymsg(PROTO_INTERFACE *proto, int iStatus, const PROTOCHAR *msgt)
 
 	// Check if we change status here somehow
 	if (*szMsg && msg && !strcmp(*szMsg, msg)
-		|| !*szMsg && (!msg || !*msg))	
+		|| !*szMsg && (!msg || !*msg))
 	{
 		if (status == gg->proto.m_iDesiredStatus && gg->proto.m_iDesiredStatus == gg->proto.m_iStatus)
 		{

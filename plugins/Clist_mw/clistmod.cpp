@@ -66,7 +66,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		if (ServiceExists(AdvancedService))
 			result = CallService(AdvancedService,(WPARAM)hActContact, (LPARAM)0);
 
-		if (result == -1 || !(LOWORD(result))) 
+		if (result == -1 || !(LOWORD(result)))
 			// result == -1 means no Advanced icon. LOWORD(result) == 0 happens when Advanced icon returned by ICQ (i.e. no transpot)
 			result = saveIconFromStatusMode(szActProto,nActStatus,NULL);
 	}
@@ -101,15 +101,15 @@ static int ProtocolAck(WPARAM wParam,LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_AWAYMSG && ack->lParam) {
 		DBVARIANT dbv;
-		if (!DBGetContactSettingString(ack->hContact, "CList", "StatusMsg", &dbv)) {
-			if (!strcmp(dbv.pszVal, (char *)ack->lParam)) {
+		if (!DBGetContactSettingTString(ack->hContact, "CList", "StatusMsg", &dbv)) {
+			if ( !_tcscmp(dbv.ptszVal, (TCHAR *)ack->lParam)) {
 				DBFreeVariant(&dbv);
 				return 0;
 			}
 			DBFreeVariant(&dbv);
 		}
 		if ( DBGetContactSettingByte(NULL,"CList","ShowStatusMsg",0) || DBGetContactSettingByte(ack->hContact,"CList","StatusMsgAuto",0))
-         DBWriteContactSettingString(ack->hContact, "CList", "StatusMsg", (char *)ack->lParam);
+         DBWriteContactSettingTString(ack->hContact, "CList", "StatusMsg", (TCHAR *)ack->lParam);
 	}
 
 	return 0;

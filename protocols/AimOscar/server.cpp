@@ -547,7 +547,10 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 									char* msg = tlv.part(i + 6, len);
 									char* msg_s = process_status_msg(msg, sn);
 									DBWriteContactSettingStringUtf(hContact, MOD_KEY_CL, OTH_KEY_SM, msg_s);
-									sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)msg);
+
+									TCHAR* tszMsg = mir_utf8decodeT(msg_s);
+									sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszMsg);
+									mir_free(tszMsg);
 									mir_free(msg);
 									mir_free(msg_s);
 								}
