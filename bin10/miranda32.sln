@@ -72,6 +72,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_mw", "..\plugins\Clis
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_modern", "..\plugins\Clist_modern\clist_modern_10.vcxproj", "{D9057E63-AAAA-4FE7-800A-20C02F4761F3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\ICONS_10.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -368,6 +370,14 @@ Global
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|Win32.Build.0 = Release|Win32
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|x64.ActiveCfg = Release|x64
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|x64.Build.0 = Release|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|Win32.Build.0 = Debug|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|x64.ActiveCfg = Debug|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|x64.Build.0 = Debug|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.ActiveCfg = Release|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.Build.0 = Release|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.ActiveCfg = Release|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
