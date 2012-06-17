@@ -138,13 +138,13 @@ typedef struct {
 //Miranda/System/LoadModule event
 //called when a plugin is being loaded dynamically
 //wParam=PLUGININFOEX*
-//lParam=0
+//lParam=HINSTANCE of the loaded plugin
 #define ME_SYSTEM_MODULELOAD "Miranda/System/LoadModule"
 
 //Miranda/System/UnloadModule event
 //called when a plugin is being unloaded dynamically
 //wParam=PLUGININFOEX*
-//lParam=0
+//lParam=HINSTANCE of the plugin to be unloaded
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
 
 #ifndef MODULES_H_

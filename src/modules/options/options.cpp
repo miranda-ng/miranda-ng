@@ -86,14 +86,18 @@ struct OptionsPageData
 
 struct OptionsDlgData
 {
-	int pageCount;
+	OptionsDlgData() :
+		arOpd( 10 )
+		{}
+
 	int currentPage;
 	HTREEITEM hCurrentPage;
-	struct OptionsPageData *opd;
+	LIST<OptionsPageData> arOpd;
 	RECT rcDisplay;
 	RECT rcTab;
 	HFONT hBoldFont;
 	TCHAR szFilterString[1024];	
+	HANDLE hPluginLoad, hPluginUnload;
 };
 
 static HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
@@ -149,6 +153,7 @@ struct MoveChildParam
 	HWND hDlg;
 	POINT offset;
 };
+
 static BOOL CALLBACK MoveEnumChildren(HWND hwnd, LPARAM lParam)
 {
 	struct MoveChildParam * param = ( struct MoveChildParam *) lParam;
@@ -190,6 +195,9 @@ static void SaveOptionsTreeState(HWND hdlg)
 
 #define DM_FOCUSPAGE   (WM_USER+10)
 #define DM_REBUILDPAGETREE (WM_USER+11)
+
+#define HM_MODULELOAD (WM_USER+12)
+#define HM_MODULEUNLOAD (WM_USER+13)
 
 static void ThemeDialogBackground(HWND hwnd, BOOL tabbed)
 {
@@ -340,11 +348,13 @@ static LRESULT CALLBACK OptionsFilterSubclassProc(HWND hWnd, UINT message, WPARA
 	return 0;
 }
 
-static BOOL CheckPageShow( HWND hdlg, OptionsDlgData * dat, int i )
+static BOOL CheckPageShow( HWND hdlg, OptionsDlgData* dat, int i )
 {
-	if (dat->szFilterString && dat->szFilterString[0] && !MatchesFilter(&dat->opd[i], dat->szFilterString)) return FALSE;
-	if ((dat->opd[i].flags & ODPF_SIMPLEONLY) && IsDlgButtonChecked( hdlg, IDC_EXPERT)) return FALSE;
-	if ((dat->opd[i].flags & ODPF_EXPERTONLY) && !IsDlgButtonChecked( hdlg, IDC_EXPERT)) return FALSE;
+	OptionsPageData* opd = dat->arOpd[i];
+
+	if (dat->szFilterString && dat->szFilterString[0] && !MatchesFilter(opd, dat->szFilterString)) return FALSE;
+	if ((opd->flags & ODPF_SIMPLEONLY) && IsDlgButtonChecked( hdlg, IDC_EXPERT)) return FALSE;
+	if ((opd->flags & ODPF_EXPERTONLY) && !IsDlgButtonChecked( hdlg, IDC_EXPERT)) return FALSE;
 	return TRUE;
 }
 
@@ -352,6 +362,29 @@ static BOOL IsAeroMode()
 {
 	BOOL result;
 	return dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;
+}
+
+static void FreeOptionsData( OptionsPageInit* popi )
+{
+	for (int i = 0; i < popi->pageCount; i++ ) {
+		mir_free(( char* )popi->odp[i].pszTitle );
+		mir_free( popi->odp[i].pszGroup );
+		mir_free( popi->odp[i].pszTab );
+		if (( DWORD_PTR )popi->odp[i].pszTemplate & 0xFFFF0000 )
+			mir_free((char*)popi->odp[i].pszTemplate);
+	}
+	mir_free(popi->odp);
+}
+
+static void FreeOptionsPageData(OptionsPageData *opd)
+{
+	if ( opd->hwnd != NULL )
+		DestroyWindow(opd->hwnd);
+	mir_free(opd->pszGroup);
+	mir_free(opd->pszTab);
+	mir_free(opd->pszTitle);
+	mir_free(opd->pTemplate);
+	mir_free(opd);
 }
 
 static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = WM_PRINT, LPARAM lpFlags = PRF_CLIENT|PRF_NONCLIENT)
@@ -426,20 +459,19 @@ static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam
 
 static void CALLBACK FilterSearchTimerFunc( HWND hwnd, UINT, UINT_PTR, DWORD )
 {
-	struct OptionsDlgData* dat = (struct OptionsDlgData* )GetWindowLongPtr( hwnd, GWLP_USERDATA );
+	OptionsDlgData* dat = (OptionsDlgData* )GetWindowLongPtr( hwnd, GWLP_USERDATA );
 	if ( !dat )
 		return;
 	
 	if ( hFilterSearchWnd == NULL)
 		hFilterSearchWnd = CreateWindowA( "STATIC", "Test", WS_OVERLAPPED|WS_DISABLED, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, GetModuleHandle(NULL), 0 ); // Fake window to keep option page focused
 
-	if ( FilterPage < dat->pageCount )
-		FindFilterStrings( TRUE, dat->currentPage == FilterPage, hFilterSearchWnd, &( dat->opd[FilterPage]) );		
+	if (FilterPage < dat->arOpd.getCount())
+		FindFilterStrings( TRUE, dat->currentPage == FilterPage, hFilterSearchWnd, dat->arOpd[FilterPage] );		
 
 	FilterPage++;
-	FilterLoadProgress = FilterPage*100/((dat->pageCount) ? dat->pageCount : FilterPage );
-	if ( FilterPage >= dat->pageCount )
-	{
+	FilterLoadProgress = FilterPage*100/((dat->arOpd.getCount()) ? dat->arOpd.getCount() : FilterPage );
+	if (FilterPage >= dat->arOpd.getCount()) {
 		KillTimer( hwnd, FilterTimerId );
 		FilterTimerId = 0;
 		bSearchState = 2;
@@ -458,9 +490,9 @@ static void ExecuteFindFilterStringsTimer( HWND hdlg )
 	FilterTimerId = SetTimer( hdlg, NULL, 1, FilterSearchTimerFunc );
 }
 
-static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, struct OptionsPageData * opd, int PageCount)
+static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgData* dat)
 {
-	HINSTANCE* KnownInstances = ( HINSTANCE* )alloca(sizeof(HINSTANCE)*PageCount);
+	HINSTANCE* KnownInstances = ( HINSTANCE* )alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
 	int countKnownInst = 0;
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_RESETCONTENT, 0, 0);
 	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(ALL_MODULES_FILTER));
@@ -468,13 +500,13 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, struct Option
 	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hMirandaInst);
 	TCHAR* tszModuleName = ( TCHAR* )alloca(MAX_PATH*sizeof(TCHAR));
-	for (int i = 0; i<PageCount; i++) {		
+	for (int i = 0; i < dat->arOpd.getCount(); i++) {		
 		TCHAR * dllName = NULL;
 		int j;
-		HINSTANCE inst = opd[i].hInst;
+		HINSTANCE inst = dat->arOpd[i]->hInst;
 		
 		if ( !enableKeywordFiltering )
-			FindFilterStrings( enableKeywordFiltering, FALSE, hDlg, &opd[i]); // only modules name ( fast enougth )
+			FindFilterStrings( enableKeywordFiltering, FALSE, hDlg, dat->arOpd[i]); // only modules name ( fast enougth )
 		
 		if (inst == hMirandaInst) continue;
 		for (j = 0; j<countKnownInst; j++)
@@ -506,44 +538,141 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, struct Option
 
 static BOOL IsInsideTab( HWND hdlg, OptionsDlgData * dat, int i )
 {
+	OptionsPageData* opd = dat->arOpd[i];
 	int pages = 0;
-	if (dat->opd[i].pszTab != NULL) {
+	if (opd->pszTab != NULL) {
 		// Count tabs to calc position
-		for (int j = 0; j < dat->pageCount && pages < 2; j++ ) {
-			if (!CheckPageShow( hdlg, dat, j ) ) continue;
-			if ( lstrcmp(dat->opd[j].pszTitle, dat->opd[i].pszTitle) || lstrcmpnull(dat->opd[j].pszGroup, dat->opd[i].pszGroup) ) continue;
+		for (int j = 0; j < dat->arOpd.getCount() && pages < 2; j++ ) {
+			OptionsPageData* opd2 = dat->arOpd[j];
+			if ( !CheckPageShow( hdlg, dat, j )) continue;
+			if ( lstrcmp(opd2->pszTitle, opd->pszTitle) || lstrcmpnull(opd2->pszGroup, opd->pszGroup))
+				continue;
 			pages++;
 		}
 	}
 	return (pages > 1);
 }
 
+static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
+{
+	HRSRC hrsrc = FindResourceA(src->hInstance, src->pszTemplate, MAKEINTRESOURCEA(5));
+	if (hrsrc == NULL) return false;
+	
+	HGLOBAL hglb = LoadResource(src->hInstance, hrsrc);
+	if (hglb == NULL) return false;
+
+	DWORD resSize = SizeofResource(src->hInstance, hrsrc);
+	dst->pTemplate = ( DLGTEMPLATE* )mir_alloc(resSize);
+	memcpy(dst->pTemplate, LockResource(hglb), resSize);
+	DlgTemplateExBegin *dte = (struct DlgTemplateExBegin*)dst->pTemplate;
+	if ( dte->signature == 0xFFFF ) {
+		//this feels like an access violation, and is according to boundschecker
+		//...but it works - for now
+		//may well have to remove and sort out the original dialogs
+		dte->style &= ~(WS_VISIBLE|WS_CHILD|WS_POPUP|WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|DS_MODALFRAME|DS_CENTER);
+		dte->style |= WS_CHILD;
+	}
+	else {
+		dst->pTemplate->style &= ~(WS_VISIBLE|WS_CHILD|WS_POPUP|WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|DS_MODALFRAME|DS_CENTER);
+		dst->pTemplate->style |= WS_CHILD;
+	}
+	dst->dlgProc = src->pfnDlgProc;
+	dst->hInst = src->hInstance;
+	dst->hwnd = NULL;
+	dst->changed = 0;
+	dst->simpleHeight = dst->expertHeight = 0;
+	dst->simpleBottomControlId = src->nIDBottomSimpleControl;
+	dst->simpleWidth = dst->expertWidth = 0;
+	dst->simpleRightControlId = src->nIDRightSimpleControl;
+	dst->nExpertOnlyControls = src->nExpertOnlyControls;
+	dst->expertOnlyControls = src->expertOnlyControls;
+	dst->flags = src->flags;
+	dst->dwInitParam = src->dwInitParam;
+	if ( src->pszTitle == NULL )
+		dst->pszTitle = NULL;
+	else if ( src->flags & ODPF_UNICODE ) {
+		dst->pszTitle = ( TCHAR* )mir_wstrdup( src->ptszTitle );
+	}
+	else dst->pszTitle = ( TCHAR* )mir_strdup( src->pszTitle );
+
+	if ( src->pszGroup == NULL )
+		dst->pszGroup = NULL;
+	else if ( src->flags & ODPF_UNICODE ) {
+		dst->pszGroup = ( TCHAR* )mir_wstrdup( src->ptszGroup );
+	}
+	else dst->pszGroup = ( TCHAR* )mir_strdup( src->pszGroup );
+
+	if ( src->pszTab == NULL )
+		dst->pszTab = NULL;
+	else if ( src->flags & ODPF_UNICODE ) {
+		dst->pszTab = ( TCHAR* )mir_wstrdup( src->ptszTab );
+	}
+	else dst->pszTab = ( TCHAR* )mir_strdup( src->pszTab );
+	
+	return true;
+}
+
+static void LoadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
+{
+	OptionsPageInit opi = { 0 };
+	CallPluginEventHook(hInst, hOptionsInitEvent, ( WPARAM )&opi, 0);
+	if ( opi.pageCount == 0 )
+		return;
+
+	for (int i=0; i < opi.pageCount; i++) {
+		OptionsPageData* opd = (OptionsPageData*)mir_calloc( sizeof(OptionsPageData));
+		if ( LoadOptionsPage(&opi.odp[i], opd))
+			dat->arOpd.insert(opd);
+		else
+			mir_free(opd);
+	}
+
+	FreeOptionsData( &opi );
+	PostMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
+}
+
+static void UnloadOptionsModule(HWND hdlg, OptionsDlgData *dat, HINSTANCE hInst)
+{
+	bool bToRebuildTree = false;
+
+	for (int i=0; i < dat->arOpd.getCount(); i++) {
+		OptionsPageData* opd = dat->arOpd[i];
+		if (opd->hInst != hInst)
+			continue;
+
+		if (dat->currentPage > i)
+			dat->currentPage--;
+		FreeOptionsPageData(opd);
+		dat->arOpd.remove(i);
+		bToRebuildTree = true;
+	}
+
+	if (bToRebuildTree)
+		PostMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
+}
+
 static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	struct OptionsDlgData* dat = (struct OptionsDlgData* )GetWindowLongPtr( hdlg, GWLP_USERDATA );
+	OptionsDlgData* dat = (OptionsDlgData* )GetWindowLongPtr( hdlg, GWLP_USERDATA );
 	HWND hwndTree = GetDlgItem(hdlg, IDC_PAGETREE);
 
 	switch ( message ) {
 	case WM_CTLCOLORSTATIC:
-		switch ( GetDlgCtrlID(( HWND )lParam )) 
+		switch ( GetDlgCtrlID(( HWND )lParam )) {
 		case IDC_WHITERECT:
 		case IDC_KEYWORD_FILTER:
 			SetBkColor(( HDC )wParam, GetSysColor( COLOR_WINDOW ));
 			return ( INT_PTR )GetSysColorBrush( COLOR_WINDOW );
-
+		}
 		break;
 
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hdlg);
 		{	
 			PROPSHEETHEADER *psh = (PROPSHEETHEADER*)lParam;
 			OPENOPTIONSDIALOG *ood = (OPENOPTIONSDIALOG*)psh->pStartPage;
-			OPTIONSDIALOGPAGE *odp;
-			int i;
-			struct DlgTemplateExBegin *dte;
 			TCHAR *lastPage = NULL, *lastGroup = NULL, *lastTab = NULL;
 			DBVARIANT dbv;
-			TCITEM tie;
-			LOGFONT lf;
 
 			typedef BOOL (STDAPICALLTYPE *pfnGetComboBoxInfo)(HWND, PCOMBOBOXINFO);
 			pfnGetComboBoxInfo getComboBoxInfo = (pfnGetComboBoxInfo)GetProcAddress(GetModuleHandleA("user32"), "GetComboBoxInfo"); 
@@ -558,25 +687,25 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					SetWindowLongPtr(cbi.hwndCombo, GWLP_WNDPROC, (LONG_PTR)AeroPaintSubclassProc);
 					SetWindowLongPtr(cbi.hwndItem, GWLP_USERDATA, GetWindowLongPtr(cbi.hwndItem, GWLP_WNDPROC));
 					SetWindowLongPtr(cbi.hwndItem, GWLP_WNDPROC, (LONG_PTR)AeroPaintSubclassProc);
-			}	}
+				}
+			}
 
 			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "Options", "");
-			TranslateDialogDefault(hdlg);
 			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_OPTIONS);
 			CheckDlgButton(hdlg, IDC_EXPERT, DBGetContactSettingByte(NULL, "Options", "Expert", SETTING_SHOWEXPERT_DEFAULT)?BST_CHECKED:BST_UNCHECKED);
 			EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
-			dat = (struct OptionsDlgData*)mir_alloc(sizeof(struct OptionsDlgData));
+			dat = new OptionsDlgData;
 			SetWindowLongPtr(hdlg, GWLP_USERDATA, (LONG_PTR)dat);
 			SetWindowText(hdlg, psh->pszCaption);
 			
+			LOGFONT lf;
 			dat->hBoldFont = (HFONT)SendDlgItemMessage(hdlg, IDC_EXPERT, WM_GETFONT, 0, 0);
 			GetObject(dat->hBoldFont, sizeof(lf), &lf);
 			lf.lfWeight = FW_BOLD;
 			dat->hBoldFont = CreateFontIndirect(&lf);
 			
-			dat->pageCount = psh->nPages;
-			dat->opd = ( struct OptionsPageData* )mir_alloc( sizeof(struct OptionsPageData) * dat->pageCount );
-			odp = ( OPTIONSDIALOGPAGE* )psh->ppsp;
+			dat->hPluginLoad = HookEventMessage(ME_SYSTEM_MODULELOAD, hdlg, HM_MODULELOAD);
+			dat->hPluginUnload = HookEventMessage(ME_SYSTEM_MODULEUNLOAD, hdlg, HM_MODULEUNLOAD);
 
 			dat->currentPage = -1;
 			if ( ood->pszPage == NULL ) {
@@ -593,8 +722,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				}
 				else lastGroup = LangPackPcharToTchar( ood->pszGroup );
 			}
-			else
-			{
+			else {
 				lastPage = LangPackPcharToTchar( ood->pszPage );
 				lastGroup = ( ood->pszGroup == NULL ) ? NULL : LangPackPcharToTchar( ood->pszGroup );
 			}
@@ -607,60 +735,16 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			}
 			else lastTab = LangPackPcharToTchar( ood->pszTab );
 
-			for ( i = 0; i < dat->pageCount; i++, odp++ ) {
-				struct OptionsPageData* opd = &dat->opd[i];
-				HRSRC hrsrc = FindResourceA(odp->hInstance, odp->pszTemplate, MAKEINTRESOURCEA(5));
-				HGLOBAL hglb = LoadResource(odp->hInstance, hrsrc);
-				DWORD resSize = SizeofResource(odp->hInstance, hrsrc);
-				opd->pTemplate = ( DLGTEMPLATE* )mir_alloc(resSize);
-				memcpy(opd->pTemplate, LockResource(hglb), resSize);
-				dte = (struct DlgTemplateExBegin*)opd->pTemplate;
-				if ( dte->signature == 0xFFFF ) {
-					//this feels like an access violation, and is according to boundschecker
-					//...but it works - for now
-					//may well have to remove and sort out the original dialogs
-					dte->style &= ~(WS_VISIBLE|WS_CHILD|WS_POPUP|WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|DS_MODALFRAME|DS_CENTER);
-					dte->style |= WS_CHILD;
+			OPTIONSDIALOGPAGE *odp = ( OPTIONSDIALOGPAGE* )psh->ppsp;
+			for (size_t i = 0; i < psh->nPages; i++, odp++) {
+				OptionsPageData* opd = (OptionsPageData*)mir_calloc( sizeof(OptionsPageData));
+				if ( !LoadOptionsPage(odp, opd)) {
+					mir_free(opd);
+					continue;
 				}
-				else {
-					opd->pTemplate->style &= ~(WS_VISIBLE|WS_CHILD|WS_POPUP|WS_OVERLAPPED|WS_CAPTION|WS_SYSMENU|DS_MODALFRAME|DS_CENTER);
-					opd->pTemplate->style |= WS_CHILD;
-				}
-				opd->dlgProc = odp->pfnDlgProc;
-				opd->hInst = odp->hInstance;
-				opd->hwnd = NULL;
-				opd->changed = 0;
-				opd->simpleHeight = opd->expertHeight = 0;
-				opd->simpleBottomControlId = odp->nIDBottomSimpleControl;
-				opd->simpleWidth = opd->expertWidth = 0;
-				opd->simpleRightControlId = odp->nIDRightSimpleControl;
-				opd->nExpertOnlyControls = odp->nExpertOnlyControls;
-				opd->expertOnlyControls = odp->expertOnlyControls;
-				opd->flags = odp->flags;
-				opd->dwInitParam = odp->dwInitParam;
-				if ( odp->pszTitle == NULL )
-					opd->pszTitle = NULL;
-				else if ( odp->flags & ODPF_UNICODE ) {
-					opd->pszTitle = ( TCHAR* )mir_wstrdup( odp->ptszTitle );
-				}
-				else opd->pszTitle = ( TCHAR* )mir_strdup( odp->pszTitle );
+				dat->arOpd.insert(opd);
 
-				if ( odp->pszGroup == NULL )
-					opd->pszGroup = NULL;
-				else if ( odp->flags & ODPF_UNICODE ) {
-					opd->pszGroup = ( TCHAR* )mir_wstrdup( odp->ptszGroup );
-				}
-				else opd->pszGroup = ( TCHAR* )mir_strdup( odp->pszGroup );
-
-				if ( odp->pszTab == NULL )
-					opd->pszTab = NULL;
-				else if ( odp->flags & ODPF_UNICODE ) {
-					opd->pszTab = ( TCHAR* )mir_wstrdup( odp->ptszTab );
-				}
-				else opd->pszTab = ( TCHAR* )mir_strdup( odp->pszTab );
-
-				if ( !lstrcmp( lastPage, odp->ptszTitle ) &&
-					  !lstrcmpnull( lastGroup, odp->ptszGroup ) &&
+				if ( !lstrcmp( lastPage, odp->ptszTitle ) && !lstrcmpnull( lastGroup, odp->ptszGroup ) &&
 					  (( ood->pszTab == NULL && dat->currentPage == -1 ) || !lstrcmpnull( lastTab, odp->ptszTab )))
 					dat->currentPage = i;
 			}
@@ -672,6 +756,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			MapWindowPoints(NULL, hdlg, (LPPOINT)&dat->rcDisplay, 2);
 
 			// Add an item to count in height
+			TCITEM tie;
 			tie.mask = TCIF_TEXT | TCIF_IMAGE;
 			tie.iImage = -1;
 			tie.pszText = _T("X");
@@ -682,24 +767,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			TabCtrl_AdjustRect(GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
 
 			//!!!!!!!!!! int enableKeywordFiltering = DBGetContactSettingWord(NULL, "Options", "EnableKeywordFiltering", TRUE); 
-			FillFilterCombo( 0, //!!!!!!!!!!  enableKeywordFiltering, 
-				hdlg, dat->opd, dat->pageCount); 
+			FillFilterCombo( 0, hdlg, dat); //!!!!!!!!!!  enableKeywordFiltering, 
 			SendMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
 
 			return TRUE;
 		}
 	case DM_REBUILDPAGETREE:
 		{	
-			int i;
-			TVINSERTSTRUCT tvis;
-			TVITEMA tvi;
 			BOOL bRemoveFocusFromFilter = FALSE;
-			char str[128], buf[130];
-
 			HINSTANCE FilterInst = NULL;
-			
-			LPARAM oldSel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, CB_GETEDITSEL, 0, 0);
 
+			LPARAM oldSel = SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, CB_GETEDITSEL, 0, 0);
 			GetDlgItemText(hdlg, IDC_KEYWORD_FILTER, dat->szFilterString, SIZEOF(dat->szFilterString));
 			
 			//if filter string is set to all modules then make the filter string empty (this will return all modules)
@@ -739,41 +817,45 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			HWND oldWnd = NULL;
 			HWND oldTab = NULL; 
 			if ( dat->currentPage != (-1)) {	
-				oldWnd = dat->opd[dat->currentPage].hwnd;
-				if ( dat->opd[dat->currentPage].insideTab )
+				oldWnd = dat->arOpd[dat->currentPage]->hwnd;
+				if ( dat->arOpd[dat->currentPage]->insideTab )
 					oldTab = GetDlgItem( hdlg, IDC_TAB ); 
 			}			
 
 			dat->hCurrentPage = NULL;
 
 			TreeView_SelectItem(hwndTree, NULL);
-
 			TreeView_DeleteAllItems(hwndTree);
 			
+			TVINSERTSTRUCT tvis;
 			tvis.hParent = NULL;
 			tvis.hInsertAfter = TVI_SORT;
 			tvis.item.mask = TVIF_TEXT | TVIF_STATE | TVIF_PARAM;
 			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-			for ( i = 0; i < dat->pageCount; i++ ) {
+			for (int i = 0; i < dat->arOpd.getCount(); i++ ) {
 				static TCHAR *fullTitle = NULL;
-				TCHAR * useTitle;
-				if (fullTitle) mir_free(fullTitle);
-				fullTitle = NULL;
-				if (! CheckPageShow( hdlg, dat, i ) ) continue;
+				mir_free(fullTitle); fullTitle = NULL;
+				if ( !CheckPageShow( hdlg, dat, i ))
+					continue;
+
+				OptionsPageData* opd = dat->arOpd[i];
+
 				tvis.hParent = NULL;
 				if ( FilterInst != NULL ) {
-					size_t sz = dat->opd[i].pszGroup?_tcslen(dat->opd[i].pszGroup)+1:0;
+					size_t sz = opd->pszGroup ? _tcslen(opd->pszGroup)+1:0;
 					if (sz) sz+=3;
-					sz+=dat->opd[i].pszTitle?_tcslen(dat->opd[i].pszTitle)+1:0;
+					sz += opd->pszTitle ? _tcslen(opd->pszTitle)+1 : 0;
 					fullTitle = ( TCHAR* )mir_alloc(sz*sizeof(TCHAR));
-					mir_sntprintf(fullTitle, sz, (dat->opd[i].pszGroup && dat->opd[i].pszTitle)?_T("%s - %s"):_T("%s%s"), dat->opd[i].pszGroup?dat->opd[i].pszGroup:_T(""), dat->opd[i].pszTitle?dat->opd[i].pszTitle:_T("") );
+					mir_sntprintf(fullTitle, sz, (opd->pszGroup && opd->pszTitle)?_T("%s - %s"):_T("%s%s"), 
+						opd->pszGroup ? opd->pszGroup : _T(""), 
+						opd->pszTitle ? opd->pszTitle : _T(""));
 				}
-				useTitle = fullTitle?fullTitle:dat->opd[i].pszTitle;
-				if (dat->opd[i].pszGroup != NULL && FilterInst == NULL) {
-					tvis.hParent = FindNamedTreeItemAtRoot(hwndTree, dat->opd[i].pszGroup);
+				TCHAR *useTitle = fullTitle ? fullTitle : opd->pszTitle;
+				if (opd->pszGroup != NULL && FilterInst == NULL) {
+					tvis.hParent = FindNamedTreeItemAtRoot(hwndTree, opd->pszGroup);
 					if (tvis.hParent == NULL) {
 						tvis.item.lParam = -1;
-						tvis.item.pszText = dat->opd[i].pszGroup;
+						tvis.item.pszText = opd->pszGroup;
 						tvis.hParent = TreeView_InsertItem(hwndTree, &tvis);
 					}
 				}
@@ -790,7 +872,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							continue;
 				}	}	}
 
-				if ( dat->opd[i].pszTab != NULL ) {
+				if ( opd->pszTab != NULL ) {
 					HTREEITEM hItem;
 					if (tvis.hParent == NULL)
 						hItem = FindNamedTreeItemAtRoot(hwndTree, useTitle);
@@ -811,25 +893,31 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 				tvis.item.pszText = useTitle;
 				tvis.item.lParam = i;
-				dat->opd[i].hTreeItem = TreeView_InsertItem(hwndTree, &tvis);
+				opd->hTreeItem = TreeView_InsertItem(hwndTree, &tvis);
 				if ( i == dat->currentPage )
-					dat->hCurrentPage = dat->opd[i].hTreeItem;	
+					dat->hCurrentPage = opd->hTreeItem;	
 
 				if (fullTitle) mir_free(fullTitle);
 				fullTitle = NULL;
 			}
-			tvi.mask = TVIF_TEXT | TVIF_STATE;
-			tvi.pszText = str;
-			tvi.cchTextMax = SIZEOF(str);
-			tvi.hItem = TreeView_GetRoot(hwndTree);
-			while ( tvi.hItem != NULL ) {
-				if ( SendMessageA( hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi )) {
-					mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
-					if ( !DBGetContactSettingByte( NULL, "Options", buf, 1 ))
-						TreeView_Expand( hwndTree, tvi.hItem, TVE_COLLAPSE );
+			{
+				char str[128];
+				TVITEMA tvi;
+				tvi.mask = TVIF_TEXT | TVIF_STATE;
+				tvi.pszText = str;
+				tvi.cchTextMax = SIZEOF(str);
+				tvi.hItem = TreeView_GetRoot(hwndTree);
+				while ( tvi.hItem != NULL ) {
+					if ( SendMessageA( hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi )) {
+						char buf[130];
+						mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
+						if ( !DBGetContactSettingByte( NULL, "Options", buf, 1 ))
+							TreeView_Expand( hwndTree, tvi.hItem, TVE_COLLAPSE );
+					}
+					tvi.hItem = TreeView_GetNextSibling( hwndTree, tvi.hItem );
 				}
-				tvi.hItem = TreeView_GetNextSibling( hwndTree, tvi.hItem );
 			}
+
 			if (dat->hCurrentPage == NULL) {
 				dat->hCurrentPage = TreeView_GetRoot(hwndTree);
 				dat->currentPage = -1;
@@ -837,9 +925,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			TreeView_SelectItem(hwndTree, dat->hCurrentPage);
 			
 			if ( oldWnd ) {
-				if ( dat->currentPage == (-1) || oldWnd != dat->opd[dat->currentPage].hwnd ) {
+				if ( dat->currentPage == -1 || oldWnd != dat->arOpd[dat->currentPage]->hwnd ) {
 					ShowWindow( oldWnd, SW_HIDE);
-					if ( oldTab && ( dat->currentPage  == -1 || !dat->opd[dat->currentPage].insideTab ) )
+					if ( oldTab && ( dat->currentPage == -1 || !dat->arOpd[dat->currentPage]->insideTab ) )
 						ShowWindow( oldTab, SW_HIDE );		
 				}	
 			}
@@ -855,9 +943,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		}
 		break;
 
+	case HM_MODULELOAD:
+		LoadOptionsModule(hdlg, dat, (HINSTANCE)lParam);
+		break;
+
+	case HM_MODULEUNLOAD:
+		UnloadOptionsModule(hdlg, dat, (HINSTANCE)lParam);
+		break;
+
 	case PSM_CHANGED:
 		EnableWindow(GetDlgItem(hdlg, IDC_APPLY), TRUE);
-		if (dat->currentPage != (-1)) dat->opd[dat->currentPage].changed = 1;
+		if (dat->currentPage != (-1)) dat->arOpd[dat->currentPage]->changed = 1;
 		return TRUE;
 
 	case PSM_ISEXPERT:
@@ -879,13 +975,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			case TCN_SELCHANGING:
 			case TVN_SELCHANGING:
-				if (dat->currentPage != -1 && dat->opd[dat->currentPage].hwnd != NULL) {
+				if (dat->currentPage != -1 && dat->arOpd[dat->currentPage]->hwnd != NULL) {
 					PSHNOTIFY pshn;
 					pshn.hdr.code = PSN_KILLACTIVE;
-					pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;
+					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->hwnd;
 					pshn.hdr.idFrom = 0;
 					pshn.lParam = 0;
-					if (SendMessage(dat->opd[dat->currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn)) {
+					if (SendMessage(dat->arOpd[dat->currentPage]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn)) {
 						SetWindowLongPtr(hdlg, DWLP_MSGRESULT, TRUE);
 						return TRUE;
 					}
@@ -895,8 +991,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			case TCN_SELCHANGE:
 			case TVN_SELCHANGED:
 				ShowWindow(GetDlgItem(hdlg, IDC_STNOPAGE), SW_HIDE);
-				if (dat->currentPage != -1 && dat->opd[dat->currentPage].hwnd != NULL)
-					ShowWindow(dat->opd[dat->currentPage].hwnd, SW_HIDE);
+				if (dat->currentPage != -1 && dat->arOpd[dat->currentPage]->hwnd != NULL)
+					ShowWindow(dat->arOpd[dat->currentPage]->hwnd, SW_HIDE);
 
 				if ((wParam != IDC_TAB)) {
 					TVITEM tvi;
@@ -921,59 +1017,59 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					TreeView_SetItem(hwndTree, &tvi);
 				}
 				if ( dat->currentPage != -1 ) {
-					OptionsPageData& p = dat->opd[dat->currentPage];
-					if ( p.hwnd == NULL ) {
+					OptionsPageData* p = dat->arOpd[dat->currentPage];
+					if ( p->hwnd == NULL ) {
 						RECT rcPage;
 						RECT rcControl, rc;
 						int w, h;
 
-						p.hwnd = CreateDialogIndirectParamA(p.hInst, p.pTemplate, hdlg, p.dlgProc, p.dwInitParam);
-						if (p.flags & ODPF_BOLDGROUPS)
-							EnumChildWindows(p.hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
-						GetClientRect(p.hwnd, &rcPage);
-						p.expertWidth = rcPage.right;
-						p.expertHeight = rcPage.bottom;
-						GetWindowRect(p.hwnd, &rc);
+						p->hwnd = CreateDialogIndirectParamA(p->hInst, p->pTemplate, hdlg, p->dlgProc, p->dwInitParam);
+						if (p->flags & ODPF_BOLDGROUPS)
+							EnumChildWindows(p->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
+						GetClientRect(p->hwnd, &rcPage);
+						p->expertWidth = rcPage.right;
+						p->expertHeight = rcPage.bottom;
+						GetWindowRect(p->hwnd, &rc);
 
-						if (p.simpleBottomControlId) {
-							GetWindowRect(GetDlgItem(p.hwnd, p.simpleBottomControlId), &rcControl);
-							p.simpleHeight = rcControl.bottom-rc.top;
+						if (p->simpleBottomControlId) {
+							GetWindowRect(GetDlgItem(p->hwnd, p->simpleBottomControlId), &rcControl);
+							p->simpleHeight = rcControl.bottom-rc.top;
 						}
-						else p.simpleHeight = p.expertHeight;
+						else p->simpleHeight = p->expertHeight;
 
-						if (p.simpleRightControlId) {
-							GetWindowRect(GetDlgItem(p.hwnd, p.simpleRightControlId), &rcControl);
-							p.simpleWidth = rcControl.right-rc.left;
+						if (p->simpleRightControlId) {
+							GetWindowRect(GetDlgItem(p->hwnd, p->simpleRightControlId), &rcControl);
+							p->simpleWidth = rcControl.right-rc.left;
 						}
-						else p.simpleWidth = p.expertWidth;
+						else p->simpleWidth = p->expertWidth;
 
 						if (IsDlgButtonChecked(hdlg, IDC_EXPERT)) {
-							w = p.expertWidth;
-							h = p.expertHeight;
+							w = p->expertWidth;
+							h = p->expertHeight;
 						}
 						else {
-							for (int i = 0; i < p.nExpertOnlyControls; i++)
-								ShowWindow(GetDlgItem(p.hwnd, p.expertOnlyControls[i]), SW_HIDE);
-							w = p.simpleWidth;
-							h = p.simpleHeight;
+							for (int i = 0; i < p->nExpertOnlyControls; i++)
+								ShowWindow(GetDlgItem(p->hwnd, p->expertOnlyControls[i]), SW_HIDE);
+							w = p->simpleWidth;
+							h = p->simpleHeight;
 						}
 
-						p.offsetX = 0;
-						p.offsetY = 0;
+						p->offsetX = 0;
+						p->offsetY = 0;
 
-						p.insideTab = IsInsideTab( hdlg, dat, dat->currentPage );
-						if (p.insideTab) {
-							SetWindowPos(p.hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-w)>>1, dat->rcTab.top, w, h, 0);
-							ThemeDialogBackground(p.hwnd, TRUE);
+						p->insideTab = IsInsideTab( hdlg, dat, dat->currentPage );
+						if (p->insideTab) {
+							SetWindowPos(p->hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-w)>>1, dat->rcTab.top, w, h, 0);
+							ThemeDialogBackground(p->hwnd, TRUE);
 						}
 						else {
-							SetWindowPos(p.hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-w)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-h)>>1, w, h, 0);
-							ThemeDialogBackground(p.hwnd, FALSE);
+							SetWindowPos(p->hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-w)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-h)>>1, w, h, 0);
+							ThemeDialogBackground(p->hwnd, FALSE);
 						}
 					}
 					if (wParam != IDC_TAB) {
-						p.insideTab = IsInsideTab( hdlg, dat, dat->currentPage );
-						if (p.insideTab) {
+						p->insideTab = IsInsideTab( hdlg, dat, dat->currentPage );
+						if (p->insideTab) {
 							// Make tabbed pane
 							int i, pages = 0, sel = 0;
 							TCITEM tie;
@@ -982,72 +1078,70 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 							TabCtrl_DeleteAllItems(hwndTab);
 							tie.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 							tie.iImage = -1;
-							for ( i = 0; i < dat->pageCount; i++ ) {
+							for ( i = 0; i < dat->arOpd.getCount(); i++ ) {
 								if (!CheckPageShow( hdlg, dat, i ) ) continue;
-								//if (( dat->opd[i].flags & ODPF_SIMPLEONLY ) && IsDlgButtonChecked( hdlg, IDC_EXPERT )) continue;
-								//if (( dat->opd[i].flags & ODPF_EXPERTONLY ) && !IsDlgButtonChecked( hdlg, IDC_EXPERT )) continue;
-								if ( lstrcmp(dat->opd[i].pszTitle, p.pszTitle) || lstrcmpnull(dat->opd[i].pszGroup, p.pszGroup) ) continue;
+								if ( lstrcmp(dat->arOpd[i]->pszTitle, p->pszTitle) || lstrcmpnull(dat->arOpd[i]->pszGroup, p->pszGroup) ) continue;
 
-								tie.pszText = dat->opd[i].pszTab;
+								tie.pszText = dat->arOpd[i]->pszTab;
 								tie.lParam = i;
 								TabCtrl_InsertItem(hwndTab, pages, &tie);
-								if ( !lstrcmp(dat->opd[i].pszTab, p.pszTab) )
+								if ( !lstrcmp(dat->arOpd[i]->pszTab, p->pszTab) )
 									sel = pages;
 								pages++;
 							}
 							TabCtrl_SetCurSel(hwndTab, sel);
-							ShowWindow(hwndTab, p.insideTab ? SW_SHOW : SW_HIDE );
+							ShowWindow(hwndTab, p->insideTab ? SW_SHOW : SW_HIDE );
 						}
 
-						if (p.insideTab) 
-							ThemeDialogBackground(p.hwnd, TRUE);
+						if (p->insideTab) 
+							ThemeDialogBackground(p->hwnd, TRUE);
 						else 
-							ThemeDialogBackground(p.hwnd, FALSE);
+							ThemeDialogBackground(p->hwnd, FALSE);
 					}
 
 					// Resizing
-					if (!p.simpleBottomControlId) {
+					if (!p->simpleBottomControlId) {
 						int pageWidth, pageHeight;
 
 						if (IsDlgButtonChecked(hdlg, IDC_EXPERT)) {
-							pageWidth = p.expertWidth;
-							pageHeight = p.expertHeight;
+							pageWidth = p->expertWidth;
+							pageHeight = p->expertHeight;
 						}
 						else {
-							pageWidth = p.simpleWidth;
-							pageHeight = p.simpleHeight;
+							pageWidth = p->simpleWidth;
+							pageHeight = p->simpleHeight;
 						}
 
 						RECT* parentPageRect = &dat->rcDisplay;
-						if ( p.insideTab )
+						if ( p->insideTab )
 							parentPageRect = &dat->rcTab;
 
 						pageHeight = min( pageHeight, parentPageRect->bottom - parentPageRect->top );
 						pageWidth  = min( pageWidth,  parentPageRect->right - parentPageRect->left );
 
 						int newOffsetX = ( parentPageRect->right - parentPageRect->left - pageWidth ) >> 1;
-						int newOffsetY = p.insideTab ? 0 : ( parentPageRect->bottom - parentPageRect->top - pageHeight ) >> 1;
+						int newOffsetY = p->insideTab ? 0 : ( parentPageRect->bottom - parentPageRect->top - pageHeight ) >> 1;
 
 						struct MoveChildParam mcp;
-						mcp.hDlg     = p.hwnd;
-						mcp.offset.x = newOffsetX - p.offsetX;
-						mcp.offset.y = newOffsetY - p.offsetY;
+						mcp.hDlg     = p->hwnd;
+						mcp.offset.x = newOffsetX - p->offsetX;
+						mcp.offset.y = newOffsetY - p->offsetY;
 													
 						if ( mcp.offset.x || mcp.offset.y ) {
-							EnumChildWindows(p.hwnd, MoveEnumChildren, (LPARAM)(&mcp));
+							EnumChildWindows(p->hwnd, MoveEnumChildren, (LPARAM)(&mcp));
 
-							SetWindowPos( p.hwnd, NULL, 
+							SetWindowPos( p->hwnd, NULL, 
 								parentPageRect->left, parentPageRect->top, 
 								parentPageRect->right - parentPageRect->left, 
 								parentPageRect->bottom - parentPageRect->top, 
 								SWP_NOZORDER | SWP_NOACTIVATE );
-							p.offsetX = newOffsetX;
-							p.offsetY = newOffsetY;
+							p->offsetX = newOffsetX;
+							p->offsetY = newOffsetY;
 						}
 							
 					}						
 
-					ShowWindow(p.hwnd, SW_SHOW);
+					ShowWindow(p->hwnd, SW_SHOW);
 					if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE) PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
 					else SetFocus(hwndTree);
 				}
@@ -1058,7 +1152,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 	case DM_FOCUSPAGE:
 		if (dat->currentPage != -1)
-			SetFocus(dat->opd[dat->currentPage].hwnd);
+			SetFocus(dat->arOpd[dat->currentPage]->hwnd);
 		break;
 	
 	case WM_TIMER:
@@ -1083,33 +1177,40 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		case IDC_EXPERT:
 			{
 				int expert = IsDlgButtonChecked(hdlg, IDC_EXPERT);
-				int i, j;
-				PSHNOTIFY pshn;
 				RECT rcPage;
 				int neww, newh;
 
 				DBWriteContactSettingByte(NULL, "Options", "Expert", (BYTE)expert);
+
+				PSHNOTIFY pshn;
 				pshn.hdr.idFrom = 0;
 				pshn.lParam = expert;
 				pshn.hdr.code = PSN_EXPERTCHANGED;
-				for (i = 0;i<dat->pageCount;i++) {
-					if (dat->opd[i].hwnd == NULL) continue;
+
+				for (int i = 0; i <dat->arOpd.getCount(); i++) {
+					OptionsPageData *opd = dat->arOpd[i];
+					if (opd->hwnd == NULL) continue;
 					if (!CheckPageShow( hdlg, dat, i ) ) continue;
-					//if (( dat->opd[i].flags & ODPF_SIMPLEONLY ) && expert) continue;
-					//if (( dat->opd[i].flags & ODPF_EXPERTONLY ) && !expert) continue;
-					pshn.hdr.hwndFrom = dat->opd[i].hwnd;
-					SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+					//if (( opd->flags & ODPF_SIMPLEONLY ) && expert) continue;
+					//if (( opd->flags & ODPF_EXPERTONLY ) && !expert) continue;
+					pshn.hdr.hwndFrom = opd->hwnd;
+					SendMessage(opd->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
-					for (j = 0;j<dat->opd[i].nExpertOnlyControls;j++)
-						ShowWindow(GetDlgItem(dat->opd[i].hwnd, dat->opd[i].expertOnlyControls[j]), expert?SW_SHOW:SW_HIDE);
+					for (int j = 0; j < opd->nExpertOnlyControls; j++)
+						ShowWindow(GetDlgItem(opd->hwnd, opd->expertOnlyControls[j]), expert ? SW_SHOW : SW_HIDE);
 
-					dat->opd[i].insideTab = IsInsideTab( hdlg, dat, i );
+					opd->insideTab = IsInsideTab(hdlg, dat, i);
 
-					GetWindowRect(dat->opd[i].hwnd, &rcPage);
-					if (dat->opd[i].simpleBottomControlId) newh = expert?dat->opd[i].expertHeight:dat->opd[i].simpleHeight;
-					else newh = rcPage.bottom-rcPage.top;
-					if (dat->opd[i].simpleRightControlId) neww = expert?dat->opd[i].expertWidth:dat->opd[i].simpleWidth;
-					else neww = rcPage.right-rcPage.left;
+					GetWindowRect(opd->hwnd, &rcPage);
+					if (opd->simpleBottomControlId)
+						newh = expert ? opd->expertHeight : opd->simpleHeight;
+					else 
+						newh = rcPage.bottom - rcPage.top;
+					if (opd->simpleRightControlId)
+						neww = expert ? opd->expertWidth : opd->simpleWidth;
+					else 
+						neww = rcPage.right - rcPage.left;
+					
 					if (i == dat->currentPage) {
 						POINT ptStart, ptEnd, ptNow;
 						DWORD thisTick, startTick;
@@ -1117,40 +1218,42 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 						ptNow.x = ptNow.y = 0;
 						ClientToScreen(hdlg, &ptNow);
-						GetWindowRect(dat->opd[i].hwnd, &rc);
+						GetWindowRect(opd->hwnd, &rc);
 						ptStart.x = rc.left-ptNow.x;
 						ptStart.y = rc.top-ptNow.y;
-						if (dat->opd[i].insideTab) {
+						if (opd->insideTab) {
 							ptEnd.x = (dat->rcTab.left+dat->rcTab.right-neww)>>1;
 							ptEnd.y = dat->rcTab.top;
-						} else {
+						}
+						else {
 							ptEnd.x = (dat->rcDisplay.left+dat->rcDisplay.right-neww)>>1;
 							ptEnd.y = (dat->rcDisplay.top+dat->rcDisplay.bottom-newh)>>1;
 						}
 						if (abs(ptEnd.x-ptStart.x)>5 || abs(ptEnd.y-ptStart.y)>5) {
 							startTick = GetTickCount();
-							SetWindowPos(dat->opd[i].hwnd, HWND_TOP, 0, 0, min(neww, rcPage.right), min(newh, rcPage.bottom), SWP_NOMOVE);
-							UpdateWindow(dat->opd[i].hwnd);
+							SetWindowPos(opd->hwnd, HWND_TOP, 0, 0, min(neww, rcPage.right), min(newh, rcPage.bottom), SWP_NOMOVE);
+							UpdateWindow(opd->hwnd);
 							for (;;) {
 								thisTick = GetTickCount();
 								if (thisTick>startTick+100) break;
 								ptNow.x = ptStart.x+(ptEnd.x-ptStart.x)*(int)(thisTick-startTick)/100;
 								ptNow.y = ptStart.y+(ptEnd.y-ptStart.y)*(int)(thisTick-startTick)/100;
-								SetWindowPos(dat->opd[i].hwnd, 0, ptNow.x, ptNow.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
+								SetWindowPos(opd->hwnd, 0, ptNow.x, ptNow.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
 							}
 						}
-						if (dat->opd[i].insideTab)
+						if (opd->insideTab)
 							ShowWindow(GetDlgItem(hdlg, IDC_TAB), SW_SHOW);
 						else
 							ShowWindow(GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
 					}
 
-					if (dat->opd[i].insideTab) {
-						SetWindowPos(dat->opd[i].hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-neww)>>1, dat->rcTab.top, neww, newh, 0);
-						ThemeDialogBackground(dat->opd[i].hwnd, TRUE);
-					} else {
-						SetWindowPos(dat->opd[i].hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-neww)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-newh)>>1, neww, newh, 0);
-						ThemeDialogBackground(dat->opd[i].hwnd, FALSE);
+					if (opd->insideTab) {
+						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-neww)>>1, dat->rcTab.top, neww, newh, 0);
+						ThemeDialogBackground(opd->hwnd, TRUE);
+					} 
+					else {
+						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-neww)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-newh)>>1, neww, newh, 0);
+						ThemeDialogBackground(opd->hwnd, FALSE);
 					}
 				}
 				SaveOptionsTreeState(hdlg);
@@ -1158,76 +1261,81 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				break;
 			}
 		case IDCANCEL:
-			{	int i;
+			{	
 				PSHNOTIFY pshn;
 				pshn.hdr.idFrom = 0;
 				pshn.lParam = 0;
 				pshn.hdr.code = PSN_RESET;
-				for (i = 0;i<dat->pageCount;i++) {
-					if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed) continue;
-					pshn.hdr.hwndFrom = dat->opd[i].hwnd;
-					SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+				for (int i = 0;i<dat->arOpd.getCount();i++) {
+					if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed)
+						continue;
+					pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
+					SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 				}
 				DestroyWindow(hdlg);
-				break;
 			}
+			break;
+
 		case IDOK:
 		case IDC_APPLY:
 			{
-				int i;
-				PSHNOTIFY pshn;
-				
 				if (LOWORD(wParam) == IDOK && GetParent(GetFocus()) == GetDlgItem(hdlg, IDC_KEYWORD_FILTER))
 					return TRUE;
 				
+				PSHNOTIFY pshn;
 				EnableWindow(GetDlgItem(hdlg, IDC_APPLY), FALSE);
 				SetFocus(hwndTree);
 				if (dat->currentPage != (-1)) {
 					pshn.hdr.idFrom = 0;
 					pshn.lParam = 0;
 					pshn.hdr.code = PSN_KILLACTIVE;
-					pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;
-					if (SendMessage(dat->opd[dat->currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
+					pshn.hdr.hwndFrom = dat->arOpd[dat->currentPage]->hwnd;
+					if (SendMessage(dat->arOpd[dat->currentPage]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn))
 						break;
 				}
 
 				pshn.hdr.code = PSN_APPLY;
-				for (i = 0;i<dat->pageCount;i++) {
-					if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed) continue;
-					dat->opd[i].changed = 0;
-					pshn.hdr.hwndFrom = dat->opd[i].hwnd;
-					if (SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
-						dat->hCurrentPage = dat->opd[i].hTreeItem;
+				for (int i = 0;i<dat->arOpd.getCount();i++) {
+					if (dat->arOpd[i]->hwnd == NULL || !dat->arOpd[i]->changed) continue;
+					dat->arOpd[i]->changed = 0;
+					pshn.hdr.hwndFrom = dat->arOpd[i]->hwnd;
+					if (SendMessage(dat->arOpd[i]->hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
+						dat->hCurrentPage = dat->arOpd[i]->hTreeItem;
 						TreeView_SelectItem(hwndTree, dat->hCurrentPage);
-						if (dat->currentPage != (-1)) ShowWindow(dat->opd[dat->currentPage].hwnd, SW_HIDE);
+						if (dat->currentPage != (-1)) ShowWindow(dat->arOpd[dat->currentPage]->hwnd, SW_HIDE);
 						dat->currentPage = i;
-						if (dat->currentPage != (-1)) ShowWindow(dat->opd[dat->currentPage].hwnd, SW_SHOW);
+						if (dat->currentPage != (-1)) ShowWindow(dat->arOpd[dat->currentPage]->hwnd, SW_SHOW);
 						return 0;
 				}	}
 
 				if ( LOWORD( wParam ) == IDOK )
 					DestroyWindow(hdlg);
-				break;
-		}	}
+			}
+			break;
+		}
 		break;
 
 	case WM_DESTROY:
-		if ( FilterTimerId ) KillTimer ( hdlg, FilterTimerId );
+		if ( FilterTimerId )
+			KillTimer ( hdlg, FilterTimerId );
 		DestroyWindow ( hFilterSearchWnd );
 		ClearFilterStrings();
 		dat->szFilterString[0] = 0;
+
+		UnhookEvent(dat->hPluginLoad);
+		UnhookEvent(dat->hPluginUnload);
 
 		SaveOptionsTreeState( hdlg );
 		Window_FreeIcon_IcoLib( hdlg );
 
 		if ( dat->currentPage != -1 ) {
-			if ( dat->opd[dat->currentPage].pszTab )
-				DBWriteContactSettingTString( NULL, "Options", "LastTab", dat->opd[dat->currentPage].pszTab );
+			if ( dat->arOpd[dat->currentPage]->pszTab )
+				DBWriteContactSettingTString( NULL, "Options", "LastTab", dat->arOpd[dat->currentPage]->pszTab );
 			else DBDeleteContactSetting( NULL, "Options", "LastTab" );
-			if ( dat->opd[dat->currentPage].pszGroup )
-				DBWriteContactSettingTString( NULL, "Options", "LastGroup", dat->opd[dat->currentPage].pszGroup );
+			if ( dat->arOpd[dat->currentPage]->pszGroup )
+				DBWriteContactSettingTString( NULL, "Options", "LastGroup", dat->arOpd[dat->currentPage]->pszGroup );
 			else DBDeleteContactSetting( NULL, "Options", "LastGroup" );
-			DBWriteContactSettingTString( NULL, "Options", "LastPage", dat->opd[dat->currentPage].pszTitle );
+			DBWriteContactSettingTString( NULL, "Options", "LastPage", dat->arOpd[dat->currentPage]->pszTitle );
 		}
 		else {
 			DBDeleteContactSetting(NULL, "Options", "LastTab");
@@ -1236,18 +1344,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 		}
 		Utils_SaveWindowPosition(hdlg, NULL, "Options", "");
 		{
-			int i;
-			for ( i = 0; i < dat->pageCount; i++ ) {
-				if ( dat->opd[i].hwnd != NULL )
-					DestroyWindow(dat->opd[i].hwnd);
-				mir_free(dat->opd[i].pszGroup);
-				mir_free(dat->opd[i].pszTab);
-				mir_free(dat->opd[i].pszTitle);
-				mir_free(dat->opd[i].pTemplate);
-		}	}
-		mir_free( dat->opd );
+			for (int i = 0; i < dat->arOpd.getCount(); i++ )
+				FreeOptionsPageData( dat->arOpd[i] );
+		}
+
 		DeleteObject( dat->hBoldFont );
-		mir_free( dat );
+		delete dat;
 		hwndOptions = NULL;
 
 		CallService(MS_MODERNOPT_RESTORE, 0, 0);
@@ -1256,22 +1358,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 	return FALSE;
 }
 
-static void FreeOptionsData( struct OptionsPageInit* popi )
-{
-	int i;
-	for ( i = 0; i < popi->pageCount; i++ ) {
-		mir_free(( char* )popi->odp[i].pszTitle );
-		mir_free( popi->odp[i].pszGroup );
-		mir_free( popi->odp[i].pszTab );
-		if (( DWORD_PTR )popi->odp[i].pszTemplate & 0xFFFF0000 )
-			mir_free((char*)popi->odp[i].pszTemplate);
-	}
-	mir_free(popi->odp);
-}
-
 void OpenAccountOptions( PROTOACCOUNT* pa )
 {
-	struct OptionsPageInit opi = { 0 };
+	OptionsPageInit opi = { 0 };
 	if ( pa->ppro == NULL )
 		return;
 
@@ -1322,18 +1411,20 @@ static void OpenOptionsNow(const char *pszGroup, const char *pszPage, const char
 			}
 			mir_free(ptszPage);
 		}	
-	} else {
-		struct OptionsPageInit opi = { 0 };
+	}
+	else {
+		OptionsPageInit opi = { 0 };
 		NotifyEventHooks( hOptionsInitEvent, ( WPARAM )&opi, 0 );
 		if ( opi.pageCount > 0 ) {
 			OPENOPTIONSDIALOG ood = { 0 };
+			ood.pszGroup = pszGroup;
+			ood.pszPage = pszPage;
+			ood.pszTab = pszTab;
+
 			PROPSHEETHEADER psh = { 0 };
 			psh.dwSize = sizeof(psh);
 			psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
 			psh.nPages = opi.pageCount;
-			ood.pszGroup = pszGroup;
-			ood.pszPage = pszPage;
-			ood.pszTab = pszTab;
 			psh.pStartPage = (LPCTSTR)&ood;	  //more structure misuse
 			psh.pszCaption = TranslateT("Miranda IM Options");
 			psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
@@ -1387,8 +1478,9 @@ static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 }
 
 static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
-{	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)lParam, *dst;
-	struct OptionsPageInit *opi = (struct OptionsPageInit*)wParam;
+{
+	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE*)lParam, *dst;
+	OptionsPageInit *opi = (OptionsPageInit*)wParam;
 
 	if (odp == NULL||opi == NULL) return 1;
 	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE)
