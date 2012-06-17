@@ -580,7 +580,7 @@ HWND CreateNewRoom(TContainerData *pContainer, SESSION_INFO *si, BOOL bActivateT
 		}
 	}
 	if(PluginConfig.m_bIsWin7 && PluginConfig.m_useAeroPeek && CSkin::m_skinEnabled && !M->GetByte("forceAeroPeek", 0))
-		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, CWarning::CWF_UNTRANSLATED|MB_ICONWARNING|MB_OK);
+		CWarning::show(CWarning::WARN_AEROPEEK_SKIN, MB_ICONWARNING|MB_OK);
 	return hwndNew;		// return handle of the new dialog
 }
 
@@ -859,7 +859,7 @@ int CreateServiceFunctions(void)
 	PluginConfig.m_chat_enabled = false;
 
 	if(ServiceExists(MS_GC_REGISTER)) {
-		LRESULT result = CWarning::show(CWarning::WARN_CHAT_ENABLED, CWarning::CWF_NOALLOWHIDE | CWarning::CWF_UNTRANSLATED | MB_YESNOCANCEL | MB_ICONQUESTION);
+		LRESULT result = CWarning::show(CWarning::WARN_CHAT_ENABLED, CWarning::CWF_NOALLOWHIDE | MB_YESNOCANCEL | MB_ICONQUESTION);
 			if(result == IDYES)
 				M->WriteByte("PluginDisable", "chat.dll", 1);
 		return(0);

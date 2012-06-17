@@ -80,8 +80,8 @@ static void PU_CleanUp()
 			if ((*it)->hContact == 0) {
 				//_DebugTraceW(_T("found stale popup %s"), (*it)->eventData->szText);
 				if ((*it)->eventData)
-					free((*it)->eventData);
-				free(*it);
+					mir_free((*it)->eventData);
+				mir_free(*it);
 				it = PopupList.erase(it);
 				continue;
 			}
@@ -737,7 +737,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	if(hEvent == 0 && hContact == 0)
 		dbe.szModule = Translate("Unknown module or contact");
 
-	pdata = (PLUGIN_DATAT *)malloc(sizeof(PLUGIN_DATAT));
+	pdata = (PLUGIN_DATAT *)mir_alloc(sizeof(PLUGIN_DATAT));
 	ZeroMemory((void *)pdata, sizeof(PLUGIN_DATAT));
 
 	pdata->eventType = eventType;
@@ -768,7 +768,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	} else
 		mir_sntprintf(pud.lptzText, MAX_SECONDLINE, _T(" "));
 
-	pdata->eventData = (EVENT_DATAT *)malloc(NR_MERGED * sizeof(EVENT_DATAT));
+	pdata->eventData = (EVENT_DATAT *)mir_alloc(NR_MERGED * sizeof(EVENT_DATAT));
 	pdata->eventData[0].hEvent = hEvent;
 	pdata->eventData[0].timestamp = dbe.timestamp;
 	_tcsncpy(pdata->eventData[0].szText, pud.lptzText, MAX_SECONDLINE);
@@ -780,8 +780,8 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, HANDLE hContact, HANDLE hEvent
 	if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pud, 0) < 0) {
 		// failed to display, perform cleanup
 		if (pdata->eventData)
-			free(pdata->eventData);
-		free(pdata);
+			mir_free(pdata->eventData);
+		mir_free(pdata);
 	}
 	else
 		PopupList.push_back(pdata);

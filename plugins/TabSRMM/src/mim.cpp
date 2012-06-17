@@ -423,10 +423,15 @@ INT_PTR CMimAPI::foldersPathChanged()
 const TCHAR* CMimAPI::getUserDir()
 {
 	if(m_userDir[0] == 0) {
-		wchar_t*	userdata = ::Utils_ReplaceVarsT(L"%miranda_userdata%");
+		wchar_t*	userdata;
+		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+			userdata = L"%%miranda_userdata%%";
+		else
+			userdata = ::Utils_ReplaceVarsT(L"%miranda_userdata%");
 		mir_sntprintf(m_userDir, MAX_PATH, userdata);
 		Utils::ensureTralingBackslash(m_userDir);
-		mir_free(userdata); 
+		if (!ServiceExists(MS_FOLDERS_REGISTER_PATH))
+			mir_free(userdata);
 	}
 	return(m_userDir);
 }
