@@ -122,10 +122,10 @@ void InsertLBut(int i)
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISLBUTTON;
 	ttb.pszService = TTB_LAUNCHSERVICE;
-	ttb.name = _strdup(Translate("Default"));
-	ttb.program = _tcsdup( _T("Execute Path"));
+	ttb.name = LPGEN("Default");
+	ttb.program = _T("Execute Path");
 	ttb.wParamDown = i;
-	ttb.lParamDown = TTBAddButton(( WPARAM )&ttb, 0);;
+	ttb.lParamDown = TTBAddButton(( WPARAM )&ttb, 0);
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, ttb.lParamDown), (LPARAM)&ttb);
 }
 
