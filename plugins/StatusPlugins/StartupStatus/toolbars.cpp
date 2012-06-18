@@ -59,7 +59,7 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
-	ttb.pszServiceDown = ttb.pszServiceUp = MS_SS_LOADANDSETPROFILE;
+	ttb.pszService = MS_SS_LOADANDSETPROFILE;
 	for (int i=0; i < profileCount; i++) {
 		char setting[80];
 		_snprintf(setting, sizeof(setting), "%d_%s", i, SETTING_CREATETTBBUTTON);

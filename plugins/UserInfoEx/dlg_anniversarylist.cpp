@@ -1093,7 +1093,7 @@ VOID DlgAnniversaryListOnTopToolBarLoaded()
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
-	ttb.pszServiceDown = MS_USERINFO_REMINDER_LIST;
+	ttb.pszService = MS_USERINFO_REMINDER_LIST;
 	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_ANNIVERSARY);
 	ttb.name = "Anniversary list";
 	CallService(MS_TTB_ADDBUTTON, (WPARAM) &ttb, 0);

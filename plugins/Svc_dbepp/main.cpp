@@ -158,8 +158,8 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	UnhookEvent(hTTBHook);
 
 	ttbb.cbSize = sizeof(ttbb);
-	ttbb.dwFlags=TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttbb.pszServiceDown = "DBEditorpp/MenuCommand";
+	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+	ttbb.pszService = "DBEditorpp/MenuCommand";
 	ttbb.name = Translate("Database Editor++");
 	ttbb.hIconUp = ico;
 	ttbb.hIconDn = ico;

@@ -908,7 +908,7 @@ VOID SvcReminderOnTopToolBarLoaded()
 	ttb.cbSize = sizeof(ttb);
 
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ICONBYHANDLE;
-	ttb.pszServiceDown = MS_USERINFO_REMINDER_CHECK;
+	ttb.pszService = MS_USERINFO_REMINDER_CHECK;
 	ttb.name = "Check anniversaries";
 	ttb.hIconHandleDn = ttb.hIconHandleUp = Skin_GetIconHandle(ICO_COMMON_BIRTHDAY);
 				
