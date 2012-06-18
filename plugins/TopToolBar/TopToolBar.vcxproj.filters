@@ -93,12 +93,6 @@
     <ClCompile Include="InternalButtons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="launchbt.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="separators.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ttbopt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

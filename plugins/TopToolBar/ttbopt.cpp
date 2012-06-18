@@ -2,9 +2,6 @@
 #include <shlobj.h>
 #pragma hdrstop
 
-static INT_PTR CALLBACK DlgProcTTBBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern int ttbOptionsChanged();
-
 extern TopButtonInt Buttons[MAX_BUTTONS];
 extern int nButtonsCount;
 
@@ -34,23 +31,35 @@ int BuildTree(HWND hwndDlg)
 
 	TVINSERTSTRUCT tvis = { 0 };
 	tvis.hInsertAfter = TVI_LAST;
-	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+
+	int index;
+	TCHAR* tmp;
 
 	for (int i = 0; i < nButtonsCount; i++) {
 		TopButtonInt &b = Buttons[arrangedbuts[i].oldpos];
 
-		int index;
-		if (b.dwFlags & TTBBF_ICONBYHANDLE) {
-			HICON hIcon = Skin_GetIconByHandle(b.hIconHandleUp);
-			index = ImageList_AddIcon(dat->himlButtonIcons, hIcon);
-			Skin_ReleaseIcon(hIcon);
-		}
-		else index = ImageList_AddIcon(dat->himlButtonIcons, b.hIconUp);
+		index = 0;
 
-		TCHAR* tmp = mir_a2t( b.name );
+		if (b.dwFlags & TTBBF_ISSEPARATOR) {
+			tvis.item.mask = TVIF_PARAM | TVIF_TEXT;
+			tmp = mir_wstrdup(L"------------------");
+			index = -1;
+		}
+		else if ( !(b.dwFlags & TTBBF_ISLBUTTON)) {
+			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			if (b.dwFlags & TTBBF_ICONBYHANDLE) {
+				HICON hIcon = Skin_GetIconByHandle(b.hIconHandleUp);
+				index = ImageList_AddIcon(dat->himlButtonIcons, hIcon);
+				Skin_ReleaseIcon(hIcon);
+			}
+			else index = ImageList_AddIcon(dat->himlButtonIcons, b.hIconUp);
+			tvis.item.iImage = tvis.item.iSelectedImage = index;
+
+			tmp = mir_a2t( b.name );
+		}
+
 		tvis.item.lParam = (LPARAM)&b;
 		tvis.item.pszText = TranslateTS(tmp);
-		tvis.item.iImage = tvis.item.iSelectedImage = index;
 		HTREEITEM hti = TreeView_InsertItem(hTree, &tvis);
 		mir_free(tmp);
 
@@ -85,7 +94,10 @@ int SaveTree(HWND hwndDlg)
 		TreeView_GetItem(hTree, &tvi);
 
 		TopButtonInt* btn = (TopButtonInt*)tvi.lParam;
-		if (btn->arrangedpos >= 0 && btn->arrangedpos) {
+		// can use TreeView_GetCheckState(hTree,tvi.hItem);
+		// WTF?!
+//		if (btn->arrangedpos >= 0 && btn->arrangedpos)
+		{
 			if ((tvi.state >> 12 ) == 0x2)
 				btn->dwFlags |= TTBBF_VISIBLE;
 			else
@@ -146,6 +158,8 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			int ctrlid = LOWORD(wParam);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
+			//----- Launch buttons -----
+
 			if (ctrlid == IDC_LBUTTONSET) {
 				TVITEM tvi;
 				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
@@ -156,79 +170,58 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
 				btn = (TopButtonInt*)tvi.lParam;
+				TCHAR buf [256];
+				// probably, condition not needs
 				if (btn->dwFlags & TTBBF_ISLBUTTON) {
-					LBUTOPT lbo = { 0 };
-					TCHAR buf[256];
+				  if (btn->name) free(btn->name);
 					GetDlgItemText(hwndDlg, IDC_ENAME, buf, 255);
-					lbo.name = _strdup( _T2A(buf));
+					btn->name = _strdup( _T2A(buf));
 
+					if (btn->program) free(btn->program);
 					GetDlgItemText(hwndDlg, IDC_EPATH, buf, 255);
-					lbo.lpath = _tcsdup(buf);
+					btn->program = _tcsdup(buf);
 
-					CallService(TTB_MODIFYLBUTTON, btn->lParamDown, (LPARAM)&lbo);
-					free(lbo.name);
-					free(lbo.lpath);
+				tvi.mask = TVIF_TEXT;
+				tvi.pszText =  mir_a2t( btn->name );
+				TreeView_SetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 				}
 				break;
 			}
 
 			if (ctrlid == IDC_ADDLBUTTON) {
-				if (CallService(TTB_ADDLBUTTON, 0, 0) == 0) {
-					//	BuildTree(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
+				InsertLBut(-1);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 
-			if (ctrlid == IDC_DELLBUTTON) {
-				TVITEM tvi;
-				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
-				if (tvi.hItem == NULL)
-					break;
-
-				tvi.mask = TVIF_PARAM;
-				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
-				btn = (TopButtonInt*)tvi.lParam;
-
-				if (btn->dwFlags & TTBBF_ISLBUTTON) {
-					CallService(TTB_REMOVELBUTTON, btn->lParamDown, 0);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
-					BuildTree(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-			}
+			//----- Separators -----
 
 			if (ctrlid == IDC_ADDSEP) {
-				if (CallService(TTB_ADDSEPARATOR, 0, 0) == 0) {
-					//	BuildTree(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
+				InsertSeparator(-1);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 
-			if (ctrlid == IDC_REMOVESEP) {
-				TVITEM tvi;
-				memset(&tvi, 0, sizeof(tvi));
+			if (ctrlid == IDC_REMOVEBUTTON) {
+				TVITEM tvi = {0};
 				tvi.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE));
 				if (tvi.hItem == NULL)
 					break;
 
 				tvi.mask = TVIF_PARAM;
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
-				if (tvi.lParam == 0)
-					break;
-
-				if ( IsBadCodePtr(( FARPROC )tvi.lParam)) {
-					MessageBoxA(0, "Bad Code Ptr: tvi.lParam", "log", 0);
-					break;
-				}
 
 				btn = (TopButtonInt*)tvi.lParam;
 				if (btn->dwFlags & TTBBF_ISSEPARATOR) {
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					CallService(TTB_REMOVESEPARATOR, btn->lParamDown, 0);
+				  DeleteSeparator(btn->wParamDown);
+					TTBRemoveButton(btn->lParamDown, 0);
 				}
+				else if (btn->dwFlags & TTBBF_ISLBUTTON) {
+				  DeleteLBut(btn->wParamDown);
+					TTBRemoveButton(btn->lParamDown, 0);
+				}
+
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 		}
@@ -282,33 +275,30 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					TopButtonInt *btn = (TopButtonInt*)((LPNMTREEVIEW)lParam)->itemNew.lParam;
 					lockbut();
-					EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), FALSE);
-					if (btn->dwFlags & TTBBF_ISSEPARATOR)
-						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVESEP), TRUE);
-
-					EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_DELLBUTTON), FALSE);
-					EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), FALSE);
-					SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
-					SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 
 					if (btn->dwFlags & TTBBF_ISLBUTTON) {
-						LBUTOPT lbo = { 0 };
-						CallService(TTB_GETLBUTTON, btn->lParamDown, (LPARAM)&lbo);
-						if (lbo.hframe != 0) {
-							EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_DELLBUTTON), TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), TRUE);
-
-							if (lbo.name != NULL)
-								SetDlgItemTextA(hwndDlg, IDC_ENAME, lbo.name);
-							if (lbo.lpath != NULL)
-								SetDlgItemText(hwndDlg, IDC_EPATH, lbo.lpath);
-						}
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEBUTTON), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), TRUE);
+						if (btn->name != NULL)
+							SetDlgItemTextA(hwndDlg, IDC_ENAME, btn->name);
+						if (btn->program != NULL)
+							SetDlgItemText(hwndDlg, IDC_EPATH, btn->program);
 					}
+					else
+					{
+						if (btn->dwFlags & TTBBF_ISSEPARATOR)
+							EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEBUTTON), TRUE);
+						else
+							EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEBUTTON), FALSE);
 
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), FALSE);
+						SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
+						SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
+					}
 					ulockbut();
 				}
 			}

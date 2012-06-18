@@ -61,7 +61,8 @@ struct TopButtonInt
 	HICON hIconUp, hIconDn;
 	HANDLE hIconHandleUp, hIconHandleDn;
 	
-	char *pszServiceUp, *pszServiceDown;
+	char *pszService;
+	TCHAR *program;
 	char *name;
 	TCHAR *tooltip;
 	
@@ -94,12 +95,6 @@ int OptionsPageRebuild();
 void lockbut();
 void ulockbut();
 
-//return - 0 success, -1 on error
-#define TTB_ADDSEPARATOR "TTB/AddSeparator"
-//wparam sepid
-#define TTB_REMOVESEPARATOR "TTB/RemoveSeparator"
-
-
 //append string
 char *AS(char *str, const char *setting, char *addstr)
 {
@@ -111,17 +106,6 @@ char *AS(char *str, const char *setting, char *addstr)
 }
 
 #define TTB_LAUNCHSERVICE "TTB/LaunchSerice"
-//wparam -id
-//lparam  &LBTOPT
-#define TTB_MODIFYLBUTTON "TTB/ModifyLButton"
-
-//wparam -id
-//lparam  &LBTOPT
-#define TTB_GETLBUTTON "TTB/GetLButton"
-
-#define TTB_ADDLBUTTON "TTB/AddLButton"
-#define TTB_REMOVELBUTTON "TTB/RemoveLButton"
-#define MYMIRANDABUTTONCLASS _T("MButtonClass") //_T("MyMIRANDABUTTONCLASS")
 
 int LoadInternalButtons( HWND );
 int UnLoadInternalButtons( void );
@@ -129,37 +113,22 @@ int UnLoadInternalButtons( void );
 int LoadToolbarModule( void );
 int UnloadToolbarModule( void );
 
-int LoadAllSeparators( void );
-
 int SetAllBitmaps( void );
 int SaveAllLButs( void );
 int SaveAllButtonsOptions( void );
-int SaveAllSeparators( void );
-
-int InitLBut();
-int UnInitLBut();
 
 void lockbut();
 void ulockbut();
 
 INT_PTR TTBAddButton(WPARAM, LPARAM);
 INT_PTR TTBRemoveButton(WPARAM, LPARAM);
-INT_PTR DeleteLBut(WPARAM, LPARAM);
-INT_PTR ModifyLButton(WPARAM, LPARAM);
-INT_PTR GetLButton(WPARAM, LPARAM);
-INT_PTR InsertNewFreeSeparator(WPARAM, LPARAM);
-INT_PTR DeleteSeparator(WPARAM, LPARAM);
+
+void InsertSeparator( int i );
+void DeleteSeparator(int i);
+void DeleteLBut(int i);
+void InsertLBut(int i);
 
 int OnModulesLoad(WPARAM, LPARAM);
-
-INT_PTR InsertLBut(int id);
-
-struct LBUTOPT
-{
-	int hframe;
-	TCHAR *lpath;
-	char *name;
-};
 
 #define BM_SETPRIVATEICON (WM_USER + 6)
 #define BM_SETIMLICON (WM_USER + 7)

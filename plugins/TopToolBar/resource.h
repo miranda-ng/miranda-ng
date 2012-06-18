@@ -25,7 +25,7 @@
 #define IDD_FRAMEPLUG2                  265
 #define IDC_BUTTON1                     1002
 #define IDC_ADDSEP                      1003
-#define IDC_REMOVESEP                   1004
+#define IDC_REMOVEBUTTON                1004
 #define IDC_ADDLBUTTON                  1005
 #define IDC_DELLBUTTON                  1006
 #define IDC_ENAME                       1007

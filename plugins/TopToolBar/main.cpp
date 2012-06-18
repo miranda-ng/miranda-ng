@@ -61,7 +61,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnInitLBut();
 	UnLoadInternalButtons();
 	UnloadToolbarModule();
 
