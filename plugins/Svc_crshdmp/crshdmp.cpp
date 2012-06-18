@@ -37,7 +37,6 @@ HMODULE hRichModule;
 TCHAR* vertxt;
 TCHAR* profname;
 TCHAR* profpath;
-TCHAR* mirpath;
 
 TCHAR CrashLogFolder[MAX_PATH];
 TCHAR VersionInfoFolder[MAX_PATH];
@@ -265,34 +264,18 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)SIZEOF(temp), (LPARAM)temp);
 	crs_a2t(vertxt, temp);
 
-	if (CallService(MS_SYSTEM_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(0,9,0,12))
+	profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 	{
-		profname = Utils_ReplaceVarsT(_T("%miranda_profilename%.dat"));
-		if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-		{
-			profpath = _T("%miranda_userdata%");
-			mirpath = _T("%miranda_path%");
-		}
-		else
-		{
-			profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
-			mirpath = Utils_ReplaceVarsT(_T("%miranda_path%"));
-		}
+		profpath = _T("%miranda_userdata%");
 	}
 	else
 	{
-		CallService(MS_DB_GETPROFILENAME, SIZEOF(temp), (LPARAM)temp);
-		crs_a2t(profname, temp);
-
-		CallService(MS_DB_GETPROFILEPATH, SIZEOF(temp), (LPARAM)temp);
-		crs_a2t(profpath, temp);
-
-		CallService(MS_DB_GETPROFILEPATH, SIZEOF(temp), (LPARAM)temp);
-		crs_a2t(mirpath, temp);
+		profpath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 	}
 
 	crs_sntprintf(CrashLogFolder, MAX_PATH, TEXT("%s\\CrashLog"), profpath);
-	crs_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), mirpath);
+	crs_sntprintf(VersionInfoFolder, MAX_PATH, TEXT("%s"), profpath);
 
 	SetExceptionHandler();
 
@@ -458,7 +441,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 	if (!_tcsstr(profpath, _T("%miranda")))
 	{
 		mir_free(profpath);
-		mir_free(mirpath);
 	}
 	mir_free(profname);
 	mir_free(vertxt);
