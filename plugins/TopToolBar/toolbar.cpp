@@ -216,7 +216,7 @@ int SaveAllButtonsOptions()
 		DBSaveButtonSettings(i);
 
 	DBWriteContactSettingByte(0, TTB_OPTDIR, "SepCnt", SeparatorCnt);
-	DBWriteContactSettingByte(0, TTB_OPTDIR, "Launchcnt", LaunchCnt);
+	DBWriteContactSettingByte(0, TTB_OPTDIR, "LaunchCnt", LaunchCnt);
 	ulockbut();
 	return 0;
 }
@@ -224,11 +224,11 @@ int SaveAllButtonsOptions()
 int DBLoadButtonSettings(int butpos)
 {
 	char buf[255];
-//	memset(buf, 0, SIZEOF(buf));	
 	TopButtonInt& b = Buttons[butpos];
+	BYTE oldv = (b.dwFlags & TTBBF_VISIBLE) != 0;
 	   
 	if (b.dwFlags & TTBBF_ISSEPARATOR) {
-	  if (b.wParamDown != -1) {
+		if (b.wParamDown != -1) {
 			char buf1[10];
 			_itoa(b.wParamDown, buf1, 10);
 			char buf2[20];
@@ -236,12 +236,12 @@ int DBLoadButtonSettings(int butpos)
 
 			b.arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), MAX_BUTTONS);
 			b.dwFlags = b.dwFlags & (~TTBBF_VISIBLE);
-			if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), b.dwFlags & TTBBF_VISIBLE) > 0 )
+			if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
 				b.dwFlags |= TTBBF_VISIBLE;
 		}
 	}
 	else if (b.dwFlags & TTBBF_ISLBUTTON) {
-	  if (b.wParamDown != -1) {
+		if (b.wParamDown != -1) {
 			char buf1[10];
 			_itoa(b.wParamDown, buf1, 10);
 			char buf2[20];
@@ -252,14 +252,14 @@ int DBLoadButtonSettings(int butpos)
 			b.program = DBGetStringT(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
 			b.arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), MAX_BUTTONS);
 			b.dwFlags = b.dwFlags & (~TTBBF_VISIBLE);
-			if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), b.dwFlags & TTBBF_VISIBLE) > 0 )
+			if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
 				b.dwFlags |= TTBBF_VISIBLE;
 		}
 	}
 	else {
 		b.arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, b.name, "_Position"), MAX_BUTTONS);
 		b.dwFlags = b.dwFlags & (~TTBBF_VISIBLE);
-		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, b.name, "_Visible"), b.dwFlags & TTBBF_VISIBLE) > 0 )
+		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, b.name, "_Visible"), oldv) > 0 )
 			b.dwFlags |= TTBBF_VISIBLE;
 	}
 	return 0;
@@ -268,18 +268,21 @@ int DBLoadButtonSettings(int butpos)
 int ttbOptionsChanged()
 {
 	//load options
-	if (TRUE) {
-		DBVARIANT dbv;
-		bkColour = DBGetContactSettingDword(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
-		if (hBmpBackground) {DeleteObject(hBmpBackground); hBmpBackground = NULL;}
-		if (DBGetContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
-			if (!DBGetContactSetting(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
-				hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
-				DBFreeVariant(&dbv);
-			}
-		}
-		backgroundBmpUse = DBGetContactSettingWord(NULL, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
+	bkColour = DBGetContactSettingDword(NULL, TTB_OPTDIR, "BkColour", TTBDEFAULT_BKCOLOUR);
+	if (hBmpBackground) {
+		DeleteObject(hBmpBackground);
+		hBmpBackground = NULL;
 	}
+
+	if ( DBGetContactSettingByte(NULL, TTB_OPTDIR, "UseBitmap", TTBDEFAULT_USEBITMAP)) {
+		DBVARIANT dbv;
+		if ( !DBGetContactSetting(NULL, TTB_OPTDIR, "BkBitmap", &dbv)) {
+			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP, 0, (LPARAM)dbv.pszVal);
+			DBFreeVariant(&dbv);
+		}
+	}
+
+	backgroundBmpUse = DBGetContactSettingWord(NULL, TTB_OPTDIR, "BkBmpUse", TTBDEFAULT_BKBMPUSE);
 
 	RECT rc;
 	GetClientRect(hwndTopToolBar, &rc);
@@ -288,7 +291,7 @@ int ttbOptionsChanged()
 
 	ArrangeButtons();
 	SetAllBitmaps();
-	SaveAllButtonsOptions(); //!!??
+	SaveAllButtonsOptions();
 
 	return 0;
 }
@@ -309,8 +312,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	if (pos<0 || pos >= nButtonsCount){ulockbut();return -1;}
 	
 	DestroyWindow(Buttons[pos].hwnd);
-	if (Buttons[pos].dwFlags & TTBBF_ISLBUTTON)
-	{
+	if (Buttons[pos].dwFlags & TTBBF_ISLBUTTON) {
 		if (Buttons[pos].name != NULL)
 			free(Buttons[pos].name);
 		if (Buttons[pos].program != NULL)
@@ -342,10 +344,9 @@ bool nameexists(const char *name)
 {
 	if (name != NULL)
 		for (int i = 0; i < nButtonsCount; i++)
-		{
 			if ((Buttons[i].name != NULL) && (strcmp(Buttons[i].name, name) == 0))
 				return TRUE;
-		}
+
 	return FALSE;
 }
 
@@ -499,9 +500,7 @@ int sortfunc(const void *a, const void *b)
 
 bool isSep(int i)
 {
-	if (Buttons[i].dwFlags & TTBBF_ISSEPARATOR) 
-		return TRUE;
-	return FALSE;
+	return (Buttons[i].dwFlags & TTBBF_ISSEPARATOR) != 0;
 }
 
 int getbutw(int i)

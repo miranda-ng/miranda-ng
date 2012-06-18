@@ -45,7 +45,7 @@ int BuildTree(HWND hwndDlg)
 			tmp = mir_wstrdup(L"------------------");
 			index = -1;
 		}
-		else if ( !(b.dwFlags & TTBBF_ISLBUTTON)) {
+		else {
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			if (b.dwFlags & TTBBF_ICONBYHANDLE) {
 				HICON hIcon = Skin_GetIconByHandle(b.hIconHandleUp);
@@ -213,11 +213,11 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 				btn = (TopButtonInt*)tvi.lParam;
 				if (btn->dwFlags & TTBBF_ISSEPARATOR) {
-				  DeleteSeparator(btn->wParamDown);
+					DeleteSeparator(btn->wParamDown);
 					TTBRemoveButton(btn->lParamDown, 0);
 				}
 				else if (btn->dwFlags & TTBBF_ISLBUTTON) {
-				  DeleteLBut(btn->wParamDown);
+					DeleteLBut(btn->wParamDown);
 					TTBRemoveButton(btn->lParamDown, 0);
 				}
 
