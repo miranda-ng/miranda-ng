@@ -150,14 +150,12 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 		ttbb.cbSize = sizeof(ttbb);
 		ttbb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE_UP));
 		ttbb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE_DOWN));
-		ttbb.dwFlags=(state?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-		ttbb.pszServiceDown = "Console/Show";
-		ttbb.pszServiceUp = "Console/Hide";
+		ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+		ttbb.pszService = "Console/Hide";
 		ttbb.name = Translate("Show/Hide Console");
 		hTTBButt = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
 
-		if (hTTBButt)
-		{
+		if (hTTBButt) {
 			CallService(MS_TTB_SETBUTTONOPTIONS,MAKEWPARAM(TTBO_TIPNAME,hTTBButt),
 				(LPARAM)(state?Translate("Hide Console"):Translate("Show Console")));
 

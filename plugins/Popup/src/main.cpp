@@ -188,7 +188,8 @@ static int FontsChanged(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int IconsChanged(WPARAM wParam,LPARAM lParam){
+static int IconsChanged(WPARAM wParam,LPARAM lParam)
+{
 	LoadActions();
 
 	CLISTMENUITEM mi = { 0 };
@@ -209,41 +210,32 @@ static int IconsChanged(WPARAM wParam,LPARAM lParam){
 	mi.hIcon = IcoLib_GetIcon(ICO_HISTORY,0);
 	mi.flags = CMIM_ICON;
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenuItemHistory,(LPARAM)&mi);
-
-	if (hTTButton >= 0) {
-		TTBButton btn = {0};
-		btn.cbSize = sizeof(btn);
-		btn.pszServiceUp = btn.pszServiceDown = MENUCOMMAND_SVC;
-		btn.lParamUp = 1;
-		btn.lParamDown = 0;
-		btn.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-		btn.name = Translate("Toggle Popups");
-		btn.tooltipUp = Translate("Popups are disabled");
-		btn.tooltipDn = Translate("Popups are enabled");
-		btn.hIconUp = IcoLib_GetIcon(ICO_POPUP_OFF,0);
-		btn.hIconDn = IcoLib_GetIcon(ICO_POPUP_ON,0);
-		hTTButton = CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, hTTButton), (LPARAM)&btn);
-	}
-
 	return 0;
 }
 
-static int TTBLoaded(WPARAM wParam,LPARAM lParam){
-	if (hTTButton < 0) {
-		TTBButton btn		= {0};
-		btn.cbSize			= sizeof(btn);
-		btn.pszServiceUp	= btn.pszServiceDown = MENUCOMMAND_SVC;
-		btn.lParamUp		= 1;
-		btn.lParamDown		= 0;
-		btn.dwFlags			= TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-		btn.name			= Translate("Toggle Popups");
-		btn.tooltipUp		= Translate("Popups are disabled");
-		btn.tooltipDn		= Translate("Popups are enabled");
-		btn.hIconUp			= IcoLib_GetIcon(ICO_POPUP_OFF,0);
-		btn.hIconDn			= IcoLib_GetIcon(ICO_POPUP_ON,0);
+static int TTBLoaded(WPARAM wParam,LPARAM lParam)
+{
+	if (hTTButton == -1) {
+		TTBButton btn	= {0};
+		btn.cbSize     = sizeof(btn);
+		btn.pszService	= MENUCOMMAND_SVC;
+		btn.lParamUp   = 1;
+		btn.lParamDown	= 0;
+		btn.dwFlags    = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
+		btn.name       = "Toggle Popups";
+		btn.hIconUp    = IcoLib_GetIcon(ICO_POPUP_OFF,0);
+		btn.hIconDn	   = IcoLib_GetIcon(ICO_POPUP_ON,0);
 		hTTButton = CallService(MS_TTB_ADDBUTTON, (WPARAM)&btn, 0);
 	}
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, PopUpOptions.ModuleIsEnabled?TTBST_RELEASED:TTBST_PUSHED);
+
+	if (PopUpOptions.ModuleIsEnabled) {
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_RELEASED);
+		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME,hTTButton), (LPARAM)LPGEN("Disable popups"));
+	}
+	else {
+		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTTButton, TTBST_PUSHED);
+		CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_TIPNAME,hTTButton), (LPARAM)LPGEN("Enable popups"));
+	}
 	return 0;
 }
 
@@ -275,15 +267,16 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
 
-	if (PopUpOptions.ModuleIsEnabled)
-	{ //The module is enabled.
+	if (PopUpOptions.ModuleIsEnabled) {
+		//The module is enabled.
 		//The action to do is "disable popups" (show disabled) and we must write "enable popup" in the new item.
 		PopUpOptions.ModuleIsEnabled = FALSE;
 		DBWriteContactSettingByte(NULL, MODULNAME, "ModuleIsEnabled", FALSE);
 		mi.ptszName = LPGENT("Enable &popup module");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
-	} else
-	{ //The module is disabled.
+	} 
+	else {
+		//The module is disabled.
 		//The action to do is enable popups (show enabled), then write "disable popup" in the new item.
 		PopUpOptions.ModuleIsEnabled = TRUE;
 		DBWriteContactSettingByte(NULL, MODULNAME, "ModuleIsEnabled", TRUE);

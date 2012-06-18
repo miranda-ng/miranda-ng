@@ -207,7 +207,7 @@ static int InitTopToolbarButton(WPARAM wParam, LPARAM lParam)
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBUP));
 	ttb.hIconDn = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TBDN));
-	ttb.pszServiceDown = MODULE "/NewAlarm";
+	ttb.pszService = MODULE "/NewAlarm";
 	ttb.dwFlags = TTBBF_VISIBLE;// | TTBBF_DRAWBORDER;
 	ttb.name = Translate("Set Alarm");
 	

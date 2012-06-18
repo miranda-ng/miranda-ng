@@ -541,7 +541,7 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	DestroyHookableEvent(hEnableStateChangedEvent);
 	DestroyHookableEvent(hListeningInfoChangedEvent);
 
-	int i;
+	size_t i;
 	for(i = 0; i < hHooks.size(); i++)
 		UnhookEvent(hHooks[i]);
 
@@ -570,8 +570,7 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconHandleDn = hIcon2;
 	ttb.hIconHandleUp = hIcon1;
-	ttb.pszServiceUp = MS_LISTENINGTO_TTB;
-	ttb.pszServiceDown = MS_LISTENINGTO_TTB;
+	ttb.pszService = MS_LISTENINGTO_TTB;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ICONBYHANDLE | TTBBF_SHOWTOOLTIP | (enabled ? TTBBF_PUSHED : 0);
 	ttb.name = Translate("Enable/Disable sending Listening To info (to all protocols)");
 	
