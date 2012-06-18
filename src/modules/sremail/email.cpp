@@ -26,7 +26,7 @@ static HANDLE hEMailMenuItem;
 
 void SendEmailThread(void *szUrl)
 {
-	ShellExecuteA(NULL, "open", ( char* )szUrl, "", "", SW_SHOW);
+	ShellExecuteA(NULL, "open", (char*)szUrl, "", "", SW_SHOW);
 	mir_free(szUrl);
 	return;
 }
@@ -78,7 +78,7 @@ int LoadSendRecvEMailModule(void)
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000010000;
 	mi.flags = CMIF_ICONFROMICOLIB;
-	mi.icolibItem = GetSkinIconHandle( SKINICON_OTHER_SENDEMAIL );
+	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_SENDEMAIL);
 	mi.pszName = LPGEN("&E-mail");
 	mi.pszService = MS_EMAIL_SENDEMAIL;
 	hEMailMenuItem = Menu_AddContactMenuItem(&mi);

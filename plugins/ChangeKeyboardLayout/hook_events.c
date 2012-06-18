@@ -199,19 +199,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	OnIconsChanged(0, 0);
 	RegPopupActions();
-
-	//Поддержка Апдейтера
-	if(ServiceExists(MS_UPDATE_REGISTERFL))
-	{
-		
-			CallService(MS_UPDATE_REGISTERFL, (WPARAM)3632, (LPARAM)&pluginInfo);
-	
-	}
-	
 	
 	DBWriteContactSettingDword(NULL, ModuleName, "CurrentVer", VERSION);
-
-
 	return 0;
 }
 
@@ -226,7 +215,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszGroup = Translate("Plugins");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);	
+	Options_AddPage(wParam, &odp);	
 	
 	if (ServiceExists(MS_POPUP_ADDPOPUP))
 	{
@@ -238,7 +227,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 		odp.pszGroup = Translate("PopUps");
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = DlgPopupsProcOptions;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);	
+		Options_AddPage(wParam, &odp);	
 	}
 	return 0;
 }

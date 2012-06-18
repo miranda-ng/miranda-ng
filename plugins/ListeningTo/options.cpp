@@ -93,19 +93,19 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.expertOnlyControls = optionsExpertControls;
 	odp.nExpertOnlyControls = MAX_REGS(optionsExpertControls);
 	odp.nIDBottomSimpleControl = IDC_LISTENING_G;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab = TranslateT("Format");
 	odp.pfnDlgProc = FormatDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FORMAT);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab = TranslateT("Players");
 	odp.pfnDlgProc = PlayersDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLAYERS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

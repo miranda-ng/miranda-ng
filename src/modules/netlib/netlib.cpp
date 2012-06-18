@@ -133,7 +133,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 	struct NetlibUser *thisUser;
 
 	if (nlu == NULL || nlu->cbSize != sizeof(NETLIBUSER) || nlu->szSettingsModule == NULL
-	   || (!(nlu->flags&NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL)
+	   || ( !(nlu->flags&NUF_NOOPTIONS) && nlu->szDescriptiveName == NULL)
 	   || (nlu->flags&NUF_HTTPGATEWAY && (nlu->pfnHttpGatewayInit == NULL))) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -174,7 +174,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 	thisUser->settings.proxyType=GetNetlibUserSettingInt(thisUser->user.szSettingsModule, "NLProxyType", PROXYTYPE_SOCKS5);
 	if (thisUser->user.flags&NUF_NOHTTPSOPTION && thisUser->settings.proxyType == PROXYTYPE_HTTPS)
 		thisUser->settings.proxyType=PROXYTYPE_HTTP;
-	if (!(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
+	if ( !(thisUser->user.flags&(NUF_HTTPCONNS|NUF_HTTPGATEWAY)) && thisUser->settings.proxyType == PROXYTYPE_HTTP) {
 		thisUser->settings.useProxy=0;
 		thisUser->settings.proxyType=PROXYTYPE_SOCKS5;
 	}
@@ -232,7 +232,7 @@ void NetlibDoClose(NetlibConnection *nlc, bool noShutdown)
 	NetlibLogf(nlc->nlu, "(%p:%u) Connection closed internal", nlc, nlc->s);
 	if (nlc->hSsl)
 	{
-		if (!noShutdown) si.shutdown(nlc->hSsl);
+		if ( !noShutdown) si.shutdown(nlc->hSsl);
 		si.sfree(nlc->hSsl);
 		nlc->hSsl = NULL;
 	}
@@ -286,7 +286,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			waitHandles[1]=nlc->hOkToCloseEvent;
 			waitHandles[2]=nlc->ncsRecv.hMutex;
 			waitHandles[3]=nlc->ncsSend.hMutex;
-			waitResult=WaitForMultipleObjects( SIZEOF(waitHandles), waitHandles, TRUE, INFINITE);
+			waitResult=WaitForMultipleObjects(SIZEOF(waitHandles), waitHandles, TRUE, INFINITE);
 			if (waitResult<WAIT_OBJECT_0 || waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
 				ReleaseMutex(hConnectionHeaderMutex);
 				SetLastError(ERROR_INVALID_PARAMETER);	  //already been closed
@@ -420,9 +420,9 @@ INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 		return (INT_PTR)(char*)NULL;
 	}
 	for (outputLen=0, pszIn=szInput;*pszIn;pszIn++) {
-		if ((48 <= *pszIn && *pszIn <= 57) ||//0-9
-             (65 <= *pszIn && *pszIn <= 90) ||//ABC...XYZ
-             (97 <= *pszIn && *pszIn <= 122) ||//abc...xyz
+		if ((48 <= *pszIn && *pszIn <= 57)  || //0-9
+             (65 <= *pszIn && *pszIn <= 90)  || //ABC...XYZ
+             (97 <= *pszIn && *pszIn <= 122)  || //abc...xyz
 			 *pszIn == '-' || *pszIn == '_' || *pszIn == '.' || *pszIn == ' ') outputLen++;
 		else outputLen+=3;
 	}
@@ -432,9 +432,9 @@ INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 		return (INT_PTR)(unsigned char*)NULL;
 	}
 	for (pszOut=szOutput, pszIn=szInput;*pszIn;pszIn++) {
-		if ((48 <= *pszIn && *pszIn <= 57) ||
-             (65 <= *pszIn && *pszIn <= 90) ||
-             (97 <= *pszIn && *pszIn <= 122) ||
+		if ((48 <= *pszIn && *pszIn <= 57)  || 
+             (65 <= *pszIn && *pszIn <= 90)  || 
+             (97 <= *pszIn && *pszIn <= 122)  || 
 			 *pszIn == '-' || *pszIn == '_' || *pszIn == '.') *pszOut++=*pszIn;
 		else if (*pszIn == ' ') *pszOut++='+';
 		else {
@@ -539,7 +539,7 @@ INT_PTR NetlibBase64Decode(WPARAM, LPARAM lParam)
 
 void UnloadNetlibModule(void)
 {
-	if (!bModuleInitialized) return;
+	if ( !bModuleInitialized) return;
 
 	if (hConnectionHeaderMutex != NULL)
 	{
@@ -594,7 +594,7 @@ int LoadNetlibModule(void)
 			DWORD dwType = 0;
 			tGetProductInfo pGetProductInfo = (tGetProductInfo) GetProcAddress(GetModuleHandleA("kernel32"), "GetProductInfo");
 			if (pGetProductInfo != NULL) pGetProductInfo(6, 0, 0, 0, &dwType);
-			switch( dwType )
+			switch(dwType)
 			{
 			case 0x01:  // Vista Ultimate edition have connection limit of 25 / sec - plenty for Miranda
 			case 0x1c:

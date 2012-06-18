@@ -42,7 +42,7 @@ DWORD DnsLookup(struct NetlibUser *nlu, const char *szHost)
 	__try 
 	{
 		host = gethostbyname(szHost);
-		if ( host )
+		if (host)
 			return *(u_long*)host->h_addr_list[0];
 
 		NetlibLogf(nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "gethostbyname", szHost, WSAGetLastError());
@@ -106,14 +106,14 @@ bool RecvUntilTimeout(struct NetlibConnection *nlc, char *buf, int len, int flag
 		len -= nReceived;
 		if (len <= 0) return true;
 	}
-	SetLastError( ERROR_TIMEOUT );
+	SetLastError(ERROR_TIMEOUT);
 	return false;
 }
 
 static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {	
 	//	http://www.socks.nec.com/protocol/socks4.protocol and http://www.socks.nec.com/protocol/socks4a.protocol
-	if (!nloc->szHost || !nloc->szHost[0]) return 0;
+	if ( !nloc->szHost || !nloc->szHost[0]) return 0;
 
 	size_t nHostLen = strlen(nloc->szHost) + 1;
 	size_t nUserLen = nlu->settings.szProxyAuthUser ? strlen(nlu->settings.szProxyAuthUser) + 1 : 1;
@@ -130,7 +130,7 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	//if cannot resolve host, try resolving through proxy (requires SOCKS4a)  
 	DWORD ip = DnsLookup(nlu, nloc->szHost);
 	*(PDWORD)&pInit[4] = ip ? ip : 0x01000000; 	
-	if (!ip) 
+	if ( !ip) 
 	{
 		memcpy(&pInit[len], nloc->szHost, nHostLen);
 		len += nHostLen;
@@ -143,7 +143,7 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	}
 
 	char reply[8];
-	if (!RecvUntilTimeout(nlc, reply, sizeof(reply), MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) 
+	if ( !RecvUntilTimeout(nlc, reply, sizeof(reply), MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) 
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "RecvUntilTimeout", GetLastError());
 		return 0;
@@ -174,7 +174,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 	}
 
 	//confirmation of auth method
-	if (!RecvUntilTimeout(nlc, (char*)buf, 2, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
+	if ( !RecvUntilTimeout(nlc, (char*)buf, 2, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "RecvUntilTimeout", GetLastError());
 		return 0;
 	}
@@ -203,7 +203,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 		}
 		mir_free(pAuthBuf);
 
-		if (!RecvUntilTimeout(nlc, (char*)buf, 2, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
+		if ( !RecvUntilTimeout(nlc, (char*)buf, 2, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
 			NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "RecvUntilTimeout", GetLastError());
 			return 0;
 		}
@@ -255,14 +255,14 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 		mir_free(pInit);
 	}
 
-	if (!RecvUntilTimeout(nlc, (char*)buf, 5, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
+	if ( !RecvUntilTimeout(nlc, (char*)buf, 5, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "RecvUntilTimeout", GetLastError());
 		return 0;
 	}
 
-	if ( buf[0] != 5 || buf[1] ) {
+	if (buf[0] != 5 || buf[1]) {
 		const char* err = "Unknown response"; 
-		if ( buf[0] != 5 )
+		if (buf[0] != 5)
 			SetLastError(ERROR_BAD_FORMAT);
 		else
 		{
@@ -284,7 +284,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 	}
 	{
 		int nRecvSize = 0;
-		switch( buf[3] ) {
+		switch(buf[3]) {
 		case 1:// ipv4 addr
 			nRecvSize = 5;
 			break;
@@ -298,7 +298,7 @@ static int NetlibInitSocks5Connection(struct NetlibConnection *nlc, struct Netli
 			NetlibLogf(nlu, "%s %d: %s() unknown address type (%u)", __FILE__, __LINE__, "NetlibInitSocks5Connection", (int)buf[3]);
 			return 0;
 		}
-		if (!RecvUntilTimeout(nlc, (char*)buf, nRecvSize, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
+		if ( !RecvUntilTimeout(nlc, (char*)buf, nRecvSize, MSG_DUMPPROXY, RECV_DEFAULT_TIMEOUT)) {
 			NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "RecvUntilTimeout", GetLastError());
 			return 0;
 		}	
@@ -404,7 +404,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 
 	if (nlc->proxyType)
 	{
-		if (!nlc->szProxyServer) return false;
+		if ( !nlc->szProxyServer) return false;
 
 		if (nloc)
 			NetlibLogf(nlc->nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
@@ -416,7 +416,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	}
 	else
 	{
-		if (!nloc || !nloc->szHost || nloc->szHost[0] == '[' || strchr(nloc->szHost, ':')) return false;
+		if ( !nloc || !nloc->szHost || nloc->szHost[0] == '[' || strchr(nloc->szHost, ':')) return false;
 		NetlibLogf(nlc->nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
 
 		sin.sin_port = htons(nloc->wPort);
@@ -440,7 +440,7 @@ retry:
 
 		if (nlc->nlu->settings.specifyOutgoingPorts && nlc->nlu->settings.szOutgoingPorts  && nlc->nlu->settings.szOutgoingPorts[0]) 
 		{
-			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlc->nlu->inportnum))
+			if ( !BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlc->nlu->inportnum))
 				NetlibLogf(nlc->nlu, "Netlib connect: Not enough ports for outgoing connections specified");
 		} 
 
@@ -573,7 +573,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 
 	if (nlc->proxyType)
 	{
-		if (!nlc->szProxyServer) return false;
+		if ( !nlc->szProxyServer) return false;
 
 		if (nloc)
 			NetlibLogf(nlc->nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
@@ -589,7 +589,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION * nloc)
 	}
 	else
 	{
-		if (!nloc || !nloc->szHost) return false;
+		if ( !nloc || !nloc->szHost) return false;
 		NetlibLogf(nlc->nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
 
 		_itoa(nlc->nloc.wPort, szPort, 10);
@@ -617,7 +617,7 @@ retry:
 		{
 			SOCKET s = ai->ai_family == AF_INET ? nlc->s : INVALID_SOCKET;
 			SOCKET s6 = ai->ai_family == AF_INET6 ? nlc->s : INVALID_SOCKET;
-			if (!BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, s, s6, &nlc->nlu->inportnum))
+			if ( !BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, s, s6, &nlc->nlu->inportnum))
 				NetlibLogf(nlc->nlu, "Netlib connect: Not enough ports for outgoing connections specified");
 		} 
 
@@ -726,7 +726,7 @@ static int NetlibHttpFallbackToDirect(struct NetlibConnection *nlc, struct Netli
 	nlc->proxyAuthNeeded = false;
 	nlc->proxyType = 0;
 	mir_free(nlc->szProxyServer); nlc->szProxyServer = NULL;
-	if (!my_connect(nlc, nloc)) 
+	if ( !my_connect(nlc, nloc)) 
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 		return false;
@@ -763,13 +763,13 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 retry:
 	if (usingProxy) 
 	{
-		if (!my_connect(nlc, nloc)) 
+		if ( !my_connect(nlc, nloc)) 
 		{
 			usingProxy = false;
 			nlc->proxyType = 0;
 		}
 	}
-	if (!usingProxy)
+	if ( !usingProxy)
 	{
 		my_connect(nlc, nloc);
 	}
@@ -779,7 +779,7 @@ retry:
 		if (usingProxy && (nlc->proxyType == PROXYTYPE_HTTPS || nlc->proxyType == PROXYTYPE_HTTP))
 		{
 			usingProxy = false;
-			if (!NetlibHttpFallbackToDirect(nlc, nlu, nloc))
+			if ( !NetlibHttpFallbackToDirect(nlc, nlu, nloc))
 			{
 				NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 				return false;
@@ -801,44 +801,44 @@ retry:
 	if (usingProxy && !((nloc->flags & (NLOCF_HTTP | NLOCF_SSL)) == NLOCF_HTTP && 
 		(nlc->proxyType == PROXYTYPE_HTTP || nlc->proxyType == PROXYTYPE_HTTPS)))
 	{
-		if (!WaitUntilWritable(nlc->s, 30000)) return false;
+		if ( !WaitUntilWritable(nlc->s, 30000)) return false;
 
 		switch (nlc->proxyType) 
 		{
 		case PROXYTYPE_SOCKS4:
-			if (!NetlibInitSocks4Connection(nlc, nlu, nloc)) return false;
+			if ( !NetlibInitSocks4Connection(nlc, nlu, nloc)) return false;
 			break;
 
 		case PROXYTYPE_SOCKS5:
-			if (!NetlibInitSocks5Connection(nlc, nlu, nloc)) return false;
+			if ( !NetlibInitSocks5Connection(nlc, nlu, nloc)) return false;
 			break;
 
 		case PROXYTYPE_HTTPS:
 			nlc->proxyAuthNeeded = true;
-			if (!NetlibInitHttpsConnection(nlc, nlu, nloc))
+			if ( !NetlibInitHttpsConnection(nlc, nlu, nloc))
 			{
 				usingProxy = false;
-				if (!NetlibHttpFallbackToDirect(nlc, nlu, nloc))
+				if ( !NetlibHttpFallbackToDirect(nlc, nlu, nloc))
 					return false;
 			}
 			break;
 
 		case PROXYTYPE_HTTP:
 			nlc->proxyAuthNeeded = true;
-			if (!(nlu->user.flags & NUF_HTTPGATEWAY || nloc->flags & NLOCF_HTTPGATEWAY) || nloc->flags & NLOCF_SSL)
+			if ( !(nlu->user.flags & NUF_HTTPGATEWAY || nloc->flags & NLOCF_HTTPGATEWAY) || nloc->flags & NLOCF_SSL)
 			{
 				//NLOCF_HTTP not specified and no HTTP gateway available: try HTTPS
-				if (!NetlibInitHttpsConnection(nlc, nlu, nloc))
+				if ( !NetlibInitHttpsConnection(nlc, nlu, nloc))
 				{
 					//can't do HTTPS: try direct
 					usingProxy = false;
-					if (!NetlibHttpFallbackToDirect(nlc, nlu, nloc))
+					if ( !NetlibHttpFallbackToDirect(nlc, nlu, nloc))
 						return false;
 				}
 			}
 			else 
 			{
-				if (!NetlibInitHttpConnection(nlc, nlu, nloc)) return false;
+				if ( !NetlibInitHttpConnection(nlc, nlu, nloc)) return false;
 			}
 			break;
 
@@ -850,7 +850,7 @@ retry:
 	}
 	else if (nloc->flags & NLOCF_HTTPGATEWAY)
 	{
-		if (!NetlibInitHttpConnection(nlc, nlu, nloc)) return false;
+		if ( !NetlibInitHttpConnection(nlc, nlu, nloc)) return false;
 		nlc->usingDirectHttpGateway = true;
 	}
 
@@ -886,11 +886,11 @@ bool NetlibReconnect(NetlibConnection *nlc)
 			break;
 		}
 
-		if (!opened)
+		if ( !opened)
 			NetlibDoClose(nlc, true);
 	}
 
-	if (!opened)
+	if ( !opened)
 	{
 		if (Miranda_Terminated()) return false;
 		if (nlc->usingHttpGateway)
@@ -912,7 +912,7 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 
 	NetlibLogf(nlu, "Connection request to %s:%d (Flags %x)....", nloc->szHost, nloc->wPort, nloc->flags);
 
-	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) || nloc == NULL ||
+	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING) || nloc == NULL  || 
 		(nloc->cbSize != NETLIBOPENCONNECTION_V1_SIZE && nloc->cbSize != sizeof(NETLIBOPENCONNECTION)) || 
 		nloc->szHost == NULL || nloc->wPort == 0)
 	{
@@ -934,7 +934,7 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 	NetlibInitializeNestedCS(&nlc->ncsSend);
 	NetlibInitializeNestedCS(&nlc->ncsRecv);
 
-	if (!NetlibDoConnect(nlc))
+	if ( !NetlibDoConnect(nlc))
 	{
 		FreePartiallyInitedConnection(nlc);		
 		return 0;

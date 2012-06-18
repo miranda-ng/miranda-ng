@@ -41,15 +41,15 @@ bool fileExist(TCHAR* fname)
 	return res;
 }
 
-static void fillProfileName( const TCHAR* ptszFileName )
+static void fillProfileName(const TCHAR* ptszFileName)
 {
-	const TCHAR* p = _tcsrchr( ptszFileName, '\\' );
-	if ( p == NULL )
+	const TCHAR* p = _tcsrchr(ptszFileName, '\\');
+	if (p == NULL)
 		p = ptszFileName;
 	else
 		p++;
 
-	_tcsncpy( g_profileName, p, SIZEOF(g_profileName));
+	_tcsncpy(g_profileName, p, SIZEOF(g_profileName));
 }
 
 bool IsInsideRootDir(TCHAR* profiledir, bool exact)
@@ -103,7 +103,7 @@ static bool showProfileManager(void)
 
 	// wanna show it?
 	GetPrivateProfileString(_T("Database"), _T("ShowProfileMgr"), _T("never"), Mgr, SIZEOF(Mgr), mirandabootini);
-	return ( _tcsicmp(Mgr, _T("yes")) == 0 );
+	return (_tcsicmp(Mgr, _T("yes")) == 0);
 }
 
 bool shouldAutoCreate(TCHAR *szProfile)
@@ -177,7 +177,7 @@ void getProfileCmdLine(TCHAR * szProfile, size_t cch, TCHAR * profiledir)
 
 		p = _tcsrchr(buf, '\\'); if (p) ++p; else p = buf; 
 
-		if (!isValidProfileName(buf) && *p)
+		if ( !isValidProfileName(buf) && *p)
 			_tcscat(buf, _T(".dat"));
 
 		_tcscpy(profileName, p);
@@ -299,10 +299,10 @@ static int getProfile1(TCHAR * szProfile, size_t cch, TCHAR * profiledir, BOOL *
 		reqfd = !shpm && found == 1 && nodprof;
 	}
 
-	if ( noProfiles )
+	if (noProfiles)
 		*noProfiles = found == 0;
 
-	if ( nodprof && !reqfd )
+	if (nodprof && !reqfd)
 		szProfile[0] = 0;
 
 	return reqfd;
@@ -352,18 +352,18 @@ static int getProfile(TCHAR * szProfile, size_t cch)
 }
 
 // carefully converts a file name from TCHAR* to char*
-char* makeFileName( const TCHAR* tszOriginalName )
+char* makeFileName(const TCHAR* tszOriginalName)
 {
 	char* szResult = NULL;
-	char* szFileName = mir_t2a( tszOriginalName );
-	TCHAR* tszFileName = mir_a2t( szFileName );
-	if ( _tcscmp( tszOriginalName, tszFileName )) {
+	char* szFileName = mir_t2a(tszOriginalName);
+	TCHAR* tszFileName = mir_a2t(szFileName);
+	if (_tcscmp(tszOriginalName, tszFileName)) {
 		TCHAR tszProfile[MAX_PATH];
-		if ( GetShortPathName( tszOriginalName, tszProfile, MAX_PATH) != 0)
-			szResult = mir_t2a( tszProfile );
+		if (GetShortPathName(tszOriginalName, tszProfile, MAX_PATH) != 0)
+			szResult = mir_t2a(tszProfile);
 	}
 
-	if ( !szResult )
+	if ( !szResult)
 		szResult = szFileName;
 	else
 		mir_free(szFileName);
@@ -382,10 +382,10 @@ int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg)
 	if (file) file++;
 	if (_taccess(profile, 0) == 0) {
 		// file already exists!
-		mir_sntprintf(buf, SIZEOF(buf), TranslateTS( _T("The profile '%s' already exists. Do you want to move it to the ")
+		mir_sntprintf(buf, SIZEOF(buf), TranslateTS(_T("The profile '%s' already exists. Do you want to move it to the ")
 			_T("Recycle Bin? \n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\n")
-			_T("WARNING: A profile may contain confidential information and should be properly deleted.")), file );
-		if ( MessageBox(hwndDlg, buf, TranslateT("The profile already exists"), MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2) != IDYES )
+			_T("WARNING: A profile may contain confidential information and should be properly deleted.")), file);
+		if (MessageBox(hwndDlg, buf, TranslateT("The profile already exists"), MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2) != IDYES)
 			return 0;
 
 		// move the file
@@ -394,7 +394,7 @@ int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg)
 		sf.pFrom = buf;
 		sf.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s\0"), profile);
-		if ( SHFileOperation(&sf) != 0 ) {
+		if (SHFileOperation(&sf) != 0) {
 			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Couldn't move '%s' to the Recycle Bin, Please select another profile name."), file);
 			MessageBox(0, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION|MB_OK);
 			return 0;
@@ -419,24 +419,24 @@ int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg)
 // enumerate all plugins that had valid DatabasePluginInfo()
 static int FindDbPluginForProfile(const char*, DATABASELINK * dblink, LPARAM lParam)
 {
-	TCHAR* tszProfile = ( TCHAR* )lParam;
+	TCHAR* tszProfile = (TCHAR*)lParam;
 
 	int res = DBPE_CONT;
-	if ( dblink && dblink->cbSize == sizeof(DATABASELINK)) {
+	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
 		char* szProfile = makeFileName(tszProfile);
 		// liked the profile?
 		int err = 0;
 		if (dblink->grokHeader(szProfile, &err) == 0) {
 			// added APIs?
 			if ( !dblink->Load(szProfile, &pluginCoreLink)) {
-				fillProfileName( tszProfile );
+				fillProfileName(tszProfile);
 				res = DBPE_DONE;
 			}
 			else res = DBPE_HALT;
 		}
 		else {
 			res = DBPE_HALT;
-			switch ( err ) {
+			switch (err) {
 			case EGROKPRF_CANTREAD:
 			case EGROKPRF_UNKHEADER:
 				// just not supported.
@@ -455,18 +455,18 @@ static int FindDbPluginForProfile(const char*, DATABASELINK * dblink, LPARAM lPa
 // enumerate all plugins that had valid DatabasePluginInfo()
 static int FindDbPluginAutoCreate(const char*, DATABASELINK * dblink, LPARAM lParam)
 {
-	TCHAR* tszProfile = ( TCHAR* )lParam;
+	TCHAR* tszProfile = (TCHAR*)lParam;
 
 	int res = DBPE_CONT;
 	if (dblink && dblink->cbSize == sizeof(DATABASELINK)) {
-		CreatePathToFileT( tszProfile );
+		CreatePathToFileT(tszProfile);
 
 		int err;
-		char *szProfile = makeFileName( tszProfile );
+		char *szProfile = makeFileName(tszProfile);
 		if (dblink->makeDatabase(szProfile, &err) == 0) {
 			dbCreated = true;
 			if ( !dblink->Load(szProfile, &pluginCoreLink)) {
-				fillProfileName( tszProfile );
+				fillProfileName(tszProfile);
 				res = DBPE_DONE;
 			}
 			else res = DBPE_HALT;
@@ -488,8 +488,8 @@ static BOOL CALLBACK EnumMirandaWindows(HWND hwnd, LPARAM lParam)
 	TCHAR classname[256];
 	ENUMMIRANDAWINDOW * x = (ENUMMIRANDAWINDOW *)lParam;
 	DWORD_PTR res=0;
-	if ( GetClassName(hwnd, classname, SIZEOF(classname)) && lstrcmp( _T("Miranda"), classname) == 0 ) {
-		if ( SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res ) {
+	if (GetClassName(hwnd, classname, SIZEOF(classname)) && lstrcmp(_T("Miranda"), classname) == 0) {
+		if (SendMessageTimeout(hwnd, x->msg, (WPARAM)x->aPath, 0, SMTO_ABORTIFHUNG, 100, &res) && res) {
 			x->found++;
 			return FALSE;
 		}
@@ -501,7 +501,7 @@ static int FindMirandaForProfile(TCHAR * szProfile)
 {
 	ENUMMIRANDAWINDOW x={0};
 	x.profile=szProfile;
-	x.msg=RegisterWindowMessage( _T( "Miranda::ProcessProfile" ));
+	x.msg=RegisterWindowMessage(_T("Miranda::ProcessProfile"));
 	x.aPath=GlobalAddAtom(szProfile);
 	EnumWindows(EnumMirandaWindows, (LPARAM)&x);
 	GlobalDeleteAtom(x.aPath);
@@ -519,17 +519,17 @@ int LoadDatabaseModule(void)
 	InitUtils();
 
 	// find out which profile to load
-	if ( !getProfile( szProfile, SIZEOF( szProfile )))
+	if ( !getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
 
 	PLUGIN_DB_ENUM dbe;
 	dbe.cbSize = sizeof(PLUGIN_DB_ENUM);
 	dbe.lParam = (LPARAM)szProfile;
 
-	if ( _taccess(szProfile, 0) && shouldAutoCreate( szProfile ))
-		dbe.pfnEnumCallback=( int(*) (const char*, void*, LPARAM) )FindDbPluginAutoCreate;
+	if (_taccess(szProfile, 0) && shouldAutoCreate(szProfile))
+		dbe.pfnEnumCallback=(int(*) (const char*, void*, LPARAM))FindDbPluginAutoCreate;
 	else
-		dbe.pfnEnumCallback=( int(*) (const char*, void*, LPARAM) )FindDbPluginForProfile;
+		dbe.pfnEnumCallback=(int(*) (const char*, void*, LPARAM))FindDbPluginForProfile;
 
 	// find a driver to support the given profile	
 	bool retry;
@@ -537,12 +537,12 @@ int LoadDatabaseModule(void)
 	do {
 		retry = false;
 		rc = CallService(MS_PLUGINS_ENUMDBPLUGINS, 0, (LPARAM)&dbe);
-		switch ( rc ) {
+		switch (rc) {
 		case -1: {
 			// no plugins at all
 			TCHAR buf[256];
 			TCHAR* p = _tcsrchr(szProfile, '\\');
-			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile );
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent."), p ? ++p : szProfile);
 			MessageBox(0, buf, TranslateT("No profile support installed!"), MB_OK | MB_ICONERROR);
 			break;
 		}
@@ -555,7 +555,7 @@ int LoadDatabaseModule(void)
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed."), p ? ++p : szProfile);
 				MessageBox(0, buf, TranslateT("Miranda can't understand that profile"), MB_OK | MB_ICONERROR);
 			}
-			else if (!FindMirandaForProfile(szProfile)) {
+			else if ( !FindMirandaForProfile(szProfile)) {
 				TCHAR buf[256];
 				TCHAR* p = _tcsrchr(szProfile, '\\');
 				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance"), p ? ++p : szProfile);

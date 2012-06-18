@@ -339,7 +339,7 @@ int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SOUNDS);
 	odp.pszTitle = LPGEN("Status Notify");
 	odp.pfnDlgProc = DlgProcSoundUIPage;
-	CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+	UserInfo_AddPage(wParam, &odp);
 	
 	return 0;
 }

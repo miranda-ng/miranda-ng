@@ -76,7 +76,7 @@ static void DisconnectAll()
 {
 	int nProto;
 	for (nProto = 0; nProto < accounts.getCount(); nProto++)
-		CallProtoService( accounts[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+		CallProtoService(accounts[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 
 static int CluiIconsChanged(WPARAM, LPARAM)
@@ -98,9 +98,9 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS;
 	GetClassName(hwndClist, cls, SIZEOF(cls));
-	hwndClist = (!lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = ( !lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
 	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
-	if (!hItem) {
+	if ( !hItem) {
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 	}
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hRenameMenuItem, (LPARAM) & mi);
@@ -114,7 +114,7 @@ static INT_PTR MenuItem_RenameContact(WPARAM, LPARAM)
 	HWND hwndClist = GetFocus();
 	GetClassName(hwndClist, cls, SIZEOF(cls));
 	// worst case scenario, the rename is sent to the main contact list
-	hwndClist = (!lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
+	hwndClist = ( !lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
 	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
 	if (hItem) {
 		SetFocus(hwndClist);
@@ -181,7 +181,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	UINT_PTR action;
 
 	if (DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) &&
-		!(GetKeyState(VK_SHIFT)&0x8000) )
+		!(GetKeyState(VK_SHIFT)&0x8000))
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
 		action = DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND) lParam, AskForConfirmationDlgProc, wParam);
 	else
@@ -205,7 +205,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						DBWriteContactSettingByte((HANDLE) wParam, "CList", "Delete", 1);
-						MessageBox( NULL,
+						MessageBox(NULL,
 							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
 							TranslateT("Delete Contact"), MB_OK);
 						return 0;
@@ -251,14 +251,14 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	m.message=msg;
 	m.wParam=wParam;
 	m.lParam=lParam;
-	if ( cli.pfnDocking_ProcessWindowMessage(( WPARAM )&m, ( LPARAM )&result ))
+	if (cli.pfnDocking_ProcessWindowMessage((WPARAM)&m, (LPARAM)&result))
 		return result;
-	if ( cli.pfnTrayIconProcessMessage(( WPARAM )&m, ( LPARAM )&result ))
+	if (cli.pfnTrayIconProcessMessage((WPARAM)&m, (LPARAM)&result))
 		return result;
-	if ( cli.pfnHotkeysProcessMessage(( WPARAM )&m, ( LPARAM )&result ))
+	if (cli.pfnHotkeysProcessMessage((WPARAM)&m, (LPARAM)&result))
 		return result;
 
-	return cli.pfnContactListWndProc( hwnd, msg, wParam, lParam );
+	return cli.pfnContactListWndProc(hwnd, msg, wParam, lParam);
 }
 
 int LoadCLUIModule(void)
@@ -266,7 +266,7 @@ int LoadCLUIModule(void)
 	DBVARIANT dbv;
 	TCHAR titleText[256];
 
-	uMsgProcessProfile = RegisterWindowMessage( _T("Miranda::ProcessProfile"));
+	uMsgProcessProfile = RegisterWindowMessage(_T("Miranda::ProcessProfile"));
 	cli.pfnLoadCluiGlobalOpts();
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, CluiModulesLoaded);
@@ -307,7 +307,7 @@ int LoadCLUIModule(void)
 	RegisterClassEx(&wndclass);
 
 	if (DBGetContactSettingTString(NULL, "CList", "TitleText", &dbv))
-		lstrcpyn(titleText, _T(MIRANDANAME), SIZEOF( titleText ));
+		lstrcpyn(titleText, _T(MIRANDANAME), SIZEOF(titleText));
 	else {
 		lstrcpyn(titleText, dbv.ptszVal, SIZEOF(titleText));
 		DBFreeVariant(&dbv);
@@ -344,7 +344,7 @@ int LoadCLUIModule(void)
 	{
 		int state = DBGetContactSettingByte(NULL, "CList", "State", SETTING_STATE_NORMAL);
 		cli.hMenuMain = GetMenu(cli.hwndContactList);
-		if (!DBGetContactSettingByte(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+		if ( !DBGetContactSettingByte(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 			SetMenu(cli.hwndContactList, NULL);
 		if (state == SETTING_STATE_NORMAL)
 			ShowWindow(cli.hwndContactList, SW_SHOW);
@@ -361,7 +361,7 @@ int LoadCLUIModule(void)
 		CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 		mi.position = 2000070000;
 		mi.flags = CMIF_ICONFROMICOLIB;
-		mi.icolibItem = GetSkinIconHandle( SKINICON_OTHER_DELETE );
+		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_DELETE);
 		mi.pszContactOwner = NULL;      //on every contact
 		mi.pszName = LPGEN("De&lete");
 		mi.pszService = "CList/DeleteContactCommand";
@@ -369,7 +369,7 @@ int LoadCLUIModule(void)
 
 		CreateServiceFunction("CList/RenameContactCommand", MenuItem_RenameContact);
 		mi.position = 2000050000;
-		mi.icolibItem = GetSkinIconHandle( SKINICON_OTHER_RENAME );
+		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_RENAME);
 		mi.pszContactOwner = NULL;      //on every contact
 		mi.pszName = LPGEN("&Rename");
 		mi.pszService = "CList/RenameContactCommand";
@@ -378,7 +378,7 @@ int LoadCLUIModule(void)
 		CreateServiceFunction("CList/AddToListContactCommand", MenuItem_AddContactToList);
 		mi.position = -2050000000;
 		mi.flags |= CMIF_NOTONLIST;
-		mi.icolibItem = GetSkinIconHandle( SKINICON_OTHER_ADDCONTACT );
+		mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_ADDCONTACT);
 		mi.pszName = LPGEN("&Add permanently to list");
 		mi.pszService = "CList/AddToListContactCommand";
 		Menu_AddContactMenuItem(&mi);
@@ -393,7 +393,7 @@ int LoadCLUIModule(void)
 
 void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 {
-	if (!IsWinVerXPPlus()) {
+	if ( !IsWinVerXPPlus()) {
 		FillRect(dis->hDC, &dis->rcItem, GetSysColorBrush(COLOR_MENU));
 		if (dis->itemState & ODS_HOTLIGHT)
 			DrawEdge(dis->hDC, &dis->rcItem, BDR_RAISEDINNER, BF_RECT);
@@ -527,7 +527,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case M_CREATECLC:
-		cli.hwndContactTree = CreateWindow( CLISTCONTROL_CLASS, _T(""),
+		cli.hwndContactTree = CreateWindow(CLISTCONTROL_CLASS, _T(""),
 			WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN
 			| CLS_CONTACTLIST
 			| (DBGetContactSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) ? CLS_USEGROUPS : 0)
@@ -586,7 +586,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 		if (wParam == SIZE_MINIMIZED)
 		{
-			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) ||
+			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)  || 
 				DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
 			{
 				ShowWindow(hwnd, SW_HIDE);
@@ -600,11 +600,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		}
 		// drop thru
 	case WM_MOVE:
-		if (!IsIconic(hwnd)) {
+		if ( !IsIconic(hwnd)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
+			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
 				DBWriteContactSettingDword(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
 				DBWriteContactSettingDword(NULL, "CList", "x", (DWORD) rc.left);
 				DBWriteContactSettingDword(NULL, "CList", "y", (DWORD) rc.top);
@@ -636,7 +636,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_SETCURSOR:
 		if (cluiopt.transparent) {
-			if (!transparentFocus && GetForegroundWindow() != hwnd && setLayeredWindowAttributes) {
+			if ( !transparentFocus && GetForegroundWindow() != hwnd && setLayeredWindowAttributes) {
 				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus=1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
@@ -648,7 +648,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	{
 		LRESULT result;
 		result = DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
-		if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT ||
+		if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT  || 
 			result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
 			if (DBGetContactSettingByte(NULL, "CLUI", "AutoSize", 0))
 				return HTCLIENT;
@@ -678,7 +678,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				else
 					setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) DBGetContactSettingByte(NULL, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 			}
-			if (!transparentFocus)
+			if ( !transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
 		}
 		return TRUE;
@@ -690,7 +690,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 		if (noRecurse)
 			break;
-		if (!DBGetContactSettingByte(NULL, "CLUI", "FadeInOut", 0) || !IsWinVer2000Plus())
+		if ( !DBGetContactSettingByte(NULL, "CLUI", "FadeInOut", 0) || !IsWinVer2000Plus())
 			break;
 		if (GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED) {
 			DWORD thisTick, startTick;
@@ -741,7 +741,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		case SC_MINIMIZE:
 		case SC_CLOSE:
-			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) ||
+			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)  || 
 				DBGetContactSettingByte(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
 			{
 				ShowWindow(hwnd, SW_HIDE);
@@ -839,7 +839,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				{
 					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
 					ClientToScreen(hwnd, &nmc->pt);
-					if (!(nmc->flags & CLNF_ISGROUP))
+					if ( !(nmc->flags & CLNF_ISGROUP))
 						if (NotifyEventHooks(hContactDraggingEvent, (WPARAM) nmc->hItem, MAKELPARAM(nmc->pt.x, nmc->pt.y))) {
 							SetCursor(LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER)));
 							return TRUE;
@@ -849,7 +849,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			case CLN_DRAGSTOP:
 				{
 					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
-					if (!(nmc->flags & CLNF_ISGROUP))
+					if ( !(nmc->flags & CLNF_ISGROUP))
 						NotifyEventHooks(hContactDragStopEvent, (WPARAM) nmc->hItem, 0);
 					break;
 				}
@@ -857,7 +857,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				{
 					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
 					ClientToScreen(hwnd, &nmc->pt);
-					if (!(nmc->flags & CLNF_ISGROUP))
+					if ( !(nmc->flags & CLNF_ISGROUP))
 						if (NotifyEventHooks(hContactDroppedEvent, (WPARAM) nmc->hItem, MAKELPARAM(nmc->pt.x, nmc->pt.y))) {
 							SetCursor(LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER)));
 							return TRUE;
@@ -875,7 +875,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					RECT rcWindow, rcTree, rcWorkArea;
 					int maxHeight, newHeight;
 
-					if (!DBGetContactSettingByte(NULL, "CLUI", "AutoSize", 0))
+					if ( !DBGetContactSettingByte(NULL, "CLUI", "AutoSize", 0))
 						break;
 					if (CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0))
 						break;
@@ -973,7 +973,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			POINT pt;
 			GetCursorPos(&pt);
 			if ((pos == 0 || pos == 1) && (HIWORD(wParam) & MF_POPUP) &&
-                (!(HIWORD(wParam) & MF_MOUSESELECT) || MenuItemFromPoint(hwnd, cli.hMenuMain, pt) != -1)) {
+                ( !(HIWORD(wParam) & MF_MOUSESELECT) || MenuItemFromPoint(hwnd, cli.hMenuMain, pt) != -1)) {
 				MENUITEMINFO mii = { 0 };
 				mii.cbSize = MENUITEMINFO_V4_SIZE;
 				mii.fMask = MIIM_SUBMENU;
@@ -995,7 +995,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				// all this is done in screen-coords!
 				GetCursorPos(&pt);
 				// the mouse isnt near the window, so put it in the middle of the window
-				if (!PtInRect(&rc, pt)) {
+				if ( !PtInRect(&rc, pt)) {
 					pt.x = rc.left + (rc.right - rc.left) / 2;
 					pt.y = rc.top + (rc.bottom - rc.top) / 2;
 				}
@@ -1050,7 +1050,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
 						g_IconWidth, g_IconHeight, 0, NULL, DI_NORMAL);
 					IconLib_ReleaseIcon(hIcon, 0);
-					if ( Proto_IsAccountLocked( Proto_GetAccount( szProto ))) {
+					if (Proto_IsAccountLocked(Proto_GetAccount(szProto))) {
 						hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hIcon != NULL) {
 							DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - g_IconHeight) >> 1, hIcon,
@@ -1066,8 +1066,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (showOpts & 2) {
 					PROTOACCOUNT* pa;
 					TCHAR tszName[64];
-					if (( pa = Proto_GetAccount( szProto )) != NULL )
-						mir_sntprintf( tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName );
+					if ((pa = Proto_GetAccount(szProto)) != NULL)
+						mir_sntprintf(tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName);
 					else
 						tszName[0] = 0;
 
@@ -1076,11 +1076,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					x += textSize.cx;
 				}
 				if (showOpts & 4) {
-					TCHAR* szStatus = cli.pfnGetStatusModeDescription( status, 0 );
-					if ( !szStatus )
+					TCHAR* szStatus = cli.pfnGetStatusModeDescription(status, 0);
+					if ( !szStatus)
 						szStatus = _T("");
-					GetTextExtentPoint32( dis->hDC, szStatus, lstrlen(szStatus), &textSize );
-					TextOut( dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy ) >> 1, szStatus, lstrlen( szStatus ));
+					GetTextExtentPoint32(dis->hDC, szStatus, lstrlen(szStatus), &textSize);
+					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, lstrlen(szStatus));
 				}
 			}
 			else if (dis->CtlType == ODT_MENU) {
@@ -1100,11 +1100,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return FALSE;
 
 	case WM_DESTROY:
-		if (!IsIconic(hwnd)) {
+		if ( !IsIconic(hwnd)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
+			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
 				DBWriteContactSettingDword(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
 				DBWriteContactSettingDword(NULL, "CList", "x", (DWORD) rc.left);
 				DBWriteContactSettingDword(NULL, "CList", "y", (DWORD) rc.top);
@@ -1115,8 +1115,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		RemoveMenu(cli.hMenuMain, 0, MF_BYPOSITION);
 		RemoveMenu(cli.hMenuMain, 0, MF_BYPOSITION);
 
-		if ( cli.hwndStatus ) {
-			DestroyWindow( cli.hwndStatus );
+		if (cli.hwndStatus) {
+			DestroyWindow(cli.hwndStatus);
 			cli.hwndStatus = NULL;
 		}
 

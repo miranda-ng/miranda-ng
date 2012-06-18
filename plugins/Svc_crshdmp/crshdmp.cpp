@@ -207,7 +207,7 @@ int OptionsInit(WPARAM wParam, LPARAM)
 	odp.pszGroup    = LPGEN("Services");
 	odp.flags       = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc  = DlgProcOptions;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

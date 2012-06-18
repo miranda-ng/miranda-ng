@@ -48,7 +48,7 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 	odp.nIDBottomSimpleControl = IDC_STCLISTGROUP;
 	odp.expertOnlyControls = expertOnlyControls;
 	odp.nExpertOnlyControls = sizeof(expertOnlyControls)/sizeof(expertOnlyControls[0]);
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 	return 0;
 }
 

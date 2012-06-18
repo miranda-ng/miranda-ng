@@ -48,15 +48,15 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwnd, UINT  msg, WPARAM wParam, L
 // structure is used for storing list of tab info
 struct MHeaderbarCtrl
 {
-	__inline void* operator new( size_t size )
-	{	return mir_calloc( size );
+	__inline void* operator new(size_t size)
+	{	return mir_calloc(size);
 	}
-	__inline void operator delete( void* p )
-	{	mir_free( p );
+	__inline void operator delete(void* p)
+	{	mir_free(p);
 	}
 
 	MHeaderbarCtrl() {}
-	~MHeaderbarCtrl() { mir_free( controlsToRedraw ); }
+	~MHeaderbarCtrl() { mir_free(controlsToRedraw); }
 
 	HWND		hwnd;
 
@@ -103,7 +103,7 @@ static void MHeaderbar_SetupColors(MHeaderbarCtrl *dat)
 
 	dat->clText			= GetSysColor(COLOR_WINDOWTEXT);
 
-	if (!dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MHeaderbar_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
@@ -126,7 +126,7 @@ static void MHeaderbar_DrawGradient(HDC hdc, int x, int y, int width, int height
 	COLORREF oldColor	= SetBkColor(hdc, 0);
 
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
-	for (i=y+height; --i >= y; )
+	for (i=y+height; --i >= y;)
 	{
 		COLORREF color = RGB(
 			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
@@ -315,7 +315,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 					RECT rcChild; GetWindowRect(hChild, &rcChild);
 					RECT rc;
 					IntersectRect(&rc, &rcChild, &rcWnd);
-					if (!IsRectEmpty(&rc))
+					if ( !IsRectEmpty(&rc))
 					{
 						++itc->nControlsToRedraw;
 						itc->controlsToRedraw = (HWND *)mir_realloc(itc->controlsToRedraw, sizeof(HWND) * itc->nControlsToRedraw);

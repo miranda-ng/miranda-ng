@@ -301,7 +301,7 @@ static INT_PTR GetCountryByNumber(WPARAM wParam, LPARAM)
 {
 	int i;
 
-	for (i=0; i < SIZEOF(countries); i++ )
+	for (i=0; i < SIZEOF(countries); i++)
 		if ((int)wParam == countries[i].id) return (INT_PTR)countries[i].szName;
 	return (INT_PTR)NULL;
 }
@@ -406,7 +406,7 @@ static INT_PTR RestoreWindowPosition(WPARAM wParam, LPARAM lParam)
 	if (wParam & RWPF_NOACTIVATE)
 		wp.showCmd = SW_SHOWNOACTIVATE;
 
-	if (!(wParam & RWPF_NOMOVE))
+	if ( !(wParam & RWPF_NOMOVE))
 		AssertInsideScreen((WPARAM) &wp.rcNormalPosition, 0);
 
 	SetWindowPlacement(swp->hwnd, &wp);
@@ -421,15 +421,15 @@ static INT_PTR RestartMiranda(WPARAM, LPARAM)
 	PROCESS_INFORMATION pi;
 	STARTUPINFO si = { 0 };
 	si.cb = sizeof(si);
-	GetModuleFileName( NULL, mirandaPath, SIZEOF(mirandaPath));
-	mir_sntprintf( cmdLine, SIZEOF( cmdLine ), _T("/restart:%d"), GetCurrentProcessId());
-	CreateProcess( mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi );
+	GetModuleFileName(NULL, mirandaPath, SIZEOF(mirandaPath));
+	mir_sntprintf(cmdLine, SIZEOF(cmdLine), _T("/restart:%d"), GetCurrentProcessId());
+	CreateProcess(mirandaPath, cmdLine, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef BOOL (APIENTRY *PGENRANDOM)( PVOID, ULONG );
+typedef BOOL (APIENTRY *PGENRANDOM)(PVOID, ULONG);
 
 static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 {
@@ -442,7 +442,7 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
         pfnRtlGenRandom = (PGENRANDOM)GetProcAddress(hModule, "SystemFunction036");
         if (pfnRtlGenRandom)
         {
-            if (!pfnRtlGenRandom((PVOID)lParam, wParam)) 
+            if ( !pfnRtlGenRandom((PVOID)lParam, wParam)) 
                 pfnRtlGenRandom = NULL;
         }
     }
@@ -450,7 +450,7 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
     {
         srand(GetTickCount());
         unsigned short* buf = (unsigned short*)lParam;
-        for (; (long)(wParam-=2) >= 0; )
+        for (; (long)(wParam-=2) >= 0;)
             *(buf++) = (unsigned short)rand();
         if (lParam < 0)
             *(char*)buf = (char)(rand() & 0xFF);
@@ -578,7 +578,7 @@ int LoadUtilsModule(void)
 
 void UnloadUtilsModule(void)
 {
-	if ( !bModuleInitialized ) return;
+	if ( !bModuleInitialized) return;
 
 	FreeWindowList();
 	UninitTimeZones();

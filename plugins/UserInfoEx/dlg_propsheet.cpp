@@ -43,6 +43,8 @@ Last change by : $Author: ing.u.horn $
 #include <m_protocols.h>
 #include <m_icq.h>
 
+#define OPTIONPAGE_OLD_SIZE  (offsetof(OPTIONSDIALOGPAGE, hLangpack))
+
 #define UPDATEANIMFRAMES		20
 
 // internal dialog message handler
@@ -389,13 +391,9 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 
 	// check size of the handled structures
 	if (pPsh == NULL || odp == NULL || pPsh->_dwSize != sizeof(CPsHdr))
-	{
 		return 1;
-	}
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE) &&
-			odp->cbSize != OPTIONPAGE_OLD_SIZE2 &&
-			odp->cbSize != OPTIONPAGE_OLD_SIZE3) 
-	{
+
+	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE) && odp->cbSize != OPTIONPAGE_OLD_SIZE) {
 		MsgErr(NULL, LPGENT("The Page to add has invalid size %d bytes!"), odp->cbSize);
 		return 1;
 	}
@@ -403,34 +401,28 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	// try to check whether the flag member is initialized or not
 	odp->flags = odp->flags > (ODPF_UNICODE|ODPF_BOLDGROUPS|ODPF_ICON|PSPF_PROTOPREPENDED) ? 0 : odp->flags;
 
-	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY|PSF_PROTOPAGESONLY_INIT))
-	{
+	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY|PSF_PROTOPAGESONLY_INIT)) {
 		BOOLEAN bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
 		TCHAR* ptszTitle = bIsUnicode ? mir_tstrdup(odp->ptszTitle) : mir_a2t(odp->pszTitle);
 
 		// avoid adding pages for a meta subcontact, which have been added for a metacontact.
-		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) 
-		{	
-			if (pPsh->_ignore.getIndex(ptszTitle) != -1)
-			{
+		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {	
+			if (pPsh->_ignore.getIndex(ptszTitle) != -1) {
 				mir_free(ptszTitle);
 				return 0;
 			}
 		}
 		// init ignore list with pages added by metacontact
 		else if (pPsh->_dwFlags & PSF_PROTOPAGESONLY_INIT) 
-		{
 			pPsh->_ignore.insert(mir_tstrdup(ptszTitle));
-		}
+
 		mir_free(ptszTitle);
 	}
 
 	// create the new tree item
 	CPsTreeItem *pNew = new CPsTreeItem();
-	if (pNew) 
-	{
-		if (pNew->Create(pPsh, odp))
-		{
+	if (pNew) {
+		if (pNew->Create(pPsh, odp)) {
 			MIR_DELETE(pNew);
 			return 1;
 		}
@@ -715,7 +707,7 @@ VOID DlgContactInfoLoadModule()
 	ghDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
 	myCreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
-	myCreateServiceFunction(MS_USERINFO_ADDPAGE, AddPage);
+	myCreateServiceFunction("UserInfo/AddPage", AddPage);
 
 	HookEvent(ME_DB_CONTACT_DELETED, OnDeleteContact);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);

@@ -161,8 +161,7 @@ int QuotesEventFunc_OnUserInfoInit(WPARAM wp,LPARAM lp)
 	odp.position = -2000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_QUOTE_INFO);
 	odp.ptszTitle = TranslateT("Quote");
-	CallService(MS_USERINFO_ADDPAGE,wp,reinterpret_cast<LPARAM>(&odp));
-
+	UserInfo_AddPage(wp, &odp);
 	return 0;
 }
 

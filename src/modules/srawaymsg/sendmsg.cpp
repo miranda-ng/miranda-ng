@@ -93,7 +93,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 		for (i=0; dbv.ptszVal[i]; i++) 
 		{
 			if (dbv.ptszVal[i] != '%') continue;
-			if (!_tcsnicmp(dbv.ptszVal + i, _T("%time%"), 6)) 
+			if ( !_tcsnicmp(dbv.ptszVal + i, _T("%time%"), 6)) 
 			{
 				MIRANDA_IDLE_INFO mii = {0};
 				mii.cbSize = sizeof(mii);
@@ -112,7 +112,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 				}
 				else GetTimeFormat(LOCALE_USER_DEFAULT, TIME_NOSECONDS, NULL, NULL, substituteStr, SIZEOF(substituteStr));
 			}
-			else if (!_tcsnicmp(dbv.ptszVal + i, _T("%date%"), 6))
+			else if ( !_tcsnicmp(dbv.ptszVal + i, _T("%date%"), 6))
 				GetDateFormat(LOCALE_USER_DEFAULT, DATE_SHORTDATE, NULL, NULL, substituteStr, SIZEOF(substituteStr));
 			else continue;
 			if (lstrlen(substituteStr) > 6) 
@@ -175,7 +175,7 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 		for (int i=0; i < accounts.getCount(); i++)
 		{
 			PROTOACCOUNT* pa = accounts[i];
-			if (!Proto_IsAccountEnabled(pa)) continue;
+			if ( !Proto_IsAccountEnabled(pa)) continue;
 			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && 
 				!Proto_IsAccountLocked(pa))
 				CallProtoService(pa->szModuleName, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				TCHAR str[256], format[128];
 				GetWindowText(hwndDlg, format, SIZEOF(format));
 				mir_sntprintf(str, SIZEOF(str), format, cli.pfnGetStatusModeDescription(dat->statusMode, 0));
-				SetWindowText(hwndDlg, str );
+				SetWindowText(hwndDlg, str);
 			}
 			GetDlgItemText(hwndDlg, IDOK, dat->okButtonFormat, SIZEOF(dat->okButtonFormat));
 			{	
@@ -315,15 +315,15 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
   	if (protoModeMsgFlags == 0) return 0;
 
 	// If its a global change check the complete PFLAGNUM_3 flags to see if a popup might be needed
-	if (!szProto) 
+	if ( !szProto) 
 	{
-		if (!(protoModeMsgFlags & Proto_Status2Flag(statusMode)))
+		if ( !(protoModeMsgFlags & Proto_Status2Flag(statusMode)))
 			return 0;
 	}
 	else
 	{
 		// If its a single protocol check the PFLAGNUM_3 for the single protocol
-		if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) ||
+		if ( !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)  || 
 			!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 			return 0;
 	}
@@ -333,7 +333,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	{
 		ChangeAllProtoMessages(szProto, statusMode, NULL);
 	}
-	else if (bScreenSaverRunning || ((!GetAsyncKeyState(VK_CONTROL) || prochotkey) &&
+	else if (bScreenSaverRunning || (( !GetAsyncKeyState(VK_CONTROL) || prochotkey) &&
         DBGetContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(statusMode, "NoDlg"), 0))) 
 	{
 		TCHAR *msg = GetAwayMessage(statusMode, szProto);
@@ -389,7 +389,7 @@ static INT_PTR CALLBACK DlgProcAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			for (int i = 0; i < SIZEOF(statusModes); i++)
 			{
 				int j;
-				if (!(protoModeMsgFlags & Proto_Status2Flag(statusModes[i])))
+				if ( !(protoModeMsgFlags & Proto_Status2Flag(statusModes[i])))
 					continue;
 
 				if (hLst)
@@ -553,7 +553,7 @@ static int AwayMsgOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszGroup = LPGEN("Status");
 	odp.pfnDlgProc = DlgProcAwayMsgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
@@ -589,7 +589,7 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 	protoModeMsgFlags = 0;
 	for (int i=0; i < accounts.getCount(); i++) 
 	{
-		if (!Proto_IsAccountEnabled(accounts[i])) continue;
+		if ( !Proto_IsAccountEnabled(accounts[i])) continue;
 		protoModeMsgFlags |= CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 	}
 

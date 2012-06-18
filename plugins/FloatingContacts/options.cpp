@@ -114,7 +114,7 @@ OnOptionsInitialize
 	odp.ptszTab			 =  _T("Main Features");
 	odp.flags			 =  ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc		 =  (DLGPROC)OptWndProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize			 =  sizeof(odp);
@@ -125,7 +125,7 @@ OnOptionsInitialize
 	odp.ptszTab			 =  _T("Appearance");
 	odp.flags			 =  ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pfnDlgProc		 =  (DLGPROC)OptSknWndProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

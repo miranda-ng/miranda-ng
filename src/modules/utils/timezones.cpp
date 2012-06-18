@@ -138,7 +138,7 @@ static void CalcTsOffset(MIM_TIMEZONE *tz)
 	SystemTimeToFileTime(&st, &ft);
 	time_t ts1 = FileTimeToUnixTime(&ft);
 
-	if (!fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
+	if ( !fnSystemTimeToTzSpecificLocalTime(&tz->tzi, &st, &stl))
 		return;
 
 	SystemTimeToFileTime(&stl, &ft);
@@ -187,7 +187,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? NULL : &myInfo.myTZ;
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
+	if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
 	{
 		HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 		DBFreeVariant(&dbv);
@@ -198,7 +198,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 	if (timezone == -1)
 	{
 		char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		if (!DBGetContactSettingTString(hContact, szProto, "TzName", &dbv))
+		if ( !DBGetContactSettingTString(hContact, szProto, "TzName", &dbv))
 		{
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
 			DBFreeVariant(&dbv);
@@ -349,13 +349,13 @@ static const ListMessages cbMessages =
 
 static const ListMessages *GetListMessages(HWND hWnd, DWORD dwFlags)
 {
-	if (!(dwFlags & (TZF_PLF_CB | TZF_PLF_LB)))
+	if ( !(dwFlags & (TZF_PLF_CB | TZF_PLF_LB)))
 	{
 		TCHAR	tszClassName[128];
 		GetClassName(hWnd, tszClassName, SIZEOF(tszClassName));
-		if (!_tcsicmp(tszClassName, _T("COMBOBOX")))
+		if ( !_tcsicmp(tszClassName, _T("COMBOBOX")))
 			dwFlags |= TZF_PLF_CB;
-		else if (!_tcsicmp(tszClassName, _T("LISTBOX")))
+		else if ( !_tcsicmp(tszClassName, _T("LISTBOX")))
 			dwFlags |= TZF_PLF_LB;
 	}
 	if (dwFlags & TZF_PLF_CB)
@@ -379,7 +379,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 	if (hContact)
 	{
 		DBVARIANT dbv;
-		if (!DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
+		if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
 		{
 			unsigned hash = hashstr(dbv.ptszVal);
 			for (int i = 0; i < g_timezonesBias.getCount(); ++i)
@@ -442,7 +442,7 @@ static void timeapiStoreListResult(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 }
 
 
-static INT_PTR GetTimeApi( WPARAM, LPARAM lParam )
+static INT_PTR GetTimeApi(WPARAM, LPARAM lParam)
 {
 	TIME_API* tmi = (TIME_API*)lParam;
 	if (tmi == NULL)
@@ -542,9 +542,9 @@ void RecalculateTime(void)
 		MIM_TIMEZONE &tz = g_timezones[i];
 		if (tz.offset != INT_MIN) tz.offset = INT_MIN;
 
-		if (!found)
+		if ( !found)
 		{
-			if (!wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName) ||
+			if ( !wcscmp(tz.tzi.StandardName, myInfo.myTZ.tzi.StandardName)  || 
 				!wcscmp(tz.tzi.DaylightName, myInfo.myTZ.tzi.DaylightName))
 			{
 				_tcscpy(myInfo.myTZ.tszName, tz.tszName);

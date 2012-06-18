@@ -138,18 +138,18 @@ int gg_options_init(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_GG_GENERAL);
 	odp.pfnDlgProc = gg_genoptsdlgproc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("Conference");
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_GG_CONFERENCE);
 	odp.pfnDlgProc = gg_confoptsdlgproc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_GG_ADVANCED);
 	odp.pfnDlgProc = gg_advoptsdlgproc;
 	odp.flags |= ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
@@ -916,7 +916,7 @@ int gg_details_init(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = ((HANDLE)lParam != NULL) ? MAKEINTRESOURCE(IDD_INFO_GG) : MAKEINTRESOURCE(IDD_CHINFO_GG);
 		odp.ptszTitle = GG_PROTONAME;
 		odp.dwInitParam = (LPARAM)gg;
-		CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 	}
 
 	// Start search for user data

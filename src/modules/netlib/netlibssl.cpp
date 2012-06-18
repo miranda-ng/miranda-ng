@@ -146,7 +146,7 @@ static bool SSL_library_init(void)
 
 	WaitForSingleObject(g_hSslMutex, INFINITE); 
 
-	if (!bSslInitDone)
+	if ( !bSslInitDone)
 	{
 		g_hSchannel = LoadLibraryA("schannel.dll");
 		if (g_hSchannel)
@@ -197,12 +197,12 @@ void NetlibSslFree(SslHandle *ssl)
 
 BOOL NetlibSslPending(SslHandle *ssl)
 {
-	return ssl != NULL && ( ssl->cbRecDataBuf != 0 || ssl->cbIoBuffer != 0 );
+	return ssl != NULL && (ssl->cbRecDataBuf != 0 || ssl->cbIoBuffer != 0);
 }
 
 static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertFlags)
 {
-	if (!fnCertGetCertificateChain)
+	if ( !fnCertGetCertificateChain)
 		return true;
 
 	static LPSTR rgszUsages[] = 
@@ -238,7 +238,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	ChainPara.RequestedUsage.Usage.cUsageIdentifier     = SIZEOF(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
 
-	if (!fnCertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore, 
+	if ( !fnCertGetCertificateChain(NULL, pServerCert, NULL, pServerCert->hCertStore, 
 		&ChainPara, 0, NULL, &pChainContext))
 	{
 		scRet = GetLastError();
@@ -255,7 +255,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	PolicyStatus.cbSize = sizeof(PolicyStatus);
 
-	if (!fnCertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext, 
+	if ( !fnCertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext, 
 		&PolicyPara, &PolicyStatus))
 	{
 		scRet = GetLastError();
@@ -401,8 +401,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 
 		// If success (or if the error was one of the special extended ones), 
 		// send the contents of the output buffer to the server.
-		if (scRet == SEC_E_OK                ||
-			scRet == SEC_I_CONTINUE_NEEDED   ||
+		if (scRet == SEC_E_OK                 || 
+			scRet == SEC_I_CONTINUE_NEEDED    || 
 			(FAILED(scRet) && (dwSSPIOutFlags & ISC_RET_EXTENDED_ERROR)))
 		{
 			if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL) 
@@ -567,7 +567,7 @@ SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
 
 	DWORD dwFlags = 0;
 	
-	if (!host || inet_addr(host) != INADDR_NONE) 
+	if ( !host || inet_addr(host) != INADDR_NONE) 
 		dwFlags |= 0x00001000;
 
 	bool res = SSL_library_init();
@@ -575,7 +575,7 @@ SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
 	if (res) res = ClientConnect(ssl, host);
     if (res && verify) res = VerifyCertificate(ssl, host, dwFlags);
 
-	if (!res) 
+	if ( !res) 
 	{
 		NetlibSslFree(ssl); 
 		ssl = NULL;
@@ -666,7 +666,7 @@ static int NetlibSslReadSetResult(SslHandle *ssl, char *buf, int num, int peek)
 	int rbytes = ssl->cbRecDataBuf - bytes;
 
 	memcpy(buf, ssl->pbRecDataBuf, bytes);
-	if (!peek) 
+	if ( !peek) 
 	{
 		memmove(ssl->pbRecDataBuf, ssl->pbRecDataBuf + bytes, rbytes);
 		ssl->cbRecDataBuf = rbytes;
@@ -691,7 +691,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 	if (num <= 0) return 0;
 
-	if (ssl->state != sockOpen || (ssl->cbRecDataBuf != 0 && (!peek || ssl->cbRecDataBuf >= num)))
+	if (ssl->state != sockOpen || (ssl->cbRecDataBuf != 0 && ( !peek || ssl->cbRecDataBuf >= num)))
 	{
 		return NetlibSslReadSetResult(ssl, buf, num, peek);
 	}
@@ -783,7 +783,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		if (scRet == SEC_E_INCOMPLETE_MESSAGE)
 			continue;
 
-		if ( scRet != SEC_E_OK && scRet != SEC_I_RENEGOTIATE && scRet != SEC_I_CONTEXT_EXPIRED)
+		if (scRet != SEC_E_OK && scRet != SEC_I_RENEGOTIATE && scRet != SEC_I_CONTEXT_EXPIRED)
 		{
 			ReportSslError(scRet, __LINE__);
 			ssl->state = sockError;

@@ -82,7 +82,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
                     ++portnum;
 
                     if (s == INVALID_SOCKET) continue;
-                    if (!before && portnum <= *portn) continue;
+                    if ( !before && portnum <= *portn) continue;
                     if (before  && portnum >= *portn) 
                     {
 	                    LeaveCriticalSection(&csNetlibUser);
@@ -163,7 +163,7 @@ static unsigned __stdcall NetlibBindAcceptThread(void* param)
 		}
 
 		char *szHostA = NetlibAddressToString(&sin);
-		NetlibLogf(nlbp->nlu, "New incoming connection on port %u from %s (%p )", nlbp->wPort, szHostA, s);
+		NetlibLogf(nlbp->nlu, "New incoming connection on port %u from %s (%p)", nlbp->wPort, szHostA, s);
 		mir_free(szHostA);
 		nlc = (NetlibConnection*)mir_calloc(sizeof(NetlibConnection));
 		nlc->handleType = NLH_CONNECTION;
@@ -191,7 +191,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	int foundPort = 0;
 	UINT dwThreadId;
 
-	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
+	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING)  || 
 		nlb == NULL || nlb->pfnNewConnection == NULL) 
 	{
 		SetLastError(ERROR_INVALID_PARAMETER);
@@ -224,7 +224,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	they better have given wPort == 0, let's hope so */
 	if (nlu->settings.specifyIncomingPorts && nlu->settings.szIncomingPorts && nlb->wPort == 0) 
 	{
-		if (!BindSocketToPort(nlu->settings.szIncomingPorts, nlbp->s, nlbp->s6, &nlu->outportnum))
+		if ( !BindSocketToPort(nlu->settings.szIncomingPorts, nlbp->s, nlbp->s6, &nlu->outportnum))
 		{
 			NetlibLogf(nlu, "Netlib bind: Not enough ports for incoming connections specified");
 			SetLastError(WSAEADDRINUSE);
@@ -246,7 +246,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		{
 			SOCKADDR_IN sin = {0};
 			int len = sizeof(sin);
-			if (!getsockname(nlbp->s, (PSOCKADDR)&sin, &len))
+			if ( !getsockname(nlbp->s, (PSOCKADDR)&sin, &len))
 				sin6.sin6_port = sin.sin_port;
 			foundPort = 1;
 		}
@@ -254,7 +254,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		if (bind(nlbp->s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0) 
 			foundPort = 1;
 	}
-	if (!foundPort) 
+	if ( !foundPort) 
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
 		closesocket(nlbp->s);
@@ -284,12 +284,12 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	{	
 		SOCKADDR_INET_M sin = {0};
 		int len = sizeof(sin);
-		if (!getsockname(nlbp->s, (PSOCKADDR)&sin, &len))
+		if ( !getsockname(nlbp->s, (PSOCKADDR)&sin, &len))
 		{
 			nlb->wPort = ntohs(sin.Ipv4.sin_port);
 			nlb->dwInternalIP = ntohl(sin.Ipv4.sin_addr.S_un.S_addr);
 		}
-		else if (!getsockname(nlbp->s6, (PSOCKADDR)&sin, &len))
+		else if ( !getsockname(nlbp->s6, (PSOCKADDR)&sin, &len))
 			nlb->wPort = ntohs(sin.Ipv6.sin6_port);
 		else
 		{

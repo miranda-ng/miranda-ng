@@ -937,13 +937,13 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = DlgProcOptions1;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.position = 910000001;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
 	odp.pszTab = LPGEN("Chat Log");
 	odp.pfnDlgProc = DlgProcOptions2;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	if (PopUpInstalled) {
 		odp.position = 910000002;
@@ -952,7 +952,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTab = NULL;
 		odp.pfnDlgProc = DlgProcOptionsPopup;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }

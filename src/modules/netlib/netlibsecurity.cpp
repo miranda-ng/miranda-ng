@@ -123,7 +123,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 
 	WaitForSingleObject(hSecMutex, INFINITE);
 
-	if (secCnt == 0 ) 
+	if (secCnt == 0) 
 	{
 		LoadSecurityLibrary();
 		secCnt += g_hSecurity != NULL;
@@ -188,7 +188,7 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 
 char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chlsz)
 {
-	if (!szChallenge || !szChallenge[0]) return NULL;
+	if ( !szChallenge || !szChallenge[0]) return NULL;
 
 	NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 	unsigned char inDataBuffer[1024];
@@ -257,7 +257,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	nlb64.pbDecoded = response;
 	nlb64.cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64.cbDecoded);
 	nlb64.pszEncoded = (char*)alloca(nlb64.cchEncoded);
-	if (!NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
+	if ( !NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
 
 	return mir_strdup(nlb64.pszEncoded);
 } 
@@ -287,7 +287,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			nlb64.pszEncoded = (char*)szChallenge;
 			nlb64.cbDecoded = Netlib_GetBase64DecodedBufferSize(nlb64.cchEncoded);
 			nlb64.pbDecoded = (PBYTE)alloca(nlb64.cbDecoded);
-			if (!NetlibBase64Decode(0, (LPARAM)&nlb64)) return NULL;
+			if ( !NetlibBase64Decode(0, (LPARAM)&nlb64)) return NULL;
 
 			if (isGSSAPI && complete)
 				return CompleteGssapi(hSecurity, nlb64.pbDecoded, nlb64.cbDecoded);
@@ -302,8 +302,8 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			// try to decode the domain name from the NTLM challenge
 			if (login != NULL && login[0] != '\0' && !hNtlm->hasDomain) 
 			{
-				NtlmType2packet* pkt = ( NtlmType2packet* )nlb64.pbDecoded;
-				if (!strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2) 
+				NtlmType2packet* pkt = (NtlmType2packet*)nlb64.pbDecoded;
+				if ( !strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2) 
 				{
 
 					wchar_t* domainName = (wchar_t*)&nlb64.pbDecoded[pkt->targetName.offset];
@@ -421,7 +421,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 	}
 	else
 	{
-		if (!login || !psw) return NULL;
+		if ( !login || !psw) return NULL;
 
 		char *szLogin = mir_t2a(login);
 		char *szPassw = mir_t2a(psw);
@@ -439,7 +439,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 	nlb64.cchEncoded = Netlib_GetBase64EncodedBufferSize(nlb64.cbDecoded);
 	nlb64.pszEncoded = (char*)alloca(nlb64.cchEncoded);
-	if (!NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
+	if ( !NetlibBase64Encode(0, (LPARAM)&nlb64)) return NULL;
 
 	char* result;
 	if (http)
@@ -466,7 +466,7 @@ static INT_PTR InitSecurityProviderService(WPARAM, LPARAM lParam)
 
 static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
 {
-	NETLIBNTLMINIT2 *req = ( NETLIBNTLMINIT2* )lParam;
+	NETLIBNTLMINIT2 *req = (NETLIBNTLMINIT2*)lParam;
 	if (req->cbSize < sizeof(*req)) return 0;
 
 	HANDLE hSecurity;
@@ -481,26 +481,26 @@ static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
 	return (INT_PTR)hSecurity;
 }
 
-static INT_PTR DestroySecurityProviderService( WPARAM, LPARAM lParam )
+static INT_PTR DestroySecurityProviderService(WPARAM, LPARAM lParam)
 {
-	NetlibDestroySecurityProvider(( HANDLE )lParam );
+	NetlibDestroySecurityProvider((HANDLE)lParam);
 	return 0;
 }
 
-static INT_PTR NtlmCreateResponseService( WPARAM wParam, LPARAM lParam )
+static INT_PTR NtlmCreateResponseService(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBNTLMREQUEST* req = ( NETLIBNTLMREQUEST* )lParam;
+	NETLIBNTLMREQUEST* req = (NETLIBNTLMREQUEST*)lParam;
 	unsigned complete;
 
-	char* response = NtlmCreateResponseFromChallenge(( HANDLE )wParam, req->szChallenge, 
-		StrConvT(req->userName), StrConvT(req->password), false, complete );
+	char* response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
+		StrConvT(req->userName), StrConvT(req->password), false, complete);
 
 	return (INT_PTR)response;
 }
 
-static INT_PTR NtlmCreateResponseService2( WPARAM wParam, LPARAM lParam )
+static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 {
-	NETLIBNTLMREQUEST2* req = ( NETLIBNTLMREQUEST2* )lParam;
+	NETLIBNTLMREQUEST2* req = (NETLIBNTLMREQUEST2*)lParam;
 	if (req->cbSize < sizeof(*req)) return 0;
 
 	char* response;
@@ -508,15 +508,15 @@ static INT_PTR NtlmCreateResponseService2( WPARAM wParam, LPARAM lParam )
 
 	if (req->flags & NNR_UNICODE)
 	{
-		response = NtlmCreateResponseFromChallenge(( HANDLE )wParam, req->szChallenge, 
-			req->szUserName, req->szPassword, false, req->complete );
+		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
+			req->szUserName, req->szPassword, false, req->complete);
 	}
 	else
 	{
 		TCHAR *szLogin = mir_a2t((char*)req->szUserName);
 		TCHAR *szPassw = mir_a2t((char*)req->szPassword);
-		response = NtlmCreateResponseFromChallenge(( HANDLE )wParam, req->szChallenge, 
-			szLogin, szPassw, false, req->complete );
+		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
+			szLogin, szPassw, false, req->complete);
 		mir_free(szLogin);
 		mir_free(szPassw);
 	}
@@ -529,11 +529,11 @@ void NetlibSecurityInit(void)
 {
 	hSecMutex = CreateMutex(NULL, FALSE, NULL);
 
-	CreateServiceFunction( MS_NETLIB_INITSECURITYPROVIDER, InitSecurityProviderService );
-	CreateServiceFunction( MS_NETLIB_INITSECURITYPROVIDER2, InitSecurityProviderService2 );
-	CreateServiceFunction( MS_NETLIB_DESTROYSECURITYPROVIDER, DestroySecurityProviderService );
-	CreateServiceFunction( MS_NETLIB_NTLMCREATERESPONSE, NtlmCreateResponseService );
-	CreateServiceFunction( MS_NETLIB_NTLMCREATERESPONSE2, NtlmCreateResponseService2 );
+	CreateServiceFunction(MS_NETLIB_INITSECURITYPROVIDER, InitSecurityProviderService);
+	CreateServiceFunction(MS_NETLIB_INITSECURITYPROVIDER2, InitSecurityProviderService2);
+	CreateServiceFunction(MS_NETLIB_DESTROYSECURITYPROVIDER, DestroySecurityProviderService);
+	CreateServiceFunction(MS_NETLIB_NTLMCREATERESPONSE, NtlmCreateResponseService);
+	CreateServiceFunction(MS_NETLIB_NTLMCREATERESPONSE2, NtlmCreateResponseService2);
 }
 
 void NetlibSecurityDestroy(void)

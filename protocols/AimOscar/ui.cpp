@@ -761,12 +761,12 @@ int CAimProto::OnUserInfoInit(WPARAM wParam,LPARAM lParam)
 		odp.ptszTab = LPGENT("Profile");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = userinfo_dialog;
-		CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 
 		odp.ptszTab = LPGENT("Admin");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADMIN);
 		odp.pfnDlgProc = admin_dialog;
-		CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 	}
 	return 0;
 }
@@ -1159,13 +1159,13 @@ int CAimProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AIM);
 	odp.pfnDlgProc = options_dialog;
 	odp.nIDBottomSimpleControl = IDC_OPTIONS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 	
 	odp.ptszTab     = LPGENT("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PRIVACY);
 	odp.pfnDlgProc  = privacy_dialog;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

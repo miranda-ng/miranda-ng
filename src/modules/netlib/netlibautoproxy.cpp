@@ -90,7 +90,7 @@ BOOL __stdcall IsInNet(LPSTR lpszIPAddress, LPSTR lpszDest, LPSTR lpszMask)
 	dwDest = inet_addr(lpszDest);
 	dwMask = inet_addr(lpszMask);
 
-	if ((dwDest == INADDR_NONE) ||
+	if ((dwDest == INADDR_NONE)  || 
 		(dwIpAddr == INADDR_NONE) || ((dwIpAddr & dwMask) != dwDest))
 		return (FALSE);
 
@@ -234,9 +234,9 @@ static void NetlibInitAutoProxy(void)
 {
 	if (bAutoProxyInit) return;
 
-	if (!hModJS)
+	if ( !hModJS)
 	{
-		if (!(hModJS = LoadLibraryA("jsproxy.dll")))
+		if ( !(hModJS = LoadLibraryA("jsproxy.dll")))
 			return;
 
 		pInternetInitializeAutoProxyDll = (pfnInternetInitializeAutoProxyDll)
@@ -269,7 +269,7 @@ static unsigned __stdcall NetlibIeProxyThread(void * arg)
 	IeProxyParam *param = (IeProxyParam*)arg;
 	param->szProxy = NULL;
 
-	if (!bAutoProxyInit)
+	if ( !bAutoProxyInit)
 	{
 		WaitForSingleObject(hIeProxyMutex, INFINITE);
 		NetlibInitAutoProxy();

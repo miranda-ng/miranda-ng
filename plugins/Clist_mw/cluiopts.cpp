@@ -50,7 +50,7 @@ int CluiOptInit(WPARAM wParam,LPARAM lParam)
 	odp.nIDBottomSimpleControl = IDC_STWINDOWGROUP;
 	odp.expertOnlyControls = expertOnlyControls;
 	odp.nExpertOnlyControls = sizeof(expertOnlyControls)/sizeof(expertOnlyControls[0]);
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
 	odp.pszTitle = LPGEN("Status Bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
@@ -58,7 +58,7 @@ int CluiOptInit(WPARAM wParam,LPARAM lParam)
 	odp.nIDBottomSimpleControl = 0;
 	odp.nExpertOnlyControls = 0;
 	odp.expertOnlyControls = NULL;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 	return 0;
 }
 

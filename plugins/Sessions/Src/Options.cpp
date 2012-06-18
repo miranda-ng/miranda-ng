@@ -567,6 +567,6 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.ptszGroup=LPGENT("Message Sessions");
 	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
 
-	CallService(MS_OPT_ADDPAGE,wparam,(LPARAM)&odp);
+	Options_AddPage(wparam,&odp);
 	return 0;
 }

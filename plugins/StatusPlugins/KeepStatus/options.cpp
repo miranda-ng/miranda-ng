@@ -590,7 +590,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 
 	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_OPT_TABS);
 	odp.pfnDlgProc	= DlgProcKsTabs;
-	CallService(MS_OPT_ADDPAGE,wparam,(LPARAM)&odp);
+	Options_AddPage(wparam,&odp);
 
 	if ( ServiceExists( MS_POPUP_ADDPOPUP )) {
 		ZeroMemory(&odp,sizeof(odp));
@@ -603,7 +603,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 		odp.pszTitle = LPGEN("KeepStatus");
 		odp.pfnDlgProc = PopupOptDlgProc;
 		odp.flags = ODPF_BOLDGROUPS;
-		CallService(MS_OPT_ADDPAGE,wparam,(LPARAM)&odp);
+		Options_AddPage(wparam,&odp);
 	}
 
 	return 0;

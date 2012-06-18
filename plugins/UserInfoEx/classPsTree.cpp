@@ -134,26 +134,21 @@ INT CPsTree::AddDummyItem(LPCSTR pszGroup)
 	if (mir_stricmp(pszGroup, TREE_ROOTITEM)) 
 	{
 		CPsHdr psh;
-		OPTIONSDIALOGPAGE odp;
-		INT rc;
-
 		psh._hContact = _pPs->hContact;
 		psh._pszProto = _pPs->pszProto;
 		psh._hImages	= _hImages;
 		psh._pPages	 = _pItems;
 		psh._numPages = _numItems;
 
-		ZeroMemory(&odp, sizeof(odp));
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.cbSize = sizeof(odp);
 		odp.hInstance = ghInst;
 		odp.flags = ODPF_TCHAR;
 		odp.ptszTitle = mir_utf8decodeT(pszGroup);
 		
-		rc = CallService(MS_USERINFO_ADDPAGE, (WPARAM)&psh, (LPARAM)&odp);
+		INT_PTR rc = UserInfo_AddPage((WPARAM)&psh, &odp);
 		mir_free(odp.ptszTitle);
-
-		if (!rc) 
-		{
+		if (!rc) {
 			_pItems = psh._pPages;
 			_numItems = psh._numPages;
 			return _numItems - 1;

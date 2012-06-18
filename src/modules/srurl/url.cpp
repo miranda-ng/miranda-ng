@@ -56,9 +56,9 @@ static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
 	cle.flags = CLEF_TCHAR;
 	cle.hContact=(HANDLE)wParam;
 	cle.hDbEvent=(HANDLE)lParam;
-	cle.hIcon = LoadSkinIcon( SKINICON_EVENT_URL );
+	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService="SRUrl/ReadUrl";
-	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), cli.pfnGetContactDisplayName(( HANDLE )wParam, 0 ));
+	mir_sntprintf(szTooltip, SIZEOF(szTooltip), TranslateT("URL from %s"), cli.pfnGetContactDisplayName((HANDLE)wParam, 0));
 	cle.ptszTooltip=szTooltip;
 	CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 	return 0;
@@ -79,7 +79,7 @@ static void RestoreUnreadUrlAlerts(void)
 
 	dbei.cbSize=sizeof(dbei);
 	cle.cbSize=sizeof(cle);
-	cle.hIcon = LoadSkinIcon( SKINICON_EVENT_URL );
+	cle.hIcon = LoadSkinIcon(SKINICON_EVENT_URL);
 	cle.pszService="SRUrl/ReadUrl";
 
 	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
@@ -88,11 +88,11 @@ static void RestoreUnreadUrlAlerts(void)
 		while (hDbEvent) {
 			dbei.cbBlob=0;
 			CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-			if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_URL) {
+			if ( !(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType == EVENTTYPE_URL) {
 				cle.hContact=hContact;
 				cle.hDbEvent=hDbEvent;
 				cle.flags = CLEF_TCHAR;
-				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), cli.pfnGetContactDisplayName( hContact, 0 ));
+				mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("URL from %s"), cli.pfnGetContactDisplayName(hContact, 0));
 				cle.ptszTooltip=toolTip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 			}
@@ -120,11 +120,11 @@ static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-	if ( szProto != NULL )
-		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND )
+	if (szProto != NULL)
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
 			mi.flags = CMIM_FLAGS;
 
-	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hSRUrlMenuItem, (LPARAM)&mi );
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSRUrlMenuItem, (LPARAM)&mi);
 	return 0;
 }
 
@@ -134,7 +134,7 @@ static int SRUrlModulesLoaded(WPARAM, LPARAM)
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000040000;
 	mi.flags = CMIF_ICONFROMICOLIB;
-	mi.icolibItem = GetSkinIconHandle( SKINICON_EVENT_URL );
+	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_URL);
 	mi.pszName = LPGEN("Web Page Address (&URL)");
 	mi.pszService = MS_URL_SENDURL;
 	hSRUrlMenuItem = Menu_AddContactMenuItem(&mi);
@@ -145,14 +145,14 @@ static int SRUrlModulesLoaded(WPARAM, LPARAM)
 
 static int SRUrlShutdown(WPARAM, LPARAM)
 {
-	if ( hEventContactSettingChange )
-		UnhookEvent( hEventContactSettingChange );
+	if (hEventContactSettingChange)
+		UnhookEvent(hEventContactSettingChange);
 
-	if ( hContactDeleted )
-		UnhookEvent( hContactDeleted );
+	if (hContactDeleted)
+		UnhookEvent(hContactDeleted);
 
-	if ( hUrlWindowList )
-		WindowList_BroadcastAsync( hUrlWindowList, WM_CLOSE, 0, 0 );
+	if (hUrlWindowList)
+		WindowList_BroadcastAsync(hUrlWindowList, WM_CLOSE, 0, 0);
 
 	return 0;
 }
@@ -160,7 +160,7 @@ static int SRUrlShutdown(WPARAM, LPARAM)
 int UrlContactDeleted(WPARAM wParam, LPARAM)
 {
 	HWND h = WindowList_Find(hUrlWindowList, (HANDLE)wParam);
-	if ( h )
+	if (h)
 		SendMessage(h, WM_CLOSE, 0, 0);
 
 	return 0;

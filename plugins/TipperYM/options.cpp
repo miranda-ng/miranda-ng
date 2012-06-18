@@ -2430,14 +2430,14 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup					= LPGENT("Customize");
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOptsAppearance;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_SKIN);
 	odp.ptszTab						= LPGENT("Tooltips");
 	odp.ptszGroup					= LPGENT("Skins");
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOptsSkin;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_CONTENT);
 	odp.ptszTab						= LPGENT("Content");
@@ -2445,7 +2445,7 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup					= LPGENT("Customize");
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOptsContent;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_TRAYTIP);
 	odp.ptszTab						= LPGENT("Tray tooltip");
@@ -2454,14 +2454,14 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOptsTraytip;
 
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_EXTRA);
 	odp.ptszTab						= LPGENT("Extra");
 	odp.ptszTitle					= LPGENT("Tooltips");
 	odp.ptszGroup					= LPGENT("Customize");
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOptsExtra;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

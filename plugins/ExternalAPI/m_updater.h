@@ -59,10 +59,6 @@ __inline static char *CreateVersionString(DWORD version, char *buf) {
 	return buf;
 }
 
-__inline static char *CreateVersionStringPlugin(PLUGININFO *pluginInfo, char *buf) {
-	return CreateVersionString(pluginInfo->version, buf);
-}
-
 __inline static char *CreateVersionStringPluginEx(PLUGININFOEX *pluginInfo, char *buf) {
 	return CreateVersionString(pluginInfo->version, buf);
 }

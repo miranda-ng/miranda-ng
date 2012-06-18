@@ -381,17 +381,17 @@ INT_PTR __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab     = LPGENT("Account");
 	odp.pfnDlgProc  = DlgProcYahooOpts;
 	odp.dwInitParam = LPARAM(this);
-	YAHOO_CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = LPGENT("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO_CONNECTION);
 	odp.pfnDlgProc  = DlgProcYahooOptsConn;
-	YAHOO_CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 	
 	odp.ptszTab     = LPGENT("Ignore List");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO_IGNORE);
 	odp.pfnDlgProc  = DlgProcYahooOptsIgnore;
-	YAHOO_CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

@@ -44,7 +44,7 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

@@ -73,7 +73,7 @@ static int DoDdeRequest(const char *szItemName, HWND hwndDdeMsg)
 	struct DdeMsgWindowData *dat=(struct DdeMsgWindowData*)GetWindowLongPtr(hwndDdeMsg, 0);
 
 	hSzItemName=GlobalAddAtomA(szItemName);
-	if (!PostMessage(dat->hwndDde, WM_DDE_REQUEST, (WPARAM)hwndDdeMsg, MAKELPARAM(CF_TEXT, hSzItemName))) {
+	if ( !PostMessage(dat->hwndDde, WM_DDE_REQUEST, (WPARAM)hwndDdeMsg, MAKELPARAM(CF_TEXT, hSzItemName))) {
 		GlobalDeleteAtom(hSzItemName);
 		return 1;
 	}
@@ -89,7 +89,7 @@ static int DoDdeRequest(const char *szItemName, HWND hwndDdeMsg)
 		if (thisTick>timeoutTick) break;
 	} while (MsgWaitForMultipleObjects(0, NULL, FALSE, timeoutTick-thisTick, QS_ALLINPUT) == WAIT_OBJECT_0);
 
-	if (!dat->fData) {
+	if ( !dat->fData) {
 		GlobalDeleteAtom(hSzItemName);
 		return 1;
 	}
@@ -107,7 +107,7 @@ static int DdeOpenUrl(const char *szBrowser, char *szUrl, int newWindow, HWND hw
 	hSzBrowser=GlobalAddAtomA(szBrowser);
 	hSzTopic=GlobalAddAtomA("WWW_OpenURL");
 	dat->fAcked=0;
-	if (!SendMessageTimeout(HWND_BROADCAST, WM_DDE_INITIATE, (WPARAM)hwndDdeMsg, MAKELPARAM(hSzBrowser, hSzTopic), SMTO_ABORTIFHUNG|SMTO_NORMAL, DDEMESSAGETIMEOUT, &dwResult)
+	if ( !SendMessageTimeout(HWND_BROADCAST, WM_DDE_INITIATE, (WPARAM)hwndDdeMsg, MAKELPARAM(hSzBrowser, hSzTopic), SMTO_ABORTIFHUNG|SMTO_NORMAL, DDEMESSAGETIMEOUT, &dwResult)
 	   || !dat->fAcked) {
 		GlobalDeleteAtom(hSzTopic);
 		GlobalDeleteAtom(hSzBrowser);
@@ -146,13 +146,13 @@ static void OpenURLThread(void *arg)
 	DWORD dataLength;
 	int success=0;
     
-   if (!hUrlInfo->szUrl) return;
+   if ( !hUrlInfo->szUrl) return;
 	hwndDdeMsg=CreateWindow(WNDCLASS_DDEMSGWINDOW, _T(""), 0, 0, 0, 0, 0, NULL, NULL, hMirandaInst, NULL);
 	SetWindowLongPtr(hwndDdeMsg, 0, (LONG_PTR)&msgWndData);
 
-	if (!_strnicmp(hUrlInfo->szUrl, "ftp:", 4) || !_strnicmp(hUrlInfo->szUrl, "ftp.", 4)) pszProtocol="ftp";
-	if (!_strnicmp(hUrlInfo->szUrl, "mailto:", 7)) pszProtocol="mailto";
-	if (!_strnicmp(hUrlInfo->szUrl, "news:", 5)) pszProtocol="news";
+	if ( !_strnicmp(hUrlInfo->szUrl, "ftp:", 4) || !_strnicmp(hUrlInfo->szUrl, "ftp.", 4)) pszProtocol="ftp";
+	if ( !_strnicmp(hUrlInfo->szUrl, "mailto:", 7)) pszProtocol="mailto";
+	if ( !_strnicmp(hUrlInfo->szUrl, "news:", 5)) pszProtocol="news";
 	else pszProtocol="http";
 	wsprintfA(szSubkey, "%s\\shell\\open\\command", pszProtocol);
 	if (RegOpenKeyExA(HKEY_CURRENT_USER, szSubkey, 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS
@@ -184,7 +184,7 @@ static void OpenURLThread(void *arg)
 		for (i=0;isalpha(hUrlInfo->szUrl[i]);i++);
 		if (hUrlInfo->szUrl[i] == ':') szResult=mir_strdup(hUrlInfo->szUrl);
 		else {
-			if (!_strnicmp(hUrlInfo->szUrl, "ftp.", 4)) {
+			if ( !_strnicmp(hUrlInfo->szUrl, "ftp.", 4)) {
 				szResult=(char*)mir_alloc(lstrlenA(hUrlInfo->szUrl)+7);
 				wsprintfA(szResult, "ftp://%s", hUrlInfo->szUrl);
 			}

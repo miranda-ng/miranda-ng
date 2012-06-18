@@ -498,14 +498,14 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle    = Translate("Buddy Expectator");
 	odp.pfnDlgProc  = OptionsFrameProc;
     odp.flags       = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUP))
 	{
         odp.pszGroup    = Translate("PopUps");
 	    odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUPPANEL);
     	odp.pfnDlgProc  = PopUpOptionsFrameProc;
-	    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	    Options_AddPage(wParam, &odp);
     }
 
 	return 0;
@@ -609,7 +609,7 @@ int UserinfoInit(WPARAM wparam, LPARAM lparam)
 		uip.pszTitle = Translate("Buddy Expectator");
 		uip.pfnDlgProc = UserinfoDlgProc;
 
-		CallService(MS_USERINFO_ADDPAGE, wparam, (LPARAM)&uip);
+		UserInfo_AddPage(wparam, &uip);
 	}
 	return 0;
 }

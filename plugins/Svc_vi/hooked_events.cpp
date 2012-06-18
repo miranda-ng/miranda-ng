@@ -91,7 +91,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.expertOnlyControls = uiExpertOnlyControls;
 	odp.nExpertOnlyControls = 2;
 	
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_BUTTON_H__
 #define M_BUTTON_H__ 1
 
-#define MIRANDABUTTONCLASS	_T( "MButtonClass" ) // Class of the control
+#define MIRANDABUTTONCLASS	_T("MButtonClass") // Class of the control
 
 
 // Sets whether a dropdown arrow is used
@@ -58,7 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // lParam = not used
 // Usage: SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)"My Tip", BATF_* flags);
 #define BATF_UNICODE 1
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define BATF_TCHAR BATF_UNICODE
 #else
 	#define BATF_TCHAR 0

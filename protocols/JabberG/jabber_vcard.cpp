@@ -1223,32 +1223,32 @@ void CJabberProto::OnUserInfoInit_VCard( WPARAM wParam, LPARAM )
 	odp.pfnDlgProc = PersonalDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PERSONAL);
 	odp.ptszTab = LPGENT("General");
-	JCallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = ContactDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_CONTACT);
 	odp.ptszTab = LPGENT("Contacts");
-	JCallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = HomeDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_HOME);
 	odp.ptszTab = LPGENT("Home");
-	JCallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = WorkDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_WORK);
 	odp.ptszTab = LPGENT("Work");
-	JCallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = PhotoDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
 	odp.ptszTab = LPGENT("Photo");
-	JCallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	odp.pfnDlgProc = NoteDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_NOTE);
 	odp.ptszTab = LPGENT("Note");
-	JCallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	SendGetVcard( m_szJabberJID );
 }

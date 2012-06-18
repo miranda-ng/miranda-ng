@@ -286,7 +286,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTitle=LPGENT("Contact List");
 	odp.pfnDlgProc=DlgProcClistListOpts;
 	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	//CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);  
+	//Options_AddPage(wParam,&odp);  
 	{
 		int i;	
 		for (i=0; clist_opt_items[i].id!=0; i++)
@@ -297,7 +297,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 			odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR|clist_opt_items[i].flag;
 			odp.expertOnlyControls = clist_opt_items[i].expertControls;
 			odp.nExpertOnlyControls = clist_opt_items[i].nExpertControls;
-			CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+			Options_AddPage(wParam,&odp);
 		}
 	}
 
@@ -309,7 +309,7 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 		odp.ptszTab  = LPGENT("List Background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+		Options_AddPage(wParam, &odp);
 	}
 	
 	return 0;

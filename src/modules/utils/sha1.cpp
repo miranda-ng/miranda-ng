@@ -162,9 +162,9 @@ static void shaHashBlock(mir_sha1_ctx *ctx) {
 INT_PTR GetSHA1Interface(WPARAM, LPARAM lParam)
 {
 	struct SHA1_INTERFACE *sha1i = (struct SHA1_INTERFACE*) lParam;
-	if ( sha1i == NULL )
+	if (sha1i == NULL)
 		return 1;
-	if ( sha1i->cbSize != sizeof( struct SHA1_INTERFACE ))
+	if (sha1i->cbSize != sizeof(struct SHA1_INTERFACE))
 		return 1;
 
 	sha1i->sha1_init = shaInit;

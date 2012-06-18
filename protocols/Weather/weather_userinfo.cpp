@@ -44,7 +44,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 	{
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
 		odp.pfnDlgProc = DlgProcINIPage;
-		CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 	}
 	else
 	{
@@ -55,7 +55,7 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam)
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 			odp.pfnDlgProc = DlgProcUIPage;
 			odp.flags = ODPF_BOLDGROUPS;
-			CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+			UserInfo_AddPage(wParam, &odp);
 		}
 	}
 

@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				else
 					mir_sntprintf(name, SIZEOF(name), _T("%s"), nickT);
 			}
-			if (!name[0])
+			if ( !name[0])
 				_tcscpy(name, TranslateT("<Unknown>"));
 
 			TCHAR hdr[256];
@@ -210,7 +210,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				else
 					mir_sntprintf(name, SIZEOF(name), _T("%s"), nickT);
 			}
-			if (!name[0])
+			if ( !name[0])
 				_tcscpy(name, TranslateT("<Unknown>"));
 
 			TCHAR hdr[256];
@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DENYREASON), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DENYREASON, TranslateT("Feature is not supported by protocol"));
 			}
-			if (!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+			if ( !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ADDCHECK), FALSE);
 				CheckDlgButton(hwndDlg, IDC_ADDCHECK, BST_UNCHECKED);

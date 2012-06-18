@@ -78,7 +78,7 @@ static int Ucs2toUtf8Len(const wchar_t *src, unsigned int srclen)
             len += 2;
             continue;
         }
-        if (!(val = getSurrogateValue(src, srclen)))
+        if ( !(val = getSurrogateValue(src, srclen)))
         {
             return -2;
         }
@@ -96,10 +96,10 @@ static int Ucs2toUtf8Len(const wchar_t *src, unsigned int srclen)
 
 int Ucs2toUtf8Len(const wchar_t *src)
 {
-	if ( src == 0 )
+	if (src == 0)
 		return 0;
 
-	return Ucs2toUtf8Len( src, (int)wcslen( src ));
+	return Ucs2toUtf8Len(src, (int)wcslen(src));
 }
 
 /* wide char to UTF-8 string conversion */
@@ -115,7 +115,7 @@ int Ucs2toUtf8(const wchar_t *src, int srclen, char *dst, int dstlen)
 
         if (ch < 0x80)  /* 0x00-0x7f: 1 byte */
         {
-            if (!len--) return -1;  /* overflow */
+            if ( !len--) return -1;  /* overflow */
             *dst++ = ch;
             continue;
         }
@@ -130,7 +130,7 @@ int Ucs2toUtf8(const wchar_t *src, int srclen, char *dst, int dstlen)
             continue;
         }
 
-        if (!(val = getSurrogateValue(src, srclen)))
+        if ( !(val = getSurrogateValue(src, srclen)))
         {
             return -2;
         }
@@ -259,7 +259,7 @@ char* Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2)
 	int len; 
 	bool needs_free = false;
 	wchar_t* tempBuf = NULL;
-	if ( ucs2 )
+	if (ucs2)
 		*ucs2 = NULL;
 
 	if (str == NULL)
@@ -292,9 +292,9 @@ char* Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2)
 		}
 	}
 
-	if ( tempBuf == NULL ) {
+	if (tempBuf == NULL) {
 		tempBuf = (wchar_t*)mir_alloc((destlen + 1) * sizeof(wchar_t));
-		if ( tempBuf == NULL )
+		if (tempBuf == NULL)
 			return NULL;
 	}
 

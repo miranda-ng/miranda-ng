@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_png.h"
 #include "m_imgsrvc.h"
 
-static INT_PTR sttBitmapLoader( const TCHAR* ptszFileName )
+static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 {
 	IPicture *pic;
 	HBITMAP hBmp, hBmpCopy;
@@ -36,63 +36,63 @@ static INT_PTR sttBitmapLoader( const TCHAR* ptszFileName )
 	short picType;
 
 	TCHAR szFilename[MAX_PATH];
-	if ( !pathToAbsoluteT(ptszFileName, szFilename, NULL ))
+	if ( !pathToAbsoluteT(ptszFileName, szFilename, NULL))
 		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s"), ptszFileName);
 
 	int filenameLen = lstrlen(szFilename);
-	if ( filenameLen > 4 ) {
+	if (filenameLen > 4) {
 		TCHAR* pszExt = szFilename + filenameLen - 4;
 
-		if ( ServiceExists( MS_IMG_LOAD ))
-			return CallService( MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR );
+		if (ServiceExists(MS_IMG_LOAD))
+			return CallService(MS_IMG_LOAD, (WPARAM)szFilename, IMGL_TCHAR);
 
-		if ( !lstrcmpi( pszExt, _T(".bmp")) || !lstrcmpi( pszExt, _T(".rle"))) {
+		if ( !lstrcmpi(pszExt, _T(".bmp")) || !lstrcmpi(pszExt, _T(".rle"))) {
 			//LoadImage can do this much faster
-			return (INT_PTR)LoadImage( hMirandaInst, szFilename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE );
+			return (INT_PTR)LoadImage(hMirandaInst, szFilename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		}
 
-		if ( !lstrcmpi( pszExt, _T(".png"))) {
+		if ( !lstrcmpi(pszExt, _T(".png"))) {
 			HANDLE hFile, hMap = NULL;
 			BYTE* ppMap = NULL;
 			INT_PTR  cbFileSize = 0;
 			BITMAPINFOHEADER* pDib;
 			BYTE* pDibBits;
 
-			if ( !ServiceExists( MS_PNG2DIB )) {
-				MessageBox( NULL, TranslateT( "You need an image services plugin to process PNG images." ), TranslateT( "Error" ), MB_OK );
+			if ( !ServiceExists(MS_PNG2DIB)) {
+				MessageBox(NULL, TranslateT("You need an image services plugin to process PNG images."), TranslateT("Error"), MB_OK);
 				return 0;
 			}
 
-			if (( hFile = CreateFile( szFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL )) != INVALID_HANDLE_VALUE )
-				if (( hMap = CreateFileMapping( hFile, NULL, PAGE_READONLY, 0, 0, NULL )) != NULL )
-					if (( ppMap = ( BYTE* )MapViewOfFile( hMap, FILE_MAP_READ, 0, 0, 0 )) != NULL )
-						cbFileSize = GetFileSize( hFile, NULL );
+			if ((hFile = CreateFile(szFilename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL)) != INVALID_HANDLE_VALUE)
+				if ((hMap = CreateFileMapping(hFile, NULL, PAGE_READONLY, 0, 0, NULL)) != NULL)
+					if ((ppMap = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0)) != NULL)
+						cbFileSize = GetFileSize(hFile, NULL);
 
-			if ( cbFileSize != 0 ) {
+			if (cbFileSize != 0) {
 				PNG2DIB param;
 				param.pSource = ppMap;
 				param.cbSourceSize = cbFileSize;
 				param.pResult = &pDib;
-				if ( CallService( MS_PNG2DIB, 0, ( LPARAM )&param )) {
-					pDibBits = ( BYTE* )( pDib+1 );
-					HDC sDC = GetDC( NULL );
-					HBITMAP hBitmap = CreateDIBitmap( sDC, pDib, CBM_INIT, pDibBits, ( BITMAPINFO* )pDib, DIB_PAL_COLORS );
-					SelectObject( sDC, hBitmap );
-					ReleaseDC( NULL, sDC );
-					GlobalFree( pDib );
+				if (CallService(MS_PNG2DIB, 0, (LPARAM)&param)) {
+					pDibBits = (BYTE*)(pDib+1);
+					HDC sDC = GetDC(NULL);
+					HBITMAP hBitmap = CreateDIBitmap(sDC, pDib, CBM_INIT, pDibBits, (BITMAPINFO*)pDib, DIB_PAL_COLORS);
+					SelectObject(sDC, hBitmap);
+					ReleaseDC(NULL, sDC);
+					GlobalFree(pDib);
 					cbFileSize = (INT_PTR)hBitmap;
 				}
 				else cbFileSize = 0;
 			}
 
-			if ( ppMap != NULL )	UnmapViewOfFile( ppMap );
-			if ( hMap  != NULL )	CloseHandle( hMap );
-			if ( hFile != NULL ) CloseHandle( hFile );
+			if (ppMap != NULL)	UnmapViewOfFile(ppMap);
+			if (hMap  != NULL)	CloseHandle(hMap);
+			if (hFile != NULL) CloseHandle(hFile);
 
 			return (INT_PTR)cbFileSize;
 	}	}
 
-	if (S_OK != OleLoadPicturePath( LPOLESTR(( const wchar_t* )StrConvU(szFilename)), NULL, 0, 0, IID_IPicture, (PVOID*)&pic ))
+	if (S_OK != OleLoadPicturePath(LPOLESTR((const wchar_t*)StrConvU(szFilename)), NULL, 0, 0, IID_IPicture, (PVOID*)&pic))
 		return 0;
 
 	pic->get_Type(&picType);
@@ -109,9 +109,9 @@ static INT_PTR sttBitmapLoader( const TCHAR* ptszFileName )
 	hdc=GetDC(NULL);
 	hdcMem1=CreateCompatibleDC(hdc);
 	hdcMem2=CreateCompatibleDC(hdc);
-	hOldBitmap=( HBITMAP )SelectObject(hdcMem1, hBmp);
+	hOldBitmap=(HBITMAP)SelectObject(hdcMem1, hBmp);
 	hBmpCopy=CreateCompatibleBitmap(hdcMem1, bmpInfo.bmWidth, bmpInfo.bmHeight);
-	hOldBitmap2=( HBITMAP )SelectObject(hdcMem2, hBmpCopy);
+	hOldBitmap2=(HBITMAP)SelectObject(hdcMem2, hBmpCopy);
 	BitBlt(hdcMem2, 0, 0, bmpInfo.bmWidth, bmpInfo.bmHeight, hdcMem1, 0, 0, SRCCOPY);
 	SelectObject(hdcMem1, hOldBitmap);
 	SelectObject(hdcMem2, hOldBitmap2);
@@ -126,12 +126,12 @@ static INT_PTR sttBitmapLoader( const TCHAR* ptszFileName )
 
 static INT_PTR BmpFilterLoadBitmap(WPARAM, LPARAM lParam)
 {
-	return sttBitmapLoader( StrConvT(( const char* )lParam ));
+	return sttBitmapLoader(StrConvT((const char*)lParam));
 }
 
 static INT_PTR BmpFilterLoadBitmapW(WPARAM, LPARAM lParam)
 {
-	return sttBitmapLoader(( const wchar_t* )lParam );
+	return sttBitmapLoader((const wchar_t*)lParam);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -187,7 +187,7 @@ static INT_PTR BmpFilterGetStringsW(WPARAM wParam, LPARAM lParam)
 	TCHAR *filter=(TCHAR*)lParam, *pfilter;
 
 	lstrcpyn(filter, TranslateT("All Bitmaps"), bytesLeft); bytesLeft-=lstrlen(filter);
-	_tcsncat(filter, _T(" (*.bmp;*.jpg;*.gif;*.png)"), bytesLeft );
+	_tcsncat(filter, _T(" (*.bmp;*.jpg;*.gif;*.png)"), bytesLeft);
 	pfilter=filter+lstrlen(filter)+1; bytesLeft=wParam-(pfilter-filter);
 	lstrcpyn(pfilter, _T("*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG"), bytesLeft);
 	pfilter+=lstrlen(pfilter)+1; bytesLeft=wParam-(pfilter-filter);

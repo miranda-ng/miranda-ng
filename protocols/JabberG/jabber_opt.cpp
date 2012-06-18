@@ -1609,34 +1609,34 @@ int CJabberProto::OnOptionsInit( WPARAM wParam, LPARAM )
 	odp.cbSize      = sizeof( odp );
 	odp.hInstance   = hInst;
 	odp.ptszGroup   = LPGENT("Network");
-	odp.ptszTitle   = m_tszUserName;	// title!!!!!!!!!!!
-	odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR|ODPF_DONTTRANSLATE;
+	odp.ptszTitle   = m_tszUserName;
+	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
 	odp.ptszTab     = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER);
 	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam	= (LPARAM)&OptCreateAccount;
+	odp.dwInitParam = (LPARAM)&OptCreateAccount;
 	OptCreateAccount.create = CDlgOptAccount::Create;
 	OptCreateAccount.param = this;
-	JCallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = LPGENT("Conferences");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_JABBER4);
 	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam	= (LPARAM)&OptCreateGc;
+	odp.dwInitParam = (LPARAM)&OptCreateGc;
 	OptCreateGc.create = CDlgOptGc::Create;
 	OptCreateGc.param = this;
-	JCallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.flags |= ODPF_EXPERTONLY;
 
 	odp.ptszTab     = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_JABBER2 );
 	odp.pfnDlgProc  = CDlgBase::DynamicDlgProc;
-	odp.dwInitParam	= (LPARAM)&OptCreateAdvanced;
+	odp.dwInitParam = (LPARAM)&OptCreateAdvanced;
 	OptCreateAdvanced.create = CDlgOptAdvanced::Create;
 	OptCreateAdvanced.param = this;
-	JCallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
@@ -2074,8 +2074,7 @@ void CJabberDlgAccMgrUI::CheckRegistration()
 
 void CJabberDlgAccMgrUI::setupConnection(int type)
 {
-	switch (type)
-	{
+	switch (type) {
 		case ACC_PUBLIC: setupPublic(); break;
 		case ACC_TLS: setupSecure(); break;
 		case ACC_SSL: setupSecureSSL(); break;
@@ -2185,7 +2184,6 @@ void CJabberDlgAccMgrUI::setupFB()
 	m_txtManualHost.Disable();
 	m_txtPort.Disable();
 	m_btnRegister.Disable();
-//	m_cbResource.Disable();
 }
 
 void CJabberDlgAccMgrUI::setupVK()
@@ -2204,7 +2202,6 @@ void CJabberDlgAccMgrUI::setupVK()
 	m_txtManualHost.Disable();
 	m_txtPort.Disable();
 	m_btnRegister.Disable();
-//	m_cbResource.Disable();
 }
 
 void CJabberDlgAccMgrUI::setupSMS()

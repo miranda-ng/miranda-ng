@@ -128,7 +128,7 @@ int LoadUpdateNotifyModule(void) {
 
 void UnloadUpdateNotifyModule()
 {
-	if (!bModuleInitialized) return;
+	if ( !bModuleInitialized) return;
 	UnhookEvent(hHookModules);
 	UnhookEvent(hHookPreShutdown);
 }
@@ -145,7 +145,7 @@ static int UpdateNotifyOptInit(WPARAM wParam, LPARAM) {
 	odp.pszTitle = LPGEN("Update Notify");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
@@ -171,7 +171,7 @@ static INT_PTR UpdateNotifyMenuCommand(WPARAM, LPARAM) {
 static VOID CALLBACK UpdateNotifyTimerCheck(HWND, UINT, UINT_PTR, DWORD)
 {
 	KillTimer(NULL, updateTimerId);
-	if (!DBGetContactSettingByte(NULL, UN_MOD, UN_ENABLE, UN_ENABLE_DEF))
+	if ( !DBGetContactSettingByte(NULL, UN_MOD, UN_ENABLE, UN_ENABLE_DEF))
 		return;
 	if (dwUpdateThreadID != 0) {
 		Netlib_Logf(hNetlibUser, "Update notification already running, ignoring attempt");
@@ -180,10 +180,10 @@ static VOID CALLBACK UpdateNotifyTimerCheck(HWND, UINT, UINT_PTR, DWORD)
 	{
 		DWORD lastCheck = 0;
 
-		if (!hNetlibUser)
+		if ( !hNetlibUser)
 			return;
 		lastCheck = DBGetContactSettingDword(NULL, UN_MOD, UN_LASTCHECK, 0);
-		if (!lastCheck) { // never checked for update before
+		if ( !lastCheck) { // never checked for update before
 			Netlib_Logf(hNetlibUser, "Running update notify check for the first time.");
 			dwUpdateThreadID = mir_forkthread(UpdateNotifyPerform, 0);
 		}
@@ -208,7 +208,7 @@ static VOID CALLBACK UpdateNotifyTimerCheck(HWND, UINT, UINT_PTR, DWORD)
 
 static DWORD UpdateNotifyMakeVersion(char *str) {
     DWORD a1, a2, a3, a4;
-    if (!str)
+    if ( !str)
         return 0;
     sscanf(str, "%u.%u.%u.%u", &a1, &a2, &a3, &a4);
     return PLUGIN_MAKE_VERSION(a1, a2, a3, a4);
@@ -221,7 +221,7 @@ inline bool UpdateNotifyReleaseDataValid(UpdateNotifyReleaseData *d)
 { return d && d->szVersionPublic && d->szVersion && d->szDownload && d->szNotes; }
 
 static void UpdateNotifyFreeReleaseData(UpdateNotifyReleaseData *d) {
-    if (!d) 
+    if ( !d) 
         return;
     if (d->szVersionPublic) mir_free(d->szVersionPublic);
     if (d->szVersion) mir_free(d->szVersion);
@@ -230,7 +230,7 @@ static void UpdateNotifyFreeReleaseData(UpdateNotifyReleaseData *d) {
 }
 
 static void UpdateNotifyReleaseLogUpdate(UpdateNotifyReleaseData *d) {
-    if (!UpdateNotifyReleaseDataValid(d)) 
+    if ( !UpdateNotifyReleaseDataValid(d)) 
         return;
     #ifdef _WIN64
     Netlib_Logf(hNetlibUser, "Update server version: %s [%s] [64-bit]", d->szVersionPublic, d->szVersion);
@@ -240,7 +240,7 @@ static void UpdateNotifyReleaseLogUpdate(UpdateNotifyReleaseData *d) {
 }
 
 static void UpdateNotifyReleaseCopyData(UpdateNotifyReleaseData *d, UpdateNotifyData *und) {
-    if (!UpdateNotifyReleaseDataValid(d)||!und) 
+    if ( !UpdateNotifyReleaseDataValid(d) || !und) 
         return;
     mir_snprintf(und->version, sizeof(und->version), "%s", d->szVersionPublic);
     mir_snprintf(und->versionReal, sizeof(und->versionReal), "%s", d->szVersion);
@@ -257,7 +257,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
 	int isUnicode, isAlphaCheck, isBetaCheck;
 	DBVARIANT dbv;
 	
-	if (!und) 
+	if ( !und) 
 		return 0;
 	und->version[0] = 0;
 	und->versionReal[0] = 0;
@@ -274,7 +274,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
 	mir_snprintf(szVersion, sizeof(szVersion), "%d.%d.%d.%d", 
 		HIBYTE(HIWORD(dwVersion)), LOBYTE(HIWORD(dwVersion)), 
 		HIBYTE(LOWORD(dwVersion)), LOBYTE(LOWORD(dwVersion)));
-	if (!DBGetContactSettingString(NULL, UN_MOD, UN_CUSTOMXMLURL, &dbv)) {
+	if ( !DBGetContactSettingString(NULL, UN_MOD, UN_CUSTOMXMLURL, &dbv)) {
 		mir_snprintf(szUrl, sizeof(szUrl), "%s", dbv.pszVal?dbv.pszVal:UN_URLXML);
 		DBFreeVariant(&dbv);
 	}
@@ -382,7 +382,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                 rdAlphaValid = UpdateNotifyReleaseDataValid(&rdAlpha);
                 
                 if (isBetaCheck) {
-                    if (!rdBetaValid&&rdStableValid) {
+                    if ( !rdBetaValid&&rdStableValid) {
                         UpdateNotifyReleaseLogUpdate(&rdStable);
                         if (UpdateNotifyIsNewer(dwVersion, rdStable.dwVersion)) 
                             resUpdate = 1;
@@ -402,7 +402,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                     }
                 }
                 else if (isAlphaCheck) {                 
-                    if (!rdAlphaValid&&rdStableValid) {
+                    if ( !rdAlphaValid&&rdStableValid) {
                         if (UpdateNotifyIsNewer(rdStable.dwVersion, rdAlpha.dwVersion)) {
                             UpdateNotifyReleaseLogUpdate(&rdAlpha);
                             if (UpdateNotifyIsNewer(dwVersion, rdAlpha.dwVersion)) 
@@ -422,7 +422,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                             resUpdate = 1;
                         UpdateNotifyReleaseCopyData(&rdStable, und);
                     }
-                    else if (!rdAlphaValid&&rdBetaValid&&rdStableValid) {
+                    else if ( !rdAlphaValid&&rdBetaValid&&rdStableValid) {
                         if (UpdateNotifyIsNewer(rdStable.dwVersion, rdBeta.dwVersion)) {
                             UpdateNotifyReleaseLogUpdate(&rdBeta);
                             if (UpdateNotifyIsNewer(dwVersion, rdBeta.dwVersion)) 
@@ -500,8 +500,8 @@ static void UpdateNotifyPerform(void *)
 	if (und.isNew) {
 		int notify = 1;
 		
-		if (!DBGetContactSettingString(NULL, UN_MOD, UN_CURRENTVERSION, &dbv)) {
-			if (!strcmp(dbv.pszVal, und.versionReal)) { // already notified of this version
+		if ( !DBGetContactSettingString(NULL, UN_MOD, UN_CURRENTVERSION, &dbv)) {
+			if ( !strcmp(dbv.pszVal, und.versionReal)) { // already notified of this version
 			
 				DWORD dwNotifyLast = DBGetContactSettingDword(NULL, UN_MOD, UN_CURRENTVERSIONFND, 0);
 
@@ -527,7 +527,7 @@ static void UpdateNotifyPerform(void *)
 
 static INT_PTR CALLBACK UpdateNotifyProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		Window_SetIcon_IcoLib(hwndDlg, SKINICON_OTHER_MIRANDA);
@@ -540,7 +540,7 @@ static INT_PTR CALLBACK UpdateNotifyProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				hwndManualUpdateDlg = hwndDlg;
 			else hwndUpdateDlg = hwndDlg;
 			if (und->isNew) {
-				TCHAR* ptszVer = mir_a2t( und->version );
+				TCHAR* ptszVer = mir_a2t(und->version);
 				mir_sntprintf(szTmp, SIZEOF(szTmp), TranslateT("Miranda IM %s Now Available"), ptszVer);
 				mir_free(ptszVer);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATE), SW_HIDE);
@@ -608,7 +608,7 @@ static INT_PTR CALLBACK UpdateNotifyProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_DESTROY:
-		Window_FreeIcon_IcoLib( hwndDlg );
+		Window_FreeIcon_IcoLib(hwndDlg);
 		break;
 	}
 	return FALSE;

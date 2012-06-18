@@ -658,7 +658,7 @@ static int LangOptInit(WPARAM wParam, LPARAM lParam)
 //	odp.ptszTab = _T("Language");  /* autotranslated, can be made a tab */
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LANG);
 	odp.pfnDlgProc = LangOptDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

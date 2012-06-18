@@ -205,7 +205,7 @@ int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 
 	odp.pszTemplate         = MAKEINTRESOURCEA(IDD_OPTIONS_PAGE);
 	odp.pfnDlgProc          = DlgProcOptionsPage;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

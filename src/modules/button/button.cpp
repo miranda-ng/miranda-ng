@@ -111,7 +111,7 @@ static int TBStateConvert2Flat(int state)
 
 static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 {
-	if (!hdcPaint)
+	if ( !hdcPaint)
 		return;
 
 	HDC hdcMem;
@@ -122,7 +122,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	GetClientRect(ctl->hwnd, &rcClient);
 	hdcMem = CreateCompatibleDC(hdcPaint);
 	hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top);
-	hOld = ( HDC )SelectObject(hdcMem, hbmMem);
+	hOld = (HDC)SelectObject(hdcMem, hbmMem);
 
 	// If its a push button, check to see if it should stay pressed
 	if (ctl->pushBtn && ctl->pbState) ctl->stateId = PBS_PRESSED;
@@ -139,12 +139,12 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		else {
 			HBRUSH hbr;
 
-			if (ctl->stateId == PBS_PRESSED||ctl->stateId == PBS_HOT)
+			if (ctl->stateId == PBS_PRESSED || ctl->stateId == PBS_HOT)
 				hbr = GetSysColorBrush(COLOR_3DLIGHT);
 			else {
 				HWND hwndParent = GetParent(ctl->hwnd);
 				HDC dc = GetDC(hwndParent);
-				HBRUSH oldBrush = (HBRUSH)GetCurrentObject( dc, OBJ_BRUSH );
+				HBRUSH oldBrush = (HBRUSH)GetCurrentObject(dc, OBJ_BRUSH);
 				hbr = (HBRUSH)SendMessage(hwndParent, WM_CTLCOLORDLG, (WPARAM)dc, (LPARAM)hwndParent);
 				SelectObject(dc, oldBrush);
 				ReleaseDC(hwndParent, dc);
@@ -153,7 +153,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 				FillRect(hdcMem, &rcClient, hbr);
 				DeleteObject(hbr);
 			}
-			if (ctl->stateId == PBS_HOT||ctl->focus) {
+			if (ctl->stateId == PBS_HOT || ctl->focus) {
 				if (ctl->pbState)
 					DrawEdge(hdcMem, &rcClient, EDGE_ETCHED, BF_RECT|BF_SOFT);
 				else DrawEdge(hdcMem, &rcClient, BDR_RAISEDOUTER, BF_RECT|BF_SOFT|BF_FLAT);
@@ -231,7 +231,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		SetBkMode(hdcMem, TRANSPARENT);
 		hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 		// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-		SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd)||!ctl->hThemeButton?GetSysColor(COLOR_BTNTEXT):GetSysColor(COLOR_GRAYTEXT));
+		SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton?GetSysColor(COLOR_BTNTEXT):GetSysColor(COLOR_GRAYTEXT));
 		GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
 		if (ctl->cHot) {
 			SIZE szHot;
@@ -240,10 +240,10 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			sz.cx -= szHot.cx;
 		}
 		if (ctl->arrow) {
-			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
+			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+( !ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+( !ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
 		}
 		SelectObject(hdcMem, ctl->hFont);
-		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0, (rcText.right-rcText.left-sz.cx)/2+(!ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1), sz.cx, sz.cy, IsWindowEnabled(ctl->hwnd)||ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
+		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0, (rcText.right-rcText.left-sz.cx)/2+( !ctl->hThemeButton&&ctl->stateId == PBS_PRESSED?1:0), ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1), sz.cx, sz.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
 		SelectObject(hdcMem, hOldFont);
 	}
 	BitBlt(hdcPaint, 0, 0, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top, hdcMem, 0, 0, SRCCOPY);
@@ -261,11 +261,11 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 	switch(msg) {
 	case WM_NCCREATE:
 		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
-		bct = ( MButtonCtrl* )mir_calloc(sizeof(MButtonCtrl));
+		bct = (MButtonCtrl*)mir_calloc(sizeof(MButtonCtrl));
 		if (bct == NULL) return FALSE;
 		bct->hwnd = hwndDlg;
 		bct->stateId = PBS_NORMAL;
-		bct->hFont = ( HFONT )GetStockObject(DEFAULT_GUI_FONT);
+		bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 		LoadTheme(bct);
 		if (SUCCEEDED(CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (void**)&bct->pAccPropServices))) {
 			// Annotating the Role of this object to be PushButton
@@ -292,14 +292,14 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				if (SendMessage(bct->hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
 					SendMessage(bct->hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 				}
-				if ( SendMessage(bct->hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0 ) {
+				if (SendMessage(bct->hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
 					int idx;
 					TTooltips tt;
 					tt.ThreadId = GetCurrentThreadId();
 
 					EnterCriticalSection(&csTips);
-					if (( idx = lToolTips.getIndex(&tt)) != -1) {
-						mir_free( lToolTips[idx] );
+					if ((idx = lToolTips.getIndex(&tt)) != -1) {
+						mir_free(lToolTips[idx]);
 						lToolTips.remove(idx);
 						DestroyWindow(bct->hwndToolTips);
 					}
@@ -319,8 +319,8 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 	case WM_SETTEXT:
 		bct->cHot = 0;
-		if ( lParam != 0 ) {
-			TCHAR *tmp = ( TCHAR* )lParam;
+		if (lParam != 0) {
+			TCHAR *tmp = (TCHAR*)lParam;
 			while (*tmp) {
 				if (*tmp == '&' && *(tmp+1)) {
 					bct->cHot = _tolower(*(tmp+1));
@@ -413,7 +413,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		else return 0;
 
 	case BM_SETCHECK:
-		if (!bct->pushBtn) break;
+		if ( !bct->pushBtn) break;
 		if (wParam == BST_CHECKED) {
 			bct->pbState = 1;
 			bct->stateId = PBS_PRESSED;
@@ -431,7 +431,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		return 0;
 	case BUTTONSETARROW: // turn arrow on/off
 		if (wParam) {
-			if (!bct->arrow) {
+			if ( !bct->arrow) {
 				bct->arrow = LoadSkinIcon(SKINICON_OTHER_DOWNARROW);
 				SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_BUTTONDROPDOWN);
 			}
@@ -462,18 +462,18 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		break;
 
 	case BUTTONADDTOOLTIP:
-		if ( wParam ) {
+		if (wParam) {
 			TOOLINFO ti = {0};
-			if ( !bct->hwndToolTips ) {
+			if ( !bct->hwndToolTips) {
 				int idx;
 				TTooltips tt;
 				tt.ThreadId = GetCurrentThreadId();
 
 				EnterCriticalSection(&csTips);
-				if (( idx = lToolTips.getIndex(&tt)) != -1)
+				if ((idx = lToolTips.getIndex(&tt)) != -1)
 					bct->hwndToolTips = lToolTips[idx]->hwnd;
 				else {
-					TTooltips *ptt = ( TTooltips* )mir_alloc( sizeof(TTooltips) );
+					TTooltips *ptt = (TTooltips*)mir_alloc(sizeof(TTooltips));
 					ptt->ThreadId = tt.ThreadId;
 					ptt->hwnd = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), TTS_ALWAYSTIP, 0, 0, 0, 0, NULL, NULL, hMirandaInst, NULL);
 					lToolTips.insert(ptt);
@@ -489,18 +489,18 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				SendMessage(bct->hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
 			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId = (UINT_PTR)bct->hwnd;
-			if ( lParam & BATF_UNICODE )
-				ti.lpszText = mir_wstrdup( TranslateW(( WCHAR* )wParam ));
+			if (lParam & BATF_UNICODE)
+				ti.lpszText = mir_wstrdup(TranslateW((WCHAR*)wParam));
 			else
-				ti.lpszText = LangPackPcharToTchar(( char* )wParam );
+				ti.lpszText = LangPackPcharToTchar((char*)wParam);
 			if (bct->pAccPropServices) {
 				wchar_t *tmpstr = mir_t2u(ti.lpszText);
 				bct->pAccPropServices->SetHwndPropStr(bct->hwnd, OBJID_CLIENT, 
 					CHILDID_SELF, PROPID_ACC_DESCRIPTION, tmpstr);
 				mir_free(tmpstr);
 			}
-			SendMessage( bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
-			mir_free( ti.lpszText );
+			SendMessage(bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
+			mir_free(ti.lpszText);
 		}
 		break;
 	case WM_SETFOCUS: // set keybord focus and redraw
@@ -568,7 +568,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			POINT pt;
 			GetWindowRect(hwndDlg, &rc);
 			GetCursorPos(&pt);
-			if (!PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
+			if ( !PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
 				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);
 				KillTimer(hwndDlg, BUTTON_POLLID);
 		}	}
@@ -587,7 +587,7 @@ int LoadButtonModule(void)
 {
 	WNDCLASSEX wc = {0};
 
-	if ( bModuleInitialized ) return 0;
+	if (bModuleInitialized) return 0;
 	bModuleInitialized = TRUE;
 
 	wc.cbSize         = sizeof(wc);
@@ -608,7 +608,7 @@ int LoadButtonModule(void)
 
 void UnloadButtonModule()
 {
-	if ( bModuleInitialized ) {
+	if (bModuleInitialized) {
 		EnterCriticalSection(&csTips);
 		lToolTips.destroy();
 		LeaveCriticalSection(&csTips);

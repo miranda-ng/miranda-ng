@@ -1764,7 +1764,7 @@ int OptsDlgInit(WPARAM wParam, LPARAM lParam)
 	optDi.pfnDlgProc = PopupOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
 	optDi.ptszGroup = OPT_POPUPGROUP;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 */
 //	optDi.ptszTitle = OPT_TITLE;
 	optDi.ptszTitle = OPT_MAINGROUP;
@@ -1773,22 +1773,22 @@ int OptsDlgInit(WPARAM wParam, LPARAM lParam)
 	optDi.pfnDlgProc = MessagesOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	optDi.ptszTab = LPGENT("Statuses messages");
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = MoreOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MOREOPTDIALOG);
 	optDi.ptszTab = LPGENT("Main options");
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AutoreplyOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_AUTOREPLY);
 	optDi.ptszTab = LPGENT("Autoreply");
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = ContactsOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACTSOPTDLG);
 	optDi.ptszTab = LPGENT("Contacts");
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 	return 0;
 }
 
@@ -1799,34 +1799,6 @@ COptPage g_MsgTreePage(MOD_NAME, NULL);
 void InitOptions()
 {
 	InitThemes();
-	/*g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_USEPOPUPS, DB_POPUPNOTIFY, DBVT_BYTE, POPUP_DEF_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Edit(IDC_POPUPOPTDLG_POPUPFORMAT, "PopupsFormat", AWAY_MSGDATA_MAX, POPUP_DEF_POPUP_FORMAT, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_POPUPPREVIEW, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_VARS, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_EXTRATEXT, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Combobox(IDC_POPUPOPTDLG_LCLICK_ACTION, "PopupLClickAction", DBVT_BYTE, POPUP_DEF_LCLICKACTION, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Combobox(IDC_POPUPOPTDLG_RCLICK_ACTION, "PopupRClickAction", DBVT_BYTE, POPUP_DEF_RCLICKACTION, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_LCLICK, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_RCLICK, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Colourpicker(IDC_POPUPOPTDLG_BGCOLOUR, "PopupBGColour", POPUP_DEF_POPUP_BGCOLOUR, IDC_POPUPOPTDLG_DEFBGCOLOUR));
-	g_PopupOptPage.Items.AddElem(new COptItem_Colourpicker(IDC_POPUPOPTDLG_TEXTCOLOUR, "PopupTextColour", POPUP_DEF_POPUP_TEXTCOLOUR, IDC_POPUPOPTDLG_DEFTEXTCOLOUR));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_DEFBGCOLOUR, "UseDefBGColour", DBVT_BYTE, POPUP_DEF_USEDEFBGCOLOUR, 0, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_DEFTEXTCOLOUR, "UseDefTextColour", DBVT_BYTE, POPUP_DEF_USEDEFTEXTCOLOUR, 0, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_BGCOLOUR, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_TEXTCOLOUR, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_ONLNOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_ONL, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_AWAYNOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_AWAY, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_NANOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_NA, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_OCCNOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_OCC, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_DNDNOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_DND, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_FFCNOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_FFC, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_OTHERNOTIFY, "PopupNotify", DBVT_DWORD, POPUP_DEF_POPUPNOTIFYFLAGS, SF_OTHER, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_IntEdit(IDC_POPUPOPTDLG_POPUPDELAY, "PopupDelay", DBVT_WORD, true, POPUP_DEF_POPUPDELAY, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_SEC, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_DEFAULT, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Generic(IDC_POPUPOPTDLG_STATIC_INFINITE, IDC_POPUPOPTDLG_USEPOPUPS));
-	g_PopupOptPage.Items.AddElem(new COptItem_Checkbox(IDC_POPUPOPTDLG_LOGONLYWITHPOPUP, "LogOnlyWithPopup", DBVT_BYTE, 0));*/
-
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_VARS, IDC_MESSAGEDLG_MSGTREE));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_DEL));
 	g_MessagesOptPage.Items.AddElem(new COptItem_Generic(IDC_MESSAGEDLG_MSGTITLE));

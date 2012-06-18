@@ -175,24 +175,24 @@ int YAMNOptInitSvc(WPARAM wParam,LPARAM lParam)
 	odp.pszTab = LPGEN("Accounts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTOPT);
 	odp.pfnDlgProc = DlgProcPOP3AccOpt;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_YAMNOPT);
 	odp.pfnDlgProc = DlgProcYAMNOpt;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTab = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLUGINOPT);
 	odp.pfnDlgProc = DlgProcPluginOpt;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	if ( ServiceExists(MS_POPUP_ADDPOPUPEX)) {
 		odp.pszGroup = LPGEN("PopUps");
 		odp.pszTab = LPGEN("YAMN");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POP3ACCOUNTPOPUP);
 		odp.pfnDlgProc = DlgProcPOP3AccPopup;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }

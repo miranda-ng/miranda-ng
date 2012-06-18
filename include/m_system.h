@@ -58,7 +58,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //wParam=lParam=0
 #define ME_SYSTEM_SHUTDOWN   "Miranda/System/Shutdown"
 
-//restarts miranda ( 0.8+ )
+//restarts miranda (0.8+)
 //wParam=lParam=0
 #define MS_SYSTEM_RESTART    "Miranda/System/Restart"
 
@@ -157,15 +157,15 @@ struct MM_INTERFACE
 	wchar_t* (*mir_a2u_cp) (const char* src, int codepage);
 	wchar_t* (*mir_a2u)(const char* src);
 	char*    (*mir_u2a_cp)(const wchar_t* src, int codepage);
-	char*    (*mir_u2a)( const wchar_t* src);
+	char*    (*mir_u2a)(const wchar_t* src);
 };
 
 #define MS_SYSTEM_GET_MMI  "Miranda/System/GetMMI"
 
-__forceinline INT_PTR mir_getMMI( struct MM_INTERFACE* dest )
+__forceinline INT_PTR mir_getMMI(struct MM_INTERFACE* dest)
 {
 	dest->cbSize = sizeof(*dest);
-	return CallService( MS_SYSTEM_GET_MMI, 0, (LPARAM)dest );
+	return CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM)dest);
 }
 
 #ifndef _STATIC
@@ -191,7 +191,7 @@ __forceinline INT_PTR mir_getMMI( struct MM_INTERFACE* dest )
 	WCHAR* mir_wstrdup(const WCHAR *src);
 #endif
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define mir_tstrdup mir_wstrdup
 #else
 	#define mir_tstrdup mir_strdup
@@ -210,7 +210,7 @@ wParam=0, lParam = (LPARAM)LIST_INTERFACE*
 #define LIST_INTERFACE_V2_SIZE  (sizeof(size_t)+9*sizeof(void*))
 #define LIST_INTERFACE_V3_SIZE  (sizeof(size_t)+11*sizeof(void*))
 
-typedef int ( *FSortFunc )( void*, void* );
+typedef int (*FSortFunc)(void*, void*);
 
 // Assumes first 32 bit value of the data is the numeric key
 // and uses it to perform sort/search operations, this results
@@ -235,28 +235,28 @@ struct LIST_INTERFACE
 {
 	size_t    cbSize;
 
-	SortedList* ( *List_Create )( int, int );
-	void        ( *List_Destroy )( SortedList* );
+	SortedList* (*List_Create)(int, int);
+	void        (*List_Destroy)(SortedList*);
 
-	void* ( *List_Find )( SortedList*, void* );
-	int   ( *List_GetIndex )( SortedList*, void*, int* );
-	int   ( *List_Insert )( SortedList*, void*, int );
-	int   ( *List_Remove )( SortedList*, int );
-	int   ( *List_IndexOf )( SortedList*, void* );
+	void* (*List_Find)(SortedList*, void*);
+	int   (*List_GetIndex)(SortedList*, void*, int*);
+	int   (*List_Insert)(SortedList*, void*, int);
+	int   (*List_Remove)(SortedList*, int);
+	int   (*List_IndexOf)(SortedList*, void*);
 
-	int   ( *List_InsertPtr)( SortedList* list, void* p );
-	int   ( *List_RemovePtr)( SortedList* list, void* p );
+	int   (*List_InsertPtr)(SortedList* list, void* p);
+	int   (*List_RemovePtr)(SortedList* list, void* p);
 
-	void  ( *List_Copy )( SortedList* src, SortedList* dst, size_t );
-	void  ( *List_ObjCopy )( SortedList* src, SortedList* dst, size_t );
+	void  (*List_Copy)(SortedList* src, SortedList* dst, size_t);
+	void  (*List_ObjCopy)(SortedList* src, SortedList* dst, size_t);
 };
 
 #define MS_SYSTEM_GET_LI  "Miranda/System/GetLI"
 
-__forceinline INT_PTR mir_getLI( struct LIST_INTERFACE* dest )
+__forceinline INT_PTR mir_getLI(struct LIST_INTERFACE* dest)
 {
 	dest->cbSize = sizeof(*dest);
-	return CallService( MS_SYSTEM_GET_LI, 0, (LPARAM)dest );
+	return CallService(MS_SYSTEM_GET_LI, 0, (LPARAM)dest);
 }
 
 /*
@@ -276,33 +276,33 @@ struct UTF8_INTERFACE
 	// if the second parameter is present, the additional wchar_t* string gets allocated,
 	// and filled with the decoded utf8 content without any information loss.
 	// this string should be freed using mir_free()
-	char* ( *utf8_decode )( char* str, wchar_t** ucs2 );
-	char* ( *utf8_decodecp )( char* str, int codepage, wchar_t** ucs2 );
+	char* (*utf8_decode)(char* str, wchar_t** ucs2);
+	char* (*utf8_decodecp)(char* str, int codepage, wchar_t** ucs2);
 
 	// encodes an ANSI string into a utf8 format using the current langpack code page,
 	// or CP_ACP, if lanpack is missing
 	// the resulting string should be freed using mir_free
-	char* ( *utf8_encode )( const char* src );
-	char* ( *utf8_encodecp )( const char* src, int codepage );
+	char* (*utf8_encode)(const char* src);
+	char* (*utf8_encodecp)(const char* src, int codepage);
 
 	// encodes an WCHAR string into a utf8 format
 	// the resulting string should be freed using mir_free
-	char* ( *utf8_encodeW )( const wchar_t* src );
+	char* (*utf8_encodeW)(const wchar_t* src);
 
 	// decodes utf8 and returns the result as wchar_t* that should be freed using mir_free()
 	// the input buffer remains unchanged
-	wchar_t* ( *utf8_decodeW )( const char* str );
+	wchar_t* (*utf8_decodeW)(const char* str);
 
 	// returns the predicted length of the utf-8 string
-	int ( *utf8_lenW )( const wchar_t* src );
+	int (*utf8_lenW)(const wchar_t* src);
 };
 
 #define MS_SYSTEM_GET_UTFI  "Miranda/System/GetUTFI"
 
-__forceinline INT_PTR mir_getUTFI( struct UTF8_INTERFACE* dest )
+__forceinline INT_PTR mir_getUTFI(struct UTF8_INTERFACE* dest)
 {
 	dest->cbSize = sizeof(*dest);
-	return CallService( MS_SYSTEM_GET_UTFI, 0, (LPARAM)dest );
+	return CallService(MS_SYSTEM_GET_UTFI, 0, (LPARAM)dest);
 }
 
 extern struct UTF8_INTERFACE utfi;
@@ -322,7 +322,7 @@ __forceinline char* mir_utf8decodeA(const char* src)
     return tmp;
 }
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define mir_utf8decodeT mir_utf8decodeW
 	#define mir_utf8encodeT mir_utf8encodeW
 #else
@@ -429,9 +429,9 @@ typedef void (__cdecl *pThreadFunc)(void*);
 
 #define MS_SYSTEM_FORK_THREAD    "Miranda/Thread/Fork"
 
-__forceinline HANDLE mir_forkthread( pThreadFunc aFunc, void* arg )
+__forceinline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
 {
-	return (HANDLE)CallService( MS_SYSTEM_FORK_THREAD, (WPARAM)aFunc, (LPARAM)arg );
+	return (HANDLE)CallService(MS_SYSTEM_FORK_THREAD, (WPARAM)aFunc, (LPARAM)arg);
 }
 
 /* 0.5.2+
@@ -457,14 +457,14 @@ typedef struct
 
 #define MS_SYSTEM_FORK_THREAD_EX    "Miranda/Thread/ForkEx"
 
-static __inline HANDLE mir_forkthreadex( pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID )
+static __inline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID)
 {
 	FORK_THREADEX_PARAMS params;
 	params.pFunc      = aFunc;
 	params.arg        = arg;
 	params.iStackSize = stackSize;
 	params.threadID   = pThreadID;
-	return (HANDLE)CallService( MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params );
+	return (HANDLE)CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
 }
 
 /* 0.8.0+
@@ -476,14 +476,14 @@ passes the owner info and extended parameters info and returns the thread id
 
 */
 
-static __inline HANDLE mir_forkthreadowner( pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID )
+static __inline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)
 {
 	FORK_THREADEX_PARAMS params;
-	params.pFunc      = ( pThreadFuncEx )aFunc;
+	params.pFunc      = (pThreadFuncEx)aFunc;
 	params.arg        = arg;
 	params.iStackSize = 0;
 	params.threadID   = pThreadID;
-	return (HANDLE)CallService( MS_SYSTEM_FORK_THREAD_EX, (WPARAM)owner, (LPARAM)&params );
+	return (HANDLE)CallService(MS_SYSTEM_FORK_THREAD_EX, (WPARAM)owner, (LPARAM)&params);
 }
 
 
@@ -608,18 +608,18 @@ obtain this filter and call it inside the __except section
 0.8.0+ addition (2008/07/20)
 */
 
-typedef DWORD ( __cdecl *pfnExceptionFilter )( DWORD code, EXCEPTION_POINTERS* info );
+typedef DWORD (__cdecl *pfnExceptionFilter)(DWORD code, EXCEPTION_POINTERS* info);
 
 #define MS_SYSTEM_GETEXCEPTFILTER "System/GetExceptFilter"
 
-__inline static pfnExceptionFilter Miranda_GetExceptFilter( void )
-{	return ( pfnExceptionFilter )CallService( MS_SYSTEM_GETEXCEPTFILTER, 0, 0 );
+__inline static pfnExceptionFilter Miranda_GetExceptFilter(void)
+{	return (pfnExceptionFilter)CallService(MS_SYSTEM_GETEXCEPTFILTER, 0, 0);
 }
 
 #define MS_SYSTEM_SETEXCEPTFILTER "System/SetExceptFilter"
 
-__inline static pfnExceptionFilter Miranda_SetExceptFilter( pfnExceptionFilter foo )
-{	return ( pfnExceptionFilter )CallService( MS_SYSTEM_SETEXCEPTFILTER, 0, (LPARAM)foo );
+__inline static pfnExceptionFilter Miranda_SetExceptFilter(pfnExceptionFilter foo)
+{	return (pfnExceptionFilter)CallService(MS_SYSTEM_SETEXCEPTFILTER, 0, (LPARAM)foo);
 }
 
 

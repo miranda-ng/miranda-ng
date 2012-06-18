@@ -793,7 +793,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = DlgProcOptionsPopup;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 		odp.ptszTab = NULL;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	return 0;

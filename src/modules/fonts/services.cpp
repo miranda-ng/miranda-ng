@@ -27,17 +27,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 COLORREF GetColorFromDefault(COLORREF cl);
 
 
-void ConvertFontSettings( FontSettings* fs, TFontSettings* fsw)
+void ConvertFontSettings(FontSettings* fs, TFontSettings* fsw)
 {
 	fsw->colour = fs->colour;
 	fsw->size = fs->size;
 	fsw->style = fs->style;
 	fsw->charset = fs->charset;
 
-	MultiByteToWideChar( code_page, 0, fs->szFace, -1, fsw->szFace, LF_FACESIZE);
+	MultiByteToWideChar(code_page, 0, fs->szFace, -1, fsw->szFace, LF_FACESIZE);
 }
 
-void ConvertFontID( FontID *fid, TFontID* fidw )
+void ConvertFontID(FontID *fid, TFontID* fidw)
 {
 	memset(fidw, 0, sizeof(TFontID));
 	fidw->cbSize = sizeof(TFontID);
@@ -47,11 +47,11 @@ void ConvertFontID( FontID *fid, TFontID* fidw )
 	fidw->order = fid->order;
 	ConvertFontSettings(&fid->deffontsettings, &fidw->deffontsettings);
 
-	MultiByteToWideChar( code_page, 0, fid->group, -1, fidw->group, 64);
-	MultiByteToWideChar( code_page, 0, fid->name, -1, fidw->name, 64);
+	MultiByteToWideChar(code_page, 0, fid->group, -1, fidw->group, 64);
+	MultiByteToWideChar(code_page, 0, fid->name, -1, fidw->name, 64);
 	if (fid->cbSize >= FontID_SIZEOF_V2A) {
-		MultiByteToWideChar( code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
-		MultiByteToWideChar( code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
+		MultiByteToWideChar(code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
+		MultiByteToWideChar(code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
 	}
 }
 
@@ -65,8 +65,8 @@ void ConvertColourID(ColourID *cid, TColourID* cidw)
 	cidw->defcolour = cid->defcolour;
 	cidw->order = cid->order;
 
-	MultiByteToWideChar( code_page, 0, cid->group, -1, cidw->group, 64);
-	MultiByteToWideChar( code_page, 0, cid->name, -1, cidw->name, 64);
+	MultiByteToWideChar(code_page, 0, cid->group, -1, cidw->group, 64);
+	MultiByteToWideChar(code_page, 0, cid->name, -1, cidw->name, 64);
 }
 
 void ConvertEffectID(EffectID *eid, TEffectID* eidw)
@@ -81,8 +81,8 @@ void ConvertEffectID(EffectID *eid, TEffectID* eidw)
     eidw->defeffect.secondaryColour = eid->defeffect.secondaryColour;
     eidw->order = eid->order;
 
-    MultiByteToWideChar( code_page, 0, eid->group, -1, eidw->group, 64);
-    MultiByteToWideChar( code_page, 0, eid->name, -1, eidw->name, 64);
+    MultiByteToWideChar(code_page, 0, eid->group, -1, eidw->group, 64);
+    MultiByteToWideChar(code_page, 0, eid->name, -1, eidw->name, 64);
 }
 
 
@@ -102,13 +102,13 @@ void ConvertLOGFONT(LOGFONTW *lfw, LOGFONTA *lfa)
 	lfa->lfQuality = lfw->lfQuality;
 	lfa->lfPitchAndFamily = lfw->lfPitchAndFamily;
 
-	WideCharToMultiByte( code_page, 0, lfw->lfFaceName, -1, lfa->lfFaceName, LF_FACESIZE, 0, 0);
+	WideCharToMultiByte(code_page, 0, lfw->lfFaceName, -1, lfa->lfFaceName, LF_FACESIZE, 0, 0);
 }
 
 static void GetDefaultFontSetting(LOGFONT* lf, COLORREF* colour)
 {
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), lf, FALSE);
-	if ( colour )
+	if (colour)
 		*colour = GetSysColor(COLOR_WINDOWTEXT);
 
 	lf->lfHeight = 10;
@@ -130,7 +130,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	if (flags & FIDF_APPENDNAME) mir_snprintf(idstr, SIZEOF(idstr), "%sName", prefix);
 	else mir_snprintf(idstr, SIZEOF(idstr), "%s", prefix);
 
-	if ( !DBGetContactSettingTString(NULL, settings_group, idstr, &dbv )) {
+	if ( !DBGetContactSettingTString(NULL, settings_group, idstr, &dbv)) {
 		_tcscpy(lf->lfFaceName, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
@@ -193,7 +193,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	return retval;
 }
 
-int CreateFromFontSettings(TFontSettings* fs, LOGFONT* lf )
+int CreateFromFontSettings(TFontSettings* fs, LOGFONT* lf)
 {
 	GetDefaultFontSetting(lf, 0);
 
@@ -218,8 +218,8 @@ void UpdateFontSettings(TFontID* font_id, TFontSettings* fontsettings)
 {
 	LOGFONT lf;
 	COLORREF colour;
-	if ( GetFontSettingFromDB(font_id->dbSettingsGroup, font_id->prefix, &lf, &colour, font_id->flags) && (font_id->flags & FIDF_DEFAULTVALID)) {
-		CreateFromFontSettings(&font_id->deffontsettings, &lf );
+	if (GetFontSettingFromDB(font_id->dbSettingsGroup, font_id->prefix, &lf, &colour, font_id->flags) && (font_id->flags & FIDF_DEFAULTVALID)) {
+		CreateFromFontSettings(&font_id->deffontsettings, &lf);
 		colour = GetColorFromDefault(font_id->deffontsettings.colour);
 	}
 
@@ -269,11 +269,11 @@ COLORREF GetColorFromDefault(COLORREF cl)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
-static int sttRegisterFontWorker( TFontID* font_id )
+static int sttRegisterFontWorker(TFontID* font_id)
 {
-	for ( int i = 0; i < font_id_list.getCount(); i++ ) {
+	for (int i = 0; i < font_id_list.getCount(); i++) {
 		TFontID& F = font_id_list[i];
-		if ( !lstrcmp( F.group, font_id->group ) && !lstrcmp( F.name, font_id->name ) && !( F.flags & FIDF_ALLOWREREGISTER ))
+		if ( !lstrcmp(F.group, font_id->group) && !lstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
 			return 1;
 	}
 
@@ -282,61 +282,61 @@ static int sttRegisterFontWorker( TFontID* font_id )
 	DBWriteContactSettingDword(0, font_id->dbSettingsGroup, idstr, font_id->flags);
 	{	
 		TFontID* newItem = new TFontID;
-		memset( newItem, 0, sizeof( TFontID ));
-		memcpy( newItem, font_id, font_id->cbSize);
+		memset(newItem, 0, sizeof(TFontID));
+		memcpy(newItem, font_id, font_id->cbSize);
 
-		if (!lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg")))
+		if ( !lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg")))
 		{
 			LOGFONT lf;
 			SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
 			lstrcpyn(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
-			if (!newItem->deffontsettings.size)
+			if ( !newItem->deffontsettings.size)
 				newItem->deffontsettings.size = lf.lfHeight;
 		}
 
-		UpdateFontSettings( font_id, &newItem->value );
-		font_id_list.insert( newItem );
+		UpdateFontSettings(font_id, &newItem->value);
+		font_id_list.insert(newItem);
 	}
 	return 0;
 }
 
-INT_PTR RegisterFontW(WPARAM wParam, LPARAM )
+INT_PTR RegisterFontW(WPARAM wParam, LPARAM)
 {
-	return sttRegisterFontWorker(( TFontID* )wParam );
+	return sttRegisterFontWorker((TFontID*)wParam);
 }
 
 INT_PTR RegisterFont(WPARAM wParam, LPARAM)
 {
 	TFontID temp;
-	ConvertFontID(( FontID* )wParam, &temp );
-	return sttRegisterFontWorker( &temp );
+	ConvertFontID((FontID*)wParam, &temp);
+	return sttRegisterFontWorker(&temp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetFont service
 
-static int sttGetFontWorker( TFontID* font_id, LOGFONT* lf )
+static int sttGetFontWorker(TFontID* font_id, LOGFONT* lf)
 {
 	COLORREF colour;
 
-	for ( int i = 0; i < font_id_list.getCount(); i++ ) {
+	for (int i = 0; i < font_id_list.getCount(); i++) {
 		TFontID& F = font_id_list[i];
-		if ( !_tcsncmp( F.name, font_id->name, SIZEOF(F.name)) && !_tcsncmp( F.group, font_id->group, SIZEOF(F.group))) {
-			if ( GetFontSettingFromDB( F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && ( F.flags & FIDF_DEFAULTVALID )) {
-				CreateFromFontSettings( &F.deffontsettings, lf );
+		if ( !_tcsncmp(F.name, font_id->name, SIZEOF(F.name)) && !_tcsncmp(F.group, font_id->group, SIZEOF(F.group))) {
+			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
+				CreateFromFontSettings(&F.deffontsettings, lf);
 				colour = GetColorFromDefault(F.deffontsettings.colour);
 			}
 
 			return (int)colour;
 	}	}
 
-	GetDefaultFontSetting( lf, &colour );
+	GetDefaultFontSetting(lf, &colour);
 	return (int)colour;
 }
 
 INT_PTR GetFontW(WPARAM wParam, LPARAM lParam)
 {
-	return sttGetFontWorker(( TFontID* )wParam, ( LOGFONT* )lParam );
+	return sttGetFontWorker((TFontID*)wParam, (LOGFONT*)lParam);
 }
 
 INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
@@ -344,8 +344,8 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 		TFontID temp;
 		LOGFONT lftemp;
 		ConvertFontID((FontID *)wParam, &temp);
-		{	int ret = sttGetFontWorker( &temp, &lftemp );
-			ConvertLOGFONT( &lftemp, ( LOGFONTA* )lParam );
+		{	int ret = sttGetFontWorker(&temp, &lftemp);
+			ConvertLOGFONT(&lftemp, (LOGFONTA*)lParam);
 			return ret;
 		}
 }
@@ -353,48 +353,48 @@ INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterColour service
 
-void UpdateColourSettings( TColourID* colour_id, COLORREF *colour)
+void UpdateColourSettings(TColourID* colour_id, COLORREF *colour)
 {
-	*colour = ( COLORREF )DBGetContactSettingDword(NULL, colour_id->dbSettingsGroup, colour_id->setting, GetColorFromDefault(colour_id->defcolour) );
+	*colour = (COLORREF)DBGetContactSettingDword(NULL, colour_id->dbSettingsGroup, colour_id->setting, GetColorFromDefault(colour_id->defcolour));
 }
 
-static int sttRegisterColourWorker( TColourID* colour_id )
+static int sttRegisterColourWorker(TColourID* colour_id)
 {
-	for ( int i = 0; i < colour_id_list.getCount(); i++ ) {
+	for (int i = 0; i < colour_id_list.getCount(); i++) {
 		TColourID& C = colour_id_list[i];
-		if ( !_tcscmp( C.group, colour_id->group ) && !_tcscmp( C.name, colour_id->name ))
+		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
 			return 1;
 	}
 
 	TColourID* newItem = new TColourID;
-	memcpy( newItem, colour_id, sizeof( TColourID ));
-	UpdateColourSettings( colour_id, &newItem->value );
-	colour_id_list.insert( newItem );
+	memcpy(newItem, colour_id, sizeof(TColourID));
+	UpdateColourSettings(colour_id, &newItem->value);
+	colour_id_list.insert(newItem);
 	return 0;
 }
 
 INT_PTR RegisterColourW(WPARAM wParam, LPARAM)
 {
-	return sttRegisterColourWorker(( TColourID* )wParam );
+	return sttRegisterColourWorker((TColourID*)wParam);
 }
 
 INT_PTR RegisterColour(WPARAM wParam, LPARAM)
 {
 	TColourID temp;
-	ConvertColourID(( ColourID* )wParam, &temp );
-	return sttRegisterColourWorker( &temp );
+	ConvertColourID((ColourID*)wParam, &temp);
+	return sttRegisterColourWorker(&temp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetColour service
 
-static int sttGetColourWorker( TColourID* colour_id )
+static int sttGetColourWorker(TColourID* colour_id)
 {
 	int i;
 
-	for ( i = 0; i < colour_id_list.getCount(); i++ ) {
+	for (i = 0; i < colour_id_list.getCount(); i++) {
 		TColourID& C = colour_id_list[i];
-		if ( !_tcscmp( C.group, colour_id->group ) && !_tcscmp( C.name, colour_id->name ))
+		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
 			return (int)DBGetContactSettingDword(NULL, C.dbSettingsGroup, C.setting, GetColorFromDefault(C.defcolour));
 	}
 
@@ -403,14 +403,14 @@ static int sttGetColourWorker( TColourID* colour_id )
 
 INT_PTR GetColourW(WPARAM wParam, LPARAM)
 {
-	return sttGetColourWorker(( TColourID* )wParam );
+	return sttGetColourWorker((TColourID*)wParam);
 }
 
 INT_PTR GetColour(WPARAM wParam, LPARAM)
 {
 	TColourID temp;
-	ConvertColourID(( ColourID* )wParam, &temp );
-	return sttGetColourWorker( &temp );
+	ConvertColourID((ColourID*)wParam, &temp);
+	return sttGetColourWorker(&temp);
 }
 
 
@@ -435,44 +435,44 @@ void UpdateEffectSettings(TEffectID* effect_id, TEffectSettings* effectsettings)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
-static int sttRegisterEffectWorker( TEffectID* effect_id )
+static int sttRegisterEffectWorker(TEffectID* effect_id)
 {
-    for ( int i = 0; i < effect_id_list.getCount(); i++ ) {
+    for (int i = 0; i < effect_id_list.getCount(); i++) {
         TEffectID& E = effect_id_list[i];
-        if ( !_tcscmp( E.group, effect_id->group ) && !_tcscmp( E.name, effect_id->name ))
+        if ( !_tcscmp(E.group, effect_id->group) && !_tcscmp(E.name, effect_id->name))
             return 1;
     }
 
     TEffectID* newItem = new TEffectID;
-    memcpy( newItem, effect_id, sizeof( TEffectID ));
-    UpdateEffectSettings( effect_id, &newItem->value );
-    effect_id_list.insert( newItem );
+    memcpy(newItem, effect_id, sizeof(TEffectID));
+    UpdateEffectSettings(effect_id, &newItem->value);
+    effect_id_list.insert(newItem);
     return 0;
 }
 
 INT_PTR RegisterEffectW(WPARAM wParam, LPARAM lParam)
 {
-    return sttRegisterEffectWorker(( TEffectID* )wParam );
+    return sttRegisterEffectWorker((TEffectID*)wParam);
 }
 
 INT_PTR RegisterEffect(WPARAM wParam, LPARAM lParam)
 {
 	TEffectID temp;
-    ConvertEffectID(( EffectID* )wParam, &temp );
-    return sttRegisterEffectWorker( &temp );
+    ConvertEffectID((EffectID*)wParam, &temp);
+    return sttRegisterEffectWorker(&temp);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetEffect service
 
-static int sttGetEffectWorker( TEffectID* effect_id, FONTEFFECT* effect )
+static int sttGetEffectWorker(TEffectID* effect_id, FONTEFFECT* effect)
 {
-	for ( int i = 0; i < effect_id_list.getCount(); i++ ) {
+	for (int i = 0; i < effect_id_list.getCount(); i++) {
 		TEffectID& E = effect_id_list[i];
-		if ( !_tcsncmp( E.name, effect_id->name, SIZEOF(E.name)) && !_tcsncmp( E.group, effect_id->group, SIZEOF(E.group))) 
+		if ( !_tcsncmp(E.name, effect_id->name, SIZEOF(E.name)) && !_tcsncmp(E.group, effect_id->group, SIZEOF(E.group))) 
 		{
 			TEffectSettings temp;
-			UpdateEffectSettings( effect_id, &temp );
+			UpdateEffectSettings(effect_id, &temp);
 
 			effect->effectIndex = temp.effectIndex;
 			effect->baseColour  = temp.baseColour;
@@ -486,12 +486,12 @@ static int sttGetEffectWorker( TEffectID* effect_id, FONTEFFECT* effect )
 
 INT_PTR GetEffectW(WPARAM wParam, LPARAM lParam)
 {
-    return sttGetEffectWorker(( TEffectID* )wParam, ( FONTEFFECT* )lParam );
+    return sttGetEffectWorker((TEffectID*)wParam, (FONTEFFECT*)lParam);
 }
 
 INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 {
 	TEffectID temp;
     ConvertEffectID((EffectID *)wParam, &temp);
-    return sttGetEffectWorker( &temp, ( FONTEFFECT* )lParam );
+    return sttGetEffectWorker(&temp, (FONTEFFECT*)lParam);
 }

@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_LANGPACK_H__
 #define M_LANGPACK_H__
 
-#if !defined( _STATIC )
+#if !defined(_STATIC)
 	#define MIRANDA_CUSTOM_LP
 #endif
 
@@ -41,7 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //these versions, I pity them.
 #define MS_LANGPACK_TRANSLATESTRING  "LangPack/TranslateString"
 
-#if defined( MIRANDA_CUSTOM_LP )
+#if defined(MIRANDA_CUSTOM_LP)
 
 extern int hLangpack;
 
@@ -105,7 +105,7 @@ typedef struct {
 
 #define MS_LANGPACK_TRANSLATEDIALOG  "LangPack/TranslateDialog"
 
-#if defined( MIRANDA_CUSTOM_LP )
+#if defined(MIRANDA_CUSTOM_LP)
 
 __inline static INT_PTR TranslateDialogDefault(HWND hwndDlg)
 {
@@ -137,7 +137,7 @@ __inline static INT_PTR TranslateDialogDefault(HWND hwndDlg)
 //returns 0 on success, nonzero on failure
 #define MS_LANGPACK_TRANSLATEMENU    "LangPack/TranslateMenu"
 
-#if defined( MIRANDA_CUSTOM_LP )
+#if defined(MIRANDA_CUSTOM_LP)
 
 __inline static INT_PTR TranslateMenu(HMENU hMenu)
 {	return CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, hLangpack);
@@ -170,7 +170,7 @@ __inline static INT_PTR TranslateMenu(HMENU hMenu)
 //This string should be freed using mir_free() then
 #define MS_LANGPACK_PCHARTOTCHAR     "LangPack/PcharToTchar"
 
-#if defined( MIRANDA_CUSTOM_LP )
+#if defined(MIRANDA_CUSTOM_LP)
 
 __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 {	return CallService(MS_LANGPACK_PCHARTOTCHAR, hLangpack, (LPARAM)str);
@@ -190,8 +190,8 @@ __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 //always returns 0
 #define MS_LANGPACK_REGISTER         "LangPack/Register"
 
-#if defined( MIRANDA_CUSTOM_LP )
-__forceinline void mir_getLP( const PLUGININFOEX* pInfo )
+#if defined(MIRANDA_CUSTOM_LP)
+__forceinline void mir_getLP(const PLUGININFOEX* pInfo)
 {	CallService(MS_LANGPACK_REGISTER, (WPARAM)&hLangpack, (LPARAM)pInfo);
 }
 #endif

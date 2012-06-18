@@ -38,7 +38,7 @@ int MraPopupOptInit(WPARAM wParam,LPARAM lParam)
 		odp.flags = (ODPF_BOLDGROUPS | ODPF_UNICODE);
 		odp.nIDBottomSimpleControl = IDC_GROUPMAIN;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 return(0);
 }

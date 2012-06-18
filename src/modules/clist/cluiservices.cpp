@@ -35,7 +35,7 @@ static INT_PTR GetHwndTree(WPARAM, LPARAM)
 
 static INT_PTR CluiProtocolStatusChanged(WPARAM wParam, LPARAM lParam)
 {
-	cli.pfnCluiProtocolStatusChanged( wParam, (const char*)lParam );
+	cli.pfnCluiProtocolStatusChanged(wParam, (const char*)lParam);
 	return 0;
 }
 
@@ -54,7 +54,7 @@ static INT_PTR GroupAdded(WPARAM wParam, LPARAM lParam)
 		HWND hwndFocus = GetFocus();
 
 		GetClassName(hwndFocus, szFocusClass, SIZEOF(szFocusClass));
-		if (!lstrcmp(szFocusClass, CLISTCONTROL_CLASS)) {
+		if ( !lstrcmp(szFocusClass, CLISTCONTROL_CLASS)) {
 			hItem = (HANDLE) SendMessage(hwndFocus, CLM_FINDGROUP, wParam, 0);
 			if (hItem)
 				SendMessage(hwndFocus, CLM_EDITLABEL, (WPARAM) hItem, 0);
@@ -151,27 +151,27 @@ void LoadCluiServices(void)
 /////////////////////////////////////////////////////////////////////////////////////////
 // default protocol status notification handler
 
-void fnCluiProtocolStatusChanged(int, const char* )
+void fnCluiProtocolStatusChanged(int, const char*)
 {
 	int i, *partWidths;
 	int borders[3];
 	int flags = 0;
 
-    if ( cli.menuProtoCount == 0 ) {
+    if (cli.menuProtoCount == 0) {
 	    SendMessage(cli.hwndStatus, SB_SETPARTS, 0, 0);
-		SendMessage( cli.hwndStatus, SB_SETTEXT, SBT_OWNERDRAW, 0 );
+		SendMessage(cli.hwndStatus, SB_SETTEXT, SBT_OWNERDRAW, 0);
 		return;
     }
 
-	SendMessage(cli.hwndStatus, SB_GETBORDERS, 0, ( LPARAM )&borders);
+	SendMessage(cli.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 
-	partWidths = ( int* )alloca( cli.menuProtoCount * sizeof( int ));
-	if ( DBGetContactSettingByte( NULL, "CLUI", "EqualSections", 0 )) {
+	partWidths = (int*)alloca(cli.menuProtoCount * sizeof(int));
+	if (DBGetContactSettingByte(NULL, "CLUI", "EqualSections", 0)) {
 		RECT rc;
-		GetClientRect( cli.hwndStatus, &rc );
-		rc.right -= borders[0] * 2 + ( DBGetContactSettingByte( NULL, "CLUI", "ShowGrip", 1 ) ? GetSystemMetrics( SM_CXVSCROLL ) : 0 );
-		for ( i = 0; i < cli.menuProtoCount; i++ )
-			partWidths[ i ] = ( i+1 ) * rc.right / cli.menuProtoCount - (borders[2] >> 1);
+		GetClientRect(cli.hwndStatus, &rc);
+		rc.right -= borders[0] * 2 + (DBGetContactSettingByte(NULL, "CLUI", "ShowGrip", 1) ? GetSystemMetrics(SM_CXVSCROLL) : 0);
+		for (i = 0; i < cli.menuProtoCount; i++)
+			partWidths[ i ] = (i+1) * rc.right / cli.menuProtoCount - (borders[2] >> 1);
 	}
 	else {
 		HDC hdc;
@@ -180,42 +180,42 @@ void fnCluiProtocolStatusChanged(int, const char* )
 
 		hdc = GetDC(NULL);
 		SelectObject(hdc, (HFONT) SendMessage(cli.hwndStatus, WM_GETFONT, 0, 0));
-		for ( i = 0; i < cli.menuProtoCount; i++ ) {  //count down since built in ones tend to go at the end
+		for (i = 0; i < cli.menuProtoCount; i++) {  //count down since built in ones tend to go at the end
 			int x = 2;
-			if ( showOpts & 1 )
+			if (showOpts & 1)
 				x += g_IconWidth;
-			if ( showOpts & 2 ) {
+			if (showOpts & 2) {
 				TCHAR tszName[64];
-				PROTOACCOUNT* pa = Proto_GetAccount( cli.menuProtos[i].szProto );
-				if ( pa )
-					mir_sntprintf( tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName );
+				PROTOACCOUNT* pa = Proto_GetAccount(cli.menuProtos[i].szProto);
+				if (pa)
+					mir_sntprintf(tszName, SIZEOF(tszName), _T("%s "), pa->tszAccountName);
 				else
 					tszName[0] = 0;
 
-				if ( showOpts & 4 && lstrlen(tszName) < SIZEOF(tszName)-1 )
-					lstrcat( tszName, _T(" "));
+				if (showOpts & 4 && lstrlen(tszName) < SIZEOF(tszName)-1)
+					lstrcat(tszName, _T(" "));
 				GetTextExtentPoint32(hdc, tszName, lstrlen(tszName), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
-			if ( showOpts & 4 ) {
-				TCHAR* modeDescr = cli.pfnGetStatusModeDescription( CallProtoService( cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0 );
+			if (showOpts & 4) {
+				TCHAR* modeDescr = cli.pfnGetStatusModeDescription(CallProtoService(cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
 				GetTextExtentPoint32(hdc, modeDescr, lstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
-			partWidths[ i ] = ( i ? partWidths[ i-1] : 0 ) + x + 2;
+			partWidths[ i ] = (i ? partWidths[ i-1] : 0) + x + 2;
 		}
 		ReleaseDC(NULL, hdc);
 	}
 
 	partWidths[ cli.menuProtoCount-1 ] = -1;
 	SendMessage(cli.hwndStatus, SB_SETMINHEIGHT, g_IconHeight, 0);
-	SendMessage(cli.hwndStatus, SB_SETPARTS, cli.menuProtoCount, ( LPARAM )partWidths);
+	SendMessage(cli.hwndStatus, SB_SETPARTS, cli.menuProtoCount, (LPARAM)partWidths);
 	flags = SBT_OWNERDRAW;
-	if ( DBGetContactSettingByte( NULL, "CLUI", "SBarBevel", 1 ) == 0 )
+	if (DBGetContactSettingByte(NULL, "CLUI", "SBarBevel", 1) == 0)
 		flags |= SBT_NOBORDERS;
-	for ( i = 0; i < cli.menuProtoCount; i++ ) {
-		SendMessage( cli.hwndStatus, SB_SETTEXT, i | flags, ( LPARAM )cli.menuProtos[i].szProto );
+	for (i = 0; i < cli.menuProtoCount; i++) {
+		SendMessage(cli.hwndStatus, SB_SETTEXT, i | flags, (LPARAM)cli.menuProtos[i].szProto);
 	}
 }

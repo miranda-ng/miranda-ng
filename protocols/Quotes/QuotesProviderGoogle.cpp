@@ -470,7 +470,7 @@ void CQuotesProviderGoogle::ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp)
 // 	tstring sTitle = o.str();
 // 	odp.ptszTitle = TranslateTS(const_cast<LPTSTR>(sTitle.c_str()));
 // #endif
-	CallService(MS_OPT_ADDPAGE,wp,reinterpret_cast<LPARAM>(&odp));
+	Options_AddPage(wp, &odp);
 }
 
 void CQuotesProviderGoogle::Accept(CQuotesProviderVisitor& visitor)const

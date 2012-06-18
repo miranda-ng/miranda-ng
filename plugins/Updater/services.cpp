@@ -514,7 +514,7 @@ INT_PTR GetUpdateOptions(WPARAM wParam, LPARAM lParam) {
 	return found ? 0 : 1;
 }
 
-bool RegisterForFileListing(int file_id, PLUGININFO *pluginInfo, bool auto_register) 
+bool RegisterForFileListing(int file_id, PLUGININFOEX *pluginInfo, bool auto_register) 
 {
 	return RegisterForFileListing(file_id, pluginInfo->shortName, pluginInfo->version, auto_register, MC_PLUGINS);
 }
@@ -739,7 +739,7 @@ INT_PTR Register(WPARAM wParam, LPARAM lParam) {
 
 INT_PTR RegisterFL(WPARAM wParam, LPARAM lParam) {
 	int file_id = (INT_PTR)wParam;
-	PLUGININFO *pluginInfo  = (PLUGININFO *)lParam;
+	PLUGININFOEX *pluginInfo  = (PLUGININFOEX *)lParam;
 
 	// remove registered plugin if already there
 	EnterCriticalSection(&list_cs);

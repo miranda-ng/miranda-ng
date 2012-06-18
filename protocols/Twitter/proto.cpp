@@ -367,14 +367,14 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab     = LPGENT("Basic");
     odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = options_proc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		odp.ptszTab     = LPGENT("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc  = popup_options_proc;
-		CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+		Options_AddPage(wParam,&odp);
 	}
 
 	return 0;
@@ -525,23 +525,14 @@ void TwitterProto::LOG(TCHAR *fmt,...)
 	CallService(MS_NETLIB_LOG, (WPARAM)hNetlib_, (LPARAM)( char* )_T2A(text));
 }
 
-void TwitterProto::WLOG(TCHAR* first, const wstring last)
-{
-	TCHAR *str1 = new TCHAR[1024*96];
-	_stprintf(str1,_T("%s"), last.c_str());
-	LOG(first, str1); 
-}
-
 // TODO: the more I think about it, the more I think all twit.* methods should
 // be in MessageLoop
 void TwitterProto::SendTweetWorker(void *p)
 {
 	if(p == 0)
 		return;
+
 	char *text = static_cast<char*>(p);
-
-
-
 	if (strlen(text) > 140) { // looks like the chat max outgoing msg thing doesn't work, so i'll do it here.
 		char * errorPopup = new char[280]; // i hate c strings ... i should use std::string here.  why did i use char* ???  need to delete[] or use std::String
 		sprintf(errorPopup, "Don't be crazy! Everyone knows the max tweet size is 140, and you're trying to fit %d chars in there?", strlen(text));

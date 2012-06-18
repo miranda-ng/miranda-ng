@@ -231,13 +231,13 @@ static void GetPluginsString(bkstring& buffer, unsigned& flags)
 			continue;
 		}
 
-		PLUGININFO* pi = GetMirInfo(hModule);
+		PLUGININFOEX* pi = GetMirInfo(hModule);
 		if (pi != NULL)
 		{
 			TCHAR timebuf[30] = TEXT("");
 			GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 
-			bool ep = (size_t)pi->cbSize > sizeof(PLUGININFO);
+			bool ep = (size_t)pi->cbSize > sizeof(PLUGININFOEX);
 			const TCHAR *unica = (ep && ((PLUGININFOEX*)pi)->flags & 1) ? TEXT("|Unicode aware|") : TEXT("");
 
 			ListItem* lst = new ListItem;
@@ -702,7 +702,7 @@ void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const TCHA
 		if (crashpos != 0)
 		{
 			HMODULE hModule = (HMODULE)Module.BaseOfImage;
-			PLUGININFO *pi = GetMirInfo(hModule);
+			PLUGININFOEX *pi = GetMirInfo(hModule);
 			if (pi != NULL)
 			{
 

@@ -41,7 +41,7 @@ static int HttpGatewayReadSetResult(NetlibConnection *nlc, char *buf, int num, i
 	int rbytes = nlc->dataBufferLen - bytes;
 
 	memcpy(buf, nlc->dataBuffer, bytes);
-	if (!peek) 
+	if ( !peek) 
 	{
 		memmove(nlc->dataBuffer, nlc->dataBuffer + bytes, rbytes);
 		nlc->dataBufferLen = rbytes;
@@ -127,13 +127,13 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 
 		bool sameHost = lstrcmpA(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
 
-		if (!sameHost)
+		if ( !sameHost)
 		{
 			NetlibDoClose(nlc);
 
 			mir_free((char*)nlc->nloc.szHost);
 			nlc->nloc = nloc;
-			if (!NetlibDoConnect(nlc)) 
+			if ( !NetlibDoConnect(nlc)) 
 				return false;
 		}
 		else
@@ -195,7 +195,7 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	nlcSend.wProxyPort       = nlc->wProxyPort;
 	nlcSend.proxyType        = nlc->proxyType;
 
-	if (!NetlibReconnect(&nlcSend)) return false;
+	if ( !NetlibReconnect(&nlcSend)) return false;
 	nlc->s2 = nlcSend.s;
 
 	nlcSend.hOkToCloseEvent	= CreateEvent(NULL, TRUE, TRUE, NULL);
@@ -256,8 +256,8 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	 *         with the new plugins that use this code.
 	 */
 
-	 p = ( NetlibHTTPProxyPacketQueue* )mir_alloc(sizeof(struct NetlibHTTPProxyPacketQueue));
-	 p->dataBuffer = ( PBYTE )mir_alloc(len);
+	 p = (NetlibHTTPProxyPacketQueue*)mir_alloc(sizeof(struct NetlibHTTPProxyPacketQueue));
+	 p->dataBuffer = (PBYTE)mir_alloc(len);
 	 memcpy(p->dataBuffer, buf, len);
 	 p->dataBufferLen = len;
 	 p->next = NULL;
@@ -292,19 +292,19 @@ int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int 
 {
 	bool peek = (flags & MSG_PEEK) != 0;
 
-	if (nlc->dataBufferLen != 0 && (!peek || nlc->dataBufferLen >= len))
+	if (nlc->dataBufferLen != 0 && ( !peek || nlc->dataBufferLen >= len))
 	{
 		return HttpGatewayReadSetResult(nlc, buf, len, peek);
 	}
 
-	for (int retryCount = 0; retryCount < NETLIBHTTP_RETRYCOUNT; )
+	for (int retryCount = 0; retryCount < NETLIBHTTP_RETRYCOUNT;)
 	{
 		if (nlc->nlhpi.szHttpGetUrl == NULL && retryCount == 0)
 		{
 			if (nlc->pollingTimeout == 0) nlc->pollingTimeout = 30;
 
 			/* We Need to sleep/wait for the data to send before we do receive */
-			for (int pollCount = nlc->pollingTimeout; pollCount--; )
+			for (int pollCount = nlc->pollingTimeout; pollCount--;)
 			{
 				if (nlc->pHttpProxyPacketQueue != NULL && GetTickCount() - nlc->lastPost > 1000)
 					break;
@@ -324,7 +324,7 @@ int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int 
 		int numPackets = 0;
 		if (nlc->nlhpi.szHttpGetUrl)
 		{
-			if (!NetlibHttpGatewaySend(nlc, reqOldGet, NULL, 0))
+			if ( !NetlibHttpGatewaySend(nlc, reqOldGet, NULL, 0))
 			{
 				if (GetLastError() == ERROR_ACCESS_DENIED || nlc->termRequested)
 					break;
@@ -335,7 +335,7 @@ int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int 
 		}
 		else
 		{
-			if (!NetlibHttpGatewayStdPost(nlc, numPackets)) 
+			if ( !NetlibHttpGatewayStdPost(nlc, numPackets)) 
 			{
 				if (GetLastError() == ERROR_ACCESS_DENIED || nlc->termRequested)
 					break;
@@ -451,7 +451,7 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 			return 0;
 		}
 	}
-	if (!nlu->user.pfnHttpGatewayInit(nlc, nloc, nlhrReply)) 
+	if ( !nlu->user.pfnHttpGatewayInit(nlc, nloc, nlhrReply)) 
 	{
 		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 		return 0;
@@ -481,7 +481,7 @@ INT_PTR NetlibHttpGatewaySetInfo(WPARAM wParam, LPARAM lParam)
 	NETLIBHTTPPROXYINFO *nlhpi=(NETLIBHTTPPROXYINFO*)lParam;
 	struct NetlibConnection *nlc=(struct NetlibConnection*)wParam;
 
-	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL ||
+	if (GetNetlibHandleType(nlc) != NLH_CONNECTION || nlhpi == NULL  || 
 		nlhpi->cbSize < (sizeof(NETLIBHTTPPROXYINFO) - sizeof(int)) || 
 		nlhpi->szHttpPostUrl == NULL) 
 	{

@@ -25,13 +25,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_system.h"
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define tstring wstring
 #else
 	#define tstring string
 #endif
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 extern LIST_INTERFACE li;
 
 #define	NumericKeySortT -1
@@ -40,64 +40,64 @@ extern LIST_INTERFACE li;
 
 template<class T> struct LIST
 {
-	typedef int ( *FTSortFunc )( const T* p1, const T* p2 );
+	typedef int (*FTSortFunc)(const T* p1, const T* p2);
 
-	__inline LIST( int aincr, FTSortFunc afunc = NULL )
-	{	memset( this, 0, sizeof( *this ));
+	__inline LIST(int aincr, FTSortFunc afunc = NULL)
+	{	memset(this, 0, sizeof(*this));
 		increment = aincr;
 		sortFunc = afunc;
 	}
 
-	__inline LIST( int aincr, INT_PTR id )
-	{	memset( this, 0, sizeof( *this ));
+	__inline LIST(int aincr, INT_PTR id)
+	{	memset(this, 0, sizeof(*this));
 		increment = aincr;
-		sortFunc = FTSortFunc( id );
+		sortFunc = FTSortFunc(id);
 	}
 
-	__inline T* operator[]( int idx ) const { return ( idx >= 0 && idx < count ) ? items[idx] : NULL; }
-	__inline int getCount( void )     const { return count; }
-	__inline T** getArray( void )     const { return items; }
+	__inline T* operator[](int idx) const { return (idx >= 0 && idx < count) ? items[idx] : NULL; }
+	__inline int getCount(void)     const { return count; }
+	__inline T** getArray(void)     const { return items; }
 
-	#if defined( _STATIC )
-	    __inline LIST( const LIST& x )
+	#if defined(_STATIC)
+	    __inline LIST(const LIST& x)
 	    {	 items = NULL;
-		    List_Copy(( SortedList* )&x, ( SortedList* )this, sizeof( T ));
+		    List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 	    }
 
-		__inline int getIndex( T* p ) const
+		__inline int getIndex(T* p) const
 		{	int idx;
-			return ( !List_GetIndex(( SortedList* )this, p, &idx )) ? -1 : idx;
+			return ( !List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
 		}
 
-		__inline void destroy( void )        { List_Destroy(( SortedList* )this ); }
+		__inline void destroy(void)        { List_Destroy((SortedList*)this); }
 
-		__inline T*  find( T* p )            { return ( T* )List_Find(( SortedList* )this, p ); }
-		__inline int indexOf( T* p )         { return List_IndexOf(( SortedList* )this, p ); }
-		__inline int insert( T* p, int idx ) { return List_Insert(( SortedList* )this, p, idx ); }
-		__inline int remove( int idx )       { return List_Remove(( SortedList* )this, idx ); }
+		__inline T*  find(T* p)            { return (T*)List_Find((SortedList*)this, p); }
+		__inline int indexOf(T* p)         { return List_IndexOf((SortedList*)this, p); }
+		__inline int insert(T* p, int idx) { return List_Insert((SortedList*)this, p, idx); }
+		__inline int remove(int idx)       { return List_Remove((SortedList*)this, idx); }
 
-		__inline int insert( T* p )          { return List_InsertPtr(( SortedList* )this, p ); }
-		__inline int remove( T* p )          { return List_RemovePtr(( SortedList* )this, p ); }
+		__inline int insert(T* p)          { return List_InsertPtr((SortedList*)this, p); }
+		__inline int remove(T* p)          { return List_RemovePtr((SortedList*)this, p); }
 	#else
-	    __inline LIST( const LIST& x )
+	    __inline LIST(const LIST& x)
 	    {	 items = NULL;
-		    li.List_Copy(( SortedList* )&x, ( SortedList* )this, sizeof( T ));
+		    li.List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 	    }
 
-		__inline int getIndex( T* p ) const
+		__inline int getIndex(T* p) const
 		{	int idx;
-			return ( !li.List_GetIndex(( SortedList* )this, p, &idx )) ? -1 : idx;
+			return ( !li.List_GetIndex((SortedList*)this, p, &idx)) ? -1 : idx;
 		}
 
-		__inline void destroy( void )        { li.List_Destroy(( SortedList* )this ); }
+		__inline void destroy(void)        { li.List_Destroy((SortedList*)this); }
 
-		__inline T*  find( T* p )            { return ( T* )li.List_Find(( SortedList* )this, p ); }
-		__inline int indexOf( T* p )         { return li.List_IndexOf(( SortedList* )this, p ); }
-		__inline int insert( T* p, int idx ) { return li.List_Insert(( SortedList* )this, p, idx ); }
-		__inline int remove( int idx )       { return li.List_Remove(( SortedList* )this, idx ); }
+		__inline T*  find(T* p)            { return (T*)li.List_Find((SortedList*)this, p); }
+		__inline int indexOf(T* p)         { return li.List_IndexOf((SortedList*)this, p); }
+		__inline int insert(T* p, int idx) { return li.List_Insert((SortedList*)this, p, idx); }
+		__inline int remove(int idx)       { return li.List_Remove((SortedList*)this, idx); }
 
-		__inline int insert( T* p )          { return li.List_InsertPtr(( SortedList* )this, p ); }
-		__inline int remove( T* p )          { return li.List_RemovePtr(( SortedList* )this, p ); }
+		__inline int insert(T* p)          { return li.List_InsertPtr((SortedList*)this, p); }
+		__inline int remove(T* p)          { return li.List_RemovePtr((SortedList*)this, p); }
 	#endif
 
 protected:
@@ -108,71 +108,71 @@ protected:
 
 template<class T> struct OBJLIST : public LIST<T>
 {
-	typedef int ( *FTSortFunc )( const T* p1, const T* p2 );
+	typedef int (*FTSortFunc)(const T* p1, const T* p2);
 
-	__inline OBJLIST( int aincr, FTSortFunc afunc = NULL ) :
-		LIST<T>( aincr, afunc )
+	__inline OBJLIST(int aincr, FTSortFunc afunc = NULL) :
+		LIST<T>(aincr, afunc)
 		{}
 
-	__inline OBJLIST( int aincr, INT_PTR id ) :
-		LIST<T>( aincr, ( FTSortFunc ) id )
+	__inline OBJLIST(int aincr, INT_PTR id) :
+		LIST<T>(aincr, (FTSortFunc) id)
 		{}
 
-	__inline OBJLIST( const OBJLIST& x ) :
-		LIST<T>( x.increment, x.sortFunc )
+	__inline OBJLIST(const OBJLIST& x) :
+		LIST<T>(x.increment, x.sortFunc)
 		{	items = NULL;
-			#if defined( _STATIC )
-				List_ObjCopy(( SortedList* )&x, ( SortedList* )this, sizeof( T ));
+			#if defined(_STATIC)
+				List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 			#else
-				li.List_ObjCopy(( SortedList* )&x, ( SortedList* )this, sizeof( T ));
+				li.List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 			#endif
 		}
 
-	__inline OBJLIST& operator=( const OBJLIST& x )
+	__inline OBJLIST& operator=(const OBJLIST& x)
 		{	destroy();
-			#if defined( _STATIC )
-				List_ObjCopy(( SortedList* )&x, ( SortedList* )this, sizeof( T ));
+			#if defined(_STATIC)
+				List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 			#else
-				li.List_ObjCopy(( SortedList* )&x, ( SortedList* )this, sizeof( T ));
+				li.List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
 			#endif
 			return *this;
 		}
 
 	~OBJLIST()
 	{
-		#if !defined( _STATIC )
+		#if !defined(_STATIC)
 			if (li.cbSize != 0)
 		#endif
 				destroy();
 	}
 
-	__inline void destroy( void )
+	__inline void destroy(void)
 	{
-		for ( int i=0; i < this->count; i++ )
+		for (int i=0; i < this->count; i++)
 			delete this->items[i];
 
-		#if defined( _STATIC )
-			List_Destroy(( SortedList* )this );
+		#if defined(_STATIC)
+			List_Destroy((SortedList*)this);
 		#else
-			li.List_Destroy(( SortedList* )this );
+			li.List_Destroy((SortedList*)this);
 		#endif
 	}
 
-	__inline int remove( int idx ) {
+	__inline int remove(int idx) {
 		delete this->items[idx];
-		#if defined( _STATIC )
-			return List_Remove(( SortedList* )this, idx );
+		#if defined(_STATIC)
+			return List_Remove((SortedList*)this, idx);
 		#else
-			return li.List_Remove(( SortedList* )this, idx );
+			return li.List_Remove((SortedList*)this, idx);
 		#endif
 	}
 
-	__inline int remove( T* p )
+	__inline int remove(T* p)
 	{
-		#if defined( _STATIC )
-		if ( li.List_RemovePtr(( SortedList* )this, p ) != -1 )
+		#if defined(_STATIC)
+		if (li.List_RemovePtr((SortedList*)this, p) != -1)
 		#else
-		if ( li.List_RemovePtr(( SortedList* )this, p ) != -1 )
+		if (li.List_RemovePtr((SortedList*)this, p) != -1)
 		#endif
 		{
 			delete p;
@@ -181,7 +181,7 @@ template<class T> struct OBJLIST : public LIST<T>
 		return 0;
 	}
 
-	__inline T& operator[]( int idx ) const { return *this->items[idx]; }
+	__inline T& operator[](int idx) const { return *this->items[idx]; }
 };
 
 #endif

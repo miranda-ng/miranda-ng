@@ -1100,7 +1100,7 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
 		odp.pszTab = (char*)tabPages[i].tabName;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
@@ -1108,7 +1108,7 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Typing Notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.pszTab = NULL;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

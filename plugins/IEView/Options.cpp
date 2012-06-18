@@ -434,14 +434,14 @@ int IEViewOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
 	odp.ptszTab = tabPages[0].tabName;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 	odp.ptszGroup = _T("Skins");
 	odp.ptszTitle = _T("IEView");
 	for (i = 1; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
 		odp.ptszTab = tabPages[i].tabName;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }

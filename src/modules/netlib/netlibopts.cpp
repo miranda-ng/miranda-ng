@@ -167,7 +167,7 @@ static void ChangeSettingIntByCheckbox(HWND hwndDlg, UINT ctrlId, int iUser, int
 	if (iUser == -1)
 	{
 		for (i=0; i<tempSettings.getCount(); i++)
-			if (!(tempSettings[i]->flags & NUF_NOOPTIONS))
+			if ( !(tempSettings[i]->flags & NUF_NOOPTIONS))
 				*(int*)(((PBYTE)&tempSettings[i]->settings) + memberOffset) = newValue;
 	}
 	else *(int*)(((PBYTE)&tempSettings[iUser]->settings) + memberOffset)=newValue;
@@ -185,7 +185,7 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 	if (iUser == -1) 
 	{
 		for (i=0; i<tempSettings.getCount(); ++i)
-			if (!(tempSettings[i]->flags & NUF_NOOPTIONS))
+			if ( !(tempSettings[i]->flags & NUF_NOOPTIONS))
 			{
 				ppszNew=(char**)(((PBYTE)&tempSettings[i]->settings)+memberOffset);
 				if (*ppszNew) mir_free(*ppszNew);
@@ -323,7 +323,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			AddProxyTypeItem(hwndDlg, PROXYTYPE_SOCKS4, settings.proxyType);
 			AddProxyTypeItem(hwndDlg, PROXYTYPE_SOCKS5, settings.proxyType);
 			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTP, settings.proxyType);
-			if (!(flags & NUF_NOHTTPSOPTION)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTPS, settings.proxyType);
+			if ( !(flags & NUF_NOHTTPSOPTION)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTPS, settings.proxyType);
 			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY) || !(flags & NUF_NOHTTPSOPTION)) 
 				AddProxyTypeItem(hwndDlg, PROXYTYPE_IE, settings.proxyType);
 			SetDlgItemTextA(hwndDlg, IDC_PROXYHOST, settings.szProxyServer?settings.szProxyServer:"");
@@ -364,7 +364,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					int i;
 					for (i = 0; i < tempSettings.getCount(); ++i)
 					{
-						if (!tempSettings[i]->settings.useProxy ||
+						if ( !tempSettings[i]->settings.useProxy  || 
 							tempSettings[i]->flags & NUF_NOOPTIONS || !(tempSettings[i]->flags & NUF_OUTGOING))
 							continue;
 
@@ -472,7 +472,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						if (iUser == -1)
 						{
 							for (i = 0; i < tempSettings.getCount(); ++i)
-								if (!(tempSettings[i]->flags & NUF_NOOPTIONS))
+								if ( !(tempSettings[i]->flags & NUF_NOOPTIONS))
 									tempSettings[i]->settings.wProxyPort = newValue;
 						}
 						else tempSettings[iUser]->settings.wProxyPort = newValue;
@@ -536,7 +536,7 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	int optionsCount = 0;
 	EnterCriticalSection(&csNetlibUser);
 	for (int i = 0; i < netlibUser.getCount(); ++i)
-		if (!(netlibUser[i]->user.flags & NUF_NOOPTIONS)) ++optionsCount;
+		if ( !(netlibUser[i]->user.flags & NUF_NOOPTIONS)) ++optionsCount;
 	LeaveCriticalSection(&csNetlibUser);
 	if (optionsCount == 0) return 0;
 
@@ -550,7 +550,7 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcNetlibOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF( expertOnlyControls );
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }

@@ -469,14 +469,14 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup = _T("Events");
 	odp.ptszTitle = _T("Pack Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	if (ServiceExists(MS_POPUP_ADDPOPUP))
 	{
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
 		odp.ptszGroup = _T("PopUps");
 		odp.ptszTitle = _T("Pack Updater");
 		odp.pfnDlgProc = DlgPopUpOpts;
-		CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+		Options_AddPage(wParam,&odp);
 	}
 	return 0;
 }

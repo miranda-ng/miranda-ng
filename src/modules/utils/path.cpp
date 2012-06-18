@@ -33,9 +33,9 @@ static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam);
 
 static int pathIsAbsolute(const char *path)
 {
-	if ( strlen(path) <= 2 )
+	if (strlen(path) <= 2)
 		return 0;
-	if ((path[1] == ':'&&path[2] == '\\')||(path[0] == '\\'&&path[1] == '\\'))
+	if ((path[1] == ':'&&path[2] == '\\') || (path[0] == '\\'&&path[1] == '\\'))
 		return 1;
 	return 0;
 }
@@ -44,8 +44,8 @@ static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
 {
 	char *pSrc = (char*)wParam;
 	char *pOut = (char*)lParam;
-	if (!pSrc||!strlen(pSrc)||strlen(pSrc)>MAX_PATH) return 0;
-	if (!pathIsAbsolute(pSrc)) {
+	if ( !pSrc || !strlen(pSrc) || strlen(pSrc)>MAX_PATH) return 0;
+	if ( !pathIsAbsolute(pSrc)) {
 		mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
 		return strlen(pOut);
 	}
@@ -67,21 +67,21 @@ static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
 
 int pathToAbsolute(const char *pSrc, char *pOut, char* base)
 {
-	if ( !pSrc || !strlen( pSrc ) || strlen( pSrc ) > MAX_PATH )
+	if ( !pSrc || !strlen(pSrc) || strlen(pSrc) > MAX_PATH)
 		return 0;
 
-	if ( base == NULL )
+	if (base == NULL)
 		base = szMirandaPath;
 
 	char buf[MAX_PATH];
-	if ( pSrc[0] < ' ')
-		return mir_snprintf( pOut, MAX_PATH, "%s", pSrc );
-	else if ( pathIsAbsolute( pSrc ))
+	if (pSrc[0] < ' ')
+		return mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
+	else if (pathIsAbsolute(pSrc))
 		return GetFullPathNameA(pSrc, MAX_PATH, pOut, NULL);
-	else if ( pSrc[0] != '\\' )
-		mir_snprintf( buf, MAX_PATH, "%s%s", base, pSrc );
+	else if (pSrc[0] != '\\')
+		mir_snprintf(buf, MAX_PATH, "%s%s", base, pSrc);
 	else
-		mir_snprintf( buf, MAX_PATH, "%s%s", base, pSrc+1 );
+		mir_snprintf(buf, MAX_PATH, "%s%s", base, pSrc+1);
 
 	return GetFullPathNameA(buf, MAX_PATH, pOut, NULL);
 }
@@ -91,42 +91,42 @@ static INT_PTR pathToAbsolute(WPARAM wParam, LPARAM lParam)
 	return pathToAbsolute((char*)wParam, (char*)lParam, szMirandaPath);
 }
 
-void CreatePathToFile( char* szFilePath )
+void CreatePathToFile(char* szFilePath)
 {
-	char* pszLastBackslash = strrchr( szFilePath, '\\' );
-	if ( pszLastBackslash == NULL )
+	char* pszLastBackslash = strrchr(szFilePath, '\\');
+	if (pszLastBackslash == NULL)
 		return;
 
 	*pszLastBackslash = '\0';
-	CreateDirectoryTree( szFilePath );
+	CreateDirectoryTree(szFilePath);
 	*pszLastBackslash = '\\';
 }
 
-int CreateDirectoryTree( const char *szDir )
+int CreateDirectoryTree(const char *szDir)
 {
 	DWORD dwAttributes;
 	char *pszLastBackslash, szTestDir[ MAX_PATH ];
 
-	lstrcpynA( szTestDir, szDir, SIZEOF( szTestDir ));
-	if (( dwAttributes = GetFileAttributesA( szTestDir )) != INVALID_FILE_ATTRIBUTES && ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ))
+	lstrcpynA(szTestDir, szDir, SIZEOF(szTestDir));
+	if ((dwAttributes = GetFileAttributesA(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
-	pszLastBackslash = strrchr( szTestDir, '\\' );
-	if ( pszLastBackslash == NULL )
+	pszLastBackslash = strrchr(szTestDir, '\\');
+	if (pszLastBackslash == NULL)
 		return 0;
 
 	*pszLastBackslash = '\0';
-	CreateDirectoryTree( szTestDir );
+	CreateDirectoryTree(szTestDir);
 	*pszLastBackslash = '\\';
-	return ( CreateDirectoryA( szTestDir, NULL ) == 0 ) ? GetLastError() : 0;
+	return (CreateDirectoryA(szTestDir, NULL) == 0) ? GetLastError() : 0;
 }
 
 static INT_PTR createDirTree(WPARAM, LPARAM lParam)
 {
-	if ( lParam == 0 )
+	if (lParam == 0)
 		return 1;
 
-	return CreateDirectoryTree(( char* )lParam );
+	return CreateDirectoryTree((char*)lParam);
 }
 
 static TCHAR szMirandaPathW[MAX_PATH];
@@ -134,9 +134,9 @@ static TCHAR szMirandaPathWLower[MAX_PATH];
 
 static int pathIsAbsoluteW(const TCHAR *path)
 {
-	if ( lstrlen(path) <= 2 )
+	if (lstrlen(path) <= 2)
 		return 0;
-	if ((path[1] == ':'&&path[2] == '\\')||(path[0] == '\\'&&path[1] == '\\'))
+	if ((path[1] == ':'&&path[2] == '\\') || (path[0] == '\\'&&path[1] == '\\'))
 		return 1;
 	return 0;
 }
@@ -145,10 +145,10 @@ static INT_PTR pathToRelativeW(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *pSrc = (TCHAR*)wParam;
 	TCHAR *pOut = (TCHAR*)lParam;
-	if ( !pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH )
+	if ( !pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
 		return 0;
 
-	if ( !pathIsAbsoluteW( pSrc ))
+	if ( !pathIsAbsoluteW(pSrc))
 		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
 	else {
 		TCHAR szTmp[MAX_PATH];
@@ -168,18 +168,18 @@ int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base)
 	if ( !pSrc || !wcslen(pSrc) || wcslen(pSrc) > MAX_PATH)
 		return 0;
 
-	if ( base == NULL )
+	if (base == NULL)
 		base = szMirandaPathW;
 
 	TCHAR buf[MAX_PATH];
-	if ( pSrc[0] < ' ')
-		return mir_sntprintf( pOut, MAX_PATH, _T("%s"), pSrc );
-	else if ( pathIsAbsoluteW( pSrc ))
+	if (pSrc[0] < ' ')
+		return mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
+	else if (pathIsAbsoluteW(pSrc))
 		return GetFullPathName(pSrc, MAX_PATH, pOut, NULL);
-	else if ( pSrc[0] != '\\' )
-		mir_sntprintf( buf, MAX_PATH, _T("%s%s"), base, pSrc );
+	else if (pSrc[0] != '\\')
+		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc);
 	else
-		mir_sntprintf( buf, MAX_PATH, _T("%s%s"), base, pSrc+1 );
+		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc+1);
 
 	return GetFullPathName(buf, MAX_PATH, pOut, NULL);
 }
@@ -189,49 +189,49 @@ static INT_PTR pathToAbsoluteW(WPARAM wParam, LPARAM lParam)
 	return pathToAbsoluteW((TCHAR*)wParam, (TCHAR*)lParam, szMirandaPathW);
 }
 
-void CreatePathToFileW( WCHAR* wszFilePath )
+void CreatePathToFileW(WCHAR* wszFilePath)
 {
-	WCHAR* pszLastBackslash = wcsrchr( wszFilePath, '\\' );
-	if ( pszLastBackslash == NULL )
+	WCHAR* pszLastBackslash = wcsrchr(wszFilePath, '\\');
+	if (pszLastBackslash == NULL)
 		return;
 
 	*pszLastBackslash = '\0';
-	CreateDirectoryTreeW( wszFilePath );
+	CreateDirectoryTreeW(wszFilePath);
 	*pszLastBackslash = '\\';
 }
 
-int CreateDirectoryTreeW( const WCHAR* szDir )
+int CreateDirectoryTreeW(const WCHAR* szDir)
 {
 	DWORD  dwAttributes;
 	WCHAR* pszLastBackslash, szTestDir[ MAX_PATH ];
 
-	lstrcpynW( szTestDir, szDir, SIZEOF( szTestDir ));
-	if (( dwAttributes = GetFileAttributesW( szTestDir )) != INVALID_FILE_ATTRIBUTES && ( dwAttributes & FILE_ATTRIBUTE_DIRECTORY ))
+	lstrcpynW(szTestDir, szDir, SIZEOF(szTestDir));
+	if ((dwAttributes = GetFileAttributesW(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
-	pszLastBackslash = wcsrchr( szTestDir, '\\' );
-	if ( pszLastBackslash == NULL )
+	pszLastBackslash = wcsrchr(szTestDir, '\\');
+	if (pszLastBackslash == NULL)
 		return 0;
 
 	*pszLastBackslash = '\0';
-	CreateDirectoryTreeW( szTestDir );
+	CreateDirectoryTreeW(szTestDir);
 	*pszLastBackslash = '\\';
-	return ( CreateDirectoryW( szTestDir, NULL ) == 0 ) ? GetLastError() : 0;
+	return (CreateDirectoryW(szTestDir, NULL) == 0) ? GetLastError() : 0;
 }
 
 static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
 {
-	if ( lParam == 0 )
+	if (lParam == 0)
 		return 1;
 
-	return CreateDirectoryTreeW(( WCHAR* )lParam );
+	return CreateDirectoryTreeW((WCHAR*)lParam);
 }
 
 int InitPathUtilsW(void)
 {
 	GetModuleFileName(hMirandaInst, szMirandaPathW, SIZEOF(szMirandaPathW));
 	TCHAR *p = _tcsrchr(szMirandaPathW, '\\');
-	if ( p )
+	if (p)
 		p[1] = 0;
 	mir_sntprintf(szMirandaPathWLower, SIZEOF(szMirandaPathWLower), _T("%s"), szMirandaPathW);
 	_tcslwr(szMirandaPathWLower);
@@ -244,10 +244,10 @@ int InitPathUtilsW(void)
 TCHAR *GetContactID(HANDLE hContact)
 {
 	TCHAR *theValue = {0};
-	char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
-		if (!DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
+		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
 			DBFreeVariant(&dbv);
 			return theValue;
@@ -258,7 +258,7 @@ TCHAR *GetContactID(HANDLE hContact)
 		ci.hContact = hContact;
 		ci.szProto = szProto;
 		ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
+		if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 			switch (ci.type) {
 			case CNFT_ASCIIZ:
 				return (TCHAR *)ci.pszVal;
@@ -301,9 +301,9 @@ static __forceinline char *GetEnvironmentVariableX(char *variable)
 		return mir_strdup(result);
 	return NULL;
 }
-static __forceinline char *GetProfileDirX( char* )
+static __forceinline char *GetProfileDirX(char*)
 {
-	return mir_t2a( g_profileDir );
+	return mir_t2a(g_profileDir);
 }
 static __forceinline char *SHGetSpecialFolderPathX(int iCSIDL, char* var)
 {
@@ -331,22 +331,22 @@ static __forceinline char *GetUserNameX(char *)
 static __forceinline char *GetProfileNameX(char *)
 {
 	TCHAR szProfileName[MAX_PATH];
-	_tcscpy( szProfileName, g_profileName );
+	_tcscpy(szProfileName, g_profileName);
 	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if ( lstrcmp( pos, _T(".dat")) == 0 )
+	if (lstrcmp(pos, _T(".dat")) == 0)
 		*pos = 0;
-	return mir_t2a( szProfileName );
+	return mir_t2a(szProfileName);
 }
 static __forceinline char *GetPathVarX(char *, int code)
 {
 	TCHAR szFullPath[MAX_PATH], szProfileName[MAX_PATH];
-	_tcscpy( szProfileName, g_profileName );
-	_tcslwr( szProfileName );
+	_tcscpy(szProfileName, g_profileName);
+	_tcslwr(szProfileName);
 	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if ( lstrcmp( pos, _T(".dat")) == 0 )
+	if (lstrcmp(pos, _T(".dat")) == 0)
 		*pos = 0;
 
-	switch( code ) {
+	switch(code) {
 	case 1:
 		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, szProfileName);
 		break; 
@@ -357,7 +357,7 @@ static __forceinline char *GetPathVarX(char *, int code)
 		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, szProfileName);
 		break;
 	}
-	return makeFileName( szFullPath );
+	return makeFileName(szFullPath);
 }
 
 static __forceinline int _xcscmp(const TCHAR *s1, const TCHAR *s2) { return _tcscmp(s1, s2); }
@@ -390,9 +390,9 @@ static __forceinline TCHAR *SHGetSpecialFolderPathX(int iCSIDL, TCHAR* var)
 		return mir_tstrdup(result);
 	return NULL;
 }
-static __forceinline TCHAR *GetProfileDirX( TCHAR* )
+static __forceinline TCHAR *GetProfileDirX(TCHAR*)
 {
-	return mir_tstrdup( g_profileDir );
+	return mir_tstrdup(g_profileDir);
 }
 static __forceinline TCHAR *GetModulePathX(TCHAR *, HMODULE hModule)
 {
@@ -413,21 +413,21 @@ static __forceinline TCHAR *GetUserNameX(TCHAR *)
 static __forceinline TCHAR *GetProfileNameX(TCHAR *)
 {
 	TCHAR szProfileName[MAX_PATH];
-	_tcscpy( szProfileName, g_profileName );
+	_tcscpy(szProfileName, g_profileName);
 	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if ( lstrcmp( pos, _T(".dat")) == 0 )
+	if (lstrcmp(pos, _T(".dat")) == 0)
 		*pos = 0;
-	return mir_tstrdup( szProfileName );
+	return mir_tstrdup(szProfileName);
 }
 static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 {
 	TCHAR szFullPath[MAX_PATH], szProfileName[MAX_PATH];
-	_tcscpy( szProfileName, g_profileName );
+	_tcscpy(szProfileName, g_profileName);
 	TCHAR *pos = _tcsrchr(szProfileName, '.');
-	if ( lstrcmp( pos, _T(".dat")) == 0 )
+	if (lstrcmp(pos, _T(".dat")) == 0)
 		*pos = 0;
 
-	switch( code ) {
+	switch(code) {
 	case 1:
 		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s\\AvatarCache"), g_profileDir, szProfileName);
 		break; 
@@ -438,7 +438,7 @@ static __forceinline TCHAR *GetPathVarX(TCHAR *, int code)
 		mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\%s"), g_profileDir, szProfileName);
 		break;
 	}
-	return mir_tstrdup( szFullPath );
+	return mir_tstrdup(szFullPath);
 }
 
 template<typename XCHAR>
@@ -450,38 +450,38 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
 	theKey[keyLength] = 0;
 
 	if (hContact) {
-		if (!_xcscmp(theKey, XSTR(key, "nick")))
+		if ( !_xcscmp(theKey, XSTR(key, "nick")))
 			theValue = GetContactNickX(key, hContact);
-		else if (!_xcscmp(theKey, XSTR(key, "proto")))
+		else if ( !_xcscmp(theKey, XSTR(key, "proto")))
 			theValue = mir_a2x(key, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
-		else if (!_xcscmp(theKey, XSTR(key, "userid"))) 
+		else if ( !_xcscmp(theKey, XSTR(key, "userid"))) 
 			theValue = GetContactIDX(key, hContact);
 	}
 
-	if (!theValue) {
-		if (!_xcscmp(theKey, XSTR(key, "miranda_path")))
+	if ( !theValue) {
+		if ( !_xcscmp(theKey, XSTR(key, "miranda_path")))
 			theValue = GetModulePathX(key, NULL);
-		else if (!_xcscmp(theKey, XSTR(key, "appdata")))
+		else if ( !_xcscmp(theKey, XSTR(key, "appdata")))
 			theValue = SHGetSpecialFolderPathX(CSIDL_APPDATA, theKey);
-		else if (!_xcscmp(theKey, XSTR(key, "mydocuments")))
+		else if ( !_xcscmp(theKey, XSTR(key, "mydocuments")))
 			theValue = SHGetSpecialFolderPathX(CSIDL_PERSONAL, theKey);
-		else if (!_xcscmp(theKey, XSTR(key, "desktop")))
+		else if ( !_xcscmp(theKey, XSTR(key, "desktop")))
 			theValue = SHGetSpecialFolderPathX(CSIDL_DESKTOPDIRECTORY, theKey);
-		else if (!_xcscmp(theKey, XSTR(key, "miranda_profile")))
+		else if ( !_xcscmp(theKey, XSTR(key, "miranda_profile")))
 			theValue = GetProfileDirX(key);
-		else if (!_xcscmp(theKey, XSTR(key, "miranda_profilename")))
+		else if ( !_xcscmp(theKey, XSTR(key, "miranda_profilename")))
 			theValue = GetProfileNameX(key);
-		else if (!_xcscmp(theKey, XSTR(key, "username")))
+		else if ( !_xcscmp(theKey, XSTR(key, "username")))
 			theValue = GetUserNameX(key);
-		else if (!_xcscmp(theKey, XSTR(key, "miranda_avatarcache")))
+		else if ( !_xcscmp(theKey, XSTR(key, "miranda_avatarcache")))
 			theValue = GetPathVarX(key, 1);
-		else if (!_xcscmp(theKey, XSTR(key, "miranda_logpath")))
+		else if ( !_xcscmp(theKey, XSTR(key, "miranda_logpath")))
 			theValue = GetPathVarX(key, 2);
-		else if (!_xcscmp(theKey, XSTR(key, "miranda_userdata")))
+		else if ( !_xcscmp(theKey, XSTR(key, "miranda_userdata")))
 			theValue = GetPathVarX(key, 3);
 	}
 
-	if (!theValue)
+	if ( !theValue)
 		theValue = GetEnvironmentVariableX(theKey);
 
 	return theValue;
@@ -502,7 +502,7 @@ XCHAR *GetVariableFromArray(REPLACEVARSARRAY *vars, XCHAR *key, size_t keyLength
 template<typename XCHAR>
 XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 {
-	if (!str)
+	if ( !str)
 		return NULL;
 
 	XCHAR *p;
@@ -526,7 +526,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 			}
 			else varStart = p+1;
 		}
-		else if (!varStart)
+		else if ( !varStart)
 			length++;
 	}
 
@@ -553,7 +553,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 			}
 			else varStart = p+1;
 		}
-		else if (!varStart)
+		else if ( !varStart)
 			*q++ = *p;
 	}
 
@@ -565,7 +565,7 @@ XCHAR *ReplaceVariables(XCHAR *str, REPLACEVARSDATA *data)
 static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 {
 	REPLACEVARSDATA *data = (REPLACEVARSDATA *)lParam;
-	if (!(data->dwFlags & RVF_UNICODE))
+	if ( !(data->dwFlags & RVF_UNICODE))
 		return (INT_PTR)ReplaceVariables<char>((char *)wParam, data);
 
 
@@ -577,7 +577,7 @@ int InitPathUtils(void)
 	char *p = 0;
 	GetModuleFileNameA(hMirandaInst, szMirandaPath, SIZEOF(szMirandaPath));
 	p = strrchr(szMirandaPath, '\\');
-	if ( p )
+	if (p)
 		p[1] = 0;
 	mir_snprintf(szMirandaPathLower, MAX_PATH, "%s", szMirandaPath);
 	_strlwr(szMirandaPathLower);

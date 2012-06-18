@@ -46,9 +46,9 @@ void ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int cx
         ULONG cxDelta = cxRow - bmi.bmiHeader.biWidth;
         ARGB *pargbMask = (ARGB *)pvBits;
 
-        for (ULONG y = bmi.bmiHeader.biHeight + 1; --y; )
+        for (ULONG y = bmi.bmiHeader.biHeight + 1; --y;)
         {
-            for (ULONG x = bmi.bmiHeader.biWidth + 1; --x; )
+            for (ULONG x = bmi.bmiHeader.biWidth + 1; --x;)
             {
                 if (*pargbMask++)
                 {
@@ -68,12 +68,12 @@ void ConvertToPARGB32(HDC hdc, ARGB *pargb, HBITMAP hbmp, SIZE& sizImage, int cx
     free(pvBits);
 }
 
-bool HasAlpha( ARGB *pargb, SIZE& sizImage, int cxRow)
+bool HasAlpha(ARGB *pargb, SIZE& sizImage, int cxRow)
 {
     ULONG cxDelta = cxRow - sizImage.cx;
-    for (ULONG y = sizImage.cy; y--; )
+    for (ULONG y = sizImage.cy; y--;)
     {
-        for (ULONG x = sizImage.cx; x--; )
+        for (ULONG x = sizImage.cx; x--;)
         {
             if (*pargb++ & 0xFF000000)
                 return true;
@@ -92,7 +92,7 @@ void ConvertBufferToPARGB32(HANDLE hPaintBuffer, HDC hdc, HICON hIcon, SIZE& siz
     if (SUCCEEDED(hr))
     {
         ARGB *pargb = (ARGB *)prgbQuad;
-        if (!HasAlpha(pargb, sizIcon, cxRow))
+        if ( !HasAlpha(pargb, sizIcon, cxRow))
         {
             ICONINFO info;
             if (GetIconInfo(hIcon, &info))

@@ -1921,7 +1921,7 @@ int onRegisterOptions(WPARAM wParam, LPARAM) {
 	odp.pszTitle = (char*)szModuleName;
 	odp.pszGroup = LPGEN("Services");
 	odp.pfnDlgProc = OptionsDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

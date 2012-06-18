@@ -443,6 +443,6 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = _T("Splash Screen");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }

@@ -219,6 +219,6 @@ int __cdecl CIrcProto::OnInitUserInfo(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = UserDetailsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
 	odp.pszTitle = m_szModuleName;
-	CallService( MS_USERINFO_ADDPAGE, wParam, (LPARAM) & odp);
+	UserInfo_AddPage(wParam, &odp);
 	return 0;
 }

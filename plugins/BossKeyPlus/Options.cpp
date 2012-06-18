@@ -405,13 +405,13 @@ int OptsDlgInit(WPARAM wParam,LPARAM lParam)
 	optDi.ptszTab	= _T("Main");
 	optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 
 	optDi.flags |= ODPF_EXPERTONLY;
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
 	optDi.ptszTab	= _T("Advanced");
 
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&optDi);
+	Options_AddPage(wParam, &optDi);
 	return(0);
 }

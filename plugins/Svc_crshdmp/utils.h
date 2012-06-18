@@ -147,7 +147,7 @@ void StoreStringToClip(bkstring& buffer);
 void ShowMessage(int type, const TCHAR* format, ...);
 bool IsPluginEnabled(TCHAR* filename);
 
-PLUGININFO* GetMirInfo(HMODULE hModule);
+PLUGININFOEX* GetMirInfo(HMODULE hModule);
 const PLUGININFOEX* GetPluginInfoEx(void);
 
 void CreateMiniDump   (HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);

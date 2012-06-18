@@ -237,26 +237,23 @@ PLUGININFOEX *CopyPluginInfo(PLUGININFOEX *piSrc)
 	else
 		pi->uuid = UUID_NULL;
 		
-	if (piSrc->cbSize >= sizeof(PLUGININFO)) {
-		if(pi->author) pi->author = _strdup(pi->author);
-		if(pi->authorEmail) pi->authorEmail = _strdup(pi->authorEmail);
-		if(pi->copyright) pi->copyright = _strdup(pi->copyright);
-		if(pi->description) pi->description = _strdup(pi->description);
-		if(pi->homepage) pi->homepage = _strdup(pi->homepage);
-		if(pi->shortName) pi->shortName = _strdup(pi->shortName);
-	}
-	
+	if (pi->author) pi->author = _strdup(pi->author);
+	if (pi->authorEmail) pi->authorEmail = _strdup(pi->authorEmail);
+	if (pi->copyright) pi->copyright = _strdup(pi->copyright);
+	if (pi->description) pi->description = _strdup(pi->description);
+	if (pi->homepage) pi->homepage = _strdup(pi->homepage);
+	if (pi->shortName) pi->shortName = _strdup(pi->shortName);
 	return pi;
 }
 
 void FreePluginInfo(PLUGININFOEX *pi)
 {
-	if(pi->author) free(pi->author);
-	if(pi->authorEmail) free(pi->authorEmail);
-	if(pi->copyright) free(pi->copyright);
-	if(pi->description) free(pi->description);
-	if(pi->homepage) free(pi->homepage);
-	if(pi->shortName) free(pi->shortName);
+	if (pi->author) free(pi->author);
+	if (pi->authorEmail) free(pi->authorEmail);
+	if (pi->copyright) free(pi->copyright);
+	if (pi->description) free(pi->description);
+	if (pi->homepage) free(pi->homepage);
+	if (pi->shortName) free(pi->shortName);
 	free(pi);
 }
 

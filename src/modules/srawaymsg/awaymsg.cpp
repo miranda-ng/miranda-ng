@@ -140,19 +140,19 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
-	if ( szProto != NULL ) {
+	if (szProto != NULL) {
 	   int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
-	   if ( !chatRoom ) {
+	   if ( !chatRoom) {
 			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
-			mir_sntprintf( str, SIZEOF(str), TranslateT("Re&ad %s Message"), cli.pfnGetStatusModeDescription( status, 0 ));
+			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), cli.pfnGetStatusModeDescription(status, 0));
 			clmi.ptszName = str;
-			if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_1, 0 ) & PF1_MODEMSGRECV ) {
-				if ( CallProtoService( szProto, PS_GETCAPS, PFLAGNUM_3, 0 ) & Proto_Status2Flag( status )) {
+			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
+				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_NOTOFFLINE | CMIM_ICON | CMIF_TCHAR;
 					clmi.hIcon = LoadSkinProtoIcon(szProto, status);
 	}	}	}	}
 
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hAwayMsgMenuItem, ( LPARAM )&clmi );
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&clmi);
 	IconLib_ReleaseIcon(clmi.hIcon, 0);
 	return 0;
 }

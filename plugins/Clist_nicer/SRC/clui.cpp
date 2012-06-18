@@ -106,6 +106,34 @@ static HBITMAP hbmLockedPoint = 0, hbmOldLockedPoint = 0;
 
 HICON overlayicons[10];
 
+struct {
+	HICON hIcon, hAltIcon;
+	UINT idIcon, idAltIcon;
+	char *szIcoLibIcon, *szIcoLibAltIcon;
+	DWORD visibilityOrder;
+	TCHAR *szTooltip;
+}
+static top_buttons[] =
+{
+	{ 0, 0, IDI_TBTOPMENU,                      0, "CLN_topmenu",            NULL,    1, LPGENT("Show menu") },
+	{ 0, 0, IDI_HIDEOFFLINE,                    0, "CLN_online",             NULL,    2, LPGENT("Show / hide offline contacts") },
+	{ 0, 0, IDI_HIDEGROUPS,                     0, "CLN_groups",             NULL,    4, LPGENT("Toggle group mode") },
+	{ 0, 0, IDI_FINDANDADD,                     0, "CLN_findadd",            NULL,    8, LPGENT("Find and add contacts") },
+	{ 0, 0, IDI_TBACCOUNTS,                     0, "CLN_accounts",           NULL, 8192, LPGENT("Accounts") },
+	{ 0, 0, IDI_TBOPTIONS,                      0, "CLN_options",            NULL,   16, LPGENT("Open preferences") },
+	{ 0, 0, IDI_SOUNDSON,           IDI_SOUNDSOFF, "CLN_sound",   "CLN_soundsoff",   32, LPGENT("Toggle sounds") },
+	{ 0, 0, IDI_MINIMIZE,                       0, "CLN_minimize",           NULL,   64, LPGENT("Minimize contact list") },
+	{ 0, 0, 0,                                  0, "CLN_topstatus",          NULL,  128, LPGENT("Status menu") },
+	{ 0, 0, IDI_TABSRMMSESSIONLIST,             0, "CLN_slist",              NULL,  256, LPGENT("tabSRMM session list") },
+	{ 0, 0, IDI_TABSRMMMENU,                    0, "CLN_menu",               NULL,  512, LPGENT("tabSRMM Menu") },
+
+	{ 0, 0, IDI_CLVM_SELECT,                    0, "CLN_CLVM_select",        NULL, 1024, LPGENT("Select view mode") },
+	{ 0, 0, IDI_CLVM_OPTIONS,                   0, "CLN_CLVM_options",       NULL, 2048, LPGENT("Setup view modes") },
+	{ 0, 0, IDI_DELETE,                         0, "CLN_CLVM_reset",         NULL, 4096, LPGENT("Clear view mode") },
+
+	{ 0, 0, IDI_MINIMIZE,                       0, "",                       NULL,    0, LPGENT("Open main menu") }
+};
+
 HWND hTbMenu, hTbGlobalStatus;
 
 /*

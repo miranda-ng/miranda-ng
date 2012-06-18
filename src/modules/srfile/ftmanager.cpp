@@ -205,7 +205,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		{
 			int i, nScrollLines = 0;
 			SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, (void*)&nScrollLines, 0);
-			for (i = 0; i < (nScrollLines + 1) / 2; i++ )
+			for (i = 0; i < (nScrollLines + 1) / 2; i++)
 				SendMessage(hwnd, WM_VSCROLL, (zDelta < 0) ? SB_LINEDOWN : SB_LINEUP, 0);
 		}
 
@@ -483,7 +483,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	} break;
 	case WM_SHOWWINDOW:
 	{
-		if (!wParam) // hiding
+		if ( !wParam) // hiding
 		{
 			KillTimer(hwnd, 1);
 			break;
@@ -504,7 +504,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			if (dat->errorState)
 			{
 				pTaskbarInterface->SetProgressState(hwnd, dat->errorState);
-				if (!prg.run)
+				if ( !prg.run)
 					pTaskbarInterface->SetProgressValue(hwnd, 1, 1);
 			} else if (prg.run) 
 			{
@@ -559,7 +559,7 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 		SetForegroundWindow(hwndFtMgr);
  		return hwndFtMgr;
 	}
-	if (!bJustCreated && IsWindowVisible(hwndFtMgr))
+	if ( !bJustCreated && IsWindowVisible(hwndFtMgr))
 		return hwndFtMgr;
  
 	ShowWindow(hwndFtMgr, bAutoMin ? SW_SHOWMINNOACTIVE : SW_SHOWNOACTIVATE);

@@ -235,7 +235,7 @@ static void validateSocket(void)
 		break;
 	}
 
-	if (!opened)
+	if ( !opened)
 		closeRouterConnection();
 }
 
@@ -248,7 +248,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 	bool needClose;
 
 	const char* szPostHdr = soap_post_hdr;
-	char* szData = ( char* )mir_alloc(4096);
+	char* szData = (char*)mir_alloc(4096);
 	char* szReq =  NULL;
 
 	parseURL(szUrl, szHost, &sPort, szPath);
@@ -349,7 +349,7 @@ retrycon:
 						NetlibLogf(NULL, "UPnP connect timeout");
 						break;
 					}
-					else if (!FD_ISSET(sock, &wfd))
+					else if ( !FD_ISSET(sock, &wfd))
 					{
 						closeRouterConnection();
 						NetlibLogf(NULL, "UPnP connect failed");
@@ -439,7 +439,7 @@ retrycon:
 						if (hdrend != NULL)
 						{
 							// Get packet size if provided
-							if (txtParseParam(szResult, NULL, "Content-Length:", "\n", szRes, sizeof(szRes)) ||
+							if (txtParseParam(szResult, NULL, "Content-Length:", "\n", szRes, sizeof(szRes))  || 
 								txtParseParam(szResult, NULL, "CONTENT-LENGTH:", "\n", szRes, sizeof(szRes)))
 							{
 								// Add size of HTTP header to the packet size to compute full transmission size
@@ -554,7 +554,7 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 		txtParseParam(szData, szTemp, "<controlURL>", "</controlURL>", szUrl, sizeUrl);
 
 		// URL combining per RFC 2396
-		if ( szUrl[0] != 0 )
+		if (szUrl[0] != 0)
 		{
 			if (strstr(szUrl, "://") != NULL)                     // absolute URI
 				rpth = szCtlUrl;
@@ -624,7 +624,7 @@ static void discoverUPnP(void)
 	{
 		while (he->h_addr_list[nip]) ++nip;
 
-		ips = ( unsigned* )mir_alloc(nip * sizeof(unsigned));
+		ips = (unsigned*)mir_alloc(nip * sizeof(unsigned));
 
 		for (j = 0; j < nip; ++j)
 			ips[j] = *(unsigned*)he->h_addr_list[j];
@@ -661,7 +661,7 @@ static void discoverUPnP(void)
 				buf[buflen] = 0;
 				LongLog(buf);
 
-				if (txtParseParam(buf, NULL, "LOCATION:", "\n", szUrl, sizeof(szUrl)) ||
+				if (txtParseParam(buf, NULL, "LOCATION:", "\n", szUrl, sizeof(szUrl))  || 
 					txtParseParam(buf, NULL, "Location:", "\n", szUrl, sizeof(szUrl)))
 				{
 					char age[30];
@@ -811,7 +811,7 @@ void NetlibUPnPCleanup(void*)
 			}
 		}
 		LeaveCriticalSection(&csNetlibUser);
-		if (!incoming) return;
+		if ( !incoming) return;
 	}
 
 	if (findUPnPGateway())
@@ -840,10 +840,10 @@ void NetlibUPnPCleanup(void*)
 			if (httpTransact(szCtlUrl, szData, 4096, "GetGenericPortMappingEntry", ControlAction) != 200)
 				break;
 
-			if (!txtParseParam(szData, "<NewPortMappingDescription", ">", "<", buf, sizeof(buf)) || strcmp(buf, "Miranda") != 0)
+			if ( !txtParseParam(szData, "<NewPortMappingDescription", ">", "<", buf, sizeof(buf)) || strcmp(buf, "Miranda") != 0)
 				continue;
 
-			if (!txtParseParam(szData, "<NewInternalClient", ">", "<", buf, sizeof(buf)) || strcmp(buf, lip) != 0)
+			if ( !txtParseParam(szData, "<NewInternalClient", ">", "<", buf, sizeof(buf)) || strcmp(buf, lip) != 0)
 				continue;
 
 			if (txtParseParam(szData, "<NewExternalPort", ">", "<", buf, sizeof(buf)))

@@ -94,7 +94,6 @@ typedef struct
 } PopupOptions;
 
 PLUGININFOEX pluginInfoEx;
-PLUGININFO pluginInfo;
 
 HINSTANCE hInst;
 

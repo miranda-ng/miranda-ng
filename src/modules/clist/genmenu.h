@@ -62,11 +62,11 @@ struct TIntMenuObject
 	TIntMenuObject();
 	~TIntMenuObject();
 
-	__inline void* operator new( size_t size )
-	{	return mir_calloc( size );
+	__inline void* operator new(size_t size)
+	{	return mir_calloc(size);
 	}
-	__inline void operator delete( void* p )
-	{	mir_free( p );
+	__inline void operator delete(void* p)
+	{	mir_free(p);
 	}
 
 	char* Name;
@@ -95,7 +95,7 @@ struct TIntMenuObject
 	HIMAGELIST m_hMenuIcons;
 	BOOL m_bUseUserDefinedItems;
 
-	void freeItem( TMO_IntMenuItem* );
+	void freeItem(TMO_IntMenuItem*);
 };
 
 extern LIST<TIntMenuObject> g_menus;
@@ -104,35 +104,35 @@ extern LIST<TIntMenuObject> g_menus;
 
 //internal usage
 HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem, ListParam *param);
-void GetMenuItemName( PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize );
+void GetMenuItemName(PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize);
 
-PMO_IntMenuItem MO_GetIntMenuItem( HGENMENU );
+PMO_IntMenuItem MO_GetIntMenuItem(HGENMENU);
 
-PMO_IntMenuItem MO_AddNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi );
-PMO_IntMenuItem MO_AddOldNewMenuItem( HANDLE menuobjecthandle, PMO_MenuItem pmi );
+PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi);
+PMO_IntMenuItem MO_AddOldNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi);
 
-int MO_DrawMenuItem( LPDRAWITEMSTRUCT dis );
-int MO_MeasureMenuItem( LPMEASUREITEMSTRUCT mis );
-int MO_ModifyMenuItem( PMO_IntMenuItem menuHandle, PMO_MenuItem pmiparam );
-int MO_ProcessCommand( PMO_IntMenuItem pimi, LPARAM lParam );
-INT_PTR MO_ProcessHotKeys( HANDLE menuHandle, INT_PTR vKey );
-int MO_SetOptionsMenuItem( PMO_IntMenuItem menuobjecthandle, int setting, INT_PTR value );
-int MO_SetOptionsMenuObject( HANDLE menuobjecthandle, int setting, INT_PTR value );
+int MO_DrawMenuItem(LPDRAWITEMSTRUCT dis);
+int MO_MeasureMenuItem(LPMEASUREITEMSTRUCT mis);
+int MO_ModifyMenuItem(PMO_IntMenuItem menuHandle, PMO_MenuItem pmiparam);
+int MO_ProcessCommand(PMO_IntMenuItem pimi, LPARAM lParam);
+INT_PTR MO_ProcessHotKeys(HANDLE menuHandle, INT_PTR vKey);
+int MO_SetOptionsMenuItem(PMO_IntMenuItem menuobjecthandle, int setting, INT_PTR value);
+int MO_SetOptionsMenuObject(HANDLE menuobjecthandle, int setting, INT_PTR value);
 
 INT_PTR MO_ProcessCommandByMenuIdent(WPARAM wParam, LPARAM lParam);
 int MO_ProcessCommandBySubMenuIdent(int menuID, int command, LPARAM lParam);
 
 // function returns TRUE if the walk should be immediately stopped
-typedef int ( *pfnWalkFunc )( PMO_IntMenuItem, void* );
+typedef int (*pfnWalkFunc)(PMO_IntMenuItem, void*);
 
 // returns the item, on which pfnWalkFunc returned TRUE
-PMO_IntMenuItem MO_RecursiveWalkMenu( PMO_IntMenuItem, pfnWalkFunc, void* );
+PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem, pfnWalkFunc, void*);
 
 //general stuff
 int InitGenMenu();
 int UnitGenMenu();
 
-int FindRoot( PMO_IntMenuItem pimi, void* param );
+int FindRoot(PMO_IntMenuItem pimi, void* param);
 
 TMO_IntMenuItem * GetMenuItemByGlobalID(int globalMenuID);
 BOOL	FindMenuHanleByGlobalID(HMENU hMenu, int globalID, struct _MenuItemHandles * dat);	//GenMenu.c

@@ -144,40 +144,40 @@ static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab			= LPGENT("General");
 	odp.pfnDlgProc		= DlgProcPopUpGeneral;
 	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_POPUP_GENERAL);
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab			= LPGENT("Classes");
 	odp.pfnDlgProc		= DlgProcOptsClasses;
 	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_NOTIFICATIONS);
-	CallService( MS_OPT_ADDPAGE, wParam,(LPARAM)&odp );
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab			= LPGENT("Actions");
 	odp.pfnDlgProc		= DlgProcPopupActions;
 	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_ACTIONS);
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab			= LPGENT("Contacts");
 	odp.pfnDlgProc		= DlgProcContactOpts;
 	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab			= LPGENT("Advanced");
 	odp.pfnDlgProc		= DlgProcPopUpAdvOpts;
 	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_POPUP_ADVANCED);
 	odp.flags			|= ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszGroup		= LPGENT("Skins");
 	odp.ptszTab			= LPGENT(MODULNAME_PLU);
 	odp.pfnDlgProc		= DlgProcPopSkinsOpts;
 	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_SKIN2);
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	//Test page
 	//odp.ptszTab			= LPGEN("General (old)");
 	//odp.pfnDlgProc		= DlgProcPopUpOpts;
 	//odp.pszTemplate		= MAKEINTRESOURCE(IDD_OPT_POPUP);
-	//CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	//Options_AddPage(wParam,&odp);
 
 	return 0;
 }

@@ -141,7 +141,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle      = LPGEN("Variables");
 	odp.pfnDlgProc    = SetOptsDlgProc;
 	odp.flags         = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

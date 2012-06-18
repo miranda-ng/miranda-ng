@@ -147,7 +147,7 @@ private:
 	void SetAllContactStatuses(int);
 
 	void LOG(TCHAR *fmt,...);
-	void WLOG(TCHAR* first, const wstring last);
+	__inline void WLOG(TCHAR* first, const tstring& last) { LOG(first, last.c_str()); }
 	static void CALLBACK APC_callback(ULONG_PTR p);
 
 	void UpdateChat(const twitter_user &update);

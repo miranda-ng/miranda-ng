@@ -123,7 +123,7 @@ Works precisely like NotifyEventHooks, but without switching to the first thread
 It guarantees that the execution time for these events is always tiny
 */
 
-int CallHookSubscribers( HANDLE hEvent, WPARAM wParam, LPARAM lParam );
+int CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 
 /*
 	hEvent : a HANDLE which has been returned by CreateHookableEvent()
@@ -263,6 +263,6 @@ Returns nonzero on success, zero on failure
 
 added during 0.3.4+ (2004/08/14)
 */
-int CallFunctionAsync( void (__stdcall *func)(void *), void *arg);
+int CallFunctionAsync(void (__stdcall *func)(void *), void *arg);
 
 #endif  // MODULES_H_

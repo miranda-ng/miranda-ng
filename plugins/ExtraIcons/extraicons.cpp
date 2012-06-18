@@ -155,7 +155,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		upd.cpbBetaVersionPrefix = (int)strlen((char *) upd.pbBetaVersionPrefix);
 		upd.szBetaUpdateURL = "http://pescuma.org/miranda/extraicons.zip";
 
-		upd.pbVersion = (BYTE *) CreateVersionStringPlugin((PLUGININFO*) &pluginInfo, szCurrentVersion);
+		upd.pbVersion = (BYTE *) CreateVersionStringPluginEx((PLUGININFOEX*) &pluginInfo, szCurrentVersion);
 		upd.cpbVersion = (int)strlen((char *) upd.pbVersion);
 
 		CallService(MS_UPDATE_REGISTER, 0, (LPARAM)&upd);

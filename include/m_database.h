@@ -87,7 +87,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBVT_BLOB   254	  //cpbVal and pbVal are valid
 #define DBVT_UTF8   253   //pszVal is valid
 #define DBVT_WCHAR  252   //pszVal is valid
-#if defined( _UNICODE )
+#if defined(_UNICODE)
   #define DBVT_TCHAR DBVT_WCHAR
 #else
   #define DBVT_TCHAR DBVT_ASCIIZ
@@ -145,7 +145,7 @@ Returns 0 on success or nonzero otherwise
 #define MS_DB_GETPROFILEPATH  "DB/GetProfilePath"
 #define MS_DB_GETPROFILEPATHW "DB/GetProfilePathW"
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define MS_DB_GETPROFILEPATHT MS_DB_GETPROFILEPATHW
 	#define MS_DB_GETPROFILENAMET MS_DB_GETPROFILENAMEW
 #else
@@ -514,17 +514,17 @@ typedef struct {
 
 #define MS_DB_EVENT_GETTEXT "DB/Event/GetText"
 
-__inline static char* DbGetEventTextA( DBEVENTINFO* dbei, int codepage )
+__inline static char* DbGetEventTextA(DBEVENTINFO* dbei, int codepage)
 {  DBEVENTGETTEXT temp = { dbei, DBVT_ASCIIZ, codepage };
    return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
-__inline static WCHAR* DbGetEventTextW( DBEVENTINFO* dbei, int codepage )
+__inline static WCHAR* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
 {  DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
    return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
-__inline static TCHAR* DbGetEventTextT( DBEVENTINFO* dbei, int codepage )
+__inline static TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
 {  DBEVENTGETTEXT temp = { dbei, DBVT_TCHAR, codepage };
    return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
@@ -555,9 +555,9 @@ Caller must free the result using mir_free
 
 #define MS_DB_EVENT_GETSTRINGT "DB/Event/GetStringT"
 
-__inline static TCHAR* DbGetEventStringT( DBEVENTINFO* dbei, const char* str )
+__inline static TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 {
-   return (TCHAR*)CallService( MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str );
+   return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
 }
 
 /* DB/Event/MarkRead
@@ -675,7 +675,7 @@ it would have been at the time and date the stamp contains.
 This service isn't nearly as useful as db/time/TimestampToString below and I
 recommend avoiding its use when possible so that you don't get your timezones
 mixed up (like I did. Living at GMT makes things easier for me, but has certain
-disadvantages :-) ).
+disadvantages :-)).
 */
 #define MS_DB_TIME_TIMESTAMPTOLOCAL   "DB/Time/TimestampToLocal"
 

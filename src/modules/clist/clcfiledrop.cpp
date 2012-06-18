@@ -83,7 +83,7 @@ static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, in
 	if (szProto == NULL)
 		return NULL;
 	protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	if (!(protoCaps & PF1_FILESEND))
+	if ( !(protoCaps & PF1_FILESEND))
 		return NULL;
 	if (ID_STATUS_OFFLINE == DBGetContactSettingWord(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))
 		return NULL;
@@ -148,7 +148,7 @@ HRESULT CDropTarget::DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL 
 	shortPt.y = pt.y;
 	hwnd = WindowFromPoint(shortPt);
 	GetClassName(hwnd, szWindowClass, SIZEOF(szWindowClass));
-	if (!lstrcmp(szWindowClass, CLISTCONTROL_CLASS)) {
+	if ( !lstrcmp(szWindowClass, CLISTCONTROL_CLASS)) {
 		struct ClcData *dat;
 		hwndCurrentDrag = hwnd;
 		dat = (struct ClcData *) GetWindowLongPtr(hwndCurrentDrag, 0);
@@ -188,7 +188,7 @@ static void AddToFileList(TCHAR ***pppFiles, int *totalCount, const TCHAR *szFil
 		lstrcat(szPath, _T("\\*"));
 		if (hFind = FindFirstFile(szPath, &fd)) {
 			do {
-				if (!lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
+				if ( !lstrcmp(fd.cFileName, _T(".")) || !lstrcmp(fd.cFileName, _T("..")))
 					continue;
 				lstrcpy(szPath, szFilename);
 				lstrcat(szPath, _T("\\"));
@@ -234,7 +234,7 @@ HRESULT CDropTarget::Drop(IDataObject * pDataObj, DWORD /*fKeyState*/, POINTL pt
 			AddToFileList(&ppFiles, &totalCount, szFilename);
 		}
 
-		if (!CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM) hContact, (LPARAM) ppFiles))
+		if ( !CallService(MS_FILE_SENDSPECIFICFILEST, (WPARAM) hContact, (LPARAM) ppFiles))
 			*pdwEffect = DROPEFFECT_COPY;
 
 		for (i = 0; ppFiles[i]; i++)

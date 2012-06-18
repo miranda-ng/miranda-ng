@@ -108,7 +108,7 @@ static void Docking_AdjustPosition(HWND hwnd, LPRECT rcDisplay, LPRECT rc, bool 
 	else
 		rc->left = rc->right - cx;
 
-	if (!query) 
+	if ( !query) 
 	{
 		Docking_PosCommand(hwnd, rc, false);
 		dockPos = *(LPPOINT)rc;
@@ -161,7 +161,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (!docked && msg->message != WM_CREATE && msg->message != WM_MOVING)
+	if ( !docked && msg->message != WM_CREATE && msg->message != WM_MOVING)
 		return 0;
 
 	switch (msg->message) 
@@ -190,7 +190,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 		if (vis)
 		{
-			if (!(wp->flags & (SWP_NOMOVE | SWP_NOSIZE)))
+			if ( !(wp->flags & (SWP_NOMOVE | SWP_NOSIZE)))
 			{
 				bool addbar = Docking_Command(msg->hwnd, ABM_NEW) != 0;
 				
@@ -198,12 +198,12 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				GetWindowRect(msg->hwnd, &rc);
 
 				int cx = rc.right - rc.left;
-				if (!(wp->flags & SWP_NOMOVE)) { rc.left = wp->x; rc.top = wp->y; }
+				if ( !(wp->flags & SWP_NOMOVE)) { rc.left = wp->x; rc.top = wp->y; }
 
 				if (addbar) 
 					Docking_RectToDock(&rc);
 
-				if (!(wp->flags & SWP_NOSIZE)) 
+				if ( !(wp->flags & SWP_NOSIZE)) 
 				{ 
 					rc.right = rc.left + wp->cx; 
 					rc.bottom = rc.top + wp->cy; 
@@ -212,8 +212,8 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 				Docking_SetSize(msg->hwnd, &rc, !addbar, false);
 
-				if (!(wp->flags & SWP_NOMOVE)) { wp->x = rc.left; wp->y = rc.top; }
-				if (!(wp->flags & SWP_NOSIZE)) wp->cy = rc.bottom - rc.top;
+				if ( !(wp->flags & SWP_NOMOVE)) { wp->x = rc.left; wp->y = rc.top; }
+				if ( !(wp->flags & SWP_NOSIZE)) wp->cy = rc.bottom - rc.top;
 
 				*((LRESULT *) lParam) = TRUE; 
 				return TRUE;
@@ -248,7 +248,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		if (wp->flags & SWP_HIDEWINDOW)
 			vis = false;
 
-		if (!vis)
+		if ( !vis)
 			Docking_Command(msg->hwnd, ABM_REMOVE);
 		else
 			Docking_Command(msg->hwnd, ABM_WINDOWPOSCHANGED);
@@ -266,7 +266,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MOVING:
-		if (!docked)
+		if ( !docked)
 		{
 			RECT rcMonitor;
 			POINT ptCursor;
@@ -340,7 +340,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			RECT rc;
 			POINT pt;
 			GetClientRect(msg->hwnd, &rc);
-			if ((docked == DOCKED_LEFT && (short) LOWORD(msg->lParam) > rc.right) ||
+			if ((docked == DOCKED_LEFT && (short) LOWORD(msg->lParam) > rc.right)  || 
 				(docked == DOCKED_RIGHT && (short) LOWORD(msg->lParam) < 0)) 
 			{
 				ReleaseCapture();

@@ -57,7 +57,7 @@ OBJLIST<ProtoIconIndex> protoIconIndex(5);
 static HANDLE hProtoAckHook;
 static HANDLE hContactSettingChanged;
 
-TCHAR* fnGetStatusModeDescription( int mode, int flags )
+TCHAR* fnGetStatusModeDescription(int mode, int flags)
 {
 	static TCHAR szMode[64];
 	TCHAR* descr;
@@ -111,19 +111,19 @@ TCHAR* fnGetStatusModeDescription( int mode, int flags )
 		return NULL;
 	}
 	if (noPrefixReqd || !(flags & GSMDF_PREFIXONLINE))
-		return ( flags & GSMDF_UNTRANSLATED ) ? descr : TranslateTS( descr );
+		return (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr);
 
-	lstrcpy( szMode, TranslateT( "Online" ));
-	lstrcat( szMode, _T(": "));
-	lstrcat( szMode, ( flags & GSMDF_UNTRANSLATED ) ? descr : TranslateTS( descr ));
+	lstrcpy(szMode, TranslateT("Online"));
+	lstrcat(szMode, _T(": "));
+	lstrcat(szMode, (flags & GSMDF_UNTRANSLATED) ? descr : TranslateTS(descr));
 	return szMode;
 }
 
 static INT_PTR GetStatusModeDescription(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR* buf1 = cli.pfnGetStatusModeDescription( wParam, lParam );
+	TCHAR* buf1 = cli.pfnGetStatusModeDescription(wParam, lParam);
 
-	if ( !( lParam & GSMDF_TCHAR ))
+	if ( !(lParam & GSMDF_TCHAR))
 	{
 		static char szMode[64];
 		char *buf2 = mir_u2a(buf1);
@@ -164,24 +164,24 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-HICON fnGetIconFromStatusMode( HANDLE hContact, const char *szProto, int status )
+HICON fnGetIconFromStatusMode(HANDLE hContact, const char *szProto, int status)
 {
-	return ImageList_GetIcon( hCListImages, cli.pfnIconFromStatusMode( szProto, status, hContact ), ILD_NORMAL);
+	return ImageList_GetIcon(hCListImages, cli.pfnIconFromStatusMode(szProto, status, hContact), ILD_NORMAL);
 }
 
-int fnIconFromStatusMode(const char *szProto, int status, HANDLE )
+int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
 {
 	int index, i;
 
-	for ( index = 0; index < SIZEOF(statusModeList); index++ )
-		if ( status == statusModeList[index] )
+	for (index = 0; index < SIZEOF(statusModeList); index++)
+		if (status == statusModeList[index])
 			break;
 
-	if ( index == SIZEOF(statusModeList))
+	if (index == SIZEOF(statusModeList))
 		index = 0;
 	if (szProto == NULL)
 		return index + 1;
-	for ( i = 0; i < protoIconIndex.getCount(); i++ ) {
+	for (i = 0; i < protoIconIndex.getCount(); i++) {
 		if (strcmp(szProto, protoIconIndex[i].szProto) == 0)
 		    return protoIconIndex[i].iIconBase + index;
 	}
@@ -197,19 +197,19 @@ static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 		szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }
 
-static void AddProtoIconIndex( PROTOACCOUNT* pa )
+static void AddProtoIconIndex(PROTOACCOUNT* pa)
 {
     ProtoIconIndex *pii = new ProtoIconIndex;
     pii->szProto = pa->szModuleName;
 	for (int i = 0; i < SIZEOF(statusModeList); i++) {
-		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, statusModeList[i] );
+		int iImg = ImageList_AddIcon_ProtoIconLibLoaded(hCListImages, pa->szModuleName, statusModeList[i]);
 		if (i == 0)
 			pii->iIconBase = iImg;
 	}
     protoIconIndex.insert(pii);
 }
 
-static void RemoveProtoIconIndex( PROTOACCOUNT* pa )
+static void RemoveProtoIconIndex(PROTOACCOUNT* pa)
 {
 	for (int i = 0; i < protoIconIndex.getCount(); i++) 
         if (strcmp(protoIconIndex[i].szProto, pa->szModuleName) == 0) {
@@ -220,14 +220,14 @@ static void RemoveProtoIconIndex( PROTOACCOUNT* pa )
 
 static int ContactListModulesLoaded(WPARAM, LPARAM)
 {
-	if ( !ServiceExists( MS_DB_CONTACT_GETSETTING_STR )) {
-		MessageBox( NULL, TranslateT( "This plugin requires db3x plugin version 0.5.1.0 or later" ), _T("CList"), MB_OK );
+	if ( !ServiceExists(MS_DB_CONTACT_GETSETTING_STR)) {
+		MessageBox(NULL, TranslateT("This plugin requires db3x plugin version 0.5.1.0 or later"), _T("CList"), MB_OK);
 		return 1;
 	}
 
 	RebuildMenuOrder();
 	for (int i = 0; i < accounts.getCount(); i++)
-		AddProtoIconIndex( accounts[i] );
+		AddProtoIconIndex(accounts[i]);
 
 	cli.pfnLoadContactTree();
 
@@ -238,37 +238,37 @@ static int ContactListModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static int ContactListAccountsChanged( WPARAM eventCode, LPARAM lParam )
+static int ContactListAccountsChanged(WPARAM eventCode, LPARAM lParam)
 {
     switch (eventCode) 
     { 
     case PRAC_ADDED:
-        AddProtoIconIndex(( PROTOACCOUNT* )lParam );
+        AddProtoIconIndex((PROTOACCOUNT*)lParam);
         break;
 
     case PRAC_REMOVED:
-        RemoveProtoIconIndex(( PROTOACCOUNT* )lParam );
+        RemoveProtoIconIndex((PROTOACCOUNT*)lParam);
         break;
     }
     cli.pfnReloadProtoMenus();
 	cli.pfnTrayIconIconsChanged();
-	cli.pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
-	cli.pfnClcBroadcast( INTM_INVALIDATE, 0, 0 );
+	cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+	cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
 	return 0;
 }
 
 static INT_PTR ContactDoubleClicked(WPARAM wParam, LPARAM)
 {
 	// Try to process event myself
-	if ( cli.pfnEventsProcessContactDoubleClick(( HANDLE )wParam ) == 0 )
+	if (cli.pfnEventsProcessContactDoubleClick((HANDLE)wParam) == 0)
 		return 0;
 
 	// Allow third-party plugins to process a dblclick
-	if ( NotifyEventHooks( hContactDoubleClicked, wParam, 0 ))
+	if (NotifyEventHooks(hContactDoubleClicked, wParam, 0))
 		return 0;
 
 	// Otherwise try to execute the default action
-	TryProcessDoubleClick(( HANDLE )wParam );
+	TryProcessDoubleClick((HANDLE)wParam);
 	return 0;
 }
 
@@ -288,14 +288,14 @@ static int CListIconsChanged(WPARAM, LPARAM)
 	int i, j;
 
 	for (i = 0; i < SIZEOF(statusModeList); i++)
-		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, LoadSkinIcon( skinIconStatusList[i] ));
-	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, LoadSkinIcon( SKINICON_OTHER_GROUPOPEN ));
-	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, LoadSkinIcon( SKINICON_OTHER_GROUPSHUT ));
+		ImageList_ReplaceIcon_IconLibLoaded(hCListImages, i + 1, LoadSkinIcon(skinIconStatusList[i]));
+	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPOPEN, LoadSkinIcon(SKINICON_OTHER_GROUPOPEN));
+	ImageList_ReplaceIcon_IconLibLoaded(hCListImages, IMAGE_GROUPSHUT, LoadSkinIcon(SKINICON_OTHER_GROUPSHUT));
 	for (i = 0; i < protoIconIndex.getCount(); i++)
 		for (j = 0; j < SIZEOF(statusModeList); j++)
-			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, LoadSkinProtoIcon(protoIconIndex[i].szProto, statusModeList[j] ));
+			ImageList_ReplaceIcon_IconLibLoaded(hCListImages, protoIconIndex[i].iIconBase + j, LoadSkinProtoIcon(protoIconIndex[i].szProto, statusModeList[j]));
 	cli.pfnTrayIconIconsChanged();
-	cli.pfnInvalidateRect( cli.hwndContactList, NULL, TRUE);
+	cli.pfnInvalidateRect(cli.hwndContactList, NULL, TRUE);
 	return 0;
 }
 
@@ -382,7 +382,7 @@ int fnShowHide(WPARAM, LPARAM)
 	switch (iVisibleState) {
 	case GWVS_PARTIALLY_COVERED:
 		//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-		if (!DBGetContactSettingByte(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+		if ( !DBGetContactSettingByte(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 			break;
 	case GWVS_COVERED:     //Fall through (and we're already falling)
 	case GWVS_HIDDEN:
@@ -398,7 +398,7 @@ int fnShowHide(WPARAM, LPARAM)
 		RECT rcWindow;
 
 		ShowWindow(cli.hwndContactList, SW_RESTORE);
-		if (!DBGetContactSettingByte(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if ( !DBGetContactSettingByte(NULL, "CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(cli.hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 		else
 			SetWindowPos(cli.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
@@ -441,7 +441,7 @@ int fnShowHide(WPARAM, LPARAM)
 int GetStatusModeOrdering(int statusMode);
 extern int sortByStatus, sortByProto;
 
-static INT_PTR CompareContacts( WPARAM wParam, LPARAM lParam )
+static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE a = (HANDLE) wParam, b = (HANDLE) lParam;
 	TCHAR namea[128], *nameb;
@@ -480,10 +480,10 @@ static INT_PTR CompareContacts( WPARAM wParam, LPARAM lParam )
 		}
 	}
 
-	nameb = cli.pfnGetContactDisplayName( a, 0);
+	nameb = cli.pfnGetContactDisplayName(a, 0);
 	_tcsncpy(namea, nameb, SIZEOF(namea));
 	namea[ SIZEOF(namea)-1 ] = 0;
-	nameb = cli.pfnGetContactDisplayName( b, 0);
+	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
 	return _tcsicmp(namea, nameb);
@@ -491,12 +491,12 @@ static INT_PTR CompareContacts( WPARAM wParam, LPARAM lParam )
 
 /***************************************************************************************/
 
-static INT_PTR TrayIconProcessMessageStub( WPARAM wParam, LPARAM lParam ) {	return cli.pfnTrayIconProcessMessage( wParam, lParam ); }
-static INT_PTR TrayIconPauseAutoHideStub( WPARAM wParam, LPARAM lParam ) { return cli.pfnTrayIconPauseAutoHide( wParam, lParam ); }
-static INT_PTR ShowHideStub( WPARAM wParam, LPARAM lParam ) { return cli.pfnShowHide( wParam, lParam ); }
-static INT_PTR SetHideOfflineStub( WPARAM wParam, LPARAM lParam ) { return cli.pfnSetHideOffline( wParam, lParam ); }
-static INT_PTR Docking_ProcessWindowMessageStub( WPARAM wParam, LPARAM lParam ) { return cli.pfnDocking_ProcessWindowMessage( wParam, lParam ); }
-static INT_PTR HotkeysProcessMessageStub( WPARAM wParam, LPARAM lParam ) { return cli.pfnHotkeysProcessMessage( wParam, lParam ); }
+static INT_PTR TrayIconProcessMessageStub(WPARAM wParam, LPARAM lParam) {	return cli.pfnTrayIconProcessMessage(wParam, lParam); }
+static INT_PTR TrayIconPauseAutoHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnTrayIconPauseAutoHide(wParam, lParam); }
+static INT_PTR ShowHideStub(WPARAM wParam, LPARAM lParam) { return cli.pfnShowHide(wParam, lParam); }
+static INT_PTR SetHideOfflineStub(WPARAM wParam, LPARAM lParam) { return cli.pfnSetHideOffline(wParam, lParam); }
+static INT_PTR Docking_ProcessWindowMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnDocking_ProcessWindowMessage(wParam, lParam); }
+static INT_PTR HotkeysProcessMessageStub(WPARAM wParam, LPARAM lParam) { return cli.pfnHotkeysProcessMessage(wParam, lParam); }
 
 int LoadContactListModule2(void)
 {
@@ -513,7 +513,7 @@ int LoadContactListModule2(void)
 	CreateServiceFunction(MS_CLIST_GETSTATUSMODEDESCRIPTION, GetStatusModeDescription);
 	CreateServiceFunction(MS_CLIST_GETCONTACTDISPLAYNAME, GetContactDisplayName);
 	CreateServiceFunction(MS_CLIST_INVALIDATEDISPLAYNAME, InvalidateDisplayName);
-	CreateServiceFunction(MS_CLIST_TRAYICONPROCESSMESSAGE, TrayIconProcessMessageStub );
+	CreateServiceFunction(MS_CLIST_TRAYICONPROCESSMESSAGE, TrayIconProcessMessageStub);
 	CreateServiceFunction(MS_CLIST_PAUSEAUTOHIDE, TrayIconPauseAutoHideStub);
 	CreateServiceFunction(MS_CLIST_CONTACTSCOMPARE, CompareContacts);
 	CreateServiceFunction(MS_CLIST_CONTACTCHANGEGROUP, ContactChangeGroup);
@@ -539,18 +539,18 @@ int LoadContactListModule2(void)
 		int i;
 		//now all core skin icons are loaded via icon lib. so lets release them
 		for (i = 0; i < SIZEOF(statusModeList); i++)
-			ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i] );
+			ImageList_AddIcon_IconLibLoaded(hCListImages, skinIconStatusList[i]);
 	}
 
 	//see IMAGE_GROUP... in clist.h if you add more images above here
-	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN );
-	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT );
+	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPOPEN);
+	ImageList_AddIcon_IconLibLoaded(hCListImages, SKINICON_OTHER_GROUPSHUT);
 	return 0;
 }
 
 void UnloadContactListModule()
 {
-	if ( hCListImages ) {
+	if (hCListImages) {
 		//remove transitory contacts
 		HANDLE hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 		while (hContact != NULL) {

@@ -1289,46 +1289,46 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.nIDBottomSimpleControl = 0;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.ptszTab = TranslateT("General");
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = TranslateT("Tabs and layout");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABBEDMSG);
 	odp.pfnDlgProc  = DlgProcTabbedOptions;
-	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab     =  TranslateT("Containers");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTAINERS);
 	odp.pfnDlgProc  = DlgProcContainerSettings;
-	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab     =  TranslateT("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
 	odp.pfnDlgProc  = DlgProcLogOptions;
-	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab     =  TranslateT("Tool bar");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
 	odp.pfnDlgProc  = DlgProcToolBar;
-	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab     =  TranslateT("Advanced tweaks");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
 	odp.pfnDlgProc  = PlusOptionsProc;
-	CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 
 	odp.ptszGroup = LPGENT("Message Sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.ptszTitle = LPGENT("Typing Notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
 	odp.ptszTitle = LPGENT("Event notifications");
 	odp.ptszGroup = LPGENT("PopUps");
 	odp.pfnDlgProc = DlgProcPopupOpts;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 
 
@@ -1338,13 +1338,13 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcSkinOpts;
 	odp.nIDBottomSimpleControl = 0;
 	odp.ptszGroup = LPGENT("Skins");
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
 	odp.ptszTab = 	  TranslateT("Window layout tweaks");
 	odp.pfnDlgProc = DlgProcTabConfig;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	/* group chats */
 
@@ -1353,25 +1353,25 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = 	LPGENT("Group Chats");
 	odp.ptszTab = 		TranslateT("Settings");
 	odp.pfnDlgProc = DlgProcOptions1;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS2);
 	odp.ptszTab =		TranslateT("Log formatting");
 	odp.pfnDlgProc = 	DlgProcOptions2;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS3);
 	odp.ptszTab = 		TranslateT("Events and filters");
 	odp.pfnDlgProc = 	DlgProcOptions3;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS4);
 	odp.ptszTab = 		TranslateT("Highlighting");
 	odp.pfnDlgProc = 	CMUCHighlight::dlgProc;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

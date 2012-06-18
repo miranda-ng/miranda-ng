@@ -61,12 +61,12 @@ struct DetailsData {
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
 {
 	int res;
-    if (!lstrcmp(item1->ptszTitle, TranslateT("Summary"))) return -1;
-    if (!lstrcmp(item2->ptszTitle, TranslateT("Summary"))) return 1;
+    if ( !lstrcmp(item1->ptszTitle, TranslateT("Summary"))) return -1;
+    if ( !lstrcmp(item2->ptszTitle, TranslateT("Summary"))) return 1;
     if (res = lstrcmp(item1->ptszTitle, item2->ptszTitle)) return res;
 	if (item1->ptszTab && !item2->ptszTab) return -1;
-	if (!item1->ptszTab && item2->ptszTab) return 1;
-	if (!item1->ptszTab && !item2->ptszTab) return 0;
+	if ( !item1->ptszTab && item2->ptszTab) return 1;
+	if ( !item1->ptszTab && !item2->ptszTab) return 0;
     if (item1->ptszTab && !lstrcmp(item1->ptszTab, TranslateT("General"))) return -1;
     if (item2->ptszTab && !lstrcmp(item2->ptszTab, TranslateT("General"))) return 1;
 	return lstrcmp(item1->ptszTab, item2->ptszTab);
@@ -117,10 +117,8 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE *odp=(OPTIONSDIALOGPAGE*)lParam, *dst;
 	struct DetailsPageInit *opi=(struct DetailsPageInit*)wParam;
 
-	if (odp == NULL||opi == NULL) return 1;
-	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE)
-			&& odp->cbSize != OPTIONPAGE_OLD_SIZE2
-			&& odp->cbSize != OPTIONPAGE_OLD_SIZE3)
+	if (odp == NULL || opi == NULL) return 1;
+	if (odp->cbSize != sizeof(OPTIONSDIALOGPAGE) && odp->cbSize != OPTIONPAGE_OLD_SIZE)
 		return 1;
 
 	opi->odp=(OPTIONSDIALOGPAGE*)mir_realloc(opi->odp, sizeof(OPTIONSDIALOGPAGE)*(opi->pageCount+1));
@@ -133,26 +131,26 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	else dst->pszTemplate = odp->pszTemplate;
 
 	
-	if ( odp->flags & ODPF_UNICODE )
+	if (odp->flags & ODPF_UNICODE)
 	{
 		dst->ptszTitle = (odp->ptszTitle == 0) ? NULL : mir_wstrdup(odp->ptszTitle);
-		dst->ptszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->ptszTab) ? NULL : mir_wstrdup(odp->ptszTab);
+		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->ptszTab) ? NULL : mir_wstrdup(odp->ptszTab);
 	}
 	else
 	
 	{
-		if ( odp->flags & ODPF_DONTTRANSLATE )
+		if (odp->flags & ODPF_DONTTRANSLATE)
 			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : mir_a2t(odp->pszTitle);
 		else
 			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : LangPackPcharToTchar(odp->pszTitle);
-		dst->ptszTab = (!(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : LangPackPcharToTchar(odp->pszTab);
+		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : LangPackPcharToTchar(odp->pszTab);
 	}
 
 	dst->pszGroup = NULL;
 	dst->groupPosition = odp->groupPosition;
 	dst->hGroupIcon = odp->hGroupIcon;
 	dst->hIcon = odp->hIcon;
-	if ( odp->cbSize == sizeof(OPTIONSDIALOGPAGE))
+	if (odp->cbSize == sizeof(OPTIONSDIALOGPAGE))
 		dst->dwInitParam = odp->dwInitParam;
 	opi->pageCount++;
 	return 0;
@@ -164,7 +162,7 @@ static void ThemeDialogBackground(HWND hwnd)
 		enableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
 }
 
-static void CreateDetailsTabs( HWND hwndDlg, struct DetailsData* dat, struct DetailsPageData* ppg )
+static void CreateDetailsTabs(HWND hwndDlg, struct DetailsData* dat, struct DetailsPageData* ppg)
 {
 	HWND hwndTab = GetDlgItem(hwndDlg, IDC_TABS);
 	int i, sel=0, pages=0;
@@ -172,13 +170,13 @@ static void CreateDetailsTabs( HWND hwndDlg, struct DetailsData* dat, struct Det
 	tie.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
 	tie.iImage = -1;
 	TabCtrl_DeleteAllItems(hwndTab);
-	for ( i=0; i < dat->pageCount; i++ ) {
-		if (!dat->opd[i].ptszTab || lstrcmp(dat->opd[i].ptszTitle, ppg->ptszTitle)) continue;
+	for (i=0; i < dat->pageCount; i++) {
+		if ( !dat->opd[i].ptszTab || lstrcmp(dat->opd[i].ptszTitle, ppg->ptszTitle)) continue;
 
 		tie.pszText = TranslateTS(dat->opd[i].ptszTab);
 		tie.lParam = i;
 		TabCtrl_InsertItem(hwndTab, pages, &tie);
-		if (!lstrcmp(dat->opd[i].ptszTab, ppg->ptszTab))
+		if ( !lstrcmp(dat->opd[i].ptszTab, ppg->ptszTab))
 			sel = pages;
 		pages++;
 	}
@@ -188,7 +186,7 @@ static void CreateDetailsTabs( HWND hwndDlg, struct DetailsData* dat, struct Det
 	SetWindowLongPtr(hwndTab, GWL_STYLE, pages > 1 ? style | WS_TABSTOP : style & ~WS_TABSTOP);
 }
 
-static void CreateDetailsPageWindow( HWND hwndDlg, struct DetailsData* dat, struct DetailsPageData* ppg )
+static void CreateDetailsPageWindow(HWND hwndDlg, struct DetailsData* dat, struct DetailsPageData* ppg)
 {
 	RECT *rc = ppg->ptszTab ? &dat->rcDisplayTab : &dat->rcDisplay;
 	ppg->hwnd=CreateDialogIndirectParam(ppg->hInst, ppg->pTemplate, hwndDlg, ppg->dlgProc, (LPARAM)dat->hContact);
@@ -241,15 +239,15 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (dat->hContact == NULL)
 					name = TranslateT("Owner");
 				else
-					name = cli.pfnGetContactDisplayName( dat->hContact, 0 );
+					name = cli.pfnGetContactDisplayName(dat->hContact, 0);
 
-				GetWindowText( hwndDlg, oldTitle, SIZEOF( oldTitle ));
-				mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, name );
-				SetWindowText( hwndDlg, newTitle );
+				GetWindowText(hwndDlg, oldTitle, SIZEOF(oldTitle));
+				mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, name);
+				SetWindowText(hwndDlg, newTitle);
 
-				GetDlgItemText( hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
-				mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, name );
-				SetDlgItemText( hwndDlg, IDC_HEADERBAR, newTitle );
+				GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
+				mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, name);
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
 			}
 			{	LOGFONT lf;
 				HFONT hNormalFont=(HFONT)SendDlgItemMessage(hwndDlg, IDC_NAME, WM_GETFONT, 0, 0);
@@ -266,13 +264,13 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				HWND hwndTree = GetDlgItem(hwndDlg, IDC_PAGETREE);
 
 				dat->currentPage = 0;
-				if ( DBGetContactSettingTString( NULL, "UserInfo", "LastTab", &dbv ))
+				if (DBGetContactSettingTString(NULL, "UserInfo", "LastTab", &dbv))
 					dbv.type = DBVT_DELETED;
 				dat->pageCount = psh->nPages;
 				dat->opd = (DetailsPageData*)mir_calloc(sizeof(DetailsPageData) * dat->pageCount);
 				odp = (OPTIONSDIALOGPAGE*)psh->ppsp;
 
-				for ( i=0; i < dat->pageCount; i++ ) {
+				for (i=0; i < dat->pageCount; i++) {
 					dat->opd[i].pTemplate = (LPDLGTEMPLATE)LockResource(LoadResource(odp[i].hInstance, 
 						FindResourceA(odp[i].hInstance, odp[i].pszTemplate, MAKEINTRESOURCEA(5))));
 					dat->opd[i].dlgProc = odp[i].pfnDlgProc;
@@ -295,7 +293,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						tvis.item.pszText = mir_tstrdup(odp[i].ptszTitle);
 					else
 						tvis.item.pszText = TranslateTS(odp[i].ptszTitle);
-					if ( dbv.type != DBVT_DELETED && !lstrcmp( tvis.item.pszText, dbv.ptszVal ))
+					if (dbv.type != DBVT_DELETED && !lstrcmp(tvis.item.pszText, dbv.ptszVal))
 						dat->currentPage = i;
 					dat->opd[i].hItem = TreeView_InsertItem(hwndTree, &tvis);
 				}
@@ -332,7 +330,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dat->updateAnimFrame = 0;
 			GetDlgItemText(hwndDlg, IDC_UPDATING, dat->szUpdating, SIZEOF(dat->szUpdating));
 			SendMessage(hwndDlg, M_CHECKONLINE, 0, 0);
-			if (!CallContactService(dat->hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
+			if ( !CallContactService(dat->hContact, PSS_GETINFO, SGIF_ONOPEN, 0)) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 				SetTimer(hwndDlg, 1, 100, NULL);
 			} else
@@ -417,7 +415,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (ack->type != ACKTYPE_GETINFO) break;
 			SendMessage(hwndDlg, PSM_FORCECHANGED, 0, 0);
 			/* if they're not gonna send any more ACK's don't let that mean we should crash */
-			if (!ack->hProcess && !ack->lParam) {
+			if ( !ack->hProcess && !ack->lParam) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATING), SW_HIDE);
 				KillTimer(hwndDlg, 1);
 				SendMessage(hwndDlg, M_CHECKONLINE, 0, 0);
@@ -556,7 +554,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_UPDATE:
 			if (dat->infosUpdated != NULL) {mir_free(dat->infosUpdated); dat->infosUpdated=NULL;}
 			if (dat->hContact != NULL) {
-				if (!CallContactService(dat->hContact, PSS_GETINFO, 0, 0)) {
+				if ( !CallContactService(dat->hContact, PSS_GETINFO, 0, 0)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 					ShowWindow(GetDlgItem(hwndDlg, IDC_UPDATING), SW_SHOW);
 					SetTimer(hwndDlg, 1, 100, NULL);
@@ -617,12 +615,12 @@ int LoadUserInfoModule(void)
 	HookEvent(ME_USERINFO_INITIALISE, DetailsInit);
 	HookEvent(ME_DB_CONTACT_DELETED, UserInfoContactDelete);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownUserInfo);
-	CreateServiceFunction(MS_USERINFO_ADDPAGE, AddDetailsPage);
+	CreateServiceFunction("UserInfo/AddPage", AddDetailsPage);
 
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = 1000050000;
-	mi.icolibItem = GetSkinIconHandle( SKINICON_OTHER_USERDETAILS );
+	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_USERDETAILS);
 	mi.pszName = LPGEN("User &Details");
 	mi.pszService = MS_USERINFO_SHOWDIALOG;
 	Menu_AddContactMenuItem(&mi);

@@ -47,15 +47,15 @@ struct GroupItemSort
 	{ return _tcscoll(d1->name, d2->name); }
 };
 
-static TCHAR* PrepareGroupName( TCHAR* str )
+static TCHAR* PrepareGroupName(TCHAR* str)
 {
-	TCHAR* p = _tcschr( str, '&' ), *d;
-	if ( p == NULL )
-		return mir_tstrdup( str );
+	TCHAR* p = _tcschr(str, '&'), *d;
+	if (p == NULL)
+		return mir_tstrdup(str);
 
-	d = p = ( TCHAR* )mir_alloc( sizeof( TCHAR )*( 2*_tcslen( str )+1 ));
-	while ( *str ) {
-		if ( *str == '&' )
+	d = p = (TCHAR*)mir_alloc(sizeof(TCHAR)*(2*_tcslen(str)+1));
+	while (*str) {
+		if (*str == '&')
 			*d++ = '&';
 		*d++ = *str++;
 	}
@@ -71,13 +71,13 @@ static void AddGroupItem(HGENMENU hRoot, TCHAR* name, int pos, WPARAM param, boo
 	mi.hParentMenu   = hRoot;
 	mi.popupPosition = param; // param to pszService - only with CMIF_CHILDPOPUP !!!!!!
 	mi.position      = pos;
-	mi.ptszName      = PrepareGroupName( name );
+	mi.ptszName      = PrepareGroupName(name);
 	mi.flags         = CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-	if ( checked )
+	if (checked)
 		mi.flags |= CMIF_CHECKED;
 	mi.pszService = MTG_MOVE;
 	HANDLE result = Menu_AddContactMenuItem(&mi);
-	mir_free( mi.ptszName );
+	mir_free(mi.ptszName);
 
 	lphGroupsItems.insert((HANDLE*)result);
 }
@@ -87,7 +87,7 @@ static int OnContactMenuBuild(WPARAM wParam, LPARAM)
 	int i;
 	OBJLIST<GroupItemSort> groups(10, GroupItemSort::compare);	
 
-	if (!hMoveToGroupItem) 
+	if ( !hMoveToGroupItem) 
 	{
 		CLISTMENUITEM mi = {0};
 

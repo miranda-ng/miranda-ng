@@ -107,7 +107,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 			RECT rcClip;            // clipping rectangle
 		} DTBGOPTS, *PDTBGOPTS;
 	#endif
-	#if !defined( DTT_COMPOSITED )
+	#if !defined(DTT_COMPOSITED)
 		#define DTT_TEXTCOLOR       (1UL << 0)      // crText has been specified
 		#define DTT_BORDERCOLOR     (1UL << 1)      // crBorder has been specified
 		#define DTT_SHADOWCOLOR     (1UL << 2)      // crShadow has been specified
@@ -313,7 +313,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#define NIN_BALLOONTIMEOUT	(WM_USER + 4)
 	#define NIN_BALLOONUSERCLICK (WM_USER + 5)
 // SDK isn't present or some older VC compiler was used, include missing things.
-#elif !defined(NOWIN2K) && (!defined WS_EX_LAYERED || !defined IDC_HAND)
+#elif !defined(NOWIN2K) && ( !defined WS_EX_LAYERED || !defined IDC_HAND)
 
 	#pragma message("win2k.h")
 
@@ -427,12 +427,12 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#ifndef IDropTargetHelper
 	DEFINE_GUID(CLSID_DragDropHelper,   0x4657278a, 0x411b, 0x11d2, 0x83, 0x9a, 0x0, 0xc0, 0x4f, 0xd9, 0x18, 0xd0);
 	#define INTERFACE IDropTargetHelper
-		DECLARE_INTERFACE_( IDropTargetHelper, IUnknown )
+		DECLARE_INTERFACE_(IDropTargetHelper, IUnknown)
 		{
 			// IUnknown methods
 			STDMETHOD (QueryInterface)(THIS_ REFIID riid, void **ppv) PURE;
-			STDMETHOD_(ULONG, AddRef) ( THIS ) PURE;
-			STDMETHOD_(ULONG, Release) ( THIS ) PURE;
+			STDMETHOD_(ULONG, AddRef) (THIS) PURE;
+			STDMETHOD_(ULONG, Release) (THIS) PURE;
 
 		    // IDropTargetHelper
 			STDMETHOD (DragEnter)(THIS_ HWND hwndTarget, IDataObject* pDataObject,
@@ -515,15 +515,15 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#undef INTERFACE
 	#endif
 	#define INTERFACE ITaskbarList3
-		DECLARE_INTERFACE_( ITaskbarList3, ITaskbarList2 )
+		DECLARE_INTERFACE_(ITaskbarList3, ITaskbarList2)
 		{
 			// IUnknown methods
 			STDMETHOD (QueryInterface)       (THIS_ REFIID riid, void **ppv) PURE;
-			STDMETHOD_(ULONG, AddRef)        (THIS ) PURE;
-			STDMETHOD_(ULONG, Release)       (THIS ) PURE;
+			STDMETHOD_(ULONG, AddRef)        (THIS) PURE;
+			STDMETHOD_(ULONG, Release)       (THIS) PURE;
 
 			// overloaded ITaskbarList2 members
-			STDMETHOD (HrInit)               (THIS ) PURE;
+			STDMETHOD (HrInit)               (THIS) PURE;
 			STDMETHOD (AddTab)               (THIS_ HWND hwnd) PURE;
 			STDMETHOD (DeleteTab)            (THIS_ HWND hwnd) PURE;
 			STDMETHOD (ActivateTab)          (THIS_ HWND hwnd) PURE;

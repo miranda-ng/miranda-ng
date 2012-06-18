@@ -441,13 +441,13 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 	odp.pszTitle = LPGEN("List Background");
 	odp.pfnDlgProc = DlgProcClcBkgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

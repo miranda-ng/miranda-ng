@@ -88,7 +88,7 @@ typedef struct {
 // Add this flag if you want to get the Unicode info
 #define CNF_UNICODE     0x80
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define CNF_TCHAR       CNF_UNICODE     // will use TCHAR* instead of char*
 #else
 	#define CNF_TCHAR       0               // will return char*, as usual

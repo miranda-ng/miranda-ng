@@ -424,13 +424,13 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab     = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = FBOptionsProc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 	
 	odp.position    = 271829;
 	odp.ptszTab     = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_ADVANCED);
 	odp.pfnDlgProc  = FBOptionsAdvancedProc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.position    = 271830;
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
@@ -438,7 +438,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab     = LPGENT("Events");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_EVENTS);
 	odp.pfnDlgProc  = FBEventsProc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

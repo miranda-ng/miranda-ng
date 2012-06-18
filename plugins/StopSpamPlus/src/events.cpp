@@ -202,18 +202,18 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 	odp.ptszTab = _T("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
-	CallService(MS_OPT_ADDPAGE, w, (LPARAM)&odp);
+	Options_AddPage( w, &odp);
 
 
 	odp.ptszTab = _T("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
-	CallService(MS_OPT_ADDPAGE, w, (LPARAM)&odp);
+	Options_AddPage( w, &odp);
 
 	odp.ptszTab = _T("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
-	CallService(MS_OPT_ADDPAGE, w, (LPARAM)&odp);
+	Options_AddPage( w, &odp);
 
 	return 0;
 }

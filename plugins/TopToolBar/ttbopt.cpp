@@ -511,7 +511,7 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 		odp.pszTitle = LPGEN("TTBBackground");
 		odp.pfnDlgProc = DlgProcTTBBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	odp.position = -1000000000;
@@ -520,6 +520,6 @@ int TTBOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Buttons");
 	odp.pfnDlgProc = ButOrderOpts;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }

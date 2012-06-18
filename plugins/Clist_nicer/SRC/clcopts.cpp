@@ -1421,20 +1421,20 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
     odp.pszTitle = LPGEN("Contact rows");
     odp.pfnDlgProc = DlgProcDspProfiles;
     odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+    Options_AddPage(wParam, &odp);
 
     odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLOATING);
     odp.pszTitle = LPGEN("Floating contacts");
     odp.pfnDlgProc = DlgProcFloatingContacts;
     odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+    Options_AddPage(wParam, &odp);
 
     odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
     odp.pszGroup = LPGEN("Skins");
     odp.pszTitle = LPGEN("Contact list");
     odp.flags = ODPF_BOLDGROUPS;
     odp.pfnDlgProc = OptionsDlgProc;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+    Options_AddPage(wParam, &odp);
 
     odp.position = -1000000000;
     odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSDIALOG);
@@ -1443,7 +1443,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
     odp.pfnDlgProc = TabOptionsDlgProc;
     odp.flags = ODPF_BOLDGROUPS;
     odp.nIDBottomSimpleControl = 0;
-    CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+    Options_AddPage(wParam, &odp);
     return 0;
 }
 

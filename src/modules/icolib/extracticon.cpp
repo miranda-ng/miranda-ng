@@ -50,7 +50,7 @@ typedef struct
 void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER* pDosHeader, DWORD rva)
 {
 	IMAGE_NT_HEADERS* pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
-	IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION( pPE );
+	IMAGE_SECTION_HEADER* pSection = IMAGE_FIRST_SECTION(pPE);
 	int i;
 
 	for (i = 0; i < pPE->FileHeader.NumberOfSections; i++) {
@@ -145,12 +145,12 @@ void* _FindResource(IMAGE_DOS_HEADER* pDosHeader, void* prt, int resIndex, int r
 
 	if (pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY) {
 		IMAGE_RESOURCE_DIRECTORY* pDir;
-		pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + (pRes[index].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY) );
+		pDir = (IMAGE_RESOURCE_DIRECTORY*)((LPBYTE)prt + (pRes[index].OffsetToData & ~IMAGE_RESOURCE_DATA_IS_DIRECTORY));
 		pRes = (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir+1);
 		index = 0;  
 	}
 
-	if ( pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY )
+	if (pRes[index].OffsetToData & IMAGE_RESOURCE_DATA_IS_DIRECTORY)
 		return NULL;
 
 	pEntry = (IMAGE_RESOURCE_DATA_ENTRY*)((LPBYTE)prt + pRes[index].OffsetToData);
@@ -183,21 +183,21 @@ UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize
 	if ((DWORD)(pDosHeader->e_lfanew) >= fileLen) goto cleanup;
 
 	pRes = _GetResourceTable(pDosHeader);
-	if (!pRes) goto cleanup;
-	if (!phicon) {
+	if ( !pRes) goto cleanup;
+	if ( !phicon) {
 		retval = _FindResourceCount(pRes, (int)RT_GROUP_ICON);
 		goto cleanup;
 	}
 
 	pIconDir = (NEWHEADER*)_FindResource(pDosHeader, pRes, iconIndex, (int)RT_GROUP_ICON, &cbSize);
-	if (!pIconDir) goto cleanup;
+	if ( !pIconDir) goto cleanup;
 	if (pIconDir->Reserved || pIconDir->ResType != RES_ICON) goto cleanup;
 
 	idIcon = LookupIconIdFromDirectoryEx((LPBYTE)pIconDir, TRUE, cxIconSize, cyIconSize, flags);
 	pIcon = (LPBITMAPINFOHEADER)_FindResource(pDosHeader, pRes, -idIcon, (int)RT_ICON, &cbSize);
-	if (!pIcon) goto cleanup;
+	if ( !pIcon) goto cleanup;
 
-	if ( pIcon->biSize != sizeof(BITMAPINFOHEADER) && pIcon->biSize != sizeof(BITMAPCOREHEADER)) {
+	if (pIcon->biSize != sizeof(BITMAPINFOHEADER) && pIcon->biSize != sizeof(BITMAPCOREHEADER)) {
 		_ASSERT(0);
 		goto cleanup;
 	}
@@ -212,20 +212,20 @@ cleanup:
 	return retval;
 }
 
-UINT _ExtractFromICO( LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, HICON* phicon, UINT flags )
+UINT _ExtractFromICO(LPCTSTR pFileName, int iconIndex, int cxIcon, int cyIcon, HICON* phicon, UINT flags)
 {
 	HICON hicon;
 
-	if ( iconIndex >= 1 )
+	if (iconIndex >= 1)
 		return 0;
 
 	//  do we just want a count?
-	if (!phicon)
+	if ( !phicon)
 		return 1;
 
 	flags |= LR_LOADFROMFILE;
-	hicon = (HICON)LoadImage( NULL, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags );
-	if (!hicon)
+	hicon = (HICON)LoadImage(NULL, pFileName, IMAGE_ICON, cxIcon, cyIcon, flags);
+	if ( !hicon)
 		return 0;
 
 	*phicon = hicon;
@@ -253,12 +253,12 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 		return 0;
 
 	// failed to read file signature
-	if ( !ReadFile(hFile, &magic, sizeof(magic), &read, NULL ) || (read != sizeof(magic))) {
+	if ( !ReadFile(hFile, &magic, sizeof(magic), &read, NULL) || (read != sizeof(magic))) {
 		CloseHandle(hFile);
 		return 0;
 	}
 
-	switch ( magic[0] ) {
+	switch (magic[0]) {
 	case IMAGE_DOS_SIGNATURE:
 		res = _ExtractFromExe(hFile, iconIndex, cxIcon, cyIcon, phicon, flags);
 		break;
@@ -269,7 +269,7 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 		break;
 
 	case MAGIC_ICON:    
-		if ((magic[1] == MAGIC_ICO1 || magic[1] == MAGIC_CUR ) && magic[2] >= 1 )
+		if ((magic[1] == MAGIC_ICO1 || magic[1] == MAGIC_CUR) && magic[2] >= 1)
 			res = _ExtractFromICO(lpszFile, iconIndex, cxIcon, cyIcon, phicon, flags);
 
 		break;

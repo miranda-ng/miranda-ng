@@ -1,7 +1,6 @@
 #include "common.h"
 #include "scan.h"
 
-typedef PLUGININFO * (__cdecl * Miranda_Plugin_Info) ( DWORD mirandaVersion );
 typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_Info_Ex) ( DWORD mirandaVersion );
 
 struct AlternateShortName
@@ -56,10 +55,9 @@ void ScanPlugins(FilenameMap *fn_map, UpdateList *update_list)
 
 	TCHAR plugins_folder[MAX_PATH], dll_path[MAX_PATH];
 	TCHAR *dll_name;
-	Miranda_Plugin_Info dll_info_func;
 	Miranda_Plugin_Info_Ex dll_info_func_ex;
 	DWORD mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
-	PLUGININFO *pluginInfo;
+	PLUGININFOEX *pluginInfo;
 
 	GetRootDir(plugins_folder);
 	_tcscat(plugins_folder, _T("\\Plugins"));
@@ -92,9 +90,8 @@ void ScanPlugins(FilenameMap *fn_map, UpdateList *update_list)
 			}
 			if (hModule) 
             {
-				dll_info_func = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfo");
 				dll_info_func_ex = (Miranda_Plugin_Info_Ex)GetProcAddress(hModule, "MirandaPluginInfoEx");
-				if ((dll_info_func_ex && (pluginInfo = (PLUGININFO *)dll_info_func_ex(mirandaVersion))) || (dll_info_func && (pluginInfo = dll_info_func(mirandaVersion)))) 
+				if (dll_info_func_ex && (pluginInfo = (PLUGININFOEX*)dll_info_func_ex(mirandaVersion)) != NULL)
                 {
 					// *** This is a dodgy and unfair hack...
 					// In order to disable new plugins that may be unintentionally installed with an update,
@@ -254,10 +251,9 @@ bool RearrangeDllsWorker(char *shortName, StrList &filenames, TCHAR *basedir)
 
 	TCHAR file_path[MAX_PATH];
 
-	Miranda_Plugin_Info dll_info_func;
 	Miranda_Plugin_Info_Ex dll_info_func_ex;
 	DWORD mirandaVersion = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0);
-	PLUGININFO *pluginInfo;
+	PLUGININFOEX *pluginInfo;
 	HMODULE hModule;
 
 	// add filemask
@@ -272,9 +268,8 @@ bool RearrangeDllsWorker(char *shortName, StrList &filenames, TCHAR *basedir)
 			mir_sntprintf(file_path, SIZEOF(file_path), _T("%s\\%s"), basedir, findData.cFileName);
 			if (valDllName(findData.cFileName) && (hModule = LoadLibrary(file_path))) 
 			{
-				dll_info_func = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfo");
 				dll_info_func_ex = (Miranda_Plugin_Info_Ex)GetProcAddress(hModule, "MirandaPluginInfoEx");
-				if ((dll_info_func_ex && (pluginInfo = (PLUGININFO *)dll_info_func_ex(mirandaVersion))) || (dll_info_func && (pluginInfo = dll_info_func(mirandaVersion)))) 
+				if (dll_info_func_ex && (pluginInfo = (PLUGININFOEX *)dll_info_func_ex(mirandaVersion)) != NULL) 
                 {
 					bool found = !_stricmp(pluginInfo->shortName, shortName);
 					if (!found)

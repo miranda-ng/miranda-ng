@@ -68,7 +68,7 @@ INT_PTR EnumerateUpdates(WPARAM wParam, LPARAM lParam);
 ////////////////////////////
 
 bool IsRegistered(int file_id);
-bool RegisterForFileListing(int file_id, PLUGININFO *pluginInfo, bool auto_register);
+bool RegisterForFileListing(int file_id, PLUGININFOEX *pluginInfo, bool auto_register);
 bool RegisterForFileListing(int file_id, const char *fl_name, DWORD version, bool auto_register, const Category cat);
 
 void InitServices();

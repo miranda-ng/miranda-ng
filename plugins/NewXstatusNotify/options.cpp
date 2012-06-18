@@ -1059,17 +1059,17 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab	= LPGENT("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc = DlgProcGeneralOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab	= LPGENT("Filtering");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILTERS);
 	odp.pfnDlgProc = DlgProcFiltering;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab	= LPGENT("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XLOG);
 	odp.pfnDlgProc = DlgProcXLogOpts;	
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) 
 	{
@@ -1078,17 +1078,17 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.ptszTab = LPGENT("General");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProcPopUpOpts;
-		CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+		Options_AddPage(wParam,&odp);
 
 		odp.ptszTab = LPGENT("Extra status");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XPOPUP);
 		odp.pfnDlgProc = DlgProcXPopupOpts;	
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 
 		odp.ptszTab = LPGENT("Status message");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMPOPUP);
 		odp.pfnDlgProc = DlgProcSMPopupOpts;	
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	return 0;

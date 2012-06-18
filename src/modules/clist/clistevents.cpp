@@ -90,7 +90,7 @@ static void ShowEventsInTray()
 	char ** pTrayProtos;
 	char nTrayProtoCnt;
 	int nTrayCnt=cli.trayIconCount;
-	if (!cli.events.count || !nTrayCnt)  return; 
+	if ( !cli.events.count || !nTrayCnt)  return; 
 	if (cli.events.count == 1 || nTrayCnt == 1) 
 	{ 
 		ShowOneEventInTray(0); //for only one icon in tray show topmost event
@@ -113,10 +113,10 @@ static void ShowEventsInTray()
 		{
 			int j;
 			for (j=0; j<nTrayProtoCnt; j++)
-				if ( iEventProto && pTrayProtos[j] && !lstrcmpA(pTrayProtos[j], iEventProto))
+				if (iEventProto && pTrayProtos[j] && !lstrcmpA(pTrayProtos[j], iEventProto))
 					break;
-			if ( j>=nTrayProtoCnt )  j=0;	//event was not found so assume first icon
-			if ( pTrayProtos[j] )		//if not already set
+			if (j>=nTrayProtoCnt)  j=0;	//event was not found so assume first icon
+			if (pTrayProtos[j])		//if not already set
 				   ShowOneEventInTray(i);		//show it
 			pTrayProtos[j]=NULL;		//and clear slot
 		}
@@ -137,18 +137,18 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 		//decrease eflashes in any case - no need to collect all events
 		if (cli.events.items[i]->cle.flags & CLEF_ONLYAFEW) {
 			if (0 >= --cli.events.items[i]->flashesDone)
-				cli.pfnRemoveEvent( cli.events.items[i]->cle.hContact, cli.events.items[i]->cle.hDbEvent);
+				cli.pfnRemoveEvent(cli.events.items[i]->cle.hContact, cli.events.items[i]->cle.hDbEvent);
 	}	}
 
 	if (cli.events.count == 0) {
 		KillTimer(NULL, idEvent);
-		cli.pfnTrayIconSetToBase( NULL );
+		cli.pfnTrayIconSetToBase(NULL);
 	}
 
 	iconsOn = !iconsOn;
 }
 
-struct CListEvent* fnAddEvent( CLISTEVENT *cle )
+struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 {
 	int i;
 	struct CListEvent* p;
@@ -158,15 +158,15 @@ struct CListEvent* fnAddEvent( CLISTEVENT *cle )
 
 	if (cle->flags & CLEF_URGENT) {
 		for (i = 0; i < cli.events.count; i++)
-			if (!(cli.events.items[i]->cle.flags & CLEF_URGENT))
+			if ( !(cli.events.items[i]->cle.flags & CLEF_URGENT))
 				break;
 	}
 	else i = cli.events.count;
 
-	if (( p = ( struct CListEvent* )cli.pfnCreateEvent()) == NULL )
+	if ((p = (struct CListEvent*)cli.pfnCreateEvent()) == NULL)
 		return NULL;
 
-	List_Insert(( SortedList* )&cli.events, p, i );
+	List_Insert((SortedList*)&cli.events, p, i);
 	p->cle = *cle;
 	p->imlIconIndex = fnGetImlIconIndex(cli.events.items[i]->cle.hIcon);
 	p->flashesDone = 12;
@@ -188,7 +188,7 @@ struct CListEvent* fnAddEvent( CLISTEVENT *cle )
 			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cle->hContact, 0);
 		iconsOn = 1;
 		flashTimerId = SetTimer(NULL, 0, DBGetContactSettingWord(NULL, "CList", "IconFlashTime", 550), IconFlashTimer);
-		cli.pfnTrayIconUpdateWithImageList( p->imlIconIndex, p->cle.ptszTooltip, szProto);
+		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->cle.ptszTooltip, szProto);
 	}
 	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex, 1);
 	cli.pfnSortContacts();
@@ -197,7 +197,7 @@ struct CListEvent* fnAddEvent( CLISTEVENT *cle )
 
 // Removes an event from the contact list's queue
 // Returns 0 if the event was successfully removed, or nonzero if the event was not found
-int fnRemoveEvent( HANDLE hContact, HANDLE dbEvent )
+int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 {
 	int i;
 	char *szProto;
@@ -219,8 +219,8 @@ int fnRemoveEvent( HANDLE hContact, HANDLE dbEvent )
 		0);
 
 	// Free any memory allocated to the event
-	cli.pfnFreeEvent( cli.events.items[i] );
-	List_Remove(( SortedList* )&cli.events, i );
+	cli.pfnFreeEvent(cli.events.items[i]);
+	List_Remove((SortedList*)&cli.events, i);
 	{
 		//count same protocoled events
 		char * szEventProto;
@@ -241,7 +241,7 @@ int fnRemoveEvent( HANDLE hContact, HANDLE dbEvent )
 	if (cli.events.count == 0 || nSameProto == 0) {
 		if (cli.events.count == 0) 
 			KillTimer(NULL, flashTimerId);
-		cli.pfnTrayIconSetToBase( hContact == NULL ? NULL : szProto);
+		cli.pfnTrayIconSetToBase(hContact == NULL ? NULL : szProto);
 	}
 	else {
 		if (cli.events.items[0]->cle.hContact == NULL)
@@ -254,9 +254,9 @@ int fnRemoveEvent( HANDLE hContact, HANDLE dbEvent )
 	return 0;
 }
 
-CLISTEVENT* fnGetEvent( HANDLE hContact, int idx )
+CLISTEVENT* fnGetEvent(HANDLE hContact, int idx)
 {
-	if ( hContact == INVALID_HANDLE_VALUE) {
+	if (hContact == INVALID_HANDLE_VALUE) {
 		if (idx >= cli.events.count)
 			return NULL;
 		return &cli.events.items[idx]->cle;
@@ -303,10 +303,10 @@ int fnEventsProcessTrayDoubleClick(int index)
 					char * eventProto=NULL;				
 					if (cli.events.items[i]->cle.hContact) 
 						eventProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
-					if (!eventProto)
+					if ( !eventProto)
 						eventProto=cli.events.items[i]->cle.lpszProtocol;
 		
-					if (!eventProto || !_strcmpi(eventProto, szProto))	{
+					if ( !eventProto || !_strcmpi(eventProto, szProto))	{
 						eventIndex=i;
 						break;
 				}	}
@@ -319,7 +319,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 							char * eventProto=NULL;				
 							if (cli.events.items[i]->cle.hContact) 
 								eventProto=(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
-							if (!eventProto)
+							if ( !eventProto)
 								eventProto=cli.events.items[i]->cle.lpszProtocol;
 							if (eventProto) {
 								for (j=0; j<cli.trayIconCount; j++)
@@ -338,7 +338,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 		cli.pfnUnlockTray();		
 		hContact = cli.events.items[eventIndex]->cle.hContact;
 		hDbEvent = cli.events.items[eventIndex]->cle.hDbEvent;
-		//if (!ServiceExists(cli.events.items[eventIndex]->cle.pszService))
+		//if ( !ServiceExists(cli.events.items[eventIndex]->cle.pszService))
 		//	; may be better to show send msg?
 		CallService(cli.events.items[eventIndex]->cle.pszService, (WPARAM) NULL, (LPARAM) & cli.events.items[eventIndex]->cle);
 		cli.pfnRemoveEvent(hContact, hDbEvent);
@@ -388,13 +388,13 @@ static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
 /***************************************************************************************/
 
 INT_PTR AddEventSyncStub(WPARAM wParam, LPARAM lParam) { return CallServiceSync(MS_CLIST_ADDEVENT"_SYNC", wParam, lParam); }
-INT_PTR AddEventStub(WPARAM, LPARAM lParam) { return cli.pfnAddEvent((CLISTEVENT*)lParam ) == NULL; }
-INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent((HANDLE)wParam, (HANDLE)lParam ); }
+INT_PTR AddEventStub(WPARAM, LPARAM lParam) { return cli.pfnAddEvent((CLISTEVENT*)lParam) == NULL; }
+INT_PTR RemoveEventStub(WPARAM wParam, LPARAM lParam) { return cli.pfnRemoveEvent((HANDLE)wParam, (HANDLE)lParam); }
 INT_PTR GetEventStub(WPARAM wParam, LPARAM lParam) { return (INT_PTR)cli.pfnGetEvent((HANDLE)wParam, (int)lParam); }
 
 int InitCListEvents(void)
 {
-	memset( &cli.events, 0, sizeof(cli.events));	
+	memset(&cli.events, 0, sizeof(cli.events));	
 	cli.events.increment = 10;
 	
 	disableTrayFlash = DBGetContactSettingByte(NULL, "CList", "DisableTrayFlash", 0);
@@ -408,18 +408,18 @@ int InitCListEvents(void)
 	return 0;
 }
 
-struct CListEvent* fnCreateEvent( void )
+struct CListEvent* fnCreateEvent(void)
 {
-	return (struct CListEvent*)mir_calloc( sizeof(struct CListEvent));
+	return (struct CListEvent*)mir_calloc(sizeof(struct CListEvent));
 }
 
-void fnFreeEvent( struct CListEvent* p )
+void fnFreeEvent(struct CListEvent* p)
 {
-   if ( p->cle.pszService )
-      mir_free( p->cle.pszService );
-   if ( p->cle.pszTooltip )
-      mir_free( p->cle.pszTooltip );
-	mir_free( p );
+   if (p->cle.pszService)
+      mir_free(p->cle.pszService);
+   if (p->cle.pszTooltip)
+      mir_free(p->cle.pszTooltip);
+	mir_free(p);
 }
 
 void UninitCListEvents(void)
@@ -429,9 +429,9 @@ void UninitCListEvents(void)
 	if (cli.events.count) KillTimer(NULL, flashTimerId);
 
 	for (i = 0; i < cli.events.count; i++)
-		cli.pfnFreeEvent(( struct CListEvent* )cli.events.items[i] );
-	List_Destroy(( SortedList* )&cli.events );
+		cli.pfnFreeEvent((struct CListEvent*)cli.events.items[i]);
+	List_Destroy((SortedList*)&cli.events);
 
-	if ( imlIcon != NULL )
-		mir_free( imlIcon );
+	if (imlIcon != NULL)
+		mir_free(imlIcon);
 }

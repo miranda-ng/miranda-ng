@@ -1722,7 +1722,7 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 	odp.dwInitParam = (LPARAM)&OptCreateAccount;
 	OptCreateAccount.create = CConnectPrefsDlg::Create;
 	OptCreateAccount.param = this;
-	CallService( MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.flags |= ODPF_EXPERTONLY;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_CTCP);
@@ -1730,21 +1730,21 @@ int CIrcProto::OnInitOptionsPages(WPARAM wParam, LPARAM)
 	odp.dwInitParam = (LPARAM)&OptCreateConn;
 	OptCreateConn.create = CCtcpPrefsDlg::Create;
 	OptCreateConn.param = this;
-	CallService( MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_OTHER);
 	odp.ptszTab = LPGENT("Advanced");
 	odp.dwInitParam = (LPARAM)&OptCreateOther;
 	OptCreateOther.create = COtherPrefsDlg::Create;
 	OptCreateOther.param = this;
-	CallService( MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PREFS_IGNORE);
 	odp.ptszTab = LPGENT("Ignore");
 	odp.dwInitParam = (LPARAM)&OptCreateIgnore;
 	OptCreateIgnore.create = CIgnorePrefsDlg::Create;
 	OptCreateIgnore.param = this;
-	CallService( MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

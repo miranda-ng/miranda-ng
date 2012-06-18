@@ -26,73 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE hOptionsInitialize;
 
-int HookFilterEvents()
-{
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	return 0;
-}
-
-int UnhookFilterEvents()
-{
-	UnhookEvent(hOptionsInitialize);
-	return 0;
-}
-
-INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		
-		CheckDlgButton(hWnd, IDC_ENABLE_KEYWORDFILTERING, DBGetContactSettingWord(NULL, "Options", "EnableKeywordFiltering", TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		return TRUE;
-	
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_ENABLE_KEYWORDFILTERING:
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_SETFOCUS:
-		SetFocus(GetDlgItem(hWnd, IDC_ENABLE_KEYWORDFILTERING));
-		break;
-
-	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				DBWriteContactSettingWord(NULL, "Options", "EnableKeywordFiltering", IsDlgButtonChecked(hWnd, IDC_ENABLE_KEYWORDFILTERING));
-				break;
-			}
-			break;
-		}
-		break;
-	}
-	
-	return 0;
-}
-
-int OnOptionsInitialise(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {0};
-	
-	odp.cbSize = sizeof(odp);
-	odp.position = -190000000;
-	odp.hInstance = hMirandaInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KEYWORDFILTER);
-	odp.ptszTitle = TranslateT("Options search");
-	odp.ptszGroup = TranslateT("Customize");
-	odp.groupPosition = 810000000;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.pfnDlgProc = DlgProcOptSearch;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
-	
-	return 0;
-}
-
 CPageList filterStrings(1);
 
 void AddFilterString(const PageHash key, TCHAR *data)
@@ -100,11 +33,11 @@ void AddFilterString(const PageHash key, TCHAR *data)
 	if (ContainsFilterString(key, data)) return;
 
 	CPageKeywords * values = filterStrings[key];
-	if ( values == NULL ) {
-		values = new CPageKeywords( key );
-		filterStrings.insert( values );
+	if (values == NULL) {
+		values = new CPageKeywords(key);
+		filterStrings.insert(values);
 	}
-	values->AddKeyWord( data );
+	values->AddKeyWord(data);
 }
 
 void ClearFilterStrings()
@@ -115,7 +48,7 @@ void ClearFilterStrings()
 BOOL ContainsFilterString(const PageHash key, TCHAR *data)
 {
 	CPageKeywords* values = filterStrings[key];
-	return (values) ? values->ContainsString( data ) : FALSE;	
+	return (values) ? values->ContainsString(data) : FALSE;	
 }
 
 void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
@@ -146,7 +79,7 @@ void AddTreeViewNodes(HWND hWndDlg, PageHash key, HTREEITEM root)
 void AddDialogString(HWND hWndDlg, const PageHash key)
 {
 	TCHAR title[2048];
-	GetWindowText(hWndDlg, title, SIZEOF( title ));
+	GetWindowText(hWndDlg, title, SIZEOF(title));
 	if (_tcslen(title) > 0)
 		AddFilterString(key, title);
 	
@@ -201,17 +134,84 @@ static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd, LPARAM lParam)
 	return TRUE;
 }
 
-void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd, TCHAR * group, TCHAR * title, TCHAR * tab, TCHAR * name )
+void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd, TCHAR * group, TCHAR * title, TCHAR * tab, TCHAR * name)
 {
 	AddFilterString(key, pluginName); //add the plugin name as keyword
-	if ( group ) AddFilterString(key, group);
-	if ( title ) AddFilterString(key, title);
-	if ( tab )   AddFilterString(key, tab);
-	if ( name )  AddFilterString(key, name);
+	if (group) AddFilterString(key, group);
+	if (title) AddFilterString(key, title);
+	if (tab)   AddFilterString(key, tab);
+	if (name)  AddFilterString(key, name);
 
 	if ((enableKeywordFiltering) && (hWnd != 0)) {
 		AddDialogString(hWnd, key);
 		
 		EnumChildWindows(hWnd, GetDialogStringsCallback, (LPARAM) key);
 	}
+}
+
+static INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
+		
+		CheckDlgButton(hWnd, IDC_ENABLE_KEYWORDFILTERING, DBGetContactSettingWord(NULL, "Options", "EnableKeywordFiltering", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		return TRUE;
+	
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDC_ENABLE_KEYWORDFILTERING:
+			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
+			break;
+		}
+		break;
+
+	case WM_SETFOCUS:
+		SetFocus(GetDlgItem(hWnd, IDC_ENABLE_KEYWORDFILTERING));
+		break;
+
+	case WM_NOTIFY:
+		switch(((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_APPLY:
+				DBWriteContactSettingWord(NULL, "Options", "EnableKeywordFiltering", IsDlgButtonChecked(hWnd, IDC_ENABLE_KEYWORDFILTERING));
+				break;
+			}
+			break;
+		}
+		break;
+	}
+	
+	return 0;
+}
+
+static int OnOptionsInitialise(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = {0};
+	
+	odp.cbSize = sizeof(odp);
+	odp.position = -190000000;
+	odp.hInstance = hMirandaInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KEYWORDFILTER);
+	odp.ptszTitle = TranslateT("Options search");
+	odp.ptszGroup = TranslateT("Customize");
+	odp.groupPosition = 810000000;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pfnDlgProc = DlgProcOptSearch;
+	Options_AddPage(wParam, &odp);
+	
+	return 0;
+}
+
+int HookFilterEvents()
+{
+	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
+	return 0;
+}
+
+int UnhookFilterEvents()
+{
+	UnhookEvent(hOptionsInitialize);
+	return 0;
 }

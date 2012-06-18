@@ -48,12 +48,12 @@ typedef struct {
 }
 	tempProtoItem;
 
-int isProtoSuitable( PROTO_INTERFACE* ppi )
+int isProtoSuitable(PROTO_INTERFACE* ppi)
 {
-	if ( ppi == NULL )
+	if (ppi == NULL)
 		return TRUE;
 
-	return ppi->GetCaps( PFLAGNUM_2, 0 ) & ~ppi->GetCaps( PFLAGNUM_5, 0 );
+	return ppi->GetCaps(PFLAGNUM_2, 0) & ~ppi->GetCaps(PFLAGNUM_5, 0);
 }
 
 bool CheckProtocolOrder(void)
@@ -132,26 +132,26 @@ int FillTree(HWND hwnd)
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 
 	TreeView_DeleteAllItems(hwnd);
-	if ( accounts.getCount() == 0 )
+	if (accounts.getCount() == 0)
 		return FALSE;
 
-	for ( i = 0; i < accounts.getCount(); i++ ) {
-		int idx = cli.pfnGetAccountIndexByPos( i );
-		if ( idx == -1 )
+	for (i = 0; i < accounts.getCount(); i++) {
+		int idx = cli.pfnGetAccountIndexByPos(i);
+		if (idx == -1)
 			continue;
 
 		pa = accounts[idx];
 
-		PD = ( ProtocolData* )mir_alloc( sizeof( ProtocolData ));
+		PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = pa->szModuleName;
 		PD->protopos = pa->iOrder;
-		PD->enabled = Proto_IsAccountEnabled( pa ) && isProtoSuitable( pa->ppro );
+		PD->enabled = Proto_IsAccountEnabled(pa) && isProtoSuitable(pa->ppro);
 		PD->show = PD->enabled ? pa->bIsVisible : 100;
 
-		tvis.item.lParam = ( LPARAM )PD;
+		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = pa->tszAccountName;
 		tvis.item.iImage = tvis.item.iSelectedImage = PD->show;
-		TreeView_InsertItem( hwnd, &tvis );
+		TreeView_InsertItem(hwnd, &tvis);
 	}
 
 	return 0;
@@ -166,7 +166,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
     {
 	case WM_DESTROY:
 		ImageList_Destroy(TreeView_GetImageList(hwndProtoOrder, TVSIL_NORMAL));
-		mir_free( dat );
+		mir_free(dat);
 		break;
 
 	case WM_INITDIALOG:
@@ -177,7 +177,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		SetWindowLongPtr(hwndProtoOrder, GWL_STYLE, GetWindowLongPtr(hwndProtoOrder, GWL_STYLE) | TVS_NOHSCROLL);
 		{
-			HIMAGELIST himlCheckBoxes = ImageList_Create( GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), ILC_COLOR32|ILC_MASK, 2, 2 );
+			HIMAGELIST himlCheckBoxes = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32|ILC_MASK, 2, 2);
 			ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
 			ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
 			TreeView_SetImageList(hwndProtoOrder, himlCheckBoxes, TVSIL_NORMAL);
@@ -189,7 +189,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_RESETPROTOCOLDATA && HIWORD(wParam) == BN_CLICKED)
         {
-			for ( int i = 0; i < accounts.getCount(); i++ )
+			for (int i = 0; i < accounts.getCount(); i++)
 				accounts[i]->iOrder = i;
 
 			FillTree(hwndProtoOrder);
@@ -200,7 +200,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
+			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 				int count = 0;
 
 				TVITEM tvi;
@@ -208,27 +208,27 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				tvi.cchTextMax = 32;
 				tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 
-				while ( tvi.hItem != NULL ) {
+				while (tvi.hItem != NULL) {
 					TreeView_GetItem(hwndProtoOrder, &tvi);
 
 					if (tvi.lParam != 0) {
-						ProtocolData* ppd = ( ProtocolData* )tvi.lParam;
-						PROTOACCOUNT* pa = Proto_GetAccount( ppd->RealName );
-						if ( pa != NULL ) {
+						ProtocolData* ppd = (ProtocolData*)tvi.lParam;
+						PROTOACCOUNT* pa = Proto_GetAccount(ppd->RealName);
+						if (pa != NULL) {
 							pa->iOrder = count++;
-							if ( ppd->enabled )
+							if (ppd->enabled)
 								pa->bIsVisible = ppd->show;
 						}
 					}
 
-					tvi.hItem = TreeView_GetNextSibling(hwndProtoOrder, tvi.hItem );
+					tvi.hItem = TreeView_GetNextSibling(hwndProtoOrder, tvi.hItem);
 				}
 
 				WriteDbAccounts();
 				cli.pfnReloadProtoMenus();
 				cli.pfnTrayIconIconsChanged();
-				cli.pfnClcBroadcast( INTM_RELOADOPTIONS, 0, 0 );
-				cli.pfnClcBroadcast( INTM_INVALIDATE, 0, 0 );
+				cli.pfnClcBroadcast(INTM_RELOADOPTIONS, 0, 0);
+				cli.pfnClcBroadcast(INTM_INVALIDATE, 0, 0);
 			}
 			break;
 
@@ -255,15 +255,15 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					hti.pt.x=(short)LOWORD(GetMessagePos());
 					hti.pt.y=(short)HIWORD(GetMessagePos());
 					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
-					if ( TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti )) {
-						if ( hti.flags & TVHT_ONITEMICON ) {
+					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti)) {
+						if (hti.flags & TVHT_ONITEMICON) {
 							TVITEMA tvi;
 							tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 							tvi.hItem = hti.hItem;
 							TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 
-							ProtocolData *pData = ( ProtocolData* )tvi.lParam;
-							if ( pData->enabled ) {
+							ProtocolData *pData = (ProtocolData*)tvi.lParam;
+							if (pData->enabled) {
 								tvi.iImage = tvi.iSelectedImage = !tvi.iImage;
 								pData->show = tvi.iImage;
 								TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
@@ -274,19 +274,19 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_MOUSEMOVE:
-		if ( dat->dragging ) {
+		if (dat->dragging) {
 			TVHITTESTINFO hti;
 			hti.pt.x=(short)LOWORD(lParam);
 			hti.pt.y=(short)HIWORD(lParam);
 			ClientToScreen(hwndDlg, &hti.pt);
 			ScreenToClient(hwndProtoOrder, &hti.pt);
 			TreeView_HitTest(hwndProtoOrder, &hti);
-			if ( hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT ))
+			if (hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT))
             {
 				HTREEITEM it = hti.hItem;
 				hti.pt.y -= TreeView_GetItemHeight(hwndProtoOrder) / 2;
 				TreeView_HitTest(hwndProtoOrder, &hti);
-				if ( !( hti.flags & TVHT_ABOVE ))
+				if ( !(hti.flags & TVHT_ABOVE))
 					TreeView_SetInsertMark(hwndProtoOrder, hti.hItem, 1);
 				else
 					TreeView_SetInsertMark(hwndProtoOrder, it, 0);
@@ -299,7 +299,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_LBUTTONUP:
-		if ( dat->dragging ) {
+		if (dat->dragging) {
 			TVHITTESTINFO hti;
 			TVITEM tvi;
 
@@ -318,7 +318,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 			tvi.hItem = dat->hDragItem;
 			TreeView_GetItem(hwndProtoOrder, &tvi);
-			if ( hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST))
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST))
             {
 				TVINSERTSTRUCT tvis;
 				TCHAR name[128];

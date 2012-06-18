@@ -264,7 +264,7 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 		wsprintfA(szUrl, "http://www.miranda-fr.net/tweety/yamn/%s.zip", YAMN_FILENAME);
 
 		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionStringPlugin((PLUGININFO *)&pluginInfo, szVersion);
+		update.pbVersion = (BYTE *)CreateVersionStringPluginEx((PLUGININFOEX *)&pluginInfo, szVersion);
 		update.cpbVersion = (int)strlen((char *)update.pbVersion);
 		update.szUpdateURL = "http://addons.miranda-im.org/feed.php?dlfile = 3411";
 		update.szVersionURL = "http://addons.miranda-im.org/details.php?action = viewfile&id = 3411";

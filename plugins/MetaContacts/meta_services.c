@@ -1859,21 +1859,21 @@ int Meta_OptInit(WPARAM wParam, LPARAM lParam) {
 	odp.pszGroup					= "Contact List";
 	odp.pszTab						= "General";
 	odp.pfnDlgProc					= DlgProcOpts;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );	
+	Options_AddPage(wParam, &odp);	
 
 	odp.pszTemplate					= MAKEINTRESOURCE(IDD_PRIORITIES);
 	odp.pszTitle					= "MetaContacts";
 	odp.pszGroup					= "Contact List";
 	odp.pszTab						= "Priorities";
 	odp.pfnDlgProc					= DlgProcOptsPriorities;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );	
+	Options_AddPage(wParam, &odp);	
 
 	odp.pszTemplate					= MAKEINTRESOURCE(IDD_HISTORY);
 	odp.pszTitle					= "MetaContacts";
 	odp.pszGroup					= "Contact List";
 	odp.pszTab						= "History";
 	odp.pfnDlgProc					= DlgProcOpts;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );	
+	Options_AddPage(wParam, &odp);	
 	return 0;
 }
 

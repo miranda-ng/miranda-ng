@@ -29,31 +29,31 @@ CLIST_INTERFACE cli = { 0 };
 
 static TCHAR szTip[MAX_TIP_SIZE+1];
 
-int LoadContactListModule2( void );
-int LoadCLCModule( void );
-void BuildProtoMenus( void );
+int LoadContactListModule2(void);
+int LoadCLCModule(void);
+void BuildProtoMenus(void);
 
 static int interfaceInited = 0;
 
-static void fnPaintClc( HWND, ClcData*, HDC, RECT* )
+static void fnPaintClc(HWND, ClcData*, HDC, RECT*)
 {
 }
 
-static struct ClcContact* fnCreateClcContact( void )
+static struct ClcContact* fnCreateClcContact(void)
 {
-	return ( struct ClcContact* )mir_calloc( sizeof( struct ClcContact ));
+	return (struct ClcContact*)mir_calloc(sizeof(struct ClcContact));
 }
 
-static BOOL fnInvalidateRect( HWND hwnd, CONST RECT* lpRect, BOOL bErase )
+static BOOL fnInvalidateRect(HWND hwnd, CONST RECT* lpRect, BOOL bErase)
 {
-	return InvalidateRect( hwnd, lpRect, bErase );
+	return InvalidateRect(hwnd, lpRect, bErase);
 }
 
-static void fnOnCreateClc( void )
+static void fnOnCreateClc(void)
 {
 }
 
-static void fnReloadProtoMenus( void )
+static void fnReloadProtoMenus(void)
 {
 	RebuildMenuOrder();
 	if (DBGetContactSettingByte(NULL, "CList", "MoveProtoMenus", TRUE))
@@ -61,11 +61,11 @@ static void fnReloadProtoMenus( void )
 	cli.pfnCluiProtocolStatusChanged(0, 0);
 }
 
-static INT_PTR srvRetrieveInterface( WPARAM, LPARAM lParam )
+static INT_PTR srvRetrieveInterface(WPARAM, LPARAM lParam)
 {
 	int rc;
 
-	if ( interfaceInited == 0 ) {
+	if (interfaceInited == 0) {
 		cli.version = 6;
 		cli.bDisplayLocked = TRUE;
 
@@ -207,7 +207,7 @@ static INT_PTR srvRetrieveInterface( WPARAM, LPARAM lParam )
 		cli.pfnGetProtocolMenu                 = fnGetProtocolMenu;
 		cli.pfnConvertMenu                     = fnConvertMenu;
 
-		cli.hInst = ( HMODULE )lParam;
+		cli.hInst = (HMODULE)lParam;
 
 		rc = LoadContactListModule2();
 		if (rc == 0)
@@ -215,11 +215,11 @@ static INT_PTR srvRetrieveInterface( WPARAM, LPARAM lParam )
 		interfaceInited = 1;
 	}
 
-	return ( LPARAM )&cli;
+	return (LPARAM)&cli;
 }
 
 int LoadContactListModule()
 {
-	CreateServiceFunction( MS_CLIST_RETRIEVE_INTERFACE, srvRetrieveInterface );
+	CreateServiceFunction(MS_CLIST_RETRIEVE_INTERFACE, srvRetrieveInterface);
 	return 0;
 }

@@ -316,7 +316,7 @@ will pick this up and everything will be good.
 //the ack is complete.
 
 #define PSR_UNICODE 1        // return Unicode status
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define PSR_TCHAR PSR_UNICODE
 #else
 	#define PSR_TCHAR 0
@@ -495,7 +495,7 @@ typedef struct {
 // Remember to mir_free the return value
 
 #define SGMA_UNICODE 1        // return Unicode status
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define SGMA_TCHAR SGMA_UNICODE
 #else
 	#define SGMA_TCHAR 0
@@ -509,7 +509,7 @@ typedef struct {
 // return=0 for success
 
 #define SMNN_UNICODE 1        // return Unicode status
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define SMNN_TCHAR SMNN_UNICODE
 #else
 	#define SMNN_TCHAR 0
@@ -526,7 +526,7 @@ typedef struct {
 
 // WAYD = What are you doing
 #define WAYD_UNICODE 1        // return Unicode texts
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define WAYD_TCHAR WAYD_UNICODE
 #else
 	#define WAYD_TCHAR 0
@@ -723,7 +723,7 @@ typedef struct {
 #define PREF_RTL          4     // 0.5+ addition: support for right-to-left messages
 #define PREF_UTF          8     // message is in utf-8 (0.7.0+)
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define PREF_TCHAR PREF_UNICODE
 #else
 	#define PREF_TCHAR 0

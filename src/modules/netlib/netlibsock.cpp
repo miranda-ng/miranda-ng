@@ -37,12 +37,12 @@ INT_PTR NetlibSend(WPARAM wParam, LPARAM lParam)
 		return SOCKET_ERROR;
 	}
 
-	if (!NetlibEnterNestedCS(nlc, NLNCS_SEND))
+	if ( !NetlibEnterNestedCS(nlc, NLNCS_SEND))
 		return SOCKET_ERROR;
 
 	if (nlc->usingHttpGateway && !(nlb->flags & MSG_RAW))
 	{
-		if (!(nlb->flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend)
+		if ( !(nlb->flags & MSG_NOHTTPGATEWAYWRAP) && nlc->nlu->user.pfnHttpGatewayWrapSend)
 		{
 			NetlibDumpData(nlc, (PBYTE)nlb->buf, nlb->len, 1, nlb->flags);
 			result = nlc->nlu->user.pfnHttpGatewayWrapSend((HANDLE)nlc, (PBYTE)nlb->buf, nlb->len, nlb->flags | MSG_NOHTTPGATEWAYWRAP, NetlibSend);
@@ -77,7 +77,7 @@ INT_PTR NetlibRecv(WPARAM wParam, LPARAM lParam)
 		return SOCKET_ERROR;
 	}
 
-	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
+	if ( !NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return SOCKET_ERROR;
 
 	if (nlc->usingHttpGateway && !(nlb->flags & MSG_RAW))
@@ -140,9 +140,9 @@ INT_PTR NetlibSelect(WPARAM, LPARAM lParam)
 	int pending = 0;
 	fd_set readfd, writefd, exceptfd;
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	if (!ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
-		|| !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
-		|| !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending))
+	if ( !ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
+		 ||  !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
+		 ||  !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending))
 	{
 			ReleaseMutex(hConnectionHeaderMutex);
 			return SOCKET_ERROR;
@@ -170,9 +170,9 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 
 	int pending = 0;
 	fd_set readfd, writefd, exceptfd;
-	if (!ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
-		|| !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
-		|| !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending))
+	if ( !ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
+		 ||  !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
+		 ||  !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending))
 	{
 			ReleaseMutex(hConnectionHeaderMutex);
 			return SOCKET_ERROR;
@@ -217,7 +217,7 @@ INT_PTR NetlibSelectEx(WPARAM, LPARAM lParam)
 
 bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
 {
-	if (!str) return false;
+	if ( !str) return false;
 
 	if (MyWSAStringToAddress)
 	{
@@ -227,7 +227,7 @@ bool NetlibStringToAddress(const char* str, SOCKADDR_INET_M* addr)
 	else
 	{
 		unsigned iaddr = inet_addr(str);
-		if (!iaddr) return false;
+		if ( !iaddr) return false;
 
 		addr->Ipv4.sin_addr.s_addr = iaddr;
 		addr->Ipv4.sin_family = AF_INET;
@@ -242,7 +242,7 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 	if (MyWSAAddressToString)
 	{
 		DWORD len = sizeof(saddr);
-		if (!MyWSAAddressToString((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
+		if ( !MyWSAAddressToString((PSOCKADDR)addr, sizeof(*addr), NULL, saddr, &len))
 			return mir_strdup(saddr);
 	}
 	else if (addr->si_family == AF_INET)
@@ -261,12 +261,12 @@ char* NetlibAddressToString(SOCKADDR_INET_M* addr)
 
 void NetlibGetConnectionInfo(NetlibConnection* nlc, NETLIBCONNINFO *connInfo)
 {
-	if (!nlc || !connInfo || connInfo->cbSize < sizeof(NETLIBCONNINFO)) return;
+	if ( !nlc || !connInfo || connInfo->cbSize < sizeof(NETLIBCONNINFO)) return;
 
 	SOCKADDR_INET_M sin = {0};
 	int len = sizeof(sin);
 
-	if (!getsockname(nlc->s, (PSOCKADDR)&sin, &len))
+	if ( !getsockname(nlc->s, (PSOCKADDR)&sin, &len))
 	{
 		connInfo->wPort = ntohs(sin.Ipv4.sin_port);
 		connInfo->dwIpv4 = sin.si_family == AF_INET ? htonl(sin.Ipv4.sin_addr.s_addr) : 0;
@@ -299,9 +299,9 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	for (ai = air; ai; ai = ai->ai_next)
 	{
 		SOCKADDR_INET_M* iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
-		if (ai->ai_family == AF_INET ||
+		if (ai->ai_family == AF_INET  || 
 			(ai->ai_family == AF_INET6 && 
-			(!(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
+			( !(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
 			++n;
 	}
 
@@ -312,9 +312,9 @@ static NETLIBIPLIST* GetMyIpv6(unsigned flags)
 	for (ai = air; ai; ai = ai->ai_next)
 	{
 		SOCKADDR_INET_M* iaddr = (SOCKADDR_INET_M*)ai->ai_addr;
-		if (ai->ai_family == AF_INET ||
+		if (ai->ai_family == AF_INET  || 
 			(ai->ai_family == AF_INET6 && 
-			(!(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
+			( !(flags & 1) || IsAddrGlobal(&iaddr->Ipv6.sin6_addr))))
 		{
 
 			char* szIp = NetlibAddressToString(iaddr);

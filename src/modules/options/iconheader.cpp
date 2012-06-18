@@ -50,11 +50,11 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwnd, UINT  msg, WPARAM wParam, LPAR
 // structure is used for storing list of tab info
 struct MIcoTabCtrl
 {
-	__inline void* operator new( size_t size )
-	{	return mir_calloc( size );
+	__inline void* operator new(size_t size)
+	{	return mir_calloc(size);
 	}
-	__inline void operator delete( void* p )
-	{	mir_free( p );
+	__inline void operator delete(void* p)
+	{	mir_free(p);
 	}
 
 	MIcoTabCtrl(): pList(1) {}
@@ -148,7 +148,7 @@ static void MIcoTab_SetupColors(MIcoTabCtrl *dat)
 	dat->clSelBorder	= RGB(dat->rgbSelTop.rgbRed, dat->rgbSelTop.rgbGreen, dat->rgbSelTop.rgbBlue);
 	dat->clHotBorder	= RGB(dat->rgbHotTop.rgbRed, dat->rgbHotTop.rgbGreen, dat->rgbHotTop.rgbBlue);
 
-	if (!dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
+	if ( !dat->hFont) dat->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 }
 
 static void MIcoTab_FillRect(HDC hdc, int x, int y, int width, int height, COLORREF cl)
@@ -169,7 +169,7 @@ static void MIcoTab_DrawGradient(HDC hdc, int x, int y, int width, int height, R
 	COLORREF oldColor	= SetBkColor(hdc, 0);
 
 	RECT rc; SetRect(&rc, x, 0, x+width, 0);
-	for ( int i=y+height; --i >= y; ) {
+	for (int i=y+height; --i >= y;) {
 		COLORREF color = RGB(
 			((height-i-1)*rgb0->rgbRed   + i*rgb1->rgbRed)   / height, 
 			((height-i-1)*rgb0->rgbGreen + i*rgb1->rgbGreen) / height, 
@@ -370,7 +370,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return TRUE;
 
 	case WM_MOUSEMOVE:
-		if (!itc->bMouseInside) {
+		if ( !itc->bMouseInside) {
 			TRACKMOUSEEVENT tme = {0};
 			tme.cbSize = sizeof(tme);
 			tme.dwFlags = TME_LEAVE;
@@ -474,7 +474,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 
 	case ITCM_SETBACKGROUND:
 		itc->hBkgBmp=(HBITMAP)lParam;
-		if (!itc->hBkgDC) 
+		if ( !itc->hBkgDC) 
 			itc->hBkgDC = CreateCompatibleDC(NULL);
 		itc->hBkgOldBmp = (HBITMAP)SelectObject(itc->hBkgDC, itc->hBkgBmp);
 		{
@@ -488,7 +488,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 	case ITCM_ADDITEM:
 	{
 		MIcoTab* pMit=(MIcoTab *)wParam;
-		if (!pMit) 
+		if ( !pMit) 
 			return FALSE;
 
 		MIcoTab* pListMit=(MIcoTab *)mir_calloc(sizeof(MIcoTab));
@@ -514,7 +514,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 	}
 
 	case ITCM_SETSEL:
-		if ( wParam >= 0 && (int)wParam < itc->pList.getCount()) {
+		if (wParam >= 0 && (int)wParam < itc->pList.getCount()) {
 			itc->nSelectedIdx = wParam;
 			SetWindowText(hwndDlg, itc->pList[itc->nSelectedIdx]->tcsName);
 			RedrawWindow(hwndDlg, NULL, NULL, RDW_INVALIDATE);
@@ -528,7 +528,7 @@ static LRESULT CALLBACK MIcoTabWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam, L
 		return itc->nSelectedIdx;
 
 	case ITCM_GETITEMDATA:
-		if ( wParam >= 0 && (int)wParam < itc->pList.getCount())
+		if (wParam >= 0 && (int)wParam < itc->pList.getCount())
 			return ((MIcoTab *)itc->pList[wParam])->data;
 		return 0;
 

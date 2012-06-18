@@ -597,22 +597,22 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQ);
 	odp.pfnDlgProc = DlgProcIcqOpts;
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQCONTACTS);
 	odp.pfnDlgProc = DlgProcIcqContactsOpts;
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Features");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQFEATURES);
 	odp.pfnDlgProc = DlgProcIcqFeaturesOpts;
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Privacy");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICQPRIVACY);
 	odp.pfnDlgProc = DlgProcIcqPrivacyOpts;
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	if (bPopUpService)
 	{
@@ -622,7 +622,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
 		odp.ptszGroup = LPGENT("Popups");
 		odp.ptszTab = NULL;
-		CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }

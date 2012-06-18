@@ -272,13 +272,10 @@ TCHAR *itot(int num) {
 
 void Utf8Decode( char* str, wchar_t** ucs2 )
 {
-	int len;
-	wchar_t* tempBuf;
-
 	if ( str == NULL )
 		return;
 
-	len = strlen( str );
+	size_t len = strlen( str );
 	if ( len < 2 ) {
 		if ( ucs2 != NULL ) {
 			*ucs2 = ( wchar_t* )malloc(( len+1 )*sizeof( wchar_t ));
@@ -288,7 +285,7 @@ void Utf8Decode( char* str, wchar_t** ucs2 )
 		return;
 	}
 
-	tempBuf = ( wchar_t* )alloca(( len+1 )*sizeof( wchar_t ));
+	wchar_t* tempBuf = ( wchar_t* )alloca(( len+1 )*sizeof( wchar_t ));
 	{
 		wchar_t* d = tempBuf;
 		BYTE* s = ( BYTE* )str;
@@ -332,19 +329,15 @@ void Utf8Decode( char* str, wchar_t** ucs2 )
 
 char* Utf8Encode( const char* src )
 {
-	int len;
-	char* result;
-	wchar_t* tempBuf;
-
 	if ( src == NULL )
 		return NULL;
 
-	len = strlen( src );
-	result = ( char* )malloc( len*3 + 1 );
+	size_t len = strlen( src );
+	char* result = ( char* )malloc( len*3 + 1 );
 	if ( result == NULL )
 		return NULL;
 
-	tempBuf = ( wchar_t* )alloca(( len+1 )*sizeof( wchar_t ));
+	wchar_t* tempBuf = ( wchar_t* )alloca(( len+1 )*sizeof( wchar_t ));
 	MultiByteToWideChar( CP_ACP, 0, src, -1, tempBuf, len );
 	tempBuf[ len ] = 0;
 	{

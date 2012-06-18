@@ -70,7 +70,12 @@ All PSN_ WM_NOTIFY messages have PSHNOTIFY.lParam=(LPARAM)hContact
 #define PSN_INFOCHANGED   1
 #define PSN_PARAMCHANGED   2
 #define PSM_FORCECHANGED  (WM_USER+100)   //force-send a PSN_INFOCHANGED to all pages
-#define MS_USERINFO_ADDPAGE      "UserInfo/AddPage"
+
+extern int hLangpack;
+
+__inline static INT_PTR UserInfo_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
+{	odp->hLangpack = hLangpack;
+	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
+}
 
 #endif // M_USERINFO_H__
-

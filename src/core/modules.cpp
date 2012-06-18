@@ -25,12 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // list of hooks
 
-static int compareHooks( const THook* p1, const THook* p2 )
+static int compareHooks(const THook* p1, const THook* p2)
 {
-	return strcmp( p1->name, p2->name );
+	return strcmp(p1->name, p2->name);
 }
 
-static LIST<THook> hooks( 50, compareHooks );
+static LIST<THook> hooks(50, compareHooks);
 
 struct THookToMainThreadItem
 {
@@ -59,7 +59,7 @@ struct TService
 	char name[1];
 };
 
-LIST<TService> services( 100, NumericKeySortT );
+LIST<TService> services(100, NumericKeySortT);
 
 typedef struct
 {
@@ -80,9 +80,9 @@ static HANDLE hMainThread;
 static HANDLE hMissingService;
 static THook *pLastHook = NULL;
 
-HINSTANCE GetInstByAddress( void* codePtr );
+HINSTANCE GetInstByAddress(void* codePtr);
 
-void LangPackDropUnusedItems( void );
+void LangPackDropUnusedItems(void);
 
 void ParseCommandLine();		// core: IDD_WAITRESTART
 int LoadSystemModule(void);		// core: m_system.h services
@@ -152,23 +152,23 @@ int LoadDescButtonModule();
 int LoadDefaultModules(void)
 {
     //load order is very important for these
-	if (LoadSystemModule()) return 1;
-	if (LoadLangPackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
+	if ( LoadSystemModule()) return 1;
+	if ( LoadLangPackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
 	ParseCommandLine();						// IDD_WAITRESTART need langpack  so this is moved here
-	if (LoadUtilsModule()) return 1;		//order not important for this, but no dependencies and no point in pluginising
-	if (LoadIcoTabsModule()) return 1;
-	if (LoadHeaderbarModule()) return 1;
-	if (LoadNewPluginsModuleInfos()) return 1;
+	if ( LoadUtilsModule()) return 1;		//order not important for this, but no dependencies and no point in pluginising
+	if ( LoadIcoTabsModule()) return 1;
+	if ( LoadHeaderbarModule()) return 1;
+	if ( LoadNewPluginsModuleInfos()) return 1;
 
 	// database is available here
-	if (LoadButtonModule()) return 1;
-	if (LoadIcoLibModule()) return 1;
-	if (LoadSkinIcons()) return 1;
+	if ( LoadButtonModule()) return 1;
+	if ( LoadIcoLibModule()) return 1;
+	if ( LoadSkinIcons()) return 1;
 
-//	if (LoadErrorsModule()) return 1;
+//	if ( LoadErrorsModule()) return 1;
 
 	bServiceMode = LoadServiceModePlugin();
-	switch ( bServiceMode )
+	switch (bServiceMode)
 	{
 		case 1:	return 0; // stop loading here
 		case 0: break;
@@ -178,43 +178,43 @@ int LoadDefaultModules(void)
 	//this info will be available at LoadNewPluginsModule()
 	INT_PTR *disableDefaultModule=(INT_PTR*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY, 0, 0);
 
-	if (LoadSkinSounds()) return 1;
-	if (LoadSkinHotkeys()) return 1;
-	if (LoadFontserviceModule()) return 1;
+	if ( LoadSkinSounds()) return 1;
+	if ( LoadSkinHotkeys()) return 1;
+	if ( LoadFontserviceModule()) return 1;
 
-	if (LoadDescButtonModule()) return 1;
-	if (LoadOptionsModule()) return 1;
-	if (LoadNetlibModule()) return 1;
-	if (LoadProtocolsModule()) return 1;
+	if ( LoadDescButtonModule()) return 1;
+	if ( LoadOptionsModule()) return 1;
+	if ( LoadNetlibModule()) return 1;
+	if ( LoadProtocolsModule()) return 1;
 	    LoadDbAccounts();                    // retrieves the account array from a database
-	if (LoadContactsModule()) return 1;
-	if (LoadContactListModule()) return 1;
-	if (LoadAddContactModule()) return 1;
-	if (LoadNewPluginsModule()) return 1;    // will call Load() on everything, clist will load first
+	if ( LoadContactsModule()) return 1;
+	if ( LoadContactListModule()) return 1;
+	if ( LoadAddContactModule()) return 1;
+	if ( LoadNewPluginsModule()) return 1;    // will call Load() on everything, clist will load first
 
 	LangPackDropUnusedItems();
 
-	if (!disableDefaultModule[DEFMOD_SSL]) if (LoadSslModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_SSL]) if (LoadSslModule()) return 1;
 	NetlibInitSsl();
 
 	if (LoadAccountsModule()) return 1;
 
     //order becomes less important below here
-	if (!disableDefaultModule[DEFMOD_UIFINDADD]) if (LoadFindAddModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_UIUSERINFO]) if (LoadUserInfoModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_SRURL]) if (LoadSendRecvUrlModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_SREMAIL]) if (LoadSendRecvEMailModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_SRAUTH]) if (LoadSendRecvAuthModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_SRFILE]) if (LoadSendRecvFileModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_UIHELP]) if (LoadHelpModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_UIHISTORY]) if (LoadHistoryModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_RNDIDLE]) if (LoadIdleModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_RNDAUTOAWAY]) if (LoadAutoAwayModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_RNDUSERONLINE]) if (LoadUserOnlineModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_SRAWAY]) if (LoadAwayMsgModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_RNDIGNORE]) if (LoadIgnoreModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_UIVISIBILITY]) if (LoadVisibilityModule()) return 1;
-	if (!disableDefaultModule[DEFMOD_UPDATENOTIFY]) if (LoadUpdateNotifyModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_UIFINDADD]) if (LoadFindAddModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_UIUSERINFO]) if (LoadUserInfoModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_SRURL]) if (LoadSendRecvUrlModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_SREMAIL]) if (LoadSendRecvEMailModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_SRAUTH]) if (LoadSendRecvAuthModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_SRFILE]) if (LoadSendRecvFileModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_UIHELP]) if (LoadHelpModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_UIHISTORY]) if (LoadHistoryModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_RNDIDLE]) if (LoadIdleModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_RNDAUTOAWAY]) if (LoadAutoAwayModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_RNDUSERONLINE]) if (LoadUserOnlineModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_SRAWAY]) if (LoadAwayMsgModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_RNDIGNORE]) if (LoadIgnoreModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_UIVISIBILITY]) if (LoadVisibilityModule()) return 1;
+	if ( !disableDefaultModule[DEFMOD_UPDATENOTIFY]) if (LoadUpdateNotifyModule()) return 1;
 	return 0;
 }
 
@@ -255,26 +255,26 @@ void DestroyModularEngine(void)
 {
 	int i;
 	THook* p;
-	EnterCriticalSection( &csHooks );
-	for ( i=0; i < hooks.getCount(); i++ ) {
+	EnterCriticalSection(&csHooks);
+	for (i=0; i < hooks.getCount(); i++) {
 		p = hooks[i];
- 		if ( p->subscriberCount )
-			mir_free( p->subscriber );
-		DeleteCriticalSection( &p->csHook );
-		mir_free( p );
+ 		if (p->subscriberCount)
+			mir_free(p->subscriber);
+		DeleteCriticalSection(&p->csHook);
+		mir_free(p);
 	}
 	hooks.destroy();
-	LeaveCriticalSection( &csHooks );
-	DeleteCriticalSection( &csHooks );
+	LeaveCriticalSection(&csHooks);
+	DeleteCriticalSection(&csHooks);
 
-	EnterCriticalSection( &csServices );
-	for ( i=0; i < services.getCount(); i++ )
-		mir_free( services[i] );
+	EnterCriticalSection(&csServices);
+	for (i=0; i < services.getCount(); i++)
+		mir_free(services[i]);
 
 	services.destroy();
-	LeaveCriticalSection( &csServices );
- 	DeleteCriticalSection( &csServices );
-	CloseHandle( hMainThread );
+	LeaveCriticalSection(&csServices);
+ 	DeleteCriticalSection(&csServices);
+	CloseHandle(hMainThread);
 }
 
 ///////////////////////////////HOOKS
@@ -284,61 +284,61 @@ HANDLE CreateHookableEvent(const char *name)
 	THook* ret;
 	int    idx;
 
-	if ( name == NULL )
+	if (name == NULL)
 		return NULL;
 
-	EnterCriticalSection( &csHooks );
-	if (( idx = hooks.getIndex(( THook* )name )) != -1 ) {
-		LeaveCriticalSection( &csHooks );
+	EnterCriticalSection(&csHooks);
+	if ((idx = hooks.getIndex((THook*)name)) != -1) {
+		LeaveCriticalSection(&csHooks);
 		return NULL;
 	}
 
-	ret = ( THook* )mir_alloc( sizeof( THook ));
-	strncpy( ret->name, name, sizeof( ret->name )); ret->name[ MAXMODULELABELLENGTH-1 ] = 0;
+	ret = (THook*)mir_alloc(sizeof(THook));
+	strncpy(ret->name, name, sizeof(ret->name)); ret->name[ MAXMODULELABELLENGTH-1 ] = 0;
 	ret->id = hookId++;
 	ret->subscriberCount = 0;
 	ret->subscriber = NULL;
 	ret->pfnHook = NULL;
-	InitializeCriticalSection( &ret->csHook );
-	hooks.insert( ret );
+	InitializeCriticalSection(&ret->csHook);
+	hooks.insert(ret);
 
-	LeaveCriticalSection( &csHooks );
-	return ( HANDLE )ret;
+	LeaveCriticalSection(&csHooks);
+	return (HANDLE)ret;
 }
 
-int DestroyHookableEvent( HANDLE hEvent )
+int DestroyHookableEvent(HANDLE hEvent)
 {
 	int idx;
 	THook* p;
 
-	EnterCriticalSection( &csHooks );
-	if ( pLastHook == ( THook* )hEvent )
+	EnterCriticalSection(&csHooks);
+	if (pLastHook == (THook*)hEvent)
 		pLastHook = NULL;
 
-	if (( idx = hooks.getIndex(( THook* )hEvent )) == -1 ) {
+	if ((idx = hooks.getIndex((THook*)hEvent)) == -1) {
       LeaveCriticalSection(&csHooks);
 		return 1;
 	}
 	p = hooks[idx];
-	if ( p->subscriberCount ) {
-		mir_free( p->subscriber );
+	if (p->subscriberCount) {
+		mir_free(p->subscriber);
 		p->subscriber = NULL;
 		p->subscriberCount = 0;
 	}
-	hooks.remove( idx );
-	DeleteCriticalSection( &p->csHook );
-	mir_free( p );
+	hooks.remove(idx);
+	DeleteCriticalSection(&p->csHook);
+	mir_free(p);
 
-	LeaveCriticalSection( &csHooks );
+	LeaveCriticalSection(&csHooks);
 	return 0;
 }
 
 int SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook)
 {
-	THook* p = ( THook* )hEvent;
+	THook* p = (THook*)hEvent;
 
 	EnterCriticalSection(&csHooks);
-	if ( hooks.getIndex( p ) != -1 )
+	if (hooks.getIndex(p) != -1)
 		p->pfnHook = pfnHook;
 	LeaveCriticalSection(&csHooks);
 	return 0;
@@ -347,125 +347,125 @@ int SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook)
 int CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
 	int returnVal = 0;
-	THook* p = ( THook* )hEvent;
-	if ( p == NULL )
+	THook* p = (THook*)hEvent;
+	if (p == NULL)
 		return -1;
 
-	EnterCriticalSection( &p->csHook );
-	for ( int i = 0; i < p->subscriberCount; i++ ) {
+	EnterCriticalSection(&p->csHook);
+	for (int i = 0; i < p->subscriberCount; i++) {
 		THookSubscriber* s = &p->subscriber[i];
-		if ( s->hOwner != hInst )
+		if (s->hOwner != hInst)
 			continue;
 
-		switch ( s->type ) {
-			case 1:	returnVal = s->pfnHook( wParam, lParam );	break;
-			case 2:	returnVal = s->pfnHookParam( wParam, lParam, s->lParam ); break;
-			case 3:	returnVal = s->pfnHookObj( s->object, wParam, lParam ); break;
-			case 4:	returnVal = s->pfnHookObjParam( s->object, wParam, lParam, s->lParam ); break;
-			case 5:	returnVal = SendMessage( s->hwnd, s->message, wParam, lParam ); break;
+		switch (s->type) {
+			case 1:	returnVal = s->pfnHook(wParam, lParam);	break;
+			case 2:	returnVal = s->pfnHookParam(wParam, lParam, s->lParam); break;
+			case 3:	returnVal = s->pfnHookObj(s->object, wParam, lParam); break;
+			case 4:	returnVal = s->pfnHookObjParam(s->object, wParam, lParam, s->lParam); break;
+			case 5:	returnVal = SendMessage(s->hwnd, s->message, wParam, lParam); break;
 			default: continue;
 		}
-		if ( returnVal )
+		if (returnVal)
 			break;
 	}
 
-	if ( p->subscriberCount == 0 && p->pfnHook != 0 )
-		returnVal = p->pfnHook( wParam, lParam );
+	if (p->subscriberCount == 0 && p->pfnHook != 0)
+		returnVal = p->pfnHook(wParam, lParam);
 
-	LeaveCriticalSection( &p->csHook );
+	LeaveCriticalSection(&p->csHook);
 	return returnVal;
 }
 
 int CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
 	int returnVal = 0;
-	THook* p = ( THook* )hEvent;
-	if ( p == NULL )
+	THook* p = (THook*)hEvent;
+	if (p == NULL)
 		return -1;
 
-	EnterCriticalSection( &p->csHook );
+	EnterCriticalSection(&p->csHook);
 
 	// NOTE: We've got the critical section while all this lot are called. That's mostly safe, though.
-	for ( int i = 0; i < p->subscriberCount; i++ ) {
+	for (int i = 0; i < p->subscriberCount; i++) {
 		THookSubscriber* s = &p->subscriber[i];
-		switch ( s->type ) {
-			case 1:	returnVal = s->pfnHook( wParam, lParam );	break;
-			case 2:	returnVal = s->pfnHookParam( wParam, lParam, s->lParam ); break;
-			case 3:	returnVal = s->pfnHookObj( s->object, wParam, lParam ); break;
-			case 4:	returnVal = s->pfnHookObjParam( s->object, wParam, lParam, s->lParam ); break;
-			case 5:	returnVal = SendMessage( s->hwnd, s->message, wParam, lParam ); break;
+		switch (s->type) {
+			case 1:	returnVal = s->pfnHook(wParam, lParam);	break;
+			case 2:	returnVal = s->pfnHookParam(wParam, lParam, s->lParam); break;
+			case 3:	returnVal = s->pfnHookObj(s->object, wParam, lParam); break;
+			case 4:	returnVal = s->pfnHookObjParam(s->object, wParam, lParam, s->lParam); break;
+			case 5:	returnVal = SendMessage(s->hwnd, s->message, wParam, lParam); break;
 			default: continue;
 		}
-		if ( returnVal )
+		if (returnVal)
 			break;
 	}
 
 	// check for no hooks and call the default hook if any
-	if ( p->subscriberCount == 0 && p->pfnHook != 0 )
-		returnVal = p->pfnHook( wParam, lParam );
+	if (p->subscriberCount == 0 && p->pfnHook != 0)
+		returnVal = p->pfnHook(wParam, lParam);
 
-	LeaveCriticalSection( &p->csHook );
+	LeaveCriticalSection(&p->csHook);
 	return returnVal;
 }
 
-static int checkHook( HANDLE hHook )
+static int checkHook(HANDLE hHook)
 {
-	if ( hHook == NULL )
+	if (hHook == NULL)
 		return -1;
 
-	EnterCriticalSection( &csHooks );
-	if ( pLastHook != hHook || !pLastHook ) {
-		if ( hooks.getIndex(( THook* )hHook ) == -1 ) {
-			LeaveCriticalSection( &csHooks );
+	EnterCriticalSection(&csHooks);
+	if (pLastHook != hHook || !pLastHook) {
+		if (hooks.getIndex((THook*)hHook) == -1) {
+			LeaveCriticalSection(&csHooks);
 			return -1;
 		}
-		pLastHook = ( THook* )hHook;
+		pLastHook = (THook*)hHook;
 	}
-	LeaveCriticalSection( &csHooks );
+	LeaveCriticalSection(&csHooks);
 	return 0;
 }
 
 static void CALLBACK HookToMainAPCFunc(ULONG_PTR dwParam)
 {
-	THookToMainThreadItem* item = ( THookToMainThreadItem* )dwParam;
+	THookToMainThreadItem* item = (THookToMainThreadItem*)dwParam;
 
-	if ( checkHook( item->hook ) == -1 )
+	if (checkHook(item->hook) == -1)
 		item->result = -1;
 	else
-		item->result = CallHookSubscribers( item->hook, item->wParam, item->lParam );
-	SetEvent( item->hDoneEvent );
+		item->result = CallHookSubscribers(item->hook, item->wParam, item->lParam);
+	SetEvent(item->hDoneEvent);
 }
 
-int NotifyEventHooks( HANDLE hEvent, WPARAM wParam, LPARAM lParam )
+int NotifyEventHooks(HANDLE hEvent, WPARAM wParam, LPARAM lParam)
 {
 	extern HWND hAPCWindow;
 
-	if ( GetCurrentThreadId() != mainThreadId ) {
+	if ( GetCurrentThreadId() != mainThreadId) {
 		THookToMainThreadItem item;
 
 		item.hDoneEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-		item.hook = ( THook* )hEvent;
+		item.hook = (THook*)hEvent;
 		item.wParam = wParam;
 		item.lParam = lParam;
 
-		QueueUserAPC( HookToMainAPCFunc, hMainThread, ( ULONG_PTR )&item );
-		PostMessage( hAPCWindow, WM_NULL, 0, 0 ); // let it process APC even if we're in a common dialog
-		WaitForSingleObject( item.hDoneEvent, INFINITE );
-		CloseHandle( item.hDoneEvent );
+		QueueUserAPC(HookToMainAPCFunc, hMainThread, (ULONG_PTR)&item);
+		PostMessage(hAPCWindow, WM_NULL, 0, 0); // let it process APC even if we're in a common dialog
+		WaitForSingleObject(item.hDoneEvent, INFINITE);
+		CloseHandle(item.hDoneEvent);
 		return item.result;
 	}
 
-	return ( checkHook( hEvent ) == -1 ) ? -1 : CallHookSubscribers( hEvent, wParam, lParam );
+	return (checkHook(hEvent) == -1) ? -1 : CallHookSubscribers(hEvent, wParam, lParam);
 }
 
-static HANDLE HookEventInt( int type, const char* name, MIRANDAHOOK hookProc, void* object, LPARAM lParam )
+static HANDLE HookEventInt(int type, const char* name, MIRANDAHOOK hookProc, void* object, LPARAM lParam)
 {
 	int idx;
 	THook* p;
 	HANDLE ret;
 
-	EnterCriticalSection( &csHooks );
-	if (( idx = hooks.getIndex(( THook* )name )) == -1 ) {
+	EnterCriticalSection(&csHooks);
+	if ((idx = hooks.getIndex((THook*)name)) == -1) {
 		#ifdef _DEBUG
 			OutputDebugStringA("Attempt to hook: \t");
 			OutputDebugStringA(name);
@@ -476,47 +476,47 @@ static HANDLE HookEventInt( int type, const char* name, MIRANDAHOOK hookProc, vo
 	}
 
 	p = hooks[ idx ];
-	p->subscriber = ( THookSubscriber* )mir_realloc( p->subscriber, sizeof( THookSubscriber )*( p->subscriberCount+1 ));
+	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount+1));
 	p->subscriber[ p->subscriberCount ].type = type;
 	p->subscriber[ p->subscriberCount ].pfnHook = hookProc;
 	p->subscriber[ p->subscriberCount ].object = object;
 	p->subscriber[ p->subscriberCount ].lParam = lParam;
-	p->subscriber[ p->subscriberCount ].hOwner  = GetInstByAddress( hookProc );
+	p->subscriber[ p->subscriberCount ].hOwner  = GetInstByAddress(hookProc);
 	p->subscriberCount++;
 
-	ret = ( HANDLE )(( p->id << 16 ) | p->subscriberCount );
-	LeaveCriticalSection( &csHooks );
+	ret = (HANDLE)((p->id << 16) | p->subscriberCount);
+	LeaveCriticalSection(&csHooks);
 	return ret;
 }
 
-HANDLE HookEvent( const char* name, MIRANDAHOOK hookProc )
+HANDLE HookEvent(const char* name, MIRANDAHOOK hookProc)
 {
-	return HookEventInt( 1, name, hookProc, 0, 0 );
+	return HookEventInt(1, name, hookProc, 0, 0);
 }
 
-HANDLE HookEventParam( const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam )
+HANDLE HookEventParam(const char* name, MIRANDAHOOKPARAM hookProc, LPARAM lParam)
 {
-	return HookEventInt( 2, name, (MIRANDAHOOK)hookProc, 0, lParam );
+	return HookEventInt(2, name, (MIRANDAHOOK)hookProc, 0, lParam);
 }
 
-HANDLE HookEventObj( const char* name, MIRANDAHOOKOBJ hookProc, void* object)
+HANDLE HookEventObj(const char* name, MIRANDAHOOKOBJ hookProc, void* object)
 {
-	return HookEventInt( 3, name, (MIRANDAHOOK)hookProc, object, 0 );
+	return HookEventInt(3, name, (MIRANDAHOOK)hookProc, object, 0);
 }
 
-HANDLE HookEventObjParam( const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam )
+HANDLE HookEventObjParam(const char* name, MIRANDAHOOKOBJPARAM hookProc, void* object, LPARAM lParam)
 {
-	return HookEventInt( 4, name, (MIRANDAHOOK)hookProc, object, lParam );
+	return HookEventInt(4, name, (MIRANDAHOOK)hookProc, object, lParam);
 }
 
-HANDLE HookEventMessage( const char* name, HWND hwnd, UINT message )
+HANDLE HookEventMessage(const char* name, HWND hwnd, UINT message)
 {
 	int idx;
 	THook* p;
 	HANDLE ret;
 
-	EnterCriticalSection( &csHooks );
-	if (( idx = hooks.getIndex(( THook* )name )) == -1 ) {
+	EnterCriticalSection(&csHooks);
+	if ((idx = hooks.getIndex((THook*)name)) == -1) {
 		#ifdef _DEBUG
 			MessageBoxA(NULL, "Attempt to hook non-existant event", name, MB_OK);
 		#endif
@@ -525,93 +525,93 @@ HANDLE HookEventMessage( const char* name, HWND hwnd, UINT message )
 	}
 
 	p = hooks[ idx ];
-	p->subscriber = ( THookSubscriber* )mir_realloc( p->subscriber, sizeof( THookSubscriber )*( p->subscriberCount+1 ));
+	p->subscriber = (THookSubscriber*)mir_realloc(p->subscriber, sizeof(THookSubscriber)*(p->subscriberCount+1));
 	p->subscriber[ p->subscriberCount ].type = 5;
 	p->subscriber[ p->subscriberCount ].hwnd = hwnd;
 	p->subscriber[ p->subscriberCount ].message = message;
 	p->subscriberCount++;
 
-	ret = ( HANDLE )(( p->id << 16 ) | p->subscriberCount );
-	LeaveCriticalSection( &csHooks );
+	ret = (HANDLE)((p->id << 16) | p->subscriberCount);
+	LeaveCriticalSection(&csHooks);
 	return ret;
 }
 
-int UnhookEvent( HANDLE hHook )
+int UnhookEvent(HANDLE hHook)
 {
 	int i;
 	THook* p = NULL;
 
-	int hookId = ( int )hHook >> 16;
-	int subscriberId = (( int )hHook & 0xFFFF ) - 1;
+	int hookId = (int)hHook >> 16;
+	int subscriberId = ((int)hHook & 0xFFFF) - 1;
 
-    if (hHook == NULL) return 0;
+	if (hHook == NULL) return 0;
 
-    EnterCriticalSection( &csHooks );
-	for ( i = 0; i < hooks.getCount(); i++ ) {
-		if ( hooks[i]->id == hookId ) {
+	EnterCriticalSection(&csHooks);
+	for (i = 0; i < hooks.getCount(); i++) {
+		if (hooks[i]->id == hookId) {
 			p = hooks[i];
 			break;
 	}	}
 
-	if ( p == NULL ) {
-		LeaveCriticalSection( &csHooks );
+	if (p == NULL) {
+		LeaveCriticalSection(&csHooks);
 		return 1;
 	}
 
-	if ( subscriberId >= p->subscriberCount || subscriberId < 0 ) {
-		LeaveCriticalSection( &csHooks );
+	if (subscriberId >= p->subscriberCount || subscriberId < 0) {
+		LeaveCriticalSection(&csHooks);
 		return 1;
 	}
 
 	p->subscriber[subscriberId].type    = 0;
 	p->subscriber[subscriberId].pfnHook = NULL;
 	p->subscriber[subscriberId].hOwner  = NULL;
-	while ( p->subscriberCount && p->subscriber[p->subscriberCount-1].type == 0 )
+	while (p->subscriberCount && p->subscriber[p->subscriberCount-1].type == 0)
 		p->subscriberCount--;
-	if ( p->subscriberCount == 0 ) {
-		if ( p->subscriber ) mir_free( p->subscriber );
+	if (p->subscriberCount == 0) {
+		if (p->subscriber) mir_free(p->subscriber);
 		p->subscriber = NULL;
 	}
-	LeaveCriticalSection( &csHooks );
+	LeaveCriticalSection(&csHooks);
 	return 0;
 }
 
-void KillModuleEventHooks( HINSTANCE hInst )
+void KillModuleEventHooks(HINSTANCE hInst)
 {
 	int i, j;
 
 	EnterCriticalSection(&csHooks);
-	for ( i = hooks.getCount()-1; i >= 0; i-- ) {
-		if ( hooks[i]->subscriberCount == 0 )
+	for (i = hooks.getCount()-1; i >= 0; i--) {
+		if (hooks[i]->subscriberCount == 0)
 			continue;
 
-		for ( j = hooks[i]->subscriberCount-1; j >= 0; j-- ) {
-			if ( hooks[i]->subscriber[j].hOwner == hInst ) {
+		for (j = hooks[i]->subscriberCount-1; j >= 0; j--) {
+			if (hooks[i]->subscriber[j].hOwner == hInst) {
 				char szModuleName[ MAX_PATH ];
-				GetModuleFileNameA( hooks[i]->subscriber[j].hOwner, szModuleName, sizeof(szModuleName));
-				Netlib_Logf( NULL, "A hook %08x for event '%s' was abnormally deleted because module '%s' didn't released it", 
-					hooks[i]->subscriber[j].pfnHook, hooks[i]->name, szModuleName );
-				UnhookEvent(( HANDLE )(( hooks[i]->id << 16 ) + j + 1 ));
-				if ( hooks[i]->subscriberCount == 0 )
+				GetModuleFileNameA(hooks[i]->subscriber[j].hOwner, szModuleName, sizeof(szModuleName));
+				Netlib_Logf(NULL, "A hook %08x for event '%s' was abnormally deleted because module '%s' didn't released it", 
+					hooks[i]->subscriber[j].pfnHook, hooks[i]->name, szModuleName);
+				UnhookEvent((HANDLE)((hooks[i]->id << 16) + j + 1));
+				if (hooks[i]->subscriberCount == 0)
 					break;
 	}	}	}
 
 	LeaveCriticalSection(&csHooks);
 }
 
-void KillObjectEventHooks( void* pObject )
+void KillObjectEventHooks(void* pObject)
 {
 	int i, j;
 
 	EnterCriticalSection(&csHooks);
-	for ( i = hooks.getCount()-1; i >= 0; i-- ) {
-		if ( hooks[i]->subscriberCount == 0 )
+	for (i = hooks.getCount()-1; i >= 0; i--) {
+		if (hooks[i]->subscriberCount == 0)
 			continue;
 
-		for ( j = hooks[i]->subscriberCount-1; j >= 0; j-- ) {
-			if ( hooks[i]->subscriber[j].object == pObject ) {
-				UnhookEvent(( HANDLE )(( hooks[i]->id << 16 ) + j + 1 ));
-				if ( hooks[i]->subscriberCount == 0 )
+		for (j = hooks[i]->subscriberCount-1; j >= 0; j--) {
+			if (hooks[i]->subscriber[j].object == pObject) {
+				UnhookEvent((HANDLE)((hooks[i]->id << 16) + j + 1));
+				if (hooks[i]->subscriberCount == 0)
 					break;
 	}	}	}
 
@@ -620,69 +620,69 @@ void KillObjectEventHooks( void* pObject )
 
 /////////////////////SERVICES
 
-static __inline TService* FindServiceByName( const char *name )
+static __inline TService* FindServiceByName(const char *name)
 {
-	unsigned hash = hashstr( name );
-	return services.find(( TService* )&hash );
+	unsigned hash = hashstr(name);
+	return services.find((TService*)&hash);
 }
 
-static HANDLE CreateServiceInt( int type, const char *name, MIRANDASERVICE serviceProc, void* object, LPARAM lParam)
+static HANDLE CreateServiceInt(int type, const char *name, MIRANDASERVICE serviceProc, void* object, LPARAM lParam)
 {
-	if ( name == NULL )
+	if (name == NULL)
 		return NULL;
 
 	TService tmp;
-	tmp.nameHash = hashstr( name );
+	tmp.nameHash = hashstr(name);
 
-	EnterCriticalSection( &csServices );
+	EnterCriticalSection(&csServices);
 
-	if ( services.getIndex( &tmp ) != -1 ) {
-		LeaveCriticalSection( &csServices );
+	if (services.getIndex(&tmp) != -1) {
+		LeaveCriticalSection(&csServices);
 		return NULL;
 	}
 
-	TService* p = ( TService* )mir_alloc( sizeof( *p ) + strlen( name ));
-	strcpy( p->name, name );
+	TService* p = (TService*)mir_alloc(sizeof(*p) + strlen(name));
+	strcpy(p->name, name);
 	p->nameHash   = tmp.nameHash;
 	p->pfnService = serviceProc;
-	p->hOwner     = GetInstByAddress( serviceProc );
+	p->hOwner     = GetInstByAddress(serviceProc);
 	p->flags      = type;
 	p->lParam     = lParam;
 	p->object     = object;
-	services.insert( p );
+	services.insert(p);
 
-	LeaveCriticalSection( &csServices );
-	return ( HANDLE )tmp.nameHash;
+	LeaveCriticalSection(&csServices);
+	return (HANDLE)tmp.nameHash;
 }
 
-HANDLE CreateServiceFunction( const char *name, MIRANDASERVICE serviceProc )
+HANDLE CreateServiceFunction(const char *name, MIRANDASERVICE serviceProc)
 {
-	return CreateServiceInt( 0, name, serviceProc, 0, 0 );
+	return CreateServiceInt(0, name, serviceProc, 0, 0);
 }
 
 HANDLE CreateServiceFunctionParam(const char *name, MIRANDASERVICEPARAM serviceProc, LPARAM lParam)
 {
-	return CreateServiceInt( 1, name, (MIRANDASERVICE)serviceProc, 0, lParam );
+	return CreateServiceInt(1, name, (MIRANDASERVICE)serviceProc, 0, lParam);
 }
 
 HANDLE CreateServiceFunctionObj(const char *name, MIRANDASERVICEOBJ serviceProc, void* object)
 {
-	return CreateServiceInt( 2, name, (MIRANDASERVICE)serviceProc, object, 0 );
+	return CreateServiceInt(2, name, (MIRANDASERVICE)serviceProc, object, 0);
 }
 
 HANDLE CreateServiceFunctionObjParam(const char *name, MIRANDASERVICEOBJPARAM serviceProc, void* object, LPARAM lParam)
 {
-	return CreateServiceInt( 3, name, (MIRANDASERVICE)serviceProc, object, lParam );
+	return CreateServiceInt(3, name, (MIRANDASERVICE)serviceProc, object, lParam);
 }
 
 int DestroyServiceFunction(HANDLE hService)
 {
 	int idx;
 
-	EnterCriticalSection( &csServices );
-	if (( idx = services.getIndex(( TService* )&hService )) != -1 ) {
-		mir_free( services[idx] );
-		services.remove( idx );
+	EnterCriticalSection(&csServices);
+	if ((idx = services.getIndex((TService*)&hService)) != -1) {
+		mir_free(services[idx]);
+		services.remove(idx);
 	}
 
 	LeaveCriticalSection(&csServices);
@@ -691,12 +691,12 @@ int DestroyServiceFunction(HANDLE hService)
 
 int ServiceExists(const char *name)
 {
-	if ( name == NULL )
+	if (name == NULL)
 		return FALSE;
 
-	EnterCriticalSection( &csServices );
-	int ret = FindServiceByName( name ) != NULL;
-	LeaveCriticalSection( &csServices );
+	EnterCriticalSection(&csServices);
+	int ret = FindServiceByName(name) != NULL;
+	LeaveCriticalSection(&csServices);
 	return ret;
 }
 
@@ -735,7 +735,7 @@ INT_PTR CallService(const char *name, WPARAM wParam, LPARAM lParam)
 	LPARAM fnParam = pService->lParam;
 	void* object = pService->object;
 	LeaveCriticalSection(&csServices);
-	switch( flags ) {
+	switch(flags) {
 		case 1:  return ((MIRANDASERVICEPARAM)pfnService)(wParam, lParam, fnParam);
 		case 2:  return ((MIRANDASERVICEOBJ)pfnService)(object, wParam, lParam);
 		case 3:  return ((MIRANDASERVICEOBJPARAM)pfnService)(object, wParam, lParam, fnParam);
@@ -773,39 +773,39 @@ INT_PTR CallServiceSync(const char *name, WPARAM wParam, LPARAM lParam)
    return CallService(name, wParam, lParam);
 }
 
-int CallFunctionAsync( void (__stdcall *func)(void *), void *arg)
+int CallFunctionAsync(void (__stdcall *func)(void *), void *arg)
 {
 	extern HWND hAPCWindow;
-	int r = QueueUserAPC(( void (__stdcall *)( ULONG_PTR ))func, hMainThread, ( ULONG_PTR )arg );
+	int r = QueueUserAPC((void (__stdcall *)(ULONG_PTR))func, hMainThread, (ULONG_PTR)arg);
 	PostMessage(hAPCWindow, WM_NULL, 0, 0);
 	return r;
 }
 
-void KillModuleServices( HINSTANCE hInst )
+void KillModuleServices(HINSTANCE hInst)
 {
 	int i;
 
 	EnterCriticalSection(&csServices);
-	for ( i = services.getCount()-1; i >= 0; i-- ) {
-		if ( services[i]->hOwner == hInst ) {
+	for (i = services.getCount()-1; i >= 0; i--) {
+		if (services[i]->hOwner == hInst) {
 			char szModuleName[ MAX_PATH ];
-			GetModuleFileNameA( services[i]->hOwner, szModuleName, sizeof(szModuleName));
-			Netlib_Logf( NULL, "A service function '%s' was abnormally deleted because module '%s' didn't released it", 
-				services[i]->name, szModuleName );
-			DestroyServiceFunction(( HANDLE )services[i]->nameHash );
+			GetModuleFileNameA(services[i]->hOwner, szModuleName, sizeof(szModuleName));
+			Netlib_Logf(NULL, "A service function '%s' was abnormally deleted because module '%s' didn't released it", 
+				services[i]->name, szModuleName);
+			DestroyServiceFunction((HANDLE)services[i]->nameHash);
 	}	}
 
 	LeaveCriticalSection(&csServices);
 }
 
-void KillObjectServices( void* pObject )
+void KillObjectServices(void* pObject)
 {
 	int i;
 
 	EnterCriticalSection(&csServices);
-	for ( i = services.getCount()-1; i >= 0; i-- )
-		if ( services[i]->object == pObject )
-			DestroyServiceFunction(( HANDLE )services[i]->nameHash );
+	for (i = services.getCount()-1; i >= 0; i--)
+		if (services[i]->object == pObject)
+			DestroyServiceFunction((HANDLE)services[i]->nameHash);
 
 	LeaveCriticalSection(&csServices);
 }

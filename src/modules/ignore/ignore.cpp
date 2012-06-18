@@ -65,7 +65,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	if (typeOfFirst == CLCIT_CONTACT) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for ( i=0; i < SIZEOF(iconOn); i++ ) {
+		for (i=0; i < SIZEOF(iconOn); i++) {
 			iImage=SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i]=0;
 			if (iImage != 0xFF) childCount[i]++;
@@ -73,7 +73,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
-	for ( i=0; i < SIZEOF(iconOn); i++ ) {
+	for (i=0; i < SIZEOF(iconOn); i++) {
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+3:0):0xFF));
 		if (groupChildCount) groupChildCount[i]+=childCount[i];
 	}
@@ -146,7 +146,7 @@ static void InitialiseItem(HWND hwndList, HANDLE hContact, HANDLE hItem, DWORD p
 	
 	mask=GetMask(hContact);
 	for (i=0;i<IGNOREEVENT_MAX;i++)
-		if ((ignoreIdToPf1[i] == 0xFFFFFFFF&&ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i]||proto4Caps&ignoreIdToPf4[i]))
+		if ((ignoreIdToPf1[i] == 0xFFFFFFFF&&ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i] || proto4Caps&ignoreIdToPf4[i]))
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, mask&(1<<i)?i+3:0));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 1));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX+1, 2));
@@ -182,7 +182,7 @@ static void SetAllContactIcons(HWND hwndList)
                 proto4Caps=CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
             }
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);
-			if (!DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+			if ( !DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
 				SendMessage(hwndList, CLM_SETCHECKMARK, (WPARAM)hItem, 1);
 		}
 	} while (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
@@ -212,7 +212,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 				ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_TYPING);
 
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-				for ( i=0; i < SIZEOF(hIcons); i++ )
+				for (i=0; i < SIZEOF(hIcons); i++)
 					hIcons[i]=ImageList_GetIcon(hIml, 1+i, ILD_NORMAL);
 			}
 
@@ -226,7 +226,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 			SendDlgItemMessage(hwndDlg, IDC_ADDED, STM_SETICON, (WPARAM)hIcons[7], 0);
 			SendDlgItemMessage(hwndDlg, IDC_TYPINGICON, STM_SETICON, (WPARAM)hIcons[8], 0);
 
-			if (!SendMessage(GetParent(hwndDlg), PSM_ISEXPERT, 0, 0)) {
+			if ( !SendMessage(GetParent(hwndDlg), PSM_ISEXPERT, 0, 0)) {
 				SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_LIST), GWL_STYLE)&~(CLS_CHECKBOXES|CLS_GROUPCHECKBOXES|CLS_SHOWHIDDEN));
 				SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_AUTOREBUILD, 0, 0);
 			}
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 							if (nm->iColumn == -1) break;
 							hItem=(HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 							if (hItem == NULL) break;
-							if (!(hitFlags&CLCHT_ONITEMEXTRA)) break;
+							if ( !(hitFlags&CLCHT_ONITEMEXTRA)) break;
 							if (nm->iColumn == IGNOREEVENT_MAX) {   //ignore all
 								for (iImage=0;iImage<IGNOREEVENT_MAX;iImage++)
 									SetIconsForColumn(GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, iImage, iImage+3);
@@ -329,7 +329,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 		case WM_DESTROY:
 		{	int i;
 			HIMAGELIST hIml;
-			for ( i=0; i < SIZEOF(hIcons); i++ )
+			for (i=0; i < SIZEOF(hIcons); i++)
 				DestroyIcon(hIcons[i]);
 			hIml=(HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0);
 			ImageList_Destroy(hIml);
@@ -352,8 +352,8 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcIgnoreOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = SIZEOF( expertOnlyControls );
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp);
+	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
@@ -459,8 +459,8 @@ int LoadIgnoreModule(void)
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
-	while ( hContact != NULL ) {
-		if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)"Ignore")) 
+	while (hContact != NULL) {
+		if ( !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)"Ignore")) 
 			CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)"Ignore");
 		hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}

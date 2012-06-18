@@ -219,7 +219,7 @@ int OmegleProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszTab     = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = OmegleOptionsProc;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

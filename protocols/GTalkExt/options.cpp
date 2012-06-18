@@ -252,7 +252,7 @@ void AddPopupsPage(WPARAM wParam)
 	odp.ptszGroup = POPUPS_OPTIONS_GROUP;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
 
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 }
 
 void AddAccPage(LPCTSTR acc, LPCSTR mod, WPARAM wParam)
@@ -268,7 +268,7 @@ void AddAccPage(LPCTSTR acc, LPCSTR mod, WPARAM wParam)
 	odp.ptszTab =_T(MAIL_NOTIFICATIONS);
 	odp.dwInitParam = (LPARAM)mod;
 
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 }
 
 int OptionsInitialization(WPARAM wParam, LPARAM lParam)

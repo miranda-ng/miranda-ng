@@ -20,14 +20,14 @@ int NudgeOptInit(WPARAM wParam,LPARAM lParam)
 	odp.flags						= ODPF_BOLDGROUPS|ODPF_TCHAR;
 //	odp.nIDBottomSimpleControl = IDC_STMSNGROUP;
 	odp.pfnDlgProc					= DlgProcNudgeOpt;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.position					= -790000001;
 	odp.ptszTab						= LPGENT("Window Shaking");
 	odp.pfnDlgProc					= DlgProcShakeOpt;
 	odp.flags |= ODPF_EXPERTONLY;
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_SHAKE);
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

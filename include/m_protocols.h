@@ -108,7 +108,7 @@ typedef struct {
 #define PFTS_UNICODE   2
 #define PFTS_UTF       4
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define PFTS_TCHAR  PFTS_UNICODE
 #else
 	#define PFTS_TCHAR  0
@@ -173,13 +173,13 @@ PROTOFILETRANSFERSTATUS;
 #define PROTOCOLDESCRIPTOR_V3_SIZE (sizeof(size_t)+sizeof(INT_PTR)+sizeof(char*))
 
  // initializes an empty account
-typedef struct tagPROTO_INTERFACE* ( *pfnInitProto )( const char* szModuleName, const TCHAR* szUserName );
+typedef struct tagPROTO_INTERFACE* (*pfnInitProto)(const char* szModuleName, const TCHAR* szUserName);
 
 // deallocates an account instance
-typedef int ( *pfnUninitProto )( struct tagPROTO_INTERFACE* );
+typedef int (*pfnUninitProto)(struct tagPROTO_INTERFACE*);
 
 // removes an account from the database
-typedef int ( *pfnDestroyProto )( struct tagPROTO_INTERFACE* );
+typedef int (*pfnDestroyProto)(struct tagPROTO_INTERFACE*);
 
 typedef struct {
 	size_t cbSize;
@@ -293,8 +293,8 @@ typedef struct tagACCOUNT
 //lParam=(LPARAM)(PROTOACCOUNT**)paAccounts
 #define MS_PROTO_ENUMACCOUNTS "Proto/EnumAccounts"
 
-__inline static INT_PTR ProtoEnumAccounts( int* accNumber, PROTOACCOUNT*** accArray )
-{	return CallService( MS_PROTO_ENUMACCOUNTS, ( WPARAM )accNumber, (LPARAM)accArray );
+__inline static INT_PTR ProtoEnumAccounts(int* accNumber, PROTOACCOUNT*** accArray)
+{	return CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)accNumber, (LPARAM)accArray);
 }
 
 //retrieves an account's interface by its physical name (database module)
@@ -303,8 +303,8 @@ __inline static INT_PTR ProtoEnumAccounts( int* accNumber, PROTOACCOUNT*** accAr
 //return value = PROTOACCOUNT* or NULL
 #define MS_PROTO_GETACCOUNT "Proto/GetAccount"
 
-__inline static PROTOACCOUNT* ProtoGetAccount( const char* accName )
-{	return (PROTOACCOUNT*)CallService( MS_PROTO_GETACCOUNT, 0, (LPARAM)accName );
+__inline static PROTOACCOUNT* ProtoGetAccount(const char* accName)
+{	return (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)accName);
 }
 
 //this event is fired when the accounts list gets changed
@@ -331,9 +331,9 @@ __inline static PROTOACCOUNT* ProtoGetAccount( const char* accName )
 //Returns 1 if an account is valid and enabled, 0 otherwise
 #define MS_PROTO_ISACCOUNTENABLED "Proto/IsAccountEnabled"
 
-__inline static int IsAccountEnabled( const PROTOACCOUNT* pa )
+__inline static int IsAccountEnabled(const PROTOACCOUNT* pa)
 {
-  return (int)CallService( MS_PROTO_ISACCOUNTENABLED, 0, (LPARAM)pa );
+  return (int)CallService(MS_PROTO_ISACCOUNTENABLED, 0, (LPARAM)pa);
 }
 
 //determines if an account is locked or not

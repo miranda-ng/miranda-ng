@@ -121,7 +121,7 @@ __inline static HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {
 
 #define SSDF_UNICODE 0x0001
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define SSDF_TCHAR  SSDF_UNICODE
 #else
 	#define SSDF_TCHAR  0

@@ -938,12 +938,12 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.pszTab      = LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STARTUPSTATUS);
 	odp.pfnDlgProc  = StartupStatusOptDlgProc;
-	CallService(MS_OPT_ADDPAGE,wparam,(LPARAM)&odp);
+	Options_AddPage(wparam,&odp);
 
 	odp.pszTab      = LPGEN("Status Profiles");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUSPROFILES);
 	odp.pfnDlgProc  = StatusProfilesOptDlgProc;
-	CallService(MS_OPT_ADDPAGE,wparam,(LPARAM)&odp);
+	Options_AddPage(wparam,&odp);
 
 	return 0;
 }

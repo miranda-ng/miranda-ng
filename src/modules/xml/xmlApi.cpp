@@ -24,252 +24,252 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "xmlParser.h"
 
-static HXML xmlapiCreateNode( LPCTSTR name, LPCTSTR text, char isDeclaration )
+static HXML xmlapiCreateNode(LPCTSTR name, LPCTSTR text, char isDeclaration)
 {
-	XMLNode result = XMLNode::createXMLTopNode( name, isDeclaration );
-	if ( text )
-		result.updateText( text );
+	XMLNode result = XMLNode::createXMLTopNode(name, isDeclaration);
+	if (text)
+		result.updateText(text);
 	return result.detach();
 }
 
-static void xmlapiDestroyNode( HXML n )
+static void xmlapiDestroyNode(HXML n)
 {
 	XMLNode tmp; tmp.attach(n);
 }
 
-static HXML xmlapiParseString( LPCTSTR str, int* datalen, LPCTSTR tag )
+static HXML xmlapiParseString(LPCTSTR str, int* datalen, LPCTSTR tag)
 {
 	if (str == NULL) return NULL;
 
 	XMLResults res;
-	XMLNode result = XMLNode::parseString( str, tag, &res );
+	XMLNode result = XMLNode::parseString(str, tag, &res);
 
-	if ( datalen != NULL )
+	if (datalen != NULL)
 		datalen[0] += res.nChars;
 
 	return (res.error == eXMLErrorNone || (tag != NULL && res.error == eXMLErrorMissingEndTag)) ? result.detach() : NULL;
 }
 
-static HXML xmlapiAddChild( HXML _n, LPCTSTR name, LPCTSTR text )
+static HXML xmlapiAddChild(HXML _n, LPCTSTR name, LPCTSTR text)
 {
-	XMLNode result = XMLNode(_n).addChild( name );
-	if ( text != NULL )
-		result.updateText( text );
+	XMLNode result = XMLNode(_n).addChild(name);
+	if (text != NULL)
+		result.updateText(text);
 	return result;
 }
 
-static void xmlapiAddChild2( HXML _child, HXML _parent )
+static void xmlapiAddChild2(HXML _child, HXML _parent)
 {
 	XMLNode child(_child), parent(_parent);
-	parent.addChild( child );
+	parent.addChild(child);
 }
 
-static HXML xmlapiCopyNode( HXML _n )
+static HXML xmlapiCopyNode(HXML _n)
 {
 	XMLNode result = XMLNode(_n);
 	return result.detach();
 }
 
-static LPCTSTR xmlapiGetAttr( HXML _n, int i )
+static LPCTSTR xmlapiGetAttr(HXML _n, int i)
 {
-	return XMLNode(_n).getAttributeValue( i );
+	return XMLNode(_n).getAttributeValue(i);
 }
 
-static int xmlapiGetAttrCount( HXML _n )
+static int xmlapiGetAttrCount(HXML _n)
 {
 	return XMLNode(_n).nAttribute();
 }
 
-static LPCTSTR xmlapiGetAttrName( HXML _n, int i )
+static LPCTSTR xmlapiGetAttrName(HXML _n, int i)
 {
-	return XMLNode(_n).getAttributeName( i );
+	return XMLNode(_n).getAttributeName(i);
 }
 
-static HXML xmlapiGetChild( HXML _n, int i )
+static HXML xmlapiGetChild(HXML _n, int i)
 {
-	return XMLNode(_n).getChildNode( i );
+	return XMLNode(_n).getChildNode(i);
 }
 
-static HXML xmlapiGetChildByAttrValue( HXML _n, LPCTSTR name, LPCTSTR attrName, LPCTSTR attrValue )
+static HXML xmlapiGetChildByAttrValue(HXML _n, LPCTSTR name, LPCTSTR attrName, LPCTSTR attrValue)
 {
-	return XMLNode(_n).getChildNodeWithAttribute( name, attrName, attrValue );
+	return XMLNode(_n).getChildNodeWithAttribute(name, attrName, attrValue);
 }
 
-static int xmlapiGetChildCount( HXML _n )
+static int xmlapiGetChildCount(HXML _n)
 {
 	return XMLNode(_n).nChildNode();
 }
 
-static HXML xmlapiGetFirstChild( HXML _n )
+static HXML xmlapiGetFirstChild(HXML _n)
 {
-	return XMLNode(_n).getChildNode( 0 );
+	return XMLNode(_n).getChildNode(0);
 }
 
-static HXML xmlapiGetNthChild( HXML _n, LPCTSTR name, int i )
+static HXML xmlapiGetNthChild(HXML _n, LPCTSTR name, int i)
 {
-	return XMLNode(_n).getChildNode( name, i );
+	return XMLNode(_n).getChildNode(name, i);
 }
 
-static HXML xmlapiGetNextChild( HXML _n, LPCTSTR name, int* i )
+static HXML xmlapiGetNextChild(HXML _n, LPCTSTR name, int* i)
 {
-	return XMLNode(_n).getChildNode( name, i );
+	return XMLNode(_n).getChildNode(name, i);
 }
 
-static HXML xmlapiGetNextNode( HXML _n )
+static HXML xmlapiGetNextNode(HXML _n)
 {
-	return XMLNode(_n).getNextNode( );
+	return XMLNode(_n).getNextNode();
 }
 
-static HXML xmlapiGetChildByPath( HXML _n, LPCTSTR path, char createNodeIfMissing )
+static HXML xmlapiGetChildByPath(HXML _n, LPCTSTR path, char createNodeIfMissing)
 {
-	return XMLNode(_n).getChildNodeByPath( path, createNodeIfMissing );
+	return XMLNode(_n).getChildNodeByPath(path, createNodeIfMissing);
 }
 
-static LPCTSTR xmlapiGetName( HXML _n )
+static LPCTSTR xmlapiGetName(HXML _n)
 {
 	return XMLNode(_n).getName();
 }
 
-static HXML xmlapiGetParent( HXML _n )
+static HXML xmlapiGetParent(HXML _n)
 {
 	return XMLNode(_n).getParentNode();
 }
 
-static LPCTSTR xmlapiGetText( HXML _n )
+static LPCTSTR xmlapiGetText(HXML _n)
 {
 	return XMLNode(_n).getInnerText();
 }
 
-static LPCTSTR xmlapiGetAttrValue( HXML _n, LPCTSTR attrName )
+static LPCTSTR xmlapiGetAttrValue(HXML _n, LPCTSTR attrName)
 {
-	return XMLNode(_n).getAttribute( attrName );
+	return XMLNode(_n).getAttribute(attrName);
 }
 
-static void xmlapiSetText( HXML _n, LPCTSTR _text )
+static void xmlapiSetText(HXML _n, LPCTSTR _text)
 {
-	XMLNode(_n).updateText( _text );
+	XMLNode(_n).updateText(_text);
 }
 
-static LPTSTR xmlapiToString( HXML _n, int* datalen )
+static LPTSTR xmlapiToString(HXML _n, int* datalen)
 {
-	return XMLNode(_n).createXMLString( 0, datalen );
+	return XMLNode(_n).createXMLString(0, datalen);
 }
 
-static void xmlapiAddAttr( HXML _n, LPCTSTR attrName, LPCTSTR attrValue )
+static void xmlapiAddAttr(HXML _n, LPCTSTR attrName, LPCTSTR attrValue)
 {
-	if ( attrName != NULL && attrValue != NULL )
-		XMLNode(_n).addAttribute( attrName, attrValue );
+	if (attrName != NULL && attrValue != NULL)
+		XMLNode(_n).addAttribute(attrName, attrValue);
 }
 
-static void xmlapiAddAttrInt( HXML _n, LPCTSTR attrName, int attrValue )
+static void xmlapiAddAttrInt(HXML _n, LPCTSTR attrName, int attrValue)
 {
 	TCHAR buf[40];
-	_itot( attrValue, buf, 10 );
-	XMLNode(_n).addAttribute( attrName, buf );
+	_itot(attrValue, buf, 10);
+	XMLNode(_n).addAttribute(attrName, buf);
 }
 
-static void xmlapiFree( void* p )
+static void xmlapiFree(void* p)
 {
-	free( p );
+	free(p);
 }
 
 // XML API v2 methods
-static int xmlapiGetTextCount( HXML _n )
+static int xmlapiGetTextCount(HXML _n)
 {
 	return XMLNode(_n).nText();
 }
 
-static LPCTSTR xmlapiGetTextByIndex( HXML _n, int i )
+static LPCTSTR xmlapiGetTextByIndex(HXML _n, int i)
 {
-	return XMLNode(_n).getText( i );
+	return XMLNode(_n).getText(i);
 }
 
-static void xmlapiSetTextByIndex( HXML _n, int i, LPCTSTR value )
+static void xmlapiSetTextByIndex(HXML _n, int i, LPCTSTR value)
 {
-	XMLNode(_n).updateText( value, i );
+	XMLNode(_n).updateText(value, i);
 }
 
-static void xmlapiAddText( HXML _n, LPCTSTR value, XML_ELEMENT_POS pos )
+static void xmlapiAddText(HXML _n, LPCTSTR value, XML_ELEMENT_POS pos)
 {
-	XMLNode(_n).addText( value, ( XMLElementPosition )pos );
+	XMLNode(_n).addText(value, (XMLElementPosition)pos);
 }
 
-static LPTSTR xmlapiToStringWithFormatting( HXML _n, int* datalen )
+static LPTSTR xmlapiToStringWithFormatting(HXML _n, int* datalen)
 {
-	return XMLNode(_n).createXMLString( 1, datalen );
+	return XMLNode(_n).createXMLString(1, datalen);
 }
 
-static int xmlapiGetClearCount( HXML _n )
+static int xmlapiGetClearCount(HXML _n)
 {
 	return XMLNode(_n).nClear();
 }
 
-static LPCTSTR xmlapiGetClear( HXML _n, int i, LPCTSTR *openTag, LPCTSTR *closeTag )
+static LPCTSTR xmlapiGetClear(HXML _n, int i, LPCTSTR *openTag, LPCTSTR *closeTag)
 {
-	XMLClear c = XMLNode(_n).getClear( i );
-	if ( openTag )
+	XMLClear c = XMLNode(_n).getClear(i);
+	if (openTag)
 		*openTag = c.lpszOpenTag;
-	if ( closeTag )
+	if (closeTag)
 		*closeTag = c.lpszCloseTag;
 	return c.lpszValue;
 }
 
-static void xmlapiAddClear( HXML _n, LPCTSTR lpszValue, LPCTSTR openTag, LPCTSTR closeTag, XML_ELEMENT_POS pos )
+static void xmlapiAddClear(HXML _n, LPCTSTR lpszValue, LPCTSTR openTag, LPCTSTR closeTag, XML_ELEMENT_POS pos)
 {
-	XMLNode(_n).addClear( lpszValue, openTag, closeTag, ( XMLElementPosition )pos );
+	XMLNode(_n).addClear(lpszValue, openTag, closeTag, (XMLElementPosition)pos);
 }
 
-static void xmlapiSetClear( HXML _n, int i, LPCTSTR lpszValue )
+static void xmlapiSetClear(HXML _n, int i, LPCTSTR lpszValue)
 {
-	XMLNode(_n).updateClear( lpszValue, i );
+	XMLNode(_n).updateClear(lpszValue, i);
 }
 
-static int xmlapiGetElement( HXML _n, XML_ELEMENT_POS pos, XML_ELEMENT_TYPE *type, HXML *child, LPCTSTR *value, LPCTSTR *name, LPCTSTR *openTag, LPCTSTR *closeTag )
+static int xmlapiGetElement(HXML _n, XML_ELEMENT_POS pos, XML_ELEMENT_TYPE *type, HXML *child, LPCTSTR *value, LPCTSTR *name, LPCTSTR *openTag, LPCTSTR *closeTag)
 {
 	// reset all values
-	if ( child )
+	if (child)
 		*child = NULL;
-	if ( value )
+	if (value)
 		*value = NULL;
-	if ( name )
+	if (name)
 		*name = NULL;
-	if ( openTag )
+	if (openTag)
 		*openTag = NULL;
-	if ( closeTag )
+	if (closeTag)
 		*closeTag = NULL;
 
 	if ( !type || pos >= XMLNode(_n).nElement())
 		return false;
-	XMLNodeContents c( XMLNode(_n).enumContents(( XMLElementPosition )pos ));
-	switch ( c.etype ) {
+	XMLNodeContents c(XMLNode(_n).enumContents((XMLElementPosition)pos));
+	switch (c.etype) {
 		case eNodeChild:
 		{
 			*type = XML_ELEM_TYPE_CHILD;
-			if ( child )
+			if (child)
 				*child = c.child;
 		} break;
 		case eNodeAttribute:
 		{
 			*type = XML_ELEM_TYPE_ATTRIBUTE;
-			if ( name )
+			if (name)
 				*name = c.attrib.lpszName;
-			if ( value )
+			if (value)
 				*value = c.attrib.lpszValue;
 		} break;
 		case eNodeText:
 		{
 			*type = XML_ELEM_TYPE_TEXT;
-			if ( value )
+			if (value)
 				*value = c.text;
 		} break;
 		case eNodeClear:
 		{
 			*type = XML_ELEM_TYPE_CLEAR;
-			if ( value )
+			if (value)
 				*value = c.clear.lpszValue;
-			if ( openTag )
+			if (openTag)
 				*openTag = c.clear.lpszOpenTag;
-			if ( closeTag )
+			if (closeTag)
 				*closeTag = c.clear.lpszCloseTag;
 		} break;
 		case eNodeNULL:
@@ -280,100 +280,100 @@ static int xmlapiGetElement( HXML _n, XML_ELEMENT_POS pos, XML_ELEMENT_TYPE *typ
 	return true;
 }
 
-static int xmlapiGetElementCount( HXML _n )
+static int xmlapiGetElementCount(HXML _n)
 {
 	return XMLNode(_n).nElement();
 }
 
-static char xmlapiIsDeclaration( HXML _n )
+static char xmlapiIsDeclaration(HXML _n)
 {
 	return XMLNode(_n).isDeclaration();
 }
 
-static HXML xmlapiDeepCopy( HXML _n )
+static HXML xmlapiDeepCopy(HXML _n)
 {
 	return XMLNode(_n).deepCopy().detach();
 }
 
-static HXML xmlapiAddChildEx( HXML _n, LPCTSTR name, char isDeclaration, XML_ELEMENT_POS pos )
+static HXML xmlapiAddChildEx(HXML _n, LPCTSTR name, char isDeclaration, XML_ELEMENT_POS pos)
 {
-	return XMLNode(_n).addChild( name, isDeclaration, ( XMLElementPosition )pos );
+	return XMLNode(_n).addChild(name, isDeclaration, (XMLElementPosition)pos);
 }
 
-static void xmlapiAddChildEx2( HXML _n, HXML parent, XML_ELEMENT_POS pos )
+static void xmlapiAddChildEx2(HXML _n, HXML parent, XML_ELEMENT_POS pos)
 {
-	XMLNode(_n).addChild( parent, ( XMLElementPosition )pos );
+	XMLNode(_n).addChild(parent, (XMLElementPosition)pos);
 }
 
-static void xmlapiSetAttrByIndex( HXML _n, int i, LPCTSTR value )
+static void xmlapiSetAttrByIndex(HXML _n, int i, LPCTSTR value)
 {
-	XMLNode(_n).updateAttribute( value, NULL, i );
+	XMLNode(_n).updateAttribute(value, NULL, i);
 }
 
-static void xmlapiSetAttrByName( HXML _n, LPCTSTR name, LPCTSTR value )
+static void xmlapiSetAttrByName(HXML _n, LPCTSTR name, LPCTSTR value)
 {
-	XMLNode(_n).updateAttribute( value, NULL, name );
+	XMLNode(_n).updateAttribute(value, NULL, name);
 }
 
-static void xmlapiDeleteNodeContent( HXML _n )
+static void xmlapiDeleteNodeContent(HXML _n)
 {
 	XMLNode(_n).deleteNodeContent();
 }
 
-static void xmlapiDeleteAttrByIndex( HXML _n, int i )
+static void xmlapiDeleteAttrByIndex(HXML _n, int i)
 {
-	XMLNode(_n).deleteAttribute( i );
+	XMLNode(_n).deleteAttribute(i);
 }
 
-static void xmlapiDeleteAttrByName( HXML _n, LPCTSTR name )
+static void xmlapiDeleteAttrByName(HXML _n, LPCTSTR name)
 {
-	XMLNode(_n).deleteAttribute( name );
+	XMLNode(_n).deleteAttribute(name);
 }
 
-static void xmlapiDeleteText( HXML _n, int i )
+static void xmlapiDeleteText(HXML _n, int i)
 {
-	XMLNode(_n).deleteText( i );
+	XMLNode(_n).deleteText(i);
 }
 
-static void xmlapiDeleteClear( HXML _n, int i )
+static void xmlapiDeleteClear(HXML _n, int i)
 {
-	XMLNode(_n).deleteClear( i );
+	XMLNode(_n).deleteClear(i);
 }
 
-static XML_ELEMENT_POS xmlapiPositionOfText( HXML _n, int i )
+static XML_ELEMENT_POS xmlapiPositionOfText(HXML _n, int i)
 {
-	return ( XML_ELEMENT_POS )XMLNode(_n).positionOfText( i );
+	return (XML_ELEMENT_POS)XMLNode(_n).positionOfText(i);
 }
 
-static XML_ELEMENT_POS xmlapiPositionOfClear( HXML _n, int i )
+static XML_ELEMENT_POS xmlapiPositionOfClear(HXML _n, int i)
 {
-	return ( XML_ELEMENT_POS )XMLNode(_n).positionOfClear( i );
+	return (XML_ELEMENT_POS)XMLNode(_n).positionOfClear(i);
 }
 
-static XML_ELEMENT_POS xmlapiPositionOfChildByIndex( HXML _n, int i )
+static XML_ELEMENT_POS xmlapiPositionOfChildByIndex(HXML _n, int i)
 {
-	return ( XML_ELEMENT_POS )XMLNode(_n).positionOfChildNode( i );
+	return (XML_ELEMENT_POS)XMLNode(_n).positionOfChildNode(i);
 }
 
-static XML_ELEMENT_POS xmlapiPositionOfChildByNode( HXML _n, HXML child )
+static XML_ELEMENT_POS xmlapiPositionOfChildByNode(HXML _n, HXML child)
 {
-	return ( XML_ELEMENT_POS )XMLNode(_n).positionOfChildNode( child );
+	return (XML_ELEMENT_POS)XMLNode(_n).positionOfChildNode(child);
 }
 
-static XML_ELEMENT_POS xmlapiPositionOfChildByName( HXML _n, LPCTSTR name, int i )
+static XML_ELEMENT_POS xmlapiPositionOfChildByName(HXML _n, LPCTSTR name, int i)
 {
-	return ( XML_ELEMENT_POS )XMLNode(_n).positionOfChildNode( name, i );
+	return (XML_ELEMENT_POS)XMLNode(_n).positionOfChildNode(name, i);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR GetXmlApi( WPARAM, LPARAM lParam )
+static INT_PTR GetXmlApi(WPARAM, LPARAM lParam)
 {
-	XML_API* xi = ( XML_API* )lParam;
-	if ( xi == NULL )
+	XML_API* xi = (XML_API*)lParam;
+	if (xi == NULL)
 		return FALSE;
 
-	if ( xi->cbSize != XML_API_SIZEOF_V1 && xi->cbSize != sizeof(XML_API))
+	if (xi->cbSize != XML_API_SIZEOF_V1 && xi->cbSize != sizeof(XML_API))
 		return FALSE;
 
 	xi->createNode          = xmlapiCreateNode;
@@ -406,7 +406,7 @@ static INT_PTR GetXmlApi( WPARAM, LPARAM lParam )
 	xi->addAttr             = xmlapiAddAttr;
 	xi->addAttrInt          = xmlapiAddAttrInt;
 
-	if ( xi->cbSize > XML_API_SIZEOF_V1 ) {
+	if (xi->cbSize > XML_API_SIZEOF_V1) {
 		xi->isDeclaration          = xmlapiIsDeclaration;
 		xi->toStringWithFormatting = xmlapiToStringWithFormatting;
 		xi->deepCopy               = xmlapiDeepCopy;
@@ -440,7 +440,7 @@ static INT_PTR GetXmlApi( WPARAM, LPARAM lParam )
 	return TRUE;
 }
 
-void InitXmlApi( void )
+void InitXmlApi(void)
 {
-	CreateServiceFunction( MS_SYSTEM_GET_XI, GetXmlApi );
+	CreateServiceFunction(MS_SYSTEM_GET_XI, GetXmlApi);
 }

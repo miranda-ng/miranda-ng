@@ -49,7 +49,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 		{
 			DWORD ticked = db_dword_get(NULL, "UserOnline", cws->szModule, GetTickCount());
 			// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
-			if ( GetTickCount() - ticked > (1000*10) ) { 
+			if (GetTickCount() - ticked > (1000*10)) { 
 				CLISTEVENT cle;
 				TCHAR tooltip[256];
 
@@ -58,12 +58,12 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 				cle.flags=CLEF_ONLYAFEW | CLEF_TCHAR;
 				cle.hContact=(HANDLE)wParam;
 				cle.hDbEvent=(HANDLE)(uniqueEventId++);
-				cle.hIcon = LoadSkinIcon( SKINICON_OTHER_USERONLINE, false );
+				cle.hIcon = LoadSkinIcon(SKINICON_OTHER_USERONLINE, false);
 				cle.pszService="UserOnline/Description";
-				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is Online"), cli.pfnGetContactDisplayName(( HANDLE )wParam, 0 ));
+				mir_sntprintf(tooltip, SIZEOF(tooltip), TranslateT("%s is Online"), cli.pfnGetContactDisplayName((HANDLE)wParam, 0));
 				cle.ptszTooltip=tooltip;
 				CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
-				IconLib_ReleaseIcon( cle.hIcon, 0 );
+				IconLib_ReleaseIcon(cle.hIcon, 0);
                 DBWriteContactSettingDword(cle.hContact, "UserOnline", "LastEvent", (DWORD)cle.hDbEvent);
 				SkinPlaySound("UserOnline");
 			}
@@ -75,7 +75,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 static int UserOnlineAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA * ack = (ACKDATA*) lParam;
-	if ( ack != 0 && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
+	if (ack != 0 && ack->szModule && ack->type == ACKTYPE_STATUS && ack->result == ACKRESULT_SUCCESS && ack->hProcess == (HANDLE)ID_STATUS_OFFLINE) {
 		// if going from offline to any other mode, remember when it happened.
 		db_dword_set(NULL, "UserOnline", ack->szModule, GetTickCount());
 	}
@@ -85,22 +85,22 @@ static int UserOnlineAck(WPARAM, LPARAM lParam)
 static int UserOnlineModulesLoaded(WPARAM, LPARAM)
 {
 	// reset the counter
-	for ( int j = 0; j < accounts.getCount(); j++ )
-		if ( Proto_IsAccountEnabled( accounts[j] )) db_dword_set( NULL, "UserOnline", accounts[j]->szModuleName, GetTickCount());
+	for (int j = 0; j < accounts.getCount(); j++)
+		if (Proto_IsAccountEnabled(accounts[j])) db_dword_set(NULL, "UserOnline", accounts[j]->szModuleName, GetTickCount());
 
 	return 0;
 }
 
-static int UserOnlineAccountsChanged( WPARAM eventCode, LPARAM lParam )
+static int UserOnlineAccountsChanged(WPARAM eventCode, LPARAM lParam)
 {
 	PROTOACCOUNT* pa = (PROTOACCOUNT*)lParam;
 
-	switch( eventCode ) {
+	switch(eventCode) {
 	case PRAC_ADDED:
 	case PRAC_CHECKED:
 		// reset the counter
-		if ( Proto_IsAccountEnabled( pa ))
-			db_dword_set( NULL, "UserOnline", pa->szModuleName, GetTickCount());
+		if (Proto_IsAccountEnabled(pa))
+			db_dword_set(NULL, "UserOnline", pa->szModuleName, GetTickCount());
 		break;
 	}
 	return 0;

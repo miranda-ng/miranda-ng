@@ -25,10 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* a simple sorted list implementation */
 
-SortedList* List_Create( int p_limit, int p_increment )
+SortedList* List_Create(int p_limit, int p_increment)
 {
-	SortedList* result = ( SortedList* )mir_calloc( sizeof( SortedList ));
-	if ( result == NULL )
+	SortedList* result = (SortedList*)mir_calloc(sizeof(SortedList));
+	if (result == NULL)
 		return(NULL);
 
 	result->increment = p_increment;
@@ -36,34 +36,34 @@ SortedList* List_Create( int p_limit, int p_increment )
 	return(result);
 }
 
-void List_Destroy( SortedList* p_list )
+void List_Destroy(SortedList* p_list)
 {
-	if ( p_list == NULL )
+	if (p_list == NULL)
 		return;
 
-	if ( p_list->items != NULL ) {
-		mir_free( p_list->items );
+	if (p_list->items != NULL) {
+		mir_free(p_list->items);
 		p_list->items = NULL;
 	}
 
 	p_list->realCount = p_list->limit = 0;
 }
 
-void* List_Find( SortedList* p_list, void* p_value )
+void* List_Find(SortedList* p_list, void* p_value)
 {
 	int index;
 	
-	if ( !List_GetIndex( p_list, p_value, &index ))
+	if ( !List_GetIndex(p_list, p_value, &index))
 		return(NULL);
 
 	return(p_list->items[ index ]);
 }
 
 #ifdef _DEBUG
-#pragma optimize( "gt", on )
+#pragma optimize("gt", on)
 #endif
 
-int List_GetIndex( SortedList* p_list, void* p_value, int* p_index )
+int List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 {
 	if (p_value == NULL)
 	{
@@ -184,36 +184,36 @@ int List_GetIndex( SortedList* p_list, void* p_value, int* p_index )
 	return 0;
 }
 
-int List_IndexOf( SortedList* p_list, void* p_value )
+int List_IndexOf(SortedList* p_list, void* p_value)
 {
-	if ( p_value == NULL )
+	if (p_value == NULL)
 		return -1;
 
 	int i;
-	for ( i=0; i < p_list->realCount; i++ )
-		if ( p_list->items[i] == p_value )
+	for (i=0; i < p_list->realCount; i++)
+		if (p_list->items[i] == p_value)
 			return i;
 
 	return -1;
 }
 
 #ifdef _DEBUG
-#pragma optimize( "", on )
+#pragma optimize("", on)
 #endif
 
-int List_Insert( SortedList* p_list, void* p_value, int p_index) 
+int List_Insert(SortedList* p_list, void* p_value, int p_index) 
 {
-	if ( p_value == NULL || p_index > p_list->realCount )
+	if (p_value == NULL || p_index > p_list->realCount)
 		return 0;
 
-   if ( p_list->realCount == p_list->limit )
+   if (p_list->realCount == p_list->limit)
 	{
-		p_list->items = ( void** )mir_realloc( p_list->items, sizeof( void* )*(p_list->realCount + p_list->increment));
+		p_list->items = (void**)mir_realloc(p_list->items, sizeof(void*)*(p_list->realCount + p_list->increment));
 		p_list->limit += p_list->increment;
 	}
 
-	if ( p_index < p_list->realCount )
-		memmove( p_list->items+p_index+1, p_list->items+p_index, sizeof( void* )*( p_list->realCount-p_index ));
+	if (p_index < p_list->realCount)
+		memmove(p_list->items+p_index+1, p_list->items+p_index, sizeof(void*)*(p_list->realCount-p_index));
 
    p_list->realCount++;
 
@@ -221,62 +221,62 @@ int List_Insert( SortedList* p_list, void* p_value, int p_index)
    return 1;
 }
 
-int List_InsertPtr( SortedList* list, void* p )
+int List_InsertPtr(SortedList* list, void* p)
 {
-	if ( p == NULL )
+	if (p == NULL)
 		return -1;
 
 	int idx = list->realCount;
-	List_GetIndex( list, p, &idx );
-	return List_Insert( list, p, idx );
+	List_GetIndex(list, p, &idx);
+	return List_Insert(list, p, idx);
 }
 
-int List_Remove( SortedList* p_list, int index )
+int List_Remove(SortedList* p_list, int index)
 {
-	if ( index < 0 || index > p_list->realCount )
+	if (index < 0 || index > p_list->realCount)
 		return(0);
 
    p_list->realCount--;
-   if ( p_list->realCount > index )
+   if (p_list->realCount > index)
 	{
-		memmove( p_list->items+index, p_list->items+index+1, sizeof( void* )*( p_list->realCount-index ));
+		memmove(p_list->items+index, p_list->items+index+1, sizeof(void*)*(p_list->realCount-index));
       p_list->items[ p_list->realCount ] = NULL;
 	}
 
    return 1;
 }
 
-int List_RemovePtr( SortedList* list, void* p )
+int List_RemovePtr(SortedList* list, void* p)
 {
 	int idx = -1;
-	if ( List_GetIndex( list, p, &idx ))
-		List_Remove( list, idx );
+	if (List_GetIndex(list, p, &idx))
+		List_Remove(list, idx);
 
 	return idx;
 }
 
-void List_Copy( SortedList* s, SortedList* d, size_t itemSize )
+void List_Copy(SortedList* s, SortedList* d, size_t itemSize)
 {
 	int i;
 
 	d->increment = s->increment;
 	d->sortFunc  = s->sortFunc;
 
-	for ( i = 0; i < s->realCount; i++ ) {
-		void* item = mir_alloc( itemSize );
-		memcpy( item, s->items[i], itemSize );
-		List_Insert( d, item, i );
+	for (i = 0; i < s->realCount; i++) {
+		void* item = mir_alloc(itemSize);
+		memcpy(item, s->items[i], itemSize);
+		List_Insert(d, item, i);
 }	}
 
-void List_ObjCopy( SortedList* s, SortedList* d, size_t itemSize )
+void List_ObjCopy(SortedList* s, SortedList* d, size_t itemSize)
 {
 	int i;
 
 	d->increment = s->increment;
 	d->sortFunc  = s->sortFunc;
 
-	for ( i = 0; i < s->realCount; i++ ) {
+	for (i = 0; i < s->realCount; i++) {
 		void* item = new char[ itemSize ];
-		memcpy( item, s->items[i], itemSize );
-		List_Insert( d, item, i );
+		memcpy(item, s->items[i], itemSize);
+		List_Insert(d, item, i);
 }	}

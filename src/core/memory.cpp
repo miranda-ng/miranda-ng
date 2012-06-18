@@ -26,34 +26,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define BLOCK_ALLOCED 0xABBABABA
 #define BLOCK_FREED   0xDEADBEEF
 
-static int CheckBlock( void* blk )
+static int CheckBlock(void* blk)
 {
 	int result = FALSE;
-	char* p = ( char* )blk - sizeof(DWORD)*2;
+	char* p = (char*)blk - sizeof(DWORD)*2;
 	DWORD size, *b, *e;
 
 	__try
 	{
-		size = *( DWORD* )p;
-		b = ( DWORD* )&p[ sizeof( DWORD ) ];
-		e = ( DWORD* )&p[ sizeof( DWORD )*2 + size ];
+		size = *(DWORD*)p;
+		b = (DWORD*)&p[ sizeof(DWORD) ];
+		e = (DWORD*)&p[ sizeof(DWORD)*2 + size ];
 
-		if ( *b != BLOCK_ALLOCED || *e != BLOCK_ALLOCED )
+		if (*b != BLOCK_ALLOCED || *e != BLOCK_ALLOCED)
 		{
-			if ( *b == BLOCK_FREED && *e == BLOCK_FREED )
-				OutputDebugStringA( "memory block is already deleted\n" );
+			if (*b == BLOCK_FREED && *e == BLOCK_FREED)
+				OutputDebugStringA("memory block is already deleted\n");
 			else
-				OutputDebugStringA( "memory block is corrupted\n" );
-			#if defined( _DEBUG )
+				OutputDebugStringA("memory block is corrupted\n");
+			#if defined(_DEBUG)
 				DebugBreak();
 			#endif
 		}
  		else result = TRUE;
 	}
-	__except( EXCEPTION_EXECUTE_HANDLER )
+	__except(EXCEPTION_EXECUTE_HANDLER)
 	{
-		OutputDebugStringA( "access violation during checking memory block\n" );
-		#if defined( _DEBUG )
+		OutputDebugStringA("access violation during checking memory block\n");
+		#if defined(_DEBUG)
 			DebugBreak();
 		#endif
 	}
@@ -63,91 +63,91 @@ static int CheckBlock( void* blk )
 
 /******************************************************************************/
 
-void* mir_alloc( size_t size )
+void* mir_alloc(size_t size)
 {
-	if ( size == 0 )
+	if (size == 0)
 		return NULL;
 	{
-		char* p = (char*)malloc( size + sizeof(DWORD)*3 );
-		if ( p == NULL ) {
-			OutputDebugStringA( "memory overflow\n" );
-			#if defined( _DEBUG )
+		char* p = (char*)malloc(size + sizeof(DWORD)*3);
+		if (p == NULL) {
+			OutputDebugStringA("memory overflow\n");
+			#if defined(_DEBUG)
 				DebugBreak();
 			#endif
 			return NULL;
 		}
 
-		*( DWORD* )p = ( DWORD )size;
-		*( DWORD* )&p[ sizeof(DWORD) ] = BLOCK_ALLOCED;
-		*( DWORD* )&p[ size + sizeof(DWORD)*2 ] = BLOCK_ALLOCED;
-		return p + sizeof( DWORD )*2;
+		*(DWORD*)p = (DWORD)size;
+		*(DWORD*)&p[ sizeof(DWORD) ] = BLOCK_ALLOCED;
+		*(DWORD*)&p[ size + sizeof(DWORD)*2 ] = BLOCK_ALLOCED;
+		return p + sizeof(DWORD)*2;
 }	}
 
 /******************************************************************************/
 
-void* mir_calloc( size_t size )
+void* mir_calloc(size_t size)
 {
-	void* p = mir_alloc( size );
-	if ( p != NULL )
-		memset( p, 0, size );
+	void* p = mir_alloc(size);
+	if (p != NULL)
+		memset(p, 0, size);
 	return p;
 }
 
 /******************************************************************************/
 
-void* mir_realloc( void* ptr, size_t size )
+void* mir_realloc(void* ptr, size_t size)
 {
 	char* p;
 
-	if ( ptr != NULL ) {
-		if ( !CheckBlock( ptr ))
+	if (ptr != NULL) {
+		if ( !CheckBlock(ptr))
 			return NULL;
-		p = ( char* )ptr - sizeof(DWORD)*2;
+		p = (char*)ptr - sizeof(DWORD)*2;
 	}
 	else p = NULL;
 
-	p = ( char* )realloc( p, size + sizeof(DWORD)*3 );
-	if ( p == NULL ) {
-		OutputDebugStringA( "memory overflow\n" );
-		#if defined( _DEBUG )
+	p = (char*)realloc(p, size + sizeof(DWORD)*3);
+	if (p == NULL) {
+		OutputDebugStringA("memory overflow\n");
+		#if defined(_DEBUG)
 			DebugBreak();
 		#endif
 		return NULL;
 	}
 
-	*( DWORD* )p = ( DWORD )size;
-	*( DWORD* )&p[ sizeof(DWORD) ] = BLOCK_ALLOCED;
-	*( DWORD* )&p[ size + sizeof(DWORD)*2 ] = BLOCK_ALLOCED;
-	return p + sizeof( DWORD )*2;
+	*(DWORD*)p = (DWORD)size;
+	*(DWORD*)&p[ sizeof(DWORD) ] = BLOCK_ALLOCED;
+	*(DWORD*)&p[ size + sizeof(DWORD)*2 ] = BLOCK_ALLOCED;
+	return p + sizeof(DWORD)*2;
 }
 
 /******************************************************************************/
 
-void mir_free( void* ptr )
+void mir_free(void* ptr)
 {
 	char* p;
 	DWORD size;
 
-	if ( ptr == NULL )
+	if (ptr == NULL)
 		return;
-	if ( !CheckBlock( ptr ))
+	if ( !CheckBlock(ptr))
 		return;
 
-	p = ( char* )ptr - sizeof(DWORD)*2;
-	size = *( DWORD* )p;
-	*( DWORD* )&p[ sizeof(DWORD) ] = BLOCK_FREED;
-	*( DWORD* )&p[ size + sizeof(DWORD)*2 ] = BLOCK_FREED;
-	free( p );
+	p = (char*)ptr - sizeof(DWORD)*2;
+	size = *(DWORD*)p;
+	*(DWORD*)&p[ sizeof(DWORD) ] = BLOCK_FREED;
+	*(DWORD*)&p[ size + sizeof(DWORD)*2 ] = BLOCK_FREED;
+	free(p);
 }
 
 /******************************************************************************/
 
-char* mir_strdup( const char* str )
+char* mir_strdup(const char* str)
 {
-	if ( str != NULL ) {
-		char* p = ( char* )mir_alloc( strlen( str )+1 );
-		if ( p )
-			strcpy( p, str );
+	if (str != NULL) {
+		char* p = (char*)mir_alloc(strlen(str)+1);
+		if (p)
+			strcpy(p, str);
 		return p;
 	}
 	return NULL;
@@ -155,12 +155,12 @@ char* mir_strdup( const char* str )
 
 /******************************************************************************/
 
-char* mir_strndup( const char* str, size_t len )
+char* mir_strndup(const char* str, size_t len)
 {
-	if ( str != NULL && len != 0 ) {
-		char* p = ( char* )mir_alloc( len + 1 );
-		if ( !p ) {
-			memcpy( p, str, len );
+	if (str != NULL && len != 0) {
+		char* p = (char*)mir_alloc(len + 1);
+		if ( !p) {
+			memcpy(p, str, len);
 			p[ len ] = 0;
 		}
 		return p;
@@ -170,12 +170,12 @@ char* mir_strndup( const char* str, size_t len )
 
 /******************************************************************************/
 
-WCHAR* mir_wstrdup( const WCHAR* str )
+WCHAR* mir_wstrdup(const WCHAR* str)
 {
-	if ( str != NULL ) {
-		WCHAR* p = ( WCHAR* )mir_alloc( sizeof( WCHAR )*( wcslen( str )+1 ));
-		if ( p )
-			wcscpy( p, str );
+	if (str != NULL) {
+		WCHAR* p = (WCHAR*)mir_alloc(sizeof(WCHAR)*(wcslen(str)+1));
+		if (p)
+			wcscpy(p, str);
 		return p;
 	}
 	return NULL;
@@ -233,48 +233,48 @@ int mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va)
 
 /******************************************************************************/
 
-wchar_t* mir_a2u_cp( const char* src, int codepage )
+wchar_t* mir_a2u_cp(const char* src, int codepage)
 {
-	if ( src == NULL )
+	if (src == NULL)
 		return NULL;
 
-	int cbLen = MultiByteToWideChar( codepage, 0, src, -1, NULL, 0 );
-	wchar_t* result = ( wchar_t* )mir_alloc( sizeof( wchar_t )*(cbLen+1));
-	if ( result == NULL )
+	int cbLen = MultiByteToWideChar(codepage, 0, src, -1, NULL, 0);
+	wchar_t* result = (wchar_t*)mir_alloc(sizeof(wchar_t)*(cbLen+1));
+	if (result == NULL)
 		return NULL;
 
-	MultiByteToWideChar( codepage, 0, src, -1, result, cbLen );
+	MultiByteToWideChar(codepage, 0, src, -1, result, cbLen);
 	result[ cbLen ] = 0;
 	return result;
 }
 
 /******************************************************************************/
 
-wchar_t* mir_a2u( const char* src )
+wchar_t* mir_a2u(const char* src)
 {
-	return mir_a2u_cp( src, LangPackGetDefaultCodePage());
+	return mir_a2u_cp(src, LangPackGetDefaultCodePage());
 }
 
 /******************************************************************************/
 
-char* mir_u2a_cp( const wchar_t* src, int codepage )
+char* mir_u2a_cp(const wchar_t* src, int codepage)
 {
-	if ( src == NULL )
+	if (src == NULL)
 		return NULL;
 
-	int cbLen = WideCharToMultiByte( codepage, 0, src, -1, NULL, 0, NULL, NULL );
-	char* result = ( char* )mir_alloc( cbLen+1 );
-	if ( result == NULL )
+	int cbLen = WideCharToMultiByte(codepage, 0, src, -1, NULL, 0, NULL, NULL);
+	char* result = (char*)mir_alloc(cbLen+1);
+	if (result == NULL)
 		return NULL;
 
-	WideCharToMultiByte( codepage, 0, src, -1, result, cbLen, NULL, NULL );
+	WideCharToMultiByte(codepage, 0, src, -1, result, cbLen, NULL, NULL);
 	result[ cbLen ] = 0;
 	return result;
 }
 
 /******************************************************************************/
 
-char* mir_u2a( const wchar_t* src )
+char* mir_u2a(const wchar_t* src)
 {
-	return mir_u2a_cp( src, LangPackGetDefaultCodePage());
+	return mir_u2a_cp(src, LangPackGetDefaultCodePage());
 }

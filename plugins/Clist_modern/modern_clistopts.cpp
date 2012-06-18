@@ -72,7 +72,7 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszGroup=LPGENT("Contact List");
 	odp.ptszTitle=LPGENT("Row items");
 	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	//	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	//	Options_AddPage(wParam,&odp);
 
 	{
 		BOOL hasExtraIconsService = ServiceExists("ExtraIcon/Register");
@@ -85,7 +85,7 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 			odp.pszTemplate=MAKEINTRESOURCEA(row_opt_items[i].id);
 			odp.ptszTab=row_opt_items[i].name;
 			odp.pfnDlgProc=row_opt_items[i].wnd_proc;
-			CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+			Options_AddPage(wParam,&odp);
 		}
 	}
 

@@ -314,5 +314,5 @@ void CQuotesProviderFinance::ShowPropertyPage(WPARAM wp,OPTIONSDIALOGPAGE& odp)
 	odp.pfnDlgProc = GoogleFinanceOptDlgProc;
 	odp.dwInitParam = reinterpret_cast<DWORD>(static_cast<CQuotesProviderFinance*>(this));
 	odp.ptszTab = const_cast<LPTSTR>(GetInfo().m_sName.c_str());
-	CallService(MS_OPT_ADDPAGE,wp,reinterpret_cast<LPARAM>(&odp));	
+	Options_AddPage(wp, &odp);	
 }

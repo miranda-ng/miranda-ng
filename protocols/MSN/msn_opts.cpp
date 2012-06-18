@@ -720,7 +720,6 @@ INT_PTR CALLBACK DlgDeleteContactUI(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
 	odp.cbSize      = sizeof(odp);
 	odp.position    = -790000000;
 	odp.hInstance   = hInst;
@@ -731,22 +730,22 @@ int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.pfnDlgProc  = DlgProcMsnOpts;
 	odp.dwInitParam = (LPARAM)this;
-	MSN_CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab     = LPGENT("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN_CONN);
 	odp.pfnDlgProc  = DlgProcMsnConnOpts;
-	MSN_CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
-	odp.ptszTab      = LPGENT("Server list");
+	odp.ptszTab     = LPGENT("Server list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LISTSMGR);
 	odp.pfnDlgProc  = DlgProcMsnServLists;
-	MSN_CallService(MS_OPT_ADDPAGE, wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.ptszTab     = LPGENT("Notifications");
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
-	odp.pfnDlgProc	= DlgProcHotmailPopUpOpts;
-	MSN_CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);
+	odp.pfnDlgProc  = DlgProcHotmailPopUpOpts;
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
@@ -761,7 +760,7 @@ INT_PTR CMsnProto::SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Load resident option values into memory
 
-void  CMsnProto::LoadOptions(void)
+void CMsnProto::LoadOptions(void)
 {
 	memset(&MyOptions, 0, sizeof(MyOptions));
 
@@ -773,8 +772,7 @@ void  CMsnProto::LoadOptions(void)
 		MyOptions.szEmail[0] = 0;
 	_strlwr(MyOptions.szEmail);
 
-	if (getStaticString(NULL, "MachineGuid", MyOptions.szMachineGuid, sizeof(MyOptions.szMachineGuid)))
-	{
+	if (getStaticString(NULL, "MachineGuid", MyOptions.szMachineGuid, sizeof(MyOptions.szMachineGuid))) {
 		char* uuid = getNewUuid();
 		strcpy(MyOptions.szMachineGuid, uuid);
 		setString("MachineGuid", MyOptions.szMachineGuid);

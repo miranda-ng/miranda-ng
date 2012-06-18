@@ -65,7 +65,7 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 		odp.ptszTitle = LPGENT( "Contact List" );
 		odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 		odp.ptszTab = LPGENT( "Load/Save" );
-		CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+		Options_AddPage(wParam, &odp);
 
 		if ( ModernGetSettingByte( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT ) )
 		{
@@ -73,7 +73,7 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 			odp.pfnDlgProc = DlgSkinEditorOpts;
 			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
 			odp.ptszTab = LPGENT( "Object Editor" );
-			CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+			Options_AddPage(wParam, &odp);
 		}
 	}
 	return 0;

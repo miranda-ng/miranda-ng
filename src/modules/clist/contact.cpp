@@ -45,7 +45,7 @@ static const struct {
 
 static int GetContactStatus(HANDLE hContact)
 {
-	char* szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if (szProto == NULL)
 		return ID_STATUS_OFFLINE;
 	return DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -73,7 +73,7 @@ void fnLoadContactTree(void)
 
 	CallService(MS_CLUI_LISTBEGINREBUILD, 0, 0);
 	for (i = 1;; i++) {
-		if ( cli.pfnGetGroupName(i, NULL) == NULL)
+		if (cli.pfnGetGroupName(i, NULL) == NULL)
 			break;
 		CallService(MS_CLUI_GROUPADDED, i, 0);
 	}
@@ -82,7 +82,7 @@ void fnLoadContactTree(void)
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) {
 		status = GetContactStatus(hContact);
-		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+		if (( !hideOffline || status != ID_STATUS_OFFLINE) && !DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
 			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0), status, hContact), 1);
 		hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 	}
@@ -108,7 +108,7 @@ int fnCompareContacts(const struct ClcContact* c1, const struct ClcContact* c2)
 			return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 		}
 		/* both are online, now check protocols */
-		rc = lstrcmpA( c1->proto, c2->proto);
+		rc = lstrcmpA(c1->proto, c2->proto);
 		if (rc != 0 && (c1->proto != NULL && c2->proto != NULL))
 			return rc;
 		/* protocols are the same, order by display name */
@@ -128,10 +128,10 @@ int fnCompareContacts(const struct ClcContact* c1, const struct ClcContact* c2)
 		}
 	}
 
-	nameb = cli.pfnGetContactDisplayName( a, 0);
+	nameb = cli.pfnGetContactDisplayName(a, 0);
 	_tcsncpy(namea, nameb, SIZEOF(namea));
 	namea[ SIZEOF(namea)-1 ] = 0;
-	nameb = cli.pfnGetContactDisplayName( b, 0);
+	nameb = cli.pfnGetContactDisplayName(b, 0);
 
 	//otherwise just compare names
 	return _tcsicmp(namea, nameb);
@@ -176,7 +176,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 
 int fnSetHideOffline(WPARAM wParam, LPARAM)
 {
-	switch(( int )wParam ) {
+	switch((int)wParam) {
 	case 0:
 		DBWriteContactSettingByte(NULL, "CList", "HideOffline", 0);
 		break;

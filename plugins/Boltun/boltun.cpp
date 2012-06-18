@@ -528,11 +528,11 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc  = MainDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pszTab      = TAB_GENERAL;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	odp.pfnDlgProc  = EngineDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ENGINE);
 	odp.pszTab      = TAB_ENGINE;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

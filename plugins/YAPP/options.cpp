@@ -480,12 +480,12 @@ int OptInit(WPARAM wParam, LPARAM lParam) {
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT1);
 	odp.pszTab						= LPGEN("Settings");
 	odp.pfnDlgProc					= DlgProcOpts1;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_CLASSES);
 	odp.pszTab						= LPGEN("Classes");
 	odp.pfnDlgProc					= DlgProcOptsClasses;
-	CallService( MS_OPT_ADDPAGE, wParam, (LPARAM)&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

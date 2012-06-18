@@ -76,13 +76,13 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 	for (i=0; i < NUM_COLUMNID; i++)
 	{
 		LVCOLUMN lvc;
-		if ( i < columnCount )
+		if (i < columnCount)
 		{
 			int bNeedsFree = FALSE;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
-			if ( szColumnNames[i] != NULL )
-				lvc.pszText = TranslateTS( szColumnNames[i] );
-			else if ( i == COLUMNID_HANDLE )
+			if (szColumnNames[i] != NULL)
+				lvc.pszText = TranslateTS(szColumnNames[i]);
+			else if (i == COLUMNID_HANDLE)
 			{
 				if (szProto)
 				{
@@ -137,12 +137,12 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 
 	sortMultiplier=dat->bSortAscending?1:-1;
 	sortCol=dat->iLastColumnSortIndex;
-	if (!dat->bFlexSearchResult)
+	if ( !dat->bFlexSearchResult)
 	{
 		lsr1=(struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam1);
 		lsr2=(struct ListSearchResult*)ListView_GetItemLParam(hList, (int)lParam2);
 
-		if ( lsr1 == NULL || lsr2 == NULL ) return 0;
+		if (lsr1 == NULL || lsr2 == NULL) return 0;
 		switch(sortCol)
 		{
 		case COLUMNID_PROTO:
@@ -194,7 +194,7 @@ void FreeSearchResults(HWND hwndResults)
 static void BeginSearchFailed(void * arg)
 {
 	TCHAR buf[128];
-	if ( arg != NULL ) {
+	if (arg != NULL) {
 		const TCHAR* protoName = (TCHAR*)arg;
 		mir_sntprintf(buf, SIZEOF(buf),
             TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
@@ -208,18 +208,18 @@ static void BeginSearchFailed(void * arg)
 int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams)
 {
 	int i;
-	if ( szProto == NULL ) {
+	if (szProto == NULL) {
 		int failures = 0;
 		dat->searchCount = 0;
 		dat->search = (struct ProtoSearchInfo*)mir_calloc(sizeof(struct ProtoSearchInfo) * accounts.getCount());
-		for ( i=0; i < accounts.getCount();i++) {
+		for (i=0; i < accounts.getCount();i++) {
 			PROTOACCOUNT* pa = accounts[i];
-			if (!Proto_IsAccountEnabled(pa)) continue;
+			if ( !Proto_IsAccountEnabled(pa)) continue;
 			DWORD caps=(DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
-			if (!(caps&requiredCapability)) continue;
+			if ( !(caps&requiredCapability)) continue;
 			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoService(pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
-			if ( dat->search[dat->searchCount].hProcess == NULL ) failures++;
+			if (dat->search[dat->searchCount].hProcess == NULL) failures++;
 			else dat->searchCount++;
 		}
 		if (failures) {
@@ -254,21 +254,21 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 {
 	TCHAR str[256];
 
-	if (dat->searchCount != 0 ) {
+	if (dat->searchCount != 0) {
 		int i;
 
-		lstrcpy( str, TranslateT("Searching"));
-		for ( i=0; i < dat->searchCount; i++ ) {
-			PROTOACCOUNT* pa = Proto_GetAccount( dat->search[i].szProto );
-			if ( !pa )
+		lstrcpy(str, TranslateT("Searching"));
+		for (i=0; i < dat->searchCount; i++) {
+			PROTOACCOUNT* pa = Proto_GetAccount(dat->search[i].szProto);
+			if ( !pa)
 				continue;
 
-			lstrcat(str, i ? _T(", ") : _T( " " ));
-			lstrcat(str, pa->tszAccountName );
+			lstrcat(str, i ? _T(", ") : _T(" "));
+			lstrcat(str, pa->tszAccountName);
 	}	}
 	else lstrcpy(str, TranslateT("Idle"));
 
-	SendMessage( hwndStatus, SB_SETTEXT, 0, (LPARAM)str );
+	SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)str);
 }
 
 struct ProtoResultsSummary {
@@ -304,33 +304,33 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 			subtotal[subtotalCount++].count=1;
 		}
 	}
-	if ( total != 0 ) {
+	if (total != 0) {
 		TCHAR substr[64];
-		PROTOACCOUNT* pa = Proto_GetAccount( subtotal[0].szProto );
-		if ( pa == NULL )
+		PROTOACCOUNT* pa = Proto_GetAccount(subtotal[0].szProto);
+		if (pa == NULL)
 			return;
 
-		if ( subtotalCount == 1 ) {
-			if (total == 1) mir_sntprintf( str, SIZEOF(str), TranslateT("1 %s user found"), pa->tszAccountName );
-			else         mir_sntprintf( str, SIZEOF(str), TranslateT("%d %s users found"), total, pa->tszAccountName );
+		if (subtotalCount == 1) {
+			if (total == 1) mir_sntprintf(str, SIZEOF(str), TranslateT("1 %s user found"), pa->tszAccountName);
+			else         mir_sntprintf(str, SIZEOF(str), TranslateT("%d %s users found"), total, pa->tszAccountName);
 		}
 		else {
-			mir_sntprintf( str, SIZEOF(str), TranslateT("%d users found ("), total);
-			for ( i=0; i < subtotalCount; i++ ) {
-				if ( i ) {
-					if (( pa = Proto_GetAccount( subtotal[i].szProto )) == NULL )
+			mir_sntprintf(str, SIZEOF(str), TranslateT("%d users found ("), total);
+			for (i=0; i < subtotalCount; i++) {
+				if (i) {
+					if ((pa = Proto_GetAccount(subtotal[i].szProto)) == NULL)
 						return;
-					lstrcat( str, _T(", "));
+					lstrcat(str, _T(", "));
 				}
-				mir_sntprintf( substr, SIZEOF(substr), _T("%d %s"), subtotal[i].count, pa->tszAccountName );
-				lstrcat( str, substr );
+				mir_sntprintf(substr, SIZEOF(substr), _T("%d %s"), subtotal[i].count, pa->tszAccountName);
+				lstrcat(str, substr);
 			}
-			lstrcat( str, _T(")"));
+			lstrcat(str, _T(")"));
 		}
 		mir_free(subtotal);
 	}
 	else lstrcpy(str, TranslateT("No users found"));
-	SendMessage(hwndStatus, SB_SETTEXT, 2, (LPARAM)str );
+	SendMessage(hwndStatus, SB_SETTEXT, 2, (LPARAM)str);
 }
 
 void CreateResultsColumns(HWND hwndResults, struct FindAddDlgData *dat, char *szProto)

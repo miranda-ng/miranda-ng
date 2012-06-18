@@ -360,14 +360,13 @@ void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize)
 	GetLastWriteTime(&FindFileData.ftLastWriteTime, lpszString, dwSize);
 }
 
+typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_Info) (DWORD mirandaVersion);
 
-typedef PLUGININFO * (__cdecl * Miranda_Plugin_Info) (DWORD mirandaVersion);
-
-PLUGININFO* GetMirInfo(HMODULE hModule)
+PLUGININFOEX* GetMirInfo(HMODULE hModule)
 {
 	Miranda_Plugin_Info bpi = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfoEx");
-	if (bpi == NULL) bpi = (Miranda_Plugin_Info)GetProcAddress(hModule, "MirandaPluginInfo");
-	if (bpi == NULL) return NULL;
+	if (bpi == NULL)
+		return NULL;
 
 	return bpi(mirandaVersion);
 }

@@ -55,7 +55,7 @@ static int GroupNameExists(const TCHAR *name, int skipGroup)
 		_itoa(i, idstr, 10);
 		if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
 			break;
-		if (!_tcscmp(dbv.ptszVal + 1, name)) {
+		if ( !_tcscmp(dbv.ptszVal + 1, name)) {
 			DBFreeVariant(&dbv);
 			return i+1;
 		}
@@ -78,13 +78,13 @@ static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSettingTString(NULL, "CListGroups", str, &dbv))
 			return 0;
 
-		mir_sntprintf( newBaseName, SIZEOF(newBaseName), _T("%s\\%s"), dbv.ptszVal + 1, grpName );
+		mir_sntprintf(newBaseName, SIZEOF(newBaseName), _T("%s\\%s"), dbv.ptszVal + 1, grpName);
 		mir_free(dbv.pszVal);
 	}
-	else lstrcpyn( newBaseName, grpName, SIZEOF( newBaseName ));
+	else lstrcpyn(newBaseName, grpName, SIZEOF(newBaseName));
 
 	_itoa(newId, str, 10);
-	lstrcpyn( newName + 1, newBaseName, SIZEOF(newName) - 1);
+	lstrcpyn(newName + 1, newBaseName, SIZEOF(newName) - 1);
 	if (lParam) {
 		i = GroupNameExists(newBaseName, -1);
 		if (i) newId = i - 1;
@@ -93,7 +93,7 @@ static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
 	else {
 		i = 1;
 		while (GroupNameExists(newName + 1, -1))
-			mir_sntprintf( newName + 1, SIZEOF(newName) - 1, _T("%s (%d)"), newBaseName, ++i );
+			mir_sntprintf(newName + 1, SIZEOF(newName) - 1, _T("%s (%d)"), newBaseName, ++i);
 	}
 	if (i) {
 		const CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, newName };
@@ -124,20 +124,20 @@ static INT_PTR GetGroupName2(WPARAM wParam, LPARAM lParam)
 	return (INT_PTR) name;
 }
 
-TCHAR* fnGetGroupName( int idx, DWORD* pdwFlags )
+TCHAR* fnGetGroupName(int idx, DWORD* pdwFlags)
 {
 	char idstr[33];
 	DBVARIANT dbv;
 	static TCHAR name[128];
 
-	_itoa( idx-1, idstr, 10);
-	if (DBGetContactSettingTString( NULL, "CListGroups", idstr, &dbv ))
+	_itoa(idx-1, idstr, 10);
+	if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
 		return NULL;
 
-	lstrcpyn( name, dbv.ptszVal + 1, SIZEOF( name ));
-	if ( pdwFlags != NULL )
+	lstrcpyn(name, dbv.ptszVal + 1, SIZEOF(name));
+	if (pdwFlags != NULL)
 		*pdwFlags = dbv.ptszVal[0];
-	DBFreeVariant( &dbv );
+	DBFreeVariant(&dbv);
 	return name;
 }
 
@@ -167,7 +167,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	if (DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT))
 	{
 		TCHAR szQuestion[256+100];
-		mir_sntprintf( szQuestion, SIZEOF(szQuestion), TranslateT("Are you sure you want to delete group '%s'?  This operation can not be undone."), name );
+		mir_sntprintf(szQuestion, SIZEOF(szQuestion), TranslateT("Are you sure you want to delete group '%s'?  This operation can not be undone."), name);
 		if (MessageBox(cli.hwndContactList, szQuestion, TranslateT("Delete Group"), MB_YESNO|MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
@@ -230,7 +230,7 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 			_itoa(i, str, 10);
 			if (DBGetContactSettingTString(NULL, "CListGroups", str, &dbv))
 				break;
-			if (!_tcsncmp(dbv.ptszVal + 1, name, len) && dbv.pszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
+			if ( !_tcsncmp(dbv.ptszVal + 1, name, len) && dbv.pszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
 				if (szNewParent[0])
 					mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szNewParent, dbv.ptszVal + len + 2);
 				else
@@ -275,7 +275,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	//must rename setting in all child contacts too
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	do {
-		ClcCacheEntryBase* cache = cli.pfnGetCacheEntry( hContact );
+		ClcCacheEntryBase* cache = cli.pfnGetCacheEntry(hContact);
 		if ( !lstrcmp(cache->group, oldName)) {
             DBWriteContactSettingTString(hContact, "CList", "Group", szName);
             mir_free(cache->group);
@@ -298,7 +298,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 			if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
 				break;
 			if ( !_tcsncmp(dbv.ptszVal + 1, oldName, len) && dbv.ptszVal[len + 1] == '\\' && _tcschr(dbv.ptszVal + len + 2, '\\') == NULL) {
-				mir_sntprintf( szNewName, SIZEOF(szNewName), _T("%s\\%s"), szName, dbv.ptszVal + len + 2 );
+				mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szName, dbv.ptszVal + len + 2);
 				RenameGroupWithMove(i, szNewName, 0);   //luckily, child groups will never need reordering
 			}
 			DBFreeVariant(&dbv);
@@ -318,7 +318,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 				_itoa(i, idstr, 10);
 				if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv))
 					break;
-				if (!lstrcmp(dbv.ptszVal + 1, str)) {
+				if ( !lstrcmp(dbv.ptszVal + 1, str)) {
 					if (i < groupId)
 						break;      //is OK
 					MoveGroupBefore(groupId + 1, i + 2);
@@ -335,16 +335,16 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 	return 0;
 }
 
-int fnRenameGroup( int groupID, TCHAR* newName )
+int fnRenameGroup(int groupID, TCHAR* newName)
 {
-	return -1 != RenameGroupWithMove( groupID-1, newName, 1);
+	return -1 != RenameGroupWithMove(groupID-1, newName, 1);
 }
 
 static INT_PTR RenameGroup(WPARAM wParam, LPARAM lParam)
 {
-	WCHAR* temp = mir_a2u(( char* )lParam );
-	int result = ( -1 != RenameGroupWithMove(wParam - 1, temp, 1));
-	mir_free( temp );
+	WCHAR* temp = mir_a2u((char*)lParam);
+	int result = (-1 != RenameGroupWithMove(wParam - 1, temp, 1));
+	mir_free(temp);
 	return result;
 }
 
@@ -475,7 +475,7 @@ static INT_PTR BuildGroupMenu(WPARAM, LPARAM)
 				pNextField = NULL;
 			}
 			else {
-				lstrcpyn(szThisField, pNextField, min( SIZEOF(szThisField), pBackslash - pNextField + 1));
+				lstrcpyn(szThisField, pNextField, min(SIZEOF(szThisField), pBackslash - pNextField + 1));
 				pNextField = pBackslash + 1;
 			}
 			compareResult = 1;
@@ -567,7 +567,7 @@ int InitGroupServices(void)
 	CreateServiceFunction(MS_CLIST_GROUPMOVEBEFORE, MoveGroupBefore);
 	CreateServiceFunction(MS_CLIST_GROUPBUILDMENU, BuildGroupMenu);
 
-	hGroupChangeEvent = CreateHookableEvent( ME_CLIST_GROUPCHANGE );
+	hGroupChangeEvent = CreateHookableEvent(ME_CLIST_GROUPCHANGE);
 
 	return 0;
 }

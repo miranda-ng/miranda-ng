@@ -70,7 +70,7 @@ int MsnOnDetailsInit(WPARAM wParam, LPARAM lParam)
 		odp.ptszTitle   = m_tszUserName;
 		odp.flags       = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-		MSN_CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 	}
 */	
 	return 0;

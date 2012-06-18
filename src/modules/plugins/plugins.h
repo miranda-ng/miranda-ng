@@ -9,16 +9,16 @@
 #define DEFMOD_REMOVED_PROTOCOLNETLIB   22
 
 // basic export prototypes
-typedef int (__cdecl * Miranda_Plugin_Load) ( PLUGINLINK * );
-typedef int (__cdecl * Miranda_Plugin_Unload) ( void );
+typedef int (__cdecl * Miranda_Plugin_Load) (PLUGINLINK *);
+typedef int (__cdecl * Miranda_Plugin_Unload) (void);
 // version control
-typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) ( DWORD mirandaVersion );
+typedef PLUGININFOEX * (__cdecl * Miranda_Plugin_InfoEx) (DWORD mirandaVersion);
 // prototype for databases
-typedef DATABASELINK * (__cdecl * Database_Plugin_Info) ( void * reserved );
+typedef DATABASELINK * (__cdecl * Database_Plugin_Info) (void * reserved);
 // prototype for clists
-typedef int (__cdecl * CList_Initialise) ( PLUGINLINK * );
+typedef int (__cdecl * CList_Initialise) (PLUGINLINK *);
 // Interface support
-typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) ( void );
+typedef MUUID * (__cdecl * Miranda_Plugin_Interfaces) (void);
 
 typedef struct { // can all be NULL
 	HINSTANCE hInst;
@@ -66,5 +66,5 @@ pluginEntry* OpenPlugin(TCHAR* tszFileName, TCHAR* path);
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
 void Plugin_Uninit(pluginEntry* p, bool bDynamic=false);
 
-typedef BOOL (*SCAN_PLUGINS_CALLBACK) ( WIN32_FIND_DATA * fd, TCHAR * path, WPARAM wParam, LPARAM lParam );
+typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA * fd, TCHAR * path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);

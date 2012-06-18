@@ -84,15 +84,15 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			{	TCHAR szScanExe[MAX_PATH];
 				int i, iItem;
-				for ( i=0; i < SIZEOF(virusScanners); i++ ) {
+				for (i=0; i < SIZEOF(virusScanners); i++) {
 					if (SRFile_GetRegValue(HKEY_LOCAL_MACHINE, virusScanners[i].szExeRegPath, virusScanners[i].szExeRegValue, szScanExe, SIZEOF(szScanExe))) {
 						iItem=SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)virusScanners[i].szProductName);
 						SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, i);
 					}
 				}
-				if ( SendDlgItemMessageA(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0) == 0 )
+				if (SendDlgItemMessageA(hwndDlg, IDC_SCANCMDLINE, CB_GETCOUNT, 0, 0) == 0)
 				{
-					iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)_T("") );
+					iItem = SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_ADDSTRING, 0, (LPARAM)_T(""));
 					SendDlgItemMessage(hwndDlg, IDC_SCANCMDLINE, CB_SETITEMDATA, iItem, (LPARAM)-1);
 				}
 			}
@@ -192,7 +192,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 						if (pszSpace) *pszSpace = 0;
 					}
 					ofn.nMaxFileTitle = MAX_PATH;
-					if (!GetOpenFileName(&ofn)) break;
+					if ( !GetOpenFileName(&ofn)) break;
 					if (_tcschr(str, ' ') != NULL) {
 						MoveMemory(str+1, str, SIZEOF(str) - 2 * sizeof(TCHAR));
 						str[0] = '"';
@@ -241,7 +241,7 @@ int FileOptInitialise(WPARAM wParam, LPARAM)
 	odp.pfnDlgProc = DlgProcFileOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.nIDBottomSimpleControl = IDC_VIRUSSCANNERGROUP;
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

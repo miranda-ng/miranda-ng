@@ -86,7 +86,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.groupPosition = 810000000;
 	odp.flags=ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	
 	return 0;
 }

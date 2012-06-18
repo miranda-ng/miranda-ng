@@ -63,7 +63,7 @@ extern int hLangpack;
 #define GSMDF_PREFIXONLINE   1   //prefix "Online: " to all status modes that
                                  //imply online, eg "Online: Away"
 #define GSMDF_UNICODE        2   //will return TCHAR* instead of char*
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define GSMDF_TCHAR       GSMDF_UNICODE      //will return TCHAR* instead of char*
 #else
 	#define GSMDF_TCHAR       0      //will return char*, as usual
@@ -119,7 +119,7 @@ typedef struct {
 
 #define CLISTMENUITEM_OLDSIZE_V1 (offsetof(CLISTMENUITEM,hLangpack))
 
-#define HGENMENU_ROOT      (( HGENMENU )-1)
+#define HGENMENU_ROOT      ((HGENMENU)-1)
 
 #define CMIF_GRAYED     1
 #define CMIF_CHECKED    2
@@ -131,7 +131,7 @@ typedef struct {
 #define CMIF_ROOTHANDLE 384  //means that hParentMenu member is set
 
 #define CMIF_UNICODE        512      //will return TCHAR* instead of char*
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define CMIF_TCHAR       CMIF_UNICODE      //will return TCHAR* instead of char*
 #else
 	#define CMIF_TCHAR       0       //will return char*, as usual
@@ -242,7 +242,7 @@ sense to store all this information in memory, etc.
 #define GCDNF_UNICODE        2      //will return TCHAR* instead of char*
 #define GCDNF_NOCACHE        4      //will not use the cache
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define GCDNF_TCHAR       GCDNF_UNICODE      //will return TCHAR* instead of char*
 #else
 	#define GCDNF_TCHAR       0      //will return char*, as usual
@@ -297,7 +297,7 @@ typedef struct {
 #define CLEF_PROTOCOLGLOBAL   8		//set event globally for protocol, hContact has to be NULL,
 									//lpszProtocol the protocol ID name to be set
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define CLEF_TCHAR       CLEF_UNICODE      //will use TCHAR* instead of char*
 #else
 	#define CLEF_TCHAR       0      //will return char*, as usual

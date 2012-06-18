@@ -448,10 +448,10 @@ struct MD5_INTERFACE
 
 #define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
 
-static __inline INT_PTR mir_getMD5I( struct MD5_INTERFACE* dest )
+static __inline INT_PTR mir_getMD5I(struct MD5_INTERFACE* dest)
 {
 	dest->cbSize = sizeof(*dest);
-	return CallService( MS_SYSTEM_GET_MD5I, 0, (LPARAM)dest );
+	return CallService(MS_SYSTEM_GET_MD5I, 0, (LPARAM)dest);
 }
 
 extern struct MD5_INTERFACE md5i;
@@ -488,10 +488,10 @@ struct SHA1_INTERFACE
 
 #define MS_SYSTEM_GET_SHA1I  "Miranda/System/GetSHA1I"
 
-static __inline INT_PTR mir_getSHA1I( struct SHA1_INTERFACE* dest )
+static __inline INT_PTR mir_getSHA1I(struct SHA1_INTERFACE* dest)
 {
 	dest->cbSize = sizeof(*dest);
-	return CallService( MS_SYSTEM_GET_SHA1I, 0, (LPARAM)dest );
+	return CallService(MS_SYSTEM_GET_SHA1I, 0, (LPARAM)dest);
 }
 
 extern struct SHA1_INTERFACE sha1i;
@@ -502,7 +502,7 @@ extern struct SHA1_INTERFACE sha1i;
 #define mir_sha1_hash(A,B,C)	 sha1i.sha1_hash(A,B,C)
 
 // allows to include TCHAR* strings into mir_snprintf and NetLib_Logf calls
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define TCHAR_STR_PARAM "%S"
 #else
 	#define TCHAR_STR_PARAM "%s"
@@ -530,14 +530,14 @@ extern struct SHA1_INTERFACE sha1i;
 	#define mir_u2t_cp(s,c) mir_u2a_cp(s,c)
 #endif
 
-#if defined( __cplusplus )
+#if defined(__cplusplus)
 
 #ifdef _STATIC
-	void   mir_free( void* );
+	void   mir_free(void*);
 	WCHAR* mir_a2u_cp(const char* src, int codepage);
 	WCHAR* mir_a2u(const char* src);
 	char*  mir_u2a_cp(const wchar_t* src, int codepage);
-	char*  mir_u2a( const wchar_t* src);
+	char*  mir_u2a(const wchar_t* src);
 #endif
 
 class _A2T
@@ -545,8 +545,8 @@ class _A2T
 	TCHAR* buf;
 
 public:
-	__forceinline _A2T( const char* s ) : buf( mir_a2t( s )) {}
-	__forceinline _A2T( const char* s, int cp ) : buf( mir_a2t_cp( s, cp )) {}
+	__forceinline _A2T(const char* s) : buf(mir_a2t(s)) {}
+	__forceinline _A2T(const char* s, int cp) : buf(mir_a2t_cp(s, cp)) {}
 	~_A2T() { mir_free(buf); }
 
 	__forceinline operator TCHAR*() const
@@ -559,8 +559,8 @@ class _T2A
 	char* buf;
 
 public:
-	__forceinline _T2A( const TCHAR* s ) : buf( mir_t2a( s )) {}
-	__forceinline _T2A( const TCHAR* s, int cp ) : buf( mir_t2a_cp( s, cp )) {}
+	__forceinline _T2A(const TCHAR* s) : buf(mir_t2a(s)) {}
+	__forceinline _T2A(const TCHAR* s, int cp) : buf(mir_t2a_cp(s, cp)) {}
 	__forceinline ~_T2A() { mir_free(buf); }
 
 	__forceinline operator char*() const

@@ -384,7 +384,7 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	odp.ptszGroup					= LPGENT("Services");
 	odp.nIDBottomSimpleControl		= 0;
 	odp.pfnDlgProc					= DlgProcOpts1;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

@@ -2180,17 +2180,17 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PICTS);
 	odp.pfnDlgProc = DlgProcOptionsProtos;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Contact Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
 	odp.pfnDlgProc = DlgProcOptionsAvatars;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Own Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
 	odp.pfnDlgProc = DlgProcOptionsOwn;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
@@ -2383,7 +2383,7 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 		odp.pfnDlgProc = DlgProcAvatarProtoInfo;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_AVATARS);
 		odp.ptszTitle = LPGENT("Avatar");
-		CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+		UserInfo_AddPage(wParam, &odp);
 	}
 	else
 	{
@@ -2400,7 +2400,7 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 			odp.position = -2000000000;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_AVATAR);
 			odp.ptszTitle = LPGENT("Avatar");
-			CallService(MS_USERINFO_ADDPAGE, wParam, (LPARAM)&odp);
+			UserInfo_AddPage(wParam, &odp);
 		}
 	}
 	return 0;

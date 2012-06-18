@@ -73,7 +73,7 @@ int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 	odp.pszGroup = "Customize";
 	odp.pfnDlgProc = DlgProcSmileysOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, addInfo, (LPARAM)&odp);
+	Options_AddPage( addInfo, &odp);
 
 	return 0;
 }

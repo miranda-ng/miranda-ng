@@ -350,7 +350,7 @@ public:
 
 	~XMLNode();
 	XMLNode(const XMLNode &A);                                     ///< to allow shallow/fast copy:
-	XMLNode& operator=( const XMLNode& A );                        ///< to allow shallow/fast copy:
+	XMLNode& operator=(const XMLNode& A);                        ///< to allow shallow/fast copy:
 
 	XMLNode(): d(NULL) {};
 	static XMLNode emptyXMLNode;
@@ -358,8 +358,8 @@ public:
 	static XMLAttribute emptyXMLAttribute;
 
 	/** helpers for external C applications **/
-	XMLNode( HXML h );
-	void   attach( HXML h );
+	XMLNode(HXML h);
+	void   attach(HXML h);
 	HXML   detach();
 	operator HXML() const { return (HXML)d; }
 

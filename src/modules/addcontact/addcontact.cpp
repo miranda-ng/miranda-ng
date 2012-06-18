@@ -35,7 +35,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 			TranslateDialogDefault(hdlg);
 			Window_SetIcon_IcoLib(hdlg, SKINICON_OTHER_ADDCONTACT);
-			if ( acs->handleType == HANDLE_EVENT ) {
+			if (acs->handleType == HANDLE_EVENT) {
 				DWORD dwUin;
 				DBEVENTINFO dbei = { 0 };
 				dbei.cbSize=sizeof(dbei);
@@ -47,8 +47,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			}
 			{
 				TCHAR *szName = NULL, *tmpStr = NULL;
-				if ( acs->handleType == HANDLE_CONTACT )
-					szName = cli.pfnGetContactDisplayName( acs->handle, GCDNF_TCHAR );
+				if (acs->handleType == HANDLE_CONTACT)
+					szName = cli.pfnGetContactDisplayName(acs->handle, GCDNF_TCHAR);
 				else {
 					int isSet = 0;
 
@@ -64,31 +64,31 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						hcontact=*((PHANDLE)(dbei.pBlob+sizeof(DWORD)));
 						mir_free(dbei.pBlob);
 						if (hcontact != INVALID_HANDLE_VALUE) {
-							szName = cli.pfnGetContactDisplayName( hcontact, 0 );
+							szName = cli.pfnGetContactDisplayName(hcontact, 0);
 							isSet = 1;
 						}
 					}
-					if (!isSet) {
+					if ( !isSet) {
 						szName = (acs->handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) : 
 							(acs->psr->id ? acs->psr->id : acs->psr->nick);
 				}	}
 
-				if ( szName && szName[0] ) {
+				if (szName && szName[0]) {
 					TCHAR  szTitle[128];
-					mir_sntprintf( szTitle, SIZEOF(szTitle), TranslateT("Add %s"), szName );
-					SetWindowText( hdlg, szTitle );
+					mir_sntprintf(szTitle, SIZEOF(szTitle), TranslateT("Add %s"), szName);
+					SetWindowText(hdlg, szTitle);
 				}
-				else SetWindowText( hdlg, TranslateT("Add Contact"));
+				else SetWindowText(hdlg, TranslateT("Add Contact"));
 				mir_free(tmpStr);
 		}	}
 
-		if ( acs->handleType == HANDLE_CONTACT && acs->handle )
-			if ( acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0 ))
+		if (acs->handleType == HANDLE_CONTACT && acs->handle)
+			if (acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0))
 				acs->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)acs->handle, 0);
 		
 		{
 			int groupId;
-			for ( groupId = 0; groupId < 999; groupId++ ) {
+			for (groupId = 0; groupId < 999; groupId++) {
 				DBVARIANT dbv;
 				char idstr[4];
 				int id;
@@ -201,25 +201,25 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			}
 			// fall through
 		case IDCANCEL:
-			if ( GetParent( hdlg ) == NULL)
-				DestroyWindow( hdlg );
+			if (GetParent(hdlg) == NULL)
+				DestroyWindow(hdlg);
 			else
-				EndDialog( hdlg, 0 );
+				EndDialog(hdlg, 0);
 			break;
 		}
 		break;
 
 	case WM_CLOSE:
 		/* if there is no parent for the dialog, its a modeless dialog and can't be killed using EndDialog() */
-		if ( GetParent( hdlg ) == NULL )
+		if (GetParent(hdlg) == NULL)
 			DestroyWindow(hdlg);
 		else
-			EndDialog( hdlg, 0 );
+			EndDialog(hdlg, 0);
 		break;
 
 	case WM_DESTROY:
 		Window_FreeIcon_IcoLib(hdlg);
-		acs = ( ADDCONTACTSTRUCT* )GetWindowLongPtr(hdlg, GWLP_USERDATA);
+		acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 		if (acs) {
 			if (acs->psr) {
 				mir_free(acs->psr->nick);
@@ -239,9 +239,9 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam) {
-		ADDCONTACTSTRUCT* acs = ( ADDCONTACTSTRUCT* )mir_alloc(sizeof(ADDCONTACTSTRUCT));
-		memmove( acs, ( ADDCONTACTSTRUCT* )lParam, sizeof( ADDCONTACTSTRUCT ));
-		if ( acs->psr ) {
+		ADDCONTACTSTRUCT* acs = (ADDCONTACTSTRUCT*)mir_alloc(sizeof(ADDCONTACTSTRUCT));
+		memmove(acs, (ADDCONTACTSTRUCT*)lParam, sizeof(ADDCONTACTSTRUCT));
+		if (acs->psr) {
 			PROTOSEARCHRESULT *psr;
 			/* bad! structures that are bigger than psr will cause crashes if they define pointers within unreachable structural space */
 			psr = (PROTOSEARCHRESULT *)mir_alloc(acs->psr->cbSize);
@@ -255,7 +255,7 @@ INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
 			/* copied the passed acs structure, the psr structure with, the pointers within that  */
 		}
 
-		if ( wParam )
+		if (wParam)
 			DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
 		else
 			CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);

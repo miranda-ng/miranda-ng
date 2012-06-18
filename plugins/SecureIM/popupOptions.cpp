@@ -231,7 +231,7 @@ int onRegisterPopOptions(WPARAM wParam, LPARAM) {
 	odp.pszTitle = (char*)szModuleName;
 	odp.pszGroup = Translate("Popups");
 	odp.pfnDlgProc = PopOptionsDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

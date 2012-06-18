@@ -593,19 +593,19 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTitle = LPGEN("Message Sessions");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
 	odp.pszTab = LPGEN("Messaging Log");
 	odp.pfnDlgProc = DlgProcLogOptions;
 	odp.nIDBottomSimpleControl = IDC_STMSGLOGGROUP;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
 	odp.pszTab = LPGEN("Typing Notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) & odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

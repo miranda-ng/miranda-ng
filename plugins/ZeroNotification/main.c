@@ -234,7 +234,7 @@ static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 	odp.pszGroup = Translate("Plugins");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcNoSoundOpts;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM) &odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

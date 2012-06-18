@@ -23,17 +23,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* a simple sorted list implementation */
 
-SortedList* List_Create( int, int );
-void List_Destroy( SortedList* );
+SortedList* List_Create(int, int);
+void List_Destroy(SortedList*);
 
-void*	List_Find( SortedList*, void* );
-int	List_GetIndex( SortedList*, void*, int* );
-int   List_Insert( SortedList*, void*, int );
-int   List_Remove( SortedList*, int );
-int   List_IndexOf( SortedList*, void* );
+void*	List_Find(SortedList*, void*);
+int	List_GetIndex(SortedList*, void*, int*);
+int   List_Insert(SortedList*, void*, int);
+int   List_Remove(SortedList*, int);
+int   List_IndexOf(SortedList*, void*);
 
-int   List_InsertPtr( SortedList* list, void* p );
-int   List_RemovePtr( SortedList* list, void* p );
+int   List_InsertPtr(SortedList* list, void* p);
+int   List_RemovePtr(SortedList* list, void* p);
 
-void  List_Copy( SortedList*, SortedList*, size_t );
-void  List_ObjCopy( SortedList*, SortedList*, size_t );
+void  List_Copy(SortedList*, SortedList*, size_t);
+void  List_ObjCopy(SortedList*, SortedList*, size_t);

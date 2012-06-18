@@ -162,7 +162,7 @@ typedef struct {
 
 #define CLM_ADDINFOITEMA    (CLM_FIRST+48)   //lParam=&cii, returns hItem
 #define CLM_ADDINFOITEMW    (CLM_FIRST+53)   //lParam=&cii, returns hItem
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define CLM_ADDINFOITEM CLM_ADDINFOITEMW
 #else
 	#define CLM_ADDINFOITEM CLM_ADDINFOITEMA

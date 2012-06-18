@@ -1527,28 +1527,28 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_COMMON);
 	odp.pfnDlgProc = DlgProc_CommonOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	// Advanced page
 	odp.pszTab = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgProc_AdvancedOpts;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	// Details Dialog page
 	odp.pszTab = LPGEN("Details Dialog");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DETAILSDLG);
 	odp.pfnDlgProc = DlgProc_DetailsDlgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	// Reminder page
 	odp.pszTab = LPGEN("Reminder");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_REMINDER);
 	odp.pfnDlgProc = DlgProc_ReminderOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) 
@@ -1558,7 +1558,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
 		odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 	return MIR_OK;
 }

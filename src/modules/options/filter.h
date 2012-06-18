@@ -28,18 +28,17 @@ extern HANDLE hOptionsInitialize;
 
 int HookFilterEvents();
 int UnhookFilterEvents();
-int OnOptionsInitialise(WPARAM wParam, LPARAM lParam);
 
 typedef DWORD PageHash;
 
 void	AddFilterString(const PageHash key, const TCHAR *data);
 BOOL	ContainsFilterString(const PageHash key, TCHAR *data);
 void	ClearFilterStrings();
-void	GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd,  TCHAR * group, TCHAR * title, TCHAR * tab, TCHAR * name );
+void	GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *pluginName, HWND hWnd,  TCHAR * group, TCHAR * title, TCHAR * tab, TCHAR * name);
 
-_inline TCHAR * _tcslwr_locale( TCHAR * buf )
+_inline TCHAR * _tcslwr_locale(TCHAR * buf)
 {
-	LCMapString( LangPackGetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)_tcslen( buf ), buf, (int)_tcslen( buf ) );
+	LCMapString(LangPackGetDefaultLocale() , LCMAP_LOWERCASE, buf, (int)_tcslen(buf), buf, (int)_tcslen(buf));
 	return buf;
 }
 
@@ -48,37 +47,37 @@ class CPageKeywords
 {
 	PageHash	_pageHashKey;
 	KeywordList _pageKeyWords;
-	static int _KeyWordsSortFunc( const TCHAR* p1, const TCHAR* p2 )	{ return _tcscmp( p1, p2 ); };
+	static int _KeyWordsSortFunc(const TCHAR* p1, const TCHAR* p2)	{ return _tcscmp(p1, p2); };
 
 public:
-    CPageKeywords( PageHash pageHashKey ) : _pageHashKey( pageHashKey ), _pageKeyWords( 1, _KeyWordsSortFunc ) {};
+    CPageKeywords(PageHash pageHashKey) : _pageHashKey(pageHashKey), _pageKeyWords(1, _KeyWordsSortFunc) {};
 	~CPageKeywords()
 	{
-		for ( int j = 0; j < _pageKeyWords.getCount(); j++ )
+		for (int j = 0; j < _pageKeyWords.getCount(); j++)
 		{
 			TCHAR * data = _pageKeyWords[j];
-			mir_free( data );
+			mir_free(data);
 		}
 		_pageKeyWords.destroy();
 	};
 
-	void AddKeyWord( TCHAR * ptKeyWord )
+	void AddKeyWord(TCHAR * ptKeyWord)
 	{
-		TCHAR * plwrWord = _tcslwr_locale( mir_tstrdup( ptKeyWord ) );
-		if ( _pageKeyWords.getIndex( plwrWord ) == -1 )
-			_pageKeyWords.insert( plwrWord );
+		TCHAR * plwrWord = _tcslwr_locale(mir_tstrdup(ptKeyWord));
+		if (_pageKeyWords.getIndex(plwrWord) == -1)
+			_pageKeyWords.insert(plwrWord);
 		else
-			mir_free( plwrWord );
+			mir_free(plwrWord);
 	};
 
-	BOOL ContainsString( TCHAR * data )
+	BOOL ContainsString(TCHAR * data)
 	{
-		for ( int i = 0; i < _pageKeyWords.getCount(); i++)
+		for (int i = 0; i < _pageKeyWords.getCount(); i++)
 			if (_tcsstr(_pageKeyWords[i], data)) 
 				return TRUE;
 		return FALSE;
 	}
-	static int PageSortFunc( const CPageKeywords* p1, const CPageKeywords* p2 )
+	static int PageSortFunc(const CPageKeywords* p1, const CPageKeywords* p2)
 	{ 	
 		if (p1->_pageHashKey < p2->_pageHashKey) { return -1; }
 		else if (p1->_pageHashKey > p2->_pageHashKey) { return 1; }
@@ -90,11 +89,11 @@ class CPageList : public OBJLIST<CPageKeywords>
 {
 	CPageList();
 public:
-	CPageList(	int aincr, FTSortFunc afunc = CPageKeywords::PageSortFunc ) : OBJLIST<CPageKeywords>( aincr, afunc ) {};
-	CPageKeywords	* operator[]( PageHash key )
+	CPageList(	int aincr, FTSortFunc afunc = CPageKeywords::PageSortFunc) : OBJLIST<CPageKeywords>(aincr, afunc) {};
+	CPageKeywords	* operator[](PageHash key)
 	{
-		CPageKeywords keyToSearch( key );
-		return this->find( &keyToSearch );
+		CPageKeywords keyToSearch(key);
+		return this->find(&keyToSearch);
 	}
 	~CPageList() {};
 };

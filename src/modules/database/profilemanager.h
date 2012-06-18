@@ -31,7 +31,7 @@ typedef struct {
 
 int InitUtils(void);
 
-char* makeFileName( const TCHAR* tszOriginalName );
+char* makeFileName(const TCHAR* tszOriginalName);
 int makeDatabase(TCHAR * profile, DATABASELINK * link, HWND hwndDlg);
 int getProfileManager(PROFILEMANAGERDATA * pd);
 int getProfilePath(TCHAR * buf, size_t cch);

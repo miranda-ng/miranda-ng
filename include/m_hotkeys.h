@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define HKD_UNICODE 0x0001
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define HKD_TCHAR  HKD_UNICODE
 #else
 	#define HKD_TCHAR  0

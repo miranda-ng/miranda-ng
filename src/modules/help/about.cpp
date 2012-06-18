@@ -57,9 +57,9 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			mir_sntprintf(str, SIZEOF(str), _T(STR_VERSION_FORMAT), TranslateT("v"), productVersion, isAnsi?" ANSI":"");
             {
                 TCHAR oldTitle[256], newTitle[256];
-				GetDlgItemText( hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF( oldTitle ));
-				mir_sntprintf( newTitle, SIZEOF(newTitle), oldTitle, str );
-				SetDlgItemText( hwndDlg, IDC_HEADERBAR, newTitle );
+				GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
+				mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, str);
+				SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
 			}
             
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Built %s %s"), _T(__DATE__), _T(__TIME__));
@@ -92,7 +92,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 
 	case WM_COMMAND:
-		switch( LOWORD( wParam )) {
+		switch(LOWORD(wParam)) {
 		case IDOK:
 		case IDCANCEL:
 			DestroyWindow(hwndDlg);
@@ -118,7 +118,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_CTLCOLOREDIT:
 	case WM_CTLCOLORSTATIC:
-		switch ( GetWindowLongPtr(( HWND )lParam, GWL_ID )) {
+		switch (GetWindowLongPtr((HWND)lParam, GWL_ID)) {
 		case IDC_WHITERECT:
 		case IDC_BUILDTIME:
 		case IDC_CREDITSFILE:
@@ -132,7 +132,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		return (INT_PTR)GetSysColorBrush(COLOR_WINDOW);
 
 	case WM_DESTROY:
-		Window_FreeIcon_IcoLib( hwndDlg );
+		Window_FreeIcon_IcoLib(hwndDlg);
 		{	
 			HFONT hFont=(HFONT)SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);

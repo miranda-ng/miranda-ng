@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct PLUGIN_DB_ENUM {
 	int cbSize;
 	// 0 = continue, 1 = found, -1 = stop now
-	int (*pfnEnumCallback) ( const char * pluginname, /*DATABASELINK*/ void * link, LPARAM lParam);
+	int (*pfnEnumCallback) (const char * pluginname, /*DATABASELINK*/ void * link, LPARAM lParam);
 	LPARAM lParam;
 } PLUGIN_DB_ENUM;
 #define MS_PLUGINS_ENUMDBPLUGINS "Plugins/DbEnumerate"

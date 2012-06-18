@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_OPTIONS_H__
 #define M_OPTIONS_H__
 
+extern int hLangpack;
+
 /* Opt/Initialise
 The user opened the options dialog. Modules should do whatever initialisation
 they need and call opt/addpage one or more times if they want pages displayed
@@ -77,17 +79,14 @@ typedef struct {
 	int nExpertOnlyControls;    //v0.1.2.1+  these controls will be hidden in simple mode. Array must remain valid for duration of dlg.
 
 	union {
-			char* pszTab;		 //v0.6.0.0+ [TRANSLATED-BY-CORE]
-			TCHAR* ptszTab;		 //v0.6.0.0+
-		};
+		char* pszTab;		 //v0.6.0.0+ [TRANSLATED-BY-CORE]
+		TCHAR* ptszTab;		 //v0.6.0.0+
+	};
 
 	LPARAM dwInitParam;	 //v0.8.0.0+  a value to pass to lParam of WM_INITDIALOG message
+	int hLangpack;
 }
 	OPTIONSDIALOGPAGE;
-
-#define OPTIONPAGE_OLD_SIZE  (offsetof(OPTIONSDIALOGPAGE, flags))
-#define OPTIONPAGE_OLD_SIZE2 (offsetof(OPTIONSDIALOGPAGE, pszTab))
-#define OPTIONPAGE_OLD_SIZE3 (offsetof(OPTIONSDIALOGPAGE, dwInitParam))
 
 #define ODPF_SIMPLEONLY     1   // page is only shown when in simple mode
 #define ODPF_EXPERTONLY     2   //         "                  expert mode
@@ -96,7 +95,7 @@ typedef struct {
 #define ODPF_USERINFOTAB    16  // options page is tabbed
 #define ODPF_DONTTRANSLATE  32  // do not translate option page title
 
-#if defined( _UNICODE )
+#if defined(_UNICODE)
 	#define ODPF_TCHAR     ODPF_UNICODE
 #else
 	#define ODPF_TCHAR     0
@@ -105,7 +104,11 @@ typedef struct {
 #define PSN_EXPERTCHANGED 2    //sent to pages via WM_NOTIFY when the expert checkbox is clicked. lParam=new state
 #define PSM_ISEXPERT      (WM_USER+101)   //returns true/false
 #define PSM_GETBOLDFONT   (WM_USER+102)   //returns HFONT used for group box titles
-#define MS_OPT_ADDPAGE      "Opt/AddPage"
+
+__inline static INT_PTR Options_AddPage(WPARAM wParam, OPTIONSDIALOGPAGE* odp)
+{	odp->hLangpack = hLangpack;
+	return CallService("Opt/AddPage", wParam, (LPARAM)odp);
+}
 
 //Opens the options dialog, optionally at the specified page    v0.1.2.1+
 //wParam=0
@@ -120,7 +123,9 @@ typedef struct {
 	                         //specific page
 	const char *pszTab;		 //set to NULL to just open the options at no
 	                         //specific tab
-} OPENOPTIONSDIALOG;
+}
+	OPENOPTIONSDIALOG;
+
 #define MS_OPT_OPENOPTIONS  "Opt/OpenOptions"
 
 //Opens the options dialog, with only specified page    v0.8.0.x+

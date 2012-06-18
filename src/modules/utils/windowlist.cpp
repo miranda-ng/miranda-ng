@@ -92,7 +92,7 @@ int InitWindowList(void)
 
 void FreeWindowList(void)
 {
-	if ( windowList ) {
+	if (windowList) {
 		mir_free(windowList);
 		windowList = NULL;
 	}

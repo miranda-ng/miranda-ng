@@ -158,6 +158,6 @@ INT OptInit(WPARAM wParam,LPARAM lParam)
 	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.nIDBottomSimpleControl=0;
 	odp.pfnDlgProc=DlgProcOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 	return 0;
 }

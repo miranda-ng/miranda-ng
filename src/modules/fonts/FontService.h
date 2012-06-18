@@ -109,4 +109,4 @@ extern OBJLIST<TEffectID> effect_id_list;
 extern int code_page;
 extern HANDLE hFontReloadEvent, hColourReloadEvent;
 
-int  CreateFromFontSettings(TFontSettings *fs, LOGFONT *lf );
+int  CreateFromFontSettings(TFontSettings *fs, LOGFONT *lf);

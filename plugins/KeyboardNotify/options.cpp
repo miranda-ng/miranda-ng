@@ -176,7 +176,7 @@ int InitializeOptions(WPARAM wParam,LPARAM lParam)
 	odp.flags=ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.nIDBottomSimpleControl = 0;
-	CallService(MS_OPT_ADDPAGE,wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

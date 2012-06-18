@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int code_page = CP_ACP;
 HANDLE hFontReloadEvent, hColourReloadEvent;
 
-int OptInit( WPARAM, LPARAM );
+int OptInit(WPARAM, LPARAM);
 int FontsModernOptInit(WPARAM wParam, LPARAM lParam);
 
 INT_PTR RegisterFont(WPARAM wParam, LPARAM lParam);
@@ -67,7 +67,7 @@ static int OnPreShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
-int LoadFontserviceModule( void )
+int LoadFontserviceModule(void)
 {
 	code_page = LangPackGetDefaultCodePage();
 
@@ -103,19 +103,19 @@ int LoadFontserviceModule( void )
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
 	strncpy(fontid.prefix, "Header", SIZEOF(fontid.prefix));
 	fontid.order = 0;
-	FontRegisterT( &fontid );
+	FontRegisterT(&fontid);
 
 	_tcsncpy(fontid.name, _T("Generic text"), SIZEOF(fontid.name));
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
 	strncpy(fontid.prefix, "Generic", SIZEOF(fontid.prefix));
 	fontid.order = 0;
-	FontRegisterT( &fontid );
+	FontRegisterT(&fontid);
 
 	_tcsncpy(fontid.name, _T("Small text"), SIZEOF(fontid.name));
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
 	strncpy(fontid.prefix, "Small", SIZEOF(fontid.prefix));
 	fontid.order = 0;
-	FontRegisterT( &fontid );
+	FontRegisterT(&fontid);
 
 	// do last for silly dyna plugin
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

@@ -306,7 +306,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -1900000000;
 	odp.ptszTitle = m_tszUserName;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
-	CallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+	UserInfo_AddPage(wParam, &odp);
 
 	if (!lParam)
 	{
@@ -317,7 +317,7 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 		odp.position = -1899999999;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CHANGEINFO);
 		odp.pfnDlgProc = ChangeInfoDlgProc;
-		CallService( MS_USERINFO_ADDPAGE, wParam, ( LPARAM )&odp );
+		UserInfo_AddPage(wParam, &odp);
 	}
 	return 0;
 }

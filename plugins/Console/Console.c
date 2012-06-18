@@ -1196,7 +1196,7 @@ static int OptInit(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = OptDlgProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.expertOnlyControls = NULL;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

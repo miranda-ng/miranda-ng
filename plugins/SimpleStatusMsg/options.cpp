@@ -1722,7 +1722,7 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_STATUS);
 		odp.pfnDlgProc = DlgStatusOptionsProc;
 		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-		CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	if (accounts->statusMsgCount == 0)
@@ -1735,18 +1735,18 @@ int InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("General");
 	odp.pfnDlgProc = DlgOptionsProc;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Variables");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VARIABLES);
 	odp.pfnDlgProc = DlgVariablesOptionsProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgAdvancedOptionsProc;
 	odp.flags |= ODPF_EXPERTONLY;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

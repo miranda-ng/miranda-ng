@@ -130,32 +130,32 @@ int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab = LPGENT("Group list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GROUPLIST);
 	odp.pfnDlgProc = Options::DlgProcOptsGroupList;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MESSAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsMessages;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Searching");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SEARCHING);
 	odp.pfnDlgProc = Options::DlgProcOptsSearching;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Export");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXPORT);
 	odp.pfnDlgProc = Options::DlgProcOptsExport;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Scheduler");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SCHEDULER);
 	odp.pfnDlgProc = Options::DlgProcOptsScheduler;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

@@ -20,27 +20,27 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTab="Account";
 	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);
 	odp.pfnDlgProc=DlgProcOptsAccount;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.pszTab="Connections";
 	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
 	odp.pfnDlgProc=DlgProcOptsConnections;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.pszTab="Anti spam";
 	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_ANTISPAM);
 	odp.pfnDlgProc=MraAntiSpamDlgProcOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.pszTab="Files";
 	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_FILES);
 	odp.pfnDlgProc=MraFilesQueueDlgProcOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	odp.pszTab="Avatars";
 	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_AVATRS);
 	odp.pfnDlgProc=MraAvatarsQueueDlgProcOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam,&odp);
 
 	MraPopupOptInit(wParam,lParam);
 return(0);

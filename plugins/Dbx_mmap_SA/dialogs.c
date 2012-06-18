@@ -59,7 +59,7 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle				= TranslateT("Database Features");
 	odp.ptszGroup				= TranslateT("Services");
 	odp.pfnDlgProc					= DlgProcOptions;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

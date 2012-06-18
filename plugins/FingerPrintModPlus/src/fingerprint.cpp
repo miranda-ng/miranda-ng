@@ -949,7 +949,7 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = LPGENT("Fingerprint");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

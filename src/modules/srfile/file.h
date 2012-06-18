@@ -110,6 +110,6 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu);
 void FtMgr_Destroy();
 HWND FtMgr_AddTransfer(struct FileDlgData *dat);
 
-void FreeFileDlgData( FileDlgData* dat );
+void FreeFileDlgData(FileDlgData* dat);
 
 TCHAR *GetContactID(HANDLE hContact);

@@ -78,7 +78,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.nIDBottomSimpleControl = IDC_SPELL_CHECKER;
 	odp.expertOnlyControls = optionsExpertControls;
 	odp.nExpertOnlyControls = MAX_REGS(optionsExpertControls);
-    CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+    Options_AddPage(wParam,&odp);
 
 	ZeroMemory(&odp,sizeof(odp));
     odp.cbSize=sizeof(odp);
@@ -89,7 +89,7 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = AutoreplaceDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_REPLACEMENTS);
     odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-    CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+    Options_AddPage(wParam,&odp);
 
 	return 0;
 }

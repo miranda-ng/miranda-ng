@@ -147,7 +147,7 @@ static void md5_process(mir_md5_state_t *pms, const mir_md5_byte_t *data /*[64]*
 			* On little-endian machines, we can process properly aligned
 			* data without copying it.
 			*/
-			if (!((data - (const mir_md5_byte_t *)0) & 3)) {
+			if ( !((data - (const mir_md5_byte_t *)0) & 3)) {
 				/* data are properly aligned */
 				X = (const mir_md5_word_t *)data;
 			} else {
@@ -361,9 +361,9 @@ void md5_hash_string(const mir_md5_byte_t *data, int len, mir_md5_byte_t digest[
 INT_PTR GetMD5Interface(WPARAM, LPARAM lParam)
 {
 	struct MD5_INTERFACE *md5i = (struct MD5_INTERFACE*) lParam;
-	if ( md5i == NULL )
+	if (md5i == NULL)
 		return 1;
-	if ( md5i->cbSize != sizeof( struct MD5_INTERFACE ))
+	if (md5i->cbSize != sizeof(struct MD5_INTERFACE))
 		return 1;
 
 	md5i->md5_init = md5_init;

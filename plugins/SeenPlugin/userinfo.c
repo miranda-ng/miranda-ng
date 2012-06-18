@@ -89,7 +89,7 @@ int UserinfoInit(WPARAM wparam,LPARAM lparam)
 		uip.pszTemplate=MAKEINTRESOURCE(IDD_USERINFO);
 		uip.pszTitle="Last seen";
 		uip.pfnDlgProc=UserinfoDlgProc;
-		CallService(MS_USERINFO_ADDPAGE,wparam,(LPARAM)&uip);
+		UserInfo_AddPage(wparam, &uip);
 	}
 	return 0;
 }

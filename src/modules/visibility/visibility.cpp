@@ -37,7 +37,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	while (hItem) {
 		hChildItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hChildItem) SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
-		for ( i=0; i < SIZEOF(iconOn); i++)
+		for (i=0; i < SIZEOF(iconOn); i++)
 			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i]=0;
 		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
@@ -45,7 +45,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 	if (typeOfFirst == CLCIT_CONTACT) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
-		for ( i=0; i < SIZEOF(iconOn); i++) {
+		for (i=0; i < SIZEOF(iconOn); i++) {
 			iImage=SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i]=0;
 			if (iImage != 0xFF) childCount[i]++;
@@ -53,7 +53,7 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		hItem=(HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
-	for ( i=0; i < SIZEOF(iconOn); i++) {
+	for (i=0; i < SIZEOF(iconOn); i++) {
 		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+1:0):0xFF));
 		if (groupChildCount) groupChildCount[i]+=childCount[i];
 	}
@@ -194,7 +194,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 							// Nothing was clicked
 							if (hItem == NULL) break; 
 							// It was not a visbility icon
-							if (!(hitFlags & CLCHT_ONITEMEXTRA)) break;
+							if ( !(hitFlags & CLCHT_ONITEMEXTRA)) break;
 
 							// Get image in clicked column (0=none, 1=visible, 2=invisible)
 							iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
@@ -255,7 +255,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 											break;
 										}
 									}
-									if (!set) CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
+									if ( !set) CallContactService(hContact, PSS_SETAPPARENTMODE, 0, 0);
 								}
 							} while (hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0));
 							return TRUE;
@@ -286,7 +286,7 @@ static int VisibilityOptInitialise(WPARAM wParam, LPARAM)
 	odp.pszGroup = LPGEN("Status");
 	odp.pfnDlgProc = DlgProcVisibilityOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	CallService( MS_OPT_ADDPAGE, wParam, ( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

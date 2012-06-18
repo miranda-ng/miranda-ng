@@ -980,7 +980,7 @@ static int AssocListOptInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = _T("Associations"); /* autotranslated */
 	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
 	odp.pfnDlgProc = AssocListOptDlgProc;
-	CallService(MS_OPT_ADDPAGE, wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

@@ -174,7 +174,7 @@ should use the MSG_DUMPPROXY flag so that the logging is neat.
 //Gets the user-configured settings for a netlib user
 //wParam=(WPARAM)(HANDLE)hUser
 //lParam=(LPARAM)(NETLIBUSERSETTINGS*)&nlus
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //The pointers referred to in the returned struct will remain valid until
 //the hUser handle is closed, or until the user changes the settings in the
 //options page, so it's best not to rely on them for too long.
@@ -207,7 +207,7 @@ typedef struct {
 //Changes the user-configurable settings for a netlib user
 //wParam=(WPARAM)(HANDLE)hUser
 //lParam=(LPARAM)(NETLIBUSERSETTINGS*)&nlus
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function is only really useful for people that specify NUF_NOOPTIONS
 //and want to create their own options.
 //Even if a setting is not active (eg szProxyAuthPassword when useProxyAuth is
@@ -218,7 +218,7 @@ typedef struct {
 //Closes a netlib handle
 //wParam=(WPARAM)(HANDLE)hNetlibHandle
 //lParam=0
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function should be called on all handles returned by netlib functions
 //once you are done with them. If it's called on a socket-type handle, the
 //socket will be closed.
@@ -351,7 +351,7 @@ struct NETLIBOPENCONNECTION_tag {
 //Sets the required information for an HTTP proxy connection
 //wParam=(WPARAM)(HANDLE)hConnection
 //lParam=(LPARAM)(NETLIBHTTPPROXYINFO*)&nlhpi
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This function is designed to be called from within pfnHttpGatewayInit
 //See notes below MS_NETLIB_REGISTERUSER.
 //Errors: ERROR_INVALID_PARAMETER
@@ -392,7 +392,7 @@ typedef struct {
 //Base64 decode a string. See rfc1421.
 //wParam=0
 //lParam=(LPARAM)(NETLIBBASE64*)&nlb64
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //nlb64.pszEncoded and nlb64.cchEncoded contain the input string and its length
 //(excluding terminating zero).
 //nlb64.pbDecoded and nlb64.cbDecoded contain the buffer in which to put the
@@ -412,7 +412,7 @@ typedef struct {
 //Base64 encode a string. See rfc1421.
 //wParam=0
 //lParam=(LPARAM)(NETLIBBASE64*)&nlb64
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //nlb64.pbDecoded and nlb64.cbDecoded contain the input buffer and its length
 //nlb64.pszEncoded and nlb64.cchEncoded contain the buffer in which to put the
 //output and the length of this buffer. The maximum output size for a given
@@ -546,7 +546,7 @@ struct NETLIBHTTPREQUEST_tag {
 //Free the memory used by a NETLIBHTTPREQUEST structure
 //wParam=0
 //lParam=(LPARAM)(NETLIBHTTPREQUEST*)pnlhr
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //This should only be called on structures returned by
 //MS_NETLIB_RECVHTTPHEADERS or MS_NETLIB_HTTPTRANSACTION. Calling it on an
 //arbitrary structure will have disastrous results.
@@ -721,7 +721,7 @@ typedef struct {
 //Add a message to the log (if it's running)
 //wParam=(WPARAM)(HANDLE)hUser
 //lParam=(LPARAM)(const char *)szMessage
-//Returns nonzero on success, 0 on failure	(!! this is different to most of the rest of Miranda, but consistent with netlib)
+//Returns nonzero on success, 0 on failure	( !! this is different to most of the rest of Miranda, but consistent with netlib)
 //Do not include a final line ending in szMessage.
 //Errors: ERROR_INVALID_PARAMETER
 #define MS_NETLIB_LOG       "Netlib/Log"
@@ -751,7 +751,7 @@ typedef struct
 //here's a handy piece of code to let you log using printf-style specifiers:
 //#include <stdarg.h> and <stdio.h> before including this header in order to
 //use it.
-#if defined va_start && (defined _STDIO_DEFINED || defined _STDIO_H_) && (!defined NETLIB_NOLOGGING)
+#if defined va_start && (defined _STDIO_DEFINED || defined _STDIO_H_) && ( !defined NETLIB_NOLOGGING)
 static INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 {
 	va_list va;
@@ -807,9 +807,9 @@ static INT_PTR Netlib_Logf(HANDLE hUser, const char *fmt, ...)
 // Known providers: Basic, NTLM, Negotiate, Kerberos, GSSAPI - (Kerberos SASL)
 #define MS_NETLIB_INITSECURITYPROVIDER "Netlib/InitSecurityProvider"
 
-static __inline HANDLE Netlib_InitSecurityProvider( char* szProviderName )
+static __inline HANDLE Netlib_InitSecurityProvider(char* szProviderName)
 {
-	return (HANDLE)CallService( MS_NETLIB_INITSECURITYPROVIDER, 0, (LPARAM)szProviderName );
+	return (HANDLE)CallService(MS_NETLIB_INITSECURITYPROVIDER, 0, (LPARAM)szProviderName);
 }
 
 typedef struct {
@@ -822,10 +822,10 @@ typedef struct {
 
 #define MS_NETLIB_INITSECURITYPROVIDER2 "Netlib/InitSecurityProvider2"
 
-static __inline HANDLE Netlib_InitSecurityProvider2( const TCHAR* szProviderName, const TCHAR* szPrincipal )
+static __inline HANDLE Netlib_InitSecurityProvider2(const TCHAR* szProviderName, const TCHAR* szPrincipal)
 {
 	NETLIBNTLMINIT2 temp = { sizeof(temp), szProviderName, szPrincipal, NNR_TCHAR };
-	return (HANDLE)CallService( MS_NETLIB_INITSECURITYPROVIDER2, 0, (LPARAM)&temp );
+	return (HANDLE)CallService(MS_NETLIB_INITSECURITYPROVIDER2, 0, (LPARAM)&temp);
 }
 
 
@@ -833,9 +833,9 @@ static __inline HANDLE Netlib_InitSecurityProvider2( const TCHAR* szProviderName
 // Right now only NTLM is supported
 #define MS_NETLIB_DESTROYSECURITYPROVIDER "Netlib/DestroySecurityProvider"
 
-static __inline void Netlib_DestroySecurityProvider( char* szProviderName, HANDLE hProvider )
+static __inline void Netlib_DestroySecurityProvider(char* szProviderName, HANDLE hProvider)
 {
-	CallService( MS_NETLIB_DESTROYSECURITYPROVIDER, (WPARAM)szProviderName, (LPARAM)hProvider );
+	CallService(MS_NETLIB_DESTROYSECURITYPROVIDER, (WPARAM)szProviderName, (LPARAM)hProvider);
 }
 
 // Returns the NTLM response string. The result value should be freed using mir_free
@@ -849,10 +849,10 @@ typedef struct {
 
 #define MS_NETLIB_NTLMCREATERESPONSE "Netlib/NtlmCreateResponse"
 
-static __inline char* Netlib_NtlmCreateResponse( HANDLE hProvider, char* szChallenge, char* login, char* psw )
+static __inline char* Netlib_NtlmCreateResponse(HANDLE hProvider, char* szChallenge, char* login, char* psw)
 {
 	NETLIBNTLMREQUEST temp = { szChallenge, login, psw };
-	return (char*)CallService( MS_NETLIB_NTLMCREATERESPONSE, (WPARAM)hProvider, (LPARAM)&temp );
+	return (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE, (WPARAM)hProvider, (LPARAM)&temp);
 }
 
 typedef struct {
@@ -867,10 +867,10 @@ typedef struct {
 
 #define MS_NETLIB_NTLMCREATERESPONSE2 "Netlib/NtlmCreateResponse2"
 
-static __inline char* Netlib_NtlmCreateResponse2( HANDLE hProvider, char* szChallenge, TCHAR* szLogin, TCHAR* szPass, unsigned *complete )
+static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChallenge, TCHAR* szLogin, TCHAR* szPass, unsigned *complete)
 {
 	NETLIBNTLMREQUEST2 temp = { sizeof(temp), szChallenge, szLogin, szPass, *complete, NNR_TCHAR };
-	char* res = (char*)CallService( MS_NETLIB_NTLMCREATERESPONSE2, (WPARAM)hProvider, (LPARAM)&temp );
+	char* res = (char*)CallService(MS_NETLIB_NTLMCREATERESPONSE2, (WPARAM)hProvider, (LPARAM)&temp);
 	*complete = temp.complete;
 	return res;
 }
