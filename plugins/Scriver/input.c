@@ -39,7 +39,7 @@ void InputAreaContextMenu(HWND hwnd, WPARAM wParam, LPARAM lParam, HANDLE hConta
 
 	hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	hSubMenu = GetSubMenu(hMenu, 2);
-	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+	TranslateMenu(hSubMenu);
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
 	if (sel.cpMin == sel.cpMax) {
 		EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
@@ -409,7 +409,7 @@ BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *
 		bOpenLink = FALSE;
 		hMenu = LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXT));
 		hSubMenu = GetSubMenu(hMenu, 1);
-		CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+		TranslateMenu(hSubMenu);
 		pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 		pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 		ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);

@@ -607,7 +607,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			HMENU hSubMenu;
 
 			hSubMenu = GetSubMenu(g_hMenu, 4);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+			TranslateMenu(hSubMenu);
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
 
 			EnableMenuItem(hSubMenu, ID_MESSAGE_UNDO, SendMessage(hwnd, EM_CANUNDO, 0,0)?MF_ENABLED:MF_GRAYED);
@@ -2174,7 +2174,7 @@ LABEL_SHOWWINDOW:
 
 							ClientToScreen(GetDlgItem(hwndDlg, IDC_TAB), &tci.pt);
 							hSubMenu = GetSubMenu(g_hMenu, 5);
-							CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+							TranslateMenu(hSubMenu);
 							if (s) {
 								WORD w = DBGetContactSettingWord(s->hContact, s->pszModule, "TabPosition", 0);
 								if ( w == 0)
@@ -2352,7 +2352,7 @@ LABEL_SHOWWINDOW:
 								POINT pt;
 
 								hSubMenu = GetSubMenu(g_hMenu, 2);
-								CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+								TranslateMenu(hSubMenu);
 								pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 								pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 								ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);

@@ -341,7 +341,7 @@ static LRESULT CALLBACK LogEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			CHARRANGE sel, all = { 0, -1 };
 			hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 			hSubMenu = GetSubMenu(hMenu, 0);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+			TranslateMenu(hSubMenu);
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
 			if (sel.cpMin == sel.cpMax)
 				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -1036,7 +1036,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				mii.dwTypeData = TranslateTS((toolbarButtons[i].name));
 				InsertMenuItem(hToolbarMenu, i, TRUE, &mii);
 			}
-//			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hToolbarMenu, 0);
+//			TranslateMenu(hToolbarMenu);
 			pt.x = (short) LOWORD(GetMessagePos());
 			pt.y = (short) HIWORD(GetMessagePos());
 			i = TrackPopupMenu(hToolbarMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, NULL);

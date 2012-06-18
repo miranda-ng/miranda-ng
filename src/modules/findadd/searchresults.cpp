@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2009 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "findadd.h"
 
 enum {
-	COLUMNID_PROTO, 
-	COLUMNID_HANDLE, 
-	COLUMNID_NICK, 
-	COLUMNID_FIRST, 
-	COLUMNID_LAST, 
-	COLUMNID_EMAIL, 
+	COLUMNID_PROTO,
+	COLUMNID_HANDLE,
+	COLUMNID_NICK,
+	COLUMNID_FIRST,
+	COLUMNID_LAST,
+	COLUMNID_EMAIL,
 	NUM_COLUMNID
 };
 
@@ -73,16 +73,16 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 
 	columnCount = NUM_COLUMNID;
 	colOrdersValid = true;
-	for (i=0; i < NUM_COLUMNID; i++) 
+	for (i=0; i < NUM_COLUMNID; i++)
 	{
 		LVCOLUMN lvc;
-		if ( i < columnCount ) 
+		if ( i < columnCount )
 		{
 			int bNeedsFree = FALSE;
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 			if ( szColumnNames[i] != NULL )
 				lvc.pszText = TranslateTS( szColumnNames[i] );
-			else if ( i == COLUMNID_HANDLE ) 
+			else if ( i == COLUMNID_HANDLE )
 			{
 				if (szProto)
 				{
@@ -96,7 +96,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
 			lvc.cx = DBGetContactSettingWord(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
-			
+
 			if (bNeedsFree)
 					mir_free(lvc.pszText);
 		}
@@ -105,7 +105,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 		if (columnOrder[i] == -1 || columnOrder[i] >= NUM_COLUMNID) colOrdersValid = false;
 	}
 
-	if (colOrdersValid) 
+	if (colOrdersValid)
 		ListView_SetColumnOrderArray(hwndResults, columnCount, columnOrder);
 
 	dat->iLastColumnSortIndex = DBGetContactSettingByte(NULL, "FindAdd", "SortColumn", COLUMNID_NICK);
@@ -159,7 +159,7 @@ int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lPa
 			return lstrcmpi(lsr1->psr.email, lsr2->psr.email)*sortMultiplier;
 		}
 	}
-	else 
+	else
 	{
 		TCHAR szText1[100];
 		TCHAR szText2[100];
@@ -196,8 +196,8 @@ static void BeginSearchFailed(void * arg)
 	TCHAR buf[128];
 	if ( arg != NULL ) {
 		const TCHAR* protoName = (TCHAR*)arg;
-		mir_sntprintf(buf, SIZEOF(buf), 
-            TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"), 
+		mir_sntprintf(buf, SIZEOF(buf),
+            TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
             protoName, protoName);
 		mir_free((char*)arg);
 	}
@@ -267,9 +267,9 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 			lstrcat(str, pa->tszAccountName );
 	}	}
 	else lstrcpy(str, TranslateT("Idle"));
-		
+
 	SendMessage( hwndStatus, SB_SETTEXT, 0, (LPARAM)str );
-}	
+}
 
 struct ProtoResultsSummary {
 	const char *szProto;
@@ -360,7 +360,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 
 	hMenu=LoadMenu(hMirandaInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	hPopupMenu=GetSubMenu(hMenu, 4);
-	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hPopupMenu, 0);
+	TranslateMenu(hPopupMenu);
 	commandId=TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON|TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
 	switch(commandId) {
 		case IDC_ADD:
@@ -389,5 +389,3 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	DestroyMenu(hPopupMenu);
 	DestroyMenu(hMenu);
 }
-
-

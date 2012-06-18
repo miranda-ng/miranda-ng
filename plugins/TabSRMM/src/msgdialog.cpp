@@ -135,7 +135,7 @@ static void ShowPopupMenu(TWindowData *dat, int idFrom, HWND hwndFrom, POINT pt)
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED));
 		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (dat->pContainer->hwndStatus ? MF_ENABLED : MF_GRAYED));
 	}
-	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+	TranslateMenu(hSubMenu);
 	SendMessage(hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
 	if (sel.cpMin == sel.cpMax) {
 		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -2320,7 +2320,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 											hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 											hSubMenu = GetSubMenu(hMenu, 1);
-											CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+											TranslateMenu(hSubMenu);
 											pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 											pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 											ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);

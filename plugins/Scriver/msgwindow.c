@@ -702,7 +702,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 							MessageWindowTabData * mwtd = GetChildFromTab(dat->hwndTabs, tabId);
 							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 							hSubMenu = GetSubMenu(hMenu, 3);
-							CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+							TranslateMenu(hSubMenu);
 							hUserMenu = (HMENU) SendMessage(mwtd->hwnd, DM_GETCONTEXTMENU, 0, 0);
 							if (hUserMenu != NULL) {
 								InsertMenu(hSubMenu, 0, MF_POPUP | MF_BYPOSITION, (UINT_PTR)hUserMenu, TranslateT("User Menu"));

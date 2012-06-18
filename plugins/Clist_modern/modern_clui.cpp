@@ -137,7 +137,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 		else
 		{
 			DBVARIANT dbv={0};
-			if (ModernGetSettingString(hItem, "ContactPhoto", "File", &dbv))
+			if (ModernGetSettingTString(hItem, "ContactPhoto", "File", &dbv))
 			{
 				has_avatar = 0;
 			}
@@ -2264,7 +2264,7 @@ LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)GetMenu(m_hWnd),0);
+	TranslateMenu(GetMenu(m_hWnd));
 	DrawMenuBar(m_hWnd);       
 	CLUIServices_ProtocolStatusChanged(0,0);
 

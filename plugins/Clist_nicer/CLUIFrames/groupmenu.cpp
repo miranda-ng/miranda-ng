@@ -145,7 +145,7 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 	}
 	if (hAppearanceMenuItemProxy==(HANDLE)lParam) {
 		hMenuOldContext = GetSubMenu(LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 3);
-		CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hMenuOldContext, 0);
+		TranslateMenu(hMenuOldContext);
 
 		CheckMenuItem(hMenuOldContext, POPUP_VISIBILITY, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_SHOWVISI ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_FRAME, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? MF_CHECKED : MF_UNCHECKED));

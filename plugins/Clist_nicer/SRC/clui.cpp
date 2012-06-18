@@ -908,7 +908,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			}
 			transparentFocus = 1;
 
-            CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) GetMenu(hwnd), 0);
+			TranslateMenu(GetMenu(hwnd));
 			PostMessage(hwnd, M_CREATECLC, 0, 0);
 			return FALSE;
 		}

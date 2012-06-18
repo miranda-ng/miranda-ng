@@ -1,23 +1,25 @@
-
 #ifndef M_TOPTOOLBAR_H
 #define M_TOPTOOLBAR_H
 
 //button flags
 #define TTBBF_DISABLED         1
-#define TTBBF_VISIBLE          2 
+#define TTBBF_VISIBLE          2
 #define TTBBF_PUSHED           4
 #define TTBBF_SHOWTOOLTIP      8
 #define TTBBF_DRAWBORDER      16
 #define TTBBF_ISSEPARATOR     32
-#define TTBBF_ISLBUTTON			64
-#define TTBBF_ICONBYHANDLE   128 
+#define TTBBF_ISLBUTTON       64
+#define TTBBF_ICONBYHANDLE   128
+#define TTBBF_ISSBUTTON      256
 
 typedef struct {
 	int cbSize;
-	char *pszServiceUp;
-	char *pszServiceDown;
+	char *pszService;
 	DWORD dwFlags;
-	LPARAM lParamUp;
+	union {
+		LPARAM lParamUp;
+		TCHAR *program;
+	};
 	WPARAM wParamUp;
 	LPARAM lParamDown;
 	WPARAM wParamDown;
@@ -30,8 +32,6 @@ typedef struct {
 		HICON hIconDn;
 		HANDLE hIconHandleDn;
 	};
-	char *tooltipUp;
-	char *tooltipDn;
 }
 	TTBButton, * lpTTBButton;
 

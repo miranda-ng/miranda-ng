@@ -168,7 +168,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				hMenu=LoadMenu(hMirandaInst, MAKEINTRESOURCE(IDR_CONTEXT));
 				hSubMenu=GetSubMenu(hMenu, 6);
-				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hSubMenu, 0);
+				TranslateMenu(hSubMenu);
 				GetWindowRect((HWND)lParam, &rc);
 				GetDlgItemTextA(hwndDlg, IDC_URL, url, SIZEOF(url));
 				switch(TrackPopupMenu(hSubMenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, hwndDlg, NULL)) {

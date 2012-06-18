@@ -100,25 +100,33 @@ int JabberHttpGatewayBegin( HANDLE /*hConn*/, NETLIBOPENCONNECTION* /*nloc*/ )
 	return 1;
 }
 
-#if 0
-int icq_httpGatewayWrapSend( HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend )
+int JabberHttpGatewayWrapSend( HANDLE hConn, PBYTE buf, int len, int flags, MIRANDASERVICE pfnNetlibSend )
 {
-	icq_packet packet;
-	int sendResult;
+	TCHAR* strb = mir_utf8decodeW(( char* )buf );
 
-	packet.wLen = len;
-	write_httphdr( &packet, HTTP_PACKETTYPE_FLAP );
-	packString( &packet, buf, ( WORD )len );
-	sendResult = Netlib_Send( hConn, packet.pData, packet.wLen, flags );
-	mir_free( packet.pData );
-	if ( sendResult <= 0 )
-		return sendResult;
-	if ( sendResult < 14 )
-		return 0;
-	return sendResult - 14;
+	TCHAR sid[25] = _T("");
+	unsigned __int64 rid = 0;
+
+	XmlNode hPayLoad( strb ); 
+	XmlNode body( _T("body"));
+	HXML hBody = body << XATTRI64( _T("rid"), rid++ ) << XATTR( _T("sid"), sid ) <<
+		XATTR( _T("xmlns"), _T( "http://jabber.org/protocol/httpbind" ));
+	xmlAddChild( hBody, hPayLoad );
+
+	TCHAR* str = xi.toString( hBody, NULL );
+
+	mir_free( strb );
+	char* utfStr = mir_utf8encodeT( str );
+	NETLIBBUFFER nlb = { utfStr, (int)strlen( utfStr ), flags };
+	int result = pfnNetlibSend(( WPARAM )hConn, ( LPARAM )&nlb);
+	mir_free( utfStr );
+	xi.freeMem( str );
+
+	return result;
 }
 
-PBYTE icq_httpGatewayUnwrapRecv( NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *( *NetlibRealloc )( void *, size_t ))
+#if 0
+PBYTE JabberHttpGatewayUnwrapRecv( NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, int *outBufLen, void *( *NetlibRealloc )( void *, size_t ))
 {
 	WORD wLen, wType;
 	PBYTE tbuf;

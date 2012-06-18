@@ -689,7 +689,7 @@ UINT CreateGCMenu(HWND hwndDlg, HMENU *hMenu, int iIndex, POINT pt, SESSION_INFO
 	HMENU hSubMenu = 0;
 
 	*hMenu = GetSubMenu(g_hMenu, iIndex);
-	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) *hMenu, 0);
+	TranslateMenu(*hMenu);
 	gcmi.pszID = si->ptszID;
 	gcmi.pszModule = si->pszModule;
 	gcmi.pszUID = pszUID;

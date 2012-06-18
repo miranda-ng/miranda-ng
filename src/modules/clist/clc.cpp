@@ -58,7 +58,7 @@ HMENU fnBuildGroupPopupMenu( struct ClcGroup* group )
     HMENU hGroupMenu = GetSubMenu(hMenu, 2);
     RemoveMenu(hMenu, 2, MF_BYPOSITION);
     DestroyMenu(hMenu);
-    CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hGroupMenu, 0);
+    TranslateMenu(hGroupMenu);
 
     CheckMenuItem(hGroupMenu, POPUP_GROUPHIDEOFFLINE, group->hideOffline ? MF_CHECKED : MF_UNCHECKED);
 	return hGroupMenu;

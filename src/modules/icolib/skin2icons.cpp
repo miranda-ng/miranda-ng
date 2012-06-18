@@ -1031,7 +1031,7 @@ static int OpenPopupMenu(HWND hwndDlg)
 	GetCursorPos(&pt);
 	hMenu = LoadMenu( hMirandaInst, MAKEINTRESOURCE( IDR_ICOLIB_CONTEXT ));
 	hPopup = GetSubMenu( hMenu, 0 );
-	CallService( MS_LANGPACK_TRANSLATEMENU, ( WPARAM )hPopup, 0 );
+	TranslateMenu(hPopup);
 	cmd = TrackPopupMenu( hPopup, TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x,  pt.y, 0, hwndDlg, NULL );
 	DestroyMenu( hMenu );
 	return cmd;

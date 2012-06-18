@@ -616,7 +616,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			RemoveMenu(hSubMenu, 8, MF_BYPOSITION);
 			RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
 			EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, MF_BYCOMMAND | ((mi && mi->bBold) ? MF_ENABLED : MF_GRAYED));
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+			TranslateMenu(hSubMenu);
 
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
 			if (sel.cpMin == sel.cpMax) {
@@ -2944,7 +2944,7 @@ LABEL_SHOWWINDOW:
 										POINT pt;
 
 										hSubMenu = GetSubMenu(g_hMenu, 2);
-										CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+										TranslateMenu(hSubMenu);
 										pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 										pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 										ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);

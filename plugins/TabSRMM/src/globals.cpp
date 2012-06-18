@@ -150,7 +150,7 @@ void CGlobals::reloadSystemStartup()
 	dwThreadID = 						GetCurrentThreadId();
 
 	PluginConfig.g_hMenuContext = 		LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
-	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)g_hMenuContext, 0);
+	TranslateMenu(g_hMenuContext);
 
 	SkinAddNewSoundEx("RecvMsgActive", "Instant messages", "Incoming (Focused Window)");
 	SkinAddNewSoundEx("RecvMsgInactive", "Instant messages", "Incoming (Unfocused Window)");
@@ -315,7 +315,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_FlashOnMTN = 						M->GetByte(SRMSGMOD, SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
 	if(m_MenuBar == 0) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
-		CallService(MS_LANGPACK_TRANSLATEMENU, WPARAM(m_MenuBar), 0);
+		TranslateMenu(m_MenuBar);
 	}
 
 	m_ipBackgroundGradient = 			M->GetDword(FONTMODULE, "ipfieldsbg", 0x62caff);
@@ -364,7 +364,7 @@ const HMENU CGlobals::getMenuBar()
 {
 	if(m_MenuBar == 0) {
 		m_MenuBar = ::LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_MENUBAR));
-		CallService(MS_LANGPACK_TRANSLATEMENU, WPARAM(m_MenuBar), 0);
+		TranslateMenu(m_MenuBar);
 	}
 	return(m_MenuBar);
 }
