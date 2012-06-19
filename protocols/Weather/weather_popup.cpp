@@ -298,11 +298,11 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOUR), !opt.UseWinColors);
 
 		// buttons
-		SendMessage(GetDlgItem(hdlg,IDC_PREVIEW), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_PDEF), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_LeftClick), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_RightClick), BUTTONSETASFLATBTN, 0, 0);
-		SendMessage(GetDlgItem(hdlg,IDC_VAR3), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hdlg,IDC_PREVIEW), BUTTONSETASFLATBTN, TRUE, 0);
+		SendMessage(GetDlgItem(hdlg,IDC_PDEF), BUTTONSETASFLATBTN, TRUE, 0);
+		SendMessage(GetDlgItem(hdlg,IDC_LeftClick), BUTTONSETASFLATBTN, TRUE, 0);
+		SendMessage(GetDlgItem(hdlg,IDC_RightClick), BUTTONSETASFLATBTN, TRUE, 0);
+		SendMessage(GetDlgItem(hdlg,IDC_VAR3), BUTTONSETASFLATBTN, TRUE, 0);
 		return TRUE;
 
 	case WM_COMMAND:

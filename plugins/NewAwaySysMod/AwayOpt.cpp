@@ -71,221 +71,9 @@ void MySetPos(HWND hwndParent)
 	}
 }
 
-
-// ================================================ Popup options ================================================
-/*
-COptPage g_PopupOptPage(MOD_NAME, NULL);
-
-
-void EnablePopupOptDlgControls()
-{
-	int I;
-	g_PopupOptPage.PageToMem();
-	int UsePopups = g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_USEPOPUPS);
-	for (I = 0; I < g_PopupOptPage.Items.GetSize(); I++)
-	{
-		switch (g_PopupOptPage.Items[I]->GetParam())
-		{
-			case IDC_POPUPOPTDLG_USEPOPUPS:
-			{
-				g_PopupOptPage.Items[I]->Enable(UsePopups);
-			} break;
-			case IDC_POPUPOPTDLG_DEFBGCOLOUR:
-			{
-				g_PopupOptPage.Items[I]->Enable(UsePopups && !g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR));
-			} break;
-			case IDC_POPUPOPTDLG_DEFTEXTCOLOUR:
-			{
-				g_PopupOptPage.Items[I]->Enable(UsePopups && !g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR));
-			} break;
-		}
-	}
-	if (!ServiceExists(MS_VARS_FORMATSTRING))
-	{
-		g_PopupOptPage.Find(IDC_POPUPOPTDLG_POPUPFORMAT)->Enable(false);
-	}
-	if (!ServiceExists(MS_LOGSERVICE_LOG))
-	{
-		g_PopupOptPage.Find(IDC_POPUPOPTDLG_LOGONLYWITHPOPUP)->Enable(false);
-	}
-	g_PopupOptPage.MemToPage(true);
-	InvalidateRect(GetDlgItem(g_PopupOptPage.GetWnd(), IDC_POPUPOPTDLG_POPUPDELAY_SPIN), NULL, false); // update spin control
-}
-
-
-int CALLBACK PopupOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static int ChangeLock = 0;
-	static struct {
-		int DlgItem, Status, IconIndex;
-	} StatusButtons[] = {
-		IDC_POPUPOPTDLG_ONLNOTIFY, ID_STATUS_ONLINE, ILI_PROTO_ONL,
-		IDC_POPUPOPTDLG_AWAYNOTIFY, ID_STATUS_AWAY, ILI_PROTO_AWAY,
-		IDC_POPUPOPTDLG_NANOTIFY, ID_STATUS_NA, ILI_PROTO_NA,
-		IDC_POPUPOPTDLG_OCCNOTIFY, ID_STATUS_OCCUPIED, ILI_PROTO_OCC,
-		IDC_POPUPOPTDLG_DNDNOTIFY, ID_STATUS_DND, ILI_PROTO_DND,
-		IDC_POPUPOPTDLG_FFCNOTIFY, ID_STATUS_FREECHAT, ILI_PROTO_FFC
-	};
-	static struct {
-		int DlgItem, IconIndex;
-		TCHAR* Text;
-	} Buttons[] = {
-		IDC_POPUPOPTDLG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
-		IDC_POPUPOPTDLG_OTHERNOTIFY, ILI_STATUS_OTHER, LPGENT("Other (XStatus)")
-	};
-	switch (msg)
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-			ChangeLock++;
-			g_PopupOptPage.SetWnd(hwndDlg);
-			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPFORMAT, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
-			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPDELAY, EM_LIMITTEXT, 4, 0);
-			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_POPUPDELAY_SPIN, UDM_SETRANGE32, -1, 9999);
-
-			HWND hLCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_LCLICK_ACTION);
-			HWND hRCombo = GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_RCLICK_ACTION);
-			static struct {
-				TCHAR *Text;
-				int Action;
-			} PopupActions[] = {
-				LPGENT("Open message window"), PCA_OPENMESSAGEWND,
-				LPGENT("Close popup"), PCA_CLOSEPOPUP,
-				LPGENT("Open contact details window"), PCA_OPENDETAILS,
-				LPGENT("Open contact menu"), PCA_OPENMENU,
-				LPGENT("Open contact history"), PCA_OPENHISTORY,
-				LPGENT("Open log file"), PCA_OPENLOG,
-				LPGENT("Do nothing"), PCA_DONOTHING
-			};
-			int I;
-			for (I = 0; I < lengthof(PopupActions); I++)
-			{
-				SendMessage(hLCombo, CB_SETITEMDATA, SendMessage(hLCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[I].Text)), PopupActions[I].Action);
-				SendMessage(hRCombo, CB_SETITEMDATA, SendMessage(hRCombo, CB_ADDSTRING, 0, (LPARAM)TranslateTS(PopupActions[I].Text)), PopupActions[I].Action);
-			}
-			for (I = 0; I < lengthof(StatusButtons); I++)
-			{
-				HWND hButton = GetDlgItem(hwndDlg, StatusButtons[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GSMDF_TCHAR), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
-			}
-			for (I = 0; I < lengthof(Buttons); I++)
-			{
-				HWND hButton = GetDlgItem(hwndDlg, Buttons[I].DlgItem);
-				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[I].Text), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
-			}
-			SendDlgItemMessage(hwndDlg, IDC_POPUPOPTDLG_OTHERNOTIFY, BUTTONSETASPUSHBTN, 0, 0);
-			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
-			g_PopupOptPage.DBToMemToPage();
-			EnablePopupOptDlgControls();
-			ChangeLock--;
-			MakeGroupCheckbox(GetDlgItem(hwndDlg, IDC_POPUPOPTDLG_USEPOPUPS));
-			return true;
-		} break;
-		case UM_ICONSCHANGED:
-		{
-			int I;
-			for (I = 0; I < lengthof(StatusButtons); I++)
-			{
-				SendDlgItemMessage(hwndDlg, StatusButtons[I].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[StatusButtons[I].IconIndex]);
-			}
-			for (I = 0; I < lengthof(Buttons); I++)
-			{
-				if (Buttons[I].IconIndex != ILI_NOICON)
-				{
-					SendDlgItemMessage(hwndDlg, Buttons[I].DlgItem, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_IconList[Buttons[I].IconIndex]);
-				}
-			}
-			my_variables_skin_helpbutton(hwndDlg, IDC_POPUPOPTDLG_VARS);
-		} break;
-		case WM_NOTIFY:
-		{
-			switch (((NMHDR*)lParam)->code)
-			{
-				case PSN_APPLY:
-				{
-					g_PopupOptPage.PageToMemToDB();
-					return true;
-				} break;
-			}
-		} break;
-		case WM_COMMAND:
-		{
-			switch (HIWORD(wParam))
-			{
-				case BN_CLICKED:
-				{
-					switch (LOWORD(wParam))
-					{
-						case IDC_POPUPOPTDLG_USEPOPUPS:
-						case IDC_POPUPOPTDLG_DEFBGCOLOUR:
-						case IDC_POPUPOPTDLG_DEFTEXTCOLOUR:
-						{
-							EnablePopupOptDlgControls();
-						}; // go through
-						case IDC_POPUPOPTDLG_ONLNOTIFY:
-						case IDC_POPUPOPTDLG_AWAYNOTIFY:
-						case IDC_POPUPOPTDLG_NANOTIFY:
-						case IDC_POPUPOPTDLG_OCCNOTIFY:
-						case IDC_POPUPOPTDLG_DNDNOTIFY:
-						case IDC_POPUPOPTDLG_FFCNOTIFY:
-						case IDC_POPUPOPTDLG_OTHERNOTIFY:
-						case IDC_POPUPOPTDLG_LOGONLYWITHPOPUP:
-						{
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-							return 0;
-						} break;
-						case IDC_POPUPOPTDLG_VARS:
-						{
-							my_variables_showhelp(hwndDlg, IDC_POPUPOPTDLG_POPUPFORMAT);
-						} break;
-						case IDC_POPUPOPTDLG_POPUPPREVIEW:
-						{
-							COptPage PreviewPopupData(g_PopupOptPage);
-							PreviewPopupData.PageToMem();
-							GetDynamicStatMsg(NULL, "ICQ", DBGetContactSettingDword(NULL, "ICQ", "UIN", 0));							ShowPopupNotification(PreviewPopupData, NULL, g_ProtoStates[(char*)NULL].Status);
-//							SkinPlaySound(AWAYSYS_STATUSMSGREQUEST_SOUND);
-						} break;
-					}
-				} break;
-				case EN_CHANGE:
-				{
-					if ((LOWORD(wParam) == IDC_POPUPOPTDLG_POPUPFORMAT) || (LOWORD(wParam) == IDC_POPUPOPTDLG_POPUPDELAY))
-					{
-						if (!ChangeLock && g_PopupOptPage.GetWnd())
-						{
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-						}
-					}
-				} break;
-				case CBN_SELCHANGE:
-//				case CPN_COLOURCHANGED:
-				{
-					if ((LOWORD(wParam) == IDC_POPUPOPTDLG_LCLICK_ACTION) || (LOWORD(wParam) == IDC_POPUPOPTDLG_RCLICK_ACTION) || (LOWORD(wParam) == IDC_POPUPOPTDLG_BGCOLOUR) || (LOWORD(wParam) == IDC_POPUPOPTDLG_TEXTCOLOUR))
-					{
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-					}
-				} break;
-			}
-		} break;
-		case WM_DESTROY:
-		{
-			g_PopupOptPage.SetWnd(NULL);
-			return 0;
-		} break;
-	}
-	return 0;
-}
-*/
-
 // ================================================ Message options ================================================
 
-
 COptPage g_MessagesOptPage(MOD_NAME, NULL);
-
 
 void EnableMessagesOptDlgControls(CMsgTree* MsgTree)
 {
@@ -365,7 +153,7 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			{
 				HWND hButton = GetDlgItem(hwndDlg, Buttons[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[I].Text), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 		// now default status message buttons
 			for (I = 0; I < lengthof(DefMsgDlgItems); I++)
@@ -373,7 +161,7 @@ INT_PTR CALLBACK MessagesOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				HWND hButton = GetDlgItem(hwndDlg, DefMsgDlgItems[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[I].Status, GSMDF_TCHAR), BATF_TCHAR);
 				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 				g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
 			}
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
@@ -655,8 +443,8 @@ INT_PTR CALLBACK MoreOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			{
 				HWND hButton = GetDlgItem(hwndDlg, StatusButtons[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GSMDF_TCHAR), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);
 			g_MoreOptPage.DBToMemToPage();
@@ -835,12 +623,12 @@ INT_PTR CALLBACK AutoreplyOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			{
 				HWND hButton = GetDlgItem(hwndDlg, StatusButtons[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, StatusButtons[I].Status, GSMDF_TCHAR), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 			HWND hButton = GetDlgItem(hwndDlg, IDC_REPLYDLG_VARS);
 			SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open Variables help dialog"), BATF_TCHAR);
-			SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+			SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			MakeThemedImageCheckbox(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTMSG));
 			MakeThemedImageCheckbox(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTURL));
 			MakeThemedImageCheckbox(GetDlgItem(hwndDlg, IDC_MOREOPTDLG_EVNTFILE));
@@ -1021,15 +809,15 @@ INT_PTR CALLBACK MessagesModernOptDlg(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			{
 				HWND hButton = GetDlgItem(hwndDlg, Buttons[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[I].Text), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 		// now default status message buttons
 			for (I = 0; I < lengthof(DefMsgDlgItems); I++)
 			{
 				HWND hButton = GetDlgItem(hwndDlg, DefMsgDlgItems[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, DefMsgDlgItems[I].Status, GSMDF_TCHAR), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASPUSHBTN, 0, 0);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASPUSHBTN, TRUE, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 				g_OrigDefStatusButtonMsgProc = (WNDPROC)SetWindowLongPtr(hButton, GWLP_WNDPROC, (LONG_PTR)DefStatusButtonSubclassProc);
 			}
 			SendMessage(hwndDlg, UM_ICONSCHANGED, 0, 0);

@@ -910,7 +910,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 				strcat(buttonId,mtbi->szButtonID);					
 				SendMessage(hwndButton, BUTTONSETID, 0 ,(LPARAM) buttonId );
 				if (pMTBInfo->bFlatButtons)			
-					SendMessage(hwndButton, BUTTONSETASFLATBTN, 0, 1 );
+					SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 				SetWindowLongPtr(hwndButton,GWLP_USERDATA,(LONG_PTR)mtbi);
 				SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 			}

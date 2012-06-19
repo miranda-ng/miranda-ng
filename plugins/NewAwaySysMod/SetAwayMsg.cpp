@@ -764,7 +764,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			{
 				HWND hButton = GetDlgItem(hwndDlg, Buttons[I].DlgItem);
 				SendMessage(hButton, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(Buttons[I].Text), BATF_TCHAR);
-				SendMessage(hButton, BUTTONSETASFLATBTN, 0, 0);
+				SendMessage(hButton, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 
 		// init tooltips

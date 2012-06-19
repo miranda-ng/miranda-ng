@@ -273,9 +273,9 @@ static INT_PTR CALLBACK PhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		if (!lParam) break; // Launched from userinfo
 		TranslateDialogDefault( hwndDlg );
 		SendDlgItemMessage( hwndDlg, IDC_LOAD, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage( hInst, MAKEINTRESOURCE( IDI_OPEN ), IMAGE_ICON, GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), 0 ));
-		SendDlgItemMessage( hwndDlg, IDC_LOAD, BUTTONSETASFLATBTN, 0, 0);
+		SendDlgItemMessage( hwndDlg, IDC_LOAD, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage( hwndDlg, IDC_DELETE, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage( hInst, MAKEINTRESOURCE( IDI_DELETE ), IMAGE_ICON, GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), 0 ));
-		SendDlgItemMessage( hwndDlg, IDC_DELETE, BUTTONSETASFLATBTN, 0, 0);
+		SendDlgItemMessage( hwndDlg, IDC_DELETE, BUTTONSETASFLATBTN, TRUE, 0);
 		ShowWindow( GetDlgItem( hwndDlg, IDC_SAVE ), SW_HIDE );
 		{
 			dat = new PhotoDlgProcData;

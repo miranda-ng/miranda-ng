@@ -1081,7 +1081,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SendMessage(hwndSelector, BUTTONSETMARGINS,0 ,(LPARAM) &rcMargins);			
 			SendMessage(hwndSelector, BUTTONSETID,0 ,(LPARAM) "ViewMode.Select" );			
 			SendMessage(hwndSelector, WM_SETFONT,0 ,(LPARAM) FONTID_VIEMODES+1 );
-			SendMessage(hwndSelector, BUTTONSETASFLATBTN, 0, 1 );
+			SendMessage(hwndSelector, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndSelector, MBM_UPDATETRANSPARENTFLAG, 0, 2);
             SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0 ,(LPARAM) 1 );	
 			
@@ -1090,7 +1090,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
                             hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);
             SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), 0);
 			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Setup" );	
-			SendMessage(hwndButton, BUTTONSETASFLATBTN, 0, 1 );
+			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 
             hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
@@ -1098,7 +1098,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
             SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), 0);
 			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Clear" );	
 			SendMessage(hwnd, WM_USER + 100, 0, 0);
-			SendMessage(hwndButton, BUTTONSETASFLATBTN, 0, 1 );
+			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
             return FALSE;
         }
@@ -1140,11 +1140,11 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
                 while(_buttons[i] != 0) {
                     //SendMessage(GetDlgItem(hwnd, _buttons[i]), BM_SETSKINNED, 0, bSkinned);
                     if(1&&bSkinned) {
-                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, 0, 0);
+                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 0);
                         SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 0);
                     }
                     else {
-                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, 0, 1);
+                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 1);
                         SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 1);
                     }
                     i++;

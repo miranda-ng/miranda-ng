@@ -1056,25 +1056,25 @@ static INT_PTR CALLBACK DlgProcDspProfiles(HWND hwnd, UINT msg, WPARAM wParam, L
 			hwndList = GetDlgItem(hwnd, IDC_PROFILELIST);
 
 			HWND hwndAdd = GetDlgItem(hwnd, IDC_DSP_ADD);
-			SendMessage(hwndAdd, BUTTONSETASFLATBTN, 0, 1);
+			SendMessage(hwndAdd, BUTTONSETASFLATBTN, TRUE, 1);
 			SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ADDCONTACT), IMAGE_ICON, 16, 16, LR_SHARED));
 			SetWindowText(hwndAdd, TranslateT("Add New..."));
 
 			hwndAdd = GetDlgItem(hwnd, IDC_DSP_DELETE);
-			SendMessage(hwndAdd, BUTTONSETASFLATBTN, 0, 1);
+			SendMessage(hwndAdd, BUTTONSETASFLATBTN, TRUE, 1);
 			SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_DELETE), IMAGE_ICON, 16, 16, LR_SHARED));
 			SetWindowText(hwndAdd, TranslateT("Delete"));
 
 			hwndAdd = GetDlgItem(hwnd, IDC_DSP_RENAME);
-			SendMessage(hwndAdd, BUTTONSETASFLATBTN, 0, 1);
+			SendMessage(hwndAdd, BUTTONSETASFLATBTN, TRUE, 1);
 			SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RENAME), IMAGE_ICON, 16, 16, LR_SHARED));
 			SetWindowText(hwndAdd, TranslateT("Rename..."));
 
 			hwndAdd = GetDlgItem(hwnd, IDC_DSP_APPLY);
-			SendMessage(hwndAdd, BUTTONSETASFLATBTN, 0, 1);
+			SendMessage(hwndAdd, BUTTONSETASFLATBTN, TRUE, 1);
 			SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_OPTIONS), IMAGE_ICON, 16, 16, LR_SHARED));
 			SetWindowText(hwndAdd, TranslateT("Apply this profile"));

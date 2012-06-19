@@ -203,7 +203,7 @@ void Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char* too
 {
 	HWND hWnd = GetDlgItem(hwndDlg, itemId);
 	SendMessage(hWnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadSkinIcon(iconId));
-	SendMessage(hWnd, BUTTONSETASFLATBTN, 0, 0);
+	SendMessage(hWnd, BUTTONSETASFLATBTN, TRUE, 0);
 	SendMessage(hWnd, BUTTONADDTOOLTIP, (WPARAM)tooltip, 0);
 }
 

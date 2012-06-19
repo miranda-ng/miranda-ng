@@ -1066,9 +1066,9 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 
 				if (copy_init_data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)
 				{
-					SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONSETASFLATBTN, 0, 0);
-					SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BUTTONSETASFLATBTN, 0, 0);
-					SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BUTTONSETASFLATBTN, 0, 0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_BADD), BUTTONSETASFLATBTN, TRUE, 0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_BDEL), BUTTONSETASFLATBTN, TRUE, 0);
+					SendMessage(GetDlgItem(hwndDlg, IDC_BCLEAR), BUTTONSETASFLATBTN, TRUE, 0);
 				}
 			}
 			else

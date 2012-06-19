@@ -191,7 +191,7 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			//Configure popup area
 			{
 			hCtrl = GetDlgItem(hwnd, IDC_CUSTOMPOS);
-			SendMessage(hCtrl, BUTTONSETASFLATBTN, 0, 0);
+			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)_T("Popup Area"), BATF_TCHAR);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_RESIZE,0));
 			}
@@ -701,11 +701,11 @@ INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		hFontTitle = CreateFontIndirect(&lf);
 		SendMessage(GetDlgItem(hwndDlg, IDC_TITLE), WM_SETFONT, (WPARAM)hFontTitle, TRUE);
 
-		SendMessage(GetDlgItem(hwndDlg, IDOK), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwndDlg, IDOK), BUTTONSETASFLATBTN, TRUE, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDOK), BUTTONADDTOOLTIP, (WPARAM)_T("OK"), BATF_TCHAR);
 		SendMessage(GetDlgItem(hwndDlg, IDOK), BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_OK,0));
 
-		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BUTTONSETASFLATBTN, TRUE, 0);
 		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BUTTONADDTOOLTIP, (WPARAM)_T("Cancel"), BATF_TCHAR);
 		SendMessage(GetDlgItem(hwndDlg, IDCANCEL), BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_OPT_CANCEL,0));
 

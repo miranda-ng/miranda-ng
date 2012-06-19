@@ -542,43 +542,43 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 			break;
 		case BUTTONSETDEFAULT:
-			bct->defbutton = wParam ? 1 : 0;
+			bct->defbutton = (wParam != 0);
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 			break;
 		case BUTTONSETASPUSHBTN:
-			bct->pushBtn = 1;
+			bct->pushBtn = (wParam != 0);
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 			break;
 		case BUTTONSETASFLATBTN:
-			bct->flatBtn = lParam == 0 ? 1 : 0;
+			bct->flatBtn = (wParam != 0);
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 			break;
-		case BUTTONSETASFLATBTN + 10:
-			bct->bThemed = lParam ? TRUE : FALSE;
+		case BUTTONSETASTHEMED:
+			bct->bThemed = (wParam != 0);
 			break;
-		case BUTTONSETASFLATBTN + 11:
-			bct->dimmed = lParam ? TRUE : FALSE;
+		case BUTTONSETASDIMMED:
+			bct->dimmed = (wParam != 0);
 			break;
-		case BUTTONSETASFLATBTN + 12:
-			bct->pContainer = (struct TContainerData *)lParam;
+		case BUTTONSETCONTAINER:
+			bct->pContainer = (struct TContainerData *)wParam;
 			break;
-		case BUTTONSETASFLATBTN + 13:
+		case BUTTONSETASTITLE:
 			bct->bTitleButton = TRUE;
 			break;
-		case BUTTONSETASFLATBTN + 14:
+		case BUTTONSETASNORMAL:
 			bct->stateId = (wParam) ? PBS_NORMAL : PBS_DISABLED;
 			InvalidateRect(bct->hwnd, NULL, FALSE);
 			break;
-		case BUTTONSETASFLATBTN + 15:
+		case BUTTONGETSTATEID:
 			return bct->stateId;
 		case BUTTONSETASTOOLBARBUTTON:
-			bct->bToolbarButton = lParam;
+			bct->bToolbarButton = wParam;
 			break;
 		case BUTTONSETASSIDEBARBUTTON:
-			bct->sitem = reinterpret_cast<CSideBarButton *>(lParam);
+			bct->sitem = reinterpret_cast<CSideBarButton *>(wParam);
 			break;
 		case BUTTONSETOVERLAYICON:
-			bct->overlay = (HICON)lParam;
+			bct->overlay = (HICON)wParam;
 			break;
 		case BUTTONADDTOOLTIP: {
 			TOOLINFO ti;

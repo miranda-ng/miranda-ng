@@ -110,7 +110,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			CheckDlgButton(hwnd, IDC_HPPLOG, PopUpOptions.UseHppHistoryLog);
 
 			hCtrl = GetDlgItem(hwnd, IDC_SHOWHISTORY);
-			SendMessage(hCtrl, BUTTONSETASFLATBTN, 0, 0);
+			SendMessage(hCtrl, BUTTONSETASFLATBTN, TRUE, 0);
 			SendMessage(hCtrl, BUTTONADDTOOLTIP, (WPARAM)Translate("Popup History"), 0);
 			SendMessage(hCtrl, BM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_HISTORY,0));
 

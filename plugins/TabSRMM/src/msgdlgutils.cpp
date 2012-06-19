@@ -2213,7 +2213,7 @@ LRESULT TSAPI GetSendButtonState(HWND hwnd)
 	HWND hwndIDok=GetDlgItem(hwnd, IDOK);
 
 	if(hwndIDok)
-		return(SendMessage(hwndIDok, BUTTONSETASFLATBTN + 15, 0, 0));
+		return(SendMessage(hwndIDok, BUTTONGETSTATEID, TRUE, 0));
 	else
 		return 0;
 }
@@ -2221,13 +2221,13 @@ LRESULT TSAPI GetSendButtonState(HWND hwnd)
 void TSAPI EnableSendButton(const TWindowData *dat, int iMode)
 {
 	HWND hwndOK;
-	SendMessage(GetDlgItem(dat->hwnd, IDOK), BUTTONSETASFLATBTN + 14, iMode, 0);
-	SendMessage(GetDlgItem(dat->hwnd, IDC_PIC), BUTTONSETASFLATBTN + 14, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
+	SendMessage(GetDlgItem(dat->hwnd, IDOK), BUTTONSETASNORMAL, iMode, 0);
+	SendMessage(GetDlgItem(dat->hwnd, IDC_PIC), BUTTONSETASNORMAL, dat->fEditNotesActive ? TRUE : (!iMode && dat->iOpenJobs == 0) ? TRUE : FALSE, 0);
 
 	hwndOK = GetDlgItem(GetParent(GetParent(dat->hwnd)), IDOK);
 
 	if (IsWindow(hwndOK))
-		SendMessage(hwndOK, BUTTONSETASFLATBTN + 14, iMode, 0);
+		SendMessage(hwndOK, BUTTONSETASNORMAL, iMode, 0);
 }
 
 void TSAPI SendNudge(const TWindowData *dat)

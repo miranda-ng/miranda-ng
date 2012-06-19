@@ -628,7 +628,7 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc( HWND hwndDlg, UINT msg, WPARAM w
 		photoInfo->hBitmap = NULL;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, ( LONG_PTR ) photoInfo );
 		SendDlgItemMessage( hwndDlg, IDC_SAVE, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadImage( hInst, MAKEINTRESOURCE( IDI_SAVE ), IMAGE_ICON, GetSystemMetrics( SM_CXSMICON ), GetSystemMetrics( SM_CYSMICON ), 0 ));
-		SendDlgItemMessage( hwndDlg, IDC_SAVE, BUTTONSETASFLATBTN, 0, 0);
+		SendDlgItemMessage( hwndDlg, IDC_SAVE, BUTTONSETASFLATBTN, TRUE, 0);
 		ShowWindow( GetDlgItem( hwndDlg, IDC_LOAD ), SW_HIDE );
 		ShowWindow( GetDlgItem( hwndDlg, IDC_DELETE ), SW_HIDE );
 		break;

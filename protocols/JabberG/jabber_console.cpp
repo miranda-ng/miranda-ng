@@ -412,9 +412,9 @@ void CJabberDlgConsole::OnInitDialog()
 	for (i = 0; i < SIZEOF(buttons); ++i)
 	{
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(buttons[i].icon));
-		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, 0, 0);
+		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONADDTOOLTIP, (WPARAM)buttons[i].title, 0);
-		if (buttons[i].push) SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASPUSHBTN, 0, 0);
+		if (buttons[i].push) SendDlgItemMessage(m_hwnd, buttons[i].idc, BUTTONSETASPUSHBTN, TRUE, 0);
 		if (buttons[i].pushed) CheckDlgButton(m_hwnd, buttons[i].idc, TRUE);
 	}
 

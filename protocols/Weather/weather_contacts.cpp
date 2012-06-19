@@ -161,13 +161,13 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		SendDlgItemMessage(hwndDlg, IDC_RESET2,  BM_SETIMAGE, IMAGE_ICON, (LPARAM)wndData->hRename);
 
 		// make all buttons flat
-		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONSETASFLATBTN, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONSETASFLATBTN, 0, 0);
+		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_SVCINFO, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_BROWSE, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW1, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_RESET1, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_VIEW2, BUTTONSETASFLATBTN, TRUE, 0);
+		SendDlgItemMessage(hwndDlg, IDC_RESET2, BUTTONSETASFLATBTN, TRUE, 0);
 
 		// set tooltip for the buttons
 		SendDlgItemMessage(hwndDlg, IDC_GETNAME, BUTTONADDTOOLTIP, (WPARAM)"Get city name from ID", 0);

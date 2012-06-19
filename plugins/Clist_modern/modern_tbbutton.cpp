@@ -256,35 +256,28 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 			SendMessage(hwndToolTips, TTM_ADDTOOL, 0, (LPARAM) &ti);
 			break;
 		}
-	case BUTTONSETASPUSHBTN:
-		{
 
-			if (lParam==0)
-				lpSBData->pushBtn=1;
-			else
-			{
-				lpSBData->pushBtn=wParam;
-				lpSBData->pbState = (lParam&2) ? TRUE : FALSE;
-			}
-			return 0;
-		}
+	case BUTTONSETASPUSHBTN:
+		lpSBData->pushBtn = (wParam != 0);
+		lpSBData->pbState = (lParam & 2) != 0;
+		return 0;
+
 	case WM_SETFOCUS:
-		{
-			// set keyboard focus and redraw
-			lpSBData->fFocused = TRUE;
-			InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
-			break;
-		}
+		// set keyboard focus and redraw
+		lpSBData->fFocused = TRUE;
+		InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
+		break;
+
 	case WM_KILLFOCUS:
-		{
-			// kill focus and redraw
-			lpSBData->fFocused = FALSE;
-			InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
-			break;
-		}
+		// kill focus and redraw
+		lpSBData->fFocused = FALSE;
+		InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
+		break;
+
 	case WM_WINDOWPOSCHANGED:
 		InvalidateParentRect(lpSBData->hWnd, NULL, TRUE);
 		break;
+
 	case WM_ENABLE:
 		// windows tells us to enable/disable
 		{

@@ -274,7 +274,7 @@ static INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 				else
 					SendMessage(GetDlgItem(hwndDlg, IDC_VARSHELP), BUTTONADDTOOLTIP, (WPARAM)szTipInfo, 0);
 
-				SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONSETASFLATBTN, 0, 0);
+				SendDlgItemMessage(hwndDlg, IDC_VARSHELP, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 			ShowWindow(GetDlgItem(hwndDlg, IDC_VARSHELP), ServiceExists(MS_VARS_FORMATSTRING));
 

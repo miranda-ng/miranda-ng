@@ -261,7 +261,7 @@ public:
 			}
 
 			SendMessage(hSmlButton, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Show Smiley Selection Window"), 0);
-			SendMessage(hSmlButton, BUTTONSETASFLATBTN, 0, 0);
+			SendMessage(hSmlButton, BUTTONSETASFLATBTN, TRUE, 0);
 		}
 	}
 };

@@ -62,7 +62,7 @@ INT_PTR CALLBACK MainOptDlg(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 				if (hIcon != NULL)
 					SendMessage(GetDlgItem(hwndDlg, IDC_MAINOPT_VARHELP), BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)hIcon);
 				SendMessage(GetDlgItem(hwndDlg, IDC_MAINOPT_VARHELP), BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open String Formatting Help"), BATF_TCHAR);
-				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_VARHELP, BUTTONSETASFLATBTN, 0, 0);
+				SendDlgItemMessage(hwndDlg, IDC_MAINOPT_VARHELP, BUTTONSETASFLATBTN, TRUE, 0);
 			}
 
 			SendDlgItemMessage(hwndDlg,IDC_MAINOPT_PASS,EM_LIMITTEXT,MAXPASSLEN,0); // limit password length

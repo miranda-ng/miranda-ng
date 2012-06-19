@@ -576,7 +576,7 @@ void CSWindow::initButtons( )
 			continue;
 
 		SendDlgItemMessage( this->handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadIconExEx( forms[i].pszIconIcoLib, forms[i].iconNoIcoLib ) );
-		SendDlgItemMessage( this->handle, forms[i].idc, BUTTONSETASFLATBTN, 0, 0 ); //maybe set as BUTTONSETDEFAULT?
+		SendDlgItemMessage( this->handle, forms[i].idc, BUTTONSETASFLATBTN, TRUE, 0 ); //maybe set as BUTTONSETDEFAULT?
 		SendDlgItemMessage( this->handle, forms[i].idc, BUTTONADDTOOLTIP, ( WPARAM )TranslateTS(forms[i].ptszTitle), BATF_TCHAR );
 	}
 }

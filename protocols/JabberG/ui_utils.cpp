@@ -575,12 +575,12 @@ void CCtrlMButton::OnInit()
 
 void CCtrlMButton::MakeFlat()
 {
-	SendMessage(m_hwnd, BUTTONSETASFLATBTN, 0, 0);
+	SendMessage(m_hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 }
 
 void CCtrlMButton::MakePush()
 {
-	SendMessage(m_hwnd, BUTTONSETASPUSHBTN, 0, 0);
+	SendMessage(m_hwnd, BUTTONSETASPUSHBTN, TRUE, 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

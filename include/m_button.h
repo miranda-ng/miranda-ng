@@ -43,13 +43,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define BUTTONSETDEFAULT     (WM_USER+2)
 
 // Sets the button as a push button
-// wParam = lParam = not used
-// Usage: SendMessage(hwndbutton, BUTTONSETASPUSHBTN, 0, 0);
+// wParam = TRUE/FALSE default on/off
+// lParam = not used
+// Usage: SendMessage(hwndbutton, BUTTONSETASPUSHBTN, 1, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETASPUSHBTN   (WM_USER+3)
 
 // Sets the button type as a flat button without borders v0.3.3+
-// Usage: SendMessage(hwndbutton, BUTTONSETASFLATBTN, 0, 0);
+// wParam = TRUE/FALSE default on/off
+// lParam = not used
+// Usage: SendMessage(hwndbutton, BUTTONSETASFLATBTN, 1, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETASFLATBTN   (WM_USER+4)
 

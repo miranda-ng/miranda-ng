@@ -562,7 +562,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 			if (bct->dwStyle & MBS_PUSHBUTTON) return bct->pbState ? BST_CHECKED : BST_UNCHECKED;
 			return 0;
 		case BUTTONSETDEFAULT:
-			bct->defbutton = wParam ? 1 : 0;
+			bct->defbutton = (wParam != 0);
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 			break;
 		case BUTTONADDTOOLTIP:

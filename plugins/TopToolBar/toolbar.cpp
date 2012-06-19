@@ -386,7 +386,7 @@ int CreateOneWindow(int ButtonPos)
 
 	SetWindowLongPtr(Buttons[ButtonPos].hwnd, GWLP_USERDATA, Buttons[ButtonPos].id);
 	if (DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1))
-		SendMessage(Buttons[ButtonPos].hwnd, BUTTONSETASFLATBTN, 0, 0);
+		SendMessage(Buttons[ButtonPos].hwnd, BUTTONSETASFLATBTN, TRUE, 0);
 
 	return 0;
 }

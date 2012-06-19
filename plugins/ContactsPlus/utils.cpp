@@ -308,7 +308,7 @@ HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip)
   HICON hIcon = (HICON)LoadImage(GetModuleHandle(NULL),szIcon,IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0);
 
   SendMessageT(hButton, BM_SETIMAGE, IMAGE_ICON, (LPARAM)hIcon);
-  SendMessageT(hButton, BUTTONSETASFLATBTN, 0, 0);
+  SendMessageT(hButton, BUTTONSETASFLATBTN, TRUE, 0);
   SendMessageT(hButton, BUTTONADDTOOLTIP, (WPARAM)Translate(szTip), 0);
 
   return hIcon;

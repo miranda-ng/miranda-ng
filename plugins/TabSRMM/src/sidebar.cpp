@@ -110,10 +110,10 @@ void CSideBarButton::_create()
 							  0, 0, 40, 40, m_sideBar->getScrollWnd(), reinterpret_cast<HMENU>(m_id), g_hInst, NULL);
 
 	if(m_hwnd) {
-		::SendMessage(m_hwnd, BUTTONSETASSIDEBARBUTTON, 0, (LPARAM)this);
-		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, 1,  1);
-		::SendMessage(m_hwnd, BUTTONSETASFLATBTN + 10, 1,  1);
-		::SendMessage(m_hwnd, BUTTONSETASFLATBTN + 12, 0, (LPARAM)m_sideBar->getContainer());
+		::SendMessage(m_hwnd, BUTTONSETASSIDEBARBUTTON, (WPARAM)this, 0);
+		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, TRUE,  0);
+		::SendMessage(m_hwnd, BUTTONSETASTHEMED, TRUE,  0);
+		::SendMessage(m_hwnd, BUTTONSETCONTAINER, (LPARAM)m_sideBar->getContainer(), 0);
 		m_buttonControl = (MButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
 	}
 	else

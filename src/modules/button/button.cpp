@@ -447,17 +447,17 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		break;
 
 	case BUTTONSETDEFAULT:
-		bct->defbutton = wParam?1:0;
+		bct->defbutton = (wParam != 0);
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case BUTTONSETASPUSHBTN:
-		bct->pushBtn = 1;
+		bct->pushBtn = (wParam != 0);
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case BUTTONSETASFLATBTN:
-		bct->flatBtn = 1;
+		bct->flatBtn = (wParam != 0);
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 

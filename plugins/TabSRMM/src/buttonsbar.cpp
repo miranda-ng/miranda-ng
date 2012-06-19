@@ -213,7 +213,7 @@ void CB_ChangeButton(HWND hwndDlg, struct TWindowData *dat, CustomButtonData* cb
 			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
 		if (cbd->ptszTooltip)
 			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
-		SendMessage(hwndBtn, BUTTONSETASFLATBTN + 12, 0, (LPARAM)dat->pContainer);
+		SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
 	}
 }
 
@@ -567,19 +567,19 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 			if (!cbd->bDummy && !GetDlgItem(hdlg, cbd->dwButtonCID))
 				hwndBtn = CreateWindowEx(0, _T("TSButtonClass"), _T(""), WS_CHILD | WS_VISIBLE | WS_TABSTOP, rect.right - rwidth + gap, splitterY, cbd->iButtonWidth, DPISCALEY_S(22), hdlg, (HMENU) cbd->dwButtonCID, g_hInst, NULL);
 			if (!cbd->bDummy && hwndBtn) {
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN, 0, 0);
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN + 10, 0, isThemed ? 1 : 0);
+				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
+				SendMessage(hwndBtn, BUTTONSETASTHEMED, isThemed != 0, 0);
 				if (cbd->hIcon)
 					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
 				if (cbd->ptszTooltip)
 					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN + 12, 0, (LPARAM)dat->pContainer);
-				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, 0, 1);
+				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 
 				if (hwndBtn && cbd->dwArrowCID)
 					SendMessage(hwndBtn, BUTTONSETARROW, cbd->dwArrowCID, 0);
 				if (hwndBtn && cbd->bPushButton)
-					SendMessage(hwndBtn, BUTTONSETASPUSHBTN, 0, 0);
+					SendMessage(hwndBtn, BUTTONSETASPUSHBTN, TRUE, 0);
 			}
 		} else if (GetDlgItem(hdlg, cbd->dwButtonCID))
 			DestroyWindow(GetDlgItem(hdlg, cbd->dwButtonCID));
@@ -605,19 +605,19 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 			if (!cbd->bHidden && !cbd->bCanBeHidden)
 				dat->iButtonBarReallyNeeds += cbd->iButtonWidth + gap;
 			if (!cbd->bDummy && hwndBtn) {
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN, 0, 0);
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN + 10, 0, isThemed ? 1 : 0);
+				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
+				SendMessage(hwndBtn, BUTTONSETASTHEMED, isThemed != 0, 0);
 				if (cbd->hIcon)
 					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
 				if (cbd->ptszTooltip)
 					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN + 12, 0, (LPARAM)dat->pContainer);
-				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, 0, 1);
+				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
+				SendMessage(hwndBtn, BUTTONSETASTOOLBARBUTTON, TRUE, 0);
 
 				if (hwndBtn && cbd->dwArrowCID)
 					SendMessage(hwndBtn, BUTTONSETARROW, cbd->dwArrowCID, 0);
 				if (hwndBtn && cbd->bPushButton)
-					SendMessage(hwndBtn, BUTTONSETASPUSHBTN, 0, 0);
+					SendMessage(hwndBtn, BUTTONSETASPUSHBTN, TRUE, 0);
 			}
 		} else if (GetDlgItem(hdlg, cbd->dwButtonCID))
 			DestroyWindow(GetDlgItem(hdlg, cbd->dwButtonCID));
