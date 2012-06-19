@@ -41,18 +41,19 @@ static HIMAGELIST hProtocolImageList = NULL;
 static HIMAGELIST hImageList = NULL;
 static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 
-typedef struct TabDefStruct {
+struct
+{
 	DLGPROC dlgProc;
 	DWORD dlgId;
-	TCHAR *tabName;
-} TabDef;
-
-static TabDef tabPages[] = {
-						 {IEViewGeneralOptDlgProc, IDD_GENERAL_OPTIONS, _T("General")},
-						 {IEViewSRMMOptDlgProc, IDD_SRMM_OPTIONS, _T("Message Log")},
-						 {IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS, _T("Group Chats")},
-						 {IEViewHistoryOptDlgProc, IDD_SRMM_OPTIONS, _T("History")}
-						 };
+	char *tabName;
+}
+static tabPages[] =
+{
+	{ IEViewGeneralOptDlgProc,    IDD_GENERAL_OPTIONS, LPGEN("General")     },
+	{ IEViewSRMMOptDlgProc,       IDD_SRMM_OPTIONS,    LPGEN("Message Log") },
+	{ IEViewGroupChatsOptDlgProc, IDD_SRMM_OPTIONS,    LPGEN("Group Chats") },
+	{ IEViewHistoryOptDlgProc,    IDD_SRMM_OPTIONS,    LPGEN("History")     }
+};
 
 static LPARAM GetItemParam(HWND hwndTreeView, HTREEITEM hItem) {
 	TVITEM tvi = {0};
@@ -422,25 +423,23 @@ static bool BrowseFile(HWND hwndDlg, char *filter, char *defExt,  char *path, in
 
 int IEViewOptInit(WPARAM wParam, LPARAM lParam)
 {
-	DWORD i;
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = hInstance;
-	odp.ptszGroup = _T("Message Sessions");
-	odp.ptszTitle = _T("IEView");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.nIDBottomSimpleControl = 0;
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("IEView");
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(tabPages[0].dlgId);
 	odp.pfnDlgProc = tabPages[0].dlgProc;
-	odp.ptszTab = tabPages[0].tabName;
+	odp.pszTab = tabPages[0].tabName;
 	Options_AddPage(wParam, &odp);
-	odp.ptszGroup = _T("Skins");
-	odp.ptszTitle = _T("IEView");
-	for (i = 1; i < SIZEOF(tabPages); i++) {
+
+	odp.pszGroup = LPGEN("Skins");
+	odp.pszTitle = LPGEN("IEView");
+	for (size_t i = 1; i < SIZEOF(tabPages); i++) {
 		odp.pszTemplate = MAKEINTRESOURCEA(tabPages[i].dlgId);
 		odp.pfnDlgProc = tabPages[i].dlgProc;
-		odp.ptszTab = tabPages[i].tabName;
+		odp.pszTab = tabPages[i].tabName;
 		Options_AddPage(wParam, &odp);
 	}
 	return 0;
@@ -650,9 +649,8 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 		{
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
 			if (proto != NULL) {
-				if (strcmpi(proto->getProtocolName(), "_default_")) {
-					proto->setSRMMEnableTemp(TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
-				}
+				if (strcmpi(proto->getProtocolName(), "_default_"))
+					proto->setSRMMEnableTemp( TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
 			}
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam)) {
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
@@ -789,11 +787,10 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	case UM_CHECKSTATECHANGE:
 		{
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
-			if (proto != NULL) {
-				if (strcmpi(proto->getProtocolName(), "_default_")) {
+			if (proto != NULL)
+				if (strcmpi(proto->getProtocolName(), "_default_"))
 					proto->setHistoryEnableTemp(TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
-				}
-			}
+
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam)) {
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
 			} else {
@@ -930,11 +927,10 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 	case UM_CHECKSTATECHANGE:
 		{
 			ProtocolSettings *proto = (ProtocolSettings *)GetItemParam((HWND)wParam, (HTREEITEM) lParam);
-			if (proto != NULL) {
-				if (strcmpi(proto->getProtocolName(), "_default_")) {
+			if (proto != NULL)
+				if (strcmpi(proto->getProtocolName(), "_default_"))
 					proto->setChatEnableTemp(TreeView_GetCheckState((HWND)wParam, (HTREEITEM) lParam));
-				}
-			}
+
 			if ((HTREEITEM) lParam != TreeView_GetSelection((HWND)wParam)) {
 				TreeView_SelectItem((HWND)wParam, (HTREEITEM) lParam);
 			} else {

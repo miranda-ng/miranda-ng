@@ -586,10 +586,10 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.hInstance = hInst;
 	odp.pszGroup  = LPGEN("Status");
 	odp.pszTitle  = LPGEN("KeepStatus");
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags     = ODPF_BOLDGROUPS;
 
-	odp.pszTemplate	= MAKEINTRESOURCEA(IDD_OPT_TABS);
-	odp.pfnDlgProc	= DlgProcKsTabs;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABS);
+	odp.pfnDlgProc  = DlgProcKsTabs;
 	Options_AddPage(wparam,&odp);
 
 	if ( ServiceExists( MS_POPUP_ADDPOPUP )) {

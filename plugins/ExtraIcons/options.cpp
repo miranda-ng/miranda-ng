@@ -38,13 +38,13 @@ int InitOptionsCallback(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGENT("Contact List");
-	odp.pszTitle = LPGENT("Extra icons");
-	odp.pszTab = LPGENT("General");
+	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Extra icons");
+	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

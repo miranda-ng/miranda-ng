@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static CRITICAL_SECTION csServices;
 
-static DWORD OPTIONS_ADDPAGE_HASH = NameHashFunction(MS_OPT_ADDPAGE);
+static DWORD OPTIONS_ADDPAGE_HASH = NameHashFunction("Opt/AddPage");
 
 CALLSERVICEFUNCTION realCallServiceFunction = NULL;
 

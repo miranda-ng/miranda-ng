@@ -236,9 +236,7 @@ static UINT expertOnlyControls[] = { IDC_ALWAYSSTATUS };
 
 int CListOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = -1000000000;
 	odp.hInstance = g_hInst;

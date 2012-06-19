@@ -129,7 +129,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			dis.hDC = hdcMem;
 			dis.CtlType = 0;
 			nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
-			for(i = 0; i < nParts; i++) {
+			for (i = 0; i < nParts; i++) {
 				SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&dis.rcItem);
 				OffsetRect(&dis.rcItem, 0, -b_offset);
 				dis.itemData = SendMessage(hwnd, SB_GETTEXTA, i, 0);
@@ -161,7 +161,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 				ScreenToClient(hwnd, &pt);
 				nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
-				for(i = 0; i < nParts; i++) {
+				for (i = 0; i < nParts; i++) {
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
 					if(PtInRect(&rc,pt)) {
 						ProtocolData *PD;

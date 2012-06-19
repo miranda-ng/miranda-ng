@@ -61,23 +61,23 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgSkinOpts;
 		odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKIN );
-		odp.ptszGroup = LPGENT( "Skins" );
-		odp.ptszTitle = LPGENT( "Contact List" );
-		odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-		odp.ptszTab = LPGENT( "Load/Save" );
+		odp.pszGroup = LPGEN( "Skins" );
+		odp.pszTitle = LPGEN( "Contact List" );
+		odp.flags = ODPF_BOLDGROUPS;
+		odp.pszTab = LPGEN( "Load/Save" );
 		Options_AddPage(wParam, &odp);
 
-		if ( ModernGetSettingByte( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT ) )
-		{
+		if ( ModernGetSettingByte( NULL, "ModernData", "EnableSkinEditor", SETTING_ENABLESKINEDITOR_DEFAULT )) {
 			odp.flags |= ODPF_EXPERTONLY;
 			odp.pfnDlgProc = DlgSkinEditorOpts;
 			odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPT_SKINEDITOR );
-			odp.ptszTab = LPGENT( "Object Editor" );
+			odp.pszTab = LPGEN( "Object Editor" );
 			Options_AddPage(wParam, &odp);
 		}
 	}
 	return 0;
 }
+
 int ModernSkinOptInit( WPARAM wParam, LPARAM lParam )
 {
 	MODERNOPTOBJECT obj = {0};

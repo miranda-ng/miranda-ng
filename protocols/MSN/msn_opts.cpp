@@ -730,17 +730,17 @@ int CMsnProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.pfnDlgProc  = DlgProcMsnOpts;
 	odp.dwInitParam = (LPARAM)this;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = LPGENT("Connection");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSN_CONN);
 	odp.pfnDlgProc  = DlgProcMsnConnOpts;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = LPGENT("Server list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_LISTSMGR);
 	odp.pfnDlgProc  = DlgProcMsnServLists;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = LPGENT("Notifications");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFY);

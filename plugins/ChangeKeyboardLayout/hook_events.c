@@ -211,21 +211,15 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
-	odp.pszTitle = Translate(ModuleName);
-	odp.pszGroup = Translate("Plugins");
+	odp.pszTitle = ModuleName;
+	odp.pszGroup = LPGEN("Plugins");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
 	Options_AddPage(wParam, &odp);	
 	
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
-	{
-		ZeroMemory(&odp, sizeof(odp));
-		odp.cbSize = sizeof(odp);
-		odp.hInstance = hInst;
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
-		odp.pszTitle = Translate(ModuleName);
-		odp.pszGroup = Translate("PopUps");
-		odp.flags = ODPF_BOLDGROUPS;
+		odp.pszGroup = LPGEN("PopUps");
 		odp.pfnDlgProc = DlgPopupsProcOptions;
 		Options_AddPage(wParam, &odp);	
 	}

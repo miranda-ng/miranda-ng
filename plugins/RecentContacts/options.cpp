@@ -61,11 +61,10 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
    odp.cbSize = sizeof(odp);
-   odp.position = 0;
    odp.hInstance = hInst;
-   odp.pszGroup = "Contact List";
+   odp.pszGroup = LPGEN("Contact List");
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_LASTUC_OPT);
-   odp.pszTitle = Translate(msLastUC_ShowListName);
+   odp.pszTitle = msLastUC_ShowListName;
    odp.pfnDlgProc = DlgProcOptions;
    odp.flags = ODPF_BOLDGROUPS;
    Options_AddPage(wParam, &odp);

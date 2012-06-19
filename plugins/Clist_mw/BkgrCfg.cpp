@@ -279,19 +279,15 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam,LPARAM lParam)
 
 int OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Customize");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG2);
 	odp.pszTitle = LPGEN("Backgrounds");
 	odp.pfnDlgProc = DlgProcBkgOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

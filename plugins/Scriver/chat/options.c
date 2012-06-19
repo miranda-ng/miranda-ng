@@ -780,18 +780,16 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 
 static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-
-	OPTIONSDIALOGPAGE odp = {0};
-	if(g_dat->popupInstalled)
-	{
+	if (g_dat->popupInstalled) {
+		OPTIONSDIALOGPAGE odp = {0};
 		odp.cbSize = sizeof(odp);
 		odp.position = 910000002;
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
-		odp.ptszTitle = LPGENT("Messaging");
-		odp.ptszGroup = LPGENT("Popups");
+		odp.pszTitle = LPGEN("Messaging");
+		odp.pszGroup = LPGEN("Popups");
 		odp.pfnDlgProc = DlgProcOptionsPopup;
-		odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS;
 		odp.ptszTab = NULL;
 		Options_AddPage(wParam, &odp);
 	}

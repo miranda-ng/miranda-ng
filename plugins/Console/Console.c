@@ -1188,13 +1188,12 @@ static int OptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp={0};
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszGroup = TranslateT("Network");
-	odp.ptszTitle = TranslateT("Console");
+	odp.pszGroup = LPGEN("Network");
+	odp.pszTitle = LPGEN("Console");
 	odp.pfnDlgProc = OptDlgProc;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.expertOnlyControls = NULL;
 	Options_AddPage(wParam, &odp);
 	return 0;

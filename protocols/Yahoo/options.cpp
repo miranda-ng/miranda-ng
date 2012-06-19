@@ -376,7 +376,7 @@ INT_PTR __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.hInstance   = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_YAHOO);
 	odp.ptszTitle   = m_tszUserName;
-	odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR|ODPF_DONTTRANSLATE;
+	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.ptszGroup   = LPGENT("Network");
 	odp.ptszTab     = LPGENT("Account");
 	odp.pfnDlgProc  = DlgProcYahooOpts;

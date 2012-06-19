@@ -340,15 +340,13 @@ void InitIcons(void)
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszTitle = _T(ModuleName);
+	odp.pszTitle = LPGEN(ModuleName);
 	odp.pfnDlgProc = OptionsProc;
-	odp.ptszGroup = _T("Customize");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pszGroup = LPGEN("Customize");
+	odp.flags = ODPF_BOLDGROUPS;
 
 	Options_AddPage(wParam, &odp);
 	return 0;

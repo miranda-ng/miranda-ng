@@ -513,7 +513,7 @@ static int GetButtonSize(SCROLLBAR *sbar, HWND hwnd, UINT uBeforeAfter)
 
 	SCROLLBUT *sbut = sbar->sbButtons;
 	
-	for(i = 0; i < sbar->nButtons; i++)
+	for (i = 0; i < sbar->nButtons; i++)
 	{
 		//only consider those buttons on the same side as nTopBottom says
 		if(sbut[i].uPlacement == uBeforeAfter)
@@ -1340,7 +1340,7 @@ static LRESULT DrawHorzButtons(SCROLLBAR *sbar, HDC hdc, const RECT *rect, int l
 	xposl = rect->left - sbar->nButSizeBefore;
 	xposr = rect->right;
 	
-	for(i = 0; i < sbar->nButtons; i++)
+	for (i = 0; i < sbar->nButtons; i++)
 	{
 		if ((leftright & SBBP_LEFT) && sbut[i].uPlacement == SBBP_LEFT)
 		{
@@ -1776,7 +1776,7 @@ static UINT GetHorzButtonFromPt(SCROLLBAR *sb, RECT *rect, POINT pt, BOOL fRetur
 	if(sb->fButVisibleAfter)
 		rightpos -= sb->nButSizeAfter;
 
-	for(i = 0; i < sb->nButtons; i++)
+	for (i = 0; i < sb->nButtons; i++)
 	{
 		if(sb->fButVisibleBefore && sbut[i].uPlacement == SBBP_LEFT)
 		{
@@ -1868,7 +1868,7 @@ static UINT GetHorzButtonRectFromId(SCROLLBAR *sb, RECT *rect, UINT index)
 		rightpos -= sb->nButSizeAfter;
 
 	//find the particular button in question
-	for(i = 0; i < index; i++)
+	for (i = 0; i < index; i++)
 	{
 		if(sb->fButVisibleBefore && sbut[i].uPlacement == SBBP_LEFT)
 		{
@@ -2618,7 +2618,7 @@ static void ResizeButtonsToFit(SCROLLWND *sw, SCROLLBAR *sbar, HWND hwnd)
 	//restore any resizable buttons to their user-defined sizes,
 	//before shrinking them to fit. This means when we make the window
 	//bigger, the buttons will restore to their initial sizes
-	for(i = 0; i < sbar->nButtons; i++)
+	for (i = 0; i < sbar->nButtons; i++)
 	{
 		sbut = &sbar->sbButtons[i];
 		if(sbut->uButType & SBBM_RESIZABLE)

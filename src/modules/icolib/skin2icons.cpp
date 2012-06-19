@@ -1833,7 +1833,6 @@ static UINT iconsExpertOnlyControls[]={IDC_IMPORT};
 static int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hMirandaInst;
 	odp.flags = ODPF_BOLDGROUPS;

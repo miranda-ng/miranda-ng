@@ -70,15 +70,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 int OnOptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FOLDERS);
-	odp.pszTitle = Translate("Folders");
-	odp.pszGroup = Translate("Customize");
+	odp.pszTitle = LPGEN("Folders");
+	odp.pszGroup = LPGEN("Customize");
 	odp.groupPosition = 910000000;
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);
 	

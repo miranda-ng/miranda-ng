@@ -146,18 +146,15 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 INT OptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.position=-790000000;
-	odp.hInstance=hinstance;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPTION);
-	odp.ptszTitle= _T("Simple Auto Replier");
-	odp.ptszGroup = _T("Plugins");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.nIDBottomSimpleControl=0;
-	odp.pfnDlgProc=DlgProcOpts;
-	Options_AddPage(wParam,&odp);
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = hinstance;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTION);
+	odp.pszTitle = LPGEN("Simple Auto Replier");
+	odp.pszGroup = LPGEN("Plugins");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcOpts;
+	Options_AddPage(wParam, &odp);
 	return 0;
 }

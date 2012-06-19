@@ -343,17 +343,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize						= sizeof(odp);
-	odp.position					= -790000000;
-	odp.hInstance					= hInst;
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszTitle					= LPGENT("Database AutoBackups");
-	odp.ptszGroup					= LPGENT("Services");
-	odp.flags						= ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.pfnDlgProc					= DlgProcOptions;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTitle = LPGEN("Database AutoBackups");
+	odp.pszGroup = LPGEN("Services");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

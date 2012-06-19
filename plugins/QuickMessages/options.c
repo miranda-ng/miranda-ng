@@ -1152,18 +1152,17 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	}
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
-	{
+{
 	OPTIONSDIALOGPAGE odp={0};
-
-	odp.cbSize=sizeof(odp);
-	odp.position=940000000;
-	odp.hInstance=hinstance;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle=LPGEN("Quick Messages");
-	odp.pfnDlgProc=OptionsProc;
-	odp.pszGroup=LPGEN("Plugins");
-	odp.flags=ODPF_BOLDGROUPS;
-
+	odp.cbSize = sizeof(odp);
+	odp.position = 940000000;
+	odp.hInstance = hinstance;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTitle = LPGEN("Quick Messages");
+	odp.pfnDlgProc = OptionsProc;
+	odp.pszGroup = LPGEN("Plugins");
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam,&odp);
+
 	return 0;
-	}
+}

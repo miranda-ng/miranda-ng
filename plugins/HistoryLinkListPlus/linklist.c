@@ -161,20 +161,17 @@ int __declspec(dllexport) Unload(void)
 
 int InitOptionsDlg(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE optionsDialog;
+	OPTIONSDIALOGPAGE odp = { 0 };
 	UNREFERENCED_PARAMETER(lParam);
 
-	ZeroMemory(&optionsDialog, sizeof(OPTIONSDIALOGPAGE));
-	optionsDialog.cbSize = sizeof(optionsDialog);
-	optionsDialog.hInstance = hInst;
-	optionsDialog.ptszGroup = LPGENT("History");
-	optionsDialog.ptszTitle = LPGENT("History Linklist");
-	optionsDialog.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_DLG);
-	optionsDialog.pfnDlgProc = OptionsDlgProc;
-	optionsDialog.expertOnlyControls = NULL;
-	optionsDialog.nExpertOnlyControls = 0;
-	optionsDialog.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-	Options_AddPage(wParam, (LPARAM)&optionsDialog);
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszGroup = LPGEN("History");
+	odp.pszTitle = LPGEN("History Linklist");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_DLG);
+	odp.pfnDlgProc = OptionsDlgProc;
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(wParam, (LPARAM)&odp);
 	return 0;
 }
 

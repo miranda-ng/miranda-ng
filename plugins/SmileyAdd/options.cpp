@@ -64,16 +64,15 @@ static INT_PTR CALLBACK DlgProcSmileysOptions(HWND hwndDlg, UINT msg, WPARAM wPa
 int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
 	odp.cbSize = sizeof(odp);
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMILEYS);
-	odp.pszTitle = "Smileys";
-	odp.pszGroup = "Customize";
+	odp.pszTitle = LPGEN("Smileys");
+	odp.pszGroup = LPGEN("Customize");
 	odp.pfnDlgProc = DlgProcSmileysOptions;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage( addInfo, &odp);
+	Options_AddPage(addInfo, &odp);
 
 	return 0;
 }

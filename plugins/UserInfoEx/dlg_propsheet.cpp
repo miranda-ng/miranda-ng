@@ -561,7 +561,7 @@ static INT InitDetails(WPARAM wParam, LPARAM lParam)
 		if (lParam || bChangeDetailsEnabled) {
 			odp.cbSize = sizeof(odp);
 			odp.hInstance = ghInst;
-			odp.flags = /*ODPF_BOLDGROUPS|*/ODPF_ICON|ODPF_TCHAR;
+			odp.flags = ODPF_ICON | ODPF_TCHAR;
 			odp.ptszGroup = IcoLib_GetDefaultIconFileName();
 
 			if (lParam) {

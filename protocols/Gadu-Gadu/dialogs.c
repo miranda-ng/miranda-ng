@@ -126,7 +126,6 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 int gg_options_init(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-
 	odp.cbSize = sizeof(odp);
 	odp.position = 1003000;
 	odp.hInstance = hInstance;

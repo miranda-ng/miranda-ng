@@ -495,10 +495,8 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 {
-
-	OPTIONSDIALOGPAGE odp = { 0 };
-
 	if (PluginConfig.g_PopupAvail) {
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.cbSize = sizeof(odp);
 		odp.position = 100000000;
 		odp.hInstance = g_hInst;
@@ -508,7 +506,7 @@ int TN_OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.groupPosition = 910000000;
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.pfnDlgProc = DlgProcOpts;
-		Options_AddPage(wParam,&odp);
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }

@@ -264,16 +264,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszGroup = _T("Contact List");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_RATE_OPT);
-	odp.ptszTitle = _T(MODULENAME);
+	odp.pszTitle = MODULENAME;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 

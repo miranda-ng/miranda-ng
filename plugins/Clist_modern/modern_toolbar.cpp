@@ -286,19 +286,18 @@ static int    ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int	  ehhToolbarOptInit(WPARAM wParam, LPARAM lParam)
+static int ehhToolbarOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.position=0;
-	odp.hInstance=g_hInst;
-	odp.ptszGroup=LPGENT("Contact List");
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
-	odp.ptszTitle=LPGENT("ToolBar");
-	odp.pfnDlgProc=(DLGPROC)ToolBar_OptDlgProc;
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	Options_AddPage(wParam,&odp); 
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = 0;
+	odp.hInstance = g_hInst;
+	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("ToolBar");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
+	odp.pfnDlgProc = (DLGPROC)ToolBar_OptDlgProc;
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(wParam, &odp); 
 	return 0;
 }
 static INT_PTR    svcToolBarAddButton(WPARAM wParam, LPARAM lParam)

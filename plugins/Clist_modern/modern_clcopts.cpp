@@ -252,63 +252,56 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 static UINT StatusBarExpertControls[]={IDC_STATUSBAR_PER_PROTO, IDC_STATUSBAR_PROTO_LIST, IDC_SBAR_USE_ACCOUNT_SETTINGS, IDC_SBAR_HIDE_ACCOUNT_COMPLETELY};
 
-static struct TabItemOptionConf
+struct
 {
-	TCHAR *name;			// Tab name
+	char *name;			// Tab name
 	int id;					// Dialog id
 	DLGPROC wnd_proc;		// Dialog function
 	UINT* expertControls;	// Expert Controls
 	int nExpertControls;
 	DWORD flag;				// Expertonly
-} clist_opt_items[] = 
+}
+static clist_opt_items[] = 
 { 
-	{ LPGENT("General"), IDD_OPT_CLIST, DlgProcClistOpts, NULL, 0, 0},
-	{ LPGENT("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts, NULL, 0, 0 },
-	{ LPGENT("List"), IDD_OPT_CLC, DlgProcClistListOpts, NULL, 0, 0 },
-	{ LPGENT("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts, NULL, 0, 0 },
-	{ LPGENT("Behaviour"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, NULL, 0, 0 },
-	{ LPGENT("Status Bar"), IDD_OPT_SBAR, DlgProcSBarOpts, StatusBarExpertControls, SIZEOF(StatusBarExpertControls), 0},	
-	{ LPGENT("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, NULL, 0, 0 },
-	{ 0 }
+	{ LPGEN("General"), IDD_OPT_CLIST, DlgProcClistOpts, NULL, 0, 0},
+	{ LPGEN("Tray"), IDD_OPT_TRAY, DlgProcTrayOpts, NULL, 0, 0 },
+	{ LPGEN("List"), IDD_OPT_CLC, DlgProcClistListOpts, NULL, 0, 0 },
+	{ LPGEN("Window"), IDD_OPT_CLUI, DlgProcClistWindowOpts, NULL, 0, 0 },
+	{ LPGEN("Behaviour"), IDD_OPT_CLUI_2, DlgProcClistBehaviourOpts, NULL, 0, 0 },
+	{ LPGEN("Status Bar"), IDD_OPT_SBAR, DlgProcSBarOpts, StatusBarExpertControls, SIZEOF(StatusBarExpertControls), 0},	
+	{ LPGEN("Additional stuff"), IDD_OPT_META_CLC, DlgProcClistAdditionalOpts, NULL, 0, 0 }
 };
-
 
 int ClcOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	if (MirandaExiting()) return 0;
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.position=0;
-	odp.hInstance=g_hInst;
-	//odp.ptszGroup=TranslateT("Contact List");
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_CLC);
-	odp.ptszTitle=LPGENT("Contact List");
-	odp.pfnDlgProc=DlgProcClistListOpts;
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	//Options_AddPage(wParam,&odp);  
-	{
-		int i;	
-		for (i=0; clist_opt_items[i].id!=0; i++)
-		{
-			odp.pszTemplate=MAKEINTRESOURCEA(clist_opt_items[i].id);
-			odp.ptszTab=clist_opt_items[i].name;
-			odp.pfnDlgProc=clist_opt_items[i].wnd_proc;
-			odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR|clist_opt_items[i].flag;
-			odp.expertOnlyControls = clist_opt_items[i].expertControls;
-			odp.nExpertOnlyControls = clist_opt_items[i].nExpertControls;
-			Options_AddPage(wParam,&odp);
-		}
+	if (MirandaExiting())
+		return 0;
+
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = g_hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
+	odp.pszTitle = LPGEN("Contact List");
+	odp.pfnDlgProc = DlgProcClistListOpts;
+	odp.flags = ODPF_BOLDGROUPS;
+
+	for (int i=0; i < SIZEOF(clist_opt_items); i++) {
+		odp.pszTemplate = MAKEINTRESOURCEA(clist_opt_items[i].id);
+		odp.pszTab = clist_opt_items[i].name;
+		odp.pfnDlgProc = clist_opt_items[i].wnd_proc;
+		odp.flags = ODPF_BOLDGROUPS | clist_opt_items[i].flag;
+		odp.expertOnlyControls = clist_opt_items[i].expertControls;
+		odp.nExpertOnlyControls = clist_opt_items[i].nExpertControls;
+		Options_AddPage(wParam, &odp);
 	}
 
-	if (g_CluiData.fDisableSkinEngine)
-	{
+	if (g_CluiData.fDisableSkinEngine) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST_LISTBKG);
-		odp.ptszGroup = LPGENT("Skins");
-		odp.ptszTitle = LPGENT("Contact List");
-		odp.ptszTab  = LPGENT("List Background");
+		odp.pszGroup = LPGEN("Skins");
+		odp.pszTitle = LPGEN("Contact List");
+		odp.pszTab = LPGEN("List Background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
-		odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+		odp.flags = ODPF_BOLDGROUPS;
 		Options_AddPage(wParam, &odp);
 	}
 	

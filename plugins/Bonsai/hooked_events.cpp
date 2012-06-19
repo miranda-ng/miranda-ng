@@ -76,15 +76,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-	
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FIXOPTIONS);
-	odp.ptszTitle = TranslateT("Arrange Options");
-	odp.ptszGroup = TranslateT("Services");
+	odp.pszTitle = LPGEN(("Arrange Options");
+	odp.pszGroup = LPGEN(("Services");
 	odp.groupPosition = 810000000;
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	

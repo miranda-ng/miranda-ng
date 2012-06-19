@@ -103,28 +103,20 @@ OnOptionsInitialize
 	, IN LPARAM lParam
 	)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize			 =  sizeof(odp);
-	odp.hInstance		 =  hInst;
-	odp.pszTemplate		 =  MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
-	odp.ptszTitle		 =  _T("Floating Contacts");
-	odp.ptszGroup		 =  _T("Plugins");
-	odp.ptszTab			 =  _T("Main Features");
-	odp.flags			 =  ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc		 =  (DLGPROC)OptWndProc;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize      =  sizeof(odp);
+	odp.hInstance   =  hInst;
+	odp.pszTemplate =  MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
+	odp.pszTitle    =  LPGEN("Floating Contacts");
+	odp.pszGroup    =  LPGEN("Plugins");
+	odp.pszTab      =  LPGEN("Main Features");
+	odp.flags       =  ODPF_BOLDGROUPS;
+	odp.pfnDlgProc  =  (DLGPROC)OptWndProc;
 	Options_AddPage(wParam, &odp);
 
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize			 =  sizeof(odp);
-	odp.hInstance		 =  hInst;
-	odp.pszTemplate		 =  MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.ptszTitle		 =  _T("Floating Contacts");
-	odp.ptszGroup		 =  _T("Plugins");
-	odp.ptszTab			 =  _T("Appearance");
-	odp.flags			 =  ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc		 =  (DLGPROC)OptSknWndProc;
+	odp.pszTemplate =  MAKEINTRESOURCEA(IDD_OPT_SKIN);
+	odp.pszTab      =  LPGEN("Appearance");
+	odp.pfnDlgProc  =  (DLGPROC)OptSknWndProc;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

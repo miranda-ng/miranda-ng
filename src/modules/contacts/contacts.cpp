@@ -492,21 +492,17 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int LoadContactsModule(void) {
-	{
-		// Load the name order
-		BYTE i;
-		DBVARIANT dbv;
+int LoadContactsModule(void)
+{
+	for (BYTE i=0; i < NAMEORDERCOUNT; i++)
+		nameOrder[i]=i;
 
-		for (i=0; i<NAMEORDERCOUNT; i++)
-			nameOrder[i]=i;
-
-		if ( !DBGetContactSetting(NULL, "Contact", "NameOrder", &dbv))
-		{
-			CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
-			DBFreeVariant(&dbv);
-		}
+	DBVARIANT dbv;
+	if ( !DBGetContactSetting(NULL, "Contact", "NameOrder", &dbv)) {
+		CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
+		DBFreeVariant(&dbv);
 	}
+
 	CreateServiceFunction(MS_CONTACT_GETCONTACTINFO, GetContactInfo);
 	HookEvent(ME_OPT_INITIALISE, ContactOptInit);
 	return 0;

@@ -1846,33 +1846,29 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam) {
 	return 0; // fail
 }
 
-int Meta_OptInit(WPARAM wParam, LPARAM lParam) {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize						= sizeof(odp);
-	odp.position					= -790000000;
-	odp.hInstance					= hInstance;
-	odp.flags						= ODPF_BOLDGROUPS;
+int Meta_OptInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = hInstance;
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.pszTemplate					= MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszTitle					= "MetaContacts";
-	odp.pszGroup					= "Contact List";
-	odp.pszTab						= "General";
-	odp.pfnDlgProc					= DlgProcOpts;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+	odp.pszTitle = LPGEN("MetaContacts");
+	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTab = LPGEN("General");
+	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);	
 
-	odp.pszTemplate					= MAKEINTRESOURCE(IDD_PRIORITIES);
-	odp.pszTitle					= "MetaContacts";
-	odp.pszGroup					= "Contact List";
-	odp.pszTab						= "Priorities";
-	odp.pfnDlgProc					= DlgProcOptsPriorities;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_PRIORITIES);
+	odp.pszTab = LPGEN("Priorities");
+	odp.pfnDlgProc = DlgProcOptsPriorities;
 	Options_AddPage(wParam, &odp);	
 
-	odp.pszTemplate					= MAKEINTRESOURCE(IDD_HISTORY);
-	odp.pszTitle					= "MetaContacts";
-	odp.pszGroup					= "Contact List";
-	odp.pszTab						= "History";
-	odp.pfnDlgProc					= DlgProcOpts;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_HISTORY);
+	odp.pszTab = LPGEN("History");
+	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);	
 	return 0;
 }

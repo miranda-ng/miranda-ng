@@ -556,17 +556,16 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
-	OPTIONSDIALOGPAGE odp={0};
-
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position=955000000;
-	odp.hInstance=hinstance;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszTitle=LPGENT(__INTERNAL_NAME);
-	odp.pfnDlgProc=OptionsProc;
-	odp.ptszGroup=LPGENT("Message Sessions");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
-
+	odp.position = 955000000;
+	odp.hInstance = hinstance;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTitle = __INTERNAL_NAME;
+	odp.pfnDlgProc = OptionsProc;
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam,&odp);
+
 	return 0;
 }

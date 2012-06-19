@@ -207,15 +207,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
-	odp.pszGroup = Translate("Contact List");
+	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Rate");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_RATE_OPT);
-	odp.pszTitle = Translate("Rate");
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

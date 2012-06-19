@@ -48,17 +48,15 @@ BOOL IsDlgItemEnabled(HWND hwndDlg, int iIDCtrl)
 
 static int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
-	odp.cbSize						= sizeof(odp);
-	odp.position					= -790000000;
-	odp.hInstance					= g_hInst;
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.flags						= ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTitle				= TranslateT("Database Features");
-	odp.ptszGroup				= TranslateT("Services");
-	odp.pfnDlgProc					= DlgProcOptions;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = g_hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTitle = LPGEN("Database Features");
+	odp.pszGroup = LPGEN("Services");
+	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

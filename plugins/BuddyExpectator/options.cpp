@@ -493,20 +493,19 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize      = sizeof(odp);
 	odp.hInstance   = hInst;
-	odp.pszGroup    = Translate("Plugins");
+	odp.pszGroup    = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONSPANEL);
-	odp.pszTitle    = Translate("Buddy Expectator");
+	odp.pszTitle    = LPGEN("Buddy Expectator");
 	odp.pfnDlgProc  = OptionsFrameProc;
     odp.flags       = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
-	{
-        odp.pszGroup    = Translate("PopUps");
-	    odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUPPANEL);
-    	odp.pfnDlgProc  = PopUpOptionsFrameProc;
-	    Options_AddPage(wParam, &odp);
-    }
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		odp.pszGroup    = LPGEN("PopUps");
+		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUPPANEL);
+		odp.pfnDlgProc  = PopUpOptionsFrameProc;
+		Options_AddPage(wParam, &odp);
+	}
 
 	return 0;
 }

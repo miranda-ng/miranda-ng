@@ -576,16 +576,13 @@ INT_PTR CALLBACK DlgProcIcqPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-	HMODULE hUxTheme = 0;
-
-	if (IsWinVerXPPlus())
-	{
-		hUxTheme = GetModuleHandleA("uxtheme.dll");
+	if (IsWinVerXPPlus()) {
+		HMODULE hUxTheme = GetModuleHandleA("uxtheme.dll");
 		if (hUxTheme)
 			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 	}
 
+	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.position = -800000000;
 	odp.hInstance = hInst;
@@ -614,8 +611,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pfnDlgProc = DlgProcIcqPrivacyOpts;
 	Options_AddPage(wParam, &odp);
 
-	if (bPopUpService)
-	{
+	if (bPopUpService) {
 		odp.position = 100000000;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.groupPosition = 900000000;

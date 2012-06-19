@@ -158,7 +158,7 @@ void ShowTestPopup(HWND wnd)
 {
 	POPUPDATAT data = {0};
 	wsprintf(&data.lptzContactName[0], TEST_LETTER_INBOX);
-	wsprintf(&data.lptzText[0], TranslateT(FULL_NOTIFICATION_FORMAT),
+	wsprintf(&data.lptzText[0], TranslateTS(FULL_NOTIFICATION_FORMAT),
 		TEST_LETTER_SUBJECT, TEST_LETTER_SENDER, TEST_LETTER_SNIP);
 
 	int len = SendMessage(GetDlgItem(wnd, IDC_TIMEOUTEDIT), WM_GETTEXTLENGTH, 0, 0) + 1;
@@ -245,7 +245,7 @@ void AddPopupsPage(WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.ptszTitle = _T(MAIL_NOTIFICATIONS);
+	odp.ptszTitle = MAIL_NOTIFICATIONS;
 	odp.pfnDlgProc = PopupsOptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPSETTINGS);
 	odp.hInstance = hInst;
@@ -265,7 +265,7 @@ void AddAccPage(LPCTSTR acc, LPCSTR mod, WPARAM wParam)
 	odp.hInstance = hInst;
 	odp.ptszGroup = NETWORK_OPTIONS_GROUP;
 	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
-	odp.ptszTab =_T(MAIL_NOTIFICATIONS);
+	odp.ptszTab = MAIL_NOTIFICATIONS;
 	odp.dwInitParam = (LPARAM)mod;
 
 	Options_AddPage(wParam, &odp);

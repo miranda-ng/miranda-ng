@@ -133,52 +133,44 @@ static struct {
 static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize      = sizeof(odp);
+	odp.position      = 100000000;
+	odp.groupPosition = 910000000;
+	odp.hInstance     = hInst;
+	odp.flags         = ODPF_BOLDGROUPS;
+	odp.pszTitle      = MODULNAME_PLU;
 
-	odp.cbSize			= sizeof(odp);
-	odp.hInstance		= hInst;
-	odp.position		= 100000000;
-	odp.groupPosition	= 910000000;
-	odp.flags			= ODPF_TCHAR | ODPF_BOLDGROUPS;
-	odp.ptszTitle		= LPGENT(MODULNAME_PLU);
+	odp.pszTab      = LPGEN("General");
+	odp.pfnDlgProc  = DlgProcPopUpGeneral;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_GENERAL);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab			= LPGENT("General");
-	odp.pfnDlgProc		= DlgProcPopUpGeneral;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_POPUP_GENERAL);
-	Options_AddPage(wParam,&odp);
+	odp.pszTab      = LPGEN("Classes");
+	odp.pfnDlgProc  = DlgProcOptsClasses;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOTIFICATIONS);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab			= LPGENT("Classes");
-	odp.pfnDlgProc		= DlgProcOptsClasses;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_NOTIFICATIONS);
-	Options_AddPage(wParam,&odp);
+	odp.pszTab      = LPGEN("Actions");
+	odp.pfnDlgProc  = DlgProcPopupActions;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACTIONS);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab			= LPGENT("Actions");
-	odp.pfnDlgProc		= DlgProcPopupActions;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_ACTIONS);
-	Options_AddPage(wParam,&odp);
+	odp.pszTab      = LPGEN("Contacts");
+	odp.pfnDlgProc  = DlgProcContactOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab			= LPGENT("Contacts");
-	odp.pfnDlgProc		= DlgProcContactOpts;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
-	Options_AddPage(wParam,&odp);
+	odp.pszTab     = LPGEN("Advanced");
+	odp.pfnDlgProc  = DlgProcPopUpAdvOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP_ADVANCED);
+	odp.flags       |= ODPF_EXPERTONLY;
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab			= LPGENT("Advanced");
-	odp.pfnDlgProc		= DlgProcPopUpAdvOpts;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_POPUP_ADVANCED);
-	odp.flags			|= ODPF_EXPERTONLY;
-	Options_AddPage(wParam,&odp);
-
-	odp.ptszGroup		= LPGENT("Skins");
-	odp.ptszTab			= LPGENT(MODULNAME_PLU);
-	odp.pfnDlgProc		= DlgProcPopSkinsOpts;
-	odp.pszTemplate		= MAKEINTRESOURCEA(IDD_OPT_SKIN2);
-	Options_AddPage(wParam,&odp);
-
-	//Test page
-	//odp.ptszTab			= LPGEN("General (old)");
-	//odp.pfnDlgProc		= DlgProcPopUpOpts;
-	//odp.pszTemplate		= MAKEINTRESOURCE(IDD_OPT_POPUP);
-	//Options_AddPage(wParam,&odp);
-
+	odp.pszGroup    = LPGEN("Skins");
+	odp.pszTab      = LPGEN(MODULNAME_PLU);
+	odp.pfnDlgProc  = DlgProcPopSkinsOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN2);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

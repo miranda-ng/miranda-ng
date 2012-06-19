@@ -1912,9 +1912,9 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
 }
 
 
-int onRegisterOptions(WPARAM wParam, LPARAM) {
-	OPTIONSDIALOGPAGE odp;
-	memset(&odp,0,sizeof(odp));
+int onRegisterOptions(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONSTAB);

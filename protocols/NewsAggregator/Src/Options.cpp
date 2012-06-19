@@ -634,16 +634,14 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 INT OptInit(WPARAM wParam, LPARAM lParam)
 {
  	OPTIONSDIALOGPAGE odp = {0};
-
-	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize = sizeof(odp);
-    odp.position = 100000000;
-    odp.hInstance = hInst;
-    odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-    odp.ptszGroup = LPGENT("Network");
-    odp.ptszTitle = LPGENT("News Aggregator");
-    odp.pfnDlgProc = UpdateNotifyOptsProc;
-    Options_AddPage(wParam, &odp);
-    return 0;
+	odp.position = 100000000;
+	odp.hInstance = hInst;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszGroup = LPGEN("Network");
+	odp.pszTitle = LPGEN("News Aggregator");
+	odp.pfnDlgProc = UpdateNotifyOptsProc;
+	Options_AddPage(wParam, &odp);
+	return 0;
 }

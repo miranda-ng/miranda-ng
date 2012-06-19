@@ -1010,7 +1010,7 @@ bgskipped:
                 if(dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS)
                     cEntry->dwXMask &= ~EIMG_SHOW_ADV1;
 
-				for(i = EXICON_COUNT - 1; i >= 0; i--) {
+				for (i = EXICON_COUNT - 1; i >= 0; i--) {
                     iIndex = cfg::dat.exIconOrder[i] - 1;
                     if(iIndex >= 0 && iIndex < EXICON_COUNT) {
                         id = OrderTreeData[iIndex].ID;

@@ -189,18 +189,17 @@ static INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPA
 static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-	
+
 	odp.cbSize = sizeof(odp);
 	odp.position = -190000000;
 	odp.hInstance = hMirandaInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KEYWORDFILTER);
-	odp.ptszTitle = TranslateT("Options search");
-	odp.ptszGroup = TranslateT("Customize");
+	odp.pszTitle = LPGEN("Options search");
+	odp.pszGroup = LPGEN("Customize");
 	odp.groupPosition = 810000000;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptSearch;
 	Options_AddPage(wParam, &odp);
-	
 	return 0;
 }
 

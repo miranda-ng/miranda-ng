@@ -133,10 +133,9 @@ void UnloadUpdateNotifyModule()
 	UnhookEvent(hHookPreShutdown);
 }
 
-static int UpdateNotifyOptInit(WPARAM wParam, LPARAM) {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+static int UpdateNotifyOptInit(WPARAM wParam, LPARAM)
+{
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hMirandaInst;

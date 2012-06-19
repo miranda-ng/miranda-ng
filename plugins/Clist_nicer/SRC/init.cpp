@@ -293,10 +293,10 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 
 	if (!cfg::getString(NULL, "CLUI", "exIconOrder", &dbv)) {
 		if(lstrlenA(dbv.pszVal) < EXICON_COUNT) {
-			for(i = 1; i <= EXICON_COUNT; i++)
+			for (i = 1; i <= EXICON_COUNT; i++)
 				cfg::dat.exIconOrder[i - 1] = i;
 		} else {
-			for(i = 0; i < EXICON_COUNT; i++)
+			for (i = 0; i < EXICON_COUNT; i++)
 				if(dbv.pszVal[i] < EXICON_COUNT+1 && dbv.pszVal[i] >0)
 					cfg::dat.exIconOrder[i] = dbv.pszVal[i];
 				else
@@ -304,7 +304,7 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 		}
 		DBFreeVariant(&dbv);
 	} else {
-		for(i = 1; i <= EXICON_COUNT; i++)
+		for (i = 1; i <= EXICON_COUNT; i++)
 			cfg::dat.exIconOrder[i - 1] = i;
 	}
 	ReloadThemedOptions();

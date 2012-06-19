@@ -298,7 +298,7 @@ int CompareContacts(const struct ClcContact* c1, const struct ClcContact* c2)
 	if(result)
 		return result;
 
-	for(i = 0; i <= 2; i++) {
+	for (i = 0; i <= 2; i++) {
 		if(cfg::dat.sortOrder[i]) {
 			result = INTSORT_CompareContacts(c1, c2, cfg::dat.sortOrder[i]);
 			if(result != 0)

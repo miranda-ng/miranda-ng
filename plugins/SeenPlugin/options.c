@@ -465,31 +465,28 @@ INT_PTR CALLBACK OptsSettingsDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpa
 
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
-	OPTIONSDIALOGPAGE odp;
-	HMODULE           hUxTheme = 0;
+	OPTIONSDIALOGPAGE odp = { 0 };
 
-    if(IsWinVerXPPlus()) {
-        hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
+	if(IsWinVerXPPlus()) {
+		HMODULE hUxTheme = GetModuleHandle(_T("uxtheme.dll"));
+		if (hUxTheme)   
+			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
+	}
 
-        if(hUxTheme)   
-            pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
-    }
-
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-    odp.position = 100000000;
-	odp.hInstance=hInstance;
-	odp.flags=ODPF_BOLDGROUPS;
-	odp.pszTemplate=MAKEINTRESOURCE(IDD_SETTINGS);
-	odp.pszGroup="Services";
-	odp.pszTitle="Last seen";
-	odp.pfnDlgProc= OptsSettingsDlgProc;
+	odp.cbSize = sizeof(odp);
+	odp.position = 100000000;
+	odp.hInstance = hInstance;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_SETTINGS);
+	odp.pszGroup = LPGEN("Services");
+	odp.pszTitle = LPGEN("Last seen");
+	odp.pfnDlgProc = OptsSettingsDlgProc;
 	Options_AddPage(wparam,&odp);
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
-	{
+
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCE(IDD_POPUPS);
-		odp.pszGroup = "PopUps";
-		odp.pszTitle = "Last seen";
+		odp.pszGroup = LPGEN("PopUps");
+		odp.pszTitle = LPGEN("Last seen");
 		odp.pfnDlgProc = OptsPopUpsDlgProc;
 		Options_AddPage(wparam,&odp);
 	}

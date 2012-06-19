@@ -80,19 +80,15 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 INT OptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.position=0;
-	odp.hInstance=hInst;
-	odp.pszTemplate=MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszGroup= "Services";
-	odp.pszTitle= modFullname;
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
+	odp.pszGroup = LPGEN("Services");
+	odp.pszTitle = modFullname;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.expertOnlyControls=NULL;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

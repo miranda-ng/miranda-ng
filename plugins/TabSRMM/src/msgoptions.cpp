@@ -1274,103 +1274,92 @@ struct {
 
 static int OptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = { 0 };
-
 	if(PluginConfig.g_PopupWAvail||PluginConfig.g_PopupAvail)
 		TN_OptionsInitialize(wParam, lParam);
 
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
 	odp.ptszTitle = LPGENT("Message Sessions");
-	odp.pfnDlgProc = DlgProcOptions;
-	odp.ptszGroup = NULL;
-	odp.nIDBottomSimpleControl = 0;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTab = TranslateT("General");
+	odp.flags = ODPF_BOLDGROUPS;
+
+	odp.pszTab      = LPGEN("General");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGDLG);
+	odp.pfnDlgProc  = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     = TranslateT("Tabs and layout");
+	odp.pszTab      = LPGEN("Tabs and layout");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TABBEDMSG);
 	odp.pfnDlgProc  = DlgProcTabbedOptions;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     =  TranslateT("Containers");
+	odp.pszTab      = LPGEN("Containers");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTAINERS);
 	odp.pfnDlgProc  = DlgProcContainerSettings;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     =  TranslateT("Message log");
+	odp.pszTab      = LPGEN("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGLOG);
 	odp.pfnDlgProc  = DlgProcLogOptions;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     =  TranslateT("Tool bar");
+	odp.pszTab      = LPGEN("Tool bar");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_TOOLBAR);
 	odp.pfnDlgProc  = DlgProcToolBar;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab     =  TranslateT("Advanced tweaks");
+	odp.pszTab      = LPGEN("Advanced tweaks");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PLUS);
 	odp.pfnDlgProc  = PlusOptionsProc;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-
-	odp.ptszGroup = LPGENT("Message Sessions");
+	odp.pszGroup    = LPGEN("Message Sessions");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGTYPE);
-	odp.ptszTitle = LPGENT("Typing Notify");
+	odp.pszTitle    = LPGEN("Typing Notify");
 	odp.pfnDlgProc = DlgProcTypeOptions;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPT);
-	odp.ptszTitle = LPGENT("Event notifications");
-	odp.ptszGroup = LPGENT("PopUps");
-	odp.pfnDlgProc = DlgProcPopupOpts;
-	odp.nIDBottomSimpleControl = 0;
+	odp.pszTitle    = LPGEN("Event notifications");
+	odp.pszGroup    = LPGEN("PopUps");
+	odp.pfnDlgProc  = DlgProcPopupOpts;
 	Options_AddPage(wParam, &odp);
 
-
-
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SKIN);
-	odp.ptszTitle = LPGENT("Message window");
-	odp.ptszTab = 	TranslateT("Load and apply");
-	odp.pfnDlgProc = DlgProcSkinOpts;
-	odp.nIDBottomSimpleControl = 0;
-	odp.ptszGroup = LPGENT("Skins");
+	odp.pszTitle    = LPGEN("Message window");
+	odp.pszTab      = LPGEN("Load and apply");
+	odp.pfnDlgProc  = DlgProcSkinOpts;
+	odp.pszGroup    = LPGEN("Skins");
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_TABCONFIG);
-	odp.ptszTab = 	  TranslateT("Window layout tweaks");
-	odp.pfnDlgProc = DlgProcTabConfig;
-	odp.nIDBottomSimpleControl = 0;
+	odp.pszTab      = LPGEN("Window layout tweaks");
+	odp.pfnDlgProc  = DlgProcTabConfig;
 	Options_AddPage(wParam, &odp);
 
 	/* group chats */
 
-	odp.ptszGroup = 	LPGENT("Message Sessions");
-	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS1);
-	odp.ptszTitle = 	LPGENT("Group Chats");
-	odp.ptszTab = 		TranslateT("Settings");
+	odp.pszGroup    = LPGEN("Message Sessions");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS1);
+	odp.pszTitle    = LPGEN("Group Chats");
+	odp.pszTab      = LPGEN("Settings");
 	odp.pfnDlgProc = DlgProcOptions1;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS2);
-	odp.ptszTab =		TranslateT("Log formatting");
-	odp.pfnDlgProc = 	DlgProcOptions2;
-	odp.nIDBottomSimpleControl = 0;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
+	odp.pszTab      = LPGEN("Log formatting");
+	odp.pfnDlgProc  = DlgProcOptions2;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS3);
-	odp.ptszTab = 		TranslateT("Events and filters");
-	odp.pfnDlgProc = 	DlgProcOptions3;
-	odp.nIDBottomSimpleControl = 0;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS3);
+	odp.pszTab      = LPGEN("Events and filters");
+	odp.pfnDlgProc  = DlgProcOptions3;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate = 	MAKEINTRESOURCEA(IDD_OPTIONS4);
-	odp.ptszTab = 		TranslateT("Highlighting");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS4);
+	odp.pszTab      = LPGEN("Highlighting");
 	odp.pfnDlgProc = 	CMUCHighlight::dlgProc;
-	odp.nIDBottomSimpleControl = 0;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

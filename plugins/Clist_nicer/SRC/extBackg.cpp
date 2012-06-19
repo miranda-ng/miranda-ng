@@ -259,7 +259,7 @@ StatusItems_t *GetProtocolStatusItem(const char *szProto)
     if(szProto == NULL)
         return NULL;
 
-    for(i = ID_EXTBK_LAST_D - ID_STATUS_OFFLINE + 1; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
+    for (i = ID_EXTBK_LAST_D - ID_STATUS_OFFLINE + 1; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
         if (!strcmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, szProto))
             return &StatusItems[i];
     }
@@ -281,7 +281,7 @@ void LoadExtBkSettingsFromDB()
 	StatusItems = (StatusItems_t *)malloc(sizeof(StatusItems_t) * ((ID_EXTBK_LAST - ID_STATUS_OFFLINE) + protoCount + 2));
 	CopyMemory(StatusItems, _StatusItems, sizeof(_StatusItems));
 
-	for(i = 0; i < protoCount; i++) {
+	for (i = 0; i < protoCount; i++) {
 		ID_EXTBK_LAST++;
 		CopyMemory(&StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE], &StatusItems[0], sizeof(StatusItems_t));
 		mir_snprintf(StatusItems[ID_EXTBK_LAST - ID_STATUS_OFFLINE].szDBname, 30, "EXBK_%s", accs[i]->szModuleName );
@@ -546,7 +546,7 @@ void extbk_export(char *file)
             WritePrivateProfileStructA("ExtBKSettings", buffer, &(StatusItems[n].BORDERSTYLE), sizeof(StatusItems[n].BORDERSTYLE), file);
         }
     }
-    for(n = 0; n <= FONTID_LAST; n++) {
+    for (n = 0; n <= FONTID_LAST; n++) {
         mir_snprintf(szSection, 255, "Font%d", n);
 
         mir_snprintf(szKey, 255, "Font%dName", n);
@@ -769,7 +769,7 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
     if(strcmp(buffer, "None")) {
         int i;
 
-        for(i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
+        for (i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
             if (!_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
                 defaults = &StatusItems[i];
                 break;
@@ -934,7 +934,7 @@ done_with_glyph:
             }
             goto imgread_done;
         }
-        for(n = 0;;n++) {
+        for (n = 0;;n++) {
             mir_snprintf(szItemNr, 30, "Item%d", n);
             GetPrivateProfileStringA(itemname, szItemNr, "None", buffer, 500, szFileName);
             if (!strcmp(buffer, "None"))
@@ -960,7 +960,7 @@ done_with_glyph:
                 }
                 continue;
             }
-            for(i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
+            for (i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++) {
                 if (!_stricmp(StatusItems[i].szName[0] == '{' ? &StatusItems[i].szName[3] : StatusItems[i].szName, buffer)) {
                     if (!alloced) {
                         if (!(tmpItem.dwFlags & IMAGE_GLYPH))
@@ -1026,7 +1026,7 @@ void IMG_DeleteItems()
     }
     g_glyphItem = NULL;
 
-    for(i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++)
+    for (i = 0; i <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; i++)
         StatusItems[i].imageItem = NULL;
 }
 
@@ -1140,7 +1140,7 @@ static void BTN_ReadItem(char *itemName, char *file)
         if(GetPrivateProfileIntA(itemName, "contact", 0, file) != 0)
            tmpItem.dwFlags |= BUTTON_DBACTIONONCONTACT;
 
-        for(n = 0; n <= 1; n++) {
+        for (n = 0; n <= 1; n++) {
             char szKey[20];
             BYTE *pValue;
 
@@ -1374,7 +1374,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
                             UIN[0] = 0;
                             break;
                     }
-                    for(j = 0; j < i - 1; j++) {
+                    for (j = 0; j < i - 1; j++) {
                         if (!strcmp(szProto, items[j].szName) && !strcmp(UIN, items[j].szDBname)
                            && lstrlenA(szProto) == lstrlenA(items[j].szName) && lstrlenA(UIN) == lstrlenA(items[j].szDBname)) {
 
@@ -1455,7 +1455,7 @@ void extbk_import(char *file, HWND hwndDlg)
     data = 0;
     GetPrivateProfileStructA("Global", "Version", &version, 4, file);
     if(version >= 2) {
-        for(n = 0; n <= FONTID_LAST; n++) {
+        for (n = 0; n <= FONTID_LAST; n++) {
             mir_snprintf(szSection, 255, "Font%d", n);
 
             mir_snprintf(szKey, 255, "Font%dName", n);

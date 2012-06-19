@@ -1367,11 +1367,11 @@ static int sttOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hMirandaInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_HOTKEYS);
-	odp.ptszTitle = TranslateT("Hotkeys");
-	odp.ptszGroup = TranslateT("Customize");
+	odp.pszTitle = LPGEN("Hotkeys");
+	odp.pszGroup = LPGEN("Customize");
 	odp.pfnDlgProc = sttOptionsDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

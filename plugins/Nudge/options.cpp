@@ -10,23 +10,22 @@ CNudgeElement* ActualNudge = NULL;
 int NudgeOptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize						= sizeof(odp);
-	odp.position					= -790000000;
-	odp.hInstance					= hInst;
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_NUDGE);
-	odp.ptszTitle					= LPGENT("Nudge");
-	odp.ptszGroup					= LPGENT("Events");
-	odp.ptszTab						= LPGENT("Nudge");
-	odp.flags						= ODPF_BOLDGROUPS|ODPF_TCHAR;
-//	odp.nIDBottomSimpleControl = IDC_STMSNGROUP;
-	odp.pfnDlgProc					= DlgProcNudgeOpt;
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NUDGE);
+	odp.pszTitle = LPGEN("Nudge");
+	odp.pszGroup = LPGEN("Events");
+	odp.pszTab	= LPGEN("Nudge");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcNudgeOpt;
 	Options_AddPage(wParam, &odp);
 
-	odp.position					= -790000001;
-	odp.ptszTab						= LPGENT("Window Shaking");
-	odp.pfnDlgProc					= DlgProcShakeOpt;
+	odp.position = -790000001;
+	odp.pszTab = LPGEN("Window Shaking");
+	odp.pfnDlgProc = DlgProcShakeOpt;
 	odp.flags |= ODPF_EXPERTONLY;
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT_SHAKE);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHAKE);
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

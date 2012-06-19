@@ -536,9 +536,11 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 	int optionsCount = 0;
 	EnterCriticalSection(&csNetlibUser);
 	for (int i = 0; i < netlibUser.getCount(); ++i)
-		if ( !(netlibUser[i]->user.flags & NUF_NOOPTIONS)) ++optionsCount;
+		if ( !(netlibUser[i]->user.flags & NUF_NOOPTIONS))
+			++optionsCount;
 	LeaveCriticalSection(&csNetlibUser);
-	if (optionsCount == 0) return 0;
+	if (optionsCount == 0)
+		return 0;
 
 	OPTIONSDIALOGPAGE odp = { 0 };
 

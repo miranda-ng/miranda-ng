@@ -1147,15 +1147,14 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 int OptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize                 = sizeof(odp);
-	odp.position               = -790000000;
-	odp.hInstance              = hInst;
-	odp.pszTemplate            = MAKEINTRESOURCEA(IDD_OPT1);
-	odp.pszTitle               = Translate("Alarms");
-	odp.pszGroup               = Translate("Events");
-	odp.flags                  = ODPF_BOLDGROUPS;
-	odp.nIDBottomSimpleControl = 0;
-	odp.pfnDlgProc             = DlgProcOpts;
+	odp.cbSize = sizeof(odp);
+	odp.position = -790000000;
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
+	odp.pszTitle = LPGEN("Alarms");
+	odp.pszGroup = LPGEN("Events");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

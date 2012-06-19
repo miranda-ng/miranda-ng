@@ -24,9 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HANDLE hModulesLoaded;
 HANDLE hOptionsInitialize;
 
-const int nExpertOnlyControls = 10;
-UINT uiExpertOnlyControls[nExpertOnlyControls] = {0};
-
 #define HOST "http://eblis.tla.ro/projects"
 
 #define VERSIONINFO_VERSION_URL HOST "/miranda/VersionInfo/updater/VersionInfo.html"
@@ -72,26 +69,24 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static UINT uiExpertOnlyControls[] = { IDC_SHOWUUIDS, IDC_SHOWINSTALLEDLANGUAGES };
+
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	
-	uiExpertOnlyControls[0] = IDC_SHOWUUIDS;
-	uiExpertOnlyControls[1] = IDC_SHOWINSTALLEDLANGUAGES;
-	
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VERSIONINFO);
-	odp.pszTitle = Translate("Version Information");
-	odp.pszGroup = Translate("Services");
+	odp.pszTitle = LPGEN("Version Information");
+	odp.pszGroup = LPGEN("Services");
 	odp.groupPosition = 910000000;
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.expertOnlyControls = uiExpertOnlyControls;
-	odp.nExpertOnlyControls = 2;
+	odp.nExpertOnlyControls = SIZEOF(uiExpertOnlyControls);
 	
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

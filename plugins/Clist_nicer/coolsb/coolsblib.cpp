@@ -632,7 +632,7 @@ BOOL WINAPI CoolSB_InsertButton(HWND hwnd, int wSBflags, UINT nPos, SCROLLBUT *p
 	else
 	{
 		//insert space for the button at the specified position
-		for(i = sbar->nButtons; i > nPos; i--)
+		for (i = sbar->nButtons; i > nPos; i--)
 		{
 			sbar->sbButtons[i] = sbar->sbButtons[i-1];
 		}
@@ -718,7 +718,7 @@ BOOL WINAPI CoolSB_InsertButton(HWND hwnd, int wSBflags, UINT nPos, SCROLLBUT *p
 static SCROLLBUT *GetButtonFromId(SCROLLBAR *sbar, UINT uCmdId)
 {
 	int i;
-	for(i = 0; i < sbar->nButtons; i++)
+	for (i = 0; i < sbar->nButtons; i++)
 	{
 		if(sbar->sbButtons[i].uCmdId == uCmdId)
 			return &sbar->sbButtons[i];
@@ -798,7 +798,7 @@ BOOL WINAPI CoolSB_RemoveButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd
 	else if(fByCmd == TRUE)
 	{
 		//find the button with the specified command id
-		for(i = 0; i < sbar->nButtons; i++)
+		for (i = 0; i < sbar->nButtons; i++)
 		{
 			if(sbar->sbButtons[i].uCmdId == uItem)
 			{
@@ -813,7 +813,7 @@ BOOL WINAPI CoolSB_RemoveButton(HWND hwnd, int wSBflags, UINT uItem, BOOL fByCmd
 	}
 
 	//remove the button!
-	for(i = uItem; i < sbar->nButtons - 1; i++)
+	for (i = uItem; i < sbar->nButtons - 1; i++)
 	{
 		sbar->sbButtons[i] = sbar->sbButtons[i+1];
 	}

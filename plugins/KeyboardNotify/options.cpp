@@ -154,26 +154,21 @@ static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 // **
 int InitializeOptions(WPARAM wParam,LPARAM lParam)
 {
-
-	OPTIONSDIALOGPAGE odp;
-	HMODULE hUxTheme = NULL;
-
-	if(bWindowsNT && dWinVer >= 5.01) {
-		hUxTheme = GetModuleHandle(L"uxtheme.dll");
-
+	if (bWindowsNT && dWinVer >= 5.01) {
+		HMODULE hUxTheme = GetModuleHandle(L"uxtheme.dll");
 		if(hUxTheme)
 			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 	}
 
-	ZeroMemory(&odp,sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszTitle = "Keyboard Flash";
-	odp.pszGroup = "Plugins";
+	odp.pszTitle = LPGEN("Keyboard Flash");
+	odp.pszGroup = LPGEN("Plugins");
 	odp.groupPosition = 910000000;
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	odp.nIDBottomSimpleControl = 0;
 	Options_AddPage(wParam, &odp);

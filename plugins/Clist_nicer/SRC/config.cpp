@@ -206,7 +206,7 @@ int cfg::getCache(const HANDLE hContact, const char *szProto)
 {
     int i, iFound = -1;
 
-    for(i = 0; i < nextCacheEntry; i++) {
+    for (i = 0; i < nextCacheEntry; i++) {
         if(eCache[i].hContact == hContact) {
             iFound = i;
             break;

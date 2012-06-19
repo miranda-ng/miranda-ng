@@ -337,9 +337,7 @@ static UINT expertOnlyControls[] =
 
 int CluiOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
 	odp.hInstance = g_hInst;

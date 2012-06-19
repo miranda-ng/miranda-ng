@@ -52,35 +52,33 @@ int ClcOptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
 	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
 	odp.pszTitle = LPGEN("List");
 	odp.pfnDlgProc = DlgProcClcMainOpts;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	if (!ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 		odp.pszTitle = LPGEN("List Background");
 		odp.pfnDlgProc = DlgProcClcBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam,&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_META_CLC);
 	odp.pszTitle = LPGEN("List MetaContacts");
 	odp.pfnDlgProc = DlgProcClcMetaOpts;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	if (!ServiceExists(MS_BACKGROUNDCONFIG_REGISTER))
-	{
+	if (!ServiceExists(MS_BACKGROUNDCONFIG_REGISTER)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
 		odp.pszTitle = LPGEN("StatusBar Background");
 		odp.pfnDlgProc = DlgProcStatusBarBkgOpts;
 		odp.flags = ODPF_BOLDGROUPS;
-		Options_AddPage(wParam,&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	return 0;

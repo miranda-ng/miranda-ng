@@ -10,40 +10,39 @@ INT_PTR CALLBACK	DlgProcOptsConnections	(HWND hWndDlg, UINT msg, WPARAM wParam, 
 int OptInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp={0};
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = masMraSettings.hInstance;
+	odp.pszTitle = PROTOCOL_NAMEA;
+	odp.pszGroup = LPGEN("Network");
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.cbSize=sizeof(odp);
-	odp.hInstance=masMraSettings.hInstance;
-	odp.pszTitle=PROTOCOL_NAMEA;
-	odp.pszGroup="Network";
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.pszTab = LPGEN("Account");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);
+	odp.pfnDlgProc = DlgProcOptsAccount;
+	Options_AddPage(wParam, &odp);
 
-	odp.pszTab="Account";
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_ACCOUNT);
-	odp.pfnDlgProc=DlgProcOptsAccount;
-	Options_AddPage(wParam,&odp);
+	odp.pszTab = LPGEN("Connections");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
+	odp.pfnDlgProc = DlgProcOptsConnections;
+	Options_AddPage(wParam, &odp);
 
-	odp.pszTab="Connections";
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_CONNECTIONS);
-	odp.pfnDlgProc=DlgProcOptsConnections;
-	Options_AddPage(wParam,&odp);
+	odp.pszTab = LPGEN("Anti spam");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ANTISPAM);
+	odp.pfnDlgProc = MraAntiSpamDlgProcOpts;
+	Options_AddPage(wParam, &odp);
 
-	odp.pszTab="Anti spam";
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_ANTISPAM);
-	odp.pfnDlgProc=MraAntiSpamDlgProcOpts;
-	Options_AddPage(wParam,&odp);
+	odp.pszTab = LPGEN("Files");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILES);
+	odp.pfnDlgProc = MraFilesQueueDlgProcOpts;
+	Options_AddPage(wParam, &odp);
 
-	odp.pszTab="Files";
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_FILES);
-	odp.pfnDlgProc=MraFilesQueueDlgProcOpts;
-	Options_AddPage(wParam,&odp);
-
-	odp.pszTab="Avatars";
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_AVATRS);
-	odp.pfnDlgProc=MraAvatarsQueueDlgProcOpts;
-	Options_AddPage(wParam,&odp);
+	odp.pszTab = LPGEN("Avatars");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AVATRS);
+	odp.pfnDlgProc = MraAvatarsQueueDlgProcOpts;
+	Options_AddPage(wParam, &odp);
 
 	MraPopupOptInit(wParam,lParam);
-return(0);
+	return 0;
 }
 
 

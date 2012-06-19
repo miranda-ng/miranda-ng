@@ -222,16 +222,14 @@ static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 //Called when the user opened the options dialog
 static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOSOUND);
 	odp.pszTitle = PLUGINNAME_SHORT;
-	odp.pszTitle = "Zero Notifications";
-	odp.pszGroup = Translate("Plugins");
+	odp.pszTitle = LPGEN("Zero Notifications");
+	odp.pszGroup = LPGEN("Plugins");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcNoSoundOpts;
 	Options_AddPage(wParam, &odp);

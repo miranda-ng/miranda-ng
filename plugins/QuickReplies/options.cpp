@@ -188,17 +188,16 @@ static UINT expertOnlyControls[] = { IDC_VARIABLES, IDC_VARIABLES_HINT };
 
 int OnOptInitialized(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR tabName[32];
-	mir_sntprintf(tabName, SIZEOF(tabName), _T("Button %x"), iNumber + 1);
+	char tabName[32];
+	mir_snprintf(tabName, SIZEOF(tabName), "Button %x", iNumber + 1);
 
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize              = sizeof(odp);
-	odp.ptszGroup           = _T("Message Sessions");
-	odp.ptszTitle           = _T("Quick Replies");
-	odp.ptszTab             = tabName;
+	odp.pszGroup            = LPGEN("Message Sessions");
+	odp.pszTitle            = LPGEN("Quick Replies");
+	odp.pszTab              = tabName;
 	odp.position            = iNumber;
 	odp.hInstance           = hInstance;
-	odp.flags               = ODPF_TCHAR;
 
 	odp.expertOnlyControls  = expertOnlyControls;
 	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);

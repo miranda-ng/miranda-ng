@@ -122,16 +122,15 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 int OptionsInit(WPARAM wparam,LPARAM lparam)
 {
 	OPTIONSDIALOGPAGE odp={0};
+	odp.cbSize = sizeof(odp);
+	odp.position = 955000000;
+	odp.hInstance = hinstance;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTitle = MODULENAME;
+	odp.pfnDlgProc = OptionsProc;
+	odp.pszGroup = LPGEN("Customize");
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(wparam,&odp);
 
-	odp.cbSize=sizeof(odp);
-    odp.position=955000000;
-    odp.hInstance=hinstance;
-    odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPTIONS);
-    odp.ptszTitle= _T(MODULENAME);
-    odp.pfnDlgProc=OptionsProc;
-	odp.ptszGroup=_T("Customize");
-	odp.flags=ODPF_BOLDGROUPS | ODPF_TCHAR;
-
-    Options_AddPage(wparam,&odp);
 	return 0;
 }

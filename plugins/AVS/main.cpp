@@ -2167,27 +2167,24 @@ static int ContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static int OptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY | ODPF_TCHAR;
-	odp.ptszGroup = LPGENT("Customize");
-	odp.ptszTitle = LPGENT("Avatars");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	odp.pszGroup = LPGEN("Customize");
+	odp.pszTitle = LPGEN("Avatars");
 
-	odp.ptszTab = LPGENT("Protocols");
+	odp.pszTab = LPGEN("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_PICTS);
 	odp.pfnDlgProc = DlgProcOptionsProtos;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Contact Avatars");
+	odp.pszTab = LPGEN("Contact Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_AVATARS);
 	odp.pfnDlgProc = DlgProcOptionsAvatars;
 	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = LPGENT("Own Avatars");
+	odp.pszTab = LPGEN("Own Avatars");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_OWN);
 	odp.pfnDlgProc = DlgProcOptionsOwn;
 	Options_AddPage(wParam, &odp);
@@ -2377,12 +2374,11 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 		// User dialog
 		OPTIONSDIALOGPAGE odp = {0};
 		odp.cbSize = sizeof(odp);
-		odp.flags = ODPF_TCHAR;
 		odp.hIcon = g_hIcon;
 		odp.hInstance = g_hInst;
 		odp.pfnDlgProc = DlgProcAvatarProtoInfo;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_AVATARS);
-		odp.ptszTitle = LPGENT("Avatar");
+		odp.pszTitle = LPGEN("Avatar");
 		UserInfo_AddPage(wParam, &odp);
 	}
 	else
@@ -2393,13 +2389,12 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 			// Contact dialog
 			OPTIONSDIALOGPAGE odp = {0};
 			odp.cbSize = sizeof(odp);
-			odp.flags = ODPF_TCHAR;
 			odp.hIcon = g_hIcon;
 			odp.hInstance = g_hInst;
 			odp.pfnDlgProc = DlgProcAvatarUserInfo;
 			odp.position = -2000000000;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_AVATAR);
-			odp.ptszTitle = LPGENT("Avatar");
+			odp.pszTitle = LPGEN("Avatar");
 			UserInfo_AddPage(wParam, &odp);
 		}
 	}

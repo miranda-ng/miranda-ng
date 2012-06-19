@@ -432,17 +432,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int OptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = hInst;
-	odp.ptszGroup = _T("Skins");
+	odp.pszGroup = LPGEN("Skins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SPLASH_OPT);
-	odp.ptszTitle = _T("Splash Screen");
+	odp.pszTitle = LPGEN("Splash Screen");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

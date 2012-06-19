@@ -27,15 +27,14 @@ int MraPopupOptInit(WPARAM wParam,LPARAM lParam)
 {
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		OPTIONSDIALOGPAGE odp = {0};
-
 		odp.cbSize = sizeof(odp);
 		odp.position = 100000000;
 		odp.hInstance = masMraSettings.hInstance;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
-		odp.ptszTitle = PROTOCOL_NAMEW;
-		odp.ptszGroup = TranslateW(L"Popups");
+		odp.pszTitle = PROTOCOL_NAMEA;
+		odp.pszGroup = LPGEN("Popups");
 		odp.groupPosition = 900000000;
-		odp.flags = (ODPF_BOLDGROUPS | ODPF_UNICODE);
+		odp.flags = ODPF_BOLDGROUPS;
 		odp.nIDBottomSimpleControl = IDC_GROUPMAIN;
 		odp.pfnDlgProc = MraPopupDlgProcOpts;
 		Options_AddPage(wParam, &odp);

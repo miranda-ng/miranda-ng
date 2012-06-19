@@ -365,16 +365,16 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR;
 
 	odp.ptszTab     = LPGENT("Basic");
-    odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pfnDlgProc  = options_proc;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	if(ServiceExists(MS_POPUP_ADDPOPUPT))
+	if(ServiceExists(MS_POPUP_ADDPOPUPT)) 
 	{
 		odp.ptszTab     = LPGENT("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc  = popup_options_proc;
-		Options_AddPage(wParam,&odp);
+		Options_AddPage(wParam, &odp);
 	}
 
 	return 0;

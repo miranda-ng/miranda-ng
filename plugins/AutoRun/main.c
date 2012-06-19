@@ -129,16 +129,16 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	odp.cbSize=sizeof(odp);
-	odp.position=100100000;
-	odp.hInstance=hInst;
-	odp.pszTemplate=MAKEINTRESOURCE(IDD_OPT_AUTORUN);
-	odp.pszTitle=Translate(ModuleName);
-	odp.pszGroup=Translate("Plugins");
-	odp.pfnDlgProc=DlgProcAutorunOpts;
-	odp.flags=ODPF_BOLDGROUPS;	
-	Options_AddPage(wParam,&odp);
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = 100100000;
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_AUTORUN);
+	odp.pszTitle = ModuleName;
+	odp.pszGroup = LPGEN("Plugins");
+	odp.pfnDlgProc = DlgProcAutorunOpts;
+	odp.flags = ODPF_BOLDGROUPS;	
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 //==========================================================================

@@ -297,17 +297,15 @@ int CTooltipNotify::ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 int CTooltipNotify::InitializeOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = m_hDllInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.ptszTitle = TranslateT("Tooltip Notify");
-	odp.ptszGroup = TranslateT("Appearance");
+	odp.pszTitle = LPGEN("Tooltip Notify");
+	odp.pszGroup = LPGEN("Appearance");
 	odp.groupPosition = 910000000;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = CTooltipNotify::OptionsDlgProcWrapper;
 	::Options_AddPage(wParam, &odp);
 

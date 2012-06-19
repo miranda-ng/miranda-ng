@@ -371,24 +371,23 @@ static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	return FALSE;
 }
 
+static UINT expertOnlyControls[]={IDC_CHECK_USEIPTOCOUNTRY};
 static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	static UINT expertOnlyControls[]={IDC_CHECK_USEIPTOCOUNTRY};
+	OPTIONSDIALOGPAGE odp = { 0 };
   	UNREFERENCED_PARAMETER(lParam);
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.hInstance=hInst;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
-	odp.position=900000002;
-	odp.ptszGroup=_T("Contact List");  /* autotranslated */
-	odp.ptszTitle=_T("Country Flags"); /* autotranslated */
-	odp.ptszTab=_T("Country Flags");   /* autotranslated, can be made a tab */
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.pfnDlgProc=ExtraImgOptDlgProc;
-	odp.expertOnlyControls=expertOnlyControls;
-	odp.nExpertOnlyControls=SIZEOF(expertOnlyControls);
-	Options_AddPage(wParam,&odp);
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
+	odp.position = 900000002;
+	odp.pszGroup = LPGEN("Contact List");  /* autotranslated */
+	odp.pszTitle = LPGEN("Country Flags"); /* autotranslated */
+	odp.pszTab = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pfnDlgProc = ExtraImgOptDlgProc;
+	odp.expertOnlyControls = expertOnlyControls;
+	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

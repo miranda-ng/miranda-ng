@@ -243,7 +243,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
                     Utils::enableDlgControl(hwndDlg, IDC_FLT_SHOWTOOLTIPS, 0);
                 }
 
-				for(i = 0; padctrlIDs[i] != 0; i++)
+				for (i = 0; padctrlIDs[i] != 0; i++)
 					SendDlgItemMessage(hwndDlg, padctrlIDs[i], UDM_SETRANGE, 0, MAKELONG(20, 0));
 				SendDlgItemMessage(hwndDlg, IDC_FLT_WIDTHSPIN, UDM_SETRANGE, 0, MAKELONG(200, 50));
 				SendDlgItemMessage(hwndDlg, IDC_FLT_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(20, 1));
@@ -897,7 +897,7 @@ void SFL_SetSize()
 
 	hdc = GetDC(g_hwndSFL);
 	oldFont = reinterpret_cast<HFONT>(SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT)));
-	for(i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		szStatusMode = Translate((char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, 0));
 		GetTextExtentPoint32A(hdc, szStatusMode, lstrlenA(szStatusMode), &sz);
 		lWidth = max(lWidth, sz.cx + 16 + 8);

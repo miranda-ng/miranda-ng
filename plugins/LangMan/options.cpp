@@ -646,16 +646,13 @@ void ReloadLangOptList(void)
 
 static int LangOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
+	OPTIONSDIALOGPAGE odp = { 0 };
 	UNREFERENCED_PARAMETER(lParam);
-	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
-	odp.position = 1200000090; /* plugin opts = 1300000000 */
-//	odp.ptszGroup = _T("Appearance"); /* autotranslated */
-	odp.ptszTitle = _T("Appearance");  /* autotranslated */
-//	odp.ptszTab = _T("Language");  /* autotranslated, can be made a tab */
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = 1200000090;
+	odp.pszTitle = LPGEN("Appearance");  /* autotranslated */
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_LANG);
 	odp.pfnDlgProc = LangOptDlgProc;
 	Options_AddPage(wParam, &odp);

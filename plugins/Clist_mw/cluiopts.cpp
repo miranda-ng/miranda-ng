@@ -36,11 +36,8 @@ int OnStatusBarBackgroundChange();
 static UINT expertOnlyControls[] = {IDC_BRINGTOFRONT, IDC_AUTOSIZE,IDC_STATIC21,IDC_MAXSIZEHEIGHT,IDC_MAXSIZESPIN,IDC_STATIC22,IDC_AUTOSIZEUPWARD,IDC_SHOWMAINMENU,IDC_SHOWCAPTION,IDC_CLIENTDRAG};
 int CluiOptInit(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
 	odp.pszTitle = LPGEN("Window");
@@ -49,16 +46,17 @@ int CluiOptInit(WPARAM wParam,LPARAM lParam)
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.nIDBottomSimpleControl = IDC_STWINDOWGROUP;
 	odp.expertOnlyControls = expertOnlyControls;
-	odp.nExpertOnlyControls = sizeof(expertOnlyControls)/sizeof(expertOnlyControls[0]);
-	Options_AddPage(wParam,&odp);
+	odp.nExpertOnlyControls = SIZEOF(expertOnlyControls);
+	Options_AddPage(wParam, &odp);
+
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
 	odp.pszTitle = LPGEN("Status Bar");
 	odp.pfnDlgProc = DlgProcSBarOpts;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
 	odp.nIDBottomSimpleControl = 0;
 	odp.nExpertOnlyControls = 0;
 	odp.expertOnlyControls = NULL;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

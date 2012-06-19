@@ -193,27 +193,25 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.ptszGroup = _T("Message Sessions");
-	odp.ptszTitle = _T(pluginName);
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszTitle = pluginName;
 	odp.position = -1;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_TCHAR;
 
-	odp.ptszTab = _T("Main");
+	odp.pszTab = LPGEN("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
-	Options_AddPage( w, &odp);
+	Options_AddPage(w, &odp);
 
-
-	odp.ptszTab = _T("Messages");
+	odp.pszTab = LPGEN("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
-	Options_AddPage( w, &odp);
+	Options_AddPage(w, &odp);
 
-	odp.ptszTab = _T("Protocols");
+	odp.pszTab = LPGEN("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
-	Options_AddPage( w, &odp);
+	Options_AddPage(w, &odp);
 
 	return 0;
 }

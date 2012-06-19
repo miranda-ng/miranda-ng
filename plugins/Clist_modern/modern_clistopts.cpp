@@ -37,55 +37,48 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 static UINT expertOnlyControls[]={IDC_ALWAYSSTATUS};
 
-static struct _RowItemOptionConf 
+struct
 { 
-	TCHAR *name;				// Tab name
+	char *name;				// Tab name
 	int id;					// Dialog id
 	DLGPROC wnd_proc;		// Dialog function
-} row_opt_items[] = { 
-	{ _T("Row"), IDD_OPT_ITEM_ROW, DlgProcItemRowOpts },
+}
+static row_opt_items[] =
+{ 
+	{ LPGEN("Row"), IDD_OPT_ITEM_ROW, DlgProcItemRowOpts },
 #ifdef _DEBUG
-	{ _T("Row design"), IDD_OPT_ROWTMPL, DlgTmplEditorOpts },
+	{ LPGEN("Row design"), IDD_OPT_ROWTMPL, DlgTmplEditorOpts },
 #endif
-	{ LPGENT("Avatar"), IDD_OPT_ITEM_AVATAR, DlgProcItemAvatarOpts },
-	{ LPGENT("Icon"), IDD_OPT_ITEM_ICON, DlgProcItemIconOpts },
-	{ LPGENT("Contact time"), IDD_OPT_ITEM_CONTACT_TIME, DlgProcItemContactTimeOpts },
-	{ LPGENT("Text"), IDD_OPT_ITEM_TEXT, DlgProcItemTextOpts },
-	{ LPGENT("Second Line"), IDD_OPT_ITEM_SECOND_LINE, DlgProcItemSecondLineOpts },
-	{ LPGENT("Third Line"), IDD_OPT_ITEM_THIRD_LINE, DlgProcItemThirdLineOpts },
-	{ LPGENT("Extra Icons"), IDD_OPT_ITEM_EXTRAICONS, DlgProcExtraIconsOpts},
-	{	0	}
+	{ LPGEN("Avatar"), IDD_OPT_ITEM_AVATAR, DlgProcItemAvatarOpts },
+	{ LPGEN("Icon"), IDD_OPT_ITEM_ICON, DlgProcItemIconOpts },
+	{ LPGEN("Contact time"), IDD_OPT_ITEM_CONTACT_TIME, DlgProcItemContactTimeOpts },
+	{ LPGEN("Text"), IDD_OPT_ITEM_TEXT, DlgProcItemTextOpts },
+	{ LPGEN("Second Line"), IDD_OPT_ITEM_SECOND_LINE, DlgProcItemSecondLineOpts },
+	{ LPGEN("Third Line"), IDD_OPT_ITEM_THIRD_LINE, DlgProcItemThirdLineOpts },
+	{ LPGEN("Extra Icons"), IDD_OPT_ITEM_EXTRAICONS, DlgProcExtraIconsOpts}
 };
 
 
 int CListOptInit(WPARAM wParam,LPARAM lParam)
 {
-
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-	odp.cbSize=sizeof(odp);
-	odp.position=-200000000;
-	odp.hInstance=g_hInst;
-	//	odp.pfnDlgProc=DlgProcItemsOpts;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_ITEMS);
-	odp.ptszGroup=LPGENT("Contact List");
-	odp.ptszTitle=LPGENT("Row items");
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
-	//	Options_AddPage(wParam,&odp);
-
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.position = -200000000;
+	odp.hInstance = g_hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ITEMS);
+	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Row items");
+	odp.flags = ODPF_BOLDGROUPS;
 	{
 		BOOL hasExtraIconsService = ServiceExists("ExtraIcon/Register");
-		int i;	
-		for (i=0; row_opt_items[i].id!=0; i++)
-		{
+		for (int i=0; i < SIZEOF(row_opt_items); i++) {
 			if (hasExtraIconsService && row_opt_items[i].id == IDD_OPT_ITEM_EXTRAICONS)
 				continue;
 
-			odp.pszTemplate=MAKEINTRESOURCEA(row_opt_items[i].id);
-			odp.ptszTab=row_opt_items[i].name;
-			odp.pfnDlgProc=row_opt_items[i].wnd_proc;
-			Options_AddPage(wParam,&odp);
+			odp.pszTemplate = MAKEINTRESOURCEA(row_opt_items[i].id);
+			odp.pszTab = row_opt_items[i].name;
+			odp.pfnDlgProc = row_opt_items[i].wnd_proc;
+			Options_AddPage(wParam, &odp);
 		}
 	}
 
@@ -94,8 +87,7 @@ int CListOptInit(WPARAM wParam,LPARAM lParam)
 
 static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			int i;

@@ -976,9 +976,9 @@ static int AssocListOptInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ASSOCLIST);
 	odp.position = 900000100; /* network opts  =  900000000 */
-	odp.ptszGroup = _T("Services"); /* autotranslated */
-	odp.ptszTitle = _T("Associations"); /* autotranslated */
-	odp.flags = ODPF_BOLDGROUPS|ODPF_EXPERTONLY|ODPF_TCHAR;
+	odp.pszGroup = LPGEN("Services"); /* autotranslated */
+	odp.pszTitle = LPGEN("Associations"); /* autotranslated */
+	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
 	odp.pfnDlgProc = AssocListOptDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

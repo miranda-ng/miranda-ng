@@ -196,10 +196,10 @@ int CSList::initOptions( WPARAM wparam, LPARAM lparam )
 	odp.position = 955000000;
 	odp.hInstance = CSList::handle;
 	odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPTIONS );
-	odp.ptszTitle = _T( MODULENAME );
-	odp.pfnDlgProc = ( DLGPROC )CSOptionsProc;
-	odp.ptszGroup = _T("Status");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.pszTitle = MODULENAME;
+	odp.pfnDlgProc = CSOptionsProc;
+	odp.pszGroup = LPGEN("Status");
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam, &odp);
 	return FALSE;
 }

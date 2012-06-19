@@ -375,22 +375,17 @@ namespace
 
 	int QuotesEventFunc_OptInitialise(WPARAM wp,LPARAM/* lp*/)
 	{
-// 		USES_CONVERSION;
-
 		const CModuleInfo::TQuotesProvidersPtr& pProviders = CModuleInfo::GetQuoteProvidersPtr();
 		const CQuotesProviders::TQuotesProviders& rapProviders = pProviders->GetProviders();
 
-		OPTIONSDIALOGPAGE odp;
-		ZeroMemory(&odp,sizeof(odp));
-
+		OPTIONSDIALOGPAGE odp = { 0 };
 		odp.cbSize = sizeof(odp);
 		odp.position = 910000000;
 		odp.hInstance = CModuleInfo::GetModuleHandle();
-		tstring sProtocolName = quotes_a2t(QUOTES_PROTOCOL_NAME);
-		odp.ptszTitle = const_cast<TCHAR*>(sProtocolName.c_str());//A2T(QUOTES_PROTOCOL_NAME);
-		odp.ptszGroup = _T("Network");
+		odp.pszTitle = QUOTES_PROTOCOL_NAME;
+		odp.pszGroup = LPGEN("Network");
 		odp.hIcon = Quotes_LoadIconEx(ICON_STR_MAIN);
-		odp.flags = ODPF_TCHAR|ODPF_USERINFOTAB;
+		odp.flags = ODPF_USERINFOTAB;
 
 		std::for_each(rapProviders.begin(),rapProviders.end(),boost::bind(&IQuotesProvider::ShowPropertyPage,_1,wp,boost::ref(odp)));
 		return 0;

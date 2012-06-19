@@ -328,7 +328,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 	if(cEntry->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
 		int j = 0, i;
 		cEntry->statusMsg = (TCHAR *)realloc(cEntry->statusMsg, (lstrlen(dbv.ptszVal) + 2) * sizeof(TCHAR));
-		for(i = 0; dbv.ptszVal[i]; i++) {
+		for (i = 0; dbv.ptszVal[i]; i++) {
 			if(dbv.ptszVal[i] == (TCHAR)0x0d)
 				continue;
 			cEntry->statusMsg[j] = dbv.ptszVal[i] == (wchar_t)0x0a ? (wchar_t)' ' : dbv.ptszVal[i];
@@ -348,7 +348,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 		iLen = min(lstrlenW(cEntry->statusMsg), 10);
 		GetStringTypeW(CT_CTYPE2, cEntry->statusMsg, iLen, infoTypeC2);
 		cEntry->dwCFlags &= ~ECF_RTLSTATUSMSG;
-		for(i = 0; i < 10; i++) {
+		for (i = 0; i < 10; i++) {
 			if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
 				cEntry->dwCFlags |= ECF_RTLSTATUSMSG;
 				break;
@@ -416,7 +416,7 @@ void RTL_DetectAndSet(struct ClcContact *contact, HANDLE hContact)
         iLen = min(lstrlenW(szText), 10);
         GetStringTypeW(CT_CTYPE2, szText, iLen, infoTypeC2);
         cfg::eCache[index].dwCFlags &= ~ECF_RTLNICK;
-        for(i = 0; i < 10; i++) {
+        for (i = 0; i < 10; i++) {
             if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
                 cfg::eCache[index].dwCFlags |= ECF_RTLNICK;
                 return;
@@ -436,7 +436,7 @@ void RTL_DetectGroupName(struct ClcContact *group)
     if(group->szText) {
         iLen = min(lstrlenW(group->szText), 10);
         GetStringTypeW(CT_CTYPE2, group->szText, iLen, infoTypeC2);
-        for(i = 0; i < 10; i++) {
+        for (i = 0; i < 10; i++) {
             if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
                 group->isRtl = 1;
                 return;
@@ -561,7 +561,7 @@ void ReloadSkinItemsToCache()
     int i;
     char *szProto;
 
-    for(i = 0; i < cfg::nextCacheEntry; i++) {
+    for (i = 0; i < cfg::nextCacheEntry; i++) {
         szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cfg::eCache[i].hContact, 0);
         if(szProto)
             LoadSkinItemToCache(&cfg::eCache[i], szProto);
@@ -574,7 +574,7 @@ DWORD CalcXMask(HANDLE hContact)
     int   i;
     DWORD dwResult = cfg::dat.dwExtraImageMask, bForced, bHidden;
 
-    for(i = 0; i <= 10; i++) {
+    for (i = 0; i <= 10; i++) {
         bForced = (dwXMask & (1 << (2 * i)));
         bHidden = (dwXMask & (1 << (2 * i + 1)));
         if(bForced == 0 && bHidden == 0)

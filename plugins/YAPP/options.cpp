@@ -471,20 +471,20 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 
 int OptInit(WPARAM wParam, LPARAM lParam) {
 	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize						= sizeof(odp);
-	odp.flags						= ODPF_BOLDGROUPS;
-	odp.position					= -790000000;
-	odp.hInstance					= hInst;
-	odp.pszTitle					= LPGEN("PopUps");
+	odp.cbSize = sizeof(odp);
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.position = -790000000;
+	odp.hInstance = hInst;
+	odp.pszTitle = LPGEN("PopUps");
 
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT1);
-	odp.pszTab						= LPGEN("Settings");
-	odp.pfnDlgProc					= DlgProcOpts1;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT1);
+	odp.pszTab = LPGEN("Settings");
+	odp.pfnDlgProc = DlgProcOpts1;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_CLASSES);
-	odp.pszTab						= LPGEN("Classes");
-	odp.pfnDlgProc					= DlgProcOptsClasses;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_CLASSES);
+	odp.pszTab = LPGEN("Classes");
+	odp.pfnDlgProc = DlgProcOptsClasses;
 	Options_AddPage(wParam, &odp);
 
 	return 0;

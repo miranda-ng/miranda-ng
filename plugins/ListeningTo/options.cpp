@@ -83,29 +83,28 @@ int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize=sizeof(odp);
 	odp.hInstance = hInst;
-	odp.ptszGroup = TranslateT("Status");
-	odp.ptszTitle = TranslateT("Listening info");
+	odp.flags = ODPF_BOLDGROUPS;
 
-	odp.ptszTab = TranslateT("General");
+	odp.pszGroup = LPGEN("Status");
+	odp.pszTitle = LPGEN("Listening info");
+	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.expertOnlyControls = optionsExpertControls;
 	odp.nExpertOnlyControls = MAX_REGS(optionsExpertControls);
 	odp.nIDBottomSimpleControl = IDC_LISTENING_G;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = TranslateT("Format");
+	odp.pszTab = LPGEN("Format");
 	odp.pfnDlgProc = FormatDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_FORMAT);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_EXPERTONLY;
-	Options_AddPage(wParam,&odp);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_EXPERTONLY;
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab = TranslateT("Players");
+	odp.pszTab = LPGEN("Players");
 	odp.pfnDlgProc = PlayersDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PLAYERS);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_EXPERTONLY;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

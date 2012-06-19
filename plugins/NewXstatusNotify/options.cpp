@@ -1053,39 +1053,38 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = -100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-	odp.ptszTitle = LPGENT("Status Notify");
-	odp.ptszGroup = LPGENT("Status");
-	odp.ptszTab	= LPGENT("General");
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTitle = LPGEN("Status Notify");
+	odp.pszGroup = LPGEN("Status");
+	odp.pszTab	= LPGEN("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc = DlgProcGeneralOpts;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab	= LPGENT("Filtering");
+	odp.pszTab = LPGEN("Filtering");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FILTERS);
 	odp.pfnDlgProc = DlgProcFiltering;
-	Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
-	odp.ptszTab	= LPGENT("Message log");
+	odp.pszTab = LPGEN("Message log");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XLOG);
 	odp.pfnDlgProc = DlgProcXLogOpts;	
 	Options_AddPage(wParam, &odp);
 
-	if (ServiceExists(MS_POPUP_ADDPOPUP)) 
-	{
-		odp.ptszTitle = LPGENT("Status Notify");
-		odp.ptszGroup = LPGENT("Popups");
-		odp.ptszTab = LPGENT("General");
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
+		odp.pszTitle = LPGEN("Status Notify");
+		odp.pszGroup = LPGEN("Popups");
+		odp.pszTab = LPGEN("General");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProcPopUpOpts;
-		Options_AddPage(wParam,&odp);
+		Options_AddPage(wParam, &odp);
 
-		odp.ptszTab = LPGENT("Extra status");
+		odp.pszTab = LPGEN("Extra status");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_XPOPUP);
 		odp.pfnDlgProc = DlgProcXPopupOpts;	
 		Options_AddPage(wParam, &odp);
 
-		odp.ptszTab = LPGENT("Status message");
+		odp.pszTab = LPGEN("Status message");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMPOPUP);
 		odp.pfnDlgProc = DlgProcSMPopupOpts;	
 		Options_AddPage(wParam, &odp);

@@ -459,24 +459,22 @@ return FALSE;
 int OptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
-
-	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
-	odp.ptszGroup = _T("Events");
-	odp.ptszTitle = _T("Pack Updater");
+	odp.pszGroup = LPGEN("Events");
+	odp.pszTitle = LPGEN("Pack Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
-	if (ServiceExists(MS_POPUP_ADDPOPUP))
-	{
+
+	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.ptszGroup = _T("PopUps");
-		odp.ptszTitle = _T("Pack Updater");
+		odp.pszGroup = LPGEN("PopUps");
+		odp.pszTitle = LPGEN("Pack Updater");
 		odp.pfnDlgProc = DlgPopUpOpts;
-		Options_AddPage(wParam,&odp);
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }

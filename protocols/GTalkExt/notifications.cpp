@@ -241,7 +241,7 @@ HANDLE SetupPseudocontact(LPCTSTR jid, LPCTSTR unreadCount, LPCSTR acc, LPCTSTR 
 		if (allocateName) free((PVOID)displayName);
 	}
 
-	DBWriteContactSettingTString(result, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateT(MAIL_NOTIFICATIONS));
+	DBWriteContactSettingTString(result, CLIST_MODULE_NAME, STATUS_MSG_SETTING, TranslateTS(MAIL_NOTIFICATIONS));
 	DBWriteContactSettingTString(result, SHORT_PLUGIN_NAME, UNREAD_THREADS_SETTING, unreadCount);
 
 	return result;
@@ -352,9 +352,9 @@ void UnreadThreadNotification(LPCSTR acc, LPCTSTR jid, LPCTSTR url, LPCTSTR unre
 		}
 
 		if (ReadCheckbox(0, IDC_ADDSNIP, (DWORD)TlsGetValue(itlsSettings)))
-			wsprintf(&data.lptzText[0], TranslateT(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
+			wsprintf(&data.lptzText[0], TranslateTS(FULL_NOTIFICATION_FORMAT), mtn->subj, senders, mtn->snip);
 		else
-			wsprintf(&data.lptzText[0], TranslateT(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
+			wsprintf(&data.lptzText[0], TranslateTS(SHORT_NOTIFICATION_FORMAT), mtn->subj, senders);
 	}
 	__finally {
 		free(senders);

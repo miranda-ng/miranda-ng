@@ -400,17 +400,17 @@ int OptsDlgInit(WPARAM wParam,LPARAM lParam)
 	optDi.pfnDlgProc = MainOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGMAIN);
 	optDi.hInstance = g_hInstance;
-	optDi.ptszTitle = _T("BossKey");
-	optDi.ptszGroup = _T("Events");
-	optDi.ptszTab	= _T("Main");
-	optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	optDi.pszTitle = LPGEN("BossKey");
+	optDi.pszGroup = LPGEN("Events");
+	optDi.pszTab	= LPGEN("Main");
+	optDi.flags = ODPF_BOLDGROUPS;
 
 	Options_AddPage(wParam, &optDi);
 
 	optDi.flags |= ODPF_EXPERTONLY;
 	optDi.pfnDlgProc = AdvOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_OPTDIALOGADV);
-	optDi.ptszTab	= _T("Advanced");
+	optDi.pszTab	= LPGEN("Advanced");
 
 	Options_AddPage(wParam, &optDi);
 	return(0);

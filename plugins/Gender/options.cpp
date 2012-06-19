@@ -151,16 +151,14 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp, sizeof(odp));
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.position = 0;
 	odp.hInstance = g_hInst;
-	odp.ptszGroup = LPGENT("Plugins");
+	odp.pszGroup = LPGEN("Plugins");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_GENDER_OPT);
-	odp.ptszTitle = LPGENT("Gender");
+	odp.pszTitle = LPGEN("Gender");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	
 	return 0;

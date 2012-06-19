@@ -64,36 +64,31 @@ static OptPageControl autoReplaceControls[] = {
 
 int InitOptionsCallback(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-
-	ZeroMemory(&odp,sizeof(odp));
-    odp.cbSize=sizeof(odp);
-    odp.position=0;
-	odp.hInstance=hInst;
-	odp.ptszGroup = LPGENT("Message Sessions");
-	odp.ptszTitle = LPGENT("Spell Checker");
+	OPTIONSDIALOGPAGE odp = { 0 };
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("Spell Checker");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-    odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.nIDBottomSimpleControl = IDC_SPELL_CHECKER;
 	odp.expertOnlyControls = optionsExpertControls;
 	odp.nExpertOnlyControls = MAX_REGS(optionsExpertControls);
-    Options_AddPage(wParam,&odp);
+	Options_AddPage(wParam, &odp);
 
 	ZeroMemory(&odp,sizeof(odp));
-    odp.cbSize=sizeof(odp);
-    odp.position=0;
-	odp.hInstance=hInst;
-	odp.ptszGroup = LPGENT("Message Sessions");
-	odp.ptszTitle = LPGENT("Auto-replacements");
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = hInst;
+	odp.pszGroup = LPGEN("Message Sessions");
+	odp.pszTitle = LPGEN("Auto-replacements");
 	odp.pfnDlgProc = AutoreplaceDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_REPLACEMENTS);
-    odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-    Options_AddPage(wParam,&odp);
+	odp.flags = ODPF_BOLDGROUPS;
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }
-
 
 void InitOptions()
 {

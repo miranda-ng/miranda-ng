@@ -1511,11 +1511,9 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
  **/
 static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp, sizeof(odp));
-	
 	DlgContactInfoInitTreeIcons();
 
+	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.position = 95400;
 	odp.hInstance = ghInst;
 	odp.pszTitle = MODNAME;
@@ -1551,8 +1549,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 
 	// Popups page
-	if (ServiceExists(MS_POPUP_ADDPOPUPT)) 
-	{
+	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTitle = MODNAME;
 		odp.pszGroup = LPGEN("Popups");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);

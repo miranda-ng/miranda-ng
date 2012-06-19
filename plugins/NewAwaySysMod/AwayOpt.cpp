@@ -1758,36 +1758,27 @@ int OptsDlgInit(WPARAM wParam, LPARAM lParam)
 	optDi.cbSize = sizeof(optDi);
 	optDi.position = 920000000;
 	optDi.hInstance = g_hInstance;
-	optDi.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
-/*
-	optDi.ptszTitle = OPT_TITLE;
-	optDi.pfnDlgProc = PopupOptDlg;
-	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPOPTDLG);
-	optDi.ptszGroup = OPT_POPUPGROUP;
-	Options_AddPage(wParam, &optDi);
-*/
-//	optDi.ptszTitle = OPT_TITLE;
-	optDi.ptszTitle = OPT_MAINGROUP;
-//	optDi.ptszGroup = OPT_MAINGROUP;
+	optDi.flags = ODPF_BOLDGROUPS;
 
+	optDi.pszTitle = OPT_MAINGROUP;
 	optDi.pfnDlgProc = MessagesOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
-	optDi.ptszTab = LPGENT("Statuses messages");
+	optDi.pszTab = LPGEN("Statuses messages");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = MoreOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_MOREOPTDIALOG);
-	optDi.ptszTab = LPGENT("Main options");
+	optDi.pszTab = LPGEN("Main options");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = AutoreplyOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_AUTOREPLY);
-	optDi.ptszTab = LPGENT("Autoreply");
+	optDi.pszTab = LPGEN("Autoreply");
 	Options_AddPage(wParam, &optDi);
 
 	optDi.pfnDlgProc = ContactsOptDlg;
 	optDi.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACTSOPTDLG);
-	optDi.ptszTab = LPGENT("Contacts");
+	optDi.pszTab = LPGEN("Contacts");
 	Options_AddPage(wParam, &optDi);
 	return 0;
 }
