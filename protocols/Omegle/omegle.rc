@@ -167,8 +167,8 @@ IDI_OMEGLE              ICON                    "icons/omegle.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,0,0
- PRODUCTVERSION 0,9,43,0
+ FILEVERSION 0,1,0,1
+ PRODUCTVERSION 0,1,0,1
  FILEFLAGSMASK 0x17L
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -189,7 +189,7 @@ BEGIN
             VALUE "LegalCopyright", "Copyright © 2011-12 Robert Pösel"
             VALUE "OriginalFilename", "omegle.dll"
             VALUE "ProductName", "Omegle Protocol"
-            VALUE "ProductVersion", "0.9.43.0"
+            VALUE "ProductVersion", "0.1.0.1"
         END
     END
     BLOCK "VarFileInfo"

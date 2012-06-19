@@ -51,4 +51,5 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define OMEGLE_REQUEST_RECAPTCHA				400 // recaptcha handling
 
 // Servers list
-static const char *servers[] = {"Random", "bajor", "cardassia", "promenade", "odo-bucket", "ferengi", "quarks"};
+//static const char *servers[] = {"Random", "bajor", "cardassia", "promenade", "odo-bucket", "ferengi", "quilt", "empok-nor", "quibbler"};
+static const char *servers[] = {"Random", "front1", "front2", "front3", "front4", "qfront1"};

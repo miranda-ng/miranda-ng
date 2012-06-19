@@ -319,8 +319,8 @@ bool Omegle_client::start()
 	std::string data;
 
 	if (this->spy_mode_) {
-		// Select any server but quarks, which doesn't support this (it seems)
-		this->server_ = get_server(true);
+		// get last server from list, which is for spy mode
+		this->server_ = servers[SIZEOF(servers)-1];
 
 		if (this->question_.empty()) {
 			data = "&wantsspy=1";
@@ -370,9 +370,9 @@ bool Omegle_client::start()
 				data = "[" + data + "]";
 				data = "&topics=" + utils::url::encode(data);
 			}
-				
-			// Interests feature supports only Quarks server
-			this->server_ = "quarks";
+
+			// get any server but last, which is for spy mode
+			this->server_ = get_server(true);
 		}
 	}
 
@@ -387,6 +387,13 @@ bool Omegle_client::start()
 			parent->UpdateChat(NULL, msg);
 			mir_free(msg);
 		}
+	} else {
+		char str[255];
+		mir_snprintf(str, sizeof(str), Translate("Connected to server %s."), server_.c_str());
+
+		TCHAR *msg = mir_a2t_cp(str,CP_UTF8);
+		parent->UpdateChat(NULL, msg);
+		mir_free(msg);
 	}
 
 	// Send validation
