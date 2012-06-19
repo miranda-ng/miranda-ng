@@ -31,17 +31,20 @@ struct MButtonCtrl
 	int               focus;   // has focus (1 or 0)
 	HFONT             hFont;   // font
 	HICON             arrow;   // uses down arrow
-	int               defbutton; // default button
 	HICON             hIcon;
 	HBITMAP           hBitmap;
-	int               pushBtn;
-	int               pbState;
 	HTHEME            hThemeButton;
 	HTHEME            hThemeToolbar;
 	TCHAR             cHot;
-	int               flatBtn;
 	HWND              hwndToolTips;
 	IAccPropServices* pAccPropServices;
+
+	bool              bIsPushBtn, // button has two states
+							bIsPushed,  // is button pushed or not
+							bIsDefault, // default button
+							bIsFlat,    // flat button
+							bIsThemed,  // themed button
+							bIsSkinned; // skinned button
 };
 
 struct TTooltips
@@ -125,15 +128,14 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	hOld = (HDC)SelectObject(hdcMem, hbmMem);
 
 	// If its a push button, check to see if it should stay pressed
-	if (ctl->pushBtn && ctl->pbState) ctl->stateId = PBS_PRESSED;
+	if (ctl->bIsPushBtn && ctl->bIsPushed) ctl->stateId = PBS_PRESSED;
 
 	// Draw the flat button
-	if (ctl->flatBtn) {
+	if (ctl->bIsFlat) {
 		if (ctl->hThemeToolbar) {
-			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL&&ctl->defbutton?PBS_DEFAULTED:ctl->stateId):PBS_DISABLED;
-			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state))) {
+			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId):PBS_DISABLED;
+			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state)))
 				drawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
-			}
 			drawThemeBackground(ctl->hThemeToolbar, hdcMem, TP_BUTTON, TBStateConvert2Flat(state), &rcClient, &rcClient);
 		}
 		else {
@@ -154,7 +156,7 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 				DeleteObject(hbr);
 			}
 			if (ctl->stateId == PBS_HOT || ctl->focus) {
-				if (ctl->pbState)
+				if (ctl->bIsPushed)
 					DrawEdge(hdcMem, &rcClient, EDGE_ETCHED, BF_RECT|BF_SOFT);
 				else DrawEdge(hdcMem, &rcClient, BDR_RAISEDOUTER, BF_RECT|BF_SOFT|BF_FLAT);
 			}
@@ -165,15 +167,16 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	else {
 		// Draw background/border
 		if (ctl->hThemeButton) {
-			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL&&ctl->defbutton?PBS_DEFAULTED:ctl->stateId):PBS_DISABLED;
+			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
 			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
 				drawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
 			}
 			drawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
 		}
 		else {
-			UINT uState = DFCS_BUTTONPUSH|((ctl->stateId == PBS_HOT)?DFCS_HOT:0)|((ctl->stateId == PBS_PRESSED)?DFCS_PUSHED:0);
-			if (ctl->defbutton&&ctl->stateId == PBS_NORMAL) uState |= DLGC_DEFPUSHBUTTON;
+			UINT uState = DFCS_BUTTONPUSH | ((ctl->stateId == PBS_HOT) ? DFCS_HOT : 0) | ((ctl->stateId == PBS_PRESSED) ? DFCS_PUSHED : 0);
+			if (ctl->bIsDefault && ctl->stateId == PBS_NORMAL)
+				uState |= DLGC_DEFPUSHBUTTON;
 			DrawFrameControl(hdcMem, &rcClient, DFC_BUTTON, uState);
 		}
 
@@ -334,13 +337,13 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 	case WM_KEYUP:
 		if (bct->stateId != PBS_DISABLED && wParam == VK_SPACE) {
-			if (bct->pushBtn) {
-				if (bct->pbState) {
-					bct->pbState = 0;
+			if (bct->bIsPushBtn) {
+				if (bct->bIsPushed) {
+					bct->bIsPushed = 0;
 					bct->stateId = PBS_NORMAL;
 				}
 				else {
-					bct->pbState = 1;
+					bct->bIsPushed = 1;
 					bct->stateId = PBS_PRESSED;
 				}
 				InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -352,13 +355,13 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 	case WM_SYSKEYUP:
 		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int)wParam)) {
-			if (bct->pushBtn) {
-				if (bct->pbState) {
-					bct->pbState = 0;
+			if (bct->bIsPushBtn) {
+				if (bct->bIsPushed) {
+					bct->bIsPushed = 0;
 					bct->stateId = PBS_NORMAL;
 				}
 				else {
-					bct->pbState = 1;
+					bct->bIsPushed = 1;
 					bct->stateId = PBS_PRESSED;
 				}
 				InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -413,22 +416,23 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		else return 0;
 
 	case BM_SETCHECK:
-		if ( !bct->pushBtn) break;
+		if ( !bct->bIsPushBtn) break;
 		if (wParam == BST_CHECKED) {
-			bct->pbState = 1;
+			bct->bIsPushed = 1;
 			bct->stateId = PBS_PRESSED;
 		}
 		else if (wParam == BST_UNCHECKED) {
-			bct->pbState = 0;
+			bct->bIsPushed = 0;
 			bct->stateId = PBS_NORMAL;
 		}
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
+
 	case BM_GETCHECK:
-		if (bct->pushBtn) {
-			return bct->pbState?BST_CHECKED:BST_UNCHECKED;
-		}
+		if (bct->bIsPushBtn)
+			return bct->bIsPushed ? BST_CHECKED : BST_UNCHECKED;
 		return 0;
+
 	case BUTTONSETARROW: // turn arrow on/off
 		if (wParam) {
 			if ( !bct->arrow) {
@@ -447,17 +451,23 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		break;
 
 	case BUTTONSETDEFAULT:
-		bct->defbutton = (wParam != 0);
+		bct->bIsDefault = (wParam != 0);
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case BUTTONSETASPUSHBTN:
-		bct->pushBtn = (wParam != 0);
+		bct->bIsPushBtn = (wParam != 0);
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
 	case BUTTONSETASFLATBTN:
-		bct->flatBtn = (wParam != 0);
+		bct->bIsFlat = (wParam != 0);
+		InvalidateRect(bct->hwnd, NULL, TRUE);
+		break;
+
+	case BUTTONSETASTHEMEDBTN:
+		if ((bct->bIsThemed = (wParam != 0)) != 0)
+			bct->bIsSkinned = false;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
 		break;
 
@@ -539,9 +549,9 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 	case WM_LBUTTONUP:
     {
         int showClick = 0;
-		if (bct->pushBtn) {
-			if (bct->pbState) bct->pbState = 0;
-			else bct->pbState = 1;
+		if (bct->bIsPushBtn) {
+			if (bct->bIsPushed) bct->bIsPushed = 0;
+			else bct->bIsPushed = 1;
 		}
 		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
             if (bct->stateId == PBS_PRESSED)

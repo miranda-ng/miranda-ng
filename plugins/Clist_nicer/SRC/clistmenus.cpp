@@ -113,16 +113,16 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendMessage(hWnd, WM_USER + 120, 0, 0);
 			TranslateDialogDefault(hWnd);
 			hwndAdd = GetDlgItem(hWnd, IDC_IGN_ADDPERMANENTLY); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
-			SendMessage(hwndAdd, BUTTONSETASFLATBTN, TRUE, 1);
-			SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
+			SendMessage(hwndAdd, BUTTONSETASFLATBTN, FALSE, 0);
+			SendMessage(hwndAdd, BUTTONSETASTHEMEDBTN, TRUE, 0);
 
 			SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(210), IMAGE_ICON, 16, 16, LR_SHARED));
 			SetWindowText(hwndAdd, TranslateT("Add permanently"));
 			EnableWindow(hwndAdd, cfg::getByte(hContact, "CList", "NotOnList", 0));
 
             hwndAdd = GetDlgItem(hWnd, IDC_DSP_LOADDEFAULT); // CreateWindowEx(0, _T("CLCButtonClass"), _T("FOO"), WS_VISIBLE | BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 200, 276, 106, 24, hWnd, (HMENU)IDC_IGN_ADDPERMANENTLY, g_hInst, NULL);
-            SendMessage(hwndAdd, BUTTONSETASFLATBTN, TRUE, 1);
-            SendMessage(hwndAdd, BUTTONSETASFLATBTN + 10, 0, 1);
+            SendMessage(hwndAdd, BUTTONSETASFLATBTN, FALSE, 0);
+            SendMessage(hwndAdd, BUTTONSETASTHEMEDBTN, TRUE, 0);
 
             SendMessage(hwndAdd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_DELETE), IMAGE_ICON, 16, 16, LR_SHARED));
             SetWindowText(hwndAdd, TranslateT("Revert to default"));

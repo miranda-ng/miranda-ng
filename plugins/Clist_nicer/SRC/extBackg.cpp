@@ -419,16 +419,16 @@ void SetButtonToSkinned()
     SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BM_SETSKINNED, 0, bSkinned);
     SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BM_SETSKINNED, 0, bSkinned);
     if(bSkinned) {
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASFLATBTN, TRUE, 0);
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASFLATBTN, TRUE, 0);
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASFLATBTN + 10, 0, 0);
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASFLATBTN + 10, 0, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASFLATBTN, FALSE, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASFLATBTN, FALSE, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASTHEMEDBTN, 0, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASTHEMEDBTN, 0, 0);
     }
     else {
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASFLATBTN, TRUE, 1);
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASFLATBTN, TRUE, 1);
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASFLATBTN + 10, 0, 1);
-        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASFLATBTN + 10, 0, 1);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASFLATBTN, FALSE, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASFLATBTN, FALSE, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBGLOBALSTATUS, BUTTONSETASTHEMEDBTN, TRUE, 0);
+        SendDlgItemMessage(pcli->hwndContactList, IDC_TBMENU, BUTTONSETASTHEMEDBTN, TRUE, 0);
     }
     SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);
 }
@@ -1235,8 +1235,8 @@ static void BTN_ReadItem(char *itemName, char *file)
     }
     newItem->hWnd = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 5, 5, pcli->hwndContactList, (HMENU)newItem->uId, g_hInst, NULL);
     SendMessage(newItem->hWnd, BM_SETBTNITEM, 0, (LPARAM)newItem);
-    SendMessage(newItem->hWnd, BUTTONSETASFLATBTN, TRUE, 0);
-    SendMessage(newItem->hWnd, BUTTONSETASFLATBTN + 10, 0, 0);
+    SendMessage(newItem->hWnd, BUTTONSETASFLATBTN, FALSE, 0);
+    SendMessage(newItem->hWnd, BUTTONSETASTHEMEDBTN, 0, 0);
     if(newItem->dwFlags & BUTTON_ISTOGGLE)
         SendMessage(newItem->hWnd, BUTTONSETASPUSHBTN, TRUE, 0);
 
