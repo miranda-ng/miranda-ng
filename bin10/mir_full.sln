@@ -246,8 +246,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SecureIM_icons", "..\plugin
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xstatus_MRA", "..\protocols\MRA\xstatus_MRA\xstatus_MRA.vcxproj", "{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bonsai", "..\plugins\Bonsai\Bonsai.vcxproj", "{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AddContactPlus", "..\plugins\AddContactPlus\addcontactplus_10.vcxproj", "{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimpleStatusMsg", "..\plugins\SimpleStatusMsg\simplestatusmsg_10.vcxproj", "{D3D80E27-D099-41EC-AFB2-A891A33F1608}"
@@ -1314,14 +1312,6 @@ Global
 		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|Win32.Build.0 = Release|Win32
 		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|x64.ActiveCfg = Release|x64
 		{5B84781D-F1C3-4535-99B7-B84B6C9BCF15}.Release|x64.Build.0 = Release|x64
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Debug|Win32.Build.0 = Debug|Win32
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Debug|x64.ActiveCfg = Debug|x64
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Debug|x64.Build.0 = Debug|x64
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Release|Win32.ActiveCfg = Release|Win32
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Release|Win32.Build.0 = Release|Win32
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Release|x64.ActiveCfg = Release|x64
-		{C2F9A2EE-128B-43BD-9F3A-DAD0D954CB67}.Release|x64.Build.0 = Release|x64
 		{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}.Debug|Win32.ActiveCfg = Debug|Win32
 		{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}.Debug|Win32.Build.0 = Debug|Win32
 		{253ADD1D-F7C9-4643-A957-51BFCD61A5D2}.Debug|x64.ActiveCfg = Debug|x64
