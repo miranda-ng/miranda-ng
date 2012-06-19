@@ -69,12 +69,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define BUTTONADDTOOLTIP     (WM_USER+5)
 
-// Sets the button type as a flat button without borders v0.3.3+
+// Sets the button type as a themed button without borders
 // wParam = TRUE/FALSE default on/off
 // lParam = not used
-// Usage: SendMessage(hwndbutton, BUTTONSETASFLATBTN, 1, 0);
+// Usage: SendMessage(hwndbutton, BUTTONSETASTHEMEDBTN, 1, 0);
 // Only works on MButtonClass buttons
 #define BUTTONSETASTHEMEDBTN (WM_USER+6)
 
 #endif // M_BUTTON_H__
-

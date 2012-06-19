@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "..\..\core\commonheaders.h"
-#include "m_fontservice.h"
-
 #include "FontService.h"
 
 int code_page = CP_ACP;
@@ -92,7 +90,7 @@ int LoadFontserviceModule(void)
 	hFontReloadEvent = CreateHookableEvent(ME_FONT_RELOAD);
 	hColourReloadEvent = CreateHookableEvent(ME_COLOUR_RELOAD);
 
-	// cretae generic fonts
+	// create generic fonts
 	FontIDT fontid = {0};
 
 	fontid.cbSize = sizeof(FontID);

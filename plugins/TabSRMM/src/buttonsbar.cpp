@@ -605,7 +605,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 			if (!cbd->bHidden && !cbd->bCanBeHidden)
 				dat->iButtonBarReallyNeeds += cbd->iButtonWidth + gap;
 			if (!cbd->bDummy && hwndBtn) {
-				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
+				SendMessage(hwndBtn, BUTTONSETASFLATBTN, FALSE, 0);
 				SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, isThemed != 0, 0);
 				if (cbd->hIcon)
 					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
