@@ -182,8 +182,7 @@ int ProcessReloadFonts(WPARAM wParam, LPARAM lParam)
 
 int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_MSG_ADDICON))
-	{
+	if (ServiceExists(MS_MSG_ADDICON)) {
 		StatusIconData sid = {0};
 		sid.cbSize = sizeof(sid);
 		sid.szModule = "FavContacts";
@@ -196,81 +195,78 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 		HookEvent(ME_MSG_WINDOWEVENT, ProcessSrmmEvent);
 	}
 
-	if (true /* ServiceExists(MS_FONT_REGISTERT) */)
-	{
-		//LOGFONT lf;
-		//GetObject(GetStockObject(DEFAULT_GUI_FONT), sizeof(lf), &lf);
+	/////////////////////////////////////////////////////////////////////////////////////
 
-		FontIDT fontid = {0};
-		fontid.cbSize = sizeof(fontid);
-		lstrcpy(fontid.group, _T("Favourite Contacts"));
-		lstrcpyA(fontid.dbSettingsGroup, "FavContacts");
-		lstrcpy(fontid.backgroundGroup, _T("Favourite Contacts"));
-		fontid.flags = FIDF_DEFAULTVALID;
-		fontid.deffontsettings.charset = DEFAULT_CHARSET;
-		fontid.deffontsettings.size = -11;
-		lstrcpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"));
-		fontid.deffontsettings.style = 0;
+	FontIDT fontid = {0};
+	fontid.cbSize = sizeof(fontid);
+	lstrcpy(fontid.group, _T("Favourite Contacts"));
+	lstrcpyA(fontid.dbSettingsGroup, "FavContacts");
+	lstrcpy(fontid.backgroundGroup, _T("Favourite Contacts"));
+	fontid.flags = FIDF_DEFAULTVALID;
+	fontid.deffontsettings.charset = DEFAULT_CHARSET;
+	fontid.deffontsettings.size = -11;
+	lstrcpy(fontid.deffontsettings.szFace, _T("MS Shell Dlg"));
+	fontid.deffontsettings.style = 0;
 
-		lstrcpy(fontid.backgroundName, _T("Background"));
+	lstrcpy(fontid.backgroundName, _T("Background"));
 
-		lstrcpy(fontid.name, _T("Contact name"));
-		lstrcpyA(fontid.prefix, "fntName");
-		fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
-		fontid.deffontsettings.style = DBFONTF_BOLD;
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	lstrcpy(fontid.name, _T("Contact name"));
+	lstrcpyA(fontid.prefix, "fntName");
+	fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
+	fontid.deffontsettings.style = DBFONTF_BOLD;
+	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
 
-		lstrcpy(fontid.name, _T("Second line"));
-		lstrcpyA(fontid.prefix, "fntSecond");
-		fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
-		fontid.deffontsettings.style = 0;
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	lstrcpy(fontid.name, _T("Second line"));
+	lstrcpyA(fontid.prefix, "fntSecond");
+	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
+	fontid.deffontsettings.style = 0;
+	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
 
-		lstrcpy(fontid.backgroundName, _T("Selected background"));
+	lstrcpy(fontid.backgroundName, _T("Selected background"));
 
-		lstrcpy(fontid.name, _T("Selected contact name (color)"));
-		lstrcpyA(fontid.prefix, "fntNameSel");
-		fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
-		fontid.deffontsettings.style = DBFONTF_BOLD;
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	lstrcpy(fontid.name, _T("Selected contact name (color)"));
+	lstrcpyA(fontid.prefix, "fntNameSel");
+	fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
+	fontid.deffontsettings.style = DBFONTF_BOLD;
+	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
 
-		lstrcpy(fontid.name, _T("Selected second line (color)"));
-		lstrcpyA(fontid.prefix, "fntSecondSel");
-		fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
-		fontid.deffontsettings.style = 0;
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	lstrcpy(fontid.name, _T("Selected second line (color)"));
+	lstrcpyA(fontid.prefix, "fntSecondSel");
+	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
+	fontid.deffontsettings.style = 0;
+	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
 
-		ColourIDT colourid = {0};
-		colourid.cbSize = sizeof(colourid);
-		lstrcpy(colourid.group, _T("Favourite Contacts"));
-		lstrcpyA(colourid.dbSettingsGroup, "FavContacts");
+	/////////////////////////////////////////////////////////////////////////////////////
 
-		lstrcpy(colourid.name, _T("Background"));
-		lstrcpyA(colourid.setting, "BackColour");
-		colourid.defcolour = GetSysColor(COLOR_MENU);
-		CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourIDT colourid = {0};
+	colourid.cbSize = sizeof(colourid);
+	lstrcpy(colourid.group, _T("Favourite Contacts"));
+	lstrcpyA(colourid.dbSettingsGroup, "FavContacts");
 
-		lstrcpy(colourid.name, _T("Selected background"));
-		lstrcpyA(colourid.setting, "SelectedColour");
-		colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-		CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	lstrcpy(colourid.name, _T("Background"));
+	lstrcpyA(colourid.setting, "BackColour");
+	colourid.defcolour = GetSysColor(COLOR_MENU);
+	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
 
-		HookEvent(ME_FONT_RELOAD, ProcessReloadFonts);
-		HookEvent(ME_COLOUR_RELOAD, ProcessReloadFonts);
-		ProcessReloadFonts(0, 0);
-	}
+	lstrcpy(colourid.name, _T("Selected background"));
+	lstrcpyA(colourid.setting, "SelectedColour");
+	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
+	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
 
-	if (ServiceExists(MS_HOTKEY_REGISTER))
-	{
-		HOTKEYDESC hotkey = {0};
-		hotkey.cbSize = sizeof(hotkey);
-		hotkey.pszName = "FavContacts/ShowMenu";
-		hotkey.pszDescription = "Show favourite contacts";
-		hotkey.pszSection = "Contacts";
-		hotkey.pszService = MS_FAVCONTACTS_SHOWMENU_CENTERED;
-		hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hotkey);
-	} 
+	HookEvent(ME_FONT_RELOAD, ProcessReloadFonts);
+	HookEvent(ME_COLOUR_RELOAD, ProcessReloadFonts);
+	ProcessReloadFonts(0, 0);
+
+	/////////////////////////////////////////////////////////////////////////////////////
+
+	HOTKEYDESC hotkey = {0};
+	hotkey.cbSize = sizeof(hotkey);
+	hotkey.pszName = "FavContacts/ShowMenu";
+	hotkey.pszDescription = "Show favourite contacts";
+	hotkey.pszSection = "Contacts";
+	hotkey.pszService = MS_FAVCONTACTS_SHOWMENU_CENTERED;
+	hotkey.DefHotKey = MAKEWORD('Q', HOTKEYF_EXT);
+	Hotkey_Register(&hotkey);
 
 	if (ServiceExists(MS_AV_GETAVATARBITMAP))
 	{
@@ -300,6 +296,8 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 {
@@ -342,41 +340,40 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	HookEvent(ME_SYSTEM_MODULESLOADED, ProcessModulesLoaded);
 	hhkProcessTBLoaded = HookEvent(ME_TB_MODULELOADED, ProcessTBLoaded);
 
-	if (true /*ServiceExists(MS_SKIN2_ADDICON)*/)
-	{
-		TCHAR buf[MAX_PATH];
-		GetModuleFileName(g_hInst, buf, SIZEOF(buf));
+	/////////////////////////////////////////////////////////////////////////////////////
 
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(sid);
-		sid.ptszSection = _T("Favourites");
-		sid.ptszDefaultFile = buf;
-		sid.cx = sid.cy = 16;
-		sid.flags = SIDF_ALL_TCHAR;
+	TCHAR buf[MAX_PATH];
+	GetModuleFileName(g_hInst, buf, SIZEOF(buf));
 
-		sid.pszName = "favcontacts_favourite";
-		sid.ptszDescription = _T("Favourite Contact");
-		sid.iDefaultIndex = -IDI_FAVOURITE;
-		g_icoFavourite = CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	SKINICONDESC sid = {0};
+	sid.cbSize = sizeof(sid);
+	sid.ptszSection = _T("Favourites");
+	sid.ptszDefaultFile = buf;
+	sid.cx = sid.cy = 16;
+	sid.flags = SIDF_ALL_TCHAR;
 
-		sid.pszName = "favcontacts_regular";
-		sid.ptszDescription = _T("Regular Contact");
-		sid.iDefaultIndex = -IDI_REGULAR;
-		g_icoRegular = CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-	}
+	sid.pszName = "favcontacts_favourite";
+	sid.ptszDescription = _T("Favourite Contact");
+	sid.iDefaultIndex = -IDI_FAVOURITE;
+	g_icoFavourite = CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+
+	sid.pszName = "favcontacts_regular";
+	sid.ptszDescription = _T("Regular Contact");
+	sid.iDefaultIndex = -IDI_REGULAR;
+	g_icoRegular = CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
 
 	LoadHttpApi();
 
-#ifdef _DEBUG
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
-	mi.flags = CMIF_ICONFROMICOLIB;
-	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
-	mi.position = 1900000000;
-	mi.pszName = LPGEN("&Favourite Contacts...");
-	mi.pszService = MS_FAVCONTACTS_SHOWMENU;
-	Menu_AddMainMenuItem(&mi);
-#endif
+	#ifdef _DEBUG
+		CLISTMENUITEM mi = { 0 };
+		mi.cbSize = sizeof(mi);
+		mi.flags = CMIF_ICONFROMICOLIB;
+		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
+		mi.position = 1900000000;
+		mi.pszName = LPGEN("&Favourite Contacts...");
+		mi.pszService = MS_FAVCONTACTS_SHOWMENU;
+		Menu_AddMainMenuItem(&mi);
+	#endif
 
 	return 0;
 }
@@ -1171,8 +1168,7 @@ static void sttActivateOptionsPage(HWND hwnd, TCHAR *aSection, TCHAR *aPage)
 	TCHAR *section = TranslateTS(aSection);
 
 	HWND hwndTree = FindWindowEx(GetParent(hwnd), NULL, WC_TREEVIEW, NULL);
-	for (HTREEITEM htiSection = TreeView_GetRoot(hwndTree); htiSection; htiSection = TreeView_GetNextSibling(hwndTree, htiSection))
-	{
+	for (HTREEITEM htiSection = TreeView_GetRoot(hwndTree); htiSection; htiSection = TreeView_GetNextSibling(hwndTree, htiSection)) {
 		TVITEM tvi = {0};
 		tvi.mask = TVIF_TEXT;
 		tvi.hItem = htiSection;
@@ -1180,20 +1176,15 @@ static void sttActivateOptionsPage(HWND hwnd, TCHAR *aSection, TCHAR *aPage)
 		tvi.cchTextMax = SIZEOF(buf);
 		TreeView_GetItem(hwndTree, &tvi);
 
-		if (!lstrcmp(buf, section))
-		{
-			if (!aPage)
-			{
+		if (!lstrcmp(buf, section)) {
+			if (!aPage) {
 				TreeView_Select(hwndTree, htiSection, TVGN_CARET);
 				return;
-			} else
-			{
-				TreeView_Expand(hwndTree, htiSection, TVE_EXPAND);
 			}
+			else TreeView_Expand(hwndTree, htiSection, TVE_EXPAND);
 
 			TCHAR *page = TranslateTS(aPage);
-			for (HTREEITEM htiPage = TreeView_GetChild(hwndTree, htiSection); htiPage; htiPage = TreeView_GetNextSibling(hwndTree, htiPage))
-			{
+			for (HTREEITEM htiPage = TreeView_GetChild(hwndTree, htiSection); htiPage; htiPage = TreeView_GetNextSibling(hwndTree, htiPage)) {
 				TVITEM tvi = {0};
 				tvi.mask = TVIF_TEXT;
 				tvi.hItem = htiPage;
@@ -1201,8 +1192,7 @@ static void sttActivateOptionsPage(HWND hwnd, TCHAR *aSection, TCHAR *aPage)
 				tvi.cchTextMax = SIZEOF(buf);
 				TreeView_GetItem(hwndTree, &tvi);
 
-				if (!lstrcmp(buf, page))
-				{
+				if (!lstrcmp(buf, page)) {
 					TreeView_Select(hwndTree, htiPage, TVGN_CARET);
 					return;
 				}
@@ -1253,9 +1243,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0),
 					DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0));
 			}
-
-			if (!ServiceExists(MS_HOTKEY_REGISTER))
-				EnableWindow(GetDlgItem(hwnd, IDC_BTN_HOTKEYS), FALSE);
 
 			bInitialized = true;
 
@@ -1338,13 +1325,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 					RedrawWindow(GetDlgItem(hwnd, IDC_CANVAS), NULL, NULL, RDW_INVALIDATE);
 					PostMessage(hwnd, WM_APP, 0, 0);
-					break;
-
-				case IDC_BTN_HOTKEYS:
-					if (ServiceExists(MS_HOTKEY_REGISTER))
-					{
-						sttActivateOptionsPage(hwnd, _T("Customize"), _T("Hotkeys"));
-					}
 					break;
 
 				case IDC_BTN_FONTS:

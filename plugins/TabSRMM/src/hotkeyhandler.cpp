@@ -167,7 +167,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			for(i = 0; i < safe_sizeof(_hotkeydescs); i++) {
 				_hotkeydescs[i].cbSize = sizeof(HOTKEYDESC);
-				CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&_hotkeydescs[i]);
+				Hotkey_Register(&_hotkeydescs[i]);
 			}
 
 			WM_TASKBARCREATED = RegisterWindowMessageA("TaskbarCreated");

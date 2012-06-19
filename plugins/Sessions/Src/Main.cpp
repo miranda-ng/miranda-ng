@@ -926,22 +926,22 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hkd.pszName = "OpenSessionsManager";
 	hkd.ptszDescription = _T("Open Sessions Manager");
 	hkd.pszService = MS_SESSIONS_OPENMANAGER;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "RestoreLastSession";
 	hkd.ptszDescription = _T("Restore last Session");
 	hkd.pszService = MS_SESSIONS_RESTORELASTSESSION;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "SaveSession";
 	hkd.ptszDescription = _T("Save Session");
 	hkd.pszService = MS_SESSIONS_SAVEUSERSESSION;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "CloseSession";
 	hkd.ptszDescription = _T("Close Session");
 	hkd.pszService = MS_SESSIONS_CLOSESESSION;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hiChecked	   = LoadIcon(hinstance, MAKEINTRESOURCE(IDD_SESSION_CHECKED));
 	hiNotChecked   = LoadIcon(hinstance, MAKEINTRESOURCE(IDD_SESSION_UNCHECKED));

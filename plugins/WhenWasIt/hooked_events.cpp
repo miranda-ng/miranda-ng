@@ -97,7 +97,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hExtraImageApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnExtraImageApply);
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	hTopToolBarModuleLoaded = HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
-	//hContactSendMessage = HookEvent(ME_WWI_SENDMESSAGE, OnContactSendMessage);
 	
 	SkinAddNewSoundEx(BIRTHDAY_NEAR_SOUND, "WhenWasIt", "Birthday near");
 	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, "WhenWasIt", "Birthday today");
@@ -155,22 +154,20 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	cl.pszName = "Add/change user &birthday";
 	hmAddChangeBirthday = Menu_AddMainMenuItem(&cl);
 
-	if(ServiceExists(MS_HOTKEY_REGISTER)) {
-		HOTKEYDESC hotkey = {0};
-		hotkey.cbSize = sizeof(hotkey);
-		hotkey.dwFlags = HKD_TCHAR;
-		hotkey.ptszSection = LPGENT("Birthdays");
+	// Register hotkeys
+	HOTKEYDESC hotkey = {0};
+	hotkey.cbSize = sizeof(hotkey);
+	hotkey.pszSection = LPGEN("Birthdays");
 
-		hotkey.pszName = "wwi_birthday_list";
-		hotkey.ptszDescription = LPGENT("Birthday list");
-		hotkey.pszService = MS_WWI_LIST_SHOW;
-		CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&hotkey);
+	hotkey.pszName = "wwi_birthday_list";
+	hotkey.pszDescription = LPGEN("Birthday list");
+	hotkey.pszService = MS_WWI_LIST_SHOW;
+	Hotkey_Register(&hotkey);
 		
-		hotkey.pszName = "wwi_check_birthdays";
-		hotkey.ptszDescription = LPGENT("Check for birthdays");
-		hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
-		CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&hotkey);
-	}
+	hotkey.pszName = "wwi_check_birthdays";
+	hotkey.ptszDescription = LPGENT("Check for birthdays");
+	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
+	Hotkey_Register(&hotkey);
 	
 	return 0;
 }

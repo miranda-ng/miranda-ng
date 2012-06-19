@@ -609,17 +609,15 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	*/
 
-	if (ServiceExists(MS_HOTKEY_REGISTER)) {
-		// hotkeys
-		HOTKEYDESC hotkey = {0};
-		hotkey.cbSize = sizeof(hotkey);
-		hotkey.pszName =    msLastUC_ShowList;
-		hotkey.pszDescription = LPGEN("Show Recent Contacts");
-		hotkey.pszSection = "Contacts";
-		hotkey.pszService = msLastUC_ShowList;
-		hotkey.DefHotKey = MAKEWORD('R', HOTKEYF_CONTROL | HOTKEYF_SHIFT);
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hotkey);
-	}
+	// hotkeys
+	HOTKEYDESC hk = {0};
+	hk.cbSize = sizeof(hk);
+	hk.pszName = msLastUC_ShowList;
+	hk.pszDescription = LPGEN("Show Recent Contacts");
+	hk.pszSection = "Contacts";
+	hk.pszService = msLastUC_ShowList;
+	hk.DefHotKey = MAKEWORD('R', HOTKEYF_CONTROL | HOTKEYF_SHIFT);
+	Hotkey_Register(&hk);
 
 	return 0;
 }

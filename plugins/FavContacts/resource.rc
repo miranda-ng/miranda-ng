@@ -60,7 +60,6 @@ BEGIN
     CONTROL         "Enable groups",IDC_CHK_GROUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,17,137,10
     CONTROL         "Multicolumn menu",IDC_CHK_GROUPCOLUMS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,30,122,10
     CONTROL         "Configure fonts and colors...",IDC_BTN_FONTS,"Hyperlink",WS_TABSTOP,11,229,137,11
-    CONTROL         "Set up menu hotkey...",IDC_BTN_HOTKEYS,"Hyperlink",WS_TABSTOP,11,218,137,11
     CONTROL         "Align to the right",IDC_CHK_RIGHTAVATARS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,26,69,122,10
     CONTROL         "Dim idle contact icons",IDC_CHK_DIMIDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,121,139,10
     RTEXT           "Show",IDC_STATIC,12,160,34,10,SS_CENTERIMAGE

@@ -91,42 +91,42 @@ int InitClistHotKeys(void)
 	shk.ptszSection = _T("Main");
 	shk.pszService = "CLIST/HK/SHOWHIDE";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'A');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 	shk.ptszDescription = _T("Read Message");
 	shk.pszName = "ReadMessage";
 	shk.ptszSection = _T("Main");
 	shk.pszService = "CLIST/HK/Read";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'I');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 /*
 	shk.pszDescription="Search in site";
 	shk.pszName="SearchInWeb";
 	shk.pszSection="Main";
 	shk.pszService="CLIST/HK/Search";
 	shk.DefHotKey=846;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 */
 	shk.ptszDescription = _T("Open Options Page");
 	shk.pszName = "ShowOptions";
 	shk.ptszSection = _T("Main");
 	shk.pszService = "CLIST/HK/Opts";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'O') | HKF_MIRANDA_LOCAL;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 	shk.ptszDescription = _T("Open Logging Options");
 	shk.pszName = "ShowLogOptions";
 	shk.ptszSection = _T("Main");
 	shk.pszService = "Netlib/Log/Win";
 	shk.DefHotKey = 0;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 	shk.ptszDescription = _T("Open Find User Dialog");
 	shk.pszName = "FindUsers";
 	shk.ptszSection = _T("Main");
 	shk.pszService = "FindAdd/FindAddCommand";
 	shk.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'F') | HKF_MIRANDA_LOCAL;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 /*
 	shk.pszDescription="Close Miranda";
@@ -134,21 +134,21 @@ int InitClistHotKeys(void)
 	shk.pszSection="Main";
 	shk.pszService="CLIST/HK/CloseMiranda";
 	shk.DefHotKey=0;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 	shk.pszDescription="Restore last status";
 	shk.pszName="RestoreLastStatus";
 	shk.pszSection="Status";
 	shk.pszService="CLIST/HK/RestoreStatus";
 	shk.DefHotKey=0;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 	shk.pszDescription="Set All Offline";
 	shk.pszName="AllOffline";
 	shk.pszSection="Status";
 	shk.pszService="CLIST/HK/AllOffline";
 	shk.DefHotKey=0;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);
+	Hotkey_Register(&shk);
 */
 	return 0;
 }

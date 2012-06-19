@@ -299,21 +299,21 @@ void RegisterKeyBindings() {
 	desc.pszDescription = "Navigate: Previous Tab";
 	desc.lParam = KB_PREV_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_TAB);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_PRIOR);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_LEFT);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Nav/Next Tab";
 	desc.pszDescription = "Navigate: Next Tab";
 	desc.lParam = KB_NEXT_TAB;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_TAB);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_NEXT);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_RIGHT);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 	desc.pszName = strName;
 	desc.pszDescription = strDesc;
 	for (i = 0; i < 9; i++) {
@@ -321,70 +321,70 @@ void RegisterKeyBindings() {
 		mir_snprintf(strDesc, SIZEOF(strDesc), "Navigate: Tab %d", i + 1);
 		desc.lParam = KB_TAB1 + i;
 		desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '1' + i);
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+		Hotkey_Register( &desc);
 	}
 
 	desc.pszName = "Scriver/Wnd/Toggle Statusbar";
 	desc.pszDescription = "Window: Toggle Statusbar";
 	desc.lParam = KB_SWITCHSTATUSBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'S');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Titlebar";
 	desc.pszDescription = "Window: Toggle Titlebar";
 	desc.lParam = KB_SWITCHTITLEBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'M');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Toolbar";
 	desc.pszDescription = "Window: Toggle Toolbar";
 	desc.lParam = KB_SWITCHTOOLBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'T');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Toggle Infobar";
 	desc.pszDescription = "Window: Toggle Infobar";
 	desc.lParam = KB_SWITCHINFOBAR;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, 'N');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Clear Log";
 	desc.pszDescription = "Window: Clear Log";
 	desc.lParam = KB_CLEAR_LOG;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'L');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Minimize";
 	desc.pszDescription = "Window: Minimize";
 	desc.lParam = KB_MINIMIZE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT, VK_ESCAPE);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Wnd/Close Tab";
 	desc.pszDescription = "Window: Close Tab";
 	desc.lParam = KB_CLOSE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F4);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'W');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Action/Quote";
 	desc.pszDescription = "Action: Quote";
 	desc.lParam = KB_QUOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, 'Q');
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Action/Send All";
 	desc.pszDescription = "Action: Send to All";
 	desc.lParam = KB_SEND_ALL;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_RETURN);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 
 	desc.pszName = "Scriver/Action/PasteSend";
 	desc.pszDescription = "Action: Paste & Send";
 	desc.lParam = KB_PASTESEND;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, VK_INSERT);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &desc);
+	Hotkey_Register( &desc);
 }
 
 BOOL HandleLinkClick(HINSTANCE hInstance, HWND hwndDlg, HWND hwndFocus, ENLINK *lParam) {

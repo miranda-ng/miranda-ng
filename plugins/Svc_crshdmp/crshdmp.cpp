@@ -359,12 +359,12 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hk.pszDescription = LPGEN("Copy Version Info to clipboard");
 	hk.pszName = "CopyVerInfo";
 	hk.pszService = MS_CRASHDUMPER_STORETOCLIP;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hk);
+	Hotkey_Register(&hk);
 
 	hk.pszDescription = LPGEN("Show Version Info");
 	hk.pszName = "ShowVerInfo";
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hk);
+	Hotkey_Register(&hk);
 
 	if (servicemode) ViewVersionInfo(0, 0);
 	else

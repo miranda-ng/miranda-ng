@@ -495,28 +495,26 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Hotkeys support
-	if (ServiceExists(MS_HOTKEY_REGISTER))
-	{
-		HOTKEYDESC hkd = {0};
-		hkd.cbSize = sizeof(hkd);
-		hkd.pszSection = Translate("Listening to");
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.pszSection = LPGEN("Listening to");
 
-		hkd.pszService = MS_LISTENINGTO_HOTKEYS_ENABLE;
-		hkd.pszName = "ListeningTo/EnableAll";
-		hkd.pszDescription = Translate("Send to all protocols");
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	hkd.pszService = MS_LISTENINGTO_HOTKEYS_ENABLE;
+	hkd.pszName = "ListeningTo/EnableAll";
+	hkd.pszDescription = LPGEN("Send to all protocols");
+	Hotkey_Register(&hkd);
 
-		hkd.pszService = MS_LISTENINGTO_HOTKEYS_DISABLE;
-		hkd.pszName = "ListeningTo/DisableAll";
-		hkd.pszDescription = Translate("Don't send to any protocols");
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	hkd.pszService = MS_LISTENINGTO_HOTKEYS_DISABLE;
+	hkd.pszName = "ListeningTo/DisableAll";
+	hkd.pszDescription = LPGEN("Don't send to any protocols");
+	Hotkey_Register(&hkd);
 
-		hkd.pszService = MS_LISTENINGTO_HOTKEYS_TOGGLE;
-		hkd.pszName = "ListeningTo/ToggleAll";
-		hkd.pszDescription = Translate("Toggle send to all protocols");
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
-	}
+	hkd.pszService = MS_LISTENINGTO_HOTKEYS_TOGGLE;
+	hkd.pszName = "ListeningTo/ToggleAll";
+	hkd.pszDescription = LPGEN("Toggle send to all protocols");
+	Hotkey_Register(&hkd);
 
+	//
 	SetListeningInfos(NULL);
 	StartTimer();
 

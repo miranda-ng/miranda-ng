@@ -24,7 +24,6 @@
 #define IDC_BTN_FONTS                   1015
 #define IDC_TXT_RADIUS2                 1016
 #define IDC_TXT_MAXRECENT               1016
-#define IDC_BTN_HOTKEYS                 1018
 #define IDC_CHK_RIGHTAVATARS            1019
 
 // Next default values for new objects

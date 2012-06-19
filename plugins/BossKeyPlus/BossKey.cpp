@@ -683,7 +683,7 @@ void RegisterCoreHotKeys (void)
 	hotkey.pszService = MS_BOSSKEY_HIDE;
 	hotkey.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F12);
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hotkey);
+	Hotkey_Register(&hotkey);
 }
 
 static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support

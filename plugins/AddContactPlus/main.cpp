@@ -171,7 +171,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	hkd.ptszSection = LPGENT("Main");
 	hkd.pszService = MS_ADDCONTACTPLUS_SHOW;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C') | HKF_MIRANDA_LOCAL;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	OnAccListChanged(0, 0);
 

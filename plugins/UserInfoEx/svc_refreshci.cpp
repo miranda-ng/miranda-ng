@@ -932,5 +932,5 @@ VOID SvcRefreshContactInfoLoadModule(VOID)
 	hk.pszName = "RefreshContactDetails";
 	hk.pszDescription = LPGEN("Refresh Contact Details");
 	hk.pszService = MS_USERINFO_REFRESH;
-	CallService(MS_HOTKEY_REGISTER, NULL, (LPARAM)&hk);
+	Hotkey_Register(&hk);
 }

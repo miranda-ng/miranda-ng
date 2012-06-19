@@ -323,11 +323,9 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	CLISTMENUITEM mi = { 0 };
 	mi.cbSize = sizeof(mi);
 	mi.position = 1900000001;
-	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
-	mi.ptszName = _T(modFullname);
+	mi.pszName = modFullname;
 	mi.pszService = "DBEditorpp/MenuCommand";
-	mi.pszContactOwner = NULL;
 	Menu_AddMainMenuItem(&mi);
 
 	ZeroMemory(&mi, sizeof(mi));
@@ -335,9 +333,8 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	mi.position = 1900000001;
 	mi.flags = DBGetContactSettingByte(NULL,modname,"UserMenuItem",0)?0:CMIF_HIDDEN;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGUSER));
-	mi.ptszName = LPGENT("Open user tree in DBE++");
+	mi.pszName = LPGEN("Open user tree in DBE++");
 	mi.pszService = "DBEditorpp/MenuCommand";
-	mi.pszContactOwner = NULL;
 	hUserMenu = Menu_AddContactMenuItem(&mi);
 
 	sServicemodeLaunch = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceMode);
@@ -345,29 +342,22 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	CallService("DBEditorpp/RegisterSingleModule",(WPARAM)modname,0);
 
 	// Ensure that the common control DLL is loaded.
-	{
-		INITCOMMONCONTROLSEX icex;
-
-		icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-		icex.dwICC  = ICC_LISTVIEW_CLASSES;
-		InitCommonControlsEx(&icex);
-	}
+	INITCOMMONCONTROLSEX icex;
+	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	icex.dwICC  = ICC_LISTVIEW_CLASSES;
+	InitCommonControlsEx(&icex);
 
 	ZeroMemory(&WatchListArray, sizeof(WatchListArray));
 
-	if(ServiceExists(MS_HOTKEY_REGISTER))
-	{
-		HOTKEYDESC hkd = {0};
-		hkd.cbSize = sizeof(hkd);
-		hkd.dwFlags = HKD_TCHAR;
-		hkd.pszName = "hk_dbepp_open";
-		hkd.pszService = "DBEditorpp/MenuCommand";
-		hkd.ptszDescription = LPGENT("Open Database Editor");
-		hkd.ptszSection = _T(modFullname);
-		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'D');
-
-		CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&hkd);
-	}
+	// Register hotkeys
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.pszName = "hk_dbepp_open";
+	hkd.pszService = "DBEditorpp/MenuCommand";
+	hkd.ptszDescription = LPGEN("Open Database Editor");
+	hkd.ptszSection = modFullname;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'D');
+	Hotkey_Register(&hkd);
 
 	return 0;
 }

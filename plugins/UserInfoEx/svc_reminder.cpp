@@ -1210,13 +1210,14 @@ VOID SvcReminderLoadModule(VOID)
 	myCreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
 	myCreateServiceFunction(MS_USERINFO_REMINDER_AGGRASIVEBACKUP, BackupBirthdayService);
 
+	// register hotkey
 	HOTKEYDESC hk = { 0 };
 	hk.cbSize = sizeof(HOTKEYDESC);
 	hk.pszSection = MODNAME;
 	hk.pszName = "ReminderCheck";
 	hk.pszDescription = LPGEN("Check anniversaries");
 	hk.pszService = MS_USERINFO_REMINDER_CHECK;
-	CallService(MS_HOTKEY_REGISTER, NULL, (LPARAM)&hk);
+	Hotkey_Register(&hk);
 }
 
 /**

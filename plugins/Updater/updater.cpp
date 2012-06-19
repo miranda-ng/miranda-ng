@@ -154,31 +154,28 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		CallService(MS_TRIGGER_REGISTERACTION, 0, (LPARAM)&ar);
 	}
 
-	if (ServiceExists(MS_HOTKEY_REGISTER)) 
-	{
-		HOTKEYDESC shk = {0};
+	// register hotkeys
+	HOTKEYDESC shk = {0};
+	shk.cbSize = sizeof(shk);
+	shk.pszSection = LPGEN("Updater");
 
-		shk.cbSize = sizeof(shk);
-		shk.pszSection = LPGEN("Updater");
+	shk.pszDescription = LPGEN("Check for Updates");
+	shk.pszName = "Update";
+	shk.pszService = MS_UPDATE_CHECKFORUPDATES;
+	shk.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'U') | HKF_MIRANDA_LOCAL;
+	Hotkey_Register(&shk);	
 
-		shk.pszDescription = LPGEN("Check for Updates");
-		shk.pszName = "Update";
-		shk.pszService = MS_UPDATE_CHECKFORUPDATES;
-//		shk.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'U') | HKF_MIRANDA_LOCAL;
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);	
+	shk.pszDescription = LPGEN("Restart");
+	shk.pszName = "Restart";
+	shk.pszService = MS_UPDATE_MENURESTART;
+	shk.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'R') | HKF_MIRANDA_LOCAL;
+	Hotkey_Register(&shk);	
 
-		shk.pszDescription = LPGEN("Restart");
-		shk.pszName = "Restart";
-		shk.pszService = MS_UPDATE_MENURESTART;
-//		shk.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, 'R') | HKF_MIRANDA_LOCAL;
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);	
-
-		shk.pszDescription = LPGEN("Update and Exit");
-		shk.pszName = "UpdateAndExit";
-		shk.pszService = MS_UPDATE_MENUUPDATEANDEXIT;
-		shk.DefHotKey = 0;
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&shk);	
-	}
+	shk.pszDescription = LPGEN("Update and Exit");
+	shk.pszName = "UpdateAndExit";
+	shk.pszService = MS_UPDATE_MENUUPDATEANDEXIT;
+	shk.DefHotKey = 0;
+	Hotkey_Register(&shk);	
 
 	return 0;
 }

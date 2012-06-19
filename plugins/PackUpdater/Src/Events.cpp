@@ -35,7 +35,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.pszService = MODNAME"/CheckUpdates";
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	if (AllowUpdateOnStartup())
 		DoCheck(UpdateOnStartup, (int)CheckThread);

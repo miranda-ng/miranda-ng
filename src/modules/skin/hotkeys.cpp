@@ -28,16 +28,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef enum { HKT_GLOBAL, HKT_LOCAL, HKT_MANUAL, HKT_COUNT } THotkeyType;
 
-typedef struct _THotkeyItem THotkeyItem;
-struct _THotkeyItem
+struct THotkeyItem
 {
 	THotkeyType  type;
 	char        *pszService, *pszName; // pszName is valid _only_ for "root"   hotkeys
 	TCHAR       *ptszSection, *ptszDescription;
-	TCHAR       *ptszSection_tr, *ptszDescription_tr;
 	LPARAM       lParam;
 	WORD         DefHotkey, Hotkey;
 	bool         Enabled;
+	int          hLangpack;
 	ATOM         idHotkey;
 
 	THotkeyItem *rootHotkey;
@@ -50,14 +49,17 @@ struct _THotkeyItem
 	bool         OptEnabled;
 
 	bool         UnregisterHotkey;	// valid only during WM_APP message in options UI, used to remove unregistered hotkeys from options
+
+	__inline TCHAR* getSection() const { return LangPackTranslateStringT(hLangpack, ptszSection); }
+	__inline TCHAR* getDescr() const { return LangPackTranslateStringT(hLangpack, ptszDescription); }
 };
 
 static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 {
 	int res;
-	if (res = lstrcmp(p1->ptszSection_tr, p2->ptszSection_tr))
+	if (res = lstrcmp(p1->ptszSection, p2->ptszSection))
 		return res;
-	if (res = lstrcmp(p1->ptszDescription_tr, p2->ptszDescription_tr))
+	if (res = lstrcmp(p1->ptszDescription, p2->ptszDescription))
 		return res;
 	if ( !p1->rootHotkey && p2->rootHotkey)
 		return -1;
@@ -179,9 +181,8 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 		item->ptszSection = mir_a2u(desc->pszSection);
 		item->ptszDescription = mir_a2u(desc->pszDescription);
 	}
-	
-	item->ptszSection_tr = TranslateTS(item->ptszSection);
-	item->ptszDescription_tr = TranslateTS(item->ptszDescription);
+
+	item->hLangpack = (int)wParam;
 	item->allowSubHotkeys = TRUE;
 	item->rootHotkey = NULL;
 	item->nSubHotkeys = 0;
@@ -521,7 +522,7 @@ static void sttOptionsSetupItem(HWND hwndList, int idx, THotkeyItem *item)
 	if ( !item->rootHotkey) {
 		lvi.mask = LVIF_TEXT|LVIF_IMAGE;
 		lvi.iSubItem = COL_NAME;
-		lvi.pszText = item->ptszDescription_tr;
+		lvi.pszText = item->getDescr();
 		lvi.iImage = item->OptType;
 		ListView_SetItem(hwndList, &lvi);
 
@@ -592,13 +593,13 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 		return lstrcmp(title1, title2);
 
 	if ( !item1) {
-		if (res = lstrcmp(title1, item2->ptszSection_tr))
+		if (res = lstrcmp(title1, item1->getSection()))
 			return res;
 		return -1;
 	}
 
 	if ( !item2) {
-		if (res = lstrcmp(item1->ptszSection_tr, title2))
+		if (res = lstrcmp(item1->getSection(), title2))
 			return res;
 		return 1;
 	}
@@ -615,8 +616,6 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	newItem->pszService = item->pszService ? mir_strdup(item->pszService) : NULL;
 	newItem->ptszSection = mir_tstrdup(item->ptszSection);
 	newItem->ptszDescription = mir_tstrdup(item->ptszDescription);
-	newItem->ptszSection_tr = item->ptszSection_tr;
-	newItem->ptszDescription_tr = item->ptszDescription_tr;
 	newItem->lParam = item->lParam;
 	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, g_hotkeyCount++);
 	newItem->idHotkey = GlobalAddAtomA(buf);
@@ -702,7 +701,7 @@ static void sttBuildHotkeyList(HWND hwndList, TCHAR *section)
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
 			lvi.lParam = 0;
-			lvi.pszText = item->ptszSection_tr;
+			lvi.pszText = item->getSection();
 			ListView_InsertItem(hwndList, &lvi);
 			ListView_SetCheckState(hwndList, lvi.iItem, TRUE);
 
@@ -1268,7 +1267,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 								ListView_GetItem(lpnmhdr->hwndFrom, &lvi);
 								item = (THotkeyItem *)lvi.lParam;
 								if ( !item) continue;
-								if ( !lstrcmp(item->ptszSection_tr, buf)) {
+								if ( !lstrcmp( item->getSection(), buf)) {
 									ListView_DeleteItem(lpnmhdr->hwndFrom, lvi.iItem);
 									--lvi.iItem;
 									--count;
@@ -1281,8 +1280,10 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 								LVITEM lvi = {0};
 								THotkeyItem *item = hotkeys[i];
 
-								if (item->OptDeleted) continue;
-								if (lstrcmp(buf, item->ptszSection_tr)) continue;
+								if (item->OptDeleted)
+									continue;
+								if ( lstrcmp(buf, item->getSection()))
+									continue;
 
 								lvi.mask = LVIF_PARAM|LVIF_INDENT;
 								lvi.iIndent = 1;
@@ -1418,10 +1419,10 @@ int LoadSkinHotkeys(void)
 
 	hEvChanged = CreateHookableEvent(ME_HOTKEYS_CHANGED);
 
+	CreateServiceFunction("CoreHotkeys/Register", svcHotkeyRegister);
+	CreateServiceFunction(MS_HOTKEY_UNREGISTER, svcHotkeyUnregister);
 	CreateServiceFunction(MS_HOTKEY_SUBCLASS, svcHotkeySubclass);
 	CreateServiceFunction(MS_HOTKEY_UNSUBCLASS, svcHotkeyUnsubclass);
-	CreateServiceFunction(MS_HOTKEY_REGISTER, svcHotkeyRegister);
-	CreateServiceFunction(MS_HOTKEY_UNREGISTER, svcHotkeyUnregister);
 	CreateServiceFunction(MS_HOTKEY_CHECK, svcHotkeyCheck);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, sttModulesLoaded);

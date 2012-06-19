@@ -54,6 +54,8 @@ typedef struct
 
 #define HKF_MIRANDA_LOCAL		0x8000
 
+extern int hLangpack;
+
 /* use this macro to defile hotkey codes like this:
   hkd.DefHotkey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_EXT, 'A');
 */
@@ -65,7 +67,11 @@ Registers new hotkey
   lParam=(LPARAM)(HOTKEYDESC *)hotkey
 Returns 0 on failure or hotkey atom id on success
 */
-#define MS_HOTKEY_REGISTER			"CoreHotkeys/Register"
+
+__inline static INT_PTR Hotkey_Register(HOTKEYDESC *hk)
+{	
+	return CallService("CoreHotkeys/Register", (WPARAM)hLangpack, (LPARAM)hk);
+}
 
 /* CoreHotkeys/Unregister service
 Unregister existing hotkey

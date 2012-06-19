@@ -174,19 +174,15 @@ int CSList::postLoading( WPARAM wparam, LPARAM lparam )
 
 void CSList::registerHotkeys(char buf[200], TCHAR* accName, int Number)
 {
-	// 0.9+ core hotkeys service
-	if ( ServiceExists( MS_HOTKEY_REGISTER ) )
-	{
-		HOTKEYDESC hotkey = { 0 };
-		hotkey.cbSize = sizeof(hotkey);
-		hotkey.dwFlags = HKD_TCHAR;
-		hotkey.pszName = buf;
-		hotkey.ptszDescription = accName;
-		hotkey.ptszSection = _T("Custom Status List");
-		hotkey.pszService = buf;
-		hotkey.DefHotKey = HOTKEYCODE( HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0'+Number );
-		CallService( MS_HOTKEY_REGISTER, 0, ( LPARAM )&hotkey );
-	}
+	HOTKEYDESC hotkey = { 0 };
+	hotkey.cbSize = sizeof(hotkey);
+	hotkey.dwFlags = HKD_TCHAR;
+	hotkey.pszName = buf;
+	hotkey.ptszDescription = accName;
+	hotkey.ptszSection = LPGENT("Custom Status List");
+	hotkey.pszService = buf;
+	hotkey.DefHotKey = HOTKEYCODE( HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0'+Number );
+	Hotkey_Register(&hotkey);
 }
 
 int CSList::initOptions( WPARAM wparam, LPARAM lparam )

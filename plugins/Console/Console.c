@@ -1259,12 +1259,9 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
-
-   	if (ServiceExists(MS_FONT_REGISTERT))
 	{
 		FontIDT fid={0};
-
-		fid.cbSize=sizeof(fid);
+		fid.cbSize = sizeof(fid);
 		_tcscpy(fid.group,_T("Console"));
 		_tcscpy(fid.name,TranslateT("Text"));
 		strcpy(fid.dbSettingsGroup,"Console");
@@ -1286,11 +1283,10 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		hHooks[i++] = HookEvent(ME_FONT_RELOAD,OnFontChange);
 	}
 
-   	if (ServiceExists(MS_COLOUR_REGISTERT))
-   	{
-	   	ColourIDT cid = {0};
+	{
+		ColourIDT cid = {0};
 
-	   	cid.cbSize=sizeof(cid);
+		cid.cbSize=sizeof(cid);
 		_tcscpy(cid.group,_T("Console"));
 		_tcscpy(cid.name,_T("Background"));
 		strcpy(cid.dbSettingsGroup,"Console");
@@ -1301,28 +1297,23 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 		CallService(MS_COLOUR_REGISTERT,(WPARAM)&cid,0);
 
 		hHooks[i++] = HookEvent(ME_COLOUR_RELOAD, OnColourChange);
-   	}
+	}
 
-   	if (ServiceExists(MS_HOTKEY_REGISTER))
-   	{
-	   	HOTKEYDESC hkd = {0};
-
-		hkd.cbSize=sizeof(hkd);
-
+	{
+		HOTKEYDESC hkd = {0};
+		hkd.cbSize = sizeof(hkd);
 		hkd.pszName = "Console_Show_Hide";
-		hkd.pszDescription = Translate("Show/Hide Console");
+		hkd.pszDescription = LPGEN("Show/Hide Console");
 		hkd.pszSection = "Main";
 		hkd.pszService = MS_CONSOLE_SHOW_HIDE;
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
+		Hotkey_Register(&hkd);
+	}
 
-		CallService(MS_HOTKEY_REGISTER,(WPARAM)0,(LPARAM)&hkd);
-   	}
-
-   	if (ServiceExists(MS_TB_ADDBUTTON))
-   	{
+	if (ServiceExists(MS_TB_ADDBUTTON)) {
 		SKINICONDESC sid={0};
-   		TBButton tbb = {0};
-   		char szModuleFileName[MAX_PATH]={0};
+		TBButton tbb = {0};
+		char szModuleFileName[MAX_PATH]={0};
 
 		GetModuleFileNameA(hInst,szModuleFileName,MAX_PATH);
 

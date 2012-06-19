@@ -513,7 +513,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	hkd.pszSection = YAMN_DBMODULE;
 	hkd.pszDescription = LPGEN("Check mail");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F11);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	//Create thread that will be executed every second
 	if (!(SecTimer = SetTimer(NULL, 0, 1000, (TIMERPROC)TimerProc)))

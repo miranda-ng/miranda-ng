@@ -95,14 +95,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/ConvertLastOrSelected";
 	hkd.ptszDescription = _T("Convert Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT+HKCOMB_A, 'R') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = TRUE;
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/TranslitAllOrSelected";
 	hkd.ptszDescription = _T("Translit All / Selected");
@@ -110,14 +110,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/TranslitLastOrSelected";
 	hkd.ptszDescription = _T("Translit Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT+HKCOMB_A, 'T') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = TRUE;
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/InvertCaseAllOrSelected";
 	hkd.ptszDescription = _T("Invert Case All / Selected");
@@ -125,14 +125,14 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL+HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = FALSE;
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hkd.pszName = "TranslitSwitcher/InvertCaseLastOrSelected";
 	hkd.ptszDescription = _T("Invert Case Last / Selected");
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT+HKCOMB_A, 'Y') | HKF_MIRANDA_LOCAL;
 	hkd.lParam = TRUE;
 
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
 	if (ServiceExists(MS_BB_ADDBUTTON) && ServiceExists(MS_SKIN2_ADDICON))

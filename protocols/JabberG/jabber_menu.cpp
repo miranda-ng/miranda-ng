@@ -942,19 +942,19 @@ void CJabberProto::GlobalMenuInit()
 
 	strcpy(tDest, "/Groupchat");
 	hkd.ptszDescription = _T("Join conference");
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	strcpy(tDest, "/Bookmarks");
 	hkd.ptszDescription = _T("Open bookmarks");
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	strcpy(tDest, "/PrivacyLists");
 	hkd.ptszDescription = _T("Privacy lists");
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	strcpy(tDest, "/ServiceDiscovery");
 	hkd.ptszDescription = _T("Service discovery");
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 }
 
 static INT_PTR g_ToolbarHandleJoinGroupchat(WPARAM w, LPARAM l)

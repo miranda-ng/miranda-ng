@@ -1362,7 +1362,7 @@ void InitCustomMenus(void)
 		hkd.ptszDescription = fnGetStatusModeDescription(hkd.lParam, 0);
 		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, '0'+i) | HKF_MIRANDA_LOCAL;
 		hkd.pszService = MS_CLIST_HKSTATUS;
-		statusHotkeys[i] = CallService(MS_HOTKEY_REGISTER, 0, LPARAM(&hkd));
+		statusHotkeys[i] = Hotkey_Register(&hkd);
 	}
 
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);

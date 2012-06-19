@@ -66,7 +66,7 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 
 	mir_snprintf(text,SIZEOF(text),"%s/Tweet",m_szModuleName);
 	hkd.pszDescription = "Send Tweet";
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 
 	signon_lock_  = CreateMutex(0,false,0);
 	avatar_lock_  = CreateMutex(0,false,0);

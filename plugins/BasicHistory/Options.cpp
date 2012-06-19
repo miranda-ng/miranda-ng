@@ -281,7 +281,7 @@ void Options::Load()
 		hid.pszService = g_HotkeyOptionsList[i].pszService;
 		hid.DefHotKey = g_HotkeyOptionsList[i].DefHotKey;
 		hid.lParam = g_HotkeyOptionsList[i].lParam;
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hid);
+		Hotkey_Register(&hid);
 	}
 	
 	showContacts = DBGetContactSettingByte(0, MODULE, "showContacts", 0) ? true : false;

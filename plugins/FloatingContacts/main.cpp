@@ -1086,22 +1086,21 @@ static void LoadMenus()
 	mi.pszService = sModule "/MainHideAllThumbs";
 	Menu_AddMainMenuItem(&mi);
 
-	if (ServiceExists(MS_HOTKEY_REGISTER)) {
-		HOTKEYDESC hkd = {0};
-		hkd.cbSize = sizeof(hkd);
-		hkd.pszSection = "Floating Contacts";
+	// Register hotkeys
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.pszSection = "Floating Contacts";
 			
-		hkd.pszName = sModule "/MainHideAllThumbs";
-		hkd.pszDescription = "Show/Hide all thumbs";
-		hkd.pszService = sModule "/MainHideAllThumbs";
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	hkd.pszName = sModule "/MainHideAllThumbs";
+	hkd.pszDescription = LPGEN("Show/Hide all thumbs");
+	hkd.pszService = sModule "/MainHideAllThumbs";
+	Hotkey_Register(&hkd);
 
-		hHideWhenCListShow = CreateServiceFunction( sModule "/HideWhenCListShow", OnHotKey_HideWhenCListShow );
-		hkd.pszName = sModule "/HideWhenCListShow";
-		hkd.pszDescription = "Hide when contact list is shown";
-		hkd.pszService = sModule "/HideWhenCListShow";
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
-	}
+	hHideWhenCListShow = CreateServiceFunction( sModule "/HideWhenCListShow", OnHotKey_HideWhenCListShow );
+	hkd.pszName = sModule "/HideWhenCListShow";
+	hkd.pszDescription = LPGEN("Hide when contact list is shown");
+	hkd.pszService = sModule "/HideWhenCListShow";
+	Hotkey_Register(&hkd);
 }
 
 

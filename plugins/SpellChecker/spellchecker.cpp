@@ -373,18 +373,14 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-	if (ServiceExists(MS_HOTKEY_REGISTER))
-	{
-		HOTKEYDESC hkd = {0};
-		hkd.cbSize = sizeof(hkd);
-		hkd.pszName = "Spell Checker/Toggle";
-		hkd.ptszSection = LPGENT("Spell Checker");
-		hkd.ptszDescription = LPGENT("Enable/disable spell checker");
-		hkd.dwFlags = HKD_TCHAR;
-//		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_ALT, 'S');
-		hkd.lParam = HOTKEY_ACTION_TOGGLE;
-		CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &hkd);
-	}
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.pszName = "Spell Checker/Toggle";
+	hkd.pszSection = LPGEN("Spell Checker");
+	hkd.pszDescription = LPGEN("Enable/disable spell checker");
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_SHIFT|HOTKEYF_ALT, 'S');
+	hkd.lParam = HOTKEY_ACTION_TOGGLE;
+	Hotkey_Register( &hkd);
 
 	loaded = TRUE;
 

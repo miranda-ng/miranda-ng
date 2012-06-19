@@ -39,26 +39,23 @@ INT_PTR hkRestoreStatus(WPARAM wParam,LPARAM lParam)
 
 int InitSkinHotKeys(void)
 {
-	HOTKEYDESC shk = {0};
-
 	CreateServiceFunction("CLIST/HK/CloseMiranda",hkCloseMiranda);
 	CreateServiceFunction("CLIST/HK/RestoreStatus",hkRestoreStatus);
 
+	HOTKEYDESC shk = {0};
 	shk.cbSize = sizeof(shk);
 
-	shk.pszDescription = "Close Miranda";
+	shk.pszDescription = LPGEN("Close Miranda");
 	shk.pszName = "CloseMiranda";
 	shk.pszSection = "Main";
 	shk.pszService = "CLIST/HK/CloseMiranda";
-	shk.DefHotKey = 0;
-	CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&shk);
+	Hotkey_Register(&shk);
 
-	shk.pszDescription = "Restore last status";
+	shk.pszDescription = LPGEN("Restore last status");
 	shk.pszName = "RestoreLastStatus";
 	shk.pszSection = "Status";
 	shk.pszService = "CLIST/HK/RestoreStatus";
-	shk.DefHotKey = 0;
-	CallService(MS_HOTKEY_REGISTER,0,(LPARAM)&shk);
+	Hotkey_Register(&shk);
 
 	return 0;
 }

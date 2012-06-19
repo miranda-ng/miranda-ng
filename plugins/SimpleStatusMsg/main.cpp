@@ -1642,7 +1642,7 @@ void RegisterHotkey(void)
 	hkd.ptszSection = _T("Status Message");
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM)&hkd);
+	Hotkey_Register(&hkd);
 }
 
 static int OnIconsChanged(WPARAM wParam, LPARAM lParam)

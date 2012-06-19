@@ -367,13 +367,13 @@ void LoadHotkey() {
 	hk.ptszDescription    = LPGENT("Toggle Popups");
 	hk.ptszSection        = LPGENT(MODULNAME_PLU);
 	hk.pszService        = MENUCOMMAND_SVC;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &hk);
+	Hotkey_Register( &hk);
 
 	// 'Popup History' Hotkey
 	hk.pszName			= "Popup History";
 	hk.ptszDescription	= LPGENT("Popup History");
 	hk.pszService		= MENUCOMMAND_HISTORY;
-	CallService(MS_HOTKEY_REGISTER, 0, (LPARAM) &hk);
+	Hotkey_Register( &hk);
 }
 
 //menu

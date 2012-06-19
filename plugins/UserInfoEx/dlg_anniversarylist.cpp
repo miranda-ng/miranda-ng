@@ -1129,15 +1129,13 @@ VOID DlgAnniversaryListOnToolBarLoaded()
  **/
 VOID DlgAnniversaryListLoadModule()
 {
-	HOTKEYDESC hk;
-
 	myCreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);
 
-	ZeroMemory(&hk, sizeof(HOTKEYDESC)); 
+	HOTKEYDESC hk = { 0 };
 	hk.cbSize			= sizeof(HOTKEYDESC);
 	hk.pszSection		= MODNAME;
 	hk.pszName			= "AnniversaryList";
 	hk.pszDescription	= LPGEN("Popup Anniversary list");
 	hk.pszService		= MS_USERINFO_REMINDER_LIST;
-	CallService(MS_HOTKEY_REGISTER, NULL, (LPARAM)&hk);
+	Hotkey_Register(&hk);
 }
