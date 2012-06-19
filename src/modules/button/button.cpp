@@ -409,8 +409,8 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				bct->hIcon = NULL;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
+			return (LRESULT)hnd;
 		}
-		return (LRESULT)hnd;
 
 	case BM_GETIMAGE:
 		if (bct->hIcon) return (LRESULT)bct->hIcon;
