@@ -152,7 +152,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	cl.position = 10000000;
 	cl.hIcon = hiAddBirthdayContact;
 	cl.pszName = "Add/change user &birthday";
-	hmAddChangeBirthday = Menu_AddMainMenuItem(&cl);
+	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
 
 	// Register hotkeys
 	HOTKEYDESC hotkey = {0};
