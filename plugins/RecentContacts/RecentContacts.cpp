@@ -463,7 +463,7 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 		ttbb.cbSize = sizeof(ttbb);
 		ttbb.hIconHandleDn = ttbb.hIconHandleDn = hIcon;
 		ttbb.pszService = msLastUC_ShowList;
-		ttbb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_DRAWBORDER;
+		ttbb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
 		ttbb.name = Translate(msLastUC_ShowListName);
 
 		hTopToolbarButtonShowList = (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)&ttbb, 0);
