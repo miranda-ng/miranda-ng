@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if (BrowseForFolder(hwndDlg, szExistingDirName))
 					SetDlgItemText(hwndDlg, IDC_FILEDIR, szExistingDirName);
 			}
-            break;
+			break;
 
 		case IDOK:
 			{	//most recently used directories
@@ -389,13 +389,13 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
 			}
 			DestroyWindow(hwndDlg);
-            break;
+			break;
 
 		case IDCANCEL:
 			if (dat->fs) CallContactService(dat->hContact, PSS_FILEDENYT, (WPARAM)dat->fs, (LPARAM)TranslateT("Cancelled"));
 			dat->fs=NULL; /* the protocol will free the handle */
 			DestroyWindow(hwndDlg);
-            break;
+			break;
 
 		case IDC_ADD:
 			{	ADDCONTACTSTRUCT acs={0};
@@ -407,7 +407,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				if ( !DBGetContactSettingByte(dat->hContact, "CList", "NotOnList", 0))
 					ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 			}
-            break;
+			break;
 
 		case IDC_USERMENU:
 			{	RECT rc;
@@ -420,11 +420,11 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		case IDC_DETAILS:
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)dat->hContact, 0);
-            break;
+			break;
 
 		case IDC_HISTORY:
 			CallService(MS_HISTORY_SHOWCONTACTHISTORY, (WPARAM)dat->hContact, 0);
-            break;
+			break;
 		}
 		break;
 
@@ -436,7 +436,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_USERMENU);
 
 		if (dat) FreeFileDlgData(dat);
-        break;
+		break;
 	}
 	return FALSE;
 }

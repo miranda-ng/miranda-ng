@@ -61,8 +61,8 @@ struct DetailsData {
 };
 
 struct ProfileEnumData {
-    HWND hwnd;
-    TCHAR* szProfile;
+	HWND hwnd;
+	TCHAR* szProfile;
 };
 
 extern TCHAR mirandabootini[MAX_PATH]; 
@@ -164,7 +164,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		// decide if there is a default profile name given in the INI and if it should be used
 		if (dat->pd->noProfiles || (shouldAutoCreate(dat->pd->szProfile) && _taccess(dat->pd->szProfile, 0))) 
-        {
+		{
 			TCHAR* profile = _tcsrchr(dat->pd->szProfile, '\\');
 			if (profile) ++profile;
 			else profile = dat->pd->szProfile;
@@ -422,7 +422,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		if (WaitForSingleObject(dat->hFileNotify, 0) == WAIT_OBJECT_0)
 		{
 			ListView_DeleteAllItems(hwndList);
-            ProfileEnumData ped = { hwndDlg, dat->pd->szProfile };
+			ProfileEnumData ped = { hwndDlg, dat->pd->szProfile };
 			findProfiles(dat->pd->szProfileDir, EnumProfilesForList, (LPARAM)&ped);
 			FindNextChangeNotification(dat->hFileNotify);
 		}
@@ -430,7 +430,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_FOCUSTEXTBOX:
 		SetFocus(hwndList);
-        if (dat->pd->szProfile[0] == 0 || ListView_GetSelectedCount(hwndList) == 0)
+		if (dat->pd->szProfile[0] == 0 || ListView_GetSelectedCount(hwndList) == 0)
 			ListView_SetItemState(hwndList, 0, LVIS_SELECTED | LVIS_FOCUSED, LVIS_SELECTED | LVIS_FOCUSED);
 		break;
 
@@ -569,7 +569,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				dat->opd[i].hwnd = NULL;
 				dat->opd[i].changed = 0;
 				tci.pszText = (TCHAR*)odp[i].ptszTitle;
-                if (dat->prof->pd->noProfiles || shouldAutoCreate(dat->prof->pd->szProfile))
+				if (dat->prof->pd->noProfiles || shouldAutoCreate(dat->prof->pd->szProfile))
 					dat->currentPage = 1;
 				TabCtrl_InsertItem(GetDlgItem(hwndDlg, IDC_TABS), i, &tci);
 		}	}

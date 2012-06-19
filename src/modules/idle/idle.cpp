@@ -70,37 +70,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define WTS_CURRENT_SESSION ((DWORD)-1)
 
 typedef enum _WTS_CONNECTSTATE_CLASS {
-    WTSActive,              // User logged on to WinStation
-    WTSConnected,           // WinStation connected to client
-    WTSConnectQuery,        // In the process of connecting to client
-    WTSShadow,              // Shadowing another WinStation
-    WTSDisconnected,        // WinStation logged on without client
-    WTSIdle,                // Waiting for client to connect
-    WTSListen,              // WinStation is listening for connection
-    WTSReset,               // WinStation is being reset
-    WTSDown,                // WinStation is down due to error
-    WTSInit,                // WinStation in initialization
+	WTSActive,              // User logged on to WinStation
+	WTSConnected,           // WinStation connected to client
+	WTSConnectQuery,        // In the process of connecting to client
+	WTSShadow,              // Shadowing another WinStation
+	WTSDisconnected,        // WinStation logged on without client
+	WTSIdle,                // Waiting for client to connect
+	WTSListen,              // WinStation is listening for connection
+	WTSReset,               // WinStation is being reset
+	WTSDown,                // WinStation is down due to error
+	WTSInit,                // WinStation in initialization
 } WTS_CONNECTSTATE_CLASS;
 
-
 typedef enum _WTS_INFO_CLASS {
-    WTSInitialProgram, 
-    WTSApplicationName, 
-    WTSWorkingDirectory, 
-    WTSOEMId, 
-    WTSSessionId, 
-    WTSUserName, 
-    WTSWinStationName, 
-    WTSDomainName, 
-    WTSConnectState, 
-    WTSClientBuildNumber, 
-    WTSClientName, 
-    WTSClientDirectory, 
-    WTSClientProductId, 
-    WTSClientHardwareId, 
-    WTSClientAddress, 
-    WTSClientDisplay, 
-    WTSClientProtocolType, 
+	WTSInitialProgram, 
+	WTSApplicationName, 
+	WTSWorkingDirectory, 
+	WTSOEMId, 
+	WTSSessionId, 
+	WTSUserName, 
+	WTSWinStationName, 
+	WTSDomainName, 
+	WTSConnectState, 
+	WTSClientBuildNumber, 
+	WTSClientName, 
+	WTSClientDirectory, 
+	WTSClientProductId, 
+	WTSClientHardwareId, 
+	WTSClientAddress, 
+	WTSClientDisplay, 
+	WTSClientProtocolType, 
 } WTS_INFO_CLASS;
 
 #endif
@@ -331,12 +330,12 @@ void CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 int IdleGetStatusIndex(WORD status)
 {
-    int j;
-    for (j = 0; j < SIZEOF(aa_Status); j++)
-        if (aa_Status[j] == status)
-			  return j;
+	int j;
+	for (j = 0; j < SIZEOF(aa_Status); j++)
+	if (aa_Status[j] == status)
+			return j;
 
-    return 0;
+	return 0;
 }
 
 static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -364,7 +363,7 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
 		SendDlgItemMessage(hwndDlg, IDC_IDLE1STTIME, EM_LIMITTEXT, (WPARAM)2, 0);
 
-      CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
 		for (j = 0; j < SIZEOF(aa_Status); j++)
 			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)cli.pfnGetStatusModeDescription(aa_Status[j], 0));
 
