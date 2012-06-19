@@ -74,9 +74,9 @@ open_device ( const char *name )
      
      struct stat sb;
 
-     if ( fstat( fd, &sb ) )
+     if( fstat( fd, &sb ) )
         log_fatal("stat() off %s failed: %s\n", name, strerror(errno) );
-     if ( (!S_ISCHR(sb.st_mode)) && (!S_ISFIFO(sb.st_mode)) )
+     if( (!S_ISCHR(sb.st_mode)) && (!S_ISFIFO(sb.st_mode)) )
         log_fatal("invalid random device!\n" );
   */
   return fd;
@@ -108,13 +108,13 @@ _gcry_rndlinux_gather_random (void (*add)(const void*, size_t,
   /* Open the requested device.  */
   if (level >= 2)
     {
-      if ( fd_random == -1 )
+      if( fd_random == -1 )
         fd_random = open_device ( NAME_OF_DEV_RANDOM );
       fd = fd_random;
     }
   else
     {
-      if ( fd_urandom == -1 )
+      if( fd_urandom == -1 )
         fd_urandom = open_device ( NAME_OF_DEV_URANDOM );
       fd = fd_urandom;
     }
@@ -130,16 +130,16 @@ _gcry_rndlinux_gather_random (void (*add)(const void*, size_t,
       FD_SET(fd, &rfds);
       tv.tv_sec = 3;
       tv.tv_usec = 0;
-      if ( !(rc=select(fd+1, &rfds, NULL, NULL, &tv)) )
+      if( !(rc=select(fd+1, &rfds, NULL, NULL, &tv)) )
         {
-          if ( !warn )
+          if( !warn )
             {
               _gcry_random_progress ("need_entropy", 'X', 0, (int)length);
 	      warn = 1;
 	    }
 	  continue;
 	}
-	else if ( rc == -1 )
+	else if( rc == -1 )
           {
 	    log_error ("select() error: %s\n", strerror(errno));
 	    continue;
@@ -149,14 +149,14 @@ _gcry_rndlinux_gather_random (void (*add)(const void*, size_t,
           {
 	    int nbytes = length < sizeof(buffer)? length : sizeof(buffer);
 	    n = read(fd, buffer, nbytes );
-	    if ( n >= 0 && n > nbytes ) 
+	    if( n >= 0 && n > nbytes ) 
               {
 		log_error("bogus read from random device (n=%d)\n", n );
 		n = nbytes;
               }
           } 
         while( n == -1 && errno == EINTR );
-	if ( n == -1 )
+	if( n == -1 )
           log_fatal("read error on random device: %s\n", strerror(errno));
 	(*add)( buffer, n, origin );
 	length -= n;

@@ -76,7 +76,7 @@ typedef int mpi_size_t;        /* (must be a signed type) */
 #define MAX(h,i) ((h) > (i) ? (h) : (i))
 #define RESIZE_IF_NEEDED(a,b) \
     do {			   \
-	if ( (a)->alloced < (b) )   \
+	if( (a)->alloced < (b) )   \
 	    mpi_resize((a), (b));  \
     } while(0)
 
@@ -84,21 +84,21 @@ typedef int mpi_size_t;        /* (must be a signed type) */
 #define MPN_COPY( d, s, n) \
     do {				\
 	mpi_size_t _i;			\
-	for ( _i = 0; _i < (n); _i++ )	\
+	for( _i = 0; _i < (n); _i++ )	\
 	    (d)[_i] = (s)[_i];		\
     } while(0)
 
 #define MPN_COPY_INCR( d, s, n) 	\
     do {				\
 	mpi_size_t _i;			\
-	for ( _i = 0; _i < (n); _i++ )	\
+	for( _i = 0; _i < (n); _i++ )	\
 	    (d)[_i] = (d)[_i];		\
     } while (0)
 
 #define MPN_COPY_DECR( d, s, n ) \
     do {				\
 	mpi_size_t _i;			\
-	for ( _i = (n)-1; _i >= 0; _i--) \
+	for( _i = (n)-1; _i >= 0; _i--) \
 	   (d)[_i] = (s)[_i];		\
     } while(0)
 
@@ -106,14 +106,14 @@ typedef int mpi_size_t;        /* (must be a signed type) */
 #define MPN_ZERO(d, n) \
     do {				  \
 	int  _i;			  \
-	for ( _i = 0; _i < (n); _i++ )  \
+	for( _i = 0; _i < (n); _i++ )  \
 	    (d)[_i] = 0;		    \
     } while (0)
 
 #define MPN_NORMALIZE(d, n)  \
     do {		       \
 	while( (n) > 0 ) {     \
-	    if ( (d)[(n)-1] ) \
+	    if( (d)[(n)-1] ) \
 		break;	       \
 	    (n)--;	       \
 	}		       \
@@ -121,8 +121,8 @@ typedef int mpi_size_t;        /* (must be a signed type) */
 
 #define MPN_NORMALIZE_NOT_ZERO(d, n) \
     do {				    \
-	for (;;) {			    \
-	    if ( (d)[(n)-1] )		    \
+	for(;;) {			    \
+	    if( (d)[(n)-1] )		    \
 		break;			    \
 	    (n)--;			    \
 	}				    \
@@ -130,7 +130,7 @@ typedef int mpi_size_t;        /* (must be a signed type) */
 
 #define MPN_MUL_N_RECURSE(prodp, up, vp, size, tspace) \
     do {						\
-	if ( (size) < KARATSUBA_THRESHOLD )		\
+	if( (size) < KARATSUBA_THRESHOLD )		\
 	    mul_n_basecase (prodp, up, vp, size);	\
 	else						\
 	    mul_n (prodp, up, vp, size, tspace);	\
@@ -151,15 +151,15 @@ typedef int mpi_size_t;        /* (must be a signed type) */
 	_q += (nh);	/* DI is 2**BITS_PER_MPI_LIMB too small */  \
 	umul_ppmm (_xh, _xl, _q, (d));				    \
 	sub_ddmmss (_xh, _r, (nh), (nl), _xh, _xl);		    \
-	if ( _xh ) {						    \
+	if( _xh ) {						    \
 	    sub_ddmmss (_xh, _r, _xh, _r, 0, (d));		    \
 	    _q++;						    \
-	    if ( _xh) {						    \
+	    if( _xh) {						    \
 		sub_ddmmss (_xh, _r, _xh, _r, 0, (d));		    \
 		_q++;						    \
 	    }							    \
 	}							    \
-	if ( _r >= (d) ) {					    \
+	if( _r >= (d) ) {					    \
 	    _r -= (d);						    \
 	    _q++;						    \
 	}							    \

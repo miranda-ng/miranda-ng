@@ -202,7 +202,7 @@ disable_core_dumps (void)
   if (getrlimit (RLIMIT_CORE, &limit))
     limit.rlim_max = 0;
   limit.rlim_cur = 0;
-  if ( !setrlimit (RLIMIT_CORE, &limit) )
+  if( !setrlimit (RLIMIT_CORE, &limit) )
     return 0;
   if (errno != EINVAL && errno != ENOSYS)
     logit (LOG_ERR, "can't disable core dumps: %s\n", strerror (errno));

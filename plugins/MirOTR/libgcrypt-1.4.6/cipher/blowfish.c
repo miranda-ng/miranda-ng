@@ -475,18 +475,18 @@ selftest(void)
   bf_setkey( (void *) &c,
              (const unsigned char*)"abcdefghijklmnopqrstuvwxyz", 26 );
   encrypt_block( (void *) &c, buffer, plain );
-  if ( memcmp( buffer, "\x32\x4E\xD0\xFE\xF4\x13\xA2\x03", 8 ) )
+  if( memcmp( buffer, "\x32\x4E\xD0\xFE\xF4\x13\xA2\x03", 8 ) )
     return "Blowfish selftest failed (1).";
   decrypt_block( (void *) &c, buffer, buffer );
-  if ( memcmp( buffer, plain, 8 ) )
+  if( memcmp( buffer, plain, 8 ) )
     return "Blowfish selftest failed (2).";
 
   bf_setkey( (void *) &c, key3, 8 );
   encrypt_block( (void *) &c, buffer, plain3 );
-  if ( memcmp( buffer, cipher3, 8 ) )
+  if( memcmp( buffer, cipher3, 8 ) )
     return "Blowfish selftest failed (3).";
   decrypt_block( (void *) &c, buffer, buffer );
-  if ( memcmp( buffer, plain3, 8 ) )
+  if( memcmp( buffer, plain3, 8 ) )
     return "Blowfish selftest failed (4).";
   return NULL;
 }
@@ -501,14 +501,14 @@ do_bf_setkey (BLOWFISH_context *c, const byte *key, unsigned keylen)
   static int initialized;
   static const char *selftest_failed;
 
-  if ( !initialized ) 
+  if( !initialized ) 
     {
       initialized = 1;
       selftest_failed = selftest();
-      if ( selftest_failed )
+      if( selftest_failed )
         log_error ("%s\n", selftest_failed );
     }
-  if ( selftest_failed )
+  if( selftest_failed )
     return GPG_ERR_SELFTEST_FAILED;
 
   for(i=0; i < BLOWFISH_ROUNDS+2; i++ )
@@ -575,9 +575,9 @@ do_bf_setkey (BLOWFISH_context *c, const byte *key, unsigned keylen)
      the P-array (here c) occurs more than once per table.  */
   for(i=0; i < 255; i++ )
     {
-      for ( j=i+1; j < 256; j++)
+      for( j=i+1; j < 256; j++)
         {
-          if ( (c->s0[i] == c->s0[j]) || (c->s1[i] == c->s1[j]) ||
+          if( (c->s0[i] == c->s0[j]) || (c->s1[i] == c->s1[j]) ||
               (c->s2[i] == c->s2[j]) || (c->s3[i] == c->s3[j]) )
             return GPG_ERR_WEAK_KEY;
         }

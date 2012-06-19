@@ -285,7 +285,7 @@ generate_std (RSA_secret_key *sk, unsigned int nbits, unsigned long use_e,
   u = gcry_mpi_snew ( nbits );
   mpi_invm(u, p, q );
 
-  if ( DBG_CIPHER )
+  if( DBG_CIPHER )
     {
       log_mpidump("  p= ", p );
       log_mpidump("  q= ", q );
@@ -534,7 +534,7 @@ generate_x931 (RSA_secret_key *sk, unsigned int nbits, unsigned long e_value,
   u = f; f = NULL;
   mpi_invm (u, p, q );
 
-  if ( DBG_CIPHER )
+  if( DBG_CIPHER )
     {
       if (*swapped)
         log_debug ("p and q are swapped\n");
@@ -599,7 +599,7 @@ check_secret_key( RSA_secret_key *sk )
 static void
 public(gcry_mpi_t output, gcry_mpi_t input, RSA_public_key *pkey )
 {
-  if ( output == input )  /* powm doesn't like output and input the same */
+  if( output == input )  /* powm doesn't like output and input the same */
     {
       gcry_mpi_t x = mpi_alloc( mpi_get_nlimbs(input)*2 );
       mpi_powm( x, input, pkey->e, pkey->n );
@@ -625,7 +625,7 @@ stronger_key_check ( RSA_secret_key *skey )
     log_info ( "RSA Oops: n != p * q\n" );
 
   /* check that p is less than q */
-  if ( mpi_cmp( skey->p, skey->q ) > 0 )
+  if( mpi_cmp( skey->p, skey->q ) > 0 )
     {
       log_info ("RSA Oops: p >= q - fixed\n");
       _gcry_mpi_swap ( skey->p, skey->q);

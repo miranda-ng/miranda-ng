@@ -25,7 +25,7 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 	next = DeleteEvents.first;
 	while (current = next) {
 		if (difftime(time(0), current->timestamp) < 1) break;
-		if (!CallService(MS_DB_EVENT_GET, (WPARAM)current->hDbEvent, (LPARAM)&info)) // && info.flags&DBEF_READ)
+		if(!CallService(MS_DB_EVENT_GET, (WPARAM)current->hDbEvent, (LPARAM)&info)) // && info.flags&DBEF_READ)
 		{
 			CallService(MS_DB_EVENT_DELETE, (WPARAM)current->hContact, (LPARAM)current->hDbEvent);
 			next = current->next;
@@ -44,7 +44,7 @@ VOID CALLBACK DeleteTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 
 // add prefix to sent messages
 int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
-	if (!options.prefix_messages || !lParam) return 0;
+	if(!options.prefix_messages || !lParam) return 0;
 	HANDLE hContact = (HANDLE)wParam;
 	DBEVENTINFO *dbei = (DBEVENTINFO *)lParam;
 	if ((dbei->eventType != EVENTTYPE_MESSAGE) || !(dbei->flags & DBEF_SENT) || (dbei->flags & DBEF_OTR_PREFIXED))
@@ -53,21 +53,21 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 		return 0; // just to be safe
 
 	const char *proto = contact_get_proto(hContact);
-	if (!proto )	return 0;
+	if(!proto )	return 0;
 	if (DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) == 1)
 		return 0;
 	
 	if(g_metaproto && strcmp(proto, g_metaproto) == 0) {
 		hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
-		if (!hContact) return 0;
+		if(!hContact) return 0;
 		proto = contact_get_proto(hContact);
-		if (!proto )	return 0;
+		if(!proto )	return 0;
 	}
 	
 
 	ConnContext *context = otrl_context_find_miranda(otr_user_state, hContact);	
 	bool encrypted = otr_context_get_trust(context) != TRUST_NOT_PRIVATE;
-	if (!encrypted) return 0;
+	if(!encrypted) return 0;
 	
 	DBEVENTINFO my_dbei = *dbei; // copy the other event
 
@@ -178,7 +178,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 }
 
  int OnDatabaseEventAdded(WPARAM wParam, LPARAM lParam) {
-	if (!options.delete_history) return 0;
+	if(!options.delete_history) return 0;
 
 	DBEVENTINFO info = {0};
 	info.cbSize = sizeof(info);
@@ -189,7 +189,7 @@ int OnDatabaseEventPreAdd(WPARAM wParam, LPARAM lParam) {
 	static DWORD len = strlen(prefix);
 	info.cbBlob = lenutf*2;
 	info.pBlob = (PBYTE)mir_alloc(info.cbBlob);
-	if (!CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&info)) {
+	if(!CallService(MS_DB_EVENT_GET, (WPARAM)lParam, (LPARAM)&info)) {
 		if(info.eventType == EVENTTYPE_MESSAGE) {
 			HANDLE hContact = (HANDLE)wParam, hSub;
 			if(options.bHaveMetaContacts && (hSub = (HANDLE)CallService
@@ -249,13 +249,13 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 	}
 
 	if(mwd->uType != MSG_WINDOW_EVT_OPEN) return 0;
-	if (!options.bHaveSRMMIcons) return 0;
+	if(!options.bHaveSRMMIcons) return 0;
 
 	HANDLE hContact = mwd->hContact, hTemp;
 	if(options.bHaveMetaContacts && (hTemp = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 		hContact = hTemp;
 
-	if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME))
+	if(!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME))
 		return 0;
 
 	lib_cs_lock();

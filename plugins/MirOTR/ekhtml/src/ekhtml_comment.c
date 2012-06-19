@@ -66,22 +66,22 @@ char *ekhtml_parse_comment(ekhtml_parser_t *parser, void **state_data,
         if(comstate->dashes == 0){  /* Still on the quest for the double dash*/
             /* XXX -- Searching for '--' could be faster, doing 
                multibyte searching, or something similar */
-            for (; workp < endp - 1; workp += 2){
-                if (*workp == '-')
+            for(; workp < endp - 1; workp += 2){
+                if(*workp == '-')
                     break;
             }
 
-            if (!(workp < endp - 1)) {
+            if(!(workp < endp - 1)){
                 *offset = endp - 1 - curp;
                 return NULL;
             }
 
-            if ((*(workp - 1) == '-') && 
+            if((*(workp - 1) == '-') && 
                (workp - curp) > (sizeof("<!--") - 1))
             {
                 comstate->lastdash = workp - 1 - curp;
                 comstate->dashes = 1;
-            } else if (*(workp + 1) == '-') {
+            } else if(*(workp + 1) == '-'){
                 comstate->lastdash = workp - curp;
                 comstate->dashes = 1;
             } else {
@@ -99,7 +99,7 @@ char *ekhtml_parse_comment(ekhtml_parser_t *parser, void **state_data,
             return NULL;  
         }
         
-        if (*workp == '>') {
+        if(*workp == '>'){
             if(parser->commentcb){
                 ekhtml_string_t str;
 

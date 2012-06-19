@@ -81,7 +81,7 @@ camellia_setkey(void *c, const byte *key, unsigned keylen)
   if(keylen!=16 && keylen!=24 && keylen!=32)
     return GPG_ERR_INV_KEYLEN;
 
-  if (!initialized)
+  if(!initialized)
     {
       initialized=1;
       selftest_failed=selftest();

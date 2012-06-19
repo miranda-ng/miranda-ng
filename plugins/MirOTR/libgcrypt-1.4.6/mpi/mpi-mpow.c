@@ -52,7 +52,7 @@ build_index( gcry_mpi_t *exparray, int k, int i, int t )
     bitno = t-i;
     for(j=k-1; j >= 0; j-- ) {
 	idx <<= 1;
-	if ( mpi_test_bit( exparray[j], bitno ) )
+	if( mpi_test_bit( exparray[j], bitno ) )
 	    idx |= 1;
     }
     /*log_debug("t=%d i=%d idx=%d\n", t, i, idx );*/
@@ -81,7 +81,7 @@ _gcry_mpi_mulpowm( gcry_mpi_t res, gcry_mpi_t *basearray, gcry_mpi_t *exparray, 
     for(t=0, i=0; (tmp=exparray[i]); i++ ) {
 	/*log_mpidump("exp: ", tmp );*/
 	j = mpi_get_nbits(tmp);
-	if ( j > t )
+	if( j > t )
 	    t = j;
     }
     /*log_mpidump("mod: ", m );*/
@@ -101,20 +101,20 @@ _gcry_mpi_mulpowm( gcry_mpi_t res, gcry_mpi_t *basearray, gcry_mpi_t *exparray, 
 				       barrett_r1, barrett_r2 );
 	idx = build_index( exparray, k, i, t );
 	gcry_assert (idx >= 0 && idx < (1<<k));
-	if ( !G[idx] ) {
-	    if ( !idx )
+	if( !G[idx] ) {
+	    if( !idx )
 		 G[0] = mpi_alloc_set_ui( 1 );
 	    else {
 		for(j=0; j < k; j++ ) {
-		    if ( (idx & (1<<j) ) ) {
-			if ( !G[idx] )
+		    if( (idx & (1<<j) ) ) {
+			if( !G[idx] )
 			    G[idx] = mpi_copy( basearray[j] );
 			else
 			    barrett_mulm( G[idx], G[idx], basearray[j],
 					       m, barrett_y, barrett_k, barrett_r1, barrett_r2	);
 		    }
 		}
-		if ( !G[idx] )
+		if( !G[idx] )
 		    G[idx] = mpi_alloc(0);
 	    }
 	}
@@ -140,7 +140,7 @@ static void
 barrett_mulm( gcry_mpi_t w, gcry_mpi_t u, gcry_mpi_t v, gcry_mpi_t m, gcry_mpi_t y, int k, gcry_mpi_t r1, gcry_mpi_t r2	)
 {
     mpi_mul(w, u, v);
-    if ( calc_barrett( w, w, m, y, k, r1, r2 ) )
+    if( calc_barrett( w, w, m, y, k, r1, r2 ) )
 	mpi_fdiv_r( w, w, m );
 }
 
@@ -178,7 +178,7 @@ calc_barrett( gcry_mpi_t r, gcry_mpi_t x, gcry_mpi_t m, gcry_mpi_t y, int k, gcr
     int xx = k > 3 ? k-3:0;
 
     mpi_normalize( x );
-    if ( mpi_get_nlimbs(x) > 2*k )
+    if( mpi_get_nlimbs(x) > 2*k )
 	return 1; /* can't do it */
 
     /* 1. q1 = floor( x / b^k-1)
@@ -197,14 +197,14 @@ calc_barrett( gcry_mpi_t r, gcry_mpi_t x, gcry_mpi_t m, gcry_mpi_t y, int k, gcr
      * 3. if r < 0 then  r = r + b^k+1
      */
     mpi_set( r1, x );
-    if ( r1->nlimbs > k+1 ) /* quick modulo operation */
+    if( r1->nlimbs > k+1 ) /* quick modulo operation */
 	r1->nlimbs = k+1;
     mpi_mul( r2, r2, m );
-    if ( r2->nlimbs > k+1 ) /* quick modulo operation */
+    if( r2->nlimbs > k+1 ) /* quick modulo operation */
 	r2->nlimbs = k+1;
     mpi_sub( r, r1, r2 );
 
-    if ( mpi_is_neg( r ) ) {
+    if( mpi_is_neg( r ) ) {
 	gcry_mpi_t tmp;
 
 	tmp = mpi_alloc( k + 2 );

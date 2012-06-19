@@ -584,7 +584,7 @@ do_twofish_setkey (TWOFISH_context *ctx, const byte *key, const unsigned keylen)
   static const char *selftest_failed=0;
 
   /* Check key length. */
-  if ( ( ( keylen - 16 ) | 16 ) != 16 )
+  if( ( ( keylen - 16 ) | 16 ) != 16 )
     return GPG_ERR_INV_KEYLEN;
 
   /* Do self-test if necessary. */
@@ -592,10 +592,10 @@ do_twofish_setkey (TWOFISH_context *ctx, const byte *key, const unsigned keylen)
     {
       initialized = 1;
       selftest_failed = selftest ();
-      if ( selftest_failed )
+      if( selftest_failed )
         log_error("%s\n", selftest_failed );
     }
-  if ( selftest_failed )
+  if( selftest_failed )
     return GPG_ERR_SELFTEST_FAILED;
 
   /* Compute the first two words of the S vector.  The magic numbers are

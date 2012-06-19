@@ -98,7 +98,7 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
     v1 = mpi_copy(v);				   /* !-- used as const 1 */
     v2 = mpi_alloc( mpi_get_nlimbs(u) ); mpi_sub( v2, u1, u );
     v3 = mpi_copy(v);
-    if ( mpi_test_bit(u, 0) ) { /* u is odd */
+    if( mpi_test_bit(u, 0) ) { /* u is odd */
 	t1 = mpi_alloc_set_ui(0);
 	t2 = mpi_alloc_set_ui(1); t2->sign = 1;
 	t3 = mpi_copy(v); t3->sign = !t3->sign;
@@ -111,7 +111,7 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
     }
     do {
 	do {
-	    if ( mpi_test_bit(t1, 0) || mpi_test_bit(t2, 0) ) { /* one is odd */
+	    if( mpi_test_bit(t1, 0) || mpi_test_bit(t2, 0) ) { /* one is odd */
 		mpi_add(t1, t1, v);
 		mpi_sub(t2, t2, u);
 	    }
@@ -122,7 +122,7 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
 	    ;
 	} while( !mpi_test_bit( t3, 0 ) ); /* while t3 is even */
 
-	if ( !t3->sign ) {
+	if( !t3->sign ) {
 	    mpi_set(u1, t1);
 	    mpi_set(u2, t2);
 	    mpi_set(u3, t3);
@@ -139,7 +139,7 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
 	mpi_sub(t1, u1, v1);
 	mpi_sub(t2, u2, v2);
 	mpi_sub(t3, u3, v3);
-	if ( t1->sign ) {
+	if( t1->sign ) {
 	    mpi_add(t1, t1, v);
 	    mpi_sub(t2, t2, u);
 	}
@@ -175,18 +175,18 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
     odd = mpi_test_bit(v,0);
 
     u1 = mpi_alloc_set_ui(1);
-    if ( !odd )
+    if( !odd )
 	u2 = mpi_alloc_set_ui(0);
     u3 = mpi_copy(u);
     v1 = mpi_copy(v);
-    if ( !odd ) {
+    if( !odd ) {
 	v2 = mpi_alloc( mpi_get_nlimbs(u) );
 	mpi_sub( v2, u1, u ); /* U is used as const 1 */
     }
     v3 = mpi_copy(v);
-    if ( mpi_test_bit(u, 0) ) { /* u is odd */
+    if( mpi_test_bit(u, 0) ) { /* u is odd */
 	t1 = mpi_alloc_set_ui(0);
-	if ( !odd ) {
+	if( !odd ) {
 	    t2 = mpi_alloc_set_ui(1); t2->sign = 1;
 	}
 	t3 = mpi_copy(v); t3->sign = !t3->sign;
@@ -194,14 +194,14 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
     }
     else {
 	t1 = mpi_alloc_set_ui(1);
-	if ( !odd )
+	if( !odd )
 	    t2 = mpi_alloc_set_ui(0);
 	t3 = mpi_copy(u);
     }
     do {
 	do {
-	    if ( !odd ) {
-		if ( mpi_test_bit(t1, 0) || mpi_test_bit(t2, 0) ) { /* one is odd */
+	    if( !odd ) {
+		if( mpi_test_bit(t1, 0) || mpi_test_bit(t2, 0) ) { /* one is odd */
 		    mpi_add(t1, t1, v);
 		    mpi_sub(t2, t2, u);
 		}
@@ -210,7 +210,7 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
 		mpi_rshift(t3, t3, 1);
 	    }
 	    else {
-		if ( mpi_test_bit(t1, 0) )
+		if( mpi_test_bit(t1, 0) )
 		    mpi_add(t1, t1, v);
 		mpi_rshift(t1, t1, 1);
 		mpi_rshift(t3, t3, 1);
@@ -219,16 +219,16 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
 	    ;
 	} while( !mpi_test_bit( t3, 0 ) ); /* while t3 is even */
 
-	if ( !t3->sign ) {
+	if( !t3->sign ) {
 	    mpi_set(u1, t1);
-	    if ( !odd )
+	    if( !odd )
 		mpi_set(u2, t2);
 	    mpi_set(u3, t3);
 	}
 	else {
 	    mpi_sub(v1, v, t1);
 	    sign = u->sign; u->sign = !u->sign;
-	    if ( !odd )
+	    if( !odd )
 		mpi_sub(v2, u, t2);
 	    u->sign = sign;
 	    sign = t3->sign; t3->sign = !t3->sign;
@@ -236,12 +236,12 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
 	    t3->sign = sign;
 	}
 	mpi_sub(t1, u1, v1);
-	if ( !odd )
+	if( !odd )
 	    mpi_sub(t2, u2, v2);
 	mpi_sub(t3, u3, v3);
-	if ( t1->sign ) {
+	if( t1->sign ) {
 	    mpi_add(t1, t1, v);
-	    if ( !odd )
+	    if( !odd )
 		mpi_sub(t2, t2, u);
 	}
     } while( mpi_cmp_ui( t3, 0 ) ); /* while t3 != 0 */
@@ -251,7 +251,7 @@ gcry_mpi_invm( gcry_mpi_t x, gcry_mpi_t a, gcry_mpi_t n )
     mpi_free(u1);
     mpi_free(v1);
     mpi_free(t1);
-    if ( !odd ) {
+    if( !odd ) {
 	mpi_free(u2);
 	mpi_free(v2);
 	mpi_free(t2);

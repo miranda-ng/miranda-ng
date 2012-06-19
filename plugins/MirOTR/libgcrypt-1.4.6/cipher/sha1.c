@@ -300,7 +300,7 @@ sha1_final(void *context)
   msb = t >> 26;
   /* add the count */
   t = lsb;
-  if ( (lsb += hd->count) < t )
+  if( (lsb += hd->count) < t )
     msb++;
   /* multiply by 8 to make a bit count */
   t = lsb;
@@ -308,7 +308,7 @@ sha1_final(void *context)
   msb <<= 3;
   msb |= t >> 29;
 
-  if ( hd->count < 56 )  /* enough room */
+  if( hd->count < 56 )  /* enough room */
     {
       hd->buf[hd->count++] = 0x80; /* pad */
       while( hd->count < 56 )

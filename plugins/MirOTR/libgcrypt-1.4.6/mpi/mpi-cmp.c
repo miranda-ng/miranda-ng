@@ -75,15 +75,15 @@ gcry_mpi_cmp (gcry_mpi_t u, gcry_mpi_t v)
 
   /* U and V are either both positive or both negative.  */
 
-  if ( usize != vsize && !u->sign && !v->sign )
+  if( usize != vsize && !u->sign && !v->sign )
     return usize - vsize;
-  if ( usize != vsize && u->sign && v->sign )
+  if( usize != vsize && u->sign && v->sign )
     return vsize + usize;
-  if ( !usize )
+  if( !usize )
     return 0;
-  if ( !(cmp = _gcry_mpih_cmp( u->d, v->d, usize )) )
+  if( !(cmp = _gcry_mpih_cmp( u->d, v->d, usize )) )
     return 0;
-  if ( (cmp < 0?1:0) == (u->sign?1:0))
+  if( (cmp < 0?1:0) == (u->sign?1:0))
     return 1;
 
   return -1;

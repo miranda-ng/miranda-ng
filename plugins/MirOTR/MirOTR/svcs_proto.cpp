@@ -9,7 +9,7 @@
 
 //TODO: Social-Millionaire-Dialoge
 INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
-	if (!lParam) return 0;
+	if(!lParam) return 0;
 
 	CCSDATA *ccs = (CCSDATA *) lParam;
 
@@ -21,7 +21,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
 	if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) // bypass for metacontacts
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
-	if (!proto || !ccs->hContact) return 1; // error
+	if(!proto || !ccs->hContact) return 1; // error
 
 	gcry_error_t err;
 	char *newmessage = 0;
@@ -40,7 +40,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	} else {
 		oldmessage_utf = mir_utf8encode(oldmessage);
 	}
-	if (!oldmessage_utf) return 1;
+	if(!oldmessage_utf) return 1;
 
 	// don't filter OTR messages being sent (OTR messages should only happen *after* the otrl_message_sending call below)
 	if(strncmp(oldmessage_utf, "?OTR", 4) == 0) {
@@ -128,7 +128,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 }
 
 INT_PTR SVC_OTRSendMessageW(WPARAM wParam, LPARAM lParam){
-	if (!lParam) return 0;
+	if(!lParam) return 0;
 
 	CCSDATA *ccs = (CCSDATA *) lParam;
 	if (!(ccs->wParam & PREF_UTF)) ccs->wParam |= PREF_UNICODE;
@@ -159,7 +159,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 	}
 
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
-	if (!proto)
+	if(!proto)
 		return 1; //error
 	else if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) // bypass for metacontacts
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
@@ -176,7 +176,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 	} else {
 		oldmessage_utf = mir_utf8encode(oldmessage);
 	}
-	if (!oldmessage_utf) return 1;
+	if(!oldmessage_utf) return 1;
 
 
 	char *newmessage = NULL;
@@ -194,7 +194,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 	lib_cs_unlock();
 	mir_free(uname);
 
-	if ( !(pre->flags & PREF_UTF)) mir_free(oldmessage_utf);
+	if( !(pre->flags & PREF_UTF)) mir_free(oldmessage_utf);
 	oldmessage_utf = NULL;
 	
 		

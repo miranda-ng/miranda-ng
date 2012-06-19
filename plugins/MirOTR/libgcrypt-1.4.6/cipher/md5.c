@@ -222,22 +222,22 @@ md5_write( void *context, const void *inbuf_arg , size_t inlen)
   const unsigned char *inbuf = inbuf_arg;
   MD5_CONTEXT *hd = context;
   
-  if ( hd->count == 64 )  /* flush the buffer */
+  if( hd->count == 64 )  /* flush the buffer */
     {
       transform( hd, hd->buf );
       _gcry_burn_stack (80+6*sizeof(void*));
       hd->count = 0;
       hd->nblocks++;
     }
-  if ( !inbuf )
+  if( !inbuf )
     return;
 
-  if ( hd->count )
+  if( hd->count )
     {
-      for ( ; inlen && hd->count < 64; inlen-- )
+      for( ; inlen && hd->count < 64; inlen-- )
         hd->buf[hd->count++] = *inbuf++;
       md5_write( hd, NULL, 0 );
-      if ( !inlen )
+      if( !inlen )
         return;
     }
   _gcry_burn_stack (80+6*sizeof(void*));
@@ -250,7 +250,7 @@ md5_write( void *context, const void *inbuf_arg , size_t inlen)
       inlen -= 64;
       inbuf += 64;
     }
-  for ( ; inlen && hd->count < 64; inlen-- )
+  for( ; inlen && hd->count < 64; inlen-- )
     hd->buf[hd->count++] = *inbuf++;
 
 }
@@ -278,7 +278,7 @@ md5_final( void *context)
   msb = t >> 26;
   /* add the count */
   t = lsb;
-  if ( (lsb += hd->count) < t )
+  if( (lsb += hd->count) < t )
     msb++;
   /* multiply by 8 to make a bit count */
   t = lsb;
@@ -286,7 +286,7 @@ md5_final( void *context)
   msb <<= 3;
   msb |= t >> 29;
 
-  if ( hd->count < 56 )  /* enough room */
+  if( hd->count < 56 )  /* enough room */
     {
       hd->buf[hd->count++] = 0x80; /* pad */
       while( hd->count < 56 )

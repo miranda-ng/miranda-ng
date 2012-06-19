@@ -1518,7 +1518,7 @@ sexp_data_to_mpi (gcry_sexp_t input, unsigned int nbits, gcry_mpi_t *ret_mpi,
                  the given algorithm. */
               rc = GPG_ERR_CONFLICT;
             }
-          else if ( !dlen || dlen + asnlen + 4 > nframe)
+          else if( !dlen || dlen + asnlen + 4 > nframe)
             {
               /* Can't encode an DLEN byte digest MD into a NFRAME
                  byte frame. */

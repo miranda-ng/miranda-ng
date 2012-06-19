@@ -529,7 +529,7 @@ slow_poll(FILE *dbgfp, int dbgall, size_t *nbytes )
 	/* Since popen() is a fairly heavy function, we check to see whether
 	 * the executable exists before we try to run it */
 	if (access(dataSources[i].path, X_OK)) {
-	    if ( dbgfp && dbgall )
+	    if( dbgfp && dbgall )
 		fprintf(dbgfp, "%s not present%s\n", dataSources[i].path,
 			       dataSources[i].hasAlternative ?
 					", has alternatives" : "");
@@ -555,7 +555,7 @@ slow_poll(FILE *dbgfp, int dbgall, size_t *nbytes )
 	    /* If there are alternatives for this command, don't try and
 	     * execute them */
 	    while (dataSources[i].hasAlternative) {
-		if ( dbgfp && dbgall )
+		if( dbgfp && dbgall )
 		    fprintf(dbgfp, "Skipping %s\n", dataSources[i + 1].path);
 		i++;
 	    }
@@ -584,7 +584,7 @@ slow_poll(FILE *dbgfp, int dbgall, size_t *nbytes )
 
 	/* One of the sources has data available, read it into the buffer */
 	for (i = 0; dataSources[i].path != NULL; i++) {
-	    if ( dataSources[i].pipe && FD_ISSET(dataSources[i].pipeFD, &fds)) {
+	    if( dataSources[i].pipe && FD_ISSET(dataSources[i].pipeFD, &fds)) {
 		size_t noBytes;
 
 		if ((noBytes = fread(gather_buffer + bufPos, 1,
@@ -603,14 +603,14 @@ slow_poll(FILE *dbgfp, int dbgall, size_t *nbytes )
 				total = dataSources[i].length
 					/ dataSources[i].usefulness;
 			}
-			if ( dbgfp )
+			if( dbgfp )
 			    fprintf(dbgfp,
 			       "%s %s contributed %d bytes, "
 			       "usefulness = %d\n", dataSources[i].path,
 			       (dataSources[i].arg != NULL) ?
 				       dataSources[i].arg : "",
 				      dataSources[i].length, total);
-			if ( dataSources[i].length )
+			if( dataSources[i].length )
 			    usefulness += total;
 		    }
 		    dataSources[i].pipe = NULL;
@@ -661,7 +661,7 @@ slow_poll(FILE *dbgfp, int dbgall, size_t *nbytes )
 	}
     }
 
-    if ( dbgfp ) {
+    if( dbgfp ) {
 	fprintf(dbgfp, "Got %d bytes, usefulness = %d\n", bufPos, usefulness);
 	fflush(dbgfp);
     }
@@ -681,9 +681,9 @@ start_gatherer( int pipefd )
 
     {
 	const char *s = getenv("GNUPG_RNDUNIX_DBG");
-	if ( s ) {
+	if( s ) {
 	    dbgfp = (*s=='-' && !s[1])? stdout : fopen(s, "a");
-	    if ( !dbgfp )
+	    if( !dbgfp )
 		log_info("can't open debug file `%s': %s\n",
 			     s, strerror(errno) );
 	    else
@@ -694,7 +694,7 @@ start_gatherer( int pipefd )
     /* close all files but the ones we need */
     {	int nmax, n1, n2, i;
 #ifdef _SC_OPEN_MAX
-	if ( (nmax=sysconf( _SC_OPEN_MAX )) < 0 ) {
+	if( (nmax=sysconf( _SC_OPEN_MAX )) < 0 ) {
 #ifdef _POSIX_OPEN_MAX
 	    nmax = _POSIX_OPEN_MAX;
 #else
@@ -707,7 +707,7 @@ start_gatherer( int pipefd )
 	n1 = fileno( stderr );
 	n2 = dbgfp? fileno( dbgfp ) : -1;
 	for(i=0; i < nmax; i++ ) {
-	    if ( i != n1 && i != n2 && i != pipefd )
+	    if( i != n1 && i != n2 && i != pipefd )
 		close(i);
 	}
 	errno = 0;
@@ -717,7 +717,7 @@ start_gatherer( int pipefd )
     /* Set up the buffer.  Not ethat we use a plain standard malloc here. */
     gather_buffer_size = GATHER_BUFSIZE;
     gather_buffer = malloc( gather_buffer_size );
-    if ( !gather_buffer ) {
+    if( !gather_buffer ) {
 	log_error("out of core while allocating the gatherer buffer\n");
 	exit(2);
     }
@@ -738,7 +738,7 @@ start_gatherer( int pipefd )
 
     fclose(stderr);		/* Arrghh!!  It's Stuart code!! */
 
-    for (;;) {
+    for(;;) {
 	GATHER_MSG msg;
 	size_t nbytes;
 	const char *p;
@@ -752,20 +752,20 @@ start_gatherer( int pipefd )
 	    p += msg.ndata;
 
 	    while( write( pipefd, &msg, sizeof(msg) ) != sizeof(msg) ) {
-		if ( errno == EINTR )
+		if( errno == EINTR )
 		    continue;
-		if ( errno == EAGAIN ) {
+		if( errno == EAGAIN ) {
 		    struct timeval tv;
 		    tv.tv_sec = 0;
 		    tv.tv_usec = 50000;
 		    select(0, NULL, NULL, NULL, &tv);
 		    continue;
 		}
-		if ( errno == EPIPE ) /* parent has exited, so give up */
+		if( errno == EPIPE ) /* parent has exited, so give up */
 		   exit(0);
 
 		/* we can't do very much here because stderr is closed */
-		if ( dbgfp )
+		if( dbgfp )
 		    fprintf(dbgfp, "gatherer can't write to pipe: %s\n",
 				    strerror(errno) );
 		/* we start a new poll to give the system some time */
@@ -789,7 +789,7 @@ read_a_msg( int fd, GATHER_MSG *msg )
 	do {
 	    n = read(fd, buffer, length );
 	} while( n == -1 && errno == EINTR );
-	if ( n == -1 )
+	if( n == -1 )
 	    return -1;
 	buffer += n;
 	length -= n;
@@ -813,24 +813,24 @@ _gcry_rndunix_gather_random (void (*add)(const void*, size_t,
     GATHER_MSG msg;
     size_t n;
 
-    if ( !level )
+    if( !level )
 	return 0;
 
-    if ( !gatherer_pid ) {
+    if( !gatherer_pid ) {
 	/* Make sure we are not setuid. */
 	if ( getuid() != geteuid() )
 	    BUG();
 	/* time to start the gatherer process */
-	if ( pipe( pipedes ) ) {
+	if( pipe( pipedes ) ) {
 	    log_error("pipe() failed: %s\n", strerror(errno));
 	    return -1;
 	}
 	gatherer_pid = fork();
-	if ( gatherer_pid == -1 ) {
+	if( gatherer_pid == -1 ) {
 	    log_error("can't for gatherer process: %s\n", strerror(errno));
 	    return -1;
 	}
-	if ( !gatherer_pid ) {
+	if( !gatherer_pid ) {
 	    start_gatherer( pipedes[1] );
 	    /* oops, can't happen */
 	    return -1;
@@ -842,23 +842,23 @@ _gcry_rndunix_gather_random (void (*add)(const void*, size_t,
 	int goodness;
 	ulong subtract;
 
-	if ( read_a_msg( pipedes[0], &msg ) ) {
+	if( read_a_msg( pipedes[0], &msg ) ) {
 	    log_error("reading from gatherer pipe failed: %s\n",
 							    strerror(errno));
 	    return -1;
 	}
 
 
-	if ( level > 1 ) {
-	    if ( msg.usefulness > 30 )
+	if( level > 1 ) {
+	    if( msg.usefulness > 30 )
 		goodness = 100;
 	    else if ( msg.usefulness )
 		goodness = msg.usefulness * 100 / 30;
 	    else
 		goodness = 0;
 	}
-	else if ( level ) {
-	    if ( msg.usefulness > 15 )
+	else if( level ) {
+	    if( msg.usefulness > 15 )
 		goodness = 100;
 	    else if ( msg.usefulness )
 		goodness = msg.usefulness * 100 / 15;
@@ -869,7 +869,7 @@ _gcry_rndunix_gather_random (void (*add)(const void*, size_t,
 	    goodness = 100; /* goodness of level 0 is always 100 % */
 
 	n = msg.ndata;
-	if ( n > length )
+	if( n > length )
 	    n = length;
 	(*add)( msg.data, n, origin );
 

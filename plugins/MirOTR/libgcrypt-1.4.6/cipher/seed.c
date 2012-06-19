@@ -273,7 +273,7 @@ do_setkey (SEED_context *ctx, const byte *key, const unsigned keylen)
     {
       initialized = 1;
       selftest_failed = selftest ();
-      if ( selftest_failed )
+      if( selftest_failed )
         log_error ("%s\n", selftest_failed );
     }
   if (selftest_failed)

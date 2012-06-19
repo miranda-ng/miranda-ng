@@ -234,7 +234,7 @@ gcry_mpi_powm (gcry_mpi_t res,
             if ( (mpi_limb_signed_t)e < 0 )
               {
                 /*mpih_mul( xp, rp, rsize, bp, bsize );*/
-                if ( bsize < KARATSUBA_THRESHOLD ) 
+                if( bsize < KARATSUBA_THRESHOLD ) 
                   _gcry_mpih_mul ( xp, rp, rsize, bp, bsize );
                 else 
                   _gcry_mpih_mul_karatsuba_case (xp, rp, rsize, bp, bsize,

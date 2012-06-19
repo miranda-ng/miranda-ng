@@ -117,7 +117,7 @@ wiener_map( unsigned int n )
 
   for(i=0; t[i].p_n; i++ )  
     {
-      if ( n <= t[i].p_n )
+      if( n <= t[i].p_n )
         return t[i].q_n;
     }
   /* Not in table - use an arbitrary high number. */
@@ -188,7 +188,7 @@ gen_k( gcry_mpi_t p, int small_k )
        * it greatly improves the encryption performance.  We use
        * Wiener's table and add a large safety margin. */
       nbits = wiener_map( orig_nbits ) * 3 / 2;
-      if ( nbits >= orig_nbits )
+      if( nbits >= orig_nbits )
         BUG();
     }
   else
@@ -196,12 +196,12 @@ gen_k( gcry_mpi_t p, int small_k )
 
 
   nbytes = (nbits+7)/8;
-  if ( DBG_CIPHER )
+  if( DBG_CIPHER )
     log_debug("choosing a random k ");
   mpi_sub_ui( p_1, p, 1);
-  for (;;) 
+  for(;;) 
     {
-      if ( !rndbuf || nbits < 32 ) 
+      if( !rndbuf || nbits < 32 ) 
         {
           gcry_free(rndbuf);
           rndbuf = gcry_random_bytes_secure( nbytes, GCRY_STRONG_RANDOM );
@@ -219,30 +219,30 @@ gen_k( gcry_mpi_t p, int small_k )
 	}
       _gcry_mpi_set_buffer( k, rndbuf, nbytes, 0 );
         
-      for (;;)
+      for(;;)
         {
-          if ( !(mpi_cmp( k, p_1 ) < 0) )  /* check: k < (p-1) */
+          if( !(mpi_cmp( k, p_1 ) < 0) )  /* check: k < (p-1) */
             {
-              if ( DBG_CIPHER )
+              if( DBG_CIPHER )
                 progress('+');
               break; /* no  */
             }
-          if ( !(mpi_cmp_ui( k, 0 ) > 0) )  /* check: k > 0 */
+          if( !(mpi_cmp_ui( k, 0 ) > 0) )  /* check: k > 0 */
             {
-              if ( DBG_CIPHER )
+              if( DBG_CIPHER )
                 progress('-');
               break; /* no */
             }
           if (gcry_mpi_gcd( temp, k, p_1 ))
             goto found;  /* okay, k is relative prime to (p-1) */
           mpi_add_ui( k, k, 1 );
-          if ( DBG_CIPHER )
+          if( DBG_CIPHER )
             progress('.');
 	}
     }
  found:
   gcry_free(rndbuf);
-  if ( DBG_CIPHER )
+  if( DBG_CIPHER )
     progress('\n');
   mpi_free(p_1);
   mpi_free(temp);
@@ -269,7 +269,7 @@ generate ( ELG_secret_key *sk, unsigned int nbits, gcry_mpi_t **ret_factors )
 
   p_min1 = gcry_mpi_new ( nbits );
   qbits = wiener_map( nbits );
-  if ( qbits & 1 ) /* better have a even one */
+  if( qbits & 1 ) /* better have a even one */
     qbits++;
   g = mpi_alloc(1);
   p = _gcry_generate_elg_prime( 0, nbits, qbits, g, ret_factors );
@@ -288,19 +288,19 @@ generate ( ELG_secret_key *sk, unsigned int nbits, gcry_mpi_t **ret_factors )
    * will be much faster with such an x.
    */
   xbits = qbits * 3 / 2;
-  if ( xbits >= nbits )
+  if( xbits >= nbits )
     BUG();
   x = gcry_mpi_snew ( xbits );
-  if ( DBG_CIPHER )
+  if( DBG_CIPHER )
     log_debug("choosing a random x of size %u", xbits );
   rndbuf = NULL;
   do 
     {
-      if ( DBG_CIPHER )
+      if( DBG_CIPHER )
         progress('.');
-      if ( rndbuf )
+      if( rndbuf )
         { /* Change only some of the higher bits */
-          if ( xbits < 16 ) /* should never happen ... */
+          if( xbits < 16 ) /* should never happen ... */
             {
               gcry_free(rndbuf);
               rndbuf = gcry_random_bytes_secure( (xbits+7)/8,
@@ -328,7 +328,7 @@ generate ( ELG_secret_key *sk, unsigned int nbits, gcry_mpi_t **ret_factors )
   y = gcry_mpi_new (nbits);
   gcry_mpi_powm( y, g, x, p );
 
-  if ( DBG_CIPHER ) 
+  if( DBG_CIPHER ) 
     {
       progress('\n');
       log_mpidump("elg  p= ", p );
@@ -467,7 +467,7 @@ do_encrypt(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_public_key *pkey )
   gcry_mpi_powm( b, pkey->y, k, pkey->p );
   gcry_mpi_mulm( b, b, input, pkey->p );
 #if 0
-  if ( DBG_CIPHER )
+  if( DBG_CIPHER )
     {
       log_mpidump("elg encrypted y= ", pkey->y);
       log_mpidump("elg encrypted p= ", pkey->p);
@@ -493,7 +493,7 @@ decrypt(gcry_mpi_t output, gcry_mpi_t a, gcry_mpi_t b, ELG_secret_key *skey )
   mpi_invm( t1, t1, skey->p );
   mpi_mulm( output, b, t1, skey->p );
 #if 0
-  if ( DBG_CIPHER ) 
+  if( DBG_CIPHER ) 
     {
       log_mpidump("elg decrypted x= ", skey->x);
       log_mpidump("elg decrypted p= ", skey->p);
@@ -533,7 +533,7 @@ sign(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_secret_key *skey )
     mpi_mulm(b, t, inv, p_1 );
 
 #if 0
-    if ( DBG_CIPHER ) 
+    if( DBG_CIPHER ) 
       {
 	log_mpidump("elg sign p= ", skey->p);
 	log_mpidump("elg sign g= ", skey->g);
@@ -564,7 +564,7 @@ verify(gcry_mpi_t a, gcry_mpi_t b, gcry_mpi_t input, ELG_public_key *pkey )
   gcry_mpi_t base[4];
   gcry_mpi_t ex[4];
 
-  if ( !(mpi_cmp_ui( a, 0 ) > 0 && mpi_cmp( a, pkey->p ) < 0) )
+  if( !(mpi_cmp_ui( a, 0 ) > 0 && mpi_cmp( a, pkey->p ) < 0) )
     return 0; /* assertion	0 < a < p  failed */
 
   t1 = mpi_alloc( mpi_get_nlimbs(a) );

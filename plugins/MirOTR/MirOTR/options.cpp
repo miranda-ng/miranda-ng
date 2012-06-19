@@ -88,7 +88,7 @@ void LoadOptions() {
 	options.autoshow_verify = (DBGetContactSettingByte(0, MODULENAME, "AutoShowVerify", 1) == 1);
 	
 	DBVARIANT dbv;
-	if (!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
+	if(!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
 		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
 		DBFreeVariant(&dbv);
@@ -123,22 +123,22 @@ extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 	odp.ptszTab     = _T(LANG_OPT_GENERAL);
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENERAL);
 	odp.pfnDlgProc  = DlgProcMirOTROpts;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = _T(LANG_OPT_PROTO);
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTO);
 	odp.pfnDlgProc  = DlgProcMirOTROptsProto;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab     = _T(LANG_OPT_CONTACTS);
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACTS);
 	odp.pfnDlgProc  = DlgProcMirOTROptsContacts;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 	
 	odp.ptszTab     = _T(LANG_OPT_FINGER);
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FINGER);
 	odp.pfnDlgProc  = DlgProcMirOTROptsFinger;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

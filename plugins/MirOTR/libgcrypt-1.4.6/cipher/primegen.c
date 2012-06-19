@@ -936,7 +936,7 @@ is_prime (gcry_mpi_t n, int steps, unsigned int *count)
   for (i=0 ; i < steps; i++ )
     {
       ++*count;
-      if ( !i )
+      if( !i )
         {
           mpi_set_ui( x, 2 );
         }
@@ -963,7 +963,7 @@ is_prime (gcry_mpi_t n, int steps, unsigned int *count)
           for ( j=1; j < k && mpi_cmp( y, nminus1 ); j++ )
             {
               gcry_mpi_powm(y, y, a2, n);
-              if ( !mpi_cmp_ui( y, 1 ) )
+              if( !mpi_cmp_ui( y, 1 ) )
                 goto leave; /* Not a prime. */
             }
           if (mpi_cmp( y, nminus1 ) )
@@ -1005,18 +1005,18 @@ m_out_of_n ( char *array, int m, int n )
 {
   int i=0, i1=0, j=0, jp=0,  j1=0, k1=0, k2=0;
 
-  if ( !m || m >= n )
+  if( !m || m >= n )
     return;
 
   /* Need to handle this simple case separately. */
-  if ( m == 1 )
+  if( m == 1 )
     { 
       for (i=0; i < n; i++ )
         {
           if ( array[i] )
             {
               array[i++] = 0;
-              if ( i >= n )
+              if( i >= n )
                 i = 0;
               array[i] = 1;
               return;
@@ -1037,25 +1037,25 @@ m_out_of_n ( char *array, int m, int n )
   if ( (m & 1) )
     {
       /* M is odd. */
-      if ( array[n-1] )
+      if( array[n-1] )
         {
-          if ( j1 & 1 )
+          if( j1 & 1 )
             {
               k1 = n - j1;
               k2 = k1+2;
-              if ( k2 > n )
+              if( k2 > n )
                 k2 = n;
               goto leave;
             }
           goto scan;
         }
       k2 = n - j1 - 1;
-      if ( k2 == 0 )
+      if( k2 == 0 )
         {
           k1 = i;
           k2 = n - j1;
         }
-      else if ( array[k2] && array[k2-1] )
+      else if( array[k2] && array[k2-1] )
         k1 = n;
       else
         k1 = k2 + 1;
@@ -1063,18 +1063,18 @@ m_out_of_n ( char *array, int m, int n )
   else 
     {
       /* M is even. */
-      if ( !array[n-1] )
+      if( !array[n-1] )
         {
           k1 = n - j1;
           k2 = k1 + 1;
           goto leave;
         }
         
-      if ( !(j1 & 1) )
+      if( !(j1 & 1) )
         {
           k1 = n - j1;
           k2 = k1+2;
-          if ( k2 > n )
+          if( k2 > n )
             k2 = n;
           goto leave;
         }
@@ -1083,9 +1083,9 @@ m_out_of_n ( char *array, int m, int n )
       for (i=1; i <= jp; i++ ) 
         {
           i1 = jp + 2 - i;
-          if ( array[i1-1]  )
+          if( array[i1-1]  )
             {
-              if ( array[i1-2] )
+              if( array[i1-2] )
                 {
                   k1 = i1 - 1;
                   k2 = n - j1;

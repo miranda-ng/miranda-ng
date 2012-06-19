@@ -476,10 +476,10 @@ selftest(void)
 
     cast_setkey( &c, key, 16 );
     encrypt_block( &c, buffer, plain );
-    if ( memcmp( buffer, cipher, 8 ) )
+    if( memcmp( buffer, cipher, 8 ) )
 	return "1";
     decrypt_block( &c, buffer, buffer );
-    if ( memcmp( buffer, plain, 8 ) )
+    if( memcmp( buffer, plain, 8 ) )
 	return "2";
 
 #if 0 /* full maintenance test */
@@ -502,7 +502,7 @@ selftest(void)
 	    encrypt_block( &c, b0, b0 );
 	    encrypt_block( &c, b0+8, b0+8 );
 	}
-	if ( memcmp( a0, a1, 16 ) || memcmp( b0, b1, 16 ) )
+	if( memcmp( a0, a1, 16 ) || memcmp( b0, b1, 16 ) )
 	    return "3";
 
     }
@@ -569,17 +569,17 @@ do_cast_setkey( CAST5_context *c, const byte *key, unsigned keylen )
   u32 z[4];
   u32 k[16];
 
-  if ( !initialized ) 
+  if( !initialized ) 
     {
       initialized = 1;
       selftest_failed = selftest();
-      if ( selftest_failed )
+      if( selftest_failed )
         log_error ("CAST5 selftest failed (%s).\n", selftest_failed );
     }
-  if ( selftest_failed )
+  if( selftest_failed )
     return GPG_ERR_SELFTEST_FAILED;
 
-  if ( keylen != 16 )
+  if( keylen != 16 )
     return GPG_ERR_INV_KEYLEN;
 
   x[0] = key[0]  << 24 | key[1]  << 16 | key[2]  << 8 | key[3];

@@ -747,7 +747,7 @@ read_seed_file (void)
 #else
   fd = open( seed_file_name, O_RDONLY );
 #endif
-  if ( fd == -1 && errno == ENOENT)
+  if( fd == -1 && errno == ENOENT)
 	{
 	  allow_seed_file_update = 1;
 	  return 0;
@@ -972,7 +972,7 @@ read_pool (byte *buffer, size_t length, int level)
 	  needed = length - pool_balance;
 	  if (needed < POOLSIZE/2)
 		needed = POOLSIZE/2;
-	  else if ( needed > POOLSIZE )
+	  else if( needed > POOLSIZE )
 		BUG ();
 	  read_random_source (RANDOM_ORIGIN_EXTRAPOLL, needed,
 						  GCRY_VERY_STRONG_RANDOM);
@@ -1183,14 +1183,14 @@ do_fast_random_poll (void)
 #elif HAVE_GETTIMEOFDAY
   {	
 	struct timeval tv;
-	if ( gettimeofday( &tv, NULL ) )
+	if( gettimeofday( &tv, NULL ) )
 	  BUG();
 	add_randomness( &tv.tv_sec, sizeof(tv.tv_sec), RANDOM_ORIGIN_FASTPOLL );
 	add_randomness( &tv.tv_usec, sizeof(tv.tv_usec), RANDOM_ORIGIN_FASTPOLL );
   }
 #elif HAVE_CLOCK_GETTIME
   {	struct timespec tv;
-  if ( clock_gettime( CLOCK_REALTIME, &tv ) == -1 )
+  if( clock_gettime( CLOCK_REALTIME, &tv ) == -1 )
 	BUG();
   add_randomness( &tv.tv_sec, sizeof(tv.tv_sec), RANDOM_ORIGIN_FASTPOLL );
   add_randomness( &tv.tv_nsec, sizeof(tv.tv_nsec), RANDOM_ORIGIN_FASTPOLL );
