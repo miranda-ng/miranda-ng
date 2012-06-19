@@ -1281,7 +1281,7 @@ static int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 910000000;
 	odp.hInstance = g_hInst;
-	odp.ptszTitle = LPGENT("Message Sessions");
+	odp.pszTitle = LPGEN("Message Sessions");
 	odp.flags = ODPF_BOLDGROUPS;
 
 	odp.pszTab      = LPGEN("General");
