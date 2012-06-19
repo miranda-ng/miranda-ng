@@ -181,15 +181,15 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					GetDlgItemText(hwndDlg, IDC_EPATH, buf, 255);
 					btn->program = _tcsdup(buf);
 
-				tvi.mask = TVIF_TEXT;
-				tvi.pszText =  mir_a2t( btn->name );
-				TreeView_SetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
+					tvi.mask = TVIF_TEXT;
+					tvi.pszText =  mir_a2t( btn->name );
+					TreeView_SetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 				}
 				break;
 			}
 
 			if (ctrlid == IDC_ADDLBUTTON) {
-				InsertLBut(-1);
+				InsertLBut(0);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
@@ -197,7 +197,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			//----- Separators -----
 
 			if (ctrlid == IDC_ADDSEP) {
-				InsertSeparator(-1);
+				InsertSeparator(0);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
@@ -212,14 +212,10 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				TreeView_GetItem(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), &tvi);
 
 				btn = (TopButtonInt*)tvi.lParam;
-				if (btn->dwFlags & TTBBF_ISSEPARATOR) {
-					DeleteSeparator(btn->wParamDown);
+				// if button enabled for separator and launch only, no need condition
+				// except possible service button introducing
+				if (btn->dwFlags & (TTBBF_ISSEPARATOR | TTBBF_ISLBUTTON))
 					TTBRemoveButton(btn->lParamDown, 0);
-				}
-				else if (btn->dwFlags & TTBBF_ISLBUTTON) {
-					DeleteLBut(btn->wParamDown);
-					TTBRemoveButton(btn->lParamDown, 0);
-				}
 
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
@@ -283,8 +279,13 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), TRUE);
 						if (btn->name != NULL)
 							SetDlgItemTextA(hwndDlg, IDC_ENAME, btn->name);
+						else
+							SetDlgItemTextA(hwndDlg, IDC_ENAME, "");
+
 						if (btn->program != NULL)
 							SetDlgItemText(hwndDlg, IDC_EPATH, btn->program);
+						else
+							SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 					}
 					else
 					{

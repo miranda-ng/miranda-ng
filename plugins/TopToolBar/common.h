@@ -53,7 +53,6 @@ int RecreateWindows();
 struct TopButtonInt 
 {
 	HWND hwnd;
-	HWND hwndTip;
 	int id;
 	BOOL bPushed;
 	int dwFlags;

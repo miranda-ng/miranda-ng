@@ -2,7 +2,7 @@
 #include "common.h"
 #pragma hdrstop
 
-#define TTBI_GROUPSHOWHIDE					"TTBInternal/GroupShowHide"
+#define TTBI_GROUPSHOWHIDE				"TTBInternal/GroupShowHide"
 #define TTBI_SOUNDSONOFF					"TTBInternal/SoundsOnOFF"
 #define TTBI_OPTIONSBUTT					"TTBInternal/OptionsBUTT"
 #define TTBI_MAINMENUBUTT					"TTBInternal/MainMenuBUTT"
@@ -66,15 +66,11 @@ int OnSettingChanging(WPARAM wParam, LPARAM lParam)
 INT_PTR TTBInternalFindAddButt(WPARAM wParam, LPARAM lParam)
 {
 	CallService("FindAdd/FindAddCommand", 0, 0);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hFindUsers, TTBST_RELEASED);
 	return 0;
 }
 
 INT_PTR TTBInternalMinimizeButt(WPARAM wParam, LPARAM lParam)
 {
-	Sleep(30);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hMinimizeBut, TTBST_RELEASED);
-	Sleep(30);
 	CallService(MS_CLIST_SHOWHIDE, 0, 0);
 	return 0;
 }
@@ -87,16 +83,12 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 	GetCursorPos(&pt);
 	TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);	
 	
-	Sleep(100);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hMainMenuBut, TTBST_RELEASED);
 	return 0;
 }
 
 INT_PTR TTBInternalOptionsButt(WPARAM wParam, LPARAM lParam)
 {
 	CallService("Options/OptionsCommand", 0, 0);
-	Sleep(100);
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hOptionsBut, TTBST_RELEASED);
 	return 0;
 }
 
@@ -221,7 +213,7 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SHOWONLINEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = (ShowOnline?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
+	ttb.dwFlags = (ShowOnline?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_ASPUSHBUTTON;
 	ttb.pszService = MS_CLIST_SETHIDEOFFLINE;
 	ttb.wParamUp = ttb.wParamDown = -1;
 	ttb.name = "Show only Online Users";
@@ -229,14 +221,14 @@ int LoadInternalButtons(HWND hwnd)
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = (ShowGroups?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
+	ttb.dwFlags = (ShowGroups?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_ASPUSHBUTTON;
 	ttb.pszService = TTBI_GROUPSHOWHIDE;
 	ttb.name = "Groups On/Off";
 	hGroupBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_SOUNDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = (SoundsEnabled?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
+	ttb.dwFlags = (SoundsEnabled?TTBBF_PUSHED:0)|TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP|TTBBF_ASPUSHBUTTON;
 	ttb.pszService = TTBI_SOUNDSONOFF;
 	ttb.name = "Sounds Enable/Disable";
 	hSoundsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
