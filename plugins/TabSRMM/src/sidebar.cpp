@@ -111,8 +111,8 @@ void CSideBarButton::_create()
 
 	if(m_hwnd) {
 		::SendMessage(m_hwnd, BUTTONSETASSIDEBARBUTTON, (WPARAM)this, 0);
-		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, TRUE,  0);
-		::SendMessage(m_hwnd, BUTTONSETASTHEMED, TRUE,  0);
+		::SendMessage(m_hwnd, BUTTONSETASFLATBTN, FALSE,  0);
+		::SendMessage(m_hwnd, BUTTONSETASTHEMEDBTN, TRUE,  0);
 		::SendMessage(m_hwnd, BUTTONSETCONTAINER, (LPARAM)m_sideBar->getContainer(), 0);
 		m_buttonControl = (MButtonCtrl *)::GetWindowLongPtr(m_hwnd, 0);
 	}

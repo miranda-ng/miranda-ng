@@ -57,17 +57,16 @@ typedef struct {
 	HANDLE  hThemeButton;
 	HANDLE  hThemeToolbar;
 	BOOL    bThemed;
-	BOOL	bToolbarButton;			// is a toolbar button (important for aero background rendering)
-	BOOL	bTitleButton;
-	TCHAR	cHot;
+	BOOL	  bToolbarButton;			// is a toolbar button (important for aero background rendering)
+	BOOL	  bTitleButton;
+	TCHAR	  cHot;
 	int     flatBtn;
 	int     dimmed;
-	HICON	overlay;
-	struct TContainerData *pContainer;
+	HICON	  overlay;
+	struct  TContainerData *pContainer;
 	CSideBarButton *sitem;
 } MButtonCtrl;
 
-#define BUTTONSETASTHEMED        (BUTTONSETASFLATBTN + 10)
 #define BUTTONSETASDIMMED        (BUTTONSETASFLATBTN + 11)
 #define BUTTONSETCONTAINER       (BUTTONSETASFLATBTN + 12)
 #define BUTTONSETASTITLE         (BUTTONSETASFLATBTN + 13)

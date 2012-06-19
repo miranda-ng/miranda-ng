@@ -165,7 +165,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hotkey);
 		
 	hotkey.pszName = "wwi_check_birthdays";
-	hotkey.ptszDescription = LPGENT("Check for birthdays");
+	hotkey.pszDescription = LPGEN("Check for birthdays");
 	hotkey.pszService = MS_WWI_CHECK_BIRTHDAYS;
 	Hotkey_Register(&hotkey);
 	

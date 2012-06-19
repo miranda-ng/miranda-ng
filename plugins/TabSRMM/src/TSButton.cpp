@@ -553,7 +553,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, 
 			bct->flatBtn = (wParam != 0);
 			InvalidateRect(bct->hwnd, NULL, TRUE);
 			break;
-		case BUTTONSETASTHEMED:
+		case BUTTONSETASTHEMEDBTN:
 			bct->bThemed = (wParam != 0);
 			break;
 		case BUTTONSETASDIMMED:

@@ -56,13 +56,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Only works on MButtonClass buttons
 #define BUTTONSETASFLATBTN   (WM_USER+4)
 
-// Sets the button type as a flat button without borders v0.3.3+
-// wParam = TRUE/FALSE default on/off
-// lParam = not used
-// Usage: SendMessage(hwndbutton, BUTTONSETASFLATBTN, 1, 0);
-// Only works on MButtonClass buttons
-#define BUTTONSETASTHEMEDBTN (WM_USER+5)
-
 // Sets a tooltip for the button v0.3.3+
 // wParam = (WPARAM)(char *)szTip
 // lParam = not used
@@ -75,6 +68,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #define BUTTONADDTOOLTIP     (WM_USER+5)
+
+// Sets the button type as a flat button without borders v0.3.3+
+// wParam = TRUE/FALSE default on/off
+// lParam = not used
+// Usage: SendMessage(hwndbutton, BUTTONSETASFLATBTN, 1, 0);
+// Only works on MButtonClass buttons
+#define BUTTONSETASTHEMEDBTN (WM_USER+6)
 
 #endif // M_BUTTON_H__
 

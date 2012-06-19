@@ -316,9 +316,9 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		}
 		break;	// DONT! fall thru
 
-    case WM_NCDESTROY:
+	case WM_NCDESTROY:
 		mir_free(bct);
-        break;
+		break;
 
 	case WM_SETTEXT:
 		bct->cHot = 0;
@@ -383,33 +383,35 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 	case WM_NCPAINT:
 	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hdcPaint = BeginPaint(hwndDlg, &ps);
-		if (hdcPaint) {
-			PaintWorker(bct, hdcPaint);
-			EndPaint(hwndDlg, &ps);
+		{
+			PAINTSTRUCT ps;
+			HDC hdcPaint = BeginPaint(hwndDlg, &ps);
+			if (hdcPaint) {
+				PaintWorker(bct, hdcPaint);
+				EndPaint(hwndDlg, &ps);
+			}
 		}
 		break;
-	}
-	case BM_SETIMAGE:
-	{
-		HGDIOBJ hnd = NULL;
-		if (bct->hIcon) hnd = bct->hIcon;
-		else if (bct->hBitmap) hnd = bct->hBitmap;
 
-		if (wParam == IMAGE_ICON) {
-			bct->hIcon = (HICON)lParam;
-			bct->hBitmap = NULL;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-		}
-		else if (wParam == IMAGE_BITMAP) {
-			bct->hBitmap = (HBITMAP)lParam;
-			bct->hIcon = NULL;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
+	case BM_SETIMAGE:
+		{
+			HGDIOBJ hnd = NULL;
+			if (bct->hIcon) hnd = bct->hIcon;
+			else if (bct->hBitmap) hnd = bct->hBitmap;
+
+			if (wParam == IMAGE_ICON) {
+				bct->hIcon = (HICON)lParam;
+				bct->hBitmap = NULL;
+				InvalidateRect(bct->hwnd, NULL, TRUE);
+			}
+			else if (wParam == IMAGE_BITMAP) {
+				bct->hBitmap = (HBITMAP)lParam;
+				bct->hIcon = NULL;
+				InvalidateRect(bct->hwnd, NULL, TRUE);
+			}
 		}
 		return (LRESULT)hnd;
-	}
+
 	case BM_GETIMAGE:
 		if (bct->hIcon) return (LRESULT)bct->hIcon;
 		else if (bct->hBitmap) return (LRESULT)bct->hBitmap;
@@ -513,6 +515,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			mir_free(ti.lpszText);
 		}
 		break;
+
 	case WM_SETFOCUS: // set keybord focus and redraw
 		bct->focus = 1;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -547,23 +550,24 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		break;
 
 	case WM_LBUTTONUP:
-    {
-        int showClick = 0;
-		if (bct->bIsPushBtn) {
-			if (bct->bIsPushed) bct->bIsPushed = 0;
-			else bct->bIsPushed = 1;
+		{
+			int showClick = 0;
+			if (bct->bIsPushBtn) {
+				if (bct->bIsPushed) bct->bIsPushed = 0;
+				else bct->bIsPushed = 1;
+			}
+			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
+				if (bct->stateId == PBS_PRESSED)
+					showClick = 1;
+				if (msg == WM_LBUTTONUP) bct->stateId = PBS_HOT;
+				else bct->stateId = PBS_NORMAL;
+				InvalidateRect(bct->hwnd, NULL, TRUE);
+			}
+			if (showClick) // Tell your daddy you got clicked.
+				SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
 		}
-		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-            if (bct->stateId == PBS_PRESSED)
-                showClick = 1;
-			if (msg == WM_LBUTTONUP) bct->stateId = PBS_HOT;
-			else bct->stateId = PBS_NORMAL;
-			InvalidateRect(bct->hwnd, NULL, TRUE);
-		}
-        if (showClick) // Tell your daddy you got clicked.
-            SendMessage(GetParent(hwndDlg), WM_COMMAND, MAKELONG(GetDlgCtrlID(hwndDlg), BN_CLICKED), (LPARAM)hwndDlg);
 		break;
-    }
+
 	case WM_MOUSEMOVE:
 		if (bct->stateId == PBS_NORMAL) {
 			bct->stateId = PBS_HOT;
@@ -572,11 +576,13 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		// Call timer, used to start cheesy TrackMouseEvent faker
 		SetTimer(hwndDlg, BUTTON_POLLID, BUTTON_POLLDELAY, NULL);
 		break;
+
 	case WM_TIMER: // use a timer to check if they have did a mouseout
 		if (wParam == BUTTON_POLLID) {
 			RECT rc;
-			POINT pt;
 			GetWindowRect(hwndDlg, &rc);
+
+			POINT pt;
 			GetCursorPos(&pt);
 			if ( !PtInRect(&rc, pt)) { // mouse must be gone, trigger mouse leave
 				PostMessage(hwndDlg, WM_MOUSELEAVE, 0, 0L);
