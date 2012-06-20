@@ -283,7 +283,7 @@ static FIBITMAP* PhiMatrix(FIBITMAP **gradients, float *avgGrad, int nlevels, fl
 			}
 
 			if(k < nlevels-1) {
-				// compute PHI(k) = L( PHI(k+1) ) * phi(k)
+				// compute PHI(k) = L( PHI(k+1)) * phi(k)
 				FIBITMAP *L = FreeImage_Rescale(phi[k+1], width, height, FILTER_BILINEAR);
 				if (!L) throw(1);
 

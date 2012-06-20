@@ -111,11 +111,11 @@ extern LPFN_FREEADDRINFO MyFreeaddrinfo;
 extern LPFN_WSASTRINGTOADDRESSA MyWSAStringToAddress;
 extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
-/**** file.c ***************************************************************************/
+/**** file.cpp *************************************************************************/
 
 void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam);
 
-/**** memory.c *************************************************************************/
+/**** memory.cpp ***********************************************************************/
 
 #ifdef _STATIC
 void*  mir_alloc(size_t);
@@ -137,13 +137,13 @@ char*  mir_u2a_cp(const wchar_t* src, int codepage);
 char*  mir_u2a(const wchar_t* src);
 #endif
 
-/**** miranda.c ************************************************************************/
+/**** miranda.cpp **********************************************************************/
 
 extern HINSTANCE hMirandaInst;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent;
 extern pfnExceptionFilter pMirandaExceptFilter;
 
-/**** modules.c ************************************************************************/
+/**** modules.cpp **********************************************************************/
 
 int  CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
 void KillModuleEventHooks(HINSTANCE);
@@ -153,7 +153,7 @@ void KillObjectEventHooks(void* pObject);
 void KillObjectServices(void* pObject);
 void KillObjectThreads(void* pObject);
 
-/**** utf.c ****************************************************************************/
+/**** utf.cpp **************************************************************************/
 
 char* Utf8Decode(char* str, wchar_t** ucs2);
 char* Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2);
@@ -178,7 +178,7 @@ int   Ucs2toUtf8Len(const wchar_t *src);
 #define Utf8DecodeT Utf8DecodeUcs2
 #define Utf8EncodeT Utf8EncodeUcs2
 
-/**** langpack.c ***********************************************************************/
+/**** langpack.cpp *********************************************************************/
 
 int    LangPackGetDefaultCodePage();
 int    LangPackGetDefaultLocale();
@@ -204,19 +204,26 @@ __inline unsigned int hashstr(const wchar_t * key)
 }
 #pragma optimize("", on)
 
-/**** path.c ***************************************************************************/
+/**** options.cpp **********************************************************************/
+
+HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
+
+/**** path.cpp *************************************************************************/
+
+void CreatePathToFile(char* wszFilePath);
+void CreatePathToFileW(WCHAR* wszFilePath);
+
+int CreateDirectoryTree(const char *szDir);
+int CreateDirectoryTreeW(const WCHAR *szDir);
 
 int pathToAbsolute(const char *pSrc, char *pOut, char* base);
-void CreatePathToFile(char* wszFilePath);
-int CreateDirectoryTree(const char *szDir);
-void CreatePathToFileW(WCHAR* wszFilePath);
-int CreateDirectoryTreeW(const WCHAR *szDir);
 int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base);
+
 #define pathToAbsoluteT pathToAbsoluteW
 #define CreatePathToFileT CreatePathToFileW
 #define CreateDirectoryTreeT CreateDirectoryTreeW
 
-/**** skin2icons.c *********************************************************************/
+/**** skin2icons.cpp *******************************************************************/
 
 HANDLE IcoLib_AddNewIcon(SKINICONDESC* sid);
 HICON  IcoLib_GetIcon(const char* pszIconName, bool big);
@@ -224,7 +231,7 @@ HICON  IcoLib_GetIconByHandle(HANDLE hItem, bool big);
 HANDLE IcoLib_IsManaged(HICON hIcon);
 int    IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big);
 
-/**** skinicons.c **********************************************************************/
+/**** skinicons.cpp ********************************************************************/
 
 HICON LoadSkinProtoIcon(const char* szProto, int status, bool big = false);
 HICON LoadSkinIcon(int idx, bool big = false);
@@ -248,7 +255,7 @@ void Window_FreeIcon_IcoLib(HWND hWnd);
 #define IconLib_ReleaseIcon(hIcon, szName) IcoLib_ReleaseIcon(hIcon, szName, false);
 #define Safe_DestroyIcon(hIcon) if (hIcon) DestroyIcon(hIcon)
 
-/**** clistmenus.c **********************************************************************/
+/**** clistmenus.cpp ********************************************************************/
 
 extern HANDLE hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
@@ -259,7 +266,7 @@ extern const int skinIconStatusFlags[ MAX_STATUS_COUNT ];
 
 int TryProcessDoubleClick(HANDLE hContact);
 
-/**** protocols.c ***********************************************************************/
+/**** protocols.cpp *********************************************************************/
 
 #define OFFSET_PROTOPOS 200
 #define OFFSET_VISIBLE  400
@@ -295,7 +302,7 @@ __inline static INT_PTR CallProtoService(const char* szModule, const char* szSer
 	return CallProtoServiceInt(NULL, szModule, szService, wParam, lParam);
 }
 
-/**** utils.c **************************************************************************/
+/**** utils.cpp ************************************************************************/
 
 char*  __fastcall rtrim(char* str);
 TCHAR* __fastcall rtrim(TCHAR* str);

@@ -176,14 +176,14 @@ int CLUI::OnEvent_DBSettingChanging(WPARAM wParam,LPARAM lParam)
 	if (dbcws==NULL) return(0);
 	if (MirandaExiting()) return 0;
 
-	if ( ( dbcws->value.type==DBVT_WORD && !mir_strcmp(dbcws->szSetting,"ApparentMode") ) ||
+	if ( ( dbcws->value.type==DBVT_WORD && !mir_strcmp(dbcws->szSetting,"ApparentMode")) ||
 		( dbcws->value.type==DBVT_ASCIIZ && 
 		( ( !mir_strcmp(dbcws->szSetting,"e-mail") ||
 		!mir_strcmp(dbcws->szSetting,"Mye-mail0") ||
-		!mir_strcmp(dbcws->szSetting,"Cellular") )  ||
+		!mir_strcmp(dbcws->szSetting,"Cellular"))  ||
 		( !mir_strcmp(dbcws->szModule,"UserInfo") &&
 		( !mir_strcmp(dbcws->szSetting,"MyPhone0") || 
-		!mir_strcmp(dbcws->szSetting,"Mye-mail0") ) ) ) ) )
+		!mir_strcmp(dbcws->szSetting,"Mye-mail0")) )) ))
 		ExtraImage_SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 	return(0);
 };
@@ -393,7 +393,7 @@ HRESULT CLUI::FillAlphaChannel( HDC hDC, RECT * prcParent, BYTE bAlpha)
 	RECT rcBounds;
 	GetRgnBox(hRgn,&rcBounds);
 
-	if ( IsRectEmpty(&rcBounds) ) 
+	if ( IsRectEmpty(&rcBounds)) 
 	{
 		DeleteObject(hRgn);
 		return S_FALSE;
@@ -528,7 +528,7 @@ int CLUI_ShowWindowMod(HWND hWnd, int nCmd)
 {
 	int res=0;
 
-	if (hWnd==pcli->hwndContactList && (nCmd==SW_HIDE || nCmd==SW_MINIMIZE) )
+	if (hWnd==pcli->hwndContactList && (nCmd==SW_HIDE || nCmd==SW_MINIMIZE))
 	{	
 		AniAva_InvalidateAvatarPositions(NULL);
 		AniAva_RemoveInvalidatedAvatars();
@@ -1862,7 +1862,7 @@ HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szD
 	{
 		sid.pszDefaultFile = NULL;
 		sid.iDefaultIndex = 0;
-		sid.hDefaultIcon = LoadSmallIcon( hDefaultModuleInst, MAKEINTRESOURCE(iDefaultResource) );
+		sid.hDefaultIcon = LoadSmallIcon( hDefaultModuleInst, MAKEINTRESOURCE(iDefaultResource));
 	}
 	hIcolibItem = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
 	if ( sid.hDefaultIcon )	DestroyIcon(sid.hDefaultIcon);
@@ -1874,7 +1874,7 @@ LRESULT CLUI::PreProcessWndProc( UINT msg, WPARAM wParam, LPARAM lParam, BOOL& b
 {
 	// proxy CLUI Messages
 	LRESULT result = 0;
-	if ( ProcessCLUIFrameInternalMsg( m_hWnd, msg, wParam, lParam, result ) )
+	if ( ProcessCLUIFrameInternalMsg( m_hWnd, msg, wParam, lParam, result ))
 	{
 		bHandled = TRUE;
 		return result;
@@ -2168,9 +2168,9 @@ LRESULT CLUI::OnUpdate( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 }
 LRESULT CLUI::OnInitMenu( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
-	if ( !CLUI::IsMainMenuInited() )
+	if ( !CLUI::IsMainMenuInited())
 	{
-		if ( ServiceExists( MS_CLIST_MENUBUILDMAIN ) ) CallService( MS_CLIST_MENUBUILDMAIN, 0, 0 );
+		if ( ServiceExists( MS_CLIST_MENUBUILDMAIN )) CallService( MS_CLIST_MENUBUILDMAIN, 0, 0 );
 		CLUI::m_fMainMenuInited = TRUE;
 	}
 	return FALSE;
@@ -2178,7 +2178,7 @@ LRESULT CLUI::OnInitMenu( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 LRESULT CLUI::OnNcPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 {
 	int lRes = DefWindowProc( m_hWnd, msg, wParam, lParam );
-	if ( !g_CluiData.fLayered && ModernGetSettingByte( NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT ) )
+	if ( !g_CluiData.fLayered && ModernGetSettingByte( NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT ))
 	{
 		HDC hdc = NULL;
 		if ( msg == WM_PRINT ) hdc=(HDC)wParam;
@@ -2300,7 +2300,7 @@ LRESULT CLUI::OnSetAllExtraIcons( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lPar
 LRESULT CLUI::OnCreateClc( UINT /*msg*/, WPARAM /*wParam*/, LPARAM /*lParam*/ )
 {
 	CreateCLC();
-	if ( ModernGetSettingByte( NULL, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT ) ) 
+	if ( ModernGetSettingByte( NULL, "CList", "ShowOnStart", SETTING_SHOWONSTART_DEFAULT )) 
 		cliShowHide( (WPARAM) m_hWnd, (LPARAM)TRUE );
 	PostMessage( pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0 );
 
@@ -2313,7 +2313,7 @@ LRESULT CLUI::OnLButtonDown( UINT msg, WPARAM wParam, LPARAM lParam )
 	pt.y = (short)HIWORD(lParam);
 	ClientToScreen( m_hWnd, &pt );
 
-	if ( CLUI_SizingOnBorder( pt, 1 ) )
+	if ( CLUI_SizingOnBorder( pt, 1 ))
 	{
 		mutex_bIgnoreActivation = TRUE;
 		return FALSE;
@@ -2334,7 +2334,7 @@ LRESULT CLUI::OnParentNotify( UINT msg, WPARAM wParam, LPARAM lParam )
 			wParam = 0;
 			lParam = 0;
 
-			if ( CLUI_SizingOnBorder( pt,1 ) ) 
+			if ( CLUI_SizingOnBorder( pt,1 )) 
 			{
 				mutex_bIgnoreActivation = TRUE;
 				return 0;
@@ -2346,7 +2346,7 @@ LRESULT CLUI::OnParentNotify( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnSetFocus( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	if ( hFrameContactTree && ( !CallService( MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM( FO_FLOATING, hFrameContactTree ), 0 ) ) )
+	if ( hFrameContactTree && ( !CallService( MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM( FO_FLOATING, hFrameContactTree ), 0 )) )
 	{
 		SetFocus(pcli->hwndContactTree);
 	}
@@ -2488,7 +2488,7 @@ LRESULT CLUI::OnUpdateBringTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnTimer( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	if ( MirandaExiting() ) return FALSE;
+	if ( MirandaExiting()) return FALSE;
 
 	if ( (int)wParam >= TM_STATUSBARUPDATE && (int)wParam<=TM_STATUSBARUPDATE+64 )
 	{
@@ -2623,7 +2623,7 @@ LRESULT CLUI::OnNcHitTest( UINT msg, WPARAM wParam, LPARAM lParam )
 	if ( (g_CluiData.fAutoSize) && ( result == HTSIZE || result == HTTOP || 
 		result == HTTOPLEFT || result == HTTOPRIGHT ||
 		result==HTBOTTOM || result==HTBOTTOMRIGHT || 
-		result==HTBOTTOMLEFT) )
+		result==HTBOTTOMLEFT))
 		return HTCLIENT;
 
 	if (result==HTMENU) 
@@ -2744,7 +2744,7 @@ LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 		rcWindow=rcSizingRect;
 	else					
 		GetWindowRect(m_hWnd,&rcWindow);
-	if ( !g_CluiData.fAutoSize || pcli->hwndContactTree==0 || CallService(MS_CLIST_DOCKINGISDOCKED,0,0) )
+	if ( !g_CluiData.fAutoSize || pcli->hwndContactTree==0 || CallService(MS_CLIST_DOCKINGISDOCKED,0,0))
 		return FALSE;
 
 	maxHeight=ModernGetSettingByte(NULL,"CLUI","MaxSizeHeight",SETTING_MAXSIZEHEIGHT_DEFAULT);
@@ -2928,7 +2928,7 @@ LRESULT CLUI::OnContextMenu( UINT msg, WPARAM wParam, LPARAM lParam )
 			pt.y = rc.top + (rc.bottom - rc.top) / 2; 
 		}
 	}
-	if(PtInRect( &rc ,pt ) )
+	if(PtInRect( &rc ,pt ))
 	{
 		HMENU hMenu;
 		hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDGROUP,0,0);
@@ -2954,7 +2954,7 @@ LRESULT CLUI::OnMeasureItem( UINT msg, WPARAM wParam, LPARAM lParam )
 			HDC hdc;
 			SIZE textSize;
 			hdc=GetDC( m_hWnd );
-			GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate( "Status" ) ), &textSize );
+			GetTextExtentPoint32A( hdc, Translate("Status"), lstrlenA( Translate( "Status" )), &textSize );
 			pmis->itemWidth = textSize.cx;
 			pmis->itemHeight = 0;
 			ReleaseDC( m_hWnd, hdc );
@@ -2988,7 +2988,7 @@ LRESULT CLUI::OnDrawItem( UINT msg, WPARAM wParam, LPARAM lParam )
 				int y = (dis->rcItem.bottom + dis->rcItem.top  - GetSystemMetrics(SM_CYSMICON)) / 2 + offset;
 
 				DrawState( dis->hDC, NULL, NULL, (LPARAM)hIcon, 0, x, y , 0 , 0 , 
-					DST_ICON | ( dis->itemState & ODS_INACTIVE  && (((FALSE))) ? DSS_DISABLED : DSS_NORMAL ) );
+					DST_ICON | ( dis->itemState & ODS_INACTIVE  && (((FALSE))) ? DSS_DISABLED : DSS_NORMAL ));
 
 				CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
 				nMirMenuState=dis->itemState;

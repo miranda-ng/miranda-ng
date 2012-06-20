@@ -2013,7 +2013,7 @@ LABEL_SHOWWINDOW:
             if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHAT_COLOR)))
                break;
 
-            if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_COLOR) ) {
+            if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_COLOR)) {
                if (DBGetContactSettingByte(NULL, "Chat", "RightClickFilter", 0) == 0)
                   SendMessage(hwndDlg, GC_SHOWCOLORCHOOSER, 0, (LPARAM)IDC_CHAT_COLOR);
                else if (si->bFGSet) {

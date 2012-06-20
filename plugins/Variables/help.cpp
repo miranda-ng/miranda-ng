@@ -163,7 +163,7 @@ static INT_PTR CALLBACK clistDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM 
 				free(tszContact);
 		}	}
 
-		if ( (hContact != INVALID_HANDLE_VALUE) && (hContact != NULL) )
+		if ( (hContact != INVALID_HANDLE_VALUE) && (hContact != NULL))
 			hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		else
 			hItem = NULL;
@@ -429,7 +429,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			i += 1;
 			tszHelpDesc = tszTokenDesc = NULL;
 			tr = getTokenRegister(i);
-			if ( (tr == NULL) || (tr->tszTokenString == NULL) ) {
+			if ( (tr == NULL) || (tr->tszTokenString == NULL)) {
 				continue;
 			}
 			else if (hdd != NULL) {
@@ -498,7 +498,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 			else {
 				text = NULL;
 			}
-			if ( (text != NULL) && ((last == NULL) || (_tcsicmp(last, text))) ) {
+			if ( (text != NULL) && ((last == NULL) || (_tcsicmp(last, text)))) {
 				lvItem.mask = LVIF_TEXT;
 				lvItem.pszText = text;
 				ListView_InsertItem(hList, &lvItem);
@@ -521,7 +521,7 @@ static BOOL CALLBACK processTokenListMessage(HWND hwndDlg,UINT msg,WPARAM wParam
 	}
 
 	case WM_NOTIFY:
-		if ( (((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK) ) {
+		if ( (((NMHDR*)lParam)->idFrom == IDC_TOKENLIST) && (((NMHDR*)lParam)->code == NM_DBLCLK)) {
 			HWND hList, hwndInputDlg;
 			LVITEM lvItem;
 			int len, item;
@@ -940,7 +940,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			ShowWindow(hPage, SW_HIDE);
 			TabCtrl_InsertItem(hTab, tabCount++, &tci);
 			hShow = hShow==0?hPage:hShow;
-			if ( (dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL) ) {
+			if ( (dat->vhs->fi != NULL) && (dat->vhs->fi->szFormat != NULL)) {
 				if (dat->vhs->fi->flags & FIF_UNICODE)
 					SendMessage(hwndDlg, VARM_SETINPUTTEXT, 0, (LPARAM)dat->vhs->fi->tszFormat);
 				else {
@@ -966,7 +966,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			}
 		}
 		if ( (dat->vhs->flags&VHF_SUBJECT) ||
-			((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT))) ) {
+			((dat->vhs->flags&VHF_INPUT) && (((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL)) || (dat->vhs->flags&VHF_SETLASTSUBJECT)))) {
 			// subject window is created, but not necessarily shown
 			dat->hwndSubjectDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CLIST_DIALOG), hwndDlg, clistDlgProc, (LPARAM)GetParent(hwndDlg));
 			if (pfnEnableThemeDialogTexture) {
@@ -976,7 +976,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
 
-			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL) )
+			if ((dat->vhs->fi != NULL) && (dat->vhs->fi->hContact != NULL))
 				SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)dat->vhs->fi->hContact, 0);
 			else if (dat->vhs->flags&VHF_SETLASTSUBJECT)
 				SendMessage(hwndDlg, VARM_SETSUBJECT, (WPARAM)INVALID_HANDLE_VALUE, 0);
@@ -991,7 +991,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			}
 		}
 		if ( (dat->vhs->flags&VHF_EXTRATEXT) ||
-			((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) ) {
+			((dat->vhs->flags&VHF_INPUT) && (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL))) {
 			// extratext window is created, but not necessarily shown
 			dat->hwndExtraTextDlg = hPage = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EXTRATEXT_DIALOG), hwndDlg, extratextDlgProc, (LPARAM)GetParent(hwndDlg));
 			if (pfnEnableThemeDialogTexture)
@@ -999,7 +999,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 
 			MoveWindow(hPage, (rcTabs.left - rcParent.left), (rcTabs.top - rcParent.top), (rcTabs.right - rcTabs.left) - 2*iFrameX, (rcTabs.bottom - rcTabs.top) - 2*iFrameY, TRUE);
 			ShowWindow(hPage, SW_HIDE);
-			if ( (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL) ) {
+			if ( (dat->vhs->fi != NULL) && (dat->vhs->fi->tszExtraText != NULL)) {
 				if (dat->vhs->fi->flags & FIF_UNICODE)
 					SendMessage(hwndDlg, VARM_SETEXTRATEXT, 0, (LPARAM)dat->vhs->fi->tszExtraText);
 				else {
@@ -1042,7 +1042,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_OK:
-			if ( (dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT)) ) {
+			if ( (dat->vhs->fi != NULL) && (!(dat->vhs->flags&VHF_DONTFILLSTRUCT))) {
 				int len = SendMessage(hwndDlg, VARM_GETINPUTTEXTLENGTH, 0, 0);
 				if (len > 0) {
 
@@ -1081,7 +1081,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 					(LPARAM)dat->vhs->hwndCtrl);
 			}
 
-			if ( (dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != NULL) ) {
+			if ( (dat->vhs->flags&VHF_FULLFILLSTRUCT) && (dat->vhs->fi != NULL)) {
 				int len;
 
 				len = SendMessage(hwndDlg, VARM_GETEXTRATEXTLENGTH, 0, 0);
@@ -1217,7 +1217,7 @@ static BOOL CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 	}
 
 	case WM_NOTIFY:
-		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS) ) {
+		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS)) {
 			if (((NMHDR*)lParam)->code == TCN_SELCHANGING) {
 				TCITEM tci;
 

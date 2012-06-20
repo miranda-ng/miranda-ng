@@ -333,7 +333,7 @@ void CJabberProto::FtHandleSiRequest( HXML iqNode )
 						break;
 	
 					if ( !lstrcmp( xmlGetName( optionNode ), _T("option"))) {
-						if (( n = xmlGetChild( optionNode , "value" )) != NULL && xmlGetText( n ) ) {
+						if (( n = xmlGetChild( optionNode , "value" )) != NULL && xmlGetText( n )) {
 							if ( !_tcscmp( xmlGetText( n ), _T(JABBER_FEAT_BYTESTREAMS))) {
 								ftType = FT_BYTESTREAM;
 								break;
@@ -347,7 +347,7 @@ void CJabberProto::FtHandleSiRequest( HXML iqNode )
 						break;
 
 					if ( !lstrcmp( xmlGetName( optionNode ), _T("option"))) {
-						if (( n = xmlGetChild( optionNode , "value" )) != NULL && xmlGetText( n ) ) {
+						if (( n = xmlGetChild( optionNode , "value" )) != NULL && xmlGetText( n )) {
 							if ( !_tcscmp( xmlGetText( n ), _T(JABBER_FEAT_IBB))) {
 								ftType = FT_IBB;
 								break;

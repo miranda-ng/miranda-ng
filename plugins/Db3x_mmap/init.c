@@ -80,7 +80,7 @@ static int grokHeader( char * profile, int * error )
 		return 1;
 	}
 	// read the header, which can fail (for various reasons)
-	if ( !ReadFile(hFile, &hdr, sizeof(struct DBHeader), &dummy, NULL) ) {
+	if ( !ReadFile(hFile, &hdr, sizeof(struct DBHeader), &dummy, NULL)) {
 		if ( error != NULL) *error=EGROKPRF_CANTREAD;
 		CloseHandle(hFile);
 		return 1;

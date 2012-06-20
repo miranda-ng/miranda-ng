@@ -783,7 +783,7 @@ private:
 				TCHAR* buf = mir_a2t( result->pData );
 				XmlNode node( buf, NULL, NULL );
 				if ( node ) {
-					HXML queryNode = xmlGetChild( node, _T("query") );
+					HXML queryNode = xmlGetChild( node, _T("query"));
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;
 				}
@@ -1011,7 +1011,7 @@ static void _RosterListClear(HWND hwndDlg)
 	HWND hList=GetDlgItem(hwndDlg, IDC_ROSTER);
 	if (!hList)	return;
 	ListView_DeleteAllItems(hList);
-	while (	ListView_DeleteColumn( hList, 0) );
+	while (	ListView_DeleteColumn( hList, 0));
 
 	LV_COLUMN column={0};
 	column.mask=LVCF_TEXT;
@@ -1156,11 +1156,11 @@ void CJabberProto::_RosterHandleGetRequest( HXML node )
 				BOOL bPushed = itemRoster ? TRUE : FALSE;
 				if ( !bPushed ) {
 					const TCHAR *rosterName = xmlGetAttrValue( itemRoster, _T("name"));
-					if ( (rosterName!=NULL || name[0]!=_T('\0')) && lstrcmpi(rosterName,name) )
+					if ( (rosterName!=NULL || name[0]!=_T('\0')) && lstrcmpi(rosterName,name))
 						bPushed=TRUE;
 					if ( !bPushed ) {
 						rosterName = xmlGetAttrValue( itemRoster, _T("subscription"));
-						if ((rosterName!=NULL || subscr[0]!=_T('\0')) && lstrcmpi(rosterName,subscr) )
+						if ((rosterName!=NULL || subscr[0]!=_T('\0')) && lstrcmpi(rosterName,subscr))
 							bPushed=TRUE;
 					}
 					if ( !bPushed ) {
@@ -1168,7 +1168,7 @@ void CJabberProto::_RosterHandleGetRequest( HXML node )
 						const TCHAR* rosterGroup=NULL;
 						if (groupNode != NULL)
 							rosterGroup = xmlGetText( groupNode );
-						if ((rosterGroup!=NULL || group[0]!=_T('\0')) && lstrcmpi(rosterGroup,group) )
+						if ((rosterGroup!=NULL || group[0]!=_T('\0')) && lstrcmpi(rosterGroup,group))
 							bPushed=TRUE;
 					}
 				}
@@ -1372,7 +1372,7 @@ void CJabberProto::_RosterImportFromFile(HWND hwndDlg)
 	int nBytesProcessed = 0;
 	XmlNode node( newBuf, &nBytesProcessed, NULL );
 	if ( node ) {
-		HXML Workbook = xmlGetChild( node, _T("Workbook") );
+		HXML Workbook = xmlGetChild( node, _T("Workbook"));
 		if ( Workbook ) {
 			HXML Worksheet = xmlGetChild( Workbook , "Worksheet");
 			if ( Worksheet ) {
@@ -1450,7 +1450,7 @@ static BOOL CALLBACK _RosterNewListProc( HWND hList, UINT msg, WPARAM wParam, LP
 			RECT rc;
 			TCHAR buff[260];
 			ListView_GetSubItemRect(hList, lvhti.iItem, lvhti.iSubItem, LVIR_BOUNDS,&rc);
-			ListView_GetItemText(hList, lvhti.iItem, lvhti.iSubItem, buff, SIZEOF(buff) );
+			ListView_GetItemText(hList, lvhti.iItem, lvhti.iSubItem, buff, SIZEOF(buff));
 			HWND hEditor=CreateWindow(TEXT("EDIT"),buff,WS_CHILD|ES_AUTOHSCROLL,rc.left+3, rc.top+2, rc.right-rc.left-3, rc.bottom - rc.top-3,hList, NULL, hInst, NULL);
 			SendMessage(hEditor,WM_SETFONT,(WPARAM)SendMessage(hList,WM_GETFONT,0,0),0);
 			ShowWindow(hEditor,SW_SHOW);
@@ -2269,7 +2269,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 			TCHAR* ptszText = mir_a2t( result->pData );
 			XmlNode node( ptszText, NULL, NULL );
 			if ( node ) {
-				HXML queryNode = xmlGetChild( node, _T("query") );
+				HXML queryNode = xmlGetChild( node, _T("query"));
 				if ( queryNode && IsWindow(hwnd)) {
 					SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)queryNode);
 					bIsError = false;

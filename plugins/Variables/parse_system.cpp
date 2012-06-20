@@ -194,7 +194,7 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 
 	ecur = ai->targv[1]+_tcslen(ai->targv[1]);
 	while (depth > 0) {
-		while ( (*ecur != _T('\\')) && (ecur > ai->targv[1]) )
+		while ( (*ecur != _T('\\')) && (ecur > ai->targv[1]))
 			ecur--;
 
 		if (*ecur != _T('\\'))
@@ -204,7 +204,7 @@ static TCHAR *parseDirectory(ARGUMENTSINFO *ai) {
 		ecur--;
 	}
 	scur = ecur;
-	while ( (*scur != _T('\\')) && (scur > ai->targv[1]) )
+	while ( (*scur != _T('\\')) && (scur > ai->targv[1]))
 		scur--;
 
 	if (*scur == _T('\\'))
@@ -239,7 +239,7 @@ static TCHAR *parseDirectory2(ARGUMENTSINFO *ai) {
 
 	ecur = ai->targv[1]+_tcslen(ai->targv[1]);
 	while (depth > 0) {
-		while ( (*ecur != _T('\\')) && (ecur > ai->targv[1]) )
+		while ( (*ecur != _T('\\')) && (ecur > ai->targv[1]))
 			ecur--;
 
 		if (*ecur != _T('\\'))
@@ -456,12 +456,12 @@ static TCHAR *parseListDir(ARGUMENTSINFO *ai) {
 	if (hFind == INVALID_HANDLE_VALUE) {
 		return NULL;
 	}
-	if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles)) ) {
+	if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 		tszRes = ( TCHAR* )malloc((_tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
 		_tcscpy(tszRes, ffd.cFileName);
 	}
 	while (FindNextFile(hFind, &ffd) != 0) {
-		if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles)) ) {
+		if ( ((ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) && (bDirs)) || ((!(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)) && (bFiles))) {
 			if (tszRes != NULL) {
 				_tcscat(tszRes, tszSeperator);
 				tszRes = ( TCHAR* )realloc(tszRes, (_tcslen(tszRes) + _tcslen(ffd.cFileName) + _tcslen(tszSeperator) + 1)*sizeof(TCHAR));
@@ -484,7 +484,7 @@ static BOOL CALLBACK MyProcessEnumerator(DWORD dwPID, WORD wTask, char *szProces
 	char **szProc;
 
 	szProc = (char **)lParam;
-	if ( (*szProc != NULL) && (!_stricmp(*szProc, szProcess)) ) {
+	if ( (*szProc != NULL) && (!_stricmp(*szProc, szProcess))) {
 		*szProc = NULL;
 	}
 
@@ -558,7 +558,7 @@ static TCHAR *parseRegistryValue(ARGUMENTSINFO *ai) {
 	}
 	ZeroMemory(res, len);
 	err = RegQueryValueEx(hKey, ai->targv[2], NULL, &type, (BYTE*)res, &len);
-	if ( (err != ERROR_SUCCESS) || (type != REG_SZ) ) {
+	if ( (err != ERROR_SUCCESS) || (type != REG_SZ)) {
 		RegCloseKey(hKey);
 		free(res);
 		return NULL;
@@ -602,7 +602,7 @@ static TCHAR *parseTimestamp2Date(ARGUMENTSINFO *ai) {
 	if (timestamp == 0) {
 		return NULL;
 	}
-	if ( (ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0)) ) {
+	if ( (ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0))) {
 		szFormat = NULL;
 	}
 	else {
@@ -638,7 +638,7 @@ static TCHAR *parseTimestamp2Time(ARGUMENTSINFO *ai) {
 	if (timestamp == 0) {
 		return NULL;
 	}
-	if ( (ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0)) ) {
+	if ( (ai->argc == 2) || ((ai->argc > 2) && (_tcslen(ai->targv[2]) == 0))) {
 		szFormat = NULL;
 	}
 	else {
@@ -755,7 +755,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				}
 			}
 		}
-	} while ( (totalReadSz < fileSz) && (readSz > 0) );
+	} while ( (totalReadSz < fileSz) && (readSz > 0));
 	if (lineNo < 0) {
 		lineNo = lineCount + lineNo + 1;
 	}
@@ -796,12 +796,12 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				}
 			}
 		}
-		if ( ((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r')) ) {
+		if ( ((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
 			// in case the \r was at the end of the buffer, \n could be next
 			SetFilePointer(hFile, -1*csz, NULL, FILE_CURRENT);
 			totalReadSz -= csz;
 		}
-	} while ( (totalReadSz < fileSz) && (readSz > 0) );
+	} while ( (totalReadSz < fileSz) && (readSz > 0));
 	if (linePos < 0) {
 		CloseHandle(hFile);
 		free(pBuf);
@@ -823,7 +823,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		}
 		for (pCur = pBuf;(pCur < pBuf+readSz);pCur+=csz) {
 			if ((tUC) && ((!_tcsncmp((TCHAR *)pCur, _T("\r\n"), 2)) || (*(TCHAR *)pCur == _T('\n'))) || 
-				((!tUC) && (((!strncmp((char *)pCur, "\r\n", 2)) || (*(char *)pCur == '\n')))) ) {
+				((!tUC) && (((!strncmp((char *)pCur, "\r\n", 2)) || (*(char *)pCur == '\n'))))) {
 				CloseHandle(hFile);
 				if (tUC) {
 					*(TCHAR *)pCur = _T('\0');
@@ -843,7 +843,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 				return res;
 			}
 		}
-		if ( ((DWORD)(linePos+(pCur-pBuf)) == fileSz) ) { // eof
+		if ( ((DWORD)(linePos+(pCur-pBuf)) == fileSz)) { // eof
 			CloseHandle(hFile);
 
 			if (tUC) {
@@ -859,7 +859,7 @@ static TCHAR *parseTextFile(ARGUMENTSINFO *ai) {
 		if (readSz == bufSz-csz) {
 			// buffer must be increased
 			bufSz += TXTFILEBUFSZ*csz;
-			if ( ((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r')) ) {
+			if ( ((tUC) && (*(TCHAR *)pCur == _T('\r'))) || ((!tUC) && (*(char *)pCur == '\r'))) {
 				pCur -= csz;
 			}
 			icur = pCur - pBuf;

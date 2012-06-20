@@ -195,15 +195,15 @@ void CJabberProto::OnIqResultPrivacyListActive( HXML iqNode, CJabberIqInfo* pInf
 	m_privacyListManager.Lock();
 	if ( !_tcscmp( type, _T("result"))) {
 		if ( pList ) {
-			m_privacyListManager.SetActiveListName( pList->GetListName() );
-			mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Privacy list %s set as active"), pList->GetListName() );
+			m_privacyListManager.SetActiveListName( pList->GetListName());
+			mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Privacy list %s set as active"), pList->GetListName());
 		}
 		else {
 			m_privacyListManager.SetActiveListName( NULL );
 			mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Active privacy list successfully declined"));
 		}
 	}
-	else mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Error occurred while setting active list") );
+	else mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Error occurred while setting active list"));
 
 	m_privacyListManager.Unlock();
 
@@ -235,8 +235,8 @@ void CJabberProto::OnIqResultPrivacyListDefault( HXML iqNode, CJabberIqInfo* pIn
 	m_privacyListManager.Lock();
 	if ( !_tcscmp( type, _T("result"))) {
 		if ( pList ) {
-			m_privacyListManager.SetDefaultListName( pList->GetListName() );
-			mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Privacy list %s set as default"), pList->GetListName() );
+			m_privacyListManager.SetDefaultListName( pList->GetListName());
+			mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Privacy list %s set as default"), pList->GetListName());
 		}
 		else {
 			m_privacyListManager.SetDefaultListName( NULL );
@@ -244,7 +244,7 @@ void CJabberProto::OnIqResultPrivacyListDefault( HXML iqNode, CJabberIqInfo* pIn
 		}
 	}
 	else {
-		mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Error occurred while setting default list") );
+		mir_sntprintf( szText, SIZEOF( szText ), TranslateT("Error occurred while setting default list"));
 	}
 	m_privacyListManager.Unlock();
 
@@ -415,7 +415,7 @@ public:
 			SendDlgItemMessage( m_hwnd, IDC_CHECK_PRESENCE_OUT, BM_SETCHECK, BST_CHECKED, 0 );
 
 		if ( m_pRule->GetValue() && ( m_pRule->GetType() == Jid || m_pRule->GetType() == Group ))
-			SetDlgItemText( m_hwnd, IDC_EDIT_VALUE, m_pRule->GetValue() );
+			SetDlgItemText( m_hwnd, IDC_EDIT_VALUE, m_pRule->GetValue());
 	}
 
 	void cbType_OnChange(CCtrlData*)
@@ -461,10 +461,10 @@ public:
 				}
 
 				// FIXME: ugly code :)
-				if ( m_pRule->GetValue() )
+				if ( m_pRule->GetValue())
 				{
-					SetDlgItemText( m_hwnd, IDC_COMBO_VALUES, m_pRule->GetValue() );
-					LRESULT nSelPos = SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_FINDSTRINGEXACT , -1, (LPARAM)m_pRule->GetValue() );
+					SetDlgItemText( m_hwnd, IDC_COMBO_VALUES, m_pRule->GetValue());
+					LRESULT nSelPos = SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_FINDSTRINGEXACT , -1, (LPARAM)m_pRule->GetValue());
 					if ( nSelPos != CB_ERR )
 						SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_SETCURSEL, nSelPos, 0 );
 				}
@@ -483,7 +483,7 @@ public:
 				for ( int i = 0; ; i++ )
 				{
 					mir_snprintf(buf, 20, "%d", i);
-					if ( DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv) )
+					if ( DBGetContactSettingTString(NULL, "CListGroups", buf, &dbv))
 						break;
 
 					SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)&dbv.ptszVal[1] );
@@ -491,10 +491,10 @@ public:
 				}
 
 				// FIXME: ugly code :)
-				if ( m_pRule->GetValue() )
+				if ( m_pRule->GetValue())
 				{
-					SetDlgItemText( m_hwnd, IDC_COMBO_VALUES, m_pRule->GetValue() );
-					LRESULT nSelPos = SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_FINDSTRINGEXACT , -1, (LPARAM)m_pRule->GetValue() );
+					SetDlgItemText( m_hwnd, IDC_COMBO_VALUES, m_pRule->GetValue());
+					LRESULT nSelPos = SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_FINDSTRINGEXACT , -1, (LPARAM)m_pRule->GetValue());
 					if ( nSelPos != CB_ERR )
 						SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUES, CB_SETCURSEL, nSelPos, 0 );
 				}
@@ -506,9 +506,9 @@ public:
 				ShowWindow( GetDlgItem( m_hwnd, IDC_COMBO_VALUES ), SW_HIDE );
 				ShowWindow( GetDlgItem( m_hwnd, IDC_COMBO_VALUE ), SW_SHOW );
 
-				if ( m_pRule->GetValue() )
+				if ( m_pRule->GetValue())
 				{
-					LRESULT nSelected = SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUE, CB_SELECTSTRING, -1, (LPARAM)TranslateTS(m_pRule->GetValue()) );
+					LRESULT nSelected = SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUE, CB_SELECTSTRING, -1, (LPARAM)TranslateTS(m_pRule->GetValue()));
 					if ( nSelected == CB_ERR )
 						SendDlgItemMessage( m_hwnd, IDC_COMBO_VALUE, CB_SETCURSEL, 0, 0 );
 				}
@@ -540,7 +540,7 @@ public:
 			case Group:
 			{
 				TCHAR szText[ 512 ];
-				GetDlgItemText( m_hwnd, IDC_COMBO_VALUES, szText, SIZEOF(szText) );
+				GetDlgItemText( m_hwnd, IDC_COMBO_VALUES, szText, SIZEOF(szText));
 				m_pRule->SetValue( szText );
 				break;
 			}
@@ -933,8 +933,8 @@ void CJabberDlgPrivacyLists::OnProtoRefresh(WPARAM, LPARAM)
 	m_proto->m_privacyListManager.Lock();
 	CPrivacyList* pList = m_proto->m_privacyListManager.GetFirstList();
 	while ( pList ) {
-		if ( !pList->IsDeleted() ) {
-			nItemId = SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)pList->GetListName() );
+		if ( !pList->IsDeleted()) {
+			nItemId = SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)pList->GetListName());
 			SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nItemId, (LPARAM)pList );
 		}
 		pList = pList->GetNext();
@@ -1042,15 +1042,15 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 	while ( pRule ) {
 		bListEmpty = FALSE;
 		TCHAR szTypeValue[ 512 ];
-		switch ( pRule->GetType() ) {
+		switch ( pRule->GetType()) {
 		case Jid:
-			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "If jabber id is '%s' then" ), pRule->GetValue() );
+			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "If jabber id is '%s' then" ), pRule->GetValue());
 			break;
 		case Group:
-			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "If group is '%s' then" ), pRule->GetValue() );
+			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "If group is '%s' then" ), pRule->GetValue());
 			break;
 		case Subscription:
-			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "If subscription is '%s' then" ), pRule->GetValue() );
+			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "If subscription is '%s' then" ), pRule->GetValue());
 			break;
 		case Else:
 			mir_sntprintf( szTypeValue, SIZEOF( szTypeValue ), _T( "Else"));
@@ -1064,24 +1064,24 @@ void CJabberDlgPrivacyLists::ShowAdvancedList(CPrivacyList *pList)
 		if ( !dwPackets )
 			dwPackets = JABBER_PL_RULE_TYPE_ALL;
 		if ( dwPackets == JABBER_PL_RULE_TYPE_ALL )
-			_tcscpy( szPackets, _T("all") );
+			_tcscpy( szPackets, _T("all"));
 		else {
 			if ( dwPackets & JABBER_PL_RULE_TYPE_MESSAGE )
-				_tcscat( szPackets, _T("messages") );
+				_tcscat( szPackets, _T("messages"));
 			if ( dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN ) {
 				if ( _tcslen( szPackets ))
 					_tcscat( szPackets, _T(", "));
-				_tcscat( szPackets, _T("presence-in") );
+				_tcscat( szPackets, _T("presence-in"));
 			}
 			if ( dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_OUT ) {
 				if ( _tcslen( szPackets ))
 					_tcscat( szPackets, _T(", "));
-				_tcscat( szPackets, _T("presence-out") );
+				_tcscat( szPackets, _T("presence-out"));
 			}
 			if ( dwPackets & JABBER_PL_RULE_TYPE_IQ ) {
 				if ( _tcslen( szPackets ))
 					_tcscat( szPackets, _T(", "));
-				_tcscat( szPackets, _T("queries") );
+				_tcscat( szPackets, _T("queries"));
 		}	}
 
 		TCHAR szListItem[ 512 ];
@@ -1211,7 +1211,7 @@ void CJabberDlgPrivacyLists::DrawRulesList(LPDRAWITEMSTRUCT lpdis)
 		rc.bottom -= (rc.bottom - rc.top) / 2;
 		rc.left += 25;
 
-		switch ( pRule->GetType() )
+		switch ( pRule->GetType())
 		{
 			case Jid:
 			{
@@ -1694,7 +1694,7 @@ void CJabberDlgPrivacyLists::EnableEditorControls()
 	EnableWindow( GetDlgItem( m_hwnd, IDC_APPLY ), bListsLoaded && bListsModified );
 
 	if (bListsLoaded)
-		SetStatusText( TranslateT("Ready.") );
+		SetStatusText( TranslateT("Ready."));
 }
 
 LRESULT CALLBACK CJabberDlgPrivacyLists::LstListsSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1799,14 +1799,14 @@ void CJabberDlgPrivacyLists::btnActivate_OnClick(CCtrlButton *)
 	{
 		m_proto->m_privacyListManager.Lock();
 		CPrivacyList* pList = GetSelectedList(m_hwnd);
-		if ( pList && pList->IsModified() ) {
+		if ( pList && pList->IsModified()) {
 			m_proto->m_privacyListManager.Unlock();
 			MessageBox( m_hwnd, TranslateT("Please save list before activating"), TranslateT("First, save the list"), MB_OK | MB_ICONSTOP );
 			return;
 		}
 		EnableWindow( GetDlgItem( m_hwnd, IDC_ACTIVATE ), FALSE );
 		SetWindowLongPtr( GetDlgItem( m_hwnd, IDC_ACTIVATE ), GWLP_USERDATA, (LONG_PTR)pList );
-		XmlNodeIq iq( m_proto->m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList ) );
+		XmlNodeIq iq( m_proto->m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList ));
 		HXML query = iq << XQUERY( _T(JABBER_FEAT_PRIVACY_LISTS));
 		HXML active = query << XCHILD( _T("active"));
 		if ( pList )
@@ -1825,7 +1825,7 @@ void CJabberDlgPrivacyLists::btnSetDefault_OnClick(CCtrlButton *)
 	{
 		m_proto->m_privacyListManager.Lock();
 		CPrivacyList* pList = GetSelectedList(m_hwnd);
-		if ( pList && pList->IsModified() ) {
+		if ( pList && pList->IsModified()) {
 			m_proto->m_privacyListManager.Unlock();
 			MessageBox( m_hwnd, TranslateT("Please save list before you make it the default list"), TranslateT("First, save the list"), MB_OK | MB_ICONSTOP );
 			return;
@@ -1833,11 +1833,11 @@ void CJabberDlgPrivacyLists::btnSetDefault_OnClick(CCtrlButton *)
 		EnableWindow( GetDlgItem( m_hwnd, IDC_SET_DEFAULT ), FALSE );
 		SetWindowLongPtr( GetDlgItem( m_hwnd, IDC_SET_DEFAULT ), GWLP_USERDATA, (LONG_PTR)pList );
 
-		XmlNodeIq iq( m_proto->m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListDefault, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList ) );
+		XmlNodeIq iq( m_proto->m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListDefault, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList ));
 		HXML query = iq << XQUERY( _T(JABBER_FEAT_PRIVACY_LISTS ));
 		HXML defaultTag = query << XCHILD( _T("default"));
 		if ( pList )
-			xmlAddAttr( defaultTag, _T("name"), pList->GetListName() );
+			xmlAddAttr( defaultTag, _T("name"), pList->GetListName());
 		m_proto->m_privacyListManager.Unlock();
 
 		SetStatusText(TranslateT( JABBER_PL_BUSY_MSG ));
@@ -2001,7 +2001,7 @@ void CJabberDlgPrivacyLists::btnAddList_OnClick(CCtrlButton *)
 	// FIXME: line length is hard coded in dialog procedure
 	CJabberDlgPrivacyAddList dlgPrivacyAddList(m_proto, m_hwnd);
 	int nRetVal = dlgPrivacyAddList.DoModal();
-	if ( nRetVal && _tcslen( dlgPrivacyAddList.szLine ) ) {
+	if ( nRetVal && _tcslen( dlgPrivacyAddList.szLine )) {
 		m_proto->m_privacyListManager.Lock();
 		CPrivacyList* pList = m_proto->m_privacyListManager.FindList( dlgPrivacyAddList.szLine );
 		if ( !pList ) {
@@ -2033,7 +2033,7 @@ void CJabberDlgPrivacyLists::btnRemoveList_OnClick(CCtrlButton *)
 		if ( pList ) {
 			TCHAR *szListName = pList->GetListName();
 			if ( ( m_proto->m_privacyListManager.GetActiveListName() && !_tcscmp( szListName, m_proto->m_privacyListManager.GetActiveListName()))
-				|| ( m_proto->m_privacyListManager.GetDefaultListName() && !_tcscmp( szListName, m_proto->m_privacyListManager.GetDefaultListName()) )) {
+				|| ( m_proto->m_privacyListManager.GetDefaultListName() && !_tcscmp( szListName, m_proto->m_privacyListManager.GetDefaultListName()))) {
 				m_proto->m_privacyListManager.Unlock();
 				MessageBox( m_hwnd, TranslateTS(_T("Can't remove active or default list")), TranslateTS(_T("Sorry")), MB_OK | MB_ICONSTOP );
 				return;
@@ -2061,11 +2061,11 @@ void CJabberDlgPrivacyLists::btnApply_OnClick(CCtrlButton *)
 		CPrivacyListModifyUserParam *pUserData = NULL;
 		CPrivacyList* pList = m_proto->m_privacyListManager.GetFirstList();
 		while ( pList ) {
-			if ( pList->IsModified() ) {
+			if ( pList->IsModified()) {
 				CPrivacyListRule* pRule = pList->GetFirstRule();
 				if ( !pRule )
 					pList->SetDeleted();
-				if ( pList->IsDeleted() ) {
+				if ( pList->IsDeleted()) {
 					pList->RemoveAllRules();
 					pRule = NULL;
 				}
@@ -2078,11 +2078,11 @@ void CJabberDlgPrivacyLists::btnApply_OnClick(CCtrlButton *)
 
 				XmlNodeIq iq( m_proto->m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListModify, JABBER_IQ_TYPE_SET, NULL, 0, -1, pUserData ));
 				HXML query = iq << XQUERY( _T(JABBER_FEAT_PRIVACY_LISTS ));
-				HXML listTag = query << XCHILD( _T("list")) << XATTR( _T("name"), pList->GetListName() );
+				HXML listTag = query << XCHILD( _T("list")) << XATTR( _T("name"), pList->GetListName());
 
 				while ( pRule ) {
 					HXML itemTag = listTag << XCHILD( _T("item"));
-					switch ( pRule->GetType() ) {
+					switch ( pRule->GetType()) {
 					case Jid:
 						itemTag << XATTR( _T("type"), _T("jid"));
 						break;
@@ -2094,12 +2094,12 @@ void CJabberDlgPrivacyLists::btnApply_OnClick(CCtrlButton *)
 						break;
 					}
 					if ( pRule->GetType() != Else )
-						itemTag << XATTR( _T("value"), pRule->GetValue() );
-					if ( pRule->GetAction() )
+						itemTag << XATTR( _T("value"), pRule->GetValue());
+					if ( pRule->GetAction())
 						itemTag << XATTR( _T("action"), _T("allow"));
 					else
 						itemTag << XATTR( _T("action"), _T("deny"));
-					itemTag << XATTRI( _T("order"), pRule->GetOrder() );
+					itemTag << XATTRI( _T("order"), pRule->GetOrder());
 					DWORD dwPackets = pRule->GetPackets();
 					if ( dwPackets != JABBER_PL_RULE_TYPE_ALL ) {
 						if ( dwPackets & JABBER_PL_RULE_TYPE_IQ )
@@ -2216,7 +2216,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandlePrivacyLists( WPARAM, LPARAM )
 
 void CJabberProto::QueryPrivacyLists( ThreadData *pThreadInfo )
 {
-	XmlNodeIq iq( m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyLists ) );
+	XmlNodeIq iq( m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyLists ));
 	iq << XQUERY( _T(JABBER_FEAT_PRIVACY_LISTS));
 	if ( pThreadInfo )
 		pThreadInfo->send( iq );
@@ -2239,11 +2239,11 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList( WPARAM, LPARAM, LPARAM iList )
 			pList = pList->GetNext();
 	}
 
-	XmlNodeIq iq( m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList ) );
+	XmlNodeIq iq( m_iqManager.AddHandler( &CJabberProto::OnIqResultPrivacyListActive, JABBER_IQ_TYPE_SET, NULL, 0, -1, pList ));
 	HXML query = iq << XQUERY( _T(JABBER_FEAT_PRIVACY_LISTS));
 	HXML active = query << XCHILD( _T("active"));
 	if ( pList )
-		active << XATTR( _T("name"), pList->GetListName() );
+		active << XATTR( _T("name"), pList->GetListName());
 	m_privacyListManager.Unlock();
 
 	m_ThreadInfo->send( iq );

@@ -667,7 +667,7 @@ Version 2.0.0.4  - 2007/12/23
       menu bar.
     ! fixed untranslateable strings in the container options dialog
     - disabled skin editor for tabsrmm (still not complete, avoid confusing
-      people :) ).
+      people :)).
     ! fixed minor issue with double icons in status bar (on rare occasions)
     ! fixed skin drawing on multimonitor systems (patch by Bryan)
 

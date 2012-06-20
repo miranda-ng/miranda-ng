@@ -206,7 +206,7 @@ TCHAR* JabberPrepareJid( LPCTSTR jid )
 	if ( !jid ) return NULL;
 	TCHAR* szNewJid = mir_tstrdup( jid );
 	if ( !szNewJid ) return NULL;
-	TCHAR* pDelimiter = _tcschr( szNewJid, _T('/') );
+	TCHAR* pDelimiter = _tcschr( szNewJid, _T('/'));
 	if ( pDelimiter ) *pDelimiter = _T('\0');
 	CharLower( szNewJid );
 	if ( pDelimiter ) *pDelimiter = _T('/');
@@ -453,7 +453,7 @@ WCHAR* __stdcall JabberUnixToDosW( const WCHAR* str )
 		if ( *p == '\n' )
 			extra++;
 	}
-	if (( res = ( WCHAR* )mir_alloc( sizeof( WCHAR )*( wcslen( str ) + extra + 1 )) ) != NULL ) {
+	if (( res = ( WCHAR* )mir_alloc( sizeof( WCHAR )*( wcslen( str ) + extra + 1 ))) != NULL ) {
 		for ( p = str,q=res; *p!='\0'; p++,q++ ) {
 			if ( *p == '\n' ) {
 				*q = '\r';
@@ -492,7 +492,7 @@ void __stdcall JabberHttpUrlDecode( TCHAR* str )
 
 	if ( str == NULL ) return;
 	for ( p = q = ( TCHAR* )str; *p!='\0'; p++,q++ ) {
-		if ( *p=='%' && *( p+1 )!='\0' && isxdigit( *( p+1 )) && *( p+2 )!='\0' && isxdigit( *( p+2 )) ) {
+		if ( *p=='%' && *( p+1 )!='\0' && isxdigit( *( p+1 )) && *( p+2 )!='\0' && isxdigit( *( p+2 ))) {
 			_stscanf(( TCHAR* )p+1, _T("%2x"), &code );
 			*q = ( unsigned char ) code;
 			p += 2;
@@ -818,42 +818,42 @@ void CJabberProto::SendPresenceTo( int status, TCHAR* to, HXML extra, const TCHA
 	TCHAR szExtCaps[ 512 ] = _T("");
 
 	if ( m_bGoogleTalk )
-		_tcscat( szExtCaps, _T(JABBER_EXT_GTALK_PMUC) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_GTALK_PMUC));
 
 	if ( bSecureIM ) {
 		if ( szExtCaps[0] )
 			_tcscat( szExtCaps, _T(" "));
-		_tcscat( szExtCaps, _T(JABBER_EXT_SECUREIM) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_SECUREIM));
 	}
 
 	if ( m_options.EnableRemoteControl ) {
 		if ( szExtCaps[0] )
 			_tcscat( szExtCaps, _T(" "));
-		_tcscat( szExtCaps, _T(JABBER_EXT_COMMANDS) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_COMMANDS));
 	}
 
 	if ( m_options.EnableUserMood ) {
 		if ( szExtCaps[0] )
 			_tcscat( szExtCaps, _T(" "));
-		_tcscat( szExtCaps, _T(JABBER_EXT_USER_MOOD) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_USER_MOOD));
 	}
 
 	if ( m_options.EnableUserTune ) {
 		if ( szExtCaps[0] )
 			_tcscat( szExtCaps, _T(" "));
-		_tcscat( szExtCaps, _T(JABBER_EXT_USER_TUNE) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_USER_TUNE));
 	}
 
 	if ( m_options.EnableUserActivity ) {
 		if ( szExtCaps[0] )
 			_tcscat( szExtCaps, _T(" "));
-		_tcscat( szExtCaps, _T(JABBER_EXT_USER_ACTIVITY) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_USER_ACTIVITY));
 	}
 
 	if ( m_options.AcceptNotes ) {
 		if ( szExtCaps[0] )
 			_tcscat( szExtCaps, _T(" "));
-		_tcscat( szExtCaps, _T(JABBER_EXT_MIR_NOTES) );
+		_tcscat( szExtCaps, _T(JABBER_EXT_MIR_NOTES));
 	}
 
 	// add features enabled through IJabberNetInterface::AddFeatures()
@@ -1669,10 +1669,10 @@ BOOL CJabberProto::IsMyOwnJID( LPCTSTR szJID )
 		return FALSE;
 	}
 
-	TCHAR* pDelimiter = _tcschr( szFrom, _T('/') );
+	TCHAR* pDelimiter = _tcschr( szFrom, _T('/'));
 	if ( pDelimiter ) *pDelimiter = _T('\0');
 
-	pDelimiter = _tcschr( szTo, _T('/') );
+	pDelimiter = _tcschr( szTo, _T('/'));
 	if ( pDelimiter ) *pDelimiter = _T('\0');
 
 	BOOL bRetVal = _tcscmp( szFrom, szTo ) == 0;

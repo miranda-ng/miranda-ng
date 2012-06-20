@@ -130,8 +130,8 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 			CYahooProto* ppro = ( CYahooProto* )lParam;
 			SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
 
-			SendMessage( hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx( "yahoo", true ) );
-			SendMessage( hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx( "yahoo" ) );
+			SendMessage( hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx( "yahoo", true ));
+			SendMessage( hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx( "yahoo" ));
 
 			if ( !DBGetContactSettingString( NULL, ppro->m_szModuleName, YAHOO_CUSTSTATDB, &dbv )) {
 				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, dbv. pszVal );

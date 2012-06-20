@@ -299,7 +299,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 		w1=ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_WEB);
 		c1=ExtraImage_ExtraIDToColumnNum(EXTRA_ICON_CLIENT);
 
-		memset( ImgIndex, 0, sizeof( ImgIndex ) );
+		memset( ImgIndex, 0, sizeof( ImgIndex ));
 		ProtoEnumAccounts( &count, &accs );
 		maxpr=0;
 		//calc only needed protocols

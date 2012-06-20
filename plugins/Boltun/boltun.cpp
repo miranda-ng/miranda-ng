@@ -608,11 +608,11 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 		ZeroMemory(&clmi, sizeof(clmi));
 		clmi.cbSize = sizeof(clmi);
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
-		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)) );
+		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemAutoChat, (LPARAM)&clmi);
 
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunnottochat ? CMIF_CHECKED : 0);
-		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunnottochat ? IDI_TICK : IDI_NOTICK)) );
+		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunnottochat ? IDI_TICK : IDI_NOTICK)));
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemNotToChat, (LPARAM)&clmi);
 	}
 	return 0;

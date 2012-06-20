@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 {
 	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0) );
+		reinterpret_cast<WPARAM>(hContact),0));
 
 	if( proto && strcmp(m_szModuleName,proto) == 0 )
 	{
@@ -42,13 +42,13 @@ HANDLE FacebookProto::ChatIDToHContact(std::string chat_id)
 {
 	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 	    hContact;
-	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 	{
 		if(!IsMyContact(hContact, true))
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,"ChatRoomID",&dbv) )
+		if( !DBGetContactSettingString(hContact,m_szModuleName,"ChatRoomID",&dbv))
 		{
 			if( strcmp(chat_id.c_str(),dbv.pszVal) == 0 )
 			{
@@ -67,13 +67,13 @@ HANDLE FacebookProto::ContactIDToHContact(std::string user_id)
 {
 	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 	    hContact;
-	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 	{
 		if(!IsMyContact(hContact))
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+		if( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 		{
 			if( strcmp(user_id.c_str(),dbv.pszVal) == 0 )
 			{
@@ -115,7 +115,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 			DBDeleteContactSetting(hContact, "CList", "MyHandle");
 
 			DBVARIANT dbv;
-			if( !DBGetContactSettingTString(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv) )
+			if( !DBGetContactSettingTString(NULL,m_szModuleName,FACEBOOK_KEY_DEF_GROUP,&dbv))
 			{
 				DBWriteContactSettingTString(hContact,"CList","Group",dbv.ptszVal);
 				DBFreeVariant(&dbv);
@@ -200,7 +200,7 @@ void FacebookProto::DeleteContactFromServer(void *data)
 		
 		NotifyEvent(m_tszUserName, TranslateT("Contact was removed from your server list."), NULL, FACEBOOK_EVENT_OTHER, NULL);
 	} else {
-		facy.client_notify( TranslateT("Error occured when removing contact from server.") );
+		facy.client_notify( TranslateT("Error occured when removing contact from server."));
 	}
 
 	if (resp.code != HTTP_CODE_OK)
@@ -244,7 +244,7 @@ void FacebookProto::AddContactToServer(void *data)
 				
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was sent."), NULL, FACEBOOK_EVENT_OTHER, NULL);
 	} else {
-		facy.client_notify( TranslateT("Error occured when requesting friendship.") );
+		facy.client_notify( TranslateT("Error occured when requesting friendship."));
 	}
 
 	if (resp.code != HTTP_CODE_OK)
@@ -314,7 +314,7 @@ void FacebookProto::CancelFriendsRequest(void *data)
 		DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
 		NotifyEvent(m_tszUserName, TranslateT("Request for friendship was canceled."), NULL, FACEBOOK_EVENT_OTHER, NULL);
 	} else {
-		facy.client_notify( TranslateT("Error occured when canceling friendship request.") );
+		facy.client_notify( TranslateT("Error occured when canceling friendship request."));
 	}
 
 	if (resp.code != HTTP_CODE_OK)

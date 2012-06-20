@@ -73,7 +73,7 @@ static TCHAR *parseWinampSong(ARGUMENTSINFO *ai) {
 	}
 	scur = _tcschr(szTitle, _T('.'));
 	cur = _tcsstr(scur, _T(" - Winamp"));
-	if ( (scur == NULL) || (cur == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle))) ) {
+	if ( (scur == NULL) || (cur == NULL) || (scur >= cur) || (scur > (szTitle + _tcslen(szTitle) - 2)) || (cur > (szTitle + _tcslen(szTitle)))) {
 		free(szTitle);
 		return NULL;
 	}
@@ -101,15 +101,15 @@ static TCHAR *parseWinampState(ARGUMENTSINFO *ai) {
 	}
 	scur = _tcschr(szTitle, _T('.'));
 	cur = _tcsstr(scur, _T(" - Winamp"));
-	if ( (scur == NULL) || (cur == NULL) ) {
+	if ( (scur == NULL) || (cur == NULL)) {
 		free(szTitle);
 		return _tcsdup(TranslateT("Stopped"));
 	}
-	if ( (!_tcsncmp(cur+10, _T("[Stopped]"), 9)) ) {
+	if ( (!_tcsncmp(cur+10, _T("[Stopped]"), 9))) {
 		free(szTitle);
 		return _tcsdup(TranslateT("Stopped"));
 	}
-	if ( (!_tcsncmp(cur+10, _T("[Paused]"), 8)) ) {
+	if ( (!_tcsncmp(cur+10, _T("[Paused]"), 8))) {
 		free(szTitle);
 		return _tcsdup(TranslateT("Paused"));
 	}
@@ -135,7 +135,7 @@ static unsigned int checkAMIP() {
 	}
 	log_debugA("AMIP failed to initialized");
 	if (lastAMIPFailure == 0) {
-		/* if this is the first failure after a succesful init, call uninit for a cleanup (maybe it'll help for the next try ;) ) */
+		/* if this is the first failure after a succesful init, call uninit for a cleanup (maybe it'll help for the next try ;)) */
 		acUninit();
 	}
 	lastAMIPFailure = GetTickCount();

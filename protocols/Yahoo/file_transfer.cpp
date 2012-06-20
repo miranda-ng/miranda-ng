@@ -653,7 +653,7 @@ void ext_yahoo_send_file7info(int id, const char *me, const char *who, const cha
 	PHOSTENT he = gethostbyname("relay.msg.yahoo.com");
 	
 	if (he) {
-		ft->relay = strdup( inet_ntoa(*( PIN_ADDR )he->h_addr_list[0]) );
+		ft->relay = strdup( inet_ntoa(*( PIN_ADDR )he->h_addr_list[0]));
 		LOG(("Got Relay IP: %s", ft->relay));
 	} else {
 		ft->relay = strdup( "98.136.112.33" );

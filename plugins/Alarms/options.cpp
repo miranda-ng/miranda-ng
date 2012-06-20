@@ -323,7 +323,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		if ( HIWORD(wParam) == CBN_SELCHANGE ) {
-			switch( LOWORD(wParam) ) {
+			switch( LOWORD(wParam)) {
 			case IDC_DAY: 
 			case IDC_DAYNUM:
 				hw = GetDlgItem(hwndDlg, IDOK);

@@ -296,7 +296,7 @@ static FRAMEWND* FindFrameByWnd( HWND hwnd )
 	if ( hwnd == NULL ) return( NULL );
 
 	for(i=0;i<g_nFramesCount;i++)
-		if ((g_pfwFrames[i].floating)&&(g_pfwFrames[i].ContainerWnd==hwnd) )
+		if ((g_pfwFrames[i].floating)&&(g_pfwFrames[i].ContainerWnd==hwnd))
 			return(&g_pfwFrames[i]);
 
 	return( NULL);
@@ -351,7 +351,7 @@ FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd)
 
 static void DockThumbs( FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveLeft )
 {
-	if ( ( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ) )
+	if ( ( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ))
 	{
 		pThumbRight->dockOpt.hwndLeft	= pThumbLeft->ContainerWnd;
 		pThumbLeft->dockOpt.hwndRight	= pThumbRight->ContainerWnd;
@@ -361,7 +361,7 @@ static void DockThumbs( FRAMEWND *pThumbLeft, FRAMEWND *pThumbRight, BOOL bMoveL
 
 static void UndockThumbs( FRAMEWND *pThumb1, FRAMEWND *pThumb2 )
 {
-	if ( ( pThumb1 == NULL ) || ( pThumb2 == NULL ) )
+	if ( ( pThumb1 == NULL ) || ( pThumb2 == NULL ))
 	{
 		return;
 	}
@@ -432,7 +432,7 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 
 	if ( bMoveTogether )
 	{
-		UndockThumbs( pThumb,  FindFrameByWnd( pThumb->dockOpt.hwndLeft ) );
+		UndockThumbs( pThumb,  FindFrameByWnd( pThumb->dockOpt.hwndLeft ));
 		GetWindowRect( pThumb->ContainerWnd, &rcOld );
 	}
 
@@ -487,23 +487,23 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 				pt.y	= rcThumb.top;
 				bDocked	= FALSE;
 
-				if ( PtInRect( &rcRight, pt ) )
+				if ( PtInRect( &rcRight, pt ))
 				{
 					nNewX	= rc.right;
 					bDocked = TRUE;
 				}
 
-				if ( PtInRect( &rcBottom, pt ) )
+				if ( PtInRect( &rcBottom, pt ))
 				{
 					nNewY = rc.bottom;
 
-					if ( PtInRect( &rcLeft, pt ) )
+					if ( PtInRect( &rcLeft, pt ))
 					{
 						nNewX = rc.left;
 					}
 				}
 
-				if ( PtInRect( &rcTop, pt ) )
+				if ( PtInRect( &rcTop, pt ))
 				{
 					nNewY		= rc.top;
 					bDockedLeft	= bDocked;
@@ -514,7 +514,7 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 				pt.y	= rcThumb.top;
 				bDocked	= FALSE;
 
-				if ( !bLeading && PtInRect( &rcLeft, pt ) )
+				if ( !bLeading && PtInRect( &rcLeft, pt ))
 				{
 					if ( !bDockedLeft )
 					{
@@ -528,17 +528,17 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 				}
 
 
-				if ( PtInRect( &rcBottom, pt ) )
+				if ( PtInRect( &rcBottom, pt ))
 				{
 					nNewY = rc.bottom;
 
-					if ( PtInRect( &rcRight, pt ) )
+					if ( PtInRect( &rcRight, pt ))
 					{
 						nNewX = rc.right - nWidth;
 					}
 				}
 
-				if ( !bLeading && PtInRect( &rcTop, pt ) )
+				if ( !bLeading && PtInRect( &rcTop, pt ))
 				{
 					nNewY			= rc.top;
 					bDockedRight	= bDocked;
@@ -561,16 +561,16 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 				pt.x = rcThumb.left;
 				pt.y = rcThumb.bottom;
 
-				if ( PtInRect( &rcRight, pt ) )
+				if ( PtInRect( &rcRight, pt ))
 				{
 					nNewX = rc.right;
 				}
 
-				if ( PtInRect( &rcTop, pt ) )
+				if ( PtInRect( &rcTop, pt ))
 				{
 					nNewY = rc.top - nHeight;
 
-					if ( PtInRect( &rcLeft, pt ) )
+					if ( PtInRect( &rcLeft, pt ))
 					{
 						nNewX = rc.left;
 					}
@@ -581,16 +581,16 @@ static void PositionThumb( FRAMEWND *pThumb, short nX, short nY )
 				pt.x = rcThumb.right;
 				pt.y = rcThumb.bottom;
 
-				if ( !bLeading && PtInRect( &rcLeft, pt ) )
+				if ( !bLeading && PtInRect( &rcLeft, pt ))
 				{
 					nNewX = rc.left - nWidth;
 				}
 
-				if ( !bLeading && PtInRect( &rcTop, pt ) )
+				if ( !bLeading && PtInRect( &rcTop, pt ))
 				{
 					nNewY = rc.top - nHeight;
 
-					if ( PtInRect( &rcRight, pt ) )
+					if ( PtInRect( &rcRight, pt ))
 					{
 						nNewX = rc.right - nWidth;
 					}
@@ -748,7 +748,7 @@ static int LocateStorePosition(int Frameid,int maxstored)
         
         mir_snprintf(settingname,SIZEOF(settingname),"Name%d",i);
         DBVARIANT dbv={0};
-        if ( ModernGetSettingTString( NULL, CLUIFrameModule, settingname, &dbv ) )
+        if ( ModernGetSettingTString( NULL, CLUIFrameModule, settingname, &dbv ))
             continue;
        
 		if ( lstrcmpi( dbv.ptszVal, g_pfwFrames[Frameid].Name ) ==0 ) 
@@ -2164,7 +2164,7 @@ static int CLUIFrameMoveResize(const FRAMEWND *Frame)
 		ClientToScreen(pcli->hwndContactList,&Off);
 		GetWindowRect(pcli->hwndContactList,&pr);
 
-		if ( Frame->visible && (!Frame->collapsed || Frame->wndSize.bottom-Frame->wndSize.top == 0) )
+		if ( Frame->visible && (!Frame->collapsed || Frame->wndSize.bottom-Frame->wndSize.top == 0))
 		{
 			ShowWindowAsync( Frame->OwnerWindow, SW_HIDE );
 			ShowWindowAsync( Frame->hWnd, SW_HIDE );
@@ -2260,7 +2260,7 @@ int CLUIFrames_GetTotalHeight()
 	sumheight+=g_CluiData.TopClientMargin;
 	sumheight+=g_CluiData.BottomClientMargin; 
 	return  max(ModernGetSettingWord(NULL,"CLUI","MinHeight",SETTING_MINHEIGTH_DEFAULT),
-		(sumheight+border.top+border.bottom) );
+		(sumheight+border.top+border.bottom));
 }
 
 int CLUIFramesGetMinHeight()
@@ -2476,7 +2476,7 @@ int CLUIFrames_ApplyNewSizes(int mode)
 	for(i=0;i<g_nFramesCount;i++) {
 		if ( (mode==1 && g_pfwFrames[i].OwnerWindow!=(HWND)-2 && g_pfwFrames[i].OwnerWindow) ||
 			(mode==2 && g_pfwFrames[i].OwnerWindow==(HWND)-2) ||
-			(mode==3) )
+			(mode==3))
 			if (g_pfwFrames[i].floating){
 				CLUIFrameResizeFloatingFrame(i);
 			}else
@@ -3089,11 +3089,11 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 
 		if (ServiceExists(MO_CREATENEWMENUOBJECT))
 		{
-			//if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid) ){break;};
-			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid) ) break;
+			//if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)){break;};
+			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)) break;
 		}else
 		{
-			if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid) ){break;};
+			if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid)){break;};
 
 		};
 
@@ -3147,15 +3147,15 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 
 				if (g_pfwFrames[framepos].visible)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_visible,TranslateT("Visible"));}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_visible,TranslateT("Visible") );};
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_visible,TranslateT("Visible"));};
 
 				if (g_pfwFrames[framepos].TitleBar.ShowTitleBar)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show TitleBar") );}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show TitleBar") );};
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show TitleBar"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show TitleBar"));};
 
 				if (g_pfwFrames[framepos].floating)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating") );}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_floating,TranslateT("Floating") );};
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_floating,TranslateT("Floating"));};
 
 				//err=GetMenuItemCount(hmenu)
 
@@ -3322,7 +3322,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 					//IntersectRect( &rcOverlap, &rcwnd, &rcMiranda )
 
 
-					if (!IntersectRect( &rcOverlap, &rcwnd, &rcMiranda ) )	
+					if (!IntersectRect( &rcOverlap, &rcwnd, &rcMiranda ))	
 					{
 						GetCursorPos(&curpt);
 						GetWindowRect( g_pfwFrames[pos].hWnd, &rcwnd );
@@ -3790,7 +3790,7 @@ static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wP
 				//IntersectRect( &rcOverlap, &rcwnd, &rcMiranda )
 
 
-				if (IntersectRect( &rcOverlap, &rcwnd, &rcMiranda ) )	
+				if (IntersectRect( &rcOverlap, &rcwnd, &rcMiranda ))	
 				{
 					GetCursorPos(&curpt);
 					GetWindowRect( g_pfwFrames[framepos].hWnd, &rcwnd );

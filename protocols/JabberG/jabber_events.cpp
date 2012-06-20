@@ -53,7 +53,7 @@ int CJabberProto::OnContactDeleted( WPARAM wParam, LPARAM )
 		if ( ListExist( LIST_ROSTER, dbv.ptszVal )) {
 			if ( !_tcschr( dbv.ptszVal, _T( '@' ))) {
 				TCHAR szStrippedJid[JABBER_MAX_JID_LEN];
-				JabberStripJid( m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid) );
+				JabberStripJid( m_ThreadInfo->fullJID, szStrippedJid, SIZEOF(szStrippedJid));
 				TCHAR *szDog = _tcschr( szStrippedJid, _T('@'));
 				if ( szDog && _tcsicmp( szDog + 1, dbv.ptszVal ))
 					m_ThreadInfo->send( XmlNodeIq( _T("set"), SerialNext(), dbv.ptszVal ) << XQUERY( _T(JABBER_FEAT_REGISTER)) << XCHILD( _T("remove")));

@@ -422,7 +422,7 @@ jpeg_set_colorspace (j_compress_ptr cinfo, J_COLOR_SPACE colorspace)
    compptr->v_samp_factor = (vsamp), \
    compptr->quant_tbl_no = (quant), \
    compptr->dc_tbl_no = (dctbl), \
-   compptr->ac_tbl_no = (actbl) )
+   compptr->ac_tbl_no = (actbl))
 
   /* Safety check to ensure start_compress not called yet. */
   if (cinfo->global_state != CSTATE_START)

@@ -367,7 +367,7 @@ static int OnContactDrag( WPARAM wParam, LPARAM lParam )
 	if ( pThumb == NULL ) {
 		idStatus = GetContactStatus( hContact );
 		
-		if ( !fcOpt.bHideAll && !HideOnFullScreen() && ( !fcOpt.bHideOffline || IsStatusVisible( idStatus ) )  && (!fcOpt.bHideWhenCListShow || !bIsCListShow)) {
+		if ( !fcOpt.bHideAll && !HideOnFullScreen() && ( !fcOpt.bHideOffline || IsStatusVisible( idStatus ))  && (!fcOpt.bHideWhenCListShow || !bIsCListShow)) {
 			CreateThumbWnd( ptName, hContact, pt.x, pt.y );
 			pNewThumb = thumbList.FindThumbByContact( hContact );
 			ShowWindow( pNewThumb->hwnd, SW_SHOWNA );
@@ -377,7 +377,7 @@ static int OnContactDrag( WPARAM wParam, LPARAM lParam )
 		}
 	}
 	else if ( hContact == hNewContact )
-		pThumb->PositionThumb( (short)( pt.x - 5 ), (short)( pt.y - 5 ) );
+		pThumb->PositionThumb( (short)( pt.x - 5 ), (short)( pt.y - 5 ));
 	
 	return( hNewContact != NULL ? 1 : 0 );
 }
@@ -393,16 +393,16 @@ static int OnContactDrop( WPARAM wParam, LPARAM lParam )
 	HANDLE	hContact	 =  ( HANDLE )wParam;
 	ThumbInfo *pThumb	 =  thumbList.FindThumbByContact( hContact );
 
-	if ( ( hNewContact == hContact ) && ( pThumb != NULL ) )
+	if ( ( hNewContact == hContact ) && ( pThumb != NULL ))
 	{
 		hNewContact = NULL;
 		
 		GetWindowRect( hwndMiranda, &rcMiranda );
 		pThumb->GetThumbRect( &rcThumb );
 		
-		//if ( IntersectRect( &rcOverlap, &rcThumb, &rcMiranda ) )
+		//if ( IntersectRect( &rcOverlap, &rcThumb, &rcMiranda ))
 		//{
-		//	pThumb->OnLButtonDown( (short)(rcThumb.left + 5), (short)(rcThumb.top + 5) );
+		//	pThumb->OnLButtonDown( (short)(rcThumb.left + 5), (short)(rcThumb.top + 5));
 		//}
 	}
 
@@ -417,7 +417,7 @@ static int OnContactDragStop( WPARAM wParam, LPARAM lParam )
 	HANDLE	hContact = ( HANDLE )wParam;
 	ThumbInfo *pThumb = thumbList.FindThumbByContact( hContact );
 
-	if ( ( pThumb != NULL ) && ( hNewContact == hContact ) )
+	if ( ( pThumb != NULL ) && ( hNewContact == hContact ))
 	{
 		thumbList.RemoveThumb( pThumb );
 		hNewContact = NULL;
@@ -452,7 +452,7 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 
 	if ( hContact == NULL )
 	{
-		if (( 0 == stricmp( pdbcws->szModule, "CLC" ) ) || ( 0 == stricmp( pdbcws->szModule, sModule ) ) ) {
+		if (( 0 == stricmp( pdbcws->szModule, "CLC" )) || ( 0 == stricmp( pdbcws->szModule, sModule )) ) {
 			LoadDBSettings();
 			ApplyOptionsChanges();
 		}
@@ -463,15 +463,15 @@ static int OnContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	if ( pThumb == NULL ) return( 0 );
 
 	// Only on these 2 events we need to refresh
-	if ( 0 == stricmp( pdbcws->szSetting, "Status" ) ) 
+	if ( 0 == stricmp( pdbcws->szSetting, "Status" )) 
 	{
 		idStatus = pdbcws->value.wVal;
 	}
-	else if ( 0 == stricmp( pdbcws->szSetting, "Nick" ) ) 
+	else if ( 0 == stricmp( pdbcws->szSetting, "Nick" )) 
 	{
 		idStatus = GetContactStatus( hContact );
 	}
-	else if ( 0 == stricmp( pdbcws->szSetting, "MyHandle" ) ) 
+	else if ( 0 == stricmp( pdbcws->szSetting, "MyHandle" )) 
 	{
 		idStatus = GetContactStatus( hContact );
 	}
@@ -520,7 +520,7 @@ static int OnPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	ThumbInfo *pThumb = thumbList.FindThumbByContact( (HANDLE) wParam );
 	CLISTMENUITEM clmi;
 
-	ZeroMemory( &clmi, sizeof( clmi ) );
+	ZeroMemory( &clmi, sizeof( clmi ));
 	clmi.cbSize = sizeof( clmi );
 
 	clmi.flags = ( pThumb == NULL ) ? CMIM_FLAGS | CMIF_HIDDEN : CMIM_FLAGS &~CMIF_HIDDEN;
@@ -650,7 +650,7 @@ static LRESULT __stdcall CommWndProc(	HWND	hwnd,
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (pThumb) pThumb->OnLButtonDown( (short)LOWORD( lParam ), (short)HIWORD( lParam ) );
+		if (pThumb) pThumb->OnLButtonDown( (short)LOWORD( lParam ), (short)HIWORD( lParam ));
 		break;
 
 	case WM_MOUSEMOVE:
@@ -765,7 +765,7 @@ void ApplyOptionsChanges()
 static void RegisterWindowClass()
 {
 	WNDCLASSEX	wcx;
-	ZeroMemory( &wcx, sizeof( wcx ) );
+	ZeroMemory( &wcx, sizeof( wcx ));
 		
 	wcx.cbSize			 = 	sizeof( WNDCLASSEX );
 	wcx.style			 = 	CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
@@ -823,7 +823,7 @@ static void CreateThumbWnd( TCHAR *ptszName, HANDLE hContact, int nX, int nY )
 			pThumb->ResizeThumb();
 			
 			pThumb->SetThumbOpacity( fcOpt.thumbAlpha );
-			ShowWindow( hwnd, ( fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline  || (fcOpt.bHideWhenCListShow && bIsCListShow) )? SW_HIDE : SW_SHOWNA );
+			ShowWindow( hwnd, ( fcOpt.bHideAll || HideOnFullScreen() || fcOpt.bHideOffline  || (fcOpt.bHideWhenCListShow && bIsCListShow))? SW_HIDE : SW_SHOWNA );
 			pThumb->PositionThumb( (short)nX, (short)nY );
 
 			// force repaint
@@ -839,7 +839,7 @@ static BOOL GetOSPlatform()
 	OSVERSIONINFO	VersionInfo;
 	
 	// Get OS platform
-	ZeroMemory( &VersionInfo, sizeof( VersionInfo ) );
+	ZeroMemory( &VersionInfo, sizeof( VersionInfo ));
 	VersionInfo.dwOSVersionInfoSize = sizeof( VersionInfo );
 	
 	GetVersionEx( &VersionInfo );
@@ -976,7 +976,7 @@ static int ClcStatusToPf2( int status )
 
 BOOL IsStatusVisible( int status )
 {
-	return ( 0 == ( dwOfflineModes & ClcStatusToPf2( status ) ) );
+	return ( 0 == ( dwOfflineModes & ClcStatusToPf2( status )) );
 }
 
 
@@ -995,7 +995,7 @@ void RegHotkey( HANDLE hContact, HWND hwnd )
 	strncpy(szBuf, dbv.pszVal, MAX_PATH - 1);
 	DBFreeVariant( &dbv );
 
-	if ( 0 != strlen( szBuf ) )
+	if ( 0 != strlen( szBuf ))
 	{
 		UINT nModifiers			 =  0;
 		char chKey				 =  0;
@@ -1007,15 +1007,15 @@ void RegHotkey( HANDLE hContact, HWND hwnd )
 
 		for (  i = 0; i < 2; ++i )
 		{
-			if ( 0 == strncmp( szMod[ i ], "ALT", 19 ) )
+			if ( 0 == strncmp( szMod[ i ], "ALT", 19 ))
 			{
 				nModifiers = nModifiers | MOD_ALT;
 			}
-			else if ( 0 == strncmp( szMod[ i ], "CTRL", 19 ) )
+			else if ( 0 == strncmp( szMod[ i ], "CTRL", 19 ))
 			{
 				nModifiers = nModifiers | MOD_CONTROL;
 			}
-			else if ( 0 == strncmp( szMod[ i ], "SHIFT", 19 ) )
+			else if ( 0 == strncmp( szMod[ i ], "SHIFT", 19 ))
 			{
 				nModifiers = nModifiers | MOD_SHIFT;
 			}
@@ -1023,7 +1023,7 @@ void RegHotkey( HANDLE hContact, HWND hwnd )
 
 		chKey = szKey[ 0 ];
 
-		RegisterHotKey( hwnd, (int)hwnd, nModifiers, VkKeyScan( chKey ) );
+		RegisterHotKey( hwnd, (int)hwnd, nModifiers, VkKeyScan( chKey ));
 	}
 }
 
@@ -1042,8 +1042,8 @@ void SaveContactsPos()
 
 		thumbList[i]->GetThumbRect( &rc );
 		
-		if ( 0 == GetLastError() )
-			DBWriteContactSettingDword( thumbList[i]->hContact, sModule, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top) );
+		if ( 0 == GetLastError())
+			DBWriteContactSettingDword( thumbList[i]->hContact, sModule, "ThumbsPos", DB_POS_MAKE_XY(rc.left, rc.top));
 	}
 }
 
@@ -1069,19 +1069,19 @@ static void LoadMenus()
 	mi.cbSize = sizeof( mi );
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( IDI_HIDE ) );
+	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( IDI_HIDE ));
 	mi.ptszName = _T("Remove thumb");
 	mi.pszService = sModule "/RemoveThumb";
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 
 	// Hide all thumbs main menu item
 	hMainHideAllThumbs = CreateServiceFunction( sModule "/MainHideAllThumbs", OnMainMenu_HideAll );
-	ZeroMemory( &mi, sizeof( mi ) );
+	ZeroMemory( &mi, sizeof( mi ));
 		
 	mi.cbSize = sizeof( mi );
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ) );
+	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
 	mi.ptszName = fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
 	mi.pszService = sModule "/MainHideAllThumbs";
 	Menu_AddMainMenuItem(&mi);
@@ -1149,7 +1149,7 @@ BOOL HideOnFullScreen()
 			RECT WindowRect;
 			GetWindowRect(hWnd, &WindowRect);
 			
-			if ( (w == (WindowRect.right - WindowRect.left) ) &&
+			if ( (w == (WindowRect.right - WindowRect.left)) &&
 				(h == (WindowRect.bottom - WindowRect.top)))
 			{	
 				bFullscreen = TRUE;
@@ -1198,7 +1198,7 @@ static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
 
 	clmi.cbSize		 =  sizeof( clmi );
 	clmi.flags		 =  CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
-	clmi.hIcon		 =  LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ) );
+	clmi.hIcon		 =  LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
 	clmi.ptszName	 =  fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
 	b = CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
 	return 0;
@@ -1224,7 +1224,7 @@ void ShowThumbsOnHideCList()
 		return;
 
 	for (int i = 0; i < thumbList.getCount(); ++i)
-		if ( !fcOpt.bHideOffline || IsStatusVisible( GetContactStatus(thumbList[i]->hContact) ))
+		if ( !fcOpt.bHideOffline || IsStatusVisible( GetContactStatus(thumbList[i]->hContact)))
 			ShowWindow( thumbList[i]->hwnd, SW_SHOWNA );
 }
 
@@ -1269,5 +1269,5 @@ static LRESULT __stdcall newMirandaWndProc( HWND hwnd, UINT uMsg, WPARAM wParam,
 			}
 		}
 	}
-	return( CallWindowProc(oldMirandaWndProc, hwnd, uMsg, wParam, lParam) );
+	return( CallWindowProc(oldMirandaWndProc, hwnd, uMsg, wParam, lParam));
 } 

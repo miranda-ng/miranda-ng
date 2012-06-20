@@ -114,7 +114,7 @@ HANDLE CIrcProto::CList_AddContact(CONTACT * user, bool InList, bool SetOnline)
 		setTString(hContact, "Nick", user->name);
 		setTString(hContact, "Default", user->name);
 		setWord(hContact, "Status", SetOnline ? ID_STATUS_ONLINE:ID_STATUS_OFFLINE);
-		if ( !InList && getByte( "MirVerAutoRequestTemp", 0) )
+		if ( !InList && getByte( "MirVerAutoRequestTemp", 0))
 			PostIrcMessage( _T("/PRIVMSG %s \001VERSION\001"), user->name);
 		return hContact;
 	}

@@ -161,7 +161,7 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 	// if message message does not contain infintite talk protection prefix
 	// and question count for this contact is less then maximum
 	if ( (!plSets->InfTalkProtection.Get() || tstring::npos==message.find(infTalkProtPrefix))
-		&& (!plSets->MaxQuestCount.Get() || DBGetContactSettingDword(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get()) )
+		&& (!plSets->MaxQuestCount.Get() || DBGetContactSettingDword(hContact, pluginName, questCountSetting, 0) < plSets->MaxQuestCount.Get()))
 	{
 		// send question
 		tstring q = infTalkProtPrefix + variables_parse((tstring)(plSets->Question), hContact);

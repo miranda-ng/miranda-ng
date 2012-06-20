@@ -75,7 +75,7 @@ int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcConta
 	/////////
 
 	if ( ((testx<hitcontact->pos_indent) && !dat->text_rtl) ||
-		((testx>clRect.right-hitcontact->pos_indent) && dat->text_rtl) ) 
+		((testx>clRect.right-hitcontact->pos_indent) && dat->text_rtl)) 
 	{
 		if(flags) *flags|=CLCHT_ONITEMINDENT;
 		return hit;
@@ -159,7 +159,7 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 						| GetKeyState( VK_PRIOR )
 						| GetKeyState( VK_NEXT  )
 						| GetKeyState( VK_HOME  )
-						| GetKeyState( VK_END   ) ) & 0x8000 );
+						| GetKeyState( VK_END   )) & 0x8000 );
 
 	if (!noSmooth && !keyDown) 
 	{

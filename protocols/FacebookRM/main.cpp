@@ -98,7 +98,7 @@ static int protoUninit(PROTO_INTERFACE* proto)
 
 int OnModulesLoaded(WPARAM,LPARAM)
 {
-	if ( ServiceExists( MS_UPDATE_REGISTER ) )
+	if ( ServiceExists( MS_UPDATE_REGISTER ))
 	{
 		Update upd = {sizeof(upd)};
 		char curr_version[30];
@@ -114,7 +114,7 @@ int OnModulesLoaded(WPARAM,LPARAM)
 		#else
 			upd.szBetaUpdateURL      = "http://robyer.info/stahni/facebookRM.zip";  
 		#endif    
-		upd.pbVersion = reinterpret_cast<BYTE*>(CreateVersionStringPluginEx(&pluginInfo,curr_version) );
+		upd.pbVersion = reinterpret_cast<BYTE*>(CreateVersionStringPluginEx(&pluginInfo,curr_version));
 		upd.cpbVersion = (int)strlen(reinterpret_cast<char*>(upd.pbVersion));
 		CallService(MS_UPDATE_REGISTER,0,(LPARAM)&upd);
 	}
@@ -134,7 +134,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
-	    MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)) );
+	    MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)));
 
 	PROTOCOLDESCRIPTOR pd = { 0 };
 	pd.cbSize = sizeof(pd);

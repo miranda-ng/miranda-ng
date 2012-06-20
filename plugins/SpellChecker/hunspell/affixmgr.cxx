@@ -821,7 +821,7 @@ int AffixMgr::build_pfxtree(PfxEntry* pfxptr)
   pptr = NULL;
   for (;;) {
     pptr = ptr;
-    if (strcmp(ep->getKey(), ptr->getKey() ) <= 0) {
+    if (strcmp(ep->getKey(), ptr->getKey()) <= 0) {
        ptr = ptr->getNextEQ();
        if (!ptr) {
           pptr->setNextEQ(ep);
@@ -885,7 +885,7 @@ int AffixMgr::build_sfxtree(SfxEntry* sfxptr)
   pptr = NULL;
   for (;;) {
     pptr = ptr;
-    if (strcmp(ep->getKey(), ptr->getKey() ) <= 0) {
+    if (strcmp(ep->getKey(), ptr->getKey()) <= 0) {
        ptr = ptr->getNextEQ();
        if (!ptr) {
           pptr->setNextEQ(ep);
@@ -965,7 +965,7 @@ int AffixMgr::process_pfx_order()
 
              PfxEntry * nptr = ptr->getNext();
              for (; nptr != NULL; nptr = nptr->getNext()) {
-                 if (! isSubset( ptr->getKey() , nptr->getKey() )) break;
+                 if (! isSubset( ptr->getKey() , nptr->getKey())) break;
              }
              ptr->setNextNE(nptr);
              ptr->setNextEQ(NULL);

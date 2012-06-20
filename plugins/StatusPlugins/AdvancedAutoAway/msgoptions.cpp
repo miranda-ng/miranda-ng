@@ -43,7 +43,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 			DWORD protoModeMsgFlags = 0;
 			for ( i=0; i < protoCount; i++ ) {
-				if ( (!(CallProtoService(proto[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)) )
+				if ( (!(CallProtoService(proto[i]->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)))
 					continue;
 
 				protoModeMsgFlags |= CallProtoService( proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0 );
@@ -77,7 +77,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		break;
 
 	case WM_COMMAND:
-		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()) )
+		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()))
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		
 		switch(LOWORD(wParam)) {
@@ -144,7 +144,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendMessage(hwndDlg,WM_COMMAND,MAKEWPARAM(IDC_STATUS,CBN_SELCHANGE),0);
 			for ( i=0; i < count; i++ ) {
 				DBWriteContactSettingByte(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
-				if ( (settings[i]->useCustom) && (settings[i]->msg != NULL) && (strlen(settings[i]->msg) > 0) )
+				if ( (settings[i]->useCustom) && (settings[i]->msg != NULL) && (strlen(settings[i]->msg) > 0))
 					DBWriteContactSettingString(NULL, MODULENAME, StatusModeToDbSetting(settings[i]->status,SETTING_STATUSMSG), settings[i]->msg);
 			}
 			break;

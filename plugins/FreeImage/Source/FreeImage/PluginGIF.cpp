@@ -167,7 +167,7 @@ FreeImage_SetMetadataEx(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key
 static BOOL 
 FreeImage_GetMetadataEx(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, FREE_IMAGE_MDTYPE type, FITAG **tag)
 {
-	if ( FreeImage_GetMetadata(model, dib, key, tag) ) {
+	if ( FreeImage_GetMetadata(model, dib, key, tag)) {
 		if ( FreeImage_GetTagType(*tag) == type ) {
 			return TRUE;
 		}
@@ -304,7 +304,7 @@ bool StringTable::Compress(BYTE *buf, int *len)
 				m_strmap[nextprefix] = m_nextCode;
 
 				//increment the next highest valid code, increase the code size
-				if ( m_nextCode == (1 << m_codeSize) ) {
+				if ( m_nextCode == (1 << m_codeSize)) {
 					m_codeSize++;
 				}
 				m_nextCode++;
@@ -321,7 +321,7 @@ bool StringTable::Compress(BYTE *buf, int *len)
 			}
 
 			//increment to the next pixel
-			if ( m_bufferShift > 0 && !(m_bufferPos + 1 == m_bufferSize && m_bufferShift <= m_slack) ) {
+			if ( m_bufferShift > 0 && !(m_bufferPos + 1 == m_bufferSize && m_bufferShift <= m_slack)) {
 				m_bufferShift -= m_bpp;
 			} else {
 				m_bufferPos++;
@@ -341,7 +341,7 @@ bool StringTable::Compress(BYTE *buf, int *len)
 			m_prefix = ch & 0x000FF;
 
 			//increment to the next pixel
-			if ( m_bufferShift > 0 && !(m_bufferPos + 1 == m_bufferSize && m_bufferShift <= m_slack) ) {
+			if ( m_bufferShift > 0 && !(m_bufferPos + 1 == m_bufferSize && m_bufferShift <= m_slack)) {
 				m_bufferShift -= m_bpp;
 			} else {
 				m_bufferPos++;
@@ -391,7 +391,7 @@ bool StringTable::Decompress(BYTE *buf, int *len)
 				m_strings[m_nextCode] = m_strings[m_oldCode] + m_strings[code == m_nextCode ? m_oldCode : code][0];
 			}
 
-			if ( (int)m_strings[code].size() > *len - (bufpos - buf) ) {
+			if ( (int)m_strings[code].size() > *len - (bufpos - buf)) {
 				//out of space, stuff the code back in for next time
 				m_partial <<= m_codeSize;
 				m_partialSize += m_codeSize;
@@ -497,7 +497,7 @@ Validate(FreeImageIO *io, fi_handle handle) {
 	}
 
 	BOOL bResult = FALSE;
-	if ( !strncmp(buf, "GIF", 3) ) {
+	if ( !strncmp(buf, "GIF", 3)) {
 		if ( buf[3] >= '0' && buf[3] <= '9' && buf[4] >= '0' && buf[4] <= '9' && buf[5] >= 'a' && buf[5] <= 'z' ) {
 			bResult = TRUE;
 		}
@@ -537,7 +537,7 @@ Open(FreeImageIO *io, fi_handle handle, BOOL read) {
 	if ( read ) {
 		try {
 			//Header
-			if ( !Validate(io, handle) ) {
+			if ( !Validate(io, handle)) {
 				throw FI_MSG_ERROR_MAGIC_NUMBER;
 			}
 			io->seek_proc(handle, 6, SEEK_CUR);
@@ -666,7 +666,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	if ( page == -1 ) {
 		page = 0;
 	}
-	if ( page < 0 || page >= (int)info->image_descriptor_offsets.size() ) {
+	if ( page < 0 || page >= (int)info->image_descriptor_offsets.size()) {
 		return NULL;
 	}
 
@@ -787,7 +787,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				if ( pagedib != NULL ) {
 					RGBQUAD *pal = FreeImage_GetPalette(pagedib);
 					have_transparent = false;
-					if ( FreeImage_IsTransparent(pagedib) ) {
+					if ( FreeImage_IsTransparent(pagedib)) {
 						int count = FreeImage_GetTransparencyCount(pagedib);
 						BYTE *table = FreeImage_GetTransparencyTable(pagedib);
 						for ( int i = 0; i < count; i++ ) {
@@ -814,7 +814,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					//copy frame time
 					if ( page == end ) {
 						FITAG *tag;
-						if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, pagedib, "FrameTime", FIDT_LONG, &tag) ) {
+						if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, pagedib, "FrameTime", FIDT_LONG, &tag)) {
 							delay_time = *(LONG *)FreeImage_GetTagValue(tag);
 						}
 					}
@@ -915,7 +915,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		while( b ) {
 			io->read_proc(stringtable->FillInputBuffer(b), b, 1, handle);
 			int size = sizeof(buf);
-			while( stringtable->Decompress(buf, &size) ) {
+			while( stringtable->Decompress(buf, &size)) {
 				for ( int i = 0; i < size; i++ ) {
 					scanline[xpos] |= (buf[i] & mask) << shift;
 					if ( shift > 0 ) {
@@ -989,7 +989,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				if ( b == 11 ) { //All AEs start with an 11 byte sub-block to determine what type of AE it is
 					char buf[11];
 					io->read_proc(buf, 11, 1, handle);
-					if ( !memcmp(buf, "NETSCAPE2.0", 11) || !memcmp(buf, "ANIMEXTS1.0", 11) ) { //Not everybody recognizes ANIMEXTS1.0 but it is valid
+					if ( !memcmp(buf, "NETSCAPE2.0", 11) || !memcmp(buf, "ANIMEXTS1.0", 11)) { //Not everybody recognizes ANIMEXTS1.0 but it is valid
 						io->read_proc(&b, 1, 1, handle);
 						if ( b == 3 ) { //we're supposed to have a 3 byte sub-block now
 							io->read_proc(&b, 1, 1, handle); //this should be 0x01 but isn't really important
@@ -1089,22 +1089,22 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		int disposal_method = GIF_DISPOSAL_BACKGROUND, delay_time = 100, transparent_color = 0;
 		WORD left = 0, top = 0, width = (WORD)FreeImage_GetWidth(dib), height = (WORD)FreeImage_GetHeight(dib);
 		WORD output_height = height;
-		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameLeft", FIDT_SHORT, &tag) ) {
+		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameLeft", FIDT_SHORT, &tag)) {
 			left = *(WORD *)FreeImage_GetTagValue(tag);
 		}
-		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameTop", FIDT_SHORT, &tag) ) {
+		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameTop", FIDT_SHORT, &tag)) {
 			top = *(WORD *)FreeImage_GetTagValue(tag);
 		}
-		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "NoLocalPalette", FIDT_BYTE, &tag) ) {
+		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "NoLocalPalette", FIDT_BYTE, &tag)) {
 			no_local_palette = *(BYTE *)FreeImage_GetTagValue(tag) ? true : false;
 		}
-		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "Interlaced", FIDT_BYTE, &tag) ) {
+		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "Interlaced", FIDT_BYTE, &tag)) {
 			interlaced = *(BYTE *)FreeImage_GetTagValue(tag) ? true : false;
 		}
-		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameTime", FIDT_LONG, &tag) ) {
+		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameTime", FIDT_LONG, &tag)) {
 			delay_time = *(LONG *)FreeImage_GetTagValue(tag);
 		}
-		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "DisposalMethod", FIDT_BYTE, &tag) ) {
+		if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "DisposalMethod", FIDT_BYTE, &tag)) {
 			disposal_method = *(BYTE *)FreeImage_GetTagValue(tag);
 		}
 
@@ -1119,14 +1119,14 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		if ( page == 0 ) {
 			//gather some info
 			WORD logicalwidth = width; // width has already been swapped...
-			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "LogicalWidth", FIDT_SHORT, &tag) ) {
+			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "LogicalWidth", FIDT_SHORT, &tag)) {
 				logicalwidth = *(WORD *)FreeImage_GetTagValue(tag);
 #ifdef FREEIMAGE_BIGENDIAN
 				SwapShort(&logicalwidth);
 #endif
 			}
 			WORD logicalheight = height; // height has already been swapped...
-			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "LogicalHeight", FIDT_SHORT, &tag) ) {
+			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "LogicalHeight", FIDT_SHORT, &tag)) {
 				logicalheight = *(WORD *)FreeImage_GetTagValue(tag);
 #ifdef FREEIMAGE_BIGENDIAN
 				SwapShort(&logicalheight);
@@ -1134,7 +1134,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			}
 			RGBQUAD *globalpalette = NULL;
 			int globalpalette_size = 0;
-			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "GlobalPalette", FIDT_PALETTE, &tag) ) {
+			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "GlobalPalette", FIDT_PALETTE, &tag)) {
 				globalpalette_size = FreeImage_GetTagCount(tag);
 				if ( globalpalette_size >= 2 ) {
 					globalpalette = (RGBQUAD *)FreeImage_GetTagValue(tag);
@@ -1174,7 +1174,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					globalpalette_size = 256;
 					packed |= 7 & GIF_PACKED_LSD_GCTSIZE;
 				}
-				if ( FreeImage_GetBackgroundColor(dib, &background_color) ) {
+				if ( FreeImage_GetBackgroundColor(dib, &background_color)) {
 					for ( int i = 0; i < globalpalette_size; i++ ) {
 						if ( background_color.rgbRed == globalpalette[i].rgbRed &&
 							background_color.rgbGreen == globalpalette[i].rgbGreen &&
@@ -1206,7 +1206,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 			//Application Extension
 			LONG loop = 0;
-			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "Loop", FIDT_LONG, &tag) ) {
+			if ( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "Loop", FIDT_LONG, &tag)) {
 				loop = *(LONG *)FreeImage_GetTagValue(tag);
 			}
 			if ( loop != 1 ) {
@@ -1250,7 +1250,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		}
 
 		//Graphic Control Extension
-		if ( FreeImage_IsTransparent(dib) ) {
+		if ( FreeImage_IsTransparent(dib)) {
 			int count = FreeImage_GetTransparencyCount(dib);
 			BYTE *table = FreeImage_GetTransparencyTable(dib);
 			for ( int i = 0; i < count; i++ ) {
@@ -1316,9 +1316,9 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		b = sizeof(buf);
 		while( y < output_height ) {
 			memcpy(stringtable->FillInputBuffer(line), FreeImage_GetScanLine(dib, output_height - y - 1), line);
-			while( stringtable->Compress(bufptr, &size) ) {
+			while( stringtable->Compress(bufptr, &size)) {
 				bufptr += size;
-				if ( bufptr - buf == sizeof(buf) ) {
+				if ( bufptr - buf == sizeof(buf)) {
 					io->write_proc(&b, 1, 1, handle);
 					io->write_proc(buf, sizeof(buf), 1, handle);
 					size = sizeof(buf);
@@ -1339,7 +1339,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		size = (int)(bufptr - buf);
 		BYTE last[4];
 		w = (WORD)stringtable->CompressEnd(last);
-		if ( size + w >= sizeof(buf) ) {
+		if ( size + w >= sizeof(buf)) {
 			//one last full size sub-block
 			io->write_proc(&b, 1, 1, handle);
 			io->write_proc(buf, size, 1, handle);

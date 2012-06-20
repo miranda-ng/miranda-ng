@@ -315,8 +315,8 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 				}
 /* back to coduguru's code*/
 			}
-		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )) );
-	while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem )) ) {}
+		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )));
+	while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem ))) {}
 
 	} while ( item.hItem );
 /*****************************************************************************/
@@ -358,8 +358,8 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 				}
 /* back to coduguru's code*/
 			}
-		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )) );
-	while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem )) ) {}
+		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )));
+	while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem ))) {}
 
 	} while ( item.hItem );
 /*****************************************************************************/
@@ -405,8 +405,8 @@ http://www.codeguru.com/Cpp/controls/treeview/treetraversal/comments.php/c683/?t
 				}
 /* back to coduguru's code*/
 			}
-		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )) );
-	while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem )) ) {}
+		} while ( (item.hItem = TreeView_GetChild( hwnd2Tree, lastItem )));
+	while ( (! (item.hItem = TreeView_GetNextSibling( hwnd2Tree, lastItem ))) && (lastItem = item.hItem = TreeView_GetParent( hwnd2Tree, lastItem ))) {}
 
 	} while ( item.hItem );
 /*****************************************************************************/
@@ -975,7 +975,7 @@ void moduleListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here i
 						if (WatchListArray.item)
 							for (i=0; i<WatchListArray.count; i++)
 							{
-								if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact) )
+								if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact))
 								{
 									if (!mir_strcmp(module, WatchListArray.item[i].module) && !WatchListArray.item[i].setting)
 									{

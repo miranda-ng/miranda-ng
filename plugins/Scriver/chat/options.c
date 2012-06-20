@@ -424,7 +424,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 				_T("%yy%"),			TranslateT("year without century, 01-  99"),
 				_T("%yyyy%"),		TranslateT("year with century, 1901-9999"),
 				_T("%wday%"),		TranslateT("abbreviated weekday name"),
-				_T("%weekday%"),	TranslateT("full weekday name") );
+				_T("%weekday%"),	TranslateT("full weekday name"));
 			GetClientRect (GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY), &rect);
 			rect.left = -85;
 			hPathTip = CreateToolTip(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY), tszTooltipText, TranslateT("Variables"), &rect);
@@ -924,17 +924,17 @@ int OptionsInit(void)
 	g_Settings.iSplitterX = DBGetContactSettingWord(NULL, "Chat", "SplitterX", 105);
 	LoadGlobalSettings();
 
-	SkinAddNewSoundEx("ChatMessage", LPGEN("Group chats"), LPGEN("Incoming message"));
+	SkinAddNewSoundEx("ChatMessage",   LPGEN("Group chats"), LPGEN("Incoming message"));
 	SkinAddNewSoundEx("ChatHighlight", LPGEN("Group chats"), LPGEN("Message is highlighted"));
-	SkinAddNewSoundEx("ChatAction", LPGEN("Group chats"), LPGEN("User has performed an action"));
-	SkinAddNewSoundEx("ChatJoin", LPGEN("Group chats"), LPGEN("User has joined"));
-	SkinAddNewSoundEx("ChatPart", LPGEN("Group chats"), LPGEN("User has left"));
-	SkinAddNewSoundEx("ChatKick", LPGEN("Group chats"), LPGEN("User has kicked some other user"));
-	SkinAddNewSoundEx("ChatMode", LPGEN("Group chats"), LPGEN("User's status was changed"));
-	SkinAddNewSoundEx("ChatNick", LPGEN("Group chats"), LPGEN("User has changed name"));
-	SkinAddNewSoundEx("ChatNotice", LPGEN("Group chats"), LPGEN("User has sent a notice"));
-	SkinAddNewSoundEx("ChatQuit", LPGEN("Group chats"), LPGEN("User has disconnected"));
-	SkinAddNewSoundEx("ChatTopic", LPGEN("Group chats"), LPGEN("The topic has been changed"));
+	SkinAddNewSoundEx("ChatAction",    LPGEN("Group chats"), LPGEN("User has performed an action"));
+	SkinAddNewSoundEx("ChatJoin",      LPGEN("Group chats"), LPGEN("User has joined"));
+	SkinAddNewSoundEx("ChatPart",      LPGEN("Group chats"), LPGEN("User has left"));
+	SkinAddNewSoundEx("ChatKick",      LPGEN("Group chats"), LPGEN("User has kicked some other user"));
+	SkinAddNewSoundEx("ChatMode",      LPGEN("Group chats"), LPGEN("User's status was changed"));
+	SkinAddNewSoundEx("ChatNick",      LPGEN("Group chats"), LPGEN("User has changed name"));
+	SkinAddNewSoundEx("ChatNotice",    LPGEN("Group chats"), LPGEN("User has sent a notice"));
+	SkinAddNewSoundEx("ChatQuit",      LPGEN("Group chats"), LPGEN("User has disconnected"));
+	SkinAddNewSoundEx("ChatTopic",     LPGEN("Group chats"), LPGEN("The topic has been changed"));
 	SetIndentSize();
 	return 0;
 }

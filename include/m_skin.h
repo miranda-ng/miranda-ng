@@ -23,6 +23,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_SKIN_H__
 #define M_SKIN_H__ 1
 
+extern int hLangpack;
+
 //loads an icon from the user's custom skin library, or from the exe if there
 //isn't one of them
 //wParam=id of icon to load - see below
@@ -115,7 +117,7 @@ __inline static HICON LoadSkinnedProtoIcon(const char *szProto, int status) {ret
 __inline static HICON LoadSkinnedProtoIconBig(const char *szProto, int status) {return (HICON)CallService(MS_SKIN_LOADPROTOICONBIG, (WPARAM)szProto, status);}
 
 //add a new sound so it has a default and can be changed in the options dialog
-//wParam=0
+//wParam=hLangpack
 //lParam=(LPARAM)(SKINSOUNDDESC*)ssd;
 //returns 0 on success, nonzero otherwise
 
@@ -143,62 +145,43 @@ typedef struct {
 		const TCHAR *ptszSection;
 	};
 	DWORD dwFlags;
-} SKINSOUNDDESCEX;
+}
+	SKINSOUNDDESCEX;
 
-// Old struct pre 0.3.4
-typedef struct {
-	int cbSize;
-	const char *pszName;           // name to refer to sound when playing and in db
-	const char *pszDescription;    // [TRANSLATED-BY-CORE] description for options dialog
-	const char *pszDefaultFile;    // default sound file to use
-} SKINSOUNDDESC;
-
-#define MS_SKIN_ADDNEWSOUND      "Skin/Sounds/AddNew"
-
-// inline only works after 0.3.4+ (2004/10/*)
 __inline static INT_PTR SkinAddNewSoundEx(const char *name, const char *section, const char *description)
 {
-	SKINSOUNDDESCEX ssd;
-	ZeroMemory(&ssd, sizeof(ssd));
-	ssd.cbSize=sizeof(ssd);
-	ssd.pszName=name;
-	ssd.pszSection=section;
-	ssd.pszDescription=description;
-	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	SKINSOUNDDESCEX ssd = { 0 };
+	ssd.cbSize = sizeof(ssd);
+	ssd.pszName = name;
+	ssd.pszSection = section;
+	ssd.pszDescription = description;
+	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
 __inline static INT_PTR SkinAddNewSound(const char *name, const char *description, const char *defaultFile)
 {
-	SKINSOUNDDESC ssd;
-	ZeroMemory(&ssd, sizeof(ssd));
+	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize=sizeof(ssd);
-	ssd.pszName=name;
-	ssd.pszDescription=description;
-	ssd.pszDefaultFile=defaultFile;
-	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	ssd.pszName = name;
+	ssd.pszDescription = description;
+	ssd.pszDefaultFile = defaultFile;
+	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-// 0.9.0+
 __inline static INT_PTR SkinAddNewSoundExT(const char *name, const TCHAR *section, const TCHAR *description)
 {
 	SKINSOUNDDESCEX ssd = { 0 };
-	ssd.cbSize=sizeof(ssd);
-	ssd.dwFlags=SSDF_TCHAR;
-	ssd.pszName=name;
-	ssd.ptszSection=section;
-	ssd.ptszDescription=description;
-	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	ssd.cbSize = sizeof(ssd);
+	ssd.dwFlags = SSDF_TCHAR;
+	ssd.pszName = name;
+	ssd.ptszSection = section;
+	ssd.ptszDescription = description;
+	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)&ssd);
 }
 
-__inline static INT_PTR SkinAddNewSoundT(const char *name, const TCHAR *description, const TCHAR *defaultFile)
+__inline static INT_PTR Skin_AddSound(SKINSOUNDDESCEX *ssd)
 {
-	SKINSOUNDDESCEX ssd = { 0 };
-	ssd.cbSize=sizeof(ssd);
-	ssd.pszName=name;
-	ssd.dwFlags=SSDF_TCHAR;
-	ssd.ptszDescription=description;
-	ssd.ptszDefaultFile=defaultFile;
-	return CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	return CallService("Skin/Sounds/AddNew", hLangpack, (LPARAM)ssd);
 }
 
 //play a named sound event
@@ -207,7 +190,11 @@ __inline static INT_PTR SkinAddNewSoundT(const char *name, const TCHAR *descript
 //pszName should have been added with Skin/Sounds/AddNew, but if not the
 //function will not fail, it will play the Windows default sound instead.
 #define MS_SKIN_PLAYSOUND        "Skin/Sounds/Play"
-__inline static INT_PTR SkinPlaySound(const char *name) {return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);}
+
+__inline static INT_PTR SkinPlaySound(const char *name)
+{
+	return CallService(MS_SKIN_PLAYSOUND, 0, (LPARAM)name);
+}
 
 //sent when the icons DLL has been changed in the options dialog, and everyone
 //should re-make their image lists

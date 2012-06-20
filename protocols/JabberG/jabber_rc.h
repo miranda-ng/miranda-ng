@@ -216,9 +216,9 @@ protected:
 		}
 
 		CJabberAdhocSession* pTmp = m_pSessions;
-		while ( pTmp->GetNext() ) {
+		while ( pTmp->GetNext()) {
 			if ( pTmp->GetNext() == pSession ) {
-				pTmp->SetNext( pSession->GetNext() );
+				pTmp->SetNext( pSession->GetNext());
 				pSession->SetNext( NULL );
 				delete pSession;
 				return TRUE;
@@ -241,10 +241,10 @@ protected:
 			return TRUE;
 		}
 
-		while ( pSession->GetNext() ) {
+		while ( pSession->GetNext()) {
 			if ( pSession->GetNext()->GetSessionStartTime() < dwExpireTime ) {
 				CJabberAdhocSession* pRetVal = pSession->GetNext();
-				pSession->SetNext( pSession->GetNext()->GetNext() );
+				pSession->SetNext( pSession->GetNext()->GetNext());
 				pRetVal->SetNext( NULL );
 				delete pRetVal;
 				return TRUE;
@@ -289,7 +289,7 @@ public:
 			m_pNodes = pNode;
 		else {
 			CJabberAdhocNode* pTmp = m_pNodes;
-			while ( pTmp->GetNext() )
+			while ( pTmp->GetNext())
 				pTmp = pTmp->GetNext();
 			pTmp->SetNext( pNode );
 		}

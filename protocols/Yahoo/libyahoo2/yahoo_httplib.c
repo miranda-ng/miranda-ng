@@ -158,7 +158,7 @@ char *yahoo_urlencode(const char *instr)
 	char *str = NULL;
 	int len = strlen(instr);
 
-	if (!(str = y_new(char, 3*len + 1) ))
+	if (!(str = y_new(char, 3*len + 1)))
 		return "";
 
 	while(instr[ipos]) {
@@ -188,7 +188,7 @@ char *yahoo_urldecode(const char *instr)
 	unsigned dec;
 	int len = strlen(instr);
 
-	if (!(str = y_new(char, len+1) ))
+	if (!(str = y_new(char, len+1)))
 		return "";
 
 	while(instr[ipos]) {
@@ -235,7 +235,7 @@ char *yahoo_xmldecode(const char *instr)
 	unsigned dec;
 	int len = strlen(instr);
 
-	if (!(str = y_new(char, len+1) ))
+	if (!(str = y_new(char, len+1)))
 		return "";
 
 	while(instr[ipos]) {
@@ -398,14 +398,14 @@ static void yahoo_got_url_fd(int id, int fd, int error, void *data)
 			break;
 
 		if ( !strncasecmp(buff, "Content-length:", 
-				strlen("Content-length:")) ) {
+				strlen("Content-length:"))) {
 			tmp = strrchr(buff, ' ');
 			if(tmp)
 				filesize = atol(tmp);
 		}
 
 		if ( !strncasecmp(buff, "Content-disposition:", 
-				strlen("Content-disposition:")) ) {
+				strlen("Content-disposition:"))) {
 			tmp = strstr(buff, "name=");
 			if(tmp) {
 				tmp+=strlen("name=");

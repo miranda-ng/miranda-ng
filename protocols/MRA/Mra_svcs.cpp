@@ -983,7 +983,7 @@ INT_PTR MraSetListeningTo(WPARAM wParam,LPARAM lParam)
 {
 	LISTENINGTOINFO *pliInfo=(LISTENINGTOINFO*)lParam;
 
-	if ( pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO) )
+	if ( pliInfo == NULL || pliInfo->cbSize != sizeof(LISTENINGTOINFO))
 	{
 		MraSendCommand_ChangeUserBlogStatus(MRIM_BLOG_STATUS_MUSIC,NULL,0,0);
 		DB_Mra_DeleteValue(NULL,DBSETTING_BLOGSTATUSMUSIC);
@@ -1744,7 +1744,7 @@ INT_PTR MraAddToListByEvent(WPARAM wParam,LPARAM lParam)
 				LPSTR lpszRequestReason;
 				MRA_LPS lpsEMail,lpsNick,lpsFirstName,lpsLastName;
 
-				lpsNick.lpszData=(LPSTR)(dbei.pBlob+ ((dbei.eventType==EVENTTYPE_AUTHREQUEST)?(sizeof(DWORD)*2):0) );
+				lpsNick.lpszData=(LPSTR)(dbei.pBlob+ ((dbei.eventType==EVENTTYPE_AUTHREQUEST)?(sizeof(DWORD)*2):0));
 				lpsNick.dwSize=lstrlenA(lpsNick.lpszData);
 				lpsFirstName.lpszData=lpsNick.lpszData+lpsNick.dwSize+1;
 				lpsFirstName.dwSize=lstrlenA(lpsFirstName.lpszData);

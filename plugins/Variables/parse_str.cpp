@@ -32,7 +32,7 @@ static TCHAR *parseCaps(ARGUMENTSINFO *ai) {
 	*cur = (TCHAR)CharUpper((LPTSTR)*cur);
 	cur++;
 	while (*cur != _T('\0')) {
-		if ( (*cur == _T(' ')) && (*(cur+1) != _T('\0')) ) {
+		if ( (*cur == _T(' ')) && (*(cur+1) != _T('\0'))) {
 			cur++;
 			if (IsCharLower(*cur))
 				*cur = (TCHAR)CharUpper((LPTSTR)*cur);
@@ -58,7 +58,7 @@ static TCHAR *parseCaps2(ARGUMENTSINFO *ai) {
 	*cur = (TCHAR)CharUpper((LPTSTR)*cur);
 	cur++;
 	while (*cur != _T('\0')) {
-		if ( (*cur == _T(' ')) && (*(cur+1) != _T('\0')) ) {
+		if ( (*cur == _T(' ')) && (*(cur+1) != _T('\0'))) {
 			cur++;
 			if (IsCharLower(*cur))
 				*cur = (TCHAR)CharUpper((LPTSTR)*cur);
@@ -87,7 +87,7 @@ static TCHAR *parseEolToCrlf(ARGUMENTSINFO *ai) {
 	cur = res;
 	do {
 		cur = _tcschr(cur, _T('\n'));
-		if ( (cur == NULL) || ((cur > res) && (*(cur-1) == '\r')) ) {
+		if ( (cur == NULL) || ((cur > res) && (*(cur-1) == '\r'))) {
 			continue;
 		}
 		log_debug(cur);
@@ -116,7 +116,7 @@ static TCHAR *parseFixeol(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	cur = ai->targv[1];
-	while ( (_tcscmp(cur, _T("\r\n"))) && (*cur != _T('\n')) && (*cur != _T('\0')) ) {
+	while ( (_tcscmp(cur, _T("\r\n"))) && (*cur != _T('\n')) && (*cur != _T('\0'))) {
 		cur++;
 	}
 	if (*cur == '\0') {
@@ -445,7 +445,7 @@ static TCHAR *parseReplace(ARGUMENTSINFO *ai) {
 	TCHAR *res, *cur;
 	unsigned int i, pos;
 
-	if ( (ai->argc < 4) || (ai->argc%2 != 0) ) {
+	if ( (ai->argc < 4) || (ai->argc%2 != 0)) {
 		return NULL;
 	}
 	pos = 0;
@@ -556,7 +556,7 @@ static TCHAR *parseStrchr(ARGUMENTSINFO *ai) {
 	}
 	ZeroMemory(szVal, sizeof(szVal));
 	c = _tcschr(ai->targv[1], *ai->targv[2]);
-	if ( (c == NULL) || (*c == _T('\0')) ) {
+	if ( (c == NULL) || (*c == _T('\0'))) {
 		return _tcsdup(_T("0"));
 	}
 
@@ -650,7 +650,7 @@ static TCHAR *parseStrrchr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	c = _tcsrchr(ai->targv[1], *ai->targv[2]);
-	if ( (c == NULL) || (*c == _T('\0')) ) {
+	if ( (c == NULL) || (*c == _T('\0'))) {
 		return _tcsdup(_T("0"));
 	}
 
@@ -665,7 +665,7 @@ static TCHAR *parseStrstr(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	c = _tcsstr(ai->targv[1], ai->targv[2]);
-	if ( (c == NULL) || (*c == _T('\0')) ) {
+	if ( (c == NULL) || (*c == _T('\0'))) {
 		return _tcsdup(_T("0"));
 	}
 
@@ -705,7 +705,7 @@ static TCHAR *parseSelect(ARGUMENTSINFO *ai) {
 		return NULL;
 	}
 	n = ttoi(ai->targv[1]);
-	if ( (n > (signed int)ai->argc-2) || (n <= 0) ) {
+	if ( (n > (signed int)ai->argc-2) || (n <= 0)) {
 		return NULL;
 	}
 	
@@ -739,7 +739,7 @@ static TCHAR *parseTrim(ARGUMENTSINFO *ai) {
 		scur++;
 	}
 	ecur = ai->targv[1] + _tcslen(ai->targv[1])-1;
-	while ( (*ecur == _T(' ')) && (ecur > ai->targv[1]) ) {
+	while ( (*ecur == _T(' ')) && (ecur > ai->targv[1])) {
 		ecur--;
 	}
 	if (scur >= ecur) {
@@ -761,7 +761,7 @@ static TCHAR *parseTab(ARGUMENTSINFO *ai) {
 	TCHAR *res, *cur;
 
 	count = 1;
-	if ( (ai->argc == 2) && (_tcslen(ai->targv[1]) > 0) ) {
+	if ( (ai->argc == 2) && (_tcslen(ai->targv[1]) > 0)) {
 		count = ttoi(ai->targv[1]);
 	}
 	if (count < 0) {
@@ -809,7 +809,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w) {
 		scur++;
 	}
 	count+=1;
-	while ( (count < w) && (scur < szString+_tcslen(szString)) ) {
+	while ( (count < w) && (scur < szString+_tcslen(szString))) {
 		if (*scur == _T(' ')) {
 			while (*scur == _T(' ')) {
 				scur++;
@@ -824,7 +824,7 @@ static TCHAR *getNthWord(TCHAR *szString, int w) {
 		return NULL;
 	}
 	ecur = scur;
-	while ( (*ecur != _T(' ')) && (*ecur != _T('\0')) ) {
+	while ( (*ecur != _T(' ')) && (*ecur != _T('\0'))) {
 		ecur++;
 	}
 	res = ( TCHAR* )malloc((ecur-scur+1)*sizeof(TCHAR));
@@ -855,7 +855,7 @@ static TCHAR *parseWord(ARGUMENTSINFO *ai) {
 	}
 	else to = from;
 
-	if ( (from == 0) || (to == 0) || (from > to) )
+	if ( (from == 0) || (to == 0) || (from > to))
 		return NULL;
 
 	for (i=from;i<=to;i++) {

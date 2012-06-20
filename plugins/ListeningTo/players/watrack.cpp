@@ -101,7 +101,7 @@ void WATrack::GetData()
 	if (playing !=  WAT_PLS_NORMAL
 		|| si == NULL
 		|| si->status != 1
-		|| ( IsEmpty(si->artist) && IsEmpty(si->title) ) )
+		|| ( IsEmpty(si->artist) && IsEmpty(si->title)) )
 	{
 		return;
 	}

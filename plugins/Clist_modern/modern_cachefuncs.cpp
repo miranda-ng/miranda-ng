@@ -151,7 +151,7 @@ void CSmileyString::_CopySmileyList( SortedList *plInput )
 		ClcContactTextPiece *pieceFrom=(ClcContactTextPiece *) plInput->items[i];
 		if ( pieceFrom != NULL )
 		{
-			ClcContactTextPiece *piece = (ClcContactTextPiece *) mir_alloc( sizeof(ClcContactTextPiece) );			
+			ClcContactTextPiece *piece = (ClcContactTextPiece *) mir_alloc( sizeof(ClcContactTextPiece));			
 			*piece=*pieceFrom;
 			if ( pieceFrom->type == TEXT_PIECE_TYPE_SMILEY) 
 				piece->smiley = CopyIcon( pieceFrom->smiley );
@@ -165,7 +165,7 @@ void CSmileyString::DestroySmileyList()
 
 	if ( plText == NULL ) return;
 
-	if ( IsBadReadPtr( plText, sizeof(SortedList) ) )
+	if ( IsBadReadPtr( plText, sizeof(SortedList)) )
 	{
 		plText = NULL;
 		return;
@@ -180,7 +180,7 @@ void CSmileyString::DestroySmileyList()
 			{
 				ClcContactTextPiece *piece = (ClcContactTextPiece *) plText->items[i];
 
-				if ( !IsBadWritePtr(piece, sizeof(ClcContactTextPiece) ) )
+				if ( !IsBadWritePtr(piece, sizeof(ClcContactTextPiece)) )
 				{
 					if (piece->type==TEXT_PIECE_TYPE_SMILEY && piece->smiley != g_hListeningToIcon)
 						DestroyIcon_protect(piece->smiley);
@@ -976,7 +976,7 @@ void Cache_GetAvatar(struct ClcData *dat, struct ClcContact *contact)
 {
 	int old_pos=contact->avatar_pos;
     if (g_CluiData.bSTATE!=STATE_NORMAL
-        || (dat->use_avatar_service && !ServiceExists(MS_AV_GETAVATARBITMAP)) ) // workaround for avatar service and other wich destroys service on OK_TOEXIT
+        || (dat->use_avatar_service && !ServiceExists(MS_AV_GETAVATARBITMAP))) // workaround for avatar service and other wich destroys service on OK_TOEXIT
     {
         contact->avatar_pos = AVATAR_POS_DONT_HAVE;
         contact->avatar_data = NULL;

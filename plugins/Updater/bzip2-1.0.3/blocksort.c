@@ -513,7 +513,7 @@ void mainSimpleSort ( UInt32* ptr,
          j = i;
          while ( mainGtU ( 
                     ptr[j-h]+d, v+d, block, quadrant, nblock, budget 
-                 ) ) {
+                 )) {
             ptr[j] = ptr[j-h];
             j = j - h;
             if (j <= (lo + h - 1)) break;
@@ -527,7 +527,7 @@ void mainSimpleSort ( UInt32* ptr,
          j = i;
          while ( mainGtU ( 
                     ptr[j-h]+d, v+d, block, quadrant, nblock, budget 
-                 ) ) {
+                 )) {
             ptr[j] = ptr[j-h];
             j = j - h;
             if (j <= (lo + h - 1)) break;
@@ -541,7 +541,7 @@ void mainSimpleSort ( UInt32* ptr,
          j = i;
          while ( mainGtU ( 
                     ptr[j-h]+d, v+d, block, quadrant, nblock, budget 
-                 ) ) {
+                 )) {
             ptr[j] = ptr[j-h];
             j = j - h;
             if (j <= (lo + h - 1)) break;
@@ -848,7 +848,7 @@ void mainSort ( UInt32* ptr,
          for (i = h; i <= 255; i++) {
             vv = runningOrder[i];
             j = i;
-            while ( BIGFREQ(runningOrder[j-h]) > BIGFREQ(vv) ) {
+            while ( BIGFREQ(runningOrder[j-h]) > BIGFREQ(vv)) {
                runningOrder[j] = runningOrder[j-h];
                j = j - h;
                if (j <= (h - 1)) goto zero;
@@ -886,7 +886,7 @@ void mainSort ( UInt32* ptr,
       for (j = 0; j <= 255; j++) {
          if (j != ss) {
             sb = (ss << 8) + j;
-            if ( ! (ftab[sb] & SETMASK) ) {
+            if ( ! (ftab[sb] & SETMASK)) {
                Int32 lo = ftab[sb]   & CLEARMASK;
                Int32 hi = (ftab[sb+1] & CLEARMASK) - 1;
                if (hi > lo) {
@@ -1071,7 +1071,7 @@ void BZ2_blockSort ( EState* s )
                     budgetInit - budget,
                     nblock, 
                     (float)(budgetInit - budget) /
-                    (float)(nblock==0 ? 1 : nblock) ); 
+                    (float)(nblock==0 ? 1 : nblock)); 
       if (budget < 0) {
          if (verb >= 2) 
             VPrintf0 ( "    too repetitive; using fallback"

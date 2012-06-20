@@ -279,7 +279,7 @@ FreeImage_ConvertToGreyscale(FIBITMAP *dib) {
 
 		// allocate a 24-bit buffer
 
-		BYTE *buffer = (BYTE*)malloc( CalculatePitch(CalculateLine(width, 24)) * sizeof(BYTE) );
+		BYTE *buffer = (BYTE*)malloc( CalculatePitch(CalculateLine(width, 24)) * sizeof(BYTE));
 		if(NULL == buffer) {
 			FreeImage_Unload(new_dib);
 			return NULL;

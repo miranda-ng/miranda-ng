@@ -91,26 +91,24 @@ int MainInit(WPARAM wparam,LPARAM lparam)
 	if(DBGetContactSettingByte(NULL,S_MOD,"MissedOnes",0))
 		ehmissed_proto=HookEvent(ME_PROTO_ACK,ModeChange_mo);
 
-//	SetOffline();
+	ehdb = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,UpdateValues);
+	ehproto = HookEvent(ME_PROTO_ACK,ModeChange);
 
-	ehdb=HookEvent(ME_DB_CONTACT_SETTINGCHANGED,UpdateValues);
-	ehproto=HookEvent(ME_PROTO_ACK,ModeChange);
-
-	SkinAddNewSoundEx("LastSeenTrackedStatusChange",Translate("LastSeen"),Translate("User status change"));
-	SkinAddNewSoundEx("LastSeenTrackedStatusOnline",Translate("LastSeen"),Translate("Changed to Online"));
-	SkinAddNewSoundEx("LastSeenTrackedStatusOffline",Translate("LastSeen"),Translate("User Logged Off"));
-	SkinAddNewSoundEx("LastSeenTrackedStatusFromOffline",Translate("LastSeen"),Translate("User Logged In"));
+	SkinAddNewSoundEx("LastSeenTrackedStatusChange", LPGEN("LastSeen"), LPGEN("User status change"));
+	SkinAddNewSoundEx("LastSeenTrackedStatusOnline", LPGEN("LastSeen"), LPGEN("Changed to Online"));
+	SkinAddNewSoundEx("LastSeenTrackedStatusOffline", LPGEN("LastSeen"), LPGEN("User Logged Off"));
+	SkinAddNewSoundEx("LastSeenTrackedStatusFromOffline", LPGEN("LastSeen"), LPGEN("User Logged In"));
+	
 	// known modules list
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule", (WPARAM)S_MOD, 0);
 	DBWriteContactSettingString(NULL,"Uninstall",Translate("Last seen"),S_MOD);
 
 
-	if (ServiceExists(MS_TIPPER_ADDTRANSLATION)) {
-		int i=0;
-		for (i=0;i<TRANSNUMBER;i++) {
-			CallService(MS_TIPPER_ADDTRANSLATION,0,(LPARAM)&idleTr[i]);
-		}
+	if ( ServiceExists(MS_TIPPER_ADDTRANSLATION)) {
+		int i;
+		for (i=0; i < TRANSNUMBER; i++)
+			CallService(MS_TIPPER_ADDTRANSLATION, 0, (LPARAM)&idleTr[i]);
 	}
 
 	return 0;

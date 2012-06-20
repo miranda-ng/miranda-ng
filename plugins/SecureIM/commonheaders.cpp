@@ -45,7 +45,7 @@ LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting) 
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
 	DBGetContactSetting(hContact,szModule,szSetting,&dbv);
-	if ( dbv.pszVal && (dbv.type==DBVT_ASCIIZ || dbv.type==DBVT_UTF8 || dbv.type==DBVT_WCHAR) )
+	if ( dbv.pszVal && (dbv.type==DBVT_ASCIIZ || dbv.type==DBVT_UTF8 || dbv.type==DBVT_WCHAR))
 		val = mir_strdup(dbv.pszVal);
 	DBFreeVariant(&dbv);
 	return val;

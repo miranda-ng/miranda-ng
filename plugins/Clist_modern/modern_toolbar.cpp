@@ -250,14 +250,14 @@ static int    ehhToolBarSettingsChanged( WPARAM wParam, LPARAM lParam )
 	if (!mir_strcmp(cws->szModule,"CList"))
 	{
 		if (!mir_strcmp(cws->szSetting,"HideOffline"))
-			sttSetButtonPressed("ShowHideOffline", (BOOL) ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) );
+			sttSetButtonPressed("ShowHideOffline", (BOOL) ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 		else if (!mir_strcmp(cws->szSetting,"UseGroups"))
-			sttSetButtonPressed( "UseGroups", (BOOL) ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) );
+			sttSetButtonPressed( "UseGroups", (BOOL) ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	}
 	else if (!mir_strcmp(cws->szModule,"Skin"))
 	{
 		if (!mir_strcmp(cws->szSetting,"UseSound"))
-			sttSetButtonPressed( "EnableSounds", (BOOL) ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ) );
+			sttSetButtonPressed( "EnableSounds", (BOOL) ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));
 	}
 	
 	return 0;
@@ -590,7 +590,7 @@ static void   sttRegisterToolBarButton(char * pszButtonID, char * pszButtonName,
 
 static void   sttSetButtonPressed( char * hButton, BOOL bPressed )
 {
-	CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM) hButton, (LPARAM) (bPressed ? TBST_PUSHED : TBST_RELEASED) );
+	CallService(MS_TB_SETBUTTONSTATEBYID, (WPARAM) hButton, (LPARAM) (bPressed ? TBST_PUSHED : TBST_RELEASED));
 }
 static void   sttAddStaticSeparator( BOOL bVisibleByDefault )
 {
@@ -652,9 +652,9 @@ static void   sttReloadButtons()
 			ToolBar_AddButtonToBars(mtbi);
 	}
 	tbunlock;
-	sttSetButtonPressed( "ShowHideOffline", (BOOL) ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) );
-	sttSetButtonPressed( "UseGroups", (BOOL) ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) );
-	sttSetButtonPressed( "EnableSounds", (BOOL) ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ) );
+	sttSetButtonPressed( "ShowHideOffline", (BOOL) ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+	sttSetButtonPressed( "UseGroups", (BOOL) ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
+	sttSetButtonPressed( "EnableSounds", (BOOL) ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));
 
 }
 static int	  sttDBEnumProc (const char *szSetting,LPARAM lParam)
@@ -708,7 +708,7 @@ static void	ToolBar_DefaultButtonRegistration()
 	sttRegisterToolBarButton( "ShowHideOffline","Show/Hide offline contacts", MS_CLIST_TOGGLEHIDEOFFLINE,
 					    "Hide offline contacts", "Show offline contacts", 110 /*and 111 */ , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
 	
-	sttSetButtonPressed( "ShowHideOffline", (BOOL) ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT) );
+	sttSetButtonPressed( "ShowHideOffline", (BOOL) ModernGetSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 
 	sttRegisterToolBarButton( "DatabaseEditor","DBEditor++", "DBEditorpp/MenuCommand",
 		"Database Editor", NULL,  130 , IDI_RESETVIEW, IDI_RESETVIEW, TRUE  );
@@ -722,12 +722,12 @@ static void	ToolBar_DefaultButtonRegistration()
 	sttRegisterToolBarButton( "UseGroups","Use/Disable groups", MS_CLIST_TOGGLEGROUPS,
 		"Use groups", "Disable Groups", 160 /*and 161 */ , IDI_RESETVIEW, IDI_RESETVIEW, FALSE  );
 
-	sttSetButtonPressed( "UseGroups", (BOOL) ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT) );
+	sttSetButtonPressed( "UseGroups", (BOOL) ModernGetSettingByte(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 
 	sttRegisterToolBarButton( "EnableSounds","Enable/Disable sounds", MS_CLIST_TOGGLESOUNDS,
 		"Enable sounds", "Disable Sounds", 170 /*and 171 */ , IDI_RESETVIEW, IDI_RESETVIEW, FALSE  );
 	
-	sttSetButtonPressed( "EnableSounds", (BOOL) ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ) );
+	sttSetButtonPressed( "EnableSounds", (BOOL) ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));
 	
 	sttAddDynamicSeparator(FALSE);
 
@@ -777,7 +777,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			CLISTFrame Frame={0};
 			CREATESTRUCT * lpcs = (CREATESTRUCT *) lParam;
 			//create internal info
-			MTBINFO * pMTBInfo = (MTBINFO *) mir_calloc( sizeof(MTBINFO) );
+			MTBINFO * pMTBInfo = (MTBINFO *) mir_calloc( sizeof(MTBINFO));
 			pMTBInfo->cbSize = sizeof(MTBINFO);
 			SetWindowLongPtr( hwnd, GWLP_USERDATA, (LONG_PTR) pMTBInfo );
 

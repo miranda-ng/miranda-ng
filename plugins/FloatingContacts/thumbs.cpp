@@ -115,7 +115,7 @@ void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
 
 	if ( fcOpt.bMoveTogether )
 	{
-		UndockThumbs( this, thumbList.FindThumb( dockOpt.hwndLeft ) );
+		UndockThumbs( this, thumbList.FindThumb( dockOpt.hwndLeft ));
 	}
 
 
@@ -161,23 +161,23 @@ void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
 			pt.y	 =  rcThumb.top;
 			bDocked	 =  FALSE;
 			
-			if ( PtInRect( &rcRight, pt ) )
+			if ( PtInRect( &rcRight, pt ))
 			{
 				nNewX	 =  rc.right;
 				bDocked = TRUE;
 			}
 			
-			if ( PtInRect( &rcBottom, pt ) )
+			if ( PtInRect( &rcBottom, pt ))
 			{
 				nNewY = rc.bottom;
 
-				if ( PtInRect( &rcLeft, pt ) )
+				if ( PtInRect( &rcLeft, pt ))
 				{
 					nNewX = rc.left;
 				}
 			}
 
-			if ( PtInRect( &rcTop, pt ) )
+			if ( PtInRect( &rcTop, pt ))
 			{
 				nNewY		 =  rc.top;
 				bDockedLeft	 =  bDocked;
@@ -188,7 +188,7 @@ void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
 			pt.y	 =  rcThumb.top;
 			bDocked	 =  FALSE;
 
-			if ( !bLeading && PtInRect( &rcLeft, pt ) )
+			if ( !bLeading && PtInRect( &rcLeft, pt ))
 			{
 				if ( !bDockedLeft )
 				{
@@ -202,17 +202,17 @@ void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
 			}
 			
 
-			if ( PtInRect( &rcBottom, pt ) )
+			if ( PtInRect( &rcBottom, pt ))
 			{
 				nNewY = rc.bottom;
 
-				if ( PtInRect( &rcRight, pt ) )
+				if ( PtInRect( &rcRight, pt ))
 				{
 					nNewX = rc.right - nWidth;
 				}
 			}
 
-			if ( !bLeading && PtInRect( &rcTop, pt ) )
+			if ( !bLeading && PtInRect( &rcTop, pt ))
 			{
 				nNewY			 =  rc.top;
 				bDockedRight	 =  bDocked;
@@ -235,16 +235,16 @@ void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
 			pt.x = rcThumb.left;
 			pt.y = rcThumb.bottom;
 
-			if ( PtInRect( &rcRight, pt ) )
+			if ( PtInRect( &rcRight, pt ))
 			{
 				nNewX = rc.right;
 			}
 
-			if ( PtInRect( &rcTop, pt ) )
+			if ( PtInRect( &rcTop, pt ))
 			{
 				nNewY = rc.top - nHeight;
 
-				if ( PtInRect( &rcLeft, pt ) )
+				if ( PtInRect( &rcLeft, pt ))
 				{
 					nNewX = rc.left;
 				}
@@ -255,16 +255,16 @@ void ThumbInfo::PositionThumbWorker(short nX, short nY, POINT *newPos)
 			pt.x = rcThumb.right;
 			pt.y = rcThumb.bottom;
 
-			if ( !bLeading && PtInRect( &rcLeft, pt ) )
+			if ( !bLeading && PtInRect( &rcLeft, pt ))
 			{
 				nNewX = rc.left - nWidth;
 			}
 
-			if ( !bLeading && PtInRect( &rcTop, pt ) )
+			if ( !bLeading && PtInRect( &rcTop, pt ))
 			{
 				nNewY = rc.top - nHeight;
 
-				if ( PtInRect( &rcRight, pt ) )
+				if ( PtInRect( &rcRight, pt ))
 				{
 					nNewX = rc.right - nWidth;
 				}
@@ -395,7 +395,7 @@ void ThumbInfo::RefreshContactIcon(int iIcon)
 
 void ThumbInfo::RefreshContactStatus(int idStatus)
 {
-	if ( IsStatusVisible( idStatus ) )
+	if ( IsStatusVisible( idStatus ))
 	{
 		RegisterFileDropping( hwnd, dropTarget );
 	}
@@ -404,7 +404,7 @@ void ThumbInfo::RefreshContactStatus(int idStatus)
 		UnregisterFileDropping( hwnd );
 	}
 
-	ShowWindow( hwnd, fcOpt.bHideAll || HideOnFullScreen() || ( fcOpt.bHideOffline && ( !IsStatusVisible( idStatus ) ) ) || (fcOpt.bHideWhenCListShow && bIsCListShow) ? SW_HIDE : SW_SHOWNA );
+	ShowWindow( hwnd, fcOpt.bHideAll || HideOnFullScreen() || ( fcOpt.bHideOffline && ( !IsStatusVisible( idStatus )) ) || (fcOpt.bHideWhenCListShow && bIsCListShow) ? SW_HIDE : SW_SHOWNA );
 }
 
 void ThumbInfo::DeleteContactPos()
@@ -451,15 +451,15 @@ void ThumbInfo::OnLButtonUp()
 	if ( bMouseDown )
 	{
 		bMouseDown = FALSE;
-		SetCursor( LoadCursor( NULL, IDC_ARROW ) );
+		SetCursor( LoadCursor( NULL, IDC_ARROW ));
 	
 		// Check whether we shoud remove the window
 		GetWindowRect( hwndMiranda, &rcMiranda );
 		GetThumbRect( &rcThumb );
 
-		if ( IntersectRect( &rcOverlap, &rcMiranda, &rcThumb ) )
+		if ( IntersectRect( &rcOverlap, &rcMiranda, &rcThumb ))
 		{
-			if ( IsWindowVisible( hwndMiranda ) )
+			if ( IsWindowVisible( hwndMiranda ))
 			{
 				DeleteContactPos( );
 				thumbList.RemoveThumb( this );
@@ -504,7 +504,7 @@ void ThumbInfo::OnMouseMove(short nX, short nY, WPARAM wParam)
 	}
 	else
 	{
-		SetCursor( LoadCursor( NULL, IDC_ARROW ) );
+		SetCursor( LoadCursor( NULL, IDC_ARROW ));
 	}
 
 	// Update selection status
@@ -568,7 +568,7 @@ void ThumbInfo::ThumbDeselect(BOOL bMouse)
 
 void ThumbInfo::SetThumbOpacity(BYTE bAlpha)
 {
-	if ( pUpdateLayeredWindow && (bAlpha != btAlpha) )
+	if ( pUpdateLayeredWindow && (bAlpha != btAlpha))
 	{
 		btAlpha = bAlpha;
 		UpdateContent();
@@ -734,7 +734,7 @@ void ThumbInfo::UpdateContent()
 			nApparentMode	 =  DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
 			
 			if (	(nStatus == ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_ONLINE) ||
-					(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE) )
+					(nStatus != ID_STATUS_INVISIBLE && nApparentMode == ID_STATUS_OFFLINE))
 			{
 				if (ID_STATUS_OFFLINE == nContactStatus)
 				{
@@ -887,7 +887,7 @@ void ThumbInfo::OnTimer(BYTE idTimer)
 
 void DockThumbs( ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight, BOOL bMoveLeft )
 {
-	if ( ( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ) )
+	if ( ( pThumbRight->dockOpt.hwndLeft == NULL ) && ( pThumbLeft->dockOpt.hwndRight == NULL ))
 	{
 		pThumbRight->dockOpt.hwndLeft	 =  pThumbLeft->hwnd;
 		pThumbLeft->dockOpt.hwndRight	 =  pThumbRight->hwnd;
@@ -897,7 +897,7 @@ void DockThumbs( ThumbInfo *pThumbLeft, ThumbInfo *pThumbRight, BOOL bMoveLeft )
 
 void UndockThumbs( ThumbInfo *pThumb1, ThumbInfo *pThumb2 )
 {
-	if ( ( pThumb1 == NULL ) || ( pThumb2 == NULL ) )
+	if ( ( pThumb1 == NULL ) || ( pThumb2 == NULL ))
 	{
 		return;
 	}

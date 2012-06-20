@@ -508,12 +508,12 @@ void MoveItem( HTREEITEM hItem, HTREEITEM hInsertAfter, BOOLEAN bAsChild )
 			tvis.hInsertAfter = hInsertAfter;
 			}
 		// insert the item
-		if ( !( hNewItem = TreeView_InsertItem( hMenuTree, &tvis ) ) )
+		if ( !( hNewItem = TreeView_InsertItem( hMenuTree, &tvis )) )
 			return;
 
 		// move children
 		hInsertAfter = hNewItem;
-		while( hChild = TreeView_GetChild( hMenuTree, hItem ) ) {
+		while( hChild = TreeView_GetChild( hMenuTree, hItem )) {
 			MoveItem( hChild, hInsertAfter, 2 );
 			}
 		// delete old tree
@@ -602,7 +602,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 				TreeView_SetInsertMark(hMenuTree, NULL, 0 );
 				ReleaseCapture();
-				SetCursor( LoadCursor( NULL, IDC_ARROW ) );
+				SetCursor( LoadCursor( NULL, IDC_ARROW ));
 
 				hti.pt.x = ( SHORT )LOWORD( lparam );
 				hti.pt.y = ( SHORT )HIWORD( lparam );
@@ -621,13 +621,13 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 						htiAfter = TVI_FIRST;
 						}
 					else
-						if ( hti.flags & ( TVHT_NOWHERE|TVHT_BELOW ) ) {
+						if ( hti.flags & ( TVHT_NOWHERE|TVHT_BELOW )) {
 							htiAfter = TVI_LAST;
 							}
 						else
-							if ( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT ) ) {
+							if ( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT )) {
 								// check where over the item, the pointer is
-								if ( !TreeView_GetItemRect( hMenuTree, hti.hItem, &rc, FALSE ) ) {
+								if ( !TreeView_GetItemRect( hMenuTree, hti.hItem, &rc, FALSE )) {
 									drag=0;
 									break;
 									}
@@ -636,8 +636,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 								if ( hti.pt.y - ( height / 3 ) < rc.top ) {
 									HTREEITEM hItem = hti.hItem;
 
-									if ( !( hti.hItem = TreeView_GetPrevSibling( hMenuTree, hItem ) ) ) {
-										if ( !( hti.hItem = TreeView_GetParent(hMenuTree, hItem ) ))
+									if ( !( hti.hItem = TreeView_GetPrevSibling( hMenuTree, hItem )) ) {
+										if ( !( hti.hItem = TreeView_GetParent(hMenuTree, hItem )))
 											htiAfter = TVI_FIRST;
 										else
 											bAsChild = TRUE;
@@ -687,25 +687,25 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				ClientToScreen(hdlg,&hti.pt);
 				ScreenToClient(hMenuTree,&hti.pt);
 				TreeView_HitTest(hMenuTree,&hti);
-				if ( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT ) ) {
+				if ( hti.flags & ( TVHT_ONITEM|TVHT_ONITEMRIGHT )) {
 					RECT rc;
 					BYTE height;
 
-					if ( TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE ) ) {
+					if ( TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE )) {
 						height = ( BYTE )( rc.bottom - rc.top );
 
 						if ( hti.pt.y - ( height / 3 ) < rc.top ) {
-							SetCursor( LoadCursor( NULL, IDC_ARROW ) );
+							SetCursor( LoadCursor( NULL, IDC_ARROW ));
 							TreeView_SetInsertMark( hMenuTree, hti.hItem, 0 );
 							}
 						else
 							if ( hti.pt.y + ( height / 3 ) > rc.bottom ) {
-								SetCursor( LoadCursor( NULL, IDC_ARROW ) );
+								SetCursor( LoadCursor( NULL, IDC_ARROW ));
 								TreeView_SetInsertMark( hMenuTree, hti.hItem, 1 );
 								}
 							else {
 								TreeView_SetInsertMark( hMenuTree, NULL, 0 );
-								SetCursor( LoadCursor( GetModuleHandle(NULL), MAKEINTRESOURCE( 183 ) ) );
+								SetCursor( LoadCursor( GetModuleHandle(NULL), MAKEINTRESOURCE( 183 )) );
 								}
 						}
 					}

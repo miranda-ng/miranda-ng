@@ -41,8 +41,8 @@ int cslist_parse_row( TCHAR *row, int ord ) // parse + helpItem
   TCHAR pIcon[4], pTitle[EXTRASTATUS_TITLE_LIMIT+2], pMsg[EXTRASTATUS_MESSAGE_LIMIT+2], pFav[4];
   TCHAR scanfFormat[64];
 
-  lstrcpy( pTitle, _T( "" ) );
-  lstrcpy( pMsg, _T( "" ) );
+  lstrcpy( pTitle, _T( "" ));
+  lstrcpy( pMsg, _T( "" ));
 
   // database row format: "%2[^]%64[^]%2048[^]%2[^]"
   

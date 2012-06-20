@@ -309,14 +309,14 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		}
 	case WM_LBUTTONDOWN:
 		{
-			int xPos=( ( int )( short ) LOWORD( lParam ) );
-			int yPos=( ( int )( short ) HIWORD( lParam ) );
+			int xPos=( ( int )( short ) LOWORD( lParam ));
+			int yPos=( ( int )( short ) HIWORD( lParam ));
 			POINT ptMouse = { xPos, yPos };
 
 			RECT rcClient;
 			GetClientRect( lpSBData->hWnd, &rcClient );
 
-			if ( !PtInRect( &rcClient, ptMouse ) )
+			if ( !PtInRect( &rcClient, ptMouse ))
 			{
 				lpSBData->fHotMark = FALSE;
 				ReleaseCapture();
@@ -342,14 +342,14 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		if ( GetCapture() == lpSBData->hWnd )
 		{
 
-			int xPos=( ( int )( short ) LOWORD( lParam ) );
-			int yPos=( ( int )( short ) HIWORD( lParam ) );
+			int xPos=( ( int )( short ) LOWORD( lParam ));
+			int yPos=( ( int )( short ) HIWORD( lParam ));
 			POINT ptMouse = { xPos, yPos };
 
 			RECT rcClient;
 			GetClientRect( lpSBData->hWnd, &rcClient );
 			
-			if ( !PtInRect( &rcClient, ptMouse ) )
+			if ( !PtInRect( &rcClient, ptMouse ))
 			{
 				lpSBData->fHotMark = FALSE;
 				ReleaseCapture();
@@ -449,7 +449,7 @@ static LRESULT CALLBACK TollbarButtonProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 				POINT pt;
 				GetWindowRect(hwndDlg, &rc);
 				GetCursorPos(&pt);
-				BOOL bInside = ( PtInRect( &rc, pt ) && ( WindowFromPoint( pt ) == lpSBData->hWnd) );
+				BOOL bInside = ( PtInRect( &rc, pt ) && ( WindowFromPoint( pt ) == lpSBData->hWnd));
 				if ( !bInside ) 
 				{
 					// mouse must be gone, trigger mouse leave
@@ -622,7 +622,7 @@ static void PaintWorker(TBBUTTONDATA *lpSBData, HDC hdcPaint , POINT * pOffset)
 				lpSBData->szButtonID,				// ID		
 				b2str(lpSBData->nStateId==PBS_HOT),	// Hovered
 				b2str(lpSBData->nStateId==PBS_PRESSED || lpSBData->pbState == TRUE),	// Pressed
-				b2str(lpSBData->fFocused) );		// Focused
+				b2str(lpSBData->fFocused));		// Focused
 
 			SkinDrawGlyph(hdcMem,&rcClient,&rcClient,szRequest);
 		}

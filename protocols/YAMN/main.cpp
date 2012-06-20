@@ -54,22 +54,6 @@ PLUGININFOEX pluginInfo = {
 
 };
 
-SKINSOUNDDESC NewMailSound  = 
-{
-	sizeof(SKINSOUNDDESC), 
-	YAMN_NEWMAILSOUND, 	//name to refer to sound when playing and in db
-	YAMN_NEWMAILSNDDESC, 	//description for options dialog
-	"", 	   		//default sound file to use, without path
-};
-
-SKINSOUNDDESC ConnectFailureSound  = 
-{
-	sizeof(SKINSOUNDDESC), 
-	YAMN_CONNECTFAILSOUND, 	//name to refer to sound when playing and in db
-	YAMN_CONNECTFAILSNDDESC, //description for options dialog
-	"", 	   		//default sound file to use, without path
-};
-
 HANDLE hNewMailHook;
 HANDLE NoWriterEV;
 HANDLE hTTButton, hTButton;
@@ -468,9 +452,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	if (NULL == (ExitEV = CreateEvent(NULL, TRUE, FALSE, NULL)))
 		return 1;
 
-	NewMailSound.pszDescription = Translate(YAMN_NEWMAILSNDDESC);
-	ConnectFailureSound.pszDescription = Translate(YAMN_CONNECTFAILSNDDESC);
-
 	PosX = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBPOSX, 0);
 	PosY = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBPOSY, 0);
 	SizeX = DBGetContactSettingDword(NULL, YAMN_DBMODULE, YAMN_DBSIZEX, 800);
@@ -498,8 +479,8 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	CreateServiceFunctions();
 
-	CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&NewMailSound);
-	CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ConnectFailureSound);
+	SkinAddNewSoundEx(YAMN_NEWMAILSOUND, YAMN_DBMODULE, YAMN_NEWMAILSNDDESC);
+	SkinAddNewSoundEx(YAMN_CONNECTFAILSOUND, YAMN_DBMODULE, YAMN_CONNECTFAILSNDDESC);
 
 	HookEvents();
 

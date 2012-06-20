@@ -554,7 +554,7 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 	SetString(NULL, "AvatarURL", url);
 	//YAHOO_SetDword("AvatarExpires", ts);
 
-	if  (!GetString("AvatarInv", &dbv) ) {
+	if  (!GetString("AvatarInv", &dbv)) {
 		LOG(("[ext_yahoo_got_picture_upload] Buddy: %s told us this is bad??", dbv.pszVal));
 
 		LOG(("[ext_yahoo_got_picture] Sending url: %s checksum: %d to '%s'!", url, cksum, dbv.pszVal));

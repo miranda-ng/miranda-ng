@@ -130,7 +130,7 @@
 
 0.0.0.12
 ===========
-+ Now possible to change the text shown when sending or receiving nudge ( [color=red]BUZZ!!![/color] for yahoo ;) )
++ Now possible to change the text shown when sending or receiving nudge ( [color=red]BUZZ!!![/color] for yahoo ;))
 * Change options page.
 ! Now apply button is enable when changing status.
 

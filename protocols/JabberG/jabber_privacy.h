@@ -228,9 +228,9 @@ public:
 		}
 
 		CPrivacyListRule *pRule = m_pRules;
-		while ( pRule->GetNext() ) {
+		while ( pRule->GetNext()) {
 			if ( pRule->GetNext() == pRuleToRemove ) {
-				pRule->SetNext( pRule->GetNext()->GetNext() );
+				pRule->SetNext( pRule->GetNext()->GetNext());
 				pRuleToRemove->SetNext( NULL );
 				delete pRuleToRemove;
 				return TRUE;
@@ -244,7 +244,7 @@ public:
 		// 0 or 1 rules?
 		if ( !m_pRules )
 			return TRUE;
-		if ( !m_pRules->GetNext() ) {
+		if ( !m_pRules->GetNext()) {
 			m_pRules->SetOrder( 100 );
 			return TRUE;
 		}
@@ -273,7 +273,7 @@ public:
 		CPrivacyListRule *pTmp;
 		for ( i = 0; i < dwCount; i++ ) {
 			for ( j = dwCount - 1; j > i; j-- ) {
-				if ( pRules[j - 1]->GetOrder() > pRules[j]->GetOrder() ) {
+				if ( pRules[j - 1]->GetOrder() > pRules[j]->GetOrder()) {
 					pTmp = pRules[j - 1];
 					pRules[j - 1] = pRules[j];
 					pRules[j] = pTmp;
@@ -418,7 +418,7 @@ public:
 			return TRUE;
 		CPrivacyList *pList = m_pLists;
 		while ( pList ) {
-			if ( pList->IsModified() )
+			if ( pList->IsModified())
 				return TRUE;
 			pList = pList->GetNext();
 		}
@@ -428,7 +428,7 @@ public:
 	{
 		CPrivacyList *pList = m_pLists;
 		while ( pList ) {
-			if ( !pList->IsLoaded() )
+			if ( !pList->IsLoaded())
 				return FALSE;
 			pList = pList->GetNext();
 		}

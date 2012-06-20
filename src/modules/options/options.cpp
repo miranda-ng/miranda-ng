@@ -101,7 +101,7 @@ struct OptionsDlgData
 	HANDLE hPluginLoad, hPluginUnload;
 };
 
-static HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
+HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name)
 {
 	TVITEM tvi;
 	TCHAR str[128];

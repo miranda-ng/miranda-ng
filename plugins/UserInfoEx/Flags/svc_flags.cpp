@@ -366,7 +366,7 @@ static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam) {
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
 	if ((HANDLE)wParam!=NULL)return 0;
 	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") &&
-	   !lstrcmpA(dbcws->szSetting,"Slot_Flags") ) {
+	   !lstrcmpA(dbcws->szSetting,"Slot_Flags")) {
 			BOOL bEnable;
 			switch (dbcws->value.type) {
 				case DBVT_BYTE:

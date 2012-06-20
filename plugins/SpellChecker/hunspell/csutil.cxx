@@ -5422,14 +5422,14 @@ static void toAsciiLowerAndRemoveNonAlphanumeric( const char* pName, char* pBuf 
     while ( *pName )
     {
         /* A-Z */
-        if ( (*pName >= 0x41) && (*pName <= 0x5A) )
+        if ( (*pName >= 0x41) && (*pName <= 0x5A))
         {
             *pBuf = (*pName)+0x20;  /* toAsciiLower */
             pBuf++;
         }
         /* a-z, 0-9 */
         else if ( ((*pName >= 0x61) && (*pName <= 0x7A)) ||
-                  ((*pName >= 0x30) && (*pName <= 0x39)) )
+                  ((*pName >= 0x30) && (*pName <= 0x39)))
         {
             *pBuf = *pName;
             pBuf++;

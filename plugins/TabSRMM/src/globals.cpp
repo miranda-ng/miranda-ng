@@ -137,26 +137,26 @@ void CGlobals::reloadSystemStartup()
 	HDC			hScrnDC;
 	DBVARIANT 	dbv = {0};
 
-	m_WinVerMajor = 					WinVerMajor();
-	m_WinVerMinor = 					WinVerMinor();
-	m_bIsXP = 							IsWinVerXPPlus();
-	m_bIsVista = 						IsWinVerVistaPlus();
-	m_bIsWin7 = 						IsWinVer7Plus();
+	m_WinVerMajor = WinVerMajor();
+	m_WinVerMinor = WinVerMinor();
+	m_bIsXP = IsWinVerXPPlus();
+	m_bIsVista = IsWinVerVistaPlus();
+	m_bIsWin7 = IsWinVer7Plus();
 
 	::LoadTSButtonModule();
 	::RegisterTabCtrlClass();
 	CTip::registerClass();
 
-	dwThreadID = 						GetCurrentThreadId();
+	dwThreadID = GetCurrentThreadId();
 
-	PluginConfig.g_hMenuContext = 		LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
+	PluginConfig.g_hMenuContext = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_TABCONTEXT));
 	TranslateMenu(g_hMenuContext);
 
-	SkinAddNewSoundEx("RecvMsgActive", "Instant messages", "Incoming (Focused Window)");
-	SkinAddNewSoundEx("RecvMsgInactive", "Instant messages", "Incoming (Unfocused Window)");
-	SkinAddNewSoundEx("AlertMsg", "Instant messages", "Incoming (New Session)");
-	SkinAddNewSoundEx("SendMsg", "Instant messages", "Outgoing");
-	SkinAddNewSoundEx("SendError", "Instant messages", "Message send error");
+	SkinAddNewSoundEx("RecvMsgActive",   LPGEN("Instant messages"), LPGEN("Incoming (Focused Window)"));
+	SkinAddNewSoundEx("RecvMsgInactive", LPGEN("Instant messages"), LPGEN("Incoming (Unfocused Window)"));
+	SkinAddNewSoundEx("AlertMsg",        LPGEN("Instant messages"), LPGEN("Incoming (New Session)"));
+	SkinAddNewSoundEx("SendMsg",         LPGEN("Instant messages"), LPGEN("Outgoing"));
+	SkinAddNewSoundEx("SendError",       LPGEN("Instant messages"), LPGEN("Message send error"));
 
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
@@ -348,16 +348,16 @@ void CGlobals::reloadSettings(bool fReloadSkins)
  */
 void CGlobals::reloadAdv()
 {
-	g_bDisableAniAvatars=				M->GetByte("adv_DisableAniAvatars", 0);
-	g_bSoundOnTyping = 					M->GetByte("adv_soundontyping", 0);
-	m_dontUseDefaultKbd=				M->GetByte("adv_leaveKeyboardAlone", 1);
-	g_bClientInStatusBar = 				M->GetByte("adv_ClientIconInStatusBar", 0);
+	g_bDisableAniAvatars = M->GetByte("adv_DisableAniAvatars", 0);
+	g_bSoundOnTyping = M->GetByte("adv_soundontyping", 0);
+	m_dontUseDefaultKbd = M->GetByte("adv_leaveKeyboardAlone", 1);
+	g_bClientInStatusBar = M->GetByte("adv_ClientIconInStatusBar", 0);
 
 	if(g_bSoundOnTyping && m_TypingSoundAdded == false) {
-		SkinAddNewSoundEx("SoundOnTyping", "Other", "TABSRMM: Typing");
+		SkinAddNewSoundEx("SoundOnTyping", LPGEN("Other"), LPGEN("TABSRMM: Typing"));
 		m_TypingSoundAdded = true;
 	}
-	m_AllowOfflineMultisend =			M->GetByte("AllowOfflineMultisend", 0);
+	m_AllowOfflineMultisend = M->GetByte("AllowOfflineMultisend", 0);
 }
 
 const HMENU CGlobals::getMenuBar()

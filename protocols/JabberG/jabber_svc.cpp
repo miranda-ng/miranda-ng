@@ -432,7 +432,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText( WPARAM wParam, LPARAM lPar
 	bool bIsTipper = DBGetContactSettingByte(NULL, "Tab_SRMsg", "adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip");
 
 	//JID:
-	if ( _tcschr(info->resourceName, _T('@') ) != NULL )
+	if ( _tcschr(info->resourceName, _T('@')) != NULL )
 		appendString(bIsTipper, _T("JID:"), info->resourceName, outBuf, SIZEOF(outBuf));
 	else if (lParam) { //or simple nick
 		appendString(bIsTipper, _T("Nick:"), (TCHAR*) lParam, outBuf, SIZEOF(outBuf));
@@ -614,7 +614,7 @@ INT_PTR __cdecl CJabberProto::JabberSendNudge( WPARAM wParam, LPARAM )
 		m_ThreadInfo->send(
 			XmlNode( _T("message")) << XATTR( _T("type"), _T("headline")) << XATTR( _T("to"), tszJid )
 				<< XCHILDNS( _T("attention"),
-				jcb & JABBER_CAPS_ATTENTION ? _T(JABBER_FEAT_ATTENTION) : _T(JABBER_FEAT_ATTENTION_0 )) );
+				jcb & JABBER_CAPS_ATTENTION ? _T(JABBER_FEAT_ATTENTION) : _T(JABBER_FEAT_ATTENTION_0 )));
 	}
 	return 0;
 }
@@ -1120,7 +1120,7 @@ LPTSTR CJabberNetInterface::GetResourceFeatures( LPCTSTR jid )
 		}
 
 		// allocate memory and fill it
-		LPTSTR str = (LPTSTR)mir_alloc( iLen * sizeof(TCHAR) );
+		LPTSTR str = (LPTSTR)mir_alloc( iLen * sizeof(TCHAR));
 		LPTSTR p = str;
 		for ( i = 0; g_JabberFeatCapPairs[i].szFeature; i++ ) {
 			if ( jcb & g_JabberFeatCapPairs[i].jcbCap ) {

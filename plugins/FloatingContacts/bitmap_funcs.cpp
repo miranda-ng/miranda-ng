@@ -1144,7 +1144,7 @@ bool MyBitmap::loadFromFile_default(const char *fn, const char *fnAlpha)
 	MyBitmap alpha;
 	if (fnAlpha && alpha.loadFromFile(fnAlpha) &&
 		(alpha.getWidth() == width) &&
-		(alpha.getHeight() == height) )
+		(alpha.getHeight() == height))
 	{
 		for (int i = 0; i < width*height; i++)
 			bits[i] = (bits[i] & 0x00ffffff) | ( (alpha.bits[i] & 0x000000ff) << 24 );

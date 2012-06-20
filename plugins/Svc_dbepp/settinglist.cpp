@@ -126,7 +126,7 @@ void additem(HWND hwnd2Settings,HANDLE hContact, char* module, char* setting, in
 			case DBVT_BLOB:
 			{
 				int j;
-				if (!(data = (char*)mir_realloc(data, 3*(dbv.cpbVal+1)+10) ))
+				if (!(data = (char*)mir_realloc(data, 3*(dbv.cpbVal+1)+10)))
 					{msg(Translate("Couldnt allocate enough memory!"), modFullname); return;}
 				data[0] = '\0';
 				for (j=0; j<dbv.cpbVal; j++)
@@ -1026,7 +1026,7 @@ void SettingsListRightClick(HWND hwnd, WPARAM wParam,LPARAM lParam) // hwnd here
 		// check if the setting is being watched and if it is then check the menu item
 		for (i=0; i<WatchListArray.count; i++)
 		{
-			if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact) )
+			if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact))
 			{
 				if (WatchListArray.item[i].WatchModule == WATCH_MODULE) continue;
 

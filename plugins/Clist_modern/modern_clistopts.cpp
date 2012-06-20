@@ -419,7 +419,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS3),FALSE);
 				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 			}
-			if ( !IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ) ) 
+			if ( !IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS )) 
 			{
 				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), FALSE );
 			}
@@ -481,7 +481,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_WIDTH_SPIN),enabled);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_AVATAR_SIZE_PIXELS),enabled);
 				
-				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), enabled && IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ) );
+				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), enabled && IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ));
 				//				}
 				//				else
 				//				{
@@ -492,7 +492,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 			}
 			else if (LOWORD(wParam)==IDC_SHOW_ANIAVATARS)
 			{
-				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ) );
+				EnableWindow( GetDlgItem( hwndDlg, IDC_AVATAR_FASTDRAW), IsDlgButtonChecked( hwndDlg, IDC_SHOW_ANIAVATARS ));
 			}
 
 			else if (LOWORD(wParam)==IDC_AVATAR_DRAW_BORDER)

@@ -86,7 +86,7 @@ int OmegleProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 		msg = mir_utf8encode(msg);
   
 	facy.msgid_ = (facy.msgid_ % 1024)+1;
-	ForkThread( &OmegleProto::SendMsgWorker, this,new send_direct(hContact,msg,(HANDLE)facy.msgid_) );
+	ForkThread( &OmegleProto::SendMsgWorker, this,new send_direct(hContact,msg,(HANDLE)facy.msgid_));
 	return facy.msgid_;*/
 	return 0;
 }

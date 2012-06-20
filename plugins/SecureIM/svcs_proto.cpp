@@ -25,7 +25,7 @@ int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg=NULL) {
 int returnNoError(HANDLE hContact) {
 	HANDLE hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
 	unsigned int tID;
-	CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttFakeAck, new TFakeAckParams(hEvent,hContact,777,0), 0, &tID) );
+	CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttFakeAck, new TFakeAckParams(hEvent,hContact,777,0), 0, &tID));
 	SetEvent( hEvent );
 	return 777;
 }
@@ -34,7 +34,7 @@ int returnNoError(HANDLE hContact) {
 int returnError(HANDLE hContact, LPCSTR err) {
 	HANDLE hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
 	unsigned int tID;
-	CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttFakeAck, new TFakeAckParams(hEvent,hContact,666,err), 0, &tID) );
+	CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttFakeAck, new TFakeAckParams(hEvent,hContact,666,err), 0, &tID));
 	SetEvent( hEvent );
 	return 666;
 }
@@ -271,7 +271,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onRecvMsg: Native SiG_ENON message");
 #endif
-		if ( cpp_keyx(ptr->cntx) ) {
+		if ( cpp_keyx(ptr->cntx)) {
 			// decrypting message
 			szPlainMsg = decodeMsg(ptr,lParam,szEncMsg);
 			if (!ptr->decoded) {
@@ -392,7 +392,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 			// receive KeyB from user;
 			showPopUpKR(ptr->hContact);
 
-			if ( ptr->cntx && cpp_keyb(ptr->cntx) ) {
+			if ( ptr->cntx && cpp_keyb(ptr->cntx)) {
 				// reinit key exchange if an old key from user is found
 				cpp_reset_context(ptr->cntx);
 			}
@@ -450,7 +450,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 			}
 
 			// auto send my public key to keyB user if not done before
-			if ( !cpp_keya(ptr->cntx) ) {
+			if ( !cpp_keya(ptr->cntx)) {
 				LPSTR keyToSend = InitKeyA(ptr,0); // calculate public and private key
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 				Sent_NetLog("onRecvMsg: Sending KEYA %s", keyToSend);
@@ -534,7 +534,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 
 		/* common part (CalcKeyX & SendQueue) */
 		//  calculate KeyX
-		if ( cpp_keya(ptr->cntx) && cpp_keyb(ptr->cntx) && !cpp_keyx(ptr->cntx) )
+		if ( cpp_keya(ptr->cntx) && cpp_keyb(ptr->cntx) && !cpp_keyx(ptr->cntx))
 			CalculateKeyX(ptr,ptr->hContact);
 
 		ShowStatusIconNotify(ptr->hContact);
@@ -550,7 +550,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 	} //switch
 
 	// receive message
-	if ( cpp_keyx(ptr->cntx) && (ssig==SiG_ENON||ssig==SiG_ENOF) ) {
+	if ( cpp_keyx(ptr->cntx) && (ssig==SiG_ENON||ssig==SiG_ENOF)) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onRecvMsg: message received");
 #endif
@@ -571,7 +571,7 @@ INT_PTR __cdecl onSendMsgW(WPARAM wParam, LPARAM lParam) {
 	if (!lParam) return 0;
 
 	CCSDATA *ccs = (CCSDATA *) lParam;
-	if ( !(ccs->wParam & PREF_UTF) )
+	if ( !(ccs->wParam & PREF_UTF))
 		ccs->wParam |= PREF_UNICODE;
 	
 	return onSendMsg(wParam, lParam);
@@ -616,7 +616,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 	    Sent_NetLog("onSendMsg: PGP|GPG mode");
 #endif
 	    // если можно зашифровать - шифруем
-            if ( isContactPGP(ptr->hContact) || isContactGPG(ptr->hContact) ) {
+            if ( isContactPGP(ptr->hContact) || isContactGPG(ptr->hContact)) {
 /*
 		if(stat==ID_STATUS_OFFLINE) {
 			if (msgbox1(0,sim110,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDNO) {
@@ -681,7 +681,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
         		else {
         			createRSAcntx(ptr);
         		}
-			if ( !bSOM || (!isClientMiranda(ptr,1) && !isSecureIM(ptr,1)) || !loadRSAkey(ptr) ) {
+			if ( !bSOM || (!isClientMiranda(ptr,1) && !isSecureIM(ptr,1)) || !loadRSAkey(ptr)) {
 				if ( ssig==SiG_NONE ) {
         				// просто шлем незашифрованное в оффлайн
 					return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
@@ -729,7 +729,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 			return returnNoError(pccsd->hContact);
 		}
 		// просто сообщение (без тэгов, нет контекста и работают AIP & NOL)
-		if ( ssig==SiG_NONE && isSecureIM(ptr->hContact) ) {
+		if ( ssig==SiG_NONE && isSecureIM(ptr->hContact)) {
 			// добавим его в очередь
 			addMsg2Queue(ptr, pccsd->wParam, (LPSTR)pccsd->lParam);
 			// запускаем процесс установки соединения
@@ -789,7 +789,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onSendMsg: message for offline");
 #endif
-		if ( ssig==SiG_INIT && cpp_keyx(ptr->cntx) ) {
+		if ( ssig==SiG_INIT && cpp_keyx(ptr->cntx)) {
 			// reinit key exchange
 			cpp_reset_context(ptr->cntx);
 		}
@@ -875,13 +875,13 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 		return returnNoError(pccsd->hContact);
 	}
 
-	if ( cpp_keya(ptr->cntx) && cpp_keyb(ptr->cntx) && !cpp_keyx(ptr->cntx) )
+	if ( cpp_keya(ptr->cntx) && cpp_keyb(ptr->cntx) && !cpp_keyx(ptr->cntx))
 		CalculateKeyX(ptr,ptr->hContact);
 
 	ShowStatusIconNotify(pccsd->hContact);
 
 	// if cryptokey exist
-	if ( cpp_keyx(ptr->cntx) ) {
+	if ( cpp_keyx(ptr->cntx)) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onSendMsg: cryptokey exist");
 #endif
@@ -1070,7 +1070,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 			if ( ptr->fileSend ) {
 				char **file=ptr->fileSend;
         			for(int j=0;file[j];j++) {
-					if ( strstr(file[j],".AESHELL") ) mir_unlink(file[j]);
+					if ( strstr(file[j],".AESHELL")) mir_unlink(file[j]);
 					mir_free(file[j]);
 				}
 				SAFE_FREE(ptr->fileSend);
@@ -1080,13 +1080,13 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 		case ACKRESULT_NEXTFILE:
 		case ACKRESULT_SUCCESS: {
 			if ( ptr->finFileRecv && ptr->lastFileRecv ) {
-				if ( strstr(ptr->lastFileRecv,".AESHELL") ) {
+				if ( strstr(ptr->lastFileRecv,".AESHELL")) {
 					char buf[MAX_PATH];
 					LPSTR file_out=mir_strdup(ptr->lastFileRecv);
 					LPSTR pos=strrchr(file_out,'.'); //find last .
 					if (pos) *pos='\0'; //remove AESHELL from name
 
-					if ( isFileExist(file_out) ) {
+					if ( isFileExist(file_out)) {
 						buf[0]='\0';
 						LPSTR p=strrchr(file_out,'.');
 						LPSTR x=strrchr(file_out,'\\');
@@ -1096,7 +1096,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 						}
 						for(int i=1;i<10000;i++) {
 							sprintf(pos," (%d)%s",i,buf);
-							if ( !isFileExist(file_out) ) break;
+							if ( !isFileExist(file_out)) break;
 						}
 					}
 
@@ -1116,7 +1116,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 				ptr->finFileRecv = false;
 			}
 			if ( ptr->finFileSend && ptr->lastFileSend ) {
-				if ( strstr(ptr->lastFileSend,".AESHELL") ) mir_unlink(ptr->lastFileSend);
+				if ( strstr(ptr->lastFileSend,".AESHELL")) mir_unlink(ptr->lastFileSend);
 				SAFE_FREE(ptr->lastFileSend);
 				ptr->finFileSend = false;
 			}

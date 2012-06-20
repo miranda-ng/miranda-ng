@@ -532,7 +532,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_ROWBYTES(pixel_bits, width) \
     ((pixel_bits) >= 8 ? \
     ((png_size_t)(width) * (((png_size_t)(pixel_bits)) >> 3)) : \
-    (( ((png_size_t)(width) * ((png_size_t)(pixel_bits))) + 7) >> 3) )
+    (( ((png_size_t)(width) * ((png_size_t)(pixel_bits))) + 7) >> 3))
 
 /* PNG_OUT_OF_RANGE returns true if value is outside the range
  * ideal-delta..ideal+delta.  Each argument is evaluated twice.
@@ -540,7 +540,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
  * integers, "value" a variable. Added to libpng-1.2.6 JB
  */
 #define PNG_OUT_OF_RANGE(value, ideal, delta) \
-   ( (value) < (ideal)-(delta) || (value) > (ideal)+(delta) )
+   ( (value) < (ideal)-(delta) || (value) > (ideal)+(delta))
 
 /* Conversions between fixed and floating point, only defined if
  * required (to make sure the code doesn't accidentally use float

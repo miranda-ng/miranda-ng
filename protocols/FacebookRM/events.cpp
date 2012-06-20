@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::Log(const char *fmt,...)
 {
-	if ( !getByte( FACEBOOK_KEY_LOGGING_ENABLE, 0 ) )
+	if ( !getByte( FACEBOOK_KEY_LOGGING_ENABLE, 0 ))
 		return EXIT_SUCCESS;
 
 	va_list va;
@@ -52,7 +52,7 @@ LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 			if ( url.substr(0,4) != "http" )
 				url = FACEBOOK_URL_HOMEPAGE + url; // make absolute url
 
-			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) url.c_str() );
+			CallService(MS_UTILS_OPENURL, (WPARAM) 1, (LPARAM) url.c_str());
 		}
 
 		// After a click, destroy popup
@@ -85,9 +85,9 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 	switch ( flags )
 	{
 	case FACEBOOK_EVENT_CLIENT:
-		if ( !getByte( FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_CLIENT_ENABLE, DEFAULT_EVENT_CLIENT_ENABLE ))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_CLIENT_DEFAULT, 0 ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_CLIENT_DEFAULT, 0 ))
 		{
 			colorBack = getDword( FACEBOOK_KEY_EVENT_CLIENT_COLBACK, DEFAULT_EVENT_COLBACK );
 			colorText = getDword( FACEBOOK_KEY_EVENT_CLIENT_COLTEXT, DEFAULT_EVENT_COLTEXT );
@@ -97,9 +97,9 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 		break;
 
 	case FACEBOOK_EVENT_NEWSFEED:
-		if ( !getByte( FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE ))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_FEEDS_DEFAULT, 0 ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_FEEDS_DEFAULT, 0 ))
 		{
 			colorBack = getDword( FACEBOOK_KEY_EVENT_FEEDS_COLBACK, DEFAULT_EVENT_COLBACK );
 			colorText = getDword( FACEBOOK_KEY_EVENT_FEEDS_COLTEXT, DEFAULT_EVENT_COLTEXT );
@@ -110,9 +110,9 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 		break;
 
 	case FACEBOOK_EVENT_NOTIFICATION:
-		if ( !getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE ))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT, 0 ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_DEFAULT, 0 ))
 		{
 			colorBack = getDword( FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLBACK, DEFAULT_EVENT_COLBACK );
 			colorText = getDword( FACEBOOK_KEY_EVENT_NOTIFICATIONS_COLTEXT, DEFAULT_EVENT_COLTEXT );
@@ -123,9 +123,9 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 		break;
 
 	case FACEBOOK_EVENT_OTHER:
-		if ( !getByte( FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_OTHER_ENABLE, DEFAULT_EVENT_OTHER_ENABLE ))
 			goto exit;
-		if ( !getByte( FACEBOOK_KEY_EVENT_OTHER_DEFAULT, 0 ) )
+		if ( !getByte( FACEBOOK_KEY_EVENT_OTHER_DEFAULT, 0 ))
 		{
 			colorBack = getDword( FACEBOOK_KEY_EVENT_OTHER_COLBACK, DEFAULT_EVENT_COLBACK );
 			colorText = getDword( FACEBOOK_KEY_EVENT_OTHER_COLTEXT, DEFAULT_EVENT_COLTEXT );
@@ -136,7 +136,7 @@ void FacebookProto::NotifyEvent(TCHAR* title, TCHAR* info, HANDLE contact, DWORD
 		break;
 	}
 
-	if ( !getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY,DEFAULT_SYSTRAY_NOTIFY) )
+	if ( !getByte(FACEBOOK_KEY_SYSTRAY_NOTIFY,DEFAULT_SYSTRAY_NOTIFY))
 	{
 		if (ServiceExists(MS_POPUP_ADDPOPUP))
 		{

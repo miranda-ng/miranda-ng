@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 std::string utils::url::encode(const std::string &s)
 {
 	char *encoded = reinterpret_cast<char*>(CallService( MS_NETLIB_URLENCODE,
-		0,reinterpret_cast<LPARAM>(s.c_str()) ));
+		0,reinterpret_cast<LPARAM>(s.c_str())));
 	std::string ret = encoded;
 	HeapFree(GetProcessHeap(),0,encoded);
 
@@ -114,7 +114,7 @@ void utils::text::replace_all( std::string* data, std::string from, std::string 
 {
 	std::string::size_type position = 0;
 
-	while ( ( position = data->find( from, position ) ) != std::string::npos )
+	while ( ( position = data->find( from, position )) != std::string::npos )
 	{
 		data->replace( position, from.size(), to );
 		position++;
@@ -126,7 +126,7 @@ unsigned int utils::text::count_all( std::string* data, std::string term )
 	unsigned int count = 0;
 	std::string::size_type position = 0;
 
-	while ( ( position = data->find( term, position ) ) != std::string::npos )
+	while ( ( position = data->find( term, position )) != std::string::npos )
 	{
 		count++;
 		position++;
@@ -282,14 +282,14 @@ std::string utils::text::slashu_to_utf8( std::string data )
 
 			if ( udn >= 128 && udn <= 2047 )
 			{ // U+0080 .. U+07FF
-				new_string += ( char )( 192 + ( udn / 64 ) );
-				new_string += ( char )( 128 + ( udn % 64 ) );
+				new_string += ( char )( 192 + ( udn / 64 ));
+				new_string += ( char )( 128 + ( udn % 64 ));
 			} 
 			else if ( udn >= 2048 && udn <= 65535 )
 			{ // U+0800 .. U+FFFF
-				new_string += ( char )( 224 + ( udn / 4096 ) );
-				new_string += ( char )( 128 + ( ( udn / 64 ) % 64 ) );
-				new_string += ( char )( 128 + ( udn % 64  ) );
+				new_string += ( char )( 224 + ( udn / 4096 ));
+				new_string += ( char )( 128 + ( ( udn / 64 ) % 64 ));
+				new_string += ( char )( 128 + ( udn % 64  ));
 			}
 			else if ( udn <= 127 )
 			{ // U+0000 .. U+007F (should not appear)
@@ -380,7 +380,7 @@ std::string utils::text::source_get_value2( std::string* data, const char *term,
 
 int utils::number::random( )
 {
-	srand( ::time( NULL ) );
+	srand( ::time( NULL ));
 	return rand( );
 }
 
@@ -389,7 +389,7 @@ int utils::debug::log(std::string file_name, std::string text)
 	char szFile[MAX_PATH];
 	GetModuleFileNameA(g_hInstance, szFile, SIZEOF(szFile));
 	std::string path = szFile;
-	path = path.substr( 0, path.rfind( "\\" ) );
+	path = path.substr( 0, path.rfind( "\\" ));
 	path = path.substr( 0, path.rfind( "\\" ) + 1 );
 	path = path + file_name.c_str() + ".txt";
 

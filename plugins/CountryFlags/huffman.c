@@ -308,12 +308,12 @@ static void _Huffman_MakeTree( huff_sym_t *sym, huff_bitstream_t *stream )
     {
       if ( nodes[k].Count > 0 )
       {
-        if ( !node_1 || (nodes[k].Count <= node_1->Count) )
+        if ( !node_1 || (nodes[k].Count <= node_1->Count))
         {
           node_2 = node_1;
           node_1 = &nodes[k];
         }
-        else if ( !node_2 || (nodes[k].Count <= node_2->Count) )
+        else if ( !node_2 || (nodes[k].Count <= node_2->Count))
         {
           node_2 = &nodes[k];
         }
@@ -367,7 +367,7 @@ static huff_decodenode_t * _Huffman_RecoverTree( huff_decodenode_t *nodes,
   this_node->ChildB = (huff_decodenode_t *) 0;
 
   /* Is this a leaf node? */
-  if ( _Huffman_ReadBit( stream ) )
+  if ( _Huffman_ReadBit( stream ))
   {
     /* Get symbol from tree description and store in lead node */
     this_node->Symbol = _Huffman_Read8Bits( stream );
@@ -494,7 +494,7 @@ void Huffman_Uncompress( unsigned char *in, unsigned char *out,
     while( node->Symbol < 0 )
     {
       /* Get next node */
-      if ( _Huffman_ReadBit( &stream ) )
+      if ( _Huffman_ReadBit( &stream ))
         node = node->ChildB;
       else
         node = node->ChildA;

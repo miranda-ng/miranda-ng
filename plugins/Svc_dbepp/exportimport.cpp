@@ -131,7 +131,7 @@ void exportModule(HANDLE hContact, char* module, FILE* file)
 				{
 					int j;
 					char *data = NULL;
-					if (!(data = (char*)mir_alloc( 3*(dbv.cpbVal+1)*sizeof(char)) ))
+					if (!(data = (char*)mir_alloc( 3*(dbv.cpbVal+1)*sizeof(char))))
 						break;
 					data[0] = '\0';
 					for (j=0; j<dbv.cpbVal; j++)
@@ -479,7 +479,7 @@ void importSettings(HANDLE hContact, char *importstring )
 					hContact = temp;
 			}
 		}
-		else if (importstring[i] == '[' && !strchr(&importstring[i+1],'=') )// get the module
+		else if (importstring[i] == '[' && !strchr(&importstring[i+1],'='))// get the module
 		{
 			if (end = strpbrk(&importstring[i+1], "]")) {
 				if ((end+1) != '\0') *end = '\0';

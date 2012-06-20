@@ -328,13 +328,13 @@ static LRESULT CALLBACK SubclassProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lPa
 			}
 */
 			// CTRL
-			if ( !(GetKeyState(VK_CONTROL)&0x8000) )
+			if ( !(GetKeyState(VK_CONTROL)&0x8000))
 				break;
 
 			switch(wParam) {
 
 				case 1:	// Ctrl+A
-	   				if ( ListView_GetSelectedCount(hwnd) != (UINT)ListView_GetItemCount(hwnd) )
+	   				if ( ListView_GetSelectedCount(hwnd) != (UINT)ListView_GetItemCount(hwnd))
 						ListView_SetItemState(hwnd, -1, LVIS_SELECTED, LVIS_SELECTED);
 					return 0;
 
@@ -614,7 +614,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 				if ( !count ) break;
 
-				if ( count == ListView_GetItemCount(dat->hList) ) {
+				if ( count == ListView_GetItemCount(dat->hList)) {
 					LVITEM lvi = {0};
 					ListView_DeleteAllItems(dat->hList);
 					lvi.mask = LVIF_TEXT | LVIF_IMAGE;
@@ -776,7 +776,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 
 		if (!str) str = ""; // startup window
 
-		lw = (LOGWIN*)mir_calloc( sizeof(LOGWIN) );
+		lw = (LOGWIN*)mir_calloc( sizeof(LOGWIN));
 		lw->Module = (char*)mir_strdup(str);
 		li.List_Insert(&lModules, lw, idx);
 
@@ -1033,7 +1033,7 @@ void __cdecl ConsoleThread(void* arg)
 			break;
 		}
 
-		if ( IsDialogMessage(hwnd, &msg) )
+		if ( IsDialogMessage(hwnd, &msg))
 			continue;
 
 		TranslateMessage(&msg);

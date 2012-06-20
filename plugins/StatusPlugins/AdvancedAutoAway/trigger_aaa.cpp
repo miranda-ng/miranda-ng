@@ -35,10 +35,10 @@ static int AAAStateChanged(WPARAM wParam, LPARAM lParam) {
 			}
 			break;
 		case SET_ORGSTATUS:
-			if ( (aas->oldState == STATUS1_SET) && (DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVEFIRST, 0)) ) {
+			if ( (aas->oldState == STATUS1_SET) && (DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVEFIRST, 0))) {
 				bReport = TRUE;;
 			}
-			if ( (aas->oldState == STATUS2_SET) && (DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVESECOND, 0)) ) {
+			if ( (aas->oldState == STATUS2_SET) && (DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVESECOND, 0))) {
 				bReport = TRUE;;
 			}
 			break;
@@ -54,12 +54,12 @@ static int AAAStateChanged(WPARAM wParam, LPARAM lParam) {
 
 				szProto = DBGetContactSettingByte(NULL, MODULENAME, SETTING_SAMESETTINGS, 0)?SETTING_ALL:aas->protocolSetting->szName;
 				_snprintf(setting, sizeof(setting), "%s_Lv1Status", szProto);
-				if ( (aas->protocolSetting->lastStatus == DBGetContactSettingWord(NULL, MODULENAME, setting, ID_STATUS_AWAY)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVEFIRST, 0) ) {
+				if ( (aas->protocolSetting->lastStatus == DBGetContactSettingWord(NULL, MODULENAME, setting, ID_STATUS_AWAY)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVEFIRST, 0)) {
 					bReport = TRUE;
 				}
 				
 				_snprintf(setting, sizeof(setting), "%s_Lv2Status", szProto);
-				if ( (aas->protocolSetting->lastStatus == DBGetContactSettingWord(NULL, MODULENAME, setting, ID_STATUS_NA)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVESECOND, 0) ) {
+				if ( (aas->protocolSetting->lastStatus == DBGetContactSettingWord(NULL, MODULENAME, setting, ID_STATUS_NA)) && DBGetTriggerSettingByte(triggerID, NULL, MODULENAME, SETTING_LEAVESECOND, 0)) {
 					bReport = TRUE;
 				}
 			}

@@ -267,7 +267,7 @@ void CJabberProto::IconsInit( void )
 
 	m_phIconLibItems = ( HANDLE* )mir_alloc( sizeof( HANDLE )*SIZEOF(iconList));
 
-	mir_sntprintf( szRootSection, SIZEOF(szRootSection), _T("%s/%s/%s"), LPGENT("Protocols"), LPGENT("Jabber"), LPGENT("Accounts") );
+	mir_sntprintf( szRootSection, SIZEOF(szRootSection), _T("%s/%s/%s"), LPGENT("Protocols"), LPGENT("Jabber"), LPGENT("Accounts"));
 
 	for (i = 0; i < SIZEOF(iconList); i++ ) {
 		TCHAR tmp[100];
@@ -578,7 +578,7 @@ BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR* jid, HANDLE hContact
 
 	if ( m_lstTransports.getIndex( domain ) == -1 ) {
 		if ( isAgent ) {
-			m_lstTransports.insert( mir_tstrdup(domain) );
+			m_lstTransports.insert( mir_tstrdup(domain));
 			JSetByte( hContact, "IsTransport", 1 );
 	}	}
 
@@ -673,7 +673,7 @@ static void sttProcessIcons( int iAmount )
 	sid.pszDefaultFile = szFile;
 
 	char szRootSection[100];
-	mir_snprintf( szRootSection, SIZEOF(szRootSection), "%s/%s", LPGEN("Protocols"), LPGEN("Jabber") );
+	mir_snprintf( szRootSection, SIZEOF(szRootSection), "%s/%s", LPGEN("Protocols"), LPGEN("Jabber"));
 
 	for ( int i = 0; i < iAmount; i++ ) {
 		char szSettingName[100], szSectionName[100];

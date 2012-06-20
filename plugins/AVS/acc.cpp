@@ -288,7 +288,7 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 	RGBQUAD *pal = fei->FI_GetPalette(dib);
 	bool have_transparent = false;
 	int transparent_color = -1;
-	if ( fei->FI_IsTransparent(dib) ) {
+	if ( fei->FI_IsTransparent(dib)) {
 		int count = fei->FI_GetTransparencyCount(dib);
 		BYTE *table = fei->FI_GetTransparencyTable(dib);
 		for ( int i = 0; i < count; i++ ) {

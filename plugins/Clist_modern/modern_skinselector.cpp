@@ -82,7 +82,7 @@ BOOL wildcmpi(TCHAR* name, TCHAR* mask)
 			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
 		}
 		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
 
@@ -103,7 +103,7 @@ BOOL wildcmpi(char * name, char * mask)
 			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
 		}
 		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name) ) name -= (size_t)(mask - last) - 1, mask = last;
+		if (*mask != '?' && _qtoupper(*mask)  != _qtoupper(*name)) name -= (size_t)(mask - last) - 1, mask = last;
 	}
 }
 
@@ -421,7 +421,7 @@ int ParseToModernMask(MODERNMASK * mm, char * szText)
 	unsigned int valuelen;
 	int except;
 
-	while ( _GetParamValue( szText, startPos, textLen, pszParam, paramlen, pszValue, valuelen, except) )
+	while ( _GetParamValue( szText, startPos, textLen, pszParam, paramlen, pszValue, valuelen, except))
 	{        
 		if ( except & EXCEPTION_NOT_EQUAL ) 
 			param.bMaskParamFlag = MPF_NOT_EQUAL;
@@ -443,7 +443,7 @@ int ParseToModernMask(MODERNMASK * mm, char * szText)
 
 		param.szValue= strdupn( pszValue, valuelen );
 
-		if ( !(except & EXCEPTION_WILD) )
+		if ( !(except & EXCEPTION_WILD))
 		{
 			param.dwValueHash = mod_CalcHash( param.szValue );
 			param.bMaskParamFlag |= MPF_HASHED;

@@ -110,7 +110,7 @@ int TriggerShakeChat( WPARAM wParam, LPARAM lParam )
 	
 	sai = (SPECIFICACTIONINFO *) lParam;
 
-	if ( (sai->td != NULL) && (sai->td->dFlags&DF_CONTACT) )
+	if ( (sai->td != NULL) && (sai->td->dFlags&DF_CONTACT))
 		hContact = sai->td->hContact;
 	else
 		return 0;

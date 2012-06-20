@@ -26,9 +26,9 @@ int FacebookProto::RecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
 {
 	DBVARIANT dbv;
 
-	if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
-		ForkThread( &FacebookProto::MessagingWorker, this, new send_messaging(dbv.pszVal, FACEBOOK_RECV_MESSAGE ) );
+		ForkThread( &FacebookProto::MessagingWorker, this, new send_messaging(dbv.pszVal, FACEBOOK_RECV_MESSAGE ));
 		DBFreeVariant(&dbv);
 	}
 
@@ -49,11 +49,11 @@ void FacebookProto::SendMsgWorker(void *p)
 
 	DBVARIANT dbv;
 
-	if ( !isOnline( ) )
+	if ( !isOnline( ))
 	{
 		ProtoBroadcastAck(m_szModuleName, data->hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, data->msgid, (LPARAM)Translate("You cannot send messages when you are offline."));
 	}
-	else if ( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	else if ( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
 		int retries = 5;
 		std::string error_text = "";
@@ -64,7 +64,7 @@ void FacebookProto::SendMsgWorker(void *p)
 		}
 		if (result) {
 			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_SUCCESS, data->msgid,0);
-			MessagingWorker( new send_messaging(dbv.pszVal, FACEBOOK_SEND_MESSAGE ) );
+			MessagingWorker( new send_messaging(dbv.pszVal, FACEBOOK_SEND_MESSAGE ));
 		} else {
 			char *err = mir_utf8decodeA(error_text.c_str());
 			ProtoBroadcastAck(m_szModuleName,data->hContact,ACKTYPE_MESSAGE,ACKRESULT_FAILED, data->msgid,(LPARAM)err);
@@ -118,7 +118,7 @@ int FacebookProto::SendMsg(HANDLE hContact, int flags, const char *msg)
 		msg = mir_utf8encode(msg);
   
 	facy.msgid_ = (facy.msgid_ % 1024)+1;
-	ForkThread( &FacebookProto::SendMsgWorker, this,new send_direct(hContact,msg,(HANDLE)facy.msgid_) );
+	ForkThread( &FacebookProto::SendMsgWorker, this,new send_direct(hContact,msg,(HANDLE)facy.msgid_));
 	return facy.msgid_;
 }
 
@@ -146,14 +146,14 @@ void FacebookProto::SendTypingWorker(void *p)
 	facy.is_typing_ = (typing->status == PROTOTYPE_SELFTYPING_ON);
 	SleepEx( 2000, true );
 
-	if ( !facy.is_typing_ == (typing->status == PROTOTYPE_SELFTYPING_ON) )
+	if ( !facy.is_typing_ == (typing->status == PROTOTYPE_SELFTYPING_ON))
 	{
 		delete typing;
 		return;
 	}
 		
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingString(typing->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	if ( !DBGetContactSettingString(typing->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
 		std::string data = "typ=";
 		data += ( typing->status == PROTOTYPE_SELFTYPING_ON ) ? "1" : "0"; // PROTOTYPE_SELFTYPING_OFF
@@ -162,7 +162,7 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += "&source=mercury-chat";
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&post_form_id=";
-		data += ( facy.post_form_id_.length( ) ) ? facy.post_form_id_ : "0";
+		data += ( facy.post_form_id_.length( )) ? facy.post_form_id_ : "0";
 		data += "&post_form_id_source=AsyncRequest&lsd=&phstamp=0&__user=";
 		data += facy.self_.user_id;
 
@@ -184,7 +184,7 @@ void FacebookProto::MessagingWorker(void *p)
 	if (data->type == FACEBOOK_RECV_MESSAGE)
 		facy.chat_mark_read( data->user_id );
 
-//	if ( DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_CLOSE_WINDOWS_ENABLE, DEFAULT_CLOSE_WINDOWS_ENABLE ) )
+//	if ( DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_CLOSE_WINDOWS_ENABLE, DEFAULT_CLOSE_WINDOWS_ENABLE ))
 //		facy.close_chat( data->user_id );
 
 	delete data;

@@ -1750,7 +1750,7 @@ lbl_stack_fix_end:					; end of stack fix hack
 				{
 					do
 					{
-						if ( !(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY) )
+						if ( !(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY))
 						{
 							HMODULE hModule = GetModuleHandleA(ffd.cFileName);
 							if (((char *)PluginWindowProc > (char *)hModule) &&
@@ -1760,7 +1760,7 @@ lbl_stack_fix_end:					; end of stack fix hack
 								lstrcpynA(szBadModule, ffd.cFileName, sizeof(szBadModule));
 							}
 						}
-					} while ( FindNextFileA(hFind, &ffd) );
+					} while ( FindNextFileA(hFind, &ffd));
 					FindClose(hFind);
 				}
 			}

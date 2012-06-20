@@ -331,7 +331,7 @@ void CJabberProto::GroupchatJoinRoom( const TCHAR* server, const TCHAR* room, co
 			TCHAR lasteventdate[40];
 			mir_sntprintf(lasteventdate, SIZEOF(lasteventdate), _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
 				time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
-			x << XCHILD( _T("history") ) << XATTR( _T("since"), lasteventdate);
+			x << XCHILD( _T("history")) << XATTR( _T("since"), lasteventdate);
 		}
 	}
 
@@ -562,7 +562,7 @@ void CJabberDlgGcJoin::OnInitDialog()
 		{
 			mir_sntprintf(jid, SIZEOF(jid), _T("%s@%s (%s)"),
 				info.room, info.server,
-				info.nick ? info.nick : TranslateT("<no nick>") );
+				info.nick ? info.nick : TranslateT("<no nick>"));
 			SetDlgItemText(m_hwnd, IDC_RECENT1+i, jid);
 		} else
 		{
@@ -1002,7 +1002,7 @@ void CJabberProto::GroupchatProcessPresence( HXML node )
 
 		char priority = 0;
 		if (( priorityNode = xmlGetChild( node , "priority" )) != NULL && xmlGetText( priorityNode ) != NULL )
-			priority = (char)_ttoi( xmlGetText( priorityNode ) );
+			priority = (char)_ttoi( xmlGetText( priorityNode ));
 
 		if (JABBER_RESOURCE_STATUS *oldRes = ListFindResource(LIST_CHATROOM, from))
 			if ((oldRes->status != status) || lstrcmp_null(oldRes->statusMessage, str))
@@ -1037,7 +1037,7 @@ void CJabberProto::GroupchatProcessPresence( HXML node )
 					else                                         role = ROLE_NONE;
 				}
 
-				if ( (role != ROLE_NONE) && (JabberGcGetStatus(r) != JabberGcGetStatus(affiliation, role)) ) {
+				if ( (role != ROLE_NONE) && (JabberGcGetStatus(r) != JabberGcGetStatus(affiliation, role))) {
 					GcLogUpdateMemberStatus( item, resource, nick, NULL, GC_EVENT_REMOVESTATUS, NULL );
 					if (!newRes) newRes = GC_EVENT_ADDSTATUS;
 				}
@@ -1087,7 +1087,7 @@ void CJabberProto::GroupchatProcessPresence( HXML node )
 		if ( roomCreated ||
 			(( n = xmlGetChild( node , "created" ))!=NULL &&
 				( str = xmlGetAttrValue( n, _T("xmlns")))!=NULL &&
-				!_tcscmp( str, _T("http://jabber.org/protocol/muc#owner"))) ) {
+				!_tcscmp( str, _T("http://jabber.org/protocol/muc#owner")))) {
 			// A new room just created by me
 			// Request room config
 			int iqId = SerialNext();
@@ -1309,7 +1309,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), m_info->roomJid, TranslateT("Incoming groupchat invitation.") );
+		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), m_info->roomJid, TranslateT("Incoming groupchat invitation."));
 		SetDlgItemText( m_hwnd, IDC_HEADERBAR, buf );
 
 		SetDlgItemText( m_hwnd, IDC_FROM, m_info->from );

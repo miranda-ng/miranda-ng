@@ -1125,7 +1125,7 @@ void SmileyLookup::find(const bkstring& str, SmileyLocVecType& smlcur, bool firs
 	if (m_text.empty())
 	{
 		_TMatcher* matcher = m_pattern->createTMatcher(str);
-		while( matcher->findNextMatch() )
+		while( matcher->findNextMatch())
 		{
 			bkstring::size_type st = matcher->getStartingIndex();
 			bkstring::size_type sz = matcher->getEndingIndex() - st;

@@ -80,7 +80,7 @@ using namespace std;
 extern HINSTANCE hInst;
 extern PLUGINLINK *pluginLink;
 
-#define MAX_REGS(_A_)	( sizeof(_A_) / sizeof(_A_[0]) )
+#define MAX_REGS(_A_)	( sizeof(_A_) / sizeof(_A_[0]))
 #define FREE(_m_)		if (_m_ != NULL) { free(_m_); _m_ = NULL; }
 
 #define ICON_SIZE 16

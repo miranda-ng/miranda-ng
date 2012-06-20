@@ -381,7 +381,7 @@ TDBTSettingHandle CSettings::FindSetting(TDBTSettingDescriptor & Descriptor)
 	if (Descriptor.Flags & DBT_SDF_FoundValid)
 		return Descriptor.FoundHandle;
 
-	uint32_t namelength = static_cast<uint32_t>( strlen(Descriptor.pszSettingName) );
+	uint32_t namelength = static_cast<uint32_t>( strlen(Descriptor.pszSettingName));
 	uint32_t namehash;
 
 	if (Descriptor.Flags & DBT_SDF_HashValid)

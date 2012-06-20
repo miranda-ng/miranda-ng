@@ -1035,13 +1035,13 @@ int png_XYZ_from_xy(png_XYZ *XYZ, png_xy xy)
     *
     *    red-scale =
     *          ( (green-x - blue-x) * (white-y - blue-y) -
-    *            (green-y - blue-y) * (white-x - blue-x) ) / white-y
+    *            (green-y - blue-y) * (white-x - blue-x)) / white-y
     * -------------------------------------------------------------------------
     *  (green-x - blue-x)*(red-y - blue-y)-(green-y - blue-y)*(red-x - blue-x)
     *
     *    green-scale =
     *          ( (red-y - blue-y) * (white-x - blue-x) -
-    *            (red-x - blue-x) * (white-y - blue-y) ) / white-y
+    *            (red-x - blue-x) * (white-y - blue-y)) / white-y
     * -------------------------------------------------------------------------
     *  (green-x - blue-x)*(red-y - blue-y)-(green-y - blue-y)*(red-x - blue-x)
     *

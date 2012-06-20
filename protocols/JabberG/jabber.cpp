@@ -268,7 +268,7 @@ extern "C" int __declspec( dllexport ) Load( PLUGINLINK *link )
 	if ( JabberAlphaBlend == NULL && ( hDll = LoadLibraryA("msimg32.dll" )))
 		JabberAlphaBlend = (BOOL (WINAPI *)(HDC, int, int, int, int, HDC, int, int, int, int, BLENDFUNCTION)) GetProcAddress(hDll, "AlphaBlend");
 
-	if ( IsWinVerXPPlus() ) {
+	if ( IsWinVerXPPlus()) {
 		if ( hDll = GetModuleHandleA("uxtheme")) {
 			JabberDrawThemeParentBackground = (HRESULT (WINAPI *)(HWND,HDC,RECT *))GetProcAddress(hDll, "DrawThemeParentBackground");
 			JabberIsThemeActive = (BOOL (WINAPI *)())GetProcAddress(hDll, "IsThemeActive");

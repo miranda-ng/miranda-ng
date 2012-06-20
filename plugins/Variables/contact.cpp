@@ -339,7 +339,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			free(tmp);
 		
 	}
-	if ( (tszContact == NULL) || (_tcslen(tszContact) == 0) )
+	if ( (tszContact == NULL) || (_tcslen(tszContact) == 0))
 		return -1;
 
 	ci->hContacts = NULL;
@@ -394,7 +394,7 @@ int getContactFromString( CONTACTSINFO* ci )
 
 					tszProto = a2u(szProto);
 
-					if ( (tszProto != NULL) && (szFind != NULL) ) {
+					if ( (tszProto != NULL) && (szFind != NULL)) {
 						wsprintf(szFind, _T("<%s:%s>"), tszProto, cInfo);
 						free(cInfo);
 						free(tszProto);
@@ -407,7 +407,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// id (exact)
-		if ( (ci->flags&CI_UNIQUEID) && (!bMatch) ) {
+		if ( (ci->flags&CI_UNIQUEID) && (!bMatch)) {
 			szFind = getContactInfoT(CNF_UNIQUEID, hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind))
@@ -417,7 +417,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// nick (not exact)
-		if ( (ci->flags&CI_NICK) && (!bMatch) ) {
+		if ( (ci->flags&CI_NICK) && (!bMatch)) {
 			szFind = getContactInfoT(CNF_NICK, hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind))
@@ -427,7 +427,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// list name (not exact)
-		if ( (ci->flags&CI_LISTNAME) && (!bMatch) ) {
+		if ( (ci->flags&CI_LISTNAME) && (!bMatch)) {
 			szFind = getContactInfoT(CNF_DISPLAY, hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind))
@@ -437,7 +437,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// firstname (exact)
-		if ( (ci->flags&CI_FIRSTNAME) && (!bMatch) ) {
+		if ( (ci->flags&CI_FIRSTNAME) && (!bMatch)) {
 			szFind = getContactInfoT(CNF_FIRSTNAME, hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
@@ -447,7 +447,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// lastname (exact)
-		if ( (ci->flags&CI_LASTNAME) && (!bMatch) ) {
+		if ( (ci->flags&CI_LASTNAME) && (!bMatch)) {
 			szFind = getContactInfoT(CNF_LASTNAME, hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
@@ -457,7 +457,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// email (exact)
-		if ( (ci->flags&CI_EMAIL) && (!bMatch) ) {
+		if ( (ci->flags&CI_EMAIL) && (!bMatch)) {
 			szFind = getContactInfoT(CNF_EMAIL, hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
@@ -467,7 +467,7 @@ int getContactFromString( CONTACTSINFO* ci )
 			}
 		}
 		// CNF_ (exact)
-		if ( (ci->flags&CI_CNFINFO) && (!bMatch) ) {
+		if ( (ci->flags&CI_CNFINFO) && (!bMatch)) {
 			szFind = getContactInfoT((BYTE)(ci->flags&~(CI_CNFINFO|CI_TCHAR)), hContact, ci->flags&CI_TCHAR);
 			if (szFind != NULL) {
 				if (!_tcscmp(tszContact, szFind)) {
@@ -533,7 +533,7 @@ static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 			 ((!strcmp(dbw->szSetting, "e-mail")) && (cce[i].flags&CI_EMAIL)) ||
 			 ((!strcmp(dbw->szSetting, "MyHandle")) && (cce[i].flags&CI_LISTNAME)) ||
 			 (cce[i].flags & CI_CNFINFO) != 0 || // lazy; always invalidate CNF info cache entries
-			 (( ((int)uid != CALLSERVICE_NOTFOUND) && (uid != NULL) ) && (!strcmp(dbw->szSetting, uid)) && (cce[i].flags & CI_UNIQUEID)))
+			 (( ((int)uid != CALLSERVICE_NOTFOUND) && (uid != NULL)) && (!strcmp(dbw->szSetting, uid)) && (cce[i].flags & CI_UNIQUEID)))
 		{
 			/* remove from cache */
 			free(cce[i].tszContact);

@@ -101,7 +101,7 @@ int DBSettingChanged(WPARAM wParam,LPARAM lParam)
 
 	for (i=0; i<WatchListArray.count; i++)
 	{
-		if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact) )
+		if (WatchListArray.item[i].module && (hContact == WatchListArray.item[i].hContact))
 		{
 			if (!mir_strcmp(cws->szModule, WatchListArray.item[i].module))
 			{

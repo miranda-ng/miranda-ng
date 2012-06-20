@@ -352,7 +352,7 @@ struct CServerDlg : public CProtoDlgBase<CIrcProto>
 	CCtrlCombo m_groupCombo;
 
 	CServerDlg( CIrcProto* _pro, CConnectPrefsDlg* _owner, int _action ) :
-		CProtoDlgBase<CIrcProto>( _pro, IDD_ADDSERVER, _owner->GetHwnd() ),
+		CProtoDlgBase<CIrcProto>( _pro, IDD_ADDSERVER, _owner->GetHwnd()),
 		m_owner( _owner ),
 		m_action( _action ),
 		m_OK( this, IDOK ),
@@ -1228,7 +1228,7 @@ void COtherPrefsDlg::OnApply()
 
 	int curSel = m_codepage.GetCurSel();
 	m_proto->m_codepage = m_codepage.GetItemData( curSel );
-	if ( m_proto->IsConnected() )
+	if ( m_proto->IsConnected())
 		m_proto->setCodepage( m_proto->m_codepage );
 
 	m_proto->m_utfAutodetect = m_autodetect.GetState();
@@ -1271,7 +1271,7 @@ void COtherPrefsDlg::addPerformComboValue( int idx, const char* szValueName )
 // 'add ignore' preferences dialog
 
 CAddIgnoreDlg::CAddIgnoreDlg( CIrcProto* _pro, const TCHAR* mask, CIgnorePrefsDlg* _owner ) :
-	CProtoDlgBase<CIrcProto>( _pro, IDD_ADDIGNORE, _owner->GetHwnd() ),
+	CProtoDlgBase<CIrcProto>( _pro, IDD_ADDIGNORE, _owner->GetHwnd()),
 	m_Ok( this, IDOK ),
 	m_owner( _owner )
 {
@@ -1315,7 +1315,7 @@ void CAddIgnoreDlg::OnOk( CCtrlButton* )
 		if ( !_tcschr(Mask.c_str(), '!') && !_tcschr(Mask.c_str(), '@'))
 			Mask += _T("!*@*");
 
-		if ( !flags.IsEmpty() ) {
+		if ( !flags.IsEmpty()) {
 			if ( *szOldMask )
 				m_proto->RemoveIgnore( szOldMask );
 			m_proto->AddIgnore(Mask.c_str(), flags.c_str(), szNetwork);
@@ -1341,7 +1341,7 @@ static TDbSetting IgnoreSettings[] =
 static int CALLBACK IgnoreListSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	CIgnorePrefsDlg* hwndDlg = ( CIgnorePrefsDlg* )lParamSort;
-	if ( !hwndDlg->GetHwnd() )
+	if ( !hwndDlg->GetHwnd())
 		return 1;
 
 	TCHAR temp1[512];
@@ -1418,7 +1418,7 @@ void CIrcProto::InitIgnore( void )
 			String mask = GetWord(p1, 0);
 			String flags = GetWord(p1, 1);
 			String network = GetWord(p1, 2);
-			if ( !mask.IsEmpty() )
+			if ( !mask.IsEmpty())
 				m_ignoreItems.insert( new CIrcIgnoreItem( getCodepage(), mask.c_str(), flags.c_str(), network.c_str()));
 
 			p1 = p2;
@@ -1912,7 +1912,7 @@ INT_PTR CIrcProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)
 
 static void sttImportIni( const TCHAR* szIniFile )
 {
-	FILE* serverFile = _tfopen( szIniFile, _T("r") );
+	FILE* serverFile = _tfopen( szIniFile, _T("r"));
 	if ( serverFile == NULL )
 		return;
 
@@ -1946,7 +1946,7 @@ void InitServers()
 
 	if ( g_servers.getCount() == 0 ) {
 		TCHAR *szIniFile = Utils_ReplaceVarsT(_T("%temp%\\default_servers.ini"));
-		FILE *serverFile = _tfopen( szIniFile, _T("a") );
+		FILE *serverFile = _tfopen( szIniFile, _T("a"));
 		if (serverFile) {
 			char* pszSvrs = ( char* )LockResource(LoadResource(hInst,FindResource(hInst,MAKEINTRESOURCE(IDR_SERVERS),_T("TEXT"))));
 			if (pszSvrs)

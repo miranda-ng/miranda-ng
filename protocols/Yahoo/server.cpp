@@ -144,7 +144,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 				DebugLog("[SERVER] Got packets: %d", ylad->rpkts);
 
 				if ( m_bLoggedIn && ( (ylad->rpkts > 0 && (time(NULL) - lLastSend) >=3) ||
-					( (time(NULL) - lLastSend) >= 13) ) ) {
+					( (time(NULL) - lLastSend) >= 13)) ) {
 
 						LOG(("[TIMER] Sending an idle message..."));
 						yahoo_send_idle_packet(m_id);

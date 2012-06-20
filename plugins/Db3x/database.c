@@ -96,7 +96,7 @@ int LoadDatabaseModule(void)
 		if ( hDbFile == INVALID_HANDLE_VALUE ) {
 			return 1;
 		}
-		if ( !ReadFile(hDbFile,&dbHeader,sizeof(dbHeader),&dummy,NULL) ) {
+		if ( !ReadFile(hDbFile,&dbHeader,sizeof(dbHeader),&dummy,NULL)) {
 			CloseHandle(hDbFile);
 			return 1;
 		}

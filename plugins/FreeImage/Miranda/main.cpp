@@ -419,7 +419,7 @@ unsigned __stdcall fiio_mem_WriteProc(void *buffer, unsigned size, unsigned coun
 	void *newdata;
 	long newdatalen;
 	//double the data block size if we need to
-	while( FIIOMEM(curpos)+(long)(size*count) >= FIIOMEM(datalen) ) {
+	while( FIIOMEM(curpos)+(long)(size*count) >= FIIOMEM(datalen)) {
 		//if we are at or above 1G, we cant double without going negative
 		if ( FIIOMEM(datalen) & 0x40000000 ) {
 			//max 2G
@@ -443,7 +443,7 @@ unsigned __stdcall fiio_mem_WriteProc(void *buffer, unsigned size, unsigned coun
 	}
 	memcpy( (char *)FIIOMEM(data) + FIIOMEM(curpos), buffer, size*count );
 	FIIOMEM(curpos) += size*count;
-	if ( FIIOMEM(curpos) > FIIOMEM(filelen) ) {
+	if ( FIIOMEM(curpos) > FIIOMEM(filelen)) {
 		FIIOMEM(filelen) = FIIOMEM(curpos);
 	}
 	return count;

@@ -280,8 +280,8 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	DBWriteContactSettingString(NULL, "KnownModules", "Weather Protocol", "Weather,WeatherCondition,Current");
 
 	// add sound event
-	SkinAddNewSound("weatherupdated", Translate("Weather Condition Changed"), "");
-	SkinAddNewSound("weatheralert", Translate("Weather Alert Issued"), "");
+	SkinAddNewSoundEx("weatherupdated", NULL, LPGEN("Weather Condition Changed"));
+	SkinAddNewSoundEx("weatheralert", NULL, LPGEN("Weather Alert Issued"));
 
 	// window needed for popup commands
 	TCHAR SvcFunc[100];

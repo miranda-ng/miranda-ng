@@ -391,7 +391,7 @@ inline CBlockManager::TCacheEntry * CBlockManager::_CacheInsert(uint32_t Idx, TB
 
 		res->Next = i;
 
-	} while (i != CMPXCHG_Ptr(*last, res, i) );
+	} while (i != CMPXCHG_Ptr(*last, res, i));
 
 	res->LastUse = time(NULL) >> 2;
 

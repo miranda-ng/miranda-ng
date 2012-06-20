@@ -130,10 +130,10 @@ static int KeepStatusEvent(WPARAM wParam, LPARAM lParam) {
 
 			break;
 		case KS_CONN_STATE_STOPPEDCHECKING:
-			if ( (lParam) && (!(flags&TRIGGER_CONNSUCCESS)) )
+			if ( (lParam) && (!(flags&TRIGGER_CONNSUCCESS)))
 				continue;
 
-			if ( (!lParam) && (!(flags&TRIGGER_CONNGIVEUP)) )
+			if ( (!lParam) && (!(flags&TRIGGER_CONNGIVEUP)))
 				continue;
 
 			break;

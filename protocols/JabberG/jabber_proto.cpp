@@ -480,7 +480,7 @@ int CJabberProto::Authorize( HANDLE hContact )
 	if ( !m_bJabberOnline )
 		return 1;
 
-	memset( &dbei, 0, sizeof( dbei ) );
+	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
 	if (( dbei.cbBlob=JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hContact, 0 )) == ( DWORD )( -1 ))
 		return 1;
@@ -533,7 +533,7 @@ int CJabberProto::AuthDeny( HANDLE hDbEvent, const TCHAR* /*szReason*/ )
 		return 1;
 
 	Log( "Entering AuthDeny" );
-	memset( &dbei, 0, sizeof( dbei ) );
+	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
 	if (( dbei.cbBlob=JCallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hDbEvent, 0 )) == ( DWORD )( -1 ))
 		return 1;
@@ -758,7 +758,7 @@ int __cdecl CJabberProto::GetInfo( HANDLE hContact, int /*infoType*/ )
 
 	int result = 1;
 	DBVARIANT dbv;
-	if ( JGetByte( hContact, "ChatRoom" , 0) )
+	if ( JGetByte( hContact, "ChatRoom" , 0))
 		return 1;
 
 	if ( !JGetStringT( hContact, "jid", &dbv )) {
@@ -783,7 +783,7 @@ int __cdecl CJabberProto::GetInfo( HANDLE hContact, int /*infoType*/ )
 			if ( !item ) {
 				TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
 				_tcsncpy( szBareJid, dbv.ptszVal, SIZEOF( szBareJid ));
-				TCHAR* pDelimiter = _tcschr( szBareJid, _T('/') );
+				TCHAR* pDelimiter = _tcschr( szBareJid, _T('/'));
 				if ( pDelimiter ) {
 					*pDelimiter = 0;
 					pDelimiter++;
@@ -877,7 +877,7 @@ HANDLE __cdecl CJabberProto::SearchBasic( const TCHAR* szJid )
 	Log( "JabberBasicSearch called with lParam = '%s'", szJid );
 
 	JABBER_SEARCH_BASIC *jsb;
-	if ( !m_bJabberOnline || ( jsb=( JABBER_SEARCH_BASIC * ) mir_alloc( sizeof( JABBER_SEARCH_BASIC )) )==NULL )
+	if ( !m_bJabberOnline || ( jsb=( JABBER_SEARCH_BASIC * ) mir_alloc( sizeof( JABBER_SEARCH_BASIC )))==NULL )
 		return 0;
 
 	if ( _tcschr( szJid, '@' ) == NULL ) {
@@ -1007,7 +1007,7 @@ int __cdecl CJabberProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* evt )
 	int nDbEvent = JCallService( MS_PROTO_RECVMSG, 0, ( LPARAM )&ccs );
 
 	EnterCriticalSection( &m_csLastResourceMap );
-	if (IsLastResourceExists( (void *)evt->lParam) ) {
+	if (IsLastResourceExists( (void *)evt->lParam)) {
 		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = ( ULONG_PTR )nDbEvent;
 		m_ulpResourceToDbEventMap[ m_dwResourceMapPointer++ ] = ( ULONG_PTR )evt->lParam;
 		if ( m_dwResourceMapPointer >= SIZEOF( m_ulpResourceToDbEventMap ))
@@ -1116,7 +1116,7 @@ HANDLE __cdecl CJabberProto::SendFile( HANDLE hContact, const TCHAR* szDescripti
 		// caps not already received
 		|| ( jcb == JABBER_RESOURCE_CAPS_NONE )
 		// XEP-0096 and OOB not supported?
-		|| !(jcb & ( JABBER_CAPS_SI_FT | JABBER_CAPS_OOB ) )
+		|| !(jcb & ( JABBER_CAPS_SI_FT | JABBER_CAPS_OOB ))
 		) {
 		JFreeVariant( &dbv );
 		MsgPopup( hContact, TranslateT("No compatible file transfer machanism exist"), item->jid );
@@ -1514,7 +1514,7 @@ int __cdecl CJabberProto::SetAwayMsg( int status, const TCHAR* msg )
 	TCHAR* newModeMsg = mir_tstrdup( msg );
 
 	if (( *szMsg == NULL && newModeMsg == NULL ) ||
-		( *szMsg != NULL && newModeMsg != NULL && !lstrcmp( *szMsg, newModeMsg )) ) {
+		( *szMsg != NULL && newModeMsg != NULL && !lstrcmp( *szMsg, newModeMsg ))) {
 		// Message is the same, no update needed
 		mir_free( newModeMsg );
 		LeaveCriticalSection( &m_csModeMsgMutex );

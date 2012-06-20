@@ -333,7 +333,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 			}
 			else if (Drawing->type == CLCIT_DIVIDER)
 				ChangeToFont(hdcMem,dat,FONTID_DIVIDERS,&fontHeight);
-			else if (Drawing->type == CLCIT_CONTACT && (Drawing->flags&CONTACTF_NOTONLIST) && (!Drawing->isSubcontact) )
+			else if (Drawing->type == CLCIT_CONTACT && (Drawing->flags&CONTACTF_NOTONLIST) && (!Drawing->isSubcontact))
 				ChangeToFont(hdcMem,dat,FONTID_NOTONLIST,&fontHeight);
 			else if ( Drawing->type == CLCIT_CONTACT && 
 				(	

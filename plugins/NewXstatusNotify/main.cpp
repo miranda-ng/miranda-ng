@@ -1325,18 +1325,17 @@ void InitIcolib()
 void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) 
-		SkinAddNewSoundEx(StatusList[Index(i)].lpzSkinSoundName, "Status Notify", StatusList[Index(i)].lpzSkinSoundDesc);
+		SkinAddNewSoundEx(StatusList[Index(i)].lpzSkinSoundName, LPGEN("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
 
-	SkinAddNewSoundEx("UserFromOffline", "Status Notify", Translate("User: from offline (has priority!)"));
-	SkinAddNewSoundEx(XSTATUS_SOUND_CHANGED, "Status Notify", "Extra status changed");
-	SkinAddNewSoundEx(XSTATUS_SOUND_MSGCHANGED, "Status Notify", "Extra status message changed");
-	SkinAddNewSoundEx(XSTATUS_SOUND_REMOVED, "Status Notify", "Extra status removed");
+	SkinAddNewSoundEx("UserFromOffline", LPGEN("Status Notify"), LPGEN("User: from offline (has priority!)"));
+	SkinAddNewSoundEx(XSTATUS_SOUND_CHANGED, LPGEN("Status Notify"), LPGEN("Extra status changed"));
+	SkinAddNewSoundEx(XSTATUS_SOUND_MSGCHANGED, LPGEN("Status Notify"), LPGEN("Extra status message changed"));
+	SkinAddNewSoundEx(XSTATUS_SOUND_REMOVED, LPGEN("Status Notify"), LPGEN("Extra status removed"));
 }
 
 void InitTopToolbar()
 {
-	if (ServiceExists(MS_TB_ADDBUTTON)) 
-	{
+	if (ServiceExists(MS_TB_ADDBUTTON)) {
 		TBButton tbb = {0};
 		tbb.cbSize = sizeof(TBButton);
 		tbb.pszServiceName = MS_STATUSCHANGE_MENUCOMMAND;

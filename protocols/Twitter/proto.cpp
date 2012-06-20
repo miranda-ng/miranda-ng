@@ -167,7 +167,7 @@ void TwitterProto::SendSuccess(void *p)
 	send_direct *data = static_cast<send_direct*>(p);
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+	if( !DBGetContactSettingString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		ScopedLock s(twitter_lock_);
 		twit_.send_direct(dbv.pszVal,data->msg);
@@ -283,7 +283,7 @@ int TwitterProto::ReplyToTweet(WPARAM wParam,LPARAM lParam)
 		 (HWND)0,tweet_proc,reinterpret_cast<LPARAM>(this));
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		SendMessage(hDlg,WM_SETREPLY,reinterpret_cast<WPARAM>(dbv.pszVal),0);
 		DBFreeVariant(&dbv);
@@ -299,7 +299,7 @@ int TwitterProto::VisitHomepage(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv) )
+	if( !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv))
 	{
 		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(dbv.pszVal));
 		DBFreeVariant(&dbv);
@@ -307,7 +307,7 @@ int TwitterProto::VisitHomepage(WPARAM wParam,LPARAM lParam)
 	else
 	{
 		// TODO: remove this
-		if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+		if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 		{
 			std::string url = profile_base_url(twit_.get_base_url())+
 				http::url_encode(dbv.pszVal);
@@ -560,7 +560,7 @@ void TwitterProto::UpdateSettings()
 
 		for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 			hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 		{
 			if(!IsMyContact(hContact,true))
 				continue;

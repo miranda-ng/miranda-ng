@@ -168,7 +168,7 @@ static LRESULT PlacesBarSubclassProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM
 					// profile button
 					case 41064:
 						// set button text
-						iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM) TranslateT("Profile") );
+						iString = SendMessage(hWnd, TB_ADDSTRING, NULL, (LPARAM) TranslateT("Profile"));
 						if (iString != -1) tbb->iString = iString;
 
 						// set tooltip

@@ -101,7 +101,7 @@ public:
 
 protected:
 	virtual http::response slurp(const std::string &,http::method,
-		 OAuthParameters postParams = OAuthParameters() ) = 0;
+		 OAuthParameters postParams = OAuthParameters()) = 0;
 
 	std::string username_;
 	std::string password_;

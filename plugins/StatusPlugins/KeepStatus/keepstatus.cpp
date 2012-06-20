@@ -215,7 +215,7 @@ static PROTOCOLSETTINGEX** GetCurrentProtoSettingsCopy()
 		ps[i]->szMsg = NULL;
 		ps[i]->szName = cs.szName;
 		ps[i]->tszAccName = cs.tszAccName;
-		if ( (ServiceExists(MS_NAS_GETSTATE)) && (CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE) && (ps[i]->status != ID_STATUS_OFFLINE) ) {
+		if ( (ServiceExists(MS_NAS_GETSTATE)) && (CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0) == ID_STATUS_OFFLINE) && (ps[i]->status != ID_STATUS_OFFLINE)) {
 			NAS_PROTOINFO npi;
 
 			ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
@@ -306,10 +306,10 @@ static int SetCurrentStatus()
 	ps = GetCurrentProtoSettingsCopy();
 	for (i=0;i<connectionSettings.getCount();i++) {
 		realStatus = CallProtoService(ps[i]->szName, PS_GETSTATUS, 0, 0);
-		if ( (ps[i]->status == ID_STATUS_DISABLED) || (ps[i]->status == realStatus) || (DBGetContactSettingByte(NULL, ps[i]->szName, SETTING_PROTORETRY, 0)) )	{ // ignore this proto by removing it's name (not so nice)
+		if ( (ps[i]->status == ID_STATUS_DISABLED) || (ps[i]->status == realStatus) || (DBGetContactSettingByte(NULL, ps[i]->szName, SETTING_PROTORETRY, 0)))	{ // ignore this proto by removing it's name (not so nice)
 			ps[i]->szName = "";
 		}
-		else if ( (ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && (DBGetContactSettingByte(NULL, MODULENAME, SETTING_FIRSTOFFLINE, FALSE)) ) {
+		else if ( (ps[i]->status != ID_STATUS_DISABLED) && (ps[i]->status != realStatus) && (realStatus != ID_STATUS_OFFLINE) && (DBGetContactSettingByte(NULL, MODULENAME, SETTING_FIRSTOFFLINE, FALSE))) {
 			// force offline before reconnecting
 			log_infoA("KeepStatus: Setting %s offline before making a new connection attempt", ps[i]->szName);
 			CallProtoService(ps[i]->szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
@@ -356,7 +356,7 @@ static int CSStatusChange(WPARAM wParam, LPARAM lParam)
 
 		for (i=0;i<connectionSettings.getCount();i++) {
 			for (j=0;j<connectionSettings.getCount();j++) {
-				if ( (protoSettings[i]->szName == NULL) || (connectionSettings[j].szName == NULL) )
+				if ( (protoSettings[i]->szName == NULL) || (connectionSettings[j].szName == NULL))
 					continue;
 
 				if (!strcmp(protoSettings[i]->szName, connectionSettings[j].szName))
@@ -379,7 +379,7 @@ static int CSStatusChangeEx(WPARAM wParam, LPARAM lParam)
 
 		for (i=0;i<connectionSettings.getCount();i++) {
 			for (j=0;j<connectionSettings.getCount();j++) {
-				if ( (protoSettings[i]->szName == NULL) || (connectionSettings[j].szName == NULL) )
+				if ( (protoSettings[i]->szName == NULL) || (connectionSettings[j].szName == NULL))
 					continue;
 				if (!strcmp(protoSettings[i]->szName, connectionSettings[j].szName)) {
 					if (GetStatus(connectionSettings[j]) != ID_STATUS_DISABLED)
@@ -401,7 +401,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 	log_debugA("ack: %u, chk: %u, aft: %u, cnt: %u, con: %u", processAckTimerId, checkConnectionTimerId, afterCheckTimerId, checkContinTimerId, checkConnectingTimerId);
 	if ( timer & IDT_PROCESSACK ) {
 		res = (processAckTimerId == 0)?0:1;
-		if ( ((processAckTimerId == 0) && (checkConnectionTimerId == 0)) || (restart) ) {
+		if ( ((processAckTimerId == 0) && (checkConnectionTimerId == 0)) || (restart)) {
 			if (timeout != -1) {
 				if (restart)
 					KillTimer(NULL, processAckTimerId);
@@ -413,7 +413,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 
 	if ( timer & IDT_CHECKCONN ) {
 		res = (checkConnectionTimerId == 0?0:1)||res;
-		if ( (checkConnectionTimerId == 0) || (restart) ) {
+		if ( (checkConnectionTimerId == 0) || (restart)) {
 			if (timeout != -1) {
 				if (restart)
 					KillTimer(NULL, checkConnectionTimerId);
@@ -425,7 +425,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 
 	if ( timer & IDT_AFTERCHECK ) {
 		res = (afterCheckTimerId==0?0:1)||res;
-		if ( (afterCheckTimerId == 0) || (restart) ) {
+		if ( (afterCheckTimerId == 0) || (restart)) {
 			if (timeout != -1) {
 				if (restart)
 					KillTimer(NULL, afterCheckTimerId);
@@ -437,7 +437,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 
 	if ( timer & IDT_CHECKCONTIN ) {
 		res = (checkContinTimerId==0?0:1)||res;
-		if ( (checkContinTimerId == 0) || (restart) ) {
+		if ( (checkContinTimerId == 0) || (restart)) {
 			if (timeout != -1) {
 				if (restart)
 					KillTimer(NULL, checkContinTimerId);
@@ -450,7 +450,7 @@ static int StartTimerFunction(int timer, int timeout, BOOL restart)
 
 	if ( timer & IDT_CHECKCONNECTING ) {
 		res = (checkConnectingTimerId==0?0:1)||res;
-		if ( (checkConnectingTimerId == 0) || (restart) ) {
+		if ( (checkConnectingTimerId == 0) || (restart)) {
 			if (timeout != -1) {
 				if (restart)
 					KillTimer(NULL, checkConnectingTimerId);
@@ -559,7 +559,7 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 	char dbSetting[128];
 	int i;
 
-	if ( (ack->type != ACKTYPE_STATUS) && (ack->type != ACKTYPE_LOGIN) ) 
+	if ( (ack->type != ACKTYPE_STATUS) && (ack->type != ACKTYPE_LOGIN)) 
 		return 0;
 
 	mir_snprintf(dbSetting, sizeof(dbSetting), "%s_enabled", ack->szModule);
@@ -648,7 +648,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND hwnd,UINT message,UINT_PTR idEven
 		if (curStatus < MAX_CONNECT_RETRIES) { // connecting
 			maxConnectingTime = DBGetContactSettingDword(NULL, MODULENAME, SETTING_MAXCONNECTINGTIME, 0);
 			if (maxConnectingTime > 0) {
-				if ( (unsigned int)maxConnectingTime <= ((GetTickCount() - cs.lastStatusAckTime)/1000) ) {
+				if ( (unsigned int)maxConnectingTime <= ((GetTickCount() - cs.lastStatusAckTime)/1000)) {
 					// set offline
 					log_infoA("KeepStatus: %s is too long connecting; setting offline", cs.szName);
 					CallProtoService(cs.szName, PS_SETSTATUS, (WPARAM)ID_STATUS_OFFLINE, 0);
@@ -710,7 +710,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEven
 			shouldBeStatus = cs.lastStatus;
 		if (shouldBeStatus == ID_STATUS_DISABLED) 
 			continue;
-		if ( (shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS) ) {
+		if ( (shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS)) {
 			setStatus = TRUE;
 			if (showConnectionPopups)
 				hIcon = (HICON)CallService(MS_SKIN_LOADPROTOICON, (WPARAM)cs.szName, (LPARAM)SKINICON_STATUS_OFFLINE);
@@ -721,7 +721,7 @@ static VOID CALLBACK CheckConnectionTimer(HWND hwnd,UINT message,UINT_PTR idEven
 		if (increaseExponential)
 			currentDelay = min(2*currentDelay,maxDelay);
 
-		if ( ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_CHKINET, 0)) && (!InternetGetConnectedState(NULL, 0))) || ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_BYPING, FALSE)) && (!bLastPingResult)) ) {
+		if ( ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_CHKINET, 0)) && (!InternetGetConnectedState(NULL, 0))) || ((DBGetContactSettingByte(NULL, MODULENAME, SETTING_BYPING, FALSE)) && (!bLastPingResult))) {
 			// no network
 			NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_RETRYNOCONN, (LPARAM)retryCount+1);
 			ProcessPopup(KS_CONN_STATE_RETRYNOCONN, 0);
@@ -779,7 +779,7 @@ static VOID CALLBACK AfterCheckTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWO
 			shouldBeStatus = cs.lastStatus;
 		if (shouldBeStatus == ID_STATUS_DISABLED) //  (on ignoring proto)
 			continue;
-		if ( (shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS) )
+		if ( (shouldBeStatus != realStatus) && (realStatus == ID_STATUS_OFFLINE) || (realStatus < MIN_STATUS))
 			setStatus = TRUE;
 	}
 
@@ -853,9 +853,9 @@ static void CheckContinueslyFunction(void *arg)
 			}
 			if (bLastPingResult == FALSE) {
 				start = dbv.pszVal;
-				while ( (*start != '\0') && (!bLastPingResult) ) {
+				while ( (*start != '\0') && (!bLastPingResult)) {
 					end = start;
-					while ( (*end != ' ') && (*end != '\0') )
+					while ( (*end != ' ') && (*end != '\0'))
 						end++;
 					memset(host, '\0', sizeof(host));
 					strncpy(host, start, end-start);
@@ -888,7 +888,7 @@ static void CheckContinueslyFunction(void *arg)
 		return; // already connecting, leave
 	}
 
-	if ( ((!ping) && (!InternetGetConnectedState(NULL, 0))) || ( (ping) && (!bLastPingResult) && (pingFailures >= DBGetContactSettingWord(NULL, MODULENAME, SETTING_PINGCOUNT, DEFAULT_PINGCOUNT))) ) {
+	if ( ((!ping) && (!InternetGetConnectedState(NULL, 0))) || ( (ping) && (!bLastPingResult) && (pingFailures >= DBGetContactSettingWord(NULL, MODULENAME, SETTING_PINGCOUNT, DEFAULT_PINGCOUNT)))) {
 		pingFailures = 0;
 
 		int count;
@@ -1022,7 +1022,7 @@ static int ProcessPopup(int reason, LPARAM lParam)
 				}
 			}
 			if (strlen(protoInfo) > 0) {
-				// cut the last end of line (this may also be the first one ;) )
+				// cut the last end of line (this may also be the first one ;))
 				*(protoInfo + strlen(protoInfo) - 2) = '\0';
 			}
 			if (szProto != NULL)

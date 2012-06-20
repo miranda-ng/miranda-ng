@@ -65,14 +65,14 @@ static T retrieve(const js::object &o,const std::string &key,bool allow_null = f
 
 	js::object::const_iterator i = o.find(key);
 	if(i == o.end())
-		throw std::exception( ("unable to retrieve key '"+key+"'").c_str() );
+		throw std::exception( ("unable to retrieve key '"+key+"'").c_str());
 	try
 	{
 		return cast_and_decode<T>(*i->second,allow_null);
 	}
 	catch(const boost::bad_any_cast &)
 	{
-		throw std::exception( ("unable to cast key '"+key+"' to target type").c_str() );
+		throw std::exception( ("unable to cast key '"+key+"' to target type").c_str());
 	}
 }
 
@@ -128,7 +128,7 @@ std::vector<twitter_user> twitter::get_friends()
 	if(resp.code != 200)
 		throw bad_response();
 
-	const js::variant var = json::parse( resp.data.begin(),resp.data.end() );
+	const js::variant var = json::parse( resp.data.begin(),resp.data.end());
 	if(var->type() != typeid(js::array))
 		throw std::exception("unable to parse response");
 
@@ -173,7 +173,7 @@ bool twitter::get_info(const std::string &name,twitter_user *info)
 	if(resp.code != 200)
 		throw bad_response();
 
-	const js::variant var = json::parse( resp.data.begin(),resp.data.end() );
+	const js::variant var = json::parse( resp.data.begin(),resp.data.end());
 	if(var->type() == typeid(js::object))
 	{
 		const js::object &user_info = boost::any_cast<js::object>(*var);
@@ -201,7 +201,7 @@ bool twitter::get_info_by_email(const std::string &email,twitter_user *info)
 	if(resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse( resp.data.begin(),resp.data.end() );
+	js::variant var = json::parse( resp.data.begin(),resp.data.end());
 	if(var->type() == typeid(js::object))
 	{
 		const js::object &user_info = boost::any_cast<js::object>(*var);
@@ -227,7 +227,7 @@ twitter_user twitter::add_friend(const std::string &name)
 	if(resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse( resp.data.begin(),resp.data.end() );
+	js::variant var = json::parse( resp.data.begin(),resp.data.end());
 	if(var->type() != typeid(js::object))
 		throw std::exception("unable to parse response");
 
@@ -293,7 +293,7 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 	if(resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse( resp.data.begin(),resp.data.end() );
+	js::variant var = json::parse( resp.data.begin(),resp.data.end());
 	if(var->type() != typeid(js::array))
 		throw std::exception("unable to parse response");
 
@@ -347,7 +347,7 @@ std::vector<twitter_user> twitter::get_direct(twitter_id id)
 	if(resp.code != 200)
 		throw bad_response();
 
-	js::variant var = json::parse( resp.data.begin(),resp.data.end() );
+	js::variant var = json::parse( resp.data.begin(),resp.data.end());
 	if(var->type() != typeid(js::array))
 		throw std::exception("unable to parse response");
 
@@ -392,7 +392,7 @@ string twitter::urlencode(const string &c)
 		else
 		{
 			escaped.append("%");
-			escaped.append( char2hex(c[i]) );//converts char 255 to string "FF"
+			escaped.append( char2hex(c[i]));//converts char 255 to string "FF"
 		}
 	}
 	return escaped;

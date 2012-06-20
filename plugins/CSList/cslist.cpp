@@ -93,7 +93,7 @@ extern "C" __declspec( dllexport ) int Load( PLUGINLINK *link )
 
 	// set global variables
 	// we need 0.8.0.9 core which introduced accounts support for protocols
-	CSList::bAccountsSupported = ( CSList::dwMirandaVersion >= PLUGIN_MAKE_VERSION( 0, 8, 0, 9 ) );
+	CSList::bAccountsSupported = ( CSList::dwMirandaVersion >= PLUGIN_MAKE_VERSION( 0, 8, 0, 9 ));
 
 	// are we running under Unicode core?
 	{
@@ -214,7 +214,7 @@ int CSList::respondDBChange( WPARAM wparam, LPARAM lparam )
 	}
 
 	// own setting or not a status-related setting
-	else if ( hContact == NULL || lstrcmpA( cws->szSetting, "Status" ) )
+	else if ( hContact == NULL || lstrcmpA( cws->szSetting, "Status" ))
 		return 0;
 
 	DWORD dwEasteredUin = getDword( "EasterEggedUIN", 0x0 );
@@ -323,7 +323,7 @@ void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
 
 void CSList::initIcoLib( )
 {
-	if ( !ServiceExists( MS_SKIN2_ADDICON ) )
+	if ( !ServiceExists( MS_SKIN2_ADDICON ))
 		return;
 
 	// init icons of buttons
@@ -437,7 +437,7 @@ void CSList::countPlusModProtos( char* protoName, void* arg )
 {
 	int* protosExtraEnabled = ( int* )arg;
 	if ( DBGetContactSettingDword( NULL, protoName, "NonStandartXstatus", 0 ) ||
-	     DBGetContactSettingDword( NULL, protoName, "NonStandardXstatus", 0 ) )
+	     DBGetContactSettingDword( NULL, protoName, "NonStandardXstatus", 0 ))
 		*protosExtraEnabled = ( *protosExtraEnabled )++;
 }
 
@@ -461,7 +461,7 @@ void CSList::importCustomStatusUIStatusesFromAllProtos( char* protoName, void* a
 		DBGetContactSettingTString( NULL, protoName, bufMessage, &dbv );
 		lstrcpy( si->tszMessage, dbv.ptszVal );
 
-		if ( lstrlen( si->tszTitle ) || lstrlen( si->tszMessage ) )
+		if ( lstrlen( si->tszTitle ) || lstrlen( si->tszMessage ))
 		{
 			cslist->mainWindow->itemslist->list->add( si );
 			cslist->mainWindow->bSomethingChanged = TRUE;
@@ -475,7 +475,7 @@ void CSList::importCustomStatusUIStatusesFromAllProtos( char* protoName, void* a
 			DBDeleteContactSetting( NULL, protoName, bufMessage );
 		}
 	}
-	cslist->mainWindow->listview->reinitItems( cslist->mainWindow->itemslist->list->getListHead( ) );
+	cslist->mainWindow->listview->reinitItems( cslist->mainWindow->itemslist->list->getListHead( ));
 }
 
 
@@ -536,7 +536,7 @@ void CSWindow::initIcons()
 				{
 					char szTemp[MAX_PATH];
 					mir_snprintf(szTemp, SIZEOF(szTemp), "%s_xstatus%d", protoName, i);
-					ImageList_AddIcon( this->icons, ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szTemp ) );
+					ImageList_AddIcon( this->icons, ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szTemp ));
 				}
 			}
 		}
@@ -554,7 +554,7 @@ void CSWindow::initIcons()
 				{
 					char szTemp[MAX_PATH];
 					mir_snprintf(szTemp, SIZEOF(szTemp), "%s_%s", protoName, moods_names[i].szTag);
-					ImageList_AddIcon( this->icons, ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szTemp ) );
+					ImageList_AddIcon( this->icons, ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szTemp ));
 				}
 			}
 		}
@@ -575,7 +575,7 @@ void CSWindow::initButtons( )
 		if ( forms[i].idc < 0 )
 			continue;
 
-		SendDlgItemMessage( this->handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadIconExEx( forms[i].pszIconIcoLib, forms[i].iconNoIcoLib ) );
+		SendDlgItemMessage( this->handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )LoadIconExEx( forms[i].pszIconIcoLib, forms[i].iconNoIcoLib ));
 		SendDlgItemMessage( this->handle, forms[i].idc, BUTTONSETASFLATBTN, TRUE, 0 ); //maybe set as BUTTONSETDEFAULT?
 		SendDlgItemMessage( this->handle, forms[i].idc, BUTTONADDTOOLTIP, ( WPARAM )TranslateTS(forms[i].ptszTitle), BATF_TCHAR );
 	}
@@ -588,9 +588,9 @@ void CSWindow::loadWindowPosition( )
 	int height = GetSystemMetrics( SM_CYSCREEN );
 	GetWindowRect( this->handle, &rect );
 	int x, y, defX, defY;
-	defX = x = ( width  + 1 - ( rect.right  - rect.left ) ) >> 1;
-	defY = y = ( height + 1 - ( rect.bottom - rect.top  ) ) >> 1;
-	if ( getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ) )
+	defX = x = ( width  + 1 - ( rect.right  - rect.left )) >> 1;
+	defY = y = ( height + 1 - ( rect.bottom - rect.top  )) >> 1;
+	if ( getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ))
 	{
 		x = getWord( "PositionX", defX );
 		y = getWord( "PositionY", defY );
@@ -625,12 +625,12 @@ BOOL CSWindow::itemPassedFilter( ListItem< StatusItem >* li )
 	TCHAR filter[MAX_PATH];
 	GetDlgItemText( this->handle, IDC_FILTER_FIELD, filter, MAX_PATH );
 
-	if ( lstrlen( filter ) )
+	if ( lstrlen( filter ))
 	{
 		TCHAR title[EXTRASTATUS_TITLE_LIMIT], message[EXTRASTATUS_MESSAGE_LIMIT];
 		lstrcpy( title, li->item->tszTitle ); lstrcpy( message, li->item->tszMessage );
-		if ( strpos( _tcslwr( title ), _tcslwr( filter ) ) == -1 )
-			if ( strpos( _tcslwr( message ), _tcslwr( filter ) ) == -1 )
+		if ( strpos( _tcslwr( title ), _tcslwr( filter )) == -1 )
+			if ( strpos( _tcslwr( message ), _tcslwr( filter )) == -1 )
 				return FALSE;
 	}
 
@@ -653,7 +653,7 @@ void CSWindow::toggleFilter( )
 		TCHAR filterText[255];
 		GetDlgItemText(this->handle, IDC_FILTER_FIELD, filterText, SIZEOF(filterText));
 		if ( lstrlen( filterText ) > 0 )
-			SetDlgItemText( this->handle, IDC_FILTER_FIELD, TEXT( "" ) );
+			SetDlgItemText( this->handle, IDC_FILTER_FIELD, TEXT( "" ));
 	}
 }
 
@@ -661,8 +661,8 @@ void CSWindow::toggleFilter( )
 BOOL CSWindow::toggleButtons( )
 {
 	int selection = ListView_GetSelectedItemMacro( this->listview->handle );
-	BOOL validSelection = ( selection >= 0 && ( unsigned int )selection < this->itemslist->list->getCount( ) ) ? TRUE : FALSE;
-	BOOL filterEnabled = IsWindowVisible( GetDlgItem( this->handle, IDC_FILTER_FIELD ) );
+	BOOL validSelection = ( selection >= 0 && ( unsigned int )selection < this->itemslist->list->getCount( )) ? TRUE : FALSE;
+	BOOL filterEnabled = IsWindowVisible( GetDlgItem( this->handle, IDC_FILTER_FIELD ));
 	BOOL somethingChanged = this->bSomethingChanged;
 
 	EnableWindow( GetDlgItem( this->handle, IDC_ADD       ), !filterEnabled );
@@ -688,7 +688,7 @@ CSAMWindow::CSAMWindow( WORD action, CSWindow* parent )
 	if ( this->action == IDC_ADD )
 		this->item = new StatusItem( );
 	else
-		this->item = new StatusItem( *this->parent->itemslist->list->get( this->parent->listview->getPositionInList( ) ) );
+		this->item = new StatusItem( *this->parent->itemslist->list->get( this->parent->listview->getPositionInList( )) );
 
 }
 
@@ -758,13 +758,13 @@ void CSAMWindow::fillDialog( )
 {
 	if ( this->action == IDC_ADD )
 	{
-        SetWindowText( this->handle, TranslateT("Add new item") );
-        SetDlgItemText( this->handle, IDOK, TranslateT("Add") );
+        SetWindowText( this->handle, TranslateT("Add new item"));
+        SetDlgItemText( this->handle, IDOK, TranslateT("Add"));
 	}
 	else
 	{
-        SetWindowText( this->handle, TranslateT("Modify item") );
-        SetDlgItemText( this->handle, IDOK, TranslateT("Modify") );
+        SetWindowText( this->handle, TranslateT("Modify item"));
+        SetDlgItemText( this->handle, IDOK, TranslateT("Modify"));
 	}
 
 	SendMessage( this->hCombo, CB_SETCURSEL, this->item->iIcon, 0 );
@@ -833,8 +833,8 @@ void CSAMWindow::checkItemValidity()
 		int i = SendMessage(this->hCombo, CB_GETCURSEL, 0, 0);
 		lstrcpy(this->item->tszTitle, TranslateTS(moods_names[i].ptszTitle));
 	}
-	if ( lstrcmp( this->item->tszMessage, tszInputMessage ) )
-		( lstrcpy( this->item->tszMessage, tszInputMessage ) ) && ( this->bChanged = TRUE );
+	if ( lstrcmp( this->item->tszMessage, tszInputMessage ))
+		( lstrcpy( this->item->tszMessage, tszInputMessage )) && ( this->bChanged = TRUE );
 }
 
 
@@ -913,7 +913,7 @@ void CSListView::initItems( ListItem< StatusItem >* items )
 {
 	ListItem< StatusItem >* help = items;
 	for ( int i = 0; help != NULL; help = help->next, i++ )
-		if ( parent->itemPassedFilter( help ) )
+		if ( parent->itemPassedFilter( help ))
 			addItem( help->item, i );
 }
 
@@ -1092,7 +1092,7 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		csw->initIcons();
 		csw->initButtons( );
 		csw->listview = new CSListView( GetDlgItem( hwnd, IDC_CSLIST ), csw );
-		csw->listview->initItems( csw->itemslist->list->getListHead( ) );
+		csw->listview->initItems( csw->itemslist->list->getListHead( ));
 		csw->toggleButtons( );
 		csw->toggleEmptyListMessage( );
 		csw->loadWindowPosition( );
@@ -1101,7 +1101,7 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		return TRUE;
 
 	case WM_COMMAND:
-		switch ( LOWORD( wparam ) )
+		switch ( LOWORD( wparam ))
 		{
 		case IDC_MODIFY:
 		case IDC_ADD:
@@ -1110,11 +1110,11 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			if ( csw->addModifyDlg->bChanged )
 			{
 				if ( LOWORD( wparam ) == IDC_MODIFY )
-					csw->itemslist->list->remove( csw->listview->getPositionInList( ) );
+					csw->itemslist->list->remove( csw->listview->getPositionInList( ));
 
 				int selection = csw->itemslist->list->add( csw->addModifyDlg->item );
 				csw->bSomethingChanged = TRUE;
-				csw->listview->reinitItems( csw->itemslist->list->getListHead( ) );
+				csw->listview->reinitItems( csw->itemslist->list->getListHead( ));
 				csw->listview->setFullFocusedSelection( selection );
 				csw->toggleButtons( );
 				csw->toggleEmptyListMessage( );
@@ -1123,12 +1123,12 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			break;
 
 		case IDC_REMOVE:
-			if ( getByte( "ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION ) )
+			if ( getByte( "ConfirmDeletion", DEFAULT_PLUGIN_CONFIRM_ITEMS_DELETION ))
 				if ( MessageBox( hwnd, TranslateT("Do you really want to delete selected item?"), TranslateT(MODULENAME), MB_YESNO | MB_DEFBUTTON2 | MB_ICONQUESTION ) == IDNO )
 					break;
-			csw->itemslist->list->remove( csw->listview->getPositionInList( ) );
+			csw->itemslist->list->remove( csw->listview->getPositionInList( ));
 			csw->bSomethingChanged = TRUE;
-			csw->listview->reinitItems( csw->itemslist->list->getListHead( ) );
+			csw->listview->reinitItems( csw->itemslist->list->getListHead( ));
 			csw->toggleButtons( );
 			csw->toggleEmptyListMessage( );
 			break;
@@ -1136,12 +1136,12 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		case IDC_FAVOURITE:
 			{
 				int selection = csw->listview->getPositionInList( );
-				StatusItem* f = new StatusItem( *csw->itemslist->list->get( selection ) );
+				StatusItem* f = new StatusItem( *csw->itemslist->list->get( selection ));
 				f->bFavourite = ! f->bFavourite;
 				csw->itemslist->list->remove( selection );
 				selection = csw->itemslist->list->add( f );
 				csw->bSomethingChanged = TRUE;
-				csw->listview->reinitItems( csw->itemslist->list->getListHead( ) );
+				csw->listview->reinitItems( csw->itemslist->list->getListHead( ));
 				csw->listview->setFullFocusedSelection( selection );
 				csw->toggleButtons( );
 			}
@@ -1152,7 +1152,7 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 			csw->itemslist->list->destroy( );
 			csw->itemslist->loadItems(csw->protoName);
 			csw->bSomethingChanged = FALSE;
-			csw->listview->reinitItems( csw->itemslist->list->getListHead( ) );
+			csw->listview->reinitItems( csw->itemslist->list->getListHead( ));
 			csw->toggleButtons( );
 			csw->toggleEmptyListMessage( );
 			break;
@@ -1184,14 +1184,14 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 
 		case IDC_FILTER_FIELD:
 			if ( HIWORD( wparam ) == EN_CHANGE )
-				csw->listview->reinitItems( csw->itemslist->list->getListHead( ) );
+				csw->listview->reinitItems( csw->itemslist->list->getListHead( ));
 			break;
 
 		case IDCLOSE:    // close and save, no custom status 
         case IDCANCEL:   // close and save, no custom status 
         case IDC_CANCEL:   // close and save, cancel custom status
         case IDOK:       // close and save, set selected custom status
-			if ( LOWORD( wparam ) == IDOK && csw->toggleButtons( ) )
+			if ( LOWORD( wparam ) == IDOK && csw->toggleButtons( ))
 				cslist->setStatus(IDOK, csw->itemslist->list->get(csw->listview->getPositionInList()), csw->protoName);
 			if ( LOWORD( wparam ) == IDC_CANCEL )
 				cslist->setStatus(IDC_CANCEL, NULL, csw->protoName);
@@ -1228,9 +1228,9 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 		return FALSE;
 
 	case WM_CTLCOLORSTATIC:
-		SetTextColor( ( HDC )wparam, RGB( 174, 174, 174 ) );
-		if ( ( ( HWND )lparam == GetDlgItem( hwnd, IDC_NO_ITEMS ) ) ||
-		     ( ( HWND )lparam == GetDlgItem( hwnd, IDC_ADD_SAMPLE ) ) )
+		SetTextColor( ( HDC )wparam, RGB( 174, 174, 174 ));
+		if ( ( ( HWND )lparam == GetDlgItem( hwnd, IDC_NO_ITEMS )) ||
+		     ( ( HWND )lparam == GetDlgItem( hwnd, IDC_ADD_SAMPLE )) )
 			return ( BOOL )GetStockObject( WHITE_BRUSH );
 		return FALSE;
 	}
@@ -1260,16 +1260,16 @@ INT_PTR CALLBACK CSAMWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM 
 			break;
 
 		case WM_COMMAND:
-			switch ( LOWORD( wparam ) )
+			switch ( LOWORD( wparam ))
 			{
 			case IDC_MESSAGE:
-				csamw->checkFieldLimit( HIWORD( wparam ), LOWORD( wparam ) );
+				csamw->checkFieldLimit( HIWORD( wparam ), LOWORD( wparam ));
 				break;
 			case IDOK:
 				csamw->checkItemValidity( );
 			case IDCANCEL:
 				EnableWindow( csamw->parent->handle, TRUE );
-				EndDialog( hwnd, LOWORD( wparam ) );
+				EndDialog( hwnd, LOWORD( wparam ));
 				break;
 
 			}
@@ -1307,7 +1307,7 @@ INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 			{
 				EnableWindow( GetDlgItem( hwnd, IDC_ALLOW_EXTRA_ICONS ), TRUE );
 				CheckDlgButton( hwnd, IDC_ALLOW_EXTRA_ICONS, getByte( "AllowExtraIcons",
-				                DEFAULT_ALLOW_EXTRA_ICONS ) );
+				                DEFAULT_ALLOW_EXTRA_ICONS ));
 			}
 
 			TranslateDialogDefault(hwnd);
@@ -1341,7 +1341,7 @@ INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 
 HICON LoadIconExEx( const char* IcoLibName, int NonIcoLibIcon )
 {
-	if ( ServiceExists( MS_SKIN2_GETICON ) ) {
+	if ( ServiceExists( MS_SKIN2_GETICON )) {
 		char szSettingName[64];
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, IcoLibName);
 		return ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szSettingName );

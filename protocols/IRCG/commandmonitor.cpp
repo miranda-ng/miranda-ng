@@ -53,7 +53,7 @@ VOID CALLBACK TimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 	if ( ppro->m_forceVisible )
 		ppro->PostIrcMessage( _T("/MODE %s -i"), ppro->m_info.sNick.c_str());
 
-	if ( lstrlenA( ppro->m_myHost ) == 0 && ppro->IsConnected() )
+	if ( lstrlenA( ppro->m_myHost ) == 0 && ppro->IsConnected())
 		ppro->DoUserhostWithReason(2, (_T("S") + ppro->m_info.sNick).c_str(), true, _T("%s"), ppro->m_info.sNick.c_str());
 }
 
@@ -243,7 +243,7 @@ void __cdecl CIrcProto::ResolveIPThread(LPVOID di)
 	EnterCriticalSection( &m_resolve);
 
 	if ( ipr != NULL && (ipr->iType == IP_AUTO && lstrlenA(m_myHost) == 0 || ipr->iType == IP_MANUAL )) {
-		hostent* myhost = gethostbyname( ipr->sAddr.c_str() );
+		hostent* myhost = gethostbyname( ipr->sAddr.c_str());
 		if ( myhost ) {
 			IN_ADDR in;
 			memcpy( &in, myhost->h_addr, 4 );
@@ -422,7 +422,7 @@ bool CIrcProto::OnIrc_KICK( const CIrcMessage* pmsg )
 		GCDEST gcd = {0};
 		GCEVENT gce = {0};
 
-		CMString S = MakeWndID( pmsg->parameters[0].c_str() );
+		CMString S = MakeWndID( pmsg->parameters[0].c_str());
 		gce.cbSize = sizeof(GCEVENT);
 		gce.dwFlags = GC_TCHAR;
 		gcd.ptszID = ( TCHAR* )S.c_str();
@@ -513,7 +513,7 @@ bool CIrcProto::OnIrc_MODE( const CIrcMessage* pmsg )
 				if ( strchr( sUserModes.c_str(), (char)*p1 )) {
 					CMString sStatus = ModeToStatus( *p1 );
 					if (( int )pmsg->parameters.getCount() > iParametercount ) {	
-						if ( !_tcscmp(pmsg->parameters[2].c_str(), m_info.sNick.c_str() )) {
+						if ( !_tcscmp(pmsg->parameters[2].c_str(), m_info.sNick.c_str())) {
 							char cModeBit = -1;
 							CHANNELINFO* wi = (CHANNELINFO *)DoEvent( GC_EVENT_GETITEMDATA, pmsg->parameters[0].c_str(), NULL, NULL, NULL, NULL, NULL, false, false, 0 );
 							switch (*p1) {
@@ -907,12 +907,12 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 					}	}	}
 				}
 				// ... or try another method of separating the dcc command
-				else if ( !GetWord(mess.c_str(), (bIsChat) ? 4 : 5 ).IsEmpty() ) {
+				else if ( !GetWord(mess.c_str(), (bIsChat) ? 4 : 5 ).IsEmpty()) {
 					int index = (bIsChat) ? 4 : 5;
 					bool bFlag = false;
 
 					// look for the part of the ctcp command that contains adress, port and size
-					while ( !bFlag && !GetWord(mess.c_str(), index).IsEmpty() ) {
+					while ( !bFlag && !GetWord(mess.c_str(), index).IsEmpty()) {
 						CMString sTemp;
 						
 						if ( type == _T("chat"))
@@ -928,7 +928,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 							ind++;
 						}
 						
-						if ( sTemp[ind] == '\0' && GetWord( mess.c_str(), index + ((bIsChat) ? 1 : 2 )).IsEmpty() )
+						if ( sTemp[ind] == '\0' && GetWord( mess.c_str(), index + ((bIsChat) ? 1 : 2 )).IsEmpty())
 							bFlag = true;
 						index++;
 					}
@@ -976,12 +976,12 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 					}	}	}
 				}
 				// ... or try another method of separating the dcc command
-				else if ( !GetWord(mess.c_str(), 4).IsEmpty() ) {
+				else if ( !GetWord(mess.c_str(), 4).IsEmpty()) {
 					int index = 4;
 					bool bFlag = false;
 
 					// look for the part of the ctcp command that contains adress, port and size
-					while ( !bFlag && !GetWord(mess.c_str(), index).IsEmpty() ) {
+					while ( !bFlag && !GetWord(mess.c_str(), index).IsEmpty()) {
 						CMString sTemp = GetWord(mess.c_str(), index-1) + GetWord(mess.c_str(), index);
 						
 						// if all characters are number it indicates we have found the adress, port and size parameters
@@ -993,7 +993,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 							ind++;
 						}
 						
-						if ( sTemp[ind] == '\0' && GetWord(mess.c_str(), index + 2).IsEmpty() )
+						if ( sTemp[ind] == '\0' && GetWord(mess.c_str(), index + 2).IsEmpty())
 							bFlag = true;
 						index++;
 					}
@@ -1165,7 +1165,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 						di->bSender = false;
 						di->bTurbo = bTurbo;
 						di->bSSL = false;
-						di->bReverse = (iPort == 0 && !sToken.IsEmpty() ) ? true : false;
+						di->bReverse = (iPort == 0 && !sToken.IsEmpty()) ? true : false;
 						if ( di->bReverse )
 							di->sToken = sTokenBackup;
 
@@ -1210,16 +1210,16 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 			}
 
 		// if the whois window is visible and the ctcp reply belongs to the user in it, then show the reply in the whois window
-		if ( m_whoisDlg && IsWindowVisible( m_whoisDlg->GetHwnd() )) {
+		if ( m_whoisDlg && IsWindowVisible( m_whoisDlg->GetHwnd())) {
 			m_whoisDlg->m_InfoNick.GetText( szTemp, SIZEOF(szTemp));
 			if ( lstrcmpi(szTemp, pmsg->prefix.sNick.c_str()) == 0 ) {
 				if ( pmsg->m_bIncoming && (command == _T("version") || command == _T("userinfo") || command == _T("time"))) {
-					SetActiveWindow( m_whoisDlg->GetHwnd() );
+					SetActiveWindow( m_whoisDlg->GetHwnd());
 					m_whoisDlg->m_Reply.SetText( DoColorCodes(GetWordAddress(mess.c_str(), 1), TRUE, FALSE));
 					return true;
 				}
 				if (pmsg->m_bIncoming && command == _T("ping")) {
-					SetActiveWindow( m_whoisDlg->GetHwnd() );
+					SetActiveWindow( m_whoisDlg->GetHwnd());
 					int s = (int)time(0) - (int)_ttol(GetWordAddress(mess.c_str(), 1));
 					TCHAR szTemp[30];
 					if ( s == 1 )
@@ -1261,10 +1261,10 @@ bool CIrcProto::OnIrc_ENDNAMES( const CIrcMessage* pmsg )
 		BOOL bFlag = false;
 
 		// Is the user on the names list?
-		while ( !name.IsEmpty() ) {
+		while ( !name.IsEmpty()) {
 			name = GetWord( sNamesList.c_str(), i );
 			i++;
-			if ( !name.IsEmpty() ) {
+			if ( !name.IsEmpty()) {
 				int index = 0;
 				while ( _tcschr( sUserModePrefixes.c_str(), name[index] ))
 					index++;
@@ -1325,7 +1325,7 @@ bool CIrcProto::OnIrc_ENDNAMES( const CIrcMessage* pmsg )
 				sTemp = GetWord(sNamesList.c_str(), i);
 
 				// Fill the nicklist
-				while ( !sTemp.IsEmpty() ) {
+				while ( !sTemp.IsEmpty()) {
 					CMString sStat;
 					CMString sTemp2 = sTemp;
 					sStat = PrefixToStatus(sTemp[0]);
@@ -1412,10 +1412,10 @@ bool CIrcProto::OnIrc_ENDNAMES( const CIrcMessage* pmsg )
 					CMString save = _T("");
 					int i = 0;
 
-					while ( !command.IsEmpty() ) {
+					while ( !command.IsEmpty()) {
 						command = GetWord( dbv.ptszVal, i );
 						i++;
-						if ( !command.IsEmpty() ) {
+						if ( !command.IsEmpty()) {
 							CMString S = command.Mid(1, command.GetLength());
 							if ( !lstrcmpi( sChanName, S.c_str()))
 								break;
@@ -1423,7 +1423,7 @@ bool CIrcProto::OnIrc_ENDNAMES( const CIrcMessage* pmsg )
 							save += command + _T(" ");
 					}	}
 
-					if ( !command.IsEmpty() ) {
+					if ( !command.IsEmpty()) {
 						save += GetWordAddress( dbv.ptszVal, i );
 						switch ( command[0] ) {
 						case 'M':
@@ -1788,7 +1788,7 @@ bool CIrcProto::OnIrc_WHOIS_NO_USER( const CIrcMessage* pmsg )
 		CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, false, false};
 		HANDLE hContact = CList_FindContact( &user );
 		if ( hContact ) {
-			AddOutgoingMessageToDB( hContact, (TCHAR*)((CMString)_T("> ") + pmsg->parameters[2] + (CMString)_T(": ") + pmsg->parameters[1]).c_str() );
+			AddOutgoingMessageToDB( hContact, (TCHAR*)((CMString)_T("> ") + pmsg->parameters[2] + (CMString)_T(": ") + pmsg->parameters[1]).c_str());
 
 			DBVARIANT dbv;
 			if ( !getTString( hContact, "Default", &dbv )) {
@@ -1832,10 +1832,10 @@ static void __stdcall sttShowNickWnd( void* param )
 bool CIrcProto::OnIrc_NICK_ERR( const CIrcMessage* pmsg )
 {
 	if ( pmsg->m_bIncoming ) {
-		if ( nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2  && _tcscmp(pmsg->parameters[1].c_str(), m_alternativeNick)) ) {
+		if ( nickflag && ((m_alternativeNick[0] != 0)) && (pmsg->parameters.getCount() > 2  && _tcscmp(pmsg->parameters[1].c_str(), m_alternativeNick))) {
 			TCHAR m[200];
 			mir_sntprintf( m, SIZEOF(m), _T("NICK %s"), m_alternativeNick );
-			if ( IsConnected() )
+			if ( IsConnected())
 				SendIrcMessage( m );
 		}
 		else {
@@ -1856,7 +1856,7 @@ bool CIrcProto::OnIrc_JOINERROR( const CIrcMessage* pmsg )
 			CMString save = _T("");
 			int i = 0;
 
-			while ( !command.IsEmpty() ) {
+			while ( !command.IsEmpty()) {
 				command = GetWord( dbv.ptszVal, i );
 				i++;
 
@@ -1960,7 +1960,7 @@ bool CIrcProto::OnIrc_WHO_END( const CIrcMessage* pmsg )
 			}
 
 			/// if it is not a channel
-			TCHAR* UserList = mir_tstrdup( m_whoReply.c_str() );
+			TCHAR* UserList = mir_tstrdup( m_whoReply.c_str());
 			const TCHAR* p1= UserList;
 			m_whoReply = _T("");
 			CONTACT user = { (TCHAR*)pmsg->parameters[1].c_str(), NULL, NULL, false, true, false};
@@ -2108,8 +2108,8 @@ bool CIrcProto::OnIrc_USERHOST_REPLY( const CIrcMessage* pmsg )
 			// Cycle through results
 			j = 0;
 			sTemp = GetWord( pmsg->parameters[1].c_str(), j );
-			while ( !sTemp.IsEmpty() ) {
-				p1 = mir_tstrdup( sTemp.c_str() );
+			while ( !sTemp.IsEmpty()) {
+				p1 = mir_tstrdup( sTemp.c_str());
 				p2 = p1;
 
 				// Pull out host, user and nick
@@ -2132,7 +2132,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY( const CIrcMessage* pmsg )
 				}
 				mess = _T("");
 				mask = nick + _T("!") + user + _T("@") + host;
-				if ( host.IsEmpty() || user.IsEmpty() || nick.IsEmpty() ) {
+				if ( host.IsEmpty() || user.IsEmpty() || nick.IsEmpty()) {
 					mir_free( p1 );
 					continue;
 				}
@@ -2154,7 +2154,7 @@ bool CIrcProto::OnIrc_USERHOST_REPLY( const CIrcMessage* pmsg )
 
 						// If user found, remove from checklist
 						for ( i = 0; i < checklist.getCount(); i++ )
-							if ( !lstrcmpi(checklist[i].c_str(), nick.c_str() ))
+							if ( !lstrcmpi(checklist[i].c_str(), nick.c_str()))
 								checklist.remove( i );
 					}
 					break;
@@ -2237,7 +2237,7 @@ bool CIrcProto::OnIrc_SUPPORT( const CIrcMessage* pmsg )
 	if ( pmsg->m_bIncoming && pmsg->parameters.getCount() > 0 ) {
 		CMString S;
 		for ( int i = 0; i < pmsg->parameters.getCount(); i++ ) {
-			TCHAR* temp = mir_tstrdup( pmsg->parameters[i].c_str() );
+			TCHAR* temp = mir_tstrdup( pmsg->parameters[i].c_str());
 			if ( _tcsstr( temp, _T("CHANTYPES="))) {
 				TCHAR* p1 = _tcschr( temp, '=' );
 				p1++;
@@ -2332,7 +2332,7 @@ void CIrcProto::OnIrcDisconnected()
 		CallChatEvent( SESSION_OFFLINE, (LPARAM)&gce);
 	}
 
-	if ( !Miranda_Terminated() )
+	if ( !Miranda_Terminated())
 		CList_SetAllOffline( m_disconnectDCCChats );
 	
 	// restore the original nick, cause it might be changed
@@ -2386,7 +2386,7 @@ bool CIrcProto::DoOnConnect( const CIrcMessage* )
 	
 	if ( m_perform ) {
 		DoPerform( "ALL NETWORKS" );
-		if ( IsConnected() ) {
+		if ( IsConnected()) {
 			DoPerform( _T2A( m_info.sNetwork.c_str()));
 			switch( m_iStatus ) {
 				case ID_STATUS_FREECHAT:   DoPerform( "Event: Free for chat" );   break;
@@ -2473,7 +2473,7 @@ int CIrcProto::IsIgnored( CMString user, char type )
 			if ( !_tcschr( C.flags.c_str(), type ))
 				continue;
 
-			if ( C.network.IsEmpty() )
+			if ( C.network.IsEmpty())
 				return i+1;
 
 			if ( IsConnected() && !lstrcmpi( C.network.c_str(), m_info.sNetwork.c_str()))

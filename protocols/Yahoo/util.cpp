@@ -29,7 +29,7 @@ void CYahooProto::YCreateService( const char* szService, YServiceFunc servicePro
 	
 	len = snprintf(str, sizeof(str), "%s%s", m_szModuleName, szService);
 	
-	if (len >= sizeof(str) ) {
+	if (len >= sizeof(str)) {
 		DebugLog("[YCreateService] Failed Registering Service: %s. Reason: buffer too small?", szService);
 		return;
 	}
@@ -162,7 +162,7 @@ int CYahooProto::SendBroadcast( HANDLE hContact, int type, int result, HANDLE hP
 {
 	ACKDATA ack;
 
-	ZeroMemory(&ack, sizeof(ack) );
+	ZeroMemory(&ack, sizeof(ack));
 
 	ack.cbSize = sizeof( ACKDATA );
 	ack.szModule = m_szModuleName; 
@@ -247,7 +247,7 @@ int CYahooProto::ShowPopup( const char* nickname, const char* msg, const char *s
 	if ( !ServiceExists( MS_POPUP_ADDPOPUPEX )) 
 		return 0;
 
-	ZeroMemory(&ppd, sizeof(ppd) );
+	ZeroMemory(&ppd, sizeof(ppd));
 	lstrcpyA( ppd.lpzContactName, nickname );
 	lstrcpyA( ppd.lpzText, msg );
 

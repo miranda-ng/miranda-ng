@@ -34,7 +34,7 @@ void OmegleProto::SignOn(void*)
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(m_szModuleName,0,ACKTYPE_STATUS,ACKRESULT_SUCCESS,(HANDLE)old_status,m_iStatus);
 
-	setDword( "LogonTS", (DWORD)time(NULL) );
+	setDword( "LogonTS", (DWORD)time(NULL));
 	ClearChat();
 	OnJoinChat(0,false);	
 
@@ -167,9 +167,9 @@ void OmegleProto::EventsLoop(void *)
 	time_t tim = ::time(NULL);
 	LOG( ">>>>> Entering Omegle::EventsLoop[%d]", tim );
 
-	while ( facy.events() )
+	while ( facy.events())
 	{
-		if ( facy.state_ == STATE_INACTIVE || facy.state_ == STATE_DISCONNECTING || !isOnline() )
+		if ( facy.state_ == STATE_INACTIVE || facy.state_ == STATE_DISCONNECTING || !isOnline())
 			break;
 		LOG( "***** OmegleProto::EventsLoop[%d] refreshing...", tim );
 	}

@@ -293,7 +293,7 @@ static void PositionThumb( wndFrame *pThumb, short nX, short nY )
 	bLeading = pThumb->dockOpt.hwndRight != NULL;
 
 	if ( bMoveTogether ) {
-		UndockThumbs( pThumb,  FindFrameByWnd( pThumb->dockOpt.hwndLeft ) );
+		UndockThumbs( pThumb,  FindFrameByWnd( pThumb->dockOpt.hwndLeft ));
 		GetWindowRect( pThumb->ContainerWnd, &rcOld );
 	}
 
@@ -350,7 +350,7 @@ static void PositionThumb( wndFrame *pThumb, short nX, short nY )
 
 				if ( PtInRect( &rcBottom, pt )) {
 					nNewY = rc.bottom;
-					if ( PtInRect( &rcLeft, pt ) )
+					if ( PtInRect( &rcLeft, pt ))
 						nNewX = rc.left;
 				}
 
@@ -401,7 +401,7 @@ static void PositionThumb( wndFrame *pThumb, short nX, short nY )
 
 				if ( PtInRect( &rcTop, pt )) {
 					nNewY = rc.top - nHeight;
-					if ( PtInRect( &rcLeft, pt ) )
+					if ( PtInRect( &rcLeft, pt ))
 						nNewX = rc.left;
 				}
 
@@ -414,7 +414,7 @@ static void PositionThumb( wndFrame *pThumb, short nX, short nY )
 
 				if ( !bLeading && PtInRect( &rcTop, pt )) {
 					nNewY = rc.top - nHeight;
-					if ( PtInRect( &rcRight, pt ) )
+					if ( PtInRect( &rcRight, pt ))
 						nNewX = rc.right - nWidth;
 				}
 			}
@@ -2226,9 +2226,9 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_COMMAND:
 		if ( ServiceExists(MO_CREATENEWMENUOBJECT)) {
-			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid) ) break;
+			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)) break;
 		}
-		else if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid) )
+		else if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),MPCF_CONTEXTFRAMEMENU),(LPARAM)Frameid))
 			break;
 
 		if (HIWORD(wParam) == 0) {//mouse events for self created menu
@@ -2278,15 +2278,15 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 				if (Frames[framepos].visible)
 				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_visible,TranslateT("Visible"));}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_visible,TranslateT("Visible") );}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_visible,TranslateT("Visible"));}
 
 				if (Frames[framepos].TitleBar.ShowTitleBar)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show TitleBar") );}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show TitleBar") );}
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_showtitlebar,TranslateT("Show TitleBar"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_showtitlebar,TranslateT("Show TitleBar"));}
 
 				if (Frames[framepos].floating)
-				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating") );}
-				else{AppendMenu(hmenu,MF_STRING,frame_menu_floating,TranslateT("Floating") );}
+				{AppendMenu(hmenu,MF_STRING|MF_CHECKED,frame_menu_floating,TranslateT("Floating"));}
+				else{AppendMenu(hmenu,MF_STRING,frame_menu_floating,TranslateT("Floating"));}
 
 				ulockfrm();
 			}

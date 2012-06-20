@@ -405,7 +405,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 
 	if ( (nflags & YAMN_ACC_POP) && 
 		(ActualAccount->Flags & YAMN_ACC_POPN) &&
-		(MN.Real.PopUpNC+MN.Virtual.PopUpNC) )		//if some popups with mails are needed to show
+		(MN.Real.PopUpNC+MN.Virtual.PopUpNC))		//if some popups with mails are needed to show
 			RunPopUps=TRUE;
 	else	RunPopUps=FALSE;
 

@@ -363,7 +363,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 									(!pDat->ExImContact->hContact || mir_stricmp(p, pszProto)) &&
 									//mir_stricmp(p, "Protocol") &&
 									mir_stricmp(p, USERINFO) &&
-									mir_stricmp(p, MOD_MBIRTHDAY) )
+									mir_stricmp(p, MOD_MBIRTHDAY))
 								{
 									ExportTree_AddItem(hTree, hItemOptional, (LPSTR)p, bImagesLoaded, 1);
 								}

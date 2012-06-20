@@ -134,7 +134,7 @@ INT_PTR CALLBACK DlgProcPopUpAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLongPtr(GetDlgItem(hwnd, IDC_AVT_SIZE_SLIDE),	GWLP_WNDPROC, (LONG_PTR)AvatarTrackBarWndProc);
 
 			SendDlgItemMessage(hwnd, IDC_AVT_SIZE_SLIDE, TBM_SETRANGE,FALSE,
-				MAKELONG(SETTING_AVTSIZE_MIN, SETTING_AVTSIZE_MAX) );
+				MAKELONG(SETTING_AVTSIZE_MIN, SETTING_AVTSIZE_MAX));
 			SendDlgItemMessage(hwnd, IDC_AVT_SIZE_SLIDE, TBM_SETPOS, TRUE, 
 				max(PopUpOptions.avatarSize, SETTING_AVTSIZE_MIN));
 			SetDlgItemInt(hwnd, IDC_AVT_SIZE, PopUpOptions.avatarSize, FALSE);

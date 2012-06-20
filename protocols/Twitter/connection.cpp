@@ -135,7 +135,7 @@ bool TwitterProto::NegotiateConnection()
 	}
 
 
-	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1) ) {
+	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1)) {
 		// first, reset all the keys so we can start fresh
 		resetOAuthKeys();
 		LOG( _T("**NegotiateConnection - Reset OAuth Keys"));
@@ -294,7 +294,7 @@ bool TwitterProto::NegotiateConnection()
 		}
 	}
 
-/*	if( !DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_PASS,&dbv) ) {
+/*	if( !DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_PASS,&dbv)) {
 		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 			reinterpret_cast<LPARAM>(dbv.pszVal));
 		pass = dbv.pszVal;
@@ -305,7 +305,7 @@ bool TwitterProto::NegotiateConnection()
 		return false;
 	}*/
 
-	if( !DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,&dbv) )
+	if( !DBGetContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,&dbv))
 	{
 		ScopedLock s(twitter_lock_);
 		twit_.set_base_url(dbv.pszVal);
@@ -423,7 +423,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 {
 	if(p == 0)
 		return;
-	std::auto_ptr<update_avatar> data( static_cast<update_avatar*>(p) );
+	std::auto_ptr<update_avatar> data( static_cast<update_avatar*>(p));
 	DBVARIANT dbv;
 
 	if(DBGetContactSettingTString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
@@ -472,7 +472,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 
 	if( !force &&
 	  ( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_AV_URL,&dbv) &&
-	    url == dbv.pszVal) )
+	    url == dbv.pszVal))
 	{
 		LOG( _T("***** Avatar already up-to-date: %s"), url.c_str());
 	}
@@ -527,7 +527,7 @@ void TwitterProto::UpdateFriends()
 	catch(const std::exception &e)
 	{
 		ShowPopup( (std::string("While updating friends list, an error occurred: ")
-			+e.what()).c_str() );
+			+e.what()).c_str());
 		LOG( _T("***** Error updating friends list: %s"), e.what());
 	}
 
@@ -554,7 +554,7 @@ void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 
 	DBVARIANT dbv;
 	if( !DBGetContactSettingString(hContact,"CList","MyHandle",&dbv) ||
-		!DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+		!DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		mbcs_to_tcs(CP_UTF8,dbv.pszVal,popup.lptzContactName,MAX_CONTACTNAME);
 		DBFreeVariant(&dbv);
@@ -623,7 +623,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 	catch(const std::exception &e)
 	{
 		ShowPopup( (std::string("While updating status messages, an error occurred: ")
-			+e.what()).c_str() );
+			+e.what()).c_str());
 		LOG( _T("***** Error updating status messages: %s"), e.what());
 	}
 }
@@ -675,7 +675,7 @@ void TwitterProto::UpdateMessages(bool pre_read)
 	catch(const std::exception &e)
 	{
 		ShowPopup( (std::string("While updating direct messages, an error occurred: ")
-			+e.what()).c_str() );
+			+e.what()).c_str());
 		LOG( _T("***** Error updating direct messages: %s"), e.what());
 	}
 }

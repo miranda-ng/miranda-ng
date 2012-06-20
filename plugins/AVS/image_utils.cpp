@@ -18,7 +18,7 @@ extern int _DebugTrace(const char *fmt, ...);
 extern int _DebugTrace(HANDLE hContact, const char *fmt, ...);
 
 
-#define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__) )
+#define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
 
 
 extern FI_INTERFACE *fei;

@@ -360,9 +360,9 @@ int LoadSendRecvFileModule(void)
 	CreateServiceFunction("SRFile/OpenContRecDir", openContRecDir);
 	CreateServiceFunction("SRFile/OpenRecDir", openRecDir);
 
-	SkinAddNewSoundEx("RecvFile",   "File", "Incoming");
-	SkinAddNewSoundEx("FileDone",   "File", "Complete");
-	SkinAddNewSoundEx("FileFailed", "File", "Error");
-	SkinAddNewSoundEx("FileDenied", "File", "Denied");
+	SkinAddNewSoundEx("RecvFile",   LPGEN("File"), LPGEN("Incoming"));
+	SkinAddNewSoundEx("FileDone",   LPGEN("File"), LPGEN("Complete"));
+	SkinAddNewSoundEx("FileFailed", LPGEN("File"), LPGEN("Error"));
+	SkinAddNewSoundEx("FileDenied", LPGEN("File"), LPGEN("Denied"));
 	return 0;
 }

@@ -249,15 +249,15 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						char buf[512];
 						char * p = &buf[7];
 						lstrcpyA(buf,"mailto:");
-						if ( GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7) ) {
-							CallService(MS_UTILS_OPENURL,0,(LPARAM) (LOWORD(wParam)==IDC_EMAIL ? buf : p) );
+						if ( GetWindowTextA(GetDlgItem(hwndDlg, LOWORD(wParam)), p, SIZEOF(buf) - 7)) {
+							CallService(MS_UTILS_OPENURL,0,(LPARAM) (LOWORD(wParam)==IDC_EMAIL ? buf : p));
 						}
 						break;
 			}	}	}
 			break;
 
 		case WM_NOTIFY:
-			if ( hdr && hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1) ) {
+			if ( hdr && hdr->hdr.code == LVN_ITEMCHANGED && IsWindowVisible(hdr->hdr.hwndFrom) && hdr->iItem != (-1)) {
 				iIndex = hdr->iItem;
 				if(hdr->uNewState & 0x2000){
 					for(i = 0; i < ModulesCount; i++) {

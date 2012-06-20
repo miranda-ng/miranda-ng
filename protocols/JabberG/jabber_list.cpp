@@ -147,7 +147,7 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd( JABBER_LIST list, const TCHAR* jid )
 	if ( !bUseResource && list== LIST_ROSTER )
 	{
 		//if it is a chat room keep resource and made it resource sensitive
-		if ( ChatRoomHContactFromJID( s ) )
+		if ( ChatRoomHContactFromJID( s ))
 		{
 			if (q != NULL)	*q='/';
 			bUseResource=TRUE;
@@ -192,7 +192,7 @@ void CJabberProto::ListRemoveList( JABBER_LIST list )
 void CJabberProto::ListRemoveByIndex( int index )
 {
 	EnterCriticalSection( &m_csLists );
-	if ( index >= 0 && index < m_lstRoster.getCount() ) {
+	if ( index >= 0 && index < m_lstRoster.getCount()) {
 		JabberListFreeItemInternal( m_lstRoster[index] );
 		m_lstRoster.remove( index );
 	}
@@ -457,7 +457,7 @@ JABBER_LIST_ITEM *CJabberProto::ListGetItemPtr( JABBER_LIST list, const TCHAR* j
 JABBER_LIST_ITEM *CJabberProto::ListGetItemPtrFromIndex( int index )
 {
 	EnterCriticalSection( &m_csLists );
-	if ( index >= 0 && index < m_lstRoster.getCount() ) {
+	if ( index >= 0 && index < m_lstRoster.getCount()) {
 		LeaveCriticalSection( &m_csLists );
 		return m_lstRoster[index];
 	}

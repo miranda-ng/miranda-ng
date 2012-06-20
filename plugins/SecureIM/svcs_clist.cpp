@@ -82,7 +82,7 @@ int __cdecl onExtraImageListRebuilding(WPARAM, LPARAM) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("onExtraImageListRebuilding");
 #endif
-	if ( (bADV || g_hCLIcon) && ServiceExists(MS_CLIST_EXTRA_ADD_ICON) ) {
+	if ( (bADV || g_hCLIcon) && ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
 		RefreshContactListIcons();
 	}
 	return 0;
@@ -91,7 +91,7 @@ int __cdecl onExtraImageListRebuilding(WPARAM, LPARAM) {
 
 int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM) {
 
-	if ( (bADV || g_hCLIcon) && ServiceExists(MS_CLIST_EXTRA_SET_ICON) && isSecureProtocol((HANDLE)wParam) ) {
+	if ( (bADV || g_hCLIcon) && ServiceExists(MS_CLIST_EXTRA_SET_ICON) && isSecureProtocol((HANDLE)wParam)) {
 		IconExtraColumn iec = mode2iec(isContactSecured((HANDLE)wParam));
 		if ( g_hCLIcon ) {
 			ExtraIcon_SetIcon(g_hCLIcon, (HANDLE)wParam, iec.hImage);
@@ -152,7 +152,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 	}
 
 	if ( isSecureProto && !isChat && isMiranda && 
-	    (ptr->mode==MODE_NATIVE || ptr->mode==MODE_RSAAES) ) {
+	    (ptr->mode==MODE_NATIVE || ptr->mode==MODE_RSAAES)) {
 		// Native/RSAAES
 		mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIM_ICON;
 		if ( !isSecured ) {
@@ -167,7 +167,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 		}
 		// set status menu
 		if ( bSCM && !bMC &&
-		    ( !isSecured || ptr->mode==MODE_PGP || ptr->mode==MODE_GPG ) ) {
+		    ( !isSecured || ptr->mode==MODE_PGP || ptr->mode==MODE_GPG )) {
 
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 			mi.hIcon = g_hICO[ICO_ST_DIS+ptr->status];
@@ -182,7 +182,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 		}
 	}
 	else
-	if ( isSecureProto && !isChat && (ptr->mode==MODE_PGP || ptr->mode==MODE_GPG) ) {
+	if ( isSecureProto && !isChat && (ptr->mode==MODE_PGP || ptr->mode==MODE_GPG)) {
 		// PGP, GPG
 		if ( ptr->mode==MODE_PGP && bPGPloaded ) {
 			if ((bPGPkeyrings || bPGPprivkey) && !isGPG) {
@@ -200,7 +200,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 	if ( isSecureProto && !isChat && isMiranda ) {
 		// set mode menu
 		if ( bMCM && !bMC &&
-	            ( !isSecured || ptr->mode==MODE_PGP || ptr->mode==MODE_GPG ) ) {
+	            ( !isSecured || ptr->mode==MODE_PGP || ptr->mode==MODE_GPG )) {
 
 			mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 			mi.hIcon = g_hICO[ICO_OV_NAT+ptr->mode];

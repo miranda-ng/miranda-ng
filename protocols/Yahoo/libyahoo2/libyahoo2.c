@@ -406,7 +406,7 @@ const char *dbg_key(int key)
 {
 	int i=0;
 	
-	while ((packet_keys[i].key >=0) && (packet_keys[i].key != key) )
+	while ((packet_keys[i].key >=0) && (packet_keys[i].key != key))
 		i++;
 	
 	if (packet_keys[i].key != key)
@@ -419,7 +419,7 @@ const char *dbg_service(int key)
 {
 	int i=0;
 	
-	while ((ymsg_service_vals[i].key > 0) && (ymsg_service_vals[i].key != key) ) 
+	while ((ymsg_service_vals[i].key > 0) && (ymsg_service_vals[i].key != key)) 
 		i++;
 	
 	if (ymsg_service_vals[i].key != key)
@@ -1008,7 +1008,7 @@ static void yahoo_send_packet(struct yahoo_input_data *yid, struct yahoo_packet 
 		( yid->type == YAHOO_CONNECTION_PAGER && 
 			( pkt->service == YAHOO_SERVICE_KEEPALIVE || 
 			  pkt->service == YAHOO_SERVICE_PING ||
-			  pkt->service == YAHOO_SERVICE_LOGOFF) )
+			  pkt->service == YAHOO_SERVICE_LOGOFF))
 		) {
 		yahoo_send_data(yid->fd, (const char *)data, len);
 	} else {

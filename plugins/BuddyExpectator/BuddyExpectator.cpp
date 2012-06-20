@@ -749,10 +749,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hEventUserInfoInit = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
 	
 	// add sounds support
-	SkinAddNewSoundEx("buddyExpectatorReturn", Translate("BuddyExpectator"), Translate("Contact returned"));
-	SkinAddNewSoundEx("buddyExpectatorStillAbsent", Translate("BuddyExpectator"), Translate("Contact still absent"));
-	SkinAddNewSoundEx("buddyExpectatorMissYou", Translate("BuddyExpectator"), Translate("Miss you event"));
-	SkinAddNewSoundEx("buddyExpectatorHide", Translate("BuddyExpectator"), Translate("Hide contact event"));
+	SkinAddNewSoundEx("buddyExpectatorReturn", LPGEN("BuddyExpectator"), LPGEN("Contact returned"));
+	SkinAddNewSoundEx("buddyExpectatorStillAbsent", LPGEN("BuddyExpectator"), LPGEN("Contact still absent"));
+	SkinAddNewSoundEx("buddyExpectatorMissYou", LPGEN("BuddyExpectator"), LPGEN("Miss you event"));
+	SkinAddNewSoundEx("buddyExpectatorHide", LPGEN("BuddyExpectator"), LPGEN("Hide contact event"));
 	
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 	

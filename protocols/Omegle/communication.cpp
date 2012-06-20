@@ -237,8 +237,8 @@ std::string Omegle_client::choose_action( int request_type, std::string* data, s
 std::string Omegle_client::choose_request_url( int request_type, std::string* data, std::string* get_data )
 {
 	std::string url = "";
-	url.append( choose_server( request_type, data, get_data ) );
-	url.append( choose_action( request_type, data, get_data ) );
+	url.append( choose_server( request_type, data, get_data ));
+	url.append( choose_action( request_type, data, get_data ));
 	return url;
 }
 
@@ -263,7 +263,7 @@ NETLIBHTTPHEADER* Omegle_client::get_request_headers( int request_type, int* hea
 		break;
 	}
 
-	NETLIBHTTPHEADER* headers = ( NETLIBHTTPHEADER* )utils::mem::allocate( sizeof( NETLIBHTTPHEADER )*( *headers_count ) );
+	NETLIBHTTPHEADER* headers = ( NETLIBHTTPHEADER* )utils::mem::allocate( sizeof( NETLIBHTTPHEADER )*( *headers_count ));
 
 	switch ( request_type )
 	{
@@ -300,7 +300,7 @@ void Omegle_client::store_headers( http::response* resp, NETLIBHTTPHEADER* heade
 		std::string header_value = headers[i].szValue;
 
 		// TODO RM: (un)comment
-		//parent->Log("----- Got header '%s': %s", header_name.c_str(), header_value.c_str() );
+		//parent->Log("----- Got header '%s': %s", header_name.c_str(), header_value.c_str());
 		resp->headers[header_name] = header_value;
 	}
 }
@@ -330,7 +330,7 @@ bool Omegle_client::start()
 			data += DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_REUSE_QUESTION, 0) ? "1" : "0";
 		}
 	}
-	else if ( DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0) )
+	else if ( DBGetContactSettingByte(NULL, parent->m_szModuleName, OMEGLE_KEY_MEET_COMMON, 0))
 	{
 		DBVARIANT dbv;
 		if (!DBGetContactSettingUTF8String(NULL, parent->m_szModuleName, OMEGLE_KEY_INTERESTS, &dbv))
@@ -404,7 +404,7 @@ bool Omegle_client::start()
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	{
 		// If is is only timeout error, try login once more
-		if ( handle_error( "start" ) )
+		if ( handle_error( "start" ))
 			return start();
 		else
 			return false;
@@ -429,7 +429,7 @@ bool Omegle_client::start()
 
 bool Omegle_client::stop( )
 {
-	if ( parent->isOffline() )
+	if ( parent->isOffline())
 		return true;
 
 	handle_entry( "stop" );
@@ -498,7 +498,7 @@ bool Omegle_client::events( )
 			// We got info about count of connected people there
 			pos += 9;
 
-			std::string count = utils::text::trim( resp.data.substr(pos, resp.data.find("]", pos) - pos) );
+			std::string count = utils::text::trim( resp.data.substr(pos, resp.data.find("]", pos) - pos));
 
 			char str[255];
 			mir_snprintf(str, sizeof(str), Translate("On whole Omegle are %s strangers online now."), count.c_str());
@@ -543,7 +543,7 @@ bool Omegle_client::events( )
 			std::string question = utils::text::trim(
 				utils::text::special_expressions_decode(
 					utils::text::slashu_to_utf8(
-						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	) ) );
+						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
 			TCHAR *msg = mir_a2t_cp(question.c_str(),CP_UTF8);
 			parent->SetTopic(msg);
@@ -571,7 +571,7 @@ bool Omegle_client::events( )
 			std::string message = utils::text::trim(
 				utils::text::special_expressions_decode(
 					utils::text::slashu_to_utf8(
-						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	) ) );
+						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 			
 			if (state_ == STATE_ACTIVE) {
 				TCHAR *msg = mir_a2t_cp(message.c_str(),CP_UTF8);
@@ -592,7 +592,7 @@ bool Omegle_client::events( )
 
 				message = utils::text::trim(
 							utils::text::special_expressions_decode(
-								utils::text::slashu_to_utf8( message ) ) );
+								utils::text::slashu_to_utf8( message )) );
 				
 				stranger = Translate(stranger.c_str());
 				
@@ -623,7 +623,7 @@ bool Omegle_client::events( )
 			std::string stranger = utils::text::trim(
 				utils::text::special_expressions_decode(
 					utils::text::slashu_to_utf8(
-						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	) ) );
+						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
 			char str[255];
 			mir_snprintf(str, sizeof(str), Translate("%s disconnected."), Translate(stranger.c_str()));
@@ -659,7 +659,7 @@ bool Omegle_client::events( )
 			std::string error = utils::text::trim(
 				utils::text::special_expressions_decode(
 					utils::text::slashu_to_utf8(
-						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	) ) );
+						resp.data.substr(pos, resp.data.find("\"]", pos) - pos)	)) );
 
 			error = Translate("Error: ") + error;
 
@@ -670,9 +670,9 @@ bool Omegle_client::events( )
 				
 		if (newStranger && state_ != STATE_SPY) {
 			// We got new stranger in this event, lets say him "Hi message" if enabled			
-			if ( DBGetContactSettingByte( NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0 ) ) {
+			if ( DBGetContactSettingByte( NULL, parent->m_szModuleName, OMEGLE_KEY_HI_ENABLED, 0 )) {
 				DBVARIANT dbv;
-				if ( !DBGetContactSettingUTF8String( NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv ) ) {
+				if ( !DBGetContactSettingUTF8String( NULL, parent->m_szModuleName, OMEGLE_KEY_HI, &dbv )) {
 					std::string *message = new std::string(dbv.pszVal);
 					DBFreeVariant(&dbv);
 	

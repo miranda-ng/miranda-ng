@@ -44,7 +44,7 @@ void TwitterProto::UpdateChat(const twitter_user &update)
 
 	DBVARIANT nick;
 	HANDLE hContact = UsernameToHContact(update.username.c_str());
-	if(hContact && !DBGetContactSettingString(hContact,"CList","MyHandle",&nick) )
+	if(hContact && !DBGetContactSettingString(hContact,"CList","MyHandle",&nick))
 	{
 		gce.ptszNick = mir_a2t(nick.pszVal);
 		DBFreeVariant(&nick);
@@ -88,7 +88,7 @@ int TwitterProto::OnChatOutgoing(WPARAM wParam,LPARAM lParam)
 	case GC_USER_PRIVMESS:
 		text = mir_t2a(hook->ptszUID);
 		CallService(MS_MSG_SENDMESSAGE,reinterpret_cast<WPARAM>(
-			UsernameToHContact(text) ),0);
+			UsernameToHContact(text)),0);
 		mir_free(text);
 		break;
 	}
@@ -205,16 +205,16 @@ void TwitterProto::SetChatStatus(int status)
 		// Add all friends to contact list
 		for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 			hContact;
-			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+			hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 		{
 			if(!IsMyContact(hContact))
 				continue;
 
 			DBVARIANT uid,nick;
-			if( DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&uid) )
+			if( DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&uid))
 				continue;
 
-			if( !DBGetContactSettingString(hContact,"CList","MyHandle",&nick) )
+			if( !DBGetContactSettingString(hContact,"CList","MyHandle",&nick))
 				AddChatContact(uid.pszVal,nick.pszVal);
 			else
 				AddChatContact(uid.pszVal);

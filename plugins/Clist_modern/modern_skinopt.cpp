@@ -55,7 +55,7 @@ int SkinOptInit( WPARAM wParam, LPARAM lParam )
 	if ( !g_CluiData.fDisableSkinEngine )
 	{
 		//Tabbed settings
-		ZeroMemory( &odp, sizeof( odp ) );
+		ZeroMemory( &odp, sizeof( odp ));
 		odp.cbSize = sizeof( odp );
 		odp.position = -200000000;
 		odp.hInstance = g_hInst;
@@ -115,7 +115,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_COMMAND:
 		{
 			int isLoad = 0;
-			switch ( LOWORD( wParam ) ) 
+			switch ( LOWORD( wParam )) 
 			{
 			case IDC_COLOUR_MENUNORMAL:
 			case IDC_COLOUR_MENUSELECTED:
@@ -132,7 +132,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					TCHAR Description[400];
 					TCHAR text[2000];
 					SkinListData *sd = NULL;  
-					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ) );				
+					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
 					if ( hti == 0 ) return 0;
 					{
 						TVITEM tvi = {0};
@@ -142,7 +142,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						sd = ( SkinListData* )( tvi.lParam );
 					}
 					if ( !sd ) return 0;
-					if ( sd->File && !_tcschr( sd->File, _T('%') ) )
+					if ( sd->File && !_tcschr( sd->File, _T('%')) )
 					{
 						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
 						GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );
@@ -159,7 +159,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							TranslateT( "Angeli-Ka (graphics), FYR (template)" ), 
 							_T( "JID: fyr@jabber.ru" ), 
 							_T("fyr.mirandaim.ru"), 
-							TranslateT( "Inside library" ) );
+							TranslateT( "Inside library" ));
 					}
 					MessageBox( hwndDlg, text, TranslateT( "Skin Information" ), MB_OK|MB_ICONINFORMATION );
 				}
@@ -168,7 +168,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				if ( HIWORD( wParam ) == BN_CLICKED )
 				{ 		
 					SkinListData *sd = NULL;  
-					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ) );				
+					HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
 					if ( hti == 0 ) return 0;
 					{
 						TVITEM tvi = {0};
@@ -202,10 +202,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 					if ( g_hCLUIOptionsWnd )
 					{
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ) );
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ) );
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ) );
-						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ) );
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
+						SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ));
 					}
 				}
 				break;
@@ -261,7 +261,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			HBITMAP hbmp, holdbmp, imgOldbmp;
 			int mWidth, mHeight;
 			RECT workRect = {0};
-			HBRUSH hbr = CreateSolidBrush( GetSysColor( COLOR_3DFACE ) );
+			HBRUSH hbr = CreateSolidBrush( GetSysColor( COLOR_3DFACE ));
 			DRAWITEMSTRUCT *dis = ( DRAWITEMSTRUCT * )lParam;
 			mWidth = dis->rcItem.right-dis->rcItem.left;
 			mHeight = dis->rcItem.bottom-dis->rcItem.top;
@@ -363,7 +363,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							TCHAR Description[400];
 							TCHAR text[2000];
 							SkinListData* sd = NULL;
-							HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ) );				
+							HTREEITEM hti = TreeView_GetSelection( GetDlgItem( hwndDlg, IDC_TREE1 ));				
 							if ( hti == 0 ) return 0;
 							{
 								TVITEM tvi = {0};
@@ -374,7 +374,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 							}
 							if ( !sd ) return 0;
 
-							if ( sd->File && !_tcschr( sd->File, _T('%') ) )
+							if ( sd->File && !_tcschr( sd->File, _T('%')) )
 							{
 								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "Author" ), 	TranslateT( "( unknown )" ), 	Author, 		SIZEOF( Author ), 		sd->File );
 								GetPrivateProfileString( _T( "Skin_Description_Section" ), _T( "URL" ), 		_T( "" ), 						URL, 		SIZEOF( URL ), 		sd->File );
@@ -390,7 +390,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 									TranslateT( "This is second default Modern Contact list skin in Vista Aero style" ), 
 									TranslateT( "graphics by Angeli-Ka\ntemplate by FYR" ), 
 									_T("JID: fyr@jabber.ru"), 
-									_T("fyr.mirandaim.ru") );
+									_T("fyr.mirandaim.ru"));
 							}
 							ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 							ShowWindow( GetDlgItem( hwndDlg, IDC_STATIC_INFO ), SW_SHOW );
@@ -400,10 +400,10 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					else
 					{
 						//no selected
-						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, ( LPARAM )TranslateT( "Select skin from list" ) );
+						SendDlgItemMessage( hwndDlg, IDC_EDIT_SKIN_FILENAME, WM_SETTEXT, 0, ( LPARAM )TranslateT( "Select skin from list" ));
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_APPLY_SKIN ), FALSE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_BUTTON_INFO ), FALSE );
-						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, ( LPARAM )TranslateT( "Please select skin to apply" ) );
+						SendDlgItemMessage( hwndDlg, IDC_STATIC_INFO, WM_SETTEXT, 0, ( LPARAM )TranslateT( "Please select skin to apply" ));
 						ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), SW_HIDE );
 					}
 					ShowWindow( GetDlgItem( hwndDlg, IDC_PREVIEW ), hPreviewBitmap?SW_SHOW:SW_HIDE );
@@ -451,20 +451,20 @@ int SearchSkinFiles( HWND hwndDlg, TCHAR * Folder )
 	{
 		do {     
 			AddSkinToList( hwndDlg, Folder, fd.name );
-		}while ( !_tfindnext( hFile, &fd ) );
+		}while ( !_tfindnext( hFile, &fd ));
 		_findclose( hFile );
 	}
 	_sntprintf( mask, SIZEOF( mask ), _T("%s\\*"), Folder );
 	hFile = _tfindfirst( mask, &fd );
 	{
 		do {
-			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T(".")) ==0 ||_tcsicmp( fd.name, _T("..") )==0 ) )
+			if ( fd.attrib&_A_SUBDIR && !( _tcsicmp( fd.name, _T(".")) ==0 ||_tcsicmp( fd.name, _T(".."))==0 ))
 			{//Next level of subfolders
 				TCHAR path[MAX_PATH];
 				_sntprintf( path, SIZEOF( path ), _T("%s\\%s"), Folder, fd.name );
 				SearchSkinFiles( hwndDlg, path );
 			}
-		}while ( !_tfindnext( hFile, &fd ) );
+		}while ( !_tfindnext( hFile, &fd ));
 		_findclose( hFile );
 	}
 	return 0;
@@ -477,14 +477,14 @@ HTREEITEM FillAvailableSkinList( HWND hwndDlg )
 	TCHAR path[MAX_PATH];//, mask[MAX_PATH];
 	int attrib;
 	TCHAR *SkinsFolder = ModernGetStringT( NULL, "ModernData", "SkinsFolder" );
-	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins") );
+	if ( !SkinsFolder ) SkinsFolder = mir_tstrdup( _T("Skins"));
 
 	CallService( MS_UTILS_PATHTOABSOLUTET, ( WPARAM )SkinsFolder, ( LPARAM )path );
 	mir_free_and_nill( SkinsFolder );
 
-	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%") );
+	AddSkinToList( hwndDlg, TranslateT( "Default Skin" ), _T("%Default Skin%"));
 	attrib = GetFileAttributes( path );
-	if ( attrib != INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ) )
+	if ( attrib != INVALID_FILE_ATTRIBUTES && ( attrib & FILE_ATTRIBUTE_DIRECTORY ))
 		SearchSkinFiles( hwndDlg, path );
 	{
 		TCHAR * skinfile;
@@ -505,11 +505,11 @@ HTREEITEM AddSkinToListFullName( HWND hwndDlg, TCHAR * fullName )
 	TCHAR path[MAX_PATH] = {0};
 	TCHAR file[MAX_PATH] = {0};
 	TCHAR *buf;
-	_tcsncpy( path, fullName, SIZEOF( path ) );
+	_tcsncpy( path, fullName, SIZEOF( path ));
 	buf = path + _tcslen( path );  
 	while ( buf > path )
 	{
-		if ( *buf == _T( '\\' ) )
+		if ( *buf == _T( '\\' ))
 		{
 			*buf = _T( '\0' );
 			break;
@@ -517,7 +517,7 @@ HTREEITEM AddSkinToListFullName( HWND hwndDlg, TCHAR * fullName )
 		buf--;
 	}
 	buf++;
-	_tcsncpy( file, buf, SIZEOF( file ) );
+	_tcsncpy( file, buf, SIZEOF( file ));
 	return AddSkinToList( hwndDlg, path, file );
 }
 
@@ -533,16 +533,16 @@ HTREEITEM AddSkinToList( HWND hwndDlg, TCHAR * path, TCHAR* file )
 		TCHAR fullName[MAX_PATH] = {0};     
 		TCHAR defskinname[MAX_PATH] = {0};
 		SkinListData * sd = NULL;
-		sd = ( SkinListData * )mir_alloc( sizeof( SkinListData ) );
+		sd = ( SkinListData * )mir_alloc( sizeof( SkinListData ));
 		if ( !sd ) return 0;
 		_sntprintf( fullName, SIZEOF( fullName ), _T("%s\\%s"), path, file );
-		memmove( defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR) );
+		memmove( defskinname, file, (_tcslen( file )-4) * sizeof(TCHAR));
 		defskinname[_tcslen( file )+1] = _T('\0');
-		if ( !file || _tcschr( file, _T('%') ) ) 
+		if ( !file || _tcschr( file, _T('%')) ) 
 		{
 			//sd->File = "%Default Skin%";
-			_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%") );
-			_sntprintf( sd->Name, 100, TranslateT( "%Default Skin%" ) );
+			_sntprintf( sd->File, MAX_PATH, _T("%%Default Skin%%"));
+			_sntprintf( sd->Name, 100, TranslateT( "%Default Skin%" ));
 			return AddItemToTree( GetDlgItem( hwndDlg, IDC_TREE1 ), TranslateT( "Default Skin" ), sd->Name, sd );
 		}
 		else
@@ -584,7 +584,7 @@ HTREEITEM FindChild( HWND hTree, HTREEITEM Parent, TCHAR * Caption, void * data 
 				TreeView_GetItem( hTree, &tvi );
 				sd = ( SkinListData* )( tvi.lParam );
 				if ( sd )
-					if ( !_tcsicmp( sd->File, ( ( SkinListData* )data )->File ) )
+					if ( !_tcsicmp( sd->File, ( ( SkinListData* )data )->File ))
 						return tmp;
 			}
 			else
@@ -606,8 +606,8 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	BOOL ext = FALSE;
 	CallService( MS_UTILS_PATHTORELATIVET, ( WPARAM )folder, ( LPARAM )path );
 	ptrE = path;
-	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':') ) ptrE++;
-	if ( *ptrE == _T('\\') )
+	while ( *ptrE != _T('\\') && *ptrE != _T('\0') && *ptrE != _T(':')) ptrE++;
+	if ( *ptrE == _T('\\'))
 	{
 		*ptrE = _T('\0');
 		ptrE++;
@@ -617,8 +617,8 @@ HTREEITEM AddItemToTree( HWND hTree, TCHAR * folder, TCHAR * itemName, void * da
 	do 
 	{
 
-		while ( *ptrE!= _T('\\') && *ptrE!= _T('\0') ) ptrE++;
-		if ( *ptrE == _T('\\') )
+		while ( *ptrE!= _T('\\') && *ptrE!= _T('\0')) ptrE++;
+		if ( *ptrE == _T('\\'))
 		{
 			*ptrE = _T('\0');
 			ptrE++;
@@ -708,10 +708,10 @@ INT_PTR SvcApplySkin(WPARAM wParam, LPARAM lParam)
 	}
 	if ( g_hCLUIOptionsWnd )
 	{
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ) );
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ) );
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ) );
-		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ) );
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "LeftClientMargin", SETTING_LEFTCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "RightClientMargin", SETTING_RIGHTCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_TOPMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "TopClientMargin", SETTING_TOPCLIENTMARIGN_DEFAULT ));
+		SendDlgItemMessage( g_hCLUIOptionsWnd, IDC_BOTTOMMARGINSPIN, UDM_SETPOS, 0, ModernGetSettingByte( NULL, "CLUI", "BottomClientMargin", SETTING_BOTTOMCLIENTMARIGN_DEFAULT ));
 	}
 	return 0;
 }

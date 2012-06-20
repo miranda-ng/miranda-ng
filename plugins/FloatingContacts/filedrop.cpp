@@ -6,7 +6,7 @@ static	BOOL	OnDropFiles			( HDROP hDrop, ThumbInfo *pThumb );
 
 HRESULT STDMETHODCALLTYPE CDropTarget::QueryInterface(REFIID riid,LPVOID *ppvObj)
 {
-	if ( IsEqualIID( riid, IID_IDropTarget ) ) 
+	if ( IsEqualIID( riid, IID_IDropTarget )) 
 	{
 		*ppvObj = this;
 		this->AddRef();
@@ -56,14 +56,14 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragEnter( IDataObject *pData, DWORD fKey
 	ThumbInfo *pThumb;
 
 	if ( S_OK == pData->QueryGetData( &feFile ) ||
-		 S_OK == pData->QueryGetData( &feText ) )
+		 S_OK == pData->QueryGetData( &feText ))
 	{
 		shortPt.x	 =  pt.x; 
 		shortPt.y	 =  pt.y;
 		
 		hwnd = WindowFromPoint( shortPt );
 		
-		if ( pThumb = thumbList.FindThumb( hwnd ) )
+		if ( pThumb = thumbList.FindThumb( hwnd ))
 		{
 			hwndCurDrag = hwnd;
 			pThumb->ThumbSelect( TRUE );
@@ -106,11 +106,11 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop( IDataObject *pData,DWORD fKeyState,
 	pThumb	 =  (ThumbInfo*)GetWindowLongPtr( hwndCurDrag, GWLP_USERDATA );
 	if ( pThumb == NULL ) return( S_OK );
 
-	if ( S_OK != pData->GetData( &fe,&stg ) )
+	if ( S_OK != pData->GetData( &fe,&stg ))
 	{
 		fe.cfFormat = CF_TEXT;
 
-		if ( S_OK != pData->GetData( &fe,&stg ) )
+		if ( S_OK != pData->GetData( &fe,&stg ))
 		{
 			return( S_OK );
 		}
@@ -172,7 +172,7 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 
 	nDroppedItemsCount = DragQueryFile( hDrop, 0xFFFFFFFF, NULL, 0 );
 
-	ppDroppedItems = ( char** )malloc( sizeof(char*)*( nDroppedItemsCount + 1 ) );
+	ppDroppedItems = ( char** )malloc( sizeof(char*)*( nDroppedItemsCount + 1 ));
 	
 	if ( ppDroppedItems == NULL )
 	{
@@ -183,13 +183,13 @@ BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 	
 	for ( iItem = 0; iItem < nDroppedItemsCount; ++iItem ) 
 	{
-		DragQueryFileA( hDrop, iItem, szFilename, sizeof( szFilename ) );
+		DragQueryFileA( hDrop, iItem, szFilename, sizeof( szFilename ));
 		ppDroppedItems[ iItem ] = _strdup( szFilename );
 	}
 	
 	nFilesCount = CountDroppedFiles( ppDroppedItems, nDroppedItemsCount );
 	
-	ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1 ) );
+	ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1 ));
 	
 	if ( ppFiles == NULL )
 	{
@@ -235,13 +235,13 @@ static int CountFiles( char *szItem )
 			if ( fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// Skip parent directories
-				if ( ( 0 != strcmp( fd.cFileName, "." ) ) &&
-					 ( 0 != strcmp( fd.cFileName, ".." ) ) )
+				if ( ( 0 != strcmp( fd.cFileName, "." )) &&
+					 ( 0 != strcmp( fd.cFileName, ".." )) )
 				{
 					char szDirName[ MAX_PATH ];
 					strncpy( szDirName, szItem, MAX_PATH - 1 );
 
-					if ( NULL != strstr( szItem, "*.*" ) )
+					if ( NULL != strstr( szItem, "*.*" ))
 					{
 						sprintf( szDirName + strlen( szDirName ) - 3, "%s\0", fd.cFileName );
 					}
@@ -256,7 +256,7 @@ static int CountFiles( char *szItem )
 				++nCount;
 			}
 		}
-		while( FALSE != FindNextFileA( hFind, &fd ) );
+		while( FALSE != FindNextFileA( hFind, &fd ));
 	}
 
 	return( nCount );
@@ -278,13 +278,13 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 			if ( fd.dwFileAttributes == FILE_ATTRIBUTE_DIRECTORY )
 			{
 				// Skip parent directories
-				if ( ( 0 != strcmp( fd.cFileName, "." ) ) &&
-					 ( 0 != strcmp( fd.cFileName, ".." ) ) )
+				if ( ( 0 != strcmp( fd.cFileName, "." )) &&
+					 ( 0 != strcmp( fd.cFileName, ".." )) )
 				{
 					char szDirName[ MAX_PATH ];
 					strncpy( szDirName, szItem, MAX_PATH - 1 );
 
-					if ( NULL != strstr( szItem, "*.*" ) )
+					if ( NULL != strstr( szItem, "*.*" ))
 					{
 						sprintf( szDirName + strlen( szDirName ) - 3, "%s\0", fd.cFileName );
 					}
@@ -299,12 +299,12 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 			}
 			else
 			{
-				int	 nSize = sizeof(char) * ( strlen( szItem ) + strlen( fd.cFileName ) + sizeof( char ) );
+				int	 nSize = sizeof(char) * ( strlen( szItem ) + strlen( fd.cFileName ) + sizeof( char ));
 				char *szFile = (char*) malloc( nSize ) ;
 				
 				strncpy( szFile, szItem, nSize - 1 ); 
 				
-				if ( NULL != strstr( szFile, "*.*" ) )
+				if ( NULL != strstr( szFile, "*.*" ))
 				{
 					szFile[ strlen( szFile ) - 3 ] = '\0';
 					strncat( szFile, fd.cFileName, MAX_PATH - 1 );
@@ -314,7 +314,7 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 				++( *pnCount );
 			}
 		}
-		while( FALSE != FindNextFileA( hFind, &fd ) );
+		while( FALSE != FindNextFileA( hFind, &fd ));
 	}
 }
 

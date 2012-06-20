@@ -58,7 +58,7 @@ static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)
 				if (pszDivider == NULL)
 				{	
 					pszDirName = "";
-					strncpy(pszFileName, dbv.pszVal, strlen(dbv.pszVal) );
+					strncpy(pszFileName, dbv.pszVal, strlen(dbv.pszVal));
 				}
 				else
 				{

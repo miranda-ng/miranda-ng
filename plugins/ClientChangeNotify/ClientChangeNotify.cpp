@@ -407,7 +407,7 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	hHooks.AddElem(HookEvent(ME_OPT_INITIALISE, OptionsDlgInit));
 	hHooks.AddElem(HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged));
 	hHooks.AddElem(HookEvent(ME_CONTACTSETTINGS_INITIALISE, ContactSettingsInit));
-	SkinAddNewSound(CLIENTCHANGED_SOUND, Translate("ClientChangeNotify: Client changed"), "");
+	SkinAddNewSoundEx(CLIENTCHANGED_SOUND, NULL, LPGEN("ClientChangeNotify: Client changed"));
 // updater plugin support
 	Update update = {0};
 	char szVersion[16];

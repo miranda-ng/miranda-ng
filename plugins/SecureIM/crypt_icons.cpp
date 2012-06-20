@@ -19,7 +19,7 @@ HICON mode2icon(int mode,int type) {
 
 	if ( icons_cache ) {
 		for(i=0;i<icons_cache;i++) {
-			if ( ICONS_CACHE[i].mode == ((type<<8) | mode) ) {
+			if ( ICONS_CACHE[i].mode == ((type<<8) | mode)) {
 				return ICONS_CACHE[i].icon;
 			}
 		}
@@ -59,7 +59,7 @@ IconExtraColumn mode2iec(int mode) {
 
 	int m=mode&0x0f,s=(mode&SECURED)>>4; // разобрали на части - режим и состояние
 
-	if ( mode==-1 || (!s && !bASI && m!=MODE_PGP && m!=MODE_GPG) ) {
+	if ( mode==-1 || (!s && !bASI && m!=MODE_PGP && m!=MODE_GPG)) {
 		return g_IEC[0]; // вернем пустое место
 	}
 
@@ -93,7 +93,7 @@ void ShowStatusIcon(HANDLE hContact,int mode) {
 			}
 		}
 	}
-	if ( ServiceExists(MS_MSG_MODIFYICON) ) {  // обновить иконки в srmm
+	if ( ServiceExists(MS_MSG_MODIFYICON)) {  // обновить иконки в srmm
 		StatusIconData sid;
 		memset(&sid,0,sizeof(sid));
 		sid.cbSize = sizeof(sid);
@@ -101,7 +101,7 @@ void ShowStatusIcon(HANDLE hContact,int mode) {
 		for(int i=MODE_NATIVE; i<MODE_CNT;i++) {
 			sid.dwId = i;
 			sid.flags = (mode&SECURED)?0:MBF_DISABLED;
-			if ( mode==-1 || (mode&0x0f)!=i || isChatRoom(hContact) )
+			if ( mode==-1 || (mode&0x0f)!=i || isChatRoom(hContact))
 				sid.flags |= MBF_HIDDEN;  // отключаем все ненужные иконки
 			CallService(MS_MSG_MODIFYICON, (WPARAM)hContact, (LPARAM)&sid);
 			if ( hMC )
@@ -140,7 +140,7 @@ void RefreshContactListIcons(void) {
 	}
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact) { // и снова зажигаем иконку
-		if ( isSecureProtocol(hContact) )
+		if ( isSecureProtocol(hContact))
 			ShowStatusIcon(hContact);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, 0);
 	}

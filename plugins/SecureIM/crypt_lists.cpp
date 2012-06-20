@@ -86,8 +86,8 @@ void MoveToFirstInFilterList(HANDLE hContact) {
 
 	for(i=0;;i++) {
 		mir_itoa(i,str,10);
-		if ( DBGetContactSettingString(hContact,"_Filter",str,&dbv) ) break;
-		if ( !strcmp(szModuleName,dbv.pszVal) ) { // нашли мой модуль
+		if ( DBGetContactSettingString(hContact,"_Filter",str,&dbv)) break;
+		if ( !strcmp(szModuleName,dbv.pszVal)) { // нашли мой модуль
 			if ( i==0 ) return;
 			DBGetContactSettingString(hContact,"_Filter","0",&dbv);
 			DBWriteContactSettingString(hContact,"_Filter","0",szModuleName);
@@ -108,8 +108,8 @@ void MoveToLastInFilterList(HANDLE hContact) {
 
 	for(i=0;;i++) {
 		mir_itoa(i,str,10);
-		if ( DBGetContactSettingString(hContact,"_Filter",str,&dbv) ) break;
-		if ( !strcmp(szModuleName,dbv.pszVal) ) { // нашли мой модуль
+		if ( DBGetContactSettingString(hContact,"_Filter",str,&dbv)) break;
+		if ( !strcmp(szModuleName,dbv.pszVal)) { // нашли мой модуль
 		    j=i;
 		}
 		mir_free(dbv.pszVal);
@@ -133,7 +133,7 @@ pUinKey addContact(HANDLE hContact) {
 //    		LPSTR szProto = (LPSTR) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
     		pSupPro proto = getSupPro(hContact);
 		if ( proto ) {
-			if ( !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)szModuleName) )
+			if ( !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)szModuleName))
 				CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)szModuleName);
 			MoveToLastInFilterList(hContact);
 			for(j=0;j<clist_cnt;j++) {
@@ -152,9 +152,9 @@ pUinKey addContact(HANDLE hContact) {
 			clist[j].proto = proto;
 			clist[j].mode = DBGetContactSettingByte(hContact, szModuleName, "mode", 99);
 			if ( clist[j].mode == 99 ) {
-				if ( isContactPGP(hContact) ) clist[j].mode = MODE_PGP;
+				if ( isContactPGP(hContact)) clist[j].mode = MODE_PGP;
 				else
-				if ( isContactGPG(hContact) ) clist[j].mode = MODE_GPG;
+				if ( isContactGPG(hContact)) clist[j].mode = MODE_GPG;
 				else
 				clist[j].mode = MODE_RSAAES;
 				DBWriteContactSettingByte(hContact, szModuleName, "mode", clist[j].mode);

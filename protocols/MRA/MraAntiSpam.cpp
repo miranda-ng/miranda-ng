@@ -195,7 +195,7 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg,UINT msg,WPARAM wParam,LPAR
 			MraAntiSpamLoadBadWordsW();
 		}
 
-		if ((LOWORD(wParam)==IDC_EDIT_BAD_WORD) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) ) return(0);
+		if ((LOWORD(wParam)==IDC_EDIT_BAD_WORD) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return(0);
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		break;
 	case WM_NOTIFY:
@@ -444,7 +444,7 @@ DWORD MraAntiSpamReceivedMessageW(LPSTR lpszEMail,SIZE_T dwEMailSize,DWORD dwMes
 				dwRet=MESSAGE_NOT_SPAM;
 			}else{// temp contact
 				if (DB_Mra_GetByte(NULL,"AntiSpamCheckTempContacts",MRA_ANTISPAM_DEFAULT_CHK_TEMP_CONTACTS)==FALSE ||
-					(((dwMessageFlags&MESSAGE_FLAG_AUTHORIZE) && DB_Mra_GetByte(NULL,"AutoAuthGrandNewUsers",MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS) && DB_Mra_GetByte(NULL,"AutoAuthGrandNewUsersDisableSPAMCheck",MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK))) )
+					(((dwMessageFlags&MESSAGE_FLAG_AUTHORIZE) && DB_Mra_GetByte(NULL,"AutoAuthGrandNewUsers",MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS) && DB_Mra_GetByte(NULL,"AutoAuthGrandNewUsersDisableSPAMCheck",MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS_DISABLE_SPAM_CHECK))))
 				{// проверка временного контакта
 					bCheckMessage=FALSE;
 					dwRet=MESSAGE_NOT_SPAM;

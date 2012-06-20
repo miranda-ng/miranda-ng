@@ -1222,7 +1222,7 @@ BOOLEAN	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 		sdbe = hDbExistingEvent;
 		for (	edbe = sdbe;
 				edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp <= edbei.timestamp);
-				edbe = FindPrev(edbe) ) {
+				edbe = FindPrev(edbe)) {
 			hDbExistingEvent = edbe;
 			//compare without data (faster)
 			if ( result = IsEqual(dbei, &edbei, false)) {
@@ -1239,7 +1239,7 @@ BOOLEAN	Exists(HANDLE hContact, HANDLE& hDbExistingEvent, DBEVENTINFO *dbei)
 		if (!result) {
 			for (	edbe = FindNext(sdbe);
 					edbe && !GetInfo(edbe, &edbei) && (dbei->timestamp >= edbei.timestamp);
-					edbe = FindNext(edbe) ) {
+					edbe = FindNext(edbe)) {
 				hDbExistingEvent = edbe;
 				//compare without data (faster)
 				if ( result = IsEqual(dbei, &edbei, false)) {

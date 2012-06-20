@@ -554,7 +554,7 @@ CCtrlMButton::CCtrlMButton( CDlgBase* dlg, int ctrlId, HICON hIcon, const char* 
 
 CCtrlMButton::CCtrlMButton( CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip ) :
 	CCtrlButton( dlg, ctrlId ),
-	m_hIcon( LoadSkinnedIcon(iCoreIcon) ),
+	m_hIcon( LoadSkinnedIcon(iCoreIcon)),
 	m_toolTip( tooltip )
 {
 }

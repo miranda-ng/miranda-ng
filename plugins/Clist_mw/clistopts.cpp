@@ -62,14 +62,14 @@ static INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			DBCONTACTWRITESETTING * ws = (DBCONTACTWRITESETTING *)lParam;
 			if ( hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL
 				&& lstrcmpiA(ws->szModule,"CList") == 0 && lstrcmpiA(ws->szSetting,"UseGroups") == 0
-				&& IsWindowVisible(hwndDlg) ) {
+				&& IsWindowVisible(hwndDlg)) {
 				CheckDlgButton(hwndDlg,IDC_DISABLEGROUPS,ws->value.bVal == 0);
 			}
 			break;
 		}
 		case WM_DESTROY: 
 		{
-			UnhookEvent( (HANDLE)GetWindowLongPtr(hwndDlg,GWLP_USERDATA) );
+			UnhookEvent( (HANDLE)GetWindowLongPtr(hwndDlg,GWLP_USERDATA));
 			break;
 		}
 

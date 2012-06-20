@@ -177,6 +177,6 @@ int LoadSendRecvUrlModule(void)
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, SRUrlShutdown);
 	CreateServiceFunction(MS_URL_SENDURL, SendUrlCommand);
 	CreateServiceFunction("SRUrl/ReadUrl", ReadUrlCommand);
-	SkinAddNewSoundEx("RecvUrl", "URL", "Incoming");
+	SkinAddNewSoundEx("RecvUrl", LPGEN("URL"), LPGEN("Incoming"));
 	return 0;
 }

@@ -568,6 +568,20 @@ static void sttOptionsDeleteHotkey(HWND hwndList, int idx, THotkeyItem *item)
 		item->rootHotkey->OptChanged = TRUE;
 }
 
+static int sttAlphaSort(const THotkeyItem *p1, const THotkeyItem *p2)
+{
+	int res;
+	if (res = lstrcmp(p1->getSection(), p2->getSection()))
+		return res;
+	if (res = lstrcmp(p1->getDescr(), p2->getDescr()))
+		return res;
+	if (!p1->rootHotkey && p2->rootHotkey)
+		return -1;
+	if (p1->rootHotkey && !p2->rootHotkey)
+		return 1;
+	return 0;
+}
+
 static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	TCHAR title1[256] = {0}, title2[256] = {0};
@@ -593,7 +607,7 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 		return lstrcmp(title1, title2);
 
 	if ( !item1) {
-		if (res = lstrcmp(title1, item1->getSection()))
+		if (res = lstrcmp(title1, item2->getSection()))
 			return res;
 		return -1;
 	}
@@ -603,7 +617,7 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 			return res;
 		return 1;
 	}
-	return sttCompareHotkeys(item1, item2);
+	return sttAlphaSort(item1, item2);
 }
 
 static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
@@ -684,19 +698,24 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	DBWriteContactSettingDword(NULL, DBMODULENAME, buf, item->nSubHotkeys);
 }
 
-static void sttBuildHotkeyList(HWND hwndList, TCHAR *section)
+static void sttBuildHotkeyList(HWND hwndList)
 {
 	int i, nItems=0;
 	ListView_DeleteAllItems(hwndList);
 
-	for (i = 0; i < hotkeys.getCount(); i++) {
+	// create the temporary list with language-dependent sort order
+	LIST<THotkeyItem> tmpList(hotkeys.getCount(), sttAlphaSort);
+	for (i = 0; i < hotkeys.getCount(); i++)
+		tmpList.insert( hotkeys[i] );
+
+	for (i = 0; i < tmpList.getCount(); i++) {
 		LVITEM lvi = {0};
-		THotkeyItem *item = hotkeys[i];
+		THotkeyItem *item = tmpList[i];
 
-		if (item->OptDeleted) continue;
-		if (section && lstrcmp(section, item->ptszSection)) continue;
+		if (item->OptDeleted)
+			continue;
 
-		if ( !section && ( !i || lstrcmp(item->ptszSection, ((THotkeyItem *)hotkeys[i-1])->ptszSection))) {
+		if ( !i || lstrcmp(item->ptszSection, tmpList[i-1]->ptszSection)) {
 			lvi.mask = LVIF_TEXT|LVIF_PARAM;
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
@@ -713,11 +732,8 @@ static void sttBuildHotkeyList(HWND hwndList, TCHAR *section)
 			lvi.iSubItem = 0;
 		}
 
-		lvi.mask = LVIF_PARAM;
-		if ( !section) {
-			lvi.mask |= LVIF_INDENT;
-			lvi.iIndent = 1;
-		}
+		lvi.mask = LVIF_PARAM | LVIF_INDENT;
+		lvi.iIndent = 1;
 		lvi.iItem = nItems++;
 		lvi.lParam = (LPARAM)item;
 		ListView_InsertItem(hwndList, &lvi);
@@ -769,66 +785,59 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
-		int i;
-		LVCOLUMN lvc;
-		RECT rc;
-		HIMAGELIST hIml;
-
 		initialized = FALSE;
 
 		TranslateDialogDefault(hwndDlg);
 
 		sttHotkeyEditCreate(GetDlgItem(hwndDlg, IDC_HOTKEY));
-
-		hIml = ImageList_Create(16, 16, ILC_MASK + (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 3, 1);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOWS);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_MIRANDA); 
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOW);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ADDCONTACT);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_DELETE);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNDO);
-
-		// This is added to use for drawing operation only
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPOPEN);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPSHUT);
-
-		ListView_SetImageList(hwndHotkey, hIml, LVSIL_SMALL);
-
-		ListView_SetExtendedListViewStyle(hwndHotkey, LVS_EX_CHECKBOXES|LVS_EX_SUBITEMIMAGES|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER|LVS_EX_INFOTIP);
-
-		GetClientRect(hwndHotkey, &rc);
-		colWidth = rc.right - GetSystemMetrics(SM_CXHTHUMB) - 3*GetSystemMetrics(SM_CXSMICON) - 5;
-
-		lvc.mask = LVCF_WIDTH;
-		lvc.cx = colWidth * 2 / 3;
-		ListView_InsertColumn(hwndHotkey, COL_NAME, &lvc);
-		lvc.cx = GetSystemMetrics(SM_CXSMICON);
-		ListView_InsertColumn(hwndHotkey, COL_TYPE, &lvc);
-		lvc.cx = colWidth / 3;
-		ListView_InsertColumn(hwndHotkey, COL_KEY, &lvc);
-		lvc.cx = GetSystemMetrics(SM_CXSMICON);
-		ListView_InsertColumn(hwndHotkey, COL_RESET, &lvc);
-		lvc.cx = GetSystemMetrics(SM_CXSMICON);
-		ListView_InsertColumn(hwndHotkey, COL_ADDREMOVE, &lvc);
-
-		for (i = 0; i < hotkeys.getCount(); i++) {
-			THotkeyItem *item = hotkeys[i];
-
-			item->OptChanged = FALSE;
-			item->OptDeleted = item->OptNew = FALSE;
-			item->OptEnabled = item->Enabled;
-			item->OptHotkey = item->Hotkey;
-			item->OptType = item->type;
+		{
+			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK + (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 3, 1);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOWS);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_MIRANDA); 
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_WINDOW);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_ADDCONTACT);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_DELETE);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_UNDO);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPOPEN);
+			ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_GROUPSHUT);
+			ListView_SetImageList(hwndHotkey, hIml, LVSIL_SMALL);
 		}
+		ListView_SetExtendedListViewStyle(hwndHotkey, LVS_EX_CHECKBOXES|LVS_EX_SUBITEMIMAGES|LVS_EX_FULLROWSELECT|LVS_EX_DOUBLEBUFFER|LVS_EX_INFOTIP);
+		{
+			RECT rc;
+			GetClientRect(hwndHotkey, &rc);
+			colWidth = rc.right - GetSystemMetrics(SM_CXHTHUMB) - 3*GetSystemMetrics(SM_CXSMICON) - 5;
 
-		currentLanguage = LOWORD(GetKeyboardLayout(0));
-		sttBuildHotkeyList(hwndHotkey, NULL);
+			LVCOLUMN lvc;
+			lvc.mask = LVCF_WIDTH;
+			lvc.cx = colWidth * 2 / 3;
+			ListView_InsertColumn(hwndHotkey, COL_NAME, &lvc);
+			lvc.cx = GetSystemMetrics(SM_CXSMICON);
+			ListView_InsertColumn(hwndHotkey, COL_TYPE, &lvc);
+			lvc.cx = colWidth / 3;
+			ListView_InsertColumn(hwndHotkey, COL_KEY, &lvc);
+			lvc.cx = GetSystemMetrics(SM_CXSMICON);
+			ListView_InsertColumn(hwndHotkey, COL_RESET, &lvc);
+			lvc.cx = GetSystemMetrics(SM_CXSMICON);
+			ListView_InsertColumn(hwndHotkey, COL_ADDREMOVE, &lvc);
+
+			for (int i = 0; i < hotkeys.getCount(); i++) {
+				THotkeyItem *item = hotkeys[i];
+
+				item->OptChanged = FALSE;
+				item->OptDeleted = item->OptNew = FALSE;
+				item->OptEnabled = item->Enabled;
+				item->OptHotkey = item->Hotkey;
+				item->OptType = item->type;
+			}
+
+			currentLanguage = LOWORD(GetKeyboardLayout(0));
+			sttBuildHotkeyList(hwndHotkey);
+		}
 		SetTimer(hwndDlg, 1024, 1000, NULL);
-
 		initialized = TRUE;
-
-		{	/* load group states */
+		{
+			/* load group states */
 			int count = ListView_GetItemCount(hwndHotkey);
 			TCHAR buf[128];
 			LVITEM lvi = {0};
@@ -856,9 +865,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 
 		g_hwndOptions = hwndDlg;
-
 		break;
-	}
 
 	case WM_DESTROY:
 	{

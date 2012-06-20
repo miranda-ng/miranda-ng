@@ -86,7 +86,7 @@ Lots of people provided useful suggestions, feature requests and bug reports dur
 the development phase. I cannot name you all here, because it's just too many.
 
 * The Miranda-IM development team and all contributors for making the best
-  IM client on this planet (and probably in the entire universe :) )
+  IM client on this planet (and probably in the entire universe :))
 
 * sryo (teodalton@yahoo.com) for the minimal icons.
 

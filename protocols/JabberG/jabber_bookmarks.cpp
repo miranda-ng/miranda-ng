@@ -49,7 +49,7 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc( HWND hwndDlg, UINT msg, WPARAM
 		param->ppro->m_hwndJabberAddBookmark = hwndDlg;
 		TranslateDialogDefault( hwndDlg );
 		if ( item = param->m_item ) {
-			if ( !lstrcmp( item->type, _T("conference") )) {
+			if ( !lstrcmp( item->type, _T("conference"))) {
 				if (!_tcschr( item->jid, _T( '@' ))) {	  //no room name - consider it is transport
 					SendDlgItemMessage(hwndDlg, IDC_AGENT_RADIO, BM_SETCHECK, BST_CHECKED, 0);
 					EnableWindow( GetDlgItem( hwndDlg, IDC_NICK ), FALSE );
@@ -85,9 +85,9 @@ static INT_PTR CALLBACK JabberAddBookmarkDlgProc( HWND hwndDlg, UINT msg, WPARAM
 		return TRUE;
 
 	case WM_COMMAND:
-		switch ( HIWORD(wParam) ) {
+		switch ( HIWORD(wParam)) {
 			case BN_CLICKED:
-				switch (LOWORD (wParam) ) {
+				switch (LOWORD (wParam)) {
 					case IDC_ROOM_RADIO:
 						EnableWindow( GetDlgItem( hwndDlg, IDC_NICK ), TRUE );
 						EnableWindow( GetDlgItem( hwndDlg, IDC_PASSWORD ), TRUE );

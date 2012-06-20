@@ -112,6 +112,6 @@ int LoadUserOnlineModule(void)
 	HookEvent(ME_PROTO_ACK, UserOnlineAck);
 	HookEvent(ME_SYSTEM_MODULESLOADED, UserOnlineModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, UserOnlineAccountsChanged);
-	SkinAddNewSoundEx("UserOnline", "Alerts", "Online");
+	SkinAddNewSoundEx("UserOnline", LPGEN("Alerts"), LPGEN("Online"));
 	return 0;
 }

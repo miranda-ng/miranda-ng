@@ -74,7 +74,7 @@ static int AddDatabaseToList(HWND hwndList, TCHAR* filename, TCHAR* dir)
 	_tcscpy(szName,dir);
 	_tcscat(szName,pName);
 	pDot = _tcsrchr( szName, '.' );
-	if ( pDot != NULL && !_tcsicmp( pDot, _T(".dat")) )
+	if ( pDot != NULL && !_tcsicmp( pDot, _T(".dat")))
 		*pDot=0;
 
 	lvi.iItem = 0;
@@ -181,7 +181,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				GetProfileDirectory(szMirandaPath,szProfileDir,SIZEOF(szProfileDir));
 
 				// search in profile dir (using ini file)
-				if ( lstrcmpi(szProfileDir,szMirandaProfiles) )
+				if ( lstrcmpi(szProfileDir,szMirandaProfiles))
 					FindAdd(hdlg, szProfileDir, _T("[ini]\\"));
 
 				FindAdd(hdlg, szMirandaProfiles, _T("[prf]\\"));
@@ -191,7 +191,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				// search in profile dir (using registry path + ini file)
 				if(RegOpenKeyEx(HKEY_LOCAL_MACHINE,_T("Software\\Microsoft\\Windows\\CurrentVersion\\App Paths\\miranda32.exe"),0,KEY_QUERY_VALUE,&hKey) == ERROR_SUCCESS) {
 					if(RegQueryValueEx(hKey,_T("Path"),NULL,NULL,(PBYTE)szMirandaPath,&cbData) == ERROR_SUCCESS) {
-						if ( lstrcmp(szProfileDir,szMirandaPath) ) {
+						if ( lstrcmp(szProfileDir,szMirandaPath)) {
 							GetProfileDirectory(szMirandaPath,szProfileDir,SIZEOF(szProfileDir));
 							FindAdd(hdlg, szProfileDir, _T("[reg]\\"));
 						}
@@ -200,7 +200,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				}
 				// select
 				if ( opts.filename[0] )
-					i = AddDatabaseToList( GetDlgItem( hdlg, IDC_DBLIST ), opts.filename, _T("") );
+					i = AddDatabaseToList( GetDlgItem( hdlg, IDC_DBLIST ), opts.filename, _T(""));
 				if ( i == -1 )
 					i = 0;
 				ListView_SetItemState( GetDlgItem(hdlg,IDC_DBLIST), i, LVIS_SELECTED, LVIS_SELECTED );
@@ -250,7 +250,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 					ofn.nMaxFileTitle = MAX_PATH;
 					if ( GetOpenFileName( &ofn )) {
 						int i;
-						i = AddDatabaseToList( GetDlgItem(hdlg,IDC_DBLIST), str, _T("") );
+						i = AddDatabaseToList( GetDlgItem(hdlg,IDC_DBLIST), str, _T(""));
 						if ( i == -1 )
 							i=0;
 						ListView_SetItemState( GetDlgItem(hdlg,IDC_DBLIST), i, LVIS_SELECTED, LVIS_SELECTED );

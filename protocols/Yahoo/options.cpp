@@ -182,7 +182,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 
 		SetDlgItemInt( hwndDlg, IDC_YAHOOPORT, ppro->GetWord( NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT ), FALSE );
 		
-		SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ) );
+		SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ));
 		return TRUE;
 
 	case WM_COMMAND:

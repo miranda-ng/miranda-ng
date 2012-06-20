@@ -135,7 +135,7 @@ INT_PTR CALLBACK MraFilesQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam,
 			EnableWindow(GetDlgItem(hWndDlg,IDC_FILE_SEND_EXTRA_ADDRESS),IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_FILE_SEND_ADD_EXTRA_ADDRESS));
 		}
 
-		if ((LOWORD(wParam)==IDC_FILE_SEND_EXTRA_ADDRESS || LOWORD(wParam)==IDC_FILE_SEND_BLOCK_SIZE) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) ) return(FALSE);
+		if ((LOWORD(wParam)==IDC_FILE_SEND_EXTRA_ADDRESS || LOWORD(wParam)==IDC_FILE_SEND_BLOCK_SIZE) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return(FALSE);
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		break;
 	case WM_NOTIFY:

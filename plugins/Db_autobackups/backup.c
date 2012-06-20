@@ -204,7 +204,7 @@ int Backup(TCHAR* backup_filename)
 
 VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
 	time_t t = time(0), diff = t - (time_t)DBGetContactSettingDword(0, "AutoBackups", "LastBackupTimestamp", (DWORD)t);
-	if(diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ) )))
+	if(diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ))))
 		Backup(NULL);
 }
 

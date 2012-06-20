@@ -322,7 +322,7 @@ time_t __stdcall DateToUnixTime(TCHAR* stamp, BOOL FeedType)
 		// skip '-' chars
 		int si = 0, sj = 0;
 		while (1) {
-			if ( p[si] == _T('-') )
+			if ( p[si] == _T('-'))
 				si++;
 			else
 				if ( !( p[sj++] = p[si++] ))

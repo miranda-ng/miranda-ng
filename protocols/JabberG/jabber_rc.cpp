@@ -45,15 +45,15 @@ CJabberAdhocSession::CJabberAdhocSession( CJabberProto* global )
 
 BOOL CJabberProto::IsRcRequestAllowedByACL( CJabberIqInfo* pInfo )
 {
-	if ( !pInfo || !pInfo->GetFrom() )
+	if ( !pInfo || !pInfo->GetFrom())
 		return FALSE;
 
-	return IsMyOwnJID( pInfo->GetFrom() );
+	return IsMyOwnJID( pInfo->GetFrom());
 }
 
 BOOL CJabberProto::HandleAdhocCommandRequest( HXML iqNode, CJabberIqInfo* pInfo )
 {
-	if ( !pInfo->GetChildNode() )
+	if ( !pInfo->GetChildNode())
 		return TRUE;
 
 	if ( !m_options.EnableRemoteControl || !IsRcRequestAllowedByACL( pInfo )) {
@@ -277,7 +277,7 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 		HXML fieldNode = xNode << XCHILD( _T("field")) << XATTR( _T("label"), TranslateT("Status")) 
 			<< XATTR( _T("type"), _T("list-single")) << XATTR( _T("var"), _T("status"));
 		
-		fieldNode << XCHILD( _T("required") );
+		fieldNode << XCHILD( _T("required"));
 
 		int status = JCallService( MS_CLIST_GETSTATUSMODE, 0, 0 );
 		switch ( status ) {
@@ -339,16 +339,16 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 	else if ( pSession->GetStage() == 1 ) {
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
-		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS) );
+		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
 		if ( !xNode )
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
-		HXML fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status") );
+		HXML fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status"));
 		if ( !xNode )
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		HXML valueNode = xmlGetChild( fieldNode , "value" );
-		if ( !valueNode || !xmlGetText( valueNode ) )
+		if ( !valueNode || !xmlGetText( valueNode ))
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		int status = 0;
@@ -366,19 +366,19 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 
 		int priority = -9999;
 
-		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-priority") );
+		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-priority"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) )
-				priority = _ttoi( xmlGetText( valueNode ) );
+			if ( xmlGetText( valueNode ))
+				priority = _ttoi( xmlGetText( valueNode ));
 		}
 
 		if ( priority >= -128 && priority <= 127 )
 			JSetWord( NULL, "Priority", (WORD)priority );
 
 		const TCHAR* szStatusMessage = NULL;
-		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-message") );
+		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-message"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) )
+			if ( xmlGetText( valueNode ))
 				szStatusMessage = xmlGetText( valueNode );
 		}
 
@@ -388,9 +388,9 @@ int CJabberProto::AdhocSetStatusHandler( HXML, CJabberIqInfo* pInfo, CJabberAdho
 
 		DBWriteContactSettingTString( NULL, "SRAway", StatusModeToDbSetting( status, "Msg" ), szStatusMessage ? szStatusMessage : _T( "" ));
 		
-		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-global") );
+		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("status-global"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode ) ))
+			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode )))
 				JCallService( MS_CLIST_SETSTATUSMODE, status, NULL );
 			else
 				CallProtoService( m_szModuleName, PS_SETSTATUS, status, NULL );
@@ -445,30 +445,30 @@ int CJabberProto::AdhocOptionsHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 	if ( pSession->GetStage() == 1 ) {
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
-		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS) );
+		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
 		if ( !xNode )
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		HXML fieldNode, valueNode;
 
 		// Automatically Accept File Transfers
-		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("auto-files") );
+		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("auto-files"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) )
-				DBWriteContactSettingByte( NULL, "SRFile", "AutoAccept", (BYTE)_ttoi( xmlGetText( valueNode ) ) );
+			if ( xmlGetText( valueNode ))
+				DBWriteContactSettingByte( NULL, "SRFile", "AutoAccept", (BYTE)_ttoi( xmlGetText( valueNode )) );
 		}
 
 		// Use sounds
-		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("sounds") );
+		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("sounds"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) )
-				DBWriteContactSettingByte( NULL, "Skin", "UseSound", (BYTE)_ttoi( xmlGetText( valueNode ) ) );
+			if ( xmlGetText( valueNode ))
+				DBWriteContactSettingByte( NULL, "Skin", "UseSound", (BYTE)_ttoi( xmlGetText( valueNode )) );
 		}
 
 		// Disable remote controlling
-		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("enable-rc") );
+		fieldNode = xmlGetChildByTag( xNode, "field", "var", _T("enable-rc"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode ) ))
+			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode )))
 				m_options.EnableRemoteControl = 0;
 		}
 
@@ -519,7 +519,7 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 	if ( pSession->GetStage() == 0 ) {
 		int nUnreadEvents = RcGetUnreadEventsCount();
 		if ( !nUnreadEvents ) {
-			mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("There is no messages to forward") );
+			mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("There is no messages to forward"));
 
 			m_ThreadInfo->send(
 				XmlNodeIq( _T("result"), pInfo )
@@ -550,7 +550,7 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 		// remove clist events
 		xNode << XCHILD( _T("field")) << XATTR( _T("label"), TranslateT("Mark messages as read")) << XATTR( _T("type"), _T("boolean"))
 			<< XATTR( _T("var"), _T("remove-clist-events")) << XCHILD( _T("value"),
-			m_options.RcMarkMessagesAsRead == 1 ? _T("1") : _T("0") );
+			m_options.RcMarkMessagesAsRead == 1 ? _T("1") : _T("0"));
 
 		m_ThreadInfo->send( iq );
 		return JABBER_ADHOC_HANDLER_STATUS_EXECUTING;
@@ -559,7 +559,7 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 	if ( pSession->GetStage() == 1 ) {
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
-		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS) );
+		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
 		if ( !xNode )
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
@@ -568,9 +568,9 @@ int CJabberProto::AdhocForwardHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocS
 		BOOL bRemoveCListEvents = TRUE;
 
 		// remove clist events
-		fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("remove-clist-events") );
+		fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("remove-clist-events"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" ))) {
-			if ( xmlGetText( valueNode ) && !_ttoi( xmlGetText( valueNode ) ) ) {
+			if ( xmlGetText( valueNode ) && !_ttoi( xmlGetText( valueNode )) ) {
 				bRemoveCListEvents = FALSE;
 			}
 		}
@@ -658,7 +658,7 @@ typedef BOOL (WINAPI *LWS )( VOID );
 int CJabberProto::AdhocLockWSHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocSession* pSession )
 {
 	BOOL bOk = FALSE;
-	HMODULE hLibrary = LoadLibrary( _T("user32.dll") );
+	HMODULE hLibrary = LoadLibrary( _T("user32.dll"));
 	if ( hLibrary ) {
 		LWS pLws = (LWS)GetProcAddress( hLibrary, "LockWorkStation" );
 		if ( pLws )
@@ -668,9 +668,9 @@ int CJabberProto::AdhocLockWSHandler( HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 
 	TCHAR szMsg[ 1024 ];
 	if ( bOk )
-		mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("Workstation successfully locked") );
+		mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("Workstation successfully locked"));
 	else
-		mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("Error %d occured during workstation lock"), GetLastError() );
+		mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("Error %d occured during workstation lock"), GetLastError());
 
 	m_ThreadInfo->send(
 		XmlNodeIq( _T("result"), pInfo )
@@ -716,16 +716,16 @@ int CJabberProto::AdhocQuitMirandaHandler( HXML, CJabberIqInfo* pInfo, CJabberAd
 	if ( pSession->GetStage() == 1 ) {
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
-		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS) );
+		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
 		if ( !xNode )
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		HXML fieldNode, valueNode;
 
 		// I Agree checkbox
-		fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("allow-shutdown") );
+		fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("allow-shutdown"));
 		if ( fieldNode && (valueNode = xmlGetChild( fieldNode , "value" )))
-			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode ) ))
+			if ( xmlGetText( valueNode ) && _ttoi( xmlGetText( valueNode )))
 				mir_forkthread( JabberQuitMirandaIMThread, NULL );
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
@@ -751,7 +751,7 @@ int CJabberProto::AdhocLeaveGroupchatsHandler( HXML, CJabberIqInfo* pInfo, CJabb
 		ListUnlock();
 
 		if ( !nChatsCount ) {
-			mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("There is no groupchats to leave") );
+			mir_sntprintf( szMsg, SIZEOF(szMsg), TranslateT("There is no groupchats to leave"));
 
 			m_ThreadInfo->send(
 				XmlNodeIq( _T("result"), pInfo )
@@ -796,12 +796,12 @@ int CJabberProto::AdhocLeaveGroupchatsHandler( HXML, CJabberIqInfo* pInfo, CJabb
 	if ( pSession->GetStage() == 1 ) {
 		// result form here
 		HXML commandNode = pInfo->GetChildNode();
-		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS) );
+		HXML xNode = xmlGetChildByTag( commandNode, "x", "xmlns", _T(JABBER_FEAT_DATA_FORMS));
 		if ( !xNode )
 			return JABBER_ADHOC_HANDLER_STATUS_CANCEL;
 
 		// Groupchat list here:
-		HXML fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("groupchats") );
+		HXML fieldNode = xmlGetChildByTag( xNode,"field", "var", _T("groupchats"));
 		if ( fieldNode ) {
 			for ( i = 0; i < xmlGetChildCount( fieldNode ); i++ ) {
 				HXML valueNode = xmlGetChild( fieldNode, i );

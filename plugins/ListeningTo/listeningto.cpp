@@ -158,9 +158,9 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_HOTKEYS_TOGGLE, HotkeysToggle));
 	
 	// Hooks
-	hHooks.push_back( HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded) );
-	hHooks.push_back( HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown) );
-	hHooks.push_back( HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged) );
+	hHooks.push_back( HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded));
+	hHooks.push_back( HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown));
+	hHooks.push_back( HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged));
 
 	hEnableStateChangedEvent = CreateHookableEvent(ME_LISTENINGTO_ENABLE_STATE_CHANGED);
 	hListeningInfoChangedEvent = CreateHookableEvent(ME_LISTENINGTO_LISTENING_INFO_CHANGED);
@@ -354,7 +354,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	else if (hExtraIcon == NULL && ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
 	{
-		hHooks.push_back( HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ClistExtraListRebuild) );
+		hHooks.push_back( HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ClistExtraListRebuild));
 	}
 
 	{
@@ -409,7 +409,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			RegisterProtocol(protos[i]->szModuleName, protos[i]->tszAccountName);
 		}
 
-		hHooks.push_back( HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged) );
+		hHooks.push_back( HookEvent(ME_PROTO_ACCLISTCHANGED, AccListChanged));
 	}
 	else
 	{
@@ -433,7 +433,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	RebuildMenu();
 
-	hHooks.push_back( HookEvent(ME_TTB_MODULELOADED, TopToolBarLoaded) );
+	hHooks.push_back( HookEvent(ME_TTB_MODULELOADED, TopToolBarLoaded));
 
 	// Variables support
 	if (ServiceExists(MS_VARS_REGISTERTOKEN))
@@ -562,7 +562,7 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
-	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick) );
+	hServices.push_back( CreateServiceFunction(MS_LISTENINGTO_TTB, TopToolBarClick));
 
 	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);

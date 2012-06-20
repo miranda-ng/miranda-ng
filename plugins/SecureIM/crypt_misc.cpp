@@ -129,7 +129,7 @@ void waitForExchange(pUinKey ptr, int flag) {
 		// запускаем трэд
 		HANDLE hEvent = CreateEvent( NULL, TRUE, FALSE, NULL );
 		unsigned int tID;
-		CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttWaitForExchange, new TWaitForExchange(hEvent,ptr->hContact), 0, &tID) );
+		CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttWaitForExchange, new TWaitForExchange(hEvent,ptr->hContact), 0, &tID));
 		SetEvent( hEvent );
 		break;
 	}

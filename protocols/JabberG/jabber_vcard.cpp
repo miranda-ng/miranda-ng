@@ -93,7 +93,7 @@ static INT_PTR CALLBACK PersonalDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_COMMAND:
 		if (( ( HWND )lParam==GetFocus() && HIWORD( wParam )==EN_CHANGE ) ||
-			(( HWND )lParam==GetDlgItem( hwndDlg, IDC_GENDER ) && ( HIWORD( wParam )==CBN_EDITCHANGE||HIWORD( wParam )==CBN_SELCHANGE )) )
+			(( HWND )lParam==GetDlgItem( hwndDlg, IDC_GENDER ) && ( HIWORD( wParam )==CBN_EDITCHANGE||HIWORD( wParam )==CBN_SELCHANGE )))
 		{
 			ppro->m_vCardUpdates |= (1UL<<iPageId);
 			SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
@@ -156,7 +156,7 @@ static INT_PTR CALLBACK HomeDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		if ((( HWND )lParam==GetFocus() && HIWORD( wParam )==EN_CHANGE) ||
-			(( HWND )lParam==GetDlgItem( hwndDlg, IDC_COUNTRY ) && ( HIWORD( wParam )==CBN_EDITCHANGE||HIWORD( wParam )==CBN_SELCHANGE )) )
+			(( HWND )lParam==GetDlgItem( hwndDlg, IDC_COUNTRY ) && ( HIWORD( wParam )==CBN_EDITCHANGE||HIWORD( wParam )==CBN_SELCHANGE )))
 		{
 			ppro->m_vCardUpdates |= (1UL<<iPageId);
 			SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
@@ -222,7 +222,7 @@ static INT_PTR CALLBACK WorkDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WM_COMMAND:
 		if ((( HWND )lParam==GetFocus() && HIWORD( wParam )==EN_CHANGE) ||
-			(( HWND )lParam==GetDlgItem( hwndDlg, IDC_COUNTRY ) && ( HIWORD( wParam )==CBN_EDITCHANGE||HIWORD( wParam )==CBN_SELCHANGE )) )
+			(( HWND )lParam==GetDlgItem( hwndDlg, IDC_COUNTRY ) && ( HIWORD( wParam )==CBN_EDITCHANGE||HIWORD( wParam )==CBN_SELCHANGE )))
 		{
 			ppro->m_vCardUpdates |= (1UL<<iPageId);
 			SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );

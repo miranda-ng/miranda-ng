@@ -303,7 +303,7 @@ void sendMTFValues ( EState* s )
             VPrintf5( "      initial group %d, [%d .. %d], "
                       "has %d syms (%4.1f%%)\n",
                       nPart, gs, ge, aFreq, 
-                      (100.0 * (float)aFreq) / (float)(s->nMTF) );
+                      (100.0 * (float)aFreq) / (float)(s->nMTF));
  
          for (v = 0; v < alphaSize; v++)
             if (v >= gs && v <= ge) 
@@ -624,7 +624,7 @@ void BZ2_compressBlock ( EState* s, Bool is_last_block )
       bsPutUChar ( s, BZ_HDR_B );
       bsPutUChar ( s, BZ_HDR_Z );
       bsPutUChar ( s, BZ_HDR_h );
-      bsPutUChar ( s, (UChar)(BZ_HDR_0 + s->blockSize100k) );
+      bsPutUChar ( s, (UChar)(BZ_HDR_0 + s->blockSize100k));
    }
 
    if (s->nblock > 0) {

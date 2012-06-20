@@ -61,7 +61,7 @@ void TwitterProto::UpdateInfoWorker(void *hContact)
 	std::string username;
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		username = dbv.pszVal;
 		DBFreeVariant(&dbv);
@@ -129,7 +129,7 @@ void TwitterProto::DoSearch(void *p)
 	catch(const std::exception &e)
 	{
 		ShowPopup( (std::string("While searching for contacts, an error occurred: ")
-			+e.what()).c_str() );
+			+e.what()).c_str());
 		LOG( _T("***** Error searching for contacts: %s"), e.what());
 	}
 
@@ -195,7 +195,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+	if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 	{
 		if(in_chat_)
 			DeleteChatContact(dbv.pszVal);
@@ -212,7 +212,7 @@ int TwitterProto::OnContactDeleted(WPARAM wParam,LPARAM lParam)
 bool TwitterProto::IsMyContact(HANDLE hContact,bool include_chat)
 {
 	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0) );
+		reinterpret_cast<WPARAM>(hContact),0));
 
 	if(proto && strcmp(m_szModuleName,proto) == 0)
 	{
@@ -229,13 +229,13 @@ HANDLE TwitterProto::UsernameToHContact(const char *name)
 {
 	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 		hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 	{
 		if(!IsMyContact(hContact))
 			continue;
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv) )
+		if( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 		{
 			if(strcmp(name,dbv.pszVal) == 0)
 			{
@@ -274,7 +274,7 @@ HANDLE TwitterProto::AddToClientList(const char *name,const char *status)
 			DBWriteContactSettingString    (hContact,m_szModuleName,"Homepage",url.c_str());
 
 			DBVARIANT dbv;
-			if( !DBGetContactSettingTString(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv) )
+			if( !DBGetContactSettingTString(NULL,m_szModuleName,TWITTER_KEY_GROUP,&dbv))
 			{
 				DBWriteContactSettingTString(hContact,"CList","Group",dbv.ptszVal);
 				DBFreeVariant(&dbv);
@@ -294,7 +294,7 @@ void TwitterProto::SetAllContactStatuses(int status)
 {
 	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 		hContact;
-		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 	{
 		if(!IsMyContact(hContact))
 			continue;

@@ -126,14 +126,14 @@ IniParser::IniParser( TCHAR * tcsFileName, BYTE flags ) : _Flags( flags )
 	_DoInit();
 	if ( !tcsFileName ) return;
 
-	if ( tcsFileName[0] == _T('%') )
+	if ( tcsFileName[0] == _T('%'))
 	{
 		//TODO: Add parser of resource filename here
 		_LoadResourceIni( g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF");
 		return;
 	}
 
-	_hFile = _tfopen( tcsFileName, _T("r") );
+	_hFile = _tfopen( tcsFileName, _T("r"));
 
 	if ( _hFile != NULL )
 	{
@@ -188,9 +188,9 @@ HRESULT IniParser::WriteStrToDb( const char * szSection, const char * szName, co
 	if ( This->_SecCheck)
 	{
 		//TODO check security here
-		if ( wildcmp( szSection,"Skin_Description_Section",1 ) ) return S_OK;
+		if ( wildcmp( szSection,"Skin_Description_Section",1 )) return S_OK;
 	}
-	if ( ( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION,1 ) )
+	if ( ( This->_Flags == IniParser::FLAG_ONLY_OBJECTS ) && !wildcmp( szSection, DEFAULTSKINSECTION,1 ))
 		return S_OK;					 // skip not objects
 
 
@@ -249,7 +249,7 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 
 	szBuff = mir_tstrdup( szFileName );
 	pszPos = szBuff + _tcslen( szBuff );
-	while ( pszPos > szBuff && *pszPos!= _T('.') ) { pszPos--; }
+	while ( pszPos > szBuff && *pszPos!= _T('.')) { pszPos--; }
 	*pszPos=_T('\0');
 	_tcscpy( pszFolderName, szBuff );
 
@@ -258,7 +258,7 @@ int IniParser::GetSkinFolder( IN const TCHAR * szFileName, OUT TCHAR * pszFolder
 	TCHAR *b3;
 	_tcscpy( custom_folder, pszFolderName );
 	b3=custom_folder + _tcslen( custom_folder );
-	while ( b3 > custom_folder && *b3!= _T('\\') ) { b3--; }
+	while ( b3 > custom_folder && *b3!= _T('\\')) { b3--; }
 	*b3=_T('\0');
 
 	GetPrivateProfileString(_T("Skin_Description_Section"),_T("SkinFolder"),_T(""),cus,SIZEOF(custom_folder),szFileName);
@@ -316,7 +316,7 @@ HRESULT IniParser::_DoParseFile()
 		if ( len > 0 )
 		{
 			pLine[len]='\0';
-			if ( !_DoParseLine( pLine ) )	return E_FAIL;
+			if ( !_DoParseLine( pLine ))	return E_FAIL;
 		}
 		else
 			_nLine++;
@@ -348,7 +348,7 @@ HRESULT IniParser::_DoParseResource()
 		if ( len > 0 )
 		{
 			pLine[len]='\0';
-			if ( !_DoParseLine( pLine ) )	return E_FAIL;
+			if ( !_DoParseLine( pLine ))	return E_FAIL;
 		}
 		else
 			_nLine++;
@@ -361,7 +361,7 @@ const char * IniParser::_RemoveTailings( const char * szLine, size_t& len )
 	const char * pStart = szLine;
 	while( *pStart == ' ' || *pStart=='\t' ) pStart++; //skip spaces at begin
 	const char * pEnd = pStart + strlen( pStart );
-	while( pEnd > pStart && ( *pEnd == ' ' || *pEnd == '\t' || *pEnd == '\n' || *pEnd == '\r' ) ) pEnd--;
+	while( pEnd > pStart && ( *pEnd == ' ' || *pEnd == '\t' || *pEnd == '\n' || *pEnd == '\r' )) pEnd--;
 
 	len = pEnd - pStart;
 	return pStart;
@@ -1709,7 +1709,7 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam,LPARAM lParam)
 		if (gl->hGlyph==NULL && gl->hGlyph!=(HBITMAP)-1 &&
 			(  (gl->Style&7)==ST_IMAGE 
 			||(gl->Style&7)==ST_FRAGMENT 
-			||(gl->Style&7)==ST_SOLARIZE ) )
+			||(gl->Style&7)==ST_SOLARIZE ))
 			if (gl->szFileName) 
 			{
 				gl->hGlyph=ske_LoadGlyphImage(gl->szFileName);
@@ -2377,7 +2377,7 @@ static int ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin)
 	Skin->pMaskList=(LISTMODERNMASK*)mir_alloc(sizeof(LISTMODERNMASK));
 	memset(Skin->pMaskList,0,sizeof(LISTMODERNMASK));
 	Skin->szSkinPlace= ModernGetStringA(NULL,SKIN,"SkinFolder");
-	if (!Skin->szSkinPlace || (strchr(Skin->szSkinPlace, '%') && !ModernGetSettingByte(NULL,SKIN,"Modified",0)) ) 
+	if (!Skin->szSkinPlace || (strchr(Skin->szSkinPlace, '%') && !ModernGetSettingByte(NULL,SKIN,"Modified",0))) 
 	{
 		BOOL bOnlyObjects=FALSE;
 		if (Skin->szSkinPlace && strchr(Skin->szSkinPlace, '%'))
@@ -2611,7 +2611,7 @@ static int ske_LoadSkinFromResource(BOOL bOnlyObjects)
 {
 
 	IniParser parser(g_hInst, MAKEINTRESOURCEA(IDR_MSF_DEFAULT_SKIN), "MSF", bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS );
-	if ( !parser.CheckOK() ) return 0;
+	if ( !parser.CheckOK()) return 0;
 
 	ske_DeleteAllSettingInSection("ModernSkin");
 	ModernWriteSettingString(NULL,SKIN,"SkinFolder","%Default%");
@@ -2629,7 +2629,7 @@ int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
 		return ske_LoadSkinFromResource( bOnlyObjects );
 
 	IniParser parser( szFileName, bOnlyObjects ? IniParser::FLAG_ONLY_OBJECTS : IniParser::FLAG_WITH_SETTINGS  );
-	if ( !parser.CheckOK() ) return 0;
+	if ( !parser.CheckOK()) return 0;
 
 	ske_DeleteAllSettingInSection("ModernSkin");
 	IniParser::GetSkinFolder(szFileName,skinFolder);
@@ -2958,7 +2958,7 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 
 static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, DWORD ARGBcolor)
 {
-	if ( !( lpString && lpRect ) )
+	if ( !( lpString && lpRect ))
 	{
 		DebugBreak();
 		return 0;
@@ -2980,7 +2980,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 
 		for ( int i = 0; i < 256; i++ )
 		{
-			gammaTbl[i]= (BYTE)( 255 * pow( (double)i / 255, gammaCfPw ) );
+			gammaTbl[i]= (BYTE)( 255 * pow( (double)i / 255, gammaCfPw ));
 			blueMulTbl[i] = i * blueCf;
 			redMulTbl[i] = i * redCf;
 			greenMulTbl[i] = i * greenCf;
@@ -3054,9 +3054,9 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 
 		// replace end of string by elipsis
 		bNeedFreeWorkString = TRUE;
-		lpWorkString = (TCHAR*) malloc( ( visibleCharCount + 4) * sizeof(TCHAR) );
+		lpWorkString = (TCHAR*) malloc( ( visibleCharCount + 4) * sizeof(TCHAR));
 		
-		memcpy( (void*) lpWorkString, lpString, visibleCharCount * sizeof(TCHAR) );
+		memcpy( (void*) lpWorkString, lpString, visibleCharCount * sizeof(TCHAR));
 		memcpy( (void*) ( lpWorkString + visibleCharCount ), _T("..."), 4 * sizeof(TCHAR)); // 3 + 1
 		
 		nCount = visibleCharCount + 3;
@@ -3070,7 +3070,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 
 	if ( workRectWidth > textSize.cx )
 	{
-		if ( format & ( DT_RIGHT | DT_RTLREADING ) ) 
+		if ( format & ( DT_RIGHT | DT_RTLREADING )) 
 		{
 			drx = workRectWidth - textSize.cx;
 		}
@@ -3124,8 +3124,8 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 				HDC     bufDC     = CreateCompatibleDC( hDC );
 				HBITMAP bufoldbmp = (HBITMAP)SelectObject( bufDC, bufbmp );
 				HFONT   hOldBufFont = (HFONT)SelectObject( bufDC, hFont );
-				SetBkColor( bufDC,  RGB( 0, 0, 0 ) );
-				SetTextColor( bufDC,RGB(255,255,255) );
+				SetBkColor( bufDC,  RGB( 0, 0, 0 ));
+				SetTextColor( bufDC,RGB(255,255,255));
 				
 				// Copy from destination to temp buffer
 				BitBlt( hOffscreenDC, 0, 0, textSize.cx, textSize.cy, hDC, workRect.left + drx - 2, workRect.top + dry - 2, SRCCOPY );
@@ -3134,7 +3134,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 				TextOut( bufDC, 2, 2, lpWorkString, nCount);
 
 				MODERNEFFECT effect;
-				if (ske_GetTextEffect( hDC, &effect ) ) 
+				if (ske_GetTextEffect( hDC, &effect )) 
 					ske_DrawTextEffect( bits, bufbits, textSize.cx, textSize.cy, &effect );	
 
 				//RenderText
@@ -3255,7 +3255,7 @@ static int ske_DrawTextWithEffectWorker( HDC hdc, LPCTSTR lpString, int nCount, 
 INT_PTR ske_Service_DrawTextWithEffect( WPARAM wParam, LPARAM lParam )
 {
     DrawTextWithEffectParam * p = ( DrawTextWithEffectParam * ) wParam;
-    if ( p->cbSize != sizeof(DrawTextWithEffectParam) )
+    if ( p->cbSize != sizeof(DrawTextWithEffectParam))
         return FALSE;
     return ske_DrawTextWithEffectWorker( p->hdc, p->lpchText, p->cchText, p->lprc, p->dwDTFormat, p->pEffect );
 }
@@ -3422,7 +3422,7 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 	BYTE hasalpha=FALSE;
 	alpha=alpha?alpha:255;
 
-	if ( g_CluiData.fDisableSkinEngine && !(diFlags&0x80) )
+	if ( g_CluiData.fDisableSkinEngine && !(diFlags&0x80))
 		return DrawIconEx(hdcDst,xLeft,yTop,hIcon,cxWidth,cyWidth,istepIfAniCur,hbrFlickerFreeDraw,diFlags&0xFFFF7F);
 
 	if (!GetIconInfo(hIcon,&ici))  return 0;
@@ -3618,7 +3618,7 @@ int ske_RedrawCompleteWindow()
 
 static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam)           // Immideately recall paint routines for frame and refresh image
 {
-	if ( MirandaLoading() ) return 0;
+	if ( MirandaLoading()) return 0;
 
 	RECT wnd;
 	FRAMEWND *frm;
@@ -3671,7 +3671,7 @@ static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam)       
 }
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)       // Post request for updating
 {
-	if ( MirandaLoading() ) return 0; 
+	if ( MirandaLoading()) return 0; 
 	if (wParam)
 	{
 		FRAMEWND *frm=FindFrameByItsHWND((HWND)wParam);
@@ -3692,7 +3692,7 @@ static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam)   
 						RECT rcUpdate;
 						GetClientRect(frm->hWnd,&rcClient);
 						IntersectRect( &rcUpdate, &rcClient, &pr->rcUpdate );
-						if ( IsRectEmpty( &rcUpdate ) )
+						if ( IsRectEmpty( &rcUpdate ))
 							return 0;
 						r2=CreateRectRgn( rcUpdate.left, rcUpdate.top, rcUpdate.right, rcUpdate.bottom );
 					}
@@ -4801,7 +4801,7 @@ BOOL SkinDBGetContactSetting(HANDLE hContact, const char* szSection, const char*
 	if (!hContact) {  //only for not contact settings
 		char * szSkinKey;
 		NEWJOINEDSTR(szSkinKey,szSection,"@",szKey);
-		if ( !ModernGetSetting(hContact, SKINSETSECTION, szSkinKey, retdbv) )	{
+		if ( !ModernGetSetting(hContact, SKINSETSECTION, szSkinKey, retdbv))	{
 			if (bSkined) *bSkined=TRUE;
 			return FALSE;
 		}	}

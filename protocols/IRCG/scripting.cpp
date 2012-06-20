@@ -25,7 +25,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 {
 	char* pszRaw = ( char* ) lParam;
 
-	if ( m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected() ) {
+	if ( m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {
 		TCHAR* p = mir_a2t( pszRaw );
 		InsertIncomingEvent( p );
 		mir_free( p );
@@ -38,7 +38,7 @@ INT_PTR __cdecl CIrcProto::Scripting_InsertRawIn(WPARAM, LPARAM lParam)
 INT_PTR __cdecl CIrcProto::Scripting_InsertRawOut( WPARAM, LPARAM lParam )
 {
 	char* pszRaw = ( char* ) lParam;
-	if ( m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected() ) {	
+	if ( m_bMbotInstalled && m_scriptingEnabled && pszRaw && IsConnected()) {	
 		String S = pszRaw;
 		ReplaceString( S, "%", "%%%%");
 		NLSendNoScript((const unsigned char *)S.c_str(), lstrlenA(S.c_str()));
@@ -254,12 +254,12 @@ INT_PTR __cdecl CIrcProto::Scripting_GetIrcData(WPARAM, LPARAM lparam)
 					j++;
 			}	}
 			
-			if ( !S.IsEmpty() )
+			if ( !S.IsEmpty())
 				sOutput = ( TCHAR* )S.c_str();
 		}
 		// send it to mbot
 		if ( !sOutput.IsEmpty())
-			return ( INT_PTR )mir_t2a( sOutput.c_str() );
+			return ( INT_PTR )mir_t2a( sOutput.c_str());
 	}
 	return 0;
 }

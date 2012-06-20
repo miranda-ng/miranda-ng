@@ -113,7 +113,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 			for(x = 0; x < width; x++) {
 				I_a = Y[x];	// luminance(x, y)
 				for (i = 0; i < 3; i++) {
-					*color /= ( *color + pow(f * I_a, m) );
+					*color /= ( *color + pow(f * I_a, m));
 					
 					max_color = (*color > max_color) ? *color : max_color;
 					min_color = (*color < min_color) ? *color : min_color;
@@ -164,7 +164,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 					I_l = c * *color + (1-c) * L;
 					I_g = c * Cav[i] + (1-c) * Lav;
 					I_a = a * I_l + (1-a) * I_g;
-					*color /= ( *color + pow(f * I_a, m) );
+					*color /= ( *color + pow(f * I_a, m));
 					
 					max_color = (*color > max_color) ? *color : max_color;
 					min_color = (*color < min_color) ? *color : min_color;

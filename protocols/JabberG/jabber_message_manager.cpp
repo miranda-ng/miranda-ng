@@ -31,9 +31,9 @@ Last change by : $Author: dchervov $
 
 BOOL CJabberMessageManager::FillPermanentHandlers()
 {
-	AddPermanentHandler( &CJabberProto::OnMessageError, JABBER_MESSAGE_TYPE_ERROR, JABBER_MESSAGE_PARSE_FROM | JABBER_MESSAGE_PARSE_HCONTACT, NULL, FALSE, _T("error") );
-	AddPermanentHandler( &CJabberProto::OnMessageIbb, 0, 0, _T(JABBER_FEAT_IBB), FALSE, _T("data") );
-	AddPermanentHandler( &CJabberProto::OnMessagePubsubEvent, 0, 0, _T(JABBER_FEAT_PUBSUB_EVENT), FALSE, _T("event") );
+	AddPermanentHandler( &CJabberProto::OnMessageError, JABBER_MESSAGE_TYPE_ERROR, JABBER_MESSAGE_PARSE_FROM | JABBER_MESSAGE_PARSE_HCONTACT, NULL, FALSE, _T("error"));
+	AddPermanentHandler( &CJabberProto::OnMessageIbb, 0, 0, _T(JABBER_FEAT_IBB), FALSE, _T("data"));
+	AddPermanentHandler( &CJabberProto::OnMessagePubsubEvent, 0, 0, _T(JABBER_FEAT_PUBSUB_EVENT), FALSE, _T("event"));
 	AddPermanentHandler( &CJabberProto::OnMessageGroupchat, JABBER_MESSAGE_TYPE_GROUPCHAT, JABBER_MESSAGE_PARSE_FROM, NULL, FALSE, NULL );
 	return TRUE;
 }

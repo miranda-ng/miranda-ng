@@ -601,7 +601,7 @@ static INT_PTR WriteContactSetting(WPARAM wParam, LPARAM lParam)
 
 	if(tmp.value.type!=DBVT_BYTE && tmp.value.type!=DBVT_WORD && tmp.value.type!=DBVT_DWORD && tmp.value.type!=DBVT_ASCIIZ && tmp.value.type!=DBVT_UTF8 && tmp.value.type!=DBVT_BLOB)
 		return 1;
-	if ((!tmp.szModule) || (!tmp.szSetting) || ((tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8 )&& tmp.value.pszVal == NULL) || (tmp.value.type == DBVT_BLOB && tmp.value.pbVal == NULL) )
+	if ((!tmp.szModule) || (!tmp.szSetting) || ((tmp.value.type == DBVT_ASCIIZ || tmp.value.type == DBVT_UTF8 )&& tmp.value.pszVal == NULL) || (tmp.value.type == DBVT_BLOB && tmp.value.pbVal == NULL))
 		return 1;
 
 	// the db can not tolerate strings/blobs longer than 0xFFFF since the format writes 2 lengths

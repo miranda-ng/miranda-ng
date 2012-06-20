@@ -435,7 +435,7 @@ HANDLE __cdecl CIrcProto::FileAllow( HANDLE, HANDLE hTransfer, const TCHAR* szPa
 {
 	DCCINFO* di = ( DCCINFO* )hTransfer;
 
-	if ( !IsConnected() ) {
+	if ( !IsConnected()) {
 		delete di;
 		return (HANDLE)szPath;
 	}

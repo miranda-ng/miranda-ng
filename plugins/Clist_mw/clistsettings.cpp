@@ -338,10 +338,10 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			*/
 
 			//name is null or (setting is myhandle)
-			if (pdnce->name == NULL||(!strcmp(cws->szSetting,"MyHandle")) )
+			if (pdnce->name == NULL||(!strcmp(cws->szSetting,"MyHandle")))
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
-			if ((!strcmp(cws->szSetting,"Group")) )
+			if ((!strcmp(cws->szSetting,"Group")))
 				InvalidateDisplayNameCacheEntryByPDNE((HANDLE)wParam,pdnce,cws->value.type);
 
 			if (!strcmp(cws->szSetting,"Hidden")) {
@@ -367,7 +367,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 			}
 		}
 	} 
-	__except (exceptFunction(GetExceptionInformation()) ) 
+	__except (exceptFunction(GetExceptionInformation())) 
 	{ 
 	} 
 

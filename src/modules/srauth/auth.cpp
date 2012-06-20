@@ -122,8 +122,8 @@ int LoadSendRecvAuthModule(void)
 	CreateServiceFunction(MS_AUTH_SHOWADDED, ShowAddedWindow);
 	HookEvent(ME_DB_EVENT_ADDED, AuthEventAdded);
 
-    SkinAddNewSoundEx("AuthRequest", "Alerts", "Authorization request");
-    SkinAddNewSoundEx("AddedEvent",  "Alerts", "Added event");
+    SkinAddNewSoundEx("AuthRequest", LPGEN("Alerts"), LPGEN("Authorization request"));
+    SkinAddNewSoundEx("AddedEvent",  LPGEN("Alerts"), LPGEN("Added event"));
 
     return 0;
 } 

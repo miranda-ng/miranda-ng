@@ -83,10 +83,10 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 		//hyperlinks are delimited by: <non-alphanumeric>"hyperlink"<whitespace>
 		//then all punctuation is stripped from the end of "hyperlink"
 		iLastAlphaNum = 0;
-		while ( msg[i] && !_istalnum(msg[i]) )
+		while ( msg[i] && !_istalnum(msg[i]))
 		{
 			// support for files
-			if ( (msg[i]==_T('\\')) && (msg[i+1]==_T('\\')) && (_istalnum(msg[i+2])) )
+			if ( (msg[i]==_T('\\')) && (msg[i+1]==_T('\\')) && (_istalnum(msg[i+2])))
 			{ 
 				break;
 			}
@@ -94,20 +94,20 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			if(IsDBCSLeadByte(msg[i]) && msg[i+1]) i++;
 
 			i++;
-			if ( msg[i] != _T('\n') ) charCount++;
+			if ( msg[i] != _T('\n')) charCount++;
 		}
-		if ( msg[i] == _T('\0') ) break;
+		if ( msg[i] == _T('\0')) break;
 
 		cpWordStart = charCount;
 		wordStart = i;
 			
-		while ( msg[i] && !_istspace(msg[i]) ) 
+		while ( msg[i] && !_istspace(msg[i])) 
 		{
 
 			if ( IsDBCSLeadByte(msg[i] ) && msg[i+1]) i++;
 			else
 
-			if ( _istalnum(msg[i]) || msg[i]==_T('/') ) 
+			if ( _istalnum(msg[i]) || msg[i]==_T('/')) 
 			{
 				cpLastAlphaNum = charCount; 
 				iLastAlphaNum = i;
@@ -133,7 +133,7 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			
 			for ( j=0; j<_countof(hyperlinkPrefixes); j++ )
 			{
-				if ( !_tcsncmp(wordsearch, hyperlinkPrefixes[j], _tcslen(hyperlinkPrefixes[j])) ) 
+				if ( !_tcsncmp(wordsearch, hyperlinkPrefixes[j], _tcslen(hyperlinkPrefixes[j]))) 
 				{
 					isLink = 1; 
 					break;
@@ -143,7 +143,7 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 			if ( !isLink ) {
 				for ( j=0; j<_countof(hyperlinkSubstrings); j++ )
 				{
-					if ( _tcsstr(wordsearch+1,hyperlinkSubstrings[j]) )
+					if ( _tcsstr(wordsearch+1,hyperlinkSubstrings[j]))
 					{
 						isLink = 1; 
 						break;
@@ -151,7 +151,7 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 				}
 			}
 		
-			if ( _tcschr(wordsearch,_T('@')) && _tcschr(wordsearch,_T('.')) && !_tcschr(wordsearch,_T(':')) && !_tcschr(wordsearch,_T('/')) )
+			if ( _tcschr(wordsearch,_T('@')) && _tcschr(wordsearch,_T('.')) && !_tcschr(wordsearch,_T(':')) && !_tcschr(wordsearch,_T('/')))
 			{
 				isLink = 1;	//e-mail addresses
 				type = LINK_MAIL;
@@ -160,15 +160,15 @@ int ExtractURI(DBEVENTINFO *dbei, HANDLE hEvent, LISTELEMENT *listStart)
 				type = LINK_URL;
 			}
 			
-			if ( isLink && ( (i-wordStart+1) <= (int)(LINK_MAX - _mstrlen(_T("http://")))) )
+			if ( isLink && ( (i-wordStart+1) <= (int)(LINK_MAX - _mstrlen(_T("http://")))))
 			{
 				LPTSTR tok_ctx;
 
-				if ( (_tcsstr(wordsearch, _T("www.")) != NULL) && (_tcsstr(wordsearch, _T("http://")) == NULL) )
+				if ( (_tcsstr(wordsearch, _T("www.")) != NULL) && (_tcsstr(wordsearch, _T("http://")) == NULL))
 				{
 					_tcsncpy_s(link, _countof(link), _T("http://"), _mstrlen(_T("http://")));
 					// Link longer than defined max -> cut link to max
-					if ( (i-wordStart+1) > (int)(LINK_MAX-_mstrlen(_T("http://"))) )
+					if ( (i-wordStart+1) > (int)(LINK_MAX-_mstrlen(_T("http://"))))
 						_tcsncpy_s(link + _mstrlen(_T("http://")), _countof(link), word, LINK_MAX - _mstrlen(_T("http://")));
 					else
 						_tcsncpy_s(link + _mstrlen(_T("http://")), _countof(link), word, i-wordStart+1);
@@ -315,12 +315,12 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 	if ( append == 0 )
 		ShowWindow(GetDlgItem(hDlg, IDC_MAIN), SW_HIDE);
 	
-	if ( (append > 0) && (GetMenuState(GetMenu(hDlg), IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED) )
+	if ( (append > 0) && (GetMenuState(GetMenu(hDlg), IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 		return;
 
-	if ( GetDlgItem(hDlg, IDC_MAIN) && GetDlgItem(hDlg, IDC_MESSAGE) )
+	if ( GetDlgItem(hDlg, IDC_MAIN) && GetDlgItem(hDlg, IDC_MESSAGE))
 	{
-		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)(ENM_LINK) );
+		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETEVENTMASK, 0, (LPARAM)(ENM_LINK));
 		SendDlgItemMessage( hDlg, IDC_MAIN, EM_AUTOURLDETECT, TRUE, 0 );
 		SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETBKGNDCOLOR, FALSE, colourSet.background);
 		
@@ -338,7 +338,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			
 			// How to set RTF colour, font, etc.... found at
 			// http://www.winehq.com/hypermail/wine-devel/2004/08/0608.html
-			ZeroMemory(&pf, sizeof(pf) );
+			ZeroMemory(&pf, sizeof(pf));
 			pf.cbSize = sizeof(pf);
 			pf.dwMask = PFM_ALIGNMENT;
 			pf.wAlignment = PFA_LEFT;
@@ -346,7 +346,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		
 			if ( searchString != NULL )
 			{
-				ZeroMemory( &cf, sizeof(cf) );
+				ZeroMemory( &cf, sizeof(cf));
 				cf.cbSize = sizeof(cf);
 				cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE | CFM_COLOR;
 				cf.dwEffects = CFE_BOLD;
@@ -360,7 +360,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				linePos += 2;
 			}
 		
-			ZeroMemory(&cf, sizeof(cf) );
+			ZeroMemory(&cf, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_FACE | CFM_BOLD;
 			_tcscpy_s(cf.szFaceName, _countof(cf.szFaceName), _T("Courier"));
@@ -408,16 +408,16 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 			filter2 = 0;
 			filter3 = 0;
 			
-			if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN) )
+			if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN))
 				filter1 = 1;
-			else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT) )
+			else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT))
 				filter1 = 1;
 			
-			if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL) )
+			if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL))
 				filter2 = 1;
-			else if ( (params & WLL_URL) && (actualElement->type == LINK_URL) )
+			else if ( (params & WLL_URL) && (actualElement->type == LINK_URL))
 				filter2 = 1;
-			else if ( (params & WLL_FILE) && (actualElement->type == LINK_FILE) )
+			else if ( (params & WLL_FILE) && (actualElement->type == LINK_FILE))
 				filter2 = 1;
 
 
@@ -435,7 +435,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 						CallService(MS_DB_EVENT_GET, (WPARAM)actualElement->hEvent, (LPARAM)&dbe);
 						dbe.pBlob[dbe.cbBlob] = 0;
 						msg = DbGetEventTextT(&dbe, CP_ACP);
-						if ( _tcsstr(msg, searchString) )
+						if ( _tcsstr(msg, searchString))
 							filter3 = 1;						
 						
 						free(dbe.pBlob);
@@ -446,14 +446,14 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				}
 				else
 				{
-					if ( _tcsstr(actualElement->link, searchString) )
+					if ( _tcsstr(actualElement->link, searchString))
 						filter3 = 1;
 				}
 			}
 			else
 				filter3 = 1;
 
-			if ( (filter1 == 1) && (filter2 == 1) && (filter3 == 1) )
+			if ( (filter1 == 1) && (filter2 == 1) && (filter3 == 1))
 			{
 				LPCTSTR type;
 
@@ -485,7 +485,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					_tcscpy_s(cf.szFaceName, _countof(cf.szFaceName), _T("Courier"));
 					SendDlgItemMessage( hDlg, IDC_MAIN, EM_SETCHARFORMAT, SCF_SELECTION | SCF_WORD, (LPARAM) &cf);
 				}
-				ZeroMemory( &cf, sizeof(cf) );
+				ZeroMemory( &cf, sizeof(cf));
 				cf.cbSize = sizeof(cf);
 				cf.dwMask = CFM_COLOR;
 				
@@ -523,7 +523,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 				linePos++;
 				actualElement->linePos = linePos;
 				actCount++;
-				if ( hwndProgress && ( ((int)(((float)actCount/listCount)*100.00)) % 10 == 0 ) )
+				if ( hwndProgress && ( ((int)(((float)actCount/listCount)*100.00)) % 10 == 0 ))
 						SendMessage(hwndProgress, WM_COMMAND, 100,((int)(((float)actCount/listCount)*100.00)));
 
 			}
@@ -536,7 +536,7 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 		}
 		else if ( searchString == NULL )
 		{	
-			ZeroMemory( &cf, sizeof(cf) );
+			ZeroMemory( &cf, sizeof(cf));
 			cf.cbSize = sizeof(cf);
 			cf.dwMask = CFM_ITALIC | CFM_BOLD | CFM_FACE;
 			cf.dwEffects = CFE_BOLD;
@@ -817,14 +817,14 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 		filter2 = 0;
 		filter3 = 0;
 			
-		if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN) )
+		if ( (params & WLL_IN) && (actualElement->direction == DIRECTION_IN))
 			filter1 = 1;
-		else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT) )
+		else if ( (params & WLL_OUT) && (actualElement->direction == DIRECTION_OUT))
 			filter1 = 1;
 			
-		if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL) )
+		if ( (params & WLL_MAIL) && (actualElement->type == LINK_MAIL))
 			filter2 = 1;
-		else if ( (params & WLL_URL) && (actualElement->type == LINK_URL) )
+		else if ( (params & WLL_URL) && (actualElement->type == LINK_URL))
 			filter2 = 1;
 		
 		if ( searchString != NULL )
@@ -840,7 +840,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart,  LPCTSTR searchString, siz
 					dbe.pBlob = (PBYTE)malloc(dbe.cbBlob+1);
 					CallService(MS_DB_EVENT_GET, (WPARAM)actualElement->hEvent, (LPARAM)&dbe);
 					dbe.pBlob[dbe.cbBlob] = 0;
-					if ( _tcsstr((LPTSTR)dbe.pBlob, searchString) )
+					if ( _tcsstr((LPTSTR)dbe.pBlob, searchString))
 						filter3 = 1;						
 					
 					free(dbe.pBlob);
@@ -1255,7 +1255,7 @@ int DBUpdate(WPARAM wParam, LPARAM lParam)
 		dbe.pBlob = (PBYTE)malloc((size_t)dbe.cbBlob+1);
 		CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbe);
 		
-		if ( (dbe.eventType == EVENTTYPE_URL) || (dbe.eventType == EVENTTYPE_MESSAGE) )
+		if ( (dbe.eventType == EVENTTYPE_URL) || (dbe.eventType == EVENTTYPE_MESSAGE))
 		{
 			// Call function to find URIs
 			linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
@@ -1324,7 +1324,7 @@ BOOL SaveEditAsStream( HWND hDlg )
 	ofn.lpstrTitle = _T("Save RTF File");
 	ofn.Flags = OFN_OVERWRITEPROMPT;
 	// Get a filename or quit
-	if ( ! GetSaveFileName( &ofn ) )                   
+	if ( ! GetSaveFileName( &ofn ))                   
 		return FALSE;
 	//  Create the specified file
 	hFile = CreateFile( szFilename, GENERIC_WRITE, 0, NULL,

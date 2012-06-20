@@ -730,7 +730,7 @@ Rotate45(FIBITMAP *src, double dAngle, const void *bkcolor) {
 	}
 	else {
 		// Negative angle
-		dOffset = dTan * ( (src_width - 1.0) * -dSinE + (1.0 - height_3) );
+		dOffset = dTan * ( (src_width - 1.0) * -dSinE + (1.0 - height_3));
 	}
 	for(u = 0; u < height_3; u++, dOffset += dTan) {
 		int iShear = int(floor(dOffset));
@@ -878,7 +878,7 @@ FreeImage_Rotate(FIBITMAP *dib, double angle, const void *bkcolor) {
 
 						// copy background color 
 						RGBQUAD bkcolor; 
-						if ( FreeImage_GetBackgroundColor(dib, &bkcolor) ) {
+						if ( FreeImage_GetBackgroundColor(dib, &bkcolor)) {
 							FreeImage_SetBackgroundColor(dst, &bkcolor); 
 						}
 

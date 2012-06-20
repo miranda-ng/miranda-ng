@@ -46,7 +46,7 @@ static void TZ_LoadTimeZone(HANDLE hContact, struct TExtraCache *c, const char *
 
 struct ClcContact* CreateClcContact( void )
 {
-	struct ClcContact* p = (struct ClcContact*)mir_alloc( sizeof( struct ClcContact ) );
+	struct ClcContact* p = (struct ClcContact*)mir_alloc( sizeof( struct ClcContact ));
 	if ( p != NULL ) {
 		ZeroMemory(p, sizeof(struct ClcContact));
 		//p->clientId = -1;

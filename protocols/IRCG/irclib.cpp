@@ -52,7 +52,7 @@ CIrcMessage::CIrcMessage(const CIrcMessage& m) :
 	m_bNotify( m.m_bNotify ),
 	m_codePage( m.m_codePage ),
 	m_proto( m.m_proto ),
-	parameters( m.parameters.getCount() )
+	parameters( m.parameters.getCount())
 {
 	prefix.sNick = m.prefix.sNick;
 	prefix.sUser = m.prefix.sUser;
@@ -213,7 +213,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 			return false;
 	}	}
 
-	if ( Miranda_Terminated() ) {
+	if ( Miranda_Terminated()) {
 		Disconnect();
 		return false;
 	}
@@ -223,7 +223,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	// start receiving messages from host
 	ircFork( &CIrcProto::ThreadProc, NULL );
 	Sleep( 100 );
-	if ( info.sPassword.GetLength() )
+	if ( info.sPassword.GetLength())
 		NLSend( "PASS %s\r\n", info.sPassword.c_str());
 	NLSend( _T("NICK %s\r\n"), info.sNick.c_str());
 
@@ -232,7 +232,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 	DWORD cbHostName = SIZEOF( szHostName );
 	GetComputerName(szHostName, &cbHostName);
 	CMString HostName = GetWord(szHostName, 0);
-	if ( m_userID.IsEmpty() )
+	if ( m_userID.IsEmpty())
 		m_userID = _T("Miranda");
 	if ( HostName.IsEmpty())
 		HostName= _T("host");
@@ -691,7 +691,7 @@ void CIrcSessionInfo::Reset()
 void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
 {
 	if ( pmsg != NULL ) {
-		PfnIrcMessageHandler pfn = FindMethod( pmsg->sCommand.c_str() );
+		PfnIrcMessageHandler pfn = FindMethod( pmsg->sCommand.c_str());
 		if ( pfn ) {
 			// call member function. if it returns 'false',
 			// call the default handling
@@ -702,7 +702,7 @@ void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
 			}
 			__except( EXCEPTION_EXECUTE_HANDLER ) // dedicated to Sava :)
 			{
-				DoNetlibLog( "IRC handler feels sick: %S", pmsg->sCommand.c_str() );
+				DoNetlibLog( "IRC handler feels sick: %S", pmsg->sCommand.c_str());
 			}
 		}
 		else // handler not found. call default handler
@@ -853,7 +853,7 @@ int CDccSession::NLReceive(const unsigned char* buf, int cbBuf)
 
 int CDccSession::SendStuff(const TCHAR* fmt)
 {
-	String buf = _T2A( fmt, m_proto->getCodepage() );
+	String buf = _T2A( fmt, m_proto->getCodepage());
 	return NLSend(( const unsigned char* )buf.c_str(), buf.GetLength());
 }
 

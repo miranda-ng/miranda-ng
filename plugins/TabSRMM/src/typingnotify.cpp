@@ -558,9 +558,9 @@ int TN_ModuleInit()
 		mi.pszPopupName = LPGEN("PopUps");
 		hDisableMenu = Menu_AddMainMenuItem(&mi);
 	}
-	SkinAddNewSoundEx("TNStart", "Instant messages", "Contact started typing");
-	SkinAddNewSoundEx("TNStop", "Instant messages", "Contact stopped typing");
 
+	SkinAddNewSoundEx("TNStart", LPGEN("Instant messages"), LPGEN("Contact started typing"));
+	SkinAddNewSoundEx("TNStop",  LPGEN("Instant messages"), LPGEN("Contact stopped typing"));
 	return 0;
 }
 

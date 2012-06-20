@@ -67,8 +67,8 @@ XmlNodeIq::XmlNodeIq( CJabberIqInfo* pInfo ) :
 {
 	if ( pInfo ) {
 		if ( pInfo->GetCharIqType() != NULL ) *this << XATTR( _T("type"), _A2T(pInfo->GetCharIqType()));
-		if ( pInfo->GetReceiver()   != NULL ) *this << XATTR( _T("to"), pInfo->GetReceiver() );
-		if ( pInfo->GetIqId()       != -1 )   *this << XATTRID( pInfo->GetIqId() );
+		if ( pInfo->GetReceiver()   != NULL ) *this << XATTR( _T("to"), pInfo->GetReceiver());
+		if ( pInfo->GetIqId()       != -1 )   *this << XATTRID( pInfo->GetIqId());
 	}
 }
 
@@ -77,8 +77,8 @@ XmlNodeIq::XmlNodeIq( const TCHAR* type, CJabberIqInfo* pInfo ) :
 {
 	if ( type != NULL ) *this << XATTR( _T("type"), type );
 	if ( pInfo ) {
-		if ( pInfo->GetFrom()  != NULL ) *this << XATTR( _T("to"), pInfo->GetFrom() );
-		if ( pInfo->GetIdStr() != NULL ) *this << XATTR( _T("id"), pInfo->GetIdStr() );
+		if ( pInfo->GetFrom()  != NULL ) *this << XATTR( _T("to"), pInfo->GetFrom());
+		if ( pInfo->GetIdStr() != NULL ) *this << XATTR( _T("id"), pInfo->GetIdStr());
 	}
 }
 

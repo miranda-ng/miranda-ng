@@ -72,7 +72,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 		case ID_STATUS_ONLINE:		currstat <<= 1;
 	}
 
-	if ( !DBGetContactSettingByte(NULL,"Skin","UseSound",0) ) doPlay = FALSE;
+	if ( !DBGetContactSettingByte(NULL,"Skin","UseSound",0)) doPlay = FALSE;
 
 	if ( QuietTime )
 		if (
@@ -80,7 +80,7 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 			((TimeWrd2 < TimeWrd1) && (TimeWrd1 <= currtime || currtime < TimeWrd2))
 				) doPlay = FALSE;
 		
-	if ( !(currstat & StatMask) ) doPlay = FALSE;
+	if ( !(currstat & StatMask)) doPlay = FALSE;
 
 	if ( Preview || (int)wParam==1 ) doPlay = TRUE;
 

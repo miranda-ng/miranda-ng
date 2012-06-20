@@ -146,7 +146,7 @@ void LoadOptions( OBJLIST<TAAAProtoSetting>& loadSettings, BOOL override)
 		if (!override) {
 			if (loadSettings[i].optionFlags & FLAG_MONITORMIRANDA)
 				monitorMiranda = TRUE;
-			else if ( (MyGetLastInputInfo==NULL) || ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard) )
+			else if ( (MyGetLastInputInfo==NULL) || ignoreLockKeys || ignoreSysKeys || ignoreAltCombo || (monitorMouse != monitorKeyboard))
 				monitorAll = TRUE;
 	}	}
 
@@ -348,7 +348,7 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 			}
 			else if ( ((mouseStationaryTimer < sts1Time) && (!screenSaver) && (!locked)) && 
 				((aas.optionFlags&FLAG_LV2ONINACTIVE) || (!(aas.optionFlags&FLAG_SETNA))) &&
-				(aas.optionFlags&FLAG_RESET) ) {
+				(aas.optionFlags&FLAG_RESET)) {
 				/* from STATUS1_SET to SET_ORGSTATUS */
 				changeState(aas, SET_ORGSTATUS);
 			}
@@ -478,14 +478,14 @@ static LRESULT CALLBACK MirandaMouseHookFunction(int code, WPARAM wParam, LPARAM
 static LRESULT CALLBACK MirandaKeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code >= 0) {
-		if (ignoreAltCombo) {//&& ((HIWORD(lParam)&KF_ALTDOWN) || (wParam == VK_MENU)) ) {
+		if (ignoreAltCombo) {//&& ((HIWORD(lParam)&KF_ALTDOWN) || (wParam == VK_MENU))) {
 			if ( ((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
 				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
 				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
 				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
 				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
 				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
-				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)) ) {
+				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN))) {
 				return CallNextHookEx(hMirandaKeyBoardHook, code, wParam, lParam);
 			}
 		}
@@ -537,14 +537,14 @@ static LRESULT CALLBACK MouseHookFunction(int code, WPARAM wParam, LPARAM lParam
 static LRESULT CALLBACK KeyBoardHookFunction(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code >= 0) {
-		if (ignoreAltCombo) {//&& ((HIWORD(lParam)&KF_ALTDOWN) || (wParam == VK_MENU)) ) {
+		if (ignoreAltCombo) {//&& ((HIWORD(lParam)&KF_ALTDOWN) || (wParam == VK_MENU))) {
 			if ( ((GetKeyState(VK_MENU) < 0) || (wParam == VK_MENU)) ||
 				((GetKeyState(VK_TAB) < 0) || (wParam == VK_TAB)) ||
 				((GetKeyState(VK_SHIFT) < 0) || (wParam == VK_SHIFT)) ||
 				((GetKeyState(VK_CONTROL) < 0) || (wParam == VK_CONTROL)) ||
 				((GetKeyState(VK_ESCAPE) < 0) || (wParam == VK_ESCAPE)) ||
 				((GetKeyState(VK_LWIN) < 0) || (wParam == VK_LWIN)) ||
-				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN)) ) {
+				((GetKeyState(VK_RWIN) < 0) || (wParam == VK_RWIN))) {
 				return CallNextHookEx(hKeyBoardHook, code, wParam, lParam);
 			}
 		}

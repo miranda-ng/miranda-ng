@@ -579,10 +579,10 @@ VOID CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 	numSettings = numEvents = 0;
 	for (xmod = _xmlNode->FirstChild(); 
 		xmod != NULL; 
-		xmod = xmod->NextSibling(XKEY_MOD) ) {
+		xmod = xmod->NextSibling(XKEY_MOD)) {
 		for (xkey = xmod->FirstChild();
 			xkey != NULL;
-			xkey = xkey->NextSibling() ) {
+			xkey = xkey->NextSibling()) {
 			if (!mir_stricmp(xkey->Value(), XKEY_SET)) numSettings++;
 			else numEvents++;
 		}
@@ -941,7 +941,7 @@ INT CExImContactXML::ImportModule(TiXmlNode* xmlModule)
 			else if(isProtoModule && isMetaModule) {
 				if (!mir_stricmp(xKey->Attribute("key"),"Nick") ||
 					!mir_stricmp(xKey->Attribute("key"),"TzName") ||
-					!mir_stricmp(xKey->Attribute("key"),"Timezone") ) {
+					!mir_stricmp(xKey->Attribute("key"),"Timezone")) {
 					if (ImportSetting(pszModule, xKey->ToElement()) == ERROR_OK) {
 						_pXmlFile->_numSettingsDone++;
 					}

@@ -722,12 +722,13 @@ int IdleChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void InitList() {
+void InitList()
+{
 	InitializeCriticalSection(&alarm_cs);
 
-	SkinAddNewSoundEx("Triggered1", Translate("Alarms"), Translate("Alert 1"));
-	SkinAddNewSoundEx("Triggered2", Translate("Alarms"), Translate("Alert 2"));
-	SkinAddNewSoundEx("Triggered3", Translate("Alarms"), Translate("Alert 3"));
+	SkinAddNewSoundEx("Triggered1", LPGEN("Alarms"), LPGEN("Alert 1"));
+	SkinAddNewSoundEx("Triggered2", LPGEN("Alarms"), LPGEN("Alert 2"));
+	SkinAddNewSoundEx("Triggered3", LPGEN("Alarms"), LPGEN("Alert 3"));
 
 	// load last checked time	
 	DBCONTACTGETSETTING dbcgs;

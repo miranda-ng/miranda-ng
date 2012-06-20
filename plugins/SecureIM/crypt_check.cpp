@@ -25,7 +25,7 @@ BYTE isContactSecured(HANDLE hContact) {
 	if (!clist_cnt) return 0;
 
 	BYTE r=0;
-	if ( isProtoMetaContacts(hContact) )
+	if ( isProtoMetaContacts(hContact))
 		hContact = getMostOnline(hContact); // возьмем тот, через который пойдет сообщение
 
 	for(int j=0;j<clist_cnt;j++) {
@@ -107,13 +107,13 @@ BOOL isProtoSmallPackets(HANDLE hContact) {
 
 BOOL isContactInvisible(HANDLE hContact) {
 
-	if ( !DBGetContactSettingByte(hContact,"CList","Hidden",0) ) {
+	if ( !DBGetContactSettingByte(hContact,"CList","Hidden",0)) {
 		if ( !clist_cnt ) return false;
 		for(int j=0;j<clist_cnt;j++) {
 			if ( clist[j].hContact == hContact ) {
 				if ( !clist[j].proto->inspecting ) return false;
 				if ( clist[j].waitForExchange ) return false;
-				switch( (int)DBGetContactSettingWord(hContact,clist[j].proto->name,"ApparentMode",0) ) {
+				switch( (int)DBGetContactSettingWord(hContact,clist[j].proto->name,"ApparentMode",0)) {
 				case 0:
 					return (CallProtoService(clist[j].proto->name,PS_GETSTATUS,0,0)==ID_STATUS_INVISIBLE);
 				case ID_STATUS_ONLINE:
@@ -238,7 +238,7 @@ BOOL isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM) {
 	if ( !ptr->proto->inspecting ) return false;
 
 	BOOL isSecureIM = false;
-	if ( bNOL && DBGetContactSettingByte(ptr->hContact,"CList","NotOnList",0) ) {
+	if ( bNOL && DBGetContactSettingByte(ptr->hContact,"CList","NotOnList",0)) {
 		return false;
 	}
 	LPSTR mirver = myDBGetString(ptr->hContact,ptr->proto->name,"MirVer");

@@ -106,7 +106,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 				if (params.empty()) {
 					// Load last question
 					DBVARIANT dbv;
-					if ( !getU8String( OMEGLE_KEY_LAST_QUESTION,&dbv ) ) {
+					if ( !getU8String( OMEGLE_KEY_LAST_QUESTION,&dbv )) {
 						params = dbv.pszVal;
 						DBFreeVariant(&dbv);
 					}
@@ -119,7 +119,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 					// Save actual question as last question
 					if (strlen(params.c_str()) >= OMEGLE_QUESTION_MIN_LENGTH)
 					{
-						setU8String( OMEGLE_KEY_LAST_QUESTION, params.c_str() );
+						setU8String( OMEGLE_KEY_LAST_QUESTION, params.c_str());
 					}
 				}
 
@@ -137,7 +137,7 @@ int OmegleProto::OnChatEvent(WPARAM wParam,LPARAM lParam)
 			else if (!stricmp(command.c_str(), "asl"))
 			{
 				DBVARIANT dbv;
-				if ( !getU8String( OMEGLE_KEY_ASL,&dbv ) ) {
+				if ( !getU8String( OMEGLE_KEY_ASL,&dbv )) {
 					text = dbv.pszVal;
 					DBFreeVariant(&dbv);
 				} else {
@@ -299,10 +299,10 @@ int OmegleProto::OnJoinChat(WPARAM,LPARAM suppress)
 	gcd.iType = GC_EVENT_ADDGROUP;
 
 	gce.ptszStatus = _T("Admin");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce) );
+	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 	
 	gce.ptszStatus = _T("Normal");
-	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce) );
+	CallServiceSync( MS_GC_EVENT, NULL, reinterpret_cast<LPARAM>(&gce));
 
 	SetTopic();
 		
@@ -367,7 +367,7 @@ void OmegleProto::SetChatStatus(int status)
 		
 		// Load actual name from database
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(NULL, m_szModuleName, OMEGLE_KEY_NAME, &dbv) )
+		if ( !DBGetContactSettingTString(NULL, m_szModuleName, OMEGLE_KEY_NAME, &dbv))
 		{
 			facy.nick_ = mir_tstrdup(dbv.ptszVal);
 			DBFreeVariant(&dbv);

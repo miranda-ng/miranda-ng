@@ -334,7 +334,7 @@ static int Exit(WPARAM wParam, LPARAM lParam)
 					mir_free(npi.szMsg);
 	}	}	}	}
 
-	if ( (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1)) || (DBGetContactSettingByte(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0)) ) {
+	if ( (DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1)) || (DBGetContactSettingByte(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))) {
 		if (ServiceExists(MS_CLIST_SETSTATUSMODE))
 			CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)ID_STATUS_OFFLINE, 0);
 		else

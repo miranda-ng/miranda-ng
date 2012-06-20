@@ -583,14 +583,14 @@ class CAnnivList
 					if (!pDlg->_wmINIT && (wndPos->cx != 0 || wndPos->cy != 0)) {
 						//win pos change
 						if ( (wndPos->cx == pDlg->_rcWin.right  - pDlg->_rcWin.left) && 
-							(wndPos->cy == pDlg->_rcWin.bottom - pDlg->_rcWin.top) ) {
+							(wndPos->cy == pDlg->_rcWin.bottom - pDlg->_rcWin.top)) {
 							//win pos change (store new pos)
 							GetWindowRect(hDlg, &pDlg->_rcWin);
 						}
 						//win size change
 						else {
 							// l change
-							if (	(wndPos->cx < pDlg->_sizeMin.cx) && (wndPos->x > pDlg->_rcWin.left) ) {
+							if (	(wndPos->cx < pDlg->_sizeMin.cx) && (wndPos->x > pDlg->_rcWin.left)) {
 								wndPos->x  = wndPos->x + wndPos->cx - pDlg->_sizeMin.cx;
 								wndPos->cx = pDlg->_sizeMin.cx;
 							}
@@ -600,7 +600,7 @@ class CAnnivList
 							}
 
 							// t change
-							if (	(wndPos->cy < pDlg->_sizeMin.cy) && (wndPos->y > pDlg->_rcWin.top) ) {
+							if (	(wndPos->cy < pDlg->_sizeMin.cy) && (wndPos->y > pDlg->_rcWin.top)) {
 								wndPos->y  = wndPos->y + wndPos->cy - pDlg->_sizeMin.cy;
 								wndPos->cy = pDlg->_sizeMin.cy;
 							}

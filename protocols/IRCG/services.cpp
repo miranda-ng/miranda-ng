@@ -395,7 +395,7 @@ INT_PTR __cdecl CIrcProto::OnQuickConnectMenuCommand(WPARAM, LPARAM)
 	}
 
 	ShowWindow( m_quickDlg->GetHwnd(), SW_SHOW );
-	SetActiveWindow( m_quickDlg->GetHwnd() );
+	SetActiveWindow( m_quickDlg->GetHwnd());
 	return 0;
 }
 
@@ -624,11 +624,11 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 						break;
 /*					case 5:		// nickserv register nick
 						PostIrcMessage( _T("/nickserv REGISTER %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter your authentification code"), TranslateT("Authentificate nick") );
+							TranslateT("Please enter your authentification code"), TranslateT("Authentificate nick"));
 						break;
 */					case 6:		// nickserv Identify
 						PostIrcMessage( _T("/nickserv AUTH %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter your authentification code"), TranslateT("Authentificate nick") );
+							TranslateT("Please enter your authentification code"), TranslateT("Authentificate nick"));
 						break;
 					case 7:		// nickserv drop nick
 						if (MessageBox(0, TranslateT("Are you sure you want to unregister your current nick?"), TranslateT("Delete nick"),
@@ -642,7 +642,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 							HWND question_hWnd = dlg->GetHwnd();
 							HWND hEditCtrl = GetDlgItem( question_hWnd, IDC_EDIT);
 							SetDlgItemText( question_hWnd, IDC_CAPTION, TranslateT("Identify nick"));
-							SetWindowText( GetDlgItem( question_hWnd, IDC_TEXT), TranslateT("Please enter your password") );
+							SetWindowText( GetDlgItem( question_hWnd, IDC_TEXT), TranslateT("Please enter your password"));
 							SetDlgItemText( question_hWnd, IDC_HIDDENEDIT, _T("/nickserv IDENTIFY %question=\"%s\",\"%s\""));
 							SetWindowLongPtr(GetDlgItem( question_hWnd, IDC_EDIT), GWL_STYLE,
 								(LONG)GetWindowLongPtr(GetDlgItem( question_hWnd, IDC_EDIT), GWL_STYLE) | ES_PASSWORD);
@@ -661,23 +661,23 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 						break;
 					case 10:		// nickserv set new password
 						PostIrcMessage( _T("/nickserv SET PASSWORD %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter your new password"), TranslateT("Set new password") );
+							TranslateT("Please enter your new password"), TranslateT("Set new password"));
 						break;
 					case 11:		// nickserv set language
 						PostIrcMessage( _T("/nickserv SET LANGUAGE %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter desired languageID (numeric value, depends on server)"), TranslateT("Change language of NickServ messages") );
+							TranslateT("Please enter desired languageID (numeric value, depends on server)"), TranslateT("Change language of NickServ messages"));
 						break;
 					case 12:		// nickserv set homepage
 						PostIrcMessage( _T("/nickserv SET URL %%question=\"%s\",\"%s\""),
-						TranslateT("Please enter URL that will be linked to your nick"), TranslateT("Set URL, linked to nick") );
+						TranslateT("Please enter URL that will be linked to your nick"), TranslateT("Set URL, linked to nick"));
 						break;
 					case 13:		// nickserv set email
 						PostIrcMessage( _T("/nickserv SET EMAIL %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter your e-mail, that will be linked to your nick"), TranslateT("Set e-mail, linked to nick") );
+							TranslateT("Please enter your e-mail, that will be linked to your nick"), TranslateT("Set e-mail, linked to nick"));
 						break;
 					case 14:		// nickserv set info
 						PostIrcMessage( _T("/nickserv SET INFO %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter some information about your nick"), TranslateT("Set information for nick") );
+							TranslateT("Please enter some information about your nick"), TranslateT("Set information for nick"));
 						break;
 					case 15:		// nickserv kill unauth off
 						PostIrcMessage( _T("/nickserv SET KILL OFF"));
@@ -708,15 +708,15 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 							break;
 					case 24:		// nickserv Link nick to current
 						PostIrcMessage( _T("/nickserv LINK %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter nick you want to link to your current nick"), TranslateT("Link another nick to current nick") );
+							TranslateT("Please enter nick you want to link to your current nick"), TranslateT("Link another nick to current nick"));
 						break;
 					case 25:		// nickserv Unlink nick from current
 						PostIrcMessage( _T("/nickserv LINK %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter nick you want to unlink from your current nick"), TranslateT("Unlink another nick from current nick") );
+							TranslateT("Please enter nick you want to unlink from your current nick"), TranslateT("Unlink another nick from current nick"));
 						break;
 					case 26:		// nickserv Set main nick
 						PostIrcMessage( _T("/nickserv LINK %%question=\"%s\",\"%s\""),
-							TranslateT("Please enter nick you want to set as your main nick"), TranslateT("Set main nick") );
+							TranslateT("Please enter nick you want to set as your main nick"), TranslateT("Set main nick"));
 						break;
 					case 27:		// nickserv list all linked nicks
 						PostIrcMessage( _T("/nickserv LISTLINKS"));
@@ -746,7 +746,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 						break;
 					case 6:
 						PostIrcMessage( _T("/KICK %s %s %%question=\"%s\",\"%s\",\"%s\""),
-							p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), TranslateT("Jerk") );
+							p1, gch->ptszUID, TranslateT("Please enter the reason"), TranslateT("Kick"), TranslateT("Jerk"));
 						break;
 					case 7:
 						DoUserhostWithReason(1, _T("B") + (CMString)p1, true, _T("%s"), gch->ptszUID );
@@ -795,11 +795,11 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 						break;
 					case 22:
 						PostIrcMessage( _T("/NOTICE %s %%question=\"%s\",\"%s\""),
-							gch->ptszUID, TranslateT("Please enter the notice text"), TranslateT("Send notice") );
+							gch->ptszUID, TranslateT("Please enter the notice text"), TranslateT("Send notice"));
 						break;
 					case 23:
 						PostIrcMessage( _T("/INVITE %s %%question=\"%s\",\"%s\""),
-							gch->ptszUID, TranslateT("Please enter the channel name to invite to"), TranslateT("Invite to channel") );
+							gch->ptszUID, TranslateT("Please enter the channel name to invite to"), TranslateT("Invite to channel"));
 						break;
 					case 30:
 						{
@@ -988,13 +988,13 @@ int __cdecl CIrcProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	EnterCriticalSection(&cs);
 
-	if ( m_perform && IsConnected() )
+	if ( m_perform && IsConnected())
 		if ( DoPerform( "Event: Disconnect" ))
 			Sleep( 200 );
 
 	DisconnectAllDCCSessions( true );
 
-	if ( IsConnected() )
+	if ( IsConnected())
 		Disconnect();
 	if ( m_listDlg )
 		m_listDlg->Close();
@@ -1042,13 +1042,13 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 			else {
 				// for normal contact
 				clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-				if ( !IsConnected() )
+				if ( !IsConnected())
 					clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois, ( LPARAM )&clmi );
 
 				if (bIsOnline) {
 					DBVARIANT dbv3;
-					if ( !getString( hContact, "Host", &dbv3) ) {
+					if ( !getString( hContact, "Host", &dbv3)) {
 						if (dbv3.pszVal[0] == 0)
 							clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 						DBFreeVariant( &dbv3 );
@@ -1065,7 +1065,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 int __cdecl CIrcProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = ( HANDLE ) wParam;
-	if ( hContact == NULL || !IsConnected() )
+	if ( hContact == NULL || !IsConnected())
 		return 0;
 
 	DBCONTACTWRITESETTING* cws = ( DBCONTACTWRITESETTING* )lParam;
@@ -1075,10 +1075,10 @@ int __cdecl CIrcProto::OnDbSettingChanged(WPARAM wParam, LPARAM lParam)
 	if ( cws->value.type != DBVT_DELETED && !( cws->value.type==DBVT_BYTE && cws->value.bVal==0 ))
 		return 0;
 
-	if ( !strcmp( cws->szSetting, "NotOnList" ) ) {
+	if ( !strcmp( cws->szSetting, "NotOnList" )) {
 		DBVARIANT dbv;
 		if ( !getTString( hContact, "Nick", &dbv )) {
-			if ( getByte( "MirVerAutoRequest", 1) )
+			if ( getByte( "MirVerAutoRequest", 1))
 				PostIrcMessage( _T("/PRIVMSG %s \001VERSION\001"), dbv.ptszVal );
 			DBFreeVariant( &dbv );
 	}	}
@@ -1128,7 +1128,7 @@ void __cdecl CIrcProto::DisconnectServerThread( void* )
 {
 	EnterCriticalSection( &cs );
 	KillChatTimer( RetryTimer );
-	if ( IsConnected() )
+	if ( IsConnected())
 		Disconnect();
 	LeaveCriticalSection( &cs );
 	return;
@@ -1184,7 +1184,7 @@ void CIrcProto::DisconnectFromServer(void)
 	GCEVENT gce = {0};
 	GCDEST gcd = {0};
 
-	if ( m_perform && IsConnected() )
+	if ( m_perform && IsConnected())
 		DoPerform( "Event: Disconnect" );
 
 	gcd.iType = GC_EVENT_CONTROL;
@@ -1241,7 +1241,7 @@ VOID CALLBACK RetryTimerProc( HWND, UINT, UINT_PTR idEvent, DWORD )
 	else ppro->KillChatTimer( ppro->RetryTimer );
 }
 
-// logs text into NetLib (stolen from Jabber ;) )
+// logs text into NetLib (stolen from Jabber ;))
 void CIrcProto::DoNetlibLog( const char* fmt, ... )
 {
 	va_list vararg;

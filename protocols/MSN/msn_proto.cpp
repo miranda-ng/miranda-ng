@@ -86,11 +86,8 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 
 	CreateProtoService(MSN_GETUNREAD_EMAILCOUNT, &CMsnProto::GetUnreadEmailCount);
 
-	// service to get from protocol chat buddy info
-//	CreateProtoService(MS_GC_PROTO_GETTOOLTIPTEXT, &CMsnProto::GCGetToolTipText);
-
+	// event hooks
 	HookProtoEvent(ME_MSG_WINDOWPOPUP,           &CMsnProto::OnWindowPopup);
-//	HookProtoEvent(ME_MSG_WINDOWEVENT,           &CMsnProto::OnWindowEvent);
 	HookProtoEvent(ME_CLIST_GROUPCHANGE,         &CMsnProto::OnGroupChange);
 	HookProtoEvent(ME_OPT_INITIALISE,            &CMsnProto::OnOptionsInit);
 	HookProtoEvent(ME_CLIST_DOUBLECLICKED,       &CMsnProto::OnContactDoubleClicked);
@@ -106,7 +103,6 @@ CMsnProto::CMsnProto(const char* aProtoName, const TCHAR* aUserName) :
 			deleteSetting(hContact, "IdleTS");
 			deleteSetting(hContact, "p2pMsgId");
 			deleteSetting(hContact, "AccList");
-//			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
 		}
 		hContact = (HANDLE)MSN_CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact, 0);
 	}

@@ -785,7 +785,7 @@ read_markers(j_decompress_ptr cinfo, FIBITMAP *dib) {
 	BYTE *icc_profile = NULL;
 	unsigned icc_length = 0;
 
-	if ( jpeg_read_icc_profile(cinfo, &icc_profile, &icc_length) ) {
+	if ( jpeg_read_icc_profile(cinfo, &icc_profile, &icc_length)) {
 		// copy ICC profile data
 		FreeImage_CreateICCProfile(dib, icc_profile, icc_length);
 		// clean up

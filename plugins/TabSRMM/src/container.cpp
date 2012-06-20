@@ -2202,7 +2202,7 @@ buttons_done:
  * hwnd: handle of a message dialog.
  *
  * returns the tab index (zero based), -1 if no tab is found (which SHOULD not
- * really happen, but who knows... ;) )
+ * really happen, but who knows... ;))
  */
 
 int TSAPI GetTabIndexFromHWND(HWND hwndTab, HWND hwnd)

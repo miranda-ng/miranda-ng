@@ -115,7 +115,7 @@ public:
 	CMSimpleStringT(PCXSTR pszSrc)
 	{
 		int nLength = StringLength( pszSrc );
-		CMStringData* pData = Allocate( nLength, sizeof( XCHAR ) );
+		CMStringData* pData = Allocate( nLength, sizeof( XCHAR ));
 		if (pData != NULL)
 		{
 			Attach( pData );
@@ -125,7 +125,7 @@ public:
 	}
 	CMSimpleStringT(const XCHAR* pchSrc, int nLength)
 	{
-		CMStringData* pData = Allocate( nLength, sizeof( XCHAR ) );
+		CMStringData* pData = Allocate( nLength, sizeof( XCHAR ));
 		if ( pData != NULL )
 		{
 			Attach( pData );
@@ -150,8 +150,8 @@ public:
 		CMStringData* pOldData = GetData();
 		if ( pSrcData != pOldData)
 		{
-			if ( pOldData->IsLocked() )
-				SetString( strSrc.GetString(), strSrc.GetLength() );
+			if ( pOldData->IsLocked())
+				SetString( strSrc.GetString(), strSrc.GetLength());
 			else
 			{
 				CMStringData* pNewData = CloneData( pSrcData );
@@ -218,7 +218,7 @@ public:
 
 	void Append( PCXSTR pszSrc )
 	{
-		Append( pszSrc, StringLength( pszSrc ) );
+		Append( pszSrc, StringLength( pszSrc ));
 	}
 	void Append( PCXSTR pszSrc, int nLength )
 	{
@@ -257,7 +257,7 @@ public:
 	}
 	void Append( const CMSimpleStringT& strSrc )
 	{
-		Append( strSrc.GetString(), strSrc.GetLength() );
+		Append( strSrc.GetString(), strSrc.GetLength());
 	}
 	void Empty()
 	{
@@ -265,7 +265,7 @@ public:
 		if ( pOldData->nDataLength == 0 )
 			return;
 
-		if ( pOldData->IsLocked() )
+		if ( pOldData->IsLocked())
 		{
 			// Don't reallocate a locked buffer that's shrinking
 			SetLength( 0 );
@@ -284,15 +284,15 @@ public:
 		if ( pOldData->nAllocLength == nLength )
 			return;
 
-		if ( !pOldData->IsLocked() )  // Don't reallocate a locked buffer that's shrinking
+		if ( !pOldData->IsLocked())  // Don't reallocate a locked buffer that's shrinking
 		{
-			CMStringData* pNewData = Allocate( nLength, sizeof( XCHAR ) );
+			CMStringData* pNewData = Allocate( nLength, sizeof( XCHAR ));
 			if ( pNewData == NULL ) {
 				SetLength( nLength );
 				return;
 			}
 
-			CopyChars( PXSTR( pNewData->data() ), nLength, PCXSTR( pOldData->data() ), nLength );
+			CopyChars( PXSTR( pNewData->data()), nLength, PCXSTR( pOldData->data()), nLength );
 
 			pOldData->Release();
 			Attach( pNewData );
@@ -311,7 +311,7 @@ public:
 	PXSTR GetBuffer()
 	{
 		CMStringData* pData = GetData();
-		if ( pData->IsShared() )
+		if ( pData->IsShared())
 			Fork( pData->nDataLength );
 
 		return m_pszData;
@@ -343,7 +343,7 @@ public:
 	PXSTR LockBuffer()
 	{
 		CMStringData* pData = GetData();
-		if ( pData->IsShared() )
+		if ( pData->IsShared())
 		{
 			Fork( pData->nDataLength );
 			pData = GetData();  // Do it again, because the fork might have changed it
@@ -389,7 +389,7 @@ public:
 	}
 	void SetString( PCXSTR pszSrc )
 	{
-		SetString( pszSrc, StringLength( pszSrc ) );
+		SetString( pszSrc, StringLength( pszSrc ));
 	}
 	void SetString( PCXSTR pszSrc, int nLength )
 	{
@@ -421,7 +421,7 @@ public:
 	{
 		CMSimpleStringT s;
 
-		Concatenate( s, str1, str1.GetLength(), str2, str2.GetLength() );
+		Concatenate( s, str1, str1.GetLength(), str2, str2.GetLength());
 
 		return s;
 	}
@@ -430,7 +430,7 @@ public:
 	{
 		CMSimpleStringT s;
 
-		Concatenate( s, str1, str1.GetLength(), psz2, StringLength( psz2 ) );
+		Concatenate( s, str1, str1.GetLength(), psz2, StringLength( psz2 ));
 
 		return s;
 	}
@@ -439,7 +439,7 @@ public:
 	{
 		CMSimpleStringT s;
 
-		Concatenate( s, psz1, StringLength( psz1 ), str2, str2.GetLength() );
+		Concatenate( s, psz1, StringLength( psz1 ), str2, str2.GetLength());
 
 		return s;
 	}
@@ -527,7 +527,7 @@ private:
 		if (pNewData != NULL)
 		{
 			int nCharsToCopy = ((nOldLength < nLength) ? nOldLength : nLength)+1;  // Copy '\0'
-			CopyChars( PXSTR( pNewData->data() ), nCharsToCopy, PCXSTR( pOldData->data() ), nCharsToCopy );
+			CopyChars( PXSTR( pNewData->data()), nCharsToCopy, PCXSTR( pOldData->data()), nCharsToCopy );
 			pNewData->nDataLength = nOldLength;
 			pOldData->Release();
 			Attach(pNewData);
@@ -578,7 +578,7 @@ private:
 		if ( pOldData->nAllocLength >= nLength || nLength <= 0)
 			return;
 
-		CMStringData* pNewData = Realloc( pOldData, nLength, sizeof( XCHAR ) );
+		CMStringData* pNewData = Realloc( pOldData, nLength, sizeof( XCHAR ));
 		if ( pNewData != NULL )
 			Attach( pNewData );
 	}
@@ -676,19 +676,19 @@ public:
 
 	static int __stdcall StringSpanIncluding( LPCSTR pszBlock, LPCSTR pszSet )
 	{
-		return (int)_mbsspn( reinterpret_cast< const unsigned char* >( pszBlock ), reinterpret_cast< const unsigned char* >( pszSet ) );
+		return (int)_mbsspn( reinterpret_cast< const unsigned char* >( pszBlock ), reinterpret_cast< const unsigned char* >( pszSet ));
 	}
 
 	static int __stdcall StringSpanExcluding( LPCSTR pszBlock, LPCSTR pszSet )
 	{
-		return (int)_mbscspn( reinterpret_cast< const unsigned char* >( pszBlock ), reinterpret_cast< const unsigned char* >( pszSet ) );
+		return (int)_mbscspn( reinterpret_cast< const unsigned char* >( pszBlock ), reinterpret_cast< const unsigned char* >( pszSet ));
 	}
 
 	static LPSTR __stdcall StringUppercase( LPSTR psz )
 	{
 #pragma warning (push)
 #pragma warning(disable : 4996)
-		return reinterpret_cast< LPSTR >( _mbsupr( reinterpret_cast< unsigned char* >( psz ) ) );
+		return reinterpret_cast< LPSTR >( _mbsupr( reinterpret_cast< unsigned char* >( psz )) );
 #pragma warning (pop)
 	}
 
@@ -696,7 +696,7 @@ public:
 	{
 #pragma warning (push)
 #pragma warning(disable : 4996)
-		return reinterpret_cast< LPSTR >( _mbslwr( reinterpret_cast< unsigned char* >( psz ) ) );
+		return reinterpret_cast< LPSTR >( _mbslwr( reinterpret_cast< unsigned char* >( psz )) );
 #pragma warning (pop)
 	}
 
@@ -722,7 +722,7 @@ public:
 
 	static LPSTR __stdcall StringReverse( LPSTR psz )
 	{
-		return reinterpret_cast< LPSTR >( _mbsrev( reinterpret_cast< unsigned char* >( psz ) ) );
+		return reinterpret_cast< LPSTR >( _mbsrev( reinterpret_cast< unsigned char* >( psz )) );
 	}
 
 	static int __stdcall GetFormattedLength( LPCSTR pszFormat, va_list args );
@@ -741,7 +741,7 @@ public:
 	static int __stdcall GetBaseTypeLength( LPCSTR pszSrc )
 	{
 		// Returns required buffer length in XCHARs
-		return int( strlen( pszSrc ) );
+		return int( strlen( pszSrc ));
 	}
 
 	static int __stdcall GetBaseTypeLength( LPCSTR pszSrc, int nLength )
@@ -768,7 +768,7 @@ public:
 		if (nSrcLength == -1) { nSrcLength=1 + GetBaseTypeLength(pszSrc); }
 		// nLen is in XCHARs
 		memcpy_s( pszDest, nDestLength*sizeof( char ), 
-			pszSrc, nSrcLength*sizeof( char ) );
+			pszSrc, nSrcLength*sizeof( char ));
 	}
 
 	static void __stdcall ConvertToBaseType( LPSTR pszDest, int nDestLength, LPCWSTR pszSrc, int nSrcLength = -1)
@@ -835,13 +835,13 @@ public:
 	static int __stdcall SafeStringLen( LPCSTR psz )
 	{
 		// returns length in bytes
-		return (psz != NULL) ? int( strlen( psz ) ) : 0;
+		return (psz != NULL) ? int( strlen( psz )) : 0;
 	}
 
 	static int __stdcall SafeStringLen( LPCWSTR psz )
 	{
 		// returns length in wchar_ts
-		return (psz != NULL) ? int( wcslen( psz ) ) : 0;
+		return (psz != NULL) ? int( wcslen( psz )) : 0;
 	}
 
 	static int __stdcall GetCharLen( const wchar_t* pch )
@@ -853,7 +853,7 @@ public:
 	static int __stdcall GetCharLen( const char* pch )
 	{
 		// returns char length
-		return int( _mbclen( reinterpret_cast< const unsigned char* >( pch ) ) );
+		return int( _mbclen( reinterpret_cast< const unsigned char* >( pch )) );
 	}
 
 	static DWORD __stdcall GetEnvironmentVariable( LPCSTR pszVar, LPSTR pszBuffer, DWORD dwSize )
@@ -879,12 +879,12 @@ public:
 
 	static int __stdcall IsDigit( wchar_t ch )
 	{
-		return iswdigit( static_cast<unsigned short>(ch) );
+		return iswdigit( static_cast<unsigned short>(ch));
 	}
 
 	static int __stdcall IsSpace( wchar_t ch )
 	{
-		return iswspace( static_cast<unsigned short>(ch) );
+		return iswspace( static_cast<unsigned short>(ch));
 	}
 
 	static int __stdcall StringCompare( LPCWSTR pszA, LPCWSTR pszB )
@@ -1068,7 +1068,7 @@ public:
 	static int __stdcall GetCharLen( const char* pch )
 	{
 		// returns char length
-		return (int)( _mbclen( reinterpret_cast< const unsigned char* >( pch ) ) );
+		return (int)( _mbclen( reinterpret_cast< const unsigned char* >( pch )) );
 	}
 
 	static DWORD __stdcall GetEnvironmentVariable( LPCWSTR pszVar, LPWSTR pszBuffer, DWORD dwSize )
@@ -1362,7 +1362,7 @@ public:
 			  int nXCHARsToCopy = nLength-(iIndex+nCount)+1;
 			  PXSTR pszBuffer = this->GetBuffer();
 				#if _MSC_VER >= 1400
-				  memmove_s( pszBuffer+iIndex, nXCHARsToCopy*sizeof( XCHAR ), pszBuffer+iIndex+nCount, nXCHARsToCopy*sizeof( XCHAR ) );
+				  memmove_s( pszBuffer+iIndex, nXCHARsToCopy*sizeof( XCHAR ), pszBuffer+iIndex+nCount, nXCHARsToCopy*sizeof( XCHAR ));
 				#else
 				  memmove( pszBuffer+iIndex, pszBuffer+iIndex+nCount, nXCHARsToCopy*sizeof( XCHAR ));
 				#endif
@@ -1378,7 +1378,7 @@ public:
 		  if ( iIndex < 0 )
 			  iIndex = 0;
 
-			if ( iIndex > this->GetLength() )
+			if ( iIndex > this->GetLength())
 				iIndex = this->GetLength();
 
 			int nNewLength = this->GetLength()+1;
@@ -1387,9 +1387,9 @@ public:
 
 		  // move existing bytes down 
 			#if _MSC_VER >= 1400
-				memmove_s( pszBuffer+iIndex+1, (nNewLength-iIndex)*sizeof( XCHAR ), pszBuffer+iIndex, (nNewLength-iIndex)*sizeof( XCHAR ) );
+				memmove_s( pszBuffer+iIndex+1, (nNewLength-iIndex)*sizeof( XCHAR ), pszBuffer+iIndex, (nNewLength-iIndex)*sizeof( XCHAR ));
 			#else
-				memmove( pszBuffer+iIndex+1, pszBuffer+iIndex, (nNewLength-iIndex)*sizeof( XCHAR ) );
+				memmove( pszBuffer+iIndex+1, pszBuffer+iIndex, (nNewLength-iIndex)*sizeof( XCHAR ));
 			#endif
 			pszBuffer[iIndex] = ch;
 
@@ -1403,7 +1403,7 @@ public:
 		  if ( iIndex < 0 )
 			  iIndex = 0;
 
-		  if ( iIndex > this->GetLength() )
+		  if ( iIndex > this->GetLength())
 		  {
 			  iIndex = this->GetLength();
 		  }
@@ -1418,10 +1418,10 @@ public:
 			  PXSTR pszBuffer = this->GetBuffer( nNewLength );
 			  // move existing bytes down 
 				#if _MSC_VER >= 1400
-					memmove_s( pszBuffer+iIndex+nInsertLength, (nNewLength-iIndex-nInsertLength+1)*sizeof( XCHAR ), pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof( XCHAR ) );
+					memmove_s( pszBuffer+iIndex+nInsertLength, (nNewLength-iIndex-nInsertLength+1)*sizeof( XCHAR ), pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof( XCHAR ));
 					memcpy_s( pszBuffer+iIndex, nInsertLength*sizeof( XCHAR ), psz, nInsertLength*sizeof( XCHAR ));
 				#else
-					memmove( pszBuffer+iIndex+nInsertLength, pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof( XCHAR ) );
+					memmove( pszBuffer+iIndex+nInsertLength, pszBuffer+iIndex, (nNewLength-iIndex-nInsertLength+1)*sizeof( XCHAR ));
 					memcpy( pszBuffer+iIndex, psz, nInsertLength*sizeof( XCHAR ));
 				#endif
 			  this->ReleaseBufferSetLength( nNewLength );
@@ -1440,7 +1440,7 @@ public:
 		  {
 			  // otherwise modify each character that matches in the string
 			  bool bCopied = false;
-			  PXSTR pszBuffer = const_cast< PXSTR >( this->GetString() );  // We don't actually write to pszBuffer until we've called GetBuffer().
+			  PXSTR pszBuffer = const_cast< PXSTR >( this->GetString());  // We don't actually write to pszBuffer until we've called GetBuffer().
 
 			  int nLength = this->GetLength();
 			  int iChar = 0;
@@ -1488,7 +1488,7 @@ public:
 			  while( pszStart < pszEnd )
 			  {
 				  PCXSTR pszTarget;
-				  while( (pszTarget = StringTraits::StringFindString( pszStart, pszOld ) ) != NULL)
+				  while( (pszTarget = StringTraits::StringFindString( pszStart, pszOld )) != NULL)
 				  {
 					  nCount++;
 					  pszStart = pszTarget+nSourceLen;
@@ -1505,7 +1505,7 @@ public:
 			  int nOldLength = this->GetLength();
 			  int nNewLength = nOldLength+(nReplacementLen-nSourceLen)*nCount;
 
-			  PXSTR pszBuffer = this->GetBuffer( __max( nNewLength, nOldLength ) );
+			  PXSTR pszBuffer = this->GetBuffer( __max( nNewLength, nOldLength ));
 
 			  PXSTR pszStart = pszBuffer;
 			  PXSTR pszEnd = pszStart+nOldLength;
@@ -1514,13 +1514,13 @@ public:
 			  while( pszStart < pszEnd )
 			  {
 				  PXSTR pszTarget;
-				  while( (pszTarget = StringTraits::StringFindString( pszStart, pszOld ) ) != NULL )
+				  while( (pszTarget = StringTraits::StringFindString( pszStart, pszOld )) != NULL )
 				  {
 					  int nBalance = nOldLength-int(pszTarget-pszBuffer+nSourceLen);
 					  memmove_s( pszTarget+nReplacementLen, nBalance*sizeof( XCHAR ), 
-						  pszTarget+nSourceLen, nBalance*sizeof( XCHAR ) );
+						  pszTarget+nSourceLen, nBalance*sizeof( XCHAR ));
 					  memcpy_s( pszTarget, nReplacementLen*sizeof( XCHAR ), 
-						  pszNew, nReplacementLen*sizeof( XCHAR ) );
+						  pszNew, nReplacementLen*sizeof( XCHAR ));
 					  pszStart = pszTarget+nReplacementLen;
 					  pszTarget[nReplacementLen+nBalance] = 0;
 					  nOldLength += (nReplacementLen-nSourceLen);
@@ -1571,7 +1571,7 @@ public:
 
 	  CMStringT Tokenize( PCXSTR pszTokens, int& iStart ) const
 	  {
-		  if ( (pszTokens == NULL) || (*pszTokens == (XCHAR)0) )
+		  if ( (pszTokens == NULL) || (*pszTokens == (XCHAR)0))
 		  {
 			  if (iStart < this->GetLength())
 				  return CMStringT( this->GetString()+iStart );
@@ -1707,7 +1707,7 @@ public:
 
 		  while( *psz != 0 )
 		  {
-			  if ( StringTraits::IsSpace( *psz ) )
+			  if ( StringTraits::IsSpace( *psz ))
 			  {
 				  if ( pszLast == NULL )
 					  pszLast = psz;
@@ -1722,7 +1722,7 @@ public:
 		  if ( pszLast != NULL )
 		  {
 			  // truncate at trailing space start
-			  int iLast = int( pszLast-this->GetString() );
+			  int iLast = int( pszLast-this->GetString());
 
 			  this->Truncate( iLast );
 		  }
@@ -1737,20 +1737,20 @@ public:
 
 		  PCXSTR psz = this->GetString();
 
-		  while( StringTraits::IsSpace( *psz ) )
+		  while( StringTraits::IsSpace( *psz ))
 		  {
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if ( psz != this->GetString() )
+		  if ( psz != this->GetString())
 		  {
 			  // fix up data and length
-			  int iFirst = int( psz-this->GetString() );
-			  PXSTR pszBuffer = this->GetBuffer( this->GetLength() );
+			  int iFirst = int( psz-this->GetString());
+			  PXSTR pszBuffer = this->GetBuffer( this->GetLength());
 			  psz = pszBuffer+iFirst;
 			  int nDataLength = this->GetLength()-iFirst;
 			  memmove_s( pszBuffer, (this->GetLength()+1)*sizeof( XCHAR ), 
-				  psz, (nDataLength+1)*sizeof( XCHAR ) );
+				  psz, (nDataLength+1)*sizeof( XCHAR ));
 			  this->ReleaseBufferSetLength( nDataLength );
 		  }
 
@@ -1805,7 +1805,7 @@ public:
 		  if ( pszLast != NULL )
 		  {
 			  // truncate at left-most matching character  
-			  int iLast = int( pszLast-this->GetString() );
+			  int iLast = int( pszLast-this->GetString());
 			  this->Truncate( iLast );
 		  }
 
@@ -1816,7 +1816,7 @@ public:
 	  CMStringT& TrimRight( PCXSTR pszTargets )
 	  {
 		  // if we're not trimming anything, we're not doing any work
-		  if ( (pszTargets == NULL) || (*pszTargets == 0) )
+		  if ( (pszTargets == NULL) || (*pszTargets == 0))
 		  {
 			  return *this;
 		  }
@@ -1846,7 +1846,7 @@ public:
 		  if ( pszLast != NULL )
 		  {
 			  // truncate at left-most matching character  
-			  int iLast = int( pszLast-this->GetString() );
+			  int iLast = int( pszLast-this->GetString());
 			  this->Truncate( iLast );
 		  }
 
@@ -1864,15 +1864,15 @@ public:
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if ( psz != this->GetString() )
+		  if ( psz != this->GetString())
 		  {
 			  // fix up data and length
-			  int iFirst = int( psz-this->GetString() );
-			  PXSTR pszBuffer = this->GetBuffer( this->GetLength() );
+			  int iFirst = int( psz-this->GetString());
+			  PXSTR pszBuffer = this->GetBuffer( this->GetLength());
 			  psz = pszBuffer+iFirst;
 			  int nDataLength = this->GetLength()-iFirst;
 			  memmove_s( pszBuffer, (this->GetLength()+1)*sizeof( XCHAR ), 
-				  psz, (nDataLength+1)*sizeof( XCHAR ) );
+				  psz, (nDataLength+1)*sizeof( XCHAR ));
 			  this->ReleaseBufferSetLength( nDataLength );
 		  }
 
@@ -1883,26 +1883,26 @@ public:
 	  CMStringT& TrimLeft( PCXSTR pszTargets )
 	  {
 		  // if we're not trimming anything, we're not doing any work
-		  if ( (pszTargets == NULL) || (*pszTargets == 0) )
+		  if ( (pszTargets == NULL) || (*pszTargets == 0))
 		  {
 			  return *this;
 		  }
 
 		  PCXSTR psz = this->GetString();
-		  while( (*psz != 0) && (StringTraits::StringFindChar( pszTargets, *psz ) != NULL) )
+		  while( (*psz != 0) && (StringTraits::StringFindChar( pszTargets, *psz ) != NULL))
 		  {
 			  psz = StringTraits::CharNext( psz );
 		  }
 
-		  if ( psz != this->GetString() )
+		  if ( psz != this->GetString())
 		  {
 			  // fix up data and length
-			  int iFirst = int( psz-this->GetString() );
-			  PXSTR pszBuffer = this->GetBuffer( this->GetLength() );
+			  int iFirst = int( psz-this->GetString());
+			  PXSTR pszBuffer = this->GetBuffer( this->GetLength());
 			  psz = pszBuffer+iFirst;
 			  int nDataLength = this->GetLength()-iFirst;
 			  memmove_s( pszBuffer, (this->GetLength()+1)*sizeof( XCHAR ), 
-				  psz, (nDataLength+1)*sizeof( XCHAR ) );
+				  psz, (nDataLength+1)*sizeof( XCHAR ));
 			  this->ReleaseBufferSetLength( nDataLength );
 		  }
 
@@ -1946,14 +1946,14 @@ public:
 		  if (nCount < 0)
 			  nCount = 0;
 
-		  if ( (iFirst + nCount) > this->GetLength() )
+		  if ( (iFirst + nCount) > this->GetLength())
 			  nCount = this->GetLength()-iFirst;
 
-		  if ( iFirst > this->GetLength() )
+		  if ( iFirst > this->GetLength())
 			  nCount = 0;
 
 		  // optimize case of returning entire string
-		  if ( (iFirst == 0) && ((iFirst+nCount) == this->GetLength()) )
+		  if ( (iFirst == 0) && ((iFirst+nCount) == this->GetLength()))
 			  return *this;
 
 		  return CMStringT( this->GetString()+iFirst, nCount );
@@ -2030,13 +2030,13 @@ public:
 	  // Allocate a BSTR containing a copy of the string
 	  BSTR AllocSysString() const
 	  {
-		  BSTR bstrResult = StringTraits::AllocSysString( this->GetString(), this->GetLength() );
+		  BSTR bstrResult = StringTraits::AllocSysString( this->GetString(), this->GetLength());
 		  return bstrResult;
 	  }
 
 	  BSTR SetSysString( BSTR* pbstr ) const
 	  {
-		  StringTraits::ReAllocSysString( this->GetString(), pbstr, this->GetLength() );
+		  StringTraits::ReAllocSysString( this->GetString(), pbstr, this->GetLength());
 		  return *pbstr;
 	  }
 
@@ -2075,7 +2075,7 @@ public:
 	  {
 		  CMStringT strResult;
 
-		  Concatenate( strResult, str1, str1.GetLength(), str2, str2.GetLength() );
+		  Concatenate( strResult, str1, str1.GetLength(), str2, str2.GetLength());
 
 		  return strResult;
 	  }
@@ -2084,7 +2084,7 @@ public:
 	  {
 		  CMStringT strResult;
 
-		  Concatenate( strResult, str1, str1.GetLength(), psz2, StringLength( psz2 ) );
+		  Concatenate( strResult, str1, str1.GetLength(), psz2, StringLength( psz2 ));
 
 		  return strResult;
 	  }
@@ -2093,7 +2093,7 @@ public:
 	  {
 		  CMStringT strResult;
 
-		  Concatenate( strResult, psz1, StringLength( psz1 ), str2, str2.GetLength() );
+		  Concatenate( strResult, psz1, StringLength( psz1 ), str2, str2.GetLength());
 
 		  return strResult;
 	  }
@@ -2123,7 +2123,7 @@ public:
 		  CMStringT strResult;
 		  XCHAR chTemp = XCHAR( ch1 );
 
-		  Concatenate( strResult, &chTemp, 1, str2, str2.GetLength() );
+		  Concatenate( strResult, &chTemp, 1, str2, str2.GetLength());
 
 		  return strResult;
 	  }
@@ -2133,7 +2133,7 @@ public:
 		  CMStringT strResult;
 		  XCHAR chTemp = XCHAR( ch1 );
 
-		  Concatenate( strResult, &chTemp, 1, str2, str2.GetLength() );
+		  Concatenate( strResult, &chTemp, 1, str2, str2.GetLength());
 
 		  return strResult;
 	  }

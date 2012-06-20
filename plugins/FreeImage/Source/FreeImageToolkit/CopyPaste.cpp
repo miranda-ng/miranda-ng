@@ -608,7 +608,7 @@ FreeImage_Copy(FIBITMAP *src, int left, int top, int right, int bottom) {
 	
 	// copy background color 
 	RGBQUAD bkcolor; 
-	if ( FreeImage_GetBackgroundColor(src, &bkcolor) ) {
+	if ( FreeImage_GetBackgroundColor(src, &bkcolor)) {
 		FreeImage_SetBackgroundColor(dst, &bkcolor); 
 	}
 	

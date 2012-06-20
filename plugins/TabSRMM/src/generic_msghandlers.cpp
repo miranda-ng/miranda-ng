@@ -1320,7 +1320,7 @@ HWND TSAPI DM_CreateClist(TWindowData *dat)
 	HWND hwndClist = CreateWindowExA(0, "CListControl", "", WS_TABSTOP | WS_VISIBLE | WS_CHILD | 0x248,
 									 184, 0, 30, 30, dat->hwnd, (HMENU)IDC_CLIST, g_hInst, NULL);
 
-	//MAD: fix for little bug, when following code didn't work (another hack :) )
+	//MAD: fix for little bug, when following code didn't work (another hack :))
 	HANDLE hItem;
 	SendMessage(hwndClist, WM_TIMER, 14, 0);
 	//

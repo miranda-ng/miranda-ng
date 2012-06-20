@@ -189,7 +189,7 @@ char *GetStatusMessage(int profile, char *szProto)
 	DBVARIANT dbv;
 
 	for ( int i=0; i < pceCount; i++ ) {
-		if ( (pce[i].profile == profile) && (!strcmp(pce[i].szProto, szProto)) ) {
+		if ( (pce[i].profile == profile) && (!strcmp(pce[i].szProto, szProto))) {
 			_snprintf(dbSetting, sizeof(dbSetting), "%d_%s_%s", profile, szProto, SETTING_PROFILE_STSMSG);
 			if (!DBGetContactSetting(NULL, MODULENAME, dbSetting, &dbv)) { // reload from db
 				pce[i].msg = ( char* )realloc(pce[i].msg, strlen(dbv.pszVal)+1);

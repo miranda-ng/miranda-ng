@@ -97,7 +97,7 @@ extern BOOL uinfoex_enabled;
 extern BOOL variables_enabled;
 
 
-#define MAX_REGS(_A_)	( sizeof(_A_) / sizeof(_A_[0]) )
+#define MAX_REGS(_A_)	( sizeof(_A_) / sizeof(_A_[0]))
 #define FREE(_m_)		if (_m_ != NULL) { free(_m_); _m_ = NULL; }
 
 

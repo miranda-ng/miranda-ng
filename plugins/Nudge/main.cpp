@@ -327,7 +327,7 @@ void LoadProtocols(void)
 	//Load the default nudge
 	mir_snprintf(DefaultNudge.ProtocolName,sizeof(DefaultNudge.ProtocolName),"Default");
 	mir_snprintf(DefaultNudge.NudgeSoundname,sizeof(DefaultNudge.NudgeSoundname),"Nudge : Default");
-	SkinAddNewSoundExT( DefaultNudge.NudgeSoundname, LPGENT("Nudge"),LPGENT("Default Nudge"));
+	SkinAddNewSoundEx( DefaultNudge.NudgeSoundname, LPGEN("Nudge"), LPGEN("Default Nudge"));
 	DefaultNudge.Load();
 
 	GlobalNudge.Load();
@@ -778,7 +778,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 
 	TCHAR soundDesc[MAXMODULELABELLENGTH + 10];
 	mir_sntprintf(soundDesc,sizeof(soundDesc),_T("Nudge for %s"),proto->tszAccountName);	
-	SkinAddNewSoundExT( newNudge->item.NudgeSoundname, LPGENT("Nudge") , soundDesc);
+	SkinAddNewSoundExT(newNudge->item.NudgeSoundname, LPGENT("Nudge"), soundDesc);
 	
 	newNudge->next = NudgeList;
 	NudgeList = newNudge;

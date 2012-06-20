@@ -220,13 +220,13 @@ void GetFontSetting(int i,LOGFONT *lf,COLORREF *colour,BYTE *effect, COLORREF *e
 		if ( fontOptionsList[index].fontID == i )
 			break;
 	}
-	if ( index == SIZEOF(fontOptionsList) )
+	if ( index == SIZEOF(fontOptionsList))
 		return;
 
 	FontIDT fontid = {0};
 	fontid.cbSize = FontID_SIZEOF_V2;
-	_tcsncpy( fontid.group, fontOptionsList[index].szGroup, SIZEOF( fontid.group ) );
-	_tcsncpy( fontid.name, fontOptionsList[index].szDescr, SIZEOF( fontid.name ) );
+	_tcsncpy( fontid.group, fontOptionsList[index].szGroup, SIZEOF( fontid.group ));
+	_tcsncpy( fontid.name, fontOptionsList[index].szDescr, SIZEOF( fontid.name ));
 
 	COLORREF col = CallService( MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf );
 

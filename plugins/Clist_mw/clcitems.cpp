@@ -54,7 +54,7 @@ void AddSubcontacts(struct ClcContact * cont)
 	{
 		hsub = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
 		cacheEntry = GetContactFullCacheEntry(hsub);		
-		if (!(DBGetContactSettingByte(NULL,"CLC","MetaHideOfflineSub",1) && DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT) )||
+		if (!(DBGetContactSettingByte(NULL,"CLC","MetaHideOfflineSub",1) && DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))||
 			cacheEntry->status != ID_STATUS_OFFLINE )
 		{
 			cont->subcontacts[i].hContact = cacheEntry->hContact;

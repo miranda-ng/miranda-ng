@@ -1189,22 +1189,22 @@ VOID SvcReminderLoadModule(VOID)
 	// init sounds
 	SKINSOUNDDESCEX ssd = { 0 };
 	ssd.cbSize = sizeof(ssd);
-	ssd.pszSection = LPGEN(MODNAME);
+	ssd.pszSection = MODNAME;
 
 	ssd.pszName = SOUND_BIRTHDAY_TODAY;
 	ssd.pszDescription = LPGEN("Birthday reminder");
 	ssd.pszDefaultFile = "Sounds\\BirthDay.wav";
-	CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	Skin_AddSound(&ssd);
 
 	ssd.pszName = SOUND_BIRTHDAY_SOON;
 	ssd.pszDescription = LPGEN("Birthday reminder: it's coming");
 	ssd.pszDefaultFile = "Sounds\\BirthDayComing.wav";
-	CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	Skin_AddSound(&ssd);
 
 	ssd.pszName = SOUND_ANNIVERSARY;
 	ssd.pszDescription = LPGEN("Anniversary Reminder");
 	ssd.pszDefaultFile = "Sounds\\Reminder.wav";
-	CallService(MS_SKIN_ADDNEWSOUND, 0, (LPARAM)&ssd);
+	Skin_AddSound(&ssd);
 
 	// create service functions
 	myCreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);

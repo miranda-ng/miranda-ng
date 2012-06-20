@@ -211,7 +211,7 @@ LosslessTransform(const FilenameIO *filenameIO, FREE_IMAGE_JPEG_OPERATION operat
 
 		// Prepare transformation workspace
 		// Fails right away if perfect flag is TRUE and transformation is not perfect
-		if ( !jtransform_request_workspace(&srcinfo, &transfoptions) ) {
+		if ( !jtransform_request_workspace(&srcinfo, &transfoptions)) {
 			FreeImage_OutputMessageProc(FIF_JPEG, "Transformation is not perfect");
 			throw(1);
 		}

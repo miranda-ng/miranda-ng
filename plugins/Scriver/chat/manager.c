@@ -793,7 +793,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
             while (pTemp != NULL) {
                     if (pTemp != currSession && !lstrcmpiA(pszModule, pTemp->pszModule)) {
                             if ( my_strstri( pTemp->ptszName, pszOriginal) == pTemp->ptszName ) {
-                                    if ( prevSession != pTemp && lstrcmpi( pTemp->ptszName, pszCurrent ) > 0 && ( !pszName || lstrcmpi( pTemp->ptszName, pszName ) < 0) ) {
+                                    if ( prevSession != pTemp && lstrcmpi( pTemp->ptszName, pszCurrent ) > 0 && ( !pszName || lstrcmpi( pTemp->ptszName, pszName ) < 0)) {
                                             pResult = pTemp;
                                             pszName = pTemp->ptszName;
                                     }
@@ -1273,7 +1273,7 @@ TCHAR* UM_FindUserAutoComplete(USERINFO* pUserList, const TCHAR* pszOriginal, co
 
 	while ( pTemp != NULL ) {
 		if ( my_strstri( pTemp->pszNick, pszOriginal) == pTemp->pszNick )
-			if ( lstrcmpi( pTemp->pszNick, pszCurrent ) > 0 && ( !pszName || lstrcmpi( pTemp->pszNick, pszName ) < 0) )
+			if ( lstrcmpi( pTemp->pszNick, pszCurrent ) > 0 && ( !pszName || lstrcmpi( pTemp->pszNick, pszName ) < 0))
 				pszName = pTemp->pszNick;
 
 		pTemp = pTemp->next;

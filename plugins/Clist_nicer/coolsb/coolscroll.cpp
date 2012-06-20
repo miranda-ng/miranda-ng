@@ -1546,7 +1546,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
     // We temporarily set a flag preventing the subsecuent 
     // WM_STYLECHANGING/WM_STYLECHANGED to be forwarded to 
     // the original window procedure
-    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
+    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL))
     {
         sw->bPreventStyleChange = TRUE;
         SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~(WS_VSCROLL|WS_HSCROLL));
@@ -1554,7 +1554,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	
 	ret = CallWindowProc(sw->oldproc, hwnd, WM_NCPAINT, (WPARAM)hrgn, lParam);
 	
-    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
+    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL))
     {
         SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle);
         sw->bPreventStyleChange = FALSE;
@@ -2686,7 +2686,7 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	// TURN OFF SCROLL-STYLES.
-    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
+    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL))
     {
         sw->bPreventStyleChange = TRUE;
         SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle & ~(WS_VSCROLL|WS_HSCROLL));
@@ -2696,7 +2696,7 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	ret = CallWindowProc(sw->oldproc, hwnd, WM_NCCALCSIZE, wParam, lParam);
 
 	// RESTORE PREVIOUS STYLES (if present at all)
-    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL) )
+    if ( dwStyle & (WS_VSCROLL|WS_HSCROLL))
     {
         SetWindowLongPtr(hwnd, GWL_STYLE, dwStyle);
         sw->bPreventStyleChange = FALSE;

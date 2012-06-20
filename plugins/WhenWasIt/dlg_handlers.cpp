@@ -740,7 +740,7 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 	return res;
 }
 
-//only updates the birthday part of the list view entry. Won't update the protocol and the contact name (those shouldn't change anyway :) )
+//only updates the birthday part of the list view entry. Won't update the protocol and the contact name (those shouldn't change anyway :))
 int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, int bShowCurrentAge, int bAdd)
 {
 	const int maxSize = 2048;

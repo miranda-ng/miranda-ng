@@ -169,12 +169,12 @@ void CWhoisDlg::ShowMessage( const CIrcMessage* pmsg )
 	m_InfoName.SetText( pmsg->parameters[5].c_str());	
 	m_InfoAddress.SetText( pmsg->parameters[3].c_str());
 	m_InfoId.SetText( pmsg->parameters[2].c_str());
-	m_InfoChannels.SetText( _T("") );
-	m_InfoServer.SetText( _T("") );
-	m_InfoAway2.SetText( _T("") );
-	m_InfoAuth.SetText( _T("") );
-	m_InfoOther.SetText( _T("") );
-	m_Reply.SetText( _T("") );
+	m_InfoChannels.SetText( _T(""));
+	m_InfoServer.SetText( _T(""));
+	m_InfoAway2.SetText( _T(""));
+	m_InfoAuth.SetText( _T(""));
+	m_InfoOther.SetText( _T(""));
+	m_Reply.SetText( _T(""));
 	SetWindowText( m_hwnd, TranslateT("User information"));
 	EnableWindow( GetDlgItem( m_hwnd, ID_INFO_QUERY), true );
 	ShowWindow( m_hwnd, SW_SHOW);
@@ -189,13 +189,13 @@ void CWhoisDlg::ShowMessageNoUser( const CIrcMessage* pmsg )
 	m_InfoNick.SetText( pmsg->parameters[2].c_str());
 	m_InfoNick.SendMsg( CB_SETEDITSEL, 0,MAKELPARAM(0,-1));
 	m_Caption.SetText( pmsg->parameters[2].c_str());	
-	m_InfoName.SetText(  _T("") );
-	m_InfoAddress.SetText(  _T("") );
-	m_InfoId.SetText(  _T("") );
-	m_InfoChannels.SetText( _T("") );
-	m_InfoServer.SetText( _T("") );
-	m_InfoAway2.SetText( _T("") );
-	m_InfoAuth.SetText( _T("") );
+	m_InfoName.SetText(  _T(""));
+	m_InfoAddress.SetText(  _T(""));
+	m_InfoId.SetText(  _T(""));
+	m_InfoChannels.SetText( _T(""));
+	m_InfoServer.SetText( _T(""));
+	m_InfoAway2.SetText( _T(""));
+	m_InfoAuth.SetText( _T(""));
 	m_Reply.SetText( _T(""));
 	EnableWindow(GetDlgItem(m_hwnd, ID_INFO_QUERY), false);
 }
@@ -422,7 +422,7 @@ struct ListViewSortParam
 static int CALLBACK ListViewSort(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	ListViewSortParam* param = ( ListViewSortParam* )lParamSort;
-	if ( !param->pList->GetHwnd() )
+	if ( !param->pList->GetHwnd())
 		return 0;
 
 	TCHAR temp1[512];
@@ -926,7 +926,7 @@ void CManagerDlg::OnClose()
 			S += _T(" ") + S1;
 	}	}
 
-	if ( !S.IsEmpty() && m_proto->IsConnected() ) {
+	if ( !S.IsEmpty() && m_proto->IsConnected()) {
 		mir_sntprintf( temp, SIZEOF(temp), _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
 		char* p = mir_t2a(temp);
 		m_proto->setTString(p, S.c_str());
@@ -1228,7 +1228,7 @@ void CManagerDlg::OnCheck5( CCtrlData* )
 
 void CManagerDlg::OnCheck6( CCtrlData* )
 {
-	m_limit.Enable( m_check6.GetState() );				
+	m_limit.Enable( m_check6.GetState());				
 	m_applyModes.Enable();
 }
 
@@ -1272,7 +1272,7 @@ void CManagerDlg::InitManager( int mode, const TCHAR* window )
 
 	CHANNELINFO* wi = (CHANNELINFO *)m_proto->DoEvent(GC_EVENT_GETITEMDATA, window, NULL, NULL, NULL, NULL, NULL, FALSE, FALSE, 0);
 	if ( wi ) {
-		if ( m_proto->IsConnected() ) {
+		if ( m_proto->IsConnected()) {
 			TCHAR temp[1000];
 			mir_sntprintf(temp, SIZEOF(temp), _T("Topic%s%s"), window, m_proto->m_info.sNetwork.c_str());
 

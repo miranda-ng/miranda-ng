@@ -146,7 +146,7 @@ typedef struct {
 			(*(FARPROC*)&g_pfnGetMonitorInfo      = GetProcAddress(hUser32,"GetMonitorInfoW")) &&
             (*(FARPROC*)&g_pfnEnumDisplayDevices  = GetProcAddress(hUser32,"EnumDisplayDevicesW")) &&
 			(GetSystemMetrics(SM_CXVIRTUALSCREEN) >= GetSystemMetrics(SM_CXSCREEN)) &&
-            (GetSystemMetrics(SM_CYVIRTUALSCREEN) >= GetSystemMetrics(SM_CYSCREEN)) )
+            (GetSystemMetrics(SM_CYVIRTUALSCREEN) >= GetSystemMetrics(SM_CYSCREEN)))
         {
             fInitDone = TRUE;
             return TRUE;

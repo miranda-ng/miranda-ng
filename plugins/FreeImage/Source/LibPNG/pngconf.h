@@ -182,9 +182,9 @@
  * conventions of the various functions.
  */
 #if ( defined(_Windows) || defined(_WINDOWS) || defined(WIN32) ||\
-      defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__) ) &&\
+      defined(_WIN32) || defined(__WIN32__) || defined(__CYGWIN__)) &&\
     ( defined(_X86_) || defined(_X64_) || defined(_M_IX86) ||\
-      defined(_M_X64) || defined(_M_IA64) )
+      defined(_M_X64) || defined(_M_IA64))
   /* Windows system (DOS doesn't support DLLs) running on x86/x64.  Includes
    * builds under Cygwin or MinGW.  Also includes Watcom builds but these need
    * special treatment because they are not compatible with GCC or Visual C

@@ -256,7 +256,7 @@ static void sttFillResourceInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 	// Resource priority
 	TCHAR szPriority[128];
 	mir_sntprintf( szPriority, SIZEOF( szPriority ), _T("%d"), (int)res->priority );
-	sttFillInfoLine( hwndTree, htiResource, NULL, TranslateT( "Resource priority" ), szPriority, sttInfoLineId(resource, INFOLINE_PRIORITY) );
+	sttFillInfoLine( hwndTree, htiResource, NULL, TranslateT( "Resource priority" ), szPriority, sttInfoLineId(resource, INFOLINE_PRIORITY));
 
 	// Idle
 	if ( res->idleStartTime > 0 ) {
@@ -269,7 +269,7 @@ static void sttFillResourceInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 	else
 		lstrcpyn(buf, TranslateT( "<not specified>" ), SIZEOF( buf ));
 
-	sttFillInfoLine( hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE) );
+	sttFillInfoLine( hwndTree, htiResource, NULL, TranslateT("Idle since"), buf, sttInfoLineId(resource, INFOLINE_IDLE));
 
 	// caps
 	mir_sntprintf( buf, SIZEOF(buf), _T("%s/%s"), item->jid, res->resourceName );
@@ -285,7 +285,7 @@ static void sttFillResourceInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 					mir_sntprintf( szDescription, SIZEOF( szDescription ), _T("%s (%s)"), TranslateTS(g_JabberFeatCapPairs[i].szDescription), g_JabberFeatCapPairs[i].szFeature );
 				else
 					mir_sntprintf( szDescription, SIZEOF( szDescription ), _T("%s"), g_JabberFeatCapPairs[i].szFeature );
-				sttFillInfoLine( hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i) );
+				sttFillInfoLine( hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
 			}
 
 		for ( int j = 0; j < ppro->m_lstJabberFeatCapPairsDynamic.getCount(); j++, i++ )
@@ -295,7 +295,7 @@ static void sttFillResourceInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 					mir_sntprintf( szDescription, SIZEOF( szDescription ), _T("%s (%s)"), TranslateTS(ppro->m_lstJabberFeatCapPairsDynamic[j]->szDescription), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature );
 				else
 					mir_sntprintf( szDescription, SIZEOF( szDescription ), _T("%s"), ppro->m_lstJabberFeatCapPairsDynamic[j]->szFeature );
-				sttFillInfoLine( hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i) );
+				sttFillInfoLine( hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));
 			}
 	}
 
@@ -304,18 +304,18 @@ static void sttFillResourceInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM ht
 		HTREEITEM htiSoftwareInfo = sttFillInfoLine( hwndTree, htiResource, ppro->LoadIconEx( "main" ), NULL, TranslateT( "Software information" ), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION));
 		int nLineId = 0;
 		if ( res->pSoftwareInfo->szOs )
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), res->pSoftwareInfo->szOs, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system"), res->pSoftwareInfo->szOs, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if ( res->pSoftwareInfo->szOsVersion )
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system version"), res->pSoftwareInfo->szOsVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Operating system version"), res->pSoftwareInfo->szOsVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if ( res->pSoftwareInfo->szSoftware )
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), res->pSoftwareInfo->szSoftware, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Software"), res->pSoftwareInfo->szSoftware, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if ( res->pSoftwareInfo->szSoftwareVersion )
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), res->pSoftwareInfo->szSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Software version"), res->pSoftwareInfo->szSoftwareVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		if ( res->pSoftwareInfo->szXMirandaCoreVersion ) {
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda IM core version"), res->pSoftwareInfo->szXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Unicode build"), res->pSoftwareInfo->bXMirandaIsUnicode ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Alpha build"), res->pSoftwareInfo->bXMirandaIsAlpha ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
-			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Debug build"), res->pSoftwareInfo->bXMirandaIsDebug ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++) );
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Miranda IM core version"), res->pSoftwareInfo->szXMirandaCoreVersion, sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Unicode build"), res->pSoftwareInfo->bXMirandaIsUnicode ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Alpha build"), res->pSoftwareInfo->bXMirandaIsAlpha ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
+			sttFillInfoLine( hwndTree, htiSoftwareInfo, NULL, TranslateT("Debug build"), res->pSoftwareInfo->bXMirandaIsDebug ? TranslateT("Yes") : TranslateT("No"), sttInfoLineId(resource, INFOLINE_SOFTWARE_INFORMATION, nLineId++));
 		}
 	}
 }
@@ -405,7 +405,7 @@ static void sttFillUserInfo( CJabberProto* ppro, HWND hwndTree, JABBER_LIST_ITEM
 		for (int i = 0; i < item->resourceCount; ++i)
 			sttFillResourceInfo( ppro, hwndTree, htiRoot, item, i+1 );
 	} 
-	else if ( !_tcschr(item->jid, _T('@')) || (item->itemResource.status != ID_STATUS_OFFLINE) )
+	else if ( !_tcschr(item->jid, _T('@')) || (item->itemResource.status != ID_STATUS_OFFLINE))
 		sttFillResourceInfo( ppro, hwndTree, htiRoot, item, 0 );
 
 	sttCleanupInfo(hwndTree, 1);
@@ -491,7 +491,7 @@ static INT_PTR CALLBACK JabberUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wP
 				TreeView_DeleteAllItems( hwndTree );
 				HTREEITEM htiRoot = sttFillInfoLine( hwndTree, NULL, dat->ppro->LoadIconEx( "main" ), _T( "JID" ), dbv.ptszVal, sttInfoLineId(0, INFOLINE_NAME), true );
 				sttFillInfoLine( hwndTree, htiRoot, dat->ppro->LoadIconEx("vcard"), NULL, 
-					TranslateT("Please switch online to see more details.") );
+					TranslateT("Please switch online to see more details."));
 
 				JFreeVariant(&dbv);
 				break;

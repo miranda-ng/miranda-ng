@@ -502,7 +502,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 						if (bct->CommandService)
 						{
 
-							if (!_CallServiceStrParams(bct->CommandService, NULL)&&  (bct->ValueDBSection && bct->ValueTypeDef) )
+							if (!_CallServiceStrParams(bct->CommandService, NULL)&&  (bct->ValueDBSection && bct->ValueTypeDef))
 									ModernSkinButtonToggleDBValue(bct->ValueDBSection,bct->ValueTypeDef);      
 						}
 						bct->down=0;
@@ -746,7 +746,7 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
 		GetWindowRect(parent,&rc);  
 	else
 		rc=*r;
-	if (g_CluiData.fLayered && ( draw & SBRF_DO_ALT_DRAW ) )
+	if (g_CluiData.fLayered && ( draw & SBRF_DO_ALT_DRAW ))
 	{
 		int sx,sy;
 		sx=rd.right-rd.left;
@@ -790,7 +790,7 @@ int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
    
         SetWindowPos(Buttons[i].hwnd,HWND_TOP,l,t,r-l,b-t,0);
 		if (  (rc.right-rc.left<Buttons[i].minW /*&& Buttons[i].minW!=0*/) 
-			||(rc.bottom-rc.top<Buttons[i].minH /*&& Buttons[i].minH!=0*/) )
+			||(rc.bottom-rc.top<Buttons[i].minH /*&& Buttons[i].minH!=0*/))
 			CLUI_ShowWindowMod(Buttons[i].hwnd,SW_HIDE);
 		else 
 			CLUI_ShowWindowMod(Buttons[i].hwnd,SW_SHOW);

@@ -98,8 +98,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	hTopToolBarModuleLoaded = HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
 	
-	SkinAddNewSoundEx(BIRTHDAY_NEAR_SOUND, "WhenWasIt", "Birthday near");
-	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, "WhenWasIt", "Birthday today");
+	SkinAddNewSoundEx(BIRTHDAY_NEAR_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday near"));
+	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday today"));
 	
 	RebuildAdvIconList();
 	

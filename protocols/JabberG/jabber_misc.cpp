@@ -66,8 +66,8 @@ int JabberCompareJids( const TCHAR* jid1, const TCHAR* jid2 )
 	// match only node@domain part
 	TCHAR szTempJid1[ JABBER_MAX_JID_LEN ], szTempJid2[ JABBER_MAX_JID_LEN ];
 	return lstrcmpi(
-		JabberStripJid( jid1, szTempJid1, SIZEOF(szTempJid1) ),
-		JabberStripJid( jid2, szTempJid2, SIZEOF(szTempJid2)) );
+		JabberStripJid( jid1, szTempJid1, SIZEOF(szTempJid1)),
+		JabberStripJid( jid2, szTempJid2, SIZEOF(szTempJid2)));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -510,7 +510,7 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 
 		// search through known software list
 		for (i = 0; i < SIZEOF(sttCapsNodeToName_Map); ++i)
-			if ( _tcsstr( resource->szCapsNode, sttCapsNodeToName_Map[i].node ) )
+			if ( _tcsstr( resource->szCapsNode, sttCapsNodeToName_Map[i].node ))
 			{
 				mir_sntprintf( buf, bufSize, _T("%s %s"), sttCapsNodeToName_Map[i].name, resource->szCapsVer );
 				break;
@@ -554,7 +554,7 @@ void CJabberProto::UpdateMirVer(HANDLE hContact, JABBER_RESOURCE_STATUS *resourc
 		if ( resource->resourceName )
 			mir_sntprintf( szFullJid, SIZEOF( szFullJid ), _T("%s/%s"), dbv.ptszVal, resource->resourceName );
 		else
-			lstrcpyn( szFullJid, dbv.ptszVal, SIZEOF(szFullJid) );
+			lstrcpyn( szFullJid, dbv.ptszVal, SIZEOF(szFullJid));
 		JSetStringT( hContact, DBSETTING_DISPLAY_UID, szFullJid );
 		JFreeVariant( &dbv );
 	}

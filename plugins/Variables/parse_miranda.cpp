@@ -430,7 +430,7 @@ static TCHAR *parseLastSeenStatus(ARGUMENTSINFO *ai) {
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
 	count = getContactFromString( &ci );
-	if ( (count == 1) && (ci.hContacts != NULL) ) {
+	if ( (count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		free(ci.hContacts);
 	}
@@ -598,7 +598,7 @@ static BOOL isValidDbEvent(DBEVENTINFO *dbe, int flags)
 			((dbe->eventType == EVENTTYPE_STATUSCHANGE) && (flags&DBE_STATUSCHANGE)) ||
 			((flags&DBE_OTHER));
 	bEventFlags = (dbe->flags&DBEF_SENT)?(flags&DBE_SENT):(flags&DBE_RCVD);
-	bEventFlags = (bEventFlags && ((dbe->flags&DBEF_READ)?(flags&DBE_READ):(flags&DBE_UNREAD)) );
+	bEventFlags = (bEventFlags && ((dbe->flags&DBEF_READ)?(flags&DBE_READ):(flags&DBE_UNREAD)));
 
 	return (bEventType && bEventFlags);
 }
@@ -614,9 +614,9 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 		dbe.cbBlob = 0;
 		dbe.pBlob = NULL;
 		if (hContact != NULL) {
-			if ( (flags & DBE_FIRST) && (flags & DBE_UNREAD) ) {
+			if ( (flags & DBE_FIRST) && (flags & DBE_UNREAD)) {
 				hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD, (WPARAM)hContact, 0);
-				if ( hDbEvent == NULL && (flags & DBE_READ) )
+				if ( hDbEvent == NULL && (flags & DBE_READ))
 					hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRST, (WPARAM)hContact, 0);
 			}
 			else if (flags & DBE_FIRST)
@@ -673,7 +673,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
-							if (((dbe.timestamp < matchTimestamp) || (matchTimestamp == 0) ) && (dbe.timestamp > priorTimestamp)) {
+							if (((dbe.timestamp < matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp > priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
 								matchTimestamp = dbe.timestamp;
 							}
@@ -691,7 +691,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 						hSearchEvent = findDbEvent(hSearchContact, hDbEvent, flags);
 						dbe.cbBlob = 0;
 						if (!CallService(MS_DB_EVENT_GET, (WPARAM)hSearchEvent, (LPARAM)&dbe)) {
-							if ( ((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp < priorTimestamp) ) {
+							if ( ((dbe.timestamp > matchTimestamp) || (matchTimestamp == 0)) && (dbe.timestamp < priorTimestamp)) {
 								hMatchEvent = hSearchEvent;
 								matchTimestamp = dbe.timestamp;
 							}
@@ -717,7 +717,7 @@ static HANDLE findDbEvent(HANDLE hContact, HANDLE hDbEvent, int flags)
 				flags &= ~DBE_LAST;
 			}
 		}
-	} while ( (!bEventOk) && (hDbEvent != NULL) );
+	} while ( (!bEventOk) && (hDbEvent != NULL));
 
 	return hDbEvent;
 }
@@ -806,7 +806,7 @@ static TCHAR *parseDbEvent(ARGUMENTSINFO *ai)
 	ci.tszContact = ai->targv[1];
 	ci.flags = 0xFFFFFFFF^(CI_TCHAR==0?CI_UNICODE:0);
 	count = getContactFromString( &ci );
-	if ( (count == 1) && (ci.hContacts != NULL) ) {
+	if ( (count == 1) && (ci.hContacts != NULL)) {
 		hContact = ci.hContacts[0];
 		free(ci.hContacts);
 	}

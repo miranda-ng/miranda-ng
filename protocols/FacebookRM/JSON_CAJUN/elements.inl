@@ -108,14 +108,14 @@ public:
 
 
 
-inline UnknownElement::UnknownElement() :                               m_pImp( new Imp_T<Null>( Null() ) ) {}
+inline UnknownElement::UnknownElement() :                               m_pImp( new Imp_T<Null>( Null()) ) {}
 inline UnknownElement::UnknownElement(const UnknownElement& unknown) :  m_pImp( unknown.m_pImp->Clone()) {}
-inline UnknownElement::UnknownElement(const Object& object) :           m_pImp( new Imp_T<Object>(object) ) {}
-inline UnknownElement::UnknownElement(const Array& array) :             m_pImp( new Imp_T<Array>(array) ) {}
-inline UnknownElement::UnknownElement(const Number& number) :           m_pImp( new Imp_T<Number>(number) ) {}
-inline UnknownElement::UnknownElement(const Boolean& boolean) :         m_pImp( new Imp_T<Boolean>(boolean) ) {}
-inline UnknownElement::UnknownElement(const String& string) :           m_pImp( new Imp_T<String>(string) ) {}
-inline UnknownElement::UnknownElement(const Null& null) :               m_pImp( new Imp_T<Null>(null) ) {}
+inline UnknownElement::UnknownElement(const Object& object) :           m_pImp( new Imp_T<Object>(object)) {}
+inline UnknownElement::UnknownElement(const Array& array) :             m_pImp( new Imp_T<Array>(array)) {}
+inline UnknownElement::UnknownElement(const Number& number) :           m_pImp( new Imp_T<Number>(number)) {}
+inline UnknownElement::UnknownElement(const Boolean& boolean) :         m_pImp( new Imp_T<Boolean>(boolean)) {}
+inline UnknownElement::UnknownElement(const String& string) :           m_pImp( new Imp_T<String>(string)) {}
+inline UnknownElement::UnknownElement(const Null& null) :               m_pImp( new Imp_T<Null>(null)) {}
 
 inline UnknownElement::~UnknownElement()   { delete m_pImp; }
 

@@ -37,7 +37,7 @@ Boston, MA 02111-1307, USA.
 #include "mir_memory.h"
 
 
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
+#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
 
 static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* setting, TCHAR* out, size_t len, TCHAR *def)

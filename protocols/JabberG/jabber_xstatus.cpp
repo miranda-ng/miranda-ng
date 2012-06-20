@@ -679,7 +679,7 @@ void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
 		return;
 	}
 
-	HXML n, moodNode = XPath( itemsNode, _T("item/mood[@xmlns='") _T(JABBER_FEAT_USER_MOOD) _T("']") );
+	HXML n, moodNode = XPath( itemsNode, _T("item/mood[@xmlns='") _T(JABBER_FEAT_USER_MOOD) _T("']"));
 	if ( !moodNode ) return;
 
 	LPCTSTR moodType = NULL, moodText = NULL;
@@ -1097,7 +1097,7 @@ void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
 		return;
 	}
 
-	HXML actNode = XPath( itemsNode, _T("item/activity[@xmlns='") _T(JABBER_FEAT_USER_ACTIVITY) _T("']") );
+	HXML actNode = XPath( itemsNode, _T("item/activity[@xmlns='") _T(JABBER_FEAT_USER_ACTIVITY) _T("']"));
 	if ( !actNode ) return;
 
 	LPCTSTR szText = XPathT( actNode, "text" );
@@ -1217,7 +1217,7 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
 	for (int i = 0; i < SIZEOF(g_arrActivities); ++i)
 		if (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond)
-			dlg.AddStatusMode(i, ActivityGetId(i), m_icons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL) );
+			dlg.AddStatusMode(i, ActivityGetId(i), m_icons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
 	dlg.SetActiveStatus(m_mode, m_text);
 	dlg.DoModal();
 
@@ -1306,7 +1306,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusIcon( WPARAM wParam, LPARAM lParam )
 	if ( !wParam )
 		wParam = ((CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->m_mode;
 
-	if ( wParam < 1 || wParam >= SIZEOF(g_arrMoods) )
+	if ( wParam < 1 || wParam >= SIZEOF(g_arrMoods))
 		return 0;
 
 	int flags = 0;
@@ -1324,7 +1324,7 @@ BOOL CJabberProto::SendPepTune( TCHAR* szArtist, TCHAR* szLength, TCHAR* szSourc
 	if ( !m_bJabberOnline || !m_bPepSupported )
 		return FALSE;
 
-	XmlNodeIq iq( _T("set"), SerialNext() );
+	XmlNodeIq iq( _T("set"), SerialNext());
 	HXML tuneNode = iq << XCHILDNS( _T("pubsub"), _T(JABBER_FEAT_PUBSUB))
 							<< XCHILD( _T("publish")) << XATTR( _T("node"), _T(JABBER_FEAT_USER_TUNE))
 							<< XCHILD( _T("item")) << XCHILDNS( _T("tune"), _T(JABBER_FEAT_USER_TUNE));
@@ -1365,7 +1365,7 @@ void CJabberProto::SetContactTune( HANDLE hContact, LPCTSTR szArtist, LPCTSTR sz
 	}
 	else {
 		szListeningTo = (TCHAR *) mir_alloc( 2048 * sizeof( TCHAR ));
-		mir_sntprintf( szListeningTo, 2047, _T("%s - %s"), szTitle ? szTitle : _T(""), szArtist ? szArtist : _T("") );
+		mir_sntprintf( szListeningTo, 2047, _T("%s - %s"), szTitle ? szTitle : _T(""), szArtist ? szArtist : _T(""));
 	}
 
 	JSetStringT( hContact, "ListeningTo", szListeningTo );
@@ -1402,7 +1402,7 @@ void overrideStr( TCHAR*& dest, const TCHAR* src, BOOL unicode, const TCHAR* def
 INT_PTR __cdecl CJabberProto::OnSetListeningTo( WPARAM, LPARAM lParam )
 {
 	LISTENINGTOINFO *cm = (LISTENINGTOINFO *)lParam;
-	if ( !cm || cm->cbSize != sizeof(LISTENINGTOINFO) ) {
+	if ( !cm || cm->cbSize != sizeof(LISTENINGTOINFO)) {
 		SendPepTune( NULL, NULL, NULL, NULL, NULL, NULL );
 		JDeleteSetting( NULL, "ListeningTo" );
 	}
@@ -1430,7 +1430,7 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo( WPARAM, LPARAM lParam )
 				while ( szTmp[0] ) {
 					result += ( _ttoi( szTmp ) * multiplier );
 					multiplier /= 60;
-					szTmp = _tcschr( szTmp, _T(':') );
+					szTmp = _tcschr( szTmp, _T(':'));
 					if ( !szTmp )
 						break;
 					szTmp++;

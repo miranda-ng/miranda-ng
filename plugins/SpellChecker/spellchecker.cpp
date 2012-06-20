@@ -1607,7 +1607,7 @@ BOOL GetWordCharRange(Dialog *dlg, CHARRANGE &sel, TCHAR *text, size_t text_len,
 	// See if it has only '-'s
 	BOOL has_valid_char = FALSE;
 	for (int i = sel.cpMin; i < sel.cpMax && !has_valid_char; i++)
-		has_valid_char = ( text[i - first_char] != _T('-') );
+		has_valid_char = ( text[i - first_char] != _T('-'));
 
 	return has_valid_char;
 }

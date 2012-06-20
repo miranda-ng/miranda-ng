@@ -568,7 +568,7 @@ FreeImage_LookupX11Color(const char *szColor, BYTE *nRed, BYTE *nGreen, BYTE *nB
     if ( (szColor[0] == 'g' || szColor[0] == 'G') &&
          (szColor[1] == 'r' || szColor[1] == 'R') &&
          (szColor[2] == 'e' || szColor[2] == 'E' || szColor[2] == 'a' || szColor[2] == 'A' ) &&
-         (szColor[3] == 'y' || szColor[3] == 'Y' ) )  {
+         (szColor[3] == 'y' || szColor[3] == 'Y' ))  {
 
         // grey<num>, or gray<num>, num 1...100
         i = strtol(szColor+4, NULL, 10);
@@ -762,7 +762,7 @@ FreeImage_LookupSVGColor(const char *szColor, BYTE *nRed, BYTE *nGreen, BYTE *nB
     if ( (szColor[0] == 'g' || szColor[0] == 'G') &&
          (szColor[1] == 'r' || szColor[1] == 'R') &&
          (szColor[2] == 'e' || szColor[2] == 'E' || szColor[2] == 'a' || szColor[2] == 'A' ) &&
-         (szColor[3] == 'y' || szColor[3] == 'Y' ) )  {
+         (szColor[3] == 'y' || szColor[3] == 'Y' ))  {
 
         // grey<num>, or gray<num>, num 1...100
         i = strtol(szColor+4, NULL, 10);

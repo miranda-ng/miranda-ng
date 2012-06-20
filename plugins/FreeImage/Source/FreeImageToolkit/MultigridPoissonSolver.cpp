@@ -68,7 +68,7 @@ static void fmg_restrict(FIBITMAP *UC, FIBITMAP *UF, int nc) {
 				// 0.5 * UF(row_uf, col_uf) + 0.125 * [ UF(row_uf+1, col_uf) + UF(row_uf-1, col_uf) + UF(row_uf, col_uf+1) + UF(row_uf, col_uf-1) ]
 				float *uc_pixel = uc_scan + col_uc;
 				const float *uf_center = uf_scan + col_uf;
-				*uc_pixel = 0.5F * *uf_center + 0.125F * ( *(uf_center + uf_pitch) + *(uf_center - uf_pitch) + *(uf_center + 1) + *(uf_center - 1) );
+				*uc_pixel = 0.5F * *uf_center + 0.125F * ( *(uf_center + uf_pitch) + *(uf_center - uf_pitch) + *(uf_center + 1) + *(uf_center - 1));
 			}
 			uc_scan += uc_pitch;
 		}
@@ -158,8 +158,8 @@ static void fmg_prolongate(FIBITMAP *UF, FIBITMAP *UC, int nf) {
 		for(row_uf = 1; row_uf < nf-1; row_uf += 2) {
 			float *uf_scan = uf_bits + row_uf * uf_pitch;
 			for (col_uf = 0; col_uf < nf; col_uf += 2) {
-				// calculate UF(row_uf, col_uf) = 0.5 * ( UF(row_uf+1, col_uf) + UF(row_uf-1, col_uf) )
-				uf_scan[col_uf] = 0.5F * ( *(uf_scan + uf_pitch + col_uf) + *(uf_scan - uf_pitch + col_uf) );
+				// calculate UF(row_uf, col_uf) = 0.5 * ( UF(row_uf+1, col_uf) + UF(row_uf-1, col_uf))
+				uf_scan[col_uf] = 0.5F * ( *(uf_scan + uf_pitch + col_uf) + *(uf_scan - uf_pitch + col_uf));
 			}
 		}
 	}
@@ -168,7 +168,7 @@ static void fmg_prolongate(FIBITMAP *UF, FIBITMAP *UC, int nf) {
 		float *uf_scan = uf_bits;
 		for(row_uf = 0; row_uf < nf; row_uf++) {
 			for (col_uf = 1; col_uf < nf-1; col_uf += 2) {
-				// calculate UF(row_uf, col_uf) = 0.5 * ( UF(row_uf, col_uf+1) + UF(row_uf, col_uf-1) )
+				// calculate UF(row_uf, col_uf) = 0.5 * ( UF(row_uf, col_uf+1) + UF(row_uf, col_uf-1))
 				uf_scan[col_uf] = 0.5F * ( uf_scan[col_uf + 1] + uf_scan[col_uf - 1] );
 			}
 			uf_scan += uf_pitch;

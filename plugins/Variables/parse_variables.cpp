@@ -28,12 +28,12 @@ static int addToVariablesRegister(TCHAR *szName, TCHAR *szText) {
 
 	int i;
 
-	if ( (szName == NULL) || (szText == NULL) || (_tcslen(szName) <= 0) ) {
+	if ( (szName == NULL) || (szText == NULL) || (_tcslen(szName) <= 0)) {
 		return -1;
 	}
 	EnterCriticalSection(&csVarRegister);
 	for (i=0;i<vrCount;i++) {
-		if ( (!_tcscmp(vr[i].szName, szName)) ) { // && (vr[i].dwOwnerThread == GetCurrentThreadId()) ) {
+		if ( (!_tcscmp(vr[i].szName, szName))) { // && (vr[i].dwOwnerThread == GetCurrentThreadId())) {
 			free(vr[i].szText);
 			vr[i].szText = _tcsdup(szText);
 			LeaveCriticalSection(&csVarRegister);
@@ -61,12 +61,12 @@ static TCHAR *searchVariableRegister(TCHAR *szName) {
 	int i;
 
 	res = NULL;
-	if ( (szName == NULL) || (_tcslen(szName) <= 0) ) {
+	if ( (szName == NULL) || (_tcslen(szName) <= 0)) {
 		return NULL;
 	}
 	EnterCriticalSection(&csVarRegister);
 	for (i=0;i<vrCount;i++) {
-		if ( (!_tcscmp(vr[i].szName, szName)) ) { // && (vr[i].dwOwnerThread == GetCurrentThreadId()) ) {
+		if ( (!_tcscmp(vr[i].szName, szName))) { // && (vr[i].dwOwnerThread == GetCurrentThreadId())) {
 			res = _tcsdup(vr[i].szText);
 			LeaveCriticalSection(&csVarRegister);
 			return res;

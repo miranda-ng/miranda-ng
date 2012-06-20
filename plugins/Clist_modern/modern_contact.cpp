@@ -214,6 +214,6 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM lParam)
 INT_PTR ToggleSounds(WPARAM wParam,LPARAM lParam)
 {
 	ModernWriteSettingByte(NULL, "Skin", "UseSound",
-		(BYTE) !ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ) );
+		(BYTE) !ModernGetSettingByte(NULL, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT ));
 	return 0;
 }

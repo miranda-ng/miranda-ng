@@ -42,7 +42,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 
 		DBVARIANT dbv;
 
-		if( !DBGetContactSettingTString(0,proto->ModuleName(),TWITTER_KEY_GROUP,&dbv) )
+		if( !DBGetContactSettingTString(0,proto->ModuleName(),TWITTER_KEY_GROUP,&dbv))
 		{
 			SetDlgItemText(hwndDlg,IDC_GROUP,dbv.ptszVal);
 			DBFreeVariant(&dbv);
@@ -52,13 +52,13 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 			SetDlgItemText(hwndDlg,IDC_GROUP,L"Twitter");
 		}
 
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv) )
+		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_USERNAME,dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
 
-		/*if ( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv) )
+		/*if ( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 				reinterpret_cast<LPARAM>(dbv.pszVal));
@@ -71,7 +71,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 			SendDlgItemMessage(hwndDlg,IDC_SERVER,CB_ADDSTRING,0,
 				reinterpret_cast<LPARAM>(sites[i]));
 		}
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv) )
+		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_SERVER,dbv.pszVal);
 			DBFreeVariant(&dbv);
@@ -86,7 +86,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPa
 		if(LOWORD(wParam) == IDC_NEWACCOUNTLINK)
 		{
 			CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>
-				("http://twitter.com/signup") );
+				("http://twitter.com/signup"));
 			return true;
 		}
 
@@ -218,13 +218,13 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
 		DBVARIANT dbv;
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv) )
+		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_UN,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_UN,dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
 
-		/*if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv) )
+		/*if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_PASS,&dbv))
 		{
 			CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 				reinterpret_cast<LPARAM>(dbv.pszVal));
@@ -241,7 +241,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 				reinterpret_cast<LPARAM>(sites[i]));
 		}
 
-		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv) )
+		if( !DBGetContactSettingString(0,proto->ModuleName(),TWITTER_KEY_BASEURL,&dbv))
 		{
 			SetDlgItemTextA(hwndDlg,IDC_BASEURL,dbv.pszVal);
 			DBFreeVariant(&dbv);
@@ -253,7 +253,7 @@ INT_PTR CALLBACK options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 		
 		char pollrate_str[32];
 		mir_snprintf(pollrate_str,sizeof(pollrate_str),"%d",
-			DBGetContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POLLRATE,80) );
+			DBGetContactSettingDword(0,proto->ModuleName(),TWITTER_KEY_POLLRATE,80));
 		SetDlgItemTextA(hwndDlg,IDC_POLLRATE,pollrate_str);
 
 		CheckDlgButton(hwndDlg,IDC_TWEET_MSG,DBGetContactSettingByte(0,
@@ -440,9 +440,9 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		proto = reinterpret_cast<TwitterProto*>(lParam);
 
 		CheckAndUpdateDlgButton(hwndDlg,IDC_SHOWPOPUPS,
-			db_byte_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,0) );
+			db_byte_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_SHOW,0));
 		CheckDlgButton(hwndDlg,IDC_NOSIGNONPOPUPS,
-			!db_byte_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,0) );
+			!db_byte_get(0,proto->ModuleName(),TWITTER_KEY_POPUP_SIGNON,0));
 
 
 		// ***** Get color information
@@ -491,7 +491,7 @@ INT_PTR CALLBACK popup_options_proc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 			{
 			case IDC_SHOWPOPUPS:
 				EnableWindow(GetDlgItem(hwndDlg,IDC_NOSIGNONPOPUPS),
-					IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS) );
+					IsDlgButtonChecked(hwndDlg,IDC_SHOWPOPUPS));
 				break;
 
 			case IDC_COL_CUSTOM:

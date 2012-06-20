@@ -43,7 +43,7 @@ void FacebookProto::ChangeStatus(void*)
 		SetEvent(update_loop_lock_);
 		Netlib_Shutdown(facy.hMsgCon);
 
-		if ( getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT) )
+		if ( getByte(FACEBOOK_KEY_DISCONNECT_CHAT, DEFAULT_DISCONNECT_CHAT))
 			facy.chat_state( false );
 
 		facy.logout( );
@@ -82,7 +82,7 @@ void FacebookProto::ChangeStatus(void*)
 
 		ResetEvent(update_loop_lock_);
 
-		if ( NegotiateConnection( ) )
+		if ( NegotiateConnection( ))
 		{			
 			facy.last_feeds_update_ = ::time( NULL );
 
@@ -97,7 +97,7 @@ void FacebookProto::ChangeStatus(void*)
 			if (getByte(FACEBOOK_KEY_PARSE_MESSAGES, DEFAULT_PARSE_MESSAGES))
 				ForkThread( &FacebookProto::ProcessUnreadMessages, this );
 
-			setDword( "LogonTS", (DWORD)time(NULL) );
+			setDword( "LogonTS", (DWORD)time(NULL));
 			ForkThread( &FacebookProto::UpdateLoop,  this );
 			ForkThread( &FacebookProto::MessageLoop, this );
 
@@ -146,7 +146,7 @@ bool FacebookProto::NegotiateConnection( )
 	DBVARIANT dbv = {0};
 
 	error = true;
-	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_LOGIN,&dbv) )
+	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_LOGIN,&dbv))
 	{
 		user = dbv.pszVal;
 		DBFreeVariant(&dbv);
@@ -159,7 +159,7 @@ bool FacebookProto::NegotiateConnection( )
 	}
 
 	error = true;
-	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_PASS,&dbv) )
+	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_PASS,&dbv))
 	{
 		CallService(MS_DB_CRYPT_DECODESTRING,strlen(dbv.pszVal)+1,
 			reinterpret_cast<LPARAM>(dbv.pszVal));
@@ -174,7 +174,7 @@ bool FacebookProto::NegotiateConnection( )
 	}
 
 	// Load machine name
-	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_DEVICE_ID,&dbv) )
+	if ( !DBGetContactSettingString(NULL,m_szModuleName,FACEBOOK_KEY_DEVICE_ID,&dbv))
 	{
 		facy.cookies["datr"] = dbv.pszVal;
 		DBFreeVariant(&dbv);
@@ -195,11 +195,11 @@ void FacebookProto::UpdateLoop(void *)
 	{
 		if ( i != -1 ) {
 			if ( !facy.invisible_ )
-				if ( !facy.buddy_list( ) )
+				if ( !facy.buddy_list( ))
     				break;
 		}
-		if ( i == 2 && getByte( FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE ) )
-			if ( !facy.feeds( ) )
+		if ( i == 2 && getByte( FACEBOOK_KEY_EVENT_FEEDS_ENABLE, DEFAULT_EVENT_FEEDS_ENABLE ))
+			if ( !facy.feeds( ))
 				break;
 
 		if ( i == 49 )
@@ -220,9 +220,9 @@ void FacebookProto::MessageLoop(void *)
 	time_t tim = ::time(NULL);
 	LOG( ">>>>> Entering Facebook::MessageLoop[%d]", tim );
 
-	while ( facy.channel( ) )
+	while ( facy.channel( ))
 	{
-		if ( isOffline() )
+		if ( isOffline())
 			break;
 		LOG( "***** FacebookProto::MessageLoop[%d] refreshing...", tim );
 	}

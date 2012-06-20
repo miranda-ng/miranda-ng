@@ -198,7 +198,7 @@ HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDL
 		blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ),
 		last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 	*/
-	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD ) ), sizeof(HANDLE));
+	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD )), sizeof(HANDLE));
 
 	if (hContact != NULL) {
 		DebugLog("Temp Buddy found at: %p ", hContact);
@@ -236,7 +236,7 @@ int CYahooProto::Authorize( HANDLE hdbe )
 		return 1;
 
 	HANDLE hContact;
-	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD ) ), sizeof(HANDLE));
+	memcpy(&hContact,( char* )( dbei.pBlob + sizeof( DWORD )), sizeof(HANDLE));
 
 	/* Need to remove the buddy from our Miranda Lists */
 
@@ -848,7 +848,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				DBFreeVariant(&dbv);
 			}
 
-			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ) );
+			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ));
 			return TRUE;
 		}
 

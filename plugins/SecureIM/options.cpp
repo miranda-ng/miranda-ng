@@ -368,7 +368,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  			if ( ptr->keyLoaded ) {
 		  				LPSTR buffer = (LPSTR) alloca(RSASIZE);
 		  				exp->rsa_export_pubkey(ptr->cntx,buffer);
-						if ( !SaveExportRSAKeyDlg(hDlg,buffer,0) )
+						if ( !SaveExportRSAKeyDlg(hDlg,buffer,0))
 							msgbox(hDlg,sim114,szModuleName,MB_OK|MB_ICONEXCLAMATION);
 		  			}
 				}
@@ -382,8 +382,8 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  		if(ptr) {
 		  			createRSAcntx(ptr);
 		  			LPSTR pub = (LPSTR) alloca(RSASIZE);
-		  			if ( !LoadImportRSAKeyDlg(hDlg,pub,0) ) return TRUE;
-		  			if ( exp->rsa_import_pubkey(ptr->cntx,pub) ) {
+		  			if ( !LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
+		  			if ( exp->rsa_import_pubkey(ptr->cntx,pub)) {
 		  				int len;
 		  				exp->rsa_get_pubkey(ptr->cntx,(PBYTE)pub,&len);
 
@@ -519,11 +519,11 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						}
 						CheckMenuItem(hMenu, ID_DISABLED+ptr->tstatus, MF_CHECKED );
 						if ( ptr->tmode==MODE_NATIVE ) {
-							if ( !hasKey(ptr) ) EnableMenuItem(hMenu, ID_DELPSK, MF_GRAYED );
+							if ( !hasKey(ptr)) EnableMenuItem(hMenu, ID_DELPSK, MF_GRAYED );
 						}
 						else
 						if ( ptr->tmode==MODE_RSAAES ) {
-							if ( !hasKey(ptr) ) {
+							if ( !hasKey(ptr)) {
 								EnableMenuItem(hMenu, ID_EXPPUBL, MF_GRAYED );
 								EnableMenuItem(hMenu, ID_DELPUBL, MF_GRAYED );
 						 	}
@@ -607,7 +607,7 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 			case IDC_RSA_EXP: {
 		  		LPSTR pub = (LPSTR) alloca(RSASIZE);
 		  		exp->rsa_export_keypair(CPP_MODE_RSA,NULL,pub,NULL);
-				if ( !SaveExportRSAKeyDlg(hDlg,pub,0) )
+				if ( !SaveExportRSAKeyDlg(hDlg,pub,0))
 					msgbox(hDlg,sim114,szModuleName,MB_OK|MB_ICONEXCLAMATION);
 		  	        return TRUE;
 		  	} break;
@@ -617,19 +617,19 @@ INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM
 				if ( res==IDOK ) {
 		  			LPSTR priv = (LPSTR) alloca(RSASIZE);
 		  			exp->rsa_export_keypair(CPP_MODE_RSA,priv,NULL,passphrase);
-					if ( !SaveExportRSAKeyDlg(hDlg,priv,1) )
+					if ( !SaveExportRSAKeyDlg(hDlg,priv,1))
 						msgbox(hDlg,sim112,szModuleName,MB_OK|MB_ICONEXCLAMATION);
 				}
 		  	        return TRUE;
 		  	} break;
 		  	case IDC_RSA_IMPPRIV: {
   				LPSTR priv = (LPSTR) alloca(RSASIZE);
-				if ( !LoadImportRSAKeyDlg(hDlg,priv,1) ) return TRUE;
+				if ( !LoadImportRSAKeyDlg(hDlg,priv,1)) return TRUE;
 				//
 				LPSTR passphrase = (LPSTR) alloca(RSASIZE);
 				int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PASSPHRASE),NULL,(DLGPROC)DlgProcSetPassphrase,(LPARAM)passphrase);
 				if ( res==IDOK ) {
-	  				if ( !exp->rsa_import_keypair(CPP_MODE_RSA,priv,passphrase) ) {
+	  				if ( !exp->rsa_import_keypair(CPP_MODE_RSA,priv,passphrase)) {
 						msgbox(hDlg,sim113,szModuleName,MB_OK|MB_ICONEXCLAMATION);
 	  				}
 	  				else {
@@ -1440,7 +1440,7 @@ void ApplyGeneralSettings(HWND hDlg) {
 	GetDlgItemText(hDlg,IDC_KET,timeout,5);
 	tmp = atoi(timeout); if(tmp > 65535) tmp = 65535;
 	DBWriteContactSettingWord(0,szModuleName,"ket",tmp);
-	exp->rsa_set_timeout( DBGetContactSettingWord(0,szModuleName,"ket",10) );
+	exp->rsa_set_timeout( DBGetContactSettingWord(0,szModuleName,"ket",10));
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_KET,timeout);
 
@@ -1496,7 +1496,7 @@ void ApplyGeneralSettings(HWND hDlg) {
 			else 				DBWriteContactSettingByte(ptr->hContact, szModuleName, "StatusID", ptr->status);
 		}
 		if ( ptr->mode==MODE_NATIVE ) {
-			if ( getListViewPSK(hLV,i) ) {
+			if ( getListViewPSK(hLV,i)) {
 			    LPSTR tmp = myDBGetString(ptr->hContact,szModuleName,"tPSK");
 			    DBWriteContactSettingString(ptr->hContact, szModuleName, "PSK", tmp);
 			    mir_free(tmp);
@@ -1508,7 +1508,7 @@ void ApplyGeneralSettings(HWND hDlg) {
 		}
 		else
 		if ( ptr->mode==MODE_RSAAES ) {
-			if ( !getListViewPUB(hLV,i) ) {
+			if ( !getListViewPUB(hLV,i)) {
 			    DBDeleteContactSetting(ptr->hContact, szModuleName, "rsa_pub");
 			}
 		}

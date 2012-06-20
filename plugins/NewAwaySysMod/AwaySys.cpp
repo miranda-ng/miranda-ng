@@ -937,9 +937,9 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	// we have to read the status message from contacts too... err
 	hServices.AddElem(CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetContactStatMsg));
 
-	SkinAddNewSound(AWAYSYS_STATUSMSGREQUEST_SOUND, Translate("NewAwaySys: Incoming status message request"), "");
-	if (ServiceExists(MS_VARS_REGISTERTOKEN))
-	{
+	SkinAddNewSoundEx(AWAYSYS_STATUSMSGREQUEST_SOUND, NULL, LPGEN("NewAwaySys: Incoming status message request"));
+
+	if (ServiceExists(MS_VARS_REGISTERTOKEN)) {
 		struct
 		{
 			TCHAR *Name;

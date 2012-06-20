@@ -187,7 +187,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 					else
 						flags = 0;
 					for(i=0;i<sizeof(statusModeList)/sizeof(statusModeList[0]);i++) {
-						if ((flags&statusModePf2List[i])  || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame) ) {
+						if ((flags&statusModePf2List[i])  || (statusModePf2List[i] == PF2_OFFLINE) || (bSettingSame)) {
 							lvItem.pszText = ( TCHAR* )CallService( MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR );
 							lvItem.lParam = ( LPARAM )statusModePf2List[i];
 							ListView_InsertItem(hList,&lvItem);
@@ -390,7 +390,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 		break;
 	
 	case WM_COMMAND:
-		if (( HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED ) && (HWND)lParam == GetFocus() )
+		if (( HIWORD(wParam) == EN_CHANGE || HIWORD(wParam) == BN_CLICKED ) && (HWND)lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		switch(LOWORD(wParam)) {
@@ -494,7 +494,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayTabs(HWND hwndDlg, UINT msg, WPARAM wPara
 		break;
 
 	case WM_NOTIFY:
-		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS) ) {
+		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS)) {
 			if (((NMHDR*)lParam)->code == TCN_SELCHANGING) {
 				TCITEM tci;
 

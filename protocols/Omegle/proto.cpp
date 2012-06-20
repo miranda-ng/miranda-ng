@@ -61,9 +61,9 @@ OmegleProto::OmegleProto(const char* proto_name, const TCHAR* username)
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExT( "StrangerTyp", m_tszUserName, LPGENT( "Stranger typing" ) );
-	SkinAddNewSoundExT( "StrangerTypStop", m_tszUserName, LPGENT( "Stranger stopped typing" ) );
-	SkinAddNewSoundExT( "StrangerChange", m_tszUserName, LPGENT( "Changing stranger" ) );
+	SkinAddNewSoundExT( "StrangerTyp", m_tszUserName, LPGENT( "Stranger typing" ));
+	SkinAddNewSoundExT( "StrangerTypStop", m_tszUserName, LPGENT( "Stranger stopped typing" ));
+	SkinAddNewSoundExT( "StrangerChange", m_tszUserName, LPGENT( "Changing stranger" ));
 }
 
 OmegleProto::~OmegleProto( )
@@ -245,7 +245,7 @@ int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 /*bool OmegleProto::IsMyContact(HANDLE hContact, bool include_chat)
 {
 	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0) );
+		reinterpret_cast<WPARAM>(hContact),0));
 
 	if ( proto && strcmp(m_szModuleName,proto) == 0 )
 	{

@@ -398,6 +398,7 @@ static int LoadLangPack(const TCHAR *szLangPack)
 
 	LoadLangPackFile(fp, line, fileCp);
 	fclose(fp);
+	pCurrentMuuid = NULL;
 
 	qsort(langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc);
 	return 0;

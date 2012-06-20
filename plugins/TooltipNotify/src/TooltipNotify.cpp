@@ -163,10 +163,11 @@ int CTooltipNotify::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		WriteSettingByte("firstrun", 0);
 	}
 	
-	SkinAddNewSound(SND_ONLINE, "Tooltip Notify: Online", "online.wav");
-	SkinAddNewSound(SND_OFFLINE, "Tooltip Notify: Offline", "offline.wav");
-	SkinAddNewSound(SND_OTHER, "Tooltip Notify: Other", "other.wav");
-	SkinAddNewSound(SND_TYPING, "Tooltip Notify: Typing", "typing.wav");
+	// register fonts
+	SkinAddNewSound(SND_ONLINE,  LPGEN("Tooltip Notify: Online"),  "online.wav");
+	SkinAddNewSound(SND_OFFLINE, LPGEN("Tooltip Notify: Offline"), "offline.wav");
+	SkinAddNewSound(SND_OTHER,   LPGEN("Tooltip Notify: Other"),   "other.wav");
+	SkinAddNewSound(SND_TYPING,  LPGEN("Tooltip Notify: Typing"),  "typing.wav");
 
 	RegisterFonts();
 

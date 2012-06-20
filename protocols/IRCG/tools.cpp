@@ -117,7 +117,7 @@ void CIrcProto::AddToJTemp(TCHAR op, CMString& sCommand)
 			break;
 
 		tmp = op + tmp;
-		if ( res.IsEmpty() )
+		if ( res.IsEmpty())
 			res = tmp;
 		else
 			res += _T(" ") + tmp;
@@ -227,7 +227,7 @@ void __stdcall RemoveLinebreaks( CMString& Message )
 	if (Message.Find( _T("\r\n"), 0) == 0)
 		Message.Delete(0,2);
 
-	if ( (Message.GetLength() > 1) && (Message.Find(_T("\r\n"), Message.GetLength()-2) == 0) )
+	if ( (Message.GetLength() > 1) && (Message.Find(_T("\r\n"), Message.GetLength()-2) == 0))
 		Message.Delete(Message.GetLength()-2, 2);
 }
 
@@ -542,7 +542,7 @@ INT_PTR CIrcProto::CallChatEvent(WPARAM wParam, LPARAM lParam)
 			//MBOT CORRECTIONS
 			//if ( gcetemp && gcetemp->pDest && gcetemp->pDest->ptszID ) {
 			if ( gcetemp && gcetemp->pDest && gcetemp->pDest->ptszID && 
-				!my_strstri(gcetemp->pDest->ptszID, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline")) ) {
+				!my_strstri(gcetemp->pDest->ptszID, (IsConnected()) ? m_info.sNetwork.c_str() : TranslateT("Offline"))) {
 
 				CMString sTempId = MakeWndID( gcetemp->pDest->ptszID );
 				mir_realloc( gcetemp->pDest->ptszID, sizeof(TCHAR)*(sTempId.GetLength() + 1));
@@ -611,7 +611,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszN
 	else
 	  gce.ptszUserInfo = m_showAddresses ? pszUserInfo : NULL;
 
-	if ( !sText.IsEmpty() )
+	if ( !sText.IsEmpty())
 		gce.ptszText = sText.c_str();
 
 	gce.dwItemData = dwItemData;

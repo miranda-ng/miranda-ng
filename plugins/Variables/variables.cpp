@@ -61,7 +61,7 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 	cur++;
 	scur = cur-1;
 	bDontParse = bNewArg = bDone = FALSE;
-	while ( (!bDone) && (*cur != _T('\0')) ) {
+	while ( (!bDone) && (*cur != _T('\0'))) {
 		switch (*cur) {
 		case _T(DONTPARSE_CHAR):
 			if (bDontParse) {
@@ -73,7 +73,7 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 			break;
 
 		case _T(','):
-			if ( (!bDontParse) && (brackets == 0) ) {
+			if ( (!bDontParse) && (brackets == 0)) {
 				bNewArg = TRUE;
 			}
 			break;
@@ -85,10 +85,10 @@ TCHAR *getArguments(TCHAR *string, TCHAR ***aargv, int *aargc) {
 			break;
 
 		case _T(')'):
-			if ( (brackets == 0) && (!bDontParse) ) {
+			if ( (brackets == 0) && (!bDontParse)) {
 				bDone = bNewArg = TRUE;
 			}
-			else if ( (brackets > 0) && (!bDontParse) ) {
+			else if ( (brackets > 0) && (!bDontParse)) {
 				brackets -= 1;
 			}
 			break;
@@ -207,12 +207,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			continue;
 		}
 		// remove end of lines
-		else if ( (!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL) ) {
+		else if ( (!_tcsncmp(cur, _T("\r\n"), 2)) && (gParseOpts.bStripEOL)) {
 			MoveMemory(cur, cur+2, (_tcslen(cur+2)+1)*sizeof(TCHAR));
 			pos = cur-string-1;
 			continue;
 		}
-		else if ( ((*cur == _T('\n')) && (gParseOpts.bStripEOL)) || ((*cur == _T(' ')) && (gParseOpts.bStripWS)) ) {
+		else if ( ((*cur == _T('\n')) && (gParseOpts.bStripEOL)) || ((*cur == _T(' ')) && (gParseOpts.bStripWS))) {
 			MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 			pos = cur - string - 1;
 			continue;
@@ -232,7 +232,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			pos = scur-string-1;
 			continue;
 		}
-		else if ( (*cur != _T(FIELD_CHAR)) && (*cur != _T(FUNC_CHAR)) && (*cur != _T(FUNC_ONCE_CHAR)) ) {
+		else if ( (*cur != _T(FIELD_CHAR)) && (*cur != _T(FUNC_CHAR)) && (*cur != _T(FUNC_ONCE_CHAR))) {
 			if (gParseOpts.bStripAll) {
 				MoveMemory(cur, cur+1, (_tcslen(cur+1)+1)*sizeof(TCHAR));
 				pos = cur - string - 1;
@@ -283,12 +283,12 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 			}
  			cur += len+1;
 		}
-		else if ( (*cur == _T(FUNC_CHAR)) || (*cur == _T(FUNC_ONCE_CHAR)) ) {
+		else if ( (*cur == _T(FUNC_CHAR)) || (*cur == _T(FUNC_ONCE_CHAR))) {
 			TCHAR *argcur;
 
 			cur += _tcslen(tr->tszTokenString)+1;
 			argcur = getArguments(cur, &argv, &argc);
-			if ( (argcur == cur) || (argcur == NULL) ) {
+			if ( (argcur == cur) || (argcur == NULL)) {
 				fi->eCount += 1;
 				// error getting arguments
 				continue;
@@ -348,7 +348,7 @@ static TCHAR* replaceDynVars(TCHAR* szTemplate, FORMATINFO* fi)
 		// 'special' chars need to be taken care of (DONTPARSE, TRYPARSE, \r\n)
 		// if the var contains the escape character, this character must be doubled, we don't want it to act as an esacpe char
 		/*for (tcur=parsedToken;*tcur != '\0';tcur++) {
-			if (*tcur == DONTPARSE_CHAR) {//|| (*(var+pos) == ')') ) {
+			if (*tcur == DONTPARSE_CHAR) {//|| (*(var+pos) == ')')) {
 				parsedToken = realloc(parsedToken, strlen(parsedToken) + 2);
 				if (parsedToken == NULL) {
 					fi->err = EMEM;
@@ -572,7 +572,7 @@ int LoadVarModule() {
 
 	HMODULE hUxTheme;
 
-	if ( (initTokenRegister() != 0) || (initContactModule() != 0) ) {
+	if ( (initTokenRegister() != 0) || (initContactModule() != 0)) {
 
 		return -1;
 	}

@@ -21,7 +21,7 @@ int YAHOO_httpGatewayInit(HANDLE hConn, NETLIBOPENCONNECTION *nloc, NETLIBHTTPRE
 
 	DebugLog("YAHOO_httpGatewayInit!!!");
 	
-	ZeroMemory(&nlhpi, sizeof(nlhpi) );
+	ZeroMemory(&nlhpi, sizeof(nlhpi));
 	nlhpi.cbSize = sizeof(nlhpi);
 	nlhpi.szHttpPostUrl = "http://shttp.msg.yahoo.com/notify/";
 	
@@ -71,7 +71,7 @@ PBYTE YAHOO_httpGatewayUnwrapRecv(NETLIBHTTPREQUEST *nlhr, PBYTE buf, int len, i
     if (len == 4) {
         *outBufLen = 0;
         return buf;
-    } else  if ( (buf[4] == 'Y') && (buf[5] == 'M') && (buf[6] == 'S') && (buf[7] == 'G') ) {
+    } else  if ( (buf[4] == 'Y') && (buf[5] == 'M') && (buf[6] == 'S') && (buf[7] == 'G')) {
 		MoveMemory( buf, buf + 4, len - 4);
 		*outBufLen = len-4;// we take off 4 bytes from the beginning
 		 

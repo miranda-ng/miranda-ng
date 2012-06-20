@@ -79,7 +79,7 @@ INT_PTR CALLBACK DlgProcOptsAccount(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 			CallService(MS_UTILS_OPENURL,TRUE,(LPARAM)MRA_FORGOT_PASSWORD_URL);
 			return(TRUE);
 		}
-		if ((LOWORD(wParam)==IDC_LOGIN || LOWORD(wParam)==IDC_PASSWORD) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) ) return 0;
+		if ((LOWORD(wParam)==IDC_LOGIN || LOWORD(wParam)==IDC_PASSWORD) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return 0;
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		break;
 	case WM_NOTIFY:
@@ -200,7 +200,7 @@ INT_PTR CALLBACK DlgProcOptsConnections(HWND hWndDlg,UINT msg,WPARAM wParam,LPAR
 			break;
 		}
 
-		if ((LOWORD(wParam)==IDC_SERVER || LOWORD(wParam)==IDC_SERVERPORT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) ) return(FALSE);
+		if ((LOWORD(wParam)==IDC_SERVER || LOWORD(wParam)==IDC_SERVERPORT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return(FALSE);
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		break;
 	case WM_NOTIFY:

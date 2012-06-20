@@ -141,7 +141,7 @@ static int SetStatusList(HWND hwndDlg)
 		}
 
 		// status message
-		if ( !((!((CallProtoService(confirmSettings[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(confirmSettings[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus)))) ) {
+		if ( !((!((CallProtoService(confirmSettings[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(confirmSettings[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))) {
 			TCHAR *msg = GetDefaultStatusMessage( &confirmSettings[i], actualStatus );
 			if ( msg != NULL ) {
 				TCHAR* fMsg = variables_parsedup( msg, confirmSettings[i].tszAccName, NULL );
@@ -233,7 +233,7 @@ static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		// stop timer
 		KillTimer(hwndDlg, TIMER_ID);
 		SetDlgItemText(hwndDlg, IDC_CLOSE, TranslateT("Close"));
-		if ( (HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == NM_CLICK) ) { // something clicked
+		if ( (HIWORD(wParam) == CBN_SELCHANGE) || (HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == NM_CLICK)) { // something clicked
 			switch (LOWORD(wParam)) {
 			case IDC_PROFILE:
 				{
@@ -288,9 +288,9 @@ static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					else ListView_SetItemText(GetDlgItem(hwndDlg,IDC_STARTUPLIST), lvItem.iItem, 1, 
 						( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, proto->status, GSMDF_TCHAR ));
 
-					if  ( (!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))) )
+					if  ( (!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
-					else if ( (proto->status == ID_STATUS_LAST) || (proto->status == ID_STATUS_CURRENT) )
+					else if ( (proto->status == ID_STATUS_LAST) || (proto->status == ID_STATUS_CURRENT))
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), TRUE);
 					else
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), (CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))?TRUE:FALSE);
@@ -378,7 +378,7 @@ static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 					}
 
 					for ( i = 0; i < SIZEOF(statusModeList); i++ ) {
-						if ( ((flags&statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE)) && (!((!(flags)&Proto_Status2Flag(statusModePf2List[i]))) || ((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0)&Proto_Status2Flag(statusModePf2List[i])))) ) {
+						if ( ((flags&statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE)) && (!((!(flags)&Proto_Status2Flag(statusModePf2List[i]))) || ((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0)&Proto_Status2Flag(statusModePf2List[i]))))) {
 							TCHAR* statusMode = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR);
 							item = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_ADDSTRING,0,(LPARAM)statusMode);
 							SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETITEMDATA,item,(LPARAM)statusModeList[i]);
@@ -388,7 +388,7 @@ static BOOL CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 
 					// enable status box
 					EnableWindow(GetDlgItem(hwndDlg,IDC_STATUS), (ListView_GetNextItem(GetDlgItem(hwndDlg,IDC_STARTUPLIST),-1,LVNI_SELECTED)>=0));
-					if ( (!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))) )
+					if ( (!((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
 					else if ( proto->status == ID_STATUS_LAST || proto->status == ID_STATUS_CURRENT )
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), TRUE);

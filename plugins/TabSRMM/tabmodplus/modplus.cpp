@@ -63,7 +63,7 @@ static char* getMirVer(HANDLE hContact)
 	if ( !szProto )
 		return (NULL);
 
-	if ( !DBGetContactSettingString(hContact, szProto, "MirVer", &dbv) ) {
+	if ( !DBGetContactSettingString(hContact, szProto, "MirVer", &dbv)) {
 		msg=mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
@@ -76,7 +76,7 @@ static TCHAR* getMenuEntry(int i)  {
 	DBVARIANT 	dbv = {0};
 
 	mir_snprintf(MEntry, 255, "MenuEntry_%u", i);
-	if ( !M->GetTString(NULL, "tabmodplus",MEntry, &dbv) ) {
+	if ( !M->GetTString(NULL, "tabmodplus",MEntry, &dbv)) {
 		msg = mir_tstrdup(dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
@@ -121,7 +121,7 @@ int ModPlus_PreShutdown(WPARAM wparam, LPARAM lparam)
 
 static int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 {
-	if ( ServiceExists(MS_BB_ADDBUTTON) ) {
+	if ( ServiceExists(MS_BB_ADDBUTTON)) {
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);
 		bbd.bbbFlags = BBBF_ISIMBUTTON|BBBF_ISLSIDEBUTTON|BBBF_ISPUSHBUTTON;
@@ -261,7 +261,7 @@ int ModPlus_Init(WPARAM wparam,LPARAM lparam)
 	hEventCBButtonPressed=HookEvent(ME_MSG_BUTTONPRESSED,CustomButtonPressed);
 	hEventCBInit=HookEvent(ME_MSG_TOOLBARLOADED,RegisterCustomButton);
 
-	if (PluginConfig.g_bClientInStatusBar&&ServiceExists(MS_MSG_ADDICON) ) {
+	if (PluginConfig.g_bClientInStatusBar&&ServiceExists(MS_MSG_ADDICON)) {
 		StatusIconData sid = {0};
 		sid.cbSize = sizeof(sid);
 		sid.szModule = (char *)"tabmodplus";

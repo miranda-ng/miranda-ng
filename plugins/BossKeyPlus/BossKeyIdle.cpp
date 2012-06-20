@@ -50,7 +50,7 @@ static bool IsUserIdle()
 		LASTINPUTINFO ii;
 		ZeroMemory(&ii,sizeof(ii));
 		ii.cbSize=sizeof(ii);
-		if ( MyGetLastInputInfo(&ii) ) 
+		if ( MyGetLastInputInfo(&ii)) 
 			return GetTickCount() - ii.dwTime > (minutes * 60 * 1000);
 	}
 	else {

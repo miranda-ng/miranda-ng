@@ -4331,7 +4331,7 @@ png_do_gamma(png_row_infop row_info, png_bytep row, png_structp png_ptr)
                       ((((int)gamma_table[a|(a>>2)|(a>>4)|(a>>6)])   ) & 0xc0)|
                       ((((int)gamma_table[(b<<2)|b|(b>>2)|(b>>4)])>>2) & 0x30)|
                       ((((int)gamma_table[(c<<4)|(c<<2)|c|(c>>2)])>>4) & 0x0c)|
-                      ((((int)gamma_table[(d<<6)|(d<<4)|(d<<2)|d])>>6) ));
+                      ((((int)gamma_table[(d<<6)|(d<<4)|(d<<2)|d])>>6)));
                   sp++;
                }
             }

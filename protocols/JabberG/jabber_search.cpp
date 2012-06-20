@@ -162,7 +162,7 @@ void CJabberProto::OnIqResultGetSearchFields( HXML iqNode )
 
 				if ( !_tcsicmp( xmlGetName( chNode ), _T("instructions")) && xmlGetText( chNode ))
 					SetDlgItemText(searchHandleDlg,IDC_INSTRUCTIONS,TranslateTS(xmlGetText( chNode )));
-				else if ( xmlGetName( chNode ) ) {
+				else if ( xmlGetName( chNode )) {
 					Data *MyData=(Data*)malloc(sizeof(Data));
 					memset(MyData,0,sizeof(Data));
 

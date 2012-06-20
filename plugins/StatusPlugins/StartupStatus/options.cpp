@@ -664,7 +664,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 					SetDlgItemTextA(hwndDlg, IDC_STATUSMSG, ps->szMsg);
 
 				bStatusMsg = ( (((CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND&~PF1_INDIVMODEMSG)) && 
-					(CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST) );
+					(CallProtoService(ps->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(ps->status))) || (ps->status == ID_STATUS_CURRENT) || (ps->status == ID_STATUS_LAST));
 			}
 			EnableWindow(GetDlgItem(hwndDlg, IDC_MIRANDAMSG), bStatusMsg);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CUSTOMMSG), bStatusMsg);
@@ -720,7 +720,7 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 	}
 
 	case WM_COMMAND:
-		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == LBN_SELCHANGE)) && ((HWND)lParam == GetFocus()) )
+		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == LBN_SELCHANGE)) && ((HWND)lParam == GetFocus()))
 			if ( bInitDone )
 				SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 

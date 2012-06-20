@@ -255,7 +255,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 
 	{
 		int i = 0;
-		ZeroMemory( rowOptTA, sizeof( rowOptTA ) );
+		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
 		rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &i);
 	}
 
@@ -305,7 +305,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 
 	{
 		int i = 0;
-		ZeroMemory( rowOptTA, sizeof( rowOptTA ) );
+		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
 		rowOptBuildTA( (pROWCELL)tvpi.lParam, (pROWCELL*)&rowOptTA, &i );
 	}
 
@@ -315,7 +315,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 	// Change icon at parent item
 	if (!prnt || (prnt!=prev)) return;
 						
-	if ( TreeView_GetChild(htree, prnt) )
+	if ( TreeView_GetChild(htree, prnt))
 	{
 		tvpi.iImage = 1;
 		tvpi.iSelectedImage = 0;
@@ -435,7 +435,7 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			rowOptTmplRoot = NULL;
 			rowParse(rowOptTmplRoot, rowOptTmplRoot, rowOptTmplStr, hbuf, seq, rowOptTA);
 			seq = 0;
-			ZeroMemory( rowOptTA, sizeof( rowOptTA ) );
+			ZeroMemory( rowOptTA, sizeof( rowOptTA ));
 			rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &seq);
 
 			rowOptFillRowTree(htree);

@@ -144,7 +144,7 @@ bool facebook_client::validate_response( http::response* resp )
     try
   	{
 		pos += 8;
-	    int error_num = atoi( resp->data.substr( pos, resp->data.find( ",", pos ) - pos ).c_str() );
+	    int error_num = atoi( resp->data.substr( pos, resp->data.find( ",", pos ) - pos ).c_str());
 	    if ( error_num != 0 )
 	    {
 			std::string error = "";
@@ -154,7 +154,7 @@ bool facebook_client::validate_response( http::response* resp )
 				error = resp->data.substr( pos, resp->data.find( "\"", pos ) - pos );
 				error = utils::text::trim(
 					utils::text::special_expressions_decode( 
-						utils::text::slashu_to_utf8( error ) ) );
+						utils::text::slashu_to_utf8( error )) );
 
 			}
 
@@ -215,7 +215,7 @@ DWORD facebook_client::choose_security_level( int request_type )
 	if (this->https_)
 	{
 		if ( request_type != FACEBOOK_REQUEST_MESSAGES_RECEIVE
-			|| DBGetContactSettingByte( NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL ) )
+			|| DBGetContactSettingByte( NULL, parent->m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS_CHANNEL, DEFAULT_FORCE_HTTPS_CHANNEL ))
 			return NLHRF_SSL;
 	}
 
@@ -451,7 +451,7 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 			action = "/pull?clientid=&channel=p_%s&seq=%s&cb=&state=active";
 			//utils::text::replace_first( &action, "%s", dtsg_ );
 		} else {
-			utils::text::replace_first( &action, "%s", utils::time::unix_timestamp() );
+			utils::text::replace_first( &action, "%s", utils::time::unix_timestamp());
 		}
 
 		utils::text::replace_first( &action, "%s", self_.user_id );
@@ -485,8 +485,8 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 std::string facebook_client::choose_request_url( int request_type, std::string* data, std::string* get_data )
 {
 	std::string url = choose_proto( request_type );
-	url.append( choose_server( request_type, data, get_data ) );
-	url.append( choose_action( request_type, data, get_data ) );
+	url.append( choose_server( request_type, data, get_data ));
+	url.append( choose_action( request_type, data, get_data ));
 	return url;
 }
 
@@ -497,7 +497,7 @@ NETLIBHTTPHEADER* facebook_client::get_request_headers( int request_type, int* h
 	else
 		*headers_count = 4;
 
-	NETLIBHTTPHEADER* headers = ( NETLIBHTTPHEADER* )utils::mem::allocate( sizeof( NETLIBHTTPHEADER )*( *headers_count ) );
+	NETLIBHTTPHEADER* headers = ( NETLIBHTTPHEADER* )utils::mem::allocate( sizeof( NETLIBHTTPHEADER )*( *headers_count ));
 
 	if (request_type == REQUEST_POST)
 	{
@@ -531,7 +531,7 @@ char* facebook_client::load_cookies( )
 
 	std::string cookieString = "isfbe=false;";
 
-	if ( !cookies.empty( ) )
+	if ( !cookies.empty( ))
 		for ( std::map< std::string, std::string >::iterator iter = cookies.begin(); iter != cookies.end(); ++iter )
 		{
 			cookieString.append( iter->first );
@@ -554,7 +554,7 @@ void facebook_client::store_headers( http::response* resp, NETLIBHTTPHEADER* hea
 
 		if ( header_name == "Set-Cookie" )
 		{
-			std::string cookie_name = header_value.substr( 0, header_value.find( "=" ) );
+			std::string cookie_name = header_value.substr( 0, header_value.find( "=" ));
 			std::string cookie_value = header_value.substr( header_value.find( "=" ) + 1, header_value.find( ";" ) - header_value.find( "=" ) - 1 );
 			if ( cookie_value == "deleted" )
 			{
@@ -567,7 +567,7 @@ void facebook_client::store_headers( http::response* resp, NETLIBHTTPHEADER* hea
 		}
 		else
 		{ // TODO RM: (un)comment
-			//parent->Log("----- Got header '%s': %s", header_name.c_str(), header_value.c_str() );
+			//parent->Log("----- Got header '%s': %s", header_name.c_str(), header_value.c_str());
 			resp->headers[header_name] = header_value;
 		}
 	}
@@ -577,7 +577,7 @@ void facebook_client::clear_cookies( )
 {
 	ScopedLock s( cookies_lock_ );
 
-	if ( !cookies.empty( ) )
+	if ( !cookies.empty( ))
 		cookies.clear( );
 }
 
@@ -602,12 +602,12 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	// Process result data
 	validate_response(&resp);
 
-	if ( resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end() )
+	if ( resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
 	{
 		// Check whether some Facebook things are required
 		if ( resp.headers["Location"].find("help.php") != std::string::npos )
 		{
-			client_notify( TranslateT("Login error: Some Facebook things are required.") );
+			client_notify( TranslateT("Login error: Some Facebook things are required."));
 			parent->Log(" ! !  Login error: Some Facebook things are required.");
 			// return handle_error( "login", FORCE_DISCONNECT );
 		}
@@ -646,7 +646,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		}
 	}
 	
-	if ( resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end() )
+	if ( resp.code == HTTP_CODE_FOUND && resp.headers.find("Location") != resp.headers.end())
 	{
 		// Check whether HTTPS connection is required and we don't have enabled it
 		if (!this->https_)
@@ -662,15 +662,15 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 	}
 
 	// Check for Device ID
-	if ( cookies["datr"].length() )
-		DBWriteContactSettingString( NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str() );
+	if ( cookies["datr"].length())
+		DBWriteContactSettingString( NULL, parent->m_szModuleName, FACEBOOK_KEY_DEVICE_ID, cookies["datr"].c_str());
 
 	switch ( resp.code )
 	{
 	case HTTP_CODE_FAKE_DISCONNECTED:
 	{
 		// When is error only because timeout, try login once more
-		if ( handle_error( "login" ) )
+		if ( handle_error( "login" ))
 			return login(username, password);
 		else
 			return false;
@@ -681,7 +681,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		// Check whether captcha code is required
 		if ( resp.data.find("id=\"captcha\"") != std::string::npos )
 		{
-			client_notify( TranslateT("Login error: Captcha code is required. Bad login credentials?") );
+			client_notify( TranslateT("Login error: Captcha code is required. Bad login credentials?"));
 			parent->Log(" ! !  Login error: Captcha code is required.");
 			return handle_error( "login", FORCE_DISCONNECT );
 		}
@@ -691,9 +691,9 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 			utils::text::special_expressions_decode(
 				utils::text::remove_html( 
 					utils::text::edit_html(
-						utils::text::source_get_value( &resp.data, 2, "id=\"standard_error\">", "</h2>" ) ) ) ) );
+						utils::text::source_get_value( &resp.data, 2, "id=\"standard_error\">", "</h2>" )) )) );
 
-		if ( !error_str.length() )
+		if ( !error_str.length())
 			error_str = Translate("Unknown login error");
 		parent->Log(" ! !  Login error: %s", error_str.c_str());
 
@@ -708,7 +708,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 		return handle_error( "login", FORCE_DISCONNECT );
 
 	case HTTP_CODE_FOUND: // Found and redirected to Home, Logged in, everything is OK
-		if ( cookies.find("c_user") != cookies.end() )
+		if ( cookies.find("c_user") != cookies.end())
 		{
 			this->self_.user_id = cookies.find("c_user")->second;
 			DBWriteContactSettingString(NULL,parent->m_szModuleName,FACEBOOK_KEY_ID,this->self_.user_id.c_str());
@@ -724,7 +724,7 @@ bool facebook_client::login(const std::string &username,const std::string &passw
 
 bool facebook_client::logout( )
 {
-	if ( DBGetContactSettingByte(NULL, parent->m_szModuleName, FACEBOOK_KEY_DISABLE_LOGOUT, 0) )
+	if ( DBGetContactSettingByte(NULL, parent->m_szModuleName, FACEBOOK_KEY_DISABLE_LOGOUT, 0))
 		return true;
 
 	handle_entry( "logout" );
@@ -769,13 +769,13 @@ bool facebook_client::home( )
 		if ( resp.data.find( "id=\"navAccountName\"" ) != std::string::npos )
 		{ // Backup for old fb version
 			// Get real_name
-			this->self_.real_name = utils::text::remove_html( utils::text::special_expressions_decode( utils::text::source_get_value( &resp.data, 2, " id=\"navAccountName\">", "</a" ) ) );
+			this->self_.real_name = utils::text::remove_html( utils::text::special_expressions_decode( utils::text::source_get_value( &resp.data, 2, " id=\"navAccountName\">", "</a" )) );
 			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NAME,this->self_.real_name.c_str());
 			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NICK,this->self_.real_name.c_str());
 			parent->Log("      Got self real name: %s", this->self_.real_name.c_str());
 		} else if ( resp.data.find("id=\"pageNav\"") != std::string::npos ) {
 			// Get real_name
-			this->self_.real_name = utils::text::remove_html( utils::text::special_expressions_decode( utils::text::source_get_value( &resp.data, 3, " class=\"headerTinymanName\"", ">", "</a" ) ) );
+			this->self_.real_name = utils::text::remove_html( utils::text::special_expressions_decode( utils::text::source_get_value( &resp.data, 3, " class=\"headerTinymanName\"", ">", "</a" )) );
 			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NAME,this->self_.real_name.c_str());
 			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NICK,this->self_.real_name.c_str());
 			parent->Log("      Got self real name: %s", this->self_.real_name.c_str());
@@ -789,7 +789,7 @@ bool facebook_client::home( )
 		if (avatar.empty())
 			avatar = utils::text::source_get_value( &resp.data, 3, "class=\"fbxWelcomeBoxImg", "src=\"", "\"" );
 
-		this->self_.image_url = utils::text::trim( utils::text::special_expressions_decode( avatar ) );
+		this->self_.image_url = utils::text::trim( utils::text::special_expressions_decode( avatar ));
 		parent->Log("      Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
@@ -810,18 +810,18 @@ bool facebook_client::home( )
 		if (!DBGetContactSettingByte(NULL,parent->m_szModuleName,FACEBOOK_KEY_PARSE_MESSAGES, DEFAULT_PARSE_MESSAGES))
 		{
 			str_count = utils::text::source_get_value( &resp.data, 2, "<span id=\"messagesCountValue\">", "</span>" );
-			if ( str_count.length() && str_count != std::string( "0" ) )
+			if ( str_count.length() && str_count != std::string( "0" ))
 			{
 				std::string message = Translate("Got new messages: ") + str_count;
 
 				TCHAR* tmessage = mir_a2t(message.c_str());
-				parent->NotifyEvent( parent->m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER, TEXT(FACEBOOK_URL_MESSAGES) );
+				parent->NotifyEvent( parent->m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER, TEXT(FACEBOOK_URL_MESSAGES));
 				mir_free( tmessage );
 			}
 		}
 			
 		str_count = utils::text::source_get_value( &resp.data, 2, "<span id=\"notificationsCountValue\">", "</span>" );
-		if ( str_count.length() && str_count != std::string( "0" ) )
+		if ( str_count.length() && str_count != std::string( "0" ))
 		{
 			// Parse notifications directly to popups
 			ForkThread( &FacebookProto::ProcessNotifications, this->parent, NULL );
@@ -839,7 +839,7 @@ bool facebook_client::home( )
 		
 				if (!id.empty()) {
 					std::string name = utils::text::source_get_value( &item, 3, "class=\"linkWrap", ">", "</div>" );
-					name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8( name ) );
+					name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8( name ));
 					parent->Log("      Got new group chat: %s (id: %s)", name.c_str(), id.c_str());
 					if (!name.empty())
 						parent->AddChat(id.c_str(), name.c_str());
@@ -1112,9 +1112,9 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 		data += "&recipients[0]=";
 		data += message_recipient;
 		data += "&lsd=&fb_dtsg=";
-		data += ( dtsg_.length( ) ) ? dtsg_ : "0";
+		data += ( dtsg_.length( )) ? dtsg_ : "0";
 		data += "&post_form_id=";
-		data += ( post_form_id_.length( ) ) ? post_form_id_ : "0";
+		data += ( post_form_id_.length( )) ? post_form_id_ : "0";
 
 		resp = flap( FACEBOOK_REQUEST_ASYNC, &data );	
 	}
@@ -1215,7 +1215,7 @@ bool facebook_client::set_status(const std::string &status_text)
 	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&target_id=" + this->self_.user_id;
 
-	if ( status_text.length( ) )
+	if ( status_text.length( ))
 	{
 		data += "&action=PROFILE_UPDATE&app_id=&hey_kid_im_a_composer=true&display_context=profile&_log_display_context=profile&ajax_log=1";
 		data += "&status=" + utils::url::encode( status_text );
@@ -1250,12 +1250,12 @@ bool facebook_client::save_url(const std::string &url,const std::tstring &filena
 	req.nlc = nlc;
 
 	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
-		reinterpret_cast<WPARAM>(this->parent->m_hNetlibUser), reinterpret_cast<LPARAM>(&req) ));
+		reinterpret_cast<WPARAM>(this->parent->m_hNetlibUser), reinterpret_cast<LPARAM>(&req)));
 
 	if ( resp )
 	{
 		nlc = resp->nlc;
-		parent->Log( "@@@@@ Saving avatar URL %s to path %s", url.c_str(), filename.c_str() );
+		parent->Log( "@@@@@ Saving avatar URL %s to path %s", url.c_str(), filename.c_str());
 
 		// Create folder if necessary
 		std::tstring dir = filename.substr(0,filename.rfind('\\'));

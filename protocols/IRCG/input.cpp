@@ -249,11 +249,11 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 
 	if (command == _T("/clear")) {
 		CMString S;
-		if ( !one.IsEmpty() ) {
+		if ( !one.IsEmpty()) {
 			if ( one == _T("server"))
 				S = SERVERWINDOW;
 			else
-				S = MakeWndID( one.c_str() );
+				S = MakeWndID( one.c_str());
 		}
 		else if ( lstrcmpi( window, SERVERWINDOW) == 0 )
 			S = window;
@@ -273,10 +273,10 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 	}
 
 	if ( command == _T("/ignore")) {
-		if ( IsConnected() ) {
+		if ( IsConnected()) {
 			CMString IgnoreFlags;
 			TCHAR temp[500];
-			if ( one.IsEmpty() ) {
+			if ( one.IsEmpty()) {
 				if ( m_ignore )
 					DoEvent( GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), TranslateT("Ignore system is enabled"), NULL, NULL, NULL, true, false);
 				else
@@ -313,12 +313,12 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 			else IgnoreFlags = _T("qnidc");
 
 			CMString m_network;
-			if ( three.IsEmpty() )
+			if ( three.IsEmpty())
 				m_network = m_info.sNetwork;
 			else
 				m_network = three;
 
-			AddIgnore( one.c_str(), IgnoreFlags.c_str(), m_network.c_str() );
+			AddIgnore( one.c_str(), IgnoreFlags.c_str(), m_network.c_str());
 
 			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s on %s is now ignored (+%s)"), one.c_str(), m_network.c_str(), IgnoreFlags.c_str());
 			DoEvent( GC_EVENT_INFORMATION, NULL, m_info.sNick.c_str(), temp, NULL, NULL, NULL, true, false);
@@ -450,9 +450,9 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 
 	if ( command == _T("/channelmanager")) {
 		if ( window && !hContact && IsChannel( window )) {
-			if ( IsConnected() ) {
+			if ( IsConnected()) {
 				if ( m_managerDlg != NULL ) {
-					SetActiveWindow( m_managerDlg->GetHwnd() );
+					SetActiveWindow( m_managerDlg->GetHwnd());
 					m_managerDlg->Close();
 				}
 				else {
@@ -507,7 +507,7 @@ BOOL CIrcProto::DoHardcodedCommand( CMString text, TCHAR* window, HANDLE hContac
 			m_listDlg = new CListDlg( this );
 			m_listDlg->Show();
 		}
-		SetActiveWindow( m_listDlg->GetHwnd() );
+		SetActiveWindow( m_listDlg->GetHwnd());
 		int minutes = ( int )m_noOfChannels/4000;
 		int minutes2 = ( int )m_noOfChannels/9000;
 
@@ -841,7 +841,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 	CMString Message = szBuf;
 	AddCR( Message );
 	RemoveLinebreaks( Message );
-	if ( !hContact && IsConnected() ) {
+	if ( !hContact && IsConnected()) {
 		Message = DoAlias( Message.c_str(), windowname );
 
 		if ( Message.Find( _T("%question")) != -1 ) {
@@ -887,10 +887,10 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 
 		// Do this if the message is not a command
 		if (  (GetWord( DoThis.c_str(), 0)[0] != '/') ||													// not a command
-			  ( (GetWord( DoThis.c_str(), 0)[0] == '/') && (GetWord( DoThis.c_str(), 0)[1] == '/') ) ||		// or double backslash at the beginning
+			  ( (GetWord( DoThis.c_str(), 0)[0] == '/') && (GetWord( DoThis.c_str(), 0)[1] == '/')) ||		// or double backslash at the beginning
 			  hContact ) {
 			CMString S = _T("/PRIVMSG ");
-			if ( lstrcmpi(window, SERVERWINDOW) == 0 && !m_info.sServerName.IsEmpty() )
+			if ( lstrcmpi(window, SERVERWINDOW) == 0 && !m_info.sServerName.IsEmpty())
 				S += m_info.sServerName + _T(" ") + DoThis;
 			else
 				S += CMString(windowname) + _T(" ") + DoThis;
@@ -906,7 +906,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 		if ( !IsConnected() && !bDCC )
 			continue;
 
-		if ( !flag && IsConnected() )
+		if ( !flag && IsConnected())
 			DoThis = DoIdentifiers(DoThis, windowname);
 
 		if ( hContact ) {
@@ -921,7 +921,7 @@ bool CIrcProto::PostIrcMessageWnd( TCHAR* window, HANDLE hContact, const TCHAR* 
 					dcc->SendStuff( mess.c_str());
 				}
 			}
-			else if ( IsConnected() ) {
+			else if ( IsConnected()) {
 				FormatMsg( DoThis );
 				SendIrcMessage( DoThis.c_str(), false, codepage );
 			}

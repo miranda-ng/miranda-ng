@@ -1408,7 +1408,7 @@ const PopupSkin *Skins::getSkin(LPCTSTR name)
 				_T("for newer version of Popup Plus. And will not\r\n")
 				_T("display properly.\r\n")
 				_T("\r\n")
-				_T("Please choose another skin.") ),
+				_T("Please choose another skin.")),
 			_T(MODULNAME_LONG), MB_ICONSTOP|MB_OK);
 
 	return any->skin;

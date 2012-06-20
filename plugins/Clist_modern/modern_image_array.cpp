@@ -56,7 +56,7 @@ static BOOL ImageArray_Alloc(LP_IMAGE_ARRAY_DATA iad, int size)
 			}
 
 			iad->nodes = tmp;
-			memset( &iad->nodes[iad->nodes_allocated_size], 0, (size_grow - iad->nodes_allocated_size) * sizeof(IMAGE_ARRAY_DATA_NODE) );
+			memset( &iad->nodes[iad->nodes_allocated_size], 0, (size_grow - iad->nodes_allocated_size) * sizeof(IMAGE_ARRAY_DATA_NODE));
 		}
 		else
 		{

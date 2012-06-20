@@ -69,9 +69,9 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 
 	facy.set_handle(m_hNetlibUser);
 
-	SkinAddNewSoundExT( "Notification", m_tszUserName, LPGENT( "Notification" ) );
-	SkinAddNewSoundExT( "NewsFeed", m_tszUserName, LPGENT( "News Feed" ) );
-	SkinAddNewSoundExT( "OtherEvent", m_tszUserName, LPGENT( "Other Event" ) );
+	SkinAddNewSoundExT( "Notification", m_tszUserName, LPGENT( "Notification" ));
+	SkinAddNewSoundExT( "NewsFeed", m_tszUserName, LPGENT( "News Feed" ));
+	SkinAddNewSoundExT( "OtherEvent", m_tszUserName, LPGENT( "Other Event" ));
 
 	TCHAR *profile = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
 	def_avatar_folder_ = std::tstring(profile) + _T("\\") + m_tszUserName;
@@ -115,7 +115,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	{
 		DWORD_PTR flags = PF1_IM | PF1_CHAT | PF1_SERVERCLIST | PF1_AUTHREQ | /*PF1_ADDED |*/ PF1_BASICSEARCH | PF1_USERIDISEMAIL | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_ADDSEARCHRES; // | PF1_VISLIST | PF1_INVISLIST;
 		
-		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ) )
+		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ))
 			return flags |= PF1_MODEMSG;
 		else
 			return flags |= PF1_MODEMSGRECV;
@@ -123,7 +123,7 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	case PFLAGNUM_2:
 		return PF2_ONLINE | PF2_INVISIBLE | PF2_ONTHEPHONE | PF2_IDLE; // | PF2_SHORTAWAY;
 	case PFLAGNUM_3:
-		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ) )
+		if ( getByte( FACEBOOK_KEY_SET_MIRANDA_STATUS, 0 ))
 			return PF2_ONLINE; // | PF2_SHORTAWAY;
 		else
 			return 0;
@@ -222,7 +222,7 @@ int FacebookProto::SetAwayMsg( int status, const PROTOCHAR *msg )
 
 void FacebookProto::SetAwayMsgWorker(void *)
 {
-	if ( !last_status_msg_.empty() )
+	if ( !last_status_msg_.empty())
 		facy.set_status( last_status_msg_ );
 }
 
@@ -446,7 +446,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 int FacebookProto::OnMind(WPARAM,LPARAM)
 {
 	HWND hDlg = CreateDialogParam( g_hInstance, MAKEINTRESOURCE( IDD_MIND ),
-		 ( HWND )0, FBMindProc, reinterpret_cast<LPARAM>( this ) );
+		 ( HWND )0, FBMindProc, reinterpret_cast<LPARAM>( this ));
 	ShowWindow( hDlg, SW_SHOW );
 	return FALSE;
 }
@@ -456,7 +456,7 @@ int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if ( wParam != 0 && !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv) )
+	if ( wParam != 0 && !DBGetContactSettingString(hContact,m_szModuleName,"Homepage",&dbv))
 	{
 		CallService(MS_UTILS_OPENURL,1,reinterpret_cast<LPARAM>(dbv.pszVal));
 		DBFreeVariant(&dbv);
@@ -494,22 +494,22 @@ int FacebookProto::CancelFriendship(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	TCHAR tstr[256];
 
-	if ( !DBGetContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
+	if ( !DBGetContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
 		mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
-	} else if ( !DBGetContactSettingTString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+	} else if ( !DBGetContactSettingTString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv)) {
 		mir_sntprintf(tstr,SIZEOF(tstr),TranslateT("Do you want to cancel your friendship with '%s'?"), dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
 
 	if (MessageBox( 0, tstr, m_tszUserName, MB_ICONWARNING | MB_YESNO | MB_DEFBUTTON2 ) == IDYES) {
 		
-		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 		{
 			std::string* id = new std::string(dbv.pszVal);
 
 			if (deleting) {
-				facebook_user* fbu = facy.buddies.find( (*id) );
+				facebook_user* fbu = facy.buddies.find( (*id));
 				if (fbu != NULL) {
 					fbu->handle = NULL;
 				}
@@ -532,7 +532,7 @@ int FacebookProto::RequestFriendship(WPARAM wParam,LPARAM lParam)
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) )
+	if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
 		std::string* id = new std::string(dbv.pszVal);
 		ForkThread( &FacebookProto::AddContactToServer, this, ( void* )id );

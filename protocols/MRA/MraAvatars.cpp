@@ -806,7 +806,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg,UINT msg,WPARAM wParam,
 			SetDlgItemInt(hWndDlg,IDC_SERVERPORT,MRA_AVT_DEFAULT_SERVER_PORT,FALSE);
 		}
 
-		if ((LOWORD(wParam)==IDC_SERVER || LOWORD(wParam)==IDC_SERVERPORT || LOWORD(wParam)==IDC_UPD_CHECK_INTERVAL) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()) ) return(FALSE);
+		if ((LOWORD(wParam)==IDC_SERVER || LOWORD(wParam)==IDC_SERVERPORT || LOWORD(wParam)==IDC_UPD_CHECK_INTERVAL) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus())) return(FALSE);
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		break;
 	case WM_NOTIFY:

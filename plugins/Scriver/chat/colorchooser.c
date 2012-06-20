@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 
 				if ( (pCC->bForeground && pCC->si->bFGSet && pCC->si->iFG == i) ||
-					 (!pCC->bForeground && pCC->si->bBGSet && pCC->si->iBG == i) ) {
+					 (!pCC->bForeground && pCC->si->bBGSet && pCC->si->iBG == i)) {
 					rc.top = (iThisRow-1) * 20+ 1 +20 ;
 					rc.left = (iThisColumn-1) * 25 + 1 + 1 ;
 					rc.bottom = iThisRow * 20- 1 + 20 ;

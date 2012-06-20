@@ -1168,7 +1168,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	time_t tCurrentTime;
 	char *lpzProto;
 
-	if ( ( HANDLE )wParam == NULL || lstrcmpA( cws->szSetting, "Status" ) )
+	if ( ( HANDLE )wParam == NULL || lstrcmpA( cws->szSetting, "Status" ))
 		return 0;
 
 	newStatus = cws->value.wVal;

@@ -50,7 +50,7 @@ static CMString FormatOutput (const CIrcMessage* pmsg)
 			goto THE_END;
 		}
 		
-		int index = StrToInt( pmsg->sCommand.c_str() );
+		int index = StrToInt( pmsg->sCommand.c_str());
 		if ( index == 301 && pmsg->parameters.getCount() > 0 ) {
 			TCHAR temp[500]; *temp = '\0';
 			mir_sntprintf(temp, SIZEOF(temp), TranslateT("%s is away"), pmsg->parameters[1].c_str());
@@ -117,7 +117,7 @@ static CMString FormatOutput (const CIrcMessage* pmsg)
 				sMessage += pmsg->parameters[i] + _T(" ");
 	}
 	else {
-		if ( pmsg->prefix.sNick.GetLength() )
+		if ( pmsg->prefix.sNick.GetLength())
 			sMessage = pmsg->prefix.sNick + _T(" ");
 		sMessage += pmsg->sCommand + _T(" ");
 		for ( int i=0; i < (int)pmsg->parameters.getCount(); i++ )
@@ -135,13 +135,13 @@ BOOL CIrcProto::ShowMessage (const CIrcMessage* pmsg)
 	if ( !pmsg->m_bIncoming )
 		ReplaceString( mess, _T("%%"), _T("%"));
 
-	int iTemp = StrToInt( pmsg->sCommand.c_str() );
+	int iTemp = StrToInt( pmsg->sCommand.c_str());
 
 	//To active window
 	if (( iTemp > 400 || iTemp < 500 ) && pmsg->sCommand[0] == '4' //all error messages	
 		|| pmsg->sCommand == _T("303")		//ISON command
 		|| pmsg->sCommand == _T("INVITE")
-		|| ( (pmsg->sCommand == _T("NOTICE")) && ( (pmsg->parameters.getCount() > 2) ? (_tcsstr(pmsg->parameters[1].c_str(), _T("\001"))==NULL) : false) ) // CTCP answers should go to m_network Log window!
+		|| ( (pmsg->sCommand == _T("NOTICE")) && ( (pmsg->parameters.getCount() > 2) ? (_tcsstr(pmsg->parameters[1].c_str(), _T("\001"))==NULL) : false)) // CTCP answers should go to m_network Log window!
 		|| pmsg->sCommand == _T("515"))		//chanserv error
 	{
 		DoEvent(GC_EVENT_INFORMATION, NULL, pmsg->m_bIncoming?pmsg->prefix.sNick.c_str():m_info.sNick.c_str(), mess.c_str(), NULL, NULL, NULL, true, pmsg->m_bIncoming?false:true); 

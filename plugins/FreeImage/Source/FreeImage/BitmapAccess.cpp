@@ -939,7 +939,7 @@ FreeImage_FindFirstMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, FITAG **tag
 	// get the metadata model
 	METADATAMAP *metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
 	TAGMAP *tagmap = NULL;
-	if ( (*metadata).find(model) != (*metadata).end() ) {
+	if ( (*metadata).find(model) != (*metadata).end()) {
 		tagmap = (*metadata)[model];
 	}
 	if(tagmap) {
@@ -1034,7 +1034,7 @@ FreeImage_CloneMetadata(FIBITMAP *dst, FIBITMAP *src) {
 		TAGMAP *src_tagmap = (*i).second;
 
 		if(src_tagmap) {
-			if ( dst_metadata->find(model) != dst_metadata->end() ) {
+			if ( dst_metadata->find(model) != dst_metadata->end()) {
 				// destroy dst model
 				FreeImage_SetMetadata((FREE_IMAGE_MDMODEL)model, dst, NULL, NULL);
 			}
@@ -1168,11 +1168,11 @@ FreeImage_GetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 	METADATAMAP *metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
 	if (!(*metadata).empty()) {
 		METADATAMAP::iterator model_iterator = metadata->find(model);
-		if (model_iterator != metadata->end() ) {
+		if (model_iterator != metadata->end()) {
 			// this model exists : try to get the requested tag
 			tagmap = model_iterator->second;
 			TAGMAP::iterator tag_iterator = tagmap->find(key);
-			if (tag_iterator != tagmap->end() ) {
+			if (tag_iterator != tagmap->end()) {
 				// get the requested tag
 				*tag = tag_iterator->second;
 			} 
@@ -1193,7 +1193,7 @@ FreeImage_GetMetadataCount(FREE_IMAGE_MDMODEL model, FIBITMAP *dib) {
 
 	// get the metadata model
 	METADATAMAP *metadata = ((FREEIMAGEHEADER *)dib->data)->metadata;
-	if ( (*metadata).find(model) != (*metadata).end() ) {
+	if ( (*metadata).find(model) != (*metadata).end()) {
 		tagmap = (*metadata)[model];
 	}
 	if (!tagmap) {

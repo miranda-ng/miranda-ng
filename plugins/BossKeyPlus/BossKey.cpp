@@ -540,7 +540,7 @@ static int MsgWinOpening(WPARAM wParam, LPARAM lParam) // hiding new message win
 
 VOID CALLBACK WinEventProc(HWINEVENTHOOK g_hWinHook, DWORD event, HWND hwnd, LONG idObject, LONG idChild, DWORD dwEventThread, DWORD dwmsEventTime)
 {
-	if (g_bWindowHidden && idObject == OBJID_WINDOW && (event == EVENT_OBJECT_CREATE || event == EVENT_OBJECT_SHOW) && (IsWindowVisible(hwnd)) )
+	if (g_bWindowHidden && idObject == OBJID_WINDOW && (event == EVENT_OBJECT_CREATE || event == EVENT_OBJECT_SHOW) && (IsWindowVisible(hwnd)))
 	{
 		if(hwnd == pcli->hwndContactList)
 			ShowWindow(hwnd,SW_HIDE);

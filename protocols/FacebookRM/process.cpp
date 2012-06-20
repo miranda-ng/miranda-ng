@@ -31,7 +31,7 @@ void FacebookProto::ProcessBuddyList( void* data )
 
 	std::string* resp = (std::string*)data;
 
-	if ( isOffline() )
+	if ( isOffline())
 		goto exit;
 
 	LOG("***** Starting processing buddy list");
@@ -81,7 +81,7 @@ void FacebookProto::ProcessBuddyList( void* data )
 			}
 
 			// Wasn't contact removed from "server-list" someday?
-			if ( DBGetContactSettingDword(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED, 0) ) {
+			if ( DBGetContactSettingDword(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED, 0)) {
 				DBDeleteContactSetting(fbu->handle, m_szModuleName, FACEBOOK_KEY_DELETED);
 
 				std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
@@ -131,14 +131,14 @@ void FacebookProto::ProcessFriendList( void* data )
 	// Check and update old contacts
 	for(HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
 	    hContact;
-	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0) )
+	    hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 	{
 		if (!IsMyContact(hContact))
 			continue;
 
 		DBVARIANT dbv;
 		facebook_user *fbu;
-		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv) ) {
+		if ( !DBGetContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv)) {
 			std::string id = dbv.pszVal;
 			DBFreeVariant(&dbv);
 			
@@ -158,9 +158,9 @@ void FacebookProto::ProcessFriendList( void* data )
 					DBWriteContactSettingByte(hContact, m_szModuleName, "Gender", fbu->gender);
 
 				// Update real name
-				if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) )
+				if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv))
 				{
-					update_required = strcmp( dbv.pszVal, fbu->real_name.c_str() ) != 0;
+					update_required = strcmp( dbv.pszVal, fbu->real_name.c_str()) != 0;
 					DBFreeVariant(&dbv);
 				}
 				if ( update_required )
@@ -175,7 +175,7 @@ void FacebookProto::ProcessFriendList( void* data )
 				}
 
 				// Wasn't contact removed from "server-list" someday?
-				if ( DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0) ) {
+				if ( DBGetContactSettingDword(hContact, m_szModuleName, FACEBOOK_KEY_DELETED, 0)) {
 					DBDeleteContactSetting(hContact, m_szModuleName, FACEBOOK_KEY_DELETED);
 
 					std::string url = FACEBOOK_URL_PROFILE + fbu->user_id;					
@@ -204,7 +204,7 @@ void FacebookProto::ProcessFriendList( void* data )
 					DBWriteContactSettingByte(hContact, m_szModuleName, FACEBOOK_KEY_CONTACT_TYPE, FACEBOOK_CONTACT_NONE);
 
 					std::string contactname = id;
-					if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv) ) {
+					if ( !DBGetContactSettingUTF8String(hContact, m_szModuleName, FACEBOOK_KEY_NAME, &dbv)) {
 						contactname = dbv.pszVal;
 						DBFreeVariant(&dbv);
 					}
@@ -253,7 +253,7 @@ void FacebookProto::ProcessUnreadMessages( void* )
 	std::string get_data = "sk=inbox&query=is%3Aunread";
 
 	std::string data = "post_form_id=";
-	data += ( facy.post_form_id_.length( ) ) ? facy.post_form_id_ : "0";
+	data += ( facy.post_form_id_.length( )) ? facy.post_form_id_ : "0";
 	data += "&fb_dtsg=" + facy.dtsg_;
 	data += "&post_form_id_source=AsyncRequest&lsd=&phstamp=";
 	data += utils::time::mili_timestamp();
@@ -277,7 +277,7 @@ void FacebookProto::ProcessUnreadMessages( void* )
 	
 	std::string::size_type pos = 0;
 
-	while ( ( pos = threadlist.find( "<li class=\\\"threadRow noDraft unread", pos ) ) != std::string::npos )
+	while ( ( pos = threadlist.find( "<li class=\\\"threadRow noDraft unread", pos )) != std::string::npos )
 	{
 		std::string::size_type pos2 = threadlist.find( "/li>", pos );
 		std::string thread_content = threadlist.substr( pos, pos2 - pos );
@@ -313,7 +313,7 @@ void FacebookProto::ProcessUnreadMessages( void* )
 		// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 
 		pos2 = 0;
-		while ( ( pos2 = messageslist.find( "class=\\\"MessagingMessage ", pos2 ) ) != std::string::npos ) {
+		while ( ( pos2 = messageslist.find( "class=\\\"MessagingMessage ", pos2 )) != std::string::npos ) {
 			pos2 += 8;
 			std::string strclass = messageslist.substr(pos2, messageslist.find("\\\"", pos2) - pos2);
 
@@ -325,10 +325,10 @@ void FacebookProto::ProcessUnreadMessages( void* )
 			std::string messagesgroup = messageslist.substr( pos2, pos3 - pos2 );
 
 			DWORD timestamp = utils::conversion::to_timestamp( 
-								utils::text::source_get_value( &messagesgroup, 2, "data-utime=\\\"", "\\\"" ) );
+								utils::text::source_get_value( &messagesgroup, 2, "data-utime=\\\"", "\\\"" ));
 
 			pos3 = 0;
-			while ( ( pos3 = messagesgroup.find( "class=\\\"content noh", pos3 ) ) != std::string::npos )
+			while ( ( pos3 = messagesgroup.find( "class=\\\"content noh", pos3 )) != std::string::npos )
 			{
 
 				std::string message_attachments = "";
@@ -337,17 +337,17 @@ void FacebookProto::ProcessUnreadMessages( void* )
 					std::string attachments = messagesgroup.substr( pos4, messagesgroup.find("<\\/ul", pos4) - pos4 );
 
 					pos4 = 0;
-					while ( ( pos4 = attachments.find("<li", pos4) ) != std::string::npos ) {
+					while ( ( pos4 = attachments.find("<li", pos4)) != std::string::npos ) {
 						std::string attachment = attachments.substr( pos4, attachments.find("<\\/li>", pos4) - pos4 );
 						std::string link = utils::text::source_get_value( &attachment, 4, "<a class=", "attachment", "href=\\\"", "\\\"" );
 
 						link = utils::text::trim(
-								utils::text::special_expressions_decode( link ) );
+								utils::text::special_expressions_decode( link ));
 
 						// or first: std::string name = utils::text::source_get_value( &attachment, 4, "<a class=", "attachment", ">", "<\\/a>" );
 						std::string name = utils::text::trim(
 								utils::text::special_expressions_decode(
-									utils::text::remove_html( attachment ) ) );
+									utils::text::remove_html( attachment )) );
 
 						if (link.find("/ajax/messaging/attachments/photo/dialog.php?uri=") != std::string::npos) {
 							link = link.substr(49);
@@ -366,7 +366,7 @@ void FacebookProto::ProcessUnreadMessages( void* )
 				message_text = utils::text::source_get_value( &message_text, 2, "\\\">", "<\\/div" );
 				message_text = utils::text::trim(
 								utils::text::special_expressions_decode(
-									utils::text::remove_html( message_text ) ) );
+									utils::text::remove_html( message_text )) );
 
 				if (!message_attachments.empty()) {
 					if (!message_text.empty())
@@ -404,7 +404,7 @@ void FacebookProto::ProcessMessages( void* data )
 
 	std::string* resp = (std::string*)data;
 
-	if ( isOffline() )
+	if ( isOffline())
 		goto exit;
 
 	LOG("***** Starting processing messages");
@@ -476,7 +476,7 @@ exit:
 
 void FacebookProto::ProcessNotifications( void* )
 {
-	if ( isOffline() )
+	if ( isOffline())
 		return;
 
 	if (!getByte( FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE, DEFAULT_EVENT_NOTIFICATIONS_ENABLE ))
@@ -643,7 +643,7 @@ void FacebookProto::ProcessFeeds( void* data )
 	*resp = utils::text::slashu_to_utf8(*resp);	
 	*resp = utils::text::source_get_value(resp, 2, "\"html\":\"", ">\"");
 
-	while ( ( pos = resp->find( "<div class=\\\"mainWrapper\\\"", pos ) ) != std::string::npos && limit <= 25 )
+	while ( ( pos = resp->find( "<div class=\\\"mainWrapper\\\"", pos )) != std::string::npos && limit <= 25 )
 	{		
 		std::string::size_type pos2 = resp->find( "<div class=\\\"mainWrapper\\\"", pos+5 );
 		if (pos2 == std::string::npos)
@@ -669,19 +669,19 @@ void FacebookProto::ProcessFeeds( void* data )
 
 		nf->title = utils::text::trim(
 			utils::text::special_expressions_decode(
-				utils::text::remove_html( post_header ) ) );
+				utils::text::remove_html( post_header )) );
 
 		nf->user_id = utils::text::source_get_value( &post_header, 2, "user.php?id=", "\\\"" );
 		
 		nf->link = utils::text::special_expressions_decode(
-				utils::text::source_get_value( &post_link, 2, "href=\\\"", "\\\">" ) );
+				utils::text::source_get_value( &post_link, 2, "href=\\\"", "\\\">" ));
 
 		nf->text = utils::text::trim(
 			utils::text::special_expressions_decode(
 				utils::text::remove_html(
-					utils::text::edit_html( post_message ) ) ) );
+					utils::text::edit_html( post_message )) ));
 
-		if ( !nf->title.length() || !nf->text.length() )
+		if ( !nf->title.length() || !nf->text.length())
 		{
 			delete nf;
 			continue;

@@ -390,7 +390,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 			_T("You always can download them at\r\n")
 			_T("http://addons.miranda-im.org/\r\n")
 			_T("\r\n")
-			_T("Do you want to visit Miranda IM homepage now?\r\n") );
+			_T("Do you want to visit Miranda IM homepage now?\r\n"));
 		if (MessageBox(NULL, msg, _T("Popup Plus Error"), MB_YESNO|MB_ICONSTOP) == IDYES)
 			ShellExecute(NULL, _T("open"), _T("http://addons.miranda-im.org/"), NULL, NULL, SW_SHOWNORMAL);
 		return 0;

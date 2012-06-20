@@ -590,7 +590,7 @@ DWORD WINAPI SynchroPOP3(struct CheckParam * WhichTemp)
 		DebugLog(CommFile,"<--------Communication-------->\n");
 		#endif
 		//	if we are already connected, we have open session (another thread left us open session), so we don't need to login
-		//	note that connected state without logging cannot occur, because if we close session, we always close socket too (we must close socket is the right word :) )
+		//	note that connected state without logging cannot occur, because if we close session, we always close socket too (we must close socket is the right word :))
 		if ((MyClient->NetClient==NULL) || !MyClient->NetClient->Connected())
 		{
 			SetAccountStatus(ActualAccount,TranslateT("Connecting to server"));

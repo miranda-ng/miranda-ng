@@ -777,7 +777,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	int nMsgId = SerialNext();
 
 	XmlNode m(_T("message"));
-	m << XATTR(_T("type"), _T("chat")) << XATTR( _T("to"), pNote->GetFrom() ) << XATTRID( nMsgId );
+	m << XATTR(_T("type"), _T("chat")) << XATTR( _T("to"), pNote->GetFrom()) << XATTRID( nMsgId );
 	m << XCHILD(_T("body"), buf);
 	HXML hXmlItem = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MIRANDA_NOTES)) << XCHILD(_T("note"));
 	hXmlItem << XATTR(_T("tags"), pNote->GetTagsStr());

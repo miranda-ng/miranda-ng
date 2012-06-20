@@ -520,7 +520,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 
 				switch (compression) {
 					case BI_RGB :
-						if ( LoadPixelData(io, handle, dib, height, pitch, bit_count) ) {
+						if ( LoadPixelData(io, handle, dib, height, pitch, bit_count)) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding BMP data";
@@ -528,7 +528,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 						break;
 
 					case BI_RLE4 :
-						if ( LoadPixelDataRLE4(io, handle, width, height, dib) ) {
+						if ( LoadPixelDataRLE4(io, handle, width, height, dib)) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE4 BMP data";
@@ -536,7 +536,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 						break;
 
 					case BI_RLE8 :
-						if ( LoadPixelDataRLE8(io, handle, width, height, dib) ) {
+						if ( LoadPixelDataRLE8(io, handle, width, height, dib)) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE8 BMP data";
@@ -747,7 +747,7 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 						return dib;
 
 					case BI_RLE4 :
-						if ( LoadPixelDataRLE4(io, handle, width, height, dib) ) {
+						if ( LoadPixelDataRLE4(io, handle, width, height, dib)) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE4 BMP data";
@@ -755,7 +755,7 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 						break;
 
 					case BI_RLE8 :
-						if ( LoadPixelDataRLE8(io, handle, width, height, dib) ) {
+						if ( LoadPixelDataRLE8(io, handle, width, height, dib)) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE8 BMP data";

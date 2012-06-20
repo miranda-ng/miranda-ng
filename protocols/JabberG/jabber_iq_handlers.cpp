@@ -90,7 +90,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 
-	if ( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)) )
+	if ( !(bOsVersionInfoEx = GetVersionEx ((OSVERSIONINFO *) &osvi)))
 		return FALSE;
 
 	// Call GetNativeSystemInfo if supported or GetSystemInfo otherwise.
@@ -190,7 +190,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		if ( osvi.dwMajorVersion == 5 && osvi.dwMinorVersion == 2 )
 		{
-			if ( GetSystemMetrics(SM_SERVERR2) )
+			if ( GetSystemMetrics(SM_SERVERR2))
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Server 2003 R2, "));
 			else if ( osvi.wSuiteMask==VER_SUITE_STORAGE_SERVER )
 				StringCchCat(pszOS, BUFSIZE, TEXT( "Windows Storage Server 2003"));
@@ -268,7 +268,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 		if ( _tcslen(osvi.szCSDVersion) > 0 )
 		{
-			StringCchCat(pszOS, BUFSIZE, TEXT(" ") );
+			StringCchCat(pszOS, BUFSIZE, TEXT(" "));
 			StringCchCat(pszOS, BUFSIZE, osvi.szCSDVersion);
 		}
 
@@ -288,7 +288,7 @@ BOOL GetOSDisplayString(LPTSTR pszOS, int BUFSIZE)
 
 BOOL CJabberProto::OnIqRequestVersion( HXML, CJabberIqInfo* pInfo )
 {
-	if ( !pInfo->GetFrom() )
+	if ( !pInfo->GetFrom())
 		return TRUE;
 
 	if ( !m_options.AllowVersionRequests )
@@ -296,8 +296,8 @@ BOOL CJabberProto::OnIqRequestVersion( HXML, CJabberIqInfo* pInfo )
 
 	XmlNodeIq iq( _T("result"), pInfo );
 	HXML query = iq << XQUERY( _T(JABBER_FEAT_VERSION));
-	query << XCHILD( _T("name"), _T("Miranda IM Jabber (Unicode)") );
-	query << XCHILD( _T("version"), _T(__VERSION_STRING) );
+	query << XCHILD( _T("name"), _T("Miranda IM Jabber (Unicode)"));
+	query << XCHILD( _T("version"), _T(__VERSION_STRING));
 
 	if ( m_options.ShowOSVersion )
 	{
@@ -391,7 +391,7 @@ BOOL CJabberProto::OnIqProcessIqOldTime( HXML, CJabberIqInfo *pInfo )
 	dtime[ 24 ] = 0;
 
 	XmlNodeIq iq( _T("result"), pInfo );
-	HXML queryNode = iq << XQUERY( _T(JABBER_FEAT_ENTITY_TIME_OLD) );
+	HXML queryNode = iq << XQUERY( _T(JABBER_FEAT_ENTITY_TIME_OLD));
 	queryNode << XCHILD( _T("utc"), stime );
 	LPCTSTR szTZName = tmi.getTzName( NULL );
 	if ( szTZName )
@@ -464,8 +464,8 @@ BOOL CJabberProto::OnRosterPushRequest( HXML, CJabberIqInfo *pInfo )
 	HXML queryNode = pInfo->GetChildNode();
 
 	// RFC 3921 #7.2 Business Rules
-	if ( pInfo->GetFrom() ) {
-		TCHAR* szFrom = JabberPrepareJid( pInfo->GetFrom() );
+	if ( pInfo->GetFrom()) {
+		TCHAR* szFrom = JabberPrepareJid( pInfo->GetFrom());
 		if ( !szFrom )
 			return TRUE;
 
@@ -475,10 +475,10 @@ BOOL CJabberProto::OnRosterPushRequest( HXML, CJabberIqInfo *pInfo )
 			return TRUE;
 		}
 
-		TCHAR* pDelimiter = _tcschr( szFrom, _T('/') );
+		TCHAR* pDelimiter = _tcschr( szFrom, _T('/'));
 		if ( pDelimiter ) *pDelimiter = _T('\0');
 
-		pDelimiter = _tcschr( szTo, _T('/') );
+		pDelimiter = _tcschr( szTo, _T('/'));
 		if ( pDelimiter ) *pDelimiter = _T('\0');
 
 		BOOL bRetVal = _tcscmp( szFrom, szTo ) == 0;
@@ -488,7 +488,7 @@ BOOL CJabberProto::OnRosterPushRequest( HXML, CJabberIqInfo *pInfo )
 
 		// invalid JID
 		if ( !bRetVal ) {
-			Log( "<iq/> attempt to hack via roster push from " TCHAR_STR_PARAM, pInfo->GetFrom() );
+			Log( "<iq/> attempt to hack via roster push from " TCHAR_STR_PARAM, pInfo->GetFrom());
 			return TRUE;
 		}
 	}
@@ -586,7 +586,7 @@ BOOL CJabberProto::OnRosterPushRequest( HXML, CJabberIqInfo *pInfo )
 
 BOOL CJabberProto::OnIqRequestOOB( HXML, CJabberIqInfo *pInfo )
 {
-	if ( !pInfo->GetFrom() || !pInfo->GetHContact() )
+	if ( !pInfo->GetFrom() || !pInfo->GetHContact())
 		return TRUE;
 
 	HXML n = xmlGetChild( pInfo->GetChildNode(), "url" );
@@ -607,7 +607,7 @@ BOOL CJabberProto::OnIqRequestOOB( HXML, CJabberIqInfo *pInfo )
 	str = ( TCHAR* )xmlGetText( n );	// URL of the file to get
 	filetransfer* ft = new filetransfer( this );
 	ft->std.totalFiles = 1;
-	ft->jid = mir_tstrdup( pInfo->GetFrom() );
+	ft->jid = mir_tstrdup( pInfo->GetFrom());
 	ft->std.hContact = pInfo->GetHContact();
 	ft->type = FT_OOB;
 	ft->httpHostName = NULL;
@@ -628,8 +628,8 @@ BOOL CJabberProto::OnIqRequestOOB( HXML, CJabberIqInfo *pInfo )
 				ft->httpHostName = mir_t2a( text );
 	}	}	}
 
-	if ( pInfo->GetIdStr() )
-		ft->iqId = mir_tstrdup( pInfo->GetIdStr() );
+	if ( pInfo->GetIdStr())
+		ft->iqId = mir_tstrdup( pInfo->GetIdStr());
 
 	if ( ft->httpHostName && ft->httpPath ) {
 		TCHAR* desc = NULL;
@@ -671,7 +671,7 @@ BOOL CJabberProto::OnIqRequestOOB( HXML, CJabberIqInfo *pInfo )
 
 BOOL CJabberProto::OnHandleDiscoInfoRequest( HXML iqNode, CJabberIqInfo* pInfo )
 {
-	if ( !pInfo->GetChildNode() )
+	if ( !pInfo->GetChildNode())
 		return TRUE;
 
 	const TCHAR* szNode = xmlGetAttrValue( pInfo->GetChildNode(), _T("node"));
@@ -693,7 +693,7 @@ BOOL CJabberProto::OnHandleDiscoInfoRequest( HXML iqNode, CJabberIqInfo* pInfo )
 
 BOOL CJabberProto::OnHandleDiscoItemsRequest( HXML iqNode, CJabberIqInfo* pInfo )
 {
-	if ( !pInfo->GetChildNode() )
+	if ( !pInfo->GetChildNode())
 		return TRUE;
 
 	// ad-hoc commands check:
@@ -737,7 +737,7 @@ BOOL CJabberProto::OnIqHttpAuth( HXML node, CJabberIqInfo* pInfo )
 	if ( !m_options.AcceptHttpAuth )
 		return TRUE;
 
-	if ( !node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr() )
+	if ( !node || !pInfo->GetChildNode() || !pInfo->GetFrom() || !pInfo->GetIdStr())
 		return TRUE;
 
 	HXML pConfirm = xmlGetChild( node , "confirm" );
@@ -756,7 +756,7 @@ BOOL CJabberProto::OnIqHttpAuth( HXML node, CJabberIqInfo* pInfo )
 		return TRUE;
 	ZeroMemory( pParams, sizeof( CJabberHttpAuthParams ));
 	pParams->m_nType = CJabberHttpAuthParams::IQ;
-	pParams->m_szFrom = mir_tstrdup( pInfo->GetFrom() );
+	pParams->m_szFrom = mir_tstrdup( pInfo->GetFrom());
 	pParams->m_szId = mir_tstrdup( szId );
 	pParams->m_szMethod = mir_tstrdup( szMethod );
 	pParams->m_szUrl = mir_tstrdup( szUrl );

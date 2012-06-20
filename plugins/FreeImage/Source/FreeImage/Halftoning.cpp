@@ -176,7 +176,7 @@ static FIBITMAP* OrderedDispersedDot(FIBITMAP *dib, int order) {
 	BYTE *matrix = (BYTE*)malloc(l*l * sizeof(BYTE));
 	for(int i = 0; i < l*l; i++) {
 		// according to "Purdue University: Digital Image Processing Laboratory: Image Halftoning, April 30th, 2006
-		matrix[i] = (BYTE)( 255 * (((double)dithervalue(i / l, i % l, order) + 0.5) / (l*l)) );
+		matrix[i] = (BYTE)( 255 * (((double)dithervalue(i / l, i % l, order) + 0.5) / (l*l)));
 	}
 
 	// perform the dithering

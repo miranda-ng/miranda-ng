@@ -109,7 +109,7 @@ extern OBJLIST<protoPicCacheEntry> g_ProtoPictures, g_MyAvatars;
 
 int SetAvatarAttribute(HANDLE hContact, DWORD attrib, int mode);
 
-#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]) )
+#define MAX_REGS(_A_) ( sizeof(_A_) / sizeof(_A_[0]))
 
 
 #define GAIR_FAILED 1000

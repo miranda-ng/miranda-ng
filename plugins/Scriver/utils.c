@@ -120,7 +120,7 @@ TCHAR *a2t(const char *text) {
 }
 
 char* t2a( const TCHAR* src ) {
-return u2a( src, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ) );
+return u2a( src, CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 ));
 }
 
 char* t2acp( const TCHAR* src, int codepage ) {

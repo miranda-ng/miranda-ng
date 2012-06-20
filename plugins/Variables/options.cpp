@@ -43,7 +43,7 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		break;
 
 	case WM_COMMAND:
-		if ( (HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED) ) {
+		if ( (HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) {
 			switch (LOWORD(wParam)) {
 			case IDC_PARSEATSTARTUP:
 			case IDC_STRIPCRLF:

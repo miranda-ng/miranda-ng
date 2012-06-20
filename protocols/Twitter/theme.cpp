@@ -104,7 +104,7 @@ static HANDLE g_hMenuEvts[3];
 static TwitterProto * GetInstanceByHContact(HANDLE hContact)
 {
 	char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0) );
+		reinterpret_cast<WPARAM>(hContact),0));
 	if(!proto)
 		return 0;
 

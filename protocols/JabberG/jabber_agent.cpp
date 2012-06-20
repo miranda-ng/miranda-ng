@@ -157,7 +157,7 @@ public:
 					// use new jabber:x:data form
 					HXML n = xmlGetChild( xNode , "instructions" );
 					if ( n != NULL && xmlGetText( n )!=NULL )
-						JabberFormSetInstruction( m_hwnd, xmlGetText( n ) );
+						JabberFormSetInstruction( m_hwnd, xmlGetText( n ));
 
 					JabberFormCreateUI( hFrame, xNode, &m_formHeight /*dummy*/ );
 				}
@@ -169,9 +169,9 @@ public:
 						if ( !n )
 							break;
 
-						if ( xmlGetName( n ) ) {
+						if ( xmlGetName( n )) {
 							if ( !lstrcmp( xmlGetName( n ), _T("instructions"))) {
-								JabberFormSetInstruction( m_hwnd, xmlGetText( n ) );
+								JabberFormSetInstruction( m_hwnd, xmlGetText( n ));
 							}
 							else if ( !lstrcmp( xmlGetName( n ), _T("key")) || !lstrcmp( xmlGetName( n ), _T("registered"))) {
 								// do nothing
@@ -256,13 +256,13 @@ public:
 				if ( !n )
 					break;
 
-				if ( xmlGetName( n ) ) {
+				if ( xmlGetName( n )) {
 					if ( !lstrcmp( xmlGetName( n ), _T("key"))) {
 						// field that must be passed along with the registration
-						if ( xmlGetText( n ) )
-							xmlAddChild( query, xmlGetName( n ), xmlGetText( n ) );
+						if ( xmlGetText( n ))
+							xmlAddChild( query, xmlGetName( n ), xmlGetText( n ));
 						else
-							xmlAddChild( query, xmlGetName( n ) );
+							xmlAddChild( query, xmlGetName( n ));
 					}
 					else if ( !lstrcmp( xmlGetName( n ), _T("registered")) || !lstrcmp( xmlGetName( n ), _T("instructions"))) {
 						// do nothing, we will skip these

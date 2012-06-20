@@ -86,7 +86,7 @@ namespace List
 
 		void insert( Item< T >* item )
 		{
-			if ( this->empty( ) )
+			if ( this->empty( ))
 			{
 				this->first = this->last = item;
 				this->count = 1;

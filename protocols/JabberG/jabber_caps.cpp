@@ -91,7 +91,7 @@ const JabberFeatCapPair g_JabberFeatCapPairsExt[] = {
 
 void CJabberProto::OnIqResultCapsDiscoInfoSI( HXML, CJabberIqInfo* pInfo )
 {
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( pInfo->GetFrom() );
+	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( pInfo->GetFrom());
 	if ( !r )
 		return;
 
@@ -103,42 +103,42 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI( HXML, CJabberIqInfo* pInfo )
 		// XEP-0232 support
 		HXML xform;
 		for ( int i = 1; ( xform = xmlGetNthChild( query, _T("x"), i)) != NULL; i++ ) {
-			TCHAR *szFormTypeValue = XPath( xform, _T("field[@var='FORM_TYPE']/value") );
-			if ( szFormTypeValue && !_tcscmp( szFormTypeValue, _T("urn:xmpp:dataforms:softwareinfo") )) {
+			TCHAR *szFormTypeValue = XPath( xform, _T("field[@var='FORM_TYPE']/value"));
+			if ( szFormTypeValue && !_tcscmp( szFormTypeValue, _T("urn:xmpp:dataforms:softwareinfo"))) {
 				if ( r->pSoftwareInfo )
 					delete r->pSoftwareInfo;
 				r->pSoftwareInfo = new JABBER_XEP0232_SOFTWARE_INFO;
 				if ( r->pSoftwareInfo ) {
-					TCHAR *szTmp = XPath( xform, _T("field[@var='os']/value") );
+					TCHAR *szTmp = XPath( xform, _T("field[@var='os']/value"));
 					if ( szTmp )
 						r->pSoftwareInfo->szOs = mir_tstrdup( szTmp );
-					szTmp = XPath( xform, _T("field[@var='os_version']/value") );
+					szTmp = XPath( xform, _T("field[@var='os_version']/value"));
 					if ( szTmp )
 						r->pSoftwareInfo->szOsVersion = mir_tstrdup( szTmp );
-					szTmp = XPath( xform, _T("field[@var='software']/value") );
+					szTmp = XPath( xform, _T("field[@var='software']/value"));
 					if ( szTmp )
 						r->pSoftwareInfo->szSoftware = mir_tstrdup( szTmp );
-					szTmp = XPath( xform, _T("field[@var='software_version']/value") );
+					szTmp = XPath( xform, _T("field[@var='software_version']/value"));
 					if ( szTmp )
 						r->pSoftwareInfo->szSoftwareVersion = mir_tstrdup( szTmp );
-					szTmp = XPath( xform, _T("field[@var='x-miranda-core-version']/value") );
+					szTmp = XPath( xform, _T("field[@var='x-miranda-core-version']/value"));
 					if ( szTmp )
 						r->pSoftwareInfo->szXMirandaCoreVersion = mir_tstrdup( szTmp );
-					szTmp = XPath( xform, _T("field[@var='x-miranda-core-is-unicode']/value") );
+					szTmp = XPath( xform, _T("field[@var='x-miranda-core-is-unicode']/value"));
 					if ( !szTmp ) // old deprecated format
-						szTmp = XPath( xform, _T("field[@var='x-miranda-is-unicode']/value") );
+						szTmp = XPath( xform, _T("field[@var='x-miranda-is-unicode']/value"));
 					if ( szTmp && _ttoi( szTmp ))
 						r->pSoftwareInfo->bXMirandaIsUnicode = TRUE;
-					szTmp = XPath( xform, _T("field[@var='x-miranda-core-is-alpha']/value") );
+					szTmp = XPath( xform, _T("field[@var='x-miranda-core-is-alpha']/value"));
 					if ( !szTmp ) // old deprecated format
-						szTmp = XPath( xform, _T("field[@var='x-miranda-is-alpha']/value") );
+						szTmp = XPath( xform, _T("field[@var='x-miranda-is-alpha']/value"));
 					if ( szTmp && _ttoi( szTmp ))
 						r->pSoftwareInfo->bXMirandaIsAlpha = TRUE;
-					szTmp = XPath( xform, _T("field[@var='x-miranda-jabber-is-debug']/value") );
+					szTmp = XPath( xform, _T("field[@var='x-miranda-jabber-is-debug']/value"));
 					if ( szTmp && _ttoi( szTmp ))
 						r->pSoftwareInfo->bXMirandaIsDebug = TRUE;
 				}
-				JabberUserInfoUpdate( pInfo->GetHContact() );
+				JabberUserInfoUpdate( pInfo->GetHContact());
 			}
 		}
 	}
@@ -146,7 +146,7 @@ void CJabberProto::OnIqResultCapsDiscoInfoSI( HXML, CJabberIqInfo* pInfo )
 
 void CJabberProto::OnIqResultCapsDiscoInfo( HXML, CJabberIqInfo* pInfo )
 {
-	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( pInfo->GetFrom() );
+	JABBER_RESOURCE_STATUS *r = ResourceInfoFromJID( pInfo->GetFrom());
 
 	HXML query = pInfo->GetChildNode();
 	if ( pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT && query ) {
@@ -171,7 +171,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo( HXML, CJabberIqInfo* pInfo )
 		if (!m_clientCapsManager.SetClientCaps( pInfo->GetIqId(), jcbCaps ))
 			if ( r )
 				r->jcbCachedCaps = jcbCaps;
-		JabberUserInfoUpdate( pInfo->GetHContact() );
+		JabberUserInfoUpdate( pInfo->GetHContact());
 	}
 	else {
 		// no version info support and no XEP-0115 support?
@@ -243,7 +243,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 
 			CJabberIqInfo *pInfo = m_iqManager.AddHandler( &CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE );
 			pInfo->SetTimeout( JABBER_RESOURCE_CAPS_QUERY_TIMEOUT );
-			m_clientCapsManager.SetClientCaps( r->szCapsNode, r->szCapsVer, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId() );
+			m_clientCapsManager.SetClientCaps( r->szCapsNode, r->szCapsVer, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 			r->dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 			
 			TCHAR queryNode[512];
@@ -260,7 +260,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 		if ( jcbMainCaps != JABBER_RESOURCE_CAPS_TIMEOUT && r->szCapsExt ) {
 			TCHAR *caps = mir_tstrdup( r->szCapsExt );
 
-			TCHAR *token = _tcstok( caps, _T(" ") );
+			TCHAR *token = _tcstok( caps, _T(" "));
 			while ( token ) {
 				switch ( jcbExtCaps = m_clientCapsManager.GetClientCaps( r->szCapsNode, token )) {
 				case JABBER_RESOURCE_CAPS_ERROR:
@@ -272,7 +272,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 
 					CJabberIqInfo* pInfo = m_iqManager.AddHandler( &CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE );
 					pInfo->SetTimeout( JABBER_RESOURCE_CAPS_QUERY_TIMEOUT );
-					m_clientCapsManager.SetClientCaps( r->szCapsNode, token, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId() );
+					m_clientCapsManager.SetClientCaps( r->szCapsNode, token, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 
 					TCHAR queryNode[512];
 					mir_sntprintf( queryNode, SIZEOF(queryNode), _T("%s#%s"), r->szCapsNode, token );
@@ -290,7 +290,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 					jcbCaps |= jcbExtCaps;
 				}
 
-				token = _tcstok( NULL, _T(" ") );
+				token = _tcstok( NULL, _T(" "));
 			}
 
 			mir_free(caps);
@@ -357,7 +357,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 		JabberCapsBits jcbMainCaps = m_clientCapsManager.GetClientCaps( r->software, r->version );
 		if ( jcbMainCaps == JABBER_RESOURCE_CAPS_ERROR ) {
 			// Bombus hack:
-			if ( !_tcscmp( r->software, _T( "Bombus" )) || !_tcscmp( r->software, _T( "BombusMod" )) ) {
+			if ( !_tcscmp( r->software, _T( "Bombus" )) || !_tcscmp( r->software, _T( "BombusMod" ))) {
 				jcbMainCaps = JABBER_CAPS_SI|JABBER_CAPS_SI_FT|JABBER_CAPS_IBB|JABBER_CAPS_MESSAGE_EVENTS|JABBER_CAPS_MESSAGE_EVENTS_NO_DELIVERY|JABBER_CAPS_DATA_FORMS|JABBER_CAPS_LAST_ACTIVITY|JABBER_CAPS_VERSION|JABBER_CAPS_COMMANDS|JABBER_CAPS_VCARD_TEMP;
 				m_clientCapsManager.SetClientCaps( r->software, r->version, jcbMainCaps );
 			}
@@ -377,7 +377,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites( const TCHAR *jid, BOOL appe
 
 			CJabberIqInfo *pInfo = m_iqManager.AddHandler( &CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_CHILD_TAG_NODE );
 			pInfo->SetTimeout( JABBER_RESOURCE_CAPS_QUERY_TIMEOUT );
-			m_clientCapsManager.SetClientCaps( r->software, r->version, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId() );
+			m_clientCapsManager.SetClientCaps( r->software, r->version, JABBER_RESOURCE_CAPS_IN_PROGRESS, pInfo->GetIqId());
 			r->dwDiscoInfoRequestTime = pInfo->GetRequestTime();
 
 			XmlNodeIq iq( pInfo );
@@ -515,7 +515,7 @@ BOOL CJabberClientCaps::SetPartialCaps( int nIqId, JabberCapsBits jcbCaps ) {
 	CJabberClientPartialCaps *pCaps = FindById( nIqId );
 	if ( !pCaps )
 		return FALSE;
-	if ( !(jcbCaps & JABBER_RESOURCE_CAPS_ERROR) && m_szNode && pCaps->GetVersion() ) {
+	if ( !(jcbCaps & JABBER_RESOURCE_CAPS_ERROR) && m_szNode && pCaps->GetVersion()) {
 		if ( !_tcscmp( m_szNode, _T( "http://miranda-im.org/caps" )) && !_tcscmp( pCaps->GetVersion(), _T( "0.7.0.13" )))
 			jcbCaps = jcbCaps & ( ~JABBER_CAPS_MESSAGE_RECEIPTS );
 	}
@@ -702,14 +702,14 @@ BOOL CJabberClientCapsManager::HandleInfoRequest( HXML, CJabberIqInfo* pInfo, co
 		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-version")) << XCHILD( _T("value"), szCoreVersion );
 		
 #ifdef _DEBUG
-		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-jabber-is-debug")) << XCHILD( _T("value"), _T("1") );
+		form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-jabber-is-debug")) << XCHILD( _T("value"), _T("1"));
 #endif
 
 		char szMirandaVersion[100];
 		if (!JCallService( MS_SYSTEM_GETVERSIONTEXT, sizeof( szMirandaVersion ), ( LPARAM )szMirandaVersion )) {
 			_strlwr( szMirandaVersion );
-			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-is-unicode")) << XCHILD( _T("value"), strstr( szMirandaVersion, "unicode" ) ? _T("1") : _T("0") );
-			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-is-alpha")) << XCHILD( _T("value"), strstr( szMirandaVersion, "alpha" ) ? _T("1") : _T("0") );
+			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-is-unicode")) << XCHILD( _T("value"), strstr( szMirandaVersion, "unicode" ) ? _T("1") : _T("0"));
+			form << XCHILD( _T("field")) << XATTR( _T("var"), _T("x-miranda-core-is-alpha")) << XCHILD( _T("value"), strstr( szMirandaVersion, "alpha" ) ? _T("1") : _T("0"));
 		}
 	}
 

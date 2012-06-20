@@ -153,7 +153,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 				}
 				else if ( pENLink->msg == WM_LBUTTONUP )
 				{ 
-					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR) );
+					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR));
 					SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&pENLink->chrg)); 
 					SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
 					
@@ -183,7 +183,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 					
 					CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hSubMenu, 0);
 					
-					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR) );
+					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR));
 					SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&(pENLink->chrg))); 
 					SendDlgItemMessage(hDlg, IDC_MAIN, EM_GETSELTEXT, 0, (LPARAM)link);
 					
@@ -191,7 +191,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 	                pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 					ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);
 				
-					switch ( TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL) ) 
+					switch ( TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL)) 
 					{
 						case IDM_LINK_OPEN:
 						{
@@ -215,7 +215,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 						{
 							size_t dataLen;
 							HGLOBAL hData;
-							if ( !OpenClipboard(hDlg) )
+							if ( !OpenClipboard(hDlg))
 								break;
 							EmptyClipboard();
 
@@ -288,7 +288,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 				SetDlgItemText(hDlg, IDC_STATUS, filter);
 				
 				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED) )
+				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				{
 					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
 
@@ -317,7 +317,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 				SetDlgItemText(hDlg, IDC_STATUS, filter);
 
 				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED) )
+				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				{
 					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
 					if ( GetMenuState(listMenu, IDM_DIR_OUT, MF_BYCOMMAND) == MF_CHECKED )
@@ -345,7 +345,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 				SetDlgItemText(hDlg, IDC_STATUS, filter);
 
 				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED) )
+				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				{
 					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
 					if ( GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_CHECKED )
@@ -370,7 +370,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 			else if ( wParam == IDM_TYPE_MAIL )
 			{
 				// not possible if search dialog is open
-				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED) )
+				if ( !(GetMenuState(listMenu, IDM_SEARCH, MF_BYCOMMAND) & MF_DISABLED))
 				{
 					SetDlgItemText(hDlg, IDC_MAIN, _T(""));
 					if ( GetMenuState(listMenu, IDM_TYPE_MAIL, MF_BYCOMMAND) == MF_CHECKED )
@@ -540,7 +540,7 @@ INT_PTR WINAPI SearchDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam 
 						flags = flags | SLL_DEEP;
 
 					length = GetWindowTextLength(GetDlgItem(hDlg, IDC_SEARCHSTRING))+1;
-					buffer = (LPTSTR)malloc( length*sizeof(TCHAR) );
+					buffer = (LPTSTR)malloc( length*sizeof(TCHAR));
 					GetDlgItemText(hDlg, IDC_SEARCHSTRING, buffer, length);
 					WriteLinkList(hListDlg, flags, DlgParam->listStart, buffer, 0);
 					free(buffer);

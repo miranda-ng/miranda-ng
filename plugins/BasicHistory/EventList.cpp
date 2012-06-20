@@ -787,7 +787,7 @@ bool EventList::GetEventData(const EventIndex& ev, EventData& data)
 void EventList::GetExtEventDBei(const EventIndex& ev)
 {
 	IImport::ExternalMessage& em = importedMessages[ev.exIdx];
-	gdbei.flags = (em.flags & (~(DBEF_FIRST)) ) | 0x800;
+	gdbei.flags = (em.flags & (~(DBEF_FIRST))) | 0x800;
 	gdbei.eventType = em.eventType;
 	gdbei.timestamp = em.timestamp;
 }

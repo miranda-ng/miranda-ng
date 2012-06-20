@@ -85,14 +85,14 @@ DWORD StatusModeToProtoFlag(int status)
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting)
 {
 	if (protoSetting->status == ID_STATUS_LAST) {
-		if ( (protoSetting->lastStatus < MIN_STATUS) || (protoSetting->lastStatus > MAX_STATUS) )
+		if ( (protoSetting->lastStatus < MIN_STATUS) || (protoSetting->lastStatus > MAX_STATUS))
 			return CallProtoService(protoSetting->szName, PS_GETSTATUS, 0, 0);
 		return protoSetting->lastStatus;
 	}
 	if (protoSetting->status == ID_STATUS_CURRENT)
 		return CallProtoService(protoSetting->szName, PS_GETSTATUS, 0, 0);
 
-	if ( (protoSetting->status < ID_STATUS_OFFLINE) || (protoSetting->status > ID_STATUS_OUTTOLUNCH) ) {
+	if ( (protoSetting->status < ID_STATUS_OFFLINE) || (protoSetting->status > ID_STATUS_OUTTOLUNCH)) {
 		log_debugA("invalid status detected: %d", protoSetting->status);
 		return 0;
 	}
@@ -227,7 +227,7 @@ static int nasSetStatus(PROTOCOLSETTINGEX **protoSettings, int newstatus)
 		}
 		// fill the array of proto message for NAS, this will be used anyway
 		for (i=0;i<protoList->getCount();i++) {
-			if ( (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protoSettings[i]->szName)) || (protoSettings[i]->szMsg != NULL) ) {
+			if ( (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)protoSettings[i]->szName)) || (protoSettings[i]->szMsg != NULL)) {
 				continue;
 			}
 			ZeroMemory(&npi, sizeof(NAS_PROTOINFO));
@@ -248,12 +248,12 @@ static int nasSetStatus(PROTOCOLSETTINGEX **protoSettings, int newstatus)
 			for (i=0;i<protoList->getCount();i++) {
 				msgCount = 0;
 				for (j=i;j<protoList->getCount();j++) {
-					if ( (nasProtoMessages[i] != NULL) && (nasProtoMessages[j] != NULL) && (!strcmp(nasProtoMessages[i], nasProtoMessages[j])) ) {
+					if ( (nasProtoMessages[i] != NULL) && (nasProtoMessages[j] != NULL) && (!strcmp(nasProtoMessages[i], nasProtoMessages[j]))) {
 						msgCount += 1;
 						//log_infoA("Adding %s (%u) to %s (%u)", protoSettings[j]->szName, protoSettings[j]->status, protoSettings[i]->szName, protoSettings[i]->status);
 					}
 				}
-				if ( (msgCount > maxMsgCount) && ((protoList->getCount() == 1) || (msgCount > 1)) ) {
+				if ( (msgCount > maxMsgCount) && ((protoList->getCount() == 1) || (msgCount > 1))) {
 					maxMsgCount = msgCount;
 					nasGlobalMsg = _strdup(nasProtoMessages[i]);
 				}
@@ -281,7 +281,7 @@ static int nasSetStatus(PROTOCOLSETTINGEX **protoSettings, int newstatus)
 				npi.szMsg = mir_strdup(protoSettings[i]->szMsg);
 				log_infoA("CommonStatus will set status %u for %s and message specified by plugin using NAS (%x)", npi.status, npi.szProto, npi.szMsg);
 			}
-			else if ( (nasProtoMessages[i] != NULL) && (nasGlobalMsg != NULL) && (!strcmp(nasProtoMessages[i], nasGlobalMsg)) ) {
+			else if ( (nasProtoMessages[i] != NULL) && (nasGlobalMsg != NULL) && (!strcmp(nasProtoMessages[i], nasGlobalMsg))) {
 				npi.szMsg = NULL;
 				log_infoA("CommonStatus will set status %u for %s and global message using NAS", npi.status, npi.szProto);
 			}

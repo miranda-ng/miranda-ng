@@ -57,7 +57,7 @@ int OnIconPressed(WPARAM wParam, LPARAM lParam)
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
 	if ( !(sicd->flags & MBCF_RIGHTBUTTON) && !lstrcmpA(sicd->szModule, ModuleName) 
-		&& DBGetContactSettingByte(NULL, ModuleName, "ChangeInMW", 0) )
+		&& DBGetContactSettingByte(NULL, ModuleName, "ChangeInMW", 0))
 	{
 		int nh = sicd->dwId; HANDLE hContact = (HANDLE)wParam; StatusIconData sid = {0};
 

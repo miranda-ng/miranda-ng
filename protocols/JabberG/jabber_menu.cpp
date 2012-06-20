@@ -459,7 +459,7 @@ int CJabberProto::OnPrebuildContactMenu( WPARAM wParam, LPARAM )
 
 				int nMenuResourceItemsNew = m_nMenuResourceItems;
 				if ( m_nMenuResourceItems < item->resourceCount ) {
-					m_phMenuResourceItems = (HANDLE *)mir_realloc( m_phMenuResourceItems, item->resourceCount * sizeof(HANDLE) );
+					m_phMenuResourceItems = (HANDLE *)mir_realloc( m_phMenuResourceItems, item->resourceCount * sizeof(HANDLE));
 					nMenuResourceItemsNew = item->resourceCount;
 				}
 
@@ -553,11 +553,11 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd( WPARAM wParam, LPARAM )
 		if ( ListGetItemPtr( LIST_ROSTER, roomID ) == NULL ) {
 			TCHAR *nick = 0;
 			TCHAR *group = 0;
-			if ( !DBGetContactSettingTString( ( HANDLE ) wParam, "CList", "Group", &dbv ) ) {
+			if ( !DBGetContactSettingTString( ( HANDLE ) wParam, "CList", "Group", &dbv )) {
 				group = mir_tstrdup(dbv.ptszVal);
 				JFreeVariant( &dbv );
 			}
-			if ( !JGetStringT( ( HANDLE ) wParam, "Nick", &dbv ) ) {
+			if ( !JGetStringT( ( HANDLE ) wParam, "Nick", &dbv )) {
 				nick = mir_tstrdup(dbv.ptszVal);
 				JFreeVariant( &dbv );
 			}
@@ -572,7 +572,7 @@ INT_PTR __cdecl CJabberProto::OnMenuRosterAdd( WPARAM wParam, LPARAM )
 					ZeroMemory( item, sizeof( JABBER_LIST_ITEM ));
 					item->jid = mir_tstrdup(roomID);
 					item->name = mir_tstrdup(nick);
-					if ( !JGetStringT( ( HANDLE ) wParam, "MyNick", &dbv ) ) {
+					if ( !JGetStringT( ( HANDLE ) wParam, "MyNick", &dbv )) {
 						item->nick = mir_tstrdup(dbv.ptszVal);
 						JFreeVariant( &dbv );
 					}
@@ -675,7 +675,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd( WPARAM wParam, LPARAM )
 		JFreeVariant( &dbv );
 		if ( ListGetItemPtr( LIST_BOOKMARK, roomID ) == NULL ) {
 			TCHAR *nick = 0;
-			if ( !JGetStringT( ( HANDLE ) wParam, "Nick", &dbv ) ) {
+			if ( !JGetStringT( ( HANDLE ) wParam, "Nick", &dbv )) {
 				nick = mir_tstrdup(dbv.ptszVal);
 				JFreeVariant( &dbv );
 			}
@@ -686,7 +686,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd( WPARAM wParam, LPARAM )
 			item->jid = mir_tstrdup(roomID);
 			item->name = ( TCHAR* )JCallService( MS_CLIST_GETCONTACTDISPLAYNAME, wParam, GCDNF_TCHAR );
 			item->type = _T("conference");
-			if ( !JGetStringT(( HANDLE ) wParam, "MyNick", &dbv ) ) {
+			if ( !JGetStringT(( HANDLE ) wParam, "MyNick", &dbv )) {
 				item->nick = mir_tstrdup(dbv.ptszVal);
 				JFreeVariant( &dbv );
 			}

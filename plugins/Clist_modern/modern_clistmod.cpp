@@ -357,7 +357,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY) {
 	
 	if (IsIconic(hWnd) || !IsWindowVisible(hWnd))
 		return GWVS_HIDDEN;
-	else if ( ModernGetSettingByte(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT) || !ModernGetSettingByte(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT) )
+	else if ( ModernGetSettingByte(NULL,"CList","OnDesktop",SETTING_ONDESKTOP_DEFAULT) || !ModernGetSettingByte(NULL, "CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 		return GWVS_VISIBLE;
 	else if ( hwndFocused == pcli->hwndContactList || GetParent(hwndFocused) == pcli->hwndContactList )
 		return GWVS_VISIBLE;
@@ -513,7 +513,7 @@ int cliShowHide(WPARAM wParam,LPARAM lParam)
 			return 0;
 	}
 
-	if ( (bShow == TRUE || lParam == 1) ) 
+	if ( (bShow == TRUE || lParam == 1)) 
 	{
 		Sync( CLUIFrames_ActivateSubContainers, TRUE );
 		CLUI_ShowWindowMod(pcli->hwndContactList, SW_RESTORE);

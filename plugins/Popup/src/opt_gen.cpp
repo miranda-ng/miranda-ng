@@ -163,14 +163,14 @@ INT_PTR CALLBACK DlgProcPopUpGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			CheckDlgButton(hwnd, IDC_USEMINIMUMWIDTH, PopUpOptions.UseMinimumWidth);
 			SendDlgItemMessage(hwnd, IDC_MINIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(
 				SETTING_MAXIMUMWIDTH_MAX,
-				SETTING_MINIMUMWIDTH_MIN) );
+				SETTING_MINIMUMWIDTH_MIN));
 			SetDlgItemInt(hwnd, IDC_MINIMUMWIDTH, PopUpOptions.MinimumWidth, FALSE);
 			//Maximum Width
 			PopUpOptions.UseMaximumWidth = PopUpOptions.DynamicResize ? PopUpOptions.UseMaximumWidth : TRUE;
 			CheckDlgButton(hwnd, IDC_USEMAXIMUMWIDTH, PopUpOptions.UseMaximumWidth);
 			SendDlgItemMessage(hwnd, IDC_MAXIMUMWIDTH_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(
 				SETTING_MAXIMUMWIDTH_MAX,
-				SETTING_MINIMUMWIDTH_MIN) );
+				SETTING_MINIMUMWIDTH_MIN));
 			SetDlgItemInt(hwnd, IDC_MAXIMUMWIDTH, PopUpOptions.MaximumWidth, FALSE);
 			//And finally let's enable/disable them.
 			EnableWindow(GetDlgItem(hwnd, IDC_USEMINIMUMWIDTH),		PopUpOptions.DynamicResize);

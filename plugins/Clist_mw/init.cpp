@@ -122,7 +122,7 @@ static int systemModulesLoaded(WPARAM wParam, LPARAM lParam)
 		disableDefaultModule = (int*)CallService(MS_PLUGINS_GETDISABLEDEFAULTARRAY,0,0);
 		if (!disableDefaultModule[DEFMOD_UICLUI]) if ( LoadCLUIModule()) return 1;
 	}
-	__except (exceptFunction(GetExceptionInformation()) )
+	__except (exceptFunction(GetExceptionInformation()))
 	{
 		return 0;
 	}
@@ -231,7 +231,7 @@ LBL_Error:
 
 		OutputDebugStringA("CListInitialise ClistMW...Done\r\n");
 	}
-	__except (exceptFunction(GetExceptionInformation()) )
+	__except (exceptFunction(GetExceptionInformation()))
 	{
 		return 0;
 	}

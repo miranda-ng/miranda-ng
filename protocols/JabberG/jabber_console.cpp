@@ -88,7 +88,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent);
 void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 {
 	if ( node && m_pDlgConsole ) {
-		if ( xmlGetName( node ) ) {
+		if ( xmlGetName( node )) {
 			if ( FilterXml( node, flags )) {
 				StringBuf buf = {0};
 				sttAppendBufRaw(&buf, RTF_HEADER);
@@ -243,7 +243,7 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 		sttAppendBufRaw(buf, RTF_ENDATTRNAME);
 		sttAppendBufRaw(buf, "=\"");
 		sttAppendBufRaw(buf, RTF_BEGINATTRVAL);
-		sttAppendBufT(buf, ( TCHAR* )xmlGetAttr( node, i) );
+		sttAppendBufT(buf, ( TCHAR* )xmlGetAttr( node, i));
 		sttAppendBufRaw(buf, "\"");
 		sttAppendBufRaw(buf, RTF_ENDATTRVAL);
 	}
@@ -712,7 +712,7 @@ void CJabberProto::ConsoleUninit()
 INT_PTR __cdecl CJabberProto::OnMenuHandleConsole(WPARAM, LPARAM)
 {
 	if ( m_pDlgConsole )
-		SetForegroundWindow( m_pDlgConsole->GetHwnd() );
+		SetForegroundWindow( m_pDlgConsole->GetHwnd());
 	else
 		if ( m_hThreadConsole )
 			PostThreadMessage( m_dwConsoleThreadId, WM_CREATECONSOLE, 0, 0 );

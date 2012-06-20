@@ -33,11 +33,11 @@ BOOL CJabberProto::OnMessageError( HXML node, ThreadData *pThreadData, CJabberMe
 {
 	// we check if is message delivery failure
 	int id = JabberGetPacketID( node );
-	JABBER_LIST_ITEM* item = ListGetItemPtr( LIST_ROSTER, pInfo->GetFrom() );
+	JABBER_LIST_ITEM* item = ListGetItemPtr( LIST_ROSTER, pInfo->GetFrom());
 	if ( item == NULL )
-		item = ListGetItemPtr( LIST_CHATROOM, pInfo->GetFrom() );
+		item = ListGetItemPtr( LIST_CHATROOM, pInfo->GetFrom());
 	if ( item != NULL ) { // yes, it is
-		TCHAR *szErrText = JabberErrorMsg( pInfo->GetChildNode() );
+		TCHAR *szErrText = JabberErrorMsg( pInfo->GetChildNode());
 		if ( id != -1 ) {
 			char *errText = mir_t2a(szErrText);
 			JSendBroadcast( pInfo->GetHContact(), ACKTYPE_MESSAGE, ACKRESULT_FAILED, ( HANDLE ) id, (LPARAM)errText );
@@ -62,8 +62,8 @@ BOOL CJabberProto::OnMessageIbb( HXML node, ThreadData *pThreadData, CJabberMess
 	BOOL bOk = FALSE;
 	const TCHAR *sid = xmlGetAttrValue( pInfo->GetChildNode(), _T("sid"));
 	const TCHAR *seq = xmlGetAttrValue( pInfo->GetChildNode(), _T("seq"));
-	if ( sid && seq && xmlGetText( pInfo->GetChildNode() ) ) {
-		bOk = OnIbbRecvdData( xmlGetText( pInfo->GetChildNode() ), sid, seq );
+	if ( sid && seq && xmlGetText( pInfo->GetChildNode()) ) {
+		bOk = OnIbbRecvdData( xmlGetText( pInfo->GetChildNode()), sid, seq );
 	}
 	return TRUE;
 }
@@ -76,7 +76,7 @@ BOOL CJabberProto::OnMessagePubsubEvent( HXML node, ThreadData *pThreadData, CJa
 
 BOOL CJabberProto::OnMessageGroupchat( HXML node, ThreadData *pThreadData, CJabberMessageInfo* pInfo )
 {
-	JABBER_LIST_ITEM *chatItem = ListGetItemPtr( LIST_CHATROOM, pInfo->GetFrom() );
+	JABBER_LIST_ITEM *chatItem = ListGetItemPtr( LIST_CHATROOM, pInfo->GetFrom());
 	if ( chatItem )
 	{	// process GC message
 		GroupchatProcessMessage( node );

@@ -103,10 +103,10 @@ static int CountryNumberToBitmapIndex(int countryNumber)
 			countryNumber=599;  /* Netherlands Antilles (dissolved 2010) */
 			//countryNumber=31;   /* Netherlands */
 			break;
-		case 5995:              /* St. Maarten (new country in 2010 (from Netherlands Antilles) new country in 2010 (from Netherlands Antilles) ) */
+		case 5995:              /* St. Maarten (new country in 2010 (from Netherlands Antilles) new country in 2010 (from Netherlands Antilles)) */
 			countryNumber=599;  /* Netherlands Antilles (dissolved 2010) */
 			break;
-		case 5999:              /* Curacao (new country in 2010 (from Netherlands Antilles) new country in 2010 (from Netherlands Antilles) ) */
+		case 5999:              /* Curacao (new country in 2010 (from Netherlands Antilles) new country in 2010 (from Netherlands Antilles)) */
 			countryNumber=599;  /* Netherlands Antilles (dissolved 2010) */
 			break;
 		case 5399:              /* missing Guantanamo Bay */

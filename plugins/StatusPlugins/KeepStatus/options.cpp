@@ -98,7 +98,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg,UINT msg,WPARAM wParam,L
 		break;
 
 	case WM_COMMAND:
-		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()) )
+		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()))
 			SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 		// something changed
 		switch (LOWORD(wParam)) {
@@ -203,7 +203,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg,UINT msg,WPARAM wParam,LPA
 		break;
 						}
 	case WM_COMMAND:
-		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()) )
+		if ( ((HIWORD(wParam) == EN_CHANGE) || (HIWORD(wParam) == BN_CLICKED)) && ((HWND)lParam == GetFocus()))
 			SendMessage(GetParent(hwndDlg),PSM_CHANGED,0,0);
 		// something changed
 		switch (LOWORD(wParam)) {
@@ -329,7 +329,7 @@ static INT_PTR CALLBACK DlgProcKsTabs(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_NOTIFY:
-		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS) ) {
+		if ( (((NMHDR*)lParam)->idFrom == IDC_TABS)) {
 			if (((NMHDR*)lParam)->code == TCN_SELCHANGING) {
 				TCITEM tci;
 
@@ -435,7 +435,7 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		// wincolors
 		CheckDlgButton(hwndDlg, IDC_WINCOLORS, DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEWINCOLORS, 0));
 		// defaultcolors
-		CheckDlgButton(hwndDlg, IDC_DEFAULTCOLORS, ( (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0)) && (!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)) ));
+		CheckDlgButton(hwndDlg, IDC_DEFAULTCOLORS, ( (DBGetContactSettingByte(NULL, MODULENAME, SETTING_POPUP_USEDEFCOLORS, 0)) && (!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_BGCOLOR), ((!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)) && (!IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_TEXTCOLOR), ((!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)) && (!IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))));
 		EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), (!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS)));
@@ -495,8 +495,8 @@ INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 				
 				ppd.lchContact = NULL;
 				ppd.lchIcon = (HICON)CallService(MS_SKIN_LOADICON, (WPARAM)SKINICON_STATUS_OFFLINE, 0);
-				strcpy( ppd.lpzContactName, Translate("KeepStatus") );
-				strcpy( ppd.lpzText, Translate("You broke the Internet!") );
+				strcpy( ppd.lpzContactName, Translate("KeepStatus"));
+				strcpy( ppd.lpzText, Translate("You broke the Internet!"));
 				if (IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS))
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				else if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS))

@@ -34,13 +34,13 @@ void free_rtfconv () {
 
 void rtfconvA(LPCSTR rtf, LPWSTR plain) {
 
-    pRtfconvString( rtf, plain, 0, 1200, CONVMODE_USE_SYSTEM_TABLE, (strlen(rtf)+1)*sizeof(WCHAR) );
+    pRtfconvString( rtf, plain, 0, 1200, CONVMODE_USE_SYSTEM_TABLE, (strlen(rtf)+1)*sizeof(WCHAR));
 }
 
 
 void rtfconvW(LPCWSTR rtf, LPWSTR plain) {
 
-    pRtfconvString( rtf, plain, 0, 1200, CONVMODE_USE_SYSTEM_TABLE, (wcslen(rtf)+1)*sizeof(WCHAR) );
+    pRtfconvString( rtf, plain, 0, 1200, CONVMODE_USE_SYSTEM_TABLE, (wcslen(rtf)+1)*sizeof(WCHAR));
 }
 
 // EOF

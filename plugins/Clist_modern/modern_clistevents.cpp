@@ -115,7 +115,7 @@ struct CListEvent* cli_AddEvent(CLISTEVENT *cle)
 			mii.cbSize = sizeof(mii);
 			mii.fMask = MIIM_DATA | MIIM_BITMAP | MIIM_ID;
 			if (p->cle.pszService && (    !strncmp("SRMsg/ReadMessage", p->cle.pszService, SIZEOF("SRMsg/ReadMessage"))
-								   	   || !strncmp("GChat/DblClickEvent", p->cle.pszService, SIZEOF("GChat/DblClickEvent")) ))
+								   	   || !strncmp("GChat/DblClickEvent", p->cle.pszService, SIZEOF("GChat/DblClickEvent"))))
 										
 			{
 				// dup check only for msg events

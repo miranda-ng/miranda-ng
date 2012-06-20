@@ -183,7 +183,7 @@ void SweepHistoryFromContact(HANDLE hContact, CriteriaStruct Criteria, BOOL keep
 
 			// should we stop processing?
 			// lPolicy == 1 - for time criterion, lPolicy == 2 - keep N last events, lPolicy == 3 - delete all events
-			if ( (lPolicy == 1 && (unsigned)Criteria.time < dbei.timestamp) || (lPolicy == 2 && Criteria.keep > --eventsCnt) ) break;
+			if ( (lPolicy == 1 && (unsigned)Criteria.time < dbei.timestamp) || (lPolicy == 2 && Criteria.keep > --eventsCnt)) break;
 			
 			doDelete = TRUE;
 

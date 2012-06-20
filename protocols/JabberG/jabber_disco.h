@@ -379,16 +379,16 @@ public:
 
 			CJabberSDIdentity *pIdentity = m_pIdentities;
 			while ( pIdentity ) {
-				if ( pIdentity->GetName() )
+				if ( pIdentity->GetName())
 					mir_sntprintf( szTmp, SIZEOF( szTmp ), _T(" %c %s (%s: %s, %s: %s)\r\n"),
 						CHR_BULLET, pIdentity->GetName(),
 							TranslateT("category"), pIdentity->GetCategory(),
-							TranslateT("type"), pIdentity->GetType() );
+							TranslateT("type"), pIdentity->GetType());
 				else
 					mir_sntprintf( szTmp, SIZEOF( szTmp ), _T(" %c %s: %s, %s: %s\r\n"),
 						CHR_BULLET,
 						TranslateT("Category"), pIdentity->GetCategory(),
-						TranslateT("Type"), pIdentity->GetType() );
+						TranslateT("Type"), pIdentity->GetType());
 
 				AppendString( &szBuffer, szTmp );
 
@@ -402,7 +402,7 @@ public:
 
 			CJabberSDFeature *pFeature = m_pFeatures;
 			while ( pFeature ) {
-				mir_sntprintf( szTmp, SIZEOF( szTmp ), _T(" %c %s\r\n"), CHR_BULLET, pFeature->GetVar() );
+				mir_sntprintf( szTmp, SIZEOF( szTmp ), _T(" %c %s\r\n"), CHR_BULLET, pFeature->GetVar());
 
 				AppendString( &szBuffer, szTmp );
 
@@ -484,7 +484,7 @@ public:
 		CJabberSDNode *pTmpNode = NULL;
 		pNode = m_pPrimaryNodes;
 		while ( pNode ) {
-			if ( pTmpNode = pNode->FindByIqId( nIqId, bInfoId ) )
+			if ( pTmpNode = pNode->FindByIqId( nIqId, bInfoId ))
 				return pTmpNode;
 			pNode = pNode->GetNext();
 		}

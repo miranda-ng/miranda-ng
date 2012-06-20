@@ -1083,17 +1083,17 @@ int OptionsInit(void)
 	g_Settings.iHeight = DBGetContactSettingDword(NULL, "Chat", "roomheight", -1);
 	LoadGlobalSettings();
 
-	SkinAddNewSoundEx("ChatMessage", LPGEN("Group chats"), LPGEN("Incoming message"));
+	SkinAddNewSoundEx("ChatMessage",   LPGEN("Group chats"), LPGEN("Incoming message"));
 	SkinAddNewSoundEx("ChatHighlight", LPGEN("Group chats"), LPGEN("Message is highlighted"));
-	SkinAddNewSoundEx("ChatAction", LPGEN("Group chats"), LPGEN("User has performed an action"));
-	SkinAddNewSoundEx("ChatJoin", LPGEN("Group chats"), LPGEN("User has joined"));
-	SkinAddNewSoundEx("ChatPart", LPGEN("Group chats"), LPGEN("User has left"));
-	SkinAddNewSoundEx("ChatKick", LPGEN("Group chats"), LPGEN("User has kicked some other user"));
-	SkinAddNewSoundEx("ChatMode", LPGEN("Group chats"), LPGEN("User's status was changed"));
-	SkinAddNewSoundEx("ChatNick", LPGEN("Group chats"), LPGEN("User has changed name"));
-	SkinAddNewSoundEx("ChatNotice", LPGEN("Group chats"), LPGEN("User has sent a notice"));
-	SkinAddNewSoundEx("ChatQuit", LPGEN("Group chats"), LPGEN("User has disconnected"));
-	SkinAddNewSoundEx("ChatTopic", LPGEN("Group chats"), LPGEN("The topic has been changed"));
+	SkinAddNewSoundEx("ChatAction",    LPGEN("Group chats"), LPGEN("User has performed an action"));
+	SkinAddNewSoundEx("ChatJoin",      LPGEN("Group chats"), LPGEN("User has joined"));
+	SkinAddNewSoundEx("ChatPart",      LPGEN("Group chats"), LPGEN("User has left"));
+	SkinAddNewSoundEx("ChatKick",      LPGEN("Group chats"), LPGEN("User has kicked some other user"));
+	SkinAddNewSoundEx("ChatMode",      LPGEN("Group chats"), LPGEN("User's status was changed"));
+	SkinAddNewSoundEx("ChatNick",      LPGEN("Group chats"), LPGEN("User has changed name"));
+	SkinAddNewSoundEx("ChatNotice",    LPGEN("Group chats"), LPGEN("User has sent a notice"));
+	SkinAddNewSoundEx("ChatQuit",      LPGEN("Group chats"), LPGEN("User has disconnected"));
+	SkinAddNewSoundEx("ChatTopic",     LPGEN("Group chats"), LPGEN("The topic has been changed"));
 
 	if ( g_Settings.LoggingEnabled )
 		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)g_Settings.pszLogDir);

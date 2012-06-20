@@ -130,7 +130,7 @@ int __cdecl Load(PLUGINLINK *link) {
 	iCoreVersion = CallService(MS_SYSTEM_GETVERSION,0,0);
 
 	// load crypo++ dll
-	if ( !loadlib() ) {
+	if ( !loadlib()) {
 		msgbox1(0,sim107,szModuleName,MB_OK|MB_ICONSTOP);
 		return 1;
 	}
@@ -242,10 +242,10 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 
 		if ( !rsa_4096 ) {
 			unsigned int tID;
-			CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttGenerateRSA, NULL, 0, &tID) );
+			CloseHandle( (HANDLE) _beginthreadex(NULL, 0, sttGenerateRSA, NULL, 0, &tID));
 		}
 
-		exp->rsa_set_timeout( DBGetContactSettingWord(0,szModuleName,"ket",10) );
+		exp->rsa_set_timeout( DBGetContactSettingWord(0,szModuleName,"ket",10));
 	}
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
@@ -361,8 +361,8 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	loadContactList();
 
 	// add new skin sound
-	SkinAddNewSound("IncomingSecureMessage","Incoming Secure Message","Sounds\\iSecureMessage.wav");
-	SkinAddNewSound("OutgoingSecureMessage","Outgoing Secure Message","Sounds\\oSecureMessage.wav");
+	SkinAddNewSound("IncomingSecureMessage",LPGEN("Incoming Secure Message"),"Sounds\\iSecureMessage.wav");
+	SkinAddNewSound("OutgoingSecureMessage",LPGEN("Outgoing Secure Message"),"Sounds\\oSecureMessage.wav");
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("init extra icons");
@@ -383,7 +383,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	AddHookFunction(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
 //	g_hMC = HookEvent(ME_MC_SUBCONTACTSCHANGED, onMC);
 
-	if ( ServiceExists(MS_EXTRAICON_REGISTER) ) {
+	if ( ServiceExists(MS_EXTRAICON_REGISTER)) {
 		g_hCLIcon = ExtraIcon_Register(szModuleName, Translate("SecureIM status"), "sim_cm_est",
 						onExtraImageListRebuilding,
 						onExtraImageApplying);

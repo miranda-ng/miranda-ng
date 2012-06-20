@@ -44,7 +44,7 @@ static void ConvertOldEvent( DBEvent*& dbei )
 				break;
 	}	}	}
 	else {
-		if ( !is_utf8_string(( char* )dbei->blob) )
+		if ( !is_utf8_string(( char* )dbei->blob))
 			dbei->flags &= ~DBEF_UTF;
 	}
 

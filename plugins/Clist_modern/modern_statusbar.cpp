@@ -478,7 +478,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 							if ( ( ProtosData[i].showProtoName) || 
 								(ProtosData[i].showProtoEmails && ProtosData[i].ProtoEMailCount ) || 
 								(ProtosData[i].showStatusName) ||
-								((ProtosData[i].xStatusMode&8) && ProtosData[i].ProtoXStatus) )
+								((ProtosData[i].xStatusMode&8) && ProtosData[i].ProtoXStatus))
 								w -= spaceWidth;
 
 							ProtosData[i].fullWidth=w;
@@ -623,7 +623,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 								if ( ( hxIcon || hIcon) && TRUE /* TODO g_StatusBarData.bDrawLockOverlay  options to draw locked proto*/  )
 								{
-									if ( ModernGetSettingByte( NULL,ProtosData[i].AccountName,"LockMainStatus",0 ) )
+									if ( ModernGetSettingByte( NULL,ProtosData[i].AccountName,"LockMainStatus",0 ))
 									{
 										HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 										if (hLockOverlay != NULL)
@@ -719,7 +719,7 @@ static BOOL _ModernStatus_OnExtraIconClick( int protoIndex )
         move This portion of code to related Protocols
     */
     
-    if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "ICQ" ) )
+    if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "ICQ" ))
     {
         if ( ProtosData[protoIndex].ProtoStatus < ID_STATUS_ONLINE ) return FALSE;
 
@@ -740,13 +740,13 @@ static BOOL _ModernStatus_OnExtraIconClick( int protoIndex )
         }
         return TRUE;
     } 
-    else if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "JABBER" ) )
+    else if ( !mir_strcmpi( ProtosData[protoIndex].ProtoName, "JABBER" ))
     {
         if ( ProtosData[protoIndex].ProtoStatus < ID_STATUS_ONLINE ) return FALSE;
         // Show Moods
         char szService[128];
         mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/Mood", ProtosData[protoIndex].AccountName );
-        if ( ServiceExists( szService ) )
+        if ( ServiceExists( szService ))
         {
             CallService( szService, 0 ,0 );
             return TRUE;
@@ -987,7 +987,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
                     BOOL bShift =( GetKeyState( VK_SHIFT )&0x8000 );
                     BOOL bCtrl  =( GetKeyState( VK_CONTROL )&0x8000 );
 
-                    if ( ( msg==WM_MBUTTONDOWN || ( msg==WM_RBUTTONDOWN && bCtrl ) || isOnExtra) && _ModernStatus_OnExtraIconClick( i ) )
+                    if ( ( msg==WM_MBUTTONDOWN || ( msg==WM_RBUTTONDOWN && bCtrl ) || isOnExtra) && _ModernStatus_OnExtraIconClick( i ))
                     {
                         return TRUE;
                     }
@@ -1041,12 +1041,12 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam
 
                                 char protoF[ sizeof(g_CluiData.protoFilter) ];
                                 mir_snprintf( protoF, SIZEOF(protoF), "%s|", accs[i]->szModuleName );
-                                if ( strstri( g_CluiData.protoFilter, protoF ) )
+                                if ( strstri( g_CluiData.protoFilter, protoF ))
                                 {
                                     char * temp = mir_utf8encodeT( accs[i]->tszAccountName );
                                     if ( !first )
-                                        strncat( filterName, "; ", SIZEOF(filterName) - strlen(filterName) );
-                                    strncat( filterName, temp, SIZEOF(filterName) - strlen(filterName) );
+                                        strncat( filterName, "; ", SIZEOF(filterName) - strlen(filterName));
+                                    strncat( filterName, temp, SIZEOF(filterName) - strlen(filterName));
                                     first = false;
                                     mir_free( temp );
                                 }

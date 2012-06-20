@@ -214,7 +214,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 }
 
 
-#define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__) )
+#define GET_PIXEL(__P__, __X__, __Y__) ( __P__ + width * 4 * (__Y__) + 4 * (__X__))
 
 BOOL MakeGrayscale(HBITMAP *hBitmap)
 {

@@ -29,7 +29,7 @@ static ALIASREGISTER *searchAliasRegister(TCHAR *szAlias) {
 	unsigned int i;
 
 	res = NULL;
-	if ( (szAlias == NULL) || (_tcslen(szAlias) == 0) ) {
+	if ( (szAlias == NULL) || (_tcslen(szAlias) == 0)) {
 		return NULL;
 	}
 	EnterCriticalSection(&csAliasRegister);
@@ -55,12 +55,12 @@ static TCHAR *replaceArguments(TCHAR *res, TCHAR *tArg, TCHAR *rArg) {
 
 	cur = ecur = 0;
 	while (*(res+cur) != _T('\0')) {
-		if ( (*(res+cur) == _T('(')) || (*(res+cur) == _T(',')) ) {
+		if ( (*(res+cur) == _T('(')) || (*(res+cur) == _T(','))) {
 			ecur = ++cur;
-			while ( (*(res+ecur) != _T(')')) && (*(res+ecur) != _T(',')) ) {
+			while ( (*(res+ecur) != _T(')')) && (*(res+ecur) != _T(','))) {
 				ecur++;
 			}
-			if ( ((signed int)_tcslen(tArg) == (ecur-cur)) && (!_tcsncmp(tArg, res+cur, _tcslen(tArg))) ) {
+			if ( ((signed int)_tcslen(tArg) == (ecur-cur)) && (!_tcsncmp(tArg, res+cur, _tcslen(tArg)))) {
 				if (_tcslen(rArg) > _tcslen(tArg)) {
 					res = ( TCHAR* )realloc(res, (_tcslen(res) + (_tcslen(rArg)-_tcslen(tArg)) + 1)*sizeof(TCHAR));
 					if (res == NULL)
@@ -83,7 +83,7 @@ static TCHAR *parseTranslateAlias(ARGUMENTSINFO *ai) {
 	ALIASREGISTER *areg;
 	
 	areg = searchAliasRegister(ai->targv[0]);
-	if ( (areg == NULL) || (areg->argc != ai->argc-1) ) {
+	if ( (areg == NULL) || (areg->argc != ai->argc-1)) {
 		return NULL;
 	}
 	res = _tcsdup(areg->szTranslation);
@@ -188,7 +188,7 @@ static TCHAR *parseAddAlias(ARGUMENTSINFO *ai) {
 		if (i != argc-1)
 			_tcscat(szArgs, _T(","));
 	}
-	if ( (szArgs != NULL) && (argc > 0) ) {
+	if ( (szArgs != NULL) && (argc > 0)) {
 
 		szArgsA = u2a(szArgs);
 

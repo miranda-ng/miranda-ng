@@ -54,7 +54,7 @@ void AddSubcontacts(struct ClcData *dat, struct ClcContact * cont, BOOL showOffl
 		hsub=(HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
 		cacheEntry=(pdisplayNameCacheEntry)pcli->pfnGetCacheEntry(hsub);
 		wStatus=pdnce___GetStatus( cacheEntry );
-		if (showOfflineHereGroup||(!(ModernGetSettingByte(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && ModernGetSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT) ) ||
+		if (showOfflineHereGroup||(!(ModernGetSettingByte(NULL,"CLC","MetaHideOfflineSub",SETTING_METAHIDEOFFLINESUB_DEFAULT) && ModernGetSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)) ||
 			wStatus!=ID_STATUS_OFFLINE )
 			//&&
 			//(!cacheEntry->Hidden || style&CLS_SHOWHIDDEN)
@@ -337,7 +337,7 @@ int RestoreSelection( struct ClcData *dat, HANDLE hSelected )
 	ClcContact * selcontact = NULL;
 	ClcGroup   * selgroup   = NULL;
 
-	if ( !hSelected || !pcli->pfnFindItem( dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL) )
+	if ( !hSelected || !pcli->pfnFindItem( dat->hWnd, dat, hSelected, &selcontact, &selgroup, NULL))
 	{
 		dat->selection = -1;
 		return dat->selection;
@@ -345,11 +345,11 @@ int RestoreSelection( struct ClcData *dat, HANDLE hSelected )
 
 	if ( !selcontact->isSubcontact )
 	{
-		dat->selection = pcli->pfnGetRowsPriorTo( &dat->list, selgroup, li.List_IndexOf((SortedList*)&selgroup->cl, selcontact ) );
+		dat->selection = pcli->pfnGetRowsPriorTo( &dat->list, selgroup, li.List_IndexOf((SortedList*)&selgroup->cl, selcontact ));
 	}
 	else
 	{ 
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, li.List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ) );
+		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, li.List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ));
 	
 		if (dat->selection != -1 ) 
 			dat->selection += selcontact->isSubcontact;
@@ -675,7 +675,7 @@ void pdnce___SetStatus( pdisplayNameCacheEntry pdnce, WORD wStatus )
 }
 struct ClcContact* cliCreateClcContact( void )
 {
-	 struct ClcContact* contact=(struct ClcContact*)mir_calloc(sizeof( struct ClcContact ) );
+	 struct ClcContact* contact=(struct ClcContact*)mir_calloc(sizeof( struct ClcContact ));
 	 memset((void*)contact->iWideExtraImage,0xFF,sizeof(contact->iWideExtraImage));
 	 return contact;
 }

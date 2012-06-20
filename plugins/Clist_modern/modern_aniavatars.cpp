@@ -195,7 +195,7 @@ int AniAva_InitModule()
 	memset(&AniAva,0,sizeof(AniAva));
 	if (g_CluiData.fGDIPlusFail) return 0;
 	if (!( ModernGetSettingByte(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail))
-		&& ModernGetSettingByte(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT) ) ) return 0;
+		&& ModernGetSettingByte(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT)) ) return 0;
 	{
 		WNDCLASSEX wc;
 		ZeroMemory(&wc, sizeof(wc));
@@ -264,7 +264,7 @@ int AniAva_UpdateOptions()
 	BOOL bReloadAvatars=FALSE;
 	BOOL bBeEnabled=(!g_CluiData.fGDIPlusFail
 		&& ModernGetSettingByte(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP)&&!g_CluiData.fGDIPlusFail))
-		&& ModernGetSettingByte(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT) );
+		&& ModernGetSettingByte(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT));
 	if (bBeEnabled && !AniAva.bModuleStarted)
 	{
 		AniAva_InitModule();
@@ -324,7 +324,7 @@ int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
 		}
 		if (i==AniAva.Objects->realCount)
 		{
-			pavi = (ANIAVA_OBJECT *) mir_calloc( sizeof(ANIAVA_OBJECT) );
+			pavi = (ANIAVA_OBJECT *) mir_calloc( sizeof(ANIAVA_OBJECT));
 			pavi->hWindow		= NULL;
 			pavi->hContact		= hContact;
 			pavi->bInvalidPos	= 0;
@@ -493,7 +493,7 @@ int AniAva_RemoveInvalidatedAvatars()
 		for (i=0; i<AniAva.Objects->realCount; i++)
 		{
 			ANIAVA_OBJECT * pai=(ANIAVA_OBJECT *)AniAva.Objects->items[i];
-			if (pai->hWindow && (pai->bInvalidPos) )
+			if (pai->hWindow && (pai->bInvalidPos))
 			{
 				SendMessage(pai->hWindow,AAM_STOP,0,0);
 				if (pai->bInvalidPos)//>3)
@@ -880,7 +880,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /* = NUL
 				ske_SetRgnOpaque( tempDC, hRgn, TRUE );
 			}
 			// draw avatar
-			if ( !(AniAva.bFlags & AAO_OPAQUE) )
+			if ( !(AniAva.bFlags & AAO_OPAQUE))
 				BitBlt(tempDC,0, 0, szWnd.cx, szWnd.cy , AniAva.hAniAvaDC , dat->ptFromPoint.x+dat->sizeAvatar.cx*dat->currentFrame, dat->ptFromPoint.y, SRCCOPY);
 			else
 			{
@@ -898,7 +898,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /* = NUL
 
 			if ( ( AniAva.bFlags & AAO_HAS_OVERLAY )
 				  && ( dat->overlayIconIdx != -1 )
-				  && ( AniAva.overlayIconImageList ) )
+				  && ( AniAva.overlayIconImageList ))
 			{
 				// if overlay - draw overlay icon
 				// position - on avatar
@@ -1064,9 +1064,9 @@ static void _AniAva_AnimationTreadProc(HANDLE hExitEvent)
 		if ( rc == WAIT_OBJECT_0 + 1 )
 		{
 			MSG msg;
-			while ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) )
+			while ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 			{
-				if ( IsDialogMessage(msg.hwnd, &msg) ) continue;
+				if ( IsDialogMessage(msg.hwnd, &msg)) continue;
 				TranslateMessage(&msg);
 				DispatchMessage(&msg);
 			}
@@ -1119,7 +1119,7 @@ void _AniAva_InvalidateParent(ANIAVA_WINDOWINFO * dat)
 static LRESULT CALLBACK _AniAva_WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ANIAVA_WINDOWINFO * dat=NULL;
-	if (msg==WM_TIMER || msg==WM_DESTROY ||	(msg>AAM_FIRST && msg<AAM_LAST) )
+	if (msg==WM_TIMER || msg==WM_DESTROY ||	(msg>AAM_FIRST && msg<AAM_LAST))
 		dat=(ANIAVA_WINDOWINFO *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch (msg)

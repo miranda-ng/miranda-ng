@@ -775,7 +775,7 @@ public:
 		CSuper::OnInitDialog();
 
 		TCHAR buf[256];
-		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), m_room, TranslateT("Send groupchat invitation.") );
+		mir_sntprintf(buf, SIZEOF(buf), _T("%s\n%s"), m_room, TranslateT("Send groupchat invitation."));
 		SetDlgItemText(m_hwnd, IDC_HEADERBAR, buf);
 		WindowSetIcon(m_hwnd, m_proto, "group");
 
@@ -984,7 +984,7 @@ static LRESULT CALLBACK sttUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 				switch (value)
 				{
 					TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-					JabberStripJid( dat->him->szRealJid, szBareJid, SIZEOF(szBareJid) );
+					JabberStripJid( dat->him->szRealJid, szBareJid, SIZEOF(szBareJid));
 					case AFFILIATION_NONE:	
 						if (dat->him->szRealJid)
 							dat->ppro->AdminSet(dat->item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("none"));
@@ -1181,7 +1181,7 @@ static void sttNickListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK*
 			if (him->szRealJid)
 			{
 				TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid) );
+				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid));
 				ppro->AdminSet(item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("none"));
 			}
 			else
@@ -1194,7 +1194,7 @@ static void sttNickListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK*
 			if (him->szRealJid)
 			{
 				TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid) );
+				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid));
 				ppro->AdminSet(item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("member"));
 			}
 			else
@@ -1207,7 +1207,7 @@ static void sttNickListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK*
 			if (him->szRealJid)
 			{
 				TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid) );
+				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid));
 				ppro->AdminSet(item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("admin"));
 			}
 			else
@@ -1220,7 +1220,7 @@ static void sttNickListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK*
 			if (him->szRealJid)
 			{
 				TCHAR szBareJid[ JABBER_MAX_JID_LEN ];
-				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid) );
+				JabberStripJid( him->szRealJid, szBareJid, SIZEOF(szBareJid));
 				ppro->AdminSet(item->jid, xmlnsAdmin, _T("jid"), szBareJid, _T("affiliation"), _T("owner"));
 			}
 			else
@@ -1232,7 +1232,7 @@ static void sttNickListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK*
 		if ((GetTickCount() - dwLastBanKickTime) > BAN_KICK_INTERVAL) {
 			if ( him->szRealJid && *him->szRealJid ) {
 				TCHAR szVictimBareJid[ JABBER_MAX_JID_LEN ];
-				JabberStripJid( him->szRealJid, szVictimBareJid, SIZEOF(szVictimBareJid) );
+				JabberStripJid( him->szRealJid, szVictimBareJid, SIZEOF(szVictimBareJid));
 
 				mir_sntprintf( szBuffer, SIZEOF(szBuffer), _T("%s: "), me->resourceName );
 				mir_sntprintf( szTitle, SIZEOF(szTitle), _T("%s %s"), TranslateT( "Reason to ban" ), him->resourceName );
@@ -1455,7 +1455,7 @@ static void sttLogListHook( CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 	case IDM_PRESENCE_DND:
 	case IDM_PRESENCE_FREE4CHAT:
 	{
-		if ( HANDLE h = ppro->HContactFromJID( item->jid ) )
+		if ( HANDLE h = ppro->HContactFromJID( item->jid ))
 			ppro->OnMenuHandleDirectPresence( (WPARAM)h, 0, gch->dwData );
 		break;
 	}
@@ -1568,7 +1568,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////////////
 void CJabberProto::AddMucListItem( JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str , TCHAR* rsn)
 {		
-	const TCHAR* field = ( jidListInfo->type == MUC_BANLIST || _tcschr(str,'@') ) ? _T("jid") : _T("nick");
+	const TCHAR* field = ( jidListInfo->type == MUC_BANLIST || _tcschr(str,'@')) ? _T("jid") : _T("nick");
 	TCHAR* roomJid = jidListInfo->roomJid;
 	if ( jidListInfo->type == MUC_BANLIST ) {
 		AdminSetReason( roomJid, xmlnsAdmin, field, str, _T("affiliation"), _T("outcast"), rsn);
@@ -1577,7 +1577,7 @@ void CJabberProto::AddMucListItem( JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* 
 
 void CJabberProto::AddMucListItem( JABBER_MUC_JIDLIST_INFO* jidListInfo, TCHAR* str )
 {
-	const TCHAR* field = ( jidListInfo->type == MUC_BANLIST || _tcschr(str,'@') ) ? _T("jid") : _T("nick");
+	const TCHAR* field = ( jidListInfo->type == MUC_BANLIST || _tcschr(str,'@')) ? _T("jid") : _T("nick");
 	TCHAR* roomJid = jidListInfo->roomJid;
 
 	switch (jidListInfo->type) {

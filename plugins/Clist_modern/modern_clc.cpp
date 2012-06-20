@@ -222,7 +222,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 		{
 			pcli->pfnClcBroadcast( INTM_GROUPSCHANGED,wParam,lParam);
 		}
-		else if (!strcmp(cws->szSetting,"XStatusId") || !strcmp(cws->szSetting,"XStatusName") )
+		else if (!strcmp(cws->szSetting,"XStatusId") || !strcmp(cws->szSetting,"XStatusName"))
 		{
 			CLUIServices_ProtocolStatusChanged(0,(LPARAM)cws->szModule);	
 		}
@@ -302,7 +302,7 @@ static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 					pcli->pfnClcBroadcast( INTM_TIMEZONECHANGED,wParam,0);
 				else if (!strcmp(cws->szSetting,"ListeningTo"))
 					pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED,wParam,0);
-				else if (!strcmp(cws->szSetting,"Transport") || !strcmp(cws->szSetting,"IsTransported") )
+				else if (!strcmp(cws->szSetting,"Transport") || !strcmp(cws->szSetting,"IsTransported"))
 				{
 					pcli->pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
 					pcli->pfnClcBroadcast( CLM_AUTOREBUILD,wParam,0);
@@ -1008,7 +1008,7 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		{
 			if ( hit==dat->selection && hitFlags&CLCHT_ONITEMLABEL && dat->exStyle&CLS_EX_EDITLABELS) 
 			{
-				if ( !(dat->dragStage&DRAGSTAGEF_SKIPRENAME) )
+				if ( !(dat->dragStage&DRAGSTAGEF_SKIPRENAME))
 				{
 					SetCapture(hwnd);
 					dat->iDragItem=dat->selection;
@@ -1152,7 +1152,7 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		pt.x= (short)LOWORD(lParam);
 		pt.y= (short)HIWORD(lParam);
 		if (  abs(pt.x-dat->ptDragStart.x)>GetSystemMetrics(SM_CXDOUBLECLK) 
-			||abs(pt.y-dat->ptDragStart.y)>GetSystemMetrics(SM_CYDOUBLECLK) )
+			||abs(pt.y-dat->ptDragStart.y)>GetSystemMetrics(SM_CYDOUBLECLK))
 		{
 			KillTimer( hwnd, TIMERID_RENAME );
 			dat->dragStage&=(~DRAGSTAGEF_MAYBERENAME);
@@ -1770,7 +1770,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 		{
 			shouldShow=TRUE;
 		}
-		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective) ) // CLVM changed
+		if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && ((style & CLS_HIDEOFFLINE) || group->hideOffline || g_CluiData.bFilterEffective)) // CLVM changed
 		{
 			if (dat->selection >= 0 && pcli->pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 				hSelItem = pcli->pfnContactToHItem(selcontact);
@@ -1968,7 +1968,7 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 
 
 	}
-	if (ModernGetSettingByte(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT) )
+	if (ModernGetSettingByte(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOOFLINETOROOT_DEFAULT))
 	{
 		SendMessage(hwnd,CLM_AUTOREBUILD,0,0);	
 	}

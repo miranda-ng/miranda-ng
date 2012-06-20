@@ -183,7 +183,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 	TCHAR *temp, *res;
 	TOKENREGISTEREX *thisVr, trCopy;
 	
-	if ( (ai == NULL) || (ai->argc == 0) || (ai->targv[0] == NULL) ) {
+	if ( (ai == NULL) || (ai->argc == 0) || (ai->targv[0] == NULL)) {
 		return NULL;
 	}
 	callRes = 0;

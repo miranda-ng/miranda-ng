@@ -402,7 +402,7 @@ bool TalkBot::FindAny(ValueChooser<> &ch, tstring& res)
 
 void TalkBot::SplitSectences(const tstring &incomingMessage, vector<tstring>& vec)
 {
-	//FIXME: (THINK ABOUT IT:-) )these chars not always mark the end of sentence.
+	//FIXME: (THINK ABOUT IT:-))these chars not always mark the end of sentence.
 	const TCHAR symbols[] = _T(".?!");
     int it = 0, len = (int)incomingMessage.length();
 	while (it != len)

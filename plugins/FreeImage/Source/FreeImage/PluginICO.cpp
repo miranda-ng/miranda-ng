@@ -100,7 +100,7 @@ CalculateImageOffset(std::vector<FIBITMAP*>& vPages, int nIndex ) {
     // calculate the ICO header size
     dwSize = sizeof(ICONHEADER); 
     // add the ICONDIRENTRY's
-    dwSize += (DWORD)( vPages.size() * sizeof(ICONDIRENTRY) );
+    dwSize += (DWORD)( vPages.size() * sizeof(ICONDIRENTRY));
     // add the sizes of the previous images
     for(int k = 0; k < nIndex; k++) {
 		FIBITMAP *icon_dib = (FIBITMAP*)vPages[k];
