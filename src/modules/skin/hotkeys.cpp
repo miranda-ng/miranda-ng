@@ -568,20 +568,6 @@ static void sttOptionsDeleteHotkey(HWND hwndList, int idx, THotkeyItem *item)
 		item->rootHotkey->OptChanged = TRUE;
 }
 
-static int sttAlphaSort(const THotkeyItem *p1, const THotkeyItem *p2)
-{
-	int res;
-	if (res = lstrcmp(p1->getSection(), p2->getSection()))
-		return res;
-	if (res = lstrcmp(p1->getDescr(), p2->getDescr()))
-		return res;
-	if (!p1->rootHotkey && p2->rootHotkey)
-		return -1;
-	if (p1->rootHotkey && !p2->rootHotkey)
-		return 1;
-	return 0;
-}
-
 static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	TCHAR title1[256] = {0}, title2[256] = {0};
@@ -617,7 +603,12 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 			return res;
 		return 1;
 	}
-	return sttAlphaSort(item1, item2);
+
+	if (res = lstrcmp(item1->getSection(), item2->getSection())) return res;
+	if (res = lstrcmp(item1->getDescr(), item2->getDescr())) return res;
+	if (!item1->rootHotkey && item2->rootHotkey) return -1;
+	if (item1->rootHotkey && !item2->rootHotkey) return 1;
+	return 0;
 }
 
 static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
@@ -703,19 +694,14 @@ static void sttBuildHotkeyList(HWND hwndList)
 	int i, nItems=0;
 	ListView_DeleteAllItems(hwndList);
 
-	// create the temporary list with language-dependent sort order
-	LIST<THotkeyItem> tmpList(hotkeys.getCount(), sttAlphaSort);
-	for (i = 0; i < hotkeys.getCount(); i++)
-		tmpList.insert( hotkeys[i] );
-
-	for (i = 0; i < tmpList.getCount(); i++) {
+	for (i = 0; i < hotkeys.getCount(); i++) {
 		LVITEM lvi = {0};
-		THotkeyItem *item = tmpList[i];
+		THotkeyItem *item = hotkeys[i];
 
 		if (item->OptDeleted)
 			continue;
 
-		if ( !i || lstrcmp(item->ptszSection, tmpList[i-1]->ptszSection)) {
+		if ( !i || lstrcmp(item->ptszSection, hotkeys[i-1]->ptszSection)) {
 			lvi.mask = LVIF_TEXT|LVIF_PARAM;
 			lvi.iItem = nItems++;
 			lvi.iSubItem = 0;
@@ -739,6 +725,8 @@ static void sttBuildHotkeyList(HWND hwndList)
 		ListView_InsertItem(hwndList, &lvi);
 		sttOptionsSetupItem(hwndList, nItems-1, item);
 	}
+
+	ListView_SortItemsEx(hwndList, sttOptionsSortList, (LPARAM)hwndList);
 }
 
 static void sttOptionsStartEdit(HWND hwndDlg, HWND hwndHotkey)

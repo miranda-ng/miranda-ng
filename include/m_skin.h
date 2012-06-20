@@ -204,7 +204,7 @@ __inline static INT_PTR SkinPlaySound(const char *name)
 
 /*
 	wParam: 0 when playing sound (1 when sound is being previewed)
-	lParam: (char*) pszSoundFile
+	lParam: (TCHAR*) pszSoundFile
 	Affect: This hook is fired when the sound module needs to play a sound
 	Note  : This event has default processing, if no one HookEvent()'s this event then it will
 			use the default hook code, which uses PlaySound()
