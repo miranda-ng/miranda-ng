@@ -106,21 +106,21 @@ static EKHTML_CHARMAP_TYPE charmap_values(char in){
 
 #define EKHTML_STRINGIFY(x) #x
 
-static void print_charmap(char *name, EKHTML_CHARMAP_TYPE (*cmap_func)(char)){
+static void print_charmap(char *name, EKHTML_CHARMAP_TYPE (*cmap_func)(char)) {
     int ch;
     char sbuf[256];
     
     sprintf_s(sbuf, 256, "0x%%0%dx ", EKHTML_CHARMAP_LEN * 2);
     printf("#ifdef EKHTML_USE_TABLES\n");
     printf("const %s %s[256] = {\n", EKHTML_CHARMAP_TYPE_S, name);
-    for(ch=0; ch < 256; ch++){
+    for(ch=0; ch < 256; ch++) {
         printf(sbuf, cmap_func((char)ch));
         if(isgraph(ch))
             printf("/*  '%c' */", ch);
         else
             printf("/* 0x%.2x */", ch);
         printf(",  ");
-        if(!((ch + 1) % 4))
+        if (!((ch + 1) % 4))
             printf("\n");
     }
     printf("};\n\n");
@@ -129,7 +129,7 @@ static void print_charmap(char *name, EKHTML_CHARMAP_TYPE (*cmap_func)(char)){
     printf("#endif\n");
 }
 
-int main(int argc, char *argv[]){
+int main(int argc, char *argv[]) {
     printf("#ifndef EKHTML_MKTABLES_DOT_H\n");
     printf("#define EKHTML_MKTABLES_DOT_H\n");
     
