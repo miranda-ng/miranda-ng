@@ -1606,7 +1606,7 @@ HANDLE gg_getcontact(GGPROTO *gg, uin_t uin, int create, int inlist, char *szNic
 	// Add to notify list and pull avatar for the new contact
 	if(gg_isonline(gg))
 	{
-		PROTO_AVATAR_INFORMATION pai = {0};
+		PROTO_AVATAR_INFORMATIONT pai = {0};
 
 		EnterCriticalSection(&gg->sess_mutex);
 		gg_add_notify_ex(gg->sess, uin, (char)(inlist ? GG_USER_NORMAL : GG_USER_OFFLINE));

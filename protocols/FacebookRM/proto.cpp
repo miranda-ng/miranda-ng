@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Facebook plugin for Miranda Instant Messenger
 _____________________________________________
@@ -41,17 +41,17 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 
 	CreateProtoService(m_szModuleName, PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI, this);
 	CreateProtoService(m_szModuleName, PS_GETMYAWAYMSG,   &FacebookProto::GetMyAwayMsg,      this);
-	CreateProtoService(m_szModuleName, PS_GETMYAVATAR,    &FacebookProto::GetMyAvatar,       this);
-	CreateProtoService(m_szModuleName, PS_GETAVATARINFO,  &FacebookProto::GetAvatarInfo,     this);
+	CreateProtoService(m_szModuleName, PS_GETMYAVATART,   &FacebookProto::GetMyAvatar,       this);
+	CreateProtoService(m_szModuleName, PS_GETAVATARINFOT, &FacebookProto::GetAvatarInfo,     this);
 	CreateProtoService(m_szModuleName, PS_GETAVATARCAPS,  &FacebookProto::GetAvatarCaps,     this);
 
 	CreateProtoService(m_szModuleName, PS_JOINCHAT,  &FacebookProto::OnJoinChat,  this);
 	CreateProtoService(m_szModuleName, PS_LEAVECHAT, &FacebookProto::OnLeaveChat, this);
 
-	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU,	&FacebookProto::OnBuildStatusMenu,	this);
-	HookProtoEvent(ME_OPT_INITIALISE,			&FacebookProto::OnOptionsInit,		this);
-	HookProtoEvent(ME_GC_EVENT,					&FacebookProto::OnChatOutgoing,		this);
-	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged,		this);
+	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &FacebookProto::OnBuildStatusMenu, this);
+	HookProtoEvent(ME_OPT_INITIALISE,           &FacebookProto::OnOptionsInit,     this);
+	HookProtoEvent(ME_GC_EVENT,                 &FacebookProto::OnChatOutgoing,    this);
+	HookProtoEvent(ME_IDLE_CHANGED,             &FacebookProto::OnIdleChanged,     this);
 
 	// Create standard network connection
 	TCHAR descr[512];

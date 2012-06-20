@@ -1607,10 +1607,10 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 					}
 				}
 
-				ai.cbSize = sizeof(PROTO_AVATAR_INFORMATION);
+				ai.cbSize = sizeof(PROTO_AVATAR_INFORMATIONT);
 				ai.format = PA_FORMAT_JPEG; // this is for error only
 				ai.hContact = pCookieData->hContact;
-				lstrcpyn(ai.filename, pCookieData->szFile, SIZEOF(ai.filename)); // Avatar API does not support unicode :-(
+				lstrcpyn(ai.filename, pCookieData->szFile, SIZEOF(ai.filename));
 				AddAvatarExt(PA_FORMAT_JPEG, ai.filename); 
 
 				ppro->FreeCookie(pSnacHeader->dwRef);

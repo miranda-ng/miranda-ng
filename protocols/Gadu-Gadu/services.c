@@ -763,8 +763,9 @@ INT_PTR gg_getavatarcaps(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 // gets avatar information
 INT_PTR gg_getavatarinfo(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 {
-	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *)lParam;
-	char *AvatarURL = NULL, *AvatarHash = NULL, *AvatarSavedHash = NULL;
+	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
+	char *AvatarHash = NULL, *AvatarSavedHash = NULL;
+	TCHAR *AvatarURL = NULL;
 	INT_PTR result = GAIR_NOAVATAR;
 	DBVARIANT dbv;
 	uin_t uin = (uin_t)DBGetContactSettingDword(pai->hContact, GG_PROTO, GG_KEY_UIN, 0);
@@ -785,13 +786,13 @@ INT_PTR gg_getavatarinfo(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 
 	pai->format = DBGetContactSettingByte(pai->hContact, GG_PROTO, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
 
-	if (!DBGetContactSettingString(pai->hContact, GG_PROTO, GG_KEY_AVATARURL, &dbv)) {
-		AvatarURL = mir_strdup(dbv.pszVal);
+	if (!DBGetContactSettingTString(pai->hContact, GG_PROTO, GG_KEY_AVATARURL, &dbv)) {
+		AvatarURL = mir_tstrdup(dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
 
-	if (AvatarURL != NULL && strlen(AvatarURL) > 0) {
-		char *AvatarName = strrchr(AvatarURL, '/');
+	if (AvatarURL != NULL && _tcslen(AvatarURL) > 0) {
+		TCHAR *AvatarName = _tcsrchr(AvatarURL, '/');
 		AvatarName++;
 		AvatarHash = gg_avatarhash(AvatarName);
 	}
@@ -842,7 +843,7 @@ INT_PTR gg_getavatarinfo(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 // gets avatar
 INT_PTR gg_getmyavatar(GGPROTO *gg, WPARAM wParam, LPARAM lParam)
 {
-	char *szFilename = (char *)wParam;
+	TCHAR *szFilename = (TCHAR*)wParam;
 	int len = (int)lParam;
 
 	gg_netlog(gg, "gg_getmyavatar(): Requesting user avatar.");
@@ -1009,7 +1010,7 @@ void gg_registerservices(GGPROTO *gg)
 	gg->proto.vtbl->OnEvent                = gg_event;
 
 	CreateProtoService(PS_GETAVATARCAPS, gg_getavatarcaps, gg);
-	CreateProtoService(PS_GETAVATARINFO, gg_getavatarinfo, gg);
+	CreateProtoService(PS_GETAVATARINFOT, gg_getavatarinfo, gg);
 	CreateProtoService(PS_GETMYAVATAR, gg_getmyavatar, gg);
 	CreateProtoService(PS_SETMYAVATAR, gg_setmyavatar, gg);
 

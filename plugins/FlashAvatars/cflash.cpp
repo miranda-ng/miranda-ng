@@ -329,7 +329,7 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 	debug("Searching for flash avatar...\n");
 	FLASHAVATAR* hFA = (FLASHAVATAR*)wParam;
 
-	PROTO_AVATAR_INFORMATION AI = {0};
+	PROTO_AVATAR_INFORMATIONT AI = {0};
 	AI.cbSize = sizeof(AI);
 	AI.hContact = hFA->hContact;
 	AI.format = PA_FORMAT_UNKNOWN;
@@ -337,13 +337,13 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 	flash_avatar_item key(hFA->hContact, *hFA, NULL);
 
 	bool avatarOK = false;
-	if(hFA->hContact) {
-		avatarOK = (int)CallProtoService(key.getProto(), PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS;
-	} else {
-		avatarOK = (int)CallProtoService(key.getProto(), PS_GETMYAVATAR, (WPARAM)AI.filename, (LPARAM)255) == 0;
+	if(hFA->hContact)
+		avatarOK = (int)CallProtoService(key.getProto(), PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS;
+	else {
+		avatarOK = (int)CallProtoService(key.getProto(), PS_GETMYAVATART, (WPARAM)AI.filename, (LPARAM)255) == 0;
 		if(avatarOK) {
-			char* ext = strrchr(AI.filename, '.');
-			if(ext && (_stricmp(ext, ".xml") == 0))
+			TCHAR* ext = _tcsrchr(AI.filename, _T('.'));
+			if(ext && (_tcsicmp(ext, _T(".xml")) == 0))
 				AI.format = PA_FORMAT_XML;
 		}
 	}
@@ -351,13 +351,13 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 	if (!avatarOK) return 0;
 	debug("Avatar found...\n");
 
-	char* url = NULL;
+	TCHAR* url = NULL;
 	switch(AI.format) {
 		case PA_FORMAT_SWF:
 			url = AI.filename;
 			break;
 		case PA_FORMAT_XML: {
-			int src = _open(AI.filename, _O_BINARY | _O_RDONLY);
+			int src = _tfopen(AI.filename, _O_BINARY | _O_RDONLY);
 			if(src != -1) {
 				char pBuf[2048];
 				char* urlBuf;

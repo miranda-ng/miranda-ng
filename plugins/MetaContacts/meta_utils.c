@@ -416,15 +416,15 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	// if the new contact is the most online contact with avatar support, get avatar info
 	most_online = Meta_GetMostOnlineSupporting(dest, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online == src) {
-		PROTO_AVATAR_INFORMATION AI;
+		PROTO_AVATAR_INFORMATIONT AI;
 
 		AI.cbSize = sizeof(AI);
 		AI.hContact = dest;
 		AI.format = PA_FORMAT_UNKNOWN;
-		strcpy(AI.filename, "X");
+		_tcscpy(AI.filename, _T("X"));
 
-		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-	        DBWriteContactSettingString(dest, "ContactPhoto", "File",AI.filename);
+		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+	        DBWriteContactSettingTString(dest, "ContactPhoto", "File",AI.filename);
 	}
 
 	// Hide the contact

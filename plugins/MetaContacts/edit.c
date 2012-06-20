@@ -215,15 +215,15 @@ void ApplyChanges(CHANGES *chg)
 	// fix avatar
 	most_online = Meta_GetMostOnlineSupporting(chg->hMeta, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online) {
-		PROTO_AVATAR_INFORMATION AI;
+		PROTO_AVATAR_INFORMATIONT AI;
 
 		AI.cbSize = sizeof(AI);
 		AI.hContact = chg->hMeta;
 		AI.format = PA_FORMAT_UNKNOWN;
-		strcpy(AI.filename, "X");
+		_tcscpy(AI.filename, _T("X"));
 
-		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFO, 0, (LPARAM)&AI) == GAIR_SUCCESS)
-	        DBWriteContactSettingString(chg->hMeta, "ContactPhoto", "File",AI.filename);
+		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+	        DBWriteContactSettingTString(chg->hMeta, "ContactPhoto", "File",AI.filename);
 	}
 
 	if (MetaAPI_GetForceState((WPARAM)chg->hMeta, 0) != chg->force_default)

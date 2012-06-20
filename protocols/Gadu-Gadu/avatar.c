@@ -207,7 +207,7 @@ void __cdecl gg_avatarrequestthread(GGPROTO *gg, void *empty)
 			DBWriteContactSettingByte(hContact, GG_PROTO, GG_KEY_AVATARREQUESTED, 1);
 
 			if (iWaitFor) {
-				PROTO_AVATAR_INFORMATION pai = {0};
+				PROTO_AVATAR_INFORMATIONT pai = {0};
 				pai.cbSize = sizeof(pai);
 				pai.hContact = hContact;
 				if (gg_getavatarinfo(gg, (WPARAM)GAIF_FORCE, (LPARAM)&pai) != GAIR_WAITFOR)
@@ -222,7 +222,7 @@ void __cdecl gg_avatarrequestthread(GGPROTO *gg, void *empty)
 			GGGETAVATARDATA *data = (GGGETAVATARDATA *)gg->avatar_transfers->data;
 			NETLIBHTTPREQUEST req = {0};
 			NETLIBHTTPREQUEST *resp;
-			PROTO_AVATAR_INFORMATION pai = {0};
+			PROTO_AVATAR_INFORMATIONT pai = {0};
 			int result = 0;
 
 			pai.cbSize = sizeof(pai);
@@ -301,7 +301,7 @@ void gg_uninitavatarrequestthread(GGPROTO *gg)
 
 void __cdecl gg_getuseravatarthread(GGPROTO *gg, void *empty)
 {
-	PROTO_AVATAR_INFORMATION pai = {0};
+	PROTO_AVATAR_INFORMATIONT pai = {0};
 	char *AvatarURL;
 	int AvatarType;
 

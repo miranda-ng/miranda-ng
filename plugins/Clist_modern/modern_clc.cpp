@@ -2085,12 +2085,9 @@ int ClcDoProtoAck(HANDLE wParam,ACKDATA * ack)
 	{
 		if (ack->result==ACKRESULT_SUCCESS) 
 		{
-			PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION *) ack->hProcess;
-
+			PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT*)ack->hProcess;
 			if (pai != NULL && pai->hContact != NULL)
-			{
 				pcli->pfnClcBroadcast( INTM_AVATARCHANGED,(WPARAM)pai->hContact,0);
-			}
 		}
 	}
 	else if (ack->type == ACKTYPE_EMAIL) {

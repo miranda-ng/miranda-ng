@@ -426,14 +426,14 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	std::auto_ptr<update_avatar> data( static_cast<update_avatar*>(p) );
 	DBVARIANT dbv;
 
-	if(DBGetContactSettingString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
+	if(DBGetContactSettingTString(data->hContact,m_szModuleName,TWITTER_KEY_UN,&dbv))
 		return;
 
 	std::string ext = data->url.substr(data->url.rfind('.'));
-	std::string filename = GetAvatarFolder() + '\\' + dbv.pszVal + ext;
+	std::tstring filename = GetAvatarFolder() + '\\' + dbv.ptszVal + ext;
 	DBFreeVariant(&dbv);
 
-	PROTO_AVATAR_INFORMATION ai = {sizeof(ai)};
+	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 	ai.hContact = data->hContact;
 	ai.format = ext_to_format(ext);
 
@@ -442,7 +442,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		return; // lets just ignore unknown formats... if not it crashes miranda. should probably speak to borkra about this.
 	}
 	
-	strncpy(ai.filename,filename.c_str(),MAX_PATH);
+	_tcsncpy(ai.filename,filename.c_str(),MAX_PATH);
 
 	LOG( _T("***** Updating avatar: %s"), data->url.c_str());
 	WaitForSingleObjectEx(avatar_lock_,INFINITE,true);
@@ -481,7 +481,7 @@ void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool forc
 		// TODO: more defaults (configurable?)
 		if(url == "http://static.twitter.com/images/default_profile_normal.png")
 		{
-			PROTO_AVATAR_INFORMATION ai = {sizeof(ai),hContact};
+			PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai),hContact};
 			
 			db_string_set(hContact,m_szModuleName,TWITTER_KEY_AV_URL,url.c_str());
 			ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AVATAR,

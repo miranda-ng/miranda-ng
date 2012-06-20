@@ -1073,8 +1073,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case DM_GETAVATAR:
 	{
-		PROTO_AVATAR_INFORMATION ai = { sizeof(ai), dat->windowData.hContact };
-		CallProtoService(dat->szProto, PS_GETAVATARINFO, GAIF_FORCE, (LPARAM)&ai);
+		PROTO_AVATAR_INFORMATIONT ai = { sizeof(ai), dat->windowData.hContact };
+		CallProtoService(dat->szProto, PS_GETAVATARINFOT, GAIF_FORCE, (LPARAM)&ai);
 		ShowAvatar(hwndDlg, dat);
 		break;
 	}

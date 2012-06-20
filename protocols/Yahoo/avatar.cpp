@@ -152,7 +152,7 @@ struct avatar_info{
 
 void __cdecl CYahooProto::recv_avatarthread(void *pavt) 
 {
-	PROTO_AVATAR_INFORMATION AI;
+	PROTO_AVATAR_INFORMATIONT AI;
 	struct avatar_info *avt = ( avatar_info* )pavt;
 	int 	error = 0;
 	HANDLE hContact = 0;

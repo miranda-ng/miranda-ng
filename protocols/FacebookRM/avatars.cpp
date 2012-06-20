@@ -27,12 +27,12 @@ Last change on : $Date: 2011-01-08 11:10:34 +0100 (so, 08 1 2011) $
 
 #include "common.h"
 
-bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *url)
+bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::tstring *url)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSettingString(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
+	if (!DBGetContactSettingTString(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
 	{
-		std::string new_url = dbv.pszVal;
+		std::tstring new_url = dbv.ptszVal;
 		DBFreeVariant(&dbv);
 
 		if (new_url.empty())
@@ -41,16 +41,16 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *u
 		if (url)
 			*url = new_url;
 
-		if (!DBGetContactSettingString(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
+		if (!DBGetContactSettingTString(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
 		{
-			std::string ext = new_url.substr(new_url.rfind('.'));
-			std::string filename = GetAvatarFolder() + '\\' + dbv.pszVal + ext;			
+			std::tstring ext = new_url.substr(new_url.rfind('.'));
+			std::tstring filename = GetAvatarFolder() + '\\' + dbv.ptszVal + ext;			
 			DBFreeVariant(&dbv);			
 
 			ai.hContact = ai.hContact;
 			ai.format = ext_to_format(ext);
-			strncpy(ai.filename, filename.c_str(), sizeof(ai.filename));
-			ai.filename[sizeof(ai.filename)-1] = 0;
+			_tcsncpy(ai.filename, filename.c_str(), SIZEOF(ai.filename));
+			ai.filename[SIZEOF(ai.filename)-1] = 0;
 
 			return true;
 		}
@@ -58,7 +58,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATION &ai, std::string *u
 	return false;
 }
 
-void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
+void FacebookProto::CheckAvatarChange(HANDLE hContact, std::tstring image_url)
 {
 	// Facebook contacts always have some avatar - keep avatar in database even if we have loaded empty one (e.g. for 'On Mobile' contacts)
 	if (image_url.empty())
@@ -66,26 +66,26 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 	
 	if (DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_BIG_AVATARS, DEFAULT_BIG_AVATARS)) 
 	{
-		std::string::size_type pos = image_url.rfind( "_q." );
-		if (pos != std::string::npos)
+		std::tstring::size_type pos = image_url.rfind( "_q." );
+		if (pos != std::wstring::npos)
 			image_url = image_url.replace( pos, 3, "_s." );
 	}
 	
 	DBVARIANT dbv;
 	bool update_required = true;
-	if (!DBGetContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
+	if (!DBGetContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
 	{
 		update_required = image_url != dbv.pszVal;
 		DBFreeVariant(&dbv);
 	}
 	if (update_required || !hContact)
 	{
-		DBWriteContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
+		DBWriteContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
 		if (hContact)
 			ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		else
 		{
-			PROTO_AVATAR_INFORMATION ai = {sizeof(ai)};
+			PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 			if (GetAvatarInfo(update_required ? GAIF_FORCE : 0, (LPARAM)&ai) != GAIR_WAITFOR)
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 		}
@@ -100,8 +100,8 @@ void FacebookProto::UpdateAvatarWorker(void *)
 
 	for (;;)
 	{
-		std::string url;
-		PROTO_AVATAR_INFORMATION ai = {sizeof(ai)};
+		std::tstring url;
+		PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 		ai.hContact = avatar_queue[0];
 
 		if (Miranda_Terminated())
@@ -131,8 +131,8 @@ void FacebookProto::UpdateAvatarWorker(void *)
 
 std::string FacebookProto::GetAvatarFolder()
 {
-	char path[MAX_PATH];
-	if ( hAvatarFolder_ && FoldersGetCustomPath(hAvatarFolder_,path,sizeof(path), "") == 0 )
+	TCHAR path[MAX_PATH];
+	if ( hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), "") == 0 )
 		return path;
 	else
 		return def_avatar_folder_;
@@ -180,7 +180,7 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (!lParam)
 		return GAIR_NOAVATAR;
 
-	PROTO_AVATAR_INFORMATION* AI = (PROTO_AVATAR_INFORMATION*)lParam;
+	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
 
 	if (GetDbAvatarInfo(*AI, NULL))
 	{
@@ -220,14 +220,14 @@ int FacebookProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	if (!wParam || !lParam)
 		return -3;
 
-	char* buf = ( char* )wParam;
+	TCHAR* buf = ( TCHAR* )wParam;
 	int  size = ( int )lParam;
 
-	PROTO_AVATAR_INFORMATION ai = {sizeof(ai)};
+	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 	switch (GetAvatarInfo(0, (LPARAM)&ai))
 	{
 	case GAIR_SUCCESS:
-		strncpy(buf, ai.filename, size);
+		_tcsncpy(buf, ai.filename, size);
 		buf[size-1] = 0;
 		return 0;
 

@@ -108,7 +108,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	hProtoService[3] = CreateProtoServiceFunction(MODULE, PS_GETSTATUS, NewsAggrGetStatus);
 	hProtoService[4] = CreateProtoServiceFunction(MODULE, PS_LOADICON, NewsAggrLoadIcon);
 	hProtoService[5] = CreateProtoServiceFunction(MODULE, PSS_GETINFO, NewsAggrGetInfo);
-	hProtoService[6] = CreateProtoServiceFunction(MODULE, PS_GETAVATARINFO, NewsAggrGetAvatarInfo);
+	hProtoService[6] = CreateProtoServiceFunction(MODULE, PS_GETAVATARINFOT, NewsAggrGetAvatarInfo);
 
 	hService[0] = CreateServiceFunction(MS_NEWSAGGR_CHECKALLFEEDS, CheckAllFeeds);
 	hService[1] = CreateServiceFunction(MS_NEWSAGGR_ADDFEED, AddFeed);
