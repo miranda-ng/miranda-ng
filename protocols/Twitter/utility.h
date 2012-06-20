@@ -155,4 +155,4 @@ private:
 };
 
 int ext_to_format(const std::string &ext);
-bool save_url(HANDLE hNetlib,const std::string &url,const std::string &filename);
+bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename);

@@ -27,12 +27,11 @@ Last change on : $Date: 2011-01-08 11:10:34 +0100 (so, 08 1 2011) $
 
 #include "common.h"
 
-bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::tstring *url)
+bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url)
 {
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv))
-	{
-		std::tstring new_url = dbv.ptszVal;
+	if (!DBGetContactSettingString(ai.hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, &dbv)) {
+		std::string new_url = dbv.pszVal;
 		DBFreeVariant(&dbv);
 
 		if (new_url.empty())
@@ -41,10 +40,9 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::tstring 
 		if (url)
 			*url = new_url;
 
-		if (!DBGetContactSettingTString(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv))
-		{
-			std::tstring ext = new_url.substr(new_url.rfind('.'));
-			std::tstring filename = GetAvatarFolder() + '\\' + dbv.ptszVal + ext;			
+		if (!DBGetContactSettingTString(ai.hContact, m_szModuleName, FACEBOOK_KEY_ID, &dbv)) {
+			std::string ext = new_url.substr(new_url.rfind('.'));
+			std::tstring filename = GetAvatarFolder() + L'\\' + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());			
 			DBFreeVariant(&dbv);			
 
 			ai.hContact = ai.hContact;
@@ -58,7 +56,7 @@ bool FacebookProto::GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::tstring 
 	return false;
 }
 
-void FacebookProto::CheckAvatarChange(HANDLE hContact, std::tstring image_url)
+void FacebookProto::CheckAvatarChange(HANDLE hContact, std::string image_url)
 {
 	// Facebook contacts always have some avatar - keep avatar in database even if we have loaded empty one (e.g. for 'On Mobile' contacts)
 	if (image_url.empty())
@@ -80,7 +78,7 @@ void FacebookProto::CheckAvatarChange(HANDLE hContact, std::tstring image_url)
 	}
 	if (update_required || !hContact)
 	{
-		DBWriteContactSettingTString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
+		DBWriteContactSettingString(hContact, m_szModuleName, FACEBOOK_KEY_AV_URL, image_url.c_str());
 		if (hContact)
 			ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
 		else
@@ -100,7 +98,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 
 	for (;;)
 	{
-		std::tstring url;
+		std::string url;
 		PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};
 		ai.hContact = avatar_queue[0];
 
@@ -113,7 +111,7 @@ void FacebookProto::UpdateAvatarWorker(void *)
 		if (GetDbAvatarInfo(ai, &url))
 		{
 			LOG("***** Updating avatar: %s", url.c_str());
-			bool success = facy.save_url(url, std::string(ai.filename), nlc);
+			bool success = facy.save_url(url, ai.filename, nlc);
 
 			if (ai.hContact)
 				ProtoBroadcastAck(m_szModuleName, ai.hContact, ACKTYPE_AVATAR, success ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
@@ -129,10 +127,10 @@ void FacebookProto::UpdateAvatarWorker(void *)
 	Netlib_CloseHandle(nlc);
 }
 
-std::string FacebookProto::GetAvatarFolder()
+std::tstring FacebookProto::GetAvatarFolder()
 {
 	TCHAR path[MAX_PATH];
-	if ( hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), "") == 0 )
+	if ( hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_, path, SIZEOF(path), _T("")) == 0 )
 		return path;
 	else
 		return def_avatar_folder_;
@@ -181,10 +179,9 @@ int FacebookProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		return GAIR_NOAVATAR;
 
 	PROTO_AVATAR_INFORMATIONT* AI = (PROTO_AVATAR_INFORMATIONT*)lParam;
-
 	if (GetDbAvatarInfo(*AI, NULL))
 	{
-		bool fileExist = _access(AI->filename, 0) == 0;
+		bool fileExist = _taccess(AI->filename, 0) == 0;
 		
 		bool needLoad;
 		if (AI->hContact)

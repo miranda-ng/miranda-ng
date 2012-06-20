@@ -50,11 +50,10 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &TwitterProto::OnBuildStatusMenu,    this);
 	HookProtoEvent(ME_OPT_INITIALISE,           &TwitterProto::OnOptionsInit,        this);
 
-	char *profile = Utils_ReplaceVars("%miranda_avatarcache%");
-	def_avatar_folder_ = std::string(profile)+"\\"+m_szModuleName;
+	TCHAR *profile = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
+	def_avatar_folder_ = std::tstring(profile) + _T("\\") + m_tszUserName;
 	mir_free(profile);
-	hAvatarFolder_ = FoldersRegisterCustomPath(m_szModuleName,"Avatars",
-		def_avatar_folder_.c_str());
+	hAvatarFolder_ = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", def_avatar_folder_.c_str());
 
 	// Initialize hotkeys
 	char text[512];
@@ -572,13 +571,13 @@ void TwitterProto::UpdateSettings()
 	}
 }
 
-std::string TwitterProto::GetAvatarFolder()
+std::tstring TwitterProto::GetAvatarFolder()
 {
-	char path[MAX_PATH];
-	if(hAvatarFolder_ && FoldersGetCustomPath(hAvatarFolder_,path,sizeof(path), "") == 0)
+	TCHAR path[MAX_PATH];
+	if(hAvatarFolder_ && FoldersGetCustomPathT(hAvatarFolder_,path,SIZEOF(path), _T("")) == 0)
 		return path;
-	else
-		return def_avatar_folder_;
+
+	return def_avatar_folder_;
 }
 
 int TwitterProto::GetAvatar(WPARAM,LPARAM)

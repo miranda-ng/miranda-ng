@@ -144,10 +144,9 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	status = (WORD)DBGetContactSettingWord(ai->hContact, WEATHERPROTONAME, "StatusIcon",0);
 	for (i=0; i<10; i++)
-	{
 		if (statusValue[i] == status) 
 			break;
-	}
+
 	if (i >= 10)
 		return GAIR_NOAVATAR;
 

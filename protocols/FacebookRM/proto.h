@@ -186,7 +186,7 @@ public:
 	facebook_client facy; // TODO: Refactor to "client" and make dynamic
 
 	// Helpers
-	std::string GetAvatarFolder();
+	std::tstring GetAvatarFolder();
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
 	void CheckAvatarChange(HANDLE hContact, std::string image_url);
 	void ToggleStatusMenuItems( BOOL bEnable );
@@ -203,7 +203,7 @@ public:
 	HANDLE  m_hNetlibUser;
 
 	std::string last_status_msg_;
-	std::string def_avatar_folder_;
+	std::tstring def_avatar_folder_;
 	HANDLE  hAvatarFolder_;
 	std::vector<HANDLE> avatar_queue;
 

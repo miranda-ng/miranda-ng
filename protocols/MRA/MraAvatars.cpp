@@ -621,7 +621,7 @@ DWORD MraAvatarsGetFileFormat(LPTSTR lpszPath,SIZE_T dwPathSize)
 	TCHAR dwExt[ 5 ];
 
 	BuffToLowerCase(&dwExt, lpszPath+(dwPathSize-4), 4);
-	for ( size_t i=0; i < PA_FORMAT_MAX; i++ ) {
+	for ( DWORD i=0; i < PA_FORMAT_MAX; i++ ) {
 		if ( !_tcscmp( dwExt, lpcszExtensions[i])) {
 			dwRet = i;
 			break;

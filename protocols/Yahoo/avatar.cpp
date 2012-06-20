@@ -249,7 +249,7 @@ void __cdecl CYahooProto::recv_avatarthread(void *pavt)
 	AI.cbSize = sizeof AI;
 	AI.format = PA_FORMAT_PNG;
 	AI.hContact = hContact;
-	WideCharToMultiByte( CP_ACP, 0, buf, -1, AI.filename, sizeof AI.filename, 0, 0 );
+	_tcsncpy(AI.filename, buf, SIZEOF(AI.filename));
 	
 	if (error) 
 		SetDword(hContact, "PictCK", 0);

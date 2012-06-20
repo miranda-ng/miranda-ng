@@ -430,7 +430,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 		return;
 
 	std::string ext = data->url.substr(data->url.rfind('.'));
-	std::tstring filename = GetAvatarFolder() + '\\' + dbv.ptszVal + ext;
+	std::tstring filename = GetAvatarFolder() + _T('\\') + dbv.ptszVal + (TCHAR*)_A2T(ext.c_str());
 	DBFreeVariant(&dbv);
 
 	PROTO_AVATAR_INFORMATIONT ai = {sizeof(ai)};

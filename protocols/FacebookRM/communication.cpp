@@ -1240,7 +1240,7 @@ bool facebook_client::set_status(const std::string &status_text)
 
 //////////////////////////////////////////////////////////////////////////////
 
-bool facebook_client::save_url(const std::string &url,const std::string &filename, HANDLE &nlc)
+bool facebook_client::save_url(const std::string &url,const std::tstring &filename, HANDLE &nlc)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
 	NETLIBHTTPREQUEST *resp;
@@ -1258,12 +1258,12 @@ bool facebook_client::save_url(const std::string &url,const std::string &filenam
 		parent->Log( "@@@@@ Saving avatar URL %s to path %s", url.c_str(), filename.c_str() );
 
 		// Create folder if necessary
-		std::string dir = filename.substr(0,filename.rfind('\\'));
-		if(_access(dir.c_str(),0))
-			CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)dir.c_str());
+		std::tstring dir = filename.substr(0,filename.rfind('\\'));
+		if( _taccess(dir.c_str(),0))
+			CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)dir.c_str());
 
 		// Write to file
-		FILE *f = fopen(filename.c_str(),"wb");
+		FILE *f = _tfopen(filename.c_str(), _T("wb"));
 		fwrite(resp->pData,1,resp->dataLength,f);
 		fclose(f);
 

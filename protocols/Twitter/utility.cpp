@@ -173,7 +173,7 @@ int mir_twitter::WLOG(const char* first, const std::wstring last)
 	return LOG(first, str1); 
 }
 
-bool save_url(HANDLE hNetlib,const std::string &url,const std::string &filename)
+bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
 	NETLIBHTTPREQUEST *resp;
@@ -189,12 +189,12 @@ bool save_url(HANDLE hNetlib,const std::string &url,const std::string &filename)
 		if (resp->resultCode == 200)
 		{
 			// Create folder if necessary
-			std::string dir = filename.substr(0,filename.rfind('\\'));
-			if(_access(dir.c_str(),0))
-				CallService(MS_UTILS_CREATEDIRTREE, 0, (LPARAM)dir.c_str());
+			std::tstring dir = filename.substr(0,filename.rfind('\\'));
+			if( _taccess(dir.c_str(),0))
+				CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)dir.c_str());
 
 			// Write to file
-			FILE *f = fopen(filename.c_str(),"wb");
+			FILE *f = _tfopen(filename.c_str(), _T("wb"));
 			fwrite(resp->pData,1,resp->dataLength,f);
 			fclose(f);
 		}

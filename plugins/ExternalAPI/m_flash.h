@@ -79,11 +79,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // FLASHAVATAR structure
 typedef struct {
-	HANDLE hContact;	// contact who flash avatar belongs to
-	HWND hWindow;		// handle of flash avatar object
+	HANDLE hContact;     // contact who flash avatar belongs to
+	HWND hWindow;        // handle of flash avatar object
 	HWND hParentWindow;	// handle of flash avatar's parent object
-	char* cUrl;			// url of .swf file
-	int id;				// unique number of plugin which wants to use avatar service
-	char* cProto;		// contact's protocol
+	TCHAR* cUrl;         // url of .swf file
+	int id;              // unique number of plugin which wants to use avatar service
+	char* cProto;        // contact's protocol
 	char reserved[16];
 } FLASHAVATAR;

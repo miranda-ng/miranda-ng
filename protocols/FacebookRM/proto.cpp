@@ -73,10 +73,10 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	SkinAddNewSoundExT( "NewsFeed", m_tszUserName, LPGENT( "News Feed" ) );
 	SkinAddNewSoundExT( "OtherEvent", m_tszUserName, LPGENT( "Other Event" ) );
 
-	char *profile = Utils_ReplaceVars("%miranda_avatarcache%");
-	def_avatar_folder_ = std::string(profile)+"\\"+m_szModuleName;
+	TCHAR *profile = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
+	def_avatar_folder_ = std::tstring(profile) + _T("\\") + m_tszUserName;
 	mir_free(profile);
-	hAvatarFolder_ = FoldersRegisterCustomPath(m_szModuleName, "Avatars", def_avatar_folder_.c_str());
+	hAvatarFolder_ = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", def_avatar_folder_.c_str());
 
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses( ID_STATUS_OFFLINE );

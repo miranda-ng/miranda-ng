@@ -157,8 +157,7 @@ private:
 
 	void TwitterProto::resetOAuthKeys();
 
-
-	std::string GetAvatarFolder();
+	std::tstring GetAvatarFolder();
 
 	HANDLE signon_lock_;
 	HANDLE avatar_lock_;
@@ -172,7 +171,7 @@ private:
 	twitter_id since_id_;
 	twitter_id dm_since_id_;
 
-	std::string def_avatar_folder_;
+	std::tstring def_avatar_folder_;
 	HANDLE hAvatarFolder_;
 
 	bool in_chat_;

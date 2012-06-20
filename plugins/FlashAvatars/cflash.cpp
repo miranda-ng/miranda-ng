@@ -126,10 +126,10 @@ LPAtlAxAttachControl MyAtlAxAttachControl;
 			break;\
 	}
 
-static bool DownloadFlashFile(char *url, const TCHAR* save_file, int recurse_count /*=0*/) {
-	if (!url || recurse_count > 5) {
+static bool DownloadFlashFile(char *url, const TCHAR* save_file, int recurse_count /*=0*/)
+{
+	if (!url || recurse_count > 5)
 		return false;
-	}
 
 	NETLIBHTTPREQUEST req = {0};
 	req.cbSize = sizeof(req);
@@ -189,11 +189,11 @@ static void __cdecl loadFlash_Thread(void *p) {
 	flash_avatar_item* fai = (flash_avatar_item*)p;
 	IShockwaveFlash* flash = fai->pFlash;
 
-	if(strchr(fai->hFA.cUrl, '?') == NULL) {
+	if ( _tcschr(fai->hFA.cUrl, '?') == NULL) {
 		// make hash of url
 		debug("Making TTH hash from URL...\n");
 		TigerHash th;
-		th.update(fai->hFA.cUrl, strlen(fai->hFA.cUrl));
+		th.update(fai->hFA.cUrl, _tcslen(fai->hFA.cUrl));
 		th.finalize();
 
 		// create local path name
@@ -222,7 +222,7 @@ static void __cdecl loadFlash_Thread(void *p) {
 		// download remote file if it doesn't exist
 		if (GetFileAttributes(name) == 0xFFFFFFFF) {
 			debug("Downloading flash file...\n");
-			DownloadFlashFile(fai->hFA.cUrl, name, 0);
+			DownloadFlashFile( _T2A(fai->hFA.cUrl), name, 0);
 		}
 
 		// load and play local flash movie
@@ -257,7 +257,8 @@ static void ShowBalloon(TCHAR *title, TCHAR *msg, int icon) {
 		c->pfnCListTrayNotify(&msn);
 }
 
-static void prepareFlash(char* pProto, const char* pUrl, FLASHAVATAR& fa, IShockwaveFlash* flash) {
+static void prepareFlash(char* pProto, const TCHAR* pUrl, FLASHAVATAR& fa, IShockwaveFlash* flash)
+{
 	debug("Preparing flash...\n");
 	if(flash == NULL) {
 		// Flash component is not registered in the system
@@ -280,7 +281,7 @@ static void prepareFlash(char* pProto, const char* pUrl, FLASHAVATAR& fa, IShock
 	// store avatar info
 	debug("Storing avatar info...\n");
 	fa.cProto = pProto;
-	fa.cUrl = mir_strdup(pUrl);
+	fa.cUrl = mir_tstrdup(pUrl);
 
 	// create flash record
 	flash_avatar_item *flash_item = new flash_avatar_item(fa.hContact, fa, flash);
@@ -290,11 +291,11 @@ static void prepareFlash(char* pProto, const char* pUrl, FLASHAVATAR& fa, IShock
 	}
 
 	// avatar contains parameter, load it from remote place
-	if(strchr(fa.cUrl, '?')) {
+	if ( _tcschr(fa.cUrl, '?')) {
 		debug("Flash with parameters, loading...\n");
 		flash->LoadMovie(0, fa.cUrl);
 	}
-
+						  _bstr_t
 	// refresh avatar's parent window
 	// InvalidateRect(fa.hParentWindow, NULL, FALSE);
 
@@ -351,13 +352,13 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 	if (!avatarOK) return 0;
 	debug("Avatar found...\n");
 
-	TCHAR* url = NULL;
+	TCHAR url[MAX_PATH];
 	switch(AI.format) {
 		case PA_FORMAT_SWF:
-			url = AI.filename;
+			_tcsncpy(url, AI.filename, SIZEOF(url));
 			break;
 		case PA_FORMAT_XML: {
-			int src = _tfopen(AI.filename, _O_BINARY | _O_RDONLY);
+			int src = _topen(AI.filename, _O_BINARY | _O_RDONLY);
 			if(src != -1) {
 				char pBuf[2048];
 				char* urlBuf;
@@ -366,7 +367,7 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 
 				urlBuf = strstr(pBuf, "<URL>");
 				if(urlBuf)
- 					url = strtok(urlBuf + 5, "\r\n <");
+					_tcsncpy(url, _A2T(strtok(urlBuf + 5, "\r\n <")), SIZEOF(url));
  				else
  					return 0;
  			} else {
@@ -386,7 +387,7 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 		hFA->hWindow = item->hFA.hWindow;
 		ShowWindow(hFA->hWindow, SW_SHOW);
 
-		if(_stricmp(item->hFA.cUrl, url) != 0) {
+		if ( _tcsicmp(item->hFA.cUrl, url) != 0) {
 			debug("Refreshing flash...\n");
 			IShockwaveFlash* flash = item->pFlash;
 			mir_free(item->hFA.cUrl);
@@ -395,7 +396,8 @@ static INT_PTR makeAvatar(WPARAM wParam, LPARAM)
 
 			prepareFlash(key.getProto(), url, *hFA, flash);
 		}
-	}	else {
+	}
+	else {
 		debug("Creating new flash...\n");
 		RECT rc;
 		GetWindowRect(hFA->hParentWindow, &rc);
