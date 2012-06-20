@@ -49,7 +49,7 @@ int findHeader(NETLIBHTTPREQUEST *nlhrReply, char *hdr)
 int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData) 
 {
 	int result = 0xBADBAD;
-	char* szRedirUrl  = NULL;
+	char* szRedirUrl = NULL;
 	NETLIBHTTPREQUEST nlhr = {0}, *nlhrReply;
 	NETLIBHTTPHEADER headers[6];
 
@@ -66,17 +66,17 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 	// change the header so the plugin is pretended to be IE 6 + WinXP
 	nlhr.headersCount = 5;
 	nlhr.headers = headers;
-	nlhr.headers[0].szName  = "User-Agent";
+	nlhr.headers[0].szName = "User-Agent";
 	nlhr.headers[0].szValue = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)";
-	nlhr.headers[1].szName  = "Cache-Control";
+	nlhr.headers[1].szName = "Cache-Control";
 	nlhr.headers[1].szValue = "no-cache";
-	nlhr.headers[2].szName  = "Pragma";
+	nlhr.headers[2].szName = "Pragma";
 	nlhr.headers[2].szValue = "no-cache";
-	nlhr.headers[3].szName  = "Connection";
+	nlhr.headers[3].szName = "Connection";
 	nlhr.headers[3].szValue = "close";
-	nlhr.headers[4].szName  = "Cookie";
+	nlhr.headers[4].szName = "Cookie";
 	nlhr.headers[4].szValue = cookie;
-//	nlhr.headers[5].szName  = "If-Modified-Since";
+//	nlhr.headers[5].szName = "If-Modified-Since";
 //	nlhr.headers[5].szValue = "Tue, 24 Feb 2009 03:44:23 GMT";
 
 	if (cookie == NULL || cookie[0] == 0) --nlhr.headersCount;
@@ -105,9 +105,9 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 							else {
 								char* method, tmp;
 								end = strchr(beg, '>');
-								tmp = *end; *end  = 0;
+								tmp = *end; *end = 0;
 
-								method  = strstr(beg, "http-equiv=\"");
+								method = strstr(beg, "http-equiv=\"");
 								if (method && _strnicmp(method+12, "Content-Type", 12) == 0 && strstr(method, "utf-8")) {
 									bIsUtf = true;
 									break;
@@ -193,7 +193,7 @@ void NetlibInit(void)
 	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION;
 	nlu.szSettingsModule = WEATHERPROTONAME;
 	nlu.szDescriptiveName = Translate("Weather HTTP connections");
-	hNetlibUser=(HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
+	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 }
 
 void NetlibHttpDisconnect(void) 

@@ -182,7 +182,7 @@ void InitVar()
 	UpdateListHead = NULL;
 
 	// other settings
-	timerId=0;
+	timerId = 0;
 	opt.DefStn = NULL;
 	ModuleLoaded = FALSE;
 }

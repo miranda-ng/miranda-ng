@@ -125,35 +125,12 @@ INT_PTR WeatherGetInfo(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+// avatars
+static const TCHAR *statusStr[] = { _T("Light"), _T("Fog"), _T("SShower"), _T("Snow"), _T("RShower"), _T("Rain"), _T("PCloudy"), _T("Cloudy"), _T("Sunny"), _T("NA") };
+static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
 INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam) 
 {
-	static const char *statusStr[] = {
-		"Light",
-		"Fog",
-		"SShower",
-		"Snow",
-		"RShower", 
-		"Rain",
-		"PCloudy",
-		"Cloudy",
-		"Sunny",
-		"NA"
-	};
-
-	static const WORD statusValue[] = {
-		LIGHT,
-		FOG,
-		SSHOWER,
-		SNOW,
-		RSHOWER,
-		RAIN,
-		PCLOUDY,
-		CLOUDY,
-		SUNNY,
-		NA
-	};
-	
 	TCHAR szSearchPath[MAX_PATH], *chop;
 	WORD status;
 	unsigned  i;
@@ -170,35 +147,33 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	{
 		if (statusValue[i] == status) 
 			break;
-	}
-	if (i >= 10) return GAIR_NOAVATAR;
+
+	if (i >= 10)
+		return GAIR_NOAVATAR;
 
 	ai->format = PA_FORMAT_PNG;
 	wsprintf(ai->filename, _T("%s\\Plugins\\Weather\\%s.png"), szSearchPath, statusStr[i]);
-	if (_taccess(ai->filename, 4) == 0) return GAIR_SUCCESS;
+	if ( _taccess(ai->filename, 4) == 0)
+		return GAIR_SUCCESS;
 
 	ai->format = PA_FORMAT_GIF;
 	wsprintf(ai->filename, _T("%s\\Plugins\\Weather\\%s.gif"), szSearchPath, statusStr[i]);
-	if (_taccess(ai->filename, 4) == 0) return GAIR_SUCCESS;
+	if ( _taccess(ai->filename, 4) == 0)
+		return GAIR_SUCCESS;
 
 	ai->format = PA_FORMAT_UNKNOWN;
 	ai->filename[0] = 0;
-	return 	GAIR_NOAVATAR;
+	return GAIR_NOAVATAR;
 }
 
 
 void AvatarDownloaded(HANDLE hContact)
 {
-	int haveAvatar;
 	PROTO_AVATAR_INFORMATIONT AI = {0};
 	AI.cbSize = sizeof(AI);
 	AI.hContact = hContact;
 
-//	ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
-
-	haveAvatar = WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&AI) == GAIR_SUCCESS;
-
-	if (haveAvatar)
+	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&AI) == GAIR_SUCCESS)
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &AI, 0);
 	else
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, NULL, 0);
@@ -207,8 +182,9 @@ void AvatarDownloaded(HANDLE hContact)
 
 static void __cdecl WeatherGetAwayMsgThread(HANDLE hContact)
 {
-	DBVARIANT dbv;
 	Sleep(100);
+
+	DBVARIANT dbv;
 	if ( !DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv)) {
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		DBFreeVariant( &dbv );
@@ -350,51 +326,51 @@ void AddMenuItems(void)
 
 	// contact menu
 	hService[15] = CreateServiceFunction(MS_WEATHER_UPDATE, UpdateSingleStation);
-	mi.position=-0x7FFFFFFA;
+	mi.position = -0x7FFFFFFA;
 	mi.icolibItem = GetIconHandle("update");
-	mi.pszName="Update Weather";
+	mi.pszName = "Update Weather";
 	mi.pszService = MS_WEATHER_UPDATE;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[16] = CreateServiceFunction(MS_WEATHER_REFRESH, UpdateSingleRemove);
-	mi.position=-0x7FFFFFF9;
+	mi.position = -0x7FFFFFF9;
 	mi.icolibItem = GetIconHandle("update2");
-	mi.pszName="Remove Old Data then Update";
+	mi.pszName = "Remove Old Data then Update";
 	mi.pszService = MS_WEATHER_REFRESH;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[17] = CreateServiceFunction(MS_WEATHER_BRIEF, BriefInfoSvc);
-	mi.position=-0x7FFFFFF8;
+	mi.position = -0x7FFFFFF8;
 	mi.icolibItem = GetIconHandle("brief");
-	mi.pszName="Brief Information";
+	mi.pszName = "Brief Information";
 	mi.pszService = MS_WEATHER_BRIEF;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[18] = CreateServiceFunction(MS_WEATHER_COMPLETE, LoadForecast);
-	mi.position=-0x7FFFFFF7;
+	mi.position = -0x7FFFFFF7;
 	mi.icolibItem = GetIconHandle("read");
-	mi.pszName="Read Complete Forecast";
+	mi.pszName = "Read Complete Forecast";
 	mi.pszService = MS_WEATHER_COMPLETE;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[19] = CreateServiceFunction(MS_WEATHER_MAP, WeatherMap);
-	mi.position=-0x7FFFFFF6;
+	mi.position = -0x7FFFFFF6;
 	mi.icolibItem = GetIconHandle("map");
-	mi.pszName="Weather Map";
+	mi.pszName = "Weather Map";
 	mi.pszService = MS_WEATHER_MAP;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[20] = CreateServiceFunction(MS_WEATHER_LOG, ViewLog);
-	mi.position=-0x7FFFFFF5;
+	mi.position = -0x7FFFFFF5;
 	mi.icolibItem = GetIconHandle("log");
-	mi.pszName="View Log";
+	mi.pszName = "View Log";
 	mi.pszService = MS_WEATHER_LOG;
 	Menu_AddContactMenuItem(&mi);
 
 	hService[21] = CreateServiceFunction(MS_WEATHER_EDIT, EditSettings);
-	mi.position=-0x7FFFFFF4;
+	mi.position = -0x7FFFFFF4;
 	mi.icolibItem = GetIconHandle("edit");
-	mi.pszName="Edit Settings";
+	mi.pszName = "Edit Settings";
 	mi.pszService = MS_WEATHER_EDIT;
 	Menu_AddContactMenuItem(&mi);
 
@@ -405,22 +381,22 @@ void AddMenuItems(void)
 	hService[22] = CreateServiceFunction(MS_WEATHER_ENABLED, EnableDisableCmd);
 	mi.pszName = "Enable/Disable Weather Update";
 	mi.icolibItem = GetIconHandle("main");
-	mi.position=10100001;
+	mi.position = 10100001;
 	mi.pszService = MS_WEATHER_ENABLED;
 	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	UpdateMenu(opt.AutoUpdate);
 
 	hService[23] = CreateServiceFunction(MS_WEATHER_UPDATEALL, UpdateAllInfo);
-	mi.position=20100001;
+	mi.position = 20100001;
 	mi.icolibItem = GetIconHandle("update");
-	mi.pszName="Update All Weather";
+	mi.pszName = "Update All Weather";
 	mi.pszService = MS_WEATHER_UPDATEALL;
 	Menu_AddMainMenuItem(&mi);
 
 	hService[24] = CreateServiceFunction(MS_WEATHER_REFRESHALL, UpdateAllRemove);
-	mi.position=20100002;
+	mi.position = 20100002;
 	mi.icolibItem = GetIconHandle("update2");
-	mi.pszName="Remove Old Data then Update All";
+	mi.pszName = "Remove Old Data then Update All";
 	mi.pszService = MS_WEATHER_REFRESHALL;
 	Menu_AddMainMenuItem(&mi);
 

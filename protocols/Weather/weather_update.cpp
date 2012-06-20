@@ -293,7 +293,7 @@ void DestroyUpdateList(void)
 void UpdateAll(BOOL AutoUpdate, BOOL RemoveData) 
 {
 	// add all weather contact to the update queue list
-	HANDLE hContact= (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
+	HANDLE hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);
 	while (hContact != NULL) 
 	{
 		if (IsMyContact(hContact)) 
@@ -503,14 +503,14 @@ int GetWeatherData(HANDLE hContact)
 							hasvar = TRUE;
 							if ( !DBGetData(hContact, _T2A(str2), &dbv)) {
 								_tcsncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - _tcslen(DataValue));
-								DataValue[SIZEOF(DataValue)-1]=0;
+								DataValue[SIZEOF(DataValue)-1] = 0;
 								DBFreeVariant(&dbv);
 							}
 							break;
 
 						case'\"': // constant, add it to the result string
 							_tcsncat(DataValue, TranslateTS(str2), SIZEOF(DataValue) - _tcslen(DataValue));
-							DataValue[SIZEOF(DataValue)-1]=0;
+							DataValue[SIZEOF(DataValue)-1] = 0;
 							break;
 						}
 

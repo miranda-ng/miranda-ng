@@ -180,7 +180,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		break;
 
 	case IDM_M7:	// display contact menu
-		hMenu=(HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,wParam,0);
+		hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT,wParam,0);
 		GetCursorPos(&pt);
 		hPopupContact = (HANDLE)wParam;
 		TrackPopupMenu(hMenu,TPM_LEFTALIGN,pt.x,pt.y,0,hWnd,NULL);
@@ -307,7 +307,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_COMMAND:
 		// enable the "apply" button 
-		if (HIWORD(wParam)==BN_CLICKED && GetFocus()==(HWND)lParam)
+		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam)
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 		if (!((LOWORD(wParam) == IDC_UPDATE || LOWORD(wParam) == IDC_DEGREE) && 
 			(HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())))

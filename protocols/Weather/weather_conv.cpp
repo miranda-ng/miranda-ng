@@ -37,7 +37,7 @@ BOOL is_number(TCHAR *s)
 	//               don't care anything that comes after it
 	while(*s != '\0') 
 	{
-		if (*s >= '0' && *s <='9') return TRUE;
+		if (*s >= '0' && *s <= '9') return TRUE;
 		else if (*s == ' ');
 		else if (*s != '+' && *s != '-') return FALSE;
 		else if ((*s == '+' || *s == '-') && !tag) tag = TRUE;
@@ -417,7 +417,7 @@ void CaseConv(TCHAR *str)
 
 	CharLowerBuff(str, (DWORD)_tcslen(str));
 	for(pstr = str; *pstr; pstr++) {
-		if (*pstr==' ' || *pstr=='-')
+		if (*pstr == ' ' || *pstr == '-')
 			nextUp = TRUE;
 		else {
 			TCHAR ch = *(TCHAR*)pstr;
@@ -452,13 +452,12 @@ void TrimString(WCHAR *str)
 // convert \t to tab and \n to linefeed
 void ConvertBackslashes(char *str) 
 {
-	char *pstr;
-	for ( pstr=str; *pstr; pstr = CharNextA(pstr)) {
-		if (*pstr=='\\') {
+	for (char *pstr=str; *pstr; pstr = CharNextA(pstr)) {
+		if (*pstr == '\\') {
 			switch(pstr[1]) {
-				case 'n': *pstr='\n'; break;
-				case 't': *pstr='\t'; break;
-				default: *pstr=pstr[1]; break;
+				case 'n': *pstr = '\n'; break;
+				case 't': *pstr = '\t'; break;
+				default: *pstr = pstr[1]; break;
 			}
 			memmove(pstr+1, pstr+2, strlen(pstr+2)+1);
 }	}	}

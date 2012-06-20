@@ -429,12 +429,12 @@ void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 	WCOUNTER wc;
 	wc.current = 0;
 
-	dbces.lParam=(LPARAM)&wc;
-	dbces.pfnEnumProc=GetWeatherDataFromDB;
-	dbces.szModule=WEATHERCONDITION;
+	dbces.lParam = (LPARAM)&wc;
+	dbces.pfnEnumProc = GetWeatherDataFromDB;
+	dbces.szModule = WEATHERCONDITION;
 
 	// get all the settings and stored them in a temporary list
-	if (CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)hContact,(LPARAM)&dbces)==-1)
+	if (CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)hContact,(LPARAM)&dbces) == -1)
 		wc.current--;
 
 	// begin deleting settings
