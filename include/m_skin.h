@@ -145,9 +145,6 @@ typedef struct {
 	DWORD dwFlags;
 } SKINSOUNDDESCEX;
 
-#define SKINSOUNDDESC_SIZE_V1  (offsetof(SKINSOUNDDESCEX, pszSection))
-#define SKINSOUNDDESC_SIZE_V2  (offsetof(SKINSOUNDDESCEX, dwFlags))
-
 // Old struct pre 0.3.4
 typedef struct {
 	int cbSize;

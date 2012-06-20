@@ -22,6 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
+#define SKINSOUNDDESC_SIZE_V1  (offsetof(SKINSOUNDDESCEX, pszSection))
+#define SKINSOUNDDESC_SIZE_V2  (offsetof(SKINSOUNDDESCEX, dwFlags))
+
 struct SoundItem
 {
 	char*  name;

@@ -1188,7 +1188,7 @@ VOID SvcReminderLoadModule(VOID)
 {
 	// init sounds
 	SKINSOUNDDESCEX ssd = { 0 };
-	ssd.cbSize = SKINSOUNDDESC_SIZE_V1;
+	ssd.cbSize = sizeof(ssd);
 	ssd.pszSection = LPGEN(MODNAME);
 
 	ssd.pszName = SOUND_BIRTHDAY_TODAY;
