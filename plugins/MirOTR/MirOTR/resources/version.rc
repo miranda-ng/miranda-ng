@@ -1,35 +1,38 @@
-/* THIS FILE WILL BE OVERWRITTEN BY Microsoft Visual Studio */
-/* DO NOT EDIT! */
-
+// Microsoft Visual C++ generated resource script.
+//
+#include "afxres.h"
 #include "version.h"
-#include "windows.h"
 
-//
-// TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS.
-//
-1 VERSIONINFO
-FILEVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
-PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
-FILETYPE VFT_DLL
-{
-  BLOCK "StringFileInfo"
-	 {
-		 BLOCK "0C0904E4"
-		 {
-			 VALUE "CompanyName", COMPANY_NAME
-			 VALUE "FileVersion", FILE_VERSION
-			 VALUE "FileDescription", FILE_DESCRIPTION
-			 VALUE "InternalName", INTERNAL_NAME
-			 VALUE "LegalCopyright", LEGAL_COPYRIGHT
-			 VALUE "LegalTrademarks", LEGAL_TRADEMARKS
-			 VALUE "OriginalFilename", ORIGINAL_FILENAME
-			 VALUE "ProductName", PRODUCT_NAME
-			 VALUE "ProductVersion", PRODUCT_VERSION
-		 }
-	 }
-  BLOCK "VarFileInfo"
-	 {
-		 VALUE "Translation", 0x0C09, 1252
-	 }
-}
+#ifdef _WIN32
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#endif //_WIN32
 
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
+ PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_RELEASE,VER_BUILD
+ FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x0L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "000004b0"
+        BEGIN
+            VALUE "FileDescription", FILE_DESCRIPTION
+            VALUE "InternalName", INTERNAL_NAME
+            VALUE "LegalCopyright", LEGAL_COPYRIGHT
+            VALUE "OriginalFilename", ORIGINAL_FILENAME
+            VALUE "ProductName", PRODUCT_NAME
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1200
+    END
+END

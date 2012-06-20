@@ -7,7 +7,6 @@
 
 #include "windows.h"
 #include "../resource.h"
-#include "version.rc"
 
 LANGUAGE 9,0
 

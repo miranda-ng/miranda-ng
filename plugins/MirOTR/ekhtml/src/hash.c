@@ -54,7 +54,6 @@ static const char rcsid[] = "$Id: hash.c,v 1.1 2002/09/17 02:49:36 jick Exp $";
 
 #define table hash_table
 #define chain hash_chain
-#define hash_val_t_bit (compute_bits())
 
 static hnode_t *hnode_alloc(void *context);
 static void hnode_free(hnode_t *node, void *context);
@@ -76,7 +75,18 @@ int hash_val_t_bit;
  *    right, replacing the topmost bit by zero.
  */
 
+static void compute_bits(void)
+{
+    hash_val_t val = HASH_VAL_T_MAX;	/* 1 */
+    int bits = 0;
 
+    while (val) {	/* 2 */
+	bits++;
+	val >>= 1;
+    }
+
+    hash_val_t_bit = bits;
+}
 
 /*
  * Verify whether the given argument is a power of two.

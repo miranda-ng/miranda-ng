@@ -150,8 +150,8 @@ char *ekhtml_find_notcharsmap(const char *buf, int len,
 {
     const char *endp = buf + len;
     
-    for (;buf<endp;buf++)
-        if (!(charmap[(unsigned char )*buf] & mask))
+    for(;buf<endp;buf++)
+        if(!(charmap[(unsigned char )*buf] & mask))
             break;
     
     return (char *)((buf == endp) ? endp : buf);

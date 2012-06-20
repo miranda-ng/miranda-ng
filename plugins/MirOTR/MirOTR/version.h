@@ -11,7 +11,7 @@
 #define VER_STRING					"0.11.0.4"
 
 #ifdef _UNICODE
-	#define SHORT_NAME_STRING 		"Miranda OTR (AlfaMaR)"
+	#define SHORT_NAME_STRING 		"Miranda OTR"
 	#define DESC_STRING 			"OTR (Off-the-Record) plugin for Miranda IM"
 #else
 	#define SHORT_NAME_STRING 		"Miranda OTR (x64)"

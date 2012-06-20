@@ -41,13 +41,13 @@ char *ekhtml_parse_special(ekhtml_parser_t *parser, void **state_data,
     
     assert(*curp == '<' && *(curp + 1) == '!');
     
-    if (*state_data == NULL){/* Only called the first time the tag is started */
+    if(*state_data == NULL){/* Only called the first time the tag is started */
         *offset = 2;
         *state_data = (void *)1;  /* Assign it any non-NULL value */
     }
     
     for(workp=curp + *offset;workp != endp; workp++)
-        if (*workp == '<' || *workp == '>')  
+        if(*workp == '<' || *workp == '>')  
             break;
     
     if(workp == endp){
@@ -65,7 +65,7 @@ char *ekhtml_parse_special(ekhtml_parser_t *parser, void **state_data,
     }
     
     *state_data = NULL;
-    if (*workp == '<')  /* Malformed HTML */
+    if(*workp == '<')  /* Malformed HTML */
         return (char *)workp;
     else
         return (char *)workp + 1;

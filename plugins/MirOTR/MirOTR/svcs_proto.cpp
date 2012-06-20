@@ -110,7 +110,11 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 
 #ifdef _DEBUG
 		if(ccs->wParam & PREF_UNICODE)
-			MessageBox(0, (const char *)ccs->lParam, _T("OTR - sending raw message"), MB_OK);
+		{
+			TCHAR *mes = mir_a2t((const char *)ccs->lParam);
+			MessageBox(0, mes, _T("OTR - sending raw message"), MB_OK);
+			mir_free(mes);
+		}
 		else 
 			MessageBoxA(0, (char *)ccs->lParam, ("OTR - sending raw message"), MB_OK);
 		#endif
@@ -149,7 +153,11 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 
 #ifdef _DEBUG
 	if(pre->flags & PREF_UNICODE)
-		MessageBox(0, (const char *)pre->szMessage, _T("OTR - receiving message"), MB_OK);
+	{
+		TCHAR *mes = mir_a2t(pre->szMessage);
+		MessageBox(0, mes, _T("OTR - receiving message"), MB_OK);
+		mir_free(mes);
+	}
 	else 
 		MessageBoxA(0, (char *)pre->szMessage, ("OTR - receiving message"), MB_OK);
 #endif

@@ -133,7 +133,7 @@ static void handle_starttag(ekhtml_parser_t *parser, char *curp,
     str.str = upper_str;
     str.len = taglen;
 
-    if ((hn = hash_lookup(parser->startendcb, &str)) &&
+    if((hn = hash_lookup(parser->startendcb, &str)) &&
        (container = hnode_get(hn)) &&
        container->startfunc)
     {
@@ -141,14 +141,14 @@ static void handle_starttag(ekhtml_parser_t *parser, char *curp,
     } else if(parser->startcb_unk)
         cback = parser->startcb_unk;
     
-    if (!cback)
+    if(!cback)
         return;
     
     /* Formulate real attribute callback data from the 'offset' 
        pointer values */
     for(attr=sstate->attrs;attr;attr=attr->next){
         attr->name.str = curp + (int)attr->name.str;
-        if (!attr->isBoolean)
+        if(!attr->isBoolean)
             attr->val.str = curp + (int)attr->val.str;
     }
     
@@ -223,7 +223,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
             if(workp == endp)
                 break;
             
-            if (!(EKCMap_CharMap[(unsigned char)*workp] & 
+            if(!(EKCMap_CharMap[(unsigned char)*workp] & 
                  EKHTML_CHAR_BEGATTRNAME))
             {
                 /* Bad attrname character */
@@ -254,11 +254,11 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
                of file */
             startstate->curattr->name.len = 
                 workp - (curp + (int)startstate->curattr->name.str);
-            if (*workp == '=') {
+            if(*workp == '='){
                 startstate->mode = EKHTML_STMODE_BEGVALUE;
                 workp++;  /* Skip the equals sign */
             } else {
-                if (!(EKCMap_CharMap[(unsigned char)*workp] & 
+                if(!(EKCMap_CharMap[(unsigned char)*workp] & 
                      EKHTML_CHAR_WHITESPACE))
             {
                 /* Found something we weren't expecting.  Use the current
@@ -277,7 +277,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
             if(workp == endp)
                 break;
       
-            if (*workp != '=') { 
+            if(*workp != '='){ 
                 /* Unexpected value.  Could either be time to suck, or this was
                    really only a boolean value */
                 scroll_attribute(startstate);
@@ -306,12 +306,12 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
             startstate->curattr->isBoolean = 0;
             startstate->curattr->val.str = (char *)NULL + (workp - curp);
             startstate->quote        = '\0';
-            if (*workp == '"' || *workp == '\'') {
+            if(*workp == '"' || *workp == '\''){
                 startstate->curattr->val.str++;  /* Skip the quote */
                 startstate->mode   = EKHTML_STMODE_GETVALUE;
                 startstate->quote  = *workp;
                 workp++;
-            } else if (!(EKCMap_CharMap[(unsigned char)*workp] & 
+            } else if(!(EKCMap_CharMap[(unsigned char)*workp] & 
                         EKHTML_CHAR_ATTRVALUE))
             {
                 /* Bad value .. */
@@ -326,8 +326,8 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
         
         if(startstate->mode == EKHTML_STMODE_GETVALUE){
             if(startstate->quote){
-                for (;workp != endp && *workp != '>' && *workp != '<'; workp++) {
-                    if (*workp == startstate->quote){
+                for(;workp != endp && *workp != '>' && *workp != '<'; workp++){
+                    if(*workp == startstate->quote){
                         startstate->curattr->val.len = 
                             workp - (curp + (int)startstate->curattr->val.str);
                         scroll_attribute(startstate);
@@ -351,12 +351,12 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
                 workp - (curp + (int)startstate->curattr->val.str);
             scroll_attribute(startstate);
             
-            if (*workp == '>' || *workp == '<') {
+            if(*workp == '>' || *workp == '<') {
                 *offset = workp - curp;
                 handle_starttag(parser, curp, startstate);
                 release_attributes(parser, startstate);
                 *state_data = NULL;
-                if (*workp == '<')
+                if(*workp == '<')
                     return workp;
                 else
                     return workp + 1;
@@ -369,7 +369,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
         if(startstate->mode == EKHTML_STMODE_SUCK){
             /* The sucking mode is here in case someone puts a bad character
                in an attribute name. We suck until what looks like end of tag*/
-            for (;workp != endp && *workp != '<' && *workp != '>'; workp++)
+            for(;workp != endp && *workp != '<' && *workp != '>'; workp++)
                 ;
             if(workp == endp)
                 break;
@@ -378,7 +378,7 @@ char *ekhtml_parse_starttag(ekhtml_parser_t *parser, void **state_data,
             handle_starttag(parser, curp, startstate);
             release_attributes(parser, startstate);
             *state_data = NULL;
-            if (*workp == '<')
+            if(*workp == '<')
                 return workp;
             else
                 return workp + 1;

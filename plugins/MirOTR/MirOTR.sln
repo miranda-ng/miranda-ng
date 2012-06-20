@@ -3,13 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "MirOTR\MirOTR.vcxproj", "{53F841E8-284F-4545-9176-B131896E43F8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libotr320", "libotr-3.2.0\libotr320.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libotr", "libotr-3.2.0\libotr320.vcxproj", "{1423FC8F-AA52-4562-8275-4BF0838CA378}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libgcrypt", "libgcrypt-1.4.6\libgcrypt146lib.vcxproj", "{40FE7861-E54E-4DA9-BE4D-A5178014E477}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EkHtml", "ekhtml\EkHtml.vcxproj", "{2C050CAF-D8AA-468A-B1A7-89F3BE99D3C8}"
 EndProject
 Global
+	GlobalSection(DPCodeReviewSolutionGUID) = preSolution
+		DPCodeReviewSolutionGUID = {00000000-0000-0000-0000-000000000000}
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Debug|x64 = Debug|x64
@@ -17,14 +20,14 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|Win32.ActiveCfg = Debug Unicode|Win32
-		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|Win32.Build.0 = Debug Unicode|Win32
-		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|x64.ActiveCfg = Debug Unicode|x64
-		{53F841E8-284F-4545-9176-B131896E43F8}.Debug Unicode|x64.Build.0 = Debug Unicode|x64
-		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|Win32.ActiveCfg = Release Unicode|Win32
-		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|Win32.Build.0 = Release Unicode|Win32
-		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|x64.ActiveCfg = Release Unicode|x64
-		{53F841E8-284F-4545-9176-B131896E43F8}.Release Unicode|x64.Build.0 = Release Unicode|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug|Win32.Build.0 = Debug|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug|x64.ActiveCfg = Debug|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Debug|x64.Build.0 = Debug|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release|Win32.ActiveCfg = Release|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release|Win32.Build.0 = Release|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release|x64.ActiveCfg = Release|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release|x64.Build.0 = Release|x64
 		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug|Win32.Build.0 = Debug|Win32
 		{1423FC8F-AA52-4562-8275-4BF0838CA378}.Debug|x64.ActiveCfg = Debug|x64

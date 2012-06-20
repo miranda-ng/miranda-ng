@@ -49,13 +49,6 @@ DLLFUNC PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	return &pluginInfo;
 }
 
-static const MUUID interfaces[] = {MIID_OTR, MIID_LAST};
-DLLFUNC const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
-
 int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	if(ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_metaproto = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
