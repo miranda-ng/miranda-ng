@@ -26,6 +26,12 @@ Copyright (C) 2010, 2011 tico-tico
 #define BASSDEF(f) (WINAPI *f)
 #include "bass.h"
 
+#if defined( _UNICODE )
+	#define BASS_TCHAR   BASS_UNICODE
+#else
+	#define BASS_TCHAR   0
+#endif
+
 #define LOADBASSFUNCTION(f) (*((void**)&f)=(void*)GetProcAddress(hBass,#f))
 
 #define MIID_BASSINT     {0x2f07ea05, 0x05b5, 0x4ff0, { 0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1 }} //2f07ea05-05b5-4ff0-875d-c590da2ddac1

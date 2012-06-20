@@ -53,7 +53,7 @@ static HWND ClistHWND;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
-	char * pszFile = (char *) lParam; SYSTEMTIME systime; WORD currtime, currstat; BOOL doPlay = TRUE;
+	TCHAR* ptszFile = (TCHAR*) lParam; SYSTEMTIME systime; WORD currtime, currstat; BOOL doPlay = TRUE;
 
 	GetLocalTime(&systime);
 	currtime = MAKEWORD(systime.wMinute, systime.wHour);
@@ -61,15 +61,15 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	currstat = 1;
 	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0))
 	{
-		case ID_STATUS_OUTTOLUNCH:	currstat <<= 1;
-		case ID_STATUS_ONTHEPHONE:	currstat <<= 1;
-		case ID_STATUS_INVISIBLE:	currstat <<= 1;
-		case ID_STATUS_FREECHAT:	currstat <<= 1;
-		case ID_STATUS_DND:			currstat <<= 1;
-		case ID_STATUS_OCCUPIED:	currstat <<= 1;
-		case ID_STATUS_NA:			currstat <<= 1;
-		case ID_STATUS_AWAY:		currstat <<= 1;
-		case ID_STATUS_ONLINE:		currstat <<= 1;
+		case ID_STATUS_OUTTOLUNCH:   currstat <<= 1;
+		case ID_STATUS_ONTHEPHONE:   currstat <<= 1;
+		case ID_STATUS_INVISIBLE:    currstat <<= 1;
+		case ID_STATUS_FREECHAT:     currstat <<= 1;
+		case ID_STATUS_DND:          currstat <<= 1;
+		case ID_STATUS_OCCUPIED:     currstat <<= 1;
+		case ID_STATUS_NA:           currstat <<= 1;
+		case ID_STATUS_AWAY:         currstat <<= 1;
+		case ID_STATUS_ONLINE:       currstat <<= 1;
 	}
 
 	if ( !DBGetContactSettingByte(NULL,"Skin","UseSound",0)) doPlay = FALSE;
@@ -84,12 +84,12 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 	if ( Preview || (int)wParam==1 ) doPlay = TRUE;
 
-	if ( !pszFile ) doPlay = FALSE;
+	if ( !ptszFile ) doPlay = FALSE;
 
 	if ( doPlay )
 	{
 		BASS_StreamFree(sndSSnd[sndNSnd]);
-		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, pszFile, 0, 0, BASS_STREAM_AUTOFREE);
+		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, ptszFile, 0, 0, BASS_TCHAR | BASS_STREAM_AUTOFREE);
 		BASS_ChannelPlay(sndSSnd[sndNSnd], FALSE);
 		sndNSnd = (sndNSnd+1)%sndLimSnd;
 	}
