@@ -6,7 +6,6 @@
 extern HICON hIconMenuSet, hIconList1, hIconList2, hIconMenuShowHide, hIconSystray;
 
 void InitIcons();
-void DeinitIcons();
 
 #endif
 

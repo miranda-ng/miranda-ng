@@ -314,7 +314,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 						sid.pszName = iconName;
 						sid.ptszDescription = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
 						sid.iDefaultIndex = statusIcons[i].resource_id;
-						IcoLib_AddNewIcon(&sid);
+						IcoLib_AddNewIcon(0, &sid);
 		}	}	}	}
 
 		// format: core_status_%s%d
@@ -364,12 +364,11 @@ static void convertOneProtocol(char* moduleName, char* iconName)
 {
 	char* pm = moduleName + strlen(moduleName);
 	char* pi = iconName + strlen(iconName);
-	DBVARIANT dbv;
-	int i;
 
-	for (i = 0; i < SIZEOF(statusIcons); i++) {
+	for (int i = 0; i < SIZEOF(statusIcons); i++) {
 		_itoa(statusIcons[i].id, pm, 10);
 
+		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(NULL, "Icons", moduleName, &dbv)) {
 			_itoa(i, pi, 10);
 
@@ -471,7 +470,7 @@ int LoadSkinIcons(void)
 		sid.pszSection = mainIcons[i].section == NULL ? "Main Icons" : (char*)mainIcons[i].section;
 		sid.pszDescription = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
-		hMainIcons[i] = IcoLib_AddNewIcon(&sid);
+		hMainIcons[i] = IcoLib_AddNewIcon(0, &sid);
 	}
 	//
 	// Add global icons to list
@@ -485,7 +484,7 @@ int LoadSkinIcons(void)
 		sid.pszName = iconName;
 		sid.pszDescription = (char*)statusIcons[i].description;
 		sid.iDefaultIndex = statusIcons[i].resource_id;
-		hStatusIcons[i] = IcoLib_AddNewIcon(&sid);
+		hStatusIcons[i] = IcoLib_AddNewIcon(0, &sid);
 	}
 	return 0;
 }

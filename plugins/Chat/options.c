@@ -493,7 +493,7 @@ void AddIcons(void)
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.pszName = (char*)iconList[i].szName;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 }	}
 
 // load icons from the skinning module if available

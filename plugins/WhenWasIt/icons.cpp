@@ -75,46 +75,40 @@ int LoadIcons()
 	return 0;
 }
 
-int AddIcon(HICON icon, char *name, char *description)
+HANDLE AddIcon(HICON icon, char *name, char *description)
 {
 	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	sid.cbSize = sizeof(sid);
 	sid.pszSection = "WhenWasIt";
 	sid.cx = sid.cy = 16;
 	sid.pszDescription = description;
 	sid.pszName = name;
 	sid.hDefaultIcon = icon;
-	
-	return CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+	return Skin_AddIcon(&sid);
 }
 
 int AddIcons()
 {
-	if (ServiceExists(MS_SKIN2_ADDICON)) //if icolib is installed
-		{
-//			AddIcon(hiDlgIcon, "Dlg", "Popup and dialog ");
-			AddIcon(hiCheckMenu, "MenuCheck", "Check birthdays menu item");
-			AddIcon(hiListMenu, "MenuList", "List birthdays menu item");
-			AddIcon(hiAddBirthdayContact, "AddBirthday", "Add/change birthday");
-			AddIcon(hiRefreshUserDetails, "RefreshUserDetails", "Refresh user details");
-			
-			AddIcon(hiImportBirthdays, "ImportBirthdays", "Import birthdays");
-			AddIcon(hiExportBirthdays, "ExportBirthdays", "Export birthdays");
-			
-			int i;
-			char name[1024];
-			char description[1024];
-			AddIcon(hiDTB[0], "DTB0", "Birthday today");
-			AddIcon(hiDTB[1], "DTB1", "1 day to birthday");
-			for (i = 2; i < cDTB; i++)
-				{
-					sprintf(name, "DTB%d", i);
-					sprintf(description, "%d days to birthday", i);
-					AddIcon(hiDTB[i], name, description);
-				}
-			sprintf(description, "More than %d days to birthday", cDTB - 1);
-			AddIcon(hiDTBMore, "DTBMore", description);
-		}
+	AddIcon(hiCheckMenu, "MenuCheck", "Check birthdays menu item");
+	AddIcon(hiListMenu, "MenuList", "List birthdays menu item");
+	AddIcon(hiAddBirthdayContact, "AddBirthday", "Add/change birthday");
+	AddIcon(hiRefreshUserDetails, "RefreshUserDetails", "Refresh user details");
+
+	AddIcon(hiImportBirthdays, "ImportBirthdays", "Import birthdays");
+	AddIcon(hiExportBirthdays, "ExportBirthdays", "Export birthdays");
+
+	int i;
+	char name[1024];
+	char description[1024];
+	AddIcon(hiDTB[0], "DTB0", "Birthday today");
+	AddIcon(hiDTB[1], "DTB1", "1 day to birthday");
+	for (i = 2; i < cDTB; i++) {
+		sprintf(name, "DTB%d", i);
+		sprintf(description, "%d days to birthday", i);
+		AddIcon(hiDTB[i], name, description);
+	}
+	sprintf(description, "More than %d days to birthday", cDTB - 1);
+	AddIcon(hiDTBMore, "DTBMore", description);
 	return 0;
 }
 

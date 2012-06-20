@@ -143,7 +143,7 @@ void CIconPool::RegisterIcon(const char *name, const char *filename, int iconid,
 	sid.ptszDescription = szDescription;
 	sid.flags = SIDF_TCHAR;
 	sid.iDefaultIndex = iconid;
-	item->m_hIcolibItem = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	item->m_hIcolibItem = Skin_AddIcon(&sid);
 
 	m_items.insert(item);
 }
@@ -294,7 +294,7 @@ void CJabberProto::IconsInit( void )
 		mir_snprintf( szSettingName, SIZEOF(szSettingName), "%s_%s", m_szModuleName, iconList[i].szName );
 
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		m_phIconLibItems[i] = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		m_phIconLibItems[i] = Skin_AddIcon(&sid);
 }	}
 
 HANDLE CJabberProto::GetIconHandle( int iconId )
@@ -421,7 +421,7 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 		sid.pszDefaultFile=szMyPath;
 		sid.iDefaultIndex=i;
 		sid.flags = SIDF_TCHAR;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 	return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
 }
@@ -690,7 +690,7 @@ static void sttProcessIcons( int iAmount )
 		sid.pszName = szSettingName;
 		sid.pszDescription = sharedIconList[i].szDescr;
 		sid.iDefaultIndex = -sharedIconList[i].defIconID;
-		sharedIconList[i].hIcon = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		sharedIconList[i].hIcon = Skin_AddIcon(&sid);
 }	}
 
 void g_IconsInit()

@@ -80,7 +80,7 @@ static void IcoLibInit(void)
 		sid.pszName = iconList[i].szName;
 		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 }
 

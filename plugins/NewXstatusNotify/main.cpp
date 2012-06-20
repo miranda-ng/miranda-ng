@@ -1318,7 +1318,7 @@ void InitIcolib()
 		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", MODULE, iconList[i].szName);
 		sid.pszDescription = Translate(iconList[i].szDescr);
 		sid.iDefaultIndex = -iconList[i].iIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 }
 

@@ -61,7 +61,7 @@ void InitIcons(void)
 
 		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		iconList[i].hIconLibItem = ( HANDLE )Skin_AddIcon(&sid);
 }	}
 
 HICON  LoadIconEx(const char* name, BOOL big)

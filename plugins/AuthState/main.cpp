@@ -151,20 +151,10 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 	g_IECAuthGrant.cbSize = sizeof(IconExtraColumn);
 	g_IECAuthGrant.ColumnType = clistIcon;
 
-	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-	{
-		if (ServiceExists(MS_SKIN2_ADDICON))
-		{
-			g_IECAuth.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"auth_icon"), (LPARAM)0);
-			g_IECGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"grant_icon"), (LPARAM)0);
-			g_IECAuthGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"authgrant_icon"), (LPARAM)0);
-		}
-		else
-		{
-			g_IECAuth.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_AUTH), IMAGE_ICON, 16, 16, LR_SHARED), (LPARAM)0);
-			g_IECGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_GRANT), IMAGE_ICON, 16, 16, LR_SHARED), (LPARAM)0);
-			g_IECAuthGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_AUTHGRANT), IMAGE_ICON, 16, 16, LR_SHARED), (LPARAM)0);
-		}
+	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
+		g_IECAuth.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"auth_icon"), (LPARAM)0);
+		g_IECGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"grant_icon"), (LPARAM)0);
+		g_IECAuthGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"authgrant_icon"), (LPARAM)0);
 	}
 
 	return 0;
@@ -236,40 +226,34 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	// hHookExtraIconsRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuild);
-	// hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
 	// IcoLib support
-	if (ServiceExists(MS_SKIN2_ADDICON))
-	{
-		SKINICONDESC sid = {0};
-		ZeroMemory(&sid, sizeof(sid));
-		TCHAR szFile[MAX_PATH];
-		sid.cbSize = sizeof(sid);
-		sid.flags = SIDF_ALL_TCHAR;
+	SKINICONDESC sid = {0};
+	ZeroMemory(&sid, sizeof(sid));
+	TCHAR szFile[MAX_PATH];
+	sid.cbSize = sizeof(sid);
+	sid.flags = SIDF_ALL_TCHAR;
 
-		sid.ptszSection = _T("Auth State");
-		GetModuleFileName(g_hInst, szFile, MAX_PATH);
-		sid.ptszDefaultFile = szFile;
+	sid.ptszSection = _T("Auth State");
+	GetModuleFileName(g_hInst, szFile, MAX_PATH);
+	sid.ptszDefaultFile = szFile;
 
-		sid.ptszDescription = _T("Auth");
-		sid.pszName = "auth_icon";
-		sid.iDefaultIndex = -IDI_AUTH;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.ptszDescription = _T("Auth");
+	sid.pszName = "auth_icon";
+	sid.iDefaultIndex = -IDI_AUTH;
+	Skin_AddIcon(&sid);
 
-		sid.ptszDescription = _T("Grant");
-		sid.pszName = "grant_icon";
-		sid.iDefaultIndex = -IDI_GRANT;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.ptszDescription = _T("Grant");
+	sid.pszName = "grant_icon";
+	sid.iDefaultIndex = -IDI_GRANT;
+	Skin_AddIcon(&sid);
 
-		sid.ptszDescription = _T("Auth & Grant");
-		sid.pszName = "authgrant_icon";
-		sid.iDefaultIndex = -IDI_AUTHGRANT;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.ptszDescription = _T("Auth & Grant");
+	sid.pszName = "authgrant_icon";
+	sid.iDefaultIndex = -IDI_AUTHGRANT;
+	Skin_AddIcon(&sid);
 
-	// hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
-	}
+	// extra icons
 	hExtraIcon = ExtraIcon_Register("authstate", "Auth State", "authgrant_icon");
-
 	if (hExtraIcon != NULL)
 	{
 		// Set initial value for all contacts
@@ -280,8 +264,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 			hContact = (HANDLE) CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM) hContact, 0);
 		}
 	}
-	else
-	{
+	else {
 		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
 		hHookExtraIconsRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuild);
 		hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
@@ -291,8 +274,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if (bContactMenuItem) hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
 	// Updater support
-	if (ServiceExists(MS_UPDATE_REGISTER))
-	{
+	if (ServiceExists(MS_UPDATE_REGISTER)) {
 		Update update = {0};
 		char szVersion[16];
 

@@ -1069,90 +1069,83 @@ void BuildViewModeMenu()
 
 LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    switch(msg) 
+	switch(msg) 
 	{
-        case WM_CREATE:
-        {
-            HWND hwndButton;
+	case WM_CREATE:
+		{
+			HWND hwndButton;
 			RECT rcMargins={12,0,2,0};
-            hwndSelector = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20, 
-                            hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
-            SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), 0);
+			hwndSelector = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP , 0, 0, 20, 20, 
+				hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
+			SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), 0);
 			SendMessage(hwndSelector, BUTTONSETMARGINS,0 ,(LPARAM) &rcMargins);			
 			SendMessage(hwndSelector, BUTTONSETID,0 ,(LPARAM) "ViewMode.Select" );			
 			SendMessage(hwndSelector, WM_SETFONT,0 ,(LPARAM) FONTID_VIEMODES+1 );
 			SendMessage(hwndSelector, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndSelector, MBM_UPDATETRANSPARENTFLAG, 0, 2);
-            SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0 ,(LPARAM) 1 );	
-			
+			SendMessage(hwndSelector, BUTTONSETSENDONDOWN, 0 ,(LPARAM) 1 );	
+
 			//SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
-            hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
-                            hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);
-            SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), 0);
+			hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
+				hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);
+			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), 0);
 			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Setup" );	
 			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
 
-            hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
-                            hwnd, (HMENU) IDC_RESETMODES, g_hInst, NULL);
-            SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), 0);
+			hwndButton = CreateWindow( SKINBUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, 
+				hwnd, (HMENU) IDC_RESETMODES, g_hInst, NULL);
+			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), 0);
 			SendMessage(hwndButton, BUTTONSETID,0 ,(LPARAM) "ViewMode.Clear" );	
 			SendMessage(hwnd, WM_USER + 100, 0, 0);
 			SendMessage(hwndButton, BUTTONSETASFLATBTN, TRUE, 0 );
 			SendMessage(hwndButton, MBM_UPDATETRANSPARENTFLAG, 0, 2);
-            return FALSE;
-        }
-        case WM_NCCALCSIZE:
-            return 18;// FrameNCCalcSize(hwnd, DefWindowProc, wParam, lParam, hasTitleBar);
-         case WM_SIZE:
-        {
-            RECT rcCLVMFrame;
-            HDWP PosBatch = BeginDeferWindowPos(3);
-            GetClientRect(hwnd, &rcCLVMFrame);
-            PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0,
-                                      rcCLVMFrame.right - 23, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-            PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0,
-                                      rcCLVMFrame.right - 45, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-            PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0,
-                                      1, 1, rcCLVMFrame.right - 46, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
-            EndDeferWindowPos(PosBatch);
-            break;
-        }
-        case WM_USER + 100:
-            if(ServiceExists(MS_SKIN2_ADDICON)) 
-			{
-				SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0,
-					(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List",Translate("Reset view mode"), _T("clisticons.dll"),9, g_hInst, IDI_RESETVIEW ));
-				
-				SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0,
-					(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List",Translate("Setup view modes"), _T("clisticons.dll"), 10, g_hInst, IDI_SETVIEW ));			
-            }
-            else 
-			{
-                SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_DELETE), IMAGE_ICON, 16, 16, LR_SHARED));
-                SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RENAME), IMAGE_ICON, 16, 16, LR_SHARED));
-                //SendMessage(GetDlgItem(hwnd, IDC_SELECTMODE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_CHAT), IMAGE_ICON, 16, 16, LR_SHARED));
-            }
-            {
-                int bSkinned = ModernGetSettingByte(NULL, "CLCExt", "bskinned", 0);
-                int i = 0;
-                
-                while(_buttons[i] != 0) {
-                    //SendMessage(GetDlgItem(hwnd, _buttons[i]), BM_SETSKINNED, 0, bSkinned);
-                    if(1&&bSkinned) {
-                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 0);
-                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 0);
-                    }
-                    else {
-                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 1);
-                        SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 1);
-                    }
-                    i++;
-                }
-            }
-            if(g_CluiData.bFilterEffective)
-			{
-			
+			return FALSE;
+		}
+	case WM_NCCALCSIZE:
+		return 18;// FrameNCCalcSize(hwnd, DefWindowProc, wParam, lParam, hasTitleBar);
+	case WM_SIZE:
+		{
+			RECT rcCLVMFrame;
+			HDWP PosBatch = BeginDeferWindowPos(3);
+			GetClientRect(hwnd, &rcCLVMFrame);
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_RESETMODES), 0,
+				rcCLVMFrame.right - 23, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_CONFIGUREMODES), 0,
+				rcCLVMFrame.right - 45, 1, 22, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
+			PosBatch = DeferWindowPos(PosBatch, GetDlgItem(hwnd, IDC_SELECTMODE), 0,
+				1, 1, rcCLVMFrame.right - 46, 18, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
+			EndDeferWindowPos(PosBatch);
+			break;
+		}
+	case WM_USER + 100:
+		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), MBM_SETICOLIBHANDLE, 0,
+			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_reset", "Contact List",Translate("Reset view mode"), _T("clisticons.dll"),9, g_hInst, IDI_RESETVIEW ));
+
+		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), MBM_SETICOLIBHANDLE, 0,
+			(LPARAM) RegisterIcolibIconHandle("CLN_CLVM_set", "Contact List",Translate("Setup view modes"), _T("clisticons.dll"), 10, g_hInst, IDI_SETVIEW ));			
+
+		{
+			int bSkinned = ModernGetSettingByte(NULL, "CLCExt", "bskinned", 0);
+			int i = 0;
+
+			while(_buttons[i] != 0) {
+				//SendMessage(GetDlgItem(hwnd, _buttons[i]), BM_SETSKINNED, 0, bSkinned);
+				if(1&&bSkinned) {
+					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 0);
+					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 0);
+				}
+				else {
+					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, TRUE, 1);
+					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN + 10, 0, 1);
+				}
+				i++;
+			}
+		}
+
+		if(g_CluiData.bFilterEffective)
+		{
+
 			{
 				TCHAR * temp;
 				//temp=alloca((strlen(szSetting)+1)*sizeof(TCHAR));
@@ -1164,153 +1157,150 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 			}
 
-			}
-            else
-                SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("All contacts"));
-            break;
-		case WM_ERASEBKGND:
-			if (g_CluiData.fDisableSkinEngine)
-				return sttDrawViewModeBackground(hwnd, (HDC)wParam, NULL);
-			else
-				return 0;
-		case WM_NCPAINT:
-        case WM_PAINT:
-			/*if ( g_CluiData.fDisableSkinEngine )
+		}
+		else
+			SetWindowText(GetDlgItem(hwnd, IDC_SELECTMODE), TranslateT("All contacts"));
+		break;
+	case WM_ERASEBKGND:
+		if (g_CluiData.fDisableSkinEngine)
+			return sttDrawViewModeBackground(hwnd, (HDC)wParam, NULL);
+		else
+			return 0;
+	case WM_NCPAINT:
+	case WM_PAINT:
+		/*if ( g_CluiData.fDisableSkinEngine )
+		{
+		PAINTSTRUCT ps;
+		HDC	hdc=BeginPaint(hwnd,&ps);
+		if (hdc)
+		{
+		HBRUSH br=GetSysColorBrush(COLOR_3DFACE);
+		FillRect(hdc,&ps.rcPaint,br);
+		}				
+		EndPaint(hwnd,&ps);
+		}
+		else
+		*/
+		if (GetParent(hwnd)==pcli->hwndContactList && g_CluiData.fLayered)				
+		{
+			ValidateRect(hwnd,NULL);
+		}
+		else if (GetParent(hwnd)!=pcli->hwndContactList || !g_CluiData.fLayered)
+		{
+			HDC hdc, hdc2;
+			HBITMAP hbmp,hbmpo;
+			RECT rc={0};
+			GetClientRect(hwnd,&rc);
+			rc.right++;
+			rc.bottom++;
+			hdc = GetDC(hwnd);
+			hdc2=CreateCompatibleDC(hdc);
+			hbmp=ske_CreateDIB32(rc.right,rc.bottom);
+			hbmpo=(HBITMAP)SelectObject(hdc2,hbmp);		
+
+			if ( g_CluiData.fDisableSkinEngine )
 			{
-				PAINTSTRUCT ps;
-				HDC	hdc=BeginPaint(hwnd,&ps);
-				if (hdc)
+				sttDrawViewModeBackground( hwnd, hdc2, &rc );
+			}
+			else
+			{
+				if (GetParent(hwnd)!=pcli->hwndContactList)
 				{
 					HBRUSH br=GetSysColorBrush(COLOR_3DFACE);
-					FillRect(hdc,&ps.rcPaint,br);
-				}				
-				EndPaint(hwnd,&ps);
-			}
-			else
-			*/
-			if (GetParent(hwnd)==pcli->hwndContactList && g_CluiData.fLayered)				
-			{
-				ValidateRect(hwnd,NULL);
-			}
-			else if (GetParent(hwnd)!=pcli->hwndContactList || !g_CluiData.fLayered)
-	        {
-				HDC hdc, hdc2;
-				HBITMAP hbmp,hbmpo;
-				RECT rc={0};
-				GetClientRect(hwnd,&rc);
-				rc.right++;
-				rc.bottom++;
-				hdc = GetDC(hwnd);
-				hdc2=CreateCompatibleDC(hdc);
-				hbmp=ske_CreateDIB32(rc.right,rc.bottom);
-				hbmpo=(HBITMAP)SelectObject(hdc2,hbmp);		
-				
-				if ( g_CluiData.fDisableSkinEngine )
-				{
-					sttDrawViewModeBackground( hwnd, hdc2, &rc );
+					FillRect(hdc2,&rc,br);
 				}
 				else
-				{
-					if (GetParent(hwnd)!=pcli->hwndContactList)
-					{
-						HBRUSH br=GetSysColorBrush(COLOR_3DFACE);
-						FillRect(hdc2,&rc,br);
-					}
-					else
-						ske_BltBackImage(hwnd,hdc2,&rc);
+					ske_BltBackImage(hwnd,hdc2,&rc);
 
-					DrawViewModeBar(hwnd,hdc2);	
-				}
-				
-				{
-					int i;
-					for (i=0; _buttons[i]!=0; i++)
-					{
-						RECT childRect;
-						RECT MyRect;
-						POINT Offset;
-						GetWindowRect(hwnd,&MyRect);
-						GetWindowRect(GetDlgItem(hwnd, _buttons[i]),&childRect);
-						Offset.x=childRect.left-MyRect.left;;
-						Offset.y=childRect.top-MyRect.top;
-						SendMessage(GetDlgItem(hwnd, _buttons[i]),BUTTONDRAWINPARENT,(WPARAM)hdc2,(LPARAM)&Offset);
-
-					}
-				}
-				BitBlt(hdc,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,
-					hdc2,rc.left,rc.top,SRCCOPY);
-				SelectObject(hdc2,hbmpo);
-				DeleteObject(hbmp);
-				mod_DeleteDC(hdc2);
-
-				SelectObject(hdc,GetStockObject(DEFAULT_GUI_FONT));
-
-				ReleaseDC(hwnd,hdc);
-				ValidateRect(hwnd,NULL);		        							
+				DrawViewModeBar(hwnd,hdc2);	
 			}
-			return 0;
-		case WM_NOTIFY:
+
 			{
-				if (((LPNMHDR) lParam)->code==BUTTONNEEDREDRAW) 
-					pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-				return 0;
-			}
-		
-        case WM_TIMER:
-            {
-                switch(wParam) 
+				int i;
+				for (i=0; _buttons[i]!=0; i++)
 				{
-                    case TIMERID_VIEWMODEEXPIRE:
-                    {
-                        POINT pt;
-                        RECT rcCLUI;
+					RECT childRect;
+					RECT MyRect;
+					POINT Offset;
+					GetWindowRect(hwnd,&MyRect);
+					GetWindowRect(GetDlgItem(hwnd, _buttons[i]),&childRect);
+					Offset.x=childRect.left-MyRect.left;;
+					Offset.y=childRect.top-MyRect.top;
+					SendMessage(GetDlgItem(hwnd, _buttons[i]),BUTTONDRAWINPARENT,(WPARAM)hdc2,(LPARAM)&Offset);
 
-                        GetWindowRect(pcli->hwndContactList, &rcCLUI);
-                        GetCursorPos(&pt);
-                        if(PtInRect(&rcCLUI, pt))
-                            break;
+				}
+			}
+			BitBlt(hdc,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,
+				hdc2,rc.left,rc.top,SRCCOPY);
+			SelectObject(hdc2,hbmpo);
+			DeleteObject(hbmp);
+			mod_DeleteDC(hdc2);
 
-                        KillTimer(hwnd, wParam);
-                        if (!g_CluiData.old_viewmode[0])
-                            SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
-                        else
-                            ApplyViewMode((const char *)g_CluiData.old_viewmode);
-                        break;
-                    }
-                }
-                break;
-            }
-        case WM_COMMAND:
-        {
-            switch(LOWORD(wParam)) {
-                case IDC_SELECTMODE:
-                {
-                    RECT rc;
-                    POINT pt;
-                    int selection;
-                    MENUITEMINFO mii = {0};
-                    TCHAR szTemp[256];
+			SelectObject(hdc,GetStockObject(DEFAULT_GUI_FONT));
 
-                    BuildViewModeMenu();
-                    //GetWindowRect(GetDlgItem(hwnd, IDC_SELECTMODE), &rc);
-                    GetWindowRect((HWND)lParam, &rc);
-                    pt.x = rc.left;
-                    pt.y = rc.bottom;
-                    selection = TrackPopupMenu(hViewModeMenu,TPM_RETURNCMD|TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, GetParent(hwnd), NULL);
+			ReleaseDC(hwnd,hdc);
+			ValidateRect(hwnd,NULL);		        							
+		}
+		return 0;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR) lParam)->code==BUTTONNEEDREDRAW) 
+			pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
+		return 0;
+
+	case WM_TIMER:
+		switch(wParam) {
+		case TIMERID_VIEWMODEEXPIRE:
+			{
+				POINT pt;
+				RECT rcCLUI;
+
+				GetWindowRect(pcli->hwndContactList, &rcCLUI);
+				GetCursorPos(&pt);
+				if(PtInRect(&rcCLUI, pt))
+					break;
+
+				KillTimer(hwnd, wParam);
+				if (!g_CluiData.old_viewmode[0])
+					SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
+				else
+					ApplyViewMode((const char *)g_CluiData.old_viewmode);
+				break;
+			}
+		}
+		break;
+
+	case WM_COMMAND:
+		{
+			switch(LOWORD(wParam)) {
+			case IDC_SELECTMODE:
+				{
+					RECT rc;
+					POINT pt;
+					int selection;
+					MENUITEMINFO mii = {0};
+					TCHAR szTemp[256];
+
+					BuildViewModeMenu();
+					//GetWindowRect(GetDlgItem(hwnd, IDC_SELECTMODE), &rc);
+					GetWindowRect((HWND)lParam, &rc);
+					pt.x = rc.left;
+					pt.y = rc.bottom;
+					selection = TrackPopupMenu(hViewModeMenu,TPM_RETURNCMD|TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, GetParent(hwnd), NULL);
 					PostMessage(hwnd, WM_NULL, 0, 0);
-                    if(selection) 
+					if(selection) 
 					{
-						
+
 						if(selection == 10001)
 							goto clvm_config_command;
 						else if(selection == 10002)
 							goto clvm_reset_command;
 
-                        mii.cbSize = sizeof(mii);
-                        mii.fMask = MIIM_STRING;
-                        mii.dwTypeData = szTemp;
-                        mii.cch = 256;
-                        GetMenuItemInfo(hViewModeMenu, selection, FALSE, &mii);
+						mii.cbSize = sizeof(mii);
+						mii.fMask = MIIM_STRING;
+						mii.dwTypeData = szTemp;
+						mii.cch = 256;
+						GetMenuItemInfo(hViewModeMenu, selection, FALSE, &mii);
 
 						{
 							char * temp=mir_utf8encodeT(szTemp);
@@ -1318,28 +1308,28 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 							if (temp) mir_free(temp);
 						}
 
-                    }
-                    break;
-                }
-                case IDC_RESETMODES:
+					}
+					break;
+				}
+			case IDC_RESETMODES:
 clvm_reset_command:
-					ApplyViewMode( "" );
-                    break;
-                case IDC_CONFIGUREMODES:
-                {
+				ApplyViewMode( "" );
+				break;
+			case IDC_CONFIGUREMODES:
+				{
 clvm_config_command:
 					if (!g_ViewModeOptDlg)
-                        CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
-                    break;
-                }
-            }
-            break;
+						CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
+					break;
+				}
+			}
+			break;
 
-        }
-        default:
-            return DefWindowProc(hwnd, msg, wParam, lParam);
-    }
-    return TRUE;
+		}
+	default:
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+	return TRUE;
 }
 
 static HWND hCLVMFrame;

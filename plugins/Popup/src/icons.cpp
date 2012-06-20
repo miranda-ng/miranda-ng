@@ -140,6 +140,6 @@ void InitIcons()
 				break;
 			}
 		}
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 }

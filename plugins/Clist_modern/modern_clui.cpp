@@ -1071,8 +1071,7 @@ HICON CLUI_LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,bool
 		if (hi) has_proto_icon=TRUE;
 		if (hi && nf) DestroyIcon(hi);
 	}
-	if (!UseLibrary||!ServiceExists(MS_SKIN2_ADDICON))
-	{		
+	if (!UseLibrary) {		
 		hIcon=CLUI_ExtractIconFromPath(szFullPath,needFree);
 		if (hIcon) return hIcon;
 		if (UseLibrary)
@@ -1082,10 +1081,8 @@ HICON CLUI_LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,bool
 			if (hIcon) return hIcon;		
 		}
 	}
-	else
-	{
-		if (registerit&&IconName!=NULL&&SectName!=NULL)	
-		{
+	else {
+		if (registerit && IconName != NULL && SectName != NULL)	{
 			sid.cbSize = sizeof(sid);
 			sid.cx=16;
 			sid.cy=16;
@@ -1096,7 +1093,7 @@ HICON CLUI_LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,bool
 			sid.pszDefaultFile=internalidx<0?szMyPath:szPath;
 
 			sid.iDefaultIndex=(UseLibrary&2)?i:(internalidx<0)?internalidx:-internalidx;
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+			Skin_AddIcon(&sid);
 		}
 		return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
 	}
@@ -1864,7 +1861,7 @@ HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szD
 		sid.iDefaultIndex = 0;
 		sid.hDefaultIcon = LoadSmallIcon( hDefaultModuleInst, MAKEINTRESOURCE(iDefaultResource));
 	}
-	hIcolibItem = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hIcolibItem = Skin_AddIcon(&sid);
 	if ( sid.hDefaultIcon )	DestroyIcon(sid.hDefaultIcon);
 	return hIcolibItem; 
 }

@@ -24,14 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_ICOLIB_H__
 #define M_ICOLIB_H__ 1
 
-#define SKINICONDESC_SIZE     sizeof(SKINICONDESC)					  // v0.0.1.0+
-#define SKINICONDESC_SIZE_V1  (offsetof(SKINICONDESC, hDefaultIcon))
-#define SKINICONDESC_SIZE_V2  (offsetof(SKINICONDESC, cx))			  // v0.0.0.2+
-#define SKINICONDESC_SIZE_V3  (offsetof(SKINICONDESC, flags))		  // v0.0.0.3+
+extern int hLangpack;
 
 // WARNING: do not use Translate(TS) for p(t)szSection or p(t)szDescription as they
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
+
 typedef struct {
   size_t cbSize;
   union {
@@ -71,17 +69,14 @@ typedef struct {
   #define SIDF_ALL_TCHAR  0
 #endif
 
-//
 //  Add a icon into options UI
 //
 //  wParam = (WPARAM)0
 //  lParam = (LPARAM)(SKINICONDESC*)sid;
 //  returns a handle to the newly added item
-//
-#define MS_SKIN2_ADDICON "Skin2/Icons/AddIcon"
 
 __inline static HANDLE Skin_AddIcon(SKINICONDESC* si)
-{	return (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)si);
+{	return (HANDLE)CallService("Skin2/Icons/AddIcon", hLangpack, (LPARAM)si);
 }
 
 //

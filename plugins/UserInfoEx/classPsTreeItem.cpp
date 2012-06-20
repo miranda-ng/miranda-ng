@@ -412,12 +412,10 @@ INT CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BOOLEAN bInitIcon
 			if (!sid.hDefaultIcon) sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL);
 		}
 		// add file to icolib
-		CallServiceSync(MS_SKIN2_ADDICON, NULL, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 
 		if (!bInitIconsOnly)
-		{
 			hIcon = IcoLib_GetIcon(pszIconName);
-		}
 	}
 	
 	if (!bInitIconsOnly && hIml) {

@@ -592,23 +592,23 @@ int LoadVarModule() {
 	}
 	hShowHelpService = CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	hShowHelpExService = CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
-	if (ServiceExists(MS_SKIN2_ADDICON)) {
-		SKINICONDESC sid;
-		char szFile[MAX_PATH];
 
-		ZeroMemory(&sid, sizeof(SKINICONDESC));
-		sid.cbSize = sizeof(SKINICONDESC);
-		sid.ptszSection = TranslateT("Variables");
-		sid.ptszDescription = TranslateT("Help");
-		sid.pszName = "vars_help";
-		GetModuleFileNameA(hInst, szFile, MAX_PATH);
-		sid.pszDefaultFile = szFile;
-		sid.iDefaultIndex = -IDI_V;
-		sid.cx = sid.cy = 16;
-		sid.flags = SIDF_TCHAR;
-		CallService(MS_SKIN2_ADDICON, (WPARAM)0, (LPARAM)&sid);
-		hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
-	}
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInst, szFile, MAX_PATH);
+
+	SKINICONDESC sid = { 0 };
+	sid.cbSize = sizeof(SKINICONDESC);
+	sid.ptszSection = TranslateT("Variables");
+	sid.ptszDescription = TranslateT("Help");
+	sid.pszName = "vars_help";
+	sid.ptszDefaultFile = szFile;
+	sid.iDefaultIndex = -IDI_V;
+	sid.cx = sid.cy = 16;
+	sid.flags = SIDF_ALL_TCHAR;
+	Skin_AddIcon(&sid);
+	
+	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
+
 	hGetIconService = CreateServiceFunction(MS_VARS_GETSKINITEM, getSkinItemService);
 	hOptionsHook = HookEvent(ME_OPT_INITIALISE, OptionsInit);
 

@@ -1076,9 +1076,9 @@ static int TSAPI SetupIconLibConfig()
 			sid.iDefaultIndex = ICONBLOCKS[n].idesc[i].uId == -IDI_HISTORY ? 0 : ICONBLOCKS[n].idesc[i].uId;        // workaround problem /w icoLib and a resource id of 1 (actually, a Windows problem)
 			i++;
 			if(n>0&&n<4)
-				PluginConfig.g_buttonBarIconHandles[j++]=(HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+				PluginConfig.g_buttonBarIconHandles[j++] = Skin_AddIcon(&sid);
 			else
-				CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+				Skin_AddIcon(&sid);
 		}
 		n++;
 	}
@@ -1088,19 +1088,19 @@ static int TSAPI SetupIconLibConfig()
 	sid.pszName = "tabSRMM_clock_symbol";
 	sid.pszDescription = "Clock symbol (for the info panel clock)";
 	sid.iDefaultIndex = -IDI_CLOCK;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	strncpy(szFilename, "plugins\\tabsrmm.dll", MAX_PATH);
 
 	sid.pszName = "tabSRMM_overlay_disabled";
 	sid.pszDescription = "Feature disabled (used as overlay)";
 	sid.iDefaultIndex = -IDI_FEATURE_DISABLED;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	sid.pszName = "tabSRMM_overlay_enabled";
 	sid.pszDescription = "Feature enabled (used as overlay)";
 	sid.iDefaultIndex = -IDI_FEATURE_ENABLED;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 
 	return 1;

@@ -1117,7 +1117,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		sid.pszDefaultFile = NULL;
 		sid.pszDescription = buf;
 		sid.hDefaultIcon = hIcon;
-		pmi->hIcolibItem = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		pmi->hIcolibItem = IcoLib_AddNewIcon(0, &sid);
 
 		Safe_DestroyIcon(hIcon);
 		if (hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconame)) {

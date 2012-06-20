@@ -64,7 +64,7 @@ static const PLUGININFOEX pluginInfoEx =
 
 static SKINICONDESC skinDesc = 
 {  
-	SKINICONDESC_SIZE_V1, "SmileyAdd", NULL, 
+	sizeof(SKINICONDESC), "SmileyAdd", NULL, 
 	"SmileyAdd_ButtonSmiley", NULL, -IDI_SMILINGICON 
 };
 
@@ -88,7 +88,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	skinDesc.pszDefaultFile = path;
 	skinDesc.pszDescription = LPGEN("Button Smiley");
-	HANDLE hSkinIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&skinDesc);
+	HANDLE hSkinIcon = Skin_AddIcon(&skinDesc);
 
 	INT_PTR temp = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	metaProtoName = mir_strdup(temp == CALLSERVICE_NOTFOUND ? NULL : (char*)temp); 

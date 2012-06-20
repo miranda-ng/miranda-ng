@@ -380,22 +380,6 @@ void LoadHotkey() {
 //Function which makes the initializations
 static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	//check if 'Icon Library Manager' and 'FontService' exist (load icon and font later)
-	if (!ServiceExists(MS_FONT_REGISTER) || !ServiceExists(MS_SKIN2_ADDICON)) {
-		LPTSTR msg = TranslateTS(
-			_T("This version of Popup Plus requires\r\n")
-			_T("'Icon Library Manager' and 'FontService'\r\n")
-			_T("modules.\r\n")
-			_T("\r\n")
-			_T("You always can download them at\r\n")
-			_T("http://addons.miranda-im.org/\r\n")
-			_T("\r\n")
-			_T("Do you want to visit Miranda IM homepage now?\r\n"));
-		if (MessageBox(NULL, msg, _T("Popup Plus Error"), MB_YESNO|MB_ICONSTOP) == IDYES)
-			ShellExecute(NULL, _T("open"), _T("http://addons.miranda-im.org/"), NULL, NULL, SW_SHOWNORMAL);
-		return 0;
-	}
-
 	//check if History++ is installed
 	gbHppInstalled = ServiceExists(MS_HPP_GETVERSION) && ServiceExists(MS_HPP_EG_WINDOW) &&
 		(CallService(MS_HPP_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(1,5,0,112));

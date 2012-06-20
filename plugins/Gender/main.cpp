@@ -265,33 +265,30 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	bMetaAvail = (ServiceExists(MS_MC_GETMETACONTACT) != 0); 
 	
 	//IcoLib support
-	if(ServiceExists(MS_SKIN2_ADDICON))
-	{
-		SKINICONDESC sid = {0};
-		sid.cbSize = SKINICONDESC_SIZE;
-		sid.flags = SIDF_ALL_TCHAR;	
-		sid.ptszSection = LPGENT("Gender");
-		TCHAR szFile[MAX_PATH];
-		GetModuleFileName(g_hInst, szFile, MAX_PATH);
-		sid.ptszDefaultFile = szFile;
+	SKINICONDESC sid = {0};
+	sid.cbSize = sizeof(sid);
+	sid.flags = SIDF_ALL_TCHAR;	
+	sid.ptszSection = LPGENT("Gender");
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hInst, szFile, MAX_PATH);
+	sid.ptszDefaultFile = szFile;
 		
-		sid.ptszDescription = LPGENT("Male");
-		sid.pszName = "male_icon";
-		sid.iDefaultIndex = -IDI_MALE;
-		g_hIconMale = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.ptszDescription = LPGENT("Male");
+	sid.pszName = "male_icon";
+	sid.iDefaultIndex = -IDI_MALE;
+	g_hIconMale = Skin_AddIcon(&sid);
 		
-		sid.ptszDescription = LPGENT("Female");
-		sid.pszName = "female_icon";
-		sid.iDefaultIndex = -IDI_FEMALE;
-		g_hIconFemale = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.ptszDescription = LPGENT("Female");
+	sid.pszName = "female_icon";
+	sid.iDefaultIndex = -IDI_FEMALE;
+	g_hIconFemale = Skin_AddIcon(&sid);
 		
-		sid.ptszDescription = LPGENT("No info");
-		sid.pszName = "menu_icon";
-		sid.iDefaultIndex = -IDI_UNDEF;
-		g_hIconMenu = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.ptszDescription = LPGENT("No info");
+	sid.pszName = "menu_icon";
+	sid.iDefaultIndex = -IDI_UNDEF;
+	g_hIconMenu = Skin_AddIcon(&sid);
 		
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
-	}   
+	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
 	
 	g_hExtraIcon = ExtraIcon_Register("gender", "Gender", "menu_icon");
 	if (g_hExtraIcon != NULL)

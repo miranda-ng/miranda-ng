@@ -225,7 +225,7 @@ int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base);
 
 /**** skin2icons.cpp *******************************************************************/
 
-HANDLE IcoLib_AddNewIcon(SKINICONDESC* sid);
+HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid);
 HICON  IcoLib_GetIcon(const char* pszIconName, bool big);
 HICON  IcoLib_GetIconByHandle(HANDLE hItem, bool big);
 HANDLE IcoLib_IsManaged(HICON hIcon);

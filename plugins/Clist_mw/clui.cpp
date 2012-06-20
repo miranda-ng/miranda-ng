@@ -201,33 +201,27 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 		_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	}
 
-	if (!UseLibrary||!ServiceExists(MS_SKIN2_ADDICON))
-	{		
+	if (!UseLibrary) {		
 		hIcon = ExtractIconFromPath(szFullPath);
 		if (hIcon) return hIcon;
 	}
-	else
-	{
-		if (registerit&&IconName != NULL&&SectName != NULL)	
-		{
+	else {
+		if (registerit && IconName != NULL && SectName != NULL) {
 			sid.cbSize = sizeof(sid);
 			sid.pszSection = SectName;
 			sid.pszName = IconName;
 			sid.pszDescription = Description;
 			if (strlen(szMyPath) != 0)
-			{
 				sid.pszDefaultFile = szMyPath;
-			}
 
 			sid.iDefaultIndex = internalidx;
 			sid.hDefaultIcon = DefIcon;
 
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-			{
-				char buf[256];
-				sprintf(buf,"Registring Icon %s/%s hDefaultIcon: %p\r\n",SectName,IconName,DefIcon);
-				OutputDebugStringA(buf);
-			}
+			Skin_AddIcon(&sid);
+			
+			char buf[256];
+			sprintf(buf,"Registring Icon %s/%s hDefaultIcon: %p\r\n",SectName,IconName,DefIcon);
+			OutputDebugStringA(buf);
 		}
 		return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
 	}

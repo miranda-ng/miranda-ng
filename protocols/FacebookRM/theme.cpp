@@ -80,7 +80,7 @@ void InitIcons(void)
 
 			sid.pszDescription = (char*)icons[i].descr;
 			sid.iDefaultIndex = -icons[i].defIconID;
-			hIconLibItem[i] = (HANDLE)CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+			hIconLibItem[i] = Skin_AddIcon(&sid);
 		} else { // External icons
 			hIconLibItem[i] = (HANDLE)CallService(MS_SKIN2_GETICONHANDLE,0,
 				(LPARAM)icons[i].section);

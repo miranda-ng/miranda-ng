@@ -64,7 +64,7 @@ static void InitIcons(void)
 		mir_snprintf(szSettingName, sizeof(szSettingName), "SRMM_%s", iconList[i].szName);
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		hIconLibItem[i] = Skin_AddIcon(&sid);
 	}	
 }
 

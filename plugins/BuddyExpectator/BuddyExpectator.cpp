@@ -484,15 +484,7 @@ INT_PTR ContactStillAbsentAction(WPARAM wParam, LPARAM lParam)
  */
 int onIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (ServiceExists(MS_SKIN2_ADDICON))
-	{
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"main_icon");
-	}
-	else
-	{
-		hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MAINICON), IMAGE_ICON, 16, 16, 0);
-	}
-
+	hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"main_icon");
 	return 0;
 }
 
@@ -563,16 +555,7 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 	g_IECMissYou.ColumnType = options.MissYouIcon;
 
 	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-	{
-		if (ServiceExists(MS_SKIN2_ADDICON))
-		{
-			g_IECMissYou.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon"), (LPARAM)0);
-		}
-		else
-		{
-			g_IECMissYou.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_ENABLED), IMAGE_ICON, 16, 16, LR_SHARED), (LPARAM)0);
-		}
-	}
+		g_IECMissYou.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon"), (LPARAM)0);
 
 	return 0;
 }
@@ -767,48 +750,43 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	
 	// IcoLib support
-	if (ServiceExists(MS_SKIN2_ADDICON))
-	{
-		SKINICONDESC sid = {0};
-		char szFile[MAX_PATH];
-		GetModuleFileNameA(hInst, szFile, MAX_PATH);
-		sid.pszDefaultFile = szFile;
-		sid.cbSize = SKINICONDESC_SIZE_V1;
+	SKINICONDESC sid = {0};
+	char szFile[MAX_PATH];
+	GetModuleFileNameA(hInst, szFile, MAX_PATH);
+	sid.pszDefaultFile = szFile;
+	sid.cbSize = sizeof(sid);
+	sid.pszSection = "BuddyExpectator";
 		
-		sid.pszSection = Translate("BuddyExpectator");
+	sid.pszDescription = "Tray/popup icon";
+	sid.pszName = "main_icon";
+	sid.iDefaultIndex = -IDI_MAINICON;
+	Skin_AddIcon(&sid);
 		
-		sid.pszDescription = Translate("Tray/popup icon");
-		sid.pszName = "main_icon";
-		sid.iDefaultIndex = -IDI_MAINICON;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszDescription = "Enabled";
+	sid.pszName = "enabled_icon";
+	sid.iDefaultIndex = -IDI_ENABLED;
+	hEnabledIcon = Skin_AddIcon(&sid);
 		
-		sid.pszDescription = Translate("Enabled");
-		sid.pszName = "enabled_icon";
-		sid.iDefaultIndex = -IDI_ENABLED;
-		hEnabledIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszDescription = "Disabled";
+	sid.pszName = "disabled_icon";
+	sid.iDefaultIndex = -IDI_DISABLED;
+	hDisabledIcon = Skin_AddIcon(&sid);
 		
-		sid.pszDescription = Translate("Disabled");
-		sid.pszName = "disabled_icon";
-		sid.iDefaultIndex = -IDI_DISABLED;
-		hDisabledIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszDescription = "Hide";
+	sid.pszName = "hide_icon";
+	sid.iDefaultIndex = -IDI_HIDE;
+	Skin_AddIcon(&sid);
 		
-		sid.pszDescription = Translate("Hide");
-		sid.pszName = "hide_icon";
-		sid.iDefaultIndex = -IDI_HIDE;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszDescription = "NeverHide";
+	sid.pszName = "neverhide_icon";
+	sid.iDefaultIndex = -IDI_NEVERHIDE;
+	Skin_AddIcon(&sid);
 		
-		sid.pszDescription = Translate("NeverHide");
-		sid.pszName = "neverhide_icon";
-		sid.iDefaultIndex = -IDI_NEVERHIDE;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
-	}
+	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
 	
 	onIconsChanged(0,0);
 	
-	if (options.enableMissYou)
-	{
+	if (options.enableMissYou) {
 		hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 		
 		CLISTMENUITEM mi = {0};

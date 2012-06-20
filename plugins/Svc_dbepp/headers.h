@@ -53,7 +53,6 @@
 
 /////// icons support
 
-extern BYTE UsingIconManager;
 void addIcons(TCHAR* szModuleFileName);
 HICON LoadSkinnedDBEIcon(int icon);
 int AddIconToList(HIMAGELIST hil, HICON hIcon);

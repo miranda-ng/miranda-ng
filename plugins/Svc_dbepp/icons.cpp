@@ -16,72 +16,64 @@ void addIcons(TCHAR* szModuleFileName)
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_KNOWN);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_KNOWN;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// open known module
 	sid.ptszDescription = LPGENT("Open Known Module");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_KNOWNOPEN);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_KNOWNOPEN;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// closed unknown module
 	sid.ptszDescription = LPGENT("Closed Unknown Module");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_UNKNOWN);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_UNKNOWN;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// open unknown module
 	sid.ptszDescription = LPGENT("Open Unknown Module");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_UNKNOWNOPEN);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_UNKNOWNOPEN;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// settings contact
 	sid.ptszDescription = LPGENT("Settings");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_SETTINGS);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_SETTINGS;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// contact group
 	sid.ptszDescription = LPGENT("Contacts Group");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_CONTACTS);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_CONTACTS;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// unknwon contact
 	sid.ptszDescription = LPGENT("Unknown Contact");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_OFFLINE);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_OFFLINE;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	// known contact
 	sid.ptszDescription = LPGENT("Known Contact");
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_ONLINE);
 	sid.pszName = name;
 	sid.iDefaultIndex = -ICO_ONLINE;
-	CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+	Skin_AddIcon(&sid);
 }
 
 HICON LoadSkinnedDBEIcon(int icon)
 {
-	HICON hIcon = 0;
-	if (UsingIconManager)
-	{
-		char name[32];
-		mir_snprintf(name, SIZEOF(name), "DBE++_%d", icon);
-
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)name);
-	}
-	if (!hIcon)
-		return LoadIcon(hInst, MAKEINTRESOURCE(icon));
-	else
-		return hIcon;
+	char name[32];
+	mir_snprintf(name, SIZEOF(name), "DBE++_%d", icon);
+	HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)name);
+	return (hIcon) ? hIcon : LoadIcon(hInst, MAKEINTRESOURCE(icon));
 }
 
 

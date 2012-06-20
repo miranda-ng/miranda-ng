@@ -265,7 +265,7 @@ void InitIcons(void)
 				sid.hDefaultIcon=(hIcon!=NULL)?ResizeIconCentered(hIcon,sid.cx,sid.cy):NULL;
 				if(hIcon!=NULL) DestroyIcon(hIcon);
 				index=CountryNumberToIndex(countries[i].id);
-				phIconHandles[index]=(HANDLE)CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+				phIconHandles[index] = Skin_AddIcon(&sid);
 				if(sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
 			}
 		ImageList_Destroy(himl);

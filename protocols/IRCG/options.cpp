@@ -238,8 +238,9 @@ void AddIcons(void)
 		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		sid.cx = sid.cy = iconList[i].iSize;
-		hIconLibItems[i] = ( HANDLE )CallService( MS_SKIN2_ADDICON, 0, ( LPARAM )&sid );
-}	}
+		hIconLibItems[i] = Skin_AddIcon(&sid );
+	}
+}
 
 void UninitIcons(void)
 {

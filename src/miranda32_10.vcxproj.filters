@@ -623,6 +623,9 @@
     <ClCompile Include="modules\skin\hotkey_opts.cpp">
       <Filter>Modules\skin</Filter>
     </ClCompile>
+    <ClCompile Include="modules\icolib\skin2opts.cpp">
+      <Filter>Modules\icolib</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="res\_blank.ico">

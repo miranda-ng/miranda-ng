@@ -108,16 +108,8 @@ void RegPopupActions()
 
 int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	if(ServiceExists(MS_SKIN2_ADDICON))
-	{
-		hPopupIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ckl_popup_icon");
-		hCopyIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ckl_copy_icon");
-	}
-	else
-	{
-		hPopupIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_POPUPICON), IMAGE_ICON, 16, 16, 0);
-		hCopyIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_COPYICON), IMAGE_ICON, 16, 16, 0);
-	}
+	hPopupIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ckl_popup_icon");
+	hCopyIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ckl_copy_icon");
 	RegPopupActions();
 	return 0;
 }
@@ -132,7 +124,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	LPSTR ptszTemp;
 
 	SKINICONDESC sid = {0};
-	CHAR szFile[MAX_PATH];
+	TCHAR szFile[MAX_PATH];
 
 
 	//Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
@@ -178,25 +170,24 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hChangeTextLayout = CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT, APIChangeTextLayout);
 
 	// IcoLib support
-	if(ServiceExists(MS_SKIN2_ADDICON))
-	{
-		GetModuleFileNameA(hInst, szFile, MAX_PATH);
-		sid.pszDefaultFile = szFile;
-		sid.cbSize = SKINICONDESC_SIZE;
+	GetModuleFileName(hInst, szFile, MAX_PATH);
+	sid.ptszDefaultFile = szFile;
+	sid.cbSize = sizeof(sid);
+	sid.flags = SIDF_PATH_TCHAR;
 
-		sid.pszSection = Translate(ModuleName);
-		sid.pszDescription = Translate("Popup");
-		sid.pszName = "ckl_popup_icon";
-		sid.iDefaultIndex = -IDI_POPUPICON;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszSection = Translate(ModuleName);
+	sid.pszDescription = Translate("Popup");
+	sid.pszName = "ckl_popup_icon";
+	sid.iDefaultIndex = -IDI_POPUPICON;
+	Skin_AddIcon(&sid);
 
-		sid.pszDescription = Translate("Copy to clipboard");
-		sid.pszName = "ckl_copy_icon";
-		sid.iDefaultIndex = -IDI_COPYICON;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszDescription = Translate("Copy to clipboard");
+	sid.pszName = "ckl_copy_icon";
+	sid.iDefaultIndex = -IDI_COPYICON;
+	Skin_AddIcon(&sid);
 
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-	}
+	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+
 	OnIconsChanged(0, 0);
 	RegPopupActions();
 	

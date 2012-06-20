@@ -201,7 +201,7 @@ static VOID init_icolib (void)
 		sid.pszName = iconList[i].szName;
 		sid.ptszDescription =  iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}
 //	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
 }

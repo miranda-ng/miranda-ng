@@ -18,7 +18,6 @@ BYTE nameOrder[NAMEORDERCOUNT];
 HANDLE hUserMenu;
 HANDLE hRestore;
 WatchListArrayStruct WatchListArray;
-BYTE UsingIconManager;
 HANDLE sMenuCommand, sRegisterModule, sRegisterSingleModule, sImport, sServicemodeLaunch;
 HANDLE hModulesLoadedHook = NULL, hSettingsChangedHook=NULL, hOptInitHook=NULL, hPreShutdownHook=NULL, hTTBHook = NULL;
 
@@ -212,13 +211,8 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	doOldKnownModulesList(); // add the old plugins which havnt been changed over yet..
 
 	// icons
-	if (GetModuleFileName(hInst, szModuleFileName, MAX_PATH) && ServiceExists(MS_SKIN2_ADDICON))
-	{
-		UsingIconManager =1;
+	if (GetModuleFileName(hInst, szModuleFileName, MAX_PATH))
 		addIcons(szModuleFileName);
-	}
-	else
-		UsingIconManager = 0;
 
 	DBFreeVariant(&dbv);
 	UnhookEvent(hModulesLoadedHook);

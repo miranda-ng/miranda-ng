@@ -625,7 +625,7 @@ static int IcoLibInit (void) // Icolib support
 	sid.pszName = "hidemim";
 	sid.ptszDescription = _T("Hide Miranda IM");
 	sid.iDefaultIndex = -IDI_DLGPASSWD;
-	g_hIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	g_hIcon = Skin_AddIcon(&sid);
 
 	return 0;
 }

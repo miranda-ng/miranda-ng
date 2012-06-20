@@ -88,7 +88,7 @@ void InitIcons(void)  {
 		sid.pszDescription = Translate(iconList[i].szDescr);
 		sid.pszName = iconList[i].szName;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 
 	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);

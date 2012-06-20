@@ -535,7 +535,7 @@ BYTE IsMarkedUserDefSession(int ses_count)
 	return DBGetContactSettingByte(NULL, __INTERNAL_NAME, szSessionName, 0);
 }
 
-int AddIcon(HICON icon, char *name, TCHAR *description)
+HANDLE AddIcon(HICON icon, char *name, TCHAR *description)
 {
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
@@ -545,7 +545,7 @@ int AddIcon(HICON icon, char *name, TCHAR *description)
 	sid.ptszDescription = description;
 	sid.pszName = name;
 	sid.hDefaultIcon = icon;
-	return CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+	return Skin_AddIcon( &sid);
 }
 
 void SavePosition(HWND hwnd, char *wndName)

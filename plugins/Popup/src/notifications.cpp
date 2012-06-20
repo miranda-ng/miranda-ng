@@ -235,7 +235,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	sid.pszName = setting;
 	sid.pszDescription = notification->lpzName;
 	sid.hDefaultIcon = notification->lchIcon;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	gTreeData.insert(ptd);
 	return (HANDLE)ptd;

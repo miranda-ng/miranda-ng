@@ -171,7 +171,7 @@ void RegisterIcons(void)
 		sid.cx = sid.cy = iconList[i].size;
 		sid.iDefaultIndex = -iconList[i].defaultIndex;
 		sid.ptszDescription = (TCHAR*)iconList[i].description;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 }
 

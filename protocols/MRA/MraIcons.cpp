@@ -8,28 +8,26 @@ void AddIcoLibItems(LPWSTR lpwszRootSectionName,LPWSTR lpwszSubSectionName,const
 {
 	char szBuff[MAX_PATH];
 	WCHAR wszSection[MAX_PATH],wszPath[MAX_FILEPATH];
+
 	SKINICONDESC sid={0};
-
-
-	sid.cbSize=SKINICONDESC_SIZE;
-	sid.pwszSection=wszSection;
-	sid.pwszDefaultFile=wszPath;
-	sid.cx=sid.cy=16;
-	sid.flags=SIDF_ALL_UNICODE;
+	sid.cbSize = sizeof(sid);
+	sid.pwszSection = wszSection;
+	sid.pwszDefaultFile = wszPath;
+	sid.cx = sid.cy = 16;
+	sid.flags = SIDF_ALL_UNICODE;
 
 	if (lpwszSubSectionName==NULL) lpwszSubSectionName=L"";
 	GetModuleFileName(masMraSettings.hInstance,wszPath,SIZEOF(wszPath));
 	mir_sntprintf(wszSection,SIZEOF(wszSection),L"%s%s%s",lpwszRootSectionName,PROTOCOL_NAMEW,lpwszSubSectionName);
 
-	for (SIZE_T i=0;i<dwCount;i++)
-	{
+	for (SIZE_T i=0;i<dwCount;i++) {
 		mir_snprintf(szBuff,SIZEOF(szBuff),"%s_%s",PROTOCOL_NAMEA,pgdiItems[i].lpszName);
 		sid.pszName=szBuff;
 		sid.pwszDescription=pgdiItems[i].lpwszDescr;
 		sid.iDefaultIndex=-pgdiItems[i].defIcon;
 		sid.hDefaultIcon=(HICON)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(pgdiItems[i].defIcon),IMAGE_ICON,0,0,LR_SHARED);
 		if (sid.hDefaultIcon==NULL) sid.hDefaultIcon=(HICON)LoadImage(NULL,MAKEINTRESOURCE(pgdiItems[i].defIcon),IMAGE_ICON,0,0,LR_SHARED);
-		hResult[i]=(HANDLE)CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+		hResult[i] = Skin_AddIcon(&sid);
 	}
 }
 
@@ -100,20 +98,19 @@ void InitXStatusIcons()
 	int iCurIndex;
 	char szBuff[MAX_PATH];
 	WCHAR wszSection[MAX_PATH],wszPath[MAX_FILEPATH];
-	SKINICONDESC sid={0};
 
-	sid.cbSize=SKINICONDESC_SIZE;
+	SKINICONDESC sid={0};
+	sid.cbSize = sizeof(sid);
 	sid.pwszSection=wszSection;
 	sid.pwszDefaultFile=wszPath;
 	sid.cx=sid.cy=16;
 	sid.flags=SIDF_ALL_UNICODE;
 
 	if (masMraSettings.hDLLXStatusIcons)
-	{
 		GetModuleFileName(masMraSettings.hDLLXStatusIcons,wszPath,SIZEOF(wszPath));
-	}else{
+	else
 		bzero(wszPath,sizeof(wszPath));
-	}
+
 	mir_sntprintf(wszSection,SIZEOF(wszSection),L"Status Icons/%s/Custom Status",PROTOCOL_NAMEW);
 
 	masMraSettings.hXStatusAdvancedStatusIcons[0]=NULL;
@@ -130,7 +127,7 @@ void InitXStatusIcons()
 		}else{
 			sid.hDefaultIcon=NULL;
 		}
-		masMraSettings.hXStatusAdvancedStatusIcons[i]=(HANDLE)CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+		masMraSettings.hXStatusAdvancedStatusIcons[i] = Skin_AddIcon(&sid);
 	}
 }
 

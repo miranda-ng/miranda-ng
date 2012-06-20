@@ -262,7 +262,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.ptszDescription = iconList[i].szDescr;
 		sid.pszName = iconList[i].szName;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 
 	InitOptions();
@@ -318,7 +318,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			}
 
 			// Oki, lets add to IcoLib, then
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+			Skin_AddIcon(&sid);
 			
 			if (hFlag != NULL)
 				DestroyIcon(hFlag);

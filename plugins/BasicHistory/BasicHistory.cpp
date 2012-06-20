@@ -233,47 +233,47 @@ void InitIcolib()
 	sid.pszName = "BasicHistory_in";
 	sid.ptszDescription = LPGENT("Incoming message");
 	sid.iDefaultIndex = -IDI_INM;
-	hEventIcons[0] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hEventIcons[0] = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_out";
 	sid.ptszDescription = LPGENT("Outgoing message");
 	sid.iDefaultIndex = -IDI_OUTM;
-	hEventIcons[1] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hEventIcons[1] = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_status";
 	sid.ptszDescription = LPGENT("Statuschange");
 	sid.iDefaultIndex = -IDI_STATUS;
-	hEventIcons[2] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hEventIcons[2] = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_show";
 	sid.ptszDescription = LPGENT("Show Contacts");
 	sid.iDefaultIndex = -IDI_SHOW;
-	hPlusIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hPlusIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_hide";
 	sid.ptszDescription = LPGENT("Hide Contacts");
 	sid.iDefaultIndex = -IDI_HIDE;
-	hMinusIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hMinusIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_findnext";
 	sid.ptszDescription = LPGENT("Find Next");
 	sid.iDefaultIndex = -IDI_FINDNEXT;
-	hFindNextIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hFindNextIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_findprev";
 	sid.ptszDescription = LPGENT("Find Previous");
 	sid.iDefaultIndex = -IDI_FINDPREV;
-	hFindPrevIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hFindPrevIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_plusex";
 	sid.ptszDescription = LPGENT("Plus in export");
 	sid.iDefaultIndex = -IDI_PLUSEX;
-	hPlusExIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hPlusExIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_minusex";
 	sid.ptszDescription = LPGENT("Minus in export");
 	sid.iDefaultIndex = -IDI_MINUSEX;
-	hMinusExIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hMinusExIcon = Skin_AddIcon(&sid);
 }
 
 void InitUpdater()

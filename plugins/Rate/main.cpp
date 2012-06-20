@@ -173,20 +173,20 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 
 static void init_icolib (void)
 {
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hInst, szFile, MAX_PATH);
+
 	SKINICONDESC sid = {0};
-	char szFile[MAX_PATH];
-	sid.cbSize = SKINICONDESC_SIZE_V1;
-	int i = 0;
-
+	sid.cbSize = sizeof(sid);
 	sid.pszSection = Translate("Contact Rate");
-	GetModuleFileNameA(g_hInst, szFile, MAX_PATH);
 	sid.pszDefaultFile = szFile;
+	sid.flags = SIDF_PATH_TCHAR;
 
-	for ( i = 0; i < SIZEOF(iconList); i++ ) {
+	for (int i = 0; i < SIZEOF(iconList); i++ ) {
 		sid.pszName = iconList[i].szName;
-		sid.ptszDescription =  iconList[i].szDescr;
+		sid.pszDescription =  iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}
 }
 

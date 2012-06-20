@@ -67,8 +67,8 @@ static int clcExitDragToScroll();
 
 static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	int i;
-	if (MirandaExiting()) return 0;
+	if (MirandaExiting())
+		return 0;
 
 	ModernHookEvent(ME_MODERNOPT_INITIALIZE,ModernOptInit);
 	ModernHookEvent(ME_MODERNOPT_INITIALIZE,ModernSkinOptInit);
@@ -79,67 +79,46 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	// Get icons
-	if(ServiceExists(MS_SKIN2_ADDICON)) 
-	{
-		SKINICONDESC sid={0};
-		char szMyPath[MAX_PATH];
-		int i;
+	int i;
 
-		GetModuleFileNameA(g_hInst, szMyPath, MAX_PATH);
+	TCHAR szMyPath[MAX_PATH];
+	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
 
-		sid.cbSize = sizeof(sid);
-		sid.cx=16;
-		sid.cy=16;
-		sid.pszDefaultFile = szMyPath;
+	SKINICONDESC sid={0};
+	sid.cbSize = sizeof(sid);
+	sid.cx = 16;
+	sid.cy = 16;
+	sid.ptszDefaultFile = szMyPath;
+	sid.flags = SIDF_PATH_TCHAR;
 
-		sid.pszSection = LPGEN("Contact List");
-		sid.pszDescription = LPGEN("Listening to");
-		sid.pszName = "LISTENING_TO_ICON";
-		sid.iDefaultIndex = - IDI_LISTENING_TO;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	sid.pszSection = LPGEN("Contact List");
+	sid.pszDescription = LPGEN("Listening to");
+	sid.pszName = "LISTENING_TO_ICON";
+	sid.iDefaultIndex = - IDI_LISTENING_TO;
+	Skin_AddIcon(&sid);
 
-		sid.pszSection = LPGEN("Contact List/Avatar Overlay");
-
-		for (i = 0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
-		{
-			sid.pszDescription = g_pAvatarOverlayIcons[i].description;
-			sid.pszName = g_pAvatarOverlayIcons[i].name;
-			sid.iDefaultIndex = - g_pAvatarOverlayIcons[i].id;
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		}
-		sid.pszSection = LPGEN("Contact List/Status Overlay");
-
-		for (i = 0 ; i < MAX_REGS(g_pStatusOverlayIcons) ; i++)
-		{
-			sid.pszDescription = g_pStatusOverlayIcons[i].description;
-			sid.pszName = g_pStatusOverlayIcons[i].name;
-			sid.iDefaultIndex = - g_pStatusOverlayIcons[i].id;
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-		}
-
-		clcHookIconsChanged(0,0);
-
-		hIconChangedHook=ModernHookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
+	sid.pszSection = LPGEN("Contact List/Avatar Overlay");
+	for (i=0; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++) {
+		sid.pszDescription = g_pAvatarOverlayIcons[i].description;
+		sid.pszName = g_pAvatarOverlayIcons[i].name;
+		sid.iDefaultIndex = - g_pAvatarOverlayIcons[i].id;
+		Skin_AddIcon(&sid);
 	}
-	else 
-	{
-		if (hAvatarOverlays) ImageList_Destroy(hAvatarOverlays);
-		hAvatarOverlays=ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,MAX_REGS(g_pAvatarOverlayIcons)*2,1);
-		for (i = 0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
-		{
-			HICON hIcon=LoadSmallIcon(g_hInst, MAKEINTRESOURCE(g_pAvatarOverlayIcons[i].id));
-			g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays,hIcon);
-			DestroyIcon_protect(hIcon);
-			hIcon=LoadSmallIcon(g_hInst, MAKEINTRESOURCE(g_pStatusOverlayIcons[i].id));
-			g_pStatusOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays,hIcon);            
-			DestroyIcon_protect(hIcon);
-		}	
-		g_hListeningToIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_LISTENING_TO), IMAGE_ICON, 16, 16, 0);
+
+	sid.pszSection = LPGEN("Contact List/Status Overlay");
+	for (i=0; i < MAX_REGS(g_pStatusOverlayIcons); i++) {
+		sid.pszDescription = g_pStatusOverlayIcons[i].description;
+		sid.pszName = g_pStatusOverlayIcons[i].name;
+		sid.iDefaultIndex = - g_pStatusOverlayIcons[i].id;
+		Skin_AddIcon(&sid);
 	}
+
+	clcHookIconsChanged(0,0);
+
+	hIconChangedHook=ModernHookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
 
 	// Register smiley category
-	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY))
-	{
+	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
 		SMADD_REGCAT rc;
 
 		rc.cbSize = sizeof(rc);

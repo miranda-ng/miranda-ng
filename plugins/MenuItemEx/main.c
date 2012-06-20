@@ -252,14 +252,14 @@ static void IconsInit()
 		sid.pszName = iconList[i].szName;
 		sid.ptszDescription =  iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 
 	for ( i = 0; i < SIZEOF(overlayIconList); i++ ) {
 		sid.pszName = overlayIconList[i].szName;
 		sid.ptszDescription =  overlayIconList[i].szDescr;
 		sid.iDefaultIndex = -overlayIconList[i].defIconID;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 	}
 }
 

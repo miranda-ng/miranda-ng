@@ -375,7 +375,7 @@ int AddIcon(HICON icon, char *name, char *description)
 	sid.pszName = name;
 	sid.hDefaultIcon = icon;
 
-	return CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+	return Skin_AddIcon( &sid);
 	}
 
 int RegisterCustomButton(WPARAM wParam,LPARAM lParam)

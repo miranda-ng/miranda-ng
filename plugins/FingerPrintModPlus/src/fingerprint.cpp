@@ -631,7 +631,7 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 		sid.ptszDefaultFile = destfile;
 		sid.iDefaultIndex = -internalidx;
 		sid.cx = sid.cy = 16;
-		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		Skin_AddIcon(&sid);
 
 		hIcon = ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
 	}

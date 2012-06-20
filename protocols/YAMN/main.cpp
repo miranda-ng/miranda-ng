@@ -320,7 +320,7 @@ static void LoadIcons()
 		sid.pszName = iconList[i].szName;
 		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIcon = ( HANDLE )CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		iconList[i].hIcon = Skin_AddIcon(&sid);
 }	}
 
 HANDLE WINAPI g_GetIconHandle( int idx )

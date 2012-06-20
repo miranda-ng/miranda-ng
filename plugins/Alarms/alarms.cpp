@@ -294,10 +294,10 @@ static int MainInit(WPARAM wparam,LPARAM lparam) {
 	return 0;
 }
 
-static int MainDeInit(WPARAM wParam, LPARAM lParam) {
+static int MainDeInit(WPARAM wParam, LPARAM lParam)
+{
 	DeinitFrames();
 	DeinitList();
-	DeinitIcons();
 	return 0;
 }
 

@@ -70,7 +70,7 @@ void Quotes_IconsInit()
 		sid.pszName = const_cast<char*>(sName.c_str());
 		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = reinterpret_cast<HANDLE>(CallService(MS_SKIN2_ADDICON,0,reinterpret_cast<LPARAM>(&sid)));
+		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}	
 }
 

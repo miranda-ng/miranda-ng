@@ -106,12 +106,12 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	sid.ptszDescription = LPGENT("Database");
 	sid.pszName				= "database";
 	sid.iDefaultIndex		= -IDI_ICON2;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	sid.ptszDescription = LPGENT("Change Password");
 	sid.pszName				= "password";
 	sid.iDefaultIndex		= -IDI_ICON3;
-	CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	Skin_AddIcon(&sid);
 
 	menu.cbSize = sizeof(menu);
 	menu.flags = CMIM_ALL | CMIF_TCHAR;

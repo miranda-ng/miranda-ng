@@ -41,11 +41,10 @@
 IcqIconHandle IconLibDefine(const char *desc, const char *section, const char *module, const char *ident, const TCHAR *def_file, int def_idx)
 {
 	SKINICONDESC sid = {0};
-
-	sid.cbSize = SKINICONDESC_SIZE;
+	sid.cbSize = sizeof(sid);
 	sid.pwszSection = make_unicode_string(section);
 	sid.pwszDescription = make_unicode_string(desc);
-	sid.flags = SIDF_UNICODE | SIDF_PATH_TCHAR;
+	sid.flags = SIDF_ALL_TCHAR;
 
 	char szName[MAX_PATH + 128];
 	null_snprintf(szName, sizeof(szName), "%s_%s", module ? module : ICQ_PROTOCOL_NAME, ident);
@@ -55,7 +54,7 @@ IcqIconHandle IconLibDefine(const char *desc, const char *section, const char *m
 
 	IcqIconHandle hIcon = (IcqIconHandle)SAFE_MALLOC(sizeof(IcqIconHandle_s));
 	hIcon->szName = null_strdup(sid.pszName);
-	hIcon->hIcoLib = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	hIcon->hIcoLib = Skin_AddIcon(&sid);
 
 	SAFE_FREE(&sid.pwszSection);
 	SAFE_FREE(&sid.pwszDescription);

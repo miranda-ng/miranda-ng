@@ -79,7 +79,7 @@ void InitIcons(void)
 
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		hIconLibItem[i] = Skin_AddIcon(&sid);
 	}	
 }
 

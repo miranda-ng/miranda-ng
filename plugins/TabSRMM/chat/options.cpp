@@ -426,71 +426,67 @@ static void LoadLogFonts(void)
 		LoadMsgDlgFont(FONTSECTION_CHAT, i, &aFonts[i].lf, &aFonts[i].color, CHAT_FONTMODULE);
 }
 
-static struct _tagicons { char *szDesc; char *szName; int id; UINT size;} _icons[] = {
-	LPGEN("Window Icon"), "chat_window", IDI_CHANMGR, 16,
-	LPGEN("Icon overlay"), "chat_overlay", IDI_OVERLAY, 16,
+struct { char *szDesc; char *szName; int id; UINT size;} static _icons[] =
+{
+	{ LPGEN("Window Icon"), "chat_window", IDI_CHANMGR, 16 },
+	{ LPGEN("Icon overlay"), "chat_overlay", IDI_OVERLAY, 16 },
 
-	LPGEN("Status 1 (10x10)"), "chat_status0", IDI_STATUS0, 16,
-	LPGEN("Status 2 (10x10)"), "chat_status1", IDI_STATUS1, 16,
-	LPGEN("Status 3 (10x10)"), "chat_status2", IDI_STATUS2, 16,
-	LPGEN("Status 4 (10x10)"), "chat_status3", IDI_STATUS3, 16,
-	LPGEN("Status 5 (10x10)"), "chat_status4", IDI_STATUS4, 16,
-	LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5, 16,
-	NULL, NULL, -1, 0
+	{ LPGEN("Status 1 (10x10)"), "chat_status0", IDI_STATUS0, 16 },
+	{ LPGEN("Status 2 (10x10)"), "chat_status1", IDI_STATUS1, 16 },
+	{ LPGEN("Status 3 (10x10)"), "chat_status2", IDI_STATUS2, 16 },
+	{ LPGEN("Status 4 (10x10)"), "chat_status3", IDI_STATUS3, 16 },
+	{ LPGEN("Status 5 (10x10)"), "chat_status4", IDI_STATUS4, 16 },
+	{ LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5, 16 },
 };
 
-static struct _tag1icons { char *szDesc; char *szName; int id; UINT size;} _logicons[] = {
-	LPGEN("Message in (10x10)"), "chat_log_message_in", IDI_MESSAGE, 16,
-	LPGEN("Message out (10x10)"), "chat_log_message_out", IDI_MESSAGEOUT, 16,
-	LPGEN("Action (10x10)"), "chat_log_action", IDI_ACTION, 16,
-	LPGEN("Add Status (10x10)"), "chat_log_addstatus", IDI_ADDSTATUS, 16,
-	LPGEN("Remove Status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS, 16,
-	LPGEN("Join (10x10)"), "chat_log_join", IDI_JOIN, 16,
-	LPGEN("Leave (10x10)"), "chat_log_part", IDI_PART, 16,
-	LPGEN("Quit (10x10)"), "chat_log_quit", IDI_QUIT, 16,
-	LPGEN("Kick (10x10)"), "chat_log_kick", IDI_KICK, 16,
-	LPGEN("Notice (10x10)"), "chat_log_notice", IDI_NOTICE, 16,
-	LPGEN("Nickchange (10x10)"), "chat_log_nick", IDI_NICK, 16,
-	LPGEN("Topic (10x10)"), "chat_log_topic", IDI_TOPIC, 16,
-	LPGEN("Highlight (10x10)"), "chat_log_highlight", IDI_HIGHLIGHT, 16,
-	LPGEN("Information (10x10)"), "chat_log_info", IDI_INFO, 16,
-	NULL, NULL, 0, 0
+struct { char *szDesc; char *szName; int id; UINT size;} static _logicons[] =
+{
+	{ LPGEN("Message in (10x10)"), "chat_log_message_in", IDI_MESSAGE, 16 },
+	{ LPGEN("Message out (10x10)"), "chat_log_message_out", IDI_MESSAGEOUT, 16 },
+	{ LPGEN("Action (10x10)"), "chat_log_action", IDI_ACTION, 16 },
+	{ LPGEN("Add Status (10x10)"), "chat_log_addstatus", IDI_ADDSTATUS, 16 },
+	{ LPGEN("Remove Status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS, 16 },
+	{ LPGEN("Join (10x10)"), "chat_log_join", IDI_JOIN, 16 },
+	{ LPGEN("Leave (10x10)"), "chat_log_part", IDI_PART, 16 },
+	{ LPGEN("Quit (10x10)"), "chat_log_quit", IDI_QUIT, 16 },
+	{ LPGEN("Kick (10x10)"), "chat_log_kick", IDI_KICK, 16 },
+	{ LPGEN("Notice (10x10)"), "chat_log_notice", IDI_NOTICE, 16 },
+	{ LPGEN("Nickchange (10x10)"), "chat_log_nick", IDI_NICK, 16 },
+	{ LPGEN("Topic (10x10)"), "chat_log_topic", IDI_TOPIC, 16 },
+	{ LPGEN("Highlight (10x10)"), "chat_log_highlight", IDI_HIGHLIGHT, 16 },
+	{ LPGEN("Information (10x10)"), "chat_log_info", IDI_INFO, 16 }
 };
 
 // add icons to the skinning module
 void Chat_AddIcons(void)
 {
-	if (ServiceExists(MS_SKIN2_ADDICON)) {
-		SKINICONDESC sid = {0};
-		char szFile[MAX_PATH];
-		int i = 0;
+	int i;
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hIconDLL, szFile, SIZEOF(szFile));
 
-		// 16x16 icons
-		sid.cbSize = sizeof(SKINICONDESC);
-		sid.pszSection = TranslateA("TabSRMM/Group chat windows");
-		GetModuleFileNameA(g_hIconDLL, szFile, MAX_PATH);
-		sid.pszDefaultFile = szFile;
+	// 16x16 icons
+	SKINICONDESC sid = {0};
+	sid.cbSize = sizeof(SKINICONDESC);
+	sid.pszSection = "TabSRMM/Group chat windows";
+	sid.ptszDefaultFile = szFile;
+	sid.flags = SIDF_PATH_TCHAR;
 
-		while (_icons[i].szDesc != NULL) {
-			sid.cx = sid.cy = _icons[i].size;
-			sid.pszDescription = _icons[i].szDesc;
-			sid.pszName = _icons[i].szName;
-			sid.iDefaultIndex = -_icons[i].id;
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-			i++;
-		}
-		i = 0;
-		sid.pszSection = TranslateA("TabSRMM/Group chat log");
-		while (_logicons[i].szDesc != NULL) {
-			sid.cx = sid.cy = _logicons[i].size;
-			sid.pszDescription = _logicons[i].szDesc;
-			sid.pszName = _logicons[i].szName;
-			sid.iDefaultIndex = -_logicons[i].id;
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-			i++;
-		}
+	for (i=0; i < SIZEOF(_icons); i++) {
+		sid.cx = sid.cy = _icons[i].size;
+		sid.pszDescription = _icons[i].szDesc;
+		sid.pszName = _icons[i].szName;
+		sid.iDefaultIndex = -_icons[i].id;
+		Skin_AddIcon(&sid);
 	}
-	return;
+
+	sid.pszSection = "TabSRMM/Group chat log";
+	for (i=0; i < SIZEOF(_logicons); i++) {
+		sid.cx = sid.cy = _logicons[i].size;
+		sid.pszDescription = _logicons[i].szDesc;
+		sid.pszName = _logicons[i].szName;
+		sid.iDefaultIndex = -_logicons[i].id;
+		Skin_AddIcon(&sid);
+	}
 }
 
 /*

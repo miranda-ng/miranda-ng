@@ -67,7 +67,7 @@ INT_PTR svcShowMenuCentered(WPARAM wParam, LPARAM lParam);
 int ProcessSrmmEvent(WPARAM wParam, LPARAM lParam);
 int ProcessSrmmIconClick(WPARAM wParam, LPARAM lParam);
 
-int g_icoFavourite=0, g_icoRegular=0;
+HANDLE g_icoFavourite=0, g_icoRegular=0;
 float g_widthMultiplier = 0;
 int g_maxItemWidth = 0;
 
@@ -186,9 +186,9 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 		StatusIconData sid = {0};
 		sid.cbSize = sizeof(sid);
 		sid.szModule = "FavContacts";
-		sid.szTooltip = Translate("Favourite Contacts");
-		sid.hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, g_icoFavourite);
-		sid.hIconDisabled = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, g_icoRegular);
+		sid.szTooltip = "Favourite Contacts";
+		sid.hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_icoFavourite);
+		sid.hIconDisabled = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_icoRegular);
 		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 
 		HookEvent(ME_MSG_ICONPRESSED, ProcessSrmmIconClick);
@@ -355,12 +355,12 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	sid.pszName = "favcontacts_favourite";
 	sid.ptszDescription = _T("Favourite Contact");
 	sid.iDefaultIndex = -IDI_FAVOURITE;
-	g_icoFavourite = CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	g_icoFavourite = Skin_AddIcon(&sid);
 
 	sid.pszName = "favcontacts_regular";
 	sid.ptszDescription = _T("Regular Contact");
 	sid.iDefaultIndex = -IDI_REGULAR;
-	g_icoRegular = CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	g_icoRegular = Skin_AddIcon(&sid);
 
 	LoadHttpApi();
 
@@ -753,7 +753,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	if (options->wMaxRecent && DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 	{
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			(HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, g_icoFavourite), 16, 16, 0, NULL, DI_NORMAL);
+			(HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_icoFavourite), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 
@@ -1015,8 +1015,7 @@ int sttShowMenu(bool centered)
 	szColumn.cx = szColumn.cy = 0;
 
 	unsigned maxWidth = GetSystemMetrics(SM_CXSCREEN) * DBGetContactSettingByte(NULL, "FavContacts", "MenuWidth", 66) / 100;
-	if (szMenu.cx > maxWidth)
-	{
+	if (szMenu.cx > maxWidth) {
 		g_widthMultiplier = (float)maxWidth / szMenu.cx;
 		szMenu.cx *= g_widthMultiplier;
 	}

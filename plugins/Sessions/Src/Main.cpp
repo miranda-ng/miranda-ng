@@ -951,12 +951,11 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hiSessionsSave = LoadIcon(hinstance, MAKEINTRESOURCE(IDD_SESSIONS_SAVE));
 	hiSessionsLoadLast = LoadIcon(hinstance, MAKEINTRESOURCE(IDD_SESSIONS_LOADLAST));
 
-	hibChecked	  =(HANDLE)AddIcon(hiChecked, "SessionMarked", _T("Favorite Session"));
-	hibNotChecked =(HANDLE)AddIcon(hiNotChecked, "SessionUnMarked", _T("Not favorite Session"));
-
-	hibSessionsLoad		=(HANDLE)AddIcon(hiSessionsLoad, "SessionsLoad", _T("Load Session"));
-	hibSessionsSave		=(HANDLE)AddIcon(hiSessionsSave, "SessionsSave", _T("Save Session"));
-	hibSessionsLoadLast	=(HANDLE)AddIcon(hiSessionsLoadLast, "SessionsLoadLast", _T("Load last Session"));
+	hibChecked	  = AddIcon(hiChecked, "SessionMarked", LPGENT("Favorite Session"));
+	hibNotChecked = AddIcon(hiNotChecked, "SessionUnMarked", LPGENT("Not favorite Session"));
+	hibSessionsLoad = AddIcon(hiSessionsLoad, "SessionsLoad", LPGENT("Load Session"));
+	hibSessionsSave = AddIcon(hiSessionsSave, "SessionsSave", LPGENT("Save Session"));
+	hibSessionsLoadLast = AddIcon(hiSessionsLoadLast, "SessionsLoadLast", LPGENT("Load last Session"));
 
 	CLISTMENUITEM cl;
 	ZeroMemory(&cl, sizeof(cl));

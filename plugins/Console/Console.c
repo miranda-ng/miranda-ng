@@ -1311,25 +1311,25 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	if (ServiceExists(MS_TB_ADDBUTTON)) {
-		SKINICONDESC sid={0};
 		TBButton tbb = {0};
-		char szModuleFileName[MAX_PATH]={0};
-
-		GetModuleFileNameA(hInst,szModuleFileName,MAX_PATH);
+		SKINICONDESC sid={0};
+		TCHAR szModuleFileName[MAX_PATH]={0};
+		GetModuleFileName(hInst, szModuleFileName, SIZEOF(szModuleFileName));
 
 		sid.cbSize = sizeof(sid);
-		sid.pszSection = Translate("Console");
-		sid.pszDefaultFile = szModuleFileName;
+		sid.pszSection = "Console";
+		sid.ptszDefaultFile = szModuleFileName;
+		sid.flags = SIDF_PATH_TCHAR;
 
-		sid.pszDescription = Translate("Show");
+		sid.pszDescription = "Show";
 		sid.pszName = "Console_Up";
 		sid.iDefaultIndex = -IDI_BTN_UP;
-		CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+		Skin_AddIcon(&sid);
 
-		sid.pszDescription = Translate("Hide");
+		sid.pszDescription = "Hide";
 		sid.pszName = "Console_Down";
 		sid.iDefaultIndex = -IDI_BTN_DN;
-		CallService(MS_SKIN2_ADDICON,0,(LPARAM)&sid);
+		Skin_AddIcon(&sid);
 
 		tbb.cbSize = sizeof(TBButton);
 		tbb.pszButtonID = "console_btn";

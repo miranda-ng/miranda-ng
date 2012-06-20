@@ -160,7 +160,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	sid.iDefaultIndex = -IDI_ADDCONTACT;
 	sid.ptszDescription = LPGENT("Add Contact");
 	sid.pszName = ICON_ADD;
-	hIconLibItem = (HANDLE)CallService(MS_SKIN2_ADDICON, (WPARAM)0, (LPARAM)&sid);
+	hIconLibItem = Skin_AddIcon(&sid);
 	hChangedIcons = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 
 	HOTKEYDESC hkd = {0};

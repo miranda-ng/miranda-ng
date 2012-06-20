@@ -323,9 +323,6 @@ void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
 
 void CSList::initIcoLib( )
 {
-	if ( !ServiceExists( MS_SKIN2_ADDICON ))
-		return;
-
 	// init icons of buttons
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName( CSList::handle, tszFile, MAX_PATH );
@@ -337,15 +334,14 @@ void CSList::initIcoLib( )
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = _T(MODULENAME);
 
-	for ( int i = 0; i < SIZEOF(forms); i++ )
-	{
+	for (int i=0; i < SIZEOF(forms); i++ ) {
 		char szSettingName[64];
 		mir_snprintf( szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, forms[i].pszIconIcoLib );
 
 		sid.pszName = szSettingName;
 		sid.ptszDescription = forms[i].ptszDescr;
 		sid.iDefaultIndex = -forms[i].iconNoIcoLib;
-		forms[i].hIcoLibItem = ( HANDLE )CallService( MS_SKIN2_ADDICON, 0, ( LPARAM )&sid );
+		forms[i].hIcoLibItem = Skin_AddIcon(&sid);
 	}
 }
 

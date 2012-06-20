@@ -390,23 +390,20 @@ void RegisterToDbeditorpp(void)
 void LoadIcons(void)
 {
 	//Load icons
-	if(ServiceExists(MS_SKIN2_ADDICON))
-	{
-		SKINICONDESC sid = {0};
-		TCHAR szFilename[MAX_PATH];
-		GetModuleFileName(hInst,szFilename,MAX_PATH);
+	SKINICONDESC sid = {0};
+	TCHAR szFilename[MAX_PATH];
+	GetModuleFileName(hInst,szFilename,MAX_PATH);
 
-		sid.cbSize = SKINICONDESC_SIZE;
-		sid.flags = SIDF_ALL_TCHAR;
-		sid.ptszSection = LPGENT("Nudge");
-		sid.ptszDefaultFile = szFilename;
+	sid.cbSize = sizeof(sid);
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszSection = LPGENT("Nudge");
+	sid.ptszDefaultFile = szFilename;
 
-		sid.pszName = "Nudge_Default";
-		sid.ptszDescription = LPGENT("Nudge as Default");
-		sid.iDefaultIndex = -IDI_NUDGE;
-		sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
-		g_hIcon = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-	}
+	sid.pszName = "Nudge_Default";
+	sid.ptszDescription = LPGENT("Nudge as Default");
+	sid.iDefaultIndex = -IDI_NUDGE;
+	sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
+	g_hIcon = Skin_AddIcon(&sid);
 }
 
 // Nudge support
@@ -791,7 +788,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	mir_sntprintf(iconDesc, SIZEOF(iconDesc), TranslateT("Nudge for %s"), proto->tszAccountName);
 
 	SKINICONDESC sid = {0};
-	sid.cbSize = SKINICONDESC_SIZE;
+	sid.cbSize = sizeof(sid);
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("Nudge");
 	sid.ptszDefaultFile = szFilename;
@@ -799,7 +796,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	sid.ptszDescription = iconDesc;
 	sid.iDefaultIndex = -IDI_NUDGE;
 	sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
-	newNudge->item.hIcoLibItem = (HANDLE) CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+	newNudge->item.hIcoLibItem = Skin_AddIcon(&sid);
 	
 	//Add contact menu entry
 	CLISTMENUITEM mi = {0};

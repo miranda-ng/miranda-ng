@@ -78,7 +78,7 @@ INT_PTR ServiceInvert(WPARAM wParam, LPARAM lParam)
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
 {
-	HICON hSwitchIcon = NULL, hTranslitIcon = NULL, hInvertIcon = NULL;
+	HANDLE hSwitchIcon = NULL, hTranslitIcon = NULL, hInvertIcon = NULL;
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
@@ -135,8 +135,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Hotkey_Register(&hkd);
 
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
-	if (ServiceExists(MS_BB_ADDBUTTON) && ServiceExists(MS_SKIN2_ADDICON))
-	{
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
 		SKINICONDESC sid = {0};
 		sid.cbSize = sizeof(SKINICONDESC);
 		sid.flags = SIDF_TCHAR;
@@ -145,27 +144,18 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.ptszDescription = _T("SwitchLayout and Send");
 		sid.pszName = "SwitchLayout and Send";
 		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SWITCHSEND));
-		hSwitchIcon = (HICON)CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+		hSwitchIcon = Skin_AddIcon(&sid);
 
 		sid.ptszDescription = _T("Translit and Send");
 		sid.pszName = "Translit and Send";
 		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TRANSLITSEND));
-		hTranslitIcon = (HICON)CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
+		hTranslitIcon = Skin_AddIcon(&sid);
 
 		sid.ptszDescription = _T("Invert Case and Send");
 		sid.pszName = "Invert Case and Send";
 		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_INVERTSEND));
-		hInvertIcon = (HICON)CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
-	}
-	else if (ServiceExists(MS_BB_ADDBUTTON))
-	{
-		hSwitchIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SWITCHSEND));
-		hTranslitIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TRANSLITSEND));
-		hInvertIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_INVERTSEND));
-	}
+		hInvertIcon = Skin_AddIcon(&sid);
 
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
@@ -190,11 +180,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		bbd.dwDefPos = 50;
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 	}
-
-	DestroyIcon(hSwitchIcon);
-	DestroyIcon(hTranslitIcon);
-	DestroyIcon(hInvertIcon);
-
 	return 0;
 }
 

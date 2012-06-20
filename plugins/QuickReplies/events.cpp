@@ -35,7 +35,7 @@ INT_PTR QuickRepliesService(WPARAM, LPARAM)
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(hOnModulesLoaded);
-	HICON hIcon = NULL;
+	HANDLE hIcon = NULL;
 	char buttonName[32];
 
 	if (!ServiceExists(MS_QUICKREPLIES_SERVICE))
@@ -43,34 +43,26 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		iNumber = 0;
 		hQuickRepliesService = CreateServiceFunction(MS_QUICKREPLIES_SERVICE, QuickRepliesService);
 	}
-	else
-		iNumber = DBGetContactSettingByte(NULL, MODULE_NAME, "InstancesCount", 0);
+	else iNumber = DBGetContactSettingByte(NULL, MODULE_NAME, "InstancesCount", 0);
 	DBWriteContactSettingByte(NULL, MODULE_NAME, "InstancesCount", iNumber + 1);
 
 	hOnOptInitialized = HookEvent(ME_OPT_INITIALISE, OnOptInitialized); 
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
 
-	if (ServiceExists(MS_SKIN2_ADDICON))
-	{
-		char buttonNameTranslated[32];
-		mir_snprintf(buttonName, SIZEOF(buttonName), "Button %x", iNumber + 1);
-		mir_snprintf(buttonNameTranslated, SIZEOF(buttonNameTranslated), "%s %x",Translate("Button"), iNumber + 1);
+	char buttonNameTranslated[32];
+	mir_snprintf(buttonName, SIZEOF(buttonName), "Button %x", iNumber + 1);
+	mir_snprintf(buttonNameTranslated, SIZEOF(buttonNameTranslated), "%s %x",Translate("Button"), iNumber + 1);
 
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(SKINICONDESC);
-		sid.pszSection = "TabSRMM/Quick Replies";
-		sid.cx = sid.cy = 16;
-		sid.pszDescription = buttonNameTranslated;
-		sid.pszName = buttonName;
-		sid.hDefaultIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_QICON));
+	SKINICONDESC sid = {0};
+	sid.cbSize = sizeof(sid);
+	sid.pszSection = "TabSRMM/Quick Replies";
+	sid.cx = sid.cy = 16;
+	sid.pszDescription = buttonNameTranslated;
+	sid.pszName = buttonName;
+	sid.hDefaultIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_QICON));
+	hIcon = Skin_AddIcon(&sid);
 
-		hIcon = (HICON)CallService(MS_SKIN2_ADDICON, 0, (LPARAM) &sid);
-	}
-	else
-		hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_QICON));
-
-	if (ServiceExists(MS_BB_ADDBUTTON))
-	{
+	if (ServiceExists(MS_BB_ADDBUTTON)) {
 		mir_snprintf(buttonName, SIZEOF(buttonName), MODULE_NAME" %x", iNumber + 1);
 
 		BBButton bbd = {0};
@@ -78,14 +70,12 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
 		bbd.pszModuleName = buttonName;
 		bbd.ptszTooltip = _T("Quick Replies\r\nLeft button - open menu\r\nRight button - options page");
-		bbd.hIcon = (HANDLE)hIcon;
+		bbd.hIcon = hIcon;
 		bbd.dwButtonID = iNumber;
 		bbd.dwDefPos = 220;
 		
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 	}
-
-	DestroyIcon(hIcon);
 
 	return 0;
 }
