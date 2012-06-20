@@ -147,7 +147,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	{
 		if (statusValue[i] == status) 
 			break;
-
+	}
 	if (i >= 10)
 		return GAIR_NOAVATAR;
 
