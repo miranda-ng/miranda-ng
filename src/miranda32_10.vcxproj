@@ -248,6 +248,7 @@
     <ClInclude Include="modules\options\filter.h" />
     <ClInclude Include="..\include\m_protoint.h" />
     <ClInclude Include="modules\plugins\plugins.h" />
+    <ClInclude Include="modules\skin\skin.h" />
     <ClInclude Include="modules\srfile\file.h" />
     <ClInclude Include="modules\srurl\url.h" />
     <ClInclude Include="modules\clist\clc.h" />
@@ -395,6 +396,9 @@
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\skin\hotkeys.cpp">
+      <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="modules\skin\hotkey_opts.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="modules\skin\skinicons.cpp">

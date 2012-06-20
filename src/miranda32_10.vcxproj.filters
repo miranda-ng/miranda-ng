@@ -276,6 +276,9 @@
     <ClInclude Include="modules\plugins\plugins.h">
       <Filter>Modules\plugins</Filter>
     </ClInclude>
+    <ClInclude Include="modules\skin\skin.h">
+      <Filter>Modules\skin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core\commonheaders.cpp">
@@ -616,6 +619,9 @@
     </ClCompile>
     <ClCompile Include="modules\plugins\pluginopts.cpp">
       <Filter>Modules\plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\skin\hotkey_opts.cpp">
+      <Filter>Modules\skin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
