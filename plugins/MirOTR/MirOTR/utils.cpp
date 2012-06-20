@@ -370,7 +370,7 @@ bool GetEncryptionStatus(HANDLE hContact) {
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0));
 
-	if(!chat_room) {
+	if (!chat_room) {
 		if (options.bHaveMetaContacts) {
 			HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 			if(hMeta && hContact == (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0)) {

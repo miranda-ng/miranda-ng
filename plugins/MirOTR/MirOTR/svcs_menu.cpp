@@ -9,9 +9,9 @@ HANDLE hMenuBuildEvent, hStopItem, hStartItem;
 int StartOTR(HANDLE hContact) {
 	
 	const char *proto = contact_get_proto(hContact);
-	if(!proto) return 1; // error
+	if (!proto) return 1; // error
 	char *uname = contact_get_id(hContact);
-	if(!uname) return 1; // error
+	if (!uname) return 1; // error
 	DWORD pol = DBGetContactSettingDword(hContact, MODULENAME, "Policy", CONTACT_DEFAULT_POLICY);
 	if(pol == CONTACT_DEFAULT_POLICY) pol = options.default_policy;
 	
@@ -74,9 +74,9 @@ int otr_disconnect_contact(HANDLE hContact) {
 	}
 	
 	const char *proto = contact_get_proto(hContact);
-	if(!proto) return 1; // error
+	if (!proto) return 1; // error
 	char *uname = contact_get_id(hContact);
-	if(!uname) return 1; // error
+	if (!uname) return 1; // error
 
 	lib_cs_lock();
 	otrl_message_disconnect(otr_user_state, &ops, hContact, proto, proto, uname);
@@ -164,14 +164,14 @@ int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 	const char *proto = contact_get_proto(hContact);
 	DWORD pol = CONTACT_DEFAULT_POLICY;
 	
-	if(!proto || DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) == 1) {
+	if (!proto || DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) == 1) {
 		goto hide_all;
 	}
 	
 	if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) {
 		// make menu act as per most online subcontact
 		hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
-		if(!hContact)
+		if (!hContact)
 			goto hide_all;
 		proto = contact_get_proto(hContact);
 	}

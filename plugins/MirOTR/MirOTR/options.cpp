@@ -88,7 +88,7 @@ void LoadOptions() {
 	options.autoshow_verify = (DBGetContactSettingByte(0, MODULENAME, "AutoShowVerify", 1) == 1);
 	
 	DBVARIANT dbv;
-	if(!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
+	if (!DBGetContactSettingUTF8String(0, MODULENAME, "Prefix", &dbv)) {
 		strncpy(options.prefix, dbv.pszVal, OPTIONS_PREFIXLEN);
 		options.prefix[OPTIONS_PREFIXLEN-1] = 0;
 		DBFreeVariant(&dbv);
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcMirOTROptsProto(HWND hwndDlg, UINT msg, WPARAM wP
 			// subitem members of the structure are valid. 
 			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM; 
 			lvc.fmt = LVCFMT_LEFT;
-	  
+
 			lvc.iSubItem = 0;
 			lvc.pszText = TranslateT(LANG_PROTO);	
 			lvc.cx = 85;     // width of column in pixels

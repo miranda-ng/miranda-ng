@@ -14,13 +14,13 @@ BBButton OTRButton;
 // 	}
 // 
 // 	if(mwd->uType != MSG_WINDOW_EVT_OPEN) return 0;
-// 	if(!options.bHaveSRMMIcons) return 0;
+// 	if (!options.bHaveSRMMIcons) return 0;
 // 	
 // 	HANDLE hContact = mwd->hContact, hTemp;
 // 	if(options.bHaveMetaContacts && (hTemp = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0)) != 0)
 // 		hContact = hTemp;
 // 	
-// 	if(!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME))
+// 	if (!CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)MODULENAME))
 // 		return 0;
 // 	
 // 	lib_cs_lock();
@@ -37,7 +37,7 @@ int SVC_IconPressed(WPARAM wParam, LPARAM lParam) {
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 	if(sicd->cbSize < (int)sizeof(StatusIconClickData))
 		return 0;
-	
+
 	if(strcmp(sicd->szModule, MODULENAME) == 0) {
 		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if(proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))
@@ -87,11 +87,11 @@ int SVC_IconPressed(WPARAM wParam, LPARAM lParam) {
 				minfo.hbmpItem = bmpIconNotSecure;
 				minfo.dwTypeData = TranslateT(LANG_STATUS_DISABLED);
 		}
-		
+
 		SelectObject(hdc, old);
 		DeleteDC(hdc);
 		ReleaseDC(wnd, dc);
-		
+
 		SetMenuItemInfo(hMenu, IDM_OTR_STATUS, FALSE, &minfo);
 
 			minfo.fMask = MIIM_STATE|MIIM_BITMAP;
@@ -148,7 +148,7 @@ void SetEncryptionStatus(HANDLE hContact, TrustLevel level) {
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0));
 
-	// if(!chat_room) DBWriteContactSettingByte(hContact, MODULENAME, "Encrypted", (encrypted ? 1 : 0));
+	// if (!chat_room) DBWriteContactSettingByte(hContact, MODULENAME, "Encrypted", (encrypted ? 1 : 0));
 
 	if(options.bHaveSRMMIcons || options.bHaveButtonsBar) {
 		//strcat(dbg_msg, "\nchanging icon");
@@ -197,7 +197,7 @@ void SetEncryptionStatus(HANDLE hContact, TrustLevel level) {
 		if (options.bHaveButtonsBar) CallService(MS_BB_SETBUTTONSTATE, (WPARAM)hContact, (LPARAM)&button);
 		db_dword_set(hContact, MODULENAME, "TrustLevel", level);
 
-		if(!chat_room && options.bHaveMetaContacts) {
+		if (!chat_room && options.bHaveMetaContacts) {
 			HANDLE hMeta = (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0);
 			HANDLE hMostOnline = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hMeta, 0);
 			if(hMeta && hContact == hMostOnline) {
