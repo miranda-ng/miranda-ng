@@ -90,9 +90,9 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 
 static int SkinPlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
-	char* pszFile = (char *) lParam;
+	TCHAR* pszFile = (TCHAR*) lParam;
 	if (pszFile && (DBGetContactSettingByte(NULL, "Skin", "UseSound", 0) || (int)wParam == 1))
-		PlaySoundA(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
+		PlaySound(pszFile, NULL, SND_ASYNC | SND_FILENAME | SND_NOWAIT);
 
 	return 0;
 }
