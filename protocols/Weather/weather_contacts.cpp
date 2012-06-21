@@ -36,7 +36,7 @@ static void OpenUrl( TCHAR* format, TCHAR* id )
 	mir_free( szUrl );
 }
 
-// == == == == == ==  BASIC CONTACTS FUNCTIONS AND LINKS  == == == == == ==
+//============ BASIC CONTACTS FUNCTIONS AND LINKS  ============
 
 // view weather log for the contact
 // wParam = current contact
@@ -94,7 +94,7 @@ INT_PTR WeatherMap(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-// == == == == == ==  EDIT SETTINGS  == == == == == ==
+//============ EDIT SETTINGS  ============
 
 // show edit settings dialog
 // wParam = current contact
@@ -426,7 +426,7 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 	return FALSE;
 }
 
-// == == == == == ==  CONTACT DELETION  == == == == == ==
+//============ CONTACT DELETION  ============
 
 // when a contact is deleted, make sure some other contact take over the default station
 // wParam = deleted contact

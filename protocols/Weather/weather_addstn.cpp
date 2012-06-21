@@ -251,8 +251,8 @@ int IDSearchProc(TCHAR *sID, const int searchId, WIIDSEARCH *sData, TCHAR *svc, 
 	mir_sntprintf(newID, SIZEOF(newID), _T("%s/%s"), svc, sID);
 
 	// set the search result and broadcast it
-	PROTOSEARCHRESULT psr = {0};
-	psr.cbSize = sizeof(psr);
+	PROTOSEARCHRESULT psr = { sizeof(psr) };
+	psr.flags = PSR_TCHAR;
 	psr.nick = str;
 	psr.firstName = _T(" ");
 	psr.lastName = svcname;
@@ -282,8 +282,8 @@ int IDSearch(TCHAR *sID, const int searchId)
 	// if the station ID is #, return a dummy result and quit the funciton
 	else {
 		// return an empty contact on "#"
-		PROTOSEARCHRESULT psr = {0};
-		psr.cbSize = sizeof(psr);
+		PROTOSEARCHRESULT psr = { sizeof(psr) };
+		psr.flags = PSR_TCHAR;
 		psr.nick = TranslateT("<Enter station name here>");	// to be entered
 		psr.firstName = _T(" ");
 		psr.lastName = _T("");
@@ -343,8 +343,8 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 					_tcscpy(Name, name);
 
 				// set the data and broadcast it
-				PROTOSEARCHRESULT psr = { 0 };
-				psr.cbSize = sizeof(psr);
+				PROTOSEARCHRESULT psr = { sizeof(psr) };
+				psr.flags = PSR_TCHAR;
 				psr.nick = Name;
 				psr.firstName = _T(" ");
 				psr.lastName = svcname;
@@ -376,8 +376,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 					if (Name[0] == 0)	
 						_tcscpy(Name, name);
 
-					PROTOSEARCHRESULT psr = { 0 };
-					psr.cbSize = sizeof(psr);
+					PROTOSEARCHRESULT psr = { sizeof(psr) };
 					psr.flags = PSR_TCHAR;
 					psr.nick = Name;
 					psr.firstName = _T("");
