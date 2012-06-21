@@ -33,7 +33,7 @@ struct SoundItem
 	__inline TCHAR* getSection() const { return LangPackTranslateStringT(hLangpack, ptszSection); }
 	__inline TCHAR* getDescr() const { return LangPackTranslateStringT(hLangpack, ptszDescription); }
 
-	__inline ~SoundItem()
+	__inline void clear(void)
 	{
 		mir_free(name);
 		mir_free(ptszSection);
@@ -441,5 +441,8 @@ int LoadSkinSounds(void)
 
 void UnloadSkinSounds(void)
 {
+	for (int i=0; i < arSounds.getCount(); i++)
+		arSounds[i].clear();
+
 	arSounds.destroy();
 }
