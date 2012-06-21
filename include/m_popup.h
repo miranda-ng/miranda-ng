@@ -1,10 +1,10 @@
 /*
- == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
+ ===============================================================================
                                 PopUp plugin
 Plugin Name: PopUp
 Plugin authors: Luca Santarelli aka hrk (hrk@users.sourceforge.net)
                 Victor Pavlychko aka zazoo (nullbie@gmail.com)
- == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
+ ===============================================================================
 The purpose of this plugin is to give developers a common "platform/interface"
 to show PopUps. It is born from the source code of NewStatusNotify, another
 plugin I've made.
@@ -12,7 +12,7 @@ plugin I've made.
 Remember that users *must* have this plugin enabled, or they won't get any
 popup. Write this in the requirements, do whatever you wish ;-)... but tell
 them!
- == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == == =
+ ===============================================================================
 */
 
 #ifndef M_POPUP_H

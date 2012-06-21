@@ -21,31 +21,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
+
+#include <m_button_int.h>
+
 #include <initguid.h>
 #include <oleacc.h>
-
-struct MButtonCtrl
-{
-	HWND              hwnd;
-	int               stateId; // button state
-	int               focus;   // has focus (1 or 0)
-	HFONT             hFont;   // font
-	HICON             arrow;   // uses down arrow
-	HICON             hIcon;
-	HBITMAP           hBitmap;
-	HTHEME            hThemeButton;
-	HTHEME            hThemeToolbar;
-	TCHAR             cHot;
-	HWND              hwndToolTips;
-	IAccPropServices* pAccPropServices;
-
-	bool              bIsPushBtn, // button has two states
-							bIsPushed,  // is button pushed or not
-							bIsDefault, // default button
-							bIsFlat,    // flat button
-							bIsThemed,  // themed button
-							bIsSkinned; // skinned button
-};
 
 struct TTooltips
 {
@@ -72,15 +52,17 @@ static void DestroyTheme(MButtonCtrl *ctl)
 			closeThemeData(ctl->hThemeToolbar);
 			ctl->hThemeToolbar = NULL;
 		}
+		ctl->bIsThemed = false;
 	}
 }
 
 static void LoadTheme(MButtonCtrl *ctl)
 {
+	DestroyTheme(ctl);
 	if (openThemeData) {
-		DestroyTheme(ctl);
 		ctl->hThemeButton = openThemeData(ctl->hwnd, L"BUTTON");
 		ctl->hThemeToolbar = openThemeData(ctl->hwnd, L"TOOLBAR");
+		ctl->bIsThemed = true;
 	}
 }
 
@@ -117,22 +99,20 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	if ( !hdcPaint)
 		return;
 
-	HDC hdcMem;
-	HBITMAP hbmMem;
-	HDC hOld;
 	RECT rcClient;
-
 	GetClientRect(ctl->hwnd, &rcClient);
-	hdcMem = CreateCompatibleDC(hdcPaint);
-	hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top);
-	hOld = (HDC)SelectObject(hdcMem, hbmMem);
+
+	HDC hdcMem = CreateCompatibleDC(hdcPaint);
+	HBITMAP hbmMem = CreateCompatibleBitmap(hdcPaint, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top);
+	HDC hOld = (HDC)SelectObject(hdcMem, hbmMem);
 
 	// If its a push button, check to see if it should stay pressed
-	if (ctl->bIsPushBtn && ctl->bIsPushed) ctl->stateId = PBS_PRESSED;
+	if (ctl->bIsPushBtn && ctl->bIsPushed)
+		ctl->stateId = PBS_PRESSED;
 
 	// Draw the flat button
 	if (ctl->bIsFlat) {
-		if (ctl->hThemeToolbar) {
+		if (ctl->hThemeToolbar && ctl->bIsThemed) {
 			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId):PBS_DISABLED;
 			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeToolbar, TP_BUTTON, TBStateConvert2Flat(state)))
 				drawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
@@ -166,11 +146,12 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	}
 	else {
 		// Draw background/border
-		if (ctl->hThemeButton) {
+		if (ctl->hThemeButton && ctl->bIsThemed) {
 			int state = IsWindowEnabled(ctl->hwnd)?(ctl->stateId == PBS_NORMAL && ctl->bIsDefault ? PBS_DEFAULTED : ctl->stateId) : PBS_DISABLED;
-			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state)) {
+
+			if (isThemeBackgroundPartiallyTransparent(ctl->hThemeButton, BP_PUSHBUTTON, state))
 				drawThemeParentBackground(ctl->hwnd, hdcMem, &rcClient);
-			}
+
 			drawThemeBackground(ctl->hThemeButton, hdcMem, BP_PUSHBUTTON, state, &rcClient, &rcClient);
 		}
 		else {
@@ -196,18 +177,17 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			ix++;
 			iy++;
 		}
-		{
-			HIMAGELIST hImageList;
-			HICON hIconNew;
+		
+		HIMAGELIST hImageList;
+		HICON hIconNew;
 
-			hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
-			ImageList_AddIcon(hImageList, ctl->hIcon);
-			hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
-			DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON|DSS_NORMAL:DST_ICON|DSS_DISABLED);
-			ImageList_RemoveAll(hImageList);
-			ImageList_Destroy(hImageList);
-			DestroyIcon(hIconNew);
-		}
+		hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+		ImageList_AddIcon(hImageList, ctl->hIcon);
+		hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
+		DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON|DSS_NORMAL:DST_ICON|DSS_DISABLED);
+		ImageList_RemoveAll(hImageList);
+		ImageList_Destroy(hImageList);
+		DestroyIcon(hIconNew);
 	}
 	else if (ctl->hBitmap) {
 		BITMAP bminfo;
@@ -261,6 +241,12 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam)
 {
 	MButtonCtrl* bct =  (MButtonCtrl *)GetWindowLongPtr(hwndDlg, 0);
+	if (bct && bct->fnWindowProc) {
+		LRESULT res = bct->fnWindowProc(hwndDlg, msg, wParam, lParam);
+		if (res)
+			return res;
+	}		
+
 	switch(msg) {
 	case WM_NCCREATE:
 		SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) | BS_OWNERDRAW);
@@ -268,14 +254,14 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		if (bct == NULL) return FALSE;
 		bct->hwnd = hwndDlg;
 		bct->stateId = PBS_NORMAL;
+		bct->fnPainter = PaintWorker;
 		bct->hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
 		LoadTheme(bct);
 		if (SUCCEEDED(CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (void**)&bct->pAccPropServices))) {
 			// Annotating the Role of this object to be PushButton
 			SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
 		} 
-		else 
-			bct->pAccPropServices = NULL;
+		else bct->pAccPropServices = NULL;
 		SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
 		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwndDlg, ((CREATESTRUCT *)lParam)->lpszName);
 		return TRUE;
@@ -292,9 +278,9 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 				ti.uFlags = TTF_IDISHWND;
 				ti.hwnd = bct->hwnd;
 				ti.uId = (UINT_PTR)bct->hwnd;
-				if (SendMessage(bct->hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti)) {
+				if (SendMessage(bct->hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti))
 					SendMessage(bct->hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-				}
+
 				if (SendMessage(bct->hwndToolTips, TTM_GETTOOLCOUNT, 0, (LPARAM)&ti) == 0) {
 					int idx;
 					TTooltips tt;
@@ -317,6 +303,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		break;	// DONT! fall thru
 
 	case WM_NCDESTROY:
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		mir_free(bct);
 		break;
 
@@ -373,7 +360,8 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 
 	case WM_THEMECHANGED:
 		// themed changed, reload theme object
-		LoadTheme(bct);
+		if (bct->bIsThemed)
+			LoadTheme(bct);
 		InvalidateRect(bct->hwnd, NULL, TRUE); // repaint it
 		break;
 
@@ -387,7 +375,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 			PAINTSTRUCT ps;
 			HDC hdcPaint = BeginPaint(hwndDlg, &ps);
 			if (hdcPaint) {
-				PaintWorker(bct, hdcPaint);
+				bct->fnPainter(bct, hdcPaint);
 				EndPaint(hwndDlg, &ps);
 			}
 		}
@@ -516,6 +504,21 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 		}
 		break;
 
+	case BUTTONSETCUSTOM:
+		{
+			MButtonCustomize *pCustom = (MButtonCustomize*)lParam;
+			if (pCustom == NULL)
+				break;
+
+			bct = (MButtonCtrl*)mir_realloc(bct, pCustom->cbLen);
+			if (pCustom->cbLen > sizeof(MButtonCtrl))
+				memset(bct+1, 0, pCustom->cbLen - sizeof(MButtonCtrl));
+			bct->fnPainter = pCustom->fnPainter;
+			bct->fnWindowProc = pCustom->fnWindowProc;
+			SetWindowLongPtr(hwndDlg, 0, (LONG_PTR)bct);
+		}
+		break;
+
 	case WM_SETFOCUS: // set keybord focus and redraw
 		bct->focus = 1;
 		InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -552,15 +555,13 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 	case WM_LBUTTONUP:
 		{
 			int showClick = 0;
-			if (bct->bIsPushBtn) {
-				if (bct->bIsPushed) bct->bIsPushed = 0;
-				else bct->bIsPushed = 1;
-			}
+			if (bct->bIsPushBtn)
+				bct->bIsPushed = !bct->bIsPushed;
+
 			if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
 				if (bct->stateId == PBS_PRESSED)
 					showClick = 1;
-				if (msg == WM_LBUTTONUP) bct->stateId = PBS_HOT;
-				else bct->stateId = PBS_NORMAL;
+				bct->stateId = (msg == WM_LBUTTONUP) ? PBS_HOT : PBS_NORMAL;
 				InvalidateRect(bct->hwnd, NULL, TRUE);
 			}
 			if (showClick) // Tell your daddy you got clicked.
@@ -593,6 +594,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 	case WM_ERASEBKGND:
 		return 1;
 	}
+
 	return DefWindowProc(hwndDlg, msg, wParam, lParam);
 }
 

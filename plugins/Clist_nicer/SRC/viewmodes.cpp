@@ -896,19 +896,20 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	switch(msg) {
 	case WM_CREATE:
 		{
-			HWND hwndButton;
-
 			hwndSelector = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_SELECTMODE, g_hInst, NULL);
+			CustomizeButton(hwndSelector, false, false, false);
 			SendMessage(hwndSelector, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Select a view mode"), BATF_UNICODE);
-			SendMessage(hwndSelector, BM_SETASMENUACTION, 1, 0);
+			SendMessage(hwndSelector, BUTTONSETASMENUACTION, 1, 0);
 
-			hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
+			HWND hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_CONFIGUREMODES, g_hInst, NULL);
+			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Setup view modes"), BATF_UNICODE);
 
 			hwndButton = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20,
 				hwnd, (HMENU) IDC_RESETMODES, g_hInst, NULL);
+			CustomizeButton(hwndButton, false, false, false);
 			SendMessage(hwndButton, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Clear view mode and return to default display"), BATF_UNICODE);
 
 			SendMessage(hwnd, WM_USER + 100, 0, 0);
@@ -943,22 +944,11 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"CLN_CLVM_options"));
 		SendMessage(GetDlgItem(hwnd, IDC_SELECTMODE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"CLN_CLVM_select"));
 		{
-			int bSkinned = cfg::getByte("CLCExt", "bskinned", 0);
-			int i = 0;
-
-			while(_buttons[i] != 0) {
-				SendMessage(GetDlgItem(hwnd, _buttons[i]), BM_SETSKINNED, 0, bSkinned);
-				if(bSkinned) {
-					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, FALSE, 0);
-					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASTHEMEDBTN, 0, 0);
-				}
-				else {
-					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASFLATBTN, FALSE, 0);
-					SendDlgItemMessage(hwnd, _buttons[i], BUTTONSETASTHEMEDBTN, TRUE, 0);
-				}
-				i++;
-			}
+			bool bSkinned = cfg::getByte("CLCExt", "bskinned", 0) != 0;
+			for (int i = 0; _buttons[i] != 0; i++ )
+				CustomizeButton(hwnd, bSkinned, !bSkinned, bSkinned);
 		}
+
 		if(cfg::dat.bFilterEffective)
 			SetWindowTextA(GetDlgItem(hwnd, IDC_SELECTMODE), cfg::dat.current_viewmode);
 		else

@@ -124,25 +124,25 @@ typedef struct _OrderTreeData
 	const TCHAR *	Name;
 	BYTE	Position;
 	BOOL	Visible;
-    BOOL    fReserved;
+	BOOL  fReserved;
 } *PORDERTREEDATA, ORDERTREEDATA;
 
 struct DisplayProfile {
-    DWORD   dwFlags;
-    DWORD   dwExtraImageMask;
-    int     exIconScale;
-    BOOL    bCenterStatusIcons;
-    BOOL    bDimIdle, bNoOfflineAvatars, bShowLocalTime, bShowLocalTimeSelective, bDontSeparateOffline, bCenterGroupNames;
-    BYTE    dualRowMode;
-    COLORREF avatarBorder;
-    DWORD    avatarRadius;
-    int      avatarSize;
-    DWORD    clcExStyle;
-    DWORD    clcOfflineModes;
-    BYTE     sortOrder[3], bUseDCMirroring, bGroupAlign;
-    BYTE     avatarPadding;
-    BYTE     bLeftMargin, bRightMargin, bRowSpacing, bGroupIndent, bRowHeight, bGroupRowHeight;
-    BYTE     exIconOrder[EXICON_COUNT];
+	DWORD   dwFlags;
+	DWORD   dwExtraImageMask;
+	int     exIconScale;
+	BOOL    bCenterStatusIcons;
+	BOOL    bDimIdle, bNoOfflineAvatars, bShowLocalTime, bShowLocalTimeSelective, bDontSeparateOffline, bCenterGroupNames;
+	BYTE    dualRowMode;
+	COLORREF avatarBorder;
+	DWORD    avatarRadius;
+	int      avatarSize;
+	DWORD    clcExStyle;
+	DWORD    clcOfflineModes;
+	BYTE     sortOrder[3], bUseDCMirroring, bGroupAlign;
+	BYTE     avatarPadding;
+	BYTE     bLeftMargin, bRightMargin, bRowSpacing, bGroupIndent, bRowHeight, bGroupRowHeight;
+	BYTE     exIconOrder[EXICON_COUNT];
 };
 typedef struct DisplayProfile DISPLAYPROFILE;
 
@@ -151,9 +151,9 @@ typedef struct DisplayProfile DISPLAYPROFILE;
  */
 
 struct DisplayProfileSet {
-    UINT    uID;
-    TCHAR   tszName[60];
-    DISPLAYPROFILE dp[4];
+	UINT    uID;
+	TCHAR   tszName[60];
+	DISPLAYPROFILE dp[4];
 };
 typedef struct DisplayProfileSet DISPLAYPROFILESET;
 
@@ -168,13 +168,13 @@ struct TExtraCache {
 	TCHAR *statusMsg;
 	BYTE bStatusMsgValid;
 	DWORD dwCFlags;
-    DWORD dwDFlags;     // display flags for caching only
-    DWORD dwXMask;      // local extra icon mask, calculated from CLN_xmask
+	DWORD dwDFlags;     // display flags for caching only
+	DWORD dwXMask;      // local extra icon mask, calculated from CLN_xmask
 	StatusItems_t *status_item, *proto_status_item;
 	CONTACTFLOATER *floater;
 	DWORD dwLastMsgTime;
-    DWORD msgFrequency;
-    BOOL  isChatRoom;
+	DWORD msgFrequency;
+	BOOL  isChatRoom;
 };
 
 struct ClcContact {
@@ -206,9 +206,9 @@ struct ClcContact {
 	int extraCacheEntry;
 	int avatarLeft, extraIconRightBegin;
 	int isRtl;
-    DWORD cFlags;
-    BYTE  bSecondLine;
-    //int iRowHeight;   // index into the row height table (for caching)
+	DWORD cFlags;
+	BYTE  bSecondLine;
+	//int iRowHeight;   // index into the row height table (for caching)
 };
 
 #define DRAGSTAGE_NOTMOVED  0
@@ -287,7 +287,7 @@ struct ClcData {
 	BOOL bNeedPaint, bisEmbedded, bHideSubcontacts;
 	DWORD lastRepaint;
 	BOOL forceScroll;
-    int  oldSelection;
+	int  oldSelection;
 };
 
 //#define CLUI_FRAME_SHOWTOPBUTTONS 1
@@ -425,13 +425,13 @@ struct TCluiData {
 	BYTE bWantFastGradients, bUseFastGradients;
 	BYTE sortOrder[3];
 	BYTE bGroupAlign;
-    BYTE bSkinnedScrollbar;
-    DWORD langPackCP;
-    BOOL fOnDesktop;
-    int  group_padding;
-    DWORD t_now;
-    BYTE exIconOrder[EXICON_COUNT];
-    BOOL realTimeSaving;
+	BYTE bSkinnedScrollbar;
+	DWORD langPackCP;
+	BOOL fOnDesktop;
+	int  group_padding;
+	DWORD t_now;
+	BYTE exIconOrder[EXICON_COUNT];
+	BOOL realTimeSaving;
 	TCHAR tszProfilePath[MAX_PATH];
 	FILETIME ft;
 	SYSTEMTIME st;
@@ -584,9 +584,17 @@ extern "C" void _DebugTraceA(const char *fmt, ...);
 #else
 void _DebugTraceA(const char *fmt, ...);
 #endif
+
 // Docking.c
 
 int Docking_IsDocked(WPARAM wParam, LPARAM lParam);
+
+// Buttons
+
+#define BUTTONSETIMLICON      (WM_USER+20)
+#define BUTTONSETSKINNED      (WM_USER+21)
+#define BUTTONSETASMENUACTION (WM_USER+22)
+#define BUTTONSETBTNITEM      (WM_USER+23)
 
 // Menus
 
@@ -610,12 +618,6 @@ int CoolSB_SetupScrollBar();
 #define SETTING_WINDOWSTYLE_TOOLWINDOW 1
 #define SETTING_WINDOWSTYLE_THINBORDER 2
 #define SETTING_WINDOWSTYLE_NOBORDER 3
-
-#define BM_SETPRIVATEICON (WM_USER + 6)
-#define BM_SETIMLICON (WM_USER + 7)
-#define BM_SETSKINNED (WM_USER + 8)
-#define BM_SETASMENUACTION (WM_USER + 9)
-#define BM_SETBTNITEM (WM_USER+10)
 
 #define EIMG_SHOW_RES0 8
 #define EIMG_SHOW_EMAIL 1
