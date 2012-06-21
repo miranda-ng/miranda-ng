@@ -270,12 +270,12 @@ INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				ShowPage(hwndDlg, pmtv->itemNew.lParam, 1);
 			}
 			break;
+
 		case WM_HSCROLL:
-			if((HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_ACTIVE) || (HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_ACTIVE))
-			{
+			if((HWND)lParam == GetDlgItem(hwndDlg, IDC_TRANSPARENCY_ACTIVE))
 				Utils::enableDlgControl(hwndDlg, IDC_APPLY, TRUE);
-			}
 			break;
+
 		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 				case IDC_CNTPRIVATE: {
