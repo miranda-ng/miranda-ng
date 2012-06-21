@@ -72,4 +72,4 @@ void RegisterHotkeys();
 void UnregisterHotkeys();
 
 void HotkeyEditCreate(HWND hwnd);
-void tHotkeyEditDestroy(HWND hwnd);
+void HotkeyEditDestroy(HWND hwnd);

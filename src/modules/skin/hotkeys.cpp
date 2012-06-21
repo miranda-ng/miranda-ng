@@ -122,11 +122,7 @@ static INT_PTR svcHotkeySubclass(WPARAM wParam, LPARAM)
 
 static INT_PTR svcHotkeyUnsubclass(WPARAM wParam, LPARAM)
 {
-	HWND hwnd = (HWND)wParam;
-	THotkeyBoxData *data = (THotkeyBoxData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (ULONG_PTR)data->oldWndProc);
-	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-	mir_free(data);
+	HotkeyEditDestroy((HWND)wParam);
 	return 0;
 }
 

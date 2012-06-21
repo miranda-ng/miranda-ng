@@ -161,6 +161,14 @@ void HotkeyEditCreate(HWND hwnd)
 	data->oldWndProc = (WNDPROC)SetWindowLongPtr(hwnd, GWLP_WNDPROC, (ULONG_PTR)sttHotkeyEditProc);
 }
 
+void HotkeyEditDestroy(HWND hwnd)
+{
+	THotkeyBoxData *data = (THotkeyBoxData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (ULONG_PTR)data->oldWndProc);
+	SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+	mir_free(data);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // Options
 
