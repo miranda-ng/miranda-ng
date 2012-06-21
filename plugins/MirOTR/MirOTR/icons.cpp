@@ -34,7 +34,7 @@ void InitIcons() {
 		sid.pszName = (char*)iconList[i].szName;
 		sid.ptszDescription = (TCHAR*)iconList[i].stzDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = (HANDLE)CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
+		hIconLibItem[i] = Skin_AddIcon(&sid);
 	}
 
 }
