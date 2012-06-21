@@ -62,7 +62,7 @@ struct THotkeyItem
 
 extern LIST<THotkeyItem> hotkeys;
 extern HWND g_hwndHkOptions, g_hwndHotkeyHost;
-extern DWORD g_pid;
+extern DWORD g_pid, g_hkid;
 extern HANDLE hEvChanged;
 
 int HotkeyOptionsInit(WPARAM, LPARAM);

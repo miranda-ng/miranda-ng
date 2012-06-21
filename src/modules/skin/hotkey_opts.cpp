@@ -267,6 +267,7 @@ static int CALLBACK sttOptionsSortList(LPARAM lParam1, LPARAM lParam2, LPARAM lP
 static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 {
 	char buf[256];
+	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, g_hkid++);
 
 	THotkeyItem *newItem = (THotkeyItem *)mir_alloc(sizeof(THotkeyItem));
 	newItem->pszName = NULL;
@@ -274,7 +275,6 @@ static void sttOptionsAddHotkey(HWND hwndList, THotkeyItem *item)
 	newItem->ptszSection = mir_tstrdup(item->ptszSection);
 	newItem->ptszDescription = mir_tstrdup(item->ptszDescription);
 	newItem->lParam = item->lParam;
-	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, hotkeys.getCount()+1);
 	newItem->idHotkey = GlobalAddAtomA(buf);
 	newItem->rootHotkey = item;
 	newItem->Hotkey = newItem->DefHotkey = newItem->OptHotkey = 0;

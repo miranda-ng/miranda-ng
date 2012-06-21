@@ -40,7 +40,7 @@ static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 }
 
 LIST<THotkeyItem> hotkeys(10, sttCompareHotkeys);
-DWORD g_pid = 0;
+DWORD g_pid = 0, g_hkid = 1;
 HWND g_hwndHotkeyHost = NULL, g_hwndHkOptions = NULL;
 HANDLE hEvChanged = 0;
 
@@ -71,11 +71,11 @@ static void sttWordToModAndVk(WORD w, BYTE *mod, BYTE *vk)
 static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_HOTKEY) {
-		int i;
-		for (i = 0; i < hotkeys.getCount(); i++) {
+		for (int i = 0; i < hotkeys.getCount(); i++) {
 			THotkeyItem *item = hotkeys[i];
-			if (item->type != HKT_GLOBAL) continue;
-			if ( !item->Enabled) continue;
+			if (item->type != HKT_GLOBAL || !item->Enabled)
+				continue;
+
 			if (item->pszService && (wParam == item->idHotkey)) {
 				CallService(item->pszService, 0, item->lParam);
 				break;
@@ -182,7 +182,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 	item->lParam = desc->lParam;
 
 	char buf[256];
-	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, hotkeys.getCount()+1);
+	mir_snprintf(buf, SIZEOF(buf), "mir_hotkey_%d_%d", g_pid, g_hkid++);
 	item->idHotkey = GlobalAddAtomA(buf);
 	if (item->type == HKT_GLOBAL) {
 		if (item->Enabled) {
