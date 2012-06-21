@@ -507,7 +507,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, L
 	case BUTTONSETCUSTOM:
 		{
 			MButtonCustomize *pCustom = (MButtonCustomize*)lParam;
-			if (pCustom == NULL)
+			if (pCustom == NULL || bct->fnWindowProc)
 				break;
 
 			bct = (MButtonCtrl*)mir_realloc(bct, pCustom->cbLen);

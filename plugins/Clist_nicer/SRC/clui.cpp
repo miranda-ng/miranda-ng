@@ -408,12 +408,14 @@ static int IcoLibChanged(WPARAM wParam, LPARAM lParam)
 void CreateButtonBar(HWND hWnd)
 {
 	hTbMenu = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBMENU, g_hInst, NULL);
+	CustomizeButton(hTbMenu, false, false, false);
 	SetWindowText(hTbMenu, TranslateT("Menu"));
 	SendMessage(hTbMenu, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 	SendMessage(hTbMenu, BUTTONSETASMENUACTION, 1, 0);
 	SendMessage(hTbMenu, BUTTONADDTOOLTIP, (WPARAM) TranslateTS(LPGENT("Open main menu")), BATF_UNICODE);
 
 	hTbGlobalStatus = CreateWindowEx(0, MIRANDABUTTONCLASS, _T(""), BS_PUSHBUTTON | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, hWnd, (HMENU) IDC_TBGLOBALSTATUS, g_hInst, NULL);
+	CustomizeButton(hTbGlobalStatus, false, false, false);
 	SetWindowText(hTbGlobalStatus, TranslateT("Offline"));
 	SendMessage(hTbGlobalStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) LoadSkinnedIcon(SKINICON_STATUS_OFFLINE));
 	SendMessage(hTbGlobalStatus, BUTTONSETASMENUACTION, 1, 0);
