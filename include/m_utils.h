@@ -41,13 +41,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //and simple string scrambling, but they are very db-orientated
 
 /* Opens a URL in the user's default web browser   v0.1.0.1+
-wParam=bOpenInNewWindow
-lParam=(LPARAM)(const char*)szUrl
+wParam = OUF_* flags
+lParam = (LPARAM)(const TCHAR*)szUrl
 returns 0 always
 bOpenInNewWindow should be zero to open the URL in the browser window the user
 last used, or nonzero to open in a new browser window. If there's no browser
 running, one will be opened to show the URL.
 */
+
+#define OUF_NEWWINDOW   1
+#define OUF_UNICODE     2
+
+#if defined( _UNICODE )
+	#define OUF_TCHAR OUF_UNICODE
+#else
+	#define OUF_TCHAR 0
+#endif
+
 #define MS_UTILS_OPENURL	"Utils/OpenURL"
 
 /* Resizes a dialog by calling a custom routine to move the individual

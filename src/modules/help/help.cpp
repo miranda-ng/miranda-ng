@@ -50,21 +50,20 @@ static INT_PTR WebsiteCommand(WPARAM, LPARAM)
 	return 0;
 }
 
-static int BugCommandEvent(WPARAM wParam, LPARAM lParam) {
-    char *szUrl = (char*)lParam;
+static int BugCommandEvent(WPARAM wParam, LPARAM lParam)
+{
+	char *szUrl = (char*)lParam;
+	if (szUrl)
+		CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
 
-    if (szUrl) {
-        CallService(MS_UTILS_OPENURL, 1, (LPARAM)szUrl);
-    }
-    return 0;
+	return 0;
 }
 
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
-    NotifyEventHooks(hBugEvent, 0, (LPARAM)"http://code.google.com/p/miranda/issues/list");
+	NotifyEventHooks(hBugEvent, 0, (LPARAM)"http://code.google.com/p/miranda/issues/list");
 	return 0;
 }
-
 
 int ShutdownHelpModule(WPARAM, LPARAM)
 {
