@@ -340,7 +340,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu1, 0);
+			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.RightClickAction);
 			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
 			if (ID)   opt.RightClickAction = ID;
@@ -360,7 +360,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_PMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu1, 0);
+			TranslateMenu(hMenu1);
 			SelectMenuItem(hMenu1, opt.LeftClickAction);
 			ID = TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL);
 			if (ID)   opt.LeftClickAction = ID;

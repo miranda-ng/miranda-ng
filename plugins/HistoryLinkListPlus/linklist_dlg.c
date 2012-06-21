@@ -68,7 +68,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 			SetWindowLongPtr(hDlg, GWLP_USERDATA, lParam);
 			DlgParam = (DIALOGPARAM *)lParam;
 			TranslateDialogDefault(hDlg);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)listMenu, 0);
+			TranslateMenu(listMenu);
 
 			if ( DBGetContactSettingByte(NULL, LINKLIST_MODULE, LINKLIST_SAVESPECIAL, 0x00) == 0x00 )
 				hContact = NULL;
@@ -181,7 +181,7 @@ INT_PTR WINAPI MainDlgProc( HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam )
 					if (mouseEvent == 0x01 )
 						EnableMenuItem(hSubMenu, IDM_SHOWMESSAGE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 					
-					CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hSubMenu, 0);
+					TranslateMenu(hSubMenu);
 					
 					link = (LPTSTR)malloc( (pENLink->chrg.cpMax-pENLink->chrg.cpMin+2)*sizeof(TCHAR));
 					SendDlgItemMessage(hDlg, IDC_MAIN, EM_EXSETSEL, 0, (LPARAM)(&(pENLink->chrg))); 

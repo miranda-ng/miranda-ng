@@ -531,7 +531,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 					}
 					if ( !hMenu )
 						hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST2));
-					CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, 0);
+					TranslateMenu(hMenu);
 					CheckMenuItem(hMenu, ID_SIM_NATIVE+ptr->tmode, MF_CHECKED );
 					if ( !bPGP ) EnableMenuItem(hMenu, ID_SIM_PGP, MF_GRAYED );
 					if ( !bGPG ) EnableMenuItem(hMenu, ID_SIM_GPG, MF_GRAYED );
@@ -833,7 +833,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 						GetCursorPos(&p);
 						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST));
 						CheckMenuItem(hMenu, ID_ENCRYPTION, MF_BYCOMMAND );
-						CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, 0);
+						TranslateMenu(hMenu);
 						TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, hDlg, 0);
 						DestroyMenu(hMenu);
 					} break;*/
@@ -1006,7 +1006,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 						GetCursorPos(&p);
 						HMENU hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDM_CLIST));
 						CheckMenuItem(hMenu, ID_ENCRYPTION, MF_BYCOMMAND );
-						CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, 0);
+						TranslateMenu(hMenu);
 						TrackPopupMenu(GetSubMenu(hMenu, 0), TPM_LEFTALIGN | TPM_TOPALIGN, p.x, p.y, 0, hDlg, 0);
 						DestroyMenu(hMenu);
 					} break;*/

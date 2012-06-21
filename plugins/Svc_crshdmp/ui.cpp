@@ -157,7 +157,7 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 				HMENU hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 				HMENU hSubMenu = GetSubMenu(hMenu, 0);
-				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+				TranslateMenu(hSubMenu);
 
 				CHARRANGE sel; 
 				SendMessage(hView, EM_EXGETSEL, 0, (LPARAM)&sel);

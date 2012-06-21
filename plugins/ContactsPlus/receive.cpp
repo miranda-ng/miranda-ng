@@ -190,7 +190,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
       wndData->mhDbEvent = pcle->hDbEvent; /// initialized, pcle not needed anymore
       wndData->mhListIcon = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLORDDB|ILC_MASK, 0, 1);
       wndData->mhPopup = LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTACTMENU));
-      CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)wndData->mhPopup, 0);
+      TranslateMenu(wndData->mhPopup);
       wndData->hHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_EVENTSENT);
 
       char *szProto = GetContactProto(wndData->mhContact);

@@ -448,7 +448,7 @@ static LRESULT CALLBACK MsgTreeSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 					}
 					_ASSERT(hMenu);
 					HMENU hPopupMenu = GetSubMenu(hMenu, 0);
-					CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hPopupMenu, 0);
+					TranslateMenu(hPopupMenu);
 					ClientToScreen(hWnd, &ht.pt);
 					struct
 					{

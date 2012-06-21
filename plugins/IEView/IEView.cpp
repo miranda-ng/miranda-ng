@@ -562,9 +562,8 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 	{
 		return E_NOTIMPL;
 /*
-		HMENU hMenu;
-		hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)),0);
-		CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)hMenu,0);
+		HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)),0);
+		TranslateMenu(hMenu);
 		if (dwID == 6) { // anchor
 			EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
 		} else if (dwID == 5) { // text select
@@ -594,9 +593,8 @@ STDMETHODIMP IEView::ShowContextMenu(DWORD dwID, POINT *ppt, IUnknown *pcmdTarge
 	if (SUCCEEDED(pcmdTarget->QueryInterface(IID_IOleCommandTarget, (void**)&pOleCommandTarget))) {
 		if (SUCCEEDED(pOleCommandTarget->QueryInterface(IID_IOleWindow, (void**)&pOleWindow))) {
 			pOleWindow->GetWindow(&hSPWnd);
-			HMENU hMenu;
-			hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)),0);
-		 	CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)hMenu,0);
+			HMENU hMenu = GetSubMenu(LoadMenu(hInstance, MAKEINTRESOURCE(IDR_CONTEXTMENU)),0);
+		 	TranslateMenu(hMenu);
 			if (dwID == 5) { // anchor
 				EnableMenuItem(hMenu, ID_MENU_COPYLINK, MF_BYCOMMAND | MF_ENABLED);
 			} else if (dwID == 4) { // text select

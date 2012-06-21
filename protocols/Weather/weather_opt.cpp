@@ -555,7 +555,7 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(button, &pos); 
 				hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMMENU));
 				hMenu1 = GetSubMenu(hMenu, 0);
-				CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu1, 0);
+				TranslateMenu(hMenu1);
 				switch(TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) {
 				case ID_MPREVIEW:
 					// show the preview in a message box, using the weather data from the default station
@@ -585,7 +585,7 @@ INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			GetWindowRect(button, &pos); 
 			hMenu  = LoadMenu(hInst, MAKEINTRESOURCE(IDR_TMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu1, 0);
+			TranslateMenu(hMenu1);
 			switch(TrackPopupMenu(hMenu1, TPM_LEFTBUTTON|TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, NULL)) 
 			{
 			case ID_T1:

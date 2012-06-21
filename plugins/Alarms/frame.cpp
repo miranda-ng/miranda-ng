@@ -369,7 +369,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				DWORD item = SendMessage(hwnd_list, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 
 				HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)), submenu = GetSubMenu(menu, 0);
-				CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+				TranslateMenu(submenu);
 	
 				if (HIWORD(item) == 0) {
 					int sel = LOWORD(item);

@@ -443,7 +443,7 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
  
 	HMENU hmenuTrackPopup = GetSubMenu(hmenu, 0); 
  
- 	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hmenuTrackPopup, 0);
+ 	TranslateMenu(hmenuTrackPopup);
  
 	ClientToScreen(hwnd, (LPPOINT) &pt);  
  

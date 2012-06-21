@@ -1362,7 +1362,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 							HMENU hMenu = LoadMenu(g_hInstance, MAKEINTRESOURCE(IDR_SAM_OPTIONS));
 							_ASSERT(hMenu);
 							HMENU hPopupMenu = GetSubMenu(hMenu, 0);
-							CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hPopupMenu, 0);
+							TranslateMenu(hPopupMenu);
 							CheckMenuItem(hPopupMenu, IDM_SAM_OPTIONS_SHOWMSGTREE, MF_BYCOMMAND | (g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWMSGTREE) ? MF_CHECKED : MF_UNCHECKED));
 							CheckMenuItem(hPopupMenu, IDM_SAM_OPTIONS_SHOWCONTACTTREE, MF_BYCOMMAND | (g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_SHOWCONTACTTREE) ? MF_CHECKED : MF_UNCHECKED));
 							CheckMenuItem(hPopupMenu, IDM_SAM_OPTIONS_AUTOSAVEDLGSETTINGS, MF_BYCOMMAND | (g_SetAwayMsgPage.GetValue(IDS_SAWAYMSG_AUTOSAVEDLGSETTINGS) ? MF_CHECKED : MF_UNCHECKED));

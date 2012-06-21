@@ -432,7 +432,7 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 			hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 
 			mwpd.hMenu = GetSubMenu(hMenu, 2);
-			CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)mwpd.hMenu, 0);
+			TranslateMenu(mwpd.hMenu);
 
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin == sel.cpMax) 
@@ -1825,7 +1825,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 						hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 						hSubMenu = GetSubMenu(hMenu, 0);
-						CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+						TranslateMenu(hSubMenu);
 						SendMessage(((NMHDR *) lParam)->hwndFrom, EM_EXGETSEL, 0, (LPARAM) & sel);
 						if (sel.cpMin == sel.cpMax)
 							EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
@@ -1903,7 +1903,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 							hMenu = LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 							hSubMenu = GetSubMenu(hMenu, 1);
-							CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) hSubMenu, 0);
+							TranslateMenu(hSubMenu);
 							pt.x = (short) LOWORD(((ENLINK *) lParam)->lParam);
 							pt.y = (short) HIWORD(((ENLINK *) lParam)->lParam);
 							ClientToScreen(((NMHDR *) lParam)->hwndFrom, &pt);

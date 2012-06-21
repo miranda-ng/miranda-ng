@@ -438,7 +438,7 @@ static int ShowPopup(HWND hwndDlg, int popup)
 
 	HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_OPT_POPUP));
 	HMENU submenu = GetSubMenu(menu, popup);
-	CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM) submenu, 0);
+	TranslateMenu(submenu);
 
 	DWORD pos = GetMessagePos();
 	int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_LEFTALIGN, LOWORD(pos),
