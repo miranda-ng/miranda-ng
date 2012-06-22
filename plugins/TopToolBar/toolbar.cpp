@@ -440,10 +440,6 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			retval |= TTBBF_PUSHED;
 		break;
 
-	case TTBO_POS:
-		retval = b->arrangedpos;
-		break;
-	
 	case TTBO_TIPNAME:
 		retval = (INT_PTR)b->tooltip;
 		break;
@@ -512,18 +508,6 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		retval = 1;
 		break;
 
-	case TTBO_POS:
-		if (lParam >= 0 || lParam < Buttons.getCount()) {
-			TopButtonInt tempttb = *Buttons[lParam];
-			*Buttons[lParam] = *b;
-			*b = tempttb;
-
-			ArrangeButtons();
-			// save button setting
-			retval = 1;
-		}
-		break;
-	
 	case TTBO_TIPNAME:
 		if (lParam == 0)
 			break;
