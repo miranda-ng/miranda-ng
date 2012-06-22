@@ -23,6 +23,7 @@
 #include "m_cluiframes.h"
 #include "m_clui.h"
 #include "m_clc.h"
+#include "m_findadd.h"
 #include "m_langpack.h"
 #include "m_options.h"
 #include "resource.h"
@@ -35,28 +36,32 @@
 
 #define TTB_OPTDIR "TopToolBar"
 #define TTBDEFAULT_BKBMPUSE      CLB_STRETCH
-
-
 #define TTBDEFAULT_BKCOLOUR      GetSysColor(COLOR_3DFACE)
 #define TTBDEFAULT_USEBITMAP     0
 #define TTBDEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 
-int TTBOptInit(WPARAM wParam, LPARAM lParam);
-//append string
-char __inline *AS(char *str, const char *setting, char *addstr);
+///////////////////////////////////////////////////////////////////////////////
+// TopButtonInt class
 
-int ttbOptionsChanged();
-
-int ArrangeButtons();
-int RecreateWindows();
-
-struct TopButtonInt 
+struct TopButtonInt
 {
+	~TopButtonInt();
+
+	DWORD CheckFlags(DWORD Flags);
+	void  CreateWnd(void);
+	void  LoadSettings(void);
+	void  SaveSettings(int &SepCnt, int &LaunchCnt);
+	void  SetBitmap(void);
+
+	__inline bool isSep() const
+	{	return (dwFlags & TTBBF_ISSEPARATOR) != 0;
+	}
+
 	HWND hwnd;
 	int id;
 	BOOL bPushed;
 	int dwFlags;
-	int x, y;
+	int x, y, arrangedpos;
 	HICON hIconUp, hIconDn;
 	HANDLE hIconHandleUp, hIconHandleDn;
 	
@@ -69,26 +74,33 @@ struct TopButtonInt
 	WPARAM wParamUp;
 	LPARAM lParamDown;
 	WPARAM wParamDown;
-	WORD arrangedpos;
 };
 
-struct SortData
-{
-	int oldpos;
-	int arrangeval;
-};
+///////////////////////////////////////////////////////////////////////////////
 
-#define MAX_BUTTONS		64
-//#define BUTTWIDTH		20
+int TTBOptInit(WPARAM wParam, LPARAM lParam);
+//append string
+char __inline *AS(char *str, const char *setting, char *addstr);
 
-//#define BUTTHEIGHT		16
+int ttbOptionsChanged();
+
+int ArrangeButtons();
+int RecreateWindows();
+
+#define DEFBUTTWIDTH	20
+#define DEFBUTTHEIGHT	16
+#define DEFBUTTGAP		1
+
 #define SEPWIDTH		3
 
+extern LIST<TopButtonInt> Buttons;
 extern bool StopArrange;
-extern HWND OptionshWnd;
+extern HWND OptionshWnd, hwndTopToolBar;
 extern HANDLE hHookTTBModuleLoaded;
 extern HINSTANCE hInst;
 extern LIST<void> arHooks, arServices;
+extern HBITMAP hBmpBackground, hBmpSeparator;
+extern int BUTTWIDTH, BUTTHEIGHT, BUTTGAP;
 
 int OptionsPageRebuild();
 void lockbut();
@@ -128,8 +140,5 @@ void DeleteLBut(int i);
 void InsertLBut(int i);
 
 int OnModulesLoad(WPARAM, LPARAM);
-
-#define BM_SETPRIVATEICON (WM_USER + 6)
-#define BM_SETIMLICON (WM_USER + 7)
 
 #endif

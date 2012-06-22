@@ -2,11 +2,6 @@
 #include <shlobj.h>
 #pragma hdrstop
 
-extern TopButtonInt Buttons[MAX_BUTTONS];
-extern int nButtonsCount;
-
-extern SortData arrangedbuts[MAX_BUTTONS];
-
 HWND OptionshWnd = 0;
 
 struct OrderData
@@ -26,7 +21,7 @@ int BuildTree(HWND hwndDlg)
 	SetWindowLongPtr(hTree, GWL_STYLE, GetWindowLongPtr(hTree,GWL_STYLE)|TVS_NOHSCROLL);
 	TreeView_DeleteAllItems(hTree);
 
-	if (nButtonsCount == 0)
+	if (Buttons.getCount() == 0)
 		return FALSE;
 
 	TVINSERTSTRUCT tvis = { 0 };
@@ -35,35 +30,34 @@ int BuildTree(HWND hwndDlg)
 	int index;
 	TCHAR* tmp;
 
-	for (int i = 0; i < nButtonsCount; i++) {
-		TopButtonInt &b = Buttons[arrangedbuts[i].oldpos];
+	for (int i = 0; i < Buttons.getCount(); i++) {
+		TopButtonInt *b = Buttons[i];
 
-		index = 0;
-
-		if (b.dwFlags & TTBBF_ISSEPARATOR) {
-			tvis.item.mask = TVIF_PARAM | TVIF_TEXT;
-			tmp = mir_wstrdup(L"------------------");
-			index = -1;
+		if (b->dwFlags & TTBBF_ISSEPARATOR) {
+			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
+			tvis.item.pszText = L"------------------";
 		}
 		else {
 			tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			if (b.dwFlags & TTBBF_ICONBYHANDLE) {
-				HICON hIcon = Skin_GetIconByHandle(b.hIconHandleUp);
+			if (b->dwFlags & TTBBF_ICONBYHANDLE) {
+				HICON hIcon = Skin_GetIconByHandle(b->hIconHandleUp);
 				index = ImageList_AddIcon(dat->himlButtonIcons, hIcon);
 				Skin_ReleaseIcon(hIcon);
 			}
-			else index = ImageList_AddIcon(dat->himlButtonIcons, b.hIconUp);
+			else index = ImageList_AddIcon(dat->himlButtonIcons, b->hIconUp);
 			tvis.item.iImage = tvis.item.iSelectedImage = index;
 
-			tmp = mir_a2t( b.name );
+			tmp = mir_a2t( b->name );
+			tvis.item.pszText = TranslateTS(tmp);
 		}
 
 		tvis.item.lParam = (LPARAM)&b;
-		tvis.item.pszText = TranslateTS(tmp);
 		HTREEITEM hti = TreeView_InsertItem(hTree, &tvis);
-		mir_free(tmp);
 
-		TreeView_SetCheckState(hTree, hti, (b.dwFlags & TTBBF_VISIBLE) ? TRUE : FALSE);
+		if (!(b->dwFlags & TTBBF_ISSEPARATOR))
+			mir_free(tmp);
+
+		TreeView_SetCheckState(hTree, hti, (b->dwFlags & TTBBF_VISIBLE) ? TRUE : FALSE);
 	}
 
 	return (TRUE);
@@ -88,29 +82,28 @@ int SaveTree(HWND hwndDlg)
 	int count = 0;
 	lockbut();
 
+	Buttons.destroy();
+
 	while(tvi.hItem != NULL) {
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
 		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 		TreeView_GetItem(hTree, &tvi);
 
 		TopButtonInt* btn = (TopButtonInt*)tvi.lParam;
-		// can use TreeView_GetCheckState(hTree,tvi.hItem);
-		// WTF?!
-//		if (btn->arrangedpos >= 0 && btn->arrangedpos)
-		{
-			if ((tvi.state >> 12 ) == 0x2)
-				btn->dwFlags |= TTBBF_VISIBLE;
-			else
-				btn->dwFlags &= ~TTBBF_VISIBLE;
-			btn->arrangedpos = count;
-		}
 
+		if (TreeView_GetCheckState(hTree,tvi.hItem))
+			btn->dwFlags |= TTBBF_VISIBLE;
+		else
+			btn->dwFlags &= ~TTBBF_VISIBLE;
+		btn->arrangedpos = count;
+
+		Buttons.insert(btn);
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 		count++;
 	}
 
 	ulockbut();
-	ttbOptionsChanged();
+	SaveAllButtonsOptions();
 	return (TRUE);
 }
 
@@ -131,8 +124,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE), GWL_STYLE)|TVS_NOHSCROLL);
 
-		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", 16), FALSE);
-		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, DBGetContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", 20), FALSE);
+		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, BUTTHEIGHT, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, BUTTWIDTH, FALSE);
+//		SetDlgItemInt(hwndDlg, IDC_BUTTGAP, BUTTGAP, FALSE);
 		CheckDlgButton(hwndDlg, IDC_USEFLAT, DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1));
 
 		BuildTree(hwndDlg);
@@ -228,8 +222,12 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, FALSE, FALSE));
-				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, FALSE, FALSE));
+				BUTTHEIGHT =  GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
+				BUTTWIDTH = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, NULL, FALSE);
+//				BUTTGAP = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE));
+				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", BUTTHEIGHT);
+				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", BUTTWIDTH);
+//				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTGAP", BUTTGAP);
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT));
 
 				SaveTree(hwndDlg);

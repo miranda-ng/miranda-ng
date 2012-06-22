@@ -272,6 +272,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="toolbar.cpp" />
+    <ClCompile Include="topbutton.cpp" />
     <ClCompile Include="ttbopt.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
