@@ -203,32 +203,27 @@ bool nameexists(const char *name)
 {
 	if (name != NULL)
 		for (int i = 0; i < Buttons.getCount(); i++)
-			if ((Buttons[i]->name != NULL) && (strcmp(Buttons[i]->name, name) == 0))
-				return TRUE;
+			if ( !lstrcmpA(Buttons[i]->name, name))
+				return true;
 
-	return FALSE;
+	return false;
 }
 
-HICON LoadIconFromLibrary(char *Name, char *Description, HICON hIcon, HANDLE* phIcolib)
+HICON LoadIconFromLibrary(char *Name, HICON hIcon, HANDLE& phIcolib)
 {		
-	if (Name != NULL && *Name != 0) {				
-		char iconame[256];
-		_snprintf(iconame, SIZEOF(iconame), "toptoolbar_%s", Name);
-		if (phIcolib) {
-			SKINICONDESC sid = {0};
-			sid.cbSize = sizeof(sid);
-			sid.pszSection = "Toolbar";				
-			sid.pszName = iconame;
-			sid.pszDefaultFile = NULL;
-			sid.pszDescription = Description;
-			sid.hDefaultIcon = hIcon;
-			*phIcolib = Skin_AddIcon(&sid);
-
-		}
-		return Skin_GetIcon(iconame);
+	char iconame[256];
+	_snprintf(iconame, SIZEOF(iconame), "toptoolbar_%s", Name);
+	if (phIcolib == NULL) {
+		SKINICONDESC sid = {0};
+		sid.cbSize = sizeof(sid);
+		sid.pszSection = "Toolbar";				
+		sid.pszName = iconame;
+		sid.pszDefaultFile = NULL;
+		sid.pszDescription = Name;
+		sid.hDefaultIcon = hIcon;
+		phIcolib = Skin_AddIcon(&sid);
 	}
-
-	return hIcon;
+	return Skin_GetIconByHandle(phIcolib);
 }
 
 int RecreateWindows()
@@ -268,7 +263,6 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	
 	TopButtonInt* b = new TopButtonInt;
 	b->id = nextButtonId++;
-	b->tooltip = NULL;
 	
 	if (but->dwFlags & TTBBF_ISLBUTTON) {
 		if (but->program != NULL)
@@ -291,15 +285,13 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	b->dwFlags = but->dwFlags;
 
 	if (b->dwFlags & TTBBF_ICONBYHANDLE) {
-		b->hIconHandleDn = but->hIconHandleDn;
-		b->hIconHandleUp = but->hIconHandleUp;
-		b->hIconDn = Skin_GetIconByHandle(b->hIconHandleDn);
-		b->hIconUp = Skin_GetIconByHandle(b->hIconHandleUp);
+		char buf[256];
+		sprintf(buf, "%s_dn", b->name);
+		b->hIconDn = LoadIconFromLibrary(buf, Skin_GetIconByHandle(but->hIconHandleDn), b->hIconHandleDn);
+		sprintf(buf, "%s_up", b->name);
+		b->hIconUp = LoadIconFromLibrary(buf, Skin_GetIconByHandle(but->hIconHandleUp), b->hIconHandleUp);
 	}
-	else {
-		b->hIconDn = but->hIconDn;
-		b->hIconUp = but->hIconUp;
-	}
+	else b->hIconDn = but->hIconDn, b->hIconUp = but->hIconUp;
 
 	b->wParamUp = but->wParamUp;
 	b->lParamUp = but->lParamUp;
@@ -309,11 +301,6 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 	if ( !(b->dwFlags & TTBBF_ISSEPARATOR)) {
-		char buf[256];
-		sprintf(buf, "%s_up", b->name);
-		b->hIconUp = LoadIconFromLibrary(buf, buf, b->hIconUp, &b->hIconHandleUp);
-		sprintf(buf, "%s_dn", b->name);
-		b->hIconDn = LoadIconFromLibrary(buf, buf, b->hIconDn, &b->hIconHandleDn);
 	}
 
 	b->LoadSettings();
@@ -354,7 +341,7 @@ int ArrangeButtons()
 
 		// not visible - hide and skip
 		if ( !(b->dwFlags & TTBBF_VISIBLE)) {
-			ShowWindow(Buttons[i]->hwnd, SW_HIDE);
+			ShowWindow(b->hwnd, SW_HIDE);
 			continue;
 		}
 
@@ -371,8 +358,8 @@ int ArrangeButtons()
 			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, hFrameTopWindow), newheight);
 		}
 
-		SetWindowPos(Buttons[i]->hwnd, 0, xpos, ypos, BUTTWIDTH, BUTTHEIGHT, uFlags);
-		InvalidateRect(Buttons[i]->hwnd, NULL, TRUE);
+		SetWindowPos(b->hwnd, 0, xpos, ypos, BUTTWIDTH, BUTTHEIGHT, uFlags);
+		InvalidateRect(b->hwnd, NULL, TRUE);
 
 		xpos += (b->isSep()) ? SEPWIDTH+2 : BUTTWIDTH+BUTTGAP;
 
@@ -798,11 +785,17 @@ int OnIconChange(WPARAM wParam, LPARAM lParam)
 {
 	lockbut();
 	for (int i = 0; i < Buttons.getCount(); i++) {
+		TopButtonInt* b = Buttons[i];
+
 		char buf[256];
-		sprintf(buf, "%s_up", Buttons[i]->name);
-		Buttons[i]->hIconUp = LoadIconFromLibrary(buf, buf, Buttons[i]->hIconUp, NULL);
-		sprintf(buf, "%s_dn", Buttons[i]->name);
-		Buttons[i]->hIconDn = LoadIconFromLibrary(buf, buf, Buttons[i]->hIconDn, NULL);
+		if (b->hIconHandleUp) {
+			sprintf(buf, "%s_up", b->name);
+			b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
+		}
+		if (b->hIconHandleDn) {
+			sprintf(buf, "%s_dn", b->name);
+			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
+		}
 	}
 	ulockbut();
 

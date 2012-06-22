@@ -45,6 +45,8 @@
 
 struct TopButtonInt
 {
+	__inline void* operator new(size_t size) { return calloc( 1, size ); }
+	__inline void operator delete(void* p) { free( p ); }
 	~TopButtonInt();
 
 	DWORD CheckFlags(DWORD Flags);
