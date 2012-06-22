@@ -282,14 +282,10 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 
 	b->dwFlags = but->dwFlags;
 
-	if (b->dwFlags & TTBBF_ICONBYHANDLE) {
-		char buf[256];
-		sprintf(buf, "%s_dn", b->name);
-		b->hIconDn = LoadIconFromLibrary(buf, Skin_GetIconByHandle(but->hIconHandleDn), b->hIconHandleDn);
-		sprintf(buf, "%s_up", b->name);
-		b->hIconUp = LoadIconFromLibrary(buf, Skin_GetIconByHandle(but->hIconHandleUp), b->hIconHandleUp);
-	}
-	else b->hIconDn = but->hIconDn, b->hIconUp = but->hIconUp;
+	if (b->dwFlags & TTBBF_ICONBYHANDLE)
+		b->hIconDn = Skin_GetIconByHandle(but->hIconHandleDn), b->hIconUp = Skin_GetIconByHandle(but->hIconHandleUp);
+	else
+		b->hIconDn = but->hIconDn, b->hIconUp = but->hIconUp;
 
 	b->wParamUp = but->wParamUp;
 	b->lParamUp = but->lParamUp;
@@ -299,6 +295,11 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 	b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
 
 	if ( !(b->dwFlags & TTBBF_ISSEPARATOR)) {
+		char buf[256];
+		sprintf(buf, "%s_up", b->name);
+		b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
+		sprintf(buf, "%s_dn", b->name);
+		b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
 	}
 
 	b->LoadSettings();
@@ -603,10 +604,10 @@ static void PaintToolbar(HWND hwnd)
 		GetObject(hBmpBackground, sizeof(bmp), &bmp);
 		hdcBmp = CreateCompatibleDC(hdcMem);
 		SelectObject(hdcBmp, hBmpBackground);
-		y = backgroundBmpUse&CLBF_SCROLL?-yScroll:0;
-		maxx = backgroundBmpUse&CLBF_TILEH?clRect.right:1;
-		maxy = backgroundBmpUse&CLBF_TILEV?maxy = rcPaint->bottom:y+1;
-		switch(backgroundBmpUse&CLBM_TYPE) {
+		y = backgroundBmpUse & CLBF_SCROLL ? -yScroll : 0;
+		maxx = backgroundBmpUse & CLBF_TILEH ? clRect.right : 1;
+		maxy = backgroundBmpUse & CLBF_TILEV ? maxy = rcPaint->bottom : y+1;
+		switch(backgroundBmpUse & CLBM_TYPE) {
 		case CLB_STRETCH:
 			if (backgroundBmpUse&CLBF_PROPORTIONAL) {
 				if (clRect.right*bmp.bmHeight<clRect.bottom*bmp.bmWidth) {
