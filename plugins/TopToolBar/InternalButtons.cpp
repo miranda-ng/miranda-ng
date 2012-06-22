@@ -4,10 +4,7 @@
 
 #define TTBI_GROUPSHOWHIDE				"TTBInternal/GroupShowHide"
 #define TTBI_SOUNDSONOFF					"TTBInternal/SoundsOnOFF"
-#define TTBI_OPTIONSBUTT					"TTBInternal/OptionsBUTT"
 #define TTBI_MAINMENUBUTT					"TTBInternal/MainMenuBUTT"
-#define TTBI_MINIMIZEBUTT					"TTBInternal/MinimizeBUTT"
-#define TTBI_FINDADDBUTT					"TTBInternal/FindAddBUTT"
 
 int LoadInternalButtons( HWND );
 int UnLoadInternalButtons();
@@ -63,18 +60,6 @@ int OnSettingChanging(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR TTBInternalFindAddButt(WPARAM wParam, LPARAM lParam)
-{
-	CallService("FindAdd/FindAddCommand", 0, 0);
-	return 0;
-}
-
-INT_PTR TTBInternalMinimizeButt(WPARAM wParam, LPARAM lParam)
-{
-	CallService(MS_CLIST_SHOWHIDE, 0, 0);
-	return 0;
-}
-
 INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 {
 	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
@@ -83,12 +68,6 @@ INT_PTR TTBInternalMainMenuButt(WPARAM wParam, LPARAM lParam)
 	GetCursorPos(&pt);
 	TrackPopupMenu(hMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);	
 	
-	return 0;
-}
-
-INT_PTR TTBInternalOptionsButt(WPARAM wParam, LPARAM lParam)
-{
-	CallService("Options/OptionsCommand", 0, 0);
 	return 0;
 }
 
@@ -116,80 +95,6 @@ int UnLoadInternalButtons()
 	return 0;
 }
 
-bool framesexists = FALSE;
-int windhandle;	
-
-LRESULT CALLBACK TestProczzz(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch(msg) {
-	case WM_CREATE:
-		SetTimer(hwnd, 0, 100, 0);		
-		return 0;
-
-	case WM_TIMER:
-		InvalidateRect(hwnd, NULL, TRUE);
-		RedrawWindow(hwnd, NULL, NULL, 0);
-		break;
-
-	case WM_PAINT:
-		{
-			PAINTSTRUCT lp;
-			HDC hdc = BeginPaint(hwnd, &lp);
-			if (hdc) {
-				TCHAR buf[255];
-				wsprintf(buf, _T("%d"), GetTickCount());
-				TextOut(hdc, 4, 4, buf, lstrlen(buf));
-				EndPaint(hwnd, &lp);
-			}
-			return 0;
-		}
-	} 
-		
-	return(DefWindowProc(hwnd, msg, wParam, lParam));
-}
-
-bool first = TRUE;
-TCHAR pluginname[] = _T("SimpleClassName");
-
-INT_PTR test(WPARAM wParam, LPARAM lParam)
-{
-	if (first) {
-		WNDCLASS wndclass = { 0 };
-		wndclass.lpfnWndProc   = TestProczzz;
-		wndclass.hInstance     = hInst;
-		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
-		wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);//NULL;//(HBRUSH)(COLOR_3DFACE+1);
-		wndclass.lpszClassName = pluginname;
-		RegisterClass(&wndclass);
-		first = FALSE;
-	}
-
-	if (framesexists) {
-		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)windhandle, 0);
-		windhandle = 0;
-		framesexists = FALSE;
-	}
-	else {
-		HWND pluginwind = CreateWindow(pluginname, pluginname, 
-			WS_CHILD|WS_VISIBLE|WS_CLIPCHILDREN, 
-			0, 0, 0, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
-
-		CLISTFrame Frame = { 0 };
-		Frame.name = (char *)malloc(255);
-		memset(Frame.name, 0, 255);
-		memcpy(Frame.name, pluginname, SIZEOF(pluginname));
-		Frame.cbSize = sizeof(Frame);
-		Frame.hWnd = pluginwind;
-		Frame.align = alTop;
-		Frame.Flags = F_VISIBLE;
-		Frame.height = 18;
-
-		windhandle = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
-		framesexists = TRUE;
-	}
-	return 0;
-}
-
 int LoadInternalButtons(HWND hwnd)
 {
 	hwndContactTree = hwnd;
@@ -197,13 +102,7 @@ int LoadInternalButtons(HWND hwnd)
 	arServices.insert( CreateServiceFunction(TTBI_GROUPSHOWHIDE, TTBInternalGroupShowHide));
 	arServices.insert( CreateServiceFunction(TTBI_SOUNDSONOFF, TTBInternalSoundsOnOff));
 
-	arServices.insert( CreateServiceFunction(TTBI_OPTIONSBUTT, TTBInternalOptionsButt));
 	arServices.insert( CreateServiceFunction(TTBI_MAINMENUBUTT, TTBInternalMainMenuButt));
-
-	arServices.insert( CreateServiceFunction(TTBI_MINIMIZEBUTT, TTBInternalMinimizeButt));
-	arServices.insert( CreateServiceFunction(TTBI_FINDADDBUTT, TTBInternalFindAddButt));
-
-	arServices.insert( CreateServiceFunction("TEST1", test));
 
 	ShowOnline = DBGetContactSettingByte(NULL, "CList", "HideOffline", 0);
 	ShowGroups = DBGetContactSettingByte(NULL, "CList", "UseGroups", 2);
@@ -218,6 +117,8 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.wParamUp = ttb.wParamDown = -1;
 	ttb.name = "Show only Online Users";
 	hOnlineBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
+
+	ttb.wParamUp = ttb.wParamDown = 0;
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_GROUPSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
@@ -236,21 +137,21 @@ int LoadInternalButtons(HWND hwnd)
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_OPTIONSDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_SHOWTOOLTIP;
-	ttb.pszService = TTBI_OPTIONSBUTT;
+	ttb.pszService = "Options/OptionsCommand";
 	ttb.name = "Show Options Page";
 	hOptionsBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MINIMIZEDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE;
-	ttb.pszService = TTBI_MINIMIZEBUTT;
+	ttb.pszService = MS_CLIST_SHOWHIDE;
 	ttb.name = "Minimize Button";
 	hMinimizeBut = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDUP), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_FINDADDDN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE;
-	ttb.pszService = TTBI_FINDADDBUTT;
+	ttb.pszService = MS_FINDADD_FINDADD;
 	ttb.name = "Find/Add Contacts";
 	hFindUsers = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 

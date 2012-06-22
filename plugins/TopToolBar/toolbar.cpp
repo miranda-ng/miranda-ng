@@ -435,7 +435,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 
 	switch(LOWORD(wParam)) {
 	case TTBO_FLAGS:
-		retval = b->dwFlags & (!TTBBF_PUSHED);
+		retval = b->dwFlags & (~TTBBF_PUSHED);
 		if (b->bPushed)
 			retval |= TTBBF_PUSHED;
 		break;
@@ -450,7 +450,7 @@ INT_PTR TTBGetOptions(WPARAM wParam, LPARAM lParam)
 			if (lpTTB->cbSize != sizeof(TTBButton))
 				break;
 				
-			lpTTB->dwFlags = b->dwFlags & (!TTBBF_PUSHED);
+			lpTTB->dwFlags = b->dwFlags & (~TTBBF_PUSHED);
 			if (b->bPushed)
 				lpTTB->dwFlags |= TTBBF_PUSHED;
 

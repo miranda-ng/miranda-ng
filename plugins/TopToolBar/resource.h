@@ -36,6 +36,7 @@
 #define IDC_BUTTHEIGHT                  1015
 #define IDC_EDIT2                       1016
 #define IDC_BUTTWIDTH                   1016
+#define IDC_BUTTGAP                     1017
 #define IDC_USEFLAT                     1018
 #define IDC_BROWSE                      1184
 #define IDC_BKGCOLOUR                   1269

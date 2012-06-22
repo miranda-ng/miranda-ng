@@ -82,7 +82,7 @@ int SaveTree(HWND hwndDlg)
 	int count = 0;
 	lockbut();
 
-	Buttons.destroy();
+//	Buttons.destroy();
 
 	while(tvi.hItem != NULL) {
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
@@ -97,7 +97,7 @@ int SaveTree(HWND hwndDlg)
 			btn->dwFlags &= ~TTBBF_VISIBLE;
 		btn->arrangedpos = count;
 
-		Buttons.insert(btn);
+//		Buttons.insert(btn);
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 		count++;
 	}
@@ -126,7 +126,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		SetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, BUTTHEIGHT, FALSE);
 		SetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, BUTTWIDTH, FALSE);
-//		SetDlgItemInt(hwndDlg, IDC_BUTTGAP, BUTTGAP, FALSE);
+		SetDlgItemInt(hwndDlg, IDC_BUTTGAP, BUTTGAP, FALSE);
 		CheckDlgButton(hwndDlg, IDC_USEFLAT, DBGetContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", 1));
 
 		BuildTree(hwndDlg);
@@ -224,10 +224,10 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			case PSN_APPLY:
 				BUTTHEIGHT =  GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
 				BUTTWIDTH = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, NULL, FALSE);
-//				BUTTGAP = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE));
+				BUTTGAP = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE);
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", BUTTHEIGHT);
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTWIDTH", BUTTWIDTH);
-//				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTGAP", BUTTGAP);
+				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTGAP", BUTTGAP);
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "UseFlatButton", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT));
 
 				SaveTree(hwndDlg);
