@@ -268,7 +268,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	EDITSTREAM esStream = {0};
 	struct EditStreamData esdData;
 	
-	POPUPDATAT pdtData;
+	POPUPDATAT_V2 pdtData;
 
 	esStream.dwCookie = (DWORD)&esdData;
 	esStream.pfnCallback = EditStreamOutRtf;
@@ -529,7 +529,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				ptszPopupText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 				_tcscpy(ptszPopupText, ptszMBox);
 
-				pdtData.cbSize = sizeof(POPUPDATAT);
+				pdtData.cbSize = sizeof(POPUPDATAT_V2);
 				ZeroMemory(&pdtData, sizeof(pdtData));
 				_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
 				_tcsncpy(pdtData.lptzText, ptszPopupText, MAX_SECONDLINE);

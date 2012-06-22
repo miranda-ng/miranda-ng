@@ -14,16 +14,17 @@
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_system.h>
-#include <m_ieview.h>
 #include <m_skin.h>
 #include <m_popup.h>
 #include <m_utils.h>
 #include <m_icolib.h>
-#include <m_updater.h>
 
+#include <m_ieview.h>
+#include <m_updater.h>
+#include "m_changekeyboardlayout.h"
+#include <m_popup2.h>
 
 #include "resource.h"
-#include "m_changekeyboardlayout.h"
 #include "options.h"
 #include "hook_events.h"
 #include "text_operations.h"

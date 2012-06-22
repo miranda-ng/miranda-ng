@@ -272,7 +272,7 @@ INT_PTR CALLBACK DlgMainProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LP
 
 INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
-	POPUPDATAT pdtData;
+	POPUPDATAT_V2 pdtData;
 	static BOOL PopupDialogLock = FALSE;
 	LPTSTR ptszPopupPreviewText;
 	DWORD dwTimeOut;
@@ -415,7 +415,7 @@ INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, 
 					{
 						ptszPopupPreviewText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 						
-						pdtData.cbSize = sizeof(POPUPDATAT);
+						pdtData.cbSize = sizeof(POPUPDATAT_V2);
 						ZeroMemory(&pdtData, sizeof(pdtData));
 						_tcsncpy(pdtData.lptzContactName, TranslateT(ModuleName), MAX_CONTACTNAME);
 						_tcsncpy(pdtData.lptzText, _T("Ghbdtn? rfr ltkf&"), MAX_SECONDLINE);
