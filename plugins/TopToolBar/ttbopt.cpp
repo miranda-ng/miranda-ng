@@ -51,7 +51,7 @@ int BuildTree(HWND hwndDlg)
 			tvis.item.pszText = TranslateTS(tmp);
 		}
 
-		tvis.item.lParam = (LPARAM)&b;
+		tvis.item.lParam = (LPARAM)b;
 		HTREEITEM hti = TreeView_InsertItem(hTree, &tvis);
 
 		if (!(b->dwFlags & TTBBF_ISSEPARATOR))
@@ -82,7 +82,7 @@ int SaveTree(HWND hwndDlg)
 	int count = 0;
 	lockbut();
 
-//	Buttons.destroy();
+	Buttons.destroy();
 
 	while(tvi.hItem != NULL) {
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
@@ -97,7 +97,7 @@ int SaveTree(HWND hwndDlg)
 			btn->dwFlags &= ~TTBBF_VISIBLE;
 		btn->arrangedpos = count;
 
-//		Buttons.insert(btn);
+		Buttons.insert(btn);
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 		count++;
 	}
@@ -208,10 +208,18 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				btn = (TopButtonInt*)tvi.lParam;
 				// if button enabled for separator and launch only, no need condition
 				// except possible service button introducing
-				if (btn->dwFlags & (TTBBF_ISSEPARATOR | TTBBF_ISLBUTTON))
-					TTBRemoveButton(btn->lParamDown, 0);
+				if (btn->dwFlags & (TTBBF_ISSEPARATOR | TTBBF_ISLBUTTON)) {
+					int idx = Buttons.indexOf(btn);
+					if (idx != -1) {
+						Buttons.remove(idx);
+						delete btn;
 
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						ArrangeButtons();
+						ulockbut();
+						OptionsPageRebuild();
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
+				}
 				break;
 			}
 		}

@@ -20,14 +20,12 @@ int backgroundBmpUse;
 static CRITICAL_SECTION csButtonsHook;
 static int hFrameTopWindow = -1;
 
-/*
 int sortfunc(const TopButtonInt* a, const TopButtonInt* b)
 {
 	return a->arrangedpos - b->arrangedpos;
 }
-*/
 
-LIST<TopButtonInt> Buttons(8);
+LIST<TopButtonInt> Buttons(8, sortfunc);
 
 void lockbut()
 {
