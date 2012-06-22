@@ -1,0 +1,56 @@
+; Common strings that belong to many files
+;[The clipboard is not available, retry.]
+;[Version Information]
+
+; ../../plugins/Svc_vi/CVersionInfo.cpp
+;[Error during the creation of file \"%s\". Disk may be full or write protected.]
+;[If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
+;[Information successfully copied into clipboard.]
+;[Information successfully written to file: \"%s\".]
+
+; ../../plugins/Svc_vi/dlgHandlers.cpp
+;[Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
+;[Customize using folders plugin]
+;[Show plugin UUIDs ?]
+
+; ../../plugins/Svc_vi/hooked_events.cpp
+;[Services]
+
+; ../../plugins/Svc_vi/main.cpp
+;[Please rename the plugin '%s' to 'svc_vi.dll' to enable service mode functionality.]
+
+; ../../plugins/Svc_vi/resource.rc
+;[&Copy text]
+;[&Save to file]
+;[Aditional options:]
+;[Also copy info to clipboard]
+;[Ask every time]
+;[Attempt to find unloadable plugins (doesn't work on Windows 98)]
+;[Cancel]
+;[Clipboard]
+;[Close]
+;[DialogBox]
+;[Do it now]
+;[Enable debug messages]
+;[Forum style formatting]
+;[Highlight version number using]
+;[MessageBox()]
+;[Miranda Version Information]
+;[OK]
+;[Output to:]
+;[OutputDebugString()]
+;[Password]
+;[Select output:]
+;[Show disabled plugins too]
+;[Show installed languages]
+;[Show plugin UUIDs]
+;[Show window in taskbar]
+;[Suppress header information]
+;[Text file]
+;[Upload]
+;[Upload site settings]
+;[Upload to site]
+;[Username]
+
+; ../../plugins/Svc_vi/utils.cpp
+;[Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]

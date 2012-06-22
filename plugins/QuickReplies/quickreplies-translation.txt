@@ -1,0 +1,17 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/QuickReplies/events.cpp
+;[Button]
+
+; ../../plugins/QuickReplies/options.cpp
+;[Message Sessions]
+;[Quick Replies]
+
+; ../../plugins/QuickReplies/resources.rc
+;[- Add \"---\" for separator.]
+;[- Add your replies, one per line.]
+;[- Press [v] button for variable's help.]
+;[Hints:]
+;[Send replies immediately]
+;[Variables]

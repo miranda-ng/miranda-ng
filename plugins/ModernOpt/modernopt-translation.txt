@@ -1,0 +1,18 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/ModernOpt/modernopt.cpp
+;[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+
+; ../../plugins/ModernOpt/resource.rc
+;[Advanced]
+;[Apply]
+;[Cancel]
+;[Custom1]
+;[Miranda IM Options]
+;[OK]
+;[Sample page]
+;[Switch to classic options]
+;[Use arrow keys to choose category]
+;[View help online]
+;[Visit official Miranda IM website]

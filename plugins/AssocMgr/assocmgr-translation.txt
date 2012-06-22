@@ -1,0 +1,41 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/AssocMgr/assoclist.cpp
+;[%hs files]
+;[%hs:]
+;[Associations]
+;[Autostart Error]
+;[Description]
+;[File Association Error]
+;[Miranda IM Database]
+;[Services]
+;[There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
+;[There was an error writing to the registry to modify the file/url associations.\nReason: %s]
+;[Type]
+;[Unknown]
+
+; ../../plugins/AssocMgr/dde.cpp
+;[Miranda IM could not open URL]
+;[Miranda IM could not open file]
+;[Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe file could not be processed.]
+;[Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThe given URL is invalid and can not be parsed.]
+;[Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThere is no registered handler for this URL type.]
+;[Miranda IM was not able to open \""TCHAR_STR_PARAM"\".\n\nThere is no registered handler for this file type.]
+
+; ../../plugins/AssocMgr/resource.rc
+;[&Start Miranda IM automatically when the Computer starts (using current profile)]
+;[Miscellaneous]
+;[Only associate with Miranda IM while it is &running]
+;[Registered associations for Miranda IM:]
+
+; ../../plugins/AssocMgr/test.cpp
+;[&Add to Contact List...]
+;[&Install]
+;[AIM Link Protocol]
+;[Gadu-Gadu Link Protocol]
+;[ICQ Link Shortcut]
+;[Jabber Link Protocol]
+;[MSN Link Protocol]
+;[Miranda Installer Package (demo purpose)]
+;[Yahoo Link Protocol]

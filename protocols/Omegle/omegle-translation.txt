@@ -1,0 +1,66 @@
+; Common strings that belong to many files
+;[Stranger]
+;[Stranger 1]
+;[Stranger 2]
+
+; ../../protocols/Omegle/chat.cpp
+;[Last question is empty.]
+;[Omegle is a great way of meeting new friends!]
+;[Server]
+;[Unknown command. Send '/commands' for list.]
+;[You]
+;[You aren't connected to any stranger. Send '/help' or '/commands' for help.]
+;[You can't send messages in question mode.]
+;[Your '/asl' setting is empty.]
+;[Your question is too short.]
+
+; ../../protocols/Omegle/communication.cpp
+;[%s disconnected.]
+;[Chosing server: ]
+;[Connected to server %s.]
+;[Connected to server %s. There are %s users online now.]
+;[Connection error.]
+;[Error: ]
+;[On whole Omegle are %s strangers online now.]
+;[Recaptcha is required.\nOpen Omegle chat in webbrowser, solve Recaptcha and try again.]
+;[We are still waiting...]
+;[You and the Stranger both like: ]
+
+; ../../protocols/Omegle/connection.cpp
+;[Connecting canceled.]
+;[Connecting...]
+;[Disconnecting...]
+;[Waiting for Stranger...]
+;[We are already waiting for new stranger...]
+;[We are disconnecting now, wait...]
+
+; ../../protocols/Omegle/omegle.rc
+;[Automatically connect to another stranger when current disconnects]
+;[Automatically send this message to stranger after connection:]
+;[Don't clear chat before connecting to new stranger]
+;[Enable logging for debugging purposes]
+;[I want Omegle to reuse my questions if they are good enough (Question mode)]
+;[Last used question (Question mode):]
+;[Load count of users on actual server after connection]
+;[Meet strangers with common interests]
+;[Meet strangers with common interests (separated by commas):]
+;[Server:]
+;[This text will be sent when you use \"/asl\" message:]
+;[Visible name:]
+;[Your interests (separated by commas):]
+
+; ../../protocols/Omegle/proto.cpp
+;[%s server connection]
+;[Account]
+;[Changing stranger]
+;[Network]
+;[Stranger stopped typing]
+;[Stranger typing]
+;[Unable to get Netlib connection for Omegle]
+;[Visible name]
+
+; ../../protocols/Omegle/theme.cpp
+;[Omegle]
+;[Omegle Icon]
+;[Protocols]
+;[Visit Profile]

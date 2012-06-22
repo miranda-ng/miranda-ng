@@ -1,0 +1,6 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/ProfileManager/pmanagerEx.c
+;[Change profile]
+;[Load profile]

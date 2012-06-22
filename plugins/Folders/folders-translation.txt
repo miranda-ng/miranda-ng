@@ -1,0 +1,19 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/Folders/folders.cpp
+;[Test folders]
+
+; ../../plugins/Folders/folders.rc
+;[Close]
+;[Custom folders]
+;[Custom folders variables help]
+;[Dialog]
+;[Edit]
+;[Preview]
+;[Refresh preview]
+;[Variables help]
+
+; ../../plugins/Folders/hooked_events.cpp
+;[Customize]
+;[Folders]

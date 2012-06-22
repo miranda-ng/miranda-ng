@@ -1,0 +1,136 @@
+; Common strings that belong to many files
+;[Info provided by]
+
+; ../../protocols/Quotes/Chart.h
+;[There is no to show]
+
+; ../../protocols/Quotes/CommonOptionDlg.cpp
+;[Enter integer value between 1 and 24.]
+;[Enter integer value between 1 and 60.]
+;[Enter text to display in contact list.]
+;[Hours]
+;[Minutes]
+;[Seconds]
+
+; ../../protocols/Quotes/CurrencyConverter.cpp
+;[Enter positive number.]
+
+; ../../protocols/Quotes/Forex.cpp
+;[Network]
+
+; ../../protocols/Quotes/Forex.rc
+;[&Add]
+;[&Add to History only if Value Changed]
+;[&Advanced Settings...]
+;[&Browse...]
+;[&Choose Quotes to watch in contact list:]
+;[&Convert:]
+;[&Display in Contact List as:]
+;[&Format:]
+;[&Refresh Quotes Every:]
+;[&Refresh Rates Every:]
+;[&Remove]
+;[&Select File:]
+;[&Status Message:]
+;[&Swap]
+;[&Tendency:]
+;[&Variables...]
+;[&Watched Quotes:]
+;[&Watched currency rates:]
+;[&to:]
+;[<a>SysLink1</a>]
+;[Add to &Log only if Value Changed]
+;[Background colour]
+;[Cancel]
+;[Chart]
+;[Close]
+;[Colours]
+;[Convert]
+;[Currency Converter]
+;[Current Rate:]
+;[Custom]
+;[Delay]
+;[Do not add to popup's history]
+;[Edit Settings]
+;[F&ormat:]
+;[Filter:]
+;[From PopUp plugin]
+;[Get data from:]
+;[Info provided by <a href=\"http://www.dukascopy.com\">Dukascopy Swiss Forex Group</a>]
+;[Info provided by <a href=\"http://www.google.com\">Google</a>]
+;[Log]
+;[OK]
+;[Permanent]
+;[Popup Window Settings]
+;[Popup settings...]
+;[Preview]
+;[Previous Rate:]
+;[Quote\\Rate Info]
+;[Rate Fetch Time:]
+;[Show &Popup Window]
+;[Show Popup Window Only if Value &Changed]
+;[Static]
+;[Status &Message:]
+;[Text colour]
+;[Type &Stock Name or Symbol:]
+;[Use &External File]
+;[Use &Internal History]
+;[Use contact specific settings]
+;[Use default colours]
+;[Use user-defined colours]
+;[V&ariables...]
+;[Variable List]
+;[Variables Allowed: %miranda_userdata%,%quotename%]
+
+; ../../protocols/Quotes/HTTPSession.cpp
+;[Quotes HTTP connections]
+
+; ../../protocols/Quotes/IconLib.cpp
+;[Protocols]
+
+; ../../protocols/Quotes/ImportExport.cpp
+;[All files (*.*)]
+;[Xml File (*.xml)]
+
+; ../../protocols/Quotes/ModuleInfo.cpp
+;[Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
+;[Miranda could not load Quotes plugin. XML parser is missing.]
+
+; ../../protocols/Quotes/QuoteInfoDlg.cpp
+;[Quote]
+
+; ../../protocols/Quotes/QuotesProviderGoogle.cpp
+;[Error occurred during html parsing.]
+;[Error occurred during site access.]
+
+; ../../protocols/Quotes/QuotesProviderVisitorFormatSpecificator.cpp
+;[Change]
+;[Day's High]
+;[Day's Low]
+;[Fetch Date]
+;[Fetch Time]
+;[Fetch Time and Date]
+;[From Currency Full Name]
+;[From Currency Short Name]
+;[Into Currency Full Name]
+;[Into Currency Short Name]
+;[Left slash (\\)]
+;[Open Price]
+;[Percent Change to After Hours]
+;[Percent Change to Yesterday Close]
+;[Percentage Character (%)]
+;[Previous Close]
+;[Previous Rate Value]
+;[Quote Name]
+;[Quote Symbol]
+;[Rate Value]
+;[Short notation for \"%f/%i\"]
+;[Source of Information]
+;[Tabulation]
+
+; ../../protocols/Quotes/SettingsDlg.cpp
+;[Enter history format.]
+;[Enter integer value]
+;[Enter log file format.]
+;[Enter log file name.]
+;[Enter popup window format.]

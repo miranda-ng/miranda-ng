@@ -1,0 +1,33 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/StopSpamPlus/res/stopspam.rc
+;[ questions to one contact (0 - for no limit)]
+;[Add contact permanently]
+;[Answer (Use divider to separate answers):]
+;[Answer is not case sensitive]
+;[Auth. request reply:]
+;[Congratulation:]
+;[Disable protection for following protocols:]
+;[Divider:]
+;[Do not send more than ]
+;[Enable StopSpam-StopSpam infinite talk protection]
+;[Enable auth. requests blocking]
+;[Log Spammers to system history]
+;[Question: (Ctrl-Enter for carriage return)]
+;[Remove all tempory contacts after restart]
+;[Restore defaults]
+;[Vars]
+
+; ../../plugins/StopSpamPlus/src/events.cpp
+;[Main]
+;[Message Sessions]
+;[Messages]
+;[Protocols]
+
+; ../../plugins/StopSpamPlus/src/services.cpp
+;[Complete]
+;[Not In List]
+
+; ../../plugins/StopSpamPlus/src/settings.h
+;[nospam]

@@ -1,0 +1,32 @@
+; Common strings that belong to many files
+;[Favourite Contacts]
+
+; ../../plugins/FavContacts/resource.rc
+;[Align to the right]
+;[Configure fonts and colors...]
+;[Customize]
+;[Dim idle contact icons]
+;[Draw avatar border]
+;[Enable groups]
+;[Hide for transparent avatars]
+;[Hotkey shows menu centered on screen]
+;[Menu item preview:]
+;[Multicolumn menu]
+;[Round corners by]
+;[Show]
+;[Show avatars]
+;[Show second line]
+;[Use system colors and fonts]
+;[px.]
+;[recent contacts]
+
+; ../../plugins/FavContacts/src/favlist.h
+;[<no group>]
+
+; ../../plugins/FavContacts/src/main.cpp
+;[&Favourite Contacts...]
+;[<No group>]
+;[Contact List]
+;[Favourite Contacts plugin was designed to be used with Miranda IM only.\n"
+				"For use with any other application, please contact author.\n]
+;[Favourites]

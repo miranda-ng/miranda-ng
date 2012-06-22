@@ -1,0 +1,21 @@
+; Common strings that belong to many files
+;[Warning: classic contact list plugin doesn`t have ability to use extraicons]
+
+; ../../plugins/Rate/commonheaders.h
+;[Rate high]
+;[Rate low]
+;[Rate medium]
+
+; ../../plugins/Rate/main.cpp
+;[Contact Rate]
+
+; ../../plugins/Rate/options.cpp
+;[Contact List]
+;[Rate]
+;[Warning: your contact list plugin doesn`t have ability to sort contacts by rate.]
+;[Your clist: nicer]
+
+; ../../plugins/Rate/rate.rc
+;[Plugin settings]
+;[Use]
+;[slot to draw the icon]

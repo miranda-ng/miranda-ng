@@ -1,0 +1,9 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/FlashAvatars/cflash.cpp
+;[Bugged Flash detected!]
+;[Flash Avatars]
+;[Flash.ocx not registered!]
+;[You don't have installed ShockwaveFlash interface in your system.]
+;[You have installed Flash 8.\r\nThis version of Flash contains a bug which can causes random crashes.\r\nIt is recommended to upgrade or downgrade your Flash library]

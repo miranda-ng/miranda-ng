@@ -1,0 +1,34 @@
+; Common strings that belong to many files
+;[Gender]
+
+; ../../plugins/Gender/gender.rc
+;[Draw an icon when gender info not found]
+;[Enable menu items]
+;[Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
+;[Plugin settings]
+;[Use]
+;[slot to draw the icon]
+
+; ../../plugins/Gender/main.cpp
+;[Female]
+;[Male]
+;[No info]
+;[Set Female]
+;[Set Gender]
+;[Set Male]
+;[Set Undefined]
+;[Undefined]
+
+; ../../plugins/Gender/options.cpp
+;[Advanced 1]
+;[Advanced 2]
+;[Advanced 3]
+;[Advanced 4]
+;[Advanced 5]
+;[Client]
+;[Disabled]
+;[Email]
+;[Plugins]
+;[Protocol]
+;[SMS]
+;[Web]

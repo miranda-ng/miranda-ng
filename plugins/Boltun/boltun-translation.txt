@@ -1,0 +1,23 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/Boltun/Boltun.rc
+;[Base of remarks]
+;[Boltun]
+;[Boltun Autochat everybody]
+;[Boltun Autochat everybody not in contact list]
+;[Boltun Autochat everybody while away]
+;[Don't use \"I don't understand\"-like answers]
+;[Engine]
+;[Mark replied messages as read]
+;[Reload]
+;[Start answers with a lowercase letter]
+;[Stay silent, if have no good aswers]
+;[Thinking time:]
+;[Time before the answer]
+;[Typing and thinking time can be much longer]
+;[Typing time (for a message of 4 words):]
+;[Typing time depends on message length (in chars)]
+;[Warn contacts Boltun is chatting]
+;[Warning text]
+;[sec]

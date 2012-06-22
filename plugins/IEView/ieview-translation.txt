@@ -1,0 +1,69 @@
+; Common strings that belong to many files
+;[Today]
+;[URL received]
+;[URL sent]
+;[Yesterday]
+
+; ../../plugins/IEView/HTMLBuilder.cpp
+;[ requested authorisation]
+;[ was added.]
+;[(Unknown Contact)]
+
+; ../../plugins/IEView/HistoryHTMLBuilder.cpp
+;[Incoming File Transfer]
+;[Outgoing File Transfer]
+
+; ../../plugins/IEView/MUCCHTMLBuilder.cpp
+;[Error]
+
+; ../../plugins/IEView/Options.cpp
+;[All Files]
+;[All Images]
+;[Default]
+;[General]
+;[Group Chats]
+;[History]
+;[IEView]
+;[Message Log]
+;[Message Sessions]
+;[Skins]
+;[Style Sheet]
+;[Template]
+;[protocol]
+
+; ../../plugins/IEView/ScriverHTMLBuilder.cpp
+;[File received]
+;[File sent]
+
+; ../../plugins/IEView/ieview.rc
+;[Background image]
+;[Clear Log]
+;[Compatibility Mode]
+;[Copy]
+;[Copy Link]
+;[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+;[Embed YouTube videos]
+;[Enable BBCodes]
+;[Enable MathModule support]
+;[Enable support for Flash files in smileys and BBCodes]
+;[Enable workaround for PNG transparency]
+;[Hide window border]
+;[Mode]
+;[Options]
+;[Print]
+;[Replace smileys in user names]
+;[Save Image As...]
+;[Scroll with text]
+;[Select All]
+;[Show date]
+;[Show nicknames]
+;[Show seconds]
+;[Show source]
+;[Show time]
+;[Size:]
+;[Template Options]
+;[Use External CSS]
+;[Use Templates]
+;[Use long date format]
+;[Use message grouping]
+;[Use relative timestamp]

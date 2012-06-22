@@ -1,0 +1,30 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/ContactsPlus/contacts.rc
+;[&A]
+;[&Add]
+;[&D]
+;[&Details]
+;[&H]
+;[&Select All]
+;[&Send]
+;[Add to &group:]
+;[Add to List]
+;[An error has occured. The protocol reported the following error:]
+;[Cancel]
+;[Choose contacts to be send:]
+;[Close]
+;[Contacts send error]
+;[Popup]
+;[Received contacts]
+;[Send Message]
+;[Send contacts]
+;[Try again]
+;[User Details]
+
+; ../../plugins/ContactsPlus/main.cpp
+;[Contacts]
+;[Contacts received from]
+;[Incoming Contacts]
+;[Outgoing Contacts]

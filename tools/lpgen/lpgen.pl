@@ -69,32 +69,255 @@ if (@ARGV && $ARGV[0] eq "version") {
 }
 
 #Language Files
+#if (!@ARGV) {
+	#create_langfile(
+		#'../..',
+		#'../../i18n/langpack_english.txt',
+		#'English (US)', '0809',
+		#'Miranda IM Development Team',
+		#'project-info@miranda-im.org',
+		#'Scriver,avs,chat,clist,clist_nicer,db3x,db3x_mmap,dbrw,advaimg,import,modernb,mwclist,png2dib,srmm,tabsrmm,AimOscar,Gadu-Gadu,IRC,IcqOscarJ,JabberG,MSN,Yahoo');
+#}
 if (!@ARGV) {
-	create_langfile(
-		'../../miranda',
-		'../../miranda/i18n/langpack_english.txt',
+	create_langfile('../../src',
+		'../../src/!core-translation.txt',
 		'English (US)', '0809',
 		'Miranda IM Development Team',
-		'project-info@miranda-im.org',
-		'Scriver,avs,chat,clist,clist_nicer,db3x,db3x_mmap,dbrw,advaimg,import,modernb,mwclist,png2dib,srmm,tabsrmm,AimOscar,Gadu-Gadu,IRC,IcqOscarJ,JabberG,MSN,Yahoo');
-}
+		'project-info@miranda-im.org');
+	create_langfile('../../plugins/AddContactPlus/',
+		'../../plugins/AddContactPlus/addcontactplus-translation.txt');
+	create_langfile('../../plugins/Alarms/',
+		'../../plugins/Alarms/alarms-translation.txt');
+	create_langfile('../../plugins/AssocMgr/',
+		'../../plugins/AssocMgr/assocmgr-translation.txt');
+	create_langfile('../../plugins/AuthState/',
+		'../../plugins/AuthState/authstate-translation.txt');
+	create_langfile('../../plugins/AutoRun/',
+		'../../plugins/AutoRun/autorun-translation.txt');
+	create_langfile('../../plugins/AVS/',
+		'../../plugins/AVS/avs-translation.txt');
+	create_langfile('../../plugins/BasicHistory/',
+		'../../plugins/BasicHistory/basichistory-translation.txt');
+	create_langfile('../../plugins/BASS_interface/',
+		'../../plugins/BASS_interface/bass_interface-translation.txt');
+	create_langfile('../../plugins/Boltun/',
+		'../../plugins/Boltun/boltun-translation.txt');
+	create_langfile('../../plugins/AddContactPlus/',
+		'../../plugins/AddContactPlus/addcontactplus-translation.txt');
+	create_langfile('../../plugins/BossKeyPlus/',
+		'../../plugins/BossKeyPlus/bosskeyplus-translation.txt');
+	create_langfile('../../plugins/BuddyExpectator/',
+		'../../plugins/BuddyExpectator/buddyexpectator-translation.txt');
+	create_langfile('../../plugins/ChangeKeyboardLayout/',
+		'../../plugins/ChangeKeyboardLayout/changekeyboardlayout-translation.txt');
+	create_langfile('../../plugins/Chat/',
+		'../../plugins/Chat/chat-translation.txt');
+	create_langfile('../../plugins/ClientChangeNotify/',
+		'../../plugins/ClientChangeNotify/clientchangenotify-translation.txt');
+	create_langfile('../../plugins/Clist/',
+		'../../plugins/Clist/clist-translation.txt');
+	create_langfile('../../plugins/Clist_modern/',
+		'../../plugins/Clist_modern/clist_modern-translation.txt');
+	create_langfile('../../plugins/Clist_mw/',
+		'../../plugins/Clist_mw/clist_mw-translation.txt');
+	create_langfile('../../plugins/Clist_nicer/',
+		'../../plugins/Clist_nicer/clist_nicer-translation.txt');
+	create_langfile('../../plugins/Console/',
+		'../../plugins/Console/console-translation.txt');
+	create_langfile('../../plugins/ContactsPlus/',
+		'../../plugins/ContactsPlus/contactsplus-translation.txt');
+	create_langfile('../../plugins/CountryFlags/',
+		'../../plugins/CountryFlags/countryflags-translation.txt');
+	create_langfile('../../plugins/CSList/',
+		'../../plugins/CSList/cslist-translation.txt');
+	create_langfile('../../plugins/CyrTranslit/',
+		'../../plugins/CyrTranslit/cyrtranslit-translation.txt');
+	create_langfile('../../plugins/Db3x/',
+		'../../plugins/Db3x/db3x-translation.txt');
+	create_langfile('../../plugins/Db3x_mmap/',
+		'../../plugins/Db3x_mmap/db3x_mmap-translation.txt');
+	create_langfile('../../plugins/Dbx_mmap_SA/',
+		'../../plugins/Dbx_mmap_SA/dbx_mmap_sa-translation.txt');
+	create_langfile('../../plugins/Dbx_tree/',
+		'../../plugins/Dbx_tree/dbx_tree-translation.txt');
+	create_langfile('../../plugins/Db_autobackups/',
+		'../../plugins/Db_autobackups/db_autobackups-translation.txt');
+	create_langfile('../../plugins/ExtraIcons/',
+		'../../plugins/ExtraIcons/extraicons-translation.txt');
+	create_langfile('../../plugins/FavContacts/',
+		'../../plugins/FavContacts/favcontacts-translation.txt');
+	create_langfile('../../plugins/FingerPrintModPlus/',
+		'../../plugins/FingerPrintModPlus/fingerprintmodplus-translation.txt');
+	create_langfile('../../plugins/FirstRun/',
+		'../../plugins/FirstRun/firstrun-translation.txt');
+	create_langfile('../../plugins/FlashAvatars/',
+		'../../plugins/FlashAvatars/flashavatars-translation.txt');
+	create_langfile('../../plugins/FloatingContacts/',
+		'../../plugins/FloatingContacts/floatingcontacts-translation.txt');
+	create_langfile('../../plugins/Folders/',
+		'../../plugins/Folders/folders-translation.txt');
+	create_langfile('../../plugins/FreeImage/',
+		'../../plugins/FreeImage/freeimage-translation.txt');
+	create_langfile('../../plugins/Gender/',
+		'../../plugins/Gender/gender-translation.txt');
+	create_langfile('../../plugins/HistoryLinkListPlus/',
+		'../../plugins/HistoryLinkListPlus/historylinklistplus-translation.txt');
+	create_langfile('../../plugins/HistorySweeperLight/',
+		'../../plugins/HistorySweeperLight/historysweeperlight-translation.txt');
+	create_langfile('../../plugins/IEView/',
+		'../../plugins/IEView/ieview-translation.txt');
+	create_langfile('../../plugins/IgnoreState/',
+		'../../plugins/IgnoreState/ignorestate-translation.txt');
+	create_langfile('../../plugins/Import/',
+		'../../plugins/Import/import-translation.txt');
+	create_langfile('../../plugins/ImportTXT/',
+		'../../plugins/ImportTXT/importtxt-translation.txt');
+	create_langfile('../../plugins/JSON/',
+		'../../plugins/JSON/json-translation.txt');
+	create_langfile('../../plugins/KeyboardNotify/',
+		'../../plugins/KeyboardNotify/keyboardnotify-translation.txt');
+	create_langfile('../../plugins/LangMan/',
+		'../../plugins/LangMan/langman-translation.txt');
+	create_langfile('../../plugins/ListeningTo/',
+		'../../plugins/ListeningTo/listeningto-translation.txt');
+	create_langfile('../../plugins/MenuItemEx/',
+		'../../plugins/MenuItemEx/menuitemex-translation.txt');
+	create_langfile('../../plugins/MetaContacts/',
+		'../../plugins/MetaContacts/metacontacts-translation.txt');
+	create_langfile('../../plugins/MirOTR/',
+		'../../plugins/MirOTR/mirotr-translation.txt');
+	create_langfile('../../plugins/ModernOpt/',
+		'../../plugins/ModernOpt/modernopt-translation.txt');
+	create_langfile('../../plugins/mTextControl/',
+		'../../plugins/mTextControl/mtextcontrol-translation.txt');
+	create_langfile('../../plugins/NewAwaySysMod/',
+		'../../plugins/NewAwaySysMod/newawaysysmod-translation.txt');
+	create_langfile('../../plugins/NewXstatusNotify/',
+		'../../plugins/NewXstatusNotify/newxstatusnotify-translation.txt');
+	create_langfile('../../plugins/Nudge/',
+		'../../plugins/Nudge/nudge-translation.txt');
+	create_langfile('../../plugins/PackUpdater/',
+		'../../plugins/PackUpdater/packupdater-translation.txt');
+	create_langfile('../../plugins/Popup/',
+		'../../plugins/Popup/popup-translation.txt');
+	create_langfile('../../plugins/ProfileManager/',
+		'../../plugins/ProfileManager/profilemanager-translation.txt');
+	create_langfile('../../plugins/QuickMessages/',
+		'../../plugins/QuickMessages/quickmessages-translation.txt');
+	create_langfile('../../plugins/QuickReplies/',
+		'../../plugins/QuickReplies/quickreplies-translation.txt');
+	create_langfile('../../plugins/Rate/',
+		'../../plugins/Rate/rate-translation.txt');
+	create_langfile('../../plugins/RecentContacts/',
+		'../../plugins/RecentContacts/recentcontacts-translation.txt');
+	create_langfile('../../plugins/Scriver/',
+		'../../plugins/Scriver/scriver-translation.txt');
+	create_langfile('../../plugins/SecureIM/',
+		'../../plugins/SecureIM/secureim-translation.txt');
+	create_langfile('../../plugins/SeenPlugin/',
+		'../../plugins/SeenPlugin/seenplugin-translation.txt');
+	create_langfile('../../plugins/Sessions/',
+		'../../plugins/Sessions/sessions-translation.txt');
+	create_langfile('../../plugins/SimpleAR/',
+		'../../plugins/SimpleAR/simplear-translation.txt');
+	create_langfile('../../plugins/SimpleStatusMsg/',
+		'../../plugins/SimpleStatusMsg/simplestatusmsg-translation.txt');
+	create_langfile('../../plugins/SmileyAdd/',
+		'../../plugins/SmileyAdd/smileyadd-translation.txt');
+	create_langfile('../../plugins/SpellChecker/',
+		'../../plugins/SpellChecker/spellchecker-translation.txt');
+	create_langfile('../../plugins/SplashScreen/',
+		'../../plugins/SplashScreen/splashscreen-translation.txt');
+	create_langfile('../../plugins/SRMM/',
+		'../../plugins/SRMM/srmm-translation.txt');
+	create_langfile('../../plugins/StatusPlugins/',
+		'../../plugins/StatusPlugins/statusplugins-translation.txt');
+	create_langfile('../../plugins/StopSpamPlus/',
+		'../../plugins/StopSpamPlus/stopspamplus-translation.txt');
+	create_langfile('../../plugins/Svc_crshdmp/',
+		'../../plugins/Svc_crshdmp/svc_crshdmp-translation.txt');
+	create_langfile('../../plugins/Svc_dbepp/',
+		'../../plugins/Svc_dbepp/svc_dbepp-translation.txt');
+	create_langfile('../../plugins/Svc_vi/',
+		'../../plugins/Svc_vi/svc_vi-translation.txt');
+	create_langfile('../../plugins/TabSRMM/',
+		'../../plugins/TabSRMM/tabsrmm-translation.txt');
+	create_langfile('../../plugins/TipperYM/',
+		'../../plugins/TipperYM/tipperym-translation.txt');
+	create_langfile('../../plugins/TooltipNotify/',
+		'../../plugins/TooltipNotify/tooltipnotify-translation.txt');
+	create_langfile('../../plugins/TopToolBar/',
+		'../../plugins/TopToolBar/toptoolbar-translation.txt');
+	create_langfile('../../plugins/TranslitSwitcher/',
+		'../../plugins/TranslitSwitcher/translitswitcher-translation.txt');
+	create_langfile('../../plugins/Updater/',
+		'../../plugins/Updater/updater-translation.txt');
+	create_langfile('../../plugins/UserGuide/',
+		'../../plugins/UserGuide/userguide-translation.txt');
+	create_langfile('../../plugins/UserInfoEx/',
+		'../../plugins/UserInfoEx/userinfoex-translation.txt');
+	create_langfile('../../plugins/Variables/',
+		'../../plugins/Variables/variables-translation.txt');
+	create_langfile('../../plugins/W7UI/',
+		'../../plugins/W7UI/w7ui-translation.txt');
+	create_langfile('../../plugins/WhenWasIt/',
+		'../../plugins/WhenWasIt/whenwasit-translation.txt');
+	create_langfile('../../plugins/YAPP/',
+		'../../plugins/YAPP/yapp-translation.txt');
+	create_langfile('../../plugins/ZeroNotification/',
+		'../../plugins/ZeroNotification/zeronotification-translation.txt');
+	create_langfile('../../protocols/AimOscar/',
+		'../../protocols/AimOscar/aimoscar-translation.txt');
+	create_langfile('../../protocols/FacebookRM/',
+		'../../protocols/FacebookRM/facebookrm-translation.txt');
+	create_langfile('../../protocols/Gadu-Gadu/',
+		'../../protocols/Gadu-Gadu/gadu-gadu-translation.txt');
+	create_langfile('../../protocols/GTalkExt/',
+		'../../protocols/GTalkExt/gtalkext-translation.txt');
+	create_langfile('../../protocols/IcqOscarJ/',
+		'../../protocols/IcqOscarJ/icqoscarj-translation.txt');
+	create_langfile('../../protocols/IRCG/',
+		'../../protocols/IRCG/ircg-translation.txt');
+	create_langfile('../../protocols/JabberG/',
+		'../../protocols/JabberG/jabberg-translation.txt');
+	create_langfile('../../protocols/MRA/',
+		'../../protocols/MRA/mra-translation.txt');
+	create_langfile('../../protocols/MSN/',
+		'../../protocols/MSN/msn-translation.txt');
+	create_langfile('../../protocols/NewsAggregator/',
+		'../../protocols/NewsAggregator/newsaggregator-translation.txt');
+	create_langfile('../../protocols/Omegle/',
+		'../../protocols/Omegle/omegle-translation.txt');
+	create_langfile('../../protocols/Quotes/',
+		'../../protocols/Quotes/quotes-translation.txt');
+	create_langfile('../../protocols/Twitter/',
+		'../../protocols/Twitter/twitter-translation.txt');
+	create_langfile('../../protocols/Weather/',
+		'../../protocols/Weather/weather-translation.txt');
+	create_langfile('../../protocols/Yahoo/',
+		'../../protocols/Yahoo/yahoo-translation.txt');
+	create_langfile('../../protocols/YAMN/',
+		'../../protocols/YAMN/yamn-translation.txt');
+	create_langfile('../dbtool/',
+		'../dbtool/dbtool-translation.txt');
+	}
 elsif ($ARGV[0] eq "core") {
-	create_langfile('../../miranda/src',
-		'../../miranda/i18n/core-translation.txt',
+	create_langfile('../../src',
+		'../../i18n/core-translation.txt',
 		'English (US)', '0809',
 		'Miranda IM Development Team',
 		'project-info@miranda-im.org');
 }
 elsif ($ARGV[0] eq "srmm") {
-	create_langfile('../../miranda/plugins/SRMM/',
-		'../../miranda/plugins/SRMM/Docs/srmm-translation.txt',
+	create_langfile('../../plugins/SRMM/',
+		'../../plugins/SRMM/Docs/srmm-translation.txt',
 		'English (US)', '0809',
 		'Miranda IM Development Team',
 		'project-info@miranda-im.org');
 }
 elsif ($ARGV[0] eq "import") {
-	create_langfile('../../miranda/plugins/Import/',
-		'../../miranda/plugins/Import/docs/import-translation.txt',
+	create_langfile('../../plugins/Import/',
+		'../../plugins/Import/docs/import-translation.txt',
 		'English (US)', '0809',
 		'Miranda IM Development Team',
 		'project-info@miranda-im.org');
@@ -119,7 +342,8 @@ sub create_langfile {
 	find({ wanted => \&csearch, preprocess => \&pre_dir }, $rootdir);
 	find({ wanted => \&rcsearch, preprocess => \&pre_dir }, $rootdir);
 	open(WRITE, "> $outfile") or die;
-	print WRITE <<HEADER;
+	if ($outfile eq "../../src/!core-translation.txt") {
+	print WRITE <<HEADER; }
 Miranda Language Pack Version 1
 Locale: $locale
 Authors: $author

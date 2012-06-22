@@ -1,0 +1,26 @@
+; Common strings that belong to many files
+;[Warning: classic contact list plugin doesn`t have ability to use extraicons]
+
+; ../../plugins/IgnoreState/commonheaders.h
+;[All]
+;[Authorization]
+;[Files]
+;[Full Ignore]
+;[Message Ignore]
+;[Messages]
+;[Partial Ignore]
+;[Typing Notify]
+;[URL]
+;[User Online]
+;[You Were Added]
+
+; ../../plugins/IgnoreState/ignore.rc
+;[Filtered events:]
+;[Plugin settings]
+;[Use]
+;[Use Miranda ignore settings for All Contacts]
+;[slot to draw the icon]
+
+; ../../plugins/IgnoreState/options.cpp
+;[Contact List]
+;[Extraicons plugin is used, use Contact list > Extraicons for customize.]

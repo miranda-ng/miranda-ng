@@ -1,0 +1,14 @@
+; Common strings that belong to many files
+;[Delete all events]
+;[Keep all events]
+
+; ../../plugins/HistorySweeperLight/historysweeperlight.rc
+;[Action 1]
+;[Action 2]
+;[History Sweeper Light]
+;[Sweep history for this contacts:]
+
+; ../../plugins/HistorySweeperLight/options.c
+;[*** Defaut Action ***]
+;[*** System History ***]
+;[History]

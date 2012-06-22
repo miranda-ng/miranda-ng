@@ -1,0 +1,13 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/ZeroNotification/main.c
+;[Please update "PLUGINNAME" to ANSI Version]
+;[Plugins]
+;[Zero Notifications]
+
+; ../../plugins/ZeroNotification/res/ZeroNotifyW.rc
+;[Hide the \"toggle sound\" menu item (requires restart of Miranda)]
+;[No CLIST blink when:]
+;[No SysTray blink when:]
+;[No sounds when:]

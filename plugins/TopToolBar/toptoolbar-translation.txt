@@ -1,0 +1,40 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/TopToolBar/InternalButtons.cpp
+;[Disable Sounds]
+;[Enable Sounds]
+;[Hide Offline Users]
+;[Show All Users]
+
+; ../../plugins/TopToolBar/main.rc
+;[Add Launch]
+;[Add Separator]
+;[Background colour:]
+;[Button Height:]
+;[Button Width: ]
+;[Buttons Order && Visibility]
+;[Buttons order:]
+;[Del Sep/Launch Button]
+;[Name: ]
+;[Path:]
+;[Scroll with text]
+;[Selection colour:]
+;[Set]
+;[Stretch proportionally]
+;[Stretch to height]
+;[Stretch to width]
+;[Tile horizontally]
+;[Tile vertically]
+;[TopToolBar Background]
+;[Use Flat Mode]
+;[Use background bitmap]
+
+; ../../plugins/TopToolBar/toolbar.cpp
+;[Default]
+;[Frames Services not found - plugin disabled.You need MultiWindow plugin.]
+
+; ../../plugins/TopToolBar/ttbopt.cpp
+;[Buttons]
+;[TTBBackground]
+;[TopToolBar]

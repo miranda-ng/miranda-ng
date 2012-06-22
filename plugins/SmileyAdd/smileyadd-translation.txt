@@ -1,0 +1,54 @@
+; Common strings that belong to many files
+;[]
+
+; ../../plugins/SmileyAdd/dlgboxsubclass.cpp
+;[Show Smiley Selection Window]
+
+; ../../plugins/SmileyAdd/download.cpp
+;[SmileyAdd HTTP connections]
+
+; ../../plugins/SmileyAdd/main.cpp
+;[Button Smiley]
+;[Please update SmileyAdd to ANSI Version]
+
+; ../../plugins/SmileyAdd/options.cpp
+;[All Files]
+;[Bottom]
+;[Customize]
+;[Off]
+;[Smiley Packs]
+;[Smileys]
+;[Top]
+
+; ../../plugins/SmileyAdd/resource.rc
+;[Animate]
+;[Author:]
+;[Built-In Message Dialog Support]
+;[Disable]
+;[Disable custom smileys]
+;[Display]
+;[Don't replace at cursor]
+;[Enable Smileys]
+;[High Quality smiley scaling]
+;[IEView style window]
+;[Input Area]
+;[Max \"Custom Smiley\" height]
+;[Min smiley height]
+;[Name:]
+;[Preview]
+;[Replace only smileys surrounded by spaces]
+;[Scale smiley to textheight]
+;[Smiley Button]
+;[Smiley Categories]
+;[Smiley Selector]
+;[Specify Smiley Pack for each category]
+;[Surround inserted smiley with spaces]
+;[Use first smiley for selection size]
+;[Version:]
+
+; ../../plugins/SmileyAdd/smileys.cpp
+;[Standard]
+;[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+
+; ../../plugins/SmileyAdd/smltool.cpp
+;[d'Oh!]
