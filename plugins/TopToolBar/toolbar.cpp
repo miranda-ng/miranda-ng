@@ -191,6 +191,7 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	}
 	
 	Buttons.remove(b);
+	delete b;
 
 	ArrangeButtons();
 	ulockbut();
@@ -265,8 +266,9 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 	
-	TopButtonInt* b = new TopButtonInt; // due to OBJLIST
+	TopButtonInt* b = new TopButtonInt;
 	b->id = nextButtonId++;
+	b->tooltip = NULL;
 	
 	if (but->dwFlags & TTBBF_ISLBUTTON) {
 		if (but->program != NULL)
@@ -905,19 +907,8 @@ int UnloadToolbarModule()
 	arServices.destroy();
 	arHooks.destroy();
 
-	for (int i=0; i < Buttons.getCount(); i++) {
-		if (Buttons[i]->dwFlags & TTBBF_ISLBUTTON) {
-			if (Buttons[i]->program != NULL)
-				free(Buttons[i]->program);
-		}
-		else if (Buttons[i]->pszService != NULL)
-			free(Buttons[i]->pszService);
-
-		if (Buttons[i]->name != NULL)
-			free(Buttons[i]->name);
-		if (Buttons[i]->tooltip != NULL)
-			free(Buttons[i]->tooltip);
-	}
+	for (int i=0; i < Buttons.getCount(); i++)
+		delete Buttons[i];
 	Buttons.destroy();
 	return 0;
 }
