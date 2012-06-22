@@ -166,10 +166,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hook_events.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="options.c" />
-    <ClCompile Include="text_operations.c" />
+    <ClCompile Include="hook_events.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="text_operations.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />

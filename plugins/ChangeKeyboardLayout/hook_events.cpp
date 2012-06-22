@@ -25,20 +25,6 @@ INT_PTR APIChangeTextLayout(WPARAM wParam, LPARAM lParam)
 	return (int) ChangeTextLayout(ptszInText, ckllFromToLay->hklFrom, ckllFromToLay->hklTo, ckllFromToLay->bTwoWay);
 }
 
-BOOL CoreCheck()
-{
-	char version[1024], exepath[1024];
-	GetModuleFileNameA(GetModuleHandle(NULL), exepath, sizeof(exepath));
-	CallService(MS_SYSTEM_GETVERSIONTEXT, sizeof(version), (LPARAM)version);
-	strlwr(version); strlwr(exepath);
-	if (!strstr(strrchr(exepath, '\\'), "miranda") ||
-		strstr(version, "coffee") ||
-		!strncmp(version, "1.", 2) || strstr(version, " 1.") ||
-		(dwMirandaVersion >= PLUGIN_MAKE_VERSION(1, 0, 0, 0)))
-			return FALSE;
-	else return TRUE;
-}
-
 void ReadMainOptions()
 {
 	moOptions.dwHotkey_Layout = DBGetContactSettingDword(NULL, ModuleName, "HotkeyLayout", 119);

@@ -3,7 +3,6 @@
 
 #include "commonheaders.h"
 
-BOOL CoreCheck();
 void ReadMainOptions();
 void WriteMainOptions();
 void ReadPopupOptions();

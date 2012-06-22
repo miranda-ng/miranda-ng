@@ -93,29 +93,26 @@ typedef struct
 	POPUPACTION paActions[1];
 } PopupOptions;
 
-PLUGININFOEX pluginInfoEx;
+extern HINSTANCE hInst;
 
-HINSTANCE hInst;
+extern HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
+extern HANDLE hIcoLibIconsChanged;
 
-HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
-HANDLE hIcoLibIconsChanged;
+extern HICON hPopupIcon, hCopyIcon;
 
-HICON hPopupIcon, hCopyIcon;
+extern LPCTSTR ptszKeybEng;
+extern HKL hklEng;
 
-LPCTSTR ptszKeybEng;
-HKL hklEng;
+extern BYTE bLayNum;
+extern HKL hklLayouts[20];
+extern LPTSTR ptszLayStrings[20];
 
-BYTE bLayNum;
-HKL hklLayouts[20];
-LPTSTR ptszLayStrings[20];
+extern LPCTSTR ptszSeparators;
 
-LPCTSTR ptszSeparators;
+extern HHOOK kbHook_All;
 
-HHOOK kbHook_All;
-
-MainOptions moOptions;
-PopupOptions poOptions, poOptionsTemp;
-DWORD dwMirandaVersion;
+extern MainOptions moOptions;
+extern PopupOptions poOptions, poOptionsTemp;
 
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam);
 

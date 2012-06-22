@@ -158,12 +158,6 @@ LPTSTR ChangeTextCase(LPCTSTR ptszInText)
 
 	ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 
-	if (!CoreCheck())
-	{
-		_tcscpy(ptszOutText, TranslateT("Change Keyboard Layout plugin was designed to be used with Miranda IM only. For use with any other application, please contact author."));
-		return ptszOutText;
-	}
-
 	_tcscpy(ptszOutText, ptszInText);
 
 	for (i = 0;i<_tcslen(ptszInText);i++)
@@ -187,12 +181,6 @@ LPTSTR ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL Tw
 
 	ptszOutText = (LPTSTR)mir_alloc(MaxTextSize*sizeof(TCHAR));
 	
-	if (!CoreCheck())
-	{
-		_tcscpy(ptszOutText, TranslateT("Change Keyboard Layout plugin was designed to be used with Miranda IM only. For use with any other application, please contact author."));
-		return ptszOutText;
-	}
-
 	_tcscpy(ptszOutText, ptszInText);
 
 	if ((hklCurLay == NULL)||(hklToLay == NULL))

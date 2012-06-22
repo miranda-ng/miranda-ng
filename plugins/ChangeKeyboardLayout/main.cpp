@@ -3,6 +3,16 @@
 struct MM_INTERFACE mmi;
 PLUGINLINK *pluginLink;
 int hLangpack;
+LPTSTR ptszLayStrings[20];
+HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
+HICON hPopupIcon, hCopyIcon;
+HKL hklLayouts[20];
+BYTE bLayNum;
+HINSTANCE hInst;
+HHOOK kbHook_All;
+MainOptions moOptions;
+PopupOptions poOptions, poOptionsTemp;
+HANDLE hIcoLibIconsChanged;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -26,22 +36,18 @@ LPCTSTR ptszSeparators = _T(" \t\n\r");
 HANDLE hOptionsInitialize;
 HANDLE hModulesLoaded;
 
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	dwMirandaVersion = mirandaVersion;
 	return &pluginInfoEx;
 }
 
-
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {	
 	pluginLink = link;
 	mir_getMMI(&mmi);
@@ -55,7 +61,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	DWORD i;
 
@@ -71,5 +77,3 @@ int __declspec(dllexport) Unload(void)
 	UnhookWindowsHookEx(kbHook_All);
 	return 0;
 }
-
-
