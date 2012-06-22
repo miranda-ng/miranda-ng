@@ -1,10 +1,17 @@
-#define IDD_OPT_AUTORUN 101
-#define IDC_AUTORUN 102
-
 #define _CRT_SECURE_NO_WARNINGS
-
 #define MIRANDA_VER 0x0A00
-#define SUB_KEY "Software\\Microsoft\\Windows\\CurrentVersion\\Run"
+
+#include <windows.h>
+
+#include <newpluginapi.h>
+#include <m_langpack.h>
+#include <m_options.h>
+#include <m_database.h>
+#include <win2k.h>
+
+#include "resource.h"
+
+#define SUB_KEY _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
 #define ModuleName "Autorun"
 
 // Plugin UUID for New plugin loader
@@ -14,4 +21,3 @@
 #define MIID_AUTORUN  {0xeb0465e2, 0xceee, 0x11db, { 0x83, 0xef, 0xc1, 0xbf, 0x55, 0xd8, 0x95, 0x93}}
 
 HKEY ROOT_KEY = HKEY_CURRENT_USER;
-

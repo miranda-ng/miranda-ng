@@ -2,6 +2,8 @@
 // Microsoft Developer Studio generated include file.
 // Used by autorun.rc
 //
+#define IDD_OPT_AUTORUN 101
+#define IDC_AUTORUN 102
 
 // Next default values for new objects
 // 

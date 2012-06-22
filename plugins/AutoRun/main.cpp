@@ -1,19 +1,10 @@
-#define _CRT_SECURE_NO_WARNINGS
-
-#include <windows.h>
 #include "autorun.h"
-
-#include "newpluginapi.h"
-#include "m_langpack.h"
-#include "m_options.h"
-#include "m_database.h"
-#pragma hdrstop
-
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 HANDLE hHookOptionInit = NULL;
 int hLangpack;
+struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfoEx=
 { 	// about plugin
@@ -31,25 +22,20 @@ PLUGININFOEX pluginInfoEx=
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	// plugin entry point
-	if (fdwReason == DLL_PROCESS_ATTACH)
-	{
- 		hInst = hinstDLL;
-		DisableThreadLibraryCalls(hinstDLL);
-	}
+	hInst = hinstDLL;
 	return TRUE;
 }
-void GetProfilePath(char *res)
+void GetProfilePath(TCHAR *res)
 {
-  	char dbname[MAX_PATH], dbpath[MAX_PATH], exename[MAX_PATH];
-	CallService(MS_DB_GETPROFILENAME,sizeof(dbname),(LPARAM)(char*) dbname);
-	CallService(MS_DB_GETPROFILEPATH,sizeof(dbpath),(LPARAM)(char*) dbpath);
-	GetModuleFileName(NULL,exename,sizeof(exename));
-	lstrcat(dbpath,"\\");		
-	lstrcpyn(dbpath+lstrlen(dbpath),dbname,lstrlen(dbname)-3);
-	strcat(dbpath, "\\");
-	strcat(dbpath, dbname);		// path + profile name
-	wsprintf(res,"\"%s\" \"%s\"",exename, dbpath);
+  	TCHAR dbname[MAX_PATH], dbpath[MAX_PATH], exename[MAX_PATH];
+	CallService(MS_DB_GETPROFILENAMET, SIZEOF(dbname), (LPARAM)(TCHAR*) dbname);
+	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(dbpath), (LPARAM)(TCHAR*) dbpath);
+	GetModuleFileName(NULL,exename, SIZEOF(exename));
+	lstrcat(dbpath, _T("\\"));		
+	lstrcpyn(dbpath + lstrlen(dbpath), dbname, lstrlen(dbname)-3);
+	lstrcat(dbpath, _T("\\"));
+	lstrcat(dbpath, dbname);		// path + profile name
+	mir_sntprintf(res, lstrlen(exename) + lstrlen(dbpath) + 5, _T("\"%s\" \"%s\""), exename, dbpath);
 }
 
 static void SetAutorun(BOOL autorun)
@@ -59,35 +45,34 @@ static void SetAutorun(BOOL autorun)
   switch (autorun)
   {
   case TRUE:
-	if (RegCreateKeyEx(ROOT_KEY, SUB_KEY,0,NULL,0,KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS)
+	if (RegCreateKeyEx(ROOT_KEY, SUB_KEY, 0, NULL, 0, KEY_CREATE_SUB_KEY|KEY_SET_VALUE,NULL,&hKey,&dw) == ERROR_SUCCESS)
 	{
-	  	char result[MAX_PATH];
-		GetProfilePath (result);
-		RegSetValueEx(hKey,"MirandaIM",0,REG_SZ,result,lstrlen(result)+1);
+	  	TCHAR result[MAX_PATH];
+		GetProfilePath(result);
+		RegSetValueEx(hKey, _T("MirandaIM"), 0, REG_SZ, (BYTE*)result, lstrlen(result)+1);
 		RegCloseKey(hKey);
 		break;
 	}
   case FALSE:
-	if (RegOpenKey(ROOT_KEY,SUB_KEY,&hKey) == ERROR_SUCCESS)
+	if (RegOpenKey(ROOT_KEY, SUB_KEY, &hKey) == ERROR_SUCCESS)
 	{
-		RegDeleteValue(hKey,"MirandaIM");
+		RegDeleteValue(hKey, _T("MirandaIM"));
 		RegCloseKey(hKey);
 		break;
 	}
   }
 }
 
-
 static BOOL CmpCurrentAndRegistry()
 {
 	HKEY hKey;
 	DWORD dwBufLen = MAX_PATH;
-	char result[MAX_PATH], dbpath[MAX_PATH];
-	GetProfilePath (result);
+	TCHAR result[MAX_PATH], dbpath[MAX_PATH];
+	GetProfilePath(result);
 	
 	if (RegOpenKeyEx(ROOT_KEY, SUB_KEY, 0, KEY_QUERY_VALUE, &hKey) == ERROR_SUCCESS)
 	{
-		if (RegQueryValueEx(hKey,"MirandaIM",NULL,NULL,(LPBYTE)dbpath,&dwBufLen) == ERROR_SUCCESS)
+		if (RegQueryValueEx(hKey, _T("MirandaIM"), NULL, NULL, (LPBYTE)dbpath, &dwBufLen) == ERROR_SUCCESS)
 		{
 			return (lstrcmpi(result,dbpath) == 0 ? TRUE : FALSE);
 		} 
@@ -126,37 +111,36 @@ static INT_PTR CALLBACK DlgProcAutorunOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 	return FALSE;
 }
 
-
 static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 100100000;
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT_AUTORUN);
-	odp.pszTitle = ModuleName;
-	odp.pszGroup = LPGEN("Plugins");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
+	odp.ptszTitle = _T(ModuleName);
+	odp.ptszGroup = LPGENT("Plugins");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
 	odp.flags = ODPF_BOLDGROUPS;	
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
-//==========================================================================
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
-
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
-	hHookOptionInit = HookEvent(ME_OPT_INITIALISE,AutorunOptInitialise);
+	mir_getMMI(&mmi);
+	hHookOptionInit = HookEvent(ME_OPT_INITIALISE, AutorunOptInitialise);
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	if (hHookOptionInit)
 		UnhookEvent(hHookOptionInit);    
