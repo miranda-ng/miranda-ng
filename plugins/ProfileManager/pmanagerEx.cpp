@@ -25,6 +25,7 @@ TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
 int hLangpack;
+HANDLE hLoadPM, hChangePM;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -35,7 +36,7 @@ PLUGININFOEX pluginInfo={
 	"woobind@ukr.net",
 	"© 2008 - 2010 Roman Gemini",
 	"http://code.google.com/p/alfamar/",
-	0,		//not transient
+	UNICODE_AWARE,		//not transient
 	0,		//doesn't replace anything built-in
     // Generate your own unique id for your plugin.
     // Do not use this UUID!
@@ -44,77 +45,67 @@ PLUGININFOEX pluginInfo={
 
 };
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-static const MUUID interfaces[] = {MIID_TESTPLUGIN, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR ChangePM(WPARAM wParam,LPARAM lParam)
+static INT_PTR ChangePM(WPARAM wParam, LPARAM lParam)
 {
 	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
-	ShellExecute(0, "open", fn, "/FORCESHOW", "", 1);
+	ShellExecute(0, _T("open"), fn, _T("/FORCESHOW"), _T(""), 1);
 	CallService("CloseAction", 0, 0);
 	return 0;
 }
 
-static INT_PTR LoadPM(WPARAM wParam,LPARAM lParam)
+static INT_PTR LoadPM(WPARAM wParam, LPARAM lParam)
 {
 	GetModuleFileName(GetModuleHandle(NULL), fn, SIZEOF(fn));
-	ShellExecute(0, "open", fn, "/FORCESHOW", "", 1);
+	ShellExecute(0, _T("open"), fn, _T("/FORCESHOW"), _T(""), 1);
 	return 0;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM mi;
-	pluginLink=link;
+	pluginLink = link;
 	mir_getLP(&pluginInfo);
 
-	CreateServiceFunction("Database/LoadPM",LoadPM);
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize=sizeof(mi);
-	mi.position=-500200000;
-	mi.flags=0;
-	mi.hIcon=LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));
-	mi.pszPopupName = "Database";
-	mi.pszName=LPGEN("Load profile");
-	mi.pszService="Database/LoadPM";
+	hLoadPM = CreateServiceFunction("Database/LoadPM", LoadPM);
+	ZeroMemory(&mi, sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = -500200000;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));
+	mi.ptszPopupName = _T("Database");
+	mi.ptszName = _T("Load profile");
+	mi.pszService = "Database/LoadPM";
 	Menu_AddMainMenuItem(&mi);
 	
-	CreateServiceFunction("Database/ChangePM",ChangePM);
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize=sizeof(mi);
-	mi.position=-500200000;
-	mi.flags=0;
-	mi.hIcon=LoadIcon(hInst, MAKEINTRESOURCE(IDI_ChangePM));
-	mi.pszPopupName = "Database";
-	mi.pszName=LPGEN("Change profile");
-	mi.pszService="Database/ChangePM";
+	hChangePM = CreateServiceFunction("Database/ChangePM", ChangePM);
+	ZeroMemory(&mi, sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = -500200000;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ChangePM));
+	mi.ptszPopupName = _T("Database");
+	mi.ptszName = _T("Change profile");
+	mi.pszService = "Database/ChangePM";
 	Menu_AddMainMenuItem(&mi);
+
 	return 0;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
+	DestroyServiceFunction(hLoadPM);
+	DestroyServiceFunction(hChangePM);
+
 	return 0;
 }
