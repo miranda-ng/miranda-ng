@@ -576,7 +576,7 @@ int addContactToQueue(HANDLE hContact){
 	}
 	for (i=1;i<contactQueueSize;i++) {
 		if (!contactQueue[i]) {
-			contactQueue[i] = malloc(sizeof(logthread_info));
+			contactQueue[i] = (logthread_info *)malloc(sizeof(logthread_info));
 			contactQueue[i]->queueIndex = i;
 			contactQueue[i]->hContact = hContact;
 			return i;
@@ -587,7 +587,7 @@ int addContactToQueue(HANDLE hContact){
 	contactQueue = (logthread_info **)realloc(contactQueue,(contactQueueSize+16)*sizeof(logthread_info *));
 	memset(&contactQueue[contactQueueSize],0, 16*sizeof(logthread_info *));
 	i = contactQueueSize;
-	contactQueue[i] = malloc(sizeof(logthread_info));
+	contactQueue[i] = (logthread_info *)malloc(sizeof(logthread_info));
 	contactQueue[i]->queueIndex = i;
 	contactQueue[i]->hContact = hContact;
 	contactQueueSize += 16;
@@ -631,23 +631,23 @@ static DWORD __stdcall waitThread(logthread_info* infoParam)
 
 
 
-int UpdateValues(HANDLE hContact,LPARAM lparam)
+int UpdateValues(WPARAM wparam,LPARAM lparam)
 {
 	FORK_THREADEX_PARAMS params;
 	DWORD dwThreadId;
 	DBCONTACTWRITESETTING *cws;
 	BOOL isIdleEvent;
 	// to make this code faster
-	if (!hContact) return 0;
+	if (!wparam) return 0;
 	cws=(DBCONTACTWRITESETTING *)lparam;
 	//if(CallService(MS_IGNORE_ISIGNORED,(WPARAM)hContact,IGNOREEVENT_USERONLINE)) return 0;
 	isIdleEvent = includeIdle?(strcmp(cws->szSetting,"IdleTS")==0):0;
 	if (strcmp(cws->szSetting,"Status") && strcmp(cws->szSetting,"StatusTriger") && (isIdleEvent==0)) return 0;
 	if (!strcmp(cws->szModule,S_MOD)) {
 		//here we will come when Settings/SeenModule/StatusTriger is changed
-		WORD prevStatus=DBGetContactSettingWord(hContact,S_MOD,"OldStatus",ID_STATUS_OFFLINE);
+		WORD prevStatus=DBGetContactSettingWord((HANDLE)wparam, S_MOD, "OldStatus", ID_STATUS_OFFLINE);
 		if (includeIdle){
-			if (DBGetContactSettingByte(hContact,S_MOD,"OldIdle",0)) prevStatus &= 0x7FFF;
+			if (DBGetContactSettingByte((HANDLE)wparam, S_MOD, "OldIdle", 0)) prevStatus &= 0x7FFF;
 			else prevStatus |= 0x8000;
 		}
 		if ((cws->value.wVal|0x8000)<=ID_STATUS_OFFLINE)
@@ -656,77 +656,77 @@ int UpdateValues(HANDLE hContact,LPARAM lparam)
 			// avoid repeating the offline status
 			if ((prevStatus|0x8000)<=ID_STATUS_OFFLINE)
 				return 0;
-			proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-			DBWriteContactSettingByte(hContact,S_MOD,"Offline",1);
+			proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0);
+			DBWriteContactSettingByte((HANDLE)wparam, S_MOD, "Offline", 1);
 			{
 				DWORD t;
-				char *str = malloc(MAXMODULELABELLENGTH+9);
+				char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
 				mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",proto);
 				t = DBGetContactSettingDword(NULL,S_MOD,str,0);
 				if (!t) t = time(NULL);
 				free(str);
-				DBWriteTimeTS(t,hContact);
+				DBWriteTimeTS(t, (HANDLE)wparam);
 			}
 
 			if (!DBGetContactSettingByte(NULL,S_MOD,"IgnoreOffline",1))
 			{
 				char * sProto;
 				if(DBGetContactSettingByte(NULL,S_MOD,"FileOutput",0))
-					FileWrite(hContact);
+					FileWrite((HANDLE)wparam);
 
 				if (CallProtoService(sProto = 
-					(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0),
+					(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0),
 					PS_GETSTATUS,0,0
 					)>ID_STATUS_OFFLINE)	{
-					myPlaySound(hContact,ID_STATUS_OFFLINE,prevStatus);
-					if(DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0)) {
-						ShowPopup(hContact,sProto,ID_STATUS_OFFLINE);
+					myPlaySound((HANDLE)wparam, ID_STATUS_OFFLINE, prevStatus);
+					if(DBGetContactSettingByte(NULL, S_MOD, "UsePopups", 0)) {
+						ShowPopup((HANDLE)wparam, sProto, ID_STATUS_OFFLINE);
 				}	}
 
-				if(DBGetContactSettingByte(NULL,S_MOD,"KeepHistory",0))
-					HistoryWrite(hContact);
+				if(DBGetContactSettingByte(NULL, S_MOD, "KeepHistory", 0))
+					HistoryWrite((HANDLE)wparam);
 
-				if(DBGetContactSettingByte(hContact,S_MOD,"OnlineAlert",0)) 
-					ShowHistory(hContact, 1);
+				if(DBGetContactSettingByte((HANDLE)wparam, S_MOD, "OnlineAlert", 0)) 
+					ShowHistory((HANDLE)wparam, 1);
 			}
 
 		} else {
 
-			if(cws->value.wVal==prevStatus && !DBGetContactSettingByte(hContact,S_MOD,"Offline",0)) 
+			if(cws->value.wVal==prevStatus && !DBGetContactSettingByte((HANDLE)wparam, S_MOD, "Offline", 0)) 
 				return 0;
 
-			DBWriteTimeTS(time(NULL),hContact);
+			DBWriteTimeTS(time(NULL), (HANDLE)wparam);
 
 			//DBWriteContactSettingWord(hContact,S_MOD,"StatusTriger",(WORD)cws->value.wVal);
 
-			if(DBGetContactSettingByte(NULL,S_MOD,"FileOutput",0)) FileWrite(hContact);
-			if (prevStatus != cws->value.wVal) myPlaySound(hContact,cws->value.wVal,prevStatus);
-			if(DBGetContactSettingByte(NULL,S_MOD,"UsePopups",0))
-				if (prevStatus != cws->value.wVal) ShowPopup(hContact,(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0),cws->value.wVal|0x8000);
+			if(DBGetContactSettingByte(NULL, S_MOD, "FileOutput", 0)) FileWrite((HANDLE)wparam);
+			if (prevStatus != cws->value.wVal) myPlaySound((HANDLE)wparam, cws->value.wVal, prevStatus);
+			if(DBGetContactSettingByte(NULL, S_MOD, "UsePopups", 0))
+				if (prevStatus != cws->value.wVal) ShowPopup((HANDLE)wparam, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0), cws->value.wVal|0x8000);
 
-			if(DBGetContactSettingByte(NULL,S_MOD,"KeepHistory",0)) HistoryWrite(hContact);
-			if(DBGetContactSettingByte(hContact,S_MOD,"OnlineAlert",0)) ShowHistory(hContact, 1);
-			DBWriteContactSettingByte(hContact,S_MOD,"Offline",0);
+			if(DBGetContactSettingByte(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite((HANDLE)wparam);
+			if(DBGetContactSettingByte((HANDLE)wparam, S_MOD, "OnlineAlert", 0)) ShowHistory((HANDLE)wparam, 1);
+			DBWriteContactSettingByte((HANDLE)wparam, S_MOD, "Offline", 0);
 		}
 	} else if (IsWatchedProtocol(cws->szModule)) {
 		//here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if (CallProtoService(cws->szModule,PS_GETSTATUS,0,0)>ID_STATUS_OFFLINE){
 			int index;
-			if (!(index = isContactQueueActive(hContact))) {
-				index = addContactToQueue(hContact);
+			if (!(index = isContactQueueActive((HANDLE)wparam))) {
+				index = addContactToQueue((HANDLE)wparam);
 				strncpy(contactQueue[index]->sProtoName,cws->szModule,MAXMODULELABELLENGTH);
 				//forkthreadex(NULL, 0, waitThread, contactQueue[index], 0, 0);
-				params.pFunc      = waitThread;
+				params.pFunc      = (pThreadFuncEx)waitThread;
 			    params.arg        = contactQueue[index];
 			    params.iStackSize = 0;
-  			    params.threadID   = &dwThreadId;
+  			    params.threadID   = (unsigned int *)&dwThreadId;
 				CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
   
 
 //			} else {
 //				MessageBox(0,"Already in contact queue",cws->szModule,0);
 			}
-			contactQueue[index]->courStatus = isIdleEvent?DBGetContactSettingWord(hContact,cws->szModule,"Status",ID_STATUS_OFFLINE):cws->value.wVal;
+			contactQueue[index]->courStatus = isIdleEvent ? DBGetContactSettingWord((HANDLE)wparam, cws->szModule, "Status", ID_STATUS_OFFLINE) : cws->value.wVal;
 	}	}	
 
 	return 0;
@@ -770,7 +770,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 //		(const char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION,(WPARAM)infoParam->courStatus,0)
 //	);
 	{
-		char *str = malloc(MAXMODULELABELLENGTH+9);
+		char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
 		mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",infoParam->sProtoName);
 		DBDeleteContactSetting(NULL,S_MOD,str);
 		free(str);
@@ -813,17 +813,17 @@ int ModeChange(WPARAM wparam,LPARAM lparam)
 			info->hContact = 0;
 			info->courStatus = 0;
 			//forkthreadex(NULL, 0, cleanThread, info, 0, 0);
-			params.pFunc      = cleanThread;
+			params.pFunc      = (pThreadFuncEx)cleanThread;
 			params.arg        = info;
 			params.iStackSize = 0;
-			params.threadID   = &dwThreadId;
+			params.threadID   = (unsigned int *)&dwThreadId;
 			CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
 
 		}
 	} else if ((isetting==ID_STATUS_OFFLINE)&&((WORD)ack->hProcess>ID_STATUS_OFFLINE)) {
 		//we have just loged-off
 		if (IsWatchedProtocol(ack->szModule)) {
-			char *str = malloc(MAXMODULELABELLENGTH+9);
+			char *str = (char *)malloc(MAXMODULELABELLENGTH+9);
 			time_t t;
 			time(&t);
 			mir_snprintf(str,MAXMODULELABELLENGTH+8,"OffTime-%s",ack->szModule);

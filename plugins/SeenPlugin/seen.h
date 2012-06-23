@@ -105,16 +105,23 @@ typedef struct{
 	BYTE times[1024];
 } MISSEDCONTACTS;
 
-/* utils.c */
 int IsWatchedProtocol(const char* szProto);
 char *ParseString(char *,HANDLE,BYTE);
 extern DWORD StatusColors15bits[];
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword);
 DWORD GetDWordFromColors(COLORREF First, COLORREF Second);
-
+int OptionsInit(WPARAM,LPARAM);
+int UserinfoInit(WPARAM,LPARAM);
+int InitFileOutput(void);
+void InitMenuitem(void);
+int UpdateValues(WPARAM, LPARAM);
+int ModeChange(WPARAM,LPARAM);
+void SetOffline(void);
+int ModeChange_mo(WPARAM,LPARAM);
+int CheckIfOnline(void);
 void UninitMenuitem();
 
-BOOL includeIdle;
+extern BOOL includeIdle;
 typedef struct logthread_info {
   char sProtoName[MAXMODULELABELLENGTH];
   HANDLE hContact;

@@ -172,14 +172,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="file.c" />
-    <ClCompile Include="history.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="menu.c" />
-    <ClCompile Include="missed.c" />
-    <ClCompile Include="options.c" />
-    <ClCompile Include="userinfo.c" />
-    <ClCompile Include="utils.c" />
+    <ClCompile Include="file.cpp" />
+    <ClCompile Include="history.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="missed.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="userinfo.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
