@@ -170,9 +170,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="historysweeperlight.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="options.c" />
+    <ClCompile Include="historysweeperlight.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="options.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="historysweeperlight.h" />

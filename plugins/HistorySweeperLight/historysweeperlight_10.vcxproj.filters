@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="historysweeperlight.c">
+    <ClCompile Include="historysweeperlight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.c">
+    <ClCompile Include="options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

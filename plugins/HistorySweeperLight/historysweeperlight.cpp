@@ -21,14 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "historysweeperlight.h"
 
-#ifdef VC6BUILD
-#define _____TIMEPROC time
-#else
-#define _____TIMEPROC _time32
-#endif
-
-_CRTIMP __time32_t __cdecl _____TIMEPROC(_Out_opt_ __time32_t * _Time);
-
 typedef struct
 {
 	time_t time;
@@ -38,7 +30,7 @@ typedef struct
 // build criteria
 time_t BuildCriteria(int dwti)
 {
-	time_t tim =  _____TIMEPROC(NULL);
+	time_t tim =  time(NULL);
 
 	switch (dwti)
 	{
@@ -119,7 +111,7 @@ static void GetBookmarks(HANDLE hContact, BEventData** books, size_t* bookcnt )
 			size_t recSize = *(WORD*)dbv.pbVal;
 			size_t numb = (dbv.cpbVal - sizeof(WORD)) / recSize;
 
-			BEventData* tbooks = mir_alloc(sizeof(BEventData)*numb);
+			BEventData* tbooks = (BEventData*)mir_alloc(sizeof(BEventData)*numb);
 			size_t tbookcnt = 0;
 
 			size_t i;

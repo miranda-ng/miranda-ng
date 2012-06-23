@@ -149,12 +149,12 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 
@@ -169,7 +169,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 { 
 	int i;
 
