@@ -41,6 +41,7 @@
 #define TTBDEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 
 #define TTBBF_INTERNAL 0x1000000
+#define TTBBF_OPTIONAL 0x2000000
 
 ///////////////////////////////////////////////////////////////////////////////
 // TopButtonInt class
@@ -85,6 +86,8 @@ struct TopButtonInt
 int TTBOptInit(WPARAM wParam, LPARAM lParam);
 //append string
 char __inline *AS(char *str, const char *setting, char *addstr);
+
+TopButtonInt* CreateButton(TTBButton* but);
 
 int ttbOptionsChanged();
 

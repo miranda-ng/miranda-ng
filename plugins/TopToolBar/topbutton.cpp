@@ -77,33 +77,29 @@ void TopButtonInt::LoadSettings()
 	dwFlags = dwFlags & (~TTBBF_VISIBLE);
 
 	if (dwFlags & TTBBF_ISSEPARATOR) {
-		if (wParamDown != 0) {
-			char buf1[10];
-			_itoa(wParamDown, buf1, 10);
-			char buf2[20];
-			AS(buf2, "Sep", buf1);
+		char buf1[10];
+		_itoa(wParamDown, buf1, 10);
+		char buf2[20];
+		AS(buf2, "Sep", buf1);
 
-			arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-			if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
-				dwFlags |= TTBBF_VISIBLE;
-		}
+		arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
+		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
+			dwFlags |= TTBBF_VISIBLE;
 	}
 	else if (dwFlags & TTBBF_ISLBUTTON) {
-		if (wParamDown != 0) {
-			char buf1[10];
-			_itoa(wParamDown, buf1, 10);
-			char buf2[20];
-			AS(buf2, "Launch", buf1);
+		char buf1[10];
+		_itoa(wParamDown, buf1, 10);
+		char buf2[20];
+		AS(buf2, "Launch", buf1);
 
-			if (name != NULL) free(name);
-			name = DBGetString(0, TTB_OPTDIR, AS(buf, buf2, "_name"));
-			if (program != NULL) free(program);
-			program = DBGetStringT(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
+		if (name != NULL) free(name);
+		name = DBGetString(0, TTB_OPTDIR, AS(buf, buf2, "_name"));
+		if (program != NULL) free(program);
+		program = DBGetStringT(0, TTB_OPTDIR, AS(buf, buf2, "_lpath"));
 
-			arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
-			if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
-				dwFlags |= TTBBF_VISIBLE;
-		}
+		arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), Buttons.getCount());
+		if ( DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), oldv) > 0 )
+			dwFlags |= TTBBF_VISIBLE;
 	}
 	else {
 		arrangedpos = DBGetContactSettingByte(0, TTB_OPTDIR, AS(buf, name, "_Position"), Buttons.getCount());

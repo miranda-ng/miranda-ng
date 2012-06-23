@@ -65,8 +65,7 @@ void InsertSBut(int i)
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISSBUTTON|TTBBF_INTERNAL;
 	ttb.wParamDown = i;
-	ttb.lParamDown = TTBAddButton(( WPARAM )&ttb, 0);;
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, ttb.lParamDown), (LPARAM)&ttb);
+	TTBAddButton(( WPARAM )&ttb, 0);
 }
 
 void LoadAllSButs()
@@ -100,13 +99,11 @@ void InsertLBut(int i)
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-//	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
 	ttb.name = LPGEN("Default");
 	ttb.program = _T("Execute Path");
 	ttb.wParamDown = i;
-	ttb.lParamDown = TTBAddButton(( WPARAM )&ttb, 0);
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, ttb.lParamDown), (LPARAM)&ttb);
+	TTBAddButton(( WPARAM )&ttb, 0);
 }
 
 void LoadAllLButs()
@@ -125,8 +122,7 @@ void InsertSeparator(int i)
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
 	ttb.wParamDown = i;
-	ttb.lParamDown = TTBAddButton((WPARAM)&ttb, 0);
-	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, ttb.lParamDown), (LPARAM)&ttb);
+	TTBAddButton((WPARAM)&ttb, 0);
 }
 
 void LoadAllSeparators()
@@ -239,6 +235,62 @@ int RecreateWindows()
 	return (0);
 }
 
+TopButtonInt* CreateButton(TTBButton* but)
+{
+	TopButtonInt* b = new TopButtonInt;
+	b->id = nextButtonId++;
+
+	b->dwFlags = but->dwFlags;
+
+	b->wParamUp = but->wParamUp;
+	b->lParamUp = but->lParamUp;
+	b->wParamDown = but->wParamDown;
+	b->lParamDown = but->lParamDown;
+
+	if ( !(b->dwFlags & TTBBF_ISSEPARATOR)) {
+		b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
+
+		if (but->dwFlags & TTBBF_ISLBUTTON) {
+			if (but->program != NULL)
+				b->program = _tcsdup(but->program);
+			b->pszService = _strdup(TTB_LAUNCHSERVICE);
+		}
+		else {
+			b->program = NULL;
+			if (but->pszService != NULL)
+				b->pszService = _strdup(but->pszService);
+			else
+				b->pszService = NULL;
+		}
+
+		if (but->name != NULL)
+			b->name = _strdup(but->name);
+		else
+			b->name = NULL;
+
+		if (b->dwFlags & TTBBF_ICONBYHANDLE) {
+		  if (but->hIconHandleDn)
+				b->hIconDn = Skin_GetIconByHandle(but->hIconHandleDn);
+			else
+				b->hIconDn = 0;
+			b->hIconUp = Skin_GetIconByHandle(but->hIconHandleUp);
+		}
+		else {
+			b->hIconDn = but->hIconDn;
+			b->hIconUp = but->hIconUp;
+		}
+
+		char buf[256];
+		sprintf(buf, "%s_up", b->name);
+		b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
+		if (b->hIconDn) {
+			sprintf(buf, "%s_dn", b->name);
+			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
+		}
+	}
+	return b;
+}
+
 INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam == 0)
@@ -258,58 +310,8 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		ulockbut();
 		return -1;
 	}
-	
-	TopButtonInt* b = new TopButtonInt;
-	b->id = nextButtonId++;
-	
-	if (but->dwFlags & TTBBF_ISLBUTTON) {
-		if (but->program != NULL)
-			b->program = _tcsdup(but->program);
-		b->pszService = _strdup(TTB_LAUNCHSERVICE);
-	}
-	else {
-		b->program = NULL;
-		if (but->pszService != NULL)
-			b->pszService = _strdup(but->pszService);
-		else
-			b->pszService = NULL;
-	}
 
-	if (but->name != NULL)
-		b->name = _strdup(but->name);
-	else
-		b->name = NULL;
-
-	b->dwFlags = but->dwFlags;
-
-	if (b->dwFlags & TTBBF_ICONBYHANDLE) {
-	  if (but->hIconHandleDn)
-			b->hIconDn = Skin_GetIconByHandle(but->hIconHandleDn);
-		else
-			b->hIconDn = 0;
-		b->hIconUp = Skin_GetIconByHandle(but->hIconHandleUp);
-	}
-	else {
-		b->hIconDn = but->hIconDn;
-		b->hIconUp = but->hIconUp;
-	}
-
-	b->wParamUp = but->wParamUp;
-	b->lParamUp = but->lParamUp;
-	b->wParamDown = but->wParamDown;
-	b->lParamDown = but->lParamDown;
-
-	b->bPushed = (but->dwFlags & TTBBF_PUSHED) ? TRUE : FALSE;
-
-	if ( !(b->dwFlags & TTBBF_ISSEPARATOR)) {
-		char buf[256];
-		sprintf(buf, "%s_up", b->name);
-		b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
-		if (b->hIconDn) {
-			sprintf(buf, "%s_dn", b->name);
-			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
-		}
-	}
+	TopButtonInt* b = CreateButton(but);
 
 	b->LoadSettings();
 	Buttons.insert(b);
