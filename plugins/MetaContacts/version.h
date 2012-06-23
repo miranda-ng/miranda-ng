@@ -12,7 +12,7 @@
 #define __STRINGIFY(x)				#x
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_STRING_DOTS)
 
-#define __DESC						"Merges contacts from the same or different protocols into one"
+#define __DESC						"Merges contacts from the same or different protocols into one."
 #define __AUTHOR					"J. Schaal & S. Ellis"
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
 #define __COPYRIGHT					"© 2005,2006 Scott Ellis"

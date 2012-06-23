@@ -273,15 +273,15 @@ int Meta_WriteOptions(MetaOptions *opt) {
 
 int Meta_ReadOptions(MetaOptions *opt) {
 	opt->set_default_on_recv = (DBGetContactSettingByte(NULL, META_PROTO, "SetDefaultOnRecv", 1) == 1 ? TRUE : FALSE);
-	opt->temp_default = (DBGetContactSettingByte(NULL, META_PROTO, "TempDefault", 0) == 1 ? TRUE : FALSE);
-	opt->always_use_default = (DBGetContactSettingByte(NULL, META_PROTO, "AlwaysUseDefault", 0) == 1 ? TRUE : FALSE);
+	opt->temp_default = (DBGetContactSettingByte(NULL, META_PROTO, "TempDefault", 1) == 1 ? TRUE : FALSE);
+	opt->always_use_default = (DBGetContactSettingByte(NULL, META_PROTO, "AlwaysUseDefault", 1) == 1 ? TRUE : FALSE);
 	opt->suppress_status = (DBGetContactSettingByte(NULL, META_PROTO, "SuppressStatus", 1) == 1 ? TRUE : FALSE);
 	opt->menu_contact_label = (int)DBGetContactSettingWord(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
 	opt->menu_function = (int)DBGetContactSettingWord(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
 	opt->clist_contact_name = (int)DBGetContactSettingWord(NULL, META_PROTO, "CListContactName", CNNT_NICK);
 	opt->suppress_proto = (DBGetContactSettingByte(NULL, META_PROTO, "SuppressProto", 0) == 1 ? TRUE : FALSE);
 	opt->copy_subcontact_history = (DBGetContactSettingByte(NULL, META_PROTO, "CopyHistory", 1) == 1 ? TRUE : FALSE);
-	opt->days_history = (int)DBGetContactSettingDword(NULL, META_PROTO, "DaysHistory", 14);
+	opt->days_history = (int)DBGetContactSettingDword(NULL, META_PROTO, "DaysHistory", 0);
 	opt->set_status_from_offline_delay = (int)DBGetContactSettingDword(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
 	opt->subcontact_windows = (DBGetContactSettingByte(NULL, META_PROTO, "SubcontactWindows", 0) == 1 ? TRUE : FALSE);
 	opt->copydata = (DBGetContactSettingByte(NULL, META_PROTO, "CopyData", 1) == 1 ? TRUE : FALSE);

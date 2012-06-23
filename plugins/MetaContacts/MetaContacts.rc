@@ -85,8 +85,7 @@ BEGIN
     EDITTEXT        IDC_ED_NAME,158,23,135,12,ES_AUTOHSCROLL | ES_READONLY | NOT WS_TABSTOP
     CONTROL         "List1",IDC_LST_CONTACTS,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,53,79,276,89,WS_EX_CLIENTEDGE
     GROUPBOX        "",IDC_STATIC,35,66,313,138
-    CONTROL         "Force use of default for sending (even if offline)",IDC_CHK_FORCEDEFAULT,
-                    "Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,110,215,209,10
+    CONTROL         "Force use of default for sending (even if offline)",IDC_CHK_FORCEDEFAULT,"Button",BS_AUTOCHECKBOX | BS_LEFT | WS_TABSTOP,110,215,209,10
     PUSHBUTTON      "Send &Offline",IDC_BTN_SETOFFLINE,161,181,50,14
 END
 
@@ -141,15 +140,6 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_SYS_DEFAULT
 #pragma code_page(1252)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_MCMENU              ICON                    "mcmenu.ico"
-IDI_MCMENUOFF           ICON                    "mcmenuof.ico"
 #endif    // Neutral (Sys. Default) resources
 /////////////////////////////////////////////////////////////////////////////
 
@@ -225,13 +215,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Set default contact on receipt of message",IDC_CHK_SETDEFAULTRECV,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,9,290,10
-    CONTROL         "Always send to default contact if not offline",IDC_CHK_ALWAYSUSEDEFAULT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,31,290,10
+    CONTROL         "Set default contact on receipt of message",IDC_CHK_SETDEFAULTRECV,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,9,290,10
+    CONTROL         "Always send to default contact if not offline",IDC_CHK_ALWAYSUSEDEFAULT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,31,290,10
     GROUPBOX        "Options",IDC_STATIC,0,0,297,178
-    CONTROL         "Suppress status notification for subcontacts",IDC_CHK_SUPPRESSSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,42,290,10
+    CONTROL         "Suppress status notification for subcontacts",IDC_CHK_SUPPRESSSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,42,290,10
     GROUPBOX        "Context Menu",IDC_STATIC,4,79,289,58
     CONTROL         "Use contact's unique id",IDC_RAD_UID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,100,112,10
     CONTROL         "Use contact's display name",IDC_RAD_DID,"Button",BS_AUTORADIOBUTTON | WS_GROUP,13,114,112,10
@@ -243,14 +230,11 @@ BEGIN
     GROUPBOX        "Contact List",IDC_STATIC,4,139,289,33,WS_GROUP
     CONTROL         "Display subcontact nickname",IDC_RAD_NICK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,149,144,10
     CONTROL         "Display subcontact display name",IDC_RAD_NAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,160,144,10
-    CONTROL         "Hide in status bar and status menu (*requires restart, uncheck to set proto icons)",IDC_CHK_SUPPRESSPROTO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,53,290,10
-    CONTROL         "Use subcontact message windows",IDC_CHK_SUBWINDOW,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,165,10
-    CONTROL         "Copy subcontact data",IDC_CHK_COPYDATA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,64,118,10
+    CONTROL         "Hide in status bar and status menu (*requires restart, uncheck to set proto icons)",IDC_CHK_SUPPRESSPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,53,290,10
+    CONTROL         "Use subcontact message windows",IDC_CHK_SUBWINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,155,10
+    CONTROL         "Copy subcontact data",IDC_CHK_COPYDATA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,64,133,10
     CONTROL         "Lock name to first contact",IDC_CHK_LOCKHANDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,155,115,10
-    CONTROL         "but only for the current conversation",IDC_CHK_TEMPDEFAULT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,260,10
+    CONTROL         "but only for the current conversation",IDC_CHK_TEMPDEFAULT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,20,260,10
 END
 
 IDD_COPYPROGRESS DIALOG  0, 0, 186, 90
@@ -294,14 +278,11 @@ STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    CONTROL         "Copy subcontact history to MetaContact when creating or adding",IDC_CHK_COPYHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,23,258,10
+    CONTROL         "Copy subcontact history to MetaContact when creating or adding",IDC_CHK_COPYHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,23,258,10
     RTEXT           "Number of days to copy (0=all):",IDC_STATIC,13,37,125,8
     EDITTEXT        IDC_ED_DAYS,158,35,31,12,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Keep MetaContact history synchronized with subcontacts",IDC_CHK_METAHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,60,258,10
-    CONTROL         "Keep subcontact history synchronized with MetaContact",IDC_CHK_SUBHISTORY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,78,258,10
+    CONTROL         "Keep MetaContact history synchronized with subcontacts",IDC_CHK_METAHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,60,258,10
+    CONTROL         "Keep subcontact history synchronized with MetaContact",IDC_CHK_SUBHISTORY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,78,258,10
     GROUPBOX        "History (** beware - change at your own risk **)",IDC_STATIC,7,7,273,95,WS_GROUP
 END
 
@@ -313,6 +294,8 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
+IDI_MCMENU              ICON                    "mcmenu.ico"
+IDI_MCMENUOFF           ICON                    "mcmenuof.ico"
 IDI_MCEDIT              ICON                    "meta_edit.ico"
 IDI_MCREMOVE            ICON                    "meta_remove2.ico"
 IDI_MCCONVERT           ICON                    "meta_convert.ico"
