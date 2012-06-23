@@ -38,7 +38,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <io.h>
 #include <string.h>
 #include <direct.h>
-#include "resource.h"
+
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_clist.h>
@@ -58,8 +58,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_contacts.h>
 #include <m_file.h>
 #include <m_addcontact.h>
+#include <m_icolib.h>
+
 #include "clc.h"
 #include "version.h"
+#include "resource.h"
 
 // shared vars
 extern HINSTANCE g_hInst;

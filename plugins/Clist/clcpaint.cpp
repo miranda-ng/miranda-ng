@@ -180,10 +180,10 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 	y = -dat->yScroll;
 	hdcMem = CreateCompatibleDC(hdc);
 	hBmpOsb = CreateBitmap(clRect.right, clRect.bottom, 1, GetDeviceCaps(hdc, BITSPIXEL), NULL);
-	hOldBitmap = SelectObject(hdcMem, hBmpOsb);
+	hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmpOsb);
 	{
 		TEXTMETRIC tm;
-		hOldFont = SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont);
+		hOldFont = (HFONT)SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPS].hFont);
 		GetTextMetrics(hdcMem, &tm);
 		groupCountsFontTopShift = tm.tmAscent;
 		SelectObject(hdcMem, dat->fontInfo[FONTID_GROUPCOUNTS].hFont);

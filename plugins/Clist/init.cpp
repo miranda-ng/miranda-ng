@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include <m_icolib.h>
 
 HINSTANCE g_hInst = 0;
 PLUGINLINK *pluginLink;
@@ -53,7 +52,6 @@ int CListModernOptInit(WPARAM wParam, LPARAM lParam);
 BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 {
 	g_hInst = hInstDLL;
-	DisableThreadLibraryCalls(g_hInst);
 	return TRUE;
 }
 
@@ -74,7 +72,7 @@ PLUGININFOEX pluginInfo = {
     {0x240a91dc, 0x9464, 0x457a, { 0x97, 0x87, 0xff, 0x1e, 0xa8, 0x8e, 0x77, 0xe3 }} //{240A91DC-9464-457a-9787-FF1EA88E77E3}
 };
 
-__declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -83,7 +81,7 @@ __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 // returns plugin's interfaces information
 
 static const MUUID interfaces[] = {MIID_CLIST, MIID_LAST};
-__declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
@@ -139,7 +137,7 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // main clist initialization routine
 
-int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int CListInitialise(PLUGINLINK * link)
 {
 	pluginLink = link;
 	#ifdef _DEBUG
@@ -177,7 +175,7 @@ LBL_Error:
 /////////////////////////////////////////////////////////////////////////////////////////
 // a plugin loader aware of CList exports will never call this.
 
-int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 {
 	return 1;
 }
@@ -185,7 +183,7 @@ int __declspec(dllexport) Load(PLUGINLINK * link)
 /////////////////////////////////////////////////////////////////////////////////////////
 // a plugin unloader
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
 }

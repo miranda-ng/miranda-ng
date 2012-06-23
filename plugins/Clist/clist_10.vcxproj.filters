@@ -15,28 +15,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="clcfonts.c">
+    <ClCompile Include="clcfonts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcopts.c">
+    <ClCompile Include="clcopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clcpaint.c">
+    <ClCompile Include="clcpaint.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clistmenus.c">
+    <ClCompile Include="clistmenus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="clistopts.c">
+    <ClCompile Include="clistopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cluiopts.c">
+    <ClCompile Include="cluiopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="commonheaders.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="init.c">
+    <ClCompile Include="init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
