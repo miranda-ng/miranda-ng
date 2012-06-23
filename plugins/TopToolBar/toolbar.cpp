@@ -1,6 +1,5 @@
 
 #include "common.h"
-#pragma hdrstop
 
 HWND hwndContactList = 0;
 HWND hwndTopToolBar = 0;

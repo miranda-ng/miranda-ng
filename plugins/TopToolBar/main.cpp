@@ -1,7 +1,6 @@
 
 #include "common.h"
 #include "version.h"
-#pragma hdrstop
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;

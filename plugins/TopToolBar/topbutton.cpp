@@ -1,6 +1,5 @@
 
 #include "common.h"
-#pragma hdrstop
 
 #define BitChanged(c) (dwFlags ^ Flags) & c
 

@@ -1,6 +1,5 @@
 
 #include "common.h"
-#pragma hdrstop
 
 #define TTBI_GROUPSHOWHIDE				"TTBInternal/GroupShowHide"
 #define TTBI_SOUNDSONOFF					"TTBInternal/SoundsOnOFF"

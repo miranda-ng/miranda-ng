@@ -1,6 +1,5 @@
 #include "common.h"
 #include <shlobj.h>
-#pragma hdrstop
 
 HWND OptionshWnd = 0;
 
@@ -21,7 +20,7 @@ HTREEITEM AddLine(HWND hTree,TopButtonInt *b, HTREEITEM hItem, HIMAGELIST il)
 	TCHAR* tmp;
 
 	if (b->dwFlags & TTBBF_ISSEPARATOR) {
-		tvis.item.pszText = L"------------------";
+		tvis.item.pszText = _T("------------------");
 		index = -1;
 	}
 	else {
@@ -61,12 +60,9 @@ int BuildTree(HWND hwndDlg)
 	if (Buttons.getCount() == 0)
 		return FALSE;
 
-	for (int i = 0; i < Buttons.getCount(); i++) {
-		TopButtonInt *b = Buttons[i];
-		AddLine(hTree, b, TVI_LAST, dat->himlButtonIcons);
-	}
-
-	return (TRUE);
+	for (int i = 0; i < Buttons.getCount(); i++)
+		AddLine(hTree, Buttons[i], TVI_LAST, dat->himlButtonIcons);
+	return TRUE;
 }
 
 //call this when options opened and buttons added/removed
@@ -78,7 +74,7 @@ int OptionsPageRebuild()
 	return 0;
 }
 
-int SaveTree(HWND hwndDlg)
+void SaveTree(HWND hwndDlg)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
 
@@ -115,10 +111,9 @@ int SaveTree(HWND hwndDlg)
 
 	ulockbut();
 	SaveAllButtonsOptions();
-	return (TRUE);
 }
 
-int CancelProcess(HWND hwndDlg)
+void CancelProcess(HWND hwndDlg)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
 
@@ -137,8 +132,6 @@ int CancelProcess(HWND hwndDlg)
 
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
 	}
-
-	return (TRUE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -365,8 +358,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						else
 							SetDlgItemTextA(hwndDlg, IDC_EPATH, "");
 					}
-					else
-					{
+					else {
 						EnableWindow(GetDlgItem(hwndDlg,IDC_REMOVEBUTTON),
 								(btn->dwFlags & TTBBF_ISSEPARATOR)?TRUE:FALSE);
 
@@ -404,14 +396,6 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		}
 		break;
 
-	case WM_DESTROY:
-		if (dat) {
-			ImageList_Destroy(dat->himlButtonIcons);
-			free(dat);
-		}
-		OptionshWnd = NULL;
-		return 0;
-
 	case WM_LBUTTONUP:
 		if (dat->dragging) {
 			TreeView_SetInsertMark(hTree, NULL, 0);
@@ -432,7 +416,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 			tvi.hItem = hti.hItem;
 			TreeView_GetItem(hTree, &tvi);
-			if (hti.flags&(TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				TVINSERTSTRUCT tvis;
 				TCHAR name[128];
 				tvis.item.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
@@ -450,6 +434,14 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
+		break;
+
+	case WM_DESTROY:
+		if (dat) {
+			ImageList_Destroy(dat->himlButtonIcons);
+			free(dat);
+		}
+		OptionshWnd = NULL;
 		break;
 	}
 	return FALSE;
