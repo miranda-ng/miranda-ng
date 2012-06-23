@@ -25,6 +25,7 @@
 	   #error, You can not use unicode under ISO Strict C++
     #endif
     #define json_char wchar_t
+    #define json_uchar wchar_t
     #ifdef __cplusplus
 	   #include <cwchar>  //need wide characters
 	   typedef std::wstring json_string;
@@ -36,6 +37,7 @@
     #define json_strcmp wcscmp
 #else
     #define json_char char
+    #define json_uchar BYTE
     #ifdef __cplusplus
 	   typedef std::string json_string;
     #endif

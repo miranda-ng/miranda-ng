@@ -31,12 +31,12 @@ public:
     static json_string UnfixString(const json_string & value_t, bool flag);
 JSON_PRIVATE
     static json_char Hex(const json_char * & pos);
-    static unsigned json_char UTF8(const json_char * & pos);
+    static json_uchar UTF8(const json_char * & pos);
     static json_char* UTF8_2(const json_char * & pos);
-    static json_string toUTF8(unsigned json_char p);
+    static json_string toUTF8(json_uchar p);
     #ifdef JSON_UNICODE
 	   static json_string UTF(const json_char * & pos);
-	   static json_string toSurrogatePair(unsigned json_char pos);
+	   static json_string toSurrogatePair(json_uchar pos);
     #endif
     static void SpecialChar(const json_char * & pos, json_string & res);
     static size_t FindNextRelevant(json_char ch, const json_string & value_t, const size_t pos);

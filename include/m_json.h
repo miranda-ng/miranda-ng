@@ -28,8 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define json_getJSI(a) CallService(MS_JSON_GETINTERFACE,(WPARAM)a,0)
 
 #ifndef LIBJSON_H
-    #define JSONNODE void  //so that JSONNODE* is void*
-    typedef JSONNODE** JSONNODE_ITERATOR;
+#define JSONNODE void  //so that JSONNODE* is void*
+typedef JSONNODE** JSONNODE_ITERATOR;
 #endif
 
 // This function get the service interface for direct calling
@@ -38,107 +38,107 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Return value ALWAYS 0
 
 typedef struct {
-		  /*
-			 stuff that's in namespace libJSON
-		  */
-		  void (*free)(void * str);
-		  void (*delete_)(JSONNODE * node);
-		  // #ifdef JSON_MEMORY_MANAGE
-			 void (*free_all)(void);
-			 void (*delete_all)(void);
-		  // #endif
-		  JSONNODE * (*parse)(const char * json);
-		  char * (*strip_white_space)(const char * json);
-		  // #ifdef JSON_VALIDATE
-			 JSONNODE * (*validate)(const char * json);
-		  // #endif
+	/*
+	stuff that's in namespace libJSON
+	*/
+	void (*free)(void * str);
+	void (*delete_)(JSONNODE * node);
+	// #ifdef JSON_MEMORY_MANAGE
+	void (*free_all)(void);
+	void (*delete_all)(void);
+	// #endif
+	JSONNODE * (*parse)(const char * json);
+	char * (*strip_white_space)(const char * json);
+	// #ifdef JSON_VALIDATE
+	JSONNODE * (*validate)(const char * json);
+	// #endif
 
-		  /*
-			 stuff that's in class JSONNode
-		   */
-		  //ctors
-		  JSONNODE * (*new_a)(const char * name, const char * value);
-		  JSONNODE * (*new_i)(const char * name, long value);
-		  JSONNODE * (*new_f)(const char * name, double value);
-		  JSONNODE * (*new_b)(const char * name, int value);  //because C bools are ints and C++ will implicitly cast it
-		  JSONNODE * (*new_)(char type);
-		  JSONNODE * (*copy)(const JSONNODE * orig);
-		  JSONNODE * (*duplicate)(const JSONNODE * orig);
+	/*
+	stuff that's in class JSONNode
+	*/
+	//ctors
+	JSONNODE * (*new_a)(const char * name, const char * value);
+	JSONNODE * (*new_i)(const char * name, long value);
+	JSONNODE * (*new_f)(const char * name, double value);
+	JSONNODE * (*new_b)(const char * name, int value);  //because C bools are ints and C++ will implicitly cast it
+	JSONNODE * (*new_)(char type);
+	JSONNODE * (*copy)(const JSONNODE * orig);
+	JSONNODE * (*duplicate)(const JSONNODE * orig);
 
-		  //assignment
-		  void (*set_a)(JSONNODE * node, const char * value);
-		  void (*set_i)(JSONNODE * node, long value);
-		  void (*set_f)(JSONNODE * node, double value);
-		  void (*set_b)(JSONNODE * node, int value);  //because C bools are ints ane C++ will implicit
-		  void (*set_n)(JSONNODE * node, const JSONNODE * orig);
+	//assignment
+	void (*set_a)(JSONNODE * node, const char * value);
+	void (*set_i)(JSONNODE * node, long value);
+	void (*set_f)(JSONNODE * node, double value);
+	void (*set_b)(JSONNODE * node, int value);  //because C bools are ints ane C++ will implicit
+	void (*set_n)(JSONNODE * node, const JSONNODE * orig);
 
-		  //inspectors
-		  char (*type)(const JSONNODE * node);
-		  unsigned int (*size)(const JSONNODE * node);
-		  int (*empty)(const JSONNODE * node);
-		  char * (*name)(const JSONNODE * node);
-		  // #ifdef JSON_COMMENTS
-			 char * (*get_comment)(const JSONNODE * node);
-		  // #endif
-		  char * (*as_string)(const JSONNODE * node);
-		  long (*as_int)(const JSONNODE * node);
-		  double (*as_float)(const JSONNODE * node);
-		  int (*as_bool)(const JSONNODE * node);
-		  JSONNODE * (*as_node)(const JSONNODE * node);
-		  JSONNODE * (*as_array)(const JSONNODE * node);
-		  // #ifdef JSON_BINARY
-			 void * (*as_binary)(const JSONNODE * node, unsigned long * size);
-		  // #endif
-		  // #ifdef JSON_WRITER
-			 char * (*write)(const JSONNODE * node);
-			 char * (*write_formatted)(const JSONNODE * node);
-		  // #endif
+	//inspectors
+	char (*type)(const JSONNODE * node);
+	unsigned int (*size)(const JSONNODE * node);
+	int (*empty)(const JSONNODE * node);
+	char * (*name)(const JSONNODE * node);
+	// #ifdef JSON_COMMENTS
+	char * (*get_comment)(const JSONNODE * node);
+	// #endif
+	char * (*as_string)(const JSONNODE * node);
+	long (*as_int)(const JSONNODE * node);
+	double (*as_float)(const JSONNODE * node);
+	int (*as_bool)(const JSONNODE * node);
+	JSONNODE * (*as_node)(const JSONNODE * node);
+	JSONNODE * (*as_array)(const JSONNODE * node);
+	// #ifdef JSON_BINARY
+	void * (*as_binary)(const JSONNODE * node, unsigned long * size);
+	// #endif
+	// #ifdef JSON_WRITER
+	char * (*write)(const JSONNODE * node);
+	char * (*write_formatted)(const JSONNODE * node);
+	// #endif
 
-		  //modifiers
-		  void (*set_name)(JSONNODE * node, const char * name);
-		  // #ifdef JSON_COMMENTS
-			 void (*set_comment)(JSONNODE * node, const char * comment);
-		  // #endif
-		  void (*clear)(JSONNODE * node);
-		  void (*nullify)(JSONNODE * node);
-		  void (*swap)(JSONNODE * node, JSONNODE * node2);
-		  void (*merge)(JSONNODE * node, JSONNODE * node2);
-		  // #ifndef JSON_PREPARSE
-			 void (*preparse)(JSONNODE * node);
-		  // #endif
-		  // #ifdef JSON_BINARY
-			 void (*set_binary)(JSONNODE * node, const void * data, unsigned long length);
-		  // #endif
-		  void (*cast)(JSONNODE * node, char type);
+	//modifiers
+	void (*set_name)(JSONNODE * node, const char * name);
+	// #ifdef JSON_COMMENTS
+	void (*set_comment)(JSONNODE * node, const char * comment);
+	// #endif
+	void (*clear)(JSONNODE * node);
+	void (*nullify)(JSONNODE * node);
+	void (*swap)(JSONNODE * node, JSONNODE * node2);
+	void (*merge)(JSONNODE * node, JSONNODE * node2);
+	// #ifndef JSON_PREPARSE
+	void (*preparse)(JSONNODE * node);
+	// #endif
+	// #ifdef JSON_BINARY
+	void (*set_binary)(JSONNODE * node, const void * data, unsigned long length);
+	// #endif
+	void (*cast)(JSONNODE * node, char type);
 
-		  //children access
-		  void (*reserve)(JSONNODE * node, unsigned int siz);
-		  JSONNODE * (*at)(JSONNODE * node, unsigned int pos);
-		  JSONNODE * (*get)(JSONNODE * node, const char * name);
-		  // #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-			 JSONNODE * (*get_nocase)(JSONNODE * node, const char * name);
-			 JSONNODE * (*pop_back_nocase)(JSONNODE * node, const char * name);
-		  // #endif
-		  void (*push_back)(JSONNODE * node, JSONNODE * node2);
-		  JSONNODE * (*pop_back_at)(JSONNODE * node, unsigned int pos);
-		  JSONNODE * (*pop_back)(JSONNODE * node, const char * name);
-		  // #ifdef JSON_ITERATORS
-			 JSONNODE_ITERATOR (*find)(JSONNODE * node, const char * name);
-			 // #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
-				JSONNODE_ITERATOR (*find_nocase)(JSONNODE * node, const char * name);
-			 // #endif
-			 JSONNODE_ITERATOR (*erase)(JSONNODE * node, JSONNODE_ITERATOR it);
-			 JSONNODE_ITERATOR (*erase_multi)(JSONNODE * node, JSONNODE_ITERATOR start, JSONNODE_ITERATOR end);
-			 JSONNODE_ITERATOR (*insert)(JSONNODE * node, JSONNODE_ITERATOR it, JSONNODE * node2);
-			 JSONNODE_ITERATOR (*insert_multi)(JSONNODE * node, JSONNODE_ITERATOR it, JSONNODE_ITERATOR start, JSONNODE_ITERATOR end);
+	//children access
+	void (*reserve)(JSONNODE * node, unsigned int siz);
+	JSONNODE * (*at)(JSONNODE * node, unsigned int pos);
+	JSONNODE * (*get)(JSONNODE * node, const char * name);
+	// #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
+	JSONNODE * (*get_nocase)(JSONNODE * node, const char * name);
+	JSONNODE * (*pop_back_nocase)(JSONNODE * node, const char * name);
+	// #endif
+	void (*push_back)(JSONNODE * node, JSONNODE * node2);
+	JSONNODE * (*pop_back_at)(JSONNODE * node, unsigned int pos);
+	JSONNODE * (*pop_back)(JSONNODE * node, const char * name);
+	// #ifdef JSON_ITERATORS
+	JSONNODE_ITERATOR (*find)(JSONNODE * node, const char * name);
+	// #ifdef JSON_CASE_INSENSITIVE_FUNCTIONS
+	JSONNODE_ITERATOR (*find_nocase)(JSONNODE * node, const char * name);
+	// #endif
+	JSONNODE_ITERATOR (*erase)(JSONNODE * node, JSONNODE_ITERATOR it);
+	JSONNODE_ITERATOR (*erase_multi)(JSONNODE * node, JSONNODE_ITERATOR start, JSONNODE_ITERATOR end);
+	JSONNODE_ITERATOR (*insert)(JSONNODE * node, JSONNODE_ITERATOR it, JSONNODE * node2);
+	JSONNODE_ITERATOR (*insert_multi)(JSONNODE * node, JSONNODE_ITERATOR it, JSONNODE_ITERATOR start, JSONNODE_ITERATOR end);
 
-			 //iterator functions
-			 JSONNODE_ITERATOR (*begin)(JSONNODE * node);
-			 JSONNODE_ITERATOR (*end)(JSONNODE * node);
-		  // #endif
+	//iterator functions
+	JSONNODE_ITERATOR (*begin)(JSONNODE * node);
+	JSONNODE_ITERATOR (*end)(JSONNODE * node);
+	// #endif
 
-		  //comparison
-		  int (*equal)(JSONNODE * node, JSONNODE * node2);
+	//comparison
+	int (*equal)(JSONNODE * node, JSONNODE * node2);
 } JSONSERVICEINTERFACE, *PJSONSERVICEINTERFACE, *LPJSONSERVICEINTERFACE;
 
 

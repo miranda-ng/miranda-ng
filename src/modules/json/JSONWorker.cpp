@@ -210,8 +210,8 @@ inline void SingleLineComment(const json_char * & p){
 				}
 				//no break, let it fall through so that the trailing quote gets added
 			 default:
-				JSON_ASSERT_SAFE((unsigned json_char)*p >= 32, JSON_TEXT("Invalid JSON character detected (lo)"), goto endofloop;);
-				JSON_ASSERT_SAFE((unsigned json_char)*p <= 126, JSON_TEXT("Invalid JSON character detected (hi)"), goto endofloop;);
+				JSON_ASSERT_SAFE((json_uchar)*p >= 32, JSON_TEXT("Invalid JSON character detected (lo)"), goto endofloop;);
+				JSON_ASSERT_SAFE((json_uchar)*p <= 126, JSON_TEXT("Invalid JSON character detected (hi)"), goto endofloop;);
 				*runner++ = *p;
 				break;
 		  }
@@ -267,8 +267,8 @@ json_string JSONWorker::RemoveWhiteSpaceAndComments(const json_string & value_t)
 			 }
 			 //no break, let it fall through so that the trailing quote gets added
 		  default:
-			 JSON_ASSERT_SAFE((unsigned json_char)*p >= 32, JSON_TEXT("Invalid JSON character detected (lo)"), goto endofloop;);
-			 JSON_ASSERT_SAFE((unsigned json_char)*p <= 126, JSON_TEXT("Invalid JSON character detected (hi)"), goto endofloop;);
+			 JSON_ASSERT_SAFE((json_uchar)*p >= 32, JSON_TEXT("Invalid JSON character detected (lo)"), goto endofloop;);
+			 JSON_ASSERT_SAFE((json_uchar)*p <= 126, JSON_TEXT("Invalid JSON character detected (hi)"), goto endofloop;);
 			 result += *p;
 			 break;
 	   }
@@ -285,18 +285,18 @@ json_string JSONWorker::RemoveWhiteSpaceAndComments(const json_string & value_t)
  This includes dealing with special characters and utf characters
  */
 #ifdef JSON_UNICODE
-    inline unsigned json_char SurrogatePair(const unsigned json_char hi, const unsigned json_char lo){
+    inline json_uchar SurrogatePair(const json_uchar hi, const json_uchar lo){
 	   JSON_ASSERT(sizeof(unsigned int) == 4, JSON_TEXT("size of unsigned int is not 32-bit"));
-	   JSON_ASSERT(sizeof(unsigned json_char) == 4, JSON_TEXT("size of json_char is not 32-bit"));
+	   JSON_ASSERT(sizeof(json_uchar) == 4, JSON_TEXT("size of json_char is not 32-bit"));
 	   return (((hi << 10) & 0x1FFC00) + 0x10000) | lo & 0x3FF;
     }
 
     json_string JSONWorker::UTF(const json_char * & pos){
 	   json_string result;
-	   unsigned json_char first = UTF8(pos);
+	   json_uchar first = UTF8(pos);
 	   if ((*(pos + 1) == '\\') && (*(pos + 2) == 'u')) {
 		  pos += 2;
-		  unsigned json_char second = UTF8(pos);
+		  json_uchar second = UTF8(pos);
 		  //surrogate pair, not two characters
 		  if ((first > 0xD800) && (first < 0xDBFF) && (second > 0xDC00) && (second < 0xDFFF)) {
 			 result += SurrogatePair(first, second);
@@ -312,10 +312,10 @@ json_string JSONWorker::RemoveWhiteSpaceAndComments(const json_string & value_t)
     }
 #endif
 
-unsigned json_char JSONWorker::UTF8(const json_char * & pos){
+json_uchar JSONWorker::UTF8(const json_char * & pos){
     #ifdef JSON_UNICODE
 	   ++pos;
-	   unsigned json_char temp = Hex(pos) << 8;
+	   json_uchar temp = Hex(pos) << 8;
 	   ++pos;
 	   return temp | Hex(pos);
     #else
@@ -326,12 +326,12 @@ unsigned json_char JSONWorker::UTF8(const json_char * & pos){
     #endif
 }
 
-static char szU8Buffer[10];
+static json_char szU8Buffer[10];
 
 json_char* JSONWorker::UTF8_2(const json_char * & pos){
     #ifdef JSON_UNICODE
 	   ++pos;
-	   unsigned json_char temp = Hex(pos) << 8;
+	   json_uchar temp = Hex(pos) << 8;
 	   ++pos;
 	   *szU8Buffer= temp | Hex(pos);
 	   szU8Buffer[1]=0;
@@ -374,14 +374,14 @@ json_char JSONWorker::Hex(const json_char * & pos){
 	as this method is also used for \x
 	*/
     //First character
-    unsigned json_char hi = *pos++ - 48;
+    json_uchar hi = *pos++ - 48;
     if (hi > 48){  //A-F don't immediately follow 0-9, so have to pull them down a little
 	   hi -= 39;
     } else if (hi > 9){  //neither do a-f
 	   hi -= 7;
     }
     //second character
-    unsigned json_char lo = *pos - 48;
+    json_uchar lo = *pos - 48;
     if (lo > 48){  //A-F don't immediately follow 0-9, so have to pull them down a little
 	   lo -= 39;
     } else if (lo > 9){  //neither do a-f
@@ -393,9 +393,9 @@ json_char JSONWorker::Hex(const json_char * & pos){
 
 inline json_char FromOctal(const json_char * & str){
     JSON_ASSERT(json_strlen(str) > 3, JSON_TEXT("Octal will go out of bounds"));
-    const unsigned json_char top = ((unsigned json_char)(*(str++) - 48));
-    const unsigned json_char middle = (unsigned json_char)(*(str++) - 48);
-    const unsigned json_char bottom = (unsigned json_char)(*str - 48);
+    const json_uchar top = ((json_uchar)(*(str++) - 48));
+    const json_uchar middle = (json_uchar)(*(str++) - 48);
+    const json_uchar bottom = (json_uchar)(*str - 48);
     return (json_char)((top << 6) | (middle << 3) | bottom);
 }
 
@@ -504,10 +504,10 @@ void JSONWorker::SpecialChar(const json_char * & pos, json_string & res){
 }
 
 #ifdef JSON_UNICODE
-    json_string JSONWorker::toSurrogatePair(unsigned json_char C){
+    json_string JSONWorker::toSurrogatePair(json_uchar C){
 	   JSON_ASSERT(sizeof(unsigned int) == 4, JSON_TEXT("size of unsigned int is not 32-bit"));
 	   JSON_ASSERT(sizeof(unsigned short) == 2, JSON_TEXT("size of unsigned short is not 16-bit"));
-	   JSON_ASSERT(sizeof(unsigned json_char) == 4, JSON_TEXT("json_char is not 32-bit"));
+	   JSON_ASSERT(sizeof(json_uchar) == 4, JSON_TEXT("json_char is not 32-bit"));
 	   //Compute the high surrogate
 	   const unsigned int U = (C >> 16) & 31;
 	   unsigned short HiSurrogate = 0xD800 | (((unsigned short)U - 1) << 6) | ((unsigned short)C) >> 10;
@@ -522,26 +522,26 @@ void JSONWorker::SpecialChar(const json_char * & pos, json_string & res){
     }
 #endif
 
-json_string JSONWorker::toUTF8(unsigned json_char p){
+json_string JSONWorker::toUTF8(json_uchar p){
     #ifdef JSON_UNICODE
 	   if (p > 0xFFFF) return toSurrogatePair(p);
     #endif
     json_string res(JSON_TEXT("\\u"));
     #ifdef JSON_UNICODE
-	   unsigned json_char hihi = ((p & 0xF000) >> 12) + 48;
+	   json_uchar hihi = ((p & 0xF000) >> 12) + 48;
 	   if (hihi > 57) hihi += 7; //A-F don't immediately follow 0-9, so have to further adjust those
-	   unsigned json_char hilo = ((p & 0x0F00) >> 8) + 48;
+	   json_uchar hilo = ((p & 0x0F00) >> 8) + 48;
 	   if (hilo > 57) hilo += 7; //A-F don't immediately follow 0-9, so have to further adjust those
 	   res += hihi;
 	   res += hilo;
-	   unsigned json_char hi = ((p & 0x00F0) >> 4) + 48;
+	   json_uchar hi = ((p & 0x00F0) >> 4) + 48;
     #else
 	   res += JSON_TEXT("00");
-	   unsigned json_char hi = (p >> 4) + 48;
+	   json_uchar hi = (p >> 4) + 48;
     #endif
     //convert the character to be escaped into two digits between 0 and 15
     if (hi > 57) hi += 7; //A-F don't immediately follow 0-9, so have to further adjust those
-    unsigned json_char lo = (p & 0x000F) + 48;
+    json_uchar lo = (p & 0x000F) + 48;
     if (lo > 57) lo += 7; //A-F don't immediately follow 0-9, so have to further adjust those
     res += hi;
     res += lo;
@@ -589,8 +589,8 @@ json_string JSONWorker::UnfixString(const json_string & value_t, bool flag){
 			 res += JSON_TEXT("\\\'");
 			 break;
 		  default:
-			 /*if (((unsigned json_char)(*p) < 32) || ((unsigned json_char)(*p) > 126)) {
-				//res += toUTF8((unsigned json_char)(*p));
+			 /*if (((json_uchar)(*p) < 32) || ((json_uchar)(*p) > 126)) {
+				//res += toUTF8((json_uchar)(*p));
 			 } else*/ {
 				res += *p;
 			 }
