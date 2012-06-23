@@ -98,7 +98,7 @@ void MessageFailureProcess(TMsgQueue *item, const char* err)
 	CallService(MS_DB_EVENT_DELETE, (WPARAM)item->hContact, (LPARAM)item->hDbEvent);
 	
 	hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE)item->hContact);
-	if (hwnd  ==  NULL)
+	if (hwnd == NULL)
 	{
 		SendMessageCmd(item->hContact, NULL, 0);
 		hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE)item->hContact);

@@ -114,7 +114,7 @@ void msgQueue_processack(HANDLE hContact, HANDLE id, BOOL success, const char* s
 	for (i = 0; i < msgQueue.realCount; ++i) 
 	{
 		item = (TMsgQueue*)msgQueue.items[i];
-		if (item->hContact  ==  hContact && item->id  ==  id)
+		if (item->hContact == hContact && item->id == id)
 		{
 			li.List_Remove(&msgQueue, i);
 

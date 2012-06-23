@@ -72,7 +72,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 	char *d;
 	int lineLen;
 
-	if (line  ==  NULL)
+	if (line == NULL)
 		return 0;
 
 	lineLen = (int)_tcslen(line) * 9 + 8;
@@ -88,32 +88,32 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 
 	for (; *line; line++, textCharsCount++) 
 	{
-		if (*line  ==  '\r' && line[1]  ==  '\n') 
+		if (*line == '\r' && line[1] == '\n') 
 		{
 			memcpy(d, "\\par ", 5);
 			line++;
 			d += 5;
 		}
-		else if (*line  ==  '\n') {
+		else if (*line == '\n') {
 			memcpy(d, "\\par ", 5);
 			d += 5;
 		}
-		else if (*line  ==  '\t') 
+		else if (*line == '\t') 
 		{
 			memcpy(d, "\\tab ", 5);
 			d += 5;
 		}
-		else if (*line  ==  '\\' || *line  ==  '{' || *line  ==  '}') 
+		else if (*line == '\\' || *line == '{' || *line == '}') 
 		{
 			*d++ = '\\';
 			*d++ = (char) *line;
 		}
-		else if (*line  ==  '[' && (g_dat->flags & SMF_SHOWFORMAT))
+		else if (*line == '[' && (g_dat->flags & SMF_SHOWFORMAT))
 		{
 			int i, found = 0;
 			for (i = 0; i < SIZEOF(bbcodes); ++i)
 			{
-				if (line[1]  ==  bbcodes[i][1])
+				if (line[1] == bbcodes[i][1])
 				{
 					size_t lenb = _tcslen(bbcodes[i]);
 					if (!_tcsnicmp(line, bbcodes[i], lenb))
@@ -134,7 +134,7 @@ static int AppendToBufferWithRTF(char **buffer, int *cbBufferEnd, int *cbBufferA
 					TCHAR* tag = _tcschr(line + 4, ']');
 					if (tag)
 					{
-						TCHAR *tagu = (line[4]  ==  '=') ? line + 5 : tag + 1;
+						TCHAR *tagu = (line[4] == '=') ? line + 5 : tag + 1;
 						TCHAR *tage = _tcsstr(tag, _T("[/url]"));
 						if (!tage) tage = _tcsstr(tag, _T("[/URL]"));
 						if (tage)
@@ -209,7 +209,7 @@ static char *CreateRTFHeader(struct SrmmWindowData *dat)
 		LoadMsgDlgFont(i, NULL, &colour);
 		AppendToBuffer(&buffer, &bufferEnd, &bufferAlloced, "\\red%u\\green%u\\blue%u;", GetRValue(colour), GetGValue(colour), GetBValue(colour));
 	}
-	if (GetSysColorBrush(COLOR_HOTLIGHT)  ==  NULL)
+	if (GetSysColorBrush(COLOR_HOTLIGHT) == NULL)
 		colour = RGB(0, 0, 255);
 	else
 		colour = GetSysColor(COLOR_HOTLIGHT);
@@ -259,7 +259,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 		case EVENTTYPE_JABBER_PRESENCE:
 		case EVENTTYPE_STATUSCHANGE:
 		case EVENTTYPE_FILE:
-			return (dbei->flags & DBEF_READ)  ==  0;
+			return (dbei->flags & DBEF_READ) == 0;
 	}
 	return DbEventIsForMsgWindow(dbei);
 }
@@ -274,7 +274,7 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 
 	dbei.cbSize = sizeof(dbei);
 	dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM) hDbEvent, 0);
-	if (dbei.cbBlob  ==  -1)
+	if (dbei.cbBlob == -1)
 		return NULL;
 	dbei.pBlob = (PBYTE) mir_alloc(dbei.cbBlob);
 	CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
@@ -282,12 +282,12 @@ static char *CreateRTFFromDbEvent(struct SrmmWindowData *dat, HANDLE hContact, H
 		mir_free(dbei.pBlob);
 		return NULL;
 	}
-	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType  ==  EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
+	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 	{
 		CallService(MS_DB_EVENT_MARKREAD, (WPARAM) hContact, (LPARAM) hDbEvent);
 		CallService(MS_CLIST_REMOVEEVENT, (WPARAM) hContact, (LPARAM) hDbEvent);
 	}
-	else if (dbei.eventType  ==  EVENTTYPE_STATUSCHANGE || dbei.eventType  ==  EVENTTYPE_JABBER_CHATSTATES || dbei.eventType  ==  EVENTTYPE_JABBER_PRESENCE) {
+	else if (dbei.eventType == EVENTTYPE_STATUSCHANGE || dbei.eventType == EVENTTYPE_JABBER_CHATSTATES || dbei.eventType == EVENTTYPE_JABBER_PRESENCE) {
 		CallService(MS_DB_EVENT_MARKREAD, (WPARAM) hContact, (LPARAM) hDbEvent);
 	}
 	bufferEnd = 0;
@@ -460,7 +460,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 {
 	struct LogStreamData *dat = (struct LogStreamData *) dwCookie;
 
-	if (dat->buffer  ==  NULL) 
+	if (dat->buffer == NULL) 
 	{
 		dat->bufferOffset = 0;
 		switch (dat->stage) 
@@ -479,9 +479,9 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 						if (dat->buffer)
 							dat->hDbEventLast = dat->hDbEvent;
 						dat->hDbEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) dat->hDbEvent, 0);
-						if (--dat->eventsToInsert  ==  0)
+						if (--dat->eventsToInsert == 0)
 							break;
-					} while (dat->buffer  ==  NULL && dat->hDbEvent);
+					} while (dat->buffer == NULL && dat->hDbEvent);
 					if (dat->buffer) 
 					{
 						dat->isEmpty = 0;
@@ -503,7 +503,7 @@ static DWORD CALLBACK LogStreamInEvents(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	*pcb = min(cb, dat->bufferLen - dat->bufferOffset);
 	CopyMemory(pbBuff, dat->buffer + dat->bufferOffset, *pcb);
 	dat->bufferOffset += *pcb;
-	if (dat->bufferOffset  ==  dat->bufferLen) 
+	if (dat->bufferOffset == dat->bufferLen) 
 	{
 		mir_free(dat->buffer);
 		dat->buffer = NULL;
@@ -528,7 +528,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 	streamData.hDbEvent = hDbEventFirst;
 	streamData.dlgDat = dat;
 	streamData.eventsToInsert = count;
-	streamData.isEmpty = !fAppend || GetWindowTextLength(hwndLog)  ==  0;
+	streamData.isEmpty = !fAppend || GetWindowTextLength(hwndLog) == 0;
 	stream.pfnCallback = LogStreamInEvents;
 	stream.dwCookie = (DWORD_PTR)&streamData;
 

@@ -108,7 +108,7 @@ void RegisterSRMMFonts( void )
 		fontid.order = index;
 
 		fontid.flags &= ~FIDF_CLASSMASK;
-		fontid.flags |= (fontOptionsList[i].defStyle  ==  FONTF_BOLD) ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL;
+		fontid.flags |= (fontOptionsList[i].defStyle == FONTF_BOLD) ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL;
 
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
 		fontid.deffontsettings.size = fontOptionsList[i].defSize;
@@ -173,7 +173,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
     tvi.hItem = TreeView_GetRoot(hwndTree);
     while (tvi.hItem) {
         TreeView_GetItem(hwndTree, &tvi);
-        if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12  ==  2))
+        if (((tvi.state & TVIS_STATEIMAGEMASK) >> 12 == 2))
             flags |= tvi.lParam;
         tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
     }
@@ -261,7 +261,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_NOTIFY:
 			switch (((LPNMHDR) lParam)->idFrom) {
                 case IDC_POPLIST:
-                    if (((LPNMHDR) lParam)->code  ==  NM_CLICK) {
+                    if (((LPNMHDR) lParam)->code == NM_CLICK) {
                         TVHITTESTINFO hti;
                         hti.pt.x = (short) LOWORD(GetMessagePos());
                         hti.pt.y = (short) HIWORD(GetMessagePos());
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
                                 tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
                                 tvi.hItem = hti.hItem;
                                 TreeView_GetItem(((LPNMHDR) lParam)->hwndFrom, &tvi);
-                                tvi.iImage = tvi.iSelectedImage = tvi.iImage  ==  1 ? 2 : 1;
+                                tvi.iImage = tvi.iSelectedImage = tvi.iImage == 1 ? 2 : 1;
                                 TreeView_SetItem(((LPNMHDR) lParam)->hwndFrom, &tvi);
                                 SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
                             }

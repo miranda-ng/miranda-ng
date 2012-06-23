@@ -131,7 +131,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	ru = (TRichUtil *)li.List_Find(&sListInt, (TRichUtil*)&hwnd);
 	LeaveCriticalSection(&csRich);
 
-	if (ru  ==  NULL) return 0;
+	if (ru == NULL) return 0;
 
 	switch(msg) 
 	{
@@ -209,7 +209,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					RECT rcClient ={0}; 
 					HDC hdc = GetDC(GetParent(hwnd));
 
-					if (MyGetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient)  ==  S_OK) 
+					if (MyGetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient) == S_OK) 
 					{
 						ru->rect.left = rcClient.left-ncsParam->rgrc[0].left;
 						ru->rect.top = rcClient.top-ncsParam->rgrc[0].top;
@@ -241,7 +241,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			if (IsWindow(hwnd)) 
 			{
-				if ((WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC)  ==  &RichUtil_Proc)
+				if ((WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC) == &RichUtil_Proc)
 					SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)ru->origProc);
 			}
 

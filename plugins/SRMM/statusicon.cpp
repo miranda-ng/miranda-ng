@@ -55,7 +55,7 @@ INT_PTR RemoveStatusIcon(WPARAM wParam, LPARAM lParam) {
 	struct StatusIconListNode *current = status_icon_list, *prev = 0;
 
 	while(current) {
-		if(strcmp(current->sid.szModule, sid->szModule)  ==  0 && current->sid.dwId  ==  sid->dwId) {
+		if(strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
 			if(prev) prev->next = current->next;
 			else status_icon_list = current->next;
 
@@ -102,7 +102,7 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam) {
 	struct StatusIconListNode *current = status_icon_list, *prev = 0;
 
 	while(current) {
-		if(strcmp(current->sid.szModule, sid->szModule)  ==  0 && current->sid.dwId  ==  sid->dwId) {
+		if(strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
 			if (!hContact) {
 				current->sid.flags = sid->flags;
 				if(sid->hIcon) {

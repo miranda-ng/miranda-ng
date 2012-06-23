@@ -56,7 +56,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	dbei.cbSize = sizeof(dbei);
 	CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
 
-	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType  ==  EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
+	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
@@ -73,7 +73,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			if (GetForegroundWindow()  ==  hwnd)
+			if (GetForegroundWindow() == hwnd)
 				SkinPlaySound("RecvMsgActive");
 			else 
 				SkinPlaySound("RecvMsgInactive");
@@ -215,7 +215,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	HANDLE hContact = (HANDLE)wParam;
 
-	if (cws->szModule  ==  NULL) return 0;
+	if (cws->szModule == NULL) return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
 		WindowList_Broadcast(g_dat->hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
@@ -267,7 +267,7 @@ static void RestoreUnreadMessageAlerts(void)
 			autoPopup = 0;
 			dbei.cbBlob = 0;
 			CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType  ==  EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) 
+			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) 
 			{
 				windowAlreadyExists = WindowList_Find(g_dat->hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
@@ -425,7 +425,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 int LoadSendRecvMessageModule(void)
 {
-	if (LoadLibraryA("riched20.dll")  ==  NULL) {
+	if (LoadLibraryA("riched20.dll") == NULL) {
 		if (IDYES  != 
 			MessageBox(0,
 			TranslateT
@@ -469,7 +469,7 @@ int LoadSendRecvMessageModule(void)
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
-	if (hCurHyperlinkHand  ==  NULL)
+	if (hCurHyperlinkHand == NULL)
 		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 
 	InitStatusIcons();
@@ -493,7 +493,7 @@ STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
 
 STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 {
-	if (refCount  ==  0) {
+	if (refCount == 0) {
 		if (S_OK != StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg))
 			pictStg = NULL;
 		nextStgId = 0;
@@ -503,7 +503,7 @@ STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 
 STDMETHODIMP_(ULONG) CREOleCallback::Release()
 {
-	if (--refCount  ==  0) {
+	if (--refCount == 0) {
 		if (pictStg)
 			pictStg->Release();
 	}
@@ -546,7 +546,7 @@ STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
 	char szName[64];
 	wsprintfA(szName, "s%u", nextStgId++);
 	MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, SIZEOF(szwName));
-	if (pictStg  ==  NULL)
+	if (pictStg == NULL)
 		return STG_E_MEDIUMFULL;
 	return pictStg->CreateStorage(szwName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 }
