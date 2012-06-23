@@ -715,7 +715,10 @@ typedef struct {
 typedef struct {
 	DWORD flags;
 	DWORD timestamp;   //unix time
-	char *szMessage;
+	union {
+		char *szMessage;
+		TCHAR *tszMessage;
+	};
 	LPARAM lParam;     //extra space for the network level protocol module
 } PROTORECVEVENT;
 #define PREF_CREATEREAD   1     //create the database event with the 'read' flag set
