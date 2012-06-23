@@ -179,17 +179,17 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="addto.c" />
-    <ClCompile Include="edit.c" />
-    <ClCompile Include="icons.c" />
-    <ClCompile Include="meta_api.c" />
-    <ClCompile Include="meta_main.c">
+    <ClCompile Include="addto.cpp" />
+    <ClCompile Include="edit.cpp" />
+    <ClCompile Include="icons.cpp" />
+    <ClCompile Include="meta_api.cpp" />
+    <ClCompile Include="meta_main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="meta_menu.c" />
-    <ClCompile Include="meta_options.c" />
-    <ClCompile Include="meta_services.c" />
-    <ClCompile Include="meta_utils.c" />
+    <ClCompile Include="meta_menu.cpp" />
+    <ClCompile Include="meta_options.cpp" />
+    <ClCompile Include="meta_services.cpp" />
+    <ClCompile Include="meta_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="metacontacts.h" />
@@ -204,7 +204,6 @@
     <None Include="meta_edit.ico" />
     <None Include="meta_remove2.ico" />
     <None Include="meta_set_as_default.ico" />
-    <None Include="MetaContacts translations\metacontacts_template.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MetaContacts.rc" />

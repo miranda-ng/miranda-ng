@@ -101,7 +101,7 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	0,
+	UNICODE_AWARE,
 	0,
 	{ 0x4c4a27cf, 0x5e64, 0x4242, { 0xa3, 0x32, 0xb9, 0x8b, 0x8, 0x24, 0x3e, 0x89 } } // {4C4A27CF-5E64-4242-A332-B98B08243E89}
 };
@@ -113,17 +113,16 @@ PLUGINLINK *pluginLink;	//!< Link between Miranda and this plugin
 * It only returns the PLUGININFO structure, without any test on the version
 * @param mirandaVersion The version of the application calling this function
 */
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_METACONTACTS, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
-
 
 /** DLL entry point
 * Required to store the instance handle
@@ -131,14 +130,13 @@ __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInstance=hinstDLL;
-	DisableThreadLibraryCalls(hInstance);
 	return TRUE;
 }
 
 /** Prepare the plugin to stop
 * Called by Miranda when it will exit or when the plugin gets deselected
 */
-__declspec(dllexport)int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	// see also meta_services.c, Meta_PreShutdown
 	Meta_CloseHandles();
@@ -157,7 +155,7 @@ BOOL IsUnicodeOS()
 /** Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
 */
-int __declspec(dllexport)Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	PROTOCOLDESCRIPTOR pd;
 	DBVARIANT dbv;

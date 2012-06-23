@@ -1537,7 +1537,7 @@ void copyHistory(HANDLE hContactFrom,HANDLE hContactTo)
 		if ((dbei.cbBlob = CallService(MS_DB_EVENT_GETBLOBSIZE, (WPARAM)hDbEvent, 0)) == -1)
 			break;
 
-		buffer = mir_realloc(buffer, dbei.cbBlob);// + id_length);
+		buffer = (BYTE *)mir_realloc(buffer, dbei.cbBlob);// + id_length);
 		dbei.pBlob = buffer; 
 
 		if (CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei)) 

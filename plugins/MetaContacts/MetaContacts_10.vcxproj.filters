@@ -18,31 +18,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="addto.c">
+    <ClCompile Include="addto.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="edit.c">
+    <ClCompile Include="edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="icons.c">
+    <ClCompile Include="icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meta_api.c">
+    <ClCompile Include="meta_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meta_main.c">
+    <ClCompile Include="meta_main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meta_menu.c">
+    <ClCompile Include="meta_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meta_options.c">
+    <ClCompile Include="meta_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meta_services.c">
+    <ClCompile Include="meta_services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="meta_utils.c">
+    <ClCompile Include="meta_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -78,9 +78,6 @@
     </None>
     <None Include="meta_set_as_default.ico">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="MetaContacts translations\metacontacts_template.txt">
-      <Filter>translation template</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

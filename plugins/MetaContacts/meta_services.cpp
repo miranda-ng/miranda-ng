@@ -1417,7 +1417,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 						hNudgeEvent = HookEvent(str, NudgeRecieved);
 						if (hNudgeEvent != NULL) {
 							++iNudgeProtos;
-							hNudgeEvents = realloc(hNudgeEvents, sizeof(HANDLE) * iNudgeProtos);
+							hNudgeEvents = (HANDLE *)realloc(hNudgeEvents, sizeof(HANDLE) * iNudgeProtos);
 							hNudgeEvents[iNudgeProtos - 1] = hNudgeEvent;
 						}						
 					}
