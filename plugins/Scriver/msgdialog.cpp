@@ -37,10 +37,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand, hDragCursor;
 extern HANDLE hHookWinEvt;
 extern HANDLE hHookWinPopup;
-extern struct CREOleCallback reOleCallback, reOleCallback2;
-extern HINSTANCE g_hInst;
+extern CREOleCallback reOleCallback, reOleCallback2;
 
-static void UpdateReadChars(HWND hwndDlg, struct MessageWindowData * dat);
+static void UpdateReadChars(HWND hwndDlg, struct SrmmWindowData * dat);
 
 static WNDPROC OldMessageEditProc, OldLogEditProc;
 static ToolbarButton toolbarButtons[] = {
@@ -64,7 +63,7 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
     return 0;
 }
 
-static TCHAR *GetIEViewSelection(struct MessageWindowData *dat) {
+static TCHAR *GetIEViewSelection(struct SrmmWindowData *dat) {
 	IEVIEWEVENT event;
 	ZeroMemory(&event, sizeof(event));
 	event.cbSize = sizeof(event);
@@ -223,7 +222,7 @@ static void AddToFileList(TCHAR ***pppFiles,int *totalCount,const TCHAR* szFilen
 static void SetDialogToType(HWND hwndDlg)
 {
 	BOOL showToolbar = SendMessage(GetParent(hwndDlg), CM_GETTOOLBARSTATUS, 0, 0);
-	struct MessageWindowData *dat = (struct MessageWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	struct SrmmWindowData *dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	ParentWindowData *pdat = dat->parent;
 
 	if (pdat->flags2 & SMF2_SHOWINFOBAR) {
@@ -256,7 +255,7 @@ static void SetDialogToType(HWND hwndDlg)
 }
 
 
-void SetStatusIcon(struct MessageWindowData *dat) {
+void SetStatusIcon(struct SrmmWindowData *dat) {
 	if (dat->szProto != NULL) {
 		char *szProto = dat->szProto;
 		HANDLE hContact = dat->windowData.hContact;
@@ -288,7 +287,7 @@ void SetStatusIcon(struct MessageWindowData *dat) {
 	}
 }
 
-void GetTitlebarIcon(struct MessageWindowData *dat, TitleBarData *tbd) {
+void GetTitlebarIcon(struct SrmmWindowData *dat, TitleBarData *tbd) {
 	if (dat->showTyping && (g_dat->flags2 & SMF2_SHOWTYPINGWIN)) {
 		tbd->hIconNot = tbd->hIcon = GetCachedIcon("scriver_TYPING");
 	} else if (dat->showUnread && (GetActiveWindow() != dat->hwndParent || GetForegroundWindow() != dat->hwndParent)) {
@@ -301,7 +300,7 @@ void GetTitlebarIcon(struct MessageWindowData *dat, TitleBarData *tbd) {
 	tbd->hIconBig = (g_dat->flags & SMF_STATUSICON) ? dat->statusIconBig : g_dat->hMsgIconBig;
 }
 
-HICON GetTabIcon(struct MessageWindowData *dat) {
+HICON GetTabIcon(struct SrmmWindowData *dat) {
 	if (dat->showTyping) {
 		return GetCachedIcon("scriver_TYPING");
 	} else if (dat->showUnread != 0) {
@@ -405,12 +404,12 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 {
 	int result = -1;
 	struct MsgEditSubclassData *dat;
-	struct MessageWindowData *pdat;
+	struct SrmmWindowData *pdat;
 	CommonWindowData *windowData;
 	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
 	BOOL isAlt = GetKeyState(VK_MENU) & 0x8000;
 	dat = (struct MsgEditSubclassData *) GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	pdat=(struct MessageWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
+	pdat=(struct SrmmWindowData *)GetWindowLongPtr(GetParent(hwnd),GWLP_USERDATA);
 	windowData = &pdat->windowData;
 
 	result = InputAreaShortcuts(hwnd, msg, wParam, lParam, windowData);
@@ -520,7 +519,7 @@ static void UnsubclassLogEdit(HWND hwnd) {
 	SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR) OldLogEditProc);
 }
 
-static void MessageDialogResize(HWND hwndDlg, struct MessageWindowData *dat, int w, int h) {
+static void MessageDialogResize(HWND hwndDlg, struct SrmmWindowData *dat, int w, int h) {
 	HDWP hdwp;
 	ParentWindowData *pdat = dat->parent;
 	int hSplitterPos = dat->splitterPos, toolbarHeight = pdat->flags2&SMF2_SHOWTOOLBAR ? IsToolbarVisible(SIZEOF(toolbarButtons), g_dat->buttonVisibility) ? dat->toolbarSize.cy : dat->toolbarSize.cy / 3 : 0;
@@ -620,7 +619,7 @@ static void MessageDialogResize(HWND hwndDlg, struct MessageWindowData *dat, int
 	RedrawWindow(GetDlgItem(hwndDlg, IDC_AVATAR), NULL, NULL, RDW_INVALIDATE);
 }
 
-static void UpdateReadChars(HWND hwndDlg, struct MessageWindowData * dat)
+static void UpdateReadChars(HWND hwndDlg, struct SrmmWindowData * dat)
 {
 	if (dat->parent->hwndActive == hwndDlg) {
 		TCHAR szText[256];
@@ -635,7 +634,7 @@ static void UpdateReadChars(HWND hwndDlg, struct MessageWindowData * dat)
 	}
 }
 
-void ShowAvatar(HWND hwndDlg, struct MessageWindowData *dat)
+void ShowAvatar(HWND hwndDlg, struct SrmmWindowData *dat)
 {
 	INT_PTR res = CallService(MS_AV_GETAVATARBITMAP, (WPARAM)dat->windowData.hContact, 0);
 	dat->ace = res != CALLSERVICE_NOTFOUND ? (AVATARCACHEENTRY*)res : NULL;
@@ -647,7 +646,7 @@ void ShowAvatar(HWND hwndDlg, struct MessageWindowData *dat)
 	RedrawWindow(GetDlgItem(hwndDlg, IDC_AVATAR), NULL, NULL, RDW_INVALIDATE);
 }
 
-static BOOL IsTypingNotificationSupported(struct MessageWindowData *dat) {
+static BOOL IsTypingNotificationSupported(struct SrmmWindowData *dat) {
 	DWORD typeCaps;
 	if (!dat->windowData.hContact)
 		return FALSE;
@@ -659,7 +658,7 @@ static BOOL IsTypingNotificationSupported(struct MessageWindowData *dat) {
 	return TRUE;
 }
 
-static BOOL IsTypingNotificationEnabled(struct MessageWindowData *dat) {
+static BOOL IsTypingNotificationEnabled(struct SrmmWindowData *dat) {
 	DWORD protoStatus;
 	DWORD protoCaps;
 	if (!DBGetContactSettingByte(dat->windowData.hContact, SRMMMOD, SRMSGSET_TYPING, DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
@@ -683,7 +682,7 @@ static BOOL IsTypingNotificationEnabled(struct MessageWindowData *dat) {
 // Don't send to protocols that are offline
 // Don't send to users who are not visible and
 // Don't send to users who are not on the visible list when you are in invisible mode.
-static void NotifyTyping(struct MessageWindowData *dat, int mode) {
+static void NotifyTyping(struct SrmmWindowData *dat, int mode) {
 	if (!IsTypingNotificationSupported(dat)) {
 		return;
 	}
@@ -737,8 +736,8 @@ static INT_PTR CALLBACK ConfirmSendAllDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static HMENU hToolbarMenu;
-	struct MessageWindowData *dat;
-	dat = (struct MessageWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	struct SrmmWindowData *dat;
+	dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	if (!dat && msg!=WM_INITDIALOG) return FALSE;
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -748,8 +747,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			RECT minEditInit;
 			NewMessageWindowLParam *newData = (NewMessageWindowLParam *) lParam;
 			//TranslateDialogDefault(hwndDlg);
-			dat = (struct MessageWindowData *) mir_alloc(sizeof(struct MessageWindowData));
-			ZeroMemory(dat, sizeof(struct MessageWindowData));
+			dat = (struct SrmmWindowData *) mir_alloc(sizeof(struct SrmmWindowData));
+			ZeroMemory(dat, sizeof(struct SrmmWindowData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) dat);
 			dat->windowData.hContact = newData->hContact;
 			NotifyLocalWinEvent(dat->windowData.hContact, hwndDlg, MSG_WINDOW_EVT_OPENING);
@@ -1109,7 +1108,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TabControlData tcd;
 			tcd.iFlags = TCDF_TEXT | TCDF_ICON;
 			tcd.hIcon = GetTabIcon(dat);
-			tcd.pszText = GetTabName(dat->windowData.hContact);
+			tcd.pszText = GetTabName((HANDLE *)dat->windowData.hContact);
 			SendMessage(dat->hwndParent, CM_UPDATETABCONTROL, (WPARAM)&tcd, (LPARAM)hwndDlg);
 			mir_free(tcd.pszText);
 		}
@@ -1119,7 +1118,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			TitleBarData tbd = {0};
 			tbd.iFlags = TBDF_TEXT | TBDF_ICON;
 			GetTitlebarIcon(dat, &tbd);
-			tbd.pszText = GetWindowTitle(dat->windowData.hContact, dat->szProto);
+			tbd.pszText = GetWindowTitle((HANDLE *)dat->windowData.hContact, dat->szProto);
 			SendMessage(dat->hwndParent, CM_UPDATETITLEBAR, (WPARAM)&tbd, (LPARAM)hwndDlg);
 			mir_free(tbd.pszText);
 		}
@@ -1195,8 +1194,10 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 	case DM_OPTIONSAPPLIED:
 		{
-			PARAFORMAT2 pf2 = {0};
-			CHARFORMAT2 cf2 = {0};
+			PARAFORMAT2 pf2;
+			memset(&pf2, 0, sizeof(pf2));
+			CHARFORMAT2 cf2;
+			memset(&cf2, 0, sizeof(cf2));
 			LOGFONT lf;
 			COLORREF colour;
 			dat->flags &= ~SMF_USEIEVIEW;
@@ -1274,7 +1275,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (!OpenClipboard(hwndDlg) || !lstrlenA(buf)) break;
 				EmptyClipboard();
 				hData = GlobalAlloc(GMEM_MOVEABLE, lstrlenA(buf) + 1);
-				lstrcpyA(GlobalLock(hData), buf);
+				lstrcpyA((LPSTR)GlobalLock(hData), buf);
 				GlobalUnlock(hData);
 				SetClipboardData(CF_TEXT, hData);
 				CloseClipboard();

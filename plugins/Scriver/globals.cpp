@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_ieview.h"
 
 struct GlobalMessageData *g_dat=NULL;
-extern HINSTANCE g_hInst;
 extern PSLWA pSetLayeredWindowAttributes;
 
 HANDLE hEventSkin2IconsChanged;
@@ -228,7 +227,7 @@ void LoadGlobalIcons() {
 	overlayIcon = ImageList_AddIcon(g_dat->hHelperIconList, GetCachedIcon("scriver_OVERLAY"));
 	ImageList_SetOverlayImage(g_dat->hHelperIconList, overlayIcon, 1);
 	for (i=0; i<IDI_FOODNETWORK - IDI_GOOGLE + 1; i++) {
-		HICON hIcon = LoadImage(g_hInst, MAKEINTRESOURCE(IDI_GOOGLE + i), IMAGE_ICON, 0, 0, 0);
+		HICON hIcon = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_GOOGLE + i), IMAGE_ICON, 0, 0, 0);
 		ImageList_AddIcon(g_dat->hSearchEngineIconList, hIcon);
 		DestroyIcon(hIcon);
 	}

@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "../commonheaders.h"
 #include "chat.h"
 
-extern HINSTANCE		g_hInst;
-
 extern HANDLE hJoinMenuItem, hLeaveMenuItem;
 
 HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* pszDisplayName, int iType)

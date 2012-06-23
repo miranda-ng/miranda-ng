@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 TCmdList *tcmdlist_append(TCmdList *list, const char *data, int maxSize, BOOL temporary) {
 	TCmdList *n;
-	TCmdList *new_list = mir_alloc(sizeof(TCmdList));
+	TCmdList *new_list = (TCmdList *)mir_alloc(sizeof(TCmdList));
 	TCmdList *attach_to = NULL;
 
 	if (!data) {
@@ -74,7 +74,7 @@ TCmdList *tcmdlist_remove(TCmdList *list, TCmdList *n) {
 
 TCmdList *tcmdlist_append2(TCmdList *list, HANDLE hContact, const char *data) {
 	TCmdList *n;
-	TCmdList *new_list = mir_alloc(sizeof(TCmdList));
+	TCmdList *new_list = (TCmdList *)mir_alloc(sizeof(TCmdList));
 	TCmdList *attach_to = NULL;
 
 	if (!data) {

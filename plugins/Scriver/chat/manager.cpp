@@ -767,7 +767,7 @@ char* SM_GetUsers(SESSION_INFO* si)
 	do {
 		int pLen = lstrlenA(p), nameLen = lstrlen(utemp->pszUID);
 		if ( pLen + nameLen + 2 > alloced )
-			p = mir_realloc( p, alloced += 4096 );
+			p = (char *)mir_realloc( p, alloced += 4096 );
 
 		WideCharToMultiByte( CP_ACP, 0, utemp->pszUID, -1, p + pLen, nameLen+1, 0, 0 );
 
@@ -1230,7 +1230,7 @@ BOOL UM_SetStatusEx(USERINFO* pUserList, const TCHAR* pszText, int flags )
 			pTemp->iStatusEx = 0;
 
 		if ( pszText != NULL ) {
-			TCHAR* s = _tcsstr( pszText, pTemp->pszUID );
+			TCHAR* s = (TCHAR *)_tcsstr( pszText, pTemp->pszUID );
 			if ( s ) {
 				pTemp->iStatusEx = 0;
 				if ( s == pszText || s[-1] == cDelimiter ) {

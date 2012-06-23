@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef TTI_NONE
 #define TTI_NONE 0
 #endif
-extern HANDLE			g_hInst;
 
 static unsigned hookNum = 0;
 static unsigned serviceNum = 0;
@@ -247,14 +246,14 @@ static DWORD CALLBACK RichTextStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 	char ** ppText = (char **) dwCookie;
 
 	if (*ppText == NULL) {
-		*ppText = mir_alloc(cb + 1);
+		*ppText = (char *)mir_alloc(cb + 1);
 		memcpy(*ppText, pbBuff, cb);
 		(*ppText)[cb] = 0;
 		*pcb = cb;
 		dwRead = cb;
 	}
 	else {
-		char  *p = mir_alloc(dwRead + cb + 1);
+		char  *p = (char *)mir_alloc(dwRead + cb + 1);
 		memcpy(p, *ppText, dwRead);
 		memcpy(p+dwRead, pbBuff, cb);
 		p[dwRead + cb] = 0;
@@ -534,7 +533,7 @@ void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList) {
 	}
 }
 
-void GetContactUniqueId(struct MessageWindowData *dat, char *buf, int maxlen) {
+void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen) {
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
     ci.cbSize = sizeof(ci);

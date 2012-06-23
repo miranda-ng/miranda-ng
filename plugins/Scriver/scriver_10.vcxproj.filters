@@ -21,79 +21,79 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cmdlist.c">
+    <ClCompile Include="cmdlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="globals.c">
+    <ClCompile Include="globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="infobar.c">
+    <ClCompile Include="infobar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="input.c">
+    <ClCompile Include="input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msgdialog.c">
+    <ClCompile Include="msgdialog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msglog.c">
+    <ClCompile Include="msglog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msgoptions.c">
+    <ClCompile Include="msgoptions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msgs.c">
+    <ClCompile Include="msgs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msgtimedout.c">
+    <ClCompile Include="msgtimedout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="msgwindow.c">
+    <ClCompile Include="msgwindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="richutil.c">
+    <ClCompile Include="richutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="sendqueue.c">
+    <ClCompile Include="sendqueue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="srmm.c">
+    <ClCompile Include="srmm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="statusicon.c">
+    <ClCompile Include="statusicon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.c">
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="chat\clist.c">
+    <ClCompile Include="chat\clist.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\colorchooser.c">
+    <ClCompile Include="chat\colorchooser.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\log.c">
+    <ClCompile Include="chat\log.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\main.c">
+    <ClCompile Include="chat\main.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\manager.c">
+    <ClCompile Include="chat\manager.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\message.c">
+    <ClCompile Include="chat\message.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\options.c">
+    <ClCompile Include="chat\options.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\services.c">
+    <ClCompile Include="chat\services.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\tools.c">
+    <ClCompile Include="chat\tools.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
-    <ClCompile Include="chat\window.c">
+    <ClCompile Include="chat\window.cpp">
       <Filter>Source Files\chat</Filter>
     </ClCompile>
   </ItemGroup>

@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
 
-extern HANDLE			g_hInst;
 extern HBRUSH 			hListBkgBrush;
 extern HBRUSH 			hListSelectedBkgBrush;
 extern FONTINFO			aFonts[OPTIONS_FONTCOUNT];
@@ -340,7 +339,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 						iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_GROUP));
 						if(iLen > 0)
 						{
-							pszText = mir_realloc(pszText, iLen+1);
+							pszText = (char *)mir_realloc(pszText, iLen+1);
 							GetDlgItemTextA(hwndDlg, IDC_CHAT_GROUP, pszText,iLen+1);
 							DBWriteContactSettingString(NULL, "Chat", "AddToGroup", pszText);
 						}
@@ -499,8 +498,8 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
                                     CallService(MS_UTILS_PATHTORELATIVET, (WPARAM)tszDirectory, (LPARAM)tszTemp );
                                     SetWindowText(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY), lstrlen(tszTemp) > 1?tszTemp:DEFLOGFILENAME);
 				}
-				psMalloc->lpVtbl->Free(psMalloc,idList);
-				psMalloc->lpVtbl->Release(psMalloc);
+				psMalloc->Free(idList);
+				psMalloc->Release();
 			}
 			break;
 		}
@@ -553,7 +552,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_HIGHLIGHTWORDS));
 			if ( iLen > 0 ) {
-				TCHAR *ptszText = mir_alloc((iLen+2) * sizeof(TCHAR));
+				TCHAR *ptszText = (TCHAR *)mir_alloc((iLen+2) * sizeof(TCHAR));
 				TCHAR *p2 = NULL;
 
 				if(ptszText) {
@@ -571,7 +570,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGDIRECTORY));
 			if ( iLen > 0 ) {
-				TCHAR *pszText1 = malloc(iLen*sizeof(TCHAR) + 2);
+				TCHAR *pszText1 = (TCHAR *)malloc(iLen*sizeof(TCHAR) + 2);
 				GetDlgItemText(hwndDlg, IDC_CHAT_LOGDIRECTORY, pszText1, iLen + 1);
 				DBWriteContactSettingTString(NULL, "Chat", "LogDirectory", pszText1);
 				CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)pszText1, (LPARAM)g_Settings.pszLogDir);
@@ -584,7 +583,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_LOGTIMESTAMP));
 			if ( iLen > 0 ) {
-                pszText = mir_realloc(pszText, iLen+1);
+                pszText = (char *)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_LOGTIMESTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "LogTimestamp", pszText);
 			}
@@ -592,7 +591,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_TIMESTAMP));
 			if ( iLen > 0 ) {
-                pszText = mir_realloc(pszText, iLen+1);
+                pszText = (char *)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_TIMESTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderTime", pszText);
 			}
@@ -600,7 +599,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_INSTAMP));
 			if ( iLen > 0 ) {
-                pszText = mir_realloc(pszText, iLen+1);
+                pszText = (char *)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_INSTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderIncoming", pszText);
 			}
@@ -608,7 +607,7 @@ BOOL CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_CHAT_OUTSTAMP));
 			if ( iLen > 0 ) {
-			pszText = mir_realloc(pszText, iLen+1);
+			pszText = (char *)mir_realloc(pszText, iLen+1);
 				GetDlgItemTextA(hwndDlg, IDC_CHAT_OUTSTAMP, pszText,iLen+1);
 				DBWriteContactSettingString(NULL, "Chat", "HeaderOutgoing", pszText);
 			}

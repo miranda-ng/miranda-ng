@@ -31,8 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern HBRUSH      hListBkgBrush;
 extern HBRUSH      hListSelectedBkgBrush;
 extern HANDLE      hSendEvent;
-extern HINSTANCE   g_hInst;
-extern struct      CREOleCallback reOleCallback;
+extern CREOleCallback reOleCallback;
 extern HMENU      g_hMenu;
 extern TABLIST *   g_TabList;
 extern HANDLE hHookWinPopup;
@@ -341,7 +340,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 			iLen = GetRichTextLength(hwnd, gt.codepage, TRUE);
             if (iLen >0) {
 				TCHAR *pszName = NULL;
-				pszText = mir_alloc(iLen + 100 * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_alloc(iLen + 100 * sizeof(TCHAR));
 				gt.cb = iLen + 99 * sizeof(TCHAR);
 				gt.flags = GT_DEFAULT;
 
@@ -364,7 +363,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					}
 				}
 				if ( dat->szSearchQuery == NULL) {
-					dat->szSearchQuery = mir_alloc( sizeof(TCHAR)*( end-start+1 ));
+					dat->szSearchQuery = (TCHAR *)mir_alloc( sizeof(TCHAR)*( end-start+1 ));
 					lstrcpyn( dat->szSearchQuery, pszText+start, end-start+1);
 					dat->szSearchResult = mir_tstrdup(dat->szSearchQuery);
 					dat->lastSession = NULL;
@@ -394,7 +393,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					dat->szSearchResult = mir_tstrdup(pszName);
 					if (end !=start) {
 						if (!isRoom && !isTopic && g_Settings.AddColonToAutoComplete && start == 0) {
-							pszText = mir_alloc((_tcslen(pszName) + 4) * sizeof(TCHAR));
+							pszText = (TCHAR *)mir_alloc((_tcslen(pszName) + 4) * sizeof(TCHAR));
 							_tcscpy(pszText, pszName);
 							_tcscat(pszText, _T(": "));
 							pszName = pszText;
@@ -1098,7 +1097,7 @@ int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth)
       return 0;
 
    hdc = GetDC(NULL);
-   hOldFont = SelectObject(hdc, hFont);
+   hOldFont = (HFONT)SelectObject(hdc, hFont);
    i = DrawText(hdc, pszText , -1, &rc, DT_CALCRECT);
    SelectObject(hdc, hOldFont);
    ReleaseDC(NULL,hdc);
@@ -1703,7 +1702,7 @@ LABEL_SHOWWINDOW:
          HWND ColorWindow;
          RECT rc;
          BOOL bFG = lParam == IDC_CHAT_COLOR?TRUE:FALSE;
-         COLORCHOOSER * pCC = mir_alloc(sizeof(COLORCHOOSER));
+         COLORCHOOSER * pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
 
          GetWindowRect(GetDlgItem(hwndDlg, bFG?IDC_CHAT_COLOR:IDC_CHAT_BKGCOLOR), &rc);
          pCC->hWndTarget = GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE);

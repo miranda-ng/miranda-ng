@@ -24,11 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "infobar.h"
 #include "richutil.h"
 
-extern HINSTANCE g_hInst;
-
 void SetupInfobar(InfobarWindowData* idat) {
 	HWND hwnd = idat->hWnd;
-    CHARFORMAT2 cf2 = {0};
+    CHARFORMAT2 cf2;
+	memset(&cf2, 0, sizeof(cf2));
     LOGFONT lf;
     DWORD colour = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR);
     SendDlgItemMessage(hwnd, IDC_INFOBAR_NAME, EM_SETBKGNDCOLOR, 0, colour);
@@ -70,7 +69,7 @@ static HICON GetExtraStatusIcon(InfobarWindowData* idat) {
 
 void RefreshInfobar(InfobarWindowData* idat) {
 	HWND hwnd = idat->hWnd;
-	struct MessageWindowData *dat = idat->mwd;
+	struct SrmmWindowData *dat = idat->mwd;
     TCHAR *szContactName = GetNickname(dat->windowData.hContact, dat->szProto);
     TCHAR *szContactStatusMsg = DBGetStringT(dat->windowData.hContact, "CList", "StatusMsg");
     TCHAR *szXStatusName = DBGetStringT(idat->mwd->windowData.hContact, idat->mwd->szProto, "XStatusName");
@@ -283,11 +282,11 @@ static LRESULT CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return FALSE;
 }
 
-InfobarWindowData *CreateInfobar(HWND hParent, struct MessageWindowData *dat)
+InfobarWindowData *CreateInfobar(HWND hParent, struct SrmmWindowData *dat)
 {
 	InfobarWindowData *idat = (InfobarWindowData *) mir_alloc(sizeof(InfobarWindowData));
 	idat->mwd = dat;
-	idat->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOBAR), hParent, InfobarWndProc, (LPARAM)idat);
+	idat->hWnd = CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_INFOBAR), hParent, (DLGPROC)InfobarWndProc, (LPARAM)idat);
 	RichUtil_SubClass(idat->hWnd);
 	SetWindowPos(idat->hWnd, HWND_TOP, 0, 0, 0, 0, SWP_HIDEWINDOW | SWP_NOSIZE | SWP_NOREPOSITION);
 	return idat;

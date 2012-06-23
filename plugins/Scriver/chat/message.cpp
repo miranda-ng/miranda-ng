@@ -94,7 +94,7 @@ TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
-	pIndex = mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount);
+	pIndex = (int *)mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount);
 	for(i = 0; i < MM_FindModule(si->pszModule)->nColorCount ; i++)
 		pIndex[i] = -1;
 

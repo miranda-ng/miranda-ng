@@ -22,8 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "commonheaders.h"
 #include "chat/chat.h"
-extern HINSTANCE g_hInst;
-extern struct CREOleCallback reOleCallback;
+extern CREOleCallback reOleCallback;
 extern void ChangeStatusIcons();
 extern void LoadInfobarFonts();
 

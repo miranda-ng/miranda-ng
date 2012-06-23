@@ -56,20 +56,18 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-__declspec(dllexport)
-	 PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_SRMM, MIID_CHAT, MIID_LAST};
-__declspec(dllexport)
-     const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 {
 	pluginLink = link;
 
@@ -81,16 +79,16 @@ int __declspec(dllexport) Load(PLUGINLINK * link)
 	mir_getLP( &pluginInfo );
 
 	if (IsWinVer7Plus())
-		CoCreateInstance(&CLSID_TaskbarList, NULL, CLSCTX_ALL, &IID_ITaskbarList3, (void**)&pTaskbarInterface);
+		CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
 	InitSendQueue();
 	return OnLoadModule();
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	DestroySendQueue();
 	if (pTaskbarInterface)
-		pTaskbarInterface->lpVtbl->Release(pTaskbarInterface);
+		pTaskbarInterface->Release();
 	return OnUnloadModule();
 }

@@ -122,7 +122,7 @@ typedef struct CommonWindowDataStruct {
 	int	minEditBoxHeight;
 }CommonWindowData;
 
-struct MessageWindowData
+struct SrmmWindowData
 {
 	HWND hwnd;
 	int	tabId;
@@ -202,18 +202,33 @@ struct MessageWindowData
 #define EVENTTYPE_JABBER_PRESENCE       2001
 #define EVENTTYPE_STATUSCHANGE          25368
 
-struct CREOleCallback
+struct CREOleCallback : public IRichEditOleCallback
 {
-	IRichEditOleCallbackVtbl *lpVtbl;
+	CREOleCallback() : refCount(0) {}
 	unsigned refCount;
 	IStorage *pictStg;
 	int nextStgId;
+
+	STDMETHOD(QueryInterface)(REFIID riid, LPVOID FAR * lplpObj); 
+	STDMETHOD_(ULONG,AddRef) (THIS); 
+	STDMETHOD_(ULONG,Release) (THIS); 
+	
+	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode); 
+	STDMETHOD(GetNewStorage) (LPSTORAGE FAR * lplpstg); 
+	STDMETHOD(GetInPlaceContext) (LPOLEINPLACEFRAME FAR * lplpFrame, LPOLEINPLACEUIWINDOW FAR * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo); 
+	STDMETHOD(ShowContainerUI) (BOOL fShow); 
+	STDMETHOD(QueryInsertObject) (LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp); 
+	STDMETHOD(DeleteObject) (LPOLEOBJECT lpoleobj); 
+	STDMETHOD(QueryAcceptData) (LPDATAOBJECT lpdataobj, CLIPFORMAT FAR * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict); 
+	STDMETHOD(GetClipboardData) (CHARRANGE FAR * lpchrg, DWORD reco, LPDATAOBJECT FAR * lplpdataobj); 
+	STDMETHOD(GetDragDropEffect) (BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect); 
+	STDMETHOD(GetContextMenu) (WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE FAR * lpchrg, HMENU FAR * lphmenu) ; 
 };
 
 INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-int DbEventIsShown(DBEVENTINFO * dbei, struct MessageWindowData *dat);
+int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat);
 int DbEventIsCustomForMsgWindow(DBEVENTINFO *dbei);
 int DbEventIsMessageOrCustom(DBEVENTINFO *dbei);
 int safe_wcslen(wchar_t *msg, int maxLen);

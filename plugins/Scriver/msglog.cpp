@@ -29,7 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LOGICON_MSG_NOTICE  2
 
 extern int RTL_Detect(WCHAR *pszwText);
-extern HINSTANCE g_hInst;
 static int logPixelSY;
 static PBYTE pLogIconBmpBits[3];
 static int logIconBmpSize[SIZEOF(pLogIconBmpBits)];
@@ -78,7 +77,7 @@ struct LogStreamData {
 	int bufferOffset, bufferLen;
 	int eventsToInsert;
 	int isFirst;
-	struct MessageWindowData *dlgDat;
+	struct SrmmWindowData *dlgDat;
     struct GlobalMessageData *gdat;
     EventData *events;
 };
@@ -142,7 +141,7 @@ int DbEventIsMessageOrCustom(DBEVENTINFO* dbei)
     return dbei->eventType == EVENTTYPE_MESSAGE || DbEventIsCustomForMsgWindow(dbei);
 }
 
-int DbEventIsShown(DBEVENTINFO * dbei, struct MessageWindowData *dat)
+int DbEventIsShown(DBEVENTINFO * dbei, struct SrmmWindowData *dat)
 {
 	int heFlags;
 
@@ -169,7 +168,7 @@ int DbEventIsShown(DBEVENTINFO * dbei, struct MessageWindowData *dat)
     return DbEventIsCustomForMsgWindow(dbei);
 }
 
-EventData *getEventFromDB(struct MessageWindowData *dat, HANDLE hContact, HANDLE hDbEvent) {
+EventData *getEventFromDB(struct SrmmWindowData *dat, HANDLE hContact, HANDLE hDbEvent) {
 	DBEVENTINFO dbei = { 0 };
 	EventData *event;
 	dbei.cbSize = sizeof(dbei);
@@ -363,7 +362,7 @@ static int AppendTToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced
 }
 
 //mir_free() the return value
-static char *CreateRTFHeader(struct MessageWindowData *dat, struct GlobalMessageData *gdat)
+static char *CreateRTFHeader(struct SrmmWindowData *dat, struct GlobalMessageData *gdat)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -594,7 +593,7 @@ static void AppendWithCustomLinks(EventData *event, int style, char **buffer, in
 }
 
 //mir_free() the return value
-static char *CreateRTFFromEvent(struct MessageWindowData *dat, EventData *event, struct GlobalMessageData *gdat, struct LogStreamData *streamData)
+static char *CreateRTFFromEvent(struct SrmmWindowData *dat, EventData *event, struct GlobalMessageData *gdat, struct LogStreamData *streamData)
 {
 	char *buffer;
 	int bufferAlloced, bufferEnd;
@@ -999,7 +998,7 @@ void StreamInTestEvents(HWND hEditWnd, struct GlobalMessageData *gdat)
 {
 	EDITSTREAM stream = { 0 };
 	struct LogStreamData streamData = { 0 };
-    struct MessageWindowData dat = { 0 };
+    struct SrmmWindowData dat = { 0 };
 	streamData.isFirst = TRUE;
     streamData.events = GetTestEvents();
     streamData.dlgDat = &dat;
@@ -1014,7 +1013,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
 	FINDTEXTEXA fi;
 	EDITSTREAM stream = { 0 };
 	struct LogStreamData streamData = { 0 };
-	struct MessageWindowData *dat = (struct MessageWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	struct SrmmWindowData *dat = (struct SrmmWindowData *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	CHARRANGE oldSel, sel;
 
 // IEVIew MOD Begin
@@ -1173,7 +1172,7 @@ void LoadMsgLogIcons(void)
 		}
 		pLogIconBmpBits[i] = (PBYTE) mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
 		//I can't seem to get binary mode working. No matter.
-		rtfHeaderSize = sprintf(pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (UINT) bih.biWidth, (UINT)bih.biHeight);
+		rtfHeaderSize = sprintf((char *)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, (UINT) bih.biWidth, (UINT)bih.biHeight);
 		hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
@@ -1183,9 +1182,9 @@ void LoadMsgLogIcons(void)
 		{
 			int n;
 			for (n = 0; n < sizeof(BITMAPINFOHEADER); n++)
-				sprintf(pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE) & bih)[n]);
+				sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + n * 2, "%02X", ((PBYTE) & bih)[n]);
 			for (n = 0; n < widthBytes * bih.biHeight; n += 4)
-				sprintf(pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]);
+				sprintf((char *)pLogIconBmpBits[i] + rtfHeaderSize + (bih.biSize + n) * 2, "%02X%02X%02X%02X", pBmpBits[n], pBmpBits[n + 1], pBmpBits[n + 2], pBmpBits[n + 3]);
 		}
 		logIconBmpSize[i] = rtfHeaderSize + (bih.biSize + widthBytes * bih.biHeight) * 2 + 1;
 		pLogIconBmpBits[i][logIconBmpSize[i] - 1] = '}';

@@ -103,11 +103,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define	CFM_WEIGHT			0x00400000
 #endif
 
-#if _MSC_VER >= 1500
-	#define wEffects wReserved
-#endif
-
 extern HWND SM_FindWindowByContact(HANDLE hContact);
+extern HINSTANCE g_hInst;
 
 #define SPLITTER_HEIGHT   4
 #define TOOLBAR_HEIGHT   24
@@ -117,5 +114,15 @@ extern HWND SM_FindWindowByContact(HANDLE hContact);
 #define BOTTOM_RIGHT_AVATAR_HEIGHT 64
 #define INFO_BAR_COLOR COLOR_INACTIVEBORDER
 
+int Chat_Load();
+int Chat_Unload();
+int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
+int Chat_FontsChanged(WPARAM wParam,LPARAM lParam);
+int Chat_SmileyOptionsChanged(WPARAM wParam,LPARAM lParam);
+int Chat_PreShutdown(WPARAM wParam,LPARAM lParam);
+int Chat_IconsChanged(WPARAM wParam,LPARAM lParam);
+int OptInitialise(WPARAM wParam, LPARAM lParam);
+int FontServiceFontsChanged(WPARAM wParam, LPARAM lParam);
+int StatusIconPressed(WPARAM wParam, LPARAM lParam);
 
 #endif

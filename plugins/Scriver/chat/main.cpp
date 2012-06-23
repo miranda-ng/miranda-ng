@@ -27,7 +27,6 @@ void RegisterChatFonts( void );
 extern struct GlobalMessageData *g_dat;
 extern CRITICAL_SECTION	cs;
 //globals
-HINSTANCE   g_hInst;
 HMENU       g_hMenu = NULL;
 HANDLE      hJoinMenuItem, hLeaveMenuItem;
 

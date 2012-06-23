@@ -25,13 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "statusicon.h"
 #include "chat/chat.h"
 
-#ifndef __MINGW32__
-#if (_MSC_VER < 1300)
-#include "multimon.h"
-#endif
-#endif
-
-extern HINSTANCE g_hInst;
 extern HCURSOR hDragCursor;
 extern ITaskbarList3 * pTaskbarInterface;
 
@@ -1055,7 +1048,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
                         SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM) tbd->hIconBig);
                     }
 					if (pTaskbarInterface)
-						pTaskbarInterface->lpVtbl->SetOverlayIcon(pTaskbarInterface, hwndDlg,  tbd->hIconNot, L"");
+						pTaskbarInterface->SetOverlayIcon(hwndDlg,  tbd->hIconNot, L"");
 				}
 			}
 			break;
@@ -1490,7 +1483,7 @@ BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						pt.x -= rect.left;
 						pt.y -= rect.top;
 						hBmp = CreateCompatibleBitmap(hdc, info.rcImage.right - info.rcImage.left + 1, info.rcImage.bottom - info.rcImage.top + 1);
-						hOldBitmap = SelectObject(hdcMem, hBmp);
+						hOldBitmap = (HBITMAP)SelectObject(hdcMem, hBmp);
 						SetPixel(hdcMem, pt.x, pt.y, 0x000000);
 						ImageList_DrawEx(g_dat->hButtonIconList, 0, hdcMem, 0, 0, 0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 						color1 = GetPixel(hdcMem, pt.x, pt.y);
@@ -1546,7 +1539,7 @@ BOOL CALLBACK TabCtrlProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 						hDC = GetDC(hwnd);
 						hMemDC = CreateCompatibleDC(hDC);
 						hBitmap = CreateCompatibleBitmap(hDC, rect.right, rect.bottom);
-						hOldBitmap = SelectObject(hMemDC, hBitmap);
+						hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
 						FillRect(hMemDC, &rect2, hBrush);
 						SetWindowOrgEx (hMemDC, rect.left, rect.top, NULL);
 						SendMessage(hwnd, WM_PRINTCLIENT, (WPARAM)hMemDC, PRF_CLIENT);

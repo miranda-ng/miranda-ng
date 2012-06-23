@@ -63,7 +63,7 @@ extern void AppendToBuffer(char **buffer, int *cbBufferEnd, int *cbBufferAlloced
 extern int MeasureMenuItem(WPARAM wParam, LPARAM lParam);
 extern int DrawMenuItem(WPARAM wParam, LPARAM lParam);
 extern void SetSearchEngineIcons(HMENU hMenu, HIMAGELIST hImageList);
-extern void GetContactUniqueId(struct MessageWindowData *dat, char *buf, int maxlen);
+extern void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle, RECT *rect);
 void SetToolTipText(HWND hwndParent, HWND hwndTT, LPTSTR ptszText, LPTSTR ptszTitle);
 void SetToolTipRect(HWND hwndParent, HWND hwndTT, RECT* rect);
