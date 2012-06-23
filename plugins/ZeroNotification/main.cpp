@@ -15,7 +15,7 @@ http://www.miranda-im.org/
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent;
+static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent, hSoundMenu;
 CLISTMENUITEM mi;
 HGENMENU noSoundMenu;
 int hLangpack;
@@ -51,15 +51,9 @@ PLUGININFOEX pluginInfoEx = {
 	UID
 };
 
-__declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
-}
-
-static const MUUID interfaces[] = { { 0x5ce6036a, 0x8cb5, 0x4601, { 0xbc, 0x7f, 0x25, 0x4e, 0x21, 0x2a, 0x48, 0x80 } }, MIID_LAST};
-__declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -102,10 +96,10 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 
 //Update the name on the menu
 static void UpdateMenuItem() {
-	if (DBGetContactSettingByte(NULL,"Skin","UseSound",1))
-		mi.pszName= Translate(DISABLE_SOUND);
+	if (DBGetContactSettingByte(NULL, "Skin", "UseSound", 1))
+		mi.ptszName = TranslateT(DISABLE_SOUND);
 	else
-		mi.pszName= Translate(ENABLE_SOUND);
+		mi.ptszName = TranslateT(ENABLE_SOUND);
 }
 
 //Called when the sound setting in the database is changed
@@ -116,7 +110,7 @@ static int SoundSettingChanged(WPARAM wParam,LPARAM lParam)
 
 	UpdateMenuItem();
 
-	mi.flags = CMIM_NAME;
+	mi.flags |= CMIM_NAME;
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
 
 	return 0;
@@ -129,7 +123,7 @@ static int SetNotify(const long status){
 
 	UpdateMenuItem();
 
-	mi.flags = CMIM_NAME;
+	mi.flags |= CMIM_NAME;
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
 	
 	return 0;
@@ -226,10 +220,10 @@ static int OptionsInitialize(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
+	odp.flags = ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NOSOUND);
-	odp.pszTitle = PLUGINNAME_SHORT;
-	odp.pszTitle = LPGEN("Zero Notifications");
-	odp.pszGroup = LPGEN("Plugins");
+	odp.ptszTitle = LPGENT("Zero Notifications");
+	odp.ptszGroup = LPGENT("Plugins");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcNoSoundOpts;
 	Options_AddPage(wParam, &odp);
@@ -247,30 +241,19 @@ static INT_PTR NoSoundMenuCommand(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
-	char temp[80];
 	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 
-	CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)sizeof(temp), (LPARAM)temp);
-
-
-    if (strstr(temp, "Unicode") == NULL)
-    {
-		//ReportError(TranslateT("Please update "PLUGINNAME" to ANSI Version")); //debug
-        return 1;
-    }
-
-
 	//The menu item - begin
-	if (!DBGetContactSettingByte(NULL,PLUGINNAME_SHORT,"HideMenu",1))
+	if (!DBGetContactSettingByte(NULL, PLUGINNAME_SHORT, "HideMenu", 1))
 	{
-		CreateServiceFunction(PLUGINNAME_SHORT "/MenuCommand",NoSoundMenuCommand);
-		ZeroMemory(&mi,sizeof(mi));
-		mi.cbSize=sizeof(mi);
-		mi.position=-0x7FFFFFFF;
-		mi.flags=0;
+		hSoundMenu = CreateServiceFunction(PLUGINNAME_SHORT "/MenuCommand", NoSoundMenuCommand);
+		ZeroMemory(&mi, sizeof(mi));
+		mi.cbSize = sizeof(mi);
+		mi.position = -0x7FFFFFFF;
+		mi.flags = CMIF_TCHAR;
 		UpdateMenuItem();
 
 		mi.pszService = PLUGINNAME_SHORT "/MenuCommand";
@@ -278,22 +261,22 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	}
 	//The menu item - end
 
-
 	//The hooks
 	hAckEvent = HookEvent(ME_PROTO_ACK, ProtoAck);
 	hEventSoundSettingChange = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SoundSettingChanged);
 	hEventOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 
 	//Uninstall info
-	DBWriteContactSettingString(NULL,"Uninstall",PLUGINNAME_SHORT,PLUGINNAME_SHORT);
+	DBWriteContactSettingString(NULL, "Uninstall", PLUGINNAME_SHORT, PLUGINNAME_SHORT);
 
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	UnhookEvent(hEventSoundSettingChange);
 	UnhookEvent(hEventOptionsInitialize);
 	UnhookEvent(hAckEvent);
+	DestroyServiceFunction(hSoundMenu);
 	return 0;
 }
