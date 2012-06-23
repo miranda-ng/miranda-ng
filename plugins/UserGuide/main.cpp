@@ -3,7 +3,7 @@
 struct MM_INTERFACE mmi;
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-HANDLE hModulesLoaded;
+HANDLE hModulesLoaded, hShowGuide;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -15,7 +15,7 @@ PLUGININFOEX pluginInfo={
 	"yasnovidyashii@gmail.com",
 	"© 2009 Mikhail Yuriev",
 	"http://miranda-im.org/",
-	0,		//not transient
+	UNICODE_AWARE,		//not transient
 	0,		//doesn't replace anything built-in
     // Generate your own unique id for your plugin.
     // Do not use this UUID!
@@ -28,53 +28,54 @@ static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv = {0};
 	int iRes;
 
-	LPCSTR pszEmptySting="";
-	LPSTR pszDirName, pszDirNameEx, pszFileName,pszDivider;
+	LPCTSTR pszEmptySting = _T("");
+	LPTSTR pszDirName, pszDirNameEx, pszFileName,pszDivider;
 
 	REPLACEVARSDATA dat = {0};
 	dat.cbSize = sizeof( dat );
-	dat.dwFlags = 0;
+	dat.dwFlags = RVF_TCHAR;
 	
-	pszDirName=(LPSTR)mir_alloc(250*sizeof(CHAR));
-	pszFileName=(LPSTR)mir_alloc(250*sizeof(CHAR));
+	pszDirName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
+	pszFileName = (LPTSTR)mir_alloc(250*sizeof(TCHAR));
 
-	iRes = DBGetContactSettingString(NULL,"UserGuide","PathToHelpFile",&dbv);
+	iRes = DBGetContactSettingTString(NULL, "UserGuide", "PathToHelpFile", &dbv);
 	
 	if (iRes!=0)
 	{
-			strcpy(pszDirName, "%miranda_path%\\Plugins");
-			strcpy(pszFileName, "UserGuide.chm");			
+			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
+			_tcscpy(pszFileName, _T("UserGuide.chm"));			
 	}
 	else
-			if(strcmp((dbv.pszVal),pszEmptySting)==0)
-			{
-				strcpy(pszDirName, "%miranda_path%\\Plugins");
-				strcpy(pszFileName, "UserGuide.chm");			
-				mir_free(dbv.pszVal);
+	{
+		if(!_tcscmp((dbv.ptszVal), pszEmptySting))
+		{
+			_tcscpy(pszDirName, _T("%miranda_path%\\Plugins"));
+			_tcscpy(pszFileName, _T("UserGuide.chm"));
+		}
+		else 
+		{
+			pszDivider = _tcsrchr(dbv.ptszVal, '\\');
+			if (pszDivider == NULL)
+			{	
+				pszDirName = _T("");
+				_tcsncpy(pszFileName, dbv.ptszVal, _tcslen(dbv.ptszVal));
 			}
-			else 
+			else
 			{
-				pszDivider = strrchr(dbv.pszVal, '\\');
-				if (pszDivider == NULL)
-				{	
-					pszDirName = "";
-					strncpy(pszFileName, dbv.pszVal, strlen(dbv.pszVal));
-				}
-				else
-				{
-					strncpy(pszFileName, pszDivider+1, strlen(dbv.pszVal)-strlen(pszDivider)-1);
-					pszFileName[strlen(dbv.pszVal)-strlen(pszDivider)-1] = 0;
-					strncpy(pszDirName, dbv.pszVal, pszDivider-dbv.pszVal);
-					pszDirName[pszDivider-dbv.pszVal] = 0;
-				}
-				mir_free(dbv.pszVal);
+				_tcsncpy(pszFileName, pszDivider + 1, _tcslen(dbv.ptszVal) - _tcslen(pszDivider) - 1);
+				pszFileName[_tcslen(dbv.ptszVal) - _tcslen(pszDivider) - 1] = 0;
+				_tcsncpy(pszDirName, dbv.ptszVal, pszDivider - dbv.ptszVal);
+				pszDirName[pszDivider - dbv.ptszVal] = 0;
 			}
+		}
+		DBFreeVariant(&dbv);
+	}
 	if (ServiceExists(MS_UTILS_REPLACEVARS))
-		pszDirNameEx = (char *) CallService(MS_UTILS_REPLACEVARS,(WPARAM)pszDirName,(LPARAM)&dat);
+		pszDirNameEx = (TCHAR *) CallService(MS_UTILS_REPLACEVARS, (WPARAM)pszDirName, (LPARAM)&dat);
 	else
-		pszDirNameEx = mir_strdup(pszDirName);
+		pszDirNameEx = mir_tstrdup(pszDirName);
 
-	ShellExecuteA(NULL,"open",pszFileName,NULL,pszDirNameEx,SW_SHOW);
+	ShellExecute(NULL, _T("open"), pszFileName, NULL, pszDirNameEx, SW_SHOW);
 	mir_free(pszDirName);
 	mir_free(pszFileName);
 	mir_free(pszDirNameEx);
@@ -85,14 +86,14 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	CLISTMENUITEM mi;
 
-	CreateServiceFunction("UserGuide/ShowGuide",ShowGuideFile);
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize=sizeof(mi);
-	mi.position=500000;
-	mi.flags=0;
-	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_HELP);
-	mi.pszName=LPGEN("User Guide");
-	mi.pszService="UserGuide/ShowGuide";
+	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
+	ZeroMemory(&mi, sizeof(mi));
+	mi.cbSize = sizeof(mi);
+	mi.position = 500000;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HELP);
+	mi.ptszName = LPGENT("User Guide");
+	mi.pszService = "UserGuide/ShowGuide";
 	Menu_AddMainMenuItem(&mi);
 	
 	return 0;
@@ -100,27 +101,28 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
-	pluginLink=link;
+	pluginLink = link;
 	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
 	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	UnhookEvent(hModulesLoaded);
+	DestroyServiceFunction(hShowGuide);
 	return 0;
 }
