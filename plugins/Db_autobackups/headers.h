@@ -44,6 +44,6 @@ int LoadOptions(void);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle);
 
 extern HINSTANCE hInst;
-TCHAR* profilePath;
+extern TCHAR* profilePath;
 
 #endif

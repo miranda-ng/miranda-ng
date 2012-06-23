@@ -180,7 +180,7 @@ int Backup(TCHAR* backup_filename)
 			dest_file_len = lstrlen(dest_file);
 			if(dest_file_len > 50)
 			{
-				puText = mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
+				puText = (TCHAR*)mir_alloc(sizeof(TCHAR) * (dest_file_len + 2));
 				for(i = (int)dest_file_len - 1; dest_file[i] != _T('\\'); i--);
 
 				lstrcpyn(puText, dest_file, i + 2);

@@ -151,9 +151,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="backup.c" />
-    <ClCompile Include="options.c" />
-    <ClCompile Include="main.c" />
+    <ClCompile Include="backup.cpp" />
+    <ClCompile Include="options.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers.h" />
