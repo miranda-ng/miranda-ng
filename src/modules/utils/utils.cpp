@@ -28,6 +28,7 @@ int InitWindowList(void);
 void FreeWindowList(void);
 int InitHyperlink(void);
 int InitColourPicker(void);
+int InitJson(void);
 int InitBitmapFilter(void);
 void InitXmlApi(void);
 void InitTimeZones(void);
@@ -572,6 +573,7 @@ int LoadUtilsModule(void)
 	InitColourPicker();
 	InitBitmapFilter();
 	InitXmlApi();
+	InitJson();
 	InitTimeZones();
 	return 0;
 }
