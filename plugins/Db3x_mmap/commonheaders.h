@@ -40,8 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __GNUC__
 #include <crtdbg.h>
 #endif
-#include "resource.h"
-#include "version.h"
+
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_plugins.h>
@@ -51,6 +50,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_utils.h>
 
 #include "database.h"
+#include "resource.h"
+#include "version.h"
 
 extern PLUGINLINK *pluginLink;
 

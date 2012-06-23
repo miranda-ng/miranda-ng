@@ -120,7 +120,7 @@ static int grokHeader( char * profile, int * error )
 // returns 0 if all the APIs are injected otherwise, 1
 static int LoadDatabase( char * profile, void * plink )
 {
-	PLUGINLINK *link = plink;
+	PLUGINLINK *link = (PLUGINLINK *)plink;
 #ifdef _DEBUG
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
@@ -169,28 +169,28 @@ BOOL WINAPI DllMain(HINSTANCE hInstDLL, DWORD dwReason, LPVOID reserved)
 	return TRUE;
 }
 
-__declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * reserved)
+extern "C" __declspec(dllexport) DATABASELINK* DatabasePluginInfo(void * reserved)
 {
 	return &dblink;
 }
 
-__declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_DATABASE, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 {
 	return 1;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	return 0;
 }
