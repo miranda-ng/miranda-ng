@@ -10,14 +10,9 @@
 #define IDI_SOUNDDN                     129
 #define IDI_SOUNDUP                     130
 #define IDI_OPTIONSUP                   131
-#define IDI_OPTIONSDN                   132
 #define IDI_MINIMIZEUP                  133
-#define IDI_MINIMIZEDN                  134
 #define IDI_FINDADDUP                   135
-#define IDI_FINDADDDN                   136
 #define IDI_MIRANDAUP                   137
-#define IDI_ICON1                       138
-#define IDI_MIRANDADN                   139
 #define IDI_RUN                         140
 #define IDD_OPT_TTBBKG                  230
 #define IDD_OPT_INTERNALORDER           262

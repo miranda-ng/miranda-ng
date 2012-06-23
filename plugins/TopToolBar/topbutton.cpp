@@ -156,7 +156,10 @@ void TopButtonInt::SetBitmap()
 	else {
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & SS_ICON)
 			SetWindowLongPtr(hwnd, GWL_STYLE, curstyle | SS_ICON);
-		SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((bPushed)?(hIconDn):(hIconUp)));
+
+		HICON bicon = (hIconDn)?hIconDn:hIconUp;
+
+		SendMessage(hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)((bPushed)?(bicon):(hIconUp)));
 		SendMessage(hwnd, BM_SETCHECK, bPushed?BST_CHECKED:BST_UNCHECKED ,0);
 	}
 }

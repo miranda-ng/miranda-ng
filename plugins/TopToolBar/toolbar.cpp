@@ -63,7 +63,7 @@ void InsertSBut(int i)
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISSBUTTON;
+	ttb.dwFlags = TTBBF_VISIBLE|TTBBF_ISSBUTTON|TTBBF_INTERNAL;
 	ttb.wParamDown = i;
 	ttb.lParamDown = TTBAddButton(( WPARAM )&ttb, 0);;
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, ttb.lParamDown), (LPARAM)&ttb);
@@ -100,8 +100,8 @@ void InsertLBut(int i)
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
 	ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON;
+//	ttb.hIconUp = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL;
 	ttb.name = LPGEN("Default");
 	ttb.program = _T("Execute Path");
 	ttb.wParamDown = i;
@@ -123,7 +123,7 @@ void InsertSeparator(int i)
 {
 	TTBButton ttb = { 0 };
 	ttb.cbSize = sizeof(ttb);
-	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR;
+	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL;
 	ttb.wParamDown = i;
 	ttb.lParamDown = TTBAddButton((WPARAM)&ttb, 0);
 	CallService(MS_TTB_SETBUTTONOPTIONS, MAKEWPARAM(TTBO_ALLDATA, ttb.lParamDown), (LPARAM)&ttb);
@@ -282,10 +282,17 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 
 	b->dwFlags = but->dwFlags;
 
-	if (b->dwFlags & TTBBF_ICONBYHANDLE)
-		b->hIconDn = Skin_GetIconByHandle(but->hIconHandleDn), b->hIconUp = Skin_GetIconByHandle(but->hIconHandleUp);
-	else
-		b->hIconDn = but->hIconDn, b->hIconUp = but->hIconUp;
+	if (b->dwFlags & TTBBF_ICONBYHANDLE) {
+	  if (but->hIconHandleDn)
+			b->hIconDn = Skin_GetIconByHandle(but->hIconHandleDn);
+		else
+			b->hIconDn = 0;
+		b->hIconUp = Skin_GetIconByHandle(but->hIconHandleUp);
+	}
+	else {
+		b->hIconDn = but->hIconDn;
+		b->hIconUp = but->hIconUp;
+	}
 
 	b->wParamUp = but->wParamUp;
 	b->lParamUp = but->lParamUp;
@@ -298,8 +305,10 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 		char buf[256];
 		sprintf(buf, "%s_up", b->name);
 		b->hIconUp = LoadIconFromLibrary(buf, b->hIconUp, b->hIconHandleUp);
-		sprintf(buf, "%s_dn", b->name);
-		b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
+		if (b->hIconDn) {
+			sprintf(buf, "%s_dn", b->name);
+			b->hIconDn = LoadIconFromLibrary(buf, b->hIconDn, b->hIconHandleDn);
+		}
 	}
 
 	b->LoadSettings();
@@ -710,7 +719,6 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					return 0;
 				}
 
-				b->SetBitmap();
 				// flag inversion inside condition coz we uses Up -> Down for non-push buttons
 				// condition and inversion can be moved to main condition end
 				if (b->bPushed) { //Dn -> Up
@@ -730,6 +738,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 						CallService(b->pszService, b->wParamDown, b->lParamDown);
 				}
 
+				b->SetBitmap();
 				ulockbut();
 			}
 		}

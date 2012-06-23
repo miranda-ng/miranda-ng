@@ -239,20 +239,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="bmp\sep.bmp" />
-    <None Include="icos\Find_Add Contacts_DN.ico" />
     <None Include="icos\Find_Add Contacts_UP.ico" />
     <None Include="icos\Groups On_Off_DN.ico" />
     <None Include="icos\Groups On_Off_UP.ico" />
-    <None Include="icos\Minimize Button_DN.ico" />
     <None Include="icos\Minimize Button_UP.ico" />
-    <None Include="icos\notick.ico" />
-    <None Include="icos\notick1.ico" />
     <None Include="icos\Run.ico" />
-    <None Include="icos\Show Main Menu_DN.ico" />
     <None Include="icos\Show Main Menu_UP.ico" />
     <None Include="icos\Show only Online Users_DN.ico" />
     <None Include="icos\Show only Online Users_UP.ico" />
-    <None Include="icos\Show Options Page_DN.ico" />
     <None Include="icos\Show Options Page_UP.ico" />
     <None Include="icos\Sounds Enable_Disable_DN.ico" />
     <None Include="icos\Sounds Enable_Disable_UP.ico" />

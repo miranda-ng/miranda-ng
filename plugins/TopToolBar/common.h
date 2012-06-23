@@ -40,6 +40,8 @@
 #define TTBDEFAULT_USEBITMAP     0
 #define TTBDEFAULT_SELBKCOLOUR   GetSysColor(COLOR_HIGHLIGHT)
 
+#define TTBBF_INTERNAL 0x1000000
+
 ///////////////////////////////////////////////////////////////////////////////
 // TopButtonInt class
 

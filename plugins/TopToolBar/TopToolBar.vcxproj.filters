@@ -26,9 +26,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="icos\Find_Add Contacts_DN.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\Find_Add Contacts_UP.ico">
       <Filter>Resource Files</Filter>
     </None>
@@ -38,22 +35,10 @@
     <None Include="icos\Groups On_Off_UP.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="icos\Minimize Button_DN.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\Minimize Button_UP.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="icos\notick.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icos\notick1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="icos\Run.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icos\Show Main Menu_DN.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\Show Main Menu_UP.ico">
@@ -63,9 +48,6 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\Show only Online Users_UP.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="icos\Show Options Page_DN.ico">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="icos\Show Options Page_UP.ico">
