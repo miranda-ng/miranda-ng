@@ -531,24 +531,24 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				
 			case IDOK: 
 				{
-					char buff[MAX_PATH];
+					TCHAR buff[MAX_PATH];
 					GetDlgItemText(hwndDlg, IDC_TITLE, buff, MAX_PATH);
 					if (add_edit_alarm->szTitle) free(add_edit_alarm->szTitle);
-					add_edit_alarm->szTitle = _strdup(buff);
+					add_edit_alarm->szTitle = mir_tstrdup(buff);
 
 					GetDlgItemText(hwndDlg, IDC_DESC, buff, MAX_PATH);
 					if (add_edit_alarm->szDesc) free(add_edit_alarm->szDesc);
-					add_edit_alarm->szDesc = _strdup(buff);
+					add_edit_alarm->szDesc = mir_tstrdup(buff);
 
-					if (add_edit_alarm->szTitle == 0 || strlen(add_edit_alarm->szTitle) == 0) {
-						MessageBox(hwndDlg, Translate("Please enter a title for this alarm."), Translate("Error"), MB_OK | MB_ICONERROR);
+					if (add_edit_alarm->szTitle == 0 || _tcslen(add_edit_alarm->szTitle) == 0) {
+						MessageBox(hwndDlg, TranslateT("Please enter a title for this alarm."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						return TRUE;
 					}
 
 					SendMessage(hwndDlg, WMU_UPDATETIME, 0, 0);
 
 					if (!UpdateAlarm(add_edit_alarm->time, add_edit_alarm->occurrence)) {
-						MessageBox(hwndDlg, Translate("The alarm time you have selected is in the past."), Translate("Error"), MB_OK | MB_ICONERROR);
+						MessageBox(hwndDlg, TranslateT("The alarm time you have selected is in the past."), TranslateT("Error"), MB_OK | MB_ICONERROR);
 						return TRUE;
 					}
 
@@ -566,10 +566,10 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					if (add_edit_alarm->action & AAF_COMMAND) {
 						GetDlgItemText(hwndDlg, IDC_ED_COMMAND, buff, MAX_PATH);
 						if (add_edit_alarm->szCommand) free(add_edit_alarm->szCommand);
-						add_edit_alarm->szCommand = _strdup(buff);
+						add_edit_alarm->szCommand = mir_tstrdup(buff);
 						GetDlgItemText(hwndDlg, IDC_ED_PARAMS, buff, MAX_PATH);
 						if (add_edit_alarm->szCommandParams) free(add_edit_alarm->szCommandParams);
-						add_edit_alarm->szCommandParams = _strdup(buff);
+						add_edit_alarm->szCommandParams = mir_tstrdup(buff);
 					}
 
 					if (add_edit_alarm->action & AAF_SOUND) {

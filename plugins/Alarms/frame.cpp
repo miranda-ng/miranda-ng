@@ -91,7 +91,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case WM_CREATE: 
 			{
-				hwnd_list = CreateWindow("LISTBOX", "",
+				hwnd_list = CreateWindow(_T("LISTBOX"), _T(""),
 					(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT | LBS_STANDARD | LBS_NOTIFY | LBS_OWNERDRAWFIXED) & ~LBS_SORT
 					& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);		
 			}
@@ -134,25 +134,25 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 				GetTextExtentPoint32(dis->hDC,alarm.szTitle,lstrlen(alarm.szTitle),&textSize);
 
-				char buff[100];
+				TCHAR buff[100];
 				if (min >= 60) {
-					mir_snprintf(buff, 100, Translate("%dh %dm"), min / 60, min % 60);
+					mir_sntprintf(buff, 100, TranslateT("%dh %dm"), min / 60, min % 60);
 				} else {
-					mir_snprintf(buff, 100, Translate("%dm"), min);
+					mir_sntprintf(buff, 100, TranslateT("%dm"), min);
 				}
 
 				GetTextExtentPoint32(dis->hDC,buff,lstrlen(buff),&timeSize);
 
 				if (textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 					// need elipsis
-					char titlebuff[512];
+					TCHAR titlebuff[512];
 					int len = lstrlen(alarm.szTitle);
 					if (len > 511) len = 511;
 					while(len > 0 && textSize.cx > (dis->rcItem.right - dis->rcItem.left) - (GetSystemMetrics(SM_CXSMICON) + 4) - timeSize.cx - 2 - 4) {
 						len--;
-						strncpy(titlebuff, alarm.szTitle, len);
+						_tcsncpy(titlebuff, alarm.szTitle, len);
 						titlebuff[len] = 0;
-						strcat(titlebuff, "...");
+						_tcscat(titlebuff, _T("..."));
 						GetTextExtentPoint32(dis->hDC,titlebuff,lstrlen(titlebuff),&textSize);
 					}
 					TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,titlebuff,lstrlen(titlebuff));
@@ -233,7 +233,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 #define CLUIFrameTitleBarClassName				"CLUIFrameTitleBar"
 						
 						int height = height_client_to_frame(itemheight * count, GetWindowLongPtr(GetParent(hwnd), GWL_STYLE), GetWindowLongPtr(GetParent(hwnd), GWL_EXSTYLE));
-						HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), 0, CLUIFrameTitleBarClassName, 0);
+						HWND titleBarHwnd = FindWindowEx(GetParent(hwnd), 0, _T(CLUIFrameTitleBarClassName), 0);
 						if (titleBarHwnd) {
 							RECT tbr;
 							GetWindowRect(titleBarHwnd, &tbr);
@@ -520,12 +520,12 @@ int CreateFrame()
 	wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 	wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
 	wndclass.lpszMenuName  = NULL;
-	wndclass.lpszClassName = "AlarmsFrame";
+	wndclass.lpszClassName = _T("AlarmsFrame");
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 
-		hwnd_plugin = CreateWindow("AlarmsFrame",Translate("Alarms"), 
+		hwnd_plugin = CreateWindow(_T("AlarmsFrame"), TranslateT("Alarms"), 
 			WS_CHILD | WS_CLIPCHILDREN, 
 			0,0,10,10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL,hInst,NULL);
 
@@ -549,15 +549,15 @@ int CreateFrame()
 		wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
 		wndclass.hbrBackground = 0; //(HBRUSH)(COLOR_3DFACE+1);
 		wndclass.lpszMenuName  = NULL;
-		wndclass.lpszClassName = "AlarmsFrameContainer";
+		wndclass.lpszClassName = _T("AlarmsFrameContainer");
 		RegisterClass(&wndclass);
 
-		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, "AlarmsFrameContainer",Translate("Alarms"), 
+		hwnd_frame = CreateWindowEx(WS_EX_TOOLWINDOW, _T("AlarmsFrameContainer"), TranslateT("Alarms"), 
 			(WS_POPUPWINDOW | WS_THICKFRAME | WS_CAPTION | WS_SYSMENU | WS_CLIPCHILDREN) & ~WS_VISIBLE,
 			0,0,200,100, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL,hInst,NULL);
 			//0,0,200,100, GetDesktopWindow(), NULL,hInst,NULL);
 	
-		hwnd_plugin = CreateWindow("AlarmsFrame",Translate("Alarms"), 
+		hwnd_plugin = CreateWindow(_T("AlarmsFrame"), TranslateT("Alarms"), 
 			WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE,
 			0,0,10,10, hwnd_frame, NULL,hInst,NULL);
 

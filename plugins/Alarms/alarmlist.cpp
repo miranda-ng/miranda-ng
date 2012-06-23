@@ -35,10 +35,10 @@ void copy_alarm_data(ALARM *dest, ALARM *src) {
 	dest->trigger_id = src->trigger_id;
 
 	free_alarm_data(dest);
-	dest->szTitle = _strdup(src->szTitle);
-	dest->szDesc = _strdup(src->szDesc);
-	dest->szCommand = _strdup(src->szCommand);
-	dest->szCommandParams = _strdup(src->szCommandParams);
+	dest->szTitle = mir_tstrdup(src->szTitle);
+	dest->szDesc = mir_tstrdup(src->szDesc);
+	dest->szCommand = mir_tstrdup(src->szCommand);
+	dest->szCommandParams = mir_tstrdup(src->szCommandParams);
 }
 
 void GetPluginTime(SYSTEMTIME *t) {
@@ -193,14 +193,14 @@ void LoadAlarms() {
 
 		sprintf(buff, "Title%d", i);
 		if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-			if (dbv.pszVal && strlen(dbv.pszVal))
-				alarm.szTitle = _strdup(dbv.pszVal);
+			if (dbv.ptszVal && _tcslen(dbv.ptszVal))
+				alarm.szTitle = mir_tstrdup(dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(buff, "Desc%d", i);
 		if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-			if (dbv.pszVal && strlen(dbv.pszVal))
-				alarm.szDesc = _strdup(dbv.pszVal);
+			if (dbv.ptszVal && _tcslen(dbv.ptszVal))
+				alarm.szDesc = mir_tstrdup(dbv.ptszVal);
 			DBFreeVariant(&dbv);
 		}
 		sprintf(buff, "Occ%d", i);
@@ -252,13 +252,13 @@ void LoadAlarms() {
 			if (alarm.action & AAF_COMMAND) {
 				sprintf(buff, "ActionCommand%d", i);
 				if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-					if (dbv.pszVal && strlen(dbv.pszVal))
-						alarm.szCommand = _strdup(dbv.pszVal);
+					if (dbv.ptszVal && _tcslen(dbv.ptszVal))
+						alarm.szCommand = mir_tstrdup(dbv.ptszVal);
 					DBFreeVariant(&dbv);
 					sprintf(buff, "ActionParams%d", i);
 					if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-						if (dbv.pszVal && strlen(dbv.pszVal))
-							alarm.szCommandParams = _strdup(dbv.pszVal);
+						if (dbv.ptszVal && _tcslen(dbv.ptszVal))
+							alarm.szCommandParams = mir_tstrdup(dbv.ptszVal);
 						DBFreeVariant(&dbv);
 					}
 				}
@@ -308,9 +308,9 @@ void SaveAlarms() {
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next(), index++) {
 		sprintf(buff, "Title%d", index);
-		DBWriteContactSettingString(0, MODULE, buff, i->szTitle);
+		DBWriteContactSettingTString(0, MODULE, buff, i->szTitle);
 		sprintf(buff, "Desc%d", index);
-		DBWriteContactSettingString(0, MODULE, buff, i->szDesc);
+		DBWriteContactSettingTString(0, MODULE, buff, i->szDesc);
 		sprintf(buff, "Occ%d", index);
 		DBWriteContactSettingWord(0, MODULE, buff, i->occurrence);
 
@@ -345,12 +345,12 @@ void SaveAlarms() {
 		sprintf(buff, "ActionFlags%d", index);
 		DBWriteContactSettingDword(0, MODULE, buff, i->action);
 		if (i->action & AAF_COMMAND) {
-			if (strlen(i->szCommand)) {
+			if (_tcslen(i->szCommand)) {
 				sprintf(buff, "ActionCommand%d", index);
-				DBWriteContactSettingString(0, MODULE, buff, i->szCommand);
-				if (strlen(i->szCommandParams)) {
+				DBWriteContactSettingTString(0, MODULE, buff, i->szCommand);
+				if (_tcslen(i->szCommandParams)) {
 					sprintf(buff, "ActionParams%d", index);
-					DBWriteContactSettingString(0, MODULE, buff, i->szCommandParams);
+					DBWriteContactSettingTString(0, MODULE, buff, i->szCommandParams);
 				}
 			}
 		}
@@ -536,14 +536,14 @@ void ShowPopup(ALARM *alarm) {
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
 
-		POPUPDATAEX ppd;
+		POPUPDATAT ppd;
 
 		ZeroMemory(&ppd, sizeof(ppd)); 
 		ppd.lchContact = 0; 
 		ppd.lchIcon = hIconMenuSet;
 
-		lstrcpy(ppd.lpzContactName, data->szTitle);
-		lstrcpy(ppd.lpzText, data->szDesc);
+		lstrcpy(ppd.lptzContactName, data->szTitle);
+		lstrcpy(ppd.lptzText, data->szDesc);
 		ppd.colorBack = 0;
 		ppd.colorText = 0;
 		ppd.PluginWindowProc = (WNDPROC)PopupAlarmDlgProc;
@@ -622,8 +622,8 @@ void DoAlarm(ALARM *alarm) {
 			cle.cbSize = sizeof(cle);
 			cle.hContact = 0;
 			cle.hIcon = hIconSystray;
-			cle.pszTooltip = alarm->szTitle;
-			cle.flags = CLEF_ONLYAFEW;
+			cle.ptszTooltip = alarm->szTitle;
+			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
 	}
@@ -706,10 +706,10 @@ INT_PTR AddAlarmService(WPARAM wParam, LPARAM lParam)
 	alarm.occurrence = alarm_info->occurrence;
 	alarm.snoozer = alarm_info->snoozer;
 	alarm.sound_num = alarm_info->sound_num;
-	alarm.szCommand = _strdup(alarm_info->szCommand);
-	alarm.szCommandParams = _strdup(alarm_info->szCommandParams);
-	alarm.szDesc = _strdup(alarm_info->szDesc);
-	alarm.szTitle = _strdup(alarm_info->szTitle);
+	alarm.szCommand = mir_tstrdup(alarm_info->szCommand);
+	alarm.szCommandParams = mir_tstrdup(alarm_info->szCommandParams);
+	alarm.szDesc = mir_tstrdup(alarm_info->szDesc);
+	alarm.szTitle = mir_tstrdup(alarm_info->szTitle);
 	alarm.time = alarm_info->time;
 
 	append_to_list(&alarm);

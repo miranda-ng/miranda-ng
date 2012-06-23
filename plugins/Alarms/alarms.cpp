@@ -12,13 +12,13 @@ There is no warranty.
 
 struct MM_INTERFACE mmi;
 
-#define SERVICENAME "mp"
-#define COMMANDPREFIX "/" SERVICENAME
+#define SERVICENAME _T("mp")
+#define COMMANDPREFIX _T("/") SERVICENAME
 
 #define WMP_PAUSE	32808
 #define WMP_NEXT	0x497B
 
-char szGamePrefix[]		= COMMANDPREFIX;
+TCHAR szGamePrefix[] = COMMANDPREFIX;
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
@@ -83,19 +83,19 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void ShowPopup(HANDLE hContact, const char *msg) {
+void ShowPopup(HANDLE hContact, const TCHAR *msg) {
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
-		POPUPDATAEX ppd;
-		char *lpzContactName;
+		POPUPDATAT ppd;
+		TCHAR *lpzContactName;
 
 		ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
 		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
 		ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 
-		lpzContactName = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,0);
+		lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 	
-		lstrcpy(ppd.lpzContactName, lpzContactName);
-		lstrcpy(ppd.lpzText, msg);
+		lstrcpy(ppd.lptzContactName, lpzContactName);
+		lstrcpy(ppd.lptzText, msg);
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);;
 		ppd.colorText = RGB(0,0,0);
 		ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
@@ -122,26 +122,26 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 {
 	CCSDATA *pccsd = (CCSDATA *)lParam;
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
-	char *savedMsg;
+	TCHAR *savedMsg;
 	HWND hWnd;
-	char response[256];
+	TCHAR response[256];
 	
-	char msg[1024], buff[1024];
+	TCHAR msg[1024], buff[1024];
 
-	if (strncmp(ppre->szMessage, szGamePrefix, strlen(szGamePrefix)))
+	if (_tcsncmp(ppre->tszMessage, szGamePrefix, _tcslen(szGamePrefix)))
 		return CallService( MS_PROTO_CHAINRECV, wParam, lParam );
 
-	strcpy(msg, ppre->szMessage + strlen(szGamePrefix));
+	_tcscpy(msg, ppre->tszMessage + _tcslen(szGamePrefix));
 
-	savedMsg = ppre->szMessage;
+	savedMsg = ppre->tszMessage;
 	
-	if (!strcmp(msg, " ffw")) {
-		sprintf(buff, "Fast forward!");
+	if (!_tcscmp(msg, _T(" ffw"))) {
+		mir_sntprintf(buff, SIZEOF(buff), _T("%s"), _T("Fast forward!"));
 		
-		hWnd = FindWindow(0, "Windows Media Player");
+		hWnd = FindWindow(0, _T("Windows Media Player"));
 		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
 	} else {
-		sprintf(buff, "Unknown command issued: \"%s\"", msg);
+		mir_sntprintf(buff, SIZEOF(buff), _T("Unknown command issued: \"%s\""), msg);
 	}
 	
 	/*
@@ -152,7 +152,7 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 
 	ShowPopup(pccsd->hContact, buff);
 
-	strcpy(response, buff);
+	_tcscpy(response, buff);
 	PluginSendMessage((WPARAM)pccsd->hContact, (LPARAM)response);
 
 	return 0;

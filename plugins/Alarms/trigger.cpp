@@ -48,7 +48,7 @@ static INT_PTR CALLBACK DlgProcTriggerOptions(HWND hwndDlg, UINT msg, WPARAM wPa
 
 					td.cbSize = sizeof(td);
 					td.dFlags = DF_TEXT;
-					td.szText = i->szDesc;
+					td.tszText = i->szDesc;
 					//*(SPECIFICTRIGGERINFO **)lParam = &sti;
 					break;
 				}
@@ -97,7 +97,7 @@ int LoadTriggerSupport() {
 		treg.pszName = Translate("Alarms");
 		treg.hInstance = hInst;
 		treg.pfnDlgProc = DlgProcTriggerOptions;
-		treg.pszTemplate = MAKEINTRESOURCE(IDD_OPTTRIGGER);
+		treg.pszTemplate = MAKEINTRESOURCEA(IDD_OPTTRIGGER);
 
 		CallService(MS_TRIGGER_REGISTERTRIGGER, 0, (LPARAM)&treg);
 	}

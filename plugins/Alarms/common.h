@@ -14,9 +14,6 @@
 #include <stdlib.h>
 #include <commctrl.h>
 
-#include "resource.h"
-#include "version.h"
-
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>
@@ -29,23 +26,22 @@
 #include <m_popup.h>
 #include <m_utils.h>
 #include <m_idle.h>
-
 #include <m_clist.h>
 #include <m_clui.h>
 #include <m_clc.h>
-
 #include <m_cluiframes.h>
 #include <m_genmenu.h>
+#include <m_fontservice.h>
+#include <m_icolib.h>
+#include <win2k.h>
 
 #include <m_toptoolbar.h>
 #include <m_trigger.h>
-
-#include <m_fontservice.h>
 #include <m_updater.h>
-
 #include <m_alarms.h>
 
-#include <m_icolib.h>
+#include "resource.h"
+#include "version.h"
 
 #define MODULE	"Alarm"
 
@@ -56,14 +52,14 @@ extern HANDLE hTopToolbarButton;
 
 typedef struct ALARM_tag {
 	unsigned short id;			
-	char *szTitle;
-	char *szDesc;
+	TCHAR *szTitle;
+	TCHAR *szDesc;
 	Occurrence occurrence;
 	BOOL snoozer;				
 	SYSTEMTIME time;			
 	unsigned short action;		
-	char *szCommand;			
-	char *szCommandParams;		
+	TCHAR *szCommand;			
+	TCHAR *szCommandParams;		
 	BYTE sound_num;				
 	int flags;
 	DWORD trigger_id;			

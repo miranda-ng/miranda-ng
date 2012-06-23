@@ -174,10 +174,10 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WMU_FAKEALARM:
 		{
-			SetWindowText(hwndDlg, Translate("Example Alarm"));
+			SetWindowText(hwndDlg, TranslateT("Example Alarm"));
 			HWND hw = GetDlgItem(hwndDlg, IDC_TITLE);
-			SetWindowText(hw, Translate("Example Alarm"));
-			SetDlgItemText(hwndDlg, IDC_ED_DESC, Translate("Some example text. Example, example, example."));
+			SetWindowText(hw, TranslateT("Example Alarm"));
+			SetDlgItemText(hwndDlg, IDC_ED_DESC, TranslateT("Some example text. Example, example, example."));
 		}
 		return TRUE;
 
@@ -287,8 +287,8 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 #define AddItem(x)							\
 		mmi.wID++;							\
-		mmi.dwTypeData = Translate(x);		\
-		mmi.cch = ( UINT )strlen(mmi.dwTypeData);	\
+		mmi.dwTypeData = TranslateT(x);		\
+		mmi.cch = ( UINT )_tcslen(mmi.dwTypeData);	\
 		InsertMenuItem(hMenu, mmi.wID, FALSE, &mmi);
 
 					AddItem("5 mins");
@@ -410,7 +410,7 @@ int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam) {
 }
 
 void InitAlarmWin() {
-	hUserDll = LoadLibrary("user32.dll");
+	hUserDll = LoadLibrary(_T("user32.dll"));
 	if (hUserDll) {
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
 		//MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
