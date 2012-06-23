@@ -208,14 +208,14 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ICQserver.c" />
-    <ClCompile Include="main.c">
+    <ClCompile Include="ICQserver.cpp" />
+    <ClCompile Include="main.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="mirabilis.c" />
-    <ClCompile Include="miranda.c" />
-    <ClCompile Include="progress.c" />
-    <ClCompile Include="wizard.c" />
+    <ClCompile Include="mirabilis.cpp" />
+    <ClCompile Include="miranda.cpp" />
+    <ClCompile Include="progress.cpp" />
+    <ClCompile Include="wizard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ICQserver.h" />

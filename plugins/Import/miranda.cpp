@@ -478,7 +478,7 @@ struct DBHeader* GetHeader(HANDLE hDbFile)
 	struct DBHeader* pdbHeader;
 	DWORD dwBytesRead;
 
-	if (( pdbHeader = calloc(1, sizeof(struct DBHeader))) == NULL )
+	if (( pdbHeader = (DBHeader*)calloc(1, sizeof(struct DBHeader))) == NULL )
 		return NULL;
 
 	// Goto start of file
@@ -675,7 +675,7 @@ BOOL GetSettingsGroup(HANDLE hDbFile, DWORD dwOffset, struct DBContactSettings**
 
 	// ** Read the struct and the following blob
 	dwBlobSize = pSettings.cbBlob;
-	if (!(*pDbSettings = calloc(1, sizeof(struct DBContactSettings) + dwBlobSize)))
+	if (!(*pDbSettings = (DBContactSettings *)calloc(1, sizeof(struct DBContactSettings) + dwBlobSize)))
 		return FALSE;
 
 	memcpy(*pDbSettings, &pSettings, dwHead );
@@ -741,7 +741,7 @@ int GetSettingByName(struct DBContactSettings* pDbSettings, char* pszSettingName
 {
 	char pszName[256];
 	// We need at least one setting to start with
-	char* pDbSetting = pDbSettings->blob;
+	char* pDbSetting = (char*)pDbSettings->blob;
 	if ( !pDbSetting )
 		return FALSE;
 
@@ -800,7 +800,7 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
 		dbv->cchVal = *(WORD*)pBlob;
-		dbv->pszVal = calloc( dbv->cchVal+1, sizeof( char ));
+		dbv->pszVal = (char *)calloc( dbv->cchVal+1, sizeof( char ));
 		memcpy( dbv->pszVal, pBlob+2, dbv->cchVal );
 		dbv->pszVal[ dbv->cchVal ] = 0;
 		return TRUE;
@@ -808,7 +808,7 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 	case DBVTF_VARIABLELENGTH:
 	case DBVT_BLOB:
 		dbv->cpbVal = *(WORD*)pBlob;
-		dbv->pbVal  = calloc( dbv->cpbVal+1, sizeof( char ));
+		dbv->pbVal  = (BYTE *)calloc( dbv->cpbVal+1, sizeof( char ));
 		memcpy( dbv->pbVal, pBlob+2, dbv->cpbVal );
 		dbv->pbVal[ dbv->cpbVal ] = 0;
 		return TRUE;
@@ -886,7 +886,7 @@ BOOL GetEvent(HANDLE hDbFile, DWORD dwOffset, DBEVENTINFO* pDBEI)
 	pDBEI->eventType = pEvent.eventType;
 	pDBEI->cbSize = sizeof(DBEVENTINFO);
 	pDBEI->cbBlob = pEvent.cbBlob;
-	pDBEI->pBlob = pBlob;
+	pDBEI->pBlob = (PBYTE)pBlob;
 	pDBEI->flags = (pEvent.flags & ~(DBEF_SENT+DBEF_READ)) +
 		((pEvent.flags & DBEF_SENT) ? DBEF_SENT : DBEF_READ ); // Imported events are always marked READ
 
@@ -985,7 +985,7 @@ int ImportGroups(HANDLE hDbFile, struct DBHeader* pdbHeader)
 
 	// Find the module with the groups, and import them all
 	if ( pDbSettings = GetSettingsGroupByModuleName( hDbFile, &DbContact, "CListGroups" )) {
-		pSetting = pDbSettings->blob;
+		pSetting = (char *)pDbSettings->blob;
 		while ( pSetting && *pSetting ) {
 			DBVARIANT dbv;
 			if ( GetSettingValue( pSetting, &dbv )) {
