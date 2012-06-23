@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="linklist.c">
+    <ClCompile Include="linklist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="linklist_dlg.c">
+    <ClCompile Include="linklist_dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.c">
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="linklist_fct.c">
+    <ClCompile Include="linklist_fct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

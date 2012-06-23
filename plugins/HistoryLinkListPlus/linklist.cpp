@@ -15,30 +15,7 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
-#include <windows.h>
-#include "resource.h"
-#ifdef _DEBUG
-#include <crtdbg.h>
-#endif
-
-// Miranda SDK Includes
-#pragma warning(disable:4996)
-#pragma warning(disable:4100)
-#include <newpluginapi.h>
-#include <m_clist.h>
-#include <m_database.h>
-#include <m_utils.h>
-#include <m_langpack.h>
-#include <m_options.h>
-#pragma warning(default:4100)
-#pragma warning(default:4996)
-
-#include "linklist_dlg.h"
-#include "linklist_fct.h"
 #include "linklist.h"
-#include "language.h"
-
-#define MIID_LINKLIST  { 0xc9c94733, 0xa054, 0x42b9, { 0x89, 0xcb, 0xb9, 0x71, 0x27, 0xa7, 0xa3, 0x43 } }
 
 // Global variables
 HINSTANCE hInst;                                    
@@ -47,12 +24,13 @@ PLUGINLINK *pluginLink;
 HANDLE hWindowList;
 HCURSOR splitCursor;
 int hLangpack;
+struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"History Linklist Plus",
 	 PLUGIN_MAKE_VERSION(0,0,0,2),
-	"Generates a list of extracted URIs from the history",
+	"Generates a list of extracted URIs from the history.",
 	"Thomas Wendel, gureedo",
 	"gureedo@gmail.com",
 	"© 2010-2011 gureedo",
@@ -62,56 +40,37 @@ PLUGININFOEX pluginInfo = {
 	{ 0xDA0B09F5, 0x9C66, 0x488C, { 0xAE, 0x37, 0x8A, 0x5F, 0x19, 0x1C, 0x90, 0x79 } } // {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 };
 
-static const MUUID interfaces[] = {MIID_LINKLIST, MIID_LAST};
-struct MM_INTERFACE mmi;
-
-// Functions
-
-__declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	UNREFERENCED_PARAMETER(lpvReserved);
-
 	hInst = hinstDLL;
-	//  Load Rich Edit control
-	if ( fdwReason == DLL_PROCESS_ATTACH || fdwReason == DLL_THREAD_ATTACH )
-	{
-		hRichEdit = LoadLibrary(_T("RICHED32.DLL"));
-		if ( !hRichEdit )
-		{   
-			//  If Rich Edit DLL load fails, exit
-			MessageBox(NULL, _T("Unable to load the Rich Edit control!"), _T("Error"), MB_OK | MB_ICONEXCLAMATION);
-			return FALSE;
-		}
-
-#ifdef DEBUG
-		{
-			int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-			flag |= _CRTDBG_LEAK_CHECK_DF|_CRTDBG_CHECK_ALWAYS_DF;
-			_CrtSetDbgFlag(flag);
-		}
-#endif
-
-		DisableThreadLibraryCalls(hinstDLL);
-	}
-	if ( fdwReason == DLL_PROCESS_DETACH || fdwReason == DLL_THREAD_DETACH ) {
-		FreeLibrary(hRichEdit);
-	}
-
 	return TRUE;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM linklistmenuitem;
 	WNDCLASS wndclass;
 
 	pluginLink = link;
 	mir_getLP(&pluginInfo);
+	//  Load Rich Edit control
+	hRichEdit = LoadLibrary(_T("RICHED32.DLL"));
+	if (!hRichEdit)
+	{   
+		//  If Rich Edit DLL load fails, exit
+		MessageBox(NULL, _T("Unable to load the Rich Edit control!"), _T("Error"), MB_OK | MB_ICONEXCLAMATION);
+		FreeLibrary(hRichEdit);
+		return 1;
+	}
+
+#ifdef DEBUG
+	{
+		int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+		flag |= _CRTDBG_LEAK_CHECK_DF|_CRTDBG_CHECK_ALWAYS_DF;
+		_CrtSetDbgFlag(flag);
+	}
+#endif
+
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
 	ZeroMemory(&linklistmenuitem, sizeof(linklistmenuitem));
 	linklistmenuitem.cbSize = sizeof(linklistmenuitem);
@@ -145,14 +104,12 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	UNREFERENCED_PARAMETER(mirandaVersion);
-
 	return &pluginInfo;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	UnhookEvent(ME_DB_EVENT_ADDED);
 	DestroyCursor(splitCursor);
@@ -171,7 +128,7 @@ int InitOptionsDlg(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_DLG);
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
-	Options_AddPage(wParam, (LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 	return 0;
 }
 

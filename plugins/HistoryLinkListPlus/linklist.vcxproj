@@ -176,10 +176,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="linklist.c" />
-    <ClCompile Include="linklist_dlg.c" />
-    <ClCompile Include="linklist_fct.c" />
-    <ClCompile Include="utils.c" />
+    <ClCompile Include="linklist.cpp" />
+    <ClCompile Include="linklist_dlg.cpp" />
+    <ClCompile Include="linklist_fct.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="language.h" />

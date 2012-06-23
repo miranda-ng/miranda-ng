@@ -22,9 +22,6 @@
 
 #include "linklist.h"
 
-int ExtractURI(DBEVENTINFO*, HANDLE, LISTELEMENT*);
-int RemoveList(LISTELEMENT*);
-int ListCount(LISTELEMENT*);
 void DrawLine(HWND, size_t);
 BYTE GetFlags(HMENU);
 void GetFilterText(HMENU, LPTSTR, size_t);
@@ -41,7 +38,6 @@ void GetDBColour(MYCOLOURSET*);
 void SetDBColour(MYCOLOURSET*);
 int GetMirandaColour(MYCOLOURSET*);
 BYTE GetUpdateSetting(void);
-int DBUpdate(WPARAM, LPARAM);
 int LinklistResizer(HWND,LPARAM,UTILRESIZECONTROL*);
 // RTF Save functions
 BOOL SaveEditAsStream( HWND );

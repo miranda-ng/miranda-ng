@@ -20,7 +20,24 @@
 #ifndef _LINKLIST_H
 #define _LINKLIST_H
 
+#define _CRT_SECURE_NO_WARNINGS
+#include <windows.h>
+#ifdef _DEBUG
+#include <crtdbg.h>
+#endif
 #include <richedit.h>
+
+// Miranda SDK Includes
+#include <newpluginapi.h>
+#include <m_clist.h>
+#include <m_database.h>
+#include <m_utils.h>
+#include <m_langpack.h>
+#include <m_options.h>
+
+#include "resource.h"
+#include "linklist_dlg.h"
+#include "language.h"
 
 // Filter Flags
 #define WLL_URL		0x01
@@ -129,10 +146,11 @@ typedef struct{
 	BYTE showType;
 }LISTOPTIONS;
 
-BOOL WINAPI DllMain(HINSTANCE ,DWORD ,LPVOID );
-int __declspec(dllexport) Load(PLUGINLINK*);
-int __declspec(dllexport) Unload(void);
 static INT_PTR LinkList_Main(WPARAM, LPARAM);
 int InitOptionsDlg(WPARAM, LPARAM);
+int DBUpdate(WPARAM, LPARAM);
+int ExtractURI(DBEVENTINFO*, HANDLE, LISTELEMENT*);
+int RemoveList(LISTELEMENT*);
+int ListCount(LISTELEMENT*);
 
 #endif //_LINKLIST_H
