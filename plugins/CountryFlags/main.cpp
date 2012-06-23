@@ -43,13 +43,9 @@ static PLUGININFOEX pluginInfo={
 };
 static const MUUID interfaces[]={MIID_FLAGS,MIID_LAST};
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,void *pReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	UNREFERENCED_PARAMETER(pReserved);
-	if(fdwReason==DLL_PROCESS_ATTACH)
-		/* Do not call this function from a DLL that is linked to the static C run-time library (CRT).
-		 * The static CRT requires DLL_THREAD_ATTACH and DLL_THREAD_DETATCH notifications to function properly. */
-		DisableThreadLibraryCalls(hInst=hinstDLL);
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -82,21 +78,17 @@ static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 	}
 }
 
-#ifdef __cplusplus
-extern "C" {
-#endif 
-
-__declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
 
-__declspec(dllexport) int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink=link;
 	mir_getLP(&pluginInfo);
@@ -128,7 +120,7 @@ __declspec(dllexport) int Load(PLUGINLINK *link)
 	return 0;
 }
 
-__declspec(dllexport) int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	KillBufferedFunctions();
 	UninitExtraImg();
@@ -137,7 +129,3 @@ __declspec(dllexport) int Unload(void)
 	UninitCountryListExt();
 	return 0;
 }
-
-#ifdef __cplusplus
-}
-#endif 

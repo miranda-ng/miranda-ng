@@ -19,25 +19,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="countrylistext.c">
+    <ClCompile Include="countrylistext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="extraimg.c">
+    <ClCompile Include="extraimg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="huffman.c">
+    <ClCompile Include="huffman.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="icons.c">
+    <ClCompile Include="icons.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ip2country.c">
+    <ClCompile Include="ip2country.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="utils.c">
+    <ClCompile Include="utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

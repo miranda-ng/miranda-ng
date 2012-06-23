@@ -105,7 +105,7 @@ static HICON FASTCALL ResizeIconCentered(HICON hIcon,int cx,int cy)
 			if(GetObject(icoi.hbmColor,sizeof(bm),&bm) && bm.bmWidth<=cx && bm.bmHeight<=cy) {
 				pt.x=(cx-bm.bmWidth)/2;
 				pt.y=(cy-bm.bmHeight)/2;
-				hbmPrev=SelectObject(hdc,icoi.hbmColor);
+				hbmPrev = (HBITMAP)SelectObject(hdc, icoi.hbmColor);
 				if(hbmPrev!=NULL) { /* error on select? */
 					hbm=icoi.hbmColor;
 					icoi.hbmColor=CreateCompatibleBitmap(hdc,cx,cy);
@@ -202,7 +202,7 @@ static INT_PTR ServiceCreateMergedFlagIcon(WPARAM wParam,LPARAM lParam)
 				if(hrgn!=NULL) {
 					SelectClipRgn(hdc,hrgn);
 					DeleteObject(hrgn);
-					hbmPrev=SelectObject(hdc,icoi.hbmColor);
+					hbmPrev = (HBITMAP)SelectObject(hdc, icoi.hbmColor);
 					if(hbmPrev!=NULL) {  /* error on select? */
 						if(DrawIconEx(hdc,0,0,hUpperIcon,bm.bmWidth,bm.bmHeight,0,NULL,DI_NOMIRROR|DI_IMAGE))
 							if(SelectObject(hdc,icoi.hbmMask)!=NULL) /* error on select? */
