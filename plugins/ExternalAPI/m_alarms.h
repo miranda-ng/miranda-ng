@@ -24,14 +24,14 @@ typedef enum {
 #define ALF_NOSNOOZE	0x10				// do not allow snoozing of this alarm
 
 typedef struct {
-	char *szTitle;
-	char *szDesc;
+	TCHAR *szTitle;
+	TCHAR *szDesc;
 	Occurrence occurrence;
 	BOOL snoozer;							// this alarm is a 'once-off', the result of the user pressing the 'snooze' button - the time field no longer contains the original alarm time
 	SYSTEMTIME time;						// the time the alarm is triggered at - different fields are valid depending on what the 'occurence' value is set to (see definition of Occurence type above)
 	unsigned short action;					// bitwise OR of AAF_* constants above
-	char *szCommand;						// passed to ShellExecute (if action & AAF_COMMAND) when the alarm is triggered
-	char *szCommandParams;					// passed as parameters for above command
+	TCHAR *szCommand;						// passed to ShellExecute (if action & AAF_COMMAND) when the alarm is triggered
+	TCHAR *szCommandParams;					// passed as parameters for above command
 	BYTE sound_num;							// use alarm sound 1, 2, or 3 (if action & AAF_SOUND) (4 == speak, version 0.0.7.0+)
 	int flags;								// ALF_* above
 } ALARMINFO;
