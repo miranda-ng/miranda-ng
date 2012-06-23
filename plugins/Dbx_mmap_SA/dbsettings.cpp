@@ -183,7 +183,7 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 			if ( bAllocate != 1 )
 				return NULL;
 
-			V = HeapAlloc(hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValue));
+			V = (DBCachedContactValue *)HeapAlloc(hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContactValue));
 			if (VL->last)
 				VL->last->next = V;
 			else
@@ -345,7 +345,7 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 							DecodeCopyMemory(dbcgs->pValue->pbVal,pBlob+3,dbcgs->pValue->cpbVal);
 						}
 						else {
-							dbcgs->pValue->pbVal=(char*)mir_alloc(*(PWORD)(pBlob+1));
+							dbcgs->pValue->pbVal = (BYTE *)mir_alloc(*(PWORD)(pBlob+1));
 							DecodeCopyMemory(dbcgs->pValue->pbVal,pBlob+3,*(PWORD)(pBlob+1));
 						}
 						dbcgs->pValue->cpbVal=*(PWORD)(pBlob+1);
@@ -419,7 +419,7 @@ static INT_PTR GetContactSetting(WPARAM wParam, LPARAM lParam)
 			}
 			else {
 				dgs->pValue->type = DBVT_ASCIIZ;
-				dgs->pValue->pszVal = mir_alloc( result );
+				dgs->pValue->pszVal = (char *)mir_alloc(result);
 				WideCharToMultiByte( mirCp, WC_NO_BEST_FIT_CHARS, tmp, -1, dgs->pValue->pszVal, result, NULL, NULL );
 				mir_free( tmp );
 			}
@@ -532,7 +532,7 @@ static INT_PTR SetSettingResident(WPARAM wParam, LPARAM lParam)
 		if ( !li.List_GetIndex( &lSettings, szTemp, &idx ))
 			szSetting = InsertCachedSetting( szTemp, cbSettingNameLen, idx );
 		else
-			szSetting = lSettings.items[ idx ];
+			szSetting = (char *)lSettings.items[idx];
 
 		*szSetting = (char)wParam;
 
@@ -971,7 +971,7 @@ static INT_PTR EnumResidentSettings(WPARAM wParam, LPARAM lParam)
 	int i;
 	int ret;
 	for(i = 0; i < lResidentSettings.realCount; i++) {
-		ret=((DBMODULEENUMPROC)lParam)(lResidentSettings.items[i],0,wParam);
+		ret = ((DBMODULEENUMPROC)lParam)((char *)lResidentSettings.items[i], 0, wParam);
 		if(ret) return ret;
 	}
 	return 0;
@@ -1146,15 +1146,15 @@ int InitSettings(void)
 
 	hSettingChangeEvent=CreateHookableEvent(ME_DB_CONTACT_SETTINGCHANGED);
 
-	hCacheHeap=HeapCreate(0,0,0);
-	lSettings.sortFunc=stringCompare;
-	lSettings.increment=100;
-	lContacts.sortFunc=HandleKeySort;
-	lContacts.increment=50;
-	lGlobalSettings.sortFunc=HandleKeySort;
-	lGlobalSettings.increment=50;
-	lResidentSettings.sortFunc=stringCompare2;
-	lResidentSettings.increment=50;
+	hCacheHeap = HeapCreate(0, 0, 0);
+	lSettings.sortFunc = (FSortFunc)stringCompare;
+	lSettings.increment = 100;
+	lContacts.sortFunc = HandleKeySort;
+	lContacts.increment = 50;
+	lGlobalSettings.sortFunc = HandleKeySort;
+	lGlobalSettings.increment = 50;
+	lResidentSettings.sortFunc = (FSortFunc)stringCompare2;
+	lResidentSettings.increment = 50;
 
 	mirCp = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
 	return 0;

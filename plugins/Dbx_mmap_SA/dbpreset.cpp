@@ -65,7 +65,7 @@ int InitPreset()
 	if (!fp) return 0;
 
 	lstPresets = li.List_Create(0, 50);
-	lstPresets->sortFunc = DBPresetItem_Cmp;
+	lstPresets->sortFunc = (FSortFunc)DBPresetItem_Cmp;
 
 	while(!feof(fp))
 	{
@@ -158,7 +158,7 @@ void UninitPreset()
 	int i;
 	if (!lstPresets) return;
 	for (i = 0; i < lstPresets->realCount; ++i)
-		DBPresetItem_Destroy(lstPresets->items[i]);
+		DBPresetItem_Destroy((DBPresetItem *)lstPresets->items[i]);
 	li.List_Destroy(lstPresets);
 }
 
@@ -172,7 +172,7 @@ int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT
 	search.szModule = (char *)szModule;
 	search.szSetting = (char *)szSetting;
 	DBPresetItem_Hash(&search);
-	item = li.List_Find(lstPresets, &search);
+	item = (DBPresetItem *)li.List_Find(lstPresets, &search);
 
 	if (!item) return FALSE;
 
@@ -208,7 +208,7 @@ int DBPreset_CompareSetting(const char *szModule, const char *szSetting, DBVARIA
 	search.szModule = (char *)szModule;
 	search.szSetting = (char *)szSetting;
 	DBPresetItem_Hash(&search);
-	item = li.List_Find(lstPresets, &search);
+	item = (DBPresetItem *)li.List_Find(lstPresets, &search);
 
 	if (!item) return FALSE;
 	if (item->dbv.type != item->dbv.type) return FALSE;

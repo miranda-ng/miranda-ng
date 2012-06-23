@@ -68,6 +68,8 @@ extern CRITICAL_SECTION csDbAccess;
 extern struct DBHeader dbHeader;
 extern HANDLE hDbFile;
 extern BOOL bEncoding;
+extern HINSTANCE g_hInst;
+extern HANDLE hSetPwdMenu;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)

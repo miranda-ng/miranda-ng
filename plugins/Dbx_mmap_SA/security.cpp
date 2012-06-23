@@ -5,10 +5,6 @@
 BOOL bEncoding;
 BOOL bEncProcess = 0;
 
-extern HINSTANCE g_hInst;
-
-extern HANDLE hSetPwdMenu = NULL;
-
 char  encryptKey[255];
 size_t encryptKeyLength;
 
@@ -91,7 +87,7 @@ void EncodeCopyMemory(void * dst, void * src, size_t size )
 	if (!bEncoding)
 		return;
 	
-	CryptoEngine->EncryptMem(dst, (int)size, key);
+	CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
 }
 
 void DecodeCopyMemory(void * dst, void * src, size_t size )
@@ -101,7 +97,7 @@ void DecodeCopyMemory(void * dst, void * src, size_t size )
 	if (!bEncoding)
 		return;
 
-	CryptoEngine->DecryptMem(dst, (int)size, key);
+	CryptoEngine->DecryptMem((BYTE *)dst, (int)size, key);
 }
 
 void EncodeDBWrite(DWORD ofs, void * src, size_t size)
@@ -346,7 +342,7 @@ void DecryptDB()
 
 	bEncoding = 0;
 
-	zero_fill(encryptKey, sizeof encryptKey);
+	zero_fill((BYTE *)encryptKey, sizeof encryptKey);
 
 	xModifyMenu(hSetPwdMenu, 0, LPGENT("Set Password"), 0);
 
@@ -400,7 +396,7 @@ void ChangePwd()
 		CryptoEngine = NULL;
 		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
-		zero_fill(encryptKey, sizeof encryptKey);
+		zero_fill((BYTE *)encryptKey, sizeof encryptKey);
 
 		xModifyMenu(hSetPwdMenu, 0, LPGENT("Set Password"), 0);
 	}
@@ -418,7 +414,7 @@ void ChangePwd()
 		WriteCryptHeader();
 	}
 
-	zero_fill(newpass, sizeof newpass);
+	zero_fill((BYTE *)newpass, sizeof newpass);
 
 	LeaveCriticalSection(&csDbAccess);
 }

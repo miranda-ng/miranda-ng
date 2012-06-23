@@ -40,7 +40,7 @@ void Map()
 
 	if (hMap)
 	{
-		pDbCache = MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS/*FILE_MAP_WRITE*/, 0, 0 ,0);
+		pDbCache = (PBYTE)MapViewOfFile(hMap, FILE_MAP_ALL_ACCESS/*FILE_MAP_WRITE*/, 0, 0 ,0);
 		if (!pDbCache)
 			DatabaseCorruption( _T("%s (MapViewOfFile failed. Code: %d)"));
 	}
@@ -189,7 +189,7 @@ int InitCache(void)
 	Map();
 
 	// zero region for reads outside the file
-	pNull = calloc(ChunkSize,1);
+	pNull = (PBYTE)calloc(ChunkSize, 1);
 
 	CreateServiceFunction(MS_DB_SETSAFETYMODE,CacheSetSafetyMode);
 

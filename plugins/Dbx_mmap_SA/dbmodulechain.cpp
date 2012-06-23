@@ -69,13 +69,13 @@ int InitModuleNames(void)
 	int nameLen;
 	char *mod;
 
-	hModHeap=HeapCreate(0,0,0);
-	lMods.sortFunc=ModCompare;
-	lMods.increment=50;
-	lOfs.sortFunc=OfsCompare;
-	lOfs.increment=50;
+	hModHeap = HeapCreate(0, 0, 0);
+	lMods.sortFunc = (FSortFunc)ModCompare;
+	lMods.increment = 50;
+	lOfs.sortFunc = (FSortFunc)OfsCompare;
+	lOfs.increment = 50;
 
-	ofsThis=dbHeader.ofsFirstModuleName;
+	ofsThis = dbHeader.ofsFirstModuleName;
 	dbmn=(struct DBModuleName*)DBRead(ofsThis,sizeof(struct DBModuleName),NULL);
 	while(ofsThis) {
 		if(dbmn->signature!=DBMODULENAME_SIGNATURE) DatabaseCorruption(NULL);

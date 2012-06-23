@@ -10,7 +10,6 @@
 
 extern char encryptKey[255];
 extern size_t encryptKeyLength;
-extern HANDLE g_hInst;
 HANDLE hSetPwdMenu;
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -53,9 +52,9 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.position = -790000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("Database Features");
-	odp.pszGroup = LPGEN("Services");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.ptszTitle = LPGENT("Database Features");
+	odp.ptszGroup = LPGENT("Services");
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 
