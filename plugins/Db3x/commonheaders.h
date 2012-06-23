@@ -37,16 +37,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <io.h>
 #include <string.h>
 #include <direct.h>
-#include "resource.h"
+
 #include <newpluginapi.h>
 #include <win2k.h>
+#include <m_plugins.h>
 #include <m_system.h>
 #include <m_database.h>
 #include <m_langpack.h>
+
 #include "version.h"
+#include "database.h"
+#include "resource.h"
 
 extern PLUGINLINK *pluginLink;
-
+extern HANDLE hDbFile;
+extern CRITICAL_SECTION csDbAccess;
+extern struct DBHeader dbHeader;
+extern HANDLE hCacheHeap;
+extern SortedList lContacts;
+extern char szDbPath[MAX_PATH];
 extern struct LIST_INTERFACE li;
 
 #ifdef __GNUC__
@@ -56,3 +65,7 @@ extern struct LIST_INTERFACE li;
 #endif
 
 #define NEWSTR_ALLOCA(A) (A==NULL)?NULL:strcpy((char*)alloca(strlen(A)+1),A)
+
+#ifndef MODULAR
+void Encrypt(char*msg,BOOL up);
+#endif 

@@ -22,10 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "database.h"
-
-extern struct DBHeader dbHeader;
-extern HANDLE hDbFile;
 
 struct DBSignature {
   char name[15];

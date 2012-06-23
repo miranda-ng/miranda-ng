@@ -15,34 +15,31 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="commonheaders.c">
+    <ClCompile Include="database.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="database.c">
+    <ClCompile Include="dbcache.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbcache.c">
+    <ClCompile Include="dbcontacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbcontacts.c">
+    <ClCompile Include="dbevents.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbevents.c">
+    <ClCompile Include="dbheaders.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbheaders.c">
+    <ClCompile Include="dbmodulechain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbmodulechain.c">
+    <ClCompile Include="dbsettings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dbsettings.c">
+    <ClCompile Include="encrypt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="encrypt.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="init.c">
+    <ClCompile Include="init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

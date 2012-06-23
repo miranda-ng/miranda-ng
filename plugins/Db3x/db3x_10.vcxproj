@@ -201,18 +201,17 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="commonheaders.c">
+    <ClCompile Include="database.cpp" />
+    <ClCompile Include="dbcache.cpp" />
+    <ClCompile Include="dbcontacts.cpp" />
+    <ClCompile Include="dbevents.cpp" />
+    <ClCompile Include="dbheaders.cpp" />
+    <ClCompile Include="dbmodulechain.cpp" />
+    <ClCompile Include="dbsettings.cpp" />
+    <ClCompile Include="encrypt.cpp" />
+    <ClCompile Include="init.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="database.c" />
-    <ClCompile Include="dbcache.c" />
-    <ClCompile Include="dbcontacts.c" />
-    <ClCompile Include="dbevents.c" />
-    <ClCompile Include="dbheaders.c" />
-    <ClCompile Include="dbmodulechain.c" />
-    <ClCompile Include="dbsettings.c" />
-    <ClCompile Include="encrypt.c" />
-    <ClCompile Include="init.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="commonheaders.h" />

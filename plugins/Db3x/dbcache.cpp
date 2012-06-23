@@ -22,14 +22,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "database.h"
-
 
 #define CACHESECTIONSIZE   4096
 #define CACHESECTIONCOUNT  32
-
-extern HANDLE hDbFile;
-extern CRITICAL_SECTION csDbAccess;
 
 static BOOL safetyMode=TRUE;
 static PBYTE pDbCache;

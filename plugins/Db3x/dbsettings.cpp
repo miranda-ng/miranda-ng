@@ -23,12 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-#include "database.h"
-
 DWORD GetModuleNameOfs(const char *szName);
-
-extern CRITICAL_SECTION csDbAccess;
-extern struct DBHeader dbHeader;
 
 HANDLE hCacheHeap = NULL;
 SortedList lContacts;
@@ -199,7 +194,7 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 			if ( bAllocate != 1 )
 				return NULL;
 
-			V = HeapAlloc(hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValue));
+			V = (DBCachedContactValue *)HeapAlloc(hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContactValue));
 			V->next = VL->first;
 			VL->first = V;
 			V->name = szSetting;
@@ -337,7 +332,7 @@ static __inline int GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING 
 							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,dbcgs->pValue->cpbVal);
 						}
 						else {
-							dbcgs->pValue->pbVal=(char*)mir_alloc(*(PWORD)(pBlob+1));
+							dbcgs->pValue->pbVal = (BYTE *)mir_alloc(*(PWORD)(pBlob + 1));
 							CopyMemory(dbcgs->pValue->pbVal,pBlob+3,*(PWORD)(pBlob+1));
 						}
 						dbcgs->pValue->cpbVal=*(PWORD)(pBlob+1);
@@ -398,7 +393,7 @@ static INT_PTR GetContactSetting(WPARAM wParam,LPARAM lParam)
 			}
 			else {
 				dgs->pValue->type = DBVT_ASCIIZ;
-				dgs->pValue->pszVal = mir_alloc( result );
+				dgs->pValue->pszVal = (char *)mir_alloc(result);
 				WideCharToMultiByte( mirCp, WC_NO_BEST_FIT_CHARS, tmp, -1, dgs->pValue->pszVal, result, NULL, NULL );
 				mir_free( tmp );
 			}
@@ -509,7 +504,7 @@ static INT_PTR SetSettingResident(WPARAM wParam,LPARAM lParam)
 	if ( !li.List_GetIndex( &lSettings, szTemp, &idx ))
 		szSetting = InsertCachedSetting( szTemp, cbSettingNameLen+2, idx );
 	else
-		szSetting = lSettings.items[ idx ];
+		szSetting = (char *)lSettings.items[idx];
 
    *szSetting = (char)wParam;
 
@@ -960,13 +955,13 @@ int InitSettings(void)
 
 	mirCp = CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
 
-	hCacheHeap=HeapCreate(0,0,0);
-	lSettings.sortFunc=stringCompare;
-	lSettings.increment=50;
-	lContacts.sortFunc=HandleKeySort;
-	lContacts.increment=100;
-	lGlobalSettings.sortFunc=stringCompare2;
-	lGlobalSettings.increment=100;
+	hCacheHeap = HeapCreate(0, 0, 0);
+	lSettings.sortFunc = (FSortFunc)stringCompare;
+	lSettings.increment = 50;
+	lContacts.sortFunc = HandleKeySort;
+	lContacts.increment = 100;
+	lGlobalSettings.sortFunc = (FSortFunc)stringCompare2;
+	lGlobalSettings.increment = 100;
 	return 0;
 }
 

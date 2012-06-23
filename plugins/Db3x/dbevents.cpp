@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "commonheaders.h"
-#include "database.h"
-
 
 DWORD GetModuleNameOfs(const char *szName);
 char *GetModuleNameByOfs(DWORD ofs);
@@ -40,9 +38,6 @@ static INT_PTR FindFirstUnreadEvent(WPARAM wParam,LPARAM lParam);
 static INT_PTR FindLastEvent(WPARAM wParam,LPARAM lParam);
 static INT_PTR FindNextEvent(WPARAM wParam,LPARAM lParam);
 static INT_PTR FindPrevEvent(WPARAM wParam,LPARAM lParam);
-
-extern CRITICAL_SECTION csDbAccess;
-extern struct DBHeader dbHeader;
 
 static HANDLE hEventDeletedEvent,hEventAddedEvent,hEventFilterAddedEvent;
 
