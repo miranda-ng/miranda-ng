@@ -85,9 +85,7 @@ int SaveTree(HWND hwndDlg)
 	TVITEM tvi = { 0 };
 	tvi.hItem = TreeView_GetRoot(hTree);
 
-	int count = 0;
-
-	LIST<TopButtonInt> LocalButtons(TreeView_GetCount(hTree));
+	LIST<TopButtonInt> tmpList(8);
 
 	while(tvi.hItem != NULL) {
 		tvi.stateMask = TVIS_STATEIMAGEMASK;
@@ -95,34 +93,25 @@ int SaveTree(HWND hwndDlg)
 		TreeView_GetItem(hTree, &tvi);
 
 		TopButtonInt* btn = (TopButtonInt*)tvi.lParam;
-
-//		Buttons.remove(btn);
-		int idx = Buttons.indexOf(btn);
-		if (idx != -1)
-			Buttons.remove(idx);
+		Buttons.remove(btn);
 
 		if (TreeView_GetCheckState(hTree,tvi.hItem))
 			btn->dwFlags |= TTBBF_VISIBLE;
 		else
 			btn->dwFlags &= ~TTBBF_VISIBLE;
+		btn->dwFlags &= ~TTBBF_OPTIONAL;
+		btn->arrangedpos = tmpList.getCount();
 
-		btn->dwFlags &=~TTBBF_OPTIONAL;
-
-		btn->arrangedpos = count;
-
-		LocalButtons.insert(btn);
+		tmpList.insert(btn);
 		tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
-		count++;
 	}
 
 	lockbut();
-	for (int i=0;i<Buttons.getCount();i++)
+	for (int i=0; i < Buttons.getCount(); i++)
 		delete Buttons[i];
-	Buttons.destroy();	
 
-	Buttons = LocalButtons;
-
-//	LocalButtons.destroy();	
+	Buttons = tmpList;
+	tmpList.destroy();	
 
 	ulockbut();
 	SaveAllButtonsOptions();
@@ -213,20 +202,20 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				// probably, condition not needs
 				if (btn->dwFlags & TTBBF_ISLBUTTON) {
 					if (!(btn->dwFlags & TTBBF_OPTIONAL)) {
-					  // create button
+						// create button
 						TTBButton ttb = { 0 };
 						ttb.cbSize = sizeof(ttb);
 						ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 						ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL | TTBBF_OPTIONAL;
 						ttb.name = NULL;
 						ttb.program = NULL;
-					  btn = CreateButton(&ttb);
+						btn = CreateButton(&ttb);
 
 						tvi.lParam = (LPARAM)btn;
 						TreeView_SetItem(hTree, &tvi);
 					}
 
-				  if (btn->name) free(btn->name);
+					if (btn->name) free(btn->name);
 					GetDlgItemText(hwndDlg, IDC_ENAME, buf, 255);
 					btn->name = _strdup( _T2A(buf));
 
@@ -235,21 +224,21 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					btn->program = _tcsdup(buf);
 
 					tvi.mask = TVIF_TEXT;
-					tvi.pszText =  mir_a2t( btn->name );
+					tvi.pszText = mir_a2t( btn->name );
 					TreeView_SetItem(hTree, &tvi);
 				}
 				break;
 			}
 
 			if (ctrlid == IDC_ADDLBUTTON) {
-			  // create button
+				// create button
 				TTBButton ttb = { 0 };
 				ttb.cbSize = sizeof(ttb);
 				ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_RUN), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 				ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL | TTBBF_OPTIONAL;
 				ttb.name = LPGEN("Default");
 				ttb.program = _T("Execute Path");
-			  TopButtonInt* b = CreateButton(&ttb);
+				TopButtonInt* b = CreateButton(&ttb);
 
 				// get selection for insert
 				TVITEM tvi = {0};
@@ -265,11 +254,11 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			//----- Separators -----
 
 			if (ctrlid == IDC_ADDSEP) {
-			  // create button
+				// create button
 				TTBButton ttb = { 0 };
 				ttb.cbSize = sizeof(ttb);
 				ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISSEPARATOR | TTBBF_INTERNAL | TTBBF_OPTIONAL;
-			  TopButtonInt* b = CreateButton(&ttb);
+				TopButtonInt* b = CreateButton(&ttb);
 
 				// get selection for insert
 				TVITEM tvi = {0};
@@ -295,9 +284,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				// if button enabled for separator and launch only, no need condition
 				// except possible service button introducing
 				if (btn->dwFlags & (TTBBF_ISSEPARATOR | TTBBF_ISLBUTTON)) {
-				  // delete if was added in options
-				  if (btn->dwFlags & TTBBF_OPTIONAL)
-				  	delete btn;
+					// delete if was added in options
+					if (btn->dwFlags & TTBBF_OPTIONAL)
+						delete btn;
 
 					TreeView_DeleteItem(hTree,tvi.hItem);
 
@@ -313,7 +302,7 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				BUTTHEIGHT =  GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
+				BUTTHEIGHT = GetDlgItemInt(hwndDlg, IDC_BUTTHEIGHT, NULL, FALSE);
 				BUTTWIDTH = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, NULL, FALSE);
 				BUTTGAP = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, NULL, FALSE);
 				DBWriteContactSettingByte(0, TTB_OPTDIR, "BUTTHEIGHT", BUTTHEIGHT);

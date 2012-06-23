@@ -54,16 +54,6 @@ template<class T> struct LIST
 		sortFunc = FTSortFunc(id);
 	}
 
-	__inline LIST& operator=(const LIST& x)
-	{	destroy();
-		#if defined(_STATIC)
-			List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
-		#else
-			li.List_ObjCopy((SortedList*)&x, (SortedList*)this, sizeof(T));
-		#endif
-		return *this;
-	}
-
 	__inline T* operator[](int idx) const { return (idx >= 0 && idx < count) ? items[idx] : NULL; }
 	__inline int getCount(void)     const { return count; }
 	__inline T** getArray(void)     const { return items; }
@@ -73,6 +63,12 @@ template<class T> struct LIST
 	    {	 items = NULL;
 		    List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 	    }
+
+		__inline LIST& operator=(const LIST& x)
+		{	destroy();
+			List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
+			return *this;
+		}
 
 		__inline int getIndex(T* p) const
 		{	int idx;
@@ -93,6 +89,12 @@ template<class T> struct LIST
 	    {	 items = NULL;
 		    li.List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
 	    }
+
+		__inline LIST& operator=(const LIST& x)
+		{	destroy();
+			li.List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
+			return *this;
+		}
 
 		__inline int getIndex(T* p) const
 		{	int idx;

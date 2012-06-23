@@ -891,9 +891,6 @@ int UnloadToolbarModule()
 	DeleteObject(hBmpSeparator);
 	DeleteCriticalSection(&csButtonsHook);
 
-	arServices.destroy();
-	arHooks.destroy();
-
 	for (int i=0; i < Buttons.getCount(); i++)
 		delete Buttons[i];
 	Buttons.destroy();

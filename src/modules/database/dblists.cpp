@@ -257,16 +257,12 @@ int List_RemovePtr(SortedList* list, void* p)
 
 void List_Copy(SortedList* s, SortedList* d, size_t itemSize)
 {
-	int i;
-
 	d->increment = s->increment;
-	d->sortFunc  = s->sortFunc;
-
-	for (i = 0; i < s->realCount; i++) {
-		void* item = mir_alloc(itemSize);
-		memcpy(item, s->items[i], itemSize);
-		List_Insert(d, item, i);
-}	}
+	d->limit     = s->limit;
+	d->realCount = s->realCount;
+	d->items = (void**)mir_alloc( sizeof(void*) * d->realCount);
+	memcpy(d->items, s->items, sizeof(void*) * d->realCount);
+}
 
 void List_ObjCopy(SortedList* s, SortedList* d, size_t itemSize)
 {
