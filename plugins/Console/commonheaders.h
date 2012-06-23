@@ -61,7 +61,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "version.h"
 
-HINSTANCE hInst;
+extern HINSTANCE hInst;
 
 void InitConsole();
 void ShutdownConsole();

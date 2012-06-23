@@ -170,7 +170,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 
 void ScrollDown(LOGWIN * dat) {
 	if (dat->Scroll)
-		ListView_EnsureVisible(dat->hList, ListView_GetItemCount( dat->hList ) - 1, FALSE);
+		ListView_EnsureVisible(dat->hwnd, ListView_GetItemCount(dat->hwnd) - 1, FALSE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +195,7 @@ static void ShowConsole(int show)
 		SetForegroundWindow(hwnd);
 
 	if (show)
-		RedrawWindow(pActive->hList, NULL, NULL, RDW_INVALIDATE | RDW_FRAME |RDW_UPDATENOW | RDW_ERASE);
+		RedrawWindow(pActive->hwnd, NULL, NULL, RDW_INVALIDATE | RDW_FRAME |RDW_UPDATENOW | RDW_ERASE);
 
 	if (hMenu)
 	{
@@ -385,7 +385,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 		dat->hList = GetDlgItem(hwndDlg, IDC_LIST);
 
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG)dat);
-		SetWindowLongPtr(dat->hList, GWLP_USERDATA, SetWindowLongPtr(dat->hList,GWLP_WNDPROC,(LONG)SubclassProc));
+		SetWindowLongPtr(dat->hwnd, GWLP_USERDATA, SetWindowLongPtr(dat->hwnd, GWLP_WNDPROC, (LONG)SubclassProc));
 
 		// init buttons
 		{
@@ -414,12 +414,12 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			LVITEM lvi = {0};
 			LVCOLUMN sLC;
 			//ListView_SetUnicodeFormat(dat->hList, FALSE);
-			ListView_SetImageList(dat->hList, gImg, LVSIL_SMALL);
+			ListView_SetImageList(dat->hwnd, gImg, LVSIL_SMALL);
 			sLC.mask = LVCF_FMT | LVCF_WIDTH;
 			sLC.fmt = LVCFMT_LEFT;
 			sLC.cx = 630;
-			ListView_InsertColumn(dat->hList,0,&sLC);
-			ListView_SetExtendedListViewStyle(dat->hList, LVS_EX_FULLROWSELECT);
+			ListView_InsertColumn(dat->hwnd, 0, &sLC);
+			ListView_SetExtendedListViewStyle(dat->hwnd, LVS_EX_FULLROWSELECT);
 
 			lvi.mask = LVIF_TEXT;
 			if (gIcons)
@@ -429,7 +429,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			}
 
 			lvi.pszText = TranslateT("*** Console started ***");
-			ListView_InsertItem(dat->hList,&lvi);
+			ListView_InsertItem(dat->hwnd, &lvi);
 		}
 
 		SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -458,20 +458,20 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 				if (_tcsstr(str, _T("Data received")))
 				{
-					if (gSeparator) ListView_InsertItem(dat->hList, &lvi);
+					if (gSeparator) ListView_InsertItem(dat->hwnd, &lvi);
 					lvi.iImage = IMG_IN;
 				}
 				else
 				if (_tcsstr(str, _T("Data sent")))
 				{
-					if (gSeparator) ListView_InsertItem(dat->hList, &lvi);
+					if (gSeparator) ListView_InsertItem(dat->hwnd, &lvi);
 					lvi.iImage = IMG_OUT;
 				}
 				else
 				{
 					if (gSeparator && dat->newline)
 					{
-						ListView_InsertItem(dat->hList, &lvi);
+						ListView_InsertItem(dat->hwnd, &lvi);
 						dat->newline = 0;
 					}
 					lvi.iImage = IMG_INFO;
@@ -488,7 +488,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				{
 					szBreak = lvi.pszText[wraplen];
 					lvi.pszText[wraplen] = 0;
-					last = ListView_InsertItem(dat->hList, &lvi);
+					last = ListView_InsertItem(dat->hwnd, &lvi);
 					lvi.pszText[wraplen] = szBreak;
 					len -= wraplen;
 					lvi.pszText = &str[0] + tmplen - len;
@@ -500,7 +500,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				if (len && lvi.pszText[len-1] == '\r')
 					lvi.pszText[len-1] = 0;
 
-				last = ListView_InsertItem(dat->hList, &lvi);
+				last = ListView_InsertItem(dat->hwnd, &lvi);
 
 				str = _tcstok(NULL, _T("\n"));
 
@@ -510,7 +510,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 
 			if ( gVisible && dat == pActive && dat->Scroll == 1 )
-				ListView_EnsureVisible(dat->hList, last, FALSE);
+				ListView_EnsureVisible(dat->hwnd, last, FALSE);
 
 			if (last > gLimit)
 			{
@@ -518,7 +518,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 
 				while (idx >= 0)
 				{
-					ListView_DeleteItem(dat->hList, idx);
+					ListView_DeleteItem(dat->hwnd, idx);
 					idx--;
 				}
 			}
@@ -553,7 +553,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				lvi.iImage = IMG_INFO;
 				lvi.iItem = 0x7FFFFFFF;
 				lvi.pszText = (dat->Paused) ? TranslateT("*** Console paused ***") : TranslateT("*** Console resumed ***");
-				ListView_InsertItem(dat->hList,&lvi);
+				ListView_InsertItem(dat->hwnd, &lvi);
 				CheckDlgButton(hwndDlg,IDC_PAUSE,(dat->Paused)?BST_CHECKED:BST_UNCHECKED);
 				SendDlgItemMessage(hwndDlg,IDC_PAUSE,BM_SETIMAGE,IMAGE_ICON,(LPARAM)hIcons[((dat->Paused)?ICON_PAUSED:ICON_STARTED)]);
 				break;
@@ -571,19 +571,19 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				TCHAR szText[128];
 				TCHAR *src, *dst, *buf;
 				int flags = LVNI_BELOW;
-				int count = ListView_GetSelectedCount(dat->hList);
+				int count = ListView_GetSelectedCount(dat->hwnd);
 
 				if (count)
 					flags |= LVNI_SELECTED;
 				else
-					count = ListView_GetItemCount(dat->hList);
+					count = ListView_GetItemCount(dat->hwnd);
 
-				dst = buf = malloc((count*(sizeof(szText)+1)+1)*sizeof(TCHAR));
+				dst = buf = (TCHAR*)malloc((count*(sizeof(szText)+1)+1)*sizeof(TCHAR));
 				if (!buf) break;
 
-				while ((idx = ListView_GetNextItem(dat->hList,idx,flags)) > 0)
+				while ((idx = ListView_GetNextItem(dat->hwnd, idx, flags)) > 0)
 				{
-					ListView_GetItemText(dat->hList, idx, 0, szText, sizeof(szText)-1);
+					ListView_GetItemText(dat->hwnd, idx, 0, szText, sizeof(szText)-1);
 					src = szText;
 					while (*dst++ = *src++);
 					dst--;
@@ -610,24 +610,24 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			case IDC_DELETE:
 			{
 				int idx = 0;
-				int count = ListView_GetSelectedCount(dat->hList);
+				int count = ListView_GetSelectedCount(dat->hwnd);
 
 				if ( !count ) break;
 
-				if ( count == ListView_GetItemCount(dat->hList)) {
+				if ( count == ListView_GetItemCount(dat->hwnd)) {
 					LVITEM lvi = {0};
-					ListView_DeleteAllItems(dat->hList);
+					ListView_DeleteAllItems(dat->hwnd);
 					lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 					lvi.iImage = IMG_INFO;
 					lvi.pszText = TranslateT("*** Console cleared ***");
-					ListView_InsertItem(dat->hList,&lvi);
+					ListView_InsertItem(dat->hwnd, &lvi);
 					dat->newline = 0;
 					break;
 				}
 
-				while ((idx = ListView_GetNextItem(dat->hList,idx,LVNI_BELOW|LVNI_SELECTED)) > 0)
+				while ((idx = ListView_GetNextItem(dat->hwnd, idx, LVNI_BELOW|LVNI_SELECTED)) > 0)
 				{
-					ListView_DeleteItem(dat->hList,idx);
+					ListView_DeleteItem(dat->hwnd, idx);
 					idx--;
 				}
 				break;
@@ -637,19 +637,19 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				FILE *fp;
 				TCHAR szFile[MAX_PATH];
 
-				if (!Openfile(szFile,ListView_GetSelectedCount(dat->hList))) break;
+				if (!Openfile(szFile, ListView_GetSelectedCount(dat->hwnd))) break;
 
 				fp = _tfopen(szFile, _T("wt"));
 				if (fp) {
 					int idx = 0;
 					TCHAR szText[128];
 					int flags = LVNI_BELOW;
-					if (ListView_GetSelectedCount(dat->hList))
+					if (ListView_GetSelectedCount(dat->hwnd))
 						flags |= LVNI_SELECTED;
 
-					while ((idx = ListView_GetNextItem(dat->hList,idx,flags)) > 0)
+					while ((idx = ListView_GetNextItem(dat->hwnd, idx, flags)) > 0)
 					{
-						ListView_GetItemText(dat->hList, idx, 0, szText, sizeof(szText)-1);
+						ListView_GetItemText(dat->hwnd, idx, 0, szText, SIZEOF(szText)-1);
 						_ftprintf(fp, _T("%s\n"), szText);
 					}
    					fclose(fp);
@@ -678,7 +678,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 		DestroyWindow(hwndDlg);
 		break;
 	case WM_DESTROY:
-		SetWindowLongPtr(dat->hList, GWLP_WNDPROC, GetWindowLongPtr(dat->hList,GWLP_USERDATA));
+		SetWindowLongPtr(dat->hwnd, GWLP_WNDPROC, GetWindowLongPtr(dat->hwnd, GWLP_USERDATA));
 		SendMessage(hwndConsole, HM_REMOVE, 0, (LPARAM)dat);
 		break;
 	}
@@ -800,15 +800,15 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 
 		if (pActive)
 		{
-			col = ListView_GetBkColor(pActive->hList);
-			ListView_SetBkColor(lw->hList, col);
-			ListView_SetTextBkColor(lw->hList, col);
+			col = ListView_GetBkColor(pActive->hwnd);
+			ListView_SetBkColor(lw->hwnd, col);
+			ListView_SetTextBkColor(lw->hwnd, col);
 
-			col = ListView_GetTextColor(pActive->hList);
-			ListView_SetTextColor(lw->hList, col);
+			col = ListView_GetTextColor(pActive->hwnd);
+			ListView_SetTextColor(lw->hwnd, col);
 
 			if (hfLogFont)
-				SendMessage(lw->hList, WM_SETFONT, (WPARAM)hfLogFont, (LPARAM)TRUE);
+				SendMessage(lw->hwnd, WM_SETFONT, (WPARAM)hfLogFont, (LPARAM)TRUE);
 		}
 
 		// hide startup window
@@ -852,7 +852,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 					SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 					ScrollDown(pActive);
 					ShowWindow(pActive->hwnd, SW_SHOWNOACTIVATE);
-					SetFocus(pActive->hList);
+					SetFocus(pActive->hwnd);
 				}
 				else
 					pActive = NULL;
@@ -872,9 +872,9 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		for ( i = 0; i < lModules.realCount; i++ )
 		{
 			lw = (LOGWIN*)lModules.items[i];
-			ListView_SetTextColor(lw->hList, (COLORREF)lParam);
+			ListView_SetTextColor(lw->hwnd, (COLORREF)lParam);
 			if (wParam)
-				SendMessage(lw->hList, WM_SETFONT, wParam, (LPARAM)TRUE);
+				SendMessage(lw->hwnd, WM_SETFONT, wParam, (LPARAM)TRUE);
 		}
 		return TRUE;
 	}
@@ -886,10 +886,10 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		for ( i = 0; i < lModules.realCount; i++ )
 		{
 			lw = (LOGWIN*)lModules.items[i];
-			ListView_SetBkColor(lw->hList, (COLORREF)lParam);
-			ListView_SetTextBkColor(lw->hList, (COLORREF)lParam);
+			ListView_SetBkColor(lw->hwnd, (COLORREF)lParam);
+			ListView_SetTextBkColor(lw->hwnd, (COLORREF)lParam);
 			if (wParam)
-				SendMessage(lw->hList, WM_SETFONT, wParam, (LPARAM)TRUE);
+				SendMessage(lw->hwnd, WM_SETFONT, wParam, (LPARAM)TRUE);
 		}
 		return TRUE;
 	}
@@ -935,8 +935,8 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		return TRUE;
 	}
  	case WM_SETFOCUS:
-		if ( pActive ) {
-			SetFocus(pActive->hList);
+		if (pActive) {
+			SetFocus(pActive->hwnd);
 		}
 		return TRUE;
 	case WM_NOTIFY:
@@ -962,7 +962,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 						ScrollDown(pActive);
 						ShowWindow(hOld, SW_HIDE);
 						ShowWindow(pActive->hwnd, SW_SHOWNOACTIVATE);
-						SetFocus(pActive->hList);
+						SetFocus(pActive->hwnd);
 					} else
 						SendMessage(pActive->hwnd, WM_SIZE, 0, 0);
 				}
@@ -1408,7 +1408,7 @@ void InitConsole()
 	mir_getUTFI(&utfi);
 	mir_getLI(&li);
 
-	lModules.sortFunc = stringCompare;
+	lModules.sortFunc = (FSortFunc)stringCompare;
 	lModules.increment = 5;
 
 	hIcons[0] = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONSOLE));

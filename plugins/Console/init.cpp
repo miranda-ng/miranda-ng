@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 PLUGINLINK *pluginLink;
 DWORD mirandaVer;
 int hLangpack;
+HINSTANCE hInst;
 
 PLUGININFOEX pluginInfoEx={
 	sizeof(PLUGININFOEX),
@@ -41,47 +42,35 @@ PLUGININFOEX pluginInfoEx={
 	MIID_CONSOLE
 };
 
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	mirandaVer = mirandaVersion;
 	return &pluginInfoEx;
 }
 
 // we implement service mode interface
 static const MUUID interfaces[] = {MIID_LOGWINDOW, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
 
-	if (mirandaVer < PLUGIN_MAKE_VERSION(0,8,0,3))
-		return -1;
-	else
-	{
-		InitCommonControls();
-		InitConsole();
-		return 0;
-	}
+	InitCommonControls();
+	InitConsole();
+	return 0;
 }
 
-
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
     ShutdownConsole();
 	return 0;
