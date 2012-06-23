@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern struct LIST_INTERFACE li;
 extern HINSTANCE hinstance;
-extern HANDLE hIcon;
+extern HICON hIcon;
 extern ListData* ButtonsList[100];
 extern SortedList* QuickList;
 extern BOOL g_bRClickAuto;

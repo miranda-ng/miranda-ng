@@ -257,7 +257,7 @@ DWORD BalanceButtons(int buttonsWas,int buttonsNow)
 				bb.bbbFlags=BBBF_ISIMBUTTON|BBBF_ISCHATBUTTON|BBBF_ISLSIDEBUTTON;
 				bb.dwButtonID=buttonsWas++;
 				bb.dwDefPos=300+buttonsWas;
-				bb.hIcon=(HANDLE)AddIcon(hIcon, iconname, iconname);
+				bb.hIcon = (HANDLE)AddIcon(hIcon, iconname, iconname);
 				CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bb);
 				}
 			}
@@ -279,7 +279,7 @@ void InitButtonsList()
 			DBWriteContactSettingByte(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
 			break;}
 			
-		ld=mir_alloc(sizeof(ListData));
+		ld = (ListData *)mir_alloc(sizeof(ListData));
 		ButtonsList[i]=ld;
 		ld->sl=li.List_Create(0,1);
 		ld->ptszQValue=ld->ptszOPQValue=getMenuEntry(i,0,2);
@@ -295,7 +295,7 @@ void InitButtonsList()
 			if (!(pszEntry=getMenuEntry(i,j,0)))
 				break;
 
-			bd=mir_alloc(sizeof(ButtonData));
+			bd = (ButtonData *)mir_alloc(sizeof(ButtonData));
 			memset(bd,0,sizeof(ButtonData));
 
 			bd->dwPos=bd->dwOPPos=j;
@@ -305,7 +305,7 @@ void InitButtonsList()
 			bd->bInQMenu=bd->bOpInQMenu=getEntryByte(i,j,0);
 			bd->bIsServName=bd->bIsOpServName=getEntryByte(i,j,2);
 			if(bd->bInQMenu){
-				QuickData* qd=mir_alloc(sizeof(QuickData));
+				QuickData* qd = (QuickData *)mir_alloc(sizeof(QuickData));
 				qd->dwPos=k++;
 				qd->ptszValue=bd->pszValue;
 				qd->ptszValueName=bd->pszName;
@@ -366,7 +366,7 @@ TCHAR* getMenuEntry(int buttonnum,int entrynum,BYTE mode)
 
 
 int AddIcon(HICON icon, char *name, char *description)
-	{
+{
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.pszSection = "Quick Messages";
@@ -375,8 +375,8 @@ int AddIcon(HICON icon, char *name, char *description)
 	sid.pszName = name;
 	sid.hDefaultIcon = icon;
 
-	return Skin_AddIcon( &sid);
-	}
+	return (int)Skin_AddIcon(&sid);
+}
 
 int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
 	{
@@ -425,13 +425,13 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 				{
 				case 't':{
 					TCHAR* p=NULL;
-					p=realloc(tempQValue, (QVSize+TextSize+1)*sizeof(TCHAR));
+					p = (TCHAR *)realloc(tempQValue, (QVSize + TextSize+1)*sizeof(TCHAR));
 					if(p){
 						int test=0;
 						i=iOffset;
 						tempQValue=ptszQValue=p;
 
-						tempPointer=memmove(ptszQValue+i+TextSize,ptszQValue+i+2,(QVSize-i-1)*sizeof(TCHAR));
+						tempPointer = (TCHAR *)memmove(ptszQValue + i + TextSize, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
 						
 						if(TextSize) memcpy(ptszQValue+i, ptszText, TextSize*sizeof(TCHAR));
 						
@@ -450,12 +450,12 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 
 				case 'c':{
 					TCHAR* p=NULL;
-					p=realloc(tempQValue, (QVSize+ClipSize+1)*sizeof(TCHAR));
+					p = (TCHAR *)realloc(tempQValue, (QVSize + ClipSize + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
 						tempQValue=ptszQValue=p;
 
-						tempPointer=memmove(ptszQValue+i+ClipSize,ptszQValue+i+2,(QVSize-i-1)*sizeof(TCHAR));
+						tempPointer = (TCHAR *)memmove(ptszQValue + i + ClipSize, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
 						if(ClipSize) memcpy(ptszQValue+i, ptszClip, ClipSize*sizeof(TCHAR));
 						QVSize+=(ClipSize-2);
 
@@ -479,12 +479,12 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 
 					NameLenght=(int)_tcslen(ptszName);
 
-					p=realloc(tempQValue, (QVSize+NameLenght+1)*sizeof(TCHAR));
+					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
 						tempQValue=ptszQValue=p;
 
-						tempPointer=memmove(ptszQValue+i+NameLenght,ptszQValue+i+2,(QVSize-i-1)*sizeof(TCHAR));
+						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
 						if(NameLenght)	memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
 						QVSize+=(NameLenght-2);
 
@@ -507,12 +507,12 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 
 					ptszName=(TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 					NameLenght=(int)_tcslen(ptszName);
-					p=realloc(tempQValue, (QVSize+NameLenght+1)*sizeof(TCHAR));
+					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
 						tempQValue=ptszQValue=p;
 
-						tempPointer=memmove(ptszQValue+i+NameLenght,ptszQValue+i+2,(QVSize-i-1)*sizeof(TCHAR));
+						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
 						if(NameLenght)memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
 						QVSize+=(NameLenght-2);
 
@@ -544,12 +544,12 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;
 						}
-					p=realloc(tempQValue, (QVSize+NameLenght+1)*sizeof(TCHAR));
+					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
 						tempQValue=ptszQValue=p;
 
-						tempPointer=memmove(ptszQValue+i+NameLenght,ptszQValue+i+2,(QVSize-i-1)*sizeof(TCHAR));
+						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
 						if(NameLenght)memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
 						QVSize+=(NameLenght-2);
 
@@ -581,12 +581,12 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;
 						}
-					p=realloc(tempQValue, (QVSize+NameLenght+1)*sizeof(TCHAR));
+					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
 						tempQValue=ptszQValue=p;
 
-						tempPointer=memmove(ptszQValue+i+NameLenght,ptszQValue+i+2,(QVSize-i-1)*sizeof(TCHAR));
+						tempPointer = (TCHAR *)memmove(ptszQValue + i + NameLenght, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
 						if(NameLenght)memcpy(ptszQValue+i, ptszName, NameLenght*sizeof(TCHAR));
 						QVSize+=(NameLenght-2);
 

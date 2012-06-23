@@ -19,18 +19,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "quickmessages.h"
 
-static BOOL bOptionsInit;
-
 int g_iOPButtonsCount;
-BOOL bNeedRestart=FALSE;
-BOOL drag=FALSE,bOptionsInit=TRUE;
-HANDLE hDragItem=NULL;
-HANDLE hButtonsList=NULL;
-HANDLE hMenuTree=NULL;
-HWND hwndEdit=NULL;
-WNDPROC oldEditProc=0, oldBNameProc=0, oldMNameProc=0;
+BOOL bNeedRestart = FALSE;
+BOOL drag = FALSE, bOptionsInit = TRUE;
+HTREEITEM hDragItem = NULL;
+HWND hButtonsList = NULL;
+HWND hMenuTree = NULL;
+HWND hwndEdit = NULL;
+WNDPROC oldEditProc = 0, oldBNameProc = 0, oldMNameProc = 0;
 				   
-HWND g_opHdlg=NULL,g_varhelpDlg=NULL;
+HWND g_opHdlg = NULL, g_varhelpDlg = NULL;
 
 INT_PTR CALLBACK HelpDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 	{	
@@ -317,7 +315,7 @@ void SaveMenuTree(HWND hdlg)
 				}
 			if(bd->bInQMenu)
 				{
-				QuickData* qd=mir_alloc(sizeof(QuickData));
+				QuickData* qd = (QuickData *)mir_alloc(sizeof(QuickData));
 				qd->dwPos=k++;
 				qd->fEntryType=bd->fEntryType;
 				qd->bIsService=bd->bIsServName;
@@ -1002,7 +1000,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 				break;
 				}
 
-			ld=mir_alloc(sizeof(ListData));
+			ld = (ListData *)mir_alloc(sizeof(ListData));
 			ButtonsList[g_iOPButtonsCount++]=ld;
 
 			ld->sl=li.List_Create(0,1);
@@ -1061,7 +1059,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			if (!TreeView_GetCount(hButtonsList)) break;
 			if (!(tvi.hItem=TreeView_GetSelection(hButtonsList))) break;
 			
-			bd=mir_alloc(sizeof(ButtonData));
+			bd = (ButtonData *)mir_alloc(sizeof(ButtonData));
 			memset(bd,0,sizeof(ButtonData));
 
 			GetWindowText(GetDlgItem(hdlg,IDC_MENUNAME),namebuff,MAX_PATH);

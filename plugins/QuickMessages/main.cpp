@@ -24,7 +24,8 @@ HINSTANCE hinstance;
 WNDPROC mainProc;
 
 HANDLE hEventCBButtonPressed, hEventCBInit,hEventInputMenu,  hEventDbOptionsInit, hEventDbPluginsLoaded,
-hEventDbPreShutdown, hIcon ;	
+hEventDbPreShutdown;
+HICON hIcon;
 
 int g_iButtonsCount=0;
 int g_bShutDown=0;   	
@@ -51,12 +52,11 @@ PLUGININFOEX pluginInfo = {
 	UNICODE_AWARE,
 	0,	
 	// {37ED754B-6CF9-40ed-9EB6-0FEF8E822475}
-		{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
-	};
-
+	{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
+};
 
 int PreShutdown(WPARAM wparam,LPARAM lparam)
-	{	 
+{	 
 	g_bShutDown=1;
 	DestructButtonsList();
 
@@ -68,9 +68,10 @@ int PreShutdown(WPARAM wparam,LPARAM lparam)
 	UnhookEvent(hEventDbPreShutdown);
 
 	return 0;
-	}
+}
+
 static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
-	{
+{
 	HMENU hSubMenu=NULL;
 	int i=0;
 	MessageWindowPopupData * mwpd = (MessageWindowPopupData *)lParam;
@@ -127,7 +128,7 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 				
 				if(textlenght)
 					{
-					pszText=mir_alloc((textlenght+10)*sizeof(TCHAR));
+					pszText = (TCHAR *)mir_alloc((textlenght+10)*sizeof(TCHAR));
 					ZeroMemory(pszText,(textlenght+10)*sizeof(TCHAR));
 					SendMessage(mwpd->hwnd,EM_GETSELTEXT, 0, (LPARAM)pszText);
 					}
@@ -151,10 +152,10 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 		return 1;
 		}
 	return 0;
-	}
+}
 
 static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
-	{
+{
 	CustomButtonClickData *cbcd=(CustomButtonClickData *)lParam;
 
 	CHARRANGE cr;
@@ -211,7 +212,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	textlenght=cr.cpMax-cr.cpMin;
 	if(textlenght)
 		{
-		pszText=mir_alloc((textlenght+10)*sizeof(TCHAR));
+		pszText = (TCHAR *)mir_alloc((textlenght+10)*sizeof(TCHAR));
 		ZeroMemory(pszText,(textlenght+10)*sizeof(TCHAR));
 		SendMessage(hEdit,EM_GETSELTEXT, 0, (LPARAM)pszText);
 		}
@@ -312,11 +313,11 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	if(pszText) mir_free(pszText);
 	if(pszCBText) mir_free(pszCBText);
 	return 1;
-	}
+}
 
 
 static int PluginInit(WPARAM wparam,LPARAM lparam)
-	{
+{
 	g_bStartup=1;
 	hEventDbOptionsInit=HookEvent(ME_OPT_INITIALISE,OptionsInit);
 	hEventCBButtonPressed=HookEvent(ME_MSG_BUTTONPRESSED,CustomButtonPressed); 
@@ -352,32 +353,26 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	g_bStartup=0;
 	return 0;
-	}
+}
 
-
-// {651EAD6E-00C6-47e4-94A3-C63789ED89F9}
-static const MUUID interfaces[] = {{ 0x651ead6e, 0xc6, 0x47e4, { 0x94, 0xa3, 0xc6, 0x37, 0x89, 0xed, 0x89, 0xf9 } }, MIID_LAST};
-const  __declspec(dllexport) MUUID* MirandaPluginInterfaces(void){
-	return interfaces;}
-
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
-__declspec(dllexport)int Unload(void)
-	{
+extern "C" __declspec(dllexport) int Unload(void)
+{
 	return 0;
-	}
+}
 
-BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
-	{
+BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
+{
 	hinstance=hinst;
 	return 1;
-	}
+}
 
-int __declspec(dllexport)Load(PLUGINLINK *link)
-	{	
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
+{
 
 	pluginLink=link;
 	mir_getMMI(&mmi);
@@ -387,4 +382,4 @@ int __declspec(dllexport)Load(PLUGINLINK *link)
 	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	hEventDbPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdown);
 	return 0;
-	}
+}
