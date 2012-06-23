@@ -52,18 +52,18 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-__declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_SRMM, MIID_LAST};
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK * link)
+extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 {
 	pluginLink = link;
 	mir_getMMI(&mmi);
@@ -75,7 +75,7 @@ int __declspec(dllexport) Load(PLUGINLINK * link)
 	return LoadSendRecvMessageModule();
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	UnloadOptions();
 	return SplitmsgShutdown();

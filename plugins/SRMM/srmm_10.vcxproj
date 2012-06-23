@@ -201,18 +201,18 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cmdlist.c" />
-    <ClCompile Include="globals.c" />
-    <ClCompile Include="msgdialog.c" />
-    <ClCompile Include="msglog.c" />
-    <ClCompile Include="msgoptions.c" />
-    <ClCompile Include="msgs.c" />
-    <ClCompile Include="msgtimedout.c" />
-    <ClCompile Include="richutil.c" />
-    <ClCompile Include="srmm.c">
+    <ClCompile Include="cmdlist.cpp" />
+    <ClCompile Include="globals.cpp" />
+    <ClCompile Include="msgdialog.cpp" />
+    <ClCompile Include="msglog.cpp" />
+    <ClCompile Include="msgoptions.cpp" />
+    <ClCompile Include="msgs.cpp" />
+    <ClCompile Include="msgtimedout.cpp" />
+    <ClCompile Include="richutil.cpp" />
+    <ClCompile Include="srmm.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="statusicon.c" />
+    <ClCompile Include="statusicon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cmdlist.h" />

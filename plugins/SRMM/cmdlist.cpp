@@ -34,7 +34,7 @@ int tcmdlist_append(SortedList *list, TCHAR *data)
 		li.List_Remove(list, 0);
 	}
 
-	new_list = mir_alloc(sizeof(TCmdList));
+	new_list = (TCmdList*)mir_alloc(sizeof(TCmdList));
 	new_list->szCmd = mir_tstrdup(data);
 
 	li.List_InsertPtr(list, new_list);
@@ -89,9 +89,7 @@ static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 
 void msgQueue_add(HANDLE hContact, HANDLE id, const TCHAR* szMsg, HANDLE hDbEvent)
 {
-	TMsgQueue *item;
-	
-	item = mir_alloc(sizeof(TMsgQueue));
+	TMsgQueue *item = (TMsgQueue*)mir_alloc(sizeof(TMsgQueue));
 	item->hContact = hContact;
 	item->id = id;
 	item->szMsg = mir_tstrdup(szMsg);
@@ -116,7 +114,7 @@ void msgQueue_processack(HANDLE hContact, HANDLE id, BOOL success, const char* s
 	for (i = 0; i < msgQueue.realCount; ++i) 
 	{
 		item = (TMsgQueue*)msgQueue.items[i];
-		if (item->hContact == hContact && item->id == id)
+		if (item->hContact  ==  hContact && item->id  ==  id)
 		{
 			li.List_Remove(&msgQueue, i);
 

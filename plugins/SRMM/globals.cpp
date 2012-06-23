@@ -168,11 +168,11 @@ static int ackevent(WPARAM wParam, LPARAM lParam)
 	ACKDATA *pAck = (ACKDATA *)lParam;
 	
 	if (!pAck) return 0;
-	if (pAck->type == ACKTYPE_MESSAGE) 
+	if (pAck->type  ==  ACKTYPE_MESSAGE) 
 	{
-		msgQueue_processack(pAck->hContact, pAck->hProcess, pAck->result == ACKRESULT_SUCCESS, (char*)pAck->lParam);
+		msgQueue_processack(pAck->hContact, pAck->hProcess, pAck->result  ==  ACKRESULT_SUCCESS, (char*)pAck->lParam);
 
-		if (pAck->result == ACKRESULT_SUCCESS) 
+		if (pAck->result  ==  ACKRESULT_SUCCESS) 
 			SkinPlaySound("SendMsg");
 	}
 	return 0;

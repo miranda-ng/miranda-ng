@@ -26,8 +26,6 @@ const CLSID IID_IRichEditOle = { 0x00020D00, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x0
 const CLSID IID_IRichEditOleCallback = { 0x00020D03, 0x00, 0x00, { 0xC0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46 } };
 #endif
 
-static void InitREOleCallback(void);
-
 HCURSOR hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 HANDLE hHookWinEvt, hHookWinPopup, hMsgMenuItem;
 static HANDLE hServices[7];
@@ -58,7 +56,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	dbei.cbSize = sizeof(dbei);
 	CallService(MS_DB_EVENT_GET, lParam, (LPARAM) & dbei);
 
-	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
+	if (dbei.flags & (DBEF_SENT | DBEF_READ) || !(dbei.eventType  ==  EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei)))
 		return 0;
 
 	CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
@@ -75,7 +73,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 		}
 		else
 		{
-			if (GetForegroundWindow() == hwnd)
+			if (GetForegroundWindow()  ==  hwnd)
 				SkinPlaySound("RecvMsgActive");
 			else 
 				SkinPlaySound("RecvMsgInactive");
@@ -217,7 +215,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	HANDLE hContact = (HANDLE)wParam;
 
-	if (cws->szModule == NULL) return 0;
+	if (cws->szModule  ==  NULL) return 0;
 
 	if (!strcmp(cws->szModule, "CList"))
 		WindowList_Broadcast(g_dat->hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
@@ -269,7 +267,7 @@ static void RestoreUnreadMessageAlerts(void)
 			autoPopup = 0;
 			dbei.cbBlob = 0;
 			CallService(MS_DB_EVENT_GET, (WPARAM) hDbEvent, (LPARAM) & dbei);
-			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) 
+			if (!(dbei.flags & (DBEF_SENT | DBEF_READ)) && ( dbei.eventType  ==  EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) 
 			{
 				windowAlreadyExists = WindowList_Find(g_dat->hMessageWindowList, hContact) != NULL;
 				if (windowAlreadyExists)
@@ -413,10 +411,10 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 	MessageWindowData *mwd = (MessageWindowData*)lParam;
 	HWND hwnd;
 
-	if (mwid==NULL||mwd==NULL) return 1;
-	if (mwid->cbSize!=sizeof(MessageWindowInputData)||mwd->cbSize!=sizeof(MessageWindowData)) return 1;
-	if (mwid->hContact==NULL) return 1;
-	if (mwid->uFlags!=MSG_WINDOW_UFLAG_MSG_BOTH) return 1;
+	if (mwid == NULL || mwd == NULL) return 1;
+	if (mwid->cbSize != sizeof(MessageWindowInputData) || mwd->cbSize != sizeof(SrmmWindowData)) return 1;
+	if (mwid->hContact == NULL) return 1;
+	if (mwid->uFlags != MSG_WINDOW_UFLAG_MSG_BOTH) return 1;
 	hwnd = WindowList_Find(g_dat->hMessageWindowList, mwid->hContact);
 	mwd->uFlags = MSG_WINDOW_UFLAG_MSG_BOTH;
 	mwd->hwndWindow = hwnd;
@@ -427,8 +425,8 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 
 int LoadSendRecvMessageModule(void)
 {
-	if (LoadLibraryA("riched20.dll") == NULL) {
-		if (IDYES !=
+	if (LoadLibraryA("riched20.dll")  ==  NULL) {
+		if (IDYES  != 
 			MessageBox(0,
 			TranslateT
 			("Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."),
@@ -440,7 +438,6 @@ int LoadSendRecvMessageModule(void)
 	InitGlobals();
 	RichUtil_Load();
 	OleInitialize(NULL);
-	InitREOleCallback();
 	InitOptions();
 	msgQueue_init();
 
@@ -472,118 +469,99 @@ int LoadSendRecvMessageModule(void)
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 	hCurHyperlinkHand = LoadCursor(NULL, IDC_HAND);
-	if (hCurHyperlinkHand == NULL)
+	if (hCurHyperlinkHand  ==  NULL)
 		hCurHyperlinkHand = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 
 	InitStatusIcons();
 	return 0;
 }
 
-static IRichEditOleCallbackVtbl reOleCallbackVtbl;
-struct CREOleCallback reOleCallback;
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static STDMETHODIMP_(ULONG) CREOleCallback_QueryInterface(struct CREOleCallback *lpThis, REFIID riid, LPVOID * ppvObj)
+CREOleCallback reOleCallback;
+
+STDMETHODIMP CREOleCallback::QueryInterface(REFIID riid, LPVOID * ppvObj)
 {
-	if (IsEqualIID(riid, &IID_IRichEditOleCallback)) {
-		*ppvObj = lpThis;
-		lpThis->lpVtbl->AddRef((IRichEditOleCallback *) lpThis);
+	if (IsEqualIID(riid, IID_IRichEditOleCallback)) {
+		*ppvObj = this;
+		AddRef();
 		return S_OK;
 	}
 	*ppvObj = NULL;
 	return E_NOINTERFACE;
 }
 
-static STDMETHODIMP_(ULONG) CREOleCallback_AddRef(struct CREOleCallback *lpThis)
+STDMETHODIMP_(ULONG) CREOleCallback::AddRef()
 {
-	if (lpThis->refCount == 0) {
-		if (S_OK != StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &lpThis->pictStg))
-			lpThis->pictStg = NULL;
-		lpThis->nextStgId = 0;
+	if (refCount  ==  0) {
+		if (S_OK != StgCreateDocfile(NULL, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE | STGM_DELETEONRELEASE, 0, &pictStg))
+			pictStg = NULL;
+		nextStgId = 0;
 	}
-	return ++lpThis->refCount;
+	return ++refCount;
 }
 
-static STDMETHODIMP_(ULONG) CREOleCallback_Release(struct CREOleCallback *lpThis)
+STDMETHODIMP_(ULONG) CREOleCallback::Release()
 {
-	if (--lpThis->refCount == 0) {
-		if (lpThis->pictStg)
-			lpThis->pictStg->lpVtbl->Release(lpThis->pictStg);
+	if (--refCount  ==  0) {
+		if (pictStg)
+			pictStg->Release();
 	}
-	return lpThis->refCount;
+	return refCount;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_ContextSensitiveHelp(struct CREOleCallback *lpThis, BOOL fEnterMode)
+STDMETHODIMP CREOleCallback::ContextSensitiveHelp(BOOL fEnterMode)
 {
 	return S_OK;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_DeleteObject(struct CREOleCallback *lpThis, LPOLEOBJECT lpoleobj)
+STDMETHODIMP CREOleCallback::DeleteObject(LPOLEOBJECT lpoleobj)
 {
 	return S_OK;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_GetClipboardData(struct CREOleCallback *lpThis, CHARRANGE * lpchrg, DWORD reco, LPDATAOBJECT * lplpdataobj)
+STDMETHODIMP CREOleCallback::GetClipboardData(CHARRANGE * lpchrg, DWORD reco, LPDATAOBJECT * lplpdataobj)
 {
 	return E_NOTIMPL;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_GetContextMenu(struct CREOleCallback *lpThis, WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE * lpchrg, HMENU * lphmenu)
+STDMETHODIMP CREOleCallback::GetContextMenu(WORD seltype, LPOLEOBJECT lpoleobj, CHARRANGE * lpchrg, HMENU * lphmenu)
 {
 	return E_INVALIDARG;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_GetDragDropEffect(struct CREOleCallback *lpThis, BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect)
+STDMETHODIMP CREOleCallback::GetDragDropEffect(BOOL fDrag, DWORD grfKeyState, LPDWORD pdwEffect)
 {
 	return S_OK;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_GetInPlaceContext(struct CREOleCallback *lpThis, LPOLEINPLACEFRAME * lplpFrame, LPOLEINPLACEUIWINDOW * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo)
+STDMETHODIMP CREOleCallback::GetInPlaceContext(LPOLEINPLACEFRAME * lplpFrame, LPOLEINPLACEUIWINDOW * lplpDoc, LPOLEINPLACEFRAMEINFO lpFrameInfo)
 {
 	return E_INVALIDARG;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_GetNewStorage(struct CREOleCallback *lpThis, LPSTORAGE * lplpstg)
+STDMETHODIMP CREOleCallback::GetNewStorage(LPSTORAGE * lplpstg)
 {
 	WCHAR szwName[64];
 	char szName[64];
-	wsprintfA(szName, "s%u", lpThis->nextStgId++);
+	wsprintfA(szName, "s%u", nextStgId++);
 	MultiByteToWideChar(CP_ACP, 0, szName, -1, szwName, SIZEOF(szwName));
-	if (lpThis->pictStg == NULL)
+	if (pictStg  ==  NULL)
 		return STG_E_MEDIUMFULL;
-	return lpThis->pictStg->lpVtbl->CreateStorage(lpThis->pictStg, szwName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
+	return pictStg->CreateStorage(szwName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, lplpstg);
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_QueryAcceptData(struct CREOleCallback *lpThis, LPDATAOBJECT lpdataobj, CLIPFORMAT * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)
+STDMETHODIMP CREOleCallback::QueryAcceptData(LPDATAOBJECT lpdataobj, CLIPFORMAT * lpcfFormat, DWORD reco, BOOL fReally, HGLOBAL hMetaPict)
 {
 	return S_OK;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_QueryInsertObject(struct CREOleCallback *lpThis, LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp)
+STDMETHODIMP CREOleCallback::QueryInsertObject(LPCLSID lpclsid, LPSTORAGE lpstg, LONG cp)
 {
 	return S_OK;
 }
 
-static STDMETHODIMP_(HRESULT) CREOleCallback_ShowContainerUI(struct CREOleCallback *lpThis, BOOL fShow)
+STDMETHODIMP CREOleCallback::ShowContainerUI(BOOL fShow)
 {
 	return S_OK;
-}
-
-static void InitREOleCallback(void)
-{
-	reOleCallback.lpVtbl = &reOleCallbackVtbl;
-	reOleCallback.lpVtbl->AddRef = (ULONG(__stdcall *) (IRichEditOleCallback *)) CREOleCallback_AddRef;
-	reOleCallback.lpVtbl->Release = (ULONG(__stdcall *) (IRichEditOleCallback *)) CREOleCallback_Release;
-	reOleCallback.lpVtbl->QueryInterface = (ULONG(__stdcall *) (IRichEditOleCallback *, REFIID, PVOID *)) CREOleCallback_QueryInterface;
-	reOleCallback.lpVtbl->ContextSensitiveHelp = (HRESULT(__stdcall *) (IRichEditOleCallback *, BOOL)) CREOleCallback_ContextSensitiveHelp;
-	reOleCallback.lpVtbl->DeleteObject = (HRESULT(__stdcall *) (IRichEditOleCallback *, LPOLEOBJECT)) CREOleCallback_DeleteObject;
-	reOleCallback.lpVtbl->GetClipboardData = (HRESULT(__stdcall *) (IRichEditOleCallback *, CHARRANGE *, DWORD, LPDATAOBJECT *)) CREOleCallback_GetClipboardData;
-	reOleCallback.lpVtbl->GetContextMenu = (HRESULT(__stdcall *) (IRichEditOleCallback *, WORD, LPOLEOBJECT, CHARRANGE *, HMENU *)) CREOleCallback_GetContextMenu;
-	reOleCallback.lpVtbl->GetDragDropEffect = (HRESULT(__stdcall *) (IRichEditOleCallback *, BOOL, DWORD, LPDWORD)) CREOleCallback_GetDragDropEffect;
-	reOleCallback.lpVtbl->GetInPlaceContext = (HRESULT(__stdcall *) (IRichEditOleCallback *, LPOLEINPLACEFRAME *, LPOLEINPLACEUIWINDOW *, LPOLEINPLACEFRAMEINFO))
-		CREOleCallback_GetInPlaceContext;
-	reOleCallback.lpVtbl->GetNewStorage = (HRESULT(__stdcall *) (IRichEditOleCallback *, LPSTORAGE *)) CREOleCallback_GetNewStorage;
-	reOleCallback.lpVtbl->QueryAcceptData = (HRESULT(__stdcall *) (IRichEditOleCallback *, LPDATAOBJECT, CLIPFORMAT *, DWORD, BOOL, HGLOBAL)) CREOleCallback_QueryAcceptData;
-	reOleCallback.lpVtbl->QueryInsertObject = (HRESULT(__stdcall *) (IRichEditOleCallback *, LPCLSID, LPSTORAGE, LONG)) CREOleCallback_QueryInsertObject;
-	reOleCallback.lpVtbl->ShowContainerUI = (HRESULT(__stdcall *) (IRichEditOleCallback *, BOOL)) CREOleCallback_ShowContainerUI;
-	reOleCallback.refCount = 0;
 }
