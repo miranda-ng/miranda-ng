@@ -99,11 +99,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IOPT_CONTACTS   4096
 #define IOPT_GROUPS     8192
 
-
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
-
-// Unsane: none
 extern HINSTANCE hInst;
 
 void AddMessage( const char* fmt, ... );

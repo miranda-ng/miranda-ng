@@ -28,7 +28,6 @@ void WriteVariant( HANDLE hContact, const char* module, const char* var, DBVARIA
 
 BOOL IsDuplicateEvent(HANDLE hContact, DBEVENTINFO dbei);
 
-
 int nImportOption;
 int nCustomOptions;
 int hLangpack;
@@ -47,6 +46,8 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 static HWND hwndWizard = NULL;
+struct MM_INTERFACE mmi;
+struct UTF8_INTERFACE utfi;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -82,7 +83,7 @@ static INT_PTR ImportCommand(WPARAM wParam,LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // MirandaPluginInfoEx - returns an information about a plugin
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
 }
@@ -92,7 +93,7 @@ __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 
 static const MUUID interfaces[] = {MIID_IMPORT, MIID_LAST};
 
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
+extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 {
 	return interfaces;
 }
@@ -127,7 +128,7 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __declspec(dllexport) Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getMMI( &mmi );
@@ -160,7 +161,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Unload a plugin
 
-int __declspec(dllexport) Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	if (hHookModulesLoaded)
 		UnhookEvent(hHookModulesLoaded);
@@ -347,7 +348,7 @@ int CreateGroup(BYTE type, const char* name, HANDLE hContact)
 		return 0;
 
 	cbName = _tcslen(tmp);
-	tszGrpName = _alloca(( cbName+2 )*sizeof( TCHAR ));
+	tszGrpName = (TCHAR *)_alloca(( cbName+2 )*sizeof( TCHAR ));
 	tszGrpName[0] = 1 | GROUPF_EXPANDED;
 	_tcscpy( tszGrpName+1, tmp );
 	mir_free( tmp );

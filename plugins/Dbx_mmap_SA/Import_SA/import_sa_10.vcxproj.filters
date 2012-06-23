@@ -18,25 +18,25 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ICQserver.c">
+    <ClCompile Include="ICQserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="mirabilis.c">
+    <ClCompile Include="mirabilis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="miranda.c">
+    <ClCompile Include="miranda.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="progress.c">
+    <ClCompile Include="progress.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wizard.c">
+    <ClCompile Include="wizard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="encryption.c">
+    <ClCompile Include="encryption.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

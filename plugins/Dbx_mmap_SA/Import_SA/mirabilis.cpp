@@ -1034,7 +1034,7 @@ BOOL ImportExtendedMessage(DWORD dwOffset)
 			AddMessage( LPGEN("Ignoring msg with no text from %d ofs %d."),  msg->uin, dwOffset );
 			return FALSE;
 		}
-		pszText = _strdup(pDat + dwRichTextOffset + wRichTextLength + 2);
+		pszText = _strdup((char *)pDat + dwRichTextOffset + wRichTextLength + 2);
 		bFreeMe = TRUE;
 		mir_utf8decode(pszText, NULL);
 		wLength = (DWORD)strlen(pszText)+1;
@@ -1042,7 +1042,7 @@ BOOL ImportExtendedMessage(DWORD dwOffset)
 	else {
 		// Use the ANSI text segment
 		wLength = msg->textLen;
-		pszText = pDat + dwOffset + 0x2A;
+		pszText = (char *)(pDat + dwOffset + 0x2A);
 	}
 
 	// Convert the event to a Miranda dbevent

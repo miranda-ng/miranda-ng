@@ -482,7 +482,7 @@ struct DBHeader* GetHeader(HANDLE hDbFile)
 	struct DBHeader* pdbHeader;
 	DWORD dwBytesRead;
 
-	if (( pdbHeader = calloc(1, sizeof(struct DBHeader))) == NULL )
+	if (( pdbHeader = (DBHeader *)calloc(1, sizeof(struct DBHeader))) == NULL )
 		return NULL;
 
 	// Goto start of file
@@ -550,7 +550,9 @@ int CheckFileFormat(HANDLE hDbFile)
 			return DB_INVALID;
 		}
 		break;
-}	}
+	}
+	return 1;
+}
 
 // High level Miranda DB access functions
 // Returns true if pValue points to the requested value
@@ -706,7 +708,7 @@ BOOL GetSettingsGroup(HANDLE hDbFile, DWORD dwOffset, struct DBContactSettings**
 
 	// ** Read the struct and the following blob
 	dwBlobSize = pSettings.cbBlob;
-	if (!(*pDbSettings = calloc(1, sizeof(struct DBContactSettings) + dwBlobSize)))
+	if (!(*pDbSettings = (DBContactSettings *)calloc(1, sizeof(struct DBContactSettings) + dwBlobSize)))
 		return FALSE;
 
 	memcpy(*pDbSettings, &pSettings, dwHead );
@@ -772,7 +774,7 @@ int GetSettingByName(struct DBContactSettings* pDbSettings, char* pszSettingName
 {
 	char pszName[256];
 	// We need at least one setting to start with
-	char* pDbSetting = pDbSettings->blob;
+	char* pDbSetting = (char *)pDbSettings->blob;
 	if ( !pDbSetting )
 		return FALSE;
 
@@ -821,26 +823,23 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 		return TRUE;
 
 	case DBVT_WORD:
-		// Unsane: encrypt WORDs
 		if (bEncrypted)
-			DecodeMemory(pBlob, sizeof(pBlob));
+			DecodeMemory((BYTE *)pBlob, sizeof(pBlob));
 		dbv->wVal = *(WORD*)pBlob;
 		return TRUE;
 
 	case DBVT_DWORD:
-		// Unsane: encrypt DWORDs
 		if (bEncrypted)
-			DecodeMemory(pBlob, sizeof(pBlob));
+			DecodeMemory((BYTE *)pBlob, sizeof(pBlob));
 		dbv->dVal = *(DWORD*)pBlob;
 		return TRUE;
 
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
-		// Unsane: encrypt STRINGs
 		dbv->cchVal = *(WORD*)pBlob;
-		dbv->pszVal = calloc( dbv->cchVal+1, sizeof( char ));
+		dbv->pszVal = (char *)calloc( dbv->cchVal+1, sizeof( char ));
 		if (bEncrypted)
-			DecodeCopyMemory(dbv->pszVal, pBlob+2, dbv->cchVal);
+			DecodeCopyMemory((BYTE *)dbv->pszVal, pBlob+2, dbv->cchVal);
 		else
 			memcpy( dbv->pszVal, pBlob+2, dbv->cchVal );
 		dbv->pszVal[ dbv->cchVal ] = 0;
@@ -850,10 +849,9 @@ int GetSettingValue(char* pBlob, DBVARIANT* dbv)
 	case DBVTF_VARIABLELENGTH:
 	case DBVT_BLOB:
 		dbv->cpbVal = *(WORD*)pBlob;
-		dbv->pbVal  = calloc( dbv->cpbVal+1, sizeof( char ));
-		// Unsane: encrypt other
+		dbv->pbVal  = (BYTE *)calloc( dbv->cpbVal+1, sizeof( char ));
 		if (bEncrypted)
-			DecodeCopyMemory(dbv->pszVal, pBlob+2, dbv->cchVal);
+			DecodeCopyMemory((BYTE *)dbv->pszVal, pBlob+2, dbv->cchVal);
 		else
 			memcpy( dbv->pbVal, pBlob+2, dbv->cpbVal );
 		dbv->pbVal[ dbv->cpbVal ] = 0;
@@ -932,7 +930,7 @@ BOOL GetEvent(HANDLE hDbFile, DWORD dwOffset, DBEVENTINFO* pDBEI)
 	pDBEI->eventType = pEvent.eventType;
 	pDBEI->cbSize = sizeof(DBEVENTINFO);
 	pDBEI->cbBlob = pEvent.cbBlob;
-	pDBEI->pBlob = pBlob;
+	pDBEI->pBlob = (PBYTE)pBlob;
 	pDBEI->flags = (pEvent.flags & ~(DBEF_SENT+DBEF_READ)) +
 		((pEvent.flags & DBEF_SENT) ? DBEF_SENT : DBEF_READ ); // Imported events are always marked READ
 
@@ -1037,7 +1035,7 @@ int ImportGroups(HANDLE hDbFile, struct DBHeader* pdbHeader)
 	if ( pDbSettings = GetSettingsGroupByModuleName( hDbFile, &DbContact, "CListGroups" )) {
 		/*if (bEncrypted)
 			DecodeMemory(pDbSettings->blob, pDbSettings->cbBlob);*/
-		pSetting = pDbSettings->blob;
+		pSetting = (char *)pDbSettings->blob;
 		while ( pSetting && *pSetting ) {
 			DBVARIANT dbv;
 			if ( GetSettingValue( pSetting, &dbv )) {
