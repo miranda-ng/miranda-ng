@@ -49,7 +49,7 @@ void UninitContacts(void)
 {
 }
 
-int GetContactSettingStatic(WPARAM wParam,LPARAM lParam);
+INT_PTR GetContactSettingStatic(WPARAM wParam,LPARAM lParam);
 
 static INT_PTR GetContactCount(WPARAM wParam,LPARAM lParam)
 {
