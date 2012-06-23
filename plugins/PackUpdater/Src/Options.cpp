@@ -462,17 +462,17 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
-	odp.pszGroup = LPGEN("Events");
-	odp.pszTitle = LPGEN("Pack Updater");
+	odp.ptszGroup = LPGENT("Events");
+	odp.ptszTitle = LPGENT("Pack Updater");
 	odp.pfnDlgProc = UpdateNotifyOptsProc;
 	Options_AddPage(wParam, &odp);
 
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP);
-		odp.pszGroup = LPGEN("PopUps");
-		odp.pszTitle = LPGEN("Pack Updater");
+		odp.ptszGroup = LPGENT("PopUps");
+		odp.ptszTitle = LPGENT("Pack Updater");
 		odp.pfnDlgProc = DlgPopUpOpts;
 		Options_AddPage(wParam, &odp);
 	}
