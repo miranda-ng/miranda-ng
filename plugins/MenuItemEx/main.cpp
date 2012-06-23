@@ -332,7 +332,6 @@ BOOL isMetaContact(HANDLE hContact) {
 	return FALSE;
 }
 
-
 HANDLE getDefaultContact(HANDLE hContact) {
 
 	if(bMetaContacts) {
@@ -341,7 +340,6 @@ HANDLE getDefaultContact(HANDLE hContact) {
 	return 0;
 }
 
-
 HANDLE getMostOnline(HANDLE hContact) {
 
 	if(bMetaContacts) {
@@ -349,7 +347,6 @@ HANDLE getMostOnline(HANDLE hContact) {
 	}
 	return 0;
 }
-
 
 void GetID(HANDLE hContact,LPSTR szProto,LPSTR szID)
 {
@@ -926,7 +923,7 @@ static HANDLE AddSubmenuItem(HANDLE hRoot, TCHAR* name, HICON icon, DWORD flag, 
 {
 	CLISTMENUITEM mi	 =  { 0 };
 	mi.cbSize			 =  sizeof(mi);
-	mi.hParentMenu		 =  hRoot;
+	mi.hParentMenu		 =  (HGENMENU)hRoot;
 	mi.pszPopupName		 =  (char*)hRoot; // for Miranda 0.7
 	mi.popupPosition	 =  param;
 	mi.position			 =  pos;
@@ -1357,17 +1354,12 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfoEx;
 }
 
-
-__declspec(dllexport) MUUID* MirandaPluginInterfaces(void) {
-	return interfaces;
-}
-
-__declspec(dllexport)int Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getMMI( &mmi );
@@ -1376,7 +1368,7 @@ __declspec(dllexport)int Load(PLUGINLINK *link)
 	return 0;
 }
 
-__declspec(dllexport)int Unload(void)
+extern "C" __declspec(dllexport) int Unload(void)
 {
 	int i;
 	for (i = 0; i < SIZEOF(hHooks); i++)
