@@ -1411,7 +1411,7 @@ void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HICON hMainIcon,LPSTR ps
 
 		HGENMENU hRootMenu = MO_GetProtoRootMenu(PROTOCOL_NAMEA);
 		if (hRootMenu == NULL) {
-			mi.ptszName = PROTOCOL_NAMEW;
+			mi.ptszName = PROTOCOL_DISPLAY_NAMEW;
 			mi.position = -1999901008;
 			mi.hParentMenu = HGENMENU_ROOT;
 			mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
