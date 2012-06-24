@@ -555,7 +555,6 @@ void ClickLink(HWND hwnd, ENLINK *penLink)
 		{
 			TEXTRANGE tr;
 			CHARRANGE sel;
-			char* pszUrl;
 
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM) & sel);
 			if (sel.cpMin != sel.cpMax)
@@ -563,9 +562,7 @@ void ClickLink(HWND hwnd, ENLINK *penLink)
 			tr.chrg = penLink->chrg;
 			tr.lpstrText = buf;
 			SendMessage(hwnd, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
-			pszUrl = mir_t2a( tr.lpstrText );
-			CallService(MS_UTILS_OPENURL, penLink->nmhdr.code == IDM_OPENNEW ? 1 : 0, (LPARAM) pszUrl);
-			mir_free(pszUrl);
+			CallService(MS_UTILS_OPENURL, (penLink->nmhdr.code == IDM_OPENNEW ? OUF_NEWWINDOW : 0) | OUF_TCHAR, (LPARAM) tr.lpstrText);
 		}
 	}
 }
