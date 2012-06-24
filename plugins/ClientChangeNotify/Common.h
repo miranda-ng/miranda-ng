@@ -135,13 +135,6 @@ struct SHOWPOPUP_DATA
 };
 
 
-// additional m_popup.h declarations
-
-	#define POPUPDATAT POPUPDATAW
-	#define MS_POPUP_ADDPOPUPT MS_POPUP_ADDPOPUPW
-
-
-
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam);
 
 // OptDlg.cpp

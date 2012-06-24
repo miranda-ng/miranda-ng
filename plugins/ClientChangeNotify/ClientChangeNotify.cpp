@@ -158,7 +158,7 @@ void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA *pdata)
 }
 
 
-static int CALLBACK PopupWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 	if (pdata) {
@@ -214,12 +214,12 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	_tcsncpy(ppd.lptzText, PopupText, lengthof(ppd.lptzText) - 1);
 	ppd.colorBack = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFBGCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_BGCOLOUR));
 	ppd.colorText = (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_DEFTEXTCOLOUR) ? 0 : sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_TEXTCOLOUR));
-	ppd.PluginWindowProc = (WNDPROC)PopupWndProc;
+	ppd.PluginWindowProc = PopupWndProc;
 	pdata->PopupLClickAction = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_LCLICK_ACTION);
 	pdata->PopupRClickAction = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_RCLICK_ACTION);
 	ppd.iSeconds = sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_POPUPDELAY);
 	ppd.PluginData = pdata;
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+	PUAddPopUpT(&ppd);
 }
 
 int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
@@ -363,16 +363,16 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		CLISTMENUITEM mi = {0};
 		mi.cbSize = sizeof(mi);
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | CMIM_NAME | CMIM_ICON;
+		mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY)) {
-			mi.ptszName = TranslateT("Disable c&lient change notification");
+			mi.ptszName = LPGENT("Disable c&lient change notification");
 			mi.hIcon = ServiceExists(MS_SKIN2_GETICON) ? (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_enabled") : NULL;
 		}
 		else {
-			mi.ptszName = TranslateT("Enable c&lient change notification");
+			mi.ptszName = LPGENT("Enable c&lient change notification");
 			mi.hIcon = ServiceExists(MS_SKIN2_GETICON) ? (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_disabled") : NULL;
 		}
-		mi.ptszPopupName = TranslateT("PopUps");
+		mi.ptszPopupName = LPGENT("PopUps");
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hTogglePopupsMenuItem, (LPARAM)&mi);
 	}
 	return 0;
@@ -415,17 +415,9 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	update.szComponentName = pluginInfo.shortName;
 	update.pbVersion = (BYTE*)CreateVersionString(PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM), szVersion);
 	update.cpbVersion = (int)strlen((char*)update.pbVersion);
-	update.szUpdateURL = "http://deathdemon.int.ru/projects/ClientChangeNotify"
-
-		"W"
-
-		".zip";
+	update.szUpdateURL = "http://deathdemon.int.ru/projects/ClientChangeNotifyW.zip";
 	update.szVersionURL = "http://deathdemon.int.ru/updaterinfo.php";
-	update.pbVersionPrefix = (BYTE*)"ClientChangeNotify"
-
-		" Unicode"
-
-		" version ";
+	update.pbVersionPrefix = (BYTE*)"ClientChangeNotify Unicode version ";
 	update.cpbVersionPrefix = (int)strlen((char*)update.pbVersionPrefix);
 	CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 
@@ -434,14 +426,14 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 		hHooks.AddElem(HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu));
 		CLISTMENUITEM mi = {0};
 		mi.cbSize = sizeof(mi);
-		mi.flags = CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.flags = CMIF_TCHAR;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
-			mi.ptszName = TranslateT("Disable c&lient change notification");
+			mi.ptszName = LPGENT("Disable c&lient change notification");
 		else
-			mi.ptszName = TranslateT("Enable c&lient change notification");
+			mi.ptszName = LPGENT("Enable c&lient change notification");
 
 		mi.pszService = MS_CCN_TOGGLEPOPUPS;
-		mi.ptszPopupName = TranslateT("PopUps");
+		mi.ptszPopupName = LPGENT("PopUps");
 		g_hTogglePopupsMenuItem = Menu_AddMainMenuItem(&mi);
 	}
 
