@@ -1412,7 +1412,8 @@ void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR p
 		for (SIZE_T i=0;i<dwCount;i++)
 		{
 			memmove(pszServiceFunctionName,pgdiItems[i].lpszName,(lstrlenA(pgdiItems[i].lpszName)+1));
-			if (pgdiItems[i].lpFunc) CreateServiceFunction(szServiceFunction,pgdiItems[i].lpFunc);
+			if (pgdiItems[i].lpFunc)
+				CreateServiceFunction(szServiceFunction,pgdiItems[i].lpFunc);
 			mi.position=(lPosition+i);
 			mi.icolibItem=hIcoLibIcons[i];
 			mi.ptszName=pgdiItems[i].lpwszDescr;
@@ -1423,7 +1424,7 @@ void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR p
 				mi.flags=(CMIF_UNICODE);
 			}
 			
-			hResult[i] = (bIsMain) ? Menu_AddMainMenuItem(&mi) : Menu_AddContactMenuItem(&mi);
+			hResult[i] = (bIsMain) ? Menu_AddProtoMenuItem(&mi) : Menu_AddContactMenuItem(&mi);
 			
 			if (i==0 && hMainIcon)
 			{
