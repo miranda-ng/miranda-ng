@@ -83,7 +83,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
@@ -118,7 +117,6 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
       <PrecompiledHeaderFile>commonheaders.h</PrecompiledHeaderFile>
       <ExceptionHandling>false</ExceptionHandling>
     </ClCompile>
