@@ -91,14 +91,14 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 	ci.hContact = hContact;
     ci.szProto = (char *)szProto;
 	ci.dwFlag = CNF_DISPLAY;
-	if(IsUnicodeMIM()) {
+	if (IsUnicodeMIM()) {
 		ci.dwFlag |= CNF_UNICODE;
     }
 
 	if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
-				if(IsUnicodeMIM()) {
+				if (IsUnicodeMIM()) {
 					if (!_tcscmp((TCHAR *)ci.pszVal, TranslateW(_T("'(Unknown Contact)'")))) {
 						ci.dwFlag &= ~CNF_UNICODE;
 						if (!CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) & ci)) {
@@ -456,18 +456,18 @@ TCHAR *TimestampToString(DWORD dwFlags, time_t check, int mode)
         tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
         today = mktime(&tm_today);
 
-        if(dwFlags & SMF_RELATIVEDATE && check >= today) {
+        if (dwFlags & SMF_RELATIVEDATE && check >= today) {
             lstrcpy(szResult, TranslateT("Today"));
             if (mode == 0) {
 				lstrcat(szResult, _T(","));
             }
-        } else if(dwFlags & SMF_RELATIVEDATE && check > (today - 86400)) {
+        } else if (dwFlags & SMF_RELATIVEDATE && check > (today - 86400)) {
             lstrcpy(szResult, TranslateT("Yesterday"));
             if (mode == 0) {
 				lstrcat(szResult, _T(","));
             }
         } else {
-            if(dwFlags & SMF_LONGDATE)
+            if (dwFlags & SMF_LONGDATE)
 				lstrcpy(format, _T("D"));
             else
 				lstrcpy(format, _T("d"));

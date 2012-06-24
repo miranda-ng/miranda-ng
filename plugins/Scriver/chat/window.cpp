@@ -345,7 +345,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				gt.flags = GT_DEFAULT;
 
 				SendMessage(hwnd, EM_GETTEXTEX, (WPARAM)&gt, (LPARAM)pszText);
-				if(start > 1 && pszText[start-1] == ' ' && pszText[start-2] == ':') {
+				if (start > 1 && pszText[start-1] == ' ' && pszText[start-2] == ':') {
 					start--;
 				}
 				while ( start >0 && pszText[start-1] != ' ' && pszText[start-1] != 13 && pszText[start-1] != VK_TAB)
@@ -842,7 +842,7 @@ static void ProcessNickListHovering(HWND hwnd, int hoveredItem, POINT * pt, SESS
 		ti.lpszText=NULL;
 
 		ui1 = SM_GetUserFromIndex(parentdat->ptszID, parentdat->pszModule, currentHovered);
-		if(ui1) {
+		if (ui1) {
 			// /GetChatToolTipText
 			// wParam = roomID parentdat->ptszID
 			// lParam = userID ui1->pszUID

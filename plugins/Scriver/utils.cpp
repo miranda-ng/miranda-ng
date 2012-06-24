@@ -152,7 +152,7 @@ int IsUnicodeMIM() {
 		char str[512];
 		mimFlags = MIM_CHECKED;
 		CallService(MS_SYSTEM_GETVERSIONTEXT, (WPARAM)500, (LPARAM)(char*)str);
-		if(strstr(str, "Unicode")) {
+		if (strstr(str, "Unicode")) {
 			mimFlags |= MIM_UNICODE;
 		}
 	}

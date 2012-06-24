@@ -42,7 +42,7 @@ static INT_PTR AddStatusIcon(WPARAM wParam, LPARAM lParam) {
 	siln->sid.hIcon = sid->hIcon;
 	siln->sid.hIconDisabled = sid->hIconDisabled;
 	siln->sid.flags = sid->flags;
-	if(sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
+	if (sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
 	else siln->sid.szTooltip = 0;
 
 	siln->next = status_icon_list;
@@ -64,7 +64,7 @@ INT_PTR AddStickyStatusIcon(WPARAM wParam, LPARAM lParam) {
 	siln->sid.hIcon = sid->hIcon;
 	siln->sid.hIconDisabled = sid->hIconDisabled;
 	siln->sid.flags = sid->flags;
-	if(sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
+	if (sid->szTooltip) siln->sid.szTooltip = mir_strdup(sid->szTooltip);
 	else siln->sid.szTooltip = 0;
 	siln->next = NULL;
 
@@ -88,8 +88,8 @@ static INT_PTR RemoveStatusIcon(WPARAM wParam, LPARAM lParam) {
 	struct StatusIconListNode *current = status_icon_list, *prev = 0;
 
 	while(current) {
-		if(strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
-			if(prev) prev->next = current->next;
+		if (strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
+			if (prev) prev->next = current->next;
 			else status_icon_list = current->next;
 
 			status_icon_list_size--;
@@ -120,8 +120,8 @@ static void RemoveAllStatusIcons(void) {
 
 		mir_free(current->sid.szModule);
 		DestroyIcon(current->sid.hIcon);
-		if(current->sid.hIconDisabled) DestroyIcon(current->sid.hIconDisabled);
-		if(current->sid.szTooltip) mir_free(current->sid.szTooltip);
+		if (current->sid.hIconDisabled) DestroyIcon(current->sid.hIconDisabled);
+		if (current->sid.szTooltip) mir_free(current->sid.szTooltip);
 		mir_free(current);
 	}
 
@@ -135,19 +135,19 @@ INT_PTR ModifyStatusIcon(WPARAM wParam, LPARAM lParam) {
 	struct StatusIconListNode *current = status_icon_list;
 
 	while(current) {
-		if(strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
+		if (strcmp(current->sid.szModule, sid->szModule) == 0 && current->sid.dwId == sid->dwId) {
 			if (!hContact) {
 				current->sid.flags = sid->flags;
-				if(sid->hIcon) {
+				if (sid->hIcon) {
 					ReleaseIconSmart(current->sid.hIcon);
 					current->sid.hIcon = sid->hIcon;
 				}
-				if(sid->hIconDisabled) {
+				if (sid->hIconDisabled) {
 					ReleaseIconSmart(current->sid.hIconDisabled);
 					current->sid.hIconDisabled = sid->hIconDisabled;
 				}
-				if(sid->szTooltip) {
-					if(current->sid.szTooltip) mir_free(current->sid.szTooltip);
+				if (sid->szTooltip) {
+					if (current->sid.szTooltip) mir_free(current->sid.szTooltip);
 					current->sid.szTooltip = mir_strdup(sid->szTooltip);
 				}
 
@@ -211,7 +211,7 @@ void CheckStatusIconClick(HANDLE hContact, HWND hwndFrom, POINT pt, RECT r, int 
 		current = current->next;
 	}
 
-	if(current) {
+	if (current) {
 		ClientToScreen(hwndFrom, &pt);
 		sicd.cbSize = sizeof(StatusIconClickData);
 		sicd.clickLocation = pt;

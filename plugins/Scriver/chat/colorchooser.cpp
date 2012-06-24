@@ -149,7 +149,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			else {
 				pCC->si->bBGSet = TRUE;
 				pCC->si->iBG = iCurrentHotTrack;
-				if(IsDlgButtonChecked(hWindow, IDC_CHAT_BKGCOLOR)) {
+				if (IsDlgButtonChecked(hWindow, IDC_CHAT_BKGCOLOR)) {
 					cf.dwMask = CFM_BACKCOLOR;
 					cf.crBackColor = pCC->pModule->crColors[iCurrentHotTrack];
 					if (pCC->pModule->bSingleFormat) {

@@ -69,7 +69,7 @@ HANDLE CList_AddRoom(const char* pszModule, const TCHAR* pszRoom, const TCHAR* p
 END_GROUPLOOP:
 		DBWriteContactSettingWord(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 		DBWriteContactSettingTString(hContact, pszModule, "Nick", pszDisplayName );
-/*		if(iType != GCW_SERVER)
+/*		if (iType != GCW_SERVER)
 			DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);*/
 		return hContact;
 	}
@@ -87,7 +87,7 @@ END_GROUPLOOP:
 	DBWriteContactSettingTString( hContact, pszModule, "ChatRoomID", pszRoom );
 		DBWriteContactSettingByte(hContact, pszModule, "ChatRoom", (BYTE)iType);
 		DBWriteContactSettingWord(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
-//		if(iType == GCW_SERVER)
+//		if (iType == GCW_SERVER)
 		//	DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
 		return hContact;
 	}
@@ -143,7 +143,7 @@ int	CList_RoomDoubleclicked(WPARAM wParam,LPARAM lParam)
 
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if ( MM_FindModule(szProto)) {
-		if(DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 0)
+		if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 0)
 			return 0;
 
 		if ( !DBGetContactSettingTString( hContact, szProto, "ChatRoomID", &dbv )) {
@@ -298,7 +298,7 @@ BOOL CList_AddEvent(HANDLE hContact, HICON Icon, HANDLE event, int type, TCHAR* 
 		if (!CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))
 			CallService(MS_CLIST_ADDEVENT,(WPARAM) hContact,(LPARAM) &cle);
 	} else {
-		if(CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))
+		if (CallService(MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)event);
 		CallService(MS_CLIST_ADDEVENT,(WPARAM) hContact,(LPARAM) &cle);
 	}

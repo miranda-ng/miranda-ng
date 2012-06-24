@@ -179,13 +179,13 @@ int RTL_Detect(WCHAR *pszwText)
 
     infoTypeC2 = (WORD *)mir_alloc(sizeof(WORD) * (iLen + 2));
 
-    if(infoTypeC2) {
+    if (infoTypeC2) {
         ZeroMemory(infoTypeC2, sizeof(WORD) * (iLen + 2));
 
         GetStringTypeW(CT_CTYPE2, pszwText, iLen, infoTypeC2);
 
         for(i = 0; i < iLen; i++) {
-            if(infoTypeC2[i] == C2_RIGHTTOLEFT) {
+            if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
                 mir_free(infoTypeC2);
                 return 1;
             }
@@ -827,7 +827,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			WindowList_Add(g_dat->hMessageWindowList, hwndDlg, dat->windowData.hContact);
 
 			if (newData->szInitialText) {
-				if(newData->isWchar)
+				if (newData->isWchar)
 					SetDlgItemText(hwndDlg, IDC_MESSAGE, (TCHAR *)newData->szInitialText);
 				else
 					SetDlgItemTextA(hwndDlg, IDC_MESSAGE, newData->szInitialText);
@@ -1270,7 +1270,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			char buf[128];
 			HGLOBAL hData;
 
-			if(dat->windowData.hContact) {
+			if (dat->windowData.hContact) {
                 GetContactUniqueId(dat, buf, sizeof(buf));
 				if (!OpenClipboard(hwndDlg) || !lstrlenA(buf)) break;
 				EmptyClipboard();
@@ -1780,7 +1780,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			//this is a 'send' button
 			if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDOK)))
 				break;
-			//if(GetKeyState(VK_CTRL) & 0x8000) {    // copy user name
+			//if (GetKeyState(VK_CTRL) & 0x8000) {    // copy user name
 					//SendMessage(hwndDlg, DM_USERNAMETOCLIP, 0, 0);
 			//}
 			if (dat->windowData.hContact != NULL) {
@@ -1850,7 +1850,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			return TRUE;
 		case IDC_USERMENU:
 			{
-				if(GetKeyState(VK_SHIFT) & 0x8000) {    // copy user name
+				if (GetKeyState(VK_SHIFT) & 0x8000) {    // copy user name
 					SendMessage(hwndDlg, DM_USERNAMETOCLIP, 0, 0);
 				} else {
 					RECT rc;

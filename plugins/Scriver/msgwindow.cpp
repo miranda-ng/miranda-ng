@@ -328,7 +328,7 @@ static void ActivateChild(ParentWindowData *dat, HWND child) {
 			return;
 
 		dat->hContact = mwtd->hContact;
-		if(child != dat->hwndActive) {
+		if (child != dat->hwndActive) {
 			HWND prev = dat->hwndActive;
 			dat->hwndActive = child;
 			SetupStatusBar(dat);
@@ -571,7 +571,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			mmi->ptMaxSize.x = wp.rcNormalPosition.right - wp.rcNormalPosition.left;
 			mmi->ptMaxSize.y = rcDesktop.bottom - rcDesktop.top;
 			mmi->ptMaxPosition.x = wp.rcNormalPosition.left;
-			if(IsIconic(hwndDlg)) {
+			if (IsIconic(hwndDlg)) {
 				mmi->ptMaxPosition.y = rcDesktop.top;
 			} else {
 				mmi->ptMaxPosition.y = 0;
@@ -764,7 +764,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			ScreenToClient(dat->hwndStatus, &pt);
 
 			SendMessage(dat->hwndStatus, SB_GETRECT, SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 2, (LPARAM)&rc);
-			if(pt.x >= rc.left) {
+			if (pt.x >= rc.left) {
 				MessageWindowTabData *mwtd = GetChildFromHWND(dat, dat->hwndActive);
 				if (mwtd != NULL) {
 					CheckStatusIconClick(mwtd->hContact, dat->hwndStatus, pt, rc, 2, MBCF_RIGHTBUTTON);
@@ -832,19 +832,19 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			pRect->top = pt.y-dat->mouseLBDownPos.y;
 			pRect->right = pRect->left+szSize.cx;
 			pRect->bottom = pRect->top+szSize.cy;
-			if(pRect->top < rcDesktop.top+snapPixels && pRect->top > rcDesktop.top-snapPixels) {
+			if (pRect->top < rcDesktop.top+snapPixels && pRect->top > rcDesktop.top-snapPixels) {
 				pRect->top = rcDesktop.top;
 				pRect->bottom = rcDesktop.top + szSize.cy;
 			}
-			if(pRect->left < rcDesktop.left+snapPixels && pRect->left > rcDesktop.left-snapPixels) {
+			if (pRect->left < rcDesktop.left+snapPixels && pRect->left > rcDesktop.left-snapPixels) {
 				pRect->left = rcDesktop.left;
 				pRect->right = rcDesktop.left + szSize.cx;
 			}
-			if(pRect->right < rcDesktop.right+snapPixels && pRect->right > rcDesktop.right-snapPixels) {
+			if (pRect->right < rcDesktop.right+snapPixels && pRect->right > rcDesktop.right-snapPixels) {
 				pRect->right = rcDesktop.right;
 				pRect->left = rcDesktop.right - szSize.cx;
 			}
-			if(pRect->bottom < rcDesktop.bottom+snapPixels && pRect->bottom > rcDesktop.bottom-snapPixels) {
+			if (pRect->bottom < rcDesktop.bottom+snapPixels && pRect->bottom > rcDesktop.bottom-snapPixels) {
 				pRect->bottom = rcDesktop.bottom;
 				pRect->top = rcDesktop.bottom - szSize.cy;
 			}
@@ -1218,7 +1218,7 @@ static void DrawTab(ParentWindowData *dat, HWND hwnd, WPARAM wParam, LPARAM lPar
 					InflateRect(&rectTab, 1, 1);
 
 				hTheme = MyOpenThemeData(hwnd, L"TAB");
-				if(MyIsThemeBackgroundPartiallyTransparent(hTheme, TABP_TABITEM, tstate))
+				if (MyIsThemeBackgroundPartiallyTransparent(hTheme, TABP_TABITEM, tstate))
 					MyDrawThemeParentBackground(hwnd, lpDIS->hDC, &rectTab);
  				MyDrawThemeBackground(hTheme, lpDIS->hDC, TABP_TABITEM, tstate, &rectTab, NULL);
 			}
@@ -1602,8 +1602,8 @@ int ScriverRestoreWindowPosition(HWND hwnd,HANDLE hContact,const char *szModule,
 	x=DBGetContactSettingDword(hContact,szModule,szSettingName,-1);
 	wsprintfA(szSettingName,"%sy",szNamePrefix);
 	y=(int)DBGetContactSettingDword(hContact,szModule,szSettingName,-1);
-	if(x==-1) return 1;
-	if(flags&RWPF_NOSIZE) {
+	if (x==-1) return 1;
+	if (flags&RWPF_NOSIZE) {
 		OffsetRect(&wp.rcNormalPosition,x-wp.rcNormalPosition.left,y-wp.rcNormalPosition.top);
 	} else {
 		wp.rcNormalPosition.left=x;
