@@ -35,7 +35,7 @@ static int UserOnlineSettingChanged(WPARAM wParam, LPARAM lParam)
 	DBWriteContactSettingWord((HANDLE)wParam, "UserOnline", "OldStatus", (WORD)newStatus);
 	if (CallService(MS_IGNORE_ISIGNORED, wParam, IGNOREEVENT_USERONLINE)) return 0;
 	if (DBGetContactSettingByte((HANDLE)wParam, "CList", "Hidden", 0)) return 0;
-    if (newStatus == ID_STATUS_OFFLINE&&oldStatus != ID_STATUS_OFFLINE) {
+    if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
        // Remove the event from the queue if it exists since they are now offline     
        int lastEvent = (int)DBGetContactSettingDword((HANDLE)wParam, "UserOnline", "LastEvent", 0);
        

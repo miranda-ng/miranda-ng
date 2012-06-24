@@ -69,7 +69,6 @@ HMENU fnBuildGroupPopupMenu(struct ClcGroup* group)
 
 static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	char *szProto;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule, "CList")) {
 		if ( !strcmp(cws->szSetting, "MyHandle")) {
@@ -91,19 +90,18 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 		cli.pfnClcBroadcast(INTM_GROUPSCHANGED, wParam, lParam);
 	}
 	else {
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+		char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 		if (szProto != NULL && (HANDLE) wParam != NULL) {
 			char *id = NULL;
-			if ( !strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p")) {
+			if ( !strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
 				cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
-			}
+
 			// something is being written to a protocol module
 			if ( !strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				id = (char *) CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR) id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting)) {
+				if ((INT_PTR) id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
 					cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
-				}
 			}
 		}
 		if (szProto == NULL || strcmp(szProto, cws->szModule))
@@ -519,10 +517,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		else
 			status = DBGetContactSettingWord((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
 
+		// this means an offline msg is flashing, so the contact should be shown
 		DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 		shouldShow = (style & CLS_SHOWHIDDEN || !DBGetContactSettingByte((HANDLE) wParam, "CList", "Hidden", 0))
-			&& ( !cli.pfnIsHiddenMode(dat, status)
-			 ||  CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam); // this means an offline msg is flashing, so the contact should be shown
+			&& ( !cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam); 
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)

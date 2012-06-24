@@ -468,7 +468,7 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, TCHAR *path, WPARAM, LPARAM)
 		if (pluginList_freeimg == NULL && lstrcmpi(fd->cFileName, _T("advaimg.dll")) == 0)
 			pluginList_freeimg = p;
 
-		if (pluginList_crshdmp == NULL &&  lstrcmpi(fd->cFileName, _T("svc_crshdmp.dll")) == 0) {
+		if (pluginList_crshdmp == NULL && lstrcmpi(fd->cFileName, _T("svc_crshdmp.dll")) == 0) {
 			pluginList_crshdmp = p;
 			p->pclass |= PCLASS_LAST;
 		}

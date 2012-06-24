@@ -35,7 +35,7 @@ static int pathIsAbsolute(const char *path)
 {
 	if (strlen(path) <= 2)
 		return 0;
-	if ((path[1] == ':'&&path[2] == '\\') || (path[0] == '\\'&&path[1] == '\\'))
+	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
 		return 1;
 	return 0;
 }
@@ -136,7 +136,7 @@ static int pathIsAbsoluteW(const TCHAR *path)
 {
 	if (lstrlen(path) <= 2)
 		return 0;
-	if ((path[1] == ':'&&path[2] == '\\') || (path[0] == '\\'&&path[1] == '\\'))
+	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
 		return 1;
 	return 0;
 }

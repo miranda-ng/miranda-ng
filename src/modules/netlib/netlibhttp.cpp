@@ -909,7 +909,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 		{
 			peol = strchr(pbuffer, '\n');
 			if (peol == NULL) break;
-			if (peol == pbuffer || (peol == (pbuffer + 1) &&  *pbuffer == '\r'))
+			if (peol == pbuffer || (peol == (pbuffer + 1) && *pbuffer == '\r'))
 			{
 				bytesPeeked = peol - buffer + 1;
 				headersCompleted = true;
@@ -936,7 +936,7 @@ INT_PTR NetlibHttpRecvHeaders(WPARAM wParam, LPARAM lParam)
 	for (pbuffer = buffer, headersCount = 0;; pbuffer = peol + 1, ++headersCount) 
 	{
 		peol = strchr(pbuffer, '\n');
-		if (peol == NULL || peol == pbuffer || (peol == (pbuffer + 1) &&  *pbuffer == '\r')) break;
+		if (peol == NULL || peol == pbuffer || (peol == (pbuffer + 1) && *pbuffer == '\r')) break;
 		*peol = 0;
 
 		char *pColon = strchr(pbuffer, ':');

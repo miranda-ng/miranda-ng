@@ -191,18 +191,15 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	int foundPort = 0;
 	UINT dwThreadId;
 
-	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING)  || 
+	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
 		nlb == NULL || nlb->pfnNewConnection == NULL) 
 	{
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
 	}
-	if (nlb->cbSize != sizeof(NETLIBBIND)   &&
-		nlb->cbSize != NETLIBBIND_SIZEOF_V2 &&
-		nlb->cbSize != NETLIBBIND_SIZEOF_V1)
-	{
+	if (nlb->cbSize != sizeof(NETLIBBIND))
 		return 0;
-	}
+
 	nlbp = (NetlibBoundPort*)mir_calloc(sizeof(NetlibBoundPort));
 	nlbp->handleType = NLH_BOUNDPORT;
 	nlbp->nlu = nlu;

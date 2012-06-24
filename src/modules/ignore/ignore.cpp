@@ -126,7 +126,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	itemType=SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 	if (itemType == CLCIT_CONTACT) {
 		int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if (oldiImage != 0xFF&&oldiImage != iImage)
+		if (oldiImage != 0xFF && oldiImage != iImage)
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
 	}
 	else if (itemType == CLCIT_INFO) {
@@ -146,7 +146,7 @@ static void InitialiseItem(HWND hwndList, HANDLE hContact, HANDLE hItem, DWORD p
 	
 	mask=GetMask(hContact);
 	for (i=0;i<IGNOREEVENT_MAX;i++)
-		if ((ignoreIdToPf1[i] == 0xFFFFFFFF&&ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i] || proto4Caps&ignoreIdToPf4[i]))
+		if ((ignoreIdToPf1[i] == 0xFFFFFFFF && ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps&ignoreIdToPf1[i] || proto4Caps&ignoreIdToPf4[i]))
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, mask&(1<<i)?i+3:0));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 1));
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX+1, 2));

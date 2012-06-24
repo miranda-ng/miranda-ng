@@ -209,7 +209,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SOUNDTREE), IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
 		if ( !IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS))
 			SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
-		else if (TreeView_GetSelection(hwndTree)&&TreeView_GetParent(hwndTree, TreeView_GetSelection(hwndTree)))
+		else if (TreeView_GetSelection(hwndTree) && TreeView_GetParent(hwndTree, TreeView_GetSelection(hwndTree)))
 			SendMessage(hwndDlg, DM_SHOWPANE, 0, 0);
 		break;
 
@@ -348,6 +348,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		case IDC_SOUNDTREE:
 			switch(((NMHDR*)lParam)->code) {
+			case TVN_SELCHANGEDW:
 			case TVN_SELCHANGEDA:
 				{
 					NMTREEVIEW *pnmtv = (NMTREEVIEW*)lParam;
@@ -357,7 +358,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 						SendMessage(hwndDlg, DM_HIDEPANE, 0, 0);
 					else {
 						TCHAR buf[256];
-						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s"), arSounds[tvi.lParam].ptszSection, arSounds[tvi.lParam].ptszDescription);
+						mir_sntprintf(buf, SIZEOF(buf), _T("%s: %s"), arSounds[tvi.lParam].getSection(), arSounds[tvi.lParam].getDescr());
 						SetDlgItemText(hwndDlg, IDC_NAMEVAL, buf);
 						if (arSounds[tvi.lParam].ptszTempFile)
 							SetDlgItemText(hwndDlg, IDC_LOCATION, arSounds[tvi.lParam].ptszTempFile);
@@ -376,24 +377,23 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			case TVN_KEYDOWN:
 				{
 					NMTVKEYDOWN* ptkd = (NMTVKEYDOWN*)lParam;
-
-					if (ptkd&&ptkd->wVKey == VK_SPACE&&TreeView_GetSelection(ptkd->hdr.hwndFrom))
+					if (ptkd && ptkd->wVKey == VK_SPACE && TreeView_GetSelection(ptkd->hdr.hwndFrom))
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
 			case NM_CLICK:
 				{
 					TVHITTESTINFO hti;
-					hti.pt.x=(short)LOWORD(GetMessagePos());
-					hti.pt.y=(short)HIWORD(GetMessagePos());
+					hti.pt.x = (short)LOWORD(GetMessagePos());
+					hti.pt.y = (short)HIWORD(GetMessagePos());
 					ScreenToClient(((LPNMHDR)lParam)->hwndFrom, &hti.pt);
 					if (TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &hti))
 						if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMSTATEICON))
 							if (TreeView_GetParent(hwndTree, hti.hItem) != NULL)
 								SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-			}	}
-			break;
+				}
+				break;
+			}	
 		}
 		break;
 

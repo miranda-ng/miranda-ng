@@ -71,7 +71,7 @@ static int IsEmpty(char *str)
 
 	while (str[i])
 	{
-		if (str[i] != ' '&&str[i] != '\r'&&str[i] != '\n')
+		if (str[i] != ' ' && str[i] != '\r' && str[i] != '\n')
 			return 0;
 		i++;
 	}

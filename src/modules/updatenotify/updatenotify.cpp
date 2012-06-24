@@ -381,13 +381,13 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                 rdAlphaValid = UpdateNotifyReleaseDataValid(&rdAlpha);
                 
                 if (isBetaCheck) {
-                    if ( !rdBetaValid&&rdStableValid) {
+                    if ( !rdBetaValid && rdStableValid) {
                         UpdateNotifyReleaseLogUpdate(&rdStable);
                         if (UpdateNotifyIsNewer(dwVersion, rdStable.dwVersion)) 
                             resUpdate = 1;
                         UpdateNotifyReleaseCopyData(&rdStable, und);
                     }
-                    else if (rdBetaValid&&rdStableValid&&UpdateNotifyIsNewer(rdBeta.dwVersion, rdStable.dwVersion)) {
+                    else if (rdBetaValid && rdStableValid && UpdateNotifyIsNewer(rdBeta.dwVersion, rdStable.dwVersion)) {
                         UpdateNotifyReleaseLogUpdate(&rdStable);
                         if (UpdateNotifyIsNewer(dwVersion, UpdateNotifyMakeVersion(rdStable.szVersion))) 
                             resUpdate = 1;
@@ -401,7 +401,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                     }
                 }
                 else if (isAlphaCheck) {                 
-                    if ( !rdAlphaValid&&rdStableValid) {
+                    if ( !rdAlphaValid && rdStableValid) {
                         if (UpdateNotifyIsNewer(rdStable.dwVersion, rdAlpha.dwVersion)) {
                             UpdateNotifyReleaseLogUpdate(&rdAlpha);
                             if (UpdateNotifyIsNewer(dwVersion, rdAlpha.dwVersion)) 
@@ -415,13 +415,13 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                             UpdateNotifyReleaseCopyData(&rdStable, und);
                         } 
                     }
-                    else if (rdAlphaValid&&rdStableValid&&UpdateNotifyIsNewer(rdAlpha.dwVersion, rdStable.dwVersion)) {
+                    else if (rdAlphaValid && rdStableValid && UpdateNotifyIsNewer(rdAlpha.dwVersion, rdStable.dwVersion)) {
                         UpdateNotifyReleaseLogUpdate(&rdStable);
                         if (UpdateNotifyIsNewer(dwVersion, rdStable.dwVersion)) 
                             resUpdate = 1;
                         UpdateNotifyReleaseCopyData(&rdStable, und);
                     }
-                    else if ( !rdAlphaValid&&rdBetaValid&&rdStableValid) {
+                    else if ( !rdAlphaValid && rdBetaValid && rdStableValid) {
                         if (UpdateNotifyIsNewer(rdStable.dwVersion, rdBeta.dwVersion)) {
                             UpdateNotifyReleaseLogUpdate(&rdBeta);
                             if (UpdateNotifyIsNewer(dwVersion, rdBeta.dwVersion)) 
@@ -474,7 +474,7 @@ static int UpdateNotifyMakeRequest(UpdateNotifyData *und) {
                         mir_free(tmp);
                     }
                 }
-                if (resUpdate&&und->version&&und->versionReal&&und->notesUrl&&und->downloadUrl) {
+                if (resUpdate && und->version && und->versionReal && und->notesUrl && und->downloadUrl) {
                     Netlib_Logf(hNetlibUser, "A new version of Miranda IM is available: %s", und->version);
                     und->isNew = 1;
                 }
@@ -586,14 +586,14 @@ static INT_PTR CALLBACK UpdateNotifyProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case IDC_VERSION:
 			{
 				UpdateNotifyData *und = (UpdateNotifyData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				if (und&&und->notesUrl)
+				if (und && und->notesUrl)
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM)und->notesUrl);
 				break;
 			}
 		case IDC_DOWNLOAD:
 			{
 				UpdateNotifyData *und = (UpdateNotifyData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				if (und&&und->downloadUrl) {
+				if (und && und->downloadUrl) {
 					CallService(MS_UTILS_OPENURL, 1, (LPARAM)und->downloadUrl);
 					DestroyWindow(hwndDlg);
 				}
@@ -640,7 +640,7 @@ static INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wPar
 	case WM_NOTIFY:
 		{
 			NMHDR *hdr = (NMHDR *)lParam;
-			if (hdr&&hdr->code == PSN_APPLY) {
+			if (hdr && hdr->code == PSN_APPLY) {
 				DBWriteContactSettingByte(NULL, UN_MOD, UN_ENABLE, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ENABLEUPDATES)));
                 if (IsDlgButtonChecked(hwndDlg, IDC_ENABLESTABLE))
                     DBWriteContactSettingByte(NULL, UN_MOD, UN_NOTIFYTYPE, UN_NOTIFYTYPE_STABLE);
