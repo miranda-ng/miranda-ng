@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "m_fontservice.h"
 
-extern HANDLE		g_hInst;
 extern HICON      hIcons[30];
 extern HIMAGELIST	hImageList;
 extern HIMAGELIST	hIconsList;
@@ -334,7 +333,7 @@ static INT_PTR Service_Register(WPARAM wParam, LPARAM lParam)
 		mi->iMaxText= gcr->iMaxText;
 		mi->nColorCount = gcr->nColors;
 		if ( gcr->nColors > 0) {
-			mi->crColors = mir_alloc(sizeof(COLORREF) * gcr->nColors);
+			mi->crColors = (COLORREF *)mir_alloc(sizeof(COLORREF) * gcr->nColors);
 			memcpy(mi->crColors, gcr->pColors, sizeof(COLORREF) * gcr->nColors);
 		}
 

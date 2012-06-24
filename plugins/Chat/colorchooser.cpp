@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int CalculateCoordinatesToButton(COLORCHOOSER * pCC, POINT pt)
 {
-	int iSquareRoot = (int)sqrt(pCC->pModule->nColorCount);
+	int iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
 	int nCols = iSquareRoot * iSquareRoot < pCC->pModule->nColorCount?iSquareRoot+1:iSquareRoot;
 
 	int col = pt.x / 25;
@@ -42,7 +42,7 @@ static int CalculateCoordinatesToButton(COLORCHOOSER * pCC, POINT pt)
 static RECT CalculateButtonToCoordinates(COLORCHOOSER * pCC, int buttonPosition)
 {
 	RECT pt;
-	int iSquareRoot = (int)sqrt(pCC->pModule->nColorCount);
+	int iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
 	int nCols = iSquareRoot * iSquareRoot < pCC->pModule->nColorCount?iSquareRoot+1:iSquareRoot;
 
 	int row = buttonPosition / nCols;
@@ -79,7 +79,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			iCurrentHotTrack = -2;
 			bChoosing = FALSE;
 
-			iSquareRoot = (int)sqrt(pCC->pModule->nColorCount);
+			iSquareRoot = (int)sqrt((double)pCC->pModule->nColorCount);
 
 			iColumns = iSquareRoot * iSquareRoot == pCC->pModule->nColorCount?iSquareRoot:iSquareRoot+1;
 			iRows = iSquareRoot;
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcColorToolWindow(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				rc.bottom = iThisRow * 20- 3 + 20 ;
 				rc.right = iThisColumn * 25-3 ;
 
-				FillRect(hdc, &rc, GetStockObject(BLACK_BRUSH));
+				FillRect(hdc, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
 				hbr = CreateSolidBrush(pCC->pModule->crColors[i]);
 

@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <m_fontservice.h>
 
-extern HANDLE       g_hInst;
 extern HBRUSH       hEditBkgBrush;
 extern HBRUSH       hListBkgBrush;
 extern HBRUSH       hListSelectedBkgBrush;
@@ -755,7 +754,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_HIGHLIGHTWORDS));
 			if ( iLen > 0 ) {
-				TCHAR *ptszText = mir_alloc((iLen+2) * sizeof(TCHAR));
+				TCHAR *ptszText = (TCHAR *)mir_alloc((iLen+2) * sizeof(TCHAR));
 				TCHAR *p2 = NULL;
 				
 				if(ptszText) {
@@ -773,7 +772,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGDIRECTORY));
 			if ( iLen > 0 ) {
-				pszText = mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
 				GetDlgItemText(hwndDlg, IDC_LOGDIRECTORY, pszText,iLen + 1);
 				DBWriteContactSettingTString(NULL, "Chat", "LogDirectory", pszText);
 			}
@@ -783,7 +782,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_LOGTIMESTAMP));
 			if ( iLen > 0 ) {
-				pszText = mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
 				GetDlgItemText(hwndDlg, IDC_LOGTIMESTAMP, pszText, iLen+1);
 				DBWriteContactSettingTString(NULL, "Chat", "LogTimestamp", pszText);
 			}
@@ -791,7 +790,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_TIMESTAMP));
 			if ( iLen > 0 ) {
-				pszText = mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
 				GetDlgItemText(hwndDlg, IDC_TIMESTAMP, pszText, iLen+1);
 				DBWriteContactSettingTString(NULL, "Chat", "HeaderTime", pszText);
 			}
@@ -799,7 +798,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_INSTAMP));
 			if ( iLen > 0 ) {
-				pszText = mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
 				GetDlgItemText(hwndDlg, IDC_INSTAMP, pszText,iLen+1);
 				DBWriteContactSettingTString(NULL, "Chat", "HeaderIncoming", pszText);
 			}
@@ -807,7 +806,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_OUTSTAMP));
 			if ( iLen > 0 ) {
-				pszText = mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
 				GetDlgItemText(hwndDlg, IDC_OUTSTAMP, pszText,iLen+1);
 				DBWriteContactSettingTString(NULL, "Chat", "HeaderOutgoing", pszText);
 			}
@@ -828,7 +827,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 
 			iLen = GetWindowTextLength(GetDlgItem(hwndDlg, IDC_GROUP));
 			if (iLen > 0) {
-				pszText = mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
+				pszText = (TCHAR *)mir_realloc(pszText, (iLen + 1) * sizeof(TCHAR));
 				GetDlgItemText(hwndDlg, IDC_GROUP, pszText, iLen+1);
 				DBWriteContactSettingTString(NULL, "Chat", "AddToGroup", pszText);
 			}

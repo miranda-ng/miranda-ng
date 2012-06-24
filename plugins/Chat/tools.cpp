@@ -23,7 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HICON        hIcons[30];
 extern BOOL         PopUpInstalled;
-extern HINSTANCE    g_hInst;
 extern FONTINFO     aFonts[OPTIONS_FONTCOUNT];
 extern HMENU        g_hMenu;
 extern HANDLE       hBuildMenuEvent ;
@@ -162,7 +161,7 @@ static int ShowPopup (HANDLE hContact, SESSION_INFO* si, HICON hIcon,  char* psz
 		pd.colorText = crBkg;
 	}
 
-	pd.PluginWindowProc = PopupDlgProc;
+	pd.PluginWindowProc = (WNDPROC)PopupDlgProc;
 	pd.PluginData = si;
 	return PUAddPopUpT(&pd);
 }
@@ -477,9 +476,9 @@ BOOL IsHighlighted(SESSION_INFO* si, const TCHAR* pszText)
 					p3 += 1;
 
 				//find the end of the word
-				p2 = _tcschr(p3, ' ');
+				p2 = (TCHAR *)_tcschr(p3, ' ');
 				if (!p2)
-					p2 = _tcschr(p3, '\0');
+					p2 = (TCHAR *)_tcschr(p3, '\0');
 
 
 				if (p3 != p2) {
@@ -657,7 +656,7 @@ BOOL LogToFile(SESSION_INFO* si, GCEVENT * gce)
 					hFile = NULL;
 
 					// trim to whole lines, should help with broken log files I hope.
-					pBufferTemp = strchr(pBuffer, '\n');
+					pBufferTemp = (BYTE *)strchr((char *)pBuffer, '\n');
 					if ( pBufferTemp ) {
 						pBufferTemp++;
 						read -= pBufferTemp - pBuffer;

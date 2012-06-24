@@ -19,37 +19,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="clist.c">
+    <ClCompile Include="clist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="colorchooser.c">
+    <ClCompile Include="colorchooser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="log.c">
+    <ClCompile Include="log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.c">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="manager.c">
+    <ClCompile Include="manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="message.c">
+    <ClCompile Include="message.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="options.c">
+    <ClCompile Include="options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="richutil.c">
+    <ClCompile Include="richutil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="services.c">
+    <ClCompile Include="services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="tools.c">
+    <ClCompile Include="tools.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="window.c">
+    <ClCompile Include="window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

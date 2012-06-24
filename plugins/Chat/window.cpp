@@ -26,7 +26,6 @@ extern HBRUSH		hEditBkgBrush;
 extern HBRUSH		hListBkgBrush;
 extern HBRUSH		hListSelectedBkgBrush;
 extern HANDLE		hSendEvent;
-extern HINSTANCE	g_hInst;
 extern HICON		hIcons[30];
 extern struct		CREOleCallback reOleCallback;
 extern HIMAGELIST	hImageList;
@@ -395,7 +394,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				if (iLen >0) {
 					TCHAR *pszName = NULL;
 					TCHAR *pszSelName = NULL;
-					pszText = mir_alloc(sizeof(TCHAR)*(iLen+100));
+					pszText = (TCHAR *)mir_alloc(sizeof(TCHAR)*(iLen+100));
 
 					gt.cb = iLen+99;
 					gt.flags = GT_DEFAULT;
@@ -410,7 +409,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 					if ( dat->szTabSave[0] =='\0')
 						lstrcpyn( dat->szTabSave, pszText+start, end-start+1 );
 
-					pszSelName = mir_alloc( sizeof(TCHAR)*( end-start+1 ));
+					pszSelName = (TCHAR *)mir_alloc( sizeof(TCHAR)*( end-start+1 ));
 					lstrcpyn( pszSelName, pszText+start, end-start+1);
 					pszName = UM_FindUserAutoComplete(Parentsi->pUsers, dat->szTabSave, pszSelName);
 					if (pszName == NULL) {
@@ -1152,7 +1151,7 @@ int GetTextPixelSize( TCHAR* pszText, HFONT hFont, BOOL bWidth)
 		return 0;
 
 	hdc = GetDC(NULL);
-	hOldFont = SelectObject(hdc, hFont);
+	hOldFont = (HFONT)SelectObject(hdc, hFont);
 	i = DrawText(hdc, pszText , -1, &rc, DT_CALCRECT);
 	SelectObject(hdc, hOldFont);
 	ReleaseDC(NULL,hdc);
@@ -1180,7 +1179,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam)
 			HWND hNickList = GetDlgItem(hwndDlg,IDC_LIST);
 			si = (SESSION_INFO*)lParam;
 			si->pAccPropServicesForNickList = NULL;
-			CoCreateInstance(&CLSID_AccPropServices, NULL, CLSCTX_SERVER, &IID_IAccPropServices, &si->pAccPropServicesForNickList);
+			CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (LPVOID *)si->pAccPropServicesForNickList);
 			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)si);
 			OldSplitterProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_SPLITTERX),GWLP_WNDPROC,(LONG_PTR)SplitterSubclassProc);
@@ -1903,8 +1902,7 @@ END_REMOVETAB:
 					if (si->pAccPropServicesForNickList) 
 					{
 						wchar_t *nick = mir_t2u(ui->pszNick);
-						si->pAccPropServicesForNickList->lpVtbl->SetHwndPropStr(si->pAccPropServicesForNickList,
-							GetDlgItem(hwndDlg,IDC_LIST), OBJID_CLIENT, dis->itemID+1, PROPID_ACC_NAME, nick);
+						si->pAccPropServicesForNickList->SetHwndPropStr(GetDlgItem(hwndDlg,IDC_LIST), OBJID_CLIENT, dis->itemID+1, PROPID_ACC_NAME, nick);
 						mir_free(nick);
 					}
 				}
@@ -2061,7 +2059,7 @@ LABEL_SHOWWINDOW:
 			HWND ColorWindow;
 			RECT rc;
 			BOOL bFG = lParam == IDC_COLOR?TRUE:FALSE;
-			COLORCHOOSER * pCC = mir_alloc(sizeof(COLORCHOOSER));
+			COLORCHOOSER * pCC = (COLORCHOOSER *)mir_alloc(sizeof(COLORCHOOSER));
 
 			GetWindowRect(GetDlgItem(hwndDlg, bFG?IDC_COLOR:IDC_BKGCOLOR), &rc);
 			pCC->hWndTarget = GetDlgItem(hwndDlg, IDC_MESSAGE);
@@ -2341,7 +2339,7 @@ LABEL_SHOWWINDOW:
 							if (sel.cpMin != sel.cpMax)
 								break;
 							tr.chrg = ((ENLINK *) lParam)->chrg;
-							tr.lpstrText = mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
+							tr.lpstrText = (LPTSTR)mir_alloc(sizeof(TCHAR)*(tr.chrg.cpMax - tr.chrg.cpMin + 1));
 							SendMessage(pNmhdr->hwndFrom, EM_GETTEXTRANGE, 0, (LPARAM) & tr);
 							pszUrl = mir_t2a( tr.lpstrText );
 
@@ -2713,7 +2711,7 @@ LABEL_SHOWWINDOW:
 		}
 		DestroyWindow( si->hwndTooltip );
 		si->hwndTooltip = NULL;
-		if (si->pAccPropServicesForNickList) si->pAccPropServicesForNickList->lpVtbl->Release(si->pAccPropServicesForNickList);
+		if (si->pAccPropServicesForNickList) si->pAccPropServicesForNickList->Release();
 		SetWindowLongPtr(hwndDlg,GWLP_USERDATA,0);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_SPLITTERX),GWLP_WNDPROC,(LONG_PTR)OldSplitterProc);
 		SetWindowLongPtr(GetDlgItem(hwndDlg,IDC_SPLITTERY),GWLP_WNDPROC,(LONG_PTR)OldSplitterProc);

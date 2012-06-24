@@ -92,7 +92,7 @@ TCHAR* DoRtfToTags( char* pszText, SESSION_INFO* si)
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
-	pIndex = mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount);
+	pIndex = (int *)mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount);
 	for(i = 0; i < MM_FindModule(si->pszModule)->nColorCount ; i++)
 		pIndex[i] = -1;
 
@@ -317,14 +317,14 @@ static DWORD CALLBACK Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, 
 	char ** ppText = (char **) dwCookie;
 
 	if (*ppText == NULL) {
-		*ppText = mir_alloc(cb + 1);
+		*ppText = (char *)mir_alloc(cb + 1);
 		memcpy(*ppText, pbBuff, cb);
 		(*ppText)[cb] = 0;
 		*pcb = cb;
 		dwRead = cb;
 	}
 	else {
-		char  *p = mir_alloc(dwRead + cb + 1);
+		char  *p = (char *)mir_alloc(dwRead + cb + 1);
 		memcpy(p, *ppText, dwRead);
 		memcpy(p+dwRead, pbBuff, cb);
 		p[dwRead + cb] = 0;
