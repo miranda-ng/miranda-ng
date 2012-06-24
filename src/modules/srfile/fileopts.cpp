@@ -71,7 +71,7 @@ static INT_PTR CALLBACK DlgProcFileOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemText(hwndDlg, IDC_FILEDIR, str);
 			}
 
-            CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AUTOACCEPT, DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_AUTOMIN, DBGetContactSettingByte(NULL, "SRFile", "AutoMin", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_AUTOCLOSE, DBGetContactSettingByte(NULL, "SRFile", "AutoClose", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_AUTOCLEAR, DBGetContactSettingByte(NULL, "SRFile", "AutoClear", 1) ? BST_CHECKED : BST_UNCHECKED);
