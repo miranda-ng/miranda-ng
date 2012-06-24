@@ -38,6 +38,17 @@ extern LIST_INTERFACE li;
 #define	HandleKeySortT  -2
 #define	PtrKeySortT     -3
 
+template<class T> class mir_ptr
+{
+	T* data;
+
+public:
+	__inline mir_ptr(T* _p) : data(_p) {}
+	__inline ~mir_ptr() { mir_free(data); }
+	__inline operator T*() const { return data; }
+	__inline operator INT_PTR() const { return (INT_PTR)data; }
+};
+
 template<class T> struct LIST
 {
 	typedef int (*FTSortFunc)(const T* p1, const T* p2);
