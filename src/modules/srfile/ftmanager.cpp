@@ -162,9 +162,9 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		break;
 	}
 
- 	case WM_FT_COMPLETED:
- 	{ //wParam: { ACKRESULT_SUCCESS | ACKRESULT_FAILED | ACKRESULT_DENIED }
- 		dat->runningCount--;
+	case WM_FT_COMPLETED:
+	{ //wParam: { ACKRESULT_SUCCESS | ACKRESULT_FAILED | ACKRESULT_DENIED }
+		dat->runningCount--;
 		int i = 0;
 		while (i < dat->wnds->realCount)
 		{
@@ -179,10 +179,10 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		if (i == dat->wnds->realCount)
 			PostMessage(GetParent(hwnd), WM_TIMER, 1, NULL);
 	
- 		if (dat->runningCount == 0 && (int)wParam == ACKRESULT_SUCCESS && DBGetContactSettingByte(NULL, "SRFile", "AutoClose", 0))
- 			ShowWindow(hwndFtMgr, SW_HIDE);
- 		break;
- 	}
+		if(dat->runningCount == 0 && (int)wParam == ACKRESULT_SUCCESS && DBGetContactSettingByte(NULL, "SRFile", "AutoClose", 0))
+			ShowWindow(hwndFtMgr, SW_HIDE);
+		break;
+	}
 
 	case WM_FT_CLEANUP:
 	{
@@ -534,37 +534,37 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 {
 	bool bAutoMin = DBGetContactSettingByte(NULL, "SRFile", "AutoMin", 0) != 0; /* lqbe */
 
- 	bool bJustCreated = (hwndFtMgr == NULL);
- 	if (bJustCreated)
- 	{
- 		hwndFtMgr = CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
- 	}
+	bool bJustCreated = (hwndFtMgr == NULL);
+	if (bJustCreated)
+	{
+		hwndFtMgr = CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
+	}
 	if (bFromMenu) /* lqbe */
- 	{
+	{
 		ShowWindow(hwndFtMgr, SW_RESTORE);
- 		ShowWindow(hwndFtMgr, SW_SHOW);
- 		SetForegroundWindow(hwndFtMgr);
- 		return hwndFtMgr;
- 	}
-	else if (bAutoMin && bJustCreated) /* lqbe */
- 	{
- 		ShowWindow(hwndFtMgr, SW_HIDE);
- 		ShowWindow(hwndFtMgr, SW_MINIMIZE);
+		ShowWindow(hwndFtMgr, SW_SHOW);
+		SetForegroundWindow(hwndFtMgr);
 		return hwndFtMgr;
- 	}
+	}
+	else if (bAutoMin && bJustCreated) /* lqbe */
+	{
+		ShowWindow(hwndFtMgr, SW_HIDE);
+		ShowWindow(hwndFtMgr, SW_MINIMIZE);
+		return hwndFtMgr;
+	}
 	else if (bForceActivate) /* lqbe */
 	{
 		ShowWindow(hwndFtMgr, SW_RESTORE);
 		ShowWindow(hwndFtMgr, SW_SHOWNOACTIVATE);
 		SetForegroundWindow(hwndFtMgr);
- 		return hwndFtMgr;
+		return hwndFtMgr;
 	}
 	if ( !bJustCreated && IsWindowVisible(hwndFtMgr))
 		return hwndFtMgr;
- 
+
 	ShowWindow(hwndFtMgr, bAutoMin ? SW_SHOWMINNOACTIVE : SW_SHOWNOACTIVATE);
-  	return hwndFtMgr;
- }
+	return hwndFtMgr;
+}
 
 void FtMgr_Destroy()
 {
