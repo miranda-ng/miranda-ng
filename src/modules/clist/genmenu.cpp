@@ -822,18 +822,17 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 		if (p != NULL && fType != MFT_SEPARATOR) {
 			if ((p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL)) {
 				//but might be supposed to be after the next one instead
-				if (uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) != MFT_SEPARATOR)
+				if ( !(uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) == MFT_SEPARATOR))
 					InsertSeparator(hMenu, uItem);
-
 				uItem++;
-	}	}	}
+	}	}	}	
 
 	//check for separator after
 	if (uItem < GetMenuItemCount(hMenu)) {
 		UINT fType = GetMenuItemTypeData(hMenu, uItem, p);
 		if (p != NULL && fType != MFT_SEPARATOR)
 			if ((p->mi.position / SEPARATORPOSITIONINTERVAL) != (pimi->mi.position / SEPARATORPOSITIONINTERVAL))
-					InsertSeparator(hMenu, uItem);
+				InsertSeparator(hMenu, uItem);
 	}
 
 	// create local copy *lpmii so we can change some flags
@@ -888,11 +887,8 @@ void GetMenuItemName(PMO_IntMenuItem pMenuItem, char* pszDest, size_t cbDestSize
 {
 	if (pMenuItem->UniqName)
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->UniqName);
-	else if (pMenuItem->mi.flags & CMIF_UNICODE) {
-		char* name = mir_t2a(pMenuItem->mi.ptszName);
-		mir_snprintf(pszDest, cbDestSize, "{%s}", name);
-		mir_free(name);
-	}
+	else if (pMenuItem->mi.flags & CMIF_UNICODE)
+		mir_snprintf(pszDest, cbDestSize, "{%s}", (char*)_T2A(pMenuItem->mi.ptszName));
 	else
 		mir_snprintf(pszDest, cbDestSize, "{%s}", pMenuItem->mi.pszName);
 }
