@@ -45,6 +45,7 @@ template<class T> class mir_ptr
 public:
 	__inline mir_ptr(T* _p) : data(_p) {}
 	__inline ~mir_ptr() { mir_free(data); }
+	__inline T* operator= (T* _p) { if (data) mir_free(data); data = _p; return data; }
 	__inline operator T*() const { return data; }
 	__inline operator INT_PTR() const { return (INT_PTR)data; }
 };
