@@ -644,7 +644,7 @@ bool Omegle_client::events( )
 
 		if ( resp.data.find( "[\"recaptchaRequired\"" ) != std::string::npos ) {
 			// Nothing to do with recaptcha
-			parent->UpdateChat(NULL, TranslateT("Recaptcha is required.\nOpen Omegle chat in webbrowser, solve Recaptcha and try again."));
+			parent->UpdateChat(NULL, TranslateT("Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again."));
 			parent->StopChat(false);
 		}
 
