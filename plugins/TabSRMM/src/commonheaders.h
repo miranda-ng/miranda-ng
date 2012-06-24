@@ -225,10 +225,10 @@ extern struct LIST_INTERFACE li;
 #include "m_spellchecker.h"
 #include "m_mathmodule.h"
 #include "m_historyevents.h"
-#include "m_buttonbar.h"
 #include "m_updater.h"
 #include "m_smileyadd.h"
 
+#include "../include/buttonbar.h"
 #include "../include/msgs.h"
 #include "../include/msgdlgutils.h"
 #include "../include/typingnotify.h"
