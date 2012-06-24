@@ -828,16 +828,16 @@ void CMsnProto::sttProcessStatusMessage(char* buf, unsigned len, const char* wli
 
 	// Process status message info
 	char* szStatMsg = ezxml_txt(ezxml_child(xmli, "PSM"));
-	stripBBCode(szStatMsg);
-	stripColorCode(szStatMsg);
-	{
-		mir_ptr<TCHAR> tszStatMsg = mir_utf8decodeT(szStatMsg);
-		if (*tszStatMsg)
-			DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszStatMsg);
-		else
-			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
-
+	if (*szStatMsg) {
+		stripBBCode(szStatMsg);
+		stripColorCode(szStatMsg);
+		mir_ptr<TCHAR> tszStatMsg( mir_utf8decodeT(szStatMsg));
+		DBWriteContactSettingTString(hContact, "CList", "StatusMsg", tszStatMsg);
 		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)tszStatMsg);
+	}
+	else {
+		DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+		SendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, NULL);
 	}
 
 	// Process current media info
