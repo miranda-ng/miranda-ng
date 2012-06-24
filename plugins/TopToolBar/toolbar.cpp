@@ -183,12 +183,14 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 	
+	RemoveFromOptions(b->id);
+
 	Buttons.remove(b);
 	delete b;
 
 	ArrangeButtons();
 	ulockbut();
-	OptionsPageRebuild();
+//	OptionsPageRebuild();
 	return 0;
 }
 
@@ -318,7 +320,9 @@ INT_PTR TTBAddButton(WPARAM wParam, LPARAM lParam)
 
 	ulockbut();
 	ArrangeButtons();
-	OptionsPageRebuild();
+//	OptionsPageRebuild();
+
+	AddToOptions(b);
 
 	return b->id;
 }

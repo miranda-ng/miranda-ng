@@ -109,7 +109,10 @@ extern LIST<void> arHooks, arServices;
 extern HBITMAP hBmpBackground, hBmpSeparator;
 extern int BUTTWIDTH, BUTTHEIGHT, BUTTGAP;
 
-int OptionsPageRebuild();
+void AddToOptions(TopButtonInt* b);
+void RemoveFromOptions(int id);
+
+//int OptionsPageRebuild();
 void lockbut();
 void ulockbut();
 

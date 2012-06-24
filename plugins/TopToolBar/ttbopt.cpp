@@ -65,6 +65,41 @@ int BuildTree(HWND hwndDlg)
 	return TRUE;
 }
 
+void AddToOptions(TopButtonInt* b)
+{
+	if (OptionshWnd) {
+		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
+		OrderData *dat = (struct OrderData*)GetWindowLongPtr(hTree, GWLP_USERDATA);
+		AddLine(hTree, b, TVI_LAST, dat->himlButtonIcons);
+	}
+}
+
+void RemoveFromOptions(int id)
+{
+	if (OptionshWnd) {
+		HWND hTree = GetDlgItem(OptionshWnd, IDC_BUTTONORDERTREE);
+		TVITEM tvi = { 0 };
+		tvi.hItem = TreeView_GetRoot(hTree);
+		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
+
+		TopButtonInt* btn;
+		while(tvi.hItem != NULL) {
+			TreeView_GetItem(hTree, &tvi);
+			btn = (TopButtonInt*)tvi.lParam;
+			if (btn->id == id) {
+			  // delete if was changed
+				if (btn->dwFlags & TTBBF_OPTIONAL)
+					delete btn;
+				TreeView_DeleteItem(hTree,tvi.hItem);
+				break;
+			}
+
+			tvi.hItem = TreeView_GetNextSibling(hTree, tvi.hItem);
+		}
+	}
+}
+
+/*
 //call this when options opened and buttons added/removed
 int OptionsPageRebuild()
 {
@@ -73,19 +108,19 @@ int OptionsPageRebuild()
 
 	return 0;
 }
-
+*/
 void SaveTree(HWND hwndDlg)
 {
 	HWND hTree = GetDlgItem(hwndDlg, IDC_BUTTONORDERTREE);
 
 	TVITEM tvi = { 0 };
 	tvi.hItem = TreeView_GetRoot(hTree);
+	tvi.stateMask = TVIS_STATEIMAGEMASK;
+	tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 
 	LIST<TopButtonInt> tmpList(8);
 
 	while(tvi.hItem != NULL) {
-		tvi.stateMask = TVIS_STATEIMAGEMASK;
-		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 		TreeView_GetItem(hTree, &tvi);
 
 		TopButtonInt* btn = (TopButtonInt*)tvi.lParam;
@@ -177,9 +212,32 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		if ((HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == BN_DBLCLK)) {
 			int ctrlid = LOWORD(wParam);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			//----- Launch buttons -----
+
+			if (ctrlid == IDC_BROWSE) {
+				TCHAR str[MAX_PATH];
+				OPENFILENAME ofn = {0};
+
+				GetDlgItemText(hwndDlg, IDC_EPATH, str, sizeof(str));
+				ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+				ofn.hwndOwner = hwndDlg;
+				ofn.hInstance = NULL;
+				ofn.lpstrFilter = NULL;
+				ofn.lpstrFile = str;
+				ofn.Flags = OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_EXPLORER;
+				ofn.nMaxFile = sizeof(str);
+				ofn.nMaxFileTitle = MAX_PATH;
+				ofn.lpstrDefExt = _T("exe");
+				if (!GetOpenFileName(&ofn))
+					break;
+
+				SetDlgItemText(hwndDlg, IDC_EPATH, str);
+
+				break;
+			}
+
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 			if (ctrlid == IDC_LBUTTONSET) {
 				TVITEM tvi ={0};
@@ -202,7 +260,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 						ttb.dwFlags = TTBBF_VISIBLE | TTBBF_ISLBUTTON | TTBBF_INTERNAL | TTBBF_OPTIONAL;
 						ttb.name = NULL;
 						ttb.program = NULL;
+						int id = btn->id;
 						btn = CreateButton(&ttb);
+						btn->id = id;
 
 						tvi.lParam = (LPARAM)btn;
 						TreeView_SetItem(hTree, &tvi);
@@ -344,10 +404,11 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					lockbut();
 
 					if (btn->dwFlags & TTBBF_ISLBUTTON) {
-						EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEBUTTON), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), TRUE);
+						bool enable = (btn->dwFlags & TTBBF_INTERNAL) !=0;
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ENAME), enable);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_EPATH), enable);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVEBUTTON), enable);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_LBUTTONSET), enable);
 						if (btn->name != NULL)
 							SetDlgItemTextA(hwndDlg, IDC_ENAME, btn->name);
 						else

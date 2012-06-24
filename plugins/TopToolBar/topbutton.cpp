@@ -111,7 +111,7 @@ void TopButtonInt::SaveSettings(int &SepCnt, int &LaunchCnt)
 {
 	char buf[255];
 
-	if (dwFlags & TTBBF_ISSEPARATOR) {
+	if (dwFlags & (TTBBF_ISSEPARATOR | TTBBF_INTERNAL)) {
 		char buf1[10];
 		_itoa(++SepCnt, buf1, 10);
 		char buf2[20];
@@ -120,7 +120,7 @@ void TopButtonInt::SaveSettings(int &SepCnt, int &LaunchCnt)
 		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Position"), arrangedpos);
 		DBWriteContactSettingByte(0, TTB_OPTDIR, AS(buf, buf2, "_Visible"), dwFlags & TTBBF_VISIBLE);
 	}
-	else if (dwFlags & TTBBF_ISLBUTTON) {
+	else if (dwFlags & (TTBBF_ISLBUTTON | TTBBF_INTERNAL)) {
 		char buf1[10];
 		_itoa(++LaunchCnt, buf1, 10);
 		char buf2[20];
