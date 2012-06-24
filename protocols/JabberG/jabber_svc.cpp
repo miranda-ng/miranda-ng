@@ -440,17 +440,17 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText( WPARAM wParam, LPARAM lPar
 
 	// status
 	if ( info->status >= ID_STATUS_OFFLINE && info->status <= ID_STATUS_IDLE  )
-		appendString(bIsTipper, _T("Status:"), JabberEnum2StatusStr[info->status-ID_STATUS_OFFLINE], outBuf, SIZEOF(outBuf));
+		appendString(bIsTipper, _T("Status:"), TranslateTS(JabberEnum2StatusStr[info->status-ID_STATUS_OFFLINE]), outBuf, SIZEOF(outBuf));
 
 	// status text
 	if ( info->statusMessage )
 		appendString(bIsTipper, _T("Status text:"), info->statusMessage, outBuf, SIZEOF(outBuf));
 
 	// Role
-	appendString(bIsTipper, _T("Role:"), JabberEnum2RoleStr[info->role], outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, _T("Role:"), TranslateTS(JabberEnum2RoleStr[info->role]), outBuf, SIZEOF(outBuf));
 
 	// Affiliation
-	appendString(bIsTipper, _T("Affiliation:"), JabberEnum2AffilationStr[info->affiliation], outBuf, SIZEOF(outBuf));
+	appendString(bIsTipper, _T("Affiliation:"), TranslateTS(JabberEnum2AffilationStr[info->affiliation]), outBuf, SIZEOF(outBuf));
 
 	// real jid
 	if ( info->szRealJid )
