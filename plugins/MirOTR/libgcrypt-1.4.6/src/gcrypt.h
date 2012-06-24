@@ -22,6 +22,8 @@
 #ifndef _GCRYPT_H
 #define _GCRYPT_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
