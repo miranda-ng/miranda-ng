@@ -67,7 +67,9 @@ private:
 	bool isGroupImages;
 	HIMAGELIST himlSmall, himlNone;
 	HBRUSH bkBrush;
+	HBRUSH bkFindBrush;
 	HANDLE hSystem;
+	HWND splitterXhWnd, splitterYhWnd;
 protected:
 	virtual void AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico);
 public:

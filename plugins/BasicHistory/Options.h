@@ -180,6 +180,7 @@ public:
 		OutMessages,
 		InMessages,
 		GroupList,
+		Find,
 	};
 
 	enum Colors
@@ -188,6 +189,8 @@ public:
 		InBackground,
 		GroupListBackground,
 		WindowBackground,
+		ContactListBackground,
+		FindBackground,
 	};
 
 	COLORREF GetFont(Fonts fontId, PLOGFONT font);

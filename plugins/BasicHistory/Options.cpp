@@ -124,35 +124,35 @@ int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszTitle = LPGEN("History");
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
+	odp.ptszTitle = LPGENT("History");
 
-	odp.pszTab = LPGEN("Group list");
+	odp.ptszTab = LPGENT("Group list");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GROUPLIST);
 	odp.pfnDlgProc = Options::DlgProcOptsGroupList;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Messages");
+	odp.ptszTab = LPGENT("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MESSAGES);
 	odp.pfnDlgProc = Options::DlgProcOptsMessages;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Searching");
+	odp.ptszTab = LPGENT("Searching");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SEARCHING);
 	odp.pfnDlgProc = Options::DlgProcOptsSearching;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Export");
+	odp.ptszTab = LPGENT("Export");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXPORT);
 	odp.pfnDlgProc = Options::DlgProcOptsExport;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Scheduler");
+	odp.ptszTab = LPGENT("Scheduler");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SCHEDULER);
 	odp.pfnDlgProc = Options::DlgProcOptsScheduler;
 	Options_AddPage(wParam, &odp);
 
-	odp.pszTab = LPGEN("Advanced");
+	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = Options::DlgProcOptsMain;
 	Options_AddPage(wParam, &odp);
@@ -192,6 +192,7 @@ static FontOptionsList g_FontOptionsList[] = {
 	{LPGENT(">> Outgoing messages"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Outgoing background"), FIDF_ALLOWEFFECTS},
 	{LPGENT("<< Incoming messages"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Incoming background"), FIDF_ALLOWEFFECTS},
 	{LPGENT("Group list"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Group list background"), FIDF_DISABLESTYLES},
+	{LPGENT("Find window"), RGB(0, 0, 0), _T("MS Shell Dlg 2"), 0, -11, LPGENT("Find window background"), FIDF_DISABLESTYLES},
 };
 
 static ColorOptionsList g_ColorOptionsList[] = {
@@ -199,6 +200,8 @@ static ColorOptionsList g_ColorOptionsList[] = {
 	LPGENT("Incoming background"), RGB(245,255,245),
 	LPGENT("Group list background"), GetSysColor(COLOR_3DFACE),
 	LPGENT("Window background"), GetSysColor(COLOR_3DFACE),
+	LPGENT("Contact list background"), GetSysColor(COLOR_3DFACE),
+	LPGENT("Find window background"), GetSysColor(COLOR_WINDOW),
 };
 
 static HotkeyOptionsList g_HotkeyOptionsList[] = {
@@ -258,7 +261,7 @@ void Options::Load()
 		_tcsncpy_s(fid.name, g_FontOptionsList[i].szDescr, SIZEOF(fid.name));
 		_tcsncpy_s(fid.backgroundName, g_FontOptionsList[i].szBackgroundName, SIZEOF(fid.name));
 		fid.flags = FIDF_DEFAULTVALID | FIDF_CLASSGENERAL | g_FontOptionsList[i].flags;
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fid, 0);
+		FontRegisterT(&fid);
 	}
 	
 	strncpy_s(cid.dbSettingsGroup, "BasicHistory_Fonts", SIZEOF(fid.dbSettingsGroup));

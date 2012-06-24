@@ -37,6 +37,8 @@ extern char* metaContactProto;
 
 #define MIN_PANELHEIGHT 40
 
+void ResetCList(HWND hWnd);
+
 HistoryWindow::HistoryWindow(HANDLE _hContact)
 	: isDestroyed(true),
 	OldSplitterProc(0),
@@ -56,7 +58,10 @@ HistoryWindow::HistoryWindow(HANDLE _hContact)
 	allIconNumber(0), 
 	eventIcoms(NULL),
 	bkBrush(NULL),
-	hSystem(NULL)
+	bkFindBrush(NULL),
+	hSystem(NULL),
+	splitterXhWnd(NULL),
+	splitterYhWnd(NULL)
 {
 	searcher.SetContect(this);
 	hContact = _hContact;
@@ -114,6 +119,10 @@ HistoryWindow::~HistoryWindow()
 	if(bkBrush != NULL)
 	{
 		DeleteObject(bkBrush);
+	}
+	if(bkFindBrush != NULL)
+	{
+		DeleteObject(bkFindBrush);
 	}
 }
 
@@ -324,9 +333,15 @@ void HistoryWindow::FontsChanged()
 	{
 		DeleteObject(bkBrush);
 	}
+	if(bkFindBrush != NULL)
+	{
+		DeleteObject(bkFindBrush);
+	}
 
 	bkBrush = CreateSolidBrush(Options::instance->GetColor(Options::WindowBackground));
-
+	bkFindBrush = CreateSolidBrush(Options::instance->GetColor(Options::FindBackground));
+	
+	ResetCList(hWnd);
 	COLORREF bkColor = Options::instance->GetColor(Options::GroupListBackground);
 	ListView_SetBkColor(listWindow, bkColor);
 	ListView_SetTextBkColor(listWindow, bkColor);
@@ -686,7 +701,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						SendDlgItemMessage( hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Hide Contacts"), BATF_TCHAR);
 						historyWindow->isContactList = true;
 						ShowWindow(GetDlgItem(hwndDlg,IDC_LIST_CONTACTS), SW_SHOW);
-						ShowWindow(GetDlgItem(hwndDlg,IDC_SPLITTERV), SW_SHOW);
+						ShowWindow(historyWindow->splitterYhWnd, SW_SHOW);
 					}
 					else
 					{
@@ -694,7 +709,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						SendDlgItemMessage( hwndDlg, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show Contacts"), BATF_TCHAR);
 						historyWindow->isContactList = false;
 						ShowWindow(GetDlgItem(hwndDlg,IDC_LIST_CONTACTS), SW_HIDE);
-						ShowWindow(GetDlgItem(hwndDlg,IDC_SPLITTERV), SW_HIDE);
+						ShowWindow(historyWindow->splitterYhWnd, SW_HIDE);
 					}
 
 					SendMessage(hwndDlg, WM_SIZE, 0, 0);
@@ -715,7 +730,11 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 					if(pNmhdr->code == CLN_LISTREBUILT)// || pNmhdr->code == CLN_CONTACTMOVED || pNmhdr->code == CLN_NEWCONTACT)
 					{
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
-						historyWindow->ReloadContacts();
+						if(historyWindow != NULL)
+						{
+							historyWindow->ReloadContacts();
+						}
+
 						DlgReturn(TRUE);
 					}
 					else if(pNmhdr->code == CLN_MYSELCHANGED)
@@ -731,6 +750,11 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 						}
 
 						DlgReturn(TRUE);
+					}
+					else if(pNmhdr->code == CLN_OPTIONSCHANGED)
+					{
+						ResetCList(hwndDlg);
+						return FALSE;
 					}
 
 					//fall through
@@ -1097,6 +1121,32 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 			DlgReturn((LONG_PTR)historyWindow->bkBrush);
 		}
+	case WM_CTLCOLORSTATIC:
+        {
+			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
+			HWND curhWnd = (HWND)lParam;
+			if(historyWindow->splitterXhWnd == curhWnd || historyWindow->splitterYhWnd == curhWnd)
+			{
+				DlgReturn((LONG_PTR)historyWindow->bkBrush);
+			}
+
+			break;
+        }
+	case WM_CTLCOLOREDIT:
+        {
+			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
+			HWND curhWnd = (HWND)lParam;
+			if(historyWindow->findWindow == curhWnd)
+			{
+				HDC edithdc = (HDC)wParam;
+				LOGFONT font;
+				SetTextColor(edithdc, Options::instance->GetFont(Options::Find, &font));
+				SetBkColor(edithdc, Options::instance->GetColor(Options::FindBackground));
+				DlgReturn((LONG_PTR)historyWindow->bkFindBrush);
+			}
+
+			break;
+		}	
 	case DM_SPLITTERMOVED: 
 		{
 			HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
@@ -1138,8 +1188,10 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 
 void HistoryWindow::Initialise()
 {
-	OldSplitterProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWnd, IDC_SPLITTER), GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
-	SetWindowLongPtr(GetDlgItem(hWnd, IDC_SPLITTERV), GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
+	splitterXhWnd = GetDlgItem(hWnd, IDC_SPLITTER);
+	splitterYhWnd = GetDlgItem(hWnd, IDC_SPLITTERV);
+	OldSplitterProc = (WNDPROC)SetWindowLongPtr(splitterXhWnd, GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
+	SetWindowLongPtr(splitterYhWnd, GWLP_WNDPROC, (LONG_PTR) SplitterSubclassProc);
 
 	editWindow = GetDlgItem(hWnd, IDC_EDIT);
 	findWindow = GetDlgItem(hWnd, IDC_FIND_TEXT);
@@ -1148,13 +1200,13 @@ void HistoryWindow::Initialise()
 
 	RECT rc;
 	POINT pt;
-	GetWindowRect(GetDlgItem(hWnd, IDC_SPLITTER), &rc);
+	GetWindowRect(splitterXhWnd, &rc);
 	pt.y = (rc.top + rc.bottom) / 2;
 	pt.x = 0;
 	ScreenToClient(hWnd, &pt);
 	splitterOrgY = pt.y;
 	splitterY = pt.y;
-	GetWindowRect(GetDlgItem(hWnd, IDC_SPLITTERV), &rc);
+	GetWindowRect(splitterYhWnd, &rc);
 	pt.y = 0;
 	pt.x = (rc.left + rc.right) / 2;
 	ScreenToClient(hWnd, &pt);
@@ -1168,8 +1220,8 @@ void HistoryWindow::Initialise()
 
 	plusIco = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 1, (LPARAM)hPlusIcon);
 	minusIco = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 1, (LPARAM)hMinusIcon);
-	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASPUSHBTN, TRUE, 0 );
-	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0 );
+	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASPUSHBTN, 0, 0 );
+	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, 0, 0 );
 	if(hContact == NULL || Options::instance->showContacts)
 	{
 		SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BM_SETIMAGE, IMAGE_ICON, (LPARAM)minusIco);
@@ -1183,13 +1235,13 @@ void HistoryWindow::Initialise()
 		SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONADDTOOLTIP, (WPARAM)LPGENT("Show Contacts"), BATF_TCHAR);
 		Button_SetCheck(GetDlgItem(hWnd,IDC_SHOWHIDE), BST_UNCHECKED);
 		ShowWindow(GetDlgItem(hWnd,IDC_LIST_CONTACTS), SW_HIDE);
-		ShowWindow(GetDlgItem(hWnd,IDC_SPLITTERV), SW_HIDE);
+		ShowWindow(splitterYhWnd, SW_HIDE);
 		isContactList = false;
 	}
 	RegisterHotkeyControl(GetDlgItem(hWnd, IDC_SHOWHIDE));
 	RegisterHotkeyControl(GetDlgItem(hWnd, IDC_LIST_CONTACTS));
 
-	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETUSEGROUPS, Options::instance->showContactGroups, 0);
+	ResetCList(hWnd);
 			
 	RestorePos();
 	SendMessage(hWnd, WM_SETICON, ICON_BIG,   ( LPARAM )LoadSkinnedIconBig( SKINICON_OTHER_HISTORY ));
@@ -1226,6 +1278,7 @@ void HistoryWindow::Initialise()
 	}
 	
 	bkBrush = CreateSolidBrush(Options::instance->GetColor(Options::WindowBackground));
+	bkFindBrush  = CreateSolidBrush(Options::instance->GetColor(Options::FindBackground));
 
 	LVCOLUMN col = {0};
 	col.mask = LVCF_WIDTH | LVCF_TEXT;
@@ -1306,7 +1359,7 @@ void HistoryWindow::SplitterMoved(HWND splitter, LONG pos, bool screenPos)
 	POINT pt1;
 	POINT pt2;
 			
-	if(splitter == GetDlgItem(hWnd, IDC_SPLITTER))
+	if(splitter == splitterXhWnd)
 	{
 		GetWindowRect(listWindow, &rc1);
 		GetWindowRect(editWindow, &rc2);
@@ -1666,6 +1719,8 @@ LRESULT CALLBACK HistoryWindow::SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM
 {
 	HWND hwndParent = GetParent(hwnd);
 	HistoryWindow *dat = (HistoryWindow*)GetWindowLongPtr(hwndParent, GWLP_USERDATA);
+	if(dat == NULL || dat->isDestroyed)
+		return FALSE;
 
 	switch (msg) {
 		case WM_NCHITTEST:
@@ -1889,13 +1944,13 @@ void HistoryWindow::RestorePos()
 	LONG pos = DBGetContactSettingDword(contactToLoad, MODULE, "history_splitterv", 0);
 	if(pos > 0)
 	{
-		SplitterMoved(GetDlgItem(hWnd, IDC_SPLITTERV), pos, false);
+		SplitterMoved(splitterYhWnd, pos, false);
 	}
 
 	pos = DBGetContactSettingDword(contactToLoad, MODULE, "history_splitter", 0);
 	if(pos > 0)
 	{
-		SplitterMoved(GetDlgItem(hWnd, IDC_SPLITTER), pos, false);
+		SplitterMoved(splitterXhWnd, pos, false);
 	}
 }
 
@@ -2509,4 +2564,12 @@ void HistoryWindow::SelectContact(HANDLE _hContact)
 			Sleep(100);
 		ContactChanged(true);
 	}
+}
+
+void ResetCList(HWND hWnd)
+{
+	COLORREF bkCLColor = Options::instance->GetColor(Options::ContactListBackground);
+	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETBKBITMAP, 0, (LPARAM)(HBITMAP) NULL);
+	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETBKCOLOR, bkCLColor, 0);
+	SendDlgItemMessage(hWnd, IDC_LIST_CONTACTS, CLM_SETUSEGROUPS, Options::instance->showContactGroups, 0);
 }
