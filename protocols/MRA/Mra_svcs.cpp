@@ -64,9 +64,9 @@ INT_PTR LoadModules(void)
 	masMraSettings.hHookExtraIconsApply=HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,MraExtraIconsApply);
 	masMraSettings.hHookExtraIconsRebuild=HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,MraExtraIconsRebuild);
 
-
 	// Main menu initialization
-	CListCreateMenu(2000060000,500085000,(HANDLE)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(IDI_MRA),IMAGE_ICON,0,0,LR_SHARED),NULL,TRUE,gdiMenuItems,masMraSettings.hMainMenuIcons,SIZEOF(gdiMenuItems),masMraSettings.hMainMenuItems);
+	HICON hMainIcon = (HICON)LoadImage(masMraSettings.hInstance,MAKEINTRESOURCE(IDI_MRA),IMAGE_ICON,0,0,LR_SHARED);
+	CListCreateMenu(200001,500085000,hMainIcon,NULL,TRUE,gdiMenuItems,masMraSettings.hMainMenuIcons,SIZEOF(gdiMenuItems),masMraSettings.hMainMenuItems);
 
 	// Contact menu initialization
 	CListCreateMenu(2000060000,-500050000,NULL,NULL,FALSE,gdiContactMenuItems,masMraSettings.hContactMenuIcons,(SIZEOF(gdiContactMenuItems) - ((masMraSettings.heNudgeReceived==NULL)? 0:1)),masMraSettings.hContactMenuItems);

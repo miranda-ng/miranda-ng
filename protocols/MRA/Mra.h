@@ -370,61 +370,61 @@ BOOL DB_GetContactSettingBlob(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueNa
 
 
 
-DWORD           MraGetVersionStringFromFormated    (LPSTR lpszUserAgentFormated,SIZE_T dwUserAgentFormatedSize,LPSTR lpszVersion,SIZE_T dwVersionSize,SIZE_T *pdwVersionSizeRet);
+DWORD           MraGetVersionStringFromFormated (LPSTR lpszUserAgentFormated,SIZE_T dwUserAgentFormatedSize,LPSTR lpszVersion,SIZE_T dwVersionSize,SIZE_T *pdwVersionSizeRet);
 HANDLE          MraHContactFromEmail            (LPSTR lpszEMail,SIZE_T dwEMailSize,BOOL bAddIfNeeded,BOOL bTemporary,BOOL *pbAdded);
 BOOL            MraUpdateContactInfo            (HANDLE hContact);
-DWORD           MraContactCapabilitiesGet        (HANDLE hContact);
-void            MraContactCapabilitiesSet        (HANDLE hContact,DWORD dwFutureFlags);
-DWORD           MraGetContactStatus                (HANDLE hContact);
-DWORD           MraSetContactStatus                (HANDLE hContact,DWORD dwNewStatus);
+DWORD           MraContactCapabilitiesGet       (HANDLE hContact);
+void            MraContactCapabilitiesSet       (HANDLE hContact,DWORD dwFutureFlags);
+DWORD           MraGetContactStatus             (HANDLE hContact);
+DWORD           MraSetContactStatus             (HANDLE hContact,DWORD dwNewStatus);
 void            MraUpdateEmailStatus            (LPSTR lpszFrom,SIZE_T dwFromSize,LPSTR lpszSubject,SIZE_T dwSubjectSize,DWORD dwDate,DWORD dwUIDL);
 BOOL            IsUnicodeEnv                    ();
 BOOL            IsHTTPSProxyUsed                (HANDLE hNetlibUser);
 BOOL            IsContactMra                    (HANDLE hContact);
-BOOL            IsContactMraProto                (HANDLE hContact);
-BOOL            IsEMailMy                        (LPSTR lpszEMail,SIZE_T dwEMailSize);
+BOOL            IsContactMraProto               (HANDLE hContact);
+BOOL            IsEMailMy                       (LPSTR lpszEMail,SIZE_T dwEMailSize);
 BOOL            IsEMailChatAgent                (LPSTR lpszEMail,SIZE_T dwEMailSize);
-BOOL            IsContactChatAgent                (HANDLE hContact);
-BOOL            IsEMailMR                        (LPSTR lpszEMail,SIZE_T dwEMailSize);
-BOOL            GetEMailFromString                (LPSTR lpszBuff,SIZE_T dwBuffSize,LPSTR *plpszEMail,SIZE_T *pdwEMailSize);
+BOOL            IsContactChatAgent              (HANDLE hContact);
+BOOL            IsEMailMR                       (LPSTR lpszEMail,SIZE_T dwEMailSize);
+BOOL            GetEMailFromString              (LPSTR lpszBuff,SIZE_T dwBuffSize,LPSTR *plpszEMail,SIZE_T *pdwEMailSize);
 DWORD           GetContactEMailCount            (HANDLE hContact,BOOL bMRAOnly);
 BOOL            GetContactFirstEMail            (HANDLE hContact,BOOL bMRAOnly,LPSTR lpszRetBuff,SIZE_T dwRetBuffSize,SIZE_T *pdwRetBuffSize);
-DWORD           MraAPCQueueAdd                    (PAPCFUNC pfnAPC,PFIFO_MT pffmtAPCQueue,ULONG_PTR dwData);
-void            MraAPCQueueDestroy                (PFIFO_MT pffmtAPCQueue);
+DWORD           MraAPCQueueAdd                  (PAPCFUNC pfnAPC,PFIFO_MT pffmtAPCQueue,ULONG_PTR dwData);
+void            MraAPCQueueDestroy              (PFIFO_MT pffmtAPCQueue);
 void            ShowFormatedErrorMessage        (LPWSTR lpwszErrText,DWORD dwErrorCode);
-DWORD           ProtoBroadcastAckAsynchEx        (const char *szModule,HANDLE hContact,int type,int result,HANDLE hProcess,LPARAM lParam,SIZE_T dwLparamSize);
+DWORD           ProtoBroadcastAckAsynchEx       (const char *szModule,HANDLE hContact,int type,int result,HANDLE hProcess,LPARAM lParam,SIZE_T dwLparamSize);
 void            MraUserAPCThreadProc            (LPVOID lpParameter);
 
-DWORD           CreateBlobFromContact            (HANDLE hContact,LPWSTR lpwszRequestReason,SIZE_T dwRequestReasonSize,LPBYTE lpbBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet);
-void            CListCreateMenu                    (LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR pszContactOwner,BOOL bIsStatus,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult);
+DWORD           CreateBlobFromContact           (HANDLE hContact,LPWSTR lpwszRequestReason,SIZE_T dwRequestReasonSize,LPBYTE lpbBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet);
+void            CListCreateMenu                 (LONG lPosition,LONG lPopupPosition,HICON hMainIcon,LPSTR pszContactOwner,BOOL bIsStatus,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult);
 void            CListDestroyMenu                (const GUI_DISPLAY_ITEM *pgdiItems,SIZE_T dwCount);
-void            CListShowMenuItem                (HANDLE hMenuItem,BOOL bShow);
+void            CListShowMenuItem               (HANDLE hMenuItem,BOOL bShow);
 int             ExtraSetIcon                    (HANDLE hExtraIcon,HANDLE hContact,HANDLE hImage,int iColumnType);
-SIZE_T          CopyNumber                        (LPCVOID lpcOutBuff,LPCVOID lpcBuff,SIZE_T dwLen);
-BOOL            IsPhone                            (LPSTR lpszString,SIZE_T dwStringSize);
-BOOL            IsContactPhone                    (HANDLE hContact,LPSTR lpszPhone,SIZE_T dwPhoneSize);
+SIZE_T          CopyNumber                      (LPCVOID lpcOutBuff,LPCVOID lpcBuff,SIZE_T dwLen);
+BOOL            IsPhone                         (LPSTR lpszString,SIZE_T dwStringSize);
+BOOL            IsContactPhone                  (HANDLE hContact,LPSTR lpszPhone,SIZE_T dwPhoneSize);
 HANDLE          MraHContactFromPhone            (LPSTR lpszPhone,SIZE_T dwPhoneSize,BOOL bAddIfNeeded,BOOL bTemporary,BOOL *pbAdded);
-void            EnableControlsArray                (HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled);
+void            EnableControlsArray             (HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled);
 BOOL            MraRequestXStatusDetails        (DWORD dwXStatus);
-BOOL            MraSendReplyBlogStatus            (HANDLE hContact);
+BOOL            MraSendReplyBlogStatus          (HANDLE hContact);
 DWORD           GetYears                        (CONST PSYSTEMTIME pcstSystemTime);
 DWORD           FindFile                        (LPWSTR lpszFolder,DWORD dwFolderLen,LPWSTR lpszFileName,DWORD dwFileNameLen,LPWSTR lpszRetFilePathName,DWORD dwRetFilePathLen,DWORD *pdwRetFilePathLen);
-DWORD           MemFillRandom                    (LPVOID lpBuff,SIZE_T dwBuffSize);
-BOOL            SetPassDB                        (LPSTR lpszBuff,SIZE_T dwBuffSize);
-BOOL            GetPassDB                        (LPSTR lpszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSize);
-DWORD           DecodeXML                        (LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
-DWORD           EncodeXML                        (LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
+DWORD           MemFillRandom                   (LPVOID lpBuff,SIZE_T dwBuffSize);
+BOOL            SetPassDB                       (LPSTR lpszBuff,SIZE_T dwBuffSize);
+BOOL            GetPassDB                       (LPSTR lpszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSize);
+DWORD           DecodeXML                       (LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
+DWORD           EncodeXML                       (LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
 
 
 DWORD           StartConnect                    ();
-void            MraThreadClean                    ();
+void            MraThreadClean                  ();
 
 DWORD           GetMraStatusFromMiradaStatus    (DWORD dwMirandaStatus,DWORD dwXStatusMir,DWORD *pdwXStatusMra);
 DWORD           GetMiradaStatusFromMraStatus    (DWORD dwMraStatus,DWORD dwXStatusMra,DWORD *pdwXStatusMir);
-DWORD           GetMraXStatusIDFromMraUriStatus    (LPSTR lpszStatusUri,SIZE_T dwStatusUriSize);
+DWORD           GetMraXStatusIDFromMraUriStatus (LPSTR lpszStatusUri,SIZE_T dwStatusUriSize);
 
-DWORD           GetContactFlags                    (HANDLE hContact);
-DWORD           SetContactFlags                    (HANDLE hContact,DWORD dwContactFlag);
+DWORD           GetContactFlags                 (HANDLE hContact);
+DWORD           SetContactFlags                 (HANDLE hContact,DWORD dwContactFlag);
 
 DWORD           GetContactBasicInfoW            (HANDLE hContact,DWORD *pdwID,DWORD *pdwGroupID,DWORD *pdwContactFlag,DWORD *pdwContactSeverFlags,DWORD *pdwStatus,LPSTR lpszEMail,SIZE_T dwEMailSize,SIZE_T *pdwEMailSize,LPWSTR lpwszNick,SIZE_T dwNickSize,SIZE_T *pdwNickSize,LPSTR lpszPhones,SIZE_T dwPhonesSize,SIZE_T *pdwPhonesSize);
 

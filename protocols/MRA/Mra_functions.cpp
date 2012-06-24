@@ -1393,47 +1393,51 @@ return(dwRetErrorCode);
 
 
 
-void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HANDLE hMainIcon,LPSTR pszContactOwner,BOOL bIsMain,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult)
+void CListCreateMenu(LONG lPosition,LONG lPopupPosition,HICON hMainIcon,LPSTR pszContactOwner,BOOL bIsMain,const GUI_DISPLAY_ITEM *pgdiItems,HANDLE *hIcoLibIcons,SIZE_T dwCount,HANDLE *hResult)
 {
-	if (pgdiItems && hIcoLibIcons && dwCount && hResult)
-	{
-		char szServiceFunction[MAX_PATH],*pszServiceFunctionName;
-		CLISTMENUITEM mi={0};
+	if (!pgdiItems || !hIcoLibIcons || !dwCount || !hResult)
+		return;
 
-		memmove(szServiceFunction,PROTOCOL_NAMEA,PROTOCOL_NAME_SIZE);
-		pszServiceFunctionName=szServiceFunction+PROTOCOL_NAME_LEN;
+	char szServiceFunction[MAX_PATH],*pszServiceFunctionName;
+	memmove(szServiceFunction, PROTOCOL_NAMEA, PROTOCOL_NAME_SIZE);
+	pszServiceFunctionName = szServiceFunction + PROTOCOL_NAME_LEN;
 
-		mi.cbSize=sizeof(mi);
-		mi.popupPosition=lPopupPosition;
-		mi.ptszPopupName=PROTOCOL_DISPLAY_NAMEW;
-		mi.pszService=szServiceFunction;
-		mi.flags=(CMIF_UNICODE|CMIF_ICONFROMICOLIB);
+	CLISTMENUITEM mi = {0};
+	mi.cbSize = sizeof(mi);
 
-		for (SIZE_T i=0;i<dwCount;i++)
-		{
-			memmove(pszServiceFunctionName,pgdiItems[i].lpszName,(lstrlenA(pgdiItems[i].lpszName)+1));
-			if (pgdiItems[i].lpFunc)
-				CreateServiceFunction(szServiceFunction,pgdiItems[i].lpFunc);
-			mi.position=(lPosition+i);
-			mi.icolibItem=hIcoLibIcons[i];
-			mi.ptszName=pgdiItems[i].lpwszDescr;
-			
-			if (i==0 && hMainIcon)
-			{
-				mi.icolibItem=hMainIcon;
-				mi.flags=(CMIF_UNICODE);
-			}
-			
-			hResult[i] = (bIsMain) ? Menu_AddProtoMenuItem(&mi) : Menu_AddContactMenuItem(&mi);
-			
-			if (i==0 && hMainIcon)
-			{
-				mi.flags=CMIM_FLAGS|CMIM_ICON|CMIF_ICONFROMICOLIB;
-				mi.icolibItem=hIcoLibIcons[i];
-				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hResult[i],(LPARAM)&mi);
-				mi.flags=(CMIF_UNICODE|CMIF_ICONFROMICOLIB);
-			}
+	HGENMENU (*fnAddFunc)(CLISTMENUITEM*);
+	if (bIsMain) {
+		fnAddFunc = Menu_AddProtoMenuItem;
+
+		HGENMENU hRootMenu = MO_GetProtoRootMenu(PROTOCOL_NAMEA);
+		if (hRootMenu == NULL) {
+			mi.ptszName = PROTOCOL_NAMEW;
+			mi.position = -1999901008;
+			mi.hParentMenu = HGENMENU_ROOT;
+			mi.flags = CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.hIcon = hMainIcon;
+			hRootMenu = Menu_AddProtoMenuItem(&mi);
 		}
+		mi.hParentMenu = hRootMenu;
+		mi.flags = CMIF_UNICODE | CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP;
+	}
+	else {
+		fnAddFunc = Menu_AddContactMenuItem;
+		mi.ptszPopupName = PROTOCOL_DISPLAY_NAMEW;
+		mi.flags = CMIF_UNICODE | CMIF_ICONFROMICOLIB;
+	}
+
+	mi.popupPosition = lPopupPosition;
+	mi.pszService = szServiceFunction;
+
+	for (size_t i=0; i < dwCount; i++) {
+		memmove(pszServiceFunctionName, pgdiItems[i].lpszName, lstrlenA(pgdiItems[i].lpszName)+1);
+		if (pgdiItems[i].lpFunc)
+			CreateServiceFunction(szServiceFunction,pgdiItems[i].lpFunc);
+		mi.position = lPosition + i;
+		mi.icolibItem = hIcoLibIcons[i];
+		mi.ptszName = pgdiItems[i].lpwszDescr;
+		hResult[i] = fnAddFunc(&mi);
 	}
 }
 
