@@ -37,7 +37,6 @@ Last change by : $Author: borkra $
 
 #include "m_assocmgr.h"
 #include "m_folders.h"
-#include "m_wizard.h"
 #include "m_toolbar.h"
 #include "m_extraicons.h"
 

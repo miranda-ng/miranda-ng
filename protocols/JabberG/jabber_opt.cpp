@@ -30,7 +30,6 @@ Last change by : $Author: borkra $
 
 #include "jabber_caps.h"
 #include "jabber_opttree.h"
-#include "m_wizard.h"
 #include "m_modernopt.h"
 
 static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
