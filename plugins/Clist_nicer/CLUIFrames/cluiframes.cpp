@@ -39,8 +39,6 @@ HANDLE hExtraImageListRebuilding, hExtraImageApplying;
 HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
 HANDLE g_hEventThread = 0;
 
-//#include "m_skin_eng.h"
-
 //not needed,now use MS_CLIST_FRAMEMENUNOTIFY service
 //HANDLE hPreBuildFrameMenuEvent;//external event from clistmenus
 
