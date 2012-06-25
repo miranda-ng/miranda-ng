@@ -315,7 +315,7 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 	odp.flags = ODPF_BOLDGROUPS;
 	if (g_UnicodeCore) odp.flags |= ODPF_UNICODE;
 	odp.pfnDlgProc = OptionsDlgProc;
-	CallService(MS_OPT_ADDPAGE, addInfo, (LPARAM)&odp);
+	Options_AddPage( addInfo, &odp);
 
   return 0;
 }

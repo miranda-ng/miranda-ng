@@ -53,6 +53,7 @@ struct MM_INTERFACE mmi;
 HINSTANCE hInst;
 PLUGIN_OPTIONS pluginOptions;
 PLUGINLINK *pluginLink;
+int hLangpack;
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"NewEventNotify",
@@ -223,6 +224,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
   hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
 
   mir_getMMI(&mmi);
+  mir_getLP(&pluginInfo);
 
   InitI18N();
 

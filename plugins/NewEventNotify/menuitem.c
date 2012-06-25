@@ -71,7 +71,7 @@ int MenuitemInit(BOOL bStatus)
 	menuitem.flags = CMIF_KEEPUNTRANSLATED;
 	if (g_UnicodeCore)
 		menuitem.flags |= CMIF_UNICODE;
-	hMenuitemNotify = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&menuitem);
+	hMenuitemNotify = Menu_AddContactMenuItem(&menuitem);
 
 	bNotify = bStatus;
 	MenuitemUpdate(bNotify);
