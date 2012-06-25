@@ -76,13 +76,8 @@ extern "C" {
 	#include "m_text.h"
 
 // API for other plugins
-//	#include "../api/m_popup.h"
-//	#include "../api/m_popupw.h"
 	#include "m_mathmodule.h"
 	#include <m_smileyadd.h>
-//	#include "../api/m_nconvers.h"
-//	#include "../api/m_ticker.h"
-//	#include "../api/m_avatars.h"
 #ifdef _cplusplus
 };
 #endif
@@ -96,18 +91,12 @@ extern PLUGININFOEX		pluginInfoEx;
 
 // Project headers
 #include "version.h"
-//#include "gdiutils.h"
-//#include "bitmap_funcs.h"
-//#include "icons.h"
 #include "services.h"
 #include "textusers.h"
-//#include "options.h"
 #include "richeditutils.h"
-//#include "IconOleObject.h"
 #include "ImageDataObjectHlp.h"
 #include "FormattedTextDraw.h"
 #include "fancy_rtf.h"
-//#include "fancy.h"
 #include "textcontrol.h"
 
 #endif // __headers_h__
