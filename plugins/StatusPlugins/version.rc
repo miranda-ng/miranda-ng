@@ -1,5 +1,5 @@
 #include "version.h"
-#include "afxres.h"
+#include "winres.h"
 
 #ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL

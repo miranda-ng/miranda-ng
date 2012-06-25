@@ -313,43 +313,31 @@ static void SetStatusMsg(PROTOCOLSETTINGEX *ps, int newstatus)
 {
 	TCHAR* tszMsg = GetDefaultStatusMessage( ps, newstatus );
 	if ( tszMsg ) {
-		if ( ServiceExists( MS_VSRAMM_SETAWAYMSG )) {
-			PROTOMSGINFO pmi;
-
-			pmi.statusMode = ps->status;
-			pmi.szProto = ps->szName;
-			pmi.msg = mir_t2a( tszMsg );
-			log_debugA("CommonStatus sets status message for %s using VSRAMM", ps->szName);
-			CallService( MS_VSRAMM_SETAWAYMSG, 0, (LPARAM)&pmi );
-			mir_free( pmi.msg );
-		}
-		else {
 			/* replace the default vars in msg  (I believe this is from core) */
-			for ( int j=0; tszMsg[j]; j++ ) {
-				TCHAR substituteStr[128];
+		for ( int j=0; tszMsg[j]; j++ ) {
+			TCHAR substituteStr[128];
 
-				if ( tszMsg[j] != '%' )
-					continue;
+			if ( tszMsg[j] != '%' )
+				continue;
 
-				if ( !_tcsnicmp( tszMsg+j, _T("%time%"), 6 ))
-					GetTimeFormat( LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, SIZEOF(substituteStr));
-				else if ( !_tcsnicmp( tszMsg+j, _T("%date%"), 6 ))
-					GetDateFormat( LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, SIZEOF(substituteStr));
-				else
-					continue;
+			if ( !_tcsnicmp( tszMsg+j, _T("%time%"), 6 ))
+				GetTimeFormat( LOCALE_USER_DEFAULT, TIME_NOSECONDS, 0, 0, substituteStr, SIZEOF(substituteStr));
+			else if ( !_tcsnicmp( tszMsg+j, _T("%date%"), 6 ))
+				GetDateFormat( LOCALE_USER_DEFAULT, DATE_SHORTDATE, 0, 0, substituteStr, SIZEOF(substituteStr));
+			else
+				continue;
 
-				if ( lstrlen( substituteStr ) > 6 )
-					tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(lstrlen(tszMsg)+1+lstrlen(substituteStr)-6));
-				MoveMemory( tszMsg + j + lstrlen(substituteStr), tszMsg+j+6, sizeof(TCHAR)*(lstrlen(tszMsg)-j-5));
-				CopyMemory( tszMsg + j, substituteStr, sizeof(TCHAR)*lstrlen( substituteStr ));
-			}
+			if ( lstrlen( substituteStr ) > 6 )
+				tszMsg = (TCHAR*)mir_realloc(tszMsg, sizeof(TCHAR)*(lstrlen(tszMsg)+1+lstrlen(substituteStr)-6));
+			MoveMemory( tszMsg + j + lstrlen(substituteStr), tszMsg+j+6, sizeof(TCHAR)*(lstrlen(tszMsg)-j-5));
+			CopyMemory( tszMsg + j, substituteStr, sizeof(TCHAR)*lstrlen( substituteStr ));
+		}
 
-			TCHAR* szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
-			if (szFormattedMsg != NULL) {
-				mir_free( tszMsg );
-				tszMsg = mir_tstrdup( szFormattedMsg );
-				free( szFormattedMsg );
-			}
+		TCHAR* szFormattedMsg = variables_parsedup(tszMsg, ps->tszAccName, NULL);
+		if (szFormattedMsg != NULL) {
+			mir_free( tszMsg );
+			tszMsg = mir_tstrdup( szFormattedMsg );
+			free( szFormattedMsg );
 		}
 
 	}

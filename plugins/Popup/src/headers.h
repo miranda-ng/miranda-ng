@@ -124,9 +124,7 @@ Last change by : $Author: Merlin_de $
 	// API for 3rd party plugins (\include_API folder)
  	// this folder contain always the latest API
 	#include <m_folders.h>
-	#include <m_hpp.h>
 	#include <m_ieview.h>
-	#include <m_nconvers.h>
 	#include <m_smileyadd.h>
 	#ifndef MTEXT_NOHELPERS
 		#define MTEXT_NOHELPERS
@@ -153,6 +151,7 @@ Last change by : $Author: Merlin_de $
 	#include "opt_skins.h"
 	#include "opt_contacts.h"
 	#include "opt_adv.h"
+	#include "m_hpp.h"
 	#include "history.h"
 	#include "services.h"
 	#include "srmm_menu.h"

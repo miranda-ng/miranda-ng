@@ -44,7 +44,6 @@
 #include <m_variables.h>
 #include <m_netlib.h>
 #include "m_statusplugins.h"
-#include <m_vsramm.h>
 #include <m_utils.h>
 #include <m_NewAwaySys.h>
 #include <m_updater.h>
