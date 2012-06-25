@@ -220,7 +220,6 @@ extern struct LIST_INTERFACE li;
 #include "m_nudge.h"
 #include "m_folders.h"
 #include "m_msg_buttonsbar.h"
-#include "m_cln_skinedit.h"
 #include "m_flash.h"
 #include "m_spellchecker.h"
 #include "m_mathmodule.h"
@@ -228,6 +227,7 @@ extern struct LIST_INTERFACE li;
 #include "m_updater.h"
 #include "m_smileyadd.h"
 
+#include "../include/m_cln_skinedit.h"
 #include "../include/buttonbar.h"
 #include "../include/msgs.h"
 #include "../include/msgdlgutils.h"
