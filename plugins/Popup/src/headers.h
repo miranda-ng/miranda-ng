@@ -127,8 +127,6 @@ Last change by : $Author: Merlin_de $
 	#include <m_hpp.h>
 	#include <m_ieview.h>
 	#include <m_nconvers.h>
-//	#include <m_notify.h>		//deprecatet
-	#include <m_notify_popup.h>
 	#include <m_smileyadd.h>
 	#ifndef MTEXT_NOHELPERS
 		#define MTEXT_NOHELPERS
@@ -151,11 +149,8 @@ Last change by : $Author: Merlin_de $
 	#include "config.h"
 	#include "common.h"
 	#include "def_settings.h"
-//	#include "notify_imp.h"		//deprecatet
 	#include "opttree.h"
-//	#include "opt_old.h"		//deprecatet
 	#include "opt_gen.h"
-//	#include "opt_notify.h"		//deprecatet
 	#include "opt_skins.h"
 	#include "opt_contacts.h"
 	#include "opt_adv.h"
@@ -173,8 +168,6 @@ Last change by : $Author: Merlin_de $
 	#include "opt_class.h"
 	#include "popup_wnd2.h"
 	#include "effects.h"
-//	#include "popup_queue.h"
-//	#include "popup_list.h"
 
 	#include "avatars.h"
 	#include "avatars_simple.h"
