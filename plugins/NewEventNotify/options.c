@@ -308,7 +308,7 @@ int OptionsAdd(HINSTANCE hInst, WPARAM addInfo)
 	odp.cbSize = sizeof(odp);
 //	odp.position = 100000000;
 	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPT);
+	odp.pszTemplate = (char *)MAKEINTRESOURCE(IDD_OPT);
 	odp.ptszTitle = NENTranslateT(OPTIONS_TITLE, wsTitle);
 	odp.ptszGroup = NENTranslateT(OPTIONS_GROUP, wsGroup);
 //	odp.groupPosition = 910000000;

@@ -133,7 +133,7 @@ TCHAR* __fastcall NENTranslateT(const char* src, const WCHAR* unibuf)
 
   if (!strlennull(src))
   { // for the case of empty strings
-    return "";
+    return _T("");
   }
 
   if (g_UnicodeCore)
@@ -369,7 +369,7 @@ int utf8_encode(const char *from, char **to)
     return -1;
   }
 
-  unicode = (wchar_t*)_alloca((wchars + 1) * sizeof(unsigned short));
+  unicode = (wchar_t*)mir_alloc((wchars + 1) * sizeof(unsigned short));
   unicode[wchars] = 0;
 
   err = MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, from,
@@ -407,7 +407,7 @@ int utf8_decode(const char *from, char **to)
     WCHAR *wszTemp = NULL;
     int inlen = strlennull(from);
 
-    wszTemp = (WCHAR *)_alloca(sizeof(WCHAR) * (inlen + 1));
+    wszTemp = (WCHAR *)mir_alloc(sizeof(WCHAR) * (inlen + 1));
 
     // Convert the UTF-8 string to UCS
     if (MultiByteToWideChar(CP_UTF8, 0, from, -1, wszTemp, inlen + 1))

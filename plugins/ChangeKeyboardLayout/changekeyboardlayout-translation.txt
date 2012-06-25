@@ -1,6 +1,5 @@
 ; Common strings that belong to many files
 ;[Copy to clipboard]
-;[PopUps]
 
 ; ../../plugins/ChangeKeyboardLayout/ChangeKeyboardLayout.rc
 ;[Back]
@@ -36,11 +35,9 @@
 ;[Two-way changing layout (experimental)]
 ;[Windows colours]
 
-; ../../plugins/ChangeKeyboardLayout/hook_events.c
+; ../../plugins/ChangeKeyboardLayout/hook_events.cpp
 ;[Changing Case]
 ;[Changing Layout]
 ;[Plugins]
+;[PopUps]
 ;[Popup]
-
-; ../../plugins/ChangeKeyboardLayout/text_operations.c
-;[Change Keyboard Layout plugin was designed to be used with Miranda IM only. For use with any other application, please contact author.]

@@ -59,7 +59,7 @@
 ;[Use subcontact message windows]
 ;[but only for the current conversation]
 
-; ../../plugins/MetaContacts/addto.c
+; ../../plugins/MetaContacts/addto.cpp
 ;[Adding %s...]
 ;[Assignment failure]
 ;[Assignment to the MetaContact failed.]
@@ -77,7 +77,7 @@
 ;[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
 ;[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
 
-; ../../plugins/MetaContacts/edit.c
+; ../../plugins/MetaContacts/edit.cpp
 ;[Contact]
 ;[Id]
 ;[No]
@@ -85,10 +85,10 @@
 ;[Send Offline]
 ;[Yes]
 
-; ../../plugins/MetaContacts/meta_main.c
+; ../../plugins/MetaContacts/meta_main.cpp
 ;[Error - Database corruption.\nPlugin disabled.]
 
-; ../../plugins/MetaContacts/meta_menu.c
+; ../../plugins/MetaContacts/meta_menu.cpp
 ;[Are you sure?]
 ;[Delete MetaContact]
 ;[Error]
@@ -98,10 +98,10 @@
 ;[This will remove the MetaContact permanently.\n\nProceed Anyway?]
 ;[Unforce Default]
 
-; ../../plugins/MetaContacts/meta_options.c
+; ../../plugins/MetaContacts/meta_options.cpp
 ;[<default>]
 
-; ../../plugins/MetaContacts/meta_services.c
+; ../../plugins/MetaContacts/meta_services.cpp
 ;[Context]
 ;[General]
 ;[History]
@@ -110,7 +110,7 @@
 ;[No online contacts found.]
 ;[Priorities]
 
-; ../../plugins/MetaContacts/meta_utils.c
+; ../../plugins/MetaContacts/meta_utils.cpp
 ;[(Unknown Contact)]
 ;[Assignment Error]
 ;[Away]

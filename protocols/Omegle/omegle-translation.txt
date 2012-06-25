@@ -22,7 +22,7 @@
 ;[Connection error.]
 ;[Error: ]
 ;[On whole Omegle are %s strangers online now.]
-;[Recaptcha is required.\nOpen Omegle chat in webbrowser, solve Recaptcha and try again.]
+;[Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 ;[We are still waiting...]
 ;[You and the Stranger both like: ]
 

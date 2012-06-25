@@ -31,22 +31,22 @@
 ;[User has joined]
 ;[User has left]
 
-; ../../plugins/Scriver/chat/clist.c
+; ../../plugins/Scriver/chat/clist.cpp
 ;[Join chat]
 ;[Open chat window]
 
-; ../../plugins/Scriver/chat/log.c
+; ../../plugins/Scriver/chat/log.cpp
 ;[ (set by %s on %s)]
 ;[ (set by %s)]
 ;[The topic is \'%s%s\']
 ;[You are now known as %s]
 ;[You have joined %s]
 
-; ../../plugins/Scriver/chat/main.c
+; ../../plugins/Scriver/chat/main.cpp
 ;[&Join]
 ;[&Leave]
 
-; ../../plugins/Scriver/chat/options.c
+; ../../plugins/Scriver/chat/options.cpp
 ;[Add \':\' to auto-completed names]
 ;[Appearance]
 ;[Appearance and functionality of chat windows]
@@ -64,7 +64,6 @@
 ;[Limit user names to 20 characters]
 ;[Message is highlighted]
 ;[Only prefix with timestamp if it has changed]
-;[Pop-ups to display]
 ;[Popups]
 ;[Prefix all events with a timestamp]
 ;[Select Folder]
@@ -141,7 +140,7 @@
 ;[year with century, 1901-9999]
 ;[year without century, 01-  99]
 
-; ../../plugins/Scriver/chat/tools.c
+; ../../plugins/Scriver/chat/tools.cpp
 ;[%s %c %s\r\n]
 ;[%s %s\r\n]
 ;[%s disables \'%s\' status for %s in %s]
@@ -161,7 +160,7 @@
 ;[The topic is \'%s\' (set by %s)]
 ;[Topic change in %s]
 
-; ../../plugins/Scriver/chat/window.c
+; ../../plugins/Scriver/chat/window.cpp
 ;[%s: Chat Room (%u user)]
 ;[%s: Chat Room (%u users)]
 ;[%s: Message Session]
@@ -180,7 +179,7 @@
 ;[Status]
 ;[Unique id]
 
-; ../../plugins/Scriver/globals.c
+; ../../plugins/Scriver/globals.cpp
 ;[Action (10x10)]
 ;[Add Status (10x10)]
 ;[Add contact]
@@ -229,7 +228,7 @@
 ;[User's history]
 ;[Window Icon]
 
-; ../../plugins/Scriver/msgdialog.c
+; ../../plugins/Scriver/msgdialog.cpp
 ;[%s is typing a message...]
 ;[Add Contact Permanently to List]
 ;[Insert Emoticon]
@@ -243,7 +242,7 @@
 ;[signed off (was %s)]
 ;[signed on (%s)]
 
-; ../../plugins/Scriver/msglog.c
+; ../../plugins/Scriver/msglog.cpp
 ;[File received]
 ;[File sent]
 ;[Today]
@@ -252,7 +251,7 @@
 ;[Unknown Contact]
 ;[Yesterday]
 
-; ../../plugins/Scriver/msgoptions.c
+; ../../plugins/Scriver/msgoptions.cpp
 ;[** New contacts **]
 ;[** Unknown contacts **]
 ;[Action message]
@@ -308,7 +307,7 @@
 ;[User list members (online)]
 ;[Your nickname]
 
-; ../../plugins/Scriver/msgs.c
+; ../../plugins/Scriver/msgs.cpp
 ;[%s is typing a message]
 ;[Incoming (Focused Window)]
 ;[Incoming (New Session)]
@@ -319,10 +318,10 @@
 ;[Outgoing]
 ;[Typing Notification]
 
-; ../../plugins/Scriver/msgtimedout.c
+; ../../plugins/Scriver/msgtimedout.cpp
 ;[An unknown error has occured.]
 
-; ../../plugins/Scriver/msgwindow.c
+; ../../plugins/Scriver/msgwindow.cpp
 ;[Always On Top]
 
 ; ../../plugins/Scriver/resource.rc
@@ -471,5 +470,5 @@
 ;[seconds.]
 ;[while sending the following message:]
 
-; ../../plugins/Scriver/sendqueue.c
+; ../../plugins/Scriver/sendqueue.cpp
 ;[The message send timed out.]

@@ -1,5 +1,5 @@
 ; Common strings that belong to many files
 ;[]
 
-; ../../plugins/UserGuide/main.c
+; ../../plugins/UserGuide/main.cpp
 ;[User Guide]

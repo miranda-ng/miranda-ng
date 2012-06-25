@@ -1,7 +1,7 @@
 ; Common strings that belong to many files
 ;[]
 
-; ../../plugins/Db3x/database.c
+; ../../plugins/Db3x/database.cpp
 ;[Database Panic]
 ;[Miranda has detected corruption in your database. This corruption maybe fixed by DBTool.  Please download it from http://www.miranda-im.org. Miranda will now shutdown.]
 

@@ -328,6 +328,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MirOTR", "..\plugins\MirOTR
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_classic", "..\plugins\Clist_classic\clist_10.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1644,6 +1646,14 @@ Global
 		{E71C1722-A41D-4475-87F4-29961A3654BB}.Release|Win32.Build.0 = Release|Win32
 		{E71C1722-A41D-4475-87F4-29961A3654BB}.Release|x64.ActiveCfg = Release|x64
 		{E71C1722-A41D-4475-87F4-29961A3654BB}.Release|x64.Build.0 = Release|x64
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Debug|Win32.Build.0 = Debug|Win32
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Debug|x64.ActiveCfg = Debug|x64
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Debug|x64.Build.0 = Debug|x64
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|Win32.ActiveCfg = Release|Win32
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|Win32.Build.0 = Release|Win32
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|x64.ActiveCfg = Release|x64
+		{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

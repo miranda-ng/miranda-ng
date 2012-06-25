@@ -1,8 +1,7 @@
 ; Common strings that belong to many files
 ;[]
 
-; ../../plugins/ZeroNotification/main.c
-;[Please update "PLUGINNAME" to ANSI Version]
+; ../../plugins/ZeroNotification/main.cpp
 ;[Plugins]
 ;[Zero Notifications]
 

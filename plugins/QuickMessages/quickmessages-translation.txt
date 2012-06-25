@@ -1,7 +1,7 @@
 ; Common strings that belong to many files
 ;[Quick Messages]
 
-; ../../plugins/QuickMessages/options.c
+; ../../plugins/QuickMessages/options.cpp
 ;[New Button]
 ;[New Menu Entry]
 ;[Plugins]

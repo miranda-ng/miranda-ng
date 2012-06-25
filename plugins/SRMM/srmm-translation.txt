@@ -1,26 +1,26 @@
 ; Common strings that belong to many files
 ;[Messaging]
 
-; ../../plugins/SRMM/cmdlist.c
+; ../../plugins/SRMM/cmdlist.cpp
 ;[The message send timed out.]
 
-; ../../plugins/SRMM/globals.c
+; ../../plugins/SRMM/globals.cpp
 ;[Incoming message (10x10)]
 ;[Notice (10x10)]
 ;[Outgoing message (10x10)]
 
-; ../../plugins/SRMM/msgdialog.c
+; ../../plugins/SRMM/msgdialog.cpp
 ;[%s is typing a message...]
 ;[Last message received on %s at %s.]
 ;[is now %s (was %s)]
 ;[signed off (was %s)]
 ;[signed on (%s)]
 
-; ../../plugins/SRMM/msglog.c
+; ../../plugins/SRMM/msglog.cpp
 ;[File received]
 ;[File sent]
 
-; ../../plugins/SRMM/msgoptions.c
+; ../../plugins/SRMM/msgoptions.cpp
 ;[** New contacts **]
 ;[** Unknown contacts **]
 ;[Away]
@@ -50,7 +50,7 @@
 ;[Show balloon popup (unsupported system)]
 ;[Typing Notify]
 
-; ../../plugins/SRMM/msgs.c
+; ../../plugins/SRMM/msgs.cpp
 ;[%s is typing a message]
 ;[&Message]
 ;[Incoming (Focused Window)]
@@ -64,7 +64,7 @@
 ;[Outgoing]
 ;[Typing Notification]
 
-; ../../plugins/SRMM/msgtimedout.c
+; ../../plugins/SRMM/msgtimedout.cpp
 ;[An unknown error has occured.]
 
 ; ../../plugins/SRMM/resource.rc

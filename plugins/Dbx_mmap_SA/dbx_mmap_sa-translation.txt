@@ -159,7 +159,7 @@
 ;[Elapsed time: %d sec]
 ;[Processing aborted by user]
 
-; ../../plugins/Dbx_mmap_SA/Import_SA/main.c
+; ../../plugins/Dbx_mmap_SA/Import_SA/main.cpp
 ;[&Import...]
 ;[Added %s contact %s]
 ;[Added %s contact %s, '%s']
@@ -168,7 +168,7 @@
 ;[Ignored event from/to self]
 ;[Skipping duplicate group %s.]
 
-; ../../plugins/Dbx_mmap_SA/Import_SA/mirabilis.c
+; ../../plugins/Dbx_mmap_SA/Import_SA/mirabilis.cpp
 ;[Added %d events and skipped %d duplicates.]
 ;[All groups may not have not been imported.]
 ;[Attempting to parse group list, type %d.]
@@ -228,7 +228,7 @@
 ;[This looks like a ICQ 99b database.]
 ;[default]
 
-; ../../plugins/Dbx_mmap_SA/Import_SA/miranda.c
+; ../../plugins/Dbx_mmap_SA/Import_SA/miranda.cpp
 ;[Added %d contacts, %d groups and %d events.]
 ;[Could not open file.]
 ;[DEBUG: Deleted setting treated as 0-length setting]
@@ -310,10 +310,10 @@
 ;[Warning: Mirabilis ICQ running. Import may not be reliable.]
 ;[You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 
-; ../../plugins/Dbx_mmap_SA/Import_SA/wizard.c
+; ../../plugins/Dbx_mmap_SA/Import_SA/wizard.cpp
 ;[Finish]
 
-; ../../plugins/Dbx_mmap_SA/database.c
+; ../../plugins/Dbx_mmap_SA/database.cpp
 ;[Database Error]
 ;[Database Panic]
 ;[Database failure. Miranda will now shutdown.]
@@ -357,7 +357,7 @@
 ;[Yes]
 ;[to the value]
 
-; ../../plugins/Dbx_mmap_SA/dialogs.c
+; ../../plugins/Dbx_mmap_SA/dialogs.cpp
 ;[Database Features]
 ;[Dll]
 ;[Name]
@@ -369,11 +369,11 @@
 ;[Version]
 ;[Wrong password!]
 
-; ../../plugins/Dbx_mmap_SA/init.c
+; ../../plugins/Dbx_mmap_SA/init.cpp
 ;[Running mmap_sa is forbidden under license violating products, sorry]
 ;[Warning!]
 
-; ../../plugins/Dbx_mmap_SA/security.c
+; ../../plugins/Dbx_mmap_SA/security.cpp
 ;[Crypto module hasn't been chosen, using first one found]
 ;[Crypto modules not found]
 ;[DB is already secured!]

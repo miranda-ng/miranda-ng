@@ -22,7 +22,7 @@
 ;[Trim too long ID]
 ;[Visibility]
 
-; ../../plugins/MenuItemEx/main.c
+; ../../plugins/MenuItemEx/main.cpp
 ;[Activity text]
 ;[Activity title]
 ;[All]
@@ -47,7 +47,7 @@
 ;[XStatus title]
 ;[You Were Added]
 
-; ../../plugins/MenuItemEx/options.c
+; ../../plugins/MenuItemEx/options.cpp
 ;[Customize]
 
 ; ../../plugins/MenuItemEx/resource.rc

@@ -6,5 +6,5 @@
 ;[Launch Miranda IM at system startup]
 ;[Note: At startup Miranda IM will use current profile]
 
-; ../../plugins/AutoRun/main.c
+; ../../plugins/AutoRun/main.cpp
 ;[Plugins]

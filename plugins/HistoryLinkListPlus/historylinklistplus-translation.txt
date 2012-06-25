@@ -1,7 +1,7 @@
 ; Common strings that belong to many files
 ;[]
 
-; ../../plugins/HistoryLinkListPlus/linklist.c
+; ../../plugins/HistoryLinkListPlus/linklist.cpp
 ;[&Create Linklist]
 ;[Could not allocate memory!]
 ;[Could not create window!]
@@ -62,10 +62,10 @@
 ;[Web addresses only]
 ;[link]
 
-; ../../plugins/HistoryLinkListPlus/linklist_dlg.c
+; ../../plugins/HistoryLinkListPlus/linklist_dlg.cpp
 ;[Linklist Plugin]
 
-; ../../plugins/HistoryLinkListPlus/linklist_fct.c
+; ../../plugins/HistoryLinkListPlus/linklist_fct.cpp
 ;[Matches for searchtext]
 ;[No messages found!\nPlease change current filter options.]
 ;[Processing list...]

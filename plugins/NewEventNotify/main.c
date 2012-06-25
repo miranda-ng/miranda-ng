@@ -289,36 +289,38 @@ int CheckMsgWnd(HANDLE hContact)
 		else 
 			return 0;
 	}
-	else 
+	/*else 
 	{	// old way: find it by using the window class & title
-		char newtitle[256];
-		char *szProto,*szStatus,*contactName;
+		TCHAR *newtitle = _T("");
+		TCHAR *szStatus, *contactName;
+		char *szProto;
 
-		szProto= (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact,0);
-		contactName= (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact,0);
-		szStatus= (char*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto?DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE):ID_STATUS_OFFLINE,0);
+		szProto= (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact,0);
+		contactName= (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact,0);
+		szStatus= (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto ? DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE) : ID_STATUS_OFFLINE,0);
 
 	// vj: This code was added by preeze and it does not work:
 	// vlko: it maybe work with other plugins 
-		_snprintf(newtitle,sizeof(newtitle),"%s  (%s)",contactName,szStatus);
-		if(FindWindow("TMsgWindow",newtitle))
+		_sntprintf(newtitle,sizeof(newtitle),_T("%s  (%s)"),contactName,szStatus);
+		if(FindWindowA("TMsgWindow",(char *)newtitle))
 			return 2;
 
-		_snprintf(newtitle,sizeof(newtitle),"[%s  (%s)]",contactName,szStatus);
-		if(FindWindow("TfrmContainer",newtitle))
+		_sntprintf(newtitle,sizeof(newtitle),_T("[%s  (%s)]"),contactName,szStatus);
+		if(FindWindowA("TfrmContainer",(char *)newtitle))
 			return 1;
 
 	// vj: I have restored this code from original plugin's source: (NewEventNotify 0.0.4)
-		_snprintf(newtitle,sizeof(newtitle),"%s (%s): %s",contactName,szStatus,Translate("Message Session"));
-		if(FindWindow("#32770",newtitle)) // JK, this works for old SRMMs (1.0.4.x) and for mine SRMMJ
+		_sntprintf(newtitle,sizeof(newtitle),_T("%s (%s): %s"),contactName,szStatus,Translate("Message Session"));
+		if(FindWindowA("#32770",(char *)newtitle)) // JK, this works for old SRMMs (1.0.4.x) and for mine SRMMJ
 			return 1;
 
-		_snprintf(newtitle,sizeof(newtitle),"%s (%s): %s",contactName,szStatus,Translate("Message Received"));
-		if(FindWindow("#32770",newtitle))
+		_sntprintf(newtitle,sizeof(newtitle),_T("%s (%s): %s"),contactName,szStatus,Translate("Message Received"));
+		if(FindWindowA("#32770",(char *)newtitle))
 			return 2;
 
 		return 0;
-	}
+	}*/
+	return 1;
 }
 
 

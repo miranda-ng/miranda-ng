@@ -2,20 +2,20 @@
 ;[<unknown>]
 ;[Last seen]
 
-; ../../plugins/SeenPlugin/history.c
+; ../../plugins/SeenPlugin/history.cpp
 ;[Send Instant Message]
 ;[User Menu]
 ;[View User's Details]
 ;[last seen history]
 
-; ../../plugins/SeenPlugin/main.c
+; ../../plugins/SeenPlugin/main.cpp
 ;[Changed to Online]
 ;[LastSeen]
 ;[User Logged In]
 ;[User Logged Off]
 ;[User status change]
 
-; ../../plugins/SeenPlugin/options.c
+; ../../plugins/SeenPlugin/options.cpp
 ;[Last Seen Variables]
 ;[PopUps]
 ;[Services]
@@ -96,6 +96,6 @@
 ;[year (2 digits)]
 ;[year (4 digits)]
 
-; ../../plugins/SeenPlugin/utils.c
+; ../../plugins/SeenPlugin/utils.cpp
 ;[<never seen>]
 ;[Idle]

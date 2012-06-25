@@ -1,7 +1,7 @@
 ; Common strings that belong to many files
 ;[]
 
-; ../../plugins/Db_autobackups/backup.c
+; ../../plugins/Db_autobackups/backup.cpp
 ;[All Files]
 ;[Backup in Progress]
 ;[Copying database file...]
@@ -25,12 +25,12 @@
 ;[When Miranda exits]
 ;[When Miranda starts]
 
-; ../../plugins/Db_autobackups/main.c
+; ../../plugins/Db_autobackups/main.cpp
 ;[Backup Profile]
 ;[Database]
 ;[Save Profile As...]
 
-; ../../plugins/Db_autobackups/options.c
+; ../../plugins/Db_autobackups/options.cpp
 ;[Database AutoBackups]
 ;[Days]
 ;[Error Creating Backup Folder]

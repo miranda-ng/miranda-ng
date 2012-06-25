@@ -76,11 +76,11 @@
 ;[Words to highlight (wildcards allowed)]
 ;[Your name]
 
-; ../../plugins/Chat/clist.c
+; ../../plugins/Chat/clist.cpp
 ;[Join chat]
 ;[Open chat window]
 
-; ../../plugins/Chat/log.c
+; ../../plugins/Chat/log.cpp
 ;[ (set by %s on %s)]
 ;[ (set by %s)]
 ;[Notice from %s: ]
@@ -88,10 +88,10 @@
 ;[You are now known as %s]
 ;[You have joined %s]
 
-; ../../plugins/Chat/main.c
+; ../../plugins/Chat/main.cpp
 ;[Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?.]
 
-; ../../plugins/Chat/options.c
+; ../../plugins/Chat/options.cpp
 ;[Action (10x10)]
 ;[Action message]
 ;[Add Status (10x10)]
@@ -252,11 +252,11 @@
 ;[Window Icon]
 ;[Your nickname]
 
-; ../../plugins/Chat/services.c
+; ../../plugins/Chat/services.cpp
 ;[&Join]
 ;[&Leave]
 
-; ../../plugins/Chat/tools.c
+; ../../plugins/Chat/tools.cpp
 ;[%s %c %s\n]
 ;[%s %s\n]
 ;[%s disables \'%s\' status for %s in %s]
@@ -279,7 +279,7 @@
 ;[The topic is \'%s\' (set by %s)]
 ;[Topic change in %s]
 
-; ../../plugins/Chat/window.c
+; ../../plugins/Chat/window.cpp
 ;[%s: Chat Room (%u user)]
 ;[%s: Chat Room (%u users)]
 ;[%s: Message Session]

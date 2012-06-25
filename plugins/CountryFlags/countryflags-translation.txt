@@ -1,11 +1,11 @@
 ; Common strings that belong to many files
 ;[Country Flags]
 
-; ../../plugins/CountryFlags/extraimg.c
+; ../../plugins/CountryFlags/extraimg.cpp
 ;[Advanced #%u]
 ;[Contact List]
 
-; ../../plugins/CountryFlags/main.c
+; ../../plugins/CountryFlags/main.cpp
 ;[Country Flags Plugin]
 ;[The Country Flags Plugin can not be loaded. It requires Miranda IM %hs or later.]
 

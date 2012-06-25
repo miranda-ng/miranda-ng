@@ -1,7 +1,7 @@
 ; Common strings that belong to many files
 ;[]
 
-; ../../plugins/Db3x_mmap/database.c
+; ../../plugins/Db3x_mmap/database.cpp
 ;[Database Error]
 ;[Database Panic]
 ;[Database failure. Miranda will now shutdown.]

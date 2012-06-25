@@ -1,5 +1,5 @@
 ; Common strings that belong to many files
-;[]
+;[Default]
 
 ; ../../plugins/TopToolBar/InternalButtons.cpp
 ;[Disable Sounds]
@@ -11,8 +11,9 @@
 ;[Add Launch]
 ;[Add Separator]
 ;[Background colour:]
-;[Button Height:]
-;[Button Width: ]
+;[Button Gap ]
+;[Button Height]
+;[Button Width ]
 ;[Buttons Order && Visibility]
 ;[Buttons order:]
 ;[Del Sep/Launch Button]
@@ -31,7 +32,6 @@
 ;[Use background bitmap]
 
 ; ../../plugins/TopToolBar/toolbar.cpp
-;[Default]
 ;[Frames Services not found - plugin disabled.You need MultiWindow plugin.]
 
 ; ../../plugins/TopToolBar/ttbopt.cpp

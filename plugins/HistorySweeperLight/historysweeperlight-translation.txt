@@ -8,7 +8,7 @@
 ;[History Sweeper Light]
 ;[Sweep history for this contacts:]
 
-; ../../plugins/HistorySweeperLight/options.c
+; ../../plugins/HistorySweeperLight/options.cpp
 ;[*** Defaut Action ***]
 ;[*** System History ***]
 ;[History]

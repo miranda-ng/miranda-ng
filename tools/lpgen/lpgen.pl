@@ -114,8 +114,8 @@ if (!@ARGV) {
 		'../../plugins/Chat/chat-translation.txt');
 	create_langfile('../../plugins/ClientChangeNotify/',
 		'../../plugins/ClientChangeNotify/clientchangenotify-translation.txt');
-	create_langfile('../../plugins/Clist/',
-		'../../plugins/Clist/clist-translation.txt');
+	create_langfile('../../plugins/Clist_classic/',
+		'../../plugins/Clist_classic/clist_classic-translation.txt');
 	create_langfile('../../plugins/Clist_modern/',
 		'../../plugins/Clist_modern/clist_modern-translation.txt');
 	create_langfile('../../plugins/Clist_mw/',
@@ -172,8 +172,6 @@ if (!@ARGV) {
 		'../../plugins/Import/import-translation.txt');
 	create_langfile('../../plugins/ImportTXT/',
 		'../../plugins/ImportTXT/importtxt-translation.txt');
-	create_langfile('../../plugins/JSON/',
-		'../../plugins/JSON/json-translation.txt');
 	create_langfile('../../plugins/KeyboardNotify/',
 		'../../plugins/KeyboardNotify/keyboardnotify-translation.txt');
 	create_langfile('../../plugins/LangMan/',
@@ -192,6 +190,8 @@ if (!@ARGV) {
 		'../../plugins/mTextControl/mtextcontrol-translation.txt');
 	create_langfile('../../plugins/NewAwaySysMod/',
 		'../../plugins/NewAwaySysMod/newawaysysmod-translation.txt');
+	create_langfile('../../plugins/NewEventNotify/',
+		'../../plugins/NewEventNotify/neweventnotify-translation.txt');
 	create_langfile('../../plugins/NewXstatusNotify/',
 		'../../plugins/NewXstatusNotify/newxstatusnotify-translation.txt');
 	create_langfile('../../plugins/Nudge/',

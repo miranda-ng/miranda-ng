@@ -118,15 +118,15 @@
 //---------------------------
 //---Translateable Strings
 
-#define POPUP_COMMENT_MESSAGE "Message"
-#define POPUP_COMMENT_URL "URL"
-#define POPUP_COMMENT_FILE "File"
-#define POPUP_COMMENT_CONTACTS "Contacts"
-#define POPUP_COMMENT_ADDED "You were added!"
-#define POPUP_COMMENT_AUTH "Requests your authorisation"
-#define POPUP_COMMENT_WEBPAGER "ICQ Web pager"
-#define POPUP_COMMENT_EMAILEXP "ICQ Email express"
-#define POPUP_COMMENT_OTHER "Unknown Event"
+#define POPUP_COMMENT_MESSAGE _T("Message")
+#define POPUP_COMMENT_URL _T("URL")
+#define POPUP_COMMENT_FILE _T("File")
+#define POPUP_COMMENT_CONTACTS _T("Contacts")
+#define POPUP_COMMENT_ADDED _T("You were added!")
+#define POPUP_COMMENT_AUTH _T("Requests your authorisation")
+#define POPUP_COMMENT_WEBPAGER _T("ICQ Web pager")
+#define POPUP_COMMENT_EMAILEXP _T("ICQ Email express")
+#define POPUP_COMMENT_OTHER _T("Unknown Event")
 
 #define OPTIONS_GROUP "PopUps"
 #define OPTIONS_TITLE "Event Notify"

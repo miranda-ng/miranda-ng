@@ -6,7 +6,7 @@
 ;[Importing groups.]
 ;[The given file does not exist. Please check that you have entered the name correctly.]
 
-; ../../plugins/Import/main.c
+; ../../plugins/Import/main.cpp
 ;[&Import...]
 ;[Added %s contact %s]
 ;[Added %s contact %s, '%s']
@@ -15,7 +15,7 @@
 ;[Ignored event from/to self]
 ;[Skipping duplicate group %s.]
 
-; ../../plugins/Import/mirabilis.c
+; ../../plugins/Import/mirabilis.cpp
 ;[Added %d events and skipped %d duplicates.]
 ;[All groups may not have not been imported.]
 ;[Attempting to parse group list, type %d.]
@@ -75,7 +75,7 @@
 ;[This looks like a ICQ 99b database.]
 ;[default]
 
-; ../../plugins/Import/miranda.c
+; ../../plugins/Import/miranda.cpp
 ;[Added %d contacts, %d groups and %d events.]
 ;[Could not open file.]
 ;[DEBUG: Deleted setting treated as 0-length setting]
@@ -160,5 +160,5 @@
 ;[Warning: Mirabilis ICQ running. Import may not be reliable.]
 ;[You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
 
-; ../../plugins/Import/wizard.c
+; ../../plugins/Import/wizard.cpp
 ;[Finish]
