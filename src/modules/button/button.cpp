@@ -170,9 +170,21 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	}
 
 	// If we have an icon or a bitmap, ignore text and only draw the image on the button
+	int textLen = GetWindowTextLength(ctl->hwnd);
+	int xOffset = 0;
+	SIZE sz;
+	TCHAR szText[MAX_PATH];
+	if (textLen>0) {
+		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
+		GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
+		xOffset = (rcClient.right-rcClient.left-sz.cx)/2;
+	}
+
 	if (ctl->hIcon) {
-		int ix = (rcClient.right-rcClient.left)/2 - (GetSystemMetrics(SM_CXSMICON)/2);
-		int iy = (rcClient.bottom-rcClient.top)/2 - (GetSystemMetrics(SM_CYSMICON)/2);
+	  	LONG g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
+	  	LONG g_cysmIcon = GetSystemMetrics(SM_CYSMICON);
+		int ix = (rcClient.right-rcClient.left)/2 - (g_cxsmIcon/2);
+		int iy = (rcClient.bottom-rcClient.top)/2 - (g_cysmIcon/2);
 		if (ctl->stateId == PBS_PRESSED) {
 			ix++;
 			iy++;
@@ -181,10 +193,19 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		HIMAGELIST hImageList;
 		HICON hIconNew;
 
-		hImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
+		hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, IsWinVerXPPlus()? ILC_COLOR32 | ILC_MASK : ILC_COLOR16 | ILC_MASK, 1, 0);
 		ImageList_AddIcon(hImageList, ctl->hIcon);
 		hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
-		DrawState(hdcMem, NULL, NULL, (LPARAM)hIconNew, 0, ix, iy, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON|DSS_NORMAL:DST_ICON|DSS_DISABLED);
+		if (textLen != 0) {
+			if(g_cxsmIcon + sz.cx + 8 > rcClient.right - rcClient.left)
+				sz.cx = (rcClient.right - rcClient.left) - g_cxsmIcon - 8;
+			else
+				sz.cx += 4;
+                
+			ix = (rcClient.right - rcClient.left) / 2 - ((g_cxsmIcon + sz.cx) / 2);
+			xOffset = ix + g_cxsmIcon + 4;
+		}
+		DrawState(hdcMem, NULL, NULL, (LPARAM) hIconNew, 0, ix, iy, g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON | DSS_NORMAL : DST_ICON | DSS_DISABLED);
 		ImageList_RemoveAll(hImageList);
 		ImageList_Destroy(hImageList);
 		DestroyIcon(hIconNew);
@@ -202,20 +223,15 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 		}
 		DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->hBitmap, 0, ix, iy, bminfo.bmWidth, bminfo.bmHeight, IsWindowEnabled(ctl->hwnd)?DST_BITMAP:DST_BITMAP|DSS_DISABLED);
 	}
-	else if (GetWindowTextLength(ctl->hwnd)) {
+	if (textLen>0) {
 		// Draw the text and optinally the arrow
-		TCHAR szText[MAX_PATH];
-		SIZE sz;
-		RECT rcText;
 		HFONT hOldFont;
 
-		CopyRect(&rcText, &rcClient);
-		GetWindowText(ctl->hwnd, szText, SIZEOF(szText));
 		SetBkMode(hdcMem, TRANSPARENT);
 		hOldFont = (HFONT)SelectObject(hdcMem, ctl->hFont);
 		// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
 		SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton?GetSysColor(COLOR_BTNTEXT):GetSysColor(COLOR_GRAYTEXT));
-		GetTextExtentPoint32(hdcMem, szText, lstrlen(szText), &sz);
+		//!! move it up, to text extent points?
 		if (ctl->cHot) {
 			SIZE szHot;
 
@@ -226,7 +242,11 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 			DrawState(hdcMem, NULL, NULL, (LPARAM)ctl->arrow, 0, rcClient.right-rcClient.left-5-GetSystemMetrics(SM_CXSMICON)+( !ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), (rcClient.bottom-rcClient.top)/2-GetSystemMetrics(SM_CYSMICON)/2+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), IsWindowEnabled(ctl->hwnd)?DST_ICON:DST_ICON|DSS_DISABLED);
 		}
 		SelectObject(hdcMem, ctl->hFont);
-		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0, (rcText.right-rcText.left-sz.cx)/2+( !ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0), ctl->hThemeButton?(rcText.bottom-rcText.top-sz.cy)/2:(rcText.bottom-rcText.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1), sz.cx, sz.cy, IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
+		DrawState(hdcMem, NULL, NULL, (LPARAM)szText, 0,
+			xOffset+(!ctl->hThemeButton && ctl->stateId == PBS_PRESSED?1:0),
+			ctl->hThemeButton?(rcClient.bottom-rcClient.top-sz.cy)/2:(rcClient.bottom-rcClient.top-sz.cy)/2-(ctl->stateId == PBS_PRESSED?0:1),
+			sz.cx, sz.cy,
+			IsWindowEnabled(ctl->hwnd) || ctl->hThemeButton?DST_PREFIXTEXT|DSS_NORMAL:DST_PREFIXTEXT|DSS_DISABLED);
 		SelectObject(hdcMem, hOldFont);
 	}
 	BitBlt(hdcPaint, 0, 0, rcClient.right-rcClient.left, rcClient.bottom-rcClient.top, hdcMem, 0, 0, SRCCOPY);
