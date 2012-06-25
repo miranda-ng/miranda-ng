@@ -1,0 +1,27 @@
+0.2.2.4
+- support for unicode file events
+
+0.2.2.3
+- fixed possible crash during processing of custom events without preview
+
+0.2.2.2
+- fixed possible crash when processing system history events
+
+0.2.2.1
+- fixed possible crash with older Miranda IM
+
+0.2.2.0
+- minor fixes for popup merging
+- improved popup for contacts event
+- added support for custom database events (e.g. no more "Unknown event" for Jabber presence events) 
+
+0.2.1.0
+- support for Message Dialog API
+- fixed Auth events preview
+- several other fixes & improvements
+
+0.2.0.0
+- support for new UTF-8 format of messages
+- full Unicode support (2in1)
+- new Miranda plug-in API
+- some other fixes & tweaks
