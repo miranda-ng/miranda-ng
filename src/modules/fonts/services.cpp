@@ -24,6 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "FontService.h"
 
+#define FontID_OLDSIZE (offsetof(FontID, backgroundGroup))
+#define FontIDW_OLDSIZE (offsetof(FontIDW, backgroundGroup))
+
 COLORREF GetColorFromDefault(COLORREF cl);
 
 void ConvertFontSettings(FontSettings* fs, FontSettingsW* fsw)
@@ -38,7 +41,7 @@ void ConvertFontSettings(FontSettings* fs, FontSettingsW* fsw)
 
 bool ConvertFontID(FontID *fid, FontIDW* fidw)
 {
-	if (fid->cbSize != sizeof(FontID))
+	if (fid->cbSize != sizeof(FontID) && fid->cbSize != FontID_OLDSIZE)
 		return false;
 
 	memset(fidw, 0, sizeof(FontIDW));
@@ -51,8 +54,11 @@ bool ConvertFontID(FontID *fid, FontIDW* fidw)
 
 	MultiByteToWideChar(code_page, 0, fid->group, -1, fidw->group, 64);
 	MultiByteToWideChar(code_page, 0, fid->name, -1, fidw->name, 64);
-	MultiByteToWideChar(code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
-	MultiByteToWideChar(code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
+	
+	if (fid->cbSize > FontID_OLDSIZE) {
+		MultiByteToWideChar(code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
+		MultiByteToWideChar(code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
+	}
 	return true;
 }
 
@@ -279,7 +285,7 @@ COLORREF GetColorFromDefault(COLORREF cl)
 
 static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 {
-	if (font_id->cbSize != sizeof(FontIDW))
+	if (font_id->cbSize != sizeof(FontIDW) && font_id->cbSize != FontIDW_OLDSIZE)
 		return -1;
 
 	for (int i = 0; i < font_id_list.getCount(); i++) {
