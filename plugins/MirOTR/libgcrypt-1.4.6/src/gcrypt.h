@@ -22,8 +22,6 @@
 #ifndef _GCRYPT_H
 #define _GCRYPT_H
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <stdlib.h>
 #include <stdarg.h>
 #include <string.h>
@@ -40,7 +38,7 @@
 # include <ws2tcpip.h>
 # include <time.h>
 # ifndef __GNUC__
-  typedef long ssize_t;
+  typedef signed int ssize_t;
   typedef int  pid_t;
 # endif /*!__GNUC__*/
 #else
