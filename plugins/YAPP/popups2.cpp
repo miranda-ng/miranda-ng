@@ -111,13 +111,12 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 HANDLE hEventReloadFont = 0;
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
 	MNotifyGetLink();
 
 	if (ServiceExists(MS_HPP_EG_WINDOW))
-	{
 		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
-	}
 
 	if(ServiceExists(MS_UPDATE_REGISTER)) {
 		// register with updater
@@ -148,172 +147,77 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
 	}
 
+	font_id_firstlinew.cbSize = sizeof(FontIDW);
+	font_id_firstlinew.flags = FIDF_ALLOWEFFECTS;
+	_tcscpy(font_id_firstlinew.group, _T("Popups"));
+	_tcscpy(font_id_firstlinew.name, _T("First line"));
+	strcpy(font_id_firstlinew.dbSettingsGroup, MODULE);
+	strcpy(font_id_firstlinew.prefix, "FontFirst");
+	font_id_firstlinew.order = 0;
+	FontRegisterT(&font_id_firstlinew);
 
-	if(ServiceExists(MS_FONT_REGISTERW)) 
-	{
-		font_id_firstlinew.cbSize = sizeof(FontIDW);
-		font_id_firstlinew.flags = FIDF_ALLOWEFFECTS;
-		_tcscpy(font_id_firstlinew.group, _T("Popups"));
-		_tcscpy(font_id_firstlinew.name, _T("First line"));
-		strcpy(font_id_firstlinew.dbSettingsGroup, MODULE);
-		strcpy(font_id_firstlinew.prefix, "FontFirst");
-		font_id_firstlinew.order = 0;
+	font_id_secondlinew.cbSize = sizeof(FontIDW);
+	font_id_secondlinew.flags = FIDF_ALLOWEFFECTS;
+	_tcscpy(font_id_secondlinew.group, _T("Popups"));
+	_tcscpy(font_id_secondlinew.name, _T("Second line"));
+	strcpy(font_id_secondlinew.dbSettingsGroup, MODULE);
+	strcpy(font_id_secondlinew.prefix, "FontSecond");
+	font_id_secondlinew.order = 1;
+	FontRegisterT(&font_id_secondlinew);
 
-		font_id_secondlinew.cbSize = sizeof(FontIDW);
-		font_id_secondlinew.flags = FIDF_ALLOWEFFECTS;
-		_tcscpy(font_id_secondlinew.group, _T("Popups"));
-		_tcscpy(font_id_secondlinew.name, _T("Second line"));
-		strcpy(font_id_secondlinew.dbSettingsGroup, MODULE);
-		strcpy(font_id_secondlinew.prefix, "FontSecond");
-		font_id_secondlinew.order = 1;
-
-		font_id_timew.cbSize = sizeof(FontIDW);
-		font_id_timew.flags = FIDF_ALLOWEFFECTS;
-		_tcscpy(font_id_timew.group, _T("Popups"));
-		_tcscpy(font_id_timew.name, _T("Time"));
-		strcpy(font_id_timew.dbSettingsGroup, MODULE);
-		strcpy(font_id_timew.prefix, "FontTime");
-		font_id_timew.order = 2;
-
-		CallService(MS_FONT_REGISTERW, (WPARAM)&font_id_firstlinew, 0);
-		CallService(MS_FONT_REGISTERW, (WPARAM)&font_id_secondlinew, 0);
-		CallService(MS_FONT_REGISTERW, (WPARAM)&font_id_timew, 0);
+	font_id_timew.cbSize = sizeof(FontIDW);
+	font_id_timew.flags = FIDF_ALLOWEFFECTS;
+	_tcscpy(font_id_timew.group, _T("Popups"));
+	_tcscpy(font_id_timew.name, _T("Time"));
+	strcpy(font_id_timew.dbSettingsGroup, MODULE);
+	strcpy(font_id_timew.prefix, "FontTime");
+	font_id_timew.order = 2;
+	FontRegisterT(&font_id_timew);
 		
-		colour_id_bgw.cbSize = sizeof(ColourIDW);
-		_tcscpy(colour_id_bgw.group, _T("Popups"));
-		_tcscpy(colour_id_bgw.name, _T("Background"));
-		strcpy(colour_id_bgw.dbSettingsGroup, MODULE);
-		strcpy(colour_id_bgw.setting, "ColourBg");
-		colour_id_bgw.defcolour = GetSysColor(COLOR_3DSHADOW);
-		colour_id_bgw.order = 0;
+	colour_id_bgw.cbSize = sizeof(ColourIDW);
+	_tcscpy(colour_id_bgw.group, _T("Popups"));
+	_tcscpy(colour_id_bgw.name, _T("Background"));
+	strcpy(colour_id_bgw.dbSettingsGroup, MODULE);
+	strcpy(colour_id_bgw.setting, "ColourBg");
+	colour_id_bgw.defcolour = GetSysColor(COLOR_3DSHADOW);
+	colour_id_bgw.order = 0;
+	ColourRegisterT(&colour_id_bgw);
 
-		colour_id_borderw.cbSize = sizeof(ColourIDW);
-		_tcscpy(colour_id_borderw.group, _T("Popups"));
-		_tcscpy(colour_id_borderw.name, _T("Border"));
-		strcpy(colour_id_borderw.dbSettingsGroup, MODULE);
-		strcpy(colour_id_borderw.setting, "ColourBorder");
-		colour_id_borderw.defcolour = RGB(0, 0, 0);
-		colour_id_borderw.order = 1;
+	colour_id_borderw.cbSize = sizeof(ColourIDW);
+	_tcscpy(colour_id_borderw.group, _T("Popups"));
+	_tcscpy(colour_id_borderw.name, _T("Border"));
+	strcpy(colour_id_borderw.dbSettingsGroup, MODULE);
+	strcpy(colour_id_borderw.setting, "ColourBorder");
+	colour_id_borderw.defcolour = RGB(0, 0, 0);
+	colour_id_borderw.order = 1;
+	ColourRegisterT(&colour_id_borderw);
 
-		colour_id_sidebarw.cbSize = sizeof(ColourIDW);
-		_tcscpy(colour_id_sidebarw.group, _T("Popups"));
-		_tcscpy(colour_id_sidebarw.name, _T("Sidebar"));
-		strcpy(colour_id_sidebarw.dbSettingsGroup, MODULE);
-		strcpy(colour_id_sidebarw.setting, "ColourSidebar");
-		colour_id_sidebarw.defcolour = RGB(128, 128, 128);
-		colour_id_sidebarw.order = 2;
+	colour_id_sidebarw.cbSize = sizeof(ColourIDW);
+	_tcscpy(colour_id_sidebarw.group, _T("Popups"));
+	_tcscpy(colour_id_sidebarw.name, _T("Sidebar"));
+	strcpy(colour_id_sidebarw.dbSettingsGroup, MODULE);
+	strcpy(colour_id_sidebarw.setting, "ColourSidebar");
+	colour_id_sidebarw.defcolour = RGB(128, 128, 128);
+	colour_id_sidebarw.order = 2;
+	ColourRegisterT(&colour_id_sidebarw);
 
-		colour_id_titleunderlinew.cbSize = sizeof(ColourIDW);
-		_tcscpy(colour_id_titleunderlinew.group, _T("Popups"));
-		_tcscpy(colour_id_titleunderlinew.name, _T("Title underline"));
-		strcpy(colour_id_titleunderlinew.dbSettingsGroup, MODULE);
-		strcpy(colour_id_titleunderlinew.setting, "ColourTitleUnderline");
-		colour_id_titleunderlinew.defcolour = GetSysColor(COLOR_3DSHADOW);
-		colour_id_titleunderlinew.order = 3;
-
-		CallService(MS_COLOUR_REGISTERW, (WPARAM)&colour_id_bgw, 0);
-		CallService(MS_COLOUR_REGISTERW, (WPARAM)&colour_id_borderw, 0);
-		CallService(MS_COLOUR_REGISTERW, (WPARAM)&colour_id_sidebarw, 0);
-		CallService(MS_COLOUR_REGISTERW, (WPARAM)&colour_id_titleunderlinew, 0);
+	colour_id_titleunderlinew.cbSize = sizeof(ColourIDW);
+	_tcscpy(colour_id_titleunderlinew.group, _T("Popups"));
+	_tcscpy(colour_id_titleunderlinew.name, _T("Title underline"));
+	strcpy(colour_id_titleunderlinew.dbSettingsGroup, MODULE);
+	strcpy(colour_id_titleunderlinew.setting, "ColourTitleUnderline");
+	colour_id_titleunderlinew.defcolour = GetSysColor(COLOR_3DSHADOW);
+	colour_id_titleunderlinew.order = 3;
+	ColourRegisterT(&colour_id_titleunderlinew);
 		
-		ReloadFont(0, 0);
+	ReloadFont(0, 0);
 
-		hEventReloadFont = HookEvent(ME_FONT_RELOAD, ReloadFont);
-	} 
-	else 
-
-		if(ServiceExists(MS_FONT_REGISTER)) 
-	{
-		font_id_firstline.cbSize = sizeof(FontID);
-		font_id_firstline.flags = FIDF_ALLOWEFFECTS;
-		strcpy(font_id_firstline.group, "Popups");
-		strcpy(font_id_firstline.name, "First line");
-		strcpy(font_id_firstline.dbSettingsGroup, MODULE);
-		strcpy(font_id_firstline.prefix, "FontFirst");
-		font_id_firstline.order = 0;
-
-		font_id_secondline.cbSize = sizeof(FontID);
-		font_id_secondline.flags = FIDF_ALLOWEFFECTS;
-		strcpy(font_id_secondline.group, "Popups");
-		strcpy(font_id_secondline.name, "Second line");
-		strcpy(font_id_secondline.dbSettingsGroup, MODULE);
-		strcpy(font_id_secondline.prefix, "FontSecond");
-		font_id_secondline.order = 1;
-
-		font_id_time.cbSize = sizeof(FontID);
-		font_id_time.flags = FIDF_ALLOWEFFECTS;
-		strcpy(font_id_time.group, "Popups");
-		strcpy(font_id_time.name, "Time");
-		strcpy(font_id_time.dbSettingsGroup, MODULE);
-		strcpy(font_id_time.prefix, "FontTime");
-		font_id_time.order = 2;
-
-		CallService(MS_FONT_REGISTER, (WPARAM)&font_id_firstline, 0);
-		CallService(MS_FONT_REGISTER, (WPARAM)&font_id_secondline, 0);
-		CallService(MS_FONT_REGISTER, (WPARAM)&font_id_time, 0);
-		
-		colour_id_bg.cbSize = sizeof(ColourID);
-		strcpy(colour_id_bg.group, "Popups");
-		strcpy(colour_id_bg.name, "Background");
-		strcpy(colour_id_bg.dbSettingsGroup, MODULE);
-		strcpy(colour_id_bg.setting, "ColourBg");
-		colour_id_bg.defcolour = GetSysColor(COLOR_3DSHADOW);
-		colour_id_bg.order = 0;
-
-		colour_id_border.cbSize = sizeof(ColourID);
-		strcpy(colour_id_border.group, "Popups");
-		strcpy(colour_id_border.name, "Border");
-		strcpy(colour_id_border.dbSettingsGroup, MODULE);
-		strcpy(colour_id_border.setting, "ColourBorder");
-		colour_id_border.defcolour = RGB(0, 0, 0);
-		colour_id_border.order = 1;
-
-		colour_id_sidebar.cbSize = sizeof(ColourID);
-		strcpy(colour_id_sidebar.group, "Popups");
-		strcpy(colour_id_sidebar.name, "Sidebar");
-		strcpy(colour_id_sidebar.dbSettingsGroup, MODULE);
-		strcpy(colour_id_sidebar.setting, "ColourSidebar");
-		colour_id_sidebar.defcolour = RGB(128, 128, 128);
-		colour_id_sidebar.order = 2;
-
-		colour_id_titleunderline.cbSize = sizeof(ColourID);
-		strcpy(colour_id_titleunderline.group, "Popups");
-		strcpy(colour_id_titleunderline.name, "Title underline");
-		strcpy(colour_id_titleunderline.dbSettingsGroup, MODULE);
-		strcpy(colour_id_titleunderline.setting, "ColourTitleUnderline");
-		colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
-		colour_id_titleunderline.order = 3;
-
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&colour_id_bg, 0);
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&colour_id_border, 0);
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&colour_id_sidebar, 0);
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&colour_id_titleunderline, 0);
-		
-		ReloadFont(0, 0);
-
-		hEventReloadFont = HookEvent(ME_FONT_RELOAD, ReloadFont);
-	} else {
-		LOGFONT lf = {0};
-		lf.lfCharSet = DEFAULT_CHARSET;
-		lf.lfHeight = -14;
-		lf.lfWeight = FW_BOLD;
-		hFontFirstLine = CreateFontIndirect(&lf);
-
-		lf.lfHeight = -12;
-		lf.lfWeight = 0;
-		hFontSecondLine = CreateFontIndirect(&lf);
-
-		lf.lfHeight = -8;
-		lf.lfWeight = 0;
-		hFontTime = CreateFontIndirect(&lf);
-	}
+	hEventReloadFont = HookEvent(ME_FONT_RELOAD, ReloadFont);
 	
 	LoadModuleDependentOptions(); 
 
 	if(GetModuleHandle(_T("neweventnotify")))
-	{
 		ignore_gpd_passed_addy = true;
-	}
 
 	return 0;
 }
@@ -357,16 +261,15 @@ extern "C" int POPUPS2_API Load(PLUGINLINK *link) {
 	return 0;
 }
 
-extern "C" int POPUPS2_API Unload() {
-	if(hEventReloadFont) UnhookEvent(hEventReloadFont);
+extern "C" int POPUPS2_API Unload()
+{
+	if(hEventReloadFont)
+		UnhookEvent(hEventReloadFont);
 	UnhookEvent(hEventPreShutdown);
 	UnhookEvent(hEventModulesLoaded);
 	DeinitNotify();
-	if(ServiceExists(MS_FONT_REGISTERW)) {
-		DeleteObject(hFontFirstLine);
-		DeleteObject(hFontSecondLine);
-		DeleteObject(hFontTime);
-	} // otherwise, no need to delete the handle
-
+	DeleteObject(hFontFirstLine);
+	DeleteObject(hFontSecondLine);
+	DeleteObject(hFontTime);
 	return 0;
 }

@@ -391,7 +391,7 @@ void RegisterFonts( void )
 			_tcsncpy(fontid.backgroundName, _T("Background"), SIZEOF(fontid.backgroundName));
 			break;
 		}
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+		FontRegisterT(&fontid);
 	}
 
 	colourid.cbSize = sizeof(ColourIDT);
@@ -402,27 +402,27 @@ void RegisterFonts( void )
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
 	_tcsncpy(colourid.group, LPGENT("Chat Module"), SIZEOF(colourid.group));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorMessageBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Message Background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Userlist Background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Userlist Lines"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Userlist Background (selected)"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 }
 
 // add icons to the skinning module

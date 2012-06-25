@@ -69,50 +69,42 @@ int LoadFontserviceModule(void)
 {
 	code_page = LangPackGetDefaultCodePage();
 
-	CreateServiceFunction(MS_FONT_REGISTER, RegisterFont);
+	CreateServiceFunction("Font/Register", RegisterFont);
+	CreateServiceFunction("Font/RegisterW", RegisterFontW);
 	CreateServiceFunction(MS_FONT_GET, GetFont);
-
-	CreateServiceFunction(MS_COLOUR_REGISTER, RegisterColour);
-	CreateServiceFunction(MS_COLOUR_GET, GetColour);
-
-	CreateServiceFunction(MS_EFFECT_REGISTER, RegisterEffect);
-	CreateServiceFunction(MS_EFFECT_GET, GetEffect);
-
-	CreateServiceFunction(MS_FONT_REGISTERW, RegisterFontW);
 	CreateServiceFunction(MS_FONT_GETW, GetFontW);
 
-	CreateServiceFunction(MS_COLOUR_REGISTERW, RegisterColourW);
+	CreateServiceFunction("Colour/Register", RegisterColour);
+	CreateServiceFunction("Colour/RegisterW", RegisterColourW);
+	CreateServiceFunction(MS_COLOUR_GET, GetColour);
 	CreateServiceFunction(MS_COLOUR_GETW, GetColourW);
 
-	CreateServiceFunction(MS_EFFECT_REGISTERW, RegisterEffectW);
+	CreateServiceFunction("Effect/Register", RegisterEffect);
+	CreateServiceFunction("Effect/Register", RegisterEffectW);
+	CreateServiceFunction(MS_EFFECT_GET, GetEffect);
 	CreateServiceFunction(MS_EFFECT_GETW, GetEffectW);
 
 	hFontReloadEvent = CreateHookableEvent(ME_FONT_RELOAD);
 	hColourReloadEvent = CreateHookableEvent(ME_COLOUR_RELOAD);
 
 	// create generic fonts
-	FontIDT fontid = {0};
-
-	fontid.cbSize = sizeof(FontID);
+	FontIDT fontid = { sizeof(fontid) };
 	strncpy(fontid.dbSettingsGroup, "Fonts", sizeof(fontid.dbSettingsGroup));
 	_tcsncpy(fontid.group, _T("General"), SIZEOF(fontid.group));
 
 	_tcsncpy(fontid.name, _T("Headers"), SIZEOF(fontid.name));
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSHEADER;
 	strncpy(fontid.prefix, "Header", SIZEOF(fontid.prefix));
-	fontid.order = 0;
 	FontRegisterT(&fontid);
 
 	_tcsncpy(fontid.name, _T("Generic text"), SIZEOF(fontid.name));
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSGENERAL;
 	strncpy(fontid.prefix, "Generic", SIZEOF(fontid.prefix));
-	fontid.order = 0;
 	FontRegisterT(&fontid);
 
 	_tcsncpy(fontid.name, _T("Small text"), SIZEOF(fontid.name));
 	fontid.flags = FIDF_APPENDNAME | FIDF_NOAS | FIDF_SAVEPOINTSIZE | FIDF_ALLOWEFFECTS | FIDF_CLASSSMALL;
 	strncpy(fontid.prefix, "Small", SIZEOF(fontid.prefix));
-	fontid.order = 0;
 	FontRegisterT(&fontid);
 
 	// do last for silly dyna plugin

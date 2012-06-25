@@ -91,12 +91,11 @@ toptoolbar/getoptions service
 lparam = 0,or lparam=lpTTBButton if flag=TTBO_ALLDATA
 returns: value on success, -1 on failure.
 */
-#define TTBO_FLAGS				0     //get/set all flags
-#define TTBO_POS					1     //position
-#define TTBO_WIDTH				2     //not impemented
-#define TTBO_HEIGHT				3     //not impemented
-#define TTBO_TIPNAME			4     //tool tip name
-#define TTBO_ALLDATA			5     //change all data via lparam=lpTTBButton
+#define TTBO_FLAGS            0     //get/set all flags
+#define TTBO_WIDTH            2     //not impemented
+#define TTBO_HEIGHT           3     //not impemented
+#define TTBO_TIPNAME          4     //tool tip name
+#define TTBO_ALLDATA          5     //change all data via lparam=lpTTBButton
 
 
 #define MS_TTB_GETBUTTONOPTIONS					"TopToolBar/GetOptions"

@@ -759,7 +759,7 @@ void RegisterFontServiceFonts() {
 				_tcsncpy(fid.backgroundName, _T("Incoming background"), SIZEOF(fid.backgroundName));
 				break;
 			}
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fid, 0);
+			FontRegisterT(&fid);
 		}
 
 	fontOptionsList = IP_fontOptionsList;
@@ -785,9 +785,9 @@ void RegisterFontServiceFonts() {
 			_tcsncpy(fid.backgroundGroup, _T(""), SIZEOF(fid.backgroundGroup));
 			_tcsncpy(fid.backgroundName, _T(""), SIZEOF(fid.backgroundName));
 			_tcsncpy(fid.group, _T("TabSRMM"), SIZEOF(fid.group));
-			}
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fid, 0);
 		}
+		FontRegisterT(&fid);
+	}
 
 	fontOptionsList = CHAT_fontOptionsList;
 	fid.flags = FIDF_DEFAULTVALID|FIDF_ALLOWEFFECTS;
@@ -810,7 +810,7 @@ void RegisterFontServiceFonts() {
 		_tcsncpy(fid.backgroundName, _T("Group chat log background"), SIZEOF(fid.backgroundName));
 		if(i == 18 || i == 19)
 			_tcsncpy(fid.backgroundName, _T("Userlist background"), SIZEOF(fid.backgroundName));
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fid, 0);
+		FontRegisterT(&fid);
 	}
 
 	_tcsncpy(cid.group, _T("TabSRMM/Group Chats"), SIZEOF(cid.group));
@@ -821,23 +821,23 @@ void RegisterFontServiceFonts() {
 		cid.order=i+1;
 		strncpy(cid.setting, szTemp, SIZEOF(cid.setting));
 		switch (i) {
-			case 5:
-				cid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-				break;
-			case 6:
-				cid.defcolour = GetSysColor(COLOR_HIGHLIGHTTEXT);
-				break;
-			default:
-				cid.defcolour =RGB(0, 0, 0);
-				break;
-			}
-		CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+		case 5:
+			cid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
+			break;
+		case 6:
+			cid.defcolour = GetSysColor(COLOR_HIGHLIGHTTEXT);
+			break;
+		default:
+			cid.defcolour =RGB(0, 0, 0);
+			break;
 		}
+		ColourRegisterT(&cid);
+	}
 	cid.order=8;
 	_tcsncpy(cid.name, _T("Userlist background"), SIZEOF(cid.name));
 	strncpy(cid.setting, "ColorNicklistBG", SIZEOF(cid.setting));
 	cid.defcolour = SRMSGDEFSET_BKGCOLOUR;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+	ColourRegisterT(&cid);
 
 	/*
 	 * static colors (info panel, tool bar background etc...)
@@ -854,7 +854,7 @@ void RegisterFontServiceFonts() {
 	 		cid.defcolour = GetSysColor(_clrs[i].def & 0x000000ff);
 	 	else
 	 		cid.defcolour = _clrs[i].def;
-	 	CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+	 	ColourRegisterT(&cid);
 	}
 
 	strncpy(cid.dbSettingsGroup, SRMSGMOD_T, SIZEOF(fid.dbSettingsGroup));
@@ -872,7 +872,7 @@ void RegisterFontServiceFonts() {
 	 	else
 	 		cid.defcolour = _tabclrs[i].def;
 
-	 	CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+	 	ColourRegisterT(&cid);
 	}
 }
 

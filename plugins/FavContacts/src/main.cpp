@@ -214,13 +214,13 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	lstrcpyA(fontid.prefix, "fntName");
 	fontid.deffontsettings.colour = GetSysColor(COLOR_MENUTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	FontRegisterT(&fontid);
 
 	lstrcpy(fontid.name, _T("Second line"));
 	lstrcpyA(fontid.prefix, "fntSecond");
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_MENUTEXT), GetSysColor(COLOR_MENU));
 	fontid.deffontsettings.style = 0;
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	FontRegisterT(&fontid);
 
 	lstrcpy(fontid.backgroundName, _T("Selected background"));
 
@@ -228,13 +228,13 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	lstrcpyA(fontid.prefix, "fntNameSel");
 	fontid.deffontsettings.colour = GetSysColor(COLOR_HIGHLIGHTTEXT);
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	FontRegisterT(&fontid);
 
 	lstrcpy(fontid.name, _T("Selected second line (color)"));
 	lstrcpyA(fontid.prefix, "fntSecondSel");
 	fontid.deffontsettings.colour = sttShadeColor(GetSysColor(COLOR_HIGHLIGHTTEXT), GetSysColor(COLOR_HIGHLIGHT));
 	fontid.deffontsettings.style = 0;
-	CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+	FontRegisterT(&fontid);
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
@@ -246,12 +246,12 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 	lstrcpy(colourid.name, _T("Background"));
 	lstrcpyA(colourid.setting, "BackColour");
 	colourid.defcolour = GetSysColor(COLOR_MENU);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	lstrcpy(colourid.name, _T("Selected background"));
 	lstrcpyA(colourid.setting, "SelectedColour");
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	HookEvent(ME_FONT_RELOAD, ProcessReloadFonts);
 	HookEvent(ME_COLOUR_RELOAD, ProcessReloadFonts);

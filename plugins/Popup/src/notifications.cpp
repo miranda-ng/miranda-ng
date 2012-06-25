@@ -213,7 +213,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(fontid.name, SIZEOF(fontid.name), "%s (colors only)", notification->lpzName);
 	mir_snprintf(fontid.prefix, SIZEOF(fontid.prefix), "{%s/%s}text", notification->lpzGroup, notification->lpzName);
 	fontid.deffontsettings.style = 0;
-	CallService(MS_FONT_REGISTER, (WPARAM)&fontid, 0);
+	FontRegister(&fontid);
 
 	ColourID colourid = {0};
 	colourid.cbSize = sizeof(colourid);
@@ -222,7 +222,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(colourid.name, SIZEOF(colourid.name), "%s (colors only)", notification->lpzName);
 	mir_snprintf(colourid.setting, SIZEOF(colourid.setting), "{%s/%s}backColor", notification->lpzGroup, notification->lpzName);
 	colourid.defcolour = ptd->notification.colorBack;
-	CallService(MS_COLOUR_REGISTER, (WPARAM)&colourid, 0);
+	ColourRegister(&colourid);
 
 	char section[MAXMODULELABELLENGTH], setting[MAXMODULELABELLENGTH];
 	mir_snprintf(section, sizeof(section), "PopUps/%s", notification->lpzGroup);

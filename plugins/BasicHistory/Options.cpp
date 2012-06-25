@@ -272,7 +272,7 @@ void Options::Load()
 		sprintf_s(cid.setting, SIZEOF(cid.setting), "Color%d", i);
 		cid.order = i;
 		cid.defcolour = g_ColorOptionsList[i].def;
-		CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+		ColourRegisterT(&cid);
 	}
 
 	hid.dwFlags = HKD_TCHAR;

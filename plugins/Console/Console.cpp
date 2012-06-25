@@ -1259,56 +1259,43 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	CreateServiceFunction(MS_CONSOLE_SHOW_HIDE, ShowHideConsole);
 
-	{
-		FontIDT fid={0};
-		fid.cbSize = sizeof(fid);
-		_tcscpy(fid.group,_T("Console"));
-		_tcscpy(fid.name,TranslateT("Text"));
-		strcpy(fid.dbSettingsGroup,"Console");
-		strcpy(fid.prefix,"ConsoleFont");
+	FontIDT fid = {0};
+	fid.cbSize = sizeof(fid);
+	_tcscpy(fid.group,_T("Console"));
+	_tcscpy(fid.name,TranslateT("Text"));
+	strcpy(fid.dbSettingsGroup,"Console");
+	strcpy(fid.prefix,"ConsoleFont");
+	_tcscpy(fid.backgroundGroup,_T("Console"));
+	_tcscpy(fid.backgroundName,_T("Background"));
+	fid.flags = FIDF_DEFAULTVALID;
+	fid.deffontsettings.charset = DEFAULT_CHARSET;
+	fid.deffontsettings.colour = RGB(0, 0, 0);
+	fid.deffontsettings.size = 10;
+	fid.deffontsettings.style = 0;
+	_tcsncpy(fid.deffontsettings.szFace, _T("Courier"), LF_FACESIZE);
+	FontRegisterT(&fid);
 
-		_tcscpy(fid.backgroundGroup,_T("Console"));
-		_tcscpy(fid.backgroundName,_T("Background"));
+	hHooks[i++] = HookEvent(ME_FONT_RELOAD,OnFontChange);
 
-		fid.flags = FIDF_DEFAULTVALID;
+	ColourIDT cid = {0};
+	cid.cbSize=sizeof(cid);
+	_tcscpy(cid.group,_T("Console"));
+	_tcscpy(cid.name,_T("Background"));
+	strcpy(cid.dbSettingsGroup,"Console");
+	strcpy(cid.setting,"BgColor");
+	cid.defcolour = RGB(255,255,255);
+	ColourRegisterT(&cid);
 
-		fid.deffontsettings.charset = DEFAULT_CHARSET;
-		fid.deffontsettings.colour = RGB(0, 0, 0);
-		fid.deffontsettings.size = 10;
-		fid.deffontsettings.style = 0;
-		_tcsncpy(fid.deffontsettings.szFace, _T("Courier"), LF_FACESIZE);
+	hHooks[i++] = HookEvent(ME_COLOUR_RELOAD, OnColourChange);
 
-		CallService(MS_FONT_REGISTERT,(WPARAM)&fid,0);
-
-		hHooks[i++] = HookEvent(ME_FONT_RELOAD,OnFontChange);
-	}
-
-	{
-		ColourIDT cid = {0};
-
-		cid.cbSize=sizeof(cid);
-		_tcscpy(cid.group,_T("Console"));
-		_tcscpy(cid.name,_T("Background"));
-		strcpy(cid.dbSettingsGroup,"Console");
-		strcpy(cid.setting,"BgColor");
-
-		cid.defcolour = RGB(255,255,255);
-
-		CallService(MS_COLOUR_REGISTERT,(WPARAM)&cid,0);
-
-		hHooks[i++] = HookEvent(ME_COLOUR_RELOAD, OnColourChange);
-	}
-
-	{
-		HOTKEYDESC hkd = {0};
-		hkd.cbSize = sizeof(hkd);
-		hkd.pszName = "Console_Show_Hide";
-		hkd.pszDescription = LPGEN("Show/Hide Console");
-		hkd.pszSection = "Main";
-		hkd.pszService = MS_CONSOLE_SHOW_HIDE;
-		hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
-		Hotkey_Register(&hkd);
-	}
+	HOTKEYDESC hkd = {0};
+	hkd.cbSize = sizeof(hkd);
+	hkd.pszName = "Console_Show_Hide";
+	hkd.pszDescription = LPGEN("Show/Hide Console");
+	hkd.pszSection = "Main";
+	hkd.pszService = MS_CONSOLE_SHOW_HIDE;
+	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_EXT, 'C');
+	Hotkey_Register(&hkd);
 
 	if (ServiceExists(MS_TB_ADDBUTTON)) {
 		TBButton tbb = {0};

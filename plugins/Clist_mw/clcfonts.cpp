@@ -99,8 +99,7 @@ void RegisterCListFonts()
 			sprintf(idstr, "Font%d", fontListOrder[i]);
 			strncpy(fontid.prefix, idstr, SIZEOF(fontid.prefix));
 			fontid.order = fontListOrder[i];
-
-			CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+			FontRegisterT(&fontid);
 		}
 	}
 
@@ -113,25 +112,25 @@ void RegisterCListFonts()
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
 	_tcsncpy(colourid.group, LPGENT("Contact List"), SIZEOF(colourid.group));
 	colourid.defcolour = CLCDEFAULT_BKCOLOUR;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "SelTextColour", sizeof(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Selected Text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_SELTEXTCOLOUR;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "HotTextColour", sizeof(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Hottrack Text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_HOTTEXTCOLOUR;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "QuickSearchColour", sizeof(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("Quicksearch Text"), SIZEOF(colourid.name));
 	colourid.order = 1;
 	colourid.defcolour = CLCDEFAULT_QUICKSEARCHCOLOUR;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
 }

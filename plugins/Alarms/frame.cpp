@@ -603,47 +603,30 @@ int CreateFrame()
 
 	SendMessage(hwnd_plugin, WMU_INITIALIZE, 0, 0);
 
-	if (ServiceExists(MS_FONT_REGISTER)) {
-		font_id.cbSize = sizeof(FontID);
-		strncpy(font_id.group, Translate("Frames"), sizeof(font_id.group));
-		strncpy(font_id.name, Translate("Alarm Reminders"), sizeof(font_id.name));
-		strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
-		strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
-		font_id.order = 0;
-		CallService(MS_FONT_REGISTER, (WPARAM)&font_id, 0);
+	font_id.cbSize = sizeof(font_id);
+	strncpy(font_id.group, LPGEN("Frames"), sizeof(font_id.group));
+	strncpy(font_id.name, LPGEN("Alarm Reminders"), sizeof(font_id.name));
+	strncpy(font_id.dbSettingsGroup, MODULE, sizeof(font_id.dbSettingsGroup));
+	strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
+	font_id.order = 0;
+	FontRegister(&font_id);
 
-		framebk_colour_id.cbSize = sizeof(ColourID);
-		strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
-		strcpy(framebk_colour_id.group, Translate("Frames"));
-		strcpy(framebk_colour_id.name, Translate("Alarm Reminders"));
-		strcpy(framebk_colour_id.setting, "clFrameBack");
-		framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
-		framebk_colour_id.flags = 0;
-		framebk_colour_id.order = 0;
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&framebk_colour_id, 0);
+	framebk_colour_id.cbSize = sizeof(ColourID);
+	strcpy(framebk_colour_id.dbSettingsGroup, MODULE);
+	strcpy(framebk_colour_id.group, LPGEN("Frames"));
+	strcpy(framebk_colour_id.name, LPGEN("Alarm Reminders"));
+	strcpy(framebk_colour_id.setting, "clFrameBack");
+	framebk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
+	framebk_colour_id.flags = 0;
+	framebk_colour_id.order = 0;
+	ColourRegister(&framebk_colour_id);
 
-		LOGFONT log_font;
-		fontColour = CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
-		hFont = CreateFontIndirect(&log_font);
-		SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
+	LOGFONT log_font;
+	fontColour = CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
+	hFont = CreateFontIndirect(&log_font);
+	SendMessage(hwnd_list, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
 	
-		HookEvent(ME_FONT_RELOAD, ReloadFont);
-		
-	} else {
-		LOGFONT lf;
-		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
-		lf.lfHeight = 10;
-
-		HDC hdc = GetDC(0);
-		lf.lfHeight = -MulDiv(lf.lfHeight,GetDeviceCaps(hdc, LOGPIXELSY), 72);
-		ReleaseDC(0, hdc);
-		
-		hFont = CreateFontIndirect(&lf);
-
-		//fontColour = GetSysColor(COLOR_WINDOWTEXT);
-		// match clist 'normal contact' colour if no font service
-		fontColour = (COLORREF)DBGetContactSettingDword(0, "CLC", "Font0Col", GetSysColor(COLOR_WINDOWTEXT));
-	}
+	HookEvent(ME_FONT_RELOAD, ReloadFont);
 
 	// create the brush used for the background in the absence of clist_modern skinning features - match clist
 	bk_brush = CreateSolidBrush(DBGetContactSettingDword(0, "Alarm", "clFrameBack", GetSysColor(COLOR_3DFACE)));

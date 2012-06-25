@@ -115,7 +115,7 @@ void RegisterSRMMFonts( void )
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		_tcscpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace);
 		fontid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fontid, 0);
+		FontRegisterT(&fontid);
 	}
 
 	colourid.cbSize = sizeof(ColourID);
@@ -124,7 +124,7 @@ void RegisterSRMMFonts( void )
 	colourid.defcolour = SRMSGDEFSET_BKGCOLOUR;
 	_tcscpy(colourid.name, LPGENT("Background"));
 	_tcscpy(colourid.group, LPGENT("Message Log"));
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

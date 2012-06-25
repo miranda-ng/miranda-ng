@@ -370,42 +370,39 @@ int ReloadFonts(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam) {
-	if (ServiceExists(MS_FONT_REGISTER)) {
-		title_font_id.cbSize = sizeof(FontID);
-		strcpy(title_font_id.group, Translate("Alarms"));
-		strcpy(title_font_id.name, Translate("Title"));
-		strcpy(title_font_id.dbSettingsGroup, MODULE);
-		strcpy(title_font_id.prefix, "FontTitle");
-		title_font_id.flags = 0;
-		title_font_id.order = 0;
+int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam)
+{
+	title_font_id.cbSize = sizeof(FontID);
+	strcpy(title_font_id.group, Translate("Alarms"));
+	strcpy(title_font_id.name, Translate("Title"));
+	strcpy(title_font_id.dbSettingsGroup, MODULE);
+	strcpy(title_font_id.prefix, "FontTitle");
+	title_font_id.flags = 0;
+	title_font_id.order = 0;
+	FontRegister(&title_font_id);
 
-		CallService(MS_FONT_REGISTER, (WPARAM)&title_font_id, 0);
+	window_font_id.cbSize = sizeof(FontID);
+	strcpy(window_font_id.group, Translate("Alarms"));
+	strcpy(window_font_id.name, Translate("Window"));
+	strcpy(window_font_id.dbSettingsGroup, MODULE);
+	strcpy(window_font_id.prefix, "FontWindow");
+	window_font_id.flags = 0;
+	window_font_id.order = 1;
+	FontRegister(&window_font_id);
 
-		window_font_id.cbSize = sizeof(FontID);
-		strcpy(window_font_id.group, Translate("Alarms"));
-		strcpy(window_font_id.name, Translate("Window"));
-		strcpy(window_font_id.dbSettingsGroup, MODULE);
-		strcpy(window_font_id.prefix, "FontWindow");
-		window_font_id.flags = 0;
-		window_font_id.order = 1;
+	bk_colour_id.cbSize = sizeof(ColourID);
+	strcpy(bk_colour_id.dbSettingsGroup, MODULE);
+	strcpy(bk_colour_id.group, Translate("Alarms"));
+	strcpy(bk_colour_id.name, Translate("Background"));
+	strcpy(bk_colour_id.setting, "BkColour");
+	bk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
+	bk_colour_id.flags = 0;
+	bk_colour_id.order = 0;
 
-		CallService(MS_FONT_REGISTER, (WPARAM)&window_font_id, 0);
+	ColourRegister(&bk_colour_id);
 
-		bk_colour_id.cbSize = sizeof(ColourID);
-		strcpy(bk_colour_id.dbSettingsGroup, MODULE);
-		strcpy(bk_colour_id.group, Translate("Alarms"));
-		strcpy(bk_colour_id.name, Translate("Background"));
-		strcpy(bk_colour_id.setting, "BkColour");
-		bk_colour_id.defcolour = GetSysColor(COLOR_3DFACE);
-		bk_colour_id.flags = 0;
-		bk_colour_id.order = 0;
-
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&bk_colour_id, 0);
-
-		ReloadFonts(0, 0);
-		HookEvent(ME_FONT_RELOAD, ReloadFonts);
-	}
+	ReloadFonts(0, 0);
+	HookEvent(ME_FONT_RELOAD, ReloadFonts);
 	return 0;
 }
 

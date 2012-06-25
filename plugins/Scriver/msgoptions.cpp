@@ -160,7 +160,7 @@ void RegisterFontServiceFonts() {
 		fid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
 		_tcsncpy(fid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fid.deffontsettings.szFace));
 		_tcsncpy(fid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fid.backgroundName));
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fid, 0);
+		FontRegisterT(&fid);
 	}
 	cid.cbSize = sizeof(ColourIDT);
     mir_sntprintf(cid.group, SIZEOF(cid.group), _T("%s"), LPGENT("Messaging"));
@@ -175,7 +175,7 @@ void RegisterFontServiceFonts() {
 			cid.defcolour = colourOptionsList[i].defColour;
 		}
 		strncpy(cid.setting, colourOptionsList[i].szSettingName, SIZEOF(cid.setting));
-		CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+		ColourRegisterT(&cid);
 	}
 }
 
@@ -202,7 +202,7 @@ void RegisterChatFonts( void )
 		fid.deffontsettings.charset = MsgDlgGetFontDefaultCharset(fontOptionsList[i].szDefFace);
 		_tcsncpy(fid.deffontsettings.szFace, chatFontOptionsList[i].szDefFace, SIZEOF(fid.deffontsettings.szFace));
 		_tcsncpy(fid.backgroundName, chatFontOptionsList[i].szBkgName, SIZEOF(fid.backgroundName));
-		CallService(MS_FONT_REGISTERT, (WPARAM)&fid, 0);
+		FontRegisterT(&fid);
 	}
 
 	colourid.cbSize = sizeof(ColourIDT);
@@ -213,22 +213,22 @@ void RegisterChatFonts( void )
 	_tcsncpy(colourid.name, LPGENT("Background"), SIZEOF(colourid.name));
 	mir_sntprintf(colourid.group, SIZEOF(colourid.group), _T("%s/%s"), LPGENT("Messaging"), LPGENT("Group Chats"));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("User list background"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistLines", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("User list lines"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_INACTIVEBORDER);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 
 	strncpy(colourid.setting, "ColorNicklistSelectedBG", SIZEOF(colourid.setting));
 	_tcsncpy(colourid.name, LPGENT("User list background (selected)"), SIZEOF(colourid.name));
 	colourid.defcolour = GetSysColor(COLOR_HIGHLIGHT);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourid, 0);
+	ColourRegisterT(&colourid);
 }
 
 int IconsChanged(WPARAM wParam, LPARAM lParam)

@@ -2853,18 +2853,18 @@ static int CLUIFrameOnFontChange(WPARAM wParam,LPARAM lParam)
 
 static void CLUIRegisterFonts()
 {
-	if (ServiceExists(MS_FONT_REGISTER)) {
-		FontID fid = {0};
-		fid.cbSize = sizeof(fid);
-		strcpy(fid.group,LPGEN("Frames"));
-		strcpy(fid.name,LPGEN("TitleBarFont"));
-		strcpy(fid.dbSettingsGroup,"CLUIFrames");
-		strcpy(fid.prefix,"FramesTitleBarFont");
+	FontID fid = {0};
+	fid.cbSize = sizeof(fid);
+	strcpy(fid.group, LPGEN("Frames"));
+	strcpy(fid.name, LPGEN("TitleBarFont"));
+	strcpy(fid.dbSettingsGroup, "CLUIFrames");
+	strcpy(fid.prefix, "FramesTitleBarFont");
+	FontRegister(&fid);
 
-		CallService(MS_FONT_REGISTER,(WPARAM)&fid,0);
-		CLUIFrameOnFontChange(0,0);
-		HookEvent(ME_FONT_RELOAD,CLUIFrameOnFontChange);
-}	}
+	CLUIFrameOnFontChange(0,0);
+
+	HookEvent(ME_FONT_RELOAD,CLUIFrameOnFontChange);
+}
 
 static int CLUIFrameOnModulesLoad(WPARAM wParam,LPARAM lParam)
 {

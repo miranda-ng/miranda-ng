@@ -373,19 +373,16 @@ void InitMwin(void)
 	}
 
 	{
-		FontID fontid = {0};
 		ColourID colourid = {0};
-		HDC hdc;
-
 		colourid.cbSize = sizeof(ColourID);
 		strcpy(colourid.dbSettingsGroup, WEATHERPROTONAME);
 		strcpy(colourid.setting, "ColorMwinFrame");
 		strcpy(colourid.name, "Frame Background");
 		strcpy(colourid.group, WEATHERPROTONAME);
 		colourid.defcolour = GetSysColor(COLOR_3DFACE);
+		ColourRegister(&colourid);
 
-		CallService(MS_COLOUR_REGISTER, (WPARAM)&colourid, 0);
-
+		FontID fontid = {0};
 		fontid.cbSize = sizeof(FontID);
 		fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID;
 		strcpy(fontid.dbSettingsGroup, WEATHERPROTONAME);
@@ -393,7 +390,7 @@ void InitMwin(void)
 		strcpy(fontid.name, "Frame Font");
 		strcpy(fontid.prefix, "fnt0");
 
-		hdc = GetDC(NULL);
+		HDC hdc = GetDC(NULL);
 		fontid.deffontsettings.size = -13;
 		ReleaseDC(0, hdc);
 
@@ -401,14 +398,12 @@ void InitMwin(void)
 		strcpy(fontid.deffontsettings.szFace, "Verdana");
 		strcpy(fontid.backgroundGroup, WEATHERPROTONAME);
 		strcpy(fontid.backgroundName, "Frame Background");
-
-		CallService(MS_FONT_REGISTER, (WPARAM)&fontid, 0);
+		FontRegister(&fontid);
 
 		fontid.deffontsettings.style = DBFONTF_BOLD;
 		strcpy(fontid.name, "Frame Title Font");
 		strcpy(fontid.prefix, "fnt1");
-
-		CallService(MS_FONT_REGISTER, (WPARAM)&fontid, 0);
+		FontRegister(&fontid);
 	}
 
 	hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDFIRST, 0, 0);

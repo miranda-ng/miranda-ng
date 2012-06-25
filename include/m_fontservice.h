@@ -5,6 +5,11 @@
 #ifndef _FONT_SERVICE_API_INC
 #define _FONT_SERVICE_API_INC
 
+//////////////////////////////////////////////////////////////////////////
+//
+//  FONTS
+//
+
 // style flags
 #define DBFONTF_BOLD       1
 #define DBFONTF_ITALIC     2
@@ -34,33 +39,28 @@
 // settings to be used for the value of 'deffontsettings' in the FontID structure below - i.e. defaults
 typedef struct FontSettings_tag
 {
-    COLORREF colour;
-    char  size;
-    BYTE  style;					// see the DBFONTF_* flags above
-    BYTE  charset;
-    char  szFace[LF_FACESIZE];
+	COLORREF colour;
+	char  size;
+	BYTE  style;					// see the DBFONTF_* flags above
+	BYTE  charset;
+	char  szFace[LF_FACESIZE];
 }
 	FontSettings;
 
 typedef struct FontSettingsW_tag
 {
-    COLORREF colour;
-    char size;
-    BYTE style;					// see the DBFONTF_* flags above
-    BYTE charset;
-    wchar_t szFace[LF_FACESIZE];
+	COLORREF colour;
+	char size;
+	BYTE style;					// see the DBFONTF_* flags above
+	BYTE charset;
+	wchar_t szFace[LF_FACESIZE];
 }
 	FontSettingsW;
 
-#define FontID_SIZEOF_V2A 372
-#define FontID_SIZEOF_V2U 660
-
 #if defined( _UNICODE )
-  #define FontSettingsT FontSettingsW
-  #define FontID_SIZEOF_V2 FontID_SIZEOF_V2U
+	#define FontSettingsT FontSettingsW
 #else
-  #define FontSettingsT FontSettings
-  #define FontID_SIZEOF_V2 FontID_SIZEOF_V2A
+	#define FontSettingsT FontSettings
 #endif
 
 // a font identifier structure - used for registering a font, and getting one out again
@@ -68,7 +68,8 @@ typedef struct FontSettingsW_tag
 // WARNING: do not use Translate(TS) for name or group as they
 // are translated by the core, which may lead to double translation.
 // Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
-typedef struct FontID_tag {
+typedef struct FontID_tag
+{
 	int   cbSize;
 	char  group[64];			// [TRANSLATED-BY-CORE] group the font belongs to - this is the 'Font Group' list in the options page
 	char  name[64];				// [TRANSLATED-BY-CORE] this is the name of the font setting - e.g. 'contacts' in the 'contact list' group
@@ -83,7 +84,8 @@ typedef struct FontID_tag {
 }
 	FontID;
 
-typedef struct FontIDW_tag {
+typedef struct FontIDW_tag
+{
 	int cbSize;
 	wchar_t group[64];			// [TRANSLATED-BY-CORE] group the font belongs to - this is the 'Font Group' list in the options page
 	wchar_t name[64];			// [TRANSLATED-BY-CORE] this is the name of the font setting - e.g. 'contacts' in the 'contact list' group
@@ -99,64 +101,30 @@ typedef struct FontIDW_tag {
 	FontIDW;
 
 #if defined( _UNICODE )
-  #define FontIDT FontIDW
+	#define FontIDT FontIDW
 #else
-  #define FontIDT FontID
-#endif
-
-// WARNING: do not use Translate(TS) for name or group as they
-// are translated by the core, which may lead to double translation.
-// Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
-typedef struct ColourID_tag {
-	int      cbSize;
-	char     group[64];	// [TRANSLATED-BY-CORE]
-	char     name[64];	// [TRANSLATED-BY-CORE]
-	char     dbSettingsGroup[32];
-	char     setting[32];
-	DWORD    flags;		// not used
-	COLORREF defcolour; // default value
-	int      order;
-}
-	ColourID;
-
-// a font identifier structure - used for registering a font, and getting one out again
-typedef struct ColourIDW_tag {
-	int cbSize;
-	wchar_t group[64];	// [TRANSLATED-BY-CORE]
-	wchar_t name[64];	// [TRANSLATED-BY-CORE]
-	char dbSettingsGroup[32];
-	char setting[32];
-	DWORD flags;		// not used
-	COLORREF defcolour; // default value
-	int order;
-}
-	ColourIDW;
-
-#if defined( _UNICODE )
-  #define ColourIDT ColourIDW
-#else
-  #define ColourIDT ColourID
+	#define FontIDT FontID
 #endif
 
 // register a font
 // wparam = (FontID *)&font_id
-// lparam = 0
-#define MS_FONT_REGISTER      "Font/Register"
-#define MS_FONT_REGISTERW     "Font/RegisterW"
+// lparam = hLangpack
+
+extern int hLangpack;
 
 __forceinline void FontRegister( FontID* pFontID )
-{	CallService( MS_FONT_REGISTER, (WPARAM)pFontID, 0 );
+{	CallService("Font/Register", (WPARAM)pFontID, hLangpack);
 }
 
 __forceinline void FontRegisterW( FontIDW* pFontID )
-{	CallService( MS_FONT_REGISTERW, (WPARAM)pFontID, 0 );
+{	CallService("Font/RegisterW", (WPARAM)pFontID, hLangpack);
 }
 
 #if defined( _UNICODE )
 	#define MS_FONT_REGISTERT MS_FONT_REGISTERW
 	#define FontRegisterT FontRegisterW
 #else
-  #define MS_FONT_REGISTERT MS_FONT_REGISTER
+	#define MS_FONT_REGISTERT MS_FONT_REGISTER
 	#define FontRegisterT FontRegister
 #endif
 
@@ -171,27 +139,76 @@ __forceinline void FontRegisterW( FontIDW* pFontID )
 #define MS_FONT_GETW          "Font/GetW"
 
 #if defined( _UNICODE )
-  #define MS_FONT_GETT MS_FONT_GETW
+	#define MS_FONT_GETT MS_FONT_GETW
 #else
-  #define MS_FONT_GETT MS_FONT_GET
+	#define MS_FONT_GETT MS_FONT_GET
 #endif
 
 // fired when a user modifies font settings, so reload your fonts
 // wparam = lparam = 0
 #define ME_FONT_RELOAD        "Font/Reload"
 
+//////////////////////////////////////////////////////////////////////////
+//
+//  COLOURS
+//
+
+// WARNING: do not use Translate(TS) for name or group as they
+// are translated by the core, which may lead to double translation.
+// Use LPGEN instead which are just dummy wrappers/markers for "lpgen.pl".
+typedef struct ColourID_tag
+{
+	int      cbSize;
+	char     group[64];	// [TRANSLATED-BY-CORE]
+	char     name[64];	// [TRANSLATED-BY-CORE]
+	char     dbSettingsGroup[32];
+	char     setting[32];
+	DWORD    flags;		// not used
+	COLORREF defcolour; // default value
+	int      order;
+}
+	ColourID;
+
+// a font identifier structure - used for registering a font, and getting one out again
+typedef struct ColourIDW_tag
+{
+	int cbSize;
+	wchar_t group[64];	// [TRANSLATED-BY-CORE]
+	wchar_t name[64];	// [TRANSLATED-BY-CORE]
+	char dbSettingsGroup[32];
+	char setting[32];
+	DWORD flags;		// not used
+	COLORREF defcolour; // default value
+	int order;
+}
+	ColourIDW;
+
+#if defined( _UNICODE )
+	#define ColourIDT ColourIDW
+#else
+	#define ColourIDT ColourID
+#endif
+
 // register a colour (this should be used for everything except actual text colour for registered fonts)
 // [note - a colour with name 'Background' [translated!] has special meaning and will be used as the background colour of
 // the font list box in the options, for the given group]
 // wparam = (ColourID *)&colour_id
-// lparam = 0
-#define MS_COLOUR_REGISTER    "Colour/Register"
-#define MS_COLOUR_REGISTERW   "Colour/RegisterW"
+// lparam = hLangpack
+
+__forceinline void ColourRegister(ColourID* pColorID)
+{	CallService("Colour/Register", (WPARAM)pColorID, hLangpack);
+}
+
+__forceinline void ColourRegisterW(ColourIDW* pColorID)
+{	CallService("Colour/RegisterW", (WPARAM)pColorID, hLangpack);
+}
 
 #if defined( _UNICODE )
-  #define MS_COLOUR_REGISTERT MS_COLOUR_REGISTERW
+	#define MS_COLOUR_REGISTERT MS_COLOUR_REGISTERW
+	#define ColourRegisterT ColourRegisterW
 #else
-  #define MS_COLOUR_REGISTERT MS_COLOUR_REGISTER
+	#define MS_COLOUR_REGISTERT MS_COLOUR_REGISTER
+	#define ColourRegisterT ColourRegister
 #endif
 
 // get a colour
@@ -201,15 +218,14 @@ __forceinline void FontRegisterW( FontIDW* pFontID )
 #define MS_COLOUR_GETW        "Colour/GetW"
 
 #if defined( _UNICODE )
-  #define MS_COLOUR_GETT MS_COLOUR_GETW
+	#define MS_COLOUR_GETT MS_COLOUR_GETW
 #else
-  #define MS_COLOUR_GETT MS_COLOUR_GET
+	#define MS_COLOUR_GETT MS_COLOUR_GET
 #endif
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
 #define ME_COLOUR_RELOAD      "Colour/Reload"
-
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -217,58 +233,66 @@ __forceinline void FontRegisterW( FontIDW* pFontID )
 //
 typedef struct FONTEFFECT_tag
 {
-    BYTE     effectIndex;
-    DWORD    baseColour;        // ARGB
-    DWORD    secondaryColour;   // ARGB
+	BYTE     effectIndex;
+	DWORD    baseColour;        // ARGB
+	DWORD    secondaryColour;   // ARGB
 }
-    FONTEFFECT;
+	FONTEFFECT;
 
 typedef struct EffectID_tag
 {
-    int      cbSize;
-    char     group[64];
-    char     name[64];
-    char     dbSettingsGroup[32];
-    char     setting[32];
-    DWORD    flags;
-    FONTEFFECT defeffect;
-    int      order;
+	int      cbSize;
+	char     group[64];
+	char     name[64];
+	char     dbSettingsGroup[32];
+	char     setting[32];
+	DWORD    flags;
+	FONTEFFECT defeffect;
+	int      order;
 
-    FONTEFFECT value;
+	FONTEFFECT value;
 }
-    EffectID;
+	EffectID;
 
 typedef struct EffectIDW_tag
 {
-    int      cbSize;
-    wchar_t  group[64];
-    wchar_t  name[64];
-    char     dbSettingsGroup[32];
-    char     setting[32];
-    DWORD    flags;
-    FONTEFFECT defeffect;
-    int      order;
+	int      cbSize;
+	wchar_t  group[64];
+	wchar_t  name[64];
+	char     dbSettingsGroup[32];
+	char     setting[32];
+	DWORD    flags;
+	FONTEFFECT defeffect;
+	int      order;
 
-    FONTEFFECT value;
+	FONTEFFECT value;
 }
-    EffectIDW;
+	EffectIDW;
 
 #if defined( _UNICODE )
-    #define EffectIDT EffectIDW
+	#define EffectIDT EffectIDW
 #else
-    #define EffectIDT EffectID
+	#define EffectIDT EffectID
 #endif
 
 // register an effect
 // wparam = (EffectID *)&effect_id
 // lparam = 0
-#define MS_EFFECT_REGISTER    "Effect/Register"
-#define MS_EFFECT_REGISTERW   "Effect/RegisterW"
+
+__forceinline void EffectRegister(EffectID* pEffectID)
+{	CallService("Effect/Register", (WPARAM)pEffectID, hLangpack);
+}
+
+__forceinline void EffectRegisterW(EffectIDW* pEffectID)
+{	CallService("Effect/RegisterW", (WPARAM)pEffectID, hLangpack);
+}
 
 #if defined( _UNICODE )
-    #define MS_EFFECT_REGISTERT MS_EFFECT_REGISTERW
+	#define MS_EFFECT_REGISTERT MS_EFFECT_REGISTERW
+	#define EffectRegisterT EffectRegisterW
 #else
-    #define MS_EFFECT_REGISTERT MS_EFFECT_REGISTER
+	#define MS_EFFECT_REGISTERT MS_EFFECT_REGISTER
+	#define EffectRegisterT EffectRegister
 #endif
 
 // get a effect
@@ -279,14 +303,13 @@ typedef struct EffectIDW_tag
 #define MS_EFFECT_GETW        "Effect/GetW"
 
 #if defined( _UNICODE )
-    #define MS_EFFECT_GETT MS_EFFECT_GETW
+	#define MS_EFFECT_GETT MS_EFFECT_GETW
 #else
-    #define MS_EFFECT_GETT MS_EFFECT_GET
+	#define MS_EFFECT_GETT MS_EFFECT_GET
 #endif
 
 // fired when a user modifies font settings, so reget your fonts and colours
 // wparam = lparam = 0
 #define ME_EFFECT_RELOAD      "Effect/Reload"
-
 
 #endif // _FONT_SERVICE_API_INC

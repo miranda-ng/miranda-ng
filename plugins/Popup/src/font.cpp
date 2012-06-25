@@ -85,12 +85,12 @@ void InitFonts() {
 	lstrcpy(cid.name, _T(PU_COL_BACK_NAME));
 	strcpy(cid.setting, PU_COL_BACK_SETTING);
 	cid.defcolour = SETTING_BACKCOLOUR_DEFAULT;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+	ColourRegisterT(&cid);
 
 	lstrcpy(cid.name, _T(PU_COL_AVAT_NAME));
 	strcpy(cid.setting, PU_COL_AVAT_SETTING);
 	cid.defcolour = SETTING_TEXTCOLOUR_DEFAULT;
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&cid, 0);
+	ColourRegisterT(&cid);
 
 	ReloadFonts();
 }

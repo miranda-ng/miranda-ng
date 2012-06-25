@@ -151,6 +151,7 @@ void InitFonts()
 	strcpy(colourBg.setting, "ColourBg");
 	colourBg.defcolour = RGB(219, 219, 219);
 	colourBg.order = 0;
+	ColourRegisterT(&colourBg);
 
 	colourBorder.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourBorder.group, LPGENT("Tooltips"));
@@ -159,6 +160,7 @@ void InitFonts()
 	strcpy(colourBorder.setting, "BorderCol");
 	colourBorder.defcolour = 0;
 	colourBorder.order = 0;
+	ColourRegisterT(&colourBorder);
 
 	colourAvatarBorder.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourAvatarBorder.group, LPGENT("Tooltips"));
@@ -167,6 +169,7 @@ void InitFonts()
 	strcpy(colourAvatarBorder.setting, "AvBorderCol");
 	colourAvatarBorder.defcolour = 0;
 	colourAvatarBorder.order = 0;
+	ColourRegisterT(&colourAvatarBorder);
 
 	colourDivider.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourDivider.group, LPGENT("Tooltips"));
@@ -175,6 +178,7 @@ void InitFonts()
 	strcpy(colourDivider.setting, "DividerCol");
 	colourDivider.defcolour = 0;
 	colourDivider.order = 0;
+	ColourRegisterT(&colourDivider);
 
 	colourSidebar.cbSize = sizeof(ColourIDT);
 	_tcscpy(colourSidebar.group, LPGENT("Tooltips"));
@@ -183,12 +187,7 @@ void InitFonts()
 	strcpy(colourSidebar.setting, "SidebarCol");
 	colourSidebar.defcolour = RGB(192, 192, 192);
 	colourSidebar.order = 0;
-
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourBg, 0);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourBorder, 0);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourAvatarBorder, 0);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourDivider, 0);
-	CallService(MS_COLOUR_REGISTERT, (WPARAM)&colourSidebar, 0);
+	ColourRegisterT(&colourSidebar);
 
 	fontTitle.cbSize = sizeof(FontIDT);
 	fontTitle.flags = FIDF_ALLOWEFFECTS;

@@ -188,12 +188,12 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 	strcpy(fontid.name, "Frame title");
 	strcpy(fontid.prefix, "fntFrameTitle");
 	fontid.deffontsettings.style = DBFONTF_BOLD;
-	CallService(MS_FONT_REGISTER, (WPARAM)&fontid, 0);
+	FontRegister(&fontid);
 
 	strcpy(fontid.name, "Frame text");
 	strcpy(fontid.prefix, "fntFrameClock");
 	fontid.deffontsettings.style = 0;
-	CallService(MS_FONT_REGISTER, (WPARAM)&fontid, 0);
+	FontRegister(&fontid);
 
 	ColourID colourid = {0};
 	colourid.cbSize = sizeof(colourid);
@@ -203,7 +203,7 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 	strcpy(colourid.name, "Background");
 	strcpy(colourid.setting, "clFrameBack");
 	colourid.defcolour = GetSysColor(COLOR_WINDOW);
-	CallService(MS_COLOUR_REGISTER, (WPARAM)&colourid, 0);
+	ColourRegister(&colourid);
 
 	// Init extra icons
 	hExtraActivity = ExtraIcon_Register("activity", "Jabber Activity" /* No icons registered, "working" */);

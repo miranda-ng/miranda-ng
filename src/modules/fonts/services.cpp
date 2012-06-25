@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-2009 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -26,8 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 COLORREF GetColorFromDefault(COLORREF cl);
 
-
-void ConvertFontSettings(FontSettings* fs, TFontSettings* fsw)
+void ConvertFontSettings(FontSettings* fs, FontSettingsW* fsw)
 {
 	fsw->colour = fs->colour;
 	fsw->size = fs->size;
@@ -37,10 +36,13 @@ void ConvertFontSettings(FontSettings* fs, TFontSettings* fsw)
 	MultiByteToWideChar(code_page, 0, fs->szFace, -1, fsw->szFace, LF_FACESIZE);
 }
 
-void ConvertFontID(FontID *fid, TFontID* fidw)
+bool ConvertFontID(FontID *fid, FontIDW* fidw)
 {
-	memset(fidw, 0, sizeof(TFontID));
-	fidw->cbSize = sizeof(TFontID);
+	if (fid->cbSize != sizeof(FontID))
+		return false;
+
+	memset(fidw, 0, sizeof(FontIDW));
+	fidw->cbSize = sizeof(FontIDW);
 	strcpy(fidw->dbSettingsGroup, fid->dbSettingsGroup);
 	strcpy(fidw->prefix, fid->prefix);
 	fidw->flags = fid->flags;
@@ -49,15 +51,17 @@ void ConvertFontID(FontID *fid, TFontID* fidw)
 
 	MultiByteToWideChar(code_page, 0, fid->group, -1, fidw->group, 64);
 	MultiByteToWideChar(code_page, 0, fid->name, -1, fidw->name, 64);
-	if (fid->cbSize >= FontID_SIZEOF_V2A) {
-		MultiByteToWideChar(code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
-		MultiByteToWideChar(code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
-	}
+	MultiByteToWideChar(code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
+	MultiByteToWideChar(code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
+	return true;
 }
 
-void ConvertColourID(ColourID *cid, TColourID* cidw)
+bool ConvertColourID(ColourID *cid, ColourIDW* cidw)
 {
-	cidw->cbSize = sizeof(TColourID);
+	if (cid->cbSize != sizeof(ColourID))
+		return false;
+
+	cidw->cbSize = sizeof(ColourIDW);
 
 	strcpy(cidw->dbSettingsGroup, cid->dbSettingsGroup);
 	strcpy(cidw->setting, cid->setting);
@@ -67,24 +71,28 @@ void ConvertColourID(ColourID *cid, TColourID* cidw)
 
 	MultiByteToWideChar(code_page, 0, cid->group, -1, cidw->group, 64);
 	MultiByteToWideChar(code_page, 0, cid->name, -1, cidw->name, 64);
+	return true;
 }
 
-void ConvertEffectID(EffectID *eid, TEffectID* eidw)
+bool ConvertEffectID(EffectID *eid, EffectIDW* eidw)
 {
-    eidw->cbSize = sizeof(TEffectID);
+	if (eid->cbSize != sizeof(EffectID))
+		return false;
 
-    strcpy(eidw->dbSettingsGroup, eid->dbSettingsGroup);
-    strcpy(eidw->setting, eid->setting);
-    eidw->flags = eid->flags;
-    eidw->defeffect.effectIndex = eid->defeffect.effectIndex;
-    eidw->defeffect.baseColour = eid->defeffect.baseColour;
-    eidw->defeffect.secondaryColour = eid->defeffect.secondaryColour;
-    eidw->order = eid->order;
+	eidw->cbSize = sizeof(EffectIDW);
 
-    MultiByteToWideChar(code_page, 0, eid->group, -1, eidw->group, 64);
-    MultiByteToWideChar(code_page, 0, eid->name, -1, eidw->name, 64);
+	strcpy(eidw->dbSettingsGroup, eid->dbSettingsGroup);
+	strcpy(eidw->setting, eid->setting);
+	eidw->flags = eid->flags;
+	eidw->defeffect.effectIndex = eid->defeffect.effectIndex;
+	eidw->defeffect.baseColour = eid->defeffect.baseColour;
+	eidw->defeffect.secondaryColour = eid->defeffect.secondaryColour;
+	eidw->order = eid->order;
+
+	MultiByteToWideChar(code_page, 0, eid->group, -1, eidw->group, 64);
+	MultiByteToWideChar(code_page, 0, eid->name, -1, eidw->name, 64);
+	return true;
 }
-
 
 void ConvertLOGFONT(LOGFONTW *lfw, LOGFONTA *lfa)
 {
@@ -112,7 +120,7 @@ static void GetDefaultFontSetting(LOGFONT* lf, COLORREF* colour)
 		*colour = GetSysColor(COLOR_WINDOWTEXT);
 
 	lf->lfHeight = 10;
-	
+
 	HDC hdc = GetDC(0);
 	lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
 	ReleaseDC(0, hdc);
@@ -134,7 +142,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 		_tcscpy(lf->lfFaceName, dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-   else retval = 1;
+	else retval = 1;
 
 	if (colour) {
 		mir_snprintf(idstr, SIZEOF(idstr), "%sCol", prefix);
@@ -153,7 +161,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	//}
 
 	mir_snprintf(idstr, SIZEOF(idstr), "%sSty", prefix);
-	style = (BYTE) DBGetContactSettingByte(NULL, settings_group, idstr, 
+	style = (BYTE) DBGetContactSettingByte(NULL, settings_group, idstr,
 		(lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0) | lf->lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
@@ -193,7 +201,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 	return retval;
 }
 
-int CreateFromFontSettings(TFontSettings* fs, LOGFONT* lf)
+int CreateFromFontSettings(FontSettingsT* fs, LOGFONT* lf)
 {
 	GetDefaultFontSetting(lf, 0);
 
@@ -214,7 +222,7 @@ int CreateFromFontSettings(TFontSettings* fs, LOGFONT* lf)
 	return 0;
 }
 
-void UpdateFontSettings(TFontID* font_id, TFontSettings* fontsettings)
+void UpdateFontSettings(FontIDW* font_id, FontSettingsT* fontsettings)
 {
 	LOGFONT lf;
 	COLORREF colour;
@@ -235,8 +243,8 @@ void UpdateFontSettings(TFontID* font_id, TFontSettings* fontsettings)
 static COLORREF sttMixColor(COLORREF cl1, COLORREF cl2, int q)
 {
 	return RGB(
-			(GetRValue(cl1) * q + GetRValue(cl2) * (255 - q)) / 255, 
-			(GetGValue(cl1) * q + GetGValue(cl2) * (255 - q)) / 255, 
+			(GetRValue(cl1) * q + GetRValue(cl2) * (255 - q)) / 255,
+			(GetGValue(cl1) * q + GetGValue(cl2) * (255 - q)) / 255,
 			(GetBValue(cl1) * q + GetBValue(cl2) * (255 - q)) / 255
 		);
 }
@@ -269,10 +277,13 @@ COLORREF GetColorFromDefault(COLORREF cl)
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
-static int sttRegisterFontWorker(TFontID* font_id)
+static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 {
+	if (font_id->cbSize != sizeof(FontIDW))
+		return -1;
+
 	for (int i = 0; i < font_id_list.getCount(); i++) {
-		TFontID& F = font_id_list[i];
+		FontInternal& F = font_id_list[i];
 		if ( !lstrcmp(F.group, font_id->group) && !lstrcmp(F.name, font_id->name) && !(F.flags & FIDF_ALLOWREREGISTER))
 			return 1;
 	}
@@ -280,13 +291,12 @@ static int sttRegisterFontWorker(TFontID* font_id)
 	char idstr[256];
 	mir_snprintf(idstr, SIZEOF(idstr), "%sFlags", font_id->prefix);
 	DBWriteContactSettingDword(0, font_id->dbSettingsGroup, idstr, font_id->flags);
-	{	
-		TFontID* newItem = new TFontID;
-		memset(newItem, 0, sizeof(TFontID));
+	{
+		FontInternal* newItem = new FontInternal;
+		memset(newItem, 0, sizeof(FontIDW));
 		memcpy(newItem, font_id, font_id->cbSize);
 
-		if ( !lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg")))
-		{
+		if ( !lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
 			LOGFONT lf;
 			SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
 			lstrcpyn(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
@@ -300,102 +310,103 @@ static int sttRegisterFontWorker(TFontID* font_id)
 	return 0;
 }
 
-INT_PTR RegisterFontW(WPARAM wParam, LPARAM)
+INT_PTR RegisterFontW(WPARAM wParam, LPARAM lParam)
 {
-	return sttRegisterFontWorker((TFontID*)wParam);
+	return sttRegisterFontWorker((FontIDW*)wParam, (int)lParam);
 }
 
-INT_PTR RegisterFont(WPARAM wParam, LPARAM)
+INT_PTR RegisterFont(WPARAM wParam, LPARAM lParam)
 {
-	TFontID temp;
-	ConvertFontID((FontID*)wParam, &temp);
-	return sttRegisterFontWorker(&temp);
+	FontIDW temp;
+	if ( !ConvertFontID((FontID*)wParam, &temp)) return -1;
+	return sttRegisterFontWorker(&temp, (int)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetFont service
 
-static int sttGetFontWorker(TFontID* font_id, LOGFONT* lf)
+static INT_PTR sttGetFontWorker(FontIDW* font_id, LOGFONT* lf)
 {
 	COLORREF colour;
 
 	for (int i = 0; i < font_id_list.getCount(); i++) {
-		TFontID& F = font_id_list[i];
+		FontInternal& F = font_id_list[i];
 		if ( !_tcsncmp(F.name, font_id->name, SIZEOF(F.name)) && !_tcsncmp(F.group, font_id->group, SIZEOF(F.group))) {
 			if (GetFontSettingFromDB(F.dbSettingsGroup, F.prefix, lf, &colour, F.flags) && (F.flags & FIDF_DEFAULTVALID)) {
 				CreateFromFontSettings(&F.deffontsettings, lf);
 				colour = GetColorFromDefault(F.deffontsettings.colour);
 			}
 
-			return (int)colour;
+			return colour;
 	}	}
 
 	GetDefaultFontSetting(lf, &colour);
-	return (int)colour;
+	return colour;
 }
 
 INT_PTR GetFontW(WPARAM wParam, LPARAM lParam)
 {
-	return sttGetFontWorker((TFontID*)wParam, (LOGFONT*)lParam);
+	return sttGetFontWorker((FontIDW*)wParam, (LOGFONT*)lParam);
 }
 
 INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 {
-		TFontID temp;
-		LOGFONT lftemp;
-		ConvertFontID((FontID *)wParam, &temp);
-		{	int ret = sttGetFontWorker(&temp, &lftemp);
-			ConvertLOGFONT(&lftemp, (LOGFONTA*)lParam);
-			return ret;
-		}
+	FontIDW temp;
+	LOGFONT lftemp;
+	if ( !ConvertFontID((FontID*)wParam, &temp)) return -1;
+
+	int ret = sttGetFontWorker(&temp, &lftemp);
+	ConvertLOGFONT(&lftemp, (LOGFONTA*)lParam);
+	return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterColour service
 
-void UpdateColourSettings(TColourID* colour_id, COLORREF *colour)
+void UpdateColourSettings(ColourIDW* colour_id, COLORREF *colour)
 {
 	*colour = (COLORREF)DBGetContactSettingDword(NULL, colour_id->dbSettingsGroup, colour_id->setting, GetColorFromDefault(colour_id->defcolour));
 }
 
-static int sttRegisterColourWorker(TColourID* colour_id)
+static INT_PTR sttRegisterColourWorker(ColourIDW* colour_id, int hLangpack)
 {
+	if (colour_id->cbSize != sizeof(ColourIDW))
+		return -1;
+
 	for (int i = 0; i < colour_id_list.getCount(); i++) {
-		TColourID& C = colour_id_list[i];
+		ColourInternal& C = colour_id_list[i];
 		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
 			return 1;
 	}
 
-	TColourID* newItem = new TColourID;
-	memcpy(newItem, colour_id, sizeof(TColourID));
+	ColourInternal* newItem = new ColourInternal;
+	memcpy(newItem, colour_id, sizeof(ColourIDW));
 	UpdateColourSettings(colour_id, &newItem->value);
 	colour_id_list.insert(newItem);
 	return 0;
 }
 
-INT_PTR RegisterColourW(WPARAM wParam, LPARAM)
+INT_PTR RegisterColourW(WPARAM wParam, LPARAM lParam)
 {
-	return sttRegisterColourWorker((TColourID*)wParam);
+	return sttRegisterColourWorker((ColourIDW*)wParam, (int)lParam);
 }
 
-INT_PTR RegisterColour(WPARAM wParam, LPARAM)
+INT_PTR RegisterColour(WPARAM wParam, LPARAM lParam)
 {
-	TColourID temp;
-	ConvertColourID((ColourID*)wParam, &temp);
-	return sttRegisterColourWorker(&temp);
+	ColourIDW temp;
+	if ( !ConvertColourID((ColourID*)wParam, &temp)) return -1;
+	return sttRegisterColourWorker(&temp, (int)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetColour service
 
-static int sttGetColourWorker(TColourID* colour_id)
+static INT_PTR sttGetColourWorker(ColourIDW* colour_id)
 {
-	int i;
-
-	for (i = 0; i < colour_id_list.getCount(); i++) {
-		TColourID& C = colour_id_list[i];
+	for (int i = 0; i < colour_id_list.getCount(); i++) {
+		ColourInternal& C = colour_id_list[i];
 		if ( !_tcscmp(C.group, colour_id->group) && !_tcscmp(C.name, colour_id->name))
-			return (int)DBGetContactSettingDword(NULL, C.dbSettingsGroup, C.setting, GetColorFromDefault(C.defcolour));
+			return DBGetContactSettingDword(NULL, C.dbSettingsGroup, C.setting, GetColorFromDefault(C.defcolour));
 	}
 
 	return -1;
@@ -403,95 +414,94 @@ static int sttGetColourWorker(TColourID* colour_id)
 
 INT_PTR GetColourW(WPARAM wParam, LPARAM)
 {
-	return sttGetColourWorker((TColourID*)wParam);
+	return sttGetColourWorker((ColourIDW*)wParam);
 }
 
 INT_PTR GetColour(WPARAM wParam, LPARAM)
 {
-	TColourID temp;
-	ConvertColourID((ColourID*)wParam, &temp);
+	ColourIDW temp;
+	if ( !ConvertColourID((ColourID*)wParam, &temp)) return -1;
 	return sttGetColourWorker(&temp);
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // Effects
 
-void UpdateEffectSettings(TEffectID* effect_id, TEffectSettings* effectsettings)
+void UpdateEffectSettings(EffectIDW* effect_id, FONTEFFECT* effectsettings)
 {
-   char str[256];
+	char str[256];
 
-   mir_snprintf(str, SIZEOF(str), "%sEffect", effect_id->setting);
-   effectsettings->effectIndex = DBGetContactSettingByte(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
+	mir_snprintf(str, SIZEOF(str), "%sEffect", effect_id->setting);
+	effectsettings->effectIndex = DBGetContactSettingByte(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
 
-   mir_snprintf(str, SIZEOF(str), "%sEffectCol1", effect_id->setting);
-   effectsettings->baseColour = DBGetContactSettingDword(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
+	mir_snprintf(str, SIZEOF(str), "%sEffectCol1", effect_id->setting);
+	effectsettings->baseColour = DBGetContactSettingDword(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.baseColour);
 
-   mir_snprintf(str, SIZEOF(str), "%sEffectCol2", effect_id->setting);
-   effectsettings->secondaryColour = DBGetContactSettingDword(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
-
+	mir_snprintf(str, SIZEOF(str), "%sEffectCol2", effect_id->setting);
+	effectsettings->secondaryColour = DBGetContactSettingDword(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.secondaryColour);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // RegisterFont service
 
-static int sttRegisterEffectWorker(TEffectID* effect_id)
+static INT_PTR sttRegisterEffectWorker(EffectIDW* effect_id, int hLangpack)
 {
-    for (int i = 0; i < effect_id_list.getCount(); i++) {
-        TEffectID& E = effect_id_list[i];
-        if ( !_tcscmp(E.group, effect_id->group) && !_tcscmp(E.name, effect_id->name))
-            return 1;
-    }
+	if (effect_id->cbSize != sizeof(EffectIDW))
+		return -1;
 
-    TEffectID* newItem = new TEffectID;
-    memcpy(newItem, effect_id, sizeof(TEffectID));
-    UpdateEffectSettings(effect_id, &newItem->value);
-    effect_id_list.insert(newItem);
-    return 0;
+	for (int i = 0; i < effect_id_list.getCount(); i++) {
+		EffectInternal& E = effect_id_list[i];
+		if ( !_tcscmp(E.group, effect_id->group) && !_tcscmp(E.name, effect_id->name))
+			return 1;
+	}
+
+	EffectInternal* newItem = new EffectInternal;
+	memcpy(newItem, effect_id, sizeof(EffectIDW));
+	UpdateEffectSettings(effect_id, &newItem->value);
+	effect_id_list.insert(newItem);
+	return 0;
 }
 
 INT_PTR RegisterEffectW(WPARAM wParam, LPARAM lParam)
 {
-    return sttRegisterEffectWorker((TEffectID*)wParam);
+	return sttRegisterEffectWorker((EffectIDW*)wParam, (int)lParam);
 }
 
 INT_PTR RegisterEffect(WPARAM wParam, LPARAM lParam)
 {
-	TEffectID temp;
-    ConvertEffectID((EffectID*)wParam, &temp);
-    return sttRegisterEffectWorker(&temp);
+	EffectIDW temp;
+	if ( !ConvertEffectID((EffectID*)wParam, &temp)) return -1;
+	return sttRegisterEffectWorker(&temp, (int)lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // GetEffect service
 
-static int sttGetEffectWorker(TEffectID* effect_id, FONTEFFECT* effect)
+static INT_PTR sttGetEffectWorker(EffectIDW* effect_id, FONTEFFECT* effect)
 {
 	for (int i = 0; i < effect_id_list.getCount(); i++) {
-		TEffectID& E = effect_id_list[i];
-		if ( !_tcsncmp(E.name, effect_id->name, SIZEOF(E.name)) && !_tcsncmp(E.group, effect_id->group, SIZEOF(E.group))) 
-		{
-			TEffectSettings temp;
+		EffectInternal& E = effect_id_list[i];
+		if ( !_tcsncmp(E.name, effect_id->name, SIZEOF(E.name)) && !_tcsncmp(E.group, effect_id->group, SIZEOF(E.group))) {
+			FONTEFFECT temp;
 			UpdateEffectSettings(effect_id, &temp);
 
 			effect->effectIndex = temp.effectIndex;
 			effect->baseColour  = temp.baseColour;
 			effect->secondaryColour = temp.secondaryColour;
+			return TRUE;
+	}	}
 
-			return (int) TRUE;
-	}	}	
-
-	return (int)FALSE;
+	return FALSE;
 }
 
 INT_PTR GetEffectW(WPARAM wParam, LPARAM lParam)
 {
-    return sttGetEffectWorker((TEffectID*)wParam, (FONTEFFECT*)lParam);
+	return sttGetEffectWorker((EffectIDW*)wParam, (FONTEFFECT*)lParam);
 }
 
 INT_PTR GetEffect(WPARAM wParam, LPARAM lParam)
 {
-	TEffectID temp;
-    ConvertEffectID((EffectID *)wParam, &temp);
-    return sttGetEffectWorker(&temp, (FONTEFFECT*)lParam);
+	EffectIDW temp;
+	if ( !ConvertEffectID((EffectID*)wParam, &temp)) return -1;
+	return sttGetEffectWorker(&temp, (FONTEFFECT*)lParam);
 }

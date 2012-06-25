@@ -116,11 +116,11 @@ void CTooltipNotify::RegisterFonts()
 		_tcscpy(fontId.name, s_fontTable[i].name);
 		strcpy(fontId.prefix, s_fontTable[i].fontPrefix);
 		_tcscpy(fontId.backgroundName, s_fontTable[i].name);
-		::CallService(MS_FONT_REGISTERT, (WPARAM)&fontId, 0);
+		::FontRegisterT(&fontId);
 
 		_tcscpy(colorId.name, s_fontTable[i].name);
 		strcpy(colorId.setting, s_fontTable[i].clrPrefix);
-		::CallService(MS_COLOUR_REGISTERT, (WPARAM)&colorId, 0);
+		::ColourRegisterT(&colorId);
 	}
 }
 
