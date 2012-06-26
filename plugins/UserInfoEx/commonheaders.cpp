@@ -31,10 +31,6 @@ Last change by : $Author: ing.u.horn $
 
 // global:
 HINSTANCE		ghInst		= NULL;
-MM_INTERFACE	mmi;					//memory interface
-UTF8_INTERFACE	utfi;					//utf8 interface
-LIST_INTERFACE	li;						//list interface
-//XML_API		xi;						//for late use
 TIME_API		tmi;					//timezone interface
 FI_INTERFACE	*FIP		= NULL;		//freeimage interface
 CLIST_INTERFACE *pcli		= NULL;
@@ -57,7 +53,7 @@ pfnDwmIsCompositionEnabled	dwmIsCompositionEnabled;
 DWORD hashSetting(LPCSTR szStr)
 {
 #if defined _M_IX86 && !defined _NUMEGA_BC_FINALCHECK && !defined NOINLINEASM
-	__asm 
+	__asm
 	{
 		xor		edx,edx
 		xor		eax,eax
@@ -82,7 +78,7 @@ DWORD hashSetting(LPCSTR szStr)
 	DWORD hash = 0;
 	int i;
 	int shift = 0;
-	for (i = 0; szStr[i]; i++) 
+	for (i = 0; szStr[i]; i++)
 	{
 		hash ^= szStr[i] << shift;
 		if (shift > 24)
@@ -95,7 +91,7 @@ DWORD hashSetting(LPCSTR szStr)
 #endif
 }
 
-// MurmurHash2 
+// MurmurHash2
 #ifdef _DEBUG
 #pragma optimize( "gt", on )
 #endif
@@ -116,17 +112,17 @@ unsigned int __fastcall hash_M2(const void * key, unsigned int len)
 	{
 		unsigned int k = *(unsigned int *)data;
 
-		k *= m; 
-		k ^= k >> r; 
-		k *= m; 
-		
-		h *= m; 
+		k *= m;
+		k ^= k >> r;
+		k *= m;
+
+		h *= m;
 		h ^= k;
 
 		data += 4;
 		len -= 4;
 	}
-	
+
 	// Handle the last few bytes of the input array
 	switch(len)
 	{

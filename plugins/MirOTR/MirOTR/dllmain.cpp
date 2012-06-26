@@ -8,8 +8,6 @@
 HANDLE hEventWindow;
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
 int hLangpack;
 char* g_metaproto;
 
@@ -136,8 +134,6 @@ DLLFUNC int Load(PLUGINLINK *link)
 	DEBUGOUT_T("LOAD MIROTR")
 	pluginLink=link;
 	mir_getLP( &pluginInfo );
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	/* for timezones
 	 mir_getTMI(&tmi);  */
 	

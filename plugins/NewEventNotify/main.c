@@ -48,7 +48,6 @@ extern PLUGIN_DATA* PopUpList[20];
 //---------------------------
 //---Some global variables for the plugin
 
-struct MM_INTERFACE mmi;
 
 HINSTANCE hInst;
 PLUGIN_OPTIONS pluginOptions;
@@ -221,10 +220,7 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 {
   pluginLink = link;
   hHookedInit = HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
-  hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);
-
-  mir_getMMI(&mmi);
-  mir_getLP(&pluginInfo);
+  hHookedOpt = HookEvent(ME_OPT_INITIALISE, HookedOptions);  mir_getLP(&pluginInfo);
 
   InitI18N();
 

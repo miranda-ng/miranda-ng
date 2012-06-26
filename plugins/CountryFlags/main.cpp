@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
 int nCountriesCount;
 struct CountryListEntry *countries;
 int hLangpack;
@@ -95,7 +94,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 
 	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING
 	 * is checked in MirandaPluginInfo().
-	 * Not placed in MirandaPluginInfo() to avoid MessageBoxes on plugin options. 
+	 * Not placed in MirandaPluginInfo() to avoid MessageBoxes on plugin options.
 	 * Using ANSI as LANG_UNICODE might not be supported. */
 	if(CallService(MS_SYSTEM_GETVERSION,0,0)<NEEDED_MIRANDA_VERSION) {
 		char szText[256];
@@ -103,7 +102,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 		MessageBoxA(NULL,szText,Translate("Country Flags Plugin"),MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
 		return 1;
 	}
-	if(mir_getMMI(&mmi)) return 1;
 
 	PrepareBufferedFunctions();
 	InitCountryListExt();

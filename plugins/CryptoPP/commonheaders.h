@@ -9,15 +9,15 @@
 #define _SCL_SECURE_NO_WARNINGS
 #if _MSC_VER >= 1300
 //#pragma comment (compiler,"/GS-")
-//#pragma comment (linker,"/NODEFAULTLIB:libcmt.lib") 
+//#pragma comment (linker,"/NODEFAULTLIB:libcmt.lib")
 //#pragma comment (lib,"../../lib/msvcrt.lib")
 //#pragma comment (lib,"../../lib/msvcrt71.lib")
 #else
 #ifndef _DEBUG
 #pragma optimize("gsy", on)
 #endif
-#endif 
-#endif 
+#endif
+#endif
 
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0501
@@ -101,7 +101,6 @@ extern BOOL isVista;
 extern HINSTANCE g_hInst;
 extern PLUGINLINK *pluginLink;
 extern PLUGININFOEX pluginInfoEx;
-//extern MM_INTERFACE mmi;
 extern MUUID interfaces[];
 
 extern HANDLE hPGPPRIV;

@@ -20,9 +20,6 @@
 extern PLUGININFOEX pluginInfo;
 extern CLIST_INTERFACE * pcli;
 extern CLIST_INTERFACE corecli;
-extern struct UTF8_INTERFACE utfi;
-extern struct LIST_INTERFACE li;
-extern struct MM_INTERFACE   mmi;
 
 //Global variables
 extern int ON_SETALLEXTRAICON_CYCLE;

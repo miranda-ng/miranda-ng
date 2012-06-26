@@ -22,7 +22,6 @@ PLUGININFOEX pluginInfo={
 	MIID_BASSINT
 };
 
-struct MM_INTERFACE mmi;
 
 static HANDLE hHooks[5] = {0};
 static HANDLE hService;
@@ -476,9 +475,7 @@ int OnShutdown(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfo);
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hHooks[1] = HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	hHooks[2] = HookEvent(ME_TB_MODULELOADED, OnToolbarLoaded);

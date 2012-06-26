@@ -37,7 +37,6 @@ PLUGINLINK *pluginLink;
 YAMN_VARIABLES YAMNVar;
 
 int hLangpack;
-MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX), 
@@ -404,9 +403,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	int i, k;
 
 	pluginLink = link;
-	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfo);
 	YAMN_STATUS = ID_STATUS_OFFLINE;
 
 	//	we get the Miranda Root Path

@@ -4,7 +4,6 @@ LPCSTR szModuleName = MODULENAME;
 LPCSTR szVersionStr = MODULENAME" DLL ("__VERSION_STRING")";
 HINSTANCE g_hInst;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi={0};
 MUUID interfaces[] = {MIID_CRYPTOPP, MIID_LAST};
 
 HANDLE hPGPPRIV = NULL;
@@ -26,7 +25,7 @@ PLUGININFOEX pluginInfoEx = {
 		"baloo@bk.ru",
 		"© 2006-09 Baloo",
 		"http://miranda-im.org/download/details.php?action=viewfile&id=2669",
-		0, 0,	
+		0, 0,
 		MIID_CRYPTOPP
 };
 

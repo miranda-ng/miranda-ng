@@ -29,7 +29,6 @@ CLIST_INTERFACE* pcli = NULL;
 HIMAGELIST himlCListClc = NULL;
 int hLangpack;
 
-struct MM_INTERFACE mmi;
 BOOL(WINAPI * MySetLayeredWindowAttributes) (HWND, COLORREF, BYTE, DWORD) = NULL;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -140,12 +139,8 @@ static INT_PTR GetStatusMode(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int CListInitialise(PLUGINLINK * link)
 {
 	pluginLink = link;
-	#ifdef _DEBUG
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	#endif
 
 	// get the internal malloc/free()
-	mir_getMMI( &mmi );
 	mir_getLP( &pluginInfo );
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);

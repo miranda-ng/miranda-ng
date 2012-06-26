@@ -40,9 +40,6 @@ void UnloadLangPackModule(void);
 int InitialiseModularEngine(void);
 void DestroyModularEngine(void);
 
-void InitTimeZones(void);
-void UninitTimeZones(void);
-
 int InitPathUtils(void);
 
 extern HINSTANCE hInst;

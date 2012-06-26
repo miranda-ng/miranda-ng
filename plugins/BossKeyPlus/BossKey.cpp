@@ -33,7 +33,6 @@
 // unique to this DLL, not to be shared 
 HINSTANCE g_hInstance;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
 CLIST_INTERFACE *pcli;
 HANDLE g_hmGenMenuInit, g_hIcon, g_hMenuItem, g_hHideService, g_hIsHiddenService;
 HANDLE g_hHooks[7];
@@ -861,7 +860,6 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI( &mmi );
 	mir_getLP(&pluginInfo);
 
 	g_wMaskAdv = DBGetContactSettingWord(NULL,MOD_NAME,"optsmaskadv",0);

@@ -56,7 +56,6 @@ extern struct DBHeader dbHeader;
 extern HANDLE hCacheHeap;
 extern SortedList lContacts;
 extern char szDbPath[MAX_PATH];
-extern struct LIST_INTERFACE li;
 
 #ifdef __GNUC__
 #define mir_i64(x) (x##LL)
@@ -68,4 +67,4 @@ extern struct LIST_INTERFACE li;
 
 #ifndef MODULAR
 void Encrypt(char*msg,BOOL up);
-#endif 
+#endif

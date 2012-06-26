@@ -163,7 +163,7 @@ extern "C" {
 		TCHAR* title_t = mir_utf8decodeT(title);
 		TCHAR *notify = TranslateT(LANG_OTR_NOTIFY);
 		
-		int len = _tcslen(uname) + _tcslen(title_t) + _tcslen(notify);
+		size_t len = _tcslen(uname) + _tcslen(title_t) + _tcslen(notify);
 		TCHAR *buff1 = new TCHAR[len];
 		mir_sntprintf(buff1, len, notify, TranslateTS(title_t), uname);
 		mir_free(title_t);

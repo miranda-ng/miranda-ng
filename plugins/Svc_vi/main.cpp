@@ -30,8 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 int hLangpack;
-MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
 
 HICON hiVIIcon;
 
@@ -89,10 +87,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink=link;
-	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
-
+	mir_getLP(&pluginInfo);
 	InitServices();
 	HookEvents();
 	

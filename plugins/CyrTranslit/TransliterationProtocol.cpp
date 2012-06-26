@@ -115,7 +115,7 @@ INT_PTR TransliterationProtocol::sendMessageW(WPARAM wParam, LPARAM lParam)
 
 INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
 {
-    CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
+	CCSDATA *ccs = reinterpret_cast<CCSDATA*>(lParam);
 	LPARAM oldlParam = ccs->lParam;
 	bool msgProcessed = true;
 
@@ -132,7 +132,7 @@ INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
 		TranslateMessageA(wParam, lParam);
 	}
 
-    int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
+	int ret = CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
 	if(msgProcessed)
 	{

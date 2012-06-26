@@ -30,8 +30,6 @@
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 
 HANDLE hCSModuleLoadedHook;
 HANDLE hStateChangedEvent;
@@ -76,8 +74,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getLP( &pluginInfoEx );
 
 	InitCommonStatus();

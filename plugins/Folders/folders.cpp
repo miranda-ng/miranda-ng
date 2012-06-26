@@ -30,7 +30,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 char ModuleName[] = "Folders";
 HINSTANCE hInstance;
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 CFoldersList &lstRegisteredFolders = CFoldersList(10); //the list
 
@@ -178,7 +177,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 #endif
 	pluginLink = link;
 	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
 	
 	Log("%s", "Creating service functions ...");
 	InitServices();

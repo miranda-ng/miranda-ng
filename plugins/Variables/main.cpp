@@ -20,8 +20,6 @@
 #include "buildnumber.h"
 
 HINSTANCE hInst;
-struct MM_INTERFACE mmi;
-struct LIST_INTERFACE li;
 PLUGINLINK *pluginLink;
 DWORD g_mirandaVersion;
 int hLangpack = 0;
@@ -85,9 +83,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink = link;
 	if (UnicodeCheck(pluginInfoEx.shortName, FALSE))
 		return 0;
-
-	mir_getMMI( &mmi );
-	mir_getLI( &li );
 	mir_getLP( &pluginInfoEx );
 
 	hExitHook = HookEvent(ME_SYSTEM_OKTOEXIT, Exit);

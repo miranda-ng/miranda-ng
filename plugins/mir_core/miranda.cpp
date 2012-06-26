@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 HWND hAPCWindow = NULL;
 
 int  InitPathUtils(void);
-void RecalculateTime(void);
+void (*RecalculateTime)(void);
 
 HANDLE hStackMutex, hThreadQueueEmpty;
 int hLangpack = 0;
@@ -345,7 +345,8 @@ MIR_CORE_DLL(INT_PTR) UnwindThreadPop(WPARAM, LPARAM)
 static LRESULT CALLBACK APCWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_NULL) SleepEx(0, TRUE);
-	if (msg == WM_TIMECHANGE) RecalculateTime();
+	if (msg == WM_TIMECHANGE && RecalculateTime)
+		RecalculateTime();
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
@@ -370,17 +371,21 @@ static void LoadSystemModule(void)
 	SetWindowLongPtr(hAPCWindow, GWLP_WNDPROC, (LONG_PTR)APCWndProc);
 	hStackMutex = CreateMutex(NULL, FALSE, NULL);
 
+	#ifdef WIN64
+		HMODULE mirInst = GetModuleHandleA("miranda64.exe");
+	#else
+		HMODULE mirInst = GetModuleHandleA("miranda32.exe");
+	#endif
+	RecalculateTime = (void (*)()) GetProcAddress(mirInst, "RecalculateTime");
+
 	InitPathUtils();
-	LoadLangPackModule();
 	InitialiseModularEngine();
-	InitTimeZones();
 }
 
 static void UnloadSystemModule(void)
 {
 	DestroyModularEngine();
 	UnloadLangPackModule();
-	UninitTimeZones();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

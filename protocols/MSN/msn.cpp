@@ -25,13 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 int hLangpack;
-
-MM_INTERFACE   mmi;
-LIST_INTERFACE li;
-UTF8_INTERFACE utfi;
-MD5_INTERFACE  md5i;
-SHA1_INTERFACE sha1i;
-TIME_API       tmi;
+TIME_API tmi;
 
 HANDLE hMooduleLoaded;
 
@@ -121,12 +115,6 @@ static int msnProtoUninit(CMsnProto* ppro)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK* link)
 {
 	pluginLink = link;
-
-	mir_getLI(&li);
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
-	mir_getMD5I(&md5i);
-	mir_getSHA1I(&sha1i);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

@@ -63,13 +63,8 @@ PLUGININFOEX pluginInfo = {
     {0x144e80a2, 0xd198, 0x428b, {0xac, 0xbe, 0x9d, 0x55, 0xda, 0xcc, 0x7f, 0xde}} // {144E80A2-D198-428b-ACBE-9D55DACC7FDE}
 };
 
-MM_INTERFACE    mmi;
-LIST_INTERFACE  li;
-UTF8_INTERFACE  utfi;
-MD5_INTERFACE   md5i;
-SHA1_INTERFACE  sha1i;
-XML_API         xi;
-TIME_API        tmi;
+XML_API  xi;
+TIME_API tmi;
 
 CLIST_INTERFACE* pcli;
 
@@ -234,11 +229,6 @@ extern "C" int __declspec( dllexport ) Load( PLUGINLINK *link )
 	pluginLink = link;
 
 	// set the memory, lists & utf8 managers
-	mir_getMMI( &mmi );
-	mir_getLI( &li );
-	mir_getUTFI( &utfi );
-	mir_getMD5I( &md5i );
-	mir_getSHA1I( &sha1i );
 	mir_getXI( &xi );
 	mir_getTMI( &tmi );
 	mir_getLP( &pluginInfo );

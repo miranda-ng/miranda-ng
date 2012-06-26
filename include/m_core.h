@@ -196,6 +196,24 @@ MIR_CORE_DLL(void)        List_Copy(SortedList* s, SortedList* d, size_t itemSiz
 MIR_CORE_DLL(void)        List_ObjCopy(SortedList* s, SortedList* d, size_t itemSize);
 
 ///////////////////////////////////////////////////////////////////////////////
+// md5 functions
+
+/* Define the state of the MD5 Algorithm. */
+typedef unsigned char mir_md5_byte_t; /* 8-bit byte */
+typedef unsigned int mir_md5_word_t; /* 32-bit word */
+
+typedef struct mir_md5_state_s {
+	mir_md5_word_t count[2];  /* message length in bits, lsw first */
+	mir_md5_word_t abcd[4];    /* digest buffer */
+	mir_md5_byte_t buf[64];    /* accumulate block */
+} mir_md5_state_t;
+
+MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms);
+MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const mir_md5_byte_t *data, int nbytes);
+MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, mir_md5_byte_t digest[16]);
+MIR_CORE_DLL(void) mir_md5_hash(const mir_md5_byte_t *data, int len, mir_md5_byte_t digest[16]);
+
+///////////////////////////////////////////////////////////////////////////////
 // memory functions
 
 MIR_CORE_DLL(void*)  mir_alloc(size_t);
@@ -239,6 +257,26 @@ MIR_CORE_DLL(int)    mir_snprintf(char *buffer, size_t count, const char* fmt, .
 MIR_CORE_DLL(int)    mir_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
 MIR_CORE_DLL(int)    mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_list va);
 MIR_CORE_DLL(int)    mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
+
+///////////////////////////////////////////////////////////////////////////////
+// sha1 functions
+
+typedef unsigned char mir_sha1_byte_t;
+typedef unsigned long mir_sha1_long_t;
+
+#define MIR_SHA1_HASH_SIZE 20
+
+typedef struct {
+  mir_sha1_long_t H[5];
+  mir_sha1_long_t W[80];
+  int lenW;
+  mir_sha1_long_t sizeHi, sizeLo;
+} mir_sha1_ctx;
+
+MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx);
+MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, mir_sha1_byte_t *dataIn, int len);
+MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, mir_sha1_byte_t hashout[20]);
+MIR_CORE_DLL(void) mir_sha1_hash(mir_sha1_byte_t *dataIn, int len, mir_sha1_byte_t hashout[20]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // strings
@@ -329,12 +367,28 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // threads
 
+typedef void (__cdecl *pThreadFunc)(void*);
+typedef unsigned (__stdcall *pThreadFuncEx)(void*);
+typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void* param);
+
 MIR_CORE_DLL(INT_PTR) UnwindThreadPush(WPARAM wParam, LPARAM lParam);
 MIR_CORE_DLL(INT_PTR) UnwindThreadPop(WPARAM, LPARAM);
 MIR_CORE_DLL(void)    UnwindThreadWait(void);
 
-MIR_CORE_DLL(UINT_PTR) forkthread( void (__cdecl *threadcode)(void*), unsigned long stacksize, void *arg);
-MIR_CORE_DLL(UINT_PTR) forkthreadex(void *sec, unsigned stacksize, unsigned (__stdcall *threadcode)(void*), void* owner, void *arg, unsigned *thraddr);
+MIR_CORE_DLL(UINT_PTR) forkthread(pThreadFunc, unsigned long stacksize, void *arg);
+MIR_CORE_DLL(UINT_PTR) forkthreadex(void *sec, unsigned stacksize, pThreadFuncEx, void* owner, void *arg, unsigned *thraddr);
+
+_inline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
+{	return (HANDLE)forkthread(aFunc, 0, arg);
+}
+
+__inline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID)
+{	return (HANDLE)forkthreadex(NULL, stackSize, aFunc, NULL, arg, pThreadID);
+}
+
+__inline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)
+{	return (HANDLE)forkthreadex(NULL, 0, (pThreadFuncEx)aFunc, owner, arg, pThreadID);
+}
 
 MIR_CORE_DLL(void) KillObjectThreads(void* pObject);
 
@@ -386,7 +440,7 @@ __forceinline char* mir_utf8decodeA(const char* src)
 #endif
 
 #ifndef MIR_CORE_EXPORTS
-	#if !defined( _WIN64 )
+	#if !defined( WIN64 )
 		#pragma comment(lib, "mir_core.lib")
 	#else
 		#pragma comment(lib, "mir_core64.lib")

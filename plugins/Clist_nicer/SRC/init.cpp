@@ -49,8 +49,6 @@ extern int SetHideOffline(WPARAM wParam, LPARAM lParam);
 extern DWORD g_gdiplusToken;
 extern HIMAGELIST himlExtraImages;
 
-struct LIST_INTERFACE li;
-struct MM_INTERFACE mmi;
 TIME_API tmi;
 
 HMENU  BuildGroupPopupMenu( struct ClcGroup* group );
@@ -221,15 +219,9 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 	int rc = 0;
 	DBVARIANT dbv;
 	int       i;
-	char	  szProfilePath[MAX_PATH];
+	char	    szProfilePath[MAX_PATH];
 
 	pluginLink = link;
-#ifdef _DEBUG
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );
 

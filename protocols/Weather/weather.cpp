@@ -57,8 +57,6 @@ BOOL ThreadRunning;
 // variable to determine if module loaded
 BOOL ModuleLoaded;
 
-struct MM_INTERFACE   mmi;
-struct UTF8_INTERFACE utfi;
 
 PLUGINLINK *pluginLink;
 
@@ -221,9 +219,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	DWORD lastver;
 
 	pluginLink = link;
-
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfoEx);
 
 	// initialize global variables

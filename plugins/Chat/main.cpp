@@ -27,9 +27,6 @@ HANDLE      g_hWindowList;
 HMENU       g_hMenu = NULL;
 int         hLangpack;
 
-struct MM_INTERFACE memoryManagerInterface;
-struct UTF8_INTERFACE utfi;
-
 FONTINFO    aFonts[OPTIONS_FONTCOUNT];
 HICON       hIcons[30];
 BOOL        IEviewInstalled = FALSE;
@@ -88,22 +85,12 @@ extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	BOOL bFlag = FALSE;
-	HINSTANCE hDll;
-
-#ifndef NDEBUG //mem leak detector :-) Thanks Tornado!
-	int flag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG); // Get current flag
-	flag |= _CRTDBG_LEAK_CHECK_DF; // Turn on leak-checking bit
-	_CrtSetDbgFlag(flag); // Set flag to the new value
-#endif
-
 	pluginLink = link;
 
 	// set the memory & utf8 managers
-	mir_getMMI( &memoryManagerInterface );
-	mir_getUTFI( &utfi );
 	mir_getLP( &pluginInfo );
 
-	hDll = LoadLibraryA("riched20.dll");
+	HINSTANCE hDll = LoadLibraryA("riched20.dll");
 	if ( hDll ) {
 		char modulePath[MAX_PATH];
 		if (GetModuleFileNameA(hDll, modulePath, MAX_PATH)) {

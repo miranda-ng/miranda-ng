@@ -58,7 +58,7 @@ void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 	int i=0;
 	if (!pList) return;
 	for (i=0; i<pList->realCount; i++)	pItemDestructor(pList->items[i]);	
-	li.List_Destroy(pList);																											
+	List_Destroy(pList);																											
 	mir_free(pList);
 	}
 
@@ -67,13 +67,13 @@ void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemDestruct
 	if (index>=0 && index<pList->realCount)	
 		{
 		pItemDestructor(pList->items[index]);
-		li.List_Remove(pList, index);
+		List_Remove(pList, index);
 		}
 	}
 
 void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor)
 	{																																
-	if (li.List_RemovePtr(pList, ptr))
+	if (List_RemovePtr(pList, ptr))
 		pItemDestructor(ptr);
 	}
 
@@ -105,7 +105,7 @@ void li_ZeroQuickList(SortedList *pList)
 			qd->bIsService=0;
 			qd->ptszValue=NULL;
 			qd->ptszValueName=NULL;
-			li.List_Remove(pList, i);
+			List_Remove(pList, i);
 			i--;
 		}
 	}
@@ -269,7 +269,7 @@ DWORD BalanceButtons(int buttonsWas,int buttonsNow)
 void InitButtonsList()
 	{  
 	int i,j,k=0;
-	QuickList=li.List_Create(0,1);
+	QuickList=List_Create(0,1);
 	for(i=0;i<g_iButtonsCount;i++)
 		{
 		TCHAR* pszBName=NULL;
@@ -281,7 +281,7 @@ void InitButtonsList()
 			
 		ld = (ListData *)mir_alloc(sizeof(ListData));
 		ButtonsList[i]=ld;
-		ld->sl=li.List_Create(0,1);
+		ld->sl=List_Create(0,1);
 		ld->ptszQValue=ld->ptszOPQValue=getMenuEntry(i,0,2);
 		ld->ptszButtonName=pszBName;
 		ld->dwPos=ld->dwOPPos=i;
@@ -309,9 +309,9 @@ void InitButtonsList()
 				qd->dwPos=k++;
 				qd->ptszValue=bd->pszValue;
 				qd->ptszValueName=bd->pszName;
-				li.List_InsertPtr(QuickList,qd);
+				List_InsertPtr(QuickList,qd);
 				}
-			li.List_InsertPtr((SortedList*)ld->sl,bd);
+			List_InsertPtr((SortedList*)ld->sl,bd);
 			}
 		}
 
@@ -333,7 +333,7 @@ while(ButtonsList[i])
 if(QuickList)
 	{
 	li_ZeroQuickList(QuickList);
-	li.List_Destroy(QuickList);
+	List_Destroy(QuickList);
 	}
 }
 

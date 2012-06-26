@@ -37,8 +37,6 @@ PLUGININFOEX pluginInfo = {
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
 int hLangpack;
 
 vector<HANDLE> hHooks;
@@ -86,9 +84,6 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfo);
 
 	DWORD ret = CallService(MS_CLUI_GETCAPS, CLUICAPS_FLAGS2, 0);

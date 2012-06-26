@@ -488,6 +488,31 @@ static INT_PTR RemoveWait(WPARAM wParam, LPARAM)
 	return 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+struct MM_INTERFACE
+{
+	size_t cbSize;
+	void* (*mmi_malloc) (size_t);
+	void* (*mmi_realloc) (void*, size_t);
+	void  (*mmi_free) (void*);
+
+	void*    (*mmi_calloc) (size_t);
+	char*    (*mmi_strdup) (const char *src);
+	wchar_t* (*mmi_wstrdup) (const wchar_t *src);
+	int      (*mir_snprintf) (char *buffer, size_t count, const char* fmt, ...);
+	int      (*mir_sntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
+	int      (*mir_vsnprintf) (char *buffer, size_t count, const char* fmt, va_list va);
+	int      (*mir_vsntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
+
+	wchar_t* (*mir_a2u_cp) (const char* src, int codepage);
+	wchar_t* (*mir_a2u)(const char* src);
+	char*    (*mir_u2a_cp)(const wchar_t* src, int codepage);
+	char*    (*mir_u2a)(const wchar_t* src);
+};
+
+#define MS_SYSTEM_GET_MMI  "Miranda/System/GetMMI"
+
 INT_PTR GetMemoryManagerInterface(WPARAM, LPARAM lParam)
 {
 	struct MM_INTERFACE *mmi = (struct MM_INTERFACE*) lParam;
@@ -529,6 +554,30 @@ INT_PTR GetMemoryManagerInterface(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+struct LIST_INTERFACE
+{
+	size_t    cbSize;
+
+	SortedList* (*List_Create)(int, int);
+	void        (*List_Destroy)(SortedList*);
+
+	void* (*List_Find)(SortedList*, void*);
+	int   (*List_GetIndex)(SortedList*, void*, int*);
+	int   (*List_Insert)(SortedList*, void*, int);
+	int   (*List_Remove)(SortedList*, int);
+	int   (*List_IndexOf)(SortedList*, void*);
+
+	int   (*List_InsertPtr)(SortedList* list, void* p);
+	int   (*List_RemovePtr)(SortedList* list, void* p);
+
+	void  (*List_Copy)(SortedList* src, SortedList* dst, size_t);
+	void  (*List_ObjCopy)(SortedList* src, SortedList* dst, size_t);
+};
+
+#define MS_SYSTEM_GET_LI  "Miranda/System/GetLI"
+
 INT_PTR GetListInterface(WPARAM, LPARAM lParam)
 {
 	struct LIST_INTERFACE *li = (struct LIST_INTERFACE*) lParam;
@@ -539,15 +588,48 @@ INT_PTR GetListInterface(WPARAM, LPARAM lParam)
 	li->List_ObjCopy   = List_ObjCopy;
 	li->List_InsertPtr = List_InsertPtr;
 	li->List_RemovePtr = List_RemovePtr;
-	li->List_Create   = List_Create;
-	li->List_Destroy  = List_Destroy;
-	li->List_Find     = List_Find;
-	li->List_GetIndex = List_GetIndex;
-	li->List_Insert   = List_Insert;
-	li->List_Remove   = List_Remove;
-	li->List_IndexOf  = List_IndexOf;
+	li->List_Create    = List_Create;
+	li->List_Destroy   = List_Destroy;
+	li->List_Find      = List_Find;
+	li->List_GetIndex  = List_GetIndex;
+	li->List_Insert    = List_Insert;
+	li->List_Remove    = List_Remove;
+	li->List_IndexOf   = List_IndexOf;
 	return 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct UTF8_INTERFACE
+{
+	size_t cbSize;
+
+	// decodes utf8 and places the result back into the same buffer.
+	// if the second parameter is present, the additional wchar_t* string gets allocated,
+	// and filled with the decoded utf8 content without any information loss.
+	// this string should be freed using mir_free()
+	char* (*utf8_decode)(char* str, wchar_t** ucs2);
+	char* (*utf8_decodecp)(char* str, int codepage, wchar_t** ucs2);
+
+	// encodes an ANSI string into a utf8 format using the current langpack code page,
+	// or CP_ACP, if lanpack is missing
+	// the resulting string should be freed using mir_free
+	char* (*utf8_encode)(const char* src);
+	char* (*utf8_encodecp)(const char* src, int codepage);
+
+	// encodes an WCHAR string into a utf8 format
+	// the resulting string should be freed using mir_free
+	char* (*utf8_encodeW)(const wchar_t* src);
+
+	// decodes utf8 and returns the result as wchar_t* that should be freed using mir_free()
+	// the input buffer remains unchanged
+	wchar_t* (*utf8_decodeW)(const char* str);
+
+	// returns the predicted length of the utf-8 string
+	int (*utf8_lenW)(const wchar_t* src);
+};
+
+#define MS_SYSTEM_GET_UTFI  "Miranda/System/GetUTFI"
 
 INT_PTR GetUtfInterface(WPARAM, LPARAM lParam)
 {
@@ -555,26 +637,16 @@ INT_PTR GetUtfInterface(WPARAM, LPARAM lParam)
 	if (utfi == NULL)
 		return 1;
 
-	switch(utfi->cbSize) {
-	case UTF8_INTERFACE_SIZEOF_V1:
-	case UTF8_INTERFACE_SIZEOF_V2:
-	case sizeof(struct UTF8_INTERFACE):
-		break;
-
-	default:
+	if (utfi->cbSize != sizeof(UTF8_INTERFACE))
 		return 1;
-	}
 
 	utfi->utf8_decode   = Utf8Decode;
 	utfi->utf8_decodecp = Utf8DecodeCP;
 	utfi->utf8_encode   = Utf8Encode;
 	utfi->utf8_encodecp = Utf8EncodeCP;
 	utfi->utf8_encodeW  = Utf8EncodeW;
-	if (utfi->cbSize > UTF8_INTERFACE_SIZEOF_V1)
-		utfi->utf8_decodeW = Utf8DecodeW;
-	if (utfi->cbSize > UTF8_INTERFACE_SIZEOF_V2)
-		utfi->utf8_lenW = Ucs2toUtf8Len;
-
+	utfi->utf8_decodeW = Utf8DecodeW;
+	utfi->utf8_lenW = Ucs2toUtf8Len;
 	return 0;
 }
 

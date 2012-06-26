@@ -41,9 +41,6 @@ static HANDLE hHooks[7];
 static HANDLE hService[13];
 int hLangpack;
 
-MM_INTERFACE   mmi;
-LIST_INTERFACE li;
-UTF8_INTERFACE utfi;
 
 static const PLUGININFOEX pluginInfoEx = 
 {
@@ -123,10 +120,6 @@ static int MirandaShutdown(WPARAM, LPARAM)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-
-	mir_getLI(&li);
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfoEx);
 
 	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS))

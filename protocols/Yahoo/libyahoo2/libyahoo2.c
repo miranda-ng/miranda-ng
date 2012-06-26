@@ -2393,14 +2393,14 @@ static void yahoo_process_auth_0x0f(struct yahoo_input_data *yid, const char *se
 	struct yahoo_data 				*yd = yid->yd;
 	struct yahoo_server_settings 	*yss;
 
-	char  							*crumb=NULL;
-	char  							*response = NULL;
-	char 							url[1024];
-	char 							*c, *t;
-	md5_byte_t						result[16];
-	md5_state_t						ctx;
-	unsigned char 					*magic_hash = (unsigned char*) malloc(50); /* this one is like 26 bytes? */
-	int								i;
+	char *crumb=NULL;
+	char *response = NULL;
+	char url[1024];
+	char *c, *t;
+	mir_md5_byte_t result[16];
+	mir_md5_state_t ctx;
+	unsigned char *magic_hash = (unsigned char*) malloc(50); /* this one is like 26 bytes? */
+	int i;
 	
 	/**
 		 case 2: Totally Cracked... Yay.. no more crypt tables.. just need some SSL magic.
@@ -2655,11 +2655,11 @@ LBL_FAILED:
 	 278:z=xUvdFBxaEeFBfOaVlmk3RSXNDMxBjU2MjQyNjFPNTE-&a=QAE&sk=DAAWDRZBoXexNr&d=c2wBTXpRMkFUSXhOVE0xTVRZNE1qWS0BYQFRQUUBenoBeFV2ZEZCZ1dBAXRpcAFNSVlVN0Q-; path=/; domain=.yahoo.com
 	 307:VATg29jzHSXlp_2LL7J4Fw--
 	*/
-	md5_init(&ctx);
+	mir_md5_init(&ctx);
 
-	md5_append(&ctx, (md5_byte_t *)crumb,  strlen(crumb));
-	md5_append(&ctx, (md5_byte_t *)seed,  strlen(seed));
-	md5_finish(&ctx, result);
+	mir_md5_append(&ctx, (mir_md5_byte_t *)crumb,  strlen(crumb));
+	mir_md5_append(&ctx, (mir_md5_byte_t *)seed,  strlen(seed));
+	mir_md5_finish(&ctx, result);
 	
 	to_y64(magic_hash, result, 16);
 	LOG(("Y64 Hash: %s", magic_hash));
@@ -6477,18 +6477,18 @@ char *yahoo_ft7dc_send(int id, const char *buddy, YList *files)
 	struct yahoo_packet *pkt = NULL;
 	char ft_token[32]; // we only need 23 chars actually
 	YList *l=files;
-	md5_byte_t result[16];
-	md5_state_t ctx;
+	mir_md5_byte_t result[16];
+	mir_md5_state_t ctx;
 
 	if (!yid)
 		return NULL;
 
-	md5_init(&ctx);
-	md5_append(&ctx, (md5_byte_t *)buddy, strlen(buddy));
+	mir_md5_init(&ctx);
+	mir_md5_append(&ctx, (mir_md5_byte_t *)buddy, strlen(buddy));
 	
 	snprintf(ft_token, 32, "%lu", time(NULL));
-	md5_append(&ctx, (md5_byte_t *)ft_token, strlen(ft_token));
-	md5_finish(&ctx, result);
+	mir_md5_append(&ctx, (mir_md5_byte_t *)ft_token, strlen(ft_token));
+	mir_md5_finish(&ctx, result);
 	to_y64((unsigned char *)ft_token, result, 16);
 	
 	yd = yid->yd;

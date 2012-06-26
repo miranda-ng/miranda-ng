@@ -11,8 +11,6 @@ HINSTANCE hInst = NULL;
 PLUGINLINK *pluginLink = NULL;
 int hLangpack = 0;
 
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 
 HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
@@ -639,10 +637,7 @@ INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getLP( &pluginInfo );
-	mir_getMMI( &mmi );
-	mir_getLI( &li );
-
+	mir_getLP( &pluginInfo );
 	CoInitialize(NULL);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 

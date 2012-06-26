@@ -91,8 +91,6 @@ static int CompareFlashItems(const flash_avatar_item* p1, const flash_avatar_ite
 HINSTANCE g_hInst = 0;
 
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 int hLangpack;
 
 HANDLE hNetlibUser;
@@ -659,8 +657,6 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getLP(&pluginInfo);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, systemModulesLoaded);

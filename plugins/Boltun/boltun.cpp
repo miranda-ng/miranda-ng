@@ -44,7 +44,6 @@
 
 //#define DEBUG_LOAD_TIME
 
-struct MM_INTERFACE mmi;
 int hLangpack;
 
 TalkBot* bot = NULL;
@@ -234,11 +233,11 @@ static bool BoltunAutoChat(HANDLE hContact)
 			return true;
 	}
 
-	if ((DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1) && 
+	if ((DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1) &&
 		Config.TalkWithNotInList)
 		return true;
 
-	if (DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, 
+	if (DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT,
 		FALSE) == TRUE)
 		return true;
 
@@ -276,9 +275,9 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	free(dbei.pBlob);
 	if (Config.MarkAsRead)
 		CallService(MS_DB_EVENT_MARKREAD, wParam, lParam);
-	
+
 	AnswerToContact(hContact, s);
-	mir_free(s);	
+	mir_free(s);
 	return 0;
 }
 
@@ -337,7 +336,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 						if (HIWORD(wParam) != EN_CHANGE)
 							notify = false;
 						break;
-				}				
+				}
 				if (notify)
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
@@ -358,14 +357,14 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					Config.PauseDepends = IsDlgButtonChecked(hwndDlg, IDC_PAUSEDEPENDS)  == BST_CHECKED ? TRUE : FALSE;
 					Config.PauseRandom = IsDlgButtonChecked(hwndDlg, IDC_PAUSERANDOM)  == BST_CHECKED ? TRUE : FALSE;
 					Config.AnswerPauseTime = GetDlgItemInt(hwndDlg, IDC_WAITTIME, &bTranslated, FALSE);
-					if (!bTranslated) 
+					if (!bTranslated)
 						Config.AnswerPauseTime = 2;
 					Config.AnswerThinkTime = GetDlgItemInt(hwndDlg, IDC_THINKTIME, &bTranslated, FALSE);
-					if (!bTranslated) 
+					if (!bTranslated)
 						Config.AnswerThinkTime = 4;
 					TCHAR c[MAX_WARN_TEXT];
 					bTranslated = GetDlgItemText(hwndDlg, IDC_WARNTXT, c, MAX_WARN_TEXT);
-					if(bTranslated) 
+					if(bTranslated)
 						Config.WarnText = c;
 					else
 						Config.WarnText = TranslateTS(DEFAULT_WARN_TEXT);
@@ -421,14 +420,14 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						_tcscpy(filename, fullname);
 						if (fullname != Config.MindFileName)
 							delete[] fullname;
-						
+
 						ZeroMemory(&ofn, sizeof(ofn));
 						ofn.lStructSize = sizeof(OPENFILENAME);
 						ofn.hwndOwner = GetParent(hwndDlg);
 
 						TCHAR* mind = TranslateTS(MIND_FILE_DESC);
 						TCHAR* anyfile = TranslateTS(ALL_FILES_DESC);
-						size_t l = _tcslen(MIND_DIALOG_FILTER) 
+						size_t l = _tcslen(MIND_DIALOG_FILTER)
 							+ _tcslen(mind) + _tcslen(anyfile);
 						TCHAR *filt = new TCHAR[l];
 						wsprintf(filt, MIND_DIALOG_FILTER, mind, anyfile);
@@ -436,7 +435,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 							if (filt[i] == '\1')
 								filt[i] = '\0';
 						ofn.lpstrFilter = filt;
-						
+
 						ofn.lpstrFile = filename;
 						ofn.nMaxFile = fileNameSize;
 						ofn.Flags = OFN_FILEMUSTEXIST;
@@ -482,7 +481,7 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					if (!loading)
 					{
 						if (param == IDC_MINDFILE/* && HIWORD(wParam) != EN_CHANGE*/)
-							break;					
+							break;
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 			}
@@ -628,9 +627,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	pluginLink = link;
 	mir_getLP(&pluginInfo);
 
-	mmi.cbSize=sizeof(struct MM_INTERFACE);
-	CallService(MS_SYSTEM_GET_MMI,0,(LPARAM)&mmi);
-
 	path = new TCHAR[MAX_PATH];
 	int len = GetModuleFileName(hInst, path, MAX_PATH);
 	if (len > MAX_PATH)
@@ -695,7 +691,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	if (pTimer) 
+	if (pTimer)
 		KillTimer(NULL, pTimer);
 	if(blInit)
 	{

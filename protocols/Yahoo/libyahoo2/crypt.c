@@ -50,9 +50,9 @@ char *yahoo_crypt(char *key, char *salt)
 	int buflen = 0;
 	int needed = 3 + strlen (salt) + 1 + 26 + 1;
 
-	md5_byte_t alt_result[16];
-	md5_state_t ctx;
-	md5_state_t alt_ctx;
+	mir_md5_byte_t alt_result[16];
+	mir_md5_state_t ctx;
+	mir_md5_state_t alt_ctx;
 	int salt_len;
 	int key_len;
 	int cnt;
@@ -74,41 +74,41 @@ char *yahoo_crypt(char *key, char *salt)
 	key_len = (int)strlen (key);
 
 	/* Prepare for the real work.  */
-	md5_init(&ctx);
+	mir_md5_init(&ctx);
 
 	/* Add the key string.  */
-	md5_append(&ctx, (md5_byte_t *)key, (int)key_len);
+	mir_md5_append(&ctx, (mir_md5_byte_t *)key, (int)key_len);
 
 	/* Because the SALT argument need not always have the salt prefix we
 	   add it separately.  */
-	md5_append(&ctx, (md5_byte_t *)md5_salt_prefix, sizeof (md5_salt_prefix) - 1);
+	mir_md5_append(&ctx, (mir_md5_byte_t *)md5_salt_prefix, sizeof (md5_salt_prefix) - 1);
 
 	/* The last part is the salt string.  This must be at most 8
 	   characters and it ends at the first `$' character (for
 	   compatibility which existing solutions).  */
-	md5_append(&ctx, (md5_byte_t *)salt, (int)salt_len);
+	mir_md5_append(&ctx, (mir_md5_byte_t *)salt, (int)salt_len);
 
 	/* Compute alternate MD5 sum with input KEY, SALT, and KEY.  The
 	   final result will be added to the first context.  */
-	md5_init(&alt_ctx);
+	mir_md5_init(&alt_ctx);
 
 	/* Add key.  */
-	md5_append(&alt_ctx, (md5_byte_t *)key, key_len);
+	mir_md5_append(&alt_ctx, (mir_md5_byte_t *)key, key_len);
 
 	/* Add salt.  */
-	md5_append(&alt_ctx, (md5_byte_t *)salt, salt_len);
+	mir_md5_append(&alt_ctx, (mir_md5_byte_t *)salt, salt_len);
 
 	/* Add key again.  */
-	md5_append(&alt_ctx, (md5_byte_t *)key, key_len);
+	mir_md5_append(&alt_ctx, (mir_md5_byte_t *)key, key_len);
 
 	/* Now get result of this (16 bytes) and add it to the other
 	   context.  */
-	md5_finish(&alt_ctx, alt_result);
+	mir_md5_finish(&alt_ctx, alt_result);
 
 	/* Add for any character in the key one byte of the alternate sum.  */
 	for (cnt = key_len; cnt > 16; cnt -= 16)
-		md5_append(&ctx, alt_result, 16);
-	md5_append(&ctx, alt_result, cnt);
+		mir_md5_append(&ctx, alt_result, 16);
+	mir_md5_append(&ctx, alt_result, cnt);
 
 	/* For the following code we need a NUL byte.  */
 	alt_result[0] = '\0';
@@ -118,40 +118,40 @@ char *yahoo_crypt(char *key, char *salt)
 	   bit the first character of the key.  This does not seem to be
 	   what was intended but we have to follow this to be compatible.  */
 	for (cnt = key_len; cnt > 0; cnt >>= 1)
-		md5_append(&ctx, (cnt & 1) != 0 ? alt_result : (md5_byte_t *)key, 1);
+		mir_md5_append(&ctx, (cnt & 1) != 0 ? alt_result : (mir_md5_byte_t *)key, 1);
 
 	/* Create intermediate result.  */
-	md5_finish(&ctx, alt_result);
+	mir_md5_finish(&ctx, alt_result);
 
 	/* Now comes another weirdness.  In fear of password crackers here
 	   comes a quite long loop which just processes the output of the
 	   previous round again.  We cannot ignore this here.  */
 	for (cnt = 0; cnt < 1000; ++cnt) {
 		/* New context.  */
-		md5_init(&ctx);
+		mir_md5_init(&ctx);
 
 		/* Add key or last result.  */
 		if ((cnt & 1) != 0)
-			md5_append(&ctx, (md5_byte_t *)key, key_len);
+			mir_md5_append(&ctx, (mir_md5_byte_t *)key, key_len);
 		else
-			md5_append(&ctx, alt_result, 16);
+			mir_md5_append(&ctx, alt_result, 16);
 
 		/* Add salt for numbers not divisible by 3.  */
 		if (cnt % 3 != 0)
-			md5_append(&ctx, (md5_byte_t *)salt, salt_len);
+			mir_md5_append(&ctx, (mir_md5_byte_t *)salt, salt_len);
 
 		/* Add key for numbers not divisible by 7.  */
 		if (cnt % 7 != 0)
-			md5_append(&ctx, (md5_byte_t *)key, key_len);
+			mir_md5_append(&ctx, (mir_md5_byte_t *)key, key_len);
 
 		/* Add key or last result.  */
 		if ((cnt & 1) != 0)
-			md5_append(&ctx, alt_result, 16);
+			mir_md5_append(&ctx, alt_result, 16);
 		else
-			md5_append(&ctx, (md5_byte_t *)key, key_len);
+			mir_md5_append(&ctx, (mir_md5_byte_t *)key, key_len);
 
 		/* Create intermediate result.  */
-		md5_finish(&ctx, alt_result);
+		mir_md5_finish(&ctx, alt_result);
 	}
 
 	/* Now we can construct the result string.  It consists of three
@@ -196,8 +196,8 @@ char *yahoo_crypt(char *key, char *salt)
 	   attaching to processes or reading core dumps cannot get any
 	   information.  We do it in this way to clear correct_words[]
 	   inside the MD5 implementation as well.  */
-	md5_init(&ctx);
-	md5_finish(&ctx, alt_result);
+	mir_md5_init(&ctx);
+	mir_md5_finish(&ctx, alt_result);
 	memset (&ctx, '\0', sizeof (ctx));
 	memset (&alt_ctx, '\0', sizeof (alt_ctx));
 

@@ -79,7 +79,7 @@ typedef struct tSongInfo {
 #else
   #define WAT_INF_TCHAR WAT_INF_ANSI
   #define SongInfoT tSongInfoA
-#endif 
+#endif
 
   // result codes
 #define WAT_RES_UNKNOWN     -2
@@ -122,7 +122,7 @@ typedef struct tSongInfo {
   Affects: Fill structure by info from file named in SongInfo.mfile
   returns: 0, if success
   note: fields, which values can't be obtained, leaves old values.
-    you must free given strings by miranda mmi.free
+    you must free given strings by miranda mir_free
 */
 #define MS_WAT_GETFILEINFO "WATrack/GetFileInfo"
 
@@ -309,7 +309,7 @@ typedef struct tPlayerCell {
 	HICON			Icon;		// can be 0. for registration only
 	LPINITPROC		Init;		// LPINITPROC;    can be NULL. initialize any data
 	LPDEINITPROC	DeInit;		// LPDEINITPROC;   can be NULL. finalize player processing
-	LPCHECKPROC		Check;		// check player 
+	LPCHECKPROC		Check;		// check player
 	LPSTATUSPROC	GetStatus;	// tStatusProc;  can be NULL. get player status
 	LPNAMEPROC		GetName;	// can be NULL. get media filename
 	LPINFOPROC		GetInfo;	// can be NULL. get info from player
@@ -346,7 +346,7 @@ typedef struct tLastFMInfo {
 	UINT	request;	// 0 - artist, 1 - album, 2 - track
 	WCHAR*	artist;		// artist
 	WCHAR*	album;		// album or similar artists for Artist info request
-	WCHAR*	title;		// track title 
+	WCHAR*	title;		// track title
 	WCHAR*	tags;		// tags
 	WCHAR*	info;		// artist bio or wiki article
 	WCHAR*	image;		// photo/cover link

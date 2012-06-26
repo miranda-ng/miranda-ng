@@ -21,8 +21,6 @@ Boston, MA 02111-1307, USA.
 
 HINSTANCE hInst = NULL;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 HANDLE hOnButtonPressed;
 int hLangpack;
 
@@ -188,8 +186,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfoEx);
 
 	hHook = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

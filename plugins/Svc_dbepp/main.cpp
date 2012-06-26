@@ -6,8 +6,6 @@
 PLUGINLINK *pluginLink;
 HINSTANCE hInst = NULL;
 
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE  utfi;
 HANDLE hTTBButt = NULL;
 BOOL bServiceMode = FALSE;
 BOOL usePopUps;
@@ -297,8 +295,6 @@ INT_PTR ImportFromFile(WPARAM wParam,LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getUTFI( &utfi );
 	mir_getLP(&pluginInfoEx);
 
 	hwnd2mainWindow = 0;

@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 static HANDLE hHookModulesLoaded;
 int hLangpack;
 
@@ -105,9 +103,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	pluginLink=link;
 	mir_getLP(&pluginInfo);
 
-	if (!ServiceExists(MS_DB_CONTACT_GETSETTING_STR)) return 1; /* dbx3x v0.5.1.0 */
-	if(mir_getMMI(&mmi)) return 1;
-	if(mir_getUTFI(&utfi)) return 1;
 	InitAssocList();
 	InitDde();
 

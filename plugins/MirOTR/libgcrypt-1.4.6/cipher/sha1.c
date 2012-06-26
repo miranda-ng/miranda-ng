@@ -66,7 +66,7 @@ typedef struct
 
 
 static void
-sha1_init (void *context)
+mir_sha1_init (void *context)
 {
   SHA1_CONTEXT *hd = context;
 
@@ -367,7 +367,7 @@ _gcry_sha1_hash_buffer (void *outbuf, const void *buffer, size_t length)
 {
   SHA1_CONTEXT hd;
 
-  sha1_init (&hd);
+  mir_sha1_init (&hd);
   sha1_write (&hd, buffer, length);
   sha1_final (&hd);
   memcpy (outbuf, hd.buf, 20);
@@ -469,7 +469,7 @@ static gcry_md_oid_spec_t oid_spec_sha1[] =
 gcry_md_spec_t _gcry_digest_spec_sha1 =
   {
     "SHA1", asn, DIM (asn), oid_spec_sha1, 20,
-    sha1_init, sha1_write, sha1_final, sha1_read,
+    mir_sha1_init, sha1_write, sha1_final, sha1_read,
     sizeof (SHA1_CONTEXT)
   };
 md_extra_spec_t _gcry_digest_extraspec_sha1 = 

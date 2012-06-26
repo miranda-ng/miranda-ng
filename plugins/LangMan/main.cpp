@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
 static HANDLE hHookModulesLoaded;
 int hLangpack;
 
@@ -116,7 +115,6 @@ __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP( &pluginInfo );
-	mir_getMMI( &mmi );
 	
 	/* existance of MS_SYSTEM_GETVERSION and MS_LANGPACK_TRANSLATESTRING
 	 * is checked in MirandaPluginInfo().

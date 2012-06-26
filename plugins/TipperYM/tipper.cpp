@@ -15,7 +15,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "common.h"
@@ -35,7 +35,7 @@ ColourIDT colourBg, colourBorder, colourAvatarBorder, colourDivider, colourSideb
 HFONT hFontTitle, hFontLabels, hFontValues, hFontTrayTitle;
 
 // hooked here so it's in the main thread
-HANDLE hAvChangeEvent, hShowTipEvent, hHideTipEvent, hAckEvent, hFramesSBShow, hFramesSBHide; 
+HANDLE hAvChangeEvent, hShowTipEvent, hHideTipEvent, hAckEvent, hFramesSBShow, hFramesSBHide;
 HANDLE hSettingChangedEvent, hEventDeleted;
 HANDLE hShowTipService, hShowTipWService, hHideTipService;
 HANDLE hReloadFonts = NULL;
@@ -44,12 +44,10 @@ HANDLE hFolderChanged, hSkinFolder;
 TCHAR SKIN_FOLDER[256];
 
 FI_INTERFACE *fii = NULL;
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 TIME_API tmi;
 int hLangpack;
 
-PLUGININFOEX pluginInfoEx = 
+PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	"Tipper YM",
@@ -82,7 +80,7 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-int ReloadFont(WPARAM wParam, LPARAM lParam) 
+int ReloadFont(WPARAM wParam, LPARAM lParam)
 {
 	LOGFONT logFont;
 	if (hFontTitle) DeleteObject(hFontTitle);
@@ -109,25 +107,25 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 
 // hack to hide tip when clist hides from timeout
-int SettingChanged(WPARAM wParam, LPARAM lParam) 
+int SettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dcws = (DBCONTACTWRITESETTING *)lParam;
-	if (strcmp(dcws->szModule, "CList") != 0 || strcmp(dcws->szSetting, "State") != 0) 
+	if (strcmp(dcws->szModule, "CList") != 0 || strcmp(dcws->szSetting, "State") != 0)
 		return 0;
 
 	// clist hiding
 	if (dcws->value.type == DBVT_BYTE && dcws->value.bVal == 0)
-		HideTip(0, 0);	
+		HideTip(0, 0);
 
 	return 0;
 }
 
 // needed for msg_count_xxx substitutions
-int EventDeleted(WPARAM wParam, LPARAM lParam) 
+int EventDeleted(WPARAM wParam, LPARAM lParam)
 {
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(dbei);
-	if (!CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei)) 
+	if (!CallService(MS_DB_EVENT_GET, lParam, (LPARAM)&dbei))
 	{
 		if (dbei.eventType == EVENTTYPE_MESSAGE)
 			DBDeleteContactSetting((HANDLE)wParam, MODULE, "LastCountTS");
@@ -264,7 +262,7 @@ void InitFonts()
 void InitUpdaterSupport()
 {
 #ifndef _WIN64
-	if (ServiceExists(MS_UPDATE_REGISTER)) 
+	if (ServiceExists(MS_UPDATE_REGISTER))
 	{
 		Update update = {0};
 		char szVersion[16];
@@ -284,7 +282,7 @@ void InitUpdaterSupport()
 #endif
 }
 
-int ModulesLoaded(WPARAM wParam, LPARAM lParam) 
+int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitFonts();
 	InitUpdaterSupport();
@@ -303,7 +301,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	FoldersGetCustomPathT(hSkinFolder, SKIN_FOLDER, SIZEOF(SKIN_FOLDER), _T(DEFAULT_SKIN_FOLDER));
 
 	InitTipperSmileys();
-	LoadOptions(); 
+	LoadOptions();
 	ReloadFont(0, 0);
 	ParseSkinFile(opt.szSkinName, true, false);
 
@@ -320,7 +318,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int Shutdown(WPARAM wParam, LPARAM lParam) 
+int Shutdown(WPARAM wParam, LPARAM lParam)
 {
 	if (hFramesSBShow) UnhookEvent(hFramesSBShow);
 	if (hFramesSBHide) UnhookEvent(hFramesSBHide);
@@ -343,15 +341,9 @@ int Shutdown(WPARAM wParam, LPARAM lParam)
 
 HANDLE hEventPreShutdown, hEventModulesLoaded;
 
-extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
+extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-
-	if (mir_getMMI(&mmi) || mir_getLI(&li) || !ServiceExists(MS_IMG_GETINTERFACE))
-	{
-		MessageBox(NULL, TranslateT("Cannot obtain required interfaces!\nTooltips will not be available until you upgrade Miranda IM to the newest version."), TranslateT("Tipper error"), MB_OK | MB_ICONSTOP);
-		return 1;
-	}
 
 	CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&fii);
 	mir_getTMI(&tmi);
@@ -376,11 +368,11 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	hSettingChangedEvent = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);
 	hEventDeleted = HookEvent(ME_DB_EVENT_DELETED, EventDeleted);
-	
+
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload() 
+extern "C" int __declspec(dllexport) Unload()
 {
 	UnhookEvent(hSettingChangedEvent);
 	UnhookEvent(hEventDeleted);

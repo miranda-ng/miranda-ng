@@ -53,8 +53,6 @@ PLUGININFOEX pluginInfo={
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 
 static std::vector<HANDLE> hHooks;
 static std::vector<HANDLE> hServices;
@@ -135,9 +133,6 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link) 
 {
 	pluginLink = link;
-
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfo);
 
 	CHECK_VERSION("Listening To")

@@ -49,8 +49,6 @@ HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 static HWND hwndWizard = NULL;
 int hLangpack;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -134,8 +132,6 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI( &mmi );
-	mir_getUTFI( &utfi );
 	mir_getLP( &pluginInfo );
 
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);

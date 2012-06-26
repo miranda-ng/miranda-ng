@@ -10,7 +10,6 @@ There is no warranty.
 #include "common.h"
 #include "alarms.h"
 
-struct MM_INTERFACE mmi;
 
 #define SERVICENAME _T("mp")
 #define COMMANDPREFIX _T("/") SERVICENAME
@@ -305,9 +304,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 
-	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfo);
 	// ensure datetime picker is loaded
 	INITCOMMONCONTROLSEX ccx;
 	ccx.dwSize = sizeof(ccx);

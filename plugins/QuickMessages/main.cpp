@@ -28,14 +28,11 @@ hEventDbPreShutdown;
 HICON hIcon;
 
 int g_iButtonsCount=0;
-int g_bShutDown=0;   	
+int g_bShutDown=0;
 int g_bStartup=0;
 BOOL g_bRClickAuto=0;
 BOOL g_bLClickAuto=0;
 BOOL g_bQuickMenu=0;
-
-struct MM_INTERFACE mmi;																					   
-struct LIST_INTERFACE li;
 
 PLUGINLINK *pluginLink;
 int hLangpack;
@@ -50,13 +47,13 @@ PLUGININFOEX pluginInfo = {
 	"© 2008 Danil Mozhar",
 	"http://miranda.radicaled.ru/index.php?plugin=3",
 	UNICODE_AWARE,
-	0,	
+	0,
 	// {37ED754B-6CF9-40ed-9EB6-0FEF8E822475}
 	{ 0x37ed754b, 0x6cf9, 0x40ed, { 0x9e, 0xb6, 0xf, 0xef, 0x8e, 0x82, 0x24, 0x75 } }
 };
 
 int PreShutdown(WPARAM wparam,LPARAM lparam)
-{	 
+{
 	g_bShutDown=1;
 	DestructButtonsList();
 
@@ -83,7 +80,7 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 
 		InsertMenu((HMENU)mwpd->hMenu,6,MF_STRING|MF_POPUP|MF_BYPOSITION,(UINT_PTR)hSubMenu,TranslateT("Quick Messages"));
 		InsertMenu((HMENU)mwpd->hMenu,7,MF_SEPARATOR|MF_BYPOSITION,0,0);
-		qsort(QuickList->items,QuickList->realCount,sizeof(QuickData *),sstQuickSortButtons); 
+		qsort(QuickList->items,QuickList->realCount,sizeof(QuickData *),sstQuickSortButtons);
 		for(i=0;i<QuickList->realCount;i++)
 			{
 			QuickData* qd= (QuickData *)QuickList->items[i];
@@ -110,7 +107,7 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 				if(IsClipboardFormatAvailable(CF_TEXT)) {
 					if (OpenClipboard(mwpd->hwnd)) {
 						HANDLE hData=NULL;
-						TCHAR* chBuffer=NULL; 
+						TCHAR* chBuffer=NULL;
 						int textLength=0;
 
 						hData= GetClipboardData(CF_UNICODETEXT);
@@ -122,10 +119,10 @@ static int InputMenuPopup(WPARAM wParam,LPARAM lParam)
 						CloseClipboard();
 						}
 					}
-				
-				SendMessage(mwpd->hwnd, EM_EXGETSEL, 0, (LPARAM)&cr); 
+
+				SendMessage(mwpd->hwnd, EM_EXGETSEL, 0, (LPARAM)&cr);
 				textlenght=cr.cpMax-cr.cpMin;
-				
+
 				if(textlenght)
 					{
 					pszText = (TCHAR *)mir_alloc((textlenght+10)*sizeof(TCHAR));
@@ -177,7 +174,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	if(strcmp(cbcd->pszModule,PLGNAME)) return 0;
 
 	if (!ButtonsList[cbcd->dwButtonId]) return 1;
-	
+
 	sl=ButtonsList[cbcd->dwButtonId]->sl;
 
 	if (!sl) return 1;
@@ -185,7 +182,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 	if(IsClipboardFormatAvailable(CF_TEXT)) {
 		if (OpenClipboard(cbcd->hwndFrom)) {
 			HANDLE hData=NULL;
-			TCHAR* chBuffer=NULL; 
+			TCHAR* chBuffer=NULL;
 			int textLength=0;
 
 			hData= GetClipboardData(CF_UNICODETEXT);
@@ -201,13 +198,13 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 
 
 
-	qsort(sl->items,sl->realCount,sizeof(ButtonData *),sstSortButtons); 
+	qsort(sl->items,sl->realCount,sizeof(ButtonData *),sstSortButtons);
 
 	hEdit=GetDlgItem(cbcd->hwndFrom,IDC_MESSAGE);
 	if (!hEdit) hEdit=GetDlgItem(cbcd->hwndFrom,IDC_CHATMESSAGE);
 
 	cr.cpMin = cr.cpMax = 0;
-	SendMessage(hEdit, EM_EXGETSEL, 0, (LPARAM)&cr); 
+	SendMessage(hEdit, EM_EXGETSEL, 0, (LPARAM)&cr);
 
 	textlenght=cr.cpMax-cr.cpMin;
 	if(textlenght)
@@ -221,7 +218,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 		state=1;
 	else if(sl->realCount==1)
 		state=2;
-	else 
+	else
 		state=3;
 
 
@@ -244,7 +241,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 				if ((bIsService=bd->bIsServName)&&ptszQValue)
 
 						CallService(mir_u2a(ptszQValue),(WPARAM)cbcd->hContact,0);
-			
+
 				}
 			}
 			break;
@@ -308,7 +305,7 @@ static int CustomButtonPressed(WPARAM wParam,LPARAM lParam)
 		}
 		free(ptszQValue);
 		}
-		
+
 
 	if(pszText) mir_free(pszText);
 	if(pszCBText) mir_free(pszCBText);
@@ -320,7 +317,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 {
 	g_bStartup=1;
 	hEventDbOptionsInit=HookEvent(ME_OPT_INITIALISE,OptionsInit);
-	hEventCBButtonPressed=HookEvent(ME_MSG_BUTTONPRESSED,CustomButtonPressed); 
+	hEventCBButtonPressed=HookEvent(ME_MSG_BUTTONPRESSED,CustomButtonPressed);
 	hEventCBInit=HookEvent(ME_MSG_TOOLBARLOADED,RegisterCustomButton);
 
 	hEventInputMenu=HookEvent(ME_MSG_WINDOWPOPUP,InputMenuPopup);
@@ -375,8 +372,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 
 	pluginLink=link;
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getLP(&pluginInfo);
 
 	hEventDbPluginsLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);

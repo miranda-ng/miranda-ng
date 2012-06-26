@@ -25,8 +25,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // {E25367A2-51AE-4044-BE28-131BC18B71A4}
 #define	MIID_BASICHISTORY { 0xe25367a2, 0x51ae, 0x4044, { 0xbe, 0x28, 0x13, 0x1b, 0xc1, 0x8b, 0x71, 0xa4 } }
 
-#define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory" 
-#define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask" 
+#define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
+#define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
 PLUGINLINK *pluginLink;
 HCURSOR     hCurSplitNS, hCurSplitWE;
@@ -58,24 +58,16 @@ PLUGININFOEX pluginInfo={
 	__AUTHOREMAIL,
 	__COPYRIGHT,
 	__AUTHORWEB,
-	UNICODE_AWARE, 
+	UNICODE_AWARE,
 	DEFMOD_UIHISTORY,
 	MIID_BASICHISTORY
 };
 
-MM_INTERFACE mmi = {0};
 TIME_API tmi = {0};
 int hLangpack = 0;
-UTF8_INTERFACE utfi = {0};
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 9, 0, 0))
-	{
-		MessageBox(0, _T("This version of BasicHistory requires Miranda 0.9.0 or later. The plugin cannot be loaded."), _T("BasicHistory"), MB_OK | MB_ICONERROR);
-		return NULL;
-	}
-
 	return &pluginInfo;
 }
 
@@ -101,7 +93,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if (!count) mi.flags |= CMIF_HIDDEN;
 	else mi.flags &= ~CMIF_HIDDEN;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
-	
+
 	mi.flags = CMIM_FLAGS;
 	if (!count || !isInList) mi.flags |= CMIF_HIDDEN;
 	else mi.flags &= ~CMIF_HIDDEN;
@@ -145,7 +137,7 @@ void InitMenuItems()
 	mi.position = 500060000;
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddMainMenuItem(&mi);
-	
+
 	mi.position = 1000090001;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_DELETE);
@@ -170,7 +162,7 @@ void InitTaskMenuItems()
 			mi.pszName = LPGEN("Execute history task");
 			hTaskMainMenu = Menu_AddMainMenuItem(&mi);
 		}
-		
+
 		std::vector<TaskOptions>::iterator taskIt = Options::instance->taskOptions.begin();
 		std::vector<HGENMENU>::iterator it = taskMenus.begin();
 		for(; it != taskMenus.end() && taskIt != Options::instance->taskOptions.end(); ++it, ++taskIt)
@@ -191,7 +183,7 @@ void InitTaskMenuItems()
 			mi.hParentMenu = hTaskMainMenu;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)(HGENMENU)*it, (LPARAM)&mi);
 		}
-		
+
 		int pos = (int)taskMenus.size();
 		for(; taskIt != Options::instance->taskOptions.end(); ++taskIt)
 		{
@@ -200,7 +192,7 @@ void InitTaskMenuItems()
 			mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
 			mi.pszService = MS_HISTORY_EXECUTE_TASK;
 			mi.hParentMenu = hTaskMainMenu;
-			mi.popupPosition = pos++;	
+			mi.popupPosition = pos++;
 			mi.ptszName = (TCHAR*)taskIt->taskName.c_str();
 			HGENMENU menu = Menu_AddMainMenuItem(&mi);
 			taskMenus.push_back(menu);
@@ -227,7 +219,7 @@ void InitIcolib()
 	sid.flags = SIDF_ALL_TCHAR;
 
 	GetModuleFileName(hInst, stzFile, MAX_PATH);
-	
+
 	iconsNum = 3;
 	hEventIcons = new HANDLE[iconsNum];
 	sid.pszName = "BasicHistory_in";
@@ -278,7 +270,7 @@ void InitIcolib()
 
 void InitUpdater()
 {
-	if (ServiceExists(MS_UPDATE_REGISTER)) 
+	if (ServiceExists(MS_UPDATE_REGISTER))
 	{
 		Update update = {0};
 		char szVersion[16];
@@ -299,7 +291,7 @@ void InitUpdater()
 		update.szBetaUpdateURL = "http://programista.free.of.pl/miranda/BasicHistoryBeta.zip";
 		update.szBetaVersionURL = "http://programista.free.of.pl/miranda/pluginversion.php?plugin=basichistory&beta=yes";
 		update.szBetaChangelogURL = "http://programista.free.of.pl/miranda/BasicHistoryChangelog.txt";
-		
+
 #endif
 		update.pbBetaVersionPrefix = update.pbVersionPrefix = (BYTE *)"Basic History ";
 		update.cpbBetaVersionPrefix = update.cpbVersionPrefix = (int)strlen((char *)update.pbVersionPrefix);
@@ -307,7 +299,7 @@ void InitUpdater()
 	}
 }
 
-INT_PTR ShowContactHistory(WPARAM wParam, LPARAM lParam) 
+INT_PTR ShowContactHistory(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	HistoryWindow::Open(hContact);
@@ -331,7 +323,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	InitMenuItems();
 	InitUpdater();
-	
+
 	TCHAR ftpExe[MAX_PATH];
 	if(SUCCEEDED(SHGetFolderPath(NULL, CSIDL_PROGRAM_FILES, NULL, SHGFP_TYPE_CURRENT, ftpExe)))
 	{
@@ -361,16 +353,16 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mir_free(logAbsolute);
 	Options::instance->Load();
 	InitTaskMenuItems();
-	
+
 	hPreShutdownHistoryModule = HookEvent(ME_SYSTEM_PRESHUTDOWN,PreShutdownHistoryModule);
 	hHistoryContactDelete = HookEvent(ME_DB_CONTACT_DELETED,HistoryContactDelete);
 	hFontsChanged  = HookEvent(ME_FONT_RELOAD, HistoryWindow::FontsChanged);
 	hSysOK  = HookEvent(ME_SYSTEM_OKTOEXIT, DoLastTask);
-	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS)) 
+	if (ServiceExists(MS_SMILEYADD_REPLACESMILEYS))
 	{
 		g_SmileyAddAvail = true;
 	}
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME)) 
+	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 	{
 		metaContactProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	}
@@ -384,10 +376,8 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	hTaskMainMenu = NULL;
 	pluginLink = link;
 	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&g_hMainThread,0,FALSE,DUPLICATE_SAME_ACCESS);
-	mir_getMMI(&mmi);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
-	mir_getUTFI(&utfi);
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
 	hServiceShowContactHistory = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistory);
@@ -402,8 +392,8 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	return 0;
 }
 
-extern "C" int __declspec(dllexport) Unload(void) 
-{	
+extern "C" int __declspec(dllexport) Unload(void)
+{
     if(g_hMainThread) CloseHandle(g_hMainThread);
     g_hMainThread=NULL;
 	UnhookEvent(hModulesLoaded);

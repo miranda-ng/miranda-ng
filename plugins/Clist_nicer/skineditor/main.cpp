@@ -42,7 +42,6 @@ PLUGININFOEX pluginInfo = {
 
 HINSTANCE g_hInst = 0;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE memoryManagerInterface;
 int hLangpack;
 
 StatusItems_t *StatusItems;
@@ -914,10 +913,6 @@ static HANDLE hSvc_invoke = 0, hSvc_fillby = 0;
 
 static int LoadModule()
 {
-    memset(&memoryManagerInterface, 0, sizeof(memoryManagerInterface));
-    memoryManagerInterface.cbSize = sizeof(memoryManagerInterface);
-    CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM) &memoryManagerInterface);
-
     hSvc_invoke = CreateServiceFunction(MS_CLNSE_INVOKE, (MIRANDASERVICE)SkinEdit_Invoke);
     hSvc_fillby = CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, (MIRANDASERVICE)SkinEdit_FillByCurrentSel);
     return 0;

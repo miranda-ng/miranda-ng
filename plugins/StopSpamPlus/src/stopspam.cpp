@@ -1,7 +1,5 @@
 #include "../headers.h"
 
-struct MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
 HANDLE hFunc, hTempRemove, hLoadHook;
 int hLangpack;
 
@@ -48,10 +46,7 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	CLISTMENUITEM mi;
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
-
+	mir_getLP(&pluginInfoEx);
 	plSets=new Settings;
 
 	hFunc = CreateServiceFunction(MS_STOPSPAM_CONTACTPASSED, IsContactPassed);

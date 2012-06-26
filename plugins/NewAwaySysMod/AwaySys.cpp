@@ -49,7 +49,6 @@
 
 HINSTANCE g_hInstance;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
 int hLangpack = 0;
 TMyArray<HANDLE> hHooks, hServices;
 HANDLE g_hContactMenuItem = NULL, g_hReadStatMenuItem = NULL, /*g_hTopToolbarbutton = NULL, */g_hToggleSOEMenuItem = NULL, g_hToggleSOEContactMenuItem = NULL, g_hAutoreplyOnContactMenuItem = NULL, g_hAutoreplyOffContactMenuItem = NULL, g_hAutoreplyUseDefaultContactMenuItem = NULL;
@@ -1004,7 +1003,6 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI( &mmi );
 	mir_getLP( &pluginInfo );
 
 	hHooks.AddElem(HookEvent(ME_SYSTEM_MODULESLOADED, MirandaLoaded));

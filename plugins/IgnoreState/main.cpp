@@ -27,7 +27,6 @@ HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactSetti
 HANDLE hPrebuildContactMenu = NULL;
 HANDLE hExtraIcon = NULL;
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 INT currentFilter = 0;
 //static int bUseMirandaSettings = 0;
@@ -302,9 +301,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink=link;
-	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfo);
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);

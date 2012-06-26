@@ -352,7 +352,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 								}
 							
 								if (options.prefix_messages) {
-									DWORD len = (strlen(options.prefix)+strlen(newmessage)+1)*sizeof(char);
+									size_t len = (strlen(options.prefix)+strlen(newmessage)+1)*sizeof(char);
 									premsg = (char*)mir_alloc( len );
 									memset(premsg, 0, len);
 									strcpy(premsg, options.prefix);

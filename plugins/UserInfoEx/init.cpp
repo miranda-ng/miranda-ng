@@ -60,7 +60,7 @@ static PLUGININFOEX pluginInfo = {
 	__AUTHOR,
 	__AUTHOREMAIL,
 	__COPYRIGHT,
-	__AUTHORWEB,			
+	__AUTHORWEB,
 	UNICODE_AWARE,
 	DEFMOD_UIUSERINFO,
 	MIID_UIUSERINFOEX
@@ -89,7 +89,7 @@ PLUGINLINK*		pluginLink	= NULL;
  *
  * @return	always 0
  **/
-static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam) 
+static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(ghTopToolBarLoaded);
 	DlgAnniversaryListOnTopToolBarLoaded();
@@ -106,7 +106,7 @@ static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
  *
  * @return	always 0
  **/
-static INT OnModernToolBarLoaded(WPARAM wParam, LPARAM lParam) 
+static INT OnModernToolBarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(ghModernToolBarLoaded);
 	DlgAnniversaryListOnToolBarLoaded();
@@ -122,15 +122,8 @@ static INT OnModernToolBarLoaded(WPARAM wParam, LPARAM lParam)
  *
  * @return	always 0
  **/
-static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
+static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-#ifdef _DEBUG
-	#define new DEBUG_NEW;
-	int tmpFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-	tmpFlag |= _CRTDBG_LEAK_CHECK_DF;
-	_CrtSetDbgFlag(tmpFlag);
-//	_CrtSetBreakAlloc(4852);
-#endif
 	INT_PTR ptr;
 
 	UnhookEvent(ghModulesLoadedHook);
@@ -160,13 +153,13 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 #ifdef _DEBUG // new feature, not in release jet
 	NServices::NAvatar::OnModulesLoaded();
 #endif
-	
+
 	// build contact's menuitems
 	RebuildMenu();
 	ghPrebuildStatusMenu = HookEvent( ME_CLIST_PREBUILDSTATUSMENU, (MIRANDAHOOK)RebuildAccount);
 
 	// finally register for updater
-	if (ServiceExists(MS_UPDATE_REGISTER)) 
+	if (ServiceExists(MS_UPDATE_REGISTER))
 	{
 		Update update = {0};
 		CHAR szVersion[16];
@@ -176,7 +169,7 @@ static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		update.cpbVersion		= (INT)strlen((LPSTR)update.pbVersion);
 
 		update.szUpdateURL		= UPDATER_AUTOREGISTER;
-		
+
 		update.szBetaVersionURL		= "http://userinfoex.googlecode.com/svn/trunk/changelog.txt";
 		// bytes occuring in VersionURL before the version, used to locate the version information within the URL data
 		// e.g. change '[0.8.1.0 (in work)]' to 'UserinfoEx: 0.8.1.0' for beta versions bump
@@ -243,7 +236,7 @@ static BOOL CoreCheck()
 	bOk *= (GetVersion() & 0x80000000) == 0;
 	bOk *= strstr(szVer, "unicode") != 0;
 
-	
+
 	bOk *= _tcsstr(_tcsrchr(tszExePath, '\\'), _T("miranda")) != 0;
 	bOk *= !strstr(szVer, "coffee") && strncmp(szVer, "1.", 2) && !strstr(szVer, " 1.");
 	bOk *= myGlobals.mirandaVersion < PLUGIN_MAKE_VERSION(1,0,0,0);
@@ -261,7 +254,7 @@ static BOOL CoreCheck()
  *
  * @return	pointer to pluginInfo struct
  **/
-extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
+extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	myGlobals.mirandaVersion = mirandaVersion;
 	return &pluginInfo;
@@ -277,7 +270,7 @@ extern "C" __declspec(dllexport) const MUUID *MirandaPluginInterfaces()
 	static const MUUID interfaces[] = {
 		MIID_UIUSERINFOEX,		// this is just me
 		MIID_UIUSERINFO,		// replace the default userinfo module
-		MIID_CONTACTINFO,		// indicate, that MS_CONTACT_GETCONTACTINFO service is provided 
+		MIID_CONTACTINFO,		// indicate, that MS_CONTACT_GETCONTACTINFO service is provided
 		MIID_REMINDER,			// indicate an Reminder of being provided
 		MIID_SREMAIL,			// Send/Receive E-Mail service is provided
 		MIID_LAST
@@ -315,66 +308,59 @@ extern "C" INT __declspec(dllexport) Load(PLUGINLINK *link)
 
 		ZeroMemory(&myGlobals, sizeof(MGLOBAL));
 
-		// init miranda's memory interface
-		if (!mir_getMMI(&mmi) && !mir_getLI(&li) && !mir_getUTFI(&utfi) /*&& mir_getXI(&xi)*/)
-		{
+		// init clist interface
+		pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)0);
 
-			// init clist interface
-			pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)0);
+		// init new miranda timezone interface
+		mir_getTMI(&tmi);
 
-			// init new miranda timezone interface
-			mir_getTMI(&tmi);
+		// init freeimage interface
+		INT_PTR result = CALLSERVICE_NOTFOUND;
+		if(ServiceExists(MS_IMG_GETINTERFACE))
+			result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 
-			// init freeimage interface
-			INT_PTR result = CALLSERVICE_NOTFOUND;
-			if(ServiceExists(MS_IMG_GETINTERFACE))
-				result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
-
-			if(FIP == NULL || result != S_OK) {
-				MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags Module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
-				return 1;
-			}
-
-			if (IsWinVerVistaPlus())
-			{
-				HMODULE hDwmApi = LoadLibraryA("dwmapi.dll");
-				if (hDwmApi)
-				{
-					dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
-				}
-			}
-
-			// check for dbx_tree
-			myGlobals.UseDbxTree = ServiceExists("DBT/Entity/GetRoot");
-
-			// load icon library
-			IcoLib_LoadModule();
-
-			SvcFlagsLoadModule();
-			tmi.getTimeZoneTime ? SvcTimezoneLoadModule() : SvcTimezoneLoadModule_old();
-			SvcContactInfoLoadModule();
-			SvcEMailLoadModule();
-			SvcRefreshContactInfoLoadModule();
-
-			CtrlContactLoadModule();
-			// load my button class
-			CtrlButtonLoadModule();
-			// initializes the Ex/Import Services
-			SvcExImport_LoadModule();
-			// load the UserInfoPropertySheet module
-			DlgContactInfoLoadModule();
-
-			// Anniversary stuff
-			DlgAnniversaryListLoadModule();
-			SvcReminderLoadModule();
-
-			// Now the module is loaded! Start initializing certain things
-			ghModulesLoadedHook		= HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-			ghTopToolBarLoaded		= HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
-			ghModernToolBarLoaded	= HookEvent(ME_TB_MODULELOADED, OnModernToolBarLoaded);
-			ghShutdownHook			= HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-			return 0;
+		if(FIP == NULL || result != S_OK) {
+			MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Flags Module will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
+			return 1;
 		}
+
+		if (IsWinVerVistaPlus())
+		{
+			HMODULE hDwmApi = LoadLibraryA("dwmapi.dll");
+			if (hDwmApi)
+				dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi,"DwmIsCompositionEnabled");
+		}
+
+		// check for dbx_tree
+		myGlobals.UseDbxTree = ServiceExists("DBT/Entity/GetRoot");
+
+		// load icon library
+		IcoLib_LoadModule();
+
+		SvcFlagsLoadModule();
+		tmi.getTimeZoneTime ? SvcTimezoneLoadModule() : SvcTimezoneLoadModule_old();
+		SvcContactInfoLoadModule();
+		SvcEMailLoadModule();
+		SvcRefreshContactInfoLoadModule();
+
+		CtrlContactLoadModule();
+		// load my button class
+		CtrlButtonLoadModule();
+		// initializes the Ex/Import Services
+		SvcExImport_LoadModule();
+		// load the UserInfoPropertySheet module
+		DlgContactInfoLoadModule();
+
+		// Anniversary stuff
+		DlgAnniversaryListLoadModule();
+		SvcReminderLoadModule();
+
+		// Now the module is loaded! Start initializing certain things
+		ghModulesLoadedHook		= HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+		ghTopToolBarLoaded		= HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);
+		ghModernToolBarLoaded	= HookEvent(ME_TB_MODULELOADED, OnModernToolBarLoaded);
+		ghShutdownHook			= HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
+		return 0;
 	}
 	return 1;
 }
@@ -393,4 +379,3 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 	}
 	return TRUE;
 }
-

@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -25,23 +25,7 @@ Boston, MA 02111-1307, USA.
 #include <newpluginapi.h>
 #include <m_system.h>
 
-
-
-extern struct LIST_INTERFACE list_interface;
-
-
 // Need to be called on ME_SYSTEM_MODULESLOADED
-void init_list_interface();
-
-
-#define List_Create(x,y)		(list_interface.List_Create(x,y))
-#define List_Destroy(x)			(list_interface.List_Destroy(x))
-#define List_Find(x,y)			(list_interface.List_Find(x,y))
-#define List_GetIndex(x,y,z)	(list_interface.List_GetIndex(x,y,z))
-#define List_Insert(x,y,z)		(list_interface.List_Insert(x,y,z))
-#define List_Remove(x,y)		(list_interface.List_Remove(x,y))
-#define List_IndexOf(x,y)		(list_interface.List_IndexOf(x,y))
-
 
 BOOL List_HasItens( SortedList* p_list );
 

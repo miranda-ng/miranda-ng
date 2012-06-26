@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE g_hInst = 0;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 int hLangpack;
 
 static TCHAR   g_szDataPath[MAX_PATH];		// user datae path (read at startup only)
@@ -2403,9 +2401,7 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 
 static int LoadAvatarModule()
 {
-	mir_getMMI ( &mmi );
-	mir_getLI  ( &li );
-	mir_getLP( &pluginInfoEx );
+	mir_getLP(&pluginInfoEx);
 
 	init_mir_thread();
 
@@ -2433,7 +2429,7 @@ static int LoadAvatarModule()
 	arServices.insert( CreateServiceFunction( MS_AV_RESIZEBITMAP, BmpFilterResizeBitmap ));
 	arServices.insert( CreateServiceFunction( MS_AV_SETAVATARW, SetAvatarW ));
 	arServices.insert( CreateServiceFunction( MS_AV_SETMYAVATARW, SetMyAvatarW ));
-	
+
 	hEventChanged = CreateHookableEvent(ME_AV_AVATARCHANGED);
 	hEventContactAvatarChanged = CreateHookableEvent(ME_AV_CONTACTAVATARCHANGED);
 	hMyAvatarChanged = CreateHookableEvent(ME_AV_MYAVATARCHANGED);

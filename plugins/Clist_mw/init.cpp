@@ -28,8 +28,6 @@ PLUGINLINK * pluginLink;
 CLIST_INTERFACE* pcli = NULL;
 int hLangpack;
 
-struct LIST_INTERFACE li;
-struct MM_INTERFACE mmi;
 static HANDLE hCListShutdown = 0;
 
 HMENU BuildGroupPopupMenu( struct ClcGroup* group );
@@ -165,19 +163,12 @@ extern "C" int __declspec(dllexport) CListInitialise(PLUGINLINK * link)
 {
 	int rc = 0;
 	pluginLink = link;
-	#ifdef _DEBUG
-		_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	#endif
 
 	// get the internal malloc/free()
 	__try {
 
 		OutputDebugStringA("CListInitialise ClistMW\r\n");
-
-		mir_getMMI( &mmi );
-		mir_getLP( &pluginInfo );
-		mir_getLI( &li );
-
+		mir_getLP( &pluginInfo );
 		pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
 		if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND ) {
 LBL_Error:

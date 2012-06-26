@@ -185,7 +185,9 @@ INT_PTR TTBRemoveButton(WPARAM wParam, LPARAM lParam)
 	
 	RemoveFromOptions(b->id);
 
-	Buttons.remove(b);
+	int idx = Buttons.getIndex(b);
+	if (idx != -1)
+		Buttons.remove(idx);
 	delete b;
 
 	ArrangeButtons();

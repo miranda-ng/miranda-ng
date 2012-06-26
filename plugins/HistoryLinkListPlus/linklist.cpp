@@ -24,7 +24,6 @@ PLUGINLINK *pluginLink;
 HANDLE hWindowList;
 HCURSOR splitCursor;
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -95,8 +94,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	RegisterClass(&wndclass);
 
 	splitCursor = LoadCursor(NULL, IDC_SIZENS);
-
-	mir_getMMI(&mmi);
 	
 	HookEvent(ME_OPT_INITIALISE, InitOptionsDlg);
 	HookEvent(ME_DB_EVENT_ADDED, DBUpdate);

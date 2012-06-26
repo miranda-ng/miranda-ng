@@ -515,9 +515,6 @@
     <ClCompile Include="modules\utils\hyperlink.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
-    <ClCompile Include="modules\utils\md5.cpp">
-      <Filter>Modules\utils</Filter>
-    </ClCompile>
     <ClCompile Include="modules\utils\openurl.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
@@ -525,9 +522,6 @@
       <Filter>Modules\utils</Filter>
     </ClCompile>
     <ClCompile Include="modules\utils\resizer.cpp">
-      <Filter>Modules\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\utils\sha1.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
     <ClCompile Include="modules\utils\windowlist.cpp">
@@ -678,6 +672,9 @@
       <Filter>Modules\json</Filter>
     </ClCompile>
     <ClCompile Include="modules\utils\utils.cpp">
+      <Filter>Modules\utils</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\utils\md5.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
   </ItemGroup>

@@ -25,7 +25,6 @@ HINSTANCE hInstance;
 HWND hBirthdaysDlg = NULL;
 HWND hUpcomingDlg = NULL;
 extern HANDLE hAddBirthdayWndsList = NULL;
-struct MM_INTERFACE mmi;
 int hLangpack;
 
 CommonData commonData = {0};
@@ -66,7 +65,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	Log("%s", "Entering function " __FUNCTION__);
 	pluginLink = link;
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 
 	INITCOMMONCONTROLSEX icex;

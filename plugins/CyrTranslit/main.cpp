@@ -22,8 +22,6 @@
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-struct UTF8_INTERFACE utfi;
-struct MM_INTERFACE mmi;
 int hLangpack = 0;
 
 PLUGININFOEX pluginInfoEx={
@@ -62,8 +60,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	//system inits:
 	pluginLink = link;
-	mir_getUTFI(&utfi);
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfoEx);
 
 	//plugin inits: PLACE IT ONLY AFTER THIS LINE

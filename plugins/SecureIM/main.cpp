@@ -1,7 +1,6 @@
 #include "commonheaders.h"
 
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi = {0};
 int hLangpack = 0;
 
 extern "C" BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
@@ -27,7 +26,7 @@ MUUID* MirandaPluginInterfaces(void) {
 
 
 void AddServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction) {
-	
+
 	g_hService = (HANDLE*) mir_realloc(g_hService,sizeof(HANDLE)*(iService+1));
 	g_hService[iService] = CreateServiceFunction(serviceName, serviceFunction);
 	iService++;
@@ -35,7 +34,7 @@ void AddServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction) {
 
 
 void AddProtoServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction) {
-	
+
 	g_hService = (HANDLE*) mir_realloc(g_hService,sizeof(HANDLE)*(iService+1));
  	g_hService[iService] = CreateProtoServiceFunction(szModuleName, serviceName, serviceFunction);
 	iService++;
@@ -43,7 +42,7 @@ void AddProtoServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction)
 
 
 void AddHookFunction(LPCSTR eventName, MIRANDAHOOK hookFunction) {
-	
+
 	g_hHook = (HANDLE*) mir_realloc(g_hHook,sizeof(HANDLE)*(iHook+1));
 	g_hHook[iHook] = HookEvent(eventName, hookFunction);
 	iHook++;
@@ -98,7 +97,6 @@ int __cdecl Load(PLUGINLINK *link) {
 	}
 
 	// get memoryManagerInterface address
-	mir_getMMI( &mmi );
 	//get per-plugin langpack interface
 	mir_getLP(&pluginInfoEx);
 
@@ -147,7 +145,7 @@ int __cdecl Load(PLUGINLINK *link) {
 
 	// hook events
 	AddHookFunction(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	AddHookFunction(ME_SYSTEM_OKTOEXIT, onSystemOKToExit); 
+	AddHookFunction(ME_SYSTEM_OKTOEXIT, onSystemOKToExit);
 
 	g_hEvent[0] = CreateHookableEvent(MODULENAME"/Disabled");
 	g_hEvent[1] = CreateHookableEvent(MODULENAME"/Established");
@@ -238,7 +236,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 //			DBDeleteContactSetting(0, szModuleName, "rsa_pub_4096");
 
 			rsa_4096=1;
-		}	
+		}
 
 		if ( !rsa_4096 ) {
 			unsigned int tID;
@@ -463,7 +461,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	    g_hMenu[13] = AddMenuItem(sim231[2],110013,NULL,MODULENAME"/MODE_GPG");
 	    g_hMenu[14] = AddMenuItem(sim231[3],110014,NULL,MODULENAME"/MODE_RSA");
 	}
-	
+
     	// updater plugin support
         if(ServiceExists(MS_UPDATE_REGISTERFL)) {
 		CallService(MS_UPDATE_REGISTERFL, (WPARAM)2445, (LPARAM)&pluginInfoEx);

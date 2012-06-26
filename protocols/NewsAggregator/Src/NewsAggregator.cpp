@@ -22,13 +22,11 @@ Boston, MA 02111-1307, USA.
 HINSTANCE hInst = NULL;
 PLUGINLINK *pluginLink;
 int hLangpack;
-struct MM_INTERFACE mmi;
 HANDLE hOptHook = NULL,  hLoadHook = NULL, hOnPreShutdown = NULL, hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
 HANDLE hProtoService[7];
 HWND hAddFeedDlg;
 HANDLE hChangeFeedDlgList = NULL;
 XML_API xi = {0};
-struct UTF8_INTERFACE utfi;
 TCHAR tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
 #define NUM_SERVICES 6
@@ -71,10 +69,7 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
-	mir_getMMI(&mmi);
-	mir_getXI(&xi);
-	mir_getUTFI(&utfi);
-
+	mir_getXI(&xi);
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
 	{
 		hPackUpdaterFolder = FoldersRegisterCustomPathT("News Aggregator", "Avatars", MIRANDA_USERDATAT _T("\\Avatars\\")_T(DEFAULT_AVATARS_FOLDER));

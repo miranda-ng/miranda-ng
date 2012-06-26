@@ -24,11 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "m_updater.h"
 
 PLUGINLINK *pluginLink;
-MD5_INTERFACE md5i;
-MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
-LIST_INTERFACE li;
-
 CLIST_INTERFACE* pcli;
 
 HINSTANCE g_hInstance;
@@ -122,10 +117,6 @@ static HANDLE g_hEvents[1];
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getMD5I(&md5i);
-	mir_getUTFI(&utfi);
-	mir_getLI(&li);
 	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(

@@ -40,10 +40,7 @@ CLIST_INTERFACE corecli={0};
 CLUIDATA g_CluiData={0};
 int hLangpack;
 
-MM_INTERFACE   mmi;
-LIST_INTERFACE li;
-UTF8_INTERFACE utfi;
-TIME_API       tmi;
+TIME_API tmi;
 
 pfnTryEnterCriticalSection fnTryEnterCriticalSection;
 
@@ -113,10 +110,6 @@ PLUGININTERFACE int CListInitialise(PLUGINLINK * link)
 
 	g_dwMainThreadID = GetCurrentThreadId();
 	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&g_hMainThread,0,FALSE,DUPLICATE_SAME_ACCESS);
-
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
-	mir_getLI(&li);
 	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );
 
@@ -132,7 +125,7 @@ PLUGININTERFACE int CListInitialise(PLUGINLINK * link)
 	CHECKRES ( ToolbarLoadModule()			);
 
 	TRACE( "CListInitialise Modern Contact List ... Done\r\n" );
-	
+
 	return S_OK;
 }
 

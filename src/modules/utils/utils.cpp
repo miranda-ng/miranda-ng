@@ -22,6 +22,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
+#define MS_SYSTEM_GET_MD5I	"Miranda/System/GetMD5I"
+
 INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
 int InitOpenUrl(void);
 int InitWindowList(void);
@@ -475,7 +477,6 @@ int LoadUtilsModule(void)
 	CreateServiceFunction(MS_UTILS_GETRANDOM, GenerateRandom);
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 	CreateServiceFunction(MS_SYSTEM_GET_MD5I, GetMD5Interface);
-	CreateServiceFunction(MS_SYSTEM_GET_SHA1I, GetSHA1Interface);
 	InitOpenUrl();
 	InitWindowList();
 	InitHyperlink();

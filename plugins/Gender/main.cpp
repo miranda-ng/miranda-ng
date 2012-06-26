@@ -45,7 +45,6 @@ byte bDrawNoGenderIcon = 0; // enable icon when no info?
 byte bContactMenuItems = 1; // do we need a contact menu items?
 byte bMetaAvail = 0; // metacontacts installed?
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 extern int onOptInitialise(WPARAM wParam, LPARAM lParam);
 
@@ -433,7 +432,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
 	
 	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
 	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);

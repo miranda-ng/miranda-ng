@@ -84,8 +84,6 @@ extern HINSTANCE g_hInst;
 
 */
 
-extern struct LIST_INTERFACE li;
-
 #ifndef CS_DROPSHADOW
 #define CS_DROPSHADOW 0x00020000
 #endif

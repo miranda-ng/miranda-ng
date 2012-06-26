@@ -21,7 +21,6 @@ Boston, MA 02111-1307, USA.
 
 HINSTANCE hInstance = NULL;
 PLUGINLINK  *pluginLink;
-struct MM_INTERFACE mmi;
 int hLangpack;
 
 HANDLE hOnModulesLoaded;
@@ -57,9 +56,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(PLUGINLINK* link)
 {
 	pluginLink = link;
-	mir_getLP(&pluginInfoEx);
-	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfoEx);
 	hOnModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 

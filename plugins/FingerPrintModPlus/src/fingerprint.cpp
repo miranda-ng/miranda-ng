@@ -17,7 +17,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-					
+
 //Start of header
 #include "global.h"
 #include "fingerprints.h"		//Including of fingerprint masks
@@ -69,7 +69,6 @@ BOOL __inline WildCompareProcW(LPWSTR name, LPWSTR mask);
 
 HINSTANCE		g_hInst;
 PLUGINLINK*		pluginLink;
-MM_INTERFACE	mmi;					// miranda memory interface
 int hLangpack;
 
 BOOL g_bExtraIcon_Register_ServiceExist		= FALSE;
@@ -116,7 +115,7 @@ PLUGININFOEX pluginInfoEx = {
 	__LEGAL_COPYRIGHT_STRING,
 	"http://code.google.com/p/fingerprintmod/",
 	UNICODE_AWARE,
-	0,	
+	0,
 	MIID_THIS_PLUGIN
 };
 
@@ -157,7 +156,6 @@ extern "C"		__declspec(dllexport) const MUUID* MirandaPluginInterfaces()
 extern "C" int	__declspec(dllexport) Load(PLUGINLINK* link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfoEx);
 
 	hStaticHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
@@ -656,7 +654,7 @@ HICON FASTCALL LoadIconFromExternalFile(LPTSTR filename, int nLibrary, LPSTR Ico
 *	should start from '|' e.g: "|first*submask|second*mask".
 *
 *	Dec 25, 2006 by FYR:
-*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means: 
+*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means:
 *	if NOT according to mask 3 AND (mask1 OR mask2)
 *	EXCEPTION should be BEFORE main mask:
 *		IF Exception match - the comparing stops as FALSE
@@ -712,7 +710,7 @@ BOOL FASTCALL WildCompareA(LPSTR szName, LPSTR szMask)
 *	should start from '|' e.g: "|first*submask|second*mask".
 *
 *	Dec 25, 2006 by FYR:
-*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means: 
+*	Added Exception to masks: the mask "|^mask3|mask2|mask1" means:
 *	if NOT according to mask 3 AND (mask1 OR mask2)
 *	EXCEPTION should be BEFORE main mask:
 *		IF Exception match - the comparing stops as FALSE
@@ -835,7 +833,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_NOTIFY:
 		{
 			NMHDR *hdr = (NMHDR *)lParam;
-			if (hdr && hdr->code == PSN_APPLY) 
+			if (hdr && hdr->code == PSN_APPLY)
 			{
 				int i = SendDlgItemMessage(hwndDlg, IDC_ADVICON, CB_GETCURSEL, 0, 0) + 1;
 				DBWriteContactSettingWord(NULL, "Finger", "Column", (WORD)i);
@@ -886,7 +884,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 				for (int i = 0; i < DEFAULT_SETTINGS_COUNT; i++)
 					StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
-					
+
 				for(i = 0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
 				{
 					mask = &def_kn_fp_mask[i];

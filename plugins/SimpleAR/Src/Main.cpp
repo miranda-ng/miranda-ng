@@ -23,8 +23,6 @@ HANDLE hToggle = NULL, hEnableMenu = NULL;
 CLISTMENUITEM mi;
 BOOL fEnabled, gbVarsServiceExist = FALSE;
 INT interval;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 int hLangpack;
 
 TCHAR* ptszDefaultMsg[]={
@@ -318,8 +316,6 @@ INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
 extern "C" int __declspec(dllexport)Load(PLUGINLINK *link)
 {
 	pluginLink=link;
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfoEx);
 
 	hToggleEnable = CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);

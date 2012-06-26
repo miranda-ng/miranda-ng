@@ -25,9 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 int OnLoadModule(void);
 int OnUnloadModule(void);
 
-struct MM_INTERFACE mmi;
-struct LIST_INTERFACE li;
-struct UTF8_INTERFACE utfi;
 TIME_API tmi;
 
 PLUGINLINK *pluginLink;
@@ -72,9 +69,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	pluginLink = link;
 
 	// set the memory manager
-	mir_getMMI( &mmi );
-	mir_getLI( &li );
-	mir_getUTFI( &utfi );
 	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );
 

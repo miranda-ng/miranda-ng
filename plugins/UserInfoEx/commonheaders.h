@@ -171,11 +171,7 @@ typedef struct _MGLOBAL
 
 extern HINSTANCE		ghInst;
 extern MGLOBAL			myGlobals;
-extern MM_INTERFACE		mmi;
-extern LIST_INTERFACE	li;
-extern UTF8_INTERFACE	utfi;
-//extern TIME_API		tmi;
-extern FI_INTERFACE		*FIP;
+extern FI_INTERFACE* FIP;
 
 /***********************************************************************************************************
  * MIRANDA_CPP_PLUGIN_API
@@ -183,7 +179,7 @@ extern FI_INTERFACE		*FIP;
 
 /**
  * These macros provide an interface for classes to use member
- * function as services and event hooks. 
+ * function as services and event hooks.
  *
  * @note	This requires Miranda Core 0.8+!
  *
@@ -236,4 +232,3 @@ static FORCEINLINE BOOLEAN IsAeroMode()
 	BOOL result;
 	return myGlobals.WantAeroAdaption && dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;
 }
-

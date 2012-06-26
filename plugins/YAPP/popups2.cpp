@@ -45,8 +45,6 @@ PLUGININFOEX pluginInfo={
 
 PLUGINLINK *pluginLink;
 
-MM_INTERFACE   mmi;
-LIST_INTERFACE li;
 
 extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
@@ -232,9 +230,6 @@ HANDLE hEventPreShutdown, hEventModulesLoaded;
 
 extern "C" int POPUPS2_API Load(PLUGINLINK *link) {
 	pluginLink = link;
-
-	mir_getLI(&li);
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 
 	InitMessagePump();

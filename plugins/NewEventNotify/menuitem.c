@@ -30,14 +30,13 @@ CLISTMENUITEM menuitem;
 HANDLE hMenuitemNotify;
 BOOL bNotify;
 
-static int MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
+static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 {
   bNotify = !bNotify;
   MenuitemUpdate(bNotify);
 
   //write changes to options->bDisable and into database
   Opt_DisableNEN(!bNotify);
-
   return 0;
 }
 

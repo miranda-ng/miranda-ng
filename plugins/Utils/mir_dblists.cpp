@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -25,16 +25,6 @@ Boston, MA 02111-1307, USA.
 
 #include <newpluginapi.h>
 #include <m_system.h>
-
-
-struct LIST_INTERFACE list_interface = {0};
-
-
-void init_list_interface()
-{
-	list_interface.cbSize = sizeof(list_interface);
-	CallService(MS_SYSTEM_GET_LI, 0, (LPARAM)&list_interface);
-}
 
 
 void List_DestroyFreeContents( SortedList* p_list )
@@ -58,7 +48,7 @@ void List_DestroyFreeContents( SortedList* p_list )
 }
 
 
-int List_Append( SortedList* p_list, void* p_value ) 
+int List_Append( SortedList* p_list, void* p_value )
 {
 	return List_Insert( p_list, p_value, p_list->realCount );
 }

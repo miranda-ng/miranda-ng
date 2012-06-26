@@ -57,7 +57,6 @@ int Load(PLUGINLINK *link) {
 	DisableThreadLibraryCalls(g_hInst);
 
 	// get memoryManagerInterface address
-	mir_getMMI( &mmi );
 	mir_getLP(&pluginInfoEx);
 
 	// register plugin module

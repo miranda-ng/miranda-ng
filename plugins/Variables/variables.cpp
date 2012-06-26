@@ -534,23 +534,6 @@ static INT_PTR freeMemory(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-/*
-	MS_VARS_GET_MMI
-	this code is copied from Miranda's core (miranda.c)
-*/
-INT_PTR getMemoryManagerInterface(WPARAM wParam, LPARAM lParam) {
-
-	struct MM_INTERFACE *mmi = (struct MM_INTERFACE*) lParam;
-	if (mmi || mmi->cbSize == sizeof(struct MM_INTERFACE))
-	{
-		mmi->mmi_malloc = malloc;
-		mmi->mmi_realloc = realloc;
-		mmi->mmi_free = free;
-		return 0;
-	}
-	return 1;
-}
-
 int setParseOptions(struct ParseOptions *po) {
 
 	if (po == NULL) {
@@ -580,7 +563,6 @@ int LoadVarModule() {
 	hFormatStringService = CreateServiceFunction(MS_VARS_FORMATSTRING, formatStringService);
 	hFreeMemoryService = CreateServiceFunction(MS_VARS_FREEMEMORY, freeMemory);
 	hRegisterVariableService = CreateServiceFunction(MS_VARS_REGISTERTOKEN, registerToken);
-	hGetMMIService = CreateServiceFunction(MS_VARS_GET_MMI, getMemoryManagerInterface);
 	// help dialog
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hUxTheme = NULL;

@@ -1,7 +1,6 @@
 #include "Mra.h"
 
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
 MRA_SETTINGS masMraSettings;
 int hLangpack;
 
@@ -72,9 +71,7 @@ extern "C" MRA_API int Load(PLUGINLINK *link)
 	PROTOCOLDESCRIPTOR pd={0};
 
 	pluginLink=link;
-	mir_getLP(&pluginInfoEx);
-	mir_getMMI(&mmi);
-
+	mir_getLP(&pluginInfoEx);
 
 	// Get module name from DLL file name
 	if (GetModuleFileName(masMraSettings.hInstance,szBuff,MAX_FILEPATH))
@@ -105,7 +102,7 @@ extern "C" MRA_API int Load(PLUGINLINK *link)
 
 	// load libs
 	if (GetModuleFileName(NULL,szBuff,MAX_FILEPATH))
-	{// 
+	{//
 		DWORD dwErrorCode;
 
 		masMraSettings.dwMirWorkDirPathLen=GetFullPathName(szBuff,MAX_FILEPATH,masMraSettings.szMirWorkDirPath,&lpwszFileName);
@@ -215,11 +212,8 @@ extern "C" MRA_API int Unload(void)
 		masMraSettings.lpfnUncompress=NULL;
 	}
 
-	SecureZeroMemory(pluginLink,sizeof(pluginLink));
-	SecureZeroMemory(&mmi,sizeof(pluginLink));
-
 	DebugPrintCRLFW(L"Unload - DONE");
-return(0);
+	return(0);
 }
 
 
@@ -257,7 +251,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	DB_Mra_CreateResidentSetting(DBSETTING_BLOGSTATUSID);
 	DB_Mra_CreateResidentSetting(DBSETTING_BLOGSTATUS);
 	DB_Mra_CreateResidentSetting(DBSETTING_BLOGSTATUSMUSIC);
-	
+
 	// всех в offline // тк unsaved values сохраняются их нужно инициализировать
 	for(HANDLE hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
 	{// функция сама проверяет принадлежность контакта к MRA
@@ -266,7 +260,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 #endif
 
 	MraAvatarsQueueInitialize(&masMraSettings.hAvatarsQueueHandle);
-	
+
 	VersionConversions();
 
 	MraAntiSpamLoadBadWordsW();
@@ -287,7 +281,7 @@ int OnPreShutdown(WPARAM wParam,LPARAM lParam)
 	InterlockedExchange((volatile LONG*)&masMraSettings.dwGlobalPluginRunning,FALSE);
 
 	MraSetStatus(ID_STATUS_OFFLINE,0);
-	
+
 	MraAvatarsQueueDestroy(masMraSettings.hAvatarsQueueHandle);
 	masMraSettings.hAvatarsQueueHandle=NULL;
 

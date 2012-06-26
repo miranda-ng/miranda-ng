@@ -32,8 +32,6 @@
 #include "version.h"
 
 PLUGINLINK* pluginLink = NULL;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 int hLangpack;
 
 HANDLE g_hEventWorkThreadStop;
@@ -440,8 +438,6 @@ extern "C"
 	int __declspec(dllexport) Load(PLUGINLINK *link)
 	{
 		pluginLink = link;
-		mir_getMMI(&mmi);
-		mir_getUTFI(&utfi);
 		mir_getLP(&Global_pluginInfo);
 // 		if ((mirandaVersion >= 0x0800) && (1 == mir_getXI(&xi)))
 // 		{

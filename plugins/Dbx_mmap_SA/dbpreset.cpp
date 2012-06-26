@@ -64,7 +64,7 @@ int InitPreset()
 	// no preset
 	if (!fp) return 0;
 
-	lstPresets = li.List_Create(0, 50);
+	lstPresets = List_Create(0, 50);
 	lstPresets->sortFunc = (FSortFunc)DBPresetItem_Cmp;
 
 	while(!feof(fp))
@@ -99,31 +99,31 @@ int InitPreset()
 				case 'B':
 					item = DBPresetItem_Create(szSection, szName, DBVT_BYTE);
 					item->dbv.bVal = (BYTE)strtol(szValue+1,NULL,0);
-					li.List_InsertPtr(lstPresets, item);
+					List_InsertPtr(lstPresets, item);
 					break;
 				case 'w':
 				case 'W':
 					item = DBPresetItem_Create(szSection, szName, DBVT_WORD);
 					item->dbv.wVal = (WORD)strtol(szValue+1,NULL,0);
-					li.List_InsertPtr(lstPresets, item);
+					List_InsertPtr(lstPresets, item);
 					break;
 				case 'd':
 				case 'D':
 					item = DBPresetItem_Create(szSection, szName, DBVT_DWORD);
 					item->dbv.dVal = (DWORD)strtoul(szValue+1,NULL,0);
-					li.List_InsertPtr(lstPresets, item);
+					List_InsertPtr(lstPresets, item);
 					break;
 				case 's':
 				case 'S':
 					item = DBPresetItem_Create(szSection, szName, DBVT_ASCIIZ);
 					item->dbv.pszVal = mir_strdup(szValue+1);
-					li.List_InsertPtr(lstPresets, item);
+					List_InsertPtr(lstPresets, item);
 					break;
 				case 'u':
 				case 'U':
 					item = DBPresetItem_Create(szSection, szName, DBVT_UTF8);
 					item->dbv.pszVal = mir_strdup(szValue+1);
-					li.List_InsertPtr(lstPresets, item);
+					List_InsertPtr(lstPresets, item);
 					break;
 				case 'n':
 				case 'N':
@@ -142,7 +142,7 @@ int InitPreset()
 					item = DBPresetItem_Create(szSection, szName, DBVT_BLOB);
 					item->dbv.pbVal = buf;
 					item->dbv.cpbVal = len;
-					li.List_InsertPtr(lstPresets, item);
+					List_InsertPtr(lstPresets, item);
 					break;
 				}
 			}
@@ -159,7 +159,7 @@ void UninitPreset()
 	if (!lstPresets) return;
 	for (i = 0; i < lstPresets->realCount; ++i)
 		DBPresetItem_Destroy((DBPresetItem *)lstPresets->items[i]);
-	li.List_Destroy(lstPresets);
+	List_Destroy(lstPresets);
 }
 
 int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic)
@@ -172,7 +172,7 @@ int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT
 	search.szModule = (char *)szModule;
 	search.szSetting = (char *)szSetting;
 	DBPresetItem_Hash(&search);
-	item = (DBPresetItem *)li.List_Find(lstPresets, &search);
+	item = (DBPresetItem *)List_Find(lstPresets, &search);
 
 	if (!item) return FALSE;
 
@@ -208,7 +208,7 @@ int DBPreset_CompareSetting(const char *szModule, const char *szSetting, DBVARIA
 	search.szModule = (char *)szModule;
 	search.szSetting = (char *)szSetting;
 	DBPresetItem_Hash(&search);
-	item = (DBPresetItem *)li.List_Find(lstPresets, &search);
+	item = (DBPresetItem *)List_Find(lstPresets, &search);
 
 	if (!item) return FALSE;
 	if (item->dbv.type != item->dbv.type) return FALSE;

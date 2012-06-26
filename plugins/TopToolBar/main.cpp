@@ -4,8 +4,6 @@
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 HANDLE hHookTTBModuleLoaded;
 int hLangpack;
 
@@ -46,8 +44,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI( &mmi );
-	mir_getLI( &li );
 	mir_getLP(&pluginInfo);
 
 	LoadToolbarModule();

@@ -49,7 +49,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MODULENAME "Quick Messages"
 #define PLGNAME "QuickMessages"
 
-extern struct LIST_INTERFACE li;
 extern HINSTANCE hinstance;
 extern HICON hIcon;
 extern ListData* ButtonsList[100];
@@ -85,7 +84,3 @@ int OptionsInit(WPARAM,LPARAM);
 #define QMESSAGES_UPDATE_URL "http://miranda.radicaled.ru/public/quickmessages/"QMESSAGES_NAME".zip"
 
 #define QMESSAGES_VERSION_PREFIX "QuickMessages "
-
-
-
-

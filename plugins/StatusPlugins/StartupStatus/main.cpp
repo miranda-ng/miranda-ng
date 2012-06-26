@@ -31,8 +31,6 @@ static HANDLE
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 int hLangpack = 0;
 
 int CSModuleLoaded( WPARAM, LPARAM );
@@ -78,8 +76,6 @@ static INT_PTR SrvGetProfile( WPARAM wParam, LPARAM lParam )
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getLP( &pluginInfoEx );
 
 	if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||

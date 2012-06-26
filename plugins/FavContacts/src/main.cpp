@@ -24,9 +24,6 @@ DWORD		g_mirandaVersion;
 PLUGINLINK* pluginLink = NULL;
 HINSTANCE   g_hInst;
 
-struct LIST_INTERFACE li;
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
 int hLangpack;
 
 // {AC8B66B3-AFE1-4475-BABA-49783BA39A66}
@@ -304,10 +301,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	pluginLink = link;
 
 	if (!CoreCheck()) return 1;
-
-	mir_getLI(&li);
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfo);
 
 	g_contactCache = new CContactCache;

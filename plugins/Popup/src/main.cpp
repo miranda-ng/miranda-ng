@@ -112,7 +112,7 @@ static struct {
 	{MS_POPUP_GETCONTACT,			PopUp_GetContact,			0},
 	{MS_POPUP_GETPLUGINDATA,		PopUp_GetPluginData,		0},
 	{MS_POPUP_ISSECONDLINESHOWN,	PopUp_IsSecondLineShown,	0},
-	
+
 	{MS_POPUP_SHOWMESSAGE,			PopUp_ShowMessage,			0},
 	{MS_POPUP_SHOWMESSAGEW,			PopUp_ShowMessageW,			0},
 	{MS_POPUP_QUERY,				PopUp_Query,				0},
@@ -266,7 +266,7 @@ INT_PTR svcEnableDisableMenuCommand(WPARAM wp, LPARAM lp)
 		DBWriteContactSettingByte(NULL, MODULNAME, "ModuleIsEnabled", FALSE);
 		mi.ptszName = LPGENT("Enable &popup module");
 		mi.hIcon = IcoLib_GetIcon(ICO_POPUP_OFF,0);
-	} 
+	}
 	else {
 		//The module is disabled.
 		//The action to do is enable popups (show enabled), then write "disable popup" in the new item.
@@ -334,7 +334,7 @@ INT_PTR GetStatus(WPARAM wp, LPARAM lp)
 }
 
 //register Updatersupport
-void registerUpdate() {	
+void registerUpdate() {
 	Update update = {0};
 	char szVersion[16];
 	update.cbSize				= sizeof(Update);
@@ -359,7 +359,7 @@ void registerUpdate() {
 }
 
 //register Hotkey
-void LoadHotkey() {	
+void LoadHotkey() {
 	HOTKEYDESC hk        = {0};
 	hk.cbSize            = sizeof(hk);
 	hk.dwFlags			 = HKD_TCHAR;
@@ -503,9 +503,7 @@ MIRAPI int Load(PLUGINLINK *link)
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
-	mir_getLI	(&li);
-	mir_getUTFI	(&utfi);
-	mir_getMTI	(&MText);
+	mir_getMTI(&MText);
 	mir_getLP(&pluginInfoEx);
 
 	#if defined(_DEBUG)
@@ -547,7 +545,7 @@ MIRAPI int Load(PLUGINLINK *link)
 	if (DBGetContactSetting(NULL, "KnownModules", MODULNAME, &dbv))
 		DBWriteContactSettingString(NULL, "KnownModules", pluginInfoEx.shortName, MODULNAME);
 	DBFreeVariant(&dbv);
-	
+
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	hOkToExit = HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);

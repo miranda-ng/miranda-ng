@@ -1,6 +1,5 @@
 #include "commonheaders.h"
 
-struct MM_INTERFACE mmi;
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 HANDLE hModulesLoaded, hShowGuide;
@@ -114,7 +113,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
 	return 0;

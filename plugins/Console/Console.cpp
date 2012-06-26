@@ -82,9 +82,6 @@ typedef struct {
 } LOGWIN;
 
 
-struct MM_INTERFACE mmi;
-struct UTF8_INTERFACE utfi;
-struct LIST_INTERFACE li;
 
 static SortedList lModules = {0};
 
@@ -750,7 +747,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		if (!gSingleMode)
 		{
 			lw2.Module = dumpMsg->szModule;
-			if (!li.List_GetIndex(&lModules, &lw2, &idx))
+			if (!List_GetIndex(&lModules, &lw2, &idx))
 				SendMessage(hwndDlg, HM_ADD, (WPARAM)idx, (LPARAM)dumpMsg->szModule);
 
 			lw = (LOGWIN*)lModules.items[idx];
@@ -778,7 +775,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 
 		lw = (LOGWIN*)mir_calloc( sizeof(LOGWIN));
 		lw->Module = (char*)mir_strdup(str);
-		li.List_Insert(&lModules, lw, idx);
+		List_Insert(&lModules, lw, idx);
 
 		if (!gSingleMode && lParam)
 		{
@@ -859,7 +856,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 			}
 		}
 
-		li.List_RemovePtr(&lModules, lw);
+		List_RemovePtr(&lModules, lw);
 		mir_free(lw->Module);
 		mir_free(lw);
 		return TRUE;
@@ -1389,12 +1386,7 @@ static UINT logicons[] = {IDI_EMPTY, IDI_ARROW, IDI_IN, IDI_OUT, IDI_INFO};
 void InitConsole()
 {
 	int i;
-	HICON hi;
-
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
-	mir_getLI(&li);
-
+	HICON hi;
 	lModules.sortFunc = (FSortFunc)stringCompare;
 	lModules.increment = 5;
 
@@ -1433,7 +1425,7 @@ void ShutdownConsole(void)
 {
 	int i;
 
-	li.List_Destroy(&lModules);
+	List_Destroy(&lModules);
 
 	if (gImg) ImageList_Destroy(gImg);
 

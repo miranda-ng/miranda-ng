@@ -18,8 +18,6 @@
 */
 #include "variables.h"
 
-extern struct LIST_INTERFACE li;
-
 typedef struct {
 	TOKENREGISTEREX tr;
 	DWORD nameHash;
@@ -50,7 +48,7 @@ static TokenRegisterEntry* FindTokenRegisterByName(TCHAR *name)
 	temp.nameHash = NameHashFunction( name );
 	if ( List_GetIndex(( SortedList* )&tokens, &temp, &idx ))
 		return tokens.items[ idx ];
-   
+
 	return NULL;
 }
 
@@ -68,12 +66,12 @@ int registerIntToken(TCHAR *szToken, TCHAR *(*parseFunction)(ARGUMENTSINFO *ai),
 }
 
 int deRegisterToken(TCHAR *token) {
-	
+
 	TokenRegisterEntry *tre;
-	
+
 	if (token == NULL) {
 		return -1;
-	}	
+	}
 	EnterCriticalSection(&csRegister);
 	tre = FindTokenRegisterByName( token );
 	if ( tre == NULL ) {
@@ -131,7 +129,7 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 
 	memcpy( &tre->tr, newVr, newVr->cbSize );
 	tre->nameHash = hash;
-	if ( !_tcscmp( newVr->tszTokenString, _T("alias"))) 
+	if ( !_tcscmp( newVr->tszTokenString, _T("alias")))
 		log_debugA("alias");
 
 	if ( !( newVr->flags & TRF_PARSEFUNC ) && newVr->szService != NULL )
@@ -182,7 +180,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 	int callRes;
 	TCHAR *temp, *res;
 	TOKENREGISTEREX *thisVr, trCopy;
-	
+
 	if ( (ai == NULL) || (ai->argc == 0) || (ai->targv[0] == NULL)) {
 		return NULL;
 	}
@@ -206,7 +204,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		// unicode variables calls a non-unicode plugin
 		unsigned int j;
 		ARGUMENTSINFO cAi;
-		
+
 		memcpy(&cAi, ai, sizeof(ARGUMENTSINFO));
 		cAi.argv = ( char** )malloc(ai->argc*sizeof(char *));
 		for ( j=0; j < ai->argc; j++ )
@@ -257,7 +255,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 TOKENREGISTEREX* getTokenRegister( int i )
 {
 	TOKENREGISTEREX *retVr;
-	
+
 	EnterCriticalSection(&csRegister);
 	retVr = ( i >= tokens.count || i < 0 ) ? NULL : &tokens.items[i]->tr;
 	LeaveCriticalSection( &csRegister );

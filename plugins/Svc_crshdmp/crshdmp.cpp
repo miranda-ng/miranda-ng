@@ -22,10 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "m_toolbar.h"
 #include "version.h"
 
-MM_INTERFACE  mmi;
-MD5_INTERFACE md5i;
-UTF8_INTERFACE utfi;
-
 int hLangpack;
 
 HINSTANCE hInst;
@@ -400,10 +396,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 	clsdates = DBGetContactSettingByte(NULL, PluginName, "ClassicDates", 1) != 0;
 
 	dtsubfldr = DBGetContactSettingByte(NULL, PluginName, "SubFolders", 1) != 0;
-
-	mir_getMMI(&mmi);
-	mir_getMD5I(&md5i);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfoEx);
 
 	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

@@ -24,11 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // TODO: Make following as "globals" structure?
 PLUGINLINK *pluginLink;
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 CLIST_INTERFACE* pcli;
-UTF8_INTERFACE utfi;
-MD5_INTERFACE md5i;
 int hLangpack;
 
 HINSTANCE g_hInstance;
@@ -127,10 +123,6 @@ static HANDLE g_hEvents[1];
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
-	mir_getUTFI(&utfi);
-	mir_getMD5I(&md5i);
 	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(

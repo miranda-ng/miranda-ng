@@ -23,9 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 
-struct MM_INTERFACE   mmi;
-struct LIST_INTERFACE li;
-struct UTF8_INTERFACE utfi;
 int hLangpack;
 
 extern char szDbPath[MAX_PATH];
@@ -121,9 +118,7 @@ static int grokHeader( char * profile, int * error )
 static int LoadDatabase( char * profile, void * plink )
 {
 	PLUGINLINK *link = (PLUGINLINK *)plink;
-#ifdef _DEBUG
-	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
+
 	// don't need thread notifications
 	strncpy(szDbPath, profile, sizeof(szDbPath));
 
@@ -131,9 +126,6 @@ static int LoadDatabase( char * profile, void * plink )
 	pluginLink=link;
 
 	// set the memory, lists & UTF8 manager
-	mir_getLI( &li );
-	mir_getMMI( &mmi );
-	mir_getUTFI( &utfi );
 	mir_getLP( &pluginInfo );
 
 	// inject all APIs and hooks into the core

@@ -87,7 +87,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Use VersionNo.h to set the version number, and ensure resource file is not open
 #include "version.h"
 
-struct MM_INTERFACE mmi;
 BOOL os_unicode_enabled = FALSE;
 int hLangpack;
 
@@ -161,8 +160,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	DBVARIANT dbv;
 	
 	pluginLink=link;
-
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 
 	os_unicode_enabled = IsUnicodeOS();

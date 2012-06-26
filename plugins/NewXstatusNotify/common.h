@@ -106,8 +106,6 @@
 
 #define JS_PARSE_XMPP_URI       "/ParseXmppURI"
 
-extern LIST_INTERFACE li;
-
 typedef struct tagSTATUS
 {
 	int ID;
@@ -123,7 +121,7 @@ typedef struct tagSTATUS
 	COLORREF colorText;
 } STATUS;
 
-typedef struct tagPLUGINDATA 
+typedef struct tagPLUGINDATA
 {
 	WORD newStatus;
 	WORD oldStatus;

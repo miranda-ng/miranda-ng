@@ -145,7 +145,7 @@ static void UpdateOptionsDlgItemsState(HWND hWnd)
 	EnableDlgItem(hWnd, IDC_DELAY_OTHERS,   options->iDelayOthers != -1);
 }
 
-static BOOL CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
   {

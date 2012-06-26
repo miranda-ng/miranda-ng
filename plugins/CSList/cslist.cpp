@@ -42,8 +42,6 @@
 #include "strpos.h"
 #include "legacy.h"
 
-MM_INTERFACE mmi;
-LIST_INTERFACE  li;
 SortedList *servicesList;
 int hLangpack;
 
@@ -78,10 +76,8 @@ extern "C" __declspec( dllexport ) int Load( PLUGINLINK *link )
 {
 	// link plugin
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getLP(&pluginInfoEx);
-	servicesList = li.List_Create(0, 10);
+	servicesList = List_Create(0, 10);
 
 	// support for ComboBoxEx
 	{
@@ -123,7 +119,7 @@ extern "C" __declspec( dllexport ) int Unload( void )
 		HANDLE *hService = (HANDLE *)servicesList->items[i];
 		DestroyServiceFunction(hService);
 	}
-	li.List_Destroy(servicesList);
+	List_Destroy(servicesList);
 	mir_free(servicesList);
 	delete cslist;
 
@@ -403,7 +399,7 @@ void CSList::addProtoStatusMenuItem( char* protoName, void* arg )
 	mir_snprintf(buf, SIZEOF(buf), "CSList/ShowList/%s", protoName);
 	if (!ServiceExists(buf))
 		hService = CreateServiceFunctionParam(buf, CSList::showList, (LPARAM)protoName);
-	li.List_Insert(servicesList, hService, servicesList->realCount);
+	List_Insert(servicesList, hService, servicesList->realCount);
 
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);

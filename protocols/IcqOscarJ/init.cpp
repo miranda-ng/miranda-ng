@@ -39,10 +39,6 @@
 
 HINSTANCE hInst;
 PLUGINLINK* pluginLink;
-MM_INTERFACE mmi;
-UTF8_INTERFACE utfi;
-MD5_INTERFACE md5i;
-LIST_INTERFACE li;
 int hLangpack;
 
 DWORD MIRANDA_VERSION;
@@ -111,7 +107,6 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMD5I( &md5i );
 	mir_getLP( &pluginInfo );
 
 	// Get Miranda version

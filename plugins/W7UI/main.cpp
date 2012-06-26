@@ -29,8 +29,6 @@ int UnloadW7UI();
 PLUGINLINK* pluginLink;
 HINSTANCE   g_hInst;
 
-struct LIST_INTERFACE li;
-struct MM_INTERFACE mmi;
 int hLangpack;
 
 // {3625ACB8-794C-4727-88EA-76DBBAC6D200}
@@ -74,8 +72,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK * link)
 	if (!IsWinVer7Plus()) return 1;
 
 	pluginLink = link;
-	mir_getLI(&li);
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 
 	LoadW7UI();

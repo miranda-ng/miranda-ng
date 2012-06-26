@@ -4,7 +4,6 @@ HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 HANDLE hHookOptionInit = NULL;
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfoEx=
 { 	// about plugin
@@ -135,7 +134,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
-	mir_getMMI(&mmi);
 	hHookOptionInit = HookEvent(ME_OPT_INITIALISE, AutorunOptInitialise);
 	return 0;
 }

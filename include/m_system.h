@@ -132,121 +132,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //returns 0 on success or nonzero on failure.
 #define MS_SYSTEM_REMOVEWAIT     "Miranda/System/RemoveWait"
 
-/* Returns Miranda's RTL/CRT function poiners to malloc() free() realloc() -- 0.1.2.2+
-This is useful for preallocation of memory for use with Miranda's services
-that Miranda can free -- or reallocation of a block of memory passed with a service.
-Do not use with memory unless it is explicitly expected the memory *can*
-or *shall* be used in this way. the passed structure is expected to have it's .cbSize initialised
-
-wParam=0, lParam = (LPARAM) &MM_INTERFACE
-*/
-
-struct MM_INTERFACE
-{
-	size_t cbSize;
-	void* (*mmi_malloc) (size_t);
-	void* (*mmi_realloc) (void*, size_t);
-	void  (*mmi_free) (void*);
-
-	void*    (*mmi_calloc) (size_t);
-	char*    (*mmi_strdup) (const char *src);
-	wchar_t* (*mmi_wstrdup) (const wchar_t *src);
-	int      (*mir_snprintf) (char *buffer, size_t count, const char* fmt, ...);
-	int      (*mir_sntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
-	int      (*mir_vsnprintf) (char *buffer, size_t count, const char* fmt, va_list va);
-	int      (*mir_vsntprintf) (TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
-
-	wchar_t* (*mir_a2u_cp) (const char* src, int codepage);
-	wchar_t* (*mir_a2u)(const char* src);
-	char*    (*mir_u2a_cp)(const wchar_t* src, int codepage);
-	char*    (*mir_u2a)(const wchar_t* src);
-};
-
-#define MS_SYSTEM_GET_MMI  "Miranda/System/GetMMI"
-
-__forceinline INT_PTR mir_getMMI(struct MM_INTERFACE* dest)
-{
-	return 0;
-}
-
-/* Returns the pointer to the simple lists manager.
-If the sortFunc member of the list gets assigned, the list becomes sorted
-
-wParam=0, lParam = (LPARAM)LIST_INTERFACE*
-*/
-
-struct LIST_INTERFACE
-{
-	size_t    cbSize;
-
-	SortedList* (*List_Create)(int, int);
-	void        (*List_Destroy)(SortedList*);
-
-	void* (*List_Find)(SortedList*, void*);
-	int   (*List_GetIndex)(SortedList*, void*, int*);
-	int   (*List_Insert)(SortedList*, void*, int);
-	int   (*List_Remove)(SortedList*, int);
-	int   (*List_IndexOf)(SortedList*, void*);
-
-	int   (*List_InsertPtr)(SortedList* list, void* p);
-	int   (*List_RemovePtr)(SortedList* list, void* p);
-
-	void  (*List_Copy)(SortedList* src, SortedList* dst, size_t);
-	void  (*List_ObjCopy)(SortedList* src, SortedList* dst, size_t);
-};
-
-#define MS_SYSTEM_GET_LI  "Miranda/System/GetLI"
-
-__forceinline INT_PTR mir_getLI(struct LIST_INTERFACE* dest)
-{
-	return 0;
-}
-
-/*
-	UTF8 Manager interface. 0.5.2+
-
-	Contains functions for utf8-strings encoding & decoding
-*/
-
-#define UTF8_INTERFACE_SIZEOF_V1 (sizeof(size_t)+5*sizeof(void*))
-#define UTF8_INTERFACE_SIZEOF_V2 (sizeof(size_t)+6*sizeof(void*))
-
-struct UTF8_INTERFACE
-{
-	size_t cbSize;
-
-	// decodes utf8 and places the result back into the same buffer.
-	// if the second parameter is present, the additional wchar_t* string gets allocated,
-	// and filled with the decoded utf8 content without any information loss.
-	// this string should be freed using mir_free()
-	char* (*utf8_decode)(char* str, wchar_t** ucs2);
-	char* (*utf8_decodecp)(char* str, int codepage, wchar_t** ucs2);
-
-	// encodes an ANSI string into a utf8 format using the current langpack code page,
-	// or CP_ACP, if lanpack is missing
-	// the resulting string should be freed using mir_free
-	char* (*utf8_encode)(const char* src);
-	char* (*utf8_encodecp)(const char* src, int codepage);
-
-	// encodes an WCHAR string into a utf8 format
-	// the resulting string should be freed using mir_free
-	char* (*utf8_encodeW)(const wchar_t* src);
-
-	// decodes utf8 and returns the result as wchar_t* that should be freed using mir_free()
-	// the input buffer remains unchanged
-	wchar_t* (*utf8_decodeW)(const char* str);
-
-	// returns the predicted length of the utf-8 string
-	int (*utf8_lenW)(const wchar_t* src);
-};
-
-#define MS_SYSTEM_GET_UTFI  "Miranda/System/GetUTFI"
-
-__forceinline INT_PTR mir_getUTFI(struct UTF8_INTERFACE* dest)
-{
-	return 0;
-}
-
 /*
 
 	-- Thread Safety --
@@ -342,14 +227,7 @@ registers a thread in the core and forks it
 
 */
 
-typedef void (__cdecl *pThreadFunc)(void*);
-
 #define MS_SYSTEM_FORK_THREAD    "Miranda/Thread/Fork"
-
-__forceinline HANDLE mir_forkthread(pThreadFunc aFunc, void* arg)
-{
-	return (HANDLE)CallService(MS_SYSTEM_FORK_THREAD, (WPARAM)aFunc, (LPARAM)arg);
-}
 
 /* 0.5.2+
 wParam=void* - thread owner object
@@ -359,9 +237,6 @@ registers a thread in the core and forks it
 passes the extended parameters info and returns the thread id
 
 */
-
-typedef unsigned (__stdcall *pThreadFuncEx)(void* param);
-typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void* param);
 
 typedef struct
 {
@@ -373,36 +248,6 @@ typedef struct
 	FORK_THREADEX_PARAMS;
 
 #define MS_SYSTEM_FORK_THREAD_EX    "Miranda/Thread/ForkEx"
-
-static __inline HANDLE mir_forkthreadex(pThreadFuncEx aFunc, void* arg, int stackSize, unsigned* pThreadID)
-{
-	FORK_THREADEX_PARAMS params;
-	params.pFunc      = aFunc;
-	params.arg        = arg;
-	params.iStackSize = stackSize;
-	params.threadID   = pThreadID;
-	return (HANDLE)CallService(MS_SYSTEM_FORK_THREAD_EX, 0, (LPARAM)&params);
-}
-
-/* 0.8.0+
-wParam=(void*)owner
-lParam=FORK_THREADEX_PARAMS*
-
-registers a thread, owned by some object, in the core and forks it
-passes the owner info and extended parameters info and returns the thread id
-
-*/
-
-static __inline HANDLE mir_forkthreadowner(pThreadFuncOwner aFunc, void* owner, void* arg, unsigned* pThreadID)
-{
-	FORK_THREADEX_PARAMS params;
-	params.pFunc      = (pThreadFuncEx)aFunc;
-	params.arg        = arg;
-	params.iStackSize = 0;
-	params.threadID   = pThreadID;
-	return (HANDLE)CallService(MS_SYSTEM_FORK_THREAD_EX, (WPARAM)owner, (LPARAM)&params);
-}
-
 
 /*
 wParam=0

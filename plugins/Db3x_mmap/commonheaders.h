@@ -55,9 +55,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern PLUGINLINK *pluginLink;
 
-extern struct MM_INTERFACE memoryManagerInterface;
-extern struct LIST_INTERFACE li;
-
 extern CRITICAL_SECTION csDbAccess;
 extern struct DBHeader dbHeader;
 extern HANDLE hDbFile;

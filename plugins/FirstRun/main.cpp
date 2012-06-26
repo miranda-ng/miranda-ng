@@ -4,7 +4,6 @@ HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 HANDLE hModulesLoaded;
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -56,7 +55,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink=link;
 	mir_getLP(&pluginInfo);
-	mir_getMMI(&mmi);
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
 	return 0;
 }

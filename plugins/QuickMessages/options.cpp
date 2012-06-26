@@ -321,7 +321,7 @@ void SaveMenuTree(HWND hdlg)
 				qd->bIsService=bd->bIsServName;
 				qd->ptszValue=bd->pszValue;
 				qd->ptszValueName=bd->pszName;
-				li.List_InsertPtr(QuickList,qd);
+				List_InsertPtr(QuickList,qd);
 				}
 
 			SaveModuleSettings(iBl,bd);
@@ -1003,7 +1003,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			ld = (ListData *)mir_alloc(sizeof(ListData));
 			ButtonsList[g_iOPButtonsCount++]=ld;
 
-			ld->sl=li.List_Create(0,1);
+			ld->sl=List_Create(0,1);
 			ld->dwOPFlags=QMF_NEW;
 			ld->bIsOpServName=0;
 			ld->ptszButtonName=NULL;
@@ -1079,7 +1079,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 			sl=((ListData*)tvi.lParam)->sl;
 
-			li.List_InsertPtr(sl,bd);
+			List_InsertPtr(sl,bd);
 
 			tvis.hParent = NULL;
 			tvis.hInsertAfter = TVI_LAST;

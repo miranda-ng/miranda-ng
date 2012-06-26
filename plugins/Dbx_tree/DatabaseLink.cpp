@@ -43,8 +43,6 @@ DATABASELINK gDBLink = {
 };
 
 PLUGINLINK *pluginLink = NULL;
-MM_INTERFACE mmi = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-UTF8_INTERFACE utfi = {0,0,0,0,0,0,0};
 HANDLE hSystemModulesLoaded = 0;
 
 
@@ -148,11 +146,7 @@ static int Load(char* profile, void* link)
 	if (gDataBase) delete gDataBase;
 	gDataBase = new CDataBase(profile);
 
-	pluginLink = (PLUGINLINK*)link;
-
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
-
+	pluginLink = (PLUGINLINK*)link;
 	RegisterServices();
 	CompatibilityRegister();
 
@@ -174,5 +168,3 @@ static int Unload(int wasLoaded)
 	gDataBase = NULL;
 	return 0;
 }
-
-

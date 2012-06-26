@@ -52,7 +52,7 @@ typedef struct {
 
 
 static void
-md5_init( void *context )
+mir_md5_init( void *context )
 {
   MD5_CONTEXT *ctx = context;
 
@@ -350,6 +350,6 @@ static gcry_md_oid_spec_t oid_spec_md5[] =
 gcry_md_spec_t _gcry_digest_spec_md5 =
   {
     "MD5", asn, DIM (asn), oid_spec_md5, 16,
-    md5_init, md5_write, md5_final, md5_read,
+    mir_md5_init, md5_write, md5_final, md5_read,
     sizeof (MD5_CONTEXT)
   };

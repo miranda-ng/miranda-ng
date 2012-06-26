@@ -356,7 +356,6 @@ typedef void (__cdecl GGThreadFunc)(void*, void*);
 extern HINSTANCE hInstance;
 extern PLUGINLINK *pluginLink;
 extern CLIST_INTERFACE *pcli;
-extern struct LIST_INTERFACE li;
 extern list_t g_Instances;
 
 // Screen saver

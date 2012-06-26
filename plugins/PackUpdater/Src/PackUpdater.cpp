@@ -24,7 +24,6 @@ PLUGINLINK *pluginLink;
 HANDLE hOptHook = NULL, hLoadHook = NULL, hPackUpdaterFolder = NULL, hCheckUpdates = NULL, hEmptyFolder = NULL, hOnPreShutdown = NULL;
 TCHAR tszRoot[MAX_PATH] = {0};
 int hLangpack;
-struct MM_INTERFACE mmi;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -57,7 +56,6 @@ extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 	CLISTMENUITEM mi;
 	pluginLink = link;
 	mir_getLP(&pluginInfoEx);
-	mir_getMMI(&mmi);
 	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER));
 	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))

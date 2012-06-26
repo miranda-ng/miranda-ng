@@ -43,10 +43,6 @@ static const MUUID interfaces[] = {MIID_PROTOCOL, MIID_LAST};
 // Other variables
 HINSTANCE hInstance;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
-struct SHA1_INTERFACE sha1i;
-struct MD5_INTERFACE md5i;
-struct LIST_INTERFACE li;
 XML_API xi;
 SSL_API si;
 CLIST_INTERFACE *pcli;
@@ -572,10 +568,6 @@ int __declspec(dllexport) Load(PLUGINLINK * link)
 	PROTOCOLDESCRIPTOR pd;
 
 	pluginLink = link;
-	mir_getMMI(&mmi);
-	mir_getSHA1I(&sha1i);
-	mir_getMD5I(&md5i);
-	mir_getLI(&li);
 	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
 

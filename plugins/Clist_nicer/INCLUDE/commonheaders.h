@@ -205,7 +205,6 @@ extern HINSTANCE g_hInst;
 
 #define MAX_REGS(_A_) (sizeof(_A_)/sizeof(_A_[0]))
 
-extern struct LIST_INTERFACE li;
 typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, struct ClcContact *contact, int y, struct ClcData *dat, int selected, WORD cstatus, int rowHeight);
 
 #define safe_sizeof(a) (sizeof((a)) / sizeof((a)[0]))

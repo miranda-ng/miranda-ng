@@ -144,12 +144,10 @@ void LoadOptions();
 //===== General Plugin =====
 extern HINSTANCE hInst;
 extern HANDLE hMainThread;
-//extern MNOTIFYLINK *notifyLink;	//deprecatet
 extern PLUGINLINK *pluginLink;
 extern HANDLE hSemaphore;
 extern BOOL closing;
 extern HANDLE folderId;
-extern UTF8_INTERFACE utfi;
 
 extern MTEXT_INTERFACE MText;
 extern HANDLE htuText;

@@ -27,7 +27,6 @@ Last change by : $Author: y_b $
 HINSTANCE hInstance;
 HANDLE ehdb = NULL, ehproto = NULL, ehmissed = NULL, ehuserinfo = NULL, ehmissed_proto = NULL, hOptInit = NULL, hMainInit = NULL;
 PLUGINLINK *pluginLink;
-struct MM_INTERFACE mmi;
 int hLangpack;
 
 PLUGININFOEX pluginInfo={
@@ -127,7 +126,6 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {
 	pluginLink=link;
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfo);
 	// this isn't required for most events
 	// but the ME_USERINFO_INITIALISE

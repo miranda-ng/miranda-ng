@@ -30,7 +30,7 @@ them!
 							// popup you are requesting
 
 // ANSI Popup Action
-typedef struct 
+typedef struct
 {
 	int cbSize;		// sizeof(POPUPACTION)
 	HICON lchIcon;	// Action Icon
@@ -227,7 +227,7 @@ static int __inline PUChangeW(HWND hWndPopUp, POPUPDATAW_V2 *newData) {
 
 /* UM_CHANGEPOPUP
 This message is triggered by Change/ChangeText services. You also may post it directly, but make
-sure you allocate memory via miranda mmi, because popup will mir_free() them!
+sure you allocate memory via mir_alloc, because popup will mir_free() them!
 
 wParam = Modification type
 lParam = value of type defined by wParam

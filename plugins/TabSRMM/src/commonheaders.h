@@ -208,8 +208,6 @@
 #include  <m_popup.h>
 #include  <m_timezones.h>
 
-extern struct LIST_INTERFACE li;
-
 #define safe_sizeof(a) (unsigned int)((sizeof((a)) / sizeof((a)[0])))
 
 #include "../include/version.h"

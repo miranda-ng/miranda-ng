@@ -48,8 +48,6 @@ LOGFONT lfDefault = {0};
  * miranda interfaces
  */
 
-struct LIST_INTERFACE li;
-struct MM_INTERFACE mmi;
 int    hLangpack;
 TIME_API tmi = {0};
 
@@ -97,9 +95,6 @@ extern "C" int __declspec(dllexport) Load(PLUGINLINK * link)
 	}
 
 	pluginLink = link;
-
-	mir_getMMI(&mmi);
-	mir_getLI(&li);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

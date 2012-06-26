@@ -30,8 +30,6 @@ HANDLE hCSModuleLoadedHook = NULL;
 HANDLE hConnectionEvent = NULL;
 HANDLE hStopRecon = NULL, hEnableProto = NULL, hIsProtoEnabled = NULL, hAnnounceStat = NULL;
 
-MM_INTERFACE mmi;
-LIST_INTERFACE li;
 
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
@@ -83,8 +81,6 @@ INT_PTR AnnounceStatusChangeService(WPARAM wParam, LPARAM lParam);
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getMMI( &mmi );
-	mir_getLI( &li );
 	mir_getLP( &pluginInfoEx );
 
 	InitCommonStatus();

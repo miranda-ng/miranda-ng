@@ -10,9 +10,6 @@ PLUGINLINK *pluginLink;
 HANDLE hNetlibUser, hNetlibHttp;
 HANDLE hEventOptInit, hEventModulesLoaded, hEventIdleChanged, hToolBarLoaded;
 
-MM_INTERFACE   mmi;
-UTF8_INTERFACE utfi;
-LIST_INTERFACE li;
 int hLangpack;
 
 bool is_idle = false;
@@ -217,10 +214,6 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-
-	mir_getLI(&li);
-	mir_getMMI(&mmi);
-	mir_getUTFI(&utfi);
 	mir_getLP(&pluginInfo);
 
 	// save global status from clist - will be restored after update check if that option is enabled, or in modules loaded if not

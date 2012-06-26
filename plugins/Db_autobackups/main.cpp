@@ -2,7 +2,6 @@
 #include "version.h"
 #include "m_trigger.h"
 
-struct MM_INTERFACE mmi;
 HINSTANCE hInst;
 PLUGINLINK *pluginLink;
 int hLangpack;
@@ -146,7 +145,6 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 
 void SysInit()
 {
-	mir_getMMI( &mmi );
 	mir_getLP( &pluginInfo );
 	OleInitialize(0);
 	

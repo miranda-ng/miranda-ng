@@ -55,26 +55,6 @@
 // Note: Do only use this service to free memory that was *explicitliy*
 // stated that it should be free with this service.
 
-
-
-#define MS_VARS_GET_MMI "Vars/GetMMI"
-
-// Get Variable's RTL/CRT function poiners to malloc(), free() and
-// realloc().
-
-// Parameters:
-// ------------------------
-// wParam = 0
-// lParam = (LPARAM) &MM_INTERFACE
-//   Pointer to a memory manager interface struct (see m_system.h).
-
-// Return Value:
-// ------------------------
-// Returns 0 on success, nozero otherwise
-
-// Note: Works exactly the same as the MS_SYSTEM_GET_MMI service
-// service of m_system.h.
-
 // Helper function for easy using:
 #ifndef VARIABLES_NOHELPER
 __inline static void variables_free(void *pntr) {
@@ -82,8 +62,6 @@ __inline static void variables_free(void *pntr) {
   CallService(MS_VARS_FREEMEMORY, (WPARAM)pntr, 0);
 }
 #endif
-
-
 
 // --------------------------------------------------------------------------
 // String formatting

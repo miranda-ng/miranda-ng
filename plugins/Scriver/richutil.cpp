@@ -1,6 +1,6 @@
 /*
-Copyright 2000-2010 Miranda IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2010 Miranda IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -25,21 +25,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		RichUtil_Load();
 	Before the application exits, call:
 		RichUtil_Unload();
-	
+
 	Then to use the library (it draws the xp border around it), you need
-	to make sure you control has the WS_EX_STATICEDGE flag.  Then you just 
+	to make sure you control has the WS_EX_STATICEDGE flag.  Then you just
 	subclass it with:
 		RichUtil_SubClass(hwndEdit);
-	
+
 	If no xptheme is present, the window isn't subclassed the SubClass function
 	just returns.  And if WS_EX_STATICEDGE isn't present, the subclass does nothing.
 	Otherwise it removes the border and draws it by itself.
 */
 
-extern struct LIST_INTERFACE li; 
 static SortedList sListInt;
 
-static int RichUtil_CmpVal(void *p1, void *p2) 
+static int RichUtil_CmpVal(void *p1, void *p2)
 {
 	TRichUtil *tp1 = (TRichUtil*)p1;
 	TRichUtil *tp2 = (TRichUtil*)p2;
@@ -65,7 +64,7 @@ static CRITICAL_SECTION csRich;
 static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static void RichUtil_ClearUglyBorder(TRichUtil *ru);
 
-void RichUtil_Load(void) 
+void RichUtil_Load(void)
 {
 	sListInt.increment = 10;
 	sListInt.sortFunc = RichUtil_CmpVal;
@@ -91,14 +90,14 @@ void RichUtil_Load(void)
 		!MyDrawThemeBackground ||
 		!MyGetThemeBackgroundContentRect ||
 		!MyDrawThemeParentBackground ||
-		!MyIsThemeBackgroundPartiallyTransparent) 
+		!MyIsThemeBackgroundPartiallyTransparent)
 	{
 		FreeLibrary(mTheme);
 		mTheme = NULL;
 	}
 }
 
-void RichUtil_Unload(void) 
+void RichUtil_Unload(void)
 {
 	List_Destroy(&sListInt);
 	DeleteCriticalSection(&csRich);
@@ -106,14 +105,14 @@ void RichUtil_Unload(void)
 		FreeLibrary(mTheme);
 }
 
-int RichUtil_SubClass(HWND hwndEdit) 
+int RichUtil_SubClass(HWND hwndEdit)
 {
-	if (IsWindow(hwndEdit)) 
+	if (IsWindow(hwndEdit))
 	{
 		int idx;
 
 		TRichUtil *ru = (TRichUtil*)mir_calloc(sizeof(TRichUtil));
-		
+
 		ru->hwnd = hwndEdit;
 		ru->hasUglyBorder = 0;
 
@@ -133,7 +132,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 {
 	TRichUtil *ru = NULL, tru;
 	int idx;
-	
+
 	tru.hwnd = hwnd;
 
 	EnterCriticalSection(&csRich);
@@ -141,7 +140,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		ru = (TRichUtil*)sListInt.items[idx];
 	LeaveCriticalSection(&csRich);
 
-	switch(msg) 
+	switch(msg)
 	{
 		case WM_THEMECHANGED:
 		case WM_STYLECHANGED:
@@ -153,11 +152,11 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case WM_NCPAINT:
 		{
 			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
-			if (ru->hasUglyBorder && MyIsThemeActive()) 
+			if (ru->hasUglyBorder && MyIsThemeActive())
 			{
 				HANDLE hTheme = MyOpenThemeData(ru->hwnd, L"EDIT");
 
-				if (hTheme) 
+				if (hTheme)
 				{
 					RECT rcBorder;
 					RECT rcClient;
@@ -195,17 +194,17 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		{
 			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
 			NCCALCSIZE_PARAMS *ncsParam = (NCCALCSIZE_PARAMS*)lParam;
-			
-			if (ru->hasUglyBorder && MyIsThemeActive()) 
+
+			if (ru->hasUglyBorder && MyIsThemeActive())
 			{
 				HANDLE hTheme = MyOpenThemeData(hwnd, L"EDIT");
 
-				if (hTheme) 
+				if (hTheme)
 				{
-					RECT rcClient ={0}; 
+					RECT rcClient ={0};
 					HDC hdc = GetDC(GetParent(hwnd));
 
-					if (MyGetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient) == S_OK) 
+					if (MyGetThemeBackgroundContentRect(hTheme, hdc, EP_EDITTEXT, ETS_NORMAL, &ncsParam->rgrc[0], &rcClient) == S_OK)
 					{
 						ru->rect.left = rcClient.left-ncsParam->rgrc[0].left;
 						ru->rect.top = rcClient.top-ncsParam->rgrc[0].top;
@@ -235,7 +234,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		{
 			LRESULT ret = CallWindowProc(ru->origProc, hwnd, msg, wParam, lParam);
 
-			if (IsWindow(hwnd)) 
+			if (IsWindow(hwnd))
 			{
 				if ((WNDPROC)GetWindowLongPtr(hwnd, GWLP_WNDPROC) == &RichUtil_Proc)
 					SetWindowLongPtr(hwnd, GWLP_WNDPROC, (LONG_PTR)ru->origProc);

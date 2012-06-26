@@ -204,7 +204,7 @@ void oauth_setparam(SortedList *params, const char *name, const char *value)
 	p = mir_alloc(sizeof(OAUTHPARAMETER));
 	p->name = oauth_uri_escape(name);
 	p->value = oauth_uri_escape(value);
-	li.List_InsertPtr(params, p);
+	List_InsertPtr(params, p);
 }
 
 void oauth_freeparams(SortedList *params)
@@ -331,7 +331,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 
 	if (oauth_sign_request(&oauth_parameters, httpmethod, url, consumer_secret, token_secret)) {
 		oauth_freeparams(&oauth_parameters);
-		li.List_Destroy(&oauth_parameters);
+		List_Destroy(&oauth_parameters);
 		return NULL;
 	}
 
@@ -355,7 +355,7 @@ char *oauth_auth_header(const char *httpmethod, const char *url, OAUTHSIGNMETHOD
 	}
 
 	oauth_freeparams(&oauth_parameters);
-	li.List_Destroy(&oauth_parameters);
+	List_Destroy(&oauth_parameters);
 
 	return res;
 }

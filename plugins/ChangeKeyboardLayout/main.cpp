@@ -1,6 +1,5 @@
 #include "commonheaders.h"
 
-struct MM_INTERFACE mmi;
 PLUGINLINK *pluginLink;
 int hLangpack;
 LPTSTR ptszLayStrings[20];
@@ -50,7 +49,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(PLUGINLINK *link)
 {	
 	pluginLink = link;
-	mir_getMMI(&mmi);
 	mir_getLP(&pluginInfoEx);
 	ZeroMemory(hklLayouts, 20 * sizeof(HKL));
 	bLayNum = GetKeyboardLayoutList(20,hklLayouts);

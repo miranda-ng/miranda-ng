@@ -90,6 +90,8 @@ INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
 
 int LoadLangPackModule(void)
 {
+	ReloadLangpack(NULL);
+
 	CreateServiceFunction(MS_LANGPACK_TRANSLATESTRING, srvTranslateString);
 	CreateServiceFunction(MS_LANGPACK_TRANSLATEMENU, srvTranslateMenu);
 	CreateServiceFunction(MS_LANGPACK_GETCODEPAGE, srvGetDefaultCodePage);
