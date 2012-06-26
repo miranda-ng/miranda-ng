@@ -121,14 +121,7 @@ INT_PTR TransliterationProtocol::sendMessageA(WPARAM wParam, LPARAM lParam)
 
 	if(ccs->wParam & PREF_UTF)
 	{
-		if(utfi.utf8_decode != 0)
-		{
-			TranslateMessageUTF(wParam, lParam);
-		}
-		else
-		{
-			msgProcessed = false;
-		}
+		TranslateMessageUTF(wParam, lParam);
 	}
 	else if(ccs->wParam & PREF_UNICODE)
 	{
