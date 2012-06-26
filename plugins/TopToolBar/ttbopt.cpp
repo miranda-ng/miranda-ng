@@ -1,5 +1,4 @@
 #include "common.h"
-#include <shlobj.h>
 
 HWND OptionshWnd = 0;
 
