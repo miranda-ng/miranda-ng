@@ -418,6 +418,8 @@ void FacebookProto::ProcessMessages( void* data )
 	p->parse_messages( data, &messages, &notifications );
 	delete p;
 
+	bool local_timestamp = getByte(FACEBOOK_KEY_LOCAL_TIMESTAMP, 0) != 0;
+
 	for(std::vector<facebook_message*>::size_type i=0; i<messages.size( ); i++)
 	{
 		if ( messages[i]->user_id != facy.self_.user_id )
@@ -436,7 +438,7 @@ void FacebookProto::ProcessMessages( void* data )
 
 			recv.flags = PREF_UTF;
 			recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
-			recv.timestamp = messages[i]->time;
+			recv.timestamp = local_timestamp ? ::time(NULL) : messages[i]->time;
 
 			ccs.hContact = hContact;
 			ccs.szProtoService = PSR_MESSAGE;

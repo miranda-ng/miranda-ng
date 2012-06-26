@@ -68,6 +68,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit" // [HIDDEN]
 #define FACEBOOK_KEY_DISABLE_LOGOUT			"DisableLogout" // [HIDDEN]
 #define FACEBOOK_KEY_VALIDATE_RESPONSE		"ValidateResponse" // [HIDDEN] - 0 = standard, 1 = always, 2 = never
+#define FACEBOOK_KEY_LOCAL_TIMESTAMP		"UseLocalTimestamp" // [HIDDEN]
 
 #define FACEBOOK_KEY_EVENT_NOTIFICATIONS_ENABLE     "EventNotificationsEnable"
 #define FACEBOOK_KEY_EVENT_FEEDS_ENABLE             "EventFeedsEnable"
