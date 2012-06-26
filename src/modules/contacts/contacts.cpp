@@ -34,12 +34,12 @@ BYTE nameOrder[NAMEORDERCOUNT];
 
 static int GetDatabaseString(CONTACTINFO *ci, const char* setting, DBVARIANT* dbv)
 {
-    if (strcmp(ci->szProto, "CList") && CallProtoService(ci->szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC)
+    if (strcmp(ci->szProto, "CList") && CallProtoServiceInt(NULL,ci->szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC)
     {
         DBCONTACTGETSETTING cgs = { ci->szProto, setting, dbv };
         dbv->type = (ci->dwFlag & CNF_UNICODE) ? DBVT_WCHAR : DBVT_ASCIIZ;
 
-        int res = CallProtoService(ci->szProto, PS_GETINFOSETTING, (WPARAM)ci->hContact, (LPARAM)&cgs);
+        int res = CallProtoServiceInt(NULL,ci->szProto, PS_GETINFOSETTING, (WPARAM)ci->hContact, (LPARAM)&cgs);
         if (res != CALLSERVICE_NOTFOUND) return res;
     }
 
@@ -197,7 +197,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 
 		case CNF_UNIQUEID:
 		{
-			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			char *uid = (char*)CallProtoServiceInt(NULL,ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
 				if ( !ProcessDatabaseValueDefault(ci, uid))
 					return 0;
@@ -208,7 +208,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 		{
 			if ( !ProcessDatabaseValueDefault(ci, "display_uid"))
 				return 0;
-			char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+			char *uid = (char*)CallProtoServiceInt(NULL,ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
 				if ( !ProcessDatabaseValueDefault(ci, uid))
 					return 0;
@@ -252,7 +252,7 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 					case 5: // Unique id
 					{
 						// protocol must define a PFLAG_UNIQUEIDSETTING
-						char *uid = (char*)CallProtoService(ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+						char *uid = (char*)CallProtoServiceInt(NULL,ci->szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 						if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
 							if ( !GetDatabaseString(ci, uid, &dbv)) {
 								if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
@@ -482,7 +482,7 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = -1000000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CONTACT);
 	odp.pszGroup = LPGEN("Customize");
 	odp.pszTitle = LPGEN("Contacts");

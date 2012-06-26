@@ -87,16 +87,16 @@ pdisplayNameCacheEntry GetCLCFullCacheEntry(struct ClcData *dat,HANDLE hContact)
 
 	displayNameCacheEntry dnce;
 	dnce.hContact = hContact;
-	displayNameCacheEntry *pdnce = (displayNameCacheEntry*)li.List_Find(&dat->lCLCContactsCache,&dnce);
+	displayNameCacheEntry *pdnce = (displayNameCacheEntry*)List_Find(&dat->lCLCContactsCache,&dnce);
 	if (pdnce == NULL) {
 		pdnce = (displayNameCacheEntry*)mir_calloc(sizeof(displayNameCacheEntry));
 		pdnce->hContact = hContact;
 	
 		int idx;
-		li.List_GetIndex(&dat->lCLCContactsCache,pdnce,&idx);
-		li.List_Insert(&dat->lCLCContactsCache,pdnce,idx);
+		List_GetIndex(&dat->lCLCContactsCache,pdnce,&idx);
+		List_Insert(&dat->lCLCContactsCache,pdnce,idx);
 
-		displayNameCacheEntry *pdnce2 = (displayNameCacheEntry*)li.List_Find(&dat->lCLCContactsCache,&dnce);//for check
+		displayNameCacheEntry *pdnce2 = (displayNameCacheEntry*)List_Find(&dat->lCLCContactsCache,&dnce);//for check
 		if (pdnce2->hContact != pdnce->hContact)
 			return NULL;
 

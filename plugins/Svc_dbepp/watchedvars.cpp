@@ -204,15 +204,8 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			ListView_InsertColumn(GetDlgItem(hwnd, IDC_VARS),4,&sLC);
 
 			PopulateWatchedWindow(GetDlgItem(hwnd, IDC_VARS));
-/*			if (DBGetContactSettingByte("NULL", modname, "LoadWatchesOnStartup",0))
-			{
-				MENUITEMINFO mmi;
-				mmi.cbSize = sizeof(MENUITEMINFO);
-				mmi.fMask = MIIM_STATE;
-				mmi.fState = MFS_CHECKED;
-				SetMenuItemInfo(GetMenu(hwnd), MENU_LOADAUTOMATCIALLY, FALSE, &mmi);
-			}
-*/			TranslateMenu(GetMenu(hwnd));
+
+			TranslateMenu(GetMenu(hwnd));
 			TranslateMenu(GetSubMenu(GetMenu(hwnd),0));
 			TranslateDialogDefault(hwnd);
 			// do the icon
@@ -247,43 +240,17 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				case MENU_REMALL_WATCHES:
 					freeAllWatches();
 					ListView_DeleteAllItems(GetDlgItem(hwnd, IDC_VARS));
-				break;
+					break;
 				case MENU_EXIT:
 				case IDCANCEL:
 					hwnd2watchedVarsWindow = 0;
 					DestroyWindow(hwnd);
-				break;
+					break;
 				case MENU_REFRESH:
 					PopulateWatchedWindow(GetDlgItem(hwnd, IDC_VARS));
-				break;
-			/*	case MENU_LOADAUTOMATCIALLY:
-				{
-					MENUITEMINFO mmi;
-					mmi.cbSize = sizeof(MENUITEMINFO);
-					mmi.fMask = MIIM_STATE;
-					GetMenuItemInfo(GetSubMenu(GetMenu(hwnd),2), MENU_LOADAUTOMATCIALLY, FALSE, &mmi);
-					if (mmi.fState == MFS_CHECKED)
-					{
-						mmi.fState = MFS_UNCHECKED;
-						DBWriteContactSettingByte(NULL,modname, "LoadWatchesOnStartup", 0);
-						SetMenuItemInfo(GetSubMenu(GetMenu(hwnd),2), MENU_LOADAUTOMATCIALLY, FALSE, &mmi);
-					}
-					else if (mmi.fState == MFS_UNCHECKED)
-					{
-						mmi.fState = MFS_CHECKED;
-						DBWriteContactSettingByte(NULL,modname, "LoadWatchesOnStartup", 1);
-						SetMenuItemInfo(GetSubMenu(GetMenu(hwnd),2), MENU_LOADAUTOMATCIALLY, FALSE, &mmi);
-					}
-				}
-				break;
-				case MENU_SAVE_WATCHES:
-					saveWatchedList();
-				break;
-				case MENU_LOAD_WATCHES:
-					loadWatchedList();
-				break;
-		*/	}
-		break;
+			}
+			break;
+
 		case WM_NOTIFY:
 			switch(LOWORD(wParam))
 			{

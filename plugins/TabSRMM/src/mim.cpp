@@ -182,48 +182,6 @@ INT_PTR CMimAPI::WriteTString(const HANDLE hContact, const char *szModule = 0, c
 	return(DBWriteContactSettingTString(hContact, szModule, szSetting, str));
 }
 
-void CMimAPI::GetUTFI()
-{
-	mir_getUTFI(&m_utfi);
-}
-char *CMimAPI::utf8_decode(char* str, wchar_t** ucs2) const
-{
-	return(m_utfi.utf8_decode(str, ucs2));
-}
-char *CMimAPI::utf8_decodecp(char* str, int codepage, wchar_t** ucs2 ) const
-{
-	return(m_utfi.utf8_decodecp(str, codepage, ucs2));
-}
-char *CMimAPI::utf8_encode(const char* src) const
-{
-	return(m_utfi.utf8_encode(src));
-}
-
-char *CMimAPI::utf8_encodecp(const char* src, int codepage) const
-{
-	return(m_utfi.utf8_encodecp(src, codepage));
-}
-
-char *CMimAPI::utf8_encodeW(const wchar_t* src) const
-{
-	return(m_utfi.utf8_encodeW(src));
-}
-
-char *CMimAPI::utf8_encodeT(const TCHAR* src) const
-{
-	return(m_utfi.utf8_encodeW(src));
-}
-
-TCHAR *CMimAPI::utf8_decodeT(const char* src) const
-{
-	return(m_utfi.utf8_decodeW(src));
-}
-
-wchar_t *CMimAPI::utf8_decodeW(const char* str) const
-{
-	return(m_utfi.utf8_decodeW(str));
-}
-
 /**
  * Case insensitive _tcsstr
  *

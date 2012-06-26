@@ -403,7 +403,7 @@ int PluginOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pfnDlgProc = DlgPluginOpt;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PLUGINS);
 	odp.position = 1300000000;

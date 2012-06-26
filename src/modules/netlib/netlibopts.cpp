@@ -546,7 +546,7 @@ int NetlibOptInitialise(WPARAM wParam, LPARAM)
 
 	odp.cbSize = sizeof(odp);
 	odp.position = 900000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_NETLIB);
 	odp.pszTitle = LPGEN("Network");
 	odp.pfnDlgProc = DlgProcNetlibOpts;

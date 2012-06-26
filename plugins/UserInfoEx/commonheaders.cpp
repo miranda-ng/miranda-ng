@@ -30,7 +30,6 @@ Last change by : $Author: ing.u.horn $
 #include "commonheaders.h"
 
 // global:
-PLUGINLINK*		pluginLink	= NULL;
 HINSTANCE		ghInst		= NULL;
 MM_INTERFACE	mmi;					//memory interface
 UTF8_INTERFACE	utfi;					//utf8 interface

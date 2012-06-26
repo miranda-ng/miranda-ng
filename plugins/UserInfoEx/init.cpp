@@ -72,6 +72,7 @@ static HANDLE ghModernToolBarLoaded		= NULL;
 static HANDLE ghShutdownHook			= NULL;
 static HANDLE ghPrebuildStatusMenu		= NULL;
 int hLangpack;
+PLUGINLINK*		pluginLink	= NULL;
 
 /*
 ============================================================================================

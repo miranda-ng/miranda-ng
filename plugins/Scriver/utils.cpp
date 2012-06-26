@@ -545,7 +545,7 @@ void GetContactUniqueId(struct SrmmWindowData *dat, char *buf, int maxlen) {
         switch (ci.type) {
             case CNFT_ASCIIZ:
                 mir_snprintf(buf, maxlen, "%s", ci.pszVal);
-                miranda_sys_free(ci.pszVal);
+                mir_free(ci.pszVal);
                 break;
             case CNFT_DWORD:
                 mir_snprintf(buf, maxlen, "%u", ci.dVal);

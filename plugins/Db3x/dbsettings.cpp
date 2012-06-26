@@ -91,7 +91,7 @@ static char* InsertCachedSetting( const char* szName, size_t cbNameLen, int inde
 	char* newValue = (char*)HeapAlloc( hCacheHeap, 0, cbNameLen );
 	*newValue = 0;
 	strcpy(newValue+1,szName+1);
-	li.List_Insert(&lSettings,newValue,index);
+	List_Insert(&lSettings,newValue,index);
 	return newValue;
 }
 
@@ -108,7 +108,7 @@ static char* GetCachedSetting(const char *szModuleName,const char *szSettingName
 	if (lastsetting && strcmp(szFullName+1,lastsetting) == 0)
 		return lastsetting;
 
-	if ( li.List_GetIndex(&lSettings, szFullName, &index))
+	if ( List_GetIndex(&lSettings, szFullName, &index))
 		lastsetting = (char*)lSettings.items[index] + 1;
 	else
 		lastsetting = InsertCachedSetting( szFullName, moduleNameLen+settingNameLen+3, index )+1;
@@ -150,11 +150,11 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 	if ( hContact == 0 ) {
 		DBCachedGlobalValue Vtemp, *V;
 		Vtemp.name = szSetting;
-		if ( li.List_GetIndex(&lGlobalSettings,&Vtemp,&index)) {
+		if ( List_GetIndex(&lGlobalSettings,&Vtemp,&index)) {
 			V = (DBCachedGlobalValue*)lGlobalSettings.items[index];
 			if ( bAllocate == -1 ) {
 				FreeCachedVariant( &V->value );
-				li.List_Remove(&lGlobalSettings,index);
+				List_Remove(&lGlobalSettings,index);
 				HeapFree(hCacheHeap,0,V);
 				return NULL;
 		}	}
@@ -164,7 +164,7 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 
 			V = (DBCachedGlobalValue*)HeapAlloc(hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedGlobalValue));
 			V->name = szSetting;
-			li.List_Insert(&lGlobalSettings,V,index);
+			List_Insert(&lGlobalSettings,V,index);
 		}
 
 		return &V->value;
@@ -174,7 +174,7 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 		DBCachedContactValueList VLtemp,*VL;
 
 		VLtemp.hContact=hContact;
-		if ( li.List_GetIndex(&lContacts,&VLtemp,&index)) {
+		if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
 			VL = (DBCachedContactValueList*)lContacts.items[index];
 		}
 		else {
@@ -183,7 +183,7 @@ static DBVARIANT* GetCachedValuePtr( HANDLE hContact, char* szSetting, int bAllo
 
 			VL = (DBCachedContactValueList*)HeapAlloc(hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValueList));
 			VL->hContact = hContact;
-			li.List_Insert(&lContacts,VL,index);
+			List_Insert(&lContacts,VL,index);
 		}
 
 		for ( V = VL->first; V != NULL; V = V->next)
@@ -501,7 +501,7 @@ static INT_PTR SetSettingResident(WPARAM wParam,LPARAM lParam)
 	strcpy( szTemp+1, ( char* )lParam );
 
 	EnterCriticalSection(&csDbAccess);
-	if ( !li.List_GetIndex( &lSettings, szTemp, &idx ))
+	if ( !List_GetIndex( &lSettings, szTemp, &idx ))
 		szSetting = InsertCachedSetting( szTemp, cbSettingNameLen+2, idx );
 	else
 		szSetting = (char *)lSettings.items[idx];
@@ -968,7 +968,7 @@ int InitSettings(void)
 void UninitSettings(void)
 {
 	HeapDestroy(hCacheHeap);
-	li.List_Destroy(&lContacts);
-	li.List_Destroy(&lSettings);
-	li.List_Destroy(&lGlobalSettings);
+	List_Destroy(&lContacts);
+	List_Destroy(&lSettings);
+	List_Destroy(&lGlobalSettings);
 }

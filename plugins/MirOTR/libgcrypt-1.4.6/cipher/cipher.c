@@ -321,11 +321,11 @@ gcry_cipher_lookup_func_name (void *spec, void *data)
   gcry_cipher_spec_t *cipher = (gcry_cipher_spec_t *) spec;
   char *name = (char *) data;
   const char **aliases = cipher->aliases;
-  int i, ret = ! stricmp (name, cipher->name);
+  int i, ret = !_stricmp (name, cipher->name);
 
   if (aliases)
     for (i = 0; aliases[i] && (! ret); i++)
-      ret = ! stricmp (name, aliases[i]);
+      ret = !_stricmp (name, aliases[i]);
 
   return ret;
 }
@@ -341,7 +341,7 @@ gcry_cipher_lookup_func_oid (void *spec, void *data)
 
   if (oid_specs)
     for (i = 0; oid_specs[i].oid && (! ret); i++)
-      if (! stricmp (oid, oid_specs[i].oid))
+      if (!_stricmp (oid, oid_specs[i].oid))
 	ret = 1;
 
   return ret;
@@ -437,7 +437,7 @@ search_oid (const char *oid, int *algorithm, gcry_cipher_oid_spec_t *oid_spec)
       int i;
 
       for (i = 0; cipher->oids[i].oid && !ret; i++)
-	if (! stricmp (oid, cipher->oids[i].oid))
+	if (!_stricmp (oid, cipher->oids[i].oid))
 	  {
 	    if (algorithm)
 	      *algorithm = module->mod_id;

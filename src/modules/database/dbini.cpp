@@ -193,7 +193,20 @@ int SettingsEnumProc(const char *szSetting, LPARAM lParam)
 	return 0;
 }
 
-void ConvertBackslashes(char *, UINT);
+static void ConvertBackslashes(char *str, UINT fileCp)
+{
+	char *pstr;
+	for (pstr = str; *pstr; pstr = CharNextExA(fileCp, pstr, 0)) {
+		if (*pstr == '\\') {
+			switch(pstr[1]) {
+			case 'n': *pstr = '\n'; break;
+			case 't': *pstr = '\t'; break;
+			case 'r': *pstr = '\r'; break;
+			default:  *pstr = pstr[1]; break;
+			}
+			memmove(pstr+1, pstr+2, strlen(pstr+2) + 1);
+}	}	}
+
 static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
 {
 	FILE *fp = _tfopen(szIniPath, _T("rt"));
@@ -286,7 +299,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			warnInfo.szValue=szValue;
 			warnInfo.warnNoMore=0;
 			warnInfo.cancel=0;
-			if (warnThisSection && IDNO == DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_WARNINICHANGE), NULL, WarnIniChangeDlgProc, (LPARAM)&warnInfo))
+			if (warnThisSection && IDNO == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_WARNINICHANGE), NULL, WarnIniChangeDlgProc, (LPARAM)&warnInfo))
 				continue;
 			if (warnInfo.cancel)
 				break;
@@ -392,14 +405,14 @@ static void DoAutoExec(void)
     
 	if (dbCreated && szOnCreateFilename[0]) {
 		str2 = Utils_ReplaceVarsT(szOnCreateFilename);
-		pathToAbsoluteT(str2, szIniPath, NULL);
+		PathToAbsoluteT(str2, szIniPath, NULL);
 		mir_free(str2);
 
 		ProcessIniFile(szIniPath, szSafeSections, szUnsafeSections, 0, 1);
 	}
 
 	str2 = Utils_ReplaceVarsT(szFindPath);
-	pathToAbsoluteT(str2, szFindPath, NULL);
+	PathToAbsoluteT(str2, szFindPath, NULL);
 	mir_free(str2);
 
 	WIN32_FIND_DATA fd;
@@ -419,7 +432,7 @@ static void DoAutoExec(void)
 
 		mir_sntprintf(szIniPath, SIZEOF(szIniPath), _T("%s%s"), szFindPath, fd.cFileName);
 		if ( !lstrcmpi(szUse, _T("prompt")) && !secFN) {
-			int result=DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
+			int result=DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INSTALLINI), NULL, InstallIniDlgProc, (LPARAM)szIniPath);
 			if (result == IDC_NOTOALL) break;
 			if (result == IDCANCEL) continue;
 		}
@@ -451,7 +464,7 @@ static void DoAutoExec(void)
 				MoveFile(szIniPath, szNewPath);
 			}
 			else if ( !lstrcmpi(szOnCompletion, _T("ask")))
-				DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_INIIMPORTDONE), NULL, IniImportDoneDlgProc, (LPARAM)szIniPath);
+				DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_INIIMPORTDONE), NULL, IniImportDoneDlgProc, (LPARAM)szIniPath);
 		}
 	} while (FindNextFile(hFind, &fd));
 	FindClose(hFind);
@@ -473,7 +486,7 @@ int InitIni(void)
 	bModuleInitialized = true;
 
 	DoAutoExec();
-	pathToAbsoluteT(_T("."), szMirandaDir, NULL);
+	PathToAbsoluteT(_T("."), szMirandaDir, NULL);
 	hIniChangeNotification=FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
 	if (hIniChangeNotification != INVALID_HANDLE_VALUE) {
 		CreateServiceFunction("DB/Ini/CheckImportNow", CheckIniImportNow);

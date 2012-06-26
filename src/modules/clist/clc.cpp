@@ -99,7 +99,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 			// something is being written to a protocol module
 			if ( !strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
-				id = (char *) CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+				id = (char *) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 				if ((INT_PTR) id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
 					cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
 			}
@@ -129,7 +129,7 @@ static int ClcAccountsChanged(WPARAM, LPARAM)
 	for (i = 0, cnt = 0; i < accounts.getCount(); ++i) {
 		if (Proto_IsAccountEnabled(accounts[i])) {
 			cli.clcProto[cnt].szProto = accounts[i]->szModuleName;
-			cli.clcProto[cnt].dwStatus = CallProtoService(accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
+			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);
 			++cnt;
 		}
 	}

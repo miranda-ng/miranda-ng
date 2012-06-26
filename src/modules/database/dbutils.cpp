@@ -207,7 +207,7 @@ static INT_PTR DbEventGetStringT(WPARAM wParam, LPARAM lParam)
 	char* string = (char*)lParam;
 
 	if (dbei->flags & DBEF_UTF)
-		return (INT_PTR)Utf8DecodeUcs2(string);
+		return (INT_PTR)Utf8DecodeW(string);
 
 	return (INT_PTR)mir_a2t(string);
 }

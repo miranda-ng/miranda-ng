@@ -354,8 +354,8 @@ void DestroySmileyList(SortedList* p_list)
 			}
 		}
 	}
-	li.List_Destroy(p_list);		//this free the p_list->items member
-	mir_free(p_list);				//this free the p_list itself (alloc by li.List_Create)
+	List_Destroy(p_list);		//this free the p_list->items member
+	mir_free(p_list);				//this free the p_list itself (alloc by List_Create)
 }
 
 // Generete the list of smileys / text to be drawn
@@ -388,7 +388,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 		return NULL;
 
 	// Lets add smileys
-	SortedList *plText = li.List_Create(0, 10);
+	SortedList *plText = List_Create(0, 10);
 
 	TCHAR *word_start, *word_end;
 	TCHAR *smiley_start, *smiley_end;
@@ -428,7 +428,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 					piece->type = TEXT_PIECE_TYPE_TEXT;
 					piece->start_pos = word_start - text;
 					piece->len = word_end - word_start;
-					li.List_Insert(plText, piece, plText->realCount);
+					List_Insert(plText, piece, plText->realCount);
 					word_start = word_end;
 				}
 			}
@@ -458,7 +458,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 				}
 
 				*max_smiley_height = max(piece->smiley_height, *max_smiley_height);
-				li.List_Insert(plText, piece, plText->realCount);
+				List_Insert(plText, piece, plText->realCount);
 			}
 
 			word_start = word_end = smiley_end;
@@ -480,7 +480,7 @@ SortedList *ReplaceSmileys(const TCHAR *text, int text_size, const char *protoco
 			piece->type = TEXT_PIECE_TYPE_TEXT;
 			piece->start_pos = word_start - text;
 			piece->len = word_end - word_start;
-			li.List_Insert(plText, piece, plText->realCount);
+			List_Insert(plText, piece, plText->realCount);
 			word_start = word_end;
 		}
 

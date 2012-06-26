@@ -112,7 +112,7 @@ IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
 		return NULL;
 
     if (isPath)
-		 pathToAbsoluteT(file, fileFull, NULL);
+		 PathToAbsoluteT(file, fileFull, NULL);
 		 /// TODO: convert path to long - eliminate duplicate items
 	 else
 		 _tcscpy(fileFull, file);
@@ -534,9 +534,9 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 	if (sid->pszDefaultFile) {
 		WCHAR fileFull[ MAX_PATH ];
 		if (utf_path)
-			pathToAbsoluteT(sid->pwszDefaultFile, fileFull, NULL);
+			PathToAbsoluteT(sid->pwszDefaultFile, fileFull, NULL);
 		else
-			pathToAbsoluteT( StrConvT(sid->pszDefaultFile), fileFull, NULL);
+			PathToAbsoluteT( StrConvT(sid->pszDefaultFile), fileFull, NULL);
 		item->default_file = mir_wstrdup(fileFull);
 	}
 	item->default_indx = sid->iDefaultIndex;

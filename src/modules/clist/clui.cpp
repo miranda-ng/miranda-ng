@@ -76,7 +76,7 @@ static void DisconnectAll()
 {
 	int nProto;
 	for (nProto = 0; nProto < accounts.getCount(); nProto++)
-		CallProtoService(accounts[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
+		CallProtoServiceInt(NULL,accounts[nProto]->szModuleName, PS_SETSTATUS, ID_STATUS_OFFLINE, 0);
 }
 
 static int CluiIconsChanged(WPARAM, LPARAM)
@@ -183,7 +183,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	if (DBGetContactSettingByte(NULL, "CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) &&
 		!(GetKeyState(VK_SHIFT)&0x8000))
 		// Ask user for confirmation, and if the contact should be archived (hidden, not deleted)
-		action = DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND) lParam, AskForConfirmationDlgProc, wParam);
+		action = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_DELETECONTACT), (HWND) lParam, AskForConfirmationDlgProc, wParam);
 	else
 		action = IDYES;
 
@@ -197,11 +197,11 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 				// Check if protocol uses server side lists
 				DWORD caps;
 
-				caps = (DWORD) CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				caps = (DWORD) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_SERVERCLIST) {
 					int status;
 
-					status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+					status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
 						DBWriteContactSettingByte((HANDLE) wParam, "CList", "Delete", 1);
@@ -1042,7 +1042,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				int status, x;
 				SIZE textSize;
 				BYTE showOpts = DBGetContactSettingByte(NULL, "CLUI", "SBarShow", 1);
-				status = CallProtoService(szProto, PS_GETSTATUS, 0, 0);
+				status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
 				SetBkMode(dis->hDC, TRANSPARENT);
 				x = dis->rcItem.left;
 				if (showOpts & 1) {

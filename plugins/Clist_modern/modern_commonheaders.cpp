@@ -316,7 +316,7 @@ void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 	int i=0;
 	if (!pList) return;
 	for (i=0; i<pList->realCount; i++)	pItemDestructor(pList->items[i]);	
-	li.List_Destroy(pList);																											
+	List_Destroy(pList);																											
    mir_free(pList);
 }
 
@@ -325,13 +325,13 @@ void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemDestruct
 	if (index>=0 && index<pList->realCount)	
 	{
 		pItemDestructor(pList->items[index]);
-		li.List_Remove(pList, index);
+		List_Remove(pList, index);
 	}
 }
 
 void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor)
 {																																
-	if (li.List_RemovePtr(pList, ptr))
+	if (List_RemovePtr(pList, ptr))
         pItemDestructor(ptr);
 }
 

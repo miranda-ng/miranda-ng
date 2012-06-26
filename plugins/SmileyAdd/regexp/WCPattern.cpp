@@ -117,7 +117,7 @@ bkstring WCPattern::classUnion      (bkstring s1, bkstring s2)  const
   wchar_t * out = new wchar_t[66000];
   std::sort(s1.begin(), s1.end());
   std::sort(s2.begin(), s2.end());
-  *std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), out) = 0;
+  wchar_t* p = std::set_union(s1.begin(), s1.end(), s2.begin(), s2.end(), out); *p = 0;
   bkstring ret = out;
   delete [] out;
   return ret;

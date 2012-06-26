@@ -36,7 +36,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 	short picType;
 
 	TCHAR szFilename[MAX_PATH];
-	if ( !pathToAbsoluteT(ptszFileName, szFilename, NULL))
+	if ( !PathToAbsoluteT(ptszFileName, szFilename, NULL))
 		mir_sntprintf(szFilename, SIZEOF(szFilename), _T("%s"), ptszFileName);
 
 	int filenameLen = lstrlen(szFilename);
@@ -48,7 +48,7 @@ static INT_PTR sttBitmapLoader(const TCHAR* ptszFileName)
 
 		if ( !lstrcmpi(pszExt, _T(".bmp")) || !lstrcmpi(pszExt, _T(".rle"))) {
 			//LoadImage can do this much faster
-			return (INT_PTR)LoadImage(hMirandaInst, szFilename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+			return (INT_PTR)LoadImage(hInst, szFilename, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
 		}
 
 		if ( !lstrcmpi(pszExt, _T(".png"))) {

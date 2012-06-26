@@ -1389,7 +1389,7 @@ CTip::CTip(const HWND hwndParent, const HANDLE hContact, const TCHAR *pszText, c
 
 	m_hContact = hContact;
 	if(pszText)
-		m_pszText = M->utf8_encodeT(pszText);
+		m_pszText = mir_utf8encodeT(pszText);
 	else
 		m_pszText = 0;
 	m_panel = panel;

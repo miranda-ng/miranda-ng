@@ -204,7 +204,7 @@ void g_MenuInit( void )
 
 	hPrebuildMenuHook = HookEvent( ME_CLIST_PREBUILDCONTACTMENU, JabberPrebuildContactMenu );
 
-	li.List_InsertPtr( &arServices, CreateServiceFunction( "Jabber/MenuChoose", JabberMenuChooseService ));
+	List_InsertPtr( &arServices, CreateServiceFunction( "Jabber/MenuChoose", JabberMenuChooseService ));
 
 	TMenuParam mnu = {0};
 	mnu.cbSize = sizeof(mnu);
@@ -233,7 +233,7 @@ void g_MenuInit( void )
 	mi.icolibItem = g_GetIconHandle( IDI_REQUEST );
 	mi.pszService = "Jabber/ReqAuth";
 	g_hMenuRequestAuth = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuHandleRequestAuth ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuHandleRequestAuth ));
 
 	// "Grant authorization"
 	mi.pszService = "Jabber/GrantAuth";
@@ -241,7 +241,7 @@ void g_MenuInit( void )
 	mi.position = -2000001001;
 	mi.icolibItem = g_GetIconHandle( IDI_GRANT );
 	g_hMenuGrantAuth = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuHandleGrantAuth ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuHandleGrantAuth ));
 
 	// Revoke auth
 	mi.pszService = "Jabber/RevokeAuth";
@@ -249,7 +249,7 @@ void g_MenuInit( void )
 	mi.position = -2000001002;
 	mi.icolibItem = g_GetIconHandle( IDI_AUTHREVOKE );
 	g_hMenuRevokeAuth = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuRevokeAuth ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuRevokeAuth ));
 
 	// "Convert Chat/Contact"
 	mi.pszService = "Jabber/ConvertChatContact";
@@ -257,7 +257,7 @@ void g_MenuInit( void )
 	mi.position = -1999901004;
 	mi.icolibItem = g_GetIconHandle( IDI_USER2ROOM );
 	g_hMenuConvert = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuConvertChatContact ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuConvertChatContact ));
 
 	// "Add to roster"
 	mi.pszService = "Jabber/AddToRoster";
@@ -265,7 +265,7 @@ void g_MenuInit( void )
 	mi.position = -1999901005;
 	mi.icolibItem = g_GetIconHandle( IDI_ADDROSTER );
 	g_hMenuRosterAdd = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuRosterAdd ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuRosterAdd ));
 
 	// "Add to Bookmarks"
 	mi.pszService = "Jabber/AddToBookmarks";
@@ -273,7 +273,7 @@ void g_MenuInit( void )
 	mi.position = -1999901006;
 	mi.icolibItem = g_GetIconHandle( IDI_BOOKMARKS);
 	g_hMenuAddBookmark = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuBookmarkAdd ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuBookmarkAdd ));
 
 	// Login/logout
 	mi.pszService = "Jabber/TransportLogin";
@@ -281,7 +281,7 @@ void g_MenuInit( void )
 	mi.position = -1999901007;
 	mi.icolibItem = g_GetIconHandle( IDI_LOGIN );
 	g_hMenuLogin = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuTransportLogin ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuTransportLogin ));
 
 	// Retrieve nicks
 	mi.pszService = "Jabber/TransportGetNicks";
@@ -289,7 +289,7 @@ void g_MenuInit( void )
 	mi.position = -1999901008;
 	mi.icolibItem = g_GetIconHandle( IDI_REFRESH );
 	g_hMenuRefresh = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuTransportResolve ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuTransportResolve ));
 
 	// Run Commands
 	mi.pszService = "Jabber/RunCommands";
@@ -297,7 +297,7 @@ void g_MenuInit( void )
 	mi.position = -1999901009;
 	mi.icolibItem = g_GetIconHandle( IDI_COMMAND );
 	g_hMenuCommands = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberContactMenuRunCommands ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberContactMenuRunCommands ));
 
 	// Send Note
 	mi.pszService = "Jabber/SendNote";
@@ -305,7 +305,7 @@ void g_MenuInit( void )
 	mi.position = -1999901010;
 	mi.icolibItem = g_GetIconHandle( IDI_SEND_NOTE);
 	g_hMenuSendNote = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuSendNote ));
+	List_InsertPtr( &arServices, CreateServiceFunction( mi.pszService, JabberMenuSendNote ));
 
 	// Direct Presence
 	mi.pszService = "Jabber/DirectPresenceDummySvc";
@@ -328,7 +328,7 @@ void g_MenuInit( void )
 		mi.hParentMenu = g_hMenuDirectPresence[0];
 		mi.icolibItem = LoadSkinnedIcon(PresenceModeArray[i].icon);
 		g_hMenuDirectPresence[i+1] = Menu_AddContactMenuItem(&mi);
-		li.List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode ));
+		List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleDirectPresence, PresenceModeArray[i].mode ));
 	}
 
 	mi.flags &= ~CMIF_ROOTHANDLE;
@@ -349,7 +349,7 @@ void g_MenuInit( void )
 	mi.icolibItem = g_GetIconHandle( IDI_JABBER );
 	mi.flags |= CMIF_ROOTHANDLE;
 	g_hMenuResourcesActive = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN ));
+	List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleResource, MENUITEM_LASTSEEN ));
 
 	mi.pszService = "Jabber/UseResource_server";
 	mi.pszName = LPGEN("Server's Choice");
@@ -357,7 +357,7 @@ void g_MenuInit( void )
 	mi.pszPopupName = (char *)g_hMenuResourcesRoot;
 	mi.icolibItem = g_GetIconHandle( IDI_NODE_SERVER );
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
-	li.List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER ));
+	List_InsertPtr( &arServices, CreateServiceFunctionParam( mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER ));
 }
 
 void g_MenuUninit( void )
@@ -374,7 +374,7 @@ void g_MenuUninit( void )
 	UnhookEvent( hPrebuildMenuHook );
 	for (int i = 0; i < arServices.realCount; i++)
 		DestroyServiceFunction( arServices.items[i] );
-	li.List_Destroy( &arServices );
+	List_Destroy( &arServices );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -988,20 +988,20 @@ int g_OnModernToolbarInit(WPARAM, LPARAM)
 	button.defPos = 1000;
 	button.tbbFlags = TBBF_SHOWTOOLTIP|TBBF_VISIBLE;
 
-	li.List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat ));
+	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Groupchat", g_ToolbarHandleJoinGroupchat ));
 	button.pszButtonID = button.pszServiceName = "JABBER/*/Groupchat";
 	button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Join conference";
 	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_GetIconHandle(IDI_GROUP);
 	JCallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
 
-	li.List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks ));
+	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/Bookmarks", g_ToolbarHandleBookmarks ));
 	button.pszButtonID = button.pszServiceName = "JABBER/*/Bookmarks";
 	button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Open bookmarks";
 	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_GetIconHandle(IDI_BOOKMARKS);
 	button.defPos++;
 	JCallService(MS_TB_ADDBUTTON, 0, (LPARAM)&button);
 
-	li.List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery ));
+	List_InsertPtr( &arServices, CreateServiceFunction("JABBER/*/ServiceDiscovery", g_ToolbarHandleServiceDiscovery ));
 	button.pszButtonID = button.pszServiceName = "JABBER/*/ServiceDiscovery";
 	button.pszTooltipUp = button.pszTooltipUp = button.pszButtonName = "Service discovery";
 	button.hSecondaryIconHandle = button.hPrimaryIconHandle = (HANDLE)g_GetIconHandle(IDI_SERVICE_DISCOVERY);

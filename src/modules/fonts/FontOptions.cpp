@@ -371,7 +371,7 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 		if (sectionName = _tcschr(sectionName, '/'))
 			*sectionName = 0;
 
-		pItemName = LangPackTranslateStringT(hLangpack, pItemName);
+		pItemName = TranslateTH(hLangpack, pItemName);
 
 		hItem = sttFindNamedTreeItemAt(hwndTree, hSection, pItemName);
 		if ( !sectionName || !hItem) {
@@ -528,7 +528,7 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 static BOOL ChooseEffectDialog(HWND hwndParent, FONTEFFECT * es)
 {
-	return (DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_CHOOSE_FONT_EFFECT), hwndParent, ChooseEffectDlgProc, (LPARAM) es) == IDOK);
+	return (DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_CHOOSE_FONT_EFFECT), hwndParent, ChooseEffectDlgProc, (LPARAM) es) == IDOK);
 }
 
 static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
@@ -1014,14 +1014,14 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 					{
 						cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_EFFECTS | CF_ENABLETEMPLATE | CF_ENABLEHOOK;
 						// use custom font dialog to disable colour selection
-						cf.hInstance = hMirandaInst;
+						cf.hInstance = hInst;
 						cf.lpTemplateName = MAKEINTRESOURCE(IDD_CUSTOM_FONT);
 						cf.lpfnHook = CFHookProc;
 					}
 					else if (F.flags & FIDF_DISABLESTYLES) {		// no style selection, mutually exclusive with FIDF_ALLOWEFFECTS
 						cf.Flags = CF_FORCEFONTEXIST | CF_INITTOLOGFONTSTRUCT | CF_SCREENFONTS | CF_ENABLETEMPLATE | CF_ENABLEHOOK | CF_TTONLY | CF_NOOEMFONTS;
 						cf.lCustData = F.flags;
-						cf.hInstance = hMirandaInst;
+						cf.hInstance = hInst;
 						cf.lpTemplateName = MAKEINTRESOURCE(IDD_CUSTOM_FONT);
 						cf.lpfnHook = CFHookProc;
 						lf.lfWeight = FW_NORMAL;
@@ -1284,7 +1284,7 @@ int OptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.position = -790000000;
-	odp.hInstance = hMirandaInst;;
+	odp.hInstance = hInst;;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FONTS);
 	odp.pszTitle = LPGEN("Fonts & Colors");
 	odp.pszGroup = LPGEN("Customize");
@@ -1390,7 +1390,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 				if (pf->flags & FIDF_ALLOWEFFECTS) {
 					cf.Flags |= CF_EFFECTS | CF_ENABLETEMPLATE | CF_ENABLEHOOK;
 					// use custom font dialog to disable colour selection
-					cf.hInstance = hMirandaInst;
+					cf.hInstance = hInst;
 					cf.lpTemplateName = MAKEINTRESOURCE(IDD_CUSTOM_FONT);
 					cf.lpfnHook = CFHookProc;
 				}
@@ -1452,7 +1452,7 @@ int FontsModernOptInit(WPARAM wParam, LPARAM lParam)
 	obj.cbSize = sizeof(obj);
 	obj.dwFlags = MODEROPT_FLG_TCHAR|MODEROPT_FLG_NORESIZE;
 	obj.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	obj.hInstance = hMirandaInst;
+	obj.hInstance = hInst;
 	obj.iSection = MODERNOPT_PAGE_SKINS;
 	obj.iType = MODERNOPT_TYPE_SUBSECTIONPAGE;
 	obj.iBoldControls = iBoldControls;

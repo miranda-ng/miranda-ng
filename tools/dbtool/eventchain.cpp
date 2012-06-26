@@ -49,7 +49,7 @@ static void ConvertOldEvent( DBEvent*& dbei )
 	}
 
 	if ( msglenW > 0 && msglenW <= msglen ) {
-		char* utf8str = Utf8EncodeUcs2(( WCHAR* )&dbei->blob[ msglen ] );
+		char* utf8str = Utf8EncodeW(( WCHAR* )&dbei->blob[ msglen ] );
 		dbei->cbBlob = (DWORD)strlen( utf8str )+1;
 		dbei->flags |= DBEF_UTF;
 		if (offsetof(DBEvent,blob)+dbei->cbBlob > memsize) {

@@ -53,8 +53,8 @@ void InitDisplayNameCache(SortedList *list)
 		displayNameCacheEntry *pdnce = (pdisplayNameCacheEntry)mir_calloc(sizeof(displayNameCacheEntry));
 		pdnce->hContact = hContact;
 		InvalidateDisplayNameCacheEntryByPDNE(hContact,pdnce,0);
-		li.List_GetIndex(list,pdnce,&idx);
-		li.List_Insert(list,pdnce,idx);
+		List_GetIndex(list,pdnce,&idx);
+		List_Insert(list,pdnce,idx);
 		hContact = (HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0);
 		i++;
 }	}
@@ -77,7 +77,7 @@ void FreeDisplayNameCache(SortedList *list)
 		mir_free(list->items[i]);
 	}
 	
-	li.List_Destroy(list);
+	List_Destroy(list);
 }
 
 void CheckPDNCE(ClcCacheEntryBase *_pdnce)

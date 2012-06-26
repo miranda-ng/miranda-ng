@@ -171,8 +171,8 @@ int GetAverageMode(int* pNetProtoCount = NULL)
 		netProtoCount++;
 
 		if (averageMode == 0)
-			averageMode = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
-		else if (averageMode > 0 && averageMode != CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0)) {
+			averageMode = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
+		else if (averageMode > 0 && averageMode != CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0)) {
 			averageMode = -1;
             if (pNetProtoCount == NULL) break;
 	    }	
@@ -449,12 +449,12 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 	StatusMenuExecParam *smep = (StatusMenuExecParam*)pcpp->MenuItemOwnerData;
 	if (smep && !smep->status && smep->custom) {
 		if (wildcmp(smep->svc, "*XStatus*")) {
-			int XStatus = CallProtoService(smep->proto, "/GetXStatus", 0, 0);
+			int XStatus = CallProtoServiceInt(NULL,smep->proto, "/GetXStatus", 0, 0);
 			char buf[255];
 			mir_snprintf(buf, sizeof(buf), "*XStatus%d", XStatus);
 
-			bool check = wildcmp(smep->svc, buf);
-			bool reset = wildcmp(smep->svc, "*XStatus0");
+			bool check = wildcmp(smep->svc, buf) != 0;
+			bool reset = wildcmp(smep->svc, "*XStatus0") != 0;
 
 			if (check)
 				timi->mi.flags |= CMIF_CHECKED;
@@ -467,7 +467,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 					CLISTMENUITEM mi2 = {0};
 					mi2.cbSize = sizeof(mi2);
 					mi2.flags = CMIM_NAME | CMIF_TCHAR;
-					mi2.ptszName = LangPackTranslateStringT(timi->mi.hLangpack, timi->mi.hIcon ? timi->mi.ptszName : LPGENT("Custom status"));
+					mi2.ptszName = TranslateTH(timi->mi.hLangpack, timi->mi.hIcon ? timi->mi.ptszName : LPGENT("Custom status"));
 
 					timiParent = MO_GetIntMenuItem(timi->mi.root);
 
@@ -510,7 +510,7 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		}	}	}
 	}
 	else if (smep && smep->status && !smep->custom) {
-		int curProtoStatus = (smep->proto) ? CallProtoService(smep->proto, PS_GETSTATUS, 0, 0) : GetAverageMode();
+		int curProtoStatus = (smep->proto) ? CallProtoServiceInt(NULL,smep->proto, PS_GETSTATUS, 0, 0) : GetAverageMode();
 		if (smep->status == curProtoStatus)
 			timi->mi.flags |= CMIF_CHECKED;
 		else
@@ -531,13 +531,13 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 		if (Proto_GetAccount(prot) == NULL)
 			return TRUE;
 
-		if ((curProtoStatus = CallProtoService(prot, PS_GETSTATUS, 0, 0)) == CALLSERVICE_NOTFOUND)
+		if ((curProtoStatus = CallProtoServiceInt(NULL,prot, PS_GETSTATUS, 0, 0)) == CALLSERVICE_NOTFOUND)
 			curProtoStatus = 0;
 
 		if (curProtoStatus >= ID_STATUS_OFFLINE && curProtoStatus < ID_STATUS_IDLE)
 			timi->mi.hIcon = LoadSkinProtoIcon(prot, curProtoStatus);
 		else {
-			timi->mi.hIcon=(HICON)CallProtoService(prot, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+			timi->mi.hIcon=(HICON)CallProtoServiceInt(NULL,prot, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 			if (timi->mi.hIcon == (HICON)CALLSERVICE_NOTFOUND)
 				timi->mi.hIcon = NULL;
 			else
@@ -574,7 +574,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				int i=(DBGetContactSettingByte(NULL, prot, "LockMainStatus", 0)?0:1);
 				DBWriteContactSettingByte(NULL, prot, "LockMainStatus", (BYTE)i);
 
-				CallProtoService(smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
+				CallProtoServiceInt(NULL,smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
 				pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
 				PMO_IntMenuItem root = (PMO_IntMenuItem)pimi->mi.root;
 				mir_free(pimi->mi.pszName);
@@ -874,7 +874,7 @@ void RebuildMenuOrder(void)
 		tmi.cbSize = sizeof(tmi);
 		tmi.flags = CMIF_TCHAR | CMIF_ROOTHANDLE | CMIF_KEEPUNTRANSLATED;
 		tmi.position = pos++;
-		tmi.hIcon = ic = (HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
+		tmi.hIcon = ic = (HICON)CallProtoServiceInt(NULL,pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
 			mir_sntprintf(tbuf, SIZEOF(tbuf), LPGENT("%s (locked)"), pa->tszAccountName);

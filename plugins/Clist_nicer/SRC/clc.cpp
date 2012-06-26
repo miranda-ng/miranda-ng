@@ -404,7 +404,7 @@ LBL_Def:
 			if (hSelItem) {
 				struct ClcGroup *selgroup;
 				if (pcli->pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, li.List_IndexOf((SortedList*) & selgroup->cl, selcontact));
+					dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*) & selgroup->cl, selcontact));
 				else
 					dat->selection = -1;
 			}
@@ -573,7 +573,7 @@ LBL_Def:
 			if (contact == 0 || group == 0)
 				break;
 
-			iItem = pcli->pfnGetRowsPriorTo(&dat->list, group, li.List_IndexOf((SortedList*) & group->cl, contact));
+			iItem = pcli->pfnGetRowsPriorTo(&dat->list, group, List_IndexOf((SortedList*) & group->cl, contact));
 			pcli->pfnInvalidateItem(hwnd, dat, iItem);
 			goto LBL_Def;
 		}

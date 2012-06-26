@@ -48,7 +48,7 @@ static TokenRegisterEntry* FindTokenRegisterByName(TCHAR *name)
 	int idx;
 	TokenRegisterEntry temp;
 	temp.nameHash = NameHashFunction( name );
-	if ( li.List_GetIndex(( SortedList* )&tokens, &temp, &idx ))
+	if ( List_GetIndex(( SortedList* )&tokens, &temp, &idx ))
 		return tokens.items[ idx ];
    
 	return NULL;
@@ -81,7 +81,7 @@ int deRegisterToken(TCHAR *token) {
 		return -1;
 	}
 
-	li.List_RemovePtr(( SortedList* )&tokens, tre );
+	List_RemovePtr(( SortedList* )&tokens, tre );
 	LeaveCriticalSection(&csRegister);
 
 	if ( !( tre->tr.flags & TRF_PARSEFUNC ) && tre->tr.szService != NULL )
@@ -151,8 +151,8 @@ INT_PTR registerToken(WPARAM wParam, LPARAM lParam)
 		tre->tr.szCleanupService = _strdup( newVr->szCleanupService );
 
 	EnterCriticalSection(&csRegister);
-	li.List_GetIndex(( SortedList* )&tokens, tre, &idx );
-	li.List_Insert(( SortedList* )&tokens, tre, idx );
+	List_GetIndex(( SortedList* )&tokens, tre, &idx );
+	List_Insert(( SortedList* )&tokens, tre, idx );
 	LeaveCriticalSection(&csRegister);
 
 	return 0;
@@ -316,7 +316,7 @@ int deinitTokenRegister()
 
 		free( tre );
 	}
-	li.List_Destroy(( SortedList* )&tokens );
+	List_Destroy(( SortedList* )&tokens );
 
 	LeaveCriticalSection(&csRegister);
 	DeleteCriticalSection(&csRegister);

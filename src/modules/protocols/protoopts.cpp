@@ -339,7 +339,7 @@ static LRESULT CALLBACK AccListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			rc.bottom = rc.top + max(GetSystemMetrics(SM_CXSMICON), parentDat->titleHeight) + 4 - 1;
 			++rc.top; --rc.right;
 
-			dat->hwndEdit = CreateWindow(_T("EDIT"), pa->tszAccountName, WS_CHILD|WS_BORDER|ES_AUTOHSCROLL, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, hwnd, NULL, hMirandaInst, NULL);
+			dat->hwndEdit = CreateWindow(_T("EDIT"), pa->tszAccountName, WS_CHILD|WS_BORDER|ES_AUTOHSCROLL, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, hwnd, NULL, hInst, NULL);
 			SetWindowLongPtr(dat->hwndEdit, GWLP_USERDATA, SetWindowLongPtr(dat->hwndEdit, GWLP_WNDPROC, (LONG_PTR)sttEditSubclassProc));
 			SendMessage(dat->hwndEdit, WM_SETFONT, (WPARAM)parentDat->hfntTitle, 0);
 			SendMessage(dat->hwndEdit, EM_SETMARGINS, EC_LEFTMARGIN|EC_RIGHTMARGIN|EC_USEFONTINFO, 0);
@@ -781,7 +781,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 								}
 								else pa->type = PROTOTYPE_DISPROTO;							}
 							else {
-								DWORD dwStatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+								DWORD dwStatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
 								if (dwStatus >= ID_STATUS_ONLINE) {
 									if (IDCANCEL == ::MessageBox(hwndDlg, 
 										                  TranslateT("Account is online. Disable account?"), 
@@ -829,7 +829,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		case IDC_ADD:
 			{
 				AccFormDlgParam param = { PRAC_ADDED, NULL };
-				if (IDOK == DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param))
+				if (IDOK == DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param))
 					SendMessage(hwndDlg, WM_MY_REFRESH, 0, 0);
 			}
 			break;
@@ -904,7 +904,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				int idx = ListBox_GetCurSel(hList);
 				if (idx != -1) {
 					AccFormDlgParam param = { PRAC_UPGRADED, (PROTOACCOUNT*)ListBox_GetItemData(hList, idx) };
-					DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param);
+					DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ACCFORM), hwndDlg, AccFormDlgProc, (LPARAM)&param);
 			}	}
 			break;
 
@@ -1024,7 +1024,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 static INT_PTR OptProtosShow(WPARAM, LPARAM)
 {
 	if ( !hAccMgr)
-		hAccMgr = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_ACCMGR), NULL, AccMgrDlgProc, 0);
+		hAccMgr = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ACCMGR), NULL, AccMgrDlgProc, 0);
 
 	ShowWindow(hAccMgr, SW_RESTORE);
 	SetForegroundWindow(hAccMgr);

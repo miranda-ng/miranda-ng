@@ -41,7 +41,7 @@ static void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
 	int i = 0;
 	if (!pList) return;
 	for (i = 0; i < pList->realCount; i++)	pItemDestructor(pList->items[i]);
-	li.List_Destroy(pList);
+	List_Destroy(pList);
 	mir_free(pList);
 }
 
@@ -49,13 +49,13 @@ static void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemD
 {
 	if (index >= 0 && index < pList->realCount) {
 		pItemDestructor(pList->items[index]);
-		li.List_Remove(pList, index);
+		List_Remove(pList, index);
 	}
 }
 
 static void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor)
 {
-	if (li.List_RemovePtr(pList, ptr))
+	if (List_RemovePtr(pList, ptr))
 		pItemDestructor(ptr);
 }
 
@@ -137,8 +137,8 @@ static int Hlp_RemoveDatabaseSettings(HANDLE hContact, char *szModule, char *szP
 
 void CB_InitCustomButtons()
 {
-	LButtonsList = li.List_Create(0, 1);
-	RButtonsList = li.List_Create(0, 1);
+	LButtonsList = List_Create(0, 1);
+	RButtonsList = List_Create(0, 1);
 	InitializeCriticalSection(&ToolBarCS);
 	dwSepCount = M->GetDword("TabSRMM_Toolbar", "SeparatorsCount", 0);
 
@@ -228,9 +228,9 @@ void CB_ReInitCustomButtons()
 			cbd->opFlags ^= BBSF_NTBSWAPED;
 
 			if (!(cbd->opFlags&BBSF_NTBDESTRUCT))
-				li.List_InsertPtr(RButtonsList, cbd);
+				List_InsertPtr(RButtonsList, cbd);
 
-			li.List_Remove(LButtonsList, i);
+			List_Remove(LButtonsList, i);
 			i--;
 		}
 	}
@@ -241,9 +241,9 @@ void CB_ReInitCustomButtons()
 			cbd->opFlags ^= BBSF_NTBSWAPED;
 
 			if (!(cbd->opFlags&BBSF_NTBDESTRUCT))
-				li.List_InsertPtr(LButtonsList, cbd);
+				List_InsertPtr(LButtonsList, cbd);
 
-			li.List_Remove(RButtonsList, i);
+			List_Remove(RButtonsList, i);
 			i--;
 		}
 	}
@@ -257,8 +257,8 @@ void CB_HardReInit()
 	EnterCriticalSection(&ToolBarCS);
 	li_ListDestruct(LButtonsList, listdestructor);
 	li_ListDestruct(RButtonsList, listdestructor);
-	LButtonsList = li.List_Create(0, 1);
-	RButtonsList = li.List_Create(0, 1);
+	LButtonsList = List_Create(0, 1);
+	RButtonsList = List_Create(0, 1);
 	LeaveCriticalSection(&ToolBarCS);
 	LastCID = 4000;
 	dwSepCount = 0;
@@ -313,9 +313,9 @@ static INT_PTR CB_AddButton(WPARAM wParam, LPARAM lParam)
 		CB_GetButtonSettings(NULL, cbd);
 
 		if (cbd->bLSided)
-			li.List_InsertPtr(LButtonsList, cbd);
+			List_InsertPtr(LButtonsList, cbd);
 		else if (cbd->bRSided)
-			li.List_InsertPtr(RButtonsList, cbd);
+			List_InsertPtr(RButtonsList, cbd);
 		else return 1;
 
 		if (cbd->dwButtonCID != cbd->dwButtonOrigID)
@@ -415,7 +415,7 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam)
 		if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 			tempCID = cbd->dwButtonCID;
 			dwFlags = cbd->bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON;
-			li.List_Remove(LButtonsList, i);
+			List_Remove(LButtonsList, i);
 			i--;
 		}
 	}
@@ -427,7 +427,7 @@ static INT_PTR CB_RemoveButton(WPARAM wParam, LPARAM lParam)
 			if (!strcmp(cbd->pszModuleName, bbdi->pszModuleName) && (cbd->dwButtonOrigID == bbdi->dwButtonID)) {
 				tempCID = cbd->dwButtonCID;
 				dwFlags = cbd->bLSided ? BBBF_ISLSIDEBUTTON : BBBF_ISRSIDEBUTTON;
-				li.List_Remove(RButtonsList, i);
+				List_Remove(RButtonsList, i);
 				i--;
 			}
 		}
@@ -1420,7 +1420,7 @@ INT_PTR CALLBACK DlgProcToolBar(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					cbd->pszModuleName = "Tabsrmm_sep";
 					cbd->iButtonWidth = 22;
 					cbd->opFlags = BBSF_NTBDESTRUCT;
-					li.List_InsertPtr(LButtonsList, cbd);
+					List_InsertPtr(LButtonsList, cbd);
 
 					tvis.hParent = NULL;
 					tvis.hInsertAfter = hti;

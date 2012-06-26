@@ -24,11 +24,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_LANGPACK_H__
 #define M_LANGPACK_H__
 
+#if !defined(M_CORE_H__)
+	#include <m_core.h>
+#endif
+
 #if !defined(_STATIC)
 	#define MIRANDA_CUSTOM_LP
 #endif
-
-#define LANG_UNICODE 0x1000
 
 //translates a single string into the user's local language	  v0.1.1.0+
 //wParam=0
@@ -40,38 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //loaded into Miranda 0.1.0.1 and earlier. If anyone's actually using one of
 //these versions, I pity them.
 #define MS_LANGPACK_TRANSLATESTRING  "LangPack/TranslateString"
-
-#if defined(MIRANDA_CUSTOM_LP)
-
-extern int hLangpack;
-
-__inline static char* Translate(const char* str)
-{	return (char*)CallService(MS_LANGPACK_TRANSLATESTRING, hLangpack, (LPARAM)(str));
-}
-
-__inline static WCHAR* TranslateW(const WCHAR* str)
-{	return (WCHAR*)CallService(MS_LANGPACK_TRANSLATESTRING, hLangpack+LANG_UNICODE, (LPARAM)(str));
-}
-
-#else
-
-__inline static char* Translate(const char* str)
-{	return (char*)CallService(MS_LANGPACK_TRANSLATESTRING, 0, (LPARAM)(str));
-}
-
-__inline static WCHAR* TranslateW(const WCHAR* str)
-{	return (WCHAR*)CallService(MS_LANGPACK_TRANSLATESTRING, LANG_UNICODE, (LPARAM)(str));
-}
-
-#endif
-
-#ifdef _UNICODE
-	#define TranslateT(s)	TranslateW(_T(s))
-	#define TranslateTS(s)	TranslateW(s)
-#else
-	#define TranslateT(s)	Translate(s)
-	#define TranslateTS(s)	Translate(s)
-#endif
 
 // If you're storing some string for calling later-on Translate or using it
 // with an API call that does translation automatically marked with
@@ -86,70 +56,11 @@ __inline static WCHAR* TranslateW(const WCHAR* str)
 #endif
 //Those macros do NOTHING. They are just markers for lpgen.pl.
 
-//translates a dialog into the user's local language	  v0.1.1.0+
-//wParam=0
-//lParam=(LPARAM)(LANGPACKTRANSLATEDIALOG*)&lptd
-//returns 0 on success, nonzero on failure
-//This service only knows about the following controls:
-//Window titles, STATIC, EDIT, Hyperlink, BUTTON
-typedef struct {
-	int cbSize;
-	DWORD flags;
-	HWND hwndDlg;
-	const int *ignoreControls;   //zero-terminated list of control IDs *not* to
-	    //translate
-} LANGPACKTRANSLATEDIALOG;
-#define LPTDF_NOIGNOREEDIT   1     //translate all edit controls. By default
-                   //non-read-only edit controls are not translated
-#define LPTDF_NOTITLE        2     //do not translate the title of the dialog
-
-#define MS_LANGPACK_TRANSLATEDIALOG  "LangPack/TranslateDialog"
-
-#if defined(MIRANDA_CUSTOM_LP)
-
-__inline static INT_PTR TranslateDialogDefault(HWND hwndDlg)
-{
-	LANGPACKTRANSLATEDIALOG lptd;
-	lptd.cbSize=sizeof(lptd);
-	lptd.flags=hLangpack;
-	lptd.hwndDlg=hwndDlg;
-	lptd.ignoreControls=NULL;
-	return CallService(MS_LANGPACK_TRANSLATEDIALOG, 0, (LPARAM)&lptd);
-}
-
-#else
-
-__inline static INT_PTR TranslateDialogDefault(HWND hwndDlg)
-{
-	LANGPACKTRANSLATEDIALOG lptd;
-	lptd.cbSize=sizeof(lptd);
-	lptd.flags=0;
-	lptd.hwndDlg=hwndDlg;
-	lptd.ignoreControls=NULL;
-	return CallService(MS_LANGPACK_TRANSLATEDIALOG, 0, (LPARAM)&lptd);
-}
-
-#endif
-
 //translates a menu into the user's local language	  v0.1.1.0+
 //wParam=(WPARAM)(HMENU)hMenu
 //lParam=langpack handle (v.0.10.0+)
 //returns 0 on success, nonzero on failure
 #define MS_LANGPACK_TRANSLATEMENU    "LangPack/TranslateMenu"
-
-#if defined(MIRANDA_CUSTOM_LP)
-
-__inline static INT_PTR TranslateMenu(HMENU hMenu)
-{	return CallService(MS_LANGPACK_TRANSLATEMENU, (WPARAM)hMenu, hLangpack);
-}
-
-#else
-
-__inline static INT_PTR TranslateMenu(HMENU hMenu)
-{	return CallService(MS_LANGPACK_TRANSLATEMENU, (LPARAM)hMenu, 0);
-}
-
-#endif
 
 //returns the codepage used in the language pack 	  v0.4.3.0+
 //wParam=0
@@ -191,7 +102,7 @@ __inline static INT_PTR Langpack_PCharToTChar(const char* str)
 #define MS_LANGPACK_REGISTER         "LangPack/Register"
 
 #if defined(MIRANDA_CUSTOM_LP)
-__forceinline void mir_getLP(const PLUGININFOEX* pInfo)
+__inline static void mir_getLP(const PLUGININFOEX* pInfo)
 {	CallService(MS_LANGPACK_REGISTER, (WPARAM)&hLangpack, (LPARAM)pInfo);
 }
 #endif

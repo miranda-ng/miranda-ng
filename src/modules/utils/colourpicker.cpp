@@ -47,7 +47,7 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wPar
 			custColours[0]=GetWindowLongPtr(hwnd, sizeof(COLORREF));
             cc.lStructSize=sizeof(CHOOSECOLOR);
             cc.hwndOwner=hwnd;
-            cc.hInstance=(HWND)hMirandaInst;
+            cc.hInstance=(HWND)hInst;
             cc.rgbResult=GetWindowLongPtr(hwnd, 0);
             cc.lpCustColors=custColours;
             cc.Flags=CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
@@ -95,7 +95,7 @@ int InitColourPicker(void)
 	wcl.lpfnWndProc=ColourPickerWndProc;
 	wcl.cbClsExtra=0;
 	wcl.cbWndExtra=sizeof(COLORREF)*2;
-	wcl.hInstance=hMirandaInst;
+	wcl.hInstance=hInst;
 	wcl.hCursor=NULL;
 	wcl.lpszClassName=WNDCLASS_COLOURPICKER;
 	wcl.hbrBackground=(HBRUSH)(COLOR_BTNFACE+1);

@@ -228,7 +228,7 @@ ZPOS64_T ZCALLBACK win32_tell64_file_func (voidpf opaque, voidpf stream)
             ret = (ZPOS64_T)-1;
         }
         else
-            ret=li.QuadPart;
+            ret = li.QuadPart;
     }
     return ret;
 }
@@ -236,7 +236,7 @@ ZPOS64_T ZCALLBACK win32_tell64_file_func (voidpf opaque, voidpf stream)
 
 long ZCALLBACK win32_seek_file_func (voidpf opaque,voidpf stream,uLong offset,int origin)
 {
-    DWORD dwMoveMethod=0xFFFFFFFF;
+    DWORD dwMoveMethod = 0xFFFFFFFF;
     HANDLE hFile = NULL;
 
     long ret=-1;

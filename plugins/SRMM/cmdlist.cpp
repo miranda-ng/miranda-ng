@@ -31,13 +31,13 @@ int tcmdlist_append(SortedList *list, TCHAR *data)
 		TCmdList* n = (TCmdList*)list->items[0];
 		mir_free(n->szCmd);
 		mir_free(n);
-		li.List_Remove(list, 0);
+		List_Remove(list, 0);
 	}
 
 	new_list = (TCmdList*)mir_alloc(sizeof(TCmdList));
 	new_list->szCmd = mir_tstrdup(data);
 
-	li.List_InsertPtr(list, new_list);
+	List_InsertPtr(list, new_list);
 
 	return list->realCount - 1;
 }
@@ -52,7 +52,7 @@ void tcmdlist_free(SortedList *list)
 		mir_free(n[i]->szCmd);
 		mir_free(n[i]);
 	}
-	li.List_Destroy(list);
+	List_Destroy(list);
 	mir_free(list);
 }
 
@@ -78,7 +78,7 @@ static VOID CALLBACK MsgTimer(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTi
 				tmlst = (TMsgQueue**)alloca((msgQueue.realCount - i) * sizeof(TMsgQueue*));
 			tmlst[ntl++] = item;
 
-			li.List_Remove(&msgQueue, i--);
+			List_Remove(&msgQueue, i--);
 		}
 	}
 	LeaveCriticalSection(&csMsgQueue);
@@ -99,7 +99,7 @@ void msgQueue_add(HANDLE hContact, HANDLE id, const TCHAR* szMsg, HANDLE hDbEven
 	EnterCriticalSection(&csMsgQueue);
 	if (!msgQueue.realCount && !timerId)
 		timerId = SetTimer(NULL, 0, 5000, MsgTimer);
-	li.List_InsertPtr(&msgQueue, item);
+	List_InsertPtr(&msgQueue, item);
 	LeaveCriticalSection(&csMsgQueue);
 
 }
@@ -116,7 +116,7 @@ void msgQueue_processack(HANDLE hContact, HANDLE id, BOOL success, const char* s
 		item = (TMsgQueue*)msgQueue.items[i];
 		if (item->hContact == hContact && item->id == id)
 		{
-			li.List_Remove(&msgQueue, i);
+			List_Remove(&msgQueue, i);
 
 			if (!msgQueue.realCount && timerId)
 			{
@@ -158,7 +158,7 @@ void msgQueue_destroy(void)
 		mir_free(item->szMsg);
 		mir_free(item);
 	}
-	li.List_Destroy(&msgQueue);
+	List_Destroy(&msgQueue);
 
 	LeaveCriticalSection(&csMsgQueue);
 

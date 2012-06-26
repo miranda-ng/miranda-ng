@@ -192,7 +192,7 @@ static int OnOptionsInitialise(WPARAM wParam, LPARAM)
 
 	odp.cbSize = sizeof(odp);
 	odp.position = -190000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KEYWORDFILTER);
 	odp.pszTitle = LPGEN("Options search");
 	odp.pszGroup = LPGEN("Customize");

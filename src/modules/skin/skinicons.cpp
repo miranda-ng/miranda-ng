@@ -135,7 +135,7 @@ HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 {
 	HICON hResIcon = bShared ? LoadSmallIcon(hInstance, lpIconName) : LoadSmallIconShared(hInstance, lpIconName);
 	if ( !hResIcon) { //Icon not found in hInstance lets try to load it from core
-		HINSTANCE hCoreInstance=hMirandaInst;
+		HINSTANCE hCoreInstance=hInst;
 		if (hCoreInstance != hInstance)
 			hResIcon = bShared ? LoadSmallIcon(hCoreInstance, lpIconName) : LoadSmallIconShared(hCoreInstance, lpIconName);
 	}
@@ -144,7 +144,7 @@ HICON LoadIconEx(HINSTANCE hInstance, LPCTSTR lpIconName, BOOL bShared)
 
 int ImageList_AddIcon_NotShared(HIMAGELIST hIml, LPCTSTR szResource)
 {
-	HICON hTempIcon=LoadIconEx(hMirandaInst, szResource, 0);
+	HICON hTempIcon=LoadIconEx(hInst, szResource, 0);
 	int res = ImageList_AddIcon(hIml, hTempIcon);
 	Safe_DestroyIcon(hTempIcon);
 	return res;
@@ -222,7 +222,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 	int i, statusIndx = -1;
 	char iconName[MAX_PATH];
 	HICON hIcon;
-	DWORD caps2 = (szProto == NULL) ? (DWORD)-1 : CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
+	DWORD caps2 = (szProto == NULL) ? (DWORD)-1 : CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_2, 0);
 
 	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, 7);
@@ -276,7 +276,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 			sid.cbSize = sizeof(sid);
 			sid.flags = SIDF_ALL_TCHAR;
 
-			GetModuleFileName(hMirandaInst, szPath, MAX_PATH);
+			GetModuleFileName(hInst, szPath, MAX_PATH);
 			str = _tcsrchr(szPath, '\\');
 			if (str != NULL)
 				*str = 0;

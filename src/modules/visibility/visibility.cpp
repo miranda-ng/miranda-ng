@@ -111,7 +111,7 @@ static void SetAllContactIcons(HWND hwndList)
 			szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if (szProto == NULL) {flags=0; status=0;}
 			else {
-				flags=CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				flags=CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				status=DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
 			}
 			if (flags&PF1_INVISLIST) {
@@ -280,7 +280,7 @@ static int VisibilityOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 850000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_VISIBILITY);
 	odp.pszTitle = LPGEN("Visibility");
 	odp.pszGroup = LPGEN("Status");

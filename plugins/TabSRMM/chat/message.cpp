@@ -294,7 +294,7 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO* si)
 	}
 
 	mir_free(pIndex);
-	ptszResult = M->utf8_decodeW(pszText);
+	ptszResult = mir_utf8decodeW(pszText);
 	return ptszResult;
 }
 

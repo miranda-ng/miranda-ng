@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2009 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -22,104 +22,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "..\..\core\commonheaders.h"
 
-#define FLAGS LANG_UNICODE
-
-LangPackMuuid* __fastcall LangPackLookupUuid(WPARAM);
-int LangPackMarkPluginLoaded(PLUGININFOEX* pInfo);
+MIR_CORE_DLL(int) LangPackMarkPluginLoaded(PLUGININFOEX* pInfo);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR TranslateString(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvTranslateString(WPARAM wParam, LPARAM lParam)
 {
-	return (INT_PTR)LangPackTranslateString(LangPackLookupUuid(wParam), (const char *)lParam, (wParam & LANG_UNICODE) ? 1 : 0);
-}
-
-TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish)
-{
-	LangPackMuuid* pUuid = (hLangpack) ? LangPackLookupUuid(hLangpack) : 0;
-	return (TCHAR*)LangPackTranslateString(pUuid, (LPCSTR)tszEnglish, 1);
+	if (wParam & LANG_UNICODE)
+		return (INT_PTR)TranslateW_LP((const WCHAR*)lParam, wParam);
+	return (INT_PTR)TranslateA_LP((const char *)lParam, wParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR TranslateMenu(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvTranslateMenu(WPARAM wParam, LPARAM lParam)
 {
-	HMENU hMenu = (HMENU)wParam;
-	LangPackMuuid* uuid = LangPackLookupUuid(lParam);
-
-	MENUITEMINFO mii;
-	mii.cbSize = MENUITEMINFO_V4_SIZE;
-	for (int i = GetMenuItemCount(hMenu)-1; i >= 0; i--) {
-		TCHAR str[256];
-		mii.fMask = MIIM_TYPE|MIIM_SUBMENU;
-		mii.dwTypeData = (TCHAR*)str;
-		mii.cch = SIZEOF(str);
-		GetMenuItemInfo(hMenu, i, TRUE, &mii);
-
-		if (mii.cch && mii.dwTypeData) {
-			TCHAR* result = (TCHAR*)LangPackTranslateString(uuid, (const char*)mii.dwTypeData, FLAGS);
-			if (result != mii.dwTypeData) {
-				mii.dwTypeData = result;
-				mii.fMask = MIIM_TYPE;
-				SetMenuItemInfo(hMenu, i, TRUE, &mii);
-		}	}
-
-		if (mii.hSubMenu != NULL) TranslateMenu((WPARAM)mii.hSubMenu, lParam);
-	}
+	TranslateMenu_LP((HMENU)wParam, lParam);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void TranslateWindow(LangPackMuuid* pUuid, HWND hwnd)
-{
-	TCHAR title[2048];
-	GetWindowText(hwnd, title, SIZEOF(title));
-	{
-		TCHAR* result = (TCHAR*)LangPackTranslateString(pUuid, (const char*)title, FLAGS);
-		if (result != title)
-			SetWindowText(hwnd, result);
-}	}
-
-static BOOL CALLBACK TranslateDialogEnumProc(HWND hwnd, LPARAM lParam)
-{
-	LANGPACKTRANSLATEDIALOG *lptd = (LANGPACKTRANSLATEDIALOG*)lParam;
-	TCHAR szClass[32];
-	int i, id = GetDlgCtrlID(hwnd);
-
-	if (lptd->ignoreControls != NULL)
-		for (i=0; lptd->ignoreControls[i]; i++)
-			if (lptd->ignoreControls[i] == id)
-				return TRUE;
-
-	LangPackMuuid* uuid = LangPackLookupUuid(lptd->flags);
-
-	GetClassName(hwnd, szClass, SIZEOF(szClass));
-	if ( !lstrcmpi(szClass, _T("static")) || !lstrcmpi(szClass, _T("hyperlink")) || !lstrcmpi(szClass, _T("button")) || !lstrcmpi(szClass, _T("MButtonClass")) || !lstrcmpi(szClass, _T("MHeaderbarCtrl")))
-		TranslateWindow(uuid, hwnd);
-	else if ( !lstrcmpi(szClass, _T("edit"))) {
-		if (lptd->flags & LPTDF_NOIGNOREEDIT || GetWindowLongPtr(hwnd, GWL_STYLE) & ES_READONLY)
-			TranslateWindow(uuid, hwnd);
-	}
-	return TRUE;
-}
-
-static INT_PTR TranslateDialog(WPARAM wParam, LPARAM lParam)
-{
-	LANGPACKTRANSLATEDIALOG *lptd = (LANGPACKTRANSLATEDIALOG*)lParam;
-	if (lptd == NULL || lptd->cbSize != sizeof(LANGPACKTRANSLATEDIALOG))
-		return 1;
-
-	if ( !(lptd->flags & LPTDF_NOTITLE))
-		TranslateWindow(LangPackLookupUuid(lptd->flags), lptd->hwndDlg);
-
-	EnumChildWindows(lptd->hwndDlg, TranslateDialogEnumProc, lParam);
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR LPRegister(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvRegisterLP(WPARAM wParam, LPARAM lParam)
 {
 	*(int*)wParam = LangPackMarkPluginLoaded((PLUGININFOEX*)lParam);
 	return 0;
@@ -127,50 +51,51 @@ static INT_PTR LPRegister(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR GetDefaultCodePage(WPARAM, LPARAM)
+static INT_PTR srvGetDefaultCodePage(WPARAM, LPARAM)
 {
 	return LangPackGetDefaultCodePage();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR GetDefaultLocale(WPARAM, LPARAM)
+static INT_PTR srvGetDefaultLocale(WPARAM, LPARAM)
 {
 	return LangPackGetDefaultLocale();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR PcharToTchar(WPARAM wParam, LPARAM lParam)
+static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam)
 {
 	char* pszStr = (char*)lParam;
 	if (pszStr == NULL)
 		return NULL;
 
-	LangPackMuuid* uuid = LangPackLookupUuid(wParam);
-
-	{	int len = (int)strlen(pszStr);
-		TCHAR* result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
-		MultiByteToWideChar(LangPackGetDefaultCodePage(), 0, pszStr, -1, result, len);
-		result[len] = 0;
-		return (INT_PTR)mir_wstrdup((wchar_t*)LangPackTranslateString(uuid, (char*)result, 1));
-	}
+	int len = (int)strlen(pszStr);
+	TCHAR* result = (TCHAR*)alloca((len+1)*sizeof(TCHAR));
+	MultiByteToWideChar(LangPackGetDefaultCodePage(), 0, pszStr, -1, result, len);
+	result[len] = 0;
+	return (INT_PTR)mir_wstrdup( TranslateW_LP(result, wParam));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR ReloadLangpack(WPARAM wParam, LPARAM lParam);
-
-int LoadLangPackServices(void)
-{
-	CreateServiceFunction(MS_LANGPACK_TRANSLATESTRING, TranslateString);
-	CreateServiceFunction(MS_LANGPACK_TRANSLATEMENU, TranslateMenu);
-	CreateServiceFunction(MS_LANGPACK_TRANSLATEDIALOG, TranslateDialog);
-	CreateServiceFunction(MS_LANGPACK_GETCODEPAGE, GetDefaultCodePage);
-	CreateServiceFunction(MS_LANGPACK_GETLOCALE, GetDefaultLocale);
-	CreateServiceFunction(MS_LANGPACK_PCHARTOTCHAR, PcharToTchar);
-	CreateServiceFunction(MS_LANGPACK_REGISTER, LPRegister);
-	CreateServiceFunction(MS_LANGPACK_RELOAD, ReloadLangpack);
+INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
+{	
+	ReloadLangpack(( TCHAR* )lParam);
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int LoadLangPackModule(void)
+{
+	CreateServiceFunction(MS_LANGPACK_TRANSLATESTRING, srvTranslateString);
+	CreateServiceFunction(MS_LANGPACK_TRANSLATEMENU, srvTranslateMenu);
+	CreateServiceFunction(MS_LANGPACK_GETCODEPAGE, srvGetDefaultCodePage);
+	CreateServiceFunction(MS_LANGPACK_GETLOCALE, srvGetDefaultLocale);
+	CreateServiceFunction(MS_LANGPACK_PCHARTOTCHAR, srvPcharToTchar);
+	CreateServiceFunction(MS_LANGPACK_REGISTER, srvRegisterLP);
+	CreateServiceFunction(MS_LANGPACK_RELOAD, srvReloadLangpack);
+	return 0;
+}

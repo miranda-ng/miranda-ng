@@ -122,7 +122,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 			if (wParam != CLGN_ROOT) {
 				if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) lParam, &contact, &group, NULL))
 					return (LRESULT) (HANDLE) NULL;
-				i = li.List_IndexOf((SortedList*)&group->cl,contact);
+				i = List_IndexOf((SortedList*)&group->cl,contact);
 				if (i<0) return 0;
 			}
 			switch (wParam) 
@@ -204,12 +204,12 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 
 			if (!contact->isSubcontact)
 			{
-				index=li.List_IndexOf((SortedList*)&group->cl,contact);
+				index=List_IndexOf((SortedList*)&group->cl,contact);
 				mainindex=index;
 			}
 			else
 			{
-				index=li.List_IndexOf((SortedList*)&group->cl,contact->subcontacts);
+				index=List_IndexOf((SortedList*)&group->cl,contact->subcontacts);
 				mainindex=index;
 				index+=contact->isSubcontact;				
 			}			

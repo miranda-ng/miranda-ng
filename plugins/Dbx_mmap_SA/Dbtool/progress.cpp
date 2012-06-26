@@ -104,7 +104,7 @@ INT_PTR CALLBACK ProgressDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			manualAbort=0;
 			hEventRun=CreateEvent(NULL,TRUE,TRUE,NULL);
 			hEventAbort=CreateEvent(NULL,TRUE,FALSE,NULL);
-			TranslateDialog(hdlg);
+			TranslateDialogDefault(hdlg);
 			_beginthread(WorkerThread,0,NULL);
 			return TRUE;
 		case WM_MEASUREITEM:

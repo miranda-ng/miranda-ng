@@ -138,7 +138,7 @@ static int UpdateNotifyOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_UPDATENOTIFY);
 	odp.pszGroup = LPGEN("Events");
 	odp.pszTitle = LPGEN("Update Notify");
@@ -162,7 +162,7 @@ static INT_PTR UpdateNotifyMenuCommand(WPARAM, LPARAM) {
 		DBWriteContactSettingDword(NULL, UN_MOD, UN_CURRENTVERSIONFND, und.reqTime);
 	}
 	und.isManual = 1;
-	DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc, (LPARAM)&und);
+	DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc, (LPARAM)&und);
 	hwndManualUpdateDlg = 0;
 	return 0;	
 }
@@ -517,7 +517,7 @@ static void UpdateNotifyPerform(void *)
 		if (notify) {
 			DBWriteContactSettingString(NULL, UN_MOD, UN_CURRENTVERSION, und.versionReal);
 			DBWriteContactSettingDword(NULL, UN_MOD, UN_CURRENTVERSIONFND, und.reqTime);
-			DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc, (LPARAM)&und);
+			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_UPDATE_NOTIFY), 0, UpdateNotifyProc, (LPARAM)&und);
 			hwndUpdateDlg = 0;
 		}
 	}

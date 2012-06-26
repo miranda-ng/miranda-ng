@@ -57,51 +57,6 @@ void overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* def)
 		dest = mir_tstrdup(def);
 }
 
-char* __fastcall ltrimp(char* str)
-{
-	if (str == NULL) return NULL;
-	char* p = str;
-
-	for (;;)
-	{
-		switch (*p)
-		{
-		case ' ': case '\t': case '\n': case '\r':
-			++p; break;
-		default:
-			return p;
-		}
-	}
-}
-
-char* __fastcall rtrim(char *string)
-{
-   char* p = string + strlen(string) - 1;
-
-   while (p >= string)
-   {  
-	   if (*p != ' ' && *p != '\t' && *p != '\n' && *p != '\r')
-		 break;
-
-		*p-- = 0;
-   }
-   return string;
-}
-
-wchar_t* __fastcall rtrim(wchar_t* string)
-{
-   wchar_t* p = string + wcslen(string) - 1;
-
-   while (p >= string)
-   {  
-	   if (*p != ' ' && *p != '\t' && *p != '\n' && *p != '\r')
-		 break;
-
-		*p-- = 0;
-   }
-   return string;
-}
-
 char* arrayToHex(BYTE* data, size_t datasz)
 {
 	char* res = (char*)mir_alloc(2 * datasz + 1);

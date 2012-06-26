@@ -194,7 +194,7 @@ static void ShowAdvancedSearchDlg(HWND hwndDlg, struct FindAddDlgData *dat)
 	if (szProto == NULL) return;
 	if (dat->hwndAdvSearch == NULL) {
 		RECT rc;
-		dat->hwndAdvSearch=(HWND)CallProtoService(szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)hwndDlg);
+		dat->hwndAdvSearch=(HWND)CallProtoServiceInt(NULL,szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)hwndDlg);
 		GetWindowRect(GetDlgItem(hwndDlg, IDC_RESULTS), &rc);
 		SetWindowPos(dat->hwndAdvSearch, 0, rc.left, rc.top, 0, 0, SWP_NOZORDER|SWP_NOSIZE);
 	}
@@ -225,7 +225,7 @@ static void ShowTinySearchDlg(HWND hwndDlg, struct FindAddDlgData *dat)
 	char *szProto=(char*)SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_GETCURSEL, 0, 0), 0);
 	if (szProto == NULL) return;
 	if (dat->hwndTinySearch == NULL) {
-		dat->hwndTinySearch=(HWND)CallProtoService(szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)/*GetDlgItem(*/hwndDlg/*, IDC_TINYEXTENDEDGROUP)*/);
+		dat->hwndTinySearch=(HWND)CallProtoServiceInt(NULL,szProto, PS_CREATEADVSEARCHUI, 0, (LPARAM)/*GetDlgItem(*/hwndDlg/*, IDC_TINYEXTENDEDGROUP)*/);
 		if (dat->hwndTinySearch)
 			ReposTinySearchDlg(hwndDlg, dat);
 		else
@@ -291,8 +291,8 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			dat->notSearchedYet=1;
 			dat->iLastColumnSortIndex=1;
 			dat->bSortAscending=1;
-			dat->hBmpSortUp=(HBITMAP)LoadImage(hMirandaInst, MAKEINTRESOURCE(IDB_SORTCOLUP), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS);
-			dat->hBmpSortDown=(HBITMAP)LoadImage(hMirandaInst, MAKEINTRESOURCE(IDB_SORTCOLDOWN), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS);
+			dat->hBmpSortUp=(HBITMAP)LoadImage(hInst, MAKEINTRESOURCE(IDB_SORTCOLUP), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS);
+			dat->hBmpSortDown=(HBITMAP)LoadImage(hInst, MAKEINTRESOURCE(IDB_SORTCOLDOWN), IMAGE_BITMAP, 0, 0, LR_LOADMAP3DCOLORS);
 			SendDlgItemMessage(hwndDlg, IDC_MOREOPTIONS, BUTTONSETARROW, 1, 0);
 			ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT|LVS_EX_HEADERDRAGDROP);
 
@@ -344,7 +344,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				
 				for (i=0, netProtoCount=0; i < accounts.getCount(); i++) {
 					if ( !Proto_IsAccountEnabled(accounts[i])) continue;
-					DWORD caps = (DWORD)CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+					DWORD caps = (DWORD)CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 					if (caps & PF1_BASICSEARCH || caps & PF1_EXTSEARCH || caps & PF1_SEARCHBYEMAIL || caps & PF1_SEARCHBYNAME)
 						netProtoCount++;
 				}
@@ -366,14 +366,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				for (i=0; i < accounts.getCount(); i++) {
 					PROTOACCOUNT* pa = accounts[i];
 					if ( !Proto_IsAccountEnabled(pa)) continue;
-					DWORD caps=(DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+					DWORD caps=(DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 					if ( !(caps&PF1_BASICSEARCH) && !(caps&PF1_EXTSEARCH) && !(caps&PF1_SEARCHBYEMAIL) && !(caps&PF1_SEARCHBYNAME))
 						continue;
 					
 					cbei.pszText = pa->tszAccountName;
 					GetTextExtentPoint32(hdc, cbei.pszText, lstrlen(cbei.pszText), &textSize);
 					if (textSize.cx>cbwidth) cbwidth = textSize.cx;
-					hIcon=(HICON)CallProtoService(pa->szModuleName, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					hIcon=(HICON)CallProtoServiceInt(NULL,pa->szModuleName, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					cbei.iImage=cbei.iSelectedImage=ImageList_AddIcon(dat->himlComboIcons, hIcon);
 					DestroyIcon(hIcon);
 					cbei.lParam=(LPARAM)pa->szModuleName;
@@ -398,7 +398,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{	UTILRESIZEDIALOG urd={0};
 			urd.cbSize=sizeof(urd);
 			urd.hwndDlg=hwndDlg;
-			urd.hInstance=hMirandaInst;
+			urd.hInstance=hInst;
 			urd.lpTemplate=MAKEINTRESOURCEA(IDD_FINDADD);
 			urd.lParam=(LPARAM)dat;
 			urd.pfnResizer=FindAddDlgResizer;
@@ -452,13 +452,13 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				for (i=0; i < accounts.getCount(); i++) {
 					PROTOACCOUNT* pa = accounts[i];
 					if ( !Proto_IsAccountEnabled(pa)) continue;
-					protoCaps=(DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+					protoCaps=(DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 					if (protoCaps&PF1_SEARCHBYEMAIL) dat->showEmail=1;
 					if (protoCaps&PF1_SEARCHBYNAME) dat->showName=1;
 				}
 			}
 			else {
-				protoCaps=(DWORD)CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				protoCaps=(DWORD)CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (protoCaps&PF1_BASICSEARCH) dat->showProtoId=1;
 				if (protoCaps&PF1_SEARCHBYEMAIL) dat->showEmail=1;
 				if (protoCaps&PF1_SEARCHBYNAME) dat->showName=1;
@@ -467,7 +467,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (protoCaps&PF1_USERIDISEMAIL && dat->showProtoId) {dat->showProtoId=0; dat->showEmail=1;}
 				if (dat->showProtoId) {
 					char *szUniqueId;
-					szUniqueId=(char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
+					szUniqueId=(char*)CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0);
 					if (szUniqueId) {
 						#if defined(_UNICODE)
 							TCHAR* p = mir_a2u(szUniqueId);
@@ -518,7 +518,8 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			SendMessage(hwndDlg, WM_GETMINMAXINFO, 0, (LPARAM)&mmi);
 			GetWindowRect(hwndDlg, &rc);
-			if (rc.bottom-rc.top<mmi.ptMinTrackSize.y) SetWindowPos(hwndDlg, 0, 0, 0, rc.right-rc.left, mmi.ptMinTrackSize.y, SWP_NOZORDER|SWP_NOMOVE);
+			if (rc.bottom-rc.top<mmi.ptMinTrackSize.y)
+				SetWindowPos(hwndDlg, 0, 0, 0, rc.right-rc.left, mmi.ptMinTrackSize.y, SWP_NOZORDER|SWP_NOMOVE);
 			break;
 		}
 		case WM_TIMER:
@@ -657,7 +658,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else if (IsDlgButtonChecked(hwndDlg, IDC_BYPROTOID)) {
 						TCHAR str[256];
 						GetDlgItemText(hwndDlg, IDC_PROTOID, str, SIZEOF(str));
-						rtrim(str);
+						trtrim(str);
 						if (str[0] == 0)
 							MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_OK);
 						else
@@ -666,7 +667,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					else if (IsDlgButtonChecked(hwndDlg, IDC_BYEMAIL)) {
 						TCHAR str[256];
 						GetDlgItemText(hwndDlg, IDC_EMAIL, str, SIZEOF(str));
-						rtrim(str);
+						trtrim(str);
 						if (str[0] == 0)
 							MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_OK);
 						else
@@ -726,7 +727,8 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					{
 						TCHAR str[256];
 						GetDlgItemText(hwndDlg, IDC_PROTOID, str, SIZEOF(str));
-						if (*rtrim(str) == 0) break;
+						if (*trtrim(str) == 0)
+							break;
 
 						PROTOSEARCHRESULT psr = {0};
 						psr.cbSize = sizeof(psr);
@@ -975,12 +977,12 @@ static INT_PTR FindAddCommand(WPARAM, LPARAM)
 		for (i=0, netProtoCount=0; i < accounts.getCount(); i++) {
 			PROTOACCOUNT* pa = accounts[i];
 			if ( !Proto_IsAccountEnabled(pa)) continue;
-			int protoCaps=CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			int protoCaps=CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (protoCaps&PF1_BASICSEARCH || protoCaps&PF1_SEARCHBYEMAIL || protoCaps&PF1_SEARCHBYNAME
 				 ||  protoCaps&PF1_EXTSEARCHUI) netProtoCount++;
 		}
 		if (netProtoCount > 0)
-			hwndFindAdd=CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_FINDADD), NULL, DlgProcFindAdd);
+			hwndFindAdd=CreateDialog(hInst, MAKEINTRESOURCE(IDD_FINDADD), NULL, DlgProcFindAdd);
 	}
 	return 0;
 }
@@ -1018,7 +1020,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	// Make sure we have some networks to search on.
 	for (i=0, netProtoCount=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT* pa = accounts[i];
-		int protoCaps = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		int protoCaps = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & (PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_EXTSEARCHUI))
 			netProtoCount++;
 	}

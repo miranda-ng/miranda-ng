@@ -345,11 +345,11 @@ int RestoreSelection( struct ClcData *dat, HANDLE hSelected )
 
 	if ( !selcontact->isSubcontact )
 	{
-		dat->selection = pcli->pfnGetRowsPriorTo( &dat->list, selgroup, li.List_IndexOf((SortedList*)&selgroup->cl, selcontact ));
+		dat->selection = pcli->pfnGetRowsPriorTo( &dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact ));
 	}
 	else
 	{ 
-		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, li.List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ));
+		dat->selection = pcli->pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact->subcontacts ));
 	
 		if (dat->selection != -1 ) 
 			dat->selection += selcontact->isSubcontact;

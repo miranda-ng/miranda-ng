@@ -33,10 +33,6 @@ wchar_t* a2u( char* src );
 int ttoi(TCHAR *string);
 TCHAR *itot(int num);
 
-char* Utf8EncodeUcs2( const wchar_t* src );
-char* Utf8Encode( const char* src );
-void Utf8Decode( char* str, wchar_t** ucs2 );
-
 #define MAX_DEBUG	1024
 
 #define __LOGLEVEL_DEBUG	10

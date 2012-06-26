@@ -77,7 +77,7 @@ int getProfilePath(TCHAR * buf, size_t cch)
 		_tcscpy(profiledir, _T("%miranda_path%\\Profiles"));
 
 	TCHAR* exprofiledir = Utils_ReplaceVarsT(profiledir);
-	size_t len = pathToAbsoluteT(exprofiledir, buf, NULL);
+	size_t len = PathToAbsoluteT(exprofiledir, buf, NULL);
 	mir_free(exprofiledir);
 
 	if (buf[len-1] == '/' || buf[len-1] == '\\')
@@ -184,7 +184,7 @@ void getProfileCmdLine(TCHAR * szProfile, size_t cch, TCHAR * profiledir)
 		p = _tcsrchr(profileName, '.'); if (p) *p = 0; 
 
 		mir_sntprintf(newProfileDir, cch, _T("%s\\%s\\"), profiledir, profileName);
-		pathToAbsoluteT(buf, szProfile, newProfileDir);
+		PathToAbsoluteT(buf, szProfile, newProfileDir);
 
 		if (_tcschr(buf, '\\')) 
 		{
@@ -511,7 +511,7 @@ static int FindMirandaForProfile(TCHAR * szProfile)
 int LoadDatabaseModule(void)
 {
 	TCHAR szProfile[MAX_PATH];
-	pathToAbsoluteT(_T("."), szProfile, NULL);
+	PathToAbsoluteT(_T("."), szProfile, NULL);
 	_tchdir(szProfile);
 	szProfile[0] = 0;
 

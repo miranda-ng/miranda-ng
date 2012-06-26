@@ -20,8 +20,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "common.h"
-#include <ShlObj.h>
-#include <vsstyle.h>
 
 extern HINSTANCE hInst;
 static HANDLE hHookOptInit;

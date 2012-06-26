@@ -43,7 +43,7 @@ convert Unicode to ANSI and call the appropriate service.
 */
 
 /*************************** NON-CONTACT SERVICES ************************/
-//these should be called with CallProtoService()
+//these should be called with CallProtoServiceInt(NULL,)
 
 //Get the capability flags of the module.
 //wParam=flagNum

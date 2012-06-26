@@ -364,7 +364,7 @@ int SendQueue::getSendLength(const int iEntry, int sendMode)
 		char    *utf8;
 		iLen = lstrlenA(m_jobs[iEntry].sendBuffer);
 		wszBuf = (WCHAR *) & m_jobs[iEntry].sendBuffer[iLen + 1];
-		utf8 = M->utf8_encodeW(wszBuf);
+		utf8 = mir_utf8encodeT(wszBuf);
 		m_jobs[iEntry].iSendLength = lstrlenA(utf8);
 		mir_free(utf8);
 		return(m_jobs[iEntry].iSendLength);
@@ -901,7 +901,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 		else
 			szNote = TranslateT("The send later feature is not available on this protocol.");
 
-		char  *utfText = M->utf8_encodeT(szNote);
+		char  *utfText = mir_utf8encodeT(szNote);
 		DBEVENTINFO dbei;
 		dbei.cbSize = sizeof(dbei);
 		dbei.eventType = EVENTTYPE_MESSAGE;
@@ -943,7 +943,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 			mir_sntprintf(tszHeader, safe_sizeof(tszHeader), _T("M%d|"), time(0));
 
 		if(job->dwFlags & PREF_UTF || !(job->dwFlags & PREF_UNICODE)) {
-			char *utf_header = M->utf8_encodeT(tszHeader);
+			char *utf_header = mir_utf8encodeT(tszHeader);
 			UINT required = lstrlenA(utf_header) + lstrlenA(job->sendBuffer) + 10;
 			char *tszMsg = reinterpret_cast<char *>(mir_alloc(required));
 
@@ -969,7 +969,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 				mir_sntprintf(tszMsg, required, _T("%s%s"), wszMsg, tszHeader);
 			else
 				mir_sntprintf(tszMsg, required, _T("%s%s"), tszHeader, wszMsg);
-			char *utf = M->utf8_encodeT(tszMsg);
+			char *utf = mir_utf8encodeT(tszMsg);
 			if(fIsSendLater)
 				DBWriteContactSettingString(hContact ? hContact : job->hOwner, "SendLater", szKeyName, utf);
 			else

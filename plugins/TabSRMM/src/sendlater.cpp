@@ -367,7 +367,7 @@ int CSendLater::addJob(const char *szSetting, LPARAM lParam)
 	 * construct conventional send buffer
 	 */
 
-	szAnsi = M->utf8_decodecp(szOrig_Utf, CP_ACP, &szWchar);
+	szAnsi = mir_utf8decodecp(szOrig_Utf, CP_ACP, &szWchar);
 	iLen = lstrlenA(szAnsi);
 	if(szWchar)
 		required = iLen + 1 + ((lstrlenW(szWchar) + 1) * sizeof(wchar_t));
@@ -640,7 +640,7 @@ void CSendLater::qMgrFillList(bool fClear)
 			lvItem.iSubItem = 1;
 			::SendMessage(m_hwndList, LVM_SETITEM, 0, reinterpret_cast<LPARAM>(&lvItem));
 
-			TCHAR* msg = M->utf8_decodeT((*it)->sendBuffer);
+			TCHAR* msg = mir_utf8decodeT((*it)->sendBuffer);
 			TCHAR* preview = Utils::GetPreviewWithEllipsis(msg, 255);
 			lvItem.pszText = preview;
 			lvItem.iSubItem = 2;
@@ -919,7 +919,7 @@ INT_PTR CALLBACK CSendLater::DlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 											job->writeFlags();
 											break;
 										case ID_QUEUEMANAGER_COPYMESSAGETOCLIPBOARD: {
-											TCHAR *msg = M->utf8_decodeT(job->sendBuffer);
+											TCHAR *msg = mir_utf8decodeT(job->sendBuffer);
 											Utils::CopyToClipBoard(msg, m_hwndDlg);
 											mir_free(msg);
 											break;

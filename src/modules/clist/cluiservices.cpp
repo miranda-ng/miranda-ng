@@ -199,7 +199,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room
 			}
 			if (showOpts & 4) {
-				TCHAR* modeDescr = cli.pfnGetStatusModeDescription(CallProtoService(cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
+				TCHAR* modeDescr = cli.pfnGetStatusModeDescription(CallProtoServiceInt(NULL,cli.menuProtos[i].szProto, PS_GETSTATUS, 0, 0), 0);
 				GetTextExtentPoint32(hdc, modeDescr, lstrlen(modeDescr), &textSize);
 				x += textSize.cx;
 				x += GetSystemMetrics(SM_CXBORDER) * 4; // The SB panel doesnt allocate enough room

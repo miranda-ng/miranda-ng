@@ -146,7 +146,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 
 	if ((int) ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 		DWORD caps;
-		caps = (DWORD) CallProtoService(ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+		caps = (DWORD) CallProtoServiceInt(NULL,ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (caps & PF1_SERVERCLIST) {
 			HANDLE hContact;
 			char *szProto;

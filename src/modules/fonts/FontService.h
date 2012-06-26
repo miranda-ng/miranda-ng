@@ -30,7 +30,7 @@ struct FontInternal : public FontIDT
 	FontSettingsT value;
 	int hLangpack;
 
-	__inline TCHAR* getName() const { return LangPackTranslateStringT(hLangpack, name); }
+	__inline TCHAR* getName() const { return TranslateTH(hLangpack, name); }
 
 	__inline bool isHeader() const
 	{
@@ -46,7 +46,7 @@ struct FontInternal : public FontIDT
 
 struct ColourInternal : public ColourIDT
 {
-	__inline TCHAR* getName() const { return LangPackTranslateStringT(hLangpack, name); }
+	__inline TCHAR* getName() const { return TranslateTH(hLangpack, name); }
 
 	COLORREF value;
 	int hLangpack;
@@ -54,7 +54,7 @@ struct ColourInternal : public ColourIDT
 
 struct EffectInternal : public EffectIDT
 {
-	__inline TCHAR* getName() const { return LangPackTranslateStringT(hLangpack, name); }
+	__inline TCHAR* getName() const { return TranslateTH(hLangpack, name); }
 
 	int hLangpack;
 };

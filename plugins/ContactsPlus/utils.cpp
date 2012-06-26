@@ -213,18 +213,6 @@ int DBWriteContactSettingStringT(HANDLE hContact, const char *szModule, const ch
 
 
 
-int __fastcall SRCTranslateDialog(HWND hwndDlg)
-{
-  LANGPACKTRANSLATEDIALOG lptd;
-
-  lptd.cbSize=sizeof(lptd);
-  lptd.flags=0;
-  lptd.hwndDlg=hwndDlg;
-  lptd.ignoreControls=NULL;
-  return CallService(MS_LANGPACK_TRANSLATEDIALOG,0,(LPARAM)&lptd);
-}
-
-
 void DialogAddContactExecute(HWND hwndDlg, HANDLE hNewContact) 
 {
   ADDCONTACTSTRUCT acs={0};

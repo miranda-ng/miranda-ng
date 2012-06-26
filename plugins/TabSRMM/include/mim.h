@@ -97,7 +97,6 @@ class CMimAPI
 public:
 	CMimAPI()
 	{
-		GetUTFI();
 		InitPaths();
 		InitAPI();
 		getAeroState();
@@ -147,19 +146,6 @@ public:
 	INT_PTR FASTCALL 	WriteByte						(const char *szModule, const char *szSetting, BYTE value) const;
 
 	INT_PTR FASTCALL 	WriteTString					(const HANDLE hContact, const char *szModule, const char *szSetting, const TCHAR *st) const;
-
-	/*
-	 * utf helpers
-	 */
-
-	char* FASTCALL 		utf8_decode						(char* str, wchar_t** ucs2) const;
-	char* FASTCALL 		utf8_decodecp					(char* str, int codepage, wchar_t** ucs2) const;
-	char* FASTCALL 		utf8_encode						(const char* src) const;
-	char* FASTCALL 		utf8_encodecp					(const char* src, int codepage) const;
-	char* FASTCALL 		utf8_encodeW					(const wchar_t* src) const;
-	char* FASTCALL 		utf8_encodeT					(const TCHAR* src) const;
-	TCHAR* FASTCALL 	utf8_decodeT					(const char* src) const;
-	wchar_t* FASTCALL 	utf8_decodeW					(const char* str) const;
 
 	/*
 	 * path utilities
@@ -277,7 +263,6 @@ public:
 	static bool		m_shutDown, m_haveBufferedPaint;
 
 private:
-	UTF8_INTERFACE 	m_utfi;
 	TCHAR 		m_szProfilePath[MAX_PATH + 2], m_szSkinsPath[MAX_PATH + 2], m_szSavedAvatarsPath[MAX_PATH + 2], m_szChatLogsPath[MAX_PATH + 2];
 	HMODULE		m_hUxTheme, m_hDwmApi;
 	bool		m_VsAPI;
@@ -292,7 +277,6 @@ private:
 	HANDLE		m_hChatLogLock;
 
 	void	InitAPI();
-	void	GetUTFI();
 	void 	InitPaths();
 
 private:

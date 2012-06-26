@@ -3009,7 +3009,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 					streamOut = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_MESSAGE), dat, final_sendformat ? 0 : (CP_UTF8 << 16) | (SF_TEXT | SF_USECODEPAGE));
 					if (streamOut != NULL) {
-						decoded = M->utf8_decodeW(streamOut);
+						decoded = mir_utf8decodeW(streamOut);
 						if (decoded != NULL) {
 							char* utfResult = NULL;
 							if (final_sendformat)
@@ -3022,7 +3022,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 								memRequired = bufSize + ((lstrlenW(decoded) + 1) * sizeof(WCHAR));
 							} else {
 								flags |= PREF_UTF;
-								utfResult = M->utf8_encodeW(decoded);
+								utfResult = mir_utf8encodeT(decoded);
 								memRequired = (int)(strlen(utfResult)) + 1;
 							}
 
@@ -3158,7 +3158,7 @@ quote_from_last:
 						CallService(MS_DB_EVENT_GET, (WPARAM)hDBEvent, (LPARAM)&dbei);
 						iSize = (int)(strlen((char *)dbei.pBlob)) + 1;
 						if (dbei.flags & DBEF_UTF) {
-							szConverted = M->utf8_decodeW((char*)szText);
+							szConverted = mir_utf8decodeW((char*)szText);
 							iAlloced = TRUE;
 						} else {
 							if (iSize != dbei.cbBlob)
@@ -3188,7 +3188,7 @@ quote_from_last:
 					} else {
 						wchar_t *converted = 0;
 						szFromStream = Message_GetFromStream(GetDlgItem(hwndDlg, IDC_LOG), dat, SF_TEXT | SF_USECODEPAGE | SFF_SELECTION);
-						converted = M->utf8_decodeW(szFromStream);
+						converted = mir_utf8decodeW(szFromStream);
 						Utils::FilterEventMarkers(converted);
 						szQuoted = QuoteText(converted, iCharsPerLine, 0);
 						SendDlgItemMessage(hwndDlg, IDC_MESSAGE, EM_SETTEXTEX, (WPARAM)&stx, (LPARAM)szQuoted);

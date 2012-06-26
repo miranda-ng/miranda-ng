@@ -1159,7 +1159,7 @@ TCHAR* a2tf(const TCHAR* str, int flags, DWORD cp)
 		TCHAR *result;
 
 		if (cp == CP_UTF8)
-			return(M->utf8_decodeW((char *)str));
+			return(mir_utf8decodeW((char *)str));
 
 		if (cp == 0)
 			cp = PluginConfig.m_LangPackCP; // CallService( MS_LANGPACK_GETCODEPAGE, 0, 0 );
@@ -1182,7 +1182,7 @@ static char* u2a(const wchar_t* src, DWORD cp)
 	if (cp == 0)
 		cp = PluginConfig.m_LangPackCP;
 	else if (cp == CP_UTF8)
-		return(M->utf8_encodeW(src));
+		return(mir_utf8encodeT(src));
 
 	cbLen = WideCharToMultiByte(cp, 0, src, -1, NULL, 0, NULL, NULL);
 	result = (char*)mir_alloc(cbLen + 1);

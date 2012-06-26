@@ -98,10 +98,5 @@ public:
 	~CPageList() {};
 };
 
-
-
-int LangPackGetDefaultLocale();
-
-
 #endif //M_OPTIONS_FILTERING_H
 

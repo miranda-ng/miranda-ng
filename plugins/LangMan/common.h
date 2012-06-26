@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma warning(disable:4201) /* nonstandard extension used : nameless struct/union */
 #include <commctrl.h>
 #pragma warning(default:4201) /* nonstandard extension used : nameless struct/union */
-#include <win2k.h>
+#include <ShlObj.h>
+#include <vsstyle.h>
 
 #include <tchar.h>
 #include <stdio.h>            /* for mir_snprintf() */
@@ -44,6 +45,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_flags.h>
 #include <m_netlib.h>
 #include <m_clist.h>
+#include <win2k.h>
 
 #include "langpack.h"
 #include "options.h"

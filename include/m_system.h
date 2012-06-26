@@ -25,8 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <tchar.h>
 
+#include <m_core.h>
+
 #ifndef MIRANDANAME
-	#define MIRANDANAME		"Miranda IM"
+	#define MIRANDANAME "Miranda IM"
 #endif
 #ifndef MIRANDACLASS
 	#define MIRANDACLASS	"Miranda"
@@ -164,72 +166,14 @@ struct MM_INTERFACE
 
 __forceinline INT_PTR mir_getMMI(struct MM_INTERFACE* dest)
 {
-	dest->cbSize = sizeof(*dest);
-	return CallService(MS_SYSTEM_GET_MMI, 0, (LPARAM)dest);
+	return 0;
 }
-
-#ifndef _STATIC
-	extern struct MM_INTERFACE mmi;
-	#define mir_alloc(n) mmi.mmi_malloc(n)
-	#define mir_free(ptr) mmi.mmi_free(ptr)
-	#define mir_realloc(ptr, size) mmi.mmi_realloc(ptr, size)
-
-	#define mir_calloc(n) mmi.mmi_calloc(n)
-	#define mir_strdup(str) mmi.mmi_strdup(str)
-	#define mir_wstrdup(str) mmi.mmi_wstrdup(str)
-	#define mir_snprintf   mmi.mir_snprintf
-	#define mir_sntprintf  mmi.mir_sntprintf
-	#define mir_vsnprintf  mmi.mir_vsnprintf
-	#define mir_vsntprintf mmi.mir_vsntprintf
-
-	#define mir_a2u_cp(src, cp) mmi.mir_a2u_cp(src, cp)
-	#define mir_a2u(src)       mmi.mir_a2u(src)
-	#define mir_u2a_cp(src, cp) mmi.mir_u2a_cp(src, cp)
-	#define mir_u2a(src)       mmi.mir_u2a(src)
-#else
-	char* mir_strdup(const char *src);
-	WCHAR* mir_wstrdup(const WCHAR *src);
-#endif
-
-#if defined(_UNICODE)
-	#define mir_tstrdup mir_wstrdup
-#else
-	#define mir_tstrdup mir_strdup
-#endif
-
-#define miranda_sys_free mir_free
-#define memoryManagerInterface mmi
 
 /* Returns the pointer to the simple lists manager.
 If the sortFunc member of the list gets assigned, the list becomes sorted
 
 wParam=0, lParam = (LPARAM)LIST_INTERFACE*
 */
-
-#define LIST_INTERFACE_V1_SIZE  (sizeof(size_t)+7*sizeof(void*))
-#define LIST_INTERFACE_V2_SIZE  (sizeof(size_t)+9*sizeof(void*))
-#define LIST_INTERFACE_V3_SIZE  (sizeof(size_t)+11*sizeof(void*))
-
-typedef int (*FSortFunc)(void*, void*);
-
-// Assumes first 32 bit value of the data is the numeric key
-// and uses it to perform sort/search operations, this results
-// in much better performance as no compare function calls needed
-// Incredibly useful for Hash Tables
-#define NumericKeySort (FSortFunc)(void*) -1
-#define HandleKeySort  (FSortFunc)(void*) -2
-#define PtrKeySort     (FSortFunc)(void*) -3
-
-typedef struct
-{
-	void**		items;
-	int			realCount;
-	int			limit;
-	int			increment;
-
-	FSortFunc	sortFunc;
-}
-	SortedList;
 
 struct LIST_INTERFACE
 {
@@ -255,8 +199,7 @@ struct LIST_INTERFACE
 
 __forceinline INT_PTR mir_getLI(struct LIST_INTERFACE* dest)
 {
-	dest->cbSize = sizeof(*dest);
-	return CallService(MS_SYSTEM_GET_LI, 0, (LPARAM)dest);
+	return 0;
 }
 
 /*
@@ -301,34 +244,8 @@ struct UTF8_INTERFACE
 
 __forceinline INT_PTR mir_getUTFI(struct UTF8_INTERFACE* dest)
 {
-	dest->cbSize = sizeof(*dest);
-	return CallService(MS_SYSTEM_GET_UTFI, 0, (LPARAM)dest);
+	return 0;
 }
-
-extern struct UTF8_INTERFACE utfi;
-
-#define mir_utf8decode(A, B)     utfi.utf8_decode(A, B)
-#define mir_utf8decodecp(A, B, C) utfi.utf8_decodecp(A, B, C)
-#define mir_utf8decodeW(A)	     utfi.utf8_decodeW(A)
-#define mir_utf8encode(A)       utfi.utf8_encode(A)
-#define mir_utf8encodecp(A, B)   utfi.utf8_encodecp(A, B)
-#define mir_utf8encodeW(A)      utfi.utf8_encodeW(A)
-#define mir_utf8lenW(A)         utfi.utf8_lenW(A)
-
-__forceinline char* mir_utf8decodeA(const char* src)
-{
-    char* tmp = mir_strdup(src);
-    mir_utf8decode(tmp, NULL);
-    return tmp;
-}
-
-#if defined(_UNICODE)
-	#define mir_utf8decodeT mir_utf8decodeW
-	#define mir_utf8encodeT mir_utf8encodeW
-#else
-	#define mir_utf8decodeT mir_utf8decodeA
-	#define mir_utf8encodeT mir_utf8encode
-#endif
 
 /*
 
@@ -608,19 +525,16 @@ obtain this filter and call it inside the __except section
 0.8.0+ addition (2008/07/20)
 */
 
-typedef DWORD (__cdecl *pfnExceptionFilter)(DWORD code, EXCEPTION_POINTERS* info);
-
 #define MS_SYSTEM_GETEXCEPTFILTER "System/GetExceptFilter"
 
 __inline static pfnExceptionFilter Miranda_GetExceptFilter(void)
-{	return (pfnExceptionFilter)CallService(MS_SYSTEM_GETEXCEPTFILTER, 0, 0);
+{	return GetExceptionFilter();
 }
 
 #define MS_SYSTEM_SETEXCEPTFILTER "System/SetExceptFilter"
 
 __inline static pfnExceptionFilter Miranda_SetExceptFilter(pfnExceptionFilter foo)
-{	return (pfnExceptionFilter)CallService(MS_SYSTEM_SETEXCEPTFILTER, 0, (LPARAM)foo);
+{	return SetExceptionFilter(foo);
 }
-
 
 #endif // M_SYSTEM_H

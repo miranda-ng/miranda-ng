@@ -56,8 +56,8 @@ struct THotkeyItem
 
 	bool         UnregisterHotkey;	// valid only during WM_APP message in options UI, used to remove unregistered hotkeys from options
 
-	__inline TCHAR* getSection() const { return LangPackTranslateStringT(hLangpack, ptszSection); }
-	__inline TCHAR* getDescr() const { return LangPackTranslateStringT(hLangpack, ptszDescription); }
+	__inline TCHAR* getSection() const { return TranslateTH(hLangpack, ptszSection); }
+	__inline TCHAR* getDescr() const { return TranslateTH(hLangpack, ptszDescription); }
 };
 
 extern LIST<THotkeyItem> hotkeys;

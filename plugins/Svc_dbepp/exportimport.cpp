@@ -365,19 +365,6 @@ HANDLE CheckNewContact(char *myProto, char *uid, char *myName)
 
 }
 
-TCHAR* __stdcall rtrim(TCHAR *string)
-{
-   TCHAR* p = string + _tcslen(string) - 1;
-
-   while (p >= string) {
-		if (*p != ' ' && *p != '\t' && *p != '\n' && *p != '\r')
-         break;
-
-		*p-- = 0;
-   }
-   return string;
-}
-
 HANDLE Clist_GroupExists(WCHAR *tszGroup)
 {
 	unsigned int i = 0;

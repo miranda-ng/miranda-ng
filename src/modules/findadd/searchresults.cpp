@@ -87,7 +87,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 				if (szProto)
 				{
 					bNeedsFree = TRUE;
-					lvc.pszText = mir_a2t((char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
+					lvc.pszText = mir_a2t((char*)CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDTEXT, 0));
 				}
 				else
 					lvc.pszText = _T("ID");
@@ -215,9 +215,9 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 		for (i=0; i < accounts.getCount();i++) {
 			PROTOACCOUNT* pa = accounts[i];
 			if ( !Proto_IsAccountEnabled(pa)) continue;
-			DWORD caps=(DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			DWORD caps=(DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ( !(caps&requiredCapability)) continue;
-			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoService(pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
+			dat->search[dat->searchCount].hProcess = (HANDLE)CallProtoServiceInt(NULL,pa->szModuleName, szSearchService, 0, (LPARAM)pvSearchParams);
 			dat->search[dat->searchCount].szProto = pa->szModuleName;
 			if (dat->search[dat->searchCount].hProcess == NULL) failures++;
 			else dat->searchCount++;
@@ -234,7 +234,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 	else {
 		dat->search=(struct ProtoSearchInfo*)mir_alloc(sizeof(struct ProtoSearchInfo));
 		dat->searchCount=1;
-		dat->search[0].hProcess=(HANDLE)CallProtoService(szProto, szSearchService, 0, (LPARAM)pvSearchParams);
+		dat->search[0].hProcess=(HANDLE)CallProtoServiceInt(NULL,szProto, szSearchService, 0, (LPARAM)pvSearchParams);
 		dat->search[0].szProto=szProto;
 		if (dat->search[0].hProcess == NULL) {
 			//infuriatingly vague error message. fixme.
@@ -358,7 +358,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 		lsr=(struct ListSearchResult*)lvi.lParam;
 	}
 
-	hMenu=LoadMenu(hMirandaInst, MAKEINTRESOURCE(IDR_CONTEXT));
+	hMenu=LoadMenu(hInst, MAKEINTRESOURCE(IDR_CONTEXT));
 	hPopupMenu=GetSubMenu(hMenu, 4);
 	TranslateMenu(hPopupMenu);
 	commandId=TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON|TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
@@ -375,13 +375,13 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 		}
 		case IDC_DETAILS:
 		{	HANDLE hContact;
-			hContact=(HANDLE)CallProtoService(lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			hContact=(HANDLE)CallProtoServiceInt(NULL,lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 			break;
 		}
 		case IDC_SENDMESSAGE:
 		{	HANDLE hContact;
-			hContact=(HANDLE)CallProtoService(lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
+			hContact=(HANDLE)CallProtoServiceInt(NULL,lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)(const char*)NULL);
 			break;
 		}

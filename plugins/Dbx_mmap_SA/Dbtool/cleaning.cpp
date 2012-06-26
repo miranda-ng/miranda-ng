@@ -29,7 +29,7 @@ INT_PTR CALLBACK CleaningDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 			EnableWindow(GetDlgItem(hdlg,IDC_ERASEHISTORY),!opts.bAggressive);
 			CheckDlgButton(hdlg,IDC_MARKREAD,opts.bMarkRead);
 			CheckDlgButton(hdlg,IDC_CONVERTUTF,opts.bConvertUtf);
-			TranslateDialog(hdlg);
+			TranslateDialogDefault(hdlg);
 			return TRUE;
 		case WZN_PAGECHANGING:
 			opts.bEraseHistory=IsDlgButtonChecked(hdlg,IDC_ERASEHISTORY)&&!opts.bAggressive;

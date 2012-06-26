@@ -504,7 +504,6 @@ MIRAPI int Load(PLUGINLINK *link)
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
 
 	mir_getLI	(&li);
-	mir_getMMI	(&mmi);
 	mir_getUTFI	(&utfi);
 	mir_getMTI	(&MText);
 	mir_getLP(&pluginInfoEx);

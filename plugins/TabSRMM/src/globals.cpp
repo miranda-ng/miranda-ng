@@ -825,7 +825,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 				mir_sntprintf(buffer, safe_sizeof(buffer), TranslateT("changed status from %s to %s."), szOldStatus, szNewStatus);
 		}
 
-		char *szMsg = M->utf8_encodeT(buffer);
+		char *szMsg = mir_utf8encodeT(buffer);
 
 		dbei.pBlob = (PBYTE)szMsg;
 		dbei.cbBlob = lstrlenA(szMsg) + 1;

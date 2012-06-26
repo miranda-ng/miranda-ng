@@ -211,9 +211,6 @@ void __cdecl PopulateModuleTreeThreadFunc(LPVOID di);
 void freeTree(HWND hwnd2Tree, HANDLE hContact);
 int findItemInTree(HWND hwnd2Tree, HANDLE hContact, char* module);
 
-// threads.c
-unsigned long forkthread (   void (__cdecl *threadcode)(void*),unsigned long stacksize,void *arg) ;
-
 // settinglist.c
 void setupSettingsList(HWND hwnd2List);
 void saveListSettings(HWND hwnd2List);

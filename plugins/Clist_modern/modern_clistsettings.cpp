@@ -68,7 +68,7 @@ void InitDisplayNameCache(void)
 	int i=0;
     InitCacheAsync();
 	InitAwayMsgModule();
-	clistCache = li.List_Create( 0, 50 );
+	clistCache = List_Create( 0, 50 );
 	clistCache->sortFunc = handleCompare;
 }
 void FreeDisplayNameCache()
@@ -82,7 +82,7 @@ void FreeDisplayNameCache()
 			mir_free_and_nill( clistCache->items[i] );
 		}
 
-		li.List_Destroy( clistCache ); 
+		List_Destroy( clistCache ); 
 		mir_free_and_nill(clistCache);
 		clistCache = NULL;
 	}	
@@ -94,9 +94,9 @@ ClcCacheEntryBase* cliGetCacheEntry(HANDLE hContact)
 	ClcCacheEntryBase* p;   
 	int idx;
 	if (!clistCache) return NULL;
-	if ( !li.List_GetIndex( clistCache, &hContact, &idx )) {	
+	if ( !List_GetIndex( clistCache, &hContact, &idx )) {	
 		if (( p = pcli->pfnCreateCacheItem( hContact )) != NULL ) {
-			li.List_Insert( clistCache, p, idx );
+			List_Insert( clistCache, p, idx );
 			pcli->pfnInvalidateDisplayNameCacheEntry( hContact );
 		}
 	}
@@ -246,7 +246,7 @@ void FreeDisplayNameCache(SortedList *list)
 			FreeDisplayNameCacheItem(( pdisplayNameCacheEntry )list->items[i] );
 			mir_free_and_nill(list->items[i]);
 		}
-	li.List_Destroy(list);
+	List_Destroy(list);
 
 }
 */

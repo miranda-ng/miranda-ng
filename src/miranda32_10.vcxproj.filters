@@ -219,17 +219,8 @@
     <ClInclude Include="core\commonheaders.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="core\forkthread.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="core\miranda.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="core\modules.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\database\dblists.h">
-      <Filter>Modules\database</Filter>
     </ClInclude>
     <ClInclude Include="modules\database\profilemanager.h">
       <Filter>Modules\database</Filter>
@@ -323,9 +314,6 @@
     <ClCompile Include="core\commonheaders.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="core\memory.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="core\miranda.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -348,9 +336,6 @@
       <Filter>Modules\database</Filter>
     </ClCompile>
     <ClCompile Include="modules\database\dbini.cpp">
-      <Filter>Modules\database</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\database\dblists.cpp">
       <Filter>Modules\database</Filter>
     </ClCompile>
     <ClCompile Include="modules\database\dbutils.cpp">
@@ -379,9 +364,6 @@
     </ClCompile>
     <ClCompile Include="modules\ignore\ignore.cpp">
       <Filter>Modules\ignore</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\langpack\langpack.cpp">
-      <Filter>Modules\langpack</Filter>
     </ClCompile>
     <ClCompile Include="modules\langpack\lpservices.cpp">
       <Filter>Modules\langpack</Filter>
@@ -548,12 +530,6 @@
     <ClCompile Include="modules\utils\sha1.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
-    <ClCompile Include="modules\utils\utf.cpp">
-      <Filter>Modules\utils</Filter>
-    </ClCompile>
-    <ClCompile Include="modules\utils\utils.cpp">
-      <Filter>Modules\utils</Filter>
-    </ClCompile>
     <ClCompile Include="modules\utils\windowlist.cpp">
       <Filter>Modules\utils</Filter>
     </ClCompile>
@@ -700,6 +676,9 @@
     </ClCompile>
     <ClCompile Include="modules\json\json.cpp">
       <Filter>Modules\json</Filter>
+    </ClCompile>
+    <ClCompile Include="modules\utils\utils.cpp">
+      <Filter>Modules\utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

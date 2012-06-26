@@ -97,7 +97,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 			SendMessage(hdlg,WM_SETICON,ICON_SMALL,(LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(IDI_DBTOOL)));
 			hdlgPage=NULL;
 			SendMessage(hdlg,WZM_GOTOPAGE,IDD_WELCOME,(LPARAM)WelcomeDlgProc);
-			TranslateDialog(hdlg);
+			TranslateDialogDefault(hdlg);
 			return TRUE;
 		case WZM_GOTOPAGE:
 			if(hdlgPage!=NULL) DestroyWindow(hdlgPage);
@@ -106,7 +106,7 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 			EnableWindow(GetDlgItem(hdlg,IDCANCEL),TRUE);
 			SetDlgItemText(hdlg,IDCANCEL,TranslateT("Cancel"));
 			hdlgPage=CreateDialog(hInst,MAKEINTRESOURCE(wParam),hdlg,(DLGPROC)lParam);
-			TranslateDialog(hdlgPage);
+			TranslateDialogDefault(hdlgPage);
 			SetWindowPos(hdlgPage,0,0,0,0,0,SWP_NOZORDER|SWP_NOSIZE);
 			ShowWindow(hdlgPage,SW_SHOW);
 			break;
@@ -129,7 +129,6 @@ INT_PTR CALLBACK WizardDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 			if (opts.hOutFile)
 				CloseHandle(opts.hOutFile);
 			DestroyWindow(hdlgPage);
-			UnloadLangPackModule();
 			if(hBoldFont!=NULL) DeleteObject(hBoldFont);
 			if(hEmfHeaderLogo!=NULL) DeleteEnhMetaFile(hEmfHeaderLogo);
 			break;

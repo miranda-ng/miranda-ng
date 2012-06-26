@@ -526,7 +526,7 @@ int SkinEngineUnloadModule()
 				EFFECTSSTACKITEM * effect=(EFFECTSSTACKITEM*)(pEffectStack->items[i]);
 				mir_free_and_nill(effect);
 			}
-			li.List_Destroy(pEffectStack);
+			List_Destroy(pEffectStack);
 			mir_free_and_nill(pEffectStack);
 	}
 	if (g_pCachedWindow)
@@ -623,7 +623,7 @@ HDC ske_RequestBufferDC(HDC hdcOwner, int dcID, int width, int height, BOOL fCle
 	DCBUFFER * pBuf;
 	if (BufferList==NULL)
 	{
-		BufferList=li.List_Create(0,2);
+		BufferList=List_Create(0,2);
 		BufferList->sortFunc=SortBufferList;
 		InitializeCriticalSection(&BufferListCS);
 	}
@@ -632,7 +632,7 @@ HDC ske_RequestBufferDC(HDC hdcOwner, int dcID, int width, int height, BOOL fCle
 	buf.hdcOwnedBy=hdcOwner;
 	buf.nUsageID=dcID;
 	buf.hDC=NULL;
-	pBuf=(DCBUFFER*)li.List_Find(BufferList,(void*)&buf);
+	pBuf=(DCBUFFER*)List_Find(BufferList,(void*)&buf);
 	if (!pBuf)
 	{
 		//if not found - allocate it
@@ -644,7 +644,7 @@ HDC ske_RequestBufferDC(HDC hdcOwner, int dcID, int width, int height, BOOL fCle
 		pBuf->hDC=CreateCompatibleDC(hdcOwner);
 		pBuf->oldBitmap=(HBITMAP)SelectObject(pBuf->hDC,pBuf->hBitmap);
 		pBuf->dwDestroyAfterTime=0;
-		li.List_InsertPtr(BufferList,pBuf);		
+		List_InsertPtr(BufferList,pBuf);		
 	}
 	else 
 	{
@@ -690,7 +690,7 @@ int ske_ReleaseBufferDC(HDC hDC, int keepTime)
 					DeleteObject(pBuf->hBitmap);
 					DeleteDC(pBuf->hDC);
 					mir_free(pBuf);
-					li.List_Remove(BufferList,i);
+					List_Remove(BufferList,i);
 					i--;
 				}
 			}
@@ -2191,13 +2191,13 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 					mir_free_and_nill(sf);
 				}
 			}
-			li.List_Destroy(gl_plSkinFonts);
+			List_Destroy(gl_plSkinFonts);
 			mir_free_and_nill(gl_plSkinFonts);
 		}
 	}
 
 	if (Skin->szSkinPlace) mir_free_and_nill(Skin->szSkinPlace);
-	if (Skin->pTextList) li.List_Destroy(Skin->pTextList);
+	if (Skin->pTextList) List_Destroy(Skin->pTextList);
 	mir_free_and_nill(Skin->pTextList);
 	ModernSkinButtonDeleteAll();
 	if (Skin->dwObjLPAlocated==0) { ske_UnlockSkin(); return 0;}
@@ -2229,7 +2229,7 @@ int ske_UnloadSkin(SKINOBJECTSLIST * Skin)
 								mir_free_and_nill(gt);
 							}
 						}
-						li.List_Destroy(dt->plTextList);
+						List_Destroy(dt->plTextList);
 						mir_free_and_nill(dt->plTextList);
 					}
 				}
@@ -2328,10 +2328,10 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
 			{
 				if (!globj->plTextList)
 				{
-					globj->plTextList=li.List_Create(0,1);
+					globj->plTextList=List_Create(0,1);
 					globj->plTextList->sortFunc=ske_SortTextGlyphObjectFunc;
 				}
-				li.List_Insert(globj->plTextList,(void*)glText,globj->plTextList->realCount);     
+				List_Insert(globj->plTextList,(void*)glText,globj->plTextList->realCount);     
 				qsort(globj->plTextList->items,globj->plTextList->realCount,sizeof(void*),(int(*)(const void*, const void*))globj->plTextList->sortFunc);
 				pObjectList->pTextList->items[i]=NULL;
 			}
@@ -2348,7 +2348,7 @@ static void ske_LinkSkinObjects(SKINOBJECTSLIST * pObjectList)
 				}
 			}
 		}
-		li.List_Destroy(pObjectList->pTextList);
+		List_Destroy(pObjectList->pTextList);
 		mir_free_and_nill(pObjectList->pTextList);
 	}
 }
@@ -2754,7 +2754,7 @@ BOOL ske_ResetTextEffect(HDC hdc)
 		{
 			EFFECTSSTACKITEM * effect=(EFFECTSSTACKITEM*)(pEffectStack->items[i]);
 			mir_free_and_nill(effect);
-			li.List_Remove(pEffectStack,i);
+			List_Remove(pEffectStack,i);
 			return TRUE;
 		}
 		return FALSE;
@@ -2766,7 +2766,7 @@ BOOL ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD Second
 	if (EffectID==-1) return ske_ResetTextEffect(hdc);
 	if (!pEffectStack)
 	{
-		pEffectStack=li.List_Create(0,1);
+		pEffectStack=List_Create(0,1);
 	}
 	{
 		int i;
@@ -2786,7 +2786,7 @@ BOOL ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD Second
 		effect->EffectID=EffectID;
 		effect->FirstColor=FirstColor;
 		effect->SecondColor=SecondColor;
-		li.List_Insert(pEffectStack, effect, 0);
+		List_Insert(pEffectStack, effect, 0);
 		return TRUE;
 	}	  
 	return FALSE;
@@ -4359,7 +4359,7 @@ static void OLDske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineS
 
 			if (!globj->plTextList)
 			{
-				globj->plTextList=li.List_Create(0,1);
+				globj->plTextList=List_Create(0,1);
 				globj->plTextList->sortFunc=ske_SortTextGlyphObjectFunc;
 			}
 			glText=(GLYPHTEXT*)mir_calloc(sizeof(GLYPHTEXT));
@@ -4387,7 +4387,7 @@ static void OLDske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineS
 			glText->dwShadow=ske_HexToARGB(GetParamN(szDefineString,buf,sizeof(buf),8,',',TRUE));
 			glText->stValueText=mir_a2u(GetParamN(szDefineString,buf,sizeof(buf),9,',',TRUE));
 			glText->stText=ske_ParseText(glText->stValueText);
-			li.List_Insert(globj->plTextList,(void*)glText,globj->plTextList->realCount);     
+			List_Insert(globj->plTextList,(void*)glText,globj->plTextList->realCount);     
 			qsort(globj->plTextList->items,globj->plTextList->realCount,sizeof(void*),(int(*)(const void*, const void*))globj->plTextList->sortFunc);
 		}
 	}
@@ -4428,8 +4428,8 @@ static void ske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineStri
 		glText->stText=ske_ParseText(glText->stValueText);
 		
 		if (!Skin->pTextList)
-			Skin->pTextList=li.List_Create(0,1);
-		li.List_InsertPtr(Skin->pTextList,glText);
+			Skin->pTextList=List_Create(0,1);
+		List_InsertPtr(Skin->pTextList,glText);
 	}
 }
 
@@ -4477,10 +4477,10 @@ static void ske_AddParseSkinFont(char * szFontID,char * szDefineString,SKINOBJEC
 			{
 				sf->szFontID=mir_strdup(szFontID);
 				if (!gl_plSkinFonts)
-					gl_plSkinFonts=li.List_Create(0,1);
+					gl_plSkinFonts=List_Create(0,1);
 				if (gl_plSkinFonts)
 				{
-					li.List_Insert(gl_plSkinFonts,(void*)sf,gl_plSkinFonts->realCount);
+					List_Insert(gl_plSkinFonts,(void*)sf,gl_plSkinFonts->realCount);
 				}
 			}
 

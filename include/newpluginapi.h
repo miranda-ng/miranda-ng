@@ -24,7 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_NEWPLUGINAPI_H__
 #define M_NEWPLUGINAPI_H__
 
-#include "m_plugins.h"
+#include <m_core.h>
+#include <m_plugins.h>
 
 #define PLUGIN_MAKE_VERSION(a, b, c, d)   (((((DWORD)(a))&0xFF)<<24)|((((DWORD)(b))&0xFF)<<16)|((((DWORD)(c))&0xFF)<<8)|(((DWORD)(d))&0xFF))
 #define MAXMODULELABELLENGTH 64
@@ -100,7 +101,8 @@ typedef struct _MUUID {
 /* Each service mode plugin must implement MS_SERVICEMODE_LAUNCH */
 #define MS_SERVICEMODE_LAUNCH "ServiceMode/Launch"
 
-typedef struct {
+typedef struct PLUGININFOEX_tag
+{
 	int cbSize;
 	char *shortName;
 	DWORD version;
@@ -115,7 +117,8 @@ typedef struct {
 			 //with the implication that this plugin provides back-end-compatible features
              /***********  WILL BE DEPRECATED in 0.8 * *************/
     MUUID uuid; // Not required until 0.8.
-} PLUGININFOEX;
+}
+	PLUGININFOEX;
 
 //Miranda/System/LoadModule event
 //called when a plugin is being loaded dynamically
@@ -128,25 +131,6 @@ typedef struct {
 //wParam=PLUGININFOEX*
 //lParam=HINSTANCE of the plugin to be unloaded
 #define ME_SYSTEM_MODULEUNLOAD "Miranda/System/UnloadModule"
-
-#ifndef MODULES_H_
-	typedef int (*MIRANDAHOOK)(WPARAM, LPARAM);
-	typedef int (*MIRANDAHOOKPARAM)(WPARAM, LPARAM, LPARAM);
-	typedef int (*MIRANDAHOOKOBJ)(void*, WPARAM, LPARAM);
-	typedef int (*MIRANDAHOOKOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
-
-	typedef INT_PTR (*MIRANDASERVICE)(WPARAM, LPARAM);
-	typedef INT_PTR (*MIRANDASERVICEPARAM)(WPARAM, LPARAM, LPARAM);
-	typedef INT_PTR (*MIRANDASERVICEOBJ)(void*, WPARAM, LPARAM);
-	typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
-
-#ifdef _WIN64
-    #define CALLSERVICE_NOTFOUND      ((INT_PTR)0x8000000000000000)
-#else
-    #define CALLSERVICE_NOTFOUND      ((int)0x80000000)
-#endif
-
-#endif
 
 //see modules.h for what all this stuff is
 typedef struct tagPLUGINLINK {
@@ -176,38 +160,6 @@ typedef struct tagPLUGINLINK {
 	void (*KillObjectServices)(void *);
 	void (*KillObjectEventHooks)(void *);
 } PLUGINLINK;
-
-#ifndef MODULES_H_
-	#ifndef NODEFINEDLINKFUNCTIONS
-		//relies on a global variable 'pluginLink' in the plugins
-		extern PLUGINLINK *pluginLink;
-		#define CreateHookableEvent(a)                    pluginLink->CreateHookableEvent(a)
-		#define DestroyHookableEvent(a)                   pluginLink->DestroyHookableEvent(a)
-		#define NotifyEventHooks(a, b, c)                   pluginLink->NotifyEventHooks(a, b, c)
-		#define HookEventMessage(a, b, c)                   pluginLink->HookEventMessage(a, b, c)
-		#define HookEvent(a, b)                            pluginLink->HookEvent(a, b)
-		#define UnhookEvent(a)                            pluginLink->UnhookEvent(a)
-		#define CreateServiceFunction(a, b)                pluginLink->CreateServiceFunction(a, b)
-		#define CreateTransientServiceFunction(a, b)       pluginLink->CreateTransientServiceFunction(a, b)
-		#define DestroyServiceFunction(a)                 pluginLink->DestroyServiceFunction(a)
-		#define CallService(a, b, c)                        pluginLink->CallService(a, b, c)
-		#define ServiceExists(a)                          pluginLink->ServiceExists(a)
-		#define CallServiceSync(a, b, c)                    pluginLink->CallServiceSync(a, b, c)
-		#define CallFunctionAsync(a, b)                    pluginLink->CallFunctionAsync(a, b)
-		#define SetHookDefaultForHookableEvent(a, b)       pluginLink->SetHookDefaultForHookableEvent(a, b)
-		#define CreateServiceFunctionParam(a, b, c)         pluginLink->CreateServiceFunctionParam(a, b, c)
-		#define NotifyEventHooksDirect(a, b, c)             pluginLink->NotifyEventHooksDirect(a, b, c)
-		#define CallProtoService(a, b, c, d)              pluginLink->CallProtoService(a, b, c, d)
-		#define CallContactService(a, b, c, d)            pluginLink->CallContactService(a, b, c, d)
-		#define HookEventParam(a, b, c)                  pluginLink->HookEventParam(a, b, c)
-		#define HookEventObj(a, b, c)                    pluginLink->HookEventObj(a, b, c)
-		#define HookEventObjParam(a, b, c, d)             pluginLink->HookEventObjParam(a, b, c, d)
-		#define CreateServiceFunctionObj(a, b, c)        pluginLink->CreateServiceFunctionObj(a, b, c)
-		#define CreateServiceFunctionObjParam(a, b, c, d) pluginLink->CreateServiceFunctionObjParam(a, b, c, d)
-		#define KillObjectServices(a)                  pluginLink->KillObjectServices(a)
-		#define KillObjectEventHooks(a)                pluginLink->KillObjectEventHooks(a)
-	#endif
-#endif
 
 /*
  Database plugin stuff

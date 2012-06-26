@@ -67,9 +67,9 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		}
 		ShowWindow(GetDlgItem(hwndDlg, IDC_CREDITSFILE), SW_HIDE);
 		{	
-			HRSRC   hResInfo  = FindResource(hMirandaInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
-			DWORD   ResSize   = SizeofResource(hMirandaInst, hResInfo);
-			HGLOBAL hRes      = LoadResource(hMirandaInst, hResInfo);
+			HRSRC   hResInfo  = FindResource(hInst, MAKEINTRESOURCE(IDR_CREDITS), _T("TEXT"));
+			DWORD   ResSize   = SizeofResource(hInst, hResInfo);
+			HGLOBAL hRes      = LoadResource(hInst, hResInfo);
 			char*   pszMsg    = (char*)LockResource(hRes);
 			if (pszMsg)
 			{

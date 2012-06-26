@@ -146,7 +146,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				GetWindowText((HWND)lParam, path, MAX_PATH);
 
 				TCHAR *pszNewPath = Utils_ReplaceVarsT(path);
-				pathToAbsoluteT(pszNewPath, path, NULL);
+				PathToAbsoluteT(pszNewPath, path, NULL);
 				SetDlgItemText(hwndDlg, IDC_PATH, path);
 				mir_free(pszNewPath);
 			}
@@ -299,7 +299,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 void NetlibLogShowOptions(void)
 {
 	if (logOptions.hwndOpts == NULL)
-		logOptions.hwndOpts=CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), NULL, LogOptionsDlgProc);
+		logOptions.hwndOpts=CreateDialog(hInst, MAKEINTRESOURCE(IDD_NETLIBLOGOPTS), NULL, LogOptionsDlgProc);
 	SetForegroundWindow(logOptions.hwndOpts);
 }
 
@@ -397,11 +397,8 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 		LeaveCriticalSection(&logOptions.cs);
 	}
 
-	if (((THook*)hLogEvent)->subscriberCount) 
-	{
-		LOGMSG logMsg = { szHead, pszMsg };
-		CallHookSubscribers(hLogEvent, (WPARAM)nlu, (LPARAM)&logMsg);
-	}
+	LOGMSG logMsg = { szHead, pszMsg };
+	CallHookSubscribers(hLogEvent, (WPARAM)nlu, (LPARAM)&logMsg);
 
 	SetLastError(dwOriginalLastError);
 	return 1;
@@ -410,7 +407,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 static INT_PTR NetlibLogW(WPARAM wParam, LPARAM lParam)
 {
 	const wchar_t *pszMsg = (const wchar_t*)lParam;
-	char* szMsg = Utf8EncodeUcs2(pszMsg);
+	char* szMsg = Utf8EncodeW(pszMsg);
 	INT_PTR res = NetlibLog(wParam, (LPARAM)szMsg);
 	mir_free(szMsg);
 	return res;
@@ -454,12 +451,9 @@ void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, 
 		return;
 
 	// Check user's log settings
-	if ( !(logOptions.toOutputDebugString  || 
-		((THook*)hLogEvent)->subscriberCount  || 
-		(logOptions.toFile && logOptions.szFile[0])))
+	if ( !(logOptions.toOutputDebugString || (logOptions.toFile && logOptions.szFile[0])))
 		return;
-	if ((sent && !logOptions.dumpSent)  || 
-		( !sent && !logOptions.dumpRecv))
+	if ((sent && !logOptions.dumpSent) || (!sent && !logOptions.dumpRecv))
 		return;
 	if ((flags & MSG_DUMPPROXY) && !logOptions.dumpProxy)
 		return;
@@ -593,7 +587,7 @@ void NetlibLogInit(void)
 		TCHAR *pszNewPath = Utils_ReplaceVarsT(dbv.ptszVal);
 
 		TCHAR path[MAX_PATH];
-		pathToAbsoluteT(pszNewPath, path, NULL);
+		PathToAbsoluteT(pszNewPath, path, NULL);
 		logOptions.szFile = mir_tstrdup(path);
 
 		mir_free(pszNewPath);

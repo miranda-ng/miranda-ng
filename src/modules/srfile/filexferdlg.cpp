@@ -45,7 +45,7 @@ struct virusscanthreadstartinfo {
 TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s)
 {
 	if (flags & PFTS_UTF)
-		return Utf8DecodeUcs2((char*)s);
+		return Utf8DecodeW((char*)s);
 	else if (flags & PFTS_UNICODE)
 		return mir_tstrdup(s);
 	else
@@ -55,7 +55,7 @@ TCHAR* PFTS_StringToTchar(int flags, const PROTOCHAR* s)
 int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const PROTOCHAR* s, TCHAR* r)
 {
 	if (ft->flags & PFTS_UTF) {
-		TCHAR* ts = Utf8DecodeUcs2((char*)s);
+		TCHAR* ts = Utf8DecodeW((char*)s);
 		int res = _tcscmp(ts, r);
 		mir_free(ts);
 		return res;
@@ -314,14 +314,14 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (dat->bytesRecvedHistory[0] == dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1])
 					lstrcpy(szTime, _T("??:??:??"));
 				else {
-					li.QuadPart=BIGI(10000000)*(dat->transferStatus.currentFileSize-dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize/(dat->bytesRecvedHistory[0]-dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]);
-					ft.dwHighDateTime=li.HighPart; ft.dwLowDateTime=li.LowPart;
+					li.QuadPart = BIGI(10000000)*(dat->transferStatus.currentFileSize-dat->transferStatus.currentFileProgress)*dat->bytesRecvedHistorySize/(dat->bytesRecvedHistory[0]-dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]);
+					ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
 					FileTimeToSystemTime(&ft, &st);
 					GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT|TIME_NOTIMEMARKER, &st, NULL, szTime, SIZEOF(szTime));
 				}
 				if (dat->bytesRecvedHistory[0] != dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]) {
 					li.QuadPart=BIGI(10000000)*(dat->transferStatus.totalBytes-dat->transferStatus.totalProgress)*dat->bytesRecvedHistorySize/(dat->bytesRecvedHistory[0]-dat->bytesRecvedHistory[dat->bytesRecvedHistorySize-1]);
-					ft.dwHighDateTime=li.HighPart; ft.dwLowDateTime=li.LowPart;
+					ft.dwHighDateTime = li.HighPart; ft.dwLowDateTime = li.LowPart;
 					FileTimeToSystemTime(&ft, &st);
 					GetTimeFormat(LOCALE_USER_DEFAULT, TIME_FORCE24HOURFORMAT|TIME_NOTIMEMARKER, &st, NULL, szTime, SIZEOF(szTime));
 				}
@@ -502,7 +502,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 			}
 			mir_free(szOriginalFilename);
-			CallProtoService(szProto, PS_FILERESUMET, (WPARAM)dat->fs, (LPARAM)pfr);
+			CallProtoServiceInt(NULL,szProto, PS_FILERESUMET, (WPARAM)dat->fs, (LPARAM)pfr);
 			if (pfr->szFilename) mir_free((char*)pfr->szFilename);
 			mir_free(pfr);
 			break;
@@ -556,7 +556,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (dat->resumeBehaviour == FILERESUME_ASK) {
 						TDlgProcFileExistsParam param = { hwndDlg, fts };
 						ShowWindow(hwndDlg, SW_SHOWNORMAL);
-						CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILEEXISTS), hwndDlg, DlgProcFileExists, (LPARAM)&param);
+						CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILEEXISTS), hwndDlg, DlgProcFileExists, (LPARAM)&param);
 						EnableWindow(hwndDlg, FALSE);
 					}
 					else {
@@ -720,7 +720,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			UTILRESIZEDIALOG urd={0};
 			urd.cbSize=sizeof(urd);
 			urd.hwndDlg=hwndDlg;
-			urd.hInstance=hMirandaInst;
+			urd.hInstance=hInst;
 			urd.lpTemplate=MAKEINTRESOURCEA(IDD_FILETRANSFERINFO);
 			urd.pfnResizer=FileTransferDlgResizer;
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);

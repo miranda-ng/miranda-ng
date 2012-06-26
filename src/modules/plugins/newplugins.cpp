@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
+Copyright 2000-2010 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -23,19 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "plugins.h"
 
-static int sttComparePlugins(const pluginEntry* p1, const pluginEntry* p2)
-{	
-	if (p1->bpi.hInst == p2->bpi.hInst)
-		return 0;
-
-	return (p1->bpi.hInst < p2->bpi.hInst) ? -1 : 1;
-}
-
 static int sttComparePluginsByName(const pluginEntry* p1, const pluginEntry* p2)
 {	return lstrcmp(p1->pluginname, p2->pluginname);
 }
 
-LIST<pluginEntry> pluginList(10, sttComparePluginsByName), pluginListAddr(10, sttComparePlugins);
+LIST<pluginEntry> pluginList(10, sttComparePluginsByName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,8 +36,8 @@ LIST<pluginEntry> pluginList(10, sttComparePluginsByName), pluginListAddr(10, st
 struct PluginUUIDList {
     MUUID uuid;
     DWORD maxVersion;
-} 
-static const pluginBannedList[] = 
+}
+static const pluginBannedList[] =
 {
 	{{0x7f65393b, 0x7771, 0x4f3f, { 0xa9, 0xeb, 0x5d, 0xba, 0xf2, 0xb3, 0x61, 0xf1 }}, MAX_MIR_VER}, // png2dib
 	{{0xe00f1643, 0x263c, 0x4599, { 0xb8, 0x4b, 0x05, 0x3e, 0x5c, 0x51, 0x1d, 0x28 }}, MAX_MIR_VER}, // loadavatars (unicode)
@@ -73,8 +65,6 @@ void UninitIni(void);
 
 #define PLUGINDISABLELIST "PluginDisable"
 
-int CallHookSubscribers(HANDLE hEvent, WPARAM wParam, LPARAM lParam);
-
 int LoadDatabaseModule(void);
 
 char* GetPluginNameByInstance(HINSTANCE hInstance)
@@ -87,29 +77,6 @@ char* GetPluginNameByInstance(HINSTANCE hInstance)
 			return pe->bpi.pluginInfo->shortName;
 	}
 	return NULL;
-}
-
-HINSTANCE GetInstByAddress(void* codePtr)
-{
-	int idx;
-	HINSTANCE result;
-	pluginEntry p; p.bpi.hInst = (HINSTANCE)codePtr;
-
-	if (pluginListAddr.getCount() == 0)
-		return NULL;
-
-	List_GetIndex((SortedList*)&pluginListAddr, &p, &idx);
-	if (idx > 0)
-		idx--;
-
-	result = pluginListAddr[idx]->bpi.hInst;
-
-	if (result < hMirandaInst && codePtr > hMirandaInst)
-		result = hMirandaInst;
-	else if (idx == 0 && codePtr < (void*)result)
-		result = NULL;
-
-	return result;
 }
 
 int equalUUID(const MUUID& u1, const MUUID& u2)
@@ -159,22 +126,22 @@ static int isPluginBanned(MUUID u1, DWORD dwVersion)
  * historyeditor added by nightwish - plugin is problematic and can ruin database as it does not understand UTF-8 message
  * storage
  */
-     
-static const TCHAR* modulesToSkip[] = 
-{ 
-	_T("autoloadavatars.dll"), _T("multiwindow.dll"), _T("fontservice.dll"), 
-	_T("icolib.dll"), _T("historyeditor.dll") 
+
+static const TCHAR* modulesToSkip[] =
+{
+	_T("autoloadavatars.dll"), _T("multiwindow.dll"), _T("fontservice.dll"),
+	_T("icolib.dll"), _T("historyeditor.dll")
 };
 
 // The following plugins will be checked for a valid MUUID or they will not be loaded
-static const TCHAR* expiredModulesToSkip[] = 
-{ 
-	_T("scriver.dll"), _T("nconvers.dll"), _T("tabsrmm.dll"), _T("nhistory.dll"), 
-	_T("historypp.dll"), _T("help.dll"), _T("loadavatars.dll"), _T("tabsrmm_unicode.dll"), 
-	_T("clist_nicer_plus.dll"), _T("changeinfo.dll"), _T("png2dib.dll"), _T("dbx_mmap.dll"), 
-	_T("dbx_3x.dll"), _T("sramm.dll"), _T("srmm_mod.dll"), _T("srmm_mod (no Unicode).dll"), 
-	_T("singlemodeSRMM.dll"), _T("msg_export.dll"), _T("clist_modern.dll"), 
-	_T("clist_nicer.dll") 
+static const TCHAR* expiredModulesToSkip[] =
+{
+	_T("scriver.dll"), _T("nconvers.dll"), _T("tabsrmm.dll"), _T("nhistory.dll"),
+	_T("historypp.dll"), _T("help.dll"), _T("loadavatars.dll"), _T("tabsrmm_unicode.dll"),
+	_T("clist_nicer_plus.dll"), _T("changeinfo.dll"), _T("png2dib.dll"), _T("dbx_mmap.dll"),
+	_T("dbx_3x.dll"), _T("sramm.dll"), _T("srmm_mod.dll"), _T("srmm_mod (no Unicode).dll"),
+	_T("singlemodeSRMM.dll"), _T("msg_export.dll"), _T("clist_modern.dll"),
+	_T("clist_nicer.dll")
 };
 
 static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
@@ -191,16 +158,16 @@ static int checkPI(BASIC_PLUGIN_INFO* bpi, PLUGININFOEX* pi)
 
 		bHasValidInfo = TRUE;
 	}
-	
+
 	if ( !bHasValidInfo)
 		return FALSE;
 
-	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL  || 
+	if (pi->shortName == NULL || pi->description == NULL || pi->author == NULL  ||
 		  pi->authorEmail == NULL || pi->copyright == NULL || pi->homepage == NULL)
 		return FALSE;
 
-	if (pi->replacesDefaultModule > DEFMOD_HIGHEST  || 
-		  pi->replacesDefaultModule == DEFMOD_REMOVED_UIPLUGINOPTS  || 
+	if (pi->replacesDefaultModule > DEFMOD_HIGHEST  ||
+		  pi->replacesDefaultModule == DEFMOD_REMOVED_UIPLUGINOPTS  ||
 		  pi->replacesDefaultModule == DEFMOD_REMOVED_PROTOCOLNETLIB)
 		return FALSE;
 
@@ -342,8 +309,8 @@ void Plugin_Uninit(pluginEntry* p, bool bDynamic)
 		FreeLibrary(p->bpi.hInst);
 		ZeroMemory(&p->bpi, sizeof(p->bpi));
 	}
+	UnregisterModule(p->bpi.hInst);
 	pluginList.remove(p);
-	pluginListAddr.remove(p);
 }
 
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam)
@@ -494,7 +461,7 @@ int isPluginOnWhiteList(const TCHAR* pluginname)
 		if (MessageBox(NULL, buf, TranslateT("Re-enable Miranda plugin?"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
 			SetPluginOnWhiteList(pluginname, 1);
 			rc = 0;
-		}	
+		}
 	}
 
 	return rc == 0;
@@ -526,16 +493,16 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 				return false;
 			}
 
-			pluginListAddr.insert(p);
+			RegisterModule(p->bpi.hInst);
 			if (bpi.Load(&pluginCoreLink) != 0)
 				return false;
-						
+
 			p->pclass |= PCLASS_LOADED;
 			if (rm) pluginDefModList[rm]=p;
 		}
 	}
 	else if (p->bpi.hInst != NULL) {
-		pluginListAddr.insert(p);
+		RegisterModule(p->bpi.hInst);
 		p->pclass |= PCLASS_LOADED;
 	}
 	return true;
@@ -552,7 +519,7 @@ static pluginEntry* getCListModule(TCHAR * exe, TCHAR * slice, int useWhiteList)
 			if (checkAPI(exe, &bpi, mirandaVersion, CHECKAPI_CLIST)) {
 				p->bpi = bpi;
 				p->pclass |= PCLASS_LAST | PCLASS_OK | PCLASS_BASICAPI;
-				pluginListAddr.insert(p);
+				RegisterModule(p->bpi.hInst);
 				if (bpi.clistlink(&pluginCoreLink) == 0) {
 					p->bpi = bpi;
 					p->pclass |= PCLASS_LOADED;
@@ -575,7 +542,7 @@ int UnloadPlugin(TCHAR* buf, int bufLen)
 			GetModuleFileName(p->bpi.hInst, buf, bufLen);
 			Plugin_Uninit(p);
 			return TRUE;
-		}	
+		}
 	}
 
 	return FALSE;
@@ -625,7 +592,7 @@ int LoadServiceModePlugin(void)
 				p->pclass |= PCLASS_LOADED;
 				if (CallService(MS_SERVICEMODE_LAUNCH, 0, 0) != CALLSERVICE_NOTFOUND)
 					return 1;
-				
+
 				MessageBox(NULL, TranslateT("Unable to load plugin in Service Mode!"), p->pluginname, 0);
 				return -1;
 			}
@@ -672,7 +639,7 @@ int LoadNewPluginsModule(void)
 	askAboutIgnoredPlugins=(UINT) GetPrivateProfileInt(_T("PluginLoader"), _T("AskAboutIgnoredPlugins"), 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
-	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname)) 
+	if (pluginList_crshdmp != NULL && isPluginOnWhiteList(pluginList_crshdmp->pluginname))
     {
 		if (pluginList_crshdmp->bpi.Load(&pluginCoreLink) == 0)
 			pluginList_crshdmp->pclass |= PCLASS_LOADED | PCLASS_LAST;
@@ -775,7 +742,7 @@ int LoadNewPluginsModuleInfos(void)
 	pluginCoreLink.KillObjectEventHooks           = KillObjectEventHooks;
 
 	// remember where the mirandaboot.ini goes
-	pathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);
+	PathToAbsoluteT(_T("mirandaboot.ini"), mirandabootini, NULL);
 	// look for all *.dll's
 	enumPlugins(scanPluginsDir, 0, 0);
 	// the database will select which db plugin to use, or fail if no profile is selected
@@ -817,6 +784,5 @@ void UnloadNewPluginsModule(void)
 	hPluginListHeap=0;
 
 	pluginList.destroy();
-	pluginListAddr.destroy();
 	UninitIni();
 }

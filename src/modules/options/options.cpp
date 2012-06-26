@@ -236,7 +236,7 @@ static TCHAR *GetPluginName(HINSTANCE hInstance, TCHAR *buffer, int size)
 
 PageHash GetPluginPageHash(const OptionsPageData *page)
 {
-	return hashstr(page->ptszGroup) + hashstr(page->ptszTitle) + hashstr(page->ptszTab);
+	return mir_hashstrT(page->ptszGroup) + mir_hashstrT(page->ptszTitle) + mir_hashstrT(page->ptszTab);
 }
 
 static void FindFilterStrings(int enableKeywordFiltering, int current, HWND hWndParent, const OptionsPageData *page)
@@ -497,7 +497,7 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(ALL_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)NULL);
 	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
-	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hMirandaInst);
+	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
 	TCHAR* tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
 	for (int i = 0; i < dat->arOpd.getCount(); i++) {		
 		TCHAR * dllName = NULL;
@@ -507,7 +507,7 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 		if ( !enableKeywordFiltering)
 			FindFilterStrings(enableKeywordFiltering, FALSE, hDlg, dat->arOpd[i]); // only modules name (fast enougth)
 		
-		if (inst == hMirandaInst) continue;
+		if (inst == hInst) continue;
 		for (j = 0; j<countKnownInst; j++)
 			if (KnownInstances[j] == inst) break;
 		if (j != countKnownInst) continue;
@@ -839,9 +839,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					continue;
 
 				OptionsPageData* opd = dat->arOpd[i];
-				TCHAR* ptszGroup = LangPackTranslateStringT(opd->hLangpack, opd->ptszGroup);
-				TCHAR* ptszTitle = LangPackTranslateStringT(opd->hLangpack, opd->ptszTitle);
-				TCHAR* ptszTab   = LangPackTranslateStringT(opd->hLangpack, opd->ptszTab);
+				TCHAR* ptszGroup = TranslateTH(opd->hLangpack, opd->ptszGroup);
+				TCHAR* ptszTitle = TranslateTH(opd->hLangpack, opd->ptszTitle);
+				TCHAR* ptszTab   = TranslateTH(opd->hLangpack, opd->ptszTab);
 
 				tvis.hParent = NULL;
 				if (FilterInst != NULL) {
@@ -1089,7 +1089,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
 									continue;
 
-								tie.pszText = LangPackTranslateStringT(opd->hLangpack, opd->ptszTab);
+								tie.pszText = TranslateTH(opd->hLangpack, opd->ptszTab);
 								tie.lParam = i;
 								TabCtrl_InsertItem(hwndTab, pages, &tie);
 								if ( !lstrcmp(opd->ptszTab, p->ptszTab))
@@ -1390,7 +1390,7 @@ void OpenAccountOptions(PROTOACCOUNT* pa)
 		psh.pStartPage = (LPCTSTR)&ood;
 		psh.pszCaption = tszTitle;
 		psh.ppsp = (PROPSHEETPAGE*)opi.odp;
-		hwndOptions = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_OPTIONSPAGE), NULL, OptionsDlgProc, (LPARAM)&psh);
+		hwndOptions = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPTIONSPAGE), NULL, OptionsDlgProc, (LPARAM)&psh);
 		mir_free((void*)ood.pszPage);
 		FreeOptionsData(&opi);
 }	}
@@ -1436,7 +1436,7 @@ static void OpenOptionsNow(const char *pszGroup, const char *pszPage, const char
 			psh.pszCaption = TranslateT("Miranda IM Options");
 			psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
-			hwndOptions = CreateDialogParam(hMirandaInst, 
+			hwndOptions = CreateDialogParam(hInst, 
 				MAKEINTRESOURCE(bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS), 
 				NULL, OptionsDlgProc, (LPARAM)&psh);
 

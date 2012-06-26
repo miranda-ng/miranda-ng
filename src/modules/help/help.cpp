@@ -34,7 +34,7 @@ static INT_PTR AboutCommand(WPARAM wParam, LPARAM)
 		SetFocus(hAboutDlg);
 		return 0;
 	}
-	hAboutDlg=CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_ABOUT), (HWND)wParam, DlgProcAbout);
+	hAboutDlg=CreateDialog(hInst, MAKEINTRESOURCE(IDD_ABOUT), (HWND)wParam, DlgProcAbout);
 	return 0;
 }
 

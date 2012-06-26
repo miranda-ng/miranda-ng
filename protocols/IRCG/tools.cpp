@@ -149,18 +149,6 @@ void CIrcProto::IrcHookEvent( const char* szEvent, IrcEventFunc pFunc )
 	::HookEventObj( szEvent, ( MIRANDAHOOKOBJ )*( void** )&pFunc, this );
 }
 
-char* __stdcall rtrim( char *string )
-{
-   char* p = string + strlen( string ) - 1;
-   while ( p >= string ) {
-		if ( *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r' )
-         break;
-
-		*p-- = 0;
-   }
-   return string;
-}
-
 CMString __stdcall GetWord(const TCHAR* text, int index)
 {
 	if ( text && *text ) {

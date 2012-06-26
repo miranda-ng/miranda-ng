@@ -96,7 +96,7 @@ void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, PDNCE pdnce, TCHAR
 
 	int text_size = (int)_tcslen( szText );
     
-    plText = li.List_Create( 0, 1 );
+    plText = List_Create( 0, 1 );
 
     // Add Icon
     {
@@ -126,7 +126,7 @@ void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, PDNCE pdnce, TCHAR
         dat->text_smiley_height = max(piece->smiley_height, dat->text_smiley_height);
         iMaxSmileyHeight = max(piece->smiley_height, iMaxSmileyHeight);
 
-        li.List_Insert( plText, piece, plText->realCount);
+        List_Insert( plText, piece, plText->realCount);
     }
 
     // Add text
@@ -136,7 +136,7 @@ void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, PDNCE pdnce, TCHAR
         piece->type = TEXT_PIECE_TYPE_TEXT;
         piece->start_pos = 0;
         piece->len = text_size;
-        li.List_Insert( plText, piece, plText->realCount);
+        List_Insert( plText, piece, plText->realCount);
     }
 }
 
@@ -145,7 +145,7 @@ void CSmileyString::_CopySmileyList( SortedList *plInput )
 //	ASSERT( plText == NULL );
 
 	if ( !plInput || plInput->realCount == 0 ) return;
-	plText=li.List_Create( 0, 1 );
+	plText=List_Create( 0, 1 );
 	for ( int i = 0; i < plInput->realCount; i++ )
 	{
 		ClcContactTextPiece *pieceFrom=(ClcContactTextPiece *) plInput->items[i];
@@ -155,7 +155,7 @@ void CSmileyString::_CopySmileyList( SortedList *plInput )
 			*piece=*pieceFrom;
 			if ( pieceFrom->type == TEXT_PIECE_TYPE_SMILEY) 
 				piece->smiley = CopyIcon( pieceFrom->smiley );
-			li.List_Insert( plText, piece, plText->realCount );
+			List_Insert( plText, piece, plText->realCount );
 		}
 	}
 }
@@ -188,7 +188,7 @@ void CSmileyString::DestroySmileyList()
 				}
 			}
 		}
-		li.List_Destroy( plText );
+		List_Destroy( plText );
 	}
 	mir_free(plText);
 
@@ -247,7 +247,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
     }
 
     // Lets add smileys
-    plText = li.List_Create( 0, 1 );
+    plText = List_Create( 0, 1 );
 
     for (unsigned i = 0; i < sp.numSmileys; ++i)
     {
@@ -261,7 +261,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
                 piece->type = TEXT_PIECE_TYPE_TEXT;
                 piece->start_pos = last_pos ;//sp.str - text;
                 piece->len = spr[i].startChar - last_pos;
-                li.List_Insert(plText, piece, plText->realCount);
+                List_Insert(plText, piece, plText->realCount);
             }
 
             // Add smiley
@@ -291,7 +291,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
                 dat->text_smiley_height = max( piece->smiley_height, dat->text_smiley_height );
                 iMaxSmileyHeight = max( piece->smiley_height, iMaxSmileyHeight );
 
-                li.List_Insert(plText, piece, plText->realCount);
+                List_Insert(plText, piece, plText->realCount);
             }
         }
         // Get next
@@ -308,7 +308,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
         piece->start_pos = last_pos;
         piece->len = text_size-last_pos;
 
-        li.List_Insert(plText, piece, plText->realCount);
+        List_Insert(plText, piece, plText->realCount);
     }
 }
 

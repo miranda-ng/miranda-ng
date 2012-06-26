@@ -41,8 +41,8 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 
 		if ( !Proto_IsAccountEnabled(pa) || Proto_IsAccountLocked(pa)) continue;
 
-		int statusbits = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-		int currentstatus = CallProtoService(pa->szModuleName, PS_GETSTATUS, 0, 0);
+		int statusbits = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+		int currentstatus = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
 		int status = mii.aaStatus;
 		if ( !(statusbits & Proto_Status2Flag(status))) {
 			// the protocol doesnt support the given status

@@ -42,7 +42,7 @@ INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSettingString(ccs->hContact, "_Filter", str, &dbv))
 			break;
 
-		if ((ret = CallProtoService(dbv.pszVal, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
+		if ((ret = CallProtoServiceInt(NULL,dbv.pszVal, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			mir_free(dbv.pszVal);
 			return ret;
@@ -93,7 +93,7 @@ static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSettingString(ccs->hContact, "_Filter", str, &dbv))  //never happens
 			return 1;
 
-		if ((ret = CallProtoService(dbv.pszVal, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
+		if ((ret = CallProtoServiceInt(NULL,dbv.pszVal, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
 			//chain was started, exit
 			mir_free(dbv.pszVal);
 			return ret;

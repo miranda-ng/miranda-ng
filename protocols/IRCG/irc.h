@@ -727,7 +727,6 @@ const TCHAR* __stdcall GetWordAddress(const TCHAR* text, int index);
 void         __stdcall RemoveLinebreaks( CMString& Message );
 TCHAR*       __stdcall my_strstri(const TCHAR *s1, const TCHAR *s2) ;
 TCHAR*       __stdcall DoColorCodes (const TCHAR* text, bool bStrip, bool bReplacePercent);
-char*        __stdcall rtrim( char *string );
 
 String&  __stdcall ReplaceString (String& text, const char* replaceme, const char* newword);
 String   __stdcall GetWord(const char* text, int index);

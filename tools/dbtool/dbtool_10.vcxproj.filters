@@ -24,9 +24,6 @@
     <ClCompile Include="disk.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="langpack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

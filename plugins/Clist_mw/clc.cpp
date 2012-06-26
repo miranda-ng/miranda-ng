@@ -199,7 +199,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		if (hSelItem) {
 			struct ClcGroup *selgroup;
 			if (FindItem(hwnd,dat,hSelItem,&selcontact,&selgroup,NULL))
-				dat->selection = GetRowsPriorTo(&dat->list,selgroup,li.List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+				dat->selection = GetRowsPriorTo(&dat->list,selgroup,List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 			else
 				dat->selection = -1;
 		}

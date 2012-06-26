@@ -56,7 +56,7 @@ static HICON ExtractIconFromPath(const TCHAR *path, int cxIcon, int cyIcon)
 		n = _ttoi(comma+1);
 		*comma = 0;
 	}
-	pathToAbsoluteT(file, fileFull, NULL);
+	PathToAbsoluteT(file, fileFull, NULL);
 	hIcon = NULL;
 
 	//SHOULD BE REPLACED WITH GOOD ENOUGH FUNCTION
@@ -242,7 +242,7 @@ static int OpenPopupMenu(HWND hwndDlg)
 	int cmd;
 
 	GetCursorPos(&pt);
-	hMenu = LoadMenu(hMirandaInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
+	hMenu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_ICOLIB_CONTEXT));
 	hPopup = GetSubMenu(hMenu, 0);
 	TranslateMenu(hPopup);
 	cmd = TrackPopupMenu(hPopup, TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x,  pt.y, 0, hwndDlg, NULL);
@@ -586,7 +586,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		if ( !IsIconic(hwndDlg)) { 
 			UTILRESIZEDIALOG urd = {0};
 			urd.cbSize = sizeof(urd);
-			urd.hInstance = hMirandaInst;
+			urd.hInstance = hInst;
 			urd.hwndDlg = hwndDlg;
 			urd.lParam = 0; // user-defined
 			urd.lpTemplate = MAKEINTRESOURCEA(IDD_ICOLIB_IMPORT);
@@ -856,7 +856,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_IMPORT) {
-			dat->hwndIndex = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_ICOLIB_IMPORT), GetParent(hwndDlg), DlgProcIconImport, (LPARAM)hwndDlg);
+			dat->hwndIndex = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ICOLIB_IMPORT), GetParent(hwndDlg), DlgProcIconImport, (LPARAM)hwndDlg);
 			EnableWindow((HWND)lParam, FALSE);
 		}
 		else if (LOWORD(wParam) == IDC_GETMORE) {
@@ -1037,7 +1037,7 @@ int SkinOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -180000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICOLIB);

@@ -38,7 +38,7 @@ static int Proto_GetContactInfoSetting(HANDLE hContact, const char *szProto, con
 	DBCONTACTGETSETTING cgs={szModule, szSetting, dbv};
 	dbv->type=(BYTE)nType;
 
-	return CallProtoService(szProto, PS_GETINFOSETTING, (WPARAM)hContact, (LPARAM)&cgs);
+	return CallProtoServiceInt(NULL,szProto, PS_GETINFOSETTING, (WPARAM)hContact, (LPARAM)&cgs);
 }
 
 static void Proto_FreeInfoVariant(DBVARIANT *dbv)
@@ -69,7 +69,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 	TCHAR* ptstr = NULL;
 	int unspecified=0;
 	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
+	bool proto_service = szProto && (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
 	dbv.type=DBVT_DELETED;
 	if (szModule == NULL) unspecified=1;
@@ -385,7 +385,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				if (hContact != NULL) {
 					char *szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 					if (szProto == NULL) break;
-					bool proto_service = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
+					bool proto_service = (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
 					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
 
 					//past
@@ -570,7 +570,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 
 	odp.cbSize = sizeof(odp);
 	odp.hIcon = NULL;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.flags = 0;
 
 	odp.pfnDlgProc = SummaryDlgProc;

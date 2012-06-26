@@ -6,13 +6,14 @@
 
 #include <m_stdhdr.h>
 #include <windows.h>
-#include <newpluginapi.h>
-#include <win2k.h>
+#include <shlobj.h>
 #include <time.h>
 #include <commctrl.h>
+
+#include <m_system.h>
+#include <newpluginapi.h>
 #include <m_clist.h>
 #include <m_plugins.h>
-#include <m_system.h>
 #include <m_database.h>
 #include <m_langpack.h>
 #include <m_utils.h>
@@ -20,6 +21,7 @@
 #include <m_popup.h>
 #include <m_icolib.h>
 #include "m_folders.h"
+#include <win2k.h>
 
 #include "options.h"
 #include "resource.h"

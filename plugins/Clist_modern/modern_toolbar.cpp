@@ -192,7 +192,7 @@ HRESULT ToolbarLoadModule()
 			RegisterClass(&wndclass);
 		}	  
 	}
-	tbdat.listOfButtons=li.List_Create(0,1);
+	tbdat.listOfButtons=List_Create(0,1);
 	InitializeCriticalSection(&tbdat.cs);		
 	return S_OK;
 }
@@ -322,7 +322,7 @@ static INT_PTR    svcToolBarAddButton(WPARAM wParam, LPARAM lParam)
 		mtbi->bVisible = bVisible;
 		mtbi->bPanelID = bPanel;
 	
-		li.List_InsertPtr(tbdat.listOfButtons,mtbi);
+		List_InsertPtr(tbdat.listOfButtons,mtbi);
 		
 		if (mtbi->bVisible)
 			result=(INT_PTR)ToolBar_AddButtonToBars(mtbi);
@@ -798,7 +798,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			pMTBInfo->wLastHeight=Frame.height;
           
             pMTBInfo->nLineCount   = 1;
-            pMTBInfo->pButtonList=li.List_Create(0,1);
+            pMTBInfo->pButtonList=List_Create(0,1);
 
 			Frame.name=(char*) lpcs->lpCreateParams;
 			hFrame=(HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,(LPARAM)0);
@@ -879,7 +879,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			xpt_FreeThemeForWindow(hwnd);
 			WindowList_Remove( tbdat.hToolBarWindowList, hwnd );
 			SendMessage(hwnd, MTBM_REMOVE_ALL_BUTTONS, 0, 0 );
-			li.List_Destroy( pMTBInfo->pButtonList );
+			List_Destroy( pMTBInfo->pButtonList );
 			mir_free( pMTBInfo->pButtonList );
 			SetWindowLongPtr( hwnd, GWLP_USERDATA, 0 );
 			mir_free( pMTBInfo );
@@ -902,7 +902,7 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			mtbi->hWindow=hwndButton;
 			mtbi->hwndToolBar=hwnd;
 
-			li.List_Insert(pMTBInfo->pButtonList, mtbi, pMTBInfo->pButtonList->realCount);  //just insert pointer. such object are managed in global tbbutton list
+			List_Insert(pMTBInfo->pButtonList, mtbi, pMTBInfo->pButtonList->realCount);  //just insert pointer. such object are managed in global tbbutton list
 			if (hwndButton) 
 			{	
 				char * buttonId=(char *)_alloca(sizeof("ToolBar.")+strlen(mtbi->szButtonID)+2);
@@ -930,9 +930,9 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 					mtbi->hwndToolBar = NULL;
 				}
 			}
-			li.List_Destroy( pMTBInfo->pButtonList );
+			List_Destroy( pMTBInfo->pButtonList );
 			mir_free( pMTBInfo->pButtonList );
-			pMTBInfo->pButtonList=li.List_Create(0,1);
+			pMTBInfo->pButtonList=List_Create(0,1);
 			break;
 		}
 	case WM_SIZE: 
@@ -1072,14 +1072,14 @@ static LRESULT CALLBACK ToolBar_WndProc(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 				mtbi=(MTB_BUTTONINFO*)pMTBInfo->pButtonList->items[i];
 				if (mtbi==(MTB_BUTTONINFO*)wParam)
 				{
-					li.List_Remove(pMTBInfo->pButtonList,i);
+					List_Remove(pMTBInfo->pButtonList,i);
 					for (int j=0; j<tbdat.listOfButtons->realCount; j++)
 						if (mtbi==(MTB_BUTTONINFO*)tbdat.listOfButtons->items[j])
 						{
-							li.List_Remove(tbdat.listOfButtons,j);
+							List_Remove(tbdat.listOfButtons,j);
 							break;
 						}
-					li.List_RemovePtr(tbdat.listOfButtons,mtbi);
+					List_RemovePtr(tbdat.listOfButtons,mtbi);
 					delete_MTB_BUTTONINFO((void*)mtbi);
 					mtbi=NULL;
 					pcli->pfnInvalidateRect(hwnd, NULL, FALSE);

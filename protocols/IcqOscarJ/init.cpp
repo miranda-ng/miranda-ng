@@ -111,9 +111,6 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 extern "C" int __declspec(dllexport) Load(PLUGINLINK *link)
 {
 	pluginLink = link;
-	mir_getLI( &li );
-	mir_getMMI( &mmi );
-	mir_getUTFI( &utfi );
 	mir_getMD5I( &md5i );
 	mir_getLP( &pluginInfo );
 

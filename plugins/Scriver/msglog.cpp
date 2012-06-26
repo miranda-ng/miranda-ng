@@ -111,7 +111,7 @@ TCHAR *GetNickname(HANDLE hContact, const char* szProto) {
 					szName = a2t((char *)ci.pszVal);
 				}
 
-				miranda_sys_free(ci.pszVal);
+				mir_free(ci.pszVal);
 				if (szName != NULL) {
 					return szName;
 				}

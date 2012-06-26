@@ -297,22 +297,21 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 	char idstr[256];
 	mir_snprintf(idstr, SIZEOF(idstr), "%sFlags", font_id->prefix);
 	DBWriteContactSettingDword(0, font_id->dbSettingsGroup, idstr, font_id->flags);
-	{
-		FontInternal* newItem = new FontInternal;
-		memset(newItem, 0, sizeof(FontIDW));
-		memcpy(newItem, font_id, font_id->cbSize);
+	
+	FontInternal* newItem = new FontInternal;
+	memset(newItem, 0, sizeof(FontIDW));
+	memcpy(newItem, font_id, font_id->cbSize);
 
-		if ( !lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
-			LOGFONT lf;
-			SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
-			lstrcpyn(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
-			if ( !newItem->deffontsettings.size)
-				newItem->deffontsettings.size = lf.lfHeight;
-		}
-
-		UpdateFontSettings(font_id, &newItem->value);
-		font_id_list.insert(newItem);
+	if ( !lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
+		LOGFONT lf;
+		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
+		lstrcpyn(newItem->deffontsettings.szFace, lf.lfFaceName, SIZEOF(newItem->deffontsettings.szFace));
+		if ( !newItem->deffontsettings.size)
+			newItem->deffontsettings.size = lf.lfHeight;
 	}
+
+	UpdateFontSettings(font_id, &newItem->value);
+	font_id_list.insert(newItem);
 	return 0;
 }
 
@@ -344,7 +343,8 @@ static INT_PTR sttGetFontWorker(FontIDW* font_id, LOGFONT* lf)
 			}
 
 			return colour;
-	}	}
+		}
+	}
 
 	GetDefaultFontSetting(lf, &colour);
 	return colour;
@@ -358,9 +358,10 @@ INT_PTR GetFontW(WPARAM wParam, LPARAM lParam)
 INT_PTR GetFont(WPARAM wParam, LPARAM lParam)
 {
 	FontIDW temp;
-	LOGFONT lftemp;
-	if ( !ConvertFontID((FontID*)wParam, &temp)) return -1;
+	if ( !ConvertFontID((FontID*)wParam, &temp))
+		return -1;
 
+	LOGFONT lftemp;
 	int ret = sttGetFontWorker(&temp, &lftemp);
 	ConvertLOGFONT(&lftemp, (LOGFONTA*)lParam);
 	return ret;
@@ -436,7 +437,6 @@ INT_PTR GetColour(WPARAM wParam, LPARAM)
 void UpdateEffectSettings(EffectIDW* effect_id, FONTEFFECT* effectsettings)
 {
 	char str[256];
-
 	mir_snprintf(str, SIZEOF(str), "%sEffect", effect_id->setting);
 	effectsettings->effectIndex = DBGetContactSettingByte(NULL, effect_id->dbSettingsGroup, str, effect_id->defeffect.effectIndex);
 

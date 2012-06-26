@@ -56,10 +56,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <win2k.h>
 
-#include "modules.h"
-
 #include <m_system.h>
 #include <m_system_cpp.h>
+#include <m_core.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clc.h>
@@ -94,8 +93,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_timezones.h>
 
 #include "miranda.h"
-#include "forkthread.h"
-#include "../modules/database/dblists.h"
 
 #include <m_ssl.h>
 #include <m_netlib.h>

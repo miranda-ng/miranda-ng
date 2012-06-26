@@ -209,7 +209,7 @@ INT_PTR CALLBACK SelectDbDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				CloseHandle( opts.hFile );
 				opts.hFile = NULL;
 			}
-			TranslateDialog( hdlg );
+			TranslateDialogDefault( hdlg );
 			return TRUE;
 		}
 

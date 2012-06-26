@@ -33,7 +33,7 @@ static INT_PTR SendFileCommand(WPARAM wParam, LPARAM)
 	struct FileSendData fsd;
 	fsd.hContact=(HANDLE)wParam;
 	fsd.ppFiles=NULL;
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
 
@@ -52,7 +52,7 @@ static INT_PTR SendSpecificFiles(WPARAM wParam, LPARAM lParam)
 			fsd.ppFiles[i] = (const TCHAR*)mir_a2t(ppFiles[i]);
 		fsd.ppFiles[ count ] = NULL;
 	
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	for (int j=0; j < count; j++)
 			mir_free((void*)fsd.ppFiles[j]);
 	return 0;
@@ -63,7 +63,7 @@ static INT_PTR SendSpecificFilesT(WPARAM wParam, LPARAM lParam)
 	FileSendData fsd;
 	fsd.hContact=(HANDLE)wParam;
 	fsd.ppFiles=(const TCHAR**)lParam;
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);
 	return 0;
 }
 
@@ -79,7 +79,7 @@ static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, lParam);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, lParam);
 	return 0;
 }
 
@@ -91,7 +91,7 @@ void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam)
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
 	if (DBGetContactSettingByte(NULL, "SRFile", "AutoAccept", 0) && !DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)) {
-		CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
+		CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {
 		SkinPlaySound("RecvFile");
@@ -284,8 +284,8 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto != NULL) {
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
-			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
+		if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
+			if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				mi.flags = CMIM_FLAGS;
 			else if (DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				mi.flags = CMIM_FLAGS;

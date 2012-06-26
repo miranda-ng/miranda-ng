@@ -115,50 +115,12 @@ extern LPFN_WSAADDRESSTOSTRINGA MyWSAAddressToString;
 
 void PushFileEvent(HANDLE hContact, HANDLE hdbe, LPARAM lParam);
 
-/**** memory.cpp ***********************************************************************/
-
-#ifdef _STATIC
-void*  mir_alloc(size_t);
-void*  mir_calloc(size_t);
-void*  mir_realloc(void* ptr, size_t);
-void   mir_free(void* ptr);
-char*  mir_strdup(const char* str);
-WCHAR* mir_wstrdup(const WCHAR* str);
-char* mir_strndup(const char* str, size_t len);
-
-int    mir_snprintf(char *buffer, size_t count, const char* fmt, ...);
-int    mir_sntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, ...);
-int    mir_vsnprintf(char *buffer, size_t count, const char* fmt, va_list va);
-int    mir_vsntprintf(TCHAR *buffer, size_t count, const TCHAR* fmt, va_list va);
-
-WCHAR* mir_a2u_cp(const char* src, int codepage);
-WCHAR* mir_a2u(const char* src);
-char*  mir_u2a_cp(const wchar_t* src, int codepage);
-char*  mir_u2a(const wchar_t* src);
-#endif
-
 /**** miranda.cpp **********************************************************************/
 
-extern HINSTANCE hMirandaInst;
+extern HINSTANCE hInst;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent;
-extern pfnExceptionFilter pMirandaExceptFilter;
-
-/**** modules.cpp **********************************************************************/
-
-int  CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam);
-void KillModuleEventHooks(HINSTANCE);
-void KillModuleServices(HINSTANCE);
-
-void KillObjectEventHooks(void* pObject);
-void KillObjectServices(void* pObject);
-void KillObjectThreads(void* pObject);
 
 /**** utf.cpp **************************************************************************/
-
-char* Utf8Decode(char* str, wchar_t** ucs2);
-char* Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2);
-
-wchar_t* Utf8DecodeUcs2(const char* str);
 
 __forceinline char* Utf8DecodeA(const char* src)
 {
@@ -167,61 +129,11 @@ __forceinline char* Utf8DecodeA(const char* src)
     return tmp;
 }
 
-
-char* Utf8Encode(const char* str);
-char* Utf8EncodeCP(const char* src, int codepage);
-
-char* Utf8EncodeUcs2(const wchar_t* str);
-
-int   Ucs2toUtf8Len(const wchar_t *src);
-
-#define Utf8DecodeT Utf8DecodeUcs2
-#define Utf8EncodeT Utf8EncodeUcs2
-
-/**** langpack.cpp *********************************************************************/
-
-int    LangPackGetDefaultCodePage();
-int    LangPackGetDefaultLocale();
-TCHAR* LangPackPcharToTchar(const char* pszStr);
-char*  LangPackTranslateString(struct LangPackMuuid* pUuid, const char *szEnglish, const int W);
-TCHAR* LangPackTranslateStringT(int hLangpack, const TCHAR* tszEnglish);
-
-unsigned int __fastcall hash(const void * key, unsigned int len);
-
-#pragma optimize("gt", on)
-__inline unsigned int hashstr(const char * key)
-{
-	if (key == NULL) return 0;
-	const unsigned int len = (unsigned int)strlen((const char*)key);
-	return hash(key, len);
-}
-
-__inline unsigned int hashstr(const wchar_t * key)
-{
-	if (key == NULL) return 0;
-	const unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
-	return hash(key, len * sizeof(wchar_t));
-}
 #pragma optimize("", on)
 
 /**** options.cpp **********************************************************************/
 
 HTREEITEM FindNamedTreeItemAtRoot(HWND hwndTree, const TCHAR* name);
-
-/**** path.cpp *************************************************************************/
-
-void CreatePathToFile(char* wszFilePath);
-void CreatePathToFileW(WCHAR* wszFilePath);
-
-int CreateDirectoryTree(const char *szDir);
-int CreateDirectoryTreeW(const WCHAR *szDir);
-
-int pathToAbsolute(const char *pSrc, char *pOut, char* base);
-int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base);
-
-#define pathToAbsoluteT pathToAbsoluteW
-#define CreatePathToFileT CreatePathToFileW
-#define CreateDirectoryTreeT CreateDirectoryTreeW
 
 /**** skin2icons.cpp *******************************************************************/
 
@@ -294,24 +206,9 @@ void OpenAccountOptions(PROTOACCOUNT* pa);
 void LoadDbAccounts(void);
 void WriteDbAccounts(void);
 
-INT_PTR CallProtoServiceInt(HANDLE hContact, const char* szModule, const char* szService, WPARAM, LPARAM);
-INT_PTR CallContactService(HANDLE hContact, const char *szProtoService, WPARAM, LPARAM);
-
-__inline static INT_PTR CallProtoService(const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam)
-{
-	return CallProtoServiceInt(NULL, szModule, szService, wParam, lParam);
-}
+INT_PTR CallProtoServiceInt(HANDLE hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);
 
 /**** utils.cpp ************************************************************************/
-
-char*  __fastcall rtrim(char* str);
-TCHAR* __fastcall rtrim(TCHAR* str);
-char*  __fastcall ltrim(char* str);
-char* __fastcall ltrimp(char* str);
-__inline char* lrtrim(char* str) { return ltrim(rtrim(str)); };
-__inline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
-
-bool __fastcall wildcmp(char * name, char * mask);
 
 void HotkeyToName(TCHAR *buf, int size, BYTE shift, BYTE key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
@@ -350,5 +247,3 @@ public:
 #define StrConvTu(x) x
 #define StrConvA(x) StrConvAT(x)
 #define StrConvU(x) x
-
-

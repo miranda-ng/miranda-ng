@@ -82,7 +82,7 @@ static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, in
 	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hContact, 0);
 	if (szProto == NULL)
 		return NULL;
-	protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	protoCaps = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if ( !(protoCaps & PF1_FILESEND))
 		return NULL;
 	if (ID_STATUS_OFFLINE == DBGetContactSettingWord(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))

@@ -452,6 +452,7 @@ static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName
 	DWORD dwVersion;
 	GGPROTO *gg = (GGPROTO *)mir_alloc(sizeof(GGPROTO));
 	char szVer[MAX_PATH];
+	char name[128];
 	NETLIBUSER nlu = { 0 };
 
 	ZeroMemory(gg, sizeof(GGPROTO));
@@ -486,16 +487,9 @@ static GGPROTO *gg_proto_init(const char* pszProtoName, const TCHAR* tszUserName
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = gg->proto.m_szModuleName;
-	if (gg->unicode_core) {
-		WCHAR name[128];
-		_snwprintf(name, SIZEOF(name), TranslateW(L"%s connection"), gg->proto.m_tszUserName);
-		nlu.ptszDescriptiveName = (TCHAR *)name;
-		nlu.flags |= NUF_UNICODE;
-	} else {
-		char name[128];
-		mir_snprintf(name, SIZEOF(name), Translate("%s connection"), gg->proto.m_tszUserName);
-		nlu.ptszDescriptiveName = name;
-	}
+	mir_snprintf(name, SIZEOF(name), Translate("%s connection"), gg->proto.m_tszUserName);
+	nlu.ptszDescriptiveName = name;
+
 	gg->netlib = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	// Register services

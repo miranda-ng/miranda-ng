@@ -209,7 +209,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 			if (hHandCursor == NULL) {
 				if (IsWinVer2000Plus()) hHandCursor=LoadCursor(NULL, IDC_HAND);
-				else hHandCursor=LoadCursor(hMirandaInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
+				else hHandCursor=LoadCursor(hInst, MAKEINTRESOURCE(IDC_HYPERLINKHAND));
 			}
 			TranslateDialogDefault(hwndDlg);
 			{	LVCOLUMN lvc;
@@ -441,7 +441,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									char szNewData[256]="", idstr[33];
 									int i;
 									DBVARIANT dbv;
-									if (IDOK != DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc, (LPARAM)szNewData))
+									if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc, (LPARAM)szNewData))
 										break;
 									for (i=0;;i++) {
 										mir_snprintf(idstr, SIZEOF(idstr), szIdTemplate, i);
@@ -477,7 +477,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 									if (DBGetContactSettingString(hContact, "UserInfo", idstr, &dbv)) break;
 									lstrcpynA(szText, dbv.pszVal, SIZEOF(szText));
 									DBFreeVariant(&dbv);
-									if (IDOK != DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc, (LPARAM)szText))
+									if (IDOK != DialogBoxParam(hInst, MAKEINTRESOURCE(nm->hdr.idFrom == IDC_PHONES?IDD_ADDPHONE:IDD_ADDEMAIL), hwndDlg, nm->hdr.idFrom == IDC_PHONES?EditUserPhoneDlgProc:EditUserEmailDlgProc, (LPARAM)szText))
 										break;
 									DBWriteContactSettingString(hContact, "UserInfo", idstr, szText);
 									SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);

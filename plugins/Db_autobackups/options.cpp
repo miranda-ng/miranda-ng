@@ -1,5 +1,4 @@
 #include "headers.h"
-#include <shlobj.h>
 
 Options options;
 static HWND hPathTip;

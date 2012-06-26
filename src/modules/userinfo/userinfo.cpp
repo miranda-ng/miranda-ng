@@ -100,7 +100,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
 	psh.pszCaption = (TCHAR*)wParam;	  //more abuses of structure: this is hContact
 	psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_DETAILS), NULL, DlgProcDetails, (LPARAM)&psh);
 	for (i=0;i<opi.pageCount;i++) {
 		//cleanup moved to WM_DESTROY
 		//mir_free((char*)opi.odp[i].pszTitle);
@@ -397,7 +397,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (dat->hContact != NULL) {
 				szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
 				if (szProto == NULL) {EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE); break;}
-				if (CallProtoService(szProto, PS_GETSTATUS, 0, 0)<ID_STATUS_ONLINE) EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
+				if (CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0)<ID_STATUS_ONLINE) EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 				else EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), !IsWindowVisible(GetDlgItem(hwndDlg, IDC_UPDATING)));
 			}
 			break;

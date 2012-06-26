@@ -209,8 +209,8 @@ int AniAva_InitModule()
 		RegisterClassEx(&wc);
 	}
 	InitializeCriticalSection(&AniAva.CS);
-	AniAva.Objects=li.List_Create(0,2);
-	AniAva.AniAvatarList=li.List_Create(0,1);
+	AniAva.Objects=List_Create(0,2);
+	AniAva.AniAvatarList=List_Create(0,1);
 	AniAva.AniAvatarList->sortFunc=_AniAva_SortAvatarInfo;
 	AniAva.bModuleStarted=TRUE;
 	AniAva.hExitEvent=CreateEvent(NULL,FALSE,FALSE,NULL);
@@ -238,7 +238,7 @@ int AniAva_UnloadModule()
 			}
 			mir_free(AniAva.Objects->items[i]);
 		}
-		li.List_Destroy(AniAva.Objects);
+		List_Destroy(AniAva.Objects);
 		mir_free(AniAva.Objects);
 
 		for (i=0; i<AniAva.AniAvatarList->realCount; i++)
@@ -248,7 +248,7 @@ int AniAva_UnloadModule()
 			if (aai->pFrameDelays) free(aai->pFrameDelays);
 			mir_free(aai);
 		}
-		li.List_Destroy(AniAva.AniAvatarList);
+		List_Destroy(AniAva.AniAvatarList);
 		mir_free(AniAva.AniAvatarList);
 		_AniAva_RemoveAniAvaDC(&AniAva);
 		SetEvent(AniAva.hExitEvent);
@@ -328,7 +328,7 @@ int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth)
 			pavi->hWindow		= NULL;
 			pavi->hContact		= hContact;
 			pavi->bInvalidPos	= 0;
-			li.List_Insert( AniAva.Objects, pavi, AniAva.Objects->realCount);
+			List_Insert( AniAva.Objects, pavi, AniAva.Objects->realCount);
 		}
 		//change avatar
 		pavi->bToBeDeleted=FALSE;
@@ -511,7 +511,7 @@ int AniAva_RemoveInvalidatedAvatars()
 				pai->hWindow=NULL;
 				if (!keepAvatar) _AniAva_RealRemoveAvatar(pai->dwAvatarUniqId);
 				mir_free(pai);
-				li.List_Remove(AniAva.Objects,i);
+				List_Remove(AniAva.Objects,i);
 				i--;
 			}
 		}
@@ -635,7 +635,7 @@ static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
 				#ifdef _DEBUG
 					__AniAva_DebugRenderStrip();
 				#endif
-				li.List_Remove(AniAva.AniAvatarList, j);
+				List_Remove(AniAva.AniAvatarList, j);
 				mir_free(aai);
 				_AniAva_ResumePainting();
 				break;
@@ -671,7 +671,7 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 	aai.FrameSize.cx=width;
 	aai.FrameSize.cy=height;
 
-	if (!li.List_GetIndex(AniAva.AniAvatarList,(void*)&aai,&idx)) idx=-1;
+	if (!List_GetIndex(AniAva.AniAvatarList,(void*)&aai,&idx)) idx=-1;
 	if (idx==-1)	//item not present in list
 	{
 		HBITMAP hBitmap=NULL;
@@ -749,8 +749,8 @@ static int	_AniAva_LoadAvatarFromImage(TCHAR * szFileName, int width, int height
 		{
 			//add to list
 			int idx=AniAva.AniAvatarList->realCount;
-			li.List_GetIndex(AniAva.AniAvatarList, paai,&idx);
-			li.List_Insert(AniAva.AniAvatarList, (void*)paai, idx);
+			List_GetIndex(AniAva.AniAvatarList, paai,&idx);
+			List_Insert(AniAva.AniAvatarList, (void*)paai, idx);
 		}
 		return paai->dwAvatarUniqId;
 	}
@@ -1000,7 +1000,7 @@ static void _AniAva_ReduceAvatarImages(int startY, int dY, BOOL bDestroyWindow)
 		{
 			_AniAva_DestroyAvatarWindow(pai->hWindow);
 			mir_free(pai);
-			li.List_Remove(AniAva.Objects,i);
+			List_Remove(AniAva.Objects,i);
 			i--;
 		}
 	}

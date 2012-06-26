@@ -107,7 +107,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			CheckDlgButton(hdlg, IDC_ADDED, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_AUTH, BST_CHECKED);
 
-			DWORD flags = (acs->szProto) ? CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+			DWORD flags = (acs->szProto) ? CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 			if (flags&PF4_FORCEADDED) { // force you were added requests for this protocol
 				EnableWindow(GetDlgItem(hdlg, IDC_ADDED), FALSE);
 			}
@@ -133,7 +133,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		{
 		case IDC_AUTH:
 			{
-				DWORD flags = CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+				DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 				if (flags & PF4_NOCUSTOMAUTH) {
 					EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
@@ -154,12 +154,12 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						DBEVENTINFO dbei = { 0 };
 						dbei.cbSize = sizeof(dbei);
 						CallService(MS_DB_EVENT_GET, (WPARAM)acs->handle, (LPARAM)&dbei);
-						hContact = (HANDLE)CallProtoService(dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->handle);
+						hContact = (HANDLE)CallProtoServiceInt(NULL,dbei.szModule, PS_ADDTOLISTBYEVENT, 0, (LPARAM)acs->handle);
 					}
 					break;
 
 				case HANDLE_SEARCHRESULT:
-					hContact = (HANDLE)CallProtoService(acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
+					hContact = (HANDLE)CallProtoServiceInt(NULL,acs->szProto, PS_ADDTOLIST, 0, (LPARAM)acs->psr);
 					break;
 
 				case HANDLE_CONTACT:
@@ -188,7 +188,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 				if (IsDlgButtonChecked(hdlg, IDC_AUTH)) 
 				{
-					DWORD flags = CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+					DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 					if (flags & PF4_NOCUSTOMAUTH)
 						CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
 					else 
@@ -256,9 +256,9 @@ INT_PTR AddContactDialog(WPARAM wParam, LPARAM lParam)
 		}
 
 		if (wParam)
-			DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
+			DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
 		else
-			CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
+			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), (HWND)wParam, AddContactDlgProc, (LPARAM)acs);
 		return 0;
 	}
 	return 1;

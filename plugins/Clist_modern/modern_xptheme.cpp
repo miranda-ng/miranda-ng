@@ -87,7 +87,7 @@ HRESULT XPThemesLoadModule()
 	 if (_xpt_ThemeSupport()) 
 	 {
 	     InitializeCriticalSection(&xptCS);
-		 xptObjectList=li.List_Create(0,1);
+		 xptObjectList=List_Create(0,1);
 		 xptModuleLoaded=TRUE;
 	 }
 	 return S_OK;
@@ -126,7 +126,7 @@ BOOL xpt_IsValidHandle(XPTHANDLE xptHandle)
 	if (!xptHandle) return FALSE;
 	xptlock();
 	{
-		if (li.List_IndexOf(xptObjectList, (void*)xptHandle)!=-1) 
+		if (List_IndexOf(xptObjectList, (void*)xptHandle)!=-1) 
 			res=TRUE;
 	}
 	xptunlock();
@@ -143,7 +143,7 @@ XPTHANDLE xpt_AddThemeHandle(HWND hwnd, LPCWSTR className)
 		xptObject->lpcwClassObject=className;
 		xptObject->hOwnerWindow=hwnd;
 		_sttXptReloadThemeData(xptObject);
-		li.List_InsertPtr(xptObjectList, (void*)xptObject);
+		List_InsertPtr(xptObjectList, (void*)xptObject);
 		res=(XPTHANDLE)xptObject;
 	}
 	xptunlock();
@@ -159,7 +159,7 @@ void xpt_FreeThemeHandle(XPTHANDLE xptHandle)
 	   XPTObject* xptObject=(XPTObject*)xptHandle;
 	   _sttXptCloseThemeData(xptObject);
 	   _sttXptObjectDestructor((void *) xptHandle);
-	   li.List_Remove(xptObjectList, li.List_IndexOf(xptObjectList,(void *) xptHandle));
+	   List_Remove(xptObjectList, List_IndexOf(xptObjectList,(void *) xptHandle));
    }
    xptunlock();
 }
@@ -176,7 +176,7 @@ void xpt_FreeThemeForWindow(HWND hwnd)
 		   {
 		   	   _sttXptCloseThemeData(xptObject);
 			   _sttXptObjectDestructor((void *) xptObject);
-			   li.List_Remove(xptObjectList, i);		   
+			   List_Remove(xptObjectList, i);		   
 		   }
 		   else 
 			   i++;

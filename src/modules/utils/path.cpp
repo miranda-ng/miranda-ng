@@ -26,99 +26,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern TCHAR g_profileDir[MAX_PATH];
 
-static char szMirandaPath[MAX_PATH];
-static char szMirandaPathLower[MAX_PATH];
-
 static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam);
-
-static int pathIsAbsolute(const char *path)
-{
-	if (strlen(path) <= 2)
-		return 0;
-	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
-		return 1;
-	return 0;
-}
 
 static INT_PTR pathToRelative(WPARAM wParam, LPARAM lParam)
 {
-	char *pSrc = (char*)wParam;
-	char *pOut = (char*)lParam;
-	if ( !pSrc || !strlen(pSrc) || strlen(pSrc)>MAX_PATH) return 0;
-	if ( !pathIsAbsolute(pSrc)) {
-		mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
-		return strlen(pOut);
-	}
-	else {
-		char szTmp[MAX_PATH];
-
-		mir_snprintf(szTmp, SIZEOF(szTmp), "%s", pSrc);
-		_strlwr(szTmp);
-		if (strstr(szTmp, szMirandaPathLower)) {
-			mir_snprintf(pOut, MAX_PATH, "%s", pSrc+strlen(szMirandaPathLower));
-			return strlen(pOut);
-		}
-		else {
-			mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
-			return strlen(pOut);
-		}
-	}
-}
-
-int pathToAbsolute(const char *pSrc, char *pOut, char* base)
-{
-	if ( !pSrc || !strlen(pSrc) || strlen(pSrc) > MAX_PATH)
-		return 0;
-
-	if (base == NULL)
-		base = szMirandaPath;
-
-	char buf[MAX_PATH];
-	if (pSrc[0] < ' ')
-		return mir_snprintf(pOut, MAX_PATH, "%s", pSrc);
-	else if (pathIsAbsolute(pSrc))
-		return GetFullPathNameA(pSrc, MAX_PATH, pOut, NULL);
-	else if (pSrc[0] != '\\')
-		mir_snprintf(buf, MAX_PATH, "%s%s", base, pSrc);
-	else
-		mir_snprintf(buf, MAX_PATH, "%s%s", base, pSrc+1);
-
-	return GetFullPathNameA(buf, MAX_PATH, pOut, NULL);
+	return PathToRelative((char*)wParam, (char*)lParam);
 }
 
 static INT_PTR pathToAbsolute(WPARAM wParam, LPARAM lParam) 
 {
-	return pathToAbsolute((char*)wParam, (char*)lParam, szMirandaPath);
-}
-
-void CreatePathToFile(char* szFilePath)
-{
-	char* pszLastBackslash = strrchr(szFilePath, '\\');
-	if (pszLastBackslash == NULL)
-		return;
-
-	*pszLastBackslash = '\0';
-	CreateDirectoryTree(szFilePath);
-	*pszLastBackslash = '\\';
-}
-
-int CreateDirectoryTree(const char *szDir)
-{
-	DWORD dwAttributes;
-	char *pszLastBackslash, szTestDir[ MAX_PATH ];
-
-	lstrcpynA(szTestDir, szDir, SIZEOF(szTestDir));
-	if ((dwAttributes = GetFileAttributesA(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
-		return 0;
-
-	pszLastBackslash = strrchr(szTestDir, '\\');
-	if (pszLastBackslash == NULL)
-		return 0;
-
-	*pszLastBackslash = '\0';
-	CreateDirectoryTree(szTestDir);
-	*pszLastBackslash = '\\';
-	return (CreateDirectoryA(szTestDir, NULL) == 0) ? GetLastError() : 0;
+	return PathToAbsolute((char*)wParam, (char*)lParam, NULL);
 }
 
 static INT_PTR createDirTree(WPARAM, LPARAM lParam)
@@ -129,94 +46,14 @@ static INT_PTR createDirTree(WPARAM, LPARAM lParam)
 	return CreateDirectoryTree((char*)lParam);
 }
 
-static TCHAR szMirandaPathW[MAX_PATH];
-static TCHAR szMirandaPathWLower[MAX_PATH];
-
-static int pathIsAbsoluteW(const TCHAR *path)
-{
-	if (lstrlen(path) <= 2)
-		return 0;
-	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
-		return 1;
-	return 0;
-}
-
 static INT_PTR pathToRelativeW(WPARAM wParam, LPARAM lParam)
 {
-	TCHAR *pSrc = (TCHAR*)wParam;
-	TCHAR *pOut = (TCHAR*)lParam;
-	if ( !pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
-		return 0;
-
-	if ( !pathIsAbsoluteW(pSrc))
-		mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	else {
-		TCHAR szTmp[MAX_PATH];
-
-		mir_sntprintf(szTmp, SIZEOF(szTmp), _T("%s"), pSrc);
-		_tcslwr(szTmp);
-		if (_tcsstr(szTmp, szMirandaPathWLower))
-			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc+lstrlen(szMirandaPathWLower));
-		else
-			mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	}
-	return lstrlen(pOut);
-}
-
-int pathToAbsoluteW(const TCHAR *pSrc, TCHAR *pOut, TCHAR* base)
-{
-	if ( !pSrc || !wcslen(pSrc) || wcslen(pSrc) > MAX_PATH)
-		return 0;
-
-	if (base == NULL)
-		base = szMirandaPathW;
-
-	TCHAR buf[MAX_PATH];
-	if (pSrc[0] < ' ')
-		return mir_sntprintf(pOut, MAX_PATH, _T("%s"), pSrc);
-	else if (pathIsAbsoluteW(pSrc))
-		return GetFullPathName(pSrc, MAX_PATH, pOut, NULL);
-	else if (pSrc[0] != '\\')
-		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc);
-	else
-		mir_sntprintf(buf, MAX_PATH, _T("%s%s"), base, pSrc+1);
-
-	return GetFullPathName(buf, MAX_PATH, pOut, NULL);
+	return PathToRelativeW((WCHAR*)wParam, (WCHAR*)lParam );
 }
 
 static INT_PTR pathToAbsoluteW(WPARAM wParam, LPARAM lParam)
 {
-	return pathToAbsoluteW((TCHAR*)wParam, (TCHAR*)lParam, szMirandaPathW);
-}
-
-void CreatePathToFileW(WCHAR* wszFilePath)
-{
-	WCHAR* pszLastBackslash = wcsrchr(wszFilePath, '\\');
-	if (pszLastBackslash == NULL)
-		return;
-
-	*pszLastBackslash = '\0';
-	CreateDirectoryTreeW(wszFilePath);
-	*pszLastBackslash = '\\';
-}
-
-int CreateDirectoryTreeW(const WCHAR* szDir)
-{
-	DWORD  dwAttributes;
-	WCHAR* pszLastBackslash, szTestDir[ MAX_PATH ];
-
-	lstrcpynW(szTestDir, szDir, SIZEOF(szTestDir));
-	if ((dwAttributes = GetFileAttributesW(szTestDir)) != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
-		return 0;
-
-	pszLastBackslash = wcsrchr(szTestDir, '\\');
-	if (pszLastBackslash == NULL)
-		return 0;
-
-	*pszLastBackslash = '\0';
-	CreateDirectoryTreeW(szTestDir);
-	*pszLastBackslash = '\\';
-	return (CreateDirectoryW(szTestDir, NULL) == 0) ? GetLastError() : 0;
+	return PathToAbsoluteW((WCHAR*)wParam, (WCHAR*)lParam, NULL);
 }
 
 static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
@@ -225,20 +62,6 @@ static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
 		return 1;
 
 	return CreateDirectoryTreeW((WCHAR*)lParam);
-}
-
-int InitPathUtilsW(void)
-{
-	GetModuleFileName(hMirandaInst, szMirandaPathW, SIZEOF(szMirandaPathW));
-	TCHAR *p = _tcsrchr(szMirandaPathW, '\\');
-	if (p)
-		p[1] = 0;
-	mir_sntprintf(szMirandaPathWLower, SIZEOF(szMirandaPathWLower), _T("%s"), szMirandaPathW);
-	_tcslwr(szMirandaPathWLower);
-	CreateServiceFunction(MS_UTILS_PATHTORELATIVEW, pathToRelativeW);
-	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTEW, pathToAbsoluteW);
-	CreateServiceFunction(MS_UTILS_CREATEDIRTREEW, createDirTreeW);
-	return 0;
 }
 
 TCHAR *GetContactID(HANDLE hContact)
@@ -251,7 +74,7 @@ TCHAR *GetContactID(HANDLE hContact)
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
 			DBFreeVariant(&dbv);
 			return theValue;
-		}	}
+	}	}
 	else {
 		CONTACTINFO ci = {0};
 		ci.cbSize = sizeof(ci);
@@ -266,7 +89,7 @@ TCHAR *GetContactID(HANDLE hContact)
 			case CNFT_DWORD:
 				return _itot(ci.dVal, (TCHAR *)mir_alloc(sizeof(TCHAR)*32), 10);
 				break;
-			}	}	}
+	}	}	}
 	return NULL;
 }
 
@@ -574,17 +397,15 @@ static INT_PTR replaceVars(WPARAM wParam, LPARAM lParam)
 
 int InitPathUtils(void)
 {
-	char *p = 0;
-	GetModuleFileNameA(hMirandaInst, szMirandaPath, SIZEOF(szMirandaPath));
-	p = strrchr(szMirandaPath, '\\');
-	if (p)
-		p[1] = 0;
-	mir_snprintf(szMirandaPathLower, MAX_PATH, "%s", szMirandaPath);
-	_strlwr(szMirandaPathLower);
 	CreateServiceFunction(MS_UTILS_PATHTORELATIVE, pathToRelative);
-	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTE, pathToAbsolute);
-	CreateServiceFunction(MS_UTILS_CREATEDIRTREE, createDirTree);
-	CreateServiceFunction(MS_UTILS_REPLACEVARS, replaceVars);
+	CreateServiceFunction(MS_UTILS_PATHTORELATIVEW, pathToRelativeW);
 
-	return InitPathUtilsW();
+	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTE, pathToAbsolute);
+	CreateServiceFunction(MS_UTILS_PATHTOABSOLUTEW, pathToAbsoluteW);
+
+	CreateServiceFunction(MS_UTILS_CREATEDIRTREE, createDirTree);
+	CreateServiceFunction(MS_UTILS_CREATEDIRTREEW, createDirTreeW);
+
+	CreateServiceFunction(MS_UTILS_REPLACEVARS, replaceVars);
+	return 0;
 }

@@ -50,15 +50,15 @@ void AddToList(char *name, DWORD len, DWORD ofs)
 	mn->name = name;
 	mn->ofs = ofs;
 
-	if (li.List_GetIndex(&lMods,mn,&index))
+	if (List_GetIndex(&lMods,mn,&index))
 		DatabaseCorruption( _T("%s (Module Name not unique)"));
 
-	li.List_Insert(&lMods,mn,index);
+	List_Insert(&lMods,mn,index);
 
-	if (li.List_GetIndex(&lOfs,mn,&index))
+	if (List_GetIndex(&lOfs,mn,&index))
 		DatabaseCorruption( _T("%s (Module Offset not unique)"));
 
-	li.List_Insert(&lOfs,mn,index);
+	List_Insert(&lOfs,mn,index);
 }
 
 
@@ -98,8 +98,8 @@ int InitModuleNames(void)
 void UninitModuleNames(void)
 {
 	HeapDestroy(hModHeap);
-	li.List_Destroy(&lMods);
-	li.List_Destroy(&lOfs);
+	List_Destroy(&lMods);
+	List_Destroy(&lOfs);
 }
 
 static DWORD FindExistingModuleNameOfs(const char *szName)
@@ -114,7 +114,7 @@ static DWORD FindExistingModuleNameOfs(const char *szName)
 	if (lastmn && ModCompare(&mn,lastmn) == 0)
 		return lastmn->ofs;
 
-	if (li.List_GetIndex(&lMods,&mn,&index)) {
+	if (List_GetIndex(&lMods,&mn,&index)) {
 		pmn = (ModuleName*)lMods.items[index];
 		lastmn = pmn;
 		return pmn->ofs;
@@ -168,7 +168,7 @@ char *GetModuleNameByOfs(DWORD ofs)
 	mn.name = NULL;
 	mn.ofs = ofs;
 
-	if (li.List_GetIndex(&lOfs,&mn,&index)) {
+	if (List_GetIndex(&lOfs,&mn,&index)) {
 		pmn = (ModuleName*)lOfs.items[index];
 		lastmn = pmn;
 		return pmn->name;

@@ -212,12 +212,6 @@ void   overrideStr(TCHAR*& dest, const TCHAR* src, bool unicode, const TCHAR* de
 void   replaceStr(char*& dest, const char* src);
 void   replaceStr(wchar_t*& dest, const wchar_t* src);
 
-char*    __fastcall ltrimp(char* str);
-char*    __fastcall rtrim(char* string);
-wchar_t* __fastcall rtrim(wchar_t* string);
-
-__inline char* lrtrimp(char* str) { return ltrimp(rtrim(str)); };
-
 char* arrayToHex(BYTE* data, size_t datasz);
 
 inline unsigned short _htons(unsigned short s)
@@ -260,7 +254,7 @@ struct STRLIST : public LIST<char>
 		for (int i=0; i < count; i++)
 			mir_free(items[i]);
 
-		li.List_Destroy((SortedList*)this);
+		List_Destroy((SortedList*)this);
 	}
 
 	int insertn(const char* p) { return insert(mir_strdup(p)); }
@@ -268,13 +262,13 @@ struct STRLIST : public LIST<char>
 	int remove(int idx)
 	{
 		mir_free(items[idx]);
-		return li.List_Remove((SortedList*)this, idx);
+		return List_Remove((SortedList*)this, idx);
 	}
 
 	int remove(const char* p)
 	{
 		int idx;
-		return  li.List_GetIndex((SortedList*)this, (char*)p, &idx) == 1 ? remove(idx) : -1;
+		return  List_GetIndex((SortedList*)this, (char*)p, &idx) == 1 ? remove(idx) : -1;
 	}
 };
 

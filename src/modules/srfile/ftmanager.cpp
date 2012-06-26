@@ -313,8 +313,8 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 		dat->hhkPreshutdown = HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwnd, M_PRESHUTDOWN);
 
-		dat->hwndIncoming = CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
-		dat->hwndOutgoing = CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
+		dat->hwndIncoming = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
+		dat->hwndOutgoing = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTPAGE), hwnd, FtMgrPageDlgProc);
 		ShowWindow(dat->hwndIncoming, SW_SHOW);
 
 		tci.mask = TCIF_PARAM|TCIF_TEXT;
@@ -537,7 +537,7 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu)
 	bool bJustCreated = (hwndFtMgr == NULL);
 	if (bJustCreated)
 	{
-		hwndFtMgr = CreateDialog(hMirandaInst, MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
+		hwndFtMgr = CreateDialog(hInst, MAKEINTRESOURCE(IDD_FTMGR), NULL, FtMgrDlgProc);
 	}
 	if (bFromMenu) /* lqbe */
 	{
@@ -584,7 +584,7 @@ HWND FtMgr_AddTransfer(FileDlgData *fdd)
 	TFtMgrData *dat = (TFtMgrData*)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
 	if (dat == NULL) return NULL;
 	HWND hwndBox = fdd->send ? dat->hwndOutgoing : dat->hwndIncoming;
-	HWND hwndFt = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_FILETRANSFERINFO), hwndBox, DlgProcFileTransfer, (LPARAM)fdd);
+	HWND hwndFt = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_FILETRANSFERINFO), hwndBox, DlgProcFileTransfer, (LPARAM)fdd);
 	ShowWindow(hwndFt, SW_SHOWNA);
 	SendMessage(hwndBox, WM_FT_ADD, 0, (LPARAM)hwndFt);
 	FtMgr_ShowPage(fdd->send ? 1 : 0);

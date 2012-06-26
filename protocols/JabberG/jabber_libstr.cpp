@@ -42,36 +42,10 @@ void __stdcall replaceStr( WCHAR*& dest, const WCHAR* src )
 	dest = ( src != NULL ) ? mir_wstrdup( src ) : NULL;
 }
 
-char* __stdcall rtrim( char *string )
-{
-   char* p = string + strlen( string ) - 1;
-
-   while ( p >= string ) {
-		if ( *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r' )
-         break;
-
-		*p-- = 0;
-   }
-   return string;
-}
-
 int lstrcmp_null(const TCHAR *s1, const TCHAR *s2)
 {
 	if (!s1 && !s2) return 0;
 	if (!s1) return -1;
 	if (!s2) return 1;
 	return lstrcmp(s1, s2);
-}
-
-TCHAR* __stdcall rtrim( TCHAR *string )
-{
-   TCHAR* p = string + _tcslen( string ) - 1;
-
-   while ( p >= string ) {
-		if ( *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r' )
-         break;
-
-		*p-- = 0;
-   }
-   return string;
 }

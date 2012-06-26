@@ -36,7 +36,7 @@ INT_PTR CALLBACK FinishedDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPa
 				SetDlgItemText(hdlg,IDC_BACKUPFILE,opts.backupFilename);
 			}
 			else ShowWindow(GetDlgItem(hdlg,IDC_STBACKUP),FALSE);
-			TranslateDialog(hdlg);
+			TranslateDialogDefault(hdlg);
 			return TRUE;
 		case WM_LAUNCHMIRANDA:
 			if(IsDlgButtonChecked(hdlg,IDC_LAUNCHMIRANDA)) {

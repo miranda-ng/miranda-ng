@@ -312,11 +312,11 @@ BOOL EnumProfilesForList(TCHAR * fullpath, TCHAR * profile, LPARAM lParam)
 		}	}
 
 		item2.iSubItem = 3;
-		item2.pszText = rtrim(_tctime(&statbuf.st_ctime));
+		item2.pszText = trtrim(_tctime(&statbuf.st_ctime));
 		SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 
 		item2.iSubItem = 4;
-		item2.pszText = rtrim(_tctime(&statbuf.st_mtime));
+		item2.pszText = trtrim(_tctime(&statbuf.st_mtime));
 		SendMessage(hwndList, LVM_SETITEMTEXT, iItem, (LPARAM)&item2);
 	}
 	return TRUE;
@@ -537,8 +537,8 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		struct DlgProfData * prof = (struct DlgProfData *)lParam;
 		PROPSHEETHEADER *psh = prof->psh;
 		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(hMirandaInst, MAKEINTRESOURCE(IDI_USERDETAILS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
-		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(hMirandaInst, MAKEINTRESOURCE(IDI_USERDETAILS), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
+		SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_USERDETAILS), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0));
+		SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadImage(hInst, MAKEINTRESOURCE(IDI_USERDETAILS), IMAGE_ICON, GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON), 0));
 		dat = (struct DetailsData*)mir_alloc(sizeof(struct DetailsData));
 		dat->prof = prof;
 		prof->hwndOK = GetDlgItem(hwndDlg, IDOK);
@@ -805,7 +805,7 @@ int getProfileManager(PROFILEMANAGERDATA * pd)
 		odp.pszTitle    = LPGEN("My Profiles");
 		odp.pfnDlgProc  = DlgProfileSelect;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROFILE_SELECTION);
-		odp.hInstance   = hMirandaInst;
+		odp.hInstance   = hInst;
 		AddProfileManagerPage(&opi, &odp);
 
 		odp.pszTitle    = LPGEN("New Profile");
@@ -825,7 +825,7 @@ int getProfileManager(PROFILEMANAGERDATA * pd)
 	DlgProfData prof;
 	prof.pd  = pd;
 	prof.psh = &psh;
-	int rc = DialogBoxParam(hMirandaInst, MAKEINTRESOURCE(IDD_PROFILEMANAGER), NULL, DlgProfileManager, (LPARAM)&prof);
+	int rc = DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_PROFILEMANAGER), NULL, DlgProfileManager, (LPARAM)&prof);
 
 	if (rc != -1)
 		for (int i=0; i < opi.pageCount; i++) {

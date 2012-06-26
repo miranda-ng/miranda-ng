@@ -73,7 +73,7 @@ static TCHAR* GetAwayMessage(int statusMode, char *szProto)
 {
 	DBVARIANT dbv;
 	
-	if (szProto && !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
+	if (szProto && !(CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 		return NULL;
 
 	if (DBGetContactSettingByte(NULL, "SRAway", StatusModeToDbSetting(statusMode, "Ignore"), 0))
@@ -176,13 +176,13 @@ void ChangeAllProtoMessages(char *szProto, int statusMode, TCHAR *msg)
 		{
 			PROTOACCOUNT* pa = accounts[i];
 			if ( !Proto_IsAccountEnabled(pa)) continue;
-			if ((CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && 
+			if ((CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) && 
 				!Proto_IsAccountLocked(pa))
-				CallProtoService(pa->szModuleName, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
+				CallProtoServiceInt(NULL,pa->szModuleName, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
 		}
 	}
 	else 
-		CallProtoService(szProto, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
+		CallProtoServiceInt(NULL,szProto, PS_SETAWAYMSGT, statusMode, (LPARAM)msg);
 }
 
 struct SetAwayMsgData 
@@ -323,8 +323,8 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	else
 	{
 		// If its a single protocol check the PFLAGNUM_3 for the single protocol
-		if ( !(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)  || 
-			!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
+		if ( !(CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND)  || 
+			!(CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(statusMode)))
 			return 0;
 	}
 
@@ -346,7 +346,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 		newdat->statusMode = statusMode;
 		if (hwndStatusMsg)
 			DestroyWindow(hwndStatusMsg);
-		hwndStatusMsg = CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_SETAWAYMSG), 
+		hwndStatusMsg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_SETAWAYMSG), 
 			NULL, SetAwayMsgDlgProc, (LPARAM)newdat);
 	}
 	return 0;
@@ -547,7 +547,7 @@ static int AwayMsgOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 870000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AWAYMSG);
 	odp.pszTitle = LPGEN("Status Messages");
 	odp.pszGroup = LPGEN("Status");
@@ -570,7 +570,7 @@ static int AwayMsgSendModernOptInit(WPARAM wParam, LPARAM)
 
 	MODERNOPTOBJECT obj = {0};
 	obj.cbSize = sizeof(obj);
-	obj.hInstance = hMirandaInst;
+	obj.hInstance = hInst;
 	obj.dwFlags = MODEROPT_FLG_TCHAR | MODEROPT_FLG_NORESIZE;
 	obj.iSection = MODERNOPT_PAGE_STATUS;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;
@@ -590,7 +590,7 @@ static int AwayMsgSendAccountsChanged(WPARAM, LPARAM)
 	for (int i=0; i < accounts.getCount(); i++) 
 	{
 		if ( !Proto_IsAccountEnabled(accounts[i])) continue;
-		protoModeMsgFlags |= CallProtoService(accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
+		protoModeMsgFlags |= CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);
 	}
 
 	return 0;

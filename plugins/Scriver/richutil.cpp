@@ -100,7 +100,7 @@ void RichUtil_Load(void)
 
 void RichUtil_Unload(void) 
 {
-	li.List_Destroy(&sListInt);
+	List_Destroy(&sListInt);
 	DeleteCriticalSection(&csRich);
 	if (mTheme)
 		FreeLibrary(mTheme);
@@ -118,8 +118,8 @@ int RichUtil_SubClass(HWND hwndEdit)
 		ru->hasUglyBorder = 0;
 
 		EnterCriticalSection(&csRich);
-		if (!li.List_GetIndex(&sListInt, ru, &idx))
-			li.List_Insert(&sListInt, ru, idx);
+		if (!List_GetIndex(&sListInt, ru, &idx))
+			List_Insert(&sListInt, ru, idx);
 		LeaveCriticalSection(&csRich);
 
 		ru->origProc = (WNDPROC)SetWindowLongPtr(ru->hwnd, GWLP_WNDPROC, (LONG_PTR)&RichUtil_Proc);
@@ -137,7 +137,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	tru.hwnd = hwnd;
 
 	EnterCriticalSection(&csRich);
-	if (li.List_GetIndex(&sListInt, &tru, &idx))
+	if (List_GetIndex(&sListInt, &tru, &idx))
 		ru = (TRichUtil*)sListInt.items[idx];
 	LeaveCriticalSection(&csRich);
 
@@ -242,7 +242,7 @@ static LRESULT CALLBACK RichUtil_Proc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			}
 
 			EnterCriticalSection(&csRich);
-			li.List_Remove(&sListInt, idx);
+			List_Remove(&sListInt, idx);
 			LeaveCriticalSection(&csRich);
 
 			mir_free(ru);

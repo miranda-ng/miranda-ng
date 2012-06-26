@@ -31,7 +31,7 @@ INT_PTR CALLBACK OpenErrorDlgProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lP
 			}
 			if(opts.error==ERROR_SHARING_VIOLATION) ShowWindow(GetDlgItem(hdlg,IDC_INUSE),SW_SHOW);
 			SetWindowLongPtr( GetDlgItem( hdlg, IDC_FILE ), GWL_STYLE, GetWindowLongPtr( GetDlgItem( hdlg, IDC_FILE ), GWL_STYLE ) | SS_PATHELLIPSIS );
-			TranslateDialog( hdlg );
+			TranslateDialogDefault( hdlg );
 			SetDlgItemText( hdlg, IDC_FILE, opts.filename );
 			return TRUE;
 		case WM_COMMAND:

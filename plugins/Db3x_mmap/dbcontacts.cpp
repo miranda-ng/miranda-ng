@@ -62,8 +62,8 @@ DBCachedContactValueList* AddToCachedContactList(HANDLE hContact, int index)
 	DBCachedContactValueList* VL;
 	VL = (DBCachedContactValueList*)HeapAlloc(hCacheHeap,HEAP_ZERO_MEMORY,sizeof(DBCachedContactValueList));
 	VL->hContact = hContact;
-	if (index == -1) li.List_GetIndex(&lContacts,VL,&index);
-	li.List_Insert(&lContacts,VL,index);
+	if (index == -1) List_GetIndex(&lContacts,VL,&index);
+	List_Insert(&lContacts,VL,index);
 	return VL;
 }
 
@@ -115,7 +115,7 @@ static INT_PTR FindNextContact(WPARAM wParam,LPARAM lParam)
 	VLtemp.hContact = (HANDLE)wParam;
 	EnterCriticalSection(&csDbAccess);
 	while(VLtemp.hContact) {
-		if ( li.List_GetIndex(&lContacts,&VLtemp,&index)) {
+		if ( List_GetIndex(&lContacts,&VLtemp,&index)) {
 			VL = ( DBCachedContactValueList* )lContacts.items[index];
 			if (VL->hNext != NULL) {
 				if (!lParam || CheckProto(VL->hNext,(const char*)lParam)) {
@@ -174,7 +174,7 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 
 	{	DBCachedContactValueList VLtemp;
 		VLtemp.hContact = (HANDLE)wParam;
-		if ( li.List_GetIndex(&lContacts,&VLtemp,&index))
+		if ( List_GetIndex(&lContacts,&VLtemp,&index))
 		{
 			DBCachedContactValueList *VL = ( DBCachedContactValueList* )lContacts.items[index];
 			DBCachedContactValue* V = VL->first;
@@ -188,7 +188,7 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 
 			if (VLtemp.hContact == hLastCachedContact)
 				hLastCachedContact = NULL;
-			li.List_Remove(&lContacts,index);
+			List_Remove(&lContacts,index);
 	}	}
 
 	dbc=(struct DBContact*)DBRead(wParam,sizeof(struct DBContact),NULL);
@@ -229,7 +229,7 @@ static INT_PTR DeleteContact(WPARAM wParam,LPARAM lParam)
 		{
 			DBCachedContactValueList VLtemp;
 			VLtemp.hContact = (HANDLE)ofsThis;
-			if ( li.List_GetIndex(&lContacts,&VLtemp,&index))
+			if ( List_GetIndex(&lContacts,&VLtemp,&index))
 			{
 				DBCachedContactValueList *VL = ( DBCachedContactValueList* )lContacts.items[index];
 				VL->hNext = ( HANDLE )ofsNext;
@@ -285,7 +285,7 @@ static INT_PTR IsDbContact(WPARAM wParam,LPARAM lParam)
 		int index;
 		DBCachedContactValueList VLtemp;
 		VLtemp.hContact = (HANDLE)wParam;
-		if ( li.List_GetIndex(&lContacts,&VLtemp,&index))
+		if ( List_GetIndex(&lContacts,&VLtemp,&index))
 			ret = TRUE;
 		else {
 			dbc=(struct DBContact*)DBRead(ofsContact,sizeof(struct DBContact),NULL);

@@ -19,13 +19,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "dbtool.h"
 
 HINSTANCE hInst;
+int hLangpack=0;
 
 DbToolOptions opts = {0};
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	hInst=hInstance;
-	LoadLangPackModule();
+	hInst = hInstance;
 	InitCommonControls();
 	DialogBox(hInst,MAKEINTRESOURCE(IDD_WIZARD),NULL,WizardDlgProc);
 	return 0;

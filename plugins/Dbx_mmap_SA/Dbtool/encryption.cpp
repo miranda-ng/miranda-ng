@@ -230,7 +230,7 @@ BOOL CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		{
 			HWND hwndCtrl;
 //			if(pluginLink && ServiceExists(MS_LANGPACK_TRANSLATEDIALOG))
-			TranslateDialog(hDlg);
+			TranslateDialogDefault(hDlg);
 
 			if(lParam && !wrongPass) SetDlgItemTextA(hDlg, IDC_DBNAME, (LPCSTR)lParam);
 			if(wrongPass) 

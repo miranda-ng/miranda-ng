@@ -75,7 +75,7 @@ struct IconItem
 	HICON        temp_icon;
 	BOOL         temp_reset;
 
-	__inline TCHAR* getDescr() const { return LangPackTranslateStringT(hLangpack, description); }
+	__inline TCHAR* getDescr() const { return TranslateTH(hLangpack, description); }
 };
 
 // extracticon.c

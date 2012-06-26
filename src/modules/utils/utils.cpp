@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR ResizeDialog(WPARAM wParam, LPARAM lParam);
 int InitOpenUrl(void);
 int InitWindowList(void);
+int InitPathUtils(void);
 void FreeWindowList(void);
 int InitHyperlink(void);
 int InitColourPicker(void);
@@ -461,98 +462,6 @@ static INT_PTR GenerateRandom(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* __fastcall rtrim(char* str)
-{
-	if (str == NULL) return NULL;
-	char* p = strchr(str, 0);
-	while (--p >= str)
-	{
-		switch (*p)
-		{
-		case ' ': case '\t': case '\n': case '\r':
-			*p = 0; break;
-		default:
-			return str;
-		}
-	}
-	return str;
-}
-
-TCHAR* __fastcall rtrim(TCHAR *str)
-{
-	if (str == NULL) return NULL;
-	TCHAR* p = _tcschr(str, 0);
-	while (--p >= str)
-	{
-		switch (*p)
-		{
-		case ' ': case '\t': case '\n': case '\r':
-			*p = 0; break;
-		default:
-			return str;
-		}
-	}
-	return str;
-}
-
-char* __fastcall ltrim(char* str)
-{
-	if (str == NULL) return NULL;
-	char* p = str;
-
-	for (;;)
-	{
-		switch (*p)
-		{
-		case ' ': case '\t': case '\n': case '\r':
-			++p; break;
-		default:
-			memmove(str, p, strlen(p) + 1);
-			return str;
-		}
-	}
-}
-
-char* __fastcall ltrimp(char* str)
-{
-	if (str == NULL) return NULL;
-	char* p = str;
-
-	for (;;)
-	{
-		switch (*p)
-		{
-		case ' ': case '\t': case '\n': case '\r':
-			++p; break;
-		default:
-			return p;
-		}
-	}
-}
-
-bool __fastcall wildcmp(char * name, char * mask)
-{
-	char * last='\0';
-	for (;; mask++, name++)
-	{
-		if (*mask != '?' && *mask != *name) break;
-		if (*name == '\0') return ((BOOL)!*mask);
-	}
-	if (*mask != '*') return FALSE;
-	for (;; mask++, name++)
-	{
-		while (*mask == '*')
-		{
-			last = mask++;
-			if (*mask == '\0') return ((BOOL)!*mask);   /* true */
-		}
-		if (*name == '\0') return ((BOOL)!*mask);      /* *mask == EOS */
-		if (*mask != '?' && *mask != *name) name -= (size_t)(mask - last) - 1, mask = last;
-	}	
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 int LoadUtilsModule(void)
 {
 	bModuleInitialized = TRUE;
@@ -570,6 +479,7 @@ int LoadUtilsModule(void)
 	InitOpenUrl();
 	InitWindowList();
 	InitHyperlink();
+	InitPathUtils();
 	InitColourPicker();
 	InitBitmapFilter();
 	InitXmlApi();

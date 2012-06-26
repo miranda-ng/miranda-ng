@@ -50,7 +50,7 @@ struct pluginEntry
 	pluginEntry* nextclass;
 };
 
-extern LIST<pluginEntry> pluginList, pluginListAddr;
+extern LIST<pluginEntry> pluginList;
 extern MUUID miid_last;
 
 int PluginOptionsInit(WPARAM, LPARAM);

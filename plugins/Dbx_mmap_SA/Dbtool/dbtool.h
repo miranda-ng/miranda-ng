@@ -34,9 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 #include <win2k.h>
 
-//#include <newpluginapi.h> // Only needed to keep m_database.h happy
-#define CallService(a,b,c) 1
-
 #include "m_database.h"
 #include "database.h" // Note: This is a copy of database.h from the Miranda IM v0.3 tree.
                       //       Remember to update this when releasing new dbtool versions.
@@ -104,18 +101,4 @@ DWORD ConvertModuleNameOfs(DWORD ofsOld);
 void FreeModuleChain();
 extern BOOL bEncrypted;
 
-int TranslateDialog(HWND hwndDlg);
-void LoadLangPackModule(void);
-void UnloadLangPackModule(void);
-
-char* LangPackTranslateString(const char *szEnglish, const int W);
-__inline LPSTR Translate(LPSTR source)
-{	return ( LPSTR )LangPackTranslateString( source, 0 );
-}
-
-#define TranslateT(s) (TCHAR*)LangPackTranslateString((LPCSTR)_T(s),1)
-#define TranslateTS(s) (TCHAR*)LangPackTranslateString((LPCSTR)s,1)
-
-char* Utf8DecodeCP(char* str, int codepage, wchar_t** ucs2);
-char* Utf8EncodeUcs2(const wchar_t* src);
 bool is_utf8_string(const char* str);

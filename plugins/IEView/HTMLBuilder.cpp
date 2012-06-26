@@ -222,7 +222,7 @@ void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			mir_snprintf(buf, sizeof(buf), "%s", ci.pszVal);
-			miranda_sys_free(ci.pszVal);
+			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
 			mir_snprintf(buf, sizeof(buf), "%u", ci.dVal);
@@ -236,7 +236,7 @@ void HTMLBuilder::getUINs(HANDLE hContact, char *&uinIn, char *&uinOut) {
 		switch (ci.type) {
 		case CNFT_ASCIIZ:
 			mir_snprintf(buf, sizeof(buf), "%s", ci.pszVal);
-			miranda_sys_free(ci.pszVal);
+			mir_free(ci.pszVal);
 			break;
 		case CNFT_DWORD:
 			mir_snprintf(buf, sizeof(buf), "%u", ci.dVal);
@@ -266,7 +266,7 @@ wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char* szProto) {
 				} else {
 					szName = Utils::dupString((wchar_t *)ci.pszVal);
 				}
-				miranda_sys_free(ci.pszVal);
+				mir_free(ci.pszVal);
 			}
 		}
 	}
@@ -276,7 +276,7 @@ wchar_t *HTMLBuilder::getContactName(HANDLE hContact, const char* szProto) {
 		if (ci.type == CNFT_ASCIIZ) {
 			if (ci.pszVal) {
 				szName = Utils::convertToWCS((char *)ci.pszVal);
-				miranda_sys_free(ci.pszVal);
+				mir_free(ci.pszVal);
 			}
 		}
 	}

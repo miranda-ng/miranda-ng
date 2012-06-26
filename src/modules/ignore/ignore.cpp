@@ -178,8 +178,8 @@ static void SetAllContactIcons(HWND hwndList)
 			szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if (szProto == NULL) proto1Caps=proto4Caps=0;
 			else {
-                proto1Caps=CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-                proto4Caps=CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+                proto1Caps=CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+                proto4Caps=CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_4, 0);
             }
 			InitialiseItem(hwndList, hContact, hItem, proto1Caps, proto4Caps);
 			if ( !DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
@@ -345,7 +345,7 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = 900000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_IGNORE);
 	odp.pszTitle = LPGEN("Ignore");
 	odp.pszGroup = LPGEN("Events");
@@ -437,7 +437,7 @@ static int IgnoreModernOptInit(WPARAM wParam, LPARAM)
 
 	MODERNOPTOBJECT obj = {0};
 	obj.cbSize = sizeof(obj);
-	obj.hInstance = hMirandaInst;
+	obj.hInstance = hInst;
 	obj.dwFlags = MODEROPT_FLG_TCHAR;
 	obj.iSection = MODERNOPT_PAGE_IGNORE;
 	obj.iType = MODERNOPT_TYPE_SECTIONPAGE;

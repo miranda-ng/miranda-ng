@@ -416,7 +416,7 @@ void CMsnProto::displayEmailCount(HANDLE hContact)
 	}
 	while (ch && !_istdigit(ch[1]));  
 	if (ch) *ch = 0;
-	rtrim(name);
+	trtrim(name);
 
 	TCHAR szNick[128];
 	mir_sntprintf(szNick, SIZEOF(szNick), 

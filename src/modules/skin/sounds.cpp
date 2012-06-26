@@ -30,8 +30,8 @@ struct SoundItem
 	TCHAR* ptszTempFile;
 	int    hLangpack;
 
-	__inline TCHAR* getSection() const { return LangPackTranslateStringT(hLangpack, ptszSection); }
-	__inline TCHAR* getDescr() const { return LangPackTranslateStringT(hLangpack, ptszDescription); }
+	__inline TCHAR* getSection() const { return TranslateTH(hLangpack, ptszSection); }
+	__inline TCHAR* getDescr() const { return TranslateTH(hLangpack, ptszDescription); }
 
 	__inline void clear(void)
 	{
@@ -112,7 +112,7 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 		DBVARIANT dbv;
 		if ( DBGetContactSettingTString(NULL, "SkinSounds", pszSoundName, &dbv) == 0) {
 			TCHAR szFull[MAX_PATH];
-			pathToAbsoluteT(dbv.ptszVal, szFull, NULL);
+			PathToAbsoluteT(dbv.ptszVal, szFull, NULL);
 			NotifyEventHooks(hPlayEvent, 0, (LPARAM)szFull);
 			DBFreeVariant(&dbv);
 		}
@@ -236,7 +236,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				DBVARIANT dbv;
 				if ( !DBGetContactSettingTString(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 					TCHAR szPathFull[MAX_PATH];
-					pathToAbsoluteT(dbv.ptszVal, szPathFull, NULL);
+					PathToAbsoluteT(dbv.ptszVal, szPathFull, NULL);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
 					DBFreeVariant(&dbv);
 				}
@@ -266,12 +266,12 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if (DBGetContactSettingByte(NULL, "SkinSoundsOff", snd.name, 0) == 0) {
 					DBVARIANT dbv;
 					if (DBGetContactSettingTString(NULL, "SkinSounds", snd.name, &dbv) == 0) {
-						pathToAbsoluteT(dbv.ptszVal, strdir, NULL);
+						PathToAbsoluteT(dbv.ptszVal, strdir, NULL);
 						DBFreeVariant(&dbv);
 			}	}	}
 
 			mir_sntprintf(strFull, SIZEOF(strFull), _T("%s"), snd.ptszTempFile ? snd.ptszTempFile : _T(""));
-			pathToAbsoluteT(strFull, strdir, NULL);
+			PathToAbsoluteT(strFull, strdir, NULL);
 
 			OPENFILENAME ofn;
 			ZeroMemory(&ofn, sizeof(ofn));
@@ -411,7 +411,7 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.position = -200000000;
-	odp.hInstance = hMirandaInst;
+	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SOUND);
 	odp.pszGroup = LPGEN("Customize");
 	odp.pszTitle = LPGEN("Sounds");

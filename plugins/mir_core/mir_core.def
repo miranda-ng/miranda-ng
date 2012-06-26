@@ -1,0 +1,5 @@
+LIBRARY mir_core
+
+EXPORTS
+   CallContactService @1
+   CallProtoService   @2

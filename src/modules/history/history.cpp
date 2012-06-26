@@ -39,7 +39,7 @@ static INT_PTR UserHistoryCommand(WPARAM wParam, LPARAM)
 		SetFocus(hwnd);
 		return 0;
 	}
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, DlgProcHistory, wParam);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY), NULL, DlgProcHistory, wParam);
 	return 0;
 }
 
@@ -290,7 +290,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			UTILRESIZEDIALOG urd={0};
 			urd.cbSize=sizeof(urd);
 			urd.hwndDlg=hwndDlg;
-			urd.hInstance=hMirandaInst;
+			urd.hInstance=hInst;
 			urd.lpTemplate=MAKEINTRESOURCEA(IDD_HISTORY);
 			urd.lParam=(LPARAM)NULL;
 			urd.pfnResizer=HistoryDlgResizer;
@@ -305,7 +305,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 
 		case IDC_FIND:
-			ShowWindow(CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_HISTORY_FIND), hwndDlg, DlgProcHistoryFind, (LPARAM)hwndDlg), SW_SHOW);
+			ShowWindow(CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_HISTORY_FIND), hwndDlg, DlgProcHistoryFind, (LPARAM)hwndDlg), SW_SHOW);
 			return TRUE;
 
 		case IDC_DELETEHISTORY:

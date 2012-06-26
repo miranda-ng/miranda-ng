@@ -291,9 +291,9 @@ DWORD	MTime::TimeStamp() const
 	li.QuadPart /= 10000000i64;
 	li.QuadPart -= 11644473600i64;
 
-	if (li.QuadPart < 0) {
+	if (li.QuadPart < 0)
 		return 0;
-	}
+
 	return (DWORD)li.QuadPart;
 }
 
@@ -372,7 +372,6 @@ WORD	MTime::DateFormatLong(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 VOID	MTime::FromStampAsUTC(const DWORD dwTimeStamp)
 {
 	LARGE_INTEGER li;
-
 	li.QuadPart = (dwTimeStamp + 11644473600i64) * 10000000i64;
 	Set(li, FALSE);
 }

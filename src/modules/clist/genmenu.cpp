@@ -77,7 +77,7 @@ LPTSTR GetMenuItemText(PMO_IntMenuItem pimi)
 	if (pimi->mi.flags & CMIF_KEEPUNTRANSLATED)
 		return pimi->mi.ptszName;
 		
-	return LangPackTranslateStringT(pimi->mi.hLangpack, pimi->mi.ptszName);
+	return TranslateTH(pimi->mi.hLangpack, pimi->mi.ptszName);
 }
 
 PMO_IntMenuItem MO_RecursiveWalkMenu(PMO_IntMenuItem parent, pfnWalkFunc func, void* param)

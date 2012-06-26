@@ -52,8 +52,8 @@ INT_PTR CALLBACK DlgProcAdded(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			char* last     = first + strlen(first) + 1;
 			char* email    = last  + strlen(last)  + 1;
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
 
 			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
@@ -184,8 +184,8 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			email    = last  + strlen(last)  + 1;
 			reason   = email + strlen(email) + 1;
 
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, CallProtoServiceInt(NULL,dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
 
 			PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), FALSE);
 
 			SendDlgItemMessage(hwndDlg, IDC_DENYREASON, EM_LIMITTEXT, 255, 0);
-			if (CallProtoService(dbei.szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_NOAUTHDENYREASON)
+			if (CallProtoServiceInt(NULL,dbei.szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_NOAUTHDENYREASON)
 			{
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DENYREASON), FALSE);
 				SetDlgItemText(hwndDlg, IDC_DENYREASON, TranslateT("Feature is not supported by protocol"));
@@ -267,7 +267,7 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				DBEVENTINFO dbei = {0};
 				dbei.cbSize = sizeof(dbei);
 				CallService(MS_DB_EVENT_GET, (WPARAM)hDbEvent, (LPARAM)&dbei);
-				CallProtoService(dbei.szModule, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
+				CallProtoServiceInt(NULL,dbei.szModule, PS_AUTHALLOW, (WPARAM)hDbEvent, 0);
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_ADDCHECK))
 				{
@@ -291,10 +291,10 @@ INT_PTR CALLBACK DlgProcAuthReq(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				{
 					TCHAR szReason[256];
 					GetDlgItemText(hwndDlg, IDC_DENYREASON, szReason, SIZEOF(szReason));
-					CallProtoService(dbei.szModule, PS_AUTHDENYT, (WPARAM)hDbEvent, (LPARAM)szReason);
+					CallProtoServiceInt(NULL,dbei.szModule, PS_AUTHDENYT, (WPARAM)hDbEvent, (LPARAM)szReason);
 				}
 				else
-					CallProtoService(dbei.szModule, PS_AUTHDENYT, (WPARAM)hDbEvent, 0);
+					CallProtoServiceInt(NULL,dbei.szModule, PS_AUTHDENYT, (WPARAM)hDbEvent, 0);
 			}
 			DestroyWindow(hwndDlg);
 			break;;

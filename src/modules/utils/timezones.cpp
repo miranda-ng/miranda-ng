@@ -169,7 +169,7 @@ static HANDLE timeapiGetInfoByName(LPCTSTR tszName, DWORD dwFlags)
 		return (dwFlags & TZF_DIFONLY) ? NULL : &myInfo.myTZ;
 
 	MIM_TIMEZONE tzsearch;
-	tzsearch.hash = hashstr(tszName);
+	tzsearch.hash = mir_hashstrT(tszName);
 
 	MIM_TIMEZONE *tz = g_timezones.find(&tzsearch);
 	if (tz == NULL)
@@ -381,7 +381,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
 		{
-			unsigned hash = hashstr(dbv.ptszVal);
+			unsigned hash = mir_hashstrT(dbv.ptszVal);
 			for (int i = 0; i < g_timezonesBias.getCount(); ++i)
 			{
 				if (hash == g_timezonesBias[i]->hash)
@@ -607,7 +607,7 @@ void InitTimeZones(void)
 				tz->tzi.DaylightBias = tzi.DaylightBias;
 
 				_tcscpy(tz->tszName, tszName);
-				tz->hash = hashstr(tszName);
+				tz->hash = mir_hashstrT(tszName);
 				tz->offset = INT_MIN;
 
 				GetLocalizedString(hSubKey, _T("Display"), tz->szDisplay, SIZEOF(tz->szDisplay));

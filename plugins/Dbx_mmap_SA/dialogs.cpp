@@ -4,8 +4,6 @@
 #include <m_options.h>
 #include <m_icolib.h>
 
-#include <shlobj.h>
-
 #define MS_DB_CHANGEPASSWORD "DB/ChangePassword"
 
 extern char encryptKey[255];

@@ -125,7 +125,7 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 		SetForegroundWindow(hwnd);
 		SetFocus(hwnd);
 	}
-	else CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
+	else CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_READAWAYMSG), NULL, ReadAwayMsgDlgProc, wParam);
 	return 0;
 }
 
@@ -146,8 +146,8 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), cli.pfnGetStatusModeDescription(status, 0));
 			clmi.ptszName = str;
-			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
-				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
+			if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
+				if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
 					clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_NOTOFFLINE | CMIM_ICON | CMIF_TCHAR;
 					clmi.hIcon = LoadSkinProtoIcon(szProto, status);
 	}	}	}	}

@@ -164,7 +164,7 @@ int _DebugTraceW(const wchar_t *fmt, ...)
 		mir_snprintf(szLogFileName, MAX_PATH, "%s\\%s", szDataPath, "tabsrmm_debug.log");
 		f = fopen(szLogFileName, "a+");
 		if (f) {
-			char *szDebug = M->utf8_encodeW(debug);
+			char *szDebug = mir_utf8encodeT(debug);
 			fputs(tszTime, f);
 			fputs(szDebug, f);
 			fputs("\n", f);

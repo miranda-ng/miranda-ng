@@ -289,7 +289,7 @@ LBL_Exit:
 			JFreeVariant( &dbv );
 		}
 
-		if ( *rtrim(info->username) == '\0' ) {
+		if ( *trtrim(info->username) == '\0' ) {
 			DWORD dwSize = SIZEOF( info->username );
 			if ( GetUserName( info->username, &dwSize ))
 				JSetStringT( NULL, "LoginName", info->username );
@@ -297,7 +297,7 @@ LBL_Exit:
 				info->username[0] = 0;
 		}
 
-		if ( *rtrim(info->username) == '\0' ) {
+		if ( *trtrim(info->username) == '\0' ) {
 			Log( "Thread ended, login name is not configured" );
 			JSendBroadcast( NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID );
 LBL_FatalError:

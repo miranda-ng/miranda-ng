@@ -34,7 +34,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 static INT_PTR ReadUrlCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_URLRECV), NULL, DlgProcUrlRecv, lParam);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_URLRECV), NULL, DlgProcUrlRecv, lParam);
 	return 0;
 }
 
@@ -66,7 +66,7 @@ static int UrlEventAdded(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SendUrlCommand(WPARAM wParam, LPARAM)
 {
-	CreateDialogParam(hMirandaInst, MAKEINTRESOURCE(IDD_URLSEND), NULL, DlgProcUrlSend, wParam);
+	CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_URLSEND), NULL, DlgProcUrlSend, wParam);
 	return 0;
 }
 
@@ -121,7 +121,7 @@ static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 
 	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	if (szProto != NULL)
-		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
+		if (CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
 			mi.flags = CMIM_FLAGS;
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSRUrlMenuItem, (LPARAM)&mi);

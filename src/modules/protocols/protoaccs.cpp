@@ -375,7 +375,7 @@ static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATIONW tmp = { 0 };
 	tmp.cbSize = sizeof(tmp);
 	tmp.hContact = p->hContact;
-	int result = CallProtoService(ppi->m_szModuleName, PS_GETAVATARINFOW, wParam, (LPARAM)&tmp);
+	int result = CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_GETAVATARINFOW, wParam, (LPARAM)&tmp);
 
 	p->format = tmp.format;
 
@@ -390,7 +390,7 @@ static INT_PTR stub43(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {	
 	wchar_t* buf = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
-	int result = CallProtoService(ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
+	int result = CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_GETMYAVATARW, WPARAM(buf), lParam);
 	if (result == 0)
 	{
 		wchar_t* filename = (wchar_t*)_alloca(sizeof(wchar_t) * (lParam + 1));
@@ -405,7 +405,7 @@ static INT_PTR stub44(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 
 static INT_PTR stub45(PROTO_INTERFACE* ppi, WPARAM wParam, LPARAM lParam)
 {	
-	return CallProtoService(ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)StrConvT((char*)lParam));
+	return CallProtoServiceInt(NULL,ppi->m_szModuleName, PS_SETMYAVATARW, wParam, (LPARAM)(LPCTSTR)StrConvT((char*)lParam));
 }
 
 

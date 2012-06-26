@@ -189,7 +189,7 @@ void __cdecl LoadIconsAndTypesThread(void* param)
 			else {
 				iconIndex = _ttoi(pszComma+1); *pszComma='\0';
 			}
-			hIcon = ExtractIcon(hMirandaInst, szIconFile, iconIndex);
+			hIcon = ExtractIcon(hInst, szIconFile, iconIndex);
 			if (hIcon)
 				fileInfo.hIcon = hIcon;
 		}
