@@ -1,0 +1,156 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOGEX 0, 0, 252, 75
+STYLE DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | 
+    WS_SYSMENU
+CAPTION "fileAsMessage"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Filename:",IDC_STATIC,7,7,31,8
+    EDITTEXT        IDC_FILENAME,7,16,221,14,ES_AUTOHSCROLL
+    LTEXT           "Size:",IDC_FILESIZE,7,32,238,8
+    PUSHBUTTON      "...",IDC_BROWSE,232,16,13,14
+    LTEXT           "",IDC_PROGRESS,43,44,202,14,0,WS_EX_STATICEDGE
+    CONTROL         "",IDC_PLAY,"MButtonClass",WS_TABSTOP,7,44,16,14
+    CONTROL         "",IDC_STOP,"MButtonClass",WS_TABSTOP,25,44,16,14
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 241, 181
+STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg"
+BEGIN
+    CONTROL         "",IDC_UNSENT,"ColourPicker",WS_GROUP | WS_TABSTOP,124,
+                    106,39,12,WS_EX_NOPARENTNOTIFY
+    RTEXT           "Chunk size",IDC_STATIC,9,41,92,8
+    EDITTEXT        IDC_CHUNKSIZE,123,39,41,14,ES_AUTOHSCROLL | NOT 
+                    WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "ms",IDC_STATIC,170,23,28,8
+    RTEXT           "Delays between sends",IDC_STATIC,9,23,93,8
+    EDITTEXT        IDC_SENDDELAY,123,20,41,14,ES_AUTOHSCROLL | NOT 
+                    WS_BORDER,WS_EX_CLIENTEDGE
+    LTEXT           "bytes",IDC_STATIC,170,41,28,8
+    GROUPBOX        "Transfer settings",IDC_STATIC,5,5,230,67
+    GROUPBOX        "Appearance",IDC_STATIC,5,75,230,100
+    CONTROL         "",IDC_SENT,"ColourPicker",WS_GROUP | WS_TABSTOP,124,124,
+                    39,12,WS_EX_NOPARENTNOTIFY
+    CONTROL         "",IDC_TOSEND,"ColourPicker",WS_GROUP | WS_TABSTOP,124,
+                    141,39,12,WS_EX_NOPARENTNOTIFY
+    CONTROL         "",IDC_RECV,"ColourPicker",WS_GROUP | WS_TABSTOP,124,89,
+                    39,12,WS_EX_NOPARENTNOTIFY
+    RTEXT           "Unsent",IDC_STATIC,15,108,86,8
+    RTEXT           "Sent",IDC_STATIC,15,126,86,8
+    RTEXT           "To send",IDC_STATIC,15,143,86,8
+    RTEXT           "Received",IDC_STATIC,15,91,86,8
+    CONTROL         "Use only alphanumeric encoding on transfer",
+                    IDC_ALPHANUM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,57,
+                    217,10
+    LTEXT           "Extra options: Events » File Transfers, ""Receiving files"" group",
+                    IDC_STATIC,10,160,220,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 245
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 58
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        RIGHTMARGIN, 221
+        BOTTOMMARGIN, 163
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_SMALLICON           ICON    DISCARDABLE     "res\\file.ico"
+IDI_STOP                ICON    DISCARDABLE     "res\\abort.ico"
+IDI_PAUSE               ICON    DISCARDABLE     "res\\pause.ico"
+IDI_PLAY                ICON    DISCARDABLE     "res\\play.ico"
+IDI_REFRESH             ICON    DISCARDABLE     "res\\refresh.ico"
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
