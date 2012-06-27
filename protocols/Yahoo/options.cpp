@@ -367,7 +367,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
  * YahooOptInit - initialize/register our Options w/ Miranda.
  */
 
-INT_PTR __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
+int __cdecl CYahooProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	

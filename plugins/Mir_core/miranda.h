@@ -34,7 +34,6 @@ MIR_CORE_DLL(int) LangPackMarkPluginLoaded(PLUGININFOEX* pInfo);
 
 MIR_CORE_DLL(LangPackMuuid*) LangPackLookupUuid(WPARAM wParam);
 
-int LoadLangPackModule(void);
 void UnloadLangPackModule(void);
 
 int InitialiseModularEngine(void);

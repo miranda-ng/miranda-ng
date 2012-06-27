@@ -299,8 +299,9 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 	DBWriteContactSettingDword(0, font_id->dbSettingsGroup, idstr, font_id->flags);
 	
 	FontInternal* newItem = new FontInternal;
-	memset(newItem, 0, sizeof(FontIDW));
+	memset(newItem, 0, sizeof(FontInternal));
 	memcpy(newItem, font_id, font_id->cbSize);
+	newItem->hLangpack = hLangpack;
 
 	if ( !lstrcmp(newItem->deffontsettings.szFace, _T("MS Shell Dlg"))) {
 		LOGFONT lf;
@@ -387,7 +388,9 @@ static INT_PTR sttRegisterColourWorker(ColourIDW* colour_id, int hLangpack)
 	}
 
 	ColourInternal* newItem = new ColourInternal;
+	memset(newItem, 0, sizeof(ColourInternal));
 	memcpy(newItem, colour_id, sizeof(ColourIDW));
+	newItem->hLangpack = hLangpack;
 	UpdateColourSettings(colour_id, &newItem->value);
 	colour_id_list.insert(newItem);
 	return 0;
@@ -462,7 +465,9 @@ static INT_PTR sttRegisterEffectWorker(EffectIDW* effect_id, int hLangpack)
 	}
 
 	EffectInternal* newItem = new EffectInternal;
+	memset(newItem, 0, sizeof(EffectInternal));
 	memcpy(newItem, effect_id, sizeof(EffectIDW));
+	newItem->hLangpack = hLangpack;
 	UpdateEffectSettings(effect_id, &newItem->value);
 	effect_id_list.insert(newItem);
 	return 0;

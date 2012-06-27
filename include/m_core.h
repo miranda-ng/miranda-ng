@@ -114,6 +114,7 @@ MIR_CORE_DLL(int)    LangPackGetDefaultCodePage( void );
 MIR_CORE_DLL(int)    LangPackGetDefaultLocale(void);
 MIR_CORE_DLL(TCHAR*) LangPackPcharToTchar(const char* pszStr);
 
+MIR_CORE_DLL(int)    LoadLangPackModule(void);
 MIR_CORE_DLL(int)    LoadLangPack(const TCHAR *szLangPack);
 MIR_CORE_DLL(void)   ReloadLangpack(TCHAR *pszStr);
 

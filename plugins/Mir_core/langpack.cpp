@@ -133,6 +133,16 @@ MIR_CORE_DLL(unsigned int) mir_hash(const void * key, unsigned int len)
 	return h;
 }
 
+static unsigned int __fastcall hashstrW(const char * key)
+{
+	if (key == NULL) return 0;
+	const unsigned int len = (unsigned int)wcslen((const wchar_t*)key);
+	char* buf = (char*)alloca(len + 1);
+	for (unsigned i = 0; i <= len ; ++i)
+		buf[i] = key[i << 1];
+	return mir_hash(buf, len);
+}
+
 static int SortLangPackHashesProc(LangPackEntry *arg1, LangPackEntry *arg2)
 {
 	if (arg1->englishHash < arg2->englishHash) return -1;
@@ -397,7 +407,7 @@ static char *LangPackTranslateString(LangPackMuuid* pUuid, const char *szEnglish
 		return (char*)szEnglish;
 
 	LangPackEntry key, *entry;
-	key.englishHash = W ? mir_hashstrW((WCHAR*)szEnglish) : mir_hashstr(szEnglish);
+	key.englishHash = W ? hashstrW(szEnglish) : mir_hashstr(szEnglish);
 	entry = (LangPackEntry*)bsearch(&key, langPack.entry, langPack.entryCount, sizeof(LangPackEntry), (int(*)(const void*, const void*))SortLangPackHashesProc2);
 	if (entry == NULL)
 		return (char*)szEnglish;

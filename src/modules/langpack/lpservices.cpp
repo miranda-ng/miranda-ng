@@ -88,9 +88,11 @@ INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int LoadLangPackModule(void)
+MIR_CORE_DLL(int) LoadLangPackModule(void);
+
+int LoadLangpackModule(void)
 {
-	ReloadLangpack(NULL);
+	LoadLangPackModule();
 
 	CreateServiceFunction(MS_LANGPACK_TRANSLATESTRING, srvTranslateString);
 	CreateServiceFunction(MS_LANGPACK_TRANSLATEMENU, srvTranslateMenu);

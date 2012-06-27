@@ -111,7 +111,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnInfoInit - initializes user info option dialogs
 
-INT_PTR __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
+int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 {
 	//if ( !JCallService( MS_PROTO_ISPROTOCOLLOADED, 0, ( LPARAM )m_szModuleName ))
 	//	return 0;
