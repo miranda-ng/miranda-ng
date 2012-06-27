@@ -330,7 +330,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_classic", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewEventNotify", "..\plugins\NewEventNotify\neweventnotify.vcxproj", "{2E0A2793-94C3-82E7-2AB0-FD421816CFBF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mir_core", "..\plugins\mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mir_core", "..\plugins\Mir_core\mir_core_10.vcxproj", "{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1637,7 +1637,8 @@ Global
 		{53F841E8-284F-4545-9176-B131896E43F8}.Debug|x64.Build.0 = Debug|x64
 		{53F841E8-284F-4545-9176-B131896E43F8}.Release|Win32.ActiveCfg = Release|Win32
 		{53F841E8-284F-4545-9176-B131896E43F8}.Release|Win32.Build.0 = Release|Win32
-		{53F841E8-284F-4545-9176-B131896E43F8}.Release|x64.ActiveCfg = Release|Win32
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release|x64.ActiveCfg = Release|x64
+		{53F841E8-284F-4545-9176-B131896E43F8}.Release|x64.Build.0 = Release|x64
 		{E71C1722-A41D-4475-87F4-29961A3654BB}.Debug|Win32.ActiveCfg = Debug|Win32
 		{E71C1722-A41D-4475-87F4-29961A3654BB}.Debug|Win32.Build.0 = Debug|Win32
 		{E71C1722-A41D-4475-87F4-29961A3654BB}.Debug|x64.ActiveCfg = Debug|x64
@@ -1660,7 +1661,8 @@ Global
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Debug|x64.Build.0 = Debug|x64
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|Win32.ActiveCfg = Release|Win32
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|Win32.Build.0 = Release|Win32
-		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.ActiveCfg = Release|Win32
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.ActiveCfg = Release|x64
+		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
